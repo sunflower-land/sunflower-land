@@ -1,15 +1,10 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import "./amplifyStyles.css";
 
-import {
-  FaceLivenessDetector,
-  FaceLivenessDetectorCore,
-} from "@aws-amplify/ui-react-liveness";
-import { Loader, ThemeProvider } from "@aws-amplify/ui-react";
+import { FaceLivenessDetectorCore } from "@aws-amplify/ui-react-liveness";
 import { useActor } from "@xstate/react";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { useGame } from "features/game/GameProvider";
-import { Loading } from "features/auth/components";
 import { Button } from "components/ui/Button";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { TimerDisplay } from "../auctioneer/AuctionDetails";
@@ -18,6 +13,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { FaceRecognitionEvent } from "features/game/types/game";
 import { Label } from "components/ui/Label";
 
+// Text keys embedded in the liveness detector
 const TRANSLATION_KEYS: TranslationKeys[] = [
   "errorLabelText",
   "connectionTimeoutHeaderText",
@@ -77,7 +73,7 @@ const TRANSLATION_KEYS: TranslationKeys[] = [
   "waitingCameraPermissionText",
 ];
 
-export function LivenessQuickStartReact() {
+export const FaceRecognition: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
 
@@ -96,8 +92,6 @@ export function LivenessQuickStartReact() {
   const expires = useCountdown(expiresAt ?? 0);
 
   const handleAnalysisComplete = async () => {
-    console.log("handleAnalysisComplete");
-
     // Go off to the server and check the session ID if it has completed
     gameService.send("faceRecognition.completed", {
       effect: {
@@ -124,21 +118,30 @@ export function LivenessQuickStartReact() {
       return (
         <div>
           <RecognitionAttempt {...lastAttempt} />
-          <Button onClick={start}>Try Again</Button>
+          <Button onClick={start}>{t("faceRecognition.tryAgain")}</Button>
         </div>
       );
     }
 
     return (
       <div>
-        <Button onClick={start}>Start Face Recognition</Button>
+        <p className="text-sm">{t("faceRecognition.introText")}</p>
+        <Button onClick={start}>{t("faceRecognition.startButton")}</Button>
       </div>
     );
   }
 
   // Has expired (after 3 minutes)
   if (faceRecognition.session.createdAt + 3 * 60 * 1000 < Date.now()) {
-    return <Button onClick={start}>Retry Face Recognition (Expired)</Button>;
+    return (
+      <div>
+        <Label type="danger">{t("faceRecognition.expiredTitle")}</Label>
+        <p className="text-sm my-2 ml-1">
+          {t("faceRecognition.expiredDescription")}
+        </p>
+        <Button onClick={start}>{t("faceRecognition.retryButton")}</Button>
+      </div>
+    );
   }
 
   const { id: sessionId, credentials } = faceRecognition.session;
@@ -146,10 +149,12 @@ export function LivenessQuickStartReact() {
   if (showIntro) {
     return (
       <>
-        <p>{t("photosensitivityWarningBodyText")}</p>
-        <p>{t("photosensitivityWarningInfoText")}</p>
-        <p>{t("photosensitivityWarningLabelText")}</p>
-        <Button onClick={() => setShowIntro(false)}>Continue</Button>
+        <Label type="info">{t("photosensitivityWarningHeadingText")}</Label>
+        <p className="my-1 ml-2">{t("photosensitivityWarningBodyText")}</p>
+        <p className="my-2 ml-2">{t("photosensitivityWarningInfoText")}</p>
+        <Button className="mt-1" onClick={() => setShowIntro(false)}>
+          {t("continue")}
+        </Button>
       </>
     );
   }
@@ -164,7 +169,7 @@ export function LivenessQuickStartReact() {
         region="us-east-1"
         onAnalysisComplete={handleAnalysisComplete}
         onError={(e) => {
-          console.log("Error", e);
+          throw e;
         }}
         displayText={TRANSLATION_KEYS.reduce(
           (acc, key) => {
@@ -176,16 +181,8 @@ export function LivenessQuickStartReact() {
         disableStartScreen
         config={{
           credentialProvider: async () => {
-            console.log("Fetch credentials", {
-              accessKeyId: credentials!.accessKeyId,
-              secretAccessKey: credentials!.secretAccessKey,
-              sessionToken: credentials!.sessionToken,
-              expiration: new Date(credentials!.expiration),
-            });
-
             await new Promise((r) => setTimeout(r, 1000));
 
-            console.log("DONE");
             return {
               accessKeyId: credentials!.accessKeyId,
               secretAccessKey: credentials!.secretAccessKey,
@@ -197,30 +194,46 @@ export function LivenessQuickStartReact() {
       />
     </div>
   );
-}
+};
 
 export const RecognitionAttempt: React.FC<FaceRecognitionEvent> = (event) => {
+  const { t } = useAppTranslation();
   if (event.event === "duplicate") {
     return (
-      <Label type="danger" className="my-2">
-        Duplciate Found
-      </Label>
+      <div>
+        <Label type="danger" className="my-2">
+          {t("faceRecognition.duplicateTitle")}
+        </Label>
+        <p className="text-sm my-2 ml-1">
+          {t("faceRecognition.duplicateDescription")}
+        </p>
+      </div>
     );
   }
 
   if (event.event === "failed") {
     return (
-      <Label type="danger" className="my-2">
-        Failed
-      </Label>
+      <div>
+        <Label type="danger" className="my-2">
+          {t("faceRecognition.failedTitle")}
+        </Label>
+        <p className="text-sm my-2 ml-1">
+          {t("faceRecognition.failedDescription")}
+        </p>
+      </div>
     );
   }
 
   if (event.event === "succeeded") {
     return (
-      <Label type="success" className="my-2">
-        Success
-      </Label>
+      <div>
+        <Label type="success" className="my-2">
+          {t("faceRecognition.successTitle")}
+        </Label>
+        <p className="text-sm my-2 ml-1">
+          {t("faceRecognition.successDescription")}
+        </p>
+      </div>
     );
   }
 

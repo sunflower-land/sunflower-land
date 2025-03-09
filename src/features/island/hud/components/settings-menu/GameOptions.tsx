@@ -61,7 +61,7 @@ import { isSupported } from "firebase/messaging";
 import { LockdownWidget } from "features/announcements/AnnouncementWidgets";
 import { AirdropPlayer } from "./general-settings/AirdropPlayer";
 import { hasFeatureAccess } from "lib/flags";
-import { LivenessQuickStartReact } from "features/retreat/components/personhood/FaceRecognition";
+import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
 
 export interface ContentComponentProps {
   onSubMenuClick: (id: SettingMenuId) => void;
@@ -195,12 +195,17 @@ const GameOptions: React.FC<ContentComponentProps> = ({
         </Button>
       )}
 
-      <Button
-        onClick={() => onSubMenuClick("rekognition")}
-        className="mb-1 relative"
-      >
-        <span>{t("gameOptions.rekognition")}</span>
-      </Button>
+      {hasFeatureAccess(
+        gameService.state?.context?.state,
+        "FACE_RECOGNITION",
+      ) && (
+        <Button
+          onClick={() => onSubMenuClick("faceRecognition")}
+          className="mb-1 relative"
+        >
+          <span>{t("gameOptions.faceRecognition")}</span>
+        </Button>
+      )}
 
       <Button
         onClick={() => onSubMenuClick("notifications")}
@@ -353,7 +358,7 @@ export type SettingMenuId =
   | "general"
   | "plaza"
   | "admin"
-
+  | "faceRecognition"
   // Blockchain Settings
   | "deposit"
   | "swapSFL"
@@ -417,10 +422,10 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     parent: "main",
     content: (props) => <Notifications {...props} />,
   },
-  rekognition: {
-    title: translate("gameOptions.rekognition"),
+  faceRecognition: {
+    title: translate("gameOptions.faceRecognition"),
     parent: "main",
-    content: LivenessQuickStartReact,
+    content: FaceRecognition,
   },
 
   // Blockchain Settings
