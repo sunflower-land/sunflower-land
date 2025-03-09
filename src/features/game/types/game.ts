@@ -1577,13 +1577,7 @@ export interface GameState {
     session?: {
       id: string;
       createdAt: number;
-
-      credentials: {
-        accessKeyId: string;
-        secretAccessKey: string;
-        sessionToken: string;
-        expiration: number;
-      };
+      token: string;
     };
     history: FaceRecognitionEvent[];
   };

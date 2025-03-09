@@ -144,7 +144,7 @@ export const FaceRecognition: React.FC = () => {
     );
   }
 
-  const { id: sessionId, credentials } = faceRecognition.session;
+  const { id: sessionId, token } = faceRecognition.session;
 
   if (showIntro) {
     return (
@@ -182,6 +182,9 @@ export const FaceRecognition: React.FC = () => {
         config={{
           credentialProvider: async () => {
             await new Promise((r) => setTimeout(r, 1000));
+
+            // Decode base 64 encoded token
+            const credentials = JSON.parse(atob(token));
 
             return {
               accessKeyId: credentials!.accessKeyId,
