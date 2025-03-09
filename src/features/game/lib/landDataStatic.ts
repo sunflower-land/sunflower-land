@@ -353,10 +353,9 @@ export const STATIC_OFFLINE_FARM: GameState = {
     session: {
       createdAt: Date.now() + 1000 * 60 * 60 * 24,
       credentials: {
-        accessKeyId: "ASIAYUP5SWLVDNPXTXQU",
-        secretAccessKey: "TpqJBpfXdrwhhyp73kv1GykPDVbv0fZtR8tCXKRO",
-        sessionToken:
-          "FwoGZXIvYXdzEDgaDPMe6fdM+QTMd8GY3iK2AdWZPHigOFl4vSAPUae4anfc/blWqy/a8SqsBuBB1X5zuC9LkUAwwO4eMu3Sl0PvSo09v/Xxwm2BG5+hanrqBqeTc2Wcr4DpPnImSTGCMRvXoDudETE1i+X9gvle+c9KIZanyinOIitvfWl3URcMwQIQljd3O+KDhe0RvvKyc2Qmvv6dlU7sfzgkn4cTfkWbKafiUON8VibSfZ1i9TPpv1SFtEpfs4+bxnzg8aSWJJ7uQgYcNVpYKLrgtL4GMi2fmRPGnlpcsCV3sb7QfGzgzcUw+qjTYafpbmNJXoPtl+8ynVcZPXWzRofYJUY=",
+        accessKeyId: "FAKE",
+        secretAccessKey: "FAKE",
+        sessionToken: "FAKE",
         expiration: Date.now() + 1000 * 60 * 60 * 24,
       },
       id: "4baec90a-016b-45ba-84e7-18821e60bcd6",
