@@ -71,6 +71,8 @@ const FEATURE_FLAGS = {
   HOARDING_CHECK: defaultFeatureFlag,
   REPORT_PLAYER: defaultFeatureFlag,
 
+  FACE_RECOGNITION: defaultFeatureFlag,
+
   // Temporary Feature Flags
   DISABLE_BLOCKCHAIN_ACTIONS: timeBasedFeatureFlag(
     new Date("2025-03-24T00:00:00Z"),

@@ -349,6 +349,77 @@ export const STATIC_OFFLINE_FARM: GameState = {
 
   experiments: ["GEM_BOOSTS"],
 
+  faceRecognition: {
+    session: {
+      createdAt: Date.now() + 1000 * 60 * 60 * 24,
+      token: "asdjasdjasdas",
+      id: "4baec90a-016b-45ba-84e7-18821e60bcd6",
+    },
+    history: [
+      {
+        event: "succeeded",
+        createdAt: 1741485282607,
+        confidence: 92.26244354248047,
+      },
+      {
+        event: "succeeded",
+        createdAt: 1741486992907,
+        confidence: 99.609130859375,
+      },
+      {
+        event: "succeeded",
+        createdAt: 1741487086973,
+        confidence: 28.28019905090332,
+      },
+      {
+        event: "succeeded",
+        createdAt: 1741487320584,
+        confidence: 78.07962799072266,
+      },
+      {
+        event: "duplicate",
+        createdAt: 1741487714959,
+        duplicates: [
+          {
+            similarity: 99.9999008178711,
+            faceId: "7c2aff5d-db75-479e-90a2-dd3aaec12d38",
+            farmId: 8942600769118096,
+          },
+          {
+            similarity: 99.99977111816406,
+            faceId: "cde37bb8-6662-434f-9e6c-d2ef1aa3c5ba",
+            farmId: 8942600769118096,
+          },
+          {
+            similarity: 99.9993896484375,
+            faceId: "039dd677-dac7-4fd7-9d2e-94dc83bfaa4b",
+            farmId: 8942600769118096,
+          },
+        ],
+      },
+      {
+        event: "succeeded",
+        createdAt: 1741487804321,
+        confidence: 99.48734283447266,
+      },
+      {
+        event: "failed",
+        createdAt: 1741487865726,
+        confidence: 0.030025603249669075,
+      },
+      {
+        event: "succeeded",
+        createdAt: 1741489478737,
+        confidence: 99.84993743896484,
+      },
+      {
+        event: "succeeded",
+        createdAt: 1741490701868,
+        confidence: 67.58869171142578,
+      },
+    ],
+  },
+
   conversations: [],
 
   fishing: {

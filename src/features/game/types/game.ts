@@ -1572,7 +1572,29 @@ export interface GameState {
   season: Season;
   lavaPits: Record<string, LavaPit>;
   nfts?: Partial<Record<Chain, NFT>>;
+
+  faceRecognition?: {
+    session?: {
+      id: string;
+      createdAt: number;
+      token: string;
+    };
+    history: FaceRecognitionEvent[];
+  };
 }
+
+export type FaceRecognitionEvent =
+  | { event: "succeeded"; createdAt: number; confidence: number }
+  | { event: "failed"; createdAt: number; confidence: number }
+  | {
+      event: "duplicate";
+      createdAt: number;
+      duplicates: {
+        similarity: number;
+        faceId: string;
+        farmId: number;
+      }[];
+    };
 
 export interface Context {
   state?: GameState;

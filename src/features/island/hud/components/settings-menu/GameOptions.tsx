@@ -61,6 +61,7 @@ import { isSupported } from "firebase/messaging";
 import { LockdownWidget } from "features/announcements/AnnouncementWidgets";
 import { AirdropPlayer } from "./general-settings/AirdropPlayer";
 import { hasFeatureAccess } from "lib/flags";
+import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
 
 export interface ContentComponentProps {
   onSubMenuClick: (id: SettingMenuId) => void;
@@ -191,6 +192,18 @@ const GameOptions: React.FC<ContentComponentProps> = ({
       {!isPWA && (
         <Button className="p-1 mb-1" onClick={handleInstallApp}>
           <span>{t("install.app")}</span>
+        </Button>
+      )}
+
+      {hasFeatureAccess(
+        gameService.state?.context?.state,
+        "FACE_RECOGNITION",
+      ) && (
+        <Button
+          onClick={() => onSubMenuClick("faceRecognition")}
+          className="mb-1 relative"
+        >
+          <span>{t("gameOptions.faceRecognition")}</span>
         </Button>
       )}
 
@@ -345,7 +358,7 @@ export type SettingMenuId =
   | "general"
   | "plaza"
   | "admin"
-
+  | "faceRecognition"
   // Blockchain Settings
   | "deposit"
   | "swapSFL"
@@ -408,6 +421,11 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     title: translate("gameOptions.notifications"),
     parent: "main",
     content: (props) => <Notifications {...props} />,
+  },
+  faceRecognition: {
+    title: translate("gameOptions.faceRecognition"),
+    parent: "main",
+    content: FaceRecognition,
   },
 
   // Blockchain Settings
