@@ -352,12 +352,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
   faceRecognition: {
     session: {
       createdAt: Date.now() + 1000 * 60 * 60 * 24,
-      credentials: {
-        accessKeyId: "FAKE",
-        secretAccessKey: "FAKE",
-        sessionToken: "FAKE",
-        expiration: Date.now() + 1000 * 60 * 60 * 24,
-      },
+      credentials: {} as any,
       id: "4baec90a-016b-45ba-84e7-18821e60bcd6",
     },
     history: [
