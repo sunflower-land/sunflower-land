@@ -156,8 +156,8 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
     planned: [
       {
         friendshipPoints: 5,
-        items: { Gem: 1 * BB_TO_GEM_RATIO },
-        coins: 0,
+        items: {},
+        coins: 160,
         wearables: {},
       },
       {
@@ -192,8 +192,8 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
     planned: [
       {
         friendshipPoints: 10,
-        items: { "Treasure Key": 1 },
-        coins: 0,
+        items: {},
+        coins: 120,
         wearables: {},
       },
       {
@@ -204,7 +204,7 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
       },
       {
         friendshipPoints: 40,
-        items: { Gem: 1 * BB_TO_GEM_RATIO },
+        items: { "Treasure Key": 1 },
         coins: 0,
         wearables: {},
       },
@@ -232,8 +232,8 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
       },
       {
         friendshipPoints: 110,
-        items: { Gem: 2 * BB_TO_GEM_RATIO },
-        coins: 0,
+        items: {},
+        coins: 760,
         wearables: {},
       },
       {
@@ -268,7 +268,7 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
       },
       {
         friendshipPoints: 100,
-        items: { Gem: 2 * BB_TO_GEM_RATIO },
+        items: { Gem: BB_TO_GEM_RATIO * 1 },
         coins: 0,
         wearables: {},
       },
@@ -405,46 +405,6 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
       wearables: {},
     },
   },
-  "old salty": {
-    planned: [
-      {
-        friendshipPoints: 30,
-        items: {},
-        coins: 80,
-        wearables: {
-          "Striped Blue Shirt": 1,
-        },
-      },
-      {
-        friendshipPoints: 90,
-        items: {},
-        coins: 260,
-        wearables: {
-          "Peg Leg": 1,
-        },
-      },
-      {
-        friendshipPoints: 500,
-        items: {},
-        coins: 0,
-        wearables: { "Pirate Potion": 1 },
-      },
-      {
-        friendshipPoints: 850,
-        items: {
-          "Pirate Bounty": 1,
-        },
-        coins: 0,
-        wearables: { "Pirate Hat": 1 },
-      },
-    ],
-    repeats: {
-      friendshipPoints: 250,
-      items: {},
-      coins: 2500,
-      wearables: {},
-    },
-  },
   finn: {
     planned: [
       {
@@ -477,7 +437,7 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
       },
       {
         friendshipPoints: 150,
-        items: { Gem: 2 * BB_TO_GEM_RATIO },
+        items: { Gem: BB_TO_GEM_RATIO * 2 },
         coins: 0,
         wearables: {},
       },
@@ -505,7 +465,7 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
       },
       {
         friendshipPoints: 175,
-        items: { Gem: 1 * BB_TO_GEM_RATIO },
+        items: { Gem: BB_TO_GEM_RATIO * 1 },
         coins: 0,
         wearables: {},
       },
@@ -647,6 +607,46 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
       friendshipPoints: 90,
       items: { "Treasure Key": 1 },
       coins: 0,
+      wearables: {},
+    },
+  },
+  "old salty": {
+    planned: [
+      {
+        friendshipPoints: 30,
+        items: {},
+        coins: 80,
+        wearables: {
+          "Striped Blue Shirt": 1,
+        },
+      },
+      {
+        friendshipPoints: 90,
+        items: {},
+        coins: 260,
+        wearables: {
+          "Peg Leg": 1,
+        },
+      },
+      {
+        friendshipPoints: 500,
+        items: {},
+        coins: 0,
+        wearables: { "Pirate Potion": 1 },
+      },
+      {
+        friendshipPoints: 850,
+        items: {
+          "Pirate Bounty": 1,
+        },
+        coins: 0,
+        wearables: { "Pirate Hat": 1 },
+      },
+    ],
+    repeats: {
+      friendshipPoints: 250,
+      items: {},
+      coins: 2500,
       wearables: {},
     },
   },
