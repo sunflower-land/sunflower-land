@@ -33,8 +33,8 @@ export const hasVipAccess = ({
     nft.acknowledgedAt &&
     // They acknowledged the NFT before the 24 hour cooldown cutover rule
     (nft.acknowledgedAt < new Date("2025-03-06T00:00:00Z").getTime() ||
-      // Ensure they have had the NFT for 24 hours
-      nft.acknowledgedAt > now - RONIN_VIP_COOLDOWN_MS)
+      // Ensure they have had the NFT for 3 days
+      nft.acknowledgedAt < now - RONIN_VIP_COOLDOWN_MS)
   ) {
     return game.createdAt > RONIN_FARM_CREATION_CUTOFF;
   }
