@@ -14,13 +14,12 @@ export const GeneralSettings: React.FC<ContentComponentProps> = ({
   const { t } = useAppTranslation();
 
   return (
-    <>
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
       <Button
         disabled={!!gameService.state.context.fslId}
         onClick={() =>
           connectToFSL({ nonce: gameService.state.context.oauthNonce })
         }
-        className="mb-1 relative"
       >
         {`Connect FSL ID`}
         {!!gameService.state.context.fslId && (
@@ -34,25 +33,22 @@ export const GeneralSettings: React.FC<ContentComponentProps> = ({
         gameService.state?.context?.state,
         "FACE_RECOGNITION",
       ) && (
-        <Button
-          onClick={() => onSubMenuClick("faceRecognition")}
-          className="mb-1 relative"
-        >
+        <Button onClick={() => onSubMenuClick("faceRecognition")}>
           <span>{t("gameOptions.faceRecognition")}</span>
         </Button>
       )}
-      <Button onClick={() => onSubMenuClick("discord")} className="mb-1">
+      <Button onClick={() => onSubMenuClick("discord")}>
         <span>{`Discord`}</span>
       </Button>
-      <Button onClick={() => onSubMenuClick("changeLanguage")} className="mb-1">
+      <Button onClick={() => onSubMenuClick("changeLanguage")}>
         <span>{t("gameOptions.generalSettings.changeLanguage")}</span>
       </Button>
-      <Button className="mb-1" onClick={() => onSubMenuClick("preferences")}>
+      <Button onClick={() => onSubMenuClick("preferences")}>
         <span>{t("gameOptions.generalSettings.preferences")}</span>
       </Button>
-      <Button onClick={() => onSubMenuClick("share")} className="mb-1">
+      <Button onClick={() => onSubMenuClick("share")}>
         <span>{t("gameOptions.generalSettings.share")}</span>
       </Button>
-    </>
+    </div>
   );
 };

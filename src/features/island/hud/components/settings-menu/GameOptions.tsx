@@ -122,6 +122,11 @@ const GameOptions: React.FC<ContentComponentProps> = ({
   const canRefresh = !gameService.state.context.state.transaction;
   const hideRefresh = !gameService.state.context.nftId;
 
+  const hasHoardingCheck = hasFeatureAccess(
+    gameService.state?.context?.state,
+    "HOARDING_CHECK",
+  );
+
   return (
     <>
       {/* Root menu */}
@@ -179,45 +184,49 @@ const GameOptions: React.FC<ContentComponentProps> = ({
           )}
         </div>
       </>
-      {!isPWA && (
-        <Button className="p-1 mb-1" onClick={handleInstallApp}>
-          <span>{t("install.app")}</span>
-        </Button>
-      )}
+      <div className="flex flex-col gap-1">
+        {!isPWA && (
+          <Button onClick={handleInstallApp} className="p-1">
+            <span>{t("install.app")}</span>
+          </Button>
+        )}
 
-      {!hideRefresh && (
-        <Button
-          disabled={!canRefresh}
-          className="p-1 mb-1 relative"
-          onClick={refreshSession}
-        >
-          {t("gameOptions.blockchainSettings.refreshChain")}
+        {!hideRefresh && (
+          <Button
+            disabled={!canRefresh}
+            onClick={refreshSession}
+            className="p-1"
+          >
+            {t("gameOptions.blockchainSettings.refreshChain")}
 
-          {!canRefresh && (
-            <img src={lockIcon} className="absolute right-1 top-0.5 h-7" />
+            {!canRefresh && (
+              <img src={lockIcon} className="absolute right-1 top-0.5 h-7" />
+            )}
+          </Button>
+        )}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
+          {hasHoardingCheck && (
+            <Button className="p-1" onClick={() => onSubMenuClick("amoy")}>
+              <span>{t("gameOptions.developerOptions")}</span>
+            </Button>
           )}
-        </Button>
-      )}
-      {hasFeatureAccess(
-        gameService.state?.context?.state,
-        "HOARDING_CHECK",
-      ) && (
-        <Button className="p-1 mb-1" onClick={() => onSubMenuClick("amoy")}>
-          <span>{t("gameOptions.developerOptions")}</span>
-        </Button>
-      )}
-      <Button className="p-1 mb-1" onClick={() => onSubMenuClick("blockchain")}>
-        <span>{t("gameOptions.blockchainSettings")}</span>
-      </Button>
-      <Button className="p-1 mb-1" onClick={() => onSubMenuClick("general")}>
-        <span>{t("gameOptions.generalSettings")}</span>
-      </Button>
-      <Button className="p-1 mb-1" onClick={() => onSubMenuClick("plaza")}>
-        <span>{t("gameOptions.plazaSettings")}</span>
-      </Button>
-      <Button className="p-1 mb-1" onClick={() => showConfirmLogoutModal(true)}>
-        {t("gameOptions.logout")}
-      </Button>
+          <Button className="p-1" onClick={() => onSubMenuClick("blockchain")}>
+            <span>{t("gameOptions.blockchainSettings")}</span>
+          </Button>
+          <Button className="p-1" onClick={() => onSubMenuClick("general")}>
+            <span>{t("gameOptions.generalSettings")}</span>
+          </Button>
+          <Button className="p-1" onClick={() => onSubMenuClick("plaza")}>
+            <span>{t("gameOptions.plazaSettings")}</span>
+          </Button>
+          <Button
+            className={`p-1 ${hasHoardingCheck ? "col-span-1 sm:col-span-2" : "col-span-1"}`}
+            onClick={() => showConfirmLogoutModal(true)}
+          >
+            {t("gameOptions.logout")}
+          </Button>
+        </div>
+      </div>
       <p className="mx-1 text-xxs">
         <a
           href="https://github.com/sunflower-land/sunflower-land/releases"

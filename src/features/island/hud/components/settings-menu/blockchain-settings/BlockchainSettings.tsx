@@ -33,7 +33,7 @@ export const BlockchainSettings: React.FC<ContentComponentProps> = ({
 
   return (
     <GameWallet action="connectWallet">
-      <div className="flex flex-col gap-2 mb-2">
+      <div className="flex flex-col gap-1">
         <Button onClick={() => onSubMenuClick("deposit")}>
           {t("deposit")}
         </Button>
