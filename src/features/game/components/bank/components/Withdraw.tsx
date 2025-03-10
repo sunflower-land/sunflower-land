@@ -18,6 +18,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { translate } from "lib/i18n/translate";
 import { Transaction } from "features/island/hud/Transaction";
 import { hasFeatureAccess } from "lib/flags";
+import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
 
 const getPageIcon = (page: Page) => {
   switch (page) {
@@ -213,11 +214,6 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     onClose();
   };
 
-  const provePersonhood = async () => {
-    gameService.send("PROVE_PERSONHOOD");
-    onClose();
-  };
-
   const transaction = gameService.state.context.state.transaction;
   if (transaction) {
     return <Transaction isBlocked onClose={onClose} />;
@@ -243,6 +239,10 @@ export const Verify: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
   const verified = useSelector(gameService, _verified);
+
+  if (hasFeatureAccess(gameService.state.context.state, "FACE_RECOGNITION")) {
+    return <FaceRecognition />;
+  }
 
   if (verified) {
     return <p className="text-sm">{t("verify.verified")}</p>;

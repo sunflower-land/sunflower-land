@@ -27,7 +27,7 @@ const testnetLocalStorageFeatureFlag = (key: string) => (game: GameState) => {
 };
 
 const timeBasedFeatureFlag = (date: Date) => () => {
-  return testnetFeatureFlag() || Date.now() > date.getTime();
+  return Date.now() > date.getTime();
 };
 
 const betaTimeBasedFeatureFlag = (date: Date) => (game: GameState) => {

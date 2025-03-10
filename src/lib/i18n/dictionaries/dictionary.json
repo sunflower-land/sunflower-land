@@ -5626,15 +5626,17 @@
   "completing.face.recognition": "We are securely verifying your identity.",
   "completing.face.recognition.success": "Your identity has been processed.",
   "faceRecognition.tryAgain": "Try Again",
+  "faceRecognition.label": "Take a quick photo",
   "faceRecognition.introText": "To ensure a secure economy, we will perform a quick privacy scan to ensure you are human.",
   "faceRecognition.startButton": "Start Face Recognition",
   "faceRecognition.expiredTitle": "Face Recognition Expired",
   "faceRecognition.expiredDescription": "It looks like your face recognition session has expired. Please try again.",
   "faceRecognition.retryButton": "Retry",
+  "faceRecognition.attemptsLeft": "{{attempts}} attempts left",
   "faceRecognition.duplicateTitle": "Duplicate Found",
   "faceRecognition.duplicateDescription": "Hmm, it looks like another farm has used this face to login. Please contact support if you believe this is an error.",
   "faceRecognition.failedTitle": "Failed",
-  "faceRecognition.failedDescription": "Hmm, it looks like something went wrong. Please try again.",
+  "faceRecognition.failedDescription": "Hmm, it looks like we were not able to detect a human face in your last attempt. Please try again.",
   "faceRecognition.successTitle": "Success",
   "faceRecognition.successDescription": "You have successfully verified your identity. Time to get farming!"
 }

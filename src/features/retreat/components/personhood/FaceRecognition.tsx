@@ -10,8 +10,10 @@ import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { TimerDisplay } from "../auctioneer/AuctionDetails";
 import { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { FaceRecognitionEvent } from "features/game/types/game";
+import { FaceRecognitionEvent, GameState } from "features/game/types/game";
 import { Label } from "components/ui/Label";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { getFaceRecognitionAttemptsLeft } from "./lib/faceRecognition";
 
 // Text keys embedded in the liveness detector
 const TRANSLATION_KEYS: TranslationKeys[] = [
@@ -110,6 +112,22 @@ export const FaceRecognition: React.FC = () => {
     });
   };
 
+  if (showIntro) {
+    return (
+      <>
+        <div className="p-2">
+          <Label type="info" icon={SUNNYSIDE.icons.search} className="mb-1">
+            {t("faceRecognition.label")}
+          </Label>
+          <p className="text-sm">{t("faceRecognition.introText")}</p>
+        </div>
+        <Button onClick={() => setShowIntro(false)}>
+          {t("faceRecognition.startButton")}
+        </Button>
+      </>
+    );
+  }
+
   if (!faceRecognition?.session) {
     if (faceRecognition?.history.length) {
       const lastAttempt =
@@ -117,17 +135,24 @@ export const FaceRecognition: React.FC = () => {
 
       return (
         <div>
-          <RecognitionAttempt {...lastAttempt} />
+          <RecognitionAttempt
+            game={gameState.context.state}
+            event={lastAttempt}
+          />
           <Button onClick={start}>{t("faceRecognition.tryAgain")}</Button>
         </div>
       );
     }
 
     return (
-      <div>
-        <p className="text-sm">{t("faceRecognition.introText")}</p>
-        <Button onClick={start}>{t("faceRecognition.startButton")}</Button>
-      </div>
+      <>
+        <Label type="info">{t("photosensitivityWarningHeadingText")}</Label>
+        <p className="my-1 ml-2">{t("photosensitivityWarningBodyText")}</p>
+        <p className="my-2 ml-2">{t("photosensitivityWarningInfoText")}</p>
+        <Button className="mt-1" onClick={start}>
+          {t("continue")}
+        </Button>
+      </>
     );
   }
 
@@ -145,19 +170,6 @@ export const FaceRecognition: React.FC = () => {
   }
 
   const { id: sessionId, token } = faceRecognition.session;
-
-  if (showIntro) {
-    return (
-      <>
-        <Label type="info">{t("photosensitivityWarningHeadingText")}</Label>
-        <p className="my-1 ml-2">{t("photosensitivityWarningBodyText")}</p>
-        <p className="my-2 ml-2">{t("photosensitivityWarningInfoText")}</p>
-        <Button className="mt-1" onClick={() => setShowIntro(false)}>
-          {t("continue")}
-        </Button>
-      </>
-    );
-  }
 
   return (
     <div>
@@ -199,14 +211,29 @@ export const FaceRecognition: React.FC = () => {
   );
 };
 
-export const RecognitionAttempt: React.FC<FaceRecognitionEvent> = (event) => {
+export const RecognitionAttempt: React.FC<{
+  game: GameState;
+  event: FaceRecognitionEvent;
+}> = ({ game, event }) => {
   const { t } = useAppTranslation();
+
+  const attemptsLeft = getFaceRecognitionAttemptsLeft({
+    game,
+  });
+
   if (event.event === "duplicate") {
     return (
       <div>
-        <Label type="danger" className="my-2">
-          {t("faceRecognition.duplicateTitle")}
-        </Label>
+        <div className="flex justify-between">
+          <Label type="danger" className="my-2">
+            {t("faceRecognition.duplicateTitle")}
+          </Label>
+          <Label type="info" className="my-2">
+            {t("faceRecognition.attemptsLeft", {
+              attempts: attemptsLeft,
+            })}
+          </Label>
+        </div>
         <p className="text-sm my-2 ml-1">
           {t("faceRecognition.duplicateDescription")}
         </p>
@@ -217,9 +244,16 @@ export const RecognitionAttempt: React.FC<FaceRecognitionEvent> = (event) => {
   if (event.event === "failed") {
     return (
       <div>
-        <Label type="danger" className="my-2">
-          {t("faceRecognition.failedTitle")}
-        </Label>
+        <div className="flex justify-between">
+          <Label type="danger" className="my-2">
+            {t("faceRecognition.failedTitle")}
+          </Label>
+          <Label type="info" className="my-2">
+            {t("faceRecognition.attemptsLeft", {
+              attempts: attemptsLeft,
+            })}
+          </Label>
+        </div>
         <p className="text-sm my-2 ml-1">
           {t("faceRecognition.failedDescription")}
         </p>

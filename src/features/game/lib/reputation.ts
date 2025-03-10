@@ -3,6 +3,7 @@ import { getKeys } from "../types/decorations";
 import { GameState } from "../types/game";
 import { getBumpkinLevel } from "./level";
 import { hasVipAccess } from "./vipAccess";
+import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
 
 export enum Reputation {
   Beginner = 0,
@@ -52,7 +53,7 @@ export const REPUTATION_TASKS: Record<
     game.island.type !== "spring" &&
     game.island.type !== "desert",
   Discord: ({ game }) => !!game.wardrobe["Companion Cap"],
-  ProofOfHumanity: ({ game }) => !!game.verified, // TODO
+  ProofOfHumanity: ({ game }) => isFaceVerified({ game }) || !!game.verified,
   Level100: ({ game }) => getBumpkinLevel(game.bumpkin.experience) >= 100,
   Level15: ({ game }) => getBumpkinLevel(game.bumpkin.experience) >= 15,
   Bud: ({ game }) => getKeys(game.buds ?? {}).length > 0,
