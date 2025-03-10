@@ -103,9 +103,7 @@ export const VIPItems: React.FC = () => {
     roninNFT.acknowledgedAt > Date.now() - RONIN_VIP_COOLDOWN_MS;
 
   const roninVipCooldownTimeLeft =
-    !!roninNFT &&
-    !!roninNFT.acknowledgedAt &&
-    roninNFT.acknowledgedAt + RONIN_VIP_COOLDOWN_MS - Date.now();
+    (roninNFT?.acknowledgedAt ?? 0) + RONIN_VIP_COOLDOWN_MS - Date.now();
 
   const getExpiresAt = () => {
     if (!vip && !roninVip) return 0;
