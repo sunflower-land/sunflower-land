@@ -282,7 +282,7 @@ export const BuyCurrenciesModal: React.FC<Props> = ({
               )}
             </div>
           )}
-          {tab === 2 && <VIPItems onClose={onClose} />}
+          {tab === 2 && <VIPItems />}
         </CloseButtonPanel>
       )}
       <RoninSupportWidget />

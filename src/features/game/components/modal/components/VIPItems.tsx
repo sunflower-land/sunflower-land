@@ -1,6 +1,5 @@
 import React, { useContext, useState } from "react";
 import {
-  SEASONS,
   getCurrentSeason,
   getSeasonalTicket,
 } from "features/game/types/seasons";
@@ -22,12 +21,13 @@ import shopIcon from "assets/icons/shop.png";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
 import Decimal from "decimal.js-light";
-import { secondsToString } from "lib/utils/time";
+import { millisecondsToString } from "lib/utils/time";
 import { acknowledgeVIP } from "features/announcements/announcementsStorage";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
   hasVipAccess,
   RONIN_FARM_CREATION_CUTOFF,
+  RONIN_VIP_COOLDOWN_MS,
   VIP_DURATIONS,
   VIP_PRICES,
   VipBundle,
@@ -41,15 +41,9 @@ import confetti from "canvas-confetti";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { REPUTATION_POINTS } from "features/game/lib/reputation";
 
-const _farmId = (state: MachineState) => state.context.farmId;
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _vip = (state: MachineState) => state.context.state.vip;
 const _state = (state: MachineState) => state.context.state;
-
-type Props = {
-  onClose: () => void;
-  onSkip?: () => void;
-};
 
 const VIP_NAME: Record<VipBundle, TranslationKeys> = {
   "1_MONTH": "vip.1Month",
@@ -63,37 +57,7 @@ const VIP_ICONS: Record<VipBundle, string> = {
   "2_YEARS": purpleVipIcon,
 };
 
-const SeasonVIPDiscountTime: React.FC = () => {
-  const season = getCurrentSeason();
-  const seasonStartDate = SEASONS[season].startDate;
-  const seasonEndDate = SEASONS[season].endDate;
-
-  const WEEK = 1000 * 60 * 60 * 24 * 7;
-
-  const discountDates = [
-    seasonStartDate.getTime() + 1 * WEEK, // 1 weeks
-    seasonStartDate.getTime() + 4 * WEEK, // 4 weeks
-    seasonStartDate.getTime() + 8 * WEEK, // 8 weeks
-    seasonEndDate.getTime(), // End of season
-  ];
-
-  const upcomingDiscountEnd = discountDates.find((date) => date > Date.now());
-
-  if (!upcomingDiscountEnd) {
-    return null;
-  }
-
-  const secondsLeft = (upcomingDiscountEnd - Date.now()) / 1000;
-
-  // Discounts change at week 2
-  return (
-    <Label type="info" icon={SUNNYSIDE.icons.timer}>
-      {secondsToString(secondsLeft, { length: "medium" })}
-    </Label>
-  );
-};
-
-export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
+export const VIPItems: React.FC = () => {
   const { gameService } = useContext(Context);
   const [selected, setSelected] = useState<VipBundle>();
   const { t } = useAppTranslation();
@@ -118,9 +82,7 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
     confetti();
   };
 
-  const hasVip = hasVipAccess({
-    game: state,
-  });
+  const hasVip = hasVipAccess({ game: state });
 
   const expiresSoon =
     vip && vip.expiresAt < Date.now() + 1000 * 60 * 60 * 24 * 7;
@@ -131,8 +93,20 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
   const isRoninFarmCreatedAfterCutOff =
     state.createdAt > RONIN_FARM_CREATION_CUTOFF;
 
-  const roninVip = state.nfts?.ronin && isRoninFarmCreatedAfterCutOff;
+  const roninNFT = state.nfts?.ronin;
 
+  const roninVip = roninNFT && isRoninFarmCreatedAfterCutOff;
+
+  const isRoninVipOnCooldown =
+    roninNFT &&
+    roninNFT.acknowledgedAt &&
+    roninNFT.acknowledgedAt > Date.now() - RONIN_VIP_COOLDOWN_MS;
+
+  const roninVipCooldownTimeLeft = () => {
+    const { acknowledgedAt } = roninNFT ?? {};
+    if (!acknowledgedAt) return 0;
+    return acknowledgedAt + RONIN_VIP_COOLDOWN_MS - Date.now();
+  };
   const getExpiresAt = () => {
     if (!vip && !roninVip) return 0;
 
@@ -259,6 +233,14 @@ export const VIPItems: React.FC<Props> = ({ onClose, onSkip }) => {
               )}
             </div>
           </>
+        ) : roninVip && isRoninVipOnCooldown ? (
+          <Label icon={SUNNYSIDE.icons.stopwatch} type="info" className="my-2">
+            {t("ronin.nft.cooldown", {
+              time: millisecondsToString(roninVipCooldownTimeLeft(), {
+                length: "medium",
+              }),
+            })}
+          </Label>
         ) : (
           (vip || roninVip) && (
             <Label
@@ -392,7 +374,7 @@ export const VIPOffer: React.FC = () => {
 
   return (
     <>
-      <VIPItems onClose={onClose} onSkip={onClose} />
+      <VIPItems />
       <img
         src={SUNNYSIDE.icons.close}
         className="w-10 absolute -top-12 right-2 cursor-pointer"
