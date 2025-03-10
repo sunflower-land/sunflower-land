@@ -69,7 +69,6 @@ const FEATURE_FLAGS = {
   // Permanent Feature Flags
   AIRDROP_PLAYER: adminFeatureFlag,
   HOARDING_CHECK: defaultFeatureFlag,
-  REPORT_PLAYER: defaultFeatureFlag,
 
   FACE_RECOGNITION: defaultFeatureFlag,
 

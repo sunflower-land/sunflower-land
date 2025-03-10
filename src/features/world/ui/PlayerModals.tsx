@@ -215,14 +215,10 @@ export const PlayerModals: React.FC<Props> = ({ game }) => {
             icon: SUNNYSIDE.icons.player,
             name: "Player",
           },
-          ...(hasFeatureAccess(game, "REPORT_PLAYER")
-            ? [
-                {
-                  icon: SUNNYSIDE.icons.search,
-                  name: "Report",
-                },
-              ]
-            : []),
+          {
+            icon: SUNNYSIDE.icons.search,
+            name: "Report",
+          },
           ...(hasFeatureAccess(game, "AIRDROP_PLAYER")
             ? [
                 {
