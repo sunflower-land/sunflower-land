@@ -10,6 +10,8 @@ export const BehaviourSettings: React.FC = () => {
     toggleAnimations,
     enableQuickSelect,
     toggleQuickSelect,
+    showTimers,
+    toggleTimers,
   } = useContext(Context);
 
   return (
@@ -28,6 +30,7 @@ export const BehaviourSettings: React.FC = () => {
           onChange={toggleQuickSelect}
           label={"Quick Select"}
         />
+        <Switch checked={showTimers} onChange={toggleTimers} label={"Timers"} />
       </div>
     </>
   );
