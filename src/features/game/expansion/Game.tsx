@@ -71,7 +71,6 @@ import { HenHouseInside } from "features/henHouse/HenHouseInside";
 import { BarnInside } from "features/barn/BarnInside";
 import { EFFECT_EVENTS } from "../actions/effect";
 import { TranslationKeys } from "lib/i18n/dictionaries/types";
-import { Button } from "components/ui/Button";
 import { GameState } from "../types/game";
 import { Ocean } from "features/world/ui/Ocean";
 import { OffersAcceptedPopup } from "./components/OffersAcceptedPopup";
@@ -85,6 +84,10 @@ import { ClaimRoninAirdrop } from "./components/onChainAirdrops/ClaimRoninAirdro
 import { FLOWERTeaserContent } from "../components/FLOWERTeaser";
 import { pixelGrayBorderStyle } from "../lib/style";
 import { RoninJinClaim } from "./components/RoninJinClaim";
+import {
+  EFFECT_SUCCESS_COMPONENTS,
+  EffectSuccess,
+} from "./components/EffectSuccess";
 
 function camelToDotCase(str: string): string {
   return str.replace(/([a-z])([A-Z])/g, "$1.$2").toLowerCase() as string;
@@ -540,7 +543,10 @@ export const GameWrapper: React.FC = ({ children }) => {
     );
   }
 
-  const stateValue = typeof state === "object" ? Object.keys(state)[0] : state;
+  const stateValue =
+    typeof state === "object"
+      ? (Object.keys(state)[0] as StateValues)
+      : (state as StateValues);
 
   const onHide = (): (() => void) | undefined => {
     if (
@@ -572,23 +578,10 @@ export const GameWrapper: React.FC = ({ children }) => {
           >
             {/* Effects */}
             {effectPending && <Loading text={t(effectTranslationKey)} />}
-            {effectSuccess && (
-              <>
-                <div className="p-1.5">
-                  <Label type="success" className="mb-2">
-                    {t("success")}
-                  </Label>
-                  <p className="text-sm mb-2">{t(effectTranslationKey)}</p>
-                </div>
-                <Button
-                  onClick={() => {
-                    gameService.send("CONTINUE");
-                  }}
-                >
-                  {t("continue")}
-                </Button>
-              </>
-            )}
+            {effectSuccess &&
+              (EFFECT_SUCCESS_COMPONENTS[stateValue as StateValues] ?? (
+                <EffectSuccess state={stateValue} />
+              ))}
             {effectFailure && (
               <ErrorMessage errorCode={errorCode as ErrorCode} />
             )}

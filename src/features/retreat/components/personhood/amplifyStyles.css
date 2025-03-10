@@ -3285,6 +3285,10 @@
   --amplify-transforms-slide-x-large: translateX(2em);
 }
 
+.amplify-liveness-cancel-container {
+  display: none !important;
+}
+
 .liveness-detector-check {
   gap: 0 !important;
 }
