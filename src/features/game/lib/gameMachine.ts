@@ -100,7 +100,7 @@ import { TRANSACTION_SIGNATURES, TransactionName } from "../types/transactions";
 import { getKeys } from "../types/decorations";
 import { preloadHotNow } from "features/marketplace/components/MarketplaceHotNow";
 import { getLastTemperateSeasonStartedAt } from "./temperateSeason";
-import { hasVipAccess, RONIN_FARM_CREATION_CUTOFF } from "./vipAccess";
+import { hasVipAccess } from "./vipAccess";
 import { getActiveCalendarEvent, SeasonalEventName } from "../types/calendar";
 import { SpecialEventName } from "../types/specialEvents";
 import { getAccount } from "@wagmi/core";
@@ -942,7 +942,6 @@ export function startGame(authContext: AuthContext) {
               target: "roninAirdrop",
               cond: (context) =>
                 !!context.state.nfts?.ronin &&
-                context.state.createdAt > RONIN_FARM_CREATION_CUTOFF &&
                 !context.state.nfts.ronin.acknowledgedAt &&
                 context.state.nfts.ronin.expiresAt > Date.now(),
             },

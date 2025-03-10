@@ -126,6 +126,7 @@ export const VIPItems: React.FC = () => {
   // Disable VIP purchase buttons if Ronin NFT is active and expires in more than 1 day
   const shouldDisableVipPurchase = () => {
     if (!activeRoninVip) return false;
+    if (roninVip && isRoninVipOnCooldown) return true;
 
     const roninExpiresAt = state.nfts?.ronin?.expiresAt ?? 0;
 
