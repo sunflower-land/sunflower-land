@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import lightning from "assets/icons/lightning.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PowerSkills } from "./PowerSkills";
-import { useGame } from "features/game/GameProvider";
+import { Context } from "features/game/GameProvider";
 import {
   BumpkinSkillRevamp,
   getPowerSkills,
@@ -13,7 +13,7 @@ import { useSelector } from "@xstate/react";
 
 export const PowerSkillsButton: React.FC = () => {
   const [show, setShow] = useState(false);
-  const { gameService } = useGame();
+  const { gameService } = useContext(Context);
   const bumpkin = useSelector(
     gameService,
     (state) => state.context.state.bumpkin,
