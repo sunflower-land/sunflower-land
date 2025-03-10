@@ -6,7 +6,7 @@ export const RONIN_FARM_CREATION_CUTOFF = new Date(
 ).getTime();
 
 // Prevents people sharing VIP across their farms
-const RONIN_VIP_COOLDOWN_MS = 3 * 24 * 60 * 60 * 1000;
+export const RONIN_VIP_COOLDOWN_MS = 3 * 24 * 60 * 60 * 1000;
 
 export const hasVipAccess = ({
   game,
