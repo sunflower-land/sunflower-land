@@ -10,23 +10,28 @@ export const BehaviourSettings: React.FC = () => {
     toggleAnimations,
     enableQuickSelect,
     toggleQuickSelect,
+    showTimers,
+    toggleTimers,
   } = useContext(Context);
 
   return (
-    <div className="flex flex-col items-start gap-2">
-      <h1 className="text-lg mb-2">
-        {t("gameOptions.generalSettings.behaviour")}
-      </h1>
-      <Switch
-        checked={showAnimations}
-        onChange={toggleAnimations}
-        label={"Animations"}
-      />
-      <Switch
-        checked={enableQuickSelect}
-        onChange={toggleQuickSelect}
-        label={"Quick Select"}
-      />
-    </div>
+    <>
+      <div className="flex flex-col items-start gap-2">
+        <h1 className="text-lg mb-2">
+          {t("gameOptions.generalSettings.behaviour")}
+        </h1>
+        <Switch
+          checked={showAnimations}
+          onChange={toggleAnimations}
+          label={"Animations"}
+        />
+        <Switch
+          checked={enableQuickSelect}
+          onChange={toggleQuickSelect}
+          label={"Quick Select"}
+        />
+        <Switch checked={showTimers} onChange={toggleTimers} label={"Timers"} />
+      </div>
+    </>
   );
 };
