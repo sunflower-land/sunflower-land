@@ -102,11 +102,11 @@ export const VIPItems: React.FC = () => {
     !!roninNFT.acknowledgedAt &&
     roninNFT.acknowledgedAt > Date.now() - RONIN_VIP_COOLDOWN_MS;
 
-  const roninVipCooldownTimeLeft = () => {
-    const { acknowledgedAt } = roninNFT ?? {};
-    if (!acknowledgedAt) return 0;
-    return acknowledgedAt + RONIN_VIP_COOLDOWN_MS - Date.now();
-  };
+  const roninVipCooldownTimeLeft =
+    !!roninNFT &&
+    !!roninNFT.acknowledgedAt &&
+    roninNFT.acknowledgedAt + RONIN_VIP_COOLDOWN_MS - Date.now();
+
   const getExpiresAt = () => {
     if (!vip && !roninVip) return 0;
 
@@ -236,7 +236,7 @@ export const VIPItems: React.FC = () => {
         ) : roninVip && isRoninVipOnCooldown ? (
           <Label icon={SUNNYSIDE.icons.stopwatch} type="info" className="my-2">
             {t("ronin.nft.cooldown", {
-              time: millisecondsToString(roninVipCooldownTimeLeft(), {
+              time: millisecondsToString(roninVipCooldownTimeLeft, {
                 length: "medium",
               }),
             })}
