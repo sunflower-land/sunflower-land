@@ -47,8 +47,7 @@ import { DEV_HoarderCheck } from "./developer-options/DEV_HoardingCheck";
 import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
 import { PickServer } from "./plaza-settings/PickServer";
 import { PlazaShaderSettings } from "./plaza-settings/PlazaShaderSettings";
-import AppearanceAndBehaviour from "./general-settings/AppearanceBehaviour";
-import { Notifications } from "./general-settings/Notifications";
+import { Preferences } from "./general-settings/Preferences";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import {
   getSubscriptionsForFarmId,
@@ -57,7 +56,6 @@ import {
 import { preload } from "swr";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
-import { isSupported } from "firebase/messaging";
 import { LockdownWidget } from "features/announcements/AnnouncementWidgets";
 import { AirdropPlayer } from "./general-settings/AirdropPlayer";
 import { hasFeatureAccess } from "lib/flags";
@@ -89,20 +87,12 @@ const GameOptions: React.FC<ContentComponentProps> = ({
   const [isConfirmLogoutModalOpen, showConfirmLogoutModal] = useState(false);
   const [showFarm, setShowFarm] = useState(false);
   const [showNftId, setShowNftId] = useState(false);
-  const [notificationsSupported, setNotificationsSupported] = useState(false);
 
   const copypaste = useSound("copypaste");
 
   const isPWA = useIsPWA();
   const isWeb3MobileBrowser = isMobile && !!window.ethereum;
   const pwaInstall = usePWAInstall();
-
-  useEffect(() => {
-    const checkNotificationsSupported = async () => {
-      setNotificationsSupported(await isSupported());
-    };
-    checkNotificationsSupported();
-  }, []);
 
   const handleInstallApp = () => {
     if (isMobile && !isWeb3MobileBrowser) {
@@ -194,46 +184,6 @@ const GameOptions: React.FC<ContentComponentProps> = ({
           <span>{t("install.app")}</span>
         </Button>
       )}
-
-      {hasFeatureAccess(
-        gameService.state?.context?.state,
-        "FACE_RECOGNITION",
-      ) && (
-        <Button
-          onClick={() => onSubMenuClick("faceRecognition")}
-          className="mb-1 relative"
-        >
-          <span>{t("gameOptions.faceRecognition")}</span>
-        </Button>
-      )}
-
-      <Button
-        onClick={() => onSubMenuClick("notifications")}
-        className="mb-1 relative"
-        // Not available in players browser
-        disabled={
-          !(
-            "serviceWorker" in navigator &&
-            "PushManager" in window &&
-            notificationsSupported
-          )
-        }
-      >
-        <div className="flex items-center space-x-1">
-          <span>{t("gameOptions.notifications")}</span>
-          {!(
-            "serviceWorker" in navigator &&
-            "PushManager" in window &&
-            notificationsSupported
-          ) && (
-            <Label type="info" className="mt-0.5">
-              <span className=" text-xxs sm:text-xs">
-                {t("gameOptions.notifications.notSupported")}
-              </span>
-            </Label>
-          )}
-        </div>
-      </Button>
 
       {!hideRefresh && (
         <Button
@@ -369,10 +319,8 @@ export type SettingMenuId =
   | "discord"
   | "changeLanguage"
   | "share"
-  | "appearance&behaviour"
+  | "preferences"
 
-  // Push Notifications
-  | "notifications"
   // Amoy Testnet Actions
   | "hoardingCheck"
   // Plaza Settings
@@ -417,16 +365,6 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     parent: "main",
     content: PlazaSettings,
   },
-  notifications: {
-    title: translate("gameOptions.notifications"),
-    parent: "main",
-    content: (props) => <Notifications {...props} />,
-  },
-  faceRecognition: {
-    title: translate("gameOptions.faceRecognition"),
-    parent: "main",
-    content: FaceRecognition,
-  },
 
   // Blockchain Settings
   deposit: {
@@ -451,6 +389,11 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
   },
 
   // General Settings
+  faceRecognition: {
+    title: translate("gameOptions.faceRecognition"),
+    parent: "general",
+    content: FaceRecognition,
+  },
   discord: {
     title: "Discord",
     parent: "general",
@@ -466,10 +409,10 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     parent: "general",
     content: Share,
   },
-  "appearance&behaviour": {
-    title: translate("gameOptions.generalSettings.appearance&behaviour"),
+  preferences: {
+    title: translate("gameOptions.generalSettings.preferences"),
     parent: "general",
-    content: AppearanceAndBehaviour,
+    content: Preferences,
   },
 
   // Developer Options

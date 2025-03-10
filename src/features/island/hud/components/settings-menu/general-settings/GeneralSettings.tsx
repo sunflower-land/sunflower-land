@@ -5,6 +5,7 @@ import { Context } from "features/game/GameProvider";
 import { ContentComponentProps } from "../GameOptions";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { connectToFSL } from "features/auth/actions/oauth";
+import { hasFeatureAccess } from "lib/flags";
 
 export const GeneralSettings: React.FC<ContentComponentProps> = ({
   onSubMenuClick,
@@ -29,17 +30,25 @@ export const GeneralSettings: React.FC<ContentComponentProps> = ({
           />
         )}
       </Button>
+      {hasFeatureAccess(
+        gameService.state?.context?.state,
+        "FACE_RECOGNITION",
+      ) && (
+        <Button
+          onClick={() => onSubMenuClick("faceRecognition")}
+          className="mb-1 relative"
+        >
+          <span>{t("gameOptions.faceRecognition")}</span>
+        </Button>
+      )}
       <Button onClick={() => onSubMenuClick("discord")} className="mb-1">
         <span>{`Discord`}</span>
       </Button>
       <Button onClick={() => onSubMenuClick("changeLanguage")} className="mb-1">
         <span>{t("gameOptions.generalSettings.changeLanguage")}</span>
       </Button>
-      <Button
-        className="mb-1"
-        onClick={() => onSubMenuClick("appearance&behaviour")}
-      >
-        <span>{t("gameOptions.generalSettings.appearance&behaviour")}</span>
+      <Button className="mb-1" onClick={() => onSubMenuClick("preferences")}>
+        <span>{t("gameOptions.generalSettings.preferences")}</span>
       </Button>
       <Button onClick={() => onSubMenuClick("share")} className="mb-1">
         <span>{t("gameOptions.generalSettings.share")}</span>
