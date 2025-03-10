@@ -98,8 +98,8 @@ export const VIPItems: React.FC = () => {
   const roninVip = roninNFT && isRoninFarmCreatedAfterCutOff;
 
   const isRoninVipOnCooldown =
-    roninNFT &&
-    roninNFT.acknowledgedAt &&
+    !!roninNFT &&
+    !!roninNFT.acknowledgedAt &&
     roninNFT.acknowledgedAt > Date.now() - RONIN_VIP_COOLDOWN_MS;
 
   const roninVipCooldownTimeLeft = () => {
@@ -126,7 +126,6 @@ export const VIPItems: React.FC = () => {
   // Disable VIP purchase buttons if Ronin NFT is active and expires in more than 1 day
   const shouldDisableVipPurchase = () => {
     if (!activeRoninVip) return false;
-    if (roninVip && isRoninVipOnCooldown) return true;
 
     const roninExpiresAt = state.nfts?.ronin?.expiresAt ?? 0;
 
@@ -253,7 +252,7 @@ export const VIPItems: React.FC = () => {
             </Label>
           )
         )}
-        {disableVipPurchase && (
+        {disableVipPurchase && !isRoninVipOnCooldown && (
           <Label type="info" className="ml-1 my-1">
             {t("vip.ronin.purchase.warning")}
           </Label>
@@ -265,9 +264,13 @@ export const VIPItems: React.FC = () => {
                 key={name}
                 className="flex flex-col items-center relative"
                 onClick={
-                  disableVipPurchase ? undefined : () => setSelected(name)
+                  disableVipPurchase || (roninVip && isRoninVipOnCooldown)
+                    ? undefined
+                    : () => setSelected(name)
                 }
-                disabled={disableVipPurchase}
+                disabled={
+                  disableVipPurchase || (roninVip && isRoninVipOnCooldown)
+                }
               >
                 {name === "3_MONTHS" && (
                   <>
