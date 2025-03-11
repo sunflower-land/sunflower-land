@@ -14,6 +14,7 @@ interface DropdownProps {
   disabled?: boolean;
   initialIndex?: number;
   placeholder?: string;
+  maxHeight?: number;
 }
 
 export const Dropdown: React.FC<DropdownProps> = ({
@@ -24,6 +25,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
   disabled = false,
   initialIndex,
   placeholder = "Select an option",
+  maxHeight = 14,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
@@ -107,7 +109,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
             imageRendering: "pixelated",
           }}
         >
-          <div className="max-h-14 overflow-y-auto scrollable">
+          <div className={`max-h-${maxHeight} overflow-y-auto scrollable`}>
             {options.map((option) => (
               <div
                 key={option}

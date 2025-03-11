@@ -92,6 +92,7 @@ export const ReportPlayer: React.FC<Props> = ({ id }) => {
           options={REASONS}
           value={reason}
           onChange={(value) => setReason(value)}
+          maxHeight={16}
         />
       </div>
       <div className="flex flex-col">

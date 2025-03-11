@@ -47,8 +47,7 @@ import { DEV_HoarderCheck } from "./developer-options/DEV_HoardingCheck";
 import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
 import { PickServer } from "./plaza-settings/PickServer";
 import { PlazaShaderSettings } from "./plaza-settings/PlazaShaderSettings";
-import AppearanceAndBehaviour from "./general-settings/AppearanceBehaviour";
-import { Notifications } from "./general-settings/Notifications";
+import { Preferences } from "./general-settings/Preferences";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import {
   getSubscriptionsForFarmId,
@@ -57,7 +56,6 @@ import {
 import { preload } from "swr";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
-import { isSupported } from "firebase/messaging";
 import { LockdownWidget } from "features/announcements/AnnouncementWidgets";
 import { AirdropPlayer } from "./general-settings/AirdropPlayer";
 import { hasFeatureAccess } from "lib/flags";
@@ -89,20 +87,12 @@ const GameOptions: React.FC<ContentComponentProps> = ({
   const [isConfirmLogoutModalOpen, showConfirmLogoutModal] = useState(false);
   const [showFarm, setShowFarm] = useState(false);
   const [showNftId, setShowNftId] = useState(false);
-  const [notificationsSupported, setNotificationsSupported] = useState(false);
 
   const copypaste = useSound("copypaste");
 
   const isPWA = useIsPWA();
   const isWeb3MobileBrowser = isMobile && !!window.ethereum;
   const pwaInstall = usePWAInstall();
-
-  useEffect(() => {
-    const checkNotificationsSupported = async () => {
-      setNotificationsSupported(await isSupported());
-    };
-    checkNotificationsSupported();
-  }, []);
 
   const handleInstallApp = () => {
     if (isMobile && !isWeb3MobileBrowser) {
@@ -131,6 +121,11 @@ const GameOptions: React.FC<ContentComponentProps> = ({
 
   const canRefresh = !gameService.state.context.state.transaction;
   const hideRefresh = !gameService.state.context.nftId;
+
+  const hasHoardingCheck = hasFeatureAccess(
+    gameService.state?.context?.state,
+    "HOARDING_CHECK",
+  );
 
   return (
     <>
@@ -189,85 +184,59 @@ const GameOptions: React.FC<ContentComponentProps> = ({
           )}
         </div>
       </>
-      {!isPWA && (
-        <Button className="p-1 mb-1" onClick={handleInstallApp}>
-          <span>{t("install.app")}</span>
-        </Button>
-      )}
+      <div className="flex flex-col gap-1">
+        {(!isPWA || !hideRefresh) && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
+            {!isPWA && (
+              <Button
+                onClick={handleInstallApp}
+                className={`p-1 ${hideRefresh ? "col-span-1 sm:col-span-2" : "col-span-1"}`}
+              >
+                <span>{t("install.app")}</span>
+              </Button>
+            )}
 
-      {hasFeatureAccess(
-        gameService.state?.context?.state,
-        "FACE_RECOGNITION",
-      ) && (
-        <Button
-          onClick={() => onSubMenuClick("faceRecognition")}
-          className="mb-1 relative"
-        >
-          <span>{t("gameOptions.faceRecognition")}</span>
-        </Button>
-      )}
+            {!hideRefresh && (
+              <Button
+                disabled={!canRefresh}
+                onClick={refreshSession}
+                className={`p-1 ${isPWA ? "col-span-1 sm:col-span-2" : "col-span-1"}`}
+              >
+                {t("gameOptions.blockchainSettings.refreshChain")}
 
-      <Button
-        onClick={() => onSubMenuClick("notifications")}
-        className="mb-1 relative"
-        // Not available in players browser
-        disabled={
-          !(
-            "serviceWorker" in navigator &&
-            "PushManager" in window &&
-            notificationsSupported
-          )
-        }
-      >
-        <div className="flex items-center space-x-1">
-          <span>{t("gameOptions.notifications")}</span>
-          {!(
-            "serviceWorker" in navigator &&
-            "PushManager" in window &&
-            notificationsSupported
-          ) && (
-            <Label type="info" className="mt-0.5">
-              <span className=" text-xxs sm:text-xs">
-                {t("gameOptions.notifications.notSupported")}
-              </span>
-            </Label>
+                {!canRefresh && (
+                  <img
+                    src={lockIcon}
+                    className="absolute right-1 top-0.5 h-7"
+                  />
+                )}
+              </Button>
+            )}
+          </div>
+        )}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
+          <Button className="p-1" onClick={() => onSubMenuClick("general")}>
+            <span>{t("gameOptions.generalSettings")}</span>
+          </Button>
+          <Button className="p-1" onClick={() => onSubMenuClick("blockchain")}>
+            <span>{t("gameOptions.blockchainSettings")}</span>
+          </Button>
+          <Button className="p-1" onClick={() => onSubMenuClick("plaza")}>
+            <span>{t("gameOptions.plazaSettings")}</span>
+          </Button>
+          {hasHoardingCheck && (
+            <Button className="p-1" onClick={() => onSubMenuClick("amoy")}>
+              <span>{t("gameOptions.developerOptions")}</span>
+            </Button>
           )}
+          <Button
+            className={`p-1 ${hasHoardingCheck ? "col-span-1 sm:col-span-2" : "col-span-1"}`}
+            onClick={() => showConfirmLogoutModal(true)}
+          >
+            {t("gameOptions.logout")}
+          </Button>
         </div>
-      </Button>
-
-      {!hideRefresh && (
-        <Button
-          disabled={!canRefresh}
-          className="p-1 mb-1 relative"
-          onClick={refreshSession}
-        >
-          {t("gameOptions.blockchainSettings.refreshChain")}
-
-          {!canRefresh && (
-            <img src={lockIcon} className="absolute right-1 top-0.5 h-7" />
-          )}
-        </Button>
-      )}
-      {hasFeatureAccess(
-        gameService.state?.context?.state,
-        "HOARDING_CHECK",
-      ) && (
-        <Button className="p-1 mb-1" onClick={() => onSubMenuClick("amoy")}>
-          <span>{t("gameOptions.developerOptions")}</span>
-        </Button>
-      )}
-      <Button className="p-1 mb-1" onClick={() => onSubMenuClick("blockchain")}>
-        <span>{t("gameOptions.blockchainSettings")}</span>
-      </Button>
-      <Button className="p-1 mb-1" onClick={() => onSubMenuClick("general")}>
-        <span>{t("gameOptions.generalSettings")}</span>
-      </Button>
-      <Button className="p-1 mb-1" onClick={() => onSubMenuClick("plaza")}>
-        <span>{t("gameOptions.plazaSettings")}</span>
-      </Button>
-      <Button className="p-1 mb-1" onClick={() => showConfirmLogoutModal(true)}>
-        {t("gameOptions.logout")}
-      </Button>
+      </div>
       <p className="mx-1 text-xxs">
         <a
           href="https://github.com/sunflower-land/sunflower-land/releases"
@@ -369,10 +338,8 @@ export type SettingMenuId =
   | "discord"
   | "changeLanguage"
   | "share"
-  | "appearance&behaviour"
+  | "preferences"
 
-  // Push Notifications
-  | "notifications"
   // Amoy Testnet Actions
   | "hoardingCheck"
   // Plaza Settings
@@ -417,16 +384,6 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     parent: "main",
     content: PlazaSettings,
   },
-  notifications: {
-    title: translate("gameOptions.notifications"),
-    parent: "main",
-    content: (props) => <Notifications {...props} />,
-  },
-  faceRecognition: {
-    title: translate("gameOptions.faceRecognition"),
-    parent: "main",
-    content: FaceRecognition,
-  },
 
   // Blockchain Settings
   deposit: {
@@ -451,6 +408,11 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
   },
 
   // General Settings
+  faceRecognition: {
+    title: translate("gameOptions.faceRecognition"),
+    parent: "general",
+    content: FaceRecognition,
+  },
   discord: {
     title: "Discord",
     parent: "general",
@@ -466,10 +428,10 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     parent: "general",
     content: Share,
   },
-  "appearance&behaviour": {
-    title: translate("gameOptions.generalSettings.appearance&behaviour"),
+  preferences: {
+    title: translate("gameOptions.generalSettings.preferences"),
     parent: "general",
-    content: AppearanceAndBehaviour,
+    content: Preferences,
   },
 
   // Developer Options
