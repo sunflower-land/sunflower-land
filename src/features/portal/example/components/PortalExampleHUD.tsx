@@ -3,7 +3,7 @@ import { useActor } from "@xstate/react";
 import { PortalContext } from "../lib/PortalProvider";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
-import worldIcon from "assets/icons/world.png";
+import worldIcon from "assets/icons/world.webp";
 import { goHome } from "../../lib/portalUtil";
 import { HudContainer } from "components/ui/HudContainer";
 import { Balances } from "components/Balances";

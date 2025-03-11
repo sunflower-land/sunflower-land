@@ -60,7 +60,7 @@ import { ExampleRPGScene } from "./scenes/examples/RPGScene";
 import { EventObject } from "xstate";
 import { ToastContext } from "features/game/toast/ToastProvider";
 import { AuthMachineState } from "features/auth/lib/authMachine";
-import worldIcon from "assets/icons/world.png";
+import worldIcon from "assets/icons/world.webp";
 import { InfernosScene } from "./scenes/InferniaScene";
 
 const _roomState = (state: MachineState) => state.value;

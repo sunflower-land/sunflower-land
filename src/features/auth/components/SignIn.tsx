@@ -7,7 +7,7 @@ import metamaskIcon from "assets/icons/metamask_pixel.png";
 import walletIcon from "assets/icons/wallet.png";
 import fslIcon from "assets/icons/fsl_black.svg";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import world from "assets/icons/world.png";
+import world from "assets/icons/world.webp";
 
 import { Label } from "components/ui/Label";
 import { getPromoCode } from "features/game/actions/loadSession";

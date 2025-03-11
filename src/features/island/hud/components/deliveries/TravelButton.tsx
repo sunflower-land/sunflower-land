@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import world from "assets/icons/world.png";
+import world from "assets/icons/world.webp";
 import { Modal } from "components/ui/Modal";
 import { WorldMap } from "./WorldMap";
 
