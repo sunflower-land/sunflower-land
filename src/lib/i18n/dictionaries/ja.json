@@ -4331,7 +4331,6 @@
   "gameOptions.generalSettings.behaviour": "動作",
   "gameOptions.generalSettings.disableQuickSelect": "クイックセレクトを無効にする",
   "gameOptions.generalSettings.enableQuickSelect": "クイックセレクトを有効にする",
-  "gameOptions.generalSettings.appearance&behaviour": "外観と動作",
   "skill.fishermansTenFold": "+10 デイリーフィッシングリミット",
   "skill.moreWithLess.buff": "+15 デイリーフィッシングリミット",
   "skill.alternateMedicine": "Barn Delightは混ぜるのにレモンとハチミツを1つ少なくする必要があります",
@@ -5478,5 +5477,8 @@
   "ronin.nft.cooldown": "ローニン VIP は {{time}} にアクティベートされます",
   "faceRecognition.label": "簡単な写真を撮る",
   "faceRecognition.attemptsLeft": "{{attempts}} 回残り試行数",
-  "faceRecognition.failedDescription": "うーん、前回の試みでは人間の顔を検出できなかったようです。もう一度試してください。"
+  "faceRecognition.failedDescription": "うーん、前回の試みでは人間の顔を検出できなかったようです。もう一度試してください。",
+  "description.social.spark": "ソーシャルインタラクションの火花",
+  "gameOptions.generalSettings.notifications": "通知",
+  "gameOptions.generalSettings.preferences": "環境設定"
 }

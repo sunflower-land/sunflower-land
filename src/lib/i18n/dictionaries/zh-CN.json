@@ -4332,7 +4332,6 @@
   "gameOptions.generalSettings.behaviour": "行为",
   "gameOptions.generalSettings.disableQuickSelect": "禁用快速选择",
   "gameOptions.generalSettings.enableQuickSelect": "启用快速选择",
-  "gameOptions.generalSettings.appearance&behaviour": "外表与行为",
   "skill.fishermansTenFold": "+10 每日钓鱼上限",
   "skill.alternateMedicine": "Barn Delight 需要减少 1 个柠檬和蜂蜜才能混合",
   "skill.seedyBusiness": "-15% 温室种子成本",
@@ -5478,5 +5477,8 @@
   "ronin.nft.cooldown": "Ronin VIP 将在 {{time}} 中激活",
   "faceRecognition.label": "快速拍张照片",
   "faceRecognition.attemptsLeft": "{{attempts}} 还剩下尝试次数",
-  "faceRecognition.failedDescription": "嗯，看来你上次尝试时我们没能检测到人脸。请再试一次。"
+  "faceRecognition.failedDescription": "嗯，看来你上次尝试时我们没能检测到人脸。请再试一次。",
+  "description.social.spark": "社交互动的火花",
+  "gameOptions.generalSettings.notifications": "通知",
+  "gameOptions.generalSettings.preferences": "首选项"
 }

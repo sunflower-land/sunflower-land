@@ -2290,7 +2290,6 @@
   "gameOptions.farmId": "ID фермы #{{farmId}}",
   "gameOptions.generalSettings": "Общие настройки",
   "gameOptions.generalSettings.appearance": "Внешний вид",
-  "gameOptions.generalSettings.appearance&behaviour": "Внешний вид и поведение",
   "gameOptions.generalSettings.assignRole": "Назначить роль в Discord",
   "gameOptions.generalSettings.behaviour": "Поведение",
   "gameOptions.generalSettings.changeLanguage": "Изменить язык",
@@ -5478,5 +5477,8 @@
   "ronin.nft.cooldown": "Ronin VIP будет активирован в {{time}}",
   "faceRecognition.label": "Сделайте быстрое фото",
   "faceRecognition.attemptsLeft": "{{attempts}} попыток осталось",
-  "faceRecognition.failedDescription": "Хм, похоже, мы не смогли распознать человеческое лицо в вашей последней попытке. Пожалуйста, попробуйте еще раз."
+  "faceRecognition.failedDescription": "Хм, похоже, мы не смогли распознать человеческое лицо в вашей последней попытке. Пожалуйста, попробуйте еще раз.",
+  "description.social.spark": "Искра социального взаимодействия",
+  "gameOptions.generalSettings.notifications": "Уведомления",
+  "gameOptions.generalSettings.preferences": "Предпочтения"
 }

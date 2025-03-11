@@ -4331,7 +4331,6 @@
   "gameOptions.generalSettings.behaviour": "Davranış",
   "gameOptions.generalSettings.disableQuickSelect": "QuickSelect'i devre dışı bırak",
   "gameOptions.generalSettings.enableQuickSelect": "Hızlı Seçimi Etkinleştir",
-  "gameOptions.generalSettings.appearance&behaviour": "Görünüm ve Davranış",
   "skill.fishermansTenFold": "+10 günlük balık tutma limiti",
   "skill.moreWithLess.buff": "+15 günlük balıkçılık sınırı",
   "skill.alternateMedicine": "Barn Delight karıştırmak için 1 daha az Limon ve Bal gerektirir",
@@ -5478,5 +5477,8 @@
   "ronin.nft.cooldown": "Ronin VIP {{time}} 'de etkinleştirilecektir.",
   "faceRecognition.label": "Hızlı bir fotoğraf çekin",
   "faceRecognition.attemptsLeft": "{{attempts}} deneme kaldı",
-  "faceRecognition.failedDescription": "Görünüşe göre son denemede insan yüzünü tespit edemedik. Lütfen tekrar deneyin."
+  "faceRecognition.failedDescription": "Görünüşe göre son denemede insan yüzünü tespit edemedik. Lütfen tekrar deneyin.",
+  "description.social.spark": "Bir sosyal etkileşim kıvılcımı",
+  "gameOptions.generalSettings.notifications": "Bildirimler",
+  "gameOptions.generalSettings.preferences": "Tercihler"
 }

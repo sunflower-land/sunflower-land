@@ -4331,7 +4331,6 @@
   "gameOptions.generalSettings.behaviour": "Perilaku",
   "gameOptions.generalSettings.disableQuickSelect": "Nonaktifkan QuickSelect",
   "gameOptions.generalSettings.enableQuickSelect": "Aktifkan QuickSelect",
-  "gameOptions.generalSettings.appearance&behaviour": "Penampilan & Perilaku",
   "skill.fishermansTenFold": "+10 batas memancing harian",
   "skill.moreWithLess.buff": "+15 batas memancing harian",
   "skill.alternateMedicine": "Barn Delight membutuhkan 1 lebih sedikit Lemon dan Madu untuk dicampur",
@@ -5478,5 +5477,8 @@
   "ronin.nft.cooldown": "Ronin VIP akan diaktifkan di {{time}}",
   "faceRecognition.label": "Ambil foto cepat",
   "faceRecognition.attemptsLeft": "{{attempts}} upaya tersisa",
-  "faceRecognition.failedDescription": "Hmm, sepertinya kita tidak bisa mendeteksi wajah manusia dalam upaya terakhirmu. Silakan coba lagi."
+  "faceRecognition.failedDescription": "Hmm, sepertinya kita tidak bisa mendeteksi wajah manusia dalam upaya terakhirmu. Silakan coba lagi.",
+  "description.social.spark": "Percikan interaksi sosial",
+  "gameOptions.generalSettings.notifications": "Pemberitahuan",
+  "gameOptions.generalSettings.preferences": "Preferensi"
 }

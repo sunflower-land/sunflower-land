@@ -4331,7 +4331,6 @@
   "gameOptions.generalSettings.behaviour": "Comportement",
   "gameOptions.generalSettings.disableQuickSelect": "Désactiver QuickSelect",
   "gameOptions.generalSettings.enableQuickSelect": "Activer QuickSelect",
-  "gameOptions.generalSettings.appearance&behaviour": "Apparence et comportement",
   "skill.fishermansTenFold": "Limite de pêche quotidienne de +10",
   "skill.moreWithLess.buff": "Limite de pêche quotidienne de +15",
   "skill.alternateMedicine": "Barn Delight nécessite 1 citron et 1 miel en moins pour être mélangé",
@@ -5478,5 +5477,8 @@
   "ronin.nft.cooldown": "Ronin VIP sera activé dans {{time}}",
   "faceRecognition.label": "Prenez une photo rapide",
   "faceRecognition.attemptsLeft": "{{attempts}} tentatives restantes",
-  "faceRecognition.failedDescription": "Hmm, il semblerait que nous n'ayons pas pu détecter de visage humain lors de votre dernière tentative. Veuillez réessayer."
+  "faceRecognition.failedDescription": "Hmm, il semblerait que nous n'ayons pas pu détecter de visage humain lors de votre dernière tentative. Veuillez réessayer.",
+  "description.social.spark": "Une étincelle d'interaction sociale",
+  "gameOptions.generalSettings.notifications": "Notifications",
+  "gameOptions.generalSettings.preferences": "Préférences"
 }

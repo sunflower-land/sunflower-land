@@ -4331,7 +4331,6 @@
   "gameOptions.generalSettings.behaviour": "행동",
   "gameOptions.generalSettings.disableQuickSelect": "퀵 셀렉트 비활성화",
   "gameOptions.generalSettings.enableQuickSelect": "퀵 셀렉트 활성화",
-  "gameOptions.generalSettings.appearance&behaviour": "외모 및 행동",
   "skill.fishermansTenFold": "일일 낚시 한도 +10",
   "skill.moreWithLess.buff": "일일 낚시 한도 +15",
   "skill.alternateMedicine": "반 딜라이트는 섞을 때 레몬과 꿀이 1개 덜 필요합니다.",
@@ -5478,5 +5477,8 @@
   "ronin.nft.cooldown": "로닌 VIP는 {{time}} 에서 활성화됩니다",
   "faceRecognition.label": "빠른 사진 찍기",
   "faceRecognition.attemptsLeft": "{{attempts}} 시도 남음",
-  "faceRecognition.failedDescription": "흠, 지난 번 시도에서는 사람 얼굴을 감지하지 못한 것 같습니다.다시 시도해 주세요."
+  "faceRecognition.failedDescription": "흠, 지난 번 시도에서는 사람 얼굴을 감지하지 못한 것 같습니다.다시 시도해 주세요.",
+  "description.social.spark": "사회적 상호작용의 불꽃",
+  "gameOptions.generalSettings.notifications": "알림",
+  "gameOptions.generalSettings.preferences": "환경설정"
 }
