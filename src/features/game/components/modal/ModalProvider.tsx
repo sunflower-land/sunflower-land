@@ -61,7 +61,7 @@ export const ModalProvider: FC = ({ children }) => {
 
       <Modal show={opened === "VIP_ITEMS"} onHide={handleClose}>
         <Panel>
-          <VIPItems onSkip={handleClose} onClose={handleClose} />
+          <VIPItems />
         </Panel>
       </Modal>
 
