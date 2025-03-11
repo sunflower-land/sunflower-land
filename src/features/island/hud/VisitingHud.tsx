@@ -71,7 +71,7 @@ export const VisitingHud: React.FC = () => {
           height: `${PIXEL_SCALE * 23}px`,
         }}
       >
-        <TravelButton isVisiting={true} />
+        <TravelButton />
       </div>
     </div>,
     document.body,

@@ -10,6 +10,7 @@ import {
 } from "features/game/types/bumpkinSkills";
 import { BumpkinRevampSkillName } from "features/game/types/bumpkinSkills";
 import { useSelector } from "@xstate/react";
+import { RoundButton } from "components/ui/RoundButton";
 
 export const PowerSkillsButton: React.FC = () => {
   const [show, setShow] = useState(false);
@@ -42,34 +43,8 @@ export const PowerSkillsButton: React.FC = () => {
     });
 
   return (
-    <div className="relative">
-      <div
-        onClick={(e) => {
-          e.stopPropagation();
-          e.preventDefault();
-          setShow(true);
-        }}
-        className="relative flex z-50 cursor-pointer hover:img-highlight group"
-        style={{
-          width: `${PIXEL_SCALE * 22}px`,
-          height: `${PIXEL_SCALE * 22}px`,
-        }}
-      >
-        <img
-          src={SUNNYSIDE.ui.round_button_pressed}
-          className="absolute group-active:hidden"
-          style={{
-            width: `${PIXEL_SCALE * 22}px`,
-            height: `${PIXEL_SCALE * 22}px`,
-          }}
-        />
-        <img
-          src={SUNNYSIDE.ui.round_button}
-          className="absolute group-active:translate-y-[2px]"
-          style={{
-            width: `${PIXEL_SCALE * 22}px`,
-          }}
-        />
+    <>
+      <RoundButton onClick={() => setShow(true)}>
         <img
           src={lightning}
           className="absolute group-active:translate-y-[2px]"
@@ -90,8 +65,8 @@ export const PowerSkillsButton: React.FC = () => {
             }}
           />
         )}
-      </div>
+      </RoundButton>
       <PowerSkills show={show} onHide={() => setShow(false)} />
-    </div>
+    </>
   );
 };

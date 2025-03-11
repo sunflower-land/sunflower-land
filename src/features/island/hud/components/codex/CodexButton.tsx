@@ -12,6 +12,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useSelector } from "@xstate/react";
+import { RoundButton } from "components/ui/RoundButton";
 
 const _delivery = (state: MachineState) => state.context.state.delivery;
 const _level = (state: MachineState) =>
@@ -34,33 +35,14 @@ export const CodexButton: React.FC = () => {
   const { t } = useAppTranslation();
 
   return (
-    <div className="relative">
-      <div
-        className="relative flex cursor-pointer hover:img-highlight group"
-        style={{
-          width: `${PIXEL_SCALE * 22}px`,
-          height: `${PIXEL_SCALE * 22}px`,
-        }}
+    <>
+      <RoundButton
         onClick={(e) => {
           e.stopPropagation();
           e.preventDefault();
           setIsOpen(true);
         }}
       >
-        <img
-          src={SUNNYSIDE.ui.round_button_pressed}
-          className="absolute"
-          style={{
-            width: `${PIXEL_SCALE * 22}px`,
-          }}
-        />
-        <img
-          src={SUNNYSIDE.ui.round_button}
-          className="absolute group-active:hidden"
-          style={{
-            width: `${PIXEL_SCALE * 22}px`,
-          }}
-        />
         <div
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
           style={{
@@ -151,9 +133,8 @@ export const CodexButton: React.FC = () => {
             />
           </>
         )}
-      </div>
-
+      </RoundButton>
       <Codex show={isOpen} onHide={() => setIsOpen(false)} />
-    </div>
+    </>
   );
 };

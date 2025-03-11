@@ -14,6 +14,7 @@ import sound_on from "assets/icons/sound_on.png";
 import { useLocation } from "react-router";
 import { GameOptionsModal } from "./settings-menu/GameOptions";
 import { useSound } from "lib/utils/hooks/useSound";
+import { RoundButton } from "components/ui/RoundButton";
 
 const buttonWidth = PIXEL_SCALE * 22;
 const buttonHeight = PIXEL_SCALE * 23;
@@ -93,7 +94,7 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
 
   // buttons
 
-  const settingButton = (
+  const createButton = (
     index: number,
     onClick: () => void,
     children: JSX.Element,
@@ -103,11 +104,8 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
     return (
       <div
         key={`button-${index}`}
-        onClick={onClick}
-        className="absolute z-50 mb-2 cursor-pointer hover:img-highlight group"
+        className="absolute"
         style={{
-          width: `${buttonWidth}px`,
-          height: `${buttonHeight}px`,
           transition: "transform 250ms ease",
           transform: "translateX(0)",
           ...(showMoreButtons && {
@@ -115,27 +113,13 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
           }),
         }}
       >
-        <img
-          src={SUNNYSIDE.ui.round_button_pressed}
-          className="absolute"
-          style={{
-            width: `${buttonWidth}px`,
-          }}
-        />
-        <img
-          src={SUNNYSIDE.ui.round_button}
-          className="absolute group-active:hidden"
-          style={{
-            width: `${buttonWidth}px`,
-          }}
-        />
-        <div className="group-active:translate-y-[2px]">{children}</div>
+        <RoundButton onClick={onClick}>{children}</RoundButton>
       </div>
     );
   };
 
   const gearButton = (index: number) =>
-    settingButton(
+    createButton(
       index,
       () => {
         button.play();
@@ -153,7 +137,7 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
     );
 
   const audioButton = (index: number) =>
-    settingButton(
+    createButton(
       index,
       () => {
         setOpenAudioMenu(true);
@@ -170,7 +154,7 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
     );
 
   const moreButton = (index: number) =>
-    settingButton(
+    createButton(
       index,
       () => {
         setOpenSettingsMenu(true);

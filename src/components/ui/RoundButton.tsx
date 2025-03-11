@@ -1,0 +1,53 @@
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import React from "react";
+import { SUNNYSIDE } from "assets/sunnyside";
+import classNames from "classnames";
+/**
+ * @param children - The content of the button.
+ * @param onClick - The function to call when the button is clicked.
+ * @param disabled - Whether the button is disabled.
+ * additional styling around the button should be handled a separate div around the button
+ */
+interface RoundButtonProps {
+  children: React.ReactNode;
+  onClick?: React.MouseEventHandler<HTMLDivElement> | undefined;
+  disabled?: boolean;
+  className?: string;
+}
+
+export const RoundButton: React.FC<RoundButtonProps> = ({
+  children,
+  onClick,
+  disabled,
+  className,
+}) => {
+  return (
+    <div
+      onClick={onClick}
+      className={classNames("relative flex z-50", className, {
+        "cursor-pointer hover:img-highlight group": !disabled,
+      })}
+      style={{
+        width: `${PIXEL_SCALE * 22}px`,
+        height: `${PIXEL_SCALE * 22}px`,
+      }}
+    >
+      <img
+        src={SUNNYSIDE.ui.round_button_pressed}
+        className="absolute group-active:hidden"
+        style={{
+          width: `${PIXEL_SCALE * 22}px`,
+          height: `${PIXEL_SCALE * 22}px`,
+        }}
+      />
+      <img
+        src={SUNNYSIDE.ui.round_button}
+        className="absolute group-active:translate-y-[2px]"
+        style={{
+          width: `${PIXEL_SCALE * 22}px`,
+        }}
+      />
+      {children}
+    </div>
+  );
+};
