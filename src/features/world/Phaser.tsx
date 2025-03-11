@@ -60,7 +60,6 @@ import { ExampleRPGScene } from "./scenes/examples/RPGScene";
 import { EventObject } from "xstate";
 import { ToastContext } from "features/game/toast/ToastProvider";
 import { AuthMachineState } from "features/auth/lib/authMachine";
-import worldIcon from "assets/icons/world.webp";
 import { InfernosScene } from "./scenes/InferniaScene";
 
 const _roomState = (state: MachineState) => state.value;
@@ -495,7 +494,7 @@ export const PhaserComponent: React.FC<Props> = ({
         {mmoState === "connecting" && (
           <Label
             type="chill"
-            icon={worldIcon}
+            icon={SUNNYSIDE.icons.worldIcon}
             className="fixed z-10 top-2 left-1/2 -translate-x-1/2 flex items-center"
           >
             {t("mmo.connecting")}

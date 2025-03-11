@@ -7,7 +7,6 @@ import metamaskIcon from "assets/icons/metamask_pixel.png";
 import walletIcon from "assets/icons/wallet.png";
 import fslIcon from "assets/icons/fsl_black.svg";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import world from "assets/icons/world.webp";
 
 import { Label } from "components/ui/Label";
 import { getPromoCode } from "features/game/actions/loadSession";
@@ -405,7 +404,7 @@ export const Wallets: React.FC<Props> = ({ onConnect, showAll = true }) => {
         >
           <div className="px-8">
             <img
-              src={world}
+              src={SUNNYSIDE.icons.worldIcon}
               className="w-7 h-7 mobile:w-6 mobile:h-6  ml-2 mr-6 absolute left-0 top-1"
             />
             {"Web3 Wallet"}
