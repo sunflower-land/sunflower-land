@@ -168,7 +168,12 @@ export const BertObsession: React.FC<{
   const resetSeconds = (endDate - new Date().getTime()) / 1000;
   const reward = currentObsession?.reward ?? 0;
 
-  if (!currentObsession) {
+  const now = Date.now();
+  const isObsessionAvailable =
+    now >= (currentObsession?.startDate ?? 0) &&
+    now <= (currentObsession?.endDate ?? 0);
+
+  if (!currentObsession || !isObsessionAvailable) {
     return (
       <div className="w-full flex flex-col items-center pt-0.5">
         <div className="flex flex-row justify-between w-full my-1">

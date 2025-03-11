@@ -654,6 +654,14 @@ export const STATIC_OFFLINE_FARM: GameState = {
       total: 10,
     },
   },
+  bertObsession: {
+    type: "collectible",
+    name: "Axe",
+    startDate: Date.now() - 5 * 60 * 1000,
+    endDate: Date.now() + 10 * 60 * 1000,
+    reward: 3,
+  },
+  npcs: {},
   farmActivity: {},
   milestones: {},
   specialEvents: {
