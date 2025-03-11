@@ -1,6 +1,6 @@
 import React from "react";
 
-import mysteriousParsnip from "assets/sfts/mysterious_parsnip.png";
+import mysteriousParsnip from "assets/sfts/mysterious_parsnip.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const MysteriousParsnip: React.FC = () => {
