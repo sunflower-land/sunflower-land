@@ -40,6 +40,7 @@ export const FontSettings: React.FC = () => {
         value={font}
         className="w-48"
         initialIndex={fonts.indexOf(font)}
+        maxHeight={20}
       />
     </div>
   );
