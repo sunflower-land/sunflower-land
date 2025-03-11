@@ -5472,9 +5472,11 @@
   "faceRecognition.duplicateTitle": "Duplikat gefunden",
   "faceRecognition.duplicateDescription": "Hmm, es sieht so aus, als hätte eine andere Farm dieses Gesicht benutzt, um sich einzuloggen. Bitte kontaktieren Sie den Support, wenn Sie glauben, dass dies ein Fehler ist.",
   "faceRecognition.failedTitle": "Fehlgeschlagen",
-  "faceRecognition.failedDescription": "Hmm, es sieht so aus, als ob etwas schief gelaufen ist. Bitte versuchen Sie es erneut.",
   "faceRecognition.successTitle": "Erfolg",
   "faceRecognition.successDescription": "Sie haben Ihre Identität erfolgreich verifiziert. Zeit, mit der Landwirtschaft zu beginnen!",
   "season.vip.description": "Dominiere das Kapitel mit Vergünstigungen, Rabatten, Bonustickets, Airdrops und mehr!",
-  "ronin.nft.cooldown": "Ronin VIP wird in {{time}} aktiviert"
+  "ronin.nft.cooldown": "Ronin VIP wird in {{time}} aktiviert",
+  "faceRecognition.label": "Mach ein schnelles Foto",
+  "faceRecognition.attemptsLeft": "{{attempts}} verbleibende Versuche",
+  "faceRecognition.failedDescription": "Hmm, es sieht so aus, als ob wir bei deinem letzten Versuch kein menschliches Gesicht erkennen konnten. Bitte versuchen Sie es erneut."
 }

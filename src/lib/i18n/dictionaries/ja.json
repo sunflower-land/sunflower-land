@@ -5472,9 +5472,11 @@
   "faceRecognition.duplicateTitle": "重複が見つかりました",
   "faceRecognition.duplicateDescription": "うーん、別の農場がこの顔を使ってログインしたようです。これがエラーだと思われる場合は、サポートに連絡してください。",
   "faceRecognition.failedTitle": "失敗",
-  "faceRecognition.failedDescription": "うーん、何かがおかしくなったようです。もう一度やり直してください。",
   "faceRecognition.successTitle": "成功",
   "faceRecognition.successDescription": "本人確認が完了しました。農業を始める時だ！",
   "season.vip.description": "特典、割引、ボーナスチケット、エアドロップなどでチャプターを制覇しよう！",
-  "ronin.nft.cooldown": "ローニン VIP は {{time}} にアクティベートされます"
+  "ronin.nft.cooldown": "ローニン VIP は {{time}} にアクティベートされます",
+  "faceRecognition.label": "簡単な写真を撮る",
+  "faceRecognition.attemptsLeft": "{{attempts}} 回残り試行数",
+  "faceRecognition.failedDescription": "うーん、前回の試みでは人間の顔を検出できなかったようです。もう一度試してください。"
 }

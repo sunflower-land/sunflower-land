@@ -5472,9 +5472,11 @@
   "faceRecognition.duplicateTitle": "Duplicado encontrado",
   "faceRecognition.duplicateDescription": "Hmm, parece que outra fazenda usou esse rosto para fazer login. Entre em contato com o suporte se você acredita que isso é um erro.",
   "faceRecognition.failedTitle": "Falhou",
-  "faceRecognition.failedDescription": "Hmm, parece que algo deu errado. Por favor, tente novamente.",
   "faceRecognition.successTitle": "Sucesso",
   "faceRecognition.successDescription": "Você verificou sua identidade com sucesso. É hora de começar a cultivar!",
   "season.vip.description": "Domine o capítulo com vantagens, descontos, ingressos bônus, airdrops e muito mais!",
-  "ronin.nft.cooldown": "Ronin VIP será ativado em {{time}}"
+  "ronin.nft.cooldown": "Ronin VIP será ativado em {{time}}",
+  "faceRecognition.label": "Tire uma foto rápida",
+  "faceRecognition.attemptsLeft": "{{attempts}} tentativas restantes",
+  "faceRecognition.failedDescription": "Parece que não conseguimos detectar um rosto humano em sua última tentativa. Por favor, tente novamente."
 }

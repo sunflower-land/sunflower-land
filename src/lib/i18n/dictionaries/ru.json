@@ -5472,9 +5472,11 @@
   "faceRecognition.duplicateTitle": "Найден дубликат",
   "faceRecognition.duplicateDescription": "Хм, похоже, другая ферма использовала это лицо для входа в систему. Если вы считаете, что это ошибка, обратитесь в службу поддержки.",
   "faceRecognition.failedTitle": "Не удалось",
-  "faceRecognition.failedDescription": "Хм, похоже, что-то пошло не так. Пожалуйста, попробуйте еще раз.",
   "faceRecognition.successTitle": "Успех",
   "faceRecognition.successDescription": "Вы успешно подтвердили свою личность. Пора заняться сельским хозяйством!",
   "season.vip.description": "Доминируйте в этой главе благодаря бонусам, скидкам, бонусным билетам, скидкам и многому другому!",
-  "ronin.nft.cooldown": "Ronin VIP будет активирован в {{time}}"
+  "ronin.nft.cooldown": "Ronin VIP будет активирован в {{time}}",
+  "faceRecognition.label": "Сделайте быстрое фото",
+  "faceRecognition.attemptsLeft": "{{attempts}} попыток осталось",
+  "faceRecognition.failedDescription": "Хм, похоже, мы не смогли распознать человеческое лицо в вашей последней попытке. Пожалуйста, попробуйте еще раз."
 }

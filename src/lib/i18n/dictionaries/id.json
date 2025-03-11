@@ -5472,9 +5472,11 @@
   "faceRecognition.duplicateTitle": "Duplikat Ditemukan",
   "faceRecognition.duplicateDescription": "Hmm, sepertinya peternakan lain telah menggunakan wajah ini untuk masuk. Silakan hubungi dukungan jika Anda yakin ini adalah kesalahan.",
   "faceRecognition.failedTitle": "Gagal",
-  "faceRecognition.failedDescription": "Hmm, sepertinya ada yang tidak beres. Silakan coba lagi.",
   "faceRecognition.successTitle": "Sukses",
   "faceRecognition.successDescription": "Anda telah berhasil memverifikasi identitas Anda. Saatnya bertani!",
   "season.vip.description": "Dominasi chapter dengan fasilitas, diskon, tiket bonus, airdrop, dan banyak lagi!",
-  "ronin.nft.cooldown": "Ronin VIP akan diaktifkan di {{time}}"
+  "ronin.nft.cooldown": "Ronin VIP akan diaktifkan di {{time}}",
+  "faceRecognition.label": "Ambil foto cepat",
+  "faceRecognition.attemptsLeft": "{{attempts}} upaya tersisa",
+  "faceRecognition.failedDescription": "Hmm, sepertinya kita tidak bisa mendeteksi wajah manusia dalam upaya terakhirmu. Silakan coba lagi."
 }

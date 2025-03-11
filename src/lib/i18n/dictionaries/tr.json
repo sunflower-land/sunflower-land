@@ -5472,9 +5472,11 @@
   "faceRecognition.duplicateTitle": "Yinelenen Bulundu",
   "faceRecognition.duplicateDescription": "Hmm, görünüşe göre başka bir çiftlik bu yüzü giriş yapmak için kullandı. Bunun bir hata olduğunu düşünüyorsanız lütfen destek ekibiyle iletişime geçin.",
   "faceRecognition.failedTitle": "Başarısız",
-  "faceRecognition.failedDescription": "Hmm, bir şeyler ters gitmiş gibi görünüyor. Lütfen tekrar deneyin.",
   "faceRecognition.successTitle": "Başarı",
   "faceRecognition.successDescription": "Kimliğinizi başarıyla doğruladınız. Çiftçilik yapma zamanı!",
   "season.vip.description": "Ayrıcalıklar, indirimler, bonus biletler, airdrop'lar ve daha fazlasıyla bölüme hakim olun!",
-  "ronin.nft.cooldown": "Ronin VIP {{time}} 'de etkinleştirilecektir."
+  "ronin.nft.cooldown": "Ronin VIP {{time}} 'de etkinleştirilecektir.",
+  "faceRecognition.label": "Hızlı bir fotoğraf çekin",
+  "faceRecognition.attemptsLeft": "{{attempts}} deneme kaldı",
+  "faceRecognition.failedDescription": "Görünüşe göre son denemede insan yüzünü tespit edemedik. Lütfen tekrar deneyin."
 }

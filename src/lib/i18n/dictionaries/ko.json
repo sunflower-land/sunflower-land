@@ -5472,9 +5472,11 @@
   "faceRecognition.duplicateTitle": "중복 발견",
   "faceRecognition.duplicateDescription": "흠, 다른 농장에서 이 얼굴을 사용하여 로그인한 것 같습니다.오류라고 생각되면 지원팀에 문의하세요.",
   "faceRecognition.failedTitle": "실패",
-  "faceRecognition.failedDescription": "흠, 뭔가 잘못된 것 같습니다.다시 시도해 주세요.",
   "faceRecognition.successTitle": "성공",
   "faceRecognition.successDescription": "신원을 성공적으로 확인했습니다.농사를 지을 시간이야!",
   "season.vip.description": "특전, 할인, 보너스 티켓, 에어드랍 등으로 챕터를 장악하세요!",
-  "ronin.nft.cooldown": "로닌 VIP는 {{time}} 에서 활성화됩니다"
+  "ronin.nft.cooldown": "로닌 VIP는 {{time}} 에서 활성화됩니다",
+  "faceRecognition.label": "빠른 사진 찍기",
+  "faceRecognition.attemptsLeft": "{{attempts}} 시도 남음",
+  "faceRecognition.failedDescription": "흠, 지난 번 시도에서는 사람 얼굴을 감지하지 못한 것 같습니다.다시 시도해 주세요."
 }

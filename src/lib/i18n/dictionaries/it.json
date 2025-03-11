@@ -5472,9 +5472,11 @@
   "faceRecognition.duplicateTitle": "Duplicato trovato",
   "faceRecognition.duplicateDescription": "Hmm, sembra che un'altra fattoria abbia usato questo volto per accedere. Contatta l'assistenza se ritieni che si tratti di un errore.",
   "faceRecognition.failedTitle": "Fallito",
-  "faceRecognition.failedDescription": "Hmm, sembra che qualcosa sia andato storto. Per favore riprova.",
   "faceRecognition.successTitle": "Successo",
   "faceRecognition.successDescription": "Hai verificato con successo la tua identità. È ora di iniziare a coltivare!",
   "season.vip.description": "Domina il capitolo con vantaggi, sconti, biglietti bonus, airdrop e molto altro!",
-  "ronin.nft.cooldown": "Ronin VIP verrà attivato il {{time}}"
+  "ronin.nft.cooldown": "Ronin VIP verrà attivato il {{time}}",
+  "faceRecognition.label": "Scatta una foto veloce",
+  "faceRecognition.attemptsLeft": "{{attempts}} tentativi rimasti",
+  "faceRecognition.failedDescription": "Sembra che non siamo riusciti a rilevare un volto umano nel tuo ultimo tentativo. Per favore riprova."
 }

@@ -5472,9 +5472,11 @@
   "faceRecognition.duplicateTitle": "已找到重复项",
   "faceRecognition.duplicateDescription": "嗯，看来另一个农场已经用这个面孔登录了。如果您认为这是一个错误，请联系支持部门。",
   "faceRecognition.failedTitle": "失败",
-  "faceRecognition.failedDescription": "嗯，好像出了点问题。请再试一次。",
   "faceRecognition.successTitle": "成功",
   "faceRecognition.successDescription": "您已成功验证您的身份。是时候开始耕作了！",
   "season.vip.description": "通过福利、折扣、奖励门票、空投等在这一章中占据主导地位！",
-  "ronin.nft.cooldown": "Ronin VIP 将在 {{time}} 中激活"
+  "ronin.nft.cooldown": "Ronin VIP 将在 {{time}} 中激活",
+  "faceRecognition.label": "快速拍张照片",
+  "faceRecognition.attemptsLeft": "{{attempts}} 还剩下尝试次数",
+  "faceRecognition.failedDescription": "嗯，看来你上次尝试时我们没能检测到人脸。请再试一次。"
 }
