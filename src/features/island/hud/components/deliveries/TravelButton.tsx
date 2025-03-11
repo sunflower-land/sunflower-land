@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import world from "assets/icons/world.png";
 import { Modal } from "components/ui/Modal";
 import { WorldMap } from "./WorldMap";
 
@@ -45,7 +44,7 @@ export const Travel: React.FC<{ isVisiting?: boolean }> = ({
             }}
           />
           <img
-            src={world}
+            src={SUNNYSIDE.icons.worldIcon}
             id="world-icon"
             style={{
               width: `${PIXEL_SCALE * 12}px`,

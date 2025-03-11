@@ -597,7 +597,7 @@ export const SUNNYSIDE = {
     powerup: `${CONFIG.PROTECTED_IMAGE_URL}/icons/level_up.png`,
     lightning: `${CONFIG.PROTECTED_IMAGE_URL}/icons/lightning.png`,
     xpIcon: `${CONFIG.PROTECTED_IMAGE_URL}/icons/xp.png`,
-    worldIcon: `${CONFIG.PROTECTED_IMAGE_URL}/icons/world.png`,
+    worldIcon: `${CONFIG.PROTECTED_IMAGE_URL}/icons/world.webp`,
     tradeIcon: `${CONFIG.PROTECTED_IMAGE_URL}/icons/trade.png`,
     playIcon: `${CONFIG.PROTECTED_IMAGE_URL}/icons/play.png`,
     decorationbush: `${CONFIG.PROTECTED_IMAGE_URL}/icons/decoration.png`,
