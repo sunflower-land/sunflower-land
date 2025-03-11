@@ -20,6 +20,7 @@ export const GeneralSettings: React.FC<ContentComponentProps> = ({
         onClick={() =>
           connectToFSL({ nonce: gameService.state.context.oauthNonce })
         }
+        className="relative"
       >
         {`Connect FSL ID`}
         {!!gameService.state.context.fslId && (
