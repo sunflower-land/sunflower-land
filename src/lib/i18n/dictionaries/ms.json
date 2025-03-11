@@ -5461,7 +5461,6 @@
   "starting.face.recognition": "Menyediakan pengesahan selamat anda.",
   "starting.face.recognition.success": "Ikuti arahan untuk mengesahkan identiti anda.",
   "completing.face.recognition": "Kami mengesahkan identiti anda dengan selamat.",
-  "completing.face.recognition.success": "Identiti anda telah diproses.",
   "faceRecognition.tryAgain": "Cuba Lagi",
   "faceRecognition.introText": "Untuk memastikan ekonomi yang selamat, kami akan melakukan imbasan privasi yang cepat untuk memastikan anda manusia.",
   "faceRecognition.startButton": "Mulakan Pengiktirafan Muka",
@@ -5480,5 +5479,6 @@
   "faceRecognition.failedDescription": "Hmm, nampaknya kami tidak dapat mengesan wajah manusia dalam percubaan terakhir anda. Sila cuba lagi.",
   "description.social.spark": "Percikan interaksi sosial",
   "gameOptions.generalSettings.notifications": "Pemberitahuan",
-  "gameOptions.generalSettings.preferences": "Keutamaan"
+  "gameOptions.generalSettings.preferences": "Keutamaan",
+  "completing.face.recognition.success": "Anda sudah bersedia."
 }

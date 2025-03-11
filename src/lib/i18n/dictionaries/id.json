@@ -5461,7 +5461,6 @@
   "starting.face.recognition": "Mempersiapkan verifikasi aman Anda.",
   "starting.face.recognition.success": "Ikuti instruksi untuk memverifikasi identitas Anda.",
   "completing.face.recognition": "Kami memverifikasi identitas Anda dengan aman.",
-  "completing.face.recognition.success": "Identitas Anda telah diproses.",
   "faceRecognition.tryAgain": "Coba Lagi",
   "faceRecognition.introText": "Untuk memastikan ekonomi yang aman, kami akan melakukan pemindaian privasi cepat untuk memastikan Anda adalah manusia.",
   "faceRecognition.startButton": "Mulai Pengenalan Wajah",
@@ -5480,5 +5479,6 @@
   "faceRecognition.failedDescription": "Hmm, sepertinya kita tidak bisa mendeteksi wajah manusia dalam upaya terakhirmu. Silakan coba lagi.",
   "description.social.spark": "Percikan interaksi sosial",
   "gameOptions.generalSettings.notifications": "Pemberitahuan",
-  "gameOptions.generalSettings.preferences": "Preferensi"
+  "gameOptions.generalSettings.preferences": "Preferensi",
+  "completing.face.recognition.success": "Anda siap."
 }

@@ -5461,7 +5461,6 @@
   "starting.face.recognition": "Preparazione della verifica sicura.",
   "starting.face.recognition.success": "Segui le istruzioni per verificare la tua identità.",
   "completing.face.recognition": "Stiamo verificando in modo sicuro la tua identità.",
-  "completing.face.recognition.success": "La tua identità è stata elaborata.",
   "faceRecognition.tryAgain": "Riprova",
   "faceRecognition.introText": "Per garantire un'economia sicura, eseguiremo una rapida scansione della privacy per assicurarci che tu sia umano.",
   "faceRecognition.startButton": "Avvia il riconoscimento facciale",
@@ -5480,5 +5479,6 @@
   "faceRecognition.failedDescription": "Sembra che non siamo riusciti a rilevare un volto umano nel tuo ultimo tentativo. Per favore riprova.",
   "description.social.spark": "Una scintilla di interazione sociale",
   "gameOptions.generalSettings.notifications": "Notifiche",
-  "gameOptions.generalSettings.preferences": "Preferenze"
+  "gameOptions.generalSettings.preferences": "Preferenze",
+  "completing.face.recognition.success": "Sei pronto."
 }

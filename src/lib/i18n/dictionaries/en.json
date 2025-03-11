@@ -5466,7 +5466,7 @@
   "starting.face.recognition": "Preparing your secure verification.",
   "starting.face.recognition.success": "Follow the instructions to verify your identity.",
   "completing.face.recognition": "We are securely verifying your identity.",
-  "completing.face.recognition.success": "Your identity has been processed.",
+  "completing.face.recognition.success": "You are ready.",
   "faceRecognition.tryAgain": "Try Again",
   "faceRecognition.label": "Take a quick photo",
   "faceRecognition.introText": "To ensure a secure economy, we will perform a quick privacy scan to ensure you are human.",

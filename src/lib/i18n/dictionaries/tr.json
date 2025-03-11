@@ -5461,7 +5461,6 @@
   "starting.face.recognition": "Güvenli doğrulamanızı hazırlama.",
   "starting.face.recognition.success": "Kimliğinizi doğrulamak için talimatları izleyin.",
   "completing.face.recognition": "Kimliğinizi güvenli bir şekilde doğruluyoruz.",
-  "completing.face.recognition.success": "Kimliğiniz işlendi.",
   "faceRecognition.tryAgain": "Tekrar dene",
   "faceRecognition.introText": "Güvenli bir ekonomi sağlamak için, insan olduğunuzdan emin olmak için hızlı bir gizlilik taraması gerçekleştireceğiz.",
   "faceRecognition.startButton": "Yüz Tanıma Başlatın",
@@ -5480,5 +5479,6 @@
   "faceRecognition.failedDescription": "Görünüşe göre son denemede insan yüzünü tespit edemedik. Lütfen tekrar deneyin.",
   "description.social.spark": "Bir sosyal etkileşim kıvılcımı",
   "gameOptions.generalSettings.notifications": "Bildirimler",
-  "gameOptions.generalSettings.preferences": "Tercihler"
+  "gameOptions.generalSettings.preferences": "Tercihler",
+  "completing.face.recognition.success": "Hazırsın."
 }

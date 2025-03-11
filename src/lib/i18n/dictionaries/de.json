@@ -5461,7 +5461,6 @@
   "starting.face.recognition": "Wir bereiten Ihre sichere Überprüfung vor.",
   "starting.face.recognition.success": "Folgen Sie den Anweisungen, um Ihre Identität zu überprüfen.",
   "completing.face.recognition": "Wir überprüfen Ihre Identität auf sichere Weise.",
-  "completing.face.recognition.success": "Ihre Identität wurde verarbeitet.",
   "faceRecognition.tryAgain": "Versuchen Sie es erneut",
   "faceRecognition.introText": "Um eine sichere Wirtschaft zu gewährleisten, führen wir einen schnellen Datenschutz-Scan durch, um sicherzustellen, dass Sie ein Mensch sind.",
   "faceRecognition.startButton": "Starten Sie die Gesichtserkennung",
@@ -5480,5 +5479,6 @@
   "faceRecognition.failedDescription": "Hmm, es sieht so aus, als ob wir bei deinem letzten Versuch kein menschliches Gesicht erkennen konnten. Bitte versuchen Sie es erneut.",
   "description.social.spark": "Ein Funke sozialer Interaktion",
   "gameOptions.generalSettings.notifications": "Benachrichtigungen",
-  "gameOptions.generalSettings.preferences": "Präferenzen"
+  "gameOptions.generalSettings.preferences": "Präferenzen",
+  "completing.face.recognition.success": "Du bist bereit."
 }

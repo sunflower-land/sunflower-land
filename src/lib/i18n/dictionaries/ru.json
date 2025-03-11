@@ -5461,7 +5461,6 @@
   "starting.face.recognition": "Подготовка безопасной верификации.",
   "starting.face.recognition.success": "Следуйте инструкциям, чтобы подтвердить свою личность.",
   "completing.face.recognition": "Мы надежно проверяем вашу личность.",
-  "completing.face.recognition.success": "Ваша личность обработана.",
   "faceRecognition.tryAgain": "Попробуй еще раз",
   "faceRecognition.introText": "Чтобы обеспечить безопасную экономику, мы проведем быстрое сканирование конфиденциальности, чтобы убедиться, что вы человек.",
   "faceRecognition.startButton": "Начать распознавание лиц",
@@ -5480,5 +5479,6 @@
   "faceRecognition.failedDescription": "Хм, похоже, мы не смогли распознать человеческое лицо в вашей последней попытке. Пожалуйста, попробуйте еще раз.",
   "description.social.spark": "Искра социального взаимодействия",
   "gameOptions.generalSettings.notifications": "Уведомления",
-  "gameOptions.generalSettings.preferences": "Предпочтения"
+  "gameOptions.generalSettings.preferences": "Предпочтения",
+  "completing.face.recognition.success": "Вы готовы."
 }

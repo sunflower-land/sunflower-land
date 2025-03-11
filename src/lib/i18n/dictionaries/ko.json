@@ -5461,7 +5461,6 @@
   "starting.face.recognition": "보안 인증 준비 중.",
   "starting.face.recognition.success": "지침에 따라 신원을 확인하십시오.",
   "completing.face.recognition": "귀하의 신원을 안전하게 확인하고 있습니다.",
-  "completing.face.recognition.success": "신원이 처리되었습니다.",
   "faceRecognition.tryAgain": "다시 시도하세요",
   "faceRecognition.introText": "안전한 경제를 보장하기 위해 빠른 프라이버시 스캔을 실시하여 귀하가 사람인지 확인합니다.",
   "faceRecognition.startButton": "얼굴 인식 시작",
@@ -5480,5 +5479,6 @@
   "faceRecognition.failedDescription": "흠, 지난 번 시도에서는 사람 얼굴을 감지하지 못한 것 같습니다.다시 시도해 주세요.",
   "description.social.spark": "사회적 상호작용의 불꽃",
   "gameOptions.generalSettings.notifications": "알림",
-  "gameOptions.generalSettings.preferences": "환경설정"
+  "gameOptions.generalSettings.preferences": "환경설정",
+  "completing.face.recognition.success": "당신은 준비가 됐어요."
 }

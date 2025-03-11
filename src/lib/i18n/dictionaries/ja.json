@@ -5461,7 +5461,6 @@
   "starting.face.recognition": "安全な認証を準備しています。",
   "starting.face.recognition.success": "指示に従って本人確認を行います。",
   "completing.face.recognition": "お客様の身元を安全に確認しています。",
-  "completing.face.recognition.success": "あなたの身元は処理されました。",
   "faceRecognition.tryAgain": "もう一度試す",
   "faceRecognition.introText": "安全な経済を確保するために、お客様が人間であることを確認するために、迅速なプライバシースキャンを実施します。",
   "faceRecognition.startButton": "顔認識を開始する",
@@ -5480,5 +5479,6 @@
   "faceRecognition.failedDescription": "うーん、前回の試みでは人間の顔を検出できなかったようです。もう一度試してください。",
   "description.social.spark": "ソーシャルインタラクションの火花",
   "gameOptions.generalSettings.notifications": "通知",
-  "gameOptions.generalSettings.preferences": "環境設定"
+  "gameOptions.generalSettings.preferences": "環境設定",
+  "completing.face.recognition.success": "準備はできています。"
 }

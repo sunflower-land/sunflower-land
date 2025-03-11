@@ -5461,7 +5461,6 @@
   "starting.face.recognition": "准备安全验证。",
   "starting.face.recognition.success": "按照说明验证您的身份。",
   "completing.face.recognition": "我们正在安全地验证您的身份。",
-  "completing.face.recognition.success": "您的身份已得到处理。",
   "faceRecognition.tryAgain": "再试一次",
   "faceRecognition.introText": "为了确保安全的经济，我们将进行快速的隐私扫描，以确保您是人类。",
   "faceRecognition.startButton": "开始人脸识别",
@@ -5480,5 +5479,6 @@
   "faceRecognition.failedDescription": "嗯，看来你上次尝试时我们没能检测到人脸。请再试一次。",
   "description.social.spark": "社交互动的火花",
   "gameOptions.generalSettings.notifications": "通知",
-  "gameOptions.generalSettings.preferences": "首选项"
+  "gameOptions.generalSettings.preferences": "首选项",
+  "completing.face.recognition.success": "你准备好了。"
 }
