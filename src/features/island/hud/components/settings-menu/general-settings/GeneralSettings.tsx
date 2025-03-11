@@ -26,7 +26,7 @@ export const GeneralSettings: React.FC<ContentComponentProps> = ({
         {!!gameService.state.context.fslId && (
           <img
             src={SUNNYSIDE.icons.confirm}
-            className="absolute right-1 top-0.5 h-7"
+            className="absolute right-1 top-1 h-5"
           />
         )}
       </Button>
