@@ -215,20 +215,20 @@ const GameOptions: React.FC<ContentComponentProps> = ({
           </div>
         )}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
+          <Button className="p-1" onClick={() => onSubMenuClick("general")}>
+            <span>{t("gameOptions.generalSettings")}</span>
+          </Button>
+          <Button className="p-1" onClick={() => onSubMenuClick("blockchain")}>
+            <span>{t("gameOptions.blockchainSettings")}</span>
+          </Button>
+          <Button className="p-1" onClick={() => onSubMenuClick("plaza")}>
+            <span>{t("gameOptions.plazaSettings")}</span>
+          </Button>
           {hasHoardingCheck && (
             <Button className="p-1" onClick={() => onSubMenuClick("amoy")}>
               <span>{t("gameOptions.developerOptions")}</span>
             </Button>
           )}
-          <Button className="p-1" onClick={() => onSubMenuClick("blockchain")}>
-            <span>{t("gameOptions.blockchainSettings")}</span>
-          </Button>
-          <Button className="p-1" onClick={() => onSubMenuClick("general")}>
-            <span>{t("gameOptions.generalSettings")}</span>
-          </Button>
-          <Button className="p-1" onClick={() => onSubMenuClick("plaza")}>
-            <span>{t("gameOptions.plazaSettings")}</span>
-          </Button>
           <Button
             className={`p-1 ${hasHoardingCheck ? "col-span-1 sm:col-span-2" : "col-span-1"}`}
             onClick={() => showConfirmLogoutModal(true)}
