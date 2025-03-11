@@ -1,3 +1,4 @@
+import { hasVipAccess } from "features/game/lib/vipAccess";
 import type { GameState } from "features/game/types/game";
 import { CONFIG } from "lib/config";
 
@@ -70,7 +71,14 @@ const FEATURE_FLAGS = {
   AIRDROP_PLAYER: adminFeatureFlag,
   HOARDING_CHECK: defaultFeatureFlag,
 
-  FACE_RECOGNITION: defaultFeatureFlag,
+  FACE_RECOGNITION: (game) => {
+    return (
+      !hasVipAccess({ game, now: Date.now() }) &&
+      game.createdAt > new Date("2025-03-11T00:00:00Z").getTime()
+    );
+  },
+
+  FACE_RECOGNITION_TEST: defaultFeatureFlag,
 
   // Temporary Feature Flags
   DISABLE_BLOCKCHAIN_ACTIONS: timeBasedFeatureFlag(
