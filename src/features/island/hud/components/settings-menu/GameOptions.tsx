@@ -187,7 +187,10 @@ const GameOptions: React.FC<ContentComponentProps> = ({
       <div className="flex flex-col gap-1">
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
           {!isPWA && (
-            <Button onClick={handleInstallApp} className="p-1">
+            <Button
+              onClick={handleInstallApp}
+              className={`p-1 ${hideRefresh ? "col-span-1 sm:col-span-2" : "col-span-1"}`}
+            >
               <span>{t("install.app")}</span>
             </Button>
           )}
