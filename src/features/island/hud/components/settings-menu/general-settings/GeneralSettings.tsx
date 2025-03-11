@@ -32,7 +32,7 @@ export const GeneralSettings: React.FC<ContentComponentProps> = ({
       </Button>
       {hasFeatureAccess(
         gameService.state?.context?.state,
-        "FACE_RECOGNITION",
+        "FACE_RECOGNITION_TEST",
       ) && (
         <Button onClick={() => onSubMenuClick("faceRecognition")}>
           <span>{t("gameOptions.faceRecognition")}</span>

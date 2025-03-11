@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import "./amplifyStyles.css";
 
 import { FaceLivenessDetectorCore } from "@aws-amplify/ui-react-liveness";
@@ -14,6 +14,8 @@ import { FaceRecognitionEvent, GameState } from "features/game/types/game";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { getFaceRecognitionAttemptsLeft } from "./lib/faceRecognition";
+import { isMobile } from "mobile-device-detect";
+import { HudContainer } from "components/ui/HudContainer";
 
 // Text keys embedded in the liveness detector
 const TRANSLATION_KEYS: TranslationKeys[] = [
@@ -92,6 +94,18 @@ export const FaceRecognition: React.FC = () => {
     faceRecognition?.session?.createdAt &&
     faceRecognition?.session.createdAt + 3 * 60 * 1000;
   const expires = useCountdown(expiresAt ?? 0);
+
+  // On load, if there is already a session let's check if it is completed
+  useEffect(() => {
+    if (faceRecognition?.session) {
+      const hasExpired =
+        faceRecognition.session.createdAt + 3 * 60 * 1000 < Date.now();
+
+      if (!hasExpired) {
+        handleAnalysisComplete();
+      }
+    }
+  }, []);
 
   const handleAnalysisComplete = async () => {
     // Go off to the server and check the session ID if it has completed
@@ -174,6 +188,24 @@ export const FaceRecognition: React.FC = () => {
   return (
     <div>
       <TimerDisplay time={expires} />
+
+      {isMobile && (
+        <HudContainer zIndex={"z-[100]"}>
+          <div id="timer" className="absolute top-2 left-2">
+            <TimerDisplay time={expires} />
+          </div>
+          <img
+            src={SUNNYSIDE.icons.close}
+            className="absolute top-2 right-2 w-8"
+            onClick={() => {
+              // Check the analysis incase of timeout or error
+              handleAnalysisComplete();
+              // Back to beginning
+              setShowIntro(true);
+            }}
+          />
+        </HudContainer>
+      )}
 
       {/* https://ui.docs.amplify.aws/react/connected-components/liveness/customization */}
       <FaceLivenessDetectorCore
