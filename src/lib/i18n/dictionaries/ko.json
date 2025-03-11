@@ -2883,7 +2883,6 @@
   "season.megastore.discount": "메가스토어 SFL 할인",
   "season.supporter.gift": "서포터 기프트",
   "season.vip.claim": "월간 시즌별 에어드랍을 신청하세요.",
-  "season.vip.description": "특전, 할인, 보너스 티켓, 에어드랍 등으로 시즌을 지배하세요!",
   "season.mystery.gift": "미스터리 기프트",
   "season.xp.boost": "10% 경험치 부스트",
   "season.lifetime.farmer": "라이프타임 파머",
@@ -5475,5 +5474,7 @@
   "faceRecognition.failedTitle": "실패",
   "faceRecognition.failedDescription": "흠, 뭔가 잘못된 것 같습니다.다시 시도해 주세요.",
   "faceRecognition.successTitle": "성공",
-  "faceRecognition.successDescription": "신원을 성공적으로 확인했습니다.농사를 지을 시간이야!"
+  "faceRecognition.successDescription": "신원을 성공적으로 확인했습니다.농사를 지을 시간이야!",
+  "season.vip.description": "특전, 할인, 보너스 티켓, 에어드랍 등으로 챕터를 장악하세요!",
+  "ronin.nft.cooldown": "로닌 VIP는 {{time}} 에서 활성화됩니다"
 }

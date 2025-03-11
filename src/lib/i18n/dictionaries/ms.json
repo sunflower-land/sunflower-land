@@ -2886,7 +2886,6 @@
   "season.megastore.discount": "Diskaun Megastore SFL",
   "season.supporter.gift": "Hadiah Penyokong",
   "season.vip.claim": "Tuntut airdrop bermusim bulanan anda.",
-  "season.vip.description": "Kuasai musim ini dengan faedah, diskaun, tiket bonus, airdrop dan banyak lagi!",
   "season.mystery.gift": "Hadiah Misteri",
   "season.xp.boost": "Rangsangan XP 10%",
   "season.lifetime.farmer": "Petani Sepanjang Hayat",
@@ -5475,5 +5474,7 @@
   "faceRecognition.failedTitle": "Gagal",
   "faceRecognition.failedDescription": "Hmm, nampaknya ada sesuatu yang tidak kena. Sila cuba lagi.",
   "faceRecognition.successTitle": "Kejayaan",
-  "faceRecognition.successDescription": "Anda telah berjaya mengesahkan identiti anda. Masa untuk bertani!"
+  "faceRecognition.successDescription": "Anda telah berjaya mengesahkan identiti anda. Masa untuk bertani!",
+  "season.vip.description": "Kuasai bab ini dengan faedah, diskaun, tiket bonus, airdrop dan banyak lagi!",
+  "ronin.nft.cooldown": "Ronin VIP akan diaktifkan dalam {{time}}"
 }

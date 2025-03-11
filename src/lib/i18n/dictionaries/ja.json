@@ -2886,7 +2886,6 @@
   "season.megastore.discount": "メガストアSFL割引",
   "season.supporter.gift": "サポーターギフト",
   "season.vip.claim": "毎月の季節限定エアドロップを申請してください。",
-  "season.vip.description": "特典、割引、ボーナスチケット、エアドロップなどでシーズンを制覇しましょう！",
   "season.mystery.gift": "ミステリーギフト",
   "season.xp.boost": "10% 経験値ブースト",
   "season.lifetime.farmer": "ライフタイム・ファーマー",
@@ -5475,5 +5474,7 @@
   "faceRecognition.failedTitle": "失敗",
   "faceRecognition.failedDescription": "うーん、何かがおかしくなったようです。もう一度やり直してください。",
   "faceRecognition.successTitle": "成功",
-  "faceRecognition.successDescription": "本人確認が完了しました。農業を始める時だ！"
+  "faceRecognition.successDescription": "本人確認が完了しました。農業を始める時だ！",
+  "season.vip.description": "特典、割引、ボーナスチケット、エアドロップなどでチャプターを制覇しよう！",
+  "ronin.nft.cooldown": "ローニン VIP は {{time}} にアクティベートされます"
 }

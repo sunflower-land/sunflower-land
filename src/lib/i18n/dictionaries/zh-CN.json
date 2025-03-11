@@ -2979,7 +2979,6 @@
   "season.megastore.discount": "Stella 超星商店 SFL 折扣",
   "season.supporter.gift": "支持者礼物",
   "season.vip.claim": "领取每月的时季空投。",
-  "season.vip.description": "通过福利、折扣、奖励门票、空投等在时季中占据主导地位！",
   "season.mystery.gift": "神秘礼物",
   "season.xp.boost": "+10% XP 提升",
   "season.lifetime.farmer": "终身农民",
@@ -5475,5 +5474,7 @@
   "faceRecognition.failedTitle": "失败",
   "faceRecognition.failedDescription": "嗯，好像出了点问题。请再试一次。",
   "faceRecognition.successTitle": "成功",
-  "faceRecognition.successDescription": "您已成功验证您的身份。是时候开始耕作了！"
+  "faceRecognition.successDescription": "您已成功验证您的身份。是时候开始耕作了！",
+  "season.vip.description": "通过福利、折扣、奖励门票、空投等在这一章中占据主导地位！",
+  "ronin.nft.cooldown": "Ronin VIP 将在 {{time}} 中激活"
 }

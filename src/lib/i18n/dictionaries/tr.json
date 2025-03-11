@@ -3115,7 +3115,6 @@
   "season.megastore.discount": "Megastore SFL indirimi",
   "season.supporter.gift": "Destekçi Hediyesi",
   "season.vip.claim": "Aylık sezonluk airdrop'unuzu talep edin.",
-  "season.vip.description": "Avantajlar, indirimler, bonus biletler, airdrop'lar ve daha fazlasıyla sezona hakim olun!",
   "season.mystery.gift": "Gizemli Hediye",
   "season.xp.boost": "%10 DP artışı",
   "season.lifetime.farmer": "Ömür Boyu Çiftçi",
@@ -5475,5 +5474,7 @@
   "faceRecognition.failedTitle": "Başarısız",
   "faceRecognition.failedDescription": "Hmm, bir şeyler ters gitmiş gibi görünüyor. Lütfen tekrar deneyin.",
   "faceRecognition.successTitle": "Başarı",
-  "faceRecognition.successDescription": "Kimliğinizi başarıyla doğruladınız. Çiftçilik yapma zamanı!"
+  "faceRecognition.successDescription": "Kimliğinizi başarıyla doğruladınız. Çiftçilik yapma zamanı!",
+  "season.vip.description": "Ayrıcalıklar, indirimler, bonus biletler, airdrop'lar ve daha fazlasıyla bölüme hakim olun!",
+  "ronin.nft.cooldown": "Ronin VIP {{time}} 'de etkinleştirilecektir."
 }

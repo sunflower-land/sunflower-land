@@ -2846,7 +2846,6 @@
   "season.megastore.discount": "Descuento Megastore SFL",
   "season.supporter.gift": "Regalo para seguidores",
   "season.vip.claim": "Solicita tu lanzamiento aéreo mensual de temporada.",
-  "season.vip.description": "Domina la temporada con ventajas, descuentos, entradas extra, lanzamientos aéreos y mucho más!",
   "season.mystery.gift": "Regalo misterioso",
   "season.xp.boost": "Aumento de XP del 10%",
   "season.lifetime.farmer": "Granjero de por vida",
@@ -5475,5 +5474,7 @@
   "faceRecognition.failedTitle": "Falló",
   "faceRecognition.failedDescription": "Hmm, parece que algo salió mal. Inténtelo de nuevo, por favor.",
   "faceRecognition.successTitle": "Éxito",
-  "faceRecognition.successDescription": "Has verificado tu identidad correctamente. ¡Es hora de empezar a cultivar!"
+  "faceRecognition.successDescription": "Has verificado tu identidad correctamente. ¡Es hora de empezar a cultivar!",
+  "season.vip.description": "¡Domina el capítulo con ventajas, descuentos, entradas extra, lanzamientos aéreos y mucho más!",
+  "ronin.nft.cooldown": "Ronin VIP se activará en {{time}}"
 }

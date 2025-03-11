@@ -4054,7 +4054,6 @@
   "season.supporter.gift": "Подарок для сторонников",
   "season.ticket.bonus": "+2 {{item}} (для доставок и списка дел)",
   "season.vip.claim": "Забери свой ежемесячный сезонный аирдроп.",
-  "season.vip.description": "Доминируй в сезоне благодаря привилегиям, скидкам, бонусным билетам, аирдропам и многому другому!",
   "season.vip.purchase": "Приобретите VIP-доступ",
   "season.watchOutForSpecialEvents": "Следите за особыми событиями в каждом сезоне!",
   "season.wearableAirdrop": "Аирдроп сезонной одежды",
@@ -5475,5 +5474,7 @@
   "faceRecognition.failedTitle": "Не удалось",
   "faceRecognition.failedDescription": "Хм, похоже, что-то пошло не так. Пожалуйста, попробуйте еще раз.",
   "faceRecognition.successTitle": "Успех",
-  "faceRecognition.successDescription": "Вы успешно подтвердили свою личность. Пора заняться сельским хозяйством!"
+  "faceRecognition.successDescription": "Вы успешно подтвердили свою личность. Пора заняться сельским хозяйством!",
+  "season.vip.description": "Доминируйте в этой главе благодаря бонусам, скидкам, бонусным билетам, скидкам и многому другому!",
+  "ronin.nft.cooldown": "Ronin VIP будет активирован в {{time}}"
 }

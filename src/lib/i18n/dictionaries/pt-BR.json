@@ -3100,7 +3100,6 @@
   "season.megastore.discount": "Desconto na Megastore SFL",
   "season.supporter.gift": "Presente de torcedor",
   "season.vip.claim": "Solicite seu lançamento aéreo sazonal mensal.",
-  "season.vip.description": "Domine a temporada com vantagens, descontos, ingressos bônus, airdrops e muito mais!",
   "season.mystery.gift": "Presente misterioso",
   "season.xp.boost": "10% de aumento de XP",
   "season.lifetime.farmer": "Fazendeiro vitalício",
@@ -5475,5 +5474,7 @@
   "faceRecognition.failedTitle": "Falhou",
   "faceRecognition.failedDescription": "Hmm, parece que algo deu errado. Por favor, tente novamente.",
   "faceRecognition.successTitle": "Sucesso",
-  "faceRecognition.successDescription": "Você verificou sua identidade com sucesso. É hora de começar a cultivar!"
+  "faceRecognition.successDescription": "Você verificou sua identidade com sucesso. É hora de começar a cultivar!",
+  "season.vip.description": "Domine o capítulo com vantagens, descontos, ingressos bônus, airdrops e muito mais!",
+  "ronin.nft.cooldown": "Ronin VIP será ativado em {{time}}"
 }
