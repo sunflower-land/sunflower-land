@@ -1,5 +1,6 @@
 import Decimal from "decimal.js-light";
 import { BumpkinItem } from "features/game/types/bumpkin";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { produce } from "immer";
@@ -39,6 +40,14 @@ export function completeBertObsession({
       throw new Error(translate("error.noDiscoveryAvailable"));
     }
 
+    const isObsessionAvailable =
+      createdAt >= currentObsession.startDate &&
+      createdAt <= currentObsession.endDate;
+
+    if (!isObsessionAvailable) {
+      throw new Error("This obsession is not available");
+    }
+
     if (stateCopy.npcs.bert.questCompletedAt) {
       const obsessionAlreadyCompleted =
         stateCopy.npcs.bert.questCompletedAt >= currentObsession.startDate &&
@@ -71,6 +80,11 @@ export function completeBertObsession({
       stateCopy.inventory[getSeasonalTicket()] || new Decimal(0);
     stateCopy.inventory[getSeasonalTicket()] = currentTickets.add(
       currentObsession.reward,
+    );
+
+    stateCopy.farmActivity = trackFarmActivity(
+      "Obsession Completed",
+      stateCopy.farmActivity,
     );
 
     stateCopy.npcs.bert.questCompletedAt = createdAt;
