@@ -185,30 +185,35 @@ const GameOptions: React.FC<ContentComponentProps> = ({
         </div>
       </>
       <div className="flex flex-col gap-1">
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
-          {!isPWA && (
-            <Button
-              onClick={handleInstallApp}
-              className={`p-1 ${hideRefresh ? "col-span-1 sm:col-span-2" : "col-span-1"}`}
-            >
-              <span>{t("install.app")}</span>
-            </Button>
-          )}
+        {(!isPWA || !hideRefresh) && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
+            {!isPWA && (
+              <Button
+                onClick={handleInstallApp}
+                className={`p-1 ${hideRefresh ? "col-span-1 sm:col-span-2" : "col-span-1"}`}
+              >
+                <span>{t("install.app")}</span>
+              </Button>
+            )}
 
-          {!hideRefresh && (
-            <Button
-              disabled={!canRefresh}
-              onClick={refreshSession}
-              className={`p-1 ${isPWA ? "col-span-1 sm:col-span-2" : "col-span-1"}`}
-            >
-              {t("gameOptions.blockchainSettings.refreshChain")}
+            {!hideRefresh && (
+              <Button
+                disabled={!canRefresh}
+                onClick={refreshSession}
+                className={`p-1 ${isPWA ? "col-span-1 sm:col-span-2" : "col-span-1"}`}
+              >
+                {t("gameOptions.blockchainSettings.refreshChain")}
 
-              {!canRefresh && (
-                <img src={lockIcon} className="absolute right-1 top-0.5 h-7" />
-              )}
-            </Button>
-          )}
-        </div>
+                {!canRefresh && (
+                  <img
+                    src={lockIcon}
+                    className="absolute right-1 top-0.5 h-7"
+                  />
+                )}
+              </Button>
+            )}
+          </div>
+        )}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
           {hasHoardingCheck && (
             <Button className="p-1" onClick={() => onSubMenuClick("amoy")}>
