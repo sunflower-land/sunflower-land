@@ -1,41 +1,32 @@
-import React, { useContext, useEffect, useState } from "react";
-import { useActor, useInterpret, useSelector } from "@xstate/react";
-
-import { Context } from "features/game/GameProvider";
-import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
-
-import { Modal } from "components/ui/Modal";
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { SUNNYSIDE } from "assets/sunnyside";
-import { ChestRevealing } from "features/world/ui/chests/ChestRevealing";
-import { Revealed } from "features/game/components/Revealed";
-import { rewardChestMachine } from "./rewardChestMachine";
 import { Button } from "components/ui/Button";
-import { Panel } from "components/ui/Panel";
+import { Modal } from "components/ui/Modal";
+import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import React, { useContext, useState } from "react";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { GameWallet } from "features/wallet/Wallet";
+import { useInterpret, useActor, useSelector } from "@xstate/react";
+import { Context } from "features/game/GameProvider";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { Loading } from "features/auth/components";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CountdownLabel } from "components/ui/CountdownLabel";
 import { Label } from "components/ui/Label";
-import { MachineState } from "features/game/lib/gameMachine";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { GameWallet } from "features/wallet/Wallet";
-
-const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
-const _dailyRewards = (state: MachineState) => state.context.state.dailyRewards;
-const _isRevealed = (state: MachineState) => state.matches("revealed");
+import { Revealed } from "features/game/components/Revealed";
+import { ChestRevealing } from "features/world/ui/chests/ChestRevealing";
+import { Loading } from "features/auth/components/Loading";
+import { rewardChestMachine } from "./rewardChestMachine";
+import { InterpreterFrom } from "xstate";
 
 export const DailyReward: React.FC = () => {
-  const { gameService, showAnimations } = useContext(Context);
-  const [showIntro, setShowIntro] = useState(true);
-  const dailyRewards = useSelector(gameService, _dailyRewards);
-  const bumpkin = useSelector(gameService, _bumpkin);
-  const isRevealed = useSelector(gameService, _isRevealed);
-  const { t } = useAppTranslation();
-
-  const bumpkinLevel = getBumpkinLevel(bumpkin?.experience ?? 0);
-
   const [showModal, setShowModal] = useState(false);
-
+  const { gameService, showAnimations } = useContext(Context);
+  const bumpkinLevel = useSelector(gameService, (state) =>
+    getBumpkinLevel(state.context.state.bumpkin.experience),
+  );
+  const dailyRewards = useSelector(
+    gameService,
+    (state) => state.context.state.dailyRewards,
+  );
   const chestService = useInterpret(rewardChestMachine, {
     context: {
       lastUsedCode: dailyRewards?.chest?.code ?? 0,
@@ -44,18 +35,82 @@ export const DailyReward: React.FC = () => {
     },
   });
 
-  useEffect(() => {
-    chestService.send("UPDATE_BUMPKIN_LEVEL", { bumpkinLevel });
-  }, [bumpkinLevel]);
+  const [chestState] = useActor(chestService);
+  return (
+    <>
+      {" "}
+      <div
+        className="absolute z-20"
+        style={{
+          width: `${PIXEL_SCALE * 16}px`,
+          height: `${PIXEL_SCALE * 16}px`,
+          left: `${GRID_WIDTH_PX * 1.5}px`,
+          top: `${GRID_WIDTH_PX * 1}px`,
+        }}
+      >
+        <img
+          id="daily-reward"
+          src={
+            chestState.matches("opened")
+              ? SUNNYSIDE.decorations.treasure_chest_opened
+              : SUNNYSIDE.decorations.treasure_chest
+          }
+          className="cursor-pointer hover:img-highlight w-full absolute bottom-0"
+          onClick={() => setShowModal(true)}
+        />
+        {!chestState.matches("opened") && (
+          <img
+            src={SUNNYSIDE.icons.expression_alerted}
+            className={"absolute" + (showAnimations ? " animate-float" : "")}
+            style={{
+              width: `${PIXEL_SCALE * 4}px`,
+              top: `${PIXEL_SCALE * -14}px`,
+              left: `${PIXEL_SCALE * 6}px`,
+            }}
+          />
+        )}
+      </div>
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <CloseButtonPanel>
+          <DailyRewardContent
+            chestService={chestService}
+            onClose={() => setShowModal(false)}
+          />
+        </CloseButtonPanel>
+      </Modal>
+    </>
+  );
+};
+
+export const DailyRewardContent: React.FC<{
+  chestService: InterpreterFrom<typeof rewardChestMachine>;
+  onClose: () => void;
+}> = ({ chestService, onClose }) => {
+  const { t } = useAppTranslation();
+  const [showIntro, setShowIntro] = useState(true);
+  const { gameService } = useContext(Context);
+  const dailyRewards = useSelector(
+    gameService,
+    (state) => state.context.state.dailyRewards,
+  );
+
+  const isRevealed = useSelector(gameService, (state) =>
+    state.matches("revealed"),
+  );
+
+  const streaks = dailyRewards?.streaks ?? 0;
+  const streakRemainder = streaks % 5;
+  const getNextBonus = streaks + (5 - streakRemainder);
+  const collectedAt = dailyRewards?.chest?.collectedAt ?? 0;
+
+  const collectedDate = new Date(collectedAt).toISOString().substring(0, 10);
+  const currentDate = new Date().toISOString().substring(0, 10);
+  const missedADay =
+    (new Date(currentDate).getTime() - new Date(collectedDate).getTime()) /
+      (1000 * 60 * 60 * 24) >
+    1;
 
   const [chestState] = useActor(chestService);
-
-  if (getBumpkinLevel(bumpkin?.experience ?? 0) <= 5) {
-    return null;
-  }
-  const openModal = () => {
-    setShowModal(true);
-  };
 
   const reveal = () => {
     gameService.send("REVEAL", {
@@ -68,21 +123,25 @@ export const DailyReward: React.FC = () => {
     chestService.send("OPEN");
   };
 
-  const streaks = dailyRewards?.streaks ?? 0;
-  const collectedAt = dailyRewards?.chest?.collectedAt ?? 0;
+  if (showIntro) {
+    return (
+      <>
+        <div className="p-2">
+          <img
+            src={SUNNYSIDE.decorations.treasure_chest}
+            className="mb-2 mt-2 mx-auto"
+            style={{
+              width: `${PIXEL_SCALE * 16}px`,
+            }}
+          />
+          <p className="text-sm text-center">{t("reward.connectWeb3Wallet")}</p>
+        </div>
+        <Button onClick={() => setShowIntro(false)}>{t("continue")}</Button>
+      </>
+    );
+  }
 
-  const collectedDate = new Date(collectedAt).toISOString().substring(0, 10);
-  const currentDate = new Date().toISOString().substring(0, 10);
-
-  const missedADay =
-    (new Date(currentDate).getTime() - new Date(collectedDate).getTime()) /
-      (1000 * 60 * 60 * 24) >
-    1;
-
-  const streakRemainder = streaks % 5;
-  const getNextBonus = streaks + (5 - streakRemainder);
-
-  const ModalContent = () => {
+  const Content: React.FC = () => {
     if (chestState.matches("opened")) {
       const now = new Date();
       const nextRefreshInSeconds =
@@ -90,36 +149,31 @@ export const DailyReward: React.FC = () => {
         (now.getUTCHours() * 60 * 60 +
           now.getUTCMinutes() * 60 +
           now.getUTCSeconds());
-
       return (
-        <CloseButtonPanel onClose={() => setShowModal(false)}>
-          <div className="flex flex-col items-center p-2 w-full">
-            <Label type="info" className="px-0.5 text-xs">
-              {streaks} {t("reward.streak")}
-            </Label>
-            <img
-              src={SUNNYSIDE.decorations.treasure_chest_opened}
-              className="mb-2 mt-2"
-              style={{
-                width: `${PIXEL_SCALE * 16}px`,
-              }}
-            />
-            <span className="text-center mb-4">
-              {t("reward.comeBackLater")}
-            </span>
-            <CountdownLabel timeLeft={nextRefreshInSeconds} />
-          </div>
-        </CloseButtonPanel>
+        <div className="flex flex-col items-center p-2 w-full">
+          <Label type="info" className="px-0.5 text-xs">
+            {streaks} {t("reward.streak")}
+          </Label>
+          <img
+            src={SUNNYSIDE.decorations.treasure_chest_opened}
+            className="mb-2 mt-2"
+            style={{
+              width: `${PIXEL_SCALE * 16}px`,
+            }}
+          />
+          <span className="text-center mb-4">{t("reward.comeBackLater")}</span>
+          <CountdownLabel timeLeft={nextRefreshInSeconds} />
+        </div>
       );
     }
 
     if (chestState.matches("locked")) {
       return (
-        <CloseButtonPanel
-          title={t("reward.daily.reward")}
-          onClose={() => setShowModal(false)}
-        >
+        <>
           <div className="flex flex-col items-center px-2">
+            <Label type="info" className="px-0.5 mb-2 text-sm">
+              {t("reward.daily.reward")}
+            </Label>
             {streaks > 1 && !missedADay && (
               <>
                 <Label type="info" className="px-0.5 text-xs">
@@ -142,17 +196,17 @@ export const DailyReward: React.FC = () => {
           <Button onClick={() => chestService.send("UNLOCK")}>
             {t("reward.unlock")}
           </Button>
-        </CloseButtonPanel>
+        </>
       );
     }
 
     if (chestState.matches("unlocked")) {
       return (
-        <CloseButtonPanel
-          title={t("reward.daily.reward")}
-          onClose={() => setShowModal(false)}
-        >
+        <>
           <div className="flex flex-col items-center p-2">
+            <Label type="info" className="px-0.5 mb-2 text-sm">
+              {t("reward.daily.reward")}
+            </Label>
             <img
               src={SUNNYSIDE.decorations.treasure_chest}
               className="mb-2"
@@ -162,17 +216,17 @@ export const DailyReward: React.FC = () => {
             />
           </div>
           <Button onClick={reveal}>{t("reward.open")}</Button>
-        </CloseButtonPanel>
+        </>
       );
     }
 
     if (chestState.matches("error")) {
       return (
-        <CloseButtonPanel
-          title={t("error.wentWrong")}
-          onClose={() => setShowModal(false)}
-        >
+        <>
           <div className="flex flex-col items-center p-2">
+            <Label type="danger" className="px-0.5 text-xs">
+              {t("error.wentWrong")}
+            </Label>
             <img
               src={SUNNYSIDE.icons.sad}
               className="mb-2"
@@ -181,136 +235,52 @@ export const DailyReward: React.FC = () => {
               }}
             />
           </div>
-          <Button onClick={() => setShowModal(false)}>{t("close")}</Button>
-        </CloseButtonPanel>
+          <Button onClick={onClose}>{t("close")}</Button>
+        </>
       );
     }
 
     if (chestState.matches("comingSoon")) {
       return (
-        <CloseButtonPanel title="Oh oh!" onClose={() => setShowModal(false)}>
-          <div className="px-2 pb-2 w-full flex flex-col items-center">
-            <img src={SUNNYSIDE.icons.player} className="w-1/5 mb-3" />
-            <p className="text-sm">{t("reward.lvlRequirement")}</p>
-          </div>
-        </CloseButtonPanel>
+        <div className="px-2 pb-2 w-full flex flex-col items-center">
+          <img src={SUNNYSIDE.icons.player} className="w-1/5 mb-3" />
+          <p className="text-sm">{t("reward.lvlRequirement")}</p>
+        </div>
       );
     }
 
     if (chestState.matches("opening") && isRevealed) {
       return (
-        <Panel>
-          <Revealed
-            onAcknowledged={() => chestService.send("ACKNOWLEDGE")}
-            streaks={true}
-          />
-        </Panel>
+        <Revealed
+          onAcknowledged={() => chestService.send("ACKNOWLEDGE")}
+          streaks={true}
+        />
       );
     }
 
     if (chestState.matches("opening")) {
-      return (
-        <Panel>
-          <ChestRevealing type="Daily Reward" />
-        </Panel>
-      );
+      return <ChestRevealing type="Daily Reward" />;
     }
 
     if (chestState.matches("unlocking")) {
-      return (
-        <Panel>
-          <Loading text={t("unlocking")} />
-        </Panel>
-      );
+      return <Loading text={t("unlocking")} />;
     }
 
     if (chestState.matches("loading")) {
-      return (
-        <Panel>
-          <Loading />
-        </Panel>
-      );
+      return <Loading />;
     }
 
-    return null;
+    return <></>;
   };
 
   return (
-    <>
-      <div
-        className="absolute z-20"
-        style={{
-          width: `${PIXEL_SCALE * 16}px`,
-          height: `${PIXEL_SCALE * 16}px`,
-          left: `${GRID_WIDTH_PX * 1.5}px`,
-          top: `${GRID_WIDTH_PX * 1}px`,
-        }}
-      >
-        <img
-          id="daily-reward"
-          src={
-            chestState.matches("opened")
-              ? SUNNYSIDE.decorations.treasure_chest_opened
-              : SUNNYSIDE.decorations.treasure_chest
-          }
-          className="cursor-pointer hover:img-highlight w-full absolute bottom-0"
-          onClick={() => openModal()}
-        />
-        {!chestState.matches("opened") && (
-          <img
-            src={SUNNYSIDE.icons.expression_alerted}
-            className={"absolute" + (showAnimations ? " animate-float" : "")}
-            style={{
-              width: `${PIXEL_SCALE * 4}px`,
-              top: `${PIXEL_SCALE * -14}px`,
-              left: `${PIXEL_SCALE * 6}px`,
-            }}
-          />
-        )}
-      </div>
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
-        {showIntro && (
-          <CloseButtonPanel onClose={() => setShowModal(false)}>
-            <div className="p-2">
-              <img
-                src={SUNNYSIDE.decorations.treasure_chest}
-                className="mb-2 mt-2 mx-auto"
-                style={{
-                  width: `${PIXEL_SCALE * 16}px`,
-                }}
-              />
-              <p className="text-sm text-center">
-                {t("reward.connectWeb3Wallet")}
-              </p>
-            </div>
-            <Button onClick={() => setShowIntro(false)}>{t("continue")}</Button>
-          </CloseButtonPanel>
-        )}
-
-        {!showIntro && chestState.matches("idle") && (
-          <Panel>
-            <GameWallet
-              action="dailyReward"
-              onReady={() => {
-                chestService.send("LOAD");
-              }}
-            >
-              <ModalContent />
-            </GameWallet>
-          </Panel>
-        )}
-
-        {!showIntro && !chestState.matches("idle") && (
-          <GameWallet
-            action="dailyReward"
-            onReady={() => {
-              chestService.send("LOAD");
-            }}
-          >
-            <ModalContent />
-          </GameWallet>
-        )}
-      </Modal>
-    </>
+    <GameWallet
+      action="dailyReward"
+      onReady={() => {
+        chestService.send("LOAD");
+      }}
+    >
+      <Content />
+    </GameWallet>
   );
 };
