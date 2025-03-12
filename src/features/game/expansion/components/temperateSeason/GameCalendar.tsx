@@ -142,7 +142,7 @@ const GameCalendarButton: React.FC<GameCalendarButtonProps> = ({
         className="absolute group-active:translate-y-[2px]"
         style={{
           width: `${PIXEL_SCALE * 10}px`,
-          left: `${PIXEL_SCALE * 4}px`,
+          left: `${PIXEL_SCALE * 3.5}px`,
           top: `${PIXEL_SCALE * 3}px`,
         }}
       />

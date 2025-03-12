@@ -30,6 +30,7 @@ import {
 } from "features/game/types/bumpkinSkills";
 import { GameCalendar } from "features/game/expansion/components/temperateSeason/GameCalendar";
 import { LandscapeButton } from "./components/LandscapeButton";
+import { ReferralButton } from "./components/referral/ReferralButton";
 
 const _farmAddress = (state: MachineState) => state.context.farmAddress;
 const _linkedWallet = (state: MachineState) => state.context.linkedWallet;
@@ -106,14 +107,12 @@ const HudComponent: React.FC<{
             hideActions={false}
           />
         </div>
-
         <Balances
           sfl={gameState.context.state.balance}
           coins={gameState.context.state.coins}
           gems={gameState.context.state.inventory["Gem"] ?? new Decimal(0)}
           onClick={handleBuyCurrenciesModal}
         />
-
         <div
           className="absolute z-50 flex flex-col space-y-2.5 justify-between"
           style={{
@@ -126,7 +125,6 @@ const HudComponent: React.FC<{
           <MarketplaceButton />
           <TravelButton />
         </div>
-
         <div
           className="absolute z-50 flex flex-col justify-between"
           style={{
@@ -151,9 +149,11 @@ const HudComponent: React.FC<{
           <Save />
           <Settings isFarming={isFarming} />
         </div>
+
         <BumpkinProfile />
         {!isTutorial && <GameCalendar />}
         <CodexButton />
+        <ReferralButton />
 
         <DepositModal
           farmAddress={farmAddress ?? ""}
