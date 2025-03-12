@@ -16,7 +16,9 @@ export const getFruitHarvests = (
     harvests = [4, 4];
   }
   if (isCollectibleBuilt({ name: "Immortal Pear", game: state })) {
-    harvests = harvests.map((harvest) => harvest + 1);
+    harvests = harvests.map(
+      (harvest) => harvest + (state.bumpkin.skills["Pear Turbocharge"] ? 2 : 1),
+    );
   }
 
   return harvests;
