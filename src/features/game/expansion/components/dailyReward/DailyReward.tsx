@@ -15,7 +15,6 @@ import { Revealed } from "features/game/components/Revealed";
 import { ChestRevealing } from "features/world/ui/chests/ChestRevealing";
 import { Loading } from "features/auth/components/Loading";
 import { rewardChestMachine } from "./rewardChestMachine";
-import { InterpreterFrom } from "xstate";
 
 export const DailyReward: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
@@ -71,10 +70,7 @@ export const DailyReward: React.FC = () => {
       </div>
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <CloseButtonPanel>
-          <DailyRewardContent
-            chestService={chestService}
-            onClose={() => setShowModal(false)}
-          />
+          <DailyRewardContent onClose={() => setShowModal(false)} />
         </CloseButtonPanel>
       </Modal>
     </>
@@ -82,9 +78,8 @@ export const DailyReward: React.FC = () => {
 };
 
 export const DailyRewardContent: React.FC<{
-  chestService: InterpreterFrom<typeof rewardChestMachine>;
   onClose: () => void;
-}> = ({ chestService, onClose }) => {
+}> = ({ onClose }) => {
   const { t } = useAppTranslation();
   const [showIntro, setShowIntro] = useState(true);
   const { gameService } = useContext(Context);
@@ -96,7 +91,9 @@ export const DailyRewardContent: React.FC<{
   const isRevealed = useSelector(gameService, (state) =>
     state.matches("revealed"),
   );
-
+  const bumpkinLevel = useSelector(gameService, (state) =>
+    getBumpkinLevel(state.context.state.bumpkin.experience),
+  );
   const streaks = dailyRewards?.streaks ?? 0;
   const streakRemainder = streaks % 5;
   const getNextBonus = streaks + (5 - streakRemainder);
@@ -108,6 +105,14 @@ export const DailyRewardContent: React.FC<{
     (new Date(currentDate).getTime() - new Date(collectedDate).getTime()) /
       (1000 * 60 * 60 * 24) >
     1;
+
+  const chestService = useInterpret(rewardChestMachine, {
+    context: {
+      lastUsedCode: dailyRewards?.chest?.code ?? 0,
+      openedAt: dailyRewards?.chest?.collectedAt ?? 0,
+      bumpkinLevel,
+    },
+  });
 
   const [chestState] = useActor(chestService);
 
