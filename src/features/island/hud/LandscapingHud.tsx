@@ -271,7 +271,7 @@ const Chest: React.FC<{
         />
         <Label
           type="default"
-          className="text-xxs absolute -top-1.5 -right-0.5"
+          className="text-xxs absolute -top-1.5 -right-0.5 group-active:translate-y-[2px]"
           style={{
             padding: "0 2.5",
             height: "24px",

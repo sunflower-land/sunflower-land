@@ -129,6 +129,7 @@ const HudComponent: React.FC<{
         >
           {hasPowerSkills && <PowerSkillsButton />}
           <MarketplaceButton />
+          {!hasReferralProgram && <CodexButton />}
           <TravelButton />
         </div>
         <div
@@ -158,7 +159,7 @@ const HudComponent: React.FC<{
 
         <BumpkinProfile />
         {!isTutorial && <GameCalendar />}
-        <CodexButton />
+        {hasReferralProgram && <CodexButton />}
         {hasReferralProgram && <ReferralButton />}
 
         <DepositModal

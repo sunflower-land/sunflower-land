@@ -109,6 +109,7 @@ const HudComponent: React.FC = () => {
           }}
         >
           <MarketplaceButton />
+          {!hasReferralProgram && <CodexButton />}
           <TravelButton />
         </div>
         <div
@@ -125,7 +126,7 @@ const HudComponent: React.FC = () => {
         </div>
         <BumpkinProfile />
         {!isTutorial && <GameCalendar />}
-        <CodexButton />
+        {hasReferralProgram && <CodexButton />}
         {hasReferralProgram && <ReferralButton />}
 
         <div
