@@ -84,6 +84,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Royal Bed": new Decimal(1),
     Mangrove: new Decimal(1),
     "Thermal Stone": new Decimal(1),
+    "Beta Pass": new Decimal(1),
   },
   previousInventory: {
     "Dirt Path": new Decimal(20),
@@ -106,7 +107,9 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Iron: new Decimal(1000),
     Gold: new Decimal(1000),
   },
-  wardrobe: {},
+  wardrobe: {
+    Halo: 1,
+  },
   previousWardrobe: {},
   bank: { taxFreeSFL: 0 },
   beehives: {},

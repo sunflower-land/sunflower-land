@@ -111,7 +111,7 @@ export const ChatUI: React.FC<Props> = ({
   const showReactions = showOptions && option === "reaction";
 
   return (
-    <>
+    <div className="relative" style={{ top: `${PIXEL_SCALE * 10}px` }}>
       <div
         className={classNames(
           "absolute top-48 left-3 transition-transform origin-top-left ease-in-out duration-300",
@@ -149,7 +149,7 @@ export const ChatUI: React.FC<Props> = ({
           },
         )}
         style={{
-          left: `${PIXEL_SCALE * 4}px`,
+          left: `${PIXEL_SCALE * 3}px`,
           width: `${PIXEL_SCALE * 22}px`,
           zIndex: 49,
         }}
@@ -222,6 +222,6 @@ export const ChatUI: React.FC<Props> = ({
           className="top-1/2 left-1/2 absolute -translate-x-1/2 -translate-y-1/2"
         />
       </div>
-    </>
+    </div>
   );
 };

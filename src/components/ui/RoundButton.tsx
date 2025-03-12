@@ -13,6 +13,7 @@ interface RoundButtonProps {
   onClick?: React.MouseEventHandler<HTMLDivElement> | undefined;
   disabled?: boolean;
   className?: string;
+  buttonSize?: number;
 }
 
 export const RoundButton: React.FC<RoundButtonProps> = ({
@@ -20,6 +21,7 @@ export const RoundButton: React.FC<RoundButtonProps> = ({
   onClick,
   disabled,
   className,
+  buttonSize = 22,
 }) => {
   return (
     <div
@@ -28,23 +30,23 @@ export const RoundButton: React.FC<RoundButtonProps> = ({
         "cursor-pointer hover:img-highlight group": !disabled,
       })}
       style={{
-        width: `${PIXEL_SCALE * 22}px`,
-        height: `${PIXEL_SCALE * 22}px`,
+        width: `${PIXEL_SCALE * buttonSize}px`,
+        height: `${PIXEL_SCALE * buttonSize}px`,
       }}
     >
       <img
         src={SUNNYSIDE.ui.round_button_pressed}
         className="absolute group-active:hidden"
         style={{
-          width: `${PIXEL_SCALE * 22}px`,
-          height: `${PIXEL_SCALE * 22}px`,
+          width: `${PIXEL_SCALE * buttonSize}px`,
+          height: `${PIXEL_SCALE * buttonSize}px`,
         }}
       />
       <img
         src={SUNNYSIDE.ui.round_button}
         className="absolute group-active:translate-y-[2px]"
         style={{
-          width: `${PIXEL_SCALE * 22}px`,
+          width: `${PIXEL_SCALE * buttonSize}px`,
         }}
       />
       {children}
