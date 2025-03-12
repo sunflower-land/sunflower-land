@@ -126,8 +126,8 @@ const GameCalendarButton: React.FC<GameCalendarButtonProps> = ({
   <div
     className="absolute"
     style={{
-      top: `${PIXEL_SCALE * 38}px`,
-      left: `${PIXEL_SCALE * 3}px`,
+      top: `${PIXEL_SCALE * 40}px`,
+      left: `${PIXEL_SCALE * 5}px`,
     }}
   >
     <RoundButton
@@ -135,13 +135,14 @@ const GameCalendarButton: React.FC<GameCalendarButtonProps> = ({
         e.stopPropagation();
         onClick();
       }}
+      buttonSize={18}
     >
       <img
         src={calendarIcon}
         className="absolute group-active:translate-y-[2px]"
         style={{
-          width: `${PIXEL_SCALE * 12}px`,
-          left: `${PIXEL_SCALE * 4.625}px`,
+          width: `${PIXEL_SCALE * 10}px`,
+          left: `${PIXEL_SCALE * 4}px`,
           top: `${PIXEL_SCALE * 3}px`,
         }}
       />
@@ -151,9 +152,9 @@ const GameCalendarButton: React.FC<GameCalendarButtonProps> = ({
           src={SUNNYSIDE.icons.click_icon}
           onClick={() => onClick()}
           style={{
-            width: `${PIXEL_SCALE * 18}px`,
-            left: `${PIXEL_SCALE * 12.5}px`,
-            top: `${PIXEL_SCALE * 12.5}px`,
+            width: `${PIXEL_SCALE * 15}px`,
+            left: `${PIXEL_SCALE * 12}px`,
+            top: `${PIXEL_SCALE * 12}px`,
           }}
         />
       )}

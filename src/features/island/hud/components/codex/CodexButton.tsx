@@ -35,25 +35,32 @@ export const CodexButton: React.FC = () => {
   const { t } = useAppTranslation();
 
   return (
-    <>
+    <div
+      className="absolute"
+      style={{
+        top: `${PIXEL_SCALE * 30}px`,
+        left: `${PIXEL_SCALE * 30}px`,
+      }}
+    >
       <RoundButton
         onClick={(e) => {
           e.stopPropagation();
           e.preventDefault();
           setIsOpen(true);
         }}
+        buttonSize={18}
       >
         <div
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
           style={{
-            width: `${PIXEL_SCALE * 14.5}px`,
+            width: `${PIXEL_SCALE * 12}px`,
           }}
         >
           <img
             src={codex}
             className="group-active:translate-y-[2px]"
             style={{
-              width: `${PIXEL_SCALE * 14.5}px`,
+              width: `${PIXEL_SCALE * 12}px`,
             }}
           />
         </div>
@@ -135,6 +142,6 @@ export const CodexButton: React.FC = () => {
         )}
       </RoundButton>
       <Codex show={isOpen} onHide={() => setIsOpen(false)} />
-    </>
+    </div>
   );
 };

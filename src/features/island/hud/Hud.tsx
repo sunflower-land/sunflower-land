@@ -124,7 +124,6 @@ const HudComponent: React.FC<{
         >
           {hasPowerSkills && <PowerSkillsButton />}
           <MarketplaceButton />
-          <CodexButton />
           <TravelButton />
         </div>
 
@@ -154,6 +153,7 @@ const HudComponent: React.FC<{
         </div>
         <BumpkinProfile />
         {!isTutorial && <GameCalendar />}
+        <CodexButton />
 
         <DepositModal
           farmAddress={farmAddress ?? ""}

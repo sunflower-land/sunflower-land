@@ -103,7 +103,6 @@ const HudComponent: React.FC = () => {
           }}
         >
           <MarketplaceButton />
-          <CodexButton />
           <TravelButton />
         </div>
         <div
@@ -120,6 +119,7 @@ const HudComponent: React.FC = () => {
         </div>
         <BumpkinProfile />
         {!isTutorial && <GameCalendar />}
+        <CodexButton />
         <div
           className="absolute z-50 flex flex-col justify-between"
           style={{
