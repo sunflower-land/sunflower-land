@@ -31,6 +31,7 @@ import {
 import { GameCalendar } from "features/game/expansion/components/temperateSeason/GameCalendar";
 import { LandscapeButton } from "./components/LandscapeButton";
 import { ReferralButton } from "./components/referral/ReferralButton";
+import { hasFeatureAccess } from "lib/flags";
 
 const _farmAddress = (state: MachineState) => state.context.farmAddress;
 const _linkedWallet = (state: MachineState) => state.context.linkedWallet;
@@ -75,6 +76,11 @@ const HudComponent: React.FC<{
   const { skills } = gameState.context.state.bumpkin;
   const hasPowerSkills = powerSkills.some(
     (skill) => !!skills[skill.name as BumpkinRevampSkillName],
+  );
+
+  const hasReferralProgram = hasFeatureAccess(
+    gameState.context.state,
+    "REFERRAL_PROGRAM",
   );
 
   return (
@@ -153,7 +159,7 @@ const HudComponent: React.FC<{
         <BumpkinProfile />
         {!isTutorial && <GameCalendar />}
         <CodexButton />
-        <ReferralButton />
+        {hasReferralProgram && <ReferralButton />}
 
         <DepositModal
           farmAddress={farmAddress ?? ""}

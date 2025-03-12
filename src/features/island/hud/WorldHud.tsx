@@ -28,6 +28,7 @@ import { GameCalendar } from "features/game/expansion/components/temperateSeason
 import chest from "assets/icons/chest.png";
 import { LockdownWidget } from "features/announcements/AnnouncementWidgets";
 import { ReferralButton } from "./components/referral/ReferralButton";
+import { hasFeatureAccess } from "lib/flags";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -64,6 +65,10 @@ const HudComponent: React.FC = () => {
   const linkedWallet = gameService.state?.context?.linkedWallet;
   const isFullUser = farmAddress !== undefined;
   const isTutorial = gameState.context.state.island.type === "basic";
+  const hasReferralProgram = hasFeatureAccess(
+    gameState.context.state,
+    "REFERRAL_PROGRAM",
+  );
   return (
     <>
       <HudContainer>
@@ -121,7 +126,7 @@ const HudComponent: React.FC = () => {
         <BumpkinProfile />
         {!isTutorial && <GameCalendar />}
         <CodexButton />
-        <ReferralButton />
+        {hasReferralProgram && <ReferralButton />}
 
         <div
           className="absolute z-50 flex flex-col justify-between"
