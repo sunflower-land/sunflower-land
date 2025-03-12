@@ -127,7 +127,7 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
       },
       <img
         src={settings}
-        className="absolute"
+        className="absolute group-active:translate-y-[2px]"
         style={{
           top: `${PIXEL_SCALE * 4}px`,
           left: `${PIXEL_SCALE * 4}px`,
@@ -144,7 +144,7 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
       },
       <img
         src={sound_on}
-        className="absolute"
+        className="absolute group-active:translate-y-[2px]"
         style={{
           top: `${PIXEL_SCALE * 4}px`,
           left: `${PIXEL_SCALE * 5}px`,
@@ -161,7 +161,7 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
       },
       <img
         src={SUNNYSIDE.ui.more}
-        className="absolute"
+        className="absolute group-active:translate-y-[2px]"
         style={{
           top: `${PIXEL_SCALE * 10}px`,
           left: `${PIXEL_SCALE * 6}px`,
