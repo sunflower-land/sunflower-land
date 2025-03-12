@@ -23,7 +23,7 @@ const testnetFeatureFlag = () => CONFIG.NETWORK === "amoy";
 const localStorageFeatureFlag = (key: string) =>
   !!localStorage.getItem(key) === true;
 
-const testnetLocalStorageFeatureFlag = (key: string) => (game: GameState) => {
+const testnetLocalStorageFeatureFlag = (key: string) => () => {
   return testnetFeatureFlag() || localStorageFeatureFlag(key);
 };
 
@@ -84,6 +84,7 @@ const FEATURE_FLAGS = {
   DISABLE_BLOCKCHAIN_ACTIONS: timeBasedFeatureFlag(
     new Date("2025-03-24T00:00:00Z"),
   ),
+  REFERRAL_PROGRAM: testnetFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;

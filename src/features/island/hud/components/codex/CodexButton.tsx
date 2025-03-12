@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 
-import { PIXEL_SCALE } from "features/game/lib/constants";
+import { INITIAL_FARM, PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 
 import codex from "assets/icons/codex.webp";
@@ -12,6 +12,8 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useSelector } from "@xstate/react";
+import { RoundButton } from "components/ui/RoundButton";
+import { hasFeatureAccess } from "lib/flags";
 
 const _delivery = (state: MachineState) => state.context.state.delivery;
 const _level = (state: MachineState) =>
@@ -33,45 +35,139 @@ export const CodexButton: React.FC = () => {
 
   const { t } = useAppTranslation();
 
+  if (!hasFeatureAccess(INITIAL_FARM, "REFERRAL_PROGRAM")) {
+    return (
+      <>
+        <RoundButton
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            setIsOpen(true);
+          }}
+        >
+          <div
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
+            style={{
+              width: `${PIXEL_SCALE * 14.5}px`,
+            }}
+          >
+            <img
+              src={codex}
+              className="group-active:translate-y-[2px]"
+              style={{
+                width: `${PIXEL_SCALE * 14.5}px`,
+              }}
+            />
+          </div>
+
+          {hasDeliveries && (
+            <>
+              <div
+                className="absolute hidden sm:block"
+                style={{
+                  width: `${PIXEL_SCALE * 68}px`,
+                  left: `${PIXEL_SCALE * 13}px`,
+                  top: `${PIXEL_SCALE * 5}px`,
+                }}
+              >
+                <div
+                  className={"absolute uppercase"}
+                  style={{
+                    fontFamily: "Teeny",
+                    color: "black",
+                    textShadow: "none",
+                    top: `${PIXEL_SCALE * -8}px`,
+                    left: `${PIXEL_SCALE * 6}px`,
+
+                    borderImage: `url(${SUNNYSIDE.ui.speechBorder})`,
+                    borderStyle: "solid",
+                    borderTopWidth: `${PIXEL_SCALE * 2}px`,
+                    borderRightWidth: `${PIXEL_SCALE * 2}px`,
+                    borderBottomWidth: `${PIXEL_SCALE * 4}px`,
+                    borderLeftWidth: `${PIXEL_SCALE * 5}px`,
+
+                    borderImageSlice: "2 2 4 5 fill",
+                    imageRendering: "pixelated",
+                    borderImageRepeat: "stretch",
+                    fontSize: "8px",
+                  }}
+                >
+                  <div
+                    style={{
+                      height: "12px",
+                      minWidth: "50px",
+                      paddingRight: "14px",
+                    }}
+                  >
+                    <span
+                      className="whitespace-nowrap"
+                      style={{
+                        fontSize: "10px",
+                        position: "relative",
+                        bottom: "4px",
+                        left: "4px",
+                        wordSpacing: "-4px",
+                        color: "#262b45",
+                      }}
+                    >
+                      {t("deliveries.new")}
+                    </span>
+                    <img
+                      src={SUNNYSIDE.ui.coins}
+                      className="absolute animate-pulsate"
+                      style={{
+                        width: "30px",
+                        top: "-12px",
+                        right: "-22px",
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+              <img
+                src={SUNNYSIDE.ui.coins}
+                className="absolute animate-pulsate sm:hidden"
+                style={{
+                  width: "30px",
+                  top: "-2px",
+                  right: "-10px",
+                }}
+              />
+            </>
+          )}
+        </RoundButton>
+        <Codex show={isOpen} onHide={() => setIsOpen(false)} />
+      </>
+    );
+  }
+
   return (
-    <div className="relative">
-      <div
-        className="relative flex cursor-pointer hover:img-highlight group"
-        style={{
-          width: `${PIXEL_SCALE * 22}px`,
-          height: `${PIXEL_SCALE * 22}px`,
-        }}
+    <div
+      className="absolute"
+      style={{
+        top: `${PIXEL_SCALE * 30}px`,
+        left: `${PIXEL_SCALE * 30}px`,
+      }}
+    >
+      <RoundButton
         onClick={(e) => {
           e.stopPropagation();
           e.preventDefault();
           setIsOpen(true);
         }}
+        buttonSize={18}
       >
-        <img
-          src={SUNNYSIDE.ui.round_button_pressed}
-          className="absolute"
-          style={{
-            width: `${PIXEL_SCALE * 22}px`,
-          }}
-        />
-        <img
-          src={SUNNYSIDE.ui.round_button}
-          className="absolute group-active:hidden"
-          style={{
-            width: `${PIXEL_SCALE * 22}px`,
-          }}
-        />
         <div
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
           style={{
-            width: `${PIXEL_SCALE * 14.5}px`,
+            width: `${PIXEL_SCALE * 12}px`,
           }}
         >
           <img
             src={codex}
             className="group-active:translate-y-[2px]"
             style={{
-              width: `${PIXEL_SCALE * 14.5}px`,
+              width: `${PIXEL_SCALE * 12}px`,
             }}
           />
         </div>
@@ -151,8 +247,7 @@ export const CodexButton: React.FC = () => {
             />
           </>
         )}
-      </div>
-
+      </RoundButton>
       <Codex show={isOpen} onHide={() => setIsOpen(false)} />
     </div>
   );

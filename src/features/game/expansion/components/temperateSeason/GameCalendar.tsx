@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { useContext, useState } from "react";
-import { Button } from "components/ui/Button";
 import { Context } from "../../../GameProvider";
 import { MachineState } from "../../../lib/gameMachine";
 import { useSelector } from "@xstate/react";
@@ -25,6 +24,7 @@ import {
   setHasReadTemperateSeasonTutorial,
 } from "features/game/lib/temperateSeason";
 import { SeasonsIntroduction } from "./SeasonsIntroduction";
+import { RoundButton } from "components/ui/RoundButton";
 
 export type LocalCalendarDetails = {
   dateNumber: number;
@@ -117,67 +117,50 @@ const ONE_MINUTE = 1000 * 60; // 1 minute
 
 interface GameCalendarButtonProps {
   onClick: () => void;
-  season: TemperateSeasonName;
-  utcDay: string;
-  utcDate: string;
   showTutorial: boolean;
 }
 const GameCalendarButton: React.FC<GameCalendarButtonProps> = ({
   onClick,
-  season,
-  utcDay,
-  utcDate,
   showTutorial,
-}) => {
-  const seasonDetails = SEASON_DETAILS[season];
-
-  return (
-    <div
-      className="absolute z-50 flex flex-col justify-between hover:img-highlight"
-      style={{
-        top: `${100}px`,
-        left: `${PIXEL_SCALE * 3}px`,
-      }}
+}) => (
+  <div
+    className="absolute"
+    style={{
+      top: `${PIXEL_SCALE * 40}px`,
+      left: `${PIXEL_SCALE * 5}px`,
+    }}
+  >
+    <RoundButton
       onClick={(e) => {
         e.stopPropagation();
         onClick();
       }}
+      buttonSize={18}
     >
-      <div className="relative">
+      <img
+        src={calendarIcon}
+        className="absolute group-active:translate-y-[2px]"
+        style={{
+          width: `${PIXEL_SCALE * 10}px`,
+          left: `${PIXEL_SCALE * 3.5}px`,
+          top: `${PIXEL_SCALE * 3}px`,
+        }}
+      />
+      {showTutorial && (
         <img
-          src={seasonDetails.icon}
-          className="absolute z-10 w-5 sm:w-6"
+          className="absolute cursor-pointer group-hover:img-highlight z-30 animate-pulsate"
+          src={SUNNYSIDE.icons.click_icon}
+          onClick={() => onClick()}
           style={{
-            transform: "translate(50%, -50%)",
-            right: 1,
-            top: 2,
+            width: `${PIXEL_SCALE * 15}px`,
+            left: `${PIXEL_SCALE * 12}px`,
+            top: `${PIXEL_SCALE * 12}px`,
           }}
         />
-        <Button className="h-8 sm:h-10 mb-0">
-          <div className="flex items-center space-x-1">
-            <div className="flex items-center space-x-1 text-sm">
-              <span>{utcDay}</span>
-              <span>{utcDate}</span>
-            </div>
-            <img src={calendarIcon} className="h-6 sm:h-7 mr-1" />
-          </div>
-        </Button>
-        {showTutorial && (
-          <img
-            className="absolute cursor-pointer group-hover:img-highlight z-30 animate-pulsate"
-            src={SUNNYSIDE.icons.click_icon}
-            onClick={() => onClick()}
-            style={{
-              width: `${PIXEL_SCALE * 18}px`,
-              right: `${PIXEL_SCALE * -8}px`,
-              top: `${PIXEL_SCALE * 6}px`,
-            }}
-          />
-        )}
-      </div>
-    </div>
-  );
-};
+      )}
+    </RoundButton>
+  </div>
+);
 
 export const GameCalendar: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -231,9 +214,6 @@ export const GameCalendar: React.FC = () => {
         </Modal>
         <GameCalendarButton
           onClick={() => setIsCalendarOpen(!isCalendarOpen)}
-          season={season.season}
-          utcDay={utcDay}
-          utcDate={utcDate}
           showTutorial={true}
         />
       </>
@@ -329,9 +309,6 @@ export const GameCalendar: React.FC = () => {
       </Modal>
       <GameCalendarButton
         onClick={() => setIsCalendarOpen(!isCalendarOpen)}
-        season={season.season}
-        utcDay={utcDay}
-        utcDate={utcDate}
         showTutorial={false}
       />
     </>
