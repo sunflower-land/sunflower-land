@@ -3,7 +3,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import React from "react";
 import giftIcon from "assets/icons/gift.png";
 
-export const ReferralButton: React.FC = () => {
+export const RewardsButton: React.FC = () => {
   return (
     <div
       className="absolute"

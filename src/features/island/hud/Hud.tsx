@@ -30,7 +30,7 @@ import {
 } from "features/game/types/bumpkinSkills";
 import { GameCalendar } from "features/game/expansion/components/temperateSeason/GameCalendar";
 import { LandscapeButton } from "./components/LandscapeButton";
-import { ReferralButton } from "./components/referral/ReferralButton";
+import { RewardsButton } from "./components/referral/RewardsButton";
 import { hasFeatureAccess } from "lib/flags";
 
 const _farmAddress = (state: MachineState) => state.context.farmAddress;
@@ -160,7 +160,7 @@ const HudComponent: React.FC<{
         <BumpkinProfile />
         {!isTutorial && <GameCalendar />}
         {hasReferralProgram && <CodexButton />}
-        {hasReferralProgram && <ReferralButton />}
+        {hasReferralProgram && <RewardsButton />}
 
         <DepositModal
           farmAddress={farmAddress ?? ""}
