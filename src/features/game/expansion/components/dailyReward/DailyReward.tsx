@@ -38,7 +38,6 @@ export const DailyReward: React.FC = () => {
   const [chestState] = useActor(chestService);
   return (
     <>
-      {" "}
       <div
         className="absolute z-20"
         style={{
