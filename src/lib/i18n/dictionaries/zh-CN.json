@@ -196,7 +196,6 @@
   "description.iron.idol.boost": "+1 铁矿",
   "description.emerald.turtle.boost": "+0.5 石头铁矿黄金(AOE 3x3)",
   "description.heart.of.davy.jones.boost": "+20 每日挖宝次数",
-  "description.Karkinos.boost": "+0.1 卷心菜(对 Cabbage Boy 没有效果)",
   "description.mushroom.house.boost": "+0.2 野生蘑菇",
   "description.boost.gilded.swordfish": "+0.1 黄金",
   "description.nancy.boost": "-15% 庄稼生长时间",
@@ -5480,5 +5479,12 @@
   "description.social.spark": "社交互动的火花",
   "gameOptions.generalSettings.notifications": "通知",
   "gameOptions.generalSettings.preferences": "首选项",
-  "completing.face.recognition.success": "你准备好了。"
+  "completing.face.recognition.success": "你准备好了。",
+  "description.Karkinos.boost": "+0.1 卷心菜",
+  "description.Karkinos.warning": "如果白菜男孩活跃，则禁用",
+  "description.nancy.warning": "如果 Scarecrow 或 Kuebiko 处于活动状态，则禁用",
+  "description.scarecrow.warning": "如果 Kuebiko 处于活动状态，则禁用",
+  "description.gnome.warning": "需要 Clementine & Cobalt",
+  "description.woody.beaver.warning": "如果学徒 Beaver 或 Foreman Beaver 处于活动状态，则禁用",
+  "description.apprentice.beaver.warning": "如果 Foreman Beaver 活跃，则禁用"
 }

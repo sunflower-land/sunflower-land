@@ -198,7 +198,6 @@
   "description.iron.idol.boost": "+1 アイアン",
   "description.emerald.turtle.boost": "+0.5 ストーン、アイアン、ゴールド (範囲範囲3x3)",
   "description.heart.of.davy.jones.boost": "+20 デザート・ディグ",
-  "description.Karkinos.boost": "+0.1 キャベツ (キャベツボーイでは非アクティブ)",
   "description.mushroom.house.boost": "+0.2 ワイルドマッシュルーム",
   "description.boost.gilded.swordfish": "+0.1 ゴールド",
   "description.nancy.boost": "-15% の作物の成長時間",
@@ -5480,5 +5479,12 @@
   "description.social.spark": "ソーシャルインタラクションの火花",
   "gameOptions.generalSettings.notifications": "通知",
   "gameOptions.generalSettings.preferences": "環境設定",
-  "completing.face.recognition.success": "準備はできています。"
+  "completing.face.recognition.success": "準備はできています。",
+  "description.Karkinos.boost": "+0.1 キャベツ",
+  "description.Karkinos.warning": "キャベツボーイがアクティブな場合は無効",
+  "description.nancy.warning": "かかしまたはクエビコがアクティブな場合は無効",
+  "description.scarecrow.warning": "クエビコがアクティブな場合は無効",
+  "description.gnome.warning": "クレメンタインとコバルトが必要",
+  "description.woody.beaver.warning": "アプレンティス・ビーバーまたはフォアマン・ビーバーがアクティブな場合は無効",
+  "description.apprentice.beaver.warning": "フォアマンビーバーがアクティブな場合は無効"
 }

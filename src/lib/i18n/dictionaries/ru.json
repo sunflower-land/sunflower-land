@@ -705,7 +705,6 @@
   "dequipper.warning": "После снятия экипировки, бампкин больше не может использоваться.",
   "description.Beehive": "Шумный рой, производящий мед из активно растущих цветов; 10% шанс при сборе меда вызвать пчелиный рой, который опылит все посевы и даст +0.2 к урожаю!",
   "description.Karkinos": "Колючий, но добрый. Отличное дополнение к твоей ферме в виде буста к капусте!",
-  "description.Karkinos.boost": "+0.1 Капусты (не работает с Cabbage Boy)",
   "description.abandoned.bear": "Медведь, которого оставили на острове.",
   "description.acornHouse": "Тихое лесное убежище, подходящее и для белок, и для тех, кто любит помечтать",
   "description.adirondack.potato": "Суровый картофель, в Адирондак стиле!",
@@ -5480,5 +5479,12 @@
   "description.social.spark": "Искра социального взаимодействия",
   "gameOptions.generalSettings.notifications": "Уведомления",
   "gameOptions.generalSettings.preferences": "Предпочтения",
-  "completing.face.recognition.success": "Вы готовы."
+  "completing.face.recognition.success": "Вы готовы.",
+  "description.Karkinos.boost": "+0.1 Капуста",
+  "description.Karkinos.warning": "Инвалид, если мальчик из капусты активен",
+  "description.nancy.warning": "Отключено, если активны Чучело или Куебико",
+  "description.scarecrow.warning": "Отключено, если Kuebiko Active",
+  "description.gnome.warning": "Требуются клементин и кобальт",
+  "description.woody.beaver.warning": "Инвалид, если ученик бобр или бригадир Бобр активны",
+  "description.apprentice.beaver.warning": "Отключено, если Форман Бивер активен"
 }

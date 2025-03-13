@@ -197,7 +197,6 @@
   "description.iron.idol.boost": "+1 ferro",
   "description.emerald.turtle.boost": "+0,5 Pietra, ferro, oro (AOE 3x3)",
   "description.heart.of.davy.jones.boost": "+20 Desert Digs",
-  "description.Karkinos.boost": "+0.1 Cabbage (inattivo con Cabbage Boy)",
   "description.mushroom.house.boost": "+0.2 Fungo selvatico",
   "description.boost.gilded.swordfish": "+0.1 Oro",
   "description.nancy.boost": "-15% Tempo di crescita delle colture",
@@ -5480,5 +5479,12 @@
   "description.social.spark": "Una scintilla di interazione sociale",
   "gameOptions.generalSettings.notifications": "Notifiche",
   "gameOptions.generalSettings.preferences": "Preferenze",
-  "completing.face.recognition.success": "Sei pronto."
+  "completing.face.recognition.success": "Sei pronto.",
+  "description.Karkinos.boost": "+0.1 Cavolo",
+  "description.Karkinos.warning": "Disabilitato se Cabbage Boy è attivo",
+  "description.nancy.warning": "Disabilitato se Scarecrow o Kuebiko Active",
+  "description.scarecrow.warning": "Disabilitato se Kuebiko Active",
+  "description.gnome.warning": "Richiede Clementine & Cobalt",
+  "description.woody.beaver.warning": "Disabilitato se Apprentice Beaver o Foreman Beaver Active",
+  "description.apprentice.beaver.warning": "Disabilitato se Foreman Beaver Active"
 }

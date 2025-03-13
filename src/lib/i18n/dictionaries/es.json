@@ -198,7 +198,6 @@
   "description.iron.idol.boost": "Incrementa en +1 hierro.",
   "description.emerald.turtle.boost": "Incrementa en +0.5 piedra, hierro y oro (AOE 3x3).",
   "description.heart.of.davy.jones.boost": "Incrementa en +20 excavaciones en el desierto.",
-  "description.Karkinos.boost": "Incrementa en +0.1 repollo (activo solo con Cabbage Boy).",
   "description.mushroom.house.boost": "Incrementa en +0.2 los hongos silvestres.",
   "description.boost.gilded.swordfish": "Incrementa en +0.1 la cantidad de oro.",
   "description.nancy.boost": "Reducción del -15% en el tiempo de crecimiento de los cultivos.",
@@ -5480,5 +5479,12 @@
   "description.social.spark": "Una chispa de interacción social",
   "gameOptions.generalSettings.notifications": "Notificaciones",
   "gameOptions.generalSettings.preferences": "Preferencias",
-  "completing.face.recognition.success": "Ya estás preparado."
+  "completing.face.recognition.success": "Ya estás preparado.",
+  "description.Karkinos.boost": "+0.1 Repollo",
+  "description.Karkinos.warning": "Desactivado si Cabbage Boy está activo",
+  "description.nancy.warning": "Desactivado si Espantapájaros o Kuebiko están activos",
+  "description.scarecrow.warning": "Desactivado si Kuebiko está activo",
+  "description.gnome.warning": "Requiere clementina y cobalto",
+  "description.woody.beaver.warning": "Se desactiva si Apprentice Beaver o Foreman Beaver están activos",
+  "description.apprentice.beaver.warning": "Desactivado si Foreman Beaver está activo"
 }

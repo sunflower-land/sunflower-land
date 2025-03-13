@@ -158,7 +158,6 @@
   "description.iron.idol.boost": "+1 Ferro",
   "description.emerald.turtle.boost": "+0,5 Pedra, Ferro, Ouro (AOE 3x3)",
   "description.heart.of.davy.jones.boost": "+20 Limite Diário de Escavação",
-  "description.Karkinos.boost": "+0,1 Repolho (Inativo com Cabbage Boy)",
   "description.mushroom.house.boost": "+0,2 Wild Mushroom",
   "description.boost.gilded.swordfish": "+0,1 Ouro",
   "description.nancy.boost": "-15% Tempo de Crescimento de Plantações",
@@ -5480,5 +5479,12 @@
   "description.social.spark": "Uma centelha de interação social",
   "gameOptions.generalSettings.notifications": "Notificações",
   "gameOptions.generalSettings.preferences": "Preferências",
-  "completing.face.recognition.success": "Você está pronto."
+  "completing.face.recognition.success": "Você está pronto.",
+  "description.Karkinos.boost": "+0.1 Repolho",
+  "description.Karkinos.warning": "Desativado se Cabbage Boy Active",
+  "description.nancy.warning": "Desativado se Espantalho ou Kuebiko estiverem ativos",
+  "description.scarecrow.warning": "Desativado se o Kuebiko Active",
+  "description.gnome.warning": "Requer clementina e cobalto",
+  "description.woody.beaver.warning": "Desativado se o Apprentice Beaver ou o Foreman Beaver estiverem ativos",
+  "description.apprentice.beaver.warning": "Desativado se o Foreman Beaver estiver ativo"
 }

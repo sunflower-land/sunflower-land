@@ -170,7 +170,6 @@
   "description.skill.shrimpy.boost": "+20% XP de poisson",
   "description.iron.idol.boost": "+1 Fer",
   "description.heart.of.davy.jones.boost": "+20 Limite de creusage quotidienne",
-  "description.Karkinos.boost": "+0.1 Cabbage (Inactif avec Cabbage Boy)",
   "description.mushroom.house.boost": "+0.2 Champignon sauvage",
   "description.boost.gilded.swordfish": "+0.1 Or",
   "description.nancy.boost": "-15% Temps de croissance des cultures",
@@ -5480,5 +5479,12 @@
   "description.social.spark": "Une étincelle d'interaction sociale",
   "gameOptions.generalSettings.notifications": "Notifications",
   "gameOptions.generalSettings.preferences": "Préférences",
-  "completing.face.recognition.success": "Tu es prête."
+  "completing.face.recognition.success": "Tu es prête.",
+  "description.Karkinos.boost": "+0,1 chou",
+  "description.Karkinos.warning": "Désactivé si Cabbage Boy est actif",
+  "description.nancy.warning": "Désactivé si Scarecrow ou Kuebiko sont actifs",
+  "description.scarecrow.warning": "Désactivé si Kuebiko Active",
+  "description.gnome.warning": "Nécessite de la clémentine et du cobalt",
+  "description.woody.beaver.warning": "Désactivé si Apprentice Beaver ou Foreman Beaver est actif",
+  "description.apprentice.beaver.warning": "Désactivé si Foreman Beaver est actif"
 }
