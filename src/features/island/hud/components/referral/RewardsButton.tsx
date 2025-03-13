@@ -3,6 +3,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import React, { useState } from "react";
 import giftIcon from "assets/icons/gift.png";
 import { Rewards } from "./Rewards";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 export const RewardsButton: React.FC = () => {
   const [showRewardsModal, setShowRewardsModal] = useState(false);
@@ -19,6 +20,14 @@ export const RewardsButton: React.FC = () => {
             width: `${PIXEL_SCALE * 10}px`,
             left: `${PIXEL_SCALE * 4}px`,
             top: `${PIXEL_SCALE * 4}px`,
+          }}
+        />
+        <img
+          src={SUNNYSIDE.icons.expression_alerted}
+          className="absolute animate-pulsate"
+          style={{
+            width: `${PIXEL_SCALE * 3}px`,
+            right: `${PIXEL_SCALE * 0}px`,
           }}
         />
       </RoundButton>

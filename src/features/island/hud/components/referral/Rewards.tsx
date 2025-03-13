@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import giftIcon from "assets/icons/gift.png";
 import { DailyRewardContent } from "../../../../game/expansion/components/dailyReward/DailyReward";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { TaskBoard } from "./TaskBoard";
 
 interface Props {
   show: boolean;
@@ -24,7 +25,7 @@ export const Rewards: React.FC<Props> = ({ show, onHide }) => {
         currentTab={tab}
         setCurrentTab={setTab}
       >
-        {/* {tab === 0 && <TaskBoard />} */}
+        {tab === 0 && <TaskBoard />}
         {tab === 1 && <DailyRewardContent onClose={onHide} />}
         {/* {tab === 2 && <RewardsShop />} */}
       </CloseButtonPanel>
