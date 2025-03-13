@@ -16,6 +16,8 @@ const GAME_STATE: GameState = {
   inventory: {},
 };
 
+const createdAt = Date.now();
+
 describe("cook", () => {
   it("does not cook if building does not exist", () => {
     expect(() =>
@@ -29,6 +31,7 @@ describe("cook", () => {
           item: "Boiled Eggs",
           buildingId: "123",
         },
+        createdAt,
       }),
     ).toThrow(`Required building does not exist`);
   });
@@ -79,6 +82,7 @@ describe("cook", () => {
           item: "Boiled Eggs",
           buildingId: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
         },
+        createdAt,
       }),
     ).toThrow("No available slots");
   });
@@ -108,6 +112,7 @@ describe("cook", () => {
           item: "Boiled Eggs",
           buildingId: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
         },
+        createdAt,
       }),
     ).toThrow("Insufficient ingredient: Egg");
   });
@@ -136,6 +141,7 @@ describe("cook", () => {
         item: "Boiled Eggs",
         buildingId: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
       },
+      createdAt,
     });
 
     expect(state.inventory["Egg"]).toEqual(new Decimal(12));
@@ -169,6 +175,7 @@ describe("cook", () => {
         item: "Boiled Eggs",
         buildingId: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
       },
+      createdAt,
     });
 
     expect(state.inventory["Radish"]).toEqual(new Decimal(2));
@@ -201,6 +208,7 @@ describe("cook", () => {
         item: "Boiled Eggs",
         buildingId: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
       },
+      createdAt,
     });
 
     expect(state.buildings["Fire Pit"]?.[0].crafting?.[0]).toEqual(
@@ -238,6 +246,7 @@ describe("cook", () => {
         item: "Boiled Eggs",
         buildingId: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
       },
+      createdAt,
     });
 
     const oilconsumed = getOilConsumption("Fire Pit", "Boiled Eggs");
@@ -274,10 +283,10 @@ describe("cook", () => {
         item: "Fancy Fries",
         buildingId: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
       },
-      createdAt: dateNow,
+      createdAt,
     });
 
-    const readyAt = dateNow + 60 * 60 * 16 * 1000;
+    const readyAt = createdAt + 60 * 60 * 16 * 1000;
 
     expect(state.buildings["Deli"]?.[0].crafting?.[0]).toEqual(
       expect.objectContaining({
@@ -318,6 +327,7 @@ describe("cook", () => {
         item: "Boiled Eggs",
         buildingId: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
       },
+      createdAt,
     });
 
     expect(state.inventory["Egg"]).toEqual(new Decimal(0));
@@ -358,6 +368,7 @@ describe("cook", () => {
         item: "Mashed Potato",
         buildingId: "blah",
       },
+      createdAt,
     });
 
     expect(state.buildings["Fire Pit"]?.[0].crafting?.[1]).toEqual(
@@ -406,6 +417,7 @@ describe("cook", () => {
         item: "Mashed Potato",
         buildingId: "blah",
       },
+      createdAt,
     });
 
     const readyAt = firstReadyAt + cookingSeconds * 1000;
@@ -452,7 +464,7 @@ describe("cook", () => {
         item: "Mashed Potato",
         buildingId: "blah",
       },
-      createdAt: now,
+      createdAt,
     });
 
     expect(state.buildings["Fire Pit"]?.[0].crafting?.[1].readyAt).toBeCloseTo(
