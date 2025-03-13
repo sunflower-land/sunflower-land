@@ -54,9 +54,11 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
 
   const selectSeed = (name: FlowerSeedName) => {
     setSeed(name);
-    if (!crossbreed) setSelecting("crossbreed");
+    const hasSelectedSeed = inventory[name]?.gte(1);
+
+    if (!crossbreed && hasSelectedSeed) setSelecting("crossbreed");
     if (crossbreed && !FLOWER_CROSS_BREED_AMOUNTS[name][crossbreed]) {
-      setSelecting("crossbreed");
+      if (hasSelectedSeed) setSelecting("crossbreed");
       setCrossBreed(undefined);
     }
   };
