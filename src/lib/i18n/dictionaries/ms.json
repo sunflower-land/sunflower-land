@@ -5479,12 +5479,13 @@
   "description.social.spark": "Percikan interaksi sosial",
   "gameOptions.generalSettings.notifications": "Pemberitahuan",
   "gameOptions.generalSettings.preferences": "Keutamaan",
-  "completing.face.recognition.success": "Anda sudah bersedia.",
   "description.Karkinos.boost": "+0.1 Kubis",
   "description.Karkinos.warning": "Dilumpuhkan jika Kubis Boy Aktif",
   "description.nancy.warning": "Dilumpuhkan jika Scarecrow atau Kuebiko Aktif",
   "description.scarecrow.warning": "Dilumpuhkan jika Kuebiko Aktif",
   "description.gnome.warning": "Memerlukan Clementine & Cobalt",
   "description.woody.beaver.warning": "Dilumpuhkan jika Perantis Beaver atau Foreman Beaver Active",
-  "description.apprentice.beaver.warning": "Dilumpuhkan jika Foreman Beaver Active"
+  "description.apprentice.beaver.warning": "Dilumpuhkan jika Foreman Beaver Active",
+  "completing.face.recognition.success": "Teruskan",
+  "completing.face.recognition.label": "Diimbas."
 }

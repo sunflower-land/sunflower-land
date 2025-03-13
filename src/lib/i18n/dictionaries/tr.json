@@ -5479,12 +5479,13 @@
   "description.social.spark": "Bir sosyal etkileşim kıvılcımı",
   "gameOptions.generalSettings.notifications": "Bildirimler",
   "gameOptions.generalSettings.preferences": "Tercihler",
-  "completing.face.recognition.success": "Hazırsın.",
   "description.Karkinos.boost": "+0.1 Lahana",
   "description.Karkinos.warning": "Cabbage Boy Etkinse Devre Dışı Bırakıldı",
   "description.nancy.warning": "Korkuluk veya Kuebiko Etkin ise devre dışı",
   "description.scarecrow.warning": "Kuebiko Etkin ise devre dışı",
   "description.gnome.warning": "Clementine ve Cobalt gerektirir",
   "description.woody.beaver.warning": "Çırak Kunduz veya Foreman Beaver Aktif ise devre dışı bırakılır",
-  "description.apprentice.beaver.warning": "Foreman Beaver Aktif ise devre dışı"
+  "description.apprentice.beaver.warning": "Foreman Beaver Aktif ise devre dışı",
+  "completing.face.recognition.success": "Devamı",
+  "completing.face.recognition.label": "Tarandı."
 }

@@ -5479,12 +5479,13 @@
   "description.social.spark": "Искра социального взаимодействия",
   "gameOptions.generalSettings.notifications": "Уведомления",
   "gameOptions.generalSettings.preferences": "Предпочтения",
-  "completing.face.recognition.success": "Вы готовы.",
   "description.Karkinos.boost": "+0.1 Капуста",
   "description.Karkinos.warning": "Инвалид, если мальчик из капусты активен",
   "description.nancy.warning": "Отключено, если активны Чучело или Куебико",
   "description.scarecrow.warning": "Отключено, если Kuebiko Active",
   "description.gnome.warning": "Требуются клементин и кобальт",
   "description.woody.beaver.warning": "Инвалид, если ученик бобр или бригадир Бобр активны",
-  "description.apprentice.beaver.warning": "Отключено, если Форман Бивер активен"
+  "description.apprentice.beaver.warning": "Отключено, если Форман Бивер активен",
+  "completing.face.recognition.success": "Продолжить",
+  "completing.face.recognition.label": "Отсканировано."
 }

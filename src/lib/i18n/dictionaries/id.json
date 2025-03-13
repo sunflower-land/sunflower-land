@@ -5479,12 +5479,13 @@
   "description.social.spark": "Percikan interaksi sosial",
   "gameOptions.generalSettings.notifications": "Pemberitahuan",
   "gameOptions.generalSettings.preferences": "Preferensi",
-  "completing.face.recognition.success": "Anda siap.",
   "description.Karkinos.boost": "+0.1 Kubis",
   "description.Karkinos.warning": "Dinonaktifkan jika Cabbage Boy Aktif",
   "description.nancy.warning": "Dinonaktifkan jika Scarecrow atau Kuebiko Aktif",
   "description.scarecrow.warning": "Dinonaktifkan jika Kuebiko Aktif",
   "description.gnome.warning": "Membutuhkan Clementine & Cobalt",
   "description.woody.beaver.warning": "Dinonaktifkan jika Apprentice Beaver atau Foreman Beaver Aktif",
-  "description.apprentice.beaver.warning": "Dinonaktifkan jika Foreman Beaver Aktif"
+  "description.apprentice.beaver.warning": "Dinonaktifkan jika Foreman Beaver Aktif",
+  "completing.face.recognition.success": "Lanjutkan",
+  "completing.face.recognition.label": "Pindai."
 }

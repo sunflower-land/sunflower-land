@@ -5479,12 +5479,13 @@
   "description.social.spark": "사회적 상호작용의 불꽃",
   "gameOptions.generalSettings.notifications": "알림",
   "gameOptions.generalSettings.preferences": "환경설정",
-  "completing.face.recognition.success": "당신은 준비가 됐어요.",
   "description.Karkinos.boost": "+0.1 양배추",
   "description.Karkinos.warning": "캐비지 보이가 활성화되면 비활성화됨",
   "description.nancy.warning": "허수아비 또는 쿠에비코 활성화시 비활성화",
   "description.scarecrow.warning": "쿠에비코 액티브 시 비활성화",
   "description.gnome.warning": "클레멘타인과 코발트 필요",
   "description.woody.beaver.warning": "견습 비버 또는 포먼 비버가 활동하는 경우 비활성화됨",
-  "description.apprentice.beaver.warning": "포먼 비버가 활성화되면 비활성화됩니다."
+  "description.apprentice.beaver.warning": "포먼 비버가 활성화되면 비활성화됩니다.",
+  "completing.face.recognition.success": "계속",
+  "completing.face.recognition.label": "스캔 완료."
 }

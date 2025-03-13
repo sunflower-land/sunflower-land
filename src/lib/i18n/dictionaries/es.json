@@ -5479,12 +5479,13 @@
   "description.social.spark": "Una chispa de interacción social",
   "gameOptions.generalSettings.notifications": "Notificaciones",
   "gameOptions.generalSettings.preferences": "Preferencias",
-  "completing.face.recognition.success": "Ya estás preparado.",
   "description.Karkinos.boost": "+0.1 Repollo",
   "description.Karkinos.warning": "Desactivado si Cabbage Boy está activo",
   "description.nancy.warning": "Desactivado si Espantapájaros o Kuebiko están activos",
   "description.scarecrow.warning": "Desactivado si Kuebiko está activo",
   "description.gnome.warning": "Requiere clementina y cobalto",
   "description.woody.beaver.warning": "Se desactiva si Apprentice Beaver o Foreman Beaver están activos",
-  "description.apprentice.beaver.warning": "Desactivado si Foreman Beaver está activo"
+  "description.apprentice.beaver.warning": "Desactivado si Foreman Beaver está activo",
+  "completing.face.recognition.success": "Continuar",
+  "completing.face.recognition.label": "Escaneado."
 }
