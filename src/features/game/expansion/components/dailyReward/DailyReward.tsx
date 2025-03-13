@@ -15,6 +15,11 @@ import { Revealed } from "features/game/components/Revealed";
 import { ChestRevealing } from "features/world/ui/chests/ChestRevealing";
 import { Loading } from "features/auth/components/Loading";
 import { rewardChestMachine } from "./rewardChestMachine";
+import { hasFeatureAccess } from "lib/flags";
+import { MachineState } from "features/game/lib/gameMachine";
+
+const _hasReferralAccess = (state: MachineState) =>
+  hasFeatureAccess(state.context.state, "REFERRAL_PROGRAM");
 
 export const DailyReward: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
@@ -26,6 +31,7 @@ export const DailyReward: React.FC = () => {
     gameService,
     (state) => state.context.state.dailyRewards,
   );
+  const hasReferralAccess = useSelector(gameService, _hasReferralAccess);
   const chestService = useInterpret(rewardChestMachine, {
     context: {
       lastUsedCode: dailyRewards?.chest?.code ?? 0,
@@ -33,8 +39,12 @@ export const DailyReward: React.FC = () => {
       bumpkinLevel,
     },
   });
-
   const [chestState] = useActor(chestService);
+
+  if (hasReferralAccess) {
+    return <></>;
+  }
+
   return (
     <>
       <div
@@ -81,7 +91,6 @@ export const DailyRewardContent: React.FC<{
   onClose: () => void;
 }> = ({ onClose }) => {
   const { t } = useAppTranslation();
-  const [showIntro, setShowIntro] = useState(true);
   const { gameService } = useContext(Context);
   const dailyRewards = useSelector(
     gameService,
@@ -94,6 +103,7 @@ export const DailyRewardContent: React.FC<{
   const bumpkinLevel = useSelector(gameService, (state) =>
     getBumpkinLevel(state.context.state.bumpkin.experience),
   );
+  const hasReferralAccess = useSelector(gameService, _hasReferralAccess);
   const streaks = dailyRewards?.streaks ?? 0;
   const streakRemainder = streaks % 5;
   const getNextBonus = streaks + (5 - streakRemainder);
@@ -127,24 +137,6 @@ export const DailyRewardContent: React.FC<{
     chestService.send("OPEN");
   };
 
-  if (showIntro) {
-    return (
-      <>
-        <div className="p-2">
-          <img
-            src={SUNNYSIDE.decorations.treasure_chest}
-            className="mb-2 mt-2 mx-auto"
-            style={{
-              width: `${PIXEL_SCALE * 16}px`,
-            }}
-          />
-          <p className="text-sm text-center">{t("reward.connectWeb3Wallet")}</p>
-        </div>
-        <Button onClick={() => setShowIntro(false)}>{t("continue")}</Button>
-      </>
-    );
-  }
-
   const Content: React.FC = () => {
     if (chestState.matches("opened")) {
       const now = new Date();
@@ -175,9 +167,11 @@ export const DailyRewardContent: React.FC<{
       return (
         <>
           <div className="flex flex-col items-center px-2">
-            <Label type="transparent" className="px-0.5 mb-2 text-base">
-              {t("reward.daily.reward")}
-            </Label>
+            {!hasReferralAccess && (
+              <Label type="transparent" className="px-0.5 mb-2 text-base">
+                {t("reward.daily.reward")}
+              </Label>
+            )}
             {streaks > 1 && !missedADay && (
               <>
                 <Label type="info" className="px-0.5 text-xs">
@@ -208,9 +202,11 @@ export const DailyRewardContent: React.FC<{
       return (
         <>
           <div className="flex flex-col items-center p-2">
-            <Label type="transparent" className="px-0.5 mb-2 text-base">
-              {t("reward.daily.reward")}
-            </Label>
+            {!hasReferralAccess && (
+              <Label type="transparent" className="px-0.5 mb-2 text-base">
+                {t("reward.daily.reward")}
+              </Label>
+            )}
             <img
               src={SUNNYSIDE.decorations.treasure_chest}
               className="mb-2"
