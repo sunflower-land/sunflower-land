@@ -15,11 +15,8 @@ export const CompletingFaceRecognitionSuccess: React.FC = () => {
     <>
       <div className="p-1.5">
         <Label type="default" className="mb-2">
-          {t("complete")}
+          {t("completing.face.recognition.label")}
         </Label>
-        <p className="text-sm mb-2">
-          {t("completing.face.recognition.success")}
-        </p>
       </div>
       <Button
         onClick={() => {
