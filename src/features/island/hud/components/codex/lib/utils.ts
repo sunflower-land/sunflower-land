@@ -12,6 +12,7 @@ import {
   FlowerName,
   FlowerSeedName,
 } from "features/game/types/flowers";
+import { getObjectEntries } from "features/game/expansion/lib/utils";
 
 export type ItemCounts = {
   available: number;
@@ -70,9 +71,8 @@ export const getFlowerBySeed = () => {
 
 export const getEncyclopediaFish = () => {
   const encyclopediaFish: (FishName | MarineMarvelName)[] = [];
-  getKeys(FISH).forEach((fishName) => {
-    const fish = FISH[fishName];
-    if (fish.type !== "marine marvel") {
+  getObjectEntries(FISH).forEach(([fishName, fish]) => {
+    if (fish.type !== "marine marvel" && fish.type !== "chapter") {
       encyclopediaFish.push(fishName);
     }
   });
