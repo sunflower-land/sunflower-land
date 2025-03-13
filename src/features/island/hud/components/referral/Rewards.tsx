@@ -17,7 +17,7 @@ export const Rewards: React.FC<Props> = ({ show, onHide }) => {
     <Modal show={show} onHide={onHide}>
       <CloseButtonPanel
         tabs={[
-          { icon: "", name: "Task Board" },
+          { icon: SUNNYSIDE.ui.board, name: "Task Board" },
           { icon: SUNNYSIDE.decorations.treasure_chest, name: "Daily Reward" },
           { icon: giftIcon, name: "Rewards Shop" },
         ]}

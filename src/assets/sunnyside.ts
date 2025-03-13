@@ -1260,6 +1260,7 @@ export const SUNNYSIDE = {
     speechBubbleBottom: `${CONFIG.PROTECTED_IMAGE_URL}/ui/speech_bubble_bottom.webp`,
     reel: `${CONFIG.PROTECTED_IMAGE_URL}/ui/reel.png`,
     disc_cancel: `${CONFIG.PROTECTED_IMAGE_URL}/ui/disc_cancel.png`,
+    board: `${CONFIG.PROTECTED_IMAGE_URL}/ui/delivery_board.png`,
 
     //Panels
     grayBorder: `${CONFIG.PROTECTED_IMAGE_URL}/ui/panel/gray_border.png`,
