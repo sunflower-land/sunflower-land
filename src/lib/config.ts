@@ -98,6 +98,8 @@ const FIREBASE_MESSAGING_SENDER_ID = import.meta.env
   .VITE_FIREBASE_MESSAGING_SENDER_ID as string;
 const FIREBASE_APP_ID = import.meta.env.VITE_FIREBASE_APP_ID as string;
 
+const TELEGRAM_BOT = import.meta.env.VITE_TELEGRAM_BOT as string;
+
 export const CONFIG = {
   DEQUIPPER_CONTRACT,
   MARKETPLACE_CONTRACT,
@@ -169,4 +171,5 @@ export const CONFIG = {
   FIREBASE_API_KEY,
   FIREBASE_MESSAGING_SENDER_ID,
   FIREBASE_APP_ID,
+  TELEGRAM_BOT,
 };
