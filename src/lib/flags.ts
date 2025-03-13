@@ -74,7 +74,7 @@ const FEATURE_FLAGS = {
   FACE_RECOGNITION: (game) => {
     return (
       !hasVipAccess({ game, now: Date.now() }) &&
-      game.createdAt > new Date("2025-03-11T00:00:00Z").getTime()
+      game.createdAt > new Date("2025-02-01T00:00:00Z").getTime()
     );
   },
 
@@ -84,7 +84,7 @@ const FEATURE_FLAGS = {
   DISABLE_BLOCKCHAIN_ACTIONS: timeBasedFeatureFlag(
     new Date("2025-03-24T00:00:00Z"),
   ),
-  REFERRAL_PROGRAM: testnetFeatureFlag,
+  REFERRAL_PROGRAM: () => false,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;
