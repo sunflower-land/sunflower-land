@@ -175,7 +175,7 @@ export const DailyRewardContent: React.FC<{
       return (
         <>
           <div className="flex flex-col items-center px-2">
-            <Label type="info" className="px-0.5 mb-2 text-sm">
+            <Label type="transparent" className="px-0.5 mb-2 text-base">
               {t("reward.daily.reward")}
             </Label>
             {streaks > 1 && !missedADay && (
@@ -208,7 +208,7 @@ export const DailyRewardContent: React.FC<{
       return (
         <>
           <div className="flex flex-col items-center p-2">
-            <Label type="info" className="px-0.5 mb-2 text-sm">
+            <Label type="transparent" className="px-0.5 mb-2 text-base">
               {t("reward.daily.reward")}
             </Label>
             <img
@@ -228,7 +228,7 @@ export const DailyRewardContent: React.FC<{
       return (
         <>
           <div className="flex flex-col items-center p-2">
-            <Label type="danger" className="px-0.5 text-xs">
+            <Label type="danger" className="px-0.5 mb-2 text-base">
               {t("error.wentWrong")}
             </Label>
             <img
