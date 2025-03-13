@@ -1,7 +1,7 @@
 import React from "react";
 
-import cat from "assets/sfts/farm_cat.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 export const FarmCat: React.FC = () => {
   return (
@@ -14,7 +14,7 @@ export const FarmCat: React.FC = () => {
       }}
     >
       <img
-        src={cat}
+        src={ITEM_DETAILS["Farm Cat"].image}
         style={{
           width: `${PIXEL_SCALE * 20}px`,
         }}

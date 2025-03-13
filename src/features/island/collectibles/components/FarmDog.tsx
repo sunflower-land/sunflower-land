@@ -1,12 +1,11 @@
 import React from "react";
-
-import farmDog from "assets/sfts/farm_dog.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 export const FarmDog: React.FC = () => {
   return (
     <img
-      src={farmDog}
+      src={ITEM_DETAILS["Farm Dog"].image}
       className="absolute"
       style={{
         width: `${PIXEL_SCALE * 16}px`,
