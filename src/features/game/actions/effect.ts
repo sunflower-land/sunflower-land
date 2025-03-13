@@ -14,7 +14,8 @@ type EffectName =
   | "marketplace.listingCancelled"
   | "reward.airdropped"
   | "faceRecognition.started"
-  | "faceRecognition.completed";
+  | "faceRecognition.completed"
+  | "telegram.linked";
 
 export type StateName =
   | "marketplacePurchasing"
@@ -25,7 +26,8 @@ export type StateName =
   | "marketplaceListingCancelling"
   | "airdroppingReward"
   | "startingFaceRecognition"
-  | "completingFaceRecognition";
+  | "completingFaceRecognition"
+  | "linkingTelegram";
 
 export type StateNameWithStatus = `${StateName}Success` | `${StateName}Failed`;
 
@@ -40,6 +42,7 @@ export const EFFECT_EVENTS: Record<EffectName, StateName> = {
   "reward.airdropped": "airdroppingReward",
   "faceRecognition.started": "startingFaceRecognition",
   "faceRecognition.completed": "completingFaceRecognition",
+  "telegram.linked": "linkingTelegram",
 };
 
 export interface Effect {
