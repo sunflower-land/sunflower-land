@@ -15,7 +15,7 @@ type Task = {
   title: string;
   description: string;
   image: string;
-  reward: Partial<Record<InventoryItemName, number>>;
+  reward?: Partial<Record<InventoryItemName, number>>;
 };
 
 const TASKS: Task[] = [
@@ -39,6 +39,21 @@ const TASKS: Task[] = [
   },
 ];
 
+const OTHER_WAYS_TO_EARN_SOCIAL_SPARK: Task[] = [
+  {
+    title: "Invite a VIP friend",
+    description:
+      "Invite a friend to join the game and buy VIP to earn bonus Social Spark",
+    image: SUNNYSIDE.icons.player,
+  },
+  {
+    title: "Join a stream",
+    description:
+      "Join a dev chat on discord or twitch stream to earn 1 Social Spark every 5 minutes from the host wearing a stream hat.",
+    image: SUNNYSIDE.icons.player,
+  },
+];
+
 export const TaskBoard: React.FC = () => {
   const { t } = useAppTranslation();
   const [selectedTask, setSelectedTask] = useState<Task>();
@@ -49,61 +64,88 @@ export const TaskBoard: React.FC = () => {
   );
 
   return (
-    <div className="flex flex-col gap-2 m-1">
-      <div className="flex justify-between gap-2">
-        <Label type="default">{`Tasks`}</Label>
-        <Label type="vibrant">{`Inventory: ${loveTokenCount} Social Spark`}</Label>
-      </div>
-      <div className="flex flex-col gap-2 text-xs mx-2">
-        <p>{`Complete tasks to earn Social Spark.`}</p>
-        <p>{`Social Spark can be used to purchase special items in the rewards shop`}</p>
-      </div>
-      <div className="flex flex-col gap-1 text-xs">
-        {TASKS.map((task) => (
-          <ButtonPanel key={task.title} onClick={() => setSelectedTask(task)}>
-            <div className="flex gap-3">
-              <img src={task.image} className="w-10" />
-              <div className="flex flex-col gap-1">
-                <p>{task.title}</p>
-                <p className="underline">{t("read.more")}</p>
-              </div>
-              <Label type="vibrant" className="absolute right-1 top-1">
-                {`${task.reward["Social Spark"]} Social Spark`}
-              </Label>
-            </div>
-          </ButtonPanel>
-        ))}
-        <ModalOverlay
-          show={!!selectedTask}
-          onBackdropClick={() => setSelectedTask(undefined)}
-        >
-          <CloseButtonPanel title={selectedTask?.title}>
-            <div className="flex flex-col gap-2 m-1">
-              <div className="flex gap-2">
-                <div
-                  className="w-[40%] relative min-w-[40%] rounded-md overflow-hidden shadow-md mr-2 flex justify-center items-center h-32"
-                  style={{
-                    backgroundImage: `url(${SUNNYSIDE.ui.grey_background})`,
-                    backgroundSize: "cover",
-                    backgroundPosition: "center",
-                  }}
-                >
-                  <img src={selectedTask?.image} className="w-[50%]" />
+    <div>
+      {/* Tasks */}
+      <div className="flex flex-col gap-2 m-1">
+        <div className="flex justify-between gap-2">
+          <Label type="default">{`Tasks`}</Label>
+          <Label type="vibrant">{`Inventory: ${loveTokenCount} Social Spark`}</Label>
+        </div>
+        <div className="flex flex-col gap-2 text-xs mx-2">
+          <p>{`Complete tasks to earn Social Spark.`}</p>
+          <p>{`Social Spark can be used to purchase special items in the rewards shop`}</p>
+        </div>
+        <div className="flex flex-col gap-1 text-xs">
+          {TASKS.map((task) => (
+            <ButtonPanel key={task.title} onClick={() => setSelectedTask(task)}>
+              <div className="flex gap-3">
+                <img src={task.image} className="w-10" />
+                <div className="flex flex-col gap-1">
+                  <p>{task.title}</p>
+                  <p className="underline">{t("read.more")}</p>
                 </div>
-                <div className="flex flex-col h-20 items-center">
-                  <p>{selectedTask?.description}</p>
-                </div>
+                <Label type="vibrant" className="absolute right-1 top-1">
+                  {`${task.reward?.["Social Spark"]} Social Spark`}
+                </Label>
               </div>
-              {
-                // TODO: Add complete condition
-                <Button onClick={() => setSelectedTask(undefined)}>
-                  {`Complete`}
-                </Button>
-              }
-            </div>
-          </CloseButtonPanel>
-        </ModalOverlay>
+            </ButtonPanel>
+          ))}
+        </div>
       </div>
+      {/* Other ways to earn Social Spark */}
+      <div className="flex flex-col gap-2 m-1">
+        <Label type="default">{`Other ways to earn Social Spark`}</Label>
+
+        <div className="flex flex-col gap-1 text-xs">
+          {OTHER_WAYS_TO_EARN_SOCIAL_SPARK.map((task) => (
+            <ButtonPanel key={task.title} onClick={() => setSelectedTask(task)}>
+              <div className="flex gap-3">
+                <img src={task.image} className="w-10" />
+                <div className="flex flex-col gap-1">
+                  <p>{task.title}</p>
+                  <p className="underline">{t("read.more")}</p>
+                </div>
+                {task.reward && (
+                  <Label type="vibrant" className="absolute right-1 top-1">
+                    {`${task.reward["Social Spark"]} Social Spark`}
+                  </Label>
+                )}
+              </div>
+            </ButtonPanel>
+          ))}
+        </div>
+      </div>
+      {/* Details Modal */}
+      <ModalOverlay
+        show={!!selectedTask}
+        onBackdropClick={() => setSelectedTask(undefined)}
+      >
+        <CloseButtonPanel title={selectedTask?.title} className="text-xs">
+          <div className="flex flex-col gap-2 m-1">
+            <div className="flex gap-2">
+              <div
+                className="w-[40%] relative min-w-[40%] rounded-md overflow-hidden shadow-md mr-2 flex justify-center items-center h-32"
+                style={{
+                  backgroundImage: `url(${SUNNYSIDE.ui.grey_background})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
+              >
+                <img src={selectedTask?.image} className="w-[50%]" />
+              </div>
+              <div className="flex flex-col h-20 items-center">
+                <p>{selectedTask?.description}</p>
+              </div>
+            </div>
+            {
+              // TODO: Add complete condition
+              <Button onClick={() => setSelectedTask(undefined)}>
+                {`Complete`}
+              </Button>
+            }
+          </div>
+        </CloseButtonPanel>
+      </ModalOverlay>
     </div>
   );
 };
