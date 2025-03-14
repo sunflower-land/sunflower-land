@@ -165,7 +165,7 @@ export class Wallet {
 
     await switchChain(config, {
       chainId: CONFIG.POLYGON_CHAIN_ID as 137 | 80002,
-      addEthereumChainParameter: chainParameter,
+      // addEthereumChainParameter: chainParameter,
     });
   }
 }
