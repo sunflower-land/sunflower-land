@@ -87,6 +87,7 @@ jobs:
           VITE_USDC_CONTRACT: "0x41e94eb019c0762f9bfcf9fb1e58725bfb0e7582"
 
           VITE_ALCHEMY_RPC: ${{ secrets.ALCHEMY_RPC }}
+          VITE_ALCHEMY_KEY: ${{ secrets.ALCHEMY_KEY }}
           VITE_POKO_API_KEY: ${{ secrets.POKO_API_KEY }}
           VITE_POKO_DIRECT_CHECKOUT_API_KEY: ${{ secrets.POKO_DIRECT_CHECKOUT_API_KEY }}
           VITE_WALLETCONNECT_PROJECT_ID: ${{ secrets.WALLETCONNECT_PROJECT_ID }}
