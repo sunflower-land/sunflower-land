@@ -32,6 +32,7 @@ import { GameCalendar } from "features/game/expansion/components/temperateSeason
 import { LandscapeButton } from "./components/LandscapeButton";
 import { RewardsButton } from "./components/referral/RewardsButton";
 import { hasFeatureAccess } from "lib/flags";
+import { TransactionsModal } from "./components/TransactionsModal";
 
 const _farmAddress = (state: MachineState) => state.context.farmAddress;
 const _linkedWallet = (state: MachineState) => state.context.linkedWallet;
@@ -169,10 +170,17 @@ const HudComponent: React.FC<{
           handleDeposit={handleDeposit}
           showDepositModal={showDepositModal}
         />
-        <BuyCurrenciesModal
-          show={showBuyCurrencies}
-          onClose={handleBuyCurrenciesModal}
-        />
+        {hasFeatureAccess(gameState.context.state, "FLOWER_DEPOSIT") ? (
+          <TransactionsModal
+            show={showBuyCurrencies}
+            onClose={handleBuyCurrenciesModal}
+          />
+        ) : (
+          <BuyCurrenciesModal
+            show={showBuyCurrencies}
+            onClose={handleBuyCurrenciesModal}
+          />
+        )}
       </HudContainer>
     </>
   );

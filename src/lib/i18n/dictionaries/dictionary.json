@@ -5690,5 +5690,8 @@
   "buying.gems.success": "Congratulations, your gems were purchased successfully!",
   "error.insufficientFlower": "Insufficient FLOWER",
   "gems": "Gems",
-  "usd": "USD"
+  "usd": "USD",
+  "transaction.deposit.flower": "Deposit $FLOWER",
+  "transaction.swap.flowerForCoins": "Swap $FLOWER for Coins",
+  "transaction.menu.title": "Select an option"
 }
