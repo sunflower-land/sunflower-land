@@ -165,6 +165,7 @@ export interface Context {
   discordId?: string;
   fslId?: string;
   oauthNonce: string;
+  data: Partial<Record<StateName, any>>;
 }
 
 export type Moderation = {
@@ -451,7 +452,7 @@ const EFFECT_STATES = Object.values(EFFECT_EVENTS).reduce(
             transactionId: context.transactionId as string,
           });
 
-          return { state: gameState, response: data };
+          return { state: gameState, data };
         },
         onDone: [
           {
@@ -459,10 +460,13 @@ const EFFECT_STATES = Object.values(EFFECT_EVENTS).reduce(
             cond: (_: Context, event: DoneInvokeEvent<any>) =>
               !event.data.state.transaction,
             actions: [
-              assign((_, event: DoneInvokeEvent<any>) => ({
-                actions: [],
-                state: event.data.state,
-              })),
+              assign((context: Context, event: DoneInvokeEvent<any>) => {
+                return {
+                  actions: [],
+                  state: event.data.state,
+                  data: { ...context.data, [stateName]: event.data.data },
+                };
+              }),
             ],
           },
           // If there is a transaction on the gameState move into playing so that
@@ -657,6 +661,7 @@ export function startGame(authContext: AuthContext) {
         verified: !CONFIG.API_URL,
         purchases: [],
         oauthNonce: "",
+        data: {},
       },
       states: {
         ...EFFECT_STATES,
@@ -1835,50 +1840,50 @@ export function startGame(authContext: AuthContext) {
             CONTINUE: "playing",
           },
         },
-        effectPending: {
-          entry: "setTransactionId",
-          invoke: {
-            src: async (context, event) => {
-              const { effect } = event as PostEffectEvent;
+        // effectPending: {
+        //   entry: "setTransactionId",
+        //   invoke: {
+        //     src: async (context, event) => {
+        //       const { effect } = event as PostEffectEvent;
 
-              if (context.actions.length > 0) {
-                await autosave({
-                  farmId: Number(context.farmId),
-                  sessionId: context.sessionId as string,
-                  actions: context.actions,
-                  token: authContext.user.rawToken as string,
-                  fingerprint: context.fingerprint as string,
-                  deviceTrackerId: context.deviceTrackerId as string,
-                  transactionId: context.transactionId as string,
-                });
-              }
+        //       if (context.actions.length > 0) {
+        //         await autosave({
+        //           farmId: Number(context.farmId),
+        //           sessionId: context.sessionId as string,
+        //           actions: context.actions,
+        //           token: authContext.user.rawToken as string,
+        //           fingerprint: context.fingerprint as string,
+        //           deviceTrackerId: context.deviceTrackerId as string,
+        //           transactionId: context.transactionId as string,
+        //         });
+        //       }
 
-              const { gameState, data } = await postEffect({
-                farmId: Number(context.farmId),
-                effect,
-                token: authContext.user.rawToken as string,
-                transactionId: context.transactionId as string,
-              });
+        //       const { gameState, data } = await postEffect({
+        //         farmId: Number(context.farmId),
+        //         effect,
+        //         token: authContext.user.rawToken as string,
+        //         transactionId: context.transactionId as string,
+        //       });
 
-              return { state: gameState, response: data };
-            },
-            onDone: [
-              {
-                target: "effectSuccess",
-                actions: [
-                  assign((_, event) => ({
-                    actions: [],
-                    state: event.data.state,
-                  })),
-                ],
-              },
-            ],
-            onError: {
-              target: "effectFailure",
-              actions: "assignErrorMessage",
-            },
-          },
-        },
+        //       return { state: gameState, response: data };
+        //     },
+        //     onDone: [
+        //       {
+        //         target: "effectSuccess",
+        //         actions: [
+        //           assign((_, event) => ({
+        //             actions: [],
+        //             state: event.data.state,
+        //           })),
+        //         ],
+        //       },
+        //     ],
+        //     onError: {
+        //       target: "effectFailure",
+        //       actions: "assignErrorMessage",
+        //     },
+        //   },
+        // },
         effectFailure: {
           on: {
             ACKNOWLEDGE: "playing",

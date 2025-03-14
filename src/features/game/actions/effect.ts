@@ -14,7 +14,8 @@ type EffectName =
   | "marketplace.listingCancelled"
   | "reward.airdropped"
   | "faceRecognition.started"
-  | "faceRecognition.completed";
+  | "faceRecognition.completed"
+  | "flower.depositStarted";
 
 export type StateName =
   | "marketplacePurchasing"
@@ -25,7 +26,8 @@ export type StateName =
   | "marketplaceListingCancelling"
   | "airdroppingReward"
   | "startingFaceRecognition"
-  | "completingFaceRecognition";
+  | "completingFaceRecognition"
+  | "depositingFlower";
 
 export type StateNameWithStatus = `${StateName}Success` | `${StateName}Failed`;
 
@@ -40,6 +42,7 @@ export const EFFECT_EVENTS: Record<EffectName, StateName> = {
   "reward.airdropped": "airdroppingReward",
   "faceRecognition.started": "startingFaceRecognition",
   "faceRecognition.completed": "completingFaceRecognition",
+  "flower.depositStarted": "depositingFlower",
 };
 
 export interface Effect {
@@ -85,7 +88,7 @@ export async function postEffect(
     throw new Error(ERRORS.EFFECT_SERVER_ERROR);
   }
 
-  const { gameState, ...data } = await response.json();
+  const { gameState, data } = await response.json();
 
   return {
     gameState: makeGame(gameState),

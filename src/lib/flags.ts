@@ -81,6 +81,7 @@ const FEATURE_FLAGS = {
     new Date("2025-03-24T00:00:00Z"),
   ),
   REFERRAL_PROGRAM: testnetFeatureFlag,
+  FLOWER_DEPOSIT: seasonAdminFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;
