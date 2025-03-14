@@ -127,9 +127,9 @@ const getAlchemyRpc = (chain: SupportedChain) => {
     case "baseSepolia":
       return `https://base-sepolia.g.alchemy.com/v2/${CONFIG.ALCHEMY_KEY}`;
     case "ronin":
-      return `https://base-sepolia.g.alchemy.com/v2/${CONFIG.ALCHEMY_KEY}`;
+      return `https://ronin-mainnet.g.alchemy.com/v2/${CONFIG.ALCHEMY_KEY}`;
     case "saigon":
-      return `https://base-sepolia.g.alchemy.com/v2/${CONFIG.ALCHEMY_KEY}`;
+      return `https://ronin-saigon.g.alchemy.com/v2/${CONFIG.ALCHEMY_KEY}`;
   }
 };
 
