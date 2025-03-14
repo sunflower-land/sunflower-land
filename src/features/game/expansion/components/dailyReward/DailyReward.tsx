@@ -104,17 +104,6 @@ export const DailyRewardContent: React.FC<{
     getBumpkinLevel(state.context.state.bumpkin.experience),
   );
   const hasReferralAccess = useSelector(gameService, _hasReferralAccess);
-  const streaks = dailyRewards?.streaks ?? 0;
-  const streakRemainder = streaks % 5;
-  const getNextBonus = streaks + (5 - streakRemainder);
-  const collectedAt = dailyRewards?.chest?.collectedAt ?? 0;
-
-  const collectedDate = new Date(collectedAt).toISOString().substring(0, 10);
-  const currentDate = new Date().toISOString().substring(0, 10);
-  const missedADay =
-    (new Date(currentDate).getTime() - new Date(collectedDate).getTime()) /
-      (1000 * 60 * 60 * 24) >
-    1;
 
   const chestService = useInterpret(rewardChestMachine, {
     context: {
@@ -144,6 +133,20 @@ export const DailyRewardContent: React.FC<{
     });
     chestService.send("OPEN");
   };
+
+  const streaks = dailyRewards?.streaks ?? 0;
+  const collectedAt = dailyRewards?.chest?.collectedAt ?? 0;
+
+  const collectedDate = new Date(collectedAt).toISOString().substring(0, 10);
+  const currentDate = new Date().toISOString().substring(0, 10);
+
+  const missedADay =
+    (new Date(currentDate).getTime() - new Date(collectedDate).getTime()) /
+      (1000 * 60 * 60 * 24) >
+    1;
+
+  const streakRemainder = streaks % 5;
+  const getNextBonus = streaks + (5 - streakRemainder);
 
   const Content: React.FC = () => {
     if (chestState.matches("opened")) {
