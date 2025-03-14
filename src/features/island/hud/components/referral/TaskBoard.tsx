@@ -1,9 +1,11 @@
 import { useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { ModalOverlay } from "components/ui/ModalOverlay";
-import { ButtonPanel, Panel } from "components/ui/Panel";
+import { ButtonPanel } from "components/ui/Panel";
 import Decimal from "decimal.js-light";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Context } from "features/game/GameProvider";
 import { InventoryItemName } from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -45,6 +47,7 @@ export const TaskBoard: React.FC = () => {
     gameService,
     (state) => state.context.state.inventory["Social Spark"] ?? new Decimal(0),
   );
+
   return (
     <div className="flex flex-col gap-2 m-1">
       <div className="flex justify-between gap-2">
@@ -74,12 +77,31 @@ export const TaskBoard: React.FC = () => {
           show={!!selectedTask}
           onBackdropClick={() => setSelectedTask(undefined)}
         >
-          <Panel>
-            <div className="flex flex-col gap-2 h-20">
-              <p>{selectedTask?.title}</p>
-              <p>{selectedTask?.description}</p>
+          <CloseButtonPanel title={selectedTask?.title}>
+            <div className="flex flex-col gap-2 m-1">
+              <div className="flex gap-2">
+                <div
+                  className="w-[40%] relative min-w-[40%] rounded-md overflow-hidden shadow-md mr-2 flex justify-center items-center h-32"
+                  style={{
+                    backgroundImage: `url(${SUNNYSIDE.ui.grey_background})`,
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                  }}
+                >
+                  <img src={selectedTask?.image} className="w-[50%]" />
+                </div>
+                <div className="flex flex-col h-20 items-center">
+                  <p>{selectedTask?.description}</p>
+                </div>
+              </div>
+              {
+                // TODO: Add complete condition
+                <Button onClick={() => setSelectedTask(undefined)}>
+                  {`Complete`}
+                </Button>
+              }
             </div>
-          </Panel>
+          </CloseButtonPanel>
         </ModalOverlay>
       </div>
     </div>
