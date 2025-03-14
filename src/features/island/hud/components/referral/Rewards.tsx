@@ -24,6 +24,7 @@ export const Rewards: React.FC<Props> = ({ show, onHide }) => {
         ]}
         currentTab={tab}
         setCurrentTab={setTab}
+        onClose={onHide}
       >
         {tab === 0 && <TaskBoard />}
         {tab === 1 && <DailyRewardContent onClose={onHide} />}
