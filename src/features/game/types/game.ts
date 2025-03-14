@@ -91,6 +91,7 @@ import {
   SeasonalEventName,
 } from "./calendar";
 import { VipBundle } from "../lib/vipAccess";
+import { SocialTaskName } from "../events/landExpansion/completeSocialTask";
 
 export type Reward = {
   coins?: number;
@@ -1592,6 +1593,12 @@ export interface GameState {
   };
   discord?: {
     connected: boolean;
+  };
+  referrals?: {
+    totalReferrals: number;
+  };
+  socialTasks?: {
+    completed: Partial<Record<SocialTaskName, { completedAt: number }>>;
   };
 }
 

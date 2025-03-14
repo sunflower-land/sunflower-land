@@ -6,62 +6,40 @@ import { ModalOverlay } from "components/ui/ModalOverlay";
 import { ButtonPanel } from "components/ui/Panel";
 import Decimal from "decimal.js-light";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import {
+  TASKS,
+  OTHER_WAYS_TO_EARN_SOCIAL_SPARK,
+  Task,
+  OtherTasks,
+  SocialTaskName,
+} from "features/game/events/landExpansion/completeSocialTask";
 import { Context } from "features/game/GameProvider";
-import { InventoryItemName } from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useContext, useState } from "react";
 
-type Task = {
-  title: string;
-  description: string;
-  image: string;
-  reward?: Partial<Record<InventoryItemName, number>>;
-};
-
-const TASKS: Task[] = [
-  {
-    title: "Invite a friend",
-    description: "Invite a friend to join the game",
-    image: SUNNYSIDE.icons.player,
-    reward: { "Social Spark": 15 },
-  },
-  {
-    title: "Link your Discord",
-    description: "Link your Discord to your account",
-    image: SUNNYSIDE.icons.discord,
-    reward: { "Social Spark": 25 },
-  },
-  {
-    title: "Link your Telegram",
-    description: "Link your Telegram to your account",
-    image: SUNNYSIDE.icons.telegram,
-    reward: { "Social Spark": 25 },
-  },
-];
-
-const OTHER_WAYS_TO_EARN_SOCIAL_SPARK: Task[] = [
-  {
-    title: "Invite a VIP friend",
-    description:
-      "Invite a friend to join the game and buy VIP to earn bonus Social Spark",
-    image: SUNNYSIDE.icons.player,
-  },
-  {
-    title: "Join a stream",
-    description:
-      "Join a dev chat on discord or twitch stream to earn 1 Social Spark every 5 minutes from the host wearing a stream hat.",
-    image: SUNNYSIDE.icons.player,
-  },
-];
-
 export const TaskBoard: React.FC = () => {
   const { t } = useAppTranslation();
-  const [selectedTask, setSelectedTask] = useState<Task>();
+  const [selectedTask, setSelectedTask] = useState<Task | OtherTasks>();
   const { gameService } = useContext(Context);
+  const state = useSelector(gameService, (state) => state.context.state);
   const loveTokenCount = useSelector(
     gameService,
     (state) => state.context.state.inventory["Social Spark"] ?? new Decimal(0),
   );
+  const socialTasks = useSelector(
+    gameService,
+    (state) => state.context.state.socialTasks,
+  );
+
+  const isTaskCompleted = (taskId: SocialTaskName) =>
+    !!socialTasks?.completed?.[taskId]?.completedAt;
+
+  const completeTask = (taskId: SocialTaskName) => {
+    gameService.send({
+      type: "socialTask.completed",
+      taskId,
+    });
+  };
 
   return (
     <div>
@@ -76,7 +54,7 @@ export const TaskBoard: React.FC = () => {
           <p>{`Social Spark can be used to purchase special items in the rewards shop`}</p>
         </div>
         <div className="flex flex-col gap-1 text-xs">
-          {TASKS.map((task) => (
+          {Object.values(TASKS).map((task) => (
             <ButtonPanel key={task.title} onClick={() => setSelectedTask(task)}>
               <div className="flex gap-3">
                 <img src={task.image} className="w-10" />
@@ -97,7 +75,7 @@ export const TaskBoard: React.FC = () => {
         <Label type="default">{`Other ways to earn Social Spark`}</Label>
 
         <div className="flex flex-col gap-1 text-xs">
-          {OTHER_WAYS_TO_EARN_SOCIAL_SPARK.map((task) => (
+          {Object.values(OTHER_WAYS_TO_EARN_SOCIAL_SPARK).map((task) => (
             <ButtonPanel key={task.title} onClick={() => setSelectedTask(task)}>
               <div className="flex gap-3">
                 <img src={task.image} className="w-10" />
@@ -105,11 +83,6 @@ export const TaskBoard: React.FC = () => {
                   <p>{task.title}</p>
                   <p className="underline">{t("read.more")}</p>
                 </div>
-                {task.reward && (
-                  <Label type="vibrant" className="absolute right-1 top-1">
-                    {`${task.reward["Social Spark"]} Social Spark`}
-                  </Label>
-                )}
               </div>
             </ButtonPanel>
           ))}
@@ -137,12 +110,20 @@ export const TaskBoard: React.FC = () => {
                 <p>{selectedTask?.description}</p>
               </div>
             </div>
-            {
-              // TODO: Add complete condition
-              <Button onClick={() => setSelectedTask(undefined)}>
-                {`Complete`}
-              </Button>
-            }
+            {selectedTask &&
+              "requirement" in selectedTask &&
+              selectedTask.requirement(state) &&
+              !isTaskCompleted(selectedTask.title as SocialTaskName) && (
+                // TODO: Add complete condition
+                <Button
+                  onClick={() => {
+                    completeTask(selectedTask.title as SocialTaskName);
+                    setSelectedTask(undefined);
+                  }}
+                >
+                  {`Complete`}
+                </Button>
+              )}
           </div>
         </CloseButtonPanel>
       </ModalOverlay>
