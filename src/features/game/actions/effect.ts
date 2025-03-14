@@ -15,7 +15,7 @@ type EffectName =
   | "reward.airdropped"
   | "faceRecognition.started"
   | "faceRecognition.completed"
-  | "flower.deposited";
+  | "flower.depositStarted";
 
 export type StateName =
   | "marketplacePurchasing"
@@ -42,7 +42,7 @@ export const EFFECT_EVENTS: Record<EffectName, StateName> = {
   "reward.airdropped": "airdroppingReward",
   "faceRecognition.started": "startingFaceRecognition",
   "faceRecognition.completed": "completingFaceRecognition",
-  "flower.deposited": "depositingFlower",
+  "flower.depositStarted": "depositingFlower",
 };
 
 export interface Effect {

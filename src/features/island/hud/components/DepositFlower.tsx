@@ -126,9 +126,9 @@ const CreateDeposit = () => {
   const error = useSelector(gameService, _error);
 
   const generateAddress = async () => {
-    gameService.send("flower.deposited", {
+    gameService.send("flower.depositStarted", {
       effect: {
-        type: "flower.deposited",
+        type: "flower.depositStarted",
       },
       authToken: authService.getSnapshot().context.user.rawToken as string,
     });
