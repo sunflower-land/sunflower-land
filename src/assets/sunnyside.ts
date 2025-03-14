@@ -545,6 +545,7 @@ export const SUNNYSIDE = {
     confirm: `${CONFIG.PROTECTED_IMAGE_URL}/icons/confirm.png`,
     disc_large: `${CONFIG.PROTECTED_IMAGE_URL}/icons/disc_large.png`,
     disc: `${CONFIG.PROTECTED_IMAGE_URL}/icons/disc.png`,
+    discord: `${CONFIG.PROTECTED_IMAGE_URL}/icons/discord.png`,
     drag: `${CONFIG.PROTECTED_IMAGE_URL}/icons/drag.png`,
     dragging: `${CONFIG.PROTECTED_IMAGE_URL}/icons/dragging.png`,
     expand: `${CONFIG.PROTECTED_IMAGE_URL}/icons/expand.png`,
@@ -570,6 +571,7 @@ export const SUNNYSIDE = {
     stopwatch: `${CONFIG.PROTECTED_IMAGE_URL}/icons/stopwatch.png`,
     sunflorea: `${CONFIG.PROTECTED_IMAGE_URL}/icons/sunflorea.png`,
     sword: `${CONFIG.PROTECTED_IMAGE_URL}/icons/sword.png`,
+    telegram: `${CONFIG.PROTECTED_IMAGE_URL}/icons/telegram.png`,
     timer: `${CONFIG.PROTECTED_IMAGE_URL}/icons/timer.png`,
     treasure: `${CONFIG.PROTECTED_IMAGE_URL}/icons/treasure_icon.png`,
     water: `${CONFIG.PROTECTED_IMAGE_URL}/icons/water.png`,
@@ -1260,6 +1262,7 @@ export const SUNNYSIDE = {
     speechBubbleBottom: `${CONFIG.PROTECTED_IMAGE_URL}/ui/speech_bubble_bottom.webp`,
     reel: `${CONFIG.PROTECTED_IMAGE_URL}/ui/reel.png`,
     disc_cancel: `${CONFIG.PROTECTED_IMAGE_URL}/ui/disc_cancel.png`,
+    board: `${CONFIG.PROTECTED_IMAGE_URL}/ui/delivery_board.png`,
 
     //Panels
     grayBorder: `${CONFIG.PROTECTED_IMAGE_URL}/ui/panel/gray_border.png`,

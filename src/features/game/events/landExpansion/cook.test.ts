@@ -16,6 +16,8 @@ const GAME_STATE: GameState = {
   inventory: {},
 };
 
+const createdAt = Date.now();
+
 describe("cook", () => {
   it("does not cook if building does not exist", () => {
     expect(() =>
@@ -29,6 +31,7 @@ describe("cook", () => {
           item: "Boiled Eggs",
           buildingId: "123",
         },
+        createdAt,
       }),
     ).toThrow(`Required building does not exist`);
   });
@@ -51,22 +54,22 @@ describe("cook", () => {
                 crafting: [
                   {
                     name: "Boiled Eggs",
-                    readyAt: Date.now() + 60 * 1000,
+                    readyAt: createdAt + 60 * 1000,
                     amount: 1,
                   },
                   {
                     name: "Boiled Eggs",
-                    readyAt: Date.now() + 60 * 1000,
+                    readyAt: createdAt + 60 * 1000,
                     amount: 1,
                   },
                   {
                     name: "Boiled Eggs",
-                    readyAt: Date.now() + 60 * 1000,
+                    readyAt: createdAt + 60 * 1000,
                     amount: 1,
                   },
                   {
                     name: "Boiled Eggs",
-                    readyAt: Date.now() + 60 * 1000,
+                    readyAt: createdAt + 60 * 1000,
                     amount: 1,
                   },
                 ],
@@ -79,6 +82,7 @@ describe("cook", () => {
           item: "Boiled Eggs",
           buildingId: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
         },
+        createdAt,
       }),
     ).toThrow("No available slots");
   });
@@ -108,6 +112,7 @@ describe("cook", () => {
           item: "Boiled Eggs",
           buildingId: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
         },
+        createdAt,
       }),
     ).toThrow("Insufficient ingredient: Egg");
   });
@@ -136,6 +141,7 @@ describe("cook", () => {
         item: "Boiled Eggs",
         buildingId: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
       },
+      createdAt,
     });
 
     expect(state.inventory["Egg"]).toEqual(new Decimal(12));
@@ -169,6 +175,7 @@ describe("cook", () => {
         item: "Boiled Eggs",
         buildingId: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
       },
+      createdAt,
     });
 
     expect(state.inventory["Radish"]).toEqual(new Decimal(2));
@@ -201,6 +208,7 @@ describe("cook", () => {
         item: "Boiled Eggs",
         buildingId: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
       },
+      createdAt,
     });
 
     expect(state.buildings["Fire Pit"]?.[0].crafting?.[0]).toEqual(
@@ -238,6 +246,7 @@ describe("cook", () => {
         item: "Boiled Eggs",
         buildingId: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
       },
+      createdAt,
     });
 
     const oilconsumed = getOilConsumption("Fire Pit", "Boiled Eggs");
@@ -245,7 +254,6 @@ describe("cook", () => {
   });
 
   it("applies partial boost if not enough oil", () => {
-    const dateNow = Date.now();
     const state = cook({
       state: {
         ...GAME_STATE,
@@ -274,10 +282,10 @@ describe("cook", () => {
         item: "Fancy Fries",
         buildingId: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
       },
-      createdAt: dateNow,
+      createdAt,
     });
 
-    const readyAt = dateNow + 60 * 60 * 16 * 1000;
+    const readyAt = createdAt + 60 * 60 * 16 * 1000;
 
     expect(state.buildings["Deli"]?.[0].crafting?.[0]).toEqual(
       expect.objectContaining({
@@ -318,6 +326,7 @@ describe("cook", () => {
         item: "Boiled Eggs",
         buildingId: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
       },
+      createdAt,
     });
 
     expect(state.inventory["Egg"]).toEqual(new Decimal(0));
@@ -331,8 +340,8 @@ describe("cook", () => {
           Potato: new Decimal(1000),
         },
         vip: {
-          bundles: [{ name: "1_MONTH", boughtAt: Date.now() }],
-          expiresAt: Date.now() + 31 * 24 * 60 * 60 * 1000,
+          bundles: [{ name: "1_MONTH", boughtAt: createdAt }],
+          expiresAt: createdAt + 31 * 24 * 60 * 60 * 1000,
         },
         buildings: {
           "Fire Pit": [
@@ -345,7 +354,7 @@ describe("cook", () => {
               crafting: [
                 {
                   name: "Boiled Eggs",
-                  readyAt: Date.now() + 60 * 1000,
+                  readyAt: createdAt + 60 * 1000,
                   amount: 1,
                 },
               ],
@@ -358,6 +367,7 @@ describe("cook", () => {
         item: "Mashed Potato",
         buildingId: "blah",
       },
+      createdAt,
     });
 
     expect(state.buildings["Fire Pit"]?.[0].crafting?.[1]).toEqual(
@@ -369,7 +379,7 @@ describe("cook", () => {
   });
 
   it("adds the correct readyAt for the second recipe when a recipe is already cooking", () => {
-    const firstReadyAt = Date.now() + 60 * 1000;
+    const firstReadyAt = createdAt + 60 * 1000;
     const cookingSeconds = COOKABLES["Mashed Potato"].cookingSeconds;
 
     const state = cook({
@@ -379,8 +389,8 @@ describe("cook", () => {
           Potato: new Decimal(1000),
         },
         vip: {
-          bundles: [{ name: "1_MONTH", boughtAt: Date.now() }],
-          expiresAt: Date.now() + 31 * 24 * 60 * 60 * 1000,
+          bundles: [{ name: "1_MONTH", boughtAt: createdAt }],
+          expiresAt: createdAt + 31 * 24 * 60 * 60 * 1000,
         },
         buildings: {
           "Fire Pit": [
@@ -393,7 +403,7 @@ describe("cook", () => {
               crafting: [
                 {
                   name: "Boiled Eggs",
-                  readyAt: Date.now() + 60 * 1000,
+                  readyAt: createdAt + 60 * 1000,
                   amount: 1,
                 },
               ],
@@ -406,6 +416,7 @@ describe("cook", () => {
         item: "Mashed Potato",
         buildingId: "blah",
       },
+      createdAt,
     });
 
     const readyAt = firstReadyAt + cookingSeconds * 1000;
@@ -416,8 +427,6 @@ describe("cook", () => {
   });
 
   it("adds the correct readyAt for the second recipe when a recipe is already cooked", () => {
-    const now = Date.now();
-
     const state = cook({
       state: {
         ...GAME_STATE,
@@ -425,8 +434,8 @@ describe("cook", () => {
           Potato: new Decimal(100),
         },
         vip: {
-          bundles: [{ name: "1_MONTH", boughtAt: Date.now() }],
-          expiresAt: now + 31 * 24 * 60 * 60 * 1000,
+          bundles: [{ name: "1_MONTH", boughtAt: createdAt }],
+          expiresAt: createdAt + 31 * 24 * 60 * 60 * 1000,
         },
         buildings: {
           "Fire Pit": [
@@ -439,7 +448,7 @@ describe("cook", () => {
               crafting: [
                 {
                   name: "Boiled Eggs",
-                  readyAt: now - 60 * 60 * 1000, // Finished 1 hour ago
+                  readyAt: createdAt - 60 * 60 * 1000, // Finished 1 hour ago
                   amount: 1,
                 },
               ],
@@ -452,18 +461,18 @@ describe("cook", () => {
         item: "Mashed Potato",
         buildingId: "blah",
       },
-      createdAt: now,
+      createdAt,
     });
 
     expect(state.buildings["Fire Pit"]?.[0].crafting?.[1].readyAt).toBeCloseTo(
-      now + COOKABLES["Mashed Potato"].cookingSeconds * 1000,
+      createdAt + COOKABLES["Mashed Potato"].cookingSeconds * 1000,
     );
   });
 });
 
 describe("getReadyAt", () => {
   it("applies 10% speed boost with Rush Hour skill", () => {
-    const now = Date.now();
+    const now = createdAt;
 
     const time = getReadyAt({
       buildingId: "123",
@@ -484,7 +493,7 @@ describe("getReadyAt", () => {
   });
 
   it("applies 50% speed boost with Luna's Hat", () => {
-    const now = Date.now();
+    const now = createdAt;
 
     const time = getReadyAt({
       buildingId: "123",
@@ -509,7 +518,7 @@ describe("getReadyAt", () => {
   });
 
   it("applies 25% speed boost with Faction Medallion", () => {
-    const now = Date.now();
+    const now = createdAt;
 
     const time = getReadyAt({
       buildingId: "1",
@@ -542,7 +551,7 @@ describe("getReadyAt", () => {
   });
 
   it("does not apply 25% speed boost with Faction Medallion when pledged in different Faction", () => {
-    const now = Date.now();
+    const now = createdAt;
 
     const time = getReadyAt({
       buildingId: "1",
@@ -572,7 +581,7 @@ describe("getReadyAt", () => {
   });
 
   it("does not apply 25% speed boost with Faction Medallion when not pledged in a Faction", () => {
-    const now = Date.now();
+    const now = createdAt;
 
     const time = getReadyAt({
       buildingId: "1",
@@ -596,7 +605,7 @@ describe("getReadyAt", () => {
   });
 
   it("applies Time Warp Totem", () => {
-    const now = Date.now();
+    const now = createdAt;
 
     const time = getReadyAt({
       buildingId: "123",
@@ -626,7 +635,7 @@ describe("getReadyAt", () => {
   });
 
   it("applies Super Totem", () => {
-    const now = Date.now();
+    const now = createdAt;
 
     const time = getReadyAt({
       buildingId: "123",
@@ -656,7 +665,7 @@ describe("getReadyAt", () => {
   });
 
   it("doesn't stack Super Totem and Time Warp Totem", () => {
-    const now = Date.now();
+    const now = createdAt;
 
     const time = getReadyAt({
       buildingId: "123",
@@ -694,7 +703,7 @@ describe("getReadyAt", () => {
   });
 
   it("applies desert gnome boost", () => {
-    const now = Date.now();
+    const now = createdAt;
 
     const time = getReadyAt({
       buildingId: "123",
@@ -706,9 +715,9 @@ describe("getReadyAt", () => {
           "Desert Gnome": [
             {
               coordinates: { x: 1, y: 1 },
-              createdAt: Date.now(),
+              createdAt: createdAt,
               id: "1",
-              readyAt: Date.now(),
+              readyAt: createdAt,
             },
           ],
         },
@@ -724,12 +733,12 @@ describe("getReadyAt", () => {
   });
 
   it("boosts Fire Pit time by 20% with enough oil to finish cooking", () => {
-    const now = Date.now();
+    const now = createdAt;
     const FirePit = {
       coordinates: { x: 1, y: 1 },
-      createdAt: Date.now(),
+      createdAt: createdAt,
       id: "1",
-      readyAt: Date.now(),
+      readyAt: createdAt,
       oil: 10,
     };
 
@@ -754,7 +763,7 @@ describe("getReadyAt", () => {
     jest.useFakeTimers();
     jest.setSystemTime(new Date("2024-01-01T00:00:00Z").getTime());
 
-    const now = Date.now();
+    const now = createdAt;
 
     const state: GameState = {
       ...GAME_STATE,
@@ -762,7 +771,7 @@ describe("getReadyAt", () => {
         Kitchen: [
           {
             coordinates: { x: 0, y: 0 },
-            createdAt: Date.now(),
+            createdAt: createdAt,
             id: "1",
             readyAt: 0,
             oil: 0,
@@ -773,9 +782,9 @@ describe("getReadyAt", () => {
         "Gourmet Hourglass": [
           {
             coordinates: { x: 1, y: 1 },
-            createdAt: Date.now(),
+            createdAt: createdAt,
             id: "1",
-            readyAt: Date.now(),
+            readyAt: createdAt,
           },
         ],
       },
@@ -799,7 +808,7 @@ describe("getReadyAt", () => {
   });
 
   it("does not apply expired Gourmet Hourglass boost of +50% cooking speed for 4 hours", () => {
-    const now = Date.now();
+    const now = createdAt;
     const fiveHoursAgo = now - 5 * 60 * 60 * 1000;
 
     const state: GameState = {
@@ -808,7 +817,7 @@ describe("getReadyAt", () => {
         Kitchen: [
           {
             coordinates: { x: 0, y: 0 },
-            createdAt: Date.now(),
+            createdAt: createdAt,
             id: "1",
             readyAt: 0,
             oil: 0,
@@ -840,7 +849,7 @@ describe("getReadyAt", () => {
   });
 
   it("applies 10% speed boost on Firepit with Fast Feasts skill", () => {
-    const now = Date.now();
+    const now = createdAt;
 
     const time = getReadyAt({
       buildingId: "123",
@@ -861,7 +870,7 @@ describe("getReadyAt", () => {
   });
 
   it("applies 10% speed boost on Kitchen with Fast Feasts skill", () => {
-    const now = Date.now();
+    const now = createdAt;
 
     const time = getReadyAt({
       buildingId: "123",
@@ -892,7 +901,7 @@ describe("getReadyAt", () => {
         "Fire Pit": [
           {
             coordinates: { x: 0, y: 0 },
-            createdAt: Date.now(),
+            createdAt: createdAt,
             id: "1",
             readyAt: 0,
             oil: 1,
@@ -907,7 +916,7 @@ describe("getReadyAt", () => {
   });
 
   it("does not apply Swift Sizzle boost on Kitchen", () => {
-    const now = Date.now();
+    const now = createdAt;
 
     const time = getReadyAt({
       buildingId: "123",
@@ -925,7 +934,7 @@ describe("getReadyAt", () => {
   });
 
   it("applies a 10% speed boost on cakes with Frosted Cakes skill", () => {
-    const now = Date.now();
+    const now = createdAt;
 
     const time = getReadyAt({
       buildingId: "123",
@@ -958,7 +967,7 @@ describe("getReadyAt", () => {
         Kitchen: [
           {
             coordinates: { x: 0, y: 0 },
-            createdAt: Date.now(),
+            createdAt: createdAt,
             id: "1",
             readyAt: 0,
             oil: 10,
@@ -973,7 +982,7 @@ describe("getReadyAt", () => {
   });
 
   it("does not apply Turbo Fry boost on Fire Pit", () => {
-    const now = Date.now();
+    const now = createdAt;
 
     const time = getReadyAt({
       buildingId: "123",
@@ -1003,7 +1012,7 @@ describe("getReadyAt", () => {
         Deli: [
           {
             coordinates: { x: 0, y: 0 },
-            createdAt: Date.now(),
+            createdAt: createdAt,
             id: "1",
             readyAt: 0,
             oil: 24,
@@ -1024,7 +1033,7 @@ describe("getReadyAt", () => {
         Deli: [
           {
             coordinates: { x: 0, y: 0 },
-            createdAt: Date.now(),
+            createdAt: createdAt,
             id: "1",
             readyAt: 0,
             oil: 6,
@@ -1045,7 +1054,7 @@ describe("getReadyAt", () => {
   });
 
   it("does not apply Gourmet Hourglass boost to queued recipe when boost expires before cooking starts", () => {
-    const now = Date.now();
+    const now = createdAt;
 
     // First recipe (Boiled Eggs) will finish in 10 seconds
     const eggReadyAt = now + 10 * 1000;
@@ -1118,7 +1127,7 @@ describe("getReadyAt", () => {
   });
 
   it("applies the Gourmet Hourglass boost if the queued recipe will start before the boost expires", () => {
-    const now = Date.now();
+    const now = createdAt;
     // Hourglass expires in 30 minutes
     const hourglassCreatedAt =
       now - (EXPIRY_COOLDOWNS["Gourmet Hourglass"] as number) + 30 * 60 * 1000;
@@ -1192,7 +1201,7 @@ describe("getCookingOilBoost", () => {
         "Fire Pit": [
           {
             coordinates: { x: 0, y: 0 },
-            createdAt: Date.now(),
+            createdAt: createdAt,
             id: "1",
             readyAt: 0,
             oil: 1,
@@ -1207,7 +1216,7 @@ describe("getCookingOilBoost", () => {
   });
 
   it("applies the 50% cooking boost for valid Ronin NFTs", () => {
-    const now = Date.now();
+    const now = createdAt;
     const cookTimeMs = COOKABLES["Boiled Eggs"].cookingSeconds * 1000;
 
     const state = cook({
@@ -1249,7 +1258,7 @@ describe("getCookingOilBoost", () => {
   });
 
   it("does not apply the 50% cooking boost for Bronze Season Pass (Ronin NFT)", () => {
-    const now = Date.now();
+    const now = createdAt;
     const cookTimeMs = COOKABLES["Boiled Eggs"].cookingSeconds * 1000;
 
     const state = cook({
@@ -1291,7 +1300,7 @@ describe("getCookingOilBoost", () => {
   });
 
   it("does not apply the 50% cooking boost to a queue item that starts after the Ronin NFT expires", () => {
-    const now = Date.now();
+    const now = createdAt;
     const cookTimeMs = COOKABLES["Boiled Eggs"].cookingSeconds * 1000;
 
     const state = cook({
@@ -1341,7 +1350,7 @@ describe("getCookingOilBoost", () => {
   });
 
   it("does not apply the 50% cooking boost on an expired Ronin NFT", () => {
-    const now = Date.now();
+    const now = createdAt;
     const cookTimeMs = COOKABLES["Boiled Eggs"].cookingSeconds * 1000;
 
     const state = cook({
