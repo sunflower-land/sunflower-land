@@ -2,7 +2,7 @@ import { Button } from "components/ui/Button";
 import { Modal } from "components/ui/Modal";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { GameWallet } from "features/wallet/Wallet";
 import { useInterpret, useActor, useSelector } from "@xstate/react";
@@ -124,7 +124,15 @@ export const DailyRewardContent: React.FC<{
     },
   });
 
+  useEffect(() => {
+    chestService.send("UPDATE_BUMPKIN_LEVEL", { bumpkinLevel });
+  }, [bumpkinLevel]);
+
   const [chestState] = useActor(chestService);
+
+  if (bumpkinLevel <= 5) {
+    return null;
+  }
 
   const reveal = () => {
     gameService.send("REVEAL", {
