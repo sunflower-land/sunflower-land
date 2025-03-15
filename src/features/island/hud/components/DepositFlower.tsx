@@ -1,170 +1,204 @@
+import React, { useContext, useState } from "react";
 import { Label } from "components/ui/Label";
-import React, { useContext, useEffect, useState } from "react";
+import { SUNNYSIDE } from "assets/sunnyside";
+
+import baseIcon from "assets/icons/chains/base.png";
+import polygonIcon from "assets/icons/chains/polygon.webp";
+import {
+  DropdownOptionsPanel,
+  ButtonPanel,
+  DropdownButtonPanel,
+} from "components/ui/Panel";
 import flowerIcon from "assets/icons/flower_token.webp";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { Button } from "components/ui/Button";
-import { useWatchContractEvent, useChains } from "wagmi";
-import { CONFIG } from "lib/config";
-import FlowerOFT from "lib/blockchain/abis/FlowerOFT";
-import { config } from "features/wallet/WalletProvider";
-import { Context } from "features/game/GameProvider";
-import * as AuthProvider from "features/auth/lib/Provider";
-import { CopyAddress } from "components/ui/CopyAddress";
-import { baseSepolia } from "viem/chains";
 import { MachineState } from "features/game/lib/gameMachine";
+import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
+import { CopySvg } from "components/ui/CopyField";
+import { useTranslation } from "react-i18next";
 
-interface Props {
-  onClose: () => void;
-}
-export const DepositFlower: React.FC<Props> = ({ onClose }) => {
-  const { t } = useAppTranslation();
+const networkOptions = [
+  { value: "Base", icon: baseIcon },
+  { value: "Polygon", icon: polygonIcon }, // You might want to use a different icon for Polygon
+];
 
-  const [page, setPage] = useState<"create" | "existing" | "landing">(
-    "landing",
-  );
-
-  if (page === "create") {
-    return <CreateDeposit />;
-  }
-
-  return (
-    <div>
-      <Label type="default" icon={flowerIcon}>
-        {`Deposit $FLOWER`}
-      </Label>
-      <Button onClick={() => setPage("create")}>{`Create New Deposit`}</Button>
-      <Button onClick={() => setPage("existing")}>{`Existing Deposits`}</Button>
-    </div>
-  );
-};
-
-type FlowerDeposit = {
-  transactionHash: string;
-  value: string;
-};
-
-const _success = (state: MachineState) =>
-  state.matches("depositingFlowerSuccess");
-const _error = (state: MachineState) => state.matches("depositingFlowerFailed");
-const _pending = (state: MachineState) => state.matches("depositingFlower");
-const _deposits = (state: MachineState): FlowerDeposit[] =>
-  state.context.data["depositingFlower"]?.deposits ?? [];
 const _depositAddress = (state: MachineState): string =>
-  state.context.data["depositingFlower"]?.depositAddress ?? "";
+  state.context.data["depositingFlower"]?.depositAddress ??
+  "0xdef0123456789abcdef0123456789abcdef012345";
 
-const AddressComponent = ({
-  address,
-  refreshDeposit,
-}: {
-  address: string;
-  refreshDeposit: () => void;
+export const DepositFlower: React.FC<{ onClose: () => void }> = ({
+  onClose,
 }) => {
   const { gameService } = useContext(Context);
+  const { t } = useTranslation();
+  const [selectedNetwork, setSelectedNetwork] = useState<string>();
+  const [acknowledged, setAcknowledged] = useState(false);
+  const [showLabel, setShowLabel] = useState(false);
+  const [tooltipMessage, setTooltipMessage] = useState<string>(t("copied"));
 
-  const pending = useSelector(gameService, _pending);
+  const depositAddress = useSelector(gameService, _depositAddress);
 
-  const deposits = useSelector(gameService, _deposits);
+  const handleNetworkChange = (network: string) => {
+    setAcknowledged(false);
+    setSelectedNetwork(network);
+  };
 
-  useWatchContractEvent({
-    address: CONFIG.FLOWER_CONTRACT as `0x${string}`,
-    abi: FlowerOFT,
-    fromBlock: 22988953n,
-    eventName: "Transfer",
-    args: {
-      to: address as `0x${string}`,
-    },
-    chainId: baseSepolia.id,
-    onLogs() {
-      refreshDeposit();
-    },
-    config,
-  });
+  const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(depositAddress);
 
-  const chains = useChains({ config });
+      setShowLabel(true);
+    } catch (e: unknown) {
+      setShowLabel(true);
+      setTooltipMessage(typeof e === "string" ? e : t("copy.failed"));
+    }
 
-  const chainConfig = chains.find((chain) => chain.id === baseSepolia.id);
+    // Close tooltip after two seconds
+    setTimeout(() => {
+      setShowLabel(false);
+    }, 2000);
+  };
 
   return (
     <>
-      <div>{`Address: ${address}`}</div>
-      <CopyAddress address={address} />
-      <Label type="danger">
-        {`Do not save this address as address may change`}
-      </Label>
-      <Label type="default">{`Min 5 $FLOWER to deposit`}</Label>
       <div>
-        {deposits.map(({ transactionHash, value }) => (
-          <div key={transactionHash}>
-            <a
-              href={`${chainConfig?.blockExplorers?.default?.url}/tx/${transactionHash}`}
-              target="_blank"
-              rel="noreferrer"
+        <div className="flex items-center gap-3 mb-2">
+          <img
+            src={SUNNYSIDE.icons.arrow_left}
+            className="w-6 cursor-pointer"
+            onClick={onClose}
+          />
+          <Label type="default" icon={flowerIcon}>
+            {`Deposit $FLOWER`}
+          </Label>
+        </div>
+
+        <Dropdown
+          options={networkOptions}
+          value={selectedNetwork}
+          onChange={handleNetworkChange}
+          placeholder="Select network"
+        />
+
+        {!acknowledged && selectedNetwork && (
+          <>
+            <div className="flex flex-col gap-2 p-2 mt-2">
+              <div className="flex  gap-2">
+                <img src={SUNNYSIDE.icons.expression_alerted} className="h-5" />
+                <span className="text-xxs sm:text-xs">
+                  {`Only deposit $FLOWER from ${selectedNetwork}. Other deposits will be lost.`}
+                </span>
+              </div>
+              <div className="flex gap-2">
+                <img src={flowerIcon} className="h-5" />
+                <span className="text-xxs sm:text-xs">
+                  {`Minimum deposit is 2 $FLOWER.`}
+                </span>
+              </div>
+              <div className="flex gap-2">
+                <img src={SUNNYSIDE.icons.stopwatch} className="h-5" />
+                <span className="text-xxs sm:text-xs">
+                  {`Processing times may vary.`}
+                </span>
+              </div>
+            </div>
+            <ButtonPanel
+              className="w-full text-center"
+              onClick={() => setAcknowledged(true)}
             >
-              {`${transactionHash} - ${value}`}
-            </a>
+              <span>{`I understand`}</span>
+            </ButtonPanel>
+          </>
+        )}
+
+        {acknowledged && selectedNetwork && (
+          <div className="relative flex flex-col items-center justify-center gap-2 p-2 mt-2">
+            <span className="px-3 sm:px-[50px]  text-center break-all select-text">
+              {depositAddress}
+            </span>
+            <div className="flex items-center gap-1" onClick={copyToClipboard}>
+              <CopySvg height={12} />
+              <span className="text-xxs sm:text-xs pb-1">
+                {`Copy deposit address`}
+              </span>
+            </div>
+            <div
+              className={`absolute top-8 right-10 transition duration-400 pointer-events-none ${
+                showLabel ? "opacity-100" : "opacity-0"
+              }`}
+            >
+              <Label type="success">{tooltipMessage}</Label>
+            </div>
           </div>
-        ))}
+        )}
       </div>
-      <Button disabled={pending} onClick={() => refreshDeposit()}>
-        {pending ? "Refreshing..." : "Refresh Deposit"}
-      </Button>
     </>
   );
 };
 
-const Address = React.memo(AddressComponent);
+interface DropdownOption {
+  value: string;
+  icon?: string;
+}
 
-const CreateDeposit = () => {
-  const { t } = useAppTranslation();
+interface DropdownProps {
+  options: DropdownOption[];
+  value?: string;
+  onChange: (value: string) => void;
+  placeholder?: string;
+  className?: string;
+}
 
-  const { gameService } = useContext(Context);
-  const { authService } = useContext(AuthProvider.Context);
+export const Dropdown: React.FC<DropdownProps> = ({
+  options,
+  value,
+  onChange,
+  placeholder = "Select an option",
+  className,
+}) => {
+  const [showDropdown, setShowDropdown] = useState(false);
 
-  const address = useSelector(gameService, _depositAddress);
-  const success = useSelector(gameService, _success);
-  const error = useSelector(gameService, _error);
-
-  const generateAddress = async () => {
-    gameService.send("flower.depositStarted", {
-      effect: {
-        type: "flower.depositStarted",
-      },
-      authToken: authService.getSnapshot().context.user.rawToken as string,
-    });
-  };
-
-  useEffect(() => {
-    generateAddress();
-  }, []);
-
-  useEffect(() => {
-    if (success) {
-      gameService.send("CONTINUE");
-    }
-  }, [success]);
-
-  if (error) {
-    return (
-      <div>
-        {" "}
-        <Label type="default" icon={flowerIcon}>
-          {`Deposit $FLOWER`}
-        </Label>
-        <Button onClick={() => generateAddress()}>{`Retry`}</Button>
-      </div>
-    );
-  }
+  const selectedOption = options.find((option) => option.value === value);
 
   return (
-    <div>
-      <Label type="default" icon={flowerIcon}>
-        {`Deposit $FLOWER`}
-      </Label>
-      <div>{`Chain: BASE`}</div>
-      {!address && !error && <span>{`Generating address...`}</span>}
-      {address && (
-        <Address address={address} refreshDeposit={() => generateAddress()} />
+    <div className={`flex flex-col gap-2 relative ${className}`}>
+      <DropdownButtonPanel
+        className="flex items-center justify-between gap-2"
+        onClick={() => setShowDropdown(!showDropdown)}
+      >
+        <div className="flex items-center gap-2">
+          {selectedOption?.icon && (
+            <img src={selectedOption.icon} className="w-5" />
+          )}
+          <p className="mb-1 ml-1">
+            {selectedOption ? selectedOption.value : placeholder}
+          </p>
+        </div>
+        <img
+          src={SUNNYSIDE.icons.chevron_down}
+          className={`w-5 ${showDropdown ? "rotate-180" : ""}`}
+        />
+      </DropdownButtonPanel>
+
+      {showDropdown && (
+        <div className="absolute top-[78%] left-0 right-0 z-50">
+          <DropdownOptionsPanel className="flex flex-col">
+            {options
+              .filter((option) => option.value !== value)
+              .map((option) => (
+                <div
+                  key={option.value}
+                  className="flex items-center gap-2 py-2 cursor-pointer hover:brightness-90"
+                  onClick={() => {
+                    setShowDropdown(false);
+                    onChange(option.value);
+                  }}
+                >
+                  {option.icon && <img src={option.icon} className="w-5" />}
+                  <span className="text-sm">{option.value}</span>
+                </div>
+              ))}
+          </DropdownOptionsPanel>
+        </div>
       )}
     </div>
   );
