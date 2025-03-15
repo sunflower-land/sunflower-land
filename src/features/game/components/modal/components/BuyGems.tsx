@@ -60,11 +60,13 @@ const _starterOfferSecondsLeft = (state: MachineState) => {
 interface Props {
   isSaving: boolean;
   price?: { usd: number; amount: number };
+  hideIntroLabel?: boolean;
   setPrice: (price?: { usd: number; amount: number }) => void;
   onMaticBuy: () => void;
   onFlowerBuy: (quote: number) => void;
   onCreditCardBuy: () => void;
   onHideBuyBBLabel: (hide: boolean) => void;
+  onBack?: () => void;
 }
 
 export const BuyGems: React.FC<Props> = ({
@@ -75,6 +77,7 @@ export const BuyGems: React.FC<Props> = ({
   onFlowerBuy,
   onCreditCardBuy,
   onHideBuyBBLabel,
+  onBack,
 }) => {
   const { gameService } = useContext(Context);
   const startOfferSecondsLeft = useSelector(
@@ -97,15 +100,20 @@ export const BuyGems: React.FC<Props> = ({
   if (!!price && showMaticConfirm) {
     return (
       <GameWallet action="purchase">
-        <Label icon={ITEM_DETAILS.Gem.image} type="default" className="ml-2">
-          {`${t("transaction.buy.gems")}`}
-        </Label>
-        <div className="py-2">
+        <div className="flex items-center gap-2">
           <img
             src={SUNNYSIDE.icons.arrow_left}
-            className="h-6 w-6 ml-2 cursor-pointer"
+            className="w-6 cursor-pointer"
             onClick={() => setPrice(undefined)}
           />
+
+          <Label
+            type="default"
+            icon={ITEM_DETAILS.Gem.image}
+            className="ml-1.5"
+          >
+            {t("transaction.buy.gems")}
+          </Label>
         </div>
         <p className="text-xxs italic mt-1">{t("transaction.excludeFees")}</p>
         <div className="flex flex-col w-full items-center mb-2 px-2 text-sm">
@@ -220,6 +228,31 @@ export const BuyGems: React.FC<Props> = ({
     return (
       <>
         <div className="px-1">
+          <div className="flex justify-between items-center pt-2 px-1">
+            <div className="flex items-center gap-2">
+              <img
+                src={SUNNYSIDE.icons.arrow_left}
+                className="w-6 cursor-pointer"
+                onClick={() => setPrice(undefined)}
+              />
+
+              <Label
+                type="default"
+                icon={ITEM_DETAILS.Gem.image}
+                className="ml-1.5"
+              >
+                {t("transaction.buy.gems")}
+              </Label>
+            </div>
+            <a
+              href="https://docs.sunflower-land.com/fundamentals/blockchain-fundamentals#block-bucks"
+              className="text-xxs underline"
+              target="_blank"
+              rel="noreferrer"
+            >
+              {t("read.more")}
+            </a>
+          </div>
           <div className="flex items-center sm:text-sm justify-between mt-2 mb-3">
             <div className="flex items-center space-x-2">
               <span className="text-xs">
@@ -313,7 +346,6 @@ export const BuyGems: React.FC<Props> = ({
           </div>
           <p className="text-xxs italic mb-2">{t("transaction.excludeFees")}</p>
         </div>
-        <Button onClick={() => setPrice(undefined)}>{t("back")}</Button>
       </>
     );
   }
@@ -325,6 +357,33 @@ export const BuyGems: React.FC<Props> = ({
 
   return (
     <>
+      <div className="flex justify-between items-center pt-2 px-1">
+        <div className="flex items-center gap-2">
+          {onBack && (
+            <img
+              src={SUNNYSIDE.icons.arrow_left}
+              className="w-6 cursor-pointer"
+              onClick={onBack}
+            />
+          )}
+          <Label
+            type="default"
+            icon={ITEM_DETAILS.Gem.image}
+            className="ml-1.5"
+          >
+            {t("transaction.buy.gems")}
+          </Label>
+        </div>
+        <a
+          href="https://docs.sunflower-land.com/fundamentals/blockchain-fundamentals#block-bucks"
+          className="text-xxs underline"
+          target="_blank"
+          rel="noreferrer"
+        >
+          {t("read.more")}
+        </a>
+      </div>
+
       <div className="flex flex-col w-full p-1">
         {startOfferSecondsLeft > 0 && (
           <ButtonPanel
@@ -370,7 +429,7 @@ export const BuyGems: React.FC<Props> = ({
                 onClick={() => setPrice(price)}
               >
                 {!!bonus && (
-                  <Label type="success" className="absolute -right-2 -top-5">
+                  <Label type="success" className="absolute -right-2 -top-4">
                     {`+${bonus.toFixed(0)}%`}
                   </Label>
                 )}

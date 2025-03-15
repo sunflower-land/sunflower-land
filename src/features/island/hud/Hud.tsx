@@ -17,7 +17,7 @@ import { PlaceableLocation } from "features/game/types/collectibles";
 import { HudContainer } from "components/ui/HudContainer";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import Decimal from "decimal.js-light";
-import { BuyCurrenciesModal } from "./components/BuyCurrenciesModal";
+import { CurrenciesModal } from "./components/CurrenciesModal";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSound } from "lib/utils/hooks/useSound";
 import { SeasonBannerCountdown } from "./SeasonBannerCountdown";
@@ -32,7 +32,6 @@ import { GameCalendar } from "features/game/expansion/components/temperateSeason
 import { LandscapeButton } from "./components/LandscapeButton";
 import { RewardsButton } from "./components/referral/RewardsButton";
 import { hasFeatureAccess } from "lib/flags";
-import { TransactionsModal } from "./components/TransactionsModal";
 
 const _farmAddress = (state: MachineState) => state.context.farmAddress;
 const _linkedWallet = (state: MachineState) => state.context.linkedWallet;
@@ -65,7 +64,7 @@ const HudComponent: React.FC<{
     gameService.send("DEPOSIT", args);
   };
 
-  const handleBuyCurrenciesModal = () => {
+  const handleCurrenciesModal = () => {
     sfl.play();
     setShowBuyCurrencies(!showBuyCurrencies);
   };
@@ -118,7 +117,7 @@ const HudComponent: React.FC<{
           sfl={gameState.context.state.balance}
           coins={gameState.context.state.coins}
           gems={gameState.context.state.inventory["Gem"] ?? new Decimal(0)}
-          onClick={handleBuyCurrenciesModal}
+          onClick={handleCurrenciesModal}
         />
         <div
           className="absolute z-50 flex flex-col space-y-2.5 justify-between"
@@ -170,17 +169,11 @@ const HudComponent: React.FC<{
           handleDeposit={handleDeposit}
           showDepositModal={showDepositModal}
         />
-        {hasFeatureAccess(gameState.context.state, "FLOWER_DEPOSIT") ? (
-          <TransactionsModal
-            show={showBuyCurrencies}
-            onClose={handleBuyCurrenciesModal}
-          />
-        ) : (
-          <BuyCurrenciesModal
-            show={showBuyCurrencies}
-            onClose={handleBuyCurrenciesModal}
-          />
-        )}
+
+        <CurrenciesModal
+          show={showBuyCurrencies}
+          onClose={handleCurrenciesModal}
+        />
       </HudContainer>
     </>
   );

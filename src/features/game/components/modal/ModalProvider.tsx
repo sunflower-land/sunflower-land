@@ -6,7 +6,7 @@ import { StoreOnChainModal } from "./components/StoreOnChainModal";
 import { SpeakingModal } from "../SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";
 import { translate } from "lib/i18n/translate";
-import { BuyCurrenciesModal } from "features/island/hud/components/BuyCurrenciesModal";
+import { CurrenciesModal } from "features/island/hud/components/CurrenciesModal";
 import { VIPItems } from "./components/VIPItems";
 import { Panel } from "components/ui/Panel";
 import { ReputationSystem } from "features/island/hud/components/reputation/Reputation";
@@ -51,16 +51,16 @@ export const ModalProvider: FC = ({ children }) => {
     <ModalContext.Provider value={{ openModal }}>
       {children}
 
-      <BuyCurrenciesModal
+      <CurrenciesModal
         show={opened === "BUY_GEMS"}
         onClose={handleClose}
-        initialTab={0}
+        initialPage="gems"
       />
 
-      <BuyCurrenciesModal
+      <CurrenciesModal
         show={opened === "BUY_BANNER"}
         onClose={handleClose}
-        initialTab={2}
+        initialPage="vip"
       />
 
       <Modal show={opened === "VIP_ITEMS"} onHide={handleClose}>
