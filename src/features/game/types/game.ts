@@ -1585,6 +1585,11 @@ export interface GameState {
     };
     history: FaceRecognitionEvent[];
   };
+
+  telegram?: {
+    linkedAt: number;
+    joinedAt?: number;
+  };
 }
 
 export type FaceRecognitionEvent =
