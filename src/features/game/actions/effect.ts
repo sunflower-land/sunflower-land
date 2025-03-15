@@ -15,7 +15,8 @@ type EffectName =
   | "reward.airdropped"
   | "faceRecognition.started"
   | "faceRecognition.completed"
-  | "telegram.linked";
+  | "telegram.linked"
+  | "telegram.joined";
 
 export type StateName =
   | "marketplacePurchasing"
@@ -27,7 +28,8 @@ export type StateName =
   | "airdroppingReward"
   | "startingFaceRecognition"
   | "completingFaceRecognition"
-  | "linkingTelegram";
+  | "linkingTelegram"
+  | "joiningTelegram";
 
 export type StateNameWithStatus = `${StateName}Success` | `${StateName}Failed`;
 
@@ -43,6 +45,7 @@ export const EFFECT_EVENTS: Record<EffectName, StateName> = {
   "faceRecognition.started": "startingFaceRecognition",
   "faceRecognition.completed": "completingFaceRecognition",
   "telegram.linked": "linkingTelegram",
+  "telegram.joined": "joiningTelegram",
 };
 
 export interface Effect {

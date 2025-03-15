@@ -130,5 +130,6 @@ export function makeGame(farm: any): GameState {
     lavaPits: farm.lavaPits,
     nfts: farm.nfts,
     faceRecognition: farm.faceRecognition,
+    telegram: farm.telegram,
   };
 }
