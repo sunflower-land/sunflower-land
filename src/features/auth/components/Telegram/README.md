@@ -17,7 +17,7 @@ Run the `/newbot` command.
 This will produce 2 outputs.
 
 1. The name of your bot. E.g. `adam_testnet_bot` -> Put this value in your `.env` - `VITE_TELEGRAM_BOT=<NAME>`
-2. The bot key. E.g. `7asd12...` -> Put this in your API `.env` - `TELEGRAM_BOT_KEY=<KEY>`
+2. The bot key. E.g. `7asd12...` -> Put this in your **API** `.env` - `TELEGRAM_BOT_KEY=<KEY>`
 
 Run the `/setdomain` command, to whitelist your local app.
 
