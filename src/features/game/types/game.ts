@@ -1588,6 +1588,7 @@ export interface GameState {
 
   telegram?: {
     linkedAt: number;
+    startedAt?: number;
     joinedAt?: number;
   };
 }
