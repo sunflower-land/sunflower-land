@@ -556,11 +556,33 @@ function getCollectibleBuffLabels(
     ],
     Bale: [
       {
-        shortDescription: translate("description.bale.boost"),
+        shortDescription: state.bumpkin.skills["Double Bale"]
+          ? translate("description.bale.eggBoost.boosted")
+          : translate("description.bale.eggBoost"),
         labelType: "success",
         boostTypeIcon: powerup,
         boostedItemIcon: SUNNYSIDE.resource.egg,
       },
+      ...(state.bumpkin.skills["Bale Economy"]
+        ? ([
+            {
+              shortDescription: state.bumpkin.skills["Double Bale"]
+                ? translate("description.bale.milkBoost.boosted")
+                : translate("description.bale.milkBoost"),
+              labelType: "success",
+              boostTypeIcon: powerup,
+              boostedItemIcon: SUNNYSIDE.resource.milk,
+            },
+            {
+              shortDescription: state.bumpkin.skills["Double Bale"]
+                ? translate("description.bale.woolBoost.boosted")
+                : translate("description.bale.woolBoost"),
+              labelType: "success",
+              boostTypeIcon: powerup,
+              boostedItemIcon: SUNNYSIDE.resource.wool,
+            },
+          ] as BuffLabel[])
+        : []),
     ],
 
     // Resources
