@@ -1,7 +1,5 @@
-import { getKeys } from "features/game/types/decorations";
 import { CONFIG } from "lib/config";
 import React, { useContext, useEffect, useRef } from "react";
-import { WebAppInitData } from "@twa-dev/types";
 import { useGame } from "features/game/GameProvider";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { useActor } from "@xstate/react";
@@ -25,9 +23,6 @@ export const TelegramLogin: React.FC = () => {
     username: string;
     photo_url: string;
   }) => {
-    console.log("botId", CONFIG.TELEGRAM_BOT);
-    console.log("onLogin", payload);
-
     gameService.send("telegram.linked", {
       effect: {
         type: "telegram.linked",
@@ -46,7 +41,6 @@ export const TelegramLogin: React.FC = () => {
   useEffect(() => {
     (window as any).onTelegramAuth = onLogin;
 
-    console.log(CONFIG.TELEGRAM_BOT);
     const scriptElement = document.createElement("script");
     scriptElement.src = "https://telegram.org/js/telegram-widget.js?22";
     scriptElement.setAttribute("data-telegram-login", CONFIG.TELEGRAM_BOT);
