@@ -98,6 +98,7 @@ jobs:
           VITE_SEQUENCE_ACCESS_KEY: ${{ secrets.SEQUENCE_ACCESS_KEY }}
           VITE_ANIMATION_URL: "https://animations-dev.sunflower-land.com"
           VITE_FIREBASE_VAPID_KEY: ${{ secrets.FIREBASE_VAPID_KEY }}
+          VITE_TELEGRAM_BOT: "sunflower_land_testnet_bot"
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4
