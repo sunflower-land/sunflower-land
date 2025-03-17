@@ -1585,11 +1585,13 @@ export interface GameState {
     };
     history: FaceRecognitionEvent[];
   };
-
   telegram?: {
     linkedAt: number;
     startedAt?: number;
     joinedAt?: number;
+  };
+  discord?: {
+    connected: boolean;
   };
 }
 
