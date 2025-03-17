@@ -38,6 +38,7 @@ import { GreatFreezePlot } from "./components/GreatFreezePlot";
 import { SeasonalSeed } from "./components/SeasonalSeed";
 import { Modal } from "components/ui/Modal";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
+import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
 
 export function getYieldColour(yieldAmount: number) {
   if (yieldAmount < 2) {
@@ -74,11 +75,11 @@ const selectCropsSold = (state: MachineState) =>
   state.context.state.bumpkin?.activity?.["Sunflower Sold"] ?? 0;
 
 // A player that has been vetted and is engaged in the season.
-const isSeasonedPlayer = (state: MachineState) =>
+const isSeasonedPlayer = (state: MachineState): boolean =>
   // - level 60+
   getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) >= 60 &&
   // - verified (personhood verification)
-  state.context.verified &&
+  (state.context.verified || isFaceVerified({ game: state.context.state })) &&
   // - has grower reputation
   hasReputation({ game: state.context.state, reputation: Reputation.Grower });
 
