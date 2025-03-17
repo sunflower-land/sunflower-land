@@ -79,7 +79,9 @@ export const TaskBoard: React.FC = () => {
                   icon={
                     isTaskCompleted(task.title as SocialTaskName)
                       ? SUNNYSIDE.icons.confirm
-                      : undefined
+                      : task.requirement(state)
+                        ? SUNNYSIDE.icons.expression_alerted
+                        : undefined
                   }
                   secondaryIcon={ITEM_DETAILS["Love Charm"].image}
                   className="absolute right-1 top-1"
@@ -135,9 +137,7 @@ export const TaskBoard: React.FC = () => {
                       type="other"
                       currentProgress={
                         selectedTask.requirementProgress?.(state) ??
-                        (isTaskCompleted(selectedTask.title as SocialTaskName)
-                          ? 1
-                          : 0)
+                        (selectedTask.requirement(state) ? 1 : 0)
                       }
                       requirement={selectedTask.requirementTotal ?? 1}
                     />
