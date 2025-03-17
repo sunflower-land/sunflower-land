@@ -67,14 +67,6 @@ const TelegramConnect: React.FC = () => {
 
   const telegram = gameState.context.state.telegram;
 
-  if (!telegram?.joinedAt && gameState.matches("autosaving")) {
-    return (
-      <InnerPanel className="p-1  mt-1">
-        <Loading />
-      </InnerPanel>
-    );
-  }
-
   if (!telegram) {
     return (
       <InnerPanel className="p-1  mt-1">
@@ -90,6 +82,14 @@ const TelegramConnect: React.FC = () => {
         <div className="p-2">
           <TelegramLogin />
         </div>
+      </InnerPanel>
+    );
+  }
+
+  if (!telegram?.joinedAt && gameState.matches("autosaving")) {
+    return (
+      <InnerPanel className="p-1  mt-1">
+        <Loading />
       </InnerPanel>
     );
   }
