@@ -257,8 +257,11 @@ const GameOptions: React.FC<ContentComponentProps> = ({
             <Button className="p-1 w-10 h-10 mr-1" disabled>
               <img src={SUNNYSIDE.icons.expression_confused} className="h-4" />
             </Button>
-            <Button className="p-1 w-10 h-10 mr-1" disabled>
-              <img src={SUNNYSIDE.icons.expression_confused} className="h-4" />
+            <Button
+              className="p-1 w-10 h-10 mr-1"
+              onClick={() => openModal("TWITTER")}
+            >
+              <img src={SUNNYSIDE.icons.expression_chat} className="h-4" />
             </Button>
             <Button
               className="p-1 w-10 h-10"

@@ -17,7 +17,9 @@ type EffectName =
   | "faceRecognition.completed"
   | "flower.depositStarted"
   | "telegram.linked"
-  | "telegram.joined";
+  | "telegram.joined"
+  | "twitter.followed"
+  | "twitter.posted";
 
 export type StateName =
   | "marketplacePurchasing"
@@ -31,7 +33,9 @@ export type StateName =
   | "completingFaceRecognition"
   | "depositingFlower"
   | "linkingTelegram"
-  | "joiningTelegram";
+  | "joiningTelegram"
+  | "followingTwitter"
+  | "postingTwitter";
 
 export type StateNameWithStatus = `${StateName}Success` | `${StateName}Failed`;
 
@@ -49,6 +53,8 @@ export const EFFECT_EVENTS: Record<EffectName, StateName> = {
   "flower.depositStarted": "depositingFlower",
   "telegram.linked": "linkingTelegram",
   "telegram.joined": "joiningTelegram",
+  "twitter.followed": "followingTwitter",
+  "twitter.posted": "postingTwitter",
 };
 
 export interface Effect {

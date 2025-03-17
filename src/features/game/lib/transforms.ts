@@ -134,5 +134,6 @@ export function makeGame(farm: any): GameState {
     discord: farm.discord,
     socialTasks: farm.socialTasks,
     referrals: farm.referrals,
+    twitter: farm.twitter,
   };
 }
