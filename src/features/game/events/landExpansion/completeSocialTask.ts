@@ -21,7 +21,7 @@ export const TASKS = {
     title: "Invite a friend",
     description: "Invite a friend to join the game",
     image: SUNNYSIDE.icons.player,
-    reward: { "Social Spark": 15 },
+    reward: { "Love Charm": 15 },
     requirement: (state) =>
       (state.referrals ?? { totalReferrals: 0 }).totalReferrals > 0,
   },
@@ -29,21 +29,21 @@ export const TASKS = {
     title: "Link your Discord",
     description: "Link your Discord to your account",
     image: SUNNYSIDE.icons.discord,
-    reward: { "Social Spark": 25 },
+    reward: { "Love Charm": 25 },
     requirement: (state) => !!state.discord?.connected,
   },
   "Link your Telegram": {
     title: "Link your Telegram",
     description: "Link your Telegram to your account",
     image: SUNNYSIDE.icons.telegram,
-    reward: { "Social Spark": 25 },
+    reward: { "Love Charm": 25 },
     requirement: (state) => !!state.telegram?.linkedAt,
   },
   "Upgrade to Petal Paradise": {
     title: "Upgrade to Petal Paradise",
     description: "Expand your land fully and upgrade to Petal Paradise",
     image: SUNNYSIDE.icons.player,
-    reward: { "Social Spark": 25 },
+    reward: { "Love Charm": 25 },
     requirement: (state) =>
       hasRequiredIslandExpansion(state.island.type, "spring"),
   },
@@ -52,7 +52,7 @@ export const TASKS = {
     description:
       "Go to the plaza and complete deliveries with various NPCs 50 times",
     image: SUNNYSIDE.icons.player,
-    reward: { "Social Spark": 25 },
+    reward: { "Love Charm": 25 },
     requirement: (state) => state.delivery.fulfilledCount >= 50,
   },
 } satisfies Record<string, Task>;
@@ -64,13 +64,13 @@ export const OTHER_WAYS_TO_EARN_SOCIAL_SPARK = {
     title: "Invite a VIP friend",
     image: SUNNYSIDE.icons.player,
     description:
-      "Invite a friend to join the game and buy VIP to earn bonus Social Spark",
+      "Invite a friend to join the game and buy VIP to earn bonus Love Charm",
   },
   "Join a stream": {
     title: "Join a stream",
     image: SUNNYSIDE.icons.player,
     description:
-      "Join a dev chat on discord or twitch stream to earn 1 Social Spark every 5 minutes from the host wearing a stream hat.",
+      "Join a dev chat on discord or twitch stream to earn 1 Love Charm every 5 minutes from the host wearing a stream hat.",
   },
 } satisfies Record<string, OtherTasks>;
 

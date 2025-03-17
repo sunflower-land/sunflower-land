@@ -230,7 +230,7 @@ export type Coupons =
   | "Prize Ticket"
   | "Mark"
   | "Trade Point"
-  | "Social Spark"
+  | "Love Charm"
   | Keys
   | SeasonalTicket
   | FactionEmblem;
@@ -349,8 +349,8 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   Timeshard: {
     description: "",
   },
-  "Social Spark": {
-    description: translate("description.social.spark"),
+  "Love Charm": {
+    description: translate("description.love.charm"),
   },
 };
 

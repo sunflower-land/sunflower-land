@@ -24,7 +24,7 @@ export const TaskBoard: React.FC = () => {
   const state = useSelector(gameService, (state) => state.context.state);
   const loveTokenCount = useSelector(
     gameService,
-    (state) => state.context.state.inventory["Social Spark"] ?? new Decimal(0),
+    (state) => state.context.state.inventory["Love Charm"] ?? new Decimal(0),
   );
   const socialTasks = useSelector(
     gameService,
@@ -47,11 +47,11 @@ export const TaskBoard: React.FC = () => {
       <div className="flex flex-col gap-2 m-1">
         <div className="flex justify-between gap-2">
           <Label type="default">{`Tasks`}</Label>
-          <Label type="vibrant">{`Inventory: ${loveTokenCount} Social Spark`}</Label>
+          <Label type="vibrant">{`Inventory: ${loveTokenCount} Love Charm`}</Label>
         </div>
         <div className="flex flex-col gap-2 text-xs mx-2">
-          <p>{`Complete tasks to earn Social Spark.`}</p>
-          <p>{`Social Spark can be used to purchase special items in the rewards shop`}</p>
+          <p>{`Complete tasks to earn Love Charm.`}</p>
+          <p>{`Love Charm can be used to purchase special items in the rewards shop`}</p>
         </div>
         <div className="flex flex-col gap-1 text-xs">
           {Object.values(TASKS).map((task) => (
@@ -63,16 +63,16 @@ export const TaskBoard: React.FC = () => {
                   <p className="underline">{t("read.more")}</p>
                 </div>
                 <Label type="vibrant" className="absolute right-1 top-1">
-                  {`${task.reward?.["Social Spark"]} Social Spark`}
+                  {`${task.reward?.["Love Charm"]} Love Charm`}
                 </Label>
               </div>
             </ButtonPanel>
           ))}
         </div>
       </div>
-      {/* Other ways to earn Social Spark */}
+      {/* Other ways to earn Love Charm */}
       <div className="flex flex-col gap-2 m-1">
-        <Label type="default">{`Other ways to earn Social Spark`}</Label>
+        <Label type="default">{`Other ways to earn Love Charm`}</Label>
 
         <div className="flex flex-col gap-1 text-xs">
           {Object.values(OTHER_WAYS_TO_EARN_SOCIAL_SPARK).map((task) => (
