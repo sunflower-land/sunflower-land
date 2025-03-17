@@ -29,14 +29,14 @@ export const TASKS = {
     description: "Link your Discord to your account",
     image: SUNNYSIDE.icons.discord,
     reward: { "Social Spark": 25 },
-    requirement: (state) => (state.wardrobe["Companion Cap"] ?? 0) > 0,
+    requirement: (state) => !!state.discord?.connected,
   },
   "Link your Telegram": {
     title: "Link your Telegram",
     description: "Link your Telegram to your account",
     image: SUNNYSIDE.icons.telegram,
     reward: { "Social Spark": 25 },
-    requirement: () => false,
+    requirement: (state) => !!state.telegram?.linkedAt,
   },
   "Upgrade to Petal Paradise": {
     title: "Upgrade to Petal Paradise",
