@@ -13,6 +13,8 @@ export type OtherTasks = {
 
 export type Task = OtherTasks & {
   requirement: (state: GameState) => boolean;
+  requirementProgress?: (state: GameState) => number;
+  requirementTotal?: number;
   reward: Partial<Record<InventoryItemName, number>>;
 };
 
@@ -54,6 +56,8 @@ export const TASKS = {
     image: SUNNYSIDE.icons.player,
     reward: { "Love Charm": 25 },
     requirement: (state) => state.delivery.fulfilledCount >= 50,
+    requirementTotal: 50,
+    requirementProgress: (state) => state.delivery.fulfilledCount,
   },
 } satisfies Record<string, Task>;
 

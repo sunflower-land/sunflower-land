@@ -4,6 +4,7 @@ import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { ButtonPanel } from "components/ui/Panel";
+import { RequirementLabel } from "components/ui/RequirementsLabel";
 import Decimal from "decimal.js-light";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import {
@@ -118,25 +119,40 @@ export const TaskBoard: React.FC = () => {
               >
                 <img src={selectedTask?.image} className="w-[50%]" />
               </div>
-              <div className="flex flex-col items-center justify-between">
+              <div className="flex flex-col justify-between w-full">
                 <p>{selectedTask?.description}</p>
-                {selectedTask &&
-                  "requirement" in selectedTask &&
-                  selectedTask.requirement(state) && (
-                    <Label type="success" icon={SUNNYSIDE.icons.confirm}>
-                      {`Complete`}
-                    </Label>
-                  )}
+                {selectedTask && "requirement" in selectedTask && (
+                  <div className="flex flex-col gap-2">
+                    <RequirementLabel
+                      type="other"
+                      currentProgress={
+                        selectedTask.requirementProgress?.(state) ??
+                        (isTaskCompleted(selectedTask.title as SocialTaskName)
+                          ? 1
+                          : 0)
+                      }
+                      requirement={selectedTask.requirementTotal ?? 1}
+                    />
+                    {isTaskCompleted(selectedTask.title as SocialTaskName) && (
+                      <Label
+                        type="success"
+                        icon={SUNNYSIDE.icons.confirm}
+                        className="ml-1"
+                      >
+                        {`Complete`}
+                      </Label>
+                    )}
+                  </div>
+                )}
               </div>
             </div>
             {selectedTask &&
               "requirement" in selectedTask &&
               !isTaskCompleted(selectedTask.title as SocialTaskName) && (
                 <Button
-                  onClick={() => {
-                    completeTask(selectedTask.title as SocialTaskName);
-                    setSelectedTask(undefined);
-                  }}
+                  onClick={() =>
+                    completeTask(selectedTask.title as SocialTaskName)
+                  }
                   disabled={
                     !selectedTask.requirement(state) ||
                     isTaskCompleted(selectedTask.title as SocialTaskName)
