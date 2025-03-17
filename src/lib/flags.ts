@@ -8,7 +8,7 @@ const adminFeatureFlag = ({ wardrobe, inventory }: GameState) =>
 const seasonAdminFeatureFlag = (game: GameState) => {
   return (
     testnetFeatureFlag() ||
-    ["adam", "tango", "eliassfl", "dcol", "Aeon", "Craig", "Spencer"]
+    ["adam", "tango", "elias", "dcol", "Aeon", "Craig", "Spencer"]
       .map((name) => name.toLowerCase())
       .includes(game.username?.toLowerCase() ?? "")
   );

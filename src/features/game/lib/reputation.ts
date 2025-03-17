@@ -52,7 +52,7 @@ export const REPUTATION_TASKS: Record<
     game.island.type !== "basic" &&
     game.island.type !== "spring" &&
     game.island.type !== "desert",
-  Discord: ({ game }) => !!game.wardrobe["Companion Cap"],
+  Discord: ({ game }) => !!game.discord?.connected,
   ProofOfHumanity: ({ game }) => isFaceVerified({ game }) || !!game.verified,
   Level100: ({ game }) => getBumpkinLevel(game.bumpkin.experience) >= 100,
   Level15: ({ game }) => getBumpkinLevel(game.bumpkin.experience) >= 15,
