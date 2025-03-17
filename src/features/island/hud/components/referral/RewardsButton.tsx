@@ -63,9 +63,11 @@ export const RewardsButton: React.FC = () => {
 
   // Check if chest is locked or can be unlocked
   const isChestLocked = useMemo(
-    () => !chestState.matches("unlocked"),
+    () =>
+      !chestState.matches("unlocked") &&
+      (chestState.matches("idle") || chestState.matches("loading")),
     [chestState],
-  );
+  ); // TODO: Double check if this is correct
 
   const completeTask = (taskId: SocialTaskName) => {
     gameService.send({
