@@ -16,6 +16,7 @@ import {
   isSocialTask,
 } from "features/game/events/landExpansion/completeSocialTask";
 import { Context } from "features/game/GameProvider";
+import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useContext, useState } from "react";
 
@@ -44,12 +45,17 @@ export const TaskBoard: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="flex flex-col gap-2 max-h-[500px] overflow-y-auto scrollable">
       {/* Tasks */}
       <div className="flex flex-col gap-2 m-1">
-        <div className="flex justify-between gap-2">
+        <div className="flex justify-between gap-2 mr-1">
           <Label type="default">{`Tasks`}</Label>
-          <Label type="vibrant">{`Inventory: ${loveTokenCount} Love Charm`}</Label>
+          <Label
+            type="vibrant"
+            secondaryIcon={ITEM_DETAILS["Love Charm"].image}
+          >
+            {`Inventory: ${loveTokenCount} Love Charm`}
+          </Label>
         </div>
         <div className="flex flex-col gap-2 text-xs mx-2">
           <p>{`Complete tasks to earn Love Charm.`}</p>
@@ -70,14 +76,15 @@ export const TaskBoard: React.FC = () => {
                       ? "success"
                       : "vibrant"
                   }
-                  secondaryIcon={
+                  icon={
                     isTaskCompleted(task.title as SocialTaskName)
                       ? SUNNYSIDE.icons.confirm
                       : undefined
                   }
+                  secondaryIcon={ITEM_DETAILS["Love Charm"].image}
                   className="absolute right-1 top-1"
                 >
-                  {`${task.reward?.["Love Charm"]} Love Charm`}
+                  <p className="text-xs">{`${task.reward?.["Love Charm"]}`}</p>
                 </Label>
               </div>
             </ButtonPanel>
