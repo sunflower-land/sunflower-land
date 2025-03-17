@@ -78,6 +78,9 @@ export const OTHER_WAYS_TO_EARN_SOCIAL_SPARK = {
   },
 } satisfies Record<string, OtherTasks>;
 
+export const isSocialTask = (task: Task | OtherTasks): task is Task =>
+  "requirement" in task;
+
 export type CompleteSocialTaskAction = {
   type: "socialTask.completed";
   taskId: SocialTaskName;

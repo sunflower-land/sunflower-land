@@ -13,6 +13,7 @@ import {
   Task,
   OtherTasks,
   SocialTaskName,
+  isSocialTask,
 } from "features/game/events/landExpansion/completeSocialTask";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -69,7 +70,7 @@ export const TaskBoard: React.FC = () => {
                       ? "success"
                       : "vibrant"
                   }
-                  icon={
+                  secondaryIcon={
                     isTaskCompleted(task.title as SocialTaskName)
                       ? SUNNYSIDE.icons.confirm
                       : undefined
@@ -121,7 +122,7 @@ export const TaskBoard: React.FC = () => {
               </div>
               <div className="flex flex-col justify-between w-full">
                 <p>{selectedTask?.description}</p>
-                {selectedTask && "requirement" in selectedTask && (
+                {selectedTask && isSocialTask(selectedTask) && (
                   <div className="flex flex-col gap-2">
                     <RequirementLabel
                       type="other"
@@ -147,7 +148,7 @@ export const TaskBoard: React.FC = () => {
               </div>
             </div>
             {selectedTask &&
-              "requirement" in selectedTask &&
+              isSocialTask(selectedTask) &&
               !isTaskCompleted(selectedTask.title as SocialTaskName) && (
                 <Button
                   onClick={() =>
