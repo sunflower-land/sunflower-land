@@ -18,8 +18,8 @@ export const AirdropPlayer: React.FC<
   const { gameService } = useContext(Context);
   const [farmId, setFarmId] = useState(id);
   const [coins, setCoins] = useState(0);
-  const [gems, setGems] = useState(0);
-  const [loveCharm, setLoveCharm] = useState(0);
+  const [gems, setGems] = useState<number>();
+  const [loveCharm, setLoveCharm] = useState<number>();
   const [message, setMessage] = useState("");
 
   const send = async () => {
@@ -28,8 +28,8 @@ export const AirdropPlayer: React.FC<
         type: "reward.airdropped",
         coins: coins,
         items: {
-          ...(gems > 0 ? { Gem: gems } : {}),
-          ...(loveCharm > 0 ? { "Love Charm": loveCharm } : {}),
+          ...(gems ? { Gem: gems } : {}),
+          ...(loveCharm ? { "Love Charm": loveCharm } : {}),
         },
         farmId,
         message,
@@ -52,13 +52,13 @@ export const AirdropPlayer: React.FC<
       icon: coinsIcon,
     },
     Gems: {
-      value: gems,
+      value: gems ?? 0,
       setValue: setGems,
       maxDecimalPlaces: 0,
       icon: ITEM_DETAILS.Gem.image,
     },
     "Love Charm": {
-      value: loveCharm,
+      value: loveCharm ?? 0,
       setValue: setLoveCharm,
       maxDecimalPlaces: 0,
       icon: ITEM_DETAILS["Love Charm"].image,
