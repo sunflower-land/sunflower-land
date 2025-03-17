@@ -11,6 +11,12 @@ export type OtherTasks = {
   image: string;
 };
 
+/**
+ * @param requirement - A function that returns true if the task is completed
+ * @param requirementProgress - A function that returns the progress of the task (optional)
+ * @param requirementTotal - The total number of the task (optional)
+ * @param reward - The reward of the task
+ */
 export type Task = OtherTasks & {
   requirement: (state: GameState) => boolean;
   requirementProgress?: (state: GameState) => number;
@@ -63,7 +69,10 @@ export const TASKS = {
 
 export type SocialTaskName = keyof typeof TASKS;
 
-export const OTHER_WAYS_TO_EARN_SOCIAL_SPARK = {
+/**
+ * Other ways to earn Love Charm (Read-only)
+ */
+export const OTHER_WAYS_TO_EARN_LOVE_CHARM = {
   "Invite a VIP friend": {
     title: "Invite a VIP friend",
     image: SUNNYSIDE.icons.player,

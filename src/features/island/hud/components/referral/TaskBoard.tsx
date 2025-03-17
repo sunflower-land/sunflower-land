@@ -9,7 +9,7 @@ import Decimal from "decimal.js-light";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import {
   TASKS,
-  OTHER_WAYS_TO_EARN_SOCIAL_SPARK,
+  OTHER_WAYS_TO_EARN_LOVE_CHARM,
   Task,
   OtherTasks,
   SocialTaskName,
@@ -98,7 +98,7 @@ export const TaskBoard: React.FC = () => {
         <Label type="default">{`Other ways to earn Love Charm`}</Label>
 
         <div className="flex flex-col gap-1 text-xs">
-          {Object.values(OTHER_WAYS_TO_EARN_SOCIAL_SPARK).map((task) => (
+          {Object.values(OTHER_WAYS_TO_EARN_LOVE_CHARM).map((task) => (
             <ButtonPanel key={task.title} onClick={() => setSelectedTask(task)}>
               <div className="flex gap-3">
                 <img src={task.image} className="w-10" />
