@@ -4,6 +4,7 @@ import { getObjectEntries } from "features/game/expansion/lib/utils";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { produce } from "immer";
+import { hasFeatureAccess } from "lib/flags";
 
 export type OtherTasks = {
   title: string;
@@ -107,6 +108,9 @@ export function completeSocialTask({
   createdAt = Date.now(),
 }: Options): Readonly<GameState> {
   return produce(state, (stateCopy) => {
+    if (!hasFeatureAccess(stateCopy, "REFERRAL_PROGRAM")) {
+      throw new Error("Referral program is not enabled");
+    }
     const { taskId } = action;
     const task = TASKS[taskId] as Task | undefined;
 
