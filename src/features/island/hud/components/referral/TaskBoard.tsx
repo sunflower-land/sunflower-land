@@ -31,7 +31,7 @@ export const TaskBoard: React.FC = () => {
     (state) => state.context.state.socialTasks,
   );
 
-  const isTaskCompleted = (taskId: SocialTaskName) =>
+  const isTaskCompleted = (taskId: SocialTaskName): boolean =>
     !!socialTasks?.completed?.[taskId]?.completedAt;
 
   const completeTask = (taskId: SocialTaskName) => {
@@ -62,7 +62,19 @@ export const TaskBoard: React.FC = () => {
                   <p>{task.title}</p>
                   <p className="underline">{t("read.more")}</p>
                 </div>
-                <Label type="vibrant" className="absolute right-1 top-1">
+                <Label
+                  type={
+                    isTaskCompleted(task.title as SocialTaskName)
+                      ? "success"
+                      : "vibrant"
+                  }
+                  icon={
+                    isTaskCompleted(task.title as SocialTaskName)
+                      ? SUNNYSIDE.icons.confirm
+                      : undefined
+                  }
+                  className="absolute right-1 top-1"
+                >
                   {`${task.reward?.["Love Charm"]} Love Charm`}
                 </Label>
               </div>
