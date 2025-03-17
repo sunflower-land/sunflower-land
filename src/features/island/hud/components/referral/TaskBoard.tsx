@@ -107,7 +107,7 @@ export const TaskBoard: React.FC = () => {
       >
         <CloseButtonPanel title={selectedTask?.title} className="text-xs">
           <div className="flex flex-col gap-2 m-1">
-            <div className="flex gap-2">
+            <div className="flex flex-row gap-2">
               <div
                 className="w-[40%] relative min-w-[40%] rounded-md overflow-hidden shadow-md mr-2 flex justify-center items-center h-32"
                 style={{
@@ -118,20 +118,29 @@ export const TaskBoard: React.FC = () => {
               >
                 <img src={selectedTask?.image} className="w-[50%]" />
               </div>
-              <div className="flex flex-col h-20 items-center">
+              <div className="flex flex-col items-center justify-between">
                 <p>{selectedTask?.description}</p>
+                {selectedTask &&
+                  "requirement" in selectedTask &&
+                  selectedTask.requirement(state) && (
+                    <Label type="success" icon={SUNNYSIDE.icons.confirm}>
+                      {`Complete`}
+                    </Label>
+                  )}
               </div>
             </div>
             {selectedTask &&
               "requirement" in selectedTask &&
-              selectedTask.requirement(state) &&
               !isTaskCompleted(selectedTask.title as SocialTaskName) && (
-                // TODO: Add complete condition
                 <Button
                   onClick={() => {
                     completeTask(selectedTask.title as SocialTaskName);
                     setSelectedTask(undefined);
                   }}
+                  disabled={
+                    !selectedTask.requirement(state) ||
+                    isTaskCompleted(selectedTask.title as SocialTaskName)
+                  }
                 >
                   {`Complete`}
                 </Button>
