@@ -10,6 +10,7 @@ import { BuyCurrenciesModal } from "features/island/hud/components/BuyCurrencies
 import { VIPItems } from "./components/VIPItems";
 import { Panel } from "components/ui/Panel";
 import { ReputationSystem } from "features/island/hud/components/reputation/Reputation";
+import { Telegram } from "features/auth/components/Telegram/Telegram";
 
 type GlobalModal =
   | "BUY_GEMS"
@@ -22,7 +23,8 @@ type GlobalModal =
   | "BETTY"
   | "BLACKSMITH"
   | "VIP_ITEMS"
-  | "REPUTATION";
+  | "REPUTATION"
+  | "TELEGRAM";
 
 export const ModalContext = createContext<{
   openModal: (type: GlobalModal) => void;
@@ -71,6 +73,10 @@ export const ModalProvider: FC = ({ children }) => {
 
       <Modal show={opened === "REPUTATION"} onHide={handleClose}>
         <ReputationSystem onClose={handleClose} />
+      </Modal>
+
+      <Modal show={opened === "TELEGRAM"} onHide={handleClose}>
+        <Telegram onClose={handleClose} />
       </Modal>
 
       <Modal show={opened === "FIRST_EXPANSION"}>

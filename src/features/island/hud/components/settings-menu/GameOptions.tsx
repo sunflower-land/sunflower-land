@@ -43,6 +43,7 @@ import { useSound } from "lib/utils/hooks/useSound";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import ticket from "assets/icons/ticket.png";
 import lockIcon from "assets/icons/lock.png";
+import telegramIcon from "assets/icons/telegram.webp";
 import { DEV_HoarderCheck } from "./developer-options/DEV_HoardingCheck";
 import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
 import { PickServer } from "./plaza-settings/PickServer";
@@ -60,6 +61,7 @@ import { LockdownWidget } from "features/announcements/AnnouncementWidgets";
 import { AirdropPlayer } from "./general-settings/AirdropPlayer";
 import { hasFeatureAccess } from "lib/flags";
 import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
 
 export interface ContentComponentProps {
   onSubMenuClick: (id: SettingMenuId) => void;
@@ -81,6 +83,8 @@ const GameOptions: React.FC<ContentComponentProps> = ({
   const { gameService } = useContext(GameContext);
   const { authService } = useContext(Auth.Context);
   const { walletService } = useContext(WalletContext);
+
+  const { openModal } = useContext(ModalContext);
 
   const { t } = useAppTranslation();
 
@@ -237,16 +241,34 @@ const GameOptions: React.FC<ContentComponentProps> = ({
           </Button>
         </div>
       </div>
-      <p className="mx-1 text-xxs">
-        <a
-          href="https://github.com/sunflower-land/sunflower-land/releases"
-          className="underline"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {CONFIG.RELEASE_VERSION?.split("-")[0]}
-        </a>
-      </p>
+      <div className="flex justify-between">
+        <p className="mx-1 text-xxs">
+          <a
+            href="https://github.com/sunflower-land/sunflower-land/releases"
+            className="underline"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {CONFIG.RELEASE_VERSION?.split("-")[0]}
+          </a>
+        </p>
+        {hasFeatureAccess(gameService.state?.context?.state, "TELEGRAM") && (
+          <div className="flex">
+            <Button className="p-1 w-10 h-10 mr-1" disabled>
+              <img src={SUNNYSIDE.icons.expression_confused} className="h-4" />
+            </Button>
+            <Button className="p-1 w-10 h-10 mr-1" disabled>
+              <img src={SUNNYSIDE.icons.expression_confused} className="h-4" />
+            </Button>
+            <Button
+              className="p-1 w-10 h-10"
+              onClick={() => openModal("TELEGRAM")}
+            >
+              <img src={telegramIcon} className="h-4" />
+            </Button>
+          </div>
+        )}
+      </div>
       <ConfirmationModal
         show={isConfirmLogoutModalOpen}
         onHide={() => showConfirmLogoutModal(false)}

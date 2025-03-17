@@ -101,6 +101,7 @@ jobs:
           VITE_ANIMATION_URL: "https://animations.sunflower-land.com"
 
           VITE_FIREBASE_VAPID_KEY: ${{ secrets.FIREBASE_VAPID_KEY }}
+          VITE_TELEGRAM_BOT: "sunflower_land_helper_bot"
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4

@@ -82,6 +82,7 @@ const FEATURE_FLAGS = {
   ),
   REFERRAL_PROGRAM: testnetFeatureFlag,
   FLOWER_DEPOSIT: seasonAdminFeatureFlag,
+  TELEGRAM: defaultFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;
