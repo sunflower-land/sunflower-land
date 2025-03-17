@@ -233,7 +233,7 @@ export const CraftingRequirements: React.FC<Props> = ({
     if (!boost) return <></>;
 
     return (
-      <div className="flex flex-wrap gap-x-2 gap-y-1">
+      <div className="flex flex-wrap sm:flex-col gap-x-3 sm:gap-x-0 gap-y-1 mb-2 items-center">
         {boost.map(
           (
             { labelType, boostTypeIcon, boostedItemIcon, shortDescription },
