@@ -33,6 +33,7 @@ export const AirdropPlayer: React.FC<
         },
         farmId,
         message,
+        wearables: {},
       },
       authToken: authService.state.context.user.rawToken as string,
     });
