@@ -5,15 +5,16 @@ import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandE
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { produce } from "immer";
 
-export type Task = {
+export type OtherTasks = {
   title: string;
   description: string;
   image: string;
+};
+
+export type Task = OtherTasks & {
   requirement: (state: GameState) => boolean;
   reward: Partial<Record<InventoryItemName, number>>;
 };
-
-export type OtherTasks = Omit<Task, "requirement" | "reward">;
 
 export const TASKS = {
   "Invite a friend": {
