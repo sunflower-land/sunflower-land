@@ -220,6 +220,7 @@ export function getCropTime({
 
   if (
     isSummerCrop(crop, game.season.season, SEASONAL_SEEDS) &&
+    !isGreenhouseCrop(crop) &&
     isWearableActive({ name: "Solflare Aegis", game })
   ) {
     seconds = seconds * 0.5;
@@ -227,6 +228,7 @@ export function getCropTime({
 
   if (
     isAutumnCrop(crop, game.season.season, SEASONAL_SEEDS) &&
+    !isGreenhouseCrop(crop) &&
     isWearableActive({ name: "Autumn's Embrace", game })
   ) {
     seconds = seconds * 0.5;
@@ -518,6 +520,7 @@ export function getCropYieldAmount({
   //Seasonal Additions
   if (
     isSpringCrop(crop, game.season.season, SEASONAL_SEEDS) &&
+    !isGreenhouseCrop(crop) &&
     isWearableActive({ name: "Blossom Ward", game })
   ) {
     amount += 1;
@@ -525,6 +528,7 @@ export function getCropYieldAmount({
 
   if (
     isWinterCrop(crop, game.season.season, SEASONAL_SEEDS) &&
+    !isGreenhouseCrop(crop) &&
     isWearableActive({ name: "Frozen Heart", game })
   ) {
     amount += 1;
