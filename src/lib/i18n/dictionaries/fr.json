@@ -3785,8 +3785,6 @@
   "description.rich.chicken.two": "Ce poulet mutant augmente la production d'œufs de +0,1.",
   "description.ayam.cemani": "Le poulet le plus rare de Sunflower Land !",
   "description.undead.rooster": "Malheureuse victime de la guerre. +0,1 rendement en œufs.",
-  "description.bale": "Augmentez le rendement en œufs.",
-  "description.bale.boost": "+0,1 œuf",
   "description.fat.chicken.boost": "-10 % Nourriture pour poulets",
   "description.el.pollo.veloz.boost": "-2h de temps de production d'œufs",
   "description.farm.dog.boost": "-25 % de temps de production des moutons",
@@ -5487,5 +5485,12 @@
   "description.woody.beaver.warning": "Désactivé si Apprentice Beaver ou Foreman Beaver est actif",
   "description.apprentice.beaver.warning": "Désactivé si Foreman Beaver est actif",
   "completing.face.recognition.success": "Continuer",
-  "completing.face.recognition.label": "Scanné."
+  "completing.face.recognition.label": "Scanné.",
+  "description.bale": "Une touche dorée de la récolte.",
+  "description.bale.eggBoost": "+0,1 œuf",
+  "description.bale.eggBoost.boosted": "+0,2 œuf",
+  "description.bale.milkBoost": "+0,1 Lait",
+  "description.bale.milkBoost.boosted": "+0,2 Lait",
+  "description.bale.woolBoost": "+0.1 Laine",
+  "description.bale.woolBoost.boosted": "+0.2 Laine"
 }

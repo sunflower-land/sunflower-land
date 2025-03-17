@@ -3785,8 +3785,6 @@
   "description.rich.chicken.two": "Bu mutant tavuk +0.1 yumurta verimi artışı sağlar.",
   "description.ayam.cemani": "Ayçiçeği Ülkesindeki en nadir tavuk!",
   "description.undead.rooster": "Savaşın talihsiz bir zayiatı. +0.1 yumurta verimi.",
-  "description.bale": "Yumurta Verimini Artırın.",
-  "description.bale.boost": "+0.1 Yumurta",
   "description.fat.chicken.boost": "-10% Tavuk Yemi",
   "description.el.pollo.veloz.boost": "-2h Yumurta Üretim Süresi",
   "description.farm.dog.boost": "-25% Koyun Üretim Süresi",
@@ -5487,5 +5485,12 @@
   "description.woody.beaver.warning": "Çırak Kunduz veya Foreman Beaver Aktif ise devre dışı bırakılır",
   "description.apprentice.beaver.warning": "Foreman Beaver Aktif ise devre dışı",
   "completing.face.recognition.success": "Devamı",
-  "completing.face.recognition.label": "Tarandı."
+  "completing.face.recognition.label": "Tarandı.",
+  "description.bale": "Hasatın altın bir dokunuşu.",
+  "description.bale.eggBoost": "+0.1 Yumurta",
+  "description.bale.eggBoost.boosted": "+0.2 Yumurta",
+  "description.bale.milkBoost": "+0.1 Süt",
+  "description.bale.milkBoost.boosted": "+0.2 Süt",
+  "description.bale.woolBoost": "+0.1 Yün",
+  "description.bale.woolBoost.boosted": "+0.2 Yün"
 }

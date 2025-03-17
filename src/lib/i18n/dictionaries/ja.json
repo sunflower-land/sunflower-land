@@ -3785,8 +3785,6 @@
   "description.rich.chicken.two": "この突然変異鶏は、産卵量を+0.1増やします。",
   "description.ayam.cemani": "ひまわりランドで一番希少なチキン！",
   "description.undead.rooster": "戦争による不幸な犠牲者。産卵量+0.1。",
-  "description.bale": "卵の収穫量を増やしましょう。",
-  "description.bale.boost": "+0.1 エッグ",
   "description.fat.chicken.boost": "-10% 鶏への飼料",
   "description.el.pollo.veloz.boost": "-2時間の卵生産時間",
   "description.farm.dog.boost": "羊の生産時間 -25%",
@@ -5487,5 +5485,12 @@
   "description.woody.beaver.warning": "アプレンティス・ビーバーまたはフォアマン・ビーバーがアクティブな場合は無効",
   "description.apprentice.beaver.warning": "フォアマンビーバーがアクティブな場合は無効",
   "completing.face.recognition.success": "続行",
-  "completing.face.recognition.label": "スキャン済み。"
+  "completing.face.recognition.label": "スキャン済み。",
+  "description.bale": "収穫のゴールデンタッチ。",
+  "description.bale.eggBoost": "+0.1 エッグ",
+  "description.bale.eggBoost.boosted": "+0.2 エッグ",
+  "description.bale.milkBoost": "+0.1 ミルク",
+  "description.bale.milkBoost.boosted": "+0.2 ミルク",
+  "description.bale.woolBoost": "+0.1 ウール",
+  "description.bale.woolBoost.boosted": "+0.2 ウール"
 }

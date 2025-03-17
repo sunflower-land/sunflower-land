@@ -3785,8 +3785,6 @@
   "description.rich.chicken.two": "Ayam mutan ini menambahkan dorongan +0,1 hasil telur.",
   "description.ayam.cemani": "Ayam paling langka di Sunflower Land!",
   "description.undead.rooster": "Korban perang yang tidak menguntungkan. +0,1 hasil telur.",
-  "description.bale": "Tingkatkan Hasil Telur.",
-  "description.bale.boost": "+0.1 Telur",
   "description.fat.chicken.boost": "-10% Pakan untuk Ayam",
   "description.el.pollo.veloz.boost": "-2h Waktu Produksi Telur",
   "description.farm.dog.boost": "-25% Waktu Produksi Domba",
@@ -5487,5 +5485,12 @@
   "description.woody.beaver.warning": "Dinonaktifkan jika Apprentice Beaver atau Foreman Beaver Aktif",
   "description.apprentice.beaver.warning": "Dinonaktifkan jika Foreman Beaver Aktif",
   "completing.face.recognition.success": "Lanjutkan",
-  "completing.face.recognition.label": "Pindai."
+  "completing.face.recognition.label": "Pindai.",
+  "description.bale": "Sentuhan emas panen.",
+  "description.bale.eggBoost": "+0.1 Telur",
+  "description.bale.eggBoost.boosted": "+0.2 Telur",
+  "description.bale.milkBoost": "+0.1 Susu",
+  "description.bale.milkBoost.boosted": "+0.2 Susu",
+  "description.bale.woolBoost": "+0.1 Wol",
+  "description.bale.woolBoost.boosted": "+0.2 Wol"
 }

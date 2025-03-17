@@ -3785,8 +3785,6 @@
   "description.rich.chicken.two": "Questo pollo mutante aumenta la resa in uova di +0,1.",
   "description.ayam.cemani": "Il pollo più raro di Sunflower Land!",
   "description.undead.rooster": "Una sfortunata vittima della guerra. +0,1 uova.",
-  "description.bale": "Aumenta la resa delle uova.",
-  "description.bale.boost": "+0,1 uovo",
   "description.fat.chicken.boost": "-10% da somministrare ai polli",
   "description.el.pollo.veloz.boost": "-2h Tempo di produzione delle uova",
   "description.farm.dog.boost": "-25% Tempo di produzione delle pecore",
@@ -5487,5 +5485,12 @@
   "description.woody.beaver.warning": "Disabilitato se Apprentice Beaver o Foreman Beaver Active",
   "description.apprentice.beaver.warning": "Disabilitato se Foreman Beaver Active",
   "completing.face.recognition.success": "Continua",
-  "completing.face.recognition.label": "Scansionato."
+  "completing.face.recognition.label": "Scansionato.",
+  "description.bale": "Un tocco dorato del raccolto.",
+  "description.bale.eggBoost": "+0,1 uovo",
+  "description.bale.eggBoost.boosted": "+0,2 uova",
+  "description.bale.milkBoost": "+0,1 latte",
+  "description.bale.milkBoost.boosted": "+0,2 latte",
+  "description.bale.woolBoost": "+0,1 lana",
+  "description.bale.woolBoost.boosted": "+0,2 lana"
 }

@@ -3785,8 +3785,6 @@
   "description.rich.chicken.two": "Dieses mutierte Huhn erhöht die Eierausbeute um +0,1.",
   "description.ayam.cemani": "Das seltenste Huhn im Sonnenblumenland!",
   "description.undead.rooster": "Ein unglückliches Opfer des Krieges. +0,1 Eierertrag.",
-  "description.bale": "Steigern Sie den Eierertrag.",
-  "description.bale.boost": "+0.1 Ei",
   "description.fat.chicken.boost": "-10% Futter für Hühner",
   "description.el.pollo.veloz.boost": "-2 Stunden Eierproduktionszeit",
   "description.farm.dog.boost": "-25% Produktionszeit für Schafe",
@@ -5487,5 +5485,12 @@
   "description.woody.beaver.warning": "Deaktiviert, wenn Apprentice Beaver oder Foreman Beaver aktiv sind",
   "description.apprentice.beaver.warning": "Deaktiviert, wenn Foreman Beaver aktiv ist",
   "completing.face.recognition.success": "Weiter",
-  "completing.face.recognition.label": "Gescannt."
+  "completing.face.recognition.label": "Gescannt.",
+  "description.bale": "Ein goldener Hauch der Ernte.",
+  "description.bale.eggBoost": "+0.1 Ei",
+  "description.bale.eggBoost.boosted": "+0.2 Ei",
+  "description.bale.milkBoost": "+0.1 Milch",
+  "description.bale.milkBoost.boosted": "+0.2 Milch",
+  "description.bale.woolBoost": "+0.1 Wolle",
+  "description.bale.woolBoost.boosted": "+0.2 Wolle"
 }

@@ -3785,8 +3785,6 @@
   "description.rich.chicken.two": "这种变种鸡增加了 0.1 的产蛋量。",
   "description.ayam.cemani": "Sunflower Land 最稀有的鸡！",
   "description.undead.rooster": "战争的不幸牺牲品。+0.1 鸡蛋产量。",
-  "description.bale": "提高鸡蛋产量。",
-  "description.bale.boost": "+0.1 蛋",
   "description.fat.chicken.boost": "-10% 鸡肉饲料",
   "description.el.pollo.veloz.boost": "-2 小时鸡蛋生产时间",
   "description.farm.dog.boost": "-25% 绵羊生产时间",
@@ -5487,5 +5485,12 @@
   "description.woody.beaver.warning": "如果学徒 Beaver 或 Foreman Beaver 处于活动状态，则禁用",
   "description.apprentice.beaver.warning": "如果 Foreman Beaver 活跃，则禁用",
   "completing.face.recognition.success": "继续",
-  "completing.face.recognition.label": "已扫描。"
+  "completing.face.recognition.label": "已扫描。",
+  "description.bale": "收获的金色触感。",
+  "description.bale.eggBoost": "+0.1 蛋",
+  "description.bale.eggBoost.boosted": "+0.2 蛋",
+  "description.bale.milkBoost": "+0.1 牛奶",
+  "description.bale.milkBoost.boosted": "+0.2 牛奶",
+  "description.bale.woolBoost": "+0.1 羊毛",
+  "description.bale.woolBoost.boosted": "+0.2 羊毛"
 }

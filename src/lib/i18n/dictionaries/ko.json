@@ -3785,8 +3785,6 @@
   "description.rich.chicken.two": "이 돌연변이 닭은 계란 생산량을 +0.1만큼 증가시킵니다.",
   "description.ayam.cemani": "선플라워 랜드에서 가장 희귀한 치킨!",
   "description.undead.rooster": "전쟁으로 인한 불행한 희생자. +0.1 알 생산량.",
-  "description.bale": "계란 생산량을 늘리십시오.",
-  "description.bale.boost": "+0.1 에그",
   "description.fat.chicken.boost": "-10% 닭고기에게 먹이기",
   "description.el.pollo.veloz.boost": "-2시간 계란 생산 시간",
   "description.farm.dog.boost": "양 생산 시간 -25%",
@@ -5487,5 +5485,12 @@
   "description.woody.beaver.warning": "견습 비버 또는 포먼 비버가 활동하는 경우 비활성화됨",
   "description.apprentice.beaver.warning": "포먼 비버가 활성화되면 비활성화됩니다.",
   "completing.face.recognition.success": "계속",
-  "completing.face.recognition.label": "스캔 완료."
+  "completing.face.recognition.label": "스캔 완료.",
+  "description.bale": "수확의 황금빛 손길.",
+  "description.bale.eggBoost": "+0.1 에그",
+  "description.bale.eggBoost.boosted": "+0.2 에그",
+  "description.bale.milkBoost": "+0.1 밀크",
+  "description.bale.milkBoost.boosted": "+0.2 밀크",
+  "description.bale.woolBoost": "+0.1 울",
+  "description.bale.woolBoost.boosted": "+0.2 울"
 }

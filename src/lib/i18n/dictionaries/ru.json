@@ -738,8 +738,6 @@
   "description.babyPanda": "Симпатичная панда с мероприятия Gas Hero. Двойной опыт для новичков в марте 2024 года.",
   "description.badass.bear": "Ничто тебя не остановит",
   "description.bakery": "Испеки свои любимые торты",
-  "description.bale": "Повысьте урожайность яиц.",
-  "description.bale.boost": "+0,1 Яйцо",
   "description.banana": "О, банан!",
   "description.banana.blast": "Идеальная заправка фруктами для тех, кому нужна энергия!",
   "description.banana.chicken": "Курица, которая повышает урожай бананов. В каком мире мы живем.",
@@ -5487,5 +5485,12 @@
   "description.woody.beaver.warning": "Инвалид, если ученик бобр или бригадир Бобр активны",
   "description.apprentice.beaver.warning": "Отключено, если Форман Бивер активен",
   "completing.face.recognition.success": "Продолжить",
-  "completing.face.recognition.label": "Отсканировано."
+  "completing.face.recognition.label": "Отсканировано.",
+  "description.bale": "Золотое прикосновение урожая.",
+  "description.bale.eggBoost": "+0,1 Яйцо",
+  "description.bale.eggBoost.boosted": "+0,2 Яйцо",
+  "description.bale.milkBoost": "+0.1 Молоко",
+  "description.bale.milkBoost.boosted": "+0.2 Молоко",
+  "description.bale.woolBoost": "+0.1 Шерсть",
+  "description.bale.woolBoost.boosted": "+0.2 Шерсть"
 }

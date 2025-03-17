@@ -3785,8 +3785,6 @@
   "description.rich.chicken.two": "Esta galinha mutante aumenta a produção de ovos de +0,1.",
   "description.ayam.cemani": "A galinha mais rara da Terra do Girassol!",
   "description.undead.rooster": "Uma infeliz vítima da guerra. +0,1 produção de ovos.",
-  "description.bale": "Aumente a produção de ovos.",
-  "description.bale.boost": "+0.1 Ovo",
   "description.fat.chicken.boost": "-10% de ração para frango",
   "description.el.pollo.veloz.boost": "-2h de tempo de produção de ovos",
   "description.farm.dog.boost": "-25% de tempo de produção de ovinos",
@@ -5487,5 +5485,12 @@
   "description.woody.beaver.warning": "Desativado se o Apprentice Beaver ou o Foreman Beaver estiverem ativos",
   "description.apprentice.beaver.warning": "Desativado se o Foreman Beaver estiver ativo",
   "completing.face.recognition.success": "Continuar",
-  "completing.face.recognition.label": "Digitalizado."
+  "completing.face.recognition.label": "Digitalizado.",
+  "description.bale": "Um toque dourado da colheita.",
+  "description.bale.eggBoost": "+0.1 Ovo",
+  "description.bale.eggBoost.boosted": "+0.2 Ovo",
+  "description.bale.milkBoost": "+0.1 Leite",
+  "description.bale.milkBoost.boosted": "+0,2 Leite",
+  "description.bale.woolBoost": "+0.1 Lã",
+  "description.bale.woolBoost.boosted": "+0,2 Lã"
 }
