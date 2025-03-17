@@ -74,11 +74,14 @@ const selectCropsSold = (state: MachineState) =>
   state.context.state.bumpkin?.activity?.["Sunflower Sold"] ?? 0;
 
 // A player that has been vetted and is engaged in the season.
-const isSeasonedPlayer = (state: MachineState) =>
+const isSeasonedPlayer = (state: MachineState): boolean =>
   // - level 60+
   getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) >= 60 &&
   // - verified (personhood verification)
-  state.context.verified &&
+  (state.context.verified ||
+    !!state.context.state.faceRecognition?.history.some(
+      (face) => face.event === "succeeded" && face.confidence > 65,
+    )) &&
   // - has grower reputation
   hasReputation({ game: state.context.state, reputation: Reputation.Grower });
 
