@@ -1,6 +1,12 @@
 import { RoundButton } from "components/ui/RoundButton";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import React, { useCallback, useContext, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useState,
+  useEffect,
+  useMemo,
+} from "react";
 import giftIcon from "assets/icons/gift.png";
 import { Rewards } from "./Rewards";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -10,11 +16,37 @@ import {
   SocialTaskName,
   TASKS,
 } from "features/game/events/landExpansion/completeSocialTask";
+import { rewardChestMachine } from "features/game/expansion/components/dailyReward/rewardChestMachine";
+import { useInterpret, useActor } from "@xstate/react";
 
 export const RewardsButton: React.FC = () => {
   const [showRewardsModal, setShowRewardsModal] = useState(false);
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, (state) => state.context.state);
+
+  // Get daily rewards data for chest state
+  const dailyRewards = useSelector(
+    gameService,
+    (state) => state.context.state.dailyRewards,
+  );
+  const bumpkinLevel = useSelector(gameService, (state) =>
+    state.context.state.bumpkin ? state.context.state.bumpkin.experience : 0,
+  );
+
+  // Initialize chest service to check if chest is locked
+  const chestService = useInterpret(rewardChestMachine, {
+    context: {
+      lastUsedCode: dailyRewards?.chest?.code ?? 0,
+      openedAt: dailyRewards?.chest?.collectedAt ?? 0,
+      bumpkinLevel,
+    },
+  });
+  const [chestState] = useActor(chestService);
+
+  // Load the chest state when component mounts
+  useEffect(() => {
+    chestService.send("LOAD");
+  }, [chestService]);
 
   const isTaskCompleted = useCallback(
     (task: SocialTaskName) => TASKS[task].requirement(state),
@@ -24,6 +56,12 @@ export const RewardsButton: React.FC = () => {
     (task) =>
       isTaskCompleted(task.title as SocialTaskName) &&
       !state.socialTasks?.completed[task.title as SocialTaskName]?.completedAt,
+  );
+
+  // Check if chest is locked or can be unlocked
+  const isChestLocked = useMemo(
+    () => !chestState.matches("unlocked"),
+    [chestState],
   );
 
   return (
@@ -41,7 +79,7 @@ export const RewardsButton: React.FC = () => {
             top: `${PIXEL_SCALE * 4}px`,
           }}
         />
-        {isAnyTaskCompleted && (
+        {(isAnyTaskCompleted || isChestLocked) && (
           <img
             src={SUNNYSIDE.icons.expression_alerted}
             className="absolute animate-pulsate"
