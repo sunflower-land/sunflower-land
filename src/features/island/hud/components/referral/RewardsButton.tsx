@@ -32,6 +32,9 @@ export const RewardsButton: React.FC = () => {
   const bumpkinLevel = useSelector(gameService, (state) =>
     state.context.state.bumpkin ? state.context.state.bumpkin.experience : 0,
   );
+  const isRevealed = useSelector(gameService, (state) =>
+    state.matches("revealed"),
+  );
 
   // Initialize chest service to check if chest is locked
   const chestService = useInterpret(rewardChestMachine, {
@@ -64,6 +67,13 @@ export const RewardsButton: React.FC = () => {
     [chestState],
   );
 
+  const completeTask = (taskId: SocialTaskName) => {
+    gameService.send({
+      type: "socialTask.completed",
+      taskId,
+    });
+  };
+
   return (
     <div
       className="absolute"
@@ -93,6 +103,15 @@ export const RewardsButton: React.FC = () => {
       <Rewards
         show={showRewardsModal}
         onHide={() => setShowRewardsModal(false)}
+        gameService={gameService}
+        state={state}
+        isRevealed={isRevealed}
+        bumpkinLevel={bumpkinLevel}
+        chestService={chestService}
+        chestState={chestState}
+        completeTask={completeTask}
+        loveCharmCount={state.inventory["Love Charm"]}
+        socialTasks={state.socialTasks}
       />
     </div>
   );

@@ -1,4 +1,3 @@
-import { useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
@@ -15,34 +14,29 @@ import {
   SocialTaskName,
   isSocialTask,
 } from "features/game/events/landExpansion/completeSocialTask";
-import { Context } from "features/game/GameProvider";
+import { GameState } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 
-export const TaskBoard: React.FC = () => {
+interface TaskBoardProps {
+  state: GameState;
+  completeTask: (taskId: SocialTaskName) => void;
+  loveCharmCount?: Decimal;
+  socialTasks?: GameState["socialTasks"];
+}
+
+export const TaskBoard: React.FC<TaskBoardProps> = ({
+  state,
+  completeTask,
+  loveCharmCount,
+  socialTasks,
+}) => {
   const { t } = useAppTranslation();
   const [selectedTask, setSelectedTask] = useState<Task | OtherTasks>();
-  const { gameService } = useContext(Context);
-  const state = useSelector(gameService, (state) => state.context.state);
-  const loveTokenCount = useSelector(
-    gameService,
-    (state) => state.context.state.inventory["Love Charm"] ?? new Decimal(0),
-  );
-  const socialTasks = useSelector(
-    gameService,
-    (state) => state.context.state.socialTasks,
-  );
 
   const isTaskCompleted = (taskId: SocialTaskName): boolean =>
     !!socialTasks?.completed?.[taskId]?.completedAt;
-
-  const completeTask = (taskId: SocialTaskName) => {
-    gameService.send({
-      type: "socialTask.completed",
-      taskId,
-    });
-  };
 
   return (
     <div className="flex flex-col gap-2 max-h-[500px] overflow-y-auto scrollable">
@@ -54,7 +48,7 @@ export const TaskBoard: React.FC = () => {
             type="vibrant"
             secondaryIcon={ITEM_DETAILS["Love Charm"].image}
           >
-            {`Inventory: ${loveTokenCount} Love Charm`}
+            {`Inventory: ${loveCharmCount} Love Charm`}
           </Label>
         </div>
         <div className="flex flex-col gap-2 text-xs mx-2">

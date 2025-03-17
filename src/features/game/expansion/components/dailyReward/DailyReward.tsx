@@ -14,9 +14,26 @@ import { Label } from "components/ui/Label";
 import { Revealed } from "features/game/components/Revealed";
 import { ChestRevealing } from "features/world/ui/chests/ChestRevealing";
 import { Loading } from "features/auth/components/Loading";
-import { rewardChestMachine } from "./rewardChestMachine";
+import {
+  DailyRewardState,
+  DailyRewardContext,
+  rewardChestMachine,
+  DailyRewardEvent,
+} from "./rewardChestMachine";
 import { hasFeatureAccess } from "lib/flags";
-import { MachineState } from "features/game/lib/gameMachine";
+import {
+  MachineInterpreter,
+  MachineState,
+} from "features/game/lib/gameMachine";
+import { DailyRewards } from "features/game/types/game";
+import {
+  BaseActionObject,
+  Interpreter,
+  ResolveTypegenMeta,
+  ServiceMap,
+  State,
+  TypegenDisabled,
+} from "xstate";
 
 const _hasReferralAccess = (state: MachineState) =>
   hasFeatureAccess(state.context.state, "REFERRAL_PROGRAM");
@@ -30,6 +47,9 @@ export const DailyReward: React.FC = () => {
   const dailyRewards = useSelector(
     gameService,
     (state) => state.context.state.dailyRewards,
+  );
+  const isRevealed = useSelector(gameService, (state) =>
+    state.matches("revealed"),
   );
   const hasReferralAccess = useSelector(gameService, _hasReferralAccess);
   const chestService = useInterpret(rewardChestMachine, {
@@ -80,7 +100,15 @@ export const DailyReward: React.FC = () => {
       </div>
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <CloseButtonPanel>
-          <DailyRewardContent onClose={() => setShowModal(false)} />
+          <DailyRewardContent
+            onClose={() => setShowModal(false)}
+            gameService={gameService}
+            dailyRewards={dailyRewards}
+            isRevealed={isRevealed}
+            bumpkinLevel={bumpkinLevel}
+            chestService={chestService}
+            chestState={chestState}
+          />
         </CloseButtonPanel>
       </Modal>
     </>
@@ -89,35 +117,50 @@ export const DailyReward: React.FC = () => {
 
 export const DailyRewardContent: React.FC<{
   onClose: () => void;
-}> = ({ onClose }) => {
+  gameService: MachineInterpreter;
+  dailyRewards?: DailyRewards;
+  isRevealed: boolean;
+  bumpkinLevel: number;
+  chestService: Interpreter<
+    DailyRewardContext,
+    any,
+    DailyRewardEvent,
+    DailyRewardState,
+    ResolveTypegenMeta<
+      TypegenDisabled,
+      DailyRewardEvent,
+      BaseActionObject,
+      ServiceMap
+    >
+  >;
+  chestState: State<
+    DailyRewardContext,
+    DailyRewardEvent,
+    any,
+    DailyRewardState,
+    ResolveTypegenMeta<
+      TypegenDisabled,
+      DailyRewardEvent,
+      BaseActionObject,
+      ServiceMap
+    >
+  >;
+}> = ({
+  onClose,
+  gameService,
+  dailyRewards,
+  isRevealed,
+  bumpkinLevel,
+  chestService,
+  chestState,
+}) => {
   const { t } = useAppTranslation();
-  const { gameService } = useContext(Context);
-  const dailyRewards = useSelector(
-    gameService,
-    (state) => state.context.state.dailyRewards,
-  );
 
-  const isRevealed = useSelector(gameService, (state) =>
-    state.matches("revealed"),
-  );
-  const bumpkinLevel = useSelector(gameService, (state) =>
-    getBumpkinLevel(state.context.state.bumpkin.experience),
-  );
   const hasReferralAccess = useSelector(gameService, _hasReferralAccess);
-
-  const chestService = useInterpret(rewardChestMachine, {
-    context: {
-      lastUsedCode: dailyRewards?.chest?.code ?? 0,
-      openedAt: dailyRewards?.chest?.collectedAt ?? 0,
-      bumpkinLevel,
-    },
-  });
 
   useEffect(() => {
     chestService.send("UPDATE_BUMPKIN_LEVEL", { bumpkinLevel });
   }, [bumpkinLevel]);
-
-  const [chestState] = useActor(chestService);
 
   if (bumpkinLevel <= 5) {
     return null;
