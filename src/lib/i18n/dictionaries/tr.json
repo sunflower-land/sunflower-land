@@ -5510,5 +5510,13 @@
   "linking.telegram.success": "Telgraf bağlantılı!",
   "joining.telegram": "Kanalın üyesi olup olmadığınızı kontrol etmek...",
   "joining.telegram.success": "Telegram katıldı!",
-  "description.love.charm": "Toplumdan bir sevgi belirtisi"
+  "description.love.charm": "Toplumdan bir sevgi belirtisi",
+  "following.twitter.success": "Twitter takip etti!",
+  "following.twitter.failed": "Twitter takip edilmedi",
+  "following.twitter.failed.description": "Devamlamak için lütfen resmi Sunflower Land Twitter hesabını takip edin.",
+  "twitter.title": "X (Twitter)",
+  "twitter.description": "Ödül kazanmak için X hesabınızı bağlayın!",
+  "twitter.connected": "Bağlı",
+  "twitter.connect": "Twitter'a Bağlan",
+  "twitter.follow": "Twitter'ı Takip Edin"
 }

@@ -5510,5 +5510,13 @@
   "linking.telegram.success": "Telegram ditautkan!",
   "joining.telegram": "Memeriksa apakah Anda anggota saluran...",
   "joining.telegram.success": "Telegram bergabung!",
-  "description.love.charm": "Tanda cinta dari komunitas"
+  "description.love.charm": "Tanda cinta dari komunitas",
+  "following.twitter.success": "Twitter mengikuti!",
+  "following.twitter.failed": "Twitter tidak diikuti",
+  "following.twitter.failed.description": "Silakan ikuti akun Twitter resmi Sunflower Land untuk melanjutkan.",
+  "twitter.title": "X (Twitter)",
+  "twitter.description": "Hubungkan akun X Anda untuk mendapatkan hadiah!",
+  "twitter.connected": "Terhubung",
+  "twitter.connect": "Hubungkan Twitter",
+  "twitter.follow": "Ikuti Twitter"
 }

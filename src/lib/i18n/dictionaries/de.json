@@ -5510,5 +5510,13 @@
   "linking.telegram.success": "Telegram verlinkt!",
   "joining.telegram": "Ich überprüfe, ob du Mitglied des Kanals bist...",
   "joining.telegram.success": "Telegram ist beigetreten!",
-  "description.love.charm": "Ein Liebesbeweis von der Community"
+  "description.love.charm": "Ein Liebesbeweis von der Community",
+  "following.twitter.success": "Twitter ist gefolgt!",
+  "following.twitter.failed": "Twitter wird nicht verfolgt",
+  "following.twitter.failed.description": "Bitte folge dem offiziellen Sunflower Land Twitter Account, um fortzufahren.",
+  "twitter.title": "X (Twitter)",
+  "twitter.description": "Verbinde dein X-Konto, um Prämien zu verdienen!",
+  "twitter.connected": "Verbunden",
+  "twitter.connect": "Verbinde Twitter",
+  "twitter.follow": "Folgen Sie Twitter"
 }

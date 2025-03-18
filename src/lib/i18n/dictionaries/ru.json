@@ -5510,5 +5510,13 @@
   "linking.telegram.success": "Telegram связан!",
   "joining.telegram": "Проверяем, являетесь ли вы участником канала...",
   "joining.telegram.success": "Telegram присоединился!",
-  "description.love.charm": "Знак любви от сообщества"
+  "description.love.charm": "Знак любви от сообщества",
+  "following.twitter.success": "Твиттер последовал!",
+  "following.twitter.failed": "Твиттер не подписан",
+  "following.twitter.failed.description": "Пожалуйста, подпишитесь на официальный аккаунт Sunflower Land в Twitter, чтобы продолжить.",
+  "twitter.title": "X (Твиттер)",
+  "twitter.description": "Подключите свой аккаунт X, чтобы получать награды!",
+  "twitter.connected": "Подключено",
+  "twitter.connect": "Подключите Twitter",
+  "twitter.follow": "Подписывайтесь на Twitter"
 }

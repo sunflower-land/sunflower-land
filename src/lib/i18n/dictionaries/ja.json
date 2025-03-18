@@ -5510,5 +5510,13 @@
   "linking.telegram.success": "テレグラムがリンクされました！",
   "joining.telegram": "チャンネルのメンバーかどうかを確認中...",
   "joining.telegram.success": "テレグラムが加わりました！",
-  "description.love.charm": "コミュニティからの愛のしるし"
+  "description.love.charm": "コミュニティからの愛のしるし",
+  "following.twitter.success": "ツイッターフォローしました！",
+  "following.twitter.failed": "ツイッターはフォローされていません",
+  "following.twitter.failed.description": "ひまわりランドの公式Twitterアカウントをフォローして、続けてください。",
+  "twitter.title": "X (ツイッター)",
+  "twitter.description": "Xアカウントを接続して報酬を獲得しましょう！",
+  "twitter.connected": "接続済み",
+  "twitter.connect": "ツイッターを接続",
+  "twitter.follow": "ツイッターをフォロー"
 }

@@ -5510,5 +5510,13 @@
   "linking.telegram.success": "电报已关联！",
   "joining.telegram": "正在检查你是否是该频道的成员...",
   "joining.telegram.success": "电报加入了！",
-  "description.love.charm": "来自社区的爱的象征"
+  "description.love.charm": "来自社区的爱的象征",
+  "following.twitter.success": "推特紧随其后！",
+  "following.twitter.failed": "推特未关注",
+  "following.twitter.failed.description": "请关注向日葵乐园官方推特账号继续。",
+  "twitter.title": "X（推特）",
+  "twitter.description": "连接您的 X 账户即可获得奖励！",
+  "twitter.connected": "已连接",
+  "twitter.connect": "连接推特",
+  "twitter.follow": "关注推特"
 }

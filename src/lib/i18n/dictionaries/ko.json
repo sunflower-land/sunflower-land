@@ -5510,5 +5510,13 @@
   "linking.telegram.success": "텔레그램 연동!",
   "joining.telegram": "채널 회원 여부 확인 중...",
   "joining.telegram.success": "텔레그램 가입!",
-  "description.love.charm": "커뮤니티가 전하는 사랑의 증표"
+  "description.love.charm": "커뮤니티가 전하는 사랑의 증표",
+  "following.twitter.success": "트위터가 팔로우했습니다!",
+  "following.twitter.failed": "트위터 팔로우 안함",
+  "following.twitter.failed.description": "계속하려면 공식 선플라워 랜드 트위터 계정을 팔로우하세요.",
+  "twitter.title": "X (트위터)",
+  "twitter.description": "X 계정을 연결하여 보상을 받으세요!",
+  "twitter.connected": "연결됨",
+  "twitter.connect": "트위터 연결",
+  "twitter.follow": "트위터 팔로우하기"
 }

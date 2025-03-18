@@ -5510,5 +5510,13 @@
   "linking.telegram.success": "Telegrama vinculado!",
   "joining.telegram": "Verificando se você é membro do canal...",
   "joining.telegram.success": "O Telegram aderiu!",
-  "description.love.charm": "Um símbolo do amor da comunidade"
+  "description.love.charm": "Um símbolo do amor da comunidade",
+  "following.twitter.success": "Seguiu o Twitter!",
+  "following.twitter.failed": "Twitter não seguido",
+  "following.twitter.failed.description": "Siga a conta oficial do Twitter da Sunflower Land para continuar.",
+  "twitter.title": "X (Twitter)",
+  "twitter.description": "Conecte sua conta X para ganhar recompensas!",
+  "twitter.connected": "Conectado",
+  "twitter.connect": "Conecte o Twitter",
+  "twitter.follow": "Siga o Twitter"
 }
