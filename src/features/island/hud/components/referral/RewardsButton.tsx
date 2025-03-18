@@ -18,6 +18,7 @@ import {
 } from "features/game/events/landExpansion/completeSocialTask";
 import { rewardChestMachine } from "features/game/expansion/components/dailyReward/rewardChestMachine";
 import { useInterpret, useActor } from "@xstate/react";
+import Decimal from "decimal.js-light";
 
 export const RewardsButton: React.FC = () => {
   const [showRewardsModal, setShowRewardsModal] = useState(false);
@@ -112,7 +113,7 @@ export const RewardsButton: React.FC = () => {
         chestService={chestService}
         chestState={chestState}
         completeTask={completeTask}
-        loveCharmCount={state.inventory["Love Charm"]}
+        loveCharmCount={state.inventory["Love Charm"] ?? new Decimal(0)}
         socialTasks={state.socialTasks}
       />
     </div>
