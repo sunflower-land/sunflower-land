@@ -5518,5 +5518,8 @@
   "twitter.description": "Подключите свой аккаунт X, чтобы получать награды!",
   "twitter.connected": "Подключено",
   "twitter.connect": "Подключите Twitter",
-  "twitter.follow": "Подписывайтесь на Twitter"
+  "twitter.follow": "Подписывайтесь на Twitter",
+  "loveCharm.update": "Обновление Love Charm",
+  "loveCharm.intro": "Чтобы подготовиться к кампании «Рекламируй, чтобы заработать», мы заменили монеты сообщества новой валютой — Love Charms!",
+  "loveCharm.intro.two": "За каждую принадлежащую вам монету сообщества вы получите 25 любовных талисманов."
 }

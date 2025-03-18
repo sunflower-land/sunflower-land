@@ -5518,5 +5518,8 @@
   "twitter.description": "Connectez votre compte X pour gagner des récompenses !",
   "twitter.connected": "Connecté",
   "twitter.connect": "Connectez Twitter",
-  "twitter.follow": "Suivez Twitter"
+  "twitter.follow": "Suivez Twitter",
+  "loveCharm.update": "Mise à jour de Love Charm",
+  "loveCharm.intro": "Pour préparer la campagne Promote-to-Earn, nous avons remplacé les pièces communautaires par une nouvelle devise... Love Charms !",
+  "loveCharm.intro.two": "Vous recevrez 25 breloques d'amour pour chaque pièce communautaire que vous possédez."
 }

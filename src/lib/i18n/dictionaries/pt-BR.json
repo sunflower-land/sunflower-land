@@ -5518,5 +5518,8 @@
   "twitter.description": "Conecte sua conta X para ganhar recompensas!",
   "twitter.connected": "Conectado",
   "twitter.connect": "Conecte o Twitter",
-  "twitter.follow": "Siga o Twitter"
+  "twitter.follow": "Siga o Twitter",
+  "loveCharm.update": "Atualização do Love Charm",
+  "loveCharm.intro": "Para nos prepararmos para a campanha Promova para Ganhar, substituímos as Moedas Comunitárias por uma nova moeda... Love Charms!",
+  "loveCharm.intro.two": "Você receberá 25 Amuletos de Amor por cada Moeda Comunitária que possuir."
 }

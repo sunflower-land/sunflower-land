@@ -5518,5 +5518,8 @@
   "twitter.description": "Verbinde dein X-Konto, um Prämien zu verdienen!",
   "twitter.connected": "Verbunden",
   "twitter.connect": "Verbinde Twitter",
-  "twitter.follow": "Folgen Sie Twitter"
+  "twitter.follow": "Folgen Sie Twitter",
+  "loveCharm.update": "Love Charm-Aktualisierung",
+  "loveCharm.intro": "Um uns auf die Promote-to-Earn-Kampagne vorzubereiten, haben wir Community Coins durch eine neue Währung ersetzt... Love Charms!",
+  "loveCharm.intro.two": "Für jede Community-Münze, die du besitzt, erhältst du 25 Liebeszauber."
 }

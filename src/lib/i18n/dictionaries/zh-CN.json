@@ -5518,5 +5518,8 @@
   "twitter.description": "连接您的 X 账户即可获得奖励！",
   "twitter.connected": "已连接",
   "twitter.connect": "连接推特",
-  "twitter.follow": "关注推特"
+  "twitter.follow": "关注推特",
+  "loveCharm.update": "爱情护身符更新",
+  "loveCharm.intro": "为了为 “推广赚钱” 活动做准备，我们用一种新货币替换了社区币... Love Charms！",
+  "loveCharm.intro.two": "每拥有一枚社区硬币，您将获得 25 个爱情护身符。"
 }

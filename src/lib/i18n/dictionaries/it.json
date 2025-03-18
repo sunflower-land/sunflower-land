@@ -5518,5 +5518,8 @@
   "twitter.description": "Collega il tuo account X per guadagnare premi!",
   "twitter.connected": "Connesso",
   "twitter.connect": "Connetti Twitter",
-  "twitter.follow": "Segui Twitter"
+  "twitter.follow": "Segui Twitter",
+  "loveCharm.update": "Aggiornamento Love Charm",
+  "loveCharm.intro": "Per prepararci alla campagna Promote-to-Earn, abbiamo sostituito le Community Coins con una nuova valuta... Love Charms!",
+  "loveCharm.intro.two": "Riceverai 25 ciondoli d'amore per ogni Community Coin che possiedi."
 }

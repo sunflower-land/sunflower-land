@@ -5518,5 +5518,8 @@
   "twitter.description": "X 계정을 연결하여 보상을 받으세요!",
   "twitter.connected": "연결됨",
   "twitter.connect": "트위터 연결",
-  "twitter.follow": "트위터 팔로우하기"
+  "twitter.follow": "트위터 팔로우하기",
+  "loveCharm.update": "러브 참 업데이트",
+  "loveCharm.intro": "수익 증진 캠페인을 준비하기 위해 커뮤니티 코인을 새로운 화폐인 러브 참 (Love Charms) 으로 교체했습니다!",
+  "loveCharm.intro.two": "커뮤니티 코인을 소유할 때마다 러브 참 25개를 받게 됩니다."
 }

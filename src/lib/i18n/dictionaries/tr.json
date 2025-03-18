@@ -5518,5 +5518,8 @@
   "twitter.description": "Ödül kazanmak için X hesabınızı bağlayın!",
   "twitter.connected": "Bağlı",
   "twitter.connect": "Twitter'a Bağlan",
-  "twitter.follow": "Twitter'ı Takip Edin"
+  "twitter.follow": "Twitter'ı Takip Edin",
+  "loveCharm.update": "Love Charm güncellemesi",
+  "loveCharm.intro": "Kazanmak İçin Promosyon kampanyasına hazırlanmak için Topluluk Jetonlarını yeni bir para birimi ile değiştirdik... Aşk Tılsımları!",
+  "loveCharm.intro.two": "Sahip olduğunuz her Community Coin için 25 Aşk Tılsımı alacaksınız."
 }
