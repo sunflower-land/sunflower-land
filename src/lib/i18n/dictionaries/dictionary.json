@@ -5674,5 +5674,10 @@
   "joining.telegram.success": "Telegram joined!",
   "following.twitter.success": "Twitter followed!",
   "following.twitter.failed": "Twitter not followed",
-  "following.twitter.failed.description": "Please follow the official Sunflower Land Twitter account to continue."
+  "following.twitter.failed.description": "Please follow the official Sunflower Land Twitter account to continue.",
+  "twitter.title": "X (Twitter)",
+  "twitter.description": "Connect your X account to earn rewards!",
+  "twitter.connected": "Connected",
+  "twitter.connect": "Connect Twitter",
+  "twitter.follow": "Follow Twitter"
 }
