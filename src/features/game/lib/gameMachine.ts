@@ -105,6 +105,7 @@ import { getActiveCalendarEvent, SeasonalEventName } from "../types/calendar";
 import { SpecialEventName } from "../types/specialEvents";
 import { getAccount } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
+import { hasFeatureAccess } from "lib/flags";
 
 // Run at startup in case removed from query params
 const portalName = new URLSearchParams(window.location.search).get("portal");
@@ -893,7 +894,10 @@ export function startGame(authContext: AuthContext) {
             {
               target: "communityCoin",
               cond: (context) => {
-                return !!context.state.inventory["Community Coin"]?.gte(1);
+                return (
+                  hasFeatureAccess(context.state, "COMMUNITY_COIN_EXCHANGE") &&
+                  !!context.state.inventory["Community Coin"]?.gte(1)
+                );
               },
             },
 
