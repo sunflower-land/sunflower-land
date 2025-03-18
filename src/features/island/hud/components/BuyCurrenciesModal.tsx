@@ -106,6 +106,19 @@ export const BuyCurrenciesModal: React.FC<Props> = ({
     onClose();
   };
 
+  const onFlowerBuy = async (quote: number) => {
+    gameService.send("gems.bought", {
+      effect: {
+        type: "gems.bought",
+        quote,
+        bundle: price?.amount,
+      },
+      authToken: token,
+    });
+
+    onClose();
+  };
+
   const handleExited = () => {
     setShowXsolla(undefined);
     setPrice(undefined);
@@ -204,6 +217,7 @@ export const BuyCurrenciesModal: React.FC<Props> = ({
                 price={price}
                 setPrice={setPrice}
                 onMaticBuy={onMaticBuy}
+                onFlowerBuy={onFlowerBuy}
                 onCreditCardBuy={handleCreditCardBuy}
                 onHideBuyBBLabel={(hide) => setHideBuyBBLabel(hide)}
               />
