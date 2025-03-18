@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 
-import { INITIAL_FARM, PIXEL_SCALE } from "features/game/lib/constants";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 
 import codex from "assets/icons/codex.webp";
@@ -19,12 +19,17 @@ const _delivery = (state: MachineState) => state.context.state.delivery;
 const _level = (state: MachineState) =>
   getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
 
+// To delete after feature flag is removed
+const _hasReferralProgram = (state: MachineState) =>
+  hasFeatureAccess(state.context.state, "REFERRAL_PROGRAM");
+
 export const CodexButton: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const { gameService } = useContext(Context);
 
   const deliveries = useSelector(gameService, _delivery);
+  const hasReferralProgram = useSelector(gameService, _hasReferralProgram);
   const level = useSelector(gameService, _level);
 
   const hasDeliveries =
@@ -35,7 +40,7 @@ export const CodexButton: React.FC = () => {
 
   const { t } = useAppTranslation();
 
-  if (!hasFeatureAccess(INITIAL_FARM, "REFERRAL_PROGRAM")) {
+  if (!hasReferralProgram) {
     return (
       <>
         <RoundButton
