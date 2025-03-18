@@ -13,6 +13,9 @@ import { CopyAddress } from "components/ui/CopyAddress";
 import { baseSepolia } from "viem/chains";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
+import { shortAddress } from "lib/utils/shortAddress";
+import { useInterval } from "lib/utils/hooks/useInterval";
+import { createPublicClient, http } from "viem";
 
 interface Props {
   onClose: () => void;
@@ -42,6 +45,9 @@ export const DepositFlower: React.FC<Props> = ({ onClose }) => {
 type FlowerDeposit = {
   transactionHash: string;
   value: string;
+  finalizedAt?: number;
+  sweptAt?: number;
+  blockNumber: number;
 };
 
 const _success = (state: MachineState) =>
@@ -81,9 +87,37 @@ const AddressComponent = ({
     config,
   });
 
+  const [finalizedBlockNumber, setFinalizedBlockNumber] = useState<number>(0);
+  const [latestBlockNumber, setLatestBlockNumber] = useState<number>(0);
+
+  useInterval(async () => {
+    const client = createPublicClient({
+      chain: baseSepolia,
+      transport: http(),
+    });
+
+    const finalizedBlock = await client.getBlock({
+      blockTag: "finalized",
+    });
+    const latestBlock = await client.getBlock({
+      blockTag: "latest",
+    });
+
+    setFinalizedBlockNumber(Number(finalizedBlock.number));
+    setLatestBlockNumber(Number(latestBlock.number));
+  }, 1000);
+
   const chains = useChains({ config });
 
   const chainConfig = chains.find((chain) => chain.id === baseSepolia.id);
+
+  const confirmationsRequired =
+    Number(latestBlockNumber) - Number(finalizedBlockNumber);
+  const currentConfirmations = (blockNumber: number) =>
+    Math.min(
+      confirmationsRequired,
+      Number(latestBlockNumber) - Number(blockNumber),
+    );
 
   return (
     <>
@@ -94,17 +128,23 @@ const AddressComponent = ({
       </Label>
       <Label type="default">{`Min 5 $FLOWER to deposit`}</Label>
       <div>
-        {deposits.map(({ transactionHash, value }) => (
-          <div key={transactionHash}>
-            <a
-              href={`${chainConfig?.blockExplorers?.default?.url}/tx/${transactionHash}`}
-              target="_blank"
-              rel="noreferrer"
-            >
-              {`${transactionHash} - ${value}`}
-            </a>
-          </div>
-        ))}
+        {deposits.map(
+          ({ transactionHash, value, finalizedAt, sweptAt, blockNumber }) => (
+            <div key={transactionHash}>
+              <a
+                href={`${chainConfig?.blockExplorers?.default?.url}/tx/${transactionHash}`}
+                target="_blank"
+                rel="noreferrer"
+                className="text-xxs"
+              >
+                {`${finalizedAt ? "✅" : "❌"} ${
+                  sweptAt ? "💨" : ""
+                } ${shortAddress(transactionHash)} - ${value} - Confirmations: ${currentConfirmations(blockNumber)} / ${confirmationsRequired}`}
+              </a>
+            </div>
+          ),
+        )}
+        <span className="text-xxs">{`Block number: ${finalizedBlockNumber}`}</span>
       </div>
       <Button disabled={pending} onClick={() => refreshDeposit()}>
         {pending ? "Refreshing..." : "Refresh Deposit"}
@@ -129,6 +169,7 @@ const CreateDeposit = () => {
     gameService.send("flower.depositStarted", {
       effect: {
         type: "flower.depositStarted",
+        chainId: baseSepolia.id,
       },
       authToken: authService.getSnapshot().context.user.rawToken as string,
     });
