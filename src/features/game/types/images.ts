@@ -4926,8 +4926,8 @@ export const ITEM_DETAILS: Items = {
     description:
       "The Mythical Tiger of Ronin, embodies strength, resillence and adventurous spirit",
   },
-  "Social Spark": {
+  "Love Charm": {
     image: SUNNYSIDE.icons.heart, // TODO: add image
-    description: translate("description.social.spark"),
+    description: translate("description.love.charm"),
   },
 };

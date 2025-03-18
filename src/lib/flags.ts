@@ -8,7 +8,7 @@ const adminFeatureFlag = ({ wardrobe, inventory }: GameState) =>
 const seasonAdminFeatureFlag = (game: GameState) => {
   return (
     testnetFeatureFlag() ||
-    ["adam", "tango", "elias", "dcol", "Aeon", "Craig", "Spencer"]
+    ["adam", "tango", "elias", "dcol", "birb", "Celinhotv"]
       .map((name) => name.toLowerCase())
       .includes(game.username?.toLowerCase() ?? "")
   );
@@ -41,11 +41,10 @@ const timePeriodFeatureFlag =
   };
 
 // Used for testing production features
-export const ADMIN_IDS = [1, 3, 51, 39488, 128727];
+export const ADMIN_IDS = [1, 3, 39488, 128727];
 /**
  * Adam: 1
  * Spencer: 3
- * Sacul: 51
  * Craig: 39488
  * Elias: 128727
  */
@@ -80,7 +79,7 @@ const FEATURE_FLAGS = {
   DISABLE_BLOCKCHAIN_ACTIONS: timeBasedFeatureFlag(
     new Date("2025-03-24T00:00:00Z"),
   ),
-  REFERRAL_PROGRAM: testnetFeatureFlag,
+  REFERRAL_PROGRAM: seasonAdminFeatureFlag,
   FLOWER_DEPOSIT: seasonAdminFeatureFlag,
   TELEGRAM: defaultFeatureFlag,
 } satisfies Record<string, FeatureFlag>;

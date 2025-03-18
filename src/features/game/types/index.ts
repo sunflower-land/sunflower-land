@@ -482,7 +482,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Winds of Change Banner": 753,
   Timeshard: 754,
   "Ancient Clock": 755,
-  "Social Spark": 756,
+  "Love Charm": 756,
 
   "Australian Flag": 801,
   "Belgian Flag": 802,

@@ -469,7 +469,7 @@ export const ITEM_TRADE_TYPES: {
     "Cow Skull": "instant",
     Horseshoe: "instant",
     "Trade Point": "instant",
-    "Social Spark": "instant",
+    "Love Charm": "instant",
     "Australian Flag": "onchain",
     "Belgian Flag": "onchain",
     "Brazilian Flag": "onchain",

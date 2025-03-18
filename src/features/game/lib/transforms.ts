@@ -131,5 +131,8 @@ export function makeGame(farm: any): GameState {
     nfts: farm.nfts,
     faceRecognition: farm.faceRecognition,
     telegram: farm.telegram,
+    discord: farm.discord,
+    socialTasks: farm.socialTasks,
+    referrals: farm.referrals,
   };
 }
