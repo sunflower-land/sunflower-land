@@ -5,10 +5,10 @@ const adminFeatureFlag = ({ wardrobe, inventory }: GameState) =>
   CONFIG.NETWORK === "amoy" ||
   (!!((wardrobe["Gift Giver"] ?? 0) > 0) && !!inventory["Beta Pass"]?.gt(0));
 
-const seasonAdminFeatureFlag = (game: GameState) => {
+const usernameFeatureFlag = (game: GameState) => {
   return (
     testnetFeatureFlag() ||
-    ["adam", "tango", "elias", "dcol", "birb", "Celinhotv"]
+    ["adam", "tango", "elias", "dcol", "birb", "Celinhotv", "LittleEins"]
       .map((name) => name.toLowerCase())
       .includes(game.username?.toLowerCase() ?? "")
   );
@@ -79,8 +79,8 @@ const FEATURE_FLAGS = {
   DISABLE_BLOCKCHAIN_ACTIONS: timeBasedFeatureFlag(
     new Date("2025-03-24T00:00:00Z"),
   ),
-  REFERRAL_PROGRAM: seasonAdminFeatureFlag,
-  FLOWER_DEPOSIT: seasonAdminFeatureFlag,
+  REFERRAL_PROGRAM: usernameFeatureFlag,
+  FLOWER_DEPOSIT: usernameFeatureFlag,
   TELEGRAM: defaultFeatureFlag,
 
   // Testnet only feature flags - Please don't change these until release
