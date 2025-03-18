@@ -11,6 +11,12 @@ import { Template } from "./templates";
 export const getKeys = Object.keys as <T extends object>(
   obj: T,
 ) => Array<keyof T>;
+/**
+ * getValues is a ref to Object.values, but the return is typed literally.
+ */
+export const getValues = Object.values as <T extends object>(
+  obj: T,
+) => Array<T[keyof T]>;
 
 export type AchievementDecorationName =
   | "Chef Bear"

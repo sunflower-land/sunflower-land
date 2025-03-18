@@ -9,7 +9,7 @@ import { Hud } from "features/island/hud/Hud";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys, getValues } from "features/game/types/decorations";
 import { ANIMALS, AnimalType } from "features/game/types/animals";
 import { Cow } from "./components/Cow";
 import { Sheep } from "./components/Sheep";
@@ -108,7 +108,11 @@ export const BarnInside: React.FC = () => {
         },
       };
     });
-  }, [getKeys(barn.animals).length, floorWidth]);
+  }, [
+    getKeys(barn.animals).length,
+    getValues(barn.animals).map((animal) => animal.state),
+    floorWidth,
+  ]);
 
   return (
     <>
