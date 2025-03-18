@@ -5474,7 +5474,6 @@
   "faceRecognition.label": "Hızlı bir fotoğraf çekin",
   "faceRecognition.attemptsLeft": "{{attempts}} deneme kaldı",
   "faceRecognition.failedDescription": "Görünüşe göre son denemede insan yüzünü tespit edemedik. Lütfen tekrar deneyin.",
-  "description.social.spark": "Bir sosyal etkileşim kıvılcımı",
   "gameOptions.generalSettings.notifications": "Bildirimler",
   "gameOptions.generalSettings.preferences": "Tercihler",
   "description.Karkinos.boost": "+0.1 Lahana",
@@ -5510,5 +5509,6 @@
   "linking.telegram": "Telegramı Bağlama...",
   "linking.telegram.success": "Telgraf bağlantılı!",
   "joining.telegram": "Kanalın üyesi olup olmadığınızı kontrol etmek...",
-  "joining.telegram.success": "Telegram katıldı!"
+  "joining.telegram.success": "Telegram katıldı!",
+  "description.love.charm": "Toplumdan bir sevgi belirtisi"
 }

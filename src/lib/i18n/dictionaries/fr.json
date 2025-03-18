@@ -5474,7 +5474,6 @@
   "faceRecognition.label": "Prenez une photo rapide",
   "faceRecognition.attemptsLeft": "{{attempts}} tentatives restantes",
   "faceRecognition.failedDescription": "Hmm, il semblerait que nous n'ayons pas pu détecter de visage humain lors de votre dernière tentative. Veuillez réessayer.",
-  "description.social.spark": "Une étincelle d'interaction sociale",
   "gameOptions.generalSettings.notifications": "Notifications",
   "gameOptions.generalSettings.preferences": "Préférences",
   "description.Karkinos.boost": "+0,1 chou",
@@ -5510,5 +5509,6 @@
   "linking.telegram": "Lier Telegram...",
   "linking.telegram.success": "Telegram lié !",
   "joining.telegram": "Vérifier si vous êtes membre de la chaîne...",
-  "joining.telegram.success": "Telegram a rejoint !"
+  "joining.telegram.success": "Telegram a rejoint !",
+  "description.love.charm": "Une marque d'amour de la part de la communauté"
 }

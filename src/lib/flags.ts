@@ -8,7 +8,7 @@ const adminFeatureFlag = ({ wardrobe, inventory }: GameState) =>
 const seasonAdminFeatureFlag = (game: GameState) => {
   return (
     testnetFeatureFlag() ||
-    ["adam", "tango", "elias", "dcol", "Aeon", "Craig", "Spencer", "birb"]
+    ["adam", "tango", "elias", "dcol", "birb", "Celinhotv"]
       .map((name) => name.toLowerCase())
       .includes(game.username?.toLowerCase() ?? "")
   );
@@ -41,11 +41,10 @@ const timePeriodFeatureFlag =
   };
 
 // Used for testing production features
-export const ADMIN_IDS = [1, 3, 51, 39488, 128727];
+export const ADMIN_IDS = [1, 3, 39488, 128727];
 /**
  * Adam: 1
  * Spencer: 3
- * Sacul: 51
  * Craig: 39488
  * Elias: 128727
  */
