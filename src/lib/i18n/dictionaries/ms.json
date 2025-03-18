@@ -5474,7 +5474,6 @@
   "faceRecognition.label": "Ambil gambar pantas",
   "faceRecognition.attemptsLeft": "{{attempts}} percubaan kiri",
   "faceRecognition.failedDescription": "Hmm, nampaknya kami tidak dapat mengesan wajah manusia dalam percubaan terakhir anda. Sila cuba lagi.",
-  "description.social.spark": "Percikan interaksi sosial",
   "gameOptions.generalSettings.notifications": "Pemberitahuan",
   "gameOptions.generalSettings.preferences": "Keutamaan",
   "description.Karkinos.boost": "+0.1 Kubis",
@@ -5510,5 +5509,6 @@
   "linking.telegram": "Menghubungkan Telegram...",
   "linking.telegram.success": "Telegram dipautkan!",
   "joining.telegram": "Memeriksa sama ada anda ahli saluran...",
-  "joining.telegram.success": "Telegram menyertai!"
+  "joining.telegram.success": "Telegram menyertai!",
+  "description.love.charm": "Tanda cinta dari masyarakat"
 }

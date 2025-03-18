@@ -5474,7 +5474,6 @@
   "faceRecognition.label": "Сделайте быстрое фото",
   "faceRecognition.attemptsLeft": "{{attempts}} попыток осталось",
   "faceRecognition.failedDescription": "Хм, похоже, мы не смогли распознать человеческое лицо в вашей последней попытке. Пожалуйста, попробуйте еще раз.",
-  "description.social.spark": "Искра социального взаимодействия",
   "gameOptions.generalSettings.notifications": "Уведомления",
   "gameOptions.generalSettings.preferences": "Предпочтения",
   "description.Karkinos.boost": "+0.1 Капуста",
@@ -5510,5 +5509,6 @@
   "linking.telegram": "Связывание Telegram...",
   "linking.telegram.success": "Telegram связан!",
   "joining.telegram": "Проверяем, являетесь ли вы участником канала...",
-  "joining.telegram.success": "Telegram присоединился!"
+  "joining.telegram.success": "Telegram присоединился!",
+  "description.love.charm": "Знак любви от сообщества"
 }

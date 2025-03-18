@@ -5474,7 +5474,6 @@
   "faceRecognition.label": "快速拍张照片",
   "faceRecognition.attemptsLeft": "{{attempts}} 还剩下尝试次数",
   "faceRecognition.failedDescription": "嗯，看来你上次尝试时我们没能检测到人脸。请再试一次。",
-  "description.social.spark": "社交互动的火花",
   "gameOptions.generalSettings.notifications": "通知",
   "gameOptions.generalSettings.preferences": "首选项",
   "description.Karkinos.boost": "+0.1 卷心菜",
@@ -5510,5 +5509,6 @@
   "linking.telegram": "正在链接电报...",
   "linking.telegram.success": "电报已关联！",
   "joining.telegram": "正在检查你是否是该频道的成员...",
-  "joining.telegram.success": "电报加入了！"
+  "joining.telegram.success": "电报加入了！",
+  "description.love.charm": "来自社区的爱的象征"
 }
