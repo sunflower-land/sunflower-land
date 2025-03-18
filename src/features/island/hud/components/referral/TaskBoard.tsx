@@ -22,7 +22,7 @@ import React, { useState } from "react";
 interface TaskBoardProps {
   state: GameState;
   completeTask: (taskId: SocialTaskName) => void;
-  loveCharmCount?: Decimal;
+  loveCharmCount: Decimal;
   socialTasks?: GameState["socialTasks"];
 }
 

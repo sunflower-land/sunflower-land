@@ -55,7 +55,7 @@ interface Props {
     >
   >;
   completeTask: (taskId: SocialTaskName) => void;
-  loveCharmCount?: Decimal;
+  loveCharmCount: Decimal;
   socialTasks?: GameState["socialTasks"];
 }
 
