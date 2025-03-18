@@ -5510,5 +5510,7 @@
   "linking.telegram": "Linking Telegram...",
   "linking.telegram.success": "Telegram linked!",
   "joining.telegram": "Checking whether you're a member of the channel...",
-  "joining.telegram.success": "Telegram joined!"
+  "joining.telegram.success": "Telegram joined!",
+  "following.twitter": "Checking your profile",
+  "following.twitter.success": "Twitter followed!"
 }

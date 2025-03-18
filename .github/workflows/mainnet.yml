@@ -102,6 +102,7 @@ jobs:
 
           VITE_FIREBASE_VAPID_KEY: ${{ secrets.FIREBASE_VAPID_KEY }}
           VITE_TELEGRAM_BOT: "sunflower_land_helper_bot"
+          VITE_TWITTER_CLIENT_ID: ${{ secrets.TWITTER_CLIENT_ID }}
 
       - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v4

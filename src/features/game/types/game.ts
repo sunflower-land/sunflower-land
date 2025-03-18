@@ -1591,6 +1591,11 @@ export interface GameState {
     startedAt?: number;
     joinedAt?: number;
   };
+  twitter?: {
+    linkedAt: number;
+    followedAt?: number;
+    isAuthorised?: boolean;
+  };
   discord?: {
     connected: boolean;
   };
