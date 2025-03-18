@@ -88,6 +88,7 @@ import {
   EFFECT_SUCCESS_COMPONENTS,
   EffectSuccess,
 } from "./components/EffectSuccess";
+import { LoveCharm } from "./components/LoveCharm";
 
 function camelToDotCase(str: string): string {
   return str.replace(/([a-z])([A-Z])/g, "$1.$2").toLowerCase() as string;
@@ -115,6 +116,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   depositingFlowerFailed: false,
   // Every new state should be added below here
   gems: true,
+  communityCoin: true,
   loading: true,
   playing: false,
   autosaving: false,
@@ -198,6 +200,8 @@ const isPurchasing = (state: MachineState) =>
   state.matches("purchasing") || state.matches("buyingBlockBucks");
 
 const showGems = (state: MachineState) => state.matches("gems");
+const showCommunityCoin = (state: MachineState) =>
+  state.matches("communityCoin");
 const isCoolingDown = (state: MachineState) => state.matches("coolingDown");
 const isGameRules = (state: MachineState) => state.matches("gameRules");
 const isFLOWERTeaser = (state: MachineState) => state.matches("FLOWERTeaser");
@@ -403,6 +407,7 @@ export const GameWrapper: React.FC = ({ children }) => {
   const playing = useSelector(gameService, isPlaying);
   const hasSomethingArrived = useSelector(gameService, somethingArrived);
   const hasBBs = useSelector(gameService, showGems);
+  const hasCommunityCoin = useSelector(gameService, showCommunityCoin);
   const effectPending = useSelector(gameService, isEffectPending);
   const effectSuccess = useSelector(gameService, isEffectSuccess);
   const effectFailure = useSelector(gameService, isEffectFailure);
@@ -618,6 +623,7 @@ export const GameWrapper: React.FC = ({ children }) => {
             {vip && <VIPOffer />}
             {hasSomethingArrived && <SomethingArrived />}
             {hasBBs && <Gems />}
+            {hasCommunityCoin && <LoveCharm />}
             {roninWelcomePack && <RoninWelcomePack />}
             {roninAirdrop && <ClaimRoninAirdrop />}
             {jinAirdrop && <RoninJinClaim />}

@@ -105,6 +105,7 @@ import { getActiveCalendarEvent, SeasonalEventName } from "../types/calendar";
 import { SpecialEventName } from "../types/specialEvents";
 import { getAccount } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
+import { hasFeatureAccess } from "lib/flags";
 
 // Run at startup in case removed from query params
 const portalName = new URLSearchParams(window.location.search).get("portal");
@@ -502,6 +503,7 @@ export type BlockchainState = {
     | "portalling"
     | "introduction"
     | "gems"
+    | "communityCoin"
     | "playing"
     | "autosaving"
     | "buyingSFL"
@@ -886,6 +888,16 @@ export function startGame(authContext: AuthContext) {
               target: "gems",
               cond: (context) => {
                 return !!context.state.inventory["Block Buck"]?.gte(1);
+              },
+            },
+
+            {
+              target: "communityCoin",
+              cond: (context) => {
+                return (
+                  hasFeatureAccess(context.state, "COMMUNITY_COIN_EXCHANGE") &&
+                  !!context.state.inventory["Community Coin"]?.gte(1)
+                );
               },
             },
 
@@ -2205,6 +2217,15 @@ export function startGame(authContext: AuthContext) {
         },
 
         gems: {
+          on: {
+            ACKNOWLEDGE: {
+              target: "notifying",
+            },
+            "garbage.sold": (GAME_EVENT_HANDLERS as any)["garbage.sold"],
+          },
+        },
+
+        communityCoin: {
           on: {
             ACKNOWLEDGE: {
               target: "notifying",

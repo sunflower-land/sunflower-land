@@ -1,13 +1,13 @@
 import Decimal from "decimal.js-light";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { trackActivity } from "features/game/types/bumpkinActivity";
-import { getKeys } from "features/game/types/decorations";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { GARBAGE, GarbageName } from "features/game/types/garbage";
 import { produce } from "immer";
 import { KNOWN_IDS } from "features/game/types";
 import { availableWardrobe } from "./equip";
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
+import { getObjectEntries } from "features/game/expansion/lib/utils";
 
 export type SellGarbageAction = {
   type: "garbage.sold";
@@ -118,10 +118,9 @@ export function sellGarbage({ state, action }: Options) {
     // Handle additional items
     const items = GARBAGE[item].items;
     if (items) {
-      getKeys(items).forEach((itemName) => {
-        const previous = inventory[itemName] ?? new Decimal(0);
-        inventory[itemName] = previous.add(
-          GARBAGE[item].items?.[itemName] ?? 0,
+      getObjectEntries(items).forEach(([itemName, quantity]) => {
+        inventory[itemName] = (inventory[itemName] ?? new Decimal(0)).add(
+          (quantity ?? new Decimal(0)).mul(amount),
         );
       });
     }

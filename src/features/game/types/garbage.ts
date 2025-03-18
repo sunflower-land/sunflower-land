@@ -3,6 +3,8 @@ import { SEASON_TICKET_NAME, SeasonalTicket, SEASONS } from "./seasons";
 import Decimal from "decimal.js-light";
 import { BumpkinItem } from "./bumpkin";
 import { getObjectEntries } from "../expansion/lib/utils";
+import { hasFeatureAccess } from "lib/flags";
+import { INITIAL_FARM } from "../lib/constants";
 
 export type GarbageName =
   | Extract<
@@ -29,6 +31,7 @@ export type GarbageName =
       | "Hen House"
       | "Basic Bear"
       | "Water Well"
+      | "Community Coin"
     >
   | Extract<BumpkinItem, "Basic Hair">;
 
@@ -159,4 +162,13 @@ export const GARBAGE: Record<GarbageName, Garbage> = {
     sellPrice: 1,
     gems: 0,
   },
+  ...(hasFeatureAccess(INITIAL_FARM, "COMMUNITY_COIN_EXCHANGE")
+    ? {
+        "Community Coin": {
+          sellPrice: 0,
+          gems: 0,
+          items: { "Love Charm": new Decimal(25) },
+        },
+      }
+    : ({} as Record<"Community Coin", Garbage>)),
 };
