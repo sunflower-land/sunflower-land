@@ -126,7 +126,7 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({
               <div className="flex flex-col justify-between w-full">
                 <p>{selectedTask?.description}</p>
                 {selectedTask && isSocialTask(selectedTask) && (
-                  <div className="flex flex-col gap-2">
+                  <div className="flex flex-col gap-2 items-start">
                     <RequirementLabel
                       type="other"
                       currentProgress={
@@ -134,6 +134,7 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({
                         (selectedTask.requirement(state) ? 1 : 0)
                       }
                       requirement={selectedTask.requirementTotal ?? 1}
+                      hideIcon
                     />
                     {isTaskCompleted(selectedTask.title as SocialTaskName) && (
                       <Label
