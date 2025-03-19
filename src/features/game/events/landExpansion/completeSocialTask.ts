@@ -33,6 +33,8 @@ export const TASKS = {
     reward: { "Love Charm": 15 },
     requirement: (state) =>
       (state.referrals ?? { totalReferrals: 0 }).totalReferrals > 0,
+    requirementProgress: (state) =>
+      (state.referrals ?? { totalReferrals: 0 }).totalReferrals,
   },
   "Link your Discord": {
     title: "Link your Discord",
@@ -78,7 +80,7 @@ export const OTHER_WAYS_TO_EARN_LOVE_CHARM = {
     title: "Invite a VIP friend",
     image: SUNNYSIDE.icons.player,
     description:
-      "Invite a friend to join the game and buy VIP to earn bonus Love Charm",
+      "Invite a friend to join the game and have them buy VIP to earn bonus Love Charms",
   },
   "Join a stream": {
     title: "Join a stream",
