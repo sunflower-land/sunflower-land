@@ -229,15 +229,27 @@ const WalletContent: React.FC<{ id?: number }> = ({ id }) => {
 
   if (walletState.matches("signing")) {
     return (
-      <div className="p-2">
-        <Label icon={walletIcon} type="default" className="mb-1">
-          {t("wallet.signRequest")}
-        </Label>
-        <p className="text-sm">
-          {t("wallet.signRequestInWallet")}
-          {"."}
-        </p>
-      </div>
+      <>
+        <div className="p-2">
+          <Label icon={walletIcon} type="default" className="mb-1">
+            {t("wallet.signRequest")}
+          </Label>
+          <p className="text-sm">
+            {t("wallet.signRequestInWallet")}
+            {"."}
+          </p>
+        </div>
+        <div className="flex space-x-1">
+          <Button onClick={() => walletService.send("BACK")}>
+            {t("back")}
+          </Button>
+          <Button onClick={() => walletService.send("DISCONNECT_WALLET")}>
+            <span className="whitespace-nowrap">
+              {t("wallet.disconnectWallet")}
+            </span>
+          </Button>
+        </div>
+      </>
     );
   }
 
@@ -579,15 +591,27 @@ const PortalWalletContent: React.FC<Props> = ({ id, farmAddress, action }) => {
 
   if (walletState.matches("signing")) {
     return (
-      <div className="p-2">
-        <Label icon={walletIcon} type="default" className="mb-1">
-          {t("wallet.signRequest")}
-        </Label>
-        <p className="text-sm">
-          {t("wallet.signRequestInWallet")}
-          {"."}
-        </p>
-      </div>
+      <>
+        <div className="p-2">
+          <Label icon={walletIcon} type="default" className="mb-1">
+            {t("wallet.signRequest")}
+          </Label>
+          <p className="text-sm">
+            {t("wallet.signRequestInWallet")}
+            {"."}
+          </p>
+        </div>
+        <div className="flex space-x-1">
+          <Button onClick={() => walletService.send("BACK")}>
+            {t("back")}
+          </Button>
+          <Button onClick={() => walletService.send("DISCONNECT_WALLET")}>
+            <span className="whitespace-nowrap">
+              {t("wallet.disconnectWallet")}
+            </span>
+          </Button>
+        </div>
+      </>
     );
   }
 
