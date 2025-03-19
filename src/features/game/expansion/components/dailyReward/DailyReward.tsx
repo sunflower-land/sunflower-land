@@ -42,7 +42,7 @@ export const DailyReward: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const { gameService, showAnimations } = useContext(Context);
   const bumpkinLevel = useSelector(gameService, (state) =>
-    getBumpkinLevel(state.context.state.bumpkin.experience),
+    getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0),
   );
   const dailyRewards = useSelector(
     gameService,
@@ -61,7 +61,7 @@ export const DailyReward: React.FC = () => {
   });
   const [chestState] = useActor(chestService);
 
-  if (hasReferralAccess) {
+  if (hasReferralAccess || bumpkinLevel <= 5) {
     return <></>;
   }
 

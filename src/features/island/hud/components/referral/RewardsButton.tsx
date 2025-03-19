@@ -19,6 +19,7 @@ import {
 import { rewardChestMachine } from "features/game/expansion/components/dailyReward/rewardChestMachine";
 import { useInterpret, useActor } from "@xstate/react";
 import Decimal from "decimal.js-light";
+import { getBumpkinLevel } from "features/game/lib/level";
 
 export const RewardsButton: React.FC = () => {
   const [showRewardsModal, setShowRewardsModal] = useState(false);
@@ -31,7 +32,7 @@ export const RewardsButton: React.FC = () => {
     (state) => state.context.state.dailyRewards,
   );
   const bumpkinLevel = useSelector(gameService, (state) =>
-    state.context.state.bumpkin ? state.context.state.bumpkin.experience : 0,
+    getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0),
   );
   const isRevealed = useSelector(gameService, (state) =>
     state.matches("revealed"),
