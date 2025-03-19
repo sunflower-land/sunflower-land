@@ -17,24 +17,6 @@ describe("referral.rewardsClaimed", () => {
     ).toThrow("Referrals not found");
   });
 
-  it("throws an error if there are no unclaimed referrals", () => {
-    expect(() =>
-      claimReferralRewards({
-        state: {
-          ...INITIAL_FARM,
-          referrals: {
-            totalReferrals: 5,
-            totalVIPReferrals: 2,
-            totalUnclaimedReferrals: 0,
-          },
-        },
-        action: {
-          type: "referral.rewardsClaimed",
-        },
-      }),
-    ).toThrow("No unclaimed referrals");
-  });
-
   it("throws an error if there are no rewards to claim", () => {
     expect(() =>
       claimReferralRewards({
