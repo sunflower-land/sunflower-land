@@ -128,8 +128,7 @@ export const BuyGems: React.FC<Props> = ({
   }
 
   if (!!price && showFlowerConfirm) {
-    const flowerPrice =
-      gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
+    const flowerPrice = gameService.state.context.prices.sfl?.usd ?? 0.0;
 
     const flowerUSD = price.usd * 0.7;
 
