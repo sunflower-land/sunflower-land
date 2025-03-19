@@ -9,6 +9,9 @@ type LedgerEntry = {
 
 type FlowerDashboardProfileData = {
   ledger: LedgerEntry[];
+  teamFees: {
+    weeklyFees: number;
+  };
 };
 
 export const getFlowerDashboardProfile = async (

@@ -11,6 +11,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
 import { Button } from "components/ui/Button";
 import classNames from "classnames";
+import flowerToken from "assets/icons/flower_token.webp";
 
 const fetcher = async ([url, token, id]: [string, string, string]) => {
   return getFlowerDashboardProfile(token, id);
@@ -48,6 +49,11 @@ export const FlowerDashboardProfile = () => {
   return (
     <Panel className="inset-0 fixed pointer-events-auto">
       {`Flower Dashboard`}
+      <Label type="default">{`Team Fees - 7 Days`}</Label>
+      <div className="flex">
+        <img src={flowerToken} className="w-10 h-10" />
+        <p className="text-sm">{data?.teamFees.weeklyFees.toLocaleString()}</p>
+      </div>
       <div className="max-h-[200px] scrollable overflow-y-auto relative">
         {data?.ledger.map((item, index) => (
           <div
