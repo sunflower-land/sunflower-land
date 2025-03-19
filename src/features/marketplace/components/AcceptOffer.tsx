@@ -32,6 +32,11 @@ import Decimal from "decimal.js-light";
 import { StoreOnChain } from "./StoreOnChain";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
+import { hasFeatureAccess } from "lib/flags";
+import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
+import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
+import { isTradeResource } from "features/game/actions/tradeLimits";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 const _state = (state: MachineState) => state.context.state;
 const _hasReputation = (state: MachineState) =>
@@ -157,6 +162,23 @@ const AcceptOfferContent: React.FC<{
     obsessionCompletedAt <= bertObsession.endDate;
 
   const isResource = display.type === "resources";
+
+  if (
+    isTradeResource(display.name as InventoryItemName) &&
+    hasFeatureAccess(state, "FACE_RECOGNITION") &&
+    !isFaceVerified({ game: state })
+  ) {
+    return (
+      <>
+        <img
+          src={SUNNYSIDE.icons.close}
+          onClick={onClose}
+          className="w-8 h-8 absolute -top-10 right-2 cursor-pointer"
+        />
+        <FaceRecognition />
+      </>
+    );
+  }
 
   return (
     <>

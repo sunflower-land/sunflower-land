@@ -29,3 +29,27 @@ export function getFaceRecognitionAttemptsLeft({ game }: { game: GameState }) {
 
   return RECOGNITION_ATTEMPTS - failedAttempts;
 }
+
+/**
+ * After 5 attempts, require a 24 hr cooldown period between attempts
+ */
+export function faceCooldownUntil({ game }: { game: GameState }) {
+  const { faceRecognition } = game;
+
+  if (!faceRecognition) {
+    return 0;
+  }
+
+  if (faceRecognition.history.length < 5) {
+    return 0;
+  }
+
+  const lastAttempt =
+    faceRecognition.history[faceRecognition.history.length - 1];
+
+  if (lastAttempt.event === "succeeded") {
+    return 0;
+  }
+
+  return new Date(lastAttempt.createdAt).getTime() + 24 * 60 * 60 * 1000;
+}

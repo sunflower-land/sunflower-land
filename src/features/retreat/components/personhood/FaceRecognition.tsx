@@ -13,9 +13,13 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { FaceRecognitionEvent, GameState } from "features/game/types/game";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { getFaceRecognitionAttemptsLeft } from "./lib/faceRecognition";
+import {
+  faceCooldownUntil,
+  getFaceRecognitionAttemptsLeft,
+} from "./lib/faceRecognition";
 import { isMobile } from "mobile-device-detect";
 import { HudContainer } from "components/ui/HudContainer";
+import { secondsToString } from "lib/utils/time";
 
 // Text keys embedded in the liveness detector
 const TRANSLATION_KEYS: TranslationKeys[] = [
@@ -147,13 +151,21 @@ export const FaceRecognition: React.FC = () => {
       const lastAttempt =
         faceRecognition.history[faceRecognition.history.length - 1];
 
+      const cooldownUntil = faceCooldownUntil({
+        game: gameState.context.state,
+      });
+
+      const isOnCooldown = Date.now() < cooldownUntil;
+
       return (
         <div>
           <RecognitionAttempt
             game={gameState.context.state}
             event={lastAttempt}
           />
-          <Button onClick={start}>{t("faceRecognition.tryAgain")}</Button>
+          <Button disabled={isOnCooldown} onClick={start}>
+            {t("faceRecognition.tryAgain")}
+          </Button>
         </div>
       );
     }
@@ -249,6 +261,42 @@ export const RecognitionAttempt: React.FC<{
 }> = ({ game, event }) => {
   const { t } = useAppTranslation();
 
+  if (event.event === "succeeded") {
+    return (
+      <div>
+        <Label type="success" className="my-2">
+          {t("faceRecognition.successTitle")}
+        </Label>
+        <p className="text-sm my-2 ml-1">
+          {t("faceRecognition.successDescription")}
+        </p>
+      </div>
+    );
+  }
+
+  const cooldownUntil = faceCooldownUntil({ game });
+  const isOnCooldown = Date.now() < cooldownUntil;
+
+  if (isOnCooldown) {
+    return (
+      <div>
+        <div className="flex justify-between">
+          <Label type="danger" className="my-2">
+            {t("faceRecognition.cooldownTitle")}
+          </Label>
+          <Label type="info" className="my-2">
+            {secondsToString((cooldownUntil - Date.now()) / 1000, {
+              length: "medium",
+            })}
+          </Label>
+        </div>
+        <p className="text-sm my-2 ml-1">
+          {t("faceRecognition.cooldownDescription")}
+        </p>
+      </div>
+    );
+  }
+
   const attemptsLeft = getFaceRecognitionAttemptsLeft({
     game,
   });
@@ -288,19 +336,6 @@ export const RecognitionAttempt: React.FC<{
         </div>
         <p className="text-sm my-2 ml-1">
           {t("faceRecognition.failedDescription")}
-        </p>
-      </div>
-    );
-  }
-
-  if (event.event === "succeeded") {
-    return (
-      <div>
-        <Label type="success" className="my-2">
-          {t("faceRecognition.successTitle")}
-        </Label>
-        <p className="text-sm my-2 ml-1">
-          {t("faceRecognition.successDescription")}
         </p>
       </div>
     );
