@@ -10,6 +10,8 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useContext } from "react";
 import flowerIcon from "assets/icons/flower_token.webp";
 import { SUNNYSIDE } from "assets/sunnyside";
+import vipIcon from "assets/icons/vip.webp";
+
 interface ReferralProps {
   show: boolean;
   onHide: () => void;
@@ -22,6 +24,13 @@ export const ReferralContent: React.FC = () => {
     gameService,
     (state) => state.context.state.username,
   );
+  const referrals = useSelector(
+    gameService,
+    (state) => state.context.state.referrals,
+  );
+  const { totalReferrals, totalVIPReferrals } = referrals ?? {
+    totalReferrals: 0,
+  };
   const gameLink =
     CONFIG.NETWORK === "mainnet"
       ? "https://sunflower-land.com/play"
@@ -41,6 +50,14 @@ export const ReferralContent: React.FC = () => {
         {/* Referral Link */}
         <div className="flex flex-col gap-2">
           <Label type="default">{`Your Referral Link`}</Label>
+          <div className="flex flex-row justify-between gap-2">
+            <Label type="info" icon={ITEM_DETAILS["Love Charm"].image}>
+              {`Friends Referred: ${totalReferrals}`}
+            </Label>
+            <Label type="vibrant" icon={vipIcon}>
+              {`VIP Friends Referred: ${totalVIPReferrals}`}
+            </Label>
+          </div>
           <CopyField
             text={referralLink}
             copyFieldMessage={t("share.CopyReferralLink")}
@@ -75,15 +92,11 @@ export const ReferralContent: React.FC = () => {
             <Label
               type="transparent"
               className="mx-4"
-              icon={SUNNYSIDE.icons.player}
+              icon={ITEM_DETAILS["Love Charm"].image}
             >
               {`25 Love Charms when your friend signs up using your referral link - One time only`}
             </Label>
-            <Label
-              type="transparent"
-              className="mx-4"
-              icon={ITEM_DETAILS["Love Charm"].image}
-            >
+            <Label type="transparent" className="mx-4" icon={vipIcon}>
               {`25 Love Charms when your friend buys VIP`}
             </Label>
             <Label type="transparent" className="mx-4" icon={flowerIcon}>
