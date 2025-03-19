@@ -5724,5 +5724,17 @@
   "socialTask.complete50Deliveries": "Complete 50 deliveries",
   "socialTask.complete50Deliveries.description": "Go to the plaza and complete deliveries with various NPCs 50 times",
   "socialTask.joinStream": "Join a stream",
-  "socialTask.joinStream.description": "Join a dev chat on discord or twitch stream to earn 1 Love Charm every 5 minutes from the host wearing a stream hat."
+  "socialTask.joinStream.description": "Join a dev chat on discord or twitch stream to earn 1 Love Charm every 5 minutes from the host wearing a stream hat.",
+  "claimReferralRewards.title": "Referral Rewards",
+  "claimReferralRewards.description": "Congratulations! {{totalUnclaimedReferrals}} new players have joined using your referral link. Here are your rewards!",
+  "referral.vip": "25 Love Charms when your friend buys VIP",
+  "referral.friend": "25 Love Charms when your friend signs up using your referral link - One time only",
+  "referral.flower": "10% of $FLOWER spent by your friend",
+  "referral.description": "Refer your friends and you will receive the following rewards:",
+  "taskBoard.tasks": "Tasks",
+  "taskBoard.loveCharmCount": "Inventory: {{loveCharmCount}} Love Charm",
+  "taskBoard.tasksDescription": "Complete tasks to earn Love Charm.",
+  "taskBoard.tasksDescriptionTwo": "Love Charm can be used to purchase special items in the rewards shop",
+  "taskBoard.otherWays": "Other ways to earn Love Charm",
+  "taskBoard.howToRefer": "How to refer a friend?"
 }

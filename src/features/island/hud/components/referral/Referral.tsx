@@ -86,21 +86,21 @@ export const ReferralContent: React.FC = () => {
         </div>
         {/* Referral Rewards */}
         <div className="flex flex-col gap-2 mt-3">
-          <Label type="warning">{`Referral Rewards`}</Label>
-          <p className="p-1">{`Refer your friends and you will receive the following rewards:`}</p>{" "}
+          <Label type="warning">{t("claimReferralRewards.title")}</Label>
+          <p className="p-1">{t("referral.description")}</p>
           <div className="flex flex-col gap-4">
             <Label
               type="transparent"
               className="mx-4"
               icon={ITEM_DETAILS["Love Charm"].image}
             >
-              {`25 Love Charms when your friend signs up using your referral link - One time only`}
+              {t("referral.friend")}
             </Label>
             <Label type="transparent" className="mx-4" icon={vipIcon}>
-              {`25 Love Charms when your friend buys VIP`}
+              {t("referral.vip")}
             </Label>
             <Label type="transparent" className="mx-4" icon={flowerIcon}>
-              {`10% of $FLOWER spent by your friend`}
+              {t("referral.flower")}
             </Label>
           </div>
         </div>
