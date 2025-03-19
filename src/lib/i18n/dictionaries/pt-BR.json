@@ -5521,5 +5521,12 @@
   "twitter.follow": "Siga o Twitter",
   "loveCharm.update": "Atualização do Love Charm",
   "loveCharm.intro": "Para nos prepararmos para a campanha Promova para Ganhar, substituímos as Moedas Comunitárias por uma nova moeda... Love Charms!",
-  "loveCharm.intro.two": "Você receberá 25 Amuletos de Amor por cada Moeda Comunitária que possuir."
+  "loveCharm.intro.two": "Você receberá 25 Amuletos de Amor por cada Moeda Comunitária que possuir.",
+  "announcement.flowerGemsDiscount": "Compre gemas com $ FLOWER - economize 30%",
+  "transaction.payFlower": "Use FLOWER",
+  "buying.gems": "Comprando gemas",
+  "buying.gems.success": "Parabéns, suas joias foram compradas com sucesso!",
+  "error.insufficientFlower": "FLOR insuficiente",
+  "gems": "Gemas",
+  "usd": "USD"
 }

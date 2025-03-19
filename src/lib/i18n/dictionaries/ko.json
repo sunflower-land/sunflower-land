@@ -5521,5 +5521,12 @@
   "twitter.follow": "트위터 팔로우하기",
   "loveCharm.update": "러브 참 업데이트",
   "loveCharm.intro": "수익 증진 캠페인을 준비하기 위해 커뮤니티 코인을 새로운 화폐인 러브 참 (Love Charms) 으로 교체했습니다!",
-  "loveCharm.intro.two": "커뮤니티 코인을 소유할 때마다 러브 참 25개를 받게 됩니다."
+  "loveCharm.intro.two": "커뮤니티 코인을 소유할 때마다 러브 참 25개를 받게 됩니다.",
+  "announcement.flowerGemsDiscount": "$FLOWER로 보석 구매하기 - 30% 할인",
+  "transaction.payFlower": "꽃 사용",
+  "buying.gems": "보석 구매",
+  "buying.gems.success": "축하합니다. 보석이 성공적으로 구매되었습니다!",
+  "error.insufficientFlower": "불충분한 꽃",
+  "gems": "보석",
+  "usd": "USD"
 }

@@ -5521,5 +5521,12 @@
   "twitter.follow": "Folgen Sie Twitter",
   "loveCharm.update": "Love Charm-Aktualisierung",
   "loveCharm.intro": "Um uns auf die Promote-to-Earn-Kampagne vorzubereiten, haben wir Community Coins durch eine neue Währung ersetzt... Love Charms!",
-  "loveCharm.intro.two": "Für jede Community-Münze, die du besitzt, erhältst du 25 Liebeszauber."
+  "loveCharm.intro.two": "Für jede Community-Münze, die du besitzt, erhältst du 25 Liebeszauber.",
+  "announcement.flowerGemsDiscount": "Kaufe Edelsteine mit $FLOWER — spare 30%",
+  "transaction.payFlower": "Benutze FLOWER",
+  "buying.gems": "Edelsteine kaufen",
+  "buying.gems.success": "Herzlichen Glückwunsch, deine Edelsteine wurden erfolgreich gekauft!",
+  "error.insufficientFlower": "Ungenügende BLÜTE",
+  "gems": "Edelsteine",
+  "usd": "USD"
 }

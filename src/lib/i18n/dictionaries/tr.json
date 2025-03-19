@@ -5521,5 +5521,12 @@
   "twitter.follow": "Twitter'ı Takip Edin",
   "loveCharm.update": "Love Charm güncellemesi",
   "loveCharm.intro": "Kazanmak İçin Promosyon kampanyasına hazırlanmak için Topluluk Jetonlarını yeni bir para birimi ile değiştirdik... Aşk Tılsımları!",
-  "loveCharm.intro.two": "Sahip olduğunuz her Community Coin için 25 Aşk Tılsımı alacaksınız."
+  "loveCharm.intro.two": "Sahip olduğunuz her Community Coin için 25 Aşk Tılsımı alacaksınız.",
+  "announcement.flowerGemsDiscount": "$FLOWER ile Mücevher satın alın - %30 tasarruf edin",
+  "transaction.payFlower": "ÇIÇEK kullan",
+  "buying.gems": "Mücevher satın almak",
+  "buying.gems.success": "Tebrikler, mücevherleriniz başarıyla satın alındı!",
+  "error.insufficientFlower": "Yetersiz ÇIÇEK",
+  "gems": "Mücevherler",
+  "usd": "AMERİKAN DOLARI"
 }

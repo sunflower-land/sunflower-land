@@ -5521,5 +5521,12 @@
   "twitter.follow": "Ikuti Twitter",
   "loveCharm.update": "Pembaruan Love Charm",
   "loveCharm.intro": "Untuk mempersiapkan kampanye Promote-to-Earn, kami telah mengganti Koin Komunitas dengan mata uang baru... Cinta Pesona!",
-  "loveCharm.intro.two": "Anda akan menerima 25 Cinta Pesona untuk setiap Koin Komunitas yang Anda miliki."
+  "loveCharm.intro.two": "Anda akan menerima 25 Cinta Pesona untuk setiap Koin Komunitas yang Anda miliki.",
+  "announcement.flowerGemsDiscount": "Beli Permata dengan $FLOWER - hemat 30%",
+  "transaction.payFlower": "Gunakan FLOWER",
+  "buying.gems": "Membeli permata",
+  "buying.gems.success": "Selamat, permata Anda berhasil dibeli!",
+  "error.insufficientFlower": "BUNGA tidak mencukupi",
+  "gems": "Permata",
+  "usd": "USD"
 }

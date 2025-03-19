@@ -5521,5 +5521,12 @@
   "twitter.follow": "关注推特",
   "loveCharm.update": "爱情护身符更新",
   "loveCharm.intro": "为了为 “推广赚钱” 活动做准备，我们用一种新货币替换了社区币... Love Charms！",
-  "loveCharm.intro.two": "每拥有一枚社区硬币，您将获得 25 个爱情护身符。"
+  "loveCharm.intro.two": "每拥有一枚社区硬币，您将获得 25 个爱情护身符。",
+  "announcement.flowerGemsDiscount": "使用 $FLOWER 购买宝石-节省 30%",
+  "transaction.payFlower": "使用 FLOWER",
+  "buying.gems": "购买宝石",
+  "buying.gems.success": "恭喜，您的宝石已成功购买！",
+  "error.insufficientFlower": "花不足",
+  "gems": "宝石",
+  "usd": "美元"
 }

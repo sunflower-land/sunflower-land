@@ -5521,5 +5521,12 @@
   "twitter.follow": "Segui Twitter",
   "loveCharm.update": "Aggiornamento Love Charm",
   "loveCharm.intro": "Per prepararci alla campagna Promote-to-Earn, abbiamo sostituito le Community Coins con una nuova valuta... Love Charms!",
-  "loveCharm.intro.two": "Riceverai 25 ciondoli d'amore per ogni Community Coin che possiedi."
+  "loveCharm.intro.two": "Riceverai 25 ciondoli d'amore per ogni Community Coin che possiedi.",
+  "announcement.flowerGemsDiscount": "Acquista gemme con $FLOWER - risparmia il 30%",
+  "transaction.payFlower": "Usa FLOWER",
+  "buying.gems": "Comprare gemme",
+  "buying.gems.success": "Congratulazioni, le tue gemme sono state acquistate con successo!",
+  "error.insufficientFlower": "FIORE insufficiente",
+  "gems": "Gemme",
+  "usd": "DOLLARO STATUNITENSE"
 }

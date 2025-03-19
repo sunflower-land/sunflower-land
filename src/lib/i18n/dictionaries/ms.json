@@ -5521,5 +5521,12 @@
   "twitter.follow": "Ikuti Twitter",
   "loveCharm.update": "Kemas kini Love Charm",
   "loveCharm.intro": "Untuk mempersiapkan kempen Promote-to-Earn, kami telah menggantikan Syiling Komuniti dengan mata wang baru... Love Charms!",
-  "loveCharm.intro.two": "Anda akan menerima 25 Love Charms untuk setiap Syiling Komuniti yang anda miliki."
+  "loveCharm.intro.two": "Anda akan menerima 25 Love Charms untuk setiap Syiling Komuniti yang anda miliki.",
+  "announcement.flowerGemsDiscount": "Beli Permata dengan $FLOWER - jimat 30%",
+  "transaction.payFlower": "Gunakan BUNGA",
+  "buying.gems": "Membeli permata",
+  "buying.gems.success": "Tahniah, permata anda berjaya dibeli!",
+  "error.insufficientFlower": "BUNGA tidak mencukupi",
+  "gems": "Permata",
+  "usd": "USD"
 }

@@ -5521,5 +5521,12 @@
   "twitter.follow": "ツイッターをフォロー",
   "loveCharm.update": "ラブチャームアップデート",
   "loveCharm.intro": "「プロモートして稼ぐ」キャンペーンの準備として、コミュニティコインを新しい通貨「ラブチャーム」に置き換えました！",
-  "loveCharm.intro.two": "コミュニティコイン1枚につき、25個のラブチャームが手に入ります。"
+  "loveCharm.intro.two": "コミュニティコイン1枚につき、25個のラブチャームが手に入ります。",
+  "announcement.flowerGemsDiscount": "$FLOWERでジェムを購入-30% 割引",
+  "transaction.payFlower": "花を使う",
+  "buying.gems": "宝石の購入",
+  "buying.gems.success": "おめでとうございます。宝石は正常に購入されました！",
+  "error.insufficientFlower": "花が足りない",
+  "gems": "宝石",
+  "usd": "USD"
 }
