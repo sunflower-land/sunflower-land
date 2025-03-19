@@ -1601,6 +1601,8 @@ export interface GameState {
   };
   referrals?: {
     totalReferrals: number;
+    totalVIPReferrals?: number;
+    rewards?: Partial<Record<InventoryItemName, number>>;
   };
   socialTasks?: {
     completed: Partial<Record<SocialTaskName, { completedAt: number }>>;
