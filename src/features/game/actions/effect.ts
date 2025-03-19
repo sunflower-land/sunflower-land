@@ -19,7 +19,8 @@ type EffectName =
   | "telegram.linked"
   | "telegram.joined"
   | "twitter.followed"
-  | "twitter.posted";
+  | "twitter.posted"
+  | "gems.bought";
 
 export type StateName =
   | "marketplacePurchasing"
@@ -35,7 +36,8 @@ export type StateName =
   | "linkingTelegram"
   | "joiningTelegram"
   | "followingTwitter"
-  | "postingTwitter";
+  | "postingTwitter"
+  | "buyingGems";
 
 export type StateNameWithStatus = `${StateName}Success` | `${StateName}Failed`;
 
@@ -55,6 +57,7 @@ export const EFFECT_EVENTS: Record<EffectName, StateName> = {
   "telegram.joined": "joiningTelegram",
   "twitter.followed": "followingTwitter",
   "twitter.posted": "postingTwitter",
+  "gems.bought": "buyingGems",
 };
 
 export interface Effect {

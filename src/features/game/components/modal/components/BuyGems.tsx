@@ -5,6 +5,7 @@ import { Label } from "components/ui/Label";
 
 import creditCard from "assets/icons/credit_card.png";
 import whaleIcon from "assets/icons/whale.webp";
+import usdcIcon from "assets/icons/usdc.svg";
 import gemBundle01 from "assets/icons/gem_bundles/gem_bundle_01.webp";
 import gemBundle02 from "assets/icons/gem_bundles/gem_bundle_02.webp";
 import gemBundle03 from "assets/icons/gem_bundles/gem_bundle_03.webp";
@@ -22,6 +23,9 @@ import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { secondsToString } from "lib/utils/time";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { hasFeatureAccess } from "lib/flags";
+import flowerIcon from "assets/icons/flower_token.webp";
+import Decimal from "decimal.js-light";
 
 export interface Price {
   amount: number;
@@ -58,6 +62,7 @@ interface Props {
   price?: { usd: number; amount: number };
   setPrice: (price?: { usd: number; amount: number }) => void;
   onMaticBuy: () => void;
+  onFlowerBuy: (quote: number) => void;
   onCreditCardBuy: () => void;
   onHideBuyBBLabel: (hide: boolean) => void;
 }
@@ -67,6 +72,7 @@ export const BuyGems: React.FC<Props> = ({
   price,
   setPrice,
   onMaticBuy,
+  onFlowerBuy,
   onCreditCardBuy,
   onHideBuyBBLabel,
 }) => {
@@ -77,15 +83,16 @@ export const BuyGems: React.FC<Props> = ({
   );
 
   const [showMaticConfirm, setShowMaticConfirm] = useState(false);
+  const [showFlowerConfirm, setShowFlowerConfirm] = useState(false);
   const { t } = useAppTranslation();
 
   useEffect(() => {
-    if (showMaticConfirm) {
+    if (showMaticConfirm || showFlowerConfirm) {
       onHideBuyBBLabel(true);
     } else {
       onHideBuyBBLabel(false);
     }
-  }, [showMaticConfirm, onHideBuyBBLabel]);
+  }, [showMaticConfirm, showFlowerConfirm, onHideBuyBBLabel]);
 
   if (!!price && showMaticConfirm) {
     return (
@@ -117,6 +124,87 @@ export const BuyGems: React.FC<Props> = ({
 
         <Button onClick={() => onMaticBuy()}>{t("confirm")}</Button>
       </GameWallet>
+    );
+  }
+
+  if (!!price && showFlowerConfirm) {
+    const flowerPrice = gameService.state.context.prices.sfl?.usd ?? 0.0;
+
+    const flowerUSD = price.usd * 0.7;
+
+    // 4 Decimal places
+    const flowerQuote = new Decimal(flowerUSD / flowerPrice).toFixed(4);
+
+    const hasFlower = gameService.state.context.state.balance.gte(flowerQuote);
+
+    return (
+      <>
+        <div className="flex items-center justify-between flex-wrap">
+          <div className="flex items-center mr-2">
+            <div className="py-2">
+              <img
+                src={SUNNYSIDE.icons.arrow_left}
+                className="h-6 w-6 ml-2 cursor-pointer"
+                onClick={() => setPrice(undefined)}
+              />
+            </div>
+            <Label
+              icon={ITEM_DETAILS.Gem.image}
+              type="default"
+              className="ml-2"
+            >
+              {`${t("transaction.buy.gems")}`}
+            </Label>
+          </div>
+          <Label type="warning">{`1 FLOWER = $${flowerPrice.toFixed(4)}`}</Label>
+        </div>
+        <div className="p-1">
+          <div className="flex justify-between mb-1">
+            <p className="text-sm">{t("gems")}</p>
+            <div className="flex items-center space-x-2">
+              <span>{`${price.amount} x`}</span>
+              <img src={ITEM_DETAILS.Gem.image} className="w-6" />
+            </div>
+          </div>
+
+          <div className="flex justify-between mb-1">
+            <p className="text-sm">{t("usd")}</p>
+            <div className="flex items-center space-x-2">
+              <span className="line-through">{`$${price.usd}`}</span>
+              <span>{`$${(price.usd * 0.7).toFixed(2)} x`}</span>
+              <img src={usdcIcon} className="w-6" />
+            </div>
+          </div>
+
+          <div
+            className="flex justify-between my-2 pt-2"
+            style={{
+              borderTop: "1px solid #ead4aa",
+            }}
+          >
+            <p className="text-sm">{`FLOWER`}</p>
+            <div className="flex items-center space-x-2">
+              <span>
+                {flowerQuote} {`x`}{" "}
+              </span>
+              <img src={flowerIcon} className="w-6" />
+            </div>
+          </div>
+        </div>
+
+        <Button
+          disabled={!hasFlower}
+          onClick={() => onFlowerBuy(Number(flowerQuote))}
+          className="relative mt-0"
+        >
+          {!hasFlower && (
+            <Label type="danger" className="absolute -top-4 right-0">
+              {t("error.insufficientFlower")}
+            </Label>
+          )}
+          {t("confirm")}
+        </Button>
+      </>
     );
   }
 
@@ -197,6 +285,31 @@ export const BuyGems: React.FC<Props> = ({
                 {t("transaction.payPol")}
               </Label>
             </ButtonPanel>
+            {hasFeatureAccess(
+              gameService.state.context.state,
+              "FLOWER_GEMS",
+            ) && (
+              <ButtonPanel
+                onClick={() => setShowFlowerConfirm(true)}
+                className="flex relative flex-col flex-1 items-center p-2 cursor-pointer"
+              >
+                <span className="mb-2 text-xs">{"FLOWER"}</span>
+                <div className="flex flex-col flex-1 justify-center items-center mb-6 w-full">
+                  <img src={flowerIcon} className="w-1/5 sm:w-1/5" />
+                </div>
+                <Label
+                  type="warning"
+                  className="absolute h-8 -bottom-2"
+                  style={{
+                    left: `${PIXEL_SCALE * -3}px`,
+                    right: `${PIXEL_SCALE * -3}px`,
+                    width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
+                  }}
+                >
+                  {t("transaction.payFlower")}
+                </Label>
+              </ButtonPanel>
+            )}
           </div>
           <p className="text-xxs italic mb-2">{t("transaction.excludeFees")}</p>
         </div>
