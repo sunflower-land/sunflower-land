@@ -968,7 +968,10 @@ export function startGame(authContext: AuthContext) {
             {
               target: "referralRewards",
               cond: (context) => {
-                return !!context.state.referrals?.rewards;
+                return (
+                  hasFeatureAccess(context.state, "REFERRAL_PROGRAM") &&
+                  !!context.state.referrals?.rewards
+                );
               },
             },
             {

@@ -183,7 +183,7 @@ export const CodexButton: React.FC = () => {
               className="absolute hidden sm:block"
               style={{
                 width: `${PIXEL_SCALE * 68}px`,
-                left: `${PIXEL_SCALE * 13}px`,
+                left: `${PIXEL_SCALE * 10}px`,
                 top: `${PIXEL_SCALE * 5}px`,
               }}
             >

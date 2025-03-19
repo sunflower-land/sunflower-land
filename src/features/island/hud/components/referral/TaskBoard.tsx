@@ -45,17 +45,17 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({
       {/* Tasks */}
       <div className="flex flex-col gap-2 m-1">
         <div className="flex justify-between gap-2 mr-1">
-          <Label type="default">{`Tasks`}</Label>
+          <Label type="default">{t("taskBoard.tasks")}</Label>
           <Label
             type="vibrant"
             secondaryIcon={ITEM_DETAILS["Love Charm"].image}
           >
-            {`Inventory: ${loveCharmCount} Love Charm`}
+            {t("taskBoard.loveCharmCount", { loveCharmCount })}
           </Label>
         </div>
         <div className="flex flex-col gap-2 text-xs mx-2">
-          <p>{`Complete tasks to earn Love Charm.`}</p>
-          <p>{`Love Charm can be used to purchase special items in the rewards shop`}</p>
+          <p>{t("taskBoard.tasksDescription")}</p>
+          <p>{t("taskBoard.tasksDescriptionTwo")}</p>
         </div>
         <div className="flex flex-col gap-1 text-xs">
           {Object.values(TASKS).map((task) => (
@@ -91,7 +91,7 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({
       </div>
       {/* Other ways to earn Love Charm */}
       <div className="flex flex-col gap-2 m-1">
-        <Label type="default">{`Other ways to earn Love Charm`}</Label>
+        <Label type="default">{t("taskBoard.otherWays")}</Label>
 
         <div className="flex flex-col gap-1 text-xs">
           {Object.values(OTHER_WAYS_TO_EARN_LOVE_CHARM).map((task) => (
@@ -133,7 +133,7 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({
                     className="text-xs underline hover:text-blue-500"
                     onClick={() => setShowReferralModal(true)}
                   >
-                    {`How to refer a friend?`}
+                    {t("taskBoard.howToRefer")}
                   </p>
                 )}
                 {selectedTask && isSocialTask(selectedTask) && (
