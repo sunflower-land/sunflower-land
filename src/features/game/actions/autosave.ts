@@ -159,24 +159,33 @@ export async function autosave(request: Request, retries = 0) {
 
   autosaveErrors = 0;
 
-  const { patches, changeset, announcements } = await sanitizeHTTPResponse<{
-    patches: any;
-    changeset: any;
-    announcements: any;
-  }>(response);
+  const { patches, changeset, announcements, farm } =
+    await sanitizeHTTPResponse<{
+      patches: any;
+      changeset: any;
+      announcements: any;
+      farm: any;
+    }>(response);
 
-  const newGameState = makeGame(
-    produce(request.state, (draft) => {
-      applyPatches(
-        draft,
-        patches.map((patch: any) => {
-          // Remove leading slash and split by remaining slashes
-          const path = patch.path.replace(/^\//, "").split("/");
-          return { ...patch, path };
-        }),
-      );
-    }),
-  );
+  let newGameState = request.state;
+
+  if (patches) {
+    newGameState = makeGame(
+      produce(request.state, (draft) => {
+        applyPatches(
+          draft,
+          patches.map((patch: any) => {
+            // Remove leading slash and split by remaining slashes
+            const path = patch.path.replace(/^\//, "").split("/");
+            return { ...patch, path };
+          }),
+        );
+      }),
+    );
+  } else {
+    // This is a legacy flow. Delete after April 1st 2025
+    newGameState = makeGame(farm);
+  }
 
   return { verified: true, farm: newGameState, changeset, announcements };
 }
