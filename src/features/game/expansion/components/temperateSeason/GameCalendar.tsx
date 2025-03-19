@@ -126,7 +126,7 @@ const GameCalendarButton: React.FC<GameCalendarButtonProps> = ({
   <div
     className="absolute"
     style={{
-      top: `${PIXEL_SCALE * 40}px`,
+      top: `${PIXEL_SCALE * 38}px`,
       left: `${PIXEL_SCALE * 5}px`,
     }}
   >
