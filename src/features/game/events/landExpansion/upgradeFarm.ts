@@ -1042,40 +1042,32 @@ function springUpgrade(state: GameState) {
   return game;
 }
 
-/**
- * Any stale items that are still on the island or home
- */
-export function expireItems({
-  game,
-  createdAt,
-}: {
-  game: GameState;
-  createdAt: number;
-}) {
-  // iterate the expiry cooldowns and remove any items that have expired
-  const expiredItems = Object.entries(EXPIRY_COOLDOWNS).reduce(
-    (acc, [name, cooldown]) => {
+export function expireItems({ game }: { game: GameState }) {
+  const temporaryCollectibles = getKeys(EXPIRY_COOLDOWNS).reduce(
+    (acc, name) => {
       const items = game.collectibles[name as CollectibleName] ?? [];
       const homeItems = game.home.collectibles[name as CollectibleName] ?? [];
-      const expiredItems = [...items, ...homeItems].filter(
-        (item) => item.createdAt + cooldown < createdAt,
-      );
 
-      if (expiredItems.length > 0) {
-        return { ...acc, [name]: expiredItems.length };
+      const count = [...items, ...homeItems].length;
+
+      if (count > 0) {
+        return {
+          ...acc,
+          [name]: count,
+        };
       }
 
       return acc;
     },
-    {},
+    {} as Record<string, number>,
   );
 
-  if (getKeys(expiredItems).length > 0) {
-    getKeys(expiredItems).forEach((name) => {
+  if (getKeys(temporaryCollectibles).length > 0) {
+    getKeys(temporaryCollectibles).forEach((name) => {
       const previous =
         game.inventory[name as InventoryItemName] ?? new Decimal(0);
       game.inventory[name as InventoryItemName] = previous.sub(
-        expiredItems[name],
+        temporaryCollectibles[name],
       );
     });
   }
@@ -1220,7 +1212,7 @@ export function upgrade({ state, action, createdAt = Date.now() }: Options) {
   });
 
   // Remove any time sensitive items that have expired
-  game = expireItems({ game, createdAt });
+  game = expireItems({ game });
 
   // Clear all in progress items
   game.collectibles = {};
