@@ -79,6 +79,7 @@ export const Rewards: React.FC<Props> = ({
       <CloseButtonPanel
         tabs={[
           { icon: SUNNYSIDE.ui.board, name: "Task Board" },
+          { icon: giftIcon, name: "Rewards Shop" },
           ...(bumpkinLevel > 5
             ? [
                 {
@@ -87,7 +88,6 @@ export const Rewards: React.FC<Props> = ({
                 },
               ]
             : []),
-          { icon: giftIcon, name: "Rewards Shop" },
         ]}
         currentTab={tab}
         setCurrentTab={setTab}
@@ -101,7 +101,7 @@ export const Rewards: React.FC<Props> = ({
             loveCharmCount={loveCharmCount}
           />
         )}
-        {tab === 1 && (
+        {tab === 2 && (
           <DailyRewardContent
             onClose={onHide}
             gameService={gameService}
