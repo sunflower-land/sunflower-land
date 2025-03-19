@@ -5529,5 +5529,20 @@
   "error.insufficientFlower": "Недостаточное количество ЦВЕТОВ",
   "gems": "драгоценные камни",
   "usd": "ДОЛЛАР США",
-  "wallet.disconnectWallet": "Отключить кошелек"
+  "wallet.disconnectWallet": "Отключить кошелек",
+  "transaction.deposit.flower": "Депозит в доллары США",
+  "transaction.swap.flowerForCoins": "Обменяйте $FLOWER на монеты",
+  "transaction.menu.title": "Выберите вариант",
+  "deposit.flower": "Депозит в доллары США",
+  "deposit.flower.selectNetwork": "Выберите сеть",
+  "deposit.flower.minimumDeposit": "Минимальный депозит составляет 5$ FLOWER.",
+  "deposit.flower.onlyDeposit": "Вносите депозит в размере $FLOWER только в выбранную сеть.",
+  "deposit.flower.processingTimes": "Время обработки может отличаться в зависимости от сети.",
+  "deposit.flower.iUnderstand": "Понимаю",
+  "deposit.flower.loading": "Загрузка...",
+  "deposit.copyDepositAddress": "Скопируйте депозитный адрес",
+  "deposit.doNotSaveAddress": "Не сохраняйте этот адрес, так как он может быть изменен",
+  "deposit.flower.processedDeposits": "Обработанные депозиты",
+  "deposit.flower.refreshing": "Освежает...",
+  "deposit.flower.refreshDeposit": "Обновить депозиты"
 }

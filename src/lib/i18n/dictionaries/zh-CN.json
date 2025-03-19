@@ -5529,5 +5529,20 @@
   "error.insufficientFlower": "花不足",
   "gems": "宝石",
   "usd": "美元",
-  "wallet.disconnectWallet": "断开钱包连接"
+  "wallet.disconnectWallet": "断开钱包连接",
+  "transaction.deposit.flower": "存款 $FLOWER",
+  "transaction.swap.flowerForCoins": "用 $FLOWER 兑换硬币",
+  "transaction.menu.title": "选择一个选项",
+  "deposit.flower": "存款 $FLOWER",
+  "deposit.flower.selectNetwork": "选择网络",
+  "deposit.flower.minimumDeposit": "最低存款额为5 $FLOWER。",
+  "deposit.flower.onlyDeposit": "仅向所选网络存入 $FLOWER。",
+  "deposit.flower.processingTimes": "处理时间可能因网络而异。",
+  "deposit.flower.iUnderstand": "我明白",
+  "deposit.flower.loading": "加载中...",
+  "deposit.copyDepositAddress": "复制存款地址",
+  "deposit.doNotSaveAddress": "请勿将此地址另存为可能会更改",
+  "deposit.flower.processedDeposits": "已处理的存款",
+  "deposit.flower.refreshing": "正在刷新...",
+  "deposit.flower.refreshDeposit": "刷新存款"
 }

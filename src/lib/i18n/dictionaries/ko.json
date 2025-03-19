@@ -5529,5 +5529,20 @@
   "error.insufficientFlower": "불충분한 꽃",
   "gems": "보석",
   "usd": "USD",
-  "wallet.disconnectWallet": "디스커넥트 월렛"
+  "wallet.disconnectWallet": "디스커넥트 월렛",
+  "transaction.deposit.flower": "예치금 $플라워",
+  "transaction.swap.flowerForCoins": "$FLOWER를 코인으로 교환하세요",
+  "transaction.menu.title": "옵션 선택",
+  "deposit.flower": "예치금 $플라워",
+  "deposit.flower.selectNetwork": "네트워크 선택",
+  "deposit.flower.minimumDeposit": "최소 보증금은 5 $FLOWER입니다.",
+  "deposit.flower.onlyDeposit": "선택한 네트워크에만 $FLOWER를 입금하세요.",
+  "deposit.flower.processingTimes": "처리 시간은 네트워크에 따라 다를 수 있습니다.",
+  "deposit.flower.iUnderstand": "이해합니다",
+  "deposit.flower.loading": "로드 중...",
+  "deposit.copyDepositAddress": "입금 주소 복사",
+  "deposit.doNotSaveAddress": "이 주소는 변경될 수 있으므로 저장하지 마십시오.",
+  "deposit.flower.processedDeposits": "처리된 예금",
+  "deposit.flower.refreshing": "새로 고침...",
+  "deposit.flower.refreshDeposit": "리프레시 입금"
 }

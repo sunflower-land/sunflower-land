@@ -5529,5 +5529,20 @@
   "error.insufficientFlower": "FLOR insuficiente",
   "gems": "Gemas",
   "usd": "DÓLAR ESTADOUNIDENSE",
-  "wallet.disconnectWallet": "Disconnect Wallet"
+  "wallet.disconnectWallet": "Disconnect Wallet",
+  "transaction.deposit.flower": "Deposita $FLOWER",
+  "transaction.swap.flowerForCoins": "Cambia $FLOWER por monedas",
+  "transaction.menu.title": "Selecciona una opción",
+  "deposit.flower": "Deposita $FLOWER",
+  "deposit.flower.selectNetwork": "Seleccione la red",
+  "deposit.flower.minimumDeposit": "El depósito mínimo es de 5 $FLOWER.",
+  "deposit.flower.onlyDeposit": "Deposita solo $FLOWER en la red seleccionada.",
+  "deposit.flower.processingTimes": "Los tiempos de procesamiento pueden variar según la red.",
+  "deposit.flower.iUnderstand": "Entiendo",
+  "deposit.flower.loading": "Cargando...",
+  "deposit.copyDepositAddress": "Copiar la dirección de depósito",
+  "deposit.doNotSaveAddress": "No guarde esta dirección porque está sujeta a cambios",
+  "deposit.flower.processedDeposits": "Depósitos procesados",
+  "deposit.flower.refreshing": "Refrescante...",
+  "deposit.flower.refreshDeposit": "Actualizar depósitos"
 }

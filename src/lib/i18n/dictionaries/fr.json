@@ -5529,5 +5529,20 @@
   "error.insufficientFlower": "FLEUR insuffisante",
   "gems": "Pierres précieuses",
   "usd": "DOLLAR AMÉRICAIN",
-  "wallet.disconnectWallet": "Déconnecter le portefeuille"
+  "wallet.disconnectWallet": "Déconnecter le portefeuille",
+  "transaction.deposit.flower": "Déposez $FLOWER",
+  "transaction.swap.flowerForCoins": "Échangez des $ FLOWER contre des pièces",
+  "transaction.menu.title": "Sélectionnez une option",
+  "deposit.flower": "Déposez $FLOWER",
+  "deposit.flower.selectNetwork": "Sélectionnez le réseau",
+  "deposit.flower.minimumDeposit": "Le dépôt minimum est de 5$ FLOWER.",
+  "deposit.flower.onlyDeposit": "Déposez uniquement $FLOWER sur le réseau sélectionné.",
+  "deposit.flower.processingTimes": "Les délais de traitement peuvent varier en fonction du réseau.",
+  "deposit.flower.iUnderstand": "Je comprends",
+  "deposit.flower.loading": "Chargement en cours...",
+  "deposit.copyDepositAddress": "Copier l'adresse de dépôt",
+  "deposit.doNotSaveAddress": "Ne sauvegardez pas cette adresse car elle est sujette à modification",
+  "deposit.flower.processedDeposits": "Dépôts traités",
+  "deposit.flower.refreshing": "C'est rafraîchissant...",
+  "deposit.flower.refreshDeposit": "Actualiser les dépôts"
 }

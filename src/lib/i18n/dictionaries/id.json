@@ -5529,5 +5529,20 @@
   "error.insufficientFlower": "BUNGA tidak mencukupi",
   "gems": "Permata",
   "usd": "USD",
-  "wallet.disconnectWallet": "Putuskan sambungan Dompet"
+  "wallet.disconnectWallet": "Putuskan sambungan Dompet",
+  "transaction.deposit.flower": "Setor $FLOWER",
+  "transaction.swap.flowerForCoins": "Tukar $FLOWER menjadi Koin",
+  "transaction.menu.title": "Pilih opsi",
+  "deposit.flower": "Setor $FLOWER",
+  "deposit.flower.selectNetwork": "Pilih jaringan",
+  "deposit.flower.minimumDeposit": "Setoran minimum adalah 5 $FLOWER.",
+  "deposit.flower.onlyDeposit": "Hanya deposit $FLOWER ke jaringan yang dipilih.",
+  "deposit.flower.processingTimes": "Waktu pemrosesan dapat bervariasi tergantung pada jaringan.",
+  "deposit.flower.iUnderstand": "Saya mengerti",
+  "deposit.flower.loading": "Memuat...",
+  "deposit.copyDepositAddress": "Salin alamat setoran",
+  "deposit.doNotSaveAddress": "Jangan simpan alamat ini karena dapat berubah",
+  "deposit.flower.processedDeposits": "Setoran yang diproses",
+  "deposit.flower.refreshing": "Menyegarkan...",
+  "deposit.flower.refreshDeposit": "Segarkan setoran"
 }

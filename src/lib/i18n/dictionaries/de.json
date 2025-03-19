@@ -5529,5 +5529,20 @@
   "error.insufficientFlower": "Ungenügende BLÜTE",
   "gems": "Edelsteine",
   "usd": "USD",
-  "wallet.disconnectWallet": "Wallet trennen"
+  "wallet.disconnectWallet": "Wallet trennen",
+  "transaction.deposit.flower": "Zahlen Sie $FLOWER ein",
+  "transaction.swap.flowerForCoins": "Tausche $FLOWER gegen Coins",
+  "transaction.menu.title": "Wählen Sie eine Option",
+  "deposit.flower": "Zahlen Sie $FLOWER ein",
+  "deposit.flower.selectNetwork": "Wählen Sie ein Netzwerk",
+  "deposit.flower.minimumDeposit": "Die Mindesteinzahlung beträgt 5$ FLOWER.",
+  "deposit.flower.onlyDeposit": "Zahlen Sie $FLOWER nur in das gewählte Netzwerk ein.",
+  "deposit.flower.processingTimes": "Die Verarbeitungszeiten können je nach Netzwerk variieren.",
+  "deposit.flower.iUnderstand": "Ich verstehe",
+  "deposit.flower.loading": "Wird geladen...",
+  "deposit.copyDepositAddress": "Hinterlegungsadresse kopieren",
+  "deposit.doNotSaveAddress": "Speichern Sie diese Adresse nicht, da sie sich ändern kann",
+  "deposit.flower.processedDeposits": "Verarbeitete Einzahlungen",
+  "deposit.flower.refreshing": "Erfrischend...",
+  "deposit.flower.refreshDeposit": "Einzahlungen auffrischen"
 }

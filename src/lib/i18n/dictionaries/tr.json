@@ -5529,5 +5529,20 @@
   "error.insufficientFlower": "Yetersiz ÇIÇEK",
   "gems": "Mücevherler",
   "usd": "AMERİKAN DOLARI",
-  "wallet.disconnectWallet": "Cüzdanı Kes"
+  "wallet.disconnectWallet": "Cüzdanı Kes",
+  "transaction.deposit.flower": "Para Yatırma $FLOWER",
+  "transaction.swap.flowerForCoins": "$FLOWER'ı Madeni Paralarla Değiştir",
+  "transaction.menu.title": "Bir seçenek seçin",
+  "deposit.flower": "Para Yatırma $FLOWER",
+  "deposit.flower.selectNetwork": "Ağ seçin",
+  "deposit.flower.minimumDeposit": "Minimum depozito 5$ ÇIÇEK.",
+  "deposit.flower.onlyDeposit": "Yalnızca seçilen ağa $FLOWER yatırın.",
+  "deposit.flower.processingTimes": "İşlem süreleri ağa bağlı olarak değişebilir.",
+  "deposit.flower.iUnderstand": "Anlıyorum",
+  "deposit.flower.loading": "Yükleniyor...",
+  "deposit.copyDepositAddress": "Para yatırma adresini kopyala",
+  "deposit.doNotSaveAddress": "Bu adresi değiştirilebilir olarak kaydetmeyin",
+  "deposit.flower.processedDeposits": "İşlenmiş mevduatlar",
+  "deposit.flower.refreshing": "Canlandırıcı...",
+  "deposit.flower.refreshDeposit": "Para yatırma işlemlerini yenileyin"
 }
