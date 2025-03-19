@@ -338,28 +338,21 @@ export const RequirementLabel: React.FC<Props> = (props) => {
         "flex justify-between min-h-[26px]",
       )}
     >
-      {(!props.hideIcon || props.showLabel) &&
-        ["sfl", "item", "wearable", "coins"].includes(props.type as string) && (
-          <div className="flex items-center">
-            {!props.hideIcon && <SquareIcon icon={getIcon()} width={7} />}
-            {props.showLabel && (
-              <>
-                {props.type === "sfl" && (
-                  <span className="text-xs ml-1">{"SFL"}</span>
-                )}
-                {props.type === "item" && (
-                  <span className="text-xs ml-1">{props.item}</span>
-                )}
-                {props.type === "wearable" && (
-                  <span className="text-xs ml-1">{props.item}</span>
-                )}
-                {props.type === "coins" && (
-                  <span className="text-xs ml-1">{t("coins")}</span>
-                )}
-              </>
-            )}
-          </div>
+      <div className="flex items-center">
+        {!props.hideIcon && <SquareIcon icon={getIcon()} width={7} />}
+        {props.type === "sfl" && props.showLabel && (
+          <span className="text-xs ml-1">{"SFL"}</span>
         )}
+        {props.type === "item" && props.showLabel && (
+          <span className="text-xs ml-1">{props.item}</span>
+        )}
+        {props.type === "wearable" && props.showLabel && (
+          <span className="text-xs ml-1">{props.item}</span>
+        )}
+        {props.type === "coins" && props.showLabel && (
+          <span className="text-xs ml-1">{t("coins")}</span>
+        )}
+      </div>
 
       <Label
         className={classNames("whitespace-nowrap font-secondary relative", {
