@@ -24,11 +24,8 @@ export function claimReferralRewards({
       throw new Error("Referrals not found");
     }
 
-    const { totalUnclaimedReferrals, rewards } = referrals;
+    const { rewards } = referrals;
 
-    if (totalUnclaimedReferrals === 0) {
-      throw new Error("No unclaimed referrals");
-    }
     if (!rewards) {
       throw new Error("No rewards to claim");
     }
