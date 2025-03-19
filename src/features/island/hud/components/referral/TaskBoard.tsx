@@ -127,8 +127,8 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({
               </div>
               <div className="flex flex-col justify-between w-full gap-3">
                 <p>{selectedTask?.description}</p>
-                {(selectedTask?.title === "Refer a friend" ||
-                  selectedTask?.title === "Refer a VIP friend") && (
+                {(selectedTask?.title === t("socialTask.referFriend") ||
+                  selectedTask?.title === t("socialTask.referVipFriend")) && (
                   <p
                     className="text-xs underline hover:text-blue-500"
                     onClick={() => setShowReferralModal(true)}

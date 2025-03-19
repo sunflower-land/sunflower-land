@@ -5,6 +5,7 @@ import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandE
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { produce } from "immer";
 import { hasFeatureAccess } from "lib/flags";
+import { translate } from "lib/i18n/translate";
 
 export type OtherTasks = {
   title: string;
@@ -27,9 +28,8 @@ export type Task = OtherTasks & {
 
 export const TASKS = {
   "Refer a friend": {
-    title: "Refer a friend",
-    description:
-      "Refer a friend to join the game using your referral link - One time only!",
+    title: translate("socialTask.referFriend"),
+    description: translate("socialTask.referFriend.description"),
     image: SUNNYSIDE.icons.player,
     reward: { "Love Charm": 15 },
     requirement: (state) =>
@@ -38,31 +38,30 @@ export const TASKS = {
       (state.referrals ?? { totalReferrals: 0 }).totalReferrals,
   },
   "Link your Discord": {
-    title: "Link your Discord",
-    description: "Link your Discord to your account",
+    title: translate("socialTask.linkDiscord"),
+    description: translate("socialTask.linkDiscord.description"),
     image: SUNNYSIDE.icons.discord,
     reward: { "Love Charm": 25 },
     requirement: (state) => !!state.discord?.connected,
   },
   "Link your Telegram": {
-    title: "Link your Telegram",
-    description: "Link your Telegram to your account",
+    title: translate("socialTask.linkTelegram"),
+    description: translate("socialTask.linkTelegram.description"),
     image: SUNNYSIDE.icons.telegram,
     reward: { "Love Charm": 25 },
     requirement: (state) => !!state.telegram?.linkedAt,
   },
   "Upgrade to Petal Paradise": {
-    title: "Upgrade to Petal Paradise",
-    description: "Expand your land fully and upgrade to Petal Paradise",
+    title: translate("socialTask.upgradeToPetalParadise"),
+    description: translate("socialTask.upgradeToPetalParadise.description"),
     image: SUNNYSIDE.icons.player,
     reward: { "Love Charm": 25 },
     requirement: (state) =>
       hasRequiredIslandExpansion(state.island.type, "spring"),
   },
   "Complete 50 deliveries": {
-    title: "Complete 50 deliveries",
-    description:
-      "Go to the plaza and complete deliveries with various NPCs 50 times",
+    title: translate("socialTask.complete50Deliveries"),
+    description: translate("socialTask.complete50Deliveries.description"),
     image: SUNNYSIDE.icons.player,
     reward: { "Love Charm": 25 },
     requirement: (state) => state.delivery.fulfilledCount >= 50,
@@ -78,16 +77,14 @@ export type SocialTaskName = keyof typeof TASKS;
  */
 export const OTHER_WAYS_TO_EARN_LOVE_CHARM = {
   "Refer a VIP friend": {
-    title: "Refer a VIP friend",
+    title: translate("socialTask.referVipFriend"),
     image: SUNNYSIDE.icons.player,
-    description:
-      "Refer a friend to join the game and they must buy VIP before you can earn bonus Love Charms",
+    description: translate("socialTask.referVipFriend.description"),
   },
   "Join a stream": {
-    title: "Join a stream",
+    title: translate("socialTask.joinStream"),
     image: SUNNYSIDE.icons.player,
-    description:
-      "Join a dev chat on discord or twitch stream to earn 1 Love Charm every 5 minutes from the host wearing a stream hat.",
+    description: translate("socialTask.joinStream.description"),
   },
 } satisfies Record<string, OtherTasks>;
 
