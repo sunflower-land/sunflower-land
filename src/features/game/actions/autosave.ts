@@ -175,7 +175,8 @@ export async function autosave(request: Request, retries = 0) {
         applyPatches(
           draft,
           patches.map((patch: any) => {
-            // Remove leading slash and split by remaining slashes
+            // Remove leading slash and split by remaining slashes to format for immer
+            // https://immerjs.github.io/immer/patches/
             const path = patch.path.replace(/^\//, "").split("/");
             return { ...patch, path };
           }),
