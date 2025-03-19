@@ -137,7 +137,7 @@ export const DepositFlower: React.FC<{ onClose: () => void }> = ({
             onClick={onClose}
           />
           <Label type="default" icon={flowerIcon}>
-            {`Deposit $FLOWER`}
+            {t("deposit.flower")}
           </Label>
         </div>
 
@@ -145,7 +145,7 @@ export const DepositFlower: React.FC<{ onClose: () => void }> = ({
           options={networkOptions}
           value={selectedNetwork?.value}
           onChange={handleNetworkChange}
-          placeholder="Select network"
+          placeholder={t("deposit.flower.selectNetwork")}
         />
 
         {/* Acknowledge conditions */}
@@ -160,7 +160,7 @@ export const DepositFlower: React.FC<{ onClose: () => void }> = ({
                   />
                 </div>
                 <div className="w-[90%] flex items-center">
-                  <span>{`Only deposit $FLOWER from ${selectedNetwork.value}. Other deposits will be lost.`}</span>
+                  <span>{t("deposit.flower.onlyDeposit")}</span>
                 </div>
               </div>
               <div className="w-full flex gap-1 h-8">
@@ -168,7 +168,7 @@ export const DepositFlower: React.FC<{ onClose: () => void }> = ({
                   <img src={flowerIcon} className="object-contain w-5" />
                 </div>
                 <div className="w-[90%] flex items-center">
-                  <span>{`Minimum deposit is 5 $FLOWER.`}</span>
+                  <span>{t("deposit.flower.minimumDeposit")}</span>
                 </div>
               </div>
               <div className="w-full flex gap-1 h-8">
@@ -179,7 +179,7 @@ export const DepositFlower: React.FC<{ onClose: () => void }> = ({
                   />
                 </div>
                 <div className="w-[90%] flex items-center">
-                  <span>{`Processing times may vary.`}</span>
+                  <span>{t("deposit.flower.processingTimes")}</span>
                 </div>
               </div>
             </div>
@@ -190,7 +190,9 @@ export const DepositFlower: React.FC<{ onClose: () => void }> = ({
               onClick={() => setAcknowledged(true)}
             >
               <div className="mb-1">
-                {!depositAddress ? `Loading...` : `I understand`}
+                {!depositAddress
+                  ? t("deposit.flower.loading")
+                  : t("deposit.flower.iUnderstand")}
               </div>
             </ButtonPanel>
           </>
@@ -205,7 +207,7 @@ export const DepositFlower: React.FC<{ onClose: () => void }> = ({
             <div className="flex items-center gap-1" onClick={copyToClipboard}>
               <CopySvg height={12} />
               <span className="text-xxs sm:text-xs pb-1">
-                {`Copy deposit address`}
+                {t("deposit.copyDepositAddress")}
               </span>
             </div>
             <div
@@ -217,7 +219,7 @@ export const DepositFlower: React.FC<{ onClose: () => void }> = ({
             </div>
             <Label type="danger">
               <span className="text-center">
-                {`Do not save this address as its subject to change`}
+                {t("deposit.doNotSaveAddress")}
               </span>
             </Label>
           </div>
@@ -227,7 +229,9 @@ export const DepositFlower: React.FC<{ onClose: () => void }> = ({
       {selectedNetwork?.value && deposits.length > 0 && (
         <div className="flex flex-col mt-2">
           <div className="pb-2 border-b border-white -px-2">
-            <span className="text-sm ml-1">{`Processed deposits`}</span>
+            <span className="text-sm ml-1">
+              {t("deposit.flower.processedDeposits")}
+            </span>
           </div>
           <div className="h-[120px] scrollable overflow-y-auto">
             {deposits.map((deposit) => (
@@ -270,7 +274,9 @@ export const DepositFlower: React.FC<{ onClose: () => void }> = ({
           className="w-full text-center mt-2"
           onClick={refreshDeposits}
         >
-          {pending ? "Refreshing..." : "Refresh Deposit"}
+          {pending
+            ? t("deposit.flower.refreshing")
+            : t("deposit.flower.refreshDeposit")}
         </Button>
       )}
     </>
