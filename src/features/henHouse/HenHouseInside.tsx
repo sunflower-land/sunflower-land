@@ -9,7 +9,7 @@ import { Hud } from "features/island/hud/Hud";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys, getValues } from "features/game/types/decorations";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { ANIMALS } from "features/game/types/animals";
 import { Chicken } from "./Chicken";
@@ -88,7 +88,11 @@ export const HenHouseInside: React.FC = () => {
         },
       };
     });
-  }, [getKeys(henHouse.animals).length, floorWidth]);
+  }, [
+    getKeys(henHouse.animals).length,
+    getValues(henHouse.animals).map((animal) => animal.state),
+    floorWidth,
+  ]);
 
   const nextLevel = Math.min(level + 1, 3);
   return (
