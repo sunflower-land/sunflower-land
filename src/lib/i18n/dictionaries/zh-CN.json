@@ -5528,5 +5528,6 @@
   "buying.gems.success": "恭喜，您的宝石已成功购买！",
   "error.insufficientFlower": "花不足",
   "gems": "宝石",
-  "usd": "美元"
+  "usd": "美元",
+  "wallet.disconnectWallet": "断开钱包连接"
 }

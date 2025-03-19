@@ -5528,5 +5528,6 @@
   "buying.gems.success": "Herzlichen Glückwunsch, deine Edelsteine wurden erfolgreich gekauft!",
   "error.insufficientFlower": "Ungenügende BLÜTE",
   "gems": "Edelsteine",
-  "usd": "USD"
+  "usd": "USD",
+  "wallet.disconnectWallet": "Wallet trennen"
 }

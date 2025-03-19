@@ -5528,5 +5528,6 @@
   "buying.gems.success": "Congratulazioni, le tue gemme sono state acquistate con successo!",
   "error.insufficientFlower": "FIORE insufficiente",
   "gems": "Gemme",
-  "usd": "DOLLARO STATUNITENSE"
+  "usd": "DOLLARO STATUNITENSE",
+  "wallet.disconnectWallet": "Disconnetti il portafoglio"
 }

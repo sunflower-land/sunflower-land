@@ -5528,5 +5528,6 @@
   "buying.gems.success": "Tebrikler, mücevherleriniz başarıyla satın alındı!",
   "error.insufficientFlower": "Yetersiz ÇIÇEK",
   "gems": "Mücevherler",
-  "usd": "AMERİKAN DOLARI"
+  "usd": "AMERİKAN DOLARI",
+  "wallet.disconnectWallet": "Cüzdanı Kes"
 }

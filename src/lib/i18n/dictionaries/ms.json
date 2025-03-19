@@ -5528,5 +5528,6 @@
   "buying.gems.success": "Tahniah, permata anda berjaya dibeli!",
   "error.insufficientFlower": "BUNGA tidak mencukupi",
   "gems": "Permata",
-  "usd": "USD"
+  "usd": "USD",
+  "wallet.disconnectWallet": "Putuskan sambungan Wallet"
 }

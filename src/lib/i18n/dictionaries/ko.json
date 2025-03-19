@@ -5528,5 +5528,6 @@
   "buying.gems.success": "축하합니다. 보석이 성공적으로 구매되었습니다!",
   "error.insufficientFlower": "불충분한 꽃",
   "gems": "보석",
-  "usd": "USD"
+  "usd": "USD",
+  "wallet.disconnectWallet": "디스커넥트 월렛"
 }

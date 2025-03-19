@@ -3599,6 +3599,7 @@
   "wallet.signRequestInWallet": "Sign the request in your wallet to continue",
   "wallet.rejected": "Wallet Rejected",
   "wallet.rejectedDescription": "Wallet rejected the connection. Please try again.",
+  "wallet.disconnectWallet": "Disconnect Wallet",
   "warning.noAxe": "No Axe Selected!",
   "warning.chat.maxCharacters": "Max characters",
   "warning.chat.noSpecialCharacters": "No special characters",

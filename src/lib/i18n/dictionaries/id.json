@@ -5528,5 +5528,6 @@
   "buying.gems.success": "Selamat, permata Anda berhasil dibeli!",
   "error.insufficientFlower": "BUNGA tidak mencukupi",
   "gems": "Permata",
-  "usd": "USD"
+  "usd": "USD",
+  "wallet.disconnectWallet": "Putuskan sambungan Dompet"
 }

@@ -5528,5 +5528,6 @@
   "buying.gems.success": "おめでとうございます。宝石は正常に購入されました！",
   "error.insufficientFlower": "花が足りない",
   "gems": "宝石",
-  "usd": "USD"
+  "usd": "USD",
+  "wallet.disconnectWallet": "ウォレットの接続解除"
 }

@@ -5528,5 +5528,6 @@
   "buying.gems.success": "Parabéns, suas joias foram compradas com sucesso!",
   "error.insufficientFlower": "FLOR insuficiente",
   "gems": "Gemas",
-  "usd": "USD"
+  "usd": "USD",
+  "wallet.disconnectWallet": "Desconecte a carteira"
 }

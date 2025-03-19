@@ -5528,5 +5528,6 @@
   "buying.gems.success": "Félicitations, vos pierres précieuses ont été achetées avec succès !",
   "error.insufficientFlower": "FLEUR insuffisante",
   "gems": "Pierres précieuses",
-  "usd": "DOLLAR AMÉRICAIN"
+  "usd": "DOLLAR AMÉRICAIN",
+  "wallet.disconnectWallet": "Déconnecter le portefeuille"
 }
