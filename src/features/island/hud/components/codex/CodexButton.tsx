@@ -150,8 +150,8 @@ export const CodexButton: React.FC = () => {
     <div
       className="absolute"
       style={{
-        top: `${PIXEL_SCALE * 30}px`,
-        left: `${PIXEL_SCALE * 30}px`,
+        top: `${PIXEL_SCALE * 29}px`,
+        left: `${PIXEL_SCALE * 28}px`,
       }}
     >
       <RoundButton
