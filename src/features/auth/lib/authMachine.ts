@@ -374,16 +374,14 @@ export const authMachine = createMachine(
         entry: "setTransactionId",
         invoke: {
           src: async (context) => {
-            const { farm, token } = await signUp({
+            const { token } = await signUp({
               token: context.user.rawToken as string,
               transactionId: context.transactionId as string,
               referrerId: getReferrerID(),
               utm: getUTMs(),
             });
 
-            return {
-              token,
-            };
+            return { token };
           },
           onDone: [
             {
@@ -410,7 +408,7 @@ export const authMachine = createMachine(
         invoke: {
           src: async (context, event) => {
             const { id } = event as ClaimFarmEvent;
-            const { farm, token } = await claimFarm({
+            const { token } = await claimFarm({
               token: context.user.rawToken as string,
               transactionId: context.transactionId as string,
               farmId: id,
