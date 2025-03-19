@@ -89,6 +89,7 @@ import {
   EffectSuccess,
 } from "./components/EffectSuccess";
 import { LoveCharm } from "./components/LoveCharm";
+import { ClaimReferralRewards } from "./components/ClaimReferralRewards";
 
 function camelToDotCase(str: string): string {
   return str.replace(/([a-z])([A-Z])/g, "$1.$2").toLowerCase() as string;
@@ -117,6 +118,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   // Every new state should be added below here
   gems: true,
   communityCoin: true,
+  referralRewards: true,
   loading: true,
   playing: false,
   autosaving: false,
@@ -202,6 +204,8 @@ const isPurchasing = (state: MachineState) =>
 const showGems = (state: MachineState) => state.matches("gems");
 const showCommunityCoin = (state: MachineState) =>
   state.matches("communityCoin");
+const _showReferralRewards = (state: MachineState) =>
+  state.matches("referralRewards");
 const isCoolingDown = (state: MachineState) => state.matches("coolingDown");
 const isGameRules = (state: MachineState) => state.matches("gameRules");
 const isFLOWERTeaser = (state: MachineState) => state.matches("FLOWERTeaser");
@@ -408,6 +412,7 @@ export const GameWrapper: React.FC = ({ children }) => {
   const hasSomethingArrived = useSelector(gameService, somethingArrived);
   const hasBBs = useSelector(gameService, showGems);
   const hasCommunityCoin = useSelector(gameService, showCommunityCoin);
+  const showReferralRewards = useSelector(gameService, _showReferralRewards);
   const effectPending = useSelector(gameService, isEffectPending);
   const effectSuccess = useSelector(gameService, isEffectSuccess);
   const effectFailure = useSelector(gameService, isEffectFailure);
@@ -627,6 +632,7 @@ export const GameWrapper: React.FC = ({ children }) => {
             {roninWelcomePack && <RoninWelcomePack />}
             {roninAirdrop && <ClaimRoninAirdrop />}
             {jinAirdrop && <RoninJinClaim />}
+            {showReferralRewards && <ClaimReferralRewards />}
           </Panel>
         </Modal>
 
