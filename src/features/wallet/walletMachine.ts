@@ -13,6 +13,7 @@ import {
   connect,
   signMessage,
   CreateConnectorFn,
+  disconnect,
 } from "@wagmi/core";
 import {
   bitGetConnector,
@@ -92,6 +93,9 @@ export type WalletEvent =
     }
   | {
       type: "ACCOUNT_CHANGED";
+    }
+  | {
+      type: "DISCONNECT_WALLET";
     };
 
 export type WalletState = {
@@ -112,7 +116,8 @@ export type WalletState = {
     | "networkNotSupported"
     | "alreadyLinkedWallet"
     | "alreadyHasFarm"
-    | "error";
+    | "error"
+    | "disconnecting";
 
   context: Context;
 };
@@ -261,8 +266,37 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
         },
       },
     },
+    disconnecting: {
+      invoke: {
+        src: async () => {
+          await disconnect(config);
+        },
+        onDone: {
+          target: "chooseWallet",
+        },
+        onError: {
+          target: "error",
+          actions: assign<Context, any>({
+            errorCode: (_context, event) => event.data.message,
+          }),
+        },
+      },
+      on: {
+        CONNECT_TO_WALLET: {
+          target: "initialising",
+        },
+      },
+    },
     signing: {
       id: "signing",
+      on: {
+        DISCONNECT_WALLET: {
+          target: "disconnecting",
+        },
+        BACK: {
+          target: "chooseWallet",
+        },
+      },
       invoke: {
         src: async (context: Context) => {
           const timestamp = Math.floor(Date.now() / 8.64e7);
