@@ -504,6 +504,7 @@ export type BlockchainState = {
     | "introduction"
     | "gems"
     | "communityCoin"
+    | "referralRewards"
     | "playing"
     | "autosaving"
     | "buyingSFL"
@@ -963,6 +964,12 @@ export function startGame(authContext: AuthContext) {
                 !!context.state.nfts?.ronin &&
                 !context.state.nfts.ronin.acknowledgedAt &&
                 context.state.nfts.ronin.expiresAt > Date.now(),
+            },
+            {
+              target: "referralRewards",
+              cond: (context) => {
+                return !!context.state.referrals?.rewards;
+              },
             },
             {
               target: "somethingArrived",
@@ -2233,6 +2240,17 @@ export function startGame(authContext: AuthContext) {
               target: "notifying",
             },
             "garbage.sold": (GAME_EVENT_HANDLERS as any)["garbage.sold"],
+          },
+        },
+
+        referralRewards: {
+          on: {
+            ACKNOWLEDGE: {
+              target: "notifying",
+            },
+            "referral.rewardsClaimed": (GAME_EVENT_HANDLERS as any)[
+              "referral.rewardsClaimed"
+            ],
           },
         },
 
