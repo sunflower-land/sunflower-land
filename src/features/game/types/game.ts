@@ -1602,6 +1602,7 @@ export interface GameState {
   referrals?: {
     totalReferrals: number;
     totalVIPReferrals?: number;
+    totalUnclaimedReferrals?: number;
     rewards?: Partial<Record<InventoryItemName, number>>;
   };
   socialTasks?: {
