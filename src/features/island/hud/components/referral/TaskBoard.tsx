@@ -18,6 +18,7 @@ import { GameState } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useState } from "react";
+import { Referral } from "./Referral";
 
 interface TaskBoardProps {
   state: GameState;
@@ -34,6 +35,7 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({
 }) => {
   const { t } = useAppTranslation();
   const [selectedTask, setSelectedTask] = useState<Task | OtherTasks>();
+  const [showReferralModal, setShowReferralModal] = useState(false);
 
   const isTaskCompleted = (taskId: SocialTaskName): boolean =>
     !!socialTasks?.completed?.[taskId]?.completedAt;
@@ -123,8 +125,17 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({
               >
                 <img src={selectedTask?.image} className="w-[50%]" />
               </div>
-              <div className="flex flex-col justify-between w-full">
+              <div className="flex flex-col justify-between w-full gap-3">
                 <p>{selectedTask?.description}</p>
+                {(selectedTask?.title === "Refer a friend" ||
+                  selectedTask?.title === "Refer a VIP friend") && (
+                  <p
+                    className="text-xs underline hover:text-blue-500"
+                    onClick={() => setShowReferralModal(true)}
+                  >
+                    {`How to refer a friend?`}
+                  </p>
+                )}
                 {selectedTask && isSocialTask(selectedTask) && (
                   <div className="flex flex-col gap-2 items-start">
                     <RequirementLabel
@@ -142,7 +153,7 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({
                         icon={SUNNYSIDE.icons.confirm}
                         className="ml-1"
                       >
-                        {`Complete`}
+                        {t("completed")}
                       </Label>
                     )}
                   </div>
@@ -161,12 +172,16 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({
                     isTaskCompleted(selectedTask.title as SocialTaskName)
                   }
                 >
-                  {`Complete`}
+                  {t("complete")}
                 </Button>
               )}
           </div>
         </CloseButtonPanel>
       </ModalOverlay>
+      <Referral
+        show={showReferralModal}
+        onHide={() => setShowReferralModal(false)}
+      />
     </div>
   );
 };

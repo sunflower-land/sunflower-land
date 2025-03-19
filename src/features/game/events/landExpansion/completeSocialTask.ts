@@ -26,9 +26,10 @@ export type Task = OtherTasks & {
 };
 
 export const TASKS = {
-  "Invite a friend": {
-    title: "Invite a friend",
-    description: "Invite a friend to join the game",
+  "Refer a friend": {
+    title: "Refer a friend",
+    description:
+      "Refer a friend to join the game using your referral link - One time only!",
     image: SUNNYSIDE.icons.player,
     reward: { "Love Charm": 15 },
     requirement: (state) =>
@@ -76,11 +77,11 @@ export type SocialTaskName = keyof typeof TASKS;
  * Other ways to earn Love Charm (Read-only)
  */
 export const OTHER_WAYS_TO_EARN_LOVE_CHARM = {
-  "Invite a VIP friend": {
-    title: "Invite a VIP friend",
+  "Refer a VIP friend": {
+    title: "Refer a VIP friend",
     image: SUNNYSIDE.icons.player,
     description:
-      "Invite a friend to join the game and have them buy VIP to earn bonus Love Charms",
+      "Refer a friend to join the game and they must buy VIP before you can earn bonus Love Charms",
   },
   "Join a stream": {
     title: "Join a stream",
