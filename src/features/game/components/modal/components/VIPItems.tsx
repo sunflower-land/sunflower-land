@@ -57,7 +57,7 @@ const VIP_ICONS: Record<VipBundle, string> = {
   "2_YEARS": purpleVipIcon,
 };
 
-export const VIPItems: React.FC = () => {
+export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
   const { gameService } = useContext(Context);
   const [selected, setSelected] = useState<VipBundle>();
   const { t } = useAppTranslation();
@@ -143,6 +143,7 @@ export const VIPItems: React.FC = () => {
             <Label type="default" className="mb-2">
               {t("vip.purchase.title")}
             </Label>
+
             <Label
               icon={ITEM_DETAILS.Gem.image}
               type={
@@ -197,10 +198,19 @@ export const VIPItems: React.FC = () => {
         </Panel>
       </ModalOverlay>
       <div className="flex flex-col pt-2">
-        <div className="flex justify-between px-1">
-          <Label icon={vipIcon} type="default" className="ml-1">
-            {t("season.vip.purchase")}
-          </Label>
+        <div className="flex justify-between items-center px-1">
+          <div className="flex items-center gap-2">
+            {!!onBack && (
+              <img
+                src={SUNNYSIDE.icons.arrow_left}
+                className="w-6 cursor-pointer"
+                onClick={onBack}
+              />
+            )}
+            <Label icon={vipIcon} type="default" className="ml-1">
+              {t("season.vip.purchase")}
+            </Label>
+          </div>
           <a
             href="https://docs.sunflower-land.com/player-guides/seasons#seasonal-banners"
             className="text-xxs underline"

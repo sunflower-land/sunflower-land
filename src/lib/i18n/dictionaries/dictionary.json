@@ -5690,5 +5690,20 @@
   "buying.gems.success": "Congratulations, your gems were purchased successfully!",
   "error.insufficientFlower": "Insufficient FLOWER",
   "gems": "Gems",
-  "usd": "USD"
+  "usd": "USD",
+  "transaction.deposit.flower": "Deposit $FLOWER",
+  "transaction.swap.flowerForCoins": "Swap $FLOWER for Coins",
+  "transaction.menu.title": "Select an option",
+  "deposit.flower": "Deposit $FLOWER",
+  "deposit.flower.selectNetwork": "Select network",
+  "deposit.flower.minimumDeposit": "Minimum deposit is 5 $FLOWER.",
+  "deposit.flower.onlyDeposit": "Only deposit $FLOWER to the selected network.",
+  "deposit.flower.processingTimes": "Processing times may vary depending on the network.",
+  "deposit.flower.iUnderstand": "I understand",
+  "deposit.flower.loading": "Loading...",
+  "deposit.copyDepositAddress": "Copy deposit address",
+  "deposit.doNotSaveAddress": "Do not save this address as its subject to change",
+  "deposit.flower.processedDeposits": "Processed deposits",
+  "deposit.flower.refreshing": "Refreshing...",
+  "deposit.flower.refreshDeposit": "Refresh deposits"
 }

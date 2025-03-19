@@ -46,7 +46,7 @@ const HudComponent: React.FC = () => {
 
   const autosaving = gameState.matches("autosaving");
 
-  const handleBuyCurrenciesModal = () => {
+  const handleCurrenciesModal = () => {
     openModal("BUY_GEMS");
   };
 
@@ -94,7 +94,7 @@ const HudComponent: React.FC = () => {
         />
         {pathname.includes("beach") && <DesertDiggingDisplay />}
         <Balances
-          onClick={farmAddress ? handleBuyCurrenciesModal : undefined}
+          onClick={farmAddress ? handleCurrenciesModal : undefined}
           sfl={gameState.context.state.balance}
           coins={gameState.context.state.coins}
           gems={gameState.context.state.inventory["Gem"] ?? new Decimal(0)}
