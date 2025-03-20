@@ -34,23 +34,23 @@ import {
 const REQUIRED: BumpkinPart[] = [
   "background",
   "body",
-  "dress",
+  "hair",
   "shirt",
   "pants",
-  "hair",
   "shoes",
   "tool",
 ];
 
 const NOTREQUIRED: BumpkinPart[] = [
+  "hat",
+  "beard",
   "necklace",
   "coat",
-  "hat",
-  "secondaryTool",
-  "onesie",
-  "suit",
+  "dress",
   "wings",
-  "beard",
+  "suit",
+  "onesie",
+  "secondaryTool",
   "aura",
 ];
 
