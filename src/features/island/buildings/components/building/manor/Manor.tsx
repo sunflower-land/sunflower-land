@@ -16,11 +16,7 @@ import { MANOR_VARIANTS } from "features/island/lib/alternateArt";
 import { MachineState } from "features/game/lib/gameMachine";
 const _season = (state: MachineState) => state.context.state.season.season;
 
-export const Manor: React.FC<BuildingProps> = ({
-  isBuilt,
-  onRemove,
-  island,
-}) => {
+export const Manor: React.FC<BuildingProps> = ({ isBuilt, island }) => {
   const { gameService, showAnimations } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -31,11 +27,6 @@ export const Manor: React.FC<BuildingProps> = ({
   const navigate = useNavigate();
 
   const handleClick = () => {
-    if (onRemove) {
-      onRemove();
-      return;
-    }
-
     if (isBuilt) {
       navigate("/home");
 
@@ -48,7 +39,7 @@ export const Manor: React.FC<BuildingProps> = ({
     let timeout: NodeJS.Timeout;
 
     gameService.onEvent((event) => {
-      if (event.type === "recipe.collected") {
+      if (event.type === "recipes.collected") {
         setShowHeart(true);
         timeout = setTimeout(() => setShowHeart(false), 3000);
       }

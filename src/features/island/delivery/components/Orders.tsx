@@ -3,7 +3,6 @@ import React, { useContext, useEffect, useState } from "react";
 import classNames from "classnames";
 import Decimal from "decimal.js-light";
 
-import worldIcon from "assets/icons/world_small.png";
 import token from "assets/icons/sfl.webp";
 import chest from "assets/icons/chest.png";
 import lock from "assets/icons/lock.png";
@@ -688,7 +687,11 @@ export const DeliveryOrders: React.FC<Props> = ({
                   })}
                 </p>
 
-                <Label type="default" icon={worldIcon} className="ml-1">
+                <Label
+                  type="default"
+                  icon={SUNNYSIDE.icons.worldIcon}
+                  className="ml-1"
+                >
                   <div className="pl-0.5">
                     {getLocationName(previewOrder.from)}
                   </div>

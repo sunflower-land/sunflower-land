@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import { completeSpecialEventTask } from "./completeSpecialEventTask";
 import { TEST_FARM } from "features/game/lib/constants";
+import { SpecialEventName } from "features/game/types/specialEvents";
 
 describe("completeEventTask", () => {
   const now = Date.now();
@@ -11,7 +12,7 @@ describe("completeEventTask", () => {
         createdAt: now,
         action: {
           type: "specialEvent.taskCompleted",
-          event: "Jest Test",
+          event: "Jest Test" as SpecialEventName,
           task: 1,
         },
         state: TEST_FARM,
@@ -70,7 +71,7 @@ describe("completeEventTask", () => {
                 endAt: now + 1,
                 tasks: [
                   {
-                    reward: { wearables: {}, items: {}, sfl: 0 },
+                    reward: { wearables: {}, items: {}, sfl: 0, coins: 0 },
                     requirements: { items: {}, sfl: 0 },
                   },
                 ],
@@ -104,7 +105,7 @@ describe("completeEventTask", () => {
                 endAt: now - 1,
                 tasks: [
                   {
-                    reward: { wearables: {}, items: {}, sfl: 0 },
+                    reward: { wearables: {}, items: {}, sfl: 0, coins: 0 },
                     requirements: { items: {}, sfl: 0 },
                   },
                 ],
@@ -141,7 +142,7 @@ describe("completeEventTask", () => {
                   {
                     completedAt: now,
                     requirements: { items: {}, sfl: 0 },
-                    reward: { wearables: {}, items: {}, sfl: 0 },
+                    reward: { wearables: {}, items: {}, sfl: 0, coins: 0 },
                   },
                 ],
               },
@@ -176,11 +177,11 @@ describe("completeEventTask", () => {
                 tasks: [
                   {
                     completedAt: now,
-                    reward: { wearables: {}, items: {}, sfl: 0 },
+                    reward: { wearables: {}, items: {}, sfl: 0, coins: 0 },
                     requirements: { items: {}, sfl: 0 },
                   },
                   {
-                    reward: { wearables: {}, items: {}, sfl: 0 },
+                    reward: { wearables: {}, items: {}, sfl: 0, coins: 0 },
                     requirements: { items: {}, sfl: 0 },
                   },
                 ],
@@ -217,11 +218,11 @@ describe("completeEventTask", () => {
                 endAt: now + 1,
                 tasks: [
                   {
-                    reward: { wearables: {}, items: {}, sfl: 0 },
+                    reward: { wearables: {}, items: {}, sfl: 0, coins: 0 },
                     requirements: { items: { Anchovy: 1 }, sfl: 0 },
                   },
                   {
-                    reward: { wearables: {}, items: {}, sfl: 0 },
+                    reward: { wearables: {}, items: {}, sfl: 0, coins: 0 },
                     requirements: { items: { "Sea Bass": 1 }, sfl: 0 },
                   },
                 ],
@@ -255,7 +256,7 @@ describe("completeEventTask", () => {
                 endAt: now + 1,
                 tasks: [
                   {
-                    reward: { wearables: {}, items: {}, sfl: 0 },
+                    reward: { wearables: {}, items: {}, sfl: 0, coins: 0 },
                     requirements: { items: { Anchovy: 1 }, sfl: 0 },
                   },
                 ],
@@ -289,7 +290,7 @@ describe("completeEventTask", () => {
                 endAt: now + 1,
                 tasks: [
                   {
-                    reward: { wearables: {}, items: {}, sfl: 0 },
+                    reward: { wearables: {}, items: {}, sfl: 0, coins: 0 },
                     requirements: { items: {}, sfl: 999 },
                   },
                 ],
@@ -325,7 +326,7 @@ describe("completeEventTask", () => {
               endAt: now + 1,
               tasks: [
                 {
-                  reward: { wearables: {}, items: {}, sfl: 0 },
+                  reward: { wearables: {}, items: {}, sfl: 0, coins: 0 },
                   requirements: { items: { Anchovy: 1 }, sfl: 0 },
                 },
               ],
@@ -360,7 +361,7 @@ describe("completeEventTask", () => {
               endAt: now + 1,
               tasks: [
                 {
-                  reward: { wearables: {}, items: {}, sfl: 0 },
+                  reward: { wearables: {}, items: {}, sfl: 0, coins: 0 },
                   requirements: { items: {}, sfl: 1 },
                 },
               ],
@@ -395,7 +396,7 @@ describe("completeEventTask", () => {
               endAt: now + 1,
               tasks: [
                 {
-                  reward: { wearables: {}, items: {}, sfl: 0 },
+                  reward: { wearables: {}, items: {}, sfl: 0, coins: 0 },
                   requirements: { items: {}, sfl: 1 },
                 },
               ],
@@ -433,12 +434,12 @@ describe("completeEventTask", () => {
               endAt: now + 1,
               tasks: [
                 {
-                  reward: { wearables: {}, items: {}, sfl: 0 },
+                  reward: { wearables: {}, items: {}, sfl: 0, coins: 0 },
                   requirements: { items: {}, sfl: 0 },
                   completedAt: startAt,
                 },
                 {
-                  reward: { wearables: {}, items: {}, sfl: 0 },
+                  reward: { wearables: {}, items: {}, sfl: 0, coins: 0 },
                   requirements: { items: {}, sfl: 0 },
                 },
               ],
@@ -474,7 +475,7 @@ describe("completeEventTask", () => {
               endAt: now + 1,
               tasks: [
                 {
-                  reward: { wearables: {}, items: {}, sfl: 0 },
+                  reward: { wearables: {}, items: {}, sfl: 0, coins: 0 },
                   requirements: { items: {}, sfl: 0 },
                 },
               ],
@@ -508,11 +509,11 @@ describe("completeEventTask", () => {
               endAt: now + 1,
               tasks: [
                 {
-                  reward: { wearables: {}, items: {}, sfl: 0 },
+                  reward: { wearables: {}, items: {}, sfl: 0, coins: 0 },
                   requirements: { items: {}, sfl: 0 },
                 },
                 {
-                  reward: { wearables: {}, items: {}, sfl: 0 },
+                  reward: { wearables: {}, items: {}, sfl: 0, coins: 0 },
                   requirements: { items: {}, sfl: 0 },
                 },
               ],
@@ -548,7 +549,12 @@ describe("completeEventTask", () => {
               endAt: now + 1,
               tasks: [
                 {
-                  reward: { wearables: {}, items: { Blueberry: 1 }, sfl: 0 },
+                  reward: {
+                    wearables: {},
+                    items: { Blueberry: 1 },
+                    sfl: 0,
+                    coins: 0,
+                  },
                   requirements: { items: {}, sfl: 0 },
                 },
               ],
@@ -588,6 +594,7 @@ describe("completeEventTask", () => {
                     wearables: { "Abyssal Angler Hat": 1 },
                     items: {},
                     sfl: 0,
+                    coins: 0,
                   },
                   requirements: { items: {}, sfl: 0 },
                 },
@@ -624,7 +631,7 @@ describe("completeEventTask", () => {
               endAt: now + 1,
               tasks: [
                 {
-                  reward: { wearables: {}, items: {}, sfl: 1 },
+                  reward: { wearables: {}, items: {}, sfl: 1, coins: 0 },
                   requirements: { items: {}, sfl: 0 },
                 },
               ],
@@ -657,7 +664,7 @@ describe("completeEventTask", () => {
                 endAt: now + 1,
                 tasks: [
                   {
-                    reward: { wearables: {}, items: {}, sfl: 0 },
+                    reward: { wearables: {}, items: {}, sfl: 0, coins: 0 },
                     requirements: { items: {}, sfl: 0 },
                   },
                 ],

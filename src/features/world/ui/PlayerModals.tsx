@@ -11,7 +11,7 @@ import { BumpkinLevel } from "features/bumpkins/components/BumpkinModal";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { GameState } from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { Label } from "components/ui/Label";
+import { Label, LABEL_STYLES } from "components/ui/Label";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { Button } from "components/ui/Button";
@@ -19,33 +19,49 @@ import { Revealed } from "features/game/components/Revealed";
 import { ChestRevealing } from "./chests/ChestRevealing";
 import { secondsToString } from "lib/utils/time";
 import { secondsTillReset } from "features/helios/components/hayseedHank/HayseedHankV2";
-import { AdminSettings } from "features/island/hud/components/settings-menu/general-settings/AdminSettings";
-import { CONFIG } from "lib/config";
+import { AirdropPlayer } from "features/island/hud/components/settings-menu/general-settings/AirdropPlayer";
+import { hasFeatureAccess } from "lib/flags";
+import { ReportPlayer } from "./ReportPlayer";
 
-type Player = {
+export type PlayerModalPlayer = {
   id: number;
+  username?: string;
   clothing: BumpkinParts;
   experience: number;
 };
 
 class PlayerModalManager {
-  private listener?: (player: Player) => void;
+  private listener?: (player: PlayerModalPlayer) => void;
 
-  public open(player: Player) {
+  public open(player: PlayerModalPlayer) {
     if (this.listener) {
       this.listener(player);
     }
   }
 
-  public listen(cb: (player: Player) => void) {
+  public listen(cb: (player: PlayerModalPlayer) => void) {
     this.listener = cb;
   }
 }
 
 export const playerModalManager = new PlayerModalManager();
 
-const PlayerDetails: React.FC<{ player: Player }> = ({ player }) => {
+const PlayerDetails: React.FC<{ player: PlayerModalPlayer }> = ({ player }) => {
   const { t } = useAppTranslation();
+  const [showLabel, setShowLabel] = useState(false);
+
+  const copyToClipboard = async (text: string): Promise<void> => {
+    try {
+      await navigator.clipboard.writeText(text);
+      setShowLabel(true);
+    } catch (e: unknown) {
+      setShowLabel(typeof e === "string" ? e : t("copy.failed"));
+    }
+
+    setTimeout(() => {
+      setShowLabel(false);
+    }, 2000);
+  };
 
   return (
     <>
@@ -65,18 +81,34 @@ const PlayerDetails: React.FC<{ player: Player }> = ({ player }) => {
           <BumpkinLevel experience={player?.experience} />
         </div>
 
-        {player?.id && (
-          <div className="flex-auto self-start text-right text-xs mr-3 f-10 font-secondary">
-            {"#"}
-            {player?.id}
-          </div>
-        )}
+        <div
+          className="flex-auto self-start text-right text-xs mr-3 f-10 font-secondary cursor-pointer"
+          onClick={() => {
+            copyToClipboard(player?.id as unknown as string);
+          }}
+        >
+          {player?.username && (
+            <p className="text-xs mb-1">{player?.username}</p>
+          )}
+          <p className="text-xs">{`#${player?.id}`}</p>
+          {showLabel && (
+            <div
+              className="absolute right-2 text-xs pointer-events-none"
+              style={{
+                ...LABEL_STYLES["default"].borderStyle,
+                background: LABEL_STYLES["default"].background,
+              }}
+            >
+              {t("copied")}
+            </div>
+          )}
+        </div>
       </div>
     </>
   );
 };
 
-export const PlayerGift: React.FC<{ player: Player }> = ({ player }) => {
+export const PlayerGift: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -155,10 +187,8 @@ interface Props {
 }
 
 export const PlayerModals: React.FC<Props> = ({ game }) => {
-  const { gameService } = useContext(Context);
   const [tab, setTab] = useState(0);
-  const [player, setPlayer] = useState<Player>();
-  const { t } = useAppTranslation();
+  const [player, setPlayer] = useState<PlayerModalPlayer>();
 
   useEffect(() => {
     playerModalManager.listen((npc) => {
@@ -174,50 +204,47 @@ export const PlayerModals: React.FC<Props> = ({ game }) => {
   const playerHasGift = player?.clothing.shirt === "Gift Giver";
 
   return (
-    <>
-      <Modal
-        // dialogClassName="npc-dialog"
-        show={!!player}
-        onHide={closeModal}
+    <Modal show={!!player} onHide={closeModal}>
+      <CloseButtonPanel
+        onClose={closeModal}
+        bumpkinParts={player?.clothing}
+        currentTab={tab}
+        setCurrentTab={setTab}
+        tabs={[
+          {
+            icon: SUNNYSIDE.icons.player,
+            name: "Player",
+          },
+          {
+            icon: SUNNYSIDE.icons.search,
+            name: "Report",
+          },
+          ...(hasFeatureAccess(game, "AIRDROP_PLAYER")
+            ? [
+                {
+                  icon: giftIcon,
+                  name: "Airdrop",
+                },
+              ]
+            : []),
+        ]}
       >
-        <CloseButtonPanel
-          onClose={closeModal}
-          bumpkinParts={player?.clothing}
-          currentTab={tab}
-          setCurrentTab={setTab}
-          tabs={[
-            {
-              icon: SUNNYSIDE.icons.player,
-              name: "Player",
-            },
-            ...(!!gameService.getSnapshot().context.state.wardrobe[
-              "Gift Giver"
-            ] || CONFIG.NETWORK === "amoy"
-              ? [
-                  {
-                    icon: SUNNYSIDE.icons.search,
-                    name: "Admin",
-                  },
-                ]
-              : []),
-          ]}
-        >
-          {tab === 0 &&
-            (playerHasGift ? (
-              <PlayerGift player={player as Player} />
-            ) : (
-              <PlayerDetails player={player as Player} />
-            ))}
-          {tab === 1 && (
-            <AdminSettings
-              id={player?.id as number}
-              // Noops
-              onClose={alert}
-              onSubMenuClick={alert}
-            />
-          )}
-        </CloseButtonPanel>
-      </Modal>
-    </>
+        {tab === 0 &&
+          (playerHasGift ? (
+            <PlayerGift />
+          ) : (
+            <PlayerDetails player={player as PlayerModalPlayer} />
+          ))}
+        {tab === 1 && <ReportPlayer id={player?.id as number} />}
+        {tab === 2 && (
+          <AirdropPlayer
+            id={player?.id as number}
+            // Noops
+            onClose={alert}
+            onSubMenuClick={alert}
+          />
+        )}
+      </CloseButtonPanel>
+    </Modal>
   );
 };

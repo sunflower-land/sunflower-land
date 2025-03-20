@@ -36,8 +36,6 @@ import Decimal from "decimal.js-light";
 import { useParams } from "react-router";
 import { KeyedMutator } from "swr";
 
-// JWT TOKEN
-
 const _hasPendingOfferEffect = (state: MachineState) =>
   state.matches("marketplaceOffering") || state.matches("marketplaceAccepting");
 const _authToken = (state: AuthMachineState) =>

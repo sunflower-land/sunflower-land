@@ -8,8 +8,8 @@ import {
   KOREAN_FONT_CONFIG,
 } from "lib/utils/fonts";
 import { getKeys } from "features/game/types/decorations";
-import CycleButton from "components/ui/CycleButton";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { Dropdown } from "components/ui/Dropdown";
 
 export const FontSettings: React.FC = () => {
   const { t } = useAppTranslation();
@@ -34,11 +34,13 @@ export const FontSettings: React.FC = () => {
   return (
     <div className={"flex items-center justify-between w-full"}>
       <span>{t("gameOptions.generalSettings.font")}</span>
-      <CycleButton
+      <Dropdown
         onChange={handleFontChange}
         options={fonts}
+        value={font}
         className="w-48"
         initialIndex={fonts.indexOf(font)}
+        maxHeight={20}
       />
     </div>
   );

@@ -241,7 +241,16 @@ export const formatDateTime = (isoString: string) => {
   });
 };
 
-export function getRelativeTime(timestamp: number): string {
+/**
+ * Gets the relative time from now in a human readable format
+ * @param timestamp The timestamp to compare against
+ * @param length Format length - "short" shows 1 unit, "medium" shows 2 units, "long" shows 3 units (optional)
+ * @returns Relative time string eg: "2 days ago" or "2 days 3 hours 15 minutes ago"
+ */
+export function getRelativeTime(
+  timestamp: number,
+  length: "short" | "medium" | "long" = "short",
+): string {
   const now = new Date();
   const diffInSeconds = Math.round((timestamp - now.getTime()) / 1000);
   const isInFuture = diffInSeconds > 0;
@@ -249,15 +258,40 @@ export function getRelativeTime(timestamp: number): string {
 
   if (secondsAbs < 1) {
     return "now";
-  } else if (secondsAbs < 60) {
-    return translate(isInFuture ? "time.seconds.in" : "time.seconds.ago", {
-      time: secondsAbs,
-      secondORseconds:
-        secondsAbs !== 1
-          ? translate("time.seconds.full")
-          : translate("time.second.full"),
+  }
+
+  const days = Math.floor(secondsAbs / 86400);
+  const remainingHours = Math.floor((secondsAbs % 86400) / 3600);
+  const remainingMinutes = Math.floor((secondsAbs % 3600) / 60);
+
+  if (days > 0) {
+    if ((length === "medium" || length === "long") && remainingHours > 0) {
+      const timeStr = `${days} ${days !== 1 ? translate("time.days.full") : translate("time.day.full")} ${remainingHours} ${remainingHours !== 1 ? translate("time.hours.full") : translate("time.hour.full")}${length === "long" && remainingMinutes > 0 ? ` ${remainingMinutes} ${remainingMinutes !== 1 ? translate("time.minutes.full") : translate("time.minute.full")}` : ""}`;
+      return translate(isInFuture ? "time.in" : "time.ago", { time: timeStr });
+    }
+    return translate(isInFuture ? "time.days.in" : "time.days.ago", {
+      time: days,
+      dayORdays:
+        days !== 1 ? translate("time.days.full") : translate("time.day.full"),
     });
-  } else if (secondsAbs < 3600) {
+  }
+
+  if (secondsAbs >= 3600) {
+    const hours = Math.floor(secondsAbs / 3600);
+    if ((length === "medium" || length === "long") && remainingMinutes > 0) {
+      const timeStr = `${hours} ${hours !== 1 ? translate("time.hours.full") : translate("time.hour.full")} ${remainingMinutes} ${remainingMinutes !== 1 ? translate("time.minutes.full") : translate("time.minute.full")}`;
+      return translate(isInFuture ? "time.in" : "time.ago", { time: timeStr });
+    }
+    return translate(isInFuture ? "time.hours.in" : "time.hours.ago", {
+      time: hours,
+      hourORhours:
+        hours !== 1
+          ? translate("time.hours.full")
+          : translate("time.hour.full"),
+    });
+  }
+
+  if (secondsAbs >= 60) {
     const minutes = Math.floor(secondsAbs / 60);
     return translate(isInFuture ? "time.minutes.in" : "time.minutes.ago", {
       time: minutes,
@@ -266,23 +300,16 @@ export function getRelativeTime(timestamp: number): string {
           ? translate("time.minutes.full")
           : translate("time.minute.full"),
     });
-  } else if (secondsAbs < 86400) {
-    const hours = Math.floor(secondsAbs / 3600);
-    return translate(isInFuture ? "time.hours.in" : "time.hours.ago", {
-      time: hours,
-      hourORhours:
-        hours !== 1
-          ? translate("time.hours.full")
-          : translate("time.hour.full"),
-    });
-  } else {
-    const days = Math.floor(secondsAbs / 86400);
-    return translate(isInFuture ? "time.days.in" : "time.days.ago", {
-      time: days,
-      dayORdays:
-        days !== 1 ? translate("time.days.full") : translate("time.day.full"),
-    });
   }
+
+  // Only show seconds when it's the only unit available
+  return translate(isInFuture ? "time.seconds.in" : "time.seconds.ago", {
+    time: secondsAbs,
+    secondORseconds:
+      secondsAbs !== 1
+        ? translate("time.seconds.full")
+        : translate("time.second.full"),
+  });
 }
 
 export function formatDateRange(fromDate: Date, toDate: Date): string {

@@ -7,7 +7,6 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Airdrop as IAirdrop } from "features/game/types/game";
-import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { ClaimReward } from "./ClaimReward";
 
 export const AirdropModal: React.FC<{
@@ -16,20 +15,11 @@ export const AirdropModal: React.FC<{
   onClaimed: () => void;
 }> = ({ airdrop, onClose, onClaimed }) => {
   const { gameService } = useContext(Context);
-  const { openModal } = useContext(ModalContext);
 
   const claim = () => {
     gameService.send("airdrop.claimed", {
       id: airdrop.id,
     });
-
-    if (airdrop.items["Time Warp Totem"]) {
-      gameService.send("LANDSCAPE", {
-        placeable: "Time Warp Totem",
-        action: "collectible.placed",
-        location: "farm",
-      });
-    }
 
     onClaimed();
   };

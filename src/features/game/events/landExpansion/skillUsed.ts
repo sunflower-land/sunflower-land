@@ -11,7 +11,6 @@ import {
   GreenhousePot,
   FlowerBeds,
   OilReserve,
-  Buildings,
   InventoryItemName,
   AnimalBuildingKey,
 } from "features/game/types/game";
@@ -23,6 +22,7 @@ import { CROPS } from "features/game/types/crops";
 import { canChop } from "./chop";
 import { canDrillOilReserve } from "./drillOilReserve";
 import { isReadyToHarvest } from "./harvest";
+import { getCurrentCookingItem, recalculateQueue } from "./cancelQueuedRecipe";
 
 export type SkillUseAction = {
   type: "skill.used";
@@ -109,21 +109,41 @@ function useGreaseLightning({
 }
 
 function useInstantGratification({
-  buildings,
+  game,
   createdAt = Date.now(),
 }: {
-  buildings: Buildings;
+  game: GameState;
   createdAt?: number;
-}): Buildings {
-  getKeys(BUILDING_DAILY_OIL_CAPACITY).forEach((building) => {
-    const crafting = buildings[building]?.[0]?.crafting;
+}): GameState {
+  getKeys(BUILDING_DAILY_OIL_CAPACITY).forEach((b) => {
+    const building = game.buildings[b]?.[0];
+    const queue = building?.crafting;
 
-    if (crafting) {
-      crafting.readyAt = createdAt;
-    }
+    if (!building || !queue) return;
+
+    const currentlyCooking = getCurrentCookingItem({
+      building: building,
+      createdAt,
+    });
+
+    if (!currentlyCooking) return;
+
+    const recipeIndex = queue.findIndex(
+      (r) => r.readyAt === currentlyCooking.readyAt,
+    ) as number;
+
+    queue[recipeIndex].readyAt = createdAt;
+
+    building.crafting = recalculateQueue({
+      queue,
+      createdAt,
+      buildingId: building.id,
+      game,
+      isInstant: true,
+    });
   });
 
-  return buildings;
+  return game;
 }
 
 function useBarnyardRouse({
@@ -423,7 +443,10 @@ export function skillUse({ state, action, createdAt = Date.now() }: Options) {
     }
 
     if (skill === "Instant Gratification") {
-      stateCopy.buildings = useInstantGratification({ buildings, createdAt });
+      stateCopy = useInstantGratification({
+        game: stateCopy,
+        createdAt,
+      });
     }
 
     if (skill === "Barnyard Rouse") {

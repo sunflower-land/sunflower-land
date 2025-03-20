@@ -84,7 +84,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
 
   const { t } = useAppTranslation();
 
-  const { inventory, buds } = gameState;
+  const { inventory } = gameState;
   const basketMap = getBasketItems(inventory);
 
   const basketIsEmpty = Object.values(basketMap).length === 0;
@@ -138,9 +138,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
     const crop = SEEDS[seedName].yield as CropName;
     return getCropPlotTime({
       crop,
-      inventory,
       game: gameState,
-      buds: buds ?? {},
     });
   };
 

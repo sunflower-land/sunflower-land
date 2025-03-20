@@ -13,21 +13,21 @@ import KOREAN_TERMS from "./ko.json";
 import JAPANESE_TERMS from "./ja.json";
 import { TranslationKeys } from "./types";
 
-import britishFlag from "assets/sfts/flags/british_flag.gif";
-import usaFlag from "assets/sfts/flags/usa_flag.gif";
-import brazilFlag from "assets/sfts/flags/brazil_flag.gif";
-import portugalFlag from "assets/sfts/flags/portugal_flag.gif";
-import franceFlag from "assets/sfts/flags/france_flag.gif";
-import turkeyFlag from "assets/sfts/flags/turkey_flag.gif";
-import chinaFlag from "assets/sfts/flags/china_flag.gif";
-import russiaFlag from "assets/sfts/flags/russia_flag.gif";
-import spainFlag from "assets/sfts/flags/spain_flag.gif";
-import italyFlag from "assets/sfts/flags/italy_flag.gif";
-import germanFlag from "assets/sfts/flags/germany_flag.gif";
-import southKoreanFlag from "assets/sfts/flags/south_korea_flag.gif";
-import indonesiaFlag from "assets/sfts/flags/indonesia_flag.gif";
-import malaysianFlag from "assets/sfts/flags/malaysian_flag.gif";
-import japaneseFlag from "assets/sfts/flags/japan_flag.gif";
+import britishFlag from "assets/sfts/flags/british_flag.webp";
+import usaFlag from "assets/sfts/flags/usa_flag.webp";
+import brazilFlag from "assets/sfts/flags/brazil_flag.webp";
+import portugalFlag from "assets/sfts/flags/portugal_flag.webp";
+import franceFlag from "assets/sfts/flags/france_flag.webp";
+import turkeyFlag from "assets/sfts/flags/turkey_flag.webp";
+import chinaFlag from "assets/sfts/flags/china_flag.webp";
+import russiaFlag from "assets/sfts/flags/russia_flag.webp";
+import spainFlag from "assets/sfts/flags/spain_flag.webp";
+import italyFlag from "assets/sfts/flags/italy_flag.webp";
+import germanFlag from "assets/sfts/flags/germany_flag.webp";
+import southKoreanFlag from "assets/sfts/flags/south_korea_flag.webp";
+import indonesiaFlag from "assets/sfts/flags/indonesia_flag.webp";
+import malaysianFlag from "assets/sfts/flags/malaysian_flag.webp";
+import japaneseFlag from "assets/sfts/flags/japan_flag.webp";
 
 export type LanguageCode =
   | "en"

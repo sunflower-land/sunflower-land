@@ -17,12 +17,11 @@ import {
 import Spritesheet, {
   SpriteSheetInstance,
 } from "components/animation/SpriteAnimator";
-import { Bumpkin, GameState } from "features/game/types/game";
+import { Bumpkin } from "features/game/types/game";
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { SpringValue } from "@react-spring/web";
 import { useSound } from "lib/utils/hooks/useSound";
-import { hasFeatureAccess } from "lib/flags";
 
 const DIMENSIONS = {
   original: 80,
@@ -64,17 +63,12 @@ const SPRITE_STEPS = 51;
 
 interface AvatarProps {
   bumpkin?: Bumpkin;
-  username?: string;
   showSkillPointAlert?: boolean;
-  state: GameState;
   onClick?: () => void;
 }
 
 export const BumpkinAvatar: React.FC<AvatarProps> = ({
   bumpkin,
-  // TODO: Remove when flag is removed
-  state,
-  username,
   showSkillPointAlert,
   onClick,
 }) => {
@@ -87,6 +81,7 @@ export const BumpkinAvatar: React.FC<AvatarProps> = ({
 
   useEffect(() => {
     goToProgress();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [level, experience]);
 
   const goToProgress = () => {
@@ -202,11 +197,9 @@ export const BumpkinAvatar: React.FC<AvatarProps> = ({
   );
 };
 
-export const BumpkinProfile: React.FC<{
-  isFullUser: boolean;
-}> = ({ isFullUser }) => {
+export const BumpkinProfile: React.FC = () => {
   const progressBarEl = useRef<SpriteSheetInstance>();
-  const [viewSkillsPage, setViewSkillsPage] = useState(false);
+  const [viewSkillsTab, setViewSkillsTab] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
   const profile = useSound("profile");
@@ -220,17 +213,15 @@ export const BumpkinProfile: React.FC<{
   const experience = state.bumpkin?.experience ?? 0;
   const level = getBumpkinLevel(experience);
   const showSkillPointAlert = hasUnacknowledgedSkillPoints(state.bumpkin);
-  const username = state.username;
 
   useEffect(() => {
     goToProgress();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [level, experience]);
 
   const handleShowHomeModal = () => {
     profile.play();
-    setViewSkillsPage(
-      !hasFeatureAccess(state, "SKILLS_REVAMP") ? showSkillPointAlert : false,
-    );
+    setViewSkillsTab(showSkillPointAlert);
     setShowModal(true);
     if (showSkillPointAlert) {
       acknowledgeSkillPoints(state.bumpkin);
@@ -263,12 +254,11 @@ export const BumpkinProfile: React.FC<{
       {/* Bumpkin modal */}
       <Modal show={showModal} onHide={handleHideModal} size="lg">
         <BumpkinModal
-          initialView={viewSkillsPage ? "skills" : "home"}
+          initialTab={viewSkillsTab ? 2 : 0}
           onClose={handleHideModal}
           readonly={gameState.matches("visiting")}
           bumpkin={gameState.context.state.bumpkin as Bumpkin}
           inventory={gameState.context.state.inventory}
-          isFullUser={isFullUser}
           gameState={gameState.context.state}
         />
       </Modal>
@@ -277,9 +267,7 @@ export const BumpkinProfile: React.FC<{
       {/* Mobile */}
       <div className="scale-[0.7] absolute left-0 top-0">
         <BumpkinAvatar
-          state={gameState.context.state}
           bumpkin={state.bumpkin}
-          username={username}
           onClick={handleShowHomeModal}
           showSkillPointAlert={
             showSkillPointAlert && !gameState.matches("visiting")

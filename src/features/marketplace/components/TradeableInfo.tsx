@@ -156,11 +156,12 @@ export const TradeableDescription: React.FC<{
             </Label>
           </div>
         )}
-        {tradeable && (!tradeable?.isActive || !tradeAt) && (
-          <div className="p-2 pl-0 pb-0">
-            <Label type="danger">{t("marketplace.notForSale")}</Label>
-          </div>
-        )}
+        {tradeable &&
+          (!tradeable?.isActive || (tradeAt !== undefined && !tradeAt)) && (
+            <div className="p-2 pl-0 pb-0">
+              <Label type="danger">{t("marketplace.notForSale")}</Label>
+            </div>
+          )}
         {!canTrade && !!tradeAt && (
           <div className="p-2 pl-0 pb-0 flex items-center justify-between  flex-wrap">
             <Label type="danger" icon={SUNNYSIDE.icons.stopwatch}>

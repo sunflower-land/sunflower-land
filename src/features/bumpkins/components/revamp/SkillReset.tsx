@@ -6,6 +6,7 @@ import { RequirementLabel } from "components/ui/RequirementsLabel";
 import Decimal from "decimal.js-light";
 import { PaymentType } from "features/game/events/landExpansion/resetSkills";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React from "react";
 
 interface SkillResetProps {
@@ -35,79 +36,81 @@ export const SkillReset: React.FC<SkillResetProps> = ({
   handleSkillsReset,
   showSkillsResetConfirmation,
   setShowSkillsResetConfirmation,
-}) => (
-  <OuterPanel>
-    <InnerPanel className="flex flex-col items-center">
-      <div className="flex flex-col items-center w-full gap-2 my-1">
-        <Label type="default">{`Skills Reset`}</Label>
+}) => {
+  const { t } = useAppTranslation();
+  const { date, time } = getNextResetDateAndTime();
+  return (
+    <OuterPanel>
+      <InnerPanel className="flex flex-col items-center">
+        <div className="flex flex-col items-center w-full gap-2 my-1">
+          <Label type="default">{t("skillReset.skillsReset")}</Label>
 
-        <Label
-          type={resetType === "free" ? "success" : "vibrant"}
-          icon={resetType === "gems" ? ITEM_DETAILS.Gem.image : undefined}
-        >
-          {resetType === "free" ? `Free Reset` : `Gem Reset`}
-        </Label>
-
-        {resetType === "free" ? (
-          <div className="flex flex-col items-center gap-2">
-            <p className="text-xs text-center">
-              {`Reset all your skills for free.`}
-            </p>
-            <Label type="warning">
-              {`You can do this once every 6 months.`}
-            </Label>
-          </div>
-        ) : (
-          <div className="flex flex-col items-center gap-2">
-            <RequirementLabel
-              type="item"
-              item={"Gem"}
-              balance={gemBalance}
-              requirement={new Decimal(gemCost)}
-            />
-            <p className="text-xs text-center">
-              {`Reset your skills immediately using gems.`}
-            </p>
-            <Label type="warning">
-              {`Cost doubles with each use until next free reset.`}
-            </Label>
-            <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
-              {`Next free reset on ${getNextResetDateAndTime().date} at ${getNextResetDateAndTime().time}`}
-            </Label>
-          </div>
-        )}
-
-        {!hasSkills && <Label type="danger">{`No skills to reset`}</Label>}
-
-        {getCropMachineResetWarning() && (
-          <Label type="danger">{getCropMachineResetWarning()}</Label>
-        )}
-
-        {!showSkillsResetConfirmation ? (
-          <Button
-            onClick={() => setShowSkillsResetConfirmation(true)}
-            disabled={!canResetSkills()}
+          <Label
+            type={resetType === "free" ? "success" : "vibrant"}
+            icon={resetType === "gems" ? ITEM_DETAILS.Gem.image : undefined}
           >
-            {`Reset Skills`}
-          </Button>
-        ) : (
-          <div className="flex justify-between gap-2 w-full">
+            {t(resetType === "free" ? "skillReset.free" : "skillReset.gems")}
+          </Label>
+
+          {resetType === "free" ? (
+            <div className="flex flex-col items-center gap-2">
+              <p className="text-xs text-center">
+                {t("skillReset.freeDescription")}
+              </p>
+              <Label type="warning">{t("skillReset.180Days")}</Label>
+            </div>
+          ) : (
+            <div className="flex flex-col items-center gap-2">
+              <RequirementLabel
+                type="item"
+                item={"Gem"}
+                balance={gemBalance}
+                requirement={new Decimal(gemCost)}
+              />
+              <p className="text-xs text-center">
+                {t("skillReset.gemsDescription")}
+              </p>
+              <Label type="warning">{t("skillReset.costDoubles")}</Label>
+              <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
+                {t("skillReset.nextFreeReset", { date, time })}
+              </Label>
+            </div>
+          )}
+
+          {!hasSkills && (
+            <Label type="danger">{t("skillReset.noSkills")}</Label>
+          )}
+
+          {getCropMachineResetWarning() && (
+            <Label type="danger">{getCropMachineResetWarning()}</Label>
+          )}
+
+          {!showSkillsResetConfirmation ? (
             <Button
-              className="w-full"
-              onClick={() => setShowSkillsResetConfirmation(false)}
-            >
-              {`Cancel`}
-            </Button>
-            <Button
-              className="w-full"
-              onClick={handleSkillsReset}
+              onClick={() => setShowSkillsResetConfirmation(true)}
               disabled={!canResetSkills()}
             >
-              {`Confirm`}
+              {t("skillReset.resetSkills")}
             </Button>
-          </div>
-        )}
-      </div>
-    </InnerPanel>
-  </OuterPanel>
-);
+          ) : (
+            <div className="flex justify-between gap-2 w-full">
+              <Button
+                className="w-full"
+                onClick={() => setShowSkillsResetConfirmation(false)}
+              >
+                {t("cancel")}
+              </Button>
+              <Button
+                className="w-full"
+                onClick={handleSkillsReset}
+                disabled={!canResetSkills()}
+              >
+                {t("confirm")}
+              </Button>
+            </div>
+          )}
+        </div>
+      </InnerPanel>
+    </OuterPanel>
+  );
+};

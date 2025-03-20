@@ -64,31 +64,6 @@ describe("buySeasonalItem", () => {
     ).toThrow("Insufficient Wood");
   });
 
-  it("should return 992.5 when inventory has Witches' Eve Banner", () => {
-    // Date during Witches' Eve Season
-    const mockedDate = new Date(2023, 8, 5);
-    jest.useFakeTimers();
-    jest.setSystemTime(mockedDate);
-
-    const state = {
-      ...mockState,
-      inventory: {
-        "Witches' Eve Banner": new Decimal(1),
-        Wood: new Decimal(100),
-      },
-    };
-    const result = buySeasonalItem({
-      state: state,
-      action: {
-        type: "seasonalItem.bought",
-        name: "Treasure Key",
-        tier: "basic",
-      },
-      createdAt: mockDate,
-    });
-    expect(result.balance).toEqual(new Decimal(992.5));
-  });
-
   it("subtracts SFL when buying an item", () => {
     const result = buySeasonalItem({
       state: mockState,

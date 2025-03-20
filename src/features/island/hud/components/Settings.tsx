@@ -1,9 +1,6 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-
-import { Context } from "features/game/GameProvider";
+import React, { useEffect, useRef, useState } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { ResizableBar } from "components/ui/ProgressBar";
 import { AudioMenu } from "features/game/components/AudioMenu";
 import {
   getFarmingSong,
@@ -17,6 +14,7 @@ import sound_on from "assets/icons/sound_on.png";
 import { useLocation } from "react-router";
 import { GameOptionsModal } from "./settings-menu/GameOptions";
 import { useSound } from "lib/utils/hooks/useSound";
+import { RoundButton } from "components/ui/RoundButton";
 
 const buttonWidth = PIXEL_SCALE * 22;
 const buttonHeight = PIXEL_SCALE * 23;
@@ -26,7 +24,6 @@ interface Props {
 }
 
 export const Settings: React.FC<Props> = ({ isFarming }) => {
-  const { showTimers, toggleTimers } = useContext(Context);
   const [showMoreButtons, setShowMoreButtons] = useState(false);
   const [openAudioMenu, setOpenAudioMenu] = useState(false);
   const [openSettingsMenu, setOpenSettingsMenu] = useState(false);
@@ -97,7 +94,7 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
 
   // buttons
 
-  const settingButton = (
+  const createButton = (
     index: number,
     onClick: () => void,
     children: JSX.Element,
@@ -107,11 +104,8 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
     return (
       <div
         key={`button-${index}`}
-        onClick={onClick}
-        className="absolute z-50 mb-2 cursor-pointer hover:img-highlight group"
+        className="absolute"
         style={{
-          width: `${buttonWidth}px`,
-          height: `${buttonHeight}px`,
           transition: "transform 250ms ease",
           transform: "translateX(0)",
           ...(showMoreButtons && {
@@ -119,27 +113,13 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
           }),
         }}
       >
-        <img
-          src={SUNNYSIDE.ui.round_button_pressed}
-          className="absolute"
-          style={{
-            width: `${buttonWidth}px`,
-          }}
-        />
-        <img
-          src={SUNNYSIDE.ui.round_button}
-          className="absolute group-active:hidden"
-          style={{
-            width: `${buttonWidth}px`,
-          }}
-        />
-        <div className="group-active:translate-y-[2px]">{children}</div>
+        <RoundButton onClick={onClick}>{children}</RoundButton>
       </div>
     );
   };
 
   const gearButton = (index: number) =>
-    settingButton(
+    createButton(
       index,
       () => {
         button.play();
@@ -147,7 +127,7 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
       },
       <img
         src={settings}
-        className="absolute"
+        className="absolute group-active:translate-y-[2px]"
         style={{
           top: `${PIXEL_SCALE * 4}px`,
           left: `${PIXEL_SCALE * 4}px`,
@@ -157,14 +137,14 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
     );
 
   const audioButton = (index: number) =>
-    settingButton(
+    createButton(
       index,
       () => {
         setOpenAudioMenu(true);
       },
       <img
         src={sound_on}
-        className="absolute"
+        className="absolute group-active:translate-y-[2px]"
         style={{
           top: `${PIXEL_SCALE * 4}px`,
           left: `${PIXEL_SCALE * 5}px`,
@@ -173,36 +153,15 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
       />,
     );
 
-  const progressBarButton = (index: number) =>
-    settingButton(
-      index,
-      () => {
-        button.play();
-        toggleTimers();
-      },
-      <div
-        className="absolute"
-        style={{
-          top: `${PIXEL_SCALE * 7.5}px`,
-          left: `${PIXEL_SCALE * 3.5}px`,
-        }}
-      >
-        <ResizableBar
-          percentage={70}
-          type={showTimers ? "progress" : "error"}
-        />
-      </div>,
-    );
-
   const moreButton = (index: number) =>
-    settingButton(
+    createButton(
       index,
       () => {
         setOpenSettingsMenu(true);
       },
       <img
         src={SUNNYSIDE.ui.more}
-        className="absolute"
+        className="absolute group-active:translate-y-[2px]"
         style={{
           top: `${PIXEL_SCALE * 10}px`,
           left: `${PIXEL_SCALE * 6}px`,
@@ -214,7 +173,6 @@ export const Settings: React.FC<Props> = ({ isFarming }) => {
   // list of buttons to show in the HUD from right to left in order
   const buttons = [
     gearButton,
-    ...(isFarming ? [progressBarButton] : []),
     audioButton,
     ...(!showLimitedButtons ? [moreButton] : []),
   ];

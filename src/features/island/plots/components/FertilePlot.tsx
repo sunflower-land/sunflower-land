@@ -13,13 +13,7 @@ import sunshower from "assets/icons/sunshower.webp";
 import { TimerPopover } from "../../common/TimerPopover";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import classNames from "classnames";
-import {
-  Bumpkin,
-  CropFertiliser,
-  CropPlot,
-  GameState,
-  Inventory,
-} from "features/game/types/game";
+import { CropFertiliser, CropPlot, GameState } from "features/game/types/game";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { getCropPlotTime } from "features/game/events/landExpansion/plant";
 import { getActiveCalendarEvent } from "features/game/types/calendar";
@@ -29,38 +23,31 @@ import { useSelector } from "@xstate/react";
 
 interface Props {
   cropName?: CropName;
-  inventory: Inventory;
   game: GameState;
-  bumpkin?: Bumpkin;
-  buds?: NonNullable<GameState["buds"]>;
   plot: CropPlot;
   plantedAt?: number;
   fertiliser?: CropFertiliser;
   procAnimation?: JSX.Element;
   touchCount: number;
   showTimers: boolean;
-  pulsating: boolean;
 }
 
 const _island = (state: MachineState) => state.context.state.island.type;
 
 const FertilePlotComponent: React.FC<Props> = ({
   cropName,
-  inventory,
   game,
-  buds,
   plot,
   plantedAt,
   fertiliser,
   procAnimation,
   touchCount,
   showTimers,
-  pulsating,
 }) => {
   const { gameService } = useContext(Context);
   const island = useSelector(gameService, _island);
   const [showTimerPopover, setShowTimerPopover] = useState(false);
-  const [_, setRender] = useState<number>(0);
+  const [, setRender] = useState<number>(0);
 
   let harvestSeconds = cropName ? CROPS[cropName].harvestSeconds : 0;
   const readyAt = plantedAt ? plantedAt + harvestSeconds * 1000 : 0;
@@ -70,9 +57,7 @@ const FertilePlotComponent: React.FC<Props> = ({
     const fertiliserName = fertiliser?.name ?? undefined;
     harvestSeconds = getCropPlotTime({
       crop: cropName,
-      inventory,
       game,
-      buds: buds ?? {},
       plot,
       fertiliser: fertiliserName,
     });
@@ -127,9 +112,7 @@ const FertilePlotComponent: React.FC<Props> = ({
       >
         {/* Crop base image */}
         <div
-          className={classNames("absolute pointer-events-none", {
-            "animate-pulsate": pulsating,
-          })}
+          className="absolute pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 16}px`,
           }}

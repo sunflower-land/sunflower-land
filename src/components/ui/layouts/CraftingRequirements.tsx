@@ -21,6 +21,7 @@ import { getImageUrl } from "lib/utils/getImageURLS";
 import { ITEM_ICONS } from "features/island/hud/components/inventory/Chest";
 import { IngredientsPopover } from "../IngredientsPopover";
 import { BuffLabel } from "features/game/types";
+import { isSeed } from "features/game/types/seeds";
 
 /**
  * The props for the details for items.
@@ -113,7 +114,9 @@ function getDetails(
 } {
   if (details.item) {
     const inventoryCount = game.inventory[details.item] ?? new Decimal(0);
-    const limit = INVENTORY_LIMIT(game)[details.item];
+    const limit = isSeed(details.item)
+      ? INVENTORY_LIMIT(game)[details.item]
+      : undefined;
 
     return {
       count: inventoryCount,
@@ -230,7 +233,7 @@ export const CraftingRequirements: React.FC<Props> = ({
     if (!boost) return <></>;
 
     return (
-      <div className="flex flex-wrap gap-x-2 gap-y-1">
+      <div className="flex flex-wrap sm:flex-col gap-x-3 sm:gap-x-0 gap-y-1 mb-2 items-center">
         {boost.map(
           (
             { labelType, boostTypeIcon, boostedItemIcon, shortDescription },

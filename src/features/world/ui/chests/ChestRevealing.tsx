@@ -13,7 +13,7 @@ import {
   FESTIVE_TREE_REWARDS,
 } from "features/game/types/chests";
 import { ITEM_DETAILS } from "features/game/types/images";
-import React, { useCallback, useContext, useEffect } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 
 import sfl from "assets/icons/sfl.webp";
 import coins from "assets/icons/coins.webp";
@@ -25,7 +25,7 @@ import { getImageUrl } from "lib/utils/getImageURLS";
 import { GameState, Keys } from "features/game/types/game";
 import { possibleRewards } from "features/game/types/collectDailyReward";
 import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 
 export type ChestRewardType =
   | Keys
@@ -61,15 +61,11 @@ const CHEST_LOOT: (
 });
 
 export const ChestRevealing: React.FC<Props> = ({ type }) => {
-  const [image, setImage] = React.useState<string>(sfl);
-  const [label, setLabel] = React.useState<string>("5 SFL");
+  const [image, setImage] = useState<string>();
+  const [label, setLabel] = useState<string>();
 
   const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const state = useSelector(gameService, (state) => state.context.state);
 
   const items = CHEST_LOOT(state)[type];
 
@@ -116,11 +112,16 @@ export const ChestRevealing: React.FC<Props> = ({ type }) => {
   }, []);
 
   return (
-    <div className="flex flex-col items-center justify-center h-40">
-      <Label icon={SUNNYSIDE.decorations.treasure_chest} type="default">
-        {label}
-      </Label>
-      <img src={image} className="h-20 mx-auto my-2" />
+    <div className="flex flex-col items-center justify-center h-44 gap-2">
+      <Label type="default">{`Determining your reward...`}</Label>
+      <div className="flex flex-col items-center justify-center gap-2">
+        {label && (
+          <Label icon={SUNNYSIDE.decorations.treasure_chest} type="default">
+            {label}
+          </Label>
+        )}
+        <img src={image} className="h-20 mb-5" />
+      </div>
     </div>
   );
 };

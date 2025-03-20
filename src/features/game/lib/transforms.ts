@@ -124,8 +124,16 @@ export function makeGame(farm: any): GameState {
     transaction: farm.transaction,
     henHouse: farm.henHouse,
     barn: farm.barn,
+    waterWell: farm.waterWell,
     craftingBox: farm.craftingBox,
     season: farm.season,
     lavaPits: farm.lavaPits,
+    nfts: farm.nfts,
+    faceRecognition: farm.faceRecognition,
+    telegram: farm.telegram,
+    discord: farm.discord,
+    socialTasks: farm.socialTasks,
+    referrals: farm.referrals,
+    twitter: farm.twitter,
   };
 }

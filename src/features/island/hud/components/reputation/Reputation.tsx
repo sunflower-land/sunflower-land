@@ -22,10 +22,15 @@ import { ITEM_DETAILS } from "features/game/types/images";
 
 import lockIcon from "assets/icons/lock.png";
 import tradeIcon from "assets/icons/trade.png";
+import increaseArrow from "assets/icons/increase_arrow.png";
 import sflIcon from "assets/icons/sfl.webp";
 import walletIcon from "assets/icons/wallet.png";
 import hammerinHarry from "assets/npcs/hammerin_harry.webp";
 import salesIcon from "assets/icons/sale.webp";
+import { UPGRADE_RAFTS } from "features/game/expansion/components/IslandUpgrader";
+import boat from "assets/decorations/isles_boat.png";
+import bank from "assets/icons/withdraw.png";
+import bud from "assets/icons/bud.png";
 
 export const MyReputation: React.FC = () => {
   const { openModal } = useContext(ModalContext);
@@ -67,6 +72,7 @@ export const ReputationSystem: React.FC<{
   onClose: () => void;
 }> = ({ onClose }) => {
   const [tab, setTab] = useState(0);
+  const { t } = useAppTranslation();
 
   return (
     <CloseButtonPanel
@@ -76,48 +82,31 @@ export const ReputationSystem: React.FC<{
       tabs={[
         {
           icon: SUNNYSIDE.icons.heart,
-          name: "Tiers",
+          name: t("reputation.tiers"),
         },
         {
           icon: salesIcon,
-          name: "Earn points",
+          name: t("reputation.earnPoints"),
+        },
+        {
+          icon: SUNNYSIDE.icons.expression_confused,
+          name: t("guide"),
         },
       ]}
     >
       {tab === 0 && <ReputationTiers />}
       {tab === 1 && <ReputationPoints />}
+      {tab === 2 && <ReputationGuide onClose={() => setTab(1)} />}
     </CloseButtonPanel>
   );
 };
 
 export const ReputationTiers: React.FC = () => {
   const { t } = useAppTranslation();
-  const { gameState } = useGame();
-  const reputation = getReputation({ game: gameState.context.state });
 
   return (
     <div className="p-2 scrollable overflow-y-scroll max-h-[350px]">
       <p className="text-xs mb-2">{t("reputation.description")}</p>
-
-      <div className="flex items-center mb-1 mt-2">
-        <Label type="default" icon={SUNNYSIDE.crops.sprout} className="mr-2">
-          {t("reputation.sprout")}
-        </Label>
-        <Label type="warning">
-          {t("reputation.points", {
-            amount: REPUTATION_TIERS[Reputation.Sprout],
-          })}
-        </Label>
-      </div>
-
-      <NoticeboardItems
-        items={[
-          {
-            text: t("reputation.sprout.description"),
-            icon: tradeIcon,
-          },
-        ]}
-      />
 
       <div className="flex items-center mb-1 mt-2">
         <Label type="default" icon={SUNNYSIDE.crops.seedling} className="mr-2">
@@ -186,6 +175,10 @@ export const ReputationTiers: React.FC = () => {
       </div>
       <NoticeboardItems
         items={[
+          {
+            text: t("reputation.cropkeeper.offers"),
+            icon: increaseArrow,
+          },
           {
             text: t("reputation.cropkeeper.trades"),
             icon: tradeIcon,
@@ -344,5 +337,78 @@ export const ReputationPoints: React.FC = () => {
         </Button>
       )}
     </>
+  );
+};
+
+interface Props {
+  onClose: () => void;
+}
+interface GuideItem {
+  icon: string;
+  content: string;
+}
+
+const ReputationGuideItem: React.FC<{ icon: string; content: string }> = ({
+  icon,
+  content,
+}) => {
+  return (
+    <div className="flex items-start space-x-2">
+      <div className="flex-shrink-0 w-9 h-9 pt-0.5">
+        <img
+          src={icon}
+          className="w-full h-full object-contain object-center"
+        />
+      </div>
+      <p className="text-xs">{content}</p>
+    </div>
+  );
+};
+
+export const ReputationGuide: React.FC<Props> = ({ onClose }) => {
+  const { t } = useAppTranslation();
+  const { gameState } = useGame();
+
+  const island = gameState.context.state.island.type ?? "basic";
+  const upgradeRaft = UPGRADE_RAFTS[island];
+
+  const reputationGuide: GuideItem[] = [
+    {
+      content: t("reputation.guide.upgrade"),
+      icon: upgradeRaft ?? SUNNYSIDE.icons.upgrade_disc,
+    },
+    {
+      content: t("reputation.guide.levelUp"),
+      icon: SUNNYSIDE.icons.player,
+    },
+    {
+      content: t("reputation.guide.connectDiscord"),
+      icon: boat,
+    },
+    {
+      content: t("reputation.guide.proofOfHumanity"),
+      icon: bank,
+    },
+    {
+      content: t("reputation.guide.ownBud"),
+      icon: bud,
+    },
+  ];
+
+  return (
+    <div className="flex flex-wrap pt-1.5 pr-0.5">
+      <div className="flex flex-col gap-y-3 p-2">
+        {reputationGuide.map((item, i) => (
+          <ReputationGuideItem
+            key={i}
+            icon={item.icon}
+            content={item.content}
+          />
+        ))}
+        <Button onClick={onClose} className="mt-2">
+          {t("gotIt")}
+        </Button>
+      </div>
+    </div>
   );
 };

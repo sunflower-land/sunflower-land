@@ -54,6 +54,8 @@ export const SUNNYSIDE = {
 
   //Announcement
   announcement: {
+    roninBanner: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/ronin_banner.png`,
+    flowerBanner: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/flower_banner.png`,
     summer: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/summer_banner.webp`,
     winter: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/winter_banner.webp`,
     spring: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/spring_banner.webp`,
@@ -422,6 +424,7 @@ export const SUNNYSIDE = {
   //Brand
   brand: {
     landing: `${CONFIG.PROTECTED_IMAGE_URL}/brand/landing.webp`,
+    water_landing: `${CONFIG.PROTECTED_IMAGE_URL}/brand/water_landing.webp`,
     greenBg: `${CONFIG.PROTECTED_IMAGE_URL}/brand/green_bg.png`,
     logo: `${CONFIG.PROTECTED_IMAGE_URL}/brand/logo_v2.png`,
     easterlogo: `${CONFIG.PROTECTED_IMAGE_URL}/brand/easterlogo.png`,
@@ -439,6 +442,9 @@ export const SUNNYSIDE = {
     workbench: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/workbench.png`,
     tent: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/tent.png`,
     well: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/well1.png`,
+    well2: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/well_2.webp`,
+    well3: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/well_3.webp`,
+    well4: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/well_4.webp`,
     chickenHouse: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/hen_house.png`,
     bakery: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/bakery.png`,
     deli: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/deli.png`,
@@ -539,6 +545,7 @@ export const SUNNYSIDE = {
     confirm: `${CONFIG.PROTECTED_IMAGE_URL}/icons/confirm.png`,
     disc_large: `${CONFIG.PROTECTED_IMAGE_URL}/icons/disc_large.png`,
     disc: `${CONFIG.PROTECTED_IMAGE_URL}/icons/disc.png`,
+    discord: `${CONFIG.PROTECTED_IMAGE_URL}/icons/discord.png`,
     drag: `${CONFIG.PROTECTED_IMAGE_URL}/icons/drag.png`,
     dragging: `${CONFIG.PROTECTED_IMAGE_URL}/icons/dragging.png`,
     expand: `${CONFIG.PROTECTED_IMAGE_URL}/icons/expand.png`,
@@ -564,6 +571,7 @@ export const SUNNYSIDE = {
     stopwatch: `${CONFIG.PROTECTED_IMAGE_URL}/icons/stopwatch.png`,
     sunflorea: `${CONFIG.PROTECTED_IMAGE_URL}/icons/sunflorea.png`,
     sword: `${CONFIG.PROTECTED_IMAGE_URL}/icons/sword.png`,
+    telegram: `${CONFIG.PROTECTED_IMAGE_URL}/icons/telegram.png`,
     timer: `${CONFIG.PROTECTED_IMAGE_URL}/icons/timer.png`,
     treasure: `${CONFIG.PROTECTED_IMAGE_URL}/icons/treasure_icon.png`,
     water: `${CONFIG.PROTECTED_IMAGE_URL}/icons/water.png`,
@@ -591,7 +599,7 @@ export const SUNNYSIDE = {
     powerup: `${CONFIG.PROTECTED_IMAGE_URL}/icons/level_up.png`,
     lightning: `${CONFIG.PROTECTED_IMAGE_URL}/icons/lightning.png`,
     xpIcon: `${CONFIG.PROTECTED_IMAGE_URL}/icons/xp.png`,
-    worldIcon: `${CONFIG.PROTECTED_IMAGE_URL}/icons/world.png`,
+    worldIcon: `${CONFIG.PROTECTED_IMAGE_URL}/icons/world.webp`,
     tradeIcon: `${CONFIG.PROTECTED_IMAGE_URL}/icons/trade.png`,
     playIcon: `${CONFIG.PROTECTED_IMAGE_URL}/icons/play.png`,
     decorationbush: `${CONFIG.PROTECTED_IMAGE_URL}/icons/decoration.png`,
@@ -621,6 +629,7 @@ export const SUNNYSIDE = {
     warehouseIcon: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/icons/warehouse_icon.png`,
     greenhouseIcon: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/icons/greenhouse_icon.webp`,
     upgradeBuildingIcon: `${CONFIG.PROTECTED_IMAGE_URL}/icons/upgrade_building.webp`,
+    roninIcon: `${CONFIG.PROTECTED_IMAGE_URL}/icons/roninlogo.webp`,
   },
   //NPCs
   npcs: {
@@ -665,6 +674,10 @@ export const SUNNYSIDE = {
     exotic_girl: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/exotic_girl.gif`,
     silhouette: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/silhouette.webp`,
     swimmer: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/swimmer.gif`,
+    swimmer2: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/swimmer2.webp`,
+    swimmer3: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/swimmer3.webp`,
+    swimmer4: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/swimmer4.webp`,
+    frozen_swimmer: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/winter_swimmer.webp`,
     synced: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/synced.gif`,
     syncing: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/syncing.gif`,
     sunflorian: `${CONFIG.PROTECTED_IMAGE_URL}/npcs/lost_sunflorian.gif`,
@@ -877,6 +890,9 @@ export const SUNNYSIDE = {
       hen_house_3: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/spring/hen_house_3.webp`,
       smoothie_shack_desk: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/spring/smoothie_shack_desk.webp`,
       well: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/spring/well.webp`,
+      well2: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/spring/well_2.webp`,
+      well3: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/spring/well_3.webp`,
+      well4: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/spring/well_4.webp`,
 
       //Basic Land Expansion
       basicLevel1: `${CONFIG.PROTECTED_IMAGE_URL}/land/levels/basic/spring/level_1.webp`,
@@ -996,6 +1012,9 @@ export const SUNNYSIDE = {
       hen_house_3: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/autumn/hen_house_3.webp`,
       smoothie_shack_desk: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/autumn/smoothie_shack_desk.webp`,
       well: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/autumn/well.webp`,
+      well2: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/autumn/well_2.webp`,
+      well3: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/autumn/well_3.webp`,
+      well4: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/autumn/well_4.webp`,
 
       //Basic Land Expansion
       basicLevel1: `${CONFIG.PROTECTED_IMAGE_URL}/land/levels/basic/autumn/level_1.webp`,
@@ -1115,6 +1134,9 @@ export const SUNNYSIDE = {
       hen_house_3: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/winter/hen_house_3.webp`,
       smoothie_shack_desk: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/winter/smoothie_shack_desk.webp`,
       well: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/winter/well.webp`,
+      well2: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/winter/well_2.webp`,
+      well3: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/winter/well_3.webp`,
+      well4: `${CONFIG.PROTECTED_IMAGE_URL}/buildings/winter/well_4.webp`,
 
       //Basic Land Expansion
       basicLevel1: `${CONFIG.PROTECTED_IMAGE_URL}/land/levels/basic/winter/level_1.webp`,
@@ -1240,6 +1262,7 @@ export const SUNNYSIDE = {
     speechBubbleBottom: `${CONFIG.PROTECTED_IMAGE_URL}/ui/speech_bubble_bottom.webp`,
     reel: `${CONFIG.PROTECTED_IMAGE_URL}/ui/reel.png`,
     disc_cancel: `${CONFIG.PROTECTED_IMAGE_URL}/ui/disc_cancel.png`,
+    board: `${CONFIG.PROTECTED_IMAGE_URL}/ui/delivery_board.png`,
 
     //Panels
     grayBorder: `${CONFIG.PROTECTED_IMAGE_URL}/ui/panel/gray_border.png`,
@@ -1283,7 +1306,13 @@ export const SUNNYSIDE = {
   decorations: {
     waterMovement: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/water_movement.png`,
     ocean: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/ocean.webp`,
+    darkOcean: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/dark_ocean.webp`,
+    frozenOcean: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/frozen_ocean.webp`,
     cossies: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/cossies.png`,
+    cossies2: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/cossies2.webp`,
+    cossies3: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/cossies3.webp`,
+    cossies4: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/cossies4.webp`,
+    frozen_cossies: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/frozen_cossies.webp`,
     bush: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/bush.png`,
     springBush: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/flower_bush.png`,
     treasure_chest: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/treasure_chest.png`,

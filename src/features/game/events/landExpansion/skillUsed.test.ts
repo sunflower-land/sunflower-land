@@ -1,6 +1,7 @@
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { skillUse } from "./skillUsed";
 import { CROPS } from "features/game/types/crops";
+import { COOKABLES } from "features/game/types/consumables";
 
 describe("skillUse", () => {
   const dateNow = Date.now();
@@ -597,7 +598,7 @@ describe("skillUse", () => {
       ).toThrow("No buildings are cooking");
     });
 
-    it("activates Instant Gratification", () => {
+    it("completes all recipes that are currently cooking", () => {
       const state = skillUse({
         state: {
           ...INITIAL_FARM,
@@ -613,17 +614,19 @@ describe("skillUse", () => {
                   y: -8,
                 },
                 readyAt: 1718582635573,
-                createdAt: 1718582635573,
+                createdAt: 0,
                 id: "2c7826e2",
                 oil: 1.36458333333333,
-                crafting: {
-                  name: "Antipasto",
-                  boost: {
-                    Oil: 0.125,
+                crafting: [
+                  {
+                    name: "Antipasto",
+                    boost: {
+                      Oil: 0.125,
+                    },
+                    amount: 1,
+                    readyAt: dateNow + 5000,
                   },
-                  amount: 1,
-                  readyAt: 1733818134518,
-                },
+                ],
               },
             ],
             "Smoothie Shack": [
@@ -636,14 +639,16 @@ describe("skillUse", () => {
                 },
                 readyAt: 1725322118500,
                 oil: 13.25,
-                crafting: {
-                  name: "Grape Juice",
-                  boost: {
-                    Oil: 1,
+                crafting: [
+                  {
+                    name: "Grape Juice",
+                    boost: {
+                      Oil: 1,
+                    },
+                    amount: 1,
+                    readyAt: dateNow + 6000,
                   },
-                  amount: 1,
-                  readyAt: 1733819691587,
-                },
+                ],
               },
             ],
           },
@@ -651,12 +656,77 @@ describe("skillUse", () => {
         action: { type: "skill.used", skill: "Instant Gratification" },
         createdAt: dateNow,
       });
-      expect(state.buildings["Fire Pit"]?.[0].crafting?.readyAt).toEqual(
-        dateNow,
-      );
-      expect(state.buildings["Smoothie Shack"]?.[0].crafting?.readyAt).toEqual(
-        dateNow,
-      );
+
+      const firePitRecipe = state.buildings?.["Fire Pit"]?.[0]?.crafting?.[0];
+      const smoothieShackRecipe =
+        state.buildings?.["Smoothie Shack"]?.[0].crafting?.[0];
+
+      expect(firePitRecipe?.readyAt).toEqual(dateNow);
+      expect(smoothieShackRecipe?.readyAt).toEqual(dateNow);
+    });
+
+    it("updates all the recipes readyAt times correctly", () => {
+      const now = Date.now();
+      const POTATO_TIME = COOKABLES["Mashed Potato"].cookingSeconds * 1000;
+      const RHUBARB_TIME = COOKABLES["Rhubarb Tart"].cookingSeconds * 1000;
+
+      const state = skillUse({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...INITIAL_FARM.bumpkin,
+            skills: { "Instant Gratification": 1 },
+          },
+          buildings: {
+            "Fire Pit": [
+              {
+                id: "123",
+                coordinates: { x: 0, y: 0 },
+                createdAt: 0,
+                readyAt: 0,
+                crafting: [
+                  {
+                    name: "Mashed Potato",
+                    readyAt: now,
+                    amount: 1,
+                  },
+                  {
+                    name: "Rhubarb Tart",
+                    readyAt: now + RHUBARB_TIME,
+                    amount: 1,
+                  },
+                  {
+                    name: "Rhubarb Tart",
+                    readyAt: now + RHUBARB_TIME * 2,
+                    amount: 1,
+                  },
+                  {
+                    name: "Mashed Potato",
+                    readyAt: now + RHUBARB_TIME * 2 + POTATO_TIME,
+                    amount: 1,
+                  },
+                ],
+              },
+            ],
+          },
+        },
+        createdAt: now,
+        action: {
+          type: "skill.used",
+          skill: "Instant Gratification",
+        },
+      });
+
+      const building = state.buildings["Fire Pit"]?.[0];
+      const queue = building?.crafting;
+
+      // Finished recipe
+      expect(queue?.[0].readyAt).toBe(now);
+      // Instant Gratification
+      expect(queue?.[1].readyAt).toBe(now);
+      // Upcoming recipes
+      expect(queue?.[2].readyAt).toBeCloseTo(now + RHUBARB_TIME);
+      expect(queue?.[3].readyAt).toBeCloseTo(now + RHUBARB_TIME + POTATO_TIME);
     });
   });
 

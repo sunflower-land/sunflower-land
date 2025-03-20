@@ -15,7 +15,7 @@ export const ImageStyle: React.FC<Props> = ({
   alt,
 }) => {
   return (
-    <div className="absolute" style={divStyle}>
+    <div className="absolute pointer-events-none" style={divStyle}>
       <img src={image} style={imgStyle} alt={alt} />
     </div>
   );

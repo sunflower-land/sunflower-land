@@ -21,6 +21,9 @@ import { NumberInput } from "components/ui/NumberInput";
 import { Label } from "components/ui/Label";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
+import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
+import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   onWithdraw: (sfl: string) => void;
@@ -65,6 +68,13 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
 
   if (!hasAccess) {
     return <RequiredReputation reputation={Reputation.Grower} />;
+  }
+
+  if (
+    hasFeatureAccess(state, "FACE_RECOGNITION") &&
+    !isFaceVerified({ game: state })
+  ) {
+    return <FaceRecognition />;
   }
 
   const disableWithdraw = amount.greaterThan(balance) || amount.lessThan(0);

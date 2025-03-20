@@ -4,6 +4,7 @@ import ABI from "./abis/BuyGems";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { waitForTransactionReceipt, writeContract } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
+import { polygon, polygonAmoy } from "viem/chains";
 
 const address = CONFIG.BUY_GEMS_CONTRACT;
 
@@ -25,6 +26,7 @@ export async function buyGemsMATIC({
   fee,
 }: BuyBlockBucksArgs) {
   const hash = await writeContract(config, {
+    chainId: CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id,
     abi: ABI,
     address: address as `0x${string}`,
     functionName: "buyGems",

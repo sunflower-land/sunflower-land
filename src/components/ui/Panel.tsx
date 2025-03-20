@@ -214,3 +214,64 @@ export const ButtonPanel: React.FC<
     </div>
   );
 };
+
+export const DropdownButtonPanel: React.FC<
+  React.HTMLAttributes<HTMLDivElement> & { disabled?: boolean }
+> = ({ children, disabled, ...divProps }) => {
+  const { className, style, ...otherDivProps } = divProps;
+
+  return (
+    <div
+      className={classNames(
+        `inner-panel ${className}`,
+        "relative !active:bg-transparent !focus:bg-transparent active:bg-none",
+        {
+          "cursor-pointer": !disabled,
+        },
+      )}
+      style={{
+        ...pixelLightBorderStyle,
+        padding: `${PIXEL_SCALE * 1}px`,
+        background: "#e4a672",
+        ...style,
+      }}
+      {...otherDivProps}
+    >
+      {children}
+    </div>
+  );
+};
+
+export const DropdownOptionsPanel: React.FC<
+  React.HTMLAttributes<HTMLDivElement> & { disabled?: boolean }
+> = ({ children, disabled, ...divProps }) => {
+  const { className, style, ...otherDivProps } = divProps;
+
+  return (
+    <div
+      className={classNames(
+        `inner-panel transition-transform active:scale-[0.997] ${className}`,
+        "relative",
+        {
+          "opacity-50": !!disabled,
+          "cursor-pointer": !disabled,
+          "hover:brightness-90": !disabled,
+        },
+      )}
+      style={{
+        ...pixelLightBorderStyle,
+        padding: `${PIXEL_SCALE * 1}px`,
+        background: "#e4a672",
+        borderStyle: "solid",
+        borderWidth: `${PIXEL_SCALE * 0}px ${PIXEL_SCALE * 2}px ${PIXEL_SCALE * 2}px ${PIXEL_SCALE * 2}px`,
+        imageRendering: "pixelated",
+        borderImageRepeat: "stretch",
+
+        ...style,
+      }}
+      {...otherDivProps}
+    >
+      {children}
+    </div>
+  );
+};

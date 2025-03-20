@@ -5,10 +5,10 @@ const adminFeatureFlag = ({ wardrobe, inventory }: GameState) =>
   CONFIG.NETWORK === "amoy" ||
   (!!((wardrobe["Gift Giver"] ?? 0) > 0) && !!inventory["Beta Pass"]?.gt(0));
 
-const seasonAdminFeatureFlag = (game: GameState) => {
+const usernameFeatureFlag = (game: GameState) => {
   return (
     testnetFeatureFlag() ||
-    ["adam", "tango", "eliassfl", "dcol", "Aeon", "Craig", "Spencer", "Sacul"]
+    ["adam", "tango", "elias", "dcol", "birb", "Celinhotv", "LittleEins"]
       .map((name) => name.toLowerCase())
       .includes(game.username?.toLowerCase() ?? "")
   );
@@ -19,8 +19,15 @@ const defaultFeatureFlag = ({ inventory }: GameState) =>
 
 const testnetFeatureFlag = () => CONFIG.NETWORK === "amoy";
 
+const localStorageFeatureFlag = (key: string) =>
+  !!localStorage.getItem(key) === true;
+
+const testnetLocalStorageFeatureFlag = (key: string) => () => {
+  return testnetFeatureFlag() || localStorageFeatureFlag(key);
+};
+
 const timeBasedFeatureFlag = (date: Date) => () => {
-  return testnetFeatureFlag() || Date.now() > date.getTime();
+  return Date.now() > date.getTime();
 };
 
 const betaTimeBasedFeatureFlag = (date: Date) => (game: GameState) => {
@@ -34,11 +41,10 @@ const timePeriodFeatureFlag =
   };
 
 // Used for testing production features
-export const ADMIN_IDS = [1, 3, 51, 39488, 128727];
+export const ADMIN_IDS = [1, 3, 39488, 128727];
 /**
  * Adam: 1
  * Spencer: 3
- * Sacul: 51
  * Craig: 39488
  * Elias: 128727
  */
@@ -54,22 +60,37 @@ export type ExperimentName = "ONBOARDING_CHALLENGES" | "GEM_BOOSTS";
  *
  * Do not delete JEST_TEST.
  */
-const featureFlags = {
-  ONBOARDING_REWARDS: (game: GameState) =>
-    game.experiments.includes("ONBOARDING_CHALLENGES"),
-  CROP_QUICK_SELECT: () => false,
-  PORTALS: testnetFeatureFlag,
+const FEATURE_FLAGS = {
+  // For testing
   JEST_TEST: defaultFeatureFlag,
   EASTER: () => false, // To re-enable next easter
-  SKILLS_REVAMP: betaTimeBasedFeatureFlag(new Date("2025-02-10T00:00:00Z")),
-  ANIMAL_COMPETITION: betaTimeBasedFeatureFlag(
-    new Date("2024-12-18T00:00:00Z"),
+
+  // Permanent Feature Flags
+  AIRDROP_PLAYER: adminFeatureFlag,
+  HOARDING_CHECK: defaultFeatureFlag,
+
+  FACE_RECOGNITION: (game) => {
+    return game.createdAt > new Date("2025-01-01T00:00:00Z").getTime();
+  },
+
+  FACE_RECOGNITION_TEST: defaultFeatureFlag,
+
+  // Temporary Feature Flags
+  DISABLE_BLOCKCHAIN_ACTIONS: timeBasedFeatureFlag(
+    new Date("2025-03-24T00:00:00Z"),
   ),
-  SEASONAL_EVENTS_NOTIFICATIONS: defaultFeatureFlag,
+  REFERRAL_PROGRAM: usernameFeatureFlag,
+  FLOWER_DEPOSIT: usernameFeatureFlag,
+  TELEGRAM: defaultFeatureFlag,
+
+  // Testnet only feature flags - Please don't change these until release
+  COMMUNITY_COIN_EXCHANGE: testnetFeatureFlag,
+  FLOWER_GEMS: testnetFeatureFlag,
+  LEDGER: testnetLocalStorageFeatureFlag("ledger"),
 } satisfies Record<string, FeatureFlag>;
 
-export type FeatureName = keyof typeof featureFlags;
+export type FeatureName = keyof typeof FEATURE_FLAGS;
 
 export const hasFeatureAccess = (game: GameState, featureName: FeatureName) => {
-  return featureFlags[featureName](game);
+  return FEATURE_FLAGS[featureName](game);
 };

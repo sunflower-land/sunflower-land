@@ -2,6 +2,7 @@ import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import React from "react";
 
 import lightingIcon from "assets/icons/lightning.png";
+import page from "public/world/page.png";
 import { SUNNYSIDE } from "assets/sunnyside";
 import {
   CALENDAR_EVENT_ICONS,
@@ -134,6 +135,10 @@ export const WeatherGuide: React.FC = () => {
           {
             icon: SUNNYSIDE.icons.heart,
             text: t("season.protectYourFarm"),
+          },
+          {
+            icon: page,
+            text: t("season.PlaceProtectiveEquipment"),
           },
           {
             icon: SUNNYSIDE.icons.stopwatch,

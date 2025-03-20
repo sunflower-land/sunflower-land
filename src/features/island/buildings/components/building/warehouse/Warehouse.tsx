@@ -1,35 +1,12 @@
-import React, { useContext } from "react";
-
+import React from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { BuildingProps } from "../Building";
-import { MachineState } from "features/game/lib/gameMachine";
-import { Context } from "features/game/GameProvider";
-import { useSelector } from "@xstate/react";
 import { WAREHOUSE_VARIANTS } from "features/island/lib/alternateArt";
-const _season = (state: MachineState) => state.context.state.season.season;
 
-export const Warehouse: React.FC<BuildingProps> = ({ onRemove, isBuilt }) => {
-  const { gameService } = useContext(Context);
-  const season = useSelector(gameService, _season);
-  const handleClick = () => {
-    if (onRemove) {
-      onRemove();
-      return;
-    }
-
-    if (isBuilt) {
-      // Add future on click actions here
-      return;
-    }
-  };
-
+export const Warehouse: React.FC<BuildingProps> = ({ season }) => {
   return (
-    <BuildingImageWrapper
-      name="Warehouse"
-      onClick={handleClick}
-      nonInteractible={!onRemove}
-    >
+    <BuildingImageWrapper name="Warehouse" nonInteractible>
       <div
         className="absolute pointer-events-none"
         style={{

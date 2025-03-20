@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Label } from "components/ui/Label";
 import { useTranslation } from "react-i18next";
@@ -11,7 +11,6 @@ import { Button } from "components/ui/Button";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Box } from "components/ui/Box";
-import { formatNumber } from "lib/utils/formatNumber";
 
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import Decimal from "decimal.js-light";
@@ -19,6 +18,8 @@ import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { secondsToString } from "lib/utils/time";
 import { LAVA_PIT_MS } from "features/game/events/landExpansion/collectLavaPit";
 import { SEASON_ICONS } from "features/island/buildings/components/building/market/SeasonalSeeds";
+import { RequirementLabel } from "components/ui/RequirementsLabel";
+import { IngredientsPopover } from "components/ui/IngredientsPopover";
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _lavaPit = (id: string) => (state: MachineState) =>
@@ -37,6 +38,7 @@ export const LavaPitModalContent: React.FC<Props> = ({ onClose, id }) => {
   const inventory = useSelector(gameService, _inventory);
   const lavaPit = useSelector(gameService, _lavaPit(id));
   const season = useSelector(gameService, _season);
+  const [showIngredients, setShowIngredients] = useState(false);
 
   useUiRefresher();
 
@@ -85,30 +87,24 @@ export const LavaPitModalContent: React.FC<Props> = ({ onClose, id }) => {
           {t(`season.${season.season}`)}
         </Label>
         <p className="text-xs p-2">{t("lavaPit.description")}</p>
-        <div className="flex flex-col gap-2 p-2">
+        <div
+          className="flex flex-wrap p-2 gap-2 cursor-pointer"
+          onClick={() => setShowIngredients(!showIngredients)}
+        >
+          <IngredientsPopover
+            show={showIngredients}
+            ingredients={getKeys(requirements)}
+            onClick={() => setShowIngredients(false)}
+          />
           {getKeys(requirements).map((itemName) => {
             return (
-              <>
-                <div className="flex items-start cursor-context-menu hover:brightness-100">
-                  <Box
-                    image={ITEM_DETAILS[itemName].image}
-                    className="-mt-2 -ml-2 -mb-1"
-                  />
-                  <div>
-                    <div className="flex flex-wrap items-start">
-                      <Label type="default" className="mr-1 mb-1">
-                        {`${formatNumber(requirements[itemName])} x ${itemName}`}
-                      </Label>
-                    </div>
-
-                    <p className="text-xs ml-0.5">
-                      {ITEM_DETAILS[itemName]?.description
-                        ? ITEM_DETAILS[itemName].description
-                        : t("reward.collectible")}
-                    </p>
-                  </div>
-                </div>
-              </>
+              <RequirementLabel
+                key={itemName}
+                type="item"
+                item={itemName}
+                balance={inventory[itemName] ?? new Decimal(0)}
+                requirement={requirements[itemName] ?? new Decimal(0)}
+              />
             );
           })}
         </div>

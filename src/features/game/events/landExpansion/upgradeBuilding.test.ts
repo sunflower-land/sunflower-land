@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "features/game/lib/constants";
-import { AnimalBuildingLevel, upgradeBuilding } from "./upgradeBuilding";
+import { upgradeBuilding } from "./upgradeBuilding";
+import { LEVEL_EXPERIENCE } from "features/game/lib/level";
 
 describe("upgradeBuilding", () => {
   it("throws an error if the building is not found", () => {
@@ -132,7 +133,7 @@ describe("upgradeBuilding", () => {
       },
       henHouse: {
         ...TEST_FARM.henHouse,
-        level: 1 as AnimalBuildingLevel,
+        level: 1,
       },
       inventory: {
         Wood: new Decimal(501),
@@ -179,7 +180,7 @@ describe("upgradeBuilding", () => {
       },
       henHouse: {
         ...TEST_FARM.henHouse,
-        level: 1 as AnimalBuildingLevel,
+        level: 1,
       },
     };
 
@@ -192,5 +193,43 @@ describe("upgradeBuilding", () => {
     });
 
     expect(result.henHouse.level).toEqual(2);
+  });
+
+  it("upgrades the water well level", () => {
+    const state = {
+      ...TEST_FARM,
+      coins: 7500,
+      bumpkin: {
+        ...TEST_FARM.bumpkin,
+        experience: LEVEL_EXPERIENCE[20],
+      },
+      buildings: {
+        "Water Well": [
+          {
+            id: "Water Well",
+            coordinates: { x: 0, y: 0 },
+            readyAt: 0,
+            createdAt: 0,
+          },
+        ],
+      },
+      inventory: {
+        Wood: new Decimal(501),
+        Stone: new Decimal(501),
+      },
+      waterWell: {
+        ...TEST_FARM.waterWell,
+        level: 1,
+      },
+    };
+
+    const result = upgradeBuilding({
+      state,
+      action: {
+        type: "building.upgraded",
+        buildingType: "Water Well",
+      },
+    });
+    expect(result.waterWell.level).toEqual(2);
   });
 });

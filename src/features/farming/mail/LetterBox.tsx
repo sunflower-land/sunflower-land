@@ -3,6 +3,7 @@ import { Modal } from "components/ui/Modal";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import mailboxImg from "assets/decorations/mailbox.png";
+import newsIcon from "assets/icons/chapter_icon_2.webp";
 
 import classNames from "classnames";
 
@@ -10,7 +11,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Mail } from "./components/Mail";
 import { Message } from "./components/Message";
-import { OuterPanel, Panel } from "components/ui/Panel";
+import { InnerPanel, OuterPanel, Panel } from "components/ui/Panel";
 import { NPC_WEARABLES } from "lib/npcs";
 import { getKeys } from "features/game/types/craftables";
 import { Context } from "features/game/GameProvider";
@@ -22,6 +23,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { PWAInstallMessage } from "./components/PWAInstallMessage";
 import { useIsPWA } from "lib/utils/hooks/useIsPWA";
 import { WhatsOn } from "./components/WhatsOn";
+import { News } from "./components/News";
 
 const _announcements = (state: MachineState) => state.context.announcements;
 const _mailbox = (state: MachineState) => state.context.state.mailbox;
@@ -87,6 +89,7 @@ export const LetterBox: React.FC = () => {
       <CloseButtonPanel
         onClose={close}
         tabs={[
+          { icon: newsIcon, name: t("news.title") },
           { icon: letter, name: t("mailbox") },
           { icon: SUNNYSIDE.icons.stopwatch, name: t("mailbox.whatsOn") },
         ]}
@@ -95,9 +98,14 @@ export const LetterBox: React.FC = () => {
         container={OuterPanel}
       >
         {tab === 0 && (
+          <InnerPanel>
+            <News />
+          </InnerPanel>
+        )}
+        {tab === 1 && (
           <Mail setSelected={setSelected} announcements={announcements} />
         )}
-        {tab === 1 && <WhatsOn />}
+        {tab === 2 && <WhatsOn />}
       </CloseButtonPanel>
     );
   }, [selected, announcements, tab]);
