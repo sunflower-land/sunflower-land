@@ -9,9 +9,7 @@ import { BumpkinProfile } from "./components/BumpkinProfile";
 import { Save } from "./components/Save";
 import { DepositArgs } from "lib/blockchain/Deposit";
 import { DepositModal } from "features/goblins/bank/components/Deposit";
-import { SUNNYSIDE } from "assets/sunnyside";
 import { placeEvent } from "features/game/expansion/placeable/landscapingMachine";
-import classNames from "classnames";
 import { TravelButton } from "./components/deliveries/TravelButton";
 import { CodexButton } from "./components/codex/CodexButton";
 import { AuctionCountdown } from "features/retreat/components/auctioneer/AuctionCountdown";
@@ -19,10 +17,9 @@ import { PlaceableLocation } from "features/game/types/collectibles";
 import { HudContainer } from "components/ui/HudContainer";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import Decimal from "decimal.js-light";
-import { BuyCurrenciesModal } from "./components/BuyCurrenciesModal";
+import { CurrenciesModal } from "./components/CurrenciesModal";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSound } from "lib/utils/hooks/useSound";
-import { SpecialEventCountdown } from "./SpecialEventCountdown";
 import { SeasonBannerCountdown } from "./SeasonBannerCountdown";
 import { TransactionCountdown } from "./Transaction";
 import { MarketplaceButton } from "./components/MarketplaceButton";
@@ -32,8 +29,12 @@ import {
   getPowerSkills,
 } from "features/game/types/bumpkinSkills";
 import { GameCalendar } from "features/game/expansion/components/temperateSeason/GameCalendar";
+import { LandscapeButton } from "./components/LandscapeButton";
+import { RewardsButton } from "./components/referral/RewardsButton";
+import { hasFeatureAccess } from "lib/flags";
 
 const _farmAddress = (state: MachineState) => state.context.farmAddress;
+const _linkedWallet = (state: MachineState) => state.context.linkedWallet;
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -48,12 +49,12 @@ const HudComponent: React.FC<{
   const [gameState] = useActor(gameService);
 
   const farmAddress = useSelector(gameService, _farmAddress);
+  const linkedWallet = useSelector(gameService, _linkedWallet);
 
   const [showDepositModal, setShowDepositModal] = useState(false);
   const [showBuyCurrencies, setShowBuyCurrencies] = useState(false);
 
   const sfl = useSound("sfl");
-  const button = useSound("button");
 
   const autosaving = gameState.matches("autosaving");
 
@@ -63,7 +64,7 @@ const HudComponent: React.FC<{
     gameService.send("DEPOSIT", args);
   };
 
-  const handleBuyCurrenciesModal = () => {
+  const handleCurrenciesModal = () => {
     sfl.play();
     setShowBuyCurrencies(!showBuyCurrencies);
   };
@@ -77,57 +78,16 @@ const HudComponent: React.FC<{
     (skill) => !!skills[skill.name as BumpkinRevampSkillName],
   );
 
+  const hasReferralProgram = hasFeatureAccess(
+    gameState.context.state,
+    "REFERRAL_PROGRAM",
+  );
+
   return (
     <>
       <HudContainer>
         <div>
-          {isFarming && (
-            <div
-              onClick={() => {
-                button.play();
-                if (isFarming) {
-                  gameService.send("LANDSCAPE");
-                }
-              }}
-              className={classNames(
-                "absolute flex z-50 cursor-pointer hover:img-highlight group",
-                {
-                  "opacity-50 cursor-not-allowed": !isFarming,
-                },
-              )}
-              style={{
-                marginLeft: `${PIXEL_SCALE * 2}px`,
-                marginBottom: `${PIXEL_SCALE * 25}px`,
-                width: `${PIXEL_SCALE * 22}px`,
-                right: `${PIXEL_SCALE * 3}px`,
-                top: `${PIXEL_SCALE * 31}px`,
-              }}
-            >
-              <img
-                src={SUNNYSIDE.ui.round_button_pressed}
-                className="absolute"
-                style={{
-                  width: `${PIXEL_SCALE * 22}px`,
-                }}
-              />
-              <img
-                src={SUNNYSIDE.ui.round_button}
-                className="absolute group-active:hidden"
-                style={{
-                  width: `${PIXEL_SCALE * 22}px`,
-                }}
-              />
-              <img
-                src={SUNNYSIDE.icons.drag}
-                className={"absolute group-active:translate-y-[2px]"}
-                style={{
-                  top: `${PIXEL_SCALE * 4}px`,
-                  left: `${PIXEL_SCALE * 4}px`,
-                  width: `${PIXEL_SCALE * 14}px`,
-                }}
-              />
-            </div>
-          )}
+          {isFarming && <LandscapeButton />}
           <Inventory
             state={gameState.context.state}
             isFullUser={isFullUser}
@@ -153,14 +113,12 @@ const HudComponent: React.FC<{
             hideActions={false}
           />
         </div>
-
         <Balances
           sfl={gameState.context.state.balance}
           coins={gameState.context.state.coins}
           gems={gameState.context.state.inventory["Gem"] ?? new Decimal(0)}
-          onClick={handleBuyCurrenciesModal}
+          onClick={handleCurrenciesModal}
         />
-
         <div
           className="absolute z-50 flex flex-col space-y-2.5 justify-between"
           style={{
@@ -171,10 +129,9 @@ const HudComponent: React.FC<{
         >
           {hasPowerSkills && <PowerSkillsButton />}
           <MarketplaceButton />
-          <CodexButton />
+          {!hasReferralProgram && <CodexButton />}
           <TravelButton />
         </div>
-
         <div
           className="absolute z-50 flex flex-col justify-between"
           style={{
@@ -184,7 +141,7 @@ const HudComponent: React.FC<{
         >
           <TransactionCountdown />
           <AuctionCountdown />
-          <SpecialEventCountdown />
+          {/* <SpecialEventCountdown /> */}
           <SeasonBannerCountdown />
         </div>
         <div
@@ -199,18 +156,23 @@ const HudComponent: React.FC<{
           <Save />
           <Settings isFarming={isFarming} />
         </div>
-        <BumpkinProfile isFullUser={isFullUser} />
+
+        <BumpkinProfile />
         {!isTutorial && <GameCalendar />}
+        {hasReferralProgram && <CodexButton />}
+        {hasReferralProgram && <RewardsButton />}
 
         <DepositModal
           farmAddress={farmAddress ?? ""}
+          linkedWallet={linkedWallet ?? ""}
           handleClose={() => setShowDepositModal(false)}
           handleDeposit={handleDeposit}
           showDepositModal={showDepositModal}
         />
-        <BuyCurrenciesModal
+
+        <CurrenciesModal
           show={showBuyCurrencies}
-          onClose={handleBuyCurrenciesModal}
+          onClose={handleCurrenciesModal}
         />
       </HudContainer>
     </>

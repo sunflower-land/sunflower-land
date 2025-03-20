@@ -189,8 +189,8 @@ export type BumpkinTool =
   | "Infernal Bullwhip"
   | "Shepherd Staff"
   | "Sickle"
-  | "Adventurer's Torch";
-
+  | "Adventurer's Torch"
+  | "Flower Bouquet";
 export type BumpkinShoe =
   | "Black Farmer Boots"
   | "Brown Boots"
@@ -420,7 +420,9 @@ export type BumpkinOnesie =
   | "Gingerbread Onesie"
   | "Squirrel Onesie"
   | "Locust Onesie"
-  | "Locust King Onesie";
+  | "Locust King Onesie"
+  | "Love Heart Onesie"
+  | "Love Bear Onesie";
 
 // Goes over clothes
 export type BumpkinSuit =
@@ -920,6 +922,10 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Blossom Ward": 432,
   "Autumn's Embrace": 433,
   "Frozen Heart": 434,
+
+  "Love Heart Onesie": 435,
+  "Love Bear Onesie": 436,
+  "Flower Bouquet": 437,
 };
 
 // The reverse of above
@@ -1415,6 +1421,9 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Blossom Ward": "secondaryTool",
   "Autumn's Embrace": "secondaryTool",
   "Frozen Heart": "secondaryTool",
+  "Love Heart Onesie": "onesie",
+  "Love Bear Onesie": "onesie",
+  "Flower Bouquet": "tool",
 };
 
 /**Copied from BE just for hoarding checks */

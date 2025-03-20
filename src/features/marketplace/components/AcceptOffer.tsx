@@ -30,8 +30,20 @@ import { calculateTradePoints } from "features/game/events/landExpansion/addTrad
 import { InventoryItemName } from "features/game/types/game";
 import Decimal from "decimal.js-light";
 import { StoreOnChain } from "./StoreOnChain";
+import { hasReputation, Reputation } from "features/game/lib/reputation";
+import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
+import { hasFeatureAccess } from "lib/flags";
+import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
+import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
+import { isTradeResource } from "features/game/actions/tradeLimits";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 const _state = (state: MachineState) => state.context.state;
+const _hasReputation = (state: MachineState) =>
+  hasReputation({
+    game: state.context.state,
+    reputation: Reputation.Cropkeeper,
+  });
 
 const AcceptOfferContent: React.FC<{
   onClose: () => void;
@@ -47,6 +59,7 @@ const AcceptOfferContent: React.FC<{
   const state = useSelector(gameService, _state);
   const [needsSync, setNeedsSync] = useState(false);
   const { previousInventory, previousWardrobe, bertObsession, npcs } = state;
+  const hasReputation = useSelector(gameService, _hasReputation);
 
   useOnMachineTransition<ContextType, BlockchainEvent>(
     gameService,
@@ -150,6 +163,23 @@ const AcceptOfferContent: React.FC<{
 
   const isResource = display.type === "resources";
 
+  if (
+    isTradeResource(display.name as InventoryItemName) &&
+    hasFeatureAccess(state, "FACE_RECOGNITION") &&
+    !isFaceVerified({ game: state })
+  ) {
+    return (
+      <>
+        <img
+          src={SUNNYSIDE.icons.close}
+          onClick={onClose}
+          className="w-8 h-8 absolute -top-10 right-2 cursor-pointer"
+        />
+        <FaceRecognition />
+      </>
+    );
+  }
+
   return (
     <>
       <div className="p-2">
@@ -161,6 +191,9 @@ const AcceptOfferContent: React.FC<{
             <Label type="formula" icon={walletIcon} className="-mr-1">
               {t("marketplace.walletRequired")}
             </Label>
+          )}
+          {!hasReputation && (
+            <RequiredReputation reputation={Reputation.Cropkeeper} />
           )}
         </div>
         <TradeableSummary
@@ -183,6 +216,7 @@ const AcceptOfferContent: React.FC<{
         </Button>
         <Button
           disabled={
+            !hasReputation ||
             !hasItem ||
             (isItemBertObsession && isBertsObesessionCompleted && !isResource)
           }

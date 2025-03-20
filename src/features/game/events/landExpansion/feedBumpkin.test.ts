@@ -3,7 +3,6 @@ import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
 import { CONSUMABLES } from "features/game/types/consumables";
 import { FEED_BUMPKIN_ERRORS, feedBumpkin } from "./feedBumpkin";
-import { getSeasonalBanner } from "features/game/types/seasons";
 
 describe("feedBumpkin", () => {
   it("throws error if food amount is invalid", () => {
@@ -427,29 +426,6 @@ describe("feedBumpkin", () => {
 
     expect(result.bumpkin?.experience).toBe(
       CONSUMABLES["Fermented Carrots"].experience * 2,
-    );
-  });
-  it("provides 10% more experience when Seasonal Banner is in inventory", () => {
-    const result = feedBumpkin({
-      state: {
-        ...TEST_FARM,
-        bumpkin: {
-          ...INITIAL_BUMPKIN,
-        },
-        inventory: {
-          "Boiled Eggs": new Decimal(2),
-          [getSeasonalBanner()]: new Decimal(1),
-        },
-      },
-      action: {
-        type: "bumpkin.feed",
-        food: "Boiled Eggs",
-        amount: 1,
-      },
-    });
-
-    expect(result.bumpkin?.experience).toBe(
-      new Decimal(CONSUMABLES["Boiled Eggs"].experience).mul(1.1).toNumber(),
     );
   });
 

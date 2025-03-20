@@ -122,7 +122,7 @@ export const AuctioneerModal: React.FC<Props> = ({
           <div className="flex flex-col">
             {!hasAuctionAccess && (
               <div className="pt-2 pl-2">
-                <RequiredReputation reputation={Reputation.Seedling} />
+                <RequiredReputation reputation={Reputation.Grower} />
               </div>
             )}
             <AuctioneerContent

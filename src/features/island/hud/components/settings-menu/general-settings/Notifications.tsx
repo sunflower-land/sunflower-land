@@ -113,7 +113,10 @@ export const Notifications: React.FC<{
 
   return (
     <>
-      <div className="flex flex-col space-y-1 p-2 mb-1">
+      <div className="flex flex-col space-y-1 mb-1">
+        <h1 className="text-lg mb-2">
+          {t("gameOptions.generalSettings.notifications")}
+        </h1>
         {getKeys(options).map((subName) => (
           <div key={subName}>
             <Switch

@@ -1,6 +1,5 @@
 import Decimal from "decimal.js-light";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
-import { PatchFruitName } from "features/game/types/fruits";
 import {
   GameState,
   Inventory,
@@ -25,36 +24,22 @@ type Options = {
   createdAt?: number;
 };
 
-export function getRequiredAxeAmount(
-  patchFruitName: PatchFruitName,
-  inventory: Inventory,
-  game: GameState,
-) {
-  // Apply boost for Trees
-  if (
-    patchFruitName === "Apple" ||
-    patchFruitName === "Orange" ||
-    patchFruitName === "Lemon"
-  ) {
-    if (isCollectibleBuilt({ name: "Foreman Beaver", game })) {
-      return new Decimal(0);
-    }
+export function getRequiredAxeAmount(inventory: Inventory, game: GameState) {
+  let requiredAxeAmount = 1;
 
-    if (inventory.Logger?.gte(1)) {
-      return new Decimal(0.5);
-    }
+  if (inventory.Logger?.gte(1)) {
+    requiredAxeAmount = 0.5;
   }
 
-  if (
-    (patchFruitName === "Tomato" ||
-      patchFruitName === "Blueberry" ||
-      patchFruitName === "Banana") &&
-    game.bumpkin.skills["No Axe No Worries"]
-  ) {
-    return new Decimal(0);
+  if (isCollectibleBuilt({ name: "Foreman Beaver", game })) {
+    requiredAxeAmount = 0;
   }
 
-  return new Decimal(1);
+  if (game.bumpkin.skills["No Axe No Worries"]) {
+    requiredAxeAmount = 0;
+  }
+
+  return requiredAxeAmount;
 }
 
 export function getWoodReward({ state }: { state: GameState }) {
@@ -94,19 +79,15 @@ export function removeFruitTree({
       throw new Error("Nothing was planted");
     }
 
-    const requiredAxes = getRequiredAxeAmount(
-      patch.fruit.name,
-      inventory,
-      stateCopy,
-    );
+    const requiredAxes = getRequiredAxeAmount(inventory, stateCopy);
 
-    if (action.selectedItem !== "Axe" && requiredAxes.gt(0)) {
+    if (action.selectedItem !== "Axe" && requiredAxes > 0) {
       throw new Error(FRUIT_TREE_REMOVED_ERRORS.MISSING_AXE);
     }
 
-    const axeAmount = inventory.Axe || new Decimal(0);
+    const axeAmount = inventory.Axe ?? new Decimal(0);
 
-    if (axeAmount.lessThan(requiredAxes)) {
+    if (axeAmount.lt(requiredAxes)) {
       throw new Error(FRUIT_TREE_REMOVED_ERRORS.NO_AXES);
     }
 
@@ -116,10 +97,10 @@ export function removeFruitTree({
       throw new Error("Fruit is still available");
     }
 
+    const { woodReward } = getWoodReward({ state: stateCopy });
+
     delete patch.fruit;
     delete patch.fertiliser;
-
-    const { woodReward } = getWoodReward({ state: stateCopy });
 
     inventory.Axe = axeAmount.sub(requiredAxes);
     inventory.Wood = inventory.Wood?.add(woodReward) || new Decimal(1);

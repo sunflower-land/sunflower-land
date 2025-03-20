@@ -12,7 +12,15 @@ type EffectName =
   | "marketplace.offerAccepted"
   | "marketplace.offerCancelled"
   | "marketplace.listingCancelled"
-  | "reward.airdropped";
+  | "reward.airdropped"
+  | "faceRecognition.started"
+  | "faceRecognition.completed"
+  | "flower.depositStarted"
+  | "telegram.linked"
+  | "telegram.joined"
+  | "twitter.followed"
+  | "twitter.posted"
+  | "gems.bought";
 
 export type StateName =
   | "marketplacePurchasing"
@@ -21,7 +29,15 @@ export type StateName =
   | "marketplaceAccepting"
   | "marketplaceCancelling"
   | "marketplaceListingCancelling"
-  | "airdroppingReward";
+  | "airdroppingReward"
+  | "startingFaceRecognition"
+  | "completingFaceRecognition"
+  | "depositingFlower"
+  | "linkingTelegram"
+  | "joiningTelegram"
+  | "followingTwitter"
+  | "postingTwitter"
+  | "buyingGems";
 
 export type StateNameWithStatus = `${StateName}Success` | `${StateName}Failed`;
 
@@ -34,6 +50,14 @@ export const EFFECT_EVENTS: Record<EffectName, StateName> = {
   "marketplace.offerCancelled": "marketplaceCancelling",
   "marketplace.listingCancelled": "marketplaceListingCancelling",
   "reward.airdropped": "airdroppingReward",
+  "faceRecognition.started": "startingFaceRecognition",
+  "faceRecognition.completed": "completingFaceRecognition",
+  "flower.depositStarted": "depositingFlower",
+  "telegram.linked": "linkingTelegram",
+  "telegram.joined": "joiningTelegram",
+  "twitter.followed": "followingTwitter",
+  "twitter.posted": "postingTwitter",
+  "gems.bought": "buyingGems",
 };
 
 export interface Effect {
@@ -71,11 +95,15 @@ export async function postEffect(
     throw new Error(ERRORS.TOO_MANY_REQUESTS);
   }
 
+  if (response.status === 400) {
+    throw new Error(ERRORS.TRADE_NOT_FOUND);
+  }
+
   if (response.status !== 200 || !response.ok) {
     throw new Error(ERRORS.EFFECT_SERVER_ERROR);
   }
 
-  const { gameState, ...data } = await response.json();
+  const { gameState, data } = await response.json();
 
   return {
     gameState: makeGame(gameState),

@@ -6,10 +6,12 @@ import { StoreOnChainModal } from "./components/StoreOnChainModal";
 import { SpeakingModal } from "../SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";
 import { translate } from "lib/i18n/translate";
-import { BuyCurrenciesModal } from "features/island/hud/components/BuyCurrenciesModal";
+import { CurrenciesModal } from "features/island/hud/components/CurrenciesModal";
 import { VIPItems } from "./components/VIPItems";
 import { Panel } from "components/ui/Panel";
 import { ReputationSystem } from "features/island/hud/components/reputation/Reputation";
+import { Telegram } from "features/auth/components/Telegram/Telegram";
+import { Twitter } from "features/auth/components/Twitter/Twitter";
 
 type GlobalModal =
   | "BUY_GEMS"
@@ -22,7 +24,9 @@ type GlobalModal =
   | "BETTY"
   | "BLACKSMITH"
   | "VIP_ITEMS"
-  | "REPUTATION";
+  | "REPUTATION"
+  | "TELEGRAM"
+  | "TWITTER";
 
 export const ModalContext = createContext<{
   openModal: (type: GlobalModal) => void;
@@ -47,21 +51,21 @@ export const ModalProvider: FC = ({ children }) => {
     <ModalContext.Provider value={{ openModal }}>
       {children}
 
-      <BuyCurrenciesModal
+      <CurrenciesModal
         show={opened === "BUY_GEMS"}
         onClose={handleClose}
-        initialTab={0}
+        initialPage="gems"
       />
 
-      <BuyCurrenciesModal
+      <CurrenciesModal
         show={opened === "BUY_BANNER"}
         onClose={handleClose}
-        initialTab={2}
+        initialPage="vip"
       />
 
       <Modal show={opened === "VIP_ITEMS"} onHide={handleClose}>
         <Panel>
-          <VIPItems onSkip={handleClose} onClose={handleClose} />
+          <VIPItems />
         </Panel>
       </Modal>
 
@@ -71,6 +75,14 @@ export const ModalProvider: FC = ({ children }) => {
 
       <Modal show={opened === "REPUTATION"} onHide={handleClose}>
         <ReputationSystem onClose={handleClose} />
+      </Modal>
+
+      <Modal show={opened === "TELEGRAM"} onHide={handleClose}>
+        <Telegram onClose={handleClose} />
+      </Modal>
+
+      <Modal show={opened === "TWITTER"} onHide={handleClose}>
+        <Twitter onClose={handleClose} />
       </Modal>
 
       <Modal show={opened === "FIRST_EXPANSION"}>

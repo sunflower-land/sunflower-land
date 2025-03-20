@@ -813,13 +813,6 @@ img {
   );
 }
 
-.npc-dialog {
-  position: absolute;
-  bottom: 0;
-  width: 66%;
-  left: 17.5%;
-}
-
 /* Expanding Full Screen Panel */
 #expanding-base {
   position: fixed;
@@ -915,6 +908,20 @@ img {
   transition-timing-function: linear;
 }
 
+.fish-swimming2 {
+  animation-duration: 10s;
+  animation-name: swimming2;
+  animation-iteration-count: infinite;
+  transition-timing-function: linear;
+}
+
+.fish-swimming3 {
+  animation-duration: 20s;
+  animation-name: swimming3;
+  animation-iteration-count: infinite;
+  transition-timing-function: linear;
+}
+
 @keyframes swimming {
   0% {
     transform: translateX(0) scaleX(1);
@@ -935,6 +942,52 @@ img {
     transform: translateX(0) scaleX(-1);
     animation-timing-function: linear;
     opacity: 0.8;
+  }
+}
+
+@keyframes swimming2 {
+  0% {
+    transform: translateX(0) scaleX(1);
+    animation-timing-function: linear;
+    opacity: 1;
+  }
+  49% {
+    transform: translateX(100px) scaleX(1);
+    animation-timing-function: linear;
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(100px) scaleX(-1);
+    animation-timing-function: linear;
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(0) scaleX(-1);
+    animation-timing-function: linear;
+    opacity: 1;
+  }
+}
+
+@keyframes swimming3 {
+  0% {
+    transform: translateX(0) scaleX(1);
+    animation-timing-function: linear;
+    opacity: 1;
+  }
+  49% {
+    transform: translateX(150px) scaleX(1);
+    animation-timing-function: linear;
+    opacity: 1;
+  }
+  50% {
+    transform: translateX(150px) scaleX(-1);
+    animation-timing-function: linear;
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(0) scaleX(-1);
+    animation-timing-function: linear;
+    opacity: 1;
   }
 }
 

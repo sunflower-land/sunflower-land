@@ -13,6 +13,17 @@ export function acknowledgeGameRules() {
   return localStorage.setItem("gameRulesLastRead", new Date().toISOString());
 }
 
+export function getFLOWERTeaserLastRead(): Date | null {
+  const value = localStorage.getItem("FLOWERTeaserLastRead");
+  if (!value) return null;
+
+  return new Date(value);
+}
+
+export function acknowledgeFLOWERTeaser() {
+  return localStorage.setItem("FLOWERTeaserLastRead", new Date().toISOString());
+}
+
 export function getCodeOfConductLastRead(): Date | null {
   const value = localStorage.getItem("codeOfConductLastRead");
   if (!value) return null;

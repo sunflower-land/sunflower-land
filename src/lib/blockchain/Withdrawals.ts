@@ -10,6 +10,9 @@ import {
 } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
 import { saveTxHash } from "features/game/types/transactions";
+import { polygon, polygonAmoy } from "viem/chains";
+import { hasFeatureAccess } from "lib/flags";
+import { INITIAL_FARM } from "features/game/lib/constants";
 
 const address = CONFIG.WITHDRAWAL_CONTRACT;
 
@@ -38,6 +41,10 @@ export async function withdrawSFLTransaction({
 }: WithdrawSFLParams): Promise<string> {
   const oldSessionId = sessionId;
 
+  if (hasFeatureAccess(INITIAL_FARM, "DISABLE_BLOCKCHAIN_ACTIONS")) {
+    throw new Error("Withdrawals are disabled");
+  }
+
   const quote = await simulateContract(config, {
     abi: QuoterABI,
     address: CONFIG.ALGEBRA_QUOTER_CONTRACT as `0x${string}`,
@@ -52,6 +59,7 @@ export async function withdrawSFLTransaction({
   const amountOutMinimum = (BigInt(quote.result[0]) * BigInt(99)) / BigInt(100); // 1% slippage
 
   const hash = await writeContract(config, {
+    chainId: CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id,
     abi: WithdrawSFLABI,
     address: CONFIG.WITHDRAW_SFL_CONTRACT as `0x${string}`,
     functionName: "withdrawSFL",
@@ -99,6 +107,7 @@ export async function withdrawItemsTransaction({
   const oldSessionId = sessionId;
 
   const hash = await writeContract(config, {
+    chainId: CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id,
     abi: WithdrawalABI,
     address: address as `0x${string}`,
     functionName: "withdrawItems",
@@ -148,6 +157,7 @@ export async function withdrawWearablesTransaction({
   const oldSessionId = await getSessionId(farmId);
 
   const hash = await writeContract(config, {
+    chainId: CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id,
     abi: WithdrawalABI,
     address: address as `0x${string}`,
     functionName: "withdrawWearables",
@@ -195,6 +205,7 @@ export async function withdrawBudsTransaction({
   const oldSessionId = await getSessionId(farmId);
 
   const hash = await writeContract(config, {
+    chainId: CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id,
     abi: WithdrawalABI,
     address: address as `0x${string}`,
     functionName: "withdrawBuds",

@@ -1,19 +1,20 @@
 import React, { ChangeEvent, useState } from "react";
 import classNames from "classnames";
 
-import bg from "assets/ui/input_box_border_white.png";
-import activeBg from "assets/ui/active_input_box_border_white.png";
+import bg from "assets/ui/input_box_border.png";
+import activeBg from "assets/ui/active_input_box_border.png";
 import { SquareIcon } from "./SquareIcon";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 type Props = {
-  value: string;
+  value?: string;
   className?: string;
   onValueChange: (value: string) => void;
   onCancel?: () => void;
   icon?: string;
   placeholder?: string;
+  maxLength?: number;
 };
 
 export const TextInput: React.FC<Props> = ({
@@ -23,6 +24,7 @@ export const TextInput: React.FC<Props> = ({
   className,
   placeholder,
   onCancel,
+  maxLength,
 }) => {
   const { t } = useAppTranslation();
 
@@ -54,13 +56,14 @@ export const TextInput: React.FC<Props> = ({
         type="text"
         placeholder={placeholder ?? t("searchHere")}
         value={value}
+        maxLength={maxLength}
         onChange={(e: ChangeEvent<HTMLInputElement>) => {
           onValueChange(e.target.value);
         }}
         onFocus={() => setIsFocused(true)} // Set focus state to true
         onBlur={() => setIsFocused(false)} // Set focus state to false
         className={classNames(
-          "!bg-transparent cursor-pointer  w-full p-2 h-12 font-secondary",
+          "!bg-transparent cursor-pointer w-full p-2 h-12 font-secondary",
           className,
         )}
       />

@@ -40,6 +40,8 @@ const LOST_AND_FOUND_CONTRACT = import.meta.env
   .VITE_LOST_AND_FOUND_CONTRACT as string;
 const DAILY_REWARD_CONTRACT = import.meta.env
   .VITE_DAILY_REWARD_CONTRACT as string;
+const RONIN_DAILY_REWARD_CONTRACT = import.meta.env
+  .VITE_RONIN_DAILY_REWARD_CONTRACT as string;
 const QUICKSWAP_ROUTER_CONTRACT = import.meta.env
   .VITE_QUICKSWAP_ROUTER_CONTRACT as string;
 const BUY_GEMS_CONTRACT = import.meta.env.VITE_BUY_GEMS_CONTRACT as string;
@@ -50,6 +52,7 @@ const AUCTION_CONTRACT = import.meta.env.VITE_AUCTION_CONTRACT as string;
 const BUD_CONTRACT = import.meta.env.VITE_BUD_CONTRACT as string;
 const SEAL_CONTRACT = import.meta.env.VITE_SEAL_CONTRACT as string;
 const ALCHEMY_RPC = import.meta.env.VITE_ALCHEMY_RPC as string;
+const ALCHEMY_KEY = import.meta.env.VITE_ALCHEMY_KEY as string;
 const PROTECTED_IMAGE_URL = import.meta.env.VITE_PRIVATE_IMAGE_URL as string;
 const POKO_API_KEY = import.meta.env.VITE_POKO_API_KEY as string;
 const POKO_DIRECT_CHECKOUT_API_KEY = import.meta.env
@@ -87,12 +90,16 @@ const ALGEBRA_QUOTER_CONTRACT = import.meta.env
 const USDC_CONTRACT = import.meta.env.VITE_USDC_CONTRACT as string;
 const MARKETPLACE_VERIFIER_CONTRACT = import.meta.env
   .VITE_MARKETPLACE_VERIFIER_CONTRACT as string;
+const FLOWER_CONTRACT = import.meta.env.VITE_FLOWER_CONTRACT as string;
 
 const FIREBASE_VAPID_KEY = import.meta.env.VITE_FIREBASE_VAPID_KEY as string;
 const FIREBASE_API_KEY = import.meta.env.VITE_FIREBASE_API_KEY as string;
 const FIREBASE_MESSAGING_SENDER_ID = import.meta.env
   .VITE_FIREBASE_MESSAGING_SENDER_ID as string;
 const FIREBASE_APP_ID = import.meta.env.VITE_FIREBASE_APP_ID as string;
+
+const TELEGRAM_BOT = import.meta.env.VITE_TELEGRAM_BOT as string;
+const TWITTER_CLIENT_ID = import.meta.env.VITE_TWITTER_CLIENT_ID as string;
 
 export const CONFIG = {
   DEQUIPPER_CONTRACT,
@@ -127,6 +134,7 @@ export const CONFIG = {
   BUMPKIN_CONTRACT,
   QUEST_CONTRACT,
   DAILY_REWARD_CONTRACT,
+  RONIN_DAILY_REWARD_CONTRACT,
   BUY_SFL_CONTRACT,
   QUICKSWAP_ROUTER_CONTRACT,
   WMATIC_CONTRACT,
@@ -135,12 +143,14 @@ export const CONFIG = {
   BUD_DEPOSIT_CONTRACT,
   BUY_GEMS_CONTRACT,
   ALCHEMY_RPC,
+  ALCHEMY_KEY,
   GAME_CONTRACT,
   WITHDRAWAL_CONTRACT,
   WITHDRAW_SFL_CONTRACT,
   AUCTION_CONTRACT,
   BUD_CONTRACT,
   ALGEBRA_QUOTER_CONTRACT,
+  FLOWER_CONTRACT,
 
   GREEDY_GOBLIN_DONATION,
   CHICKEN_FIGHT_DONATION,
@@ -162,4 +172,6 @@ export const CONFIG = {
   FIREBASE_API_KEY,
   FIREBASE_MESSAGING_SENDER_ID,
   FIREBASE_APP_ID,
+  TELEGRAM_BOT,
+  TWITTER_CLIENT_ID,
 };

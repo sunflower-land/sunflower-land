@@ -34,6 +34,10 @@ import {
   getActiveCalendarEvent,
   SeasonalEventName,
 } from "features/game/types/calendar";
+import {
+  isBuildingUpgradable,
+  makeUpgradableBuildingKey,
+} from "features/game/events/landExpansion/upgradeBuilding";
 
 interface Prop {
   name: BuildingName;
@@ -52,14 +56,14 @@ interface Prop {
 
 export interface BuildingProps {
   buildingId: string;
-  buildingIndex: number;
-  craftingItemName?: CookableName;
-  craftingReadyAt?: number;
   isBuilt?: boolean;
-  onRemove?: () => void;
   island: IslandType;
   season: TemperateSeasonName;
 }
+
+const _isUpgradable = (name: BuildingName) => (state: MachineState) =>
+  isBuildingUpgradable(name) &&
+  state.context.state[makeUpgradableBuildingKey(name)].level > 1;
 
 const InProgressBuilding: React.FC<Prop> = ({
   name,
@@ -87,11 +91,14 @@ const InProgressBuilding: React.FC<Prop> = ({
     }
   }, []);
 
+  const isUpgradable = useSelector(gameService, _isUpgradable(name));
+
   const onSpeedUp = (gems: number) => {
-    gameService.send("building.spedUp", {
-      name,
-      id,
-    });
+    if (isUpgradable) {
+      gameService.send("upgrade.spedUp", { name });
+    } else {
+      gameService.send("building.spedUp", { name, id });
+    }
 
     gameAnalytics.trackSink({
       currency: "Gem",
@@ -169,27 +176,14 @@ const DestroyedBuilding: React.FC<
   Prop & {
     calendarEvent: DestructiveEvent;
   }
-> = ({
-  name,
-  id,
-  index,
-  readyAt,
-  createdAt,
-  showTimers,
-  island,
-  calendarEvent,
-  season,
-}) => {
-  const { gameService, showAnimations } = useContext(Context);
+> = ({ name, id, index, island, calendarEvent, season }) => {
+  const { gameService } = useContext(Context);
 
   const BuildingPlaced = BUILDING_COMPONENTS[name];
 
   const { t } = useAppTranslation();
 
   const [showModal, setShowModal] = useState(false);
-
-  const totalSeconds = (readyAt - createdAt) / 1000;
-  const secondsLeft = (readyAt - Date.now()) / 1000;
 
   const game = gameService.getSnapshot().context.state;
 

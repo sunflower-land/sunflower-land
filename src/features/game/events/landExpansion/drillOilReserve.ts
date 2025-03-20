@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { isWearableActive } from "features/game/lib/wearables";
+import { trackActivity } from "features/game/types/bumpkinActivity";
 import { GameState, OilReserve } from "features/game/types/game";
 import { produce } from "immer";
 
@@ -116,6 +117,8 @@ export function drillOilReserve({
     oilReserve.drilled += 1;
     // Set next drill drop amount
     oilReserve.oil.amount = getNextOilDropAmount(game, oilReserve);
+
+    game.bumpkin.activity = trackActivity("Oil Drilled", game.bumpkin.activity);
 
     return game;
   });

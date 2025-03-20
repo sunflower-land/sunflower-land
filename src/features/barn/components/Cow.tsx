@@ -108,18 +108,14 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   const [showMutantAnimalModal, setShowMutantAnimalModal] = useState(false);
 
   useEffect(() => {
-    if (
-      cow.state === "ready" &&
-      cow.awakeAt < Date.now() &&
-      cowMachineState !== "ready"
-    ) {
+    if (cow.awakeAt < Date.now() && cowMachineState === "sleeping") {
       cowService.send({
-        type: "INSTANT_LEVEL_UP",
+        type: "INSTANT_WAKE_UP",
         animal: cow,
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cow.state]);
+  }, [cow.awakeAt]);
 
   useEffect(() => {
     if (cow.state === "sick" && cowMachineState !== "sick") {

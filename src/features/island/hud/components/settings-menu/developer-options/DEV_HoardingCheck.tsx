@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from "components/ui/Button";
 import { KNOWN_IDS } from "features/game/types";
 import React, { ChangeEvent, useState } from "react";
@@ -9,6 +10,17 @@ import { readContract } from "viem/actions";
 import { createPublicClient, encodePacked, http, keccak256 } from "viem";
 import { polygon, polygonAmoy } from "viem/chains";
 import { CONFIG } from "lib/config";
+import { getKeys } from "features/game/types/craftables";
+import { SEEDS } from "features/game/types/seeds";
+import { SELLABLE_TREASURE } from "features/game/types/treasure";
+import { Loading } from "features/auth/components";
+
+const OFFCHAIN_ITEMS = [
+  "Mark",
+  "Trade Point",
+  ...getKeys(SELLABLE_TREASURE),
+  ...getKeys(SEEDS),
+];
 
 export const DEV_HoarderCheck: React.FC<ContentComponentProps> = () => {
   const { t } = useAppTranslation();
@@ -77,6 +89,8 @@ export const DEV_HoarderCheck: React.FC<ContentComponentProps> = () => {
             limit = limit / 10 ** 18;
           }
 
+          if (OFFCHAIN_ITEMS.includes(key)) return;
+
           if (diff > limit) {
             inventoryLimits.push(`${key} (Diff ${diff} > Limit ${limit})`);
           }
@@ -124,41 +138,60 @@ export const DEV_HoarderCheck: React.FC<ContentComponentProps> = () => {
     }
   }
 
-  if (loading) {
-    return <div>{t("loading")}</div>;
-  }
-
   return (
-    <>
-      {CONFIG.NETWORK}
-      <input
-        style={{
-          boxShadow: "#b96e50 0px 1px 1px 1px inset",
-          border: "2px solid #ead4aa",
-        }}
-        type="text"
-        min={1}
-        value={farmId}
-        onChange={(e: ChangeEvent<HTMLInputElement>) => {
-          setFarmId(e.target.value);
-        }}
-        className={
-          "text-shadow mr-2 rounded-sm shadow-inner shadow-black bg-brown-200 w-full p-2 h-10"
-        }
-      />
-      {inventoryLimits.length === 0 && wardrobeLimits.length === 0 && (
-        <div>{t("no.limits.exceeded")}</div>
-      )}
-      {inventoryLimits.map((limit) => (
-        <div key={limit}>{limit}</div>
-      ))}
-      {wardrobeLimits.map((limit) => (
-        <div key={limit}>{limit}</div>
-      ))}
+    <div className="flex flex-col gap-2 p-3">
+      <h2 className="text-base text-start capitalize ">{CONFIG.NETWORK}</h2>
+      <div className="flex mb-2">
+        <input
+          style={{
+            boxShadow: "#b96e50 0px 1px 1px 1px inset",
+            border: "2px solid #ead4aa",
+          }}
+          type="text"
+          min={1}
+          value={farmId}
+          onChange={(e: ChangeEvent<HTMLInputElement>) => {
+            setFarmId(e.target.value);
+          }}
+          placeholder="Enter Farm ID"
+          className="text-shadow rounded-sm shadow-inner text-black placeholder-black shadow-black bg-brown-200 w-full p-2 h-10"
+        />
+      </div>
 
-      <Button onClick={search} className="pt-2">
+      <div className="flex-1">
+        {loading ? (
+          <Loading />
+        ) : inventoryLimits.length === 0 && wardrobeLimits.length === 0 ? (
+          <div className="text-sm">{t("no.limits.exceeded")}</div>
+        ) : (
+          <div className="space-y-1">
+            {inventoryLimits.length > 0 && (
+              <div>
+                <h3 className="text-sm font-bold mb-1">{`Inventory Limits`}</h3>
+                {inventoryLimits.map((limit) => (
+                  <div key={limit} className="text-xs text-red-500">
+                    {limit}
+                  </div>
+                ))}
+              </div>
+            )}
+            {wardrobeLimits.length > 0 && (
+              <div>
+                <h3 className="text-sm font-bold mb-1">{`Wardrobe Limits`}</h3>
+                {wardrobeLimits.map((limit) => (
+                  <div key={limit} className="text-xs text-red-500">
+                    {limit}
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+      </div>
+
+      <Button onClick={search} className="w-full">
         {t("check")}
       </Button>
-    </>
+    </div>
   );
 };

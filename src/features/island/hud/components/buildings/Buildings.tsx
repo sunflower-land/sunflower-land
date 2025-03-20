@@ -17,6 +17,10 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import { IslandType } from "features/game/types/game";
 import { capitalize } from "lib/utils/capitalize";
+import {
+  makeUpgradableBuildingKey,
+  isBuildingUpgradable,
+} from "features/game/events/landExpansion/upgradeBuilding";
 
 interface Props {
   onClose: () => void;
@@ -208,15 +212,21 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
               secondaryIcon = SUNNYSIDE.icons.confirm;
             }
 
+            const hasLevel = isBuildingUpgradable(name)
+              ? state[makeUpgradableBuildingKey(name)].level
+              : undefined;
+
+            const image =
+              ITEM_ICONS(state.island.type, state.season.season, hasLevel)[
+                name
+              ] ?? ITEM_DETAILS[name].image;
+
             return (
               <Box
                 isSelected={selectedName === name}
                 key={name}
                 onClick={() => setSelectedName(name)}
-                image={
-                  ITEM_ICONS(state.island.type, state.season.season)[name] ??
-                  ITEM_DETAILS[name].image
-                }
+                image={image}
                 secondaryImage={secondaryIcon}
                 showOverlay={isLocked}
               />

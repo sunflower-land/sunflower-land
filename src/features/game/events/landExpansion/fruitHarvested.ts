@@ -226,7 +226,7 @@ export function getFruitYield({ name, game, fertiliser }: FruitYield) {
     if (name === "Tomato" || name === "Lemon") {
       amount += 1;
     } else {
-      amount -= 0.5;
+      amount -= 0.25;
     }
   }
 

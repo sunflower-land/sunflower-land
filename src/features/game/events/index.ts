@@ -441,9 +441,26 @@ import {
   exchangeObsidian,
   ObsidianExchangedAction,
 } from "./landExpansion/exchangeObsidian";
+import {
+  cancelQueuedRecipe,
+  CancelQueuedRecipeAction,
+} from "./landExpansion/cancelQueuedRecipe";
+import {
+  speedUpUpgrade,
+  SpeedUpUpgradeAction,
+} from "./landExpansion/speedUpUpgrade";
+import {
+  acknowledgeOnChainAirdrop,
+  AcknowledgeOnChainAirdropAction,
+} from "./landExpansion/acknowledgeOnChainAirdrop";
+import {
+  completeSocialTask,
+  CompleteSocialTaskAction,
+} from "./landExpansion/completeSocialTask";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
+  | SpeedUpUpgradeAction
   | ResourceBoughtAction
   | PurchaseVIPAction
   | SellAnimalAction
@@ -502,8 +519,6 @@ export type PlayingEvent =
   | ExpandLandAction
   | MessageRead
   | PickMushroomAction
-  // TODO - remove once landscaping is released
-  | RemoveBuildingAction
   | RemoveCollectibleAction
   | RemoveChickenAction
   | DeliverOrderAction
@@ -578,6 +593,9 @@ export type PlayingEvent =
   | AcknowledgeCalendarEventAction
   | CollectLavaPitAction
   | StartLavaPitAction
+  | CancelQueuedRecipeAction
+  | AcknowledgeOnChainAirdropAction
+  | CompleteSocialTaskAction
   // To remove once December is finished
   | CollectCandyAction;
 
@@ -647,6 +665,8 @@ type Handlers<T> = {
 };
 
 export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
+  "onChainAirdrop.acknowledged": acknowledgeOnChainAirdrop,
+  "recipe.cancelled": cancelQueuedRecipe,
   "obsidian.exchanged": exchangeObsidian,
   "resource.bought": buyResource,
   "vip.purchased": purchaseVIP,
@@ -684,7 +704,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
 
   "timber.chopped": landExpansionChop,
   "recipe.cooked": cook,
-  "recipe.collected": collectRecipe,
+  "recipes.collected": collectRecipe,
   "bumpkin.feed": feedBumpkin,
   "skill.picked": pickSkill,
   "skill.chosen": choseSkill,
@@ -711,8 +731,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "land.expanded": expandLand,
   "message.read": readMessage,
   "mushroom.picked": pickMushroom,
-  // TODO - remove once landscaping is released
-  "building.removed": removeBuilding,
   "collectible.removed": removeCollectible,
   "chicken.removed": removeChicken,
   "order.delivered": deliverOrder,
@@ -784,6 +802,8 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "calendarEvent.acknowledged": acknowledgeCalendarEvent,
   "lavaPit.collected": collectLavaPit,
   "lavaPit.started": startLavaPit,
+  "upgrade.spedUp": speedUpUpgrade,
+  "socialTask.completed": completeSocialTask,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

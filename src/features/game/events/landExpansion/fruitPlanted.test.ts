@@ -845,8 +845,8 @@ describe("fruitPlanted", () => {
         bumpkin: {
           ...INITIAL_BUMPKIN,
           equipped: {
-            onesie: "Camel Onesie",
             ...INITIAL_BUMPKIN.equipped,
+            onesie: "Camel Onesie",
           },
         },
         season: {

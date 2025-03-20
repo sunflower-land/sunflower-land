@@ -19,7 +19,6 @@ import { getKeys } from "features/game/types/craftables";
 import { LEVEL_EXPERIENCE } from "features/game/lib/level";
 import { BUILDINGS } from "features/game/types/buildings";
 import { ITEM_DETAILS } from "features/game/types/images";
-import worldIcon from "assets/icons/world_small.png";
 import { translate } from "lib/i18n/translate";
 import {
   EXPANSION_REQUIREMENTS,
@@ -32,7 +31,7 @@ const BONUS_UNLOCKS: Record<number, { text: string; icon: string }[]> = {
   3: [
     {
       text: "Travel",
-      icon: worldIcon,
+      icon: SUNNYSIDE.icons.worldIcon,
     },
   ],
   5: [

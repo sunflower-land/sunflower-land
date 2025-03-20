@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useSelector } from "@xstate/react";
 
@@ -27,6 +28,7 @@ import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import classNames from "classnames";
+import { isFishFrenzy, isFullMoon } from "features/game/types/calendar";
 
 type SpriteFrames = { startAt: number; endAt: number };
 
@@ -71,8 +73,7 @@ interface Props {
 
 const _canFish = (state: MachineState) =>
   getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) >= 5;
-const _fishing = (state: MachineState) => state.context.state.fishing;
-const _farmActivity = (state: MachineState) => state.context.state.farmActivity;
+const _state = (state: MachineState) => state.context.state;
 
 export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
   const { t } = useAppTranslation();
@@ -86,9 +87,10 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
   const [challengeDifficulty, setChallengeDifficulty] = useState(1);
 
   const { gameService } = useContext(Context);
-  const fishing = useSelector(gameService, _fishing);
-  const farmActivity = useSelector(gameService, _farmActivity);
+  const state = useSelector(gameService, _state);
   const canFish = useSelector(gameService, _canFish);
+
+  const { fishing, farmActivity } = state;
 
   // Catches cases where players try reset their fishing challenge
   useEffect(() => {
@@ -262,7 +264,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
 
         {!showReelLabel && canFish && (
           <>
-            {fishing.weather === "Fish Frenzy" && (
+            {isFishFrenzy(state) && (
               <img
                 src={lightning}
                 style={{
@@ -275,7 +277,7 @@ export const FishermanNPC: React.FC<Props> = ({ onClick }) => {
                 className="absolute pointer-events-none"
               />
             )}
-            {fishing.weather === "Full Moon" && (
+            {isFullMoon(state) && (
               <img
                 src={fullMoon}
                 style={{

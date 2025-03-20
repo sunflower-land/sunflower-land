@@ -20,7 +20,7 @@ import {
 import { ResizableBar } from "components/ui/ProgressBar";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
-import brazilFlag from "assets/sfts/flags/brazil_flag.gif";
+import brazilFlag from "assets/sfts/flags/brazil_flag.webp";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {

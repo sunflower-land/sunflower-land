@@ -480,16 +480,28 @@ function hasBonusAnimals(game: GameState, animalType: AnimalType): Restriction {
 
   const bonusAnimalCount = animalCount - baseCapacity;
 
-  return [bonusAnimalCount > 0, translate("restrictionReason.hasBonusAnimals")];
+  return [
+    bonusAnimalCount > 0,
+    translate("restrictionReason.hasBonusAnimals", {
+      building:
+        animalType === "Chicken"
+          ? translate("restrictionReason.hasBonusAnimals.henHouse")
+          : translate("restrictionReason.hasBonusAnimals.barn"),
+    }),
+  ];
 }
 
 export function isCookingBuildingWorking(
   buildingName: CookingBuildingName,
   game: GameState,
 ): Restriction {
-  const isBuildingCooking = !!game.buildings[buildingName]?.some(
-    (building) => !!building.crafting,
-  );
+  const isBuildingCooking = !!game.buildings[buildingName]?.some((building) => {
+    if (building.crafting) {
+      return building.crafting.length > 0;
+    }
+
+    return false;
+  });
 
   return [isBuildingCooking, "Building is in use"];
 }
@@ -506,7 +518,9 @@ export function areAnyCookingBuildingWorking(game: GameState): Restriction {
     BUILDING_DAILY_OIL_CAPACITY,
   ).some(
     (building) =>
-      !!game.buildings[building]?.some((building) => !!building.crafting),
+      !!game.buildings[building]?.some(
+        (building) => building.crafting && building.crafting.length > 0,
+      ),
   );
 
   return [areAnyCookingBuildingWorking, "Building is in use"];

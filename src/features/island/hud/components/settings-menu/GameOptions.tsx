@@ -43,15 +43,13 @@ import { useSound } from "lib/utils/hooks/useSound";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import ticket from "assets/icons/ticket.png";
 import lockIcon from "assets/icons/lock.png";
+import telegramIcon from "assets/icons/telegram.webp";
 import { DEV_HoarderCheck } from "./developer-options/DEV_HoardingCheck";
 import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
 import { PickServer } from "./plaza-settings/PickServer";
 import { PlazaShaderSettings } from "./plaza-settings/PlazaShaderSettings";
-import { AdminSettings } from "./general-settings/AdminSettings";
-import AppearanceAndBehaviour from "./general-settings/AppearanceBehaviour";
-import { Notifications } from "./general-settings/Notifications";
+import { Preferences } from "./general-settings/Preferences";
 import { AuthMachineState } from "features/auth/lib/authMachine";
-import { hasFeatureAccess } from "lib/flags";
 import {
   getSubscriptionsForFarmId,
   Subscriptions,
@@ -59,7 +57,11 @@ import {
 import { preload } from "swr";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
-import { isSupported } from "firebase/messaging";
+import { LockdownWidget } from "features/announcements/AnnouncementWidgets";
+import { AirdropPlayer } from "./general-settings/AirdropPlayer";
+import { hasFeatureAccess } from "lib/flags";
+import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
 
 export interface ContentComponentProps {
   onSubMenuClick: (id: SettingMenuId) => void;
@@ -82,25 +84,19 @@ const GameOptions: React.FC<ContentComponentProps> = ({
   const { authService } = useContext(Auth.Context);
   const { walletService } = useContext(WalletContext);
 
+  const { openModal } = useContext(ModalContext);
+
   const { t } = useAppTranslation();
 
   const [isConfirmLogoutModalOpen, showConfirmLogoutModal] = useState(false);
   const [showFarm, setShowFarm] = useState(false);
   const [showNftId, setShowNftId] = useState(false);
-  const [notificationsSupported, setNotificationsSupported] = useState(false);
 
   const copypaste = useSound("copypaste");
 
   const isPWA = useIsPWA();
   const isWeb3MobileBrowser = isMobile && !!window.ethereum;
   const pwaInstall = usePWAInstall();
-
-  useEffect(() => {
-    const checkNotificationsSupported = async () => {
-      setNotificationsSupported(await isSupported());
-    };
-    checkNotificationsSupported();
-  }, []);
 
   const handleInstallApp = () => {
     if (isMobile && !isWeb3MobileBrowser) {
@@ -128,6 +124,12 @@ const GameOptions: React.FC<ContentComponentProps> = ({
   };
 
   const canRefresh = !gameService.state.context.state.transaction;
+  const hideRefresh = !gameService.state.context.nftId;
+
+  const hasHoardingCheck = hasFeatureAccess(
+    gameService.state?.context?.state,
+    "HOARDING_CHECK",
+  );
 
   return (
     <>
@@ -186,83 +188,90 @@ const GameOptions: React.FC<ContentComponentProps> = ({
           )}
         </div>
       </>
-      {!isPWA && (
-        <Button className="p-1 mb-1" onClick={handleInstallApp}>
-          <span>{t("install.app")}</span>
-        </Button>
-      )}
-      {hasFeatureAccess(
-        gameService.state.context.state,
-        "SEASONAL_EVENTS_NOTIFICATIONS",
-      ) && (
-        <Button
-          onClick={() => onSubMenuClick("notifications")}
-          className="mb-1 relative"
-          // Not available in players browser
-          disabled={
-            !(
-              "serviceWorker" in navigator &&
-              "PushManager" in window &&
-              notificationsSupported
-            )
-          }
-        >
-          <div className="flex items-center space-x-1">
-            <span>{t("gameOptions.notifications")}</span>
-            {!(
-              "serviceWorker" in navigator &&
-              "PushManager" in window &&
-              notificationsSupported
-            ) && (
-              <Label type="info" className="mt-0.5">
-                <span className=" text-xxs sm:text-xs">
-                  {t("gameOptions.notifications.notSupported")}
-                </span>
-              </Label>
+      <div className="flex flex-col gap-1">
+        {(!isPWA || !hideRefresh) && (
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
+            {!isPWA && (
+              <Button
+                onClick={handleInstallApp}
+                className={`p-1 ${hideRefresh ? "col-span-1 sm:col-span-2" : "col-span-1"}`}
+              >
+                <span>{t("install.app")}</span>
+              </Button>
+            )}
+
+            {!hideRefresh && (
+              <Button
+                disabled={!canRefresh}
+                onClick={refreshSession}
+                className={`p-1 ${isPWA ? "col-span-1 sm:col-span-2" : "col-span-1"}`}
+              >
+                {t("gameOptions.blockchainSettings.refreshChain")}
+
+                {!canRefresh && (
+                  <img
+                    src={lockIcon}
+                    className="absolute right-1 top-0.5 h-7"
+                  />
+                )}
+              </Button>
             )}
           </div>
-        </Button>
-      )}
-      <Button
-        disabled={!canRefresh}
-        className="p-1 mb-1 relative"
-        onClick={refreshSession}
-      >
-        {t("gameOptions.blockchainSettings.refreshChain")}
-
-        {!canRefresh && (
-          <img src={lockIcon} className="absolute right-1 top-0.5 h-7" />
         )}
-      </Button>
-      {(CONFIG.NETWORK === "amoy" ||
-        !!gameService.state?.context?.state.wardrobe.Halo ||
-        !!gameService.state?.context?.state.wardrobe["Gift Giver"]) && (
-        <Button className="p-1 mb-1" onClick={() => onSubMenuClick("amoy")}>
-          <span>{t("gameOptions.developerOptions")}</span>
-        </Button>
-      )}
-      <Button className="p-1 mb-1" onClick={() => onSubMenuClick("blockchain")}>
-        <span>{t("gameOptions.blockchainSettings")}</span>
-      </Button>
-      <Button className="p-1 mb-1" onClick={() => onSubMenuClick("general")}>
-        <span>{t("gameOptions.generalSettings")}</span>
-      </Button>
-      <Button className="p-1 mb-1" onClick={() => onSubMenuClick("plaza")}>
-        <span>{t("gameOptions.plazaSettings")}</span>
-      </Button>
-      <Button className="p-1 mb-1" onClick={() => showConfirmLogoutModal(true)}>
-        {t("gameOptions.logout")}
-      </Button>
-      <p className="mx-1 text-xxs">
-        <a
-          href="https://github.com/sunflower-land/sunflower-land/releases"
-          className="underline"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {CONFIG.RELEASE_VERSION?.split("-")[0]}
-        </a>
-      </p>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-1">
+          <Button className="p-1" onClick={() => onSubMenuClick("general")}>
+            <span>{t("gameOptions.generalSettings")}</span>
+          </Button>
+          <Button className="p-1" onClick={() => onSubMenuClick("blockchain")}>
+            <span>{t("gameOptions.blockchainSettings")}</span>
+          </Button>
+          <Button className="p-1" onClick={() => onSubMenuClick("plaza")}>
+            <span>{t("gameOptions.plazaSettings")}</span>
+          </Button>
+          {hasHoardingCheck && (
+            <Button className="p-1" onClick={() => onSubMenuClick("amoy")}>
+              <span>{t("gameOptions.developerOptions")}</span>
+            </Button>
+          )}
+          <Button
+            className={`p-1 ${hasHoardingCheck ? "col-span-1 sm:col-span-2" : "col-span-1"}`}
+            onClick={() => showConfirmLogoutModal(true)}
+          >
+            {t("gameOptions.logout")}
+          </Button>
+        </div>
+      </div>
+      <div className="flex justify-between">
+        <p className="mx-1 text-xxs">
+          <a
+            href="https://github.com/sunflower-land/sunflower-land/releases"
+            className="underline"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {CONFIG.RELEASE_VERSION?.split("-")[0]}
+          </a>
+        </p>
+        {hasFeatureAccess(gameService.state?.context?.state, "TELEGRAM") && (
+          <div className="flex">
+            <Button className="p-1 w-10 h-10 mr-1" disabled>
+              <img src={SUNNYSIDE.icons.expression_confused} className="h-4" />
+            </Button>
+            <Button
+              className="p-1 w-10 h-10 mr-1"
+              onClick={() => openModal("TWITTER")}
+            >
+              <img src={SUNNYSIDE.icons.expression_chat} className="h-4" />
+            </Button>
+            <Button
+              className="p-1 w-10 h-10"
+              onClick={() => openModal("TELEGRAM")}
+            >
+              <img src={telegramIcon} className="h-4" />
+            </Button>
+          </div>
+        )}
+      </div>
       <ConfirmationModal
         show={isConfirmLogoutModalOpen}
         onHide={() => showConfirmLogoutModal(false)}
@@ -329,6 +338,7 @@ export const GameOptionsModal: React.FC<GameOptionsModalProps> = ({
       >
         <SelectedComponent onSubMenuClick={setSelected} onClose={onHide} />
       </CloseButtonPanel>
+      <LockdownWidget />
     </Modal>
   );
 };
@@ -342,7 +352,7 @@ export type SettingMenuId =
   | "general"
   | "plaza"
   | "admin"
-
+  | "faceRecognition"
   // Blockchain Settings
   | "deposit"
   | "swapSFL"
@@ -353,10 +363,8 @@ export type SettingMenuId =
   | "discord"
   | "changeLanguage"
   | "share"
-  | "appearance&behaviour"
+  | "preferences"
 
-  // Push Notifications
-  | "notifications"
   // Amoy Testnet Actions
   | "hoardingCheck"
   // Plaza Settings
@@ -401,11 +409,6 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     parent: "main",
     content: PlazaSettings,
   },
-  notifications: {
-    title: translate("gameOptions.notifications"),
-    parent: "main",
-    content: (props) => <Notifications {...props} />,
-  },
 
   // Blockchain Settings
   deposit: {
@@ -430,6 +433,11 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
   },
 
   // General Settings
+  faceRecognition: {
+    title: translate("gameOptions.faceRecognition"),
+    parent: "general",
+    content: FaceRecognition,
+  },
   discord: {
     title: "Discord",
     parent: "general",
@@ -445,17 +453,17 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     parent: "general",
     content: Share,
   },
-  "appearance&behaviour": {
-    title: translate("gameOptions.generalSettings.appearance&behaviour"),
+  preferences: {
+    title: translate("gameOptions.generalSettings.preferences"),
     parent: "general",
-    content: AppearanceAndBehaviour,
+    content: Preferences,
   },
 
   // Developer Options
   admin: {
-    title: `Admin`,
+    title: `Airdrop Player`,
     parent: "amoy",
-    content: AdminSettings,
+    content: AirdropPlayer,
   },
   hoardingCheck: {
     title: "Hoarding Check (DEV)",

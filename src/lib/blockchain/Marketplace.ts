@@ -9,6 +9,7 @@ import {
 } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
 import { saveTxHash } from "features/game/types/transactions";
+import { polygon, polygonAmoy } from "viem/chains";
 
 const address = CONFIG.MARKETPLACE_CONTRACT;
 
@@ -60,6 +61,7 @@ export async function acceptOfferTransaction({
   const amountOutMinimum = (BigInt(quote.result[0]) * BigInt(99)) / BigInt(100); // 1% slippage
 
   const hash = await writeContract(config, {
+    chainId: CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id,
     abi: MarketplaceABI,
     address: address as `0x${string}`,
     functionName: "acceptOffer",
@@ -139,6 +141,7 @@ export async function listingPurchasedTransaction({
   const amountOutMinimum = (BigInt(quote.result[0]) * BigInt(99)) / BigInt(100); // 1% slippage
 
   const hash = await writeContract(config, {
+    chainId: CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id,
     abi: MarketplaceABI,
     address: address as `0x${string}`,
     functionName: "purchaseListing",

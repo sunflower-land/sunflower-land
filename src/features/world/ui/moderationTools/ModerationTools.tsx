@@ -4,7 +4,6 @@ import { useActor } from "@xstate/react";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import classNames from "classnames";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SceneId } from "features/world/mmoMachine";
@@ -15,6 +14,7 @@ import { ChatHistory } from "./tabs/ChatHistory";
 import { Actions } from "./tabs/Actions";
 
 import { MachineInterpreter, Moderation } from "features/game/lib/gameMachine";
+import { RoundButton } from "components/ui/RoundButton";
 
 export type Message = {
   farmId: number;
@@ -63,22 +63,19 @@ export const ModerationTools: React.FC<Props> = ({
 
   return (
     <>
-      <div
-        className={classNames(
-          "fixed bottom-2 left-20 cursor-pointer hover:img-highlight",
-        )}
-        style={{ width: `${PIXEL_SCALE * 22}px`, zIndex: 49 }}
-        onClick={toggleModerationTool}
-      >
-        <img
-          src={SUNNYSIDE.icons.disc}
-          style={{ width: `${PIXEL_SCALE * 22}px` }}
-        />
-        <img
-          src={SUNNYSIDE.badges.discord}
-          style={{ width: `${PIXEL_SCALE * 12}px` }}
-          className="absolute bottom-[17.5px] left-[13px]"
-        />
+      <div className="fixed bottom-2 left-20">
+        <RoundButton onClick={toggleModerationTool}>
+          <img
+            src={SUNNYSIDE.badges.discord}
+            className="absolute group-active:translate-y-[2px]"
+            style={{
+              height: `${PIXEL_SCALE * 12}px`,
+              width: `${PIXEL_SCALE * 12}px`,
+              top: `${PIXEL_SCALE * 4.5}px`,
+              left: `${PIXEL_SCALE * 5}px`,
+            }}
+          />
+        </RoundButton>
       </div>
 
       <Modal show={showModerationTool} onHide={toggleModerationTool} size="lg">

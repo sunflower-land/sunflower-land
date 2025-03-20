@@ -8,6 +8,7 @@ import { useSelector } from "@xstate/react";
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { MachineState } from "features/game/lib/gameMachine";
+import { RoundButton } from "components/ui/RoundButton";
 
 type ButtonState = "unsaved" | "inProgress" | "saved";
 
@@ -59,33 +60,10 @@ export const Save: React.FC = () => {
   };
 
   return (
-    <div
+    <RoundButton
       onClick={enableButton ? save : undefined}
-      className={classNames({
-        "cursor-pointer hover:img-highlight group":
-          enableButton && buttonState === "unsaved",
-      })}
-      style={{
-        // right: `${PIXEL_SCALE * 3}px`,
-        bottom: `${PIXEL_SCALE * 52}px`,
-        width: `${PIXEL_SCALE * 22}px`,
-      }}
+      disabled={!enableButton || buttonState !== "unsaved"}
     >
-      <img
-        src={SUNNYSIDE.ui.round_button_pressed}
-        className="absolute"
-        style={{
-          width: `${PIXEL_SCALE * 22}px`,
-        }}
-      />
-      <img
-        src={SUNNYSIDE.ui.round_button}
-        className="absolute group-active:hidden"
-        style={{
-          width: `${PIXEL_SCALE * 22}px`,
-        }}
-      />
-
       {buttonState === "unsaved" && (
         <img
           src={saveIcon}
@@ -130,6 +108,6 @@ export const Save: React.FC = () => {
           width: `${PIXEL_SCALE * 22}px`,
         }}
       />
-    </div>
+    </RoundButton>
   );
 };

@@ -4,8 +4,6 @@ import classNames from "classnames";
 import { FirePitModal } from "./FirePitModal";
 import { CookableName } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { CraftingMachineChildProps } from "../WithCraftingMachine";
-import { BuildingProps } from "../Building";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { setImageWidth } from "lib/images";
@@ -19,8 +17,16 @@ import shadow from "assets/npcs/shadow.png";
 import { MachineState } from "features/game/lib/gameMachine";
 import Decimal from "decimal.js-light";
 import { useSound } from "lib/utils/hooks/useSound";
+import { ReadyRecipes } from "../ReadyRecipes";
+import { useCookingState } from "features/island/buildings/lib/useCookingState";
+import { IslandType, TemperateSeasonName } from "features/game/types/game";
 
-type Props = BuildingProps & Partial<CraftingMachineChildProps>;
+type Props = {
+  buildingId: string;
+  isBuilt: boolean;
+  island: IslandType;
+  season: TemperateSeasonName;
+};
 
 const _mashedPotatoCooked = (state: MachineState) =>
   state.context.state.bumpkin?.activity?.["Mashed Potato Cooked"];
@@ -29,19 +35,10 @@ const _experience = (state: MachineState) =>
 const _potatoCount = (state: MachineState) =>
   state.context.state.inventory.Potato ?? new Decimal(0);
 const _season = (state: MachineState) => state.context.state.season.season;
-const _cooking = (id: number) => (state: MachineState) =>
-  state.context.state.buildings["Fire Pit"]?.[id]?.crafting;
-export const FirePit: React.FC<Props> = ({
-  buildingId,
-  crafting,
-  idle,
-  ready,
-  name,
-  craftingService,
-  isBuilt,
-  island,
-  onRemove,
-}) => {
+const _firePit = (id: string) => (state: MachineState) =>
+  state.context.state.buildings["Fire Pit"]?.find((b) => b.id === id);
+
+export const FirePit: React.FC<Props> = ({ buildingId, isBuilt, island }) => {
   const { gameService } = useContext(Context);
   const [showModal, setShowModal] = useState(false);
 
@@ -49,13 +46,17 @@ export const FirePit: React.FC<Props> = ({
   const experience = useSelector(gameService, _experience);
   const potatoCount = useSelector(gameService, _potatoCount);
   const season = useSelector(gameService, _season);
+  const firePit = useSelector(gameService, _firePit(buildingId));
+
+  const { cooking, queuedRecipes, readyRecipes } = useCookingState(
+    firePit ?? {},
+  );
 
   const { play: bakeryAudio } = useSound("bakery");
 
   const handleCook = (item: CookableName) => {
-    craftingService?.send({
-      type: "CRAFT",
-      event: "recipe.cooked",
+    gameService?.send({
+      type: "recipe.cooked",
       item,
       buildingId,
     });
@@ -68,58 +69,48 @@ export const FirePit: React.FC<Props> = ({
   };
 
   const handleCollect = () => {
-    if (!name) return;
-
-    craftingService?.send({
-      type: "COLLECT",
-      item: name,
-      event: "recipe.collected",
+    gameService?.send({
+      type: "recipes.collected",
+      building: "Fire Pit",
+      buildingId,
     });
   };
 
   const handleClick = () => {
-    if (onRemove) {
-      onRemove();
-      return;
-    }
+    if (!isBuilt) return;
 
-    if (isBuilt) {
-      // Add future on click actions here
-      if (idle || crafting) {
-        bakeryAudio();
-        setShowModal(true);
-        return;
-      }
-
-      if (ready) {
-        handleCollect();
-        return;
-      }
+    if (!cooking && readyRecipes.length > 0) {
+      handleCollect();
+    } else {
+      bakeryAudio();
+      setShowModal(true);
     }
   };
 
-  const showHelper = potatoCount.gte(8) && experience === 0 && !crafting;
+  const showHelper = potatoCount.gte(8) && experience === 0 && !cooking;
 
   return (
     <>
-      <BuildingImageWrapper name="Fire Pit" onClick={handleClick} ready={ready}>
+      <BuildingImageWrapper
+        name="Fire Pit"
+        onClick={handleClick}
+        ready={readyRecipes?.length > 0}
+      >
         <img
           src={FIRE_PIT_VARIANTS[island][season]}
           className={classNames("absolute bottom-0 pointer-events-none", {
-            "opacity-100": !crafting,
-            "opacity-80": crafting,
+            "opacity-100": !cooking,
+            "opacity-80": cooking,
           })}
           style={{
             width: `${PIXEL_SCALE * 47}px`,
             height: `${PIXEL_SCALE * 33}px`,
           }}
         />
-        {(crafting || ready) && name && (
+        {cooking && (
           <img
-            src={ITEM_DETAILS[name].image}
-            className={classNames("absolute z-30 pointer-events-none", {
-              "img-highlight-heavy": ready,
-            })}
+            src={ITEM_DETAILS[cooking.name].image}
+            className={classNames("absolute z-30 pointer-events-none")}
             onLoad={(e) => {
               const img = e.currentTarget;
               if (
@@ -141,6 +132,7 @@ export const FirePit: React.FC<Props> = ({
             }}
           />
         )}
+        <ReadyRecipes readyRecipes={readyRecipes} leftOffset={10} />
         <img
           src={shadow}
           className="absolute pointer-events-none"
@@ -162,7 +154,7 @@ export const FirePit: React.FC<Props> = ({
           />
         )}
 
-        {crafting ? (
+        {cooking ? (
           <img
             src={SUNNYSIDE.npcs.firePit_npcDoing}
             className="absolute pointer-events-none"
@@ -186,13 +178,14 @@ export const FirePit: React.FC<Props> = ({
       </BuildingImageWrapper>
 
       <FirePitModal
+        queue={queuedRecipes ?? []}
         isOpen={showModal}
         onClose={() => setShowModal(false)}
         onCook={handleCook}
-        crafting={!!crafting}
-        itemInProgress={name}
-        craftingService={craftingService}
+        cooking={cooking}
+        itemInProgress={cooking?.name}
         buildingId={buildingId}
+        readyRecipes={readyRecipes}
       />
     </>
   );

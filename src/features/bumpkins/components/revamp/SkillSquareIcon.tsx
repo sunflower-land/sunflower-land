@@ -37,8 +37,8 @@ const getImage = (iconWidth: number, icon?: string) => {
         position: "relative",
         top: "-7px",
         left: "7px",
-        maxWidth: `45px`,
-        maxHeight: `45px`,
+        maxWidth: `40px`,
+        maxHeight: `40px`,
         transformOrigin: "center",
       }}
       onLoad={(e) => {

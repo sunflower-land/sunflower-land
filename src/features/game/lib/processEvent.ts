@@ -7,15 +7,12 @@ import {
   InventoryItemName,
   Wardrobe,
 } from "../types/game";
-import { SKILL_TREE } from "../types/skills";
+import { LEGACY_BADGE_TREE } from "../types/skills";
 import { Announcements } from "../types/announcements";
 import { EXOTIC_CROPS } from "../types/beans";
-import { BASIC_DECORATIONS, BasicDecorationName } from "../types/decorations";
-import { FISH, FishName, MarineMarvelName } from "../types/fishing";
-import {
-  LANDSCAPING_DECORATIONS,
-  LandscapingDecorationName,
-} from "../types/decorations";
+import { BASIC_DECORATIONS } from "../types/decorations";
+import { FISH } from "../types/fishing";
+import { LANDSCAPING_DECORATIONS } from "../types/decorations";
 import { getActiveListedItems } from "features/island/hud/components/inventory/utils/inventory";
 import { KNOWN_IDS } from "../types";
 import { ANIMAL_FOODS } from "../types/animals";
@@ -23,7 +20,7 @@ import { BumpkinItem, ITEM_IDS } from "../types/bumpkin";
 import { MaxedItem } from "./gameMachine";
 
 export const MAX_INVENTORY_ITEMS: Inventory = {
-  ...(Object.keys(EXOTIC_CROPS) as InventoryItemName[]).reduce(
+  ...getKeys(EXOTIC_CROPS).reduce(
     (acc, name) => ({
       ...acc,
       [name]: new Decimal(50),
@@ -32,7 +29,7 @@ export const MAX_INVENTORY_ITEMS: Inventory = {
   ),
 
   // Max of 1000 food item
-  ...(Object.keys(FOODS()) as InventoryItemName[]).reduce(
+  ...getKeys(FOODS()).reduce(
     (acc, name) => ({
       ...acc,
       [name]: new Decimal(1000),
@@ -41,7 +38,7 @@ export const MAX_INVENTORY_ITEMS: Inventory = {
   ),
 
   // Max of 1 skill badge
-  ...(Object.keys(SKILL_TREE) as InventoryItemName[]).reduce(
+  ...getKeys(LEGACY_BADGE_TREE).reduce(
     (acc, name) => ({
       ...acc,
       [name]: new Decimal(1),
@@ -49,7 +46,7 @@ export const MAX_INVENTORY_ITEMS: Inventory = {
     {},
   ),
 
-  ...(Object.keys(EXOTIC_CROPS) as InventoryItemName[]).reduce(
+  ...getKeys(EXOTIC_CROPS).reduce(
     (acc, name) => ({
       ...acc,
       [name]: new Decimal(50),
@@ -58,7 +55,7 @@ export const MAX_INVENTORY_ITEMS: Inventory = {
   ),
 
   // Max of 100 basic decoration
-  ...(Object.keys(BASIC_DECORATIONS()) as BasicDecorationName[]).reduce(
+  ...getKeys(BASIC_DECORATIONS()).reduce(
     (acc, name) => ({
       ...acc,
       [name]: new Decimal(100),
@@ -69,7 +66,7 @@ export const MAX_INVENTORY_ITEMS: Inventory = {
   "Basic Bear": new Decimal(1000),
 
   // Max of 100 fish
-  ...(Object.keys(FISH) as (FishName | MarineMarvelName)[]).reduce(
+  ...getKeys(FISH).reduce(
     (acc, name) => ({
       ...acc,
       [name]: new Decimal(100),
@@ -82,7 +79,7 @@ export const MAX_INVENTORY_ITEMS: Inventory = {
   "Red Snapper": new Decimal(200),
 
   // Max of 1000 landscaping decoration, but only 100 for mushrooms
-  ...(Object.keys(LANDSCAPING_DECORATIONS()) as LandscapingDecorationName[])
+  ...getKeys(LANDSCAPING_DECORATIONS())
     .filter(
       (name) => !LANDSCAPING_DECORATIONS()[name].ingredients["Wild Mushroom"],
     )
@@ -93,7 +90,7 @@ export const MAX_INVENTORY_ITEMS: Inventory = {
       }),
       {},
     ),
-  ...(Object.keys(LANDSCAPING_DECORATIONS()) as LandscapingDecorationName[])
+  ...getKeys(LANDSCAPING_DECORATIONS())
     .filter(
       (name) => LANDSCAPING_DECORATIONS()[name].ingredients["Wild Mushroom"],
     )
@@ -105,7 +102,7 @@ export const MAX_INVENTORY_ITEMS: Inventory = {
       {},
     ),
 
-  ...(Object.keys(ANIMAL_FOODS) as InventoryItemName[]).reduce(
+  ...getKeys(ANIMAL_FOODS).reduce(
     (acc, name) => ({
       ...acc,
       [name]: new Decimal(1500),
@@ -172,45 +169,6 @@ export const MAX_INVENTORY_ITEMS: Inventory = {
   Mootant: new Decimal(5),
   "Frozen Sheep": new Decimal(5),
   "Summer Chicken": new Decimal(5),
-
-  // Seed limits + buffer
-  "Sunflower Seed": new Decimal(1250),
-  "Potato Seed": new Decimal(650),
-  "Pumpkin Seed": new Decimal(530),
-  "Carrot Seed": new Decimal(350),
-  "Cabbage Seed": new Decimal(350),
-  "Soybean Seed": new Decimal(350),
-  "Beetroot Seed": new Decimal(320),
-  "Cauliflower Seed": new Decimal(290),
-  "Parsnip Seed": new Decimal(230),
-  "Eggplant Seed": new Decimal(200),
-  "Corn Seed": new Decimal(200),
-  "Radish Seed": new Decimal(170),
-  "Wheat Seed": new Decimal(170),
-  "Kale Seed": new Decimal(150),
-  "Barley Seed": new Decimal(150),
-  "Duskberry Seed": new Decimal(150),
-  "Lunara Seed": new Decimal(150),
-  "Celestine Seed": new Decimal(150),
-
-  "Tomato Seed": new Decimal(100),
-  "Apple Seed": new Decimal(100),
-  "Orange Seed": new Decimal(100),
-  "Blueberry Seed": new Decimal(100),
-  "Banana Plant": new Decimal(100),
-  "Lemon Seed": new Decimal(100),
-
-  "Sunpetal Seed": new Decimal(100),
-  "Bloom Seed": new Decimal(100),
-  "Lily Seed": new Decimal(100),
-  "Edelweiss Seed": new Decimal(100),
-  "Gladiolus Seed": new Decimal(100),
-  "Lavender Seed": new Decimal(100),
-  "Clover Seed": new Decimal(100),
-
-  "Olive Seed": new Decimal(100),
-  "Grape Seed": new Decimal(100),
-  "Rice Seed": new Decimal(100),
 
   "Red Pansy": new Decimal(80),
   "Yellow Pansy": new Decimal(80),

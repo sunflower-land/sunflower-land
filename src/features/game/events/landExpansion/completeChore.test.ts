@@ -456,59 +456,6 @@ describe("chore.completed", () => {
     expect(state.inventory["Scroll"]).toEqual(new Decimal(5));
   });
 
-  it("provides +2 tickets for banner holders", () => {
-    const now = new Date("2024-05-09").getTime();
-
-    const chore: ChoreV2 = {
-      activity: "Sunflower Harvested",
-      description: "Harvest 30 Sunflowers",
-      createdAt: now,
-      bumpkinId: INITIAL_BUMPKIN.id,
-      startCount: 0,
-      requirement: 30,
-    };
-
-    const state = completeChore({
-      createdAt: now,
-      action: {
-        type: "chore.completed",
-        id: 4,
-      },
-      state: {
-        ...cloneDeep(TEST_FARM),
-
-        inventory: {
-          "Clash of Factions Banner": new Decimal(1),
-        },
-        faction: {
-          name: "bumpkins",
-          pledgedAt: 0,
-          history: {},
-          points: 0,
-        },
-        bumpkin: {
-          ...INITIAL_BUMPKIN,
-          activity: {
-            "Sunflower Harvested": 50,
-          },
-        },
-        chores: {
-          choresCompleted: 0,
-          choresSkipped: 0,
-          chores: {
-            "1": chore,
-            "2": chore,
-            "3": chore,
-            "4": chore,
-            "5": chore,
-          },
-        },
-      },
-    });
-
-    expect(state.inventory["Scroll"]).toEqual(new Decimal(6));
-  });
-
   it("provides +2 tickets for lifetime banner holders", () => {
     const now = new Date("2024-05-09").getTime();
 

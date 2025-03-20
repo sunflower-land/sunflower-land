@@ -18,7 +18,8 @@ export type FarmActivityName =
   | BountiedEvent
   | CraftedEvent
   | ResourceBought
-  | "Obsidian Exchanged";
+  | "Obsidian Exchanged"
+  | "Obsession Completed";
 
 export function trackFarmActivity(
   activityName: FarmActivityName,

@@ -4,6 +4,8 @@ import { getNextSessionId, getSessionId } from "./Session";
 import { waitForTransactionReceipt, writeContract } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
 import { saveTxHash } from "features/game/types/transactions";
+import { polygonAmoy } from "viem/chains";
+import { polygon } from "viem/chains";
 
 const address = CONFIG.AUCTION_CONTRACT;
 
@@ -33,6 +35,7 @@ export async function mintAuctionCollectible({
   const oldSessionId = await getSessionId(farmId as number);
 
   const hash = await writeContract(config, {
+    chainId: CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id,
     abi: ABI,
     address: address as `0x${string}`,
     functionName: "mintCollectible",
@@ -70,6 +73,7 @@ export async function mintAuctionWearable({
   const oldSessionId = await getSessionId(farmId as number);
 
   const hash = await writeContract(config, {
+    chainId: CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id,
     abi: ABI,
     address: address as `0x${string}`,
     functionName: "mintWearable",

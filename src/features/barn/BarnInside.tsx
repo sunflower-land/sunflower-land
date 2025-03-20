@@ -9,7 +9,7 @@ import { Hud } from "features/island/hud/Hud";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys, getValues } from "features/game/types/decorations";
 import { ANIMALS, AnimalType } from "features/game/types/animals";
 import { Cow } from "./components/Cow";
 import { Sheep } from "./components/Sheep";
@@ -21,7 +21,6 @@ import {
   hasReadGuide,
 } from "features/game/expansion/components/animals/AnimalBuildingModal";
 import { FeederMachine } from "features/feederMachine/FeederMachine";
-import { AnimalBuildingLevel } from "features/game/events/landExpansion/upgradeBuilding";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { UpgradeBuildingModal } from "features/game/expansion/components/UpgradeBuildingModal";
 import { ANIMAL_HOUSE_IMAGES } from "features/henHouse/HenHouseInside";
@@ -37,7 +36,7 @@ export const EXTERIOR_ISLAND_BG: Record<IslandType, string> = {
   basic: SUNNYSIDE.land.basic_building_bg,
   spring: SUNNYSIDE.land.spring_building_bg,
   desert: SUNNYSIDE.land.desert_building_bg,
-  volcano: SUNNYSIDE.land.desert_building_bg,
+  volcano: SUNNYSIDE.land.volcano_building_bg,
 };
 
 const _barn = (state: MachineState) => state.context.state.barn;
@@ -60,7 +59,7 @@ export const BarnInside: React.FC = () => {
   const [deal, setDeal] = useState<AnimalBounty>();
 
   const barn = useSelector(gameService, _barn);
-  const level = barn.level as AnimalBuildingLevel;
+  const level = barn.level;
 
   const [scrollIntoView] = useScrollIntoView();
   const navigate = useNavigate();
@@ -71,7 +70,7 @@ export const BarnInside: React.FC = () => {
     scrollIntoView(Section.GenesisBlock, "auto");
   }, []);
 
-  const nextLevel = Math.min(level + 1, 3) as Exclude<AnimalBuildingLevel, 1>;
+  const nextLevel = Math.min(level + 1, 3);
 
   const {
     x: floorX,
@@ -109,7 +108,11 @@ export const BarnInside: React.FC = () => {
         },
       };
     });
-  }, [getKeys(barn.animals).length, floorWidth]);
+  }, [
+    getKeys(barn.animals).length,
+    getValues(barn.animals).map((animal) => animal.state),
+    floorWidth,
+  ]);
 
   return (
     <>
@@ -132,10 +135,9 @@ export const BarnInside: React.FC = () => {
         onClose={() => setShowUpgradeModal(false)}
       />
 
-      <Modal show={!!selected} onHide={() => setDeal(undefined)}>
+      <Modal show={!!selected} onHide={() => setSelected(undefined)}>
         <AnimalDeal
           onClose={() => {
-            setDeal(undefined);
             setSelected(undefined);
           }}
           onSold={() => {

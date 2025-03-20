@@ -12,7 +12,9 @@ import { getInventoryBalances } from "lib/blockchain/Inventory";
 import { balancesToInventory } from "lib/utils/visitUtils";
 import { fromWei, toBN, toWei } from "web3-utils";
 
+import chest from "assets/icons/chest.png";
 import token from "assets/icons/sfl.webp";
+
 import classNames from "classnames";
 import { formatNumber } from "lib/utils/formatNumber";
 import { getKeys } from "features/game/types/craftables";
@@ -40,6 +42,10 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { Context as GameContext } from "features/game/GameProvider";
 import { GameWallet } from "features/wallet/Wallet";
 import { formatEther } from "viem";
+import { hasFeatureAccess } from "lib/flags";
+import { INITIAL_FARM } from "features/game/lib/constants";
+import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
+import { LockdownWidget } from "features/announcements/AnnouncementWidgets";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -77,6 +83,7 @@ type Status = "loading" | "loaded" | "error";
 
 interface Props {
   farmAddress: string;
+  linkedWallet: string;
   onDeposit: (
     args: Pick<
       DepositArgs,
@@ -100,23 +107,8 @@ export const Deposit: React.FC<Props> = ({
   onDeposit,
   onLoaded,
   farmAddress,
+  linkedWallet,
 }) => {
-  const [showIntro, setShowIntro] = useState(true);
-  const { t } = useAppTranslation();
-  if (showIntro) {
-    return (
-      <>
-        <div className="p-2">
-          <Label icon={SUNNYSIDE.resource.pirate_bounty} type="default">
-            {t("deposit")}
-          </Label>
-          <p className="my-2 text-sm">{t("question.depositSFLItems")}</p>
-        </div>
-        <Button onClick={() => setShowIntro(false)}>{t("continue")}</Button>
-      </>
-    );
-  }
-
   return (
     <GameWallet action="deposit">
       <DepositOptions
@@ -124,6 +116,7 @@ export const Deposit: React.FC<Props> = ({
         onDeposit={onDeposit}
         onLoaded={onLoaded}
         farmAddress={farmAddress}
+        linkedWallet={linkedWallet}
       />
     </GameWallet>
   );
@@ -134,6 +127,7 @@ const DepositOptions: React.FC<Props> = ({
   onDeposit,
   onLoaded,
   farmAddress,
+  linkedWallet,
 }) => {
   const { t } = useAppTranslation();
 
@@ -325,60 +319,132 @@ const DepositOptions: React.FC<Props> = ({
     budBalance.length === 0 &&
     budsToDeposit.length === 0 &&
     sflBalance.eq(0);
+
+  const hasAnythingToDeposit =
+    hasItemsToDeposit ||
+    hasWearablesToDeposit ||
+    hasBudsToDeposit ||
+    sflDepositAmount > 0;
+
   const validDepositAmount = sflDepositAmount > 0 && !amountGreaterThanBalance;
 
   return (
     <>
       {status === "loading" && <Loading />}
       {status === "loaded" && emptyWallet && (
-        <div className="p-2 space-y-2">
-          <p>{t("deposit.noSflOrCollectibles")}</p>
-          <div className="flex text-xs sm:text-xs pb-8">
-            <span className="whitespace-nowrap">
-              {t("deposit.farmAddress")}
-            </span>
-            <CopyAddress address={farmAddress} />
-          </div>
+        <div>
+          {hasFeatureAccess(INITIAL_FARM, "DISABLE_BLOCKCHAIN_ACTIONS") && (
+            <>
+              <div className="p-2 space-y-2">
+                <div className="flex justify-between sm:flex-row flex-col">
+                  <Label
+                    type="formula"
+                    icon={SUNNYSIDE.icons.polygonIcon}
+                    className="mb-2"
+                  >
+                    {t("polygon.required")}
+                  </Label>
+                  <div className="-mr-4">
+                    <WalletAddressLabel
+                      walletAddress={linkedWallet}
+                      showLabelTitle={true}
+                    />
+                  </div>
+                </div>
+
+                <p className="flex text-xs sm:text-xs">
+                  {t("deposit.addCollectiblesToPolygonWallet")}
+                </p>
+                <div className="flex text-xs sm:text-xs space-x-1 pb-8">
+                  <span className="whitespace-nowrap">
+                    {`${t("deposit.linkedWallet")}`}
+                  </span>
+                  <CopyAddress address={linkedWallet} />
+                </div>
+              </div>
+              <Button onClick={() => setStatus("loading")}>
+                {t("deposit.refreshWallet")}
+              </Button>
+            </>
+          )}
+          {!hasFeatureAccess(INITIAL_FARM, "DISABLE_BLOCKCHAIN_ACTIONS") && (
+            <div className="p-2 space-y-2">
+              <p>{t("deposit.noSflOrCollectibles")}</p>
+
+              <div className="flex text-xs sm:text-xs pb-8">
+                <span className="whitespace-nowrap">
+                  {t("deposit.farmAddress")}
+                </span>
+                <CopyAddress address={farmAddress} />
+              </div>
+            </div>
+          )}
         </div>
       )}
       {status === "loaded" && !emptyWallet && (
         <>
           <div className="p-2 mb-1">
-            <p className="mb-2">{t("deposit.yourPersonalWallet")}</p>
+            <div className="flex justify-between sm:flex-row flex-col">
+              <Label
+                type="formula"
+                icon={SUNNYSIDE.icons.polygonIcon}
+                className="mb-2"
+              >
+                {t("polygon.required")}
+              </Label>
+              <div className="-mr-4 hidden sm:block">
+                <WalletAddressLabel
+                  walletAddress={linkedWallet}
+                  showLabelTitle={true}
+                />
+              </div>
+            </div>
             <div className="divide-y-2 divide-dashed divide-brown-600">
-              <div className="space-y-3 mb-3">
-                {sflBalance.gt(0) && (
-                  <>
-                    <p className="text-sm">{"SFL"}</p>
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="relative w-full mr-4">
-                        <input
-                          type="number"
-                          name="sflDepositAmount"
-                          value={sflDepositAmount}
-                          disabled={false}
-                          onInput={handleSflDepositAmountChange}
-                          className={classNames(
-                            "text-shadow shadow-inner shadow-black bg-brown-200 w-full p-2",
-                            {
-                              "text-error": amountGreaterThanBalance,
-                            },
-                          )}
-                        />
-                        <span className="text-xxs md:text-xs absolute top-1/2 -translate-y-1/2 right-2">{`${
-                          isMobile ? t("balance.short") : t("balance")
-                        }: ${formattedSflBalance}`}</span>
-                      </div>
-                      <div className="w-[10%] flex self-center justify-center">
-                        <img className="w-6" src={token} alt="sfl token" />
+              <div className="space-y-3">
+                {sflBalance.gt(0) &&
+                  !hasFeatureAccess(
+                    INITIAL_FARM,
+                    "DISABLE_BLOCKCHAIN_ACTIONS",
+                  ) && (
+                    <div>
+                      <Label type="default" className="mb-2" icon={token}>
+                        {"$SFL"}
+                      </Label>
+                      <div className="flex items-start justify-between mb-4">
+                        <div className="relative w-full mr-4">
+                          <input
+                            type="number"
+                            name="sflDepositAmount"
+                            value={sflDepositAmount}
+                            disabled={false}
+                            onInput={handleSflDepositAmountChange}
+                            className={classNames(
+                              "text-shadow shadow-inner shadow-black bg-brown-200 w-full p-2",
+                              {
+                                "text-error": amountGreaterThanBalance,
+                              },
+                            )}
+                          />
+                          <span className="text-xxs md:text-xs absolute top-1/2 -translate-y-1/2 right-2">{`${
+                            isMobile ? t("balance.short") : t("balance")
+                          }: ${formattedSflBalance}`}</span>
+                        </div>
+                        <div className="w-[10%] flex self-center justify-center">
+                          <img className="w-6" src={token} alt="sfl token" />
+                        </div>
                       </div>
                     </div>
-                  </>
-                )}
+                  )}
 
                 {hasItemsInInventory && (
-                  <>
-                    <p className="text-sm">{t("collectibles")}</p>
+                  <div>
+                    <Label
+                      type="default"
+                      className="mb-2"
+                      icon={SUNNYSIDE.icons.basket}
+                    >
+                      {t("collectibles")}
+                    </Label>
                     <div
                       className="flex flex-wrap h-fit -ml-1.5 overflow-y-auto scrollable pr-1"
                       style={{ maxHeight: "200px" }}
@@ -395,11 +461,17 @@ const DepositOptions: React.FC<Props> = ({
                         );
                       })}
                     </div>
-                  </>
+                  </div>
                 )}
                 {hasBuds && (
-                  <>
-                    <p className="text-sm">{t("buds")}</p>
+                  <div>
+                    <Label
+                      className="mb-2"
+                      type="default"
+                      icon={SUNNYSIDE.icons.plant}
+                    >
+                      {t("buds")}
+                    </Label>
                     <div
                       className="flex flex-wrap h-fit -ml-1.5 overflow-y-auto scrollable pr-1"
                       style={{ maxHeight: "200px" }}
@@ -415,11 +487,13 @@ const DepositOptions: React.FC<Props> = ({
                         );
                       })}
                     </div>
-                  </>
+                  </div>
                 )}
                 {hasItemsInWardrobe && (
-                  <>
-                    <p className="text-sm">{t("wearables")}</p>
+                  <div>
+                    <Label type="default" className="mb-2" icon={chest}>
+                      {t("wearables")}
+                    </Label>
                     <div
                       className="flex flex-wrap h-fit -ml-1.5 overflow-y-auto scrollable pr-1"
                       style={{ maxHeight: "200px" }}
@@ -435,62 +509,78 @@ const DepositOptions: React.FC<Props> = ({
                         );
                       })}
                     </div>
-                  </>
+                  </div>
                 )}
-                <div className="pt-3">
-                  <p className="mb-1">{t("deposit.farmWillReceive")}</p>
+                {hasAnythingToDeposit && (
+                  <div>
+                    <Label type="warning" className="mb-2" icon={chest}>
+                      {t("deposit.farmWillReceive")}
+                    </Label>
+
+                    <div>
+                      {validDepositAmount &&
+                        !hasFeatureAccess(
+                          INITIAL_FARM,
+                          "DISABLE_BLOCKCHAIN_ACTIONS",
+                        ) && <p>{`${sflDepositAmount} SFL`}</p>}
+                      {hasItemsToDeposit && (
+                        <div className="flex flex-wrap h-fit -ml-1.5">
+                          {selectedItems.map((item) => {
+                            return (
+                              <Box
+                                count={inventoryToDeposit[item]}
+                                key={item}
+                                onClick={() => onRemoveItem(item)}
+                                image={ITEM_DETAILS[item].image}
+                                canBeLongPressed
+                              />
+                            );
+                          })}
+                        </div>
+                      )}
+                      {hasWearablesToDeposit && (
+                        <div className="flex flex-wrap h-fit -ml-1.5">
+                          {selectedWearables.map((item) => {
+                            return (
+                              <Box
+                                count={
+                                  new Decimal(wearablesToDeposit[item] ?? 0)
+                                }
+                                key={item}
+                                onClick={() => onRemoveWearable(item)}
+                                image={getImageUrl(ITEM_IDS[item])}
+                                canBeLongPressed
+                              />
+                            );
+                          })}
+                        </div>
+                      )}
+
+                      {hasBudsToDeposit && (
+                        <div className="flex flex-wrap h-fit -ml-1.5">
+                          {budsToDeposit.map((budId) => {
+                            return (
+                              <Box
+                                key={`bud-${budId}`}
+                                onClick={() => onRemoveBud(budId)}
+                                image={`https://${imageDomain}.sunflower-land.com/images/${budId}.webp`}
+                                iconClassName="scale-[1.8] origin-bottom absolute"
+                              />
+                            );
+                          })}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+                {!hasFeatureAccess(
+                  INITIAL_FARM,
+                  "DISABLE_BLOCKCHAIN_ACTIONS",
+                ) && (
                   <div className="text-[11px] sm:text-xs mb-3">
                     <CopyAddress address={farmAddress} />
                   </div>
-                  <div className="space-y-3">
-                    {validDepositAmount && <p>{`${sflDepositAmount} SFL`}</p>}
-                    {hasItemsToDeposit && (
-                      <div className="flex flex-wrap h-fit -ml-1.5">
-                        {selectedItems.map((item) => {
-                          return (
-                            <Box
-                              count={inventoryToDeposit[item]}
-                              key={item}
-                              onClick={() => onRemoveItem(item)}
-                              image={ITEM_DETAILS[item].image}
-                              canBeLongPressed
-                            />
-                          );
-                        })}
-                      </div>
-                    )}
-                    {hasWearablesToDeposit && (
-                      <div className="flex flex-wrap h-fit -ml-1.5">
-                        {selectedWearables.map((item) => {
-                          return (
-                            <Box
-                              count={new Decimal(wearablesToDeposit[item] ?? 0)}
-                              key={item}
-                              onClick={() => onRemoveWearable(item)}
-                              image={getImageUrl(ITEM_IDS[item])}
-                              canBeLongPressed
-                            />
-                          );
-                        })}
-                      </div>
-                    )}
-
-                    {hasBudsToDeposit && (
-                      <div className="flex flex-wrap h-fit -ml-1.5">
-                        {budsToDeposit.map((budId) => {
-                          return (
-                            <Box
-                              key={`bud-${budId}`}
-                              onClick={() => onRemoveBud(budId)}
-                              image={`https://${imageDomain}.sunflower-land.com/images/${budId}.webp`}
-                              iconClassName="scale-[1.8] origin-bottom absolute"
-                            />
-                          );
-                        })}
-                      </div>
-                    )}
-                  </div>
-                </div>
+                )}
               </div>
             </div>
             <div className="mb-1 mt-2">
@@ -540,6 +630,7 @@ const DepositOptions: React.FC<Props> = ({
 
 interface DepositModalProps {
   farmAddress: string;
+  linkedWallet: string;
   showDepositModal: boolean;
   handleDeposit: (
     args: Pick<DepositArgs, "sfl" | "itemIds" | "itemAmounts">,
@@ -549,31 +640,44 @@ interface DepositModalProps {
 
 export const DepositModal: React.FC<DepositModalProps> = ({
   farmAddress,
+  linkedWallet,
   showDepositModal,
   handleDeposit,
   handleClose,
 }) => {
+  const { t } = useAppTranslation();
+
   return (
     <Modal show={showDepositModal} onHide={handleClose}>
-      <CloseButtonPanel onClose={handleClose}>
+      <CloseButtonPanel
+        onClose={handleClose}
+        tabs={[
+          {
+            icon: chest,
+            name: t("deposit"),
+          },
+        ]}
+      >
         <Deposit
           farmAddress={farmAddress}
+          linkedWallet={linkedWallet}
           onDeposit={handleDeposit}
           onClose={handleClose}
         />
       </CloseButtonPanel>
+      <LockdownWidget />
     </Modal>
   );
 };
 
 const _farmAddress = (state: MachineState) => state.context.farmAddress ?? "";
-
+const _linkedWallet = (state: MachineState) => state.context.linkedWallet ?? "";
 export const DepositWrapper: React.FC<{ onClose: () => void }> = ({
   onClose,
 }) => {
   const { gameService } = useContext(GameContext);
   const farmAddress = useSelector(gameService, _farmAddress);
-
+  const linkedWallet = useSelector(gameService, _linkedWallet);
   const handleDeposit = (
     args: Pick<DepositArgs, "sfl" | "itemIds" | "itemAmounts">,
   ) => {
@@ -583,6 +687,7 @@ export const DepositWrapper: React.FC<{ onClose: () => void }> = ({
   return (
     <Deposit
       farmAddress={farmAddress}
+      linkedWallet={linkedWallet}
       onDeposit={handleDeposit}
       onClose={onClose}
     />

@@ -15,7 +15,7 @@ import { CountLabel } from "./CountLabel";
 
 const LABEL_RIGHT_SHIFT_PX = -5 * PIXEL_SCALE;
 const LABEL_TOP_SHIFT_PX = -5 * PIXEL_SCALE;
-const INNER_CANVAS_WIDTH = 14;
+const INNER_CANVAS_WIDTH = 13.7;
 
 export interface BoxProps {
   hideCount?: boolean;

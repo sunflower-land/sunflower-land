@@ -3,10 +3,10 @@ import { getKeys } from "../types/decorations";
 import { GameState } from "../types/game";
 import { getBumpkinLevel } from "./level";
 import { hasVipAccess } from "./vipAccess";
+import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
 
 export enum Reputation {
   Beginner = 0,
-  Sprout = 1,
   Seedling = 2,
   Grower = 3,
   Cropkeeper = 4,
@@ -15,7 +15,6 @@ export enum Reputation {
 
 export const REPUTATION_NAME: Record<Reputation, string> = {
   [Reputation.Beginner]: "Beginner",
-  [Reputation.Sprout]: "Sprout",
   [Reputation.Seedling]: "Seedling",
   [Reputation.Grower]: "Grower",
   [Reputation.Cropkeeper]: "Cropkeeper",
@@ -24,7 +23,6 @@ export const REPUTATION_NAME: Record<Reputation, string> = {
 
 export const REPUTATION_TIERS: Record<Reputation, number> = {
   [Reputation.Beginner]: 0,
-  [Reputation.Sprout]: 100,
   [Reputation.Seedling]: 250,
   [Reputation.Grower]: 350,
   [Reputation.Cropkeeper]: 600,
@@ -54,8 +52,8 @@ export const REPUTATION_TASKS: Record<
     game.island.type !== "basic" &&
     game.island.type !== "spring" &&
     game.island.type !== "desert",
-  Discord: ({ game }) => !!game.wardrobe["Companion Cap"],
-  ProofOfHumanity: ({ game }) => !!game.verified, // TODO
+  Discord: ({ game }) => !!game.discord?.connected,
+  ProofOfHumanity: ({ game }) => isFaceVerified({ game }) || !!game.verified,
   Level100: ({ game }) => getBumpkinLevel(game.bumpkin.experience) >= 100,
   Level15: ({ game }) => getBumpkinLevel(game.bumpkin.experience) >= 15,
   Bud: ({ game }) => getKeys(game.buds ?? {}).length > 0,
@@ -84,7 +82,7 @@ export function getReputation({ game }: { game: GameState }): Reputation {
       (tier) => points >= REPUTATION_TIERS[tier as Reputation],
     ) as Reputation;
 
-  return tier || Reputation.Sprout;
+  return tier || Reputation.Beginner;
 }
 
 export function hasReputation({
@@ -111,11 +109,6 @@ export function getRemainingTrades({ game }: { game: GameState }) {
 
   if (playerReputation == Reputation.Beginner) {
     return 0;
-  }
-
-  // 1 trade per day
-  if (playerReputation == Reputation.Sprout) {
-    return 1 - count;
   }
 
   // 2 trades per day

@@ -3,33 +3,35 @@ import React, { useState } from "react";
 import { Modal } from "components/ui/Modal";
 import chefHat from "assets/icons/chef_hat.png";
 
-import { Recipes } from "../../ui/Recipes";
+import { Recipes } from "../Recipes";
 import {
   BAKERY_COOKABLES,
   Cookable,
   CookableName,
 } from "features/game/types/consumables";
-import { MachineInterpreter } from "features/island/buildings/lib/craftingMachine";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { OuterPanel } from "components/ui/Panel";
+import { BuildingProduct } from "features/game/types/game";
 
 interface Props {
   isOpen: boolean;
   onClose: () => void;
   onCook: (name: CookableName) => void;
-  crafting: boolean;
+  cooking?: BuildingProduct;
   itemInProgress?: CookableName;
-  craftingService?: MachineInterpreter;
   buildingId: string;
+  readyRecipes: BuildingProduct[];
+  queue: BuildingProduct[];
 }
 export const BakeryModal: React.FC<Props> = ({
   isOpen,
   onCook,
   onClose,
-  crafting,
+  cooking,
   itemInProgress,
-  craftingService,
   buildingId,
+  queue,
+  readyRecipes,
 }) => {
   const cakeRecipes = Object.values(BAKERY_COOKABLES).sort(
     (a, b) => a.experience - b.experience, // Sorts Foods based on their cooking time
@@ -62,10 +64,11 @@ export const BakeryModal: React.FC<Props> = ({
           recipes={cakeRecipes}
           onCook={onCook}
           onClose={onClose}
-          crafting={crafting}
-          craftingService={craftingService}
-          buildingId={buildingId}
+          cooking={cooking}
           buildingName="Bakery"
+          buildingId={buildingId}
+          queue={queue}
+          readyRecipes={readyRecipes}
         />
       </CloseButtonPanel>
     </Modal>

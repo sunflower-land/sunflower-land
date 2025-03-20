@@ -53,6 +53,7 @@ import { randomID } from "lib/utils/random";
 import { buySFL } from "../actions/buySFL";
 import { PlaceableLocation } from "../types/collectibles";
 import {
+  getFLOWERTeaserLastRead,
   getGameRulesLastRead,
   getIntroductionRead,
   getVipRead,
@@ -101,6 +102,10 @@ import { preloadHotNow } from "features/marketplace/components/MarketplaceHotNow
 import { getLastTemperateSeasonStartedAt } from "./temperateSeason";
 import { hasVipAccess } from "./vipAccess";
 import { getActiveCalendarEvent, SeasonalEventName } from "../types/calendar";
+import { SpecialEventName } from "../types/specialEvents";
+import { getAccount } from "@wagmi/core";
+import { config } from "features/wallet/WalletProvider";
+import { hasFeatureAccess } from "lib/flags";
 
 // Run at startup in case removed from query params
 const portalName = new URLSearchParams(window.location.search).get("portal");
@@ -161,6 +166,7 @@ export interface Context {
   discordId?: string;
   fslId?: string;
   oauthNonce: string;
+  data: Partial<Record<StateName, any>>;
 }
 
 export type Moderation = {
@@ -447,7 +453,7 @@ const EFFECT_STATES = Object.values(EFFECT_EVENTS).reduce(
             transactionId: context.transactionId as string,
           });
 
-          return { state: gameState, response: data };
+          return { state: gameState, data };
         },
         onDone: [
           {
@@ -455,10 +461,13 @@ const EFFECT_STATES = Object.values(EFFECT_EVENTS).reduce(
             cond: (_: Context, event: DoneInvokeEvent<any>) =>
               !event.data.state.transaction,
             actions: [
-              assign((_, event: DoneInvokeEvent<any>) => ({
-                actions: [],
-                state: event.data.state,
-              })),
+              assign((context: Context, event: DoneInvokeEvent<any>) => {
+                return {
+                  actions: [],
+                  state: event.data.state,
+                  data: { ...context.data, [stateName]: event.data.data },
+                };
+              }),
             ],
           },
           // If there is a transaction on the gameState move into playing so that
@@ -490,9 +499,11 @@ export type BlockchainState = {
     | "landToVisitNotFound"
     | "visiting"
     | "gameRules"
+    | "FLOWERTeaser"
     | "portalling"
     | "introduction"
     | "gems"
+    | "communityCoin"
     | "playing"
     | "autosaving"
     | "buyingSFL"
@@ -539,6 +550,9 @@ export type BlockchainState = {
     | "seasonChanged"
     | "randomising"
     | "competition"
+    | "roninWelcomePack"
+    | "roninAirdrop"
+    | "jinAirdrop"
     | StateName
     | StateNameWithStatus; // TEST ONLY
   context: Context;
@@ -597,7 +611,7 @@ export const saveGame = async (
 };
 
 const handleSuccessfulSave = (context: Context, event: any) => {
-  // Actions that occured since the server request
+  // Actions that occurred since the server request
   const recentActions = context.actions.filter(
     (action) => action.createdAt.getTime() > event.data.saveAt.getTime(),
   );
@@ -649,6 +663,7 @@ export function startGame(authContext: AuthContext) {
         verified: !CONFIG.API_URL,
         purchases: [],
         oauthNonce: "",
+        data: {},
       },
       states: {
         ...EFFECT_STATES,
@@ -836,6 +851,30 @@ export function startGame(authContext: AuthContext) {
             },
 
             {
+              target: "FLOWERTeaser",
+              cond: () => {
+                const lastRead = getFLOWERTeaserLastRead();
+
+                if (!lastRead) return true;
+
+                const march31st2025 = new Date("2025-03-31").getTime();
+                const dateNow = Date.now();
+                const account = getAccount(config);
+                const accountConnectorName = account?.connector?.name;
+                const sevenDaysInMs = 7 * 24 * 60 * 60 * 1000;
+
+                // Show teaser if:
+                // 1. Player is using Ronin wallet
+                // 2. Current date is before March 31st 2025
+                // 3. Player has read teaser before AND it's been 7+ days since last read
+                return (
+                  dateNow < march31st2025 &&
+                  dateNow - (lastRead?.getTime() ?? 0) > sevenDaysInMs
+                );
+              },
+            },
+
+            {
               target: "introduction",
               cond: (context) => {
                 return (
@@ -849,6 +888,16 @@ export function startGame(authContext: AuthContext) {
               target: "gems",
               cond: (context) => {
                 return !!context.state.inventory["Block Buck"]?.gte(1);
+              },
+            },
+
+            {
+              target: "communityCoin",
+              cond: (context) => {
+                return (
+                  hasFeatureAccess(context.state, "COMMUNITY_COIN_EXCHANGE") &&
+                  !!context.state.inventory["Community Coin"]?.gte(1)
+                );
               },
             },
 
@@ -907,6 +956,13 @@ export function startGame(authContext: AuthContext) {
               },
             },
             {
+              target: "roninAirdrop",
+              cond: (context) =>
+                !!context.state.nfts?.ronin &&
+                !context.state.nfts.ronin.acknowledgedAt &&
+                context.state.nfts.ronin.expiresAt > Date.now(),
+            },
+            {
               target: "somethingArrived",
               cond: (context) => !!context.revealed,
             },
@@ -940,6 +996,29 @@ export function startGame(authContext: AuthContext) {
                     ?.acknowledgedAt;
 
                 return !isAcknowledged;
+              },
+            },
+            {
+              target: "roninWelcomePack",
+              cond: (context: Context) => {
+                return (
+                  [
+                    "Ronin Bronze Pack",
+                    "Ronin Silver Pack",
+                    "Ronin Gold Pack",
+                    "Ronin Platinum Pack",
+                  ] as SpecialEventName[]
+                ).some(
+                  (pack) =>
+                    context.state.specialEvents.current[pack]?.isEligible ===
+                      true &&
+                    context.state.specialEvents.current[pack]?.tasks[0]
+                      .completedAt === undefined &&
+                    context.state.specialEvents.current[pack]?.startAt <
+                      Date.now() &&
+                    context.state.specialEvents.current[pack]?.endAt >
+                      Date.now(),
+                );
               },
             },
 
@@ -986,11 +1065,16 @@ export function startGame(authContext: AuthContext) {
                   (id) => !!context.state.trades.listings![id].fulfilledAt,
                 ),
             },
+
+            {
+              target: "jinAirdrop",
+              cond: (context) =>
+                !!context.state.nfts?.ronin?.acknowledgedAt &&
+                (context.state.inventory["Jin"] ?? new Decimal(0)).lt(1),
+            },
             // {
             //   target: "competition",
             //   cond: (context: Context) => {
-            //     if (!hasFeatureAccess(context.state, "ANIMAL_COMPETITION"))
-            //       return false;
 
             //     // TODO is competition active?
 
@@ -1010,6 +1094,16 @@ export function startGame(authContext: AuthContext) {
               target: "playing",
             },
           ],
+        },
+        roninAirdrop: {
+          on: {
+            "onChainAirdrop.acknowledged": (GAME_EVENT_HANDLERS as any)[
+              "onChainAirdrop.acknowledged"
+            ],
+            ACKNOWLEDGE: {
+              target: "notifying",
+            },
+          },
         },
         vip: {
           on: {
@@ -1066,6 +1160,13 @@ export function startGame(authContext: AuthContext) {
         },
 
         gameRules: {
+          on: {
+            ACKNOWLEDGE: {
+              target: "notifying",
+            },
+          },
+        },
+        FLOWERTeaser: {
           on: {
             ACKNOWLEDGE: {
               target: "notifying",
@@ -1171,6 +1272,27 @@ export function startGame(authContext: AuthContext) {
             "bid.refunded": (GAME_EVENT_HANDLERS as any)["bid.refunded"],
             CLOSE: {
               target: "autosaving",
+            },
+          },
+        },
+        roninWelcomePack: {
+          on: {
+            // Add function here to claim pack
+            "specialEvent.taskCompleted": (GAME_EVENT_HANDLERS as any)[
+              "specialEvent.taskCompleted"
+            ],
+            CLOSE: {
+              target: "notifying",
+            },
+          },
+        },
+        jinAirdrop: {
+          on: {
+            "specialEvent.taskCompleted": (GAME_EVENT_HANDLERS as any)[
+              "specialEvent.taskCompleted"
+            ],
+            CLOSE: {
+              target: "playing",
             },
           },
         },
@@ -1730,50 +1852,50 @@ export function startGame(authContext: AuthContext) {
             CONTINUE: "playing",
           },
         },
-        effectPending: {
-          entry: "setTransactionId",
-          invoke: {
-            src: async (context, event) => {
-              const { effect } = event as PostEffectEvent;
+        // effectPending: {
+        //   entry: "setTransactionId",
+        //   invoke: {
+        //     src: async (context, event) => {
+        //       const { effect } = event as PostEffectEvent;
 
-              if (context.actions.length > 0) {
-                await autosave({
-                  farmId: Number(context.farmId),
-                  sessionId: context.sessionId as string,
-                  actions: context.actions,
-                  token: authContext.user.rawToken as string,
-                  fingerprint: context.fingerprint as string,
-                  deviceTrackerId: context.deviceTrackerId as string,
-                  transactionId: context.transactionId as string,
-                });
-              }
+        //       if (context.actions.length > 0) {
+        //         await autosave({
+        //           farmId: Number(context.farmId),
+        //           sessionId: context.sessionId as string,
+        //           actions: context.actions,
+        //           token: authContext.user.rawToken as string,
+        //           fingerprint: context.fingerprint as string,
+        //           deviceTrackerId: context.deviceTrackerId as string,
+        //           transactionId: context.transactionId as string,
+        //         });
+        //       }
 
-              const { gameState, data } = await postEffect({
-                farmId: Number(context.farmId),
-                effect,
-                token: authContext.user.rawToken as string,
-                transactionId: context.transactionId as string,
-              });
+        //       const { gameState, data } = await postEffect({
+        //         farmId: Number(context.farmId),
+        //         effect,
+        //         token: authContext.user.rawToken as string,
+        //         transactionId: context.transactionId as string,
+        //       });
 
-              return { state: gameState, response: data };
-            },
-            onDone: [
-              {
-                target: "effectSuccess",
-                actions: [
-                  assign((_, event) => ({
-                    actions: [],
-                    state: event.data.state,
-                  })),
-                ],
-              },
-            ],
-            onError: {
-              target: "effectFailure",
-              actions: "assignErrorMessage",
-            },
-          },
-        },
+        //       return { state: gameState, response: data };
+        //     },
+        //     onDone: [
+        //       {
+        //         target: "effectSuccess",
+        //         actions: [
+        //           assign((_, event) => ({
+        //             actions: [],
+        //             state: event.data.state,
+        //           })),
+        //         ],
+        //       },
+        //     ],
+        //     onError: {
+        //       target: "effectFailure",
+        //       actions: "assignErrorMessage",
+        //     },
+        //   },
+        // },
         effectFailure: {
           on: {
             ACKNOWLEDGE: "playing",
@@ -2095,6 +2217,15 @@ export function startGame(authContext: AuthContext) {
         },
 
         gems: {
+          on: {
+            ACKNOWLEDGE: {
+              target: "notifying",
+            },
+            "garbage.sold": (GAME_EVENT_HANDLERS as any)["garbage.sold"],
+          },
+        },
+
+        communityCoin: {
           on: {
             ACKNOWLEDGE: {
               target: "notifying",

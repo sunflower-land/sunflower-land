@@ -1,9 +1,12 @@
 import { ResourceName } from "features/game/types/resources";
-import { GameState } from "../../types/game";
+import { GameState, InventoryItemName } from "../../types/game";
 
 import { produce } from "immer";
 import Decimal from "decimal.js-light";
 import { trackFarmActivity } from "features/game/types/farmActivity";
+import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { IslandType } from "features/game/types/game";
+import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 
 export type ResourceBoughtAction = {
   type: "resource.bought";
@@ -16,21 +19,76 @@ type Options = {
   createdAt?: number;
 };
 
-export const RESOURCE_NODE_PRICES: Partial<
-  Record<ResourceName, { price: number; increase: number }>
-> = {
-  "Crop Plot": { price: 3, increase: 2 },
-  Tree: { price: 4, increase: 3 },
-  "Stone Rock": { price: 4, increase: 3 },
-  "Fruit Patch": { price: 5, increase: 5 },
-  "Iron Rock": { price: 7, increase: 5 },
-  "Gold Rock": { price: 10, increase: 6 },
-  "Crimstone Rock": { price: 20, increase: 20 },
-  // Beehive: { price: 20, increase: 20 },
-  // "Flower Bed": { price: 20, increase: 20 },
-  "Oil Reserve": { price: 40, increase: 20 },
-  "Lava Pit": { price: 40, increase: 40 },
+type ResourceNode = {
+  items: Partial<Record<InventoryItemName, number>>;
+  price: number;
+  increase: number;
+  requiredIsland: IslandType;
 };
+
+export const RESOURCE_NODE_PRICES: Partial<Record<ResourceName, ResourceNode>> =
+  {
+    "Crop Plot": {
+      items: { "Crop Plot": 1 },
+      price: 3,
+      increase: 2,
+      requiredIsland: "basic",
+    },
+    Tree: {
+      items: { Tree: 1 },
+      price: 4,
+      increase: 3,
+      requiredIsland: "basic",
+    },
+    "Stone Rock": {
+      items: { "Stone Rock": 1 },
+      price: 4,
+      increase: 3,
+      requiredIsland: "basic",
+    },
+    "Fruit Patch": {
+      items: { "Fruit Patch": 1 },
+      price: 5,
+      increase: 5,
+      requiredIsland: "spring",
+    },
+    "Iron Rock": {
+      items: { "Iron Rock": 1 },
+      price: 7,
+      increase: 5,
+      requiredIsland: "basic",
+    },
+    "Gold Rock": {
+      items: { "Gold Rock": 1 },
+      price: 10,
+      increase: 6,
+      requiredIsland: "basic",
+    },
+    "Crimstone Rock": {
+      items: { "Crimstone Rock": 1 },
+      price: 20,
+      increase: 20,
+      requiredIsland: "spring",
+    },
+    "Flower Bed": {
+      items: { "Flower Bed": 1, Beehive: 1 },
+      price: 30,
+      increase: 25,
+      requiredIsland: "spring",
+    },
+    "Oil Reserve": {
+      items: { "Oil Reserve": 1 },
+      price: 40,
+      increase: 20,
+      requiredIsland: "desert",
+    },
+    "Lava Pit": {
+      items: { "Lava Pit": 1 },
+      price: 40,
+      increase: 40,
+      requiredIsland: "volcano",
+    },
+  };
 
 export function getResourcePrice({
   gameState,
@@ -45,8 +103,9 @@ export function getResourcePrice({
 
   // Edge case protection
   if (!node) return 999999;
+  const { price, increase } = node;
 
-  return node.price + bought * node.increase;
+  return price + bought * increase;
 }
 
 export function buyResource({
@@ -61,6 +120,10 @@ export function buyResource({
       throw new Error("Resource not for sale");
     }
 
+    if (!hasRequiredIslandExpansion(game.island.type, node.requiredIsland)) {
+      throw new Error("Not in the right island expansion");
+    }
+
     const price = getResourcePrice({
       gameState: state,
       resourceName: action.name,
@@ -73,9 +136,12 @@ export function buyResource({
     }
 
     game.inventory.Sunstone = sunstones.sub(price);
-    game.inventory[action.name] = (
-      game.inventory[action.name] ?? new Decimal(0)
-    ).add(1);
+
+    getObjectEntries(node.items).forEach(([item, amount]) => {
+      game.inventory[item] = (game.inventory[item] ?? new Decimal(0)).add(
+        amount ?? 0,
+      );
+    });
 
     game.farmActivity = trackFarmActivity(
       `${action.name} Bought`,

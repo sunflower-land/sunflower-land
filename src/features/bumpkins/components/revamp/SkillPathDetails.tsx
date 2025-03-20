@@ -298,10 +298,16 @@ export const SkillPathDetails: React.FC<Props> = ({
                               setSelectedSkill(skill);
                               setShowConfirmation(false);
                             }}
-                            showOverlay={hasSkill}
+                            showOverlay={hasSkill || !tierUnlocked}
                             overlayIcon={
                               <img
-                                src={SUNNYSIDE.icons.confirm}
+                                src={
+                                  hasSkill
+                                    ? SUNNYSIDE.icons.confirm
+                                    : !tierUnlocked
+                                      ? SUNNYSIDE.icons.lock
+                                      : undefined
+                                }
                                 alt="claimed"
                                 className="relative object-contain"
                                 style={{

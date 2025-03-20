@@ -3,6 +3,7 @@ import TokenJSON from "./abis/Token";
 import { parseMetamaskError } from "./utils";
 import { readContract } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
+import { polygon, polygonAmoy } from "viem/chains";
 
 /**
  * Keep full wei amount as used for approving/sending
@@ -13,6 +14,7 @@ export async function sflBalanceOf(
 ): Promise<bigint> {
   try {
     return await readContract(config, {
+      chainId: CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id,
       abi: TokenJSON,
       address: CONFIG.TOKEN_CONTRACT,
       functionName: "balanceOf",

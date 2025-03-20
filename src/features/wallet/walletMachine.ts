@@ -13,6 +13,7 @@ import {
   connect,
   signMessage,
   CreateConnectorFn,
+  disconnect,
 } from "@wagmi/core";
 import {
   bitGetConnector,
@@ -36,6 +37,8 @@ export interface Context {
   action?: WalletAction;
   nftReadyAt?: number;
   nftId?: number;
+  chainId?: number;
+  signInAttempts?: number;
 }
 
 export type WalletAction =
@@ -50,7 +53,8 @@ export type WalletAction =
   | "dequip"
   | "wishingWell"
   | "connectWallet"
-  | "marketplace";
+  | "marketplace"
+  | "refresh";
 
 // Certain actions do not require an NFT to perform
 const NON_NFT_ACTIONS: WalletAction[] = [
@@ -60,6 +64,8 @@ const NON_NFT_ACTIONS: WalletAction[] = [
   "specialEvent",
   "dequip",
 ];
+
+const NON_POLYGON_ACTIONS: WalletAction[] = ["login", "dailyReward"];
 
 type InitialiseEvent = {
   type: "INITIALISE";
@@ -79,6 +85,7 @@ export type WalletEvent =
   | InitialiseEvent
   | ConnectWalletEvent
   | { type: "CONTINUE" }
+  | { type: "BACK" }
   | { type: "RESET" }
   | { type: "MINT" }
   | {
@@ -86,6 +93,9 @@ export type WalletEvent =
     }
   | {
       type: "ACCOUNT_CHANGED";
+    }
+  | {
+      type: "DISCONNECT_WALLET";
     };
 
 export type WalletState = {
@@ -93,6 +103,7 @@ export type WalletState = {
     | "initialising"
     | "chooseWallet"
     | "signing"
+    | "signingFailed"
     | "linking"
     | "minting"
     | "waiting"
@@ -102,9 +113,11 @@ export type WalletState = {
     | "missingNFT"
     | "wrongWallet"
     | "wrongNetwork"
+    | "networkNotSupported"
     | "alreadyLinkedWallet"
     | "alreadyHasFarm"
-    | "error";
+    | "error"
+    | "disconnecting";
 
   context: Context;
 };
@@ -132,6 +145,7 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
     signature: "",
     nftReadyAt: 0,
     action: "" as WalletAction,
+    signInAttempts: 0,
   },
   states: {
     chooseWallet: {
@@ -161,6 +175,10 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
             try {
               await connect(config, { connector });
             } catch (e) {
+              if ((e as any)?.code === 4001) {
+                throw new Error(ERRORS.WEB3_REJECTED);
+              }
+
               switch (connector) {
                 case okexConnector:
                   throw new Error(ERRORS.NO_WEB3);
@@ -177,44 +195,19 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
             account = getAccount(config);
           }
 
-          const pendingState: { status: "pending" | "done" } = {
-            status: "pending",
-          };
-
-          // Metamask is unreliable at switching networks - so polling helps to stabilise the network switch
-          await Promise.race([
-            (async () => {
-              for (let i = 0; i < 120; i++) {
-                if (pendingState.status === "done") break;
-                const { chainId } = getAccount(config);
-                if (chainId === CONFIG.POLYGON_CHAIN_ID) break;
-
-                await new Promise((r) => setTimeout(r, 500));
-              }
-            })(),
-            (async () => {
-              await wallet.initialiseNetwork();
-              pendingState.status = "done";
-            })(),
-          ]);
-
           return {
             address: account.address,
-            wallet: connector.name,
+            chainId: account.chain?.id,
           };
         },
         onDone: {
           target: "checking",
           actions: assign<Context, any>({
             address: (_: Context, event: any) => event.data.address,
+            chainId: (_: Context, event: any) => event.data.chainId,
           }),
         },
         onError: [
-          {
-            target: "wrongNetwork",
-            cond: (_context, event) =>
-              event.data.message === ERRORS.WRONG_CHAIN,
-          },
           {
             target: "error",
             actions: assign<Context, any>({
@@ -241,6 +234,12 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
           cond: (context) => !context.linkedAddress,
         },
         {
+          target: "wrongNetwork",
+          cond: (context) =>
+            !NON_POLYGON_ACTIONS.includes(context.action as WalletAction) &&
+            context.chainId !== CONFIG.POLYGON_CHAIN_ID,
+        },
+        {
           target: "missingNFT",
           cond: (context) =>
             !NON_NFT_ACTIONS.includes(context.action as WalletAction) &&
@@ -251,8 +250,53 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
         },
       ],
     },
+    signingFailed: {
+      on: {
+        CONTINUE: {
+          target: "signing",
+          actions: assign<Context, any>({
+            signInAttempts: (_context) => (_context.signInAttempts ?? 0) + 1,
+          }),
+        },
+        BACK: {
+          target: "chooseWallet",
+          actions: assign<Context, any>({
+            signInAttempts: (_context) => 0,
+          }),
+        },
+      },
+    },
+    disconnecting: {
+      invoke: {
+        src: async () => {
+          await disconnect(config);
+        },
+        onDone: {
+          target: "chooseWallet",
+        },
+        onError: {
+          target: "error",
+          actions: assign<Context, any>({
+            errorCode: (_context, event) => event.data.message,
+          }),
+        },
+      },
+      on: {
+        CONNECT_TO_WALLET: {
+          target: "initialising",
+        },
+      },
+    },
     signing: {
       id: "signing",
+      on: {
+        DISCONNECT_WALLET: {
+          target: "disconnecting",
+        },
+        BACK: {
+          target: "chooseWallet",
+        },
+      },
       invoke: {
         src: async (context: Context) => {
           const timestamp = Math.floor(Date.now() / 8.64e7);
@@ -282,15 +326,20 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
             }),
           },
         ],
-        onError: {
-          target: "error",
-          actions: assign<Context, any>({
-            errorCode: (_context, event) => event.data.message,
-          }),
-        },
+        onError: [
+          {
+            target: "signingFailed",
+            cond: (context) => context.signInAttempts === 0,
+          },
+          {
+            target: "error",
+            actions: assign<Context, any>({
+              errorCode: (_context, event) => event.data.message,
+            }),
+          },
+        ],
       },
     },
-
     linking: {
       id: "linking",
       invoke: {
@@ -429,6 +478,31 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
       },
     },
 
+    switchingToPolygon: {
+      invoke: {
+        src: async () => {
+          await wallet.switchToPolygon();
+
+          const account = getAccount(config);
+
+          return {
+            address: account.address,
+            chainId: account.chain?.id,
+          };
+        },
+        onError: {
+          target: "networkNotSupported",
+        },
+        onDone: {
+          target: "checking",
+          actions: assign({
+            address: (_: Context, event: any) => event.data.address,
+            chainId: (_: Context, event: any) => event.data.chainId,
+          }),
+        },
+      },
+    },
+
     ready: {},
 
     // Error states
@@ -439,11 +513,36 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
         },
       },
     },
-    wrongWallet: {},
-    wrongNetwork: {},
+    wrongWallet: {
+      on: {
+        CONTINUE: {
+          target: "chooseWallet",
+        },
+      },
+    },
+    wrongNetwork: {
+      on: {
+        CONTINUE: {
+          target: "switchingToPolygon",
+        },
+      },
+    },
+    networkNotSupported: {
+      on: {
+        CONTINUE: {
+          target: "chooseWallet",
+        },
+      },
+    },
     alreadyLinkedWallet: {},
     alreadyHasFarm: {},
-    error: {},
+    error: {
+      on: {
+        CONTINUE: {
+          target: "chooseWallet",
+        },
+      },
+    },
   },
   on: {
     CHAIN_CHANGED: {

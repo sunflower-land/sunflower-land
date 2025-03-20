@@ -130,6 +130,11 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
 
   const loading = !tradeable;
 
+  const highestOffer =
+    tradeable?.offers.reduce((max, offer) => {
+      return Math.max(max, offer.sfl);
+    }, 0) ?? 0;
+
   return (
     <>
       <Modal
@@ -154,6 +159,7 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
             display={display}
             id={id}
             floorPrice={tradeable?.floor ?? 0}
+            highestOffer={highestOffer}
             onClose={onListClose}
           />
         </Panel>

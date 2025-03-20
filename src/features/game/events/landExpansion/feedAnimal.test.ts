@@ -902,7 +902,7 @@ describe("feedAnimal", () => {
       },
     });
 
-    expect(state.inventory["Kernel Blend"]).toEqual(new Decimal(0.2));
+    expect(state.inventory["Kernel Blend"]).toEqual(new Decimal(0.25));
   });
 
   it("Applies Fat Chicken and Cluckulator boost", () => {
@@ -941,8 +941,7 @@ describe("feedAnimal", () => {
         item: "Kernel Blend",
       },
     });
-    const result = new Decimal(1 - 1 * 0.8 * 0.9);
-
+    const result = new Decimal(1).minus(new Decimal(1).times(0.75).times(0.9));
     expect(state.inventory["Kernel Blend"]).toEqual(new Decimal(result));
   });
 

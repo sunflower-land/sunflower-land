@@ -31,6 +31,7 @@ import { HudContainer } from "components/ui/HudContainer";
 import { RemoveHungryCaterpillarModal } from "../collectibles/RemoveHungryCaterpillarModal";
 import { useSound } from "lib/utils/hooks/useSound";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { RoundButton } from "components/ui/RoundButton";
 
 const compareBalance = (prev: Decimal, next: Decimal) => {
   return prev.eq(next);
@@ -131,32 +132,13 @@ const LandscapingHudComponent: React.FC<{
                 top: `${PIXEL_SCALE * 31}px`,
               }}
             >
-              <div
+              <RoundButton
+                className="mb-3.5"
                 onClick={() => {
                   button.play();
                   child.send("CANCEL");
                 }}
-                className="w-full z-10 cursor-pointer hover:img-highlight relative group"
-                style={{
-                  width: `${PIXEL_SCALE * 22}px`,
-                  height: `${PIXEL_SCALE * 22}px`,
-                  marginBottom: `${PIXEL_SCALE * 5}px`,
-                }}
               >
-                <img
-                  src={SUNNYSIDE.ui.round_button_pressed}
-                  className="absolute"
-                  style={{
-                    width: `${PIXEL_SCALE * 22}px`,
-                  }}
-                />
-                <img
-                  src={SUNNYSIDE.ui.round_button}
-                  className="absolute group-active:hidden"
-                  style={{
-                    width: `${PIXEL_SCALE * 22}px`,
-                  }}
-                />
                 <img
                   src={SUNNYSIDE.icons.cancel}
                   className="absolute group-active:translate-y-[2px]"
@@ -166,7 +148,7 @@ const LandscapingHudComponent: React.FC<{
                     width: `${PIXEL_SCALE * 11}px`,
                   }}
                 />
-              </div>
+              </RoundButton>
 
               <Chest
                 onPlaceChestItem={(selected) => {
@@ -203,20 +185,18 @@ const LandscapingHudComponent: React.FC<{
         )}
       {showRemove && (
         <div
-          onClick={() => !isRestricted && remove()}
-          className="absolute flex z-50 flex-col cursor-pointer group"
+          className="absolute flex z-50 flex-col"
           style={{
             marginLeft: `${PIXEL_SCALE * 2}px`,
-            marginBottom: `${PIXEL_SCALE * 25}px`,
             width: `${PIXEL_SCALE * 22}px`,
             right: `${PIXEL_SCALE * 3}px`,
-            bottom: `${PIXEL_SCALE * 3}px`,
+            bottom: `${PIXEL_SCALE * 6}px`,
           }}
         >
           <div
             className="absolute"
             style={{
-              bottom: `${PIXEL_SCALE * 3}px`,
+              bottom: `${PIXEL_SCALE * 25}px`,
               right: `${PIXEL_SCALE * -2}px`,
             }}
           >
@@ -224,50 +204,42 @@ const LandscapingHudComponent: React.FC<{
               {isRestricted ? restrictionReason : t("remove")}
             </Label>
           </div>
-          <img
-            src={SUNNYSIDE.ui.round_button_pressed}
-            className="absolute"
-            style={{
-              width: `${PIXEL_SCALE * 22}px`,
-            }}
-          />
-          <img
-            src={SUNNYSIDE.ui.round_button}
-            className="absolute group-active:hidden"
-            style={{
-              width: `${PIXEL_SCALE * 22}px`,
-            }}
-          />
-          {showRemoveConfirmation ? (
-            <img
-              className="absolute group-active:translate-y-[2px]"
-              src={SUNNYSIDE.icons.confirm}
-              style={{
-                width: `${PIXEL_SCALE * 12}px`,
-                right: `${PIXEL_SCALE * 4.5}px`,
-                top: `${PIXEL_SCALE * 5}px`,
-              }}
-            />
-          ) : (
-            <>
+
+          <RoundButton
+            onClick={() => !isRestricted && remove()}
+            disabled={isRestricted}
+          >
+            {showRemoveConfirmation ? (
               <img
                 className="absolute group-active:translate-y-[2px]"
-                src={ITEM_DETAILS["Rusty Shovel"].image}
+                src={SUNNYSIDE.icons.confirm}
                 style={{
-                  width: `${PIXEL_SCALE * 14}px`,
+                  width: `${PIXEL_SCALE * 12}px`,
                   right: `${PIXEL_SCALE * 4.5}px`,
-                  top: `${PIXEL_SCALE * 4.5}px`,
+                  top: `${PIXEL_SCALE * 5}px`,
                 }}
               />
-              {isRestricted && (
+            ) : (
+              <>
                 <img
-                  src={SUNNYSIDE.icons.cancel}
-                  className="absolute right-0 top-0 w-1/2 object-contain group-active:translate-y-[2px]"
-                  alt="restricted"
+                  className="absolute group-active:translate-y-[2px]"
+                  src={ITEM_DETAILS["Rusty Shovel"].image}
+                  style={{
+                    width: `${PIXEL_SCALE * 14}px`,
+                    right: `${PIXEL_SCALE * 4.5}px`,
+                    top: `${PIXEL_SCALE * 4.5}px`,
+                  }}
                 />
-              )}
-            </>
-          )}
+                {isRestricted && (
+                  <img
+                    src={SUNNYSIDE.icons.cancel}
+                    className="absolute right-0 top-0 w-1/2 object-contain group-active:translate-y-[2px]"
+                    alt="restricted"
+                  />
+                )}
+              </>
+            )}
+          </RoundButton>
         </div>
       )}
 
@@ -282,38 +254,12 @@ const Chest: React.FC<{
 }> = ({ onPlaceChestItem, onPlaceBud }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-
   const [showChest, setShowChest] = useState(false);
-
   const chestItems = getChestItems(gameState.context.state);
 
   return (
     <>
-      <div
-        onClick={() => {
-          setShowChest(true);
-        }}
-        className="z-50 cursor-pointer hover:img-highlight relative group"
-        style={{
-          width: `${PIXEL_SCALE * 22}px`,
-          height: `${PIXEL_SCALE * 22}px`,
-          marginBottom: `${PIXEL_SCALE * 4}px`,
-        }}
-      >
-        <img
-          src={SUNNYSIDE.ui.round_button_pressed}
-          className="absolute"
-          style={{
-            width: `${PIXEL_SCALE * 22}px`,
-          }}
-        />
-        <img
-          src={SUNNYSIDE.ui.round_button}
-          className="absolute group-active:hidden"
-          style={{
-            width: `${PIXEL_SCALE * 22}px`,
-          }}
-        />
+      <RoundButton className="mb-4" onClick={() => setShowChest(true)}>
         <img
           src={chest}
           className="absolute group-active:translate-y-[2px]"
@@ -325,7 +271,7 @@ const Chest: React.FC<{
         />
         <Label
           type="default"
-          className="text-xxs absolute -top-1.5 -right-0.5"
+          className="text-xxs absolute -top-1.5 -right-0.5 group-active:translate-y-[2px]"
           style={{
             padding: "0 2.5",
             height: "24px",
@@ -336,7 +282,7 @@ const Chest: React.FC<{
             0,
           )}
         </Label>
-      </div>
+      </RoundButton>
 
       <LandscapingChest
         state={gameState.context.state}

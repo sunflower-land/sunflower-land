@@ -9,14 +9,13 @@ import { Hud } from "features/island/hud/Hud";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import { getKeys } from "features/game/types/decorations";
+import { getKeys, getValues } from "features/game/types/decorations";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { ANIMALS } from "features/game/types/animals";
 import { Chicken } from "./Chicken";
 import shopDisc from "assets/icons/shop_disc.png";
 import { AnimalBuildingModal } from "features/game/expansion/components/animals/AnimalBuildingModal";
 import { FeederMachine } from "features/feederMachine/FeederMachine";
-import { AnimalBuildingLevel } from "features/game/events/landExpansion/upgradeBuilding";
 import { UpgradeBuildingModal } from "features/game/expansion/components/UpgradeBuildingModal";
 import { Modal } from "components/ui/Modal";
 import {
@@ -33,7 +32,7 @@ import { hasReadGuide } from "features/game/expansion/components/animals/AnimalB
 const _henHouse = (state: MachineState) => state.context.state.henHouse;
 
 export const ANIMAL_HOUSE_IMAGES: Record<
-  AnimalBuildingLevel,
+  number,
   { src: string; height: number; width: number }
 > = {
   1: { src: SUNNYSIDE.land.animal_house_inside_one, height: 224, width: 192 },
@@ -48,7 +47,7 @@ export const HenHouseInside: React.FC = () => {
   const [deal, setDeal] = useState<AnimalBounty>();
   const [selected, setSelected] = useState<Animal>();
   const henHouse = useSelector(gameService, _henHouse);
-  const level = henHouse.level as AnimalBuildingLevel;
+  const level = henHouse.level;
 
   const { t } = useAppTranslation();
 
@@ -89,9 +88,13 @@ export const HenHouseInside: React.FC = () => {
         },
       };
     });
-  }, [getKeys(henHouse.animals).length, floorWidth]);
+  }, [
+    getKeys(henHouse.animals).length,
+    getValues(henHouse.animals).map((animal) => animal.state),
+    floorWidth,
+  ]);
 
-  const nextLevel = Math.min(level + 1, 3) as Exclude<AnimalBuildingLevel, 1>;
+  const nextLevel = Math.min(level + 1, 3);
   return (
     <>
       <Modal show={showModal} onHide={() => setShowModal(false)}>

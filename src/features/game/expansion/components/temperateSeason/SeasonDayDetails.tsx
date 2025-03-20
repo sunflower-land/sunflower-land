@@ -19,6 +19,7 @@ import { useTranslation } from "react-i18next";
 import { CALEDNAR_EVENT_INFORMATION } from "./WeatherGuide";
 import { SpecialEvents } from "./WeatherGuide";
 import { getKeys } from "features/game/types/craftables";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 type Props = {
   season: TemperateSeasonName;
@@ -115,7 +116,9 @@ export const SeasonDaySpecialEvent: React.FC<{
         <Label type="vibrant" className="mr-1">
           {title}
         </Label>
-        <Label type="info">{getRelativeTime(timestamp)}</Label>
+        <Label type="info" secondaryIcon={SUNNYSIDE.icons.stopwatch}>
+          {getRelativeTime(timestamp, "medium")}
+        </Label>
       </div>
 
       <div className="flex mb-2 items-center ml-1">

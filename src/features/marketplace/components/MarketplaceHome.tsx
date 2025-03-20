@@ -44,6 +44,7 @@ import {
   hasReputation,
   Reputation,
 } from "features/game/lib/reputation";
+import { hasFeatureAccess } from "lib/flags";
 
 const _hasTradeReputation = (state: MachineState) =>
   hasReputation({
@@ -73,6 +74,20 @@ export const MarketplaceNavigation: React.FC = () => {
 
   const hasTradeReputation = useSelector(gameService, _hasTradeReputation);
 
+  const listingsLeft = getRemainingTrades({
+    game: gameService.getSnapshot().context.state,
+  });
+
+  const quickswapDisabled = hasFeatureAccess(
+    gameService.getSnapshot().context.state,
+    "DISABLE_BLOCKCHAIN_ACTIONS",
+  );
+
+  const openQuickswap = () => {
+    if (quickswapDisabled) return;
+    setShowQuickswap(true);
+  };
+
   return (
     <>
       <Modal show={showFilters} onHide={() => setShowFilters(false)}>
@@ -80,7 +95,8 @@ export const MarketplaceNavigation: React.FC = () => {
           <Filters onClose={() => setShowFilters(false)} farmId={farmId} />
           <EstimatedPrice
             price={price}
-            onClick={() => setShowQuickswap(true)}
+            onClick={openQuickswap}
+            quickswapDisabled={quickswapDisabled}
           />
         </CloseButtonPanel>
       </Modal>
@@ -140,7 +156,8 @@ export const MarketplaceNavigation: React.FC = () => {
 
           <EstimatedPrice
             price={price}
-            onClick={() => setShowQuickswap(true)}
+            onClick={openQuickswap}
+            quickswapDisabled={quickswapDisabled}
           />
 
           {!hasTradeReputation && (
@@ -151,7 +168,7 @@ export const MarketplaceNavigation: React.FC = () => {
               <div className="flex flex-col p-1">
                 <div className="flex justify-between items-center">
                   <Label type="danger" icon={crownIcon}>
-                    {`${getRemainingTrades({ game: gameService.getSnapshot().context.state })} Trades left`}
+                    {`${listingsLeft} ${listingsLeft > 1 ? t("reputation.marketplace.listingsLeft") : t("reputation.marketplace.listingLeft")}`}
                   </Label>
                   <p className="text-xxs underline">{t("read.more")}</p>
                 </div>
@@ -416,10 +433,11 @@ const Filters: React.FC<{ onClose: () => void; farmId: number }> = ({
   );
 };
 
-const EstimatedPrice: React.FC<{ price: number; onClick: () => void }> = ({
-  price,
-  onClick,
-}) => {
+const EstimatedPrice: React.FC<{
+  price: number;
+  onClick: () => void;
+  quickswapDisabled: boolean;
+}> = ({ price, onClick, quickswapDisabled }) => {
   const { t } = useTranslation();
   return (
     <InnerPanel className="cursor-pointer mb-1" onClick={onClick}>
@@ -428,7 +446,9 @@ const EstimatedPrice: React.FC<{ price: number; onClick: () => void }> = ({
           <img src={sflIcon} className="w-6" />
           <span className="text-sm ml-2">{`$${price.toFixed(4)}`}</span>
         </div>
-        <p className="text-xxs underline">{t("marketplace.quickswap")}</p>
+        {!quickswapDisabled && (
+          <p className="text-xxs underline">{t("marketplace.quickswap")}</p>
+        )}
       </div>
       <p className="text-xxs italic">{t("marketplace.estimated.price")}</p>
     </InnerPanel>

@@ -8,7 +8,7 @@ _TODO_
 
 ## Pixel Art / Sizing
 
-All of our designs are based on pixel art and we stored files as optimzed webp and pngs. To enlarge these assets. most photo editing software have pixelised scaling built in but you can also use online tools such as [Pixel Scaler](https://lospec.com/pixel-art-scaler/) to achieve the size you desire.
+All of our designs are based on pixel art and we stored files as optimized webp and pngs. To enlarge these assets. most photo editing software have pixelised scaling built in but you can also use online tools such as [Pixel Scaler](https://lospec.com/pixel-art-scaler/) to achieve the size you desire.
 
 ## Logos
 
@@ -21,7 +21,6 @@ _Icon - png/svg_
 
 ![icon](https://user-images.githubusercontent.com/11745561/206882310-a969ebd9-7ef3-4c22-9fc8-c5af1ca9f30d.png)
 ![icon-export](https://user-images.githubusercontent.com/11745561/206882326-23a5cc4c-3be8-4257-bd33-2ce42d62a645.svg)
-
 
 ## Font
 
@@ -55,7 +54,6 @@ Below are the recommended assets to use when showcasing the project. For additio
 These are minifed pixel art - we recommend using the Pixel Scaler above to get your desired dimensions.
 
 1. Island Graphics - Core Gameplay
-
 
 ![game_example](https://user-images.githubusercontent.com/11745561/206883541-bc017bce-1b91-43e6-892c-a7abd9474b23.png)
 ![water_background](https://user-images.githubusercontent.com/11745561/206883543-5bd54362-f532-40a5-9320-7cf119eec566.png)

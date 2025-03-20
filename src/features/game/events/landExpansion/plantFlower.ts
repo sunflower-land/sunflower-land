@@ -6,6 +6,7 @@ import {
   FLOWER_CROSS_BREED_AMOUNTS,
   FLOWER_SEEDS,
   FlowerCrossBreedName,
+  FLOWERS,
   FlowerSeedName,
   isFlowerSeed,
 } from "features/game/types/flowers";
@@ -17,6 +18,7 @@ import {
 } from "features/game/lib/collectibleBuilt";
 import { produce } from "immer";
 import { SEASONAL_SEEDS } from "features/game/types/seeds";
+import { getKeys } from "features/game/types/decorations";
 
 export type PlantFlowerAction = {
   type: "flower.planted";
@@ -139,6 +141,13 @@ export function plantFlower({
     stateCopy.inventory[action.crossbreed] =
       crossBreedCount.minus(crossBreedAmount);
 
+    const seedFlowers = getKeys(FLOWERS).filter(
+      (flowerName) => FLOWERS[flowerName].seed === action.seed,
+    );
+    const flower = seedFlowers.find((seedFlower) =>
+      (flowers.discovered[seedFlower] ?? []).includes(action.crossbreed),
+    );
+
     flowerBed.flower = {
       plantedAt: getPlantedAt({
         seed: action.seed,
@@ -146,8 +155,9 @@ export function plantFlower({
         boostedTime: getFlowerTime(action.seed, stateCopy),
       }),
       amount: 1,
-      name: "Red Lotus",
-      dirty: true,
+      name: flower ?? "Red Lotus",
+      crossbreed: action.crossbreed,
+      dirty: !flower,
     };
 
     bumpkin.activity = trackActivity(

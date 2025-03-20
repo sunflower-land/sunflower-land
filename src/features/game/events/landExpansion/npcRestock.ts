@@ -78,7 +78,14 @@ export function npcRestock({ state, action }: Options): GameState {
       return {
         ...acc,
         [name]:
-          name in restockItem ? INITIAL_STOCK(game)[name] : game.stock[name],
+          name in restockItem
+            ? new Decimal(
+                Math.max(
+                  INITIAL_STOCK(game)[name].toNumber(),
+                  (game.stock[name] ?? new Decimal(0)).toNumber(),
+                ),
+              )
+            : game.stock[name],
       };
     }, {});
     game.inventory["Gem"] = gems.sub(gemPrice);

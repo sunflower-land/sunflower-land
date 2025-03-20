@@ -41,8 +41,8 @@ import thermalStone from "assets/sfts/thermal_stone.webp";
 import grinxsHammer from "assets/sfts/grinx_hammer.png";
 import chickenCoop from "assets/sfts/chicken_coop.png";
 import christmasTree from "assets/sfts/christmas_tree.png";
-import farmCat from "assets/sfts/farm_cat.gif";
-import farmDog from "assets/sfts/farm_dog.gif";
+import farmCat from "assets/sfts/farm_cat.webp";
+import farmDog from "assets/sfts/farm_dog.webp";
 import gnome from "assets/decorations/scarlet.png";
 import goldEgg from "assets/sfts/gold_egg.png";
 import potatoStatue from "assets/sfts/potato_statue.png";
@@ -56,7 +56,7 @@ import fountain from "assets/sfts/fountain.gif";
 import beaver from "assets/sfts/beaver.gif";
 import apprenticeBeaver from "assets/sfts/apprentice_beaver.gif";
 import constructionBeaver from "assets/sfts/construction_beaver.gif";
-import mysteriousParsnip from "assets/sfts/mysterious_parsnip.png";
+import mysteriousParsnip from "assets/sfts/mysterious_parsnip.webp";
 import carrotSword from "assets/sfts/carrot_sword.png";
 import goldenBonsai from "assets/sfts/golden_bonsai.png";
 import nancy from "assets/sfts/nancy.png";
@@ -147,48 +147,48 @@ import knightChicken from "assets/animals/chickens/knight_chicken.webp";
 import pharaohChicken from "assets/animals/chickens/pharaoh_chicken.webp";
 
 // Flags
-import australiaFlag from "assets/sfts/flags/australia_flag.gif";
-import belgiumFlag from "assets/sfts/flags/belgium_flag.gif";
-import brazilFlag from "assets/sfts/flags/brazil_flag.gif";
-import chinaFlag from "assets/sfts/flags/china_flag.gif";
-import finlandFlag from "assets/sfts/flags/finland_flag.gif";
-import franceFlag from "assets/sfts/flags/france_flag.gif";
-import germanFlag from "assets/sfts/flags/germany_flag.gif";
-import indiaFlag from "assets/sfts/flags/india_flag.gif";
-import indonesiaFlag from "assets/sfts/flags/indonesia_flag.gif";
-import iranFlag from "assets/sfts/flags/iran_flag.gif";
-import italyFlag from "assets/sfts/flags/italy_flag.gif";
-import japanFlag from "assets/sfts/flags/japan_flag.gif";
-import moroccoFlag from "assets/sfts/flags/morocco_flag.gif";
-import netherlandsFlag from "assets/sfts/flags/netherlands_flag.gif";
-import phillipinesFlag from "assets/sfts/flags/philippines_flag.gif";
-import polandFlag from "assets/sfts/flags/poland_flag.gif";
-import portugalFlag from "assets/sfts/flags/portugal_flag.gif";
-import russiaFlag from "assets/sfts/flags/russia_flag.gif";
-import saudiArabiaFlag from "assets/sfts/flags/saudi_arabia_flag.gif";
-import southKoreaFlag from "assets/sfts/flags/south_korea_flag.gif";
-import sunflowerFlag from "assets/sfts/flags/sunflower_flag.gif";
-import spainFlag from "assets/sfts/flags/spain_flag.gif";
-import thailandFlag from "assets/sfts/flags/thailand_flag.gif";
-import turkeyFlag from "assets/sfts/flags/turkey_flag.gif";
-import ukraineFlag from "assets/sfts/flags/ukraine_flag.gif";
-import usaFlag from "assets/sfts/flags/usa_flag.gif";
-import vietnamFlag from "assets/sfts/flags/vietnam_flag.gif";
-import algerian_flag from "assets/sfts/flags/algerian_flag.gif";
-import argentinian_flag from "assets/sfts/flags/argentinian_flag.gif";
-import british_flag from "assets/sfts/flags/british_flag.gif";
-import canadian_flag from "assets/sfts/flags/canadian_flag.gif";
-import colombian_flag from "assets/sfts/flags/colombian_flag.gif";
-import dominican_republic_flag from "assets/sfts/flags/dominican_republic_flag.gif";
-import goblin_flag from "assets/sfts/flags/goblin_flag.gif";
-import lithuanian_flag from "assets/sfts/flags/lithuanian_flag.gif";
-import malaysian_flag from "assets/sfts/flags/malaysian_flag.gif";
-import mexican_flag from "assets/sfts/flags/mexican_flag.gif";
-import pirate_flag from "assets/sfts/flags/pirate_flag.gif";
-import rainbow_flag from "assets/sfts/flags/rainbow_flag.gif";
-import romanian_flag from "assets/sfts/flags/romanian_flag.gif";
-import sierra_leone_flag from "assets/sfts/flags/sierra_leone_flag.gif";
-import singaporean_flag from "assets/sfts/flags/singaporean_flag.gif";
+import australiaFlag from "assets/sfts/flags/australia_flag.webp";
+import belgiumFlag from "assets/sfts/flags/belgium_flag.webp";
+import brazilFlag from "assets/sfts/flags/brazil_flag.webp";
+import chinaFlag from "assets/sfts/flags/china_flag.webp";
+import finlandFlag from "assets/sfts/flags/finland_flag.webp";
+import franceFlag from "assets/sfts/flags/france_flag.webp";
+import germanFlag from "assets/sfts/flags/germany_flag.webp";
+import indiaFlag from "assets/sfts/flags/india_flag.webp";
+import indonesiaFlag from "assets/sfts/flags/indonesia_flag.webp";
+import iranFlag from "assets/sfts/flags/iran_flag.webp";
+import italyFlag from "assets/sfts/flags/italy_flag.webp";
+import japanFlag from "assets/sfts/flags/japan_flag.webp";
+import moroccoFlag from "assets/sfts/flags/morocco_flag.webp";
+import netherlandsFlag from "assets/sfts/flags/netherlands_flag.webp";
+import phillipinesFlag from "assets/sfts/flags/philippines_flag.webp";
+import polandFlag from "assets/sfts/flags/poland_flag.webp";
+import portugalFlag from "assets/sfts/flags/portugal_flag.webp";
+import russiaFlag from "assets/sfts/flags/russia_flag.webp";
+import saudiArabiaFlag from "assets/sfts/flags/saudi_arabia_flag.webp";
+import southKoreaFlag from "assets/sfts/flags/south_korea_flag.webp";
+import sunflowerFlag from "assets/sfts/flags/sunflower_flag.webp";
+import spainFlag from "assets/sfts/flags/spain_flag.webp";
+import thailandFlag from "assets/sfts/flags/thailand_flag.webp";
+import turkeyFlag from "assets/sfts/flags/turkey_flag.webp";
+import ukraineFlag from "assets/sfts/flags/ukraine_flag.webp";
+import usaFlag from "assets/sfts/flags/usa_flag.webp";
+import vietnamFlag from "assets/sfts/flags/vietnam_flag.webp";
+import algerian_flag from "assets/sfts/flags/algerian_flag.webp";
+import argentinian_flag from "assets/sfts/flags/argentinian_flag.webp";
+import british_flag from "assets/sfts/flags/british_flag.webp";
+import canadian_flag from "assets/sfts/flags/canadian_flag.webp";
+import colombian_flag from "assets/sfts/flags/colombian_flag.webp";
+import dominican_republic_flag from "assets/sfts/flags/dominican_republic_flag.webp";
+import goblin_flag from "assets/sfts/flags/goblin_flag.webp";
+import lithuanian_flag from "assets/sfts/flags/lithuanian_flag.webp";
+import malaysian_flag from "assets/sfts/flags/malaysian_flag.webp";
+import mexican_flag from "assets/sfts/flags/mexican_flag.webp";
+import pirate_flag from "assets/sfts/flags/pirate_flag.webp";
+import rainbow_flag from "assets/sfts/flags/rainbow_flag.webp";
+import romanian_flag from "assets/sfts/flags/romanian_flag.webp";
+import sierra_leone_flag from "assets/sfts/flags/sierra_leone_flag.webp";
+import singaporean_flag from "assets/sfts/flags/singaporean_flag.webp";
 
 import generosityFlag from "assets/sfts/generosity_flag.png";
 import splendorFlag from "assets/sfts/splendor_flag.png";
@@ -713,9 +713,9 @@ import goldenCrop from "assets/events/golden_crop/golden_crop.gif";
 import goblinGoldChampion from "assets/sfts/goblin_gold_champion.png";
 import goblinSilverChampion from "assets/sfts/goblin_silver_champion.png";
 import goblinBronzeChampion from "assets/sfts/goblin_bronze_champion.png";
-import bumpkinGoldChampion from "assets/sfts/bumpkin_gold_champion.png";
-import bumpkinSilverChampion from "assets/sfts/bumpkin_silver_champion.png";
-import bumpkinBronzeChampion from "assets/sfts/bumpkin_bronze_champion.png";
+import bumpkinGoldChampion from "assets/sfts/bumpkin_gold_champion.webp";
+import bumpkinSilverChampion from "assets/sfts/bumpkin_silver_champion.webp";
+import bumpkinBronzeChampion from "assets/sfts/bumpkin_bronze_champion.webp";
 import nightshadeGoldChampion from "assets/sfts/nightshade_gold_champion.png";
 import nightshadeSilverChampion from "assets/sfts/nightshade_silver_champion.png";
 import nightshadeBronzeChampion from "assets/sfts/nightshade_bronze_champion.png";
@@ -825,6 +825,7 @@ import timeshard from "assets/icons/timeshard.webp";
 import ancientClock from "assets/icons/ancient_clock.png";
 import windsOfChangeBanner from "assets/decorations/banners/winds-of-change_banner_loop.gif";
 import pesticide from "assets/sfts/pesticide.webp";
+import jin from "assets/sfts/jin_ronin.webp";
 
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
@@ -4762,7 +4763,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Trade Cake": {
     image: tradeCake,
-    description: "Cake that you can redeem at Trade Rewards Shop",
+    description: "Cake purchased at Trade Rewards Shop.",
   },
   "Christmas Stocking": {
     image: christmasStocking,
@@ -4919,5 +4920,14 @@ export const ITEM_DETAILS: Items = {
   "Rhubarb Tart": {
     image: rhubarbTart,
     description: translate("description.rhubarb.tart"),
+  },
+  Jin: {
+    image: jin,
+    description:
+      "The Mythical Tiger of Ronin, embodies strength, resillence and adventurous spirit",
+  },
+  "Love Charm": {
+    image: SUNNYSIDE.icons.heart, // TODO: add image
+    description: translate("description.love.charm"),
   },
 };

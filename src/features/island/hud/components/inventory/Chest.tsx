@@ -23,7 +23,7 @@ import { CONFIG } from "lib/config";
 import { BudDetails } from "components/ui/layouts/BudDetails";
 import classNames from "classnames";
 import { RESOURCES } from "features/game/types/resources";
-import { BUILDINGS } from "features/game/types/buildings";
+import { BuildingName, BUILDINGS } from "features/game/types/buildings";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
@@ -32,6 +32,7 @@ import {
   BUSH_VARIANTS,
   DIRT_PATH_VARIANTS,
   TREE_VARIANTS,
+  WATER_WELL_VARIANTS,
 } from "features/island/lib/alternateArt";
 import { BANNERS } from "features/game/types/banners";
 import { InnerPanel } from "components/ui/Panel";
@@ -41,13 +42,19 @@ import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 import { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { BEDS } from "features/game/types/beds";
 import { WEATHER_SHOP_ITEM_COSTS } from "features/game/types/calendar";
+import {
+  isBuildingUpgradable,
+  makeUpgradableBuildingKey,
+  UpgradableBuildingType,
+} from "features/game/events/landExpansion/upgradeBuilding";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
 export const ITEM_ICONS: (
   island: IslandType,
   season: TemperateSeasonName,
-) => Partial<Record<InventoryItemName, string>> = (island, season) => ({
+  level?: number,
+) => Partial<Record<InventoryItemName, string>> = (island, season, level) => ({
   Market: SUNNYSIDE.icons.marketIcon,
   "Fire Pit": SUNNYSIDE.icons.firePitIcon,
   Workbench: SUNNYSIDE.icons.workbenchIcon,
@@ -62,6 +69,7 @@ export const ITEM_ICONS: (
   "Dirt Path": DIRT_PATH_VARIANTS[island],
   Greenhouse: SUNNYSIDE.icons.greenhouseIcon,
   Bush: BUSH_VARIANTS[island][season],
+  "Water Well": WATER_WELL_VARIANTS[season][level ?? 1],
 });
 
 interface PanelContentProps {
@@ -489,19 +497,27 @@ const ItemGroup: React.FC<ItemGroupProps> = ({
         {label}
       </Label>
       <div className="flex mb-2 flex-wrap -ml-1.5">
-        {items.map((item) => (
-          <Box
-            count={chestMap[item]}
-            isSelected={selectedChestItem === item}
-            key={item}
-            onClick={() => onItemClick(item)}
-            image={
-              ITEM_ICONS(state.island.type, state.season.season)[item] ??
-              ITEM_DETAILS[item].image
-            }
-            parentDivRef={divRef}
-          />
-        ))}
+        {items.map((item) => {
+          const hasLevel = isBuildingUpgradable(item as BuildingName)
+            ? state[makeUpgradableBuildingKey(item as UpgradableBuildingType)]
+                .level
+            : undefined;
+
+          const image =
+            ITEM_ICONS(state.island.type, state.season.season, hasLevel)[
+              item
+            ] ?? ITEM_DETAILS[item].image;
+          return (
+            <Box
+              count={chestMap[item]}
+              isSelected={selectedChestItem === item}
+              key={item}
+              onClick={() => onItemClick(item)}
+              image={image}
+              parentDivRef={divRef}
+            />
+          );
+        })}
       </div>
     </div>
   );

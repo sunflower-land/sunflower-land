@@ -27,6 +27,7 @@ import { gameAnalytics } from "lib/gameAnalytics";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { useSound } from "lib/utils/hooks/useSound";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
+import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
 
 const HITS = 3;
 const tool = "Axe";
@@ -65,7 +66,7 @@ const isSeasonedPlayer = (state: MachineState) =>
   // - level 60+
   getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) >= 60 &&
   // - verified (personhood verification)
-  state.context.verified &&
+  (state.context.verified || isFaceVerified({ game: state.context.state })) &&
   hasReputation({
     game: state.context.state,
     reputation: Reputation.Cropkeeper,

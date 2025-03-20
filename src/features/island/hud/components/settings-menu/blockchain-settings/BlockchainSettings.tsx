@@ -9,8 +9,10 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { ContentComponentProps } from "../GameOptions";
 import { GameWallet } from "features/wallet/Wallet";
+import { hasFeatureAccess } from "lib/flags";
 
 const _farmAddress = (state: MachineState) => state.context.farmAddress ?? "";
+const _state = (state: MachineState) => state.context.state;
 
 export const BlockchainSettings: React.FC<ContentComponentProps> = ({
   onSubMenuClick,
@@ -22,8 +24,8 @@ export const BlockchainSettings: React.FC<ContentComponentProps> = ({
   const { openModal } = useContext(ModalContext);
 
   const farmAddress = useSelector(gameService, _farmAddress);
+  const state = useSelector(gameService, _state);
   const isFullUser = farmAddress !== undefined;
-
   const storeOnChain = async () => {
     openModal("STORE_ON_CHAIN");
     onClose();
@@ -31,16 +33,18 @@ export const BlockchainSettings: React.FC<ContentComponentProps> = ({
 
   return (
     <GameWallet action="connectWallet">
-      <div className="flex flex-col gap-2 mb-2">
+      <div className="flex flex-col gap-1">
         <Button onClick={() => onSubMenuClick("deposit")}>
           {t("deposit")}
         </Button>
         <Button onClick={storeOnChain}>
           {t("gameOptions.blockchainSettings.storeOnChain")}
         </Button>
-        <Button onClick={() => onSubMenuClick("swapSFL")}>
-          {t("gameOptions.blockchainSettings.swapPOLForSFL")}
-        </Button>
+        {!hasFeatureAccess(state, "DISABLE_BLOCKCHAIN_ACTIONS") && (
+          <Button onClick={() => onSubMenuClick("swapSFL")}>
+            {t("gameOptions.blockchainSettings.swapPOLForSFL")}
+          </Button>
+        )}
         <Button onClick={() => onSubMenuClick("dequip")}>
           {t("dequipper.dequip")}
         </Button>

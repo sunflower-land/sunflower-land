@@ -10,7 +10,7 @@ import {
 
 import { CollectibleName, CraftableName, Food } from "./craftables";
 import { CommodityName, MushroomName, ResourceName } from "./resources";
-import { SkillName } from "./skills";
+import { LegacyBadgeName } from "./skills";
 import { BuildingName } from "./buildings";
 import { GameEvent } from "../events";
 import { BumpkinItem, Equipped as BumpkinParts } from "./bumpkin";
@@ -83,7 +83,6 @@ import {
   Recipes,
   RecipeWearableName,
 } from "../lib/crafting";
-import { AnimalBuildingLevel } from "../events/landExpansion/upgradeBuilding";
 import { SeasonalCollectibleName } from "./megastore";
 import { TradeFood } from "../events/landExpansion/redeemTradeReward";
 import {
@@ -92,6 +91,7 @@ import {
   SeasonalEventName,
 } from "./calendar";
 import { VipBundle } from "../lib/vipAccess";
+import { SocialTaskName } from "../events/landExpansion/completeSocialTask";
 
 export type Reward = {
   coins?: number;
@@ -230,6 +230,7 @@ export type Coupons =
   | "Prize Ticket"
   | "Mark"
   | "Trade Point"
+  | "Love Charm"
   | Keys
   | SeasonalTicket
   | FactionEmblem;
@@ -348,6 +349,9 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   Timeshard: {
     description: "",
   },
+  "Love Charm": {
+    description: translate("description.love.charm"),
+  },
 };
 
 export type Purchase = {
@@ -381,8 +385,9 @@ export type Bumpkin = {
   skills: Skills;
   achievements?: Partial<Record<AchievementName, number>>;
   activity: Partial<Record<BumpkinActivityName, number>>;
-  previousSkillsResetAt?: number;
+  previousFreeSkillResetAt?: number;
   previousPowerUseAt?: Partial<Record<BumpkinRevampSkillName, number>>;
+  paidSkillResets?: number;
 };
 
 export type SpecialEvent = "Chef Apron" | "Chef Hat";
@@ -440,7 +445,7 @@ export type InventoryItemName =
   | CraftableName
   | CommodityName
   | ResourceName
-  | SkillName
+  | LegacyBadgeName
   | EasterEgg
   | EasterEventItemName
   | Food
@@ -622,14 +627,21 @@ export type BuildingProduce = {
   readyAt: number;
 };
 
+export type Cancelled = Partial<{
+  [key in InventoryItemName]: {
+    count: number;
+    cancelledAt: number;
+  };
+}>;
+
 export type PlacedItem = {
   id: string;
   coordinates: { x: number; y: number };
   readyAt: number;
   createdAt: number;
-
+  cancelled?: Cancelled;
+  crafting?: BuildingProduct[];
   oil?: number;
-  crafting?: BuildingProduct;
 };
 
 type ShakeItem = PlacedItem & { shakenAt?: number };
@@ -1269,6 +1281,8 @@ type Stores = "factionShop" | "treasureShop" | "megastore";
 export type KeysBought = Record<Stores, KeysBoughtAt>;
 
 export type AnimalBuildingKey = "henHouse" | "barn";
+export type UpgradableBuildingKey = AnimalBuildingKey | "waterWell";
+
 export type AnimalResource =
   | "Egg"
   | "Leather"
@@ -1292,9 +1306,14 @@ export type Animal = {
   reward?: Reward;
 };
 
-export type AnimalBuilding = {
-  level: AnimalBuildingLevel;
+export type AnimalBuilding = UpgradableBuilding & {
   animals: Record<string, Animal>;
+};
+
+export type UpgradableBuilding = {
+  level: number;
+  upgradeReadyAt?: number;
+  upgradedAt?: number;
 };
 
 export type Bank = {
@@ -1342,6 +1361,15 @@ export type LavaPit = {
 export type VIP = {
   bundles: { name: VipBundle; boughtAt: number }[];
   expiresAt: number;
+};
+
+export type Chain = "ronin";
+
+export type NFT = {
+  name: string;
+  tokenId: number;
+  expiresAt: number;
+  acknowledgedAt?: number;
 };
 
 export interface GameState {
@@ -1529,6 +1557,7 @@ export interface GameState {
   experiments: ExperimentName[];
   henHouse: AnimalBuilding;
   barn: AnimalBuilding;
+  waterWell: UpgradableBuilding;
 
   craftingBox: {
     status: "pending" | "idle" | "crafting";
@@ -1547,7 +1576,49 @@ export interface GameState {
   };
   season: Season;
   lavaPits: Record<string, LavaPit>;
+  nfts?: Partial<Record<Chain, NFT>>;
+
+  faceRecognition?: {
+    session?: {
+      id: string;
+      createdAt: number;
+      token: string;
+    };
+    history: FaceRecognitionEvent[];
+  };
+  telegram?: {
+    linkedAt: number;
+    startedAt?: number;
+    joinedAt?: number;
+  };
+  twitter?: {
+    linkedAt: number;
+    followedAt?: number;
+    isAuthorised?: boolean;
+  };
+  discord?: {
+    connected: boolean;
+  };
+  referrals?: {
+    totalReferrals: number;
+  };
+  socialTasks?: {
+    completed: Partial<Record<SocialTaskName, { completedAt: number }>>;
+  };
 }
+
+export type FaceRecognitionEvent =
+  | { event: "succeeded"; createdAt: number; confidence: number }
+  | { event: "failed"; createdAt: number; confidence: number }
+  | {
+      event: "duplicate";
+      createdAt: number;
+      duplicates: {
+        similarity: number;
+        faceId: string;
+        farmId: number;
+      }[];
+    };
 
 export interface Context {
   state?: GameState;

@@ -188,60 +188,6 @@ describe("fruitTreeRemoved", () => {
     expect(state.inventory.Axe).toStrictEqual(new Decimal(1));
   });
 
-  it("requires an axe for Blueberries when Foreman Beaver is placed and ready", () => {
-    const state = removeFruitTree({
-      state: {
-        ...GAME_STATE,
-        collectibles: {
-          "Foreman Beaver": [
-            {
-              id: "123",
-              createdAt: Date.now(),
-              coordinates: { x: 1, y: 1 },
-              // Ready at < now
-              readyAt: Date.now() - 5 * 60 * 1000,
-            },
-          ],
-        },
-      },
-      action: {
-        type: "fruitTree.removed",
-        index: "2",
-        selectedItem: "Axe",
-      },
-    });
-
-    expect(state.inventory.Axe).toStrictEqual(new Decimal(0));
-  });
-
-  it("throws an error for Blueberries if no Axe and when Foreman Beaver is placed and ready", async () => {
-    expect(() =>
-      removeFruitTree({
-        state: {
-          ...GAME_STATE,
-          inventory: { Axe: new Decimal(0) },
-          collectibles: {
-            "Foreman Beaver": [
-              {
-                id: "123",
-                createdAt: Date.now(),
-                coordinates: { x: 1, y: 1 },
-                // Ready at < now
-                readyAt: Date.now() - 5 * 60 * 1000,
-              },
-            ],
-          },
-        },
-        createdAt: Date.now(),
-        action: {
-          type: "fruitTree.removed",
-          selectedItem: "Axe",
-          index: "2",
-        },
-      }),
-    ).toThrow("No axes left");
-  });
-
   it("applies a +1 wood reward on removal with Fruity Woody skill", () => {
     const state = removeFruitTree({
       state: {

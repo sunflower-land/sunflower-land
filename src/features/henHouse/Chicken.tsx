@@ -116,18 +116,14 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   const chickenMachineState = useSelector(chickenService, _animalState);
 
   useEffect(() => {
-    if (
-      chicken.state === "ready" &&
-      chicken.awakeAt < Date.now() &&
-      chickenMachineState !== "ready"
-    ) {
+    if (chicken.awakeAt < Date.now() && chickenMachineState === "sleeping") {
       chickenService.send({
-        type: "INSTANT_LEVEL_UP",
+        type: "INSTANT_WAKE_UP",
         animal: chicken,
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chicken.state]);
+  }, [chicken.awakeAt]);
 
   useEffect(() => {
     if (chicken.state === "sick" && chickenMachineState !== "sick") {

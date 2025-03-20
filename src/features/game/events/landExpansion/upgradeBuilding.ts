@@ -1,14 +1,23 @@
 import Decimal from "decimal.js-light";
-import { makeAnimalBuildingKey } from "features/game/lib/animals";
+import { getBumpkinLevel } from "features/game/lib/level";
 import { AnimalBuildingType } from "features/game/types/animals";
+import { BuildingName } from "features/game/types/buildings";
 import { getKeys } from "features/game/types/decorations";
-import { GameState, InventoryItemName } from "features/game/types/game";
+import {
+  GameState,
+  InventoryItemName,
+  UpgradableBuildingKey,
+} from "features/game/types/game";
 import { produce } from "immer";
 
 export type UpgradeBuildingAction = {
   type: "building.upgraded";
-  buildingType: AnimalBuildingType;
+  buildingType: UpgradableBuildingType;
 };
+export type UpgradableBuildingType = Extract<
+  BuildingName,
+  AnimalBuildingType | "Water Well"
+>;
 
 type Options = {
   state: Readonly<GameState>;
@@ -16,15 +25,20 @@ type Options = {
   createdAt?: number;
 };
 
-export type AnimalBuildingLevel = 1 | 2 | 3;
 type BuildingUpgradeCost = {
   coins: number;
   items: Partial<Record<InventoryItemName, Decimal>>;
+  requiredLevel?: number;
+  upgradeTime?: number;
 };
 
+export const isBuildingUpgradable = (
+  name: BuildingName,
+): name is UpgradableBuildingType => name in BUILDING_UPGRADES;
+
 export const BUILDING_UPGRADES: Record<
-  AnimalBuildingType,
-  Record<AnimalBuildingLevel, BuildingUpgradeCost>
+  UpgradableBuildingType,
+  Record<number, BuildingUpgradeCost>
 > = {
   "Hen House": {
     // Level 1 is the default and does not require any upgrades
@@ -77,26 +91,81 @@ export const BUILDING_UPGRADES: Record<
       },
     },
   },
+  "Water Well": {
+    1: {
+      coins: 0,
+      items: {},
+      requiredLevel: 2,
+    },
+    2: {
+      coins: 200,
+      items: { Wood: new Decimal(5), Stone: new Decimal(2) },
+      requiredLevel: 4,
+      upgradeTime: 60 * 60 * 1000,
+    },
+    3: {
+      coins: 400,
+      items: { Wood: new Decimal(5), Stone: new Decimal(5) },
+      requiredLevel: 11,
+      upgradeTime: 60 * 60 * 2 * 1000,
+    },
+    4: {
+      coins: 800,
+      items: { Wood: new Decimal(10), Stone: new Decimal(10) },
+      requiredLevel: 15,
+      upgradeTime: 60 * 60 * 4 * 1000,
+    },
+  },
 };
 
-export function upgradeBuilding({ state, action }: Options): GameState {
-  return produce(state, (copy) => {
-    const { buildings } = copy;
+export const makeUpgradableBuildingKey = (
+  buildingName: Extract<BuildingName, "Hen House" | "Barn" | "Water Well">,
+): UpgradableBuildingKey => {
+  return buildingName
+    .replace(/(?:^\w|[A-Z]|\b\w)/g, (word, index) => {
+      return index === 0 ? word.toLowerCase() : word.toUpperCase();
+    })
+    .replace(/\s+/g, "") as UpgradableBuildingKey;
+};
 
-    if (!buildings[action.buildingType]) {
+export function upgradeBuilding({
+  state,
+  action,
+  createdAt = Date.now(),
+}: Options): GameState {
+  return produce(state, (copy) => {
+    const { buildings, bumpkin } = copy;
+    const { experience } = bumpkin;
+    const { buildingType } = action;
+
+    if (!buildings[buildingType]) {
       throw new Error("Building not found");
     }
 
-    const buildingKey = makeAnimalBuildingKey(action.buildingType);
+    const buildingKey = makeUpgradableBuildingKey(buildingType);
 
     const building = copy[buildingKey];
 
-    if (building.level >= 3) {
+    const upgrades = BUILDING_UPGRADES[buildingType];
+
+    if (building.level >= getKeys(upgrades).length) {
       throw new Error("Building is at max level");
     }
+    if (building.upgradeReadyAt && building.upgradeReadyAt > createdAt) {
+      throw new Error("Building is still under upgrade");
+    }
 
-    const nextLevel = (building.level + 1) as Exclude<AnimalBuildingLevel, 1>;
-    const upgradeCost = BUILDING_UPGRADES[action.buildingType][nextLevel];
+    const currentExperienceLevel = getBumpkinLevel(experience);
+
+    const nextLevel = building.level + 1;
+    const upgradeCost = upgrades[nextLevel];
+
+    if (
+      upgradeCost.requiredLevel &&
+      currentExperienceLevel < upgradeCost.requiredLevel
+    ) {
+      throw new Error("Insufficient level for upgrade");
+    }
 
     if (state.coins < upgradeCost.coins) {
       throw new Error("Insufficient coins for upgrade");
@@ -120,6 +189,12 @@ export function upgradeBuilding({ state, action }: Options): GameState {
 
     // Upgrade building level
     copy[buildingKey].level = nextLevel;
+
+    // Set readyAt
+    if (upgradeCost.upgradeTime) {
+      copy[buildingKey].upgradeReadyAt = createdAt + upgradeCost.upgradeTime;
+      copy[buildingKey].upgradedAt = createdAt;
+    }
 
     return copy;
   });

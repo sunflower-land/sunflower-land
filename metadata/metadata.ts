@@ -30,7 +30,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       "A frosty bovine mutation that prevents cows from getting sick during winter months!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/2163.png",
+    image: "../public/erc1155/images/2199.png",
     attributes: [
       { trait_type: "Boost", value: "Animal" },
       {
@@ -46,7 +46,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       "A frosty sheep mutation that prevents sheep from getting sick during winter months!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/2163.png",
+    image: "../public/erc1155/images/2200.png",
     attributes: [
       { trait_type: "Boost", value: "Animal" },
       {
@@ -62,7 +62,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       "A chicken mutation that prevents chickens from getting sick during summer months!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/2163.png",
+    image: "../public/erc1155/images/2201.png",
     attributes: [
       { trait_type: "Boost", value: "Animal" },
       {
@@ -78,7 +78,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       "A marine marvel from the Winds of Change chapter that grants +1 fish during summer months!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/2163.png",
+    image: "../public/erc1155/images/2203.png",
     attributes: [
       { trait_type: "Boost", value: "Fish" },
       {
@@ -94,7 +94,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       "A decorative mutant flower found during the Winds of Change chapter.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/2163.png",
+    image: "../public/erc1155/images/2202.png",
     attributes: [
       { trait_type: "Tradable", value: "Yes" },
       { trait_type: "Purpose", value: "Decoration" },
@@ -1313,7 +1313,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   "Rock Golem": {
     name: "Rock Golem",
     description:
-      "The Rock Golem is the protector of Stone.\n\nMining stone causes the Golem to be become enraged giving a 10% chance to get 3x stone from stone mines.\n\n~~You can craft this item at the Goblin Blacksmith in the game.~~ **Sold out!**",
+      "The Rock Golem is the protector of Stone.\n\nMining stone causes the Golem to be become enraged giving a 10% chance to get +2 Stone from stone mines.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/427.gif",
@@ -1382,8 +1382,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   },
   "Tunnel Mole": {
     name: "Tunnel Mole",
-    description:
-      "The tunnel mole gives a 25% increase to stone mines.\n\n~~You can craft this item at the Goblin Blacksmith in the game.~~ **Sold out!**",
+    description: "The tunnel mole gives a 0.25 increase to stone mines' yield.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/428.gif",
@@ -1400,7 +1399,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   "Rocky the Mole": {
     name: "Rocky the Mole",
     description:
-      "\"Life's not about how much iron you can mine... it's about how much more you can mine, and still keep mining.\" - Rocky the Mole\n\nRocky the Mole gives a 25% increase to iron mines.\n\nYou can craft this item at the Goblin Blacksmith in the game.",
+      "\"Life's not about how much iron you can mine... it's about how much more you can mine, and still keep mining.\" - Rocky the Mole\n\nRocky the Mole gives a 0.25 increase to iron mines' yield.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/429.gif",
@@ -1434,7 +1433,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   Nugget: {
     name: "Nugget",
     description:
-      "Seldom seen above ground, this gold digger burrows day and night searching for the next gold rush.\n\nStrike gold with this little critter! Eureka!\n\nNugget gives a 25% increase to gold mines.\n\nYou can craft this item at the Goblin Blacksmith in the game.",
+      "Seldom seen above ground, this gold digger burrows day and night searching for the next gold rush.\n\nStrike gold with this little critter! Eureka!\n\nNugget gives a 0.25 increase to gold mines' yield.",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/430.gif",
@@ -4442,7 +4441,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   },
   "Genie Lamp": {
     description:
-      "A magical lamp that contains a genie who will grant you three wishes.",
+      "A magical lamp that contains a genie who will grant you three wishes and burn the lamp after the third wish. Wish list: Genie Bear, Pirate Bounty, Pearl, Bumpkin Roast, Goblin Brunch and Sand Drill x10",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/460.png",
@@ -4450,7 +4449,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Boost", value: "Other" },
       {
         display_type: "boost_number",
-        trait_type: "Grants Wishes",
+        trait_type: "Grants Wishes from the Wish list",
         value: 3,
       },
       { trait_type: "Tradable", value: "Yes" },
@@ -10433,7 +10432,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     name: "Trade Point",
   },
   "Trade Cake": {
-    description: "Cake that you can redeem at Trade Rewards Shop",
+    description: "Cake purchased at Trade Rewards Shop.",
     decimals: 0,
     attributes: [
       { trait_type: "Purpose", value: "Consumable" },
@@ -10698,7 +10697,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       { trait_type: "Boost", value: "Animal" },
       {
         display_type: "boost_number",
-        trait_type: "Barn Capacity",
+        trait_type: "Increase Barn Animals per Upgrade",
         value: 5,
       },
     ],
@@ -11308,6 +11307,26 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/question_mark.png",
     name: "Winds of Change Banner",
+  },
+  Jin: {
+    description:
+      "The Mythical Tiger of Ronin, embodies strength, resillence and adventurous spirit",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2205.png",
+    name: "Jin",
+  },
+  "Love Charm": {
+    description: "A spark of social interaction",
+    decimals: 0,
+    attributes: [{ trait_type: "Purpose", value: "Coupon" }],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    name: "Love Charm",
   },
 };
 
@@ -16819,7 +16838,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
   },
   "Acorn Hat": {
     description:
-      "A cute, nature-inspired hat shaped like an acorn, perfect for woodland adventures.",
+      "A cute, nature-inspired hat shaped like an acorn, perfect for woodland adventures. +1 Timeshard from Deliveries, Chores & Bounties during Winds of Change Chapter.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Hat" },
@@ -16990,5 +17009,41 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/wearables/images/434.png",
     name: "Frozen Heart",
+  },
+  "Love Heart Onesie": {
+    description:
+      "A heart so big, you can wear it! Spread love and coziness wherever you go in this charming onesie.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Onesie" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/435.png",
+    name: "Love Heart Onesie",
+  },
+  "Love Bear Onesie": {
+    description:
+      "Soft, snuggly, and as huggable as a teddy bear, this onesie is a symbol of pure affection and comfort.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Onesie" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/436.png",
+    name: "Love Bear Onesie",
+  },
+  "Flower Bouquet": {
+    description:
+      "A fragrant bundle of fresh-picked blooms, ready to brighten someone's day with the language of flowers.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Tool" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/437.png",
+    name: "Flower Bouquet",
   },
 };

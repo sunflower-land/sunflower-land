@@ -219,6 +219,7 @@ export const DailyPuzzle: React.FC = () => {
     gameService.send("REVEAL", {
       event: {
         type: "diggingReward.collected",
+        farmId: gameState.context.farmId,
         createdAt: new Date(),
       },
     });

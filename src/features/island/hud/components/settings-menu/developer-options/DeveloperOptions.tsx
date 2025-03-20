@@ -6,6 +6,7 @@ import { createPortal } from "react-dom";
 import { ContentComponentProps } from "../GameOptions";
 import { CONFIG } from "lib/config";
 import { Context as GameContext } from "features/game/GameProvider";
+import { hasFeatureAccess } from "lib/flags";
 
 export const DeveloperOptions: React.FC<ContentComponentProps> = ({
   onSubMenuClick,
@@ -16,18 +17,25 @@ export const DeveloperOptions: React.FC<ContentComponentProps> = ({
 
   return (
     <>
-      {(CONFIG.NETWORK === "amoy" ||
-        !!gameService.state?.context?.state.wardrobe["Gift Giver"]) && (
+      {hasFeatureAccess(
+        gameService.state?.context?.state,
+        "AIRDROP_PLAYER",
+      ) && (
         <Button className="p-1 mb-1" onClick={() => onSubMenuClick("admin")}>
-          <span>{`Admin`}</span>
+          <span>{`Airdrop Player`}</span>
         </Button>
       )}
-      <Button
-        onClick={() => onSubMenuClick("hoardingCheck")}
-        className="p-1 mb-1"
-      >
-        {`Hoarding Check`}
-      </Button>
+      {hasFeatureAccess(
+        gameService.state?.context?.state,
+        "HOARDING_CHECK",
+      ) && (
+        <Button
+          onClick={() => onSubMenuClick("hoardingCheck")}
+          className="p-1 mb-1"
+        >
+          {`Hoarding Check`}
+        </Button>
+      )}
       {CONFIG.NETWORK === "amoy" && (
         <>
           <Button

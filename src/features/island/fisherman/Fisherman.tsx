@@ -1,5 +1,7 @@
 import { useSelector } from "@xstate/react";
 import bubbles from "assets/decorations/water_bubbles.png";
+import winter_bubbles from "assets/decorations/winter_water_bubbles.png";
+import frozen_wharf from "assets/decorations/frozen_wharf.png";
 import fishSilhoutte from "assets/decorations/fish_silhouette.png";
 import { Context } from "features/game/GameProvider";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
@@ -18,12 +20,15 @@ const expansions = (state: MachineState) =>
 
 const _isVisiting = (state: MachineState) => state.matches("visiting");
 
+const _season = (state: MachineState) => state.context.state.season.season;
+
 export const Fisherman: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const { gameService } = useContext(Context);
 
   const expansionCount = useSelector(gameService, expansions);
   const isVisiting = useSelector(gameService, _isVisiting);
+  const season = useSelector(gameService, _season);
 
   const wharfCoords = () => {
     if (expansionCount < 7) {
@@ -56,25 +61,49 @@ export const Fisherman: React.FC = () => {
           height={3}
         >
           <FishermanNPC onClick={() => setShowModal(true)} />
-
-          <img
-            src={bubbles}
-            className="absolute z-0 skew-animation pointer-events-none"
-            style={{
-              width: `${37 * PIXEL_SCALE}px`,
-              right: `${-6 * PIXEL_SCALE}px`,
-              bottom: `${-7 * PIXEL_SCALE}px`,
-            }}
-          />
-          <img
-            src={fishSilhoutte}
-            className="absolute z-0 fish-swimming pointer-events-none"
-            style={{
-              width: `${11 * PIXEL_SCALE}px`,
-              right: `${0 * PIXEL_SCALE}px`,
-              bottom: `${-20 * PIXEL_SCALE}px`,
-            }}
-          />
+          {season === "winter" ? (
+            <>
+              <img
+                src={frozen_wharf}
+                className="absolute z-0 pointer-events-none"
+                style={{
+                  width: `${57 * PIXEL_SCALE}px`,
+                  right: `${-13 * PIXEL_SCALE}px`,
+                  bottom: `${-12 * PIXEL_SCALE}px`,
+                }}
+              />
+              <img
+                src={winter_bubbles}
+                className="absolute z-0 skew-animation pointer-events-none"
+                style={{
+                  width: `${37 * PIXEL_SCALE}px`,
+                  right: `${-6 * PIXEL_SCALE}px`,
+                  bottom: `${-7 * PIXEL_SCALE}px`,
+                }}
+              />
+            </>
+          ) : (
+            <>
+              <img
+                src={bubbles}
+                className="absolute z-0 skew-animation pointer-events-none"
+                style={{
+                  width: `${37 * PIXEL_SCALE}px`,
+                  right: `${-6 * PIXEL_SCALE}px`,
+                  bottom: `${-7 * PIXEL_SCALE}px`,
+                }}
+              />
+              <img
+                src={fishSilhoutte}
+                className="absolute z-0 fish-swimming pointer-events-none"
+                style={{
+                  width: `${11 * PIXEL_SCALE}px`,
+                  right: `${0 * PIXEL_SCALE}px`,
+                  bottom: `${-20 * PIXEL_SCALE}px`,
+                }}
+              />
+            </>
+          )}
         </MapPlacement>
       </div>
       <Modal show={showModal} onHide={() => setShowModal(false)}>

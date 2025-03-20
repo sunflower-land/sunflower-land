@@ -7,6 +7,7 @@ import {
   writeContract,
 } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
+import { polygon, polygonAmoy } from "viem/chains";
 
 const address = CONFIG.FARM_CONTRACT;
 
@@ -24,6 +25,7 @@ export async function getFarms(
 
   try {
     return (await readContract(config, {
+      chainId: CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id,
       abi: FarmABI,
       address,
       functionName: "getFarms",
@@ -50,6 +52,7 @@ export async function transfer({
   tokenId: number;
 }) {
   const hash = await writeContract(config, {
+    chainId: CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id,
     abi: FarmABI,
     address,
     functionName: "transferFrom",

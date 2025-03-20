@@ -468,7 +468,8 @@ export const ITEM_TRADE_TYPES: {
     "Bull Run Banner": "instant",
     "Cow Skull": "instant",
     Horseshoe: "instant",
-    "Trade Point": "onchain",
+    "Trade Point": "instant",
+    "Love Charm": "instant",
     "Australian Flag": "onchain",
     "Belgian Flag": "onchain",
     "Brazilian Flag": "onchain",
@@ -948,6 +949,7 @@ export const ITEM_TRADE_TYPES: {
     "Winds of Change Banner": "instant",
     Timeshard: "instant",
     "Ancient Clock": "instant",
+    Jin: "instant",
   },
   wearables: {
     "New Years Crown": "instant",
@@ -1379,6 +1381,9 @@ export const ITEM_TRADE_TYPES: {
     "Blossom Ward": "onchain",
     "Autumn's Embrace": "onchain",
     "Frozen Heart": "onchain",
+    "Love Heart Onesie": "instant",
+    "Love Bear Onesie": "instant",
+    "Flower Bouquet": "instant",
   },
 };
 

@@ -12,7 +12,7 @@ import { MachineInterpreter } from "../mmoMachine";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
-import brazilFlag from "assets/sfts/flags/brazil_flag.gif";
+import brazilFlag from "assets/sfts/flags/brazil_flag.webp";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useNavigate } from "react-router";
 import { Context } from "features/game/GameProvider";

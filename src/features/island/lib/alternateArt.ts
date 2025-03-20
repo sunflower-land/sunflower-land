@@ -1,7 +1,6 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 
 import { IslandType, TemperateSeasonName } from "features/game/types/game";
-import { AnimalBuildingLevel } from "features/game/events/landExpansion/upgradeBuilding";
 import { FlowerGrowthStage, FlowerName } from "features/game/types/flowers";
 import { CONFIG } from "lib/config";
 import cactiStump from "assets/resources/tree/cacti_stump.webp";
@@ -67,7 +66,7 @@ export const WAREHOUSE_VARIANTS: Record<TemperateSeasonName, string> = {
 
 export const HEN_HOUSE_VARIANTS: Record<
   TemperateSeasonName,
-  Record<AnimalBuildingLevel, string>
+  Record<number, string>
 > = {
   spring: {
     1: SUNNYSIDE.seasons.spring.hen_house_1,
@@ -379,9 +378,32 @@ export const GREENHOUSE_VARIANTS: Record<TemperateSeasonName, string> = {
   winter: SUNNYSIDE.seasons.winter.greenhouse,
 };
 
-export const WATER_WELL_VARIANTS: Record<TemperateSeasonName, string> = {
-  spring: SUNNYSIDE.seasons.spring.well,
-  summer: SUNNYSIDE.building.well,
-  autumn: SUNNYSIDE.seasons.autumn.well,
-  winter: SUNNYSIDE.seasons.winter.well,
+export const WATER_WELL_VARIANTS: Record<
+  TemperateSeasonName,
+  Record<number, string>
+> = {
+  spring: {
+    1: SUNNYSIDE.seasons.spring.well,
+    2: SUNNYSIDE.seasons.spring.well2,
+    3: SUNNYSIDE.seasons.spring.well3,
+    4: SUNNYSIDE.seasons.spring.well4,
+  },
+  summer: {
+    1: SUNNYSIDE.building.well,
+    2: SUNNYSIDE.building.well2,
+    3: SUNNYSIDE.building.well3,
+    4: SUNNYSIDE.building.well4,
+  },
+  autumn: {
+    1: SUNNYSIDE.seasons.autumn.well,
+    2: SUNNYSIDE.seasons.autumn.well2,
+    3: SUNNYSIDE.seasons.autumn.well3,
+    4: SUNNYSIDE.seasons.autumn.well4,
+  },
+  winter: {
+    1: SUNNYSIDE.seasons.winter.well,
+    2: SUNNYSIDE.seasons.winter.well2,
+    3: SUNNYSIDE.seasons.winter.well3,
+    4: SUNNYSIDE.seasons.winter.well4,
+  },
 };
