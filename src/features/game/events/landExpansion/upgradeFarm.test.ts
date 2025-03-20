@@ -302,7 +302,7 @@ describe("upgradeFarm", () => {
     expect(state.island.previousExpansions).toEqual(16);
   });
 
-  it.only("removes all temporary collectibles", () => {
+  it("removes all temporary collectibles", () => {
     const now = Date.now();
 
     const state = upgrade({
