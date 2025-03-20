@@ -54,7 +54,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Town Center": new Decimal(1),
     Market: new Decimal(1),
     Workbench: new Decimal(1),
-    "Basic Land": new Decimal(10),
+    "Basic Land": new Decimal(25),
     "Lava Pit": new Decimal(1),
     Bush: new Decimal(3),
     Axe: new Decimal(10),
@@ -313,7 +313,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
   },
 
   island: {
-    type: "volcano",
+    type: "desert",
   },
 
   home: {
@@ -338,6 +338,14 @@ export const STATIC_OFFLINE_FARM: GameState = {
             y: 2,
           },
           readyAt: Date.now(),
+        },
+      ],
+      "Super Totem": [
+        {
+          id: "1",
+          createdAt: Date.now() - 1 * 60 * 60 * 1000,
+          coordinates: { x: 0, y: 0 },
+          readyAt: Date.now() - 1 * 60 * 60 * 1000,
         },
       ],
     },
