@@ -5337,6 +5337,8 @@
   "buying.vip": "Buying VIP",
   "buying.vipsuccess": "Successfully purchased VIP!",
   "searchHere": "Search here...",
+  "airdropping.reward": "Sending reward to player...",
+  "airdropping.reward.success": "Reward successfully sent to player!",
   "sunflowerClock": "Sunflower Clock",
   "days.mon": "Mon.",
   "days.tue": "Tue.",
