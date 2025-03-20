@@ -27,7 +27,6 @@ interface SFLProps {
   type: "sfl";
   balance: Decimal;
   requirement: Decimal;
-  showLabel?: boolean;
 }
 /**
  * The props for sell for SFL requirement label. Use this when selling the item gives players SFL.
@@ -49,7 +48,6 @@ interface CoinsProps {
   type: "coins";
   balance: number;
   requirement: number;
-  showLabel?: boolean;
 }
 
 /**
@@ -96,7 +94,6 @@ interface ItemProps {
   item: InventoryItemName | BumpkinItem;
   balance: Decimal;
   requirement: Decimal;
-  showLabel?: boolean;
 }
 
 interface WearableProps {
@@ -104,7 +101,6 @@ interface WearableProps {
   item: BumpkinItem;
   balance: number;
   requirement: BumpkinItem;
-  showLabel?: boolean;
 }
 
 /**
@@ -163,6 +159,12 @@ interface SkillPointsProps {
   requirement: number;
 }
 
+interface OtherProps {
+  type: "other";
+  currentProgress: number;
+  requirement: number;
+}
+
 /**
  * The default props.
  * @param className The class name for the label.
@@ -171,6 +173,7 @@ interface defaultProps {
   className?: string;
   textColor?: string;
   hideIcon?: boolean;
+  showLabel?: boolean;
 }
 
 type Props = (
@@ -187,6 +190,7 @@ type Props = (
   | LevelProps
   | HarvestsProps
   | SkillPointsProps
+  | OtherProps
 ) &
   defaultProps;
 
@@ -278,6 +282,9 @@ export const RequirementLabel: React.FC<Props> = (props) => {
         const roundedDownRequirement = formatNumber(props.requirement);
         return `${t("skillPts")} ${roundedDownPoints}/${roundedDownRequirement}`;
       }
+      case "other": {
+        return `Progress: ${props.currentProgress}/${props.requirement}`;
+      }
     }
   };
 
@@ -297,6 +304,9 @@ export const RequirementLabel: React.FC<Props> = (props) => {
         return props.currentLevel >= props.requirement;
       case "skillPoints":
         return props.points >= props.requirement;
+      case "other": {
+        return props.currentProgress >= props.requirement;
+      }
       case "sellForSfl":
       case "sellForCoins":
       case "sellForGems":
@@ -313,6 +323,7 @@ export const RequirementLabel: React.FC<Props> = (props) => {
     switch (props.type) {
       case "wearable":
         return requirementMet ? "success" : "danger";
+      case "other":
       case "skillPoints":
         return requirementMet ? "default" : "danger";
       default:
@@ -327,21 +338,28 @@ export const RequirementLabel: React.FC<Props> = (props) => {
         "flex justify-between min-h-[26px]",
       )}
     >
-      <div className="flex items-center">
-        {!props.hideIcon && <SquareIcon icon={getIcon()} width={7} />}
-        {props.type === "sfl" && props.showLabel && (
-          <span className="text-xs ml-1">{"SFL"}</span>
+      {(!props.hideIcon || props.showLabel) &&
+        ["sfl", "item", "wearable", "coins"].includes(props.type as string) && (
+          <div className="flex items-center">
+            {!props.hideIcon && <SquareIcon icon={getIcon()} width={7} />}
+            {props.showLabel && (
+              <>
+                {props.type === "sfl" && (
+                  <span className="text-xs ml-1">{"SFL"}</span>
+                )}
+                {props.type === "item" && (
+                  <span className="text-xs ml-1">{props.item}</span>
+                )}
+                {props.type === "wearable" && (
+                  <span className="text-xs ml-1">{props.item}</span>
+                )}
+                {props.type === "coins" && (
+                  <span className="text-xs ml-1">{t("coins")}</span>
+                )}
+              </>
+            )}
+          </div>
         )}
-        {props.type === "item" && props.showLabel && (
-          <span className="text-xs ml-1">{props.item}</span>
-        )}
-        {props.type === "wearable" && props.showLabel && (
-          <span className="text-xs ml-1">{props.item}</span>
-        )}
-        {props.type === "coins" && props.showLabel && (
-          <span className="text-xs ml-1">{t("coins")}</span>
-        )}
-      </div>
 
       <Label
         className={classNames("whitespace-nowrap font-secondary relative", {

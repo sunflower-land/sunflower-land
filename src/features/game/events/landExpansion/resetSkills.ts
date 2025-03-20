@@ -1,65 +1,136 @@
+import { getKeys } from "features/game/types/decorations";
 import { GameState } from "features/game/types/game";
-import cloneDeep from "lodash.clonedeep";
+import { produce } from "immer";
+import { getTotalOilMillisInMachine } from "./supplyCropMachine";
+
+export type PaymentType = "gems" | "free";
 
 export type ResetSkillsAction = {
   type: "skills.reset";
+  paymentType: PaymentType;
 };
 
 type Options = {
-  state: GameState;
+  state: Readonly<GameState>;
   action: ResetSkillsAction;
   createdAt?: number;
 };
+
+export const getGemCost = (paidSkillResets: number) =>
+  200 * Math.pow(2, paidSkillResets);
+
+export function getTimeUntilNextFreeReset(
+  previousFreeSkillResetAt: number,
+  now = Date.now(),
+) {
+  // 180 days in milliseconds
+  const RESET_PERIOD_MS = 180 * 24 * 60 * 60 * 1000;
+
+  // Calculate next reset time by adding reset period
+  const nextResetTime = previousFreeSkillResetAt + RESET_PERIOD_MS;
+
+  // Calculate time remaining
+  const timeRemaining = nextResetTime - now;
+  return timeRemaining;
+}
+
+export function canResetForFree(
+  previousFreeSkillResetAt: number,
+  now = Date.now(),
+) {
+  const timeUntilNextReset = getTimeUntilNextFreeReset(
+    previousFreeSkillResetAt,
+    now,
+  );
+  return timeUntilNextReset <= 0;
+}
 
 export function resetSkills({
   state,
   action,
   createdAt = Date.now(),
 }: Options) {
-  const stateCopy = cloneDeep(state);
-  const { bumpkin } = stateCopy;
+  return produce(state, (game) => {
+    const { bumpkin, buildings } = game;
+    const {
+      paidSkillResets = 0,
+      previousFreeSkillResetAt = 0,
+      skills,
+    } = bumpkin;
 
-  // Check if bumpkin exists
-  if (bumpkin == undefined) {
-    throw new Error("You do not have a Bumpkin!");
-  }
-
-  // Check if bumpkin has any skills
-  if (Object.keys(bumpkin.skills).length === 0) {
-    throw new Error("You do not have any skills to reset");
-  }
-
-  // Check if allowed to reset skills (once per 3 months)
-  /* if (bumpkin.previousSkillsResetAt) {
-    const threeMonthsAgo = new Date();
-    threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
-
-    if (bumpkin.previousSkillsResetAt > threeMonthsAgo.getTime()) {
-      throw new Error("You can only reset your skills once every 3 months");
+    // Check if bumpkin exists
+    if (bumpkin == undefined) {
+      throw new Error("You do not have a Bumpkin!");
     }
-  } */
 
-  // Temp remove of fn above, for testing purposes we move to a 5min limit
-  // if (bumpkin.previousSkillsResetAt) {
-  //   const fiveMinutesAgo = new Date();
-  //   fiveMinutesAgo.setMinutes(fiveMinutesAgo.getMinutes() - 5);
+    // Check if bumpkin has any skills
+    if (getKeys(skills).length === 0) {
+      throw new Error("You do not have any skills to reset");
+    }
 
-  //   if (bumpkin.previousSkillsResetAt > fiveMinutesAgo.getTime()) {
-  //     throw new Error("You can only reset your skills once every 5 minutes");
-  //   }
-  // }
+    const cropMachine = buildings["Crop Machine"];
+    const { queue = [], unallocatedOilTime = 0 } = cropMachine?.[0] ?? {};
+    // If player has Crop Expansion Module, they can't reset skills if they have any crops in the additional slots
+    if (skills["Field Expansion Module"]) {
+      if (queue.length > 5) {
+        throw new Error(
+          "You can't reset skills with crops in the additional slots",
+        );
+      }
+    }
 
-  // Check of player has enough SFL to reset skills
-  // if (stateCopy.balance.toNumber() < 10) {
-  //   throw new Error("You do not have enough SFL to reset your skills");
-  // }
+    // If player has more oil in Crop Machine than regular tank limit, they can't reset skills
+    if (skills["Leak-Proof Tank"]) {
+      const oilMillisInMachine = getTotalOilMillisInMachine(
+        queue,
+        unallocatedOilTime,
+      );
+      if (oilMillisInMachine > 48 * 60 * 60 * 1000) {
+        throw new Error("Oil tank would exceed capacity after reset");
+      }
+    }
 
-  // All checks passed, reset skills
-  bumpkin.skills = {};
-  // bumpkin.previousSkillsResetAt = createdAt;
-  // stateCopy.balance = stateCopy.balance.minus(10);
-  bumpkin.previousSkillsResetAt = 1;
-  stateCopy.balance = stateCopy.balance.minus(0);
+    if (action.paymentType === "free") {
+      // If trying to do free reset before 4 months
+      if (!canResetForFree(previousFreeSkillResetAt, createdAt)) {
+        const timeToNextFreeResetInMilliseconds = getTimeUntilNextFreeReset(
+          previousFreeSkillResetAt,
+          createdAt,
+        );
+        const daysRemaining = Math.ceil(
+          timeToNextFreeResetInMilliseconds / (24 * 60 * 60 * 1000),
+        );
+        throw new Error(
+          `Wait ${daysRemaining} more days for free reset or use gems`,
+        );
+      }
 
-  return stateCopy;
+      // Reset paid resets counter since 4 months have passed
+      bumpkin.paidSkillResets = 0;
+    }
+
+    // Handle gem reset
+    if (action.paymentType === "gems") {
+      const gemCost = getGemCost(paidSkillResets);
+
+      if (game.inventory.Gem?.lt(gemCost)) {
+        throw new Error(`Not enough gems. Cost: ${gemCost} gems`);
+      }
+
+      // Deduct gems
+      game.inventory.Gem = game.inventory.Gem?.minus(gemCost);
+      // Increment paid resets counter
+      bumpkin.paidSkillResets = paidSkillResets + 1;
+    }
+
+    // Reset skills
+    bumpkin.skills = {};
+
+    // Update last free reset timestamp only for free resets
+    if (action.paymentType === "free") {
+      bumpkin.previousFreeSkillResetAt = createdAt;
+    }
+
+    return game;
+  });
 }

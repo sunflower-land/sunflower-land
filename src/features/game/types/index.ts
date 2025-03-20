@@ -482,6 +482,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Winds of Change Banner": 753,
   Timeshard: 754,
   "Ancient Clock": 755,
+  "Love Charm": 756,
 
   "Australian Flag": 801,
   "Belgian Flag": 802,
@@ -999,6 +1000,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Chamomile: 2202,
   Jellyfish: 2203,
   "Rhubarb Tart": 2204,
+  Jin: 2205,
 };
 
 // The reverse of above

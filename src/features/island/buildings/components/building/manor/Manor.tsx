@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingProps } from "../Building";
 import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 import { LetterBox } from "features/farming/mail/LetterBox";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Bumpkin } from "features/game/types/game";
@@ -13,25 +13,20 @@ import { useNavigate } from "react-router";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { HomeBumpkins } from "../house/HomeBumpkins";
 import { MANOR_VARIANTS } from "features/island/lib/alternateArt";
+import { MachineState } from "features/game/lib/gameMachine";
+const _season = (state: MachineState) => state.context.state.season.season;
 
-export const Manor: React.FC<BuildingProps> = ({
-  isBuilt,
-  onRemove,
-  island,
-}) => {
+export const Manor: React.FC<BuildingProps> = ({ isBuilt, island }) => {
   const { gameService, showAnimations } = useContext(Context);
   const [gameState] = useActor(gameService);
+
+  const season = useSelector(gameService, _season);
 
   const [showHeart, setShowHeart] = useState(false);
 
   const navigate = useNavigate();
 
   const handleClick = () => {
-    if (onRemove) {
-      onRemove();
-      return;
-    }
-
     if (isBuilt) {
       navigate("/home");
 
@@ -44,7 +39,7 @@ export const Manor: React.FC<BuildingProps> = ({
     let timeout: NodeJS.Timeout;
 
     gameService.onEvent((event) => {
-      if (event.type === "recipe.collected") {
+      if (event.type === "recipes.collected") {
         setShowHeart(true);
         timeout = setTimeout(() => setShowHeart(false), 3000);
       }
@@ -63,7 +58,7 @@ export const Manor: React.FC<BuildingProps> = ({
     <div className="absolute h-full w-full">
       <BuildingImageWrapper name="Town Center" onClick={handleClick}>
         <img
-          src={MANOR_VARIANTS[island]}
+          src={MANOR_VARIANTS[island][season]}
           className="absolute pointer-events-none"
           id={Section.Home}
           style={{

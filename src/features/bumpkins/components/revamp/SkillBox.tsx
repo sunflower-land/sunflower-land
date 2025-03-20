@@ -17,7 +17,7 @@ import { BumpkinSkillTier } from "features/game/types/bumpkinSkills";
 
 const LABEL_RIGHT_SHIFT_PX = -5 * PIXEL_SCALE;
 const LABEL_TOP_SHIFT_PX = -5 * PIXEL_SCALE;
-export const INNER_CANVAS_WIDTH = 25;
+export const INNER_CANVAS_WIDTH = 24;
 
 export interface BoxProps {
   hideCount?: boolean;

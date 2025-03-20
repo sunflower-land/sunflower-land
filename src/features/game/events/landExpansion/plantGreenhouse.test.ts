@@ -1819,7 +1819,7 @@ describe("plantGreenhouse", () => {
     expect(state.inventory["Rice Seed"]).toEqual(new Decimal(0));
   });
 
-  it("gives a 50% time boost when Solflare Aegis is worn in summer season", () => {
+  it("does not give 50% time boost when Solflare Aegis is worn in summer season", () => {
     const now = Date.now();
     const state = plantGreenhouse({
       action: {
@@ -1864,17 +1864,16 @@ describe("plantGreenhouse", () => {
       createdAt: now,
     });
 
-    const boostedTime = (GREENHOUSE_CROP_TIME_SECONDS["Rice"] * 1000) / 2;
     expect(state.greenhouse.pots[1]).toEqual({
       plant: {
         amount: 1,
         name: "Rice",
-        plantedAt: now - boostedTime,
+        plantedAt: now,
       },
     });
   });
 
-  it("gives a 50% time boost when Autumn's Embrace is worn in summer season", () => {
+  it("does not give 50% time boost when Autumn's Embrace is worn in summer season", () => {
     const now = Date.now();
     const state = plantGreenhouse({
       action: {
@@ -1919,12 +1918,11 @@ describe("plantGreenhouse", () => {
       createdAt: now,
     });
 
-    const boostedTime = (GREENHOUSE_CROP_TIME_SECONDS["Rice"] * 1000) / 2;
     expect(state.greenhouse.pots[1]).toEqual({
       plant: {
         amount: 1,
         name: "Rice",
-        plantedAt: now - boostedTime,
+        plantedAt: now,
       },
     });
   });
@@ -1983,7 +1981,7 @@ describe("plantGreenhouse", () => {
     });
   });
 
-  it("boosts +1 Greenhouse Crop yield when wearing Blossom Ward at Spring Season", () => {
+  it("does not boost +1 Greenhouse Crop yield when wearing Blossom Ward at Spring Season", () => {
     const now = Date.now();
     const state = plantGreenhouse({
       action: {
@@ -2030,14 +2028,14 @@ describe("plantGreenhouse", () => {
 
     expect(state.greenhouse.pots[1]).toEqual({
       plant: {
-        amount: 2,
+        amount: 1,
         name: "Rice",
         plantedAt: now,
       },
     });
   });
 
-  it("boosts +1 Greenhouse Crop yield when wearing Frozen Heart at Winter Season", () => {
+  it("does not boost +1 Greenhouse Crop yield when wearing Frozen Heart at Winter Season", () => {
     const now = Date.now();
     const state = plantGreenhouse({
       action: {
@@ -2084,7 +2082,7 @@ describe("plantGreenhouse", () => {
 
     expect(state.greenhouse.pots[1]).toEqual({
       plant: {
-        amount: 2,
+        amount: 1,
         name: "Rice",
         plantedAt: now,
       },
@@ -2140,6 +2138,54 @@ describe("plantGreenhouse", () => {
       plant: {
         amount: 1,
         name: "Grape",
+        plantedAt: now,
+      },
+    });
+  });
+  it("does not give 5% time boost to Greenhouse Crops when wearing Green Thumb skill", () => {
+    const now = Date.now();
+    const state = plantGreenhouse({
+      action: {
+        type: "greenhouse.planted",
+        id: 1,
+        seed: "Rice Seed",
+      },
+      state: {
+        ...farm,
+        bumpkin: {
+          ...farm.bumpkin,
+          skills: {
+            "Green Thumb": 1,
+          },
+        },
+        inventory: {
+          "Rice Seed": new Decimal(1),
+        },
+        greenhouse: {
+          oil: 50,
+          pots: {
+            1: {},
+          },
+        },
+        collectibles: {},
+        buildings: {
+          Greenhouse: [
+            {
+              coordinates: { x: 0, y: 0 },
+              id: "1",
+              createdAt: 0,
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      createdAt: now,
+    });
+
+    expect(state.greenhouse.pots[1]).toEqual({
+      plant: {
+        amount: 1,
+        name: "Rice",
         plantedAt: now,
       },
     });

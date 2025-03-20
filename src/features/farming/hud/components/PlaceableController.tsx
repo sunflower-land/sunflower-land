@@ -20,7 +20,10 @@ import {
   CollectibleName,
   getKeys,
 } from "features/game/types/craftables";
-import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
+import {
+  BuildingName,
+  BUILDINGS_DIMENSIONS,
+} from "features/game/types/buildings";
 import { ANIMAL_DIMENSIONS } from "features/game/types/craftables";
 import { isBudName } from "features/game/types/buds";
 import { PlaceableLocation } from "features/game/types/collectibles";
@@ -30,6 +33,11 @@ import { LANDSCAPING_DECORATIONS } from "features/game/types/decorations";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ITEM_ICONS } from "features/island/hud/components/inventory/Chest";
 import { IslandType, TemperateSeasonName } from "features/game/types/game";
+import {
+  isBuildingUpgradable,
+  makeUpgradableBuildingKey,
+  UpgradableBuildingType,
+} from "features/game/events/landExpansion/upgradeBuilding";
 
 interface Props {
   location: PlaceableLocation;
@@ -146,30 +154,35 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
 
   const island = gameState.context.state.island.type;
   const season = gameState.context.state.season.season;
+  const buildingLevel = isBuildingUpgradable(placeable as BuildingName)
+    ? gameState.context.state[
+        makeUpgradableBuildingKey(placeable as UpgradableBuildingType)
+      ].level
+    : undefined;
 
   const getPlaceableImage = (
     placeable: LandscapingPlaceable,
     island: IslandType,
     season: TemperateSeasonName,
+    level?: number,
   ) => {
     if (isBudName(placeable)) {
       return "";
     }
     return (
-      ITEM_ICONS(island, season)[placeable] ?? ITEM_DETAILS[placeable].image
+      ITEM_ICONS(island, season, level)[placeable] ??
+      ITEM_DETAILS[placeable].image
     );
   };
 
-  const image = getPlaceableImage(placeable, island, season);
+  const image = getPlaceableImage(placeable, island, season, buildingLevel);
 
   const Hint = () => {
     if (!requirements) {
       return (
         <div className="flex justify-center items-center mb-1">
           <img src={image} className="h-6 mr-2 img-highlight" />
-          <p className="text-sm">{`${available.toNumber()} ${t(
-            "available",
-          )}`}</p>
+          <p className="text-sm">{`${available} ${t("available")}`}</p>
         </div>
       );
     }

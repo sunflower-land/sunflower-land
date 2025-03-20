@@ -902,7 +902,7 @@ describe("feedAnimal", () => {
       },
     });
 
-    expect(state.inventory["Kernel Blend"]).toEqual(new Decimal(0.2));
+    expect(state.inventory["Kernel Blend"]).toEqual(new Decimal(0.25));
   });
 
   it("Applies Fat Chicken and Cluckulator boost", () => {
@@ -941,8 +941,7 @@ describe("feedAnimal", () => {
         item: "Kernel Blend",
       },
     });
-    const result = new Decimal(1 - 1 * 0.8 * 0.9);
-
+    const result = new Decimal(1).minus(new Decimal(1).times(0.75).times(0.9));
     expect(state.inventory["Kernel Blend"]).toEqual(new Decimal(result));
   });
 
@@ -1300,6 +1299,130 @@ describe("feedAnimal", () => {
     expect(state.inventory["Mixed Grain"]).toEqual(new Decimal(0.5));
     expect(state.henHouse.animals["0"].experience).toEqual(foodXp);
   });
+  it("handles chonky feed skill for chicken with Gold Egg placed", () => {
+    const state = feedAnimal({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          skills: {
+            "Chonky Feed": 1,
+          },
+        },
+        collectibles: {
+          "Gold Egg": [
+            {
+              id: "1",
+              coordinates: {
+                x: 0,
+                y: 0,
+              },
+              readyAt: 0,
+              createdAt: 0,
+            },
+          ],
+        },
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            "0": {
+              ...INITIAL_FARM.henHouse.animals["0"],
+              experience: 0,
+            },
+          },
+        },
+      },
+      action: {
+        type: "animal.fed",
+        animal: "Chicken",
+        id: "0",
+      },
+    });
+    expect(state.henHouse.animals["0"].experience).toEqual(120);
+  });
+
+  it("handles chonky feed skill for cows with Golden Cow placed", () => {
+    const state = feedAnimal({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          skills: {
+            "Chonky Feed": 1,
+          },
+        },
+        collectibles: {
+          "Golden Cow": [
+            {
+              id: "1",
+              coordinates: { x: 0, y: 0 },
+              readyAt: 0,
+              createdAt: 0,
+            },
+          ],
+        },
+        barn: {
+          ...INITIAL_FARM.barn,
+          animals: {
+            "0": {
+              ...INITIAL_FARM.barn.animals["0"],
+              type: "Cow",
+              experience: 0,
+            },
+          },
+        },
+      },
+      action: {
+        type: "animal.fed",
+        animal: "Cow",
+        id: "0",
+      },
+    });
+    expect(state.barn.animals["0"].experience).toEqual(240);
+  });
+
+  it("handles chonky feed skill for sheep with Golden Sheep placed", () => {
+    const state = feedAnimal({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          skills: {
+            "Chonky Feed": 1,
+          },
+        },
+        collectibles: {
+          "Golden Sheep": [
+            {
+              id: "1",
+              coordinates: { x: 0, y: 0 },
+              readyAt: 0,
+              createdAt: 0,
+            },
+          ],
+        },
+        barn: {
+          ...INITIAL_FARM.barn,
+          animals: {
+            "0": {
+              ...INITIAL_FARM.barn.animals["0"],
+              type: "Sheep",
+              experience: 0,
+            },
+          },
+        },
+      },
+      action: {
+        type: "animal.fed",
+        animal: "Sheep",
+        id: "0",
+      },
+    });
+    expect(state.barn.animals["0"].experience).toEqual(120);
+  });
 
   it("feeds a cow for free if the player has a Golden Cow", () => {
     const state = feedAnimal({
@@ -1371,7 +1494,7 @@ describe("feedAnimal", () => {
       },
     });
 
-    expect(state.barn.animals["0"].experience).toEqual(180);
+    expect(state.barn.animals["0"].experience).toEqual(200);
   });
 
   it("feeds a max level chicken the max level xp if the player has a Gold Egg", () => {

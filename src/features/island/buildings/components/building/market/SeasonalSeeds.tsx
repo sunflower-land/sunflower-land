@@ -60,6 +60,7 @@ import {
   CROP_EXTENSION_MOD_SEEDS,
 } from "features/game/events/landExpansion/supplyCropMachine";
 import { isFullMoon } from "features/game/types/calendar";
+import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 
 export const SEASON_ICONS: Record<TemperateSeasonName, string> = {
   spring: springIcon,
@@ -73,7 +74,7 @@ const _state = (state: MachineState) => state.context.state;
 export const SeasonalSeeds: React.FC = () => {
   const { gameService, shortcutItem } = useContext(Context);
   const state = useSelector(gameService, _state);
-  const { inventory, coins, island, bumpkin, buds, season } = state;
+  const { inventory, coins, island, bumpkin, season } = state;
   const currentSeason = season.season;
   // Sort the seeds by their default order
   const currentSeasonSeeds = getKeys(SEEDS).filter((seed) =>
@@ -251,12 +252,7 @@ export const SeasonalSeeds: React.FC = () => {
       return seconds;
     }
 
-    return getCropPlotTime({
-      crop: yields as CropName,
-      inventory,
-      game: state,
-      buds: buds ?? {},
-    });
+    return getCropPlotTime({ crop: yields as CropName, game: state });
   };
 
   const getHarvestCount = () => {
@@ -335,15 +331,17 @@ export const SeasonalSeeds: React.FC = () => {
               >
                 {`${currentSeason}`}
               </Label>
-              <Label
-                icon={SUNNYSIDE.icons.stopwatch}
-                type="transparent"
-                className="mb-1"
-              >
-                {`${secondsToString(secondsTillWeekReset(), {
-                  length: "short",
-                })} ${t("time.left")}`}
-              </Label>
+              {hasRequiredIslandExpansion(island.type, "spring") && (
+                <Label
+                  icon={SUNNYSIDE.icons.stopwatch}
+                  type="transparent"
+                  className="mb-1"
+                >
+                  {`${secondsToString(secondsTillWeekReset(), {
+                    length: "short",
+                  })} ${t("time.left")}`}
+                </Label>
+              )}
             </div>
             <div className="flex flex-wrap mb-2">
               {currentSeasonSeeds.map((name: SeedName) => (

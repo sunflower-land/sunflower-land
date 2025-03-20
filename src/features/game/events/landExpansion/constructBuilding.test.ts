@@ -179,7 +179,7 @@ describe("Construct building", () => {
           },
         },
       }),
-    ).toThrow(`${CONSTRUCT_BUILDING_ERRORS.NOT_ENOUGH_INGREDIENTS}Wood, Stone`);
+    ).toThrow(`${CONSTRUCT_BUILDING_ERRORS.NOT_ENOUGH_INGREDIENTS}Wood`);
   });
 
   it("constructs building", () => {
@@ -222,12 +222,7 @@ describe("Construct building", () => {
       ({ item }) => item === "Wood",
     ) as Ingredient;
 
-    const { amount: stoneRequired } = ingredients.find(
-      ({ item }) => item === "Stone",
-    ) as Ingredient;
-
     expect(state.inventory.Wood).toEqual(initialWood.minus(woodRequired));
-    expect(state.inventory.Stone).toEqual(initialStone.minus(stoneRequired));
     expect(state.coins).toEqual(initialCoins - waterWell.coins);
   });
 
@@ -297,46 +292,6 @@ describe("Construct building", () => {
       readyAt: dateNow + 60 * 5 * 1000,
       createdAt: dateNow,
     });
-  });
-
-  it("constructs multiple Water Wells", () => {
-    const state = constructBuilding({
-      state: {
-        ...GAME_STATE,
-        coins: 1000,
-        bumpkin: {
-          ...INITIAL_BUMPKIN,
-          experience: LEVEL_EXPERIENCE[20],
-        },
-        inventory: {
-          Wood: new Decimal(20),
-          Stone: new Decimal(15),
-          "Water Well": new Decimal(1),
-          "Basic Land": new Decimal(10),
-        },
-        buildings: {
-          "Water Well": [
-            {
-              coordinates: { x: 1, y: 1 },
-              createdAt: dateNow,
-              readyAt: dateNow + 30 * 1000,
-              id: "1",
-            },
-          ],
-        },
-      },
-      action: {
-        id: "123",
-        type: "building.constructed",
-        name: "Water Well",
-        coordinates: {
-          x: 1,
-          y: 2,
-        },
-      },
-      createdAt: 234567890,
-    });
-    expect(state.buildings["Water Well"]).toHaveLength(2);
   });
 
   it("does not affect existing buildings when constructing new Water Well", () => {

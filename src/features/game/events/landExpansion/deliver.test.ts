@@ -160,6 +160,41 @@ describe("deliver", () => {
     ).toThrow("Insufficient ingredient: coins");
   });
 
+  it("requires player has the reputation", () => {
+    expect(() =>
+      deliverOrder({
+        state: {
+          ...TEST_FARM,
+          vip: {
+            bundles: [],
+            expiresAt: Date.now() - 1000 * 60,
+          },
+          coins: 50,
+          delivery: {
+            ...TEST_FARM.delivery,
+            orders: [
+              {
+                id: "123",
+                createdAt: 0,
+                readyAt: MID_SEASON,
+                from: "gambit",
+                items: {
+                  coins: 50,
+                },
+                reward: {},
+              },
+            ],
+          },
+        },
+        action: {
+          id: "123",
+          type: "order.delivered",
+        },
+        createdAt: MID_SEASON,
+      }),
+    ).toThrow("You do not have the required reputation");
+  });
+
   it("takes sfl from player is required in delivery", () => {
     const balance = new Decimal(100);
     const game = deliverOrder({
@@ -865,42 +900,6 @@ describe("deliver", () => {
     });
 
     expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(1));
-  });
-
-  it("provides +2 tickets for banner holder", () => {
-    const state = deliverOrder({
-      state: {
-        ...TEST_FARM,
-        inventory: {
-          Sunflower: new Decimal(60),
-          "Clash of Factions Banner": new Decimal(1),
-        },
-        delivery: {
-          ...TEST_FARM.delivery,
-          fulfilledCount: 3,
-          orders: [
-            {
-              id: "123",
-              createdAt: 0,
-              readyAt: new Date("2023-10-31T15:00:00Z").getTime(),
-              from: "pumpkin' pete",
-              items: {
-                Sunflower: 50,
-              },
-              reward: {},
-            },
-          ],
-        },
-        bumpkin: INITIAL_BUMPKIN,
-      },
-      action: {
-        id: "123",
-        type: "order.delivered",
-      },
-      createdAt: new Date("2024-05-10T16:00:00Z").getTime(),
-    });
-
-    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(3));
   });
 
   it("provides +2 tickets for Lifetime Farmer banner holder", () => {
@@ -1797,6 +1796,10 @@ describe("deliver", () => {
           Orange: new Decimal(5),
           Grape: new Decimal(2),
         },
+        vip: {
+          bundles: [],
+          expiresAt: Date.now() + 1000 * 60 * 60 * 24 * 365,
+        },
         delivery: {
           ...TEST_FARM.delivery,
           orders: [
@@ -1842,7 +1845,7 @@ describe("deliver", () => {
       state: {
         ...TEST_FARM,
         coins: 6400,
-        inventory: { "Amber Fossil": new Decimal(0) },
+        inventory: { Timeshard: new Decimal(0) },
         delivery: {
           ...TEST_FARM.delivery,
           orders: [
@@ -1852,7 +1855,7 @@ describe("deliver", () => {
               readyAt: mockDate,
               from: "tywin",
               items: { coins: 6400 },
-              reward: {},
+              reward: { items: { Timeshard: 5 } },
             },
           ],
         },
@@ -1876,7 +1879,7 @@ describe("deliver", () => {
       createdAt: mockDate,
     });
 
-    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(10));
+    expect(state.inventory["Timeshard"]).toEqual(new Decimal(10));
   });
 
   it("can deliver items from the wardrobe", () => {

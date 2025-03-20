@@ -209,4 +209,37 @@ describe("completeBertObsession", () => {
       }),
     ).toThrow("This obsession is already completed");
   });
+
+  it("throws an error if obsession is in the future", () => {
+    const now = new Date("2023-08-17T00:00:00.000Z");
+    jest.setSystemTime(now);
+
+    expect(() =>
+      completeBertObsession({
+        state: {
+          ...TEST_FARM,
+          bumpkin: INITIAL_BUMPKIN,
+          bertObsession: {
+            name: "Halo",
+            type: "wearable",
+            startDate: now.getTime() + 10000,
+            endDate: now.getTime() + 20000,
+            reward: 3,
+          },
+          wardrobe: {
+            Halo: 1,
+          },
+          npcs: {
+            bert: {
+              deliveryCount: 0,
+            },
+          },
+        },
+        action: {
+          type: "bertObsession.completed",
+        },
+        createdAt: now.getTime(),
+      }),
+    ).toThrow("This obsession is not available");
+  });
 });

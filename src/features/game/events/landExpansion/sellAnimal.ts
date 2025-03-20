@@ -41,8 +41,10 @@ type Options = {
   createdAt?: number;
 };
 
+export const SICK_ANIMAL_REWARD_MULTIPLIER = 0.75;
+
 export function getSickAnimalRewardAmount(amount: number) {
-  return Math.floor(amount * 0.75);
+  return Math.floor(amount * SICK_ANIMAL_REWARD_MULTIPLIER);
 }
 
 export function sellAnimal({

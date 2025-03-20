@@ -9,6 +9,8 @@ import coinsIcon from "assets/icons/coins.webp";
 import coinsStack from "assets/icons/coins_stack.webp";
 import coinsScattered from "assets/icons/coins_scattered.webp";
 import sflIcon from "assets/icons/sfl.webp";
+import flowerIcon from "assets/icons/flower_token.webp";
+
 import { SFL_TO_COIN_PACKAGES } from "features/game/events/landExpansion/exchangeSFLtoCoins";
 import { ButtonPanel } from "components/ui/Panel";
 import * as AuthProvider from "features/auth/lib/Provider";
@@ -33,6 +35,10 @@ import { VIPItems } from "../../../game/components/modal/components/VIPItems";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { isMobile } from "mobile-device-detect";
+import { RoninSupportWidget } from "features/wallet/components/PolygonRequired";
+import { BuyGemsWidget } from "features/announcements/AnnouncementWidgets";
+import { hasFeatureAccess } from "lib/flags";
+import { DepositFlower } from "./DepositFlower";
 
 const COIN_IMAGES = [coinsScattered, coinsIcon, coinsStack];
 
@@ -100,6 +106,19 @@ export const BuyCurrenciesModal: React.FC<Props> = ({
     onClose();
   };
 
+  const onFlowerBuy = async (quote: number) => {
+    gameService.send("gems.bought", {
+      effect: {
+        type: "gems.bought",
+        quote,
+        bundle: price?.amount,
+      },
+      authToken: token,
+    });
+
+    onClose();
+  };
+
   const handleExited = () => {
     setShowXsolla(undefined);
     setPrice(undefined);
@@ -164,6 +183,12 @@ export const BuyCurrenciesModal: React.FC<Props> = ({
             { icon: ITEM_DETAILS.Gem.image, name: `Gems` },
             { icon: exchangeIcon, name: `${t("sfl/coins")}` },
             { icon: vipIcon, name: "VIP" },
+            ...(hasFeatureAccess(
+              gameService.getSnapshot().context.state,
+              "FLOWER_DEPOSIT",
+            )
+              ? [{ icon: flowerIcon, name: `$FLOWER` }]
+              : []),
           ]}
         >
           {tab === 0 && (
@@ -192,6 +217,7 @@ export const BuyCurrenciesModal: React.FC<Props> = ({
                 price={price}
                 setPrice={setPrice}
                 onMaticBuy={onMaticBuy}
+                onFlowerBuy={onFlowerBuy}
                 onCreditCardBuy={handleCreditCardBuy}
                 onHideBuyBBLabel={(hide) => setHideBuyBBLabel(hide)}
               />
@@ -280,9 +306,12 @@ export const BuyCurrenciesModal: React.FC<Props> = ({
               )}
             </div>
           )}
-          {tab === 2 && <VIPItems onClose={onClose} />}
+          {tab === 2 && <VIPItems />}
+          {tab === 3 && <DepositFlower onClose={onClose} />}
         </CloseButtonPanel>
       )}
+      <RoninSupportWidget />
+      <BuyGemsWidget />
     </Modal>
   );
 };

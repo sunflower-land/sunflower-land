@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 import { Airdrop, GameState, Order } from "features/game/types/game";
 import { Button } from "components/ui/Button";
 
@@ -41,9 +41,8 @@ import {
   generateDeliveryTickets,
   getCountAndTypeForDelivery,
   getOrderSellPrice,
+  GOBLINS_REQUIRING_REPUTATION,
 } from "features/game/events/landExpansion/deliver";
-import { hasVipAccess } from "features/game/lib/vipAccess";
-import { VIPAccess } from "features/game/components/VipAccess";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
 import { SquareIcon } from "components/ui/SquareIcon";
@@ -53,6 +52,9 @@ import { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { calculateRelationshipPoints } from "features/game/events/landExpansion/giftFlowers";
 import { FriendshipInfoPanel } from "components/ui/FriendshipInfoPanel";
 import { getActiveCalendarEvent } from "features/game/types/calendar";
+import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
+import { hasReputation, Reputation } from "features/game/lib/reputation";
+import { MachineState } from "features/game/lib/gameMachine";
 
 export const OrderCard: React.FC<{
   order: Order;
@@ -621,12 +623,11 @@ interface Props {
   npc: NPCName;
 }
 
-const GOBLINS_REQUIRING_SEASON_PASS: Partial<NPCName[]> = [
-  "grimtooth",
-  "grubnuk",
-  "gordo",
-  "guria",
-];
+const _hasReputation = (state: MachineState) =>
+  hasReputation({
+    game: state.context.state,
+    reputation: Reputation.Cropkeeper,
+  });
 
 export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
   const { t } = useAppTranslation();
@@ -679,7 +680,8 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
     });
   };
 
-  const requiresSeasonPass = GOBLINS_REQUIRING_SEASON_PASS.includes(npc);
+  const requiresReputation = GOBLINS_REQUIRING_REPUTATION.includes(npc);
+  const hasCropkeeperReputation = useSelector(gameService, _hasReputation);
 
   const dialogue = npcDialogues[npc] || defaultDialogue;
   const intro = useRandomItem(dialogue.intro);
@@ -698,32 +700,21 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
 
   if (delivery?.completedAt) {
     message = t("bumpkin.delivery.waiting");
-
-    if (
-      npc === "pumpkin' pete" &&
-      (game.npcs?.[npc]?.friendship?.points ?? 0) > 2 &&
-      getActiveCalendarEvent({ game }) !== "doubleDelivery"
-    ) {
-      message = t("double.delivery.hint", {
-        date: game.delivery.doubleDelivery ?? "",
-      });
-    }
   }
 
   if (!delivery || (!!tickets && isHoliday)) {
     message = noOrder;
   }
+  const missingRequiredReputation =
+    requiresReputation && !hasCropkeeperReputation;
 
-  const hasVIP = hasVipAccess({ game: gameState.context.state });
-
-  if (requiresSeasonPass && !hasVIP) {
-    message = t("goblinTrade.vipDelivery");
+  if (missingRequiredReputation) {
+    message = t("goblinTrade.missingReputation.sflDelivery");
   }
 
   const missingLevels =
     (NPC_DELIVERY_LEVELS[npc as DeliveryNpcName] ?? 0) -
     getBumpkinLevel(game.bumpkin?.experience ?? 0);
-  const missingVIPAccess = requiresSeasonPass && !hasVIP;
   const isLocked = missingLevels >= 1;
   const isTicketOrder = tickets > 0;
   const deliveryFrozen = isHoliday && isTicketOrder;
@@ -793,7 +784,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
             </div>
           </InnerPanel>
 
-          <InnerPanel>
+          <InnerPanel className="mb-1">
             <div className="px-2 ">
               <div className="flex flex-col justify-between items-stretch mb-2 gap-1">
                 <div className="flex flex-row justify-between w-full">
@@ -810,6 +801,15 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
                       {t("delivery")}
                     </Label>
                   )}
+
+                  {isLocked && (
+                    <Label type="danger" secondaryIcon={SUNNYSIDE.icons.player}>
+                      {t("warning.level.required", {
+                        lvl: NPC_DELIVERY_LEVELS[npc as DeliveryNpcName],
+                      })}
+                    </Label>
+                  )}
+
                   {delivery?.completedAt && (
                     <Label
                       style={{ whiteSpace: "nowrap" }}
@@ -817,22 +817,6 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
                       secondaryIcon={SUNNYSIDE.icons.confirm}
                     >
                       {t("completed")}
-                    </Label>
-                  )}
-                </div>
-                <div className="flex flex-row justify-between w-full">
-                  {!delivery?.completedAt && requiresSeasonPass && (
-                    <VIPAccess
-                      isVIP={hasVIP}
-                      onUpgrade={() => {
-                        onClose && onClose();
-                        openModal("BUY_BANNER");
-                      }}
-                    />
-                  )}
-                  {isLocked && (
-                    <Label type="danger" secondaryIcon={SUNNYSIDE.icons.lock}>
-                      {`Lvl ${NPC_DELIVERY_LEVELS[npc as DeliveryNpcName]} required`}
                     </Label>
                   )}
                 </div>
@@ -868,7 +852,9 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
               )}
             </div>
           </InnerPanel>
-
+          {missingRequiredReputation && (
+            <RequiredReputation reputation={Reputation.Cropkeeper} />
+          )}
           <div className="flex mt-1">
             {acceptGifts && (
               <Button className="mr-1" onClick={() => setShowFlowers(true)}>
@@ -882,7 +868,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
                 !hasDelivery ||
                 !!delivery?.completedAt ||
                 isLocked ||
-                missingVIPAccess ||
+                missingRequiredReputation ||
                 (isTicketOrder && isHoliday)
               }
               onClick={deliver}

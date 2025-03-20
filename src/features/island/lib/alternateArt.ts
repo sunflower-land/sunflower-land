@@ -1,17 +1,39 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 
 import { IslandType, TemperateSeasonName } from "features/game/types/game";
-import { AnimalBuildingLevel } from "features/game/events/landExpansion/upgradeBuilding";
 import { FlowerGrowthStage, FlowerName } from "features/game/types/flowers";
 import { CONFIG } from "lib/config";
 import cactiStump from "assets/resources/tree/cacti_stump.webp";
 import autumnCactiStump from "assets/resources/tree/autumn_cacti_stump.webp";
 
-export const FIRE_PIT_VARIANTS: Record<IslandType, string> = {
-  basic: SUNNYSIDE.building.firePit,
-  spring: SUNNYSIDE.building.firePit,
-  desert: SUNNYSIDE.building.desertFirePit,
-  volcano: SUNNYSIDE.building.volcanoFirePit,
+export const FIRE_PIT_VARIANTS: Record<
+  IslandType,
+  Record<TemperateSeasonName, string>
+> = {
+  basic: {
+    spring: SUNNYSIDE.seasons.spring.firePit,
+    summer: SUNNYSIDE.building.firePit,
+    autumn: SUNNYSIDE.seasons.autumn.firePit,
+    winter: SUNNYSIDE.seasons.winter.firePit,
+  },
+  spring: {
+    spring: SUNNYSIDE.seasons.spring.firePit,
+    summer: SUNNYSIDE.building.firePit,
+    autumn: SUNNYSIDE.seasons.autumn.firePit,
+    winter: SUNNYSIDE.seasons.winter.firePit,
+  },
+  desert: {
+    spring: SUNNYSIDE.seasons.spring.desertFirePit,
+    summer: SUNNYSIDE.building.desertFirePit,
+    autumn: SUNNYSIDE.seasons.autumn.desertFirePit,
+    winter: SUNNYSIDE.seasons.winter.desertFirePit,
+  },
+  volcano: {
+    spring: SUNNYSIDE.seasons.spring.volcanoFirePit,
+    summer: SUNNYSIDE.building.volcanoFirePit,
+    autumn: SUNNYSIDE.seasons.autumn.volcanoFirePit,
+    winter: SUNNYSIDE.seasons.winter.volcanoFirePit,
+  },
 };
 
 export const BAKERY_VARIANTS: Record<TemperateSeasonName, string> = {
@@ -28,9 +50,23 @@ export const DELI_VARIANTS: Record<TemperateSeasonName, string> = {
   winter: SUNNYSIDE.seasons.winter.deli,
 };
 
+export const TOOLSHED_VARIANTS: Record<TemperateSeasonName, string> = {
+  spring: SUNNYSIDE.seasons.spring.toolshed,
+  summer: SUNNYSIDE.building.toolshed,
+  autumn: SUNNYSIDE.seasons.autumn.toolshed,
+  winter: SUNNYSIDE.seasons.winter.toolshed,
+};
+
+export const WAREHOUSE_VARIANTS: Record<TemperateSeasonName, string> = {
+  spring: SUNNYSIDE.seasons.spring.warehouse,
+  summer: SUNNYSIDE.building.warehouse,
+  autumn: SUNNYSIDE.seasons.autumn.warehouse,
+  winter: SUNNYSIDE.seasons.winter.warehouse,
+};
+
 export const HEN_HOUSE_VARIANTS: Record<
   TemperateSeasonName,
-  Record<AnimalBuildingLevel, string>
+  Record<number, string>
 > = {
   spring: {
     1: SUNNYSIDE.seasons.spring.hen_house_1,
@@ -54,25 +90,94 @@ export const HEN_HOUSE_VARIANTS: Record<
   },
 };
 
-export const KITCHEN_VARIANTS: Record<IslandType, string> = {
-  basic: SUNNYSIDE.building.kitchen,
-  spring: SUNNYSIDE.building.kitchen,
-  desert: SUNNYSIDE.building.desertKitchen,
-  volcano: SUNNYSIDE.building.volcanoKitchen,
+export const KITCHEN_VARIANTS: Record<
+  IslandType,
+  Record<TemperateSeasonName, string>
+> = {
+  basic: {
+    spring: SUNNYSIDE.seasons.spring.kitchen,
+    summer: SUNNYSIDE.building.kitchen,
+    autumn: SUNNYSIDE.seasons.autumn.kitchen,
+    winter: SUNNYSIDE.seasons.winter.kitchen,
+  },
+  spring: {
+    spring: SUNNYSIDE.seasons.spring.kitchen,
+    summer: SUNNYSIDE.building.kitchen,
+    autumn: SUNNYSIDE.seasons.autumn.kitchen,
+    winter: SUNNYSIDE.seasons.winter.kitchen,
+  },
+  desert: {
+    spring: SUNNYSIDE.seasons.spring.desertKitchen,
+    summer: SUNNYSIDE.building.desertKitchen,
+    autumn: SUNNYSIDE.seasons.autumn.desertKitchen,
+    winter: SUNNYSIDE.seasons.winter.desertKitchen,
+  },
+  volcano: {
+    spring: SUNNYSIDE.seasons.spring.volcanoKitchen,
+    summer: SUNNYSIDE.building.volcanoKitchen,
+    autumn: SUNNYSIDE.seasons.autumn.volcanoKitchen,
+    winter: SUNNYSIDE.seasons.winter.volcanoKitchen,
+  },
 };
 
-export const MANOR_VARIANTS: Record<IslandType, string> = {
-  basic: SUNNYSIDE.building.house,
-  spring: SUNNYSIDE.building.house,
-  desert: SUNNYSIDE.building.desertHouse,
-  volcano: SUNNYSIDE.building.mansion,
+export const MANOR_VARIANTS: Record<
+  IslandType,
+  Record<TemperateSeasonName, string>
+> = {
+  basic: {
+    spring: SUNNYSIDE.seasons.spring.house,
+    summer: SUNNYSIDE.building.house,
+    autumn: SUNNYSIDE.seasons.autumn.house,
+    winter: SUNNYSIDE.seasons.winter.house,
+  },
+  spring: {
+    spring: SUNNYSIDE.seasons.spring.house,
+    summer: SUNNYSIDE.building.house,
+    autumn: SUNNYSIDE.seasons.autumn.house,
+    winter: SUNNYSIDE.seasons.winter.house,
+  },
+  desert: {
+    spring: SUNNYSIDE.seasons.spring.manor,
+    summer: SUNNYSIDE.building.manor,
+    autumn: SUNNYSIDE.seasons.autumn.manor,
+    winter: SUNNYSIDE.seasons.winter.manor,
+  },
+  volcano: {
+    spring: SUNNYSIDE.seasons.spring.mansion,
+    summer: SUNNYSIDE.building.mansion,
+    autumn: SUNNYSIDE.seasons.autumn.mansion,
+    winter: SUNNYSIDE.seasons.winter.mansion,
+  },
 };
 
-export const MARKET_VARIANTS: Record<IslandType, string> = {
-  basic: SUNNYSIDE.building.market,
-  spring: SUNNYSIDE.building.market,
-  desert: SUNNYSIDE.building.desertMarket,
-  volcano: SUNNYSIDE.building.volcanoMarket,
+export const MARKET_VARIANTS: Record<
+  IslandType,
+  Record<TemperateSeasonName, string>
+> = {
+  basic: {
+    spring: SUNNYSIDE.seasons.spring.market,
+    summer: SUNNYSIDE.building.market,
+    autumn: SUNNYSIDE.seasons.autumn.market,
+    winter: SUNNYSIDE.seasons.winter.market,
+  },
+  spring: {
+    spring: SUNNYSIDE.seasons.spring.market,
+    summer: SUNNYSIDE.building.market,
+    autumn: SUNNYSIDE.seasons.autumn.market,
+    winter: SUNNYSIDE.seasons.winter.market,
+  },
+  desert: {
+    spring: SUNNYSIDE.seasons.spring.desertMarket,
+    summer: SUNNYSIDE.building.desertMarket,
+    autumn: SUNNYSIDE.seasons.autumn.desertMarket,
+    winter: SUNNYSIDE.seasons.winter.desertMarket,
+  },
+  volcano: {
+    spring: SUNNYSIDE.seasons.spring.volcanoMarket,
+    summer: SUNNYSIDE.building.volcanoMarket,
+    autumn: SUNNYSIDE.seasons.autumn.volcanoMarket,
+    winter: SUNNYSIDE.seasons.winter.volcanoMarket,
+  },
 };
 
 export const SMOOTHIE_SHACK_VARIANTS: Record<IslandType, string> = {
@@ -273,9 +378,32 @@ export const GREENHOUSE_VARIANTS: Record<TemperateSeasonName, string> = {
   winter: SUNNYSIDE.seasons.winter.greenhouse,
 };
 
-export const WATER_WELL_VARIANTS: Record<TemperateSeasonName, string> = {
-  spring: SUNNYSIDE.seasons.spring.well,
-  summer: SUNNYSIDE.building.well,
-  autumn: SUNNYSIDE.seasons.autumn.well,
-  winter: SUNNYSIDE.seasons.winter.well,
+export const WATER_WELL_VARIANTS: Record<
+  TemperateSeasonName,
+  Record<number, string>
+> = {
+  spring: {
+    1: SUNNYSIDE.seasons.spring.well,
+    2: SUNNYSIDE.seasons.spring.well2,
+    3: SUNNYSIDE.seasons.spring.well3,
+    4: SUNNYSIDE.seasons.spring.well4,
+  },
+  summer: {
+    1: SUNNYSIDE.building.well,
+    2: SUNNYSIDE.building.well2,
+    3: SUNNYSIDE.building.well3,
+    4: SUNNYSIDE.building.well4,
+  },
+  autumn: {
+    1: SUNNYSIDE.seasons.autumn.well,
+    2: SUNNYSIDE.seasons.autumn.well2,
+    3: SUNNYSIDE.seasons.autumn.well3,
+    4: SUNNYSIDE.seasons.autumn.well4,
+  },
+  winter: {
+    1: SUNNYSIDE.seasons.winter.well,
+    2: SUNNYSIDE.seasons.winter.well2,
+    3: SUNNYSIDE.seasons.winter.well3,
+    4: SUNNYSIDE.seasons.winter.well4,
+  },
 };

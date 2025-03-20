@@ -13,10 +13,12 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/game/GameProvider";
 import { WithdrawResources } from "./WithdrawResources";
 import { Label } from "components/ui/Label";
-import { PIXEL_SCALE } from "features/game/lib/constants";
+import { INITIAL_FARM, PIXEL_SCALE } from "features/game/lib/constants";
 import { MachineState } from "features/game/lib/gameMachine";
 import { translate } from "lib/i18n/translate";
 import { Transaction } from "features/island/hud/Transaction";
+import { hasFeatureAccess } from "lib/flags";
+import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
 
 const getPageIcon = (page: Page) => {
   switch (page) {
@@ -66,11 +68,22 @@ type Page =
   | "verify";
 
 const MainMenu: React.FC<{ setPage: (page: Page) => void }> = ({ setPage }) => {
+  const withdrawSFLDisabled = hasFeatureAccess(
+    INITIAL_FARM,
+    "DISABLE_BLOCKCHAIN_ACTIONS",
+  );
+
   return (
     <div className="p-2 flex flex-col justify-center space-y-1">
       <span className="mb-1">{translate("withdraw.sync")}</span>
+      {withdrawSFLDisabled && (
+        <Label type="info">{translate("withdraw.sfl.disabled")}</Label>
+      )}
       <div className="flex space-x-1">
-        <Button onClick={() => setPage("tokens")}>
+        <Button
+          onClick={() => setPage("tokens")}
+          disabled={withdrawSFLDisabled}
+        >
           <div className="flex items-center">
             <img src={getPageIcon("tokens")} className="h-4 mr-1" />
             {getPageText("tokens")}
@@ -201,11 +214,6 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     onClose();
   };
 
-  const provePersonhood = async () => {
-    gameService.send("PROVE_PERSONHOOD");
-    onClose();
-  };
-
   const transaction = gameService.state.context.state.transaction;
   if (transaction) {
     return <Transaction isBlocked onClose={onClose} />;
@@ -231,6 +239,10 @@ export const Verify: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
   const verified = useSelector(gameService, _verified);
+
+  if (hasFeatureAccess(gameService.state.context.state, "FACE_RECOGNITION")) {
+    return <FaceRecognition />;
+  }
 
   if (verified) {
     return <p className="text-sm">{t("verify.verified")}</p>;

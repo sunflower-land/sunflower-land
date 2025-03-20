@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect, useMemo } from "react";
 import { useSelector } from "@xstate/react";
 import {
@@ -6,6 +7,7 @@ import {
 } from "features/game/lib/gameMachine";
 import { Label } from "components/ui/Label";
 import {
+  GameState,
   Inventory,
   InventoryItemName,
   Wardrobe,
@@ -20,7 +22,10 @@ import { secondsToString } from "lib/utils/time";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { Recipe, RecipeIngredient } from "features/game/lib/crafting";
-import { findMatchingRecipe } from "features/game/events/landExpansion/startCrafting";
+import {
+  findMatchingRecipe,
+  getBoostedCraftingTime,
+} from "features/game/events/landExpansion/startCrafting";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { useSound } from "lib/utils/hooks/useSound";
@@ -76,15 +81,8 @@ const VALID_CRAFTING_RESOURCES: InventoryItemName[] = [
 
 const VALID_CRAFTING_WEARABLES: BumpkinItem[] = ["Basic Hair", "Farmer Pants"];
 
-const _inventory = (state: MachineState) => state.context.state.inventory;
-const _craftingStatus = (state: MachineState) =>
-  state.context.state.craftingBox.status;
-const _craftingReadyAt = (state: MachineState) =>
-  state.context.state.craftingBox.readyAt;
-const _craftingBoxRecipes = (state: MachineState) =>
-  state.context.state.craftingBox.recipes;
+const _state = (state: MachineState) => state.context.state;
 
-const _wardrobe = (state: MachineState) => state.context.state.wardrobe;
 interface Props {
   gameService: MachineInterpreter;
   selectedItems: (RecipeIngredient | null)[];
@@ -98,11 +96,13 @@ export const CraftTab: React.FC<Props> = ({
 }) => {
   const { t } = useTranslation();
 
-  const inventory = useSelector(gameService, _inventory);
-  const wardrobe = useSelector(gameService, _wardrobe);
-  const craftingStatus = useSelector(gameService, _craftingStatus);
-  const craftingReadyAt = useSelector(gameService, _craftingReadyAt);
-  const recipes = useSelector(gameService, _craftingBoxRecipes);
+  const state = useSelector(gameService, _state);
+  const { inventory, wardrobe, craftingBox } = state;
+  const {
+    status: craftingStatus,
+    readyAt: craftingReadyAt,
+    recipes,
+  } = craftingBox;
 
   const [remainingTime, setRemainingTime] = useState<number | null>(null);
   const [failedAttempt, setFailedAttempt] = useState(false);
@@ -424,6 +424,7 @@ export const CraftTab: React.FC<Props> = ({
             failedAttempt={failedAttempt}
           />
           <CraftTimer
+            state={state}
             recipe={currentRecipe}
             remainingTime={remainingTime}
             isIdle={isIdle}
@@ -555,6 +556,7 @@ export const CraftTab: React.FC<Props> = ({
                 failedAttempt={failedAttempt}
               />
               <CraftTimer
+                state={state}
                 recipe={currentRecipe}
                 remainingTime={remainingTime}
                 isIdle={isIdle}
@@ -653,9 +655,10 @@ const CraftDetails: React.FC<{
   );
 };
 
-const RecipeLabelContent: React.FC<{ recipe: Recipe | null }> = ({
-  recipe,
-}) => {
+const RecipeLabelContent: React.FC<{
+  state: GameState;
+  recipe: Recipe | null;
+}> = ({ state, recipe }) => {
   const { t } = useTranslation();
 
   if (!recipe) {
@@ -666,9 +669,14 @@ const RecipeLabelContent: React.FC<{ recipe: Recipe | null }> = ({
     return <span>{t("instant")}</span>;
   }
 
+  const boostedCraftTime = getBoostedCraftingTime({
+    game: state,
+    time: recipe.time,
+  });
+
   return (
     <span>
-      {secondsToString(recipe.time / 1000, {
+      {secondsToString(boostedCraftTime / 1000, {
         length: "short",
         isShortFormat: true,
       })}
@@ -701,10 +709,11 @@ const InProgressLabelContent: React.FC<{ remainingTime: number | null }> = ({
 };
 
 const CraftTimer: React.FC<{
+  state: GameState;
   recipe: Recipe | null;
   remainingTime: number | null;
   isIdle: boolean;
-}> = ({ recipe, remainingTime, isIdle }) => {
+}> = ({ state, recipe, remainingTime, isIdle }) => {
   if (isIdle) {
     return (
       <Label
@@ -712,7 +721,7 @@ const CraftTimer: React.FC<{
         className="ml-3 my-1"
         icon={SUNNYSIDE.icons.stopwatch}
       >
-        <RecipeLabelContent recipe={recipe} />
+        <RecipeLabelContent state={state} recipe={recipe} />
       </Label>
     );
   }

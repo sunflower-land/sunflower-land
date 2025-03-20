@@ -1,4 +1,5 @@
-import mapJSON from "assets/map/kingdom.json";
+import seasonal_kingdom from "assets/map/seasonal_kingdom.json";
+import seasonal_tileset from "assets/map/seasonal_tileset.json";
 
 import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
@@ -23,8 +24,7 @@ import {
 } from "features/game/lib/factions";
 import { hasReadKingdomNotice } from "../ui/kingdom/KingdomNoticeboard";
 import { EventObject } from "xstate";
-import { hasReadCropsAndChickensNotice } from "../ui/portals/CropsAndChickens";
-import { hasFeatureAccess } from "lib/flags";
+import { capitalize } from "lib/utils/capitalize";
 
 export const KINGDOM_NPCS: NPCBumpkin[] = [
   {
@@ -95,7 +95,11 @@ export class KingdomScene extends BaseScene {
   constructor() {
     super({
       name: "kingdom",
-      map: { json: mapJSON },
+      map: {
+        json: seasonal_kingdom,
+        imageKey: "seasonal-tileset",
+        defaultTilesetConfig: seasonal_tileset,
+      },
       audio: { fx: { walk_key: "dirt_footstep" } },
     });
   }
@@ -181,7 +185,64 @@ export class KingdomScene extends BaseScene {
     this.initialiseNPCs(KINGDOM_NPCS);
     this.addShopDisplayItems();
 
-    const chickenRescuePortal = this.add.sprite(285, 515, "portal");
+    const season = this.gameState.season.season;
+
+    // List of all seasonal elements
+    const seasonElements = [
+      "Water",
+      "Ground",
+      "Flowers & Grass",
+      "Paths",
+      "Paths Layer 2",
+      "Decoration Base",
+      "Decoration Base 2",
+      "Decoration Base 3",
+      "Decorations Layer 2",
+      "Decorations Layer 3",
+      "Building Base",
+      "Building Base 2",
+      "Building Base Decorations",
+      "Building Layer 2",
+      "Building Layer 3",
+      "Building Layer 4",
+      "Building Decorations Layer 2",
+      "Building Decorations Layer 3",
+    ];
+    const seasons = ["Spring", "Summer", "Autumn", "Winter"];
+
+    const topElements = [
+      "Decorations Layer 2",
+      "Decorations Layer 3",
+      "Building Layer 2",
+      "Building Layer 3",
+      "Building Layer 4",
+      "Building Decorations Layer 2",
+      "Building Decorations Layer 3",
+    ];
+
+    const topElementsSet = new Set(topElements);
+
+    // Filter all seasonal layers that are not used for the active season
+    seasons
+      .filter((seasonName) => seasonName !== capitalize(season)) // Skip the active season
+      .forEach((seasonName) => {
+        seasonElements.forEach((element) => {
+          const layerName = `${element}/${seasonName} ${element}`;
+          const layer = this.layers[layerName];
+
+          if (!layer) return; // Skip undefined layers
+
+          layer.setVisible(false); // Hide inactive season layer
+
+          // Set depth for elements that should be drawn on top
+          if (topElementsSet.has(element)) {
+            const activeLayerName = `${element}/${capitalize(season)} ${element}`;
+            this.layers[activeLayerName]?.setDepth(1000000);
+          }
+        });
+      });
+
+    const portal = this.add.sprite(285, 515, "portal");
     this.anims.create({
       key: "portal_anim",
       frames: this.anims.generateFrameNumbers("portal", {
@@ -191,120 +252,19 @@ export class KingdomScene extends BaseScene {
       repeat: -1,
       frameRate: 10,
     });
-    chickenRescuePortal.play("portal_anim", true);
-    chickenRescuePortal
-      .setInteractive({ cursor: "pointer" })
-      .on("pointerdown", () => {
-        if (this.checkDistanceToSprite(chickenRescuePortal, 40)) {
-          interactableModalManager.open("chicken_rescue");
-        } else {
-          this.currentPlayer?.speak(translate("base.iam.far.away"));
-        }
-      });
-
-    if (!hasReadCropsAndChickensNotice()) {
-      const cropsAndChickensPortalNotice = this.add
-        .image(400, 732, "question_disc")
-        .setDepth(1000000);
-      cropsAndChickensPortalNotice
-        .setInteractive({ cursor: "pointer" })
-        .on("pointerdown", () => {
-          if (this.checkDistanceToSprite(cropsAndChickensPortalNotice, 40)) {
-            interactableModalManager.open("crops_and_chickens");
-          } else {
-            this.currentPlayer?.speak(translate("base.iam.far.away"));
-          }
-        });
-    }
-
-    const cropsAndChickensPortal = this.add.sprite(
-      400,
-      752,
-      "portal_crops_and_chickens",
-    );
-    this.anims.create({
-      key: "portal_crops_and_chickens_anim",
-      frames: this.anims.generateFrameNumbers("portal_crops_and_chickens", {
-        start: 0,
-        end: 17,
-      }),
-      repeat: -1,
-      frameRate: 10,
+    portal.play("portal_anim", true);
+    portal.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      if (this.checkDistanceToSprite(portal, 40)) {
+        interactableModalManager.open("portal_chooser");
+      } else {
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
+      }
     });
-    cropsAndChickensPortal.play("portal_crops_and_chickens_anim", true);
-    cropsAndChickensPortal
-      .setInteractive({ cursor: "pointer" })
-      .on("pointerdown", () => {
-        if (this.checkDistanceToSprite(cropsAndChickensPortal, 40)) {
-          interactableModalManager.open("crops_and_chickens");
-        } else {
-          this.currentPlayer?.speak(translate("base.iam.far.away"));
-        }
-      });
-
-    this.physics.world.enable(cropsAndChickensPortal);
-    this.colliders?.add(cropsAndChickensPortal);
-    (cropsAndChickensPortal.body as Phaser.Physics.Arcade.Body)
-      .setSize(32, 32)
-      .setOffset(0, 0)
-      .setImmovable(true)
-      .setCollideWorldBounds(true);
-
-    if (hasFeatureAccess(this.gameState, "HALLOWEEN_2024")) {
-      const halloweenPortal = this.add.sprite(193, 577, "portal_halloween");
-      this.anims.create({
-        key: "portal_halloween_anim",
-        frames: this.anims.generateFrameNumbers("portal_halloween", {
-          start: 0,
-          end: 17,
-        }),
-        repeat: -1,
-        frameRate: 10,
-      });
-      halloweenPortal.play("portal_halloween_anim", true);
-      halloweenPortal
-        .setInteractive({ cursor: "pointer" })
-        .on("pointerdown", () => {
-          if (this.checkDistanceToSprite(halloweenPortal, 40)) {
-            interactableModalManager.open("halloween");
-          } else {
-            this.currentPlayer?.speak(translate("base.iam.far.away"));
-          }
-        });
-
-      this.physics.world.enable(halloweenPortal);
-      this.colliders?.add(halloweenPortal);
-      (halloweenPortal.body as Phaser.Physics.Arcade.Body)
-        .setSize(32, 32)
-        .setOffset(0, 0)
-        .setImmovable(true)
-        .setCollideWorldBounds(true);
-    }
-
-    const fruitDashPortal = this.add.sprite(40, 510, "portal");
-    fruitDashPortal.play("portal_anim", true);
-    fruitDashPortal
-      .setInteractive({ cursor: "pointer" })
-      .on("pointerdown", () => {
-        if (this.checkDistanceToSprite(fruitDashPortal, 40)) {
-          interactableModalManager.open("fruit_dash");
-        } else {
-          this.currentPlayer?.speak(translate("base.iam.far.away"));
-        }
-      });
-
-    this.physics.world.enable(fruitDashPortal);
-    this.colliders?.add(fruitDashPortal);
-    (fruitDashPortal.body as Phaser.Physics.Arcade.Body)
-      .setSize(32, 32)
-      .setOffset(0, 0)
-      .setImmovable(true)
-      .setCollideWorldBounds(true);
 
     const board1 = this.add.sprite(328, 620, "sunflorian_board");
 
     board1
-      .setDepth(622)
+      .setDepth(1000000)
       .setInteractive({ cursor: "pointer" })
       .on("pointerdown", () => {
         npcModalManager.open("reginald");
@@ -322,7 +282,7 @@ export class KingdomScene extends BaseScene {
     const board3 = this.add.sprite(315, 425, "bumpkin_board");
 
     board3
-      .setDepth(444)
+      .setDepth(1000000)
       .setInteractive({ cursor: "pointer" })
       .on("pointerdown", () => {
         npcModalManager.open("barlow");
@@ -331,7 +291,7 @@ export class KingdomScene extends BaseScene {
     const board4 = this.add.sprite(148, 760, "goblin_board");
 
     board4
-      .setDepth(763)
+      .setDepth(1000000)
       .setInteractive({ cursor: "pointer" })
       .on("pointerdown", () => {
         npcModalManager.open("graxle");

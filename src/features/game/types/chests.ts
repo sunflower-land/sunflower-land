@@ -12,27 +12,34 @@ export type ChestReward = {
 const multiplier = 900;
 
 const SEASONAL_REWARDS: (weight: number) => ChestReward[] = (weight) => {
-  const isBullRunSeason =
-    Date.now() >= SEASONS["Bull Run"].startDate.getTime() &&
-    Date.now() < SEASONS["Bull Run"].endDate.getTime();
+  const isWindsOfChangeChapter =
+    Date.now() >= SEASONS["Winds of Change"].startDate.getTime() &&
+    Date.now() < SEASONS["Winds of Change"].endDate.getTime();
 
-  if (isBullRunSeason) {
+  if (isWindsOfChangeChapter) {
     return [
       // Deco
-      { items: { "Cow Scratcher": 1 }, weighting: weight * (multiplier / 2) },
-      { items: { "Spinning Wheel": 1 }, weighting: weight * (multiplier / 2) },
-      { items: { "Sleepy Rug": 1 }, weighting: weight * (multiplier / 5) },
-      { items: { Meteorite: 1 }, weighting: weight * (multiplier / 5) },
-      { items: { "Mechanical Bull": 1 }, weighting: weight * (multiplier / 5) },
-      { items: { "Crop Circle": 1 }, weighting: weight * (multiplier / 25) },
+      { items: { Kite: 1 }, weighting: weight * (multiplier / 2) },
+      { items: { "Acorn House": 1 }, weighting: weight * (multiplier / 2) },
+      { items: { "Ugly Duckling": 1 }, weighting: weight * (multiplier / 5) },
+      { items: { "Spring Duckling": 1 }, weighting: weight * (multiplier / 5) },
+      { items: { "Lake Rug": 1 }, weighting: weight * (multiplier / 5) },
+      {
+        items: { "Cup of Chocolate": 1 },
+        weighting: weight * (multiplier / 25),
+      },
+
+      //SFTs - Utility
+      { items: { Mammoth: 1 }, weighting: weight * (multiplier / 25) },
 
       // Wearables
+
+      // Wearables - Utility
+      { wearables: { "Crab Hat": 1 }, weighting: weight * (multiplier / 25) },
       {
-        wearables: { "Cowgirl Skirt": 1 },
-        weighting: weight * (multiplier / 2),
+        wearables: { "Ladybug Suit": 1 },
+        weighting: weight * (multiplier / 10),
       },
-      { wearables: { "Dream Scarf": 1 }, weighting: weight * (multiplier / 5) },
-      { wearables: { "Milk Apron": 1 }, weighting: weight * (multiplier / 25) },
 
       // Leftovers
       { items: { Crimsteel: 1 }, weighting: weight * (multiplier / 2) },
@@ -49,7 +56,7 @@ const SEASONAL_REWARDS: (weight: number) => ChestReward[] = (weight) => {
 
       // Mega item
       {
-        items: { "Sheaf of Plenty": 1 },
+        wearables: { Sickle: 1 },
         weighting: weight * (multiplier / 50),
       },
     ];

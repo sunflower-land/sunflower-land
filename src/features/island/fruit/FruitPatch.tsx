@@ -18,7 +18,6 @@ import { MachineState } from "features/game/lib/gameMachine";
 import {
   FruitPatch as Patch,
   InventoryItemName,
-  PlantedFruit,
   GameState,
 } from "features/game/types/game";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
@@ -31,7 +30,6 @@ import { getKeys } from "features/game/types/decorations";
 import { QuickSelect } from "features/greenhouse/QuickSelect";
 import { Transition } from "@headlessui/react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { hasFeatureAccess } from "lib/flags";
 import { SEASONAL_SEEDS, SeedName } from "features/game/types/seeds";
 import { SeasonalSeed } from "../plots/components/SeasonalSeed";
 import { Modal } from "components/ui/Modal";
@@ -40,19 +38,25 @@ import { isFullMoonBerry } from "features/game/events/landExpansion/seedBought";
 const HasAxes = (
   inventory: Partial<Record<InventoryItemName, Decimal>>,
   game: GameState,
-  fruit?: PlantedFruit,
 ) => {
-  const axesNeeded = getRequiredAxeAmount(
-    fruit?.name as PatchFruitName,
-    inventory,
-    game,
-  );
+  const axesNeeded = getRequiredAxeAmount(inventory, game);
 
   // has enough axes to chop the tree
-
-  if (axesNeeded.lte(0)) return true;
+  if (axesNeeded <= 0) return true;
 
   return (inventory.Axe ?? new Decimal(0)).gte(axesNeeded);
+};
+
+//Update inventory selector if player buys fruit seeds
+const HasFruitSeeds = (
+  inventory: Partial<Record<InventoryItemName, Decimal>>,
+) => {
+  return Object.fromEntries(
+    Object.keys(PATCH_FRUIT_SEEDS).map((seed) => [
+      seed,
+      inventory[seed as PatchFruitSeedName] ?? new Decimal(0),
+    ]),
+  );
 };
 
 const selectInventory = (state: MachineState) => state.context.state.inventory;
@@ -93,7 +97,10 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
   const inventory = useSelector(
     gameService,
     selectInventory,
-    (prev, next) => HasAxes(prev, game, fruit) === HasAxes(next, game, fruit),
+    (prev, next) =>
+      HasAxes(prev, game) === HasAxes(next, game) &&
+      JSON.stringify(HasFruitSeeds(prev)) ===
+        JSON.stringify(HasFruitSeeds(next)),
   );
   const island = useSelector(gameService, _island);
 
@@ -101,7 +108,7 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
   const { play: plantAudio } = useSound("plant");
   const { play: treeFallAudio } = useSound("tree_fall");
 
-  const hasAxes = HasAxes(inventory, game, fruit);
+  const hasAxes = HasAxes(inventory, game);
 
   const plantTree = async (item?: InventoryItemName) => {
     if (item === "Fruitful Blend" && !fertiliser) {
@@ -122,7 +129,6 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
     }
 
     if (
-      hasFeatureAccess(game, "FRUIT_PATCH_QUICK_SELECT") &&
       enableQuickSelect &&
       (!item || !(item in PATCH_FRUIT_SEEDS) || !inventory[item]?.gte(1))
     ) {

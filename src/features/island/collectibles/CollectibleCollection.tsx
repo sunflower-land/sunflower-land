@@ -350,6 +350,7 @@ import { FrozenSheep } from "./components/FrozenSheep";
 import { SummerChicken } from "./components/SummerChicken";
 import { Jellyfish } from "./components/Jellyfish";
 import { Chamomile } from "./components/Chamomile";
+import { BlackSheep } from "./components/BlackSheep";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
@@ -358,12 +359,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   ...getKeys(DECORATION_TEMPLATES).reduce(
     (previous, name) => ({
       ...previous,
-      [name]: () => (
-        <TemplateCollectible
-          name={name}
-          dimensions={DECORATION_TEMPLATES[name].dimensions}
-        />
-      ),
+      [name]: () => <TemplateCollectible name={name} />,
     }),
     {} as Record<TemplateDecorationName, React.FC<CollectibleProps>>,
   ),
@@ -1266,14 +1262,24 @@ export const COLLECTIBLE_COMPONENTS: Record<
       alt="Scarab Beetle"
     />
   ),
-  "Basic Bed": (props: CollectibleProps) => <Bed name="Basic Bed" />,
-  "Fisher Bed": (props: CollectibleProps) => <Bed name="Fisher Bed" />,
-  "Floral Bed": (props: CollectibleProps) => <Bed name="Floral Bed" />,
-  "Sturdy Bed": (props: CollectibleProps) => <Bed name="Sturdy Bed" />,
-  "Desert Bed": (props: CollectibleProps) => <Bed name="Desert Bed" />,
-  "Cow Bed": (props: CollectibleProps) => <Bed name="Cow Bed" />,
-  "Pirate Bed": (props: CollectibleProps) => <Bed name="Pirate Bed" />,
-  "Royal Bed": (props: CollectibleProps) => <Bed name="Royal Bed" />,
+  "Basic Bed": (props: CollectibleProps) => <Bed {...props} name="Basic Bed" />,
+  "Fisher Bed": (props: CollectibleProps) => (
+    <Bed {...props} name="Fisher Bed" />
+  ),
+  "Floral Bed": (props: CollectibleProps) => (
+    <Bed {...props} name="Floral Bed" />
+  ),
+  "Sturdy Bed": (props: CollectibleProps) => (
+    <Bed {...props} name="Sturdy Bed" />
+  ),
+  "Desert Bed": (props: CollectibleProps) => (
+    <Bed {...props} name="Desert Bed" />
+  ),
+  "Cow Bed": (props: CollectibleProps) => <Bed {...props} name="Cow Bed" />,
+  "Pirate Bed": (props: CollectibleProps) => (
+    <Bed {...props} name="Pirate Bed" />
+  ),
+  "Royal Bed": (props: CollectibleProps) => <Bed {...props} name="Royal Bed" />,
   "Cow Scratcher": (props: CollectibleProps) => (
     <ImageStyle
       {...props}
@@ -1439,21 +1445,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
       alt="UFO"
     />
   ),
-  "Black Sheep": (props: CollectibleProps) => (
-    <ImageStyle
-      {...props}
-      divStyle={{
-        width: `${PIXEL_SCALE * 25}px`,
-        bottom: `${PIXEL_SCALE * 4}px`,
-        left: `${PIXEL_SCALE * -3}px`,
-      }}
-      imgStyle={{
-        width: `${PIXEL_SCALE * 25}px`,
-      }}
-      image={ITEM_DETAILS["Black Sheep"].image}
-      alt="Black Sheep"
-    />
-  ),
+  "Black Sheep": BlackSheep,
   "Halloween Scarecrow": (props: CollectibleProps) => (
     <ImageStyle
       {...props}
@@ -1843,6 +1835,21 @@ export const COLLECTIBLE_COMPONENTS: Record<
       }}
       image={ITEM_DETAILS["Winter Duckling"].image}
       alt="Winter Duckling"
+    />
+  ),
+  Jin: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 30}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 30}px`,
+      }}
+      image={ITEM_DETAILS["Jin"].image}
+      alt="Jin"
     />
   ),
 };

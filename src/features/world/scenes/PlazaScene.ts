@@ -15,6 +15,7 @@ import {
   TemperateSeasonName,
 } from "features/game/types/game";
 import { translate } from "lib/i18n/translate";
+import { capitalize } from "lib/utils/capitalize";
 import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
 import { DogContainer } from "../containers/DogContainer";
 
@@ -27,6 +28,12 @@ export type FactionNPC = {
 };
 
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
+  {
+    x: 496,
+    y: 403,
+    npc: "rocket man",
+    direction: "left",
+  },
   {
     x: 207,
     y: 379,
@@ -207,6 +214,7 @@ export class PlazaScene extends BaseScene {
     this.load.image("woc_banner_spring", "world/winds_of_change_spring.webp");
     this.load.image("woc_banner_autumn", "world/winds_of_change_autumn.webp");
     this.load.image("woc_banner_winter", "world/winds_of_change_winter.webp");
+    this.load.image("ronin_banner", "world/ronin_banner.webp");
 
     this.load.spritesheet("glint", "world/glint.png", {
       frameWidth: 7,
@@ -438,7 +446,7 @@ export class PlazaScene extends BaseScene {
     });
 
     // Plaza Bud
-    const bud = this.add.sprite(500, 420, "plaza_bud");
+    const bud = this.add.sprite(525, 436, "plaza_bud");
     this.anims.create({
       key: "plaza_bud_animation",
       frames: this.anims.generateFrameNumbers("plaza_bud", {
@@ -473,31 +481,46 @@ export class PlazaScene extends BaseScene {
       "Decoration Base 3",
       "Decorations Layer 2",
       "Decorations Layer 3",
+      "Building Base",
+      "Building Base Decorations",
+      "Building Layer 2",
+      "Building Layer 3",
+      "Building Layer 4",
+      "Club House Roof",
+      "Club House Base",
     ];
     const seasons = ["Spring", "Summer", "Autumn", "Winter"];
 
-    // Hide all seasonal layers at the start
-    seasons.forEach((seasonName) => {
-      seasonElements.forEach((element) => {
-        const layerName = `${element}/${seasonName} ${element}`;
-        this.layers[layerName]?.setVisible(false);
+    const topElements = [
+      "Decorations Layer 2",
+      "Decorations Layer 3",
+      "Building Layer 2",
+      "Building Layer 3",
+      "Building Layer 4",
+      "Club House Roof",
+    ];
+
+    const topElementsSet = new Set(topElements);
+
+    // Filter all seasonal layers that are not used for the active season
+    seasons
+      .filter((seasonName) => seasonName !== capitalize(season)) // Skip the active season
+      .forEach((seasonName) => {
+        seasonElements.forEach((element) => {
+          const layerName = `${element}/${seasonName} ${element}`;
+          const layer = this.layers[layerName];
+
+          if (!layer) return; // Skip undefined layers
+
+          layer.setVisible(false); // Hide inactive season layer
+
+          // Set depth for elements that should be drawn on top
+          if (topElementsSet.has(element)) {
+            const activeLayerName = `${element}/${capitalize(season)} ${element}`;
+            this.layers[activeLayerName]?.setDepth(1000000);
+          }
+        });
       });
-    });
-
-    // Determine active season layer and show relevant elements
-    const activeSeasonName = season.charAt(0).toUpperCase() + season.slice(1);
-    seasonElements.forEach((element) => {
-      const activeLayer = `${element}/${activeSeasonName} ${element}`;
-      this.layers[activeLayer]?.setVisible(true);
-
-      // Add Elements here that are drawn on top of the map
-      if (
-        element === "Decorations Layer 2" ||
-        element === "Decorations Layer 3"
-      ) {
-        this.layers[activeLayer]?.setDepth(1000000);
-      }
-    });
 
     const Banners: Record<TemperateSeasonName, string> = {
       spring: "woc_banner_spring",
@@ -518,6 +541,13 @@ export class PlazaScene extends BaseScene {
     this.add.image(480, 386, banner).setDepth(386);
 
     this.add.sprite(385, 386, banner).setDepth(386);
+
+    // Ronin Banner
+    this.add.sprite(400, 150, "ronin_banner").setDepth(150);
+    this.add.sprite(330, 355, "ronin_banner").setDepth(355);
+    this.add.sprite(672, 270, "ronin_banner").setDepth(270);
+    this.add.sprite(41, 287, "ronin_banner").setDepth(287);
+    this.add.sprite(106, 110, "ronin_banner").setDepth(120);
 
     const bud3 = this.add.sprite(176, 290, "plaza_bud_3");
     this.anims.create({
@@ -661,8 +691,11 @@ export class PlazaScene extends BaseScene {
       const wasOpen = chest.visible;
       const isOpen = (obj1 as any).y > (obj2 as any).y;
 
-      this.layers["Club House Roof"].setVisible(isOpen);
-      this.layers["Club House Base"].setVisible(isOpen);
+      const roofBase = `${"Club House Base"}/${capitalize(season)} ${"Club House Base"}`;
+      const roofLayer = `${"Club House Roof"}/${capitalize(season)} ${"Club House Roof"}`;
+
+      this.layers[roofLayer].setVisible(isOpen);
+      this.layers[roofBase].setVisible(isOpen);
       this.layers["Club House Door"].setVisible(isOpen);
       clubHouseLabel.setVisible(isOpen);
 

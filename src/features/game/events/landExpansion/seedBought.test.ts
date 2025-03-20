@@ -5,6 +5,7 @@ import { CropSeedName, CROP_SEEDS } from "features/game/types/crops";
 import { GameState } from "features/game/types/game";
 
 import { seedBought } from "./seedBought";
+import { SEEDS } from "features/game/types/seeds";
 
 const GAME_STATE: GameState = TEST_FARM;
 
@@ -597,5 +598,31 @@ describe("seedBought", () => {
         },
       }),
     ).toThrow("Not a full moon");
+  });
+
+  it("reduces coin cost for Onion by 25% when Ladybug Suit is worn", () => {
+    const state = seedBought({
+      state: {
+        ...GAME_STATE,
+        coins: 10,
+        inventory: {},
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: { ...INITIAL_BUMPKIN.equipped, suit: "Ladybug Suit" },
+          experience: 1000000,
+        },
+        season: {
+          season: "winter",
+          startedAt: 0,
+        },
+      },
+      action: {
+        type: "seed.bought",
+        item: "Onion Seed",
+        amount: 1,
+      },
+    });
+    const price = 10 - SEEDS["Onion Seed"].price * 0.75;
+    expect(state.coins).toStrictEqual(price);
   });
 });

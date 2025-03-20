@@ -10,6 +10,7 @@ import bullsRunBanner from "assets/decorations/banners/bull_run_banner.webp";
 import windsOfChangeBanner from "assets/decorations/banners/winds-of-change_banner_loop.gif";
 import { BeachBountySeasonalArtefact } from "./treasure";
 import { getKeys } from "./decorations";
+import { ChapterFish } from "./fishing";
 
 export type SeasonName =
   | "Solar Flare"
@@ -125,6 +126,24 @@ export const SEASON_ARTEFACT_NAME: Record<
   "Bull Run": "Cow Skull",
   "Winds of Change": "Ancient Clock",
 };
+
+export const CHAPTER_MARVEL_FISH: Record<SeasonName, ChapterFish> = {
+  "Solar Flare": "Crimson Carp",
+  "Dawn Breaker": "Crimson Carp",
+  "Witches' Eve": "Crimson Carp",
+  "Catch the Kraken": "Crimson Carp",
+  "Spring Blossom": "Crimson Carp",
+  "Clash of Factions": "Battle Fish",
+  "Pharaoh's Treasure": "Lemon Shark",
+  "Bull Run": "Longhorn Cowfish",
+  "Winds of Change": "Jellyfish",
+};
+
+export function getChapterMarvelFish(now = new Date()): ChapterFish {
+  const currentSeason = getCurrentSeason(now);
+
+  return CHAPTER_MARVEL_FISH[currentSeason];
+}
 
 export function getCurrentSeason(now = new Date()): SeasonName {
   const seasons = getKeys(SEASONS);

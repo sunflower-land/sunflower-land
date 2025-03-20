@@ -9,7 +9,6 @@ import { ContentComponentProps } from "../GameOptions";
 
 export const PlazaSettings: React.FC<ContentComponentProps> = ({
   onSubMenuClick,
-  onClose,
 }) => {
   const { t } = useAppTranslation();
 
@@ -24,10 +23,6 @@ export const PlazaSettings: React.FC<ContentComponentProps> = ({
       JSON.parse(localStorage.getItem("plaza-settings.mutedFarmIds") || "[]"),
     );
   }, []);
-
-  const mmoLocalSettings = JSON.parse(
-    localStorage.getItem("mmo_settings") ?? "{}",
-  );
 
   const removeMutedPlayer = (farmId: string) => {
     const muted = mutedPlayers;
@@ -57,7 +52,7 @@ export const PlazaSettings: React.FC<ContentComponentProps> = ({
   return (
     <>
       {step === "MAIN" && (
-        <div className="flex flex-col items-start gap-2 max-h-96 overflow-y-auto scrollable">
+        <div className="flex flex-col items-start gap- max-h-96 overflow-y-auto scrollable">
           <div className="flex flex-col gap-2">
             <div className="flex items-center gap-2 px-1">
               <img src={SoundOffIcon} className="h-8" />
@@ -68,23 +63,25 @@ export const PlazaSettings: React.FC<ContentComponentProps> = ({
             <p className="text-xs px-1">
               {t("gameOptions.plazaSettings.mutedPlayers.description")}
             </p>
-            <Button onClick={() => setStep("MUTED_PLAYERS")}>
-              {t("gameOptions.plazaSettings.title.mutedPlayers")}
-            </Button>
-            <Button
-              onClick={() => {
-                onSubMenuClick("pickServer");
-              }}
-            >
-              {t("gameOptions.plazaSettings.changeServer")}
-            </Button>
-            <Button
-              onClick={() => {
-                onSubMenuClick("shader");
-              }}
-            >
-              {t("gameOptions.plazaSettings.shader")}
-            </Button>
+            <div className="flex flex-col gap-1">
+              <Button onClick={() => setStep("MUTED_PLAYERS")}>
+                {t("gameOptions.plazaSettings.title.mutedPlayers")}
+              </Button>
+              <Button
+                onClick={() => {
+                  onSubMenuClick("pickServer");
+                }}
+              >
+                {t("gameOptions.plazaSettings.changeServer")}
+              </Button>
+              <Button
+                onClick={() => {
+                  onSubMenuClick("shader");
+                }}
+              >
+                {t("gameOptions.plazaSettings.shader")}
+              </Button>
+            </div>
           </div>
           {/* <div className="flex flex-col gap-2">
               <div className="flex items-center gap-2">

@@ -111,9 +111,20 @@ export type NPCName =
   | "chase" //cowboy
   | "gunter"
   | "gorga"
+  | "rocket man"
   | "bailey"; // weatherman
 
 export const NPC_WEARABLES: Record<NPCName, Equipped> = {
+  "rocket man": {
+    body: "Beige Farmer Potion",
+    background: "Farm Background",
+    hair: "Basic Hair",
+    shirt: "Hawaiian Shirt",
+    pants: "Farmer Pants",
+    onesie: "Rocket Onesie",
+    shoes: "Black Farmer Boots",
+    tool: "Auction Megaphone",
+  },
   bailey: {
     body: "Beige Farmer Potion",
     background: "Farm Background",
@@ -145,6 +156,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     pants: "Farmer Overalls",
     shirt: "Chic Gala Blouse",
     hat: "Chicken Hat",
+    suit: "Chicken Suit",
   },
   felga: {
     hair: "Basic Hair",
@@ -1248,6 +1260,15 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     shoes: "Cowboy Boots",
   },
 };
+
+if (Date.now() < new Date("2025-02-15T00:00:00.000Z").getTime()) {
+  // For each NPC who doesn't have Goblin Potion, set their oensie to Love Heart Onesie
+  for (const npc of Object.values(NPC_WEARABLES)) {
+    if (npc.body !== "Goblin Potion") {
+      npc.onesie = "Love Heart Onesie";
+    }
+  }
+}
 
 type AcknowledgedNPCs = Partial<Record<NPCName, number>>;
 export function acknowledgedNPCs(): AcknowledgedNPCs {

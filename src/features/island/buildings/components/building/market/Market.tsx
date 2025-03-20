@@ -10,7 +10,7 @@ import { Context } from "features/game/GameProvider";
 import { useActor, useSelector } from "@xstate/react";
 import { getKeys } from "features/game/types/craftables";
 import { CROPS } from "features/game/types/crops";
-import { Bumpkin, IslandType } from "features/game/types/game";
+import { Bumpkin } from "features/game/types/game";
 import { CROP_SHORTAGE_HOURS } from "features/game/expansion/lib/boosts";
 import { MARKET_VARIANTS } from "features/island/lib/alternateArt";
 import { Label } from "components/ui/Label";
@@ -21,6 +21,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import shadow from "assets/npcs/shadow.png";
 import lightning from "assets/icons/lightning.png";
 import { useSound } from "lib/utils/hooks/useSound";
+const _season = (state: MachineState) => state.context.state.season.season;
 
 const _specialEvents = (state: MachineState) =>
   Object.entries(state.context.state.specialEvents.current)
@@ -50,57 +51,34 @@ const hasBoughtCropsBefore = (bumpkin?: Bumpkin) => {
   );
 };
 
-const getBettyPositioning = (island: IslandType) => {
-  if (island === "volcano") {
-    return {
-      shadow: {
-        width: `${PIXEL_SCALE * 15}px`,
-        bottom: `${PIXEL_SCALE * 6}px`,
-        right: `${PIXEL_SCALE * 9}px`,
-      },
-      betty: {
-        width: `${PIXEL_SCALE * 16}px`,
-        bottom: `${PIXEL_SCALE * 8}px`,
-        right: `${PIXEL_SCALE * 8}px`,
-        transform: "scaleX(-1)",
-      },
-    };
-  }
-
+const getBettyPositioning = () => {
   return {
     shadow: {
       width: `${PIXEL_SCALE * 15}px`,
       bottom: `${PIXEL_SCALE * 6}px`,
-      right: `${PIXEL_SCALE * 18}px`,
+      right: `${PIXEL_SCALE * 9}px`,
     },
     betty: {
       width: `${PIXEL_SCALE * 16}px`,
       bottom: `${PIXEL_SCALE * 8}px`,
-      right: `${PIXEL_SCALE * 16}px`,
+      right: `${PIXEL_SCALE * 8}px`,
       transform: "scaleX(-1)",
     },
   };
 };
 
-export const Market: React.FC<BuildingProps> = ({
-  isBuilt,
-  onRemove,
-  island,
-}) => {
+export const Market: React.FC<BuildingProps> = ({ isBuilt, island }) => {
   const [isOpen, setIsOpen] = React.useState(false);
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const specialEvents = useSelector(gameService, _specialEvents);
 
+  const season = useSelector(gameService, _season);
   const { t } = useAppTranslation();
 
   const { play: shopAudio } = useSound("shop");
 
   const handleClick = () => {
-    if (onRemove) {
-      onRemove();
-      return;
-    }
     if (isBuilt) {
       // Add future on click actions here
       shopAudio();
@@ -130,13 +108,13 @@ export const Market: React.FC<BuildingProps> = ({
   const boostAmount =
     specialEventDetails?.[1]?.bonus?.[boostItem]?.saleMultiplier;
   const { shadow: shadowPosition, betty: bettyPosition } =
-    getBettyPositioning(island);
+    getBettyPositioning();
 
   return (
     <>
       <BuildingImageWrapper name="Market" onClick={handleClick}>
         <img
-          src={MARKET_VARIANTS[island]}
+          src={MARKET_VARIANTS[island][season]}
           className="absolute bottom-0 pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 48}px`,

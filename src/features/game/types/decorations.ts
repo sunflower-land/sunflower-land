@@ -11,6 +11,12 @@ import { Template } from "./templates";
 export const getKeys = Object.keys as <T extends object>(
   obj: T,
 ) => Array<keyof T>;
+/**
+ * getValues is a ref to Object.values, but the return is typed literally.
+ */
+export const getValues = Object.values as <T extends object>(
+  obj: T,
+) => Array<T[keyof T]>;
 
 export type AchievementDecorationName =
   | "Chef Bear"
@@ -125,7 +131,8 @@ export type EventDecorationName =
   | "Snowman"
   | "Festive Toy Train"
   | "Golden Cow"
-  | "Volcano Gnome";
+  | "Volcano Gnome"
+  | "Jin";
 
 export type PotionHouseDecorationName =
   | "Giant Potato"
@@ -827,6 +834,7 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     width: 1,
     height: 1,
   },
+  Jin: { width: 2, height: 2 },
 };
 
 export type Decoration = {

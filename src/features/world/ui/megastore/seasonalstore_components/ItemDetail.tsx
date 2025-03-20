@@ -28,6 +28,7 @@ import {
   SeasonalStoreCollectible,
   SeasonalStoreItem,
   SeasonalStoreWearable,
+  SeasonalTierItemName,
 } from "features/game/types/megastore";
 import { getItemDescription } from "../SeasonalStore";
 import { getKeys } from "features/game/types/craftables";
@@ -138,6 +139,9 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
 
   const keysAmountBoughtToday = keysBoughtToday ? 1 : 0;
 
+  const itemCrafted =
+    state.bumpkin.activity[`${itemName as SeasonalTierItemName} Bought`];
+
   const description = getItemDescription(item);
   const { sfl = 0 } = item?.cost || {};
   const itemReq = item?.cost?.items;
@@ -169,6 +173,11 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
       if (tier === "rare" && !isRareUnlocked) return false;
       if (tier === "epic" && !isEpicUnlocked) return false;
       if (tier === "mega" && !isMegaUnlocked) return false;
+    }
+    if (!isKey(itemName as InventoryItemName)) {
+      if (itemCrafted) {
+        return false;
+      }
     }
     if (itemReq) {
       const hasRequirements = getKeys(itemReq).every((name) => {
@@ -340,13 +349,21 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                         width: `${imageWidth}px`,
                       }}
                     />
-
-                    {itemName && isKey(itemName as Keys) && (
+                    {itemName && isKey(itemName as Keys) ? (
                       <Label
                         type={keysBoughtToday ? "danger" : "default"}
                         className="absolute bottom-1 right-1 text-xxs"
                       >
                         {t("keys.dailyLimit", { keysAmountBoughtToday })}
+                      </Label>
+                    ) : (
+                      <Label
+                        type={itemCrafted ? "danger" : "default"}
+                        className="absolute bottom-1 right-1 text-xxs"
+                      >
+                        {t("season.megastore.crafting.limit", {
+                          limit: itemCrafted ? 1 : 0,
+                        })}
                       </Label>
                     )}
                   </div>

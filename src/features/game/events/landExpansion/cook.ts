@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import { CookableName, COOKABLES } from "features/game/types/consumables";
 import {
+  BuildingProduct,
   Bumpkin,
   GameState,
   Inventory,
@@ -15,6 +16,7 @@ import {
 } from "features/game/types/buildings";
 import { produce } from "immer";
 import { BUILDING_DAILY_OIL_CAPACITY } from "./supplyCookingOil";
+import { hasVipAccess } from "features/game/lib/vipAccess";
 
 export type RecipeCookedAction = {
   type: "recipe.cooked";
@@ -31,7 +33,6 @@ type Options = {
 type GetReadyAtArgs = {
   buildingId: string;
   item: CookableName;
-  bumpkin: Bumpkin;
   createdAt: number;
   game: GameState;
 };
@@ -92,13 +93,17 @@ export function getCookingOilBoost(
 export const getReadyAt = ({
   buildingId,
   item,
-  bumpkin,
   createdAt,
   game,
 }: GetReadyAtArgs) => {
   const withOilBoost = getCookingOilBoost(item, game, buildingId).timeToCook;
 
-  const seconds = getCookingTime(withOilBoost, item, bumpkin, game);
+  const seconds = getCookingTime({
+    seconds: withOilBoost,
+    item,
+    game,
+    cookStartAt: createdAt,
+  });
 
   return createdAt + seconds * 1000;
 };
@@ -152,6 +157,23 @@ export function getCookingRequirements({
   return ingredients;
 }
 
+export const getCookingAmount = (
+  building: BuildingName,
+  recipe: { name: CookableName; amount: number },
+  bumpkin: Bumpkin,
+): number => {
+  let amount = recipe.amount;
+
+  // Double Nom - Guarantee +1 food
+  if (bumpkin.skills["Double Nom"] && isCookingBuilding(building)) {
+    amount += 1;
+  }
+
+  return amount;
+};
+
+export const MAX_COOKING_SLOTS = 4;
+
 export function cook({
   state,
   action,
@@ -163,6 +185,9 @@ export function cook({
     const ingredients = getCookingRequirements({ state, item });
     const { buildings, bumpkin } = stateCopy;
     const buildingsOfRequiredType = buildings[requiredBuilding];
+    const availableSlots = hasVipAccess({ game: stateCopy })
+      ? MAX_COOKING_SLOTS
+      : 1;
 
     if (!Object.keys(buildings).length || !buildingsOfRequiredType) {
       throw new Error(translate("error.requiredBuildingNotExist"));
@@ -180,8 +205,10 @@ export function cook({
       throw new Error(translate("error.requiredBuildingNotExist"));
     }
 
-    if (building.crafting !== undefined) {
-      throw new Error(translate("error.cookingInProgress"));
+    const crafting = (building.crafting ?? []) as BuildingProduct[];
+
+    if (crafting.length >= availableSlots) {
+      throw new Error(translate("error.noAvailableSlots"));
     }
 
     const { oilConsumed } = getCookingOilBoost(item, stateCopy, buildingId);
@@ -203,19 +230,37 @@ export function cook({
       stateCopy.inventory,
     );
 
-    building.crafting = {
-      name: item,
-      boost: { Oil: oilConsumed },
-      readyAt: getReadyAt({
-        buildingId: buildingId,
-        item,
-        bumpkin,
-        createdAt,
-        game: stateCopy,
-      }),
-      // Placeholder - can be different from backend
-      amount: 1,
-    };
+    const amount = getCookingAmount(
+      requiredBuilding,
+      { name: item, amount: 1 },
+      bumpkin,
+    );
+    // Start the new recipe when the last recipe is ready or now (createdAt)
+    let recipeStartAt = createdAt;
+    const lastRecipeReadyAt =
+      crafting[crafting.length - 1]?.readyAt ?? createdAt;
+
+    if (lastRecipeReadyAt > createdAt) {
+      recipeStartAt = lastRecipeReadyAt;
+    }
+
+    const readyAt = getReadyAt({
+      buildingId: buildingId,
+      item,
+      createdAt: recipeStartAt,
+      game: stateCopy,
+    });
+
+    building.crafting = [
+      ...(building.crafting ?? []),
+      {
+        name: item,
+        boost: { Oil: oilConsumed },
+        readyAt,
+        // Placeholder - can be different from backend
+        amount,
+      },
+    ];
 
     const previousOilRemaining = building.oil || 0;
 

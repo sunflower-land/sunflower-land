@@ -3,10 +3,10 @@ import React, { useContext } from "react";
 import { ERRORS, ErrorCode } from "lib/errors";
 import { Web3Missing } from "../../auth/components/Web3Missing";
 import { MultipleWallets } from "../../auth/components/MultipleWallets";
-import { WrongChain } from "../../auth/components/WrongChain";
 import { RejectedSignTransaction } from "../../auth/components/RejectedSignTransaction";
 import { BoundaryError } from "../../auth/components/SomethingWentWrong";
 import { WalletContext } from "../WalletProvider";
+import { Web3Rejected } from "./Web3Rejected";
 
 interface Props {
   errorCode: ErrorCode;
@@ -39,12 +39,12 @@ export const WalletErrorMessage: React.FC<Props> = ({
     return <Web3Missing />;
   }
 
-  if (errorCode === ERRORS.WALLET_INITIALISATION_FAILED) {
-    return <MultipleWallets />;
+  if (errorCode === ERRORS.WEB3_REJECTED) {
+    return <Web3Rejected />;
   }
 
-  if (errorCode === ERRORS.WRONG_CHAIN) {
-    return <WrongChain />;
+  if (errorCode === ERRORS.WALLET_INITIALISATION_FAILED) {
+    return <MultipleWallets />;
   }
 
   if (errorCode === ERRORS.REJECTED_TRANSACTION) {

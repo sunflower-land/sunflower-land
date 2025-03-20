@@ -71,16 +71,12 @@ export const World: React.FC<Props> = ({ isCommunity = false }) => {
 const _isLoading = (state: MachineState) => state.matches("loading");
 
 // MMO Machine
-const _isConnecting = (state: MMOMachineState) => state.matches("connecting");
 const _isConnected = (state: MMOMachineState) => state.matches("connected");
-const _isJoining = (state: MMOMachineState) => state.matches("joining");
 const _isKicked = (state: MMOMachineState) => state.matches("kicked");
 const _isMMOInitialising = (state: MMOMachineState) =>
   state.matches("initialising");
 const _isIntroducing = (state: MMOMachineState) =>
   state.matches("introduction");
-const _isChoosingUsername = (state: MMOMachineState) =>
-  state.matches("chooseUsername");
 
 type MMOProps = { isCommunity: boolean };
 
@@ -166,14 +162,10 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
   }, []);
 
   const isInitialising = useSelector(mmoService, _isMMOInitialising);
-  const isConnecting = useSelector(mmoService, _isConnecting);
-  const isJoining = useSelector(mmoService, _isJoining);
   const isKicked = useSelector(mmoService, _isKicked);
   const isConnected = useSelector(mmoService, _isConnected);
   const isIntroducing = useSelector(mmoService, _isIntroducing);
-  const isChoosingUsername = useSelector(mmoService, _isChoosingUsername);
-  const isTraveling =
-    isInitialising || isConnecting || isConnected || isKicked || isJoining;
+  const isTraveling = isInitialising || isConnected || isKicked;
 
   if (isTraveling) {
     return <TravelScreen mmoService={mmoService} />;
@@ -201,6 +193,8 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
   // Otherwise if connected, return Plaza Screen
   return (
     <>
+      <WorldHud />
+
       <PhaserComponent
         mmoService={mmoService}
         isCommunity={isCommunity}
@@ -217,9 +211,6 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
           }}
         />
       </Modal>
-
-      {/* <Modal show={isChoosingUsername}></Modal> */}
-      <WorldHud />
     </>
   );
 };

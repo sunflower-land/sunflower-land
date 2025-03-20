@@ -18,30 +18,8 @@ import React, { useState } from "react";
 import upIcon from "assets/icons/level_up.png";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";
-import { IslandType } from "features/game/types/game";
 import { Label } from "components/ui/Label";
-
-const RESOURCE_REQUIREMENTS: Partial<Record<ResourceName, IslandType>> = {
-  "Crop Plot": "basic",
-  Tree: "basic",
-  "Stone Rock": "basic",
-  "Iron Rock": "basic",
-  "Gold Rock": "basic",
-  "Crimstone Rock": "spring",
-  "Flower Bed": "spring",
-  "Fruit Patch": "spring",
-  Beehive: "spring",
-  "Sunstone Rock": "spring",
-  "Lava Pit": "volcano",
-  "Oil Reserve": "desert",
-};
-
-const ISLAND_RANKS: Record<IslandType, number> = {
-  basic: 0,
-  spring: 1,
-  desert: 2,
-  volcano: 3,
-};
+import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 
 export const SolarForge: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const [selected, setSelected] = useState<ResourceName>("Crop Plot");
@@ -95,8 +73,8 @@ export const SolarForge: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     );
   }
 
-  const island = RESOURCE_REQUIREMENTS[selected] ?? "basic";
-  const hasAccess = ISLAND_RANKS[state.island.type] >= ISLAND_RANKS[island];
+  const island = RESOURCE_NODE_PRICES[selected]?.requiredIsland ?? "basic";
+  const hasAccess = hasRequiredIslandExpansion(state.island.type, island);
 
   return (
     <CloseButtonPanel
@@ -122,6 +100,15 @@ export const SolarForge: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                 {bought === selected && (
                   <img src={upIcon} className="absolute w-4 right-0 -top-8 " />
                 )}
+                {selected === "Flower Bed" && (
+                  <Label
+                    type="info"
+                    icon={ITEM_DETAILS.Beehive.image}
+                    className="mb-2 mx-auto"
+                  >
+                    {`Beehive included`}
+                  </Label>
+                )}
                 {!hasAccess && (
                   <Label type="danger" className="mb-2 mx-auto">
                     {t("island.required", { island })}
@@ -143,17 +130,20 @@ export const SolarForge: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         }
         content={
           <>
-            {getKeys(RESOURCE_NODE_PRICES).map((resourceName) => {
-              return (
-                <Box
-                  isSelected={selected === resourceName}
-                  key={resourceName}
-                  onClick={() => setSelected(resourceName)}
-                  image={ITEM_DETAILS[resourceName].image}
-                  count={state.inventory[resourceName]}
-                />
-              );
-            })}
+            {getKeys(RESOURCE_NODE_PRICES).map((resourceName) => (
+              <Box
+                isSelected={selected === resourceName}
+                key={resourceName}
+                onClick={() => setSelected(resourceName)}
+                image={ITEM_DETAILS[resourceName].image}
+                count={state.inventory[resourceName]}
+                secondaryImage={
+                  resourceName === "Flower Bed"
+                    ? ITEM_DETAILS.Beehive.image
+                    : undefined
+                }
+              />
+            ))}
           </>
         }
       />

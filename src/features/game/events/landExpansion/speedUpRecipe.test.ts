@@ -14,7 +14,7 @@
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { getInstantGems, speedUpRecipe } from "./speedUpRecipe";
 import Decimal from "decimal.js-light";
-import { BAKERY_COOKABLES } from "features/game/types/consumables";
+import { BAKERY_COOKABLES, COOKABLES } from "features/game/types/consumables";
 
 describe("instantCook", () => {
   it("requires item is cooking", () => {
@@ -41,35 +41,7 @@ describe("instantCook", () => {
       }),
     ).toThrow("Nothing is cooking");
   });
-  it("requires item is not ready", () => {
-    expect(() =>
-      speedUpRecipe({
-        action: {
-          buildingId: "123",
-          buildingName: "Fire Pit",
-          type: "recipe.spedUp",
-        },
-        state: {
-          ...INITIAL_FARM,
-          buildings: {
-            "Fire Pit": [
-              {
-                id: "123",
-                coordinates: { x: 0, y: 0 },
-                createdAt: 0,
-                readyAt: 0,
-                crafting: {
-                  name: "Mashed Potato",
-                  readyAt: 0,
-                  amount: 1,
-                },
-              },
-            ],
-          },
-        },
-      }),
-    ).toThrow("Already cooked");
-  });
+
   it("requires player has the gems", () => {
     expect(() =>
       speedUpRecipe({
@@ -88,11 +60,13 @@ describe("instantCook", () => {
                 coordinates: { x: 0, y: 0 },
                 createdAt: 0,
                 readyAt: 0,
-                crafting: {
-                  name: "Mashed Potato",
-                  readyAt: Date.now() + 30000,
-                  amount: 1,
-                },
+                crafting: [
+                  {
+                    name: "Mashed Potato",
+                    readyAt: Date.now() + 30000,
+                    amount: 1,
+                  },
+                ],
               },
             ],
           },
@@ -118,11 +92,13 @@ describe("instantCook", () => {
               coordinates: { x: 0, y: 0 },
               createdAt: 0,
               readyAt: 0,
-              crafting: {
-                name: "Mashed Potato",
-                readyAt: Date.now() + 30000,
-                amount: 1,
-              },
+              crafting: [
+                {
+                  name: "Mashed Potato",
+                  readyAt: Date.now() + 30000,
+                  amount: 1,
+                },
+              ],
             },
           ],
         },
@@ -150,12 +126,14 @@ describe("instantCook", () => {
               coordinates: { x: 0, y: 0 },
               createdAt: 0,
               readyAt: 0,
-              crafting: {
-                name: "Radish Cake",
-                readyAt:
-                  now + BAKERY_COOKABLES["Radish Cake"].cookingSeconds * 1000,
-                amount: 1,
-              },
+              crafting: [
+                {
+                  name: "Radish Cake",
+                  readyAt:
+                    now + BAKERY_COOKABLES["Radish Cake"].cookingSeconds * 1000,
+                  amount: 1,
+                },
+              ],
             },
           ],
         },
@@ -164,6 +142,7 @@ describe("instantCook", () => {
 
     expect(state.inventory.Gem).toEqual(new Decimal(60));
   });
+
   it("charges half the gems for a half finished radish cake", () => {
     const now = Date.now();
     const state = speedUpRecipe({
@@ -182,13 +161,15 @@ describe("instantCook", () => {
               coordinates: { x: 0, y: 0 },
               createdAt: 0,
               readyAt: 0,
-              crafting: {
-                name: "Radish Cake",
-                readyAt:
-                  now +
-                  (BAKERY_COOKABLES["Radish Cake"].cookingSeconds / 2) * 1000,
-                amount: 1,
-              },
+              crafting: [
+                {
+                  name: "Radish Cake",
+                  readyAt:
+                    now +
+                    (BAKERY_COOKABLES["Radish Cake"].cookingSeconds / 2) * 1000,
+                  amount: 1,
+                },
+              ],
             },
           ],
         },
@@ -197,6 +178,7 @@ describe("instantCook", () => {
 
     expect(state.inventory.Gem).toEqual(new Decimal(75));
   });
+
   it("gives the player the food", () => {
     const now = Date.now();
     const state = speedUpRecipe({
@@ -215,11 +197,13 @@ describe("instantCook", () => {
               coordinates: { x: 0, y: 0 },
               createdAt: 0,
               readyAt: 0,
-              crafting: {
-                name: "Mashed Potato",
-                readyAt: now + 30000,
-                amount: 1,
-              },
+              crafting: [
+                {
+                  name: "Mashed Potato",
+                  readyAt: now + 30000,
+                  amount: 1,
+                },
+              ],
             },
           ],
         },
@@ -228,7 +212,116 @@ describe("instantCook", () => {
     });
 
     expect(state.inventory["Mashed Potato"]).toEqual(new Decimal(1));
-    expect(state.buildings["Fire Pit"]?.[0].crafting).toBeUndefined();
+    expect(state.buildings["Fire Pit"]?.[0].crafting).toEqual([]);
+  });
+
+  it("only speeds up the recipe that is currently cooking", () => {
+    const now = Date.now();
+    const state = speedUpRecipe({
+      action: {
+        buildingId: "123",
+        buildingName: "Fire Pit",
+        type: "recipe.spedUp",
+      },
+      state: {
+        ...INITIAL_FARM,
+        inventory: { Gem: new Decimal(100) },
+        buildings: {
+          "Fire Pit": [
+            {
+              id: "123",
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              readyAt: 0,
+              crafting: [
+                {
+                  name: "Mashed Potato",
+                  readyAt: now + 30000,
+                  amount: 1,
+                },
+                {
+                  name: "Radish Cake",
+                  readyAt: now + 30000 + 2000,
+                  amount: 1,
+                },
+              ],
+            },
+          ],
+        },
+        createdAt: now,
+      },
+    });
+
+    const building = state.buildings["Fire Pit"]?.[0];
+
+    expect(building?.crafting).toMatchObject([
+      {
+        name: "Radish Cake",
+        readyAt: expect.any(Number),
+        amount: 1,
+      },
+    ]);
+  });
+
+  it("updates all the recipes readyAt times correctly", () => {
+    const now = Date.now();
+    const POTATO_TIME = COOKABLES["Mashed Potato"].cookingSeconds * 1000;
+    const RHUBARB_TIME = COOKABLES["Rhubarb Tart"].cookingSeconds * 1000;
+
+    const state = speedUpRecipe({
+      state: {
+        ...INITIAL_FARM,
+        inventory: { Gem: new Decimal(100) },
+        buildings: {
+          "Fire Pit": [
+            {
+              id: "123",
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              readyAt: 0,
+              crafting: [
+                {
+                  name: "Mashed Potato",
+                  readyAt: now,
+                  amount: 1,
+                },
+                {
+                  name: "Rhubarb Tart",
+                  readyAt: now + RHUBARB_TIME,
+                  amount: 1,
+                },
+                {
+                  name: "Rhubarb Tart",
+                  readyAt: now + RHUBARB_TIME * 2,
+                  amount: 1,
+                },
+                {
+                  name: "Mashed Potato",
+                  readyAt: now + RHUBARB_TIME * 2 + POTATO_TIME,
+                  amount: 1,
+                },
+              ],
+            },
+          ],
+        },
+        createdAt: now,
+      },
+      action: {
+        buildingId: "123",
+        buildingName: "Fire Pit",
+        type: "recipe.spedUp",
+      },
+      createdAt: now,
+    });
+
+    const building = state.buildings["Fire Pit"]?.[0];
+    const queue = building?.crafting;
+
+    // Finished recipe
+    expect(queue?.[0].readyAt).toBe(now);
+    // Upcoming recipes
+    expect(queue?.[1].readyAt).toBeCloseTo(now + RHUBARB_TIME);
+    expect(queue?.[2].readyAt).toBeCloseTo(now + RHUBARB_TIME + POTATO_TIME);
   });
 });
 

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Game, AUTO } from "phaser";
 import { useActor, useSelector } from "@xstate/react";
@@ -60,8 +61,8 @@ import { ExampleRPGScene } from "./scenes/examples/RPGScene";
 import { EventObject } from "xstate";
 import { ToastContext } from "features/game/toast/ToastProvider";
 import { AuthMachineState } from "features/auth/lib/authMachine";
-import worldIcon from "assets/icons/world.png";
 import { InfernosScene } from "./scenes/InferniaScene";
+import { PlayerSelectionList } from "./ui/PlayerSelectionList";
 
 const _roomState = (state: MachineState) => state.value;
 const _scene = (state: MachineState) => state.context.sceneId;
@@ -108,7 +109,7 @@ export const PhaserComponent: React.FC<Props> = ({
 
   const [
     {
-      context: { state },
+      context: { state, farmId },
     },
   ] = useActor(gameService);
 
@@ -136,9 +137,9 @@ export const PhaserComponent: React.FC<Props> = ({
 
   const scenes = [
     Preloader,
-    new WoodlandsScene({ gameState: gameService.state.context.state }),
+    new WoodlandsScene({ gameState: state }),
     BeachScene,
-    new PlazaScene({ gameState: gameService.state.context.state }),
+    new PlazaScene({ gameState: state }),
     RetreatScene,
     KingdomScene,
     GoblinHouseScene,
@@ -152,8 +153,9 @@ export const PhaserComponent: React.FC<Props> = ({
 
   useEffect(() => {
     // Set up community APIs
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (window as any).CommunityAPI = prepareAPI({
-      farmId: gameService.state.context.farmId as number,
+      farmId: farmId as number,
       jwt: rawToken,
       gameService,
     });
@@ -222,10 +224,10 @@ export const PhaserComponent: React.FC<Props> = ({
     });
 
     game.current.registry.set("mmoService", mmoService); // LEGACY
-    game.current.registry.set("gameState", gameService.state.context.state);
+    game.current.registry.set("gameState", state);
     game.current.registry.set("authService", authService);
     game.current.registry.set("gameService", gameService);
-    game.current.registry.set("id", gameService.state.context.farmId);
+    game.current.registry.set("id", farmId);
     game.current.registry.set("initialScene", scene);
     game.current.registry.set("navigate", navigate);
     game.current.registry.set("selectedItem", selectedItem);
@@ -288,7 +290,7 @@ export const PhaserComponent: React.FC<Props> = ({
     mmoService.state.context.server?.onMessage(
       "moderation_event",
       (event: ModerationEvent) => {
-        const clientFarmId = gameService.state.context.farmId as number;
+        const clientFarmId = farmId as number;
         if (!clientFarmId || clientFarmId !== event.farmId) return;
 
         switch (event.type) {
@@ -383,8 +385,9 @@ export const PhaserComponent: React.FC<Props> = ({
 
   useEffect(() => {
     if (isMuted?.mutedUntil) {
+      const { mutedUntil } = isMuted;
       const interval = setInterval(() => {
-        if (new Date().getTime() > isMuted.mutedUntil!) {
+        if (new Date().getTime() > mutedUntil) {
           setIsMuted(undefined);
         }
       }, 1000);
@@ -457,8 +460,8 @@ export const PhaserComponent: React.FC<Props> = ({
         )}
 
         <ChatUI
-          farmId={gameService.state.context.farmId}
-          gameState={gameService.state.context.state}
+          farmId={farmId}
+          gameState={state}
           scene={scene}
           onMessage={(m) => {
             mmoService.state.context.server?.send(0, {
@@ -495,7 +498,7 @@ export const PhaserComponent: React.FC<Props> = ({
         {mmoState === "connecting" && (
           <Label
             type="chill"
-            icon={worldIcon}
+            icon={SUNNYSIDE.icons.worldIcon}
             className="fixed z-10 top-2 left-1/2 -translate-x-1/2 flex items-center"
           >
             {t("mmo.connecting")}
@@ -529,21 +532,12 @@ export const PhaserComponent: React.FC<Props> = ({
         />
       )}
 
-      <NPCModals
-        id={gameService.state.context.farmId as number}
-        scene={scene}
-      />
-      <PlayerModals game={gameService.state.context.state} />
-      <TradeCompleted
-        mmoService={mmoService}
-        farmId={gameService.state.context.farmId as number}
-      />
+      <NPCModals id={farmId as number} scene={scene} />
+      <PlayerSelectionList />
+      <PlayerModals game={state} />
+      <TradeCompleted mmoService={mmoService} farmId={farmId as number} />
       <CommunityModals />
-      <InteractableModals
-        id={gameService.state.context.farmId as number}
-        scene={scene}
-        key={scene}
-      />
+      <InteractableModals id={farmId as number} scene={scene} key={scene} />
       <Modal
         show={mmoState === "loading" || mmoState === "initialising"}
         backdrop={false}

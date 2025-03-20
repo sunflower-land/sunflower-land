@@ -11,20 +11,18 @@ import {
   GreenhousePot,
   FlowerBeds,
   OilReserve,
-  Buildings,
   InventoryItemName,
+  AnimalBuildingKey,
 } from "features/game/types/game";
 import { produce } from "immer";
 import { BUILDING_DAILY_OIL_CAPACITY } from "./supplyCookingOil";
 import Decimal from "decimal.js-light";
-import { getAnimalLevel } from "features/game/lib/animals";
-import { ANIMAL_LEVELS, AnimalLevel } from "features/game/types/animals";
-import { isMaxLevel } from "./feedAnimal";
 import { translate } from "lib/i18n/translate";
 import { CROPS } from "features/game/types/crops";
 import { canChop } from "./chop";
 import { canDrillOilReserve } from "./drillOilReserve";
 import { isReadyToHarvest } from "./harvest";
+import { getCurrentCookingItem, recalculateQueue } from "./cancelQueuedRecipe";
 
 export type SkillUseAction = {
   type: "skill.used";
@@ -111,26 +109,52 @@ function useGreaseLightning({
 }
 
 function useInstantGratification({
-  buildings,
+  game,
   createdAt = Date.now(),
 }: {
-  buildings: Buildings;
+  game: GameState;
   createdAt?: number;
-}): Buildings {
-  getKeys(BUILDING_DAILY_OIL_CAPACITY).forEach((building) => {
-    const crafting = buildings[building]?.[0].crafting;
+}): GameState {
+  getKeys(BUILDING_DAILY_OIL_CAPACITY).forEach((b) => {
+    const building = game.buildings[b]?.[0];
+    const queue = building?.crafting;
 
-    if (crafting) {
-      crafting.readyAt = createdAt;
-    }
+    if (!building || !queue) return;
+
+    const currentlyCooking = getCurrentCookingItem({
+      building: building,
+      createdAt,
+    });
+
+    if (!currentlyCooking) return;
+
+    const recipeIndex = queue.findIndex(
+      (r) => r.readyAt === currentlyCooking.readyAt,
+    ) as number;
+
+    queue[recipeIndex].readyAt = createdAt;
+
+    building.crafting = recalculateQueue({
+      queue,
+      createdAt,
+      buildingId: building.id,
+      game,
+      isInstant: true,
+    });
   });
 
-  return buildings;
+  return game;
 }
 
-function useAppleTastic({ game }: { game: GameState }): GameState {
+function useBarnyardRouse({
+  game,
+  createdAt = Date.now(),
+}: {
+  game: GameState;
+  createdAt?: number;
+}): GameState {
   // Get all animal buildings
-  const buildings = ["henHouse", "barn"] as const;
+  const buildings: AnimalBuildingKey[] = ["henHouse", "barn"];
 
   buildings.forEach((building) => {
     const { animals } = game[building];
@@ -138,31 +162,9 @@ function useAppleTastic({ game }: { game: GameState }): GameState {
 
     // Process each animal
     Object.values(animals).forEach((animal) => {
-      const { state, experience, type, awakeAt } = animal;
-      if (state === "sick" || state === "ready" || awakeAt > Date.now()) return;
-
-      const currentXP = experience;
-      const currentLevel = getAnimalLevel(currentXP, type);
-      const maxLevel = (getKeys(ANIMAL_LEVELS[type]).length - 1) as AnimalLevel;
-
-      if (isMaxLevel(type, currentXP)) {
-        // For max level animals, add XP to complete the next cycle
-        const levelBeforeMax = (maxLevel - 1) as AnimalLevel;
-        const maxLevelXp = ANIMAL_LEVELS[type][maxLevel];
-        const levelBeforeMaxXp = ANIMAL_LEVELS[type][levelBeforeMax];
-        const cycleXP = maxLevelXp - levelBeforeMaxXp;
-        const excessXpBeforeFeed = Math.max(currentXP - maxLevelXp, 0);
-        const currentCycleProgress = excessXpBeforeFeed % cycleXP;
-
-        animal.experience += cycleXP - currentCycleProgress;
-      } else {
-        // For non-max level animals, add XP to reach next level
-        const nextLevel = (currentLevel + 1) as AnimalLevel;
-        const xpNeeded = ANIMAL_LEVELS[type][nextLevel] - currentXP;
-        animal.experience += xpNeeded;
-      }
-
-      animal.state = "ready";
+      const { awakeAt } = animal;
+      if (awakeAt < createdAt) return;
+      animal.awakeAt = createdAt;
     });
   });
 
@@ -179,7 +181,7 @@ export function powerSkillDisabledConditions({
   createdAt?: number;
 }): {
   disabled: boolean;
-  reason: string;
+  reason?: string;
 } {
   const {
     bumpkin,
@@ -216,7 +218,6 @@ export function powerSkillDisabledConditions({
   if (!itemsRequired) {
     return {
       disabled: true,
-      reason: translate("powerSkills.reason.insufficientItems"),
     };
   }
 
@@ -234,9 +235,6 @@ export function powerSkillDisabledConditions({
       if (fertiliserCount.lt(unfertilisedPlots)) {
         return {
           disabled: true,
-          reason: translate("powerSkills.reason.insufficientFertiliser", {
-            fertiliser,
-          }),
         };
       }
       if (unfertilisedPlots === 0) {
@@ -257,9 +255,6 @@ export function powerSkillDisabledConditions({
       if (fertiliserCount.lt(unfertilisedPatches)) {
         return {
           disabled: true,
-          reason: translate("powerSkills.reason.insufficientFertiliser", {
-            fertiliser: "Fruitful Blend",
-          }),
         };
       }
       if (unfertilisedPatches === 0) {
@@ -273,6 +268,12 @@ export function powerSkillDisabledConditions({
 
     case "Instant Growth": {
       // Checks if all plots are empty or ready to harvest.
+      if (getKeys(crops).length === 0) {
+        return {
+          disabled: true,
+          reason: `You don't have any plots to grow crops on`,
+        };
+      }
       const plotsStatus = Object.values(crops).map((plot) => {
         if (!plot.crop) return "empty";
         return isReadyToHarvest(Date.now(), plot.crop, CROPS[plot.crop.name])
@@ -311,7 +312,7 @@ export function powerSkillDisabledConditions({
     case "Instant Gratification": {
       if (
         getKeys(BUILDING_DAILY_OIL_CAPACITY).every(
-          (building) => !buildings[building]?.[0].crafting,
+          (building) => !buildings[building]?.[0]?.crafting,
         )
       ) {
         return {
@@ -346,21 +347,20 @@ export function powerSkillDisabledConditions({
       break;
     }
 
-    case "Apple-Tastic": {
+    case "Barnyard Rouse": {
       if (
         Object.values({ ...henHouseAnimals, ...barnAnimals }).every(
-          ({ state, awakeAt }) =>
-            state === "sick" || state === "ready" || awakeAt > Date.now(),
+          ({ awakeAt }) => awakeAt < createdAt,
         )
       ) {
         return {
           disabled: true,
-          reason: translate("powerSkills.reason.animalsSickReadyAsleep"),
+          reason: translate("powerSkills.reason.animalsNotAsleep"),
         };
       }
     }
   }
-  return { disabled: false, reason: "" };
+  return { disabled: false };
 }
 
 export function skillUse({ state, action, createdAt = Date.now() }: Options) {
@@ -380,7 +380,7 @@ export function skillUse({ state, action, createdAt = Date.now() }: Options) {
 
     const skillTree = BUMPKIN_REVAMP_SKILL_TREE[skill] as BumpkinSkillRevamp;
 
-    const { requirements, power } = skillTree;
+    const { requirements, power, disabled } = skillTree;
     const { items } = requirements;
 
     if (bumpkin == undefined) {
@@ -395,18 +395,23 @@ export function skillUse({ state, action, createdAt = Date.now() }: Options) {
       throw new Error("This skill does not have a power");
     }
 
+    if (disabled) {
+      throw new Error(`Skill ${skill} is disabled`);
+    }
+
     if (!bumpkin.previousPowerUseAt) {
       bumpkin.previousPowerUseAt = {};
     }
 
-    const { disabled, reason } = powerSkillDisabledConditions({
-      state: stateCopy,
-      skillTree,
-      createdAt,
-    });
+    const { disabled: powerDisabled, reason: powerReason } =
+      powerSkillDisabledConditions({
+        state: stateCopy,
+        skillTree,
+        createdAt,
+      });
 
-    if (disabled) {
-      throw new Error(reason);
+    if (powerDisabled) {
+      throw new Error(powerReason);
     }
 
     // Skill is off cooldown, use it
@@ -438,11 +443,14 @@ export function skillUse({ state, action, createdAt = Date.now() }: Options) {
     }
 
     if (skill === "Instant Gratification") {
-      stateCopy.buildings = useInstantGratification({ buildings, createdAt });
+      stateCopy = useInstantGratification({
+        game: stateCopy,
+        createdAt,
+      });
     }
 
-    if (skill === "Apple-Tastic") {
-      stateCopy = useAppleTastic({ game: stateCopy });
+    if (skill === "Barnyard Rouse") {
+      stateCopy = useBarnyardRouse({ game: stateCopy, createdAt });
     }
 
     if (items) {

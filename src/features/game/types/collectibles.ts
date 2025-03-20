@@ -216,7 +216,7 @@ export const HELIOS_BLACKSMITH_ITEMS: (
   },
   Bale: {
     description: translate("description.bale"),
-    boost: translate("description.bale.boost"),
+    boost: translate("description.bale.eggBoost"),
     coins: 1600,
     ingredients: {
       Egg: new Decimal(200),

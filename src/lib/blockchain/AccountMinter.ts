@@ -9,6 +9,7 @@ import {
   writeContract,
 } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
+import { polygon, polygonAmoy } from "@wagmi/core/chains";
 
 export async function getCreatedAt(
   account: `0x${string}`,
@@ -19,6 +20,7 @@ export async function getCreatedAt(
 
   try {
     const createdAt = await readContract(config, {
+      chainId: CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id,
       abi: ABI,
       address: CONFIG.ACCOUNT_MINTER_CONTRACT,
       functionName: "farmCreatedAt",
@@ -49,6 +51,7 @@ export async function createNewAccount({
   fee: string;
 }) {
   const hash = await writeContract(config, {
+    chainId: CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id,
     abi: ABI,
     address: CONFIG.ACCOUNT_MINTER_CONTRACT,
     functionName: "mintAccount",

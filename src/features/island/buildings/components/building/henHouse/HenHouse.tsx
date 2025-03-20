@@ -11,7 +11,6 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { useNavigate } from "react-router";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { AnimalBuildingLevel } from "features/game/events/landExpansion/upgradeBuilding";
 import { useSound } from "lib/utils/hooks/useSound";
 
 const _hasHungryChickens = (state: MachineState) => {
@@ -20,9 +19,9 @@ const _hasHungryChickens = (state: MachineState) => {
   );
 };
 
-const _hasAwakeSickChickens = (state: MachineState) => {
+const _hasSickChickens = (state: MachineState) => {
   return Object.values(state.context.state.henHouse.animals).some(
-    (animal) => animal.state === "sick" && animal.awakeAt < Date.now(),
+    (animal) => animal.state === "sick",
   );
 };
 
@@ -34,32 +33,22 @@ const _chickensNeedLove = (state: MachineState) => {
   );
 };
 
-const _buildingLevel = (state: MachineState) => {
-  return (state.context.state.henHouse.level || 1) as AnimalBuildingLevel;
-};
+const _buildingLevel = (state: MachineState) =>
+  state.context.state.henHouse.level;
 
-export const ChickenHouse: React.FC<BuildingProps> = ({
-  isBuilt,
-  onRemove,
-  season,
-}) => {
+export const ChickenHouse: React.FC<BuildingProps> = ({ isBuilt, season }) => {
   const { gameService, showAnimations } = useContext(Context);
   const [isOpen, setIsOpen] = useState(false);
   const navigate = useNavigate();
 
   const hasHungryChickens = useSelector(gameService, _hasHungryChickens);
-  const hasAwakeSickChickens = useSelector(gameService, _hasAwakeSickChickens);
+  const hasSickChickens = useSelector(gameService, _hasSickChickens);
   const chickensNeedLove = useSelector(gameService, _chickensNeedLove);
   const buildingLevel = useSelector(gameService, _buildingLevel);
 
   const { play: barnAudio } = useSound("barn");
 
   const handleClick = () => {
-    if (onRemove) {
-      onRemove();
-      return;
-    }
-
     if (isBuilt) {
       // Add future on click actions here
       barnAudio();
@@ -76,7 +65,7 @@ export const ChickenHouse: React.FC<BuildingProps> = ({
   return (
     <>
       <BuildingImageWrapper name="Hen House" onClick={handleClick}>
-        {(hasHungryChickens || chickensNeedLove || hasAwakeSickChickens) && (
+        {(hasHungryChickens || chickensNeedLove || hasSickChickens) && (
           <img
             src={SUNNYSIDE.icons.expression_alerted}
             className={
@@ -90,7 +79,7 @@ export const ChickenHouse: React.FC<BuildingProps> = ({
           src={HEN_HOUSE_VARIANTS[season][buildingLevel]}
           className="absolute bottom-0 pointer-events-none"
           style={{
-            width: `${PIXEL_SCALE * 61}px`,
+            width: `${PIXEL_SCALE * 68}px`,
             left: `${PIXEL_SCALE * 1}px`,
           }}
         />

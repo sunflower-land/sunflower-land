@@ -20,13 +20,15 @@ import { HudContainer } from "components/ui/HudContainer";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useLocation } from "react-router";
-import { SpecialEventCountdown } from "./SpecialEventCountdown";
 import { DesertDiggingDisplay } from "./components/DesertDiggingDisplay";
 import { TransactionCountdown } from "./Transaction";
 import { MarketplaceButton } from "./components/MarketplaceButton";
-import { getDayOfChristmas } from "features/game/events/landExpansion/collectCandy";
 import { GameCalendar } from "features/game/expansion/components/temperateSeason/GameCalendar";
 
+import chest from "assets/icons/chest.png";
+import { LockdownWidget } from "features/announcements/AnnouncementWidgets";
+import { hasFeatureAccess } from "lib/flags";
+import { RewardsButton } from "./components/referral/RewardsButton";
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
  * Balances, Inventory, actions etc.
@@ -40,15 +42,11 @@ const HudComponent: React.FC = () => {
   const [showDepositModal, setShowDepositModal] = useState(false);
   const [depositDataLoaded, setDepositDataLoaded] = useState(false);
 
-  const { dayOfChristmas } = getDayOfChristmas(
-    gameService?.state?.context?.state ?? {},
-  );
-
   const { pathname } = useLocation();
 
   const autosaving = gameState.matches("autosaving");
 
-  const handleBuyCurrenciesModal = () => {
+  const handleCurrenciesModal = () => {
     openModal("BUY_GEMS");
   };
 
@@ -63,8 +61,13 @@ const HudComponent: React.FC = () => {
   };
 
   const farmAddress = gameService.state?.context?.farmAddress;
+  const linkedWallet = gameService.state?.context?.linkedWallet;
   const isFullUser = farmAddress !== undefined;
   const isTutorial = gameState.context.state.island.type === "basic";
+  const hasReferralProgram = hasFeatureAccess(
+    gameState.context.state,
+    "REFERRAL_PROGRAM",
+  );
   return (
     <>
       <HudContainer>
@@ -91,7 +94,7 @@ const HudComponent: React.FC = () => {
         />
         {pathname.includes("beach") && <DesertDiggingDisplay />}
         <Balances
-          onClick={farmAddress ? handleBuyCurrenciesModal : undefined}
+          onClick={farmAddress ? handleCurrenciesModal : undefined}
           sfl={gameState.context.state.balance}
           coins={gameState.context.state.coins}
           gems={gameState.context.state.inventory["Gem"] ?? new Decimal(0)}
@@ -105,7 +108,7 @@ const HudComponent: React.FC = () => {
           }}
         >
           <MarketplaceButton />
-          <CodexButton />
+          {!hasReferralProgram && <CodexButton />}
           <TravelButton />
         </div>
         <div
@@ -118,10 +121,13 @@ const HudComponent: React.FC = () => {
           <TransactionCountdown />
 
           <AuctionCountdown />
-          <SpecialEventCountdown />
+          {/* <SpecialEventCountdown /> */}
         </div>
-        <BumpkinProfile isFullUser={isFullUser} />
+        <BumpkinProfile />
         {!isTutorial && <GameCalendar />}
+        {hasReferralProgram && <CodexButton />}
+        {hasReferralProgram && <RewardsButton />}
+
         <div
           className="absolute z-50 flex flex-col justify-between"
           style={{
@@ -134,22 +140,29 @@ const HudComponent: React.FC = () => {
           <Save />
           <Settings isFarming={false} />
         </div>
-        {farmAddress && (
+        {farmAddress && linkedWallet && (
           <Modal
             show={showDepositModal}
             onHide={() => setShowDepositModal(false)}
           >
             <CloseButtonPanel
-              title={depositDataLoaded ? t("deposit") : undefined}
               onClose={depositDataLoaded ? handleDepositModal : undefined}
+              tabs={[
+                {
+                  icon: chest,
+                  name: t("deposit"),
+                },
+              ]}
             >
               <Deposit
                 farmAddress={farmAddress}
+                linkedWallet={linkedWallet}
                 onDeposit={handleDeposit}
                 onLoaded={(loaded) => setDepositDataLoaded(loaded)}
                 onClose={handleDepositModal}
               />
             </CloseButtonPanel>
+            <LockdownWidget />
           </Modal>
         )}
       </HudContainer>

@@ -20,7 +20,6 @@ import {
   SceneId,
 } from "../mmoMachine";
 import { Player, PlazaRoomState } from "../types/Room";
-import { playerModalManager } from "../ui/PlayerModals";
 import { FactionName, GameState } from "features/game/types/game";
 import { translate } from "lib/i18n/translate";
 import { Room } from "colyseus.js";
@@ -41,6 +40,8 @@ import {
   PlazaShaders,
   getPlazaShaderSetting,
 } from "lib/utils/hooks/usePlazaShader";
+import { playerSelectionListManager } from "../ui/PlayerSelectionList";
+import { playerModalManager } from "../ui/PlayerModals";
 
 export type NPCBumpkin = {
   x: number;
@@ -327,11 +328,50 @@ export abstract class BaseScene extends Phaser.Scene {
           ...(this.gameState.bumpkin?.equipped as BumpkinParts),
           updatedAt: 0,
         },
-        experience: 0,
-        sessionId: this.mmoServer?.sessionId ?? "",
+        experience: this.gameState.bumpkin?.experience ?? 0,
       });
 
       this.initialiseCamera();
+
+      // handles player modal
+      // get all player under the pointer click
+      this.input.on("pointerdown", (pointer: Phaser.Input.Pointer) => {
+        // ignore click if the joystick is active
+        if (this.joystick?.pointer) return;
+
+        const clickedObjects = this.input.hitTestPointer(pointer);
+
+        // filter other players
+        const clickedBumpkins = clickedObjects.filter((clickedObject) => {
+          const isBumpkinContainer = clickedObject instanceof BumpkinContainer;
+          if (!isBumpkinContainer) return false;
+
+          const bumpkinContainer = clickedObject as BumpkinContainer;
+          return (
+            bumpkinContainer.farmId !== this.id &&
+            bumpkinContainer.farmId !== undefined
+          );
+        }) as BumpkinContainer[];
+
+        if (clickedBumpkins.length === 0) return;
+
+        const players = clickedBumpkins.map((clickedBumpkin) => {
+          const { farmId, clothing, experience, username } = clickedBumpkin;
+          return {
+            id: farmId!,
+            clothing,
+            experience: experience ?? 0,
+            username,
+          };
+        });
+
+        if (clickedBumpkins.length === 1) {
+          playerModalManager.open(players[0]);
+          return;
+        }
+
+        playerSelectionListManager.open(players);
+      });
 
       // this.physics.world.fixedStep = false; // activates sync
       // this.physics.world.fixedStep = true; // deactivates sync (default)
@@ -572,6 +612,7 @@ export abstract class BaseScene extends Phaser.Scene {
       removeReactionListener();
 
       window.removeEventListener(AUDIO_MUTED_EVENT as any, this.onAudioMuted);
+      this.input.off("pointerdown"); // clean up pointerdown event listener
     });
   }
 
@@ -667,8 +708,7 @@ export abstract class BaseScene extends Phaser.Scene {
     isCurrentPlayer,
     clothing,
     npc,
-    experience = 0,
-    sessionId,
+    experience,
   }: {
     isCurrentPlayer: boolean;
     x: number;
@@ -679,7 +719,6 @@ export abstract class BaseScene extends Phaser.Scene {
     clothing: Player["clothing"];
     npc?: NPCName;
     experience?: number;
-    sessionId: string;
   }): BumpkinContainer {
     const defaultClick = () => {
       const distance = Phaser.Math.Distance.BetweenPoints(
@@ -687,25 +726,14 @@ export abstract class BaseScene extends Phaser.Scene {
         this.currentPlayer as BumpkinContainer,
       );
 
+      if (!npc) return;
+
       if (distance > 50) {
         entity.speak(translate("base.far.away"));
         return;
       }
 
-      if (npc) {
-        npcModalManager.open(npc);
-      } else {
-        if (farmId !== this.id) {
-          playerModalManager.open({
-            id: farmId,
-            // Always get the latest clothing
-            clothing: this.playerEntities[sessionId]?.clothing ?? clothing,
-            experience,
-          });
-        }
-      }
-
-      // TODO - open player modals
+      npcModalManager.open(npc);
     };
 
     const entity = new BumpkinContainer({
@@ -714,6 +742,9 @@ export abstract class BaseScene extends Phaser.Scene {
       y,
       clothing,
       name: npc,
+      username,
+      experience,
+      farmId,
       faction,
       onClick: defaultClick,
     });
@@ -1026,7 +1057,6 @@ export abstract class BaseScene extends Phaser.Scene {
           isCurrentPlayer: sessionId === server.sessionId,
           npc: player.npc,
           experience: player.experience,
-          sessionId,
         });
       }
     });

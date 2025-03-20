@@ -26,11 +26,7 @@ const compareBuildings = (
   return prev.Tent?.length === next.Tent?.length;
 };
 
-export const Tent: React.FC<BuildingProps> = ({
-  buildingId,
-  isBuilt,
-  onRemove,
-}) => {
+export const Tent: React.FC<BuildingProps> = ({ buildingId, isBuilt }) => {
   const { gameService } = useContext(Context);
 
   const buildings = useSelector(gameService, selectBuildings, compareBuildings);
@@ -41,16 +37,11 @@ export const Tent: React.FC<BuildingProps> = ({
     (building) => building.id === buildingId,
   );
 
-  const [walletBumpkins, setWalletBumpkins] = useState<OnChainBumpkin[]>([]);
+  const [walletBumpkins] = useState<OnChainBumpkin[]>([]);
 
   const bumpkin = buildingIndex !== undefined && walletBumpkins[buildingIndex];
 
   const handleClick = () => {
-    if (onRemove) {
-      onRemove();
-      return;
-    }
-
     if (isBuilt && bumpkin) {
       setShowModal(true);
     }

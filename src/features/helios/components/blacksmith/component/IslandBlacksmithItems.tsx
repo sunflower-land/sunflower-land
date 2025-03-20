@@ -20,6 +20,7 @@ import { gameAnalytics } from "lib/gameAnalytics";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import Decimal from "decimal.js-light";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 
 const VALID_EQUIPMENT: HeliosBlacksmithItem[] = [
   "Basic Scarecrow",
@@ -100,7 +101,7 @@ export const IslandBlacksmithItems: React.FC = () => {
             from: selectedItem?.from,
             to: selectedItem?.to,
           }}
-          boost={selectedItem?.boost}
+          boost={COLLECTIBLE_BUFF_LABELS(state)[selectedName]}
           requirements={{
             resources: selectedItem?.ingredients ?? {},
             coins: selectedItem?.coins ?? 0,
