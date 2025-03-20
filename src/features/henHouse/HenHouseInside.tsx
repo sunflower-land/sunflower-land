@@ -90,7 +90,8 @@ export const HenHouseInside: React.FC = () => {
     });
   }, [
     getKeys(henHouse.animals).length,
-    getValues(henHouse.animals).map((animal) => animal.state),
+    getValues(henHouse.animals).filter((animal) => animal.state === "sick")
+      .length,
     floorWidth,
   ]);
 
