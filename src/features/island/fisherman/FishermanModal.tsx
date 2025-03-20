@@ -55,6 +55,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { isFishFrenzy, isFullMoon } from "features/game/types/calendar";
 import { MachineState } from "features/game/lib/gameMachine";
 import { gameAnalytics } from "lib/gameAnalytics";
+import { SEASON_ICONS } from "../buildings/components/building/market/SeasonalSeeds";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `fisherman-read.${host}-${window.location.pathname}`;
@@ -222,12 +223,21 @@ const BaitSelection: React.FC<{
     !isWearableActive({ name: "Ancient Rod", game: state }) &&
     (!state.inventory["Rod"] || state.inventory.Rod.lt(1));
 
+  const currentSeason = state.season.season;
+
   return (
     <>
       <InnerPanel>
         <div className="p-2">
           <div className="flex items-center justify-between flex-wrap gap-1">
-            <div className="flex items-center gap-1">
+            <div className="flex items-center gap-2">
+              <Label
+                icon={SEASON_ICONS[currentSeason]}
+                type="default"
+                className="capitalize"
+              >
+                {`${currentSeason}`}
+              </Label>
               {isFishFrenzy(state) && (
                 <Label icon={lightning} type="vibrant">
                   {t("calendar.events.fishFrenzy.title")}
