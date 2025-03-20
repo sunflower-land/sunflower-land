@@ -5545,5 +5545,7 @@
   "skill.goldenSunflower": "Ayçiçeği hasadı sırasında 0,35 altın için 1/700 şans (Mahsul Makinesi hariç)",
   "skill.riceAndShine": "Sera ürünleri için% -5 büyüme süresi",
   "skill.slickSaver": "-1 Sera ürünleri yetiştirmek için yağ",
-  "islandupgrade.tempItemWarning": "Aktif totemler/kum saati yakılacak"
+  "islandupgrade.tempItemWarning": "Aktif totemler/kum saati yakılacak",
+  "faceRecognition.cooldownTitle": "Çok fazla deneme",
+  "faceRecognition.cooldownDescription": "Lütfen tekrar denemeden önce bekleyin."
 }

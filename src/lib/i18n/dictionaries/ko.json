@@ -5545,5 +5545,7 @@
   "skill.goldenSunflower": "해바라기 수확 시 1/700 확률로 0.35골드 획득 (크롭 머신 제외)",
   "skill.riceAndShine": "-5% 온실 농산물 성장 시간",
   "skill.slickSaver": "-1 온실 농산물 재배용 오일",
-  "islandupgrade.tempItemWarning": "활성 토템/모래시계가 태워집니다."
+  "islandupgrade.tempItemWarning": "활성 토템/모래시계가 태워집니다.",
+  "faceRecognition.cooldownTitle": "시도 횟수가 너무 많음",
+  "faceRecognition.cooldownDescription": "다시 시도하기 전에 잠시 기다려 주십시오."
 }

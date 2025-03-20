@@ -5545,5 +5545,7 @@
   "skill.goldenSunflower": "1/700 de chance de ganhar 0,35 de ouro ao colher girassóis (exceto Crop Machine)",
   "skill.riceAndShine": "-5% de tempo de crescimento para produtos em estufa",
   "skill.slickSaver": "-1 Óleo para cultivar produtos de estufa",
-  "islandupgrade.tempItemWarning": "Totems/ampulhetas ativos serão queimados"
+  "islandupgrade.tempItemWarning": "Totems/ampulhetas ativos serão queimados",
+  "faceRecognition.cooldownTitle": "Muitas tentativas",
+  "faceRecognition.cooldownDescription": "Aguarde antes de tentar novamente."
 }

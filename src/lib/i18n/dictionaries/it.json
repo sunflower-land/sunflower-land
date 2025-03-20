@@ -5545,5 +5545,7 @@
   "skill.goldenSunflower": "1/700 di possibilità di ottenere 0,35 oro quando si raccolgono i girasoli (esclusa Crop Machine)",
   "skill.riceAndShine": "-5% tempo di crescita per i prodotti in serra",
   "skill.slickSaver": "-1 Olio per la coltivazione di prodotti in serra",
-  "islandupgrade.tempItemWarning": "I totem/clessidre attivi verranno bruciati"
+  "islandupgrade.tempItemWarning": "I totem/clessidre attivi verranno bruciati",
+  "faceRecognition.cooldownTitle": "Troppi tentativi",
+  "faceRecognition.cooldownDescription": "Attendi prima di riprovare."
 }

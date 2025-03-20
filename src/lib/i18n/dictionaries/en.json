@@ -5545,5 +5545,7 @@
   "deposit.doNotSaveAddress": "Do not save this address as its subject to change",
   "deposit.flower.processedDeposits": "Processed deposits",
   "deposit.flower.refreshing": "Refreshing...",
-  "deposit.flower.refreshDeposit": "Refresh deposits"
+  "deposit.flower.refreshDeposit": "Refresh deposits",
+  "faceRecognition.cooldownTitle": "Too many attempts",
+  "faceRecognition.cooldownDescription": "Please wait before trying again."
 }

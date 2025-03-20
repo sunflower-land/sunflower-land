@@ -5545,5 +5545,7 @@
   "skill.goldenSunflower": "Вероятность получения 0,35 золота при сборе подсолнечника составляет 1/700 (кроме Crop Machine)",
   "skill.riceAndShine": "Время роста тепличной продукции: -5%",
   "skill.slickSaver": "-1 Масло для выращивания тепличной продукции",
-  "islandupgrade.tempItemWarning": "Активные тотемы/песочные часы будут сожжены"
+  "islandupgrade.tempItemWarning": "Активные тотемы/песочные часы будут сожжены",
+  "faceRecognition.cooldownTitle": "Слишком много попыток",
+  "faceRecognition.cooldownDescription": "Подождите, пожалуйста, перед повторной попыткой."
 }

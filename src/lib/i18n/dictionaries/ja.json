@@ -5545,5 +5545,7 @@
   "skill.goldenSunflower": "ヒマワリを収穫すると、1/700の確率で0.35ゴールドを獲得できます (クロップマシンは除く)",
   "skill.riceAndShine": "温室農産物の成長時間は-5％",
   "skill.slickSaver": "-1 温室農産物を栽培するための油",
-  "islandupgrade.tempItemWarning": "アクティブなトーテム/砂時計は燃やされます"
+  "islandupgrade.tempItemWarning": "アクティブなトーテム/砂時計は燃やされます",
+  "faceRecognition.cooldownTitle": "試行回数が多すぎます",
+  "faceRecognition.cooldownDescription": "もう一度試す前にしばらくお待ちください。"
 }

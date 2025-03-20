@@ -5545,5 +5545,7 @@
   "skill.goldenSunflower": "收获向日葵时有 1/700 几率获得 0.35 金币（不包括作物机）",
   "skill.riceAndShine": "温室农产品的生长时间 -5%",
   "skill.slickSaver": "-1 种植温室农产品的油",
-  "islandupgrade.tempItemWarning": "活跃的图腾/沙漏将被烧毁"
+  "islandupgrade.tempItemWarning": "活跃的图腾/沙漏将被烧毁",
+  "faceRecognition.cooldownTitle": "尝试次数太多",
+  "faceRecognition.cooldownDescription": "请稍候，然后再试一次。"
 }
