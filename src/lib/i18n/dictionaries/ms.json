@@ -5544,5 +5544,6 @@
   "deposit.flower.refreshDeposit": "Segarkan semula deposit",
   "skill.goldenSunflower": "1/700 peluang untuk 0.35 emas semasa menuai bunga matahari (tidak termasuk Mesin Tanaman)",
   "skill.riceAndShine": "-5% masa pertumbuhan untuk hasil rumah hijau",
-  "skill.slickSaver": "-1 Minyak untuk menanam hasil rumah hijau"
+  "skill.slickSaver": "-1 Minyak untuk menanam hasil rumah hijau",
+  "islandupgrade.tempItemWarning": "Totem/gelas jam aktif akan dibakar"
 }

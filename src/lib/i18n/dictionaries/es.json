@@ -5544,5 +5544,6 @@
   "deposit.flower.refreshDeposit": "Actualizar depósitos",
   "skill.goldenSunflower": "Probabilidad de 1/700 de obtener 0.35 de oro al cosechar girasoles (excepto Crop Machine)",
   "skill.riceAndShine": "-5% de tiempo de crecimiento para los productos de invernadero",
-  "skill.slickSaver": "-1 Petróleo para cultivar productos de invernadero"
+  "skill.slickSaver": "-1 Petróleo para cultivar productos de invernadero",
+  "islandupgrade.tempItemWarning": "Los tótemes/relojes de arena activos se quemarán"
 }

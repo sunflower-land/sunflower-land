@@ -5544,5 +5544,6 @@
   "deposit.flower.refreshDeposit": "Einzahlungen auffrischen",
   "skill.goldenSunflower": "Chance von 1/700 auf 0,35 Gold beim Ernten von Sonnenblumen (außer Crop Machine)",
   "skill.riceAndShine": "-5% Wachstumszeit für Gewächshausprodukte",
-  "skill.slickSaver": "-1 Öl für den Anbau von Gewächshausprodukten"
+  "skill.slickSaver": "-1 Öl für den Anbau von Gewächshausprodukten",
+  "islandupgrade.tempItemWarning": "Aktive Totems/Sanduhren werden verbrannt"
 }

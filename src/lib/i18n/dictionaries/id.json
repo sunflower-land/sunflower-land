@@ -5544,5 +5544,6 @@
   "deposit.flower.refreshDeposit": "Segarkan setoran",
   "skill.goldenSunflower": "Peluang 1/700 untuk 0,35 emas saat memanen bunga matahari (tidak termasuk Mesin Tanaman)",
   "skill.riceAndShine": "-5% waktu pertumbuhan untuk produk rumah kaca",
-  "skill.slickSaver": "-1 Minyak untuk menumbuhkan produk rumah kaca"
+  "skill.slickSaver": "-1 Minyak untuk menumbuhkan produk rumah kaca",
+  "islandupgrade.tempItemWarning": "Totem aktif/jam pasir akan dibakar"
 }
