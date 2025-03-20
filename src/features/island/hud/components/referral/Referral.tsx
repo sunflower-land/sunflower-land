@@ -28,7 +28,7 @@ export const ReferralContent: React.FC = () => {
     gameService,
     (state) => state.context.state.referrals,
   );
-  const { totalReferrals, totalVIPReferrals } = referrals ?? {
+  const { totalReferrals, totalVIPReferrals = 0 } = referrals ?? {
     totalReferrals: 0,
   };
   const gameLink =
