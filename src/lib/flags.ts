@@ -70,7 +70,7 @@ const FEATURE_FLAGS = {
   HOARDING_CHECK: defaultFeatureFlag,
 
   FACE_RECOGNITION: (game) => {
-    return game.createdAt > new Date("2025-02-01T00:00:00Z").getTime();
+    return game.createdAt > new Date("2025-01-01T00:00:00Z").getTime();
   },
 
   FACE_RECOGNITION_TEST: defaultFeatureFlag,
