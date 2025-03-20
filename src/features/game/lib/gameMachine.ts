@@ -1117,7 +1117,6 @@ export function startGame(authContext: AuthContext) {
         },
         vip: {
           on: {
-            "vip.purchased": (GAME_EVENT_HANDLERS as any)["vip.purchased"],
             ACKNOWLEDGE: {
               target: "notifying",
             },

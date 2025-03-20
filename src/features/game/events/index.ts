@@ -428,7 +428,6 @@ import {
   AcknowledgeCalendarEventAction,
 } from "./landExpansion/acknowledgeCalendarEvent";
 
-import { purchaseVIP, PurchaseVIPAction } from "./landExpansion/vipPurchased";
 import {
   collectLavaPit,
   CollectLavaPitAction,
@@ -466,7 +465,6 @@ export type PlayingEvent =
   | ObsidianExchangedAction
   | SpeedUpUpgradeAction
   | ResourceBoughtAction
-  | PurchaseVIPAction
   | SellAnimalAction
   | SpeedUpBuilding
   | SacrificeBearAction
@@ -674,7 +672,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "recipe.cancelled": cancelQueuedRecipe,
   "obsidian.exchanged": exchangeObsidian,
   "resource.bought": buyResource,
-  "vip.purchased": purchaseVIP,
   "animal.sold": sellAnimal,
   "building.spedUp": speedUpBuilding,
   "bear.sacrificed": sacrificeBear,

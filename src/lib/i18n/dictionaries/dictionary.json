@@ -5334,6 +5334,8 @@
   "vip.benefit.windOfChange": "Winds of Change VIP yield boost (+0.25 New Crops)",
   "vip.benefit.competition": "Bonus competition points + more!",
   "fullMoon.specialEvent": "Special Event - Full Moon",
+  "buying.vip": "Buying VIP",
+  "buying.vipsuccess": "Successfully purchased VIP!",
   "searchHere": "Search here...",
   "sunflowerClock": "Sunflower Clock",
   "days.mon": "Mon.",
