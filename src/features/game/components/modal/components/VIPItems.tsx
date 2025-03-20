@@ -37,7 +37,6 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { TranslationKeys } from "lib/i18n/dictionaries/types";
-import confetti from "canvas-confetti";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { REPUTATION_POINTS } from "features/game/lib/reputation";
 import * as Auth from "features/auth/lib/Provider";
@@ -80,11 +79,10 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
     gameAnalytics.trackSink({
       currency: "Gem",
       amount: VIP_PRICES[selected as VipBundle],
-      item: selected!,
+      item: selected as VipBundle,
       type: "Web3",
     });
     setSelected(undefined);
-    confetti();
   };
 
   const hasVip = hasVipAccess({ game: state });
