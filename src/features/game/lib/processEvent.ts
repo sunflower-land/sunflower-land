@@ -290,6 +290,7 @@ export const MAX_INVENTORY_ITEMS: Inventory = {
   Scroll: new Decimal(1500),
   "Amber Fossil": new Decimal(1500),
   Horseshoe: new Decimal(1500),
+  Timeshard: new Decimal(1500),
   "Bud Ticket": new Decimal(1),
 
   // Potion House
