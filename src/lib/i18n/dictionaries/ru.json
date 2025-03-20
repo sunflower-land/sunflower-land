@@ -4171,7 +4171,6 @@
   "skill.fryFrenzy": "-60% к времени готовки в Deli, если используется нефть",
   "skill.generousOrchard": "20% шанс получить +1 фрукт",
   "skill.glassRoom": "+0.1 урожая тепличных культур",
-  "skill.goldenSunflower": "+0.35 Золота с шансом 1/700 при сборе Подсолнуха(только грядки)",
   "skill.goldenTouch": "+0.5 золота",
   "skill.greaseLightning": "Мгновенное восполнение нефтяных скважин",
   "skill.greasyPlants.buff": "+1 урожая тепличных культур",
@@ -4216,7 +4215,6 @@
   "skill.rapidRig.buff": "-20% времени роста в комбайне",
   "skill.reelDeal": "-50% монет стоимости удочки",
   "skill.restlessAnimals": "-10% времени сна животных",
-  "skill.riceAndShine": "-5% времени роста тепличных культур",
   "skill.riceRocket": "-10% времени роста риса",
   "skill.rockAndRoll": "+0.1 камня",
   "skill.rockyFavor.buff": "+1 камня",
@@ -4228,7 +4226,6 @@
   "skill.sheepwiseDiet.debuff": "+50% затрат корма для других животных",
   "skill.shortPickings.buff": "-50% времени роста черники и апельсинов",
   "skill.shortPickings.debuff": "+100% времени роста всех остальных фруктов",
-  "skill.slickSaver": "-1 нефть для выращивания тепличных культур",
   "skill.speedMiner": "-20% времени восстановления камней",
   "skill.strongRoots": "-10% время роста продвинутого урожая",
   "skill.sweetBonus": "+0.1 мёда на улей",
@@ -5544,5 +5541,8 @@
   "deposit.doNotSaveAddress": "Не сохраняйте этот адрес, так как он может быть изменен",
   "deposit.flower.processedDeposits": "Обработанные депозиты",
   "deposit.flower.refreshing": "Освежает...",
-  "deposit.flower.refreshDeposit": "Обновить депозиты"
+  "deposit.flower.refreshDeposit": "Обновить депозиты",
+  "skill.goldenSunflower": "Вероятность получения 0,35 золота при сборе подсолнечника составляет 1/700 (кроме Crop Machine)",
+  "skill.riceAndShine": "Время роста тепличной продукции: -5%",
+  "skill.slickSaver": "-1 Масло для выращивания тепличной продукции"
 }

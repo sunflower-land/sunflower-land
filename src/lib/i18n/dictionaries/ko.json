@@ -4129,7 +4129,6 @@
   "marketplace.available": "구매 가능: {{count}}",
   "bumpkinItemBuff.angler.waders.boost": "일일 낚시 한도 +10",
   "skill.strongRoots": "-10% 고급 작물 성장 시간",
-  "skill.goldenSunflower": "해바라기 수확 시 1/700의 확률로 +0.35 골드를 획득할 수 있습니다 (플롯만 해당)",
   "skill.acreFarm.buff": "+1 고급 작물 수확량",
   "skill.acreFarm.debuff": "-0.5 기본 및 중간 작물 수확량",
   "skill.hectareFarm.buff": "+1 기본 및 중간 작물 수확량",
@@ -4175,7 +4174,6 @@
   "skill.riceRocket": "-10% 쌀 성장 시간",
   "skill.vineVelocity": "-10% 포도 성장 시간",
   "skill.greenhouseGuru": "현재 재배되고 있는 모든 온실 농산물을 수확할 수 있는 능력",
-  "skill.slickSaver": "-1 온실 제품 재배용 오일",
   "skill.rockAndRoll": "석재 생산량 +0.1",
   "skill.ironBumpkin": "+0.1 철 생산량",
   "skill.speedMiner": "석재 회복 시간 -20%",
@@ -4282,7 +4280,6 @@
   "skill.chonkyFeed.buff": "동물 사료로 얻는 동물 경험치 2배",
   "skill.chonkyFeed.debuff": "모든 동물에게 먹이 주기 50% 증가",
   "skill.glassRoom": "+0.1 온실 농산물 수확량",
-  "skill.riceAndShine": "-5% 온실 제품 성장 시간",
   "skill.seededBounty.buff": "+0.5 온실 농산물 수확량",
   "skill.seededBounty.debuff": "심을 수 있는 온실 씨앗 1개",
   "skill.greasyPlants.buff": "+1 온실 농산물 수확량",
@@ -5544,5 +5541,8 @@
   "deposit.doNotSaveAddress": "이 주소는 변경될 수 있으므로 저장하지 마십시오.",
   "deposit.flower.processedDeposits": "처리된 예금",
   "deposit.flower.refreshing": "새로 고침...",
-  "deposit.flower.refreshDeposit": "리프레시 입금"
+  "deposit.flower.refreshDeposit": "리프레시 입금",
+  "skill.goldenSunflower": "해바라기 수확 시 1/700 확률로 0.35골드 획득 (크롭 머신 제외)",
+  "skill.riceAndShine": "-5% 온실 농산물 성장 시간",
+  "skill.slickSaver": "-1 온실 농산물 재배용 오일"
 }

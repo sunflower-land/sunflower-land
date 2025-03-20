@@ -4129,7 +4129,6 @@
   "marketplace.available": "ご利用可能:{{count}}",
   "bumpkinItemBuff.angler.waders.boost": "+10 デイリーフィッシングリミット",
   "skill.strongRoots": "-10% 作物の生育時間の短縮",
-  "skill.goldenSunflower": "ひまわりを収穫すると700分の1の確率で+0.35ゴールドを獲得できます (プロットのみ)",
   "skill.acreFarm.buff": "+1 高度な作物収量",
   "skill.acreFarm.debuff": "-0.5 基本および中程度の作物収量",
   "skill.hectareFarm.buff": "+1 基本および中程度の作物収量",
@@ -4175,7 +4174,6 @@
   "skill.riceRocket": "-10% イネの成長時間",
   "skill.vineVelocity": "-10% ぶどうの生育時間",
   "skill.greenhouseGuru": "現在栽培中のすべての温室農産物を収穫可能な状態にする能力",
-  "skill.slickSaver": "-1 温室製品を栽培するための油",
   "skill.rockAndRoll": "+0.1 ストーン産出量",
   "skill.ironBumpkin": "+0.1 鉄産出量",
   "skill.speedMiner": "-20% ストーン回復時間",
@@ -4282,7 +4280,6 @@
   "skill.chonkyFeed.buff": "動物飼料から得られる動物経験値の2倍",
   "skill.chonkyFeed.debuff": "+50% の飼料ですべての動物に給餌できます",
   "skill.glassRoom": "+0.1 温室農産物の収量",
-  "skill.riceAndShine": "温室製品の成長時間は-5％",
   "skill.seededBounty.buff": "+0.5 温室農産物の収量",
   "skill.seededBounty.debuff": "+1植える温室種子",
   "skill.greasyPlants.buff": "+1 温室農産物の収量",
@@ -5544,5 +5541,8 @@
   "deposit.doNotSaveAddress": "この住所は変更される可能性があるため、保存しないでください",
   "deposit.flower.processedDeposits": "処理済み預金",
   "deposit.flower.refreshing": "更新中...",
-  "deposit.flower.refreshDeposit": "デポジットを更新"
+  "deposit.flower.refreshDeposit": "デポジットを更新",
+  "skill.goldenSunflower": "ヒマワリを収穫すると、1/700の確率で0.35ゴールドを獲得できます (クロップマシンは除く)",
+  "skill.riceAndShine": "温室農産物の成長時間は-5％",
+  "skill.slickSaver": "-1 温室農産物を栽培するための油"
 }

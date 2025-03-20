@@ -4129,7 +4129,6 @@
   "marketplace.available": "Disponible: {{count}}",
   "bumpkinItemBuff.angler.waders.boost": "Límite de pesca diario de +10",
   "skill.strongRoots": "-10% de tiempo de crecimiento avanzado del cultivo",
-  "skill.goldenSunflower": "Probabilidad de 1/700 de obtener +0.35 de oro al cosechar girasoles (solo parcelas)",
   "skill.acreFarm.buff": "+1 Rendimiento de cultivo avanzado",
   "skill.acreFarm.debuff": "-0.5 Rendimiento de cultivo básico y medio",
   "skill.hectareFarm.buff": "+1 Rendimiento de cultivo básico y medio",
@@ -4175,7 +4174,6 @@
   "skill.riceRocket": "-10% de tiempo de crecimiento del arroz",
   "skill.vineVelocity": "-10% de tiempo de crecimiento de la uva",
   "skill.greenhouseGuru": "Capacidad para hacer que todos los productos de invernadero que están creciendo actualmente estén listos para ser cosechados",
-  "skill.slickSaver": "-1 Aceite para cultivar productos de invernadero",
   "skill.rockAndRoll": "+0,1 Rendimiento de piedras",
   "skill.ironBumpkin": "+0,1 Rendimiento de hierro",
   "skill.speedMiner": "-20% de tiempo de recuperación de piedras",
@@ -4282,7 +4280,6 @@
   "skill.chonkyFeed.buff": "2x veces la experiencia animal obtenida con comida",
   "skill.chonkyFeed.debuff": "+50% de comida para alimentar a todos los animales",
   "skill.glassRoom": "+0,1 Rendimiento de productos de invernadero",
-  "skill.riceAndShine": "-5% de tiempo de crecimiento para productos de invernadero",
   "skill.seededBounty.buff": "+0,5 Rendimiento de productos de invernadero",
   "skill.seededBounty.debuff": "+1 semilla de invernadero para plantar",
   "skill.greasyPlants.buff": "+1 Rendimiento de productos de invernadero",
@@ -5544,5 +5541,8 @@
   "deposit.doNotSaveAddress": "No guarde esta dirección porque está sujeta a cambios",
   "deposit.flower.processedDeposits": "Depósitos procesados",
   "deposit.flower.refreshing": "Refrescante...",
-  "deposit.flower.refreshDeposit": "Actualizar depósitos"
+  "deposit.flower.refreshDeposit": "Actualizar depósitos",
+  "skill.goldenSunflower": "Probabilidad de 1/700 de obtener 0.35 de oro al cosechar girasoles (excepto Crop Machine)",
+  "skill.riceAndShine": "-5% de tiempo de crecimiento para los productos de invernadero",
+  "skill.slickSaver": "-1 Petróleo para cultivar productos de invernadero"
 }

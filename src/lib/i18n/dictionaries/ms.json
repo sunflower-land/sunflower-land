@@ -4129,7 +4129,6 @@
   "marketplace.available": "Tersedia: {{count}}",
   "bumpkinItemBuff.angler.waders.boost": "+10 had memancing harian",
   "skill.strongRoots": "-10% Masa pertumbuhan tanaman lanjutan",
-  "skill.goldenSunflower": "1/700 peluang untuk +0.35 emas semasa menuai bunga matahari (plot sahaja)",
   "skill.acreFarm.buff": "+1 Hasil tanaman lanjutan",
   "skill.acreFarm.debuff": "-0.5 Hasil tanaman asas dan sederhana",
   "skill.hectareFarm.buff": "+1 Hasil tanaman asas dan sederhana",
@@ -4175,7 +4174,6 @@
   "skill.riceRocket": "-10% Masa pertumbuhan beras",
   "skill.vineVelocity": "-10% Masa pertumbuhan anggur",
   "skill.greenhouseGuru": "Keupayaan untuk membuat semua hasil rumah hijau yang sedang tumbuh sedia untuk dituai",
-  "skill.slickSaver": "-1 Minyak untuk menanam produk rumah hijau",
   "skill.rockAndRoll": "+0.1 Hasil Batu",
   "skill.ironBumpkin": "+0.1 Hasil Besi",
   "skill.speedMiner": "-20% Masa pemulihan batu",
@@ -4282,7 +4280,6 @@
   "skill.chonkyFeed.buff": "2x xp haiwan dari makanan haiwan",
   "skill.chonkyFeed.debuff": "+50% makanan untuk memberi makan kepada semua haiwan",
   "skill.glassRoom": "+0.1 Rumah hijau menghasilkan hasil",
-  "skill.riceAndShine": "-5% masa pertumbuhan untuk produk rumah hijau",
   "skill.seededBounty.buff": "+0.5 Rumah hijau menghasilkan hasil",
   "skill.seededBounty.debuff": "+1 benih rumah hijau untuk ditanam",
   "skill.greasyPlants.buff": "+1 Rumah hijau menghasilkan hasil",
@@ -5544,5 +5541,8 @@
   "deposit.doNotSaveAddress": "Jangan simpan alamat ini sebagai tertakluk kepada perubahan",
   "deposit.flower.processedDeposits": "Deposit yang diproses",
   "deposit.flower.refreshing": "Menyegarkan...",
-  "deposit.flower.refreshDeposit": "Segarkan semula deposit"
+  "deposit.flower.refreshDeposit": "Segarkan semula deposit",
+  "skill.goldenSunflower": "1/700 peluang untuk 0.35 emas semasa menuai bunga matahari (tidak termasuk Mesin Tanaman)",
+  "skill.riceAndShine": "-5% masa pertumbuhan untuk hasil rumah hijau",
+  "skill.slickSaver": "-1 Minyak untuk menanam hasil rumah hijau"
 }

@@ -4129,7 +4129,6 @@
   "marketplace.available": "Mevcut: {{count}}",
   "bumpkinItemBuff.angler.waders.boost": "+10 günlük balık tutma limiti",
   "skill.strongRoots": "-10% Gelişmiş mahsul büyüme süresi",
-  "skill.goldenSunflower": "Ayçiçeği hasadı sırasında +0.35 altın için 1/700 şans (sadece araziler)",
   "skill.acreFarm.buff": "+1 Gelişmiş mahsul verimi",
   "skill.acreFarm.debuff": "-0.5 Temel ve Orta mahsul verimi",
   "skill.hectareFarm.buff": "+1 Temel ve Orta mahsul verimi",
@@ -4175,7 +4174,6 @@
   "skill.riceRocket": "-10% Pirinç büyüme süresi",
   "skill.vineVelocity": "-10% Üzüm büyüme süresi",
   "skill.greenhouseGuru": "Şu anda yetişen tüm sera ürünlerini hasat edilmeye hazır hale getirebilme",
-  "skill.slickSaver": "-1 Sera ürünleri yetiştirmek için yağ",
   "skill.rockAndRoll": "+0.1 Taş Verimi",
   "skill.ironBumpkin": "+0.1 Demir Verimi",
   "skill.speedMiner": "-20% Taş kurtarma süresi",
@@ -4282,7 +4280,6 @@
   "skill.chonkyFeed.buff": "Hayvan yeminden 2x hayvan xp",
   "skill.chonkyFeed.debuff": "Tüm hayvanları beslemek için+%50 yem",
   "skill.glassRoom": "+0.1 Sera üretimi verimi",
-  "skill.riceAndShine": "Sera ürünleri için% -5 büyüme süresi",
   "skill.seededBounty.buff": "+0.5 Sera üretimi verimi",
   "skill.seededBounty.debuff": "Dikilecek +1 sera tohumu",
   "skill.greasyPlants.buff": "+1 Sera üretim verimi",
@@ -5544,5 +5541,8 @@
   "deposit.doNotSaveAddress": "Bu adresi değiştirilebilir olarak kaydetmeyin",
   "deposit.flower.processedDeposits": "İşlenmiş mevduatlar",
   "deposit.flower.refreshing": "Canlandırıcı...",
-  "deposit.flower.refreshDeposit": "Para yatırma işlemlerini yenileyin"
+  "deposit.flower.refreshDeposit": "Para yatırma işlemlerini yenileyin",
+  "skill.goldenSunflower": "Ayçiçeği hasadı sırasında 0,35 altın için 1/700 şans (Mahsul Makinesi hariç)",
+  "skill.riceAndShine": "Sera ürünleri için% -5 büyüme süresi",
+  "skill.slickSaver": "-1 Sera ürünleri yetiştirmek için yağ"
 }

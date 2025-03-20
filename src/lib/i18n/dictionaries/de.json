@@ -4129,7 +4129,6 @@
   "marketplace.available": "Verfügbar: {{count}}",
   "bumpkinItemBuff.angler.waders.boost": "+10 tägliches Fanglimit",
   "skill.strongRoots": "-10% Fortgeschrittene Wachstumszeit der Pflanzen",
-  "skill.goldenSunflower": "Chance von 1/700 auf +0,35 Gold beim Ernten von Sonnenblumen (nur Parzellen)",
   "skill.acreFarm.buff": "+1 Fortgeschrittener Ernteertrag",
   "skill.acreFarm.debuff": "-0,5 Grundernteertrag und mittlerer Ernteertrag",
   "skill.hectareFarm.buff": "+1 Grundernteertrag und mittlerer Ernteertrag",
@@ -4175,7 +4174,6 @@
   "skill.riceRocket": "-10% Wachstumszeit von Reis",
   "skill.vineVelocity": "-10% Wachstumszeit der Trauben",
   "skill.greenhouseGuru": "Fähigkeit, alle Gewächshausprodukte, die derzeit wachsen, erntereif zu machen",
-  "skill.slickSaver": "-1 Öl für den Anbau von Gewächshausprodukten",
   "skill.rockAndRoll": "+0.1 Steinertrag",
   "skill.ironBumpkin": "+0.1 Eisenausbeute",
   "skill.speedMiner": "-20% Erholungszeit der Steine",
@@ -4282,7 +4280,6 @@
   "skill.chonkyFeed.buff": "2x Tier-XP aus Tierfutter",
   "skill.chonkyFeed.debuff": "+50% Futter, um alle Tiere zu füttern",
   "skill.glassRoom": "+0.1 Ertrag von Gewächshausprodukten",
-  "skill.riceAndShine": "-5% Wachstumszeit für Gewächshausprodukte",
   "skill.seededBounty.buff": "+0.5 Ertrag von Gewächshausprodukten",
   "skill.seededBounty.debuff": "+1 Gewächshaussamen zum Pflanzen",
   "skill.greasyPlants.buff": "+1 Ertrag von Gewächshausprodukten",
@@ -5544,5 +5541,8 @@
   "deposit.doNotSaveAddress": "Speichern Sie diese Adresse nicht, da sie sich ändern kann",
   "deposit.flower.processedDeposits": "Verarbeitete Einzahlungen",
   "deposit.flower.refreshing": "Erfrischend...",
-  "deposit.flower.refreshDeposit": "Einzahlungen auffrischen"
+  "deposit.flower.refreshDeposit": "Einzahlungen auffrischen",
+  "skill.goldenSunflower": "Chance von 1/700 auf 0,35 Gold beim Ernten von Sonnenblumen (außer Crop Machine)",
+  "skill.riceAndShine": "-5% Wachstumszeit für Gewächshausprodukte",
+  "skill.slickSaver": "-1 Öl für den Anbau von Gewächshausprodukten"
 }

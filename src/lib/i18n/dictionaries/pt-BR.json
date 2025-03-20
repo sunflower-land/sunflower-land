@@ -4129,7 +4129,6 @@
   "marketplace.available": "Disponível: {{count}}",
   "bumpkinItemBuff.angler.waders.boost": "+10 limite diário de pesca",
   "skill.strongRoots": "-10% Tempo avançado de crescimento da safra",
-  "skill.goldenSunflower": "1/700 de chance de ganhar +0,35 de ouro ao colher girassóis (somente parcelas)",
   "skill.acreFarm.buff": "+1 Rendimento avançado da safra",
   "skill.acreFarm.debuff": "-0,5 Rendimento básico e médio da safra",
   "skill.hectareFarm.buff": "+1 Rendimento básico e médio da safra",
@@ -4175,7 +4174,6 @@
   "skill.riceRocket": "-10% de tempo de crescimento do arroz",
   "skill.vineVelocity": "-10% de tempo de crescimento da uva",
   "skill.greenhouseGuru": "Capacidade de fazer com que todos os produtos da estufa atualmente em crescimento estejam prontos para serem colhidos",
-  "skill.slickSaver": "-1 Óleo para cultivar produtos de estufa",
   "skill.rockAndRoll": "+0,1 Rendimento de Pedra",
   "skill.ironBumpkin": "+0,1 Rendimento de ferro",
   "skill.speedMiner": "-20% de tempo de recuperação de pedras",
@@ -4282,7 +4280,6 @@
   "skill.chonkyFeed.buff": "2x animal xp de ração animal",
   "skill.chonkyFeed.debuff": "+50% de ração para alimentar todos os animais",
   "skill.glassRoom": "+0,1 Rendimento de produção em estufa",
-  "skill.riceAndShine": "-5% de tempo de crescimento para produtos de estufa",
   "skill.seededBounty.buff": "+0,5 Rendimento de produção em estufa",
   "skill.seededBounty.debuff": "+1 semente de estufa para plantar",
   "skill.greasyPlants.buff": "+1 Rendimento de produção em estufa",
@@ -5544,5 +5541,8 @@
   "deposit.doNotSaveAddress": "Não salve este endereço, pois está sujeito a alterações",
   "deposit.flower.processedDeposits": "Depósitos processados",
   "deposit.flower.refreshing": "Refrescante...",
-  "deposit.flower.refreshDeposit": "Atualizar depósitos"
+  "deposit.flower.refreshDeposit": "Atualizar depósitos",
+  "skill.goldenSunflower": "1/700 de chance de ganhar 0,35 de ouro ao colher girassóis (exceto Crop Machine)",
+  "skill.riceAndShine": "-5% de tempo de crescimento para produtos em estufa",
+  "skill.slickSaver": "-1 Óleo para cultivar produtos de estufa"
 }

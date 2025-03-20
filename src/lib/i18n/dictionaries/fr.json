@@ -4129,7 +4129,6 @@
   "marketplace.available": "Disponible : {{count}}",
   "bumpkinItemBuff.angler.waders.boost": "Limite de pêche quotidienne de +10",
   "skill.strongRoots": "-10 % Temps de croissance avancé des cultures",
-  "skill.goldenSunflower": "1/700 de chance de gagner +0,35 points d'or lors de la récolte de tournesols (parcelles uniquement)",
   "skill.acreFarm.buff": "+1 Rendement des cultures avancé",
   "skill.acreFarm.debuff": "-0,5 Rendement des cultures de base et moyen",
   "skill.hectareFarm.buff": "+1 Rendement des cultures de base et moyen",
@@ -4175,7 +4174,6 @@
   "skill.riceRocket": "-10 % Temps de croissance du riz",
   "skill.vineVelocity": "-10 % Temps de croissance du raisin",
   "skill.greenhouseGuru": "Capacité de préparer à la récolte tous les produits de serre en cours de croissance",
-  "skill.slickSaver": "-1 De l'huile pour faire pousser des produits de serre",
   "skill.rockAndRoll": "+0,1 Rendement en pierres",
   "skill.ironBumpkin": "Rendement en fer +0,1",
   "skill.speedMiner": "-20 % Temps de récupération des pierres",
@@ -4282,7 +4280,6 @@
   "skill.chonkyFeed.buff": "2 fois plus d'expérience animale provenant de l'alimentation animale",
   "skill.chonkyFeed.debuff": "+ 50 % de nourriture pour nourrir tous les animaux",
   "skill.glassRoom": "+0,1 Rendement des produits de serre",
-  "skill.riceAndShine": "-5 % de temps de croissance pour les produits de serre",
   "skill.seededBounty.buff": "+0,5 Rendement des produits de serre",
   "skill.seededBounty.debuff": "+1 graine de serre à planter",
   "skill.greasyPlants.buff": "+1 Rendement des produits de serre",
@@ -5544,5 +5541,8 @@
   "deposit.doNotSaveAddress": "Ne sauvegardez pas cette adresse car elle est sujette à modification",
   "deposit.flower.processedDeposits": "Dépôts traités",
   "deposit.flower.refreshing": "C'est rafraîchissant...",
-  "deposit.flower.refreshDeposit": "Actualiser les dépôts"
+  "deposit.flower.refreshDeposit": "Actualiser les dépôts",
+  "skill.goldenSunflower": "1/700 de chance de gagner 0,35 or lors de la récolte de tournesols (sauf Crop Machine)",
+  "skill.riceAndShine": "-5 % de temps de croissance pour les produits de serre",
+  "skill.slickSaver": "-1 De l'huile pour faire pousser des produits de serre"
 }
