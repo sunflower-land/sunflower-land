@@ -14,75 +14,77 @@ import { NumberInput } from "components/ui/NumberInput";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 export const AddSFL: React.FC = () => {
-  const { gameService } = useContext(Context);
-  const [maticBalance, setMaticBalance] = useState<Decimal>(new Decimal(0));
-  const [isLoading, setIsLoading] = useState(true);
-  const [maticAmount, setMaticAmount] = useState(new Decimal(0));
-  const [SFLAmount, setSFLAmount] = useState(new Decimal(0));
   const { t } = useAppTranslation();
 
-  const amountOutMin = SFLAmount.mul(0.99);
+  const { gameService } = useContext(Context);
+  const [polBalance, setPolBalance] = useState<Decimal>(new Decimal(0));
+  const [isLoading, setIsLoading] = useState(true);
+  const [polAmount, setPolAmount] = useState(new Decimal(0));
+  const [sflAmount, setSflAmount] = useState(new Decimal(0));
+  const [focusedInput, setFocusedInput] = useState<"pol" | "sfl">();
+
+  const amountOutMin = sflAmount.mul(0.99);
 
   useEffect(() => {
-    const fetchMaticBalance = async () => {
+    const fetchPolBalance = async () => {
       setIsLoading(true);
-      const balance = await wallet.getMaticBalance();
+      const balance = await wallet.getPolBalance();
 
-      setMaticBalance(new Decimal(balance));
+      setPolBalance(new Decimal(balance));
       setIsLoading(false);
     };
 
-    fetchMaticBalance();
+    fetchPolBalance();
   }, []);
 
-  const getSFLForMaticAmount = async (maticAmount: Decimal) => {
-    const sfl = await wallet.getSFLForMatic(toWei(maticAmount.toString()));
-    setSFLAmount(sfl);
+  const getSFLForPolAmount = async (polAmount: Decimal) => {
+    const sfl = await wallet.getSFLForPol(toWei(polAmount.toString()));
+    setSflAmount(sfl);
   };
 
-  const handleMaticAmountChange = (value: Decimal) => {
-    setMaticAmount(value);
+  const handlePolAmountChange = (value: Decimal) => {
+    setPolAmount(value);
 
     if (value.eq(0)) {
-      setSFLAmount(new Decimal(0));
-    } else {
-      getSFLForMaticAmount(value);
+      setSflAmount(new Decimal(0));
+    } else if (focusedInput === "pol") {
+      getSFLForPolAmount(value);
     }
   };
 
-  const getMaticForSFLAmount = async (sflAmount: Decimal) => {
-    const matic = await wallet.getMaticForSFL(toWei(sflAmount.toString()));
-    setMaticAmount(matic);
+  const getPolForSFLAmount = async (sflAmount: Decimal) => {
+    const pol = await wallet.getPolForSFL(toWei(sflAmount.toString()));
+    setPolAmount(pol);
   };
 
   const handleSFLAmountChange = (value: Decimal) => {
-    setSFLAmount(value);
+    setSflAmount(value);
 
     if (value.eq(0)) {
-      setMaticAmount(new Decimal(0));
-    } else {
-      getMaticForSFLAmount(value);
+      setPolAmount(new Decimal(0));
+    } else if (focusedInput === "sfl") {
+      getPolForSFLAmount(value);
     }
   };
 
   const handleAddSFL = () => {
     gameService.send({
       type: "BUY_SFL",
-      maticAmount: toWei(maticAmount.toString()),
+      maticAmount: toWei(polAmount.toString()),
       amountOutMin: toWei(amountOutMin.toString()),
     });
   };
 
-  const formattedMaticBalance = formatNumber(
-    new Decimal(fromWei(toBN(maticBalance.toString()))),
+  const formattedPolBalance = formatNumber(
+    new Decimal(fromWei(toBN(polBalance.toString()))),
     {
       decimalPlaces: 4,
     },
   );
 
-  const invalidMaticAmount =
-    toBN(toWei(maticAmount.toString())).gt(toBN(maticBalance.toString())) ||
-    maticAmount.lte(0);
+  const invalidPolAmount =
+    toBN(toWei(polAmount.toString())).gt(toBN(polBalance.toString())) ||
+    polAmount.lte(0);
 
   if (isLoading) {
     return <Loading text={t("loading")} />;
@@ -98,13 +100,15 @@ export const AddSFL: React.FC = () => {
           <div className="flex items-center justify-between mb-2">
             <div className="relative w-full mr-3">
               <NumberInput
-                value={maticAmount}
+                value={polAmount}
                 maxDecimalPlaces={4}
-                isOutOfRange={invalidMaticAmount}
-                onValueChange={handleMaticAmountChange}
+                isOutOfRange={invalidPolAmount}
+                onValueChange={handlePolAmountChange}
+                onFocus={() => setFocusedInput("pol")}
+                onBlur={() => setFocusedInput(undefined)}
               />
               <span className="text-xxs absolute top-1/2 -translate-y-1/2 right-2">
-                {`${t("balance")}: ${formattedMaticBalance}`}
+                {`${t("balance")}: ${formattedPolBalance}`}
               </span>
             </div>
             <img
@@ -122,9 +126,11 @@ export const AddSFL: React.FC = () => {
           <div className="flex items-center justify-between mb-2">
             <div className="relative w-full mr-3">
               <NumberInput
-                value={SFLAmount}
+                value={sflAmount}
                 maxDecimalPlaces={4}
                 onValueChange={handleSFLAmountChange}
+                onFocus={() => setFocusedInput("sfl")}
+                onBlur={() => setFocusedInput(undefined)}
               />
             </div>
             <img
@@ -149,7 +155,7 @@ export const AddSFL: React.FC = () => {
       </div>
       <Button
         onClick={handleAddSFL}
-        disabled={invalidMaticAmount}
+        disabled={invalidPolAmount}
         className="whitespace-nowrap"
       >
         {t("addSFL")}

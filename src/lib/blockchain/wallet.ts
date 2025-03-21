@@ -29,7 +29,7 @@ export class Wallet {
     return address;
   }
 
-  public async getMaticBalance() {
+  public async getPolBalance() {
     const account = this.getAccount();
     if (!account) {
       throw new Error(ERRORS.NO_WEB3);
@@ -81,8 +81,8 @@ export class Wallet {
     }
   }
 
-  public async getSFLForMatic(matic: string) {
-    const maticMinusFee = (BigInt(matic) * BigInt(950)) / BigInt(1000);
+  public async getSFLForPol(pol: string) {
+    const polMinusFee = (BigInt(pol) * BigInt(950)) / BigInt(1000);
 
     const result = await readContract(config, {
       chainId: CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id,
@@ -100,15 +100,15 @@ export class Wallet {
       ],
       address: UNISWAP_ROUTER as `0x${string}`,
       functionName: "getAmountsOut",
-      args: [maticMinusFee, [WMATIC_ADDRESS, SFL_TOKEN_ADDRESS]],
+      args: [polMinusFee, [WMATIC_ADDRESS, SFL_TOKEN_ADDRESS]],
     });
 
-    // decodedResult[0] is the amount of Matic needed to buy SFL
+    // decodedResult[0] is the amount of POL needed to buy SFL
     // decodedResult[1] is the amount of SFL to be bought
     return new Decimal(formatEther(result[1]));
   }
 
-  public async getMaticForSFL(sfl: string) {
+  public async getPolForSFL(sfl: string) {
     const result = await readContract(config, {
       chainId: CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id,
       abi: [
@@ -128,13 +128,13 @@ export class Wallet {
       args: [BigInt(sfl), [WMATIC_ADDRESS, SFL_TOKEN_ADDRESS]],
     });
 
-    // decodedResult[0] is the amount of Matic needed to buy SFL
+    // decodedResult[0] is the amount of POL needed to buy SFL
     // decodedResult[1] is the amount of SFL to be bought
-    const maticWithFee = new Decimal(
+    const polWithFee = new Decimal(
       formatEther((result[0] / BigInt(950)) * BigInt(1000)),
     );
 
-    return maticWithFee;
+    return polWithFee;
   }
 
   public async switchToPolygon() {

@@ -16,6 +16,8 @@ type Props = {
   isRightAligned?: boolean;
   isOutOfRange?: boolean;
   className?: string;
+  onBlur?: () => void;
+  onFocus?: () => void;
   onValueChange?: (value: Decimal) => void;
   icon?: string;
   readOnly?: boolean;
@@ -27,6 +29,8 @@ export const NumberInput: React.FC<Props> = ({
   isRightAligned,
   isOutOfRange,
   className,
+  onBlur,
+  onFocus,
   onValueChange,
   icon,
   readOnly,
@@ -93,8 +97,14 @@ export const NumberInput: React.FC<Props> = ({
             onValueChange?.(new Decimal(amount ?? 0));
           }
         }}
-        onFocus={() => setIsFocused(true)} // Set focus state to true
-        onBlur={() => setIsFocused(false)} // Set focus state to false
+        onFocus={() => {
+          setIsFocused(true);
+          onFocus?.();
+        }}
+        onBlur={() => {
+          setIsFocused(false);
+          onBlur?.();
+        }}
         className={classNames(
           "!bg-transparent cursor-pointer w-full p-2 h-10 font-secondary",
           {
