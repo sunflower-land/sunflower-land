@@ -644,7 +644,9 @@ export function startGame(authContext: AuthContext) {
       context: {
         fslId: "123",
         farmId:
-          CONFIG.NETWORK === "mainnet" ? 0 : Math.floor(Math.random() * 1000),
+          CONFIG.NETWORK === "mainnet"
+            ? authContext.user.token?.farmId ?? 0
+            : Math.floor(Math.random() * 1000),
         actions: [],
         state: EMPTY,
         sessionId: INITIAL_SESSION,
