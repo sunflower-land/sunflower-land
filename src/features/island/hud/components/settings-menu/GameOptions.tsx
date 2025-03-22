@@ -57,7 +57,10 @@ import {
 import { preload } from "swr";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
-import { LockdownWidget } from "features/announcements/AnnouncementWidgets";
+import {
+  LockdownWidget,
+  ReferralWidget,
+} from "features/announcements/AnnouncementWidgets";
 import { AirdropPlayer } from "./general-settings/AirdropPlayer";
 import { hasFeatureAccess } from "lib/flags";
 import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
@@ -339,6 +342,10 @@ export const GameOptionsModal: React.FC<GameOptionsModalProps> = ({
         <SelectedComponent onSubMenuClick={setSelected} onClose={onHide} />
       </CloseButtonPanel>
       <LockdownWidget />
+      {hasFeatureAccess(
+        gameService.state?.context?.state,
+        "REFERRAL_PROGRAM",
+      ) && <ReferralWidget />}
     </Modal>
   );
 };

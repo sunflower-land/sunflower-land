@@ -25,7 +25,7 @@ describe("completeSocialTask", () => {
         createdAt: now,
         action: {
           type: "socialTask.completed",
-          taskId: "Invite a friend",
+          taskId: "Refer a friend",
         },
         state: {
           ...INITIAL_FARM,
@@ -41,14 +41,14 @@ describe("completeSocialTask", () => {
         createdAt: now,
         action: {
           type: "socialTask.completed",
-          taskId: "Invite a friend",
+          taskId: "Refer a friend",
         },
         state: {
           ...INITIAL_FARM,
           referrals: { totalReferrals: 1 },
           socialTasks: {
             completed: {
-              "Invite a friend": { completedAt: now - 1000 },
+              "Refer a friend": { completedAt: now - 1000 },
             },
           },
         },
@@ -61,7 +61,7 @@ describe("completeSocialTask", () => {
       createdAt: now,
       action: {
         type: "socialTask.completed",
-        taskId: "Invite a friend",
+        taskId: "Refer a friend",
       },
       state: {
         ...INITIAL_FARM,
@@ -70,7 +70,7 @@ describe("completeSocialTask", () => {
     });
 
     expect(state.inventory["Love Charm"]).toEqual(new Decimal(15));
-    expect(state.socialTasks?.completed["Invite a friend"]).toEqual({
+    expect(state.socialTasks?.completed["Refer a friend"]).toEqual({
       completedAt: now,
     });
   });
@@ -172,7 +172,7 @@ describe("completeSocialTask", () => {
       createdAt: now,
       action: {
         type: "socialTask.completed",
-        taskId: "Invite a friend",
+        taskId: "Refer a friend",
       },
       state: {
         ...INITIAL_FARM,
@@ -199,13 +199,13 @@ describe("completeSocialTask", () => {
       createdAt: now,
       action: {
         type: "socialTask.completed",
-        taskId: "Invite a friend",
+        taskId: "Refer a friend",
       },
       state: baseState,
     });
 
     expect(state.socialTasks).toBeDefined();
-    expect(state.socialTasks?.completed["Invite a friend"]).toEqual({
+    expect(state.socialTasks?.completed["Refer a friend"]).toEqual({
       completedAt: now,
     });
   });
