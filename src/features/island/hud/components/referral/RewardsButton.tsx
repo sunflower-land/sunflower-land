@@ -1,12 +1,6 @@
 import { RoundButton } from "components/ui/RoundButton";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import React, {
-  useCallback,
-  useContext,
-  useState,
-  useEffect,
-  useMemo,
-} from "react";
+import React, { useCallback, useContext, useState, useEffect } from "react";
 import giftIcon from "assets/icons/gift.png";
 import { Rewards } from "./Rewards";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -64,12 +58,7 @@ export const RewardsButton: React.FC = () => {
   );
 
   // Check if chest is locked or can be unlocked
-  const isChestLocked = useMemo(
-    () =>
-      !chestState.matches("unlocked") &&
-      (chestState.matches("idle") || chestState.matches("loading")),
-    [chestState],
-  ); // TODO: Double check if this is correct
+  const isChestLocked = !chestState.matches("opened");
 
   const completeTask = (taskId: SocialTaskName) => {
     gameService.send({
