@@ -41,7 +41,7 @@ export function fertiliseFruitPatch({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (stateCopy) => {
-    const { fruitPatches, inventory } = stateCopy;
+    const { fruitPatches, inventory, bumpkin } = stateCopy;
 
     const fruitPatch = fruitPatches[action.patchID];
 
@@ -78,7 +78,12 @@ export function fertiliseFruitPatch({
 
     // Apply boost to already planted
     if (fruitPatch.fruit) {
-      fruitPatch.fruit.amount += 0.1;
+      const fruitfulBlendBuff = 0.1;
+      if (bumpkin.skills["Fruitful Bounty"]) {
+        fruitPatch.fruit.amount += fruitfulBlendBuff * 2;
+      } else {
+        fruitPatch.fruit.amount += fruitfulBlendBuff;
+      }
     }
 
     inventory[action.fertiliser] = fertiliserAmount.minus(1);
