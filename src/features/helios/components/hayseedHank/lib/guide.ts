@@ -14,7 +14,7 @@ export type GuidePath =
   | "animals"
   | "scavenger"
   | "fruit"
-  | "seasons";
+  | "chapters";
 
 /*
 Walkthrough:
@@ -230,18 +230,18 @@ ${translate("crops.guide.three")}`,
     docs: "https://docs.sunflower-land.com/player-guides/planting-and-harvesting#fruit",
   },
 
-  seasons: {
+  chapters: {
     achievements: ["Seasoned Farmer"],
     icon: ITEM_DETAILS[getSeasonalTicket()].image,
     description: [
       {
-        text: `${translate("seasons.guide.one")}
+        text: `${translate("chapters.guide.one")}
 
-              ${translate("seasons.guide.two")}
+              ${translate("chapters.guide.two")}
               
-              ${translate("seasons.guide.three")}`,
+              ${translate("chapters.guide.three")}`,
       },
     ],
-    docs: "https://docs.sunflower-land.com/player-guides/seasons",
+    docs: "https://docs.sunflower-land.com/player-guides/chapters-whats-new",
   },
 };
