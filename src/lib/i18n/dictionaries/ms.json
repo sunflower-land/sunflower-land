@@ -1898,9 +1898,6 @@
   "fruit.guide.one": "Buah memainkan peranan penting dalam Tanah Bunga Matahari sebagai sumber berharga yang boleh dijual untuk Syiling atau digunakan dalam pelbagai resipi dan kerajinan. Tidak seperti tanaman, tompok buah mempunyai keupayaan unik untuk menambah beberapa kali selepas setiap penuaian, menyediakan sumber buah yang mampan untuk pemain.",
   "fruit.guide.two": "Untuk menanam buah, anda perlu memperoleh tompok buah yang lebih besar, yang tersedia selepas menaik taraf ke Petal Paradise.",
   "fruit.guide.three": "Dengan menanam buah dan memasukkannya ke dalam strategi pertanian anda, anda boleh memaksimumkan keuntungan anda, mencipta resipi lazat dan membuka kunci kemungkinan baharu di Sunflower Land.",
-  "seasons.guide.one": "Musim di Sunflower Land membawa kegembiraan dan kesegaran kepada permainan, menawarkan cabaran dan peluang baru kepada pemain. Dengan setiap musim, pemain boleh menantikan pelbagai barang pakai dan koleksi baharu, mutan bermusim dan khazanah langka, mewujudkan pengalaman permainan yang dinamik dan berkembang. Ini mendorong pemain untuk menyesuaikan strategi mereka dan meneroka kemungkinan baru di ladang mereka. Selain itu, tiket bermusim menambah elemen strategik pada permainan. pemain mesti memutuskan cara memperuntukkan tiket mereka dengan bijak, sama ada mengumpul barang-barang langka, memilih hiasan dan kosmetik, atau menukar tiket untuk Syiling. Mekanik bermusim memastikan permainan menarik dan memastikan bahawa sentiasa ada sesuatu yang boleh dinantikan di Sunflower Land.",
-  "seasons.guide.two": "Ketersediaan barang pakai dan koleksi bermusim di Stella's Mega Store, Auction House dan kedai Jafar menambah satu lagi keseronokan kepada Sunflower Land. Pemain mesti mengumpulkan tiket bermusim, khazanah, dan keperluan khusus lain untuk membuat barangan bermusim ini atau membida di lelongan, memupuk rasa persaingan dan urgensi. Merancang lebih awal dan membuat strategi menjadi penting kerana pemain berhasrat untuk mengamankan item yang mereka inginkan sebelum masa habis.",
-  "seasons.guide.three": "Dengan tawaran unik setiap musim dan jangkaan acara kejutan, Sunflower Land memastikan pemain terlibat dan dihiburkan sepanjang tahun, mewujudkan pengalaman pertanian yang bertenaga dan sentiasa berkembang.",
   "pete.teaser.one": "Potong pokok",
   "pete.teaser.three": "Tuai bunga matahari",
   "pete.teaser.four": "Jual bunga matahari",
@@ -5579,5 +5576,8 @@
   "taskBoard.tasksDescription": "Lengkapkan tugas untuk mendapatkan Cinta Charm.",
   "taskBoard.tasksDescriptionTwo": "Love Charm boleh digunakan untuk membeli barangan istimewa di kedai ganjaran",
   "taskBoard.otherWays": "Cara lain untuk mendapatkan Love Charm",
-  "taskBoard.howToRefer": "Bagaimana untuk merujuk rakan?"
+  "taskBoard.howToRefer": "Bagaimana untuk merujuk rakan?",
+  "chapters.guide.one": "Bab membawa cabaran baru, koleksi, dan khazanah. Pemain mengumpul tiket dan mesti merancang cara menggunakannya dengan bijak.",
+  "chapters.guide.two": "Tiket boleh dibelanjakan di Stella's Mega Store, kedai Jafar, atau dalam lelongan, di mana pemain bersaing untuk barangan eksklusif.",
+  "chapters.guide.three": "Acara kejutan dan ganjaran unik menjadikan setiap bab dinamik dan menarik."
 }

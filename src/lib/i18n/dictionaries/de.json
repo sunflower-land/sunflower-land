@@ -1897,8 +1897,6 @@
   "fruit.guide.one": "Obst spielt in Sunflower Land eine wichtige Rolle als wertvolle Ressource, die für Münzen verkauft oder für verschiedene Rezepte und zum Basteln verwendet werden kann. Im Gegensatz zu Nutzpflanzen haben Fruchtbeete die einzigartige Fähigkeit, sich nach jeder Ernte mehrmals aufzufüllen, was den Spielern eine nachhaltige Fruchtquelle bietet.",
   "fruit.guide.two": "Um Früchte zu pflanzen, musst du größere Fruchtfelder erwerben, die nach dem Upgrade auf Petal Paradise verfügbar werden.",
   "fruit.guide.three": "Indem du Obst anbaust und es in deine Anbaustrategien einbeziehst, kannst du deine Gewinne maximieren, köstliche Rezepte kreieren und neue Möglichkeiten in Sunflower Land erschließen.",
-  "seasons.guide.one": "Die Jahreszeiten im Sonnenblumenland bringen Spannung und Frische ins Spiel und bieten den Spielern neue Herausforderungen und Möglichkeiten. In jeder Jahreszeit können sich die Spieler auf eine Vielzahl neuer Wearables und Sammlerstücke, saisonaler Mutanten und seltener Schätze freuen, die für ein dynamisches und sich entwickelndes Spielerlebnis sorgen. Dies ermutigt die Spieler, ihre Strategien anzupassen und neue Möglichkeiten auf ihren Farmen zu erkunden. Darüber hinaus fügen Saisonkarten dem Spiel ein strategisches Element hinzu. Die Spieler müssen entscheiden, wie sie ihre Tickets mit Bedacht verteilen, ob sie seltene Gegenstände sammeln, sich für Dekorationen und Kosmetik entscheiden oder Tickets gegen Münzen eintauschen. Die saisonale Mechanik sorgt für ein fesselndes Spiel und sorgt dafür, dass es in Sunflower Land immer etwas gibt, auf das man sich freuen kann.",
-  "seasons.guide.two": "Die Verfügbarkeit saisonaler Wearables und Sammlerstücke in Stellas Mega Store, im Auktionshaus und in Jafars Laden verleiht Sunflower Land noch mehr Spannung. Die Spieler müssen Saisonkarten, Schätze und andere spezifische Anforderungen sammeln, um diese saisonalen Gegenstände herzustellen oder auf Auktionen darauf zu bieten, was ein Gefühl von Wettbewerb und Dringlichkeit fördert. Vorausschauende Planung und strategische Planung werden entscheidend, da die Spieler versuchen, sich ihre gewünschten Gegenstände zu sichern, bevor die Zeit abläuft. Mit den einzigartigen Angeboten jeder Jahreszeit und der Vorfreude auf Überraschungsereignisse hält Sunflower Land die Spieler das ganze Jahr über bei Laune und Unterhaltung und sorgt so für ein lebendiges und sich ständig weiterentwickelndes Farmerlebnis.",
   "pete.teaser.one": "Hacke die Bäume",
   "pete.teaser.three": "Ernten Sie die Sonnenblumen",
   "pete.teaser.four": "Verkaufe die Sonnenblumen",
@@ -3385,7 +3383,6 @@
   "mega.collectibles": "Mega-Sammlerstücke",
   "mega.wearables": "Mega Wearables",
   "deliveries.guide.three": "Farmer können ihre Freundschaft mit bestimmten NPCs verbessern, indem sie Lieferungen abschließen. Darüber hinaus wird die Freundschaft durch das Verschenken von Blumen an sie weiter verbessert. Sobald die Freundschaftsleiste voll ist, belohnt dich der NPC mit einem Geschenk. Behalte den Kodex im Auge und fordere dich selbst mit einer Vielzahl von Befehlen heraus. Steige auf und schalte bei Bedarf neue Gebäude frei, um anspruchsvollere Anfragen zu erfüllen.",
-  "seasons.guide.three": "Mit den einzigartigen Angeboten jeder Jahreszeit und der Vorfreude auf Überraschungsevents sorgt Sunflower Land das ganze Jahr über dafür, dass die Spieler das ganze Jahr über beschäftigt und unterhalten werden, und sorgt so für ein lebendiges und sich ständig weiterentwickelndes Farmerlebnis.",
   "marketplace.offerClaimed": "Herzlichen Glückwunsch, Ihr Angebot wurde angenommen!",
   "description.scarab": "Das verlorene Artefakt des Pharao.",
   "keys": "Schlüssel",
@@ -5579,5 +5576,8 @@
   "taskBoard.tasksDescription": "Schließe Aufgaben ab, um Liebeszauber zu verdienen.",
   "taskBoard.tasksDescriptionTwo": "Love Charm kann verwendet werden, um besondere Artikel im Prämienshop zu kaufen",
   "taskBoard.otherWays": "Andere Möglichkeiten, Love Charm zu verdienen",
-  "taskBoard.howToRefer": "Wie empfehle ich einen Freund?"
+  "taskBoard.howToRefer": "Wie empfehle ich einen Freund?",
+  "chapters.guide.one": "Kapitel bringen neue Herausforderungen, Sammlerstücke und Schätze. Die Spieler sammeln Tickets und müssen planen, wie sie sie mit Bedacht einsetzen können.",
+  "chapters.guide.two": "Tickets können in Stellas Mega Store, in Jafars Laden oder in Auktionen eingelöst werden, bei denen Spieler um exklusive Gegenstände konkurrieren.",
+  "chapters.guide.three": "Überraschungsereignisse und einzigartige Belohnungen machen jedes Kapitel dynamisch und fesselnd."
 }
