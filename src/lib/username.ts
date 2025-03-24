@@ -25,11 +25,11 @@ export const validateUsername = (
 
   username = username.replace(/[_-]/g, "");
 
+  if (username === currentUsername) return translate("username.sameAsCurrent");
   if (username.length < 3) return translate("username.tooShort");
   if (username.length > 12) return translate("username.tooLong");
   if (!REGEX.test(username)) return translate("username.invalidChar");
   if (username.includes(" ")) return translate("username.invalidChar");
-  if (username === currentUsername) return translate("username.sameAsCurrent");
   if (!ALPHABET.includes(username[0].toLowerCase()))
     return translate("username.startWithLetter");
 

@@ -31,7 +31,7 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
     (state) => state.context.state.username,
   );
 
-  const [username, setUsername] = useState<string>("");
+  const [username, setUsername] = useState<string>();
   const [validationState, setValidationState] = useState<string | null>(null);
 
   const [tab, setTab] = useState<number>(0);
@@ -94,7 +94,9 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
               onClose={onClose}
               message={[
                 {
-                  text: `Howdy ${username}! Seems like we've already met. In case you forgot, I'm the Mayor of this town!`, //Translate
+                  text: t("mayor.plaza.alreadyMet", {
+                    username: currentUsername,
+                  }),
                 },
                 {
                   text: t("mayor.plaza.changeNamePrompt"),
@@ -156,7 +158,7 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
           <>
             <div className="flex flex-col items-center p-1">
               <span>{t("mayor.plaza.enterUsernamePrompt")}</span>
-              <div className="flex flex-col gap-2 w-full mt-3">
+              <div className="flex flex-col gap-2 w-full my-3">
                 <input
                   type="string"
                   name="Username"
@@ -168,7 +170,10 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
                   onChange={(e) => {
                     setState("checking");
                     setUsername(e.target.value);
-                    const validationState = validateUsername(e.target.value);
+                    const validationState = validateUsername(
+                      e.target.value,
+                      currentUsername,
+                    );
                     setValidationState(validationState);
 
                     debouncedCheckUsername.cancel();
@@ -272,7 +277,11 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
       {tab === 4 && (
         <CloseButtonPanel bumpkinParts={NPC_WEARABLES.mayor}>
           <div className="flex flex-col gap-2 p-1 pb-2">
-            <span>{t("mayor.paperworkComplete", { username })}</span>
+            <span>
+              {t("mayor.paperworkComplete", {
+                username: currentUsername ?? "",
+              })}
+            </span>
           </div>
           <Button onClick={onClose}>{t("close")}</Button>
         </CloseButtonPanel>
