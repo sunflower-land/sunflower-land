@@ -1,5 +1,5 @@
 import React, { useState, useContext, useCallback } from "react";
-import { useActor } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import * as AuthProvider from "features/auth/lib/Provider";
 
@@ -25,7 +25,11 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
   const [authState] = useActor(authService);
 
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
+  const farmId = useSelector(gameService, (state) => state.context.farmId);
+  const currentUsername = useSelector(
+    gameService,
+    (state) => state.context.state.username,
+  );
 
   const [username, setUsername] = useState<string>("");
   const [validationState, setValidationState] = useState<string | null>(null);
@@ -35,7 +39,7 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
     "idle" | "loading" | "success" | "error" | "checking"
   >("idle");
 
-  const alreadyHaveUsername = Boolean(gameState.context.state.username);
+  const alreadyHaveUsername = !!currentUsername;
   const { t } = useAppTranslation();
 
   // debounced function to check if username is available
@@ -57,7 +61,6 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
   const applyUsername = async () => {
     setState("loading");
 
-    const farmId = gameState.context.farmId;
     try {
       const result = await saveUsername(
         authState.context.user.rawToken as string,
