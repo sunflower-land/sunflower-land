@@ -310,7 +310,6 @@ export type BlockchainEvent =
   | { type: "REVEAL" }
   | { type: "SKIP_MIGRATION" }
   | { type: "END_VISIT" }
-  | { type: "PROVE_PERSONHOOD" }
   | { type: "PERSONHOOD_FINISHED"; verified: boolean }
   | { type: "PERSONHOOD_CANCELLED" }
   | GameEvent
@@ -546,7 +545,6 @@ export type BlockchainState = {
     | "claimAuction"
     | "refundAuction"
     | "blacklisted"
-    | "provingPersonhood"
     | "somethingArrived"
     | "seasonChanged"
     | "randomising"
@@ -1420,9 +1418,6 @@ export function startGame(authContext: AuthContext) {
               actions: assign((_, event) => ({
                 state: event.state,
               })),
-            },
-            PROVE_PERSONHOOD: {
-              target: "provingPersonhood",
             },
           },
         },
@@ -2315,19 +2310,6 @@ export function startGame(authContext: AuthContext) {
           },
         },
 
-        provingPersonhood: {
-          on: {
-            PERSONHOOD_FINISHED: {
-              actions: assign({
-                verified: (_context, event) => event.verified,
-              }),
-              target: "playing",
-            },
-            PERSONHOOD_CANCELLED: {
-              target: "playing",
-            },
-          },
-        },
         randomising: {
           invoke: {
             src: async () => {

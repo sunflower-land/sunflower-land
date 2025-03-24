@@ -55,7 +55,6 @@ import { ListingDeleted } from "../components/listingDeleted";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { usePWAInstall } from "features/pwa/PWAInstallProvider";
 import { fixInstallPromptTextStyles } from "features/pwa/lib/fixInstallPromptStyles";
-import { PersonhoodContent } from "features/retreat/components/personhood/PersonhoodContent";
 import { hasFeatureAccess } from "lib/flags";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PriceChange } from "../components/PriceChange";
@@ -164,7 +163,6 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   offers: true,
   marketplaceSale: true,
   portalling: true,
-  provingPersonhood: false,
   sellMarketResource: false,
   somethingArrived: true,
   seasonChanged: false,
@@ -232,8 +230,6 @@ const hasVipNotification = (state: MachineState) => state.matches("vip");
 const isPlaying = (state: MachineState) => state.matches("playing");
 const somethingArrived = (state: MachineState) =>
   state.matches("somethingArrived");
-const isProvingPersonhood = (state: MachineState) =>
-  state.matches("provingPersonhood");
 const isEffectPending = (state: MachineState) =>
   Object.values(EFFECT_EVENTS).some((stateName) => state.matches(stateName));
 const isEffectSuccess = (state: MachineState) =>
@@ -371,7 +367,6 @@ export const GameWrapper: React.FC = ({ children }) => {
   const pwaInstallRef = usePWAInstall();
 
   const loading = useSelector(gameService, isLoading);
-  const provingPersonhood = useSelector(gameService, isProvingPersonhood);
   const portalling = useSelector(gameService, isPortalling);
   const trading = useSelector(gameService, isTrading);
   const traded = useSelector(gameService, isTraded);
@@ -651,17 +646,6 @@ export const GameWrapper: React.FC = ({ children }) => {
 
         <Introduction />
         <NewMail />
-
-        {provingPersonhood && (
-          <Modal
-            show={true}
-            onHide={() => gameService.send("PERSONHOOD_CANCELLED")}
-          >
-            <Panel className="text-shadow">
-              <PersonhoodContent />
-            </Panel>
-          </Modal>
-        )}
 
         {children}
       </ToastProvider>

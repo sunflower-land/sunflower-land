@@ -230,35 +230,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
         <WithdrawWearables onWithdraw={onWithdrawWearables} />
       )}
       {page === "buds" && <WithdrawBuds onWithdraw={onWithdrawBuds} />}
-      {page === "verify" && <Verify onClose={onClose} />}
+      {page === "verify" && <FaceRecognition />}
     </>
-  );
-};
-
-export const Verify: React.FC<Props> = ({ onClose }) => {
-  const { gameService } = useContext(Context);
-  const { t } = useAppTranslation();
-  const verified = useSelector(gameService, _verified);
-
-  if (hasFeatureAccess(gameService.state.context.state, "FACE_RECOGNITION")) {
-    return <FaceRecognition />;
-  }
-
-  if (verified) {
-    return <p className="text-sm">{t("verify.verified")}</p>;
-  }
-
-  return (
-    <div>
-      <p className="text-sm">{t("verify.verify")}</p>
-      <Button
-        onClick={() => {
-          gameService.send("PROVE_PERSONHOOD");
-          onClose();
-        }}
-      >
-        {t("verify")}
-      </Button>
-    </div>
   );
 };
