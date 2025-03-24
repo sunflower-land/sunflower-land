@@ -10,7 +10,7 @@ import {
   SpeakingText,
 } from "../../../game/components/SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";
-import { validateUsername, saveUsername, checkUsername } from "lib/username";
+import { validateUsername, checkUsername } from "lib/username";
 import { Panel } from "components/ui/Panel";
 import debounce from "lodash.debounce";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -25,7 +25,6 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
   const [authState] = useActor(authService);
 
   const { gameService } = useContext(Context);
-  const farmId = useSelector(gameService, (state) => state.context.farmId);
   const currentUsername = useSelector(
     gameService,
     (state) => state.context.state.username,
@@ -60,19 +59,11 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
 
   const applyUsername = async () => {
     setState("loading");
-
     try {
-      const result = await saveUsername(
-        authState.context.user.rawToken as string,
-        farmId,
-        username as string,
-      );
-      if (result.success === false) {
-        setValidationState("Username already taken");
-        setState("idle");
-        return;
-      }
-
+      gameService.send("username.assigned", {
+        effect: { type: "username.assigned", username: username as string },
+        authToken: authState.context.user.rawToken as string,
+      });
       gameService.send({
         type: "UPDATE_USERNAME",
         username: username as string,
@@ -247,14 +238,7 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
               </span>
             </div>
 
-            <Button
-              onClick={() => {
-                applyUsername();
-                setTab(1);
-              }}
-            >
-              {t("confirm")}
-            </Button>
+            <Button onClick={applyUsername}>{t("confirm")}</Button>
           </>
         </CloseButtonPanel>
       )}

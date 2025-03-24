@@ -3578,6 +3578,8 @@
   "username.invalidChar": "Username contains invalid characters",
   "username.startWithLetter": "Username must start with a letter",
   "username.sameAsCurrent": "Username is the same as your current username",
+  "assigning.username": "Assigning username...",
+  "assigning.username.success": "Username assigned successfully!!",
   "tutorial.pageOne.text1": "This menu will show you the levels required to unlock new buildings.",
   "tutorial.pageOne.text2": "Some of these can be built multiple times once you reach a certain level.",
   "tutorial.pageTwo.text1": "Buildings are an important way to progress through the game as they will help you to expand and evolve.",
