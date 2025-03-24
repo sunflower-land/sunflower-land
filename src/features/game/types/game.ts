@@ -1601,6 +1601,14 @@ export interface GameState {
   };
   referrals?: {
     totalReferrals: number;
+    totalVIPReferrals?: number;
+    totalUnclaimedReferrals?: number;
+    rewards?: {
+      items?: Partial<Record<InventoryItemName, number>>;
+      wearables?: Partial<Record<BumpkinItem, number>>;
+      coins?: number;
+      sfl?: number;
+    };
   };
   socialTasks?: {
     completed: Partial<Record<SocialTaskName, { completedAt: number }>>;

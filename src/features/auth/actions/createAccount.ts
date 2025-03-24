@@ -25,7 +25,7 @@ export function getReferrerId() {
     return undefined;
   }
 
-  return Number(item);
+  return item;
 }
 
 const SIGN_UP_LS_KEY = `sb_wiz.signup-key.v.${host}`;

@@ -1,7 +1,7 @@
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import React, { useState } from "react";
-import giftIcon from "assets/icons/gift.png";
+// import giftIcon from "assets/icons/gift.png";
 import { DailyRewardContent } from "../../../../game/expansion/components/dailyReward/DailyReward";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { TaskBoard } from "./TaskBoard";
@@ -79,6 +79,7 @@ export const Rewards: React.FC<Props> = ({
       <CloseButtonPanel
         tabs={[
           { icon: SUNNYSIDE.ui.board, name: "Task Board" },
+          // { icon: giftIcon, name: "Rewards Shop" },
           ...(bumpkinLevel > 5
             ? [
                 {
@@ -87,7 +88,6 @@ export const Rewards: React.FC<Props> = ({
                 },
               ]
             : []),
-          { icon: giftIcon, name: "Rewards Shop" },
         ]}
         currentTab={tab}
         setCurrentTab={setTab}
