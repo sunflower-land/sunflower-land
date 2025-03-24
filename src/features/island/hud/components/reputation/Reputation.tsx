@@ -28,7 +28,7 @@ import walletIcon from "assets/icons/wallet.png";
 import hammerinHarry from "assets/npcs/hammerin_harry.webp";
 import salesIcon from "assets/icons/sale.webp";
 import { UPGRADE_RAFTS } from "features/game/expansion/components/IslandUpgrader";
-import boat from "assets/decorations/isles_boat.png";
+import settings from "assets/icons/settings_disc.png";
 import bank from "assets/icons/withdraw.png";
 import bud from "assets/icons/bud.png";
 
@@ -383,7 +383,7 @@ export const ReputationGuide: React.FC<Props> = ({ onClose }) => {
     },
     {
       content: t("reputation.guide.connectDiscord"),
-      icon: boat,
+      icon: settings,
     },
     {
       content: t("reputation.guide.proofOfHumanity"),
