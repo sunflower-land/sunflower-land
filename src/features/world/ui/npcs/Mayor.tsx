@@ -14,6 +14,7 @@ import { validateUsername, saveUsername, checkUsername } from "lib/username";
 import { Panel } from "components/ui/Panel";
 import debounce from "lodash.debounce";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { Label } from "components/ui/Label";
 
 interface MayorProps {
   onClose: () => void;
@@ -26,9 +27,7 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
-  const [username, setUsername] = useState<string>(
-    gameState.context.state.username ?? "",
-  );
+  const [username, setUsername] = useState<string>("");
   const [validationState, setValidationState] = useState<string | null>(null);
 
   const [tab, setTab] = useState<number>(0);
@@ -96,6 +95,20 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
                 },
                 {
                   text: t("mayor.plaza.changeNamePrompt"),
+                  actions: [
+                    {
+                      text: t("no.thanks"),
+                      cb: () => {
+                        onClose();
+                      },
+                    },
+                    {
+                      text: t("yes.please"),
+                      cb: () => {
+                        setTab(1);
+                      },
+                    },
+                  ],
                 },
               ]}
             />
@@ -140,7 +153,7 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
           <>
             <div className="flex flex-col items-center p-1">
               <span>{t("mayor.plaza.enterUsernamePrompt")}</span>
-              <div className="w-full py-3 relative">
+              <div className="flex flex-col gap-2 w-full mt-3">
                 <input
                   type="string"
                   name="Username"
@@ -169,9 +182,9 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
                 />
 
                 {validationState && (
-                  <label className="absolute -bottom-1 right-0 text-red-500 text-[11px] font-error">
+                  <Label type="danger" className="text-xs">
                     {validationState}
-                  </label>
+                  </Label>
                 )}
               </div>
             </div>
@@ -256,13 +269,7 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
       {tab === 4 && (
         <CloseButtonPanel bumpkinParts={NPC_WEARABLES.mayor}>
           <div className="flex flex-col gap-2 p-1 pb-2">
-            <span>
-              {t("congrats")}
-              {username}
-              {","}
-              {t("mayor.paperworkComplete")}
-              {"!"}
-            </span>
+            <span>{t("mayor.paperworkComplete", { username })}</span>
           </div>
           <Button onClick={onClose}>{t("close")}</Button>
         </CloseButtonPanel>
