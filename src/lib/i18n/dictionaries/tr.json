@@ -5389,7 +5389,6 @@
   "reputation.earnPoints": "Puan kazanın",
   "reputation.guide.upgrade": "Mevcut adanızdaki tüm genişletmelerin kilidini açın, ve ardından bir sonraki adaya ulaşmak için saldaki goblin'i tıklayın. (Temel -> Bahar -> Çöl -> Volkan)",
   "reputation.guide.levelUp": "Bumpkin'inizin seviyesini yükseltmek için, yemek pişirme binalarında yemek pişirin ve onu beslemek için çadırın veya evin önündeki Bumpkin'e tıklayın.",
-  "reputation.guide.connectDiscord": "Discord Hesabını adanızın tepesindeki tekne aracılığıyla bağlayın ve ödül olarak “Refakatçi Kapağı” alın.",
   "reputation.guide.proofOfHumanity": "Retreat Island'a seyahat ederek ve bankayı bularak İnsanlığın Kanıtı'nı tamamlayın.",
   "reputation.guide.ownBud": "Oyun içi veya üçüncü taraf pazarlarından satın alarak bir Bud'a sahip olun.",
   "errorLabelText": "Hata",
@@ -5579,5 +5578,6 @@
   "taskBoard.howToRefer": "Bir arkadaşa nasıl tavsiye edilir?",
   "chapters.guide.one": "Bölümler yeni zorluklar, koleksiyonlar ve hazineler getiriyor. Oyuncular bilet toplar ve bunları akıllıca nasıl kullanacaklarını planlamalıdır.",
   "chapters.guide.two": "Biletler Stella's Mega Mağazasında, Jafar'ın dükkanında veya oyuncuların özel eşyalar için yarıştığı müzayedelerde harcanabilir.",
-  "chapters.guide.three": "Sürpriz etkinlikler ve benzersiz ödüller her bölümü dinamik ve ilgi çekici hale getirir."
+  "chapters.guide.three": "Sürpriz etkinlikler ve benzersiz ödüller her bölümü dinamik ve ilgi çekici hale getirir.",
+  "reputation.guide.connectDiscord": "Discord hesabınızı dişli simgesine tıklayarak, Genel Ayarlar'ı seçerek ve Discord düğmesini tıklayarak bağlayın."
 }

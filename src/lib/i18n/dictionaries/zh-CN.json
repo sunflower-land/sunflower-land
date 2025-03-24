@@ -5389,7 +5389,6 @@
   "reputation.earnPoints": "赚取积分",
   "reputation.guide.upgrade": "解锁当前岛屿上的所有扩展包，然后点击木筏上的哥布林到达下一个岛屿。（基本-> 春季-> 沙漠-> 火山）",
   "reputation.guide.levelUp": "要提升你的 Bumpkin 等级，在烹饪大楼里煮食物，然后点击帐篷或房子前面的 Bumpkin 来喂它。",
-  "reputation.guide.connectDiscord": "通过岛屿顶部的船只连接 Discord 账户，即可获得 “同伴上限” 作为奖励。",
   "reputation.guide.proofOfHumanity": "前往 Retreat Island 并找到银行，完成 “人性证明”。",
   "reputation.guide.ownBud": "通过游戏内或第三方市场购买 Bud 即可拥有 Bud。",
   "errorLabelText": "错误",
@@ -5579,5 +5578,6 @@
   "taskBoard.howToRefer": "如何推荐朋友？",
   "chapters.guide.one": "章节带来了新的挑战、收藏品和宝藏。玩家收集门票，必须计划如何明智地使用它们。",
   "chapters.guide.two": "门票可以在斯特拉的超级商店、贾法尔的商店或拍卖会上消费，在拍卖会上玩家可以争夺专属物品。",
-  "chapters.guide.three": "惊喜活动和独特的奖励使每个章节充满活力和吸引力。"
+  "chapters.guide.three": "惊喜活动和独特的奖励使每个章节充满活力和吸引力。",
+  "reputation.guide.connectDiscord": "单击齿轮图标，选择常规设置，然后单击 Discord 按钮，连接您的 Discord 帐户。"
 }

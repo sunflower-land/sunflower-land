@@ -5389,7 +5389,6 @@
   "reputation.earnPoints": "Gana puntos",
   "reputation.guide.upgrade": "Desbloquea todas las expansiones de tu isla actual y, a continuación, haz clic en el duende de la balsa para llegar a la siguiente isla. (Básico -> Primavera -> Desierto -> Volcán)",
   "reputation.guide.levelUp": "Para subir de nivel a tu Bumpkin, cocina la comida en los edificios de cocina y haz clic en el Bumpkin que está frente a la tienda de campaña o la casa para alimentarlo.",
-  "reputation.guide.connectDiscord": "Conecta la cuenta de Discord a través del barco que se encuentra en la cima de tu isla y recibe la «gorra de acompañante» como recompensa.",
   "reputation.guide.proofOfHumanity": "Completa la Prueba de humanidad viajando a la Isla Retiro y localizando el banco.",
   "reputation.guide.ownBud": "Hazte con un Bud comprándolo en los mercados del juego o de terceros.",
   "errorLabelText": "Error",
@@ -5579,5 +5578,6 @@
   "taskBoard.howToRefer": "¿Cómo recomendar a un amigo?",
   "chapters.guide.one": "Los capítulos traen nuevos desafíos, objetos coleccionables y tesoros. Los jugadores recolectan boletos y deben planificar cómo usarlos sabiamente.",
   "chapters.guide.two": "Las entradas se pueden gastar en la Mega Store de Stella, en la tienda de Jafar o en subastas, donde los jugadores compiten por artículos exclusivos.",
-  "chapters.guide.three": "Los eventos sorpresa y las recompensas únicas hacen que cada capítulo sea dinámico y atractivo."
+  "chapters.guide.three": "Los eventos sorpresa y las recompensas únicas hacen que cada capítulo sea dinámico y atractivo.",
+  "reputation.guide.connectDiscord": "Conecta tu cuenta de Discord haciendo clic en el icono del engranaje, seleccionando Configuración general y haciendo clic en el botón Discord."
 }

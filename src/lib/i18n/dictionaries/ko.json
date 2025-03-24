@@ -5389,7 +5389,6 @@
   "reputation.earnPoints": "포인트 적립",
   "reputation.guide.upgrade": "현재 섬에 있는 모든 확장팩을 잠금 해제하고 뗏목에 있는 고블린을 클릭하면 다음 섬으로 갈 수 있습니다.(기본 -> 봄 -> 사막 -> 화산)",
   "reputation.guide.levelUp": "범프킨 레벨을 올리려면 요리 건물에서 음식을 요리하고 텐트나 집 앞에 있는 범프킨을 클릭하여 먹이를 주세요.",
-  "reputation.guide.connectDiscord": "섬 꼭대기에 있는 보트를 통해 디스코드 계정을 연결하고 보상으로 '컴패니언 캡'을 받으세요.",
   "reputation.guide.proofOfHumanity": "리트리트 섬으로 가서 은행을 찾아 인류 증명을 완료하세요.",
   "reputation.guide.ownBud": "게임 내 또는 타사 마켓플레이스에서 구매하여 Bud를 소유하세요.",
   "errorLabelText": "오류",
@@ -5579,5 +5578,6 @@
   "taskBoard.howToRefer": "친구를 어떻게 추천하나요?",
   "chapters.guide.one": "챕터마다 새로운 도전, 수집품, 보물이 등장합니다.플레이어는 티켓을 모으고 티켓을 현명하게 사용할 방법을 계획해야 합니다.",
   "chapters.guide.two": "티켓은 스텔라의 메가 스토어, 자파르의 상점 또는 플레이어가 독점 아이템을 놓고 경쟁하는 경매에서 사용할 수 있습니다.",
-  "chapters.guide.three": "서프라이즈 이벤트와 독특한 보상은 각 챕터를 역동적이고 흥미롭게 만듭니다."
+  "chapters.guide.three": "서프라이즈 이벤트와 독특한 보상은 각 챕터를 역동적이고 흥미롭게 만듭니다.",
+  "reputation.guide.connectDiscord": "톱니바퀴 아이콘을 클릭하고 일반 설정을 선택한 다음 Discord 버튼을 클릭하여 Discord 계정을 연결합니다."
 }

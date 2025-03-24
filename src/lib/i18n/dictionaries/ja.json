@@ -5389,7 +5389,6 @@
   "reputation.earnPoints": "ポイントを貯める",
   "reputation.guide.upgrade": "現在の島のすべての拡張パックをアンロックし、いかだに乗っているゴブリンをクリックして次の島に行きましょう。(ベーシック-> 春-> 砂漠-> 火山)",
   "reputation.guide.levelUp": "バンプキンをレベルアップするには、クッキングビルで料理を作り、テントや家の前にあるバンプキンをクリックして餌を与えます。",
-  "reputation.guide.connectDiscord": "島の頂上にあるボートからDiscordアカウントを接続すると、報酬として「コンパニオンキャップ」がもらえます。",
   "reputation.guide.proofOfHumanity": "リトリート島に移動して銀行を見つけて、プルーフ・オブ・ヒューマニティをクリアしてください。",
   "reputation.guide.ownBud": "バドをゲーム内またはサードパーティーのマーケットプレイスで購入して所有する。",
   "errorLabelText": "[エラー]",
@@ -5579,5 +5578,6 @@
   "taskBoard.howToRefer": "友達を紹介するには？",
   "chapters.guide.one": "チャプターには新しいチャレンジ、収集品、宝物が登場します。プレイヤーはチケットを集め、それを賢く使う方法を考えなければなりません。",
   "chapters.guide.two": "チケットはStella's Mega Store、Jafar's Shop、またはプレイヤーが限定アイテムを競うオークションで購入できます。",
-  "chapters.guide.three": "サプライズイベントとユニークな報酬により、各チャプターはダイナミックで魅力的なものになっています。"
+  "chapters.guide.three": "サプライズイベントとユニークな報酬により、各チャプターはダイナミックで魅力的なものになっています。",
+  "reputation.guide.connectDiscord": "歯車アイコンをクリックし、「一般設定」を選択し、「Discord」ボタンをクリックして、Discordアカウントを接続します。"
 }

@@ -5389,7 +5389,6 @@
   "reputation.earnPoints": "Punkte sammeln",
   "reputation.guide.upgrade": "Schalte alle Erweiterungen auf deiner aktuellen Insel frei und klicke dann auf den Kobold auf dem Floß, um die nächste Insel zu erreichen. (Grundkenntnisse -> Frühling -> Wüste -> Vulkan)",
   "reputation.guide.levelUp": "Um deinen Bumpkin zu verbessern, koche Essen in den Kochgebäuden und klicke auf den Bumpkin vor dem Zelt oder Haus, um ihn zu füttern.",
-  "reputation.guide.connectDiscord": "Verbinde das Discord-Konto über das Boot oben auf deiner Insel und erhalte die „Companion Cap“ als Belohnung.",
   "reputation.guide.proofOfHumanity": "Schließt den Beweis der Menschlichkeit ab, indem ihr zur Rückzugsinsel reist und die Bank ausfindig macht.",
   "reputation.guide.ownBud": "Besitze einen Bud, indem du ihn auf den Marktplätzen im Spiel oder bei Drittanbietern kaufst.",
   "errorLabelText": "Fehler",
@@ -5579,5 +5578,6 @@
   "taskBoard.howToRefer": "Wie empfehle ich einen Freund?",
   "chapters.guide.one": "Kapitel bringen neue Herausforderungen, Sammlerstücke und Schätze. Die Spieler sammeln Tickets und müssen planen, wie sie sie mit Bedacht einsetzen können.",
   "chapters.guide.two": "Tickets können in Stellas Mega Store, in Jafars Laden oder in Auktionen eingelöst werden, bei denen Spieler um exklusive Gegenstände konkurrieren.",
-  "chapters.guide.three": "Überraschungsereignisse und einzigartige Belohnungen machen jedes Kapitel dynamisch und fesselnd."
+  "chapters.guide.three": "Überraschungsereignisse und einzigartige Belohnungen machen jedes Kapitel dynamisch und fesselnd.",
+  "reputation.guide.connectDiscord": "Verbinde dein Discord-Konto, indem du auf das Zahnradsymbol klickst, Allgemeine Einstellungen auswählst und auf den Discord-Button klickst."
 }

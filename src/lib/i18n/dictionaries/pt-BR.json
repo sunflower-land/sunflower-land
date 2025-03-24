@@ -5389,7 +5389,6 @@
   "reputation.earnPoints": "Ganhe pontos",
   "reputation.guide.upgrade": "Desbloqueie todas as expansões em sua ilha atual e clique no goblin na balsa para chegar à próxima ilha. (Básico -> Primavera -> Deserto -> Vulcão)",
   "reputation.guide.levelUp": "Para aumentar o nível do seu Bumpkin, cozinhe alimentos nos prédios de cozinha e clique no Bumpkin na frente da tenda ou da casa para alimentá-lo.",
-  "reputation.guide.connectDiscord": "Conecte a conta do Discord por meio do barco no topo da sua ilha e receba o “Companion Cap” como recompensa.",
   "reputation.guide.proofOfHumanity": "Complete a Prova de Humanidade viajando até a Ilha do Retiro e localizando o banco.",
   "reputation.guide.ownBud": "Adquira um Bud comprando-o nos mercados do jogo ou de terceiros.",
   "errorLabelText": "Erro",
@@ -5579,5 +5578,6 @@
   "taskBoard.howToRefer": "Como indicar um amigo?",
   "chapters.guide.one": "Os capítulos trazem novos desafios, itens colecionáveis e tesouros. Os jogadores coletam ingressos e devem planejar como usá-los com sabedoria.",
   "chapters.guide.two": "Os ingressos podem ser gastos na Stella's Mega Store, na loja de Jafar ou em leilões, onde os jogadores competem por itens exclusivos.",
-  "chapters.guide.three": "Eventos surpresa e recompensas exclusivas tornam cada capítulo dinâmico e envolvente."
+  "chapters.guide.three": "Eventos surpresa e recompensas exclusivas tornam cada capítulo dinâmico e envolvente.",
+  "reputation.guide.connectDiscord": "Conecte sua conta do Discord clicando no ícone de engrenagem, selecionando Configurações gerais e clicando no botão Discord."
 }

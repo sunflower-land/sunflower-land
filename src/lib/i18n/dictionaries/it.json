@@ -5389,7 +5389,6 @@
   "reputation.earnPoints": "Accumula punti",
   "reputation.guide.upgrade": "Sblocca tutte le espansioni sulla tua isola attuale, quindi fai clic sul goblin sulla zattera per raggiungere l'isola successiva. (Base -> Primavera -> Deserto -> Vulcano)",
   "reputation.guide.levelUp": "Per far salire di livello il tuo Bumpkin, cuoci il cibo negli edifici di cottura e fai clic sul Bumpkin davanti alla tenda o alla casa per dargli da mangiare.",
-  "reputation.guide.connectDiscord": "Collega l'account Discord tramite la barca in cima alla tua isola e ricevi il «Companion Cap» come ricompensa.",
   "reputation.guide.proofOfHumanity": "Completa la Prova dell'Umanità recandoti a Retreat Island e localizzando la banca.",
   "reputation.guide.ownBud": "Possiedi una Bud acquistandola tramite i marketplace di gioco o di terze parti.",
   "errorLabelText": "Errore",
@@ -5579,5 +5578,6 @@
   "taskBoard.howToRefer": "Come invitare un amico?",
   "chapters.guide.one": "I capitoli portano nuove sfide, oggetti da collezione e tesori. I giocatori raccolgono i biglietti e devono pianificare come usarli con saggezza.",
   "chapters.guide.two": "I biglietti possono essere spesi nel Mega Store di Stella, nel negozio di Jafar o nelle aste, dove i giocatori competono per oggetti esclusivi.",
-  "chapters.guide.three": "Eventi a sorpresa e ricompense uniche rendono ogni capitolo dinamico e coinvolgente."
+  "chapters.guide.three": "Eventi a sorpresa e ricompense uniche rendono ogni capitolo dinamico e coinvolgente.",
+  "reputation.guide.connectDiscord": "Collega il tuo account Discord facendo clic sull'icona a forma di ingranaggio, selezionando Impostazioni generali e facendo clic sul pulsante Discord."
 }

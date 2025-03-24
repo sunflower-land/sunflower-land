@@ -5389,7 +5389,6 @@
   "reputation.earnPoints": "Dapatkan mata",
   "reputation.guide.upgrade": "Buka kunci semua pengembangan di pulau anda sekarang, dan kemudian klik goblin di rakit untuk sampai ke pulau seterusnya. (Asas -> Musim Bunga -> Gurun -> Gunung Berapi)",
   "reputation.guide.levelUp": "Untuk meningkatkan Bumpkin anda, masak makanan di bangunan memasak, dan klik pada Bumpkin di hadapan khemah atau rumah untuk memberi makan.",
-  "reputation.guide.connectDiscord": "Sambungkan Akaun Discord melalui bot di bahagian atas pulau anda dan terima 'Companion Cap' sebagai ganjaran.",
   "reputation.guide.proofOfHumanity": "Lengkapkan Bukti Kemanusiaan dengan pergi ke Pulau Retreat dan mencari bank.",
   "reputation.guide.ownBud": "Memiliki Bud dengan membelinya melalui pasaran dalam permainan atau pihak ketiga.",
   "errorLabelText": "Ralat",
@@ -5579,5 +5578,6 @@
   "taskBoard.howToRefer": "Bagaimana untuk merujuk rakan?",
   "chapters.guide.one": "Bab membawa cabaran baru, koleksi, dan khazanah. Pemain mengumpul tiket dan mesti merancang cara menggunakannya dengan bijak.",
   "chapters.guide.two": "Tiket boleh dibelanjakan di Stella's Mega Store, kedai Jafar, atau dalam lelongan, di mana pemain bersaing untuk barangan eksklusif.",
-  "chapters.guide.three": "Acara kejutan dan ganjaran unik menjadikan setiap bab dinamik dan menarik."
+  "chapters.guide.three": "Acara kejutan dan ganjaran unik menjadikan setiap bab dinamik dan menarik.",
+  "reputation.guide.connectDiscord": "Sambungkan akaun Discord anda dengan mengklik ikon gear, memilih Tetapan Umum, dan mengklik butang Discord."
 }
