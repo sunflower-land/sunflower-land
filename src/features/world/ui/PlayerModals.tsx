@@ -187,12 +187,14 @@ interface Props {
 }
 
 export const PlayerModals: React.FC<Props> = ({ game }) => {
-  const [tab, setTab] = useState(0);
+  const [tab, setTab] = useState<
+    "Player" | "Gift Giver" | "Report" | "Airdrop"
+  >("Player");
   const [player, setPlayer] = useState<PlayerModalPlayer>();
 
   useEffect(() => {
     playerModalManager.listen((npc) => {
-      setTab(0);
+      setTab("Player");
       setPlayer(npc);
     });
   }, []);
@@ -215,6 +217,14 @@ export const PlayerModals: React.FC<Props> = ({ game }) => {
             icon: SUNNYSIDE.icons.player,
             name: "Player",
           },
+          ...(playerHasGift
+            ? [
+                {
+                  icon: giftIcon,
+                  name: "Gift Giver",
+                },
+              ]
+            : []),
           {
             icon: SUNNYSIDE.icons.search,
             name: "Report",
@@ -229,14 +239,12 @@ export const PlayerModals: React.FC<Props> = ({ game }) => {
             : []),
         ]}
       >
-        {tab === 0 &&
-          (playerHasGift ? (
-            <PlayerGift />
-          ) : (
-            <PlayerDetails player={player as PlayerModalPlayer} />
-          ))}
-        {tab === 1 && <ReportPlayer id={player?.id as number} />}
-        {tab === 2 && (
+        {tab === "Player" && (
+          <PlayerDetails player={player as PlayerModalPlayer} />
+        )}
+        {tab === "Gift Giver" && <PlayerGift />}
+        {tab === "Report" && <ReportPlayer id={player?.id as number} />}
+        {tab === "Airdrop" && (
           <AirdropPlayer
             id={player?.id as number}
             // Noops
