@@ -4191,7 +4191,7 @@
   "skillReset.removeCrops": "Remove crops from additional slots before resetting",
   "skillReset.reduceOilInTank": "Reduce oil in tank before resetting",
   "skillCategory.islands": "{{island}} Skills",
-  "skillCategory.reachIsland": "Reach {{island}} island to unlock",
+  "skillCategory.reachIsland": "Reach {{island}} to unlock",
   "npcDialogues.sheep.intro3": "Oh, you received a gift for today, come back in {{timeLeft}} and I will give you one more gift.",
   "chores.weeklyChores": "Weekly Chores",
   "chores.completeChoresToEarn": "Complete chores for Bumpkins to earn {{seasonalTicket}}s.",

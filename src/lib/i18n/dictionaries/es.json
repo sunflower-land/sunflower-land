@@ -5277,7 +5277,6 @@
   "skillReset.removeCrops": "Elimine los cultivos de las ranuras adicionales antes de restablecerlos",
   "skillReset.reduceOilInTank": "Reduzca el aceite en el tanque antes de restablecerlo",
   "skillCategory.islands": "{{island}} Habilidades",
-  "skillCategory.reachIsland": "Alcanza la isla {{island}} para desbloquearla",
   "powerSkills.reason.animalsNotAsleep": "Todos tus animales no duermen",
   "time.ago": "{{time}} hace",
   "time.in": "en {{time}}",
@@ -5579,5 +5578,6 @@
   "chapters.guide.one": "Los capítulos traen nuevos desafíos, objetos coleccionables y tesoros. Los jugadores recolectan boletos y deben planificar cómo usarlos sabiamente.",
   "chapters.guide.two": "Las entradas se pueden gastar en la Mega Store de Stella, en la tienda de Jafar o en subastas, donde los jugadores compiten por artículos exclusivos.",
   "chapters.guide.three": "Los eventos sorpresa y las recompensas únicas hacen que cada capítulo sea dinámico y atractivo.",
-  "reputation.guide.connectDiscord": "Conecta tu cuenta de Discord haciendo clic en el icono del engranaje, seleccionando Configuración general y haciendo clic en el botón Discord."
+  "reputation.guide.connectDiscord": "Conecta tu cuenta de Discord haciendo clic en el icono del engranaje, seleccionando Configuración general y haciendo clic en el botón Discord.",
+  "skillCategory.reachIsland": "Alcanza {{island}} para desbloquear"
 }

@@ -5277,7 +5277,6 @@
   "skillReset.removeCrops": "リセットする前に、追加スロットから作物を削除してください",
   "skillReset.reduceOilInTank": "リセットする前にタンク内のオイルを減らしてください",
   "skillCategory.islands": "{{island}} スキル",
-  "skillCategory.reachIsland": "{{island}} 島に到達してロックを解除",
   "powerSkills.reason.animalsNotAsleep": "すべての動物が眠っているわけではありません",
   "time.ago": "{{time}} 前",
   "time.in": "{{time}} に",
@@ -5579,5 +5578,6 @@
   "chapters.guide.one": "チャプターには新しいチャレンジ、収集品、宝物が登場します。プレイヤーはチケットを集め、それを賢く使う方法を考えなければなりません。",
   "chapters.guide.two": "チケットはStella's Mega Store、Jafar's Shop、またはプレイヤーが限定アイテムを競うオークションで購入できます。",
   "chapters.guide.three": "サプライズイベントとユニークな報酬により、各チャプターはダイナミックで魅力的なものになっています。",
-  "reputation.guide.connectDiscord": "歯車アイコンをクリックし、「一般設定」を選択し、「Discord」ボタンをクリックして、Discordアカウントを接続します。"
+  "reputation.guide.connectDiscord": "歯車アイコンをクリックし、「一般設定」を選択し、「Discord」ボタンをクリックして、Discordアカウントを接続します。",
+  "skillCategory.reachIsland": "{{island}} に到達するとロックが解除されます"
 }

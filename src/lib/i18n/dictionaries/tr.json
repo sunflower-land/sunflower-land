@@ -5277,7 +5277,6 @@
   "skillReset.removeCrops": "Sıfırlamadan önce ek yuvalardan mahsulleri çıkarın",
   "skillReset.reduceOilInTank": "Sıfırlamadan önce tanktaki yağı azaltın",
   "skillCategory.islands": "{{island}} Beceriler",
-  "skillCategory.reachIsland": "Kilidini açmak için {{island}} adasına ulaşın",
   "powerSkills.reason.animalsNotAsleep": "Bütün hayvanların uykuda değil",
   "time.ago": "{{time}} önce",
   "time.in": "içinde {{time}}",
@@ -5579,5 +5578,6 @@
   "chapters.guide.one": "Bölümler yeni zorluklar, koleksiyonlar ve hazineler getiriyor. Oyuncular bilet toplar ve bunları akıllıca nasıl kullanacaklarını planlamalıdır.",
   "chapters.guide.two": "Biletler Stella's Mega Mağazasında, Jafar'ın dükkanında veya oyuncuların özel eşyalar için yarıştığı müzayedelerde harcanabilir.",
   "chapters.guide.three": "Sürpriz etkinlikler ve benzersiz ödüller her bölümü dinamik ve ilgi çekici hale getirir.",
-  "reputation.guide.connectDiscord": "Discord hesabınızı dişli simgesine tıklayarak, Genel Ayarlar'ı seçerek ve Discord düğmesini tıklayarak bağlayın."
+  "reputation.guide.connectDiscord": "Discord hesabınızı dişli simgesine tıklayarak, Genel Ayarlar'ı seçerek ve Discord düğmesini tıklayarak bağlayın.",
+  "skillCategory.reachIsland": "Kilidi açmak için {{island}} 'a ulaşın"
 }

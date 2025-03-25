@@ -5277,7 +5277,6 @@
   "skillReset.removeCrops": "在重置之前，将作物从其他插槽中移除",
   "skillReset.reduceOilInTank": "在重置之前减少油箱中的机油",
   "skillCategory.islands": "{{island}} 技能",
-  "skillCategory.reachIsland": "到达 {{island}} 岛即可解锁",
   "powerSkills.reason.animalsNotAsleep": "你所有的动物都没有睡觉",
   "time.ago": "{{time}} 之前",
   "time.in": "在 {{time}}",
@@ -5579,5 +5578,6 @@
   "chapters.guide.one": "章节带来了新的挑战、收藏品和宝藏。玩家收集门票，必须计划如何明智地使用它们。",
   "chapters.guide.two": "门票可以在斯特拉的超级商店、贾法尔的商店或拍卖会上消费，在拍卖会上玩家可以争夺专属物品。",
   "chapters.guide.three": "惊喜活动和独特的奖励使每个章节充满活力和吸引力。",
-  "reputation.guide.connectDiscord": "单击齿轮图标，选择常规设置，然后单击 Discord 按钮，连接您的 Discord 帐户。"
+  "reputation.guide.connectDiscord": "单击齿轮图标，选择常规设置，然后单击 Discord 按钮，连接您的 Discord 帐户。",
+  "skillCategory.reachIsland": "到达 {{island}} 即可解锁"
 }

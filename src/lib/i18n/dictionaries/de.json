@@ -5277,7 +5277,6 @@
   "skillReset.removeCrops": "Vor dem Zurücksetzen die Pflanzen aus den zusätzlichen Steckplätzen entfernen",
   "skillReset.reduceOilInTank": "Vor dem Zurücksetzen das Öl im Tank reduzieren",
   "skillCategory.islands": "{{island}} Fähigkeiten",
-  "skillCategory.reachIsland": "Erreiche die Insel {{island}}, um sie freizuschalten",
   "powerSkills.reason.animalsNotAsleep": "All deine Tiere schlafen nicht",
   "time.ago": "{{time}} vor",
   "time.in": "in {{time}}",
@@ -5579,5 +5578,6 @@
   "chapters.guide.one": "Kapitel bringen neue Herausforderungen, Sammlerstücke und Schätze. Die Spieler sammeln Tickets und müssen planen, wie sie sie mit Bedacht einsetzen können.",
   "chapters.guide.two": "Tickets können in Stellas Mega Store, in Jafars Laden oder in Auktionen eingelöst werden, bei denen Spieler um exklusive Gegenstände konkurrieren.",
   "chapters.guide.three": "Überraschungsereignisse und einzigartige Belohnungen machen jedes Kapitel dynamisch und fesselnd.",
-  "reputation.guide.connectDiscord": "Verbinde dein Discord-Konto, indem du auf das Zahnradsymbol klickst, Allgemeine Einstellungen auswählst und auf den Discord-Button klickst."
+  "reputation.guide.connectDiscord": "Verbinde dein Discord-Konto, indem du auf das Zahnradsymbol klickst, Allgemeine Einstellungen auswählst und auf den Discord-Button klickst.",
+  "skillCategory.reachIsland": "Erreiche {{island}}, um zu entsperren"
 }

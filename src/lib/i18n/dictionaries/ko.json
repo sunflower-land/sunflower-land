@@ -5277,7 +5277,6 @@
   "skillReset.removeCrops": "재설정하기 전에 추가 슬롯에서 작물을 제거하십시오.",
   "skillReset.reduceOilInTank": "재설정하기 전에 탱크의 오일을 줄이십시오",
   "skillCategory.islands": "{{island}} 스킬",
-  "skillCategory.reachIsland": "잠금 해제하려면 {{island}} 섬에 도달하세요",
   "powerSkills.reason.animalsNotAsleep": "당신의 모든 동물들은 잠들지 않습니다",
   "time.ago": "{{time}} 전",
   "time.in": "{{time}} 에서",
@@ -5579,5 +5578,6 @@
   "chapters.guide.one": "챕터마다 새로운 도전, 수집품, 보물이 등장합니다.플레이어는 티켓을 모으고 티켓을 현명하게 사용할 방법을 계획해야 합니다.",
   "chapters.guide.two": "티켓은 스텔라의 메가 스토어, 자파르의 상점 또는 플레이어가 독점 아이템을 놓고 경쟁하는 경매에서 사용할 수 있습니다.",
   "chapters.guide.three": "서프라이즈 이벤트와 독특한 보상은 각 챕터를 역동적이고 흥미롭게 만듭니다.",
-  "reputation.guide.connectDiscord": "톱니바퀴 아이콘을 클릭하고 일반 설정을 선택한 다음 Discord 버튼을 클릭하여 Discord 계정을 연결합니다."
+  "reputation.guide.connectDiscord": "톱니바퀴 아이콘을 클릭하고 일반 설정을 선택한 다음 Discord 버튼을 클릭하여 Discord 계정을 연결합니다.",
+  "skillCategory.reachIsland": "잠금 해제하려면 {{island}} 에 도달하세요"
 }

@@ -5277,7 +5277,6 @@
   "skillReset.removeCrops": "Rimuovi i ritagli dagli slot aggiuntivi prima del ripristino",
   "skillReset.reduceOilInTank": "Ridurre l'olio nel serbatoio prima del ripristino",
   "skillCategory.islands": "{{island}} Competenze",
-  "skillCategory.reachIsland": "Raggiungi l'isola {{island}} per sbloccarla",
   "powerSkills.reason.animalsNotAsleep": "Tutti i tuoi animali non dormono",
   "time.ago": "{{time}} fa",
   "time.in": "nel {{time}}",
@@ -5579,5 +5578,6 @@
   "chapters.guide.one": "I capitoli portano nuove sfide, oggetti da collezione e tesori. I giocatori raccolgono i biglietti e devono pianificare come usarli con saggezza.",
   "chapters.guide.two": "I biglietti possono essere spesi nel Mega Store di Stella, nel negozio di Jafar o nelle aste, dove i giocatori competono per oggetti esclusivi.",
   "chapters.guide.three": "Eventi a sorpresa e ricompense uniche rendono ogni capitolo dinamico e coinvolgente.",
-  "reputation.guide.connectDiscord": "Collega il tuo account Discord facendo clic sull'icona a forma di ingranaggio, selezionando Impostazioni generali e facendo clic sul pulsante Discord."
+  "reputation.guide.connectDiscord": "Collega il tuo account Discord facendo clic sull'icona a forma di ingranaggio, selezionando Impostazioni generali e facendo clic sul pulsante Discord.",
+  "skillCategory.reachIsland": "Raggiungi {{island}} per sbloccare"
 }
