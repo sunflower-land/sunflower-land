@@ -753,6 +753,8 @@
   "mayor.plaza.haveFun": "I better get back to work. Have fun exploring!",
   "mayor.codeOfConduct": "Code of Conduct",
   "mayor.failureToComply": "Failure to comply may result in penalties, including possible account suspension",
+  "mayor.plaza.usernameChangedRecently": "Seems like you've changed your name recently!",
+  "mayor.plaza.cooldown": "You can change your name again in {{days}} days. Come back to me then!",
   "mayor.plaza.alreadyMet": "Howdy {{username}}! Seems like we've already met. In case you forgot, I'm the Mayor of this town!",
   "mayor.plaza.changeNamePrompt": "Do you want to change your name? I have some good news! We have gotten some paperwork done and now you will be able to change your name, but it will come at a cost. Do you want to proceed?",
   "mayor.plaza.niceToMeetYou": "Nice to meet you, !",

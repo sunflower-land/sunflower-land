@@ -10,11 +10,14 @@ import {
   SpeakingText,
 } from "../../../game/components/SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";
-import { validateUsername, checkUsername } from "lib/username";
+import { validateUsername, checkUsername, gemCost } from "lib/username";
 import { Panel } from "components/ui/Panel";
 import debounce from "lodash.debounce";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
+import { ITEM_DETAILS } from "features/game/types/images";
+
+const COOLDOWN = 1000 * 60 * 60 * 24 * 30; // 30 days
 
 interface MayorProps {
   onClose: () => void;
@@ -28,6 +31,15 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
   const currentUsername = useSelector(
     gameService,
     (state) => state.context.state.username,
+  );
+
+  const changeCount = useSelector(
+    gameService,
+    (state) => state.context.state.settings.username?.changeCount ?? 0,
+  );
+  const lastChangeAt = useSelector(
+    gameService,
+    (state) => state.context.state.settings.username?.setAt ?? 0,
   );
 
   const [username, setUsername] = useState<string>();
@@ -83,6 +95,14 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
     }
   };
 
+  const costToChangeUsername = gemCost(changeCount);
+  const isFree = costToChangeUsername === 0;
+
+  const isOnCooldown = Date.now() - lastChangeAt < COOLDOWN;
+  const daysToNextChange = Math.ceil(
+    (COOLDOWN - (Date.now() - lastChangeAt)) / (1000 * 60 * 60 * 24),
+  );
+
   return (
     <>
       {tab === 0 && (
@@ -96,23 +116,32 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
                     username: currentUsername,
                   }),
                 },
-                {
-                  text: t("mayor.plaza.changeNamePrompt"),
-                  actions: [
-                    {
-                      text: t("no.thanks"),
-                      cb: () => {
-                        onClose();
+                ...(isOnCooldown
+                  ? [
+                      {
+                        text: t("mayor.plaza.usernameChangedRecently"),
                       },
-                    },
-                    {
-                      text: t("yes.please"),
-                      cb: () => {
-                        setTab(1);
+                      {
+                        text: t("mayor.plaza.cooldown", {
+                          days: daysToNextChange,
+                        }),
                       },
-                    },
-                  ],
-                },
+                    ]
+                  : [
+                      {
+                        text: t("mayor.plaza.changeNamePrompt"),
+                        actions: [
+                          {
+                            text: t("no.thanks"),
+                            cb: onClose,
+                          },
+                          {
+                            text: t("yes.please"),
+                            cb: () => setTab(1),
+                          },
+                        ],
+                      },
+                    ]),
               ]}
             />
           ) : (
@@ -156,7 +185,7 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
           <>
             <div className="flex flex-col items-center p-1">
               <span>{t("mayor.plaza.enterUsernamePrompt")}</span>
-              <div className="flex flex-col gap-2 w-full my-3">
+              <div className="flex flex-col gap-2 w-full mt-3">
                 <input
                   type="string"
                   name="Username"
@@ -187,11 +216,20 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
                   }}
                 />
 
-                {validationState && (
-                  <Label type="danger" className="text-xs">
-                    {validationState}
+                <div className="flex flex-row justify-between gap-2">
+                  <Label
+                    type={isFree ? "success" : "info"}
+                    icon={isFree ? undefined : ITEM_DETAILS.Gem.image}
+                    className="text-xs"
+                  >
+                    {`${isFree ? "Free" : `${costToChangeUsername} Gems`}`}
                   </Label>
-                )}
+                  {validationState && (
+                    <Label type="danger" className="text-xs">
+                      {validationState}
+                    </Label>
+                  )}
+                </div>
               </div>
             </div>
             <Button
