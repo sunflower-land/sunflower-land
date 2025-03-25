@@ -262,6 +262,7 @@ export type BumpkinHat =
   | "Birthday Hat"
   | "Double Harvest Cap"
   | "Streamer Helmet"
+  | "Streamer Hat"
   | "Pumpkin Hat"
   | "Victorian Hat"
   | "Boater Hat"
@@ -926,6 +927,7 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Love Heart Onesie": 435,
   "Love Bear Onesie": 436,
   "Flower Bouquet": 437,
+  "Streamer Hat": 438,
 };
 
 // The reverse of above
@@ -1164,6 +1166,7 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Birthday Hat": "hat",
   "Double Harvest Cap": "hat",
   "Streamer Helmet": "hat",
+  "Streamer Hat": "hat",
   "Corn Onesie": "onesie",
   "Crow Wings": "wings",
   "Witches' Eve Tee": "shirt",
