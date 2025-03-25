@@ -5579,5 +5579,9 @@
   "chapters.guide.two": "티켓은 스텔라의 메가 스토어, 자파르의 상점 또는 플레이어가 독점 아이템을 놓고 경쟁하는 경매에서 사용할 수 있습니다.",
   "chapters.guide.three": "서프라이즈 이벤트와 독특한 보상은 각 챕터를 역동적이고 흥미롭게 만듭니다.",
   "reputation.guide.connectDiscord": "톱니바퀴 아이콘을 클릭하고 일반 설정을 선택한 다음 Discord 버튼을 클릭하여 Discord 계정을 연결합니다.",
-  "skillCategory.reachIsland": "잠금 해제하려면 {{island}} 에 도달하세요"
+  "skillCategory.reachIsland": "잠금 해제하려면 {{island}} 에 도달하세요",
+  "marketplace.boughtListing": "구매한 리스팅",
+  "marketplace.soldListing": "판매 목록",
+  "marketplace.madeOffer": "메이드 오퍼",
+  "marketplace.acceptedOffer": "수락된 제안"
 }

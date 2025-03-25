@@ -5579,5 +5579,9 @@
   "chapters.guide.two": "Biletler Stella's Mega Mağazasında, Jafar'ın dükkanında veya oyuncuların özel eşyalar için yarıştığı müzayedelerde harcanabilir.",
   "chapters.guide.three": "Sürpriz etkinlikler ve benzersiz ödüller her bölümü dinamik ve ilgi çekici hale getirir.",
   "reputation.guide.connectDiscord": "Discord hesabınızı dişli simgesine tıklayarak, Genel Ayarlar'ı seçerek ve Discord düğmesini tıklayarak bağlayın.",
-  "skillCategory.reachIsland": "Kilidi açmak için {{island}} 'a ulaşın"
+  "skillCategory.reachIsland": "Kilidi açmak için {{island}} 'a ulaşın",
+  "marketplace.boughtListing": "Satın Alınan İlan",
+  "marketplace.soldListing": "Satılan İlan",
+  "marketplace.madeOffer": "Teklif Yapıldı",
+  "marketplace.acceptedOffer": "Kabul Edilen Teklif"
 }

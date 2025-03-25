@@ -5579,5 +5579,9 @@
   "chapters.guide.two": "Билеты можно потратить в магазине Stella's Mega Store, магазине Джафара или на аукционах, где игроки соревнуются за эксклюзивные предметы.",
   "chapters.guide.three": "Неожиданные события и уникальные награды делают каждую главу динамичной и увлекательной.",
   "reputation.guide.connectDiscord": "Подключите свою учетную запись Discord, нажав значок шестеренки, выбрав Общие настройки и нажав кнопку Discord.",
-  "skillCategory.reachIsland": "Наберите {{island}}, чтобы разблокировать"
+  "skillCategory.reachIsland": "Наберите {{island}}, чтобы разблокировать",
+  "marketplace.boughtListing": "Купленное объявление",
+  "marketplace.soldListing": "Проданное объявление",
+  "marketplace.madeOffer": "Сделано предложение",
+  "marketplace.acceptedOffer": "Принятое предложение"
 }

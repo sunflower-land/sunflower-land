@@ -5579,5 +5579,9 @@
   "chapters.guide.two": "Tiket dapat dibelanjakan di Mega Store Stella, toko Jafar, atau dalam lelang, di mana pemain bersaing untuk barang-barang eksklusif.",
   "chapters.guide.three": "Acara kejutan dan hadiah unik membuat setiap chapter dinamis dan menarik.",
   "reputation.guide.connectDiscord": "Hubungkan akun Discord Anda dengan mengklik ikon roda gigi, memilih Pengaturan Umum, dan mengklik tombol Discord.",
-  "skillCategory.reachIsland": "Jangkau {{island}} untuk membuka kunci"
+  "skillCategory.reachIsland": "Jangkau {{island}} untuk membuka kunci",
+  "marketplace.boughtListing": "Daftar yang Dibeli",
+  "marketplace.soldListing": "Daftar Terjual",
+  "marketplace.madeOffer": "Membuat Penawaran",
+  "marketplace.acceptedOffer": "Penawaran yang diterima"
 }

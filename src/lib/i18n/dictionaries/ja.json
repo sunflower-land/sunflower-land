@@ -5579,5 +5579,9 @@
   "chapters.guide.two": "チケットはStella's Mega Store、Jafar's Shop、またはプレイヤーが限定アイテムを競うオークションで購入できます。",
   "chapters.guide.three": "サプライズイベントとユニークな報酬により、各チャプターはダイナミックで魅力的なものになっています。",
   "reputation.guide.connectDiscord": "歯車アイコンをクリックし、「一般設定」を選択し、「Discord」ボタンをクリックして、Discordアカウントを接続します。",
-  "skillCategory.reachIsland": "{{island}} に到達するとロックが解除されます"
+  "skillCategory.reachIsland": "{{island}} に到達するとロックが解除されます",
+  "marketplace.boughtListing": "購入リスト",
+  "marketplace.soldListing": "売却済みリスト",
+  "marketplace.madeOffer": "メイドオファー",
+  "marketplace.acceptedOffer": "受け入れられたオファー"
 }

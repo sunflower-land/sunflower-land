@@ -5579,5 +5579,9 @@
   "chapters.guide.two": "I biglietti possono essere spesi nel Mega Store di Stella, nel negozio di Jafar o nelle aste, dove i giocatori competono per oggetti esclusivi.",
   "chapters.guide.three": "Eventi a sorpresa e ricompense uniche rendono ogni capitolo dinamico e coinvolgente.",
   "reputation.guide.connectDiscord": "Collega il tuo account Discord facendo clic sull'icona a forma di ingranaggio, selezionando Impostazioni generali e facendo clic sul pulsante Discord.",
-  "skillCategory.reachIsland": "Raggiungi {{island}} per sbloccare"
+  "skillCategory.reachIsland": "Raggiungi {{island}} per sbloccare",
+  "marketplace.boughtListing": "Inserzione acquistata",
+  "marketplace.soldListing": "Inserzione venduta",
+  "marketplace.madeOffer": "Offerta fatta",
+  "marketplace.acceptedOffer": "Offerta accettata"
 }
