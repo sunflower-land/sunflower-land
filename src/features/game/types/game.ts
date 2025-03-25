@@ -1410,7 +1410,6 @@ export interface GameState {
   settings: {
     username?: {
       setAt?: number;
-      changeCount?: number;
     };
   };
   coins: number;

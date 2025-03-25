@@ -10,7 +10,7 @@ import {
   SpeakingText,
 } from "../../../game/components/SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";
-import { validateUsername, checkUsername, gemCost } from "lib/username";
+import { validateUsername, checkUsername } from "lib/username";
 import { Panel } from "components/ui/Panel";
 import debounce from "lodash.debounce";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -18,6 +18,7 @@ import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
 
 const COOLDOWN = 1000 * 60 * 60 * 24 * 30; // 30 days
+const gemCost = 500;
 
 interface MayorProps {
   onClose: () => void;
@@ -33,10 +34,6 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
     (state) => state.context.state.username,
   );
 
-  const changeCount = useSelector(
-    gameService,
-    (state) => state.context.state.settings.username?.changeCount ?? 0,
-  );
   const lastChangeAt = useSelector(
     gameService,
     (state) => state.context.state.settings.username?.setAt ?? 0,
@@ -94,9 +91,6 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
       setState("idle");
     }
   };
-
-  const costToChangeUsername = gemCost(changeCount);
-  const isFree = costToChangeUsername === 0;
 
   const isOnCooldown = Date.now() - lastChangeAt < COOLDOWN;
   const daysToNextChange = Math.ceil(
@@ -218,11 +212,11 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
 
                 <div className="flex flex-row justify-between gap-2">
                   <Label
-                    type={isFree ? "success" : "info"}
-                    icon={isFree ? undefined : ITEM_DETAILS.Gem.image}
+                    type={"info"}
+                    icon={ITEM_DETAILS.Gem.image}
                     className="text-xs"
                   >
-                    {`${isFree ? "Free" : `${costToChangeUsername} Gems`}`}
+                    {`${gemCost} Gems`}
                   </Label>
                   {validationState && (
                     <Label type="danger" className="text-xs">

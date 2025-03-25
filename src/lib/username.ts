@@ -85,11 +85,3 @@ export const checkUsername = async (token: string, username: string) => {
 
   return { success: true };
 };
-
-export const gemCost = (changeCount: number) => {
-  let gemCost = changeCount * 500;
-  if (gemCost > 10000) {
-    gemCost = 10000;
-  }
-  return gemCost;
-};
