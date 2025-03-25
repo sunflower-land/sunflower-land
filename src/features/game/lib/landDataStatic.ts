@@ -14,6 +14,7 @@ import { tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 import { EXPIRY_COOLDOWNS } from "./collectibleBuilt";
 
 export const STATIC_OFFLINE_FARM: GameState = {
+  settings: {},
   username: "Local Hero",
   coins: 10000,
   balance: new Decimal(0),

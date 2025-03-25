@@ -60,10 +60,17 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
   const applyUsername = async () => {
     setState("loading");
     try {
-      gameService.send("username.assigned", {
-        effect: { type: "username.assigned", username: username as string },
-        authToken: authState.context.user.rawToken as string,
-      });
+      if (alreadyHaveUsername) {
+        gameService.send("username.changed", {
+          effect: { type: "username.changed", username: username as string },
+          authToken: authState.context.user.rawToken as string,
+        });
+      } else {
+        gameService.send("username.assigned", {
+          effect: { type: "username.assigned", username: username as string },
+          authToken: authState.context.user.rawToken as string,
+        });
+      }
       gameService.send({
         type: "UPDATE_USERNAME",
         username: username as string,

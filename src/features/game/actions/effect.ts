@@ -22,7 +22,8 @@ type EffectName =
   | "twitter.posted"
   | "gems.bought"
   | "vip.bought"
-  | "username.assigned";
+  | "username.assigned"
+  | "username.changed";
 
 export type StateName =
   | "marketplacePurchasing"
@@ -41,7 +42,8 @@ export type StateName =
   | "postingTwitter"
   | "buyingGems"
   | "buyingVIP"
-  | "assigningUsername";
+  | "assigningUsername"
+  | "changingUsername";
 
 export type StateNameWithStatus = `${StateName}Success` | `${StateName}Failed`;
 
@@ -64,6 +66,7 @@ export const EFFECT_EVENTS: Record<EffectName, StateName> = {
   "gems.bought": "buyingGems",
   "vip.bought": "buyingVIP",
   "username.assigned": "assigningUsername",
+  "username.changed": "changingUsername",
 };
 
 export interface Effect {
