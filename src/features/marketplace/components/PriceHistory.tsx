@@ -1,5 +1,5 @@
 import React from "react";
-import sflIcon from "assets/icons/sfl.webp";
+import sflIcon from "assets/icons/flower_token.webp";
 import { InnerPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

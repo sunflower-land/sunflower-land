@@ -15,7 +15,7 @@ import {
 import { ITEM_DETAILS } from "features/game/types/images";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 
-import sfl from "assets/icons/sfl.webp";
+import sfl from "assets/icons/flower_token.webp";
 import coins from "assets/icons/coins.webp";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { getKeys } from "features/game/types/craftables";

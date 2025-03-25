@@ -1,6 +1,6 @@
 import React from "react";
 
-import sflIcon from "assets/icons/sfl.webp";
+import sflIcon from "assets/icons/flower_token.webp";
 import bg from "assets/ui/3x3_bg.png";
 
 import { TradeableDisplay } from "../lib/tradeables";

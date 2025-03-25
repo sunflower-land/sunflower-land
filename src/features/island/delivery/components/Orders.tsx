@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import classNames from "classnames";
 import Decimal from "decimal.js-light";
 
-import token from "assets/icons/sfl.webp";
+import token from "assets/icons/flower_token.webp";
 import chest from "assets/icons/chest.png";
 import lock from "assets/icons/lock.png";
 import lightning from "assets/icons/lightning.png";

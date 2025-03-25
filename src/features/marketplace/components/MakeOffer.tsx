@@ -14,7 +14,7 @@ import { Context } from "features/game/GameProvider";
 import { signTypedData } from "@wagmi/core";
 
 import walletIcon from "assets/icons/wallet.png";
-import sflIcon from "assets/icons/sfl.webp";
+import sflIcon from "assets/icons/flower_token.webp";
 import lockIcon from "assets/icons/lock.png";
 import { TradeableItemDetails } from "./TradeableSummary";
 import { getTradeType } from "../lib/getTradeType";

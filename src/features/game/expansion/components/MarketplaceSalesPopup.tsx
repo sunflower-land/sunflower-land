@@ -9,7 +9,7 @@ import { Label } from "components/ui/Label";
 import { InlineDialogue } from "features/world/ui/TypingMessage";
 import { Box } from "components/ui/Box";
 import trade from "assets/icons/trade.png";
-import token from "assets/icons/sfl.webp";
+import token from "assets/icons/flower_token.webp";
 import { formatNumber } from "lib/utils/formatNumber";
 import { InventoryItemName } from "features/game/types/game";
 import { tradeToId } from "features/marketplace/lib/offers";

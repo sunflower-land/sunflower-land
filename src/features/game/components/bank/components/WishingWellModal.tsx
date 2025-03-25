@@ -13,7 +13,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { translate } from "lib/i18n/translate";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
-import tokenIcon from "assets/icons/sfl.webp";
+import flowerIcon from "assets/icons/flower_token.webp";
 import { CloseButtonPanel } from "../../CloseablePanel";
 
 type GrantedArgs = Pick<WishingWellTokens, "lockedTime"> & {
@@ -43,7 +43,7 @@ const Granted = ({ lockedTime, onClose, reward }: GrantedArgs) => {
       <div className="p-2">
         <div className="flex flex-col items-center mb-3">
           <h1 className="text-lg mb-4 text-center">{t("congrats")}</h1>
-          <img src={tokenIcon} alt="sunflower token" className="w-16 mb-2" />
+          <img src={flowerIcon} alt="sunflower token" className="w-16 mb-2" />
         </div>
         <p className="mb-4 text-sm">{t("wishingWell.wish.granted")}</p>
         <p className="mb-4 text-sm">

@@ -17,7 +17,7 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { makeListingType } from "lib/utils/makeTradeListingType";
 import { Loading } from "features/auth/components";
-import token from "assets/icons/sfl.webp";
+import token from "assets/icons/flower_token.webp";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { MachineState } from "features/game/lib/gameMachine";
 import { CannotTrade } from "./CannotTrade";

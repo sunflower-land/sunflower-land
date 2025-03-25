@@ -5,7 +5,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ButtonPanel } from "components/ui/Panel";
 import { isMobile } from "mobile-device-detect";
 
-import sflIcon from "assets/icons/sfl.webp";
+import sflIcon from "assets/icons/flower_token.webp";
 import exchangeIcon from "assets/icons/exchange.png";
 import coinsIcon from "assets/icons/coins.webp";
 import coinsStack from "assets/icons/coins_stack.webp";

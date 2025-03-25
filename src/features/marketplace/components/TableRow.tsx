@@ -2,7 +2,7 @@ import classNames from "classnames";
 import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React from "react";
-import token from "assets/icons/sfl.webp";
+import token from "assets/icons/flower_token.webp";
 import { Decimal } from "decimal.js-light";
 
 import { NPCIcon } from "features/island/bumpkin/components/NPC";

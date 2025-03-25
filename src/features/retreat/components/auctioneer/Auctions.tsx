@@ -4,7 +4,7 @@ import { useActor } from "@xstate/react";
 import { ButtonPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ITEM_IDS } from "features/game/types/bumpkin";
-import token from "assets/icons/sfl.webp";
+import token from "assets/icons/flower_token.webp";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";

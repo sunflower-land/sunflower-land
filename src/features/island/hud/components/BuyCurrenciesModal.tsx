@@ -8,7 +8,7 @@ import exchangeIcon from "assets/icons/exchange.png";
 import coinsIcon from "assets/icons/coins.webp";
 import coinsStack from "assets/icons/coins_stack.webp";
 import coinsScattered from "assets/icons/coins_scattered.webp";
-import sflIcon from "assets/icons/sfl.webp";
+import sflIcon from "assets/icons/flower_token.webp";
 import flowerIcon from "assets/icons/flower_token.webp";
 
 import { SFL_TO_COIN_PACKAGES } from "features/game/events/landExpansion/exchangeSFLtoCoins";

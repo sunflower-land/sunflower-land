@@ -3,7 +3,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useContext } from "react";
 import { getTradeableDisplay } from "../lib/tradeables";
 import classNames from "classnames";
-import sflIcon from "assets/icons/sfl.webp";
+import sflIcon from "assets/icons/flower_token.webp";
 import Decimal from "decimal.js-light";
 import { Loading } from "features/auth/components";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";

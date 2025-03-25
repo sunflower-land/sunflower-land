@@ -13,7 +13,7 @@ import { config } from "features/wallet/WalletProvider";
 
 import tradeIcon from "assets/icons/trade.png";
 import walletIcon from "assets/icons/wallet.png";
-import sflIcon from "assets/icons/sfl.webp";
+import sflIcon from "assets/icons/flower_token.webp";
 import lockIcon from "assets/icons/lock.png";
 
 import { TradeableDisplay } from "../lib/tradeables";
