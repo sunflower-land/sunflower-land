@@ -9,8 +9,6 @@ import classNames from "classnames";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
 import { getRelativeTime } from "lib/utils/time";
-import increaseRightArrow from "assets/icons/increase_right_arrow.webp";
-import decreaseLeftArrow from "assets/icons/decrease_left_arrow.webp";
 import { useNavigate } from "react-router";
 import { getTradeableDisplay } from "../lib/tradeables";
 import { INITIAL_FARM } from "features/game/lib/constants";
@@ -103,12 +101,16 @@ export const Sales: React.FC<{ sales: ISaleHistory["sales"] }> = ({
                       </div>
                       <div className="flex flex-col">
                         <div className="flex items-center gap-1">
-                          <img src={increaseRightArrow} className="h-3" />
-                          <p className="text-xxs">{buyer.username}</p>
+                          <p className="text-xxs">
+                            {seller.username}{" "}
+                            {`(${source === "listing" ? t("marketplace.soldListing") : t("marketplace.madeOffer")})`}
+                          </p>
                         </div>
                         <div className="flex items-center gap-1">
-                          <img src={decreaseLeftArrow} className="h-3" />
-                          <p className="text-xxs">{seller.username}</p>
+                          <p className="text-xxs">
+                            {buyer.username}{" "}
+                            {`(${source === "listing" ? t("marketplace.boughtListing") : t("marketplace.acceptedOffer")})`}
+                          </p>
                         </div>
                       </div>
                     </div>
