@@ -5741,8 +5741,8 @@
   "taskBoard.tasksDescriptionTwo": "Love Charm can be used to purchase special items in the rewards shop",
   "taskBoard.otherWays": "Other ways to earn Love Charm",
   "taskBoard.howToRefer": "How to refer a friend?",
-  "marketplace.bought": "Bought",
-  "marketplace.sold": "Sold",
+  "marketplace.boughtListing": "Bought Listing",
+  "marketplace.soldListing": "Sold Listing",
   "marketplace.madeOffer": "Made Offer",
   "marketplace.acceptedOffer": "Accepted Offer"
 }

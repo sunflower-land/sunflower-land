@@ -103,13 +103,13 @@ export const Sales: React.FC<{ sales: ISaleHistory["sales"] }> = ({
                         <div className="flex items-center gap-1">
                           <p className="text-xxs">
                             {seller.username}{" "}
-                            {`(${source === "listing" ? t("marketplace.sold") : t("marketplace.madeOffer")})`}
+                            {`(${source === "listing" ? t("marketplace.soldListing") : t("marketplace.madeOffer")})`}
                           </p>
                         </div>
                         <div className="flex items-center gap-1">
                           <p className="text-xxs">
                             {buyer.username}{" "}
-                            {`(${source === "listing" ? t("marketplace.bought") : t("marketplace.acceptedOffer")})`}
+                            {`(${source === "listing" ? t("marketplace.boughtListing") : t("marketplace.acceptedOffer")})`}
                           </p>
                         </div>
                       </div>
