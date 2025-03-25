@@ -283,16 +283,6 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
                   disableVipPurchase || (roninVip && isRoninVipOnCooldown)
                 }
               >
-                {name === "3_MONTHS" && (
-                  <>
-                    <Label type="info" className="absolute -top-5 -right-2">
-                      {t("vip.3Months.discount")}
-                    </Label>
-                    <p className="text-xs absolute bottom-5 line-through right-0">
-                      {`1500`}
-                    </p>
-                  </>
-                )}
                 <span className="whitespace-nowrap mb-2 mt-0.5">
                   {t(VIP_NAME[name])}
                 </span>
