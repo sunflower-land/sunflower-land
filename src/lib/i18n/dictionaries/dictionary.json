@@ -737,6 +737,7 @@
   "pete.intro.four": "Before you can join the fun, you will need to grow your farm and gather some resources. You don't want to turn up empty handed!",
   "pete.intro.five": "To get started, you will want to chop down those trees and grow your island.",
   "mayor.plaza.metBefore": "Howdy {{username}}! Looks like we've already met. If you're looking to change your name, I can't do that for you right now, the paperwork is far too much for me to handle.",
+  "mayor.plaza.notEnoughGems": "You don't have enough Gems",
   "mayor.plaza.coffee": "Hmmm, don't you just love the smell of coffee?",
   "mayor.plaza.intro": "Well howdy fellow Bumpkin, it seems we haven't been introduced yet.",
   "mayor.plaza.role": "I'm the Mayor of this wonderful town! As mayor, I help new Bumpkins like yourself get settled in and feel welcome.",

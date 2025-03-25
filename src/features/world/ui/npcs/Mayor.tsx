@@ -39,6 +39,10 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
     gameService,
     (state) => state.context.state.settings.username?.setAt ?? 0,
   );
+  const hasEnoughGems = useSelector(gameService, (state) => {
+    const inventory = state.context.state.inventory;
+    return inventory.Gem?.gte(gemCost) ?? false;
+  });
 
   const [username, setUsername] = useState<string>();
   const [validationState, setValidationState] = useState<string | null>(null);
@@ -225,7 +229,12 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
                   >
                     {`${gemCost} Gems`}
                   </Label>
-                  {validationState && (
+                  {!hasEnoughGems && (
+                    <Label type="danger" className="text-xs">
+                      {t("mayor.plaza.notEnoughGems")}
+                    </Label>
+                  )}
+                  {hasEnoughGems && validationState && (
                     <Label type="danger" className="text-xs">
                       {validationState}
                     </Label>
@@ -238,7 +247,10 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
               type="submit"
               onClick={state !== "idle" ? undefined : () => setTab(2)}
               disabled={
-                Boolean(validationState) || state !== "idle" || !username
+                Boolean(validationState) ||
+                state !== "idle" ||
+                !username ||
+                !hasEnoughGems
               }
             >
               {state === "idle"
