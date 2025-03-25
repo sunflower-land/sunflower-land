@@ -16,6 +16,7 @@ import debounce from "lodash.debounce";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { gameAnalytics } from "lib/gameAnalytics";
 
 const COOLDOWN = 1000 * 60 * 60 * 24 * 30; // 30 days
 const gemCost = 500;
@@ -83,6 +84,12 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
       gameService.send({
         type: "UPDATE_USERNAME",
         username: username as string,
+      });
+      gameAnalytics.trackSink({
+        currency: "Gem",
+        amount: gemCost,
+        type: "Fee",
+        item: "Username Change",
       });
       setState("success");
       setTab(4);
