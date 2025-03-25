@@ -19,7 +19,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { gameAnalytics } from "lib/gameAnalytics";
 
 const COOLDOWN = 1000 * 60 * 60 * 24 * 30; // 30 days
-const gemCost = 500;
+const gemCost = 250;
 
 interface MayorProps {
   onClose: () => void;
