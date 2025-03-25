@@ -34,6 +34,7 @@ import { isMobile } from "mobile-device-detect";
 import Decimal from "decimal.js-light";
 import { getRemainingTrades, Reputation } from "features/game/lib/reputation";
 import { hasReputation } from "features/game/lib/reputation";
+import { hasFeatureAccess } from "lib/flags";
 
 type TradeableHeaderProps = {
   authToken: string;
@@ -131,7 +132,13 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
     tradeable?.isActive &&
     // Don't show buy now if the listing is mine
     cheapestListing.listedById !== farmId;
-  const showWalletRequired = showBuyNow && cheapestListing?.type === "onchain";
+  const showWalletRequired =
+    showBuyNow &&
+    cheapestListing?.type === "onchain" &&
+    !hasFeatureAccess(
+      gameService.getSnapshot().context.state,
+      "OFFCHAIN_MARKETPLACE",
+    );
   // const showFreeListing = !isVIP && dailyListings === 0;
 
   const usd = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
@@ -144,7 +151,11 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
           onHide={() => setShowPurchaseModal(false)}
         >
           <Panel>
-            {cheapestListing.type === "onchain" ? (
+            {cheapestListing.type === "onchain" &&
+            !hasFeatureAccess(
+              gameService.getSnapshot().context.state,
+              "OFFCHAIN_MARKETPLACE",
+            ) ? (
               <GameWallet action="marketplace">
                 <PurchaseModalContent
                   authToken={authToken}
@@ -192,11 +203,15 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                   count: Math.floor(count),
                 })}
               </Label>
-              {showWalletRequired && (
-                <Label type="formula" icon={walletIcon}>
-                  {t("marketplace.walletRequired")}
-                </Label>
-              )}
+              {showWalletRequired &&
+                !hasFeatureAccess(
+                  gameService.getSnapshot().context.state,
+                  "OFFCHAIN_MARKETPLACE",
+                ) && (
+                  <Label type="formula" icon={walletIcon}>
+                    {t("marketplace.walletRequired")}
+                  </Label>
+                )}
             </div>
           </div>
 

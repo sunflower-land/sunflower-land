@@ -188,7 +188,10 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
       return;
     }
 
-    if (tradeType === "onchain") {
+    if (
+      tradeType === "onchain" &&
+      !hasFeatureAccess(state, "OFFCHAIN_MARKETPLACE")
+    ) {
       const isItemOnChain = getOnChainStatus(display.name, display.type);
 
       if (!isItemOnChain) {
@@ -275,7 +278,10 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
     );
   }
 
-  if (needsSync) {
+  if (
+    needsSync &&
+    !hasFeatureAccess(gameState.context.state, "OFFCHAIN_MARKETPLACE")
+  ) {
     return (
       <StoreOnChain
         onClose={onClose}
@@ -341,7 +347,13 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
     );
   }
 
-  if (isSigning) {
+  if (
+    isSigning &&
+    !hasFeatureAccess(
+      gameService.getSnapshot().context.state,
+      "OFFCHAIN_MARKETPLACE",
+    )
+  ) {
     return (
       <GameWallet action="marketplace">
         <>
@@ -396,11 +408,12 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
             type: `${display.type.slice(0, display.type.length - 1)}`,
           })}
         </Label>
-        {tradeType === "onchain" && (
-          <Label type="formula" icon={walletIcon} className="my-1 mr-0.5">
-            {t("marketplace.walletRequired")}
-          </Label>
-        )}
+        {tradeType === "onchain" &&
+          !hasFeatureAccess(state, "OFFCHAIN_MARKETPLACE") && (
+            <Label type="formula" icon={walletIcon} className="my-1 mr-0.5">
+              {t("marketplace.walletRequired")}
+            </Label>
+          )}
 
         {!hasAccess && (
           <RequiredReputation reputation={Reputation.Cropkeeper} />
@@ -519,12 +532,13 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
               className="relative"
             >
               <span>{t("list")}</span>
-              {tradeType === "onchain" && (
-                <img
-                  src={walletIcon}
-                  className="absolute right-1 top-0.5 h-7"
-                />
-              )}
+              {tradeType === "onchain" &&
+                !hasFeatureAccess(state, "OFFCHAIN_MARKETPLACE") && (
+                  <img
+                    src={walletIcon}
+                    className="absolute right-1 top-0.5 h-7"
+                  />
+                )}
             </Button>
           </div>
         </>

@@ -30,6 +30,7 @@ import { StoreOnChain } from "./StoreOnChain";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { hasFeatureAccess } from "lib/flags";
 
 const _balance = (state: MachineState) => state.context.state.balance;
 const _previousBalance = (state: MachineState) =>
@@ -114,7 +115,13 @@ export const MakeOffer: React.FC<{
   };
 
   const submitOffer = () => {
-    if (tradeType === "onchain") {
+    if (
+      tradeType === "onchain" &&
+      !hasFeatureAccess(
+        gameService.getSnapshot().context.state,
+        "OFFCHAIN_MARKETPLACE",
+      )
+    ) {
       const needsToSync = previousBalance.lt(offer);
 
       if (needsToSync) {
@@ -154,7 +161,13 @@ export const MakeOffer: React.FC<{
           points: tradeType === "instant" ? 2 : 4,
         }).multipliedPoints;
 
-  if (needsSync) {
+  if (
+    needsSync &&
+    !hasFeatureAccess(
+      gameService.getSnapshot().context.state,
+      "OFFCHAIN_MARKETPLACE",
+    )
+  ) {
     return <StoreOnChain itemName="SFL" onClose={onClose} actionType="offer" />;
   }
 
@@ -188,7 +201,13 @@ export const MakeOffer: React.FC<{
     );
   }
 
-  if (isSigning) {
+  if (
+    isSigning &&
+    !hasFeatureAccess(
+      gameService.getSnapshot().context.state,
+      "OFFCHAIN_MARKETPLACE",
+    )
+  ) {
     return (
       <GameWallet action="marketplace">
         <>
@@ -244,11 +263,15 @@ export const MakeOffer: React.FC<{
             <RequiredReputation reputation={Reputation.Cropkeeper} />
           )}
 
-          {tradeType === "onchain" && (
-            <Label type="formula" icon={walletIcon} className="-mr-1">
-              {t("marketplace.walletRequired")}
-            </Label>
-          )}
+          {tradeType === "onchain" &&
+            !hasFeatureAccess(
+              gameService.getSnapshot().context.state,
+              "OFFCHAIN_MARKETPLACE",
+            ) && (
+              <Label type="formula" icon={walletIcon} className="-mr-1">
+                {t("marketplace.walletRequired")}
+              </Label>
+            )}
         </div>
         <p className="text-sm">{t("marketplace.howMuch")}</p>
         <div className="my-2 -mx-2">
@@ -280,9 +303,13 @@ export const MakeOffer: React.FC<{
           className="relative"
         >
           <span>{t("confirm")}</span>
-          {tradeType === "onchain" && (
-            <img src={walletIcon} className="absolute right-1 top-0.5 h-7" />
-          )}
+          {tradeType === "onchain" &&
+            !hasFeatureAccess(
+              gameService.getSnapshot().context.state,
+              "OFFCHAIN_MARKETPLACE",
+            ) && (
+              <img src={walletIcon} className="absolute right-1 top-0.5 h-7" />
+            )}
         </Button>
       </div>
     </>

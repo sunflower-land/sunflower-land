@@ -87,6 +87,7 @@ const FEATURE_FLAGS = {
   COMMUNITY_COIN_EXCHANGE: testnetFeatureFlag,
   FLOWER_GEMS: testnetFeatureFlag,
   LEDGER: testnetLocalStorageFeatureFlag("ledger"),
+  OFFCHAIN_MARKETPLACE: testnetFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;
