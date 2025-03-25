@@ -5576,12 +5576,12 @@
   "taskBoard.otherWays": "Autres moyens de gagner des Love Charm",
   "taskBoard.howToRefer": "Comment recommander un ami ?",
   "chapters.guide.one": "Les chapitres apportent de nouveaux défis, des objets de collection et des trésors. Les joueurs collectent des billets et doivent planifier comment les utiliser à bon escient.",
-  "chapters.guide.two": "Les billets peuvent être dépensés au Mega Store de Stella, à la boutique de Jafar ou lors de ventes aux enchères, où les joueurs s'affrontent pour des objets exclusifs.",
   "chapters.guide.three": "Des événements surprises et des récompenses uniques rendent chaque chapitre dynamique et captivant.",
   "reputation.guide.connectDiscord": "Connectez votre compte Discord en cliquant sur l'icône représentant un engrenage, en sélectionnant Paramètres généraux, puis en cliquant sur le bouton Discord.",
   "skillCategory.reachIsland": "Atteignez {{island}} pour débloquer",
   "marketplace.boughtListing": "Annonce achetée",
   "marketplace.soldListing": "Annonce vendue",
   "marketplace.madeOffer": "Offre faite",
-  "marketplace.acceptedOffer": "Offre acceptée"
+  "marketplace.acceptedOffer": "Offre acceptée",
+  "chapters.guide.two": "Les billets peuvent être dépensés au Stella's Mega Store ou lors de ventes aux enchères, où les joueurs s'affrontent pour des objets exclusifs."
 }

@@ -5576,12 +5576,12 @@
   "taskBoard.otherWays": "Andere Möglichkeiten, Love Charm zu verdienen",
   "taskBoard.howToRefer": "Wie empfehle ich einen Freund?",
   "chapters.guide.one": "Kapitel bringen neue Herausforderungen, Sammlerstücke und Schätze. Die Spieler sammeln Tickets und müssen planen, wie sie sie mit Bedacht einsetzen können.",
-  "chapters.guide.two": "Tickets können in Stellas Mega Store, in Jafars Laden oder in Auktionen eingelöst werden, bei denen Spieler um exklusive Gegenstände konkurrieren.",
   "chapters.guide.three": "Überraschungsereignisse und einzigartige Belohnungen machen jedes Kapitel dynamisch und fesselnd.",
   "reputation.guide.connectDiscord": "Verbinde dein Discord-Konto, indem du auf das Zahnradsymbol klickst, Allgemeine Einstellungen auswählst und auf den Discord-Button klickst.",
   "skillCategory.reachIsland": "Erreiche {{island}}, um zu entsperren",
   "marketplace.boughtListing": "Gekauftes Angebot",
   "marketplace.soldListing": "Verkauftes Angebot",
   "marketplace.madeOffer": "Angebot gemacht",
-  "marketplace.acceptedOffer": "Angenommenes Angebot"
+  "marketplace.acceptedOffer": "Angenommenes Angebot",
+  "chapters.guide.two": "Tickets können in Stellas Mega Store oder in Auktionen eingelöst werden, bei denen Spieler um exklusive Gegenstände konkurrieren."
 }

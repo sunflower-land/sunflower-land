@@ -5576,12 +5576,12 @@
   "taskBoard.otherWays": "Cara lain untuk mendapatkan Love Charm",
   "taskBoard.howToRefer": "Bagaimana untuk merujuk rakan?",
   "chapters.guide.one": "Bab membawa cabaran baru, koleksi, dan khazanah. Pemain mengumpul tiket dan mesti merancang cara menggunakannya dengan bijak.",
-  "chapters.guide.two": "Tiket boleh dibelanjakan di Stella's Mega Store, kedai Jafar, atau dalam lelongan, di mana pemain bersaing untuk barangan eksklusif.",
   "chapters.guide.three": "Acara kejutan dan ganjaran unik menjadikan setiap bab dinamik dan menarik.",
   "reputation.guide.connectDiscord": "Sambungkan akaun Discord anda dengan mengklik ikon gear, memilih Tetapan Umum, dan mengklik butang Discord.",
   "skillCategory.reachIsland": "Jangkau {{island}} untuk membuka kunci",
   "marketplace.boughtListing": "Penyenaraian Dibeli",
   "marketplace.soldListing": "Penyenaraian Dijual",
   "marketplace.madeOffer": "Tawaran Buat",
-  "marketplace.acceptedOffer": "Tawaran yang diterima"
+  "marketplace.acceptedOffer": "Tawaran yang diterima",
+  "chapters.guide.two": "Tiket boleh dibelanjakan di Stella's Mega Store atau dalam lelongan, di mana pemain bersaing untuk item eksklusif."
 }

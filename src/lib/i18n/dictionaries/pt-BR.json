@@ -5576,12 +5576,12 @@
   "taskBoard.otherWays": "Outras formas de ganhar Love Charm",
   "taskBoard.howToRefer": "Como indicar um amigo?",
   "chapters.guide.one": "Os capítulos trazem novos desafios, itens colecionáveis e tesouros. Os jogadores coletam ingressos e devem planejar como usá-los com sabedoria.",
-  "chapters.guide.two": "Os ingressos podem ser gastos na Stella's Mega Store, na loja de Jafar ou em leilões, onde os jogadores competem por itens exclusivos.",
   "chapters.guide.three": "Eventos surpresa e recompensas exclusivas tornam cada capítulo dinâmico e envolvente.",
   "reputation.guide.connectDiscord": "Conecte sua conta do Discord clicando no ícone de engrenagem, selecionando Configurações gerais e clicando no botão Discord.",
   "skillCategory.reachIsland": "Alcance {{island}} para desbloquear",
   "marketplace.boughtListing": "Anúncio comprado",
   "marketplace.soldListing": "Anúncio vendido",
   "marketplace.madeOffer": "Oferta feita",
-  "marketplace.acceptedOffer": "Oferta aceita"
+  "marketplace.acceptedOffer": "Oferta aceita",
+  "chapters.guide.two": "Os ingressos podem ser gastos na Stella's Mega Store ou em leilões, onde os jogadores competem por itens exclusivos."
 }

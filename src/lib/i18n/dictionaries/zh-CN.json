@@ -5576,12 +5576,12 @@
   "taskBoard.otherWays": "其他赚取 Love Charm 的方法",
   "taskBoard.howToRefer": "如何推荐朋友？",
   "chapters.guide.one": "章节带来了新的挑战、收藏品和宝藏。玩家收集门票，必须计划如何明智地使用它们。",
-  "chapters.guide.two": "门票可以在斯特拉的超级商店、贾法尔的商店或拍卖会上消费，在拍卖会上玩家可以争夺专属物品。",
   "chapters.guide.three": "惊喜活动和独特的奖励使每个章节充满活力和吸引力。",
   "reputation.guide.connectDiscord": "单击齿轮图标，选择常规设置，然后单击 Discord 按钮，连接您的 Discord 帐户。",
   "skillCategory.reachIsland": "到达 {{island}} 即可解锁",
   "marketplace.boughtListing": "已购买的清单",
   "marketplace.soldListing": "已售清单",
   "marketplace.madeOffer": "已报价",
-  "marketplace.acceptedOffer": "接受的报价"
+  "marketplace.acceptedOffer": "接受的报价",
+  "chapters.guide.two": "门票可以在Stella的超级商店或拍卖会上消费，玩家可以在拍卖会上争夺独家物品。"
 }
