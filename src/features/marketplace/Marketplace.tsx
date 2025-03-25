@@ -1,6 +1,6 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 import React, { useContext, useEffect } from "react";
-import sflIcon from "assets/icons/sfl.webp";
+import sflIcon from "assets/icons/flower_token.webp";
 import { MarketplaceNavigation } from "./components/MarketplaceHome";
 import { useLocation, useNavigate } from "react-router";
 import { PIXEL_SCALE } from "features/game/lib/constants";

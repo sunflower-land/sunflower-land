@@ -5,7 +5,7 @@ import { LABEL_STYLES, Label } from "./Label";
 import { SquareIcon } from "./SquareIcon";
 import { ITEM_DETAILS } from "features/game/types/images";
 import levelup from "assets/icons/level_up.png";
-import token from "assets/icons/sfl.webp";
+import flowerIcon from "assets/icons/flower_token.webp";
 import coins from "assets/icons/coins.webp";
 import gems from "assets/icons/gem.webp";
 import { secondsToString } from "lib/utils/time";
@@ -213,7 +213,7 @@ export const RequirementLabel: React.FC<Props> = (props) => {
         return ITEM_DETAILS[props.item].image;
       case "sfl":
       case "sellForSfl":
-        return token;
+        return flowerIcon;
       case "item":
         if (props.item in KNOWN_IDS) {
           return ITEM_DETAILS[props.item as InventoryItemName]?.image;

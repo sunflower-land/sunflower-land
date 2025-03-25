@@ -2,7 +2,7 @@ import { Button } from "components/ui/Button";
 import React, { useContext, useEffect } from "react";
 import confetti from "canvas-confetti";
 
-import token from "assets/icons/sfl.webp";
+import token from "assets/icons/flower_token.webp";
 import coins from "assets/icons/coins.webp";
 import powerup from "assets/icons/level_up.png";
 import factionPoint from "assets/icons/faction_point.webp";

@@ -15,7 +15,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { formatNumber, setPrecision } from "lib/utils/formatNumber";
 
-import sflIcon from "assets/icons/sfl.webp";
+import sflIcon from "assets/icons/flower_token.webp";
 import tradeIcon from "assets/icons/trade.png";
 import lockIcon from "assets/icons/lock.png";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";

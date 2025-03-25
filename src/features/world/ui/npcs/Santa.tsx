@@ -7,7 +7,7 @@ import { useActor } from "@xstate/react";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import candy from "public/world/candy_icon.png";
 import gift from "assets/icons/gift.png";
-import token from "assets/icons/sfl.webp";
+import token from "assets/icons/flower_token.webp";
 import {
   DAILY_CANDY,
   DAILY_CHRISTMAS_REWARDS,

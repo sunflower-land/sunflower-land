@@ -16,7 +16,7 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import React, { useContext, useState } from "react";
 import { Deal } from "../flowerShop/FlowerBounties";
-import sflIcon from "assets/icons/sfl.webp";
+import sflIcon from "assets/icons/flower_token.webp";
 
 interface Props {
   readonly?: boolean;

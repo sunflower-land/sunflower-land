@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Decimal from "decimal.js-light";
 
-import sflIcon from "assets/icons/sfl.webp";
+import flowerIcon from "assets/icons/flower_token.webp";
 import coinsIcon from "assets/icons/coins.webp";
 import gemIcon from "assets/icons/gem.webp";
 
@@ -72,8 +72,8 @@ export const Balances: React.FC<Props> = ({ sfl, coins, gems, onClick }) => {
             {formatNumber(sfl, { decimalPlaces: showFullBalance ? 8 : 4 })}
           </span>
           <img
-            src={sflIcon}
-            alt="SFL"
+            src={flowerIcon}
+            alt="FLOWER "
             style={{
               width: 26,
             }}

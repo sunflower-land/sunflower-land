@@ -8,7 +8,7 @@ import { useActor } from "@xstate/react";
 import { Airdrop } from "features/game/types/game";
 import { Button } from "components/ui/Button";
 import gift from "assets/icons/gift.png";
-import token from "assets/icons/sfl.webp";
+import token from "assets/icons/flower_token.webp";
 import chest from "assets/icons/chest.png";
 
 import Decimal from "decimal.js-light";

@@ -4,7 +4,7 @@ import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { InlineDialogue } from "features/world/ui/TypingMessage";
 import { Box } from "components/ui/Box";
-import token from "assets/icons/sfl.webp";
+import token from "assets/icons/flower_token.webp";
 import { formatNumber } from "lib/utils/formatNumber";
 import { Button } from "components/ui/Button";
 import { NPC_WEARABLES } from "lib/npcs";

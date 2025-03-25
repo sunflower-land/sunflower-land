@@ -16,7 +16,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { formatNumber, setPrecision } from "lib/utils/formatNumber";
 
 import lockIcon from "assets/icons/lock.png";
-import sflIcon from "assets/icons/sfl.webp";
+import sflIcon from "assets/icons/flower_token.webp";
 import tradeIcon from "assets/icons/trade.png";
 
 type Props = {

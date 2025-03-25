@@ -13,7 +13,7 @@ import { balancesToInventory } from "lib/utils/visitUtils";
 import { fromWei, toBN, toWei } from "web3-utils";
 
 import chest from "assets/icons/chest.png";
-import token from "assets/icons/sfl.webp";
+import token from "assets/icons/flower_token.webp";
 
 import classNames from "classnames";
 import { formatNumber } from "lib/utils/formatNumber";

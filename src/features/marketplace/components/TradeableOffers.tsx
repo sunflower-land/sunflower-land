@@ -6,7 +6,7 @@ import { InnerPanel, Panel } from "components/ui/Panel";
 import { Offer, TradeableDetails } from "features/game/types/marketplace";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
-import sflIcon from "assets/icons/sfl.webp";
+import sflIcon from "assets/icons/flower_token.webp";
 import increaseArrow from "assets/icons/increase_arrow.png";
 
 import { OfferTable } from "./TradeTable";
