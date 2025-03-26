@@ -1,8 +1,9 @@
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal } from "components/ui/Modal";
 import levelIcon from "assets/icons/level_up.png";
 import giftIcon from "assets/icons/gift.png";
+import blossom_bonding from "assets/icons/skill_icons/Bonding.png";
 
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -11,17 +12,13 @@ import { BumpkinLevel } from "features/bumpkins/components/BumpkinModal";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { GameState } from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { Label, LABEL_STYLES } from "components/ui/Label";
-import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
-import { Button } from "components/ui/Button";
-import { Revealed } from "features/game/components/Revealed";
-import { ChestRevealing } from "./chests/ChestRevealing";
-import { secondsToString } from "lib/utils/time";
-import { secondsTillReset } from "features/helios/components/hayseedHank/HayseedHankV2";
+import { LABEL_STYLES } from "components/ui/Label";
 import { AirdropPlayer } from "features/island/hud/components/settings-menu/general-settings/AirdropPlayer";
 import { hasFeatureAccess } from "lib/flags";
 import { ReportPlayer } from "./ReportPlayer";
+import { PlayerGift } from "./PlayerGift";
+import { StreamReward } from "./StreamReward";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 export type PlayerModalPlayer = {
   id: number;
@@ -108,100 +105,47 @@ const PlayerDetails: React.FC<{ player: PlayerModalPlayer }> = ({ player }) => {
   );
 };
 
-export const PlayerGift: React.FC = () => {
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
-
-  const { pumpkinPlaza } = gameState.context.state;
-
-  const [isRevealing, setIsRevealing] = useState(false);
-
-  // Just a prolonged UI state to show the shuffle of items animation
-  const [isPicking, setIsPicking] = useState(false);
-
-  const { t } = useAppTranslation();
-
-  const open = async () => {
-    setIsPicking(true);
-
-    await new Promise((resolve) => setTimeout(resolve, 5000));
-
-    gameService.send("REVEAL", {
-      event: {
-        type: "giftGiver.opened",
-        createdAt: new Date(),
-      },
-    });
-    setIsRevealing(true);
-    setIsPicking(false);
-  };
-
-  const openedAt = pumpkinPlaza.giftGiver?.openedAt ?? 0;
-
-  // Have they opened one today already?
-  const hasOpened =
-    !!openedAt &&
-    new Date(openedAt).toISOString().substring(0, 10) ===
-      new Date().toISOString().substring(0, 10);
-
-  if (isPicking || (gameState.matches("revealing") && isRevealing)) {
-    return <ChestRevealing type={"Gift Giver"} />;
-  }
-
-  if (gameState.matches("revealed") && isRevealing) {
-    return (
-      <Revealed
-        onAcknowledged={() => {
-          setIsRevealing(false);
-        }}
-      />
-    );
-  }
-
-  return (
-    <>
-      <div className="ml-1 mb-2">
-        <div className="flex justify-between items-center px-1 mb-2">
-          <Label type="success" icon={giftIcon}>
-            {t("giftGiver.label")}
-          </Label>
-          {hasOpened && (
-            <Label type="success" icon={SUNNYSIDE.icons.confirm}>
-              {`${t("budBox.opened")} - ${secondsToString(secondsTillReset(), {
-                length: "short",
-              })}`}
-            </Label>
-          )}
-        </div>
-        <p className="text-sm">{t("giftGiver.description")}</p>
-      </div>
-      <Button onClick={open} disabled={hasOpened}>
-        {t("open")}
-      </Button>
-    </>
-  );
-};
-
 interface Props {
   game: GameState;
+  farmId: number;
 }
 
-export const PlayerModals: React.FC<Props> = ({ game }) => {
-  const [tab, setTab] = useState(0);
+export const PlayerModals: React.FC<Props> = ({ game, farmId }) => {
+  const [tab, setTab] = useState<
+    "Player" | "Reward" | "Stream" | "Report" | "Airdrop"
+  >("Player");
   const [player, setPlayer] = useState<PlayerModalPlayer>();
 
   useEffect(() => {
     playerModalManager.listen((npc) => {
-      setTab(0);
+      setTab("Player");
       setPlayer(npc);
     });
   }, []);
 
-  const closeModal = () => {
-    setPlayer(undefined);
-  };
+  useEffect(() => {
+    if (!player) return;
+
+    const handlePlayerLeave = (playerId: number) => {
+      if (playerId === player.id) {
+        closeModal();
+      }
+    };
+
+    // Listen for player leave events
+    window.addEventListener("player_leave", ((event: CustomEvent) =>
+      handlePlayerLeave(event.detail.playerId)) as EventListener);
+
+    return () =>
+      window.removeEventListener("player_leave", ((event: CustomEvent) =>
+        handlePlayerLeave(event.detail.playerId)) as EventListener);
+  }, [player]);
+
+  const closeModal = () => setPlayer(undefined);
 
   const playerHasGift = player?.clothing.shirt === "Gift Giver";
+  const playerHasStreamReward = player?.clothing.hat === "Streamer Hat";
+  const notCurrentPlayer = farmId !== player?.id;
 
   return (
     <Modal show={!!player} onHide={closeModal}>
@@ -215,28 +159,47 @@ export const PlayerModals: React.FC<Props> = ({ game }) => {
             icon: SUNNYSIDE.icons.player,
             name: "Player",
           },
-          {
-            icon: SUNNYSIDE.icons.search,
-            name: "Report",
-          },
-          ...(hasFeatureAccess(game, "AIRDROP_PLAYER")
+          ...(playerHasGift
             ? [
                 {
                   icon: giftIcon,
+                  name: "Reward",
+                },
+              ]
+            : []),
+          ...(playerHasStreamReward && notCurrentPlayer
+            ? [
+                {
+                  icon: ITEM_DETAILS["Love Charm"].image,
+                  name: "Stream",
+                },
+              ]
+            : []),
+          ...(notCurrentPlayer
+            ? [
+                {
+                  icon: SUNNYSIDE.icons.search,
+                  name: "Report",
+                },
+              ]
+            : []),
+          ...(hasFeatureAccess(game, "AIRDROP_PLAYER")
+            ? [
+                {
+                  icon: blossom_bonding,
                   name: "Airdrop",
                 },
               ]
             : []),
         ]}
       >
-        {tab === 0 &&
-          (playerHasGift ? (
-            <PlayerGift />
-          ) : (
-            <PlayerDetails player={player as PlayerModalPlayer} />
-          ))}
-        {tab === 1 && <ReportPlayer id={player?.id as number} />}
-        {tab === 2 && (
+        {tab === "Player" && (
+          <PlayerDetails player={player as PlayerModalPlayer} />
+        )}
+        {tab === "Reward" && <PlayerGift />}
+        {tab === "Stream" && <StreamReward streamerId={player?.id as number} />}
+        {tab === "Report" && <ReportPlayer id={player?.id as number} />}
+        {tab === "Airdrop" && (
           <AirdropPlayer
             id={player?.id as number}
             // Noops

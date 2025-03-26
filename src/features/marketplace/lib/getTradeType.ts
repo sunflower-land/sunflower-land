@@ -1121,6 +1121,7 @@ export const ITEM_TRADE_TYPES: {
     "Birthday Hat": "instant",
     "Double Harvest Cap": "instant",
     "Streamer Helmet": "instant",
+    "Streamer Hat": "instant",
     "Corn Onesie": "instant",
     "Crow Wings": "instant",
     "Witches' Eve Tee": "instant",

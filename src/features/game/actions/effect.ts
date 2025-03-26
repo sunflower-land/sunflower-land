@@ -23,7 +23,8 @@ type EffectName =
   | "gems.bought"
   | "vip.bought"
   | "username.assigned"
-  | "username.changed";
+  | "username.changed"
+  | "streamReward.claimed";
 
 export type StateName =
   | "marketplacePurchasing"
@@ -43,7 +44,8 @@ export type StateName =
   | "buyingGems"
   | "buyingVIP"
   | "assigningUsername"
-  | "changingUsername";
+  | "changingUsername"
+  | "claimingStreamReward";
 
 export type StateNameWithStatus = `${StateName}Success` | `${StateName}Failed`;
 
@@ -67,6 +69,7 @@ export const EFFECT_EVENTS: Record<EffectName, StateName> = {
   "vip.bought": "buyingVIP",
   "username.assigned": "assigningUsername",
   "username.changed": "changingUsername",
+  "streamReward.claimed": "claimingStreamReward",
 };
 
 export interface Effect {

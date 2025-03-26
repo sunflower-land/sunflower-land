@@ -27,6 +27,13 @@ export const SPECIAL_ITEM_LABELS: Partial<Record<BumpkinItem, BuffLabel[]>> = {
       boostTypeIcon: lightning,
     },
   ],
+  "Streamer Hat": [
+    {
+      shortDescription: translate("description.streamer.hat.boost"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+    },
+  ],
 };
 
 export const BUMPKIN_ITEM_BUFF_LABELS: Partial<

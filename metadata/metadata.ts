@@ -17046,4 +17046,16 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     image: "../public/wearables/images/437.png",
     name: "Flower Bouquet",
   },
+  "Streamer Hat": {
+    description:
+      "A stylish hat adorned with a microphone, perfect for those who want to make a statement. +1 Love Charm for everyone who interacts with you.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hat" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/438.png",
+    name: "Streamer Hat",
+  },
 };

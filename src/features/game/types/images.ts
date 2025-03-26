@@ -826,6 +826,7 @@ import ancientClock from "assets/icons/ancient_clock.png";
 import windsOfChangeBanner from "assets/decorations/banners/winds-of-change_banner_loop.gif";
 import pesticide from "assets/sfts/pesticide.webp";
 import jin from "assets/sfts/jin_ronin.webp";
+import loveCharm from "assets/icons/love_charm.webp";
 
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
@@ -4927,7 +4928,7 @@ export const ITEM_DETAILS: Items = {
       "The Mythical Tiger of Ronin, embodies strength, resillence and adventurous spirit",
   },
   "Love Charm": {
-    image: SUNNYSIDE.icons.heart, // TODO: add image
+    image: loveCharm,
     description: translate("description.love.charm"),
   },
 };
