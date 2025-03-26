@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Modal } from "components/ui/Modal";
 import levelIcon from "assets/icons/level_up.png";
 import giftIcon from "assets/icons/gift.png";
+import blossom_bonding from "assets/icons/skill_icons/Bonding.png";
 
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -169,7 +170,7 @@ export const PlayerModals: React.FC<Props> = ({ game, farmId }) => {
           ...(hasFeatureAccess(game, "AIRDROP_PLAYER")
             ? [
                 {
-                  icon: giftIcon,
+                  icon: blossom_bonding,
                   name: "Airdrop",
                 },
               ]
