@@ -1,4 +1,4 @@
-import React, { useState, useContext, useCallback } from "react";
+import React, { useState, useContext, useCallback, useEffect } from "react";
 import { useActor, useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import * as AuthProvider from "features/auth/lib/Provider";
@@ -35,6 +35,13 @@ export const WorldIntroduction: React.FC<WorldIntroductionProps> = ({
   const currentUsername = useSelector(
     gameService,
     (state) => state.context.state.username,
+  );
+
+  const usernameAssignmentSuccess = useSelector(gameService, (state) =>
+    state.matches("assigningUsernameSuccess"),
+  );
+  const usernameAssignmentFailed = useSelector(gameService, (state) =>
+    state.matches("assigningUsernameFailed"),
   );
 
   // Find a delivery that is ready
@@ -80,6 +87,7 @@ export const WorldIntroduction: React.FC<WorldIntroductionProps> = ({
   );
 
   const applyUsername = async () => {
+    setTab(1);
     setState("loading");
     try {
       gameService.send("username.assigned", {
@@ -90,13 +98,24 @@ export const WorldIntroduction: React.FC<WorldIntroductionProps> = ({
         type: "UPDATE_USERNAME",
         username: username as string,
       });
-      setState("success");
-      setTab(3);
     } catch {
       setValidationState("Error saving username, please try again");
       setState("idle");
     }
   };
+
+  useEffect(() => {
+    if (usernameAssignmentSuccess) {
+      setTab(3);
+      setState("success");
+    }
+  }, [usernameAssignmentSuccess]);
+
+  useEffect(() => {
+    if (usernameAssignmentFailed) {
+      setState("error");
+    }
+  }, [usernameAssignmentFailed]);
 
   if (showNPCFind && delivery) {
     return (
