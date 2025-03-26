@@ -408,7 +408,7 @@ const DepositOptions: React.FC<Props> = ({
                   ) && (
                     <div>
                       <Label type="default" className="mb-2" icon={token}>
-                        {"$SFL"}
+                        {"$FLOWER"}
                       </Label>
                       <div className="flex items-start justify-between mb-4">
                         <div className="relative w-full mr-4">
@@ -522,7 +522,7 @@ const DepositOptions: React.FC<Props> = ({
                         !hasFeatureAccess(
                           INITIAL_FARM,
                           "DISABLE_BLOCKCHAIN_ACTIONS",
-                        ) && <p>{`${sflDepositAmount} SFL`}</p>}
+                        ) && <p>{`${sflDepositAmount} FLOWER`}</p>}
                       {hasItemsToDeposit && (
                         <div className="flex flex-wrap h-fit -ml-1.5">
                           {selectedItems.map((item) => {

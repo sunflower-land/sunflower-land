@@ -161,7 +161,7 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
             <div className="flex justify-between">
               <Label type="default">{capitalize(faction)}</Label>
               <Label type={hasSFL ? "warning" : "danger"} icon={sflIcon}>
-                {`${cost} SFL`}
+                {`${cost} FLOWER`}
               </Label>
             </div>
             <span className="text-xs sm:text-sm mb-2">

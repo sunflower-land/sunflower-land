@@ -102,7 +102,7 @@ export const RemoveOffer: React.FC<Props> = ({
             <div>
               <span className="text-sm">{`${quantity} x ${display.name}`}</span>
               <div className="flex items-center">
-                <span className="text-sm">{`${offer.sfl} SFL`}</span>
+                <span className="text-sm">{`${offer.sfl} FLOWER`}</span>
                 <img src={sflIcon} className="h-6 ml-1" />
               </div>
             </div>

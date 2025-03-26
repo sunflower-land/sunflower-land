@@ -71,7 +71,7 @@ export const BuyCurrenciesModal: React.FC<Props> = ({
   const [price, setPrice] = useState<Price>();
   const [hideBuyBBLabel, setHideBuyBBLabel] = useState(false);
 
-  // SFL to Coins
+  // FLOWER to Coins
   const [exchangePackageId, setExchangePackageId] = useState<number>();
 
   const token = useSelector(authService, _token);
@@ -226,7 +226,7 @@ export const BuyCurrenciesModal: React.FC<Props> = ({
           {tab === 1 && (
             <div className="flex flex-col space-y-2">
               <Label icon={exchangeIcon} type="default" className="mt-2 ml-1">
-                {`${t("exchange")} SFL ${t("for")} Coins`}
+                {t("exchange.flower.coins")}
               </Label>
               {/* Exchange packages */}
               {!exchangePackageId && (
@@ -258,7 +258,7 @@ export const BuyCurrenciesModal: React.FC<Props> = ({
                             width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
                           }}
                         >
-                          <span className="pl-1 sm:pl-0">{`${option.sfl} SFL`}</span>
+                          <span className="pl-1 sm:pl-0">{`${option.sfl} FLOWER`}</span>
                         </Label>
                       </ButtonPanel>
                     );
@@ -289,7 +289,7 @@ export const BuyCurrenciesModal: React.FC<Props> = ({
                     </div>
                     <span>{`${t("total")} ${
                       SFL_TO_COIN_PACKAGES[Number(exchangePackageId)].sfl
-                    } SFL`}</span>
+                    } FLOWER`}</span>
                   </div>
                   {!enoughSfl && (
                     <Label type="danger" icon={sflIcon} className="mb-2">

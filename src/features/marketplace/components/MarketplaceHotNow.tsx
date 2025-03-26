@@ -194,7 +194,7 @@ export const MarketplaceStats: React.FC<{
           <div className="flex items-center p-1">
             <img src={sflIcon} className="h-10 mr-2" />
             <div>
-              <p>{`${trends.volume.toFixed(0)} SFL`}</p>
+              <p>{`${trends.volume.toFixed(0)} FLOWER`}</p>
               <p className="text-xs">{t("marketplace.totalVolume")}</p>
             </div>
           </div>

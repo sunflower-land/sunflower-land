@@ -20,7 +20,7 @@ export type GuidePath =
 Walkthrough:
 
 1. Expand Land
-2. Earn X SFL
+2. Earn X FLOWER
 3. Level up (2)
 4. Complete X Deliveries
 5. Build a Well

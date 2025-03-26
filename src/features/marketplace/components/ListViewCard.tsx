@@ -180,7 +180,7 @@ export const ListViewCard: React.FC<Props> = ({
             <p className="text-xxs truncate pb-0.5">
               {`Last sale: ${formatNumber(lastSalePrice, {
                 decimalPlaces: 4,
-              })} SFL`}
+              })} FLOWER`}
             </p>
           )}
         </div>

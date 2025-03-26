@@ -86,7 +86,7 @@ export const MyTableRow: React.FC<MyTableRowProps> = ({
           <div className="flex items-center justify-start space-x-1">
             <img src={sflIcon} className="h-6" />
             <div>
-              <span className="text-xs sm:text-sm">{`${formatNumber(price, { decimalPlaces: 4 })} SFL`}</span>
+              <span className="text-xs sm:text-sm">{`${formatNumber(price, { decimalPlaces: 4 })} FLOWER`}</span>
               {!isResource && (
                 <p className="text-xxs">
                   {`$${new Decimal(usdPrice).mul(price).toFixed(2)} USD`}

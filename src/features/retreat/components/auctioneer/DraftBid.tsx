@@ -77,14 +77,14 @@ export const DraftBid: React.FC<Props> = ({
   const getInputErrorMessage = () => {
     if (tickets < minTickets) {
       if (isSFLAuction) {
-        return `Minimum bid is ${minTickets} SFL`;
+        return `Minimum bid is ${minTickets} FLOWER`;
       }
 
       return `Minimum bid is ${minTickets} ${ingredient}s`;
     }
 
     if (isSFLAuction && gameState.balance.lt(tickets)) {
-      return `You don't have enough SFL`;
+      return `You don't have enough FLOWER`;
     }
 
     if (gameState.inventory[ingredient]?.lt(tickets)) {
@@ -177,7 +177,7 @@ export const DraftBid: React.FC<Props> = ({
           })}
         </div>
 
-        {/* If there are more than one ingredient inc SFL */}
+        {/* If there are more than one ingredient inc FLOWER */}
         {isMultiIngredientAuction && (
           <div className="flex items-center justify-center mb-1">
             <Button
@@ -249,7 +249,7 @@ export const DraftBid: React.FC<Props> = ({
           </div>
         )}
 
-        {/* If there is only one ingredient/SFL */}
+        {/* If there is only one ingredient/FLOWER */}
         {!isMultiIngredientAuction && (
           <div className="relative flex flex-col items-center mb-[14px]">
             <div className="relative inline-block">

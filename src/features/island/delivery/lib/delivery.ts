@@ -276,7 +276,7 @@ export const NPC_DELIVERY_LEVELS: Record<DeliveryNpcName, number> = {
   "old salty": 15,
   victoria: 30,
 
-  // SFL
+  // FLOWER
   grimbly: 10,
   grimtooth: 12,
   grubnuk: 16,

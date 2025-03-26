@@ -61,7 +61,7 @@ export const SwapSFLForCoins: React.FC<{ onClose: () => void }> = ({
             }
           />
           <Label icon={exchangeIcon} type="default" className="ml-1">
-            {`${t("exchange")} SFL ${t("for")} Coins`}
+            {t("exchange.flower.coins")}
           </Label>
         </div>
         {/* Exchange packages */}
@@ -94,7 +94,7 @@ export const SwapSFLForCoins: React.FC<{ onClose: () => void }> = ({
                       width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
                     }}
                   >
-                    <span className="pl-1 sm:pl-0">{`${option.sfl} SFL`}</span>
+                    <span className="pl-1 sm:pl-0">{`${option.sfl} FLOWER`}</span>
                   </Label>
                 </ButtonPanel>
               );
@@ -114,7 +114,7 @@ export const SwapSFLForCoins: React.FC<{ onClose: () => void }> = ({
               </div>
               <span>{`${t("total")} ${
                 SFL_TO_COIN_PACKAGES[Number(exchangePackageId)].sfl
-              } SFL`}</span>
+              } FLOWER`}</span>
             </div>
             {!enoughSfl && (
               <Label type="danger" icon={sflIcon} className="mb-2 ml-1">

@@ -242,7 +242,7 @@ const EVENT_TO_NAME: Record<TransactionName, string> = {
   "transaction.budWithdrawn": "Withdraw bud",
   "transaction.itemsWithdrawn": "Withdraw items",
   "transaction.progressSynced": "Store on chain",
-  "transaction.sflWithdrawn": "Withdraw SFL",
+  "transaction.sflWithdrawn": "Withdraw FLOWER",
   "transaction.wearablesWithdrawn": "Withdraw wearables",
   "transaction.offerAccepted": "Accept offer",
   "transaction.listingPurchased": "Purchase listing",

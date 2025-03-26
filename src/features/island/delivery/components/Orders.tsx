@@ -520,7 +520,7 @@ export const DeliveryOrders: React.FC<Props> = ({
         <div className="px-2 mt-2">
           <div className="flex justify-between">
             <Label type="default" icon={token}>
-              {`SFL`}
+              {`FLOWER`}
             </Label>
           </div>
           {level <= 12 && (
@@ -773,7 +773,7 @@ export const DeliveryOrders: React.FC<Props> = ({
                       previewOrder.reward.coins
                         ? t("coins")
                         : previewOrder.reward.sfl
-                          ? "SFL"
+                          ? "FLOWER"
                           : getSeasonalTicket()
                     }`}
                   </span>

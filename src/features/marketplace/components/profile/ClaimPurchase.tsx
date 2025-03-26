@@ -35,7 +35,7 @@ export const ClaimPurchase: React.FC<ClaimPurchaseProps> = ({
           <Box image={token} />
           <div>
             <Label type="warning">
-              {`${formatNumber(sfl, { decimalPlaces: 4 })} SFL`}
+              {`${formatNumber(sfl, { decimalPlaces: 4 })} FLOWER`}
             </Label>
             <p className="text-xs mt-0.5">{t("reward.spendWisely")}</p>
           </div>

@@ -42,7 +42,7 @@ const getPageIcon = (page: Page) => {
 const getPageText = (page: Page) => {
   switch (page) {
     case "tokens":
-      return "SFL";
+      return "FLOWER";
     case "items":
       return translate("collectibles");
     case "wearables":

@@ -180,7 +180,7 @@ export const Santa: React.FC<Props> = ({ onClose }) => {
                     <div className="flex flex-col items-center">
                       <SquareIcon key={`${day}-sfl`} icon={token} width={20} />
                       <span className="text-xxs flex text-center">
-                        {reward.sfl + " SFL"}
+                        {reward.sfl + " FLOWER"}
                       </span>
                     </div>
                   </>

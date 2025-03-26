@@ -79,7 +79,7 @@ export const MarketplaceUser: React.FC = () => {
             </div>
             <div>
               <Label type="default" className="mb-0.5">
-                {`SFL Traded`}
+                {`FLOWER Traded`}
               </Label>
               <p className="text-sm">{profile.profit}</p>
             </div>
