@@ -368,7 +368,40 @@ export abstract class BaseScene extends Phaser.Scene {
         });
 
         if (clickedBumpkins.length === 1) {
+          const distance = Phaser.Math.Distance.BetweenPoints(
+            this.currentPlayer as BumpkinContainer,
+            clickedBumpkins[0],
+          );
+
+          if (distance > 50) {
+            this.currentPlayer?.speak(translate("base.far.away"));
+            return;
+          }
+
           playerModalManager.open(players[0]);
+          return;
+        }
+
+        // Check distance for all clicked bumpkins
+        const closestBumpkin = clickedBumpkins.reduce((closest, current) => {
+          const closestDistance = Phaser.Math.Distance.BetweenPoints(
+            this.currentPlayer as BumpkinContainer,
+            closest,
+          );
+          const currentDistance = Phaser.Math.Distance.BetweenPoints(
+            this.currentPlayer as BumpkinContainer,
+            current,
+          );
+          return currentDistance < closestDistance ? current : closest;
+        });
+
+        const closestDistance = Phaser.Math.Distance.BetweenPoints(
+          this.currentPlayer as BumpkinContainer,
+          closestBumpkin,
+        );
+
+        if (closestDistance > 50) {
+          this.currentPlayer?.speak(translate("base.far.away"));
           return;
         }
 
