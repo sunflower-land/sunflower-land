@@ -5592,5 +5592,7 @@
   "assigning.username": "Asignando nombre de usuario...",
   "assigning.username.success": "¡El nombre de usuario se asignó correctamente!",
   "changing.username": "Cambiando nombre de usuario...",
-  "changing.username.success": "¡El nombre de usuario se cambió correctamente!"
+  "changing.username.success": "¡El nombre de usuario se cambió correctamente!",
+  "claimed": "Reclamado",
+  "description.streamer.hat.boost": "Premie a los jugadores con 5 amuletos de amor cada 5 minutos"
 }

@@ -5592,5 +5592,7 @@
   "assigning.username": "Atribuindo nome de usuário...",
   "assigning.username.success": "Nome de usuário atribuído com sucesso!!",
   "changing.username": "Alterando o nome de usuário...",
-  "changing.username.success": "Nome de usuário alterado com sucesso!!"
+  "changing.username.success": "Nome de usuário alterado com sucesso!!",
+  "claimed": "Reivindicado",
+  "description.streamer.hat.boost": "Premie jogadores com 5 Love Charms a cada 5 minutos"
 }

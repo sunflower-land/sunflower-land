@@ -5592,5 +5592,7 @@
   "assigning.username": "正在分配用户名...",
   "assigning.username.success": "用户名分配成功！！",
   "changing.username": "正在更改用户名...",
-  "changing.username.success": "用户名已成功更改！"
+  "changing.username.success": "用户名已成功更改！",
+  "claimed": "已申领",
+  "description.streamer.hat.boost": "每 5 分钟奖励玩家 5 个爱情护身符"
 }

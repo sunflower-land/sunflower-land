@@ -5592,5 +5592,7 @@
   "assigning.username": "Присвоение имени пользователя...",
   "assigning.username.success": "Имя пользователя успешно назначено!!",
   "changing.username": "Изменение имени пользователя...",
-  "changing.username.success": "Имя пользователя успешно изменено!!"
+  "changing.username.success": "Имя пользователя успешно изменено!!",
+  "claimed": "Заявлено",
+  "description.streamer.hat.boost": "Награждайте игроков 5 любовными талисманами каждые 5 минут"
 }

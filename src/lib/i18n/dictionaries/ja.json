@@ -5592,5 +5592,7 @@
   "assigning.username": "ユーザー名を割り当て中...",
   "assigning.username.success": "ユーザー名が正常に割り当てられました!!",
   "changing.username": "ユーザー名を変更中...",
-  "changing.username.success": "ユーザー名が正常に変更されました!!"
+  "changing.username.success": "ユーザー名が正常に変更されました!!",
+  "claimed": "請求済み",
+  "description.streamer.hat.boost": "5分ごとに5個のラブチャームをプレイヤーに贈る"
 }

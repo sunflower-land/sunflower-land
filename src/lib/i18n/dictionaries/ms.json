@@ -5592,5 +5592,7 @@
   "assigning.username": "Menetapkan nama pengguna...",
   "assigning.username.success": "Nama pengguna diberikan dengan jayanya!!",
   "changing.username": "Menukar nama pengguna...",
-  "changing.username.success": "Nama pengguna berubah dengan jayanya!!"
+  "changing.username.success": "Nama pengguna berubah dengan jayanya!!",
+  "claimed": "Dituntut",
+  "description.streamer.hat.boost": "Anugerah pemain dengan 5 Love Charms setiap 5 minit"
 }

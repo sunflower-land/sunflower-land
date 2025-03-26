@@ -5592,5 +5592,7 @@
   "assigning.username": "Kullanıcı adı atanıyor...",
   "assigning.username.success": "Kullanıcı adı başarıyla atandı!!",
   "changing.username": "Kullanıcı adı değişiyor...",
-  "changing.username.success": "Kullanıcı adı başarıyla değiştirildi!!"
+  "changing.username.success": "Kullanıcı adı başarıyla değiştirildi!!",
+  "claimed": "İddia Edildi",
+  "description.streamer.hat.boost": "Oyuncuları 5 dakikada bir 5 Aşk Tılsımı ile ödüllendirin"
 }

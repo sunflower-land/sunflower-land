@@ -5592,5 +5592,7 @@
   "assigning.username": "Menetapkan nama pengguna...",
   "assigning.username.success": "Nama pengguna berhasil ditetapkan!!",
   "changing.username": "Mengubah nama pengguna...",
-  "changing.username.success": "Nama pengguna berhasil diubah!!"
+  "changing.username.success": "Nama pengguna berhasil diubah!!",
+  "claimed": "Diklaim",
+  "description.streamer.hat.boost": "Penghargaan pemain dengan 5 Pesona Cinta setiap 5 menit"
 }

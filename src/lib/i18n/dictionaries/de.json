@@ -5592,5 +5592,7 @@
   "assigning.username": "Benutzername wird zugewiesen...",
   "assigning.username.success": "Der Benutzername wurde erfolgreich vergeben!!",
   "changing.username": "Benutzername wird geändert...",
-  "changing.username.success": "Der Benutzername wurde erfolgreich geändert!!"
+  "changing.username.success": "Der Benutzername wurde erfolgreich geändert!!",
+  "claimed": "Beansprucht",
+  "description.streamer.hat.boost": "Belohne Spieler alle 5 Minuten mit 5 Liebeszaubern"
 }
