@@ -350,7 +350,6 @@ export abstract class BaseScene extends Phaser.Scene {
           return (
             (bumpkinContainer.farmId !== this.id ||
               (bumpkinContainer.farmId === this.id &&
-                this.gameState?.bumpkin?.equipped &&
                 this.gameState.bumpkin.equipped.shirt === "Gift Giver")) &&
             bumpkinContainer.farmId !== undefined
           );
@@ -865,6 +864,12 @@ export abstract class BaseScene extends Phaser.Scene {
   destroyPlayer(sessionId: string) {
     const entity = this.playerEntities[sessionId];
     if (entity) {
+      // Dispatch player leave event
+      const event = new CustomEvent("player_leave", {
+        detail: { playerId: entity.farmId },
+      });
+      window.dispatchEvent(event);
+
       entity.disappear();
       delete this.playerEntities[sessionId];
     }

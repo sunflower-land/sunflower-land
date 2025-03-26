@@ -123,9 +123,25 @@ export const PlayerModals: React.FC<Props> = ({ game, farmId }) => {
     });
   }, []);
 
-  const closeModal = () => {
-    setPlayer(undefined);
-  };
+  useEffect(() => {
+    if (!player) return;
+
+    const handlePlayerLeave = (playerId: number) => {
+      if (playerId === player.id) {
+        closeModal();
+      }
+    };
+
+    // Listen for player leave events
+    window.addEventListener("player_leave", ((event: CustomEvent) =>
+      handlePlayerLeave(event.detail.playerId)) as EventListener);
+
+    return () =>
+      window.removeEventListener("player_leave", ((event: CustomEvent) =>
+        handlePlayerLeave(event.detail.playerId)) as EventListener);
+  }, [player]);
+
+  const closeModal = () => setPlayer(undefined);
 
   const playerHasGift = player?.clothing.shirt === "Gift Giver";
   const playerHasStreamReward = player?.clothing.hat === "Streamer Hat";
