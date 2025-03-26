@@ -41,7 +41,7 @@ import {
   getPlazaShaderSetting,
 } from "lib/utils/hooks/usePlazaShader";
 import { playerSelectionListManager } from "../ui/PlayerSelectionList";
-import { playerModalManager } from "../ui/PlayerModals";
+import { playerModalManager } from "../ui/player/PlayerModals";
 
 export type NPCBumpkin = {
   x: number;

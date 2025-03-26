@@ -1493,21 +1493,12 @@ export interface GameState {
     rewardCollectedAt?: number;
     kickedAt?: number;
     kickedById?: number;
-    budBox?: {
-      openedAt: number;
-    };
-    raffle?: {
-      entries: Record<string, number>;
-    };
-    vipChest?: {
-      openedAt: number;
-    };
-    giftGiver?: {
-      openedAt: number;
-    };
-    pirateChest?: {
-      openedAt: number;
-    };
+    raffle?: { entries: Record<string, number> };
+    budBox?: { openedAt: number };
+    vipChest?: { openedAt: number };
+    giftGiver?: { openedAt: number };
+    streamerHat?: { openedAt: number };
+    pirateChest?: { openedAt: number };
     keysBought?: KeysBought;
   };
   conversations: ConversationName[];

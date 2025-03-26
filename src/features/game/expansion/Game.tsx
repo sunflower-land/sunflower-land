@@ -120,6 +120,9 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   assigningUsername: false,
   assigningUsernameSuccess: false,
   assigningUsernameFailed: false,
+  claimingStreamReward: false,
+  claimingStreamRewardSuccess: false,
+  claimingStreamRewardFailed: false,
   // Every new state should be added below here
   gems: true,
   communityCoin: true,
