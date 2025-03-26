@@ -110,7 +110,7 @@ interface Props {
 
 export const PlayerModals: React.FC<Props> = ({ game }) => {
   const [tab, setTab] = useState<
-    "Player" | "Gift Giver" | "Stream Reward" | "Report" | "Airdrop"
+    "Player" | "Reward" | "Stream" | "Report" | "Airdrop"
   >("Player");
   const [player, setPlayer] = useState<PlayerModalPlayer>();
 
@@ -144,7 +144,7 @@ export const PlayerModals: React.FC<Props> = ({ game }) => {
             ? [
                 {
                   icon: giftIcon,
-                  name: "Gift Giver",
+                  name: "Reward",
                 },
               ]
             : []),
@@ -152,7 +152,7 @@ export const PlayerModals: React.FC<Props> = ({ game }) => {
             ? [
                 {
                   icon: ITEM_DETAILS["Love Charm"].image,
-                  name: "Stream Reward",
+                  name: "Stream",
                 },
               ]
             : []),
@@ -173,10 +173,8 @@ export const PlayerModals: React.FC<Props> = ({ game }) => {
         {tab === "Player" && (
           <PlayerDetails player={player as PlayerModalPlayer} />
         )}
-        {tab === "Gift Giver" && <PlayerGift />}
-        {tab === "Stream Reward" && (
-          <StreamReward streamerId={player?.id as number} />
-        )}
+        {tab === "Reward" && <PlayerGift />}
+        {tab === "Stream" && <StreamReward streamerId={player?.id as number} />}
         {tab === "Report" && <ReportPlayer id={player?.id as number} />}
         {tab === "Airdrop" && (
           <AirdropPlayer
