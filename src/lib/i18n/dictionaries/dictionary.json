@@ -3886,6 +3886,7 @@
   "mega.wearables": "Mega Wearables",
   "description.gift.giver.boost": "Gift players a gift",
   "description.halo.boost": "Access to mod tools",
+  "description.streamer.hat.boost": "Award players with 5 Love Charms every 5 minutes",
   "keys.dailyLimit": "Daily Limit: {{keysAmountBoughtToday}}/1",
   "merkl.3rdParty": "Merkl & Quickswap are decentralised services and not operated by Sunflower Land.",
   "merkl.dyor": "Always do your own research and proceed at your own risk.",
