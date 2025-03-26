@@ -348,7 +348,10 @@ export abstract class BaseScene extends Phaser.Scene {
 
           const bumpkinContainer = clickedObject as BumpkinContainer;
           return (
-            bumpkinContainer.farmId !== this.id &&
+            (bumpkinContainer.farmId !== this.id ||
+              (bumpkinContainer.farmId === this.id &&
+                this.gameState?.bumpkin?.equipped &&
+                this.gameState.bumpkin.equipped.shirt === "Gift Giver")) &&
             bumpkinContainer.farmId !== undefined
           );
         }) as BumpkinContainer[];

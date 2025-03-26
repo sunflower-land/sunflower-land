@@ -534,7 +534,7 @@ export const PhaserComponent: React.FC<Props> = ({
 
       <NPCModals id={farmId as number} scene={scene} />
       <PlayerSelectionList />
-      <PlayerModals game={state} />
+      <PlayerModals game={state} farmId={farmId as number} />
       <TradeCompleted mmoService={mmoService} farmId={farmId as number} />
       <CommunityModals />
       <InteractableModals id={farmId as number} scene={scene} key={scene} />

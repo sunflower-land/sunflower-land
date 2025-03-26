@@ -106,9 +106,10 @@ const PlayerDetails: React.FC<{ player: PlayerModalPlayer }> = ({ player }) => {
 
 interface Props {
   game: GameState;
+  farmId: number;
 }
 
-export const PlayerModals: React.FC<Props> = ({ game }) => {
+export const PlayerModals: React.FC<Props> = ({ game, farmId }) => {
   const [tab, setTab] = useState<
     "Player" | "Reward" | "Stream" | "Report" | "Airdrop"
   >("Player");
@@ -156,10 +157,14 @@ export const PlayerModals: React.FC<Props> = ({ game }) => {
                 },
               ]
             : []),
-          {
-            icon: SUNNYSIDE.icons.search,
-            name: "Report",
-          },
+          ...(farmId !== player?.id
+            ? [
+                {
+                  icon: SUNNYSIDE.icons.search,
+                  name: "Report",
+                },
+              ]
+            : []),
           ...(hasFeatureAccess(game, "AIRDROP_PLAYER")
             ? [
                 {
