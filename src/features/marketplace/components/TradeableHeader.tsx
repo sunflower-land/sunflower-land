@@ -230,10 +230,10 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                   >
                     <p className={classNames("text-base")}>
                       {!tradeable
-                        ? "0 SFL"
+                        ? "0 FLOWER"
                         : `${formatNumber(cheapestListing?.sfl ?? 0, {
                             decimalPlaces: 4,
-                          })} SFL`}
+                          })} FLOWER`}
                     </p>
                     <p className="text-xs">
                       {`$${new Decimal(usd)

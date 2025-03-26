@@ -90,7 +90,7 @@ export const MarketplaceSalesPopup: React.FC = () => {
                     <div className="flex items-center space-x-1">
                       <p className="text-xs mt-0.5">{`${formatNumber(sfl, {
                         decimalPlaces: 4,
-                      })} SFL`}</p>
+                      })} FLOWER`}</p>
                       <img src={token} className="w-4" />
                     </div>
                     {!isResource && (

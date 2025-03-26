@@ -198,7 +198,7 @@ export const TradeableOffers: React.FC<{
                 <div className="flex w-full mb-2 sm:mb-0 items-center">
                   <img src={sflIcon} className="h-8 mr-2" />
                   <div>
-                    <p className="text-base">{`${topOffer.sfl} SFL`}</p>
+                    <p className="text-base">{`${topOffer.sfl} FLOWER`}</p>
                     <p className="text-xxs">
                       {`$${new Decimal(usd).mul(topOffer.sfl).toFixed(2)}`}
                     </p>

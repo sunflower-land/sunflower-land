@@ -108,7 +108,7 @@ export function purchaseMinigameItem({
       ],
     };
 
-    // Burn the SFL
+    // Burn the FLOWER
     game.balance = game.balance.sub(action.sfl);
 
     return game;

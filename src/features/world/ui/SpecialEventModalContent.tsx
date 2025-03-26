@@ -342,7 +342,7 @@ export const SpecialEventModalContent: React.FC<{
                         className="absolute -bottom-2 text-center mt-1 p-1 left-[-8px] z-10"
                         style={{ width: "calc(100% + 16px)" }}
                       >
-                        {`${task.reward.sfl} SFL`}
+                        {`${task.reward.sfl} FLOWER`}
                       </Label>
                     )}
 
@@ -412,7 +412,7 @@ export const SpecialEventModalContent: React.FC<{
                 ))}
                 {!!selected.reward.sfl && (
                   <Label type="warning" className="">
-                    {`${selected.reward.sfl} SFL`}
+                    {`${selected.reward.sfl} FLOWER`}
                   </Label>
                 )}
               </div>

@@ -81,7 +81,7 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
               <Box image={token} className="-mt-2 -ml-1 -mb-1" />
               <div>
                 <Label type="warning">
-                  {`${formatNumber(airdrop.sfl, { decimalPlaces: 4 })} SFL`}
+                  {`${formatNumber(airdrop.sfl, { decimalPlaces: 4 })} FLOWER`}
                 </Label>
                 <p className="text-xs mt-1 ml-0.5">{t("reward.spendWisely")}</p>
               </div>

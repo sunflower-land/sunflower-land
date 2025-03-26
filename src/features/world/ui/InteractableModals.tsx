@@ -867,7 +867,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           {interactable === "fan_art" && (
             <div className="p-2">
               <p className="mb-2">Have you submitted your fan art?</p>
-              <p className="mb-2">1000 SFL in prizes to be won!</p>
+              <p className="mb-2">1000 FLOWER in prizes to be won!</p>
               <a
                 href="https://github.com/sunflower-land/sunflower-land/discussions/2553"
                 target="_blank"

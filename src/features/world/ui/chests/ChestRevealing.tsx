@@ -78,7 +78,7 @@ export const ChestRevealing: React.FC<Props> = ({ type }) => {
 
       if (randomItem.sfl) {
         newImage = sfl;
-        newLabel = `${randomItem.sfl} SFL`;
+        newLabel = `${randomItem.sfl} FLOWER`;
       }
 
       if (randomItem.coins) {

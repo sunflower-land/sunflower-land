@@ -45,7 +45,7 @@ export const TradeableItemDetails: React.FC<{
       <div>
         <span className="text-sm">{`${quantity} x ${display.name}`}</span>
         <div className="flex items-center">
-          <span className="text-sm">{`${sfl} SFL`}</span>
+          <span className="text-sm">{`${sfl} FLOWER`}</span>
           <img src={sflIcon} className="h-6 ml-1" />
         </div>
         {estTradePoints && !isResource && (
@@ -87,7 +87,7 @@ export const TradeableSummary: React.FC<{
         <p className="text-xs font-secondary">{`${formatNumber(sfl, {
           decimalPlaces: 4,
           showTrailingZeros: true,
-        })} SFL`}</p>
+        })} FLOWER`}</p>
       </div>
 
       <div
@@ -104,7 +104,7 @@ export const TradeableSummary: React.FC<{
             decimalPlaces: 4,
             showTrailingZeros: true,
           },
-        )} SFL`}</p>
+        )} FLOWER`}</p>
       </div>
       <div
         className="flex justify-between"
@@ -121,7 +121,7 @@ export const TradeableSummary: React.FC<{
             decimalPlaces: 4,
             showTrailingZeros: true,
           },
-        )} SFL`}</p>
+        )} FLOWER`}</p>
       </div>
       {!!estTradePoints && !isResource && (
         <div

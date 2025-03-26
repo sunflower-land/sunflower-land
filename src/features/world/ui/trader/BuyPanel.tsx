@@ -341,7 +341,7 @@ const ListView: React.FC<ListViewProps> = ({
                 <div className="ml-1">
                   <div className="flex items-center mb-1">
                     <img src={token} className="h-6 mr-1" />
-                    <p className="text-xs">{`${formatNumber(selectedListing.sfl, { decimalPlaces: 4 })} SFL`}</p>
+                    <p className="text-xs">{`${formatNumber(selectedListing.sfl, { decimalPlaces: 4 })} FLOWER`}</p>
                   </div>
                   <p className="text-xxs">
                     {t("bumpkinTrade.price/unit", {
@@ -420,7 +420,7 @@ const ListView: React.FC<ListViewProps> = ({
                     <div className="ml-0.5 sm:ml-1">
                       <div className="flex items-center mb-1">
                         <img src={token} className="h-5 sm:h-6 mr-1" />
-                        <p className="text-xs">{`${formatNumber(listing.sfl, { decimalPlaces: 4 })} SFL`}</p>
+                        <p className="text-xs">{`${formatNumber(listing.sfl, { decimalPlaces: 4 })} FLOWER`}</p>
                       </div>
                       <p className="text-xxs">
                         {t("bumpkinTrade.price/unit", {

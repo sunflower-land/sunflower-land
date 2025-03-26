@@ -67,9 +67,9 @@ export const TradeableStats: React.FC<Props> = ({ history, marketPrice }) => {
           </div>
           <p className="text-xxs pl-0.5 sm:text-xs sm:p-1">
             {loading ? (
-              <span className="loading-fade-pulse">{`${formatNumber(0, { decimalPlaces: 4 })} SFL`}</span>
+              <span className="loading-fade-pulse">{`${formatNumber(0, { decimalPlaces: 4 })} FLOWER`}</span>
             ) : (
-              `${formatNumber(prices.oneDayPrice, { decimalPlaces: 4 })} SFL > ${formatNumber(marketPrice, { decimalPlaces: 4 })} SFL`
+              `${formatNumber(prices.oneDayPrice, { decimalPlaces: 4 })} FLOWER > ${formatNumber(marketPrice, { decimalPlaces: 4 })} FLOWER`
             )}
           </p>
         </InnerPanel>
@@ -94,9 +94,9 @@ export const TradeableStats: React.FC<Props> = ({ history, marketPrice }) => {
           </div>
           <p className="text-xxs pl-0.5 sm:text-xs sm:p-1">
             {loading ? (
-              <span className="loading-fade-pulse">{`${formatNumber(0, { decimalPlaces: 4 })} SFL`}</span>
+              <span className="loading-fade-pulse">{`${formatNumber(0, { decimalPlaces: 4 })} FLOWER`}</span>
             ) : (
-              `${formatNumber(prices.sevenDayPrice, { decimalPlaces: 4 })} SFL > ${formatNumber(marketPrice, { decimalPlaces: 4 })} SFL`
+              `${formatNumber(prices.sevenDayPrice, { decimalPlaces: 4 })} FLOWER > ${formatNumber(marketPrice, { decimalPlaces: 4 })} FLOWER`
             )}
           </p>
         </InnerPanel>

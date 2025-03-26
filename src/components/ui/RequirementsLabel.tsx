@@ -18,10 +18,10 @@ import { getImageUrl } from "lib/utils/getImageURLS";
 import { KNOWN_IDS } from "features/game/types";
 
 /**
- * The props for SFL requirement label. Use this when the item costs SFL.
- * @param type The type is SFL.
- * @param balance The SFL balance of the player.
- * @param requirement The SFL requirement.
+ * The props for FLOWER requirement label. Use this when the item costs FLOWER.
+ * @param type The type is FLOWER.
+ * @param balance The FLOWER balance of the player.
+ * @param requirement The FLOWER requirement.
  */
 interface SFLProps {
   type: "sfl";
@@ -29,9 +29,9 @@ interface SFLProps {
   requirement: Decimal;
 }
 /**
- * The props for sell for SFL requirement label. Use this when selling the item gives players SFL.
- * @param type The type is sell for SFL.
- * @param requirement The SFL requirement.
+ * The props for sell for FLOWER requirement label. Use this when selling the item gives players FLOWER.
+ * @param type The type is sell for FLOWER.
+ * @param requirement The FLOWER requirement.
  */
 interface SellSFLProps {
   type: "sellForSfl";
@@ -341,7 +341,7 @@ export const RequirementLabel: React.FC<Props> = (props) => {
       <div className="flex items-center">
         {!props.hideIcon && <SquareIcon icon={getIcon()} width={7} />}
         {props.type === "sfl" && props.showLabel && (
-          <span className="text-xs ml-1">{"SFL"}</span>
+          <span className="text-xs ml-1">{"FLOWER"}</span>
         )}
         {props.type === "item" && props.showLabel && (
           <span className="text-xs ml-1">{props.item}</span>

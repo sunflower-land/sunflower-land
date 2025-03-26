@@ -497,7 +497,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
               <p className="text-xs font-secondary">{`${formatNumber(price, {
                 decimalPlaces: 4,
                 showTrailingZeros: true,
-              })} SFL`}</p>
+              })} FLOWER`}</p>
             </div>
             <div
               className="flex justify-between"
@@ -513,7 +513,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
                   decimalPlaces: 4,
                   showTrailingZeros: true,
                 },
-              )} SFL`}</p>
+              )} FLOWER`}</p>
             </div>
             <div
               className="flex justify-between"
@@ -531,7 +531,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
                   decimalPlaces: 4,
                   showTrailingZeros: true,
                 },
-              )} SFL`}</p>
+              )} FLOWER`}</p>
             </div>
             <div
               className="flex justify-between"

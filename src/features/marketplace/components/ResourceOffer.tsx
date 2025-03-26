@@ -231,7 +231,7 @@ export const ResourceOffer: React.FC<Props> = ({
           <p className="text-xs font-secondary">{`${formatNumber(price, {
             decimalPlaces: 4,
             showTrailingZeros: true,
-          })} SFL`}</p>
+          })} FLOWER`}</p>
         </div>
         <div
           className="flex justify-between"
@@ -245,11 +245,11 @@ export const ResourceOffer: React.FC<Props> = ({
           </span>
           <p className="text-xs font-secondary">
             {new Decimal(quantity).equals(0)
-              ? "0.0000 SFL"
+              ? "0.0000 FLOWER"
               : `${formatNumber(unitPrice, {
                   decimalPlaces: 4,
                   showTrailingZeros: true,
-                })} SFL`}
+                })} FLOWER`}
           </p>
         </div>
         <div className="flex mt-2">

@@ -234,7 +234,7 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
                 {!!purchase.sfl && (
                   <div className="flex mb-1 items-center">
                     <Box image={sflIcon} />
-                    <span className="ml-1">{`${purchase.sfl} x SFL`}</span>
+                    <span className="ml-1">{`${purchase.sfl} x FLOWER`}</span>
                   </div>
                 )}
                 {getKeys(purchase.items ?? {}).map((key) => {

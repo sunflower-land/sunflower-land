@@ -59,7 +59,7 @@ export const Balances: React.FC<Props> = ({ sfl, coins, gems, onClick }) => {
             }}
           />
         </div>
-        {/* SFL */}
+        {/* FLOWER */}
         <div
           className={classNames("flex items-center space-x-2 relative", {
             // show cursor if balance has a decimal place
