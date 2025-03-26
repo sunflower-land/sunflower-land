@@ -355,7 +355,19 @@ export const STATIC_OFFLINE_FARM: GameState = {
     oil: 100,
     pots: {},
   },
-
+  twitter: {
+    linkedAt: Date.now(),
+    followedAt: Date.now(),
+    isAuthorised: true,
+    // verifiedPostsAt: Date.now(),
+    tweets: {
+      FARM: {
+        completedAt: Date.now() - 11 * 24 * 60 * 60 * 1000,
+        tweetId: "123",
+        total: 10,
+      },
+    },
+  },
   createdAt: new Date().getTime(),
 
   experiments: ["GEM_BOOSTS"],
