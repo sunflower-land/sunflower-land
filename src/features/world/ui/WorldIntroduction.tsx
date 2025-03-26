@@ -61,7 +61,6 @@ export const WorldIntroduction: React.FC<WorldIntroductionProps> = ({
     "idle" | "loading" | "success" | "error" | "checking"
   >("idle");
 
-  const alreadyHaveUsername = Boolean(currentUsername);
   const { t } = useAppTranslation();
 
   // debounced function to check if username is available
@@ -131,44 +130,28 @@ export const WorldIntroduction: React.FC<WorldIntroductionProps> = ({
     <>
       {tab === 0 && (
         <Panel bumpkinParts={NPC_WEARABLES.mayor}>
-          {alreadyHaveUsername ? (
-            <SpeakingText
-              onClose={() => onClose(currentUsername ?? "")}
-              message={[
-                {
-                  text: t("mayor.plaza.metBefore", {
-                    username: currentUsername ?? "",
-                  }),
-                },
-                {
-                  text: t("mayor.plaza.coffee"),
-                },
-              ]}
-            />
-          ) : (
-            <SpeakingText
-              onClose={() => onClose(currentUsername ?? "")}
-              message={[
-                {
-                  text: t("mayor.plaza.intro"),
-                },
-                {
-                  text: t("mayor.plaza.role"),
-                },
-                {
-                  text: t("mayor.plaza.fixNamePrompt"),
-                  actions: [
-                    {
-                      text: t("ok"),
-                      cb: () => {
-                        setTab(1);
-                      },
+          <SpeakingText
+            onClose={() => onClose(currentUsername ?? "")}
+            message={[
+              {
+                text: t("mayor.plaza.intro"),
+              },
+              {
+                text: t("mayor.plaza.role"),
+              },
+              {
+                text: t("mayor.plaza.fixNamePrompt"),
+                actions: [
+                  {
+                    text: t("ok"),
+                    cb: () => {
+                      setTab(1);
                     },
-                  ],
-                },
-              ]}
-            />
-          )}
+                  },
+                ],
+              },
+            ]}
+          />
         </Panel>
       )}
 

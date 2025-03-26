@@ -1,4 +1,4 @@
-import React, { useState, useContext, useCallback } from "react";
+import React, { useState, useContext, useCallback, useEffect } from "react";
 import { useActor, useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import * as AuthProvider from "features/auth/lib/Provider";
@@ -33,6 +33,12 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
   const currentUsername = useSelector(
     gameService,
     (state) => state.context.state.username,
+  );
+  const usernameChangeSuccess = useSelector(gameService, (state) =>
+    state.matches("changingUsernameSuccess"),
+  );
+  const usernameChangeFailed = useSelector(gameService, (state) =>
+    state.matches("changingUsernameFailed"),
   );
 
   const lastChangeAt = useSelector(
@@ -72,19 +78,13 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
   );
 
   const applyUsername = async () => {
+    setTab(1);
     setState("loading");
     try {
-      if (alreadyHaveUsername) {
-        gameService.send("username.changed", {
-          effect: { type: "username.changed", username: username as string },
-          authToken: authState.context.user.rawToken as string,
-        });
-      } else {
-        gameService.send("username.assigned", {
-          effect: { type: "username.assigned", username: username as string },
-          authToken: authState.context.user.rawToken as string,
-        });
-      }
+      gameService.send("username.changed", {
+        effect: { type: "username.changed", username: username as string },
+        authToken: authState.context.user.rawToken as string,
+      });
       gameService.send({
         type: "UPDATE_USERNAME",
         username: username as string,
@@ -95,13 +95,24 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
         type: "Fee",
         item: "Username Change",
       });
-      setState("success");
-      setTab(4);
     } catch {
       setValidationState("Error saving username, please try again");
       setState("idle");
     }
   };
+
+  useEffect(() => {
+    if (usernameChangeSuccess) {
+      setState("success");
+      setTab(4);
+    }
+  }, [usernameChangeSuccess]);
+
+  useEffect(() => {
+    if (usernameChangeFailed) {
+      setState("error");
+    }
+  }, [usernameChangeFailed]);
 
   const isOnCooldown = Date.now() - lastChangeAt < COOLDOWN;
   const daysToNextChange = Math.ceil(
