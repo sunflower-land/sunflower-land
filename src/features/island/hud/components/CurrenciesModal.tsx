@@ -109,7 +109,7 @@ export const CurrenciesModal: React.FC<Props> = ({ show, onClose }) => {
     swap: {
       page: "swap",
       icon: exchangeIcon,
-      label: `${t("exchange")} SFL ${t("for")} Coins`,
+      label: t("exchange.flower.coins"),
     },
   };
 

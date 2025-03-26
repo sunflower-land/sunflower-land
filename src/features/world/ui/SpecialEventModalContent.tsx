@@ -8,7 +8,7 @@ import { useActor } from "@xstate/react";
 import { Airdrop } from "features/game/types/game";
 import { Button } from "components/ui/Button";
 import gift from "assets/icons/gift.png";
-import token from "assets/icons/sfl.webp";
+import token from "assets/icons/flower_token.webp";
 import chest from "assets/icons/chest.png";
 
 import Decimal from "decimal.js-light";
@@ -342,7 +342,7 @@ export const SpecialEventModalContent: React.FC<{
                         className="absolute -bottom-2 text-center mt-1 p-1 left-[-8px] z-10"
                         style={{ width: "calc(100% + 16px)" }}
                       >
-                        {`${task.reward.sfl} SFL`}
+                        {`${task.reward.sfl} FLOWER`}
                       </Label>
                     )}
 
@@ -412,7 +412,7 @@ export const SpecialEventModalContent: React.FC<{
                 ))}
                 {!!selected.reward.sfl && (
                   <Label type="warning" className="">
-                    {`${selected.reward.sfl} SFL`}
+                    {`${selected.reward.sfl} FLOWER`}
                   </Label>
                 )}
               </div>

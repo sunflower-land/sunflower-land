@@ -7,7 +7,7 @@ import { WithdrawItems } from "./WithdrawItems";
 import { WithdrawWearables } from "./WithdrawWearables";
 import { SUNNYSIDE } from "assets/sunnyside";
 import chest from "assets/icons/chest.png";
-import token from "assets/icons/sfl.webp";
+import flowerIcon from "assets/icons/flower_token.webp";
 import { WithdrawBuds } from "./WithdrawBuds";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/game/GameProvider";
@@ -23,7 +23,7 @@ import { FaceRecognition } from "features/retreat/components/personhood/FaceReco
 const getPageIcon = (page: Page) => {
   switch (page) {
     case "tokens":
-      return token;
+      return flowerIcon;
     case "items":
       return chest;
     case "wearables":
@@ -42,7 +42,7 @@ const getPageIcon = (page: Page) => {
 const getPageText = (page: Page) => {
   switch (page) {
     case "tokens":
-      return "SFL";
+      return "FLOWER";
     case "items":
       return translate("collectibles");
     case "wearables":
@@ -169,7 +169,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     gameService.send("TRANSACT", {
       transaction: "transaction.sflWithdrawn",
       request: {
-        captcha: token,
+        captcha: flowerIcon,
         sfl: sfl,
       },
     });
@@ -180,7 +180,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     gameService.send("TRANSACT", {
       transaction: "transaction.itemsWithdrawn",
       request: {
-        captcha: token,
+        captcha: flowerIcon,
         amounts: amounts,
         ids: ids,
       },
@@ -195,7 +195,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     gameService.send("TRANSACT", {
       transaction: "transaction.wearablesWithdrawn",
       request: {
-        captcha: token,
+        captcha: flowerIcon,
         amounts: wearableAmounts,
         ids: wearableIds,
       },
@@ -207,7 +207,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     gameService.send("TRANSACT", {
       transaction: "transaction.budWithdrawn",
       request: {
-        captcha: token,
+        captcha: flowerIcon,
         budIds: ids,
       },
     });

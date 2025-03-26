@@ -23,7 +23,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import gift from "assets/icons/gift.png";
 import trophy from "assets/icons/trophy.png";
 import coins from "assets/icons/coins.webp";
-import sfl from "assets/icons/sfl.webp";
+import sfl from "assets/icons/flower_token.webp";
 
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import {

@@ -25,7 +25,7 @@ export function refundBid({ state }: Options) {
       game.inventory[name] = old.add(bid.ingredients[name] ?? 0);
     });
 
-    // Add SFL back to balance
+    // Add FLOWER back to balance
     game.balance = game.balance.add(bid.sfl);
 
     delete game.auctioneer.bid;

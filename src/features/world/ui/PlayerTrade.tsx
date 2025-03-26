@@ -17,7 +17,7 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { makeListingType } from "lib/utils/makeTradeListingType";
 import { Loading } from "features/auth/components";
-import token from "assets/icons/sfl.webp";
+import token from "assets/icons/flower_token.webp";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { MachineState } from "features/game/lib/gameMachine";
 import { CannotTrade } from "./CannotTrade";
@@ -240,7 +240,7 @@ export const PlayerTrade: React.FC<Props> = ({ farmId, onClose }) => {
                   {Action(listingId)}
 
                   <div className="flex items-center mt-1  justify-end mr-0.5">
-                    <p className="font-secondary">{`${listings[listingId].sfl} SFL`}</p>
+                    <p className="font-secondary">{`${listings[listingId].sfl} FLOWER`}</p>
                     <img src={token} className="h-6 ml-1" />
                   </div>
                 </div>

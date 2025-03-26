@@ -23,7 +23,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import lockIcon from "assets/icons/lock.png";
 import tradeIcon from "assets/icons/trade.png";
 import increaseArrow from "assets/icons/increase_arrow.png";
-import sflIcon from "assets/icons/sfl.webp";
+import sflIcon from "assets/icons/flower_token.webp";
 import walletIcon from "assets/icons/wallet.png";
 import hammerinHarry from "assets/npcs/hammerin_harry.webp";
 import salesIcon from "assets/icons/sale.webp";

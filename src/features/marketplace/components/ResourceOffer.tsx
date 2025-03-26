@@ -15,7 +15,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { formatNumber, setPrecision } from "lib/utils/formatNumber";
 
-import sflIcon from "assets/icons/sfl.webp";
+import sflIcon from "assets/icons/flower_token.webp";
 import tradeIcon from "assets/icons/trade.png";
 import lockIcon from "assets/icons/lock.png";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
@@ -231,7 +231,7 @@ export const ResourceOffer: React.FC<Props> = ({
           <p className="text-xs font-secondary">{`${formatNumber(price, {
             decimalPlaces: 4,
             showTrailingZeros: true,
-          })} SFL`}</p>
+          })} FLOWER`}</p>
         </div>
         <div
           className="flex justify-between"
@@ -245,11 +245,11 @@ export const ResourceOffer: React.FC<Props> = ({
           </span>
           <p className="text-xs font-secondary">
             {new Decimal(quantity).equals(0)
-              ? "0.0000 SFL"
+              ? "0.0000 FLOWER"
               : `${formatNumber(unitPrice, {
                   decimalPlaces: 4,
                   showTrailingZeros: true,
-                })} SFL`}
+                })} FLOWER`}
           </p>
         </div>
         <div className="flex mt-2">

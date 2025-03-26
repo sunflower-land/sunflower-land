@@ -32,7 +32,7 @@ export function receiveTrade({
     // Subtract 10% tax
     trade.sfl = trade.sfl * 0.9;
 
-    // Add SFL to balance (minus tax)
+    // Add FLOWER to balance (minus tax)
     game.balance = game.balance.add(trade.sfl);
 
     // Remove trade

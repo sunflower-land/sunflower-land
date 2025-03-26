@@ -2,7 +2,7 @@ import classNames from "classnames";
 import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React from "react";
-import token from "assets/icons/sfl.webp";
+import token from "assets/icons/flower_token.webp";
 import { Decimal } from "decimal.js-light";
 
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
@@ -98,7 +98,7 @@ export const TableRow: React.FC<RowProps> = ({
           <div className="flex items-center justify-start space-x-1">
             <img src={token} className="h-6" />
             <div>
-              <span className="text-xxs sm:text-sm">{`${formatNumber(price, { decimalPlaces: 4 })} SFL`}</span>
+              <span className="text-xxs sm:text-sm">{`${formatNumber(price, { decimalPlaces: 4 })} FLOWER`}</span>
               {!isResource && (
                 <p className="text-xxs">
                   {`$${new Decimal(item.usd ?? 0).mul(price).toFixed(2)} USD`}

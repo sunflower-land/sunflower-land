@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import classNames from "classnames";
 import Decimal from "decimal.js-light";
 
-import token from "assets/icons/sfl.webp";
+import token from "assets/icons/flower_token.webp";
 import chest from "assets/icons/chest.png";
 import lock from "assets/icons/lock.png";
 import lightning from "assets/icons/lightning.png";
@@ -520,7 +520,7 @@ export const DeliveryOrders: React.FC<Props> = ({
         <div className="px-2 mt-2">
           <div className="flex justify-between">
             <Label type="default" icon={token}>
-              {`SFL`}
+              {`FLOWER`}
             </Label>
           </div>
           {level <= 12 && (
@@ -773,7 +773,7 @@ export const DeliveryOrders: React.FC<Props> = ({
                       previewOrder.reward.coins
                         ? t("coins")
                         : previewOrder.reward.sfl
-                          ? "SFL"
+                          ? "FLOWER"
                           : getSeasonalTicket()
                     }`}
                   </span>
