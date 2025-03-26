@@ -408,6 +408,7 @@ export const INITIAL_CHORE_BOARD: ChoreBoard = {
 };
 
 export const INITIAL_FARM: GameState = {
+  settings: {},
   coins: 0,
   balance: new Decimal(0),
   previousBalance: new Decimal(0),
@@ -712,6 +713,7 @@ export const INITIAL_FARM: GameState = {
 };
 
 export const TEST_FARM: GameState = {
+  settings: {},
   coins: 0,
   balance: new Decimal(0),
   previousBalance: new Decimal(0),
@@ -1049,6 +1051,7 @@ export const INITIAL_EQUIPPED: Equipped = {
 };
 
 export const EMPTY: GameState = {
+  settings: {},
   coins: 0,
   balance: new Decimal(fromWei("0")),
   previousBalance: new Decimal(fromWei("0")),

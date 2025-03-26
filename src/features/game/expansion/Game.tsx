@@ -114,6 +114,12 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   depositingFlower: false,
   depositingFlowerSuccess: false,
   depositingFlowerFailed: false,
+  changingUsername: false,
+  changingUsernameSuccess: false,
+  changingUsernameFailed: false,
+  assigningUsername: false,
+  assigningUsernameSuccess: false,
+  assigningUsernameFailed: false,
   // Every new state should be added below here
   gems: true,
   communityCoin: true,

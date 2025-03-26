@@ -376,11 +376,7 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
     },
     joined: {
       always: [
-        {
-          target: "introduction",
-          cond: (context) =>
-            !localStorage.getItem("mmo_introduction.read") || !context.username,
-        },
+        { target: "introduction", cond: (context) => !context.username },
       ],
       on: {
         CHANGE_SERVER: {

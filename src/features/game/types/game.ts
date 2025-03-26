@@ -1407,6 +1407,11 @@ export interface GameState {
   };
 
   username?: string;
+  settings: {
+    username?: {
+      setAt?: number;
+    };
+  };
   coins: number;
   balance: Decimal;
   previousBalance: Decimal;

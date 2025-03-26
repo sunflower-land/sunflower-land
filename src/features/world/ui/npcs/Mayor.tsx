@@ -1,5 +1,5 @@
-import React, { useState, useContext, useCallback } from "react";
-import { useActor } from "@xstate/react";
+import React, { useState, useContext, useCallback, useEffect } from "react";
+import { useActor, useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import * as AuthProvider from "features/auth/lib/Provider";
 
@@ -10,10 +10,16 @@ import {
   SpeakingText,
 } from "../../../game/components/SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";
-import { validateUsername, saveUsername, checkUsername } from "lib/username";
+import { validateUsername, checkUsername } from "lib/username";
 import { Panel } from "components/ui/Panel";
 import debounce from "lodash.debounce";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { Label } from "components/ui/Label";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { gameAnalytics } from "lib/gameAnalytics";
+
+const COOLDOWN = 1000 * 60 * 60 * 24 * 30; // 30 days
+const gemCost = 250;
 
 interface MayorProps {
   onClose: () => void;
@@ -24,11 +30,27 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
   const [authState] = useActor(authService);
 
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
-
-  const [username, setUsername] = useState<string>(
-    gameState.context.state.username ?? "",
+  const currentUsername = useSelector(
+    gameService,
+    (state) => state.context.state.username,
   );
+  const usernameChangeSuccess = useSelector(gameService, (state) =>
+    state.matches("changingUsernameSuccess"),
+  );
+  const usernameChangeFailed = useSelector(gameService, (state) =>
+    state.matches("changingUsernameFailed"),
+  );
+
+  const lastChangeAt = useSelector(
+    gameService,
+    (state) => state.context.state.settings.username?.setAt ?? 0,
+  );
+  const hasEnoughGems = useSelector(gameService, (state) => {
+    const inventory = state.context.state.inventory;
+    return inventory.Gem?.gte(gemCost) ?? false;
+  });
+
+  const [username, setUsername] = useState<string>();
   const [validationState, setValidationState] = useState<string | null>(null);
 
   const [tab, setTab] = useState<number>(0);
@@ -36,7 +58,7 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
     "idle" | "loading" | "success" | "error" | "checking"
   >("idle");
 
-  const alreadyHaveUsername = Boolean(gameState.context.state.username);
+  const alreadyHaveUsername = !!currentUsername;
   const { t } = useAppTranslation();
 
   // debounced function to check if username is available
@@ -56,32 +78,46 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
   );
 
   const applyUsername = async () => {
+    setTab(1);
     setState("loading");
-
-    const farmId = gameState.context.farmId;
     try {
-      const result = await saveUsername(
-        authState.context.user.rawToken as string,
-        farmId,
-        username as string,
-      );
-      if (result.success === false) {
-        setValidationState("Username already taken");
-        setState("idle");
-        return;
-      }
-
+      gameService.send("username.changed", {
+        effect: { type: "username.changed", username: username as string },
+        authToken: authState.context.user.rawToken as string,
+      });
       gameService.send({
         type: "UPDATE_USERNAME",
         username: username as string,
       });
-      setState("success");
-      setTab(4);
+      gameAnalytics.trackSink({
+        currency: "Gem",
+        amount: gemCost,
+        type: "Fee",
+        item: "Username Change",
+      });
     } catch {
       setValidationState("Error saving username, please try again");
       setState("idle");
     }
   };
+
+  useEffect(() => {
+    if (usernameChangeSuccess) {
+      setState("success");
+      setTab(4);
+    }
+  }, [usernameChangeSuccess]);
+
+  useEffect(() => {
+    if (usernameChangeFailed) {
+      setState("error");
+    }
+  }, [usernameChangeFailed]);
+
+  const isOnCooldown = Date.now() - lastChangeAt < COOLDOWN;
+  const daysToNextChange = Math.ceil(
+    (COOLDOWN - (Date.now() - lastChangeAt)) / (1000 * 60 * 60 * 24),
+  );
 
   return (
     <>
@@ -92,11 +128,36 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
               onClose={onClose}
               message={[
                 {
-                  text: `Howdy ${username}! Seems like we've already met. In case you forgot, I'm the Mayor of this town!`, //Translate
+                  text: t("mayor.plaza.alreadyMet", {
+                    username: currentUsername,
+                  }),
                 },
-                {
-                  text: t("mayor.plaza.changeNamePrompt"),
-                },
+                ...(isOnCooldown
+                  ? [
+                      {
+                        text: t("mayor.plaza.usernameChangedRecently"),
+                      },
+                      {
+                        text: t("mayor.plaza.cooldown", {
+                          days: daysToNextChange,
+                        }),
+                      },
+                    ]
+                  : [
+                      {
+                        text: t("mayor.plaza.changeNamePrompt"),
+                        actions: [
+                          {
+                            text: t("no.thanks"),
+                            cb: onClose,
+                          },
+                          {
+                            text: t("yes.please"),
+                            cb: () => setTab(1),
+                          },
+                        ],
+                      },
+                    ]),
               ]}
             />
           ) : (
@@ -140,7 +201,7 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
           <>
             <div className="flex flex-col items-center p-1">
               <span>{t("mayor.plaza.enterUsernamePrompt")}</span>
-              <div className="w-full py-3 relative">
+              <div className="flex flex-col gap-2 w-full mt-3">
                 <input
                   type="string"
                   name="Username"
@@ -152,7 +213,10 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
                   onChange={(e) => {
                     setState("checking");
                     setUsername(e.target.value);
-                    const validationState = validateUsername(e.target.value);
+                    const validationState = validateUsername(
+                      e.target.value,
+                      currentUsername,
+                    );
                     setValidationState(validationState);
 
                     debouncedCheckUsername.cancel();
@@ -168,11 +232,25 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
                   }}
                 />
 
-                {validationState && (
-                  <label className="absolute -bottom-1 right-0 text-red-500 text-[11px] font-error">
-                    {validationState}
-                  </label>
-                )}
+                <div className="flex flex-row justify-between gap-2">
+                  <Label
+                    type={"info"}
+                    icon={ITEM_DETAILS.Gem.image}
+                    className="text-xs"
+                  >
+                    {`${gemCost} Gems`}
+                  </Label>
+                  {!hasEnoughGems && (
+                    <Label type="danger" className="text-xs">
+                      {t("mayor.plaza.notEnoughGems")}
+                    </Label>
+                  )}
+                  {hasEnoughGems && validationState && (
+                    <Label type="danger" className="text-xs">
+                      {validationState}
+                    </Label>
+                  )}
+                </div>
               </div>
             </div>
             <Button
@@ -180,7 +258,10 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
               type="submit"
               onClick={state !== "idle" ? undefined : () => setTab(2)}
               disabled={
-                Boolean(validationState) || state !== "idle" || !username
+                Boolean(validationState) ||
+                state !== "idle" ||
+                !username ||
+                !hasEnoughGems
               }
             >
               {state === "idle"
@@ -226,14 +307,7 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
               </span>
             </div>
 
-            <Button
-              onClick={() => {
-                applyUsername();
-                setTab(1);
-              }}
-            >
-              {t("confirm")}
-            </Button>
+            <Button onClick={applyUsername}>{t("confirm")}</Button>
           </>
         </CloseButtonPanel>
       )}
@@ -257,11 +331,9 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
         <CloseButtonPanel bumpkinParts={NPC_WEARABLES.mayor}>
           <div className="flex flex-col gap-2 p-1 pb-2">
             <span>
-              {t("congrats")}
-              {username}
-              {","}
-              {t("mayor.paperworkComplete")}
-              {"!"}
+              {t("mayor.paperworkComplete", {
+                username: currentUsername ?? "",
+              })}
             </span>
           </div>
           <Button onClick={onClose}>{t("close")}</Button>
