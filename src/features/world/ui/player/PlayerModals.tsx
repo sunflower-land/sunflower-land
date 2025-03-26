@@ -128,6 +128,7 @@ export const PlayerModals: React.FC<Props> = ({ game, farmId }) => {
 
   const playerHasGift = player?.clothing.shirt === "Gift Giver";
   const playerHasStreamReward = player?.clothing.hat === "Streamer Hat";
+  const notCurrentPlayer = farmId !== player?.id;
 
   return (
     <Modal show={!!player} onHide={closeModal}>
@@ -149,7 +150,7 @@ export const PlayerModals: React.FC<Props> = ({ game, farmId }) => {
                 },
               ]
             : []),
-          ...(playerHasStreamReward
+          ...(playerHasStreamReward && notCurrentPlayer
             ? [
                 {
                   icon: ITEM_DETAILS["Love Charm"].image,
@@ -157,7 +158,7 @@ export const PlayerModals: React.FC<Props> = ({ game, farmId }) => {
                 },
               ]
             : []),
-          ...(farmId !== player?.id
+          ...(notCurrentPlayer
             ? [
                 {
                   icon: SUNNYSIDE.icons.search,
