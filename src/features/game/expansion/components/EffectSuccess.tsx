@@ -100,12 +100,65 @@ export const TwitterFollowedSuccess: React.FC = () => {
   );
 };
 
+export const TwitterPostedSuccess: React.FC = () => {
+  const { gameService, gameState } = useGame();
+
+  const { t } = useAppTranslation();
+
+  const tweets = gameState.context.state.twitter?.tweets ?? {};
+
+  // Get recently posted tweets in the last 10 minutes
+  const recentlyPostedTweets = Object.values(tweets).filter(
+    (tweet) => tweet.completedAt > Date.now() - 10 * 60 * 1000,
+  );
+
+  if (!recentlyPostedTweets) {
+    return (
+      <>
+        <div className="p-1.5">
+          <Label type="danger" className="mb-2">
+            {t("posting.twitter.failed")}
+          </Label>
+        </div>
+        <p className="text-sm mb-2">
+          {t("posting.twitter.failed.description")}
+        </p>
+        <Button
+          onClick={() => {
+            gameService.send("CONTINUE");
+          }}
+        >
+          {t("continue")}
+        </Button>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <div className="p-1.5">
+        <Label type="success" className="mb-2">
+          {t("posting.twitter.success")}
+        </Label>
+      </div>
+      <Button
+        onClick={() => {
+          gameService.send("CONTINUE");
+        }}
+      >
+        {t("continue")}
+      </Button>
+    </>
+  );
+};
+
 export const EFFECT_SUCCESS_COMPONENTS: Partial<
   Record<StateValues, React.ReactNode>
 > = {
   startingFaceRecognitionSuccess: <StartingFaceRecognitionSuccess />,
   completingFaceRecognitionSuccess: <CompletingFaceRecognitionSuccess />,
   followingTwitterSuccess: <TwitterFollowedSuccess />,
+  postingTwitterSuccess: <TwitterPostedSuccess />,
 };
 
 function camelToDotCase(str: string): string {

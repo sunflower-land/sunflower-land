@@ -92,6 +92,7 @@ import {
 } from "./calendar";
 import { VipBundle } from "../lib/vipAccess";
 import { SocialTaskName } from "../events/landExpansion/completeSocialTask";
+import { TwitterPost, TwitterPostName } from "./social";
 
 export type Reward = {
   coins?: number;
@@ -1591,6 +1592,8 @@ export interface GameState {
     linkedAt: number;
     followedAt?: number;
     isAuthorised?: boolean;
+    verifiedPostsAt?: number;
+    tweets?: Partial<Record<TwitterPostName, TwitterPost>>;
   };
   discord?: {
     connected: boolean;
