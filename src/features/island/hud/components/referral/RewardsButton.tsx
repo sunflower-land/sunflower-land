@@ -105,6 +105,8 @@ export const RewardsButton: React.FC = () => {
         completeTask={completeTask}
         loveCharmCount={state.inventory["Love Charm"] ?? new Decimal(0)}
         socialTasks={state.socialTasks}
+        isChestLocked={isChestLocked}
+        isAnyTaskCompleted={isAnyTaskCompleted}
       />
     </div>
   );
