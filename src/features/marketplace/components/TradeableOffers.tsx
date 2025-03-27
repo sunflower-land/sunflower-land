@@ -169,10 +169,13 @@ export const TradeableOffers: React.FC<{
       <Modal show={showAcceptOffer} onHide={handleHide}>
         <Panel>
           <AcceptOffer
-            hasOffchainMarketplace={hasFeatureAccess(
-              gameService.getSnapshot().context.state,
-              "OFFCHAIN_MARKETPLACE",
-            )}
+            hasOffchainMarketplace={
+              !!gameService.getSnapshot().context.linkedWallet &&
+              hasFeatureAccess(
+                gameService.getSnapshot().context.state,
+                "OFFCHAIN_MARKETPLACE",
+              )
+            }
             authToken={authToken}
             itemId={itemId}
             display={display}

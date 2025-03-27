@@ -143,6 +143,13 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
 
   const usd = gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
 
+  const hasOffchainMarketplace =
+    !!gameService.getSnapshot().context.linkedWallet &&
+    hasFeatureAccess(
+      gameService.getSnapshot().context.state,
+      "OFFCHAIN_MARKETPLACE",
+    );
+
   return (
     <>
       {cheapestListing && (
@@ -151,11 +158,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
           onHide={() => setShowPurchaseModal(false)}
         >
           <Panel>
-            {cheapestListing.type === "onchain" &&
-            !hasFeatureAccess(
-              gameService.getSnapshot().context.state,
-              "OFFCHAIN_MARKETPLACE",
-            ) ? (
+            {cheapestListing.type === "onchain" && !hasOffchainMarketplace ? (
               <GameWallet action="marketplace">
                 <PurchaseModalContent
                   authToken={authToken}

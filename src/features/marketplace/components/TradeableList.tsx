@@ -347,13 +347,10 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
     );
   }
 
-  if (
-    isSigning &&
-    !hasFeatureAccess(
-      gameService.getSnapshot().context.state,
-      "OFFCHAIN_MARKETPLACE",
-    )
-  ) {
+  const needsLinkedWallet =
+    tradeType === "onchain" && !gameService.getSnapshot().context.linkedWallet;
+
+  if (isSigning || needsLinkedWallet) {
     return (
       <GameWallet action="marketplace">
         <>

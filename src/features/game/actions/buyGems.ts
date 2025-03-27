@@ -38,12 +38,16 @@ export async function buyBlockBucks(request: Request): Promise<Response> {
     }),
   });
 
+  if (response.status === 409) {
+    throw new Error(ERRORS.BUY_GEMS_MARKETPLACE_TRANSFER_IN_PROGRESS);
+  }
+
   if (response.status === 429) {
     throw new Error(ERRORS.TOO_MANY_REQUESTS);
   }
 
   if (response.status !== 200 || !response.ok) {
-    throw new Error(ERRORS.MINT_COLLECTIBLE_SERVER_ERROR);
+    throw new Error(ERRORS.BUY_GEMS_SERVER_ERROR);
   }
 
   return await response.json();
