@@ -171,7 +171,40 @@ export const MakeOffer: React.FC<{
     return <StoreOnChain itemName="SFL" onClose={onClose} actionType="offer" />;
   }
 
+  const needsLinkedWallet =
+    tradeType === "onchain" && !gameService.getSnapshot().context.linkedWallet;
+
   if (showConfirmation) {
+    if (needsLinkedWallet) {
+      return (
+        <GameWallet action="marketplace">
+          <div className="p-2">
+            <Label type="danger" className="-ml-1 mb-2">
+              {t("are.you.sure")}
+            </Label>
+            <p className="text-xs mb-2">{t("marketplace.confirmDetails")}</p>
+            <TradeableItemDetails
+              display={display}
+              quantity={Math.max(1, quantity)}
+              sfl={offer}
+              estTradePoints={estTradePoints}
+            />
+            <div className="flex items-start mt-2">
+              <img src={SUNNYSIDE.icons.search} className="h-6 mr-2" />
+              <p className="text-xs mb-2">{t("marketplace.dodgyTrades")}</p>
+            </div>
+          </div>
+
+          <div className="flex">
+            <Button onClick={() => setShowConfirmation(false)} className="mr-1">
+              {t("cancel")}
+            </Button>
+            <Button onClick={() => confirm({})}>{t("confirm")}</Button>
+          </div>
+        </GameWallet>
+      );
+    }
+
     return (
       <>
         <div className="p-2">
