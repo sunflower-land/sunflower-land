@@ -1231,7 +1231,6 @@ export abstract class BaseScene extends Phaser.Scene {
           entity,
         );
         const now = Date.now();
-        // Only open if it's been more than 5 minutes since last open or if it's a different player
         if (
           now - this.lastModalOpenTime > STREAM_REWARD_COOLDOWN - 15 * 1000 &&
           distance < 75
