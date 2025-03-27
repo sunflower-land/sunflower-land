@@ -132,6 +132,29 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       this.label = label;
     }
 
+    // For Debugging Purpose - Check player position
+    // Uncomment to see the coordinates
+    // const coordinatesText = this.scene.add.text(
+    //   x, // X position of the text
+    //   y, // Y position of the text (above the NPC and label)
+    //   `X: ${x}, Y: ${y}`, // Initial text content
+    //   {
+    //     fontSize: "4px",
+    //     fontFamily: "monospace",
+    //     resolution: 4,
+    //     color: "#00000",
+    //   }, // Style
+    // );
+    // coordinatesText.setOrigin(0.5);
+
+    // // Update the text whenever the NPC's position changes
+    // this.scene.events.on("update", () => {
+    //   coordinatesText.setPosition(this.x, this.y + 15); // Adjust to keep it above the NPC
+    //   coordinatesText.setText(
+    //     `x: ${Math.round(this.x)}, y: ${Math.round(this.y)}`,
+    //   ); // Update the coordinates
+    // });
+
     this.scene.add.existing(this);
 
     if (onClick) {
@@ -402,7 +425,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       this.removeIcon();
     }
 
-    this.icon = this.scene.add.sprite(0, -12, "charm_icon").setOrigin(0.5);
+    this.icon = this.scene.add.sprite(0, -14, "charm_icon").setOrigin(0.5);
     this.add(this.icon);
 
     if (this.scene.textures.exists("sparkle")) {
