@@ -101,7 +101,7 @@ const getModalStatesForEffects = () =>
     (states, stateName) => ({
       ...states,
       [stateName]: true,
-      [`${stateName}Failure`]: true,
+      [`${stateName}Failed`]: true,
       [`${stateName}Success`]: true,
     }),
     {} as Record<BlockchainState["value"], boolean>,
@@ -245,9 +245,9 @@ const isEffectSuccess = (state: MachineState) =>
   Object.values(EFFECT_EVENTS).some((stateName) =>
     state.matches(`${stateName}Success`),
   );
-const isEffectFailure = (state: MachineState) =>
+const isEffectFailed = (state: MachineState) =>
   Object.values(EFFECT_EVENTS).some((stateName) =>
-    state.matches(`${stateName}Failure`),
+    state.matches(`${stateName}Failed`),
   );
 const hasMarketplaceSales = (state: MachineState) =>
   state.matches("marketplaceSale");
@@ -419,7 +419,7 @@ export const GameWrapper: React.FC = ({ children }) => {
   const showReferralRewards = useSelector(gameService, _showReferralRewards);
   const effectPending = useSelector(gameService, isEffectPending);
   const effectSuccess = useSelector(gameService, isEffectSuccess);
-  const effectFailure = useSelector(gameService, isEffectFailure);
+  const effectFailed = useSelector(gameService, isEffectFailed);
   const showSales = useSelector(gameService, hasMarketplaceSales);
   const competition = useSelector(gameService, isCompetition);
   const seasonChanged = useSelector(gameService, isSeasonChanged);
@@ -600,7 +600,7 @@ export const GameWrapper: React.FC = ({ children }) => {
               (EFFECT_SUCCESS_COMPONENTS[stateValue as StateValues] ?? (
                 <EffectSuccess state={stateValue} />
               ))}
-            {effectFailure && (
+            {effectFailed && (
               <ErrorMessage errorCode={errorCode as ErrorCode} />
             )}
 
