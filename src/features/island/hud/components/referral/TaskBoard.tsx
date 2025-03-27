@@ -47,7 +47,7 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({
         <div className="flex justify-between gap-2 mr-1">
           <Label type="default">{t("taskBoard.tasks")}</Label>
           <Label
-            type="vibrant"
+            type="default"
             secondaryIcon={ITEM_DETAILS["Love Charm"].image}
           >
             {t("taskBoard.loveCharmCount", { loveCharmCount })}
@@ -70,7 +70,7 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({
                   type={
                     isTaskCompleted(task.title as SocialTaskName)
                       ? "success"
-                      : "vibrant"
+                      : "warning"
                   }
                   icon={
                     isTaskCompleted(task.title as SocialTaskName)
