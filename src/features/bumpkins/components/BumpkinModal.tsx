@@ -32,8 +32,6 @@ import { LEGACY_BADGE_TREE } from "features/game/types/skills";
 import { setImageWidth } from "lib/images";
 import { LegacyBadges } from "./LegacyBadges";
 import { getKeys } from "features/game/types/decorations";
-import { BumpkinRevampSkillName } from "features/game/types/bumpkinSkills";
-import { getPowerSkills } from "features/game/types/bumpkinSkills";
 import { PowerSkills } from "features/island/hud/components/PowerSkills";
 
 export type ViewState =
@@ -93,6 +91,7 @@ interface Props {
   readonly: boolean;
   gameState: GameState;
   powerSkillsReady: boolean;
+  hasPowerSkills: boolean;
 }
 
 export const BumpkinModal: React.FC<Props> = ({
@@ -103,6 +102,7 @@ export const BumpkinModal: React.FC<Props> = ({
   readonly,
   gameState,
   powerSkillsReady,
+  hasPowerSkills,
 }) => {
   const { gameService } = useContext(Context);
   const experience = useSelector(gameService, _experience);
@@ -194,6 +194,7 @@ export const BumpkinModal: React.FC<Props> = ({
             gameState={gameState}
             setView={setView}
             powerSkillsReady={powerSkillsReady}
+            hasPowerSkills={hasPowerSkills}
           />
         )}
 
@@ -221,7 +222,15 @@ export const BumpkinInfo: React.FC<{
   gameState: GameState;
   setView: (view: ViewState) => void;
   powerSkillsReady: boolean;
-}> = ({ level, maxLevel, gameState, setView, powerSkillsReady }) => {
+  hasPowerSkills: boolean;
+}> = ({
+  level,
+  maxLevel,
+  gameState,
+  setView,
+  powerSkillsReady,
+  hasPowerSkills,
+}) => {
   const { t } = useAppTranslation();
   const { bumpkin, inventory } = gameState;
   const BADGES = getKeys(LEGACY_BADGE_TREE);
@@ -245,15 +254,6 @@ export const BumpkinInfo: React.FC<{
 
     return null;
   }).filter(Boolean);
-
-  const powerSkills = getPowerSkills();
-  const { skills } = gameState.bumpkin;
-
-  const powerSkillsUnlocked = powerSkills.filter(
-    (skill) => !!skills[skill.name as BumpkinRevampSkillName],
-  );
-
-  const hasPowerSkills = powerSkillsUnlocked.length > 0;
 
   return (
     <div className="flex flex-wrap">
