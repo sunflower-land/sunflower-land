@@ -306,17 +306,6 @@ describe("offer.claimed", () => {
             event: "transaction.progressSynced",
             createdAt: Date.now(),
             data: {
-              trades: {
-                listings: {},
-                offers: {},
-              },
-              bid: {
-                sfl: 0,
-                ingredients: {},
-              },
-              balance: "100",
-              inventory: {},
-              wardrobe: {},
               params: {
                 signature: "123",
                 sessionId: "123",
