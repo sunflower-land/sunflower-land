@@ -7,10 +7,13 @@ import { makeGame } from "../lib/transforms";
 import { getSessionId } from "./loadSession";
 import Decimal from "decimal.js-light";
 import { SeedBoughtAction } from "../events/landExpansion/seedBought";
+import { applyPatches, produce } from "immer";
+import { GameState } from "../types/game";
 
 type Request = {
   actions: PastAction[];
   farmId: number;
+  state: GameState;
   sessionId: string;
   token: string;
   fingerprint: string;
@@ -156,15 +159,34 @@ export async function autosave(request: Request, retries = 0) {
 
   autosaveErrors = 0;
 
-  const { farm, changeset, announcements } = await sanitizeHTTPResponse<{
-    farm: any;
-    changeset: any;
-    announcements: any;
-  }>(response);
+  const { patches, changeset, announcements, farm } =
+    await sanitizeHTTPResponse<{
+      patches: any;
+      changeset: any;
+      announcements: any;
+      farm: any;
+    }>(response);
 
-  farm.id = request.farmId;
+  let newGameState = request.state;
 
-  const game = makeGame(farm);
+  if (patches) {
+    newGameState = makeGame(
+      produce(request.state, (draft) => {
+        applyPatches(
+          draft,
+          patches.map((patch: any) => {
+            // Remove leading slash and split by remaining slashes to format for immer
+            // https://immerjs.github.io/immer/patches/
+            const path = patch.path.replace(/^\//, "").split("/");
+            return { ...patch, path };
+          }),
+        );
+      }),
+    );
+  } else {
+    // This is a legacy flow. Delete after April 1st 2025
+    newGameState = makeGame(farm);
+  }
 
-  return { verified: true, farm: game, changeset, announcements };
+  return { verified: true, farm: newGameState, changeset, announcements };
 }
