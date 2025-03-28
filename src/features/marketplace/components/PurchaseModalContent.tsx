@@ -15,6 +15,7 @@ import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { calculateTradePoints } from "features/game/events/landExpansion/addTradePoints";
 import { StoreOnChain } from "./StoreOnChain";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { hasFeatureAccess } from "lib/flags";
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _previousInventory = (state: MachineState) =>
@@ -82,7 +83,11 @@ export const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
   });
 
   const confirm = async () => {
-    if (listing.type === "onchain" && previousBalance.lt(price)) {
+    if (
+      listing.type === "onchain" &&
+      previousBalance.lt(price) &&
+      !hasFeatureAccess(state, "OFFCHAIN_MARKETPLACE")
+    ) {
       setNeedsSync(true);
       return;
     }
@@ -140,7 +145,7 @@ export const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
     );
   }
 
-  if (needsSync) {
+  if (needsSync && !hasFeatureAccess(state, "OFFCHAIN_MARKETPLACE")) {
     return (
       <StoreOnChain itemName="SFL" onClose={onClose} actionType="purchase" />
     );
@@ -151,11 +156,12 @@ export const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
       <div className="p-2">
         <div className="flex justify-between">
           <Label type="default" className="mb-2 -ml-1">{`Purchase`}</Label>
-          {listing.type === "onchain" && (
-            <Label type="formula" icon={walletIcon} className="-mr-1 mb-2">
-              {t("marketplace.walletRequired")}
-            </Label>
-          )}
+          {listing.type === "onchain" &&
+            !hasFeatureAccess(state, "OFFCHAIN_MARKETPLACE") && (
+              <Label type="formula" icon={walletIcon} className="-mr-1 mb-2">
+                {t("marketplace.walletRequired")}
+              </Label>
+            )}
         </div>
         <p className="mb-3">{t("marketplace.areYouSureYouWantToBuy")}</p>
         <TradeableItemDetails
@@ -173,9 +179,10 @@ export const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
           className="relative"
         >
           <span>{t("confirm")}</span>
-          {listing.type === "onchain" && (
-            <img src={walletIcon} className="absolute right-1 top-0.5 h-7" />
-          )}
+          {listing.type === "onchain" &&
+            !hasFeatureAccess(state, "OFFCHAIN_MARKETPLACE") && (
+              <img src={walletIcon} className="absolute right-1 top-0.5 h-7" />
+            )}
         </Button>
       </div>
     </>

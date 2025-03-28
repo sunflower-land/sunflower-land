@@ -16,6 +16,7 @@ import { NotOnDiscordServer } from "./components/NotOnDiscordServer";
 import { TooManyFarms } from "./components/TooManyFarms";
 import { TradeNotFound } from "./components/TradeNotFound";
 import { CONFIG } from "lib/config";
+import { MarketplaceTransferInProgress } from "./components/MarketplaceTransferInProgress";
 
 interface Props {
   errorCode: ErrorCode;
@@ -88,6 +89,13 @@ export const ErrorMessage: React.FC<Props> = ({ errorCode }) => {
   }
   if (errorCode === ERRORS.TRADE_NOT_FOUND) {
     return <TradeNotFound />;
+  }
+
+  if (
+    errorCode === ERRORS.BUY_GEMS_MARKETPLACE_TRANSFER_IN_PROGRESS ||
+    errorCode === ERRORS.RESET_MARKETPLACE_TRANSFER_IN_PROGRESS
+  ) {
+    return <MarketplaceTransferInProgress />;
   }
 
   return <SomethingWentWrong />;

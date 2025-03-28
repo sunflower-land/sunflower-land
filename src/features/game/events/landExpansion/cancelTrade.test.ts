@@ -33,6 +33,7 @@ describe("cancelTrade", () => {
                 items: {
                   Parsnip: 10,
                 },
+                tradeType: "onchain",
               },
             },
           },
@@ -59,6 +60,7 @@ describe("cancelTrade", () => {
                 items: {
                   Parsnip: 10,
                 },
+                tradeType: "onchain",
               },
             },
           },
@@ -85,6 +87,7 @@ describe("cancelTrade", () => {
                 items: {
                   Sunflower: 10,
                 },
+                tradeType: "instant",
                 boughtAt: 12000000,
                 buyerId: 12,
               },
@@ -113,6 +116,7 @@ describe("cancelTrade", () => {
               items: {
                 Sunflower: 10,
               },
+              tradeType: "instant",
             },
           },
         },
@@ -138,6 +142,7 @@ describe("cancelTrade", () => {
               items: {
                 Sunflower: 10,
               },
+              tradeType: "instant",
             },
           },
         },

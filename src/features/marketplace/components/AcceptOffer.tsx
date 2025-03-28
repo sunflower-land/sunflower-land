@@ -37,7 +37,6 @@ import { isFaceVerified } from "features/retreat/components/personhood/lib/faceR
 import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
 import { isTradeResource } from "features/game/actions/tradeLimits";
 import { SUNNYSIDE } from "assets/sunnyside";
-
 const _state = (state: MachineState) => state.context.state;
 const _hasReputation = (state: MachineState) =>
   hasReputation({
@@ -76,7 +75,10 @@ const AcceptOfferContent: React.FC<{
   );
 
   const confirm = async () => {
-    if (offer.type === "onchain") {
+    if (
+      offer.type === "onchain" &&
+      !hasFeatureAccess(state, "OFFCHAIN_MARKETPLACE")
+    ) {
       if (display.type === "collectibles") {
         const prevBal =
           previousInventory[display.name as InventoryItemName] ??
@@ -142,7 +144,7 @@ const AcceptOfferContent: React.FC<{
           points: offer.type === "instant" ? 1 : 3,
         }).multipliedPoints;
 
-  if (needsSync) {
+  if (needsSync && !hasFeatureAccess(state, "OFFCHAIN_MARKETPLACE")) {
     return (
       <StoreOnChain
         itemName={display.name}
@@ -187,11 +189,12 @@ const AcceptOfferContent: React.FC<{
           <Label type="default" className="-ml-1">
             {t("marketplace.acceptOffer")}
           </Label>
-          {offer.type === "onchain" && (
-            <Label type="formula" icon={walletIcon} className="-mr-1">
-              {t("marketplace.walletRequired")}
-            </Label>
-          )}
+          {offer.type === "onchain" &&
+            !hasFeatureAccess(state, "OFFCHAIN_MARKETPLACE") && (
+              <Label type="formula" icon={walletIcon} className="-mr-1">
+                {t("marketplace.walletRequired")}
+              </Label>
+            )}
           {!hasReputation && (
             <RequiredReputation reputation={Reputation.Cropkeeper} />
           )}
@@ -224,9 +227,10 @@ const AcceptOfferContent: React.FC<{
           className="relative"
         >
           <span>{t("confirm")}</span>
-          {offer.type === "onchain" && (
-            <img src={walletIcon} className="absolute right-1 top-0.5 h-7" />
-          )}
+          {offer.type === "onchain" &&
+            !hasFeatureAccess(state, "OFFCHAIN_MARKETPLACE") && (
+              <img src={walletIcon} className="absolute right-1 top-0.5 h-7" />
+            )}
         </Button>
       </div>
     </>
@@ -234,14 +238,23 @@ const AcceptOfferContent: React.FC<{
 };
 
 export const AcceptOffer: React.FC<{
+  hasOffchainMarketplace: boolean;
   onClose: () => void;
   authToken: string;
   display: TradeableDisplay;
   offer: Offer;
   itemId: number;
   onOfferAccepted: () => void;
-}> = ({ onClose, authToken, display, offer, itemId, onOfferAccepted }) => {
-  if (offer.type === "onchain") {
+}> = ({
+  hasOffchainMarketplace,
+  onClose,
+  authToken,
+  display,
+  offer,
+  itemId,
+  onOfferAccepted,
+}) => {
+  if (offer.type === "onchain" && !hasOffchainMarketplace) {
     return (
       <GameWallet action="marketplace">
         <AcceptOfferContent

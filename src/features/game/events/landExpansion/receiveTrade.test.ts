@@ -32,6 +32,7 @@ describe("receiveTrade", () => {
               items: {
                 Sunflower: 10,
               },
+              tradeType: "instant",
               boughtAt: 12000000,
               buyerId: 12,
             },
@@ -60,6 +61,7 @@ describe("receiveTrade", () => {
               items: {
                 Sunflower: 10,
               },
+              tradeType: "instant",
               boughtAt: 12000000,
               buyerId: 12,
             },

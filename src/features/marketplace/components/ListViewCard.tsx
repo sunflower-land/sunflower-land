@@ -20,6 +20,7 @@ import { BumpkinItem } from "features/game/types/bumpkin";
 import { CountLabel } from "components/ui/CountLabel";
 import classNames from "classnames";
 import { ListViewImage } from "./ListViewImage";
+import { hasFeatureAccess } from "lib/flags";
 
 type Props = {
   details: TradeableDisplay;
@@ -100,12 +101,16 @@ export const ListViewCard: React.FC<Props> = ({
             type={type}
             isResources={isResources}
           />
-          {tradeType === "onchain" && (
-            <img
-              src={wallet}
-              className="h-5 mr-1 absolute bottom-1 -right-1.5"
-            />
-          )}
+          {tradeType === "onchain" &&
+            !hasFeatureAccess(
+              gameService.getSnapshot().context.state,
+              "OFFCHAIN_MARKETPLACE",
+            ) && (
+              <img
+                src={wallet}
+                className="h-5 mr-1 absolute bottom-1 -right-1.5"
+              />
+            )}
         </div>
 
         <div
