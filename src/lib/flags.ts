@@ -27,7 +27,7 @@ const testnetLocalStorageFeatureFlag = (key: string) => () => {
 };
 
 const timeBasedFeatureFlag = (date: Date) => () => {
-  return Date.now() > date.getTime();
+  return testnetFeatureFlag() || Date.now() > date.getTime();
 };
 
 const betaTimeBasedFeatureFlag = (date: Date) => (game: GameState) => {
@@ -69,23 +69,44 @@ const FEATURE_FLAGS = {
   AIRDROP_PLAYER: adminFeatureFlag,
   HOARDING_CHECK: defaultFeatureFlag,
 
-  FACE_RECOGNITION: (game) => {
-    return game.createdAt > new Date("2025-01-01T00:00:00Z").getTime();
-  },
-
+  // Temporary Feature Flags
+  FACE_RECOGNITION: (game) =>
+    game.createdAt > new Date("2025-01-01T00:00:00Z").getTime(),
   FACE_RECOGNITION_TEST: defaultFeatureFlag,
 
-  // Temporary Feature Flags
   DISABLE_BLOCKCHAIN_ACTIONS: timeBasedFeatureFlag(
     new Date("2025-03-24T00:00:00Z"),
   ),
-  REFERRAL_PROGRAM: usernameFeatureFlag,
+
+  TASK_BOARD: (game) => {
+    return (
+      usernameFeatureFlag(game) ||
+      // Released to Beta Testers on 1st April
+      (defaultFeatureFlag(game) &&
+        Date.now() > new Date("2025-04-01T00:00:00Z").getTime()) ||
+      // Released to all players on 3rd April
+      Date.now() > new Date("2025-04-03T00:00:00Z").getTime()
+    );
+  },
+  REFERRAL_PROGRAM: (game) => {
+    return (
+      // Released to All Players on 1st April
+      usernameFeatureFlag(game) ||
+      Date.now() > new Date("2025-04-01T00:00:00Z").getTime()
+    );
+  },
+  // Released to All Players on 1st April
+  COMMUNITY_COIN_EXCHANGE: timeBasedFeatureFlag(
+    new Date("2025-04-01T00:00:00Z"),
+  ),
+
   FLOWER_DEPOSIT: usernameFeatureFlag,
   TELEGRAM: defaultFeatureFlag,
 
+  // Released to All Players on 5th May
+  FLOWER_GEMS: timeBasedFeatureFlag(new Date("2025-05-05T00:00:00Z")),
+
   // Testnet only feature flags - Please don't change these until release
-  COMMUNITY_COIN_EXCHANGE: testnetFeatureFlag,
-  FLOWER_GEMS: testnetFeatureFlag,
   LEDGER: testnetLocalStorageFeatureFlag("ledger"),
 } satisfies Record<string, FeatureFlag>;
 

@@ -80,7 +80,7 @@ const HudComponent: React.FC<{
 
   const hasReferralProgram = hasFeatureAccess(
     gameState.context.state,
-    "REFERRAL_PROGRAM",
+    "TASK_BOARD",
   );
 
   return (

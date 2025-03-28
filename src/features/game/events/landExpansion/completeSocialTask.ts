@@ -108,9 +108,10 @@ export function completeSocialTask({
   createdAt = Date.now(),
 }: Options): Readonly<GameState> {
   return produce(state, (stateCopy) => {
-    if (!hasFeatureAccess(stateCopy, "REFERRAL_PROGRAM")) {
-      throw new Error("Referral program is not enabled");
+    if (!hasFeatureAccess(stateCopy, "TASK_BOARD")) {
+      throw new Error("Task board is not enabled");
     }
+
     const { taskId } = action;
     const task = TASKS[taskId] as Task | undefined;
 
