@@ -336,7 +336,14 @@ export const Mayor: React.FC<MayorProps> = ({ onClose }) => {
               })}
             </span>
           </div>
-          <Button onClick={onClose}>{t("close")}</Button>
+          <Button
+            onClick={() => {
+              onClose();
+              gameService.send("CONTINUE");
+            }}
+          >
+            {t("close")}
+          </Button>
         </CloseButtonPanel>
       )}
     </>

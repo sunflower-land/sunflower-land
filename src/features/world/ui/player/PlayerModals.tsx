@@ -118,10 +118,17 @@ export const PlayerModals: React.FC<Props> = ({ game, farmId }) => {
 
   useEffect(() => {
     playerModalManager.listen((npc) => {
-      setTab("Player");
       setPlayer(npc);
+      // Automatically set to Stream tab if player has Streamer Hat and is not current player
+      if (npc.clothing?.hat === "Streamer Hat" && farmId !== npc.id) {
+        setTab("Stream");
+      } else if (npc.clothing.shirt === "Gift Giver") {
+        setTab("Reward");
+      } else {
+        setTab("Player");
+      }
     });
-  }, []);
+  }, [farmId]);
 
   useEffect(() => {
     if (!player) return;
