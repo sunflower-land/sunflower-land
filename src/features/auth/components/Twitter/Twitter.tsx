@@ -19,6 +19,8 @@ import { getKeys } from "features/game/types/decorations";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { TranslationKeys } from "lib/i18n/dictionaries/types";
 import saveIcon from "assets/icons/save.webp";
+import { getBumpkinBanner } from "./actions/getBumpkinBanner";
+import { Loading } from "../Loading";
 
 const TWITTER_POST_DESCRIPTIONS: Record<TwitterPostName, TranslationKeys> = {
   FARM: "twitter.post.farm",
@@ -294,12 +296,12 @@ const TwitterFarm: React.FC = () => {
 };
 
 const TwitterWeekly: React.FC = () => {
+  const { authService } = useContext(AuthProvider.Context);
+  const [authState] = useActor(authService);
   const { gameService, gameState } = useGame();
   const { t } = useAppTranslation();
 
-  const [image, setImage] = useState<string>(
-    SUNNYSIDE.announcement.flowerBanner,
-  );
+  const [image, setImage] = useState<string>();
 
   const twitter = gameState.context.state.twitter;
 
@@ -309,8 +311,37 @@ const TwitterWeekly: React.FC = () => {
     Date.now() - 7 * 24 * 60 * 60 * 1000;
 
   useEffect(() => {
-    // Generate Image
+    const load = async () => {
+      const data = await getBumpkinBanner(
+        authState.context.user.rawToken as string,
+      );
+      setImage(data.url);
+    };
+
+    load();
   }, []);
+
+  if (!image) {
+    return <Loading />;
+  }
+
+  const handleDownload = async () => {
+    try {
+      const response = await fetch(image);
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "my-image.png";
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+    } catch (error) {
+      alert("Long press the image and select 'Download' manually.");
+    }
+  };
 
   return (
     <>
@@ -342,16 +373,15 @@ const TwitterWeekly: React.FC = () => {
 
       <div className="relative">
         <img src={image} className="w-full my-2" />
-        <a
-          // href={image}
-          download={image}
-          className="absolute bottom-2 right-2 h-12 w-12 "
+        <div
+          className="absolute bottom-2 right-2 h-12 w-12 cursor-pointer"
+          onClick={handleDownload}
         >
           <img src={SUNNYSIDE.icons.disc} className="w-full" />
           <div className="absolute inset-0 flex items-center justify-center w-full h-full">
             <img src={saveIcon} className="w-6" />
           </div>
-        </a>
+        </div>
       </div>
 
       <p className="text-xs mx-1 my-1">
