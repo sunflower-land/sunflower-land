@@ -1,5 +1,5 @@
 import { SUNNYSIDE } from "assets/sunnyside";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import sflIcon from "assets/icons/sfl.webp";
 import { MarketplaceNavigation } from "./components/MarketplaceHome";
 import { useLocation, useNavigate } from "react-router";
@@ -28,6 +28,21 @@ export const Marketplace: React.FC = () => {
 
     fromRoute ? navigate(fromRoute) : navigate(defaultRoute);
   };
+
+  // exit marketplace if Escape key is pressed
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        handleClose();
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [handleClose]);
 
   return (
     <>
