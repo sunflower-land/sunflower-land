@@ -203,7 +203,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
 
   shipments: {},
   gems: {},
-
+  flower: {},
   bumpkin: {
     equipped: INITIAL_EQUIPMENT as Equipped,
     experience: 100000,

@@ -460,6 +460,10 @@ import {
   claimReferralRewards,
   ClaimReferralRewardsAction,
 } from "./landExpansion/claimReferralRewards";
+import {
+  exchangeFlower,
+  ExchangeFlowerAction,
+} from "./landExpansion/exchangeFLOWER";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
@@ -599,6 +603,7 @@ export type PlayingEvent =
   | CancelQueuedRecipeAction
   | AcknowledgeOnChainAirdropAction
   | CompleteSocialTaskAction
+  | ExchangeFlowerAction
   // To remove once December is finished
   | CollectCandyAction;
 
@@ -807,6 +812,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "upgrade.spedUp": speedUpUpgrade,
   "socialTask.completed": completeSocialTask,
   "referral.rewardsClaimed": claimReferralRewards,
+  "exchange.flower": exchangeFlower,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
