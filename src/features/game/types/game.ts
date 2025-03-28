@@ -1399,6 +1399,10 @@ export interface GameState {
     history?: Record<string, { spent: number }>;
   };
 
+  flower: {
+    history?: Record<string, { loveCharmsSpent: number }>;
+  };
+
   // There are more fields but unused
   transaction?: GameTransaction;
 
