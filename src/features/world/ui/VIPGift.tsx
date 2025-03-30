@@ -2,7 +2,6 @@ import { useActor } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
-import { Panel } from "components/ui/Panel";
 import { Context } from "features/game/GameProvider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { VIPAccess } from "features/game/components/VipAccess";
@@ -18,6 +17,19 @@ interface Props {
 }
 
 export const VIPGift: React.FC<Props> = ({ onClose }) => {
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
+
+  return (
+    <CloseButtonPanel
+      onClose={gameState.matches("revealing") ? undefined : onClose}
+    >
+      <VIPGiftContent onClose={onClose} />
+    </CloseButtonPanel>
+  );
+};
+
+export const VIPGiftContent: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const { openModal } = useContext(ModalContext);
@@ -54,27 +66,21 @@ export const VIPGift: React.FC<Props> = ({ onClose }) => {
   const { t } = useAppTranslation();
 
   if (isPicking || (gameState.matches("revealing") && isRevealing)) {
-    return (
-      <Panel>
-        <Loading />
-      </Panel>
-    );
+    return <Loading />;
   }
 
   if (gameState.matches("revealed") && isRevealing) {
     return (
-      <Panel>
-        <Revealed
-          onAcknowledged={() => {
-            setIsRevealing(false);
-          }}
-        />
-      </Panel>
+      <Revealed
+        onAcknowledged={() => {
+          setIsRevealing(false);
+        }}
+      />
     );
   }
 
   return (
-    <CloseButtonPanel onClose={onClose}>
+    <>
       <div className="p-2">
         <div className="flex justify-between items-center pr-8">
           <VIPAccess
@@ -95,6 +101,6 @@ export const VIPGift: React.FC<Props> = ({ onClose }) => {
       <Button onClick={open} disabled={!hasVip || hasOpened}>
         {t("claim")}
       </Button>
-    </CloseButtonPanel>
+    </>
   );
 };

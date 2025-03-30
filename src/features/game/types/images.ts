@@ -248,7 +248,9 @@ import budTicket from "assets/icons/bud_ticket.png";
 import prizeTicket from "assets/icons/prize_ticket.png";
 import budSeedling from "assets/icons/bud_seedling.png";
 import earnAllianceBanner from "assets/sfts/earn_alliance_banner.png";
-
+import polygonBanner from "assets/sfts/polygon_banner.webp";
+import roninBanner from "assets/sfts/ronin_banner.webp";
+import baseBanner from "assets/sfts/base_banner.webp";
 // Banners
 import goblinBanner from "assets/decorations/banners/goblin_banner.png";
 import humanBanner from "assets/decorations/banners/human_banner.png";
@@ -4936,5 +4938,17 @@ export const ITEM_DETAILS: Items = {
   "Love Charm": {
     image: loveCharm,
     description: translate("description.love.charm"),
+  },
+  "Polygon Banner": {
+    image: polygonBanner,
+    description: translate("description.polygonBanner"),
+  },
+  "Ronin Banner": {
+    image: roninBanner,
+    description: translate("description.roninBanner"),
+  },
+  "Base Banner": {
+    image: baseBanner,
+    description: translate("description.baseBanner"),
   },
 };

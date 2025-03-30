@@ -132,7 +132,10 @@ export type EventDecorationName =
   | "Festive Toy Train"
   | "Golden Cow"
   | "Volcano Gnome"
-  | "Jin";
+  | "Jin"
+  | "Polygon Banner"
+  | "Ronin Banner"
+  | "Base Banner";
 
 export type PotionHouseDecorationName =
   | "Giant Potato"
@@ -149,6 +152,27 @@ export type AnimalDecorationName =
   | "Winter Duckling";
 
 export const DECORATION_TEMPLATES = {
+  "Polygon Banner": {
+    dimensions: {
+      width: 1,
+      height: 2,
+    },
+    isWithdrawable: () => false,
+  },
+  "Ronin Banner": {
+    dimensions: {
+      width: 1,
+      height: 2,
+    },
+    isWithdrawable: () => false,
+  },
+  "Base Banner": {
+    dimensions: {
+      width: 1,
+      height: 2,
+    },
+    isWithdrawable: () => false,
+  },
   "Thermal Stone": {
     dimensions: {
       width: 1,
