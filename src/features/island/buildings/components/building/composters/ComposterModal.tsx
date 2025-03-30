@@ -39,10 +39,11 @@ import {
   getSpeedUpCost,
   getSpeedUpTime,
 } from "features/game/events/landExpansion/accelerateComposter";
-import { isCollectibleActive } from "features/game/lib/collectibleBuilt";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { SEASON_ICONS } from "../market/SeasonalSeeds";
 import { RecipeInfoPanel } from "../craftingBox/components/RecipeInfoPanel";
 import { secondsTillWeekReset } from "features/game/lib/factions";
+import { getFruitfulBlendBuff } from "features/game/events/landExpansion/fertiliseFruitPatch";
 
 const WORM_OUTPUT: Record<ComposterName, { min: number; max: number }> = {
   "Compost Bin": { min: 2, max: 4 },
@@ -180,7 +181,7 @@ const FertiliserLabel: React.FC<{
         type="success"
         className="text-xs whitespace-pre-line"
       >
-        {isCollectibleActive({ name: "Knowledge Crab", game: state })
+        {isCollectibleBuilt({ name: "Knowledge Crab", game: state })
           ? "+0.4"
           : "+0.2"}{" "}
         {t("crops")}
@@ -196,7 +197,7 @@ const FertiliserLabel: React.FC<{
         type="success"
         className="text-xs whitespace-pre-line"
       >
-        {"+0.1"} {t("fruit")}
+        {`+${getFruitfulBlendBuff(state)}`} {t("fruit")}
       </Label>
     );
   }
