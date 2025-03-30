@@ -200,7 +200,14 @@ export const AnimalDeal: React.FC<{
                       className="w-4 space-x-1"
                       alt={name}
                     />
-                    <p>{`x ${getSickAnimalRewardAmount(deal.items?.[name] ?? 0)} ${name}`}</p>
+                    <p>{`x ${getSickAnimalRewardAmount(
+                      (name !== getSeasonalTicket()
+                        ? deal.items?.[name]
+                        : generateBountyTicket({
+                            game: state,
+                            bounty: deal,
+                          })) ?? 0,
+                    )} ${name}`}</p>
                   </div>
                 );
               })}
