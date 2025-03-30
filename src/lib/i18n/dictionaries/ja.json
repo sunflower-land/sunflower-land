@@ -5613,5 +5613,6 @@
   "twitter.weekly.share": "農場をシェアしよう",
   "twitter.weekly.instructions.1": "1。上の画像をハッシュタグ {{hashtag}} を付けてツイッターでシェアしてください",
   "twitter.weekly.instructions.2": "2。下のボタンをクリックしてツイートを確認してください。",
-  "twitter.verify.cooldown": "ツイートを確認するまでの間 {{time}} お待ちください。"
+  "twitter.verify.cooldown": "ツイートを確認するまでの間 {{time}} お待ちください。",
+  "compost.fruitfulBlendBoosted": "フルーツフルブレンドは、フルーツパッチに生えている各フルーツの収穫量を+0.2増やします"
 }

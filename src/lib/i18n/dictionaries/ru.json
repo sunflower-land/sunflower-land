@@ -5613,5 +5613,6 @@
   "twitter.weekly.share": "Поделитесь своей фермой",
   "twitter.weekly.instructions.1": "1. Поделитесь изображением выше в Twitter с хэштегом {{hashtag}}",
   "twitter.weekly.instructions.2": "2. Подтвердите свой твит, нажав кнопку ниже.",
-  "twitter.verify.cooldown": "Пожалуйста, подождите {{time}} между проверкой твитов."
+  "twitter.verify.cooldown": "Пожалуйста, подождите {{time}} между проверкой твитов.",
+  "compost.fruitfulBlendBoosted": "Fruitful Blend повышает урожайность каждого плода, растущего на плодовых участках, на +0,2"
 }

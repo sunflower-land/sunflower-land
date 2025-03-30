@@ -5613,5 +5613,6 @@
   "twitter.weekly.share": "Teile deine Farm",
   "twitter.weekly.instructions.1": "1. Teile das Bild oben auf Twitter mit dem Hashtag {{hashtag}}",
   "twitter.weekly.instructions.2": "2. Bestätigen Sie Ihren Tweet, indem Sie auf die Schaltfläche unten klicken.",
-  "twitter.verify.cooldown": "Bitte warte {{time}} zwischen der Überprüfung deiner Tweets."
+  "twitter.verify.cooldown": "Bitte warte {{time}} zwischen der Überprüfung deiner Tweets.",
+  "compost.fruitfulBlendBoosted": "Fruitful Blend steigert den Ertrag jeder Frucht, die auf Fruchtbeeten wächst, um +0,2"
 }

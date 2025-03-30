@@ -5613,5 +5613,6 @@
   "twitter.weekly.share": "分享你的农场",
   "twitter.weekly.instructions.1": "1。使用主题标签 {{hashtag}} 将上面的图片分享到 Twitter",
   "twitter.weekly.instructions.2": "2。点击下面的按钮验证你的推文。",
-  "twitter.verify.cooldown": "请在验证您的推文之间等待 {{time}}。"
+  "twitter.verify.cooldown": "请在验证您的推文之间等待 {{time}}。",
+  "compost.fruitfulBlendBoosted": "Fruitful Blend 可将生长在水果地上的每种水果的产量提高 +0.2"
 }

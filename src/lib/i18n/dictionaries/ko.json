@@ -5613,5 +5613,6 @@
   "twitter.weekly.share": "농장 공유하기",
   "twitter.weekly.instructions.1": "1.위 이미지를 해시태그 {{hashtag}} 와 함께 트위터에 공유하세요",
   "twitter.weekly.instructions.2": "2.아래 버튼을 클릭하여 트윗을 인증하세요.",
-  "twitter.verify.cooldown": "트윗을 인증하는 사이에 {{time}} 기다려 주세요."
+  "twitter.verify.cooldown": "트윗을 인증하는 사이에 {{time}} 기다려 주세요.",
+  "compost.fruitfulBlendBoosted": "프루트풀 블렌드는 과일밭에서 자라는 각 과일의 수확량을 +0.2만큼 증가시킵니다."
 }

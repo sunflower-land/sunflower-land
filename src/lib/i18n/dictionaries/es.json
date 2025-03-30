@@ -5613,5 +5613,6 @@
   "twitter.weekly.share": "Comparte tu granja",
   "twitter.weekly.instructions.1": "1. Comparte la imagen de arriba en Twitter con el hashtag {{hashtag}}",
   "twitter.weekly.instructions.2": "2. Verifica tu tweet haciendo clic en el botón de abajo.",
-  "twitter.verify.cooldown": "Espera {{time}} entre la verificación de tus tuits."
+  "twitter.verify.cooldown": "Espera {{time}} entre la verificación de tus tuits.",
+  "compost.fruitfulBlendBoosted": "Fruitful Blend aumenta el rendimiento de cada fruta que crece en los huertos frutales en un +0.2"
 }

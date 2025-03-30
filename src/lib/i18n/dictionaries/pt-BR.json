@@ -5613,5 +5613,6 @@
   "twitter.weekly.share": "Compartilhe sua fazenda",
   "twitter.weekly.instructions.1": "1. Compartilhe a imagem acima no Twitter com a hashtag {{hashtag}}",
   "twitter.weekly.instructions.2": "2. Verifique seu tweet clicando no botão abaixo.",
-  "twitter.verify.cooldown": "Aguarde {{time}} entre verificar seus tweets."
+  "twitter.verify.cooldown": "Aguarde {{time}} entre verificar seus tweets.",
+  "compost.fruitfulBlendBoosted": "O Fruitful Blend aumenta o rendimento de cada fruta que cresce em canteiros de frutas em +0,2"
 }

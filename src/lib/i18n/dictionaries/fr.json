@@ -5613,5 +5613,6 @@
   "twitter.weekly.share": "Partagez votre ferme",
   "twitter.weekly.instructions.1": "1. Partagez l'image ci-dessus sur Twitter avec le hashtag {{hashtag}}",
   "twitter.weekly.instructions.2": "2. Vérifiez votre tweet en cliquant sur le bouton ci-dessous.",
-  "twitter.verify.cooldown": "Veuillez patienter {{time}} entre deux vérifications de vos tweets."
+  "twitter.verify.cooldown": "Veuillez patienter {{time}} entre deux vérifications de vos tweets.",
+  "compost.fruitfulBlendBoosted": "Fruitful Blend augmente le rendement de chaque fruit poussant sur des parcelles de fruits de +0,2"
 }

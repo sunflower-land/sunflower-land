@@ -5613,5 +5613,6 @@
   "twitter.weekly.share": "Kongsi ladang anda",
   "twitter.weekly.instructions.1": "1. Kongsi imej di atas ke Twitter dengan hashtag {{hashtag}}",
   "twitter.weekly.instructions.2": "2. Sahkan tweet anda dengan mengklik butang di bawah.",
-  "twitter.verify.cooldown": "Sila tunggu {{time}} antara mengesahkan tweet anda."
+  "twitter.verify.cooldown": "Sila tunggu {{time}} antara mengesahkan tweet anda.",
+  "compost.fruitfulBlendBoosted": "Campuran Berbuah meningkatkan hasil setiap buah yang tumbuh pada tompok buah sebanyak +0.2"
 }
