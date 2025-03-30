@@ -194,20 +194,26 @@ export const AnimalDeal: React.FC<{
                 </div>
               )}
               {getKeys(deal.items ?? {}).map((name) => {
+                let amount = deal.items?.[name] ?? 0;
+                const now = Date.now();
+
+                if (name === getSeasonalTicket(new Date(now))) {
+                  amount = generateBountyTicket({
+                    game: state,
+                    bounty: deal,
+                    now,
+                  });
+                }
+
                 return (
                   <div className="flex items-center space-x-1" key={name}>
                     <Label
                       type="warning"
                       icon={ITEM_DETAILS[name].image}
                       className="text-sm"
-                    >{`x ${getSickAnimalRewardAmount(
-                      (name !== getSeasonalTicket()
-                        ? deal.items?.[name]
-                        : generateBountyTicket({
-                            game: state,
-                            bounty: deal,
-                          })) ?? 0,
-                    )} ${name}`}</Label>
+                    >
+                      {`x ${getSickAnimalRewardAmount(amount)} ${name}`}
+                    </Label>
                   </div>
                 );
               })}
