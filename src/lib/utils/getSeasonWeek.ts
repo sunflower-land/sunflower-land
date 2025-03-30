@@ -75,6 +75,15 @@ const HOLIDAYS: string[] = [
   "2025-02-07",
   "2025-02-08",
   "2025-02-09",
+
+  // Winds of Change Auctons
+  "2025-03-31",
+  "2025-04-01",
+  "2025-04-02",
+  "2025-04-03",
+  "2025-04-04",
+  "2025-04-05",
+  "2025-04-06",
 ];
 
 export function getBumpkinHoliday({ now = Date.now() }: { now?: number }) {
