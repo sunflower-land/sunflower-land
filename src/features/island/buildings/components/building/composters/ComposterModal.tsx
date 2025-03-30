@@ -39,7 +39,7 @@ import {
   getSpeedUpCost,
   getSpeedUpTime,
 } from "features/game/events/landExpansion/accelerateComposter";
-import { isCollectibleActive } from "features/game/lib/collectibleBuilt";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { SEASON_ICONS } from "../market/SeasonalSeeds";
 import { RecipeInfoPanel } from "../craftingBox/components/RecipeInfoPanel";
 import { secondsTillWeekReset } from "features/game/lib/factions";
@@ -181,7 +181,7 @@ const FertiliserLabel: React.FC<{
         type="success"
         className="text-xs whitespace-pre-line"
       >
-        {isCollectibleActive({ name: "Knowledge Crab", game: state })
+        {isCollectibleBuilt({ name: "Knowledge Crab", game: state })
           ? "+0.4"
           : "+0.2"}{" "}
         {t("crops")}
