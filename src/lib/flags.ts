@@ -107,6 +107,9 @@ const FEATURE_FLAGS = {
   FLOWER_GEMS: timeBasedFeatureFlag(new Date("2025-05-05T00:00:00Z")),
 
   // Testnet only feature flags - Please don't change these until release
+  LOVE_CHARM_FLOWER_EXCHANGE: timeBasedFeatureFlag(
+    new Date("2025-04-14T00:00:00Z"),
+  ),
   LEDGER: testnetLocalStorageFeatureFlag("ledger"),
   OFFCHAIN_MARKETPLACE: defaultFeatureFlag,
 } satisfies Record<string, FeatureFlag>;

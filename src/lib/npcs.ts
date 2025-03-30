@@ -124,6 +124,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     onesie: "Rocket Onesie",
     shoes: "Black Farmer Boots",
     tool: "Auction Megaphone",
+    aura: "Coin Aura",
   },
   bailey: {
     body: "Beige Farmer Potion",
