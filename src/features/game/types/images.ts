@@ -3163,6 +3163,12 @@ export const ITEM_DETAILS: Items = {
     description: translate("compost.sproutMix"),
   },
   "Fruitful Blend": {
+    boostedDescriptions: [
+      {
+        name: "Fruitful Bounty",
+        description: translate("compost.fruitfulBlendBoosted"),
+      },
+    ],
     image: fruitfulBlend,
     description: translate("compost.fruitfulBlend"),
   },
