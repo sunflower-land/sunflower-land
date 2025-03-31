@@ -355,6 +355,30 @@ export const BUMPKIN_RELEASES: Partial<Record<BumpkinItem, Releases>> = {
   },
   "Love Heart Onesie": CAN_WITHDRAW_AND_TRADE,
   "Flower Bouquet": CAN_WITHDRAW_AND_TRADE,
+  "Dino Onesie": {
+    tradeAt: new Date("2025-05-05"),
+    withdrawAt: new Date("2025-05-05"),
+  },
+  "Golden Wings": {
+    tradeAt: new Date("2025-05-05"),
+    withdrawAt: new Date("2025-05-05"),
+  },
+  "Flower Mask": {
+    tradeAt: new Date("2025-05-05"),
+    withdrawAt: new Date("2025-05-05"),
+  },
+  "Luvvy Head": {
+    tradeAt: new Date("2025-05-05"),
+    withdrawAt: new Date("2025-05-05"),
+  },
+  "Grumpy Cat": {
+    tradeAt: new Date("2025-05-05"),
+    withdrawAt: new Date("2025-05-05"),
+  },
+  "Love Puff Aura": {
+    tradeAt: new Date("2025-05-05"),
+    withdrawAt: new Date("2025-05-05"),
+  },
 };
 
 export const INVENTORY_RELEASES: Partial<Record<InventoryItemName, Releases>> =
