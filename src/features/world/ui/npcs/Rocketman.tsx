@@ -154,6 +154,7 @@ const FlowerExchange: React.FC<FlowerExchangeProps> = ({
   gameService,
   onClose,
 }) => {
+  const { t } = useAppTranslation();
   const [loveCharms, setLoveCharms] = useState(0);
   const [flower, setFlower] = useState(0);
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -169,13 +170,13 @@ const FlowerExchange: React.FC<FlowerExchangeProps> = ({
       <div className="flex flex-col m-2 gap-2">
         <div className="flex flex-wrap justify-between gap-1">
           <Label type="default" icon={flowerIcon}>
-            {`Exchange $FLOWER`}
+            {t("flower.exchange.title")}
           </Label>
           <Label type="warning" icon={flowerIcon} secondaryIcon={loveCharmIcon}>
-            {`1 $FLOWER = ${EXCHANGE_RATE} Love Charms`}
+            {t("flower.exchange.price", { exchangeRate: EXCHANGE_RATE })}
           </Label>
         </div>
-        <p>{`Are you sure you want to perform the following exchange?`}</p>
+        <p>{t("flower.exchange.confirm")}</p>
         <div className="flex flex-row justify-evenly gap-2 text-base">
           <div className="flex items-center gap-2">
             <p>{`${loveCharms}`}</p>
@@ -188,8 +189,10 @@ const FlowerExchange: React.FC<FlowerExchangeProps> = ({
           </div>
         </div>
         <div className="flex flex-row justify-evenly gap-2 text-base">
-          <Button onClick={() => setShowConfirmation(false)}>{`Cancel`}</Button>
-          <Button onClick={handleExchange}>{`Confirm`}</Button>
+          <Button onClick={() => setShowConfirmation(false)}>
+            {t("cancel")}
+          </Button>
+          <Button onClick={handleExchange}>{t("confirm")}</Button>
         </div>
       </div>
     );
@@ -202,14 +205,14 @@ const FlowerExchange: React.FC<FlowerExchangeProps> = ({
     <div className="flex flex-col m-2 gap-2">
       <div className="flex flex-wrap justify-between gap-1">
         <Label type="default" icon={flowerIcon}>
-          {`Exchange $FLOWER`}
+          {t("flower.exchange.title")}
         </Label>
         <Label type="warning" icon={flowerIcon} secondaryIcon={loveCharmIcon}>
-          {`1 $FLOWER = ${EXCHANGE_RATE} Love Charms`}
+          {t("flower.exchange.price", { exchangeRate: EXCHANGE_RATE })}
         </Label>
       </div>
       <Label type="info" icon={loveCharmIcon}>
-        {`Inventory: ${loveCharmCount} Love Charms`}
+        {t("flower.exchange.inventory", { loveCharmCount })}
       </Label>
       <div className="flex justify-between">
         <div className="flex flex-col gap-1">
@@ -245,16 +248,16 @@ const FlowerExchange: React.FC<FlowerExchangeProps> = ({
       {isOutOfRange && loveCharms !== 0 && (
         <Label type="danger">
           {loveCharms < 50
-            ? "You can't exchange less than 50 Love Charms"
+            ? t("flower.exchange.error.min")
             : loveCharms > 10000
-              ? "You can't exchange more than 10,000 Love Charms"
+              ? t("flower.exchange.error.max")
               : loveCharmCount.lt(loveCharms)
-                ? "You don't have enough Love Charms to exchange for FLOWER"
+                ? t("flower.exchange.error.balance")
                 : ""}
         </Label>
       )}
       <Button disabled={isOutOfRange} onClick={() => setShowConfirmation(true)}>
-        {`Exchange`}
+        {t("flower.exchange.button")}
       </Button>
     </div>
   );
