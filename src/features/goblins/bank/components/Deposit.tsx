@@ -382,7 +382,7 @@ const DepositOptions: React.FC<Props> = ({
         </div>
       )}
       {status === "loaded" && !emptyWallet && (
-        <>
+        <GameWallet action="confirmDeposit">
           <div className="p-2 mb-1">
             <div className="flex justify-between sm:flex-row flex-col">
               <Label
@@ -622,7 +622,7 @@ const DepositOptions: React.FC<Props> = ({
           >
             {t("deposit.sendToFarm")}
           </Button>
-        </>
+        </GameWallet>
       )}
     </>
   );
