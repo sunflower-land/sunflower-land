@@ -17058,4 +17058,76 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     image: "../public/wearables/images/438.png",
     name: "Streamer Hat",
   },
+  "Dino Onesie": {
+    description:
+      "Stomp around in prehistoric style! Cozy, cute, and just fierce enough to remind everyone who rules the jungle.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Onesie" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/439.png",
+    name: "Dino Onesie",
+  },
+  "Golden Wings": {
+    description:
+      "Radiate with celestial grace as you soar through the skies, leaving a trail of golden light in your wake.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Wings" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/440.png",
+    name: "Golden Wings",
+  },
+  "Flower Mask": {
+    description:
+      "A blooming masterpiece that frames your face in petals of charm. Nature’s beauty has never been so wearable!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hat" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/441.png",
+    name: "Flower Mask",
+  },
+  "Luvvy Head": {
+    description:
+      "Head over heels in love! This heart-filled headpiece is all about spreading joy, affection, and a little bit of blush.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hat" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/442.png",
+    name: "Luvvy Head",
+  },
+  "Grumpy Cat": {
+    description:
+      "Perched atop your head, this feline friend judges your every move… but secretly enjoys the ride.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hat" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/443.png",
+    name: "Grumpy Cat",
+  },
+  "Love Puff Aura": {
+    description:
+      "A gentle poof of floating hearts that follows you wherever you go, because love should always be in the air.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Aura" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/444.png",
+    name: "Love Puff Aura",
+  },
 };
