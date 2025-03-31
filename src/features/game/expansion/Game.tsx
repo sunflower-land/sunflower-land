@@ -26,7 +26,7 @@ import { Panel } from "components/ui/Panel";
 import { Hoarding } from "../components/Hoarding";
 import { Swarming } from "../components/Swarming";
 import { Cooldown } from "../components/Cooldown";
-import { Route, Routes } from "react-router";
+import { Route, Routes, useNavigate } from "react-router";
 import { Land } from "./Land";
 import { VisitingHud } from "features/island/hud/VisitingHud";
 import { VisitLandExpansionForm } from "./components/VisitLandExpansionForm";
@@ -89,6 +89,8 @@ import {
 } from "./components/EffectSuccess";
 import { LoveCharm } from "./components/LoveCharm";
 import { ClaimReferralRewards } from "./components/ClaimReferralRewards";
+import { Maintenance } from "features/auth/components/Maintenance";
+import { CloseButtonPanel } from "../components/CloseablePanel";
 
 function camelToDotCase(str: string): string {
   return str.replace(/([a-z])([A-Z])/g, "$1.$2").toLowerCase() as string;
@@ -266,6 +268,7 @@ const GameContent: React.FC = () => {
   const landToVisitNotFound = useSelector(gameService, isLandToVisitNotFound);
   const { t } = useAppTranslation();
   const [gameState] = useActor(gameService);
+  const navigate = useNavigate();
 
   const PATH_ACCESS: Partial<Record<string, (game: GameState) => boolean>> = {
     GreenHouse: (game) =>
@@ -345,6 +348,16 @@ const GameContent: React.FC = () => {
           {hasAccess("HenHouse") && (
             <Route path="/hen-house" element={<HenHouseInside />} />
           )}
+          <Route
+            path="/marketplace-error"
+            element={
+              <Modal show={true}>
+                <CloseButtonPanel onClose={() => navigate("/")}>
+                  <Maintenance />
+                </CloseButtonPanel>
+              </Modal>
+            }
+          />
           <Route
             path="*"
             element={
