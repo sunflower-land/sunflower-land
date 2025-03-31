@@ -5640,5 +5640,6 @@
   "reputation.cropkeeper.description": "Разблокируйте все поставки FLOWER",
   "reputation.cropkeeper.deliveries": "Разблокируйте все поставки ЦВЕТОВ",
   "bounties.sfl.intro.two": "Я слышала, что вы, глупые Бампкинсы, продаете ваш обсидиан за ЦВЕТОК. Это правда?",
-  "not.enough.sfl": "У вас недостаточно ЦВЕТКА"
+  "not.enough.sfl": "У вас недостаточно ЦВЕТКА",
+  "error.insufficientMatic": "Требуется POL"
 }

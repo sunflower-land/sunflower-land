@@ -5640,5 +5640,6 @@
   "reputation.cropkeeper.description": "解锁所有鲜花配送",
   "reputation.cropkeeper.deliveries": "解锁所有鲜花配送",
   "bounties.sfl.intro.two": "我听说你这傻小伙子正在把你的黑曜石换成 FLOWER。是真的吗？",
-  "not.enough.sfl": "你没有足够的花"
+  "not.enough.sfl": "你没有足够的花",
+  "error.insufficientMatic": "需要 POL"
 }

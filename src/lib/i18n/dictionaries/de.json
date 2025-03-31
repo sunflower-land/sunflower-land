@@ -5640,5 +5640,6 @@
   "reputation.cropkeeper.description": "Schalte alle FLOWER-Lieferungen frei",
   "reputation.cropkeeper.deliveries": "Schalte alle BLUMENLIEFERUNGEN FREI",
   "bounties.sfl.intro.two": "Ich habe gehört, dass du dumme Bumpkins deinen Obsidian für FLOWER verkaufst. Stimmt das?",
-  "not.enough.sfl": "Du hast nicht genug FLOWER"
+  "not.enough.sfl": "Du hast nicht genug FLOWER",
+  "error.insufficientMatic": "POL erforderlich"
 }

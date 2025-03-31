@@ -5640,5 +5640,6 @@
   "reputation.cropkeeper.description": "Buka kunci semua penghantaran BUNGA",
   "reputation.cropkeeper.deliveries": "Buka kunci Semua Penghantaran BUNGA",
   "bounties.sfl.intro.two": "Saya dengar awak bodoh Bumpkins menjual Obsidian anda untuk BUNGA. Adakah itu benar?",
-  "not.enough.sfl": "Anda tidak mempunyai cukup BUNGA"
+  "not.enough.sfl": "Anda tidak mempunyai cukup BUNGA",
+  "error.insufficientMatic": "POL diperlukan"
 }

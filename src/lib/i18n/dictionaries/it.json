@@ -5640,5 +5640,6 @@
   "reputation.cropkeeper.description": "Sblocca tutte le consegne di FIORI",
   "reputation.cropkeeper.deliveries": "Sblocca tutte le consegne di FIORI",
   "bounties.sfl.intro.two": "Ho sentito che sciocco Bumpkins vendete la vostra ossidiana in cambio di un fiore. È vero?",
-  "not.enough.sfl": "Non hai abbastanza FIORI"
+  "not.enough.sfl": "Non hai abbastanza FIORI",
+  "error.insufficientMatic": "POL richiesto"
 }

@@ -5640,5 +5640,6 @@
   "reputation.cropkeeper.description": "Tüm ÇIÇEK Teslimatlarının kilidini açın",
   "reputation.cropkeeper.deliveries": "Tüm ÇIÇEK Teslimatlarını Açın",
   "bounties.sfl.intro.two": "Senin aptalca Bumpkin'lerin Obsidiyenini ÇIÇEK için sattığını duydum. Bu doğru mu?",
-  "not.enough.sfl": "Yeterince Çiçeğin Yok"
+  "not.enough.sfl": "Yeterince Çiçeğin Yok",
+  "error.insufficientMatic": "POL gerekli"
 }

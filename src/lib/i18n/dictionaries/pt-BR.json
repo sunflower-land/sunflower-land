@@ -5640,5 +5640,6 @@
   "reputation.cropkeeper.description": "Desbloqueie todas as entregas de FLORES",
   "reputation.cropkeeper.deliveries": "Desbloqueie todas as entregas de flores",
   "bounties.sfl.intro.two": "Ouvi dizer que vocês, idiotas, estão vendendo sua obsidiana por FLOWER. Isso é verdade?",
-  "not.enough.sfl": "Você não tem FLOR suficiente"
+  "not.enough.sfl": "Você não tem FLOR suficiente",
+  "error.insufficientMatic": "POL necessário"
 }
