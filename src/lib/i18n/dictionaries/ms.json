@@ -5610,9 +5610,9 @@
   "twitter.farm.instructions.1": "1. Siarkan tangkapan skrin ladang anda ke Twitter dengan hashtag {{hashtag}}",
   "twitter.farm.instructions.2": "2. Sahkan tweet anda dengan mengklik butang di bawah.",
   "twitter.weekly.share": "Kongsi ladang anda",
-  "twitter.weekly.instructions.1": "1. Kongsi imej di atas ke Twitter dengan hashtag {{hashtag}}",
   "twitter.weekly.instructions.2": "2. Sahkan tweet anda dengan mengklik butang di bawah.",
   "twitter.verify.cooldown": "Sila tunggu {{time}} antara mengesahkan tweet anda.",
   "compost.fruitfulBlendBoosted": "Campuran Berbuah meningkatkan hasil setiap buah yang tumbuh pada tompok buah sebanyak +0.2",
-  "socialTask.joinStream.description": "Sertai sembang pembangun di discord atau twitch stream untuk mendapatkan 5 Love Charm setiap 5 minit dari tuan rumah yang memakai topi streamer."
+  "socialTask.joinStream.description": "Sertai sembang pembangun di discord atau twitch stream untuk mendapatkan 5 Love Charm setiap 5 minit dari tuan rumah yang memakai topi streamer.",
+  "twitter.weekly.instructions.1": "1. Siarkan imej di atas ke Twitter dengan hashtag {{hashtag}}"
 }

@@ -5610,9 +5610,9 @@
   "twitter.farm.instructions.1": "1。使用主题标签 {{hashtag}} 在 Twitter 上发布你农场的屏幕截图",
   "twitter.farm.instructions.2": "2。点击下面的按钮验证你的推文。",
   "twitter.weekly.share": "分享你的农场",
-  "twitter.weekly.instructions.1": "1。使用主题标签 {{hashtag}} 将上面的图片分享到 Twitter",
   "twitter.weekly.instructions.2": "2。点击下面的按钮验证你的推文。",
   "twitter.verify.cooldown": "请在验证您的推文之间等待 {{time}}。",
   "compost.fruitfulBlendBoosted": "Fruitful Blend 可将生长在水果地上的每种水果的产量提高 +0.2",
-  "socialTask.joinStream.description": "在 Discord 或 Twitch 直播中加入开发者聊天，戴着主播帽的主持人每 5 分钟即可获得 5 个 Love Charm。"
+  "socialTask.joinStream.description": "在 Discord 或 Twitch 直播中加入开发者聊天，戴着主播帽的主持人每 5 分钟即可获得 5 个 Love Charm。",
+  "twitter.weekly.instructions.1": "1。使用主题标签 {{hashtag}} 将上面的图片发布到 Twitter"
 }

@@ -5610,9 +5610,9 @@
   "twitter.farm.instructions.1": "1.농장의 스크린샷을 해시태그 {{hashtag}} 와 함께 트위터에 올리세요",
   "twitter.farm.instructions.2": "2.아래 버튼을 클릭하여 트윗을 인증하세요.",
   "twitter.weekly.share": "농장 공유하기",
-  "twitter.weekly.instructions.1": "1.위 이미지를 해시태그 {{hashtag}} 와 함께 트위터에 공유하세요",
   "twitter.weekly.instructions.2": "2.아래 버튼을 클릭하여 트윗을 인증하세요.",
   "twitter.verify.cooldown": "트윗을 인증하는 사이에 {{time}} 기다려 주세요.",
   "compost.fruitfulBlendBoosted": "프루트풀 블렌드는 과일밭에서 자라는 각 과일의 수확량을 +0.2만큼 증가시킵니다.",
-  "socialTask.joinStream.description": "디스코드 또는 트위치 스트림에서 개발자 채팅에 참여하면 스트리머 모자를 쓴 호스트로부터 5분마다 Love Charm을 5개씩 받을 수 있습니다."
+  "socialTask.joinStream.description": "디스코드 또는 트위치 스트림에서 개발자 채팅에 참여하면 스트리머 모자를 쓴 호스트로부터 5분마다 Love Charm을 5개씩 받을 수 있습니다.",
+  "twitter.weekly.instructions.1": "1.위 이미지를 해시태그 {{hashtag}} 와 함께 트위터에 게시하세요."
 }

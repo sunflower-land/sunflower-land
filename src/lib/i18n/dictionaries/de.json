@@ -5610,9 +5610,9 @@
   "twitter.farm.instructions.1": "1. Poste einen Screenshot deiner Farm auf Twitter mit dem Hashtag {{hashtag}}",
   "twitter.farm.instructions.2": "2. Bestätigen Sie Ihren Tweet, indem Sie auf die Schaltfläche unten klicken.",
   "twitter.weekly.share": "Teile deine Farm",
-  "twitter.weekly.instructions.1": "1. Teile das Bild oben auf Twitter mit dem Hashtag {{hashtag}}",
   "twitter.weekly.instructions.2": "2. Bestätigen Sie Ihren Tweet, indem Sie auf die Schaltfläche unten klicken.",
   "twitter.verify.cooldown": "Bitte warte {{time}} zwischen der Überprüfung deiner Tweets.",
   "compost.fruitfulBlendBoosted": "Fruitful Blend steigert den Ertrag jeder Frucht, die auf Fruchtbeeten wächst, um +0,2",
-  "socialTask.joinStream.description": "Tritt einem Dev-Chat auf Discord oder einem Twitch-Stream bei, um alle 5 Minuten 5 Liebeszauber zu erhalten, wenn der Moderator einen Streamer-Hut trägt."
+  "socialTask.joinStream.description": "Tritt einem Dev-Chat auf Discord oder einem Twitch-Stream bei, um alle 5 Minuten 5 Liebeszauber zu erhalten, wenn der Moderator einen Streamer-Hut trägt.",
+  "twitter.weekly.instructions.1": "1. Poste das Bild oben auf Twitter mit dem Hashtag {{hashtag}}"
 }

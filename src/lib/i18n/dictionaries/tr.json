@@ -5610,9 +5610,9 @@
   "twitter.farm.instructions.1": "1. Çiftliğinizin ekran görüntüsünü {{hashtag}} hashtag'iyle Twitter'a gönderin",
   "twitter.farm.instructions.2": "2. Aşağıdaki düğmeyi tıklayarak tweet\"inizi doğrulayın.",
   "twitter.weekly.share": "Çiftliğinizi paylaşın",
-  "twitter.weekly.instructions.1": "1. Yukarıdaki resmi Twitter'da hashtag'le paylaşın {{hashtag}}",
   "twitter.weekly.instructions.2": "2. Aşağıdaki düğmeyi tıklayarak tweet\"inizi doğrulayın.",
   "twitter.verify.cooldown": "Lütfen tweet'lerinizi doğrulamak arasında {{time}} bekleyin.",
   "compost.fruitfulBlendBoosted": "Fruitful Blend, meyve yamalarında yetişen her meyvenin verimini +0.2 artırır",
-  "socialTask.joinStream.description": "Bir yayıncı şapkası takan ev sahibinden her 5 dakikada bir 5 Aşk Tılsımı kazanmak için Discord veya twitch akışında bir geliştirici sohbetine katılın."
+  "socialTask.joinStream.description": "Bir yayıncı şapkası takan ev sahibinden her 5 dakikada bir 5 Aşk Tılsımı kazanmak için Discord veya twitch akışında bir geliştirici sohbetine katılın.",
+  "twitter.weekly.instructions.1": "1. Yukarıdaki resmi {{hashtag}} hashtag'iyle Twitter'a gönderin"
 }
