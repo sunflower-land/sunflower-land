@@ -723,6 +723,7 @@ export type Airdrop = {
   message?: string;
   coordinates?: Coordinates;
   factionPoints?: number;
+  vipDays?: number;
 };
 
 // Mystery Prize reveals
@@ -1499,6 +1500,12 @@ export interface GameState {
     raffle?: { entries: Record<string, number> };
     budBox?: { openedAt: number };
     vipChest?: { openedAt: number };
+    blockchainBox?: {
+      openedAt: number;
+      items: Partial<Record<InventoryItemName, number>>;
+      vipDays: number;
+      tier: "bronze" | "silver" | "gold" | "platinum" | "diamond";
+    };
     giftGiver?: { openedAt: number };
     streamerHat?: { openedAt: number };
     pirateChest?: { openedAt: number };

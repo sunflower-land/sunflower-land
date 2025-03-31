@@ -6,6 +6,7 @@ import token from "assets/icons/sfl.webp";
 import coins from "assets/icons/coins.webp";
 import powerup from "assets/icons/level_up.png";
 import factionPoint from "assets/icons/faction_point.webp";
+import vip from "assets/icons/vip.webp";
 import { CollectibleName, getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -96,6 +97,21 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
                 <p className="text-xs mt-0.5">{t("reward.factionPoints")}</p>
               </div>
             </div>
+          )}
+          {!!airdrop.vipDays && (
+            <ButtonPanel
+              variant="card"
+              className="flex items-start cursor-context-menu hover:brightness-100"
+            >
+              <Box image={vip} className="-mt-2 -ml-1 -mb-1" />
+
+              <div>
+                <Label type="warning">
+                  {`${formatNumber(airdrop.vipDays)} VIP Days`}
+                </Label>
+                <p className="text-xs mt-0.5">{t("reward.vipDescription")}</p>
+              </div>
+            </ButtonPanel>
           )}
           {!!airdrop.coins && (
             <ButtonPanel
