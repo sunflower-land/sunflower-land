@@ -5775,5 +5775,7 @@
   "twitter.weekly.share": "Share your farm",
   "twitter.weekly.instructions.1": "1. Post the image above to Twitter with hashtag {{hashtag}}",
   "twitter.weekly.instructions.2": "2. Verify your tweet by clicking the button below.",
-  "twitter.verify.cooldown": "Please wait {{time}} in between verifying your tweets."
+  "twitter.verify.cooldown": "Please wait {{time}} in between verifying your tweets.",
+  "marketplaceTransferInProgress": "Marketplace transfers are being finalised, please try again in a few minutes.",
+  "marketplaceTransferInProgress.label": "Marketplace transfer in progress"
 }
