@@ -5560,7 +5560,6 @@
   "socialTask.complete50Deliveries": "Completa 50 consegne",
   "socialTask.complete50Deliveries.description": "Vai in piazza e completa le consegne con vari NPC 50 volte",
   "socialTask.joinStream": "Unisciti a uno stream",
-  "socialTask.joinStream.description": "Partecipa a una chat di sviluppo su discord o twitch stream per guadagnare 1 Love Charm ogni 5 minuti dall'host che indossa un cappello da stream.",
   "claimReferralRewards.title": "Premi per i referral",
   "claimReferralRewards.description": "Congratulazioni! {{totalUnclaimedReferrals}} nuovi giocatori si sono iscritti e hanno acquistato VIP utilizzando il tuo link di riferimento. Ecco i tuoi premi!",
   "referral.vip": "25 ciondoli d'amore quando il tuo amico acquista VIP",
@@ -5614,5 +5613,6 @@
   "twitter.weekly.instructions.1": "1. Condividi l'immagine qui sopra su Twitter con l'hashtag {{hashtag}}",
   "twitter.weekly.instructions.2": "2. Verifica il tuo tweet facendo clic sul pulsante in basso.",
   "twitter.verify.cooldown": "Attendi {{time}} tra una verifica e l'altra dei tuoi tweet.",
-  "compost.fruitfulBlendBoosted": "Fruitful Blend aumenta la resa di ogni frutto che cresce sugli appezzamenti di frutta di +0,2"
+  "compost.fruitfulBlendBoosted": "Fruitful Blend aumenta la resa di ogni frutto che cresce sugli appezzamenti di frutta di +0,2",
+  "socialTask.joinStream.description": "Partecipa a una chat di sviluppo su discord o twitch stream per guadagnare 5 Love Charm ogni 5 minuti dall'host che indossa un cappello da streamer."
 }

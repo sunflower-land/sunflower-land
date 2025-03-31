@@ -5560,7 +5560,6 @@
   "socialTask.complete50Deliveries": "完成 50 次配送",
   "socialTask.complete50Deliveries.description": "前往广场与各种 NPC 一起完成配送 50 次",
   "socialTask.joinStream": "加入直播",
-  "socialTask.joinStream.description": "在 Discord 或 Twitch 直播中加入开发者聊天，戴着直播帽的主持人每 5 分钟可获得 1 个 Love Charm。",
   "claimReferralRewards.title": "推荐奖励",
   "claimReferralRewards.description": "恭喜！{{totalUnclaimedReferrals}} 新玩家已加入并使用您的推荐链接购买了VIP。这是你的奖励！",
   "referral.vip": "朋友购买 VIP 时获得 25 个爱情护身符",
@@ -5614,5 +5613,6 @@
   "twitter.weekly.instructions.1": "1。使用主题标签 {{hashtag}} 将上面的图片分享到 Twitter",
   "twitter.weekly.instructions.2": "2。点击下面的按钮验证你的推文。",
   "twitter.verify.cooldown": "请在验证您的推文之间等待 {{time}}。",
-  "compost.fruitfulBlendBoosted": "Fruitful Blend 可将生长在水果地上的每种水果的产量提高 +0.2"
+  "compost.fruitfulBlendBoosted": "Fruitful Blend 可将生长在水果地上的每种水果的产量提高 +0.2",
+  "socialTask.joinStream.description": "在 Discord 或 Twitch 直播中加入开发者聊天，戴着主播帽的主持人每 5 分钟即可获得 5 个 Love Charm。"
 }

@@ -5560,7 +5560,6 @@
   "socialTask.complete50Deliveries": "配達を50回完了する",
   "socialTask.complete50Deliveries.description": "プラザに行き、様々なNPCで配達を50回完了する",
   "socialTask.joinStream": "ストリームに参加する",
-  "socialTask.joinStream.description": "DiscordまたはTwitchストリームの開発者チャットに参加すると、ストリームハットをかぶったホストから5分ごとに1つのラブチャームを獲得できます。",
   "claimReferralRewards.title": "紹介報酬",
   "claimReferralRewards.description": "おめでとう!{{totalUnclaimedReferrals}} 人の新規プレイヤーが加わり、紹介リンクを使用してVIPを購入しました。報酬はこちらです！",
   "referral.vip": "友達がVIPを購入したときの25のラブチャーム",
@@ -5614,5 +5613,6 @@
   "twitter.weekly.instructions.1": "1。上の画像をハッシュタグ {{hashtag}} を付けてツイッターでシェアしてください",
   "twitter.weekly.instructions.2": "2。下のボタンをクリックしてツイートを確認してください。",
   "twitter.verify.cooldown": "ツイートを確認するまでの間 {{time}} お待ちください。",
-  "compost.fruitfulBlendBoosted": "フルーツフルブレンドは、フルーツパッチに生えている各フルーツの収穫量を+0.2増やします"
+  "compost.fruitfulBlendBoosted": "フルーツフルブレンドは、フルーツパッチに生えている各フルーツの収穫量を+0.2増やします",
+  "socialTask.joinStream.description": "DiscordまたはTwitchストリームの開発者チャットに参加すると、ストリーマーハットをかぶったホストから5分ごとに5つのラブチャームを獲得できます。"
 }

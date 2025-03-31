@@ -5560,7 +5560,6 @@
   "socialTask.complete50Deliveries": "Effectuez 50 livraisons",
   "socialTask.complete50Deliveries.description": "Rendez-vous sur la place et terminez les livraisons avec différents PNJ 50 fois",
   "socialTask.joinStream": "Rejoindre un stream",
-  "socialTask.joinStream.description": "Participez à une discussion entre développeurs sur Discord ou Twitch pour gagner 1 Love Charm toutes les 5 minutes auprès de l'animateur qui porte une casquette de stream.",
   "claimReferralRewards.title": "Récompenses de recommandation",
   "claimReferralRewards.description": "Félicitations ! {{totalUnclaimedReferrals}} de nouveaux joueurs se sont inscrits et ont acheté des VIP en utilisant votre lien de parrainage. Voici vos récompenses !",
   "referral.vip": "25 breloques d'amour lorsque votre ami achète un VIP",
@@ -5614,5 +5613,6 @@
   "twitter.weekly.instructions.1": "1. Partagez l'image ci-dessus sur Twitter avec le hashtag {{hashtag}}",
   "twitter.weekly.instructions.2": "2. Vérifiez votre tweet en cliquant sur le bouton ci-dessous.",
   "twitter.verify.cooldown": "Veuillez patienter {{time}} entre deux vérifications de vos tweets.",
-  "compost.fruitfulBlendBoosted": "Fruitful Blend augmente le rendement de chaque fruit poussant sur des parcelles de fruits de +0,2"
+  "compost.fruitfulBlendBoosted": "Fruitful Blend augmente le rendement de chaque fruit poussant sur des parcelles de fruits de +0,2",
+  "socialTask.joinStream.description": "Participez à une discussion avec les développeurs sur Discord ou Twitch pour gagner 5 Love Charm toutes les 5 minutes grâce à l'animateur qui porte une casquette de streamer."
 }

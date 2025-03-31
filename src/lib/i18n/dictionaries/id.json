@@ -5560,7 +5560,6 @@
   "socialTask.complete50Deliveries": "Selesaikan 50 pengiriman",
   "socialTask.complete50Deliveries.description": "Pergi ke plaza dan selesaikan pengiriman dengan berbagai NPC 50 kali",
   "socialTask.joinStream": "Bergabunglah dengan streaming",
-  "socialTask.joinStream.description": "Bergabunglah dengan obrolan pengembang di Discord atau Twitch Streaming untuk mendapatkan 1 Cinta Cinta setiap 5 menit dari tuan rumah yang mengenakan topi streaming.",
   "claimReferralRewards.title": "Hadiah Referensi",
   "claimReferralRewards.description": "Selamat! {{totalUnclaimedReferrals}} pemain baru telah bergabung dan membeli VIP menggunakan tautan rujukan Anda. Inilah imbalan Anda!",
   "referral.vip": "25 Pesona Cinta saat teman Anda membeli VIP",
@@ -5614,5 +5613,6 @@
   "twitter.weekly.instructions.1": "1. Bagikan gambar di atas ke Twitter dengan tagar {{hashtag}}",
   "twitter.weekly.instructions.2": "2. Verifikasi tweet Anda dengan mengklik tombol di bawah ini.",
   "twitter.verify.cooldown": "Harap tunggu {{time}} di antara verifikasi tweet Anda.",
-  "compost.fruitfulBlendBoosted": "Fruitful Blend meningkatkan hasil setiap buah yang tumbuh di petak buah sebesar +0,2"
+  "compost.fruitfulBlendBoosted": "Fruitful Blend meningkatkan hasil setiap buah yang tumbuh di petak buah sebesar +0,2",
+  "socialTask.joinStream.description": "Bergabunglah dengan obrolan pengembang di Discord atau Twitch Streaming untuk mendapatkan 5 Love Charm setiap 5 menit dari tuan rumah yang mengenakan topi streamer."
 }

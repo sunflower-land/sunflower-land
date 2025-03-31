@@ -5560,7 +5560,6 @@
   "socialTask.complete50Deliveries": "Schließe 50 Lieferungen ab",
   "socialTask.complete50Deliveries.description": "Gehe zum Platz und schließe 50-mal Lieferungen mit verschiedenen NPCs ab",
   "socialTask.joinStream": "Trete einem Stream bei",
-  "socialTask.joinStream.description": "Tritt einem Dev-Chat auf Discord oder einem Twitch-Stream bei, um alle 5 Minuten 1 Liebeszauber zu erhalten, wenn der Moderator einen Stream-Hut trägt.",
   "claimReferralRewards.title": "Empfehlungsprämien",
   "claimReferralRewards.description": "Herzlichen Glückwunsch! {{totalUnclaimedReferrals}} neue Spieler sind beigetreten und haben über deinen Empfehlungslink VIP gekauft. Hier sind deine Prämien!",
   "referral.vip": "25 Liebeszauber, wenn dein Freund VIP kauft",
@@ -5614,5 +5613,6 @@
   "twitter.weekly.instructions.1": "1. Teile das Bild oben auf Twitter mit dem Hashtag {{hashtag}}",
   "twitter.weekly.instructions.2": "2. Bestätigen Sie Ihren Tweet, indem Sie auf die Schaltfläche unten klicken.",
   "twitter.verify.cooldown": "Bitte warte {{time}} zwischen der Überprüfung deiner Tweets.",
-  "compost.fruitfulBlendBoosted": "Fruitful Blend steigert den Ertrag jeder Frucht, die auf Fruchtbeeten wächst, um +0,2"
+  "compost.fruitfulBlendBoosted": "Fruitful Blend steigert den Ertrag jeder Frucht, die auf Fruchtbeeten wächst, um +0,2",
+  "socialTask.joinStream.description": "Tritt einem Dev-Chat auf Discord oder einem Twitch-Stream bei, um alle 5 Minuten 5 Liebeszauber zu erhalten, wenn der Moderator einen Streamer-Hut trägt."
 }
