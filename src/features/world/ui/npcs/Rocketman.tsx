@@ -245,7 +245,7 @@ const FlowerExchange: React.FC<FlowerExchangeProps> = ({
           />
         </div>
       </div>
-      {isOutOfRange && loveCharms !== 0 && (
+      {isOutOfRange && (
         <Label type="danger">
           {loveCharms < 50
             ? t("flower.exchange.error.min")
