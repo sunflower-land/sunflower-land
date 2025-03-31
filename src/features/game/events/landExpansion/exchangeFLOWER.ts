@@ -39,6 +39,10 @@ export function exchangeFlower({
     const loveCharmsBalance = inventory["Love Charm"] ?? new Decimal(0);
     const flowerEarned = action.amount / EXCHANGE_FLOWER_PRICE;
 
+    if (loveCharmsRequired <= 0) {
+      throw new Error("Invalid amount");
+    }
+
     if (loveCharmsBalance.lt(loveCharmsRequired)) {
       throw new Error("Insufficient Love Charms");
     }
