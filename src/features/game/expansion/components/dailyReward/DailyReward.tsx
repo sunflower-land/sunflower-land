@@ -36,7 +36,7 @@ import {
 } from "xstate";
 
 const _hasReferralAccess = (state: MachineState) =>
-  hasFeatureAccess(state.context.state, "REFERRAL_PROGRAM");
+  hasFeatureAccess(state.context.state, "TASK_BOARD");
 
 export const DailyReward: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
