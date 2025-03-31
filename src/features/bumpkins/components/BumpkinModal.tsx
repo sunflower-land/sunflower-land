@@ -32,8 +32,14 @@ import { LEGACY_BADGE_TREE } from "features/game/types/skills";
 import { setImageWidth } from "lib/images";
 import { LegacyBadges } from "./LegacyBadges";
 import { getKeys } from "features/game/types/decorations";
+import { PowerSkills } from "features/island/hud/components/PowerSkills";
 
-export type ViewState = "home" | "achievements" | "skills" | "legacyBadges";
+export type ViewState =
+  | "home"
+  | "achievements"
+  | "skills"
+  | "legacyBadges"
+  | "powerSkills";
 
 const _experience = (state: MachineState) =>
   state.context.state.bumpkin?.experience ?? 0;
@@ -84,6 +90,8 @@ interface Props {
   inventory: Inventory;
   readonly: boolean;
   gameState: GameState;
+  powerSkillsReady: boolean;
+  hasPowerSkills: boolean;
 }
 
 export const BumpkinModal: React.FC<Props> = ({
@@ -93,6 +101,8 @@ export const BumpkinModal: React.FC<Props> = ({
   inventory,
   readonly,
   gameState,
+  powerSkillsReady,
+  hasPowerSkills,
 }) => {
   const { gameService } = useContext(Context);
   const experience = useSelector(gameService, _experience);
@@ -130,6 +140,10 @@ export const BumpkinModal: React.FC<Props> = ({
         inventory={inventory}
       />
     );
+  }
+
+  if (view === "powerSkills") {
+    return <PowerSkills onHide={onClose} onBack={() => setView("home")} />;
   }
 
   const renderTabs = () => {
@@ -179,6 +193,8 @@ export const BumpkinModal: React.FC<Props> = ({
             maxLevel={maxLevel}
             gameState={gameState}
             setView={setView}
+            powerSkillsReady={powerSkillsReady}
+            hasPowerSkills={hasPowerSkills}
           />
         )}
 
@@ -205,7 +221,16 @@ export const BumpkinInfo: React.FC<{
   maxLevel: boolean;
   gameState: GameState;
   setView: (view: ViewState) => void;
-}> = ({ level, maxLevel, gameState, setView }) => {
+  powerSkillsReady: boolean;
+  hasPowerSkills: boolean;
+}> = ({
+  level,
+  maxLevel,
+  gameState,
+  setView,
+  powerSkillsReady,
+  hasPowerSkills,
+}) => {
   const { t } = useAppTranslation();
   const { bumpkin, inventory } = gameState;
   const BADGES = getKeys(LEGACY_BADGE_TREE);
@@ -276,6 +301,27 @@ export const BumpkinInfo: React.FC<{
               <span className="underline text-sm">{t("viewAll")}</span>
             </div>
             <div className="flex flex-wrap items-center mt-2">{badges}</div>
+          </ButtonPanel>
+        )}
+
+        {hasPowerSkills && (
+          <ButtonPanel
+            onClick={() => setView("powerSkills")}
+            className="mb-2 relative mt-1 !px-2 !py-1"
+          >
+            <div className="flex items-center mb-1 justify-between">
+              <div className="flex items-center">
+                <span className="text-sm">{t("powerSkills.title")}</span>
+                {powerSkillsReady && (
+                  <img
+                    src={SUNNYSIDE.icons.expression_alerted}
+                    className="ml-2 w-2"
+                    alt="Exclaimation"
+                  />
+                )}
+              </div>
+              <span className="underline text-sm">{t("viewAll")}</span>
+            </div>
           </ButtonPanel>
         )}
 
