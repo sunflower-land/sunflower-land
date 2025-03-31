@@ -5560,7 +5560,6 @@
   "socialTask.complete50Deliveries": "Выполните 50 поставок",
   "socialTask.complete50Deliveries.description": "Отправляйтесь на площадь и совершайте доставку с различными NPC 50 раз",
   "socialTask.joinStream": "Присоединяйтесь к трансляции",
-  "socialTask.joinStream.description": "Присоединяйтесь к чату разработчиков на Discord или Twitch и получайте 1 Love Charm каждые 5 минут от ведущего в стрим-шляпе.",
   "claimReferralRewards.title": "Реферальные вознаграждения",
   "claimReferralRewards.description": "Поздравляю! {{totalUnclaimedReferrals}} новые игроки присоединились и купили VIP по вашей реферальной ссылке. Вот ваши награды!",
   "referral.vip": "25 любовных талисманов, когда ваш друг покупает VIP",
@@ -5611,8 +5610,11 @@
   "twitter.farm.instructions.1": "1. Опубликуйте скриншот своей фермы в Twitter с хэштегом {{hashtag}}",
   "twitter.farm.instructions.2": "2. Подтвердите свой твит, нажав кнопку ниже.",
   "twitter.weekly.share": "Поделитесь своей фермой",
-  "twitter.weekly.instructions.1": "1. Поделитесь изображением выше в Twitter с хэштегом {{hashtag}}",
   "twitter.weekly.instructions.2": "2. Подтвердите свой твит, нажав кнопку ниже.",
   "twitter.verify.cooldown": "Пожалуйста, подождите {{time}} между проверкой твитов.",
-  "compost.fruitfulBlendBoosted": "Fruitful Blend повышает урожайность каждого плода, растущего на плодовых участках, на +0,2"
+  "compost.fruitfulBlendBoosted": "Fruitful Blend повышает урожайность каждого плода, растущего на плодовых участках, на +0,2",
+  "socialTask.joinStream.description": "Присоединяйтесь к чату разработчиков в Discord или стриме на Twitch и получайте 5 Love Charm каждые 5 минут от ведущего в шляпе стримера.",
+  "twitter.weekly.instructions.1": "1. Опубликуйте изображение выше в Twitter с хэштегом {{hashtag}}",
+  "marketplaceTransferInProgress": "Переводы через торговую площадку завершаются. Повторите попытку через несколько минут.",
+  "marketplaceTransferInProgress.label": "Идет перенос торговой площадки"
 }

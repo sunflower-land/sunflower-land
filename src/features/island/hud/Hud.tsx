@@ -23,11 +23,6 @@ import { useSound } from "lib/utils/hooks/useSound";
 import { SeasonBannerCountdown } from "./SeasonBannerCountdown";
 import { TransactionCountdown } from "./Transaction";
 import { MarketplaceButton } from "./components/MarketplaceButton";
-import { PowerSkillsButton } from "./components/PowerSkillsButton";
-import {
-  BumpkinRevampSkillName,
-  getPowerSkills,
-} from "features/game/types/bumpkinSkills";
 import { GameCalendar } from "features/game/expansion/components/temperateSeason/GameCalendar";
 import { LandscapeButton } from "./components/LandscapeButton";
 import { RewardsButton } from "./components/referral/RewardsButton";
@@ -72,15 +67,9 @@ const HudComponent: React.FC<{
   const isFullUser = farmAddress !== undefined;
   const isTutorial = gameState.context.state.island.type === "basic";
 
-  const powerSkills = getPowerSkills();
-  const { skills } = gameState.context.state.bumpkin;
-  const hasPowerSkills = powerSkills.some(
-    (skill) => !!skills[skill.name as BumpkinRevampSkillName],
-  );
-
   const hasReferralProgram = hasFeatureAccess(
     gameState.context.state,
-    "REFERRAL_PROGRAM",
+    "TASK_BOARD",
   );
 
   return (
@@ -127,7 +116,6 @@ const HudComponent: React.FC<{
             width: `${PIXEL_SCALE * 22}px`,
           }}
         >
-          {hasPowerSkills && <PowerSkillsButton />}
           <MarketplaceButton />
           {!hasReferralProgram && <CodexButton />}
           <TravelButton />

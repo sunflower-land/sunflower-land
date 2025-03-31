@@ -42,6 +42,7 @@ import {
 } from "lib/utils/hooks/usePlazaShader";
 import { playerSelectionListManager } from "../ui/PlayerSelectionList";
 import { playerModalManager } from "../ui/player/PlayerModals";
+import { STREAM_REWARD_COOLDOWN } from "../ui/player/StreamReward";
 
 export type NPCBumpkin = {
   x: number;
@@ -97,6 +98,7 @@ export const FACTION_NAME_COLORS: Record<FactionName, string> = {
 export abstract class BaseScene extends Phaser.Scene {
   abstract sceneId: SceneId;
   eventListener?: (event: EventObject) => void;
+  private lastModalOpenTime = 0;
 
   public joystick?: VirtualJoystick;
   private switchToScene?: SceneId;
@@ -1220,6 +1222,31 @@ export abstract class BaseScene extends Phaser.Scene {
       // Check if player is in area as well
       if (hidden === entity.visible) {
         entity.setVisible(!hidden);
+      }
+
+      // Check for streamer hat
+      if (player.clothing?.hat === "Streamer Hat") {
+        const distance = Phaser.Math.Distance.BetweenPoints(
+          this.currentPlayer as BumpkinContainer,
+          entity,
+        );
+        const now = Date.now();
+        const streamerHatLastClaimedAt =
+          this.gameService.state.context.state.pumpkinPlaza.streamerHat
+            ?.openedAt ?? 0;
+
+        if (
+          now - this.lastModalOpenTime > STREAM_REWARD_COOLDOWN &&
+          distance < 75
+        ) {
+          playerModalManager.open({
+            id: player.farmId,
+            clothing: player.clothing,
+            experience: player.experience,
+            username: player.username,
+          });
+          this.lastModalOpenTime = streamerHatLastClaimedAt;
+        }
       }
     });
   }

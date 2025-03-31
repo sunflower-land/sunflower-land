@@ -519,15 +519,17 @@ const ComposterModalContent: React.FC<{
           >
             {t(`season.${state.season.season}`)}
           </Label>
-          <Label
-            icon={SUNNYSIDE.icons.stopwatch}
-            type="transparent"
-            className="mb-1"
-          >
-            {`${secondsToString(secondsTillWeekReset(), {
-              length: "short",
-            })} ${t("time.left")}`}
-          </Label>
+          {state.island.type !== "basic" && (
+            <Label
+              icon={SUNNYSIDE.icons.stopwatch}
+              type="transparent"
+              className="mb-1"
+            >
+              {`${secondsToString(secondsTillWeekReset(), {
+                length: "short",
+              })} ${t("time.left")}`}
+            </Label>
+          )}
         </div>
 
         <div className="flex flex-col h-full px-1 py-0">

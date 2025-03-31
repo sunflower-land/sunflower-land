@@ -22,6 +22,11 @@ import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { SpringValue } from "@react-spring/web";
 import { useSound } from "lib/utils/hooks/useSound";
+import {
+  BumpkinRevampSkillName,
+  BumpkinSkillRevamp,
+  getPowerSkills,
+} from "features/game/types/bumpkinSkills";
 
 const DIMENSIONS = {
   original: 80,
@@ -65,12 +70,14 @@ interface AvatarProps {
   bumpkin?: Bumpkin;
   showSkillPointAlert?: boolean;
   onClick?: () => void;
+  powerSkillsReady: boolean;
 }
 
 export const BumpkinAvatar: React.FC<AvatarProps> = ({
   bumpkin,
   showSkillPointAlert,
   onClick,
+  powerSkillsReady,
 }) => {
   const { showAnimations } = useContext(Context);
 
@@ -178,7 +185,7 @@ export const BumpkinAvatar: React.FC<AvatarProps> = ({
           {level}
         </div>
 
-        {showSkillPointAlert && (
+        {(showSkillPointAlert || powerSkillsReady) && (
           <img
             src={SUNNYSIDE.icons.expression_alerted}
             className={
@@ -249,6 +256,31 @@ export const BumpkinProfile: React.FC = () => {
     setShowModal(false);
   };
 
+  const powerSkills = getPowerSkills();
+  const { skills, previousPowerUseAt } = state.bumpkin;
+
+  const powerSkillsUnlocked = powerSkills.filter(
+    (skill) => !!skills[skill.name as BumpkinRevampSkillName],
+  );
+
+  const hasPowerSkills = powerSkillsUnlocked.length > 0;
+
+  const powerSkillsReady = powerSkillsUnlocked
+    .filter((skill: BumpkinSkillRevamp) => {
+      const fertiliserSkill: BumpkinRevampSkillName[] = [
+        "Sprout Surge",
+        "Root Rocket",
+        "Blend-tastic",
+      ];
+      return !fertiliserSkill.includes(skill.name as BumpkinRevampSkillName);
+    })
+    .some((skill: BumpkinSkillRevamp) => {
+      const nextSkillUse =
+        (previousPowerUseAt?.[skill.name as BumpkinRevampSkillName] ?? 0) +
+        (skill.requirements.cooldown ?? 0);
+      return nextSkillUse < Date.now();
+    });
+
   return (
     <>
       {/* Bumpkin modal */}
@@ -260,6 +292,8 @@ export const BumpkinProfile: React.FC = () => {
           bumpkin={gameState.context.state.bumpkin as Bumpkin}
           inventory={gameState.context.state.inventory}
           gameState={gameState.context.state}
+          powerSkillsReady={powerSkillsReady}
+          hasPowerSkills={hasPowerSkills}
         />
       </Modal>
 
@@ -272,6 +306,7 @@ export const BumpkinProfile: React.FC = () => {
           showSkillPointAlert={
             showSkillPointAlert && !gameState.matches("visiting")
           }
+          powerSkillsReady={powerSkillsReady}
         />
       </div>
     </>

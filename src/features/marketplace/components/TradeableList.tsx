@@ -188,7 +188,10 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
       return;
     }
 
-    if (tradeType === "onchain") {
+    if (
+      tradeType === "onchain" &&
+      !hasFeatureAccess(state, "OFFCHAIN_MARKETPLACE")
+    ) {
       const isItemOnChain = getOnChainStatus(display.name, display.type);
 
       if (!isItemOnChain) {
@@ -275,7 +278,10 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
     );
   }
 
-  if (needsSync) {
+  if (
+    needsSync &&
+    !hasFeatureAccess(gameState.context.state, "OFFCHAIN_MARKETPLACE")
+  ) {
     return (
       <StoreOnChain
         onClose={onClose}
@@ -304,7 +310,47 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
     return <FaceRecognition />;
   }
 
+  const needsLinkedWallet =
+    tradeType === "onchain" && !gameService.getSnapshot().context.linkedWallet;
+
   if (showConfirmation) {
+    if (needsLinkedWallet) {
+      return (
+        <GameWallet action="marketplace">
+          <div className="p-2">
+            <Label type="danger" className="-ml-1 mb-2">
+              {t("are.you.sure")}
+            </Label>
+            {isLessThanOffer && (
+              <Label type="danger" icon={lockIcon} className="my-1 mr-0.5">
+                {t("marketplace.higherThanOffer", { price: highestOffer })}
+              </Label>
+            )}
+            <p className="text-xs mb-2">{t("marketplace.confirmDetails")}</p>
+            <TradeableSummary
+              display={display}
+              sfl={price}
+              quantity={Math.max(1, quantity)}
+              estTradePoints={estTradePoints}
+            />
+            <div className="flex items-start mt-2">
+              <img src={SUNNYSIDE.icons.search} className="h-6 mr-2" />
+              <p className="text-xs mb-2">{t("marketplace.dodgyTrades")}</p>
+            </div>
+          </div>
+
+          <div className="flex">
+            <Button onClick={() => setShowConfirmation(false)} className="mr-1">
+              {t("cancel")}
+            </Button>
+            <Button disabled={isLessThanOffer} onClick={() => confirm({})}>
+              {t("confirm")}
+            </Button>
+          </div>
+        </GameWallet>
+      );
+    }
+
     return (
       <>
         <div className="p-2">
@@ -396,11 +442,12 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
             type: `${display.type.slice(0, display.type.length - 1)}`,
           })}
         </Label>
-        {tradeType === "onchain" && (
-          <Label type="formula" icon={walletIcon} className="my-1 mr-0.5">
-            {t("marketplace.walletRequired")}
-          </Label>
-        )}
+        {tradeType === "onchain" &&
+          !hasFeatureAccess(state, "OFFCHAIN_MARKETPLACE") && (
+            <Label type="formula" icon={walletIcon} className="my-1 mr-0.5">
+              {t("marketplace.walletRequired")}
+            </Label>
+          )}
 
         {!hasAccess && (
           <RequiredReputation reputation={Reputation.Cropkeeper} />
@@ -519,12 +566,13 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
               className="relative"
             >
               <span>{t("list")}</span>
-              {tradeType === "onchain" && (
-                <img
-                  src={walletIcon}
-                  className="absolute right-1 top-0.5 h-7"
-                />
-              )}
+              {tradeType === "onchain" &&
+                !hasFeatureAccess(state, "OFFCHAIN_MARKETPLACE") && (
+                  <img
+                    src={walletIcon}
+                    className="absolute right-1 top-0.5 h-7"
+                  />
+                )}
             </Button>
           </div>
         </>

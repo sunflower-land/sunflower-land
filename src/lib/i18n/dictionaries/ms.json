@@ -5560,7 +5560,6 @@
   "socialTask.complete50Deliveries": "Lengkapkan 50 penghantaran",
   "socialTask.complete50Deliveries.description": "Pergi ke plaza dan lengkapkan penghantaran dengan pelbagai NPC 50 kali",
   "socialTask.joinStream": "Sertai aliran",
-  "socialTask.joinStream.description": "Sertai sembang pembangun di discord atau twitch stream untuk mendapatkan 1 Love Charm setiap 5 minit dari tuan rumah yang memakai topi stream.",
   "claimReferralRewards.title": "Ganjaran Rujukan",
   "claimReferralRewards.description": "Tahniah! {{totalUnclaimedReferrals}} pemain baru telah menyertai dan membeli VIP menggunakan pautan rujukan anda. Inilah ganjaran anda!",
   "referral.vip": "25 Pesona Cinta apabila rakan anda membeli VIP",
@@ -5611,8 +5610,11 @@
   "twitter.farm.instructions.1": "1. Siarkan tangkapan skrin ladang anda ke Twitter dengan hashtag {{hashtag}}",
   "twitter.farm.instructions.2": "2. Sahkan tweet anda dengan mengklik butang di bawah.",
   "twitter.weekly.share": "Kongsi ladang anda",
-  "twitter.weekly.instructions.1": "1. Kongsi imej di atas ke Twitter dengan hashtag {{hashtag}}",
   "twitter.weekly.instructions.2": "2. Sahkan tweet anda dengan mengklik butang di bawah.",
   "twitter.verify.cooldown": "Sila tunggu {{time}} antara mengesahkan tweet anda.",
-  "compost.fruitfulBlendBoosted": "Campuran Berbuah meningkatkan hasil setiap buah yang tumbuh pada tompok buah sebanyak +0.2"
+  "compost.fruitfulBlendBoosted": "Campuran Berbuah meningkatkan hasil setiap buah yang tumbuh pada tompok buah sebanyak +0.2",
+  "socialTask.joinStream.description": "Sertai sembang pembangun di discord atau twitch stream untuk mendapatkan 5 Love Charm setiap 5 minit dari tuan rumah yang memakai topi streamer.",
+  "twitter.weekly.instructions.1": "1. Siarkan imej di atas ke Twitter dengan hashtag {{hashtag}}",
+  "marketplaceTransferInProgress": "Pemindahan pasaran sedang dimuktamadkan, sila cuba lagi dalam beberapa minit.",
+  "marketplaceTransferInProgress.label": "Pemindahan pasaran sedang dijalankan"
 }

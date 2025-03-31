@@ -23,6 +23,10 @@ export async function reset(request: Request) {
     },
   });
 
+  if (response.status === 409) {
+    throw new Error(ERRORS.RESET_MARKETPLACE_TRANSFER_IN_PROGRESS);
+  }
+
   if (response.status >= 400) {
     throw new Error(ERRORS.RESET_SERVER_ERROR);
   }
