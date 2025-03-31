@@ -5611,6 +5611,7 @@
   "flower.exchange.error.max": "You can't exchange more than 10,000 Love Charms",
   "flower.exchange.error.balance": "You don't have enough Love Charms to exchange for $FLOWER",
   "flower.exchange.button": "Exchange",
+  "flower.exchange.youWillReceive": "You will receive:",
   "select.player": "Select Player",
   "errorLabelText": "Error",
   "share.CopyReferralLink": "Copy Referral Link",

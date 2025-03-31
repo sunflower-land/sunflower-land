@@ -235,14 +235,12 @@ const FlowerExchange: React.FC<FlowerExchangeProps> = ({
         {/* Read only - Value is calculated from Love Charms */}
         <div className="flex flex-col items-end gap-1">
           <Label type="default" icon={flowerIcon}>
-            {`$FLOWER`}
+            {t("flower.exchange.youWillReceive")}
           </Label>
-          <NumberInput
-            value={flower}
-            isRightAligned={true}
-            maxDecimalPlaces={4}
-            readOnly
-          />
+          <div className="flex items-center gap-2">
+            <p>{`${flower}`}</p>
+            <img src={flowerIcon} className="h-8" />
+          </div>
         </div>
       </div>
       {isOutOfRange && (
