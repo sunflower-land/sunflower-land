@@ -5773,7 +5773,7 @@
   "twitter.farm.instructions.1": "1. Post a screenshot of your farm to Twitter with hashtag {{hashtag}}",
   "twitter.farm.instructions.2": "2. Verify your tweet by clicking the button below.",
   "twitter.weekly.share": "Share your farm",
-  "twitter.weekly.instructions.1": "1. Share the image above to Twitter with hashtag {{hashtag}}",
+  "twitter.weekly.instructions.1": "1. Post the image above to Twitter with hashtag {{hashtag}}",
   "twitter.weekly.instructions.2": "2. Verify your tweet by clicking the button below.",
   "twitter.verify.cooldown": "Please wait {{time}} in between verifying your tweets."
 }
