@@ -10,6 +10,7 @@ import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDeta
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import flowerIcon from "assets/icons/flower_token.webp";
 import trophyIcon from "assets/icons/trophy.png";
+import tradeIcon from "assets/icons/trade.png";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
@@ -27,13 +28,13 @@ interface Props {
 export const Rocketman: React.FC<Props> = ({ onClose }) => {
   const [showIntro, setShowIntro] = useState(true);
   const { t } = useAppTranslation();
-  const [currentTab, setCurrentTab] = useState<
-    "Noticeboard" | "$FLOWER Exchange"
-  >("Noticeboard");
   const { gameService } = useContext(Context);
   const hasFlowerExchange = useSelector(gameService, (state) =>
     hasFeatureAccess(state.context.state, "LOVE_CHARM_FLOWER_EXCHANGE"),
   );
+  const [currentTab, setCurrentTab] = useState<
+    "Noticeboard" | "$FLOWER Exchange"
+  >(hasFlowerExchange ? "$FLOWER Exchange" : "Noticeboard");
   const loveCharmCount = useSelector(
     gameService,
     (state) => state.context.state.inventory["Love Charm"] ?? new Decimal(0),
@@ -95,7 +96,7 @@ const RocketmanNoticeboard: React.FC = () => {
     <div>
       <div className="p-1">
         <div className="flex justify-between items-center mr-8 mb-2">
-          <Label type="vibrant">{t("rocketman.flower.coming")}</Label>
+          <Label type="vibrant">{t("rocketman.flower.exchange")}</Label>
           <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
             <TimerDisplay time={countdown} />
           </Label>
@@ -104,14 +105,18 @@ const RocketmanNoticeboard: React.FC = () => {
           items={[
             {
               icon: SUNNYSIDE.icons.stopwatch,
-              text: t("rocketman.flower.launch"),
+              text: t("rocketman.flower.exchange.one"),
+            },
+            {
+              icon: tradeIcon,
+              text: t("rocketman.flower.exchange.two"),
             },
             {
               icon: trophyIcon,
               text: t("rocketman.flower.compete"),
             },
             {
-              icon: SUNNYSIDE.icons.heart,
+              icon: ITEM_DETAILS["Love Charm"].image,
               text: t("rocketman.flower.social"),
             },
             {
