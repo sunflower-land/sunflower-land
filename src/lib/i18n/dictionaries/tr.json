@@ -5614,5 +5614,7 @@
   "twitter.verify.cooldown": "Lütfen tweet'lerinizi doğrulamak arasında {{time}} bekleyin.",
   "compost.fruitfulBlendBoosted": "Fruitful Blend, meyve yamalarında yetişen her meyvenin verimini +0.2 artırır",
   "socialTask.joinStream.description": "Bir yayıncı şapkası takan ev sahibinden her 5 dakikada bir 5 Aşk Tılsımı kazanmak için Discord veya twitch akışında bir geliştirici sohbetine katılın.",
-  "twitter.weekly.instructions.1": "1. Yukarıdaki resmi {{hashtag}} hashtag'iyle Twitter'a gönderin"
+  "twitter.weekly.instructions.1": "1. Yukarıdaki resmi {{hashtag}} hashtag'iyle Twitter'a gönderin",
+  "marketplaceTransferInProgress": "Pazar yeri transferleri tamamlanıyor, lütfen birkaç dakika içinde tekrar deneyin.",
+  "marketplaceTransferInProgress.label": "Pazar yeri transferi devam ediyor"
 }

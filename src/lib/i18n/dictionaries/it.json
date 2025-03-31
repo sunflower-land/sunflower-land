@@ -5614,5 +5614,7 @@
   "twitter.verify.cooldown": "Attendi {{time}} tra una verifica e l'altra dei tuoi tweet.",
   "compost.fruitfulBlendBoosted": "Fruitful Blend aumenta la resa di ogni frutto che cresce sugli appezzamenti di frutta di +0,2",
   "socialTask.joinStream.description": "Partecipa a una chat di sviluppo su discord o twitch stream per guadagnare 5 Love Charm ogni 5 minuti dall'host che indossa un cappello da streamer.",
-  "twitter.weekly.instructions.1": "1. Pubblica l'immagine qui sopra su Twitter con l'hashtag {{hashtag}}"
+  "twitter.weekly.instructions.1": "1. Pubblica l'immagine qui sopra su Twitter con l'hashtag {{hashtag}}",
+  "marketplaceTransferInProgress": "I trasferimenti sul Marketplace sono in fase di completamento, riprova tra qualche minuto.",
+  "marketplaceTransferInProgress.label": "Trasferimento sul Marketplace in corso"
 }

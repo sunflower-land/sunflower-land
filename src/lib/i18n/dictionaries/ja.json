@@ -5614,5 +5614,7 @@
   "twitter.verify.cooldown": "ツイートを確認するまでの間 {{time}} お待ちください。",
   "compost.fruitfulBlendBoosted": "フルーツフルブレンドは、フルーツパッチに生えている各フルーツの収穫量を+0.2増やします",
   "socialTask.joinStream.description": "DiscordまたはTwitchストリームの開発者チャットに参加すると、ストリーマーハットをかぶったホストから5分ごとに5つのラブチャームを獲得できます。",
-  "twitter.weekly.instructions.1": "1。上の画像をハッシュタグ {{hashtag}} を付けてツイッターに投稿してください"
+  "twitter.weekly.instructions.1": "1。上の画像をハッシュタグ {{hashtag}} を付けてツイッターに投稿してください",
+  "marketplaceTransferInProgress": "マーケットプレイスへの移管が完了しています。数分後にもう一度試してください。",
+  "marketplaceTransferInProgress.label": "マーケットプレイスへの移管が進行中"
 }

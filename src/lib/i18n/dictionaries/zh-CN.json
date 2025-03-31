@@ -5614,5 +5614,7 @@
   "twitter.verify.cooldown": "请在验证您的推文之间等待 {{time}}。",
   "compost.fruitfulBlendBoosted": "Fruitful Blend 可将生长在水果地上的每种水果的产量提高 +0.2",
   "socialTask.joinStream.description": "在 Discord 或 Twitch 直播中加入开发者聊天，戴着主播帽的主持人每 5 分钟即可获得 5 个 Love Charm。",
-  "twitter.weekly.instructions.1": "1。使用主题标签 {{hashtag}} 将上面的图片发布到 Twitter"
+  "twitter.weekly.instructions.1": "1。使用主题标签 {{hashtag}} 将上面的图片发布到 Twitter",
+  "marketplaceTransferInProgress": "商城转移已完成，请在几分钟后重试。",
+  "marketplaceTransferInProgress.label": "市场转移正在进行中"
 }

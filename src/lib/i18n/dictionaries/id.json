@@ -5614,5 +5614,7 @@
   "twitter.verify.cooldown": "Harap tunggu {{time}} di antara verifikasi tweet Anda.",
   "compost.fruitfulBlendBoosted": "Fruitful Blend meningkatkan hasil setiap buah yang tumbuh di petak buah sebesar +0,2",
   "socialTask.joinStream.description": "Bergabunglah dengan obrolan pengembang di Discord atau Twitch Streaming untuk mendapatkan 5 Love Charm setiap 5 menit dari tuan rumah yang mengenakan topi streamer.",
-  "twitter.weekly.instructions.1": "1. Posting gambar di atas ke Twitter dengan tagar {{hashtag}}"
+  "twitter.weekly.instructions.1": "1. Posting gambar di atas ke Twitter dengan tagar {{hashtag}}",
+  "marketplaceTransferInProgress": "Transfer pasar sedang diselesaikan, silakan coba lagi dalam beberapa menit.",
+  "marketplaceTransferInProgress.label": "Transfer pasar sedang berlangsung"
 }
