@@ -4,6 +4,8 @@ import React, { useState } from "react";
 // import giftIcon from "assets/icons/gift.png";
 import vipGift from "assets/decorations/vip_gift.png";
 import loveBox from "assets/decorations/love_box.webp";
+import flowerIcon from "assets/icons/flower_token.webp";
+import loveCharmSmall from "assets/icons/love_charm_small.webp";
 import lockIcon from "assets/icons/lock.png";
 import { DailyRewardContent } from "../../../../game/expansion/components/dailyReward/DailyReward";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -33,6 +35,8 @@ import { BlockchainBox } from "./BlockchainBox";
 import { hasFeatureAccess } from "lib/flags";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { useTranslation } from "react-i18next";
+import { pixelOrangeBorderStyle } from "features/game/lib/style";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 interface Props {
   show: boolean;
@@ -89,13 +93,14 @@ export const Rewards: React.FC<Props> = ({
 }) => {
   const [tab, setTab] = useState<"Earn" | "Rewards">("Earn");
   const { t } = useTranslation();
+  const [showMessage, setShowMessage] = useState(true);
 
   return (
     <Modal show={show} onHide={onHide}>
       <CloseButtonPanel
         tabs={[
           {
-            icon: SUNNYSIDE.ui.board,
+            icon: loveCharmSmall,
             name: "Earn",
             alert: isAnyTaskCompleted,
           },
@@ -135,6 +140,36 @@ export const Rewards: React.FC<Props> = ({
         )}
         {/* {tab === 2 && <RewardsShop />} */}
       </CloseButtonPanel>
+      <div
+        className={`w-full items-center flex  text-xs p-1 pr-4 mt-1 relative`}
+        style={{
+          background: "#f09100",
+          color: "#3e2731",
+          ...pixelOrangeBorderStyle,
+        }}
+      >
+        <img src={flowerIcon} className="w-8 mr-4" />
+        <div>
+          <p className="text-xs flex-1">
+            {t("announcement.exchangeLoveCharms")}
+          </p>
+          <a
+            href={
+              "https://docs.sunflower-land.com/getting-started/usdflower-erc20/love-rush-earn-flower"
+            }
+            target="_blank"
+            rel="noopener noreferrer"
+            className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500 mb-2"
+          >
+            {t("read.more")}
+          </a>
+        </div>
+        <img
+          src={SUNNYSIDE.icons.close}
+          className="absolute right-2 top-1 w-5 cursor-pointer"
+          onClick={() => setShowMessage(false)}
+        />
+      </div>
     </Modal>
   );
 };

@@ -6,6 +6,9 @@ import { GameState, InventoryItemName } from "features/game/types/game";
 import { produce } from "immer";
 import { hasFeatureAccess } from "lib/flags";
 import { translate } from "lib/i18n/translate";
+import codexIcon from "assets/icons/codex.webp";
+import promoteIcon from "assets/icons/promote.webp";
+import tvIcon from "assets/icons/tv.webp";
 
 export type OtherTasks = {
   title: string;
@@ -27,34 +30,10 @@ export type Task = OtherTasks & {
 };
 
 export const TASKS = {
-  "Refer a friend": {
-    title: translate("socialTask.referFriend"),
-    description: translate("socialTask.referFriend.description"),
-    image: SUNNYSIDE.icons.player,
-    reward: { "Love Charm": 15 },
-    requirement: (state) =>
-      (state.referrals ?? { totalReferrals: 0 }).totalReferrals > 0,
-    requirementProgress: (state) =>
-      (state.referrals ?? { totalReferrals: 0 }).totalReferrals,
-  },
-  "Link your Discord": {
-    title: translate("socialTask.linkDiscord"),
-    description: translate("socialTask.linkDiscord.description"),
-    image: SUNNYSIDE.icons.discord,
-    reward: { "Love Charm": 25 },
-    requirement: (state) => !!state.discord?.connected,
-  },
-  "Link your Telegram": {
-    title: translate("socialTask.linkTelegram"),
-    description: translate("socialTask.linkTelegram.description"),
-    image: SUNNYSIDE.icons.telegram,
-    reward: { "Love Charm": 25 },
-    requirement: (state) => !!state.telegram?.linkedAt,
-  },
   "Upgrade to Petal Paradise": {
     title: translate("socialTask.upgradeToPetalParadise"),
     description: translate("socialTask.upgradeToPetalParadise.description"),
-    image: SUNNYSIDE.icons.player,
+    image: SUNNYSIDE.icons.hammer,
     reward: { "Love Charm": 25 },
     requirement: (state) =>
       hasRequiredIslandExpansion(state.island.type, "spring"),
@@ -62,7 +41,7 @@ export const TASKS = {
   "Complete 50 deliveries": {
     title: translate("socialTask.complete50Deliveries"),
     description: translate("socialTask.complete50Deliveries.description"),
-    image: SUNNYSIDE.icons.player,
+    image: codexIcon,
     reward: { "Love Charm": 25 },
     requirement: (state) => state.delivery.fulfilledCount >= 50,
     requirementTotal: 50,
@@ -76,14 +55,34 @@ export type SocialTaskName = keyof typeof TASKS;
  * Other ways to earn Love Charm (Read-only)
  */
 export const OTHER_WAYS_TO_EARN_LOVE_CHARM = {
-  "Refer a VIP friend": {
-    title: translate("socialTask.referVipFriend"),
+  "Help Bumpkin NPCs": {
+    title: translate("socialTask.helpBumpkinNPCs"),
+    description: translate("socialTask.helpBumpkinNPCs.description"),
     image: SUNNYSIDE.icons.player,
-    description: translate("socialTask.referVipFriend.description"),
+  },
+  "Refer a friend": {
+    title: translate("socialTask.referFriend"),
+    description: translate("socialTask.referFriend.description"),
+    image: promoteIcon,
+  },
+  "Link your Discord": {
+    title: translate("socialTask.linkDiscord"),
+    description: translate("socialTask.linkDiscord.description"),
+    image: SUNNYSIDE.icons.discord,
+  },
+  "Link your Telegram": {
+    title: translate("socialTask.linkTelegram"),
+    description: translate("socialTask.linkTelegram.description"),
+    image: SUNNYSIDE.icons.telegram,
+  },
+  "Link your Twitter": {
+    title: translate("socialTask.linkTwitter"),
+    description: translate("socialTask.linkTwitter.description"),
+    image: SUNNYSIDE.icons.twitter,
   },
   "Join a stream": {
     title: translate("socialTask.joinStream"),
-    image: SUNNYSIDE.icons.player,
+    image: tvIcon,
     description: translate("socialTask.joinStream.description"),
   },
 } satisfies Record<string, OtherTasks>;

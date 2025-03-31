@@ -19,6 +19,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useState } from "react";
 import { Referral } from "./Referral";
+import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 
 interface TaskBoardProps {
   state: GameState;
@@ -42,21 +43,30 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({
 
   return (
     <div className="flex flex-col gap-2 max-h-[500px] overflow-y-auto scrollable">
-      {/* Tasks */}
-      <div className="flex flex-col gap-2 m-1">
-        <div className="flex justify-between gap-2 mr-1">
-          <Label type="default">{t("taskBoard.tasks")}</Label>
-          <Label
-            type="default"
-            secondaryIcon={ITEM_DETAILS["Love Charm"].image}
-          >
-            {t("taskBoard.loveCharmCount", { loveCharmCount })}
+      <div className="px-1">
+        <div className="flex justify-between gap-2 mb-1">
+          <Label type="vibrant">Love Rush</Label>
+
+          <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
+            3 hrs left
           </Label>
         </div>
-        <div className="flex flex-col gap-2 text-xs mx-2">
-          <p>{t("taskBoard.tasksDescription")}</p>
-          <p>{t("taskBoard.tasksDescriptionTwo")}</p>
+        <p className="text-xs mb-2">
+          For a limited time, complete Bumpkin deliveries, chores & gifts to
+          earn Love Charms!
+        </p>
+
+        <img
+          src={SUNNYSIDE.announcement.bullRunSeason}
+          className="w-full mb-2"
+        />
+        <div className="flex justify-between gap-2 mb-2">
+          <Label type="default">How to earn?</Label>
         </div>
+        <p className="text-xs">Complete tasks to earn Love Charms & Rewards.</p>
+      </div>
+      {/* Tasks */}
+      <div className="flex flex-col gap-2 m-1">
         <div className="flex flex-col gap-1 text-xs">
           {Object.values(TASKS).map((task) => (
             <ButtonPanel key={task.title} onClick={() => setSelectedTask(task)}>
@@ -87,13 +97,7 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({
               </div>
             </ButtonPanel>
           ))}
-        </div>
-      </div>
-      {/* Other ways to earn Love Charm */}
-      <div className="flex flex-col gap-2 m-1">
-        <Label type="default">{t("taskBoard.otherWays")}</Label>
 
-        <div className="flex flex-col gap-1 text-xs">
           {Object.values(OTHER_WAYS_TO_EARN_LOVE_CHARM).map((task) => (
             <ButtonPanel key={task.title} onClick={() => setSelectedTask(task)}>
               <div className="flex gap-3">
@@ -107,6 +111,7 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({
           ))}
         </div>
       </div>
+
       {/* Details Modal */}
       <ModalOverlay
         show={!!selectedTask}
