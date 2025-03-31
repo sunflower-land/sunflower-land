@@ -5740,7 +5740,7 @@
   "socialTask.complete50Deliveries": "Complete 50 deliveries",
   "socialTask.complete50Deliveries.description": "Go to the plaza and complete deliveries with various NPCs 50 times",
   "socialTask.joinStream": "Join a stream",
-  "socialTask.joinStream.description": "Join a dev chat on discord or twitch stream to earn 1 Love Charm every 5 minutes from the host wearing a stream hat.",
+  "socialTask.joinStream.description": "Join a dev chat on discord or twitch stream to earn 5 Love Charm every 5 minutes from the host wearing a streamer hat.",
   "claimReferralRewards.title": "Referral Rewards",
   "claimReferralRewards.description": "Congratulations! {{totalUnclaimedReferrals}} new players have joined and bought VIP using your referral link. Here are your rewards!",
   "referral.vip": "25 Love Charms when your friend buys VIP",

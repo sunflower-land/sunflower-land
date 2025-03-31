@@ -421,7 +421,7 @@ const EFFECT_STATES = Object.values(EFFECT_EVENTS).reduce(
         CONTINUE: { target: "playing" },
       },
     },
-    [`${stateName}Failure`]: {
+    [`${stateName}Failed`]: {
       on: {
         CONTINUE: { target: "playing" },
         REFRESH: { target: "playing" },
@@ -482,7 +482,7 @@ const EFFECT_STATES = Object.values(EFFECT_EVENTS).reduce(
           },
         ],
         onError: {
-          target: `${stateName}Failure`,
+          target: `${stateName}Failed`,
           actions: "assignErrorMessage",
         },
       },
@@ -514,7 +514,7 @@ export type BlockchainState = {
     | "beanRevealed"
     // | "effectPending"
     | "effectSuccess"
-    | "effectFailure"
+    | "effectFailed"
     | "error"
     | "refreshing"
     | "swarming"
@@ -1897,12 +1897,12 @@ export function startGame(authContext: AuthContext) {
         //       },
         //     ],
         //     onError: {
-        //       target: "effectFailure",
+        //       target: "effectFailed",
         //       actions: "assignErrorMessage",
         //     },
         //   },
         // },
-        effectFailure: {
+        effectFailed: {
           on: {
             ACKNOWLEDGE: "playing",
           },
