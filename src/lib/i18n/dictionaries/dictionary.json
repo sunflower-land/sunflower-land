@@ -5801,5 +5801,6 @@
   "rewards.daily.claimed": "Claimed",
   "rewards.vip.title": "VIP Reward",
   "rewards.vip.description": "A monthly reward for VIP members",
-  "rewards.vip.claimed": "Claimed"
+  "rewards.vip.claimed": "Claimed",
+  "error.insufficientMatic": "POL required"
 }
