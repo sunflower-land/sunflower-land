@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import Decimal from "decimal.js-light";
 import { ButtonPanel } from "components/ui/Panel";
-import sfl from "assets/icons/sfl.webp";
+import sfl from "assets/icons/flower_token.webp";
 import lightning from "assets/icons/lightning.png";
 import wallet from "assets/icons/wallet.png";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -185,7 +185,7 @@ export const ListViewCard: React.FC<Props> = ({
             <p className="text-xxs truncate pb-0.5">
               {`Last sale: ${formatNumber(lastSalePrice, {
                 decimalPlaces: 4,
-              })} SFL`}
+              })} FLOWER`}
             </p>
           )}
         </div>

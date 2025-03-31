@@ -2,7 +2,7 @@ import { Button } from "components/ui/Button";
 import React, { useContext, useEffect } from "react";
 import confetti from "canvas-confetti";
 
-import token from "assets/icons/sfl.webp";
+import token from "assets/icons/flower_token.webp";
 import coins from "assets/icons/coins.webp";
 import powerup from "assets/icons/level_up.png";
 import factionPoint from "assets/icons/faction_point.webp";
@@ -81,7 +81,7 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
               <Box image={token} className="-mt-2 -ml-1 -mb-1" />
               <div>
                 <Label type="warning">
-                  {`${formatNumber(airdrop.sfl, { decimalPlaces: 4 })} SFL`}
+                  {`${formatNumber(airdrop.sfl, { decimalPlaces: 4 })} FLOWER`}
                 </Label>
                 <p className="text-xs mt-1 ml-0.5">{t("reward.spendWisely")}</p>
               </div>

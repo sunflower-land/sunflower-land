@@ -10,7 +10,7 @@ import {
 } from "features/game/types/marketplace";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
-import sflIcon from "assets/icons/sfl.webp";
+import sflIcon from "assets/icons/flower_token.webp";
 import walletIcon from "assets/icons/wallet.png";
 import { GameWallet } from "features/wallet/Wallet";
 import { Context } from "features/game/GameProvider";
@@ -230,10 +230,10 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                   >
                     <p className={classNames("text-base")}>
                       {!tradeable
-                        ? "0 SFL"
+                        ? "0 FLOWER"
                         : `${formatNumber(cheapestListing?.sfl ?? 0, {
                             decimalPlaces: 4,
-                          })} SFL`}
+                          })} FLOWER`}
                     </p>
                     <p className="text-xs">
                       {`$${new Decimal(usd)

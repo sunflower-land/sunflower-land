@@ -3,7 +3,7 @@ import { InnerPanel } from "components/ui/Panel";
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import sflIcon from "assets/icons/sfl.webp";
+import sflIcon from "assets/icons/flower_token.webp";
 import tradeIcon from "assets/icons/trade.png";
 import { MarketplaceProfile } from "features/game/types/marketplace";
 import { Loading } from "features/auth/components";
@@ -79,7 +79,7 @@ export const MarketplaceUser: React.FC = () => {
             </div>
             <div>
               <Label type="default" className="mb-0.5">
-                {`SFL Traded`}
+                {`FLOWER Traded`}
               </Label>
               <p className="text-sm">{profile.profit}</p>
             </div>

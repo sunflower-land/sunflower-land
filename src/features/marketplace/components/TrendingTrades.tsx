@@ -7,7 +7,7 @@ import React, { useContext } from "react";
 import { getTradeableDisplay } from "../lib/tradeables";
 import classNames from "classnames";
 import { useLocation, useNavigate } from "react-router";
-import sflIcon from "assets/icons/sfl.webp";
+import sflIcon from "assets/icons/flower_token.webp";
 import increaseIcon from "assets/icons/increase_arrow.png";
 import decreaseIcon from "assets/icons/decrease_arrow.png";
 import { Loading } from "features/auth/components";

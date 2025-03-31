@@ -23,7 +23,7 @@ import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuff
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 
 import lightning from "assets/icons/lightning.png";
-import sfl from "assets/icons/sfl.webp";
+import sfl from "assets/icons/flower_token.webp";
 
 import { Label } from "components/ui/Label";
 import { useCountdown } from "lib/utils/hooks/useCountdown";

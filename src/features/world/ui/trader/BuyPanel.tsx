@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useActor } from "@xstate/react";
 
 import { Context } from "features/game/GameProvider";
-import token from "assets/icons/sfl.webp";
+import token from "assets/icons/flower_token.webp";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getKeys } from "features/game/types/craftables";
@@ -341,7 +341,7 @@ const ListView: React.FC<ListViewProps> = ({
                 <div className="ml-1">
                   <div className="flex items-center mb-1">
                     <img src={token} className="h-6 mr-1" />
-                    <p className="text-xs">{`${formatNumber(selectedListing.sfl, { decimalPlaces: 4 })} SFL`}</p>
+                    <p className="text-xs">{`${formatNumber(selectedListing.sfl, { decimalPlaces: 4 })} FLOWER`}</p>
                   </div>
                   <p className="text-xxs">
                     {t("bumpkinTrade.price/unit", {
@@ -420,7 +420,7 @@ const ListView: React.FC<ListViewProps> = ({
                     <div className="ml-0.5 sm:ml-1">
                       <div className="flex items-center mb-1">
                         <img src={token} className="h-5 sm:h-6 mr-1" />
-                        <p className="text-xs">{`${formatNumber(listing.sfl, { decimalPlaces: 4 })} SFL`}</p>
+                        <p className="text-xs">{`${formatNumber(listing.sfl, { decimalPlaces: 4 })} FLOWER`}</p>
                       </div>
                       <p className="text-xxs">
                         {t("bumpkinTrade.price/unit", {
