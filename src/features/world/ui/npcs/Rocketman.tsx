@@ -28,7 +28,7 @@ export const Rocketman: React.FC<Props> = ({ onClose }) => {
   const [showIntro, setShowIntro] = useState(true);
   const { t } = useAppTranslation();
   const [currentTab, setCurrentTab] = useState<
-    "Noticeboard" | "FLOWER Exchange"
+    "Noticeboard" | "$FLOWER Exchange"
   >("Noticeboard");
   const { gameService } = useContext(Context);
   const hasFlowerExchange = useSelector(gameService, (state) =>
@@ -58,24 +58,25 @@ export const Rocketman: React.FC<Props> = ({ onClose }) => {
       bumpkinParts={NPC_WEARABLES["rocket man"]}
       onClose={onClose}
       tabs={[
-        {
-          icon: SUNNYSIDE.icons.stopwatch,
-          name: "Noticeboard",
-        },
         ...(hasFlowerExchange
           ? [
               {
                 icon: flowerIcon,
-                name: "FLOWER Exchange",
+                name: "$FLOWER Exchange",
               },
             ]
-          : []),
+          : [
+              {
+                icon: SUNNYSIDE.icons.stopwatch,
+                name: "Noticeboard",
+              },
+            ]),
       ]}
       currentTab={currentTab}
       setCurrentTab={setCurrentTab}
     >
       {currentTab === "Noticeboard" && <RocketmanNoticeboard />}
-      {currentTab === "FLOWER Exchange" && (
+      {currentTab === "$FLOWER Exchange" && (
         <FlowerExchange
           loveCharmCount={loveCharmCount}
           gameService={gameService}
@@ -88,7 +89,7 @@ export const Rocketman: React.FC<Props> = ({ onClose }) => {
 
 const RocketmanNoticeboard: React.FC = () => {
   const { t } = useAppTranslation();
-  const countdown = useCountdown(new Date("2025-04-01").getTime());
+  const countdown = useCountdown(new Date("2025-04-14").getTime());
 
   return (
     <div>
@@ -160,7 +161,15 @@ const FlowerExchange: React.FC<FlowerExchangeProps> = ({
 
   if (showConfirmation) {
     return (
-      <div className="flex flex-col m-1 gap-2">
+      <div className="flex flex-col m-2 gap-2">
+        <div className="flex flex-wrap justify-between gap-1">
+          <Label type="default" icon={flowerIcon}>
+            {`Exchange $FLOWER`}
+          </Label>
+          <Label type="warning" icon={flowerIcon} secondaryIcon={loveCharmIcon}>
+            {`1 $FLOWER = ${EXCHANGE_RATE} Love Charms`}
+          </Label>
+        </div>
         <p>{`Are you sure you want to perform the following exchange?`}</p>
         <div className="flex flex-row justify-evenly gap-2 text-base">
           <div className="flex items-center gap-2">
@@ -188,10 +197,10 @@ const FlowerExchange: React.FC<FlowerExchangeProps> = ({
     <div className="flex flex-col m-2 gap-2">
       <div className="flex flex-wrap justify-between gap-1">
         <Label type="default" icon={flowerIcon}>
-          {`Exchange FLOWER`}
+          {`Exchange $FLOWER`}
         </Label>
         <Label type="warning" icon={flowerIcon} secondaryIcon={loveCharmIcon}>
-          {`1 FLOWER = ${EXCHANGE_RATE} Love Charms`}
+          {`1 $FLOWER = ${EXCHANGE_RATE} Love Charms`}
         </Label>
       </div>
       <Label type="info" icon={loveCharmIcon}>
@@ -218,7 +227,7 @@ const FlowerExchange: React.FC<FlowerExchangeProps> = ({
         {/* Read only - Value is calculated from Love Charms */}
         <div className="flex flex-col items-end gap-1">
           <Label type="default" icon={flowerIcon}>
-            {`FLOWER`}
+            {`$FLOWER`}
           </Label>
           <NumberInput
             value={flower}
