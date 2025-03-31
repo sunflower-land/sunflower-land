@@ -1231,8 +1231,12 @@ export abstract class BaseScene extends Phaser.Scene {
           entity,
         );
         const now = Date.now();
+        const streamerHatLastClaimedAt =
+          this.gameService.state.context.state.pumpkinPlaza.streamerHat
+            ?.openedAt ?? 0;
+
         if (
-          now - this.lastModalOpenTime > STREAM_REWARD_COOLDOWN - 15 * 1000 &&
+          now - this.lastModalOpenTime > STREAM_REWARD_COOLDOWN &&
           distance < 75
         ) {
           playerModalManager.open({
@@ -1241,7 +1245,7 @@ export abstract class BaseScene extends Phaser.Scene {
             experience: player.experience,
             username: player.username,
           });
-          this.lastModalOpenTime = now;
+          this.lastModalOpenTime = streamerHatLastClaimedAt;
         }
       }
     });
