@@ -1,6 +1,7 @@
 import { produce } from "immer";
 import Decimal from "decimal.js-light";
 import { GameState } from "features/game/types/game";
+import { hasFeatureAccess } from "lib/flags";
 
 const EXCHANGE_FLOWER_PRICE = 50;
 const DAILY_LIMIT = 10000;
@@ -22,6 +23,10 @@ export function exchangeFlower({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (game) => {
+    if (!hasFeatureAccess(game, "LOVE_CHARM_FLOWER_EXCHANGE")) {
+      throw new Error("Flower Exchange is not available yet");
+    }
+
     const today = new Date(createdAt).toISOString().split("T")[0];
     const {
       flower: { history = {} },
