@@ -5729,7 +5729,7 @@
   "faceRecognition.cooldownTitle": "Too many attempts",
   "faceRecognition.cooldownDescription": "Please wait before trying again.",
   "socialTask.referFriend": "Refer a friend",
-  "socialTask.referFriend.description": "Refer a friend to join the game using your referral link - One time only!",
+  "socialTask.referFriend.description": "Refer a friend to join the game using your referral link - First time only! 25 Love Charms will be airdropped to you once your first friend uses your referral link.",
   "socialTask.referVipFriend": "Refer a VIP friend",
   "socialTask.referVipFriend.description": "Refer a friend to join the game and they must buy VIP before you can earn Rewards!",
   "socialTask.linkDiscord": "Link your Discord",
