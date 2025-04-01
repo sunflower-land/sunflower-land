@@ -47,6 +47,17 @@ export function claimAirdrop({ state, action }: Options): GameState {
       game.wardrobe,
     );
 
+    // Add VIP (don't set purchased bundle though)
+    if (airdrop.vipDays) {
+      game.vip = {
+        ...game.vip,
+        bundles: game.vip?.bundles ?? [],
+        expiresAt:
+          Math.min(game.vip?.expiresAt ?? Date.now()) +
+          airdrop.vipDays * 24 * 60 * 60 * 1000,
+      };
+    }
+
     return {
       ...game,
       balance: game.balance.add(airdrop.sfl),
