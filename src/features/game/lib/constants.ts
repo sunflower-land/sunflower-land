@@ -448,7 +448,7 @@ export const INITIAL_FARM: GameState = {
 
   shipments: {},
   gems: {},
-
+  flower: {},
   bumpkin: INITIAL_BUMPKIN,
 
   rewards: INITIAL_REWARDS,
@@ -754,6 +754,7 @@ export const TEST_FARM: GameState = {
   },
   shipments: {},
   gems: {},
+  flower: {},
   competitions: {
     progress: {},
   },
@@ -1079,7 +1080,7 @@ export const EMPTY: GameState = {
   },
   shipments: {},
   gems: {},
-
+  flower: {},
   previousInventory: {},
   chickens: {},
   choreBoard: INITIAL_CHORE_BOARD,
