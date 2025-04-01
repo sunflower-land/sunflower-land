@@ -5643,5 +5643,17 @@
   "not.enough.sfl": "Anda tidak mempunyai cukup BUNGA",
   "error.insufficientMatic": "POL diperlukan",
   "marketplaceListingNotClaimed": "Sila tuntut pembelian pasaran anda dan cuba lagi.",
-  "marketplaceListingNotClaimed.label": "Pembelian pasaran"
+  "marketplaceListingNotClaimed.label": "Pembelian pasaran",
+  "rocketman.flower.exchange": "$ FLOWER Exchange akan datang tidak lama lagi!",
+  "rocketman.flower.exchange.one": "Pada 14 April, anda akan dapat menukar Cinta Charms anda dengan $FLOWER.",
+  "rocketman.flower.exchange.two": "Anda akan dapat menukar 50 Love Charms untuk 1 $FLOWER.",
+  "flower.exchange.title": "Pertukaran $FLOWER",
+  "flower.exchange.price": "1 $FLOWER = {{exchangeRate}} Pesona Cinta",
+  "flower.exchange.confirm": "Adakah anda pasti ingin melakukan pertukaran berikut?",
+  "flower.exchange.inventory": "Inventori: {{loveCharmCount}} Pesona Cinta",
+  "flower.exchange.error.min": "Anda tidak boleh menukar kurang daripada 50 Love Charms",
+  "flower.exchange.error.max": "Anda tidak boleh bertukar lebih daripada 10,000 Love Charms",
+  "flower.exchange.error.balance": "Anda tidak mempunyai cukup Love Charms untuk ditukar dengan $FLOWER",
+  "flower.exchange.button": "Pertukaran",
+  "flower.exchange.youWillReceive": "Anda akan menerima:"
 }

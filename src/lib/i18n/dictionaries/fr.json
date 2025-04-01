@@ -5643,5 +5643,17 @@
   "not.enough.sfl": "Vous n'avez pas assez de FLEURS",
   "error.insufficientMatic": "POL obligatoire",
   "marketplaceListingNotClaimed": "Réclamez votre achat sur le site de vente et réessayez.",
-  "marketplaceListingNotClaimed.label": "Achat sur le marché"
+  "marketplaceListingNotClaimed.label": "Achat sur le marché",
+  "rocketman.flower.exchange": "$FLOWER Exchange arrive bientôt !",
+  "rocketman.flower.exchange.one": "Le 14 avril, vous pourrez échanger vos Love Charms contre des $FLOWER.",
+  "rocketman.flower.exchange.two": "Vous pourrez échanger 50 Love Charms contre 1 $FLOWER.",
+  "flower.exchange.title": "Échangez $FLOWER",
+  "flower.exchange.price": "1 $FLOWER = {{exchangeRate}} Breloques d'amour",
+  "flower.exchange.confirm": "Êtes-vous sûr de vouloir effectuer l'échange suivant ?",
+  "flower.exchange.inventory": "Inventaire : {{loveCharmCount}} Love Charms",
+  "flower.exchange.error.min": "Vous ne pouvez pas échanger moins de 50 Love Charms",
+  "flower.exchange.error.max": "Vous ne pouvez pas échanger plus de 10 000 Love Charms",
+  "flower.exchange.error.balance": "Vous n'avez pas assez de Love Charms à échanger contre des $FLOWER",
+  "flower.exchange.button": "Échange",
+  "flower.exchange.youWillReceive": "Vous recevrez :"
 }

@@ -5643,5 +5643,17 @@
   "not.enough.sfl": "你没有足够的花",
   "error.insufficientMatic": "需要 POL",
   "marketplaceListingNotClaimed": "请申领您在商城购买的商品，然后重试。",
-  "marketplaceListingNotClaimed.label": "市场购买"
+  "marketplaceListingNotClaimed.label": "市场购买",
+  "rocketman.flower.exchange": "$FLOWER 交易所即将上线！",
+  "rocketman.flower.exchange.one": "4月14日，你将能够将爱情护身符兑换成$FLOWER。",
+  "rocketman.flower.exchange.two": "你可以用 50 个爱情护身符兑换 1 美元 FLOWER。",
+  "flower.exchange.title": "兑换 $FLOWER",
+  "flower.exchange.price": "1 $FLOWER = {{exchangeRate}} 爱情护身符",
+  "flower.exchange.confirm": "您确定要进行以下交换吗？",
+  "flower.exchange.inventory": "库存：{{loveCharmCount}} 爱情护身符",
+  "flower.exchange.error.min": "你不能兑换少于 50 个 Love Charms",
+  "flower.exchange.error.max": "你不能兑换超过 10,000 个爱情护身符",
+  "flower.exchange.error.balance": "你没有足够的 Love Charms 来兑换 $FLOWER",
+  "flower.exchange.button": "交易所",
+  "flower.exchange.youWillReceive": "您将收到："
 }

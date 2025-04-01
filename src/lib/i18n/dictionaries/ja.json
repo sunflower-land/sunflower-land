@@ -5643,5 +5643,17 @@
   "not.enough.sfl": "花が足りません",
   "error.insufficientMatic": "POL が必要です",
   "marketplaceListingNotClaimed": "マーケットプレイスでの購入を申請して、もう一度試してください。",
-  "marketplaceListingNotClaimed.label": "マーケットプレイスでの購入"
+  "marketplaceListingNotClaimed.label": "マーケットプレイスでの購入",
+  "rocketman.flower.exchange": "$FLOWERエクスチェンジはもうすぐです！",
+  "rocketman.flower.exchange.one": "4月14日に、ラブチャームを$FLOWERと交換できるようになります。",
+  "rocketman.flower.exchange.two": "50個のラブチャームを1$FLOWERと交換できます。",
+  "flower.exchange.title": "$フラワーを交換",
+  "flower.exchange.price": "1 $フラワー = {{exchangeRate}} ラブチャーム",
+  "flower.exchange.confirm": "次の交換を行ってもよろしいですか？",
+  "flower.exchange.inventory": "インベントリ:{{loveCharmCount}} ラブチャーム",
+  "flower.exchange.error.min": "50個以下のラブチャームは交換できません",
+  "flower.exchange.error.max": "交換できるラブチャームは10,000個までです",
+  "flower.exchange.error.balance": "$FLOWERと交換するのに十分なラブチャームがありません",
+  "flower.exchange.button": "交換",
+  "flower.exchange.youWillReceive": "以下をお届けします。"
 }

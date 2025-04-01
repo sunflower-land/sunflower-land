@@ -5643,5 +5643,17 @@
   "not.enough.sfl": "Yeterince Çiçeğin Yok",
   "error.insufficientMatic": "POL gerekli",
   "marketplaceListingNotClaimed": "Lütfen market alışverişinizi talep edin ve tekrar deneyin.",
-  "marketplaceListingNotClaimed.label": "Pazar yeri satın alma"
+  "marketplaceListingNotClaimed.label": "Pazar yeri satın alma",
+  "rocketman.flower.exchange": "$FLOWER Değişimi Çok Yakında Geliyor!",
+  "rocketman.flower.exchange.one": "14 Nisan'da Aşk Tılsımlarınızı $FLOWER ile değiştirebileceksiniz.",
+  "rocketman.flower.exchange.two": "50 Aşk Tılsımı 1 $FLOWER karşılığında değiştirebileceksiniz.",
+  "flower.exchange.title": "$FLOWER değiş tokuş yapın",
+  "flower.exchange.price": "1 $FLOWER = {{exchangeRate}} Aşk Tılsımları",
+  "flower.exchange.confirm": "Aşağıdaki değişimi gerçekleştirmek istediğinizden emin misiniz?",
+  "flower.exchange.inventory": "Envanter: {{loveCharmCount}} Aşk Tılsımları",
+  "flower.exchange.error.min": "50'den az Aşk Tılsımı takas edemezsin",
+  "flower.exchange.error.max": "10.000'den fazla Aşk Tılsımı takas edemezsin",
+  "flower.exchange.error.balance": "$FLOWER'a değiş tokuş için yeterli Aşk Tılsımınız yok",
+  "flower.exchange.button": "Değişim",
+  "flower.exchange.youWillReceive": "Alacaksınız:"
 }

@@ -5643,5 +5643,17 @@
   "not.enough.sfl": "No tienes suficiente FLOR",
   "error.insufficientMatic": "Se requiere POL",
   "marketplaceListingNotClaimed": "Reclama tu compra en Marketplace e inténtalo de nuevo.",
-  "marketplaceListingNotClaimed.label": "Compra en Marketplace"
+  "marketplaceListingNotClaimed.label": "Compra en Marketplace",
+  "rocketman.flower.exchange": "¡$FLOWER Exchange llegará pronto!",
+  "rocketman.flower.exchange.one": "El 14 de abril, podrás cambiar tus Love Charms por $FLOWER.",
+  "rocketman.flower.exchange.two": "Podrás cambiar 50 amuletos de amor por 1 $FLOWER.",
+  "flower.exchange.title": "Cambiar $FLOWER",
+  "flower.exchange.price": "1 $FLOWER = {{exchangeRate}} Colgantes de amor",
+  "flower.exchange.confirm": "¿Está seguro de que desea realizar el siguiente intercambio?",
+  "flower.exchange.inventory": "Inventario: {{loveCharmCount}} Love Charms",
+  "flower.exchange.error.min": "No puedes intercambiar menos de 50 amuletos de amor",
+  "flower.exchange.error.max": "No puedes intercambiar más de 10 000 amuletos de amor",
+  "flower.exchange.error.balance": "No tienes suficientes amuletos de amor para cambiarlos por $FLOWER",
+  "flower.exchange.button": "Intercambio",
+  "flower.exchange.youWillReceive": "Recibirás:"
 }

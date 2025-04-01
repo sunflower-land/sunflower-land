@@ -5643,5 +5643,17 @@
   "not.enough.sfl": "Du hast nicht genug FLOWER",
   "error.insufficientMatic": "POL erforderlich",
   "marketplaceListingNotClaimed": "Bitte fordern Sie Ihren Marketplace-Kauf an und versuchen Sie es erneut.",
-  "marketplaceListingNotClaimed.label": "Kauf auf dem Marktplatz"
+  "marketplaceListingNotClaimed.label": "Kauf auf dem Marktplatz",
+  "rocketman.flower.exchange": "$FLOWER Exchange kommt bald!",
+  "rocketman.flower.exchange.one": "Am 14. April könnt ihr eure Love Charms gegen $FLOWER eintauschen.",
+  "rocketman.flower.exchange.two": "Du kannst 50 Liebeszauber gegen 1 $FLOWER eintauschen.",
+  "flower.exchange.title": "$FLOWER tauschen",
+  "flower.exchange.price": "1 $FLOWER = {{exchangeRate}} Liebeszauber",
+  "flower.exchange.confirm": "Möchten Sie den folgenden Austausch wirklich durchführen?",
+  "flower.exchange.inventory": "Inventar: {{loveCharmCount}} Liebeszauber",
+  "flower.exchange.error.min": "Du kannst nicht weniger als 50 Liebeszauber eintauschen",
+  "flower.exchange.error.max": "Du kannst nicht mehr als 10.000 Liebeszauber eintauschen",
+  "flower.exchange.error.balance": "Du hast nicht genug Liebeszauber, um sie gegen $FLOWER einzutauschen",
+  "flower.exchange.button": "Umtausch",
+  "flower.exchange.youWillReceive": "Sie erhalten:"
 }

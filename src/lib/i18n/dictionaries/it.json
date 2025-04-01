@@ -5643,5 +5643,17 @@
   "not.enough.sfl": "Non hai abbastanza FIORI",
   "error.insufficientMatic": "POL richiesto",
   "marketplaceListingNotClaimed": "Richiedi l'acquisto effettuato sul marketplace e riprova.",
-  "marketplaceListingNotClaimed.label": "Acquisto sul mercato"
+  "marketplaceListingNotClaimed.label": "Acquisto sul mercato",
+  "rocketman.flower.exchange": "$FLOWER Exchange è in arrivo!",
+  "rocketman.flower.exchange.one": "Il 14 aprile, potrai scambiare i tuoi Love Charms con $FLOWER.",
+  "rocketman.flower.exchange.two": "Potrai scambiare 50 Love Charms per 1 $FLOWER.",
+  "flower.exchange.title": "Scambia $FLOWER",
+  "flower.exchange.price": "1 $FLOWER = {{exchangeRate}} Love Charms",
+  "flower.exchange.confirm": "Sei sicuro di voler effettuare il seguente scambio?",
+  "flower.exchange.inventory": "Inventario: {{loveCharmCount}} Love Charms",
+  "flower.exchange.error.min": "Non puoi scambiare meno di 50 Love Charms",
+  "flower.exchange.error.max": "Non puoi scambiare più di 10.000 Love Charms",
+  "flower.exchange.error.balance": "Non hai abbastanza ciondoli d'amore da scambiare con $FLOWER",
+  "flower.exchange.button": "Scambio",
+  "flower.exchange.youWillReceive": "Riceverai:"
 }

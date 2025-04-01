@@ -5643,5 +5643,17 @@
   "not.enough.sfl": "꽃이 충분하지 않아요",
   "error.insufficientMatic": "POL 필요",
   "marketplaceListingNotClaimed": "마켓플레이스 구매를 신청하고 다시 시도하세요.",
-  "marketplaceListingNotClaimed.label": "마켓플레이스 구매"
+  "marketplaceListingNotClaimed.label": "마켓플레이스 구매",
+  "rocketman.flower.exchange": "$FLOWER 익스체인지가 곧 출시됩니다!",
+  "rocketman.flower.exchange.one": "4월 14일에 러브 참을 $FLOWER로 교환할 수 있습니다.",
+  "rocketman.flower.exchange.two": "러브 참 50개를 1$FLOWER로 교환할 수 있습니다.",
+  "flower.exchange.title": "익스체인지 $플라워",
+  "flower.exchange.price": "1 $플라워 = {{exchangeRate}} 러브 챠임",
+  "flower.exchange.confirm": "다음 교환을 수행하시겠습니까?",
+  "flower.exchange.inventory": "인벤토리: {{loveCharmCount}} 러브 챠임",
+  "flower.exchange.error.min": "러브 참은 50개 이하로 교환할 수 없습니다",
+  "flower.exchange.error.max": "10,000개 이상의 러브 참은 교환할 수 없습니다",
+  "flower.exchange.error.balance": "$FLOWER로 교환할 러브 참이 충분하지 않습니다",
+  "flower.exchange.button": "교환",
+  "flower.exchange.youWillReceive": "다음과 같은 혜택을 받게 됩니다."
 }
