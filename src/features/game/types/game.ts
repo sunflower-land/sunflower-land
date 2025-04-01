@@ -91,7 +91,7 @@ import {
   SeasonalEventName,
 } from "./calendar";
 import { VipBundle } from "../lib/vipAccess";
-import { SocialTaskName } from "../events/landExpansion/completeSocialTask";
+import { InGameTaskName } from "../events/landExpansion/completeSocialTask";
 import { TwitterPost, TwitterPostName } from "./social";
 
 export type Reward = {
@@ -1619,7 +1619,7 @@ export interface GameState {
     };
   };
   socialTasks?: {
-    completed: Partial<Record<SocialTaskName, { completedAt: number }>>;
+    completed: Partial<Record<InGameTaskName, { completedAt: number }>>;
   };
 }
 

@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
-import { completeSocialTask, SocialTaskName } from "./completeSocialTask";
+import { completeSocialTask, InGameTaskName } from "./completeSocialTask";
 
 describe("completeSocialTask", () => {
   const now = Date.now();
@@ -12,7 +12,7 @@ describe("completeSocialTask", () => {
         createdAt: now,
         action: {
           type: "socialTask.completed",
-          taskId: "Non-existent task" as SocialTaskName,
+          taskId: "Non-existent task" as InGameTaskName,
         },
         state: INITIAL_FARM,
       }),

@@ -24,7 +24,7 @@ export type OtherTasks = {
  */
 export type Task = OtherTasks & {
   requirement: (state: GameState) => boolean;
-  requirementProgress?: (state: GameState) => number;
+  requirementProgress: (state: GameState) => number;
   requirementTotal?: number;
   reward: Partial<Record<InventoryItemName, number>>;
 };
@@ -49,7 +49,7 @@ export const TASKS = {
   },
 } satisfies Record<string, Task>;
 
-export type SocialTaskName = keyof typeof TASKS;
+export type InGameTaskName = keyof typeof TASKS;
 
 /**
  * Other ways to earn Love Charm (Read-only)
@@ -87,12 +87,14 @@ export const OTHER_WAYS_TO_EARN_LOVE_CHARM = {
   },
 } satisfies Record<string, OtherTasks>;
 
+export type OtherTaskName = keyof typeof OTHER_WAYS_TO_EARN_LOVE_CHARM;
+
 export const isSocialTask = (task: Task | OtherTasks): task is Task =>
   "requirement" in task;
 
 export type CompleteSocialTaskAction = {
   type: "socialTask.completed";
-  taskId: SocialTaskName;
+  taskId: InGameTaskName;
 };
 
 type Options = {

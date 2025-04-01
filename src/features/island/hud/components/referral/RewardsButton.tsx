@@ -7,7 +7,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import {
-  SocialTaskName,
+  InGameTaskName,
   TASKS,
 } from "features/game/events/landExpansion/completeSocialTask";
 import { rewardChestMachine } from "features/game/expansion/components/dailyReward/rewardChestMachine";
@@ -48,24 +48,17 @@ export const RewardsButton: React.FC = () => {
   }, [chestService]);
 
   const isTaskCompleted = useCallback(
-    (task: SocialTaskName) => TASKS[task].requirement(state),
+    (task: InGameTaskName) => TASKS[task].requirement(state),
     [state],
   );
   const isAnyTaskCompleted = Object.values(TASKS).some(
     (task) =>
-      isTaskCompleted(task.title as SocialTaskName) &&
-      !state.socialTasks?.completed[task.title as SocialTaskName]?.completedAt,
+      isTaskCompleted(task.title as InGameTaskName) &&
+      !state.socialTasks?.completed[task.title as InGameTaskName]?.completedAt,
   );
 
   // Check if chest is locked or can be unlocked
   const isChestLocked = !chestState.matches("opened");
-
-  const completeTask = (taskId: SocialTaskName) => {
-    gameService.send({
-      type: "socialTask.completed",
-      taskId,
-    });
-  };
 
   return (
     <div
@@ -102,7 +95,6 @@ export const RewardsButton: React.FC = () => {
         bumpkinLevel={bumpkinLevel}
         chestService={chestService}
         chestState={chestState}
-        completeTask={completeTask}
         loveCharmCount={state.inventory["Love Charm"] ?? new Decimal(0)}
         socialTasks={state.socialTasks}
         isChestLocked={isChestLocked}

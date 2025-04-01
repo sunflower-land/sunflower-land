@@ -10,7 +10,7 @@ import lockIcon from "assets/icons/lock.png";
 import { DailyRewardContent } from "../../../../game/expansion/components/dailyReward/DailyReward";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { TaskBoard } from "./TaskBoard";
-import { SocialTaskName } from "features/game/events/landExpansion/completeSocialTask";
+import { InGameTaskName } from "features/game/events/landExpansion/completeSocialTask";
 import { MachineInterpreter } from "features/game/lib/gameMachine";
 import { GameState } from "features/game/types/game";
 import {
@@ -69,7 +69,6 @@ interface Props {
       ServiceMap
     >
   >;
-  completeTask: (taskId: SocialTaskName) => void;
   loveCharmCount: Decimal;
   socialTasks?: GameState["socialTasks"];
   isChestLocked: boolean;
@@ -85,7 +84,6 @@ export const Rewards: React.FC<Props> = ({
   bumpkinLevel,
   chestService,
   chestState,
-  completeTask,
   loveCharmCount,
   socialTasks,
   isChestLocked,
@@ -117,7 +115,6 @@ export const Rewards: React.FC<Props> = ({
         {tab === "Earn" && (
           <TaskBoard
             state={state}
-            completeTask={completeTask}
             socialTasks={socialTasks}
             loveCharmCount={loveCharmCount}
           />
@@ -131,7 +128,6 @@ export const Rewards: React.FC<Props> = ({
             bumpkinLevel={bumpkinLevel}
             chestService={chestService}
             chestState={chestState}
-            completeTask={completeTask}
             isAnyTaskCompleted={isAnyTaskCompleted}
             loveCharmCount={loveCharmCount}
             isChestLocked={isChestLocked}

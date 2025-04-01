@@ -11,26 +11,34 @@ import {
   OTHER_WAYS_TO_EARN_LOVE_CHARM,
   Task,
   OtherTasks,
-  SocialTaskName,
+  InGameTaskName,
   isSocialTask,
+  OtherTaskName,
 } from "features/game/events/landExpansion/completeSocialTask";
 import { GameState } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useState } from "react";
-import { Referral } from "./Referral";
-import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
+import { Referral, ReferralContent } from "./Referral";
+import { useGame } from "features/game/GameProvider";
+
+const TASK_COMPONENTS: Record<
+  InGameTaskName | OtherTaskName,
+  React.FC<{ onClose: () => void }>
+> = {
+  "Upgrade to Petal Paradise": <div>Upgrade to Petal Paradise</div>,
+  "Complete 50 deliveries": <div>Complete 50 deliveries</div>,
+  "Refer a friend": <ReferralContent />,
+};
 
 interface TaskBoardProps {
   state: GameState;
-  completeTask: (taskId: SocialTaskName) => void;
   loveCharmCount: Decimal;
   socialTasks?: GameState["socialTasks"];
 }
 
 export const TaskBoard: React.FC<TaskBoardProps> = ({
   state,
-  completeTask,
   loveCharmCount,
   socialTasks,
 }) => {
@@ -38,7 +46,7 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({
   const [selectedTask, setSelectedTask] = useState<Task | OtherTasks>();
   const [showReferralModal, setShowReferralModal] = useState(false);
 
-  const isTaskCompleted = (taskId: SocialTaskName): boolean =>
+  const isTaskCompleted = (taskId: InGameTaskName): boolean =>
     !!socialTasks?.completed?.[taskId]?.completedAt;
 
   return (
@@ -68,6 +76,18 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({
       {/* Tasks */}
       <div className="flex flex-col gap-2 m-1">
         <div className="flex flex-col gap-1 text-xs">
+          {Object.values(OTHER_WAYS_TO_EARN_LOVE_CHARM).map((task) => (
+            <ButtonPanel key={task.title} onClick={() => setSelectedTask(task)}>
+              <div className="flex gap-3">
+                <img src={task.image} className="w-10" />
+                <div className="flex flex-col gap-1">
+                  <p>{task.title}</p>
+                  <p className="underline">{t("read.more")}</p>
+                </div>
+              </div>
+            </ButtonPanel>
+          ))}
+
           {Object.values(TASKS).map((task) => (
             <ButtonPanel key={task.title} onClick={() => setSelectedTask(task)}>
               <div className="flex gap-3">
@@ -78,12 +98,12 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({
                 </div>
                 <Label
                   type={
-                    isTaskCompleted(task.title as SocialTaskName)
+                    isTaskCompleted(task.title as InGameTaskName)
                       ? "success"
                       : "warning"
                   }
                   icon={
-                    isTaskCompleted(task.title as SocialTaskName)
+                    isTaskCompleted(task.title as InGameTaskName)
                       ? SUNNYSIDE.icons.confirm
                       : task.requirement(state)
                         ? SUNNYSIDE.icons.expression_alerted
@@ -97,18 +117,6 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({
               </div>
             </ButtonPanel>
           ))}
-
-          {Object.values(OTHER_WAYS_TO_EARN_LOVE_CHARM).map((task) => (
-            <ButtonPanel key={task.title} onClick={() => setSelectedTask(task)}>
-              <div className="flex gap-3">
-                <img src={task.image} className="w-10" />
-                <div className="flex flex-col gap-1">
-                  <p>{task.title}</p>
-                  <p className="underline">{t("read.more")}</p>
-                </div>
-              </div>
-            </ButtonPanel>
-          ))}
         </div>
       </div>
 
@@ -116,77 +124,96 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({
       <ModalOverlay
         show={!!selectedTask}
         onBackdropClick={() => setSelectedTask(undefined)}
-      >
-        <CloseButtonPanel title={selectedTask?.title} className="text-xs">
-          <div className="flex flex-col gap-2 m-1">
-            <div className="flex flex-row gap-2">
-              <div
-                className="w-[40%] relative min-w-[40%] rounded-md overflow-hidden shadow-md mr-2 flex justify-center items-center h-32"
-                style={{
-                  backgroundImage: `url(${SUNNYSIDE.ui.grey_background})`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                }}
-              >
-                <img src={selectedTask?.image} className="w-[50%]" />
-              </div>
-              <div className="flex flex-col justify-between w-full gap-3">
-                <p>{selectedTask?.description}</p>
-                {(selectedTask?.title === t("socialTask.referFriend") ||
-                  selectedTask?.title === t("socialTask.referVipFriend")) && (
-                  <p
-                    className="text-xs underline hover:text-blue-500"
-                    onClick={() => setShowReferralModal(true)}
-                  >
-                    {t("taskBoard.howToRefer")}
-                  </p>
-                )}
-                {selectedTask && isSocialTask(selectedTask) && (
-                  <div className="flex flex-col gap-2 items-start">
-                    <RequirementLabel
-                      type="other"
-                      currentProgress={
-                        selectedTask.requirementProgress?.(state) ??
-                        (selectedTask.requirement(state) ? 1 : 0)
-                      }
-                      requirement={selectedTask.requirementTotal ?? 1}
-                      hideIcon
-                    />
-                    {isTaskCompleted(selectedTask.title as SocialTaskName) && (
-                      <Label
-                        type="success"
-                        icon={SUNNYSIDE.icons.confirm}
-                        className="ml-1"
-                      >
-                        {t("completed")}
-                      </Label>
-                    )}
-                  </div>
-                )}
-              </div>
-            </div>
-            {selectedTask &&
-              isSocialTask(selectedTask) &&
-              !isTaskCompleted(selectedTask.title as SocialTaskName) && (
-                <Button
-                  onClick={() =>
-                    completeTask(selectedTask.title as SocialTaskName)
-                  }
-                  disabled={
-                    !selectedTask.requirement(state) ||
-                    isTaskCompleted(selectedTask.title as SocialTaskName)
-                  }
-                >
-                  {t("complete")}
-                </Button>
-              )}
-          </div>
-        </CloseButtonPanel>
-      </ModalOverlay>
+      ></ModalOverlay>
       <Referral
         show={showReferralModal}
         onHide={() => setShowReferralModal(false)}
       />
     </div>
+  );
+};
+
+const InGameTask: React.FC<{
+  taskName: InGameTaskName;
+  socialTasks: GameState["socialTasks"];
+  onClose: () => void;
+}> = ({ taskName, socialTasks, onClose }) => {
+  const { gameService, gameState } = useGame();
+  const completeTask = (taskId: InGameTaskName) => {
+    gameService.send({
+      type: "socialTask.completed",
+      taskId,
+    });
+  };
+
+  const task = TASKS[taskName];
+  const isTaskCompleted = (taskId: InGameTaskName): boolean =>
+    !!socialTasks?.completed?.[taskId]?.completedAt;
+
+  const state = gameState.context.state;
+
+  const { t } = useAppTranslation();
+  return (
+    <CloseButtonPanel title={task.title} className="text-xs">
+      <div className="flex flex-col gap-2 m-1">
+        <div className="flex flex-row gap-2">
+          <div
+            className="w-[40%] relative min-w-[40%] rounded-md overflow-hidden shadow-md mr-2 flex justify-center items-center h-32"
+            style={{
+              backgroundImage: `url(${SUNNYSIDE.ui.grey_background})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+          >
+            <img src={task.image} className="w-[50%]" />
+          </div>
+          <div className="flex flex-col justify-between w-full gap-3">
+            <p>{task.description}</p>
+            {(taskName === t("socialTask.referFriend") ||
+              taskName === t("socialTask.referVipFriend")) && (
+              <p
+                className="text-xs underline hover:text-blue-500"
+                onClick={onClose}
+              >
+                {t("taskBoard.howToRefer")}
+              </p>
+            )}
+            {task && isSocialTask(task) && (
+              <div className="flex flex-col gap-2 items-start">
+                <RequirementLabel
+                  type="other"
+                  currentProgress={
+                    task.requirementProgress?.(state) ??
+                    (task.requirement(state) ? 1 : 0)
+                  }
+                  requirement={task.requirementTotal ?? 1}
+                  hideIcon
+                />
+                {isTaskCompleted(taskName) && (
+                  <Label
+                    type="success"
+                    icon={SUNNYSIDE.icons.confirm}
+                    className="ml-1"
+                  >
+                    {t("completed")}
+                  </Label>
+                )}
+              </div>
+            )}
+          </div>
+        </div>
+        {!isTaskCompleted(taskName) && (
+          <Button
+            onClick={() => completeTask(taskName)}
+            disabled={
+              !task.requirement(state) ||
+              isTaskCompleted(task.title as InGameTaskName)
+            }
+          >
+            {t("complete")}
+          </Button>
+        )}
+      </div>
+    </CloseButtonPanel>
   );
 };
