@@ -29,6 +29,8 @@ import { hasVipAccess } from "features/game/lib/vipAccess";
 import { getActiveCalendarEvent } from "features/game/types/calendar";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
+import { handleLoveRushRewards } from "./loveRush";
+import { hasFeatureAccess } from "lib/flags";
 
 export const TICKET_REWARDS: Record<QuestNPCName, number> = {
   "pumpkin' pete": 1,
@@ -526,6 +528,16 @@ export function deliverOrder({
         giftClaimedAtPoints: npc.friendship?.giftClaimedAtPoints ?? 0,
         giftedAt: npc.friendship?.giftedAt,
       };
+    }
+
+    // Handle Love Rush rewards during the Love Rush event
+    if (hasFeatureAccess(game, "LOVE_RUSH")) {
+      handleLoveRushRewards({
+        game,
+        createdAt,
+        npcName: order.from,
+        npc,
+      });
     }
 
     game.npcs = {

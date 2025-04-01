@@ -93,6 +93,7 @@ import {
 import { VipBundle } from "../lib/vipAccess";
 import { InGameTaskName } from "../events/landExpansion/completeSocialTask";
 import { TwitterPost, TwitterPostName } from "./social";
+import { DeliveryNPCName } from "../events/landExpansion/loveRush";
 
 export type Reward = {
   coins?: number;
@@ -855,7 +856,7 @@ export type Party = {
 
 export type Order = {
   id: string;
-  from: NPCName;
+  from: DeliveryNPCName;
   items: Partial<
     Record<InventoryItemName | BumpkinItem | "coins" | "sfl", number>
   >;
@@ -945,6 +946,10 @@ export type NPCData = {
     points: number;
     giftClaimedAtPoints?: number;
     giftedAt?: number;
+  };
+  streaks?: {
+    streak: number;
+    lastClaimedAt: number;
   };
 };
 

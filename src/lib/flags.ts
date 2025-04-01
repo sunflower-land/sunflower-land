@@ -93,6 +93,11 @@ const FEATURE_FLAGS = {
   LEDGER: testnetLocalStorageFeatureFlag("ledger"),
   OFFCHAIN_MARKETPLACE: () => true,
   BLOCKCHAIN_BOX: defaultFeatureFlag,
+  LOVE_RUSH: () =>
+    timePeriodFeatureFlag({
+      start: new Date("2025-04-07T00:00:00Z"),
+      end: new Date("2025-05-05T00:00:00Z"),
+    })(),
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;
