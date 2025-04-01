@@ -26,7 +26,7 @@ export function claimAirdrop({ state, action }: Options): GameState {
       throw new Error(`Airdrop #${action.id} does not exist`);
     }
 
-    const inventory = getKeys(airdrop.items).reduce((acc, itemName) => {
+    game.inventory = getKeys(airdrop.items).reduce((acc, itemName) => {
       const previous = acc[itemName] || new Decimal(0);
 
       return {
@@ -35,36 +35,29 @@ export function claimAirdrop({ state, action }: Options): GameState {
       };
     }, game.inventory);
 
-    const wardrobe = getKeys(airdrop.wearables ?? {}).reduce(
-      (acc, itemName) => {
-        const previous = acc[itemName] || 0;
+    game.wardrobe = getKeys(airdrop.wearables ?? {}).reduce((acc, itemName) => {
+      const previous = acc[itemName] || 0;
 
-        return {
-          ...acc,
-          [itemName]: previous + (airdrop.wearables[itemName] || 0),
-        };
-      },
-      game.wardrobe,
-    );
+      return {
+        ...acc,
+        [itemName]: previous + (airdrop.wearables[itemName] || 0),
+      };
+    }, game.wardrobe);
 
     // Add VIP (don't set purchased bundle though)
     if (airdrop.vipDays) {
       game.vip = {
-        ...game.vip,
         bundles: game.vip?.bundles ?? [],
         expiresAt:
-          Math.min(game.vip?.expiresAt ?? Date.now()) +
+          Math.max(game.vip?.expiresAt ?? Date.now(), Date.now()) +
           airdrop.vipDays * 24 * 60 * 60 * 1000,
       };
     }
 
-    return {
-      ...game,
-      balance: game.balance.add(airdrop.sfl),
-      airdrops: game.airdrops.filter((item) => item.id !== action.id),
-      inventory,
-      wardrobe,
-      coins: game.coins + (airdrop.coins ?? 0),
-    };
+    game.balance = game.balance.add(airdrop.sfl);
+    game.airdrops = game.airdrops.filter((item) => item.id !== action.id);
+    game.coins = game.coins + (airdrop.coins ?? 0);
+
+    return game;
   });
 }
