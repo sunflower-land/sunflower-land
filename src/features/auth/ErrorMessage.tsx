@@ -17,6 +17,7 @@ import { TooManyFarms } from "./components/TooManyFarms";
 import { TradeNotFound } from "./components/TradeNotFound";
 import { CONFIG } from "lib/config";
 import { MarketplaceTransferInProgress } from "./components/MarketplaceTransferInProgress";
+import { MarketplaceListingNotClaimed } from "./components/MarketplaceListingNotClaimed";
 
 interface Props {
   errorCode: ErrorCode;
@@ -96,6 +97,13 @@ export const ErrorMessage: React.FC<Props> = ({ errorCode }) => {
     errorCode === ERRORS.RESET_MARKETPLACE_TRANSFER_IN_PROGRESS
   ) {
     return <MarketplaceTransferInProgress />;
+  }
+
+  if (
+    errorCode === ERRORS.BUY_GEMS_MARKETPLACE_UNCLAIMED_LISTINGS ||
+    errorCode === ERRORS.RESET_MARKETPLACE_UNCLAIMED_LISTINGS
+  ) {
+    return <MarketplaceListingNotClaimed />;
   }
 
   return <SomethingWentWrong />;

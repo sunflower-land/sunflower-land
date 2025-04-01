@@ -5779,6 +5779,8 @@
   "twitter.verify.cooldown": "Please wait {{time}} in between verifying your tweets.",
   "marketplaceTransferInProgress": "Marketplace transfers are being finalised, please try again in a few minutes.",
   "marketplaceTransferInProgress.label": "Marketplace transfer in progress",
+  "marketplaceListingNotClaimed": "Please claim your marketplace purchase and try again.",
+  "marketplaceListingNotClaimed.label": "Marketplace purchase",
   "reward.vipDescription": "Bonus trading, XP, cooking & earning perks!",
   "reward.blockchainBoxSuccess": "Congratulations, you earnt some rewards!",
   "claiming.blockchain.box": "Claiming Blockchain Box",

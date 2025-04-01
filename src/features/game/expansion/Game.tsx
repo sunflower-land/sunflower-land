@@ -89,8 +89,6 @@ import {
 } from "./components/EffectSuccess";
 import { LoveCharm } from "./components/LoveCharm";
 import { ClaimReferralRewards } from "./components/ClaimReferralRewards";
-import { Maintenance } from "features/auth/components/Maintenance";
-import { CloseButtonPanel } from "../components/CloseablePanel";
 
 function camelToDotCase(str: string): string {
   return str.replace(/([a-z])([A-Z])/g, "$1.$2").toLowerCase() as string;
@@ -348,16 +346,6 @@ const GameContent: React.FC = () => {
           {hasAccess("HenHouse") && (
             <Route path="/hen-house" element={<HenHouseInside />} />
           )}
-          <Route
-            path="/marketplace-error"
-            element={
-              <Modal show={true}>
-                <CloseButtonPanel onClose={() => navigate("/")}>
-                  <Maintenance />
-                </CloseButtonPanel>
-              </Modal>
-            }
-          />
           <Route
             path="*"
             element={

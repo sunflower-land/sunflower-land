@@ -18,7 +18,6 @@ import { useActor } from "@xstate/react";
 import { TopTrades } from "./TopTrades";
 import useSWR, { preload } from "swr";
 import { CONFIG } from "lib/config";
-import { hasFeatureAccess } from "lib/flags";
 import { useGame } from "features/game/GameProvider";
 
 const hotNowFetcher = ([, token]: [string, string]) => {
@@ -41,14 +40,7 @@ export const MarketplaceHotNow: React.FC = () => {
   );
 
   // Errors are handled by the game machine
-  if (
-    error &&
-    !hasFeatureAccess(gameState.context.state, "OFFCHAIN_MARKETPLACE")
-  ) {
-    navigate("/marketplace-error");
-  }
-
-  // if (error) throw error;
+  if (error) throw error;
 
   const isWorldRoute = useLocation().pathname.includes("/world");
 

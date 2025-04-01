@@ -39,7 +39,8 @@ export async function buyBlockBucks(request: Request): Promise<Response> {
   });
 
   if (response.status === 409) {
-    throw new Error(ERRORS.BUY_GEMS_MARKETPLACE_TRANSFER_IN_PROGRESS);
+    const { error } = await response.json();
+    throw new Error(error);
   }
 
   if (response.status === 429) {
