@@ -108,7 +108,7 @@ const FEATURE_FLAGS = {
 
   // Testnet only feature flags - Please don't change these until release
   LEDGER: testnetLocalStorageFeatureFlag("ledger"),
-  OFFCHAIN_MARKETPLACE: defaultFeatureFlag,
+  OFFCHAIN_MARKETPLACE: adminFeatureFlag,
   BLOCKCHAIN_BOX: defaultFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
