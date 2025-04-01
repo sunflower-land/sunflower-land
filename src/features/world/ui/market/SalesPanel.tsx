@@ -13,7 +13,6 @@ import { Label } from "components/ui/Label";
 import { Loading } from "features/auth/components";
 import { MarketPrices } from "features/game/actions/getMarketPrices";
 import { TradeableName } from "features/game/actions/sellMarketResource";
-import Decimal from "decimal.js-light";
 import { Button } from "components/ui/Button";
 import classNames from "classnames";
 import { getRelativeTime } from "lib/utils/time";
@@ -21,9 +20,7 @@ import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { formatNumber } from "lib/utils/formatNumber";
 
 import { Box } from "components/ui/Box";
-import { MAX_SESSION_SFL } from "features/game/lib/processEvent";
 
-import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { ListingCategoryCard } from "components/ui/ListingCategoryCard";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
@@ -96,9 +93,7 @@ export const SalesPanel: React.FC<{
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
 
-  const { openModal } = useContext(ModalContext);
-
-  const [warning, setWarning] = useState<"pendingTransaction" | "hoarding">();
+  const [warning, setWarning] = useState<"pendingTransaction">();
   const [showPulse, setShowPulse] = useState(false);
   const [confirm, setConfirm] = useState(false);
   const [selected, setSelected] = useState<TradeableName>("Apple");
@@ -118,13 +113,6 @@ export const SalesPanel: React.FC<{
   }, [loadingNewPrices]);
 
   const onSell = (item: TradeableName, price: number) => {
-    const isHoarding = checkHoard(item, price);
-
-    if (isHoarding) {
-      setWarning("hoarding");
-      return;
-    }
-
     // Open Confirmation modal
     setConfirm(true);
     setSelected(item);
@@ -140,17 +128,6 @@ export const SalesPanel: React.FC<{
     });
   };
 
-  const checkHoard = (item: TradeableName, price: number) => {
-    const auctionSFL = state.auctioneer.bid?.sfl ?? new Decimal(0);
-
-    const progress = state.balance
-      .add(auctionSFL)
-      .add(MARKET_BUNDLES[item] * price)
-      .sub(state.previousBalance ?? new Decimal(0));
-
-    return progress.gt(MAX_SESSION_SFL);
-  };
-
   const hasExchangeReputation = hasReputation({
     game: state,
     reputation: Reputation.Cropkeeper,
@@ -162,23 +139,6 @@ export const SalesPanel: React.FC<{
     state.inventory[selected]?.gte(MARKET_BUNDLES[selected]) && unitPrice !== 0;
 
   const hasPrices = !!marketPrices;
-
-  if (warning === "hoarding") {
-    return (
-      <>
-        <div className="p-1 flex flex-col items-center">
-          <img src={SUNNYSIDE.icons.lock} className="w-1/5 mb-2" />
-          <p className="text-sm mb-1 text-center">
-            {t("goblinTrade.hoarding")}
-          </p>
-          <p className="text-xs mb-1 text-center">
-            {t("playerTrade.Progress")}
-          </p>
-        </div>
-        <Button onClick={() => setWarning(undefined)}>{t("back")}</Button>
-      </>
-    );
-  }
 
   if (warning === "pendingTransaction") {
     return (
