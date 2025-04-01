@@ -5641,5 +5641,7 @@
   "reputation.cropkeeper.deliveries": "Desbloqueie todas as entregas de flores",
   "bounties.sfl.intro.two": "Ouvi dizer que vocês, idiotas, estão vendendo sua obsidiana por FLOWER. Isso é verdade?",
   "not.enough.sfl": "Você não tem FLOR suficiente",
-  "error.insufficientMatic": "POL necessário"
+  "error.insufficientMatic": "POL necessário",
+  "marketplaceListingNotClaimed": "Solicite sua compra no Marketplace e tente novamente.",
+  "marketplaceListingNotClaimed.label": "Compra no mercado"
 }

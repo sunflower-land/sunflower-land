@@ -5641,5 +5641,7 @@
   "reputation.cropkeeper.deliveries": "Desbloquea todas las entregas de FLORES",
   "bounties.sfl.intro.two": "He oído que los tontos Bumpkins están vendiendo su obsidiana por FLOWER. ¿Es eso cierto?",
   "not.enough.sfl": "No tienes suficiente FLOR",
-  "error.insufficientMatic": "Se requiere POL"
+  "error.insufficientMatic": "Se requiere POL",
+  "marketplaceListingNotClaimed": "Reclama tu compra en Marketplace e inténtalo de nuevo.",
+  "marketplaceListingNotClaimed.label": "Compra en Marketplace"
 }

@@ -5641,5 +5641,7 @@
   "reputation.cropkeeper.deliveries": "Débloquez toutes les livraisons de fleurs",
   "bounties.sfl.intro.two": "J'ai entendu dire que tu étais stupide, Bumpkins, qui vendais ton obsidienne pour FLOWER. Est-ce vrai ?",
   "not.enough.sfl": "Vous n'avez pas assez de FLEURS",
-  "error.insufficientMatic": "POL obligatoire"
+  "error.insufficientMatic": "POL obligatoire",
+  "marketplaceListingNotClaimed": "Réclamez votre achat sur le site de vente et réessayez.",
+  "marketplaceListingNotClaimed.label": "Achat sur le marché"
 }

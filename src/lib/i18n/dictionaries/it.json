@@ -5641,5 +5641,7 @@
   "reputation.cropkeeper.deliveries": "Sblocca tutte le consegne di FIORI",
   "bounties.sfl.intro.two": "Ho sentito che sciocco Bumpkins vendete la vostra ossidiana in cambio di un fiore. È vero?",
   "not.enough.sfl": "Non hai abbastanza FIORI",
-  "error.insufficientMatic": "POL richiesto"
+  "error.insufficientMatic": "POL richiesto",
+  "marketplaceListingNotClaimed": "Richiedi l'acquisto effettuato sul marketplace e riprova.",
+  "marketplaceListingNotClaimed.label": "Acquisto sul mercato"
 }

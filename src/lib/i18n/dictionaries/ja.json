@@ -5641,5 +5641,7 @@
   "reputation.cropkeeper.deliveries": "すべてのフラワーデリバリーをアンロック",
   "bounties.sfl.intro.two": "バカなバンプキンが花のために黒曜石を売っているって聞いたよ。それは本当なの？",
   "not.enough.sfl": "花が足りません",
-  "error.insufficientMatic": "POL が必要です"
+  "error.insufficientMatic": "POL が必要です",
+  "marketplaceListingNotClaimed": "マーケットプレイスでの購入を申請して、もう一度試してください。",
+  "marketplaceListingNotClaimed.label": "マーケットプレイスでの購入"
 }

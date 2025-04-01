@@ -5641,5 +5641,7 @@
   "reputation.cropkeeper.deliveries": "Buka Semua Pengiriman BUNGA",
   "bounties.sfl.intro.two": "Kudengar kau Bumpkins yang konyol menjual Obsidian-mu untuk BUNGA. Apakah itu benar?",
   "not.enough.sfl": "Anda tidak memiliki cukup bunga",
-  "error.insufficientMatic": "POL diperlukan"
+  "error.insufficientMatic": "POL diperlukan",
+  "marketplaceListingNotClaimed": "Harap klaim pembelian pasar Anda dan coba lagi.",
+  "marketplaceListingNotClaimed.label": "Pembelian di pasar"
 }

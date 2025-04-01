@@ -5641,5 +5641,7 @@
   "reputation.cropkeeper.deliveries": "Schalte alle BLUMENLIEFERUNGEN FREI",
   "bounties.sfl.intro.two": "Ich habe gehört, dass du dumme Bumpkins deinen Obsidian für FLOWER verkaufst. Stimmt das?",
   "not.enough.sfl": "Du hast nicht genug FLOWER",
-  "error.insufficientMatic": "POL erforderlich"
+  "error.insufficientMatic": "POL erforderlich",
+  "marketplaceListingNotClaimed": "Bitte fordern Sie Ihren Marketplace-Kauf an und versuchen Sie es erneut.",
+  "marketplaceListingNotClaimed.label": "Kauf auf dem Marktplatz"
 }

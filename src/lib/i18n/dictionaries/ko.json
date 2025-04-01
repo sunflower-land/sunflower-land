@@ -5641,5 +5641,7 @@
   "reputation.cropkeeper.deliveries": "모든 꽃 배달 잠금 해제",
   "bounties.sfl.intro.two": "멍청한 범프킨이 흑요석을 FLOWER에 팔고 있다고 들었어.사실인가요?",
   "not.enough.sfl": "꽃이 충분하지 않아요",
-  "error.insufficientMatic": "POL 필요"
+  "error.insufficientMatic": "POL 필요",
+  "marketplaceListingNotClaimed": "마켓플레이스 구매를 신청하고 다시 시도하세요.",
+  "marketplaceListingNotClaimed.label": "마켓플레이스 구매"
 }
