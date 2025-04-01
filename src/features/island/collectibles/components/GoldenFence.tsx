@@ -7,21 +7,21 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { GameGrid } from "features/game/expansion/placeable/lib/makeGrid";
 
 const IMAGE_PATHS: Record<string, string> = {
-  top_right_bottom_left: SUNNYSIDE.decorations.woodFenceFullEdge,
-  top_left: SUNNYSIDE.decorations.woodFenceTopAndLeftEdge,
-  top_right: SUNNYSIDE.decorations.woodFenceTopAndRightEdge,
-  bottom_left: SUNNYSIDE.decorations.woodFenceBottomAndLeftEdge,
-  right_bottom: SUNNYSIDE.decorations.woodFenceBottomAndRightEdge,
-  top: SUNNYSIDE.decorations.woodFenceTopEdge,
-  right: SUNNYSIDE.decorations.woodFenceRightEdge,
-  bottom: SUNNYSIDE.decorations.woodFenceBottomEdge,
-  left: SUNNYSIDE.decorations.woodFenceLeftEdge,
-  top_bottom: SUNNYSIDE.decorations.woodFenceTopAndBottomEdge,
-  right_left: SUNNYSIDE.decorations.woodFenceRightAndLeftEdge,
-  top_bottom_left: SUNNYSIDE.decorations.woodFenceTopLeftAndBottomEdge,
-  top_right_bottom: SUNNYSIDE.decorations.woodFenceTopRightAndBottomEdge,
-  top_right_left: SUNNYSIDE.decorations.woodFenceTopRightAndLeftEdge,
-  right_bottom_left: SUNNYSIDE.decorations.woodFenceRightBottomAndLeftEdge,
+  top_right_bottom_left: SUNNYSIDE.decorations.goldenFenceFullEdge,
+  top_left: SUNNYSIDE.decorations.goldenFenceTopAndLeftEdge,
+  top_right: SUNNYSIDE.decorations.goldenFenceTopAndRightEdge,
+  bottom_left: SUNNYSIDE.decorations.goldenFenceBottomAndLeftEdge,
+  right_bottom: SUNNYSIDE.decorations.goldenFenceBottomAndRightEdge,
+  top: SUNNYSIDE.decorations.goldenFenceTopEdge,
+  right: SUNNYSIDE.decorations.goldenFenceRightEdge,
+  bottom: SUNNYSIDE.decorations.goldenFenceBottomEdge,
+  left: SUNNYSIDE.decorations.goldenFenceLeftEdge,
+  top_bottom: SUNNYSIDE.decorations.goldenFenceTopAndBottomEdge,
+  right_left: SUNNYSIDE.decorations.goldenFenceRightAndLeftEdge,
+  top_bottom_left: SUNNYSIDE.decorations.goldenFenceTopLeftAndBottomEdge,
+  top_right_bottom: SUNNYSIDE.decorations.goldenFenceTopRightAndBottomEdge,
+  top_right_left: SUNNYSIDE.decorations.goldenFenceTopRightAndLeftEdge,
+  right_bottom_left: SUNNYSIDE.decorations.goldenFenceRightBottomAndLeftEdge,
 };
 
 type Edges = {
@@ -37,7 +37,7 @@ interface Props {
   grid: GameGrid;
 }
 
-export const Fence: React.FC<Props> = ({ x, y, grid }) => {
+export const GoldenFence: React.FC<Props> = ({ x, y, grid }) => {
   const edges: Edges = {
     top:
       grid[x]?.[y + 1] === "Fence" ||
@@ -61,7 +61,7 @@ export const Fence: React.FC<Props> = ({ x, y, grid }) => {
       grid[x - 1]?.[y] === "Golden Stone Fence",
   };
 
-  let image = SUNNYSIDE.decorations.woodFenceNoEdge;
+  let image = SUNNYSIDE.decorations.goldenFenceNoEdge;
   const edgeNames = getKeys(edges).filter((edge) => !!edges[edge]);
   const name = edgeNames.join("_");
   const path = IMAGE_PATHS[name];

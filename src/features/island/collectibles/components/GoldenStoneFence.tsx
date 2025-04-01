@@ -18,20 +18,20 @@ interface Props {
 }
 
 const horizontalImages = [
-  SUNNYSIDE.decorations.stoneHorizontalOne,
-  SUNNYSIDE.decorations.stoneHorizontalTwo,
-  SUNNYSIDE.decorations.stoneHorizontalThree,
-  SUNNYSIDE.decorations.stoneHorizontalFour,
+  SUNNYSIDE.decorations.goldenStoneHorizontalOne,
+  SUNNYSIDE.decorations.goldenStoneHorizontalTwo,
+  SUNNYSIDE.decorations.goldenStoneHorizontalThree,
+  SUNNYSIDE.decorations.goldenStoneHorizontalFour,
 ];
 
 const verticalImages = [
-  SUNNYSIDE.decorations.stoneVerticalOne,
-  SUNNYSIDE.decorations.stoneVerticalTwo,
-  SUNNYSIDE.decorations.stoneVerticalThree,
-  SUNNYSIDE.decorations.stoneVerticalFour,
+  SUNNYSIDE.decorations.goldenStoneVerticalOne,
+  SUNNYSIDE.decorations.goldenStoneVerticalTwo,
+  SUNNYSIDE.decorations.goldenStoneVerticalThree,
+  SUNNYSIDE.decorations.goldenStoneVerticalFour,
 ];
 
-export const StoneFence: React.FC<Props> = ({ x, y, grid }) => {
+export const GoldenStoneFence: React.FC<Props> = ({ x, y, grid }) => {
   const edges: Edges = {
     top:
       grid[x]?.[y + 1] === "Stone Fence" ||
@@ -55,30 +55,30 @@ export const StoneFence: React.FC<Props> = ({ x, y, grid }) => {
       grid[x - 1]?.[y] === "Golden Fence",
   };
 
-  let image = SUNNYSIDE.decorations.stoneHorizontalOne;
+  let image = SUNNYSIDE.decorations.goldenStoneHorizontalOne;
 
   if (edges.top && edges.right && edges.bottom && edges.left) {
-    image = SUNNYSIDE.decorations.stoneTopAndLeftAndRightAndBottom;
+    image = SUNNYSIDE.decorations.goldenStoneTopAndLeftAndRightAndBottom;
   } else if (edges.left && edges.right && edges.bottom) {
-    image = SUNNYSIDE.decorations.stoneTopAndLeftAndRight;
+    image = SUNNYSIDE.decorations.goldenStoneTopAndLeftAndRight;
   } else if (edges.left && edges.right && edges.top) {
-    image = SUNNYSIDE.decorations.stoneBottomAndLeftAndRight;
+    image = SUNNYSIDE.decorations.goldenStoneBottomAndLeftAndRight;
   } else if (edges.top && edges.bottom && edges.right) {
-    image = SUNNYSIDE.decorations.stoneLeftTopAndBottom;
+    image = SUNNYSIDE.decorations.goldenStoneLeftTopAndBottom;
   } else if (edges.top && edges.bottom && edges.left) {
-    image = SUNNYSIDE.decorations.stoneRightTopAndBottom;
+    image = SUNNYSIDE.decorations.goldenStoneRightTopAndBottom;
   } else if (edges.right && edges.bottom) {
-    image = SUNNYSIDE.decorations.stoneTopAndRightEdge;
+    image = SUNNYSIDE.decorations.goldenStoneTopAndRightEdge;
   } else if (edges.left && edges.bottom) {
-    image = SUNNYSIDE.decorations.stoneTopAndLeftEdge;
+    image = SUNNYSIDE.decorations.goldenStoneTopAndLeftEdge;
   } else if (edges.right && edges.top) {
-    image = SUNNYSIDE.decorations.stoneBottomAndRightEdge;
+    image = SUNNYSIDE.decorations.goldenStoneBottomAndRightEdge;
   } else if (edges.top && edges.left) {
-    image = SUNNYSIDE.decorations.stoneBottomAndLeftEdge;
+    image = SUNNYSIDE.decorations.goldenStoneBottomAndLeftEdge;
   } else if (edges.top && !edges.bottom) {
-    image = SUNNYSIDE.decorations.stoneBottom;
+    image = SUNNYSIDE.decorations.goldenStoneBottom;
   } else if (edges.bottom && !edges.top) {
-    image = SUNNYSIDE.decorations.stoneVerticalOne;
+    image = SUNNYSIDE.decorations.goldenStoneVerticalOne;
   } else if (edges.right) {
     let numberToRightOfMe = 1;
     while (grid[x + numberToRightOfMe]?.[y] === "Stone Fence") {
