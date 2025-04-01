@@ -1,8 +1,6 @@
 import { useSelector } from "@xstate/react";
 import { CopyField } from "components/ui/CopyField";
 import { Label } from "components/ui/Label";
-import { Modal } from "components/ui/Modal";
-import { Panel } from "components/ui/Panel";
 import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { CONFIG } from "lib/config";
@@ -11,12 +9,12 @@ import React, { useContext } from "react";
 import flowerIcon from "assets/icons/flower_token.webp";
 import { SUNNYSIDE } from "assets/sunnyside";
 import vipIcon from "assets/icons/vip.webp";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 interface ReferralProps {
-  show: boolean;
   onHide: () => void;
 }
-export const ReferralContent: React.FC = () => {
+export const ReferralContent: React.FC<ReferralProps> = ({ onHide }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const farmId = useSelector(gameService, (state) => state.context.farmId);
@@ -39,7 +37,7 @@ export const ReferralContent: React.FC = () => {
   const referralLink = `${gameLink}/?ref=${referralCode}`;
 
   return (
-    <Panel>
+    <CloseButtonPanel onClose={onHide}>
       <div className="p-2 text-xs flex flex-col">
         <div className="w-full relative">
           <img
@@ -105,14 +103,6 @@ export const ReferralContent: React.FC = () => {
           </div>
         </div>
       </div>
-    </Panel>
-  );
-};
-
-export const Referral: React.FC<ReferralProps> = ({ show, onHide }) => {
-  return (
-    <Modal show={show} onHide={onHide}>
-      <ReferralContent />
-    </Modal>
+    </CloseButtonPanel>
   );
 };
