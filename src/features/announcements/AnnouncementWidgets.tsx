@@ -12,7 +12,8 @@ import lockIcon from "assets/icons/lock.png";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { hasFeatureAccess } from "lib/flags";
 import { useGame } from "features/game/GameProvider";
-import { Referral } from "features/island/hud/components/referral/Referral";
+import { ReferralContent } from "features/island/hud/components/referral/Referral";
+import { Modal } from "components/ui/Modal";
 
 export const LockdownWidget: React.FC = () => {
   const [showMessage, setShowMessage] = useState(true);
@@ -219,10 +220,12 @@ export const ReferralWidget: React.FC = () => {
         className="absolute right-2 top-1 w-5 cursor-pointer"
         onClick={() => setShowMessage(false)}
       />
-      <Referral
+      <Modal
         show={showReferralModal}
         onHide={() => setShowReferralModal(false)}
-      />
+      >
+        <ReferralContent onHide={() => setShowReferralModal(false)} />
+      </Modal>
     </div>
   );
 };

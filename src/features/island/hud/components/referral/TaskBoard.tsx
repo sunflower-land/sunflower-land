@@ -18,7 +18,8 @@ import { GameState } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useState } from "react";
-import { Referral } from "./Referral";
+import { ReferralContent } from "./Referral";
+import { Modal } from "components/ui/Modal";
 
 interface TaskBoardProps {
   state: GameState;
@@ -178,10 +179,12 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({
           </div>
         </CloseButtonPanel>
       </ModalOverlay>
-      <Referral
+      <Modal
         show={showReferralModal}
         onHide={() => setShowReferralModal(false)}
-      />
+      >
+        <ReferralContent onHide={() => setShowReferralModal(false)} />
+      </Modal>
     </div>
   );
 };
