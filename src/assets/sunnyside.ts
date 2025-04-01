@@ -1342,6 +1342,17 @@ export const SUNNYSIDE = {
     planter_box: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/planter_box.webp`,
     raft: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/raft.png`,
     rewards_raft: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/rewards_raft.png`,
+    // Love Decorations
+    flowerStatue: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/flower_statue.webp`,
+    heartstruckTree: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/heartstruck_tree.webp`,
+    mermaidFountain: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/mermaid_fountain.webp`,
+    mysteriousEntrance: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/mysterious_entrance.webp`,
+    largeRug: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/large_rug.webp`,
+    goldenFence: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/golden_fence.png`,
+    goldenStoneFence: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/golden_stoneFence.png`,
+    goldenPineTree: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/golden_pine_tree.png`,
+    goldenTree: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/golden_tree.png`,
+    goldenBush: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/golden_bush.png`,
     //Potion House
     orangeBottle: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/orange_bottle.webp`,
     blueBottle: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/blue_bottle.webp`,
@@ -1396,6 +1407,48 @@ export const SUNNYSIDE = {
     stoneVerticalTwo: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/stoneFence/y_2.png`,
     stoneVerticalThree: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/stoneFence/y_3.png`,
     stoneVerticalFour: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/stoneFence/y_2.png`,
+
+    //Golden Fence
+    goldenFenceFullEdge: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/golden_fence/1_1_1_1.png`,
+    goldenFenceNoEdge: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/golden_fence/0_0_0_0.png`,
+    goldenFenceTopAndBottomEdge: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/golden_fence/1_0_1_0.png`,
+    goldenFenceTopLeftAndBottomEdge: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/golden_fence/1_0_1_1.png`,
+    goldenFenceTopRightAndBottomEdge: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/golden_fence/1_1_1_0.png`,
+    goldenFenceTopRightAndLeftEdge: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/golden_fence/1_1_0_1.png`,
+    goldenFenceRightBottomAndLeftEdge: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/golden_fence/0_1_1_1.png`,
+    goldenFenceRightAndLeftEdge: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/golden_fence/0_1_0_1.png`,
+
+    goldenFenceRightEdge: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/golden_fence/0_1_0_0.png`,
+    goldenFenceBottomEdge: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/golden_fence/0_0_1_0.png`,
+    goldenFenceTopEdge: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/golden_fence/1_0_0_0.png`,
+    goldenFenceLeftEdge: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/golden_fence/0_0_0_1.png`,
+
+    goldenFenceTopAndLeftEdge: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/golden_fence/1_0_0_1.png`,
+    goldenFenceBottomAndLeftEdge: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/golden_fence/0_0_1_1.png`,
+    goldenFenceTopAndRightEdge: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/golden_fence/1_1_0_0.png`,
+    goldenFenceBottomAndRightEdge: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/golden_fence/0_1_1_0.png`,
+
+    //Golden Stone Fence
+    goldenStoneTopAndRightEdge: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/golden_stoneFence/top_right.png`,
+    goldenStoneTopAndLeftEdge: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/golden_stoneFence/top_left.png`,
+    goldenStoneBottomAndLeftEdge: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/golden_stoneFence/bottom_left.png`,
+    goldenStoneBottomAndRightEdge: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/golden_stoneFence/bottom_right.png`,
+    goldenStoneTopAndLeftAndRightAndBottom: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/golden_stoneFence/top_left_right_bottom.png`,
+    goldenStoneTopAndLeftAndRight: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/golden_stoneFence/top_left_right.png`,
+    goldenStoneBottomAndLeftAndRight: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/golden_stoneFence/bottom_left_right.png`,
+    goldenStoneRightTopAndBottom: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/golden_stoneFence/right_top_bottom.png`,
+    goldenStoneLeftTopAndBottom: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/golden_stoneFence/left_top_bottom.png`,
+    goldenStoneBottom: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/golden_stoneFence/bottom.png`,
+
+    goldenStoneHorizontalOne: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/golden_stoneFence/x_1.png`,
+    goldenStoneHorizontalTwo: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/golden_stoneFence/x_2.png`,
+    goldenStoneHorizontalThree: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/golden_stoneFence/x_3.png`,
+    goldenStoneHorizontalFour: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/golden_stoneFence/x_4.png`,
+
+    goldenStoneVerticalOne: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/golden_stoneFence/y_1.png`,
+    goldenStoneVerticalTwo: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/golden_stoneFence/y_2.png`,
+    goldenStoneVerticalThree: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/golden_stoneFence/y_3.png`,
+    goldenStoneVerticalFour: `${CONFIG.PROTECTED_IMAGE_URL}/decorations/golden_stoneFence/y_2.png`,
   },
   //Splash
   splash: {
