@@ -32,7 +32,7 @@ import { VIPGiftContent } from "features/world/ui/VIPGift";
 import { BlockchainBox } from "./BlockchainBox";
 import { hasFeatureAccess } from "lib/flags";
 import { hasVipAccess } from "features/game/lib/vipAccess";
-import { useTranslation } from "react-i18next";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   show: boolean;
@@ -88,7 +88,6 @@ export const Rewards: React.FC<Props> = ({
   isAnyTaskCompleted,
 }) => {
   const [tab, setTab] = useState<"Earn" | "Rewards">("Earn");
-  const { t } = useTranslation();
 
   return (
     <Modal show={show} onHide={onHide}>
@@ -151,7 +150,7 @@ export const RewardOptions: React.FC<Props> = ({
   chestState,
 }) => {
   const [selected, setSelected] = useState<RewardType>();
-  const { t } = useTranslation();
+  const { t } = useAppTranslation();
 
   if (selected === "DAILY_REWARD") {
     return (
@@ -260,7 +259,7 @@ export const RewardOptions: React.FC<Props> = ({
               className="absolute top-0 right-0"
               type="formula"
             >
-              {t("rewards.vip.locked")}
+              {t("locked")}
             </Label>
           )}
         </div>
