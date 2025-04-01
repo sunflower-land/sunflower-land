@@ -106,6 +106,9 @@ import { SpecialEventName } from "../types/specialEvents";
 import { getAccount } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
 import { hasFeatureAccess } from "lib/flags";
+import { enablePatches } from "immer";
+
+enablePatches();
 
 // Run at startup in case removed from query params
 const portalName = new URLSearchParams(window.location.search).get("portal");
@@ -435,6 +438,7 @@ const EFFECT_STATES = Object.values(EFFECT_EVENTS).reduce(
 
           if (context.actions.length > 0) {
             await autosave({
+              state: context.state,
               farmId: Number(context.farmId),
               sessionId: context.sessionId as string,
               actions: context.actions,
@@ -588,6 +592,7 @@ export const saveGame = async (
   }
 
   const { verified, farm, announcements } = await autosave({
+    state: context.state,
     farmId,
     sessionId: context.sessionId as string,
     actions: context.actions,
@@ -1528,6 +1533,7 @@ export function startGame(authContext: AuthContext) {
               // Autosave just in case
               if (context.actions.length > 0) {
                 await autosave({
+                  state: context.state,
                   farmId: Number(context.farmId),
                   sessionId: context.sessionId as string,
                   actions: context.actions,
@@ -1647,6 +1653,7 @@ export function startGame(authContext: AuthContext) {
 
               if (context.actions.length > 0) {
                 await autosave({
+                  state: context.state,
                   farmId: Number(context.farmId),
                   sessionId: context.sessionId as string,
                   actions: context.actions,
@@ -1658,6 +1665,7 @@ export function startGame(authContext: AuthContext) {
               }
 
               const { farm, changeset } = await autosave({
+                state: context.state,
                 farmId: Number(context.farmId),
                 sessionId: context.sessionId as string,
                 actions: [event],
@@ -1815,6 +1823,7 @@ export function startGame(authContext: AuthContext) {
 
               if (context.actions.length > 0) {
                 await autosave({
+                  state: context.state,
                   farmId: Number(context.farmId),
                   sessionId: context.sessionId as string,
                   actions: context.actions,
@@ -1921,6 +1930,7 @@ export function startGame(authContext: AuthContext) {
 
               if (context.actions.length > 0) {
                 await autosave({
+                  state: context.state,
                   farmId: Number(context.farmId),
                   sessionId: context.sessionId as string,
                   actions: context.actions,
@@ -1982,6 +1992,7 @@ export function startGame(authContext: AuthContext) {
 
               if (context.actions.length > 0) {
                 await autosave({
+                  state: context.state,
                   farmId: Number(context.farmId),
                   sessionId: context.sessionId as string,
                   actions: context.actions,
@@ -2057,6 +2068,7 @@ export function startGame(authContext: AuthContext) {
 
               if (context.actions.length > 0) {
                 await autosave({
+                  state: context.state,
                   farmId: Number(context.farmId),
                   sessionId: context.sessionId as string,
                   actions: context.actions,
@@ -2150,6 +2162,7 @@ export function startGame(authContext: AuthContext) {
             src: async (context, e) => {
               if (context.actions.length > 0) {
                 await autosave({
+                  state: context.state,
                   farmId: Number(context.farmId),
                   sessionId: context.sessionId as string,
                   actions: context.actions,
