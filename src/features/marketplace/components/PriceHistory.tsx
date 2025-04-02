@@ -1,5 +1,5 @@
 import React from "react";
-import sflIcon from "assets/icons/sfl.webp";
+import sflIcon from "assets/icons/flower_token.webp";
 import { InnerPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -150,7 +150,7 @@ export const Sales: React.FC<{ sales: ISaleHistory["sales"] }> = ({
                     </div>
                     <div className="flex items-center mb-1">
                       <img src={sflIcon} className="w-4 mr-1" />
-                      <p className="text-xs sm:text-sm">{`${sfl} SFL`}</p>
+                      <p className="text-xs sm:text-sm">{`${sfl} FLOWER`}</p>
                     </div>
                     <div className="flex items-center">
                       <img

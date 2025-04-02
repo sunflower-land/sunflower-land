@@ -6,7 +6,7 @@ import { TrendingTrades } from "./TrendingTrades";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useLocation, useNavigate } from "react-router";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import sflIcon from "assets/icons/sfl.webp";
+import sflIcon from "assets/icons/flower_token.webp";
 import tradeIcon from "assets/icons/trade.png";
 import whaleIcon from "assets/icons/whale.webp";
 import walletIcon from "assets/icons/wallet.png";
@@ -18,6 +18,7 @@ import { useActor } from "@xstate/react";
 import { TopTrades } from "./TopTrades";
 import useSWR, { preload } from "swr";
 import { CONFIG } from "lib/config";
+import { useGame } from "features/game/GameProvider";
 
 const hotNowFetcher = ([, token]: [string, string]) => {
   if (CONFIG.API_URL) return loadTrends({ token });
@@ -28,6 +29,7 @@ export const preloadHotNow = (token: string) =>
 export const MarketplaceHotNow: React.FC = () => {
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
+  const { gameState } = useGame();
   const navigate = useNavigate();
 
   const { t } = useAppTranslation();
@@ -36,6 +38,7 @@ export const MarketplaceHotNow: React.FC = () => {
     ["/marketplace/trends", authState.context.user.rawToken as string],
     hotNowFetcher,
   );
+
   // Errors are handled by the game machine
   if (error) throw error;
 
@@ -194,7 +197,7 @@ export const MarketplaceStats: React.FC<{
           <div className="flex items-center p-1">
             <img src={sflIcon} className="h-10 mr-2" />
             <div>
-              <p>{`${trends.volume.toFixed(0)} SFL`}</p>
+              <p>{`${trends.volume.toFixed(0)} FLOWER`}</p>
               <p className="text-xs">{t("marketplace.totalVolume")}</p>
             </div>
           </div>

@@ -7,7 +7,7 @@ import { useActor } from "@xstate/react";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import candy from "public/world/candy_icon.png";
 import gift from "assets/icons/gift.png";
-import token from "assets/icons/sfl.webp";
+import token from "assets/icons/flower_token.webp";
 import {
   DAILY_CANDY,
   DAILY_CHRISTMAS_REWARDS,
@@ -180,7 +180,7 @@ export const Santa: React.FC<Props> = ({ onClose }) => {
                     <div className="flex flex-col items-center">
                       <SquareIcon key={`${day}-sfl`} icon={token} width={20} />
                       <span className="text-xxs flex text-center">
-                        {reward.sfl + " SFL"}
+                        {reward.sfl + " FLOWER"}
                       </span>
                     </div>
                   </>

@@ -19,44 +19,41 @@ describe("completeSocialTask", () => {
     ).toThrow("Task not found");
   });
 
+  it("throws if the requirement is not met", () => {
+    expect(() =>
+      completeSocialTask({
+        createdAt: now,
+        action: {
+          type: "socialTask.completed",
+          taskId: "Link your Discord",
+        },
+        state: {
+          ...INITIAL_FARM,
+          referrals: { totalReferrals: 0 },
+        },
+      }),
+    ).toThrow("Requirement not met");
+  });
+
   it("throws if the task is already completed", () => {
     expect(() =>
       completeSocialTask({
         createdAt: now,
         action: {
           type: "socialTask.completed",
-          taskId: "Refer a friend",
+          taskId: "Link your Discord",
         },
         state: {
           ...INITIAL_FARM,
-          referrals: { totalReferrals: 1 },
+          discord: { connected: true },
           socialTasks: {
             completed: {
-              "Refer a friend": { completedAt: now - 1000 },
+              "Link your Discord": { completedAt: now - 1000 },
             },
           },
         },
       }),
     ).toThrow("Task already completed");
-  });
-
-  it("completes the 'Invite a friend' task and gives reward", () => {
-    const state = completeSocialTask({
-      createdAt: now,
-      action: {
-        type: "socialTask.completed",
-        taskId: "Refer a friend",
-      },
-      state: {
-        ...INITIAL_FARM,
-        referrals: { totalReferrals: 1 },
-      },
-    });
-
-    expect(state.inventory["Love Charm"]).toEqual(new Decimal(15));
-    expect(state.socialTasks?.completed["Refer a friend"]).toEqual({
-      completedAt: now,
-    });
   });
 
   it("completes the 'Link your Discord' task and gives reward", () => {
@@ -156,24 +153,24 @@ describe("completeSocialTask", () => {
       createdAt: now,
       action: {
         type: "socialTask.completed",
-        taskId: "Refer a friend",
+        taskId: "Link your Discord",
       },
       state: {
         ...INITIAL_FARM,
-        referrals: { totalReferrals: 1 },
+        discord: { connected: true },
         inventory: {
           "Love Charm": new Decimal(10),
         },
       },
     });
 
-    expect(state.inventory["Love Charm"]).toEqual(new Decimal(25)); // 10 + 15
+    expect(state.inventory["Love Charm"]).toEqual(new Decimal(35)); // 10 + 25
   });
 
   it("initializes socialTasks if it doesn't exist", () => {
     const baseState: GameState = {
       ...INITIAL_FARM,
-      referrals: { totalReferrals: 1 },
+      discord: { connected: true },
     };
 
     // Ensure socialTasks is undefined
@@ -183,13 +180,13 @@ describe("completeSocialTask", () => {
       createdAt: now,
       action: {
         type: "socialTask.completed",
-        taskId: "Refer a friend",
+        taskId: "Link your Discord",
       },
       state: baseState,
     });
 
     expect(state.socialTasks).toBeDefined();
-    expect(state.socialTasks?.completed["Refer a friend"]).toEqual({
+    expect(state.socialTasks?.completed["Link your Discord"]).toEqual({
       completedAt: now,
     });
   });

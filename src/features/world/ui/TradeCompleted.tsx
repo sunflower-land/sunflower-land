@@ -10,7 +10,7 @@ import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
 import Decimal from "decimal.js-light";
 import { SUNNYSIDE } from "assets/sunnyside";
-import token from "assets/icons/sfl.webp";
+import token from "assets/icons/flower_token.webp";
 import { Button } from "components/ui/Button";
 import { OuterPanel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";

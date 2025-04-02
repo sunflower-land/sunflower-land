@@ -9,7 +9,7 @@ import { Button } from "components/ui/Button";
 
 import coinsImg from "assets/icons/coins.webp";
 import gift from "assets/icons/gift.png";
-import token from "assets/icons/sfl.webp";
+import token from "assets/icons/flower_token.webp";
 import chest from "assets/icons/chest.png";
 import lightning from "assets/icons/lightning.png";
 

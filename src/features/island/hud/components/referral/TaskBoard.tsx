@@ -10,6 +10,9 @@ import {
   IN_GAME_TASKS,
   InGameTaskName,
   isSocialTask,
+  OtherTaskName,
+  ALL_TASKS,
+  isSocialTaskName,
 } from "features/game/events/landExpansion/completeSocialTask";
 import { GameState } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";

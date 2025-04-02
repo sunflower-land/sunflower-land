@@ -26,7 +26,7 @@ import { Panel } from "components/ui/Panel";
 import { Hoarding } from "../components/Hoarding";
 import { Swarming } from "../components/Swarming";
 import { Cooldown } from "../components/Cooldown";
-import { Route, Routes } from "react-router";
+import { Route, Routes, useNavigate } from "react-router";
 import { Land } from "./Land";
 import { VisitingHud } from "features/island/hud/VisitingHud";
 import { VisitLandExpansionForm } from "./components/VisitLandExpansionForm";
@@ -266,6 +266,7 @@ const GameContent: React.FC = () => {
   const landToVisitNotFound = useSelector(gameService, isLandToVisitNotFound);
   const { t } = useAppTranslation();
   const [gameState] = useActor(gameService);
+  const navigate = useNavigate();
 
   const PATH_ACCESS: Partial<Record<string, (game: GameState) => boolean>> = {
     GreenHouse: (game) =>

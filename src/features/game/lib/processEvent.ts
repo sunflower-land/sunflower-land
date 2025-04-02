@@ -622,11 +622,6 @@ export const MAX_WEARABLES: Wardrobe = {
   "Basic Hair": 1000,
 };
 
-/**
- * Humanly possible SFL in a single session
- */
-export const MAX_SESSION_SFL = 255;
-
 export function checkProgress({ state, action, farmId }: ProcessEventArgs): {
   valid: boolean;
   maxedItem?: MaxedItem;
@@ -638,28 +633,6 @@ export function checkProgress({ state, action, farmId }: ProcessEventArgs): {
   } catch {
     // Not our responsibility to catch events, pass on to the next handler
     return { valid: true };
-  }
-
-  const auctionSFL = newState.auctioneer.bid?.sfl ?? new Decimal(0);
-
-  const offerSFL = Object.values(newState.trades.offers ?? {}).reduce(
-    (acc, offer) => {
-      return acc.add(offer.sfl);
-    },
-    new Decimal(0),
-  );
-
-  const progress = newState.balance
-    .add(auctionSFL)
-    .add(offerSFL)
-    .sub(newState.previousBalance ?? new Decimal(0));
-
-  /**
-   * Contract enforced SFL caps
-   * Just in case a player gets in a corrupt state and manages to earn extra SFL
-   */
-  if (progress.gt(MAX_SESSION_SFL)) {
-    return { valid: false, maxedItem: "SFL" };
   }
 
   let maxedItem: InventoryItemName | BumpkinItem | undefined = undefined;

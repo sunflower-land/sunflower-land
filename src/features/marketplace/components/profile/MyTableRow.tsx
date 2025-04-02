@@ -6,7 +6,7 @@ import Decimal from "decimal.js-light";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CollectionName } from "features/game/types/marketplace";
 
-import sflIcon from "assets/icons/sfl.webp";
+import sflIcon from "assets/icons/flower_token.webp";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -86,7 +86,7 @@ export const MyTableRow: React.FC<MyTableRowProps> = ({
           <div className="flex items-center justify-start space-x-1">
             <img src={sflIcon} className="h-6" />
             <div>
-              <span className="text-xs sm:text-sm">{`${formatNumber(price, { decimalPlaces: 4 })} SFL`}</span>
+              <span className="text-xs sm:text-sm">{`${formatNumber(price, { decimalPlaces: 4 })} FLOWER`}</span>
               {!isResource && (
                 <p className="text-xxs">
                   {`$${new Decimal(usdPrice).mul(price).toFixed(2)} USD`}

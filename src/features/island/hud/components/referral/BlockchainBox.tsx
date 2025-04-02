@@ -6,7 +6,7 @@ import { useGame } from "features/game/GameProvider";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { useActor } from "@xstate/react";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
-import { useTranslation } from "react-i18next";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const BlockchainBox: React.FC<{
   onClose: () => void;
@@ -16,7 +16,7 @@ export const BlockchainBox: React.FC<{
   const [authState] = useActor(authService);
   const [showWalletWall, setShowWalletWall] = useState(false);
 
-  const { t } = useTranslation();
+  const { t } = useAppTranslation();
 
   const wallet = gameState.context.linkedWallet;
 
@@ -64,13 +64,13 @@ export const BlockchainBox: React.FC<{
   return (
     <div className="p-1">
       <Label type="info" className="mb-1">
-        {t("blockchainBox.limitedAirdrop")}
+        {t("blockchain.limited.airdrop")}
       </Label>
-      <p className="text-sm mb-2">{t("blockchainBox.bonusRewards")}</p>
-      <p className="text-sm mb-2">{t("blockchainBox.earnItems")}</p>
-      <p className="text-xxs mb-2">{t("blockchainBox.claimOnce")}</p>
+      <p className="text-sm mb-2">{t("blockchain.bonus.rewards")}</p>
+      <p className="text-sm mb-2">{t("blockchain.earn.items")}</p>
+      <p className="text-xxs mb-2">{t("blockchain.claim.once")}</p>
       <Button onClick={handleCheckEligibility}>
-        {t("blockchainBox.checkEligibility")}
+        {t("blockchain.check.eligibility")}
       </Button>
     </div>
   );

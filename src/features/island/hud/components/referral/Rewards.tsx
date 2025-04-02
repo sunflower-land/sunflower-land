@@ -37,6 +37,7 @@ import { hasVipAccess } from "features/game/lib/vipAccess";
 import { useTranslation } from "react-i18next";
 import { pixelOrangeBorderStyle } from "features/game/lib/style";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   show: boolean;
@@ -182,7 +183,7 @@ export const RewardOptions: React.FC<Props> = ({
   chestState,
 }) => {
   const [selected, setSelected] = useState<RewardType>();
-  const { t } = useTranslation();
+  const { t } = useAppTranslation();
 
   if (selected === "DAILY_REWARD") {
     return (
@@ -291,7 +292,7 @@ export const RewardOptions: React.FC<Props> = ({
               className="absolute top-0 right-0"
               type="formula"
             >
-              {t("rewards.vip.locked")}
+              {t("locked")}
             </Label>
           )}
         </div>

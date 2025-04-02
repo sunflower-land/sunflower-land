@@ -14,6 +14,7 @@ import { rewardChestMachine } from "features/game/expansion/components/dailyRewa
 import { useInterpret, useActor } from "@xstate/react";
 import Decimal from "decimal.js-light";
 import { getBumpkinLevel } from "features/game/lib/level";
+import { getKeys } from "features/game/types/decorations";
 
 export const RewardsButton: React.FC = () => {
   const [showRewardsModal, setShowRewardsModal] = useState(false);

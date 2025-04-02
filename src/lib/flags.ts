@@ -78,27 +78,7 @@ const FEATURE_FLAGS = {
     new Date("2025-03-24T00:00:00Z"),
   ),
 
-  TASK_BOARD: (game) => {
-    return (
-      usernameFeatureFlag(game) ||
-      // Released to Beta Testers on 1st April
-      (defaultFeatureFlag(game) &&
-        Date.now() > new Date("2025-04-01T00:00:00Z").getTime()) ||
-      // Released to all players on 3rd April
-      Date.now() > new Date("2025-04-03T00:00:00Z").getTime()
-    );
-  },
-  REFERRAL_PROGRAM: (game) => {
-    return (
-      // Released to All Players on 1st April
-      usernameFeatureFlag(game) ||
-      Date.now() > new Date("2025-04-01T00:00:00Z").getTime()
-    );
-  },
-  // Released to All Players on 1st April
-  COMMUNITY_COIN_EXCHANGE: timeBasedFeatureFlag(
-    new Date("2025-04-01T00:00:00Z"),
-  ),
+  TASK_BOARD: betaTimeBasedFeatureFlag(new Date("2025-04-07T00:00:00Z")),
 
   FLOWER_DEPOSIT: usernameFeatureFlag,
   TELEGRAM: defaultFeatureFlag,
@@ -107,8 +87,11 @@ const FEATURE_FLAGS = {
   FLOWER_GEMS: timeBasedFeatureFlag(new Date("2025-05-05T00:00:00Z")),
 
   // Testnet only feature flags - Please don't change these until release
+  LOVE_CHARM_FLOWER_EXCHANGE: timeBasedFeatureFlag(
+    new Date("2025-04-14T00:00:00Z"),
+  ),
   LEDGER: testnetLocalStorageFeatureFlag("ledger"),
-  OFFCHAIN_MARKETPLACE: defaultFeatureFlag,
+  OFFCHAIN_MARKETPLACE: () => true,
   BLOCKCHAIN_BOX: defaultFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
