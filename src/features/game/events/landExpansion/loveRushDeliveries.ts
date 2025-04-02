@@ -98,13 +98,6 @@ export const LOVE_RUSH_DELIVERIES_REWARDS: Record<
   },
 };
 
-export const LOVE_RUSH_GIFTS_REWARDS = {
-  basic: {},
-  medium: {},
-  advanced: {},
-  expert: {},
-};
-
 export function getLoveRushStreaks({
   streaks,
   createdAt = Date.now(),
@@ -177,3 +170,5 @@ export function handleLoveRushDeliveryRewards({
     lastClaimedAt: createdAt,
   };
 }
+
+export const LOVE_RUSH_GIFTS_REWARD = 5;

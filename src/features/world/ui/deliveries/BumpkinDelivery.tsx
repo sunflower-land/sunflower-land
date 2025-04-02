@@ -59,6 +59,7 @@ import { hasFeatureAccess } from "lib/flags";
 import {
   getLoveRushDeliveryRewards,
   getLoveRushStreaks,
+  LOVE_RUSH_GIFTS_REWARD,
 } from "features/game/events/landExpansion/loveRushDeliveries";
 
 export const OrderCard: React.FC<{
@@ -478,20 +479,35 @@ export const Gifts: React.FC<{
             {t("gift")}
           </div>
           {selected && !isLocked && (
-            <div className="absolute -right-0.5 -top-[17px]">
-              <Label
-                type={bumpkinFlowerBonuses === 0 ? "warning" : "vibrant"}
-                icon={
-                  bumpkinFlowerBonuses === 0 ? SUNNYSIDE.icons.heart : lightning
-                }
-              >
-                <span
-                  className={classNames("text-xs", {
-                    "-ml-1": bumpkinFlowerBonuses !== 0,
-                  })}
-                >{`+${flowerPoints}`}</span>
-              </Label>
-            </div>
+            <>
+              <div className="absolute -right-0.5 -top-[17px]">
+                <Label
+                  type={bumpkinFlowerBonuses === 0 ? "warning" : "vibrant"}
+                  icon={
+                    bumpkinFlowerBonuses === 0
+                      ? SUNNYSIDE.icons.heart
+                      : lightning
+                  }
+                >
+                  <span
+                    className={classNames("text-xs", {
+                      "-ml-1": bumpkinFlowerBonuses !== 0,
+                    })}
+                  >{`+${flowerPoints}`}</span>
+                </Label>
+              </div>
+              <div className="absolute -top-5 right-12">
+                <div className="relative">
+                  <img
+                    src={ITEM_DETAILS["Love Charm"].image}
+                    className="w-12"
+                  />
+                  <p className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-shadow text-xs">
+                    {LOVE_RUSH_GIFTS_REWARD}
+                  </p>
+                </div>
+              </div>
+            </>
           )}
         </Button>
       </div>
