@@ -7,14 +7,13 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import {
-  SocialTaskName,
-  TASKS,
+  InGameTaskName,
+  IN_GAME_TASKS,
 } from "features/game/events/landExpansion/completeSocialTask";
 import { rewardChestMachine } from "features/game/expansion/components/dailyReward/rewardChestMachine";
 import { useInterpret, useActor } from "@xstate/react";
 import Decimal from "decimal.js-light";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { getKeys } from "features/game/types/decorations";
 
 export const RewardsButton: React.FC = () => {
   const [showRewardsModal, setShowRewardsModal] = useState(false);
@@ -49,24 +48,17 @@ export const RewardsButton: React.FC = () => {
   }, [chestService]);
 
   const isTaskCompleted = useCallback(
-    (task: SocialTaskName) => TASKS[task].requirement(state),
+    (task: InGameTaskName) => IN_GAME_TASKS[task].requirement(state),
     [state],
   );
-  const isAnyTaskCompleted = getKeys(TASKS).some(
-    (title) =>
-      isTaskCompleted(title) &&
-      !state.socialTasks?.completed[title]?.completedAt,
+  const isAnyTaskCompleted = Object.values(IN_GAME_TASKS).some(
+    (task) =>
+      isTaskCompleted(task.title as InGameTaskName) &&
+      !state.socialTasks?.completed[task.title as InGameTaskName]?.completedAt,
   );
 
   // Check if chest is locked or can be unlocked
   const isChestLocked = !chestState.matches("opened");
-
-  const completeTask = (taskId: SocialTaskName) => {
-    gameService.send({
-      type: "socialTask.completed",
-      taskId,
-    });
-  };
 
   return (
     <div
@@ -103,7 +95,6 @@ export const RewardsButton: React.FC = () => {
         bumpkinLevel={bumpkinLevel}
         chestService={chestService}
         chestState={chestState}
-        completeTask={completeTask}
         loveCharmCount={state.inventory["Love Charm"] ?? new Decimal(0)}
         socialTasks={state.socialTasks}
         isChestLocked={isChestLocked}

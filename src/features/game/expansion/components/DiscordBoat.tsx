@@ -6,8 +6,6 @@ import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { NPCPlaceable } from "features/island/bumpkin/components/NPC";
 import { NPC_WEARABLES } from "lib/npcs";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { Modal } from "components/ui/Modal";
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Label } from "components/ui/Label";
 import { Button } from "components/ui/Button";
 import { useActor, useSelector } from "@xstate/react";
@@ -19,6 +17,7 @@ import { gameAnalytics } from "lib/gameAnalytics";
 import { MachineState } from "features/game/lib/gameMachine";
 import classNames from "classnames";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
 
 export const DiscordBonus: React.FC<{ onClose: () => void }> = ({
   onClose,
@@ -135,10 +134,9 @@ const _expansions = (state: MachineState) =>
   state.context.state.inventory["Basic Land"]?.toNumber() ?? 0;
 
 export const DiscordBoat: React.FC = () => {
-  const [showModal, setShowModal] = useState(false);
-
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
+  const { openModal } = useContext(ModalContext);
 
   const { gameService } = useContext(Context);
   const isClaimed = useSelector(gameService, _isClaimed);
@@ -161,20 +159,11 @@ export const DiscordBoat: React.FC = () => {
 
   return (
     <>
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
-        <CloseButtonPanel
-          bumpkinParts={NPC_WEARABLES.wobble}
-          onClose={() => setShowModal(false)}
-        >
-          <DiscordBonus onClose={() => setShowModal(false)} />
-        </CloseButtonPanel>
-      </Modal>
-
       <div
         className={classNames("absolute cursor-pointer  left-0", {
           boating: !isReady,
         })}
-        onClick={() => setShowModal(true)}
+        onClick={() => openModal("DISCORD")}
         style={{
           top: `${GRID_WIDTH_PX * yOffset}px`,
           width: `${PIXEL_SCALE * 104}px`,

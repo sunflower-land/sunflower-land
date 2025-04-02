@@ -6,6 +6,7 @@ import { GameState, InventoryItemName } from "features/game/types/game";
 import { produce } from "immer";
 import { hasFeatureAccess } from "lib/flags";
 import { translate } from "lib/i18n/translate";
+import codexIcon from "assets/icons/codex.webp";
 
 export type OtherTasks = {
   title: string;
@@ -21,18 +22,18 @@ export type OtherTasks = {
  */
 export type Task = OtherTasks & {
   requirement: (state: GameState) => boolean;
-  requirementProgress?: (state: GameState) => number;
-  requirementTotal?: number;
+  requirementTotal: number;
   reward: Partial<Record<InventoryItemName, number>>;
 };
 
-export const TASKS = {
+export const IN_GAME_TASKS = {
   "Link your Discord": {
     title: translate("socialTask.linkDiscord"),
     description: translate("socialTask.linkDiscord.description"),
     image: SUNNYSIDE.icons.discord,
     reward: { "Love Charm": 25 },
     requirement: (state) => !!state.discord?.connected,
+    requirementTotal: 1,
   },
   "Link your Telegram": {
     title: translate("socialTask.linkTelegram"),
@@ -40,65 +41,42 @@ export const TASKS = {
     image: SUNNYSIDE.icons.telegram,
     reward: { "Love Charm": 25 },
     requirement: (state) => !!state.telegram?.linkedAt,
+    requirementTotal: 1,
   },
   "Upgrade to Petal Paradise": {
     title: translate("socialTask.upgradeToPetalParadise"),
     description: translate("socialTask.upgradeToPetalParadise.description"),
-    image: SUNNYSIDE.icons.player,
+    image: SUNNYSIDE.icons.hammer,
     reward: { "Love Charm": 25 },
     requirement: (state) =>
       hasRequiredIslandExpansion(state.island.type, "spring"),
+    requirementTotal: 1,
   },
   "Complete 50 deliveries": {
     title: translate("socialTask.complete50Deliveries"),
     description: translate("socialTask.complete50Deliveries.description"),
-    image: SUNNYSIDE.icons.player,
+    image: codexIcon,
     reward: { "Love Charm": 25 },
     requirement: (state) => state.delivery.fulfilledCount >= 50,
     requirementTotal: 50,
-    requirementProgress: (state) => state.delivery.fulfilledCount,
   },
 } satisfies Record<string, Task>;
 
-export type SocialTaskName = keyof typeof TASKS;
-
-/**
- * Other ways to earn Love Charm (Read-only)
- */
-export const OTHER_WAYS_TO_EARN_LOVE_CHARM = {
-  "Refer a friend": {
-    title: translate("socialTask.referFriend"),
-    description: translate("socialTask.referFriend.description"),
-    image: SUNNYSIDE.icons.player,
-  },
-  "Refer a VIP friend": {
-    title: translate("socialTask.referVipFriend"),
-    image: SUNNYSIDE.icons.player,
-    description: translate("socialTask.referVipFriend.description"),
-  },
-  "Join a stream": {
-    title: translate("socialTask.joinStream"),
-    image: SUNNYSIDE.icons.player,
-    description: translate("socialTask.joinStream.description"),
-  },
-} satisfies Record<string, OtherTasks>;
-
-export type OtherTaskName = keyof typeof OTHER_WAYS_TO_EARN_LOVE_CHARM;
+export type InGameTaskName = keyof typeof IN_GAME_TASKS;
 
 export const ALL_TASKS = {
-  ...TASKS,
-  ...OTHER_WAYS_TO_EARN_LOVE_CHARM,
+  ...IN_GAME_TASKS,
 };
 
 export const isSocialTask = (task: Task | OtherTasks): task is Task =>
   "requirement" in task;
 
-export const isSocialTaskName = (task: string): task is SocialTaskName =>
-  task in TASKS;
+export const isSocialTaskName = (task: string): task is InGameTaskName =>
+  task in IN_GAME_TASKS;
 
 export type CompleteSocialTaskAction = {
   type: "socialTask.completed";
-  taskId: SocialTaskName;
+  taskId: InGameTaskName;
 };
 
 type Options = {
@@ -118,7 +96,7 @@ export function completeSocialTask({
     }
 
     const { taskId } = action;
-    const task = TASKS[taskId] as Task | undefined;
+    const task = IN_GAME_TASKS[taskId] as Task | undefined;
 
     if (!task) {
       throw new Error("Task not found");
