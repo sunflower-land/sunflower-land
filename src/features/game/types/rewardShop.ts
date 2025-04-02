@@ -1,6 +1,5 @@
 import { BumpkinItem } from "./bumpkin";
 import { InventoryItemName } from "./game";
-import Decimal from "decimal.js-light";
 
 export type RewardShopItemName =
   | RewardShopCollectibleName
@@ -12,8 +11,7 @@ export type RewardShopWearableName = "Red Farmer Shirt";
 
 type RewardShopBase = {
   cost: {
-    items: Partial<Record<InventoryItemName, number>>;
-    price: Decimal;
+    price: number;
   };
   type: "wearable" | "collectible";
 };
@@ -32,24 +30,21 @@ export const REWARD_SHOP_ITEMS: Record<RewardShopItemName, RewardShopItem> = {
   "Red Farmer Shirt": {
     name: "Red Farmer Shirt",
     cost: {
-      items: {},
-      price: new Decimal(20),
+      price: 20,
     },
     type: "wearable",
   },
   "Basic Bear": {
     name: "Basic Bear",
     cost: {
-      items: {},
-      price: new Decimal(50),
+      price: 50,
     },
     type: "collectible",
   },
   "Treasure Key": {
     name: "Treasure Key",
     cost: {
-      items: {},
-      price: new Decimal(100),
+      price: 100,
     },
     type: "collectible",
   },
