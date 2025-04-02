@@ -15,12 +15,12 @@ import { GameState } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useContext, useState } from "react";
-import { Referral, ReferralContent } from "./Referral";
 import { useGame } from "features/game/GameProvider";
 import { getKeys } from "features/game/types/decorations";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import promoteIcon from "assets/icons/promote.webp";
 import tvIcon from "assets/icons/tv.webp";
+import { secondsToString } from "lib/utils/time";
 
 interface TaskBoardProps {
   state: GameState;
@@ -32,7 +32,8 @@ const TaskButton: React.FC<{
   title: string;
   onClick: () => void;
   image: string;
-}> = ({ image, onClick, title }) => {
+  expiresAt?: Date;
+}> = ({ image, onClick, title, expiresAt }) => {
   const { t } = useAppTranslation();
   return (
     <ButtonPanel key={title} onClick={onClick}>
@@ -40,9 +41,21 @@ const TaskButton: React.FC<{
         <img src={image} className="w-10 h-auto object-contain" />
         <div className="flex flex-col gap-1">
           <p>{title}</p>
+
           <p className="underline">{t("read.more")}</p>
         </div>
       </div>
+      {expiresAt && (
+        <Label
+          type="info"
+          icon={SUNNYSIDE.icons.stopwatch}
+          className="absolute -right-0 -bottom-0"
+        >
+          {`${secondsToString((expiresAt.getTime() - Date.now()) / 1000, {
+            length: "short",
+          })} left`}
+        </Label>
+      )}
     </ButtonPanel>
   );
 };
@@ -64,59 +77,53 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({
     <div className="flex flex-col gap-2 max-h-[500px] overflow-y-auto scrollable">
       <div className="px-1">
         <div className="flex justify-between gap-2 mb-1">
-          <Label type="vibrant">Love Rush</Label>
-
-          <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
-            3 hrs left
-          </Label>
+          <Label type="vibrant">{t("taskBoard.loveRush")}</Label>
         </div>
-        <p className="text-xs mb-2">
-          For a limited time, complete Bumpkin deliveries, chores & gifts to
-          earn Love Charms!
-        </p>
+        <p className="text-xs mb-2">{t("taskBoard.limitedTimeDescription")}</p>
 
         <img src={SUNNYSIDE.announcement.loveRush} className="w-full mb-2" />
         <div className="flex justify-between gap-2 mb-2">
-          <Label type="default">How to earn?</Label>
+          <Label type="default">{t("taskBoard.howToEarn")}</Label>
         </div>
-        <p className="text-xs">Complete tasks to earn Love Charms & Rewards.</p>
+        <p className="text-xs">{t("taskBoard.earnDescription")}</p>
       </div>
       {/* Tasks */}
       <div className="flex flex-col gap-2 m-1">
         <div className="flex flex-col gap-1 text-xs">
           <TaskButton
             title={t("socialTask.helpBumpkins")}
-            onClick={() => console.log("Show Bumpkins")}
+            onClick={() => openModal("LOVE_RUSH")}
             image={SUNNYSIDE.icons.player}
+            expiresAt={new Date("2025-05-04T00:00:00Z")}
           />
 
           <TaskButton
             title={t("socialTask.referFriend")}
-            onClick={() => console.log("Show Bumpkins")}
+            onClick={() => openModal("REFERRAL")}
             image={promoteIcon}
           />
 
           <TaskButton
             title={t("socialTask.discord")}
-            onClick={() => console.log("Show Discord")}
+            onClick={() => openModal("DISCORD")}
             image={SUNNYSIDE.icons.discord}
           />
 
           <TaskButton
             title={t("socialTask.telegram")}
-            onClick={() => console.log("Show Telegram")}
+            onClick={() => openModal("TELEGRAM")}
             image={SUNNYSIDE.icons.telegram}
           />
 
           <TaskButton
             title={t("socialTask.twitter")}
-            onClick={() => console.log("Show Twitter")}
+            onClick={() => openModal("TWITTER")}
             image={SUNNYSIDE.icons.x}
           />
 
           <TaskButton
             title={t("socialTask.joinStream")}
-            onClick={() => console.log("Show Stream")}
+            onClick={() => openModal("STREAMS")}
             image={tvIcon}
           />
 
