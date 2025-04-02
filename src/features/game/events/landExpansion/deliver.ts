@@ -29,7 +29,7 @@ import { hasVipAccess } from "features/game/lib/vipAccess";
 import { getActiveCalendarEvent } from "features/game/types/calendar";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
-import { handleLoveRushDeliveryRewards } from "./loveRush";
+import { handleLoveRushDeliveryRewards } from "./loveRushDeliveries";
 import { hasFeatureAccess } from "lib/flags";
 
 export const TICKET_REWARDS: Record<QuestNPCName, number> = {

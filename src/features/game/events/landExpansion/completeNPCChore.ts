@@ -14,6 +14,8 @@ import {
 import { isWearableActive } from "features/game/lib/wearables";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { handleLoveRushChoreRewards } from "./loveRushChores";
+import { hasFeatureAccess } from "lib/flags";
 
 export type CompleteNPCChoreAction = {
   type: "chore.fulfilled";
@@ -33,7 +35,7 @@ export function completeNPCChore({
 }: Options): GameState {
   return produce(state, (draft) => {
     const { npcName } = action;
-    const { choreBoard, bumpkin, npcs } = draft;
+    const { choreBoard } = draft;
 
     if (!choreBoard.chores[npcName]) {
       throw new Error("No chore exists for this NPC");
@@ -84,6 +86,13 @@ export function completeNPCChore({
 
     draft.npcs[npcName].friendship.points += 1;
     draft.npcs[npcName].friendship.updatedAt = createdAt;
+
+    if (hasFeatureAccess(draft, "LOVE_RUSH")) {
+      handleLoveRushChoreRewards({
+        game: draft,
+        npcName,
+      });
+    }
 
     return draft;
   });

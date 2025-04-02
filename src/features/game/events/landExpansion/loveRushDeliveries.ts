@@ -98,13 +98,6 @@ export const LOVE_RUSH_DELIVERIES_REWARDS: Record<
   },
 };
 
-export const LOVE_RUSH_CHORES_REWARDS = {
-  basic: {},
-  medium: {},
-  advanced: {},
-  expert: {},
-};
-
 export const LOVE_RUSH_GIFTS_REWARDS = {
   basic: {},
   medium: {},

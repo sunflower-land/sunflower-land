@@ -59,7 +59,7 @@ import { hasFeatureAccess } from "lib/flags";
 import {
   getLoveRushDeliveryRewards,
   getLoveRushStreaks,
-} from "features/game/events/landExpansion/loveRush";
+} from "features/game/events/landExpansion/loveRushDeliveries";
 
 export const OrderCard: React.FC<{
   order: Order;

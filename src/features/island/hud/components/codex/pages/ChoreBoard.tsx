@@ -36,6 +36,9 @@ import { CHORE_DIALOGUES } from "features/game/types/stories";
 import { isMobile } from "mobile-device-detect";
 import { Context } from "features/game/GameProvider";
 import { formatNumber } from "lib/utils/formatNumber";
+import { hasFeatureAccess } from "lib/flags";
+import { getLoveRushChoreReward } from "features/game/events/landExpansion/loveRushChores";
+import { millisecondsToString } from "lib/utils/time";
 
 interface Props {
   state: GameState;
@@ -75,6 +78,14 @@ export const ChoreBoard: React.FC<Props> = ({ state }) => {
     });
   };
 
+  const loveRushEndTime = new Date("2025-05-05T00:00:00Z").getTime();
+  const loveRushRemainingTime = loveRushEndTime - Date.now();
+
+  const { loveCharmReward } = getLoveRushChoreReward({
+    game: state,
+    npcName: previewNpc,
+  });
+
   return (
     <div className="flex md:flex-row flex-col-reverse md:mr-1 items-start h-full">
       <InnerPanel
@@ -86,7 +97,7 @@ export const ChoreBoard: React.FC<Props> = ({ state }) => {
         )}
       >
         <div className="p-1">
-          <div className="flex items-center justify-between mb-2">
+          <div className="flex flex-wrap items-center justify-between mb-1 gap-1">
             <Label type="default">{t("chores.weeklyChores")}</Label>
             <Label
               type={end.days < 1 ? "danger" : "info"}
@@ -94,6 +105,16 @@ export const ChoreBoard: React.FC<Props> = ({ state }) => {
             >
               <TimerDisplay fontSize={24} time={end} />
             </Label>
+            {hasFeatureAccess(state, "LOVE_RUSH") && (
+              <Label type="vibrant" icon={ITEM_DETAILS["Love Charm"].image}>
+                {`Love Rush Event - ${millisecondsToString(
+                  loveRushRemainingTime,
+                  {
+                    length: "short",
+                  },
+                )} left`}
+              </Label>
+            )}
           </div>
         </div>
 
@@ -223,6 +244,19 @@ export const ChoreBoard: React.FC<Props> = ({ state }) => {
                 <div className="flex absolute right-0 -top-5">
                   <ChoreRewardLabel chore={previewChore} state={state} />
                 </div>
+                {hasFeatureAccess(state, "LOVE_RUSH") && (
+                  <div className="absolute -top-5 left-0">
+                    <div className="relative">
+                      <img
+                        src={ITEM_DETAILS["Love Charm"].image}
+                        className="w-12"
+                      />
+                      <p className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-shadow text-xs">
+                        {loveCharmReward}
+                      </p>
+                    </div>
+                  </div>
+                )}
               </Button>
             )}
 
@@ -246,6 +280,10 @@ export const ChoreCard: React.FC<{
   onClick: (npc: NPCName) => void;
   state: GameState;
 }> = ({ npc, chore, onClick, state }) => {
+  const { loveCharmReward } = getLoveRushChoreReward({
+    game: state,
+    npcName: npc,
+  });
   return (
     <div className="py-1 px-1" key={npc}>
       <ButtonPanel
@@ -256,10 +294,19 @@ export const ChoreCard: React.FC<{
         variant={chore.completedAt ? "secondary" : "primary"}
         style={{ paddingBottom: chore.completedAt ? "16px" : "10px" }}
       >
+        {hasFeatureAccess(state, "LOVE_RUSH") && (
+          <div className="absolute top-3 -right-4">
+            <div className="relative">
+              <img src={ITEM_DETAILS["Love Charm"].image} className="w-12" />
+              <p className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-shadow text-xs">
+                {loveCharmReward}
+              </p>
+            </div>
+          </div>
+        )}
         <div className="flex absolute -right-2 -top-4">
           <ChoreRewardLabel chore={chore} state={state} />
         </div>
-
         {!chore.completedAt &&
           getChoreProgress({
             chore,
@@ -270,7 +317,6 @@ export const ChoreCard: React.FC<{
               className="h-6 absolute -top-4 -left-3"
             />
           )}
-
         {chore.completedAt && (
           <div className="absolute -bottom-4 left-0 w-full flex justify-center">
             <img src={SUNNYSIDE.icons.confirm} className="h-6" />
@@ -286,13 +332,11 @@ export const ChoreCard: React.FC<{
             </div>
           </div>
         </div>
-
         <div className="w-full flex justify-center">
           <span className="text-xs line-clamp-2 text-center truncate">
             {CHORE_DETAILS[chore.name].description}
           </span>
         </div>
-
         {!chore.completedAt && (
           <div className="absolute -bottom-4 left-0 w-full flex justify-center">
             <ResizableBar

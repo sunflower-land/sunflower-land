@@ -58,8 +58,8 @@ import { ITEM_IDS } from "features/game/types/bumpkin";
 import { isCollectible } from "features/game/events/landExpansion/garbageSold";
 import { Context } from "features/game/GameProvider";
 import { getActiveCalendarEvent } from "features/game/types/calendar";
-import { getLoveRushStreaks } from "features/game/events/landExpansion/loveRush";
-import { getLoveRushDeliveryRewards } from "../../../game/events/landExpansion/loveRush";
+import { getLoveRushStreaks } from "features/game/events/landExpansion/loveRushDeliveries";
+import { getLoveRushDeliveryRewards } from "../../../game/events/landExpansion/loveRushDeliveries";
 import { hasFeatureAccess } from "lib/flags";
 
 // Bumpkins

@@ -1,8 +1,13 @@
 import { GameState } from "features/game/types/game";
 import { completeNPCChore } from "./completeNPCChore";
-import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
+import {
+  INITIAL_BUMPKIN,
+  INITIAL_FARM,
+  TEST_FARM,
+} from "features/game/lib/constants";
 import Decimal from "decimal.js-light";
 import { NpcChore } from "features/game/types/choreBoard";
+import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
 
 describe("completeNPCChore", () => {
   const CHORE: NpcChore = {
@@ -470,5 +475,96 @@ describe("completeNPCChore", () => {
     });
 
     expect(newState.inventory["Timeshard"]).toEqual(new Decimal(4));
+  });
+  describe("Love Rush", () => {
+    const eventTime = new Date("2025-04-07T15:00:00Z").getTime();
+    beforeEach(() => {
+      jest.useFakeTimers();
+      jest.setSystemTime(eventTime);
+    });
+
+    afterEach(() => {
+      jest.useRealTimers();
+    });
+    it("rewards love charms for completing chores during the event", () => {
+      const state = completeNPCChore({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            activity: { "Tree Chopped": 1 },
+          },
+          choreBoard: {
+            chores: {
+              "pumpkin' pete": {
+                name: "CHOP_1_TREE",
+                reward: { coins: 100, items: {} },
+                initialProgress: 0,
+                startedAt: eventTime,
+              },
+            },
+          },
+        },
+        action: { type: "chore.fulfilled", npcName: "pumpkin' pete" },
+        createdAt: eventTime,
+      });
+      expect(state.inventory["Love Charm"]).toEqual(new Decimal(3));
+    });
+    it("rewards double love charms for VIPs", () => {
+      const state = completeNPCChore({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            activity: { "Tree Chopped": 1 },
+          },
+          inventory: {
+            "Lifetime Farmer Banner": new Decimal(1),
+          },
+          choreBoard: {
+            chores: {
+              "pumpkin' pete": {
+                name: "CHOP_1_TREE",
+                reward: { coins: 100, items: {} },
+                initialProgress: 0,
+                startedAt: eventTime,
+              },
+            },
+          },
+        },
+        action: { type: "chore.fulfilled", npcName: "pumpkin' pete" },
+        createdAt: eventTime,
+      });
+      expect(state.inventory["Love Charm"]).toEqual(new Decimal(6));
+    });
+    it("doesn't reward love charms for completing chores after the event", () => {
+      jest.useFakeTimers();
+      jest.setSystemTime(new Date("2025-05-05T15:00:00Z").getTime());
+      const state = completeNPCChore({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...TEST_BUMPKIN,
+            activity: { "Tree Chopped": 1 },
+          },
+          inventory: {
+            "Lifetime Farmer Banner": new Decimal(1),
+          },
+          choreBoard: {
+            chores: {
+              "pumpkin' pete": {
+                name: "CHOP_1_TREE",
+                reward: { coins: 100, items: {} },
+                initialProgress: 0,
+                startedAt: eventTime,
+              },
+            },
+          },
+        },
+        action: { type: "chore.fulfilled", npcName: "pumpkin' pete" },
+        createdAt: eventTime,
+      });
+      expect(state.inventory["Love Charm"]).toBeUndefined();
+    });
   });
 });
