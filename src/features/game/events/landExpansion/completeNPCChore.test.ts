@@ -494,6 +494,7 @@ describe("completeNPCChore", () => {
             ...TEST_BUMPKIN,
             activity: { "Tree Chopped": 1 },
           },
+          inventory: {},
           choreBoard: {
             chores: {
               "pumpkin' pete": {
