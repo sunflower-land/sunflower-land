@@ -29,7 +29,6 @@ import {
   isChrome,
 } from "mobile-device-detect";
 import { DequipBumpkin } from "./blockchain-settings/DequipBumpkin";
-import { TransferAccount } from "./blockchain-settings/TransferAccount";
 import { AddSFL } from "../AddSFL";
 import { GeneralSettings } from "./general-settings/GeneralSettings";
 import { InstallAppModal } from "./general-settings/InstallAppModal";
@@ -63,6 +62,7 @@ import { AirdropPlayer } from "./general-settings/AirdropPlayer";
 import { hasFeatureAccess } from "lib/flags";
 import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
+import { TransferAccountWrapper } from "./blockchain-settings/TransferAccount";
 
 export interface ContentComponentProps {
   onSubMenuClick: (id: SettingMenuId) => void;
@@ -395,7 +395,7 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
   transfer: {
     title: translate("gameOptions.blockchainSettings.transferOwnership"),
     parent: "blockchain",
-    content: TransferAccount,
+    content: TransferAccountWrapper,
   },
   swapSFL: {
     title: translate("gameOptions.blockchainSettings.swapPOLForSFL"),

@@ -55,7 +55,8 @@ export type WalletAction =
   | "dailyReward"
   | "sync"
   | "dequip"
-  | "marketplace";
+  | "marketplace"
+  | "transfer";
 
 // Certain actions do not require an NFT to perform
 const NON_NFT_ACTIONS: WalletAction[] = [

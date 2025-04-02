@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 
-import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { WalletContext } from "../WalletProvider";
@@ -36,13 +35,13 @@ export const PolygonRequired: React.FC<{
         <div className="flex flex-col gap-2">
           <p className="text-xs">{t("polygon.requiredDescription")}</p>
 
-          <div className="flex gap-2">
+          {/* <div className="flex gap-2">
             <img
               src={SUNNYSIDE.icons.roninIcon}
               style={{ width: `${PIXEL_SCALE * 8}px`, display: "inline" }}
             />
             <p className="text-xs">{t("polygon.roninDescription")}</p>
-          </div>
+          </div> */}
           {canContinue && (
             <p className="text-xs">{t("polygon.continueDescription")}</p>
           )}
