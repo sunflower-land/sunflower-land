@@ -91,6 +91,7 @@ export function completeNPCChore({
       handleLoveRushChoreRewards({
         game: draft,
         npcName,
+        createdAt,
       });
     }
 

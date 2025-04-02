@@ -74,13 +74,15 @@ export const LOVE_RUSH_CHORES_REWARDS: Record<LoveRushChoreNPCTypes, number> = {
 export function getLoveRushChoreReward({
   npcName,
   game,
+  createdAt = Date.now(),
 }: {
   npcName: NPCName;
   game: GameState;
+  createdAt?: number;
 }) {
   const npcType = getLoveRushChoreNPCType(npcName);
   let loveCharmReward = npcType ? LOVE_RUSH_CHORES_REWARDS[npcType] : 0;
-  if (hasVipAccess({ game })) {
+  if (hasVipAccess({ game, now: createdAt })) {
     loveCharmReward = loveCharmReward * 2;
   }
   return { loveCharmReward };
@@ -89,11 +91,17 @@ export function getLoveRushChoreReward({
 export function handleLoveRushChoreRewards({
   game,
   npcName,
+  createdAt,
 }: {
   game: GameState;
   npcName: NPCName;
+  createdAt?: number;
 }) {
-  const { loveCharmReward } = getLoveRushChoreReward({ npcName, game });
+  const { loveCharmReward } = getLoveRushChoreReward({
+    npcName,
+    game,
+    createdAt,
+  });
   game.inventory["Love Charm"] = (
     game.inventory["Love Charm"] ?? new Decimal(0)
   ).add(loveCharmReward);
