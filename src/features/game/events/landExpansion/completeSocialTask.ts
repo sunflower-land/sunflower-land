@@ -98,6 +98,9 @@ export const ALL_TASKS = {
 export const isSocialTask = (task: Task | OtherTasks): task is Task =>
   "requirement" in task;
 
+export const isSocialTaskName = (task: string): task is SocialTaskName =>
+  task in TASKS;
+
 export type CompleteSocialTaskAction = {
   type: "socialTask.completed";
   taskId: SocialTaskName;
