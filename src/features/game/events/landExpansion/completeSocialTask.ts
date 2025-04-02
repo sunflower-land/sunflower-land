@@ -23,7 +23,7 @@ export type OtherTasks = {
 export type Task = OtherTasks & {
   requirement: (state: GameState) => boolean;
   requirementProgress: (state: GameState) => number;
-  requirementTotal?: number;
+  requirementTotal: number;
   reward: Partial<Record<InventoryItemName, number>>;
 };
 
@@ -36,6 +36,7 @@ export const IN_GAME_TASKS = {
     requirement: (state) =>
       hasRequiredIslandExpansion(state.island.type, "spring"),
     requirementProgress: (state) => (state.island.type === "basic" ? 0 : 1),
+    requirementTotal: 1,
   },
   "Complete 50 deliveries": {
     title: translate("socialTask.complete50Deliveries"),

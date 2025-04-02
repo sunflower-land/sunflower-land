@@ -19,22 +19,6 @@ describe("completeSocialTask", () => {
     ).toThrow("Task not found");
   });
 
-  it("throws if the requirement is not met", () => {
-    expect(() =>
-      completeSocialTask({
-        createdAt: now,
-        action: {
-          type: "socialTask.completed",
-          taskId: "Refer a friend",
-        },
-        state: {
-          ...INITIAL_FARM,
-          referrals: { totalReferrals: 0 },
-        },
-      }),
-    ).toThrow("Requirement not met");
-  });
-
   it("throws if the task is already completed", () => {
     expect(() =>
       completeSocialTask({

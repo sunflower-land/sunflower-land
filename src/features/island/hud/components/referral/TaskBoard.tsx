@@ -235,7 +235,7 @@ const InGameTask: React.FC<{
                     task.requirementProgress?.(state) ??
                     (task.requirement(state) ? 1 : 0)
                   }
-                  requirement={task.requirementTotal ?? 1}
+                  requirement={task.requirementTotal}
                   hideIcon
                 />
                 {isTaskCompleted(taskName) && (

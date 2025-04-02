@@ -4,7 +4,7 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
-import { useAppTranslation } from "hooks/useAppTranslation";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 type StreamSchedule = {
   day: number; // 0 = Sunday, 1 = Monday, etc.
