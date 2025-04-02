@@ -9,23 +9,6 @@ import { QuestNPCName } from "./deliver";
 
 type LoveRushNPCTypes = "basic" | "medium" | "advanced" | "expert";
 
-type BasicLoveRushNPC = Extract<
-  DeliveryNPCName,
-  "betty" | "blacksmith" | "peggy" | "pumpkin' pete"
->;
-
-type MediumLoveRushNPC = Extract<
-  DeliveryNPCName,
-  "bert" | "finley" | "miranda" | "finn" | "corale" | "tango" | "old salty"
->;
-
-type AdvancedLoveRushNPC = Extract<
-  DeliveryNPCName,
-  "tywin" | "cornwell" | "timmy" | "raven" | "pharaoh" | "jester" | "victoria"
->;
-
-type ExpertLoveRushNPC = Extract<DeliveryNPCName, GoblinNPCName>;
-
 export const getLoveRushNPCType = (
   npcName: DeliveryNPCName,
 ): LoveRushNPCTypes | null => {
@@ -48,57 +31,37 @@ export const getLoveRushNPCType = (
   return null;
 };
 
-function isBasicLoveRushNPC(
-  npcName: DeliveryNPCName,
-): npcName is BasicLoveRushNPC {
-  return (
-    npcName === "betty" ||
-    npcName === "blacksmith" ||
-    npcName === "peggy" ||
-    npcName === "pumpkin' pete"
-  );
-}
+const isBasicLoveRushNPC = (npcName: DeliveryNPCName) =>
+  npcName === "betty" ||
+  npcName === "blacksmith" ||
+  npcName === "peggy" ||
+  npcName === "pumpkin' pete";
 
-function isMediumLoveRushNPC(
-  npcName: DeliveryNPCName,
-): npcName is MediumLoveRushNPC {
-  return (
-    npcName === "bert" ||
-    npcName === "finley" ||
-    npcName === "miranda" ||
-    npcName === "finn" ||
-    npcName === "corale" ||
-    npcName === "tango" ||
-    npcName === "old salty"
-  );
-}
+const isMediumLoveRushNPC = (npcName: DeliveryNPCName) =>
+  npcName === "bert" ||
+  npcName === "finley" ||
+  npcName === "miranda" ||
+  npcName === "finn" ||
+  npcName === "corale" ||
+  npcName === "tango" ||
+  npcName === "old salty";
 
-function isAdvancedLoveRushNPC(
-  npcName: DeliveryNPCName,
-): npcName is AdvancedLoveRushNPC {
-  return (
-    npcName === "tywin" ||
-    npcName === "cornwell" ||
-    npcName === "timmy" ||
-    npcName === "raven" ||
-    npcName === "pharaoh" ||
-    npcName === "jester" ||
-    npcName === "victoria"
-  );
-}
+const isAdvancedLoveRushNPC = (npcName: DeliveryNPCName) =>
+  npcName === "tywin" ||
+  npcName === "cornwell" ||
+  npcName === "timmy" ||
+  npcName === "raven" ||
+  npcName === "pharaoh" ||
+  npcName === "jester" ||
+  npcName === "victoria";
 
-function isExpertLoveRushNPC(
-  npcName: DeliveryNPCName,
-): npcName is ExpertLoveRushNPC {
-  return (
-    npcName === "grimbly" ||
-    npcName === "grimtooth" ||
-    npcName === "grubnuk" ||
-    npcName === "gordo" ||
-    npcName === "guria" ||
-    npcName === "gambit"
-  );
-}
+const isExpertLoveRushNPC = (npcName: DeliveryNPCName) =>
+  npcName === "grimbly" ||
+  npcName === "grimtooth" ||
+  npcName === "grubnuk" ||
+  npcName === "gordo" ||
+  npcName === "guria" ||
+  npcName === "gambit";
 
 export type StreakNumber = 1 | 2 | 3 | 4 | 5;
 
