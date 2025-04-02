@@ -30,35 +30,35 @@ export const getLoveRushNPCType = (
 
 const isBasicLoveRushNPC = (npcName: NPCName) =>
   npcName === "betty" ||
-  npcName === "blacksmith" ||
   npcName === "peggy" ||
-  npcName === "pumpkin' pete";
+  npcName === "pumpkin' pete" ||
+  npcName === "grimbly" ||
+  npcName === "grubnuk" ||
+  npcName === "grimtooth";
 
 const isMediumLoveRushNPC = (npcName: NPCName) =>
-  npcName === "bert" ||
-  npcName === "finley" ||
-  npcName === "miranda" ||
-  npcName === "finn" ||
+  npcName === "gordo" ||
+  npcName === "guria" ||
+  npcName === "blacksmith" ||
   npcName === "corale" ||
   npcName === "tango" ||
   npcName === "old salty";
 
 const isAdvancedLoveRushNPC = (npcName: NPCName) =>
+  npcName === "bert" ||
+  npcName === "finley" ||
+  npcName === "miranda" ||
+  npcName === "finn" ||
+  npcName === "gambit" ||
+  npcName === "victoria";
+
+const isExpertLoveRushNPC = (npcName: NPCName) =>
   npcName === "tywin" ||
   npcName === "cornwell" ||
   npcName === "timmy" ||
   npcName === "raven" ||
   npcName === "pharaoh" ||
-  npcName === "jester" ||
-  npcName === "victoria";
-
-const isExpertLoveRushNPC = (npcName: NPCName) =>
-  npcName === "grimbly" ||
-  npcName === "grimtooth" ||
-  npcName === "grubnuk" ||
-  npcName === "gordo" ||
-  npcName === "guria" ||
-  npcName === "gambit";
+  npcName === "jester";
 
 export type StreakNumber = 1 | 2 | 3 | 4 | 5;
 
@@ -74,11 +74,11 @@ export const LOVE_RUSH_DELIVERIES_REWARDS: Record<
     5: 15,
   },
   medium: {
-    1: 10,
-    2: 14,
-    3: 18,
-    4: 22,
-    5: 25,
+    1: 6,
+    2: 10,
+    3: 13,
+    4: 15,
+    5: 20,
   },
   advanced: {
     1: 10,
