@@ -668,7 +668,7 @@ export const DeliveryOrders: React.FC<Props> = ({
       {previewOrder && (
         <InnerPanel
           className={classNames(
-            "md:ml-1 md:flex md:flex-col items-center flex-1 relative h-auto w-full",
+            "md:ml-1 md:flex md:flex-col items-center flex-1 relative w-full overflow-y-auto scrollable max-h-[440px]",
             {
               hidden: !selectedId,
             },
