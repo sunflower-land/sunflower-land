@@ -342,10 +342,7 @@ export const GameOptionsModal: React.FC<GameOptionsModalProps> = ({
         <SelectedComponent onSubMenuClick={setSelected} onClose={onHide} />
       </CloseButtonPanel>
       <LockdownWidget />
-      {hasFeatureAccess(
-        gameService.state?.context?.state,
-        "REFERRAL_PROGRAM",
-      ) && <ReferralWidget />}
+      <ReferralWidget />
     </Modal>
   );
 };
