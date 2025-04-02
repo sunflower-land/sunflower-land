@@ -5875,5 +5875,8 @@
   "loveRush.eventTime": "Love Rush Event - {{time}} left",
   "loveRush.choreBonus": "Bonus 100 Love Charms for completing 21 Chores in a week!",
   "loveRush.deliveryStreakBonus": "Love Rush Bonus: {{loveCharmReward}} Love Charms",
+  "rewardShop.msg1": "Welcome to my Reward Shop. Collect Love Charms & exchange them for rare items.",
+  "rewardShop.wearable": "Nice buy! Your new wearable is safely stored in your wardrobe. You can equip it to a bumpkin from there.",
+  "rewardShop.collectible": "Nice buy! Your new collectible is safely stored in your inventory.",
   "error.insufficientMatic": "POL required"
 }
