@@ -63,6 +63,7 @@ import { getLoveRushDeliveryRewards } from "../../../game/events/landExpansion/l
 import { hasFeatureAccess } from "lib/flags";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
+import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 
 // Bumpkins
 export const BEACH_BUMPKINS: NPCName[] = [
@@ -484,27 +485,44 @@ export const DeliveryOrders: React.FC<Props> = ({
                 {t("double.rewards.deliveries")}
               </Label>
             )}
-            {isLoveRushEventActive && (
-              <Label type="vibrant" icon={ITEM_DETAILS["Love Charm"].image}>
-                {`Love Rush Event - ${millisecondsToString(
-                  loveRushRemainingTime,
-                  {
-                    length: "short",
-                  },
-                )} left`}
-              </Label>
-            )}
           </div>
-          <p className="my-2 ml-1 text-xs">{t("deliveries.intro")}</p>
-          <Label
-            type="vibrant"
-            icon={SUNNYSIDE.icons.lightning}
-            className="my-2 ml-1 text-xs"
-          >
-            {`Love Rush Event: Earn Love Charms when completing deliveries.`}
-            <br />
-            {`The more deliveries you complete in a row, the more Love Charms you earn!`}
-          </Label>
+          <p className="my-2 ml-1 text-xs">{t("deliveries.intro")}</p>{" "}
+          {isLoveRushEventActive && (
+            <NoticeboardItems
+              items={[
+                {
+                  text: "",
+                  icon: ITEM_DETAILS["Love Charm"].image,
+                  label: {
+                    shortDescription: `Love Rush Event - ${millisecondsToString(
+                      loveRushRemainingTime,
+                      { length: "short" },
+                    )} left`,
+                    labelType: "info",
+                    boostedItemIcon: SUNNYSIDE.icons.stopwatch,
+                  },
+                },
+                {
+                  text: "",
+                  icon: SUNNYSIDE.icons.lightning,
+                  label: {
+                    shortDescription:
+                      "Earn Love Charms when completing deliveries.",
+                    labelType: "vibrant",
+                  },
+                },
+                {
+                  text: "",
+                  icon: ITEM_DETAILS["Love Charm"].image,
+                  label: {
+                    shortDescription:
+                      "Complete deliveries on consecutive days to earn bonus Love Charms.",
+                    labelType: "success",
+                  },
+                },
+              ]}
+            />
+          )}
         </div>
 
         <Label

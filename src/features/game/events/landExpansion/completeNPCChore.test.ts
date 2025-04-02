@@ -503,6 +503,12 @@ describe("completeNPCChore", () => {
                 initialProgress: 0,
                 startedAt: eventTime,
               },
+              bert: {
+                name: "CHOP_1_TREE",
+                reward: { coins: 100, items: {} },
+                initialProgress: 0,
+                startedAt: eventTime,
+              },
             },
           },
         },
@@ -530,6 +536,12 @@ describe("completeNPCChore", () => {
                 initialProgress: 0,
                 startedAt: eventTime,
               },
+              bert: {
+                name: "CHOP_1_TREE",
+                reward: { coins: 100, items: {} },
+                initialProgress: 0,
+                startedAt: eventTime,
+              },
             },
           },
         },
@@ -538,6 +550,170 @@ describe("completeNPCChore", () => {
       });
       expect(state.inventory["Love Charm"]).toEqual(new Decimal(6));
     });
+
+    it("rewards 100 extra love charms for completing all chores", () => {
+      const state = completeNPCChore({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: { ...TEST_BUMPKIN, activity: { "Tree Chopped": 21 } },
+          inventory: {},
+          choreBoard: {
+            chores: {
+              "pumpkin' pete": {
+                name: "CHOP_1_TREE",
+                reward: { coins: 100, items: {} },
+                initialProgress: 0,
+                startedAt: eventTime,
+                completedAt: eventTime,
+              },
+              bert: {
+                name: "CHOP_1_TREE",
+                reward: { coins: 100, items: {} },
+                initialProgress: 0,
+                startedAt: eventTime,
+                completedAt: eventTime,
+              },
+              blacksmith: {
+                name: "CHOP_1_TREE",
+                reward: { coins: 100, items: {} },
+                initialProgress: 0,
+                startedAt: eventTime,
+              },
+              betty: {
+                name: "CHOP_1_TREE",
+                reward: { coins: 100, items: {} },
+                initialProgress: 0,
+                startedAt: eventTime,
+                completedAt: eventTime,
+              },
+              billy: {
+                name: "CHOP_1_TREE",
+                reward: { coins: 100, items: {} },
+                initialProgress: 0,
+                startedAt: eventTime,
+                completedAt: eventTime,
+              },
+              birdie: {
+                name: "CHOP_1_TREE",
+                reward: { coins: 100, items: {} },
+                initialProgress: 0,
+                startedAt: eventTime,
+                completedAt: eventTime,
+              },
+              corale: {
+                name: "CHOP_1_TREE",
+                reward: { coins: 100, items: {} },
+                initialProgress: 0,
+                startedAt: eventTime,
+                completedAt: eventTime,
+              },
+              cornwell: {
+                name: "CHOP_1_TREE",
+                reward: { coins: 100, items: {} },
+                initialProgress: 0,
+                startedAt: eventTime,
+                completedAt: eventTime,
+              },
+              finley: {
+                name: "CHOP_1_TREE",
+                reward: { coins: 100, items: {} },
+                initialProgress: 0,
+                startedAt: eventTime,
+                completedAt: eventTime,
+              },
+              finn: {
+                name: "CHOP_1_TREE",
+                reward: { coins: 100, items: {} },
+                initialProgress: 0,
+                startedAt: eventTime,
+                completedAt: eventTime,
+              },
+              gambit: {
+                name: "CHOP_1_TREE",
+                reward: { coins: 100, items: {} },
+                initialProgress: 0,
+                startedAt: eventTime,
+                completedAt: eventTime,
+              },
+              gordo: {
+                name: "CHOP_1_TREE",
+                reward: { coins: 100, items: {} },
+                initialProgress: 0,
+                startedAt: eventTime,
+                completedAt: eventTime,
+              },
+              guria: {
+                name: "CHOP_1_TREE",
+                reward: { coins: 100, items: {} },
+                initialProgress: 0,
+                startedAt: eventTime,
+                completedAt: eventTime,
+              },
+              grimbly: {
+                name: "CHOP_1_TREE",
+                reward: { coins: 100, items: {} },
+                initialProgress: 0,
+                startedAt: eventTime,
+                completedAt: eventTime,
+              },
+              grimtooth: {
+                name: "CHOP_1_TREE",
+                reward: { coins: 100, items: {} },
+                initialProgress: 0,
+                startedAt: eventTime,
+                completedAt: eventTime,
+              },
+              jester: {
+                name: "CHOP_1_TREE",
+                reward: { coins: 100, items: {} },
+                initialProgress: 0,
+                startedAt: eventTime,
+                completedAt: eventTime,
+              },
+              miranda: {
+                name: "CHOP_1_TREE",
+                reward: { coins: 100, items: {} },
+                initialProgress: 0,
+                startedAt: eventTime,
+                completedAt: eventTime,
+              },
+              "old salty": {
+                name: "CHOP_1_TREE",
+                reward: { coins: 100, items: {} },
+                initialProgress: 0,
+                startedAt: eventTime,
+                completedAt: eventTime,
+              },
+              pharaoh: {
+                name: "CHOP_1_TREE",
+                reward: { coins: 100, items: {} },
+                initialProgress: 0,
+                startedAt: eventTime,
+                completedAt: eventTime,
+              },
+              raven: {
+                name: "CHOP_1_TREE",
+                reward: { coins: 100, items: {} },
+                initialProgress: 0,
+                startedAt: eventTime,
+                completedAt: eventTime,
+              },
+              timmy: {
+                name: "CHOP_1_TREE",
+                reward: { coins: 100, items: {} },
+                initialProgress: 0,
+                startedAt: eventTime,
+                completedAt: eventTime,
+              },
+            },
+          },
+        },
+        action: { type: "chore.fulfilled", npcName: "blacksmith" },
+        createdAt: eventTime,
+      });
+      expect(state.inventory["Love Charm"]).toEqual(new Decimal(100 + 7));
+    });
+
     it("doesn't reward love charms for completing chores after the event", () => {
       jest.useFakeTimers();
       jest.setSystemTime(new Date("2025-05-05T15:00:00Z").getTime());
