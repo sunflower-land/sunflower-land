@@ -4,31 +4,31 @@ import { NPCData, GameState } from "features/game/types/game";
 
 import { NPCName } from "lib/npcs";
 
-type LoveRushNPCTypes = "basic" | "medium" | "advanced" | "expert";
+type LoveRushDeliveryNPCTypes = "basic" | "medium" | "advanced" | "expert";
 
-export const getLoveRushNPCType = (
+export const getLoveRushDeliveryNPCType = (
   npcName: NPCName,
-): LoveRushNPCTypes | null => {
-  if (isBasicLoveRushNPC(npcName)) {
+): LoveRushDeliveryNPCTypes | null => {
+  if (isBasicLoveRushDeliveryNPC(npcName)) {
     return "basic";
   }
 
-  if (isMediumLoveRushNPC(npcName)) {
+  if (isMediumLoveRushDeliveryNPC(npcName)) {
     return "medium";
   }
 
-  if (isAdvancedLoveRushNPC(npcName)) {
+  if (isAdvancedLoveRushDeliveryNPC(npcName)) {
     return "advanced";
   }
 
-  if (isExpertLoveRushNPC(npcName)) {
+  if (isExpertLoveRushDeliveryNPC(npcName)) {
     return "expert";
   }
 
   return null;
 };
 
-const isBasicLoveRushNPC = (npcName: NPCName) =>
+const isBasicLoveRushDeliveryNPC = (npcName: NPCName) =>
   npcName === "betty" ||
   npcName === "peggy" ||
   npcName === "pumpkin' pete" ||
@@ -36,7 +36,7 @@ const isBasicLoveRushNPC = (npcName: NPCName) =>
   npcName === "grubnuk" ||
   npcName === "grimtooth";
 
-const isMediumLoveRushNPC = (npcName: NPCName) =>
+const isMediumLoveRushDeliveryNPC = (npcName: NPCName) =>
   npcName === "gordo" ||
   npcName === "guria" ||
   npcName === "blacksmith" ||
@@ -44,7 +44,7 @@ const isMediumLoveRushNPC = (npcName: NPCName) =>
   npcName === "tango" ||
   npcName === "old salty";
 
-const isAdvancedLoveRushNPC = (npcName: NPCName) =>
+const isAdvancedLoveRushDeliveryNPC = (npcName: NPCName) =>
   npcName === "bert" ||
   npcName === "finley" ||
   npcName === "miranda" ||
@@ -52,7 +52,7 @@ const isAdvancedLoveRushNPC = (npcName: NPCName) =>
   npcName === "gambit" ||
   npcName === "victoria";
 
-const isExpertLoveRushNPC = (npcName: NPCName) =>
+const isExpertLoveRushDeliveryNPC = (npcName: NPCName) =>
   npcName === "tywin" ||
   npcName === "cornwell" ||
   npcName === "timmy" ||
@@ -63,7 +63,7 @@ const isExpertLoveRushNPC = (npcName: NPCName) =>
 export type StreakNumber = 1 | 2 | 3 | 4 | 5;
 
 export const LOVE_RUSH_DELIVERIES_REWARDS: Record<
-  LoveRushNPCTypes,
+  LoveRushDeliveryNPCTypes,
   Record<StreakNumber, number>
 > = {
   basic: {
@@ -141,7 +141,7 @@ export function getLoveRushDeliveryRewards({
   npcName: NPCName;
 }) {
   const streakIndex = (newStreak > 5 ? 5 : newStreak) as StreakNumber;
-  const npcType = getLoveRushNPCType(npcName);
+  const npcType = getLoveRushDeliveryNPCType(npcName);
   let loveCharmReward = npcType
     ? LOVE_RUSH_DELIVERIES_REWARDS[npcType][streakIndex]
     : 0;
