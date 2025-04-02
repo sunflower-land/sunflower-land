@@ -27,16 +27,6 @@ export type Task = OtherTasks & {
 };
 
 export const TASKS = {
-  "Refer a friend": {
-    title: translate("socialTask.referFriend"),
-    description: translate("socialTask.referFriend.description"),
-    image: SUNNYSIDE.icons.player,
-    reward: { "Love Charm": 15 },
-    requirement: (state) =>
-      (state.referrals ?? { totalReferrals: 0 }).totalReferrals > 0,
-    requirementProgress: (state) =>
-      (state.referrals ?? { totalReferrals: 0 }).totalReferrals,
-  },
   "Link your Discord": {
     title: translate("socialTask.linkDiscord"),
     description: translate("socialTask.linkDiscord.description"),
@@ -76,6 +66,11 @@ export type SocialTaskName = keyof typeof TASKS;
  * Other ways to earn Love Charm (Read-only)
  */
 export const OTHER_WAYS_TO_EARN_LOVE_CHARM = {
+  "Refer a friend": {
+    title: translate("socialTask.referFriend"),
+    description: translate("socialTask.referFriend.description"),
+    image: SUNNYSIDE.icons.player,
+  },
   "Refer a VIP friend": {
     title: translate("socialTask.referVipFriend"),
     image: SUNNYSIDE.icons.player,
