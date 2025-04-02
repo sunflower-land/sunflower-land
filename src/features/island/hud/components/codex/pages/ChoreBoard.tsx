@@ -39,14 +39,24 @@ import { formatNumber } from "lib/utils/formatNumber";
 import { hasFeatureAccess } from "lib/flags";
 import { getLoveRushChoreReward } from "features/game/events/landExpansion/loveRushChores";
 import { millisecondsToString } from "lib/utils/time";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useSelector } from "@xstate/react";
 
 interface Props {
   state: GameState;
 }
 
+const _isLoveRushEventActive = (state: MachineState) =>
+  hasFeatureAccess(state.context.state, "LOVE_RUSH");
+
 export const ChoreBoard: React.FC<Props> = ({ state }) => {
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
+
+  const isLoveRushEventActive = useSelector(
+    gameService,
+    _isLoveRushEventActive,
+  );
 
   const [selectedId, setSelectedId] = useState<NPCName>();
 
@@ -105,7 +115,7 @@ export const ChoreBoard: React.FC<Props> = ({ state }) => {
             >
               <TimerDisplay fontSize={24} time={end} />
             </Label>
-            {hasFeatureAccess(state, "LOVE_RUSH") && (
+            {isLoveRushEventActive && (
               <Label type="vibrant" icon={ITEM_DETAILS["Love Charm"].image}>
                 {`Love Rush Event - ${millisecondsToString(
                   loveRushRemainingTime,
@@ -135,6 +145,7 @@ export const ChoreBoard: React.FC<Props> = ({ state }) => {
                 selected={selectedId}
                 onClick={setSelectedId}
                 state={state}
+                isLoveRushEventActive={isLoveRushEventActive}
               />
             ))}
           {nextUnlock && <LockedChoreCard npc={nextUnlock} />}
@@ -244,7 +255,7 @@ export const ChoreBoard: React.FC<Props> = ({ state }) => {
                 <div className="flex absolute right-0 -top-5">
                   <ChoreRewardLabel chore={previewChore} state={state} />
                 </div>
-                {hasFeatureAccess(state, "LOVE_RUSH") && (
+                {isLoveRushEventActive && (
                   <div className="absolute -top-5 left-0">
                     <div className="relative">
                       <img
@@ -279,7 +290,8 @@ export const ChoreCard: React.FC<{
   selected?: NPCName;
   onClick: (npc: NPCName) => void;
   state: GameState;
-}> = ({ npc, chore, onClick, state }) => {
+  isLoveRushEventActive: boolean;
+}> = ({ npc, chore, onClick, state, isLoveRushEventActive }) => {
   const { loveCharmReward } = getLoveRushChoreReward({
     game: state,
     npcName: npc,
@@ -294,7 +306,7 @@ export const ChoreCard: React.FC<{
         variant={chore.completedAt ? "secondary" : "primary"}
         style={{ paddingBottom: chore.completedAt ? "16px" : "10px" }}
       >
-        {hasFeatureAccess(state, "LOVE_RUSH") && (
+        {isLoveRushEventActive && (
           <div className="absolute top-3 -right-4">
             <div className="relative">
               <img src={ITEM_DETAILS["Love Charm"].image} className="w-12" />

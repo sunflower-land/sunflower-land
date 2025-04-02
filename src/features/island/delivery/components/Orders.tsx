@@ -61,6 +61,8 @@ import { getActiveCalendarEvent } from "features/game/types/calendar";
 import { getLoveRushStreaks } from "features/game/events/landExpansion/loveRushDeliveries";
 import { getLoveRushDeliveryRewards } from "../../../game/events/landExpansion/loveRushDeliveries";
 import { hasFeatureAccess } from "lib/flags";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useSelector } from "@xstate/react";
 
 // Bumpkins
 export const BEACH_BUMPKINS: NPCName[] = [
@@ -135,12 +137,14 @@ export type OrderCardProps = {
   selected: Order;
   onClick: (id: string) => void;
   state: GameState;
+  isLoveRushEventActive: boolean;
 };
 export const OrderCard: React.FC<OrderCardProps> = ({
   order,
   selected,
   onClick,
   state,
+  isLoveRushEventActive,
 }) => {
   const npcName = order.from;
   const tickets = generateDeliveryTickets({ game: state, npc: npcName });
@@ -162,7 +166,7 @@ export const OrderCard: React.FC<OrderCardProps> = ({
         })}
         style={{ paddingBottom: "20px" }}
       >
-        {hasFeatureAccess(state, "LOVE_RUSH") && (
+        {isLoveRushEventActive && (
           <div className="absolute -top-4 -left-5">
             <div className="relative">
               <img src={ITEM_DETAILS["Love Charm"].image} className="w-12" />
@@ -334,6 +338,9 @@ export const LockedOrderCard: React.FC<{ npc: NPCName }> = ({ npc }) => {
   );
 };
 
+const _isLoveRushEventActive = (state: MachineState) =>
+  hasFeatureAccess(state.context.state, "LOVE_RUSH");
+
 export const DeliveryOrders: React.FC<Props> = ({
   selectedId,
   onSelect,
@@ -341,6 +348,10 @@ export const DeliveryOrders: React.FC<Props> = ({
   state,
 }) => {
   const { gameService } = useContext(Context);
+  const isLoveRushEventActive = useSelector(
+    gameService,
+    _isLoveRushEventActive,
+  );
   const { delivery, balance: sfl, coins, npcs, bumpkin } = state;
 
   const navigate = useNavigate();
@@ -446,6 +457,7 @@ export const DeliveryOrders: React.FC<Props> = ({
   const nextStreak = getLoveRushStreaks({
     streaks: state.npcs?.[previewOrder.from]?.streaks,
   });
+  const currentStreak = nextStreak - 1;
   const { loveCharmReward } = getLoveRushDeliveryRewards({
     newStreak: nextStreak,
     game: state,
@@ -472,7 +484,7 @@ export const DeliveryOrders: React.FC<Props> = ({
                 {t("double.rewards.deliveries")}
               </Label>
             )}
-            {hasFeatureAccess(state, "LOVE_RUSH") && (
+            {isLoveRushEventActive && (
               <Label type="vibrant" icon={ITEM_DETAILS["Love Charm"].image}>
                 {`Love Rush Event - ${millisecondsToString(
                   loveRushRemainingTime,
@@ -484,6 +496,15 @@ export const DeliveryOrders: React.FC<Props> = ({
             )}
           </div>
           <p className="my-2 ml-1 text-xs">{t("deliveries.intro")}</p>
+          <Label
+            type="vibrant"
+            icon={SUNNYSIDE.icons.lightning}
+            className="my-2 ml-1 text-xs"
+          >
+            {`Love Rush Event: Earn Love Charms when completing deliveries.`}
+            <br />
+            {`The more deliveries you complete in a row, the more Love Charms you earn!`}
+          </Label>
         </div>
 
         <Label
@@ -498,6 +519,7 @@ export const DeliveryOrders: React.FC<Props> = ({
             return (
               <OrderCard
                 state={state}
+                isLoveRushEventActive={isLoveRushEventActive}
                 key={order.id}
                 order={order}
                 selected={previewOrder}
@@ -551,6 +573,7 @@ export const DeliveryOrders: React.FC<Props> = ({
             return (
               <OrderCard
                 state={state}
+                isLoveRushEventActive={isLoveRushEventActive}
                 key={order.id}
                 order={order}
                 selected={previewOrder}
@@ -579,6 +602,7 @@ export const DeliveryOrders: React.FC<Props> = ({
             return (
               <OrderCard
                 state={state}
+                isLoveRushEventActive={isLoveRushEventActive}
                 key={order.id}
                 order={order}
                 selected={previewOrder}
@@ -824,7 +848,7 @@ export const DeliveryOrders: React.FC<Props> = ({
                     </span>
                   </Label>
                 </div>
-                {hasFeatureAccess(state, "LOVE_RUSH") && (
+                {isLoveRushEventActive && (
                   <div className="flex flex-wrap gap-1 justify-between w-full">
                     <Label
                       type="vibrant"
@@ -833,6 +857,13 @@ export const DeliveryOrders: React.FC<Props> = ({
                       {`Love Rush Bonus:`}
                       <br />
                       {`${loveCharmReward} Love Charms`}
+                    </Label>
+                    <Label
+                      type="vibrant"
+                      icon={SUNNYSIDE.icons.lightning}
+                      className="capitalize"
+                    >
+                      {`${previewOrder.from} Streak: ${currentStreak}`}
                     </Label>
                   </div>
                 )}
