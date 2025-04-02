@@ -5466,7 +5466,6 @@
   "announcement.referral": "친구를 추천하고 보상을 받으세요!",
   "share.CopyReferralLink": "추천 링크 복사",
   "socialTask.referFriend": "친구 추천하기",
-  "socialTask.referFriend.description": "추천 링크를 사용하여 친구에게 게임에 참여하도록 추천하세요 - 한 번만!",
   "socialTask.referVipFriend": "VIP 친구 추천하기",
   "socialTask.referVipFriend.description": "친구에게 게임에 참여하도록 추천하면 친구가 VIP를 구매해야 보상을 받을 수 있습니다!",
   "socialTask.linkDiscord": "디스코드 연결하기",
@@ -5655,5 +5654,6 @@
   "flower.exchange.error.max": "10,000개 이상의 러브 참은 교환할 수 없습니다",
   "flower.exchange.error.balance": "$FLOWER로 교환할 러브 참이 충분하지 않습니다",
   "flower.exchange.button": "교환",
-  "flower.exchange.youWillReceive": "다음과 같은 혜택을 받게 됩니다."
+  "flower.exchange.youWillReceive": "다음과 같은 혜택을 받게 됩니다.",
+  "socialTask.referFriend.description": "추천 링크를 사용하여 친구에게 게임에 참여하도록 추천하세요 - 최초 가입만 가능합니다!첫 친구가 내 추천 링크를 사용하면 Love Charms 25개가 에어드랍됩니다."
 }

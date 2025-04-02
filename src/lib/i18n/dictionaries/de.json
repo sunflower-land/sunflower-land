@@ -5466,7 +5466,6 @@
   "announcement.referral": "Empfehlen Sie einen Freund und verdienen Sie Prämien!",
   "share.CopyReferralLink": "Empfehlungslink kopieren",
   "socialTask.referFriend": "Empfehlen Sie einen Freund",
-  "socialTask.referFriend.description": "Empfehlen Sie einem Freund über Ihren Empfehlungslink, dem Spiel beizutreten — nur einmal!",
   "socialTask.referVipFriend": "Empfehlen Sie einen VIP-Freund",
   "socialTask.referVipFriend.description": "Empfehlen Sie einem Freund, dem Spiel beizutreten, und er muss VIP kaufen, bevor Sie Prämien verdienen können!",
   "socialTask.linkDiscord": "Verlinke deinen Discord",
@@ -5655,5 +5654,6 @@
   "flower.exchange.error.max": "Du kannst nicht mehr als 10.000 Liebeszauber eintauschen",
   "flower.exchange.error.balance": "Du hast nicht genug Liebeszauber, um sie gegen $FLOWER einzutauschen",
   "flower.exchange.button": "Umtausch",
-  "flower.exchange.youWillReceive": "Sie erhalten:"
+  "flower.exchange.youWillReceive": "Sie erhalten:",
+  "socialTask.referFriend.description": "Empfehlen Sie einem Freund über Ihren Empfehlungslink, dem Spiel beizutreten — nur beim ersten Mal! 25 Liebeszauber werden dir per Airdrop zugeschickt, sobald dein erster Freund deinen Empfehlungslink verwendet."
 }

@@ -5466,7 +5466,6 @@
   "announcement.referral": "Parrainez un ami et gagnez des récompenses !",
   "share.CopyReferralLink": "Copier le lien de référence",
   "socialTask.referFriend": "Recommandez un ami",
-  "socialTask.referFriend.description": "Recommandez à un ami de rejoindre le jeu en utilisant votre lien de recommandation, une seule fois !",
   "socialTask.referVipFriend": "Recommandez un ami VIP",
   "socialTask.referVipFriend.description": "Recommandez à un ami de rejoindre le jeu et il devra acheter un abonnement VIP pour que vous puissiez gagner des récompenses !",
   "socialTask.linkDiscord": "Associez votre Discord",
@@ -5655,5 +5654,6 @@
   "flower.exchange.error.max": "Vous ne pouvez pas échanger plus de 10 000 Love Charms",
   "flower.exchange.error.balance": "Vous n'avez pas assez de Love Charms à échanger contre des $FLOWER",
   "flower.exchange.button": "Échange",
-  "flower.exchange.youWillReceive": "Vous recevrez :"
+  "flower.exchange.youWillReceive": "Vous recevrez :",
+  "socialTask.referFriend.description": "Recommandez à un ami de rejoindre le jeu en utilisant votre lien de recommandation. C'est la première fois ! 25 Love Charms vous seront envoyés une fois que votre premier ami aura utilisé votre lien de recommandation."
 }

@@ -5466,7 +5466,6 @@
   "announcement.referral": "Bir arkadaşınıza tavsiye edin ve Ödüller kazanın!",
   "share.CopyReferralLink": "Yönlendirme Bağlantısını Kopyala",
   "socialTask.referFriend": "Bir arkadaşınıza tavsiye edin",
-  "socialTask.referFriend.description": "Tavsiye bağlantınızı kullanarak bir arkadaşınıza oyuna katılmak için önerin - Yalnızca bir kez!",
   "socialTask.referVipFriend": "VIP arkadaşınıza tavsiye edin",
   "socialTask.referVipFriend.description": "Oyuna katılmak için bir arkadaşınıza tavsiye edin ve Ödül kazanabilmeniz için VIP satın almaları gerekir!",
   "socialTask.linkDiscord": "Discord'unuzu bağlayın",
@@ -5655,5 +5654,6 @@
   "flower.exchange.error.max": "10.000'den fazla Aşk Tılsımı takas edemezsin",
   "flower.exchange.error.balance": "$FLOWER'a değiş tokuş için yeterli Aşk Tılsımınız yok",
   "flower.exchange.button": "Değişim",
-  "flower.exchange.youWillReceive": "Alacaksınız:"
+  "flower.exchange.youWillReceive": "Alacaksınız:",
+  "socialTask.referFriend.description": "Tavsiye bağlantınızı kullanarak bir arkadaşınıza oyuna katılmak için önerin - Yalnızca ilk kez! İlk arkadaşınız tavsiye bağlantınızı kullandığında 25 Aşk Tılsımı size gönderilecektir."
 }

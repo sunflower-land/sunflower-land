@@ -5466,7 +5466,6 @@
   "announcement.referral": "Indique um amigo e ganhe recompensas!",
   "share.CopyReferralLink": "Copiar link de referência",
   "socialTask.referFriend": "Indique um amigo",
-  "socialTask.referFriend.description": "Indique um amigo para entrar no jogo usando seu link de indicação - Apenas uma vez!",
   "socialTask.referVipFriend": "Indique um amigo VIP",
   "socialTask.referVipFriend.description": "Indique um amigo para participar do jogo e ele deve comprar VIP antes que você possa ganhar recompensas!",
   "socialTask.linkDiscord": "Vincule seu Discord",
@@ -5655,5 +5654,6 @@
   "flower.exchange.error.max": "Você não pode trocar mais de 10.000 amuletos amorosos",
   "flower.exchange.error.balance": "Você não tem Love Charms suficientes para trocar por $FLOWER",
   "flower.exchange.button": "Câmbio",
-  "flower.exchange.youWillReceive": "Você receberá:"
+  "flower.exchange.youWillReceive": "Você receberá:",
+  "socialTask.referFriend.description": "Indique um amigo para entrar no jogo usando seu link de indicação - Somente na primeira vez! 25 Love Charms serão lançados para você assim que seu primeiro amigo usar seu link de indicação."
 }

@@ -5466,7 +5466,6 @@
   "announcement.referral": "友達を紹介して報酬を獲得しましょう！",
   "share.CopyReferralLink": "紹介リンクをコピー",
   "socialTask.referFriend": "友達を紹介する",
-  "socialTask.referFriend.description": "紹介リンクを使って友達にゲームに参加してもらう-一度だけ！",
   "socialTask.referVipFriend": "VIPフレンドを紹介する",
   "socialTask.referVipFriend.description": "友達に紹介してゲームに参加してもらうと、報酬を獲得する前にVIPを購入する必要があります！",
   "socialTask.linkDiscord": "Discordをリンクしよう",
@@ -5655,5 +5654,6 @@
   "flower.exchange.error.max": "交換できるラブチャームは10,000個までです",
   "flower.exchange.error.balance": "$FLOWERと交換するのに十分なラブチャームがありません",
   "flower.exchange.button": "交換",
-  "flower.exchange.youWillReceive": "以下をお届けします。"
+  "flower.exchange.youWillReceive": "以下をお届けします。",
+  "socialTask.referFriend.description": "紹介リンクを使って友達にゲームに参加してもらう-初回のみ！最初の友達が紹介リンクを使用すると、25個のラブチャームがエアドロップされます。"
 }

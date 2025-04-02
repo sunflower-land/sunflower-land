@@ -5466,7 +5466,6 @@
   "announcement.referral": "Приведи друга и получи награды!",
   "share.CopyReferralLink": "Скопируйте реферальную ссылку",
   "socialTask.referFriend": "Пригласи друга",
-  "socialTask.referFriend.description": "Пригласите друга присоединиться к игре по вашей реферальной ссылке — только один раз!",
   "socialTask.referVipFriend": "Пригласите VIP-друга",
   "socialTask.referVipFriend.description": "Пригласите друга присоединиться к игре, и он должен купить VIP, прежде чем вы сможете получить награды!",
   "socialTask.linkDiscord": "Свяжите свой Discord",
@@ -5655,5 +5654,6 @@
   "flower.exchange.error.max": "Вы не можете обменять более 10 000 Love Charms",
   "flower.exchange.error.balance": "У вас недостаточно Love Charms, чтобы обменять их на $FLOWER",
   "flower.exchange.button": "Биржа",
-  "flower.exchange.youWillReceive": "Вы получите:"
+  "flower.exchange.youWillReceive": "Вы получите:",
+  "socialTask.referFriend.description": "Пригласите друга присоединиться к игре по вашей реферальной ссылке — только в первый раз! 25 Love Charms будут переданы вам в подарок, как только ваш первый друг воспользуется вашей реферальной ссылкой."
 }

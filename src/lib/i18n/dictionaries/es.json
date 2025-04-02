@@ -5466,7 +5466,6 @@
   "announcement.referral": "¡Recomiende a un amigo y gane recompensas!",
   "share.CopyReferralLink": "Copiar enlace de referencia",
   "socialTask.referFriend": "Recomiende a un amigo",
-  "socialTask.referFriend.description": "Invita a un amigo a unirse al juego usando tu enlace de recomendación, ¡solo una vez!",
   "socialTask.referVipFriend": "Recomienda a un amigo VIP",
   "socialTask.referVipFriend.description": "¡Recomienda a un amigo que se una al juego y tendrá que comprar VIP antes de que puedas ganar recompensas!",
   "socialTask.linkDiscord": "Vincula tu Discord",
@@ -5655,5 +5654,6 @@
   "flower.exchange.error.max": "No puedes intercambiar más de 10 000 amuletos de amor",
   "flower.exchange.error.balance": "No tienes suficientes amuletos de amor para cambiarlos por $FLOWER",
   "flower.exchange.button": "Intercambio",
-  "flower.exchange.youWillReceive": "Recibirás:"
+  "flower.exchange.youWillReceive": "Recibirás:",
+  "socialTask.referFriend.description": "Invita a un amigo a unirse al juego usando tu enlace de recomendación, ¡solo por primera vez! Recibirás 25 Love Charms desde el aire cuando tu primer amigo utilice tu enlace de recomendación."
 }

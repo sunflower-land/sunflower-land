@@ -5466,7 +5466,6 @@
   "announcement.referral": "Invita un amico e guadagna premi!",
   "share.CopyReferralLink": "Copia il link di riferimento",
   "socialTask.referFriend": "Invita un amico",
-  "socialTask.referFriend.description": "Invita un amico a unirsi al gioco utilizzando il tuo link di riferimento - Solo una volta!",
   "socialTask.referVipFriend": "Invita un amico VIP",
   "socialTask.referVipFriend.description": "Invita un amico a partecipare al gioco e deve acquistare VIP prima di poter guadagnare premi!",
   "socialTask.linkDiscord": "Collega il tuo Discord",
@@ -5655,5 +5654,6 @@
   "flower.exchange.error.max": "Non puoi scambiare più di 10.000 Love Charms",
   "flower.exchange.error.balance": "Non hai abbastanza ciondoli d'amore da scambiare con $FLOWER",
   "flower.exchange.button": "Scambio",
-  "flower.exchange.youWillReceive": "Riceverai:"
+  "flower.exchange.youWillReceive": "Riceverai:",
+  "socialTask.referFriend.description": "Invita un amico a unirsi al gioco utilizzando il tuo link di riferimento - Solo per la prima volta! 25 Love Charms ti verranno inviate una volta che il tuo primo amico avrà utilizzato il tuo link di riferimento."
 }

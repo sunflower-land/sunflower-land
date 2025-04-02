@@ -5466,7 +5466,6 @@
   "announcement.referral": "Referensikan teman dan dapatkan Hadiah!",
   "share.CopyReferralLink": "Salin Tautan Referensi",
   "socialTask.referFriend": "Referensikan teman",
-  "socialTask.referFriend.description": "Referensikan teman untuk bergabung dengan game menggunakan tautan rujukan Anda - Satu kali saja!",
   "socialTask.referVipFriend": "Referensikan teman VIP",
   "socialTask.referVipFriend.description": "Referensikan teman untuk bergabung dengan permainan dan mereka harus membeli VIP sebelum Anda bisa mendapatkan Hadiah!",
   "socialTask.linkDiscord": "Tautkan Discord Anda",
@@ -5655,5 +5654,6 @@
   "flower.exchange.error.max": "Anda tidak dapat menukar lebih dari 10.000 Pesona Cinta",
   "flower.exchange.error.balance": "Anda tidak memiliki cukup pesona cinta untuk ditukar dengan $FLOWER",
   "flower.exchange.button": "Pertukaran",
-  "flower.exchange.youWillReceive": "Anda akan menerima:"
+  "flower.exchange.youWillReceive": "Anda akan menerima:",
+  "socialTask.referFriend.description": "Referensikan teman untuk bergabung dengan game menggunakan tautan rujukan Anda - Hanya untuk pertama kalinya! 25 Love Charms akan dikirimkan kepada Anda setelah teman pertama Anda menggunakan tautan rujukan Anda."
 }
