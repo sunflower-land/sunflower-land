@@ -115,10 +115,10 @@ export const LOVE_RUSH_GIFTS_REWARDS = {
 
 export function getLoveRushStreaks({
   streaks,
-  createdAt,
+  createdAt = Date.now(),
 }: {
   streaks?: { streak: number; lastClaimedAt: number };
-  createdAt: number;
+  createdAt?: number;
 }) {
   const lastClaimedAt = new Date(streaks?.lastClaimedAt ?? 0);
   const currentDate = new Date(createdAt);
@@ -134,6 +134,27 @@ export function getLoveRushStreaks({
   return streakCount + 1;
 }
 export type DeliveryNPCName = QuestNPCName | GoblinNPCName | CoinNPCName;
+
+export function getLoveRushRewards({
+  newStreak,
+  game,
+  npcName,
+}: {
+  newStreak: number;
+  game: GameState;
+  npcName: DeliveryNPCName;
+}) {
+  const streakIndex = (newStreak > 5 ? 5 : newStreak) as StreakNumber;
+  const npcType = getLoveRushNPCType(npcName);
+  let loveCharmReward = npcType
+    ? LOVE_RUSH_DELIVERIES_REWARDS[npcType][streakIndex]
+    : 0;
+  if (hasVipAccess({ game })) {
+    loveCharmReward = loveCharmReward * 2;
+  }
+  return { loveCharmReward };
+}
+
 export function handleLoveRushRewards({
   createdAt,
   npcName,
@@ -149,17 +170,14 @@ export function handleLoveRushRewards({
     streaks: npc.streaks,
     createdAt,
   });
-  const streakIndex = (newStreak > 5 ? 5 : newStreak) as StreakNumber;
 
-  const npcType = getLoveRushNPCType(npcName);
-  let loveCharmReward = npcType
-    ? LOVE_RUSH_DELIVERIES_REWARDS[npcType][streakIndex]
-    : 0;
+  const { loveCharmReward } = getLoveRushRewards({
+    newStreak,
+    game,
+    npcName,
+  });
+
   const loveCharmCount = game.inventory["Love Charm"] ?? new Decimal(0);
-
-  if (hasVipAccess({ game, now: createdAt })) {
-    loveCharmReward = loveCharmReward * 2;
-  }
 
   game.inventory["Love Charm"] = loveCharmCount.add(loveCharmReward);
 
