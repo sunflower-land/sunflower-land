@@ -29,36 +29,38 @@ export const getLoveRushDeliveryNPCType = (
 };
 
 const isBasicLoveRushDeliveryNPC = (npcName: NPCName) =>
-  npcName === "betty" ||
-  npcName === "peggy" ||
-  npcName === "pumpkin' pete" ||
-  npcName === "grimbly" ||
-  npcName === "grubnuk" ||
-  npcName === "grimtooth";
+  (
+    [
+      "betty",
+      "peggy",
+      "pumpkin' pete",
+      "grimbly",
+      "grubnuk",
+      "grimtooth",
+    ] as NPCName[]
+  ).includes(npcName);
 
 const isMediumLoveRushDeliveryNPC = (npcName: NPCName) =>
-  npcName === "gordo" ||
-  npcName === "guria" ||
-  npcName === "blacksmith" ||
-  npcName === "corale" ||
-  npcName === "tango" ||
-  npcName === "old salty";
+  (
+    [
+      "gordo",
+      "guria",
+      "blacksmith",
+      "corale",
+      "tango",
+      "old salty",
+    ] as NPCName[]
+  ).includes(npcName);
 
 const isAdvancedLoveRushDeliveryNPC = (npcName: NPCName) =>
-  npcName === "bert" ||
-  npcName === "finley" ||
-  npcName === "miranda" ||
-  npcName === "finn" ||
-  npcName === "gambit" ||
-  npcName === "victoria";
+  (
+    ["bert", "finley", "miranda", "finn", "gambit", "victoria"] as NPCName[]
+  ).includes(npcName);
 
 const isExpertLoveRushDeliveryNPC = (npcName: NPCName) =>
-  npcName === "tywin" ||
-  npcName === "cornwell" ||
-  npcName === "timmy" ||
-  npcName === "raven" ||
-  npcName === "pharaoh" ||
-  npcName === "jester";
+  (
+    ["tywin", "cornwell", "timmy", "raven", "pharaoh", "jester"] as NPCName[]
+  ).includes(npcName);
 
 export type StreakNumber = 1 | 2 | 3 | 4 | 5;
 
