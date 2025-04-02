@@ -9,10 +9,11 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import {
   TASKS,
   OTHER_WAYS_TO_EARN_LOVE_CHARM,
-  Task,
-  OtherTasks,
   SocialTaskName,
   isSocialTask,
+  OtherTaskName,
+  ALL_TASKS,
+  isSocialTaskName,
 } from "features/game/events/landExpansion/completeSocialTask";
 import { GameState } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -20,6 +21,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useState } from "react";
 import { ReferralContent } from "./Referral";
 import { Modal } from "components/ui/Modal";
+import { getObjectEntries } from "features/game/expansion/lib/utils";
 
 interface TaskBoardProps {
   state: GameState;
@@ -35,8 +37,12 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({
   socialTasks,
 }) => {
   const { t } = useAppTranslation();
-  const [selectedTask, setSelectedTask] = useState<Task | OtherTasks>();
+  const [selectedTask, setSelectedTask] = useState<
+    SocialTaskName | OtherTaskName
+  >();
   const [showReferralModal, setShowReferralModal] = useState(false);
+
+  const task = selectedTask && ALL_TASKS[selectedTask];
 
   const isTaskCompleted = (taskId: SocialTaskName): boolean =>
     !!socialTasks?.completed?.[taskId]?.completedAt;
@@ -59,8 +65,11 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({
           <p>{t("taskBoard.tasksDescriptionTwo")}</p>
         </div>
         <div className="flex flex-col gap-1 text-xs">
-          {Object.values(TASKS).map((task) => (
-            <ButtonPanel key={task.title} onClick={() => setSelectedTask(task)}>
+          {getObjectEntries(TASKS).map(([taskTitle, task]) => (
+            <ButtonPanel
+              key={taskTitle}
+              onClick={() => setSelectedTask(taskTitle)}
+            >
               <div className="flex gap-3">
                 <img src={task.image} className="w-10" />
                 <div className="flex flex-col gap-1">
@@ -68,13 +77,9 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({
                   <p className="underline">{t("read.more")}</p>
                 </div>
                 <Label
-                  type={
-                    isTaskCompleted(task.title as SocialTaskName)
-                      ? "success"
-                      : "warning"
-                  }
+                  type={isTaskCompleted(taskTitle) ? "success" : "warning"}
                   icon={
-                    isTaskCompleted(task.title as SocialTaskName)
+                    isTaskCompleted(taskTitle)
                       ? SUNNYSIDE.icons.confirm
                       : task.requirement(state)
                         ? SUNNYSIDE.icons.expression_alerted
@@ -95,17 +100,22 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({
         <Label type="default">{t("taskBoard.otherWays")}</Label>
 
         <div className="flex flex-col gap-1 text-xs">
-          {Object.values(OTHER_WAYS_TO_EARN_LOVE_CHARM).map((task) => (
-            <ButtonPanel key={task.title} onClick={() => setSelectedTask(task)}>
-              <div className="flex gap-3">
-                <img src={task.image} className="w-10" />
-                <div className="flex flex-col gap-1">
-                  <p>{task.title}</p>
-                  <p className="underline">{t("read.more")}</p>
+          {getObjectEntries(OTHER_WAYS_TO_EARN_LOVE_CHARM).map(
+            ([taskTitle, task]) => (
+              <ButtonPanel
+                key={task.title}
+                onClick={() => setSelectedTask(taskTitle)}
+              >
+                <div className="flex gap-3">
+                  <img src={task.image} className="w-10" />
+                  <div className="flex flex-col gap-1">
+                    <p>{task.title}</p>
+                    <p className="underline">{t("read.more")}</p>
+                  </div>
                 </div>
-              </div>
-            </ButtonPanel>
-          ))}
+              </ButtonPanel>
+            ),
+          )}
         </div>
       </div>
       {/* Details Modal */}
@@ -113,7 +123,7 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({
         show={!!selectedTask}
         onBackdropClick={() => setSelectedTask(undefined)}
       >
-        <CloseButtonPanel title={selectedTask?.title} className="text-xs">
+        <CloseButtonPanel title={task?.title} className="text-xs">
           <div className="flex flex-col gap-2 m-1">
             <div className="flex flex-row gap-2">
               <div
@@ -124,12 +134,12 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({
                   backgroundPosition: "center",
                 }}
               >
-                <img src={selectedTask?.image} className="w-[50%]" />
+                <img src={task?.image} className="w-[50%]" />
               </div>
               <div className="flex flex-col justify-between w-full gap-3">
-                <p>{selectedTask?.description}</p>
-                {(selectedTask?.title === t("socialTask.referFriend") ||
-                  selectedTask?.title === t("socialTask.referVipFriend")) && (
+                <p>{task?.description}</p>
+                {(selectedTask === "Refer a friend" ||
+                  selectedTask === "Refer a VIP friend") && (
                   <p
                     className="text-xs underline hover:text-blue-500"
                     onClick={() => setShowReferralModal(true)}
@@ -137,40 +147,38 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({
                     {t("taskBoard.howToRefer")}
                   </p>
                 )}
-                {selectedTask && isSocialTask(selectedTask) && (
+                {task && isSocialTask(task) && (
                   <div className="flex flex-col gap-2 items-start">
                     <RequirementLabel
                       type="other"
                       currentProgress={
-                        selectedTask.requirementProgress?.(state) ??
-                        (selectedTask.requirement(state) ? 1 : 0)
+                        task.requirementProgress?.(state) ??
+                        (task.requirement(state) ? 1 : 0)
                       }
-                      requirement={selectedTask.requirementTotal ?? 1}
+                      requirement={task.requirementTotal ?? 1}
                       hideIcon
                     />
-                    {isTaskCompleted(selectedTask.title as SocialTaskName) && (
-                      <Label
-                        type="success"
-                        icon={SUNNYSIDE.icons.confirm}
-                        className="ml-1"
-                      >
-                        {t("completed")}
-                      </Label>
-                    )}
+                    {isSocialTaskName(selectedTask) &&
+                      isTaskCompleted(selectedTask) && (
+                        <Label
+                          type="success"
+                          icon={SUNNYSIDE.icons.confirm}
+                          className="ml-1"
+                        >
+                          {t("completed")}
+                        </Label>
+                      )}
                   </div>
                 )}
               </div>
             </div>
             {selectedTask &&
-              isSocialTask(selectedTask) &&
-              !isTaskCompleted(selectedTask.title as SocialTaskName) && (
+              isSocialTaskName(selectedTask) &&
+              !isTaskCompleted(selectedTask) && (
                 <Button
-                  onClick={() =>
-                    completeTask(selectedTask.title as SocialTaskName)
-                  }
+                  onClick={() => completeTask(selectedTask)}
                   disabled={
-                    !selectedTask.requirement(state) ||
-                    isTaskCompleted(selectedTask.title as SocialTaskName)
+                    task && isSocialTask(task) && !task.requirement(state)
                   }
                 >
                   {t("complete")}

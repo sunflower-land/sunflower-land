@@ -88,6 +88,13 @@ export const OTHER_WAYS_TO_EARN_LOVE_CHARM = {
   },
 } satisfies Record<string, OtherTasks>;
 
+export type OtherTaskName = keyof typeof OTHER_WAYS_TO_EARN_LOVE_CHARM;
+
+export const ALL_TASKS = {
+  ...TASKS,
+  ...OTHER_WAYS_TO_EARN_LOVE_CHARM,
+};
+
 export const isSocialTask = (task: Task | OtherTasks): task is Task =>
   "requirement" in task;
 
