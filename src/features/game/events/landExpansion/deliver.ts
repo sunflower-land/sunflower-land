@@ -29,7 +29,7 @@ import { hasVipAccess } from "features/game/lib/vipAccess";
 import { getActiveCalendarEvent } from "features/game/types/calendar";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
-import { handleLoveRushRewards } from "./loveRush";
+import { handleLoveRushDeliveryRewards } from "./loveRush";
 import { hasFeatureAccess } from "lib/flags";
 
 export const TICKET_REWARDS: Record<QuestNPCName, number> = {
@@ -532,7 +532,7 @@ export function deliverOrder({
 
     // Handle Love Rush rewards during the Love Rush event
     if (hasFeatureAccess(game, "LOVE_RUSH")) {
-      handleLoveRushRewards({
+      handleLoveRushDeliveryRewards({
         game,
         createdAt,
         npcName: order.from,

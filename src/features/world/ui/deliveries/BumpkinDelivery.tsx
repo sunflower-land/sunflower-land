@@ -57,7 +57,7 @@ import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { MachineState } from "features/game/lib/gameMachine";
 import { hasFeatureAccess } from "lib/flags";
 import {
-  getLoveRushRewards,
+  getLoveRushDeliveryRewards,
   getLoveRushStreaks,
 } from "features/game/events/landExpansion/loveRush";
 
@@ -90,7 +90,7 @@ export const OrderCard: React.FC<{
   const newStreak = getLoveRushStreaks({
     streaks: game.npcs?.[order.from]?.streaks,
   });
-  const { loveCharmReward } = getLoveRushRewards({
+  const { loveCharmReward } = getLoveRushDeliveryRewards({
     newStreak: newStreak + 1,
     game,
     npcName: order.from,

@@ -59,7 +59,7 @@ import { isCollectible } from "features/game/events/landExpansion/garbageSold";
 import { Context } from "features/game/GameProvider";
 import { getActiveCalendarEvent } from "features/game/types/calendar";
 import { getLoveRushStreaks } from "features/game/events/landExpansion/loveRush";
-import { getLoveRushRewards } from "../../../game/events/landExpansion/loveRush";
+import { getLoveRushDeliveryRewards } from "../../../game/events/landExpansion/loveRush";
 import { hasFeatureAccess } from "lib/flags";
 
 // Bumpkins
@@ -147,7 +147,7 @@ export const OrderCard: React.FC<OrderCardProps> = ({
   const nextStreak = getLoveRushStreaks({
     streaks: state.npcs?.[npcName]?.streaks,
   });
-  const { loveCharmReward } = getLoveRushRewards({
+  const { loveCharmReward } = getLoveRushDeliveryRewards({
     newStreak: nextStreak,
     game: state,
     npcName,
@@ -446,7 +446,7 @@ export const DeliveryOrders: React.FC<Props> = ({
   const nextStreak = getLoveRushStreaks({
     streaks: state.npcs?.[previewOrder.from]?.streaks,
   });
-  const { loveCharmReward } = getLoveRushRewards({
+  const { loveCharmReward } = getLoveRushDeliveryRewards({
     newStreak: nextStreak,
     game: state,
     npcName: previewOrder.from,

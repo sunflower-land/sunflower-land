@@ -131,7 +131,7 @@ export function getLoveRushStreaks({
   return streakCount + 1;
 }
 
-export function getLoveRushRewards({
+export function getLoveRushDeliveryRewards({
   newStreak,
   game,
   npcName,
@@ -151,7 +151,7 @@ export function getLoveRushRewards({
   return { loveCharmReward };
 }
 
-export function handleLoveRushRewards({
+export function handleLoveRushDeliveryRewards({
   createdAt,
   npcName,
   npc,
@@ -167,7 +167,7 @@ export function handleLoveRushRewards({
     createdAt,
   });
 
-  const { loveCharmReward } = getLoveRushRewards({
+  const { loveCharmReward } = getLoveRushDeliveryRewards({
     newStreak,
     game,
     npcName,
