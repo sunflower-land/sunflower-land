@@ -12,7 +12,7 @@ import { Panel } from "components/ui/Panel";
 import { ReputationSystem } from "features/island/hud/components/reputation/Reputation";
 import { Telegram } from "features/auth/components/Telegram/Telegram";
 import { Twitter } from "features/auth/components/Twitter/Twitter";
-import { Referral } from "features/island/hud/components/referral/Referral";
+import { ReferralContent } from "features/island/hud/components/referral/Referral";
 import { CloseButtonPanel } from "../CloseablePanel";
 import { DiscordBonus } from "features/game/expansion/components/DiscordBoat";
 import { Streams } from "./components/Streams";
@@ -103,7 +103,7 @@ export const ModalProvider: FC = ({ children }) => {
       </Modal>
 
       <Modal show={opened === "REFERRAL"} onHide={handleClose}>
-        <Referral onHide={handleClose} />
+        <ReferralContent onHide={handleClose} />
       </Modal>
 
       <Modal show={opened === "STREAMS"} onHide={handleClose}>

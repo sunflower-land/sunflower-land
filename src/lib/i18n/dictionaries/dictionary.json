@@ -5816,7 +5816,6 @@
   "rewards.vip.title": "VIP Reward",
   "rewards.vip.description": "A monthly reward for VIP members",
   "rewards.vip.claimed": "Claimed",
-<<<<<<< HEAD
   "announcement.exchangeLoveCharms": "Exchange Love Charms for $FLOWER at the Love Pool!",
   "news.loveRush": "Love Rush begins April 7th",
   "news.loveRush.description": "Race against Bumpkins to earn Love Charms - exchange for prizes & FLOWER!",
@@ -5838,8 +5837,6 @@
   "loveRush.deliveries": "Perform Bumpkin deliveries for Love Charms",
   "loveRush.chores": "Complete Chores & earn Love Charms",
   "loveRush.giftFlowers": "Gift flowers for bonus Love Charms",
-  "loveRush.dailyStreak": "Maintain a daily streak with NPCs to earn extra Love Charms"
-=======
+  "loveRush.dailyStreak": "Maintain a daily streak with NPCs to earn extra Love Charms",
   "error.insufficientMatic": "POL required"
->>>>>>> main
 }

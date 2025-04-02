@@ -10,9 +10,6 @@ import {
   IN_GAME_TASKS,
   InGameTaskName,
   isSocialTask,
-  OtherTaskName,
-  ALL_TASKS,
-  isSocialTaskName,
 } from "features/game/events/landExpansion/completeSocialTask";
 import { GameState } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -130,41 +127,47 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({
             image={tvIcon}
           />
 
-          {getKeys(IN_GAME_TASKS).map((taskName) => {
-            const task = IN_GAME_TASKS[taskName];
-            return (
-              <ButtonPanel
-                key={task.title}
-                onClick={() => setSelectedTask(taskName)}
-              >
-                <div className="flex gap-3">
-                  <img src={task.image} className="w-10" />
-                  <div className="flex flex-col gap-1">
-                    <p>{task.title}</p>
-                    <p className="underline">{t("read.more")}</p>
+          {getKeys(IN_GAME_TASKS)
+            // These have their own panels with descriptions
+            .filter(
+              (name) =>
+                name !== "Link your Discord" && name !== "Link your Telegram",
+            )
+            .map((taskName) => {
+              const task = IN_GAME_TASKS[taskName];
+              return (
+                <ButtonPanel
+                  key={task.title}
+                  onClick={() => setSelectedTask(taskName)}
+                >
+                  <div className="flex gap-3">
+                    <img src={task.image} className="w-10" />
+                    <div className="flex flex-col gap-1">
+                      <p>{task.title}</p>
+                      <p className="underline">{t("read.more")}</p>
+                    </div>
+                    <Label
+                      type={
+                        isTaskCompleted(task.title as InGameTaskName)
+                          ? "success"
+                          : "warning"
+                      }
+                      icon={
+                        isTaskCompleted(task.title as InGameTaskName)
+                          ? SUNNYSIDE.icons.confirm
+                          : task.requirement(state)
+                            ? SUNNYSIDE.icons.expression_alerted
+                            : undefined
+                      }
+                      secondaryIcon={ITEM_DETAILS["Love Charm"].image}
+                      className="absolute right-1 top-1"
+                    >
+                      <p className="text-xs">{`${task.reward?.["Love Charm"]}`}</p>
+                    </Label>
                   </div>
-                  <Label
-                    type={
-                      isTaskCompleted(task.title as InGameTaskName)
-                        ? "success"
-                        : "warning"
-                    }
-                    icon={
-                      isTaskCompleted(task.title as InGameTaskName)
-                        ? SUNNYSIDE.icons.confirm
-                        : task.requirement(state)
-                          ? SUNNYSIDE.icons.expression_alerted
-                          : undefined
-                    }
-                    secondaryIcon={ITEM_DETAILS["Love Charm"].image}
-                    className="absolute right-1 top-1"
-                  >
-                    <p className="text-xs">{`${task.reward?.["Love Charm"]}`}</p>
-                  </Label>
-                </div>
-              </ButtonPanel>
-            );
-          })}
+                </ButtonPanel>
+              );
+            })}
         </div>
       </div>
 
@@ -221,23 +224,12 @@ const InGameTask: React.FC<{
           </div>
           <div className="flex flex-col justify-between w-full gap-3">
             <p>{task.description}</p>
-            {(taskName === t("socialTask.referFriend") ||
-              taskName === t("socialTask.referVipFriend")) && (
-              <p
-                className="text-xs underline hover:text-blue-500"
-                onClick={onClose}
-              >
-                {t("taskBoard.howToRefer")}
-              </p>
-            )}
+
             {task && isSocialTask(task) && (
               <div className="flex flex-col gap-2 items-start">
                 <RequirementLabel
                   type="other"
-                  currentProgress={
-                    task.requirementProgress?.(state) ??
-                    (task.requirement(state) ? 1 : 0)
-                  }
+                  currentProgress={task.requirement(state) ? 1 : 0}
                   requirement={task.requirementTotal}
                   hideIcon
                 />

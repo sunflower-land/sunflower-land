@@ -22,12 +22,27 @@ export type OtherTasks = {
  */
 export type Task = OtherTasks & {
   requirement: (state: GameState) => boolean;
-  requirementProgress: (state: GameState) => number;
   requirementTotal: number;
   reward: Partial<Record<InventoryItemName, number>>;
 };
 
 export const IN_GAME_TASKS = {
+  "Link your Discord": {
+    title: translate("socialTask.linkDiscord"),
+    description: translate("socialTask.linkDiscord.description"),
+    image: SUNNYSIDE.icons.discord,
+    reward: { "Love Charm": 25 },
+    requirement: (state) => !!state.discord?.connected,
+    requirementTotal: 1,
+  },
+  "Link your Telegram": {
+    title: translate("socialTask.linkTelegram"),
+    description: translate("socialTask.linkTelegram.description"),
+    image: SUNNYSIDE.icons.telegram,
+    reward: { "Love Charm": 25 },
+    requirement: (state) => !!state.telegram?.linkedAt,
+    requirementTotal: 1,
+  },
   "Upgrade to Petal Paradise": {
     title: translate("socialTask.upgradeToPetalParadise"),
     description: translate("socialTask.upgradeToPetalParadise.description"),
@@ -35,7 +50,6 @@ export const IN_GAME_TASKS = {
     reward: { "Love Charm": 25 },
     requirement: (state) =>
       hasRequiredIslandExpansion(state.island.type, "spring"),
-    requirementProgress: (state) => (state.island.type === "basic" ? 0 : 1),
     requirementTotal: 1,
   },
   "Complete 50 deliveries": {
@@ -45,21 +59,20 @@ export const IN_GAME_TASKS = {
     reward: { "Love Charm": 25 },
     requirement: (state) => state.delivery.fulfilledCount >= 50,
     requirementTotal: 50,
-    requirementProgress: (state) => state.delivery.fulfilledCount,
   },
 } satisfies Record<string, Task>;
 
 export type InGameTaskName = keyof typeof IN_GAME_TASKS;
 
 export const ALL_TASKS = {
-  ...TASKS,
+  ...IN_GAME_TASKS,
 };
 
 export const isSocialTask = (task: Task | OtherTasks): task is Task =>
   "requirement" in task;
 
-export const isSocialTaskName = (task: string): task is SocialTaskName =>
-  task in TASKS;
+export const isSocialTaskName = (task: string): task is InGameTaskName =>
+  task in IN_GAME_TASKS;
 
 export type CompleteSocialTaskAction = {
   type: "socialTask.completed";
