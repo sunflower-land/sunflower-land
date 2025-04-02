@@ -112,7 +112,7 @@ export const TwitterPostedSuccess: React.FC = () => {
     (tweet) => tweet.completedAt > Date.now() - 10 * 60 * 1000,
   );
 
-  if (!recentlyPostedTweets) {
+  if (Object.values(tweets).length === 0 || !recentlyPostedTweets) {
     return (
       <>
         <div className="p-1.5">
