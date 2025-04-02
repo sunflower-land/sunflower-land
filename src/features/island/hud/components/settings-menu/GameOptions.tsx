@@ -41,11 +41,9 @@ import { Discord } from "./general-settings/DiscordModal";
 import { DepositWrapper } from "features/goblins/bank/components/Deposit";
 import { useSound } from "lib/utils/hooks/useSound";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
-import ticket from "assets/icons/ticket.png";
 import lockIcon from "assets/icons/lock.png";
 import telegramIcon from "assets/icons/telegram.webp";
 import { DEV_HoarderCheck } from "./developer-options/DEV_HoardingCheck";
-import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
 import { PickServer } from "./plaza-settings/PickServer";
 import { PlazaShaderSettings } from "./plaza-settings/PlazaShaderSettings";
 import { Preferences } from "./general-settings/Preferences";
@@ -93,7 +91,6 @@ const GameOptions: React.FC<ContentComponentProps> = ({
 
   const [isConfirmLogoutModalOpen, showConfirmLogoutModal] = useState(false);
   const [showFarm, setShowFarm] = useState(false);
-  const [showNftId, setShowNftId] = useState(false);
 
   const copypaste = useSound("copypaste");
 
@@ -159,36 +156,6 @@ const GameOptions: React.FC<ContentComponentProps> = ({
               farmId: gameService.state?.context?.farmId,
             })}
           </Label>
-          {gameService.state?.context?.nftId !== undefined && (
-            <Label
-              type="default"
-              icon={ticket}
-              popup={showNftId}
-              className="mb-1 mr-4"
-              onClick={() => {
-                setShowNftId(true);
-                setTimeout(() => {
-                  setShowNftId(false);
-                }, 2000);
-                copypaste.play();
-                clipboard.copy(
-                  gameService.state?.context?.nftId?.toString() || "",
-                );
-              }}
-            >
-              {`NFT ID #${gameService.state?.context?.nftId}`}
-            </Label>
-          )}
-        </div>
-        <div className="flex flex-wrap items-center justify-between mx-2">
-          {gameService.state?.context?.linkedWallet && (
-            <WalletAddressLabel
-              walletAddress={
-                (gameService.state?.context?.linkedWallet as string) || "XXXX"
-              }
-              showLabelTitle={true}
-            />
-          )}
         </div>
       </>
       <div className="flex flex-col gap-1">
