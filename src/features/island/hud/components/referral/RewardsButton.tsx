@@ -8,7 +8,7 @@ import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import {
   InGameTaskName,
-  TASKS,
+  IN_GAME_TASKS,
 } from "features/game/events/landExpansion/completeSocialTask";
 import { rewardChestMachine } from "features/game/expansion/components/dailyReward/rewardChestMachine";
 import { useInterpret, useActor } from "@xstate/react";
@@ -48,10 +48,10 @@ export const RewardsButton: React.FC = () => {
   }, [chestService]);
 
   const isTaskCompleted = useCallback(
-    (task: InGameTaskName) => TASKS[task].requirement(state),
+    (task: InGameTaskName) => IN_GAME_TASKS[task].requirement(state),
     [state],
   );
-  const isAnyTaskCompleted = Object.values(TASKS).some(
+  const isAnyTaskCompleted = Object.values(IN_GAME_TASKS).some(
     (task) =>
       isTaskCompleted(task.title as InGameTaskName) &&
       !state.socialTasks?.completed[task.title as InGameTaskName]?.completedAt,

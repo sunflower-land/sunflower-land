@@ -7,29 +7,20 @@ import { RequirementLabel } from "components/ui/RequirementsLabel";
 import Decimal from "decimal.js-light";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import {
-  TASKS,
-  OTHER_WAYS_TO_EARN_LOVE_CHARM,
-  Task,
-  OtherTasks,
+  IN_GAME_TASKS,
   InGameTaskName,
   isSocialTask,
-  OtherTaskName,
 } from "features/game/events/landExpansion/completeSocialTask";
 import { GameState } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Referral, ReferralContent } from "./Referral";
 import { useGame } from "features/game/GameProvider";
-
-const TASK_COMPONENTS: Record<
-  InGameTaskName | OtherTaskName,
-  React.FC<{ onClose: () => void }>
-> = {
-  "Upgrade to Petal Paradise": <div>Upgrade to Petal Paradise</div>,
-  "Complete 50 deliveries": <div>Complete 50 deliveries</div>,
-  "Refer a friend": <ReferralContent />,
-};
+import { getKeys } from "features/game/types/decorations";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
+import promoteIcon from "assets/icons/promote.webp";
+import tvIcon from "assets/icons/tv.webp";
 
 interface TaskBoardProps {
   state: GameState;
@@ -37,14 +28,34 @@ interface TaskBoardProps {
   socialTasks?: GameState["socialTasks"];
 }
 
+const TaskButton: React.FC<{
+  title: string;
+  onClick: () => void;
+  image: string;
+}> = ({ image, onClick, title }) => {
+  const { t } = useAppTranslation();
+  return (
+    <ButtonPanel key={title} onClick={onClick}>
+      <div className="flex gap-3">
+        <img src={image} className="w-10 h-auto object-contain" />
+        <div className="flex flex-col gap-1">
+          <p>{title}</p>
+          <p className="underline">{t("read.more")}</p>
+        </div>
+      </div>
+    </ButtonPanel>
+  );
+};
+
 export const TaskBoard: React.FC<TaskBoardProps> = ({
   state,
   loveCharmCount,
   socialTasks,
 }) => {
   const { t } = useAppTranslation();
-  const [selectedTask, setSelectedTask] = useState<Task | OtherTasks>();
-  const [showReferralModal, setShowReferralModal] = useState(false);
+  const { openModal } = useContext(ModalContext);
+
+  const [selectedTask, setSelectedTask] = useState<InGameTaskName>();
 
   const isTaskCompleted = (taskId: InGameTaskName): boolean =>
     !!socialTasks?.completed?.[taskId]?.completedAt;
@@ -64,10 +75,7 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({
           earn Love Charms!
         </p>
 
-        <img
-          src={SUNNYSIDE.announcement.bullRunSeason}
-          className="w-full mb-2"
-        />
+        <img src={SUNNYSIDE.announcement.loveRush} className="w-full mb-2" />
         <div className="flex justify-between gap-2 mb-2">
           <Label type="default">How to earn?</Label>
         </div>
@@ -76,59 +84,93 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({
       {/* Tasks */}
       <div className="flex flex-col gap-2 m-1">
         <div className="flex flex-col gap-1 text-xs">
-          {Object.values(OTHER_WAYS_TO_EARN_LOVE_CHARM).map((task) => (
-            <ButtonPanel key={task.title} onClick={() => setSelectedTask(task)}>
-              <div className="flex gap-3">
-                <img src={task.image} className="w-10" />
-                <div className="flex flex-col gap-1">
-                  <p>{task.title}</p>
-                  <p className="underline">{t("read.more")}</p>
-                </div>
-              </div>
-            </ButtonPanel>
-          ))}
+          <TaskButton
+            title={t("socialTask.helpBumpkins")}
+            onClick={() => console.log("Show Bumpkins")}
+            image={SUNNYSIDE.icons.player}
+          />
 
-          {Object.values(TASKS).map((task) => (
-            <ButtonPanel key={task.title} onClick={() => setSelectedTask(task)}>
-              <div className="flex gap-3">
-                <img src={task.image} className="w-10" />
-                <div className="flex flex-col gap-1">
-                  <p>{task.title}</p>
-                  <p className="underline">{t("read.more")}</p>
+          <TaskButton
+            title={t("socialTask.referFriend")}
+            onClick={() => console.log("Show Bumpkins")}
+            image={promoteIcon}
+          />
+
+          <TaskButton
+            title={t("socialTask.discord")}
+            onClick={() => console.log("Show Discord")}
+            image={SUNNYSIDE.icons.discord}
+          />
+
+          <TaskButton
+            title={t("socialTask.telegram")}
+            onClick={() => console.log("Show Telegram")}
+            image={SUNNYSIDE.icons.telegram}
+          />
+
+          <TaskButton
+            title={t("socialTask.twitter")}
+            onClick={() => console.log("Show Twitter")}
+            image={SUNNYSIDE.icons.x}
+          />
+
+          <TaskButton
+            title={t("socialTask.joinStream")}
+            onClick={() => console.log("Show Stream")}
+            image={tvIcon}
+          />
+
+          {getKeys(IN_GAME_TASKS).map((taskName) => {
+            const task = IN_GAME_TASKS[taskName];
+            return (
+              <ButtonPanel
+                key={task.title}
+                onClick={() => setSelectedTask(taskName)}
+              >
+                <div className="flex gap-3">
+                  <img src={task.image} className="w-10" />
+                  <div className="flex flex-col gap-1">
+                    <p>{task.title}</p>
+                    <p className="underline">{t("read.more")}</p>
+                  </div>
+                  <Label
+                    type={
+                      isTaskCompleted(task.title as InGameTaskName)
+                        ? "success"
+                        : "warning"
+                    }
+                    icon={
+                      isTaskCompleted(task.title as InGameTaskName)
+                        ? SUNNYSIDE.icons.confirm
+                        : task.requirement(state)
+                          ? SUNNYSIDE.icons.expression_alerted
+                          : undefined
+                    }
+                    secondaryIcon={ITEM_DETAILS["Love Charm"].image}
+                    className="absolute right-1 top-1"
+                  >
+                    <p className="text-xs">{`${task.reward?.["Love Charm"]}`}</p>
+                  </Label>
                 </div>
-                <Label
-                  type={
-                    isTaskCompleted(task.title as InGameTaskName)
-                      ? "success"
-                      : "warning"
-                  }
-                  icon={
-                    isTaskCompleted(task.title as InGameTaskName)
-                      ? SUNNYSIDE.icons.confirm
-                      : task.requirement(state)
-                        ? SUNNYSIDE.icons.expression_alerted
-                        : undefined
-                  }
-                  secondaryIcon={ITEM_DETAILS["Love Charm"].image}
-                  className="absolute right-1 top-1"
-                >
-                  <p className="text-xs">{`${task.reward?.["Love Charm"]}`}</p>
-                </Label>
-              </div>
-            </ButtonPanel>
-          ))}
+              </ButtonPanel>
+            );
+          })}
         </div>
       </div>
 
       {/* Details Modal */}
       <ModalOverlay
-        show={!!selectedTask}
+        show={!!selectedTask && selectedTask in IN_GAME_TASKS}
         onBackdropClick={() => setSelectedTask(undefined)}
-      ></ModalOverlay>
-      <Referral
-        show={showReferralModal}
-        onHide={() => setShowReferralModal(false)}
-      />
+      >
+        {selectedTask && selectedTask in IN_GAME_TASKS && (
+          <InGameTask
+            taskName={selectedTask as InGameTaskName}
+            socialTasks={socialTasks}
+            onClose={() => setSelectedTask(undefined)}
+          />
+        )}
+      </ModalOverlay>
     </div>
   );
 };
@@ -146,7 +188,7 @@ const InGameTask: React.FC<{
     });
   };
 
-  const task = TASKS[taskName];
+  const task = IN_GAME_TASKS[taskName];
   const isTaskCompleted = (taskId: InGameTaskName): boolean =>
     !!socialTasks?.completed?.[taskId]?.completedAt;
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
   pixelGrayBorderStyle,
@@ -12,7 +12,7 @@ import lockIcon from "assets/icons/lock.png";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { hasFeatureAccess } from "lib/flags";
 import { useGame } from "features/game/GameProvider";
-import { Referral } from "features/island/hud/components/referral/Referral";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
 
 export const LockdownWidget: React.FC = () => {
   const [showMessage, setShowMessage] = useState(true);
@@ -185,7 +185,7 @@ export const GaslessWidget: React.FC = () => {
 
 export const ReferralWidget: React.FC = () => {
   const [showMessage, setShowMessage] = useState(true);
-  const [showReferralModal, setShowReferralModal] = useState(false);
+  const { openModal } = useContext(ModalContext);
 
   const { t } = useAppTranslation();
 
@@ -209,7 +209,7 @@ export const ReferralWidget: React.FC = () => {
         <p className="text-xs flex-1">{t("announcement.referral")}</p>
         <p
           className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500 mb-2"
-          onClick={() => setShowReferralModal(true)}
+          onClick={() => openModal("REFERRAL")}
         >
           {t("read.more")}
         </p>
@@ -218,10 +218,6 @@ export const ReferralWidget: React.FC = () => {
         src={SUNNYSIDE.icons.close}
         className="absolute right-2 top-1 w-5 cursor-pointer"
         onClick={() => setShowMessage(false)}
-      />
-      <Referral
-        show={showReferralModal}
-        onHide={() => setShowReferralModal(false)}
       />
     </div>
   );

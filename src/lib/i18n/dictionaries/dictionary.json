@@ -5801,5 +5801,11 @@
   "rewards.vip.title": "VIP Reward",
   "rewards.vip.description": "A monthly reward for VIP members",
   "rewards.vip.claimed": "Claimed",
-  "announcement.exchangeLoveCharms": "Exchange Love Charms for $FLOWER at the Love Pool!"
+  "announcement.exchangeLoveCharms": "Exchange Love Charms for $FLOWER at the Love Pool!",
+  "news.loveRush": "Love Rush begins April 7th",
+  "news.loveRush.description": "Race against Bumpkins to earn Love Charms - exchange for prizes & FLOWER!",
+  "socialTask.discord": "Join the Discord Community & earn rewards.",
+  "socialTask.telegram": "Connect your Telegram, get reminders & earn rewards.",
+  "socialTask.twitter": "Follow our Twitter for prizes.",
+  "socialTask.helpBumpkins": "Complete tasks for Bumpkins to earn Love Charms."
 }

@@ -11,6 +11,7 @@ import React, { useContext } from "react";
 import flowerIcon from "assets/icons/flower_token.webp";
 import { SUNNYSIDE } from "assets/sunnyside";
 import vipIcon from "assets/icons/vip.webp";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 interface ReferralProps {
   show: boolean;
@@ -39,7 +40,7 @@ export const ReferralContent: React.FC = () => {
   const referralLink = `${gameLink}/?ref=${referralCode}`;
 
   return (
-    <Panel>
+    <>
       <div className="p-2 text-xs flex flex-col">
         <div className="w-full relative">
           <img
@@ -105,14 +106,14 @@ export const ReferralContent: React.FC = () => {
           </div>
         </div>
       </div>
-    </Panel>
+    </>
   );
 };
 
-export const Referral: React.FC<ReferralProps> = ({ show, onHide }) => {
+export const Referral: React.FC<{ onHide: () => void }> = ({ onHide }) => {
   return (
-    <Modal show={show} onHide={onHide}>
+    <CloseButtonPanel onClose={onHide}>
       <ReferralContent />
-    </Modal>
+    </CloseButtonPanel>
   );
 };

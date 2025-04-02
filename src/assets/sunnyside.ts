@@ -54,6 +54,7 @@ export const SUNNYSIDE = {
 
   //Announcement
   announcement: {
+    loveRush: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/love_rush.webp`,
     roninBanner: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/ronin_banner.png`,
     flowerBanner: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/flower_banner.png`,
     summer: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/summer_banner.webp`,
@@ -533,6 +534,7 @@ export const SUNNYSIDE = {
   },
   //Icons
   icons: {
+    x: `${CONFIG.PROTECTED_IMAGE_URL}/icons/x.svg`,
     upgrade_disc: `${CONFIG.PROTECTED_IMAGE_URL}/icons/upgrade_disc.webp`,
     angry: `${CONFIG.PROTECTED_IMAGE_URL}/icons/angry.png`,
     arrow_down: `${CONFIG.PROTECTED_IMAGE_URL}/icons/arrow_down.png`,

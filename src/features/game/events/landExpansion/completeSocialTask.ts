@@ -7,8 +7,6 @@ import { produce } from "immer";
 import { hasFeatureAccess } from "lib/flags";
 import { translate } from "lib/i18n/translate";
 import codexIcon from "assets/icons/codex.webp";
-import promoteIcon from "assets/icons/promote.webp";
-import tvIcon from "assets/icons/tv.webp";
 
 export type OtherTasks = {
   title: string;
@@ -29,7 +27,7 @@ export type Task = OtherTasks & {
   reward: Partial<Record<InventoryItemName, number>>;
 };
 
-export const TASKS = {
+export const IN_GAME_TASKS = {
   "Upgrade to Petal Paradise": {
     title: translate("socialTask.upgradeToPetalParadise"),
     description: translate("socialTask.upgradeToPetalParadise.description"),
@@ -37,6 +35,7 @@ export const TASKS = {
     reward: { "Love Charm": 25 },
     requirement: (state) =>
       hasRequiredIslandExpansion(state.island.type, "spring"),
+    requirementProgress: (state) => (state.island.type === "basic" ? 0 : 1),
   },
   "Complete 50 deliveries": {
     title: translate("socialTask.complete50Deliveries"),
@@ -49,45 +48,7 @@ export const TASKS = {
   },
 } satisfies Record<string, Task>;
 
-export type InGameTaskName = keyof typeof TASKS;
-
-/**
- * Other ways to earn Love Charm (Read-only)
- */
-export const OTHER_WAYS_TO_EARN_LOVE_CHARM = {
-  "Help Bumpkin NPCs": {
-    title: translate("socialTask.helpBumpkinNPCs"),
-    description: translate("socialTask.helpBumpkinNPCs.description"),
-    image: SUNNYSIDE.icons.player,
-  },
-  "Refer a friend": {
-    title: translate("socialTask.referFriend"),
-    description: translate("socialTask.referFriend.description"),
-    image: promoteIcon,
-  },
-  "Link your Discord": {
-    title: translate("socialTask.linkDiscord"),
-    description: translate("socialTask.linkDiscord.description"),
-    image: SUNNYSIDE.icons.discord,
-  },
-  "Link your Telegram": {
-    title: translate("socialTask.linkTelegram"),
-    description: translate("socialTask.linkTelegram.description"),
-    image: SUNNYSIDE.icons.telegram,
-  },
-  "Link your Twitter": {
-    title: translate("socialTask.linkTwitter"),
-    description: translate("socialTask.linkTwitter.description"),
-    image: SUNNYSIDE.icons.twitter,
-  },
-  "Join a stream": {
-    title: translate("socialTask.joinStream"),
-    image: tvIcon,
-    description: translate("socialTask.joinStream.description"),
-  },
-} satisfies Record<string, OtherTasks>;
-
-export type OtherTaskName = keyof typeof OTHER_WAYS_TO_EARN_LOVE_CHARM;
+export type InGameTaskName = keyof typeof IN_GAME_TASKS;
 
 export const isSocialTask = (task: Task | OtherTasks): task is Task =>
   "requirement" in task;
@@ -114,7 +75,7 @@ export function completeSocialTask({
     }
 
     const { taskId } = action;
-    const task = TASKS[taskId] as Task | undefined;
+    const task = IN_GAME_TASKS[taskId] as Task | undefined;
 
     if (!task) {
       throw new Error("Task not found");

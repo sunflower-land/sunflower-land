@@ -12,6 +12,7 @@ import { Panel } from "components/ui/Panel";
 import { ReputationSystem } from "features/island/hud/components/reputation/Reputation";
 import { Telegram } from "features/auth/components/Telegram/Telegram";
 import { Twitter } from "features/auth/components/Twitter/Twitter";
+import { Referral } from "features/island/hud/components/referral/Referral";
 
 type GlobalModal =
   | "BUY_GEMS"
@@ -26,7 +27,8 @@ type GlobalModal =
   | "VIP_ITEMS"
   | "REPUTATION"
   | "TELEGRAM"
-  | "TWITTER";
+  | "TWITTER"
+  | "REFERRAL";
 
 export const ModalContext = createContext<{
   openModal: (type: GlobalModal) => void;
@@ -83,6 +85,10 @@ export const ModalProvider: FC = ({ children }) => {
 
       <Modal show={opened === "TWITTER"} onHide={handleClose}>
         <Twitter onClose={handleClose} />
+      </Modal>
+
+      <Modal show={opened === "REFERRAL"} onHide={handleClose}>
+        <Referral show={opened === "REFERRAL"} onHide={handleClose} />
       </Modal>
 
       <Modal show={opened === "FIRST_EXPANSION"}>
