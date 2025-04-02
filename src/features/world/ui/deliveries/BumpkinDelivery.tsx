@@ -55,6 +55,11 @@ import { getActiveCalendarEvent } from "features/game/types/calendar";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { MachineState } from "features/game/lib/gameMachine";
+import { hasFeatureAccess } from "lib/flags";
+import {
+  getLoveRushRewards,
+  getLoveRushStreaks,
+} from "features/game/events/landExpansion/loveRush";
 
 export const OrderCard: React.FC<{
   order: Order;
@@ -82,6 +87,14 @@ export const OrderCard: React.FC<{
   const { t } = useAppTranslation();
 
   const tickets = generateDeliveryTickets({ game, npc: order.from });
+  const newStreak = getLoveRushStreaks({
+    streaks: game.npcs?.[order.from]?.streaks,
+  });
+  const { loveCharmReward } = getLoveRushRewards({
+    newStreak: newStreak + 1,
+    game,
+    npcName: order.from,
+  });
 
   return (
     <>
@@ -173,6 +186,13 @@ export const OrderCard: React.FC<{
                 ))}
               </Label>
             </div>
+            {hasFeatureAccess(game, "LOVE_RUSH") && (
+              <div className="flex flex-wrap gap-1 justify-between w-full">
+                <Label type="vibrant" icon={ITEM_DETAILS["Love Charm"].image}>
+                  {`Love Rush Bonus: ${loveCharmReward} Love Charms`}
+                </Label>
+              </div>
+            )}
           </div>
         </div>
       </div>
