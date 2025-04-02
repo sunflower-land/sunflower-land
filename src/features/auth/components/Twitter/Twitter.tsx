@@ -21,6 +21,7 @@ import { TranslationKeys } from "lib/i18n/dictionaries/types";
 import saveIcon from "assets/icons/save.webp";
 import { getBumpkinBanner } from "./actions/getBumpkinBanner";
 import { Loading } from "../Loading";
+import { TextInput } from "components/ui/TextInput";
 
 const TWITTER_POST_DESCRIPTIONS: Record<TwitterPostName, TranslationKeys> = {
   FARM: "twitter.post.farm",
@@ -120,6 +121,8 @@ const TwitterPost: React.FC<{ name: TwitterPostName; onClose: () => void }> = ({
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
 
+  const [url, setUrl] = useState<string>();
+
   const [showConfirm, setShowConfirm] = useState(false);
 
   const { t } = useAppTranslation();
@@ -195,16 +198,24 @@ const TwitterPost: React.FC<{ name: TwitterPostName; onClose: () => void }> = ({
           })}
         </p>
         <p className="text-xs mb-2 mx-1">{t("twitter.verify.click.button")}</p>
+        <TextInput
+          placeholder="Your Tweet URL..."
+          value={url}
+          onValueChange={(msg) => setUrl(msg)}
+        />
         <div className="flex gap-1">
           <Button onClick={() => setShowConfirm(false)}>{t("back")}</Button>
           <Button
+            disabled={!url}
             onClick={() => {
               gameService.send("twitter.posted", {
                 effect: {
                   type: "twitter.posted",
+                  url,
                 },
                 authToken: authState.context.user.rawToken as string,
               });
+              onClose();
             }}
           >
             {t("twitter.verify.button")}
@@ -220,6 +231,7 @@ const TwitterPost: React.FC<{ name: TwitterPostName; onClose: () => void }> = ({
   return (
     <InnerPanel className="p-2  mt-1">
       <Component />
+
       {cooldown > 0 && (
         <>
           <p className="text-xs mx-1 my-1">
