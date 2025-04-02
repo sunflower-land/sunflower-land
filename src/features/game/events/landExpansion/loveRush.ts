@@ -1,16 +1,13 @@
 import Decimal from "decimal.js-light";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { NPCData, GameState } from "features/game/types/game";
-import {
-  CoinNPCName,
-  GoblinNPCName,
-} from "features/island/delivery/lib/delivery";
-import { QuestNPCName } from "./deliver";
+
+import { NPCName } from "lib/npcs";
 
 type LoveRushNPCTypes = "basic" | "medium" | "advanced" | "expert";
 
 export const getLoveRushNPCType = (
-  npcName: DeliveryNPCName,
+  npcName: NPCName,
 ): LoveRushNPCTypes | null => {
   if (isBasicLoveRushNPC(npcName)) {
     return "basic";
@@ -31,13 +28,13 @@ export const getLoveRushNPCType = (
   return null;
 };
 
-const isBasicLoveRushNPC = (npcName: DeliveryNPCName) =>
+const isBasicLoveRushNPC = (npcName: NPCName) =>
   npcName === "betty" ||
   npcName === "blacksmith" ||
   npcName === "peggy" ||
   npcName === "pumpkin' pete";
 
-const isMediumLoveRushNPC = (npcName: DeliveryNPCName) =>
+const isMediumLoveRushNPC = (npcName: NPCName) =>
   npcName === "bert" ||
   npcName === "finley" ||
   npcName === "miranda" ||
@@ -46,7 +43,7 @@ const isMediumLoveRushNPC = (npcName: DeliveryNPCName) =>
   npcName === "tango" ||
   npcName === "old salty";
 
-const isAdvancedLoveRushNPC = (npcName: DeliveryNPCName) =>
+const isAdvancedLoveRushNPC = (npcName: NPCName) =>
   npcName === "tywin" ||
   npcName === "cornwell" ||
   npcName === "timmy" ||
@@ -55,7 +52,7 @@ const isAdvancedLoveRushNPC = (npcName: DeliveryNPCName) =>
   npcName === "jester" ||
   npcName === "victoria";
 
-const isExpertLoveRushNPC = (npcName: DeliveryNPCName) =>
+const isExpertLoveRushNPC = (npcName: NPCName) =>
   npcName === "grimbly" ||
   npcName === "grimtooth" ||
   npcName === "grubnuk" ||
@@ -133,7 +130,6 @@ export function getLoveRushStreaks({
 
   return streakCount + 1;
 }
-export type DeliveryNPCName = QuestNPCName | GoblinNPCName | CoinNPCName;
 
 export function getLoveRushRewards({
   newStreak,
@@ -142,7 +138,7 @@ export function getLoveRushRewards({
 }: {
   newStreak: number;
   game: GameState;
-  npcName: DeliveryNPCName;
+  npcName: NPCName;
 }) {
   const streakIndex = (newStreak > 5 ? 5 : newStreak) as StreakNumber;
   const npcType = getLoveRushNPCType(npcName);
@@ -162,7 +158,7 @@ export function handleLoveRushRewards({
   game,
 }: {
   createdAt: number;
-  npcName: DeliveryNPCName;
+  npcName: NPCName;
   npc: NPCData;
   game: GameState;
 }) {

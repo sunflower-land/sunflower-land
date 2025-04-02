@@ -97,7 +97,7 @@ const FEATURE_FLAGS = {
   // Don't change this feature flag until the love rush event is over
   LOVE_RUSH: () =>
     timePeriodFeatureFlag({
-      start: new Date("2025-04-01T00:00:00Z"),
+      start: new Date("2025-04-07T00:00:00Z"),
       end: new Date("2025-05-05T00:00:00Z"),
     })(),
 } satisfies Record<string, FeatureFlag>;

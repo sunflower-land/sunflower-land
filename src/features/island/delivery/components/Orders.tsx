@@ -142,7 +142,7 @@ export const OrderCard: React.FC<OrderCardProps> = ({
   onClick,
   state,
 }) => {
-  const npcName: DeliveryNpcName = order.from;
+  const npcName = order.from;
   const tickets = generateDeliveryTickets({ game: state, npc: npcName });
   const nextStreak = getLoveRushStreaks({
     streaks: state.npcs?.[npcName]?.streaks,
