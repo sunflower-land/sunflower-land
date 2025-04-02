@@ -10,7 +10,6 @@ import lockIcon from "assets/icons/lock.png";
 import { DailyRewardContent } from "../../../../game/expansion/components/dailyReward/DailyReward";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { TaskBoard } from "./TaskBoard";
-import { InGameTaskName } from "features/game/events/landExpansion/completeSocialTask";
 import { MachineInterpreter } from "features/game/lib/gameMachine";
 import { GameState } from "features/game/types/game";
 import {
@@ -36,7 +35,6 @@ import { hasFeatureAccess } from "lib/flags";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { useTranslation } from "react-i18next";
 import { pixelOrangeBorderStyle } from "features/game/lib/style";
-import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
