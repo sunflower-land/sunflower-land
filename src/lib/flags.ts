@@ -90,6 +90,11 @@ const FEATURE_FLAGS = {
   LOVE_CHARM_FLOWER_EXCHANGE: timeBasedFeatureFlag(
     new Date("2025-04-14T00:00:00Z"),
   ),
+  //Testnet only
+  LOVE_CHARM_REWARD_SHOP: timeBasedFeatureFlag(
+    new Date("2025-04-14T00:00:00Z"),
+  ),
+
   LEDGER: testnetLocalStorageFeatureFlag("ledger"),
   BLOCKCHAIN_BOX: defaultFeatureFlag,
 
