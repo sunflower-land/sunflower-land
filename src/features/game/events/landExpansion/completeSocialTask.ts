@@ -24,6 +24,7 @@ export type Task = OtherTasks & {
   requirement: (state: GameState) => boolean;
   requirementTotal: number;
   reward: Partial<Record<InventoryItemName, number>>;
+  currentProgress?: (state: GameState) => number;
 };
 
 export const IN_GAME_TASKS = {
@@ -59,6 +60,7 @@ export const IN_GAME_TASKS = {
     reward: { "Love Charm": 25 },
     requirement: (state) => state.delivery.fulfilledCount >= 50,
     requirementTotal: 50,
+    currentProgress: (state) => state.delivery.fulfilledCount,
   },
 } satisfies Record<string, Task>;
 

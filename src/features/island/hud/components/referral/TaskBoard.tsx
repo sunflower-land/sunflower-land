@@ -4,12 +4,12 @@ import { Label } from "components/ui/Label";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { ButtonPanel } from "components/ui/Panel";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
-import Decimal from "decimal.js-light";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import {
   IN_GAME_TASKS,
   InGameTaskName as taskName,
   isSocialTask,
+  Task,
 } from "features/game/events/landExpansion/completeSocialTask";
 import { GameState } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -25,7 +25,6 @@ import { hasFeatureAccess } from "lib/flags";
 
 interface TaskBoardProps {
   state: GameState;
-  loveCharmCount: Decimal;
   socialTasks?: GameState["socialTasks"];
 }
 
@@ -61,11 +60,7 @@ const TaskButton: React.FC<{
   );
 };
 
-export const TaskBoard: React.FC<TaskBoardProps> = ({
-  state,
-  loveCharmCount,
-  socialTasks,
-}) => {
+export const TaskBoard: React.FC<TaskBoardProps> = ({ state, socialTasks }) => {
   const { t } = useAppTranslation();
   const { openModal } = useContext(ModalContext);
 
@@ -176,11 +171,7 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({
         onBackdropClick={() => setSelectedTask(undefined)}
       >
         {selectedTask && selectedTask in IN_GAME_TASKS && (
-          <InGameTask
-            taskName={selectedTask}
-            socialTasks={socialTasks}
-            onClose={() => setSelectedTask(undefined)}
-          />
+          <InGameTask taskName={selectedTask} socialTasks={socialTasks} />
         )}
       </ModalOverlay>
     </div>
@@ -190,8 +181,7 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({
 const InGameTask: React.FC<{
   taskName: taskName;
   socialTasks: GameState["socialTasks"];
-  onClose: () => void;
-}> = ({ taskName, socialTasks, onClose }) => {
+}> = ({ taskName, socialTasks }) => {
   const { gameService, gameState } = useGame();
   const completeTask = (taskId: taskName) => {
     gameService.send({
@@ -200,7 +190,7 @@ const InGameTask: React.FC<{
     });
   };
 
-  const task = IN_GAME_TASKS[taskName];
+  const task = IN_GAME_TASKS[taskName] as Task;
   const isTaskCompleted = (taskId: taskName): boolean =>
     !!socialTasks?.completed?.[taskId]?.completedAt;
 
@@ -228,7 +218,13 @@ const InGameTask: React.FC<{
               <div className="flex flex-col gap-2 items-start">
                 <RequirementLabel
                   type="other"
-                  currentProgress={task.requirement(state) ? 1 : 0}
+                  currentProgress={
+                    task.currentProgress
+                      ? task.currentProgress(state)
+                      : task.requirement(state)
+                        ? 1
+                        : 0
+                  }
                   requirement={task.requirementTotal}
                   hideIcon
                 />
