@@ -129,10 +129,11 @@ export const ChoreBoard: React.FC<Props> = ({ state }) => {
                 icon={ITEM_DETAILS["Love Charm"].image}
                 secondaryIcon={SUNNYSIDE.icons.stopwatch}
               >
-                {`Love Rush Event - ${millisecondsToString(
-                  loveRushRemainingTime,
-                  { length: "short" },
-                )} left`}
+                {t("loveRush.eventTime", {
+                  time: millisecondsToString(loveRushRemainingTime, {
+                    length: "short",
+                  }),
+                })}
               </Label>
             )}
           </div>
@@ -152,7 +153,7 @@ export const ChoreBoard: React.FC<Props> = ({ state }) => {
             }
             className="my-1"
           >
-            {`Get a bonus 100 Love Charms for completing 21 Chores in a week!`}
+            {t("loveRush.choreBonus")}
           </Label>
         )}
 

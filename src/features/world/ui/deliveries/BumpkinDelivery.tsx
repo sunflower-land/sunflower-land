@@ -190,7 +190,7 @@ export const OrderCard: React.FC<{
             {hasFeatureAccess(game, "LOVE_RUSH") && loveCharmReward > 0 && (
               <div className="flex flex-wrap gap-1 justify-between w-full">
                 <Label type="vibrant" icon={ITEM_DETAILS["Love Charm"].image}>
-                  {`Love Rush Bonus: ${loveCharmReward} Love Charms`}
+                  {t("loveRush.deliveryStreakBonus", { loveCharmReward })}
                 </Label>
               </div>
             )}

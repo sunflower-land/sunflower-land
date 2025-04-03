@@ -491,14 +491,15 @@ export const DeliveryOrders: React.FC<Props> = ({
                 icon={ITEM_DETAILS["Love Charm"].image}
                 secondaryIcon={SUNNYSIDE.icons.stopwatch}
               >
-                {`Love Rush Event - ${millisecondsToString(
-                  loveRushRemainingTime,
-                  { length: "short" },
-                )} left`}
+                {t("loveRush.eventTime", {
+                  time: millisecondsToString(loveRushRemainingTime, {
+                    length: "short",
+                  }),
+                })}
               </Label>
             )}
           </div>
-          <p className="my-2 ml-1 text-xs">{t("deliveries.intro")}</p>{" "}
+          <p className="my-2 ml-1 text-xs">{t("deliveries.intro")}</p>
         </div>
 
         <Label
