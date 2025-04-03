@@ -532,12 +532,14 @@ export function deliverOrder({
 
     // Handle Love Rush rewards during the Love Rush event
     if (hasFeatureAccess(game, "LOVE_RUSH")) {
-      handleLoveRushDeliveryRewards({
+      const { newGame, newNpc } = handleLoveRushDeliveryRewards({
         game,
         createdAt,
         npcName: order.from,
         npc,
       });
+      game.inventory = newGame.inventory;
+      npc.streaks = newNpc.streaks;
     }
 
     game.npcs = {
