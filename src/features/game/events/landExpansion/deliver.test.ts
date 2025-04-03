@@ -2011,7 +2011,7 @@ describe("deliver", () => {
               deliveryCount: 1,
               streaks: {
                 streak: 1,
-                lastClaimedAt: eventTime,
+                lastClaimedAt: eventTime - 24 * 60 * 60 * 1000,
               },
             },
           },
@@ -2051,7 +2051,7 @@ describe("deliver", () => {
               deliveryCount: 1,
               streaks: {
                 streak: 6,
-                lastClaimedAt: eventTime,
+                lastClaimedAt: eventTime - 24 * 60 * 60 * 1000,
               },
             },
           },
