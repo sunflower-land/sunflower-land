@@ -88,11 +88,14 @@ export function completeNPCChore({
     draft.npcs[npcName].friendship.updatedAt = createdAt;
 
     if (hasFeatureAccess(draft, "LOVE_RUSH")) {
-      handleLoveRushChoreRewards({
+      const updatedGame = handleLoveRushChoreRewards({
         game: draft,
         npcName,
         createdAt,
       });
+
+      // Update the draft with the new state
+      draft.inventory = updatedGame.inventory;
     }
 
     return draft;

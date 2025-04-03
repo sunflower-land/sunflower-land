@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { GameState } from "features/game/types/game";
+import { produce } from "immer";
 import { NPCName } from "lib/npcs";
 
 type LoveRushChoreNPCTypes = "basic" | "advanced" | "expert";
@@ -96,19 +97,25 @@ export function handleLoveRushChoreRewards({
   game: GameState;
   npcName: NPCName;
   createdAt?: number;
-}) {
-  const { loveCharmReward } = getLoveRushChoreReward({
-    npcName,
-    game,
-    createdAt,
+}): GameState {
+  return produce(game, (copy) => {
+    const { loveCharmReward } = getLoveRushChoreReward({
+      npcName,
+      game: copy,
+      createdAt,
+    });
+    copy.inventory["Love Charm"] = (
+      copy.inventory["Love Charm"] ?? new Decimal(0)
+    ).add(loveCharmReward);
+
+    // Add 100 love charms for completing 21 chores
+    const hasCompleted21Chores =
+      Object.values(copy.choreBoard.chores).filter((chore) => chore.completedAt)
+        .length === 21;
+    if (hasCompleted21Chores) {
+      copy.inventory["Love Charm"] = copy.inventory["Love Charm"].add(100);
+    }
+
+    return copy;
   });
-  game.inventory["Love Charm"] = (
-    game.inventory["Love Charm"] ?? new Decimal(0)
-  ).add(loveCharmReward);
-  const hasCompleted21Chores =
-    Object.values(game.choreBoard.chores).filter((chore) => chore.completedAt)
-      .length === 21;
-  if (hasCompleted21Chores) {
-    game.inventory["Love Charm"] = game.inventory["Love Charm"].add(100);
-  }
 }
