@@ -5840,5 +5840,6 @@
   "loveRush.dailyStreak": "Maintain a daily streak with NPCs to earn extra Love Charms",
   "error.insufficientMatic": "POL required",
   "gameOptions.notifications.pwa": "Chrome",
-  "gameOptions.notifications.pwa.telegram": "Telegram"
+  "gameOptions.notifications.pwa.telegram": "Telegram",
+  "gameOptions.generalSettings.reminders": "Reminders"
 }

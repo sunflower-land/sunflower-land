@@ -129,6 +129,11 @@ export const Notifications: React.FC<{
     setOptions({ ...options, [subName]: !options[subName] });
   };
 
+  const handlePwaChange = () => {
+    setIsPwaEnabled(!isPwaEnabled);
+    handleChange("seasonal-events");
+  };
+
   return (
     <>
       <div className="flex flex-col space-y-1 mb-1">

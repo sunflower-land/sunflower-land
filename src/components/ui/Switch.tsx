@@ -16,7 +16,7 @@ const Switch: React.FC<{
         "flex items-center justify-between w-full cursor-pointer h-8",
         className,
       )}
-      onClick={onChange}
+      onClick={disabled ? undefined : onChange}
     >
       <div className="flex items-center gap-2">
         <span className="text-sm">{label}</span>
