@@ -1120,7 +1120,8 @@ export type Currency =
   | "Crimstone"
   | "Sunstone"
   | "Seasonal Ticket"
-  | "Mark";
+  | "Mark"
+  | "Love Charm";
 
 export type ShopItemBase = {
   shortDescription: string;
