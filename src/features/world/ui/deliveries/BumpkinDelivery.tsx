@@ -60,7 +60,7 @@ import {
   getLoveRushDeliveryRewards,
   getLoveRushStreaks,
   LOVE_RUSH_GIFTS_REWARD,
-} from "features/game/events/landExpansion/loveRushDeliveries";
+} from "features/game/types/loveRushDeliveries";
 
 export const OrderCard: React.FC<{
   order: Order;

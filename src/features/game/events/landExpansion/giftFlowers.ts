@@ -8,7 +8,7 @@ import {
 } from "features/game/types/gifts";
 import { produce } from "immer";
 import { hasFeatureAccess } from "lib/flags";
-import { LOVE_RUSH_GIFTS_REWARD } from "./loveRushDeliveries";
+import { LOVE_RUSH_GIFTS_REWARD } from "../../types/loveRushDeliveries";
 
 export type GiftFlowersAction = {
   type: "flowers.gifted";

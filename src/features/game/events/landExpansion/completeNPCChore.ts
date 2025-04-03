@@ -14,7 +14,7 @@ import {
 import { isWearableActive } from "features/game/lib/wearables";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
-import { handleLoveRushChoreRewards } from "./loveRushChores";
+import { handleLoveRushChoreRewards } from "../../types/loveRushChores";
 import { hasFeatureAccess } from "lib/flags";
 
 export type CompleteNPCChoreAction = {

@@ -37,7 +37,7 @@ import { isMobile } from "mobile-device-detect";
 import { Context } from "features/game/GameProvider";
 import { formatNumber } from "lib/utils/formatNumber";
 import { hasFeatureAccess } from "lib/flags";
-import { getLoveRushChoreReward } from "features/game/events/landExpansion/loveRushChores";
+import { getLoveRushChoreReward } from "features/game/types/loveRushChores";
 import { millisecondsToString } from "lib/utils/time";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
