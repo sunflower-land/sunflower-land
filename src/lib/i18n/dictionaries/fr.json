@@ -5677,5 +5677,10 @@
   "loveRush.deliveries": "Effectuez des livraisons de Bumpkin pour Love Charms",
   "loveRush.chores": "Accomplissez des corvées et gagnez des breloques d'amour",
   "loveRush.giftFlowers": "Offrez des fleurs en guise de cadeau Love Charms",
-  "loveRush.dailyStreak": "Maintenez une séquence quotidienne avec des PNJ pour gagner des Love Charms supplémentaires"
+  "announcement.loveRush": "L'événement Love Rush a commencé ! Participez aux festivités !",
+  "loveRush.dailyStreak": "Maintenez une série de livraisons quotidiennes avec des PNJ pour gagner des Love Charms supplémentaires grâce aux livraisons",
+  "loveRush.treasureChest": "Recevez 15 breloques d'amour en prime lorsque vous réclamez votre récompense quotidienne !",
+  "loveRush.eventTime": "Événement Love Rush - Il reste {{time}}",
+  "loveRush.choreBonus": "100 breloques d'amour en prime pour avoir accompli 21 corvées en une semaine !",
+  "loveRush.deliveryStreakBonus": "Bonus Love Rush : {{loveCharmReward}} Love Breloques"
 }

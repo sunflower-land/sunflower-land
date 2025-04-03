@@ -5677,5 +5677,10 @@
   "loveRush.deliveries": "Faça entregas de Bumpkin para Love Charms",
   "loveRush.chores": "Complete tarefas e ganhe amuletos amorosos",
   "loveRush.giftFlowers": "Flores de presente para bônus Love Charms",
-  "loveRush.dailyStreak": "Mantenha uma sequência diária com NPCs para ganhar Love Charms extras"
+  "announcement.loveRush": "O evento Love Rush começou! Participe das festividades!",
+  "loveRush.dailyStreak": "Mantenha uma sequência diária de entregas com NPCs para ganhar Love Charms extras com as entregas",
+  "loveRush.treasureChest": "Ganhe um bônus de 15 Love Charms ao reivindicar sua recompensa diária!",
+  "loveRush.eventTime": "Evento Love Rush - {{time}} saiu",
+  "loveRush.choreBonus": "Bônus de 100 Love Charms por completar 21 tarefas em uma semana!",
+  "loveRush.deliveryStreakBonus": "Bônus Love Rush: {{loveCharmReward}} Love Charms"
 }

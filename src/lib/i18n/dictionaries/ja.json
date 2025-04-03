@@ -5677,5 +5677,10 @@
   "loveRush.deliveries": "ラブチャームのバンプキンデリバリーを行う",
   "loveRush.chores": "雑用を完了してラブチャームを獲得",
   "loveRush.giftFlowers": "おまけのラブチャームに花をプレゼント",
-  "loveRush.dailyStreak": "NPCとの連勝を維持して、追加のラブチャームを獲得しましょう"
+  "announcement.loveRush": "ラブラッシュイベントが始まりました！お祭りに参加しよう！",
+  "loveRush.dailyStreak": "NPCで毎日配達を続けて、配達から追加のラブチャームを獲得しましょう",
+  "loveRush.treasureChest": "デイリーリワードを受け取ると、ボーナスで15個のラブチャームがもらえます！",
+  "loveRush.eventTime": "ラブラッシュイベント-{{time}} 左",
+  "loveRush.choreBonus": "1週間で21の雑用を完了すると、ラブチャームが100個付いてきます。",
+  "loveRush.deliveryStreakBonus": "ラブラッシュボーナス:{{loveCharmReward}} ラブチャーム"
 }

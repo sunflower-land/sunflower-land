@@ -5677,5 +5677,10 @@
   "loveRush.deliveries": "Führe Bumpkin-Lieferungen für Love Charms durch",
   "loveRush.chores": "Erledige Hausarbeiten und verdiene Liebeszauber",
   "loveRush.giftFlowers": "Geschenkblumen für Bonus-Liebeszauber",
-  "loveRush.dailyStreak": "Halte eine tägliche Serie mit NPCs aufrecht, um dir zusätzliche Liebeszauber zu verdienen"
+  "announcement.loveRush": "Das Love Rush Event hat begonnen! Nehmen Sie an den Feierlichkeiten teil!",
+  "loveRush.dailyStreak": "Halte eine tägliche Lieferserie mit NPCs aufrecht, um dir zusätzliche Liebeszauber durch Lieferungen zu verdienen",
+  "loveRush.treasureChest": "Hol dir 15 Liebeszauber als Bonus, wenn du deine tägliche Belohnung einforderst!",
+  "loveRush.eventTime": "Love Rush Event - {{time}} übrig",
+  "loveRush.choreBonus": "Bonus 100 Liebeszauber für das Erledigen von 21 Aufgaben in einer Woche!",
+  "loveRush.deliveryStreakBonus": "Love Rush Bonus: {{loveCharmReward}} Liebeszauber"
 }

@@ -5677,5 +5677,10 @@
   "loveRush.deliveries": "为 Love Charms 进行 Bumpkin 配送",
   "loveRush.chores": "完成琐事并获得爱情护身符",
   "loveRush.giftFlowers": "赠送鲜花以获得额外的爱情护身符",
-  "loveRush.dailyStreak": "与 NPC 保持每日连胜纪录以获得额外的爱情护身符"
+  "announcement.loveRush": "Love Rush 活动已经开始！加入庆祝活动吧！",
+  "loveRush.dailyStreak": "与 NPC 保持每日交付记录，通过交付获得额外的爱情护身符",
+  "loveRush.treasureChest": "领取每日奖励时可获得额外的 15 个爱情护身符！",
+  "loveRush.eventTime": "Love Rush 活动-{{time}} 左",
+  "loveRush.choreBonus": "一周内完成 21 个杂务，即可获得 100 个爱情护身符！",
+  "loveRush.deliveryStreakBonus": "Love Rush 奖励：{{loveCharmReward}} 爱情护身符"
 }

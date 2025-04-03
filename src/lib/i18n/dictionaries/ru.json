@@ -5677,5 +5677,10 @@
   "loveRush.deliveries": "Исполняйте доставку Bumpkin для Love Charms",
   "loveRush.chores": "Выполняйте домашние задания и зарабатывайте любовные талисманы",
   "loveRush.giftFlowers": "Подарочные цветы к бонусу Love Charms",
-  "loveRush.dailyStreak": "Ведите ежедневную серию с NPC и зарабатывайте дополнительные любовные талисманы"
+  "announcement.loveRush": "Мероприятие Love Rush началось! Присоединяйтесь к празднику!",
+  "loveRush.dailyStreak": "Ведите ежедневную серию поставок вместе с NPC и получайте дополнительные любовные талисманы.",
+  "loveRush.treasureChest": "Получите 15 бонусных чаров любви при получении ежедневной награды!",
+  "loveRush.eventTime": "Мероприятие Love Rush - {{time}} осталось",
+  "loveRush.choreBonus": "Бонусные 100 любовных талисманов за выполнение 21 задания в неделю!",
+  "loveRush.deliveryStreakBonus": "Бонус «Прилив любви»: {{loveCharmReward}} Love Charms"
 }

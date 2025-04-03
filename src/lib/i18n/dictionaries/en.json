@@ -5434,6 +5434,7 @@
   "announcement.flowerGemsDiscount": "Buy Gems with $FLOWER - save 30%",
   "announcement.gasless": "Gasless transactions are coming April 1st.",
   "announcement.referral": "Refer a friend and earn Rewards!",
+  "announcement.loveRush": "The Love Rush Event has begun! Join the festivities!",
   "rocketman.intro": "Howdy Bumpkin, I'm trying to build a flower tower to the moon!",
   "rocketman.flower.coming": "$FLOWER is coming",
   "rocketman.flower.launch": "On April 1st, $FLOWER will be added to the game!",
@@ -5676,6 +5677,10 @@
   "loveRush.deliveries": "Perform Bumpkin deliveries for Love Charms",
   "loveRush.chores": "Complete Chores & earn Love Charms",
   "loveRush.giftFlowers": "Gift flowers for bonus Love Charms",
-  "loveRush.dailyStreak": "Maintain a daily streak with NPCs to earn extra Love Charms",
+  "loveRush.dailyStreak": "Maintain a daily delivery streak with NPCs to earn extra Love Charms from deliveries",
+  "loveRush.treasureChest": "Get bonus 15 Love Charms when claiming your daily reward!",
+  "loveRush.eventTime": "Love Rush Event - {{time}} left",
+  "loveRush.choreBonus": "Bonus 100 Love Charms for completing 21 Chores in a week!",
+  "loveRush.deliveryStreakBonus": "Love Rush Bonus: {{loveCharmReward}} Love Charms",
   "error.insufficientMatic": "POL required"
 }

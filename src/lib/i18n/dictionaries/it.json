@@ -5677,5 +5677,10 @@
   "loveRush.deliveries": "Esegui consegne Bumpkin per Love Charms",
   "loveRush.chores": "Completa le faccende e guadagna ciondoli d'amore",
   "loveRush.giftFlowers": "Fiori in regalo per bonus Love Charms",
-  "loveRush.dailyStreak": "Mantieni una serie giornaliera di NPC per guadagnare amuleti d'amore extra"
+  "announcement.loveRush": "L'evento Love Rush è iniziato! Unisciti ai festeggiamenti!",
+  "loveRush.dailyStreak": "Mantieni una serie di consegne giornaliere con gli NPC per guadagnare amuleti d'amore extra con le consegne",
+  "loveRush.treasureChest": "Ottieni 15 ciondoli d'amore bonus richiedendo la tua ricompensa giornaliera!",
+  "loveRush.eventTime": "Evento Love Rush - {{time}} a sinistra",
+  "loveRush.choreBonus": "Bonus di 100 ciondoli d'amore per aver completato 21 faccende in una settimana!",
+  "loveRush.deliveryStreakBonus": "Bonus Love Rush: {{loveCharmReward}} Love Charms"
 }

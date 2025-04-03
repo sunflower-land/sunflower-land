@@ -5677,5 +5677,10 @@
   "loveRush.deliveries": "Love Charms için Bumpkin teslimatları gerçekleştirin",
   "loveRush.chores": "Ev İşlerini Tamamlayın ve Aşk Tılsımları kazanın",
   "loveRush.giftFlowers": "Bonus Love Charms için hediye çiçekler",
-  "loveRush.dailyStreak": "Ekstra Aşk Tılsımları kazanmak için NPC'lerle günlük bir seri sürdürün"
+  "announcement.loveRush": "Love Rush Etkinliği başladı! Şenliklere katılın!",
+  "loveRush.dailyStreak": "Teslimatlardan ekstra Aşk Tılsımları kazanmak için NPC'lerle günlük teslimat serisini sürdürün",
+  "loveRush.treasureChest": "Günlük ödülünüzü talep ederken bonus 15 Aşk Tılsımı kazanın!",
+  "loveRush.eventTime": "Love Rush Etkinliği - {{time}} kaldı",
+  "loveRush.choreBonus": "Haftada 21 Görevi tamamladığınızda 100 Aşk Tılsımı Bonus!",
+  "loveRush.deliveryStreakBonus": "Love Rush Bonusu: {{loveCharmReward}} Aşk Tılsımları"
 }

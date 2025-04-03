@@ -5677,5 +5677,10 @@
   "loveRush.deliveries": "Lakukan penghantaran Bumpkin untuk Love Charms",
   "loveRush.chores": "Lengkapkan Kerja & dapatkan Pesona Cinta",
   "loveRush.giftFlowers": "Hadiah bunga untuk bonus Love Charms",
-  "loveRush.dailyStreak": "Kekalkan rentetan harian dengan NPC untuk mendapatkan Cinta Cinta tambahan"
+  "announcement.loveRush": "Acara Love Rush telah bermula! Sertai perayaan!",
+  "loveRush.dailyStreak": "Kekalkan rentak penghantaran harian dengan NPC untuk mendapatkan Cinta Cinta tambahan daripada penghantaran",
+  "loveRush.treasureChest": "Dapatkan bonus 15 Love Charms apabila menuntut ganjaran harian anda!",
+  "loveRush.eventTime": "Acara Love Rush - {{time}} kiri",
+  "loveRush.choreBonus": "Bonus 100 Love Charms kerana menyelesaikan 21 Tugas dalam seminggu!",
+  "loveRush.deliveryStreakBonus": "Bonus Love Rush: {{loveCharmReward}} Pesona Cinta"
 }

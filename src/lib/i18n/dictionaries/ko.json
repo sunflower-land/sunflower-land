@@ -5677,5 +5677,10 @@
   "loveRush.deliveries": "러브 참을 위해 범프킨 배달하기",
   "loveRush.chores": "집안일을 완료하고 러브 부적을 획득하세요",
   "loveRush.giftFlowers": "보너스 러브 참을 위한 선물용 꽃",
-  "loveRush.dailyStreak": "NPC와 매일 연속으로 플레이하면 추가 러브 부적을 얻을 수 있습니다."
+  "announcement.loveRush": "러브 러쉬 이벤트가 시작되었습니다!축제에 참여하세요!",
+  "loveRush.dailyStreak": "NPC와 함께 매일 연속 배송 기록을 유지하여 배송 시 사랑의 부적을 추가로 획득하세요",
+  "loveRush.treasureChest": "일일 보상을 받고 러브 참 15개를 보너스로 받으세요!",
+  "loveRush.eventTime": "러브 러쉬 이벤트 - {{time}} 왼쪽",
+  "loveRush.choreBonus": "일주일에 집안일 21개를 완료하면 사랑의 부적을 100개 보너스로 획득할 수 있습니다!",
+  "loveRush.deliveryStreakBonus": "러브 러쉬 보너스: {{loveCharmReward}} 러브 챠임"
 }
