@@ -167,7 +167,7 @@ export const OrderCard: React.FC<OrderCardProps> = ({
         })}
         style={{ paddingBottom: "20px" }}
       >
-        {isLoveRushEventActive && (
+        {isLoveRushEventActive && loveCharmReward > 0 && (
           <div className="absolute -top-4 -left-5">
             <div className="relative">
               <img src={ITEM_DETAILS["Love Charm"].image} className="w-12" />
