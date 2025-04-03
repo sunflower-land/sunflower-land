@@ -43,7 +43,6 @@ import {
   getOrderSellPrice,
   GOBLINS_REQUIRING_REPUTATION,
 } from "features/game/events/landExpansion/deliver";
-import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { formatNumber } from "lib/utils/formatNumber";
@@ -88,11 +87,12 @@ export const OrderCard: React.FC<{
   const { t } = useAppTranslation();
 
   const tickets = generateDeliveryTickets({ game, npc: order.from });
-  const newStreak = getLoveRushStreaks({
+  const { newStreak, currentStreak } = getLoveRushStreaks({
     streaks: game.npcs?.[order.from]?.streaks,
   });
   const { loveCharmReward } = getLoveRushDeliveryRewards({
-    newStreak: newStreak + 1,
+    currentStreak,
+    newStreak,
     game,
     npcName: order.from,
   });
@@ -187,7 +187,7 @@ export const OrderCard: React.FC<{
                 ))}
               </Label>
             </div>
-            {hasFeatureAccess(game, "LOVE_RUSH") && (
+            {hasFeatureAccess(game, "LOVE_RUSH") && loveCharmReward > 0 && (
               <div className="flex flex-wrap gap-1 justify-between w-full">
                 <Label type="vibrant" icon={ITEM_DETAILS["Love Charm"].image}>
                   {`Love Rush Bonus: ${loveCharmReward} Love Charms`}
@@ -669,7 +669,6 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-  const { openModal } = useContext(ModalContext);
 
   const game = gameState.context.state;
   const [showFlowers, setShowFlowers] = useState(false);

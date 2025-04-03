@@ -103,35 +103,52 @@ export function getLoveRushStreaks({
 }: {
   streaks?: { streak: number; lastClaimedAt: number };
   createdAt?: number;
-}) {
+}): { currentStreak: number; newStreak: number } {
+  let currentStreak: number = streaks?.streak ?? 0;
+  let newStreak: number = currentStreak + 1;
   const lastClaimedAt = new Date(streaks?.lastClaimedAt ?? 0);
   const currentDate = new Date(createdAt);
-  const streakCount = streaks?.streak ?? 0;
 
   const dayDifference =
     (currentDate.getTime() - lastClaimedAt.getTime()) / (1000 * 60 * 60 * 24);
 
   if (dayDifference > 1) {
-    return 1;
+    currentStreak = 0;
+    newStreak = 1;
   }
 
-  return streakCount + 1;
+  const lastClaimAtDate = lastClaimedAt.toISOString().split("T")[0];
+  const currentDateString = currentDate.toISOString().split("T")[0];
+
+  if (lastClaimAtDate === currentDateString) {
+    newStreak = currentStreak;
+  }
+
+  return { currentStreak, newStreak };
 }
 
 export function getLoveRushDeliveryRewards({
+  currentStreak,
   newStreak,
   game,
   npcName,
 }: {
+  currentStreak: number;
   newStreak: number;
   game: GameState;
   npcName: NPCName;
 }) {
-  const streakIndex = (newStreak > 5 ? 5 : newStreak) as StreakNumber;
-  const npcType = getLoveRushDeliveryNPCType(npcName);
-  let loveCharmReward = npcType
-    ? LOVE_RUSH_DELIVERIES_REWARDS[npcType][streakIndex]
-    : 0;
+  let loveCharmReward: number;
+  if (currentStreak === newStreak) {
+    loveCharmReward = 0;
+  } else {
+    const streakIndex = (newStreak > 5 ? 5 : newStreak) as StreakNumber;
+    const npcType = getLoveRushDeliveryNPCType(npcName);
+    loveCharmReward = npcType
+      ? LOVE_RUSH_DELIVERIES_REWARDS[npcType][streakIndex]
+      : 0;
+  }
+
   if (hasVipAccess({ game })) {
     loveCharmReward = loveCharmReward * 2;
   }

@@ -149,11 +149,12 @@ export const OrderCard: React.FC<OrderCardProps> = ({
 }) => {
   const npcName = order.from;
   const tickets = generateDeliveryTickets({ game: state, npc: npcName });
-  const nextStreak = getLoveRushStreaks({
+  const { newStreak, currentStreak } = getLoveRushStreaks({
     streaks: state.npcs?.[npcName]?.streaks,
   });
   const { loveCharmReward } = getLoveRushDeliveryRewards({
-    newStreak: nextStreak,
+    currentStreak,
+    newStreak,
     game: state,
     npcName,
   });
@@ -455,12 +456,12 @@ export const DeliveryOrders: React.FC<Props> = ({
     .filter((name) => isSFLNPC(name))
     .sort((a, b) => (NPC_DELIVERY_LEVELS[a] > NPC_DELIVERY_LEVELS[b] ? 1 : -1))
     .find((npc) => level < (NPC_DELIVERY_LEVELS?.[npc] ?? 0));
-  const nextStreak = getLoveRushStreaks({
+  const { newStreak, currentStreak } = getLoveRushStreaks({
     streaks: state.npcs?.[previewOrder.from]?.streaks,
   });
-  const currentStreak = nextStreak - 1;
   const { loveCharmReward } = getLoveRushDeliveryRewards({
-    newStreak: nextStreak,
+    currentStreak,
+    newStreak,
     game: state,
     npcName: previewOrder.from,
   });
@@ -868,14 +869,16 @@ export const DeliveryOrders: React.FC<Props> = ({
                 </div>
                 {isLoveRushEventActive && (
                   <div className="flex flex-wrap gap-1 justify-between w-full">
-                    <Label
-                      type="vibrant"
-                      icon={ITEM_DETAILS["Love Charm"].image}
-                    >
-                      {`Love Rush Bonus:`}
-                      <br />
-                      {`${loveCharmReward} Love Charms`}
-                    </Label>
+                    {loveCharmReward > 0 && (
+                      <Label
+                        type="vibrant"
+                        icon={ITEM_DETAILS["Love Charm"].image}
+                      >
+                        {`Love Rush Bonus:`}
+                        <br />
+                        {`${loveCharmReward} Love Charms`}
+                      </Label>
+                    )}
                     <Label
                       type="vibrant"
                       icon={SUNNYSIDE.icons.lightning}

@@ -535,12 +535,13 @@ export function deliverOrder({
 
     // Handle Love Rush rewards during the Love Rush event
     if (hasFeatureAccess(game, "LOVE_RUSH")) {
-      const newStreak = getLoveRushStreaks({
+      const { newStreak, currentStreak } = getLoveRushStreaks({
         streaks: npc.streaks,
         createdAt,
       });
 
       const { loveCharmReward } = getLoveRushDeliveryRewards({
+        currentStreak,
         newStreak,
         game,
         npcName: order.from,
