@@ -1,7 +1,6 @@
 import { RoundButton } from "components/ui/RoundButton";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import React, { useCallback, useContext, useState, useEffect } from "react";
-import giftIcon from "assets/icons/gift.png";
 import { Rewards } from "./Rewards";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
@@ -15,6 +14,7 @@ import { useInterpret, useActor } from "@xstate/react";
 import Decimal from "decimal.js-light";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { getKeys } from "features/game/types/decorations";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 export const RewardsButton: React.FC = () => {
   const [showRewardsModal, setShowRewardsModal] = useState(false);
@@ -67,12 +67,12 @@ export const RewardsButton: React.FC = () => {
     >
       <RoundButton buttonSize={18} onClick={() => setShowRewardsModal(true)}>
         <img
-          src={giftIcon}
+          src={ITEM_DETAILS["Love Charm"].image}
           className="absolute group-active:translate-y-[2px]"
           style={{
-            width: `${PIXEL_SCALE * 10}px`,
-            left: `${PIXEL_SCALE * 4}px`,
-            top: `${PIXEL_SCALE * 4}px`,
+            width: `${PIXEL_SCALE * 14}px`,
+            left: `${PIXEL_SCALE * 2}px`,
+            top: `${PIXEL_SCALE * 5}px`,
           }}
         />
         {(isAnyTaskCompleted || isChestLocked) && (
