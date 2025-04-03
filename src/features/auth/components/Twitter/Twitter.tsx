@@ -28,26 +28,17 @@ const TWITTER_POST_DESCRIPTIONS: Record<TwitterPostName, TranslationKeys> = {
   WEEKLY: "twitter.post.weekly",
 };
 
-export const Twitter: React.FC<{ onClose: () => void }> = ({ onClose }) => {
-  const { gameService, gameState } = useGame();
-  const telegram = gameState.context.state.telegram;
-
-  const { t } = useAppTranslation();
-
-  return (
-    <CloseButtonPanel onClose={onClose} container={OuterPanel}>
-      <TwitterRewards />
-    </CloseButtonPanel>
-  );
-};
+export const Twitter: React.FC<{ onClose: () => void }> = ({ onClose }) => (
+  <CloseButtonPanel onClose={onClose} container={OuterPanel}>
+    <TwitterRewards />
+  </CloseButtonPanel>
+);
 
 const VERIFY_COOLDOWN_MS = 15 * 60 * 1000;
 
 const TwitterRewards: React.FC = () => {
   const [selected, setSelected] = useState<TwitterPostName>();
-  const { gameService, gameState } = useGame();
-  const { authService } = useContext(AuthProvider.Context);
-  const [authState] = useActor(authService);
+  const { gameState } = useGame();
 
   const { t } = useAppTranslation();
 
@@ -183,7 +174,7 @@ const TwitterPost: React.FC<{ name: TwitterPostName; onClose: () => void }> = ({
     VERIFY_COOLDOWN_MS - (Date.now() - (twitter.verifiedPostsAt ?? 0));
 
   const hasCompleted =
-    (twitter?.tweets?.FARM?.completedAt ?? 0) >
+    (twitter?.tweets?.[name]?.completedAt ?? 0) >
     Date.now() - 7 * 24 * 60 * 60 * 1000;
 
   if (showConfirm) {
@@ -310,7 +301,7 @@ const TwitterFarm: React.FC = () => {
 const TwitterWeekly: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
-  const { gameService, gameState } = useGame();
+  const { gameState } = useGame();
   const { t } = useAppTranslation();
 
   const [image, setImage] = useState<string>();
@@ -319,7 +310,7 @@ const TwitterWeekly: React.FC = () => {
 
   // In last 7 days
   const hasCompleted =
-    (twitter?.tweets?.FARM?.completedAt ?? 0) >
+    (twitter?.tweets?.WEEKLY?.completedAt ?? 0) >
     Date.now() - 7 * 24 * 60 * 60 * 1000;
 
   useEffect(() => {
@@ -331,6 +322,7 @@ const TwitterWeekly: React.FC = () => {
     };
 
     load();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (!image) {
