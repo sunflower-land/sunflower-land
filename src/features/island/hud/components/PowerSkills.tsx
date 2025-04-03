@@ -48,14 +48,14 @@ export const PowerSkills: React.FC<PowerSkillsProps> = ({ onHide, onBack }) => {
         },
       ]}
     >
-      <PowerSkillsContent onHide={onHide} onBack={onBack} />
+      <PowerSkillsContent onBack={onBack} />
     </CloseButtonPanel>
   );
 };
 
 const _state = (state: MachineState) => state.context.state;
 
-const PowerSkillsContent: React.FC<PowerSkillsProps> = ({ onHide, onBack }) => {
+const PowerSkillsContent: React.FC<{ onBack: () => void }> = ({ onBack }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
@@ -103,7 +103,6 @@ const PowerSkillsContent: React.FC<PowerSkillsProps> = ({ onHide, onBack }) => {
   const isFruitFertiliserSkill = skillName === "Blend-tastic";
 
   const useSkill = () => {
-    onHide();
     setUseSkillConfirmation(false);
 
     if (isCropFertiliserSkill) {
