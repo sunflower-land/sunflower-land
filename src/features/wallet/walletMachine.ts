@@ -23,8 +23,6 @@ import {
   phantomConnector,
 } from "./WalletProvider";
 import { generateSignatureMessage, wallet } from "lib/blockchain/wallet";
-import { hasFeatureAccess } from "lib/flags";
-import { INITIAL_FARM } from "features/game/lib/constants";
 
 export const ART_MODE = !CONFIG.API_URL;
 
@@ -67,9 +65,7 @@ const NON_NFT_ACTIONS: WalletAction[] = [
   "dailyReward",
   "specialEvent",
   "dequip",
-  ...(hasFeatureAccess(INITIAL_FARM, "OFFCHAIN_MARKETPLACE")
-    ? ["marketplace" as WalletAction]
-    : []),
+  "marketplace",
 ];
 
 const NON_POLYGON_ACTIONS: WalletAction[] = ["login", "dailyReward"];

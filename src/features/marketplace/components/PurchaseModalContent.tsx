@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { Tradeable, Listing } from "features/game/types/marketplace";
@@ -13,9 +13,7 @@ import { hasMaxItems } from "features/game/lib/processEvent";
 import Decimal from "decimal.js-light";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { calculateTradePoints } from "features/game/events/landExpansion/addTradePoints";
-import { StoreOnChain } from "./StoreOnChain";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { hasFeatureAccess } from "lib/flags";
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _previousInventory = (state: MachineState) =>
@@ -23,8 +21,6 @@ const _previousInventory = (state: MachineState) =>
 const _wardrobe = (state: MachineState) => state.context.state.wardrobe;
 const _previousWardrobe = (state: MachineState) =>
   state.context.state.previousWardrobe;
-const _previousBalance = (state: MachineState) =>
-  state.context.state.previousBalance;
 
 type PurchaseModalContentProps = {
   authToken: string;
@@ -50,13 +46,10 @@ export const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
   const { openModal } = useContext(ModalContext);
   const state = useSelector(gameService, _state);
 
-  const [needsSync, setNeedsSync] = useState(false);
-
   const inventory = useSelector(gameService, _inventory);
   const previousInventory = useSelector(gameService, _previousInventory);
   const wardrobe = useSelector(gameService, _wardrobe);
   const previousWardrobe = useSelector(gameService, _previousWardrobe);
-  const previousBalance = useSelector(gameService, _previousBalance);
 
   const collection = tradeable.collection;
   const display = getTradeableDisplay({
@@ -83,15 +76,6 @@ export const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
   });
 
   const confirm = async () => {
-    if (
-      listing.type === "onchain" &&
-      previousBalance.lt(price) &&
-      !hasFeatureAccess(state, "OFFCHAIN_MARKETPLACE")
-    ) {
-      setNeedsSync(true);
-      return;
-    }
-
     gameService.send("marketplace.listingPurchased", {
       effect: {
         type: "marketplace.listingPurchased",
@@ -145,23 +129,11 @@ export const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
     );
   }
 
-  if (needsSync && !hasFeatureAccess(state, "OFFCHAIN_MARKETPLACE")) {
-    return (
-      <StoreOnChain itemName="SFL" onClose={onClose} actionType="purchase" />
-    );
-  }
-
   return (
     <>
       <div className="p-2">
         <div className="flex justify-between">
           <Label type="default" className="mb-2 -ml-1">{`Purchase`}</Label>
-          {listing.type === "onchain" &&
-            !hasFeatureAccess(state, "OFFCHAIN_MARKETPLACE") && (
-              <Label type="formula" icon={walletIcon} className="-mr-1 mb-2">
-                {t("marketplace.walletRequired")}
-              </Label>
-            )}
         </div>
         <p className="mb-3">{t("marketplace.areYouSureYouWantToBuy")}</p>
         <TradeableItemDetails
@@ -179,10 +151,6 @@ export const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
           className="relative"
         >
           <span>{t("confirm")}</span>
-          {listing.type === "onchain" &&
-            !hasFeatureAccess(state, "OFFCHAIN_MARKETPLACE") && (
-              <img src={walletIcon} className="absolute right-1 top-0.5 h-7" />
-            )}
         </Button>
       </div>
     </>

@@ -7,13 +7,10 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { GameWallet } from "features/wallet/Wallet";
 import { CONFIG } from "lib/config";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { config } from "features/wallet/WalletProvider";
 
 import { TradeableDisplay } from "../lib/tradeables";
 import { Context } from "features/game/GameProvider";
-import { signTypedData } from "@wagmi/core";
 
-import walletIcon from "assets/icons/wallet.png";
 import sflIcon from "assets/icons/flower_token.webp";
 import lockIcon from "assets/icons/lock.png";
 import { TradeableItemDetails } from "./TradeableSummary";
@@ -26,15 +23,11 @@ import {
 import { KNOWN_ITEMS } from "features/game/types";
 import Decimal from "decimal.js-light";
 import { calculateTradePoints } from "features/game/events/landExpansion/addTradePoints";
-import { StoreOnChain } from "./StoreOnChain";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { hasFeatureAccess } from "lib/flags";
 
 const _balance = (state: MachineState) => state.context.state.balance;
-const _previousBalance = (state: MachineState) =>
-  state.context.state.previousBalance;
 const _hasReputation = (state: MachineState) =>
   hasReputation({
     game: state.context.state,
@@ -53,15 +46,12 @@ export const MakeOffer: React.FC<{
   const { gameService } = useContext(Context);
 
   const balance = useSelector(gameService, _balance);
-  const previousBalance = useSelector(gameService, _previousBalance);
   const hasTradeReputation = useSelector(gameService, _hasReputation);
   const usd = useSelector(gameService, _usd);
 
   const [offer, setOffer] = useState(0);
   const [quantity, setQuantity] = useState(0);
-  const [isSigning, setIsSigning] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const [needsSync, setNeedsSync] = useState(false);
 
   const isResource =
     display.type === "collectibles" &&
@@ -75,64 +65,7 @@ export const MakeOffer: React.FC<{
     },
   });
 
-  const sign = async () => {
-    const signature = await signTypedData(config, {
-      primaryType: "Offer",
-      types: {
-        EIP712Domain: [
-          { name: "name", type: "string" },
-          { name: "version", type: "string" },
-          { name: "chainId", type: "uint256" },
-          { name: "verifyingContract", type: "address" },
-        ],
-        Offer: [
-          { name: "item", type: "string" },
-          { name: "collection", type: "string" },
-          { name: "id", type: "uint256" },
-          { name: "quantity", type: "uint256" },
-          { name: "SFL", type: "uint256" },
-        ],
-      },
-      domain: {
-        name: CONFIG.NETWORK === "mainnet" ? "Sunflower Land" : "TESTING",
-        version: "1",
-        chainId: BigInt(CONFIG.POLYGON_CHAIN_ID),
-        verifyingContract:
-          CONFIG.MARKETPLACE_VERIFIER_CONTRACT as `0x${string}`,
-      },
-      message: {
-        item: display.name,
-        collection: display.type,
-        id: BigInt(itemId),
-        quantity: BigInt(Math.max(1, quantity)),
-        SFL: BigInt(offer),
-      },
-    });
-
-    confirm({ signature });
-
-    setIsSigning(false);
-  };
-
   const submitOffer = () => {
-    if (
-      tradeType === "onchain" &&
-      !hasFeatureAccess(
-        gameService.getSnapshot().context.state,
-        "OFFCHAIN_MARKETPLACE",
-      )
-    ) {
-      const needsToSync = previousBalance.lt(offer);
-
-      if (needsToSync) {
-        setNeedsSync(true);
-        return;
-      }
-
-      setIsSigning(true);
-      return;
-    }
-
     setShowConfirmation(true);
   };
 
@@ -160,16 +93,6 @@ export const MakeOffer: React.FC<{
           sfl: offer,
           points: tradeType === "instant" ? 2 : 4,
         }).multipliedPoints;
-
-  if (
-    needsSync &&
-    !hasFeatureAccess(
-      gameService.getSnapshot().context.state,
-      "OFFCHAIN_MARKETPLACE",
-    )
-  ) {
-    return <StoreOnChain itemName="SFL" onClose={onClose} actionType="offer" />;
-  }
 
   const needsLinkedWallet =
     tradeType === "onchain" && !gameService.getSnapshot().context.linkedWallet;
@@ -234,40 +157,6 @@ export const MakeOffer: React.FC<{
     );
   }
 
-  if (
-    isSigning &&
-    !hasFeatureAccess(
-      gameService.getSnapshot().context.state,
-      "OFFCHAIN_MARKETPLACE",
-    )
-  ) {
-    return (
-      <GameWallet action="marketplace">
-        <>
-          <div className="p-2">
-            <Label type="danger" className="-ml-1 mb-2">
-              {t("are.you.sure")}
-            </Label>
-            <p className="text-xs mb-2">{t("marketplace.signOffer")}</p>
-            <TradeableItemDetails
-              display={display}
-              quantity={Math.max(1, quantity)}
-              sfl={offer}
-              estTradePoints={estTradePoints}
-            />
-          </div>
-
-          <div className="flex">
-            <Button onClick={() => setIsSigning(false)} className="mr-1">
-              {t("cancel")}
-            </Button>
-            <Button onClick={sign}>{t("marketplace.signAndOffer")}</Button>
-          </div>
-        </>
-      </GameWallet>
-    );
-  }
-
   if (isResource) {
     return (
       <ResourceOffer
@@ -295,16 +184,6 @@ export const MakeOffer: React.FC<{
           {!hasTradeReputation && (
             <RequiredReputation reputation={Reputation.Cropkeeper} />
           )}
-
-          {tradeType === "onchain" &&
-            !hasFeatureAccess(
-              gameService.getSnapshot().context.state,
-              "OFFCHAIN_MARKETPLACE",
-            ) && (
-              <Label type="formula" icon={walletIcon} className="-mr-1">
-                {t("marketplace.walletRequired")}
-              </Label>
-            )}
         </div>
         <p className="text-sm">{t("marketplace.howMuch")}</p>
         <div className="my-2 -mx-2">
@@ -336,13 +215,6 @@ export const MakeOffer: React.FC<{
           className="relative"
         >
           <span>{t("confirm")}</span>
-          {tradeType === "onchain" &&
-            !hasFeatureAccess(
-              gameService.getSnapshot().context.state,
-              "OFFCHAIN_MARKETPLACE",
-            ) && (
-              <img src={walletIcon} className="absolute right-1 top-0.5 h-7" />
-            )}
         </Button>
       </div>
     </>
