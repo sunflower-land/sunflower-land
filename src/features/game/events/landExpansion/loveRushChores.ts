@@ -107,7 +107,7 @@ export function handleLoveRushChoreRewards({
   ).add(loveCharmReward);
   const hasCompleted21Chores =
     Object.values(game.choreBoard.chores).filter((chore) => chore.completedAt)
-      .length >= 21;
+      .length === 21;
   if (hasCompleted21Chores) {
     game.inventory["Love Charm"] = game.inventory["Love Charm"].add(100);
   }
