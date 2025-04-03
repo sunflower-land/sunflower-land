@@ -15,9 +15,9 @@ export const Bush: React.FC<CollectibleProps> = ({ game }) => {
           ]
         }
         style={{
-          width: `${PIXEL_SCALE * (game.island.type === "desert" ? 20 : game.island.type === "volcano" ? 28 : 25)}px`,
+          width: `${PIXEL_SCALE * (game.island.type === "desert" ? 20 : game.island.type === "volcano" ? 28 : 28)}px`,
           bottom: `${PIXEL_SCALE * 0}px`,
-          left: `${PIXEL_SCALE * (game.island.type === "desert" ? 6 : game.island.type === "volcano" ? 2 : 3)}px`,
+          left: `${PIXEL_SCALE * (game.island.type === "desert" ? 6 : game.island.type === "volcano" ? 2 : 2)}px`,
         }}
         className="absolute"
         alt="Bush"

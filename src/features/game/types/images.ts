@@ -830,6 +830,25 @@ import pesticide from "assets/sfts/pesticide.webp";
 import jin from "assets/sfts/jin_ronin.webp";
 import loveCharm from "assets/icons/love_charm.webp";
 
+import floralArch from "assets/sfts/floral_arch.webp";
+import flowerCoin from "assets/sfts/flower_coin.webp";
+import streamersStatue from "assets/sfts/streamers_statue.webp";
+import cetus from "assets/sfts/cetus.webp";
+import goldcrestMosaicRug from "assets/sfts/goldcrest_mosaic_rug.webp";
+import sandyMosaicRug from "assets/sfts/sandy_mosaic_rug.webp";
+import twilightRug from "assets/sfts/twilight_rug.webp";
+import orchardRug from "assets/sfts/orchard_rug.webp";
+import carrotRug from "assets/sfts/carrot_rug.webp";
+import beetrootRug from "assets/sfts/beetroot_rug.webp";
+import harlequinRug from "assets/sfts/harlequin_rug.webp";
+
+import blackTile from "assets/decorations/tiles/icon/black_tile_icon.webp";
+import blueTile from "assets/decorations/tiles/icon/blue_tile_icon.webp";
+import greenTile from "assets/decorations/tiles/icon/green_tile_icon.webp";
+import purpleTile from "assets/decorations/tiles/icon/purple_tile_icon.webp";
+import redTile from "assets/decorations/tiles/icon/red_tile_icon.webp";
+import yellowTile from "assets/decorations/tiles/icon/yellow_tile_icon.webp";
+
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
 import { CROPS, CROP_SEEDS, GREENHOUSE_CROPS, GREENHOUSE_SEEDS } from "./crops";
@@ -4950,5 +4969,113 @@ export const ITEM_DETAILS: Items = {
   "Base Banner": {
     image: baseBanner,
     description: translate("description.baseBanner"),
+  },
+  "Floral Arch": {
+    image: floralArch,
+    description: translate("description.floralArch"),
+  },
+  "Flower Coin": {
+    image: flowerCoin,
+    description: translate("description.flowerCoin"),
+  },
+  "Flower Statue": {
+    image: SUNNYSIDE.decorations.flowerStatue,
+    description: translate("description.flowerStatue"),
+  },
+  "Heartstruck Tree": {
+    image: SUNNYSIDE.decorations.heartstruckTree,
+    description: translate("description.heartstruckTree"),
+  },
+  "Mermaid Fountain": {
+    image: SUNNYSIDE.decorations.mermaidFountain,
+    description: translate("description.mermaidFountain"),
+  },
+  "Mysterious Entrance": {
+    image: SUNNYSIDE.decorations.mysteriousEntrance,
+    description: translate("description.mysteriousEntrance"),
+  },
+  "Streamer's Statue": {
+    image: streamersStatue,
+    description: translate("description.streamersStatue"),
+  },
+  Cetus: {
+    image: cetus,
+    description: translate("description.cetus"),
+  },
+  "Goldcrest Mosaic Rug": {
+    image: goldcrestMosaicRug,
+    description: translate("description.goldcrestMosaicRug"),
+  },
+  "Sandy Mosaic Rug": {
+    image: sandyMosaicRug,
+    description: translate("description.sandyMosaicRug"),
+  },
+  "Twilight Rug": {
+    image: twilightRug,
+    description: translate("description.twilightRug"),
+  },
+  "Orchard Rug": {
+    image: orchardRug,
+    description: translate("description.orchardRug"),
+  },
+  "Carrot Rug": {
+    image: carrotRug,
+    description: translate("description.carrotRug"),
+  },
+  "Beetroot Rug": {
+    image: beetrootRug,
+    description: translate("description.beetrootRug"),
+  },
+  "Harlequin Rug": {
+    image: harlequinRug,
+    description: translate("description.harlequinRug"),
+  },
+  "Large Rug": {
+    image: SUNNYSIDE.decorations.largeRug,
+    description: translate("description.largeRug"),
+  },
+  "Golden Fence": {
+    image: SUNNYSIDE.decorations.goldenFence,
+    description: translate("description.goldenFence"),
+  },
+  "Golden Stone Fence": {
+    image: SUNNYSIDE.decorations.goldenStoneFence,
+    description: translate("description.goldenStoneFence"),
+  },
+  "Golden Pine Tree": {
+    image: SUNNYSIDE.decorations.goldenPineTree,
+    description: translate("description.goldenPineTree"),
+  },
+  "Golden Tree": {
+    image: SUNNYSIDE.decorations.goldenTree,
+    description: translate("description.goldenTree"),
+  },
+  "Golden Bush": {
+    image: SUNNYSIDE.decorations.goldenBush,
+    description: translate("description.goldenBush"),
+  },
+  "Black Tile": {
+    image: blackTile,
+    description: translate("description.blackTile"),
+  },
+  "Blue Tile": {
+    image: blueTile,
+    description: translate("description.blueTile"),
+  },
+  "Green Tile": {
+    image: greenTile,
+    description: translate("description.greenTile"),
+  },
+  "Purple Tile": {
+    image: purpleTile,
+    description: translate("description.purpleTile"),
+  },
+  "Red Tile": {
+    image: redTile,
+    description: translate("description.redTile"),
+  },
+  "Yellow Tile": {
+    image: yellowTile,
+    description: translate("description.yellowTile"),
   },
 };

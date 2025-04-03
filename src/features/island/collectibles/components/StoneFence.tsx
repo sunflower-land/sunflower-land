@@ -33,10 +33,26 @@ const verticalImages = [
 
 export const StoneFence: React.FC<Props> = ({ x, y, grid }) => {
   const edges: Edges = {
-    top: grid[x]?.[y + 1] === "Stone Fence" || grid[x]?.[y + 1] === "Fence",
-    right: grid[x + 1]?.[y] === "Stone Fence" || grid[x + 1]?.[y] === "Fence",
-    bottom: grid[x]?.[y - 1] === "Stone Fence" || grid[x]?.[y - 1] === "Fence",
-    left: grid[x - 1]?.[y] === "Stone Fence" || grid[x - 1]?.[y] === "Fence",
+    top:
+      grid[x]?.[y + 1] === "Stone Fence" ||
+      grid[x]?.[y + 1] === "Fence" ||
+      grid[x]?.[y + 1] === "Golden Stone Fence" ||
+      grid[x]?.[y + 1] === "Golden Fence",
+    right:
+      grid[x + 1]?.[y] === "Stone Fence" ||
+      grid[x + 1]?.[y] === "Fence" ||
+      grid[x + 1]?.[y] === "Golden Stone Fence" ||
+      grid[x + 1]?.[y] === "Golden Fence",
+    bottom:
+      grid[x]?.[y - 1] === "Stone Fence" ||
+      grid[x]?.[y - 1] === "Fence" ||
+      grid[x]?.[y - 1] === "Golden Stone Fence" ||
+      grid[x]?.[y - 1] === "Golden Fence",
+    left:
+      grid[x - 1]?.[y] === "Stone Fence" ||
+      grid[x - 1]?.[y] === "Fence" ||
+      grid[x - 1]?.[y] === "Golden Stone Fence" ||
+      grid[x - 1]?.[y] === "Golden Fence",
   };
 
   let image = SUNNYSIDE.decorations.stoneHorizontalOne;
