@@ -25,6 +25,11 @@ export type RewardShopCollectible = RewardShopBase & {
 
 export type RewardShopItem = RewardShopWearable | RewardShopCollectible;
 
+export const isRewardShopCollectible = (
+  name: RewardShopItemName,
+): name is RewardShopCollectibleName =>
+  REWARD_SHOP_ITEMS[name].type === "collectible";
+
 // Test only
 export const REWARD_SHOP_ITEMS: Record<RewardShopItemName, RewardShopItem> = {
   "Red Farmer Shirt": {
