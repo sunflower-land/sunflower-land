@@ -1,9 +1,7 @@
-import Decimal from "decimal.js-light";
 import { hasVipAccess } from "features/game/lib/vipAccess";
-import { NPCData, GameState } from "features/game/types/game";
+import { GameState } from "features/game/types/game";
 
 import { NPCName } from "lib/npcs";
-import cloneDeep from "lodash.clonedeep";
 
 type LoveRushDeliveryNPCTypes = "basic" | "medium" | "advanced" | "expert";
 
@@ -138,42 +136,6 @@ export function getLoveRushDeliveryRewards({
     loveCharmReward = loveCharmReward * 2;
   }
   return { loveCharmReward };
-}
-
-export function handleLoveRushDeliveryRewards({
-  createdAt,
-  npcName,
-  npc,
-  game,
-}: {
-  createdAt: number;
-  npcName: NPCName;
-  npc: NPCData;
-  game: GameState;
-}) {
-  const newGame = cloneDeep(game);
-  const newNpc = cloneDeep(npc);
-
-  const newStreak = getLoveRushStreaks({
-    streaks: newNpc.streaks,
-    createdAt,
-  });
-
-  const { loveCharmReward } = getLoveRushDeliveryRewards({
-    newStreak,
-    game: newGame,
-    npcName,
-  });
-
-  const loveCharmCount = newGame.inventory["Love Charm"] ?? new Decimal(0);
-
-  newGame.inventory["Love Charm"] = loveCharmCount.add(loveCharmReward);
-
-  newNpc.streaks = {
-    streak: newStreak,
-    lastClaimedAt: createdAt,
-  };
-  return { newGame, newNpc };
 }
 
 export const LOVE_RUSH_GIFTS_REWARD = 5;

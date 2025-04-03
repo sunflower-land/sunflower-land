@@ -29,8 +29,11 @@ import { hasVipAccess } from "features/game/lib/vipAccess";
 import { getActiveCalendarEvent } from "features/game/types/calendar";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
-import { handleLoveRushDeliveryRewards } from "../../types/loveRushDeliveries";
 import { hasFeatureAccess } from "lib/flags";
+import {
+  getLoveRushStreaks,
+  getLoveRushDeliveryRewards,
+} from "features/game/types/loveRushDeliveries";
 
 export const TICKET_REWARDS: Record<QuestNPCName, number> = {
   "pumpkin' pete": 1,
@@ -532,14 +535,25 @@ export function deliverOrder({
 
     // Handle Love Rush rewards during the Love Rush event
     if (hasFeatureAccess(game, "LOVE_RUSH")) {
-      const { newGame, newNpc } = handleLoveRushDeliveryRewards({
-        game,
+      const newStreak = getLoveRushStreaks({
+        streaks: npc.streaks,
         createdAt,
-        npcName: order.from,
-        npc,
       });
-      game.inventory = newGame.inventory;
-      npc.streaks = newNpc.streaks;
+
+      const { loveCharmReward } = getLoveRushDeliveryRewards({
+        newStreak,
+        game,
+        npcName: order.from,
+      });
+
+      const loveCharmCount = game.inventory["Love Charm"] ?? new Decimal(0);
+
+      game.inventory["Love Charm"] = loveCharmCount.add(loveCharmReward);
+
+      npc.streaks = {
+        streak: newStreak,
+        lastClaimedAt: createdAt,
+      };
     }
 
     game.npcs = {
