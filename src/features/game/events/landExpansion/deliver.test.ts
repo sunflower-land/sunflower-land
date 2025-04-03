@@ -1921,5 +1921,245 @@ describe("deliver", () => {
 
     expect(state.wardrobe["Basic Hair"]).toEqual(0);
     expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(4));
+  }); // To delete after Love Rush event
+  describe("Love Rush", () => {
+    const eventTime = new Date("2025-04-07T15:00:00Z").getTime();
+    beforeEach(() => {
+      jest.useFakeTimers();
+      jest.setSystemTime(eventTime);
+    });
+
+    afterEach(() => {
+      jest.useRealTimers();
+    });
+
+    it("gives players love charms for completing deliveries", () => {
+      const state = deliverOrder({
+        state: {
+          ...INITIAL_FARM,
+          inventory: {
+            "Love Charm": new Decimal(0),
+            Sunflower: new Decimal(1),
+          },
+          delivery: {
+            ...INITIAL_FARM.delivery,
+            orders: [
+              {
+                id: "123",
+                createdAt: eventTime,
+                readyAt: eventTime,
+                from: "betty",
+                items: { Sunflower: 1 },
+                reward: {},
+              },
+            ],
+          },
+        },
+        action: {
+          id: "123",
+          type: "order.delivered",
+        },
+        createdAt: eventTime,
+      });
+
+      expect(state.inventory["Love Charm"]).toEqual(new Decimal(3));
+    });
+
+    it("gives players 2x love charms for completing deliveries if they have VIP access", () => {
+      const state = deliverOrder({
+        state: {
+          ...INITIAL_FARM,
+          inventory: {
+            "Love Charm": new Decimal(0),
+            Sunflower: new Decimal(1),
+            "Lifetime Farmer Banner": new Decimal(1),
+          },
+          delivery: {
+            ...INITIAL_FARM.delivery,
+            orders: [
+              {
+                id: "123",
+                createdAt: eventTime,
+                readyAt: eventTime,
+                from: "betty",
+                items: { Sunflower: 1 },
+                reward: {},
+              },
+            ],
+          },
+        },
+        action: {
+          id: "123",
+          type: "order.delivered",
+        },
+        createdAt: eventTime,
+      });
+
+      expect(state.inventory["Love Charm"]).toEqual(new Decimal(6));
+    });
+
+    it("gives players more love charms for completing deliveries if they have a streak", () => {
+      const state = deliverOrder({
+        state: {
+          ...INITIAL_FARM,
+          inventory: {
+            "Love Charm": new Decimal(0),
+            Sunflower: new Decimal(1),
+          },
+          npcs: {
+            betty: {
+              deliveryCount: 1,
+              streaks: {
+                streak: 1,
+                lastClaimedAt: eventTime - 24 * 60 * 60 * 1000,
+              },
+            },
+          },
+          delivery: {
+            ...INITIAL_FARM.delivery,
+            orders: [
+              {
+                id: "123",
+                createdAt: eventTime,
+                readyAt: eventTime,
+                from: "betty",
+                items: { Sunflower: 1 },
+                reward: {},
+              },
+            ],
+          },
+        },
+        action: {
+          id: "123",
+          type: "order.delivered",
+        },
+        createdAt: eventTime,
+      });
+
+      expect(state.inventory["Love Charm"]).toEqual(new Decimal(6));
+    });
+    it("gives players the max love charms if they have a streak of more than 5", () => {
+      const state = deliverOrder({
+        state: {
+          ...INITIAL_FARM,
+          inventory: {
+            "Love Charm": new Decimal(0),
+            Sunflower: new Decimal(1),
+          },
+          npcs: {
+            betty: {
+              deliveryCount: 1,
+              streaks: {
+                streak: 6,
+                lastClaimedAt: eventTime - 24 * 60 * 60 * 1000,
+              },
+            },
+          },
+          delivery: {
+            ...INITIAL_FARM.delivery,
+            orders: [
+              {
+                id: "123",
+                createdAt: eventTime,
+                readyAt: eventTime,
+                from: "betty",
+                items: { Sunflower: 1 },
+                reward: {},
+              },
+            ],
+          },
+        },
+        action: {
+          id: "123",
+          type: "order.delivered",
+        },
+        createdAt: eventTime,
+      });
+
+      expect(state.inventory["Love Charm"]).toEqual(new Decimal(15));
+    });
+    it("resets the streak if the player has not delivered for more than 24 hours", () => {
+      const state = deliverOrder({
+        state: {
+          ...INITIAL_FARM,
+          inventory: {
+            "Love Charm": new Decimal(0),
+            Sunflower: new Decimal(1),
+          },
+          npcs: {
+            betty: {
+              deliveryCount: 1,
+              streaks: {
+                streak: 6,
+                lastClaimedAt: eventTime - 36 * 60 * 60 * 1000,
+              },
+            },
+          },
+          delivery: {
+            ...INITIAL_FARM.delivery,
+            orders: [
+              {
+                id: "123",
+                createdAt: eventTime,
+                readyAt: eventTime,
+                from: "betty",
+                items: { Sunflower: 1 },
+                reward: {},
+              },
+            ],
+          },
+        },
+        action: {
+          id: "123",
+          type: "order.delivered",
+        },
+        createdAt: eventTime,
+      });
+
+      expect(state.inventory["Love Charm"]).toEqual(new Decimal(3));
+      expect(state.npcs?.betty?.streaks?.streak).toEqual(1);
+    });
+    it("does not give love charms after the event ends", () => {
+      jest.useFakeTimers();
+      jest.setSystemTime(new Date("2025-05-05T15:00:00Z").getTime());
+      const state = deliverOrder({
+        state: {
+          ...INITIAL_FARM,
+          inventory: {
+            "Love Charm": new Decimal(0),
+            Sunflower: new Decimal(1),
+          },
+          npcs: {
+            betty: {
+              deliveryCount: 1,
+              streaks: {
+                streak: 6,
+                lastClaimedAt: eventTime,
+              },
+            },
+          },
+          delivery: {
+            ...INITIAL_FARM.delivery,
+            orders: [
+              {
+                id: "123",
+                createdAt: eventTime,
+                readyAt: eventTime,
+                from: "betty",
+                items: { Sunflower: 1 },
+                reward: {},
+              },
+            ],
+          },
+        },
+        action: {
+          id: "123",
+          type: "order.delivered",
+        },
+        createdAt: eventTime,
+      });
+
+      expect(state.inventory["Love Charm"]).toEqual(new Decimal(0));
+    });
   });
 });

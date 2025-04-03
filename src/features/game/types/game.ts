@@ -946,6 +946,10 @@ export type NPCData = {
     giftClaimedAtPoints?: number;
     giftedAt?: number;
   };
+  streaks?: {
+    streak: number;
+    lastClaimedAt: number;
+  };
 };
 
 export type ChoreV2 = {

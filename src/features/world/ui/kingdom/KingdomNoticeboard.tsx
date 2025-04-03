@@ -36,7 +36,11 @@ export const NoticeboardItems: React.FC<NoticeboardItemProps> = ({
           <div className="w-full">
             <p className="text-xs  flex-1">{item.text}</p>
             {item.label && (
-              <Label type={item.label.labelType}>
+              <Label
+                type={item.label.labelType}
+                icon={item.label.boostTypeIcon}
+                secondaryIcon={item.label.boostedItemIcon}
+              >
                 {item.label.shortDescription}
               </Label>
             )}
