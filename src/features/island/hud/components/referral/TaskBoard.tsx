@@ -8,7 +8,7 @@ import Decimal from "decimal.js-light";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import {
   IN_GAME_TASKS,
-  InGameTaskName,
+  InGameTaskName as taskName,
   isSocialTask,
 } from "features/game/events/landExpansion/completeSocialTask";
 import { GameState } from "features/game/types/game";
@@ -69,9 +69,9 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({
   const { t } = useAppTranslation();
   const { openModal } = useContext(ModalContext);
 
-  const [selectedTask, setSelectedTask] = useState<InGameTaskName>();
+  const [selectedTask, setSelectedTask] = useState<taskName>();
 
-  const isTaskCompleted = (taskId: InGameTaskName): boolean =>
+  const isTaskCompleted = (taskId: taskName): boolean =>
     !!socialTasks?.completed?.[taskId]?.completedAt;
 
   return (
@@ -150,13 +150,9 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({
                       <p className="underline">{t("read.more")}</p>
                     </div>
                     <Label
-                      type={
-                        isTaskCompleted(task.title as InGameTaskName)
-                          ? "success"
-                          : "warning"
-                      }
+                      type={isTaskCompleted(taskName) ? "success" : "warning"}
                       icon={
-                        isTaskCompleted(task.title as InGameTaskName)
+                        isTaskCompleted(taskName)
                           ? SUNNYSIDE.icons.confirm
                           : task.requirement(state)
                             ? SUNNYSIDE.icons.expression_alerted
@@ -181,7 +177,7 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({
       >
         {selectedTask && selectedTask in IN_GAME_TASKS && (
           <InGameTask
-            taskName={selectedTask as InGameTaskName}
+            taskName={selectedTask}
             socialTasks={socialTasks}
             onClose={() => setSelectedTask(undefined)}
           />
@@ -192,12 +188,12 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({
 };
 
 const InGameTask: React.FC<{
-  taskName: InGameTaskName;
+  taskName: taskName;
   socialTasks: GameState["socialTasks"];
   onClose: () => void;
 }> = ({ taskName, socialTasks, onClose }) => {
   const { gameService, gameState } = useGame();
-  const completeTask = (taskId: InGameTaskName) => {
+  const completeTask = (taskId: taskName) => {
     gameService.send({
       type: "socialTask.completed",
       taskId,
@@ -205,7 +201,7 @@ const InGameTask: React.FC<{
   };
 
   const task = IN_GAME_TASKS[taskName];
-  const isTaskCompleted = (taskId: InGameTaskName): boolean =>
+  const isTaskCompleted = (taskId: taskName): boolean =>
     !!socialTasks?.completed?.[taskId]?.completedAt;
 
   const state = gameState.context.state;
@@ -252,10 +248,7 @@ const InGameTask: React.FC<{
         {!isTaskCompleted(taskName) && (
           <Button
             onClick={() => completeTask(taskName)}
-            disabled={
-              !task.requirement(state) ||
-              isTaskCompleted(task.title as InGameTaskName)
-            }
+            disabled={!task.requirement(state) || isTaskCompleted(taskName)}
           >
             {t("complete")}
           </Button>
