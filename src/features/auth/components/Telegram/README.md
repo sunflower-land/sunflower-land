@@ -31,6 +31,6 @@ Telegram fires off events every time a user interacts with your Bot chat. We lis
 
 To setup a webhook, you manually need to fire an API request. You can run this in your terminal.
 
-`curl -F "url=<YOUR_API>/webhooks/telegram" "https://api.telegram.org/bot<KEY>/setWebhook"`
+`curl -F "url=https://api-hannigan.sunflower-land.com/webhooks/telegram" "https://api.telegram.org/bot7734005392:AAFWI0ke0jxOBVyIFL5fxLV-M0uFiaQw-3E/setWebhook"`
 
 Update the above with your local BE API and the key you generated above

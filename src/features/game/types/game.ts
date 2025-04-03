@@ -93,6 +93,7 @@ import {
 import { VipBundle } from "../lib/vipAccess";
 import { InGameTaskName } from "../events/landExpansion/completeSocialTask";
 import { TwitterPost, TwitterPostName } from "./social";
+import { Notifications } from "./reminders";
 
 export type Reward = {
   coins?: number;
@@ -1419,6 +1420,7 @@ export interface GameState {
     username?: {
       setAt?: number;
     };
+    notifications?: Notifications;
   };
   coins: number;
   balance: Decimal;

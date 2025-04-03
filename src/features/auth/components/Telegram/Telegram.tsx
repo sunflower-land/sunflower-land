@@ -173,7 +173,10 @@ const TelegramConnect: React.FC = () => {
             <Button
               disabled={!telegram?.startedAt}
               onClick={() => {
-                window.open(`https://t.me/SunflowerLandOficialBr`, "_blank");
+                window.open(
+                  `https://t.me/SunflowerLandAnnouncements`,
+                  "_blank",
+                );
               }}
             >
               {t("telegram.join")}

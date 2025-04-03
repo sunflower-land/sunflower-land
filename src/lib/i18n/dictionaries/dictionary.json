@@ -5838,5 +5838,7 @@
   "loveRush.chores": "Complete Chores & earn Love Charms",
   "loveRush.giftFlowers": "Gift flowers for bonus Love Charms",
   "loveRush.dailyStreak": "Maintain a daily streak with NPCs to earn extra Love Charms",
-  "error.insufficientMatic": "POL required"
+  "error.insufficientMatic": "POL required",
+  "gameOptions.notifications.pwa": "Chrome",
+  "gameOptions.notifications.pwa.telegram": "Telegram"
 }

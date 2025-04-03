@@ -464,6 +464,10 @@ import {
   exchangeFlower,
   ExchangeFlowerAction,
 } from "./landExpansion/exchangeFLOWER";
+import {
+  NotificationsUpdatedAction,
+  updateNotifications,
+} from "./landExpansion/updateNotifications";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
@@ -605,7 +609,8 @@ export type PlayingEvent =
   | CompleteSocialTaskAction
   | ExchangeFlowerAction
   // To remove once December is finished
-  | CollectCandyAction;
+  | CollectCandyAction
+  | NotificationsUpdatedAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -813,6 +818,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "socialTask.completed": completeSocialTask,
   "referral.rewardsClaimed": claimReferralRewards,
   "exchange.flower": exchangeFlower,
+  "notifications.updated": updateNotifications,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

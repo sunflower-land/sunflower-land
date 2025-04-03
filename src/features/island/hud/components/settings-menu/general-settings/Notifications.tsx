@@ -13,11 +13,11 @@ import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import useSWR from "swr";
 import { SettingMenuId, subscriptionsFetcher } from "../GameOptions";
-import { getKeys } from "features/game/types/decorations";
 import Switch from "components/ui/Switch";
 import { Button } from "components/ui/Button";
 import { useGetDeviceType } from "lib/utils/hooks/useGetDeviceType";
 import { MachineState } from "features/game/lib/gameMachine";
+import { isSupported } from "firebase/messaging";
 
 export const convertToTitleCase = (str: string) => {
   return str.replace(/-/g, " ").replace(/\b\w/g, (char) => char.toUpperCase());
@@ -26,10 +26,24 @@ export const convertToTitleCase = (str: string) => {
 const _token = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
 const _farmId = (state: MachineState) => state.context.farmId as number;
+const _state = (state: MachineState) => state.context.state;
 
 export const Notifications: React.FC<{
   onSubMenuClick: (id: SettingMenuId) => void;
 }> = ({ onSubMenuClick }) => {
+  const [notificationsSupported, setNotificationsSupported] = useState(false);
+  useEffect(() => {
+    const checkNotificationsSupported = async () => {
+      setNotificationsSupported(await isSupported());
+    };
+    checkNotificationsSupported();
+  }, []);
+
+  const pwaNotificationsSupported =
+    "serviceWorker" in navigator &&
+    "PushManager" in window &&
+    notificationsSupported;
+
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const { authService } = useContext(AuthProvider.Context);
@@ -37,6 +51,7 @@ export const Notifications: React.FC<{
 
   const token = useSelector(authService, _token);
   const farmId = useSelector(gameService, _farmId);
+  const gameState = useSelector(gameService, _state);
   const [saving, setSaving] = useState(false);
 
   const {
@@ -58,6 +73,9 @@ export const Notifications: React.FC<{
   const [options, setOptions] = useState<Subscriptions>(
     subscriptions ?? DEFAULT_SUBSCRIPTIONS,
   );
+
+  const [isPwaEnabled, setIsPwaEnabled] = useState(false);
+  const [isTelegramEnabled, setIsTelegramEnabled] = useState(false);
 
   const isDirty = JSON.stringify(options) !== JSON.stringify(subscriptions);
 
@@ -117,15 +135,22 @@ export const Notifications: React.FC<{
         <h1 className="text-lg mb-2">
           {t("gameOptions.generalSettings.notifications")}
         </h1>
-        {getKeys(options).map((subName) => (
-          <div key={subName}>
-            <Switch
-              checked={options[subName]}
-              onChange={() => handleChange(subName)}
-              label={convertToTitleCase(subName)}
-            />
-          </div>
-        ))}
+        <Switch
+          disabled={!gameState.telegram?.startedAt}
+          checked={!!gameState.telegram?.startedAt && isTelegramEnabled}
+          onChange={() => setIsTelegramEnabled(!isTelegramEnabled)}
+          label={t("gameOptions.notifications.pwa.telegram")}
+        />
+        <Switch
+          disabled={!pwaNotificationsSupported}
+          checked={!!pwaNotificationsSupported && isPwaEnabled}
+          onChange={() => handleChange("seasonal-events")}
+          label={t("gameOptions.notifications.pwa")}
+        />
+        <h1 className="text-lg mb-2">
+          {t("gameOptions.generalSettings.reminders")}
+        </h1>
+
         {errorWhileSave && (
           <div className="text-red-500 my-0.5 text-xxs">
             {t("error.wentWrong")}

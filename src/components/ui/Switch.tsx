@@ -1,13 +1,15 @@
 import React from "react";
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
+import lockIcon from "assets/icons/lock.png";
 
 const Switch: React.FC<{
   checked: boolean;
   onChange: () => void;
   label: string;
   className?: string;
-}> = ({ checked, onChange, label, className }) => {
+  disabled?: boolean;
+}> = ({ checked, onChange, label, className, disabled }) => {
   return (
     <div
       className={classNames(
@@ -16,7 +18,10 @@ const Switch: React.FC<{
       )}
       onClick={onChange}
     >
-      <span className="text-sm">{label}</span>
+      <div className="flex items-center gap-2">
+        <span className="text-sm">{label}</span>
+        {disabled && <img src={lockIcon} className="h-6" />}
+      </div>
       {checked && (
         <img src={SUNNYSIDE.ui.turn_off} alt="selected" className="w-16" />
       )}
