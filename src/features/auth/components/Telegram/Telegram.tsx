@@ -152,4 +152,6 @@ const TelegramConnect: React.FC = () => {
       </InnerPanel>
     );
   }
+
+  return null;
 };
