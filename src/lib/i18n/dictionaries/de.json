@@ -5709,5 +5709,8 @@
   "description.greenTile": "Eine frische grüne Fliese, inspiriert von hügeligen Feldern und dem Herzen der Natur.",
   "description.purpleTile": "Eine kräftige lila Fliese, perfekt, um eine reiche und lebendige Atmosphäre zu schaffen.",
   "description.redTile": "Eine auffallende rote Fliese, die bei jedem Schritt Wärme und Energie ausstrahlt.",
-  "description.yellowTile": "Eine leuchtend gelbe Fliese, die die Wärme und Fröhlichkeit des Sonnenlichts einfängt."
+  "description.yellowTile": "Eine leuchtend gelbe Fliese, die die Wärme und Fröhlichkeit des Sonnenlichts einfängt.",
+  "rewardShop.msg1": "Willkommen in meinem Prämienshop. Sammle Liebeszauber und tausche sie gegen seltene Gegenstände ein.",
+  "rewardShop.wearable": "Netter Kauf! Ihr neues Wearable ist sicher in Ihrem Kleiderschrank verstaut. Von dort aus kannst du es mit einem Bumpkin ausrüsten.",
+  "rewardShop.collectible": "Netter Kauf! Ihr neues Sammlerstück ist sicher in Ihrem Inventar aufbewahrt."
 }

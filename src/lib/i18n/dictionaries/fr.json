@@ -5709,5 +5709,8 @@
   "description.greenTile": "Un carrelage vert frais, inspiré des champs vallonnés et du cœur de la nature.",
   "description.purpleTile": "Un carreau violet audacieux, parfait pour créer une atmosphère riche et animée.",
   "description.redTile": "Un carreau rouge saisissant, qui rayonne de chaleur et d'énergie à chaque pas.",
-  "description.yellowTile": "Un carreau jaune vif, capturant la chaleur et la gaieté de la lumière du soleil."
+  "description.yellowTile": "Un carreau jaune vif, capturant la chaleur et la gaieté de la lumière du soleil.",
+  "rewardShop.msg1": "Bienvenue dans ma boutique de récompenses. Collectez des breloques d'amour et échangez-les contre des objets rares.",
+  "rewardShop.wearable": "Bon achat ! Votre nouveau portable est rangé en toute sécurité dans votre garde-robe. Vous pouvez l'équiper en bumpkin à partir de là.",
+  "rewardShop.collectible": "Bon achat ! Votre nouvel objet de collection est stocké en toute sécurité dans votre inventaire."
 }

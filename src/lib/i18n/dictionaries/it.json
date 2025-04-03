@@ -5709,5 +5709,8 @@
   "description.greenTile": "Una fresca piastrella verde, ispirata ai campi ondulati e al cuore della natura.",
   "description.purpleTile": "Una piastrella viola audace, perfetta per creare un'atmosfera ricca e vivace.",
   "description.redTile": "Una sorprendente piastrella rossa, che irradia calore ed energia ad ogni passo.",
-  "description.yellowTile": "Una piastrella di colore giallo brillante, che cattura il calore e l'allegria della luce solare."
+  "description.yellowTile": "Una piastrella di colore giallo brillante, che cattura il calore e l'allegria della luce solare.",
+  "rewardShop.msg1": "Benvenuto nel mio Reward Shop. Colleziona i Love Charms e scambiali con oggetti rari.",
+  "rewardShop.wearable": "Bel acquisto! Il tuo nuovo dispositivo indossabile è riposto in modo sicuro nel tuo guardaroba. Da lì puoi trasformarlo in uno squalo.",
+  "rewardShop.collectible": "Bel acquisto! Il tuo nuovo oggetto da collezione è conservato in modo sicuro nel tuo inventario."
 }

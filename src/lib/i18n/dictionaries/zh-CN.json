@@ -5709,5 +5709,8 @@
   "description.greenTile": "一块清新的绿色瓷砖，灵感来自连绵起伏的田野和大自然的心脏。",
   "description.purpleTile": "醒目的紫色瓷砖，非常适合营造丰富而活泼的氛围。",
   "description.redTile": "醒目的红色瓷砖，每一步都散发着温暖和活力。",
-  "description.yellowTile": "明亮的黄色瓷砖，捕捉阳光的温暖和快乐。"
+  "description.yellowTile": "明亮的黄色瓷砖，捕捉阳光的温暖和快乐。",
+  "rewardShop.msg1": "欢迎来到我的奖励商店。收集爱情护身符并用它们兑换稀有物品。",
+  "rewardShop.wearable": "不错的购买！您的新可穿戴设备可以安全地存放在衣柜里。你可以从那里把它装备成小伙子。",
+  "rewardShop.collectible": "不错的购买！您的新收藏品安全地存储在库存中。"
 }

@@ -5709,5 +5709,8 @@
   "description.greenTile": "Ubin hijau segar, terinspirasi oleh ladang bergulir dan jantung alam.",
   "description.purpleTile": "Ubin ungu yang berani, sempurna untuk menciptakan suasana yang kaya dan hidup.",
   "description.redTile": "Ubin merah mencolok, memancarkan kehangatan dan energi di setiap langkah.",
-  "description.yellowTile": "Ubin kuning cerah, menangkap kehangatan dan keceriaan sinar matahari."
+  "description.yellowTile": "Ubin kuning cerah, menangkap kehangatan dan keceriaan sinar matahari.",
+  "rewardShop.msg1": "Selamat datang di Toko Hadiah saya. Kumpulkan Cinta Pesona & tukarkan dengan barang-barang langka.",
+  "rewardShop.wearable": "Pembelian yang bagus! Perangkat baru Anda yang dapat dikenakan disimpan dengan aman di lemari pakaian Anda. Anda dapat melengkapinya menjadi bumpkin dari sana.",
+  "rewardShop.collectible": "Pembelian yang bagus! Koleksi baru Anda disimpan dengan aman di inventaris Anda."
 }

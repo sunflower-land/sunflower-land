@@ -5709,5 +5709,8 @@
   "description.greenTile": "Yuvarlanan tarlalardan ve doğanın kalbinden ilham alan taze yeşil bir karo.",
   "description.purpleTile": "Zengin ve canlı bir atmosfer yaratmak için mükemmel, koyu mor bir karo.",
   "description.redTile": "Her adımda sıcaklık ve enerji yayan çarpıcı bir kırmızı karo.",
-  "description.yellowTile": "Güneş ışığının sıcaklığını ve neşesini yakalayan parlak sarı bir karo."
+  "description.yellowTile": "Güneş ışığının sıcaklığını ve neşesini yakalayan parlak sarı bir karo.",
+  "rewardShop.msg1": "Ödül Mağazama hoş geldiniz. Aşk Tılsımlarını toplayın ve nadir eşyalarla değiştirin.",
+  "rewardShop.wearable": "Güzel satın alma! Yeni giyilebilir cihazınız gardırobunuzda güvenle saklanır. Oradan bir darbeye donatabilirsiniz.",
+  "rewardShop.collectible": "Güzel satın alma! Yeni koleksiyonunuz envanterinizde güvenle saklanır."
 }
