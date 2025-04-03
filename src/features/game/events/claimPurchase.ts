@@ -2,7 +2,6 @@ import Decimal from "decimal.js-light";
 import { GameState, InventoryItemName } from "../types/game";
 import { produce } from "immer";
 import { getKeys } from "../types/decorations";
-import { hasFeatureAccess } from "lib/flags";
 import { MARKETPLACE_TAX } from "../types/marketplace";
 import { addTradePoints } from "./landExpansion/addTradePoints";
 import { BumpkinItem } from "../types/bumpkin";
@@ -47,14 +46,7 @@ export function claimPurchase({
       throw new Error("One or more purchases have not been fulfilled");
     }
 
-    const instantPurchases = purchaseIds.filter((purchaseId) => {
-      return (
-        hasFeatureAccess(game, "OFFCHAIN_MARKETPLACE") ||
-        !game.trades.listings?.[purchaseId].signature
-      );
-    });
-
-    instantPurchases.forEach((purchaseId) => {
+    purchaseIds.forEach((purchaseId) => {
       const listing = game.trades.listings?.[purchaseId];
       const item = getKeys(listing?.items ?? {})[0];
       const amount = listing?.items[item] ?? 0;

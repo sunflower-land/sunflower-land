@@ -7,7 +7,6 @@ import {
   TradeOffer,
 } from "features/game/types/game";
 import { produce } from "immer";
-import { hasFeatureAccess } from "lib/flags";
 import { addTradePoints } from "./addTradePoints";
 
 export type ClaimOfferAction = {
@@ -41,14 +40,7 @@ export function claimOffer({ state, action, createdAt = Date.now() }: Options) {
       throw new Error("One or more offers have not been fulfilled");
     }
 
-    // Process instant offers only. On Chain offers are processed after rebase
-    const instantOffers = offerIds.filter(
-      (offerId) =>
-        hasFeatureAccess(game, "OFFCHAIN_MARKETPLACE") ||
-        !game.trades.offers?.[offerId].signature,
-    );
-
-    instantOffers.forEach((offerId) => {
+    offerIds.forEach((offerId) => {
       const offer = game.trades.offers?.[offerId] as TradeOffer;
 
       const item = getKeys(offer.items)[0];

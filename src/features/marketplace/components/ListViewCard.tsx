@@ -3,7 +3,6 @@ import Decimal from "decimal.js-light";
 import { ButtonPanel } from "components/ui/Panel";
 import sfl from "assets/icons/flower_token.webp";
 import lightning from "assets/icons/lightning.png";
-import wallet from "assets/icons/wallet.png";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { formatNumber } from "lib/utils/formatNumber";
 import { getTradeType } from "../lib/getTradeType";
@@ -20,7 +19,6 @@ import { BumpkinItem } from "features/game/types/bumpkin";
 import { CountLabel } from "components/ui/CountLabel";
 import classNames from "classnames";
 import { ListViewImage } from "./ListViewImage";
-import { hasFeatureAccess } from "lib/flags";
 
 type Props = {
   details: TradeableDisplay;
@@ -101,16 +99,6 @@ export const ListViewCard: React.FC<Props> = ({
             type={type}
             isResources={isResources}
           />
-          {tradeType === "onchain" &&
-            !hasFeatureAccess(
-              gameService.getSnapshot().context.state,
-              "OFFCHAIN_MARKETPLACE",
-            ) && (
-              <img
-                src={wallet}
-                className="h-5 mr-1 absolute bottom-1 -right-1.5"
-              />
-            )}
         </div>
 
         <div

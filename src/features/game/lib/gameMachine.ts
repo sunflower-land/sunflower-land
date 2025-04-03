@@ -268,8 +268,6 @@ export type BlockchainEvent =
   | TransactEvent
   | WalletUpdatedEvent
   | CommunityEvent
-  | ListingEvent
-  | DeleteTradeListingEvent
   | SellMarketResourceEvent
   | { type: "REFRESH" }
   | { type: "ACKNOWLEDGE" }

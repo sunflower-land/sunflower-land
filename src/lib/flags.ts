@@ -91,7 +91,6 @@ const FEATURE_FLAGS = {
     new Date("2025-04-14T00:00:00Z"),
   ),
   LEDGER: testnetLocalStorageFeatureFlag("ledger"),
-  OFFCHAIN_MARKETPLACE: () => true,
   BLOCKCHAIN_BOX: defaultFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
