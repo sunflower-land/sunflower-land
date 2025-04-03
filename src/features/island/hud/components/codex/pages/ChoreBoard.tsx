@@ -124,7 +124,11 @@ export const ChoreBoard: React.FC<Props> = ({ state }) => {
               <TimerDisplay fontSize={24} time={end} />
             </Label>
             {isLoveRushEventActive && (
-              <Label type="vibrant" icon={ITEM_DETAILS["Love Charm"].image}>
+              <Label
+                type="info"
+                icon={ITEM_DETAILS["Love Charm"].image}
+                secondaryIcon={SUNNYSIDE.icons.stopwatch}
+              >
                 {`Love Rush Event - ${millisecondsToString(
                   loveRushRemainingTime,
                   { length: "short" },
@@ -139,7 +143,7 @@ export const ChoreBoard: React.FC<Props> = ({ state }) => {
             seasonalTicket: getSeasonalTicket(),
           })}
         </p>
-        {hasUnlockedAllChores && (
+        {isLoveRushEventActive && hasUnlockedAllChores && (
           <Label
             type={hasCompleted21Chores ? "success" : "warning"}
             icon={ITEM_DETAILS["Love Charm"].image}

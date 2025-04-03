@@ -486,7 +486,11 @@ export const DeliveryOrders: React.FC<Props> = ({
               </Label>
             )}
             {isLoveRushEventActive && (
-              <Label type="vibrant" icon={ITEM_DETAILS["Love Charm"].image}>
+              <Label
+                type="info"
+                icon={ITEM_DETAILS["Love Charm"].image}
+                secondaryIcon={SUNNYSIDE.icons.stopwatch}
+              >
                 {`Love Rush Event - ${millisecondsToString(
                   loveRushRemainingTime,
                   { length: "short" },

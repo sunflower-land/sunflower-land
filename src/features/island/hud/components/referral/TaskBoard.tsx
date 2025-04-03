@@ -21,6 +21,7 @@ import { ModalContext } from "features/game/components/modal/ModalProvider";
 import promoteIcon from "assets/icons/promote.webp";
 import tvIcon from "assets/icons/tv.webp";
 import { secondsToString } from "lib/utils/time";
+import { hasFeatureAccess } from "lib/flags";
 
 interface TaskBoardProps {
   state: GameState;
@@ -90,12 +91,14 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({
       {/* Tasks */}
       <div className="flex flex-col gap-2 m-1">
         <div className="flex flex-col gap-1 text-xs">
-          <TaskButton
-            title={t("socialTask.helpBumpkins")}
-            onClick={() => openModal("LOVE_RUSH")}
-            image={SUNNYSIDE.icons.player}
-            expiresAt={new Date("2025-05-04T00:00:00Z")}
-          />
+          {hasFeatureAccess(state, "LOVE_RUSH") && (
+            <TaskButton
+              title={t("socialTask.helpBumpkins")}
+              onClick={() => openModal("LOVE_RUSH")}
+              image={SUNNYSIDE.icons.player}
+              expiresAt={new Date("2025-05-05T00:00:00Z")}
+            />
+          )}
 
           <TaskButton
             title={t("socialTask.referFriend")}
