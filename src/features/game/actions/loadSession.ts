@@ -56,6 +56,8 @@ export async function loadSession(
   const promoCode = getPromoCode();
   const signUpMethod = getSignupMethod();
 
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
   const response = await window.fetch(`${API_URL}/session`, {
     method: "POST",
     //mode: "no-cors",
@@ -69,6 +71,7 @@ export async function loadSession(
       clientVersion: CONFIG.CLIENT_VERSION as string,
       promoCode,
       signUpMethod,
+      timezone,
     }),
   });
 
