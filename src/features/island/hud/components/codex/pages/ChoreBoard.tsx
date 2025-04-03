@@ -41,7 +41,6 @@ import { getLoveRushChoreReward } from "features/game/types/loveRushChores";
 import { millisecondsToString } from "lib/utils/time";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
-import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 
 interface Props {
   state: GameState;
@@ -100,6 +99,11 @@ export const ChoreBoard: React.FC<Props> = ({ state }) => {
   const hasCompleted21Chores =
     Object.values(chores).filter((chore) => chore.completedAt).length >= 21;
 
+  const unlockedChores = getKeys(chores).filter(
+    (npc) => level >= NPC_CHORE_UNLOCKS[npc as NPCName],
+  );
+  const hasUnlockedAllChores = unlockedChores.length === 21;
+
   return (
     <div className="flex md:flex-row flex-col-reverse md:mr-1 items-start h-full">
       <InnerPanel
@@ -119,6 +123,14 @@ export const ChoreBoard: React.FC<Props> = ({ state }) => {
             >
               <TimerDisplay fontSize={24} time={end} />
             </Label>
+            {isLoveRushEventActive && (
+              <Label type="vibrant" icon={ITEM_DETAILS["Love Charm"].image}>
+                {`Love Rush Event - ${millisecondsToString(
+                  loveRushRemainingTime,
+                  { length: "short" },
+                )} left`}
+              </Label>
+            )}
           </div>
         </div>
 
@@ -127,59 +139,31 @@ export const ChoreBoard: React.FC<Props> = ({ state }) => {
             seasonalTicket: getSeasonalTicket(),
           })}
         </p>
-        {isLoveRushEventActive && (
-          <NoticeboardItems
-            items={[
-              {
-                text: "",
-                icon: ITEM_DETAILS["Love Charm"].image,
-                label: {
-                  shortDescription: `Love Rush Event - ${millisecondsToString(
-                    loveRushRemainingTime,
-                    { length: "short" },
-                  )} left`,
-                  labelType: "info",
-                  boostedItemIcon: SUNNYSIDE.icons.stopwatch,
-                },
-              },
-              {
-                text: "",
-                icon: SUNNYSIDE.icons.lightning,
-                label: {
-                  shortDescription: "Earn Love Charms when completing Chores.",
-                  labelType: "vibrant",
-                },
-              },
-              {
-                text: "",
-                icon: ITEM_DETAILS["Love Charm"].image,
-                label: {
-                  shortDescription:
-                    "Get a bonus 100 Love Charms for completing 21 Chores in a week!",
-                  labelType: hasCompleted21Chores ? "success" : "warning",
-                  boostedItemIcon: hasCompleted21Chores
-                    ? SUNNYSIDE.icons.confirm
-                    : undefined,
-                },
-              },
-            ]}
-          />
+        {hasUnlockedAllChores && (
+          <Label
+            type={hasCompleted21Chores ? "success" : "warning"}
+            icon={ITEM_DETAILS["Love Charm"].image}
+            secondaryIcon={
+              hasCompleted21Chores ? SUNNYSIDE.icons.confirm : undefined
+            }
+            className="my-1"
+          >
+            {`Get a bonus 100 Love Charms for completing 21 Chores in a week!`}
+          </Label>
         )}
 
         <div className="grid grid-cols-2 sm:grid-cols-3 w-full mt-1">
-          {getKeys(chores)
-            .filter((npc) => level >= NPC_CHORE_UNLOCKS[npc as NPCName])
-            .map((chore) => (
-              <ChoreCard
-                key={chore}
-                chore={chores[chore] as NpcChore}
-                npc={chore}
-                selected={selectedId}
-                onClick={setSelectedId}
-                state={state}
-                isLoveRushEventActive={isLoveRushEventActive}
-              />
-            ))}
+          {unlockedChores.map((chore) => (
+            <ChoreCard
+              key={chore}
+              chore={chores[chore] as NpcChore}
+              npc={chore}
+              selected={selectedId}
+              onClick={setSelectedId}
+              state={state}
+              isLoveRushEventActive={isLoveRushEventActive}
+            />
+          ))}
           {nextUnlock && <LockedChoreCard npc={nextUnlock} />}
         </div>
       </InnerPanel>
