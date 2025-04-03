@@ -14,6 +14,7 @@ import { rewardChestMachine } from "features/game/expansion/components/dailyRewa
 import { useInterpret, useActor } from "@xstate/react";
 import Decimal from "decimal.js-light";
 import { getBumpkinLevel } from "features/game/lib/level";
+import { getKeys } from "features/game/types/decorations";
 
 export const RewardsButton: React.FC = () => {
   const [showRewardsModal, setShowRewardsModal] = useState(false);
@@ -51,10 +52,9 @@ export const RewardsButton: React.FC = () => {
     (task: InGameTaskName) => IN_GAME_TASKS[task].requirement(state),
     [state],
   );
-  const isAnyTaskCompleted = Object.values(IN_GAME_TASKS).some(
+  const isAnyTaskCompleted = getKeys(IN_GAME_TASKS).some(
     (task) =>
-      isTaskCompleted(task.title as InGameTaskName) &&
-      !state.socialTasks?.completed[task.title as InGameTaskName]?.completedAt,
+      isTaskCompleted(task) && !state.socialTasks?.completed[task]?.completedAt,
   );
 
   // Check if chest is locked or can be unlocked
