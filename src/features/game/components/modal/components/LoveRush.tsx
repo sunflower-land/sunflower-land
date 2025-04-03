@@ -38,6 +38,10 @@ export const LoveRush: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               text: t("loveRush.dailyStreak"),
               icon: SUNNYSIDE.icons.happy,
             },
+            {
+              text: t("loveRush.treasureChest"),
+              icon: SUNNYSIDE.decorations.treasure_chest,
+            },
           ]}
         />
       </div>
