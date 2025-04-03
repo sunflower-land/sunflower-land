@@ -320,7 +320,10 @@ export type BumpkinHat =
   | "Pumpkin Head"
   | "Acorn Hat"
   | "Crab Hat"
-  | "Weather Hat";
+  | "Weather Hat"
+  | "Flower Mask"
+  | "Luvvy Head"
+  | "Grumpy Cat";
 
 export type BumpkinPant =
   | "Farmer Overalls"
@@ -423,7 +426,8 @@ export type BumpkinOnesie =
   | "Locust Onesie"
   | "Locust King Onesie"
   | "Love Heart Onesie"
-  | "Love Bear Onesie";
+  | "Love Bear Onesie"
+  | "Dino Onesie";
 
 // Goes over clothes
 export type BumpkinSuit =
@@ -456,11 +460,12 @@ export type BumpkinWings =
   | "Nightshade Quiver"
   | "Sunflorian Quiver"
   | "Sol & Luna"
-  | "Glacial Plume";
+  | "Glacial Plume"
+  | "Golden Wings";
 
 export type BumpkinBeard = "Wise Beard" | "Hoary Chin" | "Santa Beard";
 
-export type BumpkinAura = "Coin Aura";
+export type BumpkinAura = "Coin Aura" | "Love Puff Aura";
 
 export type BumpkinItem =
   | BumpkinBody
@@ -928,6 +933,14 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Love Bear Onesie": 436,
   "Flower Bouquet": 437,
   "Streamer Hat": 438,
+
+  //Love Charm Wearables
+  "Dino Onesie": 439,
+  "Golden Wings": 440,
+  "Flower Mask": 441,
+  "Luvvy Head": 442,
+  "Grumpy Cat": 443,
+  "Love Puff Aura": 444,
 };
 
 // The reverse of above
@@ -1427,6 +1440,12 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Love Heart Onesie": "onesie",
   "Love Bear Onesie": "onesie",
   "Flower Bouquet": "tool",
+  "Dino Onesie": "onesie",
+  "Golden Wings": "wings",
+  "Flower Mask": "hat",
+  "Luvvy Head": "hat",
+  "Grumpy Cat": "hat",
+  "Love Puff Aura": "aura",
 };
 
 /**Copied from BE just for hoarding checks */

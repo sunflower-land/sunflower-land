@@ -1388,6 +1388,12 @@ export const ITEM_TRADE_TYPES: {
     "Love Heart Onesie": "instant",
     "Love Bear Onesie": "instant",
     "Flower Bouquet": "instant",
+    "Dino Onesie": "instant",
+    "Golden Wings": "instant",
+    "Flower Mask": "instant",
+    "Luvvy Head": "instant",
+    "Grumpy Cat": "instant",
+    "Love Puff Aura": "instant",
   },
 };
 
