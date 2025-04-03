@@ -345,7 +345,7 @@ const TwitterWeekly: React.FC = () => {
 
       const a = document.createElement("a");
       a.href = url;
-      a.download = "my-image.png";
+      a.download = "sunflower-banner.gif";
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
