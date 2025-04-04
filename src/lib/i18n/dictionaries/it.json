@@ -5647,9 +5647,7 @@
   "flower.exchange.title": "Scambia $FLOWER",
   "flower.exchange.price": "1 $FLOWER = {{exchangeRate}} Love Charms",
   "flower.exchange.confirm": "Sei sicuro di voler effettuare il seguente scambio?",
-  "flower.exchange.inventory": "Inventario: {{loveCharmCount}} Love Charms",
   "flower.exchange.error.min": "Non puoi scambiare meno di 50 Love Charms",
-  "flower.exchange.error.max": "Non puoi scambiare più di 10.000 Love Charms",
   "flower.exchange.error.balance": "Non hai abbastanza ciondoli d'amore da scambiare con $FLOWER",
   "flower.exchange.button": "Scambio",
   "flower.exchange.youWillReceive": "Riceverai:",
@@ -5714,5 +5712,8 @@
   "rewardShop.collectible": "Bel acquisto! Il tuo nuovo oggetto da collezione è conservato in modo sicuro nel tuo inventario.",
   "rewards.daily.description": "Risorse bonus, monete e {{ticket}}",
   "loveRush.referral": "I referral VIP ricompenseranno 200 Love Charms durante Love Rush",
-  "telegram.prompts": "Segui le istruzioni di Telegram per iniziare."
+  "telegram.prompts": "Segui le istruzioni di Telegram per iniziare.",
+  "flower.exchange.inventory": "Inventario: {{loveCharmCount}}",
+  "flower.exchange.dailyLimit": "Limite giornaliero: {{loveCharmsSpent}}/{{dailyLimit}}",
+  "flower.exchange.error.max": "Non puoi scambiare più di 10.000 Love Charms al giorno"
 }

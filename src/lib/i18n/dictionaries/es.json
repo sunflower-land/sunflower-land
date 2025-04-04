@@ -5647,9 +5647,7 @@
   "flower.exchange.title": "Cambiar $FLOWER",
   "flower.exchange.price": "1 $FLOWER = {{exchangeRate}} Colgantes de amor",
   "flower.exchange.confirm": "¿Está seguro de que desea realizar el siguiente intercambio?",
-  "flower.exchange.inventory": "Inventario: {{loveCharmCount}} Love Charms",
   "flower.exchange.error.min": "No puedes intercambiar menos de 50 amuletos de amor",
-  "flower.exchange.error.max": "No puedes intercambiar más de 10 000 amuletos de amor",
   "flower.exchange.error.balance": "No tienes suficientes amuletos de amor para cambiarlos por $FLOWER",
   "flower.exchange.button": "Intercambio",
   "flower.exchange.youWillReceive": "Recibirás:",
@@ -5714,5 +5712,8 @@
   "rewardShop.collectible": "¡Buena compra! Tu nuevo objeto coleccionable está guardado de forma segura en tu inventario.",
   "rewards.daily.description": "Recursos adicionales, monedas y {{ticket}}",
   "loveRush.referral": "Las referencias VIP recompensarán con 200 amuletos de amor durante Love Rush",
-  "telegram.prompts": "Sigue las instrucciones de Telegram para empezar."
+  "telegram.prompts": "Sigue las instrucciones de Telegram para empezar.",
+  "flower.exchange.inventory": "Inventario: {{loveCharmCount}}",
+  "flower.exchange.dailyLimit": "Límite diario: {{loveCharmsSpent}}/{{dailyLimit}}",
+  "flower.exchange.error.max": "No puedes intercambiar más de 10 000 amuletos de amor al día"
 }

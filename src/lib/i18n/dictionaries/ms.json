@@ -5647,9 +5647,7 @@
   "flower.exchange.title": "Pertukaran $FLOWER",
   "flower.exchange.price": "1 $FLOWER = {{exchangeRate}} Pesona Cinta",
   "flower.exchange.confirm": "Adakah anda pasti ingin melakukan pertukaran berikut?",
-  "flower.exchange.inventory": "Inventori: {{loveCharmCount}} Pesona Cinta",
   "flower.exchange.error.min": "Anda tidak boleh menukar kurang daripada 50 Love Charms",
-  "flower.exchange.error.max": "Anda tidak boleh bertukar lebih daripada 10,000 Love Charms",
   "flower.exchange.error.balance": "Anda tidak mempunyai cukup Love Charms untuk ditukar dengan $FLOWER",
   "flower.exchange.button": "Pertukaran",
   "flower.exchange.youWillReceive": "Anda akan menerima:",
@@ -5714,5 +5712,8 @@
   "rewardShop.collectible": "Beli yang bagus! Koleksi baru anda disimpan dengan selamat dalam inventori anda.",
   "rewards.daily.description": "Sumber bonus, duit syiling & {{ticket}}",
   "loveRush.referral": "Rujukan VIP akan memberi ganjaran kepada 200 Love Charms semasa Love Rush",
-  "telegram.prompts": "Ikuti arahan dalam Telegram untuk bermula."
+  "telegram.prompts": "Ikuti arahan dalam Telegram untuk bermula.",
+  "flower.exchange.inventory": "Inventori: {{loveCharmCount}}",
+  "flower.exchange.dailyLimit": "Had Harian: {{loveCharmsSpent}}/{{dailyLimit}}",
+  "flower.exchange.error.max": "Anda tidak boleh menukar lebih daripada 10,000 Love Charms setiap hari"
 }

@@ -5647,9 +5647,7 @@
   "flower.exchange.title": "$FLOWER değiş tokuş yapın",
   "flower.exchange.price": "1 $FLOWER = {{exchangeRate}} Aşk Tılsımları",
   "flower.exchange.confirm": "Aşağıdaki değişimi gerçekleştirmek istediğinizden emin misiniz?",
-  "flower.exchange.inventory": "Envanter: {{loveCharmCount}} Aşk Tılsımları",
   "flower.exchange.error.min": "50'den az Aşk Tılsımı takas edemezsin",
-  "flower.exchange.error.max": "10.000'den fazla Aşk Tılsımı takas edemezsin",
   "flower.exchange.error.balance": "$FLOWER'a değiş tokuş için yeterli Aşk Tılsımınız yok",
   "flower.exchange.button": "Değişim",
   "flower.exchange.youWillReceive": "Alacaksınız:",
@@ -5714,5 +5712,8 @@
   "rewardShop.collectible": "Güzel satın alma! Yeni koleksiyonunuz envanterinizde güvenle saklanır.",
   "rewards.daily.description": "Bonus kaynakları, madeni paralar ve {{ticket}}",
   "loveRush.referral": "VIP Tavsiyeleri, Love Rush sırasında 200 Aşk Tılsımı ödüllendirecek",
-  "telegram.prompts": "Başlamak için Telegram'daki talimatları izleyin."
+  "telegram.prompts": "Başlamak için Telegram'daki talimatları izleyin.",
+  "flower.exchange.inventory": "Envanter: {{loveCharmCount}}",
+  "flower.exchange.dailyLimit": "Günlük Limit: {{loveCharmsSpent}}/{{dailyLimit}}",
+  "flower.exchange.error.max": "Günde 10.000'den fazla Aşk Tılsımı takas edemezsiniz"
 }
