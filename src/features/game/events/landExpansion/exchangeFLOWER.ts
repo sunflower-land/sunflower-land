@@ -2,6 +2,7 @@ import { produce } from "immer";
 import Decimal from "decimal.js-light";
 import { GameState } from "features/game/types/game";
 import { hasFeatureAccess } from "lib/flags";
+import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
 
 const EXCHANGE_FLOWER_PRICE = 50;
 const DAILY_LIMIT = 10000;
@@ -25,6 +26,13 @@ export function exchangeFlower({
   return produce(state, (game) => {
     if (!hasFeatureAccess(game, "LOVE_CHARM_FLOWER_EXCHANGE")) {
       throw new Error("Flower Exchange is not available yet");
+    }
+
+    if (
+      hasFeatureAccess(game, "FACE_RECOGNITION") &&
+      !isFaceVerified({ game })
+    ) {
+      throw new Error("Face verification required");
     }
 
     const today = new Date(createdAt).toISOString().split("T")[0];

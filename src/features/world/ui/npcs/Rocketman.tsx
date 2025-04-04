@@ -25,6 +25,8 @@ import {
 } from "features/game/lib/gameMachine";
 import { hasFeatureAccess } from "lib/flags";
 import { RewardShop } from "../loveRewardShop/RewardShop";
+import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
+import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
 
 interface Props {
   onClose: () => void;
@@ -179,6 +181,15 @@ const FlowerExchange: React.FC<FlowerExchangeProps> = ({
     gameService.send("exchange.flower", { amount: loveCharms });
     onClose();
   };
+
+  const state = useSelector(gameService, _state);
+
+  if (
+    hasFeatureAccess(state, "FACE_RECOGNITION") &&
+    !isFaceVerified({ game: state })
+  ) {
+    return <FaceRecognition />;
+  }
 
   if (showConfirmation) {
     return (
