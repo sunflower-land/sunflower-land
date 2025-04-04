@@ -5551,7 +5551,6 @@
   "rewards.blockchain.box.claimed": "Beansprucht",
   "rewards.blockchain.box.limited": "Limitiert",
   "rewards.daily.title": "Tägliche Belohnung",
-  "rewards.daily.description": "Bonus-Ressourcen, Münzen & {ticket}",
   "rewards.daily.claimed": "Beansprucht",
   "rewards.vip.title": "VIP-Belohnung",
   "rewards.vip.description": "Eine monatliche Belohnung für VIP-Mitglieder",
@@ -5712,5 +5711,7 @@
   "description.yellowTile": "Eine leuchtend gelbe Fliese, die die Wärme und Fröhlichkeit des Sonnenlichts einfängt.",
   "rewardShop.msg1": "Willkommen in meinem Prämienshop. Sammle Liebeszauber und tausche sie gegen seltene Gegenstände ein.",
   "rewardShop.wearable": "Netter Kauf! Ihr neues Wearable ist sicher in Ihrem Kleiderschrank verstaut. Von dort aus kannst du es mit einem Bumpkin ausrüsten.",
-  "rewardShop.collectible": "Netter Kauf! Ihr neues Sammlerstück ist sicher in Ihrem Inventar aufbewahrt."
+  "rewardShop.collectible": "Netter Kauf! Ihr neues Sammlerstück ist sicher in Ihrem Inventar aufbewahrt.",
+  "rewards.daily.description": "Bonus-Ressourcen, Münzen & {{ticket}}",
+  "loveRush.referral": "VIP-Empfehlungen belohnen während Love Rush mit 200 Love Charms"
 }

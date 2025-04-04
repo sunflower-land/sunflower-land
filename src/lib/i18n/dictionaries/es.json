@@ -5551,7 +5551,6 @@
   "rewards.blockchain.box.claimed": "Reclamado",
   "rewards.blockchain.box.limited": "Limitado",
   "rewards.daily.title": "Recompensa diaria",
-  "rewards.daily.description": "Recursos adicionales, monedas y {ticket}",
   "rewards.daily.claimed": "Reclamado",
   "rewards.vip.title": "Recompensa VIP",
   "rewards.vip.description": "Una recompensa mensual para los miembros VIP",
@@ -5712,5 +5711,7 @@
   "description.yellowTile": "Un azulejo amarillo brillante que captura el calor y la alegría de la luz solar.",
   "rewardShop.msg1": "Bienvenido a mi tienda de recompensas. Colecciona amuletos de amor y cámbialos por objetos raros.",
   "rewardShop.wearable": "¡Buena compra! Tu nuevo dispositivo portátil está guardado de forma segura en tu armario. Desde allí puedes equiparlo para un paleto.",
-  "rewardShop.collectible": "¡Buena compra! Tu nuevo objeto coleccionable está guardado de forma segura en tu inventario."
+  "rewardShop.collectible": "¡Buena compra! Tu nuevo objeto coleccionable está guardado de forma segura en tu inventario.",
+  "rewards.daily.description": "Recursos adicionales, monedas y {{ticket}}",
+  "loveRush.referral": "Las referencias VIP recompensarán con 200 amuletos de amor durante Love Rush"
 }

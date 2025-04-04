@@ -5551,7 +5551,6 @@
   "rewards.blockchain.box.claimed": "已申领",
   "rewards.blockchain.box.limited": "有限",
   "rewards.daily.title": "每日奖励",
-  "rewards.daily.description": "奖励资源、金币和 {门票}",
   "rewards.daily.claimed": "已申领",
   "rewards.vip.title": "VIP 奖励",
   "rewards.vip.description": "VIP 会员的月度奖励",
@@ -5712,5 +5711,7 @@
   "description.yellowTile": "明亮的黄色瓷砖，捕捉阳光的温暖和快乐。",
   "rewardShop.msg1": "欢迎来到我的奖励商店。收集爱情护身符并用它们兑换稀有物品。",
   "rewardShop.wearable": "不错的购买！您的新可穿戴设备可以安全地存放在衣柜里。你可以从那里把它装备成小伙子。",
-  "rewardShop.collectible": "不错的购买！您的新收藏品安全地存储在库存中。"
+  "rewardShop.collectible": "不错的购买！您的新收藏品安全地存储在库存中。",
+  "rewards.daily.description": "奖励资源、金币和 {{ticket}}",
+  "loveRush.referral": "在 Love Rush 期间，VIP 推荐将奖励 200 个爱情护身符"
 }

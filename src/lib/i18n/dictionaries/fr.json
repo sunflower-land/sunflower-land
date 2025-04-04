@@ -5551,7 +5551,6 @@
   "rewards.blockchain.box.claimed": "Réclamé",
   "rewards.blockchain.box.limited": "Limité",
   "rewards.daily.title": "Récompense quotidienne",
-  "rewards.daily.description": "Ressources bonus, pièces et {ticket}",
   "rewards.daily.claimed": "Réclamé",
   "rewards.vip.title": "Récompense VIP",
   "rewards.vip.description": "Une récompense mensuelle pour les membres VIP",
@@ -5712,5 +5711,7 @@
   "description.yellowTile": "Un carreau jaune vif, capturant la chaleur et la gaieté de la lumière du soleil.",
   "rewardShop.msg1": "Bienvenue dans ma boutique de récompenses. Collectez des breloques d'amour et échangez-les contre des objets rares.",
   "rewardShop.wearable": "Bon achat ! Votre nouveau portable est rangé en toute sécurité dans votre garde-robe. Vous pouvez l'équiper en bumpkin à partir de là.",
-  "rewardShop.collectible": "Bon achat ! Votre nouvel objet de collection est stocké en toute sécurité dans votre inventaire."
+  "rewardShop.collectible": "Bon achat ! Votre nouvel objet de collection est stocké en toute sécurité dans votre inventaire.",
+  "rewards.daily.description": "Ressources bonus, pièces et {{ticket}}",
+  "loveRush.referral": "Les recommandations VIP récompenseront 200 Love Charms pendant Love Rush"
 }

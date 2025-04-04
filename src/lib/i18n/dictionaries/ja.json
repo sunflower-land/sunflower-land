@@ -5551,7 +5551,6 @@
   "rewards.blockchain.box.claimed": "請求済み",
   "rewards.blockchain.box.limited": "限定",
   "rewards.daily.title": "デイリーリワード",
-  "rewards.daily.description": "ボーナス資源、コイン、{チケット}",
   "rewards.daily.claimed": "請求済み",
   "rewards.vip.title": "VIP リワード",
   "rewards.vip.description": "VIPメンバー向けの毎月の報酬",
@@ -5712,5 +5711,7 @@
   "description.yellowTile": "明るい黄色のタイルで、太陽の光の暖かさと陽気さを捉えています。",
   "rewardShop.msg1": "私のリワードショップへようこそ。ラブチャームを集めてレアアイテムと交換しよう。",
   "rewardShop.wearable": "いい買い物！新しいウェアラブルはワードローブに安全に保管されます。そこからバンプキンに装備できます。",
-  "rewardShop.collectible": "いい買い物！新しい収集品はインベントリに安全に保管されています。"
+  "rewardShop.collectible": "いい買い物！新しい収集品はインベントリに安全に保管されています。",
+  "rewards.daily.description": "ボーナスリソース、コイン、{{ticket}}",
+  "loveRush.referral": "VIP紹介でラブラッシュ期間中に200個のラブチャームをプレゼント"
 }

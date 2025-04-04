@@ -5551,7 +5551,6 @@
   "rewards.blockchain.box.claimed": "İddia Edildi",
   "rewards.blockchain.box.limited": "Sınırlı",
   "rewards.daily.title": "Günlük Ödül",
-  "rewards.daily.description": "Bonus kaynakları, madeni paralar ve {ticket}",
   "rewards.daily.claimed": "İddia Edildi",
   "rewards.vip.title": "VIP Ödülü",
   "rewards.vip.description": "VIP üyeler için aylık ödül",
@@ -5712,5 +5711,7 @@
   "description.yellowTile": "Güneş ışığının sıcaklığını ve neşesini yakalayan parlak sarı bir karo.",
   "rewardShop.msg1": "Ödül Mağazama hoş geldiniz. Aşk Tılsımlarını toplayın ve nadir eşyalarla değiştirin.",
   "rewardShop.wearable": "Güzel satın alma! Yeni giyilebilir cihazınız gardırobunuzda güvenle saklanır. Oradan bir darbeye donatabilirsiniz.",
-  "rewardShop.collectible": "Güzel satın alma! Yeni koleksiyonunuz envanterinizde güvenle saklanır."
+  "rewardShop.collectible": "Güzel satın alma! Yeni koleksiyonunuz envanterinizde güvenle saklanır.",
+  "rewards.daily.description": "Bonus kaynakları, madeni paralar ve {{ticket}}",
+  "loveRush.referral": "VIP Tavsiyeleri, Love Rush sırasında 200 Aşk Tılsımı ödüllendirecek"
 }

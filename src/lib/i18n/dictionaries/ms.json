@@ -5551,7 +5551,6 @@
   "rewards.blockchain.box.claimed": "Dituntut",
   "rewards.blockchain.box.limited": "Terhad",
   "rewards.daily.title": "Ganjaran Harian",
-  "rewards.daily.description": "Sumber bonus, duit syiling & {tiket}",
   "rewards.daily.claimed": "Dituntut",
   "rewards.vip.title": "Ganjaran VIP",
   "rewards.vip.description": "Ganjaran bulanan untuk ahli VIP",
@@ -5712,5 +5711,7 @@
   "description.yellowTile": "Jubin kuning terang, menangkap kehangatan dan kegembiraan cahaya matahari.",
   "rewardShop.msg1": "Selamat datang ke kedai ganjaran saya. Kumpulkan Love Charms & tukarnya dengan barangan langka.",
   "rewardShop.wearable": "Beli yang bagus! Boleh pakai baru anda disimpan dengan selamat di almari pakaian anda. Anda boleh melengkapkannya ke bumpkin dari sana.",
-  "rewardShop.collectible": "Beli yang bagus! Koleksi baru anda disimpan dengan selamat dalam inventori anda."
+  "rewardShop.collectible": "Beli yang bagus! Koleksi baru anda disimpan dengan selamat dalam inventori anda.",
+  "rewards.daily.description": "Sumber bonus, duit syiling & {{ticket}}",
+  "loveRush.referral": "Rujukan VIP akan memberi ganjaran kepada 200 Love Charms semasa Love Rush"
 }

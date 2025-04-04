@@ -5551,7 +5551,6 @@
   "rewards.blockchain.box.claimed": "클레임",
   "rewards.blockchain.box.limited": "리미티드",
   "rewards.daily.title": "데일리 리워드",
-  "rewards.daily.description": "보너스 리소스, 코인 및 {티켓}",
   "rewards.daily.claimed": "클레임",
   "rewards.vip.title": "VIP 리워드",
   "rewards.vip.description": "VIP 회원을 위한 월간 보상",
@@ -5712,5 +5711,7 @@
   "description.yellowTile": "밝은 노란색 타일로 햇빛의 따뜻함과 쾌활함을 담아냅니다.",
   "rewardShop.msg1": "제 리워드 샵에 오신 것을 환영합니다.러브 부적을 모아 희귀 아이템으로 교환하세요.",
   "rewardShop.wearable": "잘 샀어요!새 웨어러블은 옷장에 안전하게 보관됩니다.거기서 범프킨에 장착할 수 있습니다.",
-  "rewardShop.collectible": "잘 샀어요!새 수집품은 인벤토리에 안전하게 보관됩니다."
+  "rewardShop.collectible": "잘 샀어요!새 수집품은 인벤토리에 안전하게 보관됩니다.",
+  "rewards.daily.description": "보너스 리소스, 코인 & {{ticket}}",
+  "loveRush.referral": "러브 러시 기간 동안 VIP 추천을 통해 러브 참 200개를 보상으로 받을 수 있습니다."
 }

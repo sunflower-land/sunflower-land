@@ -5551,7 +5551,6 @@
   "rewards.blockchain.box.claimed": "Reclamato",
   "rewards.blockchain.box.limited": "Limitato",
   "rewards.daily.title": "Ricompensa giornaliera",
-  "rewards.daily.description": "Risorse bonus, monete e {ticket}",
   "rewards.daily.claimed": "Reclamato",
   "rewards.vip.title": "Ricompensa VIP",
   "rewards.vip.description": "Una ricompensa mensile per i membri VIP",
@@ -5712,5 +5711,7 @@
   "description.yellowTile": "Una piastrella di colore giallo brillante, che cattura il calore e l'allegria della luce solare.",
   "rewardShop.msg1": "Benvenuto nel mio Reward Shop. Colleziona i Love Charms e scambiali con oggetti rari.",
   "rewardShop.wearable": "Bel acquisto! Il tuo nuovo dispositivo indossabile è riposto in modo sicuro nel tuo guardaroba. Da lì puoi trasformarlo in uno squalo.",
-  "rewardShop.collectible": "Bel acquisto! Il tuo nuovo oggetto da collezione è conservato in modo sicuro nel tuo inventario."
+  "rewardShop.collectible": "Bel acquisto! Il tuo nuovo oggetto da collezione è conservato in modo sicuro nel tuo inventario.",
+  "rewards.daily.description": "Risorse bonus, monete e {{ticket}}",
+  "loveRush.referral": "I referral VIP ricompenseranno 200 Love Charms durante Love Rush"
 }
