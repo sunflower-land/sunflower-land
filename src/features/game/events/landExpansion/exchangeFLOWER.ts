@@ -3,6 +3,7 @@ import Decimal from "decimal.js-light";
 import { GameState } from "features/game/types/game";
 import { hasFeatureAccess } from "lib/flags";
 import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 
 export const EXCHANGE_FLOWER_PRICE = 50;
 export const DAILY_LIMIT = 10000;
@@ -68,5 +69,13 @@ export function exchangeFlower({
         loveCharmsSpent: loveCharmsSpent + loveCharmsRequired,
       },
     };
+
+    game.farmActivity = trackFarmActivity(
+      "FLOWER Exchanged",
+      game.farmActivity,
+      flowerEarned,
+    );
+
+    return game;
   });
 }
