@@ -4,10 +4,37 @@ import { exchangeFlower } from "./exchangeFLOWER";
 
 describe("exchangeFlower", () => {
   const createdAt = Date.now();
+  it("should throw if no face verification", () => {
+    expect(() =>
+      exchangeFlower({
+        state: {
+          ...INITIAL_FARM,
+          faceRecognition: {
+            history: [],
+          },
+        },
+        action: { type: "exchange.flower", amount: 50 },
+        createdAt,
+      }),
+    ).toThrow("Face verification required");
+  });
+
   it("should throw if insufficient love charms", () => {
     expect(() =>
       exchangeFlower({
-        state: { ...INITIAL_FARM, inventory: { "Love Charm": new Decimal(0) } },
+        state: {
+          ...INITIAL_FARM,
+          inventory: { "Love Charm": new Decimal(0) },
+          faceRecognition: {
+            history: [
+              {
+                event: "succeeded",
+                createdAt,
+                confidence: 0.9,
+              },
+            ],
+          },
+        },
         action: { type: "exchange.flower", amount: 50 },
         createdAt,
       }),
@@ -26,6 +53,15 @@ describe("exchangeFlower", () => {
               [today]: { loveCharmsSpent: 9501 },
             },
           },
+          faceRecognition: {
+            history: [
+              {
+                event: "succeeded",
+                createdAt,
+                confidence: 0.9,
+              },
+            ],
+          },
         },
         action: { type: "exchange.flower", amount: 500 },
         createdAt,
@@ -35,7 +71,19 @@ describe("exchangeFlower", () => {
 
   it("should exchange FLOWER", () => {
     const state = exchangeFlower({
-      state: { ...INITIAL_FARM, inventory: { "Love Charm": new Decimal(500) } },
+      state: {
+        ...INITIAL_FARM,
+        inventory: { "Love Charm": new Decimal(500) },
+        faceRecognition: {
+          history: [
+            {
+              event: "succeeded",
+              createdAt,
+              confidence: 0.9,
+            },
+          ],
+        },
+      },
       action: { type: "exchange.flower", amount: 500 },
       createdAt,
     });
