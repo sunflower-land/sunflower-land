@@ -36,7 +36,9 @@ export const WithdrawBuds: React.FC<Props> = ({ onWithdraw }) => {
   const buds = state.buds ?? {};
 
   const [unselected, setUnselected] = useState<number[]>(
-    getKeys(buds).filter((budId) => !buds[budId].coordinates),
+    getKeys(buds)
+      .filter((budId) => !buds[budId].coordinates)
+      .map(Number),
   );
   const [selected, setSelected] = useState<number[]>([]);
 

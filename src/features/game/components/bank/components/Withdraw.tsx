@@ -9,7 +9,6 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import chest from "assets/icons/chest.png";
 import flowerIcon from "assets/icons/flower_token.webp";
 import { WithdrawBuds } from "./WithdrawBuds";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/game/GameProvider";
 import { WithdrawResources } from "./WithdrawResources";
 import { Label } from "components/ui/Label";
@@ -157,11 +156,11 @@ interface Props {
 }
 
 const _verified = (state: MachineState) => state.context.verified;
+const _farmId = (state: MachineState) => state.context.farmId;
 
 export const Withdraw: React.FC<Props> = ({ onClose }) => {
-  const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
-  const verified = useSelector(gameService, _verified);
+  const farmId = useSelector(gameService, _farmId);
 
   const [page, setPage] = useState<Page>("main");
 
@@ -180,9 +179,12 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     gameService.send("TRANSACT", {
       transaction: "transaction.itemsWithdrawn",
       request: {
-        captcha: flowerIcon,
-        amounts: amounts,
-        ids: ids,
+        farmId,
+        effect: {
+          type: "withdraw.items",
+          amounts,
+          ids,
+        },
       },
     });
     onClose();
@@ -195,9 +197,11 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     gameService.send("TRANSACT", {
       transaction: "transaction.wearablesWithdrawn",
       request: {
-        captcha: flowerIcon,
-        amounts: wearableAmounts,
-        ids: wearableIds,
+        effect: {
+          type: "withdraw.wearables",
+          amounts: wearableAmounts,
+          ids: wearableIds,
+        },
       },
     });
     onClose();
@@ -207,8 +211,10 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     gameService.send("TRANSACT", {
       transaction: "transaction.budWithdrawn",
       request: {
-        captcha: flowerIcon,
-        budIds: ids,
+        effect: {
+          type: "withdraw.buds",
+          budIds: ids,
+        },
       },
     });
     onClose();
