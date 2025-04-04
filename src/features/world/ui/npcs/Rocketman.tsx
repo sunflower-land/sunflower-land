@@ -25,6 +25,12 @@ import {
 } from "features/game/lib/gameMachine";
 import { hasFeatureAccess } from "lib/flags";
 import { RewardShop } from "../loveRewardShop/RewardShop";
+import {
+  DAILY_LIMIT,
+  EXCHANGE_FLOWER_PRICE,
+} from "features/game/events/landExpansion/exchangeFLOWER";
+import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
+import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
 
 interface Props {
   onClose: () => void;
@@ -156,8 +162,6 @@ const RocketmanNoticeboard: React.FC = () => {
   );
 };
 
-const EXCHANGE_RATE = 50; // Future: Update exchange rate dynamically
-
 interface FlowerExchangeProps {
   loveCharmCount: Decimal;
   gameService: MachineInterpreter;
@@ -180,6 +184,16 @@ const FlowerExchange: React.FC<FlowerExchangeProps> = ({
     onClose();
   };
 
+  const state = useSelector(gameService, _state);
+  const loveCharmsSpent =
+    state.flower?.history?.[new Date().toISOString().split("T")[0]]
+      ?.loveCharmsSpent ?? 0;
+  const willExceedDailyLimit = loveCharmsSpent + loveCharms > DAILY_LIMIT;
+
+  if (!isFaceVerified({ game: state })) {
+    return <FaceRecognition />;
+  }
+
   if (showConfirmation) {
     return (
       <div className="flex flex-col m-2 gap-2">
@@ -188,7 +202,9 @@ const FlowerExchange: React.FC<FlowerExchangeProps> = ({
             {t("flower.exchange.title")}
           </Label>
           <Label type="warning" icon={flowerIcon} secondaryIcon={loveCharmIcon}>
-            {t("flower.exchange.price", { exchangeRate: EXCHANGE_RATE })}
+            {t("flower.exchange.price", {
+              exchangeRate: EXCHANGE_FLOWER_PRICE,
+            })}
           </Label>
         </div>
         <p>{t("flower.exchange.confirm")}</p>
@@ -214,7 +230,10 @@ const FlowerExchange: React.FC<FlowerExchangeProps> = ({
   }
 
   const isOutOfRange =
-    loveCharms < 50 || loveCharms > 10000 || loveCharmCount.lt(loveCharms);
+    loveCharmsSpent >= DAILY_LIMIT ||
+    loveCharms < 50 ||
+    willExceedDailyLimit ||
+    loveCharmCount.lt(loveCharms);
 
   return (
     <div className="flex flex-col m-2 gap-2">
@@ -223,12 +242,23 @@ const FlowerExchange: React.FC<FlowerExchangeProps> = ({
           {t("flower.exchange.title")}
         </Label>
         <Label type="warning" icon={flowerIcon} secondaryIcon={loveCharmIcon}>
-          {t("flower.exchange.price", { exchangeRate: EXCHANGE_RATE })}
+          {t("flower.exchange.price", { exchangeRate: EXCHANGE_FLOWER_PRICE })}
         </Label>
       </div>
-      <Label type="info" icon={loveCharmIcon}>
-        {t("flower.exchange.inventory", { loveCharmCount })}
-      </Label>
+      <div className="flex flex-row justify-between gap-1">
+        <Label type="info" icon={loveCharmIcon}>
+          {t("flower.exchange.inventory", { loveCharmCount })}
+        </Label>
+        <Label
+          type={loveCharmsSpent > DAILY_LIMIT ? "danger" : "default"}
+          icon={loveCharmIcon}
+        >
+          {t("flower.exchange.dailyLimit", {
+            loveCharmsSpent,
+            dailyLimit: DAILY_LIMIT,
+          })}
+        </Label>
+      </div>
       <div className="flex justify-between">
         <div className="flex flex-col gap-1">
           <Label type="default" icon={loveCharmIcon}>
@@ -241,7 +271,7 @@ const FlowerExchange: React.FC<FlowerExchangeProps> = ({
             onValueChange={(value) => {
               setLoveCharms(value.toNumber());
               const estimated = setPrecision(
-                new Decimal(value).div(EXCHANGE_RATE),
+                new Decimal(value).div(EXCHANGE_FLOWER_PRICE),
               );
               setFlower(estimated.toNumber());
             }}
@@ -260,10 +290,10 @@ const FlowerExchange: React.FC<FlowerExchangeProps> = ({
       </div>
       {isOutOfRange && (
         <Label type="danger">
-          {loveCharms < 50
-            ? t("flower.exchange.error.min")
-            : loveCharms > 10000
-              ? t("flower.exchange.error.max")
+          {willExceedDailyLimit || loveCharmsSpent >= DAILY_LIMIT
+            ? t("flower.exchange.error.max")
+            : loveCharms < 50
+              ? t("flower.exchange.error.min")
               : loveCharmCount.lt(loveCharms)
                 ? t("flower.exchange.error.balance")
                 : ""}
