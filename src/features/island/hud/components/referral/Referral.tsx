@@ -12,10 +12,20 @@ import vipIcon from "assets/icons/vip.webp";
 import promoteIcon from "assets/icons/promote.webp";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
+import chest from "assets/icons/chest.png";
+import { InventoryItemName } from "features/game/types/game";
+import { getObjectEntries } from "features/game/expansion/lib/utils";
 
 interface ReferralProps {
   onHide: () => void;
 }
+
+const REFERRAL_PACKAGE: Partial<Record<InventoryItemName, number>> = {
+  "Time Warp Totem": 3,
+  Gem: 20,
+  "Love Charm": 25,
+};
+
 export const ReferralContent: React.FC<ReferralProps> = ({ onHide }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
@@ -69,22 +79,17 @@ export const ReferralContent: React.FC<ReferralProps> = ({ onHide }) => {
         {/* Referral Package */}
         <div className="flex flex-col gap-2">
           <Label type="default">{`Referral Package`}</Label>
-          <p className="p-1">{`Refer your friends and they will receive the following package when they sign up using your referral link:`}</p>
           <div className="flex flex-col gap-4">
             <NoticeboardItems
               items={[
                 {
-                  text: "3 Time Warp Totems",
-                  icon: ITEM_DETAILS["Time Warp Totem"].image,
+                  text: "Refer your friends and they will receive the following starter package!",
+                  icon: chest,
                 },
-                {
-                  text: "20 Gems",
-                  icon: ITEM_DETAILS.Gem.image,
-                },
-                {
-                  text: "25 Love Charms",
-                  icon: ITEM_DETAILS["Love Charm"].image,
-                },
+                ...getObjectEntries(REFERRAL_PACKAGE).map(([key, value]) => ({
+                  text: `${value} ${key}${value ?? 0 > 1 ? "s" : ""}`,
+                  icon: ITEM_DETAILS[key].image,
+                })),
               ]}
             />
           </div>
