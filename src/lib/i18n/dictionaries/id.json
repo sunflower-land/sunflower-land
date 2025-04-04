@@ -5715,5 +5715,7 @@
   "telegram.prompts": "Ikuti petunjuk di Telegram untuk memulai.",
   "flower.exchange.inventory": "Persediaan: {{loveCharmCount}}",
   "flower.exchange.dailyLimit": "Batas Harian: {{loveCharmsSpent}}/{{dailyLimit}}",
-  "flower.exchange.error.max": "Anda tidak dapat menukar lebih dari 10.000 Pesona Cinta per hari"
+  "flower.exchange.error.max": "Anda tidak dapat menukar lebih dari 10.000 Pesona Cinta per hari",
+  "telegram.announcements": "Pengumuman",
+  "telegram.bot": "Labu Pete Bot"
 }

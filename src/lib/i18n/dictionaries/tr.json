@@ -5715,5 +5715,7 @@
   "telegram.prompts": "Başlamak için Telegram'daki talimatları izleyin.",
   "flower.exchange.inventory": "Envanter: {{loveCharmCount}}",
   "flower.exchange.dailyLimit": "Günlük Limit: {{loveCharmsSpent}}/{{dailyLimit}}",
-  "flower.exchange.error.max": "Günde 10.000'den fazla Aşk Tılsımı takas edemezsiniz"
+  "flower.exchange.error.max": "Günde 10.000'den fazla Aşk Tılsımı takas edemezsiniz",
+  "telegram.announcements": "Duyurular",
+  "telegram.bot": "Balkabağı Pete Bot"
 }

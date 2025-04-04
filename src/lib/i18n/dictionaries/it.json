@@ -5715,5 +5715,7 @@
   "telegram.prompts": "Segui le istruzioni di Telegram per iniziare.",
   "flower.exchange.inventory": "Inventario: {{loveCharmCount}}",
   "flower.exchange.dailyLimit": "Limite giornaliero: {{loveCharmsSpent}}/{{dailyLimit}}",
-  "flower.exchange.error.max": "Non puoi scambiare più di 10.000 Love Charms al giorno"
+  "flower.exchange.error.max": "Non puoi scambiare più di 10.000 Love Charms al giorno",
+  "telegram.announcements": "Annunci",
+  "telegram.bot": "Zucca Pete Bot"
 }

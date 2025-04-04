@@ -5715,5 +5715,7 @@
   "telegram.prompts": "Suivez les instructions de Telegram pour commencer.",
   "flower.exchange.inventory": "Inventaire : {{loveCharmCount}}",
   "flower.exchange.dailyLimit": "Limite quotidienne : {{loveCharmsSpent}}/{{dailyLimit}}",
-  "flower.exchange.error.max": "Vous ne pouvez pas échanger plus de 10 000 Love Charms par jour"
+  "flower.exchange.error.max": "Vous ne pouvez pas échanger plus de 10 000 Love Charms par jour",
+  "telegram.announcements": "Annonces",
+  "telegram.bot": "Citrouille Pete Bot"
 }

@@ -5715,5 +5715,7 @@
   "telegram.prompts": "Telegramのプロンプトに従って開始してください。",
   "flower.exchange.inventory": "インベントリ:{{loveCharmCount}}",
   "flower.exchange.dailyLimit": "1日の上限:{{loveCharmsSpent}}/{{dailyLimit}}",
-  "flower.exchange.error.max": "1日に交換できるラブチャームは10,000個までです"
+  "flower.exchange.error.max": "1日に交換できるラブチャームは10,000個までです",
+  "telegram.announcements": "アナウンス",
+  "telegram.bot": "パンプキンピートボット"
 }

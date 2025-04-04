@@ -5715,5 +5715,7 @@
   "telegram.prompts": "Sigue las instrucciones de Telegram para empezar.",
   "flower.exchange.inventory": "Inventario: {{loveCharmCount}}",
   "flower.exchange.dailyLimit": "Límite diario: {{loveCharmsSpent}}/{{dailyLimit}}",
-  "flower.exchange.error.max": "No puedes intercambiar más de 10 000 amuletos de amor al día"
+  "flower.exchange.error.max": "No puedes intercambiar más de 10 000 amuletos de amor al día",
+  "telegram.announcements": "Anuncios",
+  "telegram.bot": "Pumpkin Pete Bot"
 }

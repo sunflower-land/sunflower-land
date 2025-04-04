@@ -5715,5 +5715,7 @@
   "telegram.prompts": "텔레그램의 안내에 따라 시작하세요.",
   "flower.exchange.inventory": "인벤토리: {{loveCharmCount}}",
   "flower.exchange.dailyLimit": "일일 한도: {{loveCharmsSpent}}/{{dailyLimit}}",
-  "flower.exchange.error.max": "하루에 10,000개 이상의 러브 참을 교환할 수 없습니다"
+  "flower.exchange.error.max": "하루에 10,000개 이상의 러브 참을 교환할 수 없습니다",
+  "telegram.announcements": "공지 사항",
+  "telegram.bot": "펌킨 피트 봇"
 }

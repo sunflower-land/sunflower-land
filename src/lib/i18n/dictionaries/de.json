@@ -5715,5 +5715,7 @@
   "telegram.prompts": "Folgen Sie den Anweisungen in Telegram, um loszulegen.",
   "flower.exchange.inventory": "Inventar: {{loveCharmCount}}",
   "flower.exchange.dailyLimit": "Tageslimit: {{loveCharmsSpent}}/{{dailyLimit}}",
-  "flower.exchange.error.max": "Du kannst nicht mehr als 10.000 Liebeszauber pro Tag eintauschen"
+  "flower.exchange.error.max": "Du kannst nicht mehr als 10.000 Liebeszauber pro Tag eintauschen",
+  "telegram.announcements": "Ankündigungen",
+  "telegram.bot": "Kürbis Pete Bot"
 }

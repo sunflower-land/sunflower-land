@@ -5715,5 +5715,7 @@
   "telegram.prompts": "按照电报中的提示开始操作。",
   "flower.exchange.inventory": "库存：{{loveCharmCount}}",
   "flower.exchange.dailyLimit": "每日限额：{{loveCharmsSpent}}/{{dailyLimit}}",
-  "flower.exchange.error.max": "你每天兑换的爱情护身符不能超过 10,000 个"
+  "flower.exchange.error.max": "你每天兑换的爱情护身符不能超过 10,000 个",
+  "telegram.announcements": "公告",
+  "telegram.bot": "南瓜皮特机器人"
 }

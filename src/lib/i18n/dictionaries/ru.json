@@ -5715,5 +5715,7 @@
   "telegram.prompts": "Для начала следуйте инструкциям в Telegram.",
   "flower.exchange.inventory": "Инвентарь: {{loveCharmCount}}",
   "flower.exchange.dailyLimit": "Дневной лимит: {{loveCharmsSpent}}/{{dailyLimit}}",
-  "flower.exchange.error.max": "Вы не можете обменять более 10 000 Love Charms в день"
+  "flower.exchange.error.max": "Вы не можете обменять более 10 000 Love Charms в день",
+  "telegram.announcements": "Объявления",
+  "telegram.bot": "Тыква Пит Бот"
 }
