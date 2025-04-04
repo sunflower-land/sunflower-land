@@ -161,6 +161,26 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
             )}
           </div>
         </div>
+        {seed && (
+          <div
+            className="flex items-center"
+            style={{ height: `${PIXEL_SCALE * 11}px` }}
+          >
+            <div className="absolute left-1/2 -translate-x-1/2 whitespace-nowrap">
+              <div className="flex items-center justify-center">
+                <Label
+                  icon={SUNNYSIDE.icons.stopwatch}
+                  type="info"
+                  className="whitespace-nowrap"
+                >
+                  {secondsToString(getFlowerTime(seed, state), {
+                    length: "medium",
+                  })}
+                </Label>
+              </div>
+            </div>
+          </div>
+        )}
         <div
           className="relative mx-auto w-full mt-2"
           style={{
