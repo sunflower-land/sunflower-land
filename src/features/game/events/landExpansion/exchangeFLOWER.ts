@@ -4,8 +4,8 @@ import { GameState } from "features/game/types/game";
 import { hasFeatureAccess } from "lib/flags";
 import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
 
-const EXCHANGE_FLOWER_PRICE = 50;
-const DAILY_LIMIT = 10000;
+export const EXCHANGE_FLOWER_PRICE = 50;
+export const DAILY_LIMIT = 10000;
 
 export type ExchangeFlowerAction = {
   type: "exchange.flower";
