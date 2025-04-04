@@ -5647,9 +5647,7 @@
   "flower.exchange.title": "Обмен $ FLOWER",
   "flower.exchange.price": "1$ ЦВЕТОК = {{exchangeRate}} Любовные талисманы",
   "flower.exchange.confirm": "Вы действительно хотите провести следующий обмен?",
-  "flower.exchange.inventory": "Инвентарь: {{loveCharmCount}} Любовные талисманы",
   "flower.exchange.error.min": "Вы не можете обменять менее 50 любовных чар",
-  "flower.exchange.error.max": "Вы не можете обменять более 10 000 Love Charms",
   "flower.exchange.error.balance": "У вас недостаточно Love Charms, чтобы обменять их на $FLOWER",
   "flower.exchange.button": "Биржа",
   "flower.exchange.youWillReceive": "Вы получите:",
@@ -5714,5 +5712,8 @@
   "rewardShop.collectible": "Хорошая покупка! Ваш новый коллекционный предмет надежно хранится в вашем инвентаре.",
   "rewards.daily.description": "Бонусные ресурсы, монеты и {{ticket}}",
   "loveRush.referral": "VIP-рефералы получат 200 любовных талисманов во время Love Rush",
-  "telegram.prompts": "Для начала следуйте инструкциям в Telegram."
+  "telegram.prompts": "Для начала следуйте инструкциям в Telegram.",
+  "flower.exchange.inventory": "Инвентарь: {{loveCharmCount}}",
+  "flower.exchange.dailyLimit": "Дневной лимит: {{loveCharmsSpent}}/{{dailyLimit}}",
+  "flower.exchange.error.max": "Вы не можете обменять более 10 000 Love Charms в день"
 }

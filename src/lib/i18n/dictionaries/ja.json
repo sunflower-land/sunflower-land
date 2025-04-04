@@ -5647,9 +5647,7 @@
   "flower.exchange.title": "$フラワーを交換",
   "flower.exchange.price": "1 $フラワー = {{exchangeRate}} ラブチャーム",
   "flower.exchange.confirm": "次の交換を行ってもよろしいですか？",
-  "flower.exchange.inventory": "インベントリ:{{loveCharmCount}} ラブチャーム",
   "flower.exchange.error.min": "50個以下のラブチャームは交換できません",
-  "flower.exchange.error.max": "交換できるラブチャームは10,000個までです",
   "flower.exchange.error.balance": "$FLOWERと交換するのに十分なラブチャームがありません",
   "flower.exchange.button": "交換",
   "flower.exchange.youWillReceive": "以下をお届けします。",
@@ -5714,5 +5712,8 @@
   "rewardShop.collectible": "いい買い物！新しい収集品はインベントリに安全に保管されています。",
   "rewards.daily.description": "ボーナスリソース、コイン、{{ticket}}",
   "loveRush.referral": "VIP紹介でラブラッシュ期間中に200個のラブチャームをプレゼント",
-  "telegram.prompts": "Telegramのプロンプトに従って開始してください。"
+  "telegram.prompts": "Telegramのプロンプトに従って開始してください。",
+  "flower.exchange.inventory": "インベントリ:{{loveCharmCount}}",
+  "flower.exchange.dailyLimit": "1日の上限:{{loveCharmsSpent}}/{{dailyLimit}}",
+  "flower.exchange.error.max": "1日に交換できるラブチャームは10,000個までです"
 }
