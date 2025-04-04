@@ -58,7 +58,7 @@ import { hasFeatureAccess } from "lib/flags";
 import {
   getLoveRushDeliveryRewards,
   getLoveRushStreaks,
-  LOVE_RUSH_GIFTS_REWARD,
+  getLoveCharmReward,
 } from "features/game/types/loveRushDeliveries";
 
 export const OrderCard: React.FC<{
@@ -332,9 +332,12 @@ export const Gifts: React.FC<{
     GIFT_RESPONSES[name]?.flowerIntro ?? DEFAULT_DIALOGUE.flowerIntro,
   );
 
-  const flowers = getKeys(game.inventory).filter(
-    (item) => item in FLOWERS && game.inventory[item]?.gte(1),
-  );
+  const flowers = getKeys(game.inventory)
+    .filter(
+      (item): item is FlowerName =>
+        item in FLOWERS && !!game.inventory[item]?.gte(1),
+    )
+    .sort((a, b) => getKeys(FLOWERS).indexOf(a) - getKeys(FLOWERS).indexOf(b));
 
   const onGift = async () => {
     const previous = game.npcs?.[name]?.friendship?.points ?? 0;
@@ -387,6 +390,12 @@ export const Gifts: React.FC<{
   if (bumpkinFlowerBonuses > 0) {
     flowerPoints += bumpkinFlowerBonuses;
   }
+
+  const { loveCharmReward } = getLoveCharmReward({
+    name,
+    flower: selected as FlowerName,
+    points: flowerPoints,
+  });
 
   return (
     <>
@@ -496,17 +505,19 @@ export const Gifts: React.FC<{
                   >{`+${flowerPoints}`}</span>
                 </Label>
               </div>
-              <div className="absolute -top-5 right-12">
-                <div className="relative">
-                  <img
-                    src={ITEM_DETAILS["Love Charm"].image}
-                    className="w-12"
-                  />
-                  <p className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-shadow text-xs">
-                    {LOVE_RUSH_GIFTS_REWARD}
-                  </p>
+              {hasFeatureAccess(game, "LOVE_RUSH") && (
+                <div className="absolute -top-5 right-12">
+                  <div className="relative">
+                    <img
+                      src={ITEM_DETAILS["Love Charm"].image}
+                      className="w-12"
+                    />
+                    <p className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-shadow text-xs">
+                      {loveCharmReward}
+                    </p>
+                  </div>
                 </div>
-              </div>
+              )}
             </>
           )}
         </Button>

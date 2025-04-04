@@ -8,7 +8,7 @@ import {
 } from "features/game/types/gifts";
 import { produce } from "immer";
 import { hasFeatureAccess } from "lib/flags";
-import { LOVE_RUSH_GIFTS_REWARD } from "../../types/loveRushDeliveries";
+import { getLoveCharmReward } from "features/game/types/loveRushDeliveries";
 
 export type GiftFlowersAction = {
   type: "flowers.gifted";
@@ -88,11 +88,15 @@ export function giftFlowers({
       [action.bumpkin]: npc,
     };
 
-    // Static 5 Love Charm reward for all NPCs
     if (hasFeatureAccess(game, "LOVE_RUSH")) {
+      const { loveCharmReward } = getLoveCharmReward({
+        name: action.bumpkin,
+        flower: action.flower,
+        points,
+      });
       game.inventory["Love Charm"] = (
         game.inventory["Love Charm"] ?? new Decimal(0)
-      ).add(LOVE_RUSH_GIFTS_REWARD);
+      ).add(loveCharmReward);
     }
 
     return game;

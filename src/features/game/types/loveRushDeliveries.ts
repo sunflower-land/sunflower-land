@@ -2,6 +2,8 @@ import { hasVipAccess } from "features/game/lib/vipAccess";
 import { GameState } from "features/game/types/game";
 
 import { NPCName } from "lib/npcs";
+import { FlowerName } from "./flowers";
+import { BUMPKIN_FLOWER_BONUSES } from "./gifts";
 
 type LoveRushDeliveryNPCTypes = "basic" | "medium" | "advanced" | "expert";
 
@@ -155,4 +157,23 @@ export function getLoveRushDeliveryRewards({
   return { loveCharmReward };
 }
 
-export const LOVE_RUSH_GIFTS_REWARD = 5;
+export function getLoveCharmReward({
+  name,
+  flower,
+  points,
+}: {
+  name: NPCName;
+  flower: FlowerName;
+  points: number;
+}): { loveCharmReward: number } {
+  let loveCharmReward: number;
+  if (points >= 6 || !!BUMPKIN_FLOWER_BONUSES[name]?.[flower]) {
+    loveCharmReward = 10;
+  } else if (points >= 3) {
+    loveCharmReward = 5;
+  } else {
+    loveCharmReward = 2;
+  }
+
+  return { loveCharmReward };
+}
