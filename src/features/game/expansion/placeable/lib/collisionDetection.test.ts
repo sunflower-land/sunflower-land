@@ -92,24 +92,30 @@ describe("detectCollisions", () => {
     expect(hasCollision).toBe(true);
   });
 
-  it("returns true if a collision is detected with a corner", () => {
-    const state: GameState = cloneDeep(TEST_FARM);
-    state.inventory["Basic Land"] = new Decimal(1);
+  it.each([
+    { x: -3, y: -2 },
+    { x: 8, y: -2 },
+    { x: 3, y: 9 },
+  ])(
+    "returns false if no collisions are detected with a land corner",
+    ({ x, y }) => {
+      const state: GameState = cloneDeep(TEST_FARM);
 
-    const hasCollision = detectCollision({
-      state,
-      position: {
-        x: -3,
-        y: 3,
-        width: 1,
-        height: 1,
-      },
-      location: "farm",
-      name: "Abandoned Bear",
-    });
+      const hasCollision = detectCollision({
+        state,
+        position: {
+          x: x,
+          y: y,
+          width: 1,
+          height: 1,
+        },
+        location: "farm",
+        name: "Abandoned Bear",
+      });
 
-    expect(hasCollision).toBe(true);
-  });
+      expect(hasCollision).toBe(false);
+    },
+  );
 
   it("returns true if a collision is detected with a building", () => {
     const state: GameState = cloneDeep(TEST_FARM);
