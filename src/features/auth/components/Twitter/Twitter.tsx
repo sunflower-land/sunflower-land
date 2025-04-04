@@ -70,7 +70,7 @@ const TwitterRewards: React.FC = () => {
 
         return (
           <ButtonPanel
-            className="mb-2"
+            className="mt-1"
             key={key}
             onClick={() => setSelected(key)}
           >
@@ -100,6 +100,17 @@ const TwitterRewards: React.FC = () => {
           </ButtonPanel>
         );
       })}
+
+      <div className="mb-1 mx-1">
+        <span
+          className="underline text-xs cursor-pointer "
+          onClick={() => {
+            window.open(`https://x.com/0xsunflowerland`, "_blank");
+          }}
+        >
+          {`x.com/0xsunflowerland`}
+        </span>
+      </div>
     </InnerPanel>
   );
 };

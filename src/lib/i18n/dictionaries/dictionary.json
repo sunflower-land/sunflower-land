@@ -5880,5 +5880,7 @@
   "rewardShop.wearable": "Nice buy! Your new wearable is safely stored in your wardrobe. You can equip it to a bumpkin from there.",
   "rewardShop.collectible": "Nice buy! Your new collectible is safely stored in your inventory.",
   "error.insufficientMatic": "POL required",
-  "telegram.prompts": "Follow the prompts in Telegram to get started."
+  "telegram.prompts": "Follow the prompts in Telegram to get started.",
+  "telegram.announcements": "Announcements",
+  "telegram.bot": "Pumpkin Pete Bot"
 }

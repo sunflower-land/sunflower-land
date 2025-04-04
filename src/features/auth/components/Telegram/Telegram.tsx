@@ -50,6 +50,27 @@ export const Telegram: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             },
           ]}
         />
+        <div className="flex gap-4 mb-1">
+          <span
+            className="underline text-xs cursor-pointer"
+            onClick={() => {
+              window.open(`https://t.me/SunflowerLandAnnouncements`, "_blank");
+            }}
+          >
+            {t("telegram.announcements")}
+          </span>
+          <span
+            className="underline text-xs cursor-pointer"
+            onClick={() => {
+              window.open(
+                `https://t.me/${CONFIG.TELEGRAM_BOT}?start=game`,
+                "_blank",
+              );
+            }}
+          >
+            {t("telegram.bot")}
+          </span>
+        </div>
       </InnerPanel>
       <TelegramConnect />
     </CloseButtonPanel>
