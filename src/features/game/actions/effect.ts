@@ -25,7 +25,9 @@ type EffectName =
   | "username.assigned"
   | "username.changed"
   | "streamReward.claimed"
-  | "blockchainBox.claimed";
+  | "blockchainBox.claimed"
+  | "withdraw.items"
+  | "withdraw.wearables";
 
 export type StateName =
   | "marketplacePurchasing"
@@ -47,7 +49,9 @@ export type StateName =
   | "assigningUsername"
   | "changingUsername"
   | "claimingStreamReward"
-  | "claimingBlockchainBox";
+  | "claimingBlockchainBox"
+  | "withdrawingItems"
+  | "withdrawingWearables";
 
 export type StateNameWithStatus = `${StateName}Success` | `${StateName}Failed`;
 
@@ -73,6 +77,8 @@ export const EFFECT_EVENTS: Record<EffectName, StateName> = {
   "username.changed": "changingUsername",
   "streamReward.claimed": "claimingStreamReward",
   "blockchainBox.claimed": "claimingBlockchainBox",
+  "withdraw.items": "withdrawingItems",
+  "withdraw.wearables": "withdrawingWearables",
 };
 
 export interface Effect {
@@ -111,7 +117,7 @@ export async function postEffect(
   }
 
   if (response.status === 400) {
-    throw new Error(ERRORS.TRADE_NOT_FOUND);
+    throw new Error(ERRORS.EFFECT_BAD_REQUEST);
   }
 
   if (response.status !== 200 || !response.ok) {

@@ -1533,7 +1533,7 @@ export function startGame(authContext: AuthContext) {
 
               const { transaction, request } = event as TransactEvent;
 
-              const { game } = await TRANSACTION_SIGNATURES[transaction]({
+              const { gameState } = await TRANSACTION_SIGNATURES[transaction]({
                 ...request,
                 farmId: Number(context.farmId),
                 token: authContext.user.rawToken as string,
@@ -1542,7 +1542,7 @@ export function startGame(authContext: AuthContext) {
 
               return {
                 // sessionId: sessionId,
-                farm: game,
+                farm: gameState,
               };
             },
             onDone: {

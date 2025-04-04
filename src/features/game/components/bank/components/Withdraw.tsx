@@ -157,11 +157,13 @@ interface Props {
 }
 
 const _verified = (state: MachineState) => state.context.verified;
+const _farmId = (state: MachineState) => state.context.farmId;
 
 export const Withdraw: React.FC<Props> = ({ onClose }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const verified = useSelector(gameService, _verified);
+  const farmId = useSelector(gameService, _farmId);
 
   const [page, setPage] = useState<Page>("main");
 
@@ -180,9 +182,12 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     gameService.send("TRANSACT", {
       transaction: "transaction.itemsWithdrawn",
       request: {
-        captcha: flowerIcon,
-        amounts: amounts,
-        ids: ids,
+        farmId,
+        effect: {
+          type: "withdraw.items",
+          amounts: amounts,
+          ids: ids,
+        },
       },
     });
     onClose();
@@ -195,9 +200,11 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     gameService.send("TRANSACT", {
       transaction: "transaction.wearablesWithdrawn",
       request: {
-        captcha: flowerIcon,
-        amounts: wearableAmounts,
-        ids: wearableIds,
+        effect: {
+          type: "withdraw.wearables",
+          amounts: wearableAmounts,
+          ids: wearableIds,
+        },
       },
     });
     onClose();
