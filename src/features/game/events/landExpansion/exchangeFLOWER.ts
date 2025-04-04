@@ -4,6 +4,7 @@ import { GameState } from "features/game/types/game";
 import { hasFeatureAccess } from "lib/flags";
 import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
 import { trackFarmActivity } from "features/game/types/farmActivity";
+import { trackActivity } from "features/game/types/bumpkinActivity";
 
 export const EXCHANGE_FLOWER_PRICE = 50;
 export const DAILY_LIMIT = 10000;
@@ -71,6 +72,12 @@ export function exchangeFlower({
       "FLOWER Exchanged",
       game.farmActivity,
       flowerEarned,
+    );
+
+    game.bumpkin.activity = trackActivity(
+      "Love Charm Sold",
+      game.bumpkin.activity,
+      new Decimal(loveCharmsRequired),
     );
 
     return game;
