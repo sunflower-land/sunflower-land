@@ -5713,5 +5713,6 @@
   "rewardShop.wearable": "Bel acquisto! Il tuo nuovo dispositivo indossabile è riposto in modo sicuro nel tuo guardaroba. Da lì puoi trasformarlo in uno squalo.",
   "rewardShop.collectible": "Bel acquisto! Il tuo nuovo oggetto da collezione è conservato in modo sicuro nel tuo inventario.",
   "rewards.daily.description": "Risorse bonus, monete e {{ticket}}",
-  "loveRush.referral": "I referral VIP ricompenseranno 200 Love Charms durante Love Rush"
+  "loveRush.referral": "I referral VIP ricompenseranno 200 Love Charms durante Love Rush",
+  "telegram.prompts": "Segui le istruzioni di Telegram per iniziare."
 }

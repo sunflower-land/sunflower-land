@@ -5713,5 +5713,6 @@
   "rewardShop.wearable": "Pembelian yang bagus! Perangkat baru Anda yang dapat dikenakan disimpan dengan aman di lemari pakaian Anda. Anda dapat melengkapinya menjadi bumpkin dari sana.",
   "rewardShop.collectible": "Pembelian yang bagus! Koleksi baru Anda disimpan dengan aman di inventaris Anda.",
   "rewards.daily.description": "Sumber daya bonus, koin & {{ticket}}",
-  "loveRush.referral": "Referensi VIP akan memberi hadiah 200 Love Charms selama Love Rush"
+  "loveRush.referral": "Referensi VIP akan memberi hadiah 200 Love Charms selama Love Rush",
+  "telegram.prompts": "Ikuti petunjuk di Telegram untuk memulai."
 }

@@ -5713,5 +5713,6 @@
   "rewardShop.wearable": "Netter Kauf! Ihr neues Wearable ist sicher in Ihrem Kleiderschrank verstaut. Von dort aus kannst du es mit einem Bumpkin ausrüsten.",
   "rewardShop.collectible": "Netter Kauf! Ihr neues Sammlerstück ist sicher in Ihrem Inventar aufbewahrt.",
   "rewards.daily.description": "Bonus-Ressourcen, Münzen & {{ticket}}",
-  "loveRush.referral": "VIP-Empfehlungen belohnen während Love Rush mit 200 Love Charms"
+  "loveRush.referral": "VIP-Empfehlungen belohnen während Love Rush mit 200 Love Charms",
+  "telegram.prompts": "Folgen Sie den Anweisungen in Telegram, um loszulegen."
 }

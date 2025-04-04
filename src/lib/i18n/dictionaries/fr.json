@@ -5713,5 +5713,6 @@
   "rewardShop.wearable": "Bon achat ! Votre nouveau portable est rangé en toute sécurité dans votre garde-robe. Vous pouvez l'équiper en bumpkin à partir de là.",
   "rewardShop.collectible": "Bon achat ! Votre nouvel objet de collection est stocké en toute sécurité dans votre inventaire.",
   "rewards.daily.description": "Ressources bonus, pièces et {{ticket}}",
-  "loveRush.referral": "Les recommandations VIP récompenseront 200 Love Charms pendant Love Rush"
+  "loveRush.referral": "Les recommandations VIP récompenseront 200 Love Charms pendant Love Rush",
+  "telegram.prompts": "Suivez les instructions de Telegram pour commencer."
 }

@@ -5713,5 +5713,6 @@
   "rewardShop.wearable": "¡Buena compra! Tu nuevo dispositivo portátil está guardado de forma segura en tu armario. Desde allí puedes equiparlo para un paleto.",
   "rewardShop.collectible": "¡Buena compra! Tu nuevo objeto coleccionable está guardado de forma segura en tu inventario.",
   "rewards.daily.description": "Recursos adicionales, monedas y {{ticket}}",
-  "loveRush.referral": "Las referencias VIP recompensarán con 200 amuletos de amor durante Love Rush"
+  "loveRush.referral": "Las referencias VIP recompensarán con 200 amuletos de amor durante Love Rush",
+  "telegram.prompts": "Sigue las instrucciones de Telegram para empezar."
 }

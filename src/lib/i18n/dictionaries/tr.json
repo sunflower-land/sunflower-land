@@ -5713,5 +5713,6 @@
   "rewardShop.wearable": "Güzel satın alma! Yeni giyilebilir cihazınız gardırobunuzda güvenle saklanır. Oradan bir darbeye donatabilirsiniz.",
   "rewardShop.collectible": "Güzel satın alma! Yeni koleksiyonunuz envanterinizde güvenle saklanır.",
   "rewards.daily.description": "Bonus kaynakları, madeni paralar ve {{ticket}}",
-  "loveRush.referral": "VIP Tavsiyeleri, Love Rush sırasında 200 Aşk Tılsımı ödüllendirecek"
+  "loveRush.referral": "VIP Tavsiyeleri, Love Rush sırasında 200 Aşk Tılsımı ödüllendirecek",
+  "telegram.prompts": "Başlamak için Telegram'daki talimatları izleyin."
 }

@@ -5713,5 +5713,6 @@
   "rewardShop.wearable": "不错的购买！您的新可穿戴设备可以安全地存放在衣柜里。你可以从那里把它装备成小伙子。",
   "rewardShop.collectible": "不错的购买！您的新收藏品安全地存储在库存中。",
   "rewards.daily.description": "奖励资源、金币和 {{ticket}}",
-  "loveRush.referral": "在 Love Rush 期间，VIP 推荐将奖励 200 个爱情护身符"
+  "loveRush.referral": "在 Love Rush 期间，VIP 推荐将奖励 200 个爱情护身符",
+  "telegram.prompts": "按照电报中的提示开始操作。"
 }

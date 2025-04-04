@@ -5713,5 +5713,6 @@
   "rewardShop.wearable": "Boa compra! Seu novo dispositivo vestível é armazenado com segurança em seu guarda-roupa. Você pode equipá-lo como um caipira a partir daí.",
   "rewardShop.collectible": "Boa compra! Seu novo item colecionável é armazenado com segurança em seu inventário.",
   "rewards.daily.description": "Recursos de bônus, moedas e {{ticket}}",
-  "loveRush.referral": "As indicações VIP recompensarão 200 amuletos amorosos durante o Love Rush"
+  "loveRush.referral": "As indicações VIP recompensarão 200 amuletos amorosos durante o Love Rush",
+  "telegram.prompts": "Siga as instruções no Telegram para começar."
 }
