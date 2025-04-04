@@ -190,10 +190,7 @@ const FlowerExchange: React.FC<FlowerExchangeProps> = ({
       ?.loveCharmsSpent ?? 0;
   const willExceedDailyLimit = loveCharmsSpent + loveCharms > DAILY_LIMIT;
 
-  if (
-    hasFeatureAccess(state, "FACE_RECOGNITION") &&
-    !isFaceVerified({ game: state })
-  ) {
+  if (!isFaceVerified({ game: state })) {
     return <FaceRecognition />;
   }
 

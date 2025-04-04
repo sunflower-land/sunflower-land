@@ -29,10 +29,7 @@ export function exchangeFlower({
       throw new Error("Flower Exchange is not available yet");
     }
 
-    if (
-      hasFeatureAccess(game, "FACE_RECOGNITION") &&
-      !isFaceVerified({ game })
-    ) {
+    if (!isFaceVerified({ game })) {
       throw new Error("Face verification required");
     }
 
