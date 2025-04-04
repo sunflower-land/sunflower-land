@@ -8,6 +8,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Button } from "components/ui/Button";
 import { ITEM_DETAILS } from "features/game/types/images";
 import choreIcon from "assets/icons/chores.webp";
+import promoteIcon from "assets/icons/promote.webp";
 export const LoveRush: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { t } = useAppTranslation();
   return (
@@ -41,6 +42,10 @@ export const LoveRush: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             {
               text: t("loveRush.treasureChest"),
               icon: SUNNYSIDE.decorations.treasure_chest,
+            },
+            {
+              text: t("loveRush.referral"),
+              icon: promoteIcon,
             },
           ]}
         />
