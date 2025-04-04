@@ -160,8 +160,7 @@ export const Recipes: React.FC<Props> = ({
     (recipe) => recipe.readyAt <= Date.now(),
   );
   const isVIP = hasVipAccess({ game: state });
-  const isQueueFull =
-    [...readyRecipes, ...queue, selected].length >= availableSlots;
+  const isQueueFull = [...readyRecipes, ...queue].length >= availableSlots;
 
   return (
     <>
