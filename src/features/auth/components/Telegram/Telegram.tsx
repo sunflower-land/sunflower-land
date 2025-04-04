@@ -36,10 +36,10 @@ export const Telegram: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         </div>
         <NoticeboardItems
           items={[
-            {
-              text: t("telegram.notifications"),
-              icon: SUNNYSIDE.icons.expression_chat,
-            },
+            // {
+            //   text: t("telegram.notifications"),
+            //   icon: SUNNYSIDE.icons.expression_chat,
+            // },
             {
               text: t("telegram.community"),
               icon: SUNNYSIDE.icons.player,
@@ -142,45 +142,14 @@ const TelegramConnect: React.FC = () => {
     );
   }
 
-  const CHANNEL_NAME = "SunflowerLandOficialBr";
-
   if (!telegram.joinedAt) {
     return (
-      <>
-        <InnerPanel className="p-1  mt-1">
-          <div className="flex justify-between">
-            <Label type="default">{t("telegram.step3")}</Label>
-            <div className="flex gap-1">
-              <img src={SUNNYSIDE.icons.confirm} className="h-4" />
-              <img src={SUNNYSIDE.icons.confirm} className="h-4" />
-              <img src={SUNNYSIDE.ui.dot} className="h-4" />
-            </div>
-          </div>
-          <p className="p-2 text-xs">{t("telegram.joinChannel")}</p>
-          <div className="flex flex-wrap gap-x-1">
-            <Button
-              onClick={() => {
-                gameService.send("telegram.joined", {
-                  effect: {
-                    type: "telegram.joined",
-                  },
-                  authToken: authState.context.user.rawToken as string,
-                });
-              }}
-            >
-              {t("telegram.alreadyJoined")}
-            </Button>
-            <Button
-              disabled={!telegram?.startedAt}
-              onClick={() => {
-                window.open(`https://t.me/SunflowerLandOficialBr`, "_blank");
-              }}
-            >
-              {t("telegram.join")}
-            </Button>
-          </div>
-        </InnerPanel>
-      </>
+      <InnerPanel className="p-1 mt-1">
+        <div className="flex justify-between mb-2">
+          <Label type="default">{t("telegram.step3")}</Label>
+        </div>
+        <p className="text-xs p-2">{t("telegram.prompts")}</p>
+      </InnerPanel>
     );
   }
 
