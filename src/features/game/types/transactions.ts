@@ -15,7 +15,7 @@ import {
   WithdrawWearablesParams,
   withdrawWearablesTransaction,
 } from "lib/blockchain/Withdrawals";
-import { withdrawBudsRequest, withdrawSFLRequest } from "../actions/withdraw";
+import { withdrawSFLRequest } from "../actions/withdraw";
 import { sync } from "../actions/sync";
 import { mintAuctionItemRequest } from "../actions/mintAuctionItem";
 import {
@@ -211,7 +211,7 @@ export const TRANSACTION_SIGNATURES: TransactionRequest = {
   "transaction.listingPurchased": () => ({}) as any, // uses new effect flow
   "transaction.progressSynced": sync,
   "transaction.bidMinted": mintAuctionItemRequest,
-  "transaction.budWithdrawn": withdrawBudsRequest,
+  "transaction.budWithdrawn": postEffect,
   "transaction.itemsWithdrawn": postEffect,
   "transaction.sflWithdrawn": withdrawSFLRequest,
   "transaction.wearablesWithdrawn": postEffect,

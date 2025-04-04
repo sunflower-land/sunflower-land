@@ -27,7 +27,8 @@ type EffectName =
   | "streamReward.claimed"
   | "blockchainBox.claimed"
   | "withdraw.items"
-  | "withdraw.wearables";
+  | "withdraw.wearables"
+  | "withdraw.buds";
 
 export type StateName =
   | "marketplacePurchasing"
@@ -51,7 +52,8 @@ export type StateName =
   | "claimingStreamReward"
   | "claimingBlockchainBox"
   | "withdrawingItems"
-  | "withdrawingWearables";
+  | "withdrawingWearables"
+  | "withdrawingBuds";
 
 export type StateNameWithStatus = `${StateName}Success` | `${StateName}Failed`;
 
@@ -79,6 +81,7 @@ export const EFFECT_EVENTS: Record<EffectName, StateName> = {
   "blockchainBox.claimed": "claimingBlockchainBox",
   "withdraw.items": "withdrawingItems",
   "withdraw.wearables": "withdrawingWearables",
+  "withdraw.buds": "withdrawingBuds",
 };
 
 export interface Effect {
