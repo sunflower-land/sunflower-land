@@ -188,6 +188,10 @@ const TwitterPost: React.FC<{ name: TwitterPostName; onClose: () => void }> = ({
     (twitter?.tweets?.[name]?.completedAt ?? 0) >
     Date.now() - 7 * 24 * 60 * 60 * 1000;
 
+  const tweetId = url?.split("/").pop();
+  const savedTweetIds = twitter.tweets?.[name]?.tweetIds ?? [];
+  const tweetUsed = savedTweetIds.includes(tweetId ?? "");
+
   if (showConfirm) {
     return (
       <InnerPanel className="p-2  mt-1">
@@ -205,10 +209,15 @@ const TwitterPost: React.FC<{ name: TwitterPostName; onClose: () => void }> = ({
           value={url}
           onValueChange={(msg) => setUrl(msg)}
         />
+        {tweetUsed && (
+          <Label type="danger" className="m-1">
+            {t("posting.twitter.tweet.used")}
+          </Label>
+        )}
         <div className="flex gap-1">
           <Button onClick={() => setShowConfirm(false)}>{t("back")}</Button>
           <Button
-            disabled={!url}
+            disabled={!url || tweetUsed}
             onClick={() => {
               gameService.send("twitter.posted", {
                 effect: {

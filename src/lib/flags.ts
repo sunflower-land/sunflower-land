@@ -81,7 +81,6 @@ const FEATURE_FLAGS = {
   TASK_BOARD: betaTimeBasedFeatureFlag(new Date("2025-04-07T00:00:00Z")),
 
   FLOWER_DEPOSIT: usernameFeatureFlag,
-  TELEGRAM: defaultFeatureFlag,
 
   // Released to All Players on 5th May
   FLOWER_GEMS: timeBasedFeatureFlag(new Date("2025-05-05T00:00:00Z")),
