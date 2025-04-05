@@ -1,7 +1,5 @@
 import { createMachine, Interpreter, State, assign } from "xstate";
 import { CONFIG } from "lib/config";
-
-import { linkWallet } from "features/wallet/actions/linkWallet";
 import { ERRORS } from "lib/errors";
 import { getFarms } from "lib/blockchain/Farm";
 import { mintNFTFarm } from "./actions/mintFarm";
@@ -17,6 +15,8 @@ import {
 } from "@wagmi/core";
 import { config } from "./WalletProvider";
 import { generateSignatureMessage, wallet } from "lib/blockchain/wallet";
+import { Effect, postEffect } from "features/game/actions/effect";
+import { randomID } from "lib/utils/random";
 
 export const ART_MODE = !CONFIG.API_URL;
 
@@ -163,7 +163,6 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
           }
 
           let account = getAccount(config);
-
           // Either the player has tried to connect a different wallet, or they are connecting for the first time
           if (
             account.connector?.uid !== (connector as Connector).uid ||
@@ -332,12 +331,15 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
         src: async (context, event: any) => {
           const signature = event.data.signature;
 
-          await linkWallet({
-            id: context.id as number,
-            jwt: context.jwt as string,
-            linkedWallet: context.address as string,
-            signature,
-            transactionId: "TODOX", // TODO
+          await postEffect({
+            farmId: Number(context.id),
+            token: context.jwt as string,
+            transactionId: randomID(), // TODO
+            effect: {
+              type: "wallet.linked",
+              linkedWallet: context.address as string,
+              signature,
+            } as Effect,
           });
 
           await new Promise((r) => setTimeout(r, 1000));

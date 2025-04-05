@@ -26,9 +26,13 @@ type EffectName =
   | "username.changed"
   | "streamReward.claimed"
   | "blockchainBox.claimed"
+<<<<<<< HEAD
   | "withdraw.items"
   | "withdraw.wearables"
   | "withdraw.buds";
+=======
+  | "wallet.linked";
+>>>>>>> e91a823a8 ([WIP] Link wallet effect)
 
 export type StateName =
   | "marketplacePurchasing"
@@ -53,14 +57,15 @@ export type StateName =
   | "claimingBlockchainBox"
   | "withdrawingItems"
   | "withdrawingWearables"
-  | "withdrawingBuds";
+  | "withdrawingBuds"
+  | "linkingWallet";
 
 export type StateNameWithStatus = `${StateName}Success` | `${StateName}Failed`;
 
 // Create a type that excludes the events that are not individual state machine states
 export type StateMachineEffectName = Exclude<
   EffectName,
-  "withdraw.items" | "withdraw.wearables" | "withdraw.buds"
+  "withdraw.items" | "withdraw.wearables" | "withdraw.buds" | "wallet.linked"
 >;
 
 // StateName is the feature.progressive_tense_verb. This will be used as the gameMachine state.
@@ -120,11 +125,13 @@ export async function postEffect(
   });
 
   if (response.status === 429) {
-    throw new Error(ERRORS.TOO_MANY_REQUESTS);
+    throw new Error(ERRORS.EFFECT_TOO_MANY_REQUESTS);
   }
 
   if (response.status === 400) {
-    throw new Error(ERRORS.EFFECT_BAD_REQUEST);
+    const { errorCode } = await response.json();
+
+    throw new Error(errorCode ?? ERRORS.EFFECT_SERVER_ERROR);
   }
 
   if (response.status !== 200 || !response.ok) {
