@@ -2078,7 +2078,7 @@ describe("deliver", () => {
 
       expect(state.inventory["Love Charm"]).toEqual(new Decimal(15));
     });
-    it("resets the streak if the player has not delivered for more than 24 hours", () => {
+    it("resets the streak if the player has not delivered for more than 2 days", () => {
       const state = deliverOrder({
         state: {
           ...INITIAL_FARM,
@@ -2091,7 +2091,7 @@ describe("deliver", () => {
               deliveryCount: 1,
               streaks: {
                 streak: 6,
-                lastClaimedAt: eventTime - 36 * 60 * 60 * 1000,
+                lastClaimedAt: eventTime - 48 * 60 * 60 * 1000,
               },
             },
           },
