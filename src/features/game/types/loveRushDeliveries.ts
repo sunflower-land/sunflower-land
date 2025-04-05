@@ -106,27 +106,34 @@ export function getLoveRushStreaks({
   streaks?: { streak: number; lastClaimedAt: number };
   createdAt?: number;
 }): { currentStreak: number; newStreak: number } {
-  let currentStreak: number = streaks?.streak ?? 0;
-  let newStreak: number = currentStreak + 1;
+  const currentStreak = streaks?.streak ?? 0;
   const lastClaimedAt = new Date(streaks?.lastClaimedAt ?? 0);
   const currentDate = new Date(createdAt);
 
-  const dayDifference =
-    (currentDate.getTime() - lastClaimedAt.getTime()) / (1000 * 60 * 60 * 24);
+  // Convert to UTC dates at midnight
+  const lastClaimedDay = Date.UTC(
+    lastClaimedAt.getUTCFullYear(),
+    lastClaimedAt.getUTCMonth(),
+    lastClaimedAt.getUTCDate(),
+  );
+  const currentDay = Date.UTC(
+    currentDate.getUTCFullYear(),
+    currentDate.getUTCMonth(),
+    currentDate.getUTCDate(),
+  );
+  const previousDay = currentDay - 24 * 60 * 60 * 1000;
 
-  if (dayDifference > 1) {
-    currentStreak = 0;
-    newStreak = 1;
+  // Check if same day or consecutive days
+  if (lastClaimedDay === currentDay) {
+    return { currentStreak, newStreak: currentStreak };
   }
 
-  const lastClaimAtDate = lastClaimedAt.toISOString().split("T")[0];
-  const currentDateString = currentDate.toISOString().split("T")[0];
-
-  if (lastClaimAtDate === currentDateString) {
-    newStreak = currentStreak;
+  if (lastClaimedDay === previousDay) {
+    return { currentStreak, newStreak: currentStreak + 1 };
   }
 
-  return { currentStreak, newStreak };
+  // Reset streak if not consecutive
+  return { currentStreak: 0, newStreak: 1 };
 }
 
 export function getLoveRushDeliveryRewards({
