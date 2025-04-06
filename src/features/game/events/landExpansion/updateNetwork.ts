@@ -26,6 +26,6 @@ export function updateNetwork({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (draft) => {
-    draft.network = action.network;
+    draft.settings.network = action.network;
   });
 }

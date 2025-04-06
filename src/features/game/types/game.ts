@@ -1425,6 +1425,7 @@ export interface GameState {
     username?: {
       setAt?: number;
     };
+    network?: NetworkName;
   };
   coins: number;
   balance: Decimal;
@@ -1631,8 +1632,6 @@ export interface GameState {
   socialTasks?: {
     completed: Partial<Record<InGameTaskName, { completedAt: number }>>;
   };
-
-  network?: NetworkName;
 }
 
 export type FaceRecognitionEvent =

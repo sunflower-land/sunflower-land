@@ -41,7 +41,7 @@ import { CONFIG } from "lib/config";
 import { NetworkName } from "features/game/events/landExpansion/updateNetwork";
 const _hasReferralAccess = (state: MachineState) =>
   hasFeatureAccess(state.context.state, "TASK_BOARD");
-const _network = (state: MachineState) => state.context.state.network;
+const _network = (state: MachineState) => state.context.state.settings.network;
 
 export const DailyReward: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
@@ -62,7 +62,7 @@ export const DailyReward: React.FC = () => {
       lastUsedCode: dailyRewards?.chest?.code ?? 0,
       openedAt: dailyRewards?.chest?.collectedAt ?? 0,
       bumpkinLevel,
-      network: gameService.state.context.state.network,
+      network: gameService.state.context.state.settings.network,
     },
   });
   const [chestState] = useActor(chestService);
