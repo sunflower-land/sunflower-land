@@ -117,7 +117,7 @@ export const rewardChestMachine = createMachine<
 
           const { chain } = getAccount(config);
 
-          if (NETWORKS[network] !== chain) {
+          if (NETWORKS[network].id !== chain?.id) {
             await switchChain(config, {
               chainId: NETWORKS[network].id as any,
             });
