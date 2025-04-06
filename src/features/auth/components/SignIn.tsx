@@ -336,6 +336,7 @@ export const Wallets: React.FC<Props> = ({ onConnect }) => {
   const isMobilePWA = isMobile && isPWA;
 
   const { connectors } = useConnect();
+  const { t } = useAppTranslation();
 
   const walletConnectConnector = connectors.filter(
     ({ id }) => id === "walletConnect",
@@ -376,18 +377,32 @@ export const Wallets: React.FC<Props> = ({ onConnect }) => {
 
   if (showFallback) {
     return (
-      <Button
-        className="mb-1 py-2 text-sm relative"
-        onClick={() => onConnect(fallbackConnector)}
-      >
-        <div className="px-8">
-          <img
-            src={SUNNYSIDE.icons.worldIcon}
-            className="w-7 h-7 mobile:w-6 mobile:h-6  ml-2 mr-6 absolute left-0 top-1"
-          />
-          {"Web3 Wallet"}
-        </div>
-      </Button>
+      <>
+        <Button
+          className="mb-1 py-2 text-sm relative"
+          onClick={() => onConnect(fallbackConnector)}
+        >
+          <div className="px-8">
+            <img
+              src={SUNNYSIDE.icons.worldIcon}
+              className="w-7 h-7 mobile:w-6 mobile:h-6  ml-2 mr-6 absolute left-0 top-1"
+            />
+            {"Web3 Wallet"}
+          </div>
+        </Button>
+        <Button
+          className="mb-1 py-2 text-sm relative"
+          onClick={() => setPage("other")}
+        >
+          <div className="px-8">
+            <img
+              src={walletIcon}
+              className="h-7 ml-2.5 mr-6 absolute left-0 top-1"
+            />
+            {t("welcome.otherWallets")}
+          </div>
+        </Button>
+      </>
     );
   }
   return (
