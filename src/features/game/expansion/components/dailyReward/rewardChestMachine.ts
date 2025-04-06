@@ -112,7 +112,7 @@ export const rewardChestMachine = createMachine<
           const network = context.network;
 
           if (!network) {
-            throw new Error("No network");
+            return { code: context.lastUsedCode };
           }
 
           const { chain } = getAccount(config);
