@@ -5717,5 +5717,6 @@
   "flower.exchange.dailyLimit": "Limite giornaliero: {{loveCharmsSpent}}/{{dailyLimit}}",
   "flower.exchange.error.max": "Non puoi scambiare più di 10.000 Love Charms al giorno",
   "telegram.announcements": "Annunci",
-  "telegram.bot": "Zucca Pete Bot"
+  "telegram.bot": "Zucca Pete Bot",
+  "posting.twitter.tweet.used": "Tweet già utilizzato"
 }

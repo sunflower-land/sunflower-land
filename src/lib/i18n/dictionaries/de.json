@@ -5717,5 +5717,6 @@
   "flower.exchange.dailyLimit": "Tageslimit: {{loveCharmsSpent}}/{{dailyLimit}}",
   "flower.exchange.error.max": "Du kannst nicht mehr als 10.000 Liebeszauber pro Tag eintauschen",
   "telegram.announcements": "Ankündigungen",
-  "telegram.bot": "Kürbis Pete Bot"
+  "telegram.bot": "Kürbis Pete Bot",
+  "posting.twitter.tweet.used": "Tweet wurde bereits verwendet"
 }

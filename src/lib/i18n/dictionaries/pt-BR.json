@@ -5717,5 +5717,6 @@
   "flower.exchange.dailyLimit": "Limite diário: {{loveCharmsSpent}}/{{dailyLimit}}",
   "flower.exchange.error.max": "Você não pode trocar mais de 10.000 amuletos amorosos por dia",
   "telegram.announcements": "Anúncios",
-  "telegram.bot": "Abóbora Pete Bot"
+  "telegram.bot": "Abóbora Pete Bot",
+  "posting.twitter.tweet.used": "Tweet já usado"
 }

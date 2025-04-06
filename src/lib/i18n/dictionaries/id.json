@@ -5717,5 +5717,6 @@
   "flower.exchange.dailyLimit": "Batas Harian: {{loveCharmsSpent}}/{{dailyLimit}}",
   "flower.exchange.error.max": "Anda tidak dapat menukar lebih dari 10.000 Pesona Cinta per hari",
   "telegram.announcements": "Pengumuman",
-  "telegram.bot": "Labu Pete Bot"
+  "telegram.bot": "Labu Pete Bot",
+  "posting.twitter.tweet.used": "Tweet sudah digunakan"
 }

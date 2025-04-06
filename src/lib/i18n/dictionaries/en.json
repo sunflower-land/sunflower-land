@@ -5643,6 +5643,7 @@
   "posting.twitter.success": "Tweet posted successfully!",
   "posting.twitter.failed": "No Tweets Found",
   "posting.twitter.failed.description": "Hmm, it looks like you haven't posted a tweet yet. Please check you have uploaded a correct image and hashtag.",
+  "posting.twitter.tweet.used": "Tweet already used",
   "posting.twitter": "Verifying your tweets",
   "twitter.rewards.description": "Post on Twitter each week to earn rewards!",
   "twitter.share.earn": "Share & Earn",

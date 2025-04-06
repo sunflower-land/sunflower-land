@@ -5717,5 +5717,6 @@
   "flower.exchange.dailyLimit": "일일 한도: {{loveCharmsSpent}}/{{dailyLimit}}",
   "flower.exchange.error.max": "하루에 10,000개 이상의 러브 참을 교환할 수 없습니다",
   "telegram.announcements": "공지 사항",
-  "telegram.bot": "펌킨 피트 봇"
+  "telegram.bot": "펌킨 피트 봇",
+  "posting.twitter.tweet.used": "트윗이 이미 사용됨"
 }

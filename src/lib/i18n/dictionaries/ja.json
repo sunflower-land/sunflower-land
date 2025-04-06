@@ -5717,5 +5717,6 @@
   "flower.exchange.dailyLimit": "1日の上限:{{loveCharmsSpent}}/{{dailyLimit}}",
   "flower.exchange.error.max": "1日に交換できるラブチャームは10,000個までです",
   "telegram.announcements": "アナウンス",
-  "telegram.bot": "パンプキンピートボット"
+  "telegram.bot": "パンプキンピートボット",
+  "posting.twitter.tweet.used": "ツイートはすでに使用されています"
 }

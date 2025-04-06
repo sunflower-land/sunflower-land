@@ -5717,5 +5717,6 @@
   "flower.exchange.dailyLimit": "Дневной лимит: {{loveCharmsSpent}}/{{dailyLimit}}",
   "flower.exchange.error.max": "Вы не можете обменять более 10 000 Love Charms в день",
   "telegram.announcements": "Объявления",
-  "telegram.bot": "Тыква Пит Бот"
+  "telegram.bot": "Тыква Пит Бот",
+  "posting.twitter.tweet.used": "Твит уже использован"
 }

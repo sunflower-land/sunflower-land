@@ -5717,5 +5717,6 @@
   "flower.exchange.dailyLimit": "Günlük Limit: {{loveCharmsSpent}}/{{dailyLimit}}",
   "flower.exchange.error.max": "Günde 10.000'den fazla Aşk Tılsımı takas edemezsiniz",
   "telegram.announcements": "Duyurular",
-  "telegram.bot": "Balkabağı Pete Bot"
+  "telegram.bot": "Balkabağı Pete Bot",
+  "posting.twitter.tweet.used": "Tweet zaten kullanıldı"
 }
