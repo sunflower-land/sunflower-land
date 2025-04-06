@@ -9,11 +9,23 @@ import React, { useContext } from "react";
 import flowerIcon from "assets/icons/flower_token.webp";
 import { SUNNYSIDE } from "assets/sunnyside";
 import vipIcon from "assets/icons/vip.webp";
+import promoteIcon from "assets/icons/promote.webp";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
+import chest from "assets/icons/chest.png";
+import { InventoryItemName } from "features/game/types/game";
+import { getObjectEntries } from "features/game/expansion/lib/utils";
 
 interface ReferralProps {
   onHide: () => void;
 }
+
+const REFERRAL_PACKAGE: Partial<Record<InventoryItemName, number>> = {
+  "Time Warp Totem": 3,
+  Gem: 20,
+  "Love Charm": 25,
+};
+
 export const ReferralContent: React.FC<ReferralProps> = ({ onHide }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
@@ -37,8 +49,11 @@ export const ReferralContent: React.FC<ReferralProps> = ({ onHide }) => {
   const referralLink = `${gameLink}/?ref=${referralCode}`;
 
   return (
-    <CloseButtonPanel onClose={onHide}>
-      <div className="p-2 text-xs flex flex-col">
+    <CloseButtonPanel
+      onClose={onHide}
+      tabs={[{ icon: promoteIcon, name: "Refer a friend" }]}
+    >
+      <div className="p-2 text-xs flex flex-col overflow-y-auto scrollable max-h-[500px]">
         <div className="w-full relative">
           <img
             src={SUNNYSIDE.announcement.flowerBanner}
@@ -64,22 +79,19 @@ export const ReferralContent: React.FC<ReferralProps> = ({ onHide }) => {
         {/* Referral Package */}
         <div className="flex flex-col gap-2">
           <Label type="default">{`Referral Package`}</Label>
-          <p className="p-1">{`Refer your friends and they will receive the following package when they sign up using your referral link:`}</p>
           <div className="flex flex-col gap-4">
-            <Label
-              type="transparent"
-              className="mx-4"
-              icon={ITEM_DETAILS.Gem.image}
-            >
-              {`100 Gems`}
-            </Label>
-            <Label
-              type="transparent"
-              className="mx-4"
-              icon={ITEM_DETAILS["Love Charm"].image}
-            >
-              {`25 Love Charms`}
-            </Label>
+            <NoticeboardItems
+              items={[
+                {
+                  text: "Refer your friends and they will receive the following starter package!",
+                  icon: chest,
+                },
+                ...getObjectEntries(REFERRAL_PACKAGE).map(([key, value]) => ({
+                  text: `${value} ${key}${value ?? 0 > 1 ? "s" : ""}`,
+                  icon: ITEM_DETAILS[key].image,
+                })),
+              ]}
+            />
           </div>
         </div>
         {/* Referral Rewards */}
@@ -87,19 +99,22 @@ export const ReferralContent: React.FC<ReferralProps> = ({ onHide }) => {
           <Label type="warning">{t("claimReferralRewards.title")}</Label>
           <p className="p-1">{t("referral.description")}</p>
           <div className="flex flex-col gap-4">
-            <Label
-              type="transparent"
-              className="mx-4"
-              icon={ITEM_DETAILS["Love Charm"].image}
-            >
-              {t("referral.friend")}
-            </Label>
-            <Label type="transparent" className="mx-4" icon={vipIcon}>
-              {t("referral.vip")}
-            </Label>
-            <Label type="transparent" className="mx-4" icon={flowerIcon}>
-              {t("referral.flower")}
-            </Label>
+            <NoticeboardItems
+              items={[
+                {
+                  text: t("referral.friend"),
+                  icon: ITEM_DETAILS["Love Charm"].image,
+                },
+                {
+                  text: t("referral.vip"),
+                  icon: vipIcon,
+                },
+                {
+                  text: t("referral.flower"),
+                  icon: flowerIcon,
+                },
+              ]}
+            />
           </div>
         </div>
       </div>
