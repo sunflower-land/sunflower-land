@@ -15,10 +15,9 @@ import { shortAddress } from "lib/utils/shortAddress";
 import { Button } from "components/ui/Button";
 import { CONFIG } from "lib/config";
 import { DropdownPanel } from "components/ui/DropdownPanel";
+import { NetworkName } from "features/game/events/landExpansion/updateNetwork";
 
-type NetworkName = "Base" | "Base Sepolia";
-
-type NetworkOption = {
+export type NetworkOption = {
   value: NetworkName;
   icon: string;
   chainId: number;

@@ -11,6 +11,7 @@ import { Moderation } from "../lib/gameMachine";
 type Request = {
   token: string;
   transactionId: string;
+  wallet?: string;
 };
 
 type Response = {
@@ -72,6 +73,7 @@ export async function loadSession(
       promoCode,
       signUpMethod,
       timezone,
+      wallet: request.wallet,
     }),
   });
 

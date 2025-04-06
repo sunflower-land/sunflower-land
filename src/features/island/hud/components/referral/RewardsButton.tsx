@@ -39,6 +39,7 @@ export const RewardsButton: React.FC = () => {
       lastUsedCode: dailyRewards?.chest?.code ?? 0,
       openedAt: dailyRewards?.chest?.collectedAt ?? 0,
       bumpkinLevel,
+      network: state.settings.network,
     },
   });
   const [chestState] = useActor(chestService);

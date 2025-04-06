@@ -93,6 +93,7 @@ import {
 import { VipBundle } from "../lib/vipAccess";
 import { InGameTaskName } from "../events/landExpansion/completeSocialTask";
 import { TwitterPost, TwitterPostName } from "./social";
+import { NetworkName } from "../events/landExpansion/updateNetwork";
 
 export type Reward = {
   coins?: number;
@@ -1424,6 +1425,7 @@ export interface GameState {
     username?: {
       setAt?: number;
     };
+    network?: NetworkName;
   };
   coins: number;
   balance: Decimal;
