@@ -2078,7 +2078,7 @@ describe("deliver", () => {
 
       expect(state.inventory["Love Charm"]).toEqual(new Decimal(15));
     });
-    it("resets the streak if the player has not delivered for more than 24 hours", () => {
+    it("resets the streak if the player has not delivered for more than 2 days", () => {
       const state = deliverOrder({
         state: {
           ...INITIAL_FARM,
@@ -2091,7 +2091,7 @@ describe("deliver", () => {
               deliveryCount: 1,
               streaks: {
                 streak: 6,
-                lastClaimedAt: eventTime - 36 * 60 * 60 * 1000,
+                lastClaimedAt: eventTime - 48 * 60 * 60 * 1000,
               },
             },
           },
@@ -2160,6 +2160,50 @@ describe("deliver", () => {
       });
 
       expect(state.inventory["Love Charm"]).toEqual(new Decimal(0));
+    });
+
+    it("doesn't break the streak if the player delivers on consecutive days", () => {
+      jest.useFakeTimers();
+      jest.setSystemTime(new Date("2025-05-01T20:00:00Z").getTime()); // More than 24 hours apart but still consecutive days
+      const state = deliverOrder({
+        state: {
+          ...INITIAL_FARM,
+          inventory: {
+            "Love Charm": new Decimal(0),
+            Sunflower: new Decimal(1),
+          },
+          npcs: {
+            betty: {
+              deliveryCount: 1,
+              streaks: {
+                streak: 6,
+                lastClaimedAt: new Date("2025-04-30T15:00:00Z").getTime(),
+              },
+            },
+          },
+          delivery: {
+            ...INITIAL_FARM.delivery,
+            orders: [
+              {
+                id: "123",
+                createdAt: eventTime,
+                readyAt: eventTime,
+                from: "betty",
+                items: { Sunflower: 1 },
+                reward: {},
+              },
+            ],
+          },
+        },
+        action: {
+          id: "123",
+          type: "order.delivered",
+        },
+        createdAt: new Date("2025-05-01T20:00:00Z").getTime(),
+      });
+
+      expect(state.inventory["Love Charm"]).toEqual(new Decimal(15));
+      expect(state.npcs?.betty?.streaks?.streak).toEqual(7);
     });
   });
 });

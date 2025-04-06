@@ -108,21 +108,25 @@ export function getLoveRushStreaks({
 }): { currentStreak: number; newStreak: number } {
   let currentStreak: number = streaks?.streak ?? 0;
   let newStreak: number = currentStreak + 1;
-  const lastClaimedAt = new Date(streaks?.lastClaimedAt ?? 0);
-  const currentDate = new Date(createdAt);
+  const lastClaimedAt = streaks?.lastClaimedAt ?? 0;
 
+  // Get the date in YYYY-MM-DD format
+  const lastClaimAtDate = new Date(lastClaimedAt).toISOString().split("T")[0];
+  const currentDate = new Date(createdAt).toISOString().split("T")[0];
+
+  // Calculate the difference in days between the last claim and the current date from 00:00:00 UTC
   const dayDifference =
-    (currentDate.getTime() - lastClaimedAt.getTime()) / (1000 * 60 * 60 * 24);
+    (new Date(currentDate).getTime() - new Date(lastClaimAtDate).getTime()) /
+    (1000 * 60 * 60 * 24);
 
+  // If the difference is greater than 1, reset the streak
   if (dayDifference > 1) {
     currentStreak = 0;
     newStreak = 1;
   }
 
-  const lastClaimAtDate = lastClaimedAt.toISOString().split("T")[0];
-  const currentDateString = currentDate.toISOString().split("T")[0];
-
-  if (lastClaimAtDate === currentDateString) {
+  // If the last claim is the same as the current date, set the new streak to the current streak
+  if (lastClaimAtDate === currentDate) {
     newStreak = currentStreak;
   }
 
