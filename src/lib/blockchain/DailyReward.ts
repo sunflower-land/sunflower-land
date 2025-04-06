@@ -101,6 +101,4 @@ export async function trackDailyReward({
     account,
   });
   await waitForTransactionReceipt(config, { hash });
-
-  await waitForTransactionReceipt(config, { hash });
 }
