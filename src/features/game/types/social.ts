@@ -22,6 +22,5 @@ export const TWITTER_REWARDS: Record<TwitterPostName, TwitterReward> = {
 
 export type TwitterPost = {
   completedAt: number;
-  tweetId: string;
-  total: number;
+  tweetIds: string[];
 };
