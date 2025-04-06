@@ -5479,9 +5479,6 @@
   "claimReferralRewards.title": "Recompensas por recomendación",
   "claimReferralRewards.description": "¡Felicidades! {{totalUnclaimedReferrals}} nuevos jugadores se han unido y han comprado el VIP usando tu enlace de recomendación. ¡Aquí tienes tus recompensas!",
   "referral.vip": "25 amuletos de amor cuando tu amigo compra VIP",
-  "referral.friend": "25 amuletos de amor cuando tu amigo se registra usando tu enlace de recomendación, solo una vez",
-  "referral.flower": "10% de los $FLOWER gastados por tu amigo",
-  "referral.description": "Recomienda a tus amigos y recibirás las siguientes recompensas:",
   "taskBoard.tasks": "Tareas",
   "taskBoard.loveCharmCount": "Inventario: {{loveCharmCount}} Love Charm",
   "taskBoard.tasksDescription": "Completa las tareas para ganar Love Charm.",
@@ -5718,5 +5715,8 @@
   "flower.exchange.error.max": "No puedes intercambiar más de 10 000 amuletos de amor al día",
   "telegram.announcements": "Anuncios",
   "telegram.bot": "Pumpkin Pete Bot",
-  "posting.twitter.tweet.used": "El Tweet ya se usó"
+  "posting.twitter.tweet.used": "El Tweet ya se usó",
+  "referral.friend": "25 Love Charms: solo se aplica a la primera recomendación",
+  "referral.flower": "(Próximamente) 10% de los $ FLOWER gastados por tu amigo",
+  "referral.description": "Recibirás las siguientes recompensas cuando tu amigo se registre con tu enlace de recomendación:"
 }

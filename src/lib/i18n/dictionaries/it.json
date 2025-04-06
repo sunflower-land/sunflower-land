@@ -5479,9 +5479,6 @@
   "claimReferralRewards.title": "Premi per i referral",
   "claimReferralRewards.description": "Congratulazioni! {{totalUnclaimedReferrals}} nuovi giocatori si sono iscritti e hanno acquistato VIP utilizzando il tuo link di riferimento. Ecco i tuoi premi!",
   "referral.vip": "25 ciondoli d'amore quando il tuo amico acquista VIP",
-  "referral.friend": "25 ciondoli d'amore quando il tuo amico si iscrive utilizzando il tuo link di riferimento - Solo una volta",
-  "referral.flower": "10% di $FLOWER spesi dal tuo amico",
-  "referral.description": "Invita i tuoi amici e riceverai i seguenti premi:",
   "taskBoard.tasks": "Compiti",
   "taskBoard.loveCharmCount": "Inventario: {{loveCharmCount}} Love Charm",
   "taskBoard.tasksDescription": "Completa le attività per guadagnare Love Charm.",
@@ -5718,5 +5715,8 @@
   "flower.exchange.error.max": "Non puoi scambiare più di 10.000 Love Charms al giorno",
   "telegram.announcements": "Annunci",
   "telegram.bot": "Zucca Pete Bot",
-  "posting.twitter.tweet.used": "Tweet già utilizzato"
+  "posting.twitter.tweet.used": "Tweet già utilizzato",
+  "referral.friend": "25 Love Charms - Si applica solo al primo rinvio",
+  "referral.flower": "(Prossimamente) 10% di $FLOWER spesi dal tuo amico",
+  "referral.description": "Riceverai i seguenti premi quando il tuo amico si iscrive utilizzando il tuo link di riferimento:"
 }

@@ -5479,9 +5479,6 @@
   "claimReferralRewards.title": "Ganjaran Rujukan",
   "claimReferralRewards.description": "Tahniah! {{totalUnclaimedReferrals}} pemain baru telah menyertai dan membeli VIP menggunakan pautan rujukan anda. Inilah ganjaran anda!",
   "referral.vip": "25 Pesona Cinta apabila rakan anda membeli VIP",
-  "referral.friend": "25 Love Charms apabila rakan anda mendaftar menggunakan pautan rujukan anda - Satu kali sahaja",
-  "referral.flower": "10% daripada $FLOWER yang dibelanjakan oleh rakan anda",
-  "referral.description": "Rujuk rakan anda dan anda akan menerima ganjaran berikut:",
   "taskBoard.tasks": "Tugas",
   "taskBoard.loveCharmCount": "Inventori: {{loveCharmCount}} Cinta Cinta",
   "taskBoard.tasksDescription": "Lengkapkan tugas untuk mendapatkan Cinta Charm.",
@@ -5718,5 +5715,8 @@
   "flower.exchange.error.max": "Anda tidak boleh menukar lebih daripada 10,000 Love Charms setiap hari",
   "telegram.announcements": "Pengumuman",
   "telegram.bot": "Labu Pete Bot",
-  "posting.twitter.tweet.used": "Tweet sudah digunakan"
+  "posting.twitter.tweet.used": "Tweet sudah digunakan",
+  "referral.friend": "25 Love Charms - Hanya terpakai untuk rujukan pertama",
+  "referral.flower": "(Akan datang) 10% daripada $FLOWER yang dibelanjakan oleh rakan anda",
+  "referral.description": "Anda akan menerima ganjaran berikut apabila rakan anda mendaftar menggunakan pautan rujukan anda:"
 }

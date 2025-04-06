@@ -5479,9 +5479,6 @@
   "claimReferralRewards.title": "Recompensas de referência",
   "claimReferralRewards.description": "Parabéns! {{totalUnclaimedReferrals}} novos jogadores se juntaram e compraram VIP usando seu link de indicação. Aqui estão suas recompensas!",
   "referral.vip": "25 amuletos amorosos quando seu amigo compra VIP",
-  "referral.friend": "25 amuletos amorosos quando seu amigo se inscreve usando seu link de indicação - Apenas uma vez",
-  "referral.flower": "10% de $ FLOWER gastos por seu amigo",
-  "referral.description": "Indique seus amigos e você receberá as seguintes recompensas:",
   "taskBoard.tasks": "Tarefas",
   "taskBoard.loveCharmCount": "Inventário: {{loveCharmCount}} Love Charm",
   "taskBoard.tasksDescription": "Complete tarefas para ganhar Love Charm.",
@@ -5718,5 +5715,8 @@
   "flower.exchange.error.max": "Você não pode trocar mais de 10.000 amuletos amorosos por dia",
   "telegram.announcements": "Anúncios",
   "telegram.bot": "Abóbora Pete Bot",
-  "posting.twitter.tweet.used": "Tweet já usado"
+  "posting.twitter.tweet.used": "Tweet já usado",
+  "referral.friend": "25 Love Charms - Aplica-se apenas à primeira indicação",
+  "referral.flower": "(Em breve) 10% de $ FLOWER gastos por seu amigo",
+  "referral.description": "Você receberá as seguintes recompensas quando seu amigo se inscrever usando seu link de indicação:"
 }

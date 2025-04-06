@@ -5479,9 +5479,6 @@
   "claimReferralRewards.title": "紹介報酬",
   "claimReferralRewards.description": "おめでとう!{{totalUnclaimedReferrals}} 人の新規プレイヤーが加わり、紹介リンクを使用してVIPを購入しました。報酬はこちらです！",
   "referral.vip": "友達がVIPを購入したときの25のラブチャーム",
-  "referral.friend": "友達が紹介リンクを使用してサインアップすると、25のラブチャーム-1回限定",
-  "referral.flower": "お友達が使った$FLOWERの 10%",
-  "referral.description": "友達を紹介すると、次の報酬がもらえます。",
   "taskBoard.tasks": "タスク",
   "taskBoard.loveCharmCount": "インベントリ:{{loveCharmCount}} ラブチャーム",
   "taskBoard.tasksDescription": "タスクを完了してラブチャームを獲得してください。",
@@ -5718,5 +5715,8 @@
   "flower.exchange.error.max": "1日に交換できるラブチャームは10,000個までです",
   "telegram.announcements": "アナウンス",
   "telegram.bot": "パンプキンピートボット",
-  "posting.twitter.tweet.used": "ツイートはすでに使用されています"
+  "posting.twitter.tweet.used": "ツイートはすでに使用されています",
+  "referral.friend": "ラブチャーム25個-最初の紹介にのみ適用",
+  "referral.flower": "(近日公開予定) お友達が使った$FLOWERの 10%",
+  "referral.description": "お友達が紹介リンクを使って登録すると、以下の特典がもらえます。"
 }

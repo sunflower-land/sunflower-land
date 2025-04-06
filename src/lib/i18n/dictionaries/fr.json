@@ -5479,9 +5479,6 @@
   "claimReferralRewards.title": "Récompenses de recommandation",
   "claimReferralRewards.description": "Félicitations ! {{totalUnclaimedReferrals}} de nouveaux joueurs se sont inscrits et ont acheté des VIP en utilisant votre lien de parrainage. Voici vos récompenses !",
   "referral.vip": "25 breloques d'amour lorsque votre ami achète un VIP",
-  "referral.friend": "25 Love Charms lorsque votre ami s'inscrit en utilisant votre lien de parrainage - Une seule fois",
-  "referral.flower": "10 % des $ FLOWER dépensés par votre ami",
-  "referral.description": "Parrainez vos amis et vous recevrez les récompenses suivantes :",
   "taskBoard.tasks": "Tâches",
   "taskBoard.loveCharmCount": "Inventaire : {{loveCharmCount}} Love Charm",
   "taskBoard.tasksDescription": "Accomplissez des tâches pour gagner Love Charm.",
@@ -5718,5 +5715,8 @@
   "flower.exchange.error.max": "Vous ne pouvez pas échanger plus de 10 000 Love Charms par jour",
   "telegram.announcements": "Annonces",
   "telegram.bot": "Citrouille Pete Bot",
-  "posting.twitter.tweet.used": "Tweet déjà utilisé"
+  "posting.twitter.tweet.used": "Tweet déjà utilisé",
+  "referral.friend": "25 Love Charms - Ne s'applique qu'à la première recommandation",
+  "referral.flower": "(Prochainement) 10 % des $ FLOWER dépensés par votre ami",
+  "referral.description": "Vous recevrez les récompenses suivantes lorsque votre ami s'inscrira en utilisant votre lien de parrainage :"
 }

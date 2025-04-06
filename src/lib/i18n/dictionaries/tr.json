@@ -5479,9 +5479,6 @@
   "claimReferralRewards.title": "Yönlendirme Ödülleri",
   "claimReferralRewards.description": "Tebrikler! {{totalUnclaimedReferrals}} tavsiye bağlantınızı kullanarak yeni oyuncular katıldı ve VIP satın aldı. İşte ödülleriniz!",
   "referral.vip": "Arkadaşınız VIP satın aldığında 25 Aşk Tılsımı",
-  "referral.friend": "Arkadaşınız tavsiye bağlantınızı kullanarak kaydolduğunda 25 Aşk Tılsımı - Sadece bir kez",
-  "referral.flower": "Arkadaşınız tarafından harcanan $FLOWER'ın %10'u",
-  "referral.description": "Arkadaşlarınızı tavsiye edin ve aşağıdaki ödülleri alacaksınız:",
   "taskBoard.tasks": "Görevler",
   "taskBoard.loveCharmCount": "Envanter: {{loveCharmCount}} Aşk Tılsımı",
   "taskBoard.tasksDescription": "Aşk Tılsımı kazanmak için görevleri tamamlayın.",
@@ -5718,5 +5715,8 @@
   "flower.exchange.error.max": "Günde 10.000'den fazla Aşk Tılsımı takas edemezsiniz",
   "telegram.announcements": "Duyurular",
   "telegram.bot": "Balkabağı Pete Bot",
-  "posting.twitter.tweet.used": "Tweet zaten kullanıldı"
+  "posting.twitter.tweet.used": "Tweet zaten kullanıldı",
+  "referral.friend": "25 Aşk Tılsımı - Sadece ilk tavsiye için geçerlidir",
+  "referral.flower": "(Çok yakında) Arkadaşınız tarafından harcanan $FLOWER'ın %10'u",
+  "referral.description": "Arkadaşınız tavsiye bağlantınızı kullanarak kaydolduğunda aşağıdaki ödülleri alacaksınız:"
 }

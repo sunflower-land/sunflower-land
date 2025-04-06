@@ -5479,9 +5479,6 @@
   "claimReferralRewards.title": "Empfehlungsprämien",
   "claimReferralRewards.description": "Herzlichen Glückwunsch! {{totalUnclaimedReferrals}} neue Spieler sind beigetreten und haben über deinen Empfehlungslink VIP gekauft. Hier sind deine Prämien!",
   "referral.vip": "25 Liebeszauber, wenn dein Freund VIP kauft",
-  "referral.friend": "25 Liebeszauber, wenn sich dein Freund über deinen Empfehlungslink anmeldet — Nur einmal",
-  "referral.flower": "10% der von deinem Freund ausgegebenen $ FLOWER",
-  "referral.description": "Empfehlen Sie Ihre Freunde und Sie erhalten die folgenden Belohnungen:",
   "taskBoard.tasks": "Aufgaben",
   "taskBoard.loveCharmCount": "Inventar: {{loveCharmCount}} Love Charm",
   "taskBoard.tasksDescription": "Schließe Aufgaben ab, um Liebeszauber zu verdienen.",
@@ -5718,5 +5715,8 @@
   "flower.exchange.error.max": "Du kannst nicht mehr als 10.000 Liebeszauber pro Tag eintauschen",
   "telegram.announcements": "Ankündigungen",
   "telegram.bot": "Kürbis Pete Bot",
-  "posting.twitter.tweet.used": "Tweet wurde bereits verwendet"
+  "posting.twitter.tweet.used": "Tweet wurde bereits verwendet",
+  "referral.friend": "25 Love Charms — Gilt nur für die erste Empfehlung",
+  "referral.flower": "(Demnächst) 10% der von deinem Freund ausgegebenen $FLOWER",
+  "referral.description": "Du erhältst die folgenden Prämien, wenn sich dein Freund über deinen Empfehlungslink anmeldet:"
 }

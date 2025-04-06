@@ -5479,9 +5479,6 @@
   "claimReferralRewards.title": "推荐奖励",
   "claimReferralRewards.description": "恭喜！{{totalUnclaimedReferrals}} 新玩家已加入并使用您的推荐链接购买了VIP。这是你的奖励！",
   "referral.vip": "朋友购买 VIP 时获得 25 个爱情护身符",
-  "referral.friend": "当你的朋友使用你的推荐链接注册时，获得 25 个爱情护身符——仅限一次",
-  "referral.flower": "朋友花费 $FLOWER 的 10%",
-  "referral.description": "推荐好友，您将获得以下奖励：",
   "taskBoard.tasks": "任务",
   "taskBoard.loveCharmCount": "库存：{{loveCharmCount}} 爱情护身符",
   "taskBoard.tasksDescription": "完成任务即可获得爱情护身符。",
@@ -5718,5 +5715,8 @@
   "flower.exchange.error.max": "你每天兑换的爱情护身符不能超过 10,000 个",
   "telegram.announcements": "公告",
   "telegram.bot": "南瓜皮特机器人",
-  "posting.twitter.tweet.used": "推文已经使用了"
+  "posting.twitter.tweet.used": "推文已经使用了",
+  "referral.friend": "25 Love Charms-仅适用于首次推荐",
+  "referral.flower": "（即将上线）朋友花费的 $FLOWER 的 10%",
+  "referral.description": "当您的朋友使用您的推荐链接注册时，您将获得以下奖励："
 }

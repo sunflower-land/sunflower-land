@@ -5479,9 +5479,6 @@
   "claimReferralRewards.title": "리퍼럴 리워드",
   "claimReferralRewards.description": "축하합니다!{{totalUnclaimedReferrals}} 신규 플레이어가 귀하의 추천 링크를 사용하여 VIP에 가입하고 VIP를 구매했습니다.보상은 다음과 같습니다!",
   "referral.vip": "친구가 VIP를 구매할 때 받을 수 있는 25가지 러브 참",
-  "referral.friend": "친구가 내 추천 링크를 사용하여 가입하면 Love Charms를 25개 받을 수 있습니다. - 단 한 번만",
-  "referral.flower": "친구가 지출한 $FLOWER 금액의 10%",
-  "referral.description": "친구를 추천하면 다음과 같은 보상을 받을 수 있습니다.",
   "taskBoard.tasks": "태스크",
   "taskBoard.loveCharmCount": "인벤토리: {{loveCharmCount}} 러브 참",
   "taskBoard.tasksDescription": "작업을 완료하여 러브 부적을 획득하세요.",
@@ -5718,5 +5715,8 @@
   "flower.exchange.error.max": "하루에 10,000개 이상의 러브 참을 교환할 수 없습니다",
   "telegram.announcements": "공지 사항",
   "telegram.bot": "펌킨 피트 봇",
-  "posting.twitter.tweet.used": "트윗이 이미 사용됨"
+  "posting.twitter.tweet.used": "트윗이 이미 사용됨",
+  "referral.friend": "러브 참 25개 - 첫 번째 추천에만 적용",
+  "referral.flower": "(곧 출시 예정) 친구가 지출한 $FLOWER 금액의 10%",
+  "referral.description": "친구가 추천 링크를 사용하여 가입하면 다음과 같은 보상을 받게 됩니다."
 }
