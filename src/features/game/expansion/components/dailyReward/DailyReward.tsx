@@ -67,9 +67,9 @@ export const DailyReward: React.FC = () => {
   });
   const [chestState] = useActor(chestService);
 
-  // if (hasReferralAccess || bumpkinLevel <= 5) {
-  //   return <></>;
-  // }
+  if (hasReferralAccess || bumpkinLevel <= 5) {
+    return <></>;
+  }
 
   return (
     <>
