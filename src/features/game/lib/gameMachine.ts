@@ -657,9 +657,12 @@ export function startGame(authContext: AuthContext) {
             src: async (context) => {
               const fingerprint = "X";
 
+              const { connector } = getAccount(config);
+
               const response = await loadSession({
                 token: authContext.user.rawToken as string,
                 transactionId: context.transactionId as string,
+                wallet: connector?.name,
               });
 
               // If no farm go no farms route

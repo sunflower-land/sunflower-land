@@ -12,7 +12,7 @@ import {
   ronin,
   saigon,
 } from "@wagmi/core/chains";
-import { walletConnect, metaMask } from "@wagmi/connectors";
+import { walletConnect, metaMask, coinbaseWallet } from "@wagmi/connectors";
 import { sequenceWallet } from "@0xsequence/wagmi-connector";
 import { WaypointProvider } from "@sky-mavis/waypoint";
 import { EIP1193Provider } from "viem";
@@ -47,42 +47,8 @@ export const walletConnectConnector = walletConnect({
 
 export const metaMaskConnector = metaMask();
 
-export const cryptoComConnector = injected({
-  target() {
-    if (typeof (window as any).deficonnectProvider !== "undefined") {
-      return {
-        id: "CryptoCom",
-        name: "Crypto Com Provider",
-        provider: (window as any).deficonnectProvider,
-      };
-    }
-
-    if (navigator?.userAgent?.includes("DeFiWallet") && window.ethereum) {
-      return {
-        id: "CryptoCom",
-        name: "Crypto Com Provider",
-        provider: window.ethereum,
-      };
-    }
-
-    return {
-      id: "windowProvider",
-      name: "Crypto Com Provider",
-      provider: undefined,
-    };
-  },
-});
-
-export const bitGetConnector = injected({
-  target: "bitKeep",
-});
-
-export const okexConnector = injected({
-  target: "okxWallet",
-});
-
-export const phantomConnector = injected({
-  target: "phantom",
+export const coinbaseConnector = coinbaseWallet({
+  appName: "Sunflower Land",
 });
 
 export const fallbackConnector = injected({
@@ -142,10 +108,7 @@ export const config = createConfig({
   connectors: [
     sequenceConnector,
     walletConnectConnector,
-    cryptoComConnector,
-    bitGetConnector,
-    okexConnector,
-    phantomConnector,
+    coinbaseConnector,
     fallbackConnector,
     waypointConnector,
   ],

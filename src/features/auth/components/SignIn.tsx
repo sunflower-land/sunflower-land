@@ -20,12 +20,9 @@ import { Loading } from "./Loading";
 import { Connector, CreateConnectorFn } from "@wagmi/core";
 import {
   WalletContext,
-  bitGetConnector,
-  cryptoComConnector,
+  coinbaseConnector,
   fallbackConnector,
   metaMaskConnector,
-  okexConnector,
-  phantomConnector,
   sequenceConnector,
   walletConnectConnector,
   waypointConnector,
@@ -39,30 +36,31 @@ const CONTENT_HEIGHT = 365;
 export const SEQUENCE_ICON =
   "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0nMzk2JyBoZWlnaHQ9JzMxOCcgdmlld0JveD0nMCAwIDM5NiAzMTgnIGZpbGw9J25vbmUnIHhtbG5zPSdodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2Zyc+PGcgY2xpcC1wYXRoPSd1cmwoI2NsaXAwXzVfMTMxKSc+PGcgY2xpcC1wYXRoPSd1cmwoI2NsaXAxXzVfMTMxKSc+PHBhdGggZD0nTTAgNjcuNTA0OUwwIDI1MC4xNjVDMCAyODcuNDQ3IDMwLjE0MDIgMzE3LjY3IDY3LjMyIDMxNy42N0gzMjguNjhDMzY1Ljg2IDMxNy42NyAzOTYgMjg3LjQ0NyAzOTYgMjUwLjE2NVY2Ny41MDQ5QzM5NiAzMC4yMjMgMzY1Ljg2IDAgMzI4LjY4IDBINjcuMzJDMzAuMTQwMiAwIDAgMzAuMjIzIDAgNjcuNTA0OVonIGZpbGw9JyMxMTExMTEnLz48cGF0aCBkPSdNMCA2Ny41MDQ5TDAgMjUwLjE2NUMwIDI4Ny40NDcgMzAuMTQwMiAzMTcuNjcgNjcuMzIgMzE3LjY3SDMyOC42OEMzNjUuODYgMzE3LjY3IDM5NiAyODcuNDQ3IDM5NiAyNTAuMTY1VjY3LjUwNDlDMzk2IDMwLjIyMyAzNjUuODYgMCAzMjguNjggMEg2Ny4zMkMzMC4xNDAyIDAgMCAzMC4yMjMgMCA2Ny41MDQ5WicgZmlsbD0ndXJsKCNwYWludDBfbGluZWFyXzVfMTMxKScvPjxwYXRoIGQ9J005OC45OTk5IDc5LjQxNzZDOTguOTk5OSA2OC40NTIzIDkwLjEzNTEgNTkuNTYzMiA3OS4xOTk5IDU5LjU2MzJDNjguMjY0NyA1OS41NjMyIDU5LjM5OTkgNjguNDUyMyA1OS4zOTk5IDc5LjQxNzZDNTkuMzk5OSA5MC4zODI4IDY4LjI2NDcgOTkuMjcyIDc5LjE5OTkgOTkuMjcyQzkwLjEzNTEgOTkuMjcyIDk4Ljk5OTkgOTAuMzgyOCA5OC45OTk5IDc5LjQxNzZaJyBmaWxsPSd1cmwoI3BhaW50MV9saW5lYXJfNV8xMzEpJy8+PHBhdGggZD0nTTk4Ljk5OTkgNzkuNDE3NkM5OC45OTk5IDY4LjQ1MjMgOTAuMTM1MSA1OS41NjMyIDc5LjE5OTkgNTkuNTYzMkM2OC4yNjQ3IDU5LjU2MzIgNTkuMzk5OSA2OC40NTIzIDU5LjM5OTkgNzkuNDE3NkM1OS4zOTk5IDkwLjM4MjggNjguMjY0NyA5OS4yNzIgNzkuMTk5OSA5OS4yNzJDOTAuMTM1MSA5OS4yNzIgOTguOTk5OSA5MC4zODI4IDk4Ljk5OTkgNzkuNDE3NlonIGZpbGw9J3VybCgjcGFpbnQyX2xpbmVhcl81XzEzMSknLz48cGF0aCBkPSdNOTguOTk5OSA3OS40MTc2Qzk4Ljk5OTkgNjguNDUyMyA5MC4xMzUxIDU5LjU2MzIgNzkuMTk5OSA1OS41NjMyQzY4LjI2NDcgNTkuNTYzMiA1OS4zOTk5IDY4LjQ1MjMgNTkuMzk5OSA3OS40MTc2QzU5LjM5OTkgOTAuMzgyOCA2OC4yNjQ3IDk5LjI3MiA3OS4xOTk5IDk5LjI3MkM5MC4xMzUxIDk5LjI3MiA5OC45OTk5IDkwLjM4MjggOTguOTk5OSA3OS40MTc2WicgZmlsbD0ndXJsKCNwYWludDNfbGluZWFyXzVfMTMxKScvPjxwYXRoIGQ9J005OC45OTk5IDIzOC4xMjZDOTguOTk5OSAyMjcuMTYxIDkwLjEzNTEgMjE4LjI3MiA3OS4xOTk5IDIxOC4yNzJDNjguMjY0NyAyMTguMjcyIDU5LjM5OTkgMjI3LjE2MSA1OS4zOTk5IDIzOC4xMjZDNTkuMzk5OSAyNDkuMDkyIDY4LjI2NDcgMjU3Ljk4MSA3OS4xOTk5IDI1Ny45ODFDOTAuMTM1MSAyNTcuOTgxIDk4Ljk5OTkgMjQ5LjA5MiA5OC45OTk5IDIzOC4xMjZaJyBmaWxsPSd1cmwoI3BhaW50NF9saW5lYXJfNV8xMzEpJy8+PHBhdGggZD0nTTMzNi42IDE1OC44MzVDMzM2LjYgMTQ3Ljg3IDMyNy43MzUgMTM4Ljk4MSAzMTYuOCAxMzguOTgxQzMwNS44NjUgMTM4Ljk4MSAyOTcgMTQ3Ljg3IDI5NyAxNTguODM1QzI5NyAxNjkuOCAzMDUuODY1IDE3OC42OSAzMTYuOCAxNzguNjlDMzI3LjczNSAxNzguNjkgMzM2LjYgMTY5LjggMzM2LjYgMTU4LjgzNVonIGZpbGw9J3VybCgjcGFpbnQ1X2xpbmVhcl81XzEzMSknLz48cGF0aCBkPSdNMzM2LjYgMTU4LjgzNUMzMzYuNiAxNDcuODcgMzI3LjczNSAxMzguOTgxIDMxNi44IDEzOC45ODFDMzA1Ljg2NSAxMzguOTgxIDI5NyAxNDcuODcgMjk3IDE1OC44MzVDMjk3IDE2OS44IDMwNS44NjUgMTc4LjY5IDMxNi44IDE3OC42OUMzMjcuNzM1IDE3OC42OSAzMzYuNiAxNjkuOCAzMzYuNiAxNTguODM1WicgZmlsbD0ndXJsKCNwYWludDZfbGluZWFyXzVfMTMxKScvPjxwYXRoIGQ9J00zMTYuOCA1OS41NjMySDE1OC40QzE0Ny40NjUgNTkuNTYzMiAxMzguNiA2OC40NTIzIDEzOC42IDc5LjQxNzZDMTM4LjYgOTAuMzgyOCAxNDcuNDY1IDk5LjI3MiAxNTguNCA5OS4yNzJIMzE2LjhDMzI3LjczNSA5OS4yNzIgMzM2LjYgOTAuMzgyOCAzMzYuNiA3OS40MTc2QzMzNi42IDY4LjQ1MjMgMzI3LjczNSA1OS41NjMyIDMxNi44IDU5LjU2MzJaJyBmaWxsPSd1cmwoI3BhaW50N19saW5lYXJfNV8xMzEpJy8+PHBhdGggZD0nTTMxNi44IDIxOC4yNzJIMTU4LjRDMTQ3LjQ2NSAyMTguMjcyIDEzOC42IDIyNy4xNjEgMTM4LjYgMjM4LjEyNkMxMzguNiAyNDkuMDkyIDE0Ny40NjUgMjU3Ljk4MSAxNTguNCAyNTcuOTgxSDMxNi44QzMyNy43MzUgMjU3Ljk4MSAzMzYuNiAyNDkuMDkyIDMzNi42IDIzOC4xMjZDMzM2LjYgMjI3LjE2MSAzMjcuNzM1IDIxOC4yNzIgMzE2LjggMjE4LjI3MlonIGZpbGw9J3VybCgjcGFpbnQ4X2xpbmVhcl81XzEzMSknLz48cGF0aCBkPSdNMjM3LjYgMTM4Ljk4MUg3OS4yQzY4LjI2NDggMTM4Ljk4MSA1OS40IDE0Ny44NyA1OS40IDE1OC44MzVDNTkuNCAxNjkuOCA2OC4yNjQ4IDE3OC42OSA3OS4yIDE3OC42OUgyMzcuNkMyNDguNTM1IDE3OC42OSAyNTcuNCAxNjkuOCAyNTcuNCAxNTguODM1QzI1Ny40IDE0Ny44NyAyNDguNTM1IDEzOC45ODEgMjM3LjYgMTM4Ljk4MVonIGZpbGw9J3VybCgjcGFpbnQ5X2xpbmVhcl81XzEzMSknLz48L2c+PC9nPjxkZWZzPjxsaW5lYXJHcmFkaWVudCBpZD0ncGFpbnQwX2xpbmVhcl81XzEzMScgeDE9JzE5OCcgeTE9JzQuMDU4NTRlLTA1JyB4Mj0nMTk4JyB5Mj0nMzE4JyBncmFkaWVudFVuaXRzPSd1c2VyU3BhY2VPblVzZSc+PHN0b3Agc3RvcC1jb2xvcj0nIzFEMjczRCcvPjxzdG9wIG9mZnNldD0nMScgc3RvcC1jb2xvcj0nIzBEMEYxMycvPjwvbGluZWFyR3JhZGllbnQ+PGxpbmVhckdyYWRpZW50IGlkPSdwYWludDFfbGluZWFyXzVfMTMxJyB4MT0nNjUuNScgeTE9Jzk5JyB4Mj0nOTIuNScgeTI9JzYzJyBncmFkaWVudFVuaXRzPSd1c2VyU3BhY2VPblVzZSc+PHN0b3Agc3RvcC1jb2xvcj0nIzQ0NjJGRScvPjxzdG9wIG9mZnNldD0nMScgc3RvcC1jb2xvcj0nIzdENjlGQScvPjwvbGluZWFyR3JhZGllbnQ+PGxpbmVhckdyYWRpZW50IGlkPSdwYWludDJfbGluZWFyXzVfMTMxJyB4MT0nNjIuODc5OScgeTE9Jzk5LjI5MTInIHgyPSc5Ni4xMzc3JyB5Mj0nOTcuNTkxMScgZ3JhZGllbnRVbml0cz0ndXNlclNwYWNlT25Vc2UnPjxzdG9wIHN0b3AtY29sb3I9JyMzNzU3RkQnLz48c3RvcCBvZmZzZXQ9JzEnIHN0b3AtY29sb3I9JyM2OTgwRkEnLz48L2xpbmVhckdyYWRpZW50PjxsaW5lYXJHcmFkaWVudCBpZD0ncGFpbnQzX2xpbmVhcl81XzEzMScgeDE9JzYyLjg3OTknIHkxPSc5OS4yOTEyJyB4Mj0nOTYuMTM3NycgeTI9Jzk3LjU5MTEnIGdyYWRpZW50VW5pdHM9J3VzZXJTcGFjZU9uVXNlJz48c3RvcCBzdG9wLWNvbG9yPScjMjQ0N0ZGJy8+PHN0b3Agb2Zmc2V0PScxJyBzdG9wLWNvbG9yPScjNjk4MEZBJy8+PC9saW5lYXJHcmFkaWVudD48bGluZWFyR3JhZGllbnQgaWQ9J3BhaW50NF9saW5lYXJfNV8xMzEnIHgxPSc2NScgeTE9JzI1MS41JyB4Mj0nOTEuNScgeTI9JzIyMy41JyBncmFkaWVudFVuaXRzPSd1c2VyU3BhY2VPblVzZSc+PHN0b3Agc3RvcC1jb2xvcj0nI0JDM0VFNicvPjxzdG9wIG9mZnNldD0nMScgc3RvcC1jb2xvcj0nI0Q5NzJGMScvPjwvbGluZWFyR3JhZGllbnQ+PGxpbmVhckdyYWRpZW50IGlkPSdwYWludDVfbGluZWFyXzVfMTMxJyB4MT0nMzA1JyB5MT0nMTcyJyB4Mj0nMzI5LjUnIHkyPScxNDYnIGdyYWRpZW50VW5pdHM9J3VzZXJTcGFjZU9uVXNlJz48c3RvcCBzdG9wLWNvbG9yPScjMjlCREZGJy8+PHN0b3Agb2Zmc2V0PScxJyBzdG9wLWNvbG9yPScjOTZFN0ZCJy8+PC9saW5lYXJHcmFkaWVudD48bGluZWFyR3JhZGllbnQgaWQ9J3BhaW50Nl9saW5lYXJfNV8xMzEnIHgxPSczMDAuMTgnIHkxPScxNzguNDE4JyB4Mj0nMzM0LjU2NycgeTI9JzE3Ni43NzInIGdyYWRpZW50VW5pdHM9J3VzZXJTcGFjZU9uVXNlJz48c3RvcCBzdG9wLWNvbG9yPScjMjNCQkZGJy8+PHN0b3Agb2Zmc2V0PScxJyBzdG9wLWNvbG9yPScjODVFN0ZGJy8+PC9saW5lYXJHcmFkaWVudD48bGluZWFyR3JhZGllbnQgaWQ9J3BhaW50N19saW5lYXJfNV8xMzEnIHgxPScxNTQuNScgeTE9Jzk5JyB4Mj0nMzE3LjUnIHkyPSc2MCcgZ3JhZGllbnRVbml0cz0ndXNlclNwYWNlT25Vc2UnPjxzdG9wIHN0b3AtY29sb3I9JyMyM0JCRkYnLz48c3RvcCBvZmZzZXQ9JzEnIHN0b3AtY29sb3I9JyM4NUU3RkYnLz48L2xpbmVhckdyYWRpZW50PjxsaW5lYXJHcmFkaWVudCBpZD0ncGFpbnQ4X2xpbmVhcl81XzEzMScgeDE9JzE1NicgeTE9JzI1OCcgeDI9JzMxMi41JyB5Mj0nMjE4JyBncmFkaWVudFVuaXRzPSd1c2VyU3BhY2VPblVzZSc+PHN0b3Agc3RvcC1jb2xvcj0nIzI0NDdGRicvPjxzdG9wIG9mZnNldD0nMScgc3RvcC1jb2xvcj0nIzY5ODBGQScvPjwvbGluZWFyR3JhZGllbnQ+PGxpbmVhckdyYWRpZW50IGlkPSdwYWludDlfbGluZWFyXzVfMTMxJyB4MT0nODYuMDAwMScgeTE9JzE3OScgeDI9JzIzNS41JyB5Mj0nMTM5JyBncmFkaWVudFVuaXRzPSd1c2VyU3BhY2VPblVzZSc+PHN0b3Agc3RvcC1jb2xvcj0nIzY2MzRGRicvPjxzdG9wIG9mZnNldD0nMScgc3RvcC1jb2xvcj0nIzlDNkRGRicvPjwvbGluZWFyR3JhZGllbnQ+PGNsaXBQYXRoIGlkPSdjbGlwMF81XzEzMSc+PHJlY3Qgd2lkdGg9JzM5NicgaGVpZ2h0PSczMTcuNjcnIGZpbGw9J3doaXRlJy8+PC9jbGlwUGF0aD48Y2xpcFBhdGggaWQ9J2NsaXAxXzVfMTMxJz48cmVjdCB3aWR0aD0nMzk2JyBoZWlnaHQ9JzMxNy42NycgZmlsbD0nd2hpdGUnLz48L2NsaXBQYXRoPjwvZGVmcz48L3N2Zz4K";
 
+const COINBASE_ICON =
+  "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNTYiIGhlaWdodD0iNTYiIGZpbGw9Im5vbmUiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PHBhdGggZD0iTTI4IDU2YzE1LjQ2NCAwIDI4LTEyLjUzNiAyOC0yOFM0My40NjQgMCAyOCAwIDAgMTIuNTM2IDAgMjhzMTIuNTM2IDI4IDI4IDI4WiIgZmlsbD0iIzFCNTNFNCIvPjxwYXRoIGZpbGwtcnVsZT0iZXZlbm9kZCIgY2xpcC1ydWxlPSJldmVub2RkIiBkPSJNNyAyOGMwIDExLjU5OCA5LjQwMiAyMSAyMSAyMXMyMS05LjQwMiAyMS0yMVMzOS41OTggNyAyOCA3IDcgMTYuNDAyIDcgMjhabTE3LjIzNC02Ljc2NmEzIDMgMCAwIDAtMyAzdjcuNTMzYTMgMyAwIDAgMCAzIDNoNy41MzNhMyAzIDAgMCAwIDMtM3YtNy41MzNhMyAzIDAgMCAwLTMtM2gtNy41MzNaIiBmaWxsPSIjZmZmIi8+PC9zdmc+";
+
 const OtherWallets: React.FC<{
   onConnect: (connector: Connector | CreateConnectorFn) => void;
   setRoninDeepLink: (isOn: boolean) => void;
-  showSequence?: boolean;
-}> = ({ onConnect, showSequence = false, setRoninDeepLink }) => {
+}> = ({ onConnect, setRoninDeepLink }) => {
   const { t } = useAppTranslation();
 
   return (
     <>
       <>
-        {showSequence && (
-          <Button
-            className="mb-1 py-2 text-sm relative"
-            onClick={() => onConnect(sequenceConnector)}
-          >
-            <div className="px-8">
-              <img
-                src={SEQUENCE_ICON}
-                className="w-7 h-7 mobile:w-6 mobile:h-6  ml-2 mr-6 absolute left-0 top-1"
-              />
-              {"Sequence"}
-            </div>
-          </Button>
-        )}
+        <Button
+          className="mb-1 py-2 text-sm relative"
+          onClick={() => onConnect(sequenceConnector)}
+        >
+          <div className="px-8">
+            <img
+              src={SEQUENCE_ICON}
+              className="w-7 h-7 mobile:w-6 mobile:h-6  ml-2 mr-6 absolute left-0 top-1"
+            />
+            {"Sequence"}
+          </div>
+        </Button>
+
         <Button
           className="mb-1 py-2 text-sm relative"
           onClick={() => {
@@ -86,59 +84,6 @@ const OtherWallets: React.FC<{
             {"Wallet Connect"}
           </div>
         </Button>
-
-        <Button
-          className="mb-1 py-2 text-sm relative"
-          onClick={() => onConnect(bitGetConnector)}
-        >
-          <div className="px-8">
-            <img
-              src={SUNNYSIDE.icons.bitgetIcon}
-              alt="Bitget"
-              className="h-7 ml-2.5 mr-6 absolute left-0 top-1 rounded-sm"
-            />
-            {"Bitget Wallet"}
-          </div>
-        </Button>
-        <Button
-          className="mb-1 py-2 text-sm relative"
-          onClick={() => onConnect(cryptoComConnector)}
-        >
-          <div className="px-8">
-            <img
-              src={SUNNYSIDE.icons.cryptoComIcon}
-              alt="Crypto.com"
-              className="h-7 ml-2.5 mr-6 absolute left-0 top-1 rounded-sm"
-            />
-            {"Crypto.com Wallet"}
-          </div>
-        </Button>
-        <Button
-          className="mb-1 py-2 text-sm relative"
-          onClick={() => onConnect(okexConnector)}
-        >
-          <div className="px-8">
-            <img
-              src={SUNNYSIDE.icons.okxIcon}
-              alt="OKX"
-              className="h-7 ml-2.5 mr-6 absolute left-0 top-1 rounded-sm"
-            />
-            {"OKX Wallet"}
-          </div>
-        </Button>
-        <Button
-          className="mb-1 py-2 text-sm relative"
-          onClick={() => onConnect(phantomConnector)}
-        >
-          <div className="px-8">
-            <img
-              src={SUNNYSIDE.icons.phantomIcon}
-              alt="Phantom"
-              className="h-7 ml-2.5 mr-6 absolute left-0 top-1"
-            />
-            {"Phantom Wallet"}
-          </div>
-        </Button>
       </>
     </>
   );
@@ -146,20 +91,14 @@ const OtherWallets: React.FC<{
 
 interface Props {
   onConnect: (connector: Connector | CreateConnectorFn) => void;
-  showAll?: boolean;
 }
 
 interface Page {
-  page: "home" | "other" | "ronin";
-  setPage: (page: "home" | "other" | "ronin") => void;
+  page: "home" | "other" | "ronin" | "coinbase";
+  setPage: (page: "home" | "other" | "ronin" | "coinbase") => void;
 }
 
-const MainWallets: React.FC<Props & Page> = ({
-  onConnect,
-  showAll,
-  setPage,
-  page,
-}) => {
+const MainWallets: React.FC<Props & Page> = ({ onConnect, setPage, page }) => {
   const { t } = useAppTranslation();
 
   return (
@@ -178,7 +117,7 @@ const MainWallets: React.FC<Props & Page> = ({
       </Button>
       <Button
         className="mb-1 py-2 text-sm relative justify-start"
-        onClick={() => setPage("ronin")}
+        onClick={() => setPage("coinbase")}
       >
         <Label
           type="info"
@@ -188,27 +127,24 @@ const MainWallets: React.FC<Props & Page> = ({
         </Label>
         <div className="px-8 mr-2 flex ">
           <img
+            src={COINBASE_ICON}
+            className="h-7 ml-2.5 mr-6 absolute left-0 top-1"
+          />
+          {"Coinbase"}
+        </div>
+      </Button>
+      <Button
+        className="mb-1 py-2 text-sm relative justify-start"
+        onClick={() => setPage("ronin")}
+      >
+        <div className="px-8 mr-2 flex ">
+          <img
             src={SUNNYSIDE.icons.roninIcon}
             className="h-7 ml-2.5 mr-6 absolute left-0 top-1"
           />
           {"Ronin"}
         </div>
       </Button>
-
-      {showAll && (
-        <Button
-          className="mb-1 py-2 text-sm relative"
-          onClick={() => onConnect(sequenceConnector)}
-        >
-          <div className="px-8">
-            <img
-              src={SEQUENCE_ICON}
-              className="w-7 h-7 mobile:w-6 mobile:h-6  ml-2 mr-6 absolute left-0 top-1"
-            />
-            {"Sequence"}
-          </div>
-        </Button>
-      )}
 
       {page === "home" && (
         <Button
@@ -288,6 +224,54 @@ const RoninWallets: React.FC<
   );
 };
 
+const CoinBaseWallets: React.FC<Props> = ({ onConnect }) => {
+  const { connectors } = useConnect();
+  const isPWA = useIsPWA();
+
+  const eip6963Connectors = connectors
+    .filter((connector) => connector.type === "injected" && !!connector.icon)
+    .filter((connector) => connector.name === "Coinbase Wallet");
+
+  useEffect(() => {
+    if (eip6963Connectors.length === 0) {
+      onConnect(coinbaseConnector);
+    }
+  }, []);
+
+  return (
+    <>
+      {eip6963Connectors.length > 0 && (
+        <Button
+          className="mb-1 py-2 text-sm relative"
+          onClick={() => onConnect(eip6963Connectors[0])}
+        >
+          <div className="px-8">
+            <img
+              src={eip6963Connectors[0].icon}
+              className="h-7 ml-2.5 mr-6 absolute left-0 top-1"
+            />
+            <span className="whitespace-nowrap">{`Coinbase Wallet Extension`}</span>
+          </div>
+        </Button>
+      )}
+      <Button
+        className="mb-1 py-2 text-sm relative"
+        onClick={() => {
+          onConnect(coinbaseConnector);
+        }}
+      >
+        <div className="px-8">
+          <img
+            src={COINBASE_ICON}
+            className="h-7 ml-2.5 mr-6 absolute left-0 top-1"
+          />
+          {"Coinbase"}
+        </div>
+      </Button>
+    </>
+  );
+};
+
 const PWAWallets: React.FC<
   Props & { setRoninDeepLink: (isOn: boolean) => void }
 > = ({ onConnect, setRoninDeepLink }) => {
@@ -310,6 +294,7 @@ const PWAWallets: React.FC<
         </div>
       </Button>
       <RoninWallets onConnect={onConnect} setRoninDeepLink={setRoninDeepLink} />
+      <CoinBaseWallets onConnect={onConnect} />
       <Button
         className="mb-1 py-2 text-sm relative"
         onClick={() => {
@@ -342,8 +327,10 @@ const displayUriListener = (uri: string) => {
   window.open(`roninwallet://wc?uri=${encodeURIComponent(uri)}`, "_self");
 };
 
-export const Wallets: React.FC<Props> = ({ onConnect, showAll = true }) => {
-  const [page, setPage] = useState<"home" | "other" | "ronin">("home");
+export const Wallets: React.FC<Props> = ({ onConnect }) => {
+  const [page, setPage] = useState<"home" | "other" | "ronin" | "coinbase">(
+    "home",
+  );
 
   const isPWA = useIsPWA();
   const isMobilePWA = isMobile && isPWA;
@@ -376,17 +363,9 @@ export const Wallets: React.FC<Props> = ({ onConnect, showAll = true }) => {
 
   if (isMobilePWA) {
     return (
-      <PWAWallets
-        onConnect={onConnect}
-        showAll={showAll}
-        setRoninDeepLink={setRoninDeepLink}
-      />
+      <PWAWallets onConnect={onConnect} setRoninDeepLink={setRoninDeepLink} />
     );
   }
-
-  const isCryptoCom = getPromoCode() === "crypto-com";
-  const isEarnAlliance = getPromoCode() === "EARN";
-  const isBitget = getPromoCode() === "BITGET";
 
   const eip6963Connectors = connectors.filter(
     (connector) => connector.type === "injected" && !!connector.icon,
@@ -395,115 +374,64 @@ export const Wallets: React.FC<Props> = ({ onConnect, showAll = true }) => {
   // There is an injected provider, but it's not showing up in EIP-6963
   const showFallback = !!window.ethereum && eip6963Connectors.length === 0;
 
+  if (showFallback) {
+    return (
+      <Button
+        className="mb-1 py-2 text-sm relative"
+        onClick={() => onConnect(fallbackConnector)}
+      >
+        <div className="px-8">
+          <img
+            src={SUNNYSIDE.icons.worldIcon}
+            className="w-7 h-7 mobile:w-6 mobile:h-6  ml-2 mr-6 absolute left-0 top-1"
+          />
+          {"Web3 Wallet"}
+        </div>
+      </Button>
+    );
+  }
   return (
     <>
-      {showFallback && (
-        <Button
-          className="mb-1 py-2 text-sm relative"
-          onClick={() => onConnect(fallbackConnector)}
-        >
-          <div className="px-8">
-            <img
-              src={SUNNYSIDE.icons.worldIcon}
-              className="w-7 h-7 mobile:w-6 mobile:h-6  ml-2 mr-6 absolute left-0 top-1"
-            />
-            {"Web3 Wallet"}
-          </div>
-        </Button>
-      )}
-      <>
-        {/** Metamask and Ronin have custom buttons - don't show the injected connectors */}
-        {eip6963Connectors
-          .filter((connector) => connector.name !== "MetaMask")
-          .filter((connector) => connector.name !== "Ronin Wallet")
-          .map((connector) => (
-            <Button
-              className="mb-1 py-2 text-sm relative"
-              onClick={() => onConnect(connector)}
-              key={connector.name}
-            >
-              <div className="px-8">
-                <img
-                  src={connector.icon}
-                  className="h-7 ml-2.5 mr-6 absolute left-0 top-1 rounded-sm"
-                />
-                {connector.name}
-              </div>
-            </Button>
-          ))}
-      </>
-      {isBitget && (
-        <Button
-          className="mb-1 py-2 text-sm relative"
-          onClick={() => onConnect(bitGetConnector)}
-        >
-          <div className="px-8">
-            <img
-              src={SUNNYSIDE.icons.bitgetIcon}
-              alt="Bitget"
-              className="h-7 ml-2.5 mr-6 absolute left-0 top-1 rounded-sm"
-            />
-            {"Bitget Wallet"}
-          </div>
-        </Button>
-      )}
+      {/** Metamask and Ronin have custom buttons - don't show the injected connectors */}
+      {eip6963Connectors
+        .filter((connector) => connector.name !== "MetaMask")
+        .filter((connector) => connector.name !== "Ronin Wallet")
+        .filter((connector) => connector.name !== "Coinbase Wallet")
+        .map((connector) => (
+          <Button
+            className="mb-1 py-2 text-sm relative"
+            onClick={() => onConnect(connector)}
+            key={connector.name}
+          >
+            <div className="px-8">
+              <img
+                src={connector.icon}
+                className="h-7 ml-2.5 mr-6 absolute left-0 top-1 rounded-sm"
+              />
+              {connector.name}
+            </div>
+          </Button>
+        ))}
 
-      {isCryptoCom && (
-        <Button
-          className="mb-1 py-2 text-sm relative"
-          onClick={() => onConnect(cryptoComConnector)}
-        ></Button>
+      {page === "home" && (
+        <MainWallets onConnect={onConnect} page={page} setPage={setPage} />
       )}
-
-      {isEarnAlliance && (
-        <Button
-          className="mb-1 py-2 text-sm relative justify-start"
-          onClick={() => onConnect(metaMaskConnector)}
-        >
-          <div className="px-8 mr-2 flex ">
-            <img
-              src={metamaskIcon}
-              className="h-7 ml-2.5 mr-6 absolute left-0 top-1"
-            />
-            {"Metamask"}
-          </div>
-        </Button>
-      )}
-
-      {!isCryptoCom && !isEarnAlliance && !isBitget && (
+      {page === "other" && (
         <>
-          {page === "home" && (
-            <MainWallets
-              onConnect={onConnect}
-              showAll={showAll}
-              page={page}
-              setPage={setPage}
-            />
-          )}
-          {page === "other" && (
-            <>
-              <MainWallets
-                onConnect={onConnect}
-                showAll={showAll}
-                page={page}
-                setPage={setPage}
-              />
-              <OtherWallets
-                showSequence={!showAll}
-                onConnect={onConnect}
-                setRoninDeepLink={setRoninDeepLink}
-              />
-            </>
-          )}
-          {page === "ronin" && (
-            <RoninWallets
-              onConnect={onConnect}
-              showAll={showAll}
-              setRoninDeepLink={setRoninDeepLink}
-            />
-          )}
+          <MainWallets onConnect={onConnect} page={page} setPage={setPage} />
+          <OtherWallets
+            onConnect={onConnect}
+            setRoninDeepLink={setRoninDeepLink}
+          />
         </>
       )}
+      {page === "ronin" && (
+        <RoninWallets
+          onConnect={onConnect}
+          setRoninDeepLink={setRoninDeepLink}
+        />
+      )}
+      {page === "coinbase" && <CoinBaseWallets onConnect={onConnect} />}
     </>
   );
 };
@@ -566,6 +494,22 @@ export const SignIn: React.FC<{ type: "signin" | "signup" }> = ({ type }) => {
           >
             <img src={SUNNYSIDE.icons.googleIcon} />
           </button>
+        </>
+      )}
+
+      <Wallet
+        action="login"
+        id={0}
+        onReady={(payload) => {
+          authService.send("CONNECTED", {
+            address: payload.address,
+            signature: payload.signature,
+          });
+        }}
+      />
+
+      {walletState.matches("chooseWallet") && (
+        <>
           {!isMobile && type !== "signup" && (
             <Button
               className="mb-1 py-2 text-sm relative"
@@ -601,17 +545,6 @@ export const SignIn: React.FC<{ type: "signin" | "signup" }> = ({ type }) => {
           </Button>
         </>
       )}
-
-      <Wallet
-        action="login"
-        id={0}
-        onReady={(payload) => {
-          authService.send("CONNECTED", {
-            address: payload.address,
-            signature: payload.signature,
-          });
-        }}
-      />
 
       <div className="flex justify-between my-1 items-center">
         <a href="https://discord.gg/sunflowerland" className="mr-4">
