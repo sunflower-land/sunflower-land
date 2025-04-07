@@ -87,7 +87,7 @@ import { OFFLINE_FARM } from "./landData";
 import { isValidRedirect } from "features/portal/lib/portalUtil";
 import {
   Effect,
-  EFFECT_EVENTS,
+  STATE_MACHINE_EFFECTS,
   postEffect,
   StateName,
   StateNameWithStatus,
@@ -373,17 +373,17 @@ const PLACEMENT_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
   );
 
 const EFFECT_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
-  getKeys(EFFECT_EVENTS).reduce(
+  getKeys(STATE_MACHINE_EFFECTS).reduce(
     (events, eventName) => ({
       ...events,
       [eventName]: {
-        target: EFFECT_EVENTS[eventName],
+        target: STATE_MACHINE_EFFECTS[eventName],
       },
     }),
     {},
   );
 
-const EFFECT_STATES = Object.values(EFFECT_EVENTS).reduce(
+const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
   (states, stateName) => ({
     ...states,
     [`${stateName}Success`]: {
@@ -1492,7 +1492,7 @@ export function startGame(authContext: AuthContext) {
 
               const { transaction, request } = event as TransactEvent;
 
-              const { game } = await TRANSACTION_SIGNATURES[transaction]({
+              const { gameState } = await TRANSACTION_SIGNATURES[transaction]({
                 ...request,
                 farmId: Number(context.farmId),
                 token: authContext.user.rawToken as string,
@@ -1501,7 +1501,7 @@ export function startGame(authContext: AuthContext) {
 
               return {
                 // sessionId: sessionId,
-                farm: game,
+                farm: gameState,
               };
             },
             onDone: {

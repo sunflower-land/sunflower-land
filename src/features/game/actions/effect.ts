@@ -25,7 +25,10 @@ type EffectName =
   | "username.assigned"
   | "username.changed"
   | "streamReward.claimed"
-  | "blockchainBox.claimed";
+  | "blockchainBox.claimed"
+  | "withdraw.items"
+  | "withdraw.wearables"
+  | "withdraw.buds";
 
 export type StateName =
   | "marketplacePurchasing"
@@ -47,33 +50,43 @@ export type StateName =
   | "assigningUsername"
   | "changingUsername"
   | "claimingStreamReward"
-  | "claimingBlockchainBox";
+  | "claimingBlockchainBox"
+  | "withdrawingItems"
+  | "withdrawingWearables"
+  | "withdrawingBuds";
 
 export type StateNameWithStatus = `${StateName}Success` | `${StateName}Failed`;
 
+// Create a type that excludes the events that are not individual state machine states
+export type StateMachineEffectName = Exclude<
+  EffectName,
+  "withdraw.items" | "withdraw.wearables" | "withdraw.buds"
+>;
+
 // StateName is the feature.progressive_tense_verb. This will be used as the gameMachine state.
-export const EFFECT_EVENTS: Record<EffectName, StateName> = {
-  "marketplace.listingPurchased": "marketplacePurchasing",
-  "marketplace.listed": "marketplaceListing",
-  "marketplace.offerMade": "marketplaceOffering",
-  "marketplace.offerAccepted": "marketplaceAccepting",
-  "marketplace.offerCancelled": "marketplaceCancelling",
-  "marketplace.listingCancelled": "marketplaceListingCancelling",
-  "reward.airdropped": "airdroppingReward",
-  "faceRecognition.started": "startingFaceRecognition",
-  "faceRecognition.completed": "completingFaceRecognition",
-  "flower.depositStarted": "depositingFlower",
-  "telegram.linked": "linkingTelegram",
-  "telegram.joined": "joiningTelegram",
-  "twitter.followed": "followingTwitter",
-  "twitter.posted": "postingTwitter",
-  "gems.bought": "buyingGems",
-  "vip.bought": "buyingVIP",
-  "username.assigned": "assigningUsername",
-  "username.changed": "changingUsername",
-  "streamReward.claimed": "claimingStreamReward",
-  "blockchainBox.claimed": "claimingBlockchainBox",
-};
+export const STATE_MACHINE_EFFECTS: Record<StateMachineEffectName, StateName> =
+  {
+    "marketplace.listingPurchased": "marketplacePurchasing",
+    "marketplace.listed": "marketplaceListing",
+    "marketplace.offerMade": "marketplaceOffering",
+    "marketplace.offerAccepted": "marketplaceAccepting",
+    "marketplace.offerCancelled": "marketplaceCancelling",
+    "marketplace.listingCancelled": "marketplaceListingCancelling",
+    "reward.airdropped": "airdroppingReward",
+    "faceRecognition.started": "startingFaceRecognition",
+    "faceRecognition.completed": "completingFaceRecognition",
+    "flower.depositStarted": "depositingFlower",
+    "telegram.linked": "linkingTelegram",
+    "telegram.joined": "joiningTelegram",
+    "twitter.followed": "followingTwitter",
+    "twitter.posted": "postingTwitter",
+    "gems.bought": "buyingGems",
+    "vip.bought": "buyingVIP",
+    "username.assigned": "assigningUsername",
+    "username.changed": "changingUsername",
+    "streamReward.claimed": "claimingStreamReward",
+    "blockchainBox.claimed": "claimingBlockchainBox",
+  };
 
 export interface Effect {
   type: EffectName;
@@ -111,7 +124,7 @@ export async function postEffect(
   }
 
   if (response.status === 400) {
-    throw new Error(ERRORS.TRADE_NOT_FOUND);
+    throw new Error(ERRORS.EFFECT_BAD_REQUEST);
   }
 
   if (response.status !== 200 || !response.ok) {
