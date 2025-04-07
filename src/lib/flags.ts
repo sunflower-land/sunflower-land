@@ -71,7 +71,8 @@ const FEATURE_FLAGS = {
 
   // Temporary Feature Flags
   FACE_RECOGNITION: (game) =>
-    game.createdAt > new Date("2025-01-01T00:00:00Z").getTime(),
+    game.createdAt > new Date("2025-01-01T00:00:00Z").getTime() ||
+    !game.verified,
   FACE_RECOGNITION_TEST: defaultFeatureFlag,
 
   DISABLE_BLOCKCHAIN_ACTIONS: timeBasedFeatureFlag(
