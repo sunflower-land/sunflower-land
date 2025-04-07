@@ -41,7 +41,8 @@ import {
   getPlazaShaderSetting,
 } from "lib/utils/hooks/usePlazaShader";
 import { playerSelectionListManager } from "../ui/PlayerSelectionList";
-import { playerModalManager } from "../ui/PlayerModals";
+import { playerModalManager } from "../ui/player/PlayerModals";
+import { STREAM_REWARD_COOLDOWN } from "../ui/player/StreamReward";
 
 export type NPCBumpkin = {
   x: number;
@@ -97,6 +98,7 @@ export const FACTION_NAME_COLORS: Record<FactionName, string> = {
 export abstract class BaseScene extends Phaser.Scene {
   abstract sceneId: SceneId;
   eventListener?: (event: EventObject) => void;
+  private lastModalOpenTime = 0;
 
   public joystick?: VirtualJoystick;
   private switchToScene?: SceneId;
@@ -348,7 +350,9 @@ export abstract class BaseScene extends Phaser.Scene {
 
           const bumpkinContainer = clickedObject as BumpkinContainer;
           return (
-            bumpkinContainer.farmId !== this.id &&
+            (bumpkinContainer.farmId !== this.id ||
+              (bumpkinContainer.farmId === this.id &&
+                this.gameState.bumpkin.equipped.shirt === "Gift Giver")) &&
             bumpkinContainer.farmId !== undefined
           );
         }) as BumpkinContainer[];
@@ -366,7 +370,40 @@ export abstract class BaseScene extends Phaser.Scene {
         });
 
         if (clickedBumpkins.length === 1) {
+          const distance = Phaser.Math.Distance.BetweenPoints(
+            this.currentPlayer as BumpkinContainer,
+            clickedBumpkins[0],
+          );
+
+          if (distance > 50) {
+            this.currentPlayer?.speak(translate("base.far.away"));
+            return;
+          }
+
           playerModalManager.open(players[0]);
+          return;
+        }
+
+        // Check distance for all clicked bumpkins
+        const closestBumpkin = clickedBumpkins.reduce((closest, current) => {
+          const closestDistance = Phaser.Math.Distance.BetweenPoints(
+            this.currentPlayer as BumpkinContainer,
+            closest,
+          );
+          const currentDistance = Phaser.Math.Distance.BetweenPoints(
+            this.currentPlayer as BumpkinContainer,
+            current,
+          );
+          return currentDistance < closestDistance ? current : closest;
+        });
+
+        const closestDistance = Phaser.Math.Distance.BetweenPoints(
+          this.currentPlayer as BumpkinContainer,
+          closestBumpkin,
+        );
+
+        if (closestDistance > 50) {
+          this.currentPlayer?.speak(translate("base.far.away"));
           return;
         }
 
@@ -862,6 +899,12 @@ export abstract class BaseScene extends Phaser.Scene {
   destroyPlayer(sessionId: string) {
     const entity = this.playerEntities[sessionId];
     if (entity) {
+      // Dispatch player leave event
+      const event = new CustomEvent("player_leave", {
+        detail: { playerId: entity.farmId },
+      });
+      window.dispatchEvent(event);
+
       entity.disappear();
       delete this.playerEntities[sessionId];
     }
@@ -1179,6 +1222,31 @@ export abstract class BaseScene extends Phaser.Scene {
       // Check if player is in area as well
       if (hidden === entity.visible) {
         entity.setVisible(!hidden);
+      }
+
+      // Check for streamer hat
+      if (player.clothing?.hat === "Streamer Hat") {
+        const distance = Phaser.Math.Distance.BetweenPoints(
+          this.currentPlayer as BumpkinContainer,
+          entity,
+        );
+        const now = Date.now();
+        const streamerHatLastClaimedAt =
+          this.gameService.state.context.state.pumpkinPlaza.streamerHat
+            ?.openedAt ?? 0;
+
+        if (
+          now - this.lastModalOpenTime > STREAM_REWARD_COOLDOWN &&
+          distance < 75
+        ) {
+          playerModalManager.open({
+            id: player.farmId,
+            clothing: player.clothing,
+            experience: player.experience,
+            username: player.username,
+          });
+          this.lastModalOpenTime = streamerHatLastClaimedAt;
+        }
       }
     });
   }

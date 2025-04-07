@@ -37,9 +37,8 @@ import { Label } from "components/ui/Label";
 import { CommunityModals } from "./ui/CommunityModalManager";
 import { CommunityToasts } from "./ui/CommunityToastManager";
 import { useNavigate } from "react-router";
-import { PlayerModals } from "./ui/PlayerModals";
+import { PlayerModals } from "./ui/player/PlayerModals";
 import { prepareAPI } from "features/community/lib/CommunitySDK";
-import { TradeCompleted } from "./ui/TradeCompleted";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 
 import SoundOffIcon from "assets/icons/sound_off.png";
@@ -534,8 +533,7 @@ export const PhaserComponent: React.FC<Props> = ({
 
       <NPCModals id={farmId as number} scene={scene} />
       <PlayerSelectionList />
-      <PlayerModals game={state} />
-      <TradeCompleted mmoService={mmoService} farmId={farmId as number} />
+      <PlayerModals game={state} farmId={farmId as number} />
       <CommunityModals />
       <InteractableModals id={farmId as number} scene={scene} key={scene} />
       <Modal

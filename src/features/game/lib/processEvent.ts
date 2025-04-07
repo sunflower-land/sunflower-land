@@ -10,7 +10,7 @@ import {
 import { LEGACY_BADGE_TREE } from "../types/skills";
 import { Announcements } from "../types/announcements";
 import { EXOTIC_CROPS } from "../types/beans";
-import { BASIC_DECORATIONS } from "../types/decorations";
+import { BASIC_DECORATIONS, getValues } from "../types/decorations";
 import { FISH } from "../types/fishing";
 import { LANDSCAPING_DECORATIONS } from "../types/decorations";
 import { getActiveListedItems } from "features/island/hud/components/inventory/utils/inventory";
@@ -18,6 +18,7 @@ import { KNOWN_IDS } from "../types";
 import { ANIMAL_FOODS } from "../types/animals";
 import { BumpkinItem, ITEM_IDS } from "../types/bumpkin";
 import { MaxedItem } from "./gameMachine";
+import { SEASON_TICKET_NAME } from "../types/seasons";
 
 export const MAX_INVENTORY_ITEMS: Inventory = {
   ...getKeys(EXOTIC_CROPS).reduce(
@@ -109,6 +110,20 @@ export const MAX_INVENTORY_ITEMS: Inventory = {
     }),
     {},
   ),
+
+  // Max of 1500 Chapter tickets
+  ...getValues(SEASON_TICKET_NAME).reduce(
+    (acc, name) => ({
+      ...acc,
+      [name]: new Decimal(1500),
+    }),
+    {},
+  ),
+  "Solar Flare Ticket": new Decimal(350),
+  "Dawn Breaker Ticket": new Decimal(750),
+  "Crow Feather": new Decimal(750),
+  "Bud Ticket": new Decimal(1),
+
   Sunflower: new Decimal(30000),
   Potato: new Decimal(20000),
   Rhubarb: new Decimal(20000),
@@ -280,17 +295,6 @@ export const MAX_INVENTORY_ITEMS: Inventory = {
   "Dinosaur Bone": new Decimal(50),
   "Human Bear": new Decimal(50),
   "Whale Bear": new Decimal(50),
-
-  // Seasonal Tickets
-  "Solar Flare Ticket": new Decimal(350),
-  "Dawn Breaker Ticket": new Decimal(750),
-  "Crow Feather": new Decimal(750),
-  "Mermaid Scale": new Decimal(1500),
-  "Tulip Bulb": new Decimal(1500),
-  Scroll: new Decimal(1500),
-  "Amber Fossil": new Decimal(1500),
-  Horseshoe: new Decimal(1500),
-  "Bud Ticket": new Decimal(1),
 
   // Potion House
   "Potion Ticket": new Decimal(7500),
@@ -618,11 +622,6 @@ export const MAX_WEARABLES: Wardrobe = {
   "Basic Hair": 1000,
 };
 
-/**
- * Humanly possible SFL in a single session
- */
-export const MAX_SESSION_SFL = 255;
-
 export function checkProgress({ state, action, farmId }: ProcessEventArgs): {
   valid: boolean;
   maxedItem?: MaxedItem;
@@ -634,28 +633,6 @@ export function checkProgress({ state, action, farmId }: ProcessEventArgs): {
   } catch {
     // Not our responsibility to catch events, pass on to the next handler
     return { valid: true };
-  }
-
-  const auctionSFL = newState.auctioneer.bid?.sfl ?? new Decimal(0);
-
-  const offerSFL = Object.values(newState.trades.offers ?? {}).reduce(
-    (acc, offer) => {
-      return acc.add(offer.sfl);
-    },
-    new Decimal(0),
-  );
-
-  const progress = newState.balance
-    .add(auctionSFL)
-    .add(offerSFL)
-    .sub(newState.previousBalance ?? new Decimal(0));
-
-  /**
-   * Contract enforced SFL caps
-   * Just in case a player gets in a corrupt state and manages to earn extra SFL
-   */
-  if (progress.gt(MAX_SESSION_SFL)) {
-    return { valid: false, maxedItem: "SFL" };
   }
 
   let maxedItem: InventoryItemName | BumpkinItem | undefined = undefined;

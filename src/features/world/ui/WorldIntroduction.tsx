@@ -1,5 +1,5 @@
-import React, { useState, useContext, useCallback } from "react";
-import { useActor } from "@xstate/react";
+import React, { useState, useContext, useCallback, useEffect } from "react";
+import { useActor, useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import * as AuthProvider from "features/auth/lib/Provider";
 
@@ -9,7 +9,7 @@ import {
   SpeakingText,
 } from "features/game/components/SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";
-import { validateUsername, saveUsername, checkUsername } from "lib/username";
+import { validateUsername, checkUsername } from "lib/username";
 import { Panel } from "components/ui/Panel";
 import debounce from "lodash.debounce";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -32,15 +32,34 @@ export const WorldIntroduction: React.FC<WorldIntroductionProps> = ({
   const [authState] = useActor(authService);
 
   const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
+  const currentUsername = useSelector(
+    gameService,
+    (state) => state.context.state.username,
+  );
+
+  const usernameAssignmentSuccess = useSelector(gameService, (state) =>
+    state.matches("assigningUsernameSuccess"),
+  );
+  const usernameAssignmentFailed = useSelector(gameService, (state) =>
+    state.matches("assigningUsernameFailed"),
+  );
+
+  // Find a delivery that is ready
+  const delivery = useSelector(gameService, (state) =>
+    state.context.state.delivery.orders.find((order) =>
+      hasOrderRequirements({
+        order,
+        state: state.context.state,
+      }),
+    ),
+  );
+
   // If a player goes through the name set up they see an intro at the beginning.
   // If for some reason a player gets into the introduction state (cleared local storage)
   // but they already have a name, they won't see the intro so we need to check for that so we can show it.
   const [showMayorIntroStatement, setShowMayorIntroStatement] = useState(true);
   const [showNameSetUpStatement, setShowNameSetUpStatement] = useState(false);
-  const [username, setUsername] = useState<string>(
-    gameState.context.state.username ?? "",
-  );
+  const [username, setUsername] = useState<string>();
   const [validationState, setValidationState] = useState<string | null>(null);
 
   const [tab, setTab] = useState<number>(!username ? 0 : 4);
@@ -49,7 +68,6 @@ export const WorldIntroduction: React.FC<WorldIntroductionProps> = ({
     "idle" | "loading" | "success" | "error" | "checking"
   >("idle");
 
-  const alreadyHaveUsername = Boolean(gameState.context.state.username);
   const { t } = useAppTranslation();
 
   // debounced function to check if username is available
@@ -69,40 +87,35 @@ export const WorldIntroduction: React.FC<WorldIntroductionProps> = ({
   );
 
   const applyUsername = async () => {
+    setTab(1);
     setState("loading");
-
-    const farmId = gameState.context.farmId;
     try {
-      const result = await saveUsername(
-        authState.context.user.rawToken as string,
-        farmId,
-        username as string,
-      );
-      if (result.success === false) {
-        setValidationState("Username already taken");
-        setState("idle");
-        return;
-      }
-
+      gameService.send("username.assigned", {
+        effect: { type: "username.assigned", username: username as string },
+        authToken: authState.context.user.rawToken as string,
+      });
       gameService.send({
         type: "UPDATE_USERNAME",
         username: username as string,
       });
-      setState("success");
-      setTab(3);
     } catch {
       setValidationState("Error saving username, please try again");
       setState("idle");
     }
   };
 
-  // Find a delivery that is ready
-  const delivery = gameState.context.state.delivery.orders.find((order) =>
-    hasOrderRequirements({
-      order,
-      state: gameState.context.state,
-    }),
-  );
+  useEffect(() => {
+    if (usernameAssignmentSuccess) {
+      setTab(3);
+      setState("success");
+    }
+  }, [usernameAssignmentSuccess]);
+
+  useEffect(() => {
+    if (usernameAssignmentFailed) {
+      setState("error");
+    }
+  }, [usernameAssignmentFailed]);
 
   if (showNPCFind && delivery) {
     return (
@@ -121,7 +134,9 @@ export const WorldIntroduction: React.FC<WorldIntroductionProps> = ({
               <NPCIcon parts={NPC_WEARABLES[delivery.from]} />
             </div>
           </div>
-          <Button onClick={() => onClose(username)}>{t("ok")}</Button>
+          <Button onClick={() => onClose(currentUsername ?? "")}>
+            {t("ok")}
+          </Button>
         </div>
       </Panel>
     );
@@ -134,44 +149,28 @@ export const WorldIntroduction: React.FC<WorldIntroductionProps> = ({
     <>
       {tab === 0 && (
         <Panel bumpkinParts={NPC_WEARABLES.mayor}>
-          {alreadyHaveUsername ? (
-            <SpeakingText
-              onClose={() => onClose(username)}
-              message={[
-                {
-                  text: t("mayor.plaza.metBefore", {
-                    username,
-                  }),
-                },
-                {
-                  text: t("mayor.plaza.coffee"),
-                },
-              ]}
-            />
-          ) : (
-            <SpeakingText
-              onClose={() => onClose(username)}
-              message={[
-                {
-                  text: t("mayor.plaza.intro"),
-                },
-                {
-                  text: t("mayor.plaza.role"),
-                },
-                {
-                  text: t("mayor.plaza.fixNamePrompt"),
-                  actions: [
-                    {
-                      text: t("ok"),
-                      cb: () => {
-                        setTab(1);
-                      },
+          <SpeakingText
+            onClose={() => onClose(currentUsername ?? "")}
+            message={[
+              {
+                text: t("mayor.plaza.intro"),
+              },
+              {
+                text: t("mayor.plaza.role"),
+              },
+              {
+                text: t("mayor.plaza.fixNamePrompt"),
+                actions: [
+                  {
+                    text: t("ok"),
+                    cb: () => {
+                      setTab(1);
                     },
-                  ],
-                },
-              ]}
-            />
-          )}
+                  },
+                ],
+              },
+            ]}
+          />
         </Panel>
       )}
 
@@ -180,7 +179,7 @@ export const WorldIntroduction: React.FC<WorldIntroductionProps> = ({
           <>
             <div className="flex flex-col items-center p-1">
               <span>{t("mayor.plaza.enterUsernamePrompt")}</span>
-              <div className="w-full py-3 relative">
+              <div className="flex flex-col gap-2 w-full my-3">
                 <input
                   type="string"
                   name="Username"
@@ -192,7 +191,10 @@ export const WorldIntroduction: React.FC<WorldIntroductionProps> = ({
                   onChange={(e) => {
                     setState("checking");
                     setUsername(e.target.value);
-                    const validationState = validateUsername(e.target.value);
+                    const validationState = validateUsername(
+                      e.target.value,
+                      currentUsername,
+                    );
                     setValidationState(validationState);
 
                     debouncedCheckUsername.cancel();
@@ -209,9 +211,9 @@ export const WorldIntroduction: React.FC<WorldIntroductionProps> = ({
                 />
 
                 {validationState && (
-                  <label className="absolute -bottom-1 right-0 text-black text-[11px] font-error">
+                  <Label type="danger" className="text-xs">
                     {validationState}
-                  </label>
+                  </Label>
                 )}
               </div>
             </div>
@@ -241,7 +243,7 @@ export const WorldIntroduction: React.FC<WorldIntroductionProps> = ({
 
       {tab === 2 && (
         <CloseButtonPanel
-          onClose={() => onClose(username)}
+          onClose={() => onClose(currentUsername ?? "")}
           bumpkinParts={{
             ...NPC_WEARABLES.mayor,
             body: "Light Brown Worried Farmer Potion",
@@ -266,39 +268,27 @@ export const WorldIntroduction: React.FC<WorldIntroductionProps> = ({
               </span>
             </div>
 
-            <Button
-              onClick={() => {
-                applyUsername();
-                setTab(1);
-              }}
-            >
-              {t("confirm")}
-            </Button>
+            <Button onClick={applyUsername}>{t("confirm")}</Button>
           </>
         </CloseButtonPanel>
       )}
 
       {tab === 3 && (
         <SpeakingModal
-          onClose={() => onClose(username)}
+          onClose={() => onClose(currentUsername ?? "")}
           bumpkinParts={NPC_WEARABLES.mayor}
           message={[
             {
-              text: t("mayor.plaza.congratulations", { username }),
+              text: t("mayor.plaza.congratulations", {
+                username: currentUsername ?? "",
+              }),
               actions: [
                 {
                   text: t("ok"),
                   cb: () => {
-                    onClose(username);
-                    // if (localStorage.getItem("mmo_introduction.read")) {
-
-                    //   onClose();
-                    //   return;
-                    // }
-
-                    // setTab(4);
-                    // setShowNameSetUpStatement(true);
-                    // setShowMayorIntroStatement(false);
+                    setTab(4);
+                    setShowNameSetUpStatement(true);
+                    setShowMayorIntroStatement(false);
                   },
                 },
               ],
@@ -309,7 +299,9 @@ export const WorldIntroduction: React.FC<WorldIntroductionProps> = ({
       {tab === 4 && (
         <SpeakingModal
           onClose={
-            delivery ? () => setShowNPCFind(true) : () => onClose(username)
+            delivery
+              ? () => setShowNPCFind(true)
+              : () => onClose(currentUsername ?? "")
           }
           bumpkinParts={NPC_WEARABLES.mayor}
           message={[

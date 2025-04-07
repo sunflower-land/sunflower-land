@@ -12,9 +12,14 @@ import { Panel } from "components/ui/Panel";
 import { ReputationSystem } from "features/island/hud/components/reputation/Reputation";
 import { Telegram } from "features/auth/components/Telegram/Telegram";
 import { Twitter } from "features/auth/components/Twitter/Twitter";
-
+import { ReferralContent } from "features/island/hud/components/referral/Referral";
+import { CloseButtonPanel } from "../CloseablePanel";
+import { DiscordBonus } from "features/game/expansion/components/DiscordBoat";
+import { Streams } from "./components/Streams";
+import { LoveRush } from "./components/LoveRush";
 type GlobalModal =
   | "BUY_GEMS"
+  | "DISCORD"
   | "BUY_BANNER"
   | "STORE_ON_CHAIN"
   | "FIRST_EXPANSION"
@@ -26,7 +31,10 @@ type GlobalModal =
   | "VIP_ITEMS"
   | "REPUTATION"
   | "TELEGRAM"
-  | "TWITTER";
+  | "TWITTER"
+  | "REFERRAL"
+  | "STREAMS"
+  | "LOVE_RUSH";
 
 export const ModalContext = createContext<{
   openModal: (type: GlobalModal) => void;
@@ -63,6 +71,15 @@ export const ModalProvider: FC = ({ children }) => {
         initialPage="vip"
       />
 
+      <Modal show={opened === "DISCORD"} onHide={handleClose}>
+        <CloseButtonPanel
+          bumpkinParts={NPC_WEARABLES.wobble}
+          onClose={handleClose}
+        >
+          <DiscordBonus onClose={handleClose} />
+        </CloseButtonPanel>
+      </Modal>
+
       <Modal show={opened === "VIP_ITEMS"} onHide={handleClose}>
         <Panel>
           <VIPItems />
@@ -83,6 +100,18 @@ export const ModalProvider: FC = ({ children }) => {
 
       <Modal show={opened === "TWITTER"} onHide={handleClose}>
         <Twitter onClose={handleClose} />
+      </Modal>
+
+      <Modal show={opened === "REFERRAL"} onHide={handleClose}>
+        <ReferralContent onHide={handleClose} />
+      </Modal>
+
+      <Modal show={opened === "STREAMS"} onHide={handleClose}>
+        <Streams onClose={handleClose} />
+      </Modal>
+
+      <Modal show={opened === "LOVE_RUSH"} onHide={handleClose}>
+        <LoveRush onClose={handleClose} />
       </Modal>
 
       <Modal show={opened === "FIRST_EXPANSION"}>

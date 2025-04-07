@@ -36,14 +36,27 @@ import { CHORE_DIALOGUES } from "features/game/types/stories";
 import { isMobile } from "mobile-device-detect";
 import { Context } from "features/game/GameProvider";
 import { formatNumber } from "lib/utils/formatNumber";
+import { hasFeatureAccess } from "lib/flags";
+import { getLoveRushChoreReward } from "features/game/types/loveRushChores";
+import { millisecondsToString } from "lib/utils/time";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useSelector } from "@xstate/react";
 
 interface Props {
   state: GameState;
 }
 
+const _isLoveRushEventActive = (state: MachineState) =>
+  hasFeatureAccess(state.context.state, "LOVE_RUSH");
+
 export const ChoreBoard: React.FC<Props> = ({ state }) => {
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
+
+  const isLoveRushEventActive = useSelector(
+    gameService,
+    _isLoveRushEventActive,
+  );
 
   const [selectedId, setSelectedId] = useState<NPCName>();
 
@@ -75,6 +88,22 @@ export const ChoreBoard: React.FC<Props> = ({ state }) => {
     });
   };
 
+  const loveRushEndTime = new Date("2025-05-05T00:00:00Z").getTime();
+  const loveRushRemainingTime = loveRushEndTime - Date.now();
+
+  const { loveCharmReward } = getLoveRushChoreReward({
+    game: state,
+    npcName: previewNpc,
+  });
+
+  const hasCompleted21Chores =
+    Object.values(chores).filter((chore) => chore.completedAt).length >= 21;
+
+  const unlockedChores = getKeys(chores).filter(
+    (npc) => level >= NPC_CHORE_UNLOCKS[npc as NPCName],
+  );
+  const hasUnlockedAllChores = unlockedChores.length === 21;
+
   return (
     <div className="flex md:flex-row flex-col-reverse md:mr-1 items-start h-full">
       <InnerPanel
@@ -86,7 +115,7 @@ export const ChoreBoard: React.FC<Props> = ({ state }) => {
         )}
       >
         <div className="p-1">
-          <div className="flex items-center justify-between mb-2">
+          <div className="flex flex-wrap items-center justify-between mb-1 gap-1">
             <Label type="default">{t("chores.weeklyChores")}</Label>
             <Label
               type={end.days < 1 ? "danger" : "info"}
@@ -94,6 +123,19 @@ export const ChoreBoard: React.FC<Props> = ({ state }) => {
             >
               <TimerDisplay fontSize={24} time={end} />
             </Label>
+            {isLoveRushEventActive && (
+              <Label
+                type="info"
+                icon={ITEM_DETAILS["Love Charm"].image}
+                secondaryIcon={SUNNYSIDE.icons.stopwatch}
+              >
+                {t("loveRush.eventTime", {
+                  time: millisecondsToString(loveRushRemainingTime, {
+                    length: "short",
+                  }),
+                })}
+              </Label>
+            )}
           </div>
         </div>
 
@@ -102,20 +144,31 @@ export const ChoreBoard: React.FC<Props> = ({ state }) => {
             seasonalTicket: getSeasonalTicket(),
           })}
         </p>
+        {isLoveRushEventActive && hasUnlockedAllChores && (
+          <Label
+            type={hasCompleted21Chores ? "success" : "warning"}
+            icon={ITEM_DETAILS["Love Charm"].image}
+            secondaryIcon={
+              hasCompleted21Chores ? SUNNYSIDE.icons.confirm : undefined
+            }
+            className="my-1"
+          >
+            {t("loveRush.choreBonus")}
+          </Label>
+        )}
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 w-full ">
-          {getKeys(chores)
-            .filter((npc) => level >= NPC_CHORE_UNLOCKS[npc as NPCName])
-            .map((chore) => (
-              <ChoreCard
-                key={chore}
-                chore={chores[chore] as NpcChore}
-                npc={chore}
-                selected={selectedId}
-                onClick={setSelectedId}
-                state={state}
-              />
-            ))}
+        <div className="grid grid-cols-2 sm:grid-cols-3 w-full mt-1">
+          {unlockedChores.map((chore) => (
+            <ChoreCard
+              key={chore}
+              chore={chores[chore] as NpcChore}
+              npc={chore}
+              selected={selectedId}
+              onClick={setSelectedId}
+              state={state}
+              isLoveRushEventActive={isLoveRushEventActive}
+            />
+          ))}
           {nextUnlock && <LockedChoreCard npc={nextUnlock} />}
         </div>
       </InnerPanel>
@@ -223,6 +276,19 @@ export const ChoreBoard: React.FC<Props> = ({ state }) => {
                 <div className="flex absolute right-0 -top-5">
                   <ChoreRewardLabel chore={previewChore} state={state} />
                 </div>
+                {isLoveRushEventActive && (
+                  <div className="absolute -top-5 left-0">
+                    <div className="relative">
+                      <img
+                        src={ITEM_DETAILS["Love Charm"].image}
+                        className="w-12"
+                      />
+                      <p className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-shadow text-xs">
+                        {loveCharmReward}
+                      </p>
+                    </div>
+                  </div>
+                )}
               </Button>
             )}
 
@@ -245,7 +311,12 @@ export const ChoreCard: React.FC<{
   selected?: NPCName;
   onClick: (npc: NPCName) => void;
   state: GameState;
-}> = ({ npc, chore, onClick, state }) => {
+  isLoveRushEventActive: boolean;
+}> = ({ npc, chore, onClick, state, isLoveRushEventActive }) => {
+  const { loveCharmReward } = getLoveRushChoreReward({
+    game: state,
+    npcName: npc,
+  });
   return (
     <div className="py-1 px-1" key={npc}>
       <ButtonPanel
@@ -256,10 +327,19 @@ export const ChoreCard: React.FC<{
         variant={chore.completedAt ? "secondary" : "primary"}
         style={{ paddingBottom: chore.completedAt ? "16px" : "10px" }}
       >
+        {isLoveRushEventActive && (
+          <div className="absolute top-3 -right-4">
+            <div className="relative">
+              <img src={ITEM_DETAILS["Love Charm"].image} className="w-12" />
+              <p className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-shadow text-xs">
+                {loveCharmReward}
+              </p>
+            </div>
+          </div>
+        )}
         <div className="flex absolute -right-2 -top-4">
           <ChoreRewardLabel chore={chore} state={state} />
         </div>
-
         {!chore.completedAt &&
           getChoreProgress({
             chore,
@@ -270,7 +350,6 @@ export const ChoreCard: React.FC<{
               className="h-6 absolute -top-4 -left-3"
             />
           )}
-
         {chore.completedAt && (
           <div className="absolute -bottom-4 left-0 w-full flex justify-center">
             <img src={SUNNYSIDE.icons.confirm} className="h-6" />
@@ -286,13 +365,11 @@ export const ChoreCard: React.FC<{
             </div>
           </div>
         </div>
-
         <div className="w-full flex justify-center">
           <span className="text-xs line-clamp-2 text-center truncate">
             {CHORE_DETAILS[chore.name].description}
           </span>
         </div>
-
         {!chore.completedAt && (
           <div className="absolute -bottom-4 left-0 w-full flex justify-center">
             <ResizableBar

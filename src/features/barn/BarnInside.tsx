@@ -110,7 +110,7 @@ export const BarnInside: React.FC = () => {
     });
   }, [
     getKeys(barn.animals).length,
-    getValues(barn.animals).map((animal) => animal.state),
+    getValues(barn.animals).filter((animal) => animal.state === "sick").length,
     floorWidth,
   ]);
 

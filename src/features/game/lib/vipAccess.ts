@@ -47,7 +47,7 @@ export type VipBundle = "1_MONTH" | "3_MONTHS" | "2_YEARS";
 
 export const VIP_PRICES: Record<VipBundle, number> = {
   "1_MONTH": 800,
-  "3_MONTHS": 1200, // 20% off - 1500 normally
+  "3_MONTHS": 1500,
   "2_YEARS": 11500,
 };
 

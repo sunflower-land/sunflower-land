@@ -351,6 +351,9 @@ import { SummerChicken } from "./components/SummerChicken";
 import { Jellyfish } from "./components/Jellyfish";
 import { Chamomile } from "./components/Chamomile";
 import { BlackSheep } from "./components/BlackSheep";
+import { GoldenFence } from "./components/GoldenFence";
+import { GoldenStoneFence } from "./components/GoldenStoneFence";
+import { Tiles } from "./components/Tiles";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
@@ -1851,6 +1854,309 @@ export const COLLECTIBLE_COMPONENTS: Record<
       image={ITEM_DETAILS["Jin"].image}
       alt="Jin"
     />
+  ),
+  "Floral Arch": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 44}px`,
+        bottom: `${PIXEL_SCALE * -4}px`,
+        left: `${PIXEL_SCALE * 2}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 44}px`,
+      }}
+      image={ITEM_DETAILS["Floral Arch"].image}
+      alt="Floral Arch"
+    />
+  ),
+  "Flower Coin": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 34}px`,
+        bottom: `${PIXEL_SCALE * 3}px`,
+        left: `${PIXEL_SCALE * -1}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 34}px`,
+      }}
+      image={ITEM_DETAILS["Flower Coin"].image}
+      alt="Flower Coin"
+    />
+  ),
+  "Flower Statue": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 2}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Flower Statue"].image}
+      alt="Flower Statue"
+    />
+  ),
+  "Heartstruck Tree": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 31}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 2}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 31}px`,
+      }}
+      image={ITEM_DETAILS["Heartstruck Tree"].image}
+      alt="Heartstruck Tree"
+    />
+  ),
+  "Mermaid Fountain": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 36}px`,
+        bottom: `${PIXEL_SCALE * -2}px`,
+        left: `${PIXEL_SCALE * -2}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 36}px`,
+      }}
+      image={ITEM_DETAILS["Mermaid Fountain"].image}
+      alt="Mermaid Fountain"
+    />
+  ),
+  "Mysterious Entrance": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 54}px`,
+        bottom: `${PIXEL_SCALE * -2}px`,
+        left: `${PIXEL_SCALE * -3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 54}px`,
+      }}
+      image={ITEM_DETAILS["Mysterious Entrance"].image}
+      alt="Mysterious Entrance"
+    />
+  ),
+  "Streamer's Statue": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 19}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * -1.5}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 19}px`,
+      }}
+      image={ITEM_DETAILS["Streamer's Statue"].image}
+      alt="Streamer's Statue"
+    />
+  ),
+  Cetus: (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 50}px`,
+        bottom: `${PIXEL_SCALE * -1}px`,
+        left: `${PIXEL_SCALE * -2}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 50}px`,
+      }}
+      image={ITEM_DETAILS["Cetus"].image}
+      alt="Cetus"
+    />
+  ),
+  "Goldcrest Mosaic Rug": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 64}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 64}px`,
+      }}
+      image={ITEM_DETAILS["Goldcrest Mosaic Rug"].image}
+      alt="Goldcrest Mosaic Rug"
+    />
+  ),
+  "Sandy Mosaic Rug": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 64}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 64}px`,
+      }}
+      image={ITEM_DETAILS["Sandy Mosaic Rug"].image}
+      alt="Sandy Mosaic Rug"
+    />
+  ),
+  "Twilight Rug": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 64}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 64}px`,
+      }}
+      image={ITEM_DETAILS["Twilight Rug"].image}
+      alt="Twilight Rug"
+    />
+  ),
+  "Orchard Rug": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 64}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 64}px`,
+      }}
+      image={ITEM_DETAILS["Orchard Rug"].image}
+      alt="Orchard Rug"
+    />
+  ),
+  "Carrot Rug": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 64}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 64}px`,
+      }}
+      image={ITEM_DETAILS["Carrot Rug"].image}
+      alt="Carrot Rug"
+    />
+  ),
+  "Beetroot Rug": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 64}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 64}px`,
+      }}
+      image={ITEM_DETAILS["Beetroot Rug"].image}
+      alt="Beetroot Rug"
+    />
+  ),
+  "Harlequin Rug": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 64}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 64}px`,
+      }}
+      image={ITEM_DETAILS["Harlequin Rug"].image}
+      alt="Harlequin Rug"
+    />
+  ),
+  "Large Rug": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 64}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 64}px`,
+      }}
+      image={ITEM_DETAILS["Large Rug"].image}
+      alt="Large Rug"
+    />
+  ),
+  "Golden Fence": GoldenFence,
+  "Golden Stone Fence": GoldenStoneFence,
+  "Golden Pine Tree": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 18}px`,
+        bottom: `${PIXEL_SCALE * 3}px`,
+        left: `${PIXEL_SCALE * -1}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 18}px`,
+      }}
+      image={ITEM_DETAILS["Golden Pine Tree"].image}
+      alt="Golden Pine Tree"
+    />
+  ),
+  "Golden Tree": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 26}px`,
+        bottom: `${PIXEL_SCALE * 2}px`,
+        left: `${PIXEL_SCALE * 3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 26}px`,
+      }}
+      image={ITEM_DETAILS["Golden Tree"].image}
+      alt="Golden Tree"
+    />
+  ),
+  "Golden Bush": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 24}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 4}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 24}px`,
+      }}
+      image={ITEM_DETAILS["Golden Bush"].image}
+      alt="Golden Bush"
+    />
+  ),
+  "Black Tile": (props: CollectibleProps) => (
+    <Tiles {...props} name="Black Tile" />
+  ),
+  "Blue Tile": (props: CollectibleProps) => (
+    <Tiles {...props} name="Blue Tile" />
+  ),
+  "Green Tile": (props: CollectibleProps) => (
+    <Tiles {...props} name="Green Tile" />
+  ),
+  "Purple Tile": (props: CollectibleProps) => (
+    <Tiles {...props} name="Purple Tile" />
+  ),
+  "Red Tile": (props: CollectibleProps) => <Tiles {...props} name="Red Tile" />,
+  "Yellow Tile": (props: CollectibleProps) => (
+    <Tiles {...props} name="Yellow Tile" />
   ),
 };
 // Need readonly versions for some troublesome components while in design mode

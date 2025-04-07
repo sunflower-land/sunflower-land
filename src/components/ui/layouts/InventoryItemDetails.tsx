@@ -23,6 +23,7 @@ import {
 } from "features/game/events/landExpansion/upgradeBuilding";
 import { makeUpgradableBuildingKey } from "features/game/events/landExpansion/upgradeBuilding";
 import { BuildingName } from "features/game/types/buildings";
+import { BumpkinRevampSkillName } from "features/game/types/bumpkinSkills";
 
 /**
  * The props for the details for items.
@@ -104,7 +105,10 @@ export const InventoryItemDetails: React.FC<Props> = ({
           isCollectibleBuilt({
             name: boostedDescription.name as CollectibleName,
             game,
-          })
+          }) ||
+          game.bumpkin?.skills[
+            boostedDescription.name as BumpkinRevampSkillName
+          ]
         ) {
           description = boostedDescription.description;
         }

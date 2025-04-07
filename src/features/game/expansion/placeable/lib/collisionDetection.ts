@@ -276,6 +276,20 @@ export const NON_COLLIDING_OBJECTS: InventoryItemName[] = [
   "Crop Circle",
   "Christmas Rug",
   "Lake Rug",
+  "Goldcrest Mosaic Rug",
+  "Sandy Mosaic Rug",
+  "Twilight Rug",
+  "Orchard Rug",
+  "Carrot Rug",
+  "Beetroot Rug",
+  "Harlequin Rug",
+  "Large Rug",
+  "Black Tile",
+  "Blue Tile",
+  "Green Tile",
+  "Purple Tile",
+  "Red Tile",
+  "Yellow Tile",
 ];
 
 function detectHomeCollision({

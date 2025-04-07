@@ -66,7 +66,7 @@ const HudComponent: React.FC = () => {
   const isTutorial = gameState.context.state.island.type === "basic";
   const hasReferralProgram = hasFeatureAccess(
     gameState.context.state,
-    "REFERRAL_PROGRAM",
+    "TASK_BOARD",
   );
   return (
     <>

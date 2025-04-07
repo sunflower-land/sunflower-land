@@ -26,6 +26,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { hasFeatureAccess } from "lib/flags";
 import flowerIcon from "assets/icons/flower_token.webp";
 import Decimal from "decimal.js-light";
+import { wallet } from "lib/blockchain/wallet";
 
 export interface Price {
   amount: number;
@@ -57,49 +58,37 @@ const _starterOfferSecondsLeft = (state: MachineState) => {
   );
 };
 
-interface Props {
-  isSaving: boolean;
-  price?: { usd: number; amount: number };
-  hideIntroLabel?: boolean;
-  setPrice: (price?: { usd: number; amount: number }) => void;
+const MaticBuyGems: React.FC<{
+  price: Price;
+  setPrice: (price: Price | undefined) => void;
   onMaticBuy: () => void;
-  onFlowerBuy: (quote: number) => void;
-  onCreditCardBuy: () => void;
-  onHideBuyBBLabel: (hide: boolean) => void;
-  onBack?: () => void;
-}
-
-export const BuyGems: React.FC<Props> = ({
-  isSaving,
-  price,
-  setPrice,
-  onMaticBuy,
-  onFlowerBuy,
-  onCreditCardBuy,
-  onHideBuyBBLabel,
-  onBack,
-}) => {
-  const { gameService } = useContext(Context);
-  const startOfferSecondsLeft = useSelector(
-    gameService,
-    _starterOfferSecondsLeft,
-  );
-
-  const [showMaticConfirm, setShowMaticConfirm] = useState(false);
-  const [showFlowerConfirm, setShowFlowerConfirm] = useState(false);
+}> = ({ setPrice, price, onMaticBuy }) => {
   const { t } = useAppTranslation();
 
-  useEffect(() => {
-    if (showMaticConfirm || showFlowerConfirm) {
-      onHideBuyBBLabel(true);
-    } else {
-      onHideBuyBBLabel(false);
-    }
-  }, [showMaticConfirm, showFlowerConfirm, onHideBuyBBLabel]);
+  const [isLoadingMatic, setIsLoadingMatic] = useState(true);
+  const [maticBalance, setMaticBalance] = useState<Decimal>(new Decimal(0));
 
-  if (!!price && showMaticConfirm) {
+  useEffect(() => {
+    const fetchMaticBalance = async () => {
+      setIsLoadingMatic(true);
+      const balance = await wallet.getMaticBalance();
+
+      setMaticBalance(new Decimal(balance));
+      setIsLoadingMatic(false);
+    };
+
+    fetchMaticBalance();
+  }, []);
+
+  const hasMatic = maticBalance.gt(0.1);
+
+  if (isLoadingMatic) {
+    return <Loading />;
+  }
+
+  if (!hasMatic) {
     return (
-      <GameWallet action="purchase">
+      <>
         <div className="flex items-center gap-2">
           <img
             src={SUNNYSIDE.icons.arrow_left}
@@ -130,7 +119,97 @@ export const BuyGems: React.FC<Props> = ({
           {/* <p className="mr-2 mb-1">{`${t("total")}: ${price.usd} USD`}</p> */}
         </div>
 
-        <Button onClick={() => onMaticBuy()}>{t("confirm")}</Button>
+        <Label type="danger">{t("error.insufficientMatic")}</Label>
+
+        <Button disabled={true}>{t("confirm")}</Button>
+      </>
+    );
+  }
+
+  return (
+    <GameWallet action="confirmPurchase">
+      <div className="flex items-center gap-2">
+        <img
+          src={SUNNYSIDE.icons.arrow_left}
+          className="w-6 cursor-pointer"
+          onClick={() => setPrice(undefined)}
+        />
+
+        <Label type="default" icon={ITEM_DETAILS.Gem.image} className="ml-1.5">
+          {t("transaction.buy.gems")}
+        </Label>
+      </div>
+      <p className="text-xxs italic mt-1">{t("transaction.excludeFees")}</p>
+      <div className="flex flex-col w-full items-center mb-2 px-2 text-sm">
+        <div className="flex w-full py-3 items-center text-sm justify-between">
+          <div className="flex items-center space-x-2">
+            <span>
+              {t("item")} {price.amount} {"x"}
+            </span>
+            <img src={ITEM_DETAILS.Gem.image} className="w-6" />
+          </div>
+          <span>{`${t("total")}: US$${price.usd}`}</span>
+        </div>
+
+        {/* <p className="mr-2 mb-1">{`${t("total")}: ${price.usd} USD`}</p> */}
+      </div>
+
+      <Button onClick={() => onMaticBuy()}>{t("confirm")}</Button>
+    </GameWallet>
+  );
+};
+
+interface Props {
+  isSaving: boolean;
+  price?: { usd: number; amount: number };
+  hideIntroLabel?: boolean;
+  setPrice: (price?: { usd: number; amount: number }) => void;
+  onMaticBuy: () => void;
+  onFlowerBuy: (quote: number) => void;
+  onCreditCardBuy: () => void;
+  onHideBuyBBLabel: (hide: boolean) => void;
+  onBack?: () => void;
+}
+
+export const BuyGems: React.FC<Props> = ({
+  isSaving,
+  price,
+  setPrice,
+  onMaticBuy,
+  onFlowerBuy,
+  onCreditCardBuy,
+  onHideBuyBBLabel,
+  onBack,
+}) => {
+  const { gameService } = useContext(Context);
+  const startOfferSecondsLeft = useSelector(
+    gameService,
+    _starterOfferSecondsLeft,
+  );
+
+  const [isLoadingMatic, setIsLoadingMatic] = useState(true);
+  const [maticBalance, setMaticBalance] = useState<Decimal>(new Decimal(0));
+
+  const [showMaticConfirm, setShowMaticConfirm] = useState(false);
+  const [showFlowerConfirm, setShowFlowerConfirm] = useState(false);
+  const { t } = useAppTranslation();
+
+  useEffect(() => {
+    if (showMaticConfirm || showFlowerConfirm) {
+      onHideBuyBBLabel(true);
+    } else {
+      onHideBuyBBLabel(false);
+    }
+  }, [showMaticConfirm, showFlowerConfirm, onHideBuyBBLabel]);
+
+  if (!!price && showMaticConfirm) {
+    return (
+      <GameWallet action="purchase">
+        <MaticBuyGems
+          price={price}
+          setPrice={setPrice}
+          onMaticBuy={onMaticBuy}
+        />
       </GameWallet>
     );
   }

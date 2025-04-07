@@ -15,13 +15,7 @@ import {
   CreateConnectorFn,
   disconnect,
 } from "@wagmi/core";
-import {
-  bitGetConnector,
-  config,
-  cryptoComConnector,
-  okexConnector,
-  phantomConnector,
-} from "./WalletProvider";
+import { config } from "./WalletProvider";
 import { generateSignatureMessage, wallet } from "lib/blockchain/wallet";
 
 export const ART_MODE = !CONFIG.API_URL;
@@ -45,24 +39,27 @@ export type WalletAction =
   | "specialEvent"
   | "login"
   | "deposit"
+  | "confirmDeposit" // Only used if the player has items in their wallet
   | "withdraw"
   | "purchase"
+  | "confirmPurchase" // Only used if the player has POL
   | "donate"
   | "dailyReward"
   | "sync"
   | "dequip"
-  | "wishingWell"
-  | "connectWallet"
   | "marketplace"
-  | "refresh";
+  | "transfer";
 
 // Certain actions do not require an NFT to perform
 const NON_NFT_ACTIONS: WalletAction[] = [
   "login",
+  "deposit",
+  "purchase",
   "donate",
   "dailyReward",
   "specialEvent",
   "dequip",
+  "marketplace",
 ];
 
 const NON_POLYGON_ACTIONS: WalletAction[] = ["login", "dailyReward"];
@@ -179,18 +176,7 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
                 throw new Error(ERRORS.WEB3_REJECTED);
               }
 
-              switch (connector) {
-                case okexConnector:
-                  throw new Error(ERRORS.NO_WEB3);
-                case bitGetConnector:
-                  throw new Error(ERRORS.NO_WEB3_BITGET);
-                case cryptoComConnector:
-                  throw new Error(ERRORS.NO_WEB3_CRYPTO_COM);
-                case phantomConnector:
-                  throw new Error(ERRORS.NO_WEB3_PHANTOM);
-                default:
-                  throw new Error(ERRORS.NO_WEB3);
-              }
+              throw new Error(ERRORS.NO_WEB3);
             }
             account = getAccount(config);
           }

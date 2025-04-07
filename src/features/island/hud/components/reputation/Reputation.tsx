@@ -23,12 +23,12 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import lockIcon from "assets/icons/lock.png";
 import tradeIcon from "assets/icons/trade.png";
 import increaseArrow from "assets/icons/increase_arrow.png";
-import sflIcon from "assets/icons/sfl.webp";
+import sflIcon from "assets/icons/flower_token.webp";
 import walletIcon from "assets/icons/wallet.png";
 import hammerinHarry from "assets/npcs/hammerin_harry.webp";
 import salesIcon from "assets/icons/sale.webp";
 import { UPGRADE_RAFTS } from "features/game/expansion/components/IslandUpgrader";
-import boat from "assets/decorations/isles_boat.png";
+import settings from "assets/icons/settings_disc.png";
 import bank from "assets/icons/withdraw.png";
 import bud from "assets/icons/bud.png";
 
@@ -383,7 +383,7 @@ export const ReputationGuide: React.FC<Props> = ({ onClose }) => {
     },
     {
       content: t("reputation.guide.connectDiscord"),
-      icon: boat,
+      icon: settings,
     },
     {
       content: t("reputation.guide.proofOfHumanity"),

@@ -29,7 +29,6 @@ import {
   isChrome,
 } from "mobile-device-detect";
 import { DequipBumpkin } from "./blockchain-settings/DequipBumpkin";
-import { TransferAccount } from "./blockchain-settings/TransferAccount";
 import { AddSFL } from "../AddSFL";
 import { GeneralSettings } from "./general-settings/GeneralSettings";
 import { InstallAppModal } from "./general-settings/InstallAppModal";
@@ -41,11 +40,8 @@ import { Discord } from "./general-settings/DiscordModal";
 import { DepositWrapper } from "features/goblins/bank/components/Deposit";
 import { useSound } from "lib/utils/hooks/useSound";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
-import ticket from "assets/icons/ticket.png";
 import lockIcon from "assets/icons/lock.png";
-import telegramIcon from "assets/icons/telegram.webp";
 import { DEV_HoarderCheck } from "./developer-options/DEV_HoardingCheck";
-import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
 import { PickServer } from "./plaza-settings/PickServer";
 import { PlazaShaderSettings } from "./plaza-settings/PlazaShaderSettings";
 import { Preferences } from "./general-settings/Preferences";
@@ -57,11 +53,15 @@ import {
 import { preload } from "swr";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
-import { LockdownWidget } from "features/announcements/AnnouncementWidgets";
+import {
+  LockdownWidget,
+  ReferralWidget,
+} from "features/announcements/AnnouncementWidgets";
 import { AirdropPlayer } from "./general-settings/AirdropPlayer";
 import { hasFeatureAccess } from "lib/flags";
 import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
+import { TransferAccountWrapper } from "./blockchain-settings/TransferAccount";
 
 export interface ContentComponentProps {
   onSubMenuClick: (id: SettingMenuId) => void;
@@ -90,7 +90,6 @@ const GameOptions: React.FC<ContentComponentProps> = ({
 
   const [isConfirmLogoutModalOpen, showConfirmLogoutModal] = useState(false);
   const [showFarm, setShowFarm] = useState(false);
-  const [showNftId, setShowNftId] = useState(false);
 
   const copypaste = useSound("copypaste");
 
@@ -156,36 +155,6 @@ const GameOptions: React.FC<ContentComponentProps> = ({
               farmId: gameService.state?.context?.farmId,
             })}
           </Label>
-          {gameService.state?.context?.nftId !== undefined && (
-            <Label
-              type="default"
-              icon={ticket}
-              popup={showNftId}
-              className="mb-1 mr-4"
-              onClick={() => {
-                setShowNftId(true);
-                setTimeout(() => {
-                  setShowNftId(false);
-                }, 2000);
-                copypaste.play();
-                clipboard.copy(
-                  gameService.state?.context?.nftId?.toString() || "",
-                );
-              }}
-            >
-              {`NFT ID #${gameService.state?.context?.nftId}`}
-            </Label>
-          )}
-        </div>
-        <div className="flex flex-wrap items-center justify-between mx-2">
-          {gameService.state?.context?.linkedWallet && (
-            <WalletAddressLabel
-              walletAddress={
-                (gameService.state?.context?.linkedWallet as string) || "XXXX"
-              }
-              showLabelTitle={true}
-            />
-          )}
         </div>
       </>
       <div className="flex flex-col gap-1">
@@ -252,25 +221,6 @@ const GameOptions: React.FC<ContentComponentProps> = ({
             {CONFIG.RELEASE_VERSION?.split("-")[0]}
           </a>
         </p>
-        {hasFeatureAccess(gameService.state?.context?.state, "TELEGRAM") && (
-          <div className="flex">
-            <Button className="p-1 w-10 h-10 mr-1" disabled>
-              <img src={SUNNYSIDE.icons.expression_confused} className="h-4" />
-            </Button>
-            <Button
-              className="p-1 w-10 h-10 mr-1"
-              onClick={() => openModal("TWITTER")}
-            >
-              <img src={SUNNYSIDE.icons.expression_chat} className="h-4" />
-            </Button>
-            <Button
-              className="p-1 w-10 h-10"
-              onClick={() => openModal("TELEGRAM")}
-            >
-              <img src={telegramIcon} className="h-4" />
-            </Button>
-          </div>
-        )}
       </div>
       <ConfirmationModal
         show={isConfirmLogoutModalOpen}
@@ -339,6 +289,7 @@ export const GameOptionsModal: React.FC<GameOptionsModalProps> = ({
         <SelectedComponent onSubMenuClick={setSelected} onClose={onHide} />
       </CloseButtonPanel>
       <LockdownWidget />
+      <ReferralWidget />
     </Modal>
   );
 };
@@ -424,7 +375,7 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
   transfer: {
     title: translate("gameOptions.blockchainSettings.transferOwnership"),
     parent: "blockchain",
-    content: TransferAccount,
+    content: TransferAccountWrapper,
   },
   swapSFL: {
     title: translate("gameOptions.blockchainSettings.swapPOLForSFL"),

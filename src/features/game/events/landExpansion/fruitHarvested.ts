@@ -25,6 +25,7 @@ import { isGreenhouseFruit } from "./plantGreenhouse";
 import { FACTION_ITEMS } from "features/game/lib/factions";
 import { produce } from "immer";
 import { getActiveCalendarEvent } from "features/game/types/calendar";
+import { getFruitfulBlendBuff } from "./fertiliseFruitPatch";
 
 export type HarvestFruitAction = {
   type: "fruit.harvested";
@@ -160,12 +161,7 @@ export function getFruitYield({ name, game, fertiliser }: FruitYield) {
   }
 
   if (fertiliser === "Fruitful Blend") {
-    const fruitfulBlendBuff = 0.1;
-    if (bumpkin.skills["Fruitful Bounty"]) {
-      amount += fruitfulBlendBuff * 2;
-    } else {
-      amount += fruitfulBlendBuff;
-    }
+    amount += getFruitfulBlendBuff(game);
   }
 
   if (name === "Banana" && isWearableActive({ name: "Banana Amulet", game })) {

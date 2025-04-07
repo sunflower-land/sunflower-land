@@ -90,8 +90,6 @@ const WalletContent: React.FC<{ id?: number }> = ({ id }) => {
               connector,
             })
           }
-          // Once logged in, only show Metamask for simplicity
-          showAll={!id}
         />
       </>
     );
@@ -461,8 +459,6 @@ const PortalWalletContent: React.FC<Props> = ({ id, farmAddress, action }) => {
               connector,
             })
           }
-          // Once logged in, only show Metamask for simplicity
-          showAll={!id}
         />
       </>
     );

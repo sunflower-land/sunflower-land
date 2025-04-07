@@ -37,9 +37,9 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { TranslationKeys } from "lib/i18n/dictionaries/types";
-import confetti from "canvas-confetti";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { REPUTATION_POINTS } from "features/game/lib/reputation";
+import * as Auth from "features/auth/lib/Provider";
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _vip = (state: MachineState) => state.context.state.vip;
@@ -61,7 +61,7 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
   const { gameService } = useContext(Context);
   const [selected, setSelected] = useState<VipBundle>();
   const { t } = useAppTranslation();
-
+  const { authService } = useContext(Auth.Context);
   const inventory = useSelector(gameService, _inventory);
   const vip = useSelector(gameService, _vip);
   const state = useSelector(gameService, _state);
@@ -69,17 +69,20 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
   const gemBalance = inventory["Gem"] ?? new Decimal(0);
 
   const handlePurchase = () => {
-    gameService.send("vip.purchased", {
-      name: selected,
+    gameService.send("vip.bought", {
+      effect: {
+        type: "vip.bought",
+        bundle: selected,
+      },
+      authToken: authService.state.context.user.rawToken as string,
     });
     gameAnalytics.trackSink({
       currency: "Gem",
       amount: VIP_PRICES[selected as VipBundle],
-      item: selected!,
+      item: selected as VipBundle,
       type: "Web3",
     });
     setSelected(undefined);
-    confetti();
   };
 
   const hasVip = hasVipAccess({ game: state });
@@ -280,16 +283,6 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
                   disableVipPurchase || (roninVip && isRoninVipOnCooldown)
                 }
               >
-                {name === "3_MONTHS" && (
-                  <>
-                    <Label type="info" className="absolute -top-5 -right-2">
-                      {t("vip.3Months.discount")}
-                    </Label>
-                    <p className="text-xs absolute bottom-5 line-through right-0">
-                      {`1500`}
-                    </p>
-                  </>
-                )}
                 <span className="whitespace-nowrap mb-2 mt-0.5">
                   {t(VIP_NAME[name])}
                 </span>

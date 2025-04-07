@@ -9,7 +9,7 @@ import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
 
 import tradeIcon from "assets/icons/trade.png";
-import sflIcon from "assets/icons/sfl.webp";
+import sflIcon from "assets/icons/flower_token.webp";
 import giftIcon from "assets/icons/gift.png";
 import { Label } from "components/ui/Label";
 

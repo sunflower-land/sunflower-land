@@ -20,8 +20,8 @@ const _level = (state: MachineState) =>
   getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
 
 // To delete after feature flag is removed
-const _hasReferralProgram = (state: MachineState) =>
-  hasFeatureAccess(state.context.state, "REFERRAL_PROGRAM");
+const _hasTaskBoard = (state: MachineState) =>
+  hasFeatureAccess(state.context.state, "TASK_BOARD");
 
 export const CodexButton: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -29,7 +29,7 @@ export const CodexButton: React.FC = () => {
   const { gameService } = useContext(Context);
 
   const deliveries = useSelector(gameService, _delivery);
-  const hasReferralProgram = useSelector(gameService, _hasReferralProgram);
+  const hasTaskBoard = useSelector(gameService, _hasTaskBoard);
   const level = useSelector(gameService, _level);
 
   const hasDeliveries =
@@ -40,7 +40,7 @@ export const CodexButton: React.FC = () => {
 
   const { t } = useAppTranslation();
 
-  if (!hasReferralProgram) {
+  if (!hasTaskBoard) {
     return (
       <>
         <RoundButton
@@ -150,8 +150,8 @@ export const CodexButton: React.FC = () => {
     <div
       className="absolute"
       style={{
-        top: `${PIXEL_SCALE * 30}px`,
-        left: `${PIXEL_SCALE * 30}px`,
+        top: `${PIXEL_SCALE * 29}px`,
+        left: `${PIXEL_SCALE * 28}px`,
       }}
     >
       <RoundButton
@@ -183,7 +183,7 @@ export const CodexButton: React.FC = () => {
               className="absolute hidden sm:block"
               style={{
                 width: `${PIXEL_SCALE * 68}px`,
-                left: `${PIXEL_SCALE * 13}px`,
+                left: `${PIXEL_SCALE * 10}px`,
                 top: `${PIXEL_SCALE * 5}px`,
               }}
             >

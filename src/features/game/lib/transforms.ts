@@ -45,6 +45,7 @@ export function makeGame(farm: any): GameState {
     balance: new Decimal(farm.balance),
     previousBalance: new Decimal(farm.previousBalance),
     username: farm.username,
+    settings: farm.settings,
     trades: farm.trades,
     farmHands: farm.farmHands,
 
@@ -57,7 +58,7 @@ export function makeGame(farm: any): GameState {
 
     shipments: farm.shipments,
     gems: farm.gems,
-
+    flower: farm.flower,
     bumpkin: farm.bumpkin,
     buildings: farm.buildings,
     fishing: farm.fishing ?? { wharf: {}, beach: {} },

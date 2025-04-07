@@ -6,7 +6,7 @@ import { InnerPanel } from "components/ui/Panel";
 import { FactionName, InventoryItemName } from "../types/game";
 import Decimal from "decimal.js-light";
 import { formatNumber } from "lib/utils/formatNumber";
-import token from "assets/icons/sfl.webp";
+import token from "assets/icons/flower_token.webp";
 import levelup from "assets/icons/level_up.png";
 import { HudContainer } from "components/ui/HudContainer";
 import coins from "assets/icons/coins.webp";

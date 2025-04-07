@@ -140,7 +140,8 @@ class GameAnalyticTracker {
       | "Instant Expand"
       | "Instant Build"
       | "Instant Cook"
-      | "Skills Reset";
+      | "Skills Reset"
+      | "Username Change";
   }) {
     const { currency, amount, type, item } = event;
 

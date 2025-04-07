@@ -1,6 +1,5 @@
 import React, { useContext } from "react";
-
-import token from "assets/icons/sfl.webp";
+import flowerIcon from "assets/icons/flower_token.webp";
 
 import { Context } from "../GameProvider";
 import { useActor } from "@xstate/react";
@@ -27,7 +26,7 @@ export const Hoarding: React.FC = () => {
 
   let maxedItemImage = "";
   if (maxedItem === "SFL") {
-    maxedItemImage = token;
+    maxedItemImage = flowerIcon;
   } else if (isCollectible(maxedItem)) {
     maxedItemImage = ITEM_DETAILS[maxedItem].image;
   } else {

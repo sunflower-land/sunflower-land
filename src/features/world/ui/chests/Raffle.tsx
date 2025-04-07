@@ -55,7 +55,7 @@ export const Raffle: React.FC<Props> = ({ onClose }) => {
           </Label>
         </div>
         <p className="text-xs mb-2">{t("raffle.description")}</p>
-        <p className="text-xs mb-1 font-secondary">{`- 5 x 1000 SFL winners`}</p>
+        <p className="text-xs mb-1 font-secondary">{`- 5 x 1000 FLOWER winners`}</p>
         <p className="text-xs mb-2 font-secondary">{`- 2 Bud NFTs`}</p>
         <div className="flex justify-between items-center">
           <Label

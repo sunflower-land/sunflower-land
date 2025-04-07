@@ -5,15 +5,13 @@ import { sanitizeHTTPResponse } from "lib/network";
 import { makeGame } from "../lib/transforms";
 import { GameState, Purchase } from "../types/game";
 import { Announcements } from "../types/announcements";
-import {
-  getReferrerId,
-  getSignupMethod,
-} from "features/auth/actions/createAccount";
+import { getSignupMethod } from "features/auth/actions/createAccount";
 import { Moderation } from "../lib/gameMachine";
 
 type Request = {
   token: string;
   transactionId: string;
+  wallet?: string;
 };
 
 type Response = {
@@ -57,8 +55,9 @@ export async function loadSession(
   }
 
   const promoCode = getPromoCode();
-  const referrerId = getReferrerId();
   const signUpMethod = getSignupMethod();
+
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   const response = await window.fetch(`${API_URL}/session`, {
     method: "POST",
@@ -72,8 +71,9 @@ export async function loadSession(
     body: JSON.stringify({
       clientVersion: CONFIG.CLIENT_VERSION as string,
       promoCode,
-      referrerId,
       signUpMethod,
+      timezone,
+      wallet: request.wallet,
     }),
   });
 

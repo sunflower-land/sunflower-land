@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { BumpkinItem } from "features/game/types/bumpkin";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys } from "features/game/types/decorations";
 import {
   GameState,
   InventoryItemName,
@@ -22,6 +22,10 @@ type Options = {
 
 export function claimOffer({ state, action, createdAt = Date.now() }: Options) {
   return produce(state, (game) => {
+    if (state.transaction) {
+      throw new Error("Transaction in progress");
+    }
+
     const offerIds = getKeys(game.trades.offers ?? {}).filter((id) =>
       action.tradeIds.includes(id),
     );
@@ -36,11 +40,7 @@ export function claimOffer({ state, action, createdAt = Date.now() }: Options) {
       throw new Error("One or more offers have not been fulfilled");
     }
 
-    const instantOffers = offerIds.filter(
-      (offerId) => !game.trades.offers?.[offerId].signature,
-    );
-
-    instantOffers.forEach((offerId) => {
+    offerIds.forEach((offerId) => {
       const offer = game.trades.offers?.[offerId] as TradeOffer;
 
       const item = getKeys(offer.items)[0];
@@ -50,9 +50,21 @@ export function claimOffer({ state, action, createdAt = Date.now() }: Options) {
         const count =
           game.inventory[item as InventoryItemName] ?? new Decimal(0);
         game.inventory[item as InventoryItemName] = count.add(amount);
+
+        if (offer.tradeType === "onchain") {
+          const previousCount =
+            game.previousInventory[item as InventoryItemName] ?? new Decimal(0);
+          game.previousInventory[item as InventoryItemName] =
+            previousCount.add(amount);
+        }
       } else if (offer.collection === "wearables") {
         const count = game.wardrobe[item as BumpkinItem] ?? 0;
         game.wardrobe[item as BumpkinItem] = count + amount;
+
+        if (offer.tradeType === "onchain") {
+          const previousCount = game.previousWardrobe[item as BumpkinItem] ?? 0;
+          game.previousWardrobe[item as BumpkinItem] = previousCount + amount;
+        }
       }
 
       game = addTradePoints({
@@ -64,7 +76,5 @@ export function claimOffer({ state, action, createdAt = Date.now() }: Options) {
 
       delete game.trades.offers?.[offerId];
     });
-
-    return game;
   });
 }
