@@ -294,7 +294,7 @@ const PWAWallets: React.FC<
         </div>
       </Button>
       <RoninWallets onConnect={onConnect} setRoninDeepLink={setRoninDeepLink} />
-      <CoinBaseWallets onConnect={onConnect} />
+      {/* <CoinBaseWallets onConnect={onConnect} /> */}
       <Button
         className="mb-1 py-2 text-sm relative"
         onClick={() => {
