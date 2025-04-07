@@ -375,7 +375,7 @@ export const Wallets: React.FC<Props> = ({ onConnect }) => {
   // There is an injected provider, but it's not showing up in EIP-6963
   const showFallback = !!window.ethereum && eip6963Connectors.length === 0;
 
-  if (showFallback) {
+  if (showFallback && page === "home") {
     return (
       <>
         <Button
@@ -407,6 +407,22 @@ export const Wallets: React.FC<Props> = ({ onConnect }) => {
   }
   return (
     <>
+      {showFallback && (
+        <>
+          <Button
+            className="mb-1 py-2 text-sm relative"
+            onClick={() => onConnect(fallbackConnector)}
+          >
+            <div className="px-8">
+              <img
+                src={SUNNYSIDE.icons.worldIcon}
+                className="w-7 h-7 mobile:w-6 mobile:h-6  ml-2 mr-6 absolute left-0 top-1"
+              />
+              {"Web3 Wallet"}
+            </div>
+          </Button>
+        </>
+      )}
       {/** Metamask and Ronin have custom buttons - don't show the injected connectors */}
       {eip6963Connectors
         .filter((connector) => connector.name !== "MetaMask")
