@@ -3,6 +3,8 @@ import { Player } from "../ModerationTools";
 import { Button } from "components/ui/Button";
 
 import { kickPlayer } from "features/world/lib/moderationAction";
+import { Effect, postEffect } from "features/game/actions/effect";
+import { randomID } from "lib/utils/random";
 
 type Props = {
   scene: any;
@@ -29,6 +31,21 @@ export const KickModal: React.FC<Props> = ({
   const handleKickAction = async () => {
     if (!authState || !farmId) return;
     setKickStatus("loading");
+
+    try {
+      await postEffect({
+        farmId: moderatorFarmId,
+        token: authState.rawToken as string,
+        transactionId: randomID(),
+        effect: {
+          type: "moderation.kicked",
+          kickedId: farmId,
+          reason: reason,
+        } as Effect,
+      });
+    } catch (e) {
+      setKickStatus("error");
+    }
 
     await kickPlayer({
       token: authState.rawToken as string,
