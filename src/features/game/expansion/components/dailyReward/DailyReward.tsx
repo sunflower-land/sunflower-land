@@ -349,6 +349,12 @@ export const DailyRewardContent: React.FC<{
     if (chestState.matches("error")) {
       return (
         <>
+          <DropdownPanel<NetworkName>
+            options={networkOptions}
+            value={network}
+            onChange={handleNetworkChange}
+            placeholder={t("deposit.flower.selectNetwork")}
+          />
           <div className="flex flex-col items-center p-2">
             <Label type="danger" className="px-0.5 mb-2 text-base">
               {t("error.wentWrong")}
