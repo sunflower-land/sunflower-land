@@ -233,7 +233,7 @@ const CoinBaseWallets: React.FC<Props> = ({ onConnect }) => {
     .filter((connector) => connector.name === "Coinbase Wallet");
 
   useEffect(() => {
-    if (eip6963Connectors.length === 0) {
+    if (!isPWA && eip6963Connectors.length === 0) {
       onConnect(coinbaseConnector);
     }
   }, []);
@@ -294,7 +294,7 @@ const PWAWallets: React.FC<
         </div>
       </Button>
       <RoninWallets onConnect={onConnect} setRoninDeepLink={setRoninDeepLink} />
-      {/* <CoinBaseWallets onConnect={onConnect} /> */}
+      <CoinBaseWallets onConnect={onConnect} />
       <Button
         className="mb-1 py-2 text-sm relative"
         onClick={() => {
