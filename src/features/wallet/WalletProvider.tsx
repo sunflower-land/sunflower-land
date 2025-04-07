@@ -131,13 +131,6 @@ export const WalletProvider: React.FC = ({ children }) => {
     walletMachine,
   ) as unknown as MachineInterpreter;
 
-  // React.useEffect(() => {
-  //   const subscription = walletService.subscribe((state) => {
-  //     console.log("Wallet Machine State:", state.value);
-  //   });
-  //   return () => subscription.unsubscribe();
-  // }, [walletService]);
-
   return (
     <WalletContext.Provider value={{ walletService }}>
       {children}

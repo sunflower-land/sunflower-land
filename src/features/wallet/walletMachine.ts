@@ -3,7 +3,6 @@ import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { getFarms } from "lib/blockchain/Farm";
 import { mintNFTFarm } from "./actions/mintFarm";
-import { migrate } from "./actions/migrate";
 import { getCreatedAt } from "lib/blockchain/AccountMinter";
 import { Connector } from "wagmi";
 import {
@@ -374,7 +373,7 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
     minting: {
       id: "minting",
       invoke: {
-        src: async (context, event) => {
+        src: async (context) => {
           const createdAt = await getCreatedAt(
             context.address as `0x${string}`,
             context.address as `0x${string}`,
@@ -439,14 +438,21 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
     migrating: {
       id: "migrating",
       invoke: {
-        src: async (context, event) => {
-          const { farmId, farmAddress, nftId } = await migrate({
-            id: context.id as number,
-            jwt: context.jwt as string,
-            transactionId: "0xTODO",
+        src: async (context) => {
+          const { data } = await postEffect({
+            farmId: Number(context.id),
+            token: context.jwt as string,
+            transactionId: randomID(),
+            effect: {
+              type: "account.migrated",
+            } as Effect,
           });
 
-          return { farmAddress, farmId, nftId };
+          return {
+            farmAddress: data.farmAddress,
+            farmId: data.farmId,
+            nftId: data.nftId,
+          };
         },
         onDone: [
           {

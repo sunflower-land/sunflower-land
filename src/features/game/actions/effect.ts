@@ -26,13 +26,11 @@ type EffectName =
   | "username.changed"
   | "streamReward.claimed"
   | "blockchainBox.claimed"
-<<<<<<< HEAD
   | "withdraw.items"
   | "withdraw.wearables"
-  | "withdraw.buds";
-=======
-  | "wallet.linked";
->>>>>>> e91a823a8 ([WIP] Link wallet effect)
+  | "withdraw.buds"
+  | "wallet.linked"
+  | "account.migrated";
 
 export type StateName =
   | "marketplacePurchasing"
@@ -58,14 +56,19 @@ export type StateName =
   | "withdrawingItems"
   | "withdrawingWearables"
   | "withdrawingBuds"
-  | "linkingWallet";
+  | "linkingWallet"
+  | "migratingAccount";
 
 export type StateNameWithStatus = `${StateName}Success` | `${StateName}Failed`;
 
 // Create a type that excludes the events that are not individual state machine states
 export type StateMachineEffectName = Exclude<
   EffectName,
-  "withdraw.items" | "withdraw.wearables" | "withdraw.buds" | "wallet.linked"
+  | "withdraw.items"
+  | "withdraw.wearables"
+  | "withdraw.buds"
+  | "wallet.linked"
+  | "account.migrated"
 >;
 
 // StateName is the feature.progressive_tense_verb. This will be used as the gameMachine state.
