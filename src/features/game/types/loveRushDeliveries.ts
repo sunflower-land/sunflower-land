@@ -171,9 +171,9 @@ export function getLoveCharmReward({
   points: number;
 }): { loveCharmReward: number } {
   let loveCharmReward: number;
-  if (points >= 6 || !!BUMPKIN_FLOWER_BONUSES[name]?.[flower]) {
+  if (BUMPKIN_FLOWER_BONUSES[name]?.[flower]) {
     loveCharmReward = 10;
-  } else if (points >= 3) {
+  } else if (points >= 6) {
     loveCharmReward = 5;
   } else {
     loveCharmReward = 2;
