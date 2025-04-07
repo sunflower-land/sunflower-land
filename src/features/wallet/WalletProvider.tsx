@@ -49,6 +49,7 @@ export const metaMaskConnector = metaMask();
 
 export const coinbaseConnector = coinbaseWallet({
   appName: "Sunflower Land",
+  appLogoUrl: "https://sunflower-land.com/play/pwa/icons/pwa-512x512.png",
 });
 
 export const fallbackConnector = injected({
@@ -68,7 +69,7 @@ export const waypointConnector = injected({
       name: "Ronin Waypoint",
       provider: WaypointProvider.create({
         clientId: "f71ef546-f5e5-49a9-8835-f89b60868622",
-        chainId: 2021,
+        chainId: CONFIG.NETWORK === "mainnet" ? 2020 : 2021,
       }) as EIP1193Provider,
     };
   },
