@@ -93,6 +93,7 @@ import {
 import { VipBundle } from "../lib/vipAccess";
 import { InGameTaskName } from "../events/landExpansion/completeSocialTask";
 import { TwitterPost, TwitterPostName } from "./social";
+import { NetworkName } from "../events/landExpansion/updateNetwork";
 
 export type Reward = {
   coins?: number;
@@ -946,6 +947,10 @@ export type NPCData = {
     giftClaimedAtPoints?: number;
     giftedAt?: number;
   };
+  streaks?: {
+    streak: number;
+    lastClaimedAt: number;
+  };
 };
 
 export type ChoreV2 = {
@@ -1116,7 +1121,8 @@ export type Currency =
   | "Crimstone"
   | "Sunstone"
   | "Seasonal Ticket"
-  | "Mark";
+  | "Mark"
+  | "Love Charm";
 
 export type ShopItemBase = {
   shortDescription: string;
@@ -1419,6 +1425,7 @@ export interface GameState {
     username?: {
       setAt?: number;
     };
+    network?: NetworkName;
   };
   coins: number;
   balance: Decimal;

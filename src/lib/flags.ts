@@ -71,7 +71,8 @@ const FEATURE_FLAGS = {
 
   // Temporary Feature Flags
   FACE_RECOGNITION: (game) =>
-    game.createdAt > new Date("2025-01-01T00:00:00Z").getTime(),
+    game.createdAt > new Date("2025-01-01T00:00:00Z").getTime() ||
+    !game.verified,
   FACE_RECOGNITION_TEST: defaultFeatureFlag,
 
   DISABLE_BLOCKCHAIN_ACTIONS: timeBasedFeatureFlag(
@@ -81,7 +82,6 @@ const FEATURE_FLAGS = {
   TASK_BOARD: betaTimeBasedFeatureFlag(new Date("2025-04-07T00:00:00Z")),
 
   FLOWER_DEPOSIT: usernameFeatureFlag,
-  TELEGRAM: defaultFeatureFlag,
 
   // Released to All Players on 5th May
   FLOWER_GEMS: timeBasedFeatureFlag(new Date("2025-05-05T00:00:00Z")),
@@ -90,9 +90,20 @@ const FEATURE_FLAGS = {
   LOVE_CHARM_FLOWER_EXCHANGE: timeBasedFeatureFlag(
     new Date("2025-04-14T00:00:00Z"),
   ),
+  //Testnet only
+  LOVE_CHARM_REWARD_SHOP: timeBasedFeatureFlag(
+    new Date("2025-04-14T00:00:00Z"),
+  ),
+
   LEDGER: testnetLocalStorageFeatureFlag("ledger"),
-  OFFCHAIN_MARKETPLACE: () => true,
-  BLOCKCHAIN_BOX: defaultFeatureFlag,
+  BLOCKCHAIN_BOX: (game) =>
+    betaTimeBasedFeatureFlag(new Date("2025-04-07T00:00:00Z"))(game) &&
+    Date.now() < new Date("2025-05-05T00:00:00Z").getTime(),
+
+  // Don't change this feature flag until the love rush event is over
+  LOVE_RUSH: (game) =>
+    betaTimeBasedFeatureFlag(new Date("2025-04-07T00:00:00Z"))(game) &&
+    Date.now() < new Date("2025-05-05T00:00:00Z").getTime(),
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;

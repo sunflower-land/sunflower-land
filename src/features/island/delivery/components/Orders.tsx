@@ -23,7 +23,11 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 
 import { NPCName, NPC_WEARABLES } from "lib/npcs";
-import { getDayOfYear, secondsToString } from "lib/utils/time";
+import {
+  getDayOfYear,
+  millisecondsToString,
+  secondsToString,
+} from "lib/utils/time";
 import {
   NPC_DELIVERY_LEVELS,
   DeliveryNpcName,
@@ -54,6 +58,11 @@ import { ITEM_IDS } from "features/game/types/bumpkin";
 import { isCollectible } from "features/game/events/landExpansion/garbageSold";
 import { Context } from "features/game/GameProvider";
 import { getActiveCalendarEvent } from "features/game/types/calendar";
+import { getLoveRushStreaks } from "features/game/types/loveRushDeliveries";
+import { getLoveRushDeliveryRewards } from "../../../game/types/loveRushDeliveries";
+import { hasFeatureAccess } from "lib/flags";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useSelector } from "@xstate/react";
 
 // Bumpkins
 export const BEACH_BUMPKINS: NPCName[] = [
@@ -128,14 +137,26 @@ export type OrderCardProps = {
   selected: Order;
   onClick: (id: string) => void;
   state: GameState;
+  isLoveRushEventActive: boolean;
 };
 export const OrderCard: React.FC<OrderCardProps> = ({
   order,
   selected,
   onClick,
   state,
+  isLoveRushEventActive,
 }) => {
-  const tickets = generateDeliveryTickets({ game: state, npc: order.from });
+  const npcName = order.from;
+  const tickets = generateDeliveryTickets({ game: state, npc: npcName });
+  const { newStreak, currentStreak } = getLoveRushStreaks({
+    streaks: state.npcs?.[npcName]?.streaks,
+  });
+  const { loveCharmReward } = getLoveRushDeliveryRewards({
+    currentStreak,
+    newStreak,
+    game: state,
+    npcName,
+  });
 
   return (
     <div className="py-1 px-1" key={order.id}>
@@ -146,17 +167,26 @@ export const OrderCard: React.FC<OrderCardProps> = ({
         })}
         style={{ paddingBottom: "20px" }}
       >
+        {isLoveRushEventActive && loveCharmReward > 0 && (
+          <div className="absolute -top-4 -left-5">
+            <div className="relative">
+              <img src={ITEM_DETAILS["Love Charm"].image} className="w-12" />
+              <p className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-shadow text-xs">
+                {loveCharmReward}
+              </p>
+            </div>
+          </div>
+        )}
         {hasOrderRequirements({ order, state }) && !order.completedAt && (
           <img
             src={SUNNYSIDE.icons.heart}
             className="absolute top-0.5 right-0.5 w-3 sm:w-4"
           />
         )}
-
         <div className="flex flex-col pb-2">
           <div className="flex items-center my-1">
             <div className="relative mb-2 mr-0.5 -ml-1">
-              <NPCIcon parts={NPC_WEARABLES[order.from]} />
+              <NPCIcon parts={NPC_WEARABLES[npcName]} />
             </div>
             <div className="flex-1 flex justify-center h-8 items-center w-6">
               {getKeys(order.items).map((name) => {
@@ -185,7 +215,6 @@ export const OrderCard: React.FC<OrderCardProps> = ({
             </div>
           </div>
         </div>
-
         {order.completedAt && (
           <Label
             type="success"
@@ -241,7 +270,6 @@ export const OrderCard: React.FC<OrderCardProps> = ({
             {tickets}
           </Label>
         )}
-
         {order.id === selected?.id && (
           <div id="select-box" className="hidden md:block">
             <img
@@ -311,6 +339,9 @@ export const LockedOrderCard: React.FC<{ npc: NPCName }> = ({ npc }) => {
   );
 };
 
+const _isLoveRushEventActive = (state: MachineState) =>
+  hasFeatureAccess(state.context.state, "LOVE_RUSH");
+
 export const DeliveryOrders: React.FC<Props> = ({
   selectedId,
   onSelect,
@@ -318,6 +349,10 @@ export const DeliveryOrders: React.FC<Props> = ({
   state,
 }) => {
   const { gameService } = useContext(Context);
+  const isLoveRushEventActive = useSelector(
+    gameService,
+    _isLoveRushEventActive,
+  );
   const { delivery, balance: sfl, coins, npcs, bumpkin } = state;
 
   const navigate = useNavigate();
@@ -420,7 +455,18 @@ export const DeliveryOrders: React.FC<Props> = ({
     .filter((name) => isSFLNPC(name))
     .sort((a, b) => (NPC_DELIVERY_LEVELS[a] > NPC_DELIVERY_LEVELS[b] ? 1 : -1))
     .find((npc) => level < (NPC_DELIVERY_LEVELS?.[npc] ?? 0));
+  const { newStreak, currentStreak } = getLoveRushStreaks({
+    streaks: state.npcs?.[previewOrder.from]?.streaks,
+  });
+  const { loveCharmReward } = getLoveRushDeliveryRewards({
+    currentStreak,
+    newStreak,
+    game: state,
+    npcName: previewOrder.from,
+  });
 
+  const loveRushEndTime = new Date("2025-05-05T00:00:00Z").getTime();
+  const loveRushRemainingTime = loveRushEndTime - Date.now();
   return (
     <div className="flex md:flex-row flex-col-reverse md:mr-1 items-start h-full">
       <InnerPanel
@@ -432,11 +478,24 @@ export const DeliveryOrders: React.FC<Props> = ({
         )}
       >
         <div className="p-1">
-          <div className="flex justify-between gap-1 flex-row w-full">
+          <div className="flex justify-between gap-1 flex-wrap w-full">
             <Label type="default">{t("deliveries")}</Label>
             {getActiveCalendarEvent({ game: state }) === "doubleDelivery" && (
               <Label type="vibrant" icon={lightning}>
                 {t("double.rewards.deliveries")}
+              </Label>
+            )}
+            {isLoveRushEventActive && (
+              <Label
+                type="info"
+                icon={ITEM_DETAILS["Love Charm"].image}
+                secondaryIcon={SUNNYSIDE.icons.stopwatch}
+              >
+                {t("loveRush.eventTime", {
+                  time: millisecondsToString(loveRushRemainingTime, {
+                    length: "short",
+                  }),
+                })}
               </Label>
             )}
           </div>
@@ -450,11 +509,12 @@ export const DeliveryOrders: React.FC<Props> = ({
         >
           {`Coins`}
         </Label>
-        <div className="grid grid-cols-3 sm:grid-cols-4 w-full ">
+        <div className="grid grid-cols-3 sm:grid-cols-4 w-full ml-1">
           {coinOrders.map((order) => {
             return (
               <OrderCard
                 state={state}
+                isLoveRushEventActive={isLoveRushEventActive}
                 key={order.id}
                 order={order}
                 selected={previewOrder}
@@ -470,6 +530,7 @@ export const DeliveryOrders: React.FC<Props> = ({
             <Label
               type="default"
               icon={ITEM_DETAILS[getSeasonalTicket()].image}
+              className="mb-2"
             >
               {getSeasonalTicket()}
             </Label>
@@ -502,11 +563,12 @@ export const DeliveryOrders: React.FC<Props> = ({
             <span className="text-xs mb-2">{t("delivery.holiday.closed")}</span>
           )}
         </div>
-        <div className="grid grid-cols-3 sm:grid-cols-4 w-full ">
+        <div className="grid grid-cols-3 sm:grid-cols-4 w-full ml-1">
           {ticketOrders.map((order) => {
             return (
               <OrderCard
                 state={state}
+                isLoveRushEventActive={isLoveRushEventActive}
                 key={order.id}
                 order={order}
                 selected={previewOrder}
@@ -519,7 +581,7 @@ export const DeliveryOrders: React.FC<Props> = ({
 
         <div className="px-2 mt-2">
           <div className="flex justify-between">
-            <Label type="default" icon={token}>
+            <Label type="default" icon={token} className="mb-2">
               {`FLOWER`}
             </Label>
           </div>
@@ -530,11 +592,12 @@ export const DeliveryOrders: React.FC<Props> = ({
           )}
         </div>
 
-        <div className="grid grid-cols-3 sm:grid-cols-4 w-full ">
+        <div className="grid grid-cols-3 sm:grid-cols-4 w-full ml-1">
           {sflOrders.map((order) => {
             return (
               <OrderCard
                 state={state}
+                isLoveRushEventActive={isLoveRushEventActive}
                 key={order.id}
                 order={order}
                 selected={previewOrder}
@@ -582,7 +645,7 @@ export const DeliveryOrders: React.FC<Props> = ({
       {previewOrder && (
         <InnerPanel
           className={classNames(
-            "md:ml-1 md:flex md:flex-col items-center flex-1 relative h-auto w-full",
+            "md:ml-1 md:flex md:flex-col items-center flex-1 relative w-full overflow-y-auto scrollable max-h-[440px]",
             {
               hidden: !selectedId,
             },
@@ -742,42 +805,65 @@ export const DeliveryOrders: React.FC<Props> = ({
                 })}
               </div>
               <div
-                className="flex justify-between w-full border-t border-white"
+                className="flex flex-col gap-2 w-full border-t border-white"
                 style={{
                   marginTop: "3px",
                   paddingTop: "3px",
                   marginBottom: "6px",
                 }}
               >
-                <div className="flex items-center">
-                  <SquareIcon
-                    icon={
-                      previewOrder.reward.coins
-                        ? SUNNYSIDE.ui.coinsImg
-                        : previewOrder.reward.sfl
-                          ? token
-                          : ITEM_DETAILS[getSeasonalTicket()].image
-                    }
-                    width={7}
-                  />
-                  <span className="text-xs ml-1">{t("reward")}</span>
+                <div className="flex justify-between w-full">
+                  <div className="flex items-center">
+                    <SquareIcon
+                      icon={
+                        previewOrder.reward.coins
+                          ? SUNNYSIDE.ui.coinsImg
+                          : previewOrder.reward.sfl
+                            ? token
+                            : ITEM_DETAILS[getSeasonalTicket()].image
+                      }
+                      width={7}
+                    />
+                    <span className="text-xs ml-1">{t("reward")}</span>
+                  </div>
+                  <Label type="warning" className="whitespace-nowrap">
+                    <span className={!isMobile ? "text-xxs" : ""}>
+                      {`${
+                        generateDeliveryTickets({
+                          game: state,
+                          npc: previewOrder.from,
+                        }) || makeRewardAmountForLabel(previewOrder)
+                      } ${
+                        previewOrder.reward.coins
+                          ? t("coins")
+                          : previewOrder.reward.sfl
+                            ? "FLOWER"
+                            : getSeasonalTicket()
+                      }`}
+                    </span>
+                  </Label>
                 </div>
-                <Label type="warning" className="whitespace-nowrap">
-                  <span className={!isMobile ? "text-xxs" : ""}>
-                    {`${
-                      generateDeliveryTickets({
-                        game: state,
-                        npc: previewOrder.from,
-                      }) || makeRewardAmountForLabel(previewOrder)
-                    } ${
-                      previewOrder.reward.coins
-                        ? t("coins")
-                        : previewOrder.reward.sfl
-                          ? "FLOWER"
-                          : getSeasonalTicket()
-                    }`}
-                  </span>
-                </Label>
+                {isLoveRushEventActive && (
+                  <div className="flex flex-wrap gap-1 justify-between w-full">
+                    {loveCharmReward > 0 && (
+                      <Label
+                        type="vibrant"
+                        icon={ITEM_DETAILS["Love Charm"].image}
+                      >
+                        {`Love Rush Bonus:`}
+                        <br />
+                        {`${loveCharmReward} Love Charms`}
+                      </Label>
+                    )}
+                    <Label
+                      type="vibrant"
+                      icon={SUNNYSIDE.icons.lightning}
+                      className="capitalize"
+                    >
+                      {`${previewOrder.from} Streak: ${currentStreak}`}
+                    </Label>
+                  </div>
+                )}
               </div>
               <div className="mb-1">
                 {getActiveCalendarEvent({ game: state }) === "doubleDelivery" &&

@@ -135,7 +135,36 @@ export type EventDecorationName =
   | "Jin"
   | "Polygon Banner"
   | "Ronin Banner"
-  | "Base Banner";
+  | "Base Banner"
+  | "Floral Arch"
+  | "Flower Coin"
+  | "Flower Statue"
+  | "Heartstruck Tree"
+  | "Mermaid Fountain"
+  | "Mysterious Entrance"
+  | "Streamer's Statue"
+  | "Cetus"
+  | "Goldcrest Mosaic Rug"
+  | "Sandy Mosaic Rug"
+  | "Twilight Rug"
+  | "Orchard Rug"
+  | "Carrot Rug"
+  | "Beetroot Rug"
+  | "Harlequin Rug"
+  | "Large Rug"
+  | "Golden Fence"
+  | "Golden Stone Fence"
+  | "Golden Pine Tree"
+  | "Golden Tree"
+  | "Golden Bush";
+
+export type TileName =
+  | "Black Tile"
+  | "Blue Tile"
+  | "Green Tile"
+  | "Purple Tile"
+  | "Red Tile"
+  | "Yellow Tile";
 
 export type PotionHouseDecorationName =
   | "Giant Potato"
@@ -334,7 +363,8 @@ export type DecorationName =
   | PotionHouseDecorationName
   | InteriorDecorationName
   | TemplateDecorationName
-  | AnimalDecorationName;
+  | AnimalDecorationName
+  | TileName;
 
 export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
   "Jelly Lamp": {
@@ -858,7 +888,118 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     width: 1,
     height: 1,
   },
-  Jin: { width: 2, height: 2 },
+  Jin: {
+    width: 2,
+    height: 2,
+  },
+  "Floral Arch": {
+    width: 3,
+    height: 1,
+  },
+  "Flower Coin": {
+    width: 2,
+    height: 2,
+  },
+  "Flower Statue": {
+    width: 2,
+    height: 3,
+  },
+  "Heartstruck Tree": {
+    width: 2,
+    height: 2,
+  },
+  "Mermaid Fountain": {
+    width: 2,
+    height: 2,
+  },
+  "Mysterious Entrance": {
+    width: 3,
+    height: 3,
+  },
+  "Streamer's Statue": {
+    width: 1,
+    height: 1,
+  },
+  Cetus: {
+    width: 3,
+    height: 2,
+  },
+  "Goldcrest Mosaic Rug": {
+    width: 4,
+    height: 4,
+  },
+  "Sandy Mosaic Rug": {
+    width: 4,
+    height: 4,
+  },
+  "Twilight Rug": {
+    width: 4,
+    height: 4,
+  },
+  "Orchard Rug": {
+    width: 4,
+    height: 4,
+  },
+  "Carrot Rug": {
+    width: 4,
+    height: 4,
+  },
+  "Beetroot Rug": {
+    width: 4,
+    height: 4,
+  },
+  "Harlequin Rug": {
+    width: 4,
+    height: 4,
+  },
+  "Large Rug": {
+    width: 4,
+    height: 4,
+  },
+  "Golden Fence": {
+    width: 1,
+    height: 1,
+  },
+  "Golden Stone Fence": {
+    width: 1,
+    height: 1,
+  },
+  "Golden Pine Tree": {
+    width: 1,
+    height: 2,
+  },
+  "Golden Tree": {
+    width: 2,
+    height: 2,
+  },
+  "Golden Bush": {
+    width: 2,
+    height: 1,
+  },
+  "Black Tile": {
+    width: 1,
+    height: 1,
+  },
+  "Blue Tile": {
+    width: 1,
+    height: 1,
+  },
+  "Green Tile": {
+    width: 1,
+    height: 1,
+  },
+  "Purple Tile": {
+    width: 1,
+    height: 1,
+  },
+  "Red Tile": {
+    width: 1,
+    height: 1,
+  },
+  "Yellow Tile": {
+    width: 1,
+    height: 1,
+  },
 };
 
 export type Decoration = {

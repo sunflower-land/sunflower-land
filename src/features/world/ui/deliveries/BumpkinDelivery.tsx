@@ -43,7 +43,6 @@ import {
   getOrderSellPrice,
   GOBLINS_REQUIRING_REPUTATION,
 } from "features/game/events/landExpansion/deliver";
-import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { formatNumber } from "lib/utils/formatNumber";
@@ -55,6 +54,12 @@ import { getActiveCalendarEvent } from "features/game/types/calendar";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { MachineState } from "features/game/lib/gameMachine";
+import { hasFeatureAccess } from "lib/flags";
+import {
+  getLoveRushDeliveryRewards,
+  getLoveRushStreaks,
+  getLoveCharmReward,
+} from "features/game/types/loveRushDeliveries";
 
 export const OrderCard: React.FC<{
   order: Order;
@@ -82,6 +87,15 @@ export const OrderCard: React.FC<{
   const { t } = useAppTranslation();
 
   const tickets = generateDeliveryTickets({ game, npc: order.from });
+  const { newStreak, currentStreak } = getLoveRushStreaks({
+    streaks: game.npcs?.[order.from]?.streaks,
+  });
+  const { loveCharmReward } = getLoveRushDeliveryRewards({
+    currentStreak,
+    newStreak,
+    game,
+    npcName: order.from,
+  });
 
   return (
     <>
@@ -173,6 +187,13 @@ export const OrderCard: React.FC<{
                 ))}
               </Label>
             </div>
+            {hasFeatureAccess(game, "LOVE_RUSH") && loveCharmReward > 0 && (
+              <div className="flex flex-wrap gap-1 justify-between w-full">
+                <Label type="vibrant" icon={ITEM_DETAILS["Love Charm"].image}>
+                  {t("loveRush.deliveryStreakBonus", { loveCharmReward })}
+                </Label>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -311,9 +332,12 @@ export const Gifts: React.FC<{
     GIFT_RESPONSES[name]?.flowerIntro ?? DEFAULT_DIALOGUE.flowerIntro,
   );
 
-  const flowers = getKeys(game.inventory).filter(
-    (item) => item in FLOWERS && game.inventory[item]?.gte(1),
-  );
+  const flowers = getKeys(game.inventory)
+    .filter(
+      (item): item is FlowerName =>
+        item in FLOWERS && !!game.inventory[item]?.gte(1),
+    )
+    .sort((a, b) => getKeys(FLOWERS).indexOf(a) - getKeys(FLOWERS).indexOf(b));
 
   const onGift = async () => {
     const previous = game.npcs?.[name]?.friendship?.points ?? 0;
@@ -366,6 +390,12 @@ export const Gifts: React.FC<{
   if (bumpkinFlowerBonuses > 0) {
     flowerPoints += bumpkinFlowerBonuses;
   }
+
+  const { loveCharmReward } = getLoveCharmReward({
+    name,
+    flower: selected as FlowerName,
+    points: flowerPoints,
+  });
 
   return (
     <>
@@ -458,20 +488,37 @@ export const Gifts: React.FC<{
             {t("gift")}
           </div>
           {selected && !isLocked && (
-            <div className="absolute -right-0.5 -top-[17px]">
-              <Label
-                type={bumpkinFlowerBonuses === 0 ? "warning" : "vibrant"}
-                icon={
-                  bumpkinFlowerBonuses === 0 ? SUNNYSIDE.icons.heart : lightning
-                }
-              >
-                <span
-                  className={classNames("text-xs", {
-                    "-ml-1": bumpkinFlowerBonuses !== 0,
-                  })}
-                >{`+${flowerPoints}`}</span>
-              </Label>
-            </div>
+            <>
+              <div className="absolute -right-0.5 -top-[17px]">
+                <Label
+                  type={bumpkinFlowerBonuses === 0 ? "warning" : "vibrant"}
+                  icon={
+                    bumpkinFlowerBonuses === 0
+                      ? SUNNYSIDE.icons.heart
+                      : lightning
+                  }
+                >
+                  <span
+                    className={classNames("text-xs", {
+                      "-ml-1": bumpkinFlowerBonuses !== 0,
+                    })}
+                  >{`+${flowerPoints}`}</span>
+                </Label>
+              </div>
+              {hasFeatureAccess(game, "LOVE_RUSH") && (
+                <div className="absolute -top-5 right-12">
+                  <div className="relative">
+                    <img
+                      src={ITEM_DETAILS["Love Charm"].image}
+                      className="w-12"
+                    />
+                    <p className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-shadow text-xs">
+                      {loveCharmReward}
+                    </p>
+                  </div>
+                </div>
+              )}
+            </>
           )}
         </Button>
       </div>
@@ -633,7 +680,6 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
-  const { openModal } = useContext(ModalContext);
 
   const game = gameState.context.state;
   const [showFlowers, setShowFlowers] = useState(false);

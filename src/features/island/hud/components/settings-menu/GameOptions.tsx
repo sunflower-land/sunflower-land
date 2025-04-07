@@ -41,7 +41,6 @@ import { DepositWrapper } from "features/goblins/bank/components/Deposit";
 import { useSound } from "lib/utils/hooks/useSound";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import lockIcon from "assets/icons/lock.png";
-import telegramIcon from "assets/icons/telegram.webp";
 import { DEV_HoarderCheck } from "./developer-options/DEV_HoardingCheck";
 import { PickServer } from "./plaza-settings/PickServer";
 import { PlazaShaderSettings } from "./plaza-settings/PlazaShaderSettings";
@@ -222,25 +221,6 @@ const GameOptions: React.FC<ContentComponentProps> = ({
             {CONFIG.RELEASE_VERSION?.split("-")[0]}
           </a>
         </p>
-        {hasFeatureAccess(gameService.state?.context?.state, "TELEGRAM") && (
-          <div className="flex">
-            <Button className="p-1 w-10 h-10 mr-1" disabled>
-              <img src={SUNNYSIDE.icons.expression_confused} className="h-4" />
-            </Button>
-            <Button
-              className="p-1 w-10 h-10 mr-1"
-              onClick={() => openModal("TWITTER")}
-            >
-              <img src={SUNNYSIDE.icons.expression_chat} className="h-4" />
-            </Button>
-            <Button
-              className="p-1 w-10 h-10"
-              onClick={() => openModal("TELEGRAM")}
-            >
-              <img src={telegramIcon} className="h-4" />
-            </Button>
-          </div>
-        )}
       </div>
       <ConfirmationModal
         show={isConfirmLogoutModalOpen}

@@ -34,9 +34,14 @@ import {
   State,
   TypegenDisabled,
 } from "xstate";
-
+import { DropdownPanel } from "components/ui/DropdownPanel";
+import { NetworkOption } from "features/island/hud/components/DepositFlower";
+import baseIcon from "assets/icons/chains/base.png";
+import { CONFIG } from "lib/config";
+import { NetworkName } from "features/game/events/landExpansion/updateNetwork";
 const _hasReferralAccess = (state: MachineState) =>
   hasFeatureAccess(state.context.state, "TASK_BOARD");
+const _network = (state: MachineState) => state.context.state.settings.network;
 
 export const DailyReward: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
@@ -57,6 +62,7 @@ export const DailyReward: React.FC = () => {
       lastUsedCode: dailyRewards?.chest?.code ?? 0,
       openedAt: dailyRewards?.chest?.collectedAt ?? 0,
       bumpkinLevel,
+      network: gameService.state.context.state.settings.network,
     },
   });
   const [chestState] = useActor(chestService);
@@ -115,6 +121,47 @@ export const DailyReward: React.FC = () => {
   );
 };
 
+const MAINNET_NETWORKS: NetworkOption[] = [
+  {
+    value: "Base",
+    icon: baseIcon,
+    chainId: 8453,
+  },
+
+  {
+    value: "Ronin",
+    icon: SUNNYSIDE.icons.roninIcon,
+    chainId: 2020,
+  },
+  {
+    value: "Polygon",
+    icon: SUNNYSIDE.icons.polygonIcon,
+    chainId: 137,
+  },
+];
+
+const TESTNET_NETWORKS: NetworkOption[] = [
+  {
+    value: "Base Sepolia",
+    icon: baseIcon,
+    chainId: 84532,
+  },
+  {
+    value: "Ronin Saigon",
+    icon: SUNNYSIDE.icons.roninIcon,
+    chainId: 2021,
+  },
+  {
+    value: "Polygon Amoy",
+    icon: SUNNYSIDE.icons.polygonIcon,
+    chainId: 80002,
+  },
+];
+
+// Select appropriate network options based on config
+const networkOptions =
+  CONFIG.NETWORK === "mainnet" ? MAINNET_NETWORKS : TESTNET_NETWORKS;
+
 export const DailyRewardContent: React.FC<{
   onClose: () => void;
   gameService: MachineInterpreter;
@@ -157,6 +204,21 @@ export const DailyRewardContent: React.FC<{
   const { t } = useAppTranslation();
 
   const hasReferralAccess = useSelector(gameService, _hasReferralAccess);
+  const network = useSelector(gameService, _network);
+
+  const handleNetworkChange = (networkName: NetworkName) => {
+    // Use proper type checking to ensure networkName is a valid key
+    const networkOption = networkOptions.find(
+      (option) => option.value === networkName,
+    ) as NetworkOption;
+
+    if (!networkOption) {
+      return;
+    }
+
+    gameService.send("network.updated", { network: networkName });
+    chestService.send("UPDATE_NETWORK", { network: networkName });
+  };
 
   useEffect(() => {
     chestService.send("UPDATE_BUMPKIN_LEVEL", { bumpkinLevel });
@@ -220,6 +282,13 @@ export const DailyRewardContent: React.FC<{
     if (chestState.matches("locked")) {
       return (
         <>
+          <DropdownPanel<NetworkName>
+            options={networkOptions}
+            value={network}
+            onChange={handleNetworkChange}
+            placeholder={t("deposit.flower.selectNetwork")}
+          />
+
           <div className="flex flex-col items-center px-2">
             {!hasReferralAccess && (
               <Label type="transparent" className="px-0.5 mb-2 text-base">
@@ -245,7 +314,10 @@ export const DailyRewardContent: React.FC<{
               }}
             />
           </div>
-          <Button onClick={() => chestService.send("UNLOCK")}>
+          <Button
+            onClick={() => chestService.send("UNLOCK")}
+            disabled={!network}
+          >
             {t("reward.unlock")}
           </Button>
         </>
@@ -277,6 +349,12 @@ export const DailyRewardContent: React.FC<{
     if (chestState.matches("error")) {
       return (
         <>
+          <DropdownPanel<NetworkName>
+            options={networkOptions}
+            value={network}
+            onChange={handleNetworkChange}
+            placeholder={t("deposit.flower.selectNetwork")}
+          />
           <div className="flex flex-col items-center p-2">
             <Label type="danger" className="px-0.5 mb-2 text-base">
               {t("error.wentWrong")}

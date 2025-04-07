@@ -35,7 +35,6 @@ import { isTradeResource } from "features/game/actions/tradeLimits";
 import Decimal from "decimal.js-light";
 import { useParams } from "react-router";
 import { KeyedMutator } from "swr";
-import { hasFeatureAccess } from "lib/flags";
 
 const _hasPendingOfferEffect = (state: MachineState) =>
   state.matches("marketplaceOffering") || state.matches("marketplaceAccepting");
@@ -169,13 +168,6 @@ export const TradeableOffers: React.FC<{
       <Modal show={showAcceptOffer} onHide={handleHide}>
         <Panel>
           <AcceptOffer
-            hasOffchainMarketplace={
-              !!gameService.getSnapshot().context.linkedWallet &&
-              hasFeatureAccess(
-                gameService.getSnapshot().context.state,
-                "OFFCHAIN_MARKETPLACE",
-              )
-            }
             authToken={authToken}
             itemId={itemId}
             display={display}

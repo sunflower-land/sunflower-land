@@ -71,14 +71,10 @@ import { getSessionId } from "lib/blockchain/Session";
 import { BumpkinItem } from "../types/bumpkin";
 import { getAuctionResults } from "../actions/getAuctionResults";
 import { AuctionResults } from "./auctionMachine";
-import { mmoBus } from "features/world/mmoMachine";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { BudName } from "../types/buds";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { portal } from "features/world/ui/community/actions/portal";
-import { listRequest } from "../actions/listTrade";
-import { deleteListingRequest } from "../actions/deleteListing";
-import { fulfillTradeListingRequest } from "../actions/fulfillTradeListing";
 
 import { CONFIG } from "lib/config";
 import {
@@ -244,28 +240,6 @@ type UpdateEvent = {
   state: GameState;
 };
 
-type ListingEvent = {
-  type: "LIST_TRADE";
-  sellerId: number;
-  items: Partial<Record<InventoryItemName, number>>;
-  sfl: number;
-  signature?: string;
-};
-
-type DeleteTradeListingEvent = {
-  type: "DELETE_TRADE_LISTING";
-  sellerId: number;
-  listingId: string;
-  listingType: string;
-};
-
-type FulfillTradeListingEvent = {
-  type: "FULFILL_TRADE_LISTING";
-  sellerId: number;
-  listingId: string;
-  listingType: string;
-};
-
 type SellMarketResourceEvent = {
   type: "SELL_MARKET_RESOURCE";
   item: TradeableName;
@@ -294,9 +268,6 @@ export type BlockchainEvent =
   | TransactEvent
   | WalletUpdatedEvent
   | CommunityEvent
-  | ListingEvent
-  | DeleteTradeListingEvent
-  | FulfillTradeListingEvent
   | SellMarketResourceEvent
   | { type: "REFRESH" }
   | { type: "ACKNOWLEDGE" }
@@ -511,9 +482,6 @@ export type BlockchainState = {
     | "revealed"
     | "genieRevealed"
     | "beanRevealed"
-    // | "effectPending"
-    | "effectSuccess"
-    | "effectFailed"
     | "error"
     | "refreshing"
     | "swarming"
@@ -524,15 +492,7 @@ export type BlockchainState = {
     | "landscaping"
     | "vip"
     | "promo"
-    | "trading"
-    | "listing"
-    | "listed"
-    | "deleteTradeListing"
-    | "tradeListingDeleted"
-    | "fulfillTradeListing"
     | "sellMarketResource"
-    | "sniped"
-    | "tradeAlreadyFulfilled"
     | "priceChanged"
     | "buds"
     | "airdrop"
@@ -697,9 +657,12 @@ export function startGame(authContext: AuthContext) {
             src: async (context) => {
               const fingerprint = "X";
 
+              const { connector } = getAccount(config);
+
               const response = await loadSession({
                 token: authContext.user.rawToken as string,
                 transactionId: context.transactionId as string,
+                wallet: connector?.name,
               });
 
               // If no farm go no farms route
@@ -1380,10 +1343,6 @@ export function startGame(authContext: AuthContext) {
             BUY_SFL: {
               target: "buyingSFL",
             },
-            LIST_TRADE: { target: "listing" },
-            // POST_EFFECT: { target: "effectPending" },
-            DELETE_TRADE_LISTING: { target: "deleteTradeListing" },
-            FULFILL_TRADE_LISTING: { target: "fulfillTradeListing" },
             SELL_MARKET_RESOURCE: { target: "sellMarketResource" },
             UPDATE_GEMS: {
               actions: assign((context, event) => ({
@@ -1798,248 +1757,6 @@ export function startGame(authContext: AuthContext) {
                 };
               }),
             },
-          },
-        },
-        listing: {
-          entry: "setTransactionId",
-          invoke: {
-            src: async (context, event) => {
-              const { sellerId, items, sfl, signature } = event as ListingEvent;
-
-              if (context.actions.length > 0) {
-                await autosave({
-                  farmId: Number(context.farmId),
-                  sessionId: context.sessionId as string,
-                  actions: context.actions,
-                  token: authContext.user.rawToken as string,
-                  fingerprint: context.fingerprint as string,
-                  deviceTrackerId: context.deviceTrackerId as string,
-                  transactionId: context.transactionId as string,
-                });
-              }
-
-              const state = await listRequest({
-                sellerId,
-                token: authContext.user.rawToken as string,
-                items,
-                sfl,
-                transactionId: context.transactionId as string,
-                signature,
-              });
-
-              return { state };
-            },
-            onDone: [
-              {
-                target: "listed",
-                actions: [
-                  assign((_, event) => ({
-                    actions: [],
-                    state: event.data.state,
-                  })),
-                ],
-              },
-            ],
-            onError: {
-              target: "error",
-              actions: "assignErrorMessage",
-            },
-          },
-        },
-        listed: {
-          on: {
-            CONTINUE: "playing",
-          },
-        },
-        // effectPending: {
-        //   entry: "setTransactionId",
-        //   invoke: {
-        //     src: async (context, event) => {
-        //       const { effect } = event as PostEffectEvent;
-
-        //       if (context.actions.length > 0) {
-        //         await autosave({
-        //           farmId: Number(context.farmId),
-        //           sessionId: context.sessionId as string,
-        //           actions: context.actions,
-        //           token: authContext.user.rawToken as string,
-        //           fingerprint: context.fingerprint as string,
-        //           deviceTrackerId: context.deviceTrackerId as string,
-        //           transactionId: context.transactionId as string,
-        //         });
-        //       }
-
-        //       const { gameState, data } = await postEffect({
-        //         farmId: Number(context.farmId),
-        //         effect,
-        //         token: authContext.user.rawToken as string,
-        //         transactionId: context.transactionId as string,
-        //       });
-
-        //       return { state: gameState, response: data };
-        //     },
-        //     onDone: [
-        //       {
-        //         target: "effectSuccess",
-        //         actions: [
-        //           assign((_, event) => ({
-        //             actions: [],
-        //             state: event.data.state,
-        //           })),
-        //         ],
-        //       },
-        //     ],
-        //     onError: {
-        //       target: "effectFailed",
-        //       actions: "assignErrorMessage",
-        //     },
-        //   },
-        // },
-        effectFailed: {
-          on: {
-            ACKNOWLEDGE: "playing",
-          },
-        },
-        effectSuccess: {
-          on: {
-            CONTINUE: "playing",
-          },
-        },
-        deleteTradeListing: {
-          entry: "setTransactionId",
-          invoke: {
-            src: async (context, event) => {
-              const { listingId, listingType, sellerId } =
-                event as DeleteTradeListingEvent;
-
-              if (context.actions.length > 0) {
-                await autosave({
-                  farmId: Number(context.farmId),
-                  sessionId: context.sessionId as string,
-                  actions: context.actions,
-                  token: authContext.user.rawToken as string,
-                  fingerprint: context.fingerprint as string,
-                  deviceTrackerId: context.deviceTrackerId as string,
-                  transactionId: context.transactionId as string,
-                });
-              }
-
-              const { farm, error } = await deleteListingRequest({
-                sellerId,
-                listingId,
-                listingType,
-                token: authContext.user.rawToken as string,
-                transactionId: context.transactionId as string,
-              });
-
-              return { farm, error };
-            },
-            onDone: [
-              {
-                target: "tradeAlreadyFulfilled",
-                cond: (_, event) => event.data.error === "ALREADY_BOUGHT",
-                actions: [
-                  assign((_, event) => ({
-                    actions: [],
-                    state: event.data.farm,
-                  })),
-                ],
-              },
-              {
-                target: "tradeListingDeleted",
-                actions: [
-                  assign((_, event) => ({
-                    actions: [],
-                    state: event.data.farm,
-                  })),
-                ],
-              },
-            ],
-            onError: {
-              target: "error",
-              actions: "assignErrorMessage",
-            },
-          },
-        },
-        tradeListingDeleted: {
-          on: {
-            CONTINUE: "playing",
-          },
-        },
-        fulfillTradeListing: {
-          entry: "setTransactionId",
-          invoke: {
-            src: async (context, event) => {
-              const { sellerId, listingId, listingType } =
-                event as FulfillTradeListingEvent;
-
-              if (context.actions.length > 0) {
-                await autosave({
-                  farmId: Number(context.farmId),
-                  sessionId: context.sessionId as string,
-                  actions: context.actions,
-                  token: authContext.user.rawToken as string,
-                  fingerprint: context.fingerprint as string,
-                  deviceTrackerId: context.deviceTrackerId as string,
-                  transactionId: context.transactionId as string,
-                });
-              }
-
-              const { farm, error } = await fulfillTradeListingRequest({
-                buyerId: Number(context.farmId),
-                sellerId,
-                listingId,
-                listingType,
-                token: authContext.user.rawToken as string,
-                transactionId: context.transactionId as string,
-              });
-
-              return {
-                farm,
-                buyerId: String(context.farmId),
-                sellerId: String(sellerId),
-                listingId,
-                error,
-              };
-            },
-            onDone: [
-              {
-                target: "sniped",
-                cond: (_, event) => event.data.error === "ALREADY_BOUGHT",
-              },
-              {
-                target: "playing",
-                actions: [
-                  assign((_, event) => ({
-                    actions: [],
-                    state: event.data.farm,
-                  })),
-                  (_, event) => {
-                    mmoBus.send({
-                      trade: {
-                        buyerId: event.data.buyerId,
-                        sellerId: event.data.sellerId,
-                        tradeId: event.data.listingId,
-                      },
-                    });
-                  },
-                ],
-              },
-            ],
-            onError: {
-              target: "error",
-              actions: "assignErrorMessage",
-            },
-          },
-        },
-        sniped: {
-          on: {
-            CONTINUE: "playing",
-          },
-        },
-        tradeAlreadyFulfilled: {
-          on: {
-            CONTINUE: "playing",
           },
         },
         sellMarketResource: {

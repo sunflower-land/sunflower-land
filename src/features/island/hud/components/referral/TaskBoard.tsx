@@ -4,12 +4,12 @@ import { Label } from "components/ui/Label";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { ButtonPanel } from "components/ui/Panel";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
-import Decimal from "decimal.js-light";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import {
   IN_GAME_TASKS,
-  InGameTaskName,
+  InGameTaskName as taskName,
   isSocialTask,
+  Task,
 } from "features/game/events/landExpansion/completeSocialTask";
 import { GameState } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -21,10 +21,10 @@ import { ModalContext } from "features/game/components/modal/ModalProvider";
 import promoteIcon from "assets/icons/promote.webp";
 import tvIcon from "assets/icons/tv.webp";
 import { secondsToString } from "lib/utils/time";
+import { hasFeatureAccess } from "lib/flags";
 
 interface TaskBoardProps {
   state: GameState;
-  loveCharmCount: Decimal;
   socialTasks?: GameState["socialTasks"];
 }
 
@@ -60,28 +60,41 @@ const TaskButton: React.FC<{
   );
 };
 
-export const TaskBoard: React.FC<TaskBoardProps> = ({
-  state,
-  loveCharmCount,
-  socialTasks,
-}) => {
+export const TaskBoard: React.FC<TaskBoardProps> = ({ state, socialTasks }) => {
   const { t } = useAppTranslation();
   const { openModal } = useContext(ModalContext);
 
-  const [selectedTask, setSelectedTask] = useState<InGameTaskName>();
+  const [selectedTask, setSelectedTask] = useState<taskName>();
 
-  const isTaskCompleted = (taskId: InGameTaskName): boolean =>
+  const isTaskCompleted = (taskId: taskName): boolean =>
     !!socialTasks?.completed?.[taskId]?.completedAt;
 
   return (
     <div className="flex flex-col gap-2 max-h-[500px] overflow-y-auto scrollable">
       <div className="px-1">
-        <div className="flex justify-between gap-2 mb-1">
-          <Label type="vibrant">{t("taskBoard.loveRush")}</Label>
-        </div>
-        <p className="text-xs mb-2">{t("taskBoard.limitedTimeDescription")}</p>
-
-        <img src={SUNNYSIDE.announcement.loveRush} className="w-full mb-2" />
+        {hasFeatureAccess(state, "LOVE_RUSH") && (
+          <>
+            <div className="flex justify-between gap-2 mb-1">
+              <Label type="vibrant">{t("taskBoard.loveRush")}</Label>{" "}
+              <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
+                {`${secondsToString(
+                  (new Date("2025-05-05T00:00:00Z").getTime() - Date.now()) /
+                    1000,
+                  {
+                    length: "short",
+                  },
+                )} left`}
+              </Label>
+            </div>
+            <p className="text-xs mb-2">
+              {t("taskBoard.limitedTimeDescription")}
+            </p>
+            <img
+              src={SUNNYSIDE.announcement.loveRush}
+              className="w-full mb-2"
+            />
+          </>
+        )}
         <div className="flex justify-between gap-2 mb-2">
           <Label type="default">{t("taskBoard.howToEarn")}</Label>
         </div>
@@ -90,12 +103,14 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({
       {/* Tasks */}
       <div className="flex flex-col gap-2 m-1">
         <div className="flex flex-col gap-1 text-xs">
-          <TaskButton
-            title={t("socialTask.helpBumpkins")}
-            onClick={() => openModal("LOVE_RUSH")}
-            image={SUNNYSIDE.icons.player}
-            expiresAt={new Date("2025-05-04T00:00:00Z")}
-          />
+          {hasFeatureAccess(state, "LOVE_RUSH") && (
+            <TaskButton
+              title={t("socialTask.helpBumpkins")}
+              onClick={() => openModal("LOVE_RUSH")}
+              image={SUNNYSIDE.icons.player}
+              expiresAt={new Date("2025-05-05T00:00:00Z")}
+            />
+          )}
 
           <TaskButton
             title={t("socialTask.referFriend")}
@@ -147,13 +162,9 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({
                       <p className="underline">{t("read.more")}</p>
                     </div>
                     <Label
-                      type={
-                        isTaskCompleted(task.title as InGameTaskName)
-                          ? "success"
-                          : "warning"
-                      }
+                      type={isTaskCompleted(taskName) ? "success" : "warning"}
                       icon={
-                        isTaskCompleted(task.title as InGameTaskName)
+                        isTaskCompleted(taskName)
                           ? SUNNYSIDE.icons.confirm
                           : task.requirement(state)
                             ? SUNNYSIDE.icons.expression_alerted
@@ -177,11 +188,7 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({
         onBackdropClick={() => setSelectedTask(undefined)}
       >
         {selectedTask && selectedTask in IN_GAME_TASKS && (
-          <InGameTask
-            taskName={selectedTask as InGameTaskName}
-            socialTasks={socialTasks}
-            onClose={() => setSelectedTask(undefined)}
-          />
+          <InGameTask taskName={selectedTask} socialTasks={socialTasks} />
         )}
       </ModalOverlay>
     </div>
@@ -189,20 +196,19 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({
 };
 
 const InGameTask: React.FC<{
-  taskName: InGameTaskName;
+  taskName: taskName;
   socialTasks: GameState["socialTasks"];
-  onClose: () => void;
-}> = ({ taskName, socialTasks, onClose }) => {
+}> = ({ taskName, socialTasks }) => {
   const { gameService, gameState } = useGame();
-  const completeTask = (taskId: InGameTaskName) => {
+  const completeTask = (taskId: taskName) => {
     gameService.send({
       type: "socialTask.completed",
       taskId,
     });
   };
 
-  const task = IN_GAME_TASKS[taskName];
-  const isTaskCompleted = (taskId: InGameTaskName): boolean =>
+  const task = IN_GAME_TASKS[taskName] as Task;
+  const isTaskCompleted = (taskId: taskName): boolean =>
     !!socialTasks?.completed?.[taskId]?.completedAt;
 
   const state = gameState.context.state;
@@ -229,7 +235,13 @@ const InGameTask: React.FC<{
               <div className="flex flex-col gap-2 items-start">
                 <RequirementLabel
                   type="other"
-                  currentProgress={task.requirement(state) ? 1 : 0}
+                  currentProgress={
+                    task.currentProgress
+                      ? task.currentProgress(state)
+                      : task.requirement(state)
+                        ? 1
+                        : 0
+                  }
                   requirement={task.requirementTotal}
                   hideIcon
                 />
@@ -249,10 +261,7 @@ const InGameTask: React.FC<{
         {!isTaskCompleted(taskName) && (
           <Button
             onClick={() => completeTask(taskName)}
-            disabled={
-              !task.requirement(state) ||
-              isTaskCompleted(task.title as InGameTaskName)
-            }
+            disabled={!task.requirement(state) || isTaskCompleted(taskName)}
           >
             {t("complete")}
           </Button>
