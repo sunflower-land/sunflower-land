@@ -40,12 +40,12 @@ export const RestockBoat: React.FC<{
 
   const wharfCoords = () => {
     if (expansionCount < 7) {
-      return { x: -2, y: -7 };
+      return { x: -1, y: -7 };
     }
     if (expansionCount >= 7 && expansionCount < 21) {
-      return { x: -9, y: -13 };
+      return { x: -8, y: -13 };
     } else {
-      return { x: -15, y: -19 };
+      return { x: -14, y: -19 };
     }
   };
 
