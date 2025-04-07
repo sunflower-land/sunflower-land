@@ -1,8 +1,6 @@
 import React, { useState } from "react";
 import { Player } from "../ModerationTools";
 import { Button } from "components/ui/Button";
-
-import { kickPlayer } from "features/world/lib/moderationAction";
 import { Effect, postEffect } from "features/game/actions/effect";
 import { randomID } from "lib/utils/random";
 
@@ -43,26 +41,17 @@ export const KickModal: React.FC<Props> = ({
           reason: reason,
         } as Effect,
       });
+
+      setKickStatus("success");
+
+      scene.mmoService.state.context.server?.send("moderation_event", {
+        type: "kick",
+        farmId: farmId as number,
+        arg: reason,
+      });
     } catch (e) {
       setKickStatus("error");
     }
-
-    await kickPlayer({
-      token: authState.rawToken as string,
-      farmId: moderatorFarmId,
-      kickedId: farmId,
-      reason: reason,
-    })
-      .then((r) => {
-        r.success ? setKickStatus("success") : setKickStatus("error");
-
-        scene.mmoService.state.context.server?.send("moderation_event", {
-          type: "kick",
-          farmId: farmId as number,
-          arg: reason,
-        });
-      })
-      .catch((e) => setKickStatus("error"));
   };
 
   const handleClose = () => {
