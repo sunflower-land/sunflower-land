@@ -49,7 +49,7 @@ export const metaMaskConnector = metaMask();
 
 export const coinbaseConnector = coinbaseWallet({
   appName: "Sunflower Land",
-  appLogoUrl: "https://sunflower-land.com/play/pwa/icons/pwa-512x512.png",
+  appLogoUrl: "https://sunflower-land.com/game-assets/brand/512px.png",
 });
 
 export const fallbackConnector = injected({
