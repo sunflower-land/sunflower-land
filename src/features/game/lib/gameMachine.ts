@@ -89,7 +89,7 @@ import {
   Effect,
   STATE_MACHINE_EFFECTS,
   postEffect,
-  StateName,
+  StateMachineStateName,
   StateNameWithStatus,
 } from "../actions/effect";
 import { TRANSACTION_SIGNATURES, TransactionName } from "../types/transactions";
@@ -161,7 +161,7 @@ export interface Context {
   discordId?: string;
   fslId?: string;
   oauthNonce: string;
-  data: Partial<Record<StateName, any>>;
+  data: Partial<Record<StateMachineStateName, any>>;
 }
 
 export type Moderation = {
@@ -511,7 +511,7 @@ export type BlockchainState = {
     | "roninWelcomePack"
     | "roninAirdrop"
     | "jinAirdrop"
-    | StateName
+    | StateMachineStateName
     | StateNameWithStatus; // TEST ONLY
   context: Context;
 };
