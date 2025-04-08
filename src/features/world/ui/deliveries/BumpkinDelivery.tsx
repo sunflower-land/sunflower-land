@@ -349,14 +349,11 @@ export const Gifts: React.FC<{
     const difference =
       (state.context.state.npcs?.[name]?.friendship?.points ?? 0) - previous;
 
-    if (
-      difference >= 6 ||
-      !!BUMPKIN_FLOWER_BONUSES[name]?.[selected as FlowerName]
-    ) {
+    if (BUMPKIN_FLOWER_BONUSES[name]?.[selected as FlowerName]) {
       setMessage(
         GIFT_RESPONSES[name]?.flowerPositive ?? DEFAULT_DIALOGUE.flowerPositive,
       );
-    } else if (difference >= 3) {
+    } else if (difference >= 6) {
       setMessage(
         GIFT_RESPONSES[name]?.flowerAverage ?? DEFAULT_DIALOGUE.flowerAverage,
       );

@@ -232,11 +232,11 @@ const CoinBaseWallets: React.FC<Props> = ({ onConnect }) => {
     .filter((connector) => connector.type === "injected" && !!connector.icon)
     .filter((connector) => connector.name === "Coinbase Wallet");
 
-  useEffect(() => {
-    if (eip6963Connectors.length === 0) {
-      onConnect(coinbaseConnector);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (eip6963Connectors.length === 0) {
+  //     onConnect(coinbaseConnector);
+  //   }
+  // }, []);
 
   return (
     <>
