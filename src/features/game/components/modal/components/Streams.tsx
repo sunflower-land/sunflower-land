@@ -38,7 +38,7 @@ const getNextStreamTime = (schedule: StreamSchedule): Date => {
 export const Streams: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { t } = useAppTranslation();
   const tuesdayStream = getNextStreamTime({ day: 2, hour: 15, minute: 30 }); // Tuesday 3:30 PM
-  const fridayStream = getNextStreamTime({ day: 5, hour: 23, minute: 0 }); // Friday 11:00 PM
+  const fridayStream = getNextStreamTime({ day: 5, hour: 11, minute: 0 }); // Friday 11:00 AM
 
   return (
     <CloseButtonPanel bumpkinParts={NPC_WEARABLES.birdie} onClose={onClose}>
