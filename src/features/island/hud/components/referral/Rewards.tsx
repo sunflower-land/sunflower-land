@@ -221,8 +221,13 @@ export const RewardOptions: React.FC<Props> = ({
 
       {hasFeatureAccess(state, "BLOCKCHAIN_BOX") && (
         <ButtonPanel
-          onClick={() => setSelected("BLOCKCHAIN_BOX")}
+          onClick={
+            state.pumpkinPlaza.blockchainBox
+              ? undefined
+              : () => setSelected("BLOCKCHAIN_BOX")
+          }
           className="mb-1"
+          disabled={!!state.pumpkinPlaza.blockchainBox}
         >
           <div className="flex items-start">
             <img src={loveBox} className="w-10 mr-4" />
