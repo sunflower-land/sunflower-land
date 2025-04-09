@@ -79,8 +79,6 @@ const FEATURE_FLAGS = {
     new Date("2025-03-24T00:00:00Z"),
   ),
 
-  TASK_BOARD: betaTimeBasedFeatureFlag(new Date("2025-04-07T00:00:00Z")),
-
   FLOWER_DEPOSIT: usernameFeatureFlag,
 
   // Released to All Players on 5th May

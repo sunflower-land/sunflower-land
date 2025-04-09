@@ -4,7 +4,6 @@ import { getObjectEntries } from "features/game/expansion/lib/utils";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { produce } from "immer";
-import { hasFeatureAccess } from "lib/flags";
 import { translate } from "lib/i18n/translate";
 import codexIcon from "assets/icons/codex.webp";
 
@@ -93,10 +92,6 @@ export function completeSocialTask({
   createdAt = Date.now(),
 }: Options): Readonly<GameState> {
   return produce(state, (stateCopy) => {
-    if (!hasFeatureAccess(stateCopy, "TASK_BOARD")) {
-      throw new Error("Task board is not enabled");
-    }
-
     const { taskId } = action;
     const task = IN_GAME_TASKS[taskId] as Task | undefined;
 
