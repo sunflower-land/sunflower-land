@@ -32,7 +32,7 @@ export async function checkReferralCode({
   token: string;
   referralCode: string;
 }) {
-  const response = await window.fetch(`${CONFIG.API_URL}/check-referralCode`, {
+  const response = await window.fetch(`${CONFIG.API_URL}/check-referral-code`, {
     method: "POST",
     headers: {
       "content-type": "application/json;charset=UTF-8",

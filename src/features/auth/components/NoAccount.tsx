@@ -26,6 +26,8 @@ import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { TextInput } from "components/ui/TextInput";
 import debounce from "lodash.debounce";
 
+type ValidationState = "notFound" | "checking" | "valid" | "error";
+
 export const NoAccount: React.FC = () => {
   const { t } = useAppTranslation();
   const { authService } = useContext(Context);
@@ -34,12 +36,7 @@ export const NoAccount: React.FC = () => {
   const [showReferralId, setShowReferralId] = useState(false);
   const [referralId, setReferralId] = useState(getReferrerId() ?? undefined);
   const [showEmptyReferralModal, setShowEmptyReferralModal] = useState(false);
-  const [validationState, setValidationState] = useState<
-    | "Referral code not found"
-    | "Checking..."
-    | "Valid Referral Code"
-    | "Error checking referral code"
-  >();
+  const [validationState, setValidationState] = useState<ValidationState>();
   const [showClaimAccount, setShowClaimAccount] = useState(false);
   const handleCreateFarm = () => {
     if (!referralId) {
@@ -49,19 +46,26 @@ export const NoAccount: React.FC = () => {
     }
   };
 
+  const validationStateStrings: Record<ValidationState, string> = {
+    notFound: t("noaccount.referralCodeNotFound"),
+    checking: t("noaccount.referralCodeChecking"),
+    valid: t("noaccount.referralCodeValid"),
+    error: t("noaccount.referralCodeError"),
+  };
+
   const { current: debouncedCheckRef } = useRef(
     debounce(async (token: string, referralCode: string) => {
-      setValidationState("Checking...");
+      setValidationState("checking");
       const result = await checkReferralCode({ token, referralCode });
       const { success } = result;
       try {
         if (!success) {
-          setValidationState("Referral code not found");
+          setValidationState("notFound");
         } else {
-          setValidationState("Valid Referral Code");
+          setValidationState("valid");
         }
       } catch {
-        setValidationState("Error checking referral code");
+        setValidationState("error");
       }
     }, 300),
   );
@@ -91,22 +95,22 @@ export const NoAccount: React.FC = () => {
           {validationState && (
             <Label
               type={
-                validationState === "Referral code not found"
+                validationState === "notFound"
                   ? "danger"
-                  : validationState === "Valid Referral Code"
+                  : validationState === "valid"
                     ? "success"
                     : "default"
               }
               secondaryIcon={
-                validationState === "Referral code not found"
+                validationState === "notFound"
                   ? SUNNYSIDE.icons.cancel
-                  : validationState === "Valid Referral Code"
+                  : validationState === "valid"
                     ? SUNNYSIDE.icons.confirm
                     : undefined
               }
               className="mt-2"
             >
-              {validationState}
+              {validationStateStrings[validationState]}
             </Label>
           )}
         </div>
@@ -121,7 +125,7 @@ export const NoAccount: React.FC = () => {
             {t("back")}
           </Button>
           <Button
-            disabled={!referralId || validationState != "Valid Referral Code"}
+            disabled={!referralId || validationState !== "valid"}
             onClick={() => {
               setShowReferralId(false);
               saveReferrerId(referralId as string);
