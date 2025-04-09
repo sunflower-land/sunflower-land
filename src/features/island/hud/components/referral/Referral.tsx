@@ -5,7 +5,7 @@ import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { CONFIG } from "lib/config";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import flowerIcon from "assets/icons/flower_token.webp";
 import { SUNNYSIDE } from "assets/sunnyside";
 import vipIcon from "assets/icons/vip.webp";
@@ -15,6 +15,8 @@ import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import chest from "assets/icons/chest.png";
 import { InventoryItemName } from "features/game/types/game";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { useSound } from "lib/utils/hooks/useSound";
+import clipboard from "clipboard";
 
 interface ReferralProps {
   onHide: () => void;
@@ -28,6 +30,7 @@ const REFERRAL_PACKAGE: Partial<Record<InventoryItemName, number>> = {
 
 export const ReferralContent: React.FC<ReferralProps> = ({ onHide }) => {
   const { t } = useAppTranslation();
+  const [showFarm, setShowFarm] = useState(false);
   const { gameService } = useContext(Context);
   const farmId = useSelector(gameService, (state) => state.context.farmId);
   const username = useSelector(
@@ -45,8 +48,9 @@ export const ReferralContent: React.FC<ReferralProps> = ({ onHide }) => {
     CONFIG.NETWORK === "mainnet"
       ? "https://sunflower-land.com/play"
       : "https://sunflower-land.com/testnet";
-  const referralCode = username ?? farmId;
+  const referralCode = username ?? `${farmId}`;
   const referralLink = `${gameLink}/?ref=${referralCode}`;
+  const copypaste = useSound("copypaste");
 
   return (
     <CloseButtonPanel
@@ -62,7 +66,6 @@ export const ReferralContent: React.FC<ReferralProps> = ({ onHide }) => {
         </div>
         {/* Referral Link */}
         <div className="flex flex-col gap-2">
-          <Label type="default">{`Your Referral Link`}</Label>
           <div className="flex flex-row justify-between gap-2">
             <Label type="info" icon={ITEM_DETAILS["Love Charm"].image}>
               {`Friends Referred: ${totalReferrals}`}
@@ -71,6 +74,20 @@ export const ReferralContent: React.FC<ReferralProps> = ({ onHide }) => {
               {`VIP Friends Referred: ${totalVIPReferrals}`}
             </Label>
           </div>
+          <Label
+            type="default"
+            popup={showFarm}
+            onClick={() => {
+              setShowFarm(true);
+              setTimeout(() => {
+                setShowFarm(false);
+              }, 2000);
+              copypaste.play();
+              clipboard.copy(referralCode);
+            }}
+          >
+            {t("noaccount.referralCodeLabel", { referralId: referralCode })}
+          </Label>
           <CopyField
             text={referralLink}
             copyFieldMessage={t("share.CopyReferralLink")}

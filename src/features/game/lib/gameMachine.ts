@@ -29,7 +29,7 @@ import {
   PlacedLamp,
   Purchase,
 } from "../types/game";
-import { getPromoCode, loadSession } from "../actions/loadSession";
+import { loadSession } from "../actions/loadSession";
 import { EMPTY } from "./constants";
 import { autosave } from "../actions/autosave";
 import { CollectibleName } from "../types/craftables";
@@ -149,7 +149,6 @@ export interface Context {
     } | null;
   };
   auctionResults?: AuctionResults;
-  promoCode?: string;
   moderation: Moderation;
   saveQueued: boolean;
   linkedWallet?: string;
@@ -678,7 +677,6 @@ export function startGame(authContext: AuthContext) {
                 deviceTrackerId: response.deviceTrackerId,
                 announcements: response.announcements,
                 moderation: response.moderation,
-                promoCode: response.promoCode,
                 farmAddress: response.farmAddress,
                 analyticsId: response.analyticsId,
                 linkedWallet: response.linkedWallet,
@@ -991,15 +989,15 @@ export function startGame(authContext: AuthContext) {
             // EVENTS THAT TARGET NOTIFYING OR LOADING MUST GO ABOVE THIS LINE
 
             // EVENTS THAT TARGET PLAYING MUST GO BELOW THIS LINE
-            {
-              target: "promo",
-              cond: (context) => {
-                return (
-                  context.state.bumpkin?.experience === 0 &&
-                  getPromoCode() === "crypto-com"
-                );
-              },
-            },
+            // {
+            //   target: "promo",
+            //   cond: (context) => {
+            //     return (
+            //       context.state.bumpkin?.experience === 0 &&
+            //       getPromoCode() === "crypto-com"
+            //     );
+            //   },
+            // },
             {
               target: "airdrop",
               cond: (context) => {
@@ -2056,22 +2054,14 @@ export function startGame(authContext: AuthContext) {
         },
         COMMUNITY_UPDATE: {
           actions: assign({
-            state: (_, event) => {
-              return event.game;
-            },
+            state: (_, event) => event.game,
           }),
         },
         WALLET_UPDATED: {
           actions: assign({
-            nftId: (_, event) => {
-              return event.nftId;
-            },
-            farmAddress: (_, event) => {
-              return event.farmAddress;
-            },
-            linkedWallet: (_, event) => {
-              return event.linkedWallet;
-            },
+            nftId: (_, event) => event.nftId,
+            farmAddress: (_, event) => event.farmAddress,
+            linkedWallet: (_, event) => event.linkedWallet,
           }),
         },
       },
@@ -2114,7 +2104,6 @@ export function startGame(authContext: AuthContext) {
           deviceTrackerId: (_, event) => event.data.deviceTrackerId,
           announcements: (_, event) => event.data.announcements,
           moderation: (_, event) => event.data.moderation,
-          promoCode: (_, event) => event.data.promoCode,
           farmAddress: (_, event) => event.data.farmAddress,
           linkedWallet: (_, event) => event.data.linkedWallet,
           wallet: (_, event) => event.data.wallet,
