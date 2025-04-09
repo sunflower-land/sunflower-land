@@ -10,12 +10,9 @@ import {
   withdrawBudsTransaction,
   WithdrawItemsParams,
   withdrawItemsTransaction,
-  WithdrawSFLParams,
-  withdrawSFLTransaction,
   WithdrawWearablesParams,
   withdrawWearablesTransaction,
 } from "lib/blockchain/Withdrawals";
-import { withdrawSFLRequest } from "../actions/withdraw";
 import { sync } from "../actions/sync";
 import { mintAuctionItemRequest } from "../actions/mintAuctionItem";
 import {
@@ -32,15 +29,6 @@ export type BidMintedTransaction = {
   data: {
     bid: GameState["auctioneer"]["bid"];
     params: MintBidParams;
-  };
-};
-
-export type SFLWithdrawnTransaction = {
-  event: "transaction.sflWithdrawn";
-  createdAt: number;
-  data: {
-    sfl: number;
-    params: WithdrawSFLParams;
   };
 };
 
@@ -102,7 +90,6 @@ export type GameTransaction =
   | WearablesWithdrawnTransaction
   | ItemsWithdrawnTransaction
   | BudWithdrawnTransaction
-  | SFLWithdrawnTransaction
   | BidMintedTransaction
   | AcceptOfferTransaction
   | ListingPurchasedTransaction;
@@ -181,7 +168,6 @@ export const ONCHAIN_TRANSACTIONS: TransactionHandler = {
   "transaction.budWithdrawn": (data) => withdrawBudsTransaction(data.params),
   "transaction.itemsWithdrawn": (data) => withdrawItemsTransaction(data.params),
   "transaction.progressSynced": (data) => syncProgress(data.params),
-  "transaction.sflWithdrawn": (data) => withdrawSFLTransaction(data.params),
   "transaction.wearablesWithdrawn": (data) =>
     withdrawWearablesTransaction(data.params),
 
@@ -213,6 +199,5 @@ export const TRANSACTION_SIGNATURES: TransactionRequest = {
   "transaction.bidMinted": mintAuctionItemRequest,
   "transaction.budWithdrawn": postEffect,
   "transaction.itemsWithdrawn": postEffect,
-  "transaction.sflWithdrawn": withdrawSFLRequest,
   "transaction.wearablesWithdrawn": postEffect,
 };

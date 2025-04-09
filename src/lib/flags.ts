@@ -75,10 +75,6 @@ const FEATURE_FLAGS = {
     !game.verified,
   FACE_RECOGNITION_TEST: defaultFeatureFlag,
 
-  DISABLE_BLOCKCHAIN_ACTIONS: timeBasedFeatureFlag(
-    new Date("2025-03-24T00:00:00Z"),
-  ),
-
   FLOWER_DEPOSIT: usernameFeatureFlag,
 
   // Released to All Players on 5th May
