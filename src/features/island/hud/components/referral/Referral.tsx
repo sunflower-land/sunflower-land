@@ -66,7 +66,6 @@ export const ReferralContent: React.FC<ReferralProps> = ({ onHide }) => {
         </div>
         {/* Referral Link */}
         <div className="flex flex-col gap-2">
-          <Label type="default">{`Your Referral Link`}</Label>
           <div className="flex flex-row justify-between gap-2">
             <Label type="info" icon={ITEM_DETAILS["Love Charm"].image}>
               {`Friends Referred: ${totalReferrals}`}
@@ -87,7 +86,7 @@ export const ReferralContent: React.FC<ReferralProps> = ({ onHide }) => {
               clipboard.copy(referralCode);
             }}
           >
-            {`Referral Code: ${referralCode}`}
+            {t("noaccount.referralCodeLabel", { referralId: referralCode })}
           </Label>
           <CopyField
             text={referralLink}

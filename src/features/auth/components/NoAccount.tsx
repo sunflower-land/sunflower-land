@@ -1,4 +1,10 @@
-import React, { ChangeEvent, useContext, useEffect, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+  useRef,
+} from "react";
 import { Context } from "../lib/Provider";
 import { getFarms } from "lib/blockchain/Farm";
 import { wallet } from "lib/blockchain/wallet";
@@ -11,19 +17,30 @@ import { useActor } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Loading } from "./Loading";
-import { getReferrerId, saveReferrerId } from "../actions/createAccount";
+import {
+  checkReferralCode,
+  getReferrerId,
+  saveReferrerId,
+} from "../actions/createAccount";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
+import { TextInput } from "components/ui/TextInput";
+import debounce from "lodash.debounce";
 
 export const NoAccount: React.FC = () => {
+  const { t } = useAppTranslation();
   const { authService } = useContext(Context);
   const [authState] = useActor(authService);
 
   const [showReferralId, setShowReferralId] = useState(false);
   const [referralId, setReferralId] = useState(getReferrerId() ?? undefined);
   const [showEmptyReferralModal, setShowEmptyReferralModal] = useState(false);
-
+  const [validationState, setValidationState] = useState<
+    | "Referral code not found"
+    | "Checking..."
+    | "Valid Referral Code"
+    | "Error checking referral code"
+  >();
   const [showClaimAccount, setShowClaimAccount] = useState(false);
-  const { t } = useAppTranslation();
   const handleCreateFarm = () => {
     if (!referralId) {
       setShowEmptyReferralModal(true);
@@ -32,37 +49,79 @@ export const NoAccount: React.FC = () => {
     }
   };
 
+  const { current: debouncedCheckRef } = useRef(
+    debounce(async (token: string, referralCode: string) => {
+      setValidationState("Checking...");
+      const result = await checkReferralCode({ token, referralCode });
+      const { success } = result;
+      try {
+        if (!success) {
+          setValidationState("Referral code not found");
+        } else {
+          setValidationState("Valid Referral Code");
+        }
+      } catch {
+        setValidationState("Error checking referral code");
+      }
+    }, 300),
+  );
+
+  const handleCheckReferralCode = useCallback(
+    (token: string, referralCode: string) => {
+      debouncedCheckRef(token, referralCode);
+    },
+    [debouncedCheckRef],
+  );
+
   if (showReferralId) {
     return (
       <>
         <div className="p-2">
-          <p className="text-xs mb-1">{t("reward.promo.code")}</p>
-          <input
-            style={{
-              boxShadow: "#b96e50 0px 1px 1px 1px inset",
-              border: "2px solid #ead4aa",
-            }}
-            type="text"
-            min={1}
+          <TextInput
+            placeholder={t("reward.referral.code")}
             value={referralId}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => {
-              setReferralId(e.target.value);
+            onValueChange={(value) => {
+              setReferralId(value);
+              handleCheckReferralCode(
+                authState.context.user.rawToken as string,
+                value,
+              );
             }}
-            className={
-              "text-shadow mr-2 rounded-sm shadow-inner shadow-black bg-brown-200 w-full p-2 h-10"
-            }
           />
+          {validationState && (
+            <Label
+              type={
+                validationState === "Referral code not found"
+                  ? "danger"
+                  : validationState === "Valid Referral Code"
+                    ? "success"
+                    : "default"
+              }
+              secondaryIcon={
+                validationState === "Referral code not found"
+                  ? SUNNYSIDE.icons.cancel
+                  : validationState === "Valid Referral Code"
+                    ? SUNNYSIDE.icons.confirm
+                    : undefined
+              }
+              className="mt-2"
+            >
+              {validationState}
+            </Label>
+          )}
         </div>
         <div className="flex space-x-1">
           <Button
             onClick={() => {
               setShowReferralId(false);
+              setReferralId("");
+              setValidationState(undefined);
             }}
           >
             {t("back")}
           </Button>
           <Button
-            disabled={!referralId}
+            disabled={!referralId || validationState != "Valid Referral Code"}
             onClick={() => {
               setShowReferralId(false);
               saveReferrerId(referralId as string);
