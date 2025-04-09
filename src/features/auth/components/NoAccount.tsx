@@ -12,16 +12,26 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Loading } from "./Loading";
 import { getReferrerId, saveReferrerId } from "../actions/createAccount";
+import { ConfirmationModal } from "components/ui/ConfirmationModal";
 
 export const NoAccount: React.FC = () => {
   const { authService } = useContext(Context);
   const [authState] = useActor(authService);
 
   const [showReferralId, setShowReferralId] = useState(false);
-  const [referralId, setReferralId] = useState(getReferrerId());
+  const [referralId, setReferralId] = useState(getReferrerId() ?? undefined);
+  const [showEmptyReferralModal, setShowEmptyReferralModal] = useState(false);
 
   const [showClaimAccount, setShowClaimAccount] = useState(false);
   const { t } = useAppTranslation();
+  const handleCreateFarm = () => {
+    if (!referralId) {
+      setShowEmptyReferralModal(true);
+    } else {
+      authService.send("CREATE_FARM");
+    }
+  };
+
   if (showReferralId) {
     return (
       <>
@@ -84,8 +94,12 @@ export const NoAccount: React.FC = () => {
             {t("noaccount.newFarmer")}
           </Label>
           {referralId && (
-            <Label type="formula" icon={SUNNYSIDE.icons.search}>
-              {`${t("noaccount.promoCodeLabel")}: ${getReferrerId()}`}
+            <Label
+              type="formula"
+              icon={SUNNYSIDE.icons.search}
+              onClick={() => setShowReferralId(true)}
+            >
+              {`${t("noaccount.referralCodeLabel", { referralId })}`}
             </Label>
           )}
           {!referralId && (
@@ -95,7 +109,7 @@ export const NoAccount: React.FC = () => {
               className="underline text-xs cursor-pointer"
               onClick={() => setShowReferralId(true)}
             >
-              {t("noaccount.addPromoCode")}
+              {t("noaccount.addReferralCode")}
             </a>
           )}
         </div>
@@ -108,11 +122,22 @@ export const NoAccount: React.FC = () => {
               {t("noaccount.haveFarm")}
             </Button>
           )}
-          <Button onClick={() => authService.send("CREATE_FARM")}>
-            {t("noaccount.letsGo")}
-          </Button>
+          <Button onClick={handleCreateFarm}>{t("noaccount.letsGo")}</Button>
         </div>
       </div>
+      <ConfirmationModal
+        show={showEmptyReferralModal}
+        onHide={() => setShowEmptyReferralModal(false)}
+        messages={[
+          "You have not added a referral code. Are you sure you want to continue?",
+        ]}
+        onCancel={() => setShowEmptyReferralModal(false)}
+        onConfirm={() => {
+          authService.send("CREATE_FARM");
+          setShowEmptyReferralModal(false);
+        }}
+        confirmButtonLabel={"Yes I'm sure"}
+      />
     </>
   );
 };

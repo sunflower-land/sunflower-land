@@ -19,13 +19,7 @@ export function saveReferrerId(id: string) {
 }
 
 export function getReferrerId() {
-  const item = localStorage.getItem(REFERRER_LS_KEY);
-
-  if (!item) {
-    return undefined;
-  }
-
-  return item;
+  return localStorage.getItem(REFERRER_LS_KEY);
 }
 
 const SIGN_UP_LS_KEY = `sb_wiz.signup-key.v.${host}`;

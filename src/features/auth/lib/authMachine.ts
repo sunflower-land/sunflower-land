@@ -2,7 +2,10 @@ import { createMachine, Interpreter, State, assign } from "xstate";
 import { CONFIG } from "lib/config";
 import { ERRORS, ErrorCode } from "lib/errors";
 
-import { saveReferrerId } from "../actions/createAccount";
+import {
+  saveReferrerId,
+  getReferrerId as getReferrerIdFromLS,
+} from "../actions/createAccount";
 import { login, Token, decodeToken } from "../actions/login";
 import { randomID } from "lib/utils/random";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
@@ -365,7 +368,7 @@ export const authMachine = createMachine(
             const { token } = await signUp({
               token: context.user.rawToken as string,
               transactionId: context.transactionId as string,
-              referrerId: getReferrerID(),
+              referrerId: getReferrerIdFromLS(),
               utm: getUTMs(),
             });
 
