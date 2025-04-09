@@ -13,26 +13,47 @@ type StreamSchedule = {
 };
 
 const getNextStreamTime = (schedule: StreamSchedule): Date => {
-  const now = new Date();
-  const sydneyTime = new Date(
-    now.toLocaleString("en-US", { timeZone: "Australia/Sydney" }),
+  // Get current time in Sydney timezone
+  const sydneyTime = new Date();
+  const formatter = new Intl.DateTimeFormat("en-US", {
+    timeZone: "Australia/Sydney",
+    hour: "numeric",
+    minute: "numeric",
+    hour12: false,
+  });
+
+  const parts = formatter.formatToParts(sydneyTime);
+  const currentHour = parseInt(
+    parts.find((p) => p.type === "hour")?.value ?? "0",
+  );
+  const currentMinute = parseInt(
+    parts.find((p) => p.type === "minute")?.value ?? "0",
   );
 
-  // Create next stream date
-  const nextStream = new Date(sydneyTime);
-  nextStream.setHours(schedule.hour, schedule.minute, 0, 0);
+  // Calculate hours and minutes to add
+  let hoursToAdd = schedule.hour - currentHour;
+  let minutesToAdd = schedule.minute - currentMinute;
 
-  // If current time is past the target time, move to next week
-  if (sydneyTime > nextStream) {
-    nextStream.setDate(nextStream.getDate() + 7);
+  // Adjust if minutes or hours are negative
+  if (minutesToAdd < 0) {
+    hoursToAdd--;
+    minutesToAdd += 60;
+  }
+  if (hoursToAdd < 0) hoursToAdd += 24;
+
+  // Set the next stream time
+  sydneyTime.setHours(sydneyTime.getHours() + hoursToAdd);
+  sydneyTime.setMinutes(sydneyTime.getMinutes() + minutesToAdd);
+  sydneyTime.setSeconds(0);
+  sydneyTime.setMilliseconds(0);
+
+  // Adjust day if needed
+  if (schedule.day !== undefined) {
+    const daysToAdd = (schedule.day - sydneyTime.getDay() + 7) % 7;
+    sydneyTime.setDate(sydneyTime.getDate() + daysToAdd);
   }
 
-  // Move to the target day if not already on that day
-  while (nextStream.getDay() !== schedule.day) {
-    nextStream.setDate(nextStream.getDate() + 1);
-  }
-
-  return nextStream;
+  return sydneyTime;
 };
 
 export const Streams: React.FC<{ onClose: () => void }> = ({ onClose }) => {
