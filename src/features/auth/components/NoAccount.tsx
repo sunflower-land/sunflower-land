@@ -1,8 +1,5 @@
 import React, { ChangeEvent, useContext, useEffect, useState } from "react";
 import { Context } from "../lib/Provider";
-
-import { getPromoCode, savePromoCode } from "features/game/actions/loadSession";
-
 import { getFarms } from "lib/blockchain/Farm";
 import { wallet } from "lib/blockchain/wallet";
 import { Button } from "components/ui/Button";
@@ -14,17 +11,18 @@ import { useActor } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Loading } from "./Loading";
+import { getReferrerId, saveReferrerId } from "../actions/createAccount";
 
 export const NoAccount: React.FC = () => {
   const { authService } = useContext(Context);
   const [authState] = useActor(authService);
 
-  const [showPromoCode, setShowPromoCode] = useState(false);
-  const [promoCode, setPromoCode] = useState(getPromoCode());
+  const [showReferralId, setShowReferralId] = useState(false);
+  const [referralId, setReferralId] = useState(getReferrerId());
 
   const [showClaimAccount, setShowClaimAccount] = useState(false);
   const { t } = useAppTranslation();
-  if (showPromoCode) {
+  if (showReferralId) {
     return (
       <>
         <div className="p-2">
@@ -36,9 +34,9 @@ export const NoAccount: React.FC = () => {
             }}
             type="text"
             min={1}
-            value={promoCode}
+            value={referralId}
             onChange={(e: ChangeEvent<HTMLInputElement>) => {
-              setPromoCode(e.target.value);
+              setReferralId(e.target.value);
             }}
             className={
               "text-shadow mr-2 rounded-sm shadow-inner shadow-black bg-brown-200 w-full p-2 h-10"
@@ -48,16 +46,16 @@ export const NoAccount: React.FC = () => {
         <div className="flex space-x-1">
           <Button
             onClick={() => {
-              setShowPromoCode(false);
+              setShowReferralId(false);
             }}
           >
             {t("back")}
           </Button>
           <Button
-            disabled={!promoCode}
+            disabled={!referralId}
             onClick={() => {
-              setShowPromoCode(false);
-              savePromoCode(promoCode as string);
+              setShowReferralId(false);
+              saveReferrerId(referralId as string);
             }}
           >
             {t("ok")}
@@ -85,17 +83,17 @@ export const NoAccount: React.FC = () => {
           <Label type="chill" icon={SUNNYSIDE.icons.heart}>
             {t("noaccount.newFarmer")}
           </Label>
-          {promoCode && (
+          {referralId && (
             <Label type="formula" icon={SUNNYSIDE.icons.search}>
-              {`${t("noaccount.promoCodeLabel")}: ${getPromoCode()}`}
+              {`${t("noaccount.promoCodeLabel")}: ${getReferrerId()}`}
             </Label>
           )}
-          {!promoCode && (
+          {!referralId && (
             <a
               target="_blank"
               rel="noopener noreferrer"
               className="underline text-xs cursor-pointer"
-              onClick={() => setShowPromoCode(true)}
+              onClick={() => setShowReferralId(true)}
             >
               {t("noaccount.addPromoCode")}
             </a>
