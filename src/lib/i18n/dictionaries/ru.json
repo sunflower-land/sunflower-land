@@ -2995,7 +2995,6 @@
   "noTownCenter.news": "Твои последние новости и сообщения здесь.",
   "noTownCenter.reward": "Награда: 1 x Town Center!",
   "noTownCenter.townCenterPlacement": "Ты можешь разместить городской центр через инвентарь > раздел \"Здания\".",
-  "noaccount.addPromoCode": "Добавить промокод?",
   "noaccount.alreadyHaveNFTFarm": "Уже есть NFT ферма?",
   "noaccount.createFarm": "Создать ферму",
   "noaccount.createNewFarm": "Создать новую ферму",
@@ -3003,7 +3002,6 @@
   "noaccount.letsGo": "Да, давай!",
   "noaccount.newFarmer": "Новый фермер",
   "noaccount.noFarmNFTs": "У тебя нет NFT фермы.",
-  "noaccount.promoCodeLabel": "Промокод",
   "noaccount.selectNFTID": "Выбери номер NFT фермы",
   "noaccount.welcomeMessage": "Добро пожаловать в Sunflower Land. Хочешь создать новую ферму?",
   "notOnDiscordServer.acceptRules": "3. Прими правила в #rules",
@@ -3901,7 +3899,6 @@
   "reward.lvlRequirement": "Ты должен быть 3 уровня, чтобы получать ежедневные награды.",
   "reward.nextBonus": " Следующий бонус: ",
   "reward.open": "Открыть награду",
-  "reward.promo.code": "Введите промокод",
   "reward.spendWisely": "Потрать их с умом.",
   "reward.streak": " дней подряд",
   "reward.streak.oneYear": "Награда за 365 дней без пропусков",
@@ -5718,5 +5715,12 @@
   "posting.twitter.tweet.used": "Твит уже использован",
   "referral.friend": "25 Love Charms - распространяется только на первого реферала",
   "referral.flower": "(Скоро) 10% от $FLOWER, потраченных вашим другом",
-  "referral.description": "Когда ваш друг зарегистрируется по вашей реферальной ссылке, вы получите следующие награды:"
+  "referral.description": "Когда ваш друг зарегистрируется по вашей реферальной ссылке, вы получите следующие награды:",
+  "noaccount.addReferralCode": "У вас есть реферальный код?",
+  "noaccount.referralCodeLabel": "Реферальный код: {{referralId}}",
+  "noaccount.referralCodeNotFound": "Реферальный код не найден",
+  "noaccount.referralCodeChecking": "Проверяю...",
+  "noaccount.referralCodeValid": "Действующий реферальный код",
+  "noaccount.referralCodeError": "Ошибка при проверке реферального кода",
+  "reward.referral.code": "Введите свой реферальный код:"
 }

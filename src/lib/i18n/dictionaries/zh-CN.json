@@ -1683,7 +1683,6 @@
   "levelUp.60": "60级，你是真正的农业超级明星！",
   "megaStore.timeRemaining": "剩下 {{timeRemaining}}！",
   "noaccount.newFarmer": "新农民",
-  "noaccount.addPromoCode": "添加促销代码？",
   "noaccount.alreadyHaveNFTFarm": "已经有 NFT 农场了？",
   "noaccount.createFarm": "创建新农场",
   "noaccount.welcomeMessage": "欢迎来到 Sunflower Land！ 你想要创建农场吗？",
@@ -1760,7 +1759,6 @@
   "reward.found": "您发现了",
   "reward.spendWisely": "记得要好好使用。",
   "reward.wearable": "给您乡包佬的穿戴品",
-  "reward.promo.code": "输入您的促销码：",
   "reward.woohoo": "呜呼！ 您找到了隐藏大奖：",
   "reward.connectWeb3Wallet": "连接 Web3 钱包以领取每日奖励。",
   "rules.gameStart": "游戏开始时，植物将随机挑选含 4 种药水和 1 种“混沌”药水的组合。这个组合里的药水全部不同或全部相同都有可能。",
@@ -2344,7 +2342,6 @@
   "noaccount.noFarmNFTs": "您未拥有任何农场 NFT。",
   "noaccount.createNewFarm": "创建新农场",
   "noaccount.selectNFTID": "选择您的 NFT ID：",
-  "noaccount.promoCodeLabel": "促销码",
   "noaccount.haveFarm": "不，我有一个",
   "noaccount.letsGo": "是，咱们走吧！",
   "noBumpkin.readyToFarm": "太棒了，您的乡包佬已经准备好耕作了！",
@@ -5718,5 +5715,12 @@
   "posting.twitter.tweet.used": "推文已经使用了",
   "referral.friend": "25 Love Charms-仅适用于首次推荐",
   "referral.flower": "（即将上线）朋友花费的 $FLOWER 的 10%",
-  "referral.description": "当您的朋友使用您的推荐链接注册时，您将获得以下奖励："
+  "referral.description": "当您的朋友使用您的推荐链接注册时，您将获得以下奖励：",
+  "noaccount.addReferralCode": "有推荐码吗？",
+  "noaccount.referralCodeLabel": "推荐码：{{referralId}}",
+  "noaccount.referralCodeNotFound": "未找到推荐码",
+  "noaccount.referralCodeChecking": "正在检查...",
+  "noaccount.referralCodeValid": "有效的推荐码",
+  "noaccount.referralCodeError": "检查推荐码时出错",
+  "reward.referral.code": "输入您的推荐码："
 }
