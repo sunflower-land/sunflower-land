@@ -11,7 +11,6 @@ import { Context as GameContext } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { ContentComponentProps } from "../GameOptions";
-import { hasFeatureAccess } from "lib/flags";
 import { Label } from "components/ui/Label";
 import { useSound } from "lib/utils/hooks/useSound";
 import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
@@ -78,11 +77,6 @@ export const BlockchainSettings: React.FC<ContentComponentProps> = ({
       {isFullUser && (
         <Button onClick={storeOnChain}>
           {t("gameOptions.blockchainSettings.storeOnChain")}
-        </Button>
-      )}
-      {!hasFeatureAccess(state, "DISABLE_BLOCKCHAIN_ACTIONS") && (
-        <Button onClick={() => onSubMenuClick("swapSFL")}>
-          {t("gameOptions.blockchainSettings.swapPOLForSFL")}
         </Button>
       )}
       {isFullUser && (

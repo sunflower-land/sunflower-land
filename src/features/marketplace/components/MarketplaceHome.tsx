@@ -44,7 +44,6 @@ import {
   hasReputation,
   Reputation,
 } from "features/game/lib/reputation";
-import { hasFeatureAccess } from "lib/flags";
 
 const _hasTradeReputation = (state: MachineState) =>
   hasReputation({
@@ -78,26 +77,12 @@ export const MarketplaceNavigation: React.FC = () => {
     game: gameService.getSnapshot().context.state,
   });
 
-  const quickswapDisabled = hasFeatureAccess(
-    gameService.getSnapshot().context.state,
-    "DISABLE_BLOCKCHAIN_ACTIONS",
-  );
-
-  const openQuickswap = () => {
-    if (quickswapDisabled) return;
-    setShowQuickswap(true);
-  };
-
   return (
     <>
       <Modal show={showFilters} onHide={() => setShowFilters(false)}>
         <CloseButtonPanel>
           <Filters onClose={() => setShowFilters(false)} farmId={farmId} />
-          <EstimatedPrice
-            price={price}
-            onClick={openQuickswap}
-            quickswapDisabled={quickswapDisabled}
-          />
+          <EstimatedPrice price={price} />
         </CloseButtonPanel>
       </Modal>
 
@@ -154,11 +139,7 @@ export const MarketplaceNavigation: React.FC = () => {
             </div>
           </InnerPanel>
 
-          <EstimatedPrice
-            price={price}
-            onClick={openQuickswap}
-            quickswapDisabled={quickswapDisabled}
-          />
+          <EstimatedPrice price={price} />
 
           {!hasTradeReputation && (
             <InnerPanel
@@ -433,22 +414,15 @@ const Filters: React.FC<{ onClose: () => void; farmId: number }> = ({
   );
 };
 
-const EstimatedPrice: React.FC<{
-  price: number;
-  onClick: () => void;
-  quickswapDisabled: boolean;
-}> = ({ price, onClick, quickswapDisabled }) => {
+const EstimatedPrice: React.FC<{ price: number }> = ({ price }) => {
   const { t } = useTranslation();
   return (
-    <InnerPanel className="cursor-pointer mb-1" onClick={onClick}>
+    <InnerPanel className="mb-1">
       <div className="flex justify-between items-center pr-1">
         <div className="flex items-center">
           <img src={sflIcon} className="w-6" />
           <span className="text-sm ml-2">{`$${price.toFixed(4)}`}</span>
         </div>
-        {!quickswapDisabled && (
-          <p className="text-xxs underline">{t("marketplace.quickswap")}</p>
-        )}
       </div>
       <p className="text-xxs italic">{t("marketplace.estimated.price")}</p>
     </InnerPanel>

@@ -13,9 +13,7 @@ import { balancesToInventory } from "lib/utils/visitUtils";
 import { fromWei, toBN, toWei } from "web3-utils";
 
 import chest from "assets/icons/chest.png";
-import token from "assets/icons/flower_token.webp";
 
-import classNames from "classnames";
 import { formatNumber } from "lib/utils/formatNumber";
 import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -34,7 +32,6 @@ import { CONFIG } from "lib/config";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { isMobile } from "mobile-device-detect";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { getImageUrl } from "lib/utils/getImageURLS";
@@ -42,8 +39,6 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { Context as GameContext } from "features/game/GameProvider";
 import { GameWallet } from "features/wallet/Wallet";
 import { formatEther } from "viem";
-import { hasFeatureAccess } from "lib/flags";
-import { INITIAL_FARM } from "features/game/lib/constants";
 import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
 import { LockdownWidget } from "features/announcements/AnnouncementWidgets";
 
@@ -333,52 +328,36 @@ const DepositOptions: React.FC<Props> = ({
       {status === "loading" && <Loading />}
       {status === "loaded" && emptyWallet && (
         <div>
-          {hasFeatureAccess(INITIAL_FARM, "DISABLE_BLOCKCHAIN_ACTIONS") && (
-            <>
-              <div className="p-2 space-y-2">
-                <div className="flex justify-between sm:flex-row flex-col">
-                  <Label
-                    type="formula"
-                    icon={SUNNYSIDE.icons.polygonIcon}
-                    className="mb-2"
-                  >
-                    {t("polygon.required")}
-                  </Label>
-                  <div className="-mr-4">
-                    <WalletAddressLabel
-                      walletAddress={linkedWallet}
-                      showLabelTitle={true}
-                    />
-                  </div>
-                </div>
-
-                <p className="flex text-xs sm:text-xs">
-                  {t("deposit.addCollectiblesToPolygonWallet")}
-                </p>
-                <div className="flex text-xs sm:text-xs space-x-1 pb-8">
-                  <span className="whitespace-nowrap">
-                    {`${t("deposit.linkedWallet")}`}
-                  </span>
-                  <CopyAddress address={linkedWallet} />
-                </div>
-              </div>
-              <Button onClick={() => setStatus("loading")}>
-                {t("deposit.refreshWallet")}
-              </Button>
-            </>
-          )}
-          {!hasFeatureAccess(INITIAL_FARM, "DISABLE_BLOCKCHAIN_ACTIONS") && (
-            <div className="p-2 space-y-2">
-              <p>{t("deposit.noSflOrCollectibles")}</p>
-
-              <div className="flex text-xs sm:text-xs pb-8">
-                <span className="whitespace-nowrap">
-                  {t("deposit.farmAddress")}
-                </span>
-                <CopyAddress address={farmAddress} />
+          <div className="p-2 space-y-2">
+            <div className="flex justify-between sm:flex-row flex-col">
+              <Label
+                type="formula"
+                icon={SUNNYSIDE.icons.polygonIcon}
+                className="mb-2"
+              >
+                {t("polygon.required")}
+              </Label>
+              <div className="-mr-4">
+                <WalletAddressLabel
+                  walletAddress={linkedWallet}
+                  showLabelTitle={true}
+                />
               </div>
             </div>
-          )}
+
+            <p className="flex text-xs sm:text-xs">
+              {t("deposit.addCollectiblesToPolygonWallet")}
+            </p>
+            <div className="flex text-xs sm:text-xs space-x-1 pb-8">
+              <span className="whitespace-nowrap">
+                {`${t("deposit.linkedWallet")}`}
+              </span>
+              <CopyAddress address={linkedWallet} />
+            </div>
+          </div>
+          <Button onClick={() => setStatus("loading")}>
+            {t("deposit.refreshWallet")}
+          </Button>
         </div>
       )}
       {status === "loaded" && !emptyWallet && (
@@ -401,41 +380,6 @@ const DepositOptions: React.FC<Props> = ({
             </div>
             <div className="divide-y-2 divide-dashed divide-brown-600">
               <div className="space-y-3">
-                {sflBalance.gt(0) &&
-                  !hasFeatureAccess(
-                    INITIAL_FARM,
-                    "DISABLE_BLOCKCHAIN_ACTIONS",
-                  ) && (
-                    <div>
-                      <Label type="default" className="mb-2" icon={token}>
-                        {"$FLOWER"}
-                      </Label>
-                      <div className="flex items-start justify-between mb-4">
-                        <div className="relative w-full mr-4">
-                          <input
-                            type="number"
-                            name="sflDepositAmount"
-                            value={sflDepositAmount}
-                            disabled={false}
-                            onInput={handleSflDepositAmountChange}
-                            className={classNames(
-                              "text-shadow shadow-inner shadow-black bg-brown-200 w-full p-2",
-                              {
-                                "text-error": amountGreaterThanBalance,
-                              },
-                            )}
-                          />
-                          <span className="text-xxs md:text-xs absolute top-1/2 -translate-y-1/2 right-2">{`${
-                            isMobile ? t("balance.short") : t("balance")
-                          }: ${formattedSflBalance}`}</span>
-                        </div>
-                        <div className="w-[10%] flex self-center justify-center">
-                          <img className="w-6" src={token} alt="sfl token" />
-                        </div>
-                      </div>
-                    </div>
-                  )}
-
                 {hasItemsInInventory && (
                   <div>
                     <Label
@@ -518,11 +462,6 @@ const DepositOptions: React.FC<Props> = ({
                     </Label>
 
                     <div>
-                      {validDepositAmount &&
-                        !hasFeatureAccess(
-                          INITIAL_FARM,
-                          "DISABLE_BLOCKCHAIN_ACTIONS",
-                        ) && <p>{`${sflDepositAmount} FLOWER`}</p>}
                       {hasItemsToDeposit && (
                         <div className="flex flex-wrap h-fit -ml-1.5">
                           {selectedItems.map((item) => {
@@ -571,14 +510,6 @@ const DepositOptions: React.FC<Props> = ({
                         </div>
                       )}
                     </div>
-                  </div>
-                )}
-                {!hasFeatureAccess(
-                  INITIAL_FARM,
-                  "DISABLE_BLOCKCHAIN_ACTIONS",
-                ) && (
-                  <div className="text-[11px] sm:text-xs mb-3">
-                    <CopyAddress address={farmAddress} />
                   </div>
                 )}
               </div>
