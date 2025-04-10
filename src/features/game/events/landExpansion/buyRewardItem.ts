@@ -10,6 +10,7 @@ import {
   RewardShopCollectibleName,
   RewardShopWearableName,
 } from "features/game/types/rewardShop";
+import { hasFeatureAccess } from "lib/flags";
 export type BuyRewardShopItemAction = {
   type: "rewardItem.bought";
   name: RewardShopCollectibleName | RewardShopWearableName;
@@ -27,6 +28,9 @@ export function buyRewardShopItem({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (stateCopy) => {
+    if (!hasFeatureAccess(stateCopy, "LOVE_CHARM_REWARD_SHOP")) {
+      throw new Error("Love Charm Reward Shop is not available");
+    }
     const { name } = action;
 
     const { bumpkin } = stateCopy;
