@@ -20,6 +20,7 @@ import { InventoryItemName } from "features/game/types/game";
 import { ITEM_TRADE_TYPES } from "features/marketplace/lib/getTradeType";
 import { getWearableImage } from "features/game/lib/getWearableImage";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { hasFeatureAccess } from "lib/flags";
 
 // Types
 interface AirdropItem {
@@ -272,9 +273,8 @@ export const AirdropPlayer: React.FC<
   const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
 
-  const hasStreamerHat = useSelector(
-    gameService,
-    (state) => (state.context.state.wardrobe["Streamer Hat"] ?? 0) > 0,
+  const hasStreamerHat = useSelector(gameService, (state) =>
+    hasFeatureAccess(state.context.state, "STREAMER_HAT"),
   );
 
   // Basic state
