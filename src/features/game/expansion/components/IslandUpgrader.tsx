@@ -26,6 +26,17 @@ import { formatDateTime } from "lib/utils/time";
 import { translate } from "lib/i18n/translate";
 import { Loading } from "features/auth/components";
 import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
+import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
+import {
+  areAnyCookingBuildingWorking,
+  areAnyCrimstonesMined,
+  areAnyCropsGrowing,
+  areAnyFruitsGrowing,
+  areAnyOilReservesDrilled,
+  areFlowersGrowing,
+} from "features/game/types/removeables";
+import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
+import { areBeehivesEmpty } from "./resources/beehive/beehiveMachine";
 
 const UPGRADE_DATES: Record<IslandType, number | null> = {
   basic: new Date(0).getTime(),
@@ -81,20 +92,80 @@ const IslandUpgraderModal: React.FC<{
   if (showConfirmation) {
     return (
       <Panel>
+        <Label type="danger" className="m-1 mb-0">
+          {t("warning")}
+        </Label>
         <div className="p-2">
-          <p className="text-sm mb-2">{t("islandupgrade.confirmUpgrade")}</p>
+          <p className="text-sm">{t("islandupgrade.confirmUpgrade")}</p>
+          <p className="text-xs mt-2">{t("islandupgrade.warning1")}</p>
+        </div>
 
-          <p className="text-xs">{t("islandupgrade.warning")}</p>
-          <div className="flex my-2">
-            {getKeys(upgrade.items).map((name) => (
-              <Label
-                key={name}
-                icon={ITEM_DETAILS[name].image}
-                className="mr-3"
-                type="default"
-              >{`${upgrade.items[name]} ${name}`}</Label>
-            ))}
-          </div>
+        <div>
+          <NoticeboardItems
+            items={[
+              {
+                text: t("islandupgrade.empty.cropPlots"),
+                icon: areAnyCropsGrowing(gameState.context.state)[0]
+                  ? SUNNYSIDE.icons.cancel
+                  : SUNNYSIDE.icons.confirm,
+              },
+
+              {
+                text: t("islandupgrade.ready.cookingBuildings"),
+                icon: areAnyCookingBuildingWorking(gameState.context.state)[0]
+                  ? SUNNYSIDE.icons.cancel
+                  : SUNNYSIDE.icons.confirm,
+              },
+
+              ...(hasRequiredIslandExpansion(island.type, "spring")
+                ? [
+                    {
+                      text: t("islandupgrade.empty.fruitPatches"),
+                      icon: areAnyFruitsGrowing(gameState.context.state)[0]
+                        ? SUNNYSIDE.icons.cancel
+                        : SUNNYSIDE.icons.confirm,
+                    },
+                    {
+                      text: t("islandupgrade.empty.flowerbeds"),
+                      icon: areFlowersGrowing(gameState.context.state)[0]
+                        ? SUNNYSIDE.icons.cancel
+                        : SUNNYSIDE.icons.confirm,
+                    },
+                    {
+                      text: t("islandupgrade.empty.beehives"),
+                      icon: areBeehivesEmpty(gameState.context.state)
+                        ? SUNNYSIDE.icons.confirm
+                        : SUNNYSIDE.icons.cancel,
+                    },
+                    {
+                      text: t("islandupgrade.ready.crimstoneRocks"),
+                      icon: areAnyCrimstonesMined(gameState.context.state)[0]
+                        ? SUNNYSIDE.icons.cancel
+                        : SUNNYSIDE.icons.confirm,
+                    },
+                  ]
+                : []),
+
+              ...(hasRequiredIslandExpansion(island.type, "desert")
+                ? [
+                    {
+                      text: t("islandupgrade.ready.oilReserves"),
+                      icon: areAnyOilReservesDrilled(gameState.context.state)[0]
+                        ? SUNNYSIDE.icons.cancel
+                        : SUNNYSIDE.icons.confirm,
+                    },
+                  ]
+                : []),
+            ]}
+          />
+        </div>
+
+        <div className="p-2 mb-1">
+          <p className="text-xs">
+            {hasRequiredIslandExpansion(island.type, "spring")
+              ? t("islandupgrade.warning2")
+              : t("islandupgrade.warning3")}
+          </p>
         </div>
 
         <div className="flex">
