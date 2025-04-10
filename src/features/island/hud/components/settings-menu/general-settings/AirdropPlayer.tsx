@@ -48,8 +48,7 @@ const ItemInputs: React.FC<ItemInputsProps> = ({ items }) => {
 
 interface AirdropContentProps {
   basicItems: Record<string, AirdropItem>;
-  advancedItems: Record<string, AirdropItem>;
-  showAdvancedItems: boolean;
+  advancedItems?: Record<string, AirdropItem>;
   message: string;
   setMessage: (message: string) => void;
   onSend: () => void;
@@ -60,7 +59,6 @@ interface AirdropContentProps {
 const AirdropContent: React.FC<AirdropContentProps> = ({
   basicItems,
   advancedItems,
-  showAdvancedItems,
   message,
   setMessage,
   onSend,
@@ -71,7 +69,7 @@ const AirdropContent: React.FC<AirdropContentProps> = ({
     <div className="p-1">
       <div className="flex flex-col gap-1">
         <ItemInputs items={basicItems} />
-        {showAdvancedItems && <ItemInputs items={advancedItems} />}
+        {advancedItems && <ItemInputs items={advancedItems} />}
       </div>
       <Label
         type="default"
@@ -197,7 +195,6 @@ export const AirdropPlayer: React.FC<
         <AirdropContent
           basicItems={basicItems}
           advancedItems={advancedItems}
-          showAdvancedItems={showAdvancedItems}
           message={message}
           setMessage={setMessage}
           onSend={send}
@@ -210,8 +207,6 @@ export const AirdropPlayer: React.FC<
   return (
     <AirdropContent
       basicItems={basicItems}
-      advancedItems={advancedItems}
-      showAdvancedItems={showAdvancedItems}
       message={message}
       setMessage={setMessage}
       onSend={send}
