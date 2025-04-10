@@ -82,11 +82,11 @@ const FEATURE_FLAGS = {
 
   // Testnet only feature flags - Please don't change these until release
   LOVE_CHARM_FLOWER_EXCHANGE: timeBasedFeatureFlag(
-    new Date("2025-05-05T00:00:00Z"),
+    new Date("2025-05-01T00:00:00Z"),
   ),
   //Testnet only
   LOVE_CHARM_REWARD_SHOP: timeBasedFeatureFlag(
-    new Date("2025-05-05T00:00:00Z"),
+    new Date("2025-05-01T00:00:00Z"),
   ),
 
   LEDGER: testnetLocalStorageFeatureFlag("ledger"),
