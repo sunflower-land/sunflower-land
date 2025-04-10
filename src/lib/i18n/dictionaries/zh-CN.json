@@ -5415,7 +5415,6 @@
   "linking.telegram.success": "电报已关联！",
   "joining.telegram": "正在检查你是否是该频道的成员...",
   "joining.telegram.success": "电报加入了！",
-  "description.love.charm": "来自社区的爱的象征",
   "following.twitter.success": "推特紧随其后！",
   "following.twitter.failed": "推特未关注",
   "following.twitter.failed.description": "请关注向日葵乐园官方推特账号继续。",
@@ -5722,5 +5721,6 @@
   "noaccount.referralCodeChecking": "正在检查...",
   "noaccount.referralCodeValid": "有效的推荐码",
   "noaccount.referralCodeError": "检查推荐码时出错",
-  "reward.referral.code": "输入您的推荐码："
+  "reward.referral.code": "输入您的推荐码：",
+  "description.love.charm": "兑换专属奖励和 $FLOWER"
 }

@@ -5415,7 +5415,6 @@
   "linking.telegram.success": "Telegram связан!",
   "joining.telegram": "Проверяем, являетесь ли вы участником канала...",
   "joining.telegram.success": "Telegram присоединился!",
-  "description.love.charm": "Знак любви от сообщества",
   "following.twitter.success": "Твиттер последовал!",
   "following.twitter.failed": "Твиттер не подписан",
   "following.twitter.failed.description": "Пожалуйста, подпишитесь на официальный аккаунт Sunflower Land в Twitter, чтобы продолжить.",
@@ -5722,5 +5721,6 @@
   "noaccount.referralCodeChecking": "Проверяю...",
   "noaccount.referralCodeValid": "Действующий реферальный код",
   "noaccount.referralCodeError": "Ошибка при проверке реферального кода",
-  "reward.referral.code": "Введите свой реферальный код:"
+  "reward.referral.code": "Введите свой реферальный код:",
+  "description.love.charm": "Обменяйте на эксклюзивные награды и $FLOWER"
 }

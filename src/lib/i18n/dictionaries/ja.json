@@ -5415,7 +5415,6 @@
   "linking.telegram.success": "テレグラムがリンクされました！",
   "joining.telegram": "チャンネルのメンバーかどうかを確認中...",
   "joining.telegram.success": "テレグラムが加わりました！",
-  "description.love.charm": "コミュニティからの愛のしるし",
   "following.twitter.success": "ツイッターフォローしました！",
   "following.twitter.failed": "ツイッターはフォローされていません",
   "following.twitter.failed.description": "ひまわりランドの公式Twitterアカウントをフォローして、続けてください。",
@@ -5722,5 +5721,6 @@
   "noaccount.referralCodeChecking": "確認中...",
   "noaccount.referralCodeValid": "有効な紹介コード",
   "noaccount.referralCodeError": "紹介コードを確認中にエラーが発生しました",
-  "reward.referral.code": "紹介コードを入力してください:"
+  "reward.referral.code": "紹介コードを入力してください:",
+  "description.love.charm": "限定報酬や$FLOWERと交換しよう"
 }

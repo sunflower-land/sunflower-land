@@ -5415,7 +5415,6 @@
   "linking.telegram.success": "Telegram lié !",
   "joining.telegram": "Vérifier si vous êtes membre de la chaîne...",
   "joining.telegram.success": "Telegram a rejoint !",
-  "description.love.charm": "Une marque d'amour de la part de la communauté",
   "following.twitter.success": "Suivez-nous sur Twitter !",
   "following.twitter.failed": "Twitter non suivi",
   "following.twitter.failed.description": "Veuillez suivre le compte Twitter officiel de Sunflower Land pour continuer.",
@@ -5722,5 +5721,6 @@
   "noaccount.referralCodeChecking": "En train de vérifier...",
   "noaccount.referralCodeValid": "Code de référence valide",
   "noaccount.referralCodeError": "Erreur lors de la vérification du code de référence",
-  "reward.referral.code": "Entrez votre code de parrainage :"
+  "reward.referral.code": "Entrez votre code de parrainage :",
+  "description.love.charm": "Échangez contre des récompenses exclusives et des $ FLOWER"
 }

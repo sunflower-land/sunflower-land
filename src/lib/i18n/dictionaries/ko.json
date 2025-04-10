@@ -5415,7 +5415,6 @@
   "linking.telegram.success": "텔레그램 연동!",
   "joining.telegram": "채널 회원 여부 확인 중...",
   "joining.telegram.success": "텔레그램 가입!",
-  "description.love.charm": "커뮤니티가 전하는 사랑의 증표",
   "following.twitter.success": "트위터가 팔로우했습니다!",
   "following.twitter.failed": "트위터 팔로우 안함",
   "following.twitter.failed.description": "계속하려면 공식 선플라워 랜드 트위터 계정을 팔로우하세요.",
@@ -5722,5 +5721,6 @@
   "noaccount.referralCodeChecking": "확인 중...",
   "noaccount.referralCodeValid": "유효한 추천 코드",
   "noaccount.referralCodeError": "레퍼럴 코드 검사 중 오류 발생",
-  "reward.referral.code": "추천 코드 입력:"
+  "reward.referral.code": "추천 코드 입력:",
+  "description.love.charm": "독점 보상 및 $FLOWER로 교환하세요"
 }

@@ -5415,7 +5415,6 @@
   "linking.telegram.success": "Telegram verlinkt!",
   "joining.telegram": "Ich überprüfe, ob du Mitglied des Kanals bist...",
   "joining.telegram.success": "Telegram ist beigetreten!",
-  "description.love.charm": "Ein Liebesbeweis von der Community",
   "following.twitter.success": "Twitter ist gefolgt!",
   "following.twitter.failed": "Twitter wird nicht verfolgt",
   "following.twitter.failed.description": "Bitte folge dem offiziellen Sunflower Land Twitter Account, um fortzufahren.",
@@ -5722,5 +5721,6 @@
   "noaccount.referralCodeChecking": "Wird überprüft...",
   "noaccount.referralCodeValid": "Gültiger Empfehlungscode",
   "noaccount.referralCodeError": "Fehler beim Überprüfen des Empfehlungscodes",
-  "reward.referral.code": "Gib deinen Empfehlungscode ein:"
+  "reward.referral.code": "Gib deinen Empfehlungscode ein:",
+  "description.love.charm": "Tauschen Sie gegen exklusive Prämien und $FLOWER ein"
 }

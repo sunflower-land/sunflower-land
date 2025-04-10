@@ -5415,7 +5415,6 @@
   "linking.telegram.success": "Telegram ditautkan!",
   "joining.telegram": "Memeriksa apakah Anda anggota saluran...",
   "joining.telegram.success": "Telegram bergabung!",
-  "description.love.charm": "Tanda cinta dari komunitas",
   "following.twitter.success": "Twitter mengikuti!",
   "following.twitter.failed": "Twitter tidak diikuti",
   "following.twitter.failed.description": "Silakan ikuti akun Twitter resmi Sunflower Land untuk melanjutkan.",
@@ -5722,5 +5721,6 @@
   "noaccount.referralCodeChecking": "Memeriksa...",
   "noaccount.referralCodeValid": "Kode Referensi yang Valid",
   "noaccount.referralCodeError": "Kesalahan memeriksa kode referensi",
-  "reward.referral.code": "Masukkan kode referensi Anda:"
+  "reward.referral.code": "Masukkan kode referensi Anda:",
+  "description.love.charm": "Tukarkan hadiah eksklusif dan $FLOWER"
 }
