@@ -67,6 +67,8 @@ const FEATURE_FLAGS = {
   // Permanent Feature Flags
   AIRDROP_PLAYER: adminFeatureFlag,
   HOARDING_CHECK: defaultFeatureFlag,
+  STREAMER_HAT: (game) =>
+    (game.wardrobe["Streamer Hat"] ?? 0) > 0 || testnetFeatureFlag(),
 
   // Temporary Feature Flags
   FACE_RECOGNITION: (game) =>
