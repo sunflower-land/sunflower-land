@@ -358,7 +358,13 @@ export const AirdropPlayer: React.FC<
     },
   };
 
-  const disabled = !farmId || (!coins && !gems && !loveCharm);
+  const disabled =
+    !farmId ||
+    (!coins &&
+      !gems &&
+      !loveCharm &&
+      !selectedItems.length &&
+      !selectedWearables.length);
 
   const advancedItemsProps: AdvancedItemsProps = {
     selectedItems,
