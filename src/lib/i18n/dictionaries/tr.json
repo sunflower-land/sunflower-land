@@ -5415,7 +5415,6 @@
   "linking.telegram.success": "Telgraf bağlantılı!",
   "joining.telegram": "Kanalın üyesi olup olmadığınızı kontrol etmek...",
   "joining.telegram.success": "Telegram katıldı!",
-  "description.love.charm": "Toplumdan bir sevgi belirtisi",
   "following.twitter.success": "Twitter takip etti!",
   "following.twitter.failed": "Twitter takip edilmedi",
   "following.twitter.failed.description": "Devamlamak için lütfen resmi Sunflower Land Twitter hesabını takip edin.",
@@ -5722,5 +5721,6 @@
   "noaccount.referralCodeChecking": "Kontrol ediliyor...",
   "noaccount.referralCodeValid": "Geçerli Yönlendirme Kodu",
   "noaccount.referralCodeError": "Yönlendirme kodu kontrol edilirken hata oluştu",
-  "reward.referral.code": "Referans kodunuzu girin:"
+  "reward.referral.code": "Referans kodunuzu girin:",
+  "description.love.charm": "Özel ödüller ve $FLOWER için takas edin"
 }
