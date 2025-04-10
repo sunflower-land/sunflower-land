@@ -5,6 +5,11 @@ import { CollectionName } from "features/game/types/marketplace";
 
 export type TradeType = "instant" | "onchain";
 
+/**
+ * Note from Elias:
+ * This object is used to determine whether an item can be airdropped offchain or not.
+ * Even though all trades are "instant" now, please add supply limited items as "onchain" in this object
+ */
 export const ITEM_TRADE_TYPES: {
   collectibles: Record<InventoryItemName, TradeType>;
   wearables: Record<BumpkinItem, TradeType>;
