@@ -36,6 +36,7 @@ import {
   areFlowersGrowing,
 } from "features/game/types/removeables";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
+import { areBeehivesEmpty } from "./resources/beehive/beehiveMachine";
 
 const UPGRADE_DATES: Record<IslandType, number | null> = {
   basic: new Date(0).getTime(),
@@ -129,6 +130,12 @@ const IslandUpgraderModal: React.FC<{
                       icon: areFlowersGrowing(gameState.context.state)[0]
                         ? SUNNYSIDE.icons.cancel
                         : SUNNYSIDE.icons.confirm,
+                    },
+                    {
+                      text: t("islandupgrade.empty.beehives"),
+                      icon: areBeehivesEmpty(gameState.context.state)
+                        ? SUNNYSIDE.icons.confirm
+                        : SUNNYSIDE.icons.cancel,
                     },
                     {
                       text: t("islandupgrade.ready.crimstoneRocks"),

@@ -255,3 +255,11 @@ export const beehiveMachine = createMachine<
     },
   },
 );
+
+export function areBeehivesEmpty(game: GameState): boolean {
+  const beehiveProducing = Object.values(game.beehives).every(
+    (hive) =>
+      getCurrentHoneyProduced(hive) <= DEFAULT_HONEY_PRODUCTION_TIME * 0.01,
+  );
+  return beehiveProducing;
+}
