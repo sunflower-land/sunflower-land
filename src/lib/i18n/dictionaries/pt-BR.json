@@ -5635,7 +5635,6 @@
   "marketplaceListingNotClaimed": "Solicite sua compra no Marketplace e tente novamente.",
   "marketplaceListingNotClaimed.label": "Compra no mercado",
   "rocketman.flower.exchange": "$FLOWER Exchange está chegando em breve!",
-  "rocketman.flower.exchange.one": "No dia 14 de abril, você poderá trocar seus Love Charms por $ FLOWER.",
   "rocketman.flower.exchange.two": "Você poderá trocar 50 Love Charms por 1 $FLOWER.",
   "flower.exchange.title": "Trocar $FLOWER",
   "flower.exchange.price": "1 $FLOWER = {{exchangeRate}} Amuletos amorosos",
@@ -5722,5 +5721,6 @@
   "noaccount.referralCodeValid": "Código de referência válido",
   "noaccount.referralCodeError": "Erro ao verificar o código de referência",
   "reward.referral.code": "Insira seu código de referência:",
-  "description.love.charm": "Troque por recompensas exclusivas e $ FLOWER"
+  "description.love.charm": "Troque por recompensas exclusivas e $ FLOWER",
+  "rocketman.flower.exchange.one": "No dia 5 de maio, você poderá trocar seus Love Charms por $ FLOWER."
 }

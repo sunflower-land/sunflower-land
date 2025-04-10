@@ -5635,7 +5635,6 @@
   "marketplaceListingNotClaimed": "Lütfen market alışverişinizi talep edin ve tekrar deneyin.",
   "marketplaceListingNotClaimed.label": "Pazar yeri satın alma",
   "rocketman.flower.exchange": "$FLOWER Değişimi Çok Yakında Geliyor!",
-  "rocketman.flower.exchange.one": "14 Nisan'da Aşk Tılsımlarınızı $FLOWER ile değiştirebileceksiniz.",
   "rocketman.flower.exchange.two": "50 Aşk Tılsımı 1 $FLOWER karşılığında değiştirebileceksiniz.",
   "flower.exchange.title": "$FLOWER değiş tokuş yapın",
   "flower.exchange.price": "1 $FLOWER = {{exchangeRate}} Aşk Tılsımları",
@@ -5722,5 +5721,6 @@
   "noaccount.referralCodeValid": "Geçerli Yönlendirme Kodu",
   "noaccount.referralCodeError": "Yönlendirme kodu kontrol edilirken hata oluştu",
   "reward.referral.code": "Referans kodunuzu girin:",
-  "description.love.charm": "Özel ödüller ve $FLOWER için takas edin"
+  "description.love.charm": "Özel ödüller ve $FLOWER için takas edin",
+  "rocketman.flower.exchange.one": "5 Mayıs'ta Aşk Tılsımlarınızı $FLOWER ile değiştirebileceksiniz."
 }

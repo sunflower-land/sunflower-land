@@ -5635,7 +5635,6 @@
   "marketplaceListingNotClaimed": "Réclamez votre achat sur le site de vente et réessayez.",
   "marketplaceListingNotClaimed.label": "Achat sur le marché",
   "rocketman.flower.exchange": "$FLOWER Exchange arrive bientôt !",
-  "rocketman.flower.exchange.one": "Le 14 avril, vous pourrez échanger vos Love Charms contre des $FLOWER.",
   "rocketman.flower.exchange.two": "Vous pourrez échanger 50 Love Charms contre 1 $FLOWER.",
   "flower.exchange.title": "Échangez $FLOWER",
   "flower.exchange.price": "1 $FLOWER = {{exchangeRate}} Breloques d'amour",
@@ -5722,5 +5721,6 @@
   "noaccount.referralCodeValid": "Code de référence valide",
   "noaccount.referralCodeError": "Erreur lors de la vérification du code de référence",
   "reward.referral.code": "Entrez votre code de parrainage :",
-  "description.love.charm": "Échangez contre des récompenses exclusives et des $ FLOWER"
+  "description.love.charm": "Échangez contre des récompenses exclusives et des $ FLOWER",
+  "rocketman.flower.exchange.one": "Le 5 mai, vous pourrez échanger vos Love Charms contre des $FLOWER."
 }

@@ -5635,7 +5635,6 @@
   "marketplaceListingNotClaimed": "请申领您在商城购买的商品，然后重试。",
   "marketplaceListingNotClaimed.label": "市场购买",
   "rocketman.flower.exchange": "$FLOWER 交易所即将上线！",
-  "rocketman.flower.exchange.one": "4月14日，你将能够将爱情护身符兑换成$FLOWER。",
   "rocketman.flower.exchange.two": "你可以用 50 个爱情护身符兑换 1 美元 FLOWER。",
   "flower.exchange.title": "兑换 $FLOWER",
   "flower.exchange.price": "1 $FLOWER = {{exchangeRate}} 爱情护身符",
@@ -5722,5 +5721,6 @@
   "noaccount.referralCodeValid": "有效的推荐码",
   "noaccount.referralCodeError": "检查推荐码时出错",
   "reward.referral.code": "输入您的推荐码：",
-  "description.love.charm": "兑换专属奖励和 $FLOWER"
+  "description.love.charm": "兑换专属奖励和 $FLOWER",
+  "rocketman.flower.exchange.one": "5 月 5 日，你可以用爱情护身符兑换 $FLOWER。"
 }

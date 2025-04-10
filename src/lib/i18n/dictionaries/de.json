@@ -5635,7 +5635,6 @@
   "marketplaceListingNotClaimed": "Bitte fordern Sie Ihren Marketplace-Kauf an und versuchen Sie es erneut.",
   "marketplaceListingNotClaimed.label": "Kauf auf dem Marktplatz",
   "rocketman.flower.exchange": "$FLOWER Exchange kommt bald!",
-  "rocketman.flower.exchange.one": "Am 14. April könnt ihr eure Love Charms gegen $FLOWER eintauschen.",
   "rocketman.flower.exchange.two": "Du kannst 50 Liebeszauber gegen 1 $FLOWER eintauschen.",
   "flower.exchange.title": "$FLOWER tauschen",
   "flower.exchange.price": "1 $FLOWER = {{exchangeRate}} Liebeszauber",
@@ -5722,5 +5721,6 @@
   "noaccount.referralCodeValid": "Gültiger Empfehlungscode",
   "noaccount.referralCodeError": "Fehler beim Überprüfen des Empfehlungscodes",
   "reward.referral.code": "Gib deinen Empfehlungscode ein:",
-  "description.love.charm": "Tauschen Sie gegen exklusive Prämien und $FLOWER ein"
+  "description.love.charm": "Tauschen Sie gegen exklusive Prämien und $FLOWER ein",
+  "rocketman.flower.exchange.one": "Am 5. Mai könnt ihr eure Love Charms gegen $FLOWER eintauschen."
 }

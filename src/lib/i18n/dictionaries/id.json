@@ -5635,7 +5635,6 @@
   "marketplaceListingNotClaimed": "Harap klaim pembelian pasar Anda dan coba lagi.",
   "marketplaceListingNotClaimed.label": "Pembelian di pasar",
   "rocketman.flower.exchange": "$FLOWER Exchange akan segera hadir!",
-  "rocketman.flower.exchange.one": "Pada tanggal 14 April, Anda akan dapat menukar Love Charms Anda dengan $FLOWER.",
   "rocketman.flower.exchange.two": "Anda akan dapat menukar 50 Love Charms dengan 1 $FLOWER.",
   "flower.exchange.title": "Kurs mata uang $FLOWER",
   "flower.exchange.price": "1 $FLOWER = {{exchangeRate}} Pesona Cinta",
@@ -5722,5 +5721,6 @@
   "noaccount.referralCodeValid": "Kode Referensi yang Valid",
   "noaccount.referralCodeError": "Kesalahan memeriksa kode referensi",
   "reward.referral.code": "Masukkan kode referensi Anda:",
-  "description.love.charm": "Tukarkan hadiah eksklusif dan $FLOWER"
+  "description.love.charm": "Tukarkan hadiah eksklusif dan $FLOWER",
+  "rocketman.flower.exchange.one": "Pada tanggal 5 Mei, Anda akan dapat menukar Love Charms Anda dengan $ FLOWER."
 }

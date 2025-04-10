@@ -5635,7 +5635,6 @@
   "marketplaceListingNotClaimed": "Пожалуйста, подайте заявку на покупку на торговой площадке и попробуйте снова.",
   "marketplaceListingNotClaimed.label": "Покупка на рынке",
   "rocketman.flower.exchange": "Скоро откроется биржа $FLOWER!",
-  "rocketman.flower.exchange.one": "14 апреля вы сможете обменять свои Love Charms на $FLOWER.",
   "rocketman.flower.exchange.two": "Вы сможете обменять 50 Love Charms на 1 доллар FLOWER.",
   "flower.exchange.title": "Обмен $ FLOWER",
   "flower.exchange.price": "1$ ЦВЕТОК = {{exchangeRate}} Любовные талисманы",
@@ -5722,5 +5721,6 @@
   "noaccount.referralCodeValid": "Действующий реферальный код",
   "noaccount.referralCodeError": "Ошибка при проверке реферального кода",
   "reward.referral.code": "Введите свой реферальный код:",
-  "description.love.charm": "Обменяйте на эксклюзивные награды и $FLOWER"
+  "description.love.charm": "Обменяйте на эксклюзивные награды и $FLOWER",
+  "rocketman.flower.exchange.one": "5 мая вы сможете обменять свои Love Charms на $FLOWER."
 }
