@@ -274,10 +274,10 @@ export const OrderCard: React.FC<OrderCardProps> = ({
           <div id="select-box" className="hidden md:block">
             <img
               className="absolute pointer-events-none"
-              src={SUNNYSIDE.ui.selectBoxTL}
+              src={SUNNYSIDE.ui.selectBoxBR}
               style={{
-                top: `${PIXEL_SCALE * -3}px`,
-                left: `${PIXEL_SCALE * -3}px`,
+                bottom: `${PIXEL_SCALE * -3}px`,
+                right: `${PIXEL_SCALE * -3}px`,
                 width: `${PIXEL_SCALE * 8}px`,
               }}
             />
