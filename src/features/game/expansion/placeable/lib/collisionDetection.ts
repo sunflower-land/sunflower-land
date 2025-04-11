@@ -97,6 +97,7 @@ function detectPlaceableCollision(
   state: GameState,
   boundingBox: BoundingBox,
   name: InventoryItemName,
+  ignore?: BoundingBox,
 ) {
   const {
     collectibles,
@@ -180,9 +181,20 @@ function detectPlaceableCollision(
     ...budsBoundingBox,
   ];
 
-  return boundingBoxes.some((resourceBoundingBox) =>
-    isOverlapping(boundingBox, resourceBoundingBox),
-  );
+  return boundingBoxes.some((resourceBoundingBox) => {
+    // Skip if this is the same as the item we're trying to move
+    if (
+      ignore &&
+      resourceBoundingBox.x === ignore.x &&
+      resourceBoundingBox.y === ignore.y &&
+      resourceBoundingBox.width === ignore.width &&
+      resourceBoundingBox.height === ignore.height
+    ) {
+      return false;
+    }
+
+    return isOverlapping(boundingBox, resourceBoundingBox);
+  });
 }
 
 export const HOME_BOUNDS: Record<IslandType, BoundingBox> = {
@@ -527,11 +539,13 @@ export function detectCollision({
   position,
   location,
   name,
+  ignore,
 }: {
   location: PlaceableLocation;
   state: GameState;
   position: Position;
   name: InventoryItemName | AnimalType;
+  ignore?: Position;
 }) {
   const item = name as InventoryItemName;
 
@@ -543,7 +557,7 @@ export function detectCollision({
 
   return (
     detectWaterCollision(expansions, position) ||
-    detectPlaceableCollision(state, position, item) ||
+    detectPlaceableCollision(state, position, item, ignore) ||
     detectLandCornerCollision(expansions, position) ||
     detectChickenCollision(state, position) ||
     detectMushroomCollision(state, position) ||
