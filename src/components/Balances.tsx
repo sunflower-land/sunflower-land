@@ -26,26 +26,15 @@ export const Balances: React.FC<Props> = ({ sfl, coins, gems, onClick }) => {
           className="flex cursor-pointer items-center space-x-3 relative"
           onClick={onClick}
         >
-          <div className="h-9 w-full bg-black opacity-30 absolute coins-bb-hud-backdrop" />
-          {/* Coins */}
-          <div className="flex items-center space-x-2">
-            <span className="balance-text mt-0.5">{formatNumber(coins)}</span>
-            <img
-              src={coinsIcon}
-              alt="Coins"
-              style={{
-                width: 25,
-              }}
-            />
-          </div>
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-1 relative">
+            <div className="h-9 w-full bg-black opacity-30 absolute gem-flower-hud-backdrop -z-10" />
             <span className="balance-text mt-0.5">{formatNumber(gems)}</span>
             <img
               src={gemIcon}
               alt="Gems"
               style={{
                 marginTop: 2,
-                width: 28,
+                width: 26,
               }}
             />
           </div>
@@ -59,21 +48,33 @@ export const Balances: React.FC<Props> = ({ sfl, coins, gems, onClick }) => {
             }}
           />
         </div>
+        {/* Coins */}
+        <div className="flex items-center space-x-1 relative">
+          <div className="h-9 w-full bg-black opacity-30 absolute coin-hud-backdrop -z-10" />
+          <span className="balance-text mt-0.5">{formatNumber(coins)}</span>
+          <img
+            src={coinsIcon}
+            alt="Coins"
+            style={{
+              width: 26,
+            }}
+          />
+        </div>
         {/* FLOWER */}
         <div
-          className={classNames("flex items-center space-x-2 relative", {
+          className={classNames("flex items-center space-x-1 relative", {
             // show cursor if balance has a decimal place
             "cursor-pointer": sfl.toNumber() % 1 !== 0,
           })}
           onClick={() => setShowFullBalance(!showFullBalance)}
         >
-          <div className="h-9 w-full bg-black opacity-25 absolute sfl-hud-backdrop -z-10" />
+          <div className="h-9 w-full bg-black opacity-30 absolute gem-flower-hud-backdrop -z-10" />
           <span className="balance-text">
-            {formatNumber(sfl, { decimalPlaces: showFullBalance ? 8 : 4 })}
+            {formatNumber(sfl, { decimalPlaces: showFullBalance ? 4 : 2 })}
           </span>
           <img
             src={flowerIcon}
-            alt="FLOWER "
+            alt="FLOWER"
             style={{
               width: 26,
             }}

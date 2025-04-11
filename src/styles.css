@@ -437,10 +437,24 @@ img {
   transition-timing-function: ease;
 }
 
-.coins-bb-hud-backdrop {
-  height: 19px;
-  width: 95%;
-  left: -1px;
+.gem-flower-hud-backdrop {
+  height: 20px;
+  width: 98%;
+  right: 11px;
+  top: 4px;
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0) 0%,
+    rgba(0, 0, 0, 1) 22%
+  );
+  mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 22%);
+  z-index: -1;
+}
+
+.coin-hud-backdrop {
+  height: 20px;
+  width: 98%;
+  right: 11px;
   top: 6px;
   -webkit-mask-image: linear-gradient(
     90deg,
@@ -520,20 +534,6 @@ img {
     2px -2px 0 black,
     -2px 2px 0 black,
     2px 2px 0 black;
-}
-
-.sfl-hud-backdrop {
-  height: 21px;
-  width: 88%;
-  left: -1px;
-  top: 3px;
-  -webkit-mask-image: linear-gradient(
-    90deg,
-    rgba(0, 0, 0, 0) 0%,
-    rgba(0, 0, 0, 1) 22%
-  );
-  mask-image: linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 1) 22%);
-  z-index: -1;
 }
 
 @keyframes pointing {

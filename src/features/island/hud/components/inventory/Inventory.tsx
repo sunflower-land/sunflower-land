@@ -81,7 +81,7 @@ export const Inventory: React.FC<Props> = ({
         className="flex flex-col items-center absolute z-50"
         style={{
           right: `${PIXEL_SCALE * 3}px`,
-          top: `${PIXEL_SCALE * (isFarming ? 58 : 31)}px`,
+          top: `${PIXEL_SCALE * (isFarming ? 67 : 40)}px`,
         }}
       >
         <BasketButton onClick={() => setIsOpen(true)} />
@@ -90,7 +90,8 @@ export const Inventory: React.FC<Props> = ({
           <div
             className="flex flex-col items-center"
             style={{
-              marginRight: `${PIXEL_SCALE * -3}px`,
+              marginRight: `${PIXEL_SCALE * -2}px`,
+              marginTop: `${PIXEL_SCALE * 1}px`,
             }}
           >
             {shortcuts.map((item, index) => (

@@ -16,7 +16,7 @@ export const LandscapeButton: React.FC = () => {
         marginLeft: `${PIXEL_SCALE * 2}px`,
         marginBottom: `${PIXEL_SCALE * 25}px`,
         right: `${PIXEL_SCALE * 3}px`,
-        top: `${PIXEL_SCALE * 31}px`,
+        top: `${PIXEL_SCALE * 41}px`,
       }}
     >
       <RoundButton
