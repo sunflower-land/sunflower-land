@@ -40,6 +40,12 @@ export function moveFlowerBed({
         height: dimensions.height,
         width: dimensions.width,
       },
+      ignore: {
+        x: flowerBed.x,
+        y: flowerBed.y,
+        width: dimensions.width,
+        height: dimensions.height,
+      },
     });
 
     if (collides) {
