@@ -1,8 +1,11 @@
-import React, { ChangeEvent, useContext, useEffect, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+  useRef,
+} from "react";
 import { Context } from "../lib/Provider";
-
-import { getPromoCode, savePromoCode } from "features/game/actions/loadSession";
-
 import { getFarms } from "lib/blockchain/Farm";
 import { wallet } from "lib/blockchain/wallet";
 import { Button } from "components/ui/Button";
@@ -14,50 +17,118 @@ import { useActor } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Loading } from "./Loading";
+import {
+  checkReferralCode,
+  getReferrerId,
+  saveReferrerId,
+} from "../actions/createAccount";
+import { ConfirmationModal } from "components/ui/ConfirmationModal";
+import { TextInput } from "components/ui/TextInput";
+import debounce from "lodash.debounce";
+
+type ValidationState = "notFound" | "checking" | "valid" | "error";
 
 export const NoAccount: React.FC = () => {
+  const { t } = useAppTranslation();
   const { authService } = useContext(Context);
   const [authState] = useActor(authService);
 
-  const [showPromoCode, setShowPromoCode] = useState(false);
-  const [promoCode, setPromoCode] = useState(getPromoCode());
-
+  const [showReferralId, setShowReferralId] = useState(false);
+  const [referralId, setReferralId] = useState(getReferrerId() ?? undefined);
+  const [showEmptyReferralModal, setShowEmptyReferralModal] = useState(false);
+  const [validationState, setValidationState] = useState<ValidationState>();
   const [showClaimAccount, setShowClaimAccount] = useState(false);
-  const { t } = useAppTranslation();
-  if (showPromoCode) {
+  const handleCreateFarm = () => {
+    if (!referralId) {
+      setShowEmptyReferralModal(true);
+    } else {
+      authService.send("CREATE_FARM");
+    }
+  };
+
+  const validationStateStrings: Record<ValidationState, string> = {
+    notFound: t("noaccount.referralCodeNotFound"),
+    checking: t("noaccount.referralCodeChecking"),
+    valid: t("noaccount.referralCodeValid"),
+    error: t("noaccount.referralCodeError"),
+  };
+
+  const { current: debouncedCheckRef } = useRef(
+    debounce(async (token: string, referralCode: string) => {
+      setValidationState("checking");
+      const result = await checkReferralCode({ token, referralCode });
+      const { success } = result;
+      try {
+        if (!success) {
+          setValidationState("notFound");
+        } else {
+          setValidationState("valid");
+        }
+      } catch {
+        setValidationState("error");
+      }
+    }, 300),
+  );
+
+  const handleCheckReferralCode = useCallback(
+    (token: string, referralCode: string) => {
+      debouncedCheckRef(token, referralCode);
+    },
+    [debouncedCheckRef],
+  );
+
+  if (showReferralId) {
     return (
       <>
         <div className="p-2">
-          <p className="text-xs mb-1">{t("reward.promo.code")}</p>
-          <input
-            style={{
-              boxShadow: "#b96e50 0px 1px 1px 1px inset",
-              border: "2px solid #ead4aa",
+          <TextInput
+            placeholder={t("reward.referral.code")}
+            value={referralId}
+            onValueChange={(value) => {
+              setReferralId(value);
+              handleCheckReferralCode(
+                authState.context.user.rawToken as string,
+                value,
+              );
             }}
-            type="text"
-            min={1}
-            value={promoCode}
-            onChange={(e: ChangeEvent<HTMLInputElement>) => {
-              setPromoCode(e.target.value);
-            }}
-            className={
-              "text-shadow mr-2 rounded-sm shadow-inner shadow-black bg-brown-200 w-full p-2 h-10"
-            }
           />
+          {validationState && (
+            <Label
+              type={
+                validationState === "notFound"
+                  ? "danger"
+                  : validationState === "valid"
+                    ? "success"
+                    : "default"
+              }
+              secondaryIcon={
+                validationState === "notFound"
+                  ? SUNNYSIDE.icons.cancel
+                  : validationState === "valid"
+                    ? SUNNYSIDE.icons.confirm
+                    : undefined
+              }
+              className="mt-2"
+            >
+              {validationStateStrings[validationState]}
+            </Label>
+          )}
         </div>
         <div className="flex space-x-1">
           <Button
             onClick={() => {
-              setShowPromoCode(false);
+              setShowReferralId(false);
+              setReferralId("");
+              setValidationState(undefined);
             }}
           >
             {t("back")}
           </Button>
           <Button
-            disabled={!promoCode}
+            disabled={!referralId || validationState !== "valid"}
             onClick={() => {
-              setShowPromoCode(false);
-              savePromoCode(promoCode as string);
+              setShowReferralId(false);
+              saveReferrerId(referralId as string);
             }}
           >
             {t("ok")}
@@ -85,19 +156,23 @@ export const NoAccount: React.FC = () => {
           <Label type="chill" icon={SUNNYSIDE.icons.heart}>
             {t("noaccount.newFarmer")}
           </Label>
-          {promoCode && (
-            <Label type="formula" icon={SUNNYSIDE.icons.search}>
-              {`${t("noaccount.promoCodeLabel")}: ${getPromoCode()}`}
+          {referralId && (
+            <Label
+              type="formula"
+              icon={SUNNYSIDE.icons.search}
+              onClick={() => setShowReferralId(true)}
+            >
+              {`${t("noaccount.referralCodeLabel", { referralId })}`}
             </Label>
           )}
-          {!promoCode && (
+          {!referralId && (
             <a
               target="_blank"
               rel="noopener noreferrer"
               className="underline text-xs cursor-pointer"
-              onClick={() => setShowPromoCode(true)}
+              onClick={() => setShowReferralId(true)}
             >
-              {t("noaccount.addPromoCode")}
+              {t("noaccount.addReferralCode")}
             </a>
           )}
         </div>
@@ -110,11 +185,22 @@ export const NoAccount: React.FC = () => {
               {t("noaccount.haveFarm")}
             </Button>
           )}
-          <Button onClick={() => authService.send("CREATE_FARM")}>
-            {t("noaccount.letsGo")}
-          </Button>
+          <Button onClick={handleCreateFarm}>{t("noaccount.letsGo")}</Button>
         </div>
       </div>
+      <ConfirmationModal
+        show={showEmptyReferralModal}
+        onHide={() => setShowEmptyReferralModal(false)}
+        messages={[
+          "You have not added a referral code. Are you sure you want to continue?",
+        ]}
+        onCancel={() => setShowEmptyReferralModal(false)}
+        onConfirm={() => {
+          authService.send("CREATE_FARM");
+          setShowEmptyReferralModal(false);
+        }}
+        confirmButtonLabel={"Yes I'm sure"}
+      />
     </>
   );
 };

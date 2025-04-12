@@ -221,8 +221,13 @@ export const RewardOptions: React.FC<Props> = ({
 
       {hasFeatureAccess(state, "BLOCKCHAIN_BOX") && (
         <ButtonPanel
-          onClick={() => setSelected("BLOCKCHAIN_BOX")}
+          onClick={
+            state.pumpkinPlaza.blockchainBox
+              ? undefined
+              : () => setSelected("BLOCKCHAIN_BOX")
+          }
           className="mb-1"
+          disabled={!!state.pumpkinPlaza.blockchainBox}
         >
           <div className="flex items-start">
             <img src={loveBox} className="w-10 mr-4" />
@@ -247,7 +252,13 @@ export const RewardOptions: React.FC<Props> = ({
         </ButtonPanel>
       )}
 
-      <ButtonPanel onClick={() => setSelected("DAILY_REWARD")} className="mb-1">
+      <ButtonPanel
+        onClick={
+          bumpkinLevel < 6 ? undefined : () => setSelected("DAILY_REWARD")
+        }
+        disabled={bumpkinLevel < 6}
+        className="mb-1"
+      >
         <div className="flex items-start">
           <img
             src={SUNNYSIDE.decorations.treasure_chest}
@@ -262,6 +273,16 @@ export const RewardOptions: React.FC<Props> = ({
           {hasOpenedDaily && (
             <Label className="absolute top-0 right-0" type="success">
               {t("rewards.daily.claimed")}
+            </Label>
+          )}
+          {bumpkinLevel < 6 && (
+            <Label
+              icon={lockIcon}
+              secondaryIcon={SUNNYSIDE.icons.player}
+              className="absolute top-0 right-1"
+              type="formula"
+            >
+              {`${t("lvl")} 6`}
             </Label>
           )}
         </div>

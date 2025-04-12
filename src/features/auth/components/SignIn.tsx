@@ -9,7 +9,6 @@ import fslIcon from "assets/icons/fsl_black.svg";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import { Label } from "components/ui/Label";
-import { getPromoCode } from "features/game/actions/loadSession";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CONFIG } from "lib/config";
 import { Wallet } from "features/wallet/Wallet";
@@ -43,8 +42,6 @@ const OtherWallets: React.FC<{
   onConnect: (connector: Connector | CreateConnectorFn) => void;
   setRoninDeepLink: (isOn: boolean) => void;
 }> = ({ onConnect, setRoninDeepLink }) => {
-  const { t } = useAppTranslation();
-
   return (
     <>
       <>
@@ -226,17 +223,16 @@ const RoninWallets: React.FC<
 
 const CoinBaseWallets: React.FC<Props> = ({ onConnect }) => {
   const { connectors } = useConnect();
-  const isPWA = useIsPWA();
 
   const eip6963Connectors = connectors
     .filter((connector) => connector.type === "injected" && !!connector.icon)
     .filter((connector) => connector.name === "Coinbase Wallet");
 
-  useEffect(() => {
-    if (eip6963Connectors.length === 0) {
-      onConnect(coinbaseConnector);
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (eip6963Connectors.length === 0) {
+  //     onConnect(coinbaseConnector);
+  //   }
+  // }, []);
 
   return (
     <>
@@ -275,8 +271,6 @@ const CoinBaseWallets: React.FC<Props> = ({ onConnect }) => {
 const PWAWallets: React.FC<
   Props & { setRoninDeepLink: (isOn: boolean) => void }
 > = ({ onConnect, setRoninDeepLink }) => {
-  const { t } = useAppTranslation();
-
   return (
     <>
       <Button
@@ -482,8 +476,6 @@ export const SignIn: React.FC<{ type: "signin" | "signup" }> = ({ type }) => {
       </div>
     );
   }
-
-  const promoCode = getPromoCode();
 
   return (
     <div

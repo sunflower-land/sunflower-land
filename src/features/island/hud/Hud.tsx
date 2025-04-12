@@ -26,7 +26,6 @@ import { MarketplaceButton } from "./components/MarketplaceButton";
 import { GameCalendar } from "features/game/expansion/components/temperateSeason/GameCalendar";
 import { LandscapeButton } from "./components/LandscapeButton";
 import { RewardsButton } from "./components/referral/RewardsButton";
-import { hasFeatureAccess } from "lib/flags";
 
 const _farmAddress = (state: MachineState) => state.context.farmAddress;
 const _linkedWallet = (state: MachineState) => state.context.linkedWallet;
@@ -66,11 +65,6 @@ const HudComponent: React.FC<{
 
   const isFullUser = farmAddress !== undefined;
   const isTutorial = gameState.context.state.island.type === "basic";
-
-  const hasReferralProgram = hasFeatureAccess(
-    gameState.context.state,
-    "TASK_BOARD",
-  );
 
   return (
     <>
@@ -117,7 +111,6 @@ const HudComponent: React.FC<{
           }}
         >
           <MarketplaceButton />
-          {!hasReferralProgram && <CodexButton />}
           <TravelButton />
         </div>
         <div
@@ -147,8 +140,8 @@ const HudComponent: React.FC<{
 
         <BumpkinProfile />
         {!isTutorial && <GameCalendar />}
-        {hasReferralProgram && <CodexButton />}
-        {hasReferralProgram && <RewardsButton />}
+        <CodexButton />
+        <RewardsButton />
 
         <DepositModal
           farmAddress={farmAddress ?? ""}

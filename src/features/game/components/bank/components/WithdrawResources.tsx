@@ -35,12 +35,14 @@ interface Props {
 const DELIVERY_FEE_PERCENTAGE = 30;
 
 const _state = (state: MachineState) => state.context.state;
+const _farmId = (state: MachineState) => state.context.farmId;
 
 export const WithdrawResources: React.FC<Props> = ({ onWithdraw }) => {
   const { t } = useAppTranslation();
 
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
+  const farmId = useSelector(gameService, _farmId);
 
   const deliveryItemsStartRef = useRef<HTMLDivElement>(null);
   const divRef = useRef<HTMLDivElement>(null);
@@ -79,9 +81,12 @@ export const WithdrawResources: React.FC<Props> = ({ onWithdraw }) => {
     gameService.send("TRANSACT", {
       transaction: "transaction.itemsWithdrawn",
       request: {
-        captcha: "0x",
-        amounts: amounts,
-        ids: ids,
+        farmId,
+        effect: {
+          type: "withdraw.items",
+          amounts,
+          ids,
+        },
       },
     });
 

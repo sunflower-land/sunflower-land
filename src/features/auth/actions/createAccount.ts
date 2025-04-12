@@ -1,31 +1,15 @@
+import { CONFIG } from "lib/config";
+import { ERRORS } from "lib/errors";
+
 const host = window.location.host.replace(/^www\./, "");
 const REFERRER_LS_KEY = `sb_wiz.ref-key.v.${host}`;
 
-const ambassadors: Record<string, string> = {
-  celinhotv: "2253",
-  allrichard: "11879",
-  techaton: "52704",
-  muaddib: "81877",
-  nailguns: "137468",
-  rollerarv: "161863",
-  canaldomarinho: "163916",
-};
-
 export function saveReferrerId(id: string) {
-  // if ID is Ambassador name, get the ID
-  if (id.toLowerCase() in ambassadors) {
-    localStorage.setItem(REFERRER_LS_KEY, ambassadors[id]);
-  } else localStorage.setItem(REFERRER_LS_KEY, id);
+  localStorage.setItem(REFERRER_LS_KEY, id);
 }
 
 export function getReferrerId() {
-  const item = localStorage.getItem(REFERRER_LS_KEY);
-
-  if (!item) {
-    return undefined;
-  }
-
-  return item;
+  return localStorage.getItem(REFERRER_LS_KEY);
 }
 
 const SIGN_UP_LS_KEY = `sb_wiz.signup-key.v.${host}`;
@@ -39,4 +23,31 @@ export function getSignupMethod(): SignupMethod {
   const item = localStorage.getItem(SIGN_UP_LS_KEY) as "paidMint" | "freeMint";
 
   return item || undefined;
+}
+
+export async function checkReferralCode({
+  referralCode,
+  token,
+}: {
+  token: string;
+  referralCode: string;
+}) {
+  const response = await window.fetch(`${CONFIG.API_URL}/check-referral-code`, {
+    method: "POST",
+    headers: {
+      "content-type": "application/json;charset=UTF-8",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify({ referralCode }),
+  });
+
+  if (response.status === 409) {
+    return { success: false };
+  }
+
+  if (response.status >= 400) {
+    throw new Error(ERRORS.FAILED_REQUEST);
+  }
+
+  return { success: true };
 }

@@ -25,9 +25,31 @@ type EffectName =
   | "username.assigned"
   | "username.changed"
   | "streamReward.claimed"
-  | "blockchainBox.claimed";
+  | "blockchainBox.claimed"
+  | "withdraw.items"
+  | "withdraw.wearables"
+  | "withdraw.buds"
+  | "wallet.linked"
+  | "account.migrated"
+  | "moderation.kicked"
+  | "moderation.muted"
+  | "moderation.unmuted";
 
-export type StateName =
+// IMPORTANT: If your effect does not go via a state in the state machine then exclude it here!
+// Create a type that excludes the events that are not individual state machine states
+export type StateMachineEffectName = Exclude<
+  EffectName,
+  | "withdraw.items"
+  | "withdraw.wearables"
+  | "withdraw.buds"
+  | "wallet.linked"
+  | "account.migrated"
+  | "moderation.kicked"
+  | "moderation.muted"
+  | "moderation.unmuted"
+>;
+
+export type StateMachineStateName =
   | "marketplacePurchasing"
   | "marketplaceListing"
   | "marketplaceOffering"
@@ -49,10 +71,15 @@ export type StateName =
   | "claimingStreamReward"
   | "claimingBlockchainBox";
 
-export type StateNameWithStatus = `${StateName}Success` | `${StateName}Failed`;
+export type StateNameWithStatus =
+  | `${StateMachineStateName}Success`
+  | `${StateMachineStateName}Failed`;
 
 // StateName is the feature.progressive_tense_verb. This will be used as the gameMachine state.
-export const EFFECT_EVENTS: Record<EffectName, StateName> = {
+export const STATE_MACHINE_EFFECTS: Record<
+  StateMachineEffectName,
+  StateMachineStateName
+> = {
   "marketplace.listingPurchased": "marketplacePurchasing",
   "marketplace.listed": "marketplaceListing",
   "marketplace.offerMade": "marketplaceOffering",
@@ -74,9 +101,9 @@ export const EFFECT_EVENTS: Record<EffectName, StateName> = {
   "streamReward.claimed": "claimingStreamReward",
   "blockchainBox.claimed": "claimingBlockchainBox",
 };
-
 export interface Effect {
   type: EffectName;
+  [key: string]: any;
 }
 
 type Request = {
@@ -107,11 +134,13 @@ export async function postEffect(
   });
 
   if (response.status === 429) {
-    throw new Error(ERRORS.TOO_MANY_REQUESTS);
+    throw new Error(ERRORS.EFFECT_TOO_MANY_REQUESTS);
   }
 
   if (response.status === 400) {
-    throw new Error(ERRORS.TRADE_NOT_FOUND);
+    const { errorCode } = await response.json();
+
+    throw new Error(errorCode ?? ERRORS.EFFECT_SERVER_ERROR);
   }
 
   if (response.status !== 200 || !response.ok) {

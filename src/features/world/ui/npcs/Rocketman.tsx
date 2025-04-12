@@ -111,7 +111,7 @@ export const Rocketman: React.FC<Props> = ({ onClose }) => {
 
 const RocketmanNoticeboard: React.FC = () => {
   const { t } = useAppTranslation();
-  const countdown = useCountdown(new Date("2025-04-14").getTime());
+  const countdown = useCountdown(new Date("2025-05-01").getTime());
 
   return (
     <div>

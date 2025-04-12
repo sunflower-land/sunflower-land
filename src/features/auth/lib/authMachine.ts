@@ -2,11 +2,14 @@ import { createMachine, Interpreter, State, assign } from "xstate";
 import { CONFIG } from "lib/config";
 import { ERRORS, ErrorCode } from "lib/errors";
 
-import { saveReferrerId } from "../actions/createAccount";
+import {
+  saveReferrerId,
+  getReferrerId as getReferrerIdFromLS,
+} from "../actions/createAccount";
 import { login, Token, decodeToken } from "../actions/login";
 import { randomID } from "lib/utils/random";
 import { onboardingAnalytics } from "lib/onboardingAnalytics";
-import { loadSession, savePromoCode } from "features/game/actions/loadSession";
+import { loadSession } from "features/game/actions/loadSession";
 import { getToken, removeJWT, saveJWT } from "../actions/social";
 import { signUp, UTM } from "../actions/signup";
 import { claimFarm } from "../actions/claimFarm";
@@ -28,12 +31,6 @@ const getDiscordCode = () => {
 
 const getReferrerID = () => {
   const code = new URLSearchParams(window.location.search).get("ref");
-
-  return code;
-};
-
-const getPromoCode = () => {
-  const code = new URLSearchParams(window.location.search).get("promo");
 
   return code;
 };
@@ -209,12 +206,6 @@ export const authMachine = createMachine(
             saveReferrerId(referrerId);
           }
 
-          const promoCode = getPromoCode();
-          if (promoCode) {
-            onboardingAnalytics.logEvent(`promo_code_${promoCode}` as any);
-            savePromoCode(promoCode);
-          }
-
           storeUTMs();
         },
         always: [
@@ -377,7 +368,7 @@ export const authMachine = createMachine(
             const { token } = await signUp({
               token: context.user.rawToken as string,
               transactionId: context.transactionId as string,
-              referrerId: getReferrerID(),
+              referrerId: getReferrerIdFromLS(),
               utm: getUTMs(),
             });
 

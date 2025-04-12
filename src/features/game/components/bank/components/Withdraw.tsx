@@ -9,15 +9,13 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import chest from "assets/icons/chest.png";
 import flowerIcon from "assets/icons/flower_token.webp";
 import { WithdrawBuds } from "./WithdrawBuds";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/game/GameProvider";
 import { WithdrawResources } from "./WithdrawResources";
 import { Label } from "components/ui/Label";
-import { INITIAL_FARM, PIXEL_SCALE } from "features/game/lib/constants";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import { MachineState } from "features/game/lib/gameMachine";
 import { translate } from "lib/i18n/translate";
 import { Transaction } from "features/island/hud/Transaction";
-import { hasFeatureAccess } from "lib/flags";
 import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
 
 const getPageIcon = (page: Page) => {
@@ -68,22 +66,14 @@ type Page =
   | "verify";
 
 const MainMenu: React.FC<{ setPage: (page: Page) => void }> = ({ setPage }) => {
-  const withdrawSFLDisabled = hasFeatureAccess(
-    INITIAL_FARM,
-    "DISABLE_BLOCKCHAIN_ACTIONS",
-  );
-
   return (
     <div className="p-2 flex flex-col justify-center space-y-1">
       <span className="mb-1">{translate("withdraw.sync")}</span>
-      {withdrawSFLDisabled && (
-        <Label type="info">{translate("withdraw.sfl.disabled")}</Label>
-      )}
+      {/* Remove the following label once FLOWER is released for withdrawals */}
+      <Label type="info">{translate("withdraw.sfl.disabled")}</Label>
+
       <div className="flex space-x-1">
-        <Button
-          onClick={() => setPage("tokens")}
-          disabled={withdrawSFLDisabled}
-        >
+        <Button onClick={() => setPage("tokens")} disabled={true}>
           <div className="flex items-center">
             <img src={getPageIcon("tokens")} className="h-4 mr-1" />
             {getPageText("tokens")}
@@ -157,11 +147,11 @@ interface Props {
 }
 
 const _verified = (state: MachineState) => state.context.verified;
+const _farmId = (state: MachineState) => state.context.farmId;
 
 export const Withdraw: React.FC<Props> = ({ onClose }) => {
-  const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
-  const verified = useSelector(gameService, _verified);
+  const farmId = useSelector(gameService, _farmId);
 
   const [page, setPage] = useState<Page>("main");
 
@@ -180,9 +170,12 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     gameService.send("TRANSACT", {
       transaction: "transaction.itemsWithdrawn",
       request: {
-        captcha: flowerIcon,
-        amounts: amounts,
-        ids: ids,
+        farmId,
+        effect: {
+          type: "withdraw.items",
+          amounts,
+          ids,
+        },
       },
     });
     onClose();
@@ -195,9 +188,11 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     gameService.send("TRANSACT", {
       transaction: "transaction.wearablesWithdrawn",
       request: {
-        captcha: flowerIcon,
-        amounts: wearableAmounts,
-        ids: wearableIds,
+        effect: {
+          type: "withdraw.wearables",
+          amounts: wearableAmounts,
+          ids: wearableIds,
+        },
       },
     });
     onClose();
@@ -207,8 +202,10 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     gameService.send("TRANSACT", {
       transaction: "transaction.budWithdrawn",
       request: {
-        captcha: flowerIcon,
-        budIds: ids,
+        effect: {
+          type: "withdraw.buds",
+          budIds: ids,
+        },
       },
     });
     onClose();

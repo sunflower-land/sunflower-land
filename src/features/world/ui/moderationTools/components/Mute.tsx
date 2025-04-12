@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Button } from "components/ui/Button";
 import { Player } from "../ModerationTools";
-
-import { mutePlayer } from "features/world/lib/moderationAction";
+import { postEffect } from "features/game/actions/effect";
+import { randomID } from "lib/utils/random";
 
 interface Props {
   player?: Partial<Player>;
@@ -47,28 +47,30 @@ export const MuteModal: React.FC<Props> = ({
 
     const until = new Date().getTime() + duration * 60 * 1000;
 
-    await mutePlayer({
-      token: authState.rawToken as string,
-      farmId: moderatorFarmId,
-      mutedId: farmId,
-      reason: reason,
-      mutedUntil: until,
-    })
-      .then((r) => {
-        if (r.success) {
-          setMuteStatus("success");
+    try {
+      await postEffect({
+        effect: {
+          type: "moderation.muted",
+          mutedId: farmId,
+          reason: reason,
+          mutedUntil: until,
+        },
+        transactionId: randomID(),
+        token: authState.rawToken as string,
+        farmId: moderatorFarmId,
+      });
 
-          scene.mmoService.state.context.server?.send("moderation_event", {
-            type: "mute",
-            farmId: farmId as number,
-            arg: reason,
-            mutedUntil: until,
-          });
-        } else {
-          setMuteStatus("error");
-        }
-      })
-      .catch(() => setMuteStatus("error"));
+      setMuteStatus("success");
+
+      scene.mmoService.state.context.server?.send("moderation_event", {
+        type: "mute",
+        farmId: farmId as number,
+        arg: reason,
+        mutedUntil: until,
+      });
+    } catch (error) {
+      setMuteStatus("error");
+    }
   };
 
   const handleClose = () => {

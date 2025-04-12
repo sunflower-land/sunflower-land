@@ -53,10 +53,18 @@ export const RewardsButton: React.FC = () => {
     (task: InGameTaskName) => IN_GAME_TASKS[task].requirement(state),
     [state],
   );
-  const isAnyTaskCompleted = getKeys(IN_GAME_TASKS).some(
-    (task) =>
-      isTaskCompleted(task) && !state.socialTasks?.completed[task]?.completedAt,
-  );
+  const isAnyTaskCompleted = getKeys(IN_GAME_TASKS)
+    .filter(
+      (task) =>
+        !(
+          ["Link your Discord", "Link your Telegram"] as InGameTaskName[]
+        ).includes(task),
+    )
+    .some(
+      (task) =>
+        isTaskCompleted(task) &&
+        !state.socialTasks?.completed[task]?.completedAt,
+    );
 
   // Check if chest is locked or can be unlocked
   const isChestLocked = !chestState.matches("opened");

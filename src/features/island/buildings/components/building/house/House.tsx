@@ -8,7 +8,6 @@ import { LetterBox } from "features/farming/mail/LetterBox";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Bumpkin } from "features/game/types/game";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
-import { DailyReward } from "features/game/expansion/components/dailyReward/DailyReward";
 import { useNavigate } from "react-router";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { HomeBumpkins } from "./HomeBumpkins";
@@ -64,12 +63,6 @@ export const House: React.FC<BuildingProps> = ({ isBuilt, island, season }) => {
           }}
         />
       </BuildingImageWrapper>
-      <div
-        className="absolute"
-        style={{ left: `${PIXEL_SCALE * 7}px`, top: `${PIXEL_SCALE * -16}px` }}
-      >
-        <DailyReward />
-      </div>
 
       <div
         className="absolute w-full"

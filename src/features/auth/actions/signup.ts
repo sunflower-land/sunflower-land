@@ -1,4 +1,3 @@
-import { getPromoCode } from "features/game/actions/loadSession";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 
@@ -31,7 +30,6 @@ export async function signUp({
       "X-Transaction-ID": transactionId,
     },
     body: JSON.stringify({
-      promoCode: getPromoCode() ?? undefined,
       referrerId: referrerId ?? undefined,
       utm: utm ?? undefined,
     }),

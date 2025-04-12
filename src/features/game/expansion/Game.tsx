@@ -68,7 +68,7 @@ import { Transaction } from "features/island/hud/Transaction";
 import { Gems } from "./components/Gems";
 import { HenHouseInside } from "features/henHouse/HenHouseInside";
 import { BarnInside } from "features/barn/BarnInside";
-import { EFFECT_EVENTS } from "../actions/effect";
+import { STATE_MACHINE_EFFECTS } from "../actions/effect";
 import { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { GameState } from "../types/game";
 import { Ocean } from "features/world/ui/Ocean";
@@ -97,7 +97,7 @@ function camelToDotCase(str: string): string {
 const land = SUNNYSIDE.land.island;
 
 const getModalStatesForEffects = () =>
-  Object.values(EFFECT_EVENTS).reduce(
+  Object.values(STATE_MACHINE_EFFECTS).reduce(
     (states, stateName) => ({
       ...states,
       [stateName]: true,
@@ -232,13 +232,15 @@ const isPlaying = (state: MachineState) => state.matches("playing");
 const somethingArrived = (state: MachineState) =>
   state.matches("somethingArrived");
 const isEffectPending = (state: MachineState) =>
-  Object.values(EFFECT_EVENTS).some((stateName) => state.matches(stateName));
+  Object.values(STATE_MACHINE_EFFECTS).some((stateName) =>
+    state.matches(stateName),
+  );
 const isEffectSuccess = (state: MachineState) =>
-  Object.values(EFFECT_EVENTS).some((stateName) =>
+  Object.values(STATE_MACHINE_EFFECTS).some((stateName) =>
     state.matches(`${stateName}Success`),
   );
 const isEffectFailed = (state: MachineState) =>
-  Object.values(EFFECT_EVENTS).some((stateName) =>
+  Object.values(STATE_MACHINE_EFFECTS).some((stateName) =>
     state.matches(`${stateName}Failed`),
   );
 const hasMarketplaceSales = (state: MachineState) =>

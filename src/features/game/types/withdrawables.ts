@@ -326,31 +326,31 @@ export const BUMPKIN_RELEASES: Partial<Record<BumpkinItem, Releases>> = {
     withdrawAt: SEASONS["Winds of Change"].endDate,
   },
   "Sol & Luna": {
-    tradeAt: SEASONS["Winds of Change"].endDate,
+    tradeAt: new Date("2025-04-08"),
     withdrawAt: SEASONS["Winds of Change"].endDate,
   },
   "Locust King Onesie": {
-    tradeAt: SEASONS["Winds of Change"].endDate,
+    tradeAt: new Date("2025-04-08"),
     withdrawAt: SEASONS["Winds of Change"].endDate,
   },
   "Glacial Plume": {
-    tradeAt: SEASONS["Winds of Change"].endDate,
+    tradeAt: new Date("2025-04-08"),
     withdrawAt: SEASONS["Winds of Change"].endDate,
   },
   "Solflare Aegis": {
-    tradeAt: SEASONS["Winds of Change"].endDate,
+    tradeAt: new Date("2025-04-08"),
     withdrawAt: SEASONS["Winds of Change"].endDate,
   },
   "Blossom Ward": {
-    tradeAt: SEASONS["Winds of Change"].endDate,
+    tradeAt: new Date("2025-04-08"),
     withdrawAt: SEASONS["Winds of Change"].endDate,
   },
   "Autumn's Embrace": {
-    tradeAt: SEASONS["Winds of Change"].endDate,
+    tradeAt: new Date("2025-04-08"),
     withdrawAt: SEASONS["Winds of Change"].endDate,
   },
   "Frozen Heart": {
-    tradeAt: SEASONS["Winds of Change"].endDate,
+    tradeAt: new Date("2025-04-08"),
     withdrawAt: SEASONS["Winds of Change"].endDate,
   },
   "Love Heart Onesie": CAN_WITHDRAW_AND_TRADE,
@@ -822,11 +822,12 @@ export const INVENTORY_RELEASES: Partial<Record<InventoryItemName, Releases>> =
       withdrawAt: SEASONS["Winds of Change"].endDate,
     },
     "Golden Sheep": {
-      tradeAt: SEASONS["Winds of Change"].endDate,
+      tradeAt: new Date("2025-04-08"),
+
       withdrawAt: SEASONS["Winds of Change"].endDate,
     },
     "Barn Blueprint": {
-      tradeAt: SEASONS["Winds of Change"].endDate,
+      tradeAt: new Date("2025-04-08"),
       withdrawAt: SEASONS["Winds of Change"].endDate,
     },
     "Goblin Emblem": {

@@ -15,7 +15,7 @@ const API_URL = CONFIG.API_URL;
 
 export async function mintAuctionItemRequest(
   request: Request,
-): Promise<{ game: GameState }> {
+): Promise<{ gameState: GameState }> {
   const response = await window.fetch(
     `${API_URL}/auction/mint/${request.farmId}`,
     {
@@ -42,6 +42,6 @@ export async function mintAuctionItemRequest(
   const transaction = await response.json();
 
   return {
-    game: makeGame(transaction.farm),
+    gameState: makeGame(transaction.farm),
   };
 }

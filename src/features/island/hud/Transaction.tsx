@@ -26,7 +26,6 @@ import { Loading } from "features/auth/components";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
-import { wallet } from "lib/blockchain/wallet";
 import { config } from "features/wallet/WalletProvider";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { GaslessWidget } from "features/announcements/AnnouncementWidgets";
@@ -79,7 +78,7 @@ const TransactionWidget: React.FC<{
   onOpen: () => void;
 }> = ({ transaction, onOpen }) => {
   const { gameService } = useContext(Context);
-  const { isConnected, address } = useAccount();
+  const { isConnected } = useAccount();
   const { t } = useAppTranslation();
 
   const [_, setRender] = useState(0);
@@ -89,7 +88,7 @@ const TransactionWidget: React.FC<{
     sessionId: gameService.state.context.sessionId as string,
   });
 
-  const { isSuccess, isError, isLoading } = useWaitForTransactionReceipt({
+  const { isSuccess, isError } = useWaitForTransactionReceipt({
     hash: tx?.hash as `0x${string}`,
   });
 
@@ -150,9 +149,6 @@ const TransactionWidget: React.FC<{
       </div>
     );
   }
-
-  // Is not connected to game wallet?
-  const test = wallet.getAccount();
 
   if (!isConnected) {
     return (
@@ -242,7 +238,6 @@ const EVENT_TO_NAME: Record<TransactionName, string> = {
   "transaction.budWithdrawn": "Withdraw bud",
   "transaction.itemsWithdrawn": "Withdraw items",
   "transaction.progressSynced": "Store on chain",
-  "transaction.sflWithdrawn": "Withdraw FLOWER",
   "transaction.wearablesWithdrawn": "Withdraw wearables",
   "transaction.offerAccepted": "Accept offer",
   "transaction.listingPurchased": "Purchase listing",
