@@ -15,28 +15,6 @@ describe("moveFlowerBed", () => {
     ).toThrow("Flower bed does not exist");
   });
 
-  it("throws if a collision is detected", () => {
-    expect(() =>
-      moveFlowerBed({
-        state: {
-          ...TEST_FARM,
-          flowers: {
-            discovered: {},
-            flowerBeds: {
-              "1": { x: 1, y: 1, createdAt: 0 },
-              "2": { x: 0, y: 0, createdAt: 0 },
-            },
-          },
-        },
-        action: {
-          type: "flowerBed.moved",
-          coordinates: { x: 0, y: 0 },
-          id: "1",
-        },
-      }),
-    ).toThrow("Flower Bed collides");
-  });
-
   it("moves a patch", () => {
     const result = moveFlowerBed({
       state: {

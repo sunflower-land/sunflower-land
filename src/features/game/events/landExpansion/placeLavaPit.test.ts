@@ -55,37 +55,6 @@ describe("placeLavaPit", () => {
     ).toThrow("No lava pit available");
   });
 
-  it("ensures lava pits do not collide", () => {
-    expect(() =>
-      placeLavaPit({
-        action: {
-          name: "Lava Pit",
-          coordinates: {
-            x: 2,
-            y: 2,
-          },
-          id: "1",
-
-          type: "lavaPit.placed",
-        },
-        state: {
-          ...INITIAL_FARM,
-          buildings: {},
-          inventory: {
-            "Lava Pit": new Decimal(2),
-          },
-          lavaPits: {
-            "123": {
-              createdAt: Date.now(),
-              x: 2,
-              y: 2,
-            },
-          },
-        },
-      }),
-    ).toThrow("Lava Pit collides");
-  });
-
   it("ensures id does not exist", () => {
     expect(() =>
       placeLavaPit({

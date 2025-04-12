@@ -112,7 +112,7 @@ export const Placeable: React.FC<Props> = ({ location }) => {
     .landscaping as MachineInterpreter;
 
   const [machine, send] = useActor(child);
-  const { placeable, collisionDetected, origin, coordinates } = machine.context;
+  const { placeable, collisionDetected, origin } = machine.context;
 
   const grid = getGameGrid(gameState.context.state);
 
@@ -145,13 +145,15 @@ export const Placeable: React.FC<Props> = ({ location }) => {
     getInitialCoordinates(origin);
 
   useEffect(() => {
-    const [startingX, startingY] = getInitialCoordinates({ x: 0, y: 0 });
+    if (!placeable) return;
+
+    const [startingX, startingY] = getInitialCoordinates(origin);
 
     detect({
       x: Math.round(startingX / GRID_WIDTH_PX),
       y: Math.round(-startingY / GRID_WIDTH_PX),
     });
-  }, []);
+  }, [placeable]);
 
   useEffect(() => {
     setShowHint(true);
