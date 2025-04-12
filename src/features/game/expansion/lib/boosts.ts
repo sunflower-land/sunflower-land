@@ -59,7 +59,7 @@ export function isFoodMadeWithCheese(food: Consumable) {
 export const CROP_SHORTAGE_HOURS = 2;
 
 /**
- * How much SFL an item is worth
+ * How much FLOWER an item is worth
  */
 export const getSellPrice = ({
   item,

@@ -26,7 +26,7 @@ import { Panel } from "components/ui/Panel";
 import { Hoarding } from "../components/Hoarding";
 import { Swarming } from "../components/Swarming";
 import { Cooldown } from "../components/Cooldown";
-import { Route, Routes } from "react-router";
+import { Route, Routes, useNavigate } from "react-router";
 import { Land } from "./Land";
 import { VisitingHud } from "features/island/hud/VisitingHud";
 import { VisitLandExpansionForm } from "./components/VisitLandExpansionForm";
@@ -55,7 +55,6 @@ import { ListingDeleted } from "../components/listingDeleted";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { usePWAInstall } from "features/pwa/PWAInstallProvider";
 import { fixInstallPromptTextStyles } from "features/pwa/lib/fixInstallPromptStyles";
-import { PersonhoodContent } from "features/retreat/components/personhood/PersonhoodContent";
 import { hasFeatureAccess } from "lib/flags";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PriceChange } from "../components/PriceChange";
@@ -69,7 +68,7 @@ import { Transaction } from "features/island/hud/Transaction";
 import { Gems } from "./components/Gems";
 import { HenHouseInside } from "features/henHouse/HenHouseInside";
 import { BarnInside } from "features/barn/BarnInside";
-import { EFFECT_EVENTS } from "../actions/effect";
+import { STATE_MACHINE_EFFECTS } from "../actions/effect";
 import { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { GameState } from "../types/game";
 import { Ocean } from "features/world/ui/Ocean";
@@ -89,6 +88,7 @@ import {
   EffectSuccess,
 } from "./components/EffectSuccess";
 import { LoveCharm } from "./components/LoveCharm";
+import { ClaimReferralRewards } from "./components/ClaimReferralRewards";
 
 function camelToDotCase(str: string): string {
   return str.replace(/([a-z])([A-Z])/g, "$1.$2").toLowerCase() as string;
@@ -97,11 +97,11 @@ function camelToDotCase(str: string): string {
 const land = SUNNYSIDE.land.island;
 
 const getModalStatesForEffects = () =>
-  Object.values(EFFECT_EVENTS).reduce(
+  Object.values(STATE_MACHINE_EFFECTS).reduce(
     (states, stateName) => ({
       ...states,
       [stateName]: true,
-      [`${stateName}Failure`]: true,
+      [`${stateName}Failed`]: true,
       [`${stateName}Success`]: true,
     }),
     {} as Record<BlockchainState["value"], boolean>,
@@ -114,9 +114,19 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   depositingFlower: false,
   depositingFlowerSuccess: false,
   depositingFlowerFailed: false,
+  changingUsername: false,
+  changingUsernameSuccess: false,
+  changingUsernameFailed: false,
+  assigningUsername: false,
+  assigningUsernameSuccess: false,
+  assigningUsernameFailed: false,
+  claimingStreamReward: false,
+  claimingStreamRewardSuccess: false,
+  claimingStreamRewardFailed: false,
   // Every new state should be added below here
   gems: true,
   communityCoin: true,
+  referralRewards: true,
   loading: true,
   playing: false,
   autosaving: false,
@@ -146,14 +156,6 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   claimAuction: false,
   refundAuction: false,
   promo: true,
-  trading: true,
-  listing: true,
-  deleteTradeListing: true,
-  tradeListingDeleted: true,
-  fulfillTradeListing: false,
-  listed: true,
-  sniped: true,
-  tradeAlreadyFulfilled: true,
   priceChanged: true,
   buds: false,
   mailbox: false,
@@ -162,7 +164,6 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   offers: true,
   marketplaceSale: true,
   portalling: true,
-  provingPersonhood: false,
   sellMarketResource: false,
   somethingArrived: true,
   seasonChanged: false,
@@ -202,6 +203,8 @@ const isPurchasing = (state: MachineState) =>
 const showGems = (state: MachineState) => state.matches("gems");
 const showCommunityCoin = (state: MachineState) =>
   state.matches("communityCoin");
+const _showReferralRewards = (state: MachineState) =>
+  state.matches("referralRewards");
 const isCoolingDown = (state: MachineState) => state.matches("coolingDown");
 const isGameRules = (state: MachineState) => state.matches("gameRules");
 const isFLOWERTeaser = (state: MachineState) => state.matches("FLOWERTeaser");
@@ -228,17 +231,17 @@ const hasVipNotification = (state: MachineState) => state.matches("vip");
 const isPlaying = (state: MachineState) => state.matches("playing");
 const somethingArrived = (state: MachineState) =>
   state.matches("somethingArrived");
-const isProvingPersonhood = (state: MachineState) =>
-  state.matches("provingPersonhood");
 const isEffectPending = (state: MachineState) =>
-  Object.values(EFFECT_EVENTS).some((stateName) => state.matches(stateName));
+  Object.values(STATE_MACHINE_EFFECTS).some((stateName) =>
+    state.matches(stateName),
+  );
 const isEffectSuccess = (state: MachineState) =>
-  Object.values(EFFECT_EVENTS).some((stateName) =>
+  Object.values(STATE_MACHINE_EFFECTS).some((stateName) =>
     state.matches(`${stateName}Success`),
   );
-const isEffectFailure = (state: MachineState) =>
-  Object.values(EFFECT_EVENTS).some((stateName) =>
-    state.matches(`${stateName}Failure`),
+const isEffectFailed = (state: MachineState) =>
+  Object.values(STATE_MACHINE_EFFECTS).some((stateName) =>
+    state.matches(`${stateName}Failed`),
   );
 const hasMarketplaceSales = (state: MachineState) =>
   state.matches("marketplaceSale");
@@ -257,6 +260,7 @@ const GameContent: React.FC = () => {
   const landToVisitNotFound = useSelector(gameService, isLandToVisitNotFound);
   const { t } = useAppTranslation();
   const [gameState] = useActor(gameService);
+  const navigate = useNavigate();
 
   const PATH_ACCESS: Partial<Record<string, (game: GameState) => boolean>> = {
     GreenHouse: (game) =>
@@ -367,7 +371,6 @@ export const GameWrapper: React.FC = ({ children }) => {
   const pwaInstallRef = usePWAInstall();
 
   const loading = useSelector(gameService, isLoading);
-  const provingPersonhood = useSelector(gameService, isProvingPersonhood);
   const portalling = useSelector(gameService, isPortalling);
   const trading = useSelector(gameService, isTrading);
   const traded = useSelector(gameService, isTraded);
@@ -408,9 +411,10 @@ export const GameWrapper: React.FC = ({ children }) => {
   const hasSomethingArrived = useSelector(gameService, somethingArrived);
   const hasBBs = useSelector(gameService, showGems);
   const hasCommunityCoin = useSelector(gameService, showCommunityCoin);
+  const showReferralRewards = useSelector(gameService, _showReferralRewards);
   const effectPending = useSelector(gameService, isEffectPending);
   const effectSuccess = useSelector(gameService, isEffectSuccess);
-  const effectFailure = useSelector(gameService, isEffectFailure);
+  const effectFailed = useSelector(gameService, isEffectFailed);
   const showSales = useSelector(gameService, hasMarketplaceSales);
   const competition = useSelector(gameService, isCompetition);
   const seasonChanged = useSelector(gameService, isSeasonChanged);
@@ -591,7 +595,7 @@ export const GameWrapper: React.FC = ({ children }) => {
               (EFFECT_SUCCESS_COMPONENTS[stateValue as StateValues] ?? (
                 <EffectSuccess state={stateValue} />
               ))}
-            {effectFailure && (
+            {effectFailed && (
               <ErrorMessage errorCode={errorCode as ErrorCode} />
             )}
 
@@ -627,6 +631,7 @@ export const GameWrapper: React.FC = ({ children }) => {
             {roninWelcomePack && <RoninWelcomePack />}
             {roninAirdrop && <ClaimRoninAirdrop />}
             {jinAirdrop && <RoninJinClaim />}
+            {showReferralRewards && <ClaimReferralRewards />}
           </Panel>
         </Modal>
 
@@ -645,17 +650,6 @@ export const GameWrapper: React.FC = ({ children }) => {
 
         <Introduction />
         <NewMail />
-
-        {provingPersonhood && (
-          <Modal
-            show={true}
-            onHide={() => gameService.send("PERSONHOOD_CANCELLED")}
-          >
-            <Panel className="text-shadow">
-              <PersonhoodContent />
-            </Panel>
-          </Modal>
-        )}
 
         {children}
       </ToastProvider>

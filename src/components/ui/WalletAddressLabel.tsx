@@ -25,7 +25,7 @@ export const WalletAddressLabel: React.FC<Props> = ({
   return (
     <Label
       type="formula"
-      className="mb-1 mr-4"
+      className="mb-1 mr-2"
       icon={walletIcon}
       popup={show}
       onClick={() => {

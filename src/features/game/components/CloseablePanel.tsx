@@ -16,10 +16,10 @@ export interface PanelTabs {
   alert?: boolean;
 }
 
-interface Props {
+interface Props<T extends number | string = number> {
   tabs?: PanelTabs[];
-  currentTab?: number;
-  setCurrentTab?: React.Dispatch<React.SetStateAction<number>>;
+  currentTab?: T;
+  setCurrentTab?: React.Dispatch<React.SetStateAction<T>>;
   title?: string | JSX.Element;
   secondaryAction?: JSX.Element;
   onClose?: () => void;
@@ -27,13 +27,14 @@ interface Props {
   bumpkinParts?: Partial<Equipped>;
   className?: string;
   container?: React.FC<PanelProps>;
+  children?: React.ReactNode;
 }
 
 /**
  * A custom panel built for the game.
  * @tabs The tabs of the panel.
- * @currentTab The current selected tab index of the panel. Default is 0.
- * @setCurrentTab Dispatch method to set the current selected tab index.
+ * @currentTab The current selected tab index or name of the panel. Default is 0.
+ * @setCurrentTab Dispatch method to set the current selected tab index or name.
  * @title The panel title.
  * @onClose The close panel method.  Close button will show if this is set.
  * @onBack The back button method.  Back button will show if this is set.
@@ -41,9 +42,9 @@ interface Props {
  * @className Additional class name for the parent panel.
  * @children The panel children content.
  */
-export const CloseButtonPanel: React.FC<Props> = ({
+export const CloseButtonPanel = <T extends number | string = number>({
   tabs,
-  currentTab = 0,
+  currentTab = 0 as T,
   setCurrentTab,
   title,
   onClose,
@@ -53,11 +54,11 @@ export const CloseButtonPanel: React.FC<Props> = ({
   className,
   children,
   container: Container = Panel,
-}) => {
+}: Props<T>) => {
   const tabSound = useSound("tab");
   const button = useSound("button");
 
-  const handleTabClick = (index: number) => {
+  const handleTabClick = (index: T) => {
     setCurrentTab && setCurrentTab(index);
   };
 
@@ -89,10 +90,15 @@ export const CloseButtonPanel: React.FC<Props> = ({
                 key={`tab-${index}`}
                 isFirstTab={index === 0}
                 className="flex items-center relative mr-1"
-                isActive={currentTab === index}
+                isActive={
+                  currentTab ===
+                  (typeof currentTab === "number" ? index : tab.name)
+                }
                 onClick={() => {
                   tabSound.play();
-                  handleTabClick(index);
+                  handleTabClick(
+                    (typeof currentTab === "number" ? index : tab.name) as T,
+                  );
                 }}
               >
                 <SquareIcon icon={tab.icon} width={7} />
@@ -100,7 +106,10 @@ export const CloseButtonPanel: React.FC<Props> = ({
                   className={classNames(
                     "text-xs sm:text-sm text-ellipsis ml-1 whitespace-nowrap",
                     {
-                      pulse: currentTab !== index && tab.unread,
+                      pulse:
+                        (typeof currentTab === "number"
+                          ? currentTab !== index
+                          : currentTab !== tab.name) && tab.unread,
                     },
                   )}
                 >

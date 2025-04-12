@@ -132,6 +132,29 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       this.label = label;
     }
 
+    // For Debugging Purpose - Check player position
+    // Uncomment to see the coordinates
+    // const coordinatesText = this.scene.add.text(
+    //   x, // X position of the text
+    //   y, // Y position of the text (above the NPC and label)
+    //   `X: ${x}, Y: ${y}`, // Initial text content
+    //   {
+    //     fontSize: "4px",
+    //     fontFamily: "monospace",
+    //     resolution: 4,
+    //     color: "#00000",
+    //   }, // Style
+    // );
+    // coordinatesText.setOrigin(0.5);
+
+    // // Update the text whenever the NPC's position changes
+    // this.scene.events.on("update", () => {
+    //   coordinatesText.setPosition(this.x, this.y + 15); // Adjust to keep it above the NPC
+    //   coordinatesText.setText(
+    //     `x: ${Math.round(this.x)}, y: ${Math.round(this.y)}`,
+    //   ); // Update the coordinates
+    // });
+
     this.scene.add.existing(this);
 
     if (onClick) {
@@ -148,9 +171,11 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
         },
       );
     }
-
     if (clothing.shirt === "Gift Giver") {
       this.showGift();
+    }
+    if (clothing.hat === "Streamer Hat") {
+      this.showCharm();
     }
     this.showAura();
   }
@@ -346,19 +371,41 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
       this.sprite?.destroy();
     }
 
+    // Putting on Gift Giver
     if (
       this.clothing.shirt !== "Gift Giver" &&
+      this.clothing.hat !== "Streamer Hat" && // If wearing streamer hat it won't replace icon with gift giver
       clothing.shirt === "Gift Giver"
     ) {
       this.showGift();
     }
 
+    // Putting on Streamer Hat
+    if (
+      this.clothing.hat !== "Streamer Hat" &&
+      clothing.hat === "Streamer Hat"
+    ) {
+      this.showCharm();
+    }
+
+    // Taking off Gift Giver
     if (
       this.clothing.shirt === "Gift Giver" &&
+      this.clothing.hat !== "Streamer Hat" && // If wearing streamer hat it won't remove icon
       clothing.shirt !== "Gift Giver"
     ) {
-      this.removeGift();
+      this.removeIcon();
     }
+
+    // Taking off Streamer Hat
+    if (
+      this.clothing.hat === "Streamer Hat" &&
+      clothing.hat !== "Streamer Hat"
+    ) {
+      this.removeIcon();
+      if (this.clothing.shirt === "Gift Giver") this.showGift(); // If wearing gift giver it will replace icon with streamer hat
+    }
+
     if (this.clothing.aura === clothing.aura || clothing.aura === undefined) {
       this.removeAura();
     }
@@ -373,9 +420,35 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.showSmoke();
   }
 
+  public showCharm() {
+    if (this.icon) {
+      this.removeIcon();
+    }
+
+    this.icon = this.scene.add.sprite(0, -14, "charm_icon").setOrigin(0.5);
+    this.add(this.icon);
+
+    if (this.scene.textures.exists("sparkle")) {
+      this.fx = this.scene.add.sprite(0, -8, "sparkle").setOrigin(0.5).setZ(10);
+      this.add(this.fx);
+
+      this.scene.anims.create({
+        key: `sparkel_anim`,
+        frames: this.scene.anims.generateFrameNumbers("sparkle", {
+          start: 0,
+          end: 6,
+        }),
+        repeat: -1,
+        frameRate: 10,
+      });
+
+      this.fx.play(`sparkel_anim`, true);
+    }
+  }
+
   public showGift() {
     if (this.icon) {
-      this.removeGift();
+      this.removeIcon();
     }
 
     this.icon = this.scene.add.sprite(0, -12, "gift_icon").setOrigin(0.5);
@@ -399,7 +472,7 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     }
   }
 
-  private removeGift() {
+  private removeIcon() {
     if (this.icon?.active) {
       this.icon.destroy();
     }

@@ -56,7 +56,8 @@ type SellableName =
   | PatchFruitName
   | BeachBountyTreasure
   | GarbageName
-  | ExoticCropName;
+  | ExoticCropName
+  | "Love Charm";
 
 type Recipes = Food | CookableName;
 type Edibles = Food | ConsumableName;

@@ -1,9 +1,8 @@
 import React, { useContext, useState } from "react";
 import Decimal from "decimal.js-light";
 import { ButtonPanel } from "components/ui/Panel";
-import sfl from "assets/icons/sfl.webp";
+import sfl from "assets/icons/flower_token.webp";
 import lightning from "assets/icons/lightning.png";
-import wallet from "assets/icons/wallet.png";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { formatNumber } from "lib/utils/formatNumber";
 import { getTradeType } from "../lib/getTradeType";
@@ -100,12 +99,6 @@ export const ListViewCard: React.FC<Props> = ({
             type={type}
             isResources={isResources}
           />
-          {tradeType === "onchain" && (
-            <img
-              src={wallet}
-              className="h-5 mr-1 absolute bottom-1 -right-1.5"
-            />
-          )}
         </div>
 
         <div
@@ -180,7 +173,7 @@ export const ListViewCard: React.FC<Props> = ({
             <p className="text-xxs truncate pb-0.5">
               {`Last sale: ${formatNumber(lastSalePrice, {
                 decimalPlaces: 4,
-              })} SFL`}
+              })} FLOWER`}
             </p>
           )}
         </div>

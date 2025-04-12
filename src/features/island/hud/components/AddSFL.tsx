@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import token from "assets/icons/sfl.webp";
+import token from "assets/icons/flower_token.webp";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";

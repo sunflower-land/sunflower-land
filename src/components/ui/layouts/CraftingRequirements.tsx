@@ -59,8 +59,8 @@ interface HarvestsRequirementProps {
  * @param resources The item resources requirements.
  * @param coins The Coins requirements.
  * @param showCoinsIfFree Whether to show free Coins requirement if cost is 0. Defaults to false.
- * @param sfl The SFL requirements.
- * @param showSflIfFree Whether to show free SFL requirement if SFL cost is 0. Defaults to false.
+ * @param sfl The FLOWER requirements.
+ * @param showSflIfFree Whether to show free FLOWER requirement if FLOWER cost is 0. Defaults to false.
  * @param harvests The min/max harvests for the item.
  * @param xp The XP gained for consuming the item.
  * @param timeSeconds The wait time in seconds for crafting the item.
@@ -286,7 +286,7 @@ export const CraftingRequirements: React.FC<Props> = ({
           </div>
         )}
 
-        {/* SFL requirement */}
+        {/* FLOWER requirement */}
         {!!requirements.sfl &&
           (requirements.sfl.greaterThan(0) || requirements.showSflIfFree) && (
             <RequirementLabel

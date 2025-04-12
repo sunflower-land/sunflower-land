@@ -27,7 +27,7 @@ const testnetLocalStorageFeatureFlag = (key: string) => () => {
 };
 
 const timeBasedFeatureFlag = (date: Date) => () => {
-  return Date.now() > date.getTime();
+  return testnetFeatureFlag() || Date.now() > date.getTime();
 };
 
 const betaTimeBasedFeatureFlag = (date: Date) => (game: GameState) => {
@@ -69,24 +69,35 @@ const FEATURE_FLAGS = {
   AIRDROP_PLAYER: adminFeatureFlag,
   HOARDING_CHECK: defaultFeatureFlag,
 
-  FACE_RECOGNITION: (game) => {
-    return game.createdAt > new Date("2025-01-01T00:00:00Z").getTime();
-  },
-
+  // Temporary Feature Flags
+  FACE_RECOGNITION: (game) =>
+    game.createdAt > new Date("2025-01-01T00:00:00Z").getTime() ||
+    !game.verified,
   FACE_RECOGNITION_TEST: defaultFeatureFlag,
 
-  // Temporary Feature Flags
-  DISABLE_BLOCKCHAIN_ACTIONS: timeBasedFeatureFlag(
-    new Date("2025-03-24T00:00:00Z"),
-  ),
-  REFERRAL_PROGRAM: usernameFeatureFlag,
   FLOWER_DEPOSIT: usernameFeatureFlag,
-  TELEGRAM: defaultFeatureFlag,
+
+  // Released to All Players on 5th May
+  FLOWER_GEMS: timeBasedFeatureFlag(new Date("2025-05-05T00:00:00Z")),
 
   // Testnet only feature flags - Please don't change these until release
-  COMMUNITY_COIN_EXCHANGE: testnetFeatureFlag,
-  FLOWER_GEMS: testnetFeatureFlag,
+  LOVE_CHARM_FLOWER_EXCHANGE: timeBasedFeatureFlag(
+    new Date("2025-05-01T00:00:00Z"),
+  ),
+  //Testnet only
+  LOVE_CHARM_REWARD_SHOP: timeBasedFeatureFlag(
+    new Date("2025-05-01T00:00:00Z"),
+  ),
+
   LEDGER: testnetLocalStorageFeatureFlag("ledger"),
+  BLOCKCHAIN_BOX: (game) =>
+    betaTimeBasedFeatureFlag(new Date("2025-04-07T00:00:00Z"))(game) &&
+    Date.now() < new Date("2025-05-05T00:00:00Z").getTime(),
+
+  // Don't change this feature flag until the love rush event is over
+  LOVE_RUSH: (game) =>
+    betaTimeBasedFeatureFlag(new Date("2025-04-07T00:00:00Z"))(game) &&
+    Date.now() < new Date("2025-05-05T00:00:00Z").getTime(),
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;

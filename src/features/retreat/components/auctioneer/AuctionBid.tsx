@@ -1,7 +1,7 @@
 import React from "react";
 
 import { ITEM_DETAILS } from "features/game/types/images";
-import token from "assets/icons/sfl.webp";
+import token from "assets/icons/flower_token.webp";
 
 import { Button } from "components/ui/Button";
 import { Bid } from "features/game/types/game";

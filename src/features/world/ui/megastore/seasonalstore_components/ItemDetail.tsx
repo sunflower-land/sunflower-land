@@ -437,7 +437,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                     {item &&
                       (sfl !== 0 ? (
                         <div className="flex flex-1 items-end">
-                          {/* SFL */}
+                          {/* FLOWER */}
                           <RequirementLabel
                             type="sfl"
                             balance={sflBalance}

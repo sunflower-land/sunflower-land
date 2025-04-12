@@ -14,6 +14,8 @@ import {
 import { isWearableActive } from "features/game/lib/wearables";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { hasFeatureAccess } from "lib/flags";
+import { getLoveRushChoreReward } from "features/game/types/loveRushChores";
 
 export type CompleteNPCChoreAction = {
   type: "chore.fulfilled";
@@ -33,7 +35,7 @@ export function completeNPCChore({
 }: Options): GameState {
   return produce(state, (draft) => {
     const { npcName } = action;
-    const { choreBoard, bumpkin, npcs } = draft;
+    const { choreBoard } = draft;
 
     if (!choreBoard.chores[npcName]) {
       throw new Error("No chore exists for this NPC");
@@ -84,6 +86,26 @@ export function completeNPCChore({
 
     draft.npcs[npcName].friendship.points += 1;
     draft.npcs[npcName].friendship.updatedAt = createdAt;
+
+    if (hasFeatureAccess(draft, "LOVE_RUSH")) {
+      const { loveCharmReward } = getLoveRushChoreReward({
+        npcName,
+        game: draft,
+        createdAt,
+      });
+      draft.inventory["Love Charm"] = (
+        draft.inventory["Love Charm"] ?? new Decimal(0)
+      ).add(loveCharmReward);
+
+      // Add 100 love charms for completing 21 chores
+      const hasCompleted21Chores =
+        Object.values(draft.choreBoard.chores).filter(
+          (chore) => chore.completedAt,
+        ).length === 21;
+      if (hasCompleted21Chores) {
+        draft.inventory["Love Charm"] = draft.inventory["Love Charm"].add(100);
+      }
+    }
 
     return draft;
   });

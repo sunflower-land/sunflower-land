@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Label } from "./Label";
 import { translate } from "lib/i18n/translate";
+import { useIsDarkMode } from "lib/utils/hooks/useIsDarkMode";
 
 export const CopySvg = ({ height = 16 }: { height?: number }) => (
   <svg
@@ -31,6 +32,7 @@ interface Props {
 export const CopyField: React.FC<Props> = ({ text = "", copyFieldMessage }) => {
   const [tooltipMessage, setTooltipMessage] = useState(copyFieldMessage);
   const [showLabel, setShowLabel] = useState(false);
+  const { isDarkMode } = useIsDarkMode();
 
   const copyToClipboard = async (): Promise<void> => {
     try {
@@ -55,7 +57,9 @@ export const CopyField: React.FC<Props> = ({ text = "", copyFieldMessage }) => {
 
   return (
     <div className="mb-4">
-      <div className="mt-2 bg-brown-200 p-1">
+      <div
+        className={`mt-2 p-1 ${isDarkMode ? "bg-brown-200" : "bg-[#c28669]"}`}
+      >
         <div className="flex justify-content-between p-2 gap-x-2 align-items-center">
           <span className="text-xs m-auto break-all select-text">{text}</span>
           <span

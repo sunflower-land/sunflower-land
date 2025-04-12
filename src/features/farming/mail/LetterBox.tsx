@@ -90,7 +90,12 @@ export const LetterBox: React.FC = () => {
         onClose={close}
         tabs={[
           { icon: newsIcon, name: t("news.title") },
-          { icon: letter, name: t("mailbox") },
+          {
+            icon: letter,
+            name: t("mailbox"),
+            alert: hasAnnouncement,
+            unread: hasAnnouncement,
+          },
           { icon: SUNNYSIDE.icons.stopwatch, name: t("mailbox.whatsOn") },
         ]}
         currentTab={tab}

@@ -32,10 +32,7 @@ export function prepareAPI({
     }
 
     public get user() {
-      return {
-        farmId,
-        promoCode: gameService.state.context.promoCode,
-      };
+      return { farmId };
     }
 
     public async loadIsland(): Promise<CommunityIsland | null> {

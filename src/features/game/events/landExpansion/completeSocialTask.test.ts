@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
-import { completeSocialTask, SocialTaskName } from "./completeSocialTask";
+import { completeSocialTask, InGameTaskName } from "./completeSocialTask";
 
 describe("completeSocialTask", () => {
   const now = Date.now();
@@ -12,7 +12,7 @@ describe("completeSocialTask", () => {
         createdAt: now,
         action: {
           type: "socialTask.completed",
-          taskId: "Non-existent task" as SocialTaskName,
+          taskId: "Non-existent task" as InGameTaskName,
         },
         state: INITIAL_FARM,
       }),
@@ -25,7 +25,7 @@ describe("completeSocialTask", () => {
         createdAt: now,
         action: {
           type: "socialTask.completed",
-          taskId: "Invite a friend",
+          taskId: "Link your Discord",
         },
         state: {
           ...INITIAL_FARM,
@@ -41,38 +41,19 @@ describe("completeSocialTask", () => {
         createdAt: now,
         action: {
           type: "socialTask.completed",
-          taskId: "Invite a friend",
+          taskId: "Link your Discord",
         },
         state: {
           ...INITIAL_FARM,
-          referrals: { totalReferrals: 1 },
+          discord: { connected: true },
           socialTasks: {
             completed: {
-              "Invite a friend": { completedAt: now - 1000 },
+              "Link your Discord": { completedAt: now - 1000 },
             },
           },
         },
       }),
     ).toThrow("Task already completed");
-  });
-
-  it("completes the 'Invite a friend' task and gives reward", () => {
-    const state = completeSocialTask({
-      createdAt: now,
-      action: {
-        type: "socialTask.completed",
-        taskId: "Invite a friend",
-      },
-      state: {
-        ...INITIAL_FARM,
-        referrals: { totalReferrals: 1 },
-      },
-    });
-
-    expect(state.inventory["Love Charm"]).toEqual(new Decimal(15));
-    expect(state.socialTasks?.completed["Invite a friend"]).toEqual({
-      completedAt: now,
-    });
   });
 
   it("completes the 'Link your Discord' task and gives reward", () => {
@@ -172,24 +153,24 @@ describe("completeSocialTask", () => {
       createdAt: now,
       action: {
         type: "socialTask.completed",
-        taskId: "Invite a friend",
+        taskId: "Link your Discord",
       },
       state: {
         ...INITIAL_FARM,
-        referrals: { totalReferrals: 1 },
+        discord: { connected: true },
         inventory: {
           "Love Charm": new Decimal(10),
         },
       },
     });
 
-    expect(state.inventory["Love Charm"]).toEqual(new Decimal(25)); // 10 + 15
+    expect(state.inventory["Love Charm"]).toEqual(new Decimal(35)); // 10 + 25
   });
 
   it("initializes socialTasks if it doesn't exist", () => {
     const baseState: GameState = {
       ...INITIAL_FARM,
-      referrals: { totalReferrals: 1 },
+      discord: { connected: true },
     };
 
     // Ensure socialTasks is undefined
@@ -199,13 +180,13 @@ describe("completeSocialTask", () => {
       createdAt: now,
       action: {
         type: "socialTask.completed",
-        taskId: "Invite a friend",
+        taskId: "Link your Discord",
       },
       state: baseState,
     });
 
     expect(state.socialTasks).toBeDefined();
-    expect(state.socialTasks?.completed["Invite a friend"]).toEqual({
+    expect(state.socialTasks?.completed["Link your Discord"]).toEqual({
       completedAt: now,
     });
   });
