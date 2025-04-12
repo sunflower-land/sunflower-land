@@ -13,10 +13,8 @@ import { ITEM_DETAILS } from "features/game/types/images";
 
 class PlayerSelectionListManager {
   private listener?: (players: PlayerModalPlayer[]) => void;
-  private currentPlayers: PlayerModalPlayer[] = [];
 
   public open(players: PlayerModalPlayer[]) {
-    this.currentPlayers = players;
     if (this.listener) {
       this.listener(players);
     }
@@ -24,13 +22,6 @@ class PlayerSelectionListManager {
 
   public listen(cb: (players: PlayerModalPlayer[]) => void) {
     this.listener = cb;
-  }
-
-  public removePlayer(playerId: number) {
-    this.currentPlayers = this.currentPlayers.filter((p) => p.id !== playerId);
-    if (this.listener) {
-      this.listener(this.currentPlayers);
-    }
   }
 }
 
@@ -45,20 +36,6 @@ export const PlayerSelectionList: React.FC = () => {
     playerSelectionListManager.listen((players) => {
       setPlayers(players);
     });
-
-    // Listen for player leave events
-    const handlePlayerLeave = (event: CustomEvent) => {
-      playerSelectionListManager.removePlayer(event.detail.playerId);
-    };
-
-    window.addEventListener("player_leave", handlePlayerLeave as EventListener);
-
-    return () => {
-      window.removeEventListener(
-        "player_leave",
-        handlePlayerLeave as EventListener,
-      );
-    };
   }, []);
 
   const closeModal = () => {
