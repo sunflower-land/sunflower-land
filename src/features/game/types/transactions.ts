@@ -10,17 +10,9 @@ import {
   withdrawBudsTransaction,
   WithdrawItemsParams,
   withdrawItemsTransaction,
-  WithdrawSFLParams,
-  withdrawSFLTransaction,
   WithdrawWearablesParams,
   withdrawWearablesTransaction,
 } from "lib/blockchain/Withdrawals";
-import {
-  withdrawBudsRequest,
-  withdrawItemsRequest,
-  withdrawSFLRequest,
-  withdrawWearablesRequest,
-} from "../actions/withdraw";
 import { sync } from "../actions/sync";
 import { mintAuctionItemRequest } from "../actions/mintAuctionItem";
 import {
@@ -29,6 +21,7 @@ import {
   ListingPurchasedParams,
   listingPurchasedTransaction,
 } from "lib/blockchain/Marketplace";
+import { postEffect } from "../actions/effect";
 
 export type BidMintedTransaction = {
   event: "transaction.bidMinted";
@@ -36,15 +29,6 @@ export type BidMintedTransaction = {
   data: {
     bid: GameState["auctioneer"]["bid"];
     params: MintBidParams;
-  };
-};
-
-export type SFLWithdrawnTransaction = {
-  event: "transaction.sflWithdrawn";
-  createdAt: number;
-  data: {
-    sfl: number;
-    params: WithdrawSFLParams;
   };
 };
 
@@ -106,7 +90,6 @@ export type GameTransaction =
   | WearablesWithdrawnTransaction
   | ItemsWithdrawnTransaction
   | BudWithdrawnTransaction
-  | SFLWithdrawnTransaction
   | BidMintedTransaction
   | AcceptOfferTransaction
   | ListingPurchasedTransaction;
@@ -185,7 +168,6 @@ export const ONCHAIN_TRANSACTIONS: TransactionHandler = {
   "transaction.budWithdrawn": (data) => withdrawBudsTransaction(data.params),
   "transaction.itemsWithdrawn": (data) => withdrawItemsTransaction(data.params),
   "transaction.progressSynced": (data) => syncProgress(data.params),
-  "transaction.sflWithdrawn": (data) => withdrawSFLTransaction(data.params),
   "transaction.wearablesWithdrawn": (data) =>
     withdrawWearablesTransaction(data.params),
 
@@ -207,7 +189,7 @@ export type SignatureHandler = {
 
 type TransactionRequest = Record<
   TransactionName,
-  (_: any) => Promise<{ game: GameState }>
+  (_: any) => Promise<{ gameState: GameState; data?: any }>
 >;
 
 export const TRANSACTION_SIGNATURES: TransactionRequest = {
@@ -215,8 +197,7 @@ export const TRANSACTION_SIGNATURES: TransactionRequest = {
   "transaction.listingPurchased": () => ({}) as any, // uses new effect flow
   "transaction.progressSynced": sync,
   "transaction.bidMinted": mintAuctionItemRequest,
-  "transaction.budWithdrawn": withdrawBudsRequest,
-  "transaction.itemsWithdrawn": withdrawItemsRequest,
-  "transaction.sflWithdrawn": withdrawSFLRequest,
-  "transaction.wearablesWithdrawn": withdrawWearablesRequest,
+  "transaction.budWithdrawn": postEffect,
+  "transaction.itemsWithdrawn": postEffect,
+  "transaction.wearablesWithdrawn": postEffect,
 };

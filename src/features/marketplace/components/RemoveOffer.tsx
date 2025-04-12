@@ -7,7 +7,7 @@ import React, { useContext } from "react";
 import { getTradeableDisplay } from "../lib/tradeables";
 import { tradeToId } from "../lib/offers";
 import { TradeOffer } from "features/game/types/game";
-import sflIcon from "assets/icons/sfl.webp";
+import sflIcon from "assets/icons/flower_token.webp";
 import bg from "assets/ui/3x3_bg.png";
 import {
   MarketplaceTradeableName,
@@ -102,7 +102,7 @@ export const RemoveOffer: React.FC<Props> = ({
             <div>
               <span className="text-sm">{`${quantity} x ${display.name}`}</span>
               <div className="flex items-center">
-                <span className="text-sm">{`${offer.sfl} SFL`}</span>
+                <span className="text-sm">{`${offer.sfl} FLOWER`}</span>
                 <img src={sflIcon} className="h-6 ml-1" />
               </div>
             </div>

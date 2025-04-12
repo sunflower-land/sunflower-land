@@ -184,23 +184,36 @@ export const AnimalDeal: React.FC<{
             <div className="flex flex-col space-y-1 my-3">
               {deal.coins && (
                 <div className="flex items-center space-x-1">
-                  <img
-                    src={SUNNYSIDE.ui.coinsImg}
-                    className="w-4"
-                    alt="Coins"
-                  />
-                  <p>{`x ${getSickAnimalRewardAmount(coins)} coins`}</p>
+                  <Label
+                    type="warning"
+                    icon={SUNNYSIDE.ui.coinsImg}
+                    className="text-sm"
+                  >
+                    {`x ${getSickAnimalRewardAmount(coins)} coins`}
+                  </Label>
                 </div>
               )}
               {getKeys(deal.items ?? {}).map((name) => {
+                let amount = deal.items?.[name] ?? 0;
+                const now = Date.now();
+
+                if (name === getSeasonalTicket(new Date(now))) {
+                  amount = generateBountyTicket({
+                    game: state,
+                    bounty: deal,
+                    now,
+                  });
+                }
+
                 return (
                   <div className="flex items-center space-x-1" key={name}>
-                    <img
-                      src={ITEM_DETAILS[name].image}
-                      className="w-4 space-x-1"
-                      alt={name}
-                    />
-                    <p>{`x ${getSickAnimalRewardAmount(deal.items?.[name] ?? 0)} ${name}`}</p>
+                    <Label
+                      type="warning"
+                      icon={ITEM_DETAILS[name].image}
+                      className="text-sm"
+                    >
+                      {`x ${getSickAnimalRewardAmount(amount)} ${name}`}
+                    </Label>
                   </div>
                 );
               })}

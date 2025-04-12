@@ -5,7 +5,7 @@ import { LABEL_STYLES, Label } from "./Label";
 import { SquareIcon } from "./SquareIcon";
 import { ITEM_DETAILS } from "features/game/types/images";
 import levelup from "assets/icons/level_up.png";
-import token from "assets/icons/sfl.webp";
+import flowerIcon from "assets/icons/flower_token.webp";
 import coins from "assets/icons/coins.webp";
 import gems from "assets/icons/gem.webp";
 import { secondsToString } from "lib/utils/time";
@@ -18,10 +18,10 @@ import { getImageUrl } from "lib/utils/getImageURLS";
 import { KNOWN_IDS } from "features/game/types";
 
 /**
- * The props for SFL requirement label. Use this when the item costs SFL.
- * @param type The type is SFL.
- * @param balance The SFL balance of the player.
- * @param requirement The SFL requirement.
+ * The props for FLOWER requirement label. Use this when the item costs FLOWER.
+ * @param type The type is FLOWER.
+ * @param balance The FLOWER balance of the player.
+ * @param requirement The FLOWER requirement.
  */
 interface SFLProps {
   type: "sfl";
@@ -29,9 +29,9 @@ interface SFLProps {
   requirement: Decimal;
 }
 /**
- * The props for sell for SFL requirement label. Use this when selling the item gives players SFL.
- * @param type The type is sell for SFL.
- * @param requirement The SFL requirement.
+ * The props for sell for FLOWER requirement label. Use this when selling the item gives players FLOWER.
+ * @param type The type is sell for FLOWER.
+ * @param requirement The FLOWER requirement.
  */
 interface SellSFLProps {
   type: "sellForSfl";
@@ -213,7 +213,7 @@ export const RequirementLabel: React.FC<Props> = (props) => {
         return ITEM_DETAILS[props.item].image;
       case "sfl":
       case "sellForSfl":
-        return token;
+        return flowerIcon;
       case "item":
         if (props.item in KNOWN_IDS) {
           return ITEM_DETAILS[props.item as InventoryItemName]?.image;
@@ -338,28 +338,21 @@ export const RequirementLabel: React.FC<Props> = (props) => {
         "flex justify-between min-h-[26px]",
       )}
     >
-      {(!props.hideIcon || props.showLabel) &&
-        ["sfl", "item", "wearable", "coins"].includes(props.type as string) && (
-          <div className="flex items-center">
-            {!props.hideIcon && <SquareIcon icon={getIcon()} width={7} />}
-            {props.showLabel && (
-              <>
-                {props.type === "sfl" && (
-                  <span className="text-xs ml-1">{"SFL"}</span>
-                )}
-                {props.type === "item" && (
-                  <span className="text-xs ml-1">{props.item}</span>
-                )}
-                {props.type === "wearable" && (
-                  <span className="text-xs ml-1">{props.item}</span>
-                )}
-                {props.type === "coins" && (
-                  <span className="text-xs ml-1">{t("coins")}</span>
-                )}
-              </>
-            )}
-          </div>
+      <div className="flex items-center">
+        {!props.hideIcon && <SquareIcon icon={getIcon()} width={7} />}
+        {props.type === "sfl" && props.showLabel && (
+          <span className="text-xs ml-1">{"FLOWER"}</span>
         )}
+        {props.type === "item" && props.showLabel && (
+          <span className="text-xs ml-1">{props.item}</span>
+        )}
+        {props.type === "wearable" && props.showLabel && (
+          <span className="text-xs ml-1">{props.item}</span>
+        )}
+        {props.type === "coins" && props.showLabel && (
+          <span className="text-xs ml-1">{t("coins")}</span>
+        )}
+      </div>
 
       <Label
         className={classNames("whitespace-nowrap font-secondary relative", {

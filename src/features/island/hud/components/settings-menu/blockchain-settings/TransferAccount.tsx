@@ -12,6 +12,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { wallet } from "lib/blockchain/wallet";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { GameWallet } from "features/wallet/Wallet";
 
 const transferring = SUNNYSIDE.npcs.minting;
 export const TransferAccount: React.FC = () => {
@@ -123,3 +124,9 @@ export const TransferAccount: React.FC = () => {
     </div>
   );
 };
+
+export const TransferAccountWrapper: React.FC = () => (
+  <GameWallet action={"transfer"}>
+    <TransferAccount />
+  </GameWallet>
+);

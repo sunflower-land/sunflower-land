@@ -3,17 +3,11 @@ import { useActor, useSelector } from "@xstate/react";
 import { Box } from "components/ui/Box";
 import { Label } from "components/ui/Label";
 import { Context } from "features/game/GameProvider";
-import {
-  CollectionName,
-  MARKETPLACE_TAX,
-} from "features/game/types/marketplace";
+import { MARKETPLACE_TAX } from "features/game/types/marketplace";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { signTypedData } from "@wagmi/core";
-import { config } from "features/wallet/WalletProvider";
 
 import tradeIcon from "assets/icons/trade.png";
-import walletIcon from "assets/icons/wallet.png";
-import sflIcon from "assets/icons/sfl.webp";
+import sflIcon from "assets/icons/flower_token.webp";
 import lockIcon from "assets/icons/lock.png";
 
 import { TradeableDisplay } from "../lib/tradeables";
@@ -46,7 +40,6 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { calculateTradePoints } from "features/game/events/landExpansion/addTradePoints";
 import { MachineState } from "features/game/lib/gameMachine";
 import { getDayOfYear } from "lib/utils/time";
-import { StoreOnChain } from "./StoreOnChain";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -81,12 +74,10 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
   const [gameState] = useActor(gameService);
   const { t } = useAppTranslation();
 
-  const [isSigning, setIsSigning] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [showItemInUseWarning, setShowItemInUseWarning] = useState(false);
   const [price, setPrice] = useState(0);
   const [quantity, setQuantity] = useState(0);
-  const [needsSync, setNeedsSync] = useState(false);
 
   const hasTradeReputation = useSelector(gameService, _hasTradeReputation);
 
@@ -162,41 +153,10 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
     }
   };
 
-  const getOnChainStatus = (name: string, collection: CollectionName) => {
-    if (collection === "wearables") {
-      const prevBalance = state.previousWardrobe[name as BumpkinItem] ?? 0;
-
-      return prevBalance >= Math.max(1, quantity);
-    }
-
-    if (collection === "collectibles") {
-      const prevBalance =
-        state.previousInventory[name as InventoryItemName] ?? new Decimal(0);
-
-      return prevBalance.gte(Math.max(1, quantity));
-    }
-
-    if (collection === "buds") return true;
-
-    return false;
-  };
-
   // Otherwise show the list item UI
   const submitListing = () => {
     if (count > 0 && available === 0) {
       setShowItemInUseWarning(true);
-      return;
-    }
-
-    if (tradeType === "onchain") {
-      const isItemOnChain = getOnChainStatus(display.name, display.type);
-
-      if (!isItemOnChain) {
-        setNeedsSync(true);
-        return;
-      }
-
-      setIsSigning(true);
       return;
     }
 
@@ -220,46 +180,6 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
     onClose();
   };
 
-  const sign = async () => {
-    const signature = await signTypedData(config, {
-      primaryType: "Listing",
-      types: {
-        Listing: [
-          { name: "farmId", type: "uint256" },
-          { name: "collection", type: "string" },
-          { name: "itemId", type: "uint256" },
-          { name: "item", type: "string" },
-          { name: "quantity", type: "uint256" },
-          { name: "SFL", type: "uint256" },
-        ],
-        EIP712Domain: [
-          { name: "name", type: "string" },
-          { name: "version", type: "string" },
-          { name: "chainId", type: "uint256" },
-          { name: "verifyingContract", type: "address" },
-        ],
-      },
-      message: {
-        farmId: BigInt(gameState.context.nftId as number),
-        collection: display.type,
-        itemId: BigInt(id),
-        item: display.name,
-        quantity: BigInt(Math.max(1, quantity)),
-        SFL: BigInt(price),
-      },
-      domain: {
-        name: CONFIG.NETWORK === "mainnet" ? "Sunflower Land" : "TESTING",
-        version: "1",
-        chainId: BigInt(CONFIG.POLYGON_CHAIN_ID),
-        verifyingContract:
-          CONFIG.MARKETPLACE_VERIFIER_CONTRACT as `0x${string}`,
-      },
-    });
-
-    confirm({ signature });
-    setIsSigning(false);
-  };
-
   const count = getCount();
   const available = getAvailable();
 
@@ -272,16 +192,6 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
         <div className="p-2 mb-1">{t("marketplace.itemInUseWarning")}</div>
         <Button onClick={onClose}>{t("close")}</Button>
       </div>
-    );
-  }
-
-  if (needsSync) {
-    return (
-      <StoreOnChain
-        onClose={onClose}
-        itemName={display.name}
-        actionType="listing"
-      />
     );
   }
 
@@ -304,7 +214,47 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
     return <FaceRecognition />;
   }
 
+  const needsLinkedWallet =
+    tradeType === "onchain" && !gameService.getSnapshot().context.linkedWallet;
+
   if (showConfirmation) {
+    if (needsLinkedWallet) {
+      return (
+        <GameWallet action="marketplace">
+          <div className="p-2">
+            <Label type="danger" className="-ml-1 mb-2">
+              {t("are.you.sure")}
+            </Label>
+            {isLessThanOffer && (
+              <Label type="danger" icon={lockIcon} className="my-1 mr-0.5">
+                {t("marketplace.higherThanOffer", { price: highestOffer })}
+              </Label>
+            )}
+            <p className="text-xs mb-2">{t("marketplace.confirmDetails")}</p>
+            <TradeableSummary
+              display={display}
+              sfl={price}
+              quantity={Math.max(1, quantity)}
+              estTradePoints={estTradePoints}
+            />
+            <div className="flex items-start mt-2">
+              <img src={SUNNYSIDE.icons.search} className="h-6 mr-2" />
+              <p className="text-xs mb-2">{t("marketplace.dodgyTrades")}</p>
+            </div>
+          </div>
+
+          <div className="flex">
+            <Button onClick={() => setShowConfirmation(false)} className="mr-1">
+              {t("cancel")}
+            </Button>
+            <Button disabled={isLessThanOffer} onClick={() => confirm({})}>
+              {t("confirm")}
+            </Button>
+          </div>
+        </GameWallet>
+      );
+    }
+
     return (
       <>
         <div className="p-2">
@@ -341,34 +291,6 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
     );
   }
 
-  if (isSigning) {
-    return (
-      <GameWallet action="marketplace">
-        <>
-          <div className="p-2">
-            <Label type="danger" className="-ml-1 mb-2">
-              {t("are.you.sure")}
-            </Label>
-            <p className="text-xs mb-2">{t("marketplace.signOffer")}</p>
-            <TradeableSummary
-              display={display}
-              sfl={price}
-              quantity={Math.max(1, quantity)}
-              estTradePoints={estTradePoints}
-            />
-          </div>
-
-          <div className="flex">
-            <Button onClick={() => setIsSigning(false)} className="mr-1">
-              {t("cancel")}
-            </Button>
-            <Button onClick={sign}>{t("marketplace.signAndList")}</Button>
-          </div>
-        </>
-      </GameWallet>
-    );
-  }
-
   if (isResource) {
     return (
       <ResourceList
@@ -396,11 +318,6 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
             type: `${display.type.slice(0, display.type.length - 1)}`,
           })}
         </Label>
-        {tradeType === "onchain" && (
-          <Label type="formula" icon={walletIcon} className="my-1 mr-0.5">
-            {t("marketplace.walletRequired")}
-          </Label>
-        )}
 
         {!hasAccess && (
           <RequiredReputation reputation={Reputation.Cropkeeper} />
@@ -450,7 +367,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
               <p className="text-xs font-secondary">{`${formatNumber(price, {
                 decimalPlaces: 4,
                 showTrailingZeros: true,
-              })} SFL`}</p>
+              })} FLOWER`}</p>
             </div>
             <div
               className="flex justify-between"
@@ -466,7 +383,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
                   decimalPlaces: 4,
                   showTrailingZeros: true,
                 },
-              )} SFL`}</p>
+              )} FLOWER`}</p>
             </div>
             <div
               className="flex justify-between"
@@ -484,7 +401,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
                   decimalPlaces: 4,
                   showTrailingZeros: true,
                 },
-              )} SFL`}</p>
+              )} FLOWER`}</p>
             </div>
             <div
               className="flex justify-between"
@@ -519,12 +436,6 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
               className="relative"
             >
               <span>{t("list")}</span>
-              {tradeType === "onchain" && (
-                <img
-                  src={walletIcon}
-                  className="absolute right-1 top-0.5 h-7"
-                />
-              )}
             </Button>
           </div>
         </>
