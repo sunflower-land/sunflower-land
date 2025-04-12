@@ -12,6 +12,27 @@ export const News: React.FC = () => {
   return (
     <>
       <ButtonPanel
+        className="mb-1"
+        onClick={() =>
+          window.open(
+            "https://docs.sunflower-land.com/getting-started/usdflower-erc20/love-rush-earn-flower",
+            "_blank",
+          )
+        }
+      >
+        <div className="flex flex-wrap justify-between items-center mb-1">
+          <Label type="formula" className=" ml-1" icon={chapterIcon}>
+            {t("news.loveRush")}
+          </Label>
+          <span className="underline text-xs pr-1">{t("read.more")}</span>
+        </div>
+        <img
+          src={SUNNYSIDE.announcement.loveRush}
+          className="w-full my-1 rounded-sm"
+        />
+        <p className="text-xs px-1">{t("news.loveRush.description")}</p>
+      </ButtonPanel>
+      <ButtonPanel
         onClick={() =>
           window.open(
             "https://docs.sunflower-land.com/getting-started/usdflower-erc20",
@@ -62,26 +83,6 @@ export const News: React.FC = () => {
         <p className="text-xs px-1 mb-1">
           {t("news.ronin.network.description")}
         </p>
-      </ButtonPanel>
-      <ButtonPanel
-        onClick={() =>
-          window.open(
-            "https://docs.sunflower-land.com/player-guides/chapters-whats-new/chapter-8-winds-of-change",
-            "_blank",
-          )
-        }
-      >
-        <div className="flex flex-wrap justify-between items-center mb-1">
-          <Label type="formula" className=" ml-1" icon={chapterIcon}>
-            {t("news.winds.of.change.chapter")}
-          </Label>
-          <span className="underline text-xs pr-1">{t("read.more")}</span>
-        </div>
-        <img
-          src={SUNNYSIDE.announcement.windsOfChangeSeason}
-          className="w-full my-1 rounded-sm"
-        />
-        <p className="text-xs px-1">{t("news.winds.of.change.description")}</p>
       </ButtonPanel>
     </>
   );

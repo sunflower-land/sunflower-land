@@ -950,5 +950,20 @@ describe("fruitHarvested", () => {
 
       expect(amount).toEqual(1.2);
     });
+    it("gives +0.2 fruit yield when Fruitful Bounty is claimed and Fruitful Blend is applied", () => {
+      const amount = getFruitYield({
+        game: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...INITIAL_FARM.bumpkin,
+            skills: { "Fruitful Bounty": 1 },
+          },
+        },
+        fertiliser: "Fruitful Blend",
+        name: "Apple",
+      });
+
+      expect(amount).toEqual(1.2);
+    });
   });
 });

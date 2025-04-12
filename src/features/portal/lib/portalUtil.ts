@@ -27,7 +27,7 @@ export function goHome() {
 }
 
 /**
- * Allow a player to spend SFL or items in your game
+ * Allow a player to spend FLOWER or items in your game
  */
 export function purchase({
   sfl,

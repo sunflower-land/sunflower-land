@@ -14,7 +14,7 @@ import {
   Panel,
 } from "components/ui/Panel";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
-import sflIcon from "assets/icons/sfl.webp";
+import flowerIcon from "assets/icons/flower_token.webp";
 import giftIcon from "assets/icons/gift.png";
 import classNames from "classnames";
 import { toOrdinalSuffix } from "features/retreat/components/auctioneer/AuctionLeaderboardTable";
@@ -183,7 +183,7 @@ export const CompetitionDetails: React.FC<{
                 icon: ITEM_DETAILS["Black Sheep"].image,
                 text: t("competition.prizes.one"),
               },
-              { icon: sflIcon, text: t("competition.prizes.two") },
+              { icon: flowerIcon, text: t("competition.prizes.two") },
               {
                 icon: giftIcon,
                 text: t("competition.prizes.three"),
@@ -244,7 +244,7 @@ export const CompetitionDetails: React.FC<{
                 },
 
                 {
-                  icon: sflIcon,
+                  icon: flowerIcon,
                   text: t("competition.rules.three"),
                 },
                 {

@@ -15,7 +15,7 @@ export async function sync({
   farmId,
   token,
   transactionId,
-}: SyncSignatureRequest): Promise<{ game: GameState }> {
+}: SyncSignatureRequest): Promise<{ gameState: GameState }> {
   const response = await window.fetch(`${API_URL}/sync-progress/${farmId}`, {
     method: "POST",
     headers: {
@@ -49,6 +49,6 @@ export async function sync({
   // return { verified: true, sessionId: newSessionId };
 
   return {
-    game: makeGame(transaction.farm),
+    gameState: makeGame(transaction.farm),
   };
 }

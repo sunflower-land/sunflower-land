@@ -12,7 +12,7 @@ import {
   getSeasonalTicket,
 } from "features/game/types/seasons";
 
-import token from "assets/icons/sfl.webp";
+import token from "assets/icons/flower_token.webp";
 import lightning from "assets/icons/lightning.png";
 import lock from "assets/icons/lock.png";
 

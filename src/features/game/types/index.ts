@@ -570,6 +570,9 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Nightshade Faction Banner": 940,
   "Sunflorian Faction Banner": 941,
   "Goblin Faction Banner": 942,
+  "Polygon Banner": 943,
+  "Ronin Banner": 944,
+  "Base Banner": 945,
 
   // Buildings
   Market: 1001,
@@ -1001,6 +1004,38 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Jellyfish: 2203,
   "Rhubarb Tart": 2204,
   Jin: 2205,
+
+  //Love Items
+  "Floral Arch": 2206,
+  "Flower Coin": 2207,
+  "Flower Statue": 2208,
+  "Heartstruck Tree": 2209,
+  "Mermaid Fountain": 2210,
+  "Mysterious Entrance": 2211,
+  "Streamer's Statue": 2212,
+  Cetus: 2213,
+
+  "Goldcrest Mosaic Rug": 2214,
+  "Sandy Mosaic Rug": 2215,
+  "Twilight Rug": 2216,
+  "Orchard Rug": 2217,
+  "Carrot Rug": 2218,
+  "Beetroot Rug": 2219,
+  "Harlequin Rug": 2220,
+  "Large Rug": 2221,
+
+  "Golden Fence": 2222,
+  "Golden Stone Fence": 2223,
+  "Golden Pine Tree": 2224,
+  "Golden Tree": 2225,
+  "Golden Bush": 2226,
+
+  "Black Tile": 2227,
+  "Blue Tile": 2228,
+  "Green Tile": 2229,
+  "Purple Tile": 2230,
+  "Red Tile": 2231,
+  "Yellow Tile": 2232,
 };
 
 // The reverse of above

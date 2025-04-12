@@ -1,9 +1,10 @@
-import { produce } from "immer";
-import { GameState } from "../types/game";
-import { getKeys } from "../types/decorations";
 import Decimal from "decimal.js-light";
+import { GameState, InventoryItemName } from "../types/game";
+import { produce } from "immer";
+import { getKeys } from "../types/decorations";
 import { MARKETPLACE_TAX } from "../types/marketplace";
 import { addTradePoints } from "./landExpansion/addTradePoints";
+import { BumpkinItem } from "../types/bumpkin";
 
 export type ClaimPurchaseAction = {
   type: "purchase.claimed";
@@ -16,8 +17,16 @@ type Options = {
   createdAt?: number;
 };
 
-export function claimPurchase({ state, action }: Options) {
+export function claimPurchase({
+  state,
+  action,
+  createdAt = Date.now(),
+}: Options) {
   return produce(state, (game) => {
+    if (game.transaction) {
+      throw new Error("Transaction in progress");
+    }
+
     const purchaseIds = getKeys(game.trades.listings ?? {}).filter(
       (listingId) => action.tradeIds.includes(listingId),
     );
@@ -30,33 +39,44 @@ export function claimPurchase({ state, action }: Options) {
       purchaseIds.some(
         (purchaseId) =>
           !game.trades.listings?.[purchaseId].fulfilledAt &&
-          // To handle old trade system
+          // To handle old trade board trades
           !game.trades.listings?.[purchaseId].boughtAt,
       )
     ) {
       throw new Error("One or more purchases have not been fulfilled");
     }
 
-    const instantPurchases = purchaseIds.filter((purchaseId) => {
-      return !game.trades.listings?.[purchaseId].signature;
-    });
+    purchaseIds.forEach((purchaseId) => {
+      const listing = game.trades.listings?.[purchaseId];
+      const item = getKeys(listing?.items ?? {})[0];
+      const amount = listing?.items[item] ?? 0;
 
-    instantPurchases.forEach((purchaseId) => {
-      let sfl = new Decimal(game.trades.listings?.[purchaseId].sfl ?? 0);
+      let sfl = new Decimal(listing?.sfl ?? 0);
       sfl = sfl.mul(1 - MARKETPLACE_TAX);
 
       game.balance = game.balance.plus(sfl);
 
-      game.bank.taxFreeSFL = game.bank.taxFreeSFL + sfl.toNumber();
+      game.bank.taxFreeSFL += sfl.toNumber();
       // Add points to seller for instant trade
       game = addTradePoints({
         state: game,
         points: 1,
-        sfl: game.trades.listings?.[purchaseId].sfl ?? 0,
-        items: game.trades.listings?.[purchaseId].items,
+        sfl: listing?.sfl ?? 0,
+        items: listing?.items,
       });
 
       delete game.trades.listings?.[purchaseId];
+
+      if (listing?.tradeType === "onchain") {
+        if (listing.collection === "collectibles") {
+          const count =
+            game.previousInventory[item as InventoryItemName] ?? new Decimal(0);
+          game.previousInventory[item as InventoryItemName] = count.sub(amount);
+        } else if (listing.collection === "wearables") {
+          const count = game.previousWardrobe[item as BumpkinItem] ?? 0;
+          game.previousWardrobe[item as BumpkinItem] = count - amount;
+        }
+      }
     });
 
     return game;

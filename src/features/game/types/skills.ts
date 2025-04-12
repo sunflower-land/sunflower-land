@@ -225,11 +225,11 @@ export const LEGACY_BADGE_TREE: Record<
   "Liquidity Provider": {
     level: 1,
     profession: "contributor",
-    perks: ["50% reduced SFL withdrawal fee"],
+    perks: ["50% reduced FLOWER withdrawal fee"],
     buff: [
       {
         labelType: "success",
-        shortDescription: "-50% SFL withdrawal fee",
+        shortDescription: "-50% FLOWER withdrawal fee",
         boostTypeIcon: powerup,
       },
     ],

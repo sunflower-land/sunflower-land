@@ -14,6 +14,7 @@ import { tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 import { EXPIRY_COOLDOWNS } from "./collectibleBuilt";
 
 export const STATIC_OFFLINE_FARM: GameState = {
+  settings: {},
   username: "Local Hero",
   coins: 10000,
   balance: new Decimal(0),
@@ -202,7 +203,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
 
   shipments: {},
   gems: {},
-
+  flower: {},
   bumpkin: {
     equipped: INITIAL_EQUIPMENT as Equipped,
     experience: 100000,
@@ -355,7 +356,18 @@ export const STATIC_OFFLINE_FARM: GameState = {
     oil: 100,
     pots: {},
   },
-
+  twitter: {
+    linkedAt: Date.now(),
+    followedAt: Date.now(),
+    isAuthorised: true,
+    // verifiedPostsAt: Date.now(),
+    tweets: {
+      FARM: {
+        completedAt: Date.now() - 11 * 24 * 60 * 60 * 1000,
+        tweetIds: ["123", "1907659583642059200"],
+      },
+    },
+  },
   createdAt: new Date().getTime(),
 
   experiments: ["GEM_BOOSTS"],
@@ -612,7 +624,14 @@ export const STATIC_OFFLINE_FARM: GameState = {
       },
     ],
   },
-  pumpkinPlaza: {},
+  pumpkinPlaza: {
+    blockchainBox: {
+      openedAt: Date.now(),
+      tier: "gold",
+      items: {},
+      vipDays: 1,
+    },
+  },
   treasureIsland: {
     holes: {},
   },

@@ -1,25 +1,20 @@
 import { RoundButton } from "components/ui/RoundButton";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import React, {
-  useCallback,
-  useContext,
-  useState,
-  useEffect,
-  useMemo,
-} from "react";
-import giftIcon from "assets/icons/gift.png";
+import React, { useCallback, useContext, useState, useEffect } from "react";
 import { Rewards } from "./Rewards";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import {
-  SocialTaskName,
-  TASKS,
+  InGameTaskName,
+  IN_GAME_TASKS,
 } from "features/game/events/landExpansion/completeSocialTask";
 import { rewardChestMachine } from "features/game/expansion/components/dailyReward/rewardChestMachine";
 import { useInterpret, useActor } from "@xstate/react";
 import Decimal from "decimal.js-light";
 import { getBumpkinLevel } from "features/game/lib/level";
+import { getKeys } from "features/game/types/decorations";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 export const RewardsButton: React.FC = () => {
   const [showRewardsModal, setShowRewardsModal] = useState(false);
@@ -44,6 +39,7 @@ export const RewardsButton: React.FC = () => {
       lastUsedCode: dailyRewards?.chest?.code ?? 0,
       openedAt: dailyRewards?.chest?.collectedAt ?? 0,
       bumpkinLevel,
+      network: state.settings.network,
     },
   });
   const [chestState] = useActor(chestService);
@@ -54,29 +50,24 @@ export const RewardsButton: React.FC = () => {
   }, [chestService]);
 
   const isTaskCompleted = useCallback(
-    (task: SocialTaskName) => TASKS[task].requirement(state),
+    (task: InGameTaskName) => IN_GAME_TASKS[task].requirement(state),
     [state],
   );
-  const isAnyTaskCompleted = Object.values(TASKS).some(
-    (task) =>
-      isTaskCompleted(task.title as SocialTaskName) &&
-      !state.socialTasks?.completed[task.title as SocialTaskName]?.completedAt,
-  );
+  const isAnyTaskCompleted = getKeys(IN_GAME_TASKS)
+    .filter(
+      (task) =>
+        !(
+          ["Link your Discord", "Link your Telegram"] as InGameTaskName[]
+        ).includes(task),
+    )
+    .some(
+      (task) =>
+        isTaskCompleted(task) &&
+        !state.socialTasks?.completed[task]?.completedAt,
+    );
 
   // Check if chest is locked or can be unlocked
-  const isChestLocked = useMemo(
-    () =>
-      !chestState.matches("unlocked") &&
-      (chestState.matches("idle") || chestState.matches("loading")),
-    [chestState],
-  ); // TODO: Double check if this is correct
-
-  const completeTask = (taskId: SocialTaskName) => {
-    gameService.send({
-      type: "socialTask.completed",
-      taskId,
-    });
-  };
+  const isChestLocked = !chestState.matches("opened");
 
   return (
     <div
@@ -85,12 +76,12 @@ export const RewardsButton: React.FC = () => {
     >
       <RoundButton buttonSize={18} onClick={() => setShowRewardsModal(true)}>
         <img
-          src={giftIcon}
+          src={ITEM_DETAILS["Love Charm"].image}
           className="absolute group-active:translate-y-[2px]"
           style={{
-            width: `${PIXEL_SCALE * 10}px`,
-            left: `${PIXEL_SCALE * 4}px`,
-            top: `${PIXEL_SCALE * 4}px`,
+            width: `${PIXEL_SCALE * 14}px`,
+            left: `${PIXEL_SCALE * 2}px`,
+            top: `${PIXEL_SCALE * 5}px`,
           }}
         />
         {(isAnyTaskCompleted || isChestLocked) && (
@@ -113,9 +104,10 @@ export const RewardsButton: React.FC = () => {
         bumpkinLevel={bumpkinLevel}
         chestService={chestService}
         chestState={chestState}
-        completeTask={completeTask}
         loveCharmCount={state.inventory["Love Charm"] ?? new Decimal(0)}
         socialTasks={state.socialTasks}
+        isChestLocked={isChestLocked}
+        isAnyTaskCompleted={isAnyTaskCompleted}
       />
     </div>
   );

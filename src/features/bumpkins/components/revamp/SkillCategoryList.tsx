@@ -32,6 +32,7 @@ import {
 import { SkillReset } from "./SkillReset";
 import fruits from "assets/fruit/fruits.png";
 import Decimal from "decimal.js-light";
+import { capitalize } from "lib/utils/capitalize";
 
 export const SKILL_TREE_ICONS: Record<BumpkinRevampSkillTree, string> = {
   Crops: SUNNYSIDE.skills.crops,
@@ -180,12 +181,20 @@ export const SkillCategoryList: React.FC<{
                   type={hasUnlockedIslandCategory ? "default" : "warning"}
                   className="capitalize"
                 >
-                  {t("skillCategory.islands", { island: islandType })}
+                  {t("skillCategory.islands", {
+                    island:
+                      islandType === "spring" ? "Petal Paradise" : islandType,
+                  })}
                 </Label>
 
                 {!hasUnlockedIslandCategory && (
                   <Label type="warning">
-                    {t("skillCategory.reachIsland", { island: islandType })}
+                    {t("skillCategory.reachIsland", {
+                      island:
+                        islandType === "spring"
+                          ? "Petal Paradise"
+                          : `${capitalize(islandType)} Island`,
+                    })}
                   </Label>
                 )}
               </div>

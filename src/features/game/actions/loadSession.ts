@@ -5,15 +5,13 @@ import { sanitizeHTTPResponse } from "lib/network";
 import { makeGame } from "../lib/transforms";
 import { GameState, Purchase } from "../types/game";
 import { Announcements } from "../types/announcements";
-import {
-  getReferrerId,
-  getSignupMethod,
-} from "features/auth/actions/createAccount";
+import { getSignupMethod } from "features/auth/actions/createAccount";
 import { Moderation } from "../lib/gameMachine";
 
 type Request = {
   token: string;
   transactionId: string;
+  wallet?: string;
 };
 
 type Response = {
@@ -25,7 +23,6 @@ type Response = {
   announcements: Announcements;
 
   verified: boolean;
-  promoCode?: string;
   moderation: Moderation;
   sessionId: string;
   analyticsId: string;
@@ -56,9 +53,9 @@ export async function loadSession(
     await new Promise((res) => setTimeout(res, loadSessionErrors * 5000));
   }
 
-  const promoCode = getPromoCode();
-  const referrerId = getReferrerId();
   const signUpMethod = getSignupMethod();
+
+  const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
 
   const response = await window.fetch(`${API_URL}/session`, {
     method: "POST",
@@ -71,9 +68,9 @@ export async function loadSession(
     },
     body: JSON.stringify({
       clientVersion: CONFIG.CLIENT_VERSION as string,
-      promoCode,
-      referrerId,
       signUpMethod,
+      timezone,
+      wallet: request.wallet,
     }),
   });
 
@@ -119,7 +116,6 @@ export async function loadSession(
     announcements,
     verified,
     moderation,
-    promoCode: promo,
     farmId,
     sessionId,
     farmAddress,
@@ -141,7 +137,6 @@ export async function loadSession(
     announcements: Announcements;
     verified: boolean;
     moderation: Moderation;
-    promoCode?: string;
     sessionId: string;
     farmId: string;
     analyticsId: string;
@@ -173,7 +168,6 @@ export async function loadSession(
     announcements,
     verified,
     moderation,
-    promoCode: promo,
     analyticsId,
     linkedWallet,
     wallet,
@@ -227,20 +221,4 @@ export function saveSession(farmId: number) {
   };
 
   return localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newSessions));
-}
-
-const PROMO_LS_KEY = `sb_wiz.promo-key.v.${host}`;
-
-export function savePromoCode(id: string) {
-  localStorage.setItem(PROMO_LS_KEY, id);
-}
-
-export function getPromoCode() {
-  const item = localStorage.getItem(PROMO_LS_KEY);
-
-  if (!item) {
-    return undefined;
-  }
-
-  return item;
 }

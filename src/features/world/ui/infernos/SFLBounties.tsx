@@ -16,7 +16,7 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import React, { useContext, useState } from "react";
 import { Deal } from "../flowerShop/FlowerBounties";
-import sflIcon from "assets/icons/sfl.webp";
+import sflIcon from "assets/icons/flower_token.webp";
 
 interface Props {
   readonly?: boolean;
@@ -88,7 +88,7 @@ export const SFLBountiesModal: React.FC<{
     <div className="p-1">
       <div className="flex flex-wrap items-center mb-2">
         <Label type="default" className="mr-2">
-          {`SFL ${t("bounties.board")}`}
+          {`FLOWER ${t("bounties.board")}`}
         </Label>
         <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
           <TimerDisplay time={expiresAt} />

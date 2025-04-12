@@ -7,23 +7,21 @@ import { WithdrawItems } from "./WithdrawItems";
 import { WithdrawWearables } from "./WithdrawWearables";
 import { SUNNYSIDE } from "assets/sunnyside";
 import chest from "assets/icons/chest.png";
-import token from "assets/icons/sfl.webp";
+import flowerIcon from "assets/icons/flower_token.webp";
 import { WithdrawBuds } from "./WithdrawBuds";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/game/GameProvider";
 import { WithdrawResources } from "./WithdrawResources";
 import { Label } from "components/ui/Label";
-import { INITIAL_FARM, PIXEL_SCALE } from "features/game/lib/constants";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import { MachineState } from "features/game/lib/gameMachine";
 import { translate } from "lib/i18n/translate";
 import { Transaction } from "features/island/hud/Transaction";
-import { hasFeatureAccess } from "lib/flags";
 import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
 
 const getPageIcon = (page: Page) => {
   switch (page) {
     case "tokens":
-      return token;
+      return flowerIcon;
     case "items":
       return chest;
     case "wearables":
@@ -42,7 +40,7 @@ const getPageIcon = (page: Page) => {
 const getPageText = (page: Page) => {
   switch (page) {
     case "tokens":
-      return "SFL";
+      return "FLOWER";
     case "items":
       return translate("collectibles");
     case "wearables":
@@ -68,22 +66,14 @@ type Page =
   | "verify";
 
 const MainMenu: React.FC<{ setPage: (page: Page) => void }> = ({ setPage }) => {
-  const withdrawSFLDisabled = hasFeatureAccess(
-    INITIAL_FARM,
-    "DISABLE_BLOCKCHAIN_ACTIONS",
-  );
-
   return (
     <div className="p-2 flex flex-col justify-center space-y-1">
       <span className="mb-1">{translate("withdraw.sync")}</span>
-      {withdrawSFLDisabled && (
-        <Label type="info">{translate("withdraw.sfl.disabled")}</Label>
-      )}
+      {/* Remove the following label once FLOWER is released for withdrawals */}
+      <Label type="info">{translate("withdraw.sfl.disabled")}</Label>
+
       <div className="flex space-x-1">
-        <Button
-          onClick={() => setPage("tokens")}
-          disabled={withdrawSFLDisabled}
-        >
+        <Button onClick={() => setPage("tokens")} disabled={true}>
           <div className="flex items-center">
             <img src={getPageIcon("tokens")} className="h-4 mr-1" />
             {getPageText("tokens")}
@@ -157,11 +147,11 @@ interface Props {
 }
 
 const _verified = (state: MachineState) => state.context.verified;
+const _farmId = (state: MachineState) => state.context.farmId;
 
 export const Withdraw: React.FC<Props> = ({ onClose }) => {
-  const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
-  const verified = useSelector(gameService, _verified);
+  const farmId = useSelector(gameService, _farmId);
 
   const [page, setPage] = useState<Page>("main");
 
@@ -169,7 +159,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     gameService.send("TRANSACT", {
       transaction: "transaction.sflWithdrawn",
       request: {
-        captcha: token,
+        captcha: flowerIcon,
         sfl: sfl,
       },
     });
@@ -180,9 +170,12 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     gameService.send("TRANSACT", {
       transaction: "transaction.itemsWithdrawn",
       request: {
-        captcha: token,
-        amounts: amounts,
-        ids: ids,
+        farmId,
+        effect: {
+          type: "withdraw.items",
+          amounts,
+          ids,
+        },
       },
     });
     onClose();
@@ -195,9 +188,11 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     gameService.send("TRANSACT", {
       transaction: "transaction.wearablesWithdrawn",
       request: {
-        captcha: token,
-        amounts: wearableAmounts,
-        ids: wearableIds,
+        effect: {
+          type: "withdraw.wearables",
+          amounts: wearableAmounts,
+          ids: wearableIds,
+        },
       },
     });
     onClose();
@@ -207,8 +202,10 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     gameService.send("TRANSACT", {
       transaction: "transaction.budWithdrawn",
       request: {
-        captcha: token,
-        budIds: ids,
+        effect: {
+          type: "withdraw.buds",
+          budIds: ids,
+        },
       },
     });
     onClose();
@@ -230,35 +227,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
         <WithdrawWearables onWithdraw={onWithdrawWearables} />
       )}
       {page === "buds" && <WithdrawBuds onWithdraw={onWithdrawBuds} />}
-      {page === "verify" && <Verify onClose={onClose} />}
+      {page === "verify" && <FaceRecognition />}
     </>
-  );
-};
-
-export const Verify: React.FC<Props> = ({ onClose }) => {
-  const { gameService } = useContext(Context);
-  const { t } = useAppTranslation();
-  const verified = useSelector(gameService, _verified);
-
-  if (hasFeatureAccess(gameService.state.context.state, "FACE_RECOGNITION")) {
-    return <FaceRecognition />;
-  }
-
-  if (verified) {
-    return <p className="text-sm">{t("verify.verified")}</p>;
-  }
-
-  return (
-    <div>
-      <p className="text-sm">{t("verify.verify")}</p>
-      <Button
-        onClick={() => {
-          gameService.send("PROVE_PERSONHOOD");
-          onClose();
-        }}
-      >
-        {t("verify")}
-      </Button>
-    </div>
   );
 };

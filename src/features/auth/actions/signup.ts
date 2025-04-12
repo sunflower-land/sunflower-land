@@ -1,4 +1,3 @@
-import { getPromoCode } from "features/game/actions/loadSession";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 
@@ -17,18 +16,22 @@ type Request = {
   utm?: UTM;
 };
 
-export async function signUp(request: Request) {
+export async function signUp({
+  token,
+  transactionId,
+  referrerId,
+  utm,
+}: Request) {
   const response = await window.fetch(`${CONFIG.API_URL}/signup`, {
     method: "POST",
     headers: {
       "content-type": "application/json;charset=UTF-8",
-      Authorization: `Bearer ${request.token}`,
-      "X-Transaction-ID": request.transactionId,
+      Authorization: `Bearer ${token}`,
+      "X-Transaction-ID": transactionId,
     },
     body: JSON.stringify({
-      promoCode: getPromoCode() ?? undefined,
-      referrerId: request.referrerId ?? undefined,
-      utm: request.utm ?? undefined,
+      referrerId: referrerId ?? undefined,
+      utm: utm ?? undefined,
     }),
   });
 

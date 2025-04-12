@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { GameState } from "features/game/types/game";
 
 /**
- * Returns the tax rate when withdrawing SFL
+ * Returns the tax rate when withdrawing FLOWER
  * Smart contract uses a base rate of 1000 for decimal precision. 10% = 100
  */
 function getTaxPercentage(amount: Decimal) {

@@ -91,7 +91,9 @@ import {
   SeasonalEventName,
 } from "./calendar";
 import { VipBundle } from "../lib/vipAccess";
-import { SocialTaskName } from "../events/landExpansion/completeSocialTask";
+import { InGameTaskName } from "../events/landExpansion/completeSocialTask";
+import { TwitterPost, TwitterPostName } from "./social";
+import { NetworkName } from "../events/landExpansion/updateNetwork";
 
 export type Reward = {
   coins?: number;
@@ -722,6 +724,7 @@ export type Airdrop = {
   message?: string;
   coordinates?: Coordinates;
   factionPoints?: number;
+  vipDays?: number;
 };
 
 // Mystery Prize reveals
@@ -944,6 +947,10 @@ export type NPCData = {
     giftClaimedAtPoints?: number;
     giftedAt?: number;
   };
+  streaks?: {
+    streak: number;
+    lastClaimedAt: number;
+  };
 };
 
 export type ChoreV2 = {
@@ -1065,6 +1072,7 @@ export type TradeListing = {
   fulfilledAt?: number;
   fulfilledById?: number;
   initiatedAt?: number;
+  tradeType: "instant" | "onchain";
 };
 
 export type TradeOffer = {
@@ -1076,6 +1084,7 @@ export type TradeOffer = {
   fulfilledById?: number;
   signature?: string;
   initiatedAt?: number;
+  tradeType: "instant" | "onchain";
 };
 
 type FishingSpot = {
@@ -1118,7 +1127,8 @@ export type Currency =
   | "Crimstone"
   | "Sunstone"
   | "Seasonal Ticket"
-  | "Mark";
+  | "Mark"
+  | "Love Charm";
 
 export type ShopItemBase = {
   shortDescription: string;
@@ -1402,6 +1412,10 @@ export interface GameState {
     history?: Record<string, { spent: number }>;
   };
 
+  flower: {
+    history?: Record<string, { loveCharmsSpent: number }>;
+  };
+
   // There are more fields but unused
   transaction?: GameTransaction;
 
@@ -1413,6 +1427,12 @@ export interface GameState {
   };
 
   username?: string;
+  settings: {
+    username?: {
+      setAt?: number;
+    };
+    network?: NetworkName;
+  };
   coins: number;
   balance: Decimal;
   previousBalance: Decimal;
@@ -1494,21 +1514,18 @@ export interface GameState {
     rewardCollectedAt?: number;
     kickedAt?: number;
     kickedById?: number;
-    budBox?: {
+    raffle?: { entries: Record<string, number> };
+    budBox?: { openedAt: number };
+    vipChest?: { openedAt: number };
+    blockchainBox?: {
       openedAt: number;
+      items: Partial<Record<InventoryItemName, number>>;
+      vipDays: number;
+      tier: "bronze" | "silver" | "gold" | "platinum" | "diamond";
     };
-    raffle?: {
-      entries: Record<string, number>;
-    };
-    vipChest?: {
-      openedAt: number;
-    };
-    giftGiver?: {
-      openedAt: number;
-    };
-    pirateChest?: {
-      openedAt: number;
-    };
+    giftGiver?: { openedAt: number };
+    streamerHat?: { openedAt: number };
+    pirateChest?: { openedAt: number };
     keysBought?: KeysBought;
   };
   conversations: ConversationName[];
@@ -1601,15 +1618,25 @@ export interface GameState {
     linkedAt: number;
     followedAt?: number;
     isAuthorised?: boolean;
+    verifiedPostsAt?: number;
+    tweets?: Partial<Record<TwitterPostName, TwitterPost>>;
   };
   discord?: {
     connected: boolean;
   };
   referrals?: {
     totalReferrals: number;
+    totalVIPReferrals?: number;
+    totalUnclaimedReferrals?: number;
+    rewards?: {
+      items?: Partial<Record<InventoryItemName, number>>;
+      wearables?: Partial<Record<BumpkinItem, number>>;
+      coins?: number;
+      sfl?: number;
+    };
   };
   socialTasks?: {
-    completed: Partial<Record<SocialTaskName, { completedAt: number }>>;
+    completed: Partial<Record<InGameTaskName, { completedAt: number }>>;
   };
 }
 

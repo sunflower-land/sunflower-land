@@ -158,8 +158,6 @@ import {
   CompleteBertObsessionAction,
 } from "./landExpansion/completeBertObsession";
 import { StartPotionAction, startPotion } from "./landExpansion/startPotion";
-import { receiveTrade, ReceiveTradeAction } from "./landExpansion/receiveTrade";
-import { cancelTrade, CancelTradeAction } from "./landExpansion/cancelTrade";
 import { placeBud, PlaceBudAction } from "./landExpansion/placeBud";
 import { moveBud, MoveBudAction } from "./landExpansion/moveBud";
 import { removeBud, RemoveBudAction } from "./landExpansion/removeBud";
@@ -436,7 +434,6 @@ import {
   AcknowledgeCalendarEventAction,
 } from "./landExpansion/acknowledgeCalendarEvent";
 
-import { purchaseVIP, PurchaseVIPAction } from "./landExpansion/vipPurchased";
 import {
   collectLavaPit,
   CollectLavaPitAction,
@@ -465,12 +462,27 @@ import {
   completeSocialTask,
   CompleteSocialTaskAction,
 } from "./landExpansion/completeSocialTask";
+import {
+  claimReferralRewards,
+  ClaimReferralRewardsAction,
+} from "./landExpansion/claimReferralRewards";
+import {
+  exchangeFlower,
+  ExchangeFlowerAction,
+} from "./landExpansion/exchangeFLOWER";
+import {
+  buyRewardShopItem,
+  BuyRewardShopItemAction,
+} from "./landExpansion/buyRewardItem";
+import {
+  updateNetwork,
+  UpdateNetworkAction,
+} from "./landExpansion/updateNetwork";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
   | SpeedUpUpgradeAction
   | ResourceBoughtAction
-  | PurchaseVIPAction
   | SellAnimalAction
   | SpeedUpBuilding
   | SacrificeBearAction
@@ -537,8 +549,6 @@ export type PlayingEvent =
   | SkipOrderAction
   | CompleteBertObsessionAction
   | StartPotionAction
-  | ReceiveTradeAction
-  | CancelTradeAction
   | StartComposterAction
   | collectCompostAction
   | FertiliseFruitAction
@@ -548,6 +558,7 @@ export type PlayingEvent =
   | MissFishAction
   | RevealLandAction
   | BurnCollectibleAction
+  | ClaimReferralRewardsAction
   | ClaimBonusAction
   | AccelerateComposterAction
   | BuyFarmHandAction
@@ -606,8 +617,11 @@ export type PlayingEvent =
   | CancelQueuedRecipeAction
   | AcknowledgeOnChainAirdropAction
   | CompleteSocialTaskAction
+  | ExchangeFlowerAction
   // To remove once December is finished
-  | CollectCandyAction;
+  | CollectCandyAction
+  | BuyRewardShopItemAction
+  | UpdateNetworkAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -679,7 +693,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "recipe.cancelled": cancelQueuedRecipe,
   "obsidian.exchanged": exchangeObsidian,
   "resource.bought": buyResource,
-  "vip.purchased": purchaseVIP,
   "animal.sold": sellAnimal,
   "building.spedUp": speedUpBuilding,
   "bear.sacrificed": sacrificeBear,
@@ -753,8 +766,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "wearable.bought": buyWearable,
   "bertObsession.completed": completeBertObsession,
   "potion.started": startPotion,
-  "trade.cancelled": cancelTrade,
-  "trade.received": receiveTrade,
   "composter.started": startComposter,
   "compost.collected": collectCompost,
   "fruitPatch.fertilised": fertiliseFruitPatch,
@@ -816,6 +827,10 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "lavaPit.started": startLavaPit,
   "upgrade.spedUp": speedUpUpgrade,
   "socialTask.completed": completeSocialTask,
+  "referral.rewardsClaimed": claimReferralRewards,
+  "exchange.flower": exchangeFlower,
+  "rewardItem.bought": buyRewardShopItem,
+  "network.updated": updateNetwork,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
