@@ -237,6 +237,7 @@ const getTypeBoost = (type: string) => {
       shortDescription: translate("budBuff.type.port.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
+      boostedItemIcon: SUNNYSIDE.icons.fish,
     });
   }
 
