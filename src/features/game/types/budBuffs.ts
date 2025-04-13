@@ -28,6 +28,7 @@ const getStemBoost = (stem: string) => {
       shortDescription: translate("budBuff.stem.fishHat.boost"),
       labelType: "vibrant",
       boostTypeIcon: lightning,
+      boostedItemIcon: SUNNYSIDE.icons.fish,
     });
   }
 
@@ -217,8 +218,9 @@ const getTypeBoost = (type: string) => {
   if (type === "Sea") {
     buffs.push({
       shortDescription: translate("budBuff.type.sea.boost"),
-      labelType: "success",
-      boostTypeIcon: powerup,
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+      boostedItemIcon: SUNNYSIDE.icons.fish,
     });
   }
 
