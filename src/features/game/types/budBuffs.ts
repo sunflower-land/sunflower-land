@@ -276,9 +276,9 @@ const getTypeBoost = (type: string) => {
 export const getBudBuffs = (budId: number): BuffLabel[] => {
   const { type, stem, aura } = buds[budId];
 
+  const typeBuffs = getTypeBoost(type);
   const stemBuffs = getStemBoost(stem);
   const auraBuffs = getAuraBoost(aura);
-  const typeBuffs = getTypeBoost(type);
 
-  return [...stemBuffs, ...auraBuffs, ...typeBuffs];
+  return [...typeBuffs, ...stemBuffs, ...auraBuffs];
 };
