@@ -1977,8 +1977,6 @@
   "island.goblin.retreat": "고블린 리트리트",
   "islandNotFound.message": "당신은 오지의 한 가운데에 착륙했습니다!",
   "islandNotFound.takeMeHome": "집에 데려다 줘",
-  "islandupgrade.confirmUpgrade": "정말로 새 섬으로 업그레이드하시겠습니까?",
-  "islandupgrade.warning": "생산 중인 농작물, 과일, 건물, 닭, 크림스톤, 꽃 또는 꿀이 없는지 확인하십시오.이러한 것들은 수확할 수 없으며 인벤토리로 반환됩니다.선스톤, 집, 시장, 화덕, 작업대는 계속 땅에 설치됩니다.",
   "islandupgrade.upgradeIsland": "아일랜드 업그레이드",
   "islandupgrade.newOpportunities": "이국적인 섬이 새로운 자원과 농장을 가꿀 수 있는 기회를 제공합니다.",
   "islandupgrade.confirmation": "업그레이드하시겠습니까?모든 아이템을 가지고 작은 섬에서 시작하게 됩니다.",
@@ -5723,5 +5721,16 @@
   "budBuff.aura.green.boost": "+20% 버드 부스트 증가 (오라)",
   "budBuff.aura.rare.boost": "+100% 버드 부스트 증가 (오라)",
   "budBuff.aura.mythical.boost": "+400% 버드 부스트 증가 (오라)",
-  "budBuff.type.sea.boost": "10% 확률로 물고기 1마리 획득"
+  "budBuff.type.sea.boost": "10% 확률로 물고기 1마리 획득",
+  "islandupgrade.confirmUpgrade": "정말 새 섬으로 업그레이드하고 싶으신가요?",
+  "islandupgrade.warning1": "진행 중인 다음 자원 노드 또는 쿠킹 건물이 없는지 확인하세요.이러한 아이템은 수확할 수 없으며 초기화된 후 인벤토리로 반환됩니다.",
+  "islandupgrade.warning2": "선스톤 락, 하우스, 마켓, 파이어 피트, 워크벤치는 여러분의 땅에 그대로 배치됩니다.",
+  "islandupgrade.warning3": "집, 시장, 화덕, 작업대는 그대로 땅에 배치됩니다.",
+  "islandupgrade.empty.cropPlots": "크롭 플롯이 비어 있음",
+  "islandupgrade.ready.cookingBuildings": "요리 건물 준비 완료",
+  "islandupgrade.empty.fruitPatches": "과일 패치가 비어 있습니다",
+  "islandupgrade.empty.flowerbeds": "꽃 침대가 비어 있습니다.",
+  "islandupgrade.empty.beehives": "벌집이 비어 있습니다",
+  "islandupgrade.ready.crimstoneRocks": "크림스톤 록스 준비 완료",
+  "islandupgrade.ready.oilReserves": "석유 매장량 준비 완료"
 }

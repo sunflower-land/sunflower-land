@@ -1977,8 +1977,6 @@
   "island.goblin.retreat": "ゴブリンリトリート",
   "islandNotFound.message": "あなたは何もないところに着陸しました！",
   "islandNotFound.takeMeHome": "私を家に連れてって",
-  "islandupgrade.confirmUpgrade": "新しい島にアップグレードしてもよろしいですか？",
-  "islandupgrade.warning": "作中の作物、果物、建物、鶏、クリムストーン、花、蜂蜜がないことを確認してください。これらは収穫できなくなり、インベントリに戻されます。サンストーン、ハウス、マーケット、ファイヤーピット、ワークベンチはあなたの土地に残ります。",
   "islandupgrade.upgradeIsland": "アップグレードアイランド",
   "islandupgrade.newOpportunities": "エキゾチックな島には、農場を成長させるための新しい資源と機会が待っています。",
   "islandupgrade.confirmation": "アップグレードしますか?すべてのアイテムを持って小さな島から始めます。",
@@ -5723,5 +5721,16 @@
   "budBuff.aura.green.boost": "+20% バドブースト増加 (オーラ)",
   "budBuff.aura.rare.boost": "+100% バドブースト増加 (オーラ)",
   "budBuff.aura.mythical.boost": "+400% バドブースト増加 (オーラ)",
-  "budBuff.type.sea.boost": "10% の確率で+1フィッシュ獲得"
+  "budBuff.type.sea.boost": "10% の確率で+1フィッシュ獲得",
+  "islandupgrade.confirmUpgrade": "新しい島にアップグレードしてもよろしいですか？",
+  "islandupgrade.warning1": "以下のリソースノードや調理施設が進行中でないことを確認してください。これらは収穫できず、リセットされてからインベントリに戻されます。",
+  "islandupgrade.warning2": "サンストーンロック、ハウス、マーケット、ファイヤーピット、ワークベンチはあなたの土地に残ります。",
+  "islandupgrade.warning3": "ハウス、マーケット、ファイヤーピット、ワークベンチはあなたの土地に残ります。",
+  "islandupgrade.empty.cropPlots": "クロッププロットは空です",
+  "islandupgrade.ready.cookingBuildings": "クッキングビルは準備完了です",
+  "islandupgrade.empty.fruitPatches": "フルーツパッチは空です",
+  "islandupgrade.empty.flowerbeds": "花壇は空です",
+  "islandupgrade.empty.beehives": "蜂の巣は空です",
+  "islandupgrade.ready.crimstoneRocks": "クリムストーンロックスの準備はできています",
+  "islandupgrade.ready.oilReserves": "石油備蓄準備完了"
 }

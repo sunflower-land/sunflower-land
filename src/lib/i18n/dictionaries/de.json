@@ -1976,8 +1976,6 @@
   "island.goblin.retreat": "Goblin-Rückzug",
   "islandNotFound.message": "Du bist mitten im Nirgendwo gelandet!",
   "islandNotFound.takeMeHome": "Bring mich nach Hause",
-  "islandupgrade.confirmUpgrade": "Bist du sicher, dass du auf eine neue Insel upgraden möchtest?",
-  "islandupgrade.warning": "Stellen Sie sicher, dass Sie keine Pflanzen, Früchte, Gebäude, Hühner, Purpur, Blumen oder Honig im Gange haben. Diese können nicht geerntet werden und werden wieder in dein Inventar aufgenommen. Sonnensteine, Haus, Markt, Feuerstelle und Werkbank bleiben auf deinem Land platziert.",
   "islandupgrade.upgradeIsland": "Insel aufrüsten",
   "islandupgrade.newOpportunities": "Eine exotische Insel erwartet dich mit neuen Ressourcen und Möglichkeiten, deine Farm wachsen zu lassen.",
   "islandupgrade.confirmation": "Möchten Sie ein Upgrade durchführen? Du beginnst auf einer kleinen Insel mit all deinen Gegenständen.",
@@ -5723,5 +5721,16 @@
   "budBuff.aura.green.boost": "+20% Erhöhung des Knospenboosts (Aura)",
   "budBuff.aura.rare.boost": "+100% Erhöhung der Knospenverstärkung (Aura)",
   "budBuff.aura.mythical.boost": "+400% Erhöhung des Knospenboosts (Aura)",
-  "budBuff.type.sea.boost": "10% Chance auf +1 Fisch"
+  "budBuff.type.sea.boost": "10% Chance auf +1 Fisch",
+  "islandupgrade.confirmUpgrade": "Bist du sicher, dass du auf eine neue Insel upgraden möchtest?",
+  "islandupgrade.warning1": "Vergewissere dich, dass keiner der folgenden Ressourcenknoten oder Kochgebäude in Bearbeitung ist. Diese können nicht geerntet werden und werden zurückgesetzt und dann wieder in dein Inventar aufgenommen.",
+  "islandupgrade.warning2": "Sonnensteinfelsen, Haus, Markt, Feuerstelle und Werkbank bleiben auf deinem Grundstück.",
+  "islandupgrade.warning3": "Haus, Markt, Feuerstelle und Werkbank bleiben auf deinem Grundstück stehen.",
+  "islandupgrade.empty.cropPlots": "Anbauflächen sind leer",
+  "islandupgrade.ready.cookingBuildings": "Die Kochgebäude sind fertig",
+  "islandupgrade.empty.fruitPatches": "Fruchtfelder sind leer",
+  "islandupgrade.empty.flowerbeds": "Die Blumenbeete sind leer",
+  "islandupgrade.empty.beehives": "Die Bienenstöcke sind leer",
+  "islandupgrade.ready.crimstoneRocks": "Crimstone Rocks sind fertig",
+  "islandupgrade.ready.oilReserves": "Die Ölreserven sind bereit"
 }

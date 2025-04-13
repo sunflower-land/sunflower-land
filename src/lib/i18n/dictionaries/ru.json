@@ -2526,7 +2526,6 @@
   "island.woodlands": "Лес",
   "islandNotFound.message": "Ты попал в самую настоящую глушь!",
   "islandNotFound.takeMeHome": "Отправиться домой",
-  "islandupgrade.confirmUpgrade": "Ты уверен, что хочешь перейти на новый остров?",
   "islandupgrade.confirmation": "Хочешь сделать апгрейд? Ты начнешь на маленьком острове со всеми своими предметами.",
   "islandupgrade.desertResourcesDescription": "Суровые условия пустыни требуют новых технологий для выживания. Расширяйте свою территорию, чтобы открыть для себя новые здания и то, что внутри!",
   "islandupgrade.exoticResourcesDescription": "Этот район Sunflower известен своими экзотическими ресурсами. Расширяйте свою землю, открывая для себя фрукты, цветы, пчелиные ульи и редкие минералы! Следите за временами года, так как они влияют на то, что вы можете выращивать.",
@@ -2539,7 +2538,6 @@
   "islandupgrade.requiredIsland": "Разблокируй {{islandType}}",
   "islandupgrade.upgradeIsland": "Улучшить остров",
   "islandupgrade.volcanoResourcesDescription": "Опасная вулканическая местность с драгоценными минералами и редкими ресурсами, ожидающими своего открытия. Расширяйте свою землю, чтобы раскрыть ее секреты!",
-  "islandupgrade.warning": "Убедись, что у тебя нет урожая, фруктов,цветов, зданий или кур в процессе работы. Они будут возвращены в твой инвентарь. Санстоуны, дом, магазин Бетти, верстак и Fire Pit остануться на твоей ферме.",
   "islandupgrade.welcomeDesertIsland": "Ну допрыгался, теперь ты в пустыне!",
   "islandupgrade.welcomePetalParadise": "Добро пожаловать в Лепестковый рай!",
   "islandupgrade.welcomeVolcanoIsland": "Добро пожаловать на остров Вулкан!",
@@ -5723,5 +5721,16 @@
   "budBuff.aura.green.boost": "Увеличение бутонов (аура): +20%",
   "budBuff.aura.rare.boost": "+100% увеличение бутонов (аура)",
   "budBuff.aura.mythical.boost": "Увеличение бутонов (аура): +400%",
-  "budBuff.type.sea.boost": "Вероятность получения +1 рыбы: 10%"
+  "budBuff.type.sea.boost": "Вероятность получения +1 рыбы: 10%",
+  "islandupgrade.confirmUpgrade": "Вы действительно хотите переехать на новый остров?",
+  "islandupgrade.warning1": "Убедитесь, что у вас нет ни одного из следующих ресурсных узлов или кухонных зданий в стадии строительства. Их нельзя будет собрать, их можно будет обнулить, а затем вернуть в инвентарь.",
+  "islandupgrade.warning2": "Скала Санстоун, дом, рынок, костровая яма и верстак останутся на вашей земле.",
+  "islandupgrade.warning3": "Дом, рынок, место для костра и верстак останутся на вашей земле.",
+  "islandupgrade.empty.cropPlots": "Земельные участки пусты",
+  "islandupgrade.ready.cookingBuildings": "Кулинарные здания готовы",
+  "islandupgrade.empty.fruitPatches": "Фруктовые грядки пусты",
+  "islandupgrade.empty.flowerbeds": "Цветочные клумбы пусты",
+  "islandupgrade.empty.beehives": "Пчелиные ульи пусты",
+  "islandupgrade.ready.crimstoneRocks": "Кримстоунские скалы готовы",
+  "islandupgrade.ready.oilReserves": "Запасы нефти готовы"
 }

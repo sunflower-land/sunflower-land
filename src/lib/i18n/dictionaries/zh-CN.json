@@ -2232,7 +2232,6 @@
   "island.goblin.retreat": "哥布林聚居地",
   "islandNotFound.message": "你降落在了茫茫荒原里！",
   "islandNotFound.takeMeHome": "带我回家",
-  "islandupgrade.confirmUpgrade": "您确定要升阶到新岛吗？",
   "islandupgrade.welcomeDesertIsland": "欢迎来到黄沙岛！",
   "islandupgrade.desertResourcesDescription": "恶劣的沙漠环境需要新科技才能生存。拓张你的地块，发现新的建筑物和里面的新玩意儿！",
   "islandupgrade.requiredIsland": "在 {{islandType}} 处解锁",
@@ -3303,7 +3302,6 @@
   "description.factionShop.bumpkinFactionRug": "由才华横溢的 Bumpkin 帮派工匠制作的精美地毯。",
   "description.faction.mark": "在帮派商城里使用",
   "description.vase": "远古时代的易碎品",
-  "islandupgrade.warning": "确保您没有任何庄稼、水果、建筑、鸡、猩红宝石、鲜花或蜂蜜在生产中。这些资源节点将无法收获并将退回您的库存。日光石、房屋、市场、火坑和工作台将保留在您的土地上。",
   "available.all.season": "全时季可用",
   "megastore.message.allSeason": "以下是整个时季都可以购买的物品。一定要在时季结束前拿到手！",
   "monthly": "每月",
@@ -5723,5 +5721,16 @@
   "budBuff.aura.green.boost": "+20% 花蕾增幅增加（光环）",
   "budBuff.aura.rare.boost": "+100% Bud Boost 增加（光环）",
   "budBuff.aura.mythical.boost": "+400% 花蕾增幅增加（光环）",
-  "budBuff.type.sea.boost": "10% 几率获得 +1 条鱼"
+  "budBuff.type.sea.boost": "10% 几率获得 +1 条鱼",
+  "islandupgrade.confirmUpgrade": "你确定要升级到新岛吗？",
+  "islandupgrade.warning1": "确保你没有正在建造的以下任何资源节点或烹饪建筑。这些物品将无法收获并会被重置，然后返回到您的库存中。",
+  "islandupgrade.warning2": "太阳石岩石、房屋、市场、火坑和工作台将保留在你的土地上。",
+  "islandupgrade.warning3": "房屋、市场、火坑和工作台将保留在你的土地上。",
+  "islandupgrade.empty.cropPlots": "作物地块是空的",
+  "islandupgrade.ready.cookingBuildings": "烹饪大楼准备好了",
+  "islandupgrade.empty.fruitPatches": "水果补丁是空的",
+  "islandupgrade.empty.flowerbeds": "花坛空无一人",
+  "islandupgrade.empty.beehives": "蜂箱是空的",
+  "islandupgrade.ready.crimstoneRocks": "Crimstone Rocks 准备好了",
+  "islandupgrade.ready.oilReserves": "石油储备准备就绪"
 }

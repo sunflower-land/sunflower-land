@@ -1977,8 +1977,6 @@
   "island.goblin.retreat": "Retret Goblin",
   "islandNotFound.message": "Anda telah mendarat di antah berantah!",
   "islandNotFound.takeMeHome": "Bawa aku pulang",
-  "islandupgrade.confirmUpgrade": "Apakah Anda yakin ingin meningkatkan ke pulau baru.",
-  "islandupgrade.warning": "Pastikan Anda tidak memiliki tanaman, buah, bangunan, ayam, batu merah, bunga atau madu yang sedang berlangsung. Ini tidak akan dapat dipanen dan akan dikembalikan ke inventaris Anda. Batu Matahari, Rumah, Pasar, Lubang Api, dan Meja Kerja akan tetap ditempatkan di tanah Anda.",
   "islandupgrade.upgradeIsland": "Tingkatkan Pulau",
   "islandupgrade.newOpportunities": "Sebuah pulau eksotis menanti Anda dengan sumber daya dan peluang baru untuk menumbuhkan pertanian Anda.",
   "islandupgrade.confirmation": "Apakah Anda ingin meningkatkan? Anda akan mulai di pulau kecil dengan semua barang Anda.",
@@ -5723,5 +5721,16 @@
   "budBuff.aura.green.boost": "+20% Peningkatan Peningkatan Tunas (Aura)",
   "budBuff.aura.rare.boost": "+100% Peningkatan Peningkatan Tunas (Aura)",
   "budBuff.aura.mythical.boost": "+400% Peningkatan Peningkatan Tunas (Aura)",
-  "budBuff.type.sea.boost": "10% Peluang +1 Ikan"
+  "budBuff.type.sea.boost": "10% Peluang +1 Ikan",
+  "islandupgrade.confirmUpgrade": "Apakah Anda yakin ingin meningkatkan ke pulau baru?",
+  "islandupgrade.warning1": "Pastikan Anda tidak memiliki salah satu node sumber daya atau bangunan memasak berikut yang sedang berlangsung. Ini tidak akan dapat dipanen dan akan diatur ulang, kemudian dikembalikan ke inventaris Anda.",
+  "islandupgrade.warning2": "Sunstone Rock, House, Market, Fire Pit dan Workbench akan tetap ditempatkan di tanah Anda.",
+  "islandupgrade.warning3": "Rumah, Pasar, Lubang Api dan Meja Kerja akan tetap ditempatkan di tanah Anda.",
+  "islandupgrade.empty.cropPlots": "Plot Tanaman kosong",
+  "islandupgrade.ready.cookingBuildings": "Bangunan Memasak sudah siap",
+  "islandupgrade.empty.fruitPatches": "Patch Buah kosong",
+  "islandupgrade.empty.flowerbeds": "Tempat tidur bunga kosong",
+  "islandupgrade.empty.beehives": "Sarang lebah kosong",
+  "islandupgrade.ready.crimstoneRocks": "Batu Crimstone sudah siap",
+  "islandupgrade.ready.oilReserves": "Cadangan minyak sudah siap"
 }

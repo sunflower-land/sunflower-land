@@ -1287,7 +1287,6 @@
   "henHouse.text.four": "Galinha chocando",
   "henHouse.text.five": "Já está colocada e trabalhando duro!",
   "henHouse.text.six": "Construa um galinheiro extra para criar mais galinhas",
-  "islandupgrade.confirmUpgrade": "Tem certeza de que deseja atualizar para uma nova ilha.",
   "islandupgrade.upgradeIsland": "Atualizar Ilha",
   "islandupgrade.newOpportunities": "Uma ilha exótica espera por você com novos recursos e oportunidades para expandir sua fazenda.",
   "islandupgrade.confirmation": "Você gostaria de atualizar? Seus recursos serão transferidos com segurança para sua nova ilha.",
@@ -3303,7 +3302,6 @@
   "description.factionShop.bumpkinFactionRug": "Um tapete magnífico feito pelos talentosos artesãos da Bumpkin Faction.",
   "description.faction.mark": "Use-os na Loja de Facções",
   "description.vase": "Um item frágil dos tempos antigos",
-  "islandupgrade.warning": "Certifique-se de não ter plantações, frutas, construções, galinhas, carmesim, flores ou mel em andamento. Eles não poderão ser colhidos e serão devolvidos ao seu inventário. Sunstones, House, Market, Fire Pit e Workbench permanecerão colocados em sua terra.",
   "available.all.season": "Disponível durante toda a temporada",
   "megastore.message.allSeason": "Aqui estão os itens que estão disponíveis para compra durante toda a temporada. Não deixe de pegá-lo antes do final da temporada!",
   "monthly": "Mensalmente",
@@ -5723,5 +5721,16 @@
   "budBuff.aura.green.boost": "+20% de aumento de Bud Boost (Aura)",
   "budBuff.aura.rare.boost": "+100% de aumento de Bud Boost (Aura)",
   "budBuff.aura.mythical.boost": "+400% de aumento de Bud Boost (Aura)",
-  "budBuff.type.sea.boost": "10% de chance de +1 peixe"
+  "budBuff.type.sea.boost": "10% de chance de +1 peixe",
+  "islandupgrade.confirmUpgrade": "Tem certeza de que deseja fazer o upgrade para uma nova ilha?",
+  "islandupgrade.warning1": "Certifique-se de não ter nenhum dos seguintes nós de recursos ou edifícios de cozinha em andamento. Eles não poderão ser colhidos e serão redefinidos e, em seguida, devolvidos ao seu inventário.",
+  "islandupgrade.warning2": "Sunstone Rock, House, Market, Fire Pit e Workbench permanecerão em seu terreno.",
+  "islandupgrade.warning3": "A casa, o mercado, a fogueira e a bancada de trabalho permanecerão em seu terreno.",
+  "islandupgrade.empty.cropPlots": "Os lotes de cultivo estão vazios",
+  "islandupgrade.ready.cookingBuildings": "Edifícios de cozinha estão prontos",
+  "islandupgrade.empty.fruitPatches": "Os canteiros de frutas estão vazios",
+  "islandupgrade.empty.flowerbeds": "Os canteiros de flores estão vazios",
+  "islandupgrade.empty.beehives": "As colmeias estão vazias",
+  "islandupgrade.ready.crimstoneRocks": "Crimstone Rocks está pronto",
+  "islandupgrade.ready.oilReserves": "As reservas de petróleo estão prontas"
 }

@@ -1385,7 +1385,6 @@
   "island.goblin.retreat": "Retraite des Gobelins",
   "islandNotFound.message": "Vous avez atterri au milieu de nulle part!",
   "islandNotFound.takeMeHome": "Ramène-moi à la maison",
-  "islandupgrade.confirmUpgrade": "Êtes-vous sûr de vouloir passer à une nouvelle île?",
   "islandupgrade.upgradeIsland": "Améliorer l'île",
   "islandupgrade.newOpportunities": "Une île exotique vous attend avec de nouvelles ressources et des opportunités pour développer votre ferme.",
   "islandupgrade.confirmation": "Souhaitez-vous procéder à la mise à niveau ? Vos ressources seront transférées en toute sécurité sur votre nouvelle île.",
@@ -3303,7 +3302,6 @@
   "description.factionShop.bumpkinFactionRug": "Un magnifique tapis fabriqué par les talentueux artisans de Bumpkin Faction.",
   "description.faction.mark": "Utilisez-les dans la boutique des factions",
   "description.vase": "Un objet fragile datant de l'antiquité",
-  "islandupgrade.warning": "Assurez-vous de ne pas avoir de cultures, de fruits, de bâtiments, de poulets, de pierres pourpres, de fleurs ou de miel en cours. Ils ne pourront pas être récoltés et seront retournés dans votre inventaire. Les pierres solaires, la maison, le marché, le foyer et l'établi resteront placés sur votre terrain.",
   "available.all.season": "Disponible toute la saison",
   "megastore.message.allSeason": "Voici les articles disponibles à l'achat tout au long de la saison. N'oubliez pas de vous le procurer avant la fin de la saison !",
   "monthly": "Mensuel",
@@ -5723,5 +5721,16 @@
   "budBuff.aura.green.boost": "Augmentation de +20 % de l'augmentation des bourgeons (aura)",
   "budBuff.aura.rare.boost": "+100 % d'augmentation de l'augmentation des bourgeons (aura)",
   "budBuff.aura.mythical.boost": "Augmentation de +400 % du boost des bourgeons (aura)",
-  "budBuff.type.sea.boost": "10 % de chances d'obtenir +1 poisson"
+  "budBuff.type.sea.boost": "10 % de chances d'obtenir +1 poisson",
+  "islandupgrade.confirmUpgrade": "Êtes-vous sûr de vouloir passer à une nouvelle île ?",
+  "islandupgrade.warning1": "Assurez-vous qu'aucun des nœuds de ressources ou bâtiments de cuisine suivants n'est en cours de construction. Ils ne pourront pas être récoltés et seront réinitialisés, puis renvoyés dans votre inventaire.",
+  "islandupgrade.warning2": "Sunstone Rock, House, Market, Fire Pit et Workbench resteront placés sur votre terrain.",
+  "islandupgrade.warning3": "La maison, le marché, le foyer et l'établi resteront placés sur votre terrain.",
+  "islandupgrade.empty.cropPlots": "Les parcelles de culture sont vides",
+  "islandupgrade.ready.cookingBuildings": "Les bâtiments de cuisine sont prêts",
+  "islandupgrade.empty.fruitPatches": "Les parcelles de fruits sont vides",
+  "islandupgrade.empty.flowerbeds": "Les parterres de fleurs sont vides",
+  "islandupgrade.empty.beehives": "Les ruches sont vides",
+  "islandupgrade.ready.crimstoneRocks": "Crimstone Rocks est prêt",
+  "islandupgrade.ready.oilReserves": "Les réserves de pétrole sont prêtes"
 }

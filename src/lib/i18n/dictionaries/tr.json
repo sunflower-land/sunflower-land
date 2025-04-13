@@ -1385,7 +1385,6 @@
   "island.woodlands": "Ormanlık Alanlar",
   "islandNotFound.message": "Hiçliğin ortasına indin!",
   "islandNotFound.takeMeHome": "Beni eve götür",
-  "islandupgrade.confirmUpgrade": "Yeni bir adaya geçmek istediğinizden emin misiniz?",
   "islandupgrade.upgradeIsland": "Ada Yükseltmesi",
   "islandupgrade.newOpportunities": "Çiftliğinizi büyütmeniz için yeni kaynaklar ve fırsatlarla dolu egzotik bir ada sizi bekliyor.",
   "islandupgrade.confirmation": "Yükseltmek ister misiniz? Tüm eşyalarınızla birlikte küçük bir adada başlayacaksınız.",
@@ -3303,7 +3302,6 @@
   "description.factionShop.bumpkinFactionRug": "Yetenekli Bumpkin Faction zanaatkarları tarafından yapılan muhteşem bir halı.",
   "description.faction.mark": "Bunları Faction Shop'ta kullanın",
   "description.vase": "Antik çağlardan kalma kırılgan bir eşya",
-  "islandupgrade.warning": "Devamında herhangi bir mahsul, meyve, bina, tavuk, kıpkırmızı taş, çiçek veya bal olmadığından emin olun. Bunlar hasat edilemeyecek ve envanterinize iade edilecektir. Güneş taşları, Ev, Pazar, Ateş Çukuru ve Tezgah arazinizde yerleştirilmiş kalacaktır.",
   "available.all.season": "Tüm sezon kullanılabilir",
   "megastore.message.allSeason": "İşte tüm sezon boyunca satın alınabilecek ürünler. Sezon bitiminden önce aldığınızdan emin olun!",
   "monthly": "Aylık",
@@ -5723,5 +5721,16 @@
   "budBuff.aura.green.boost": "+%20 Tomurcuk Artışı (Aura)",
   "budBuff.aura.rare.boost": "+%100 Tomurcuk Artışı (Aura)",
   "budBuff.aura.mythical.boost": "+400% Tomurcuk Artışı (Aura)",
-  "budBuff.type.sea.boost": "%10 +1 Balık Şansı"
+  "budBuff.type.sea.boost": "%10 +1 Balık Şansı",
+  "islandupgrade.confirmUpgrade": "Yeni bir adaya yükseltmek istediğinizden emin misiniz?",
+  "islandupgrade.warning1": "Aşağıdaki kaynak düğümlerinden veya devam etmekte olan pişirme binalarından hiçbirine sahip olmadığınızdan emin olun. Bunlar hasat edilemeyecek ve sıfırlanacak, ardından envanterinize geri gönderilecektir.",
+  "islandupgrade.warning2": "Sunstone Rock, Ev, Market, Ateş Çukuru ve Tezgah arazinizde yer alacaktır.",
+  "islandupgrade.warning3": "Ev, Pazar, Ateş Çukuru ve Tezgah arazinizde yer alacaktır.",
+  "islandupgrade.empty.cropPlots": "Mahsul arazileri boş",
+  "islandupgrade.ready.cookingBuildings": "Pişirme Binaları hazır",
+  "islandupgrade.empty.fruitPatches": "Meyve Yamaları boş",
+  "islandupgrade.empty.flowerbeds": "Çiçek yatakları boş",
+  "islandupgrade.empty.beehives": "Arı kovanları boş",
+  "islandupgrade.ready.crimstoneRocks": "Crimstone Rocks hazır",
+  "islandupgrade.ready.oilReserves": "Petrol rezervleri hazır"
 }

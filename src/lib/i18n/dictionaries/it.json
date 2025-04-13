@@ -1946,7 +1946,6 @@
   "island.goblin.retreat": "Ritiro dei Goblin",
   "islandNotFound.message": "Sei atterrato nel bel mezzo del nulla!",
   "islandNotFound.takeMeHome": "Portami a casa",
-  "islandupgrade.confirmUpgrade": "Sei sicuro di voler passare a una nuova isola.",
   "islandupgrade.upgradeIsland": "Isola di aggiornamento",
   "islandupgrade.newOpportunities": "Un'isola esotica ti aspetta con nuove risorse e opportunità per far crescere la tua fattoria.",
   "islandupgrade.confirmation": "Vuoi effettuare l'upgrade? Inizierai su una piccola isola con tutti i tuoi oggetti.",
@@ -3303,7 +3302,6 @@
   "description.factionShop.bumpkinFactionRug": "Un magnifico tappeto realizzato dai talentuosi artigiani di Bumpkin Faction.",
   "description.faction.mark": "Usali nel Faction Shop",
   "description.vase": "Un oggetto fragile dei tempi antichi",
-  "islandupgrade.warning": "Assicurati di non avere raccolti, frutta, edifici, polli, crestone, fiori o miele in corso. Questi non potranno essere raccolti e verranno restituiti al tuo inventario. Sunstones, House, Market, Fire Pit e Workbench rimarranno sulla tua terra.",
   "available.all.season": "disponibili per tutta la stagione",
   "megastore.message.allSeason": "Ecco gli articoli che sono disponibili per l'acquisto durante tutta la stagione. Assicuratevi di prenderlo prima della fine della stagione!",
   "monthly": "Mensile",
@@ -5723,5 +5721,16 @@
   "budBuff.aura.green.boost": "+20% di aumento del Bud Boost (Aura)",
   "budBuff.aura.rare.boost": "Aumento del potenziamento delle gemme +100% (Aura)",
   "budBuff.aura.mythical.boost": "Aumento del potenziamento delle gemme del 400% (Aura)",
-  "budBuff.type.sea.boost": "10% di probabilità di +1 pesce"
+  "budBuff.type.sea.boost": "10% di probabilità di +1 pesce",
+  "islandupgrade.confirmUpgrade": "Sei sicuro di voler passare a una nuova isola?",
+  "islandupgrade.warning1": "Assicurati di non avere nessuno dei seguenti nodi di risorse o edifici di cottura in corso. Questi non potranno essere raccolti e verranno ripristinati, quindi restituiti al tuo inventario.",
+  "islandupgrade.warning2": "Sunstone Rock, House, Market, Fire Pit e Workbench rimarranno posizionati sulla tua terra.",
+  "islandupgrade.warning3": "House, Market, Fire Pit e Workbench rimarranno sul tuo terreno.",
+  "islandupgrade.empty.cropPlots": "I campi coltivati sono vuoti",
+  "islandupgrade.ready.cookingBuildings": "Gli edifici di cucina sono pronti",
+  "islandupgrade.empty.fruitPatches": "I Fruit Patches sono vuoti",
+  "islandupgrade.empty.flowerbeds": "Flowers I letti sono vuoti",
+  "islandupgrade.empty.beehives": "Gli alveari sono vuoti",
+  "islandupgrade.ready.crimstoneRocks": "I Crimstone Rocks sono pronti",
+  "islandupgrade.ready.oilReserves": "Le riserve petrolifere sono pronte"
 }
