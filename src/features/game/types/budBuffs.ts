@@ -76,6 +76,14 @@ const getStemBoost = (stem: string) => {
     });
   }
 
+  if (stem === "Basic Leaf") {
+    buffs.push({
+      shortDescription: translate("budBuff.stem.basicLeafHat.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+    });
+  }
+
   if (stem === "Ruby Gem") {
     buffs.push({
       shortDescription: translate("budBuff.stem.rubyGem.boost"),
