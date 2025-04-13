@@ -28,6 +28,7 @@ const getStemBoost = (stem: string) => {
       shortDescription: translate("budBuff.stem.fishHat.boost"),
       labelType: "vibrant",
       boostTypeIcon: lightning,
+      boostedItemIcon: SUNNYSIDE.icons.fish,
     });
   }
 
@@ -72,6 +73,14 @@ const getStemBoost = (stem: string) => {
       labelType: "success",
       boostTypeIcon: powerup,
       boostedItemIcon: ITEM_DETAILS.Sunflower.image,
+    });
+  }
+
+  if (stem === "Basic Leaf") {
+    buffs.push({
+      shortDescription: translate("budBuff.stem.basicLeafHat.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
     });
   }
 
@@ -217,8 +226,9 @@ const getTypeBoost = (type: string) => {
   if (type === "Sea") {
     buffs.push({
       shortDescription: translate("budBuff.type.sea.boost"),
-      labelType: "success",
-      boostTypeIcon: powerup,
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+      boostedItemIcon: SUNNYSIDE.icons.fish,
     });
   }
 
@@ -235,6 +245,7 @@ const getTypeBoost = (type: string) => {
       shortDescription: translate("budBuff.type.port.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
+      boostedItemIcon: SUNNYSIDE.icons.fish,
     });
   }
 
@@ -276,9 +287,9 @@ const getTypeBoost = (type: string) => {
 export const getBudBuffs = (budId: number): BuffLabel[] => {
   const { type, stem, aura } = buds[budId];
 
+  const typeBuffs = getTypeBoost(type);
   const stemBuffs = getStemBoost(stem);
   const auraBuffs = getAuraBoost(aura);
-  const typeBuffs = getTypeBoost(type);
 
-  return [...stemBuffs, ...auraBuffs, ...typeBuffs];
+  return [...typeBuffs, ...stemBuffs, ...auraBuffs];
 };
