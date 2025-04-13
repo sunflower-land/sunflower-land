@@ -65,29 +65,34 @@ export const HenHouseInside: React.FC = () => {
     width: floorWidth,
   } = ANIMAL_HOUSE_BOUNDS.henHouse[level];
 
-  // Organise the animals neatly in the barn
-  const organizedAnimals = useMemo(() => {
-    // First, group animals by type and sort within each group
-    const animals = getKeys(henHouse.animals)
-      .map((id) => ({
-        ...henHouse.animals[id],
-      }))
-      .sort((a, b) => b.experience - a.experience);
+  // Sort order will remain the same as long as animals are not added or removed
+  const sortedAnimalIds = useMemo(
+    () =>
+      getKeys(henHouse.animals)
+        .map((id) => henHouse.animals[id])
+        .sort((a, b) => b.experience - a.experience)
+        .map((animal) => animal.id),
+    [getKeys(henHouse.animals).length],
+  );
 
+  // Organize the animals neatly in the hen house
+  const organizedAnimals = useMemo(() => {
     const maxAnimalsPerRow = Math.floor(floorWidth / ANIMALS.Cow.width);
     const verticalGap = 0.5; // Add a 0.5 grid unit gap between rows
 
-    return animals.map((animal, index) => {
-      const row = Math.floor(index / maxAnimalsPerRow);
-      const col = index % maxAnimalsPerRow;
-      return {
-        ...animal,
-        coordinates: {
-          x: col * ANIMALS.Cow.width,
-          y: row * (ANIMALS.Cow.height + verticalGap),
-        },
-      };
-    });
+    return sortedAnimalIds
+      .map((id) => henHouse.animals[id])
+      .map((animal, index) => {
+        const row = Math.floor(index / maxAnimalsPerRow);
+        const col = index % maxAnimalsPerRow;
+        return {
+          ...animal,
+          coordinates: {
+            x: col * ANIMALS.Cow.width,
+            y: row * (ANIMALS.Cow.height + verticalGap),
+          },
+        };
+      });
   }, [
     getKeys(henHouse.animals).length,
     getValues(henHouse.animals).filter((animal) => animal.state === "sick")
