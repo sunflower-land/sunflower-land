@@ -437,7 +437,7 @@ img {
   transition-timing-function: ease;
 }
 
-.gem-flower-hud-backdrop {
+.balances-hud-backdrop {
   height: 20px;
   width: 98%;
   right: 11px;
@@ -451,7 +451,7 @@ img {
   z-index: -1;
 }
 
-.coin-hud-backdrop {
+.coin-balance-mobile-hud-backdrop {
   height: 20px;
   width: 98%;
   right: 11px;

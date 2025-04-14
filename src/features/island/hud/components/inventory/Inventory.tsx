@@ -78,10 +78,10 @@ export const Inventory: React.FC<Props> = ({
   return (
     <>
       <div
-        className="flex flex-col items-center absolute z-50"
+        className="flex flex-col items-center absolute z-50 sm:-mt-8"
         style={{
           right: `${PIXEL_SCALE * 3}px`,
-          top: `${PIXEL_SCALE * (isFarming ? 67 : 40)}px`,
+          top: `${PIXEL_SCALE * (isFarming ? 69 : 42)}px`,
         }}
       >
         <BasketButton onClick={() => setIsOpen(true)} />

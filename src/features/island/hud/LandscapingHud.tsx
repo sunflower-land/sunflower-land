@@ -123,13 +123,13 @@ const LandscapingHudComponent: React.FC<{
         {idle && (
           <>
             <div
-              className="absolute flex z-50 flex-col"
+              className="absolute flex z-50 flex-col sm:-mt-8"
               style={{
                 marginLeft: `${PIXEL_SCALE * 2}px`,
                 marginBottom: `${PIXEL_SCALE * 25}px`,
                 width: `${PIXEL_SCALE * 22}px`,
                 right: `${PIXEL_SCALE * 3}px`,
-                top: `${PIXEL_SCALE * 41}px`,
+                top: `${PIXEL_SCALE * 43}px`,
               }}
             >
               <RoundButton

@@ -11,12 +11,12 @@ export const LandscapeButton: React.FC = () => {
 
   return (
     <div
-      className="absolute"
+      className="absolute sm:-mt-8"
       style={{
         marginLeft: `${PIXEL_SCALE * 2}px`,
         marginBottom: `${PIXEL_SCALE * 25}px`,
         right: `${PIXEL_SCALE * 3}px`,
-        top: `${PIXEL_SCALE * 41}px`,
+        top: `${PIXEL_SCALE * 43}px`,
       }}
     >
       <RoundButton
