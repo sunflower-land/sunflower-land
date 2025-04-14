@@ -161,10 +161,6 @@ export interface Context {
   fslId?: string;
   oauthNonce: string;
   data: Partial<Record<StateMachineStateName, any>>;
-  ban: {
-    status: "ok" | "investigating" | "permanent";
-    isSocialVerified: boolean;
-  };
 }
 
 export type Moderation = {
@@ -630,10 +626,6 @@ export function startGame(authContext: AuthContext) {
         purchases: [],
         oauthNonce: "",
         data: {},
-        ban: {
-          status: "ok",
-          isSocialVerified: false,
-        },
       },
       states: {
         ...EFFECT_STATES,
@@ -681,7 +673,6 @@ export function startGame(authContext: AuthContext) {
 
               return {
                 farmId: Number(response.farmId),
-                ban: response.ban,
                 state: response.game,
                 sessionId: response.sessionId,
                 fingerprint,
@@ -705,8 +696,8 @@ export function startGame(authContext: AuthContext) {
               {
                 target: "blacklisted",
                 cond: (context, event) => {
-                  console.log({ ban: event.data.ban });
-                  return event.data.ban.status === "permanent";
+                  console.log({ ban: event.data.state.ban });
+                  return event.data.state.ban.status === "permanent";
                 },
               },
               {
@@ -862,8 +853,8 @@ export function startGame(authContext: AuthContext) {
             {
               target: "investigating",
               cond: (context) => {
-                console.log({ ban: context.ban });
-                return context.ban.status === "investigating";
+                console.log({ ban: context.state.ban });
+                return context.state.ban.status === "investigating";
               },
             },
 
@@ -2147,7 +2138,6 @@ export function startGame(authContext: AuthContext) {
           fslId: (_, event) => event.data.fslId,
           oauthNonce: (_, event) => event.data.oauthNonce,
           prices: (_, event) => event.data.prices,
-          ban: (_, event) => event.data.ban,
         }),
         setTransactionId: assign<Context, any>({
           transactionId: () => randomID(),

@@ -20,7 +20,7 @@ export const SoftBan: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
 
-  const hasVerifiedSocial = gameState.context.ban.isSocialVerified;
+  const hasVerifiedSocial = gameState.context.state.ban.isSocialVerified;
 
   if (showDiscord) {
     return <DiscordSoftBan onClose={() => setShowDiscord(false)} />;
@@ -72,7 +72,7 @@ export const SoftBan: React.FC = () => {
   );
 
   if (showFaceRecognition || hasBegun >= Date.now() - 60 * 1000 || hasScanned) {
-    return <FaceRecognition />;
+    return <FaceRecognition skipIntro />;
   }
 
   return (
@@ -141,7 +141,9 @@ const TelegramSoftBan: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       <Label icon={SUNNYSIDE.icons.search} type="default" className="mb-1">
         Telegram Verification
       </Label>
-      <p>Open up the Sunflower Land Bot and run the /verify command.</p>
+      <p className="mb-2">
+        Open up the Sunflower Land Bot and run the /verify command.
+      </p>
       <div className="flex">
         <Button className="mr-1" onClick={onClose}>
           Back

@@ -711,8 +711,8 @@ export const INITIAL_FARM: GameState = {
   },
   lavaPits: {},
   ban: {
-    history: [],
     status: "investigating",
+    isSocialVerified: false,
   },
 };
 
@@ -1044,7 +1044,7 @@ export const TEST_FARM: GameState = {
   },
   lavaPits: {},
   ban: {
-    history: [],
+    isSocialVerified: false,
     status: "ok",
   },
 };
@@ -1195,7 +1195,7 @@ export const EMPTY: GameState = {
   },
   lavaPits: {},
   ban: {
-    history: [],
+    isSocialVerified: false,
     status: "ok",
   },
 };

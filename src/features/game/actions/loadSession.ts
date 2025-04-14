@@ -18,10 +18,6 @@ type Response = {
   farmId: string;
   farmAddress?: string;
   game: GameState;
-  ban: {
-    status: "ok" | "investigating" | "permanent";
-    isSocialVerified: boolean;
-  };
   deviceTrackerId: string;
   announcements: Announcements;
 
@@ -131,7 +127,6 @@ export async function loadSession(
     fslId,
     oauthNonce,
     prices,
-    ban,
   } = await sanitizeHTTPResponse<{
     farm: any;
     startedAt: string;
@@ -158,10 +153,6 @@ export async function loadSession(
         timestamp: number;
       };
     };
-    ban: {
-      status: "ok" | "investigating" | "permanent";
-      isSocialVerified: boolean;
-    };
   }>(response);
 
   saveSession(farm.id);
@@ -171,7 +162,6 @@ export async function loadSession(
     sessionId,
     farmId,
     game: makeGame(farm),
-    ban,
     deviceTrackerId,
     announcements,
     verified,
