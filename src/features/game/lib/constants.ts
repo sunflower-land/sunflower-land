@@ -710,6 +710,10 @@ export const INITIAL_FARM: GameState = {
     startedAt: 0,
   },
   lavaPits: {},
+  ban: {
+    history: [],
+    status: "investigating",
+  },
 };
 
 export const TEST_FARM: GameState = {
@@ -1039,6 +1043,10 @@ export const TEST_FARM: GameState = {
     startedAt: 0,
   },
   lavaPits: {},
+  ban: {
+    history: [],
+    status: "ok",
+  },
 };
 
 export const INITIAL_EQUIPPED: Equipped = {
@@ -1186,4 +1194,8 @@ export const EMPTY: GameState = {
     startedAt: 0,
   },
   lavaPits: {},
+  ban: {
+    history: [],
+    status: "ok",
+  },
 };

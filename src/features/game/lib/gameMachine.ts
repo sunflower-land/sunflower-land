@@ -161,6 +161,10 @@ export interface Context {
   fslId?: string;
   oauthNonce: string;
   data: Partial<Record<StateMachineStateName, any>>;
+  ban: {
+    status: "ok" | "investigating" | "permanent";
+    isSocialVerified: boolean;
+  };
 }
 
 export type Moderation = {
@@ -387,13 +391,13 @@ const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
     ...states,
     [`${stateName}Success`]: {
       on: {
-        CONTINUE: { target: "playing" },
+        CONTINUE: { target: "notifying" },
       },
     },
     [`${stateName}Failed`]: {
       on: {
-        CONTINUE: { target: "playing" },
-        REFRESH: { target: "playing" },
+        CONTINUE: { target: "notifying" },
+        REFRESH: { target: "notifying" },
       },
     },
     [stateName]: {
@@ -401,6 +405,7 @@ const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
       invoke: {
         src: async (context: Context, event: PostEffectEvent) => {
           const { effect, authToken } = event;
+          console.log({ effect });
 
           if (context.actions.length > 0) {
             await autosave({
@@ -441,7 +446,7 @@ const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
           // If there is a transaction on the gameState move into playing so that
           // the transaction flow can handle the rest of the flow
           {
-            target: `playing`,
+            target: `notifying`,
             actions: [
               assign((_, event: DoneInvokeEvent<any>) => ({
                 actions: [],
@@ -470,6 +475,7 @@ export type BlockchainState = {
     | "FLOWERTeaser"
     | "portalling"
     | "introduction"
+    | "investigating"
     | "gems"
     | "communityCoin"
     | "referralRewards"
@@ -600,6 +606,7 @@ export function startGame(authContext: AuthContext) {
       initial: "loading",
       context: {
         fslId: "123",
+        discordId: "123",
         farmId:
           CONFIG.NETWORK === "mainnet"
             ? authContext.user.token?.farmId ?? 0
@@ -623,6 +630,10 @@ export function startGame(authContext: AuthContext) {
         purchases: [],
         oauthNonce: "",
         data: {},
+        ban: {
+          status: "ok",
+          isSocialVerified: false,
+        },
       },
       states: {
         ...EFFECT_STATES,
@@ -670,7 +681,7 @@ export function startGame(authContext: AuthContext) {
 
               return {
                 farmId: Number(response.farmId),
-                isBlacklisted: response.isBlacklisted,
+                ban: response.ban,
                 state: response.game,
                 sessionId: response.sessionId,
                 fingerprint,
@@ -693,7 +704,10 @@ export function startGame(authContext: AuthContext) {
             onDone: [
               {
                 target: "blacklisted",
-                cond: (_, event) => event.data.isBlacklisted,
+                cond: (context, event) => {
+                  console.log({ ban: event.data.ban });
+                  return event.data.ban.status === "permanent";
+                },
               },
               {
                 target: "portalling",
@@ -842,6 +856,14 @@ export function startGame(authContext: AuthContext) {
                   context.state.bumpkin?.experience === 0 &&
                   !getIntroductionRead()
                 );
+              },
+            },
+
+            {
+              target: "investigating",
+              cond: (context) => {
+                console.log({ ban: context.ban });
+                return context.ban.status === "investigating";
               },
             },
 
@@ -1919,6 +1941,17 @@ export function startGame(authContext: AuthContext) {
           },
         },
 
+        investigating: {
+          on: {
+            "faceRecognition.started": {
+              target: STATE_MACHINE_EFFECTS["faceRecognition.started"],
+            },
+            "faceRecognition.completed": {
+              target: STATE_MACHINE_EFFECTS["faceRecognition.completed"],
+            },
+          },
+        },
+
         competition: {
           on: {
             "competition.started": (GAME_EVENT_HANDLERS as any)[
@@ -2114,6 +2147,7 @@ export function startGame(authContext: AuthContext) {
           fslId: (_, event) => event.data.fslId,
           oauthNonce: (_, event) => event.data.oauthNonce,
           prices: (_, event) => event.data.prices,
+          ban: (_, event) => event.data.ban,
         }),
         setTransactionId: assign<Context, any>({
           transactionId: () => randomID(),

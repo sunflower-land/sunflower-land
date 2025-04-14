@@ -106,7 +106,7 @@ export const FaceRecognition: React.FC = () => {
         faceRecognition.session.createdAt + 3 * 60 * 1000 < Date.now();
 
       if (!hasExpired) {
-        handleAnalysisComplete();
+        // handleAnalysisComplete();
       }
     }
   }, []);

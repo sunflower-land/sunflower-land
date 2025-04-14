@@ -89,6 +89,7 @@ import {
 } from "./components/EffectSuccess";
 import { LoveCharm } from "./components/LoveCharm";
 import { ClaimReferralRewards } from "./components/ClaimReferralRewards";
+import { SoftBan } from "features/retreat/components/personhood/SoftBan";
 
 function camelToDotCase(str: string): string {
   return str.replace(/([a-z])([A-Z])/g, "$1.$2").toLowerCase() as string;
@@ -170,6 +171,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   roninWelcomePack: true,
   roninAirdrop: true,
   jinAirdrop: true,
+  investigating: true,
 };
 
 // State change selectors
@@ -226,6 +228,7 @@ const isRefundingAuction = (state: MachineState) =>
 const isPromoing = (state: MachineState) => state.matches("promo");
 const isBlacklisted = (state: MachineState) => state.matches("blacklisted");
 const hasAirdrop = (state: MachineState) => state.matches("airdrop");
+const isInvestigating = (state: MachineState) => state.matches("investigating");
 const hasFulfilledOffers = (state: MachineState) => state.matches("offers");
 const hasVipNotification = (state: MachineState) => state.matches("vip");
 const isPlaying = (state: MachineState) => state.matches("playing");
@@ -423,6 +426,7 @@ export const GameWrapper: React.FC = ({ children }) => {
   const roninAirdrop = useSelector(gameService, isRoninAirdrop);
   const jinAirdrop = useSelector(gameService, isJinAirdrop);
   const showPWAInstallPrompt = useSelector(authService, _showPWAInstallPrompt);
+  const investigating = useSelector(gameService, isInvestigating);
 
   const { t } = useAppTranslation();
   useInterval(() => {
@@ -632,6 +636,7 @@ export const GameWrapper: React.FC = ({ children }) => {
             {roninAirdrop && <ClaimRoninAirdrop />}
             {jinAirdrop && <RoninJinClaim />}
             {showReferralRewards && <ClaimReferralRewards />}
+            {investigating && <SoftBan />}
           </Panel>
         </Modal>
 
