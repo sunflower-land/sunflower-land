@@ -105,13 +105,13 @@ export const WhatsOn = () => {
       <InnerPanel className="mb-1">
         <div className="p-1">
           <div className="flex items-center justify-between mb-2">
-            <Label type="default">{t("whatsOn.seasonCompetition")}</Label>
+            <Label type="default">{t("whatsOn.loveRush")}</Label>
             <Label type="formula">{t("whatsOn.april14th")}</Label>
           </div>
           <NoticeboardItems
             items={[
               {
-                text: t("whatsOn.animalCompetitionText"),
+                text: t("whatsOn.loveRushText"),
                 icon: giftIcon,
               },
             ]}
