@@ -79,35 +79,39 @@ export const BarnInside: React.FC = () => {
     width: floorWidth,
   } = ANIMAL_HOUSE_BOUNDS.barn[level];
 
-  // Organise the animals neatly in the barn
-  const organizedAnimals = useMemo(() => {
-    // First, group animals by type and sort within each group
-    const animals = getKeys(barn.animals)
-      .map((id) => ({
-        ...barn.animals[id],
-      }))
-      // Group by type first (Cow, then Sheep)
-      .sort((a, b) => {
-        if (a.type === b.type) {
-          return b.experience - a.experience;
-        }
-        return a.type === "Cow" ? -1 : 1;
-      });
+  // Sort order will remain the same as long as animals are not added or removed
+  // Group animals by type (Cow, then Sheep) first, then sort by experience
+  const sortedAnimalIds = useMemo(
+    () =>
+      getKeys(barn.animals)
+        .map((id) => barn.animals[id])
+        .sort((a, b) =>
+          a.type === b.type
+            ? b.experience - a.experience
+            : a.type.localeCompare(b.type),
+        )
+        .map((animal) => animal.id),
+    [getKeys(barn.animals).length],
+  );
 
+  // Organize the animals neatly in the barn
+  const organizedAnimals = useMemo(() => {
     const maxAnimalsPerRow = Math.floor(floorWidth / ANIMALS.Cow.width);
     const verticalGap = 0.5; // Add a 0.5 grid unit gap between rows
 
-    return animals.map((animal, index) => {
-      const row = Math.floor(index / maxAnimalsPerRow);
-      const col = index % maxAnimalsPerRow;
-      return {
-        ...animal,
-        coordinates: {
-          x: col * ANIMALS.Cow.width,
-          y: row * (ANIMALS.Cow.height + verticalGap),
-        },
-      };
-    });
+    return sortedAnimalIds
+      .map((id) => barn.animals[id])
+      .map((animal, index) => {
+        const row = Math.floor(index / maxAnimalsPerRow);
+        const col = index % maxAnimalsPerRow;
+        return {
+          ...animal,
+          coordinates: {
+            x: col * ANIMALS.Cow.width,
+            y: row * (ANIMALS.Cow.height + verticalGap),
+          },
+        };
+      });
   }, [
     getKeys(barn.animals).length,
     getValues(barn.animals).filter((animal) => animal.state === "sick").length,
