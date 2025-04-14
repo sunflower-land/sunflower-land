@@ -401,7 +401,6 @@ const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
       invoke: {
         src: async (context: Context, event: PostEffectEvent) => {
           const { effect, authToken } = event;
-          console.log({ effect });
 
           if (context.actions.length > 0) {
             await autosave({
@@ -695,8 +694,7 @@ export function startGame(authContext: AuthContext) {
             onDone: [
               {
                 target: "blacklisted",
-                cond: (context, event) => {
-                  console.log({ ban: event.data.state.ban });
+                cond: (_, event) => {
                   return event.data.state.ban.status === "permanent";
                 },
               },
@@ -853,7 +851,6 @@ export function startGame(authContext: AuthContext) {
             {
               target: "investigating",
               cond: (context) => {
-                console.log({ ban: context.state.ban });
                 return context.state.ban.status === "investigating";
               },
             },

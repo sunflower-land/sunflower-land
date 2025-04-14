@@ -9,6 +9,7 @@ import React, { useContext, useState } from "react";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { CONFIG } from "lib/config";
 import { FaceRecognition } from "./FaceRecognition";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const SoftBan: React.FC = () => {
   const { gameService, gameState } = useGame();
@@ -16,6 +17,8 @@ export const SoftBan: React.FC = () => {
   const [showDiscord, setShowDiscord] = useState(false);
   const [showTelegram, setShowTelegram] = useState(false);
   const [showFaceRecognition, setShowFaceRecognition] = useState(false);
+
+  const { t } = useAppTranslation();
 
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
@@ -34,30 +37,23 @@ export const SoftBan: React.FC = () => {
     return (
       <div className="p-1">
         <Label icon={SUNNYSIDE.icons.search} type="default" className="mb-1">
-          Goblin Detection
+          {t("softBan.goblinDetection")}
         </Label>
-        <p className="text-xs mb-2">
-          The Goblins noticed some similar devices connected to your network. To
-          help keep the Bumpkin economy safe and fair for everyone, please
-          complete a quick verification to continue your adventure.
-        </p>
+        <p className="text-xs mb-2">{t("softBan.networkWarning")}</p>
         <Label type="default" className="mb-1">
-          Step 1
+          {t("softBan.step1")}
         </Label>
-        <p className="text-xs mb-2">
-          Join the Discord or Telegram community & follow the steps to verify
-          your account.
-        </p>
+        <p className="text-xs mb-2">{t("softBan.socialVerification")}</p>
         <Button onClick={() => setShowDiscord(true)}>
-          Discord verification
+          {t("softBan.discordVerification")}
         </Button>
         <div className="flex items-center justify-center my-2">
           <div className="flex-grow border-t border-[#fff0d4]"></div>
-          <span className="mx-2 text-xs">or</span>
+          <span className="mx-2 text-xs">{t("softBan.or")}</span>
           <div className="flex-grow border-t border-[#fff0d4]"></div>
         </div>
         <Button onClick={() => setShowTelegram(true)}>
-          Telegram verification
+          {t("softBan.telegramVerification")}
         </Button>
       </div>
     );
@@ -78,23 +74,15 @@ export const SoftBan: React.FC = () => {
   return (
     <div className="p-1">
       <Label icon={SUNNYSIDE.icons.search} type="default" className="mb-1">
-        Goblin Detection
+        {t("softBan.goblinDetection")}
       </Label>
-      <p className="text-xs mb-2">
-        The Goblins noticed some similar devices connected to your network. To
-        help keep the Bumpkin economy safe and fair for everyone, please
-        complete a quick verification to continue your adventure.
-      </p>
+      <p className="text-xs mb-2">{t("softBan.networkWarning")}</p>
       <Label type="default" className="mb-1">
-        Step 2
+        {t("softBan.step2")}
       </Label>
-      <p className="text-xs mb-2">
-        To make sure every Bumpkin is unique, we ask for a quick face
-        verification. Your privacy is important — this is used only to keep the
-        economy safe and stop bots.
-      </p>
+      <p className="text-xs mb-2">{t("softBan.faceVerification")}</p>
       <Button onClick={() => setShowFaceRecognition(true)}>
-        Face protection
+        {t("softBan.faceProtection")}
       </Button>
     </div>
   );
@@ -102,6 +90,7 @@ export const SoftBan: React.FC = () => {
 
 const DiscordSoftBan: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { gameState } = useGame();
+  const { t } = useAppTranslation();
 
   const discordId = gameState.context.discordId;
 
@@ -112,15 +101,12 @@ const DiscordSoftBan: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   return (
     <div className="p-1">
       <Label icon={SUNNYSIDE.icons.search} type="default" className="mb-1">
-        Discord Onboarding
+        {t("softBan.discordOnboarding")}
       </Label>
-      <p>
-        Follow the instructions in #X channel to verify your account Once
-        completed, refresh your browser.
-      </p>
+      <p>{t("softBan.discordInstructions")}</p>
       <div className="flex">
         <Button className="mr-1" onClick={onClose}>
-          Back
+          {t("softBan.back")}
         </Button>
       </div>
     </div>
@@ -129,6 +115,7 @@ const DiscordSoftBan: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
 const TelegramSoftBan: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { gameState } = useGame();
+  const { t } = useAppTranslation();
 
   const telegramConnected = gameState.context.state.telegram?.startedAt;
 
@@ -139,14 +126,12 @@ const TelegramSoftBan: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   return (
     <div className="p-1">
       <Label icon={SUNNYSIDE.icons.search} type="default" className="mb-1">
-        Telegram Verification
+        {t("softBan.telegramVerificationTitle")}
       </Label>
-      <p className="mb-2">
-        Open up the Sunflower Land Bot and run the /verify command.
-      </p>
+      <p className="mb-2">{t("softBan.telegramInstructions")}</p>
       <div className="flex">
         <Button className="mr-1" onClick={onClose}>
-          Back
+          {t("softBan.back")}
         </Button>
         <Button
           onClick={() => {
@@ -154,7 +139,7 @@ const TelegramSoftBan: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             window.open(`https://t.me/${CONFIG.TELEGRAM_BOT}?verify`, "_blank");
           }}
         >
-          Open Bot
+          {t("softBan.openBot")}
         </Button>
       </div>
     </div>
