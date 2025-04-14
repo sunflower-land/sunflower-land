@@ -5732,5 +5732,7 @@
   "islandupgrade.empty.flowerbeds": "Les parterres de fleurs sont vides",
   "islandupgrade.empty.beehives": "Les ruches sont vides",
   "islandupgrade.ready.crimstoneRocks": "Crimstone Rocks est prêt",
-  "islandupgrade.ready.oilReserves": "Les réserves de pétrole sont prêtes"
+  "islandupgrade.ready.oilReserves": "Les réserves de pétrole sont prêtes",
+  "whatsOn.loveRush": "Love Rush",
+  "whatsOn.loveRushText": "L'événement Love Rush a commencé ! Participez aux festivités et gagnez des FLEURS !"
 }

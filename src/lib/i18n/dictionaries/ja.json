@@ -5732,5 +5732,7 @@
   "islandupgrade.empty.flowerbeds": "花壇は空です",
   "islandupgrade.empty.beehives": "蜂の巣は空です",
   "islandupgrade.ready.crimstoneRocks": "クリムストーンロックスの準備はできています",
-  "islandupgrade.ready.oilReserves": "石油備蓄準備完了"
+  "islandupgrade.ready.oilReserves": "石油備蓄準備完了",
+  "whatsOn.loveRush": "ラブラッシュ",
+  "whatsOn.loveRushText": "ラブラッシュイベントが始まりました！お祭りに参加して花を獲得しよう！"
 }

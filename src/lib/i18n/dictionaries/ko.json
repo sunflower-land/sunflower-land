@@ -5732,5 +5732,7 @@
   "islandupgrade.empty.flowerbeds": "꽃 침대가 비어 있습니다.",
   "islandupgrade.empty.beehives": "벌집이 비어 있습니다",
   "islandupgrade.ready.crimstoneRocks": "크림스톤 록스 준비 완료",
-  "islandupgrade.ready.oilReserves": "석유 매장량 준비 완료"
+  "islandupgrade.ready.oilReserves": "석유 매장량 준비 완료",
+  "whatsOn.loveRush": "러브 러시",
+  "whatsOn.loveRushText": "러브 러쉬 이벤트가 시작되었습니다!축제에 참여하고 꽃을 받으세요!"
 }
