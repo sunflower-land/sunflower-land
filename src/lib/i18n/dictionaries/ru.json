@@ -5734,5 +5734,7 @@
   "islandupgrade.ready.crimstoneRocks": "Кримстоунские скалы готовы",
   "islandupgrade.ready.oilReserves": "Запасы нефти готовы",
   "whatsOn.loveRush": "Лав Раш",
-  "whatsOn.loveRushText": "Мероприятие Love Rush началось! Присоединяйтесь к празднику и получите ЦВЕТЫ!"
+  "whatsOn.loveRushText": "Мероприятие Love Rush началось! Присоединяйтесь к празднику и получите ЦВЕТЫ!",
+  "goblinMarket.thanks": "Спасибо за все ваши ресурсы. Рынок гоблинов сейчас закрыт",
+  "thanks": "Спасибо"
 }
