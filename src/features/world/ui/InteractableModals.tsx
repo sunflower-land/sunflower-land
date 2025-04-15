@@ -843,11 +843,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
       >
         <WorldMap onClose={closeModal} />
       </Modal>
-      <Modal
-        show={interactable === "goblin_market"}
-        dialogClassName="md:max-w-3xl"
-        onHide={closeModal}
-      >
+      <Modal show={interactable === "goblin_market"} onHide={closeModal}>
         <GoblinMarket onClose={closeModal} />
       </Modal>
       <Modal show={interactable === "christmas_reward"}>
