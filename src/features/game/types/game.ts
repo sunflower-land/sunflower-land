@@ -1573,7 +1573,7 @@ export interface GameState {
 
   ban: {
     status: "investigating" | "permanent" | "ok";
-    isSocialVerified: boolean;
+    isSocialVerified?: boolean;
   };
 
   experiments: ExperimentName[];

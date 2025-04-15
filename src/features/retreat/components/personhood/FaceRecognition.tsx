@@ -257,6 +257,14 @@ export const FaceRecognition: React.FC<{ skipIntro?: boolean }> = ({
   );
 };
 
+export const FaceRecognitionSettings: React.FC = () => {
+  return (
+    <div>
+      <FaceRecognition />
+    </div>
+  );
+};
+
 export const RecognitionAttempt: React.FC<{
   game: GameState;
   event: FaceRecognitionEvent;

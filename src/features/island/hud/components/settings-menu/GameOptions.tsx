@@ -59,7 +59,7 @@ import {
 } from "features/announcements/AnnouncementWidgets";
 import { AirdropPlayer } from "./general-settings/AirdropPlayer";
 import { hasFeatureAccess } from "lib/flags";
-import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
+import { FaceRecognitionSettings } from "features/retreat/components/personhood/FaceRecognition";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { TransferAccountWrapper } from "./blockchain-settings/TransferAccount";
 
@@ -387,7 +387,7 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
   faceRecognition: {
     title: translate("gameOptions.faceRecognition"),
     parent: "general",
-    content: FaceRecognition,
+    content: FaceRecognitionSettings,
   },
   discord: {
     title: "Discord",

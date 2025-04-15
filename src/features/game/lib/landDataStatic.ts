@@ -769,7 +769,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
     startedAt: Date.now(),
   },
   ban: {
-    history: [],
     status: "ok",
   },
 };
