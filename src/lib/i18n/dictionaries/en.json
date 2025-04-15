@@ -5671,5 +5671,7 @@
   "error.insufficientMatic": "POL required",
   "telegram.prompts": "Follow the prompts in Telegram to get started.",
   "telegram.announcements": "Announcements",
-  "telegram.bot": "Pumpkin Pete Bot"
+  "telegram.bot": "Pumpkin Pete Bot",
+  "goblinMarket.thanks": "Thanks for all of your resources. The Goblin Market is now closed",
+  "thanks": "Thanks"
 }

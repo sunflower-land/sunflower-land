@@ -5734,5 +5734,7 @@
   "islandupgrade.ready.crimstoneRocks": "Crimstone Rocks est prêt",
   "islandupgrade.ready.oilReserves": "Les réserves de pétrole sont prêtes",
   "whatsOn.loveRush": "Love Rush",
-  "whatsOn.loveRushText": "L'événement Love Rush a commencé ! Participez aux festivités et gagnez des FLEURS !"
+  "whatsOn.loveRushText": "L'événement Love Rush a commencé ! Participez aux festivités et gagnez des FLEURS !",
+  "goblinMarket.thanks": "Merci pour toutes vos ressources. Le marché des gobelins est maintenant fermé",
+  "thanks": "Merci"
 }

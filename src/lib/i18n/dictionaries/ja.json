@@ -5734,5 +5734,7 @@
   "islandupgrade.ready.crimstoneRocks": "クリムストーンロックスの準備はできています",
   "islandupgrade.ready.oilReserves": "石油備蓄準備完了",
   "whatsOn.loveRush": "ラブラッシュ",
-  "whatsOn.loveRushText": "ラブラッシュイベントが始まりました！お祭りに参加して花を獲得しよう！"
+  "whatsOn.loveRushText": "ラブラッシュイベントが始まりました！お祭りに参加して花を獲得しよう！",
+  "goblinMarket.thanks": "すべてのリソースに感謝します。ゴブリンマーケットは閉鎖されました",
+  "thanks": "ありがとう"
 }
