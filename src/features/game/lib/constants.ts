@@ -711,7 +711,7 @@ export const INITIAL_FARM: GameState = {
   },
   lavaPits: {},
   ban: {
-    status: "investigating",
+    status: "ok",
     isSocialVerified: false,
   },
 };
