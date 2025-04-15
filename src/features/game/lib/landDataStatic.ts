@@ -768,4 +768,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     season: "autumn",
     startedAt: Date.now(),
   },
+  ban: {
+    status: "ok",
+  },
 };

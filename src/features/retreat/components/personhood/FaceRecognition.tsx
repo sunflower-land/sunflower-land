@@ -81,12 +81,14 @@ const TRANSLATION_KEYS: TranslationKeys[] = [
   "waitingCameraPermissionText",
 ];
 
-export const FaceRecognition: React.FC = () => {
+export const FaceRecognition: React.FC<{ skipIntro?: boolean }> = ({
+  skipIntro = false,
+}) => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
 
   const ref = useRef<HTMLDivElement>(null);
-  const [showIntro, setShowIntro] = useState(true);
+  const [showIntro, setShowIntro] = useState(!skipIntro);
 
   const { t } = useAppTranslation();
 
@@ -106,7 +108,7 @@ export const FaceRecognition: React.FC = () => {
         faceRecognition.session.createdAt + 3 * 60 * 1000 < Date.now();
 
       if (!hasExpired) {
-        handleAnalysisComplete();
+        // handleAnalysisComplete();
       }
     }
   }, []);
@@ -251,6 +253,14 @@ export const FaceRecognition: React.FC = () => {
           },
         }}
       />
+    </div>
+  );
+};
+
+export const FaceRecognitionSettings: React.FC = () => {
+  return (
+    <div>
+      <FaceRecognition />
     </div>
   );
 };

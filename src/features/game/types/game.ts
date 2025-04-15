@@ -1571,6 +1571,11 @@ export interface GameState {
   };
   desert: Desert;
 
+  ban: {
+    status: "investigating" | "permanent" | "ok";
+    isSocialVerified?: boolean;
+  };
+
   experiments: ExperimentName[];
   henHouse: AnimalBuilding;
   barn: AnimalBuilding;

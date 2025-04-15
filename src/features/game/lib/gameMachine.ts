@@ -387,13 +387,13 @@ const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
     ...states,
     [`${stateName}Success`]: {
       on: {
-        CONTINUE: { target: "playing" },
+        CONTINUE: { target: "notifying" },
       },
     },
     [`${stateName}Failed`]: {
       on: {
-        CONTINUE: { target: "playing" },
-        REFRESH: { target: "playing" },
+        CONTINUE: { target: "notifying" },
+        REFRESH: { target: "notifying" },
       },
     },
     [stateName]: {
@@ -441,7 +441,7 @@ const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
           // If there is a transaction on the gameState move into playing so that
           // the transaction flow can handle the rest of the flow
           {
-            target: `playing`,
+            target: `notifying`,
             actions: [
               assign((_, event: DoneInvokeEvent<any>) => ({
                 actions: [],
@@ -470,6 +470,7 @@ export type BlockchainState = {
     | "FLOWERTeaser"
     | "portalling"
     | "introduction"
+    | "investigating"
     | "gems"
     | "communityCoin"
     | "referralRewards"
@@ -600,6 +601,7 @@ export function startGame(authContext: AuthContext) {
       initial: "loading",
       context: {
         fslId: "123",
+        discordId: "123",
         farmId:
           CONFIG.NETWORK === "mainnet"
             ? authContext.user.token?.farmId ?? 0
@@ -670,7 +672,6 @@ export function startGame(authContext: AuthContext) {
 
               return {
                 farmId: Number(response.farmId),
-                isBlacklisted: response.isBlacklisted,
                 state: response.game,
                 sessionId: response.sessionId,
                 fingerprint,
@@ -693,7 +694,9 @@ export function startGame(authContext: AuthContext) {
             onDone: [
               {
                 target: "blacklisted",
-                cond: (_, event) => event.data.isBlacklisted,
+                cond: (_, event) => {
+                  return event.data.state.ban.status === "permanent";
+                },
               },
               {
                 target: "portalling",
@@ -842,6 +845,13 @@ export function startGame(authContext: AuthContext) {
                   context.state.bumpkin?.experience === 0 &&
                   !getIntroductionRead()
                 );
+              },
+            },
+
+            {
+              target: "investigating",
+              cond: (context) => {
+                return context.state.ban.status === "investigating";
               },
             },
 
@@ -1915,6 +1925,17 @@ export function startGame(authContext: AuthContext) {
           on: {
             ACKNOWLEDGE: {
               target: "notifying",
+            },
+          },
+        },
+
+        investigating: {
+          on: {
+            "faceRecognition.started": {
+              target: STATE_MACHINE_EFFECTS["faceRecognition.started"],
+            },
+            "faceRecognition.completed": {
+              target: STATE_MACHINE_EFFECTS["faceRecognition.completed"],
             },
           },
         },

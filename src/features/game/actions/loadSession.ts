@@ -18,7 +18,6 @@ type Response = {
   farmId: string;
   farmAddress?: string;
   game: GameState;
-  isBlacklisted?: boolean;
   deviceTrackerId: string;
   announcements: Announcements;
 
@@ -163,7 +162,6 @@ export async function loadSession(
     sessionId,
     farmId,
     game: makeGame(farm),
-    isBlacklisted,
     deviceTrackerId,
     announcements,
     verified,
