@@ -136,7 +136,10 @@ const TelegramSoftBan: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         <Button
           onClick={() => {
             // New tab it
-            window.open(`https://t.me/${CONFIG.TELEGRAM_BOT}?verify`, "_blank");
+            window.open(
+              `https://t.me/${CONFIG.TELEGRAM_BOT}?start=verify`,
+              "_blank",
+            );
           }}
         >
           {t("softBan.openBot")}
