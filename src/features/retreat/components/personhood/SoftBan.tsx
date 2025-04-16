@@ -103,7 +103,7 @@ const DiscordSoftBan: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       <Label icon={SUNNYSIDE.icons.search} type="default" className="mb-1">
         {t("softBan.discordOnboarding")}
       </Label>
-      <p>{t("softBan.discordInstructions")}</p>
+      <p className="mb-2">{t("softBan.discordInstructions")}</p>
       <div className="flex">
         <Button className="mr-1" onClick={onClose}>
           {t("softBan.back")}

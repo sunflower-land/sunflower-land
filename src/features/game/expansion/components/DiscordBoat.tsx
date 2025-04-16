@@ -30,7 +30,10 @@ export const DiscordBonus: React.FC<{ onClose: () => void }> = ({
   const [gameState] = useActor(gameService);
 
   const initialState = (): "connected" | "noDiscord" | "claim" | "claimed" => {
-    if (BONUSES["discord-signup"].isClaimed(gameState.context.state)) {
+    if (
+      BONUSES["discord-signup"].isClaimed(gameState.context.state) &&
+      gameState.context.discordId
+    ) {
       return "claimed";
     }
 
