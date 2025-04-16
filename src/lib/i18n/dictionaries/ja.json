@@ -5748,9 +5748,9 @@
   "softBan.faceVerification": "すべてのバンプキンがユニークであることを確認するために、簡単な顔認証をお願いしています。あなたのプライバシーは重要です。これは経済を安全に保ち、ボットを阻止するためにのみ使用されます。",
   "softBan.faceProtection": "フェイスプロテクション",
   "softBan.discordOnboarding": "ディスコード・オンボーディング",
-  "softBan.discordInstructions": "#X channelの指示に従ってアカウントを確認してください。完了したら、ブラウザを更新してください。",
   "softBan.back": "戻る",
   "softBan.telegramVerificationTitle": "テレグラム検証",
   "softBan.telegramInstructions": "サンフラワーランドボットを開き、/verify コマンドを実行します。",
-  "softBan.openBot": "オープンボット"
+  "softBan.openBot": "オープンボット",
+  "softBan.discordInstructions": "#verify チャンネルにアクセスして /verify コマンドを入力します。"
 }

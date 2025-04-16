@@ -5748,9 +5748,9 @@
   "softBan.faceVerification": "모든 Bumpkin이 고유한지 확인하기 위해 빠른 얼굴 인증을 요청합니다.개인 정보 보호는 매우 중요합니다. 개인 정보 보호는 경제를 안전하게 유지하고 봇을 차단하는 용도로만 사용됩니다.",
   "softBan.faceProtection": "안면 보호",
   "softBan.discordOnboarding": "디스코드 온보딩",
-  "softBan.discordInstructions": "#X 채널의 지침에 따라 계정을 인증하세요. 완료되면 브라우저를 새로고침하세요.",
   "softBan.back": "뒤로",
   "softBan.telegramVerificationTitle": "텔레그램 인증",
   "softBan.telegramInstructions": "선플라워 랜드 봇을 열고 /verify 명령을 실행합니다.",
-  "softBan.openBot": "오픈 봇"
+  "softBan.openBot": "오픈 봇",
+  "softBan.discordInstructions": "#verify 채널을 방문하여 /verify 명령을 입력합니다."
 }

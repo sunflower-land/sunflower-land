@@ -5748,9 +5748,9 @@
   "softBan.faceVerification": "Para garantir que cada Bumpkin seja único, pedimos uma verificação facial rápida. Sua privacidade é importante — ela é usada apenas para manter a economia segura e impedir bots.",
   "softBan.faceProtection": "Proteção facial",
   "softBan.discordOnboarding": "Integração do Discord",
-  "softBan.discordInstructions": "Siga as instruções no canal #X para verificar sua conta. Depois de concluído, atualize seu navegador.",
   "softBan.back": "Voltar",
   "softBan.telegramVerificationTitle": "Verificação por telegrama",
   "softBan.telegramInstructions": "Abra o Sunflower Land Bot e execute o comando /verifice.",
-  "softBan.openBot": "Bot aberto"
+  "softBan.openBot": "Bot aberto",
+  "softBan.discordInstructions": "Visite o canal #verify e digite o comando /verifica."
 }

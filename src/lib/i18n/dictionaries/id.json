@@ -5748,9 +5748,9 @@
   "softBan.faceVerification": "Untuk memastikan setiap Bumpkin unik, kami meminta verifikasi wajah cepat. Privasi Anda penting - ini hanya digunakan untuk menjaga ekonomi tetap aman dan menghentikan bot.",
   "softBan.faceProtection": "Perlindungan wajah",
   "softBan.discordOnboarding": "Orientasi Discord",
-  "softBan.discordInstructions": "Ikuti petunjuk di saluran #X untuk memverifikasi akun Anda Setelah selesai, segarkan browser Anda.",
   "softBan.back": "Kembali",
   "softBan.telegramVerificationTitle": "Verifikasi Telegram",
   "softBan.telegramInstructions": "Buka Sunflower Land Bot dan jalankan perintah /verify.",
-  "softBan.openBot": "Buka Bot"
+  "softBan.openBot": "Buka Bot",
+  "softBan.discordInstructions": "Kunjungi saluran #verify dan ketik perintah /verify."
 }

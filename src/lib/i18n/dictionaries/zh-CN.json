@@ -5748,9 +5748,9 @@
   "softBan.faceVerification": "为了确保每个 Bumpkin 都是独一无二的，我们要求快速进行人脸验证。您的隐私很重要——这仅用于保护经济安全和阻止机器人。",
   "softBan.faceProtection": "面部防护",
   "softBan.discordOnboarding": "Discord 入门指南",
-  "softBan.discordInstructions": "按照 #X 频道中的说明验证您的账户完成后，刷新浏览器。",
   "softBan.back": "返回",
   "softBan.telegramVerificationTitle": "电报验证",
   "softBan.telegramInstructions": "打开 Sunflower Land Bot 并运行 /verify 命令。",
-  "softBan.openBot": "打开机器人"
+  "softBan.openBot": "打开机器人",
+  "softBan.discordInstructions": "访问 #verify 频道并键入 /verify 命令。"
 }

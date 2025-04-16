@@ -5748,9 +5748,9 @@
   "softBan.faceVerification": "Чтобы убедиться, что каждый Bumpkin уникален, мы просим пройти быструю верификацию лица. Ваша конфиденциальность очень важна — она используется только для обеспечения безопасности экономики и борьбы с ботами.",
   "softBan.faceProtection": "Защита лица",
   "softBan.discordOnboarding": "Регистрация в Discord",
-  "softBan.discordInstructions": "Следуйте инструкциям на канале #X, чтобы подтвердить свою учетную запись. После завершения обновите браузер.",
   "softBan.back": "Назад",
   "softBan.telegramVerificationTitle": "Верификация Telegram",
   "softBan.telegramInstructions": "Откройте бота Sunflower Land и выполните команду /verify.",
-  "softBan.openBot": "Открыть бота"
+  "softBan.openBot": "Открыть бота",
+  "softBan.discordInstructions": "Посетите канал #verify и введите команду /verify."
 }

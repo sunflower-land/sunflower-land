@@ -5748,9 +5748,9 @@
   "softBan.faceVerification": "Her Bumpkin'in benzersiz olduğundan emin olmak için hızlı bir yüz doğrulaması istiyoruz. Gizliliğiniz önemlidir - bu yalnızca ekonomiyi güvende tutmak ve botları durdurmak için kullanılır.",
   "softBan.faceProtection": "Yüz koruması",
   "softBan.discordOnboarding": "Discord İşe Alım",
-  "softBan.discordInstructions": "Hesabınızı doğrulamak için #X kanalındaki talimatları izleyin Tamamlandıktan sonra tarayıcınızı yenileyin.",
   "softBan.back": "Geri",
   "softBan.telegramVerificationTitle": "Telgraf Doğrulama",
   "softBan.telegramInstructions": "Sunflower Land Bot'unu açın ve /verify komutunu çalıştırın.",
-  "softBan.openBot": "Açık Bot"
+  "softBan.openBot": "Açık Bot",
+  "softBan.discordInstructions": "#verify kanalını ziyaret edin ve /verify komutunu yazın."
 }
