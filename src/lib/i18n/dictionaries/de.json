@@ -5752,5 +5752,7 @@
   "softBan.telegramVerificationTitle": "Bestätigung des Telegramms",
   "softBan.telegramInstructions": "Öffnen Sie den Sunflower Land Bot und führen Sie den Befehl /verify aus.",
   "softBan.openBot": "Bot öffnen",
-  "softBan.discordInstructions": "Besuchen Sie den Kanal #verify und geben Sie den Befehl /verify ein."
+  "softBan.discordInstructions": "Besuchen Sie den Kanal #verify und geben Sie den Befehl /verify ein.",
+  "faceRecognition.mobile": "Haben Sie Probleme?",
+  "faceRecognition.mobile.two": "Versuchen Sie es auf einem Mobilgerät."
 }

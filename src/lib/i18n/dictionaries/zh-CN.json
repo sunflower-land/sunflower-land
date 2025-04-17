@@ -5752,5 +5752,7 @@
   "softBan.telegramVerificationTitle": "电报验证",
   "softBan.telegramInstructions": "打开 Sunflower Land Bot 并运行 /verify 命令。",
   "softBan.openBot": "打开机器人",
-  "softBan.discordInstructions": "访问 #verify 频道并键入 /verify 命令。"
+  "softBan.discordInstructions": "访问 #verify 频道并键入 /verify 命令。",
+  "faceRecognition.mobile": "有问题吗？",
+  "faceRecognition.mobile.two": "在移动设备上试用。"
 }

@@ -5752,5 +5752,7 @@
   "softBan.telegramVerificationTitle": "テレグラム検証",
   "softBan.telegramInstructions": "サンフラワーランドボットを開き、/verify コマンドを実行します。",
   "softBan.openBot": "オープンボット",
-  "softBan.discordInstructions": "#verify チャンネルにアクセスして /verify コマンドを入力します。"
+  "softBan.discordInstructions": "#verify チャンネルにアクセスして /verify コマンドを入力します。",
+  "faceRecognition.mobile": "問題がありますか？",
+  "faceRecognition.mobile.two": "モバイルデバイスで試してください。"
 }

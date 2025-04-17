@@ -5752,5 +5752,7 @@
   "softBan.telegramVerificationTitle": "텔레그램 인증",
   "softBan.telegramInstructions": "선플라워 랜드 봇을 열고 /verify 명령을 실행합니다.",
   "softBan.openBot": "오픈 봇",
-  "softBan.discordInstructions": "#verify 채널을 방문하여 /verify 명령을 입력합니다."
+  "softBan.discordInstructions": "#verify 채널을 방문하여 /verify 명령을 입력합니다.",
+  "faceRecognition.mobile": "문제가 있으신가요?",
+  "faceRecognition.mobile.two": "모바일 기기에서 사용해 보세요."
 }

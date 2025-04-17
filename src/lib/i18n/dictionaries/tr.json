@@ -5752,5 +5752,7 @@
   "softBan.telegramVerificationTitle": "Telgraf Doğrulama",
   "softBan.telegramInstructions": "Sunflower Land Bot'unu açın ve /verify komutunu çalıştırın.",
   "softBan.openBot": "Açık Bot",
-  "softBan.discordInstructions": "#verify kanalını ziyaret edin ve /verify komutunu yazın."
+  "softBan.discordInstructions": "#verify kanalını ziyaret edin ve /verify komutunu yazın.",
+  "faceRecognition.mobile": "Sorun mu yaşıyorsunuz?",
+  "faceRecognition.mobile.two": "Bir mobil cihazda deneyin."
 }

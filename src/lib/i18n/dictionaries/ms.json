@@ -5752,5 +5752,7 @@
   "softBan.telegramVerificationTitle": "Pengesahan Telegram",
   "softBan.telegramInstructions": "Buka Sunflower Land Bot dan jalankan perintah /verify.",
   "softBan.openBot": "Buka Bot",
-  "softBan.discordInstructions": "Lawati saluran #verify dan taipkan perintah /verify."
+  "softBan.discordInstructions": "Lawati saluran #verify dan taipkan perintah /verify.",
+  "faceRecognition.mobile": "Mempunyai masalah?",
+  "faceRecognition.mobile.two": "Cuba pada peranti mudah alih."
 }

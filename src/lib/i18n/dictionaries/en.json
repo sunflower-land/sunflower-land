@@ -5752,5 +5752,7 @@
   "softBan.back": "Back",
   "softBan.telegramVerificationTitle": "Telegram Verification",
   "softBan.telegramInstructions": "Open up the Sunflower Land Bot and run the /verify command.",
-  "softBan.openBot": "Open Bot"
+  "softBan.openBot": "Open Bot",
+  "faceRecognition.mobile": "Having issues?",
+  "faceRecognition.mobile.two": "Try on a mobile device."
 }
