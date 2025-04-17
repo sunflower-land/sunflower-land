@@ -63,6 +63,7 @@ import { AuthMachineState } from "features/auth/lib/authMachine";
 import { InfernosScene } from "./scenes/InferniaScene";
 import { PlayerSelectionList } from "./ui/PlayerSelectionList";
 import { EasterIslandScene } from "./scenes/EasterIslandScene";
+import { StreamScene } from "./scenes/StreamScene";
 
 const _roomState = (state: MachineState) => state.value;
 const _scene = (state: MachineState) => state.context.sceneId;
@@ -150,6 +151,7 @@ export const PhaserComponent: React.FC<Props> = ({
     ExampleRPGScene,
     InfernosScene,
     EasterIslandScene,
+    StreamScene,
   ];
 
   useEffect(() => {

@@ -31,6 +31,7 @@ export type Scenes = {
   portal_example: Room<PlazaRoomState> | undefined;
   infernos: Room<PlazaRoomState> | undefined;
   easter_island: Room<PlazaRoomState> | undefined;
+  stream: Room<PlazaRoomState> | undefined;
 };
 
 export type SceneId = keyof Scenes;
@@ -68,7 +69,8 @@ export type ServerId =
   | "sunflorea_dream"
   | "sunflorea_oasis"
   | "sunflorea_brazil"
-  | "sunflorea_magic";
+  | "sunflorea_magic"
+  | "sunflorea_stream";
 
 export type ServerName =
   | "Bliss"
@@ -237,6 +239,13 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
           }
 
           const client = new Client(url);
+
+          // If in stream scene, join stream server
+          if (context.sceneId === "stream") {
+            const client = new Client(url);
+            return { client, serverId: "sunflorea_stream" };
+          }
+
           const available = await client?.getAvailableRooms();
 
           // Iterate through the available rooms and update the server population
@@ -428,14 +437,33 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
     },
   },
   on: {
-    SWITCH_SCENE: {
-      actions: [
-        assign({
-          sceneId: (_, event) => event.sceneId,
-        }),
-        (context, event) => context.server?.send(0, { sceneId: event.sceneId }),
-      ],
-    },
+    SWITCH_SCENE: [
+      {
+        // If coming or going from stream scene, we need to reload the server
+        cond: (context, event) =>
+          context.sceneId === "stream" || context.previousSceneId === "stream",
+        actions: [
+          assign({
+            sceneId: (_, event) => event.sceneId,
+          }),
+          (context, event) =>
+            context.server?.send(0, { sceneId: event.sceneId }),
+        ],
+        // TODO: If going into or leaving stream scene, we need to reload the server
+        target: "joined",
+      },
+      {
+        actions: [
+          assign({
+            sceneId: (_, event) => event.sceneId,
+          }),
+          (context, event) =>
+            context.server?.send(0, { sceneId: event.sceneId }),
+        ],
+        // TODO: If going into or leaving stream scene, we need to reload the server
+        target: "joined",
+      },
+    ],
     UPDATE_PREVIOUS_SCENE: {
       actions: assign({
         previousSceneId: (_, event) => event.previousSceneId,
