@@ -1948,7 +1948,7 @@ describe("deliver", () => {
                 id: "123",
                 createdAt: eventTime,
                 readyAt: eventTime,
-                from: "betty",
+                from: "grimbly",
                 items: { Sunflower: 1 },
                 reward: {},
               },
@@ -1962,7 +1962,7 @@ describe("deliver", () => {
         createdAt: eventTime,
       });
 
-      expect(state.inventory["Love Charm"]).toEqual(new Decimal(3));
+      expect(state.inventory["Love Charm"]).toEqual(new Decimal(2));
     });
 
     it("gives players 2x love charms for completing deliveries if they have VIP access", () => {
@@ -1981,7 +1981,7 @@ describe("deliver", () => {
                 id: "123",
                 createdAt: eventTime,
                 readyAt: eventTime,
-                from: "betty",
+                from: "grimbly",
                 items: { Sunflower: 1 },
                 reward: {},
               },
@@ -2007,7 +2007,7 @@ describe("deliver", () => {
             Sunflower: new Decimal(1),
           },
           npcs: {
-            betty: {
+            grimbly: {
               deliveryCount: 1,
               streaks: {
                 streak: 1,
@@ -2022,87 +2022,7 @@ describe("deliver", () => {
                 id: "123",
                 createdAt: eventTime,
                 readyAt: eventTime,
-                from: "betty",
-                items: { Sunflower: 1 },
-                reward: {},
-              },
-            ],
-          },
-        },
-        action: {
-          id: "123",
-          type: "order.delivered",
-        },
-        createdAt: eventTime,
-      });
-
-      expect(state.inventory["Love Charm"]).toEqual(new Decimal(6));
-    });
-    it("gives players the max love charms if they have a streak of more than 5", () => {
-      const state = deliverOrder({
-        state: {
-          ...INITIAL_FARM,
-          inventory: {
-            "Love Charm": new Decimal(0),
-            Sunflower: new Decimal(1),
-          },
-          npcs: {
-            betty: {
-              deliveryCount: 1,
-              streaks: {
-                streak: 6,
-                lastClaimedAt: eventTime - 24 * 60 * 60 * 1000,
-              },
-            },
-          },
-          delivery: {
-            ...INITIAL_FARM.delivery,
-            orders: [
-              {
-                id: "123",
-                createdAt: eventTime,
-                readyAt: eventTime,
-                from: "betty",
-                items: { Sunflower: 1 },
-                reward: {},
-              },
-            ],
-          },
-        },
-        action: {
-          id: "123",
-          type: "order.delivered",
-        },
-        createdAt: eventTime,
-      });
-
-      expect(state.inventory["Love Charm"]).toEqual(new Decimal(15));
-    });
-    it("resets the streak if the player has not delivered for more than 2 days", () => {
-      const state = deliverOrder({
-        state: {
-          ...INITIAL_FARM,
-          inventory: {
-            "Love Charm": new Decimal(0),
-            Sunflower: new Decimal(1),
-          },
-          npcs: {
-            betty: {
-              deliveryCount: 1,
-              streaks: {
-                streak: 6,
-                lastClaimedAt: eventTime - 48 * 60 * 60 * 1000,
-              },
-            },
-          },
-          delivery: {
-            ...INITIAL_FARM.delivery,
-            orders: [
-              {
-                id: "123",
-                createdAt: eventTime,
-                readyAt: eventTime,
-                from: "betty",
+                from: "grimbly",
                 items: { Sunflower: 1 },
                 reward: {},
               },
@@ -2117,7 +2037,87 @@ describe("deliver", () => {
       });
 
       expect(state.inventory["Love Charm"]).toEqual(new Decimal(3));
-      expect(state.npcs?.betty?.streaks?.streak).toEqual(1);
+    });
+    it("gives players the max love charms if they have a streak of more than 5", () => {
+      const state = deliverOrder({
+        state: {
+          ...INITIAL_FARM,
+          inventory: {
+            "Love Charm": new Decimal(0),
+            Sunflower: new Decimal(1),
+          },
+          npcs: {
+            grimbly: {
+              deliveryCount: 1,
+              streaks: {
+                streak: 6,
+                lastClaimedAt: eventTime - 24 * 60 * 60 * 1000,
+              },
+            },
+          },
+          delivery: {
+            ...INITIAL_FARM.delivery,
+            orders: [
+              {
+                id: "123",
+                createdAt: eventTime,
+                readyAt: eventTime,
+                from: "grimbly",
+                items: { Sunflower: 1 },
+                reward: {},
+              },
+            ],
+          },
+        },
+        action: {
+          id: "123",
+          type: "order.delivered",
+        },
+        createdAt: eventTime,
+      });
+
+      expect(state.inventory["Love Charm"]).toEqual(new Decimal(8));
+    });
+    it("resets the streak if the player has not delivered for more than 2 days", () => {
+      const state = deliverOrder({
+        state: {
+          ...INITIAL_FARM,
+          inventory: {
+            "Love Charm": new Decimal(0),
+            Sunflower: new Decimal(1),
+          },
+          npcs: {
+            grimbly: {
+              deliveryCount: 1,
+              streaks: {
+                streak: 6,
+                lastClaimedAt: eventTime - 48 * 60 * 60 * 1000,
+              },
+            },
+          },
+          delivery: {
+            ...INITIAL_FARM.delivery,
+            orders: [
+              {
+                id: "123",
+                createdAt: eventTime,
+                readyAt: eventTime,
+                from: "grimbly",
+                items: { Sunflower: 1 },
+                reward: {},
+              },
+            ],
+          },
+        },
+        action: {
+          id: "123",
+          type: "order.delivered",
+        },
+        createdAt: eventTime,
+      });
+
+      expect(state.inventory["Love Charm"]).toEqual(new Decimal(2));
+      expect(state.npcs?.grimbly?.streaks?.streak).toEqual(1);
     });
     it("does not give love charms after the event ends", () => {
       jest.useFakeTimers();
@@ -2130,7 +2130,7 @@ describe("deliver", () => {
             Sunflower: new Decimal(1),
           },
           npcs: {
-            betty: {
+            grimbly: {
               deliveryCount: 1,
               streaks: {
                 streak: 6,
@@ -2145,7 +2145,7 @@ describe("deliver", () => {
                 id: "123",
                 createdAt: eventTime,
                 readyAt: eventTime,
-                from: "betty",
+                from: "grimbly",
                 items: { Sunflower: 1 },
                 reward: {},
               },
@@ -2161,7 +2161,6 @@ describe("deliver", () => {
 
       expect(state.inventory["Love Charm"]).toEqual(new Decimal(0));
     });
-
     it("doesn't break the streak if the player delivers on consecutive days", () => {
       jest.useFakeTimers();
       jest.setSystemTime(new Date("2025-05-01T20:00:00Z").getTime()); // More than 24 hours apart but still consecutive days
@@ -2173,7 +2172,7 @@ describe("deliver", () => {
             Sunflower: new Decimal(1),
           },
           npcs: {
-            betty: {
+            grimbly: {
               deliveryCount: 1,
               streaks: {
                 streak: 6,
@@ -2188,7 +2187,7 @@ describe("deliver", () => {
                 id: "123",
                 createdAt: eventTime,
                 readyAt: eventTime,
-                from: "betty",
+                from: "grimbly",
                 items: { Sunflower: 1 },
                 reward: {},
               },
@@ -2202,8 +2201,8 @@ describe("deliver", () => {
         createdAt: new Date("2025-05-01T20:00:00Z").getTime(),
       });
 
-      expect(state.inventory["Love Charm"]).toEqual(new Decimal(15));
-      expect(state.npcs?.betty?.streaks?.streak).toEqual(7);
+      expect(state.inventory["Love Charm"]).toEqual(new Decimal(8));
+      expect(state.npcs?.grimbly?.streaks?.streak).toEqual(7);
     });
   });
 });

@@ -32,8 +32,8 @@ export const getLoveRushDeliveryNPCType = (
 const isBasicLoveRushDeliveryNPC = (npcName: NPCName) =>
   (
     [
-      "betty",
-      "peggy",
+      // "betty", Removed April 17th
+      // "peggy", Removed April 17th
       "pumpkin' pete",
       "grimbly",
       "grubnuk",
@@ -46,16 +46,23 @@ const isMediumLoveRushDeliveryNPC = (npcName: NPCName) =>
     [
       "gordo",
       "guria",
-      "blacksmith",
-      "corale",
-      "tango",
-      "old salty",
+      // "blacksmith", Removed April 17th
+      // "corale", Removed April 17th
+      // "tango", Removed April 17th
+      // "old salty", Removed April 17th
     ] as NPCName[]
   ).includes(npcName);
 
 const isAdvancedLoveRushDeliveryNPC = (npcName: NPCName) =>
   (
-    ["bert", "finley", "miranda", "finn", "gambit", "victoria"] as NPCName[]
+    [
+      "bert",
+      "finley",
+      "miranda",
+      "finn",
+      "gambit",
+      // "victoria" Removed April 17th
+    ] as NPCName[]
   ).includes(npcName);
 
 const isExpertLoveRushDeliveryNPC = (npcName: NPCName) =>
@@ -78,24 +85,24 @@ export const LOVE_RUSH_DELIVERIES_REWARDS: Record<
   },
   medium: {
     1: 6,
-    2: 10,
-    3: 13,
+    2: 9,
+    3: 12,
     4: 15,
-    5: 20,
+    5: 18,
   },
   advanced: {
     1: 10,
-    2: 16,
-    3: 22,
-    4: 28,
-    5: 35,
+    2: 13,
+    3: 16,
+    4: 19,
+    5: 22,
   },
   expert: {
-    1: 25,
-    2: 32,
-    3: 39,
-    4: 45,
-    5: 50,
+    1: 20,
+    2: 24,
+    3: 27,
+    4: 30,
+    5: 33,
   },
 };
 
@@ -157,6 +164,8 @@ export function getLoveRushDeliveryRewards({
 
   if (hasVipAccess({ game })) {
     loveCharmReward = loveCharmReward * 2;
+  } else {
+    loveCharmReward = Math.ceil(loveCharmReward * 0.5);
   }
   return { loveCharmReward };
 }
