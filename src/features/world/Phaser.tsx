@@ -63,6 +63,7 @@ import { InfernosScene } from "./scenes/InferniaScene";
 import { PlayerSelectionList } from "./ui/PlayerSelectionList";
 import { EasterIslandScene } from "./scenes/EasterIslandScene";
 import { StreamScene } from "./scenes/StreamScene";
+import { ModerationTools } from "./ui/moderationTools/ModerationTools";
 
 const _roomState = (state: MachineState) => state.value;
 const _scene = (state: MachineState) => state.context.sceneId;
@@ -486,14 +487,14 @@ export const PhaserComponent: React.FC<Props> = ({
             });
           }}
         />
-        {/* {isModerator && !isCommunity && (
+        {isModerator && !isCommunity && (
           <ModerationTools
             scene={game.current?.scene.getScene(scene)}
             messages={messages ?? []}
             players={players ?? []}
             gameService={gameService}
           />
-        )} */}
+        )}
 
         <CommunityToasts />
 
