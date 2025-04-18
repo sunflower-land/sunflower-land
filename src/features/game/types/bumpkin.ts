@@ -139,7 +139,8 @@ export type BumpkinCoat =
   | "Pirate General Coat"
   | "Royal Robe"
   | "Milk Apron"
-  | "Tomato Apron";
+  | "Tomato Apron"
+  | "Easter Apron";
 
 export type BumpkinTool =
   | "Farmer Pitchfork"
@@ -190,7 +191,9 @@ export type BumpkinTool =
   | "Shepherd Staff"
   | "Sickle"
   | "Adventurer's Torch"
-  | "Flower Bouquet";
+  | "Flower Bouquet"
+  | "Carrot Pitchfork"
+  | "Handheld Bunny";
 export type BumpkinShoe =
   | "Black Farmer Boots"
   | "Brown Boots"
@@ -323,7 +326,8 @@ export type BumpkinHat =
   | "Weather Hat"
   | "Flower Mask"
   | "Luvvy Head"
-  | "Grumpy Cat";
+  | "Grumpy Cat"
+  | "Bunny Mask";
 
 export type BumpkinPant =
   | "Farmer Overalls"
@@ -361,7 +365,8 @@ export type BumpkinPant =
   | "Grape Pants"
   | "Cowboy Trouser"
   | "Cowgirl Skirt"
-  | "Fossil Pants";
+  | "Fossil Pants"
+  | "Bunny Pants";
 
 export type BumpkinDress =
   | "Royal Dress"
@@ -941,6 +946,13 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Luvvy Head": 442,
   "Grumpy Cat": 443,
   "Love Puff Aura": 444,
+
+  //Easter 2025 Event Wearables
+  "Carrot Pitchfork": 445,
+  "Handheld Bunny": 446,
+  "Bunny Pants": 447,
+  "Bunny Mask": 448,
+  "Easter Apron": 449,
 };
 
 // The reverse of above
@@ -1446,6 +1458,11 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Luvvy Head": "hat",
   "Grumpy Cat": "hat",
   "Love Puff Aura": "aura",
+  "Bunny Mask": "hat",
+  "Bunny Pants": "pants",
+  "Easter Apron": "coat",
+  "Carrot Pitchfork": "tool",
+  "Handheld Bunny": "tool",
 };
 
 /**Copied from BE just for hoarding checks */

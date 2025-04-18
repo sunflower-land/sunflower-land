@@ -1,0 +1,15 @@
+[
+  {
+    "columns": 60,
+    "firstgid": 1,
+    "image": "easter_island_tileset.png",
+    "imageheight": 340,
+    "imagewidth": 960,
+    "margin": 0,
+    "name": "Easter Island Tileset",
+    "spacing": 0,
+    "tilecount": 1260,
+    "tileheight": 16,
+    "tilewidth": 16
+  }
+]

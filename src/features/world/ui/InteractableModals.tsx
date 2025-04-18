@@ -40,6 +40,7 @@ import { ChristmasPortal } from "./portals/ChristmasPortal";
 import { ChristmasReward } from "./npcs/Santa";
 import { WeatherShop } from "features/game/expansion/components/temperateSeason/WeatherShop";
 import { PortalChooser } from "./portals/PortalChooser";
+import { EventShop } from "./eventShop/eventShop";
 
 type InteractableName =
   | "desert_noticeboard"
@@ -130,7 +131,8 @@ type InteractableName =
   | "halloween"
   | "christmas_portal"
   | "festive_tree"
-  | "portal_chooser";
+  | "portal_chooser"
+  | "event_shop";
 
 class InteractableModalManager {
   private listener?: (name: InteractableName, isOpen: boolean) => void;
@@ -845,6 +847,9 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
       </Modal>
       <Modal show={interactable === "goblin_market"} onHide={closeModal}>
         <GoblinMarket onClose={closeModal} />
+      </Modal>
+      <Modal show={interactable === "event_shop"}>
+        <EventShop onClose={closeModal} />
       </Modal>
       <Modal show={interactable === "christmas_reward"}>
         <ChristmasReward onClose={closeModal} />

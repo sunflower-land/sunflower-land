@@ -161,4 +161,10 @@ export const SPAWNS: () => SpawnLocation = () => ({
       y: 290,
     },
   },
+  easter_island: {
+    default: {
+      x: 230 + randomXOffset / 10,
+      y: 300 + randomYOffset / 10,
+    },
+  },
 });
