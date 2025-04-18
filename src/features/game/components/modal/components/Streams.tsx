@@ -12,7 +12,32 @@ type StreamSchedule = {
   minute: number;
 };
 
-const getNextStreamTime = (schedule: StreamSchedule): Date => {
+type StreamConfig = {
+  day: number;
+  startHour: number;
+  startMinute: number;
+  durationMinutes: number;
+  notifyMinutesBefore: number;
+};
+
+export const STREAMS_CONFIG = {
+  tuesday: {
+    day: 5,
+    startHour: 10,
+    startMinute: 26,
+    durationMinutes: 60,
+    notifyMinutesBefore: 10,
+  } as StreamConfig,
+  friday: {
+    day: 5,
+    startHour: 11,
+    startMinute: 0,
+    durationMinutes: 60,
+    notifyMinutesBefore: 10,
+  } as StreamConfig,
+};
+
+export const getNextStreamTime = (schedule: StreamSchedule): Date => {
   // Get current time in Sydney timezone
   const sydneyTime = new Date();
   const formatter = new Intl.DateTimeFormat("en-US", {
@@ -56,10 +81,75 @@ const getNextStreamTime = (schedule: StreamSchedule): Date => {
   return sydneyTime;
 };
 
+export function getStream(): {
+  startAt: number;
+  endAt: number;
+  notifyAt: number;
+} | null {
+  // Get current time in Sydney timezone
+  const sydneyTime = new Date();
+  const formatter = new Intl.DateTimeFormat("en-US", {
+    timeZone: "Australia/Sydney",
+    hour: "numeric",
+    minute: "numeric",
+    hour12: false,
+  });
+
+  const parts = formatter.formatToParts(sydneyTime);
+  const currentHour = parseInt(
+    parts.find((p) => p.type === "hour")?.value ?? "0",
+  );
+  const currentMinute = parseInt(
+    parts.find((p) => p.type === "minute")?.value ?? "0",
+  );
+  const currentDay = sydneyTime.getDay();
+
+  // Check each stream
+  for (const stream of Object.values(STREAMS_CONFIG)) {
+    if (currentDay === stream.day) {
+      const streamStartMinutes = stream.startHour * 60 + stream.startMinute;
+      const currentTimeMinutes = currentHour * 60 + currentMinute;
+      const streamEndMinutes = streamStartMinutes + stream.durationMinutes;
+
+      if (
+        currentTimeMinutes >= streamStartMinutes - stream.notifyMinutesBefore &&
+        currentTimeMinutes < streamEndMinutes
+      ) {
+        const startTime = new Date(sydneyTime);
+        startTime.setHours(stream.startHour, stream.startMinute, 0, 0);
+
+        const endTime = new Date(startTime);
+        endTime.setMinutes(startTime.getMinutes() + stream.durationMinutes);
+
+        const notifyTime = new Date(startTime);
+        notifyTime.setMinutes(
+          startTime.getMinutes() - stream.notifyMinutesBefore,
+        );
+
+        return {
+          startAt: startTime.getTime(),
+          endAt: endTime.getTime(),
+          notifyAt: notifyTime.getTime(),
+        };
+      }
+    }
+  }
+
+  return null;
+}
+
 export const Streams: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { t } = useAppTranslation();
-  const tuesdayStream = getNextStreamTime({ day: 2, hour: 15, minute: 30 }); // Tuesday 3:30 PM
-  const fridayStream = getNextStreamTime({ day: 5, hour: 11, minute: 0 }); // Friday 11:00 AM
+  const tuesdayStream = getNextStreamTime({
+    day: STREAMS_CONFIG.tuesday.day,
+    hour: STREAMS_CONFIG.tuesday.startHour,
+    minute: STREAMS_CONFIG.tuesday.startMinute,
+  }); // Tuesday 3:30 PM
+  const fridayStream = getNextStreamTime({
+    day: STREAMS_CONFIG.friday.day,
+    hour: STREAMS_CONFIG.friday.startHour,
+    minute: STREAMS_CONFIG.friday.startMinute,
+  }); // Friday 11:00 AM
 
   return (
     <CloseButtonPanel bumpkinParts={NPC_WEARABLES.birdie} onClose={onClose}>

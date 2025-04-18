@@ -8,7 +8,6 @@ import { PhaserNavMeshPlugin } from "phaser-navmesh";
 
 import * as AuthProvider from "features/auth/lib/Provider";
 import { ChatUI, Message } from "features/pumpkinPlaza/components/ChatUI";
-import { ModerationTools } from "./ui/moderationTools/ModerationTools";
 
 import { Kicked } from "./ui/moderationTools/components/Kicked";
 import {
@@ -280,8 +279,8 @@ export const PhaserComponent: React.FC<Props> = ({
 
     if (activeScene && activeScene.scene.key !== route) {
       activeScene.scene.start(route);
-      mmoService.send("SWITCH_SCENE", { sceneId: route });
-      mmoService.send("UPDATE_PREVIOUS_SCENE", {
+      mmoService.send("SWITCH_SCENE", {
+        sceneId: route,
         previousSceneId:
           game.current?.scene.getScenes(true)[0]?.scene.key ?? scene,
       });
@@ -487,14 +486,14 @@ export const PhaserComponent: React.FC<Props> = ({
             });
           }}
         />
-        {isModerator && !isCommunity && (
+        {/* {isModerator && !isCommunity && (
           <ModerationTools
             scene={game.current?.scene.getScene(scene)}
             messages={messages ?? []}
             players={players ?? []}
             gameService={gameService}
           />
-        )}
+        )} */}
 
         <CommunityToasts />
 
