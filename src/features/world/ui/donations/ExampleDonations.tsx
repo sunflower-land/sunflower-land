@@ -5,10 +5,9 @@ import { Donations } from "./Donations";
 
 const CONTRIBUTORS = [
   "Poro",
-  "Telk",
   "Grith",
   "Maxam",
-  "iSPANKzombiez",
+  "Telk",
   "Vergelsxtn",
   "shinon",
   "kohirabbit",

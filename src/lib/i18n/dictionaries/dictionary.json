@@ -5931,8 +5931,8 @@
   "description.easterBasket2025": "A basket filled with easter eggs!",
   "event.shop.title": "Easter Event Shop",
   "event.shop.welcome": "Welcome to the Easter Event Shop. During the event you will be able to use Easter Tokens earned on the portal you can find in this island to buy a variety of items! ",
-  "easter-eggstravaganza-mayhem.portal.title": "Minigame - Christmas Delivery Mayhem",
-  "easter-eggstravaganza-mayhem.portal.description": "Help the elves pack their gifts. Will you have enough time to do it?",
-  "easter-eggstravaganza-mayhem.portal.missionObjectives": "Mission: Reach {{targetScore}}.",
-  "easter-eggstravaganza-mayhem.portal.rewardMessage": "Congratulations, you completed the mission! Here is your reward."
+  "easter-eggstravaganza.portal.title": "Minigame - Easter Eggstravaganza",
+  "easter-eggstravaganza.portal.description": "Collect the eggs before they fall. Can you save the easter eggs?",
+  "easter-eggstravaganza.portal.missionObjectives": "Mission: Reach {{targetScore}}.",
+  "easter-eggstravaganza.portal.rewardMessage": "Congratulations, you completed the mission! Here is your reward."
 }
