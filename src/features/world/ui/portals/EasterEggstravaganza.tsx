@@ -1,5 +1,5 @@
-/*
 import React, { useContext, useEffect, useState } from "react";
+import * as AuthProvider from "features/auth/lib/Provider";
 import { Button } from "components/ui/Button";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
@@ -16,21 +16,21 @@ import { Portal } from "./Portal";
 import { InlineDialogue } from "../TypingMessage";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { MinigameHistory, MinigamePrize } from "features/game/types/game";
-import { millisecondsToString, secondsToString } from "lib/utils/time";
 import { isMinigameComplete } from "features/game/events/minigames/claimMinigamePrize";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { SpeakingText } from "features/game/components/SpeakingModal";
 import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { PortalLeaderboard } from "./PortalLeaderboard";
+import { secondsToString } from "lib/utils/time";
 
-export function hasReadChristmasDeliveryMayhemNotice() {
-  return !!localStorage.getItem("easter-eggstravaganza-mayhemn.notice");
+export function hasReadNotice() {
+  return !!localStorage.getItem("easter-eggstravaganza.notice");
 }
 
 function acknowledgeIntro() {
   return localStorage.setItem(
-    "easter-eggstravaganza-mayhemn.notice",
+    "easter-eggstravaganza.notice",
     new Date().toISOString(),
   );
 }
@@ -99,9 +99,10 @@ interface Props {
   onClose: () => void;
 }
 
-export const EasterPortal: React.FC<Props> = ({ onClose }) => {
+export const EasterEggstravaganza: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
+  const { authService } = useContext(AuthProvider.Context);
 
   const minigame =
     gameState.context.state.minigames.games["easter-eggstravaganza"];
@@ -176,7 +177,7 @@ export const EasterPortal: React.FC<Props> = ({ onClose }) => {
       <ClaimReward
         onClaim={onClaim}
         reward={{
-          message: t("easter-eggstravaganza-mayhem.portal.rewardMessage"),
+          message: t("easter-eggstravaganza.portal.rewardMessage"),
           createdAt: Date.now(),
           factionPoints: 0,
           id: "easter-eggstravaganza-rewards",
@@ -194,13 +195,10 @@ export const EasterPortal: React.FC<Props> = ({ onClose }) => {
       <PortalLeaderboard
         onBack={() => setPage("play")}
         name={"easter-eggstravaganza"}
-        startDate={new Date(Date.UTC(2024, 11, 14))}
-        endDate={new Date(Date.UTC(2025, 0, 1))}
-        formatPoints={(points: number) =>
-          millisecondsToString(points, { length: "full" })
-        }
-        farmId={0}
-        jwt={""}
+        startDate={new Date(Date.UTC(2025, 3, 20))}
+        endDate={new Date(Date.UTC(2025, 3, 27))}
+        farmId={gameService.state.context.farmId}
+        jwt={authService.state.context.user.rawToken as string}
       />
     );
   }
@@ -208,13 +206,13 @@ export const EasterPortal: React.FC<Props> = ({ onClose }) => {
   if (page === "accumulator") {
     return (
       <PortalLeaderboard
+        isAccumulator
         onBack={() => setPage("play")}
         name={"easter-eggstravaganza"}
-        formatPoints={(points: number) =>
-          millisecondsToString(points, { length: "full" })
-        }
-        farmId={0}
-        jwt={""}
+        startDate={new Date(Date.UTC(2025, 3, 20))}
+        endDate={new Date(Date.UTC(2025, 3, 27))}
+        farmId={gameService.state.context.farmId}
+        jwt={authService.state.context.user.rawToken as string}
       />
     );
   }
@@ -224,30 +222,27 @@ export const EasterPortal: React.FC<Props> = ({ onClose }) => {
       <div className="mb-1">
         <div className="p-2">
           <Label type="default" className="mb-1" icon={factions}>
-            {t("easter-eggstravaganza-mayhem.portal.title")}
+            {t("easter-eggstravaganza.portal.title")}
           </Label>
           <InlineDialogue
-            message={t("easter-eggstravaganza-mayhem.portal.description")}
+            message={t("easter-eggstravaganza.portal.description")}
           />
         </div>
 
         <MinigamePrizeUI
           prize={prize}
           history={dailyAttempt}
-          mission={t("easter-eggstravaganza-mayhem.portal.missionObjectives", {
-            targetScore: millisecondsToString(prize?.score ?? 0, {
-              length: "full",
-            }),
+          mission={t("easter-eggstravaganza.portal.missionObjectives", {
+            targetScore: prize?.score ?? 0,
           })}
         />
       </div>
-      <div className="flex">
-        <Button className="mr-1" onClick={() => setPage("leaderboard")}>
-          {t("competition.leaderboard")}
+      <div className="flex gap-1">
+        <Button onClick={() => setPage("accumulator")}>
+          {t("competition.accumulator")}
         </Button>
         <Button onClick={playNow}>{t("minigame.playNow")}</Button>
       </div>
     </>
   );
 };
-*/
