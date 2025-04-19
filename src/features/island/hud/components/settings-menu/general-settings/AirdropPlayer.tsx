@@ -13,7 +13,7 @@ import { Context } from "features/game/GameProvider";
 import { TextInput } from "components/ui/TextInput";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 import { BumpkinItem } from "features/game/types/bumpkin";
-import { Wallet } from "features/wallet/Wallet";
+import { GameWallet } from "features/wallet/Wallet";
 import { useSelector } from "@xstate/react";
 import { Dropdown } from "components/ui/Dropdown";
 import { InventoryItemName } from "features/game/types/game";
@@ -289,6 +289,7 @@ export const AirdropPlayer: React.FC<
   // Advanced items state
   const [selectedItems, setSelectedItems] = useState<SelectedItem[]>([]);
   const [selectedWearables, setSelectedWearables] = useState<BumpkinItem[]>([]);
+  const canSendAdvancedItems = showAdvancedItems && hasStreamerHat;
 
   const send = async () => {
     const items = {
@@ -320,6 +321,8 @@ export const AirdropPlayer: React.FC<
         farmId,
         vipDays,
         message,
+        // TODO: Add signature
+        signature: canSendAdvancedItems ? "0x" : undefined,
       },
       authToken: authService.state.context.user.rawToken as string,
     });
@@ -387,8 +390,8 @@ export const AirdropPlayer: React.FC<
     />
   );
 
-  if (showAdvancedItems && hasStreamerHat) {
-    return <Wallet action="login">{content}</Wallet>;
+  if (canSendAdvancedItems) {
+    return <GameWallet action="login">{content}</GameWallet>;
   }
 
   return content;
