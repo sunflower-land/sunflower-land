@@ -98,6 +98,8 @@ const FEATURE_FLAGS = {
   LOVE_RUSH: (game) =>
     betaTimeBasedFeatureFlag(new Date("2025-04-07T00:00:00Z"))(game) &&
     Date.now() < new Date("2025-05-05T00:00:00Z").getTime(),
+
+  STREAM_STAGE_ACCESS: adminFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;

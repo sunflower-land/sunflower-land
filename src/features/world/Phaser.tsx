@@ -8,7 +8,6 @@ import { PhaserNavMeshPlugin } from "phaser-navmesh";
 
 import * as AuthProvider from "features/auth/lib/Provider";
 import { ChatUI, Message } from "features/pumpkinPlaza/components/ChatUI";
-import { ModerationTools } from "./ui/moderationTools/ModerationTools";
 
 import { Kicked } from "./ui/moderationTools/components/Kicked";
 import {
@@ -62,6 +61,8 @@ import { ToastContext } from "features/game/toast/ToastProvider";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { InfernosScene } from "./scenes/InferniaScene";
 import { PlayerSelectionList } from "./ui/PlayerSelectionList";
+import { StreamScene } from "./scenes/StreamScene";
+import { ModerationTools } from "./ui/moderationTools/ModerationTools";
 
 const _roomState = (state: MachineState) => state.value;
 const _scene = (state: MachineState) => state.context.sceneId;
@@ -148,6 +149,7 @@ export const PhaserComponent: React.FC<Props> = ({
     ExampleAnimationScene,
     ExampleRPGScene,
     InfernosScene,
+    StreamScene,
   ];
 
   useEffect(() => {
@@ -276,8 +278,8 @@ export const PhaserComponent: React.FC<Props> = ({
 
     if (activeScene && activeScene.scene.key !== route) {
       activeScene.scene.start(route);
-      mmoService.send("SWITCH_SCENE", { sceneId: route });
-      mmoService.send("UPDATE_PREVIOUS_SCENE", {
+      mmoService.send("SWITCH_SCENE", {
+        sceneId: route,
         previousSceneId:
           game.current?.scene.getScenes(true)[0]?.scene.key ?? scene,
       });
