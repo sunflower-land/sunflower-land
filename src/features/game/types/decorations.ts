@@ -156,7 +156,13 @@ export type EventDecorationName =
   | "Golden Stone Fence"
   | "Golden Pine Tree"
   | "Golden Tree"
-  | "Golden Bush";
+  | "Golden Bush"
+  | "Carrot House"
+  | "Orange Bunny Lantern"
+  | "White Bunny Lantern"
+  | "Orange Tunnel Bunny"
+  | "White Tunnel Bunny"
+  | "Easter Basket";
 
 export type TileName =
   | "Black Tile"
@@ -999,6 +1005,30 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
   "Yellow Tile": {
     width: 1,
     height: 1,
+  },
+  "Carrot House": {
+    width: 2,
+    height: 4,
+  },
+  "Orange Bunny Lantern": {
+    width: 1,
+    height: 2,
+  },
+  "White Bunny Lantern": {
+    width: 1,
+    height: 2,
+  },
+  "Orange Tunnel Bunny": {
+    width: 1,
+    height: 1,
+  },
+  "White Tunnel Bunny": {
+    width: 1,
+    height: 1,
+  },
+  "Easter Basket": {
+    width: 2,
+    height: 2,
   },
 };
 

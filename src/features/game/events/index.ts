@@ -467,6 +467,10 @@ import {
   BuyRewardShopItemAction,
 } from "./landExpansion/buyRewardItem";
 import {
+  buyEventShopItem,
+  BuyEventShopItemAction,
+} from "./landExpansion/buyEventShopItem";
+import {
   updateNetwork,
   UpdateNetworkAction,
 } from "./landExpansion/updateNetwork";
@@ -611,7 +615,8 @@ export type PlayingEvent =
   // To remove once December is finished
   | CollectCandyAction
   | BuyRewardShopItemAction
-  | UpdateNetworkAction;
+  | UpdateNetworkAction
+  | BuyEventShopItemAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -819,6 +824,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "exchange.flower": exchangeFlower,
   "rewardItem.bought": buyRewardShopItem,
   "network.updated": updateNetwork,
+  "eventItem.bought": buyEventShopItem,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

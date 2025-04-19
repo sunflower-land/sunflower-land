@@ -980,6 +980,14 @@ export const ITEM_TRADE_TYPES: {
     "Purple Tile": "instant",
     "Red Tile": "instant",
     "Yellow Tile": "instant",
+    "Easter Token 2025": "onchain",
+    "Easter Ticket 2025": "onchain",
+    "Carrot House": "instant",
+    "Orange Bunny Lantern": "instant",
+    "White Bunny Lantern": "instant",
+    "Orange Tunnel Bunny": "instant",
+    "White Tunnel Bunny": "instant",
+    "Easter Basket": "instant",
   },
   wearables: {
     "New Years Crown": "instant",
@@ -1421,6 +1429,11 @@ export const ITEM_TRADE_TYPES: {
     "Luvvy Head": "instant",
     "Grumpy Cat": "instant",
     "Love Puff Aura": "instant",
+    "Bunny Pants": "instant",
+    "Carrot Pitchfork": "instant",
+    "Handheld Bunny": "instant",
+    "Bunny Mask": "instant",
+    "Easter Apron": "instant",
   },
 };
 
