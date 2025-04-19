@@ -93,8 +93,7 @@ export class EasterIslandScene extends BaseScene {
       .setInteractive({ cursor: "pointer" })
       .on("pointerdown", () => {
         if (this.checkDistanceToSprite(easter_portal_entrance, 40)) {
-          interactableModalManager.open("chicken_rescue");
-          //Change to the right portal
+          interactableModalManager.open("easter-eggstravaganza");
         } else {
           this.currentPlayer?.speak(translate("base.iam.far.away"));
         }
