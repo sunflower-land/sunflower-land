@@ -5754,5 +5754,19 @@
   "softBan.openBot": "Открыть бота",
   "softBan.discordInstructions": "Посетите канал #verify и введите команду /verify.",
   "faceRecognition.mobile": "Возникли проблемы?",
-  "faceRecognition.mobile.two": "Попробуйте на мобильном устройстве."
+  "faceRecognition.mobile.two": "Попробуйте на мобильном устройстве.",
+  "description.easterToken2025": "Держите этот подарок и получите шанс выиграть $FLOWER после окончания пасхального мероприятия!",
+  "description.easterTicket2025": "Используйте это в магазине пасхальных мероприятий до окончания мероприятия!",
+  "description.carrotHouse": "Это морковка или домик?",
+  "description.orangeBunnyLantern": "Особый пасхальный фонарь в виде кролика",
+  "description.whiteBunnyLantern": "Редкий кролик в форме фонаря",
+  "description.orangeTunnelBunny": "Кто разрешил этому покопаться в моем саду!",
+  "description.whiteTunnelBunny": "Редкий кролик, копающийся в копании!",
+  "description.easterBasket2025": "Корзина с пасхальными яйцами!",
+  "event.shop.title": "Магазин пасхальных мероприятий",
+  "event.shop.welcome": "Добро пожаловать в магазин пасхальных мероприятий. Во время мероприятия вы сможете использовать пасхальные токены, заработанные на портале, который вы найдете на этом острове, для покупки различных предметов!",
+  "easter-eggstravaganza.portal.title": "Мини-игра «Пасхальные яйца/страваганза»",
+  "easter-eggstravaganza.portal.description": "Собирайте яйца до того, как они упадут. Можете ли вы сохранить пасхальные яйца?",
+  "easter-eggstravaganza.portal.missionObjectives": "Миссия: достичь {{targetScore}}.",
+  "easter-eggstravaganza.portal.rewardMessage": "Поздравляем, вы выполнили задание! Вот ваша награда."
 }

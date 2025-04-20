@@ -5754,5 +5754,19 @@
   "softBan.openBot": "Buka Bot",
   "softBan.discordInstructions": "Kunjungi saluran #verify dan ketik perintah /verify.",
   "faceRecognition.mobile": "Mengalami masalah?",
-  "faceRecognition.mobile.two": "Coba di perangkat seluler."
+  "faceRecognition.mobile.two": "Coba di perangkat seluler.",
+  "description.easterToken2025": "Tahan ini untuk kesempatan memenangkan $FLOWER setelah acara Paskah berakhir!",
+  "description.easterTicket2025": "Gunakan ini di toko acara paskah sebelum acara berakhir!",
+  "description.carrotHouse": "Apakah ini wortel atau rumah?",
+  "description.orangeBunnyLantern": "Lentera kelinci khusus untuk Paskah",
+  "description.whiteBunnyLantern": "Kelinci langka dalam bentuk lentera",
+  "description.orangeTunnelBunny": "Siapa yang membiarkan ini menggali di kebun saya!",
+  "description.whiteTunnelBunny": "Seekor kelinci langka menggali!",
+  "description.easterBasket2025": "Keranjang berisi telur paskah!",
+  "event.shop.title": "Toko Acara Paskah",
+  "event.shop.welcome": "Selamat datang di Toko Acara Paskah. Selama acara, Anda akan dapat menggunakan Token Paskah yang diperoleh di portal yang dapat Anda temukan di pulau ini untuk membeli berbagai item!",
+  "easter-eggstravaganza.portal.title": "Minigame - Eggstravaganza Paskah",
+  "easter-eggstravaganza.portal.description": "Kumpulkan telur sebelum jatuh. Bisakah Anda menyimpan telur paskah?",
+  "easter-eggstravaganza.portal.missionObjectives": "Misi: Jangkau {{targetScore}}.",
+  "easter-eggstravaganza.portal.rewardMessage": "Selamat, Anda telah menyelesaikan misi! Inilah hadiahmu."
 }

@@ -5754,5 +5754,19 @@
   "softBan.openBot": "オープンボット",
   "softBan.discordInstructions": "#verify チャンネルにアクセスして /verify コマンドを入力します。",
   "faceRecognition.mobile": "問題がありますか？",
-  "faceRecognition.mobile.two": "モバイルデバイスで試してください。"
+  "faceRecognition.mobile.two": "モバイルデバイスで試してください。",
+  "description.easterToken2025": "これを持っていると、イースターイベント終了後に$FLOWERが当たるチャンスがあります！",
+  "description.easterTicket2025": "イベント終了前にイースターイベントショップで使おう！",
+  "description.carrotHouse": "これは人参ですか、それとも家ですか？",
+  "description.orangeBunnyLantern": "イースター限定のバニーランタン",
+  "description.whiteBunnyLantern": "ランタンの形をした珍しいウサギ",
+  "description.orangeTunnelBunny": "誰がこれを私の庭に掘ったの！",
+  "description.whiteTunnelBunny": "穴を掘る珍しいうさぎ！",
+  "description.easterBasket2025": "イースターエッグがいっぱい入ったバスケット！",
+  "event.shop.title": "イースターイベントショップ",
+  "event.shop.welcome": "イースターイベントショップへようこそ。イベント期間中は、この島にあるポータルで獲得したイースタートークンを使って、さまざまなアイテムを購入できます！",
+  "easter-eggstravaganza.portal.title": "ミニゲーム-イースターエッグストラバガンザ",
+  "easter-eggstravaganza.portal.description": "卵が落ちる前に集めてください。イースターエッグを救えるかな？",
+  "easter-eggstravaganza.portal.missionObjectives": "ミッション:リーチ {{targetScore}}。",
+  "easter-eggstravaganza.portal.rewardMessage": "おめでとうございます。ミッションを完了しました！報酬はこちらです。"
 }

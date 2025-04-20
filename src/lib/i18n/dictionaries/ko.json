@@ -5754,5 +5754,19 @@
   "softBan.openBot": "오픈 봇",
   "softBan.discordInstructions": "#verify 채널을 방문하여 /verify 명령을 입력합니다.",
   "faceRecognition.mobile": "문제가 있으신가요?",
-  "faceRecognition.mobile.two": "모바일 기기에서 사용해 보세요."
+  "faceRecognition.mobile.two": "모바일 기기에서 사용해 보세요.",
+  "description.easterToken2025": "이스터 이벤트 종료 후 $FLOWER를 받을 수 있는 기회를 놓치지 마세요!",
+  "description.easterTicket2025": "이벤트 종료 전에 부활절 이벤트 상점에서 사용하세요!",
+  "description.carrotHouse": "이것은 당근인가요, 집인가요?",
+  "description.orangeBunnyLantern": "부활절 특제 토끼 랜턴",
+  "description.whiteBunnyLantern": "랜턴 모양의 희귀 토끼",
+  "description.orangeTunnelBunny": "누가 이걸 내 정원에 파게 내버려 뒀어!",
+  "description.whiteTunnelBunny": "허둥지둥지둥하는 희귀 토끼!",
+  "description.easterBasket2025": "부활절 달걀로 가득 찬 바구니!",
+  "event.shop.title": "이스터 이벤트 샵",
+  "event.shop.welcome": "부활절 이벤트 상점에 오신 것을 환영합니다.이벤트 기간 동안 이 섬에서 찾을 수 있는 포털에서 획득한 부활절 토큰을 사용하여 다양한 아이템을 구입할 수 있습니다!",
+  "easter-eggstravaganza.portal.title": "미니게임 - 이스터 에그 스트라바간자",
+  "easter-eggstravaganza.portal.description": "떨어지기 전에 알을 모으십시오.부활절 달걀을 구할 수 있나요?",
+  "easter-eggstravaganza.portal.missionObjectives": "임무: {{targetScore}} 에 도달하세요.",
+  "easter-eggstravaganza.portal.rewardMessage": "축하합니다. 임무를 완수했습니다!보상은 다음과 같습니다."
 }

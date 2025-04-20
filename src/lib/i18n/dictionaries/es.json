@@ -5754,5 +5754,19 @@
   "softBan.openBot": "Bot abierto",
   "softBan.discordInstructions": "Visite el canal #verify y escriba el comando /verify.",
   "faceRecognition.mobile": "¿Tienes problemas?",
-  "faceRecognition.mobile.two": "Pruébalo en un dispositivo móvil."
+  "faceRecognition.mobile.two": "Pruébalo en un dispositivo móvil.",
+  "description.easterToken2025": "¡Guarda esto para tener la oportunidad de ganar $FLOWER cuando termine el evento de pascua!",
+  "description.easterTicket2025": "¡Úsalo en la tienda de eventos de pascua antes de que termine el evento!",
+  "description.carrotHouse": "¿Es una zanahoria o una casa?",
+  "description.orangeBunnyLantern": "Una linterna con forma de conejito especial para pascua",
+  "description.whiteBunnyLantern": "Un conejito raro en forma de linterna",
+  "description.orangeTunnelBunny": "¡Quién dejó que esto cavara en mi jardín!",
+  "description.whiteTunnelBunny": "¡Un conejito raro que se abre paso!",
+  "description.easterBasket2025": "¡Una cesta llena de huevos de pascua!",
+  "event.shop.title": "Tienda de eventos de Pascua",
+  "event.shop.welcome": "Bienvenido a la tienda de eventos de Pascua. ¡Durante el evento, podréis usar las fichas de Pascua que hayáis conseguido en el portal que encontráis en esta isla para comprar una gran variedad de objetos!",
+  "easter-eggstravaganza.portal.title": "Minijuego - Easter Eggstravaganza",
+  "easter-eggstravaganza.portal.description": "Recoge los huevos antes de que caigan. ¿Puedes guardar los huevos de pascua?",
+  "easter-eggstravaganza.portal.missionObjectives": "Misión: Alcanzar {{targetScore}}.",
+  "easter-eggstravaganza.portal.rewardMessage": "¡Enhorabuena, has completado la misión! Aquí tienes tu recompensa."
 }

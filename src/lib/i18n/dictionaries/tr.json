@@ -5754,5 +5754,19 @@
   "softBan.openBot": "Açık Bot",
   "softBan.discordInstructions": "#verify kanalını ziyaret edin ve /verify komutunu yazın.",
   "faceRecognition.mobile": "Sorun mu yaşıyorsunuz?",
-  "faceRecognition.mobile.two": "Bir mobil cihazda deneyin."
+  "faceRecognition.mobile.two": "Bir mobil cihazda deneyin.",
+  "description.easterToken2025": "Paskalya etkinliği sona erdikten sonra $FLOWER kazanma şansı için bunu tut!",
+  "description.easterTicket2025": "Etkinlik bitmeden bunu Paskalya etkinlik mağazasında kullanın!",
+  "description.carrotHouse": "Burası havuç mu yoksa ev mi?",
+  "description.orangeBunnyLantern": "Paskalya'ya özel bir tavşan feneri",
+  "description.whiteBunnyLantern": "Fener şeklinde nadir bir tavşan",
+  "description.orangeTunnelBunny": "Bunun bahçeme kazmasına kim izin verdi!",
+  "description.whiteTunnelBunny": "Nadir bir tavşan kazıyor!",
+  "description.easterBasket2025": "Paskalya yumurtalarıyla dolu bir sepet!",
+  "event.shop.title": "Paskalya Etkinlik Mağazası",
+  "event.shop.welcome": "Paskalya Etkinlik Mağazasına hoş geldiniz. Etkinlik sırasında, bu adada bulabileceğiniz portalda kazanılan Paskalya Jetonlarını çeşitli eşyalar satın almak için kullanabileceksiniz!",
+  "easter-eggstravaganza.portal.title": "Mini oyun - Easter Eggstravaganza",
+  "easter-eggstravaganza.portal.description": "Yumurtaları düşmeden toplayın. Paskalya yumurtalarını kurtarabilir misin?",
+  "easter-eggstravaganza.portal.missionObjectives": "Görev: Ulaşın {{targetScore}}.",
+  "easter-eggstravaganza.portal.rewardMessage": "Tebrikler, görevi tamamladınız! İşte ödülünüz."
 }
