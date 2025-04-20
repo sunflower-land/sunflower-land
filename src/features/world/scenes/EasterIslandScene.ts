@@ -98,6 +98,10 @@ export class EasterIslandScene extends BaseScene {
           this.currentPlayer?.speak(translate("base.iam.far.away"));
         }
       });
+    const portalLabel = new Label(this, "PORTAL");
+    this.add.existing(portalLabel);
+    portalLabel.setPosition(440, 245 - 20);
+    portalLabel.setDepth(10000);
 
     this.physics.world.enable(easter_portal_entrance);
     this.colliders?.add(easter_portal_entrance);
