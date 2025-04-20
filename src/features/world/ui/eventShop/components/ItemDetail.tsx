@@ -104,7 +104,8 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const handleBuy = () => {
     if (!item) return;
 
-    gameService.send("eventItem.bought", {
+    gameService.send("minigameItem.bought", {
+      id: "easter-eggstravaganza",
       name: item.name,
     });
 

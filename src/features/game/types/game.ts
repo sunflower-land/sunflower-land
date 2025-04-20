@@ -1055,11 +1055,19 @@ export type MinigameHistory = {
 
 export type Minigame = {
   highscore: number;
+  // SFL attempts purchased
   purchases?: {
     sfl: number;
     items?: Partial<Record<MinigameCurrency, number>>;
     purchasedAt: number;
   }[];
+
+  // Minigame shop
+  shop?: {
+    wearables?: Wardrobe;
+    items?: Partial<Record<InventoryItemName, number>>;
+  };
+
   history: Record<string, MinigameHistory>;
 };
 

@@ -13,7 +13,7 @@ import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuff
 import { OPEN_SEA_WEARABLES } from "metadata/metadata";
 import { GameState } from "features/game/types/game";
 import {
-  EVENT_SHOP_ITEMS,
+  MINIGAME_SHOP_ITEMS,
   EventShopItem,
   EventShopWearable,
 } from "features/game/types/eventShop";
@@ -30,7 +30,7 @@ interface Props {
 export const isWearablesItem = (
   item: EventShopItem | null,
 ): item is EventShopWearable => {
-  return (item as EventShopWearable).name in ITEM_IDS;
+  return (item as EventShopWearable)?.name in ITEM_IDS;
 };
 
 export const getItemImage = (item: EventShopItem | null): string => {
@@ -87,17 +87,22 @@ export const EventShop: React.FC<Props> = ({ onClose }) => {
     setSelectedItem(item);
   };
 
-  const wearables = Object.values(EVENT_SHOP_ITEMS).filter(
+  const wearables = Object.values(MINIGAME_SHOP_ITEMS).filter(
     (item) => item.type === "wearable",
   );
 
-  const collectibles = Object.values(EVENT_SHOP_ITEMS).filter(
+  const collectibles = Object.values(MINIGAME_SHOP_ITEMS).filter(
     (item) => item.type === "collectible",
   );
 
-  const limited = Object.values(EVENT_SHOP_ITEMS).filter(
+  const limited = Object.values(MINIGAME_SHOP_ITEMS).filter(
     (item) => item.type === "limited",
   );
+
+  const shop = state.minigames.games["easter-eggstravaganza"]?.shop ?? {
+    wearables: {},
+    items: {},
+  };
 
   return (
     <CloseButtonPanel

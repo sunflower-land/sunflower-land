@@ -468,8 +468,8 @@ import {
 } from "./landExpansion/buyRewardItem";
 import {
   buyEventShopItem,
-  BuyEventShopItemAction,
-} from "./landExpansion/buyEventShopItem";
+  BuyMinigameItemAction,
+} from "./landExpansion/buyPortalItem";
 import {
   updateNetwork,
   UpdateNetworkAction,
@@ -616,7 +616,7 @@ export type PlayingEvent =
   | CollectCandyAction
   | BuyRewardShopItemAction
   | UpdateNetworkAction
-  | BuyEventShopItemAction;
+  | BuyMinigameItemAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -824,7 +824,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "exchange.flower": exchangeFlower,
   "rewardItem.bought": buyRewardShopItem,
   "network.updated": updateNetwork,
-  "eventItem.bought": buyEventShopItem,
+  "minigameItem.bought": buyEventShopItem,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

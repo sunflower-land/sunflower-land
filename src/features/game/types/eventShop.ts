@@ -33,12 +33,15 @@ type EventShopBase = {
 
 export type EventShopWearable = EventShopBase & {
   name: BumpkinItem;
+  max: number;
 };
 export type EventShopCollectible = EventShopBase & {
   name: InventoryItemName;
+  max: number;
 };
 export type EventShopLimited = EventShopBase & {
   name: InventoryItemName;
+  max: number;
 };
 
 export type EventShopItem =
@@ -49,15 +52,16 @@ export type EventShopItem =
 export const isEventShopCollectible = (
   name: EventShopItemName,
 ): name is EventShopCollectibleName =>
-  EVENT_SHOP_ITEMS[name].type === "collectible";
+  MINIGAME_SHOP_ITEMS[name].type === "collectible";
 
-export const EVENT_SHOP_ITEMS: Record<EventShopItemName, EventShopItem> = {
+export const MINIGAME_SHOP_ITEMS: Record<EventShopItemName, EventShopItem> = {
   "Easter Ticket 2025": {
     name: "Easter Ticket 2025",
     cost: {
       price: 250,
     },
     type: "limited",
+    max: 10000000,
   },
   "Treasure Key": {
     name: "Treasure Key",
@@ -65,6 +69,7 @@ export const EVENT_SHOP_ITEMS: Record<EventShopItemName, EventShopItem> = {
       price: 250,
     },
     type: "limited",
+    max: 1,
   },
   "Rare Key": {
     name: "Rare Key",
@@ -72,6 +77,7 @@ export const EVENT_SHOP_ITEMS: Record<EventShopItemName, EventShopItem> = {
       price: 750,
     },
     type: "limited",
+    max: 1,
   },
   "Luxury Key": {
     name: "Luxury Key",
@@ -79,6 +85,7 @@ export const EVENT_SHOP_ITEMS: Record<EventShopItemName, EventShopItem> = {
       price: 1000,
     },
     type: "limited",
+    max: 1,
   },
   "Super Totem": {
     name: "Super Totem",
@@ -86,6 +93,7 @@ export const EVENT_SHOP_ITEMS: Record<EventShopItemName, EventShopItem> = {
       price: 5000,
     },
     type: "limited",
+    max: 1,
   },
   "Bunny Pants": {
     name: "Bunny Pants",
@@ -93,6 +101,7 @@ export const EVENT_SHOP_ITEMS: Record<EventShopItemName, EventShopItem> = {
       price: 150,
     },
     type: "wearable",
+    max: 1,
   },
   "Handheld Bunny": {
     name: "Handheld Bunny",
@@ -100,6 +109,7 @@ export const EVENT_SHOP_ITEMS: Record<EventShopItemName, EventShopItem> = {
       price: 250,
     },
     type: "wearable",
+    max: 1,
   },
   "Carrot Pitchfork": {
     name: "Carrot Pitchfork",
@@ -107,6 +117,7 @@ export const EVENT_SHOP_ITEMS: Record<EventShopItemName, EventShopItem> = {
       price: 500,
     },
     type: "wearable",
+    max: 1,
   },
   "Bunny Mask": {
     name: "Bunny Mask",
@@ -114,6 +125,7 @@ export const EVENT_SHOP_ITEMS: Record<EventShopItemName, EventShopItem> = {
       price: 250,
     },
     type: "wearable",
+    max: 1,
   },
   "Easter Apron": {
     name: "Easter Apron",
@@ -121,6 +133,7 @@ export const EVENT_SHOP_ITEMS: Record<EventShopItemName, EventShopItem> = {
       price: 250,
     },
     type: "wearable",
+    max: 1,
   },
   "Carrot House": {
     name: "Carrot House",
@@ -128,6 +141,7 @@ export const EVENT_SHOP_ITEMS: Record<EventShopItemName, EventShopItem> = {
       price: 500,
     },
     type: "collectible",
+    max: 1,
   },
   "Orange Bunny Lantern": {
     name: "Orange Bunny Lantern",
@@ -135,6 +149,7 @@ export const EVENT_SHOP_ITEMS: Record<EventShopItemName, EventShopItem> = {
       price: 100,
     },
     type: "collectible",
+    max: 1,
   },
   "White Bunny Lantern": {
     name: "White Bunny Lantern",
@@ -142,6 +157,7 @@ export const EVENT_SHOP_ITEMS: Record<EventShopItemName, EventShopItem> = {
       price: 150,
     },
     type: "collectible",
+    max: 1,
   },
   "Orange Tunnel Bunny": {
     name: "Orange Tunnel Bunny",
@@ -149,6 +165,7 @@ export const EVENT_SHOP_ITEMS: Record<EventShopItemName, EventShopItem> = {
       price: 200,
     },
     type: "collectible",
+    max: 1,
   },
   "White Tunnel Bunny": {
     name: "White Tunnel Bunny",
@@ -156,5 +173,6 @@ export const EVENT_SHOP_ITEMS: Record<EventShopItemName, EventShopItem> = {
       price: 250,
     },
     type: "collectible",
+    max: 1,
   },
 };
