@@ -5754,5 +5754,19 @@
   "softBan.openBot": "Bot öffnen",
   "softBan.discordInstructions": "Besuchen Sie den Kanal #verify und geben Sie den Befehl /verify ein.",
   "faceRecognition.mobile": "Haben Sie Probleme?",
-  "faceRecognition.mobile.two": "Versuchen Sie es auf einem Mobilgerät."
+  "faceRecognition.mobile.two": "Versuchen Sie es auf einem Mobilgerät.",
+  "description.easterToken2025": "Holt das, um nach Ende des Oster-Events $FLOWER zu gewinnen!",
+  "description.easterTicket2025": "Benutze das im Oster-Event-Shop, bevor das Event endet!",
+  "description.carrotHouse": "Ist das eine Karotte oder ein Haus?",
+  "description.orangeBunnyLantern": "Eine Hasenlaterne speziell zu Ostern",
+  "description.whiteBunnyLantern": "Ein seltener Hase in Laternenform",
+  "description.orangeTunnelBunny": "Wer hat das in meinem Garten graben lassen!",
+  "description.whiteTunnelBunny": "Ein seltener Hase, der sich durchgräbt!",
+  "description.easterBasket2025": "Ein Korb voller Ostereier!",
+  "event.shop.title": "Eventshop für Ostern",
+  "event.shop.welcome": "Willkommen im Easter Event Shop. Während des Events könnt ihr Ostermarken verwenden, die ihr auf dem Portal, das ihr auf dieser Insel findet, verdient habt, um eine Vielzahl von Gegenständen zu kaufen!",
+  "easter-eggstravaganza.portal.title": "Minispiel - Easter Eggstravaganza",
+  "easter-eggstravaganza.portal.description": "Sammle die Eier ein, bevor sie fallen. Kannst du die Ostereier retten?",
+  "easter-eggstravaganza.portal.missionObjectives": "Auftrag: Erreiche {{targetScore}}.",
+  "easter-eggstravaganza.portal.rewardMessage": "Herzlichen Glückwunsch, du hast die Mission abgeschlossen! Hier ist deine Belohnung."
 }

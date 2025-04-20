@@ -5754,5 +5754,19 @@
   "softBan.openBot": "打开 Bot",
   "softBan.discordInstructions": "请在 #verify 频道中输入 /verify 命令。",
   "faceRecognition.mobile": "您遇到问题了吗？",
-  "faceRecognition.mobile.two": "请在移动设备上尝试操作。"
+  "faceRecognition.mobile.two": "请在移动设备上尝试操作。",
+  "description.easterToken2025": "在复活节活动结束后，持有这个有机会赢取 $FLOWER！",
+  "description.easterTicket2025": "活动结束前在复活节活动商店中使用它！",
+  "description.carrotHouse": "这是胡萝卜还是房子？",
+  "description.orangeBunnyLantern": "复活节特别的兔子灯笼",
+  "description.whiteBunnyLantern": "一只罕见的灯笼形状的兔子",
+  "description.orangeTunnelBunny": "谁让它在我的花园里挖东西！",
+  "description.whiteTunnelBunny": "一只稀有的兔子在挖洞！",
+  "description.easterBasket2025": "一个装满复活节彩蛋的篮子！",
+  "event.shop.title": "复活节活动商店",
+  "event.shop.welcome": "欢迎来到复活节活动商店。活动期间，你将能够使用在这个岛屿上找到的传送门获得的复活节代币来购买各种物品！",
+  "easter-eggstravaganza.portal.title": "小游戏-复活节彩蛋狂欢",
+  "easter-eggstravaganza.portal.description": "在鸡蛋掉下来之前收集它们。你能保存复活节彩蛋吗？",
+  "easter-eggstravaganza.portal.missionObjectives": "任务：达到 {{targetScore}}。",
+  "easter-eggstravaganza.portal.rewardMessage": "恭喜，你完成了任务！这是你的奖励。"
 }
