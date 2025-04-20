@@ -11557,8 +11557,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   },
   "Easter Token 2025": {
     name: "Easter Token 2025",
-    description:
-      "Hold this for a chance to win $FLOWER after the easter event ends!",
+    description: "Use this in the easter event shop before the event ends!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/2233.png",
@@ -11569,7 +11568,8 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   },
   "Easter Ticket 2025": {
     name: "Easter Ticket 2025",
-    description: "Use this in the easter event shop before the event ends!",
+    description:
+      "Hold this for a chance to win $FLOWER after the easter event ends!",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/2234.png",
