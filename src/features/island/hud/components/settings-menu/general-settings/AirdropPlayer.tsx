@@ -16,7 +16,7 @@ import { BumpkinItem } from "features/game/types/bumpkin";
 import { GameWallet } from "features/wallet/Wallet";
 import { useSelector } from "@xstate/react";
 import { Dropdown } from "components/ui/Dropdown";
-import { InventoryItemName } from "features/game/types/game";
+import { InventoryItemName, Wardrobe } from "features/game/types/game";
 import { ITEM_TRADE_TYPES } from "features/marketplace/lib/getTradeType";
 import { getWearableImage } from "features/game/lib/getWearableImage";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -302,7 +302,7 @@ export const AirdropPlayer: React.FC<
           ...acc,
           [item.name]: item.quantity,
         }),
-        {},
+        {} as Partial<Record<InventoryItemName, number>>,
       ),
     };
 
@@ -311,7 +311,7 @@ export const AirdropPlayer: React.FC<
         ...acc,
         [wearable]: 1,
       }),
-      {},
+      {} as Wardrobe,
     );
 
     gameService.send("reward.airdropped", {
