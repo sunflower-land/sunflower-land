@@ -9,7 +9,7 @@ import {
   MINIGAME_SHOP_ITEMS,
   EventShopCollectibleName,
   EventShopWearableName,
-} from "features/game/types/eventShop";
+} from "features/game/types/minigameShop";
 import { MinigameName } from "features/game/types/minigames";
 
 export type BuyMinigameItemAction = {

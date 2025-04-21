@@ -52,7 +52,8 @@ export type EventShopItem =
 export const isEventShopCollectible = (
   name: EventShopItemName,
 ): name is EventShopCollectibleName =>
-  MINIGAME_SHOP_ITEMS[name].type === "collectible";
+  MINIGAME_SHOP_ITEMS[name].type === "collectible" ||
+  MINIGAME_SHOP_ITEMS[name].type === "limited";
 
 export const MINIGAME_SHOP_ITEMS: Record<EventShopItemName, EventShopItem> = {
   "Easter Ticket 2025": {
@@ -74,7 +75,7 @@ export const MINIGAME_SHOP_ITEMS: Record<EventShopItemName, EventShopItem> = {
   "Rare Key": {
     name: "Rare Key",
     cost: {
-      price: 750,
+      price: 1000,
     },
     type: "limited",
     max: 1,
@@ -82,7 +83,7 @@ export const MINIGAME_SHOP_ITEMS: Record<EventShopItemName, EventShopItem> = {
   "Luxury Key": {
     name: "Luxury Key",
     cost: {
-      price: 1000,
+      price: 2000,
     },
     type: "limited",
     max: 1,
@@ -130,7 +131,7 @@ export const MINIGAME_SHOP_ITEMS: Record<EventShopItemName, EventShopItem> = {
   "Easter Apron": {
     name: "Easter Apron",
     cost: {
-      price: 250,
+      price: 2000,
     },
     type: "wearable",
     max: 1,
@@ -154,7 +155,7 @@ export const MINIGAME_SHOP_ITEMS: Record<EventShopItemName, EventShopItem> = {
   "White Bunny Lantern": {
     name: "White Bunny Lantern",
     cost: {
-      price: 150,
+      price: 1000,
     },
     type: "collectible",
     max: 1,
@@ -170,7 +171,7 @@ export const MINIGAME_SHOP_ITEMS: Record<EventShopItemName, EventShopItem> = {
   "White Tunnel Bunny": {
     name: "White Tunnel Bunny",
     cost: {
-      price: 250,
+      price: 1000,
     },
     type: "collectible",
     max: 1,

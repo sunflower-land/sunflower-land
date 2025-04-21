@@ -483,6 +483,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Timeshard: 754,
   "Ancient Clock": 755,
   "Love Charm": 756,
+  "Easter Token 2025": 757,
 
   "Australian Flag": 801,
   "Belgian Flag": 802,
@@ -1037,7 +1038,6 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Red Tile": 2231,
   "Yellow Tile": 2232,
 
-  "Easter Token 2025": 2233,
   "Easter Ticket 2025": 2234,
   "Carrot House": 2235,
   "Orange Bunny Lantern": 2236,

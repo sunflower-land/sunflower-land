@@ -18,7 +18,11 @@ import confetti from "canvas-confetti";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getItemDescription } from "../eventShop";
-import { EventShopItem } from "features/game/types/eventShop";
+import {
+  EventShopItem,
+  EventShopItemName,
+  MINIGAME_SHOP_ITEMS,
+} from "features/game/types/minigameShop";
 
 interface ItemOverlayProps {
   item: EventShopItem | null;
@@ -142,6 +146,8 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     return `${t("buy")} ${isWearable ? "wearable" : "collectible"}`;
   };
 
+  const max = MINIGAME_SHOP_ITEMS[item?.name as EventShopItemName]?.max ?? 0;
+
   return (
     <InnerPanel className="shadow">
       {isVisible && (
@@ -209,6 +215,10 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                       </div>
                     )}
                     <span className="text-xs leading-none">{description}</span>
+
+                    {max && max < 1000 && (
+                      <Label type="default">{t("maxPerPerson", { max })}</Label>
+                    )}
 
                     {item && (
                       <div className="flex flex-1 items-end">

@@ -16,7 +16,7 @@ import {
   MINIGAME_SHOP_ITEMS,
   EventShopItem,
   EventShopWearable,
-} from "features/game/types/eventShop";
+} from "features/game/types/minigameShop";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";

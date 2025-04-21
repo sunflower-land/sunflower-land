@@ -98,7 +98,7 @@ export class EasterIslandScene extends BaseScene {
           this.currentPlayer?.speak(translate("base.iam.far.away"));
         }
       });
-    const portalLabel = new Label(this, "PORTAL");
+    const portalLabel = new Label(this, "PLAY");
     this.add.existing(portalLabel);
     portalLabel.setPosition(440, 245 - 20);
     portalLabel.setDepth(10000);

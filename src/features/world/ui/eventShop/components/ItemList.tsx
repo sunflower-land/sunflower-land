@@ -15,7 +15,7 @@ import {
   EventShopCollectibleName,
   EventShopItem,
   EventShopWearableName,
-} from "features/game/types/eventShop";
+} from "features/game/types/minigameShop";
 import { MachineState } from "features/game/lib/gameMachine";
 
 interface Props {
