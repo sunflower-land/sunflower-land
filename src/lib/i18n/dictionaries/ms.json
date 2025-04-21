@@ -5768,5 +5768,6 @@
   "easter-eggstravaganza.portal.title": "Minigame - Easter Eggstravaganza",
   "easter-eggstravaganza.portal.description": "Kumpulkan telur sebelum jatuh. Bolehkah anda menyimpan telur Paskah?",
   "easter-eggstravaganza.portal.missionObjectives": "Misi: Jangkau {{targetScore}}.",
-  "easter-eggstravaganza.portal.rewardMessage": "Tahniah, anda menyelesaikan misi! Inilah ganjaran anda."
+  "easter-eggstravaganza.portal.rewardMessage": "Tahniah, anda menyelesaikan misi! Inilah ganjaran anda.",
+  "maxPerPerson": "Maksimum bagi setiap pemain: {{max}}"
 }

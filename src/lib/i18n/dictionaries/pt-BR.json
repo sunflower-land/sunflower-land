@@ -5768,5 +5768,6 @@
   "easter-eggstravaganza.portal.title": "Minigame - Easter Eggstravaganza",
   "easter-eggstravaganza.portal.description": "Recolha os ovos antes que caiam. Você pode salvar os ovos de páscoa?",
   "easter-eggstravaganza.portal.missionObjectives": "Missão: Alcance {{targetScore}}.",
-  "easter-eggstravaganza.portal.rewardMessage": "Parabéns, você completou a missão! Aqui está sua recompensa."
+  "easter-eggstravaganza.portal.rewardMessage": "Parabéns, você completou a missão! Aqui está sua recompensa.",
+  "maxPerPerson": "Máximo por jogador: {{max}}"
 }

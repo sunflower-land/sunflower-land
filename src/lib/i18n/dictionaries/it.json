@@ -5768,5 +5768,6 @@
   "easter-eggstravaganza.portal.title": "Minigioco - Easter Eggstravaganza",
   "easter-eggstravaganza.portal.description": "Raccogli le uova prima che cadano. Riesci a salvare le uova di Pasqua?",
   "easter-eggstravaganza.portal.missionObjectives": "Missione: raggiungere {{targetScore}}.",
-  "easter-eggstravaganza.portal.rewardMessage": "Congratulazioni, hai completato la missione! Ecco la tua ricompensa."
+  "easter-eggstravaganza.portal.rewardMessage": "Congratulazioni, hai completato la missione! Ecco la tua ricompensa.",
+  "maxPerPerson": "Massimo per giocatore: {{max}}"
 }
