@@ -22,6 +22,7 @@ import { getWearableImage } from "features/game/lib/getWearableImage";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ADMIN_IDS } from "lib/flags";
 import { CONFIG } from "lib/config";
+import { getKeys } from "features/game/types/decorations";
 
 // Types
 interface AirdropItem {
@@ -107,14 +108,12 @@ const AdvancedItems: React.FC<AdvancedItemsProps> = ({
         <div className="flex items-end gap-2">
           <div className="flex-1">
             <Dropdown
-              options={Object.keys(ITEM_TRADE_TYPES.collectibles)
-                .filter((item) => {
-                  const itemName = item as InventoryItemName;
-                  const isInstant =
-                    ITEM_TRADE_TYPES.collectibles[itemName] === "instant";
-                  const isAllowed = !["Love Charm", "Gem"].includes(itemName);
-                  return isInstant && isAllowed;
-                })
+              options={getKeys(ITEM_TRADE_TYPES.collectibles)
+                .filter(
+                  (item) =>
+                    ITEM_TRADE_TYPES.collectibles[item] === "instant" &&
+                    !["Love Charm", "Gem"].includes(item),
+                )
                 .sort((a, b) => a.localeCompare(b))}
               value={currentItem}
               onChange={(option) => setCurrentItem(option)}
