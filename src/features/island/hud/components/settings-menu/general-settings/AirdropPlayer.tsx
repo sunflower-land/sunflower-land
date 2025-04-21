@@ -20,7 +20,8 @@ import { InventoryItemName } from "features/game/types/game";
 import { ITEM_TRADE_TYPES } from "features/marketplace/lib/getTradeType";
 import { getWearableImage } from "features/game/lib/getWearableImage";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { hasFeatureAccess } from "lib/flags";
+import { ADMIN_IDS } from "lib/flags";
+import { CONFIG } from "lib/config";
 
 // Types
 interface AirdropItem {
@@ -49,7 +50,7 @@ interface AirdropContentProps {
   onSend: () => void;
   disabled: boolean;
   setShowAdvancedItems: (show: boolean) => void;
-  hasStreamerHat?: boolean;
+  hasDevAccess?: boolean;
   showAdvancedItems?: boolean;
   advancedItemsProps?: AdvancedItemsProps;
 }
@@ -213,7 +214,7 @@ const AirdropContent: React.FC<AirdropContentProps> = ({
   onSend,
   disabled,
   setShowAdvancedItems,
-  hasStreamerHat,
+  hasDevAccess,
   showAdvancedItems,
   advancedItemsProps,
 }) => (
@@ -234,7 +235,7 @@ const AirdropContent: React.FC<AirdropContentProps> = ({
             </div>
           ),
         )}
-        {hasStreamerHat && showAdvancedItems && advancedItemsProps && (
+        {hasDevAccess && showAdvancedItems && advancedItemsProps && (
           <AdvancedItems {...advancedItemsProps} />
         )}
       </div>
@@ -250,7 +251,7 @@ const AirdropContent: React.FC<AirdropContentProps> = ({
         value={message}
         onValueChange={setMessage}
       />
-      {!showAdvancedItems && hasStreamerHat && (
+      {!showAdvancedItems && hasDevAccess && (
         <div className="flex flex-row items-center m-1">
           <p
             className="text-xs cursor-pointer underline py-1"
@@ -273,8 +274,10 @@ export const AirdropPlayer: React.FC<
   const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
 
-  const hasStreamerHat = useSelector(gameService, (state) =>
-    hasFeatureAccess(state.context.state, "STREAMER_HAT"),
+  const hasDevAccess = useSelector(
+    gameService,
+    (state) =>
+      ADMIN_IDS.includes(state.context.farmId) || CONFIG.NETWORK === "amoy",
   );
 
   // Basic state
@@ -289,7 +292,7 @@ export const AirdropPlayer: React.FC<
   // Advanced items state
   const [selectedItems, setSelectedItems] = useState<SelectedItem[]>([]);
   const [selectedWearables, setSelectedWearables] = useState<BumpkinItem[]>([]);
-  const canSendAdvancedItems = showAdvancedItems && hasStreamerHat;
+  const canSendAdvancedItems = showAdvancedItems && hasDevAccess;
 
   const send = async () => {
     const items = {
@@ -384,7 +387,7 @@ export const AirdropPlayer: React.FC<
       onSend={send}
       disabled={disabled}
       setShowAdvancedItems={setShowAdvancedItems}
-      hasStreamerHat={hasStreamerHat}
+      hasDevAccess={hasDevAccess}
       showAdvancedItems={showAdvancedItems}
       advancedItemsProps={advancedItemsProps}
     />
