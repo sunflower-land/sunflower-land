@@ -5768,5 +5768,6 @@
   "easter-eggstravaganza.portal.title": "Minijuego - Easter Eggstravaganza",
   "easter-eggstravaganza.portal.description": "Recoge los huevos antes de que caigan. ¿Puedes guardar los huevos de pascua?",
   "easter-eggstravaganza.portal.missionObjectives": "Misión: Alcanzar {{targetScore}}.",
-  "easter-eggstravaganza.portal.rewardMessage": "¡Enhorabuena, has completado la misión! Aquí tienes tu recompensa."
+  "easter-eggstravaganza.portal.rewardMessage": "¡Enhorabuena, has completado la misión! Aquí tienes tu recompensa.",
+  "maxPerPerson": "Máximo por jugador: {{max}}"
 }

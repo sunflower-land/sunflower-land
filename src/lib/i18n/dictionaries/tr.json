@@ -5768,5 +5768,6 @@
   "easter-eggstravaganza.portal.title": "Mini oyun - Easter Eggstravaganza",
   "easter-eggstravaganza.portal.description": "Yumurtaları düşmeden toplayın. Paskalya yumurtalarını kurtarabilir misin?",
   "easter-eggstravaganza.portal.missionObjectives": "Görev: Ulaşın {{targetScore}}.",
-  "easter-eggstravaganza.portal.rewardMessage": "Tebrikler, görevi tamamladınız! İşte ödülünüz."
+  "easter-eggstravaganza.portal.rewardMessage": "Tebrikler, görevi tamamladınız! İşte ödülünüz.",
+  "maxPerPerson": "Oyuncu başına maksimum: {{max}}"
 }
