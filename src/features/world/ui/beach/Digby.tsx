@@ -185,6 +185,32 @@ const CountdownLabel = () => (
   </Label>
 );
 
+export function getStreaks({
+  game,
+  now,
+}: {
+  game: GameState;
+  now: number;
+}): number {
+  const collectedAt = game.desert.digging.streak?.collectedAt ?? 0;
+
+  const collectedDate = new Date(collectedAt).toISOString().substring(0, 10);
+  const currentDate = new Date(now).toISOString().substring(0, 10);
+  const streakCount = game.desert.digging.streak?.count ?? 0;
+
+  // Calculate the day difference
+  const dayDifference =
+    (new Date(currentDate).getTime() - new Date(collectedDate).getTime()) /
+    (1000 * 60 * 60 * 24);
+
+  // Reset streaks if they miss a day
+  if (dayDifference > 1) {
+    return 0;
+  }
+
+  return streakCount;
+}
+
 export const DailyPuzzle: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
@@ -211,6 +237,11 @@ export const DailyPuzzle: React.FC = () => {
     new Date().toISOString().substring(0, 10) ===
     new Date(streak.collectedAt).toISOString().substring(0, 10);
 
+  const streakCount = getStreaks({
+    game: gameState.context.state,
+    now: Date.now(),
+  });
+
   const open = async () => {
     setIsPicking(true);
 
@@ -230,11 +261,11 @@ export const DailyPuzzle: React.FC = () => {
   if (isPicking || (gameState.matches("revealing") && isRevealing)) {
     let type: ChestRewardType = "Basic Desert Rewards";
 
-    if (streak.count >= 4) {
+    if (streakCount >= 4) {
       type = "Advanced Desert Rewards";
     }
 
-    if (streak.count >= 10) {
+    if (streakCount >= 10) {
       type = "Expert Desert Rewards";
     }
 
@@ -290,11 +321,11 @@ export const DailyPuzzle: React.FC = () => {
         <div className="flex justify-between items-center mt-2 mb-1">
           {hasClaimedReward ? (
             <Label type="success" icon={SUNNYSIDE.icons.confirm}>
-              {[t("digby.streak"), streak.count].filter(Boolean).join(" - ")}
+              {[t("digby.streak"), streakCount].join(" - ")}
             </Label>
           ) : (
             <Label type="default">
-              {[t("digby.streak"), streak.count].filter(Boolean).join(" - ")}
+              {[t("digby.streak"), streakCount].join(" - ")}
             </Label>
           )}
 
