@@ -5754,5 +5754,20 @@
   "softBan.openBot": "Buka Bot",
   "softBan.discordInstructions": "Lawati saluran #verify dan taipkan perintah /verify.",
   "faceRecognition.mobile": "Mempunyai masalah?",
-  "faceRecognition.mobile.two": "Cuba pada peranti mudah alih."
+  "faceRecognition.mobile.two": "Cuba pada peranti mudah alih.",
+  "description.easterToken2025": "Gunakan ini di kedai acara paskah sebelum acara berakhir!",
+  "description.easterTicket2025": "Pegang ini untuk peluang memenangi $FLOWER selepas acara paskah berakhir!",
+  "description.carrotHouse": "Adakah ini lobak merah atau rumah?",
+  "description.orangeBunnyLantern": "Tanglung kelinci istimewa untuk paskah",
+  "description.whiteBunnyLantern": "Kelinci yang jarang berlaku dalam bentuk tanglung",
+  "description.orangeTunnelBunny": "Siapa yang membiarkan ini menggali di taman saya!",
+  "description.whiteTunnelBunny": "Kelinci langka menggali!",
+  "description.easterBasket2025": "Bakul yang dipenuhi dengan telur paskah!",
+  "event.shop.title": "Kedai Acara Paskah",
+  "event.shop.welcome": "Selamat datang ke Kedai Acara Paskah. Semasa acara, anda akan dapat menggunakan Token Paskah yang diperoleh di portal yang anda dapati di pulau ini untuk membeli pelbagai barangan!",
+  "easter-eggstravaganza.portal.title": "Minigame - Easter Eggstravaganza",
+  "easter-eggstravaganza.portal.description": "Kumpulkan telur sebelum jatuh. Bolehkah anda menyimpan telur Paskah?",
+  "easter-eggstravaganza.portal.missionObjectives": "Misi: Jangkau {{targetScore}}.",
+  "easter-eggstravaganza.portal.rewardMessage": "Tahniah, anda menyelesaikan misi! Inilah ganjaran anda.",
+  "maxPerPerson": "Maksimum bagi setiap pemain: {{max}}"
 }

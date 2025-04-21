@@ -5754,5 +5754,20 @@
   "softBan.openBot": "Bot aberto",
   "softBan.discordInstructions": "Visite o canal #verify e digite o comando /verifica.",
   "faceRecognition.mobile": "Está tendo problemas?",
-  "faceRecognition.mobile.two": "Experimente em um dispositivo móvel."
+  "faceRecognition.mobile.two": "Experimente em um dispositivo móvel.",
+  "description.easterToken2025": "Use isso na loja do evento de páscoa antes que o evento termine!",
+  "description.easterTicket2025": "Guarde isso para ter a chance de ganhar $ FLOWER após o término do evento de páscoa!",
+  "description.carrotHouse": "Isso é uma cenoura ou uma casa?",
+  "description.orangeBunnyLantern": "Uma lanterna de coelho especial para a páscoa",
+  "description.whiteBunnyLantern": "Um coelho raro em forma de lanterna",
+  "description.orangeTunnelBunny": "Quem deixou isso cavar no meu jardim!",
+  "description.whiteTunnelBunny": "Um coelho raro cavando!",
+  "description.easterBasket2025": "Uma cesta cheia de ovos de páscoa!",
+  "event.shop.title": "Loja de eventos de Páscoa",
+  "event.shop.welcome": "Bem-vindo à loja de eventos de Páscoa. Durante o evento, você poderá usar os Tokens de Páscoa ganhos no portal que você pode encontrar nesta ilha para comprar uma variedade de itens!",
+  "easter-eggstravaganza.portal.title": "Minigame - Easter Eggstravaganza",
+  "easter-eggstravaganza.portal.description": "Recolha os ovos antes que caiam. Você pode salvar os ovos de páscoa?",
+  "easter-eggstravaganza.portal.missionObjectives": "Missão: Alcance {{targetScore}}.",
+  "easter-eggstravaganza.portal.rewardMessage": "Parabéns, você completou a missão! Aqui está sua recompensa.",
+  "maxPerPerson": "Máximo por jogador: {{max}}"
 }

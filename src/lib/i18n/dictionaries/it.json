@@ -5754,5 +5754,20 @@
   "softBan.openBot": "Apri Bot",
   "softBan.discordInstructions": "Visita il canale #verify e digita il comando /verify.",
   "faceRecognition.mobile": "Hai problemi?",
-  "faceRecognition.mobile.two": "Prova su un dispositivo mobile."
+  "faceRecognition.mobile.two": "Prova su un dispositivo mobile.",
+  "description.easterToken2025": "Usalo nel negozio degli eventi di Pasqua prima che l'evento finisca!",
+  "description.easterTicket2025": "Tienilo in mano per avere la possibilità di vincere $FLOWER dopo la fine dell'evento di Pasqua!",
+  "description.carrotHouse": "È una carota o una casa?",
+  "description.orangeBunnyLantern": "Una lanterna a forma di coniglio speciale per Pasqua",
+  "description.whiteBunnyLantern": "Un raro coniglietto a forma di lanterna",
+  "description.orangeTunnelBunny": "Chi l'ha lasciato scavare nel mio giardino!",
+  "description.whiteTunnelBunny": "Un coniglietto raro che sta scavando!",
+  "description.easterBasket2025": "Un cestino pieno di uova di Pasqua!",
+  "event.shop.title": "Negozio per eventi pasquali",
+  "event.shop.welcome": "Benvenuto nell'Easter Event Shop. Durante l'evento potrai utilizzare i gettoni pasquali guadagnati sul portale che trovi in quest'isola per acquistare una varietà di oggetti!",
+  "easter-eggstravaganza.portal.title": "Minigioco - Easter Eggstravaganza",
+  "easter-eggstravaganza.portal.description": "Raccogli le uova prima che cadano. Riesci a salvare le uova di Pasqua?",
+  "easter-eggstravaganza.portal.missionObjectives": "Missione: raggiungere {{targetScore}}.",
+  "easter-eggstravaganza.portal.rewardMessage": "Congratulazioni, hai completato la missione! Ecco la tua ricompensa.",
+  "maxPerPerson": "Massimo per giocatore: {{max}}"
 }

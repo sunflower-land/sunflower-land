@@ -5754,5 +5754,20 @@
   "softBan.openBot": "Open Bot",
   "softBan.discordInstructions": "Accédez au canal #verify et saisissez la commande /verify.",
   "faceRecognition.mobile": "Vous rencontrez des problèmes ?",
-  "faceRecognition.mobile.two": "Essayez sur un appareil mobile."
+  "faceRecognition.mobile.two": "Essayez sur un appareil mobile.",
+  "description.easterToken2025": "Utilisez-le dans la boutique de l'événement de Pâques avant la fin de l'événement !",
+  "description.easterTicket2025": "Gardez-le pour avoir une chance de gagner $FLOWER après la fin de l'événement de Pâques !",
+  "description.carrotHouse": "S'agit-il d'une carotte ou d'une maison ?",
+  "description.orangeBunnyLantern": "Une lanterne en forme de lapin spéciale pour Pâques",
+  "description.whiteBunnyLantern": "Un lapin rare en forme de lanterne",
+  "description.orangeTunnelBunny": "Qui a laissé ça fouiller dans mon jardin !",
+  "description.whiteTunnelBunny": "Un lapin rare en train de fouiller !",
+  "description.easterBasket2025": "Un panier rempli d'œufs de Pâques !",
+  "event.shop.title": "Boutique d'événements de Pâques",
+  "event.shop.welcome": "Bienvenue dans la boutique des événements de Pâques. Pendant l'événement, vous pourrez utiliser les jetons de Pâques gagnés sur le portail que vous trouverez sur cette île pour acheter une variété d'objets !",
+  "easter-eggstravaganza.portal.title": "Mini-jeu - Easter Eggstravaganza",
+  "easter-eggstravaganza.portal.description": "Ramassez les œufs avant qu'ils ne tombent. Peux-tu conserver les œufs de Pâques ?",
+  "easter-eggstravaganza.portal.missionObjectives": "Mission : Atteindre {{targetScore}}.",
+  "easter-eggstravaganza.portal.rewardMessage": "Félicitations, vous avez terminé la mission ! Voici ta récompense.",
+  "maxPerPerson": "Maximum par joueur : {{max}}"
 }

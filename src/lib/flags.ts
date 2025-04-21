@@ -63,7 +63,6 @@ export type ExperimentName = "ONBOARDING_CHALLENGES" | "GEM_BOOSTS";
 const FEATURE_FLAGS = {
   // For testing
   JEST_TEST: defaultFeatureFlag,
-  EASTER: () => false, // To re-enable next easter
 
   // Permanent Feature Flags
   AIRDROP_PLAYER: adminFeatureFlag,
@@ -98,6 +97,10 @@ const FEATURE_FLAGS = {
   LOVE_RUSH: (game) =>
     betaTimeBasedFeatureFlag(new Date("2025-04-07T00:00:00Z"))(game) &&
     Date.now() < new Date("2025-05-05T00:00:00Z").getTime(),
+
+  EASTER: (game) =>
+    betaTimeBasedFeatureFlag(new Date("2025-04-21T00:00:00Z"))(game) &&
+    Date.now() < new Date("2025-04-29T00:00:00Z").getTime(),
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;

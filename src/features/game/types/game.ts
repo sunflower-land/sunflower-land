@@ -233,6 +233,8 @@ export type Coupons =
   | "Mark"
   | "Trade Point"
   | "Love Charm"
+  | "Easter Token 2025"
+  | "Easter Ticket 2025"
   | Keys
   | SeasonalTicket
   | FactionEmblem;
@@ -353,6 +355,12 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   },
   "Love Charm": {
     description: translate("description.love.charm"),
+  },
+  "Easter Token 2025": {
+    description: "placeholder",
+  },
+  "Easter Ticket 2025": {
+    description: "placeholder",
   },
 };
 
@@ -1047,11 +1055,19 @@ export type MinigameHistory = {
 
 export type Minigame = {
   highscore: number;
+  // SFL attempts purchased
   purchases?: {
     sfl: number;
     items?: Partial<Record<MinigameCurrency, number>>;
     purchasedAt: number;
   }[];
+
+  // Minigame shop
+  shop?: {
+    wearables?: Wardrobe;
+    items?: Partial<Record<InventoryItemName, number>>;
+  };
+
   history: Record<string, MinigameHistory>;
 };
 
@@ -1122,7 +1138,8 @@ export type Currency =
   | "Sunstone"
   | "Seasonal Ticket"
   | "Mark"
-  | "Love Charm";
+  | "Love Charm"
+  | "Easter Token 2025";
 
 export type ShopItemBase = {
   shortDescription: string;

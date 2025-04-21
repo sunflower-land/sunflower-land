@@ -1937,6 +1937,9 @@ export function startGame(authContext: AuthContext) {
             "faceRecognition.completed": {
               target: STATE_MACHINE_EFFECTS["faceRecognition.completed"],
             },
+            "telegram.linked": {
+              target: STATE_MACHINE_EFFECTS["telegram.linked"],
+            },
           },
         },
 

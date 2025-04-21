@@ -11555,6 +11555,95 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/question_mark.png",
     name: "Yellow Tile",
   },
+  "Easter Token 2025": {
+    name: "Easter Token 2025",
+    description: "Use this in the easter event shop before the event ends!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2233.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Coupon" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Easter Ticket 2025": {
+    name: "Easter Ticket 2025",
+    description:
+      "Hold this for a chance to win $FLOWER after the easter event ends!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2234.png",
+    attributes: [
+      { trait_type: "Purpose", value: "Coupon" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+  },
+  "Carrot House": {
+    description: "Is this a carrot or a house?",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2235.png",
+    name: "Carrot House",
+  },
+  "Orange Bunny Lantern": {
+    description: "A bunny lantern special to easter",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2236.png",
+    name: "Orange Bunny Lantern",
+  },
+  "White Bunny Lantern": {
+    description: "A rare bunny in lantern shape",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2237.png",
+    name: "White Bunny Lantern",
+  },
+  "Orange Tunnel Bunny": {
+    description: "Who let this dig in my garden!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2238.png",
+    name: "Orange Tunnel Bunny",
+  },
+  "White Tunnel Bunny": {
+    description: "A rare bunny digging through!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2239.png",
+    name: "White Tunnel Bunny",
+  },
+  "Easter Basket": {
+    description: "A basket filled with easter eggs!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2240.png",
+    name: "Easter Basket",
+  },
 };
 
 export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
@@ -17356,5 +17445,60 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/wearables/images/444.png",
     name: "Love Puff Aura",
+  },
+  "Carrot Pitchfork": {
+    description: "Looks tasty, but it was not made for you to eat!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Tool" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/445.png",
+    name: "Carrot Pitchfork",
+  },
+  "Handheld Bunny": {
+    description: "Now all that's missing is the top hat!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Tool" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/446.png",
+    name: "Handheld Bunny",
+  },
+  "Bunny Pants": {
+    description: "Leave mysterious footprints to fool the other bumpkins!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Pants" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/447.png",
+    name: "Bunny Pants",
+  },
+  "Bunny Mask": {
+    description: "Other easter bunnies will think you are one of them!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hat" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/448.png",
+    name: "Bunny Mask",
+  },
+  "Easter Apron": {
+    description: "Perfect for getting chocolate on!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Coat" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/449.png",
+    name: "Easter Apron",
   },
 };

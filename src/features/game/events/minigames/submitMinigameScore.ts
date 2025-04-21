@@ -54,6 +54,20 @@ export function submitMinigameScore({
       highscore: Math.max(daily.highscore, action.score),
     };
 
+    const { prizes } = minigames;
+
+    // Get todays prize
+    const prize = prizes[action.id];
+
+    // If higher than highscore on easter, clear prize claimed
+    if (
+      prize &&
+      action.id === "easter-eggstravaganza" &&
+      action.score > prize.score
+    ) {
+      delete minigames.games[action.id]?.history[todayKey].prizeClaimedAt;
+    }
+
     return game;
   });
 }
