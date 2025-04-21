@@ -22,16 +22,16 @@ type StreamConfig = {
 
 export const STREAMS_CONFIG = {
   tuesday: {
-    day: 5,
-    startHour: 10,
-    startMinute: 26,
+    day: 2,
+    startHour: 15,
+    startMinute: 30,
     durationMinutes: 60,
     notifyMinutesBefore: 10,
   } as StreamConfig,
   friday: {
-    day: 2,
-    startHour: 15,
-    startMinute: 30,
+    day: 5,
+    startHour: 10,
+    startMinute: 0,
     durationMinutes: 60,
     notifyMinutesBefore: 10,
   } as StreamConfig,
