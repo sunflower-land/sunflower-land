@@ -23,6 +23,8 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ADMIN_IDS } from "lib/flags";
 import { CONFIG } from "lib/config";
 import { getKeys } from "features/game/types/decorations";
+import { signTypedData } from "@wagmi/core";
+import { config } from "features/wallet/WalletProvider";
 
 // Types
 interface AirdropItem {
@@ -48,7 +50,7 @@ interface AirdropContentProps {
   basicItems: Record<string, AirdropItem>;
   message: string;
   setMessage: (message: string) => void;
-  onSend: () => void;
+  onSend: () => Promise<void>;
   disabled: boolean;
   setShowAdvancedItems: (show: boolean) => void;
   hasDevAccess?: boolean;
@@ -293,27 +295,27 @@ export const AirdropPlayer: React.FC<
   const [selectedWearables, setSelectedWearables] = useState<BumpkinItem[]>([]);
   const canSendAdvancedItems = showAdvancedItems && hasDevAccess;
 
-  const send = async () => {
-    const items = {
-      ...(gems ? { Gem: gems } : {}),
-      ...(loveCharm ? { "Love Charm": loveCharm } : {}),
-      ...selectedItems.reduce(
-        (acc, item) => ({
-          ...acc,
-          [item.name]: item.quantity,
-        }),
-        {} as Partial<Record<InventoryItemName, number>>,
-      ),
-    };
-
-    const wearables = selectedWearables.reduce(
-      (acc, wearable) => ({
+  const items = {
+    ...(gems ? { Gem: gems } : {}),
+    ...(loveCharm ? { "Love Charm": loveCharm } : {}),
+    ...selectedItems.reduce(
+      (acc, item) => ({
         ...acc,
-        [wearable]: 1,
+        [item.name]: item.quantity,
       }),
-      {} as Wardrobe,
-    );
+      {} as Partial<Record<InventoryItemName, number>>,
+    ),
+  };
 
+  const wearables = selectedWearables.reduce(
+    (acc, wearable) => ({
+      ...acc,
+      [wearable]: 1,
+    }),
+    {} as Wardrobe,
+  );
+
+  const send = async (signature?: string) => {
     gameService.send("reward.airdropped", {
       effect: {
         type: "reward.airdropped",
@@ -324,10 +326,40 @@ export const AirdropPlayer: React.FC<
         vipDays,
         message,
         // TODO: Add signature
-        signature: canSendAdvancedItems ? "0x" : undefined,
+        signature,
       },
       authToken: authService.state.context.user.rawToken as string,
     });
+  };
+
+  const signMessage = async () => {
+    const signature = await signTypedData(config, {
+      domain: {
+        name: "Sunflower Land",
+        version: "1",
+        chainId: CONFIG.NETWORK === "amoy" ? 80002 : 137,
+      },
+      types: {
+        Airdrop: [
+          { name: "items", type: "string" },
+          { name: "wearables", type: "string" },
+          { name: "farmId", type: "uint256" },
+          { name: "coins", type: "uint256" },
+          { name: "vipDays", type: "uint256" },
+          { name: "message", type: "string" },
+        ],
+      },
+      primaryType: "Airdrop",
+      message: {
+        items: JSON.stringify(items),
+        wearables: JSON.stringify(wearables),
+        farmId: BigInt(farmId),
+        coins: BigInt(coins),
+        vipDays: BigInt(vipDays ?? 0),
+        message,
+      },
+    });
+    await send(signature);
   };
 
   const basicItems: Record<string, AirdropItem> = {
@@ -378,12 +410,12 @@ export const AirdropPlayer: React.FC<
     setSelectedWearables,
   };
 
-  const content = (
+  const Content: React.FC<{ onSend: () => Promise<void> }> = ({ onSend }) => (
     <AirdropContent
       basicItems={basicItems}
       message={message}
       setMessage={setMessage}
-      onSend={send}
+      onSend={onSend}
       disabled={disabled}
       setShowAdvancedItems={setShowAdvancedItems}
       hasDevAccess={hasDevAccess}
@@ -393,8 +425,12 @@ export const AirdropPlayer: React.FC<
   );
 
   if (canSendAdvancedItems) {
-    return <GameWallet action="login">{content}</GameWallet>;
+    return (
+      <GameWallet action="login">
+        <Content onSend={signMessage} />
+      </GameWallet>
+    );
   }
 
-  return content;
+  return <Content onSend={send} />;
 };
