@@ -37,6 +37,13 @@ export const STREAMS_CONFIG = {
   } as StreamConfig,
 };
 
+export const NO_STREAM_DATES = [
+  "2025-04-25", // ANZAC Day
+  "2025-12-26", // Boxing Day
+  "2026-04-03", // Easter Friday
+  "2026-12-25", // Christmas Day
+];
+
 export const getNextStreamTime = (schedule: StreamSchedule): Date => {
   // Get current time in Sydney timezone
   const now = new Date();
@@ -84,6 +91,13 @@ export const getNextStreamTime = (schedule: StreamSchedule): Date => {
   const nextStreamTime = new Date(now);
   nextStreamTime.setDate(nextStreamTime.getDate() + daysUntilStream);
   nextStreamTime.setHours(schedule.hour, schedule.minute, 0, 0);
+
+  // Check if the next stream time falls on a skipped date
+  const nextStreamDate = nextStreamTime.toISOString().split("T")[0];
+  if (NO_STREAM_DATES.includes(nextStreamDate)) {
+    // If it's a skipped date, add 7 days to get the following week
+    nextStreamTime.setDate(nextStreamTime.getDate() + 7);
+  }
 
   return nextStreamTime;
 };
@@ -137,6 +151,12 @@ export function getStream(): {
       // Create a Date object for the stream start time in Sydney timezone
       const startTime = new Date(now);
       startTime.setHours(stream.startHour, stream.startMinute, 0, 0);
+
+      // Check if the stream time falls on a skipped date
+      const streamDate = startTime.toISOString().split("T")[0];
+      if (NO_STREAM_DATES.includes(streamDate)) {
+        continue; // Skip this stream and check the next one
+      }
 
       // Convert to local time for display
       const localStartTime = new Date(
