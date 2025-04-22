@@ -397,11 +397,15 @@ export const AirdropPlayer: React.FC<
 
   const disabled =
     !farmId ||
-    (!coins &&
-      !gems &&
-      !loveCharm &&
-      !selectedItems.length &&
-      !selectedWearables.length);
+    !message.length ||
+    !(
+      coins ||
+      gems ||
+      loveCharm ||
+      selectedItems.length ||
+      selectedWearables.length ||
+      vipDays
+    );
 
   const advancedItemsProps: AdvancedItemsProps = {
     selectedItems,
