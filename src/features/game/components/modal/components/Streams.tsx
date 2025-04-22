@@ -39,46 +39,53 @@ export const STREAMS_CONFIG = {
 
 export const getNextStreamTime = (schedule: StreamSchedule): Date => {
   // Get current time in Sydney timezone
-  const sydneyTime = new Date();
-  const formatter = new Intl.DateTimeFormat("en-US", {
+  const now = new Date();
+  const sydneyTime = new Intl.DateTimeFormat("en-US", {
     timeZone: "Australia/Sydney",
     hour: "numeric",
     minute: "numeric",
+    weekday: "long",
     hour12: false,
-  });
+  }).format(now);
 
-  const parts = formatter.formatToParts(sydneyTime);
-  const currentHour = parseInt(
-    parts.find((p) => p.type === "hour")?.value ?? "0",
-  );
-  const currentMinute = parseInt(
-    parts.find((p) => p.type === "minute")?.value ?? "0",
-  );
+  // Parse Sydney time components
+  const [weekday, time] = sydneyTime.split(", ");
+  const [hour, minute] = time.split(":").map(Number);
+  const currentDayOfWeek = [
+    "sunday",
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+    "saturday",
+  ].indexOf(weekday.toLowerCase());
+  const currentTimeMinutes = hour * 60 + minute;
 
-  // Calculate hours and minutes to add
-  let hoursToAdd = schedule.hour - currentHour;
-  let minutesToAdd = schedule.minute - currentMinute;
+  // Calculate time until next stream
+  const streamTimeMinutes = schedule.hour * 60 + schedule.minute;
+  let minutesUntilStream = streamTimeMinutes - currentTimeMinutes;
 
-  // Adjust if minutes or hours are negative
-  if (minutesToAdd < 0) {
-    hoursToAdd--;
-    minutesToAdd += 60;
+  // If the stream time has passed today, look for next occurrence
+  if (minutesUntilStream <= 0) {
+    minutesUntilStream += 24 * 60; // Add 24 hours
   }
-  if (hoursToAdd < 0) hoursToAdd += 24;
 
-  // Set the next stream time
-  sydneyTime.setHours(sydneyTime.getHours() + hoursToAdd);
-  sydneyTime.setMinutes(sydneyTime.getMinutes() + minutesToAdd);
-  sydneyTime.setSeconds(0);
-  sydneyTime.setMilliseconds(0);
-
-  // Adjust day if needed
+  // Calculate days until next stream
+  let daysUntilStream = 0;
   if (schedule.day !== undefined) {
-    const daysToAdd = (schedule.day - sydneyTime.getDay() + 7) % 7;
-    sydneyTime.setDate(sydneyTime.getDate() + daysToAdd);
+    daysUntilStream = (schedule.day - currentDayOfWeek + 7) % 7;
+    if (daysUntilStream === 0 && minutesUntilStream >= 24 * 60) {
+      daysUntilStream = 7; // If stream already passed today, look for next week
+    }
   }
 
-  return sydneyTime;
+  // Create the next stream time in Sydney timezone
+  const nextStreamTime = new Date(now);
+  nextStreamTime.setDate(nextStreamTime.getDate() + daysUntilStream);
+  nextStreamTime.setHours(schedule.hour, schedule.minute, 0, 0);
+
+  return nextStreamTime;
 };
 
 export function getStream(): {
