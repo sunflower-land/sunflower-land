@@ -3,7 +3,10 @@ import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { getStream } from "features/game/components/modal/components/Streams";
+import {
+  getStream,
+  StreamNotification,
+} from "features/game/components/modal/components/Streams";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { ButtonPanel } from "components/ui/Panel";
 import promoteIcon from "assets/icons/promote.webp";
@@ -65,11 +68,7 @@ const Countdown: React.FC<{
 
 export const StreamCountdown: React.FC = () => {
   const [hide, setHide] = useState(false);
-  const [stream, setStream] = useState<{
-    startAt: number;
-    endAt: number;
-    notifyAt: number;
-  } | null>(getStream());
+  const [stream, setStream] = useState<StreamNotification | null>(getStream());
 
   const navigate = useNavigate();
 

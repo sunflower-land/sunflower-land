@@ -85,12 +85,14 @@ export const getNextStreamTime = (schedule: StreamSchedule): number => {
   return nextStreamTime.getTime();
 };
 
-export function getStream(): {
+export type StreamNotification = {
   startAt: number;
   endAt: number;
   notifyAt: number;
-} | null {
-  let nextStream = null;
+};
+
+export function getStream(): StreamNotification | null {
+  let nextStream: StreamNotification | null = null;
   let nextStreamTime = Infinity;
 
   for (const stream of Object.values(STREAMS_CONFIG)) {
