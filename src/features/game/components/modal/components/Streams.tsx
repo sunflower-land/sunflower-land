@@ -87,51 +87,66 @@ export function getStream(): {
   notifyAt: number;
 } | null {
   // Get current time in Sydney timezone
-  const sydneyTime = new Date();
-  const formatter = new Intl.DateTimeFormat("en-US", {
+  const now = new Date();
+  const sydneyTime = new Intl.DateTimeFormat("en-US", {
     timeZone: "Australia/Sydney",
     hour: "numeric",
     minute: "numeric",
+    weekday: "long",
     hour12: false,
-  });
+  }).format(now);
 
-  const parts = formatter.formatToParts(sydneyTime);
-  const currentHour = parseInt(
-    parts.find((p) => p.type === "hour")?.value ?? "0",
-  );
-  const currentMinute = parseInt(
-    parts.find((p) => p.type === "minute")?.value ?? "0",
-  );
-  const currentDay = sydneyTime.getDay();
+  // Parse Sydney time components
+  const [weekday, time] = sydneyTime.split(", ");
+  const [hour, minute] = time.split(":").map(Number);
+  const currentDayOfWeek = [
+    "sunday",
+    "monday",
+    "tuesday",
+    "wednesday",
+    "thursday",
+    "friday",
+    "saturday",
+  ].indexOf(weekday.toLowerCase());
+  const currentTimeMinutes = hour * 60 + minute;
 
-  // Check each stream
+  // Check each stream configuration
   for (const stream of Object.values(STREAMS_CONFIG)) {
-    if (currentDay === stream.day) {
-      const streamStartMinutes = stream.startHour * 60 + stream.startMinute;
-      const currentTimeMinutes = currentHour * 60 + currentMinute;
-      const streamEndMinutes = streamStartMinutes + stream.durationMinutes;
+    const streamStartMinutes = stream.startHour * 60 + stream.startMinute;
+    const streamEndMinutes = streamStartMinutes + stream.durationMinutes;
 
-      if (
-        currentTimeMinutes >= streamStartMinutes - stream.notifyMinutesBefore &&
-        currentTimeMinutes < streamEndMinutes
-      ) {
-        const startTime = new Date(sydneyTime);
-        startTime.setHours(stream.startHour, stream.startMinute, 0, 0);
+    // Calculate days until next stream
+    let daysUntilStream = (stream.day - currentDayOfWeek + 7) % 7;
+    if (daysUntilStream === 0 && currentTimeMinutes >= streamEndMinutes) {
+      daysUntilStream = 7; // If stream already ended today, look for next week
+    }
 
-        const endTime = new Date(startTime);
-        endTime.setMinutes(startTime.getMinutes() + stream.durationMinutes);
+    // If we're within the stream window (including notification time)
+    if (
+      daysUntilStream === 0 &&
+      currentTimeMinutes >= streamStartMinutes - stream.notifyMinutesBefore &&
+      currentTimeMinutes < streamEndMinutes
+    ) {
+      // Create a Date object for the stream start time in Sydney timezone
+      const startTime = new Date(now);
+      startTime.setHours(stream.startHour, stream.startMinute, 0, 0);
 
-        const notifyTime = new Date(startTime);
-        notifyTime.setMinutes(
-          startTime.getMinutes() - stream.notifyMinutesBefore,
-        );
+      // Convert to local time for display
+      const localStartTime = new Date(
+        startTime.toLocaleString("en-US", { timeZone: "Australia/Sydney" }),
+      );
+      const localEndTime = new Date(
+        localStartTime.getTime() + stream.durationMinutes * 60 * 1000,
+      );
+      const localNotifyTime = new Date(
+        localStartTime.getTime() - stream.notifyMinutesBefore * 60 * 1000,
+      );
 
-        return {
-          startAt: startTime.getTime(),
-          endAt: endTime.getTime(),
-          notifyAt: notifyTime.getTime(),
-        };
-      }
+      return {
+        startAt: localStartTime.getTime(),
+        endAt: localEndTime.getTime(),
+        notifyAt: localNotifyTime.getTime(),
+      };
     }
   }
 
