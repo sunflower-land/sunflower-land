@@ -126,7 +126,9 @@ export const config = createConfig({
   },
 });
 
-export const WalletProvider: React.FC = ({ children }) => {
+export const WalletProvider: React.FC<React.PropsWithChildren> = ({
+  children,
+}) => {
   const walletService = useInterpret(
     walletMachine,
   ) as unknown as MachineInterpreter;

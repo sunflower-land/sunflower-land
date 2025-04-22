@@ -271,7 +271,7 @@ const WalletContent: React.FC<{ id?: number }> = ({ id }) => {
   return <Loading text={t("connecting")} />;
 };
 
-const WrappedWallet: React.FC<Props> = ({
+const WrappedWallet: React.FC<React.PropsWithChildren<Props>> = ({
   action,
   onReady,
   children,
@@ -350,7 +350,7 @@ const WrappedWallet: React.FC<Props> = ({
 
 export const queryClient = new QueryClient();
 
-export const Wallet: React.FC<Props> = (props) => (
+export const Wallet: React.FC<React.PropsWithChildren<Props>> = (props) => (
   <WagmiProvider config={config}>
     <QueryClientProvider client={queryClient}>
       <WrappedWallet {...props} />
@@ -358,7 +358,11 @@ export const Wallet: React.FC<Props> = (props) => (
   </WagmiProvider>
 );
 
-export const GameWallet: React.FC<Props> = ({ children, onReady, action }) => {
+export const GameWallet: React.FC<React.PropsWithChildren<Props>> = ({
+  children,
+  onReady,
+  action,
+}) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
@@ -394,7 +398,12 @@ export const GameWallet: React.FC<Props> = ({ children, onReady, action }) => {
   );
 };
 
-const PortalWalletContent: React.FC<Props> = ({ id, farmAddress, action }) => {
+const PortalWalletContent: React.FC<React.PropsWithChildren<Props>> = ({
+  id,
+  farmAddress,
+  action,
+  children,
+}) => {
   const { portalService } = useContext(PortalContext);
   const [portalState] = useActor(portalService);
 
@@ -631,7 +640,7 @@ const PortalWalletContent: React.FC<Props> = ({ id, farmAddress, action }) => {
   return <Loading text={t("connecting")} />;
 };
 
-export const PortalWallet: React.FC<Props> = ({
+export const PortalWallet: React.FC<React.PropsWithChildren<Props>> = ({
   action,
   onReady,
   children,

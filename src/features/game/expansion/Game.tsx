@@ -369,7 +369,9 @@ export const Game: React.FC = () => {
 const _showPWAInstallPrompt = (state: AuthMachineState) =>
   state.context.showPWAInstallPrompt;
 
-export const GameWrapper: React.FC = ({ children }) => {
+export const GameWrapper: React.FC<React.PropsWithChildren> = ({
+  children,
+}) => {
   const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
   const pwaInstallRef = usePWAInstall();

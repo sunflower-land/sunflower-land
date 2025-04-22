@@ -16,7 +16,7 @@ export interface BoxProps {
   onClick: () => void;
 }
 
-export const SimpleBox: React.FC<BoxProps> = ({
+export const SimpleBox: React.FC<React.PropsWithChildren<BoxProps>> = ({
   image,
   silhouette,
   className,

@@ -26,7 +26,7 @@ export interface PanelProps extends React.HTMLAttributes<HTMLDivElement> {
 /**
  * Default panel has the double layered pixel effect
  */
-export const Panel: React.FC<PanelProps> = ({
+export const Panel: React.FC<React.PropsWithChildren<PanelProps>> = ({
   children,
   hasTabs,
   bumpkinParts,
@@ -58,9 +58,11 @@ export const Panel: React.FC<PanelProps> = ({
  * Light panel with border effect
  */
 export const InnerPanel: React.FC<
-  React.HTMLAttributes<HTMLDivElement> & {
-    divRef?: React.RefObject<HTMLDivElement>;
-  }
+  React.PropsWithChildren<
+    React.HTMLAttributes<HTMLDivElement> & {
+      divRef?: React.RefObject<HTMLDivElement>;
+    }
+  >
 > = ({ children, ...divProps }) => {
   const { className, style, divRef, ...otherDivProps } = divProps;
 
@@ -86,7 +88,7 @@ export const InnerPanel: React.FC<
 /**
  * A panel with a single layered pixel effect
  */
-export const OuterPanel: React.FC<PanelProps> = ({
+export const OuterPanel: React.FC<React.PropsWithChildren<PanelProps>> = ({
   children,
   hasTabs,
   tabAlignment = "top",
@@ -139,11 +141,13 @@ type ButtonPanelProps = React.HTMLAttributes<HTMLDivElement>;
  * A panel with a single layered pixel effect
  */
 export const ButtonPanel: React.FC<
-  ButtonPanelProps & {
-    disabled?: boolean;
-    selected?: boolean;
-    variant?: "primary" | "secondary" | "card";
-  }
+  React.PropsWithChildren<
+    ButtonPanelProps & {
+      disabled?: boolean;
+      selected?: boolean;
+      variant?: "primary" | "secondary" | "card";
+    }
+  >
 > = ({ children, disabled, variant, ...divProps }) => {
   const { className, style, selected, ...otherDivProps } = divProps;
 
@@ -216,7 +220,9 @@ export const ButtonPanel: React.FC<
 };
 
 export const DropdownButtonPanel: React.FC<
-  React.HTMLAttributes<HTMLDivElement> & { disabled?: boolean }
+  React.PropsWithChildren<
+    React.HTMLAttributes<HTMLDivElement> & { disabled?: boolean }
+  >
 > = ({ children, disabled, ...divProps }) => {
   const { className, style, ...otherDivProps } = divProps;
 
@@ -243,7 +249,9 @@ export const DropdownButtonPanel: React.FC<
 };
 
 export const DropdownOptionsPanel: React.FC<
-  React.HTMLAttributes<HTMLDivElement> & { disabled?: boolean }
+  React.PropsWithChildren<
+    React.HTMLAttributes<HTMLDivElement> & { disabled?: boolean }
+  >
 > = ({ children, disabled, ...divProps }) => {
   const { className, style, ...otherDivProps } = divProps;
 

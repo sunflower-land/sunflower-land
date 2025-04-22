@@ -139,7 +139,9 @@ export interface MovableProps {
 
 const getMovingItem = (state: MachineState) => state.context.moving;
 
-export const MoveableComponent: React.FC<MovableProps> = ({
+export const MoveableComponent: React.FC<
+  React.PropsWithChildren<MovableProps>
+> = ({
   name,
   id,
   index,

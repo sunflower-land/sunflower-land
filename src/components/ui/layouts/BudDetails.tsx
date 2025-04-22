@@ -30,7 +30,7 @@ export const BudDetails: React.FC<Props> = ({
   budId,
   bud,
   actionView,
-}: Props) => {
+}) => {
   const icon = `https://${imageDomain}.sunflower-land.com/images/${budId}.webp`;
   const title = `${bud.type} Bud`;
   const { t } = useAppTranslation();
@@ -75,7 +75,7 @@ export const BudDetails: React.FC<Props> = ({
                   type="default"
                   className="whitespace-nowrap mr-2 mb-1"
                 >
-                  {property}
+                  {property.toString()}
                 </Label>
               ))}
           </div>

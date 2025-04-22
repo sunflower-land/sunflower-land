@@ -4,7 +4,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import classNames from "classnames";
 
-export const Ocean: React.FC = ({ children }) => {
+export const Ocean: React.FC<React.PropsWithChildren> = ({ children }) => {
   const [landingImageLoaded, setLandingImageLoaded] = useState(false);
 
   return (

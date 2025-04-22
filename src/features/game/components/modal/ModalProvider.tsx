@@ -43,19 +43,14 @@ export const ModalContext = createContext<{
   // eslint-disable-next-line no-console
 }>({ openModal: console.log });
 
-export const ModalProvider: FC = ({ children }) => {
+export const ModalProvider: FC<React.PropsWithChildren> = ({ children }) => {
   const [opened, setOpened] = useState<GlobalModal>();
-  const [closeable, setCloseable] = useState(true);
 
   const openModal = (type: GlobalModal) => {
     setOpened(type);
   };
 
-  const handleClose = () => {
-    if (!closeable) return;
-
-    setOpened(undefined);
-  };
+  const handleClose = () => setOpened(undefined);
 
   return (
     <ModalContext.Provider value={{ openModal }}>
