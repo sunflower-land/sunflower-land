@@ -103,9 +103,9 @@ export function getStream(): {
     if (streamStartTime < nextStreamTime) {
       nextStreamTime = streamStartTime;
       nextStream = {
-        startAt: streamStartTime,
-        endAt: streamStartTime + stream.durationMinutes * 60 * 1000,
-        notifyAt: streamStartTime - stream.notifyMinutesBefore * 60 * 1000,
+        startAt: nextStreamTime,
+        endAt: nextStreamTime + stream.durationMinutes * 60 * 1000,
+        notifyAt: nextStreamTime - stream.notifyMinutesBefore * 60 * 1000,
       };
     }
   }
