@@ -5770,6 +5770,6 @@
   "easter-eggstravaganza.portal.missionObjectives": "任务：达到 {{targetScore}}。",
   "easter-eggstravaganza.portal.rewardMessage": "恭喜，您完成了任务！这是您的奖励。",
   "maxPerPerson": "每位玩家至多：{{max}}",
-  "stream.beginsSoon": "直播快开始了",
-  "stream.isLive": "正在直播"
+  "stream.beginsSoon": "距离市政厅直播还剩：",
+  "stream.isLive": "市政厅正在直播"
 }
