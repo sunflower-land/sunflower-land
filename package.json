@@ -108,7 +108,7 @@
     "@types/pubsub-js": "^1.8.6",
     "@types/qrcode.react": "^1.0.5",
     "@types/react": "^17.0.33",
-    "@types/react-dom": "^17.0.10",
+    "@types/react-dom": "^18.3.1",
     "@types/react-google-recaptcha": "^2.1.5",
     "@types/react-window": "^1.8.8",
     "@types/string-similarity": "^4.0.0",
