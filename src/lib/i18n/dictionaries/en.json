@@ -5769,5 +5769,7 @@
   "easter-eggstravaganza.portal.description": "Collect the eggs before they fall. Can you save the easter eggs?",
   "easter-eggstravaganza.portal.missionObjectives": "Mission: Reach {{targetScore}}.",
   "easter-eggstravaganza.portal.rewardMessage": "Congratulations, you completed the mission! Here is your reward.",
-  "maxPerPerson": "Max per player: {{max}}"
+  "maxPerPerson": "Max per player: {{max}}",
+  "stream.beginsSoon": "Town Hall Starts In",
+  "stream.isLive": "Town Hall"
 }

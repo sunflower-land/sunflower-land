@@ -5769,5 +5769,7 @@
   "easter-eggstravaganza.portal.description": "Kumpulkan telur sebelum jatuh. Bolehkah anda menyimpan telur Paskah?",
   "easter-eggstravaganza.portal.missionObjectives": "Misi: Jangkau {{targetScore}}.",
   "easter-eggstravaganza.portal.rewardMessage": "Tahniah, anda menyelesaikan misi! Inilah ganjaran anda.",
-  "maxPerPerson": "Maksimum bagi setiap pemain: {{max}}"
+  "maxPerPerson": "Maksimum bagi setiap pemain: {{max}}",
+  "stream.beginsSoon": "Dewan Bandaran Bermula Pada",
+  "stream.isLive": "Dewan Bandaran"
 }

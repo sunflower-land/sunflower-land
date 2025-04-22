@@ -5769,5 +5769,7 @@
   "easter-eggstravaganza.portal.description": "떨어지기 전에 알을 모으십시오.부활절 달걀을 구할 수 있나요?",
   "easter-eggstravaganza.portal.missionObjectives": "임무: {{targetScore}} 에 도달하세요.",
   "easter-eggstravaganza.portal.rewardMessage": "축하합니다. 임무를 완수했습니다!보상은 다음과 같습니다.",
-  "maxPerPerson": "플레이어당 최대: {{max}}"
+  "maxPerPerson": "플레이어당 최대: {{max}}",
+  "stream.beginsSoon": "타운홀이 시작됩니다",
+  "stream.isLive": "타운 홀"
 }

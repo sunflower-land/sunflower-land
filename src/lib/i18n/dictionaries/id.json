@@ -5769,5 +5769,7 @@
   "easter-eggstravaganza.portal.description": "Kumpulkan telur sebelum jatuh. Bisakah Anda menyimpan telur paskah?",
   "easter-eggstravaganza.portal.missionObjectives": "Misi: Jangkau {{targetScore}}.",
   "easter-eggstravaganza.portal.rewardMessage": "Selamat, Anda telah menyelesaikan misi! Inilah hadiahmu.",
-  "maxPerPerson": "Maks per pemain: {{max}}"
+  "maxPerPerson": "Maks per pemain: {{max}}",
+  "stream.beginsSoon": "Balai Kota Dimulai Pada",
+  "stream.isLive": "Balai Kota"
 }

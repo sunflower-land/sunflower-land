@@ -5769,5 +5769,7 @@
   "easter-eggstravaganza.portal.description": "Ramassez les œufs avant qu'ils ne tombent. Peux-tu conserver les œufs de Pâques ?",
   "easter-eggstravaganza.portal.missionObjectives": "Mission : Atteindre {{targetScore}}.",
   "easter-eggstravaganza.portal.rewardMessage": "Félicitations, vous avez terminé la mission ! Voici ta récompense.",
-  "maxPerPerson": "Maximum par joueur : {{max}}"
+  "maxPerPerson": "Maximum par joueur : {{max}}",
+  "stream.beginsSoon": "L'hôtel de ville commence à",
+  "stream.isLive": "Hôtel de ville"
 }

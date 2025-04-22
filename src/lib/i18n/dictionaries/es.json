@@ -5769,5 +5769,7 @@
   "easter-eggstravaganza.portal.description": "Recoge los huevos antes de que caigan. ¿Puedes guardar los huevos de pascua?",
   "easter-eggstravaganza.portal.missionObjectives": "Misión: Alcanzar {{targetScore}}.",
   "easter-eggstravaganza.portal.rewardMessage": "¡Enhorabuena, has completado la misión! Aquí tienes tu recompensa.",
-  "maxPerPerson": "Máximo por jugador: {{max}}"
+  "maxPerPerson": "Máximo por jugador: {{max}}",
+  "stream.beginsSoon": "El ayuntamiento comienza en",
+  "stream.isLive": "Ayuntamiento"
 }

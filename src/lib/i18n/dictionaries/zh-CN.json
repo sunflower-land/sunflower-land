@@ -5769,5 +5769,7 @@
   "easter-eggstravaganza.portal.description": "在鸡蛋掉下来之前收集它们。你能保存复活节彩蛋吗？",
   "easter-eggstravaganza.portal.missionObjectives": "任务：达到 {{targetScore}}。",
   "easter-eggstravaganza.portal.rewardMessage": "恭喜，你完成了任务！这是你的奖励。",
-  "maxPerPerson": "每位玩家的最大上限：{{max}}"
+  "maxPerPerson": "每位玩家的最大上限：{{max}}",
+  "stream.beginsSoon": "市政厅开始了",
+  "stream.isLive": "市政厅"
 }

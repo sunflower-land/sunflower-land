@@ -5769,5 +5769,7 @@
   "easter-eggstravaganza.portal.description": "Yumurtaları düşmeden toplayın. Paskalya yumurtalarını kurtarabilir misin?",
   "easter-eggstravaganza.portal.missionObjectives": "Görev: Ulaşın {{targetScore}}.",
   "easter-eggstravaganza.portal.rewardMessage": "Tebrikler, görevi tamamladınız! İşte ödülünüz.",
-  "maxPerPerson": "Oyuncu başına maksimum: {{max}}"
+  "maxPerPerson": "Oyuncu başına maksimum: {{max}}",
+  "stream.beginsSoon": "Belediye Binası Başlıyor",
+  "stream.isLive": "Belediye Binası"
 }

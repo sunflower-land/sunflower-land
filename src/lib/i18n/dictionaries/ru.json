@@ -5769,5 +5769,7 @@
   "easter-eggstravaganza.portal.description": "Собирайте яйца до того, как они упадут. Можете ли вы сохранить пасхальные яйца?",
   "easter-eggstravaganza.portal.missionObjectives": "Миссия: достичь {{targetScore}}.",
   "easter-eggstravaganza.portal.rewardMessage": "Поздравляем, вы выполнили задание! Вот ваша награда.",
-  "maxPerPerson": "Максимум на игрока: {{max}}"
+  "maxPerPerson": "Максимум на игрока: {{max}}",
+  "stream.beginsSoon": "Ратуша начинается в",
+  "stream.isLive": "Ратуша"
 }

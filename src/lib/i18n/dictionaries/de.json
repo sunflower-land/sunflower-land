@@ -5769,5 +5769,7 @@
   "easter-eggstravaganza.portal.description": "Sammle die Eier ein, bevor sie fallen. Kannst du die Ostereier retten?",
   "easter-eggstravaganza.portal.missionObjectives": "Auftrag: Erreiche {{targetScore}}.",
   "easter-eggstravaganza.portal.rewardMessage": "Herzlichen Glückwunsch, du hast die Mission abgeschlossen! Hier ist deine Belohnung.",
-  "maxPerPerson": "Höchstzahl pro Spieler: {{max}}"
+  "maxPerPerson": "Höchstzahl pro Spieler: {{max}}",
+  "stream.beginsSoon": "Das Rathaus beginnt in",
+  "stream.isLive": "Rathaus"
 }
