@@ -14,7 +14,7 @@ interface Props {
 /**
  * A button which is trigger on touch, not release
  */
-export const SensitiveButton: React.FC<Props> = ({
+export const SensitiveButton: React.FC<React.PropsWithChildren<Props>> = ({
   children,
   onClick,
   disabled,

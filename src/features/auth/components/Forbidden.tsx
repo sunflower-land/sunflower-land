@@ -1,6 +1,4 @@
-import React, { useContext } from "react";
-
-import * as Auth from "features/auth/lib/Provider";
+import React from "react";
 
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -10,7 +8,6 @@ interface Props {
   onClose: () => void;
 }
 export const Forbidden: React.FC<Props> = ({ onClose }) => {
-  const { authService } = useContext(Auth.Context);
   const { t } = useAppTranslation();
 
   return (
