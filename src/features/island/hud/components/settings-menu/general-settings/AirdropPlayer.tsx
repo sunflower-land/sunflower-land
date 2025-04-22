@@ -433,7 +433,7 @@ export const AirdropPlayer: React.FC<
       basicItems={basicItems}
       message={message}
       setMessage={setMessage}
-      onSend={send}
+      onSend={() => send()}
       disabled={disabled}
       setShowAdvancedItems={setShowAdvancedItems}
       hasDevAccess={hasDevAccess}
