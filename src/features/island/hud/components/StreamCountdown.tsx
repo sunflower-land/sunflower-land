@@ -3,7 +3,10 @@ import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { getStream } from "features/game/components/modal/components/Streams";
+import {
+  getStream,
+  StreamNotification,
+} from "features/game/components/modal/components/Streams";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { ButtonPanel } from "components/ui/Panel";
 import promoteIcon from "assets/icons/promote.webp";
@@ -11,17 +14,14 @@ import { useNavigate } from "react-router";
 const Countdown: React.FC<{
   startAt: number;
   endAt: number;
+  notifyAt: number;
   onHide: () => void;
-}> = ({ startAt, endAt, onHide }) => {
+}> = ({ startAt, endAt, notifyAt, onHide }) => {
   const start = useCountdown(startAt);
   const end = useCountdown(endAt);
   const { t } = useAppTranslation();
 
-  if (endAt < Date.now()) {
-    return null;
-  }
-
-  if (Date.now() < startAt && Date.now() > startAt - 1000 * 60 * 10) {
+  if (Date.now() < startAt && Date.now() > notifyAt) {
     return (
       <div>
         <div className="h-6 flex justify-center">
@@ -68,10 +68,7 @@ const Countdown: React.FC<{
 
 export const StreamCountdown: React.FC = () => {
   const [hide, setHide] = useState(false);
-  const [stream, setStream] = useState<{
-    startAt: number;
-    endAt: number;
-  } | null>(getStream());
+  const [stream, setStream] = useState<StreamNotification | null>(getStream());
 
   const navigate = useNavigate();
 
@@ -83,7 +80,14 @@ export const StreamCountdown: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
-  if (!stream || hide) return null;
+  if (
+    !stream ||
+    hide ||
+    Date.now() < stream.notifyAt ||
+    Date.now() > stream.endAt
+  ) {
+    return null;
+  }
 
   return (
     <ButtonPanel
@@ -95,6 +99,7 @@ export const StreamCountdown: React.FC = () => {
       <Countdown
         startAt={stream.startAt}
         endAt={stream.endAt}
+        notifyAt={stream.notifyAt}
         onHide={() => setHide(true)}
       />
     </ButtonPanel>
