@@ -18,10 +18,6 @@ const Countdown: React.FC<{
   const end = useCountdown(endAt);
   const { t } = useAppTranslation();
 
-  if (endAt < Date.now()) {
-    return null;
-  }
-
   if (Date.now() < startAt && Date.now() > notifyAt) {
     return (
       <div>
@@ -85,7 +81,14 @@ export const StreamCountdown: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
-  if (!stream || hide) return null;
+  if (
+    !stream ||
+    hide ||
+    Date.now() < stream.notifyAt ||
+    Date.now() > stream.endAt
+  ) {
+    return null;
+  }
 
   return (
     <ButtonPanel

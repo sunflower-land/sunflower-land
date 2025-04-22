@@ -90,6 +90,9 @@ export function getStream(): {
   endAt: number;
   notifyAt: number;
 } | null {
+  let nextStream = null;
+  let nextStreamTime = Infinity;
+
   for (const stream of Object.values(STREAMS_CONFIG)) {
     const streamStartTime = getNextStreamTime({
       day: stream.day,
@@ -97,14 +100,17 @@ export function getStream(): {
       minute: stream.startMinute,
     });
 
-    return {
-      startAt: streamStartTime,
-      endAt: streamStartTime + stream.durationMinutes * 60 * 1000,
-      notifyAt: streamStartTime - stream.notifyMinutesBefore * 60 * 1000,
-    };
+    if (streamStartTime < nextStreamTime) {
+      nextStreamTime = streamStartTime;
+      nextStream = {
+        startAt: streamStartTime,
+        endAt: streamStartTime + stream.durationMinutes * 60 * 1000,
+        notifyAt: streamStartTime - stream.notifyMinutesBefore * 60 * 1000,
+      };
+    }
   }
 
-  return null;
+  return nextStream;
 }
 
 export const Streams: React.FC<{ onClose: () => void }> = ({ onClose }) => {
