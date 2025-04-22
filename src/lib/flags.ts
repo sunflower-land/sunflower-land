@@ -41,12 +41,11 @@ const timePeriodFeatureFlag =
   };
 
 // Used for testing production features and dev access
-export const ADMIN_IDS = [1, 3, 39488, 73795, 128727];
+export const ADMIN_IDS = [1, 3, 39488, 128727];
 /**
  * Adam: 1
  * Spencer: 3
  * Craig: 39488
- * LittleEins: 73795
  * Elias: 128727
  */
 
