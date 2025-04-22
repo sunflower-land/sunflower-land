@@ -20,6 +20,11 @@ type StreamConfig = {
   notifyMinutesBefore: number;
 };
 
+const NO_STREAM_DATES = [
+  "2025-04-25", // ANZAC Day
+  "2025-12-26", // Boxing Day
+];
+
 export const STREAMS_CONFIG = {
   tuesday: {
     day: 2,
@@ -71,6 +76,16 @@ export const getNextStreamTime = (schedule: StreamSchedule): number => {
       daysUntilStream * 24 * 60 + // Days in minutes
       (schedule.hour * 60 + schedule.minute) - // Stream time
       (currentHour * 60 + currentMinute); // Current time
+  }
+
+  const nextStreamDate = new Date(
+    sydneyTime.getTime() + minutesUntilStream * 60000,
+  )
+    .toISOString()
+    .split("T")[0];
+
+  if (NO_STREAM_DATES.includes(nextStreamDate)) {
+    minutesUntilStream += 7 * 24 * 60;
   }
 
   // Create the next stream time by adding minutes to current time
