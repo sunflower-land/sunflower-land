@@ -25,6 +25,7 @@ import { CONFIG } from "lib/config";
 import { getKeys } from "features/game/types/decorations";
 import { signTypedData } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
+import { WalletContext } from "features/wallet/WalletProvider";
 
 // Types
 interface AirdropItem {
@@ -274,12 +275,14 @@ export const AirdropPlayer: React.FC<
 > = ({ id = 0 }) => {
   const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
+  const { walletService } = useContext(WalletContext);
 
   const hasDevAccess = useSelector(
     gameService,
     (state) =>
       ADMIN_IDS.includes(state.context.farmId) || CONFIG.NETWORK === "amoy",
   );
+  const chainId = useSelector(walletService, (state) => state.context.chainId);
 
   // Basic state
   const [farmId, setFarmId] = useState(id);
@@ -337,7 +340,7 @@ export const AirdropPlayer: React.FC<
       domain: {
         name: "Sunflower Land",
         version: "1",
-        chainId: CONFIG.NETWORK === "amoy" ? 80002 : 137,
+        chainId,
       },
       types: {
         Airdrop: [
