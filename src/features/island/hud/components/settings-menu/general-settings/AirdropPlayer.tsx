@@ -410,12 +410,30 @@ export const AirdropPlayer: React.FC<
     setSelectedWearables,
   };
 
-  const Content: React.FC<{ onSend: () => Promise<void> }> = ({ onSend }) => (
+  if (canSendAdvancedItems) {
+    return (
+      <GameWallet action="login">
+        <AirdropContent
+          basicItems={basicItems}
+          message={message}
+          setMessage={setMessage}
+          onSend={signMessage}
+          disabled={disabled}
+          setShowAdvancedItems={setShowAdvancedItems}
+          hasDevAccess={hasDevAccess}
+          showAdvancedItems={showAdvancedItems}
+          advancedItemsProps={advancedItemsProps}
+        />
+      </GameWallet>
+    );
+  }
+
+  return (
     <AirdropContent
       basicItems={basicItems}
       message={message}
       setMessage={setMessage}
-      onSend={onSend}
+      onSend={send}
       disabled={disabled}
       setShowAdvancedItems={setShowAdvancedItems}
       hasDevAccess={hasDevAccess}
@@ -423,14 +441,4 @@ export const AirdropPlayer: React.FC<
       advancedItemsProps={advancedItemsProps}
     />
   );
-
-  if (canSendAdvancedItems) {
-    return (
-      <GameWallet action="login">
-        <Content onSend={signMessage} />
-      </GameWallet>
-    );
-  }
-
-  return <Content onSend={send} />;
 };
