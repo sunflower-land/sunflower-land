@@ -90,53 +90,18 @@ export function getStream(): {
   endAt: number;
   notifyAt: number;
 } | null {
-  // Get current time in Sydney timezone
-  const sydneyTime = new Date();
-  const formatter = new Intl.DateTimeFormat("en-US", {
-    timeZone: "Australia/Sydney",
-    hour: "numeric",
-    minute: "numeric",
-    hour12: false,
-  });
-
-  const parts = formatter.formatToParts(sydneyTime);
-  const currentHour = parseInt(
-    parts.find((p) => p.type === "hour")?.value ?? "0",
-  );
-  const currentMinute = parseInt(
-    parts.find((p) => p.type === "minute")?.value ?? "0",
-  );
-  const currentDay = sydneyTime.getDay();
-
-  // Check each stream
   for (const stream of Object.values(STREAMS_CONFIG)) {
-    if (currentDay === stream.day) {
-      const streamStartMinutes = stream.startHour * 60 + stream.startMinute;
-      const currentTimeMinutes = currentHour * 60 + currentMinute;
-      const streamEndMinutes = streamStartMinutes + stream.durationMinutes;
+    const streamStartTime = getNextStreamTime({
+      day: stream.day,
+      hour: stream.startHour,
+      minute: stream.startMinute,
+    });
 
-      if (
-        currentTimeMinutes >= streamStartMinutes - stream.notifyMinutesBefore &&
-        currentTimeMinutes < streamEndMinutes
-      ) {
-        const startTime = new Date(sydneyTime);
-        startTime.setHours(stream.startHour, stream.startMinute, 0, 0);
-
-        const endTime = new Date(startTime);
-        endTime.setMinutes(startTime.getMinutes() + stream.durationMinutes);
-
-        const notifyTime = new Date(startTime);
-        notifyTime.setMinutes(
-          startTime.getMinutes() - stream.notifyMinutesBefore,
-        );
-
-        return {
-          startAt: startTime.getTime(),
-          endAt: endTime.getTime(),
-          notifyAt: notifyTime.getTime(),
-        };
-      }
-    }
+    return {
+      startAt: streamStartTime,
+      endAt: streamStartTime + stream.durationMinutes * 60 * 1000,
+      notifyAt: streamStartTime - stream.notifyMinutesBefore * 60 * 1000,
+    };
   }
 
   return null;

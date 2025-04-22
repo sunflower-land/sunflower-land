@@ -11,8 +11,9 @@ import { useNavigate } from "react-router";
 const Countdown: React.FC<{
   startAt: number;
   endAt: number;
+  notifyAt: number;
   onHide: () => void;
-}> = ({ startAt, endAt, onHide }) => {
+}> = ({ startAt, endAt, notifyAt, onHide }) => {
   const start = useCountdown(startAt);
   const end = useCountdown(endAt);
   const { t } = useAppTranslation();
@@ -21,7 +22,7 @@ const Countdown: React.FC<{
     return null;
   }
 
-  if (Date.now() < startAt && Date.now() > startAt - 1000 * 60 * 10) {
+  if (Date.now() < startAt && Date.now() > notifyAt) {
     return (
       <div>
         <div className="h-6 flex justify-center">
@@ -71,6 +72,7 @@ export const StreamCountdown: React.FC = () => {
   const [stream, setStream] = useState<{
     startAt: number;
     endAt: number;
+    notifyAt: number;
   } | null>(getStream());
 
   const navigate = useNavigate();
@@ -95,6 +97,7 @@ export const StreamCountdown: React.FC = () => {
       <Countdown
         startAt={stream.startAt}
         endAt={stream.endAt}
+        notifyAt={stream.notifyAt}
         onHide={() => setHide(true)}
       />
     </ButtonPanel>

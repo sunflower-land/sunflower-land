@@ -108,9 +108,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Iron: new Decimal(1000),
     Gold: new Decimal(1000),
   },
-  wardrobe: {
-    Halo: 1,
-  },
+  wardrobe: {},
   previousWardrobe: {},
   bank: { taxFreeSFL: 0 },
   beehives: {},
