@@ -23,10 +23,10 @@ type StreamConfig = {
 export const STREAMS_CONFIG = {
   tuesday: {
     day: 2,
-    startHour: 15,
+    startHour: 18,
     startMinute: 30,
     durationMinutes: 60,
-    notifyMinutesBefore: 10,
+    notifyMinutesBefore: 20,
   } as StreamConfig,
   friday: {
     day: 5,
@@ -37,48 +37,52 @@ export const STREAMS_CONFIG = {
   } as StreamConfig,
 };
 
-export const getNextStreamTime = (schedule: StreamSchedule): Date => {
-  // Get current time in Sydney timezone
+export const getNextStreamTime = (schedule: StreamSchedule): number => {
+  // Create a date object in Sydney timezone
   const sydneyTime = new Date();
-  const formatter = new Intl.DateTimeFormat("en-US", {
-    timeZone: "Australia/Sydney",
-    hour: "numeric",
-    minute: "numeric",
-    hour12: false,
-  });
-
-  const parts = formatter.formatToParts(sydneyTime);
-  const currentHour = parseInt(
-    parts.find((p) => p.type === "hour")?.value ?? "0",
-  );
-  const currentMinute = parseInt(
-    parts.find((p) => p.type === "minute")?.value ?? "0",
+  const sydneyDate = new Date(
+    sydneyTime.toLocaleString("en-US", { timeZone: "Australia/Sydney" }),
   );
 
-  // Calculate hours and minutes to add
-  let hoursToAdd = schedule.hour - currentHour;
-  let minutesToAdd = schedule.minute - currentMinute;
+  // Get current day, hour and minute in Sydney
+  const currentDay = sydneyDate.getDay();
+  const currentHour = sydneyDate.getHours();
+  const currentMinute = sydneyDate.getMinutes();
 
-  // Adjust if minutes or hours are negative
-  if (minutesToAdd < 0) {
-    hoursToAdd--;
-    minutesToAdd += 60;
+  // Calculate minutes until next stream
+  let minutesUntilStream = 0;
+
+  // If we're past the stream time today, calculate for next week
+  if (
+    currentDay === schedule.day &&
+    (currentHour > schedule.hour ||
+      (currentHour === schedule.hour && currentMinute >= schedule.minute))
+  ) {
+    minutesUntilStream =
+      7 * 24 * 60 - // Full week in minutes
+      (currentHour * 60 + currentMinute) + // Minutes passed today
+      (schedule.hour * 60 + schedule.minute); // Stream time
+  } else {
+    // Calculate days until next stream
+    const daysUntilStream = (schedule.day - currentDay + 7) % 7;
+
+    // Calculate total minutes until stream
+    minutesUntilStream =
+      daysUntilStream * 24 * 60 + // Days in minutes
+      (schedule.hour * 60 + schedule.minute) - // Stream time
+      (currentHour * 60 + currentMinute); // Current time
   }
-  if (hoursToAdd < 0) hoursToAdd += 24;
 
-  // Set the next stream time
-  sydneyTime.setHours(sydneyTime.getHours() + hoursToAdd);
-  sydneyTime.setMinutes(sydneyTime.getMinutes() + minutesToAdd);
-  sydneyTime.setSeconds(0);
-  sydneyTime.setMilliseconds(0);
+  // Create the next stream time by adding minutes to current time
+  const nextStreamTime = new Date(
+    sydneyTime.getTime() + minutesUntilStream * 60000,
+  );
 
-  // Adjust day if needed
-  if (schedule.day !== undefined) {
-    const daysToAdd = (schedule.day - sydneyTime.getDay() + 7) % 7;
-    sydneyTime.setDate(sydneyTime.getDate() + daysToAdd);
-  }
+  // Set seconds to 00 by rounding down to the nearest minute
+  nextStreamTime.setSeconds(0);
+  nextStreamTime.setMilliseconds(0);
 
-  return sydneyTime;
+  return nextStreamTime.getTime();
 };
 
 export function getStream(): {
@@ -163,14 +167,14 @@ export const Streams: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           icon={SUNNYSIDE.icons.stopwatch}
           className="mb-2 ml-2"
         >
-          {`${t("streams.discord")} - ${tuesdayStream.toLocaleString()}`}
+          {`${t("streams.discord")} - ${new Date(tuesdayStream).toLocaleString()}`}
         </Label>
         <Label
           type="transparent"
           icon={SUNNYSIDE.icons.stopwatch}
           className="mb-2 ml-2"
         >
-          {`${t("streams.twitch")} - ${fridayStream.toLocaleString()}`}
+          {`${t("streams.twitch")} - ${new Date(fridayStream).toLocaleString()}`}
         </Label>
       </div>
       <div className="flex">
