@@ -1050,6 +1050,10 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Bronze Love Box": 2241,
   "Silver Love Box": 2242,
   "Gold Love Box": 2243,
+  // Test Box: 2244
+  "Bronze Flower Box": 2245,
+  "Silver Flower Box": 2246,
+  "Gold Flower Box": 2247,
 };
 
 // The reverse of above

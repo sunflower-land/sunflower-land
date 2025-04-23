@@ -5951,5 +5951,8 @@
   "hotAirBalloon.flightTimes": "Flight times are limited",
   "hotAirBalloon.openNow": "Open Now",
   "hotAirBalloon.noFlights": "No scheduled flights available.",
-  "hotAirBalloon.letsGo": "Let's go"
+  "hotAirBalloon.letsGo": "Let's go",
+  "description.bronzeFlowerBox": "A bronze flower box",
+  "description.silverFlowerBox": "A silver flower box",
+  "description.goldFlowerBox": "A gold flower box"
 }

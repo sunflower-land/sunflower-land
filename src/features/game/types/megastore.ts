@@ -384,6 +384,15 @@ const WINDS_OF_CHANGE_ITEMS: SeasonalStoreItem[] = [
       sfl: 0,
     },
   },
+  {
+    collectible: "Bronze Flower Box",
+    cost: {
+      items: {
+        Timeshard: 250,
+      },
+      sfl: 0,
+    },
+  },
 ];
 
 const RARE_WINDS_OF_CHANGE_ITEMS: SeasonalStoreItem[] = [
@@ -430,6 +439,15 @@ const RARE_WINDS_OF_CHANGE_ITEMS: SeasonalStoreItem[] = [
       sfl: 0,
     },
   },
+  {
+    collectible: "Silver Flower Box",
+    cost: {
+      items: {
+        Timeshard: 750,
+      },
+      sfl: 0,
+    },
+  },
 ];
 
 const EPIC_WINDS_OF_CHANGE_ITEMS: SeasonalStoreItem[] = [
@@ -472,6 +490,15 @@ const EPIC_WINDS_OF_CHANGE_ITEMS: SeasonalStoreItem[] = [
     cost: {
       items: {
         Timeshard: 1000,
+      },
+      sfl: 0,
+    },
+  },
+  {
+    collectible: "Gold Flower Box",
+    cost: {
+      items: {
+        Timeshard: 1500,
       },
       sfl: 0,
     },

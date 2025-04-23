@@ -24,6 +24,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
   },
   inventory: {
     Beetroot: new Decimal(100),
+    Timeshard: new Decimal(1000),
     Jin: new Decimal(1),
     Egg: new Decimal(100),
     Oil: new Decimal(50),

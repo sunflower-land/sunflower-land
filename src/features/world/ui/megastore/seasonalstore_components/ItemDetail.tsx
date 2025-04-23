@@ -38,6 +38,7 @@ import {
   getSeasonalItemsCrafted,
   isKeyBoughtWithinSeason,
 } from "features/game/events/landExpansion/buySeasonalItem";
+import { REWARD_BOXES } from "features/game/types/rewardBoxes";
 
 interface ItemOverlayProps {
   item: SeasonalStoreItem | null;
@@ -249,6 +250,10 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     trackAnalytics();
     setShowSuccess(true);
     setConfirmBuy(false);
+
+    if (itemName && itemName in REWARD_BOXES) {
+      onClose();
+    }
   };
 
   const buttonHandler = () => {

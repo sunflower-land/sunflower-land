@@ -15,6 +15,8 @@ import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { InventoryItemName } from "features/game/types/game";
 import coinsIcon from "assets/icons/coins.webp";
 import vipIcon from "assets/icons/vip.webp";
+import flowerTokenIcon from "assets/icons/flower_token.webp";
+
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 export const RewardBox: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -57,7 +59,7 @@ export const RewardBox: React.FC = () => {
   );
 };
 
-type BoxRewardName = InventoryItemName | "Coins" | "VIP";
+type BoxRewardName = InventoryItemName | "Coins" | "VIP" | "Flower";
 
 export const OpeningBox: React.FC<{
   name: RewardBoxName;
@@ -82,6 +84,9 @@ export const OpeningBox: React.FC<{
       }
       if (reward.vipDays) {
         names = [...names, "VIP"];
+      }
+      if (reward.flower) {
+        names = [...names, "Flower"];
       }
       return names;
     },
@@ -123,7 +128,7 @@ export const OpeningBox: React.FC<{
             createdAt: 0,
             items: reward.items ?? {},
             wearables: {},
-            sfl: 0,
+            sfl: reward.flower ?? 0,
             vipDays: reward.vipDays ?? 0,
           }}
           onClaim={onClaimed}
@@ -172,7 +177,9 @@ export const OpeningBox: React.FC<{
                     ? coinsIcon
                     : name === "VIP"
                       ? vipIcon
-                      : ITEM_DETAILS[name]?.image
+                      : name === "Flower"
+                        ? flowerTokenIcon
+                        : ITEM_DETAILS[name]?.image
                 }
                 className={`w-8 absolute ${positions[index]} opacity-0 animate-pulse`}
                 style={{
