@@ -5771,5 +5771,9 @@
   "easter-eggstravaganza.portal.rewardMessage": "おめでとうございます。ミッションを完了しました！報酬はこちらです。",
   "maxPerPerson": "1 プレイヤーあたりの最大値:{{max}}",
   "stream.beginsSoon": "タウンホールが始まる",
-  "stream.isLive": "タウンホール"
+  "stream.isLive": "タウンホール",
+  "description.bronzeLoveBox": "ブロンズのラブボックス",
+  "description.silverLoveBox": "シルバーラブボックス",
+  "description.goldLoveBox": "ゴールドラブボックス",
+  "rewardBox.tapToOpen": "タップして開く"
 }

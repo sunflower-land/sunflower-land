@@ -5771,5 +5771,9 @@
   "easter-eggstravaganza.portal.rewardMessage": "Félicitations, vous avez terminé la mission ! Voici ta récompense.",
   "maxPerPerson": "Maximum par joueur : {{max}}",
   "stream.beginsSoon": "L'hôtel de ville commence à",
-  "stream.isLive": "Hôtel de ville"
+  "stream.isLive": "Hôtel de ville",
+  "description.bronzeLoveBox": "Une boîte à amour en bronze",
+  "description.silverLoveBox": "Une boîte à amour en argent",
+  "description.goldLoveBox": "Une boîte à amour dorée",
+  "rewardBox.tapToOpen": "Touchez pour ouvrir"
 }

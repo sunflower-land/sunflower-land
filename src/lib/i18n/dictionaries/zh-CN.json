@@ -5771,5 +5771,9 @@
   "easter-eggstravaganza.portal.rewardMessage": "恭喜，您完成了任务！这是您的奖励。",
   "maxPerPerson": "每位玩家至多：{{max}}",
   "stream.beginsSoon": "距离市政厅直播还剩：",
-  "stream.isLive": "市政厅正在直播"
+  "stream.isLive": "市政厅正在直播",
+  "description.bronzeLoveBox": "青铜爱心盒",
+  "description.silverLoveBox": "一个银色的爱心盒子",
+  "description.goldLoveBox": "一个金色的爱心盒子",
+  "rewardBox.tapToOpen": "点按即可打开"
 }

@@ -5771,5 +5771,9 @@
   "easter-eggstravaganza.portal.rewardMessage": "Selamat, Anda telah menyelesaikan misi! Inilah hadiahmu.",
   "maxPerPerson": "Maks per pemain: {{max}}",
   "stream.beginsSoon": "Balai Kota Dimulai Pada",
-  "stream.isLive": "Balai Kota"
+  "stream.isLive": "Balai Kota",
+  "description.bronzeLoveBox": "Kotak cinta perunggu",
+  "description.silverLoveBox": "Kotak cinta perak",
+  "description.goldLoveBox": "Kotak cinta emas",
+  "rewardBox.tapToOpen": "Ketuk untuk membuka"
 }

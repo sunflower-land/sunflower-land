@@ -5771,5 +5771,9 @@
   "easter-eggstravaganza.portal.rewardMessage": "Herzlichen Glückwunsch, du hast die Mission abgeschlossen! Hier ist deine Belohnung.",
   "maxPerPerson": "Höchstzahl pro Spieler: {{max}}",
   "stream.beginsSoon": "Das Rathaus beginnt in",
-  "stream.isLive": "Rathaus"
+  "stream.isLive": "Rathaus",
+  "description.bronzeLoveBox": "Eine bronzene Liebesbox",
+  "description.silverLoveBox": "Eine silberne Liebesbox",
+  "description.goldLoveBox": "Eine goldene Liebesbox",
+  "rewardBox.tapToOpen": "Zum Öffnen antippen"
 }
