@@ -11707,6 +11707,43 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/2243.png",
     name: "Gold Love Box",
   },
+  "Bronze Flower Box": {
+    description: "A box filled with love!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Rarity", value: "Common" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2245.png",
+    name: "Bronze Flower Box",
+  },
+
+  "Silver Flower Box": {
+    description: "A box filled with love!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Rarity", value: "Uncommon" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2246.png",
+    name: "Silver Flower Box",
+  },
+  "Gold Flower Box": {
+    description: "A box filled with love!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Rarity", value: "Rare" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2247.png",
+    name: "Gold Flower Box",
+  },
 };
 
 export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
