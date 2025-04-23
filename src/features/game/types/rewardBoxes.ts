@@ -30,24 +30,6 @@ type RewardBoxDetails = {
   rewards: RewardBoxReward[];
 };
 
-/**
- * Bronze rewards
- * 
- * 100 Gems (10%)
-3 VIP Days (10%)
-1500 Coins (10%)
-Time Warp Totem (10%)
-3 x Pirate Cake (10%)
-3x Antipasto (10%)
-Sunstone (10%)
-5 x Lure (10%)
-Margarita Pizza (5%)
-500 Love Charms (5%)
-Super Totem (5%)
-250 Gems (5%)
-
- */
-
 export const REWARD_BOXES: Record<RewardBoxName, RewardBoxDetails> = {
   "Bronze Love Box": {
     rewards: [
