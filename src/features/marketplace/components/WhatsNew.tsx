@@ -57,15 +57,19 @@ export const WhatsNew: React.FC = () => {
 
   return (
     <div className="flex flex-wrap">
-      <Label type="default" className="mb-2 -ml-1">
-        {t("collectibles")}
-      </Label>
-      <ItemsList items={sortedCollectibles} type="collectibles" />
+      <div className="w-full">
+        <Label type="default" className="mb-2 -ml-1">
+          {t("collectibles")}
+        </Label>
+        <ItemsList items={sortedCollectibles} type="collectibles" />
+      </div>
 
-      <Label type="default" className="mb-2 -ml-1">
-        {t("wearables")}
-      </Label>
-      <ItemsList items={sortedWearables} type="wearables" />
+      <div className="w-full">
+        <Label type="default" className="mb-2 -ml-1">
+          {t("wearables")}
+        </Label>
+        <ItemsList items={sortedWearables} type="wearables" />
+      </div>
     </div>
   );
 };
