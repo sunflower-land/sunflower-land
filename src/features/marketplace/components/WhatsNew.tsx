@@ -80,7 +80,7 @@ const ItemsList: React.FC<{
   const state = useSelector(gameService, _state);
 
   return (
-    <div>
+    <div className="flex flex-wrap">
       {items.slice(0, 6).map(({ id, floor, lastSalePrice, expiresAt }) => {
         const display = getTradeableDisplay({
           type,
