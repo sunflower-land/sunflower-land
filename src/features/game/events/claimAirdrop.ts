@@ -4,6 +4,24 @@ import { GameState } from "../types/game";
 
 import { produce } from "immer";
 
+export function addVipDays({
+  game,
+  vipDays,
+  createdAt,
+}: {
+  game: GameState;
+  vipDays: number;
+  createdAt: number;
+}): GameState["vip"] {
+  return {
+    ...game.vip,
+    bundles: game.vip?.bundles ?? [],
+    expiresAt:
+      Math.max(game.vip?.expiresAt ?? createdAt, createdAt) +
+      vipDays * 24 * 60 * 60 * 1000,
+  };
+}
+
 export type ClaimAirdropAction = {
   type: "airdrop.claimed";
   id: string;
@@ -46,12 +64,11 @@ export function claimAirdrop({ state, action }: Options): GameState {
 
     // Add VIP (don't set purchased bundle though)
     if (airdrop.vipDays) {
-      game.vip = {
-        bundles: game.vip?.bundles ?? [],
-        expiresAt:
-          Math.max(game.vip?.expiresAt ?? Date.now(), Date.now()) +
-          airdrop.vipDays * 24 * 60 * 60 * 1000,
-      };
+      game.vip = addVipDays({
+        game,
+        vipDays: airdrop.vipDays,
+        createdAt: Date.now(),
+      });
     }
 
     game.balance = game.balance.add(airdrop.sfl);

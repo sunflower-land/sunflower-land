@@ -1,4 +1,4 @@
-import { GameState } from "features/game/types/game";
+import { GameState, InventoryItemName } from "features/game/types/game";
 import {
   RewardBoxName,
   RewardBoxReward,
@@ -7,6 +7,8 @@ import {
 import { produce } from "immer";
 import { CONFIG } from "lib/config";
 import Decimal from "decimal.js-light";
+import { BumpkinItem } from "features/game/types/bumpkin";
+import { addVipDays } from "../claimAirdrop";
 
 function getReward({
   name,
@@ -75,7 +77,9 @@ export function openRewardBox({
       stateCopy.rewardBoxes = {};
     }
 
-    const history = stateCopy.rewardBoxes?.[name]?.history ?? {};
+    const history = stateCopy.rewardBoxes?.[name]?.history ?? {
+      total: 0,
+    };
 
     // Let the API handle the prize
     if (CONFIG.API_URL) {
@@ -89,21 +93,61 @@ export function openRewardBox({
 
     // Local testing only
 
-    const selectedReward = getReward({ name, game: stateCopy });
+    const selectedReward = getReward({
+      name,
+      game: stateCopy,
+    });
 
     if (!selectedReward) {
       throw new Error(`No reward found for ${name}`);
     }
 
-    if (!stateCopy.rewardBoxes) {
-      stateCopy.rewardBoxes = {};
+    history.total = history.total + 1;
+
+    if (selectedReward.wearables) {
+      history.wearables = {
+        ...(history.wearables ?? {}),
+        ...selectedReward.wearables,
+      };
+
+      Object.entries(selectedReward.wearables).forEach(([item, amount]) => {
+        const previous = stateCopy.wardrobe[item as BumpkinItem] ?? 0;
+        stateCopy.wardrobe[item as BumpkinItem] = previous + amount;
+      });
+    }
+
+    if (selectedReward.items) {
+      history.items = {
+        ...(history.items ?? {}),
+        ...selectedReward.items,
+      };
+
+      Object.entries(selectedReward.items).forEach(([item, amount]) => {
+        const previous =
+          stateCopy.inventory[item as InventoryItemName] ?? new Decimal(0);
+        stateCopy.inventory[item as InventoryItemName] = previous.plus(amount);
+      });
+    }
+
+    if (selectedReward.coins) {
+      history.coins = (history.coins ?? 0) + selectedReward.coins;
+      stateCopy.coins = stateCopy.coins + selectedReward.coins;
+    }
+
+    if (selectedReward.vipDays) {
+      history.vipDays = (history.vipDays ?? 0) + selectedReward.vipDays;
+      stateCopy.vip = addVipDays({
+        game: stateCopy,
+        vipDays: selectedReward.vipDays,
+        createdAt,
+      });
     }
 
     // Update gacha state with the new prize - UI only
     stateCopy.rewardBoxes[name] = {
       spunAt: createdAt,
       reward: selectedReward,
-      history: {},
+      history,
     };
 
     return stateCopy;

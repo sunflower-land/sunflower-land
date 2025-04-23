@@ -8,7 +8,14 @@ export type RewardBox = {
     items?: Partial<Record<InventoryItemName, number>>;
     wearables?: Partial<Wardrobe>;
   };
-  history: Partial<Record<InventoryItemName, number>>;
+  history: {
+    items?: Partial<Record<InventoryItemName, number>>;
+    wearables?: Partial<Wardrobe>;
+    coins?: number;
+    vipDays?: number;
+
+    total: number;
+  };
 };
 
 export type RewardBoxName =
