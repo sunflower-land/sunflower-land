@@ -31,31 +31,28 @@ export const RewardBox: React.FC = () => {
 
   const box = activeBox || unOpenedBox;
 
-  const open = () => {
-    gameService.send("rewardBox.opened", { name: box! });
-    gameService.send("SAVE");
-  };
-
   if (!gameState.matches("playing") && !gameState.matches("autosaving")) {
     return null;
   }
 
   return (
     <Modal show={!!box}>
-      {activeBox && <OpeningBox name={box!} />}
+      {box && <OpeningBox name={box!} />}
 
-      {!activeBox && (
+      {/* {!activeBox && (
         <div
           className="absolute inset-0 flex flex-col items-center justify-center cursor-pointer"
           onClick={open}
         >
-          <Label type="warning">{t("rewardBox.tapToOpen")}</Label>
+          <div className="h-12">
+            <Label type="warning">{t("rewardBox.tapToOpen")}</Label>
+          </div>
           <img
             src={box && ITEM_DETAILS[box!].image}
             className={classNames("w-32")}
           />
         </div>
-      )}
+      )} */}
     </Modal>
   );
 };
@@ -65,9 +62,9 @@ type BoxRewardName = InventoryItemName | "Coins" | "VIP";
 export const OpeningBox: React.FC<{
   name: RewardBoxName;
 }> = ({ name }) => {
-  const openedAt = useRef(Date.now());
+  const openedAt = useRef<number>(0);
   const { gameService, gameState } = useGame();
-
+  const { t } = useAppTranslation();
   // Animation duration for each crow
   const ANIMATION_DURATION = 1800;
   // Delay between each crow's animation
@@ -103,10 +100,18 @@ export const OpeningBox: React.FC<{
 
   const isReady = openedAt.current + 3000 < Date.now() && !!reward;
 
+  const open = () => {
+    gameService.send("rewardBox.opened", { name });
+    gameService.send("SAVE");
+    openedAt.current = Date.now();
+  };
+
   const onClaimed = () => {
     gameService.send("rewardBox.acknowledged", { name });
     gameService.send("SAVE");
   };
+
+  const isOpened = !!gameState.context.state.rewardBoxes?.[name]?.spunAt;
 
   if (isReady) {
     return (
@@ -140,32 +145,42 @@ export const OpeningBox: React.FC<{
   ];
 
   return (
-    <div className="absolute inset-0 flex flex-col items-center justify-center">
-      <Label type="transparent"></Label>
+    <div
+      className="absolute inset-0 h-full flex flex-col items-center justify-center cursor-pointer"
+      onClick={open}
+    >
+      <div className="h-24">
+        <Label type="warning" className="display-none">
+          {isOpened ? "?" : t("rewardBox.tapToOpen")}
+        </Label>
+      </div>
       <div className="w-32 h-32 relative">
         <img
           src={ITEM_DETAILS[name].image}
-          className={classNames("w-full animate-pulsate")}
+          className={classNames("w-full ", {
+            "animate-pulsate": isOpened,
+          })}
         />
-        {currentCrows.current
-          .filter((_, index) => !!positions[index])
-          .map((name, index) => (
-            <img
-              key={`${name}-${index}`}
-              src={
-                name === "Coins"
-                  ? coinsIcon
-                  : name === "VIP"
-                    ? vipIcon
-                    : ITEM_DETAILS[name]?.image
-              }
-              className={`w-8 absolute ${positions[index]} opacity-0 animate-pulse`}
-              style={{
-                animationDuration: `${ANIMATION_DURATION}ms`,
-                animationDelay: `${index * SEQUENCE_DELAY}ms`,
-              }}
-            />
-          ))}
+        {isOpened &&
+          currentCrows.current
+            .filter((_, index) => !!positions[index])
+            .map((name, index) => (
+              <img
+                key={`${name}-${index}`}
+                src={
+                  name === "Coins"
+                    ? coinsIcon
+                    : name === "VIP"
+                      ? vipIcon
+                      : ITEM_DETAILS[name]?.image
+                }
+                className={`w-8 absolute ${positions[index]} opacity-0 animate-pulse`}
+                style={{
+                  animationDuration: `${ANIMATION_DURATION}ms`,
+                  animationDelay: `${index * SEQUENCE_DELAY}ms`,
+                }}
+              />
+            ))}
       </div>
     </div>
   );
