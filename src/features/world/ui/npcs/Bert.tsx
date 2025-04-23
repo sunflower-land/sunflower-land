@@ -27,6 +27,8 @@ import { OuterPanel } from "components/ui/Panel";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
+import { hasFeatureAccess } from "lib/flags";
+import { INITIAL_FARM } from "features/game/lib/constants";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `bert-read.${host}-${window.location.pathname}`;
@@ -74,7 +76,7 @@ const _wardrobe = (state: MachineState) => state.context.state.wardrobe;
 
 export const Bert: React.FC<Props> = ({ onClose }) => {
   const { t } = useAppTranslation();
-  const [tab, setTab] = useState(0);
+  const [tab, setTab] = useState<"delivery" | "obsession">("delivery");
   const [showIntro, setShowIntro] = useState(!hasReadIntro());
   const dialogue = npcDialogues.bert || defaultDialogue;
   const intro = useRandomItem(dialogue.intro);
@@ -84,13 +86,13 @@ export const Bert: React.FC<Props> = ({ onClose }) => {
   const inventory = useSelector(gameService, _inventory);
   const wardrobe = useSelector(gameService, _wardrobe);
 
-  const handleIntro = (tab: number) => {
+  const handleIntro = (tab: "delivery" | "obsession") => {
     setShowIntro(false);
     acknowledgeIntroRead();
     setTab(tab);
   };
 
-  if (showIntro) {
+  if (showIntro && !hasFeatureAccess(INITIAL_FARM, "GOODBYE_BERT")) {
     return (
       <SpeakingModal
         onClose={onClose}
@@ -101,11 +103,11 @@ export const Bert: React.FC<Props> = ({ onClose }) => {
             actions: [
               {
                 text: t("obsession"),
-                cb: () => handleIntro(1),
+                cb: () => handleIntro("obsession"),
               },
               {
                 text: t("delivery"),
-                cb: () => handleIntro(0),
+                cb: () => handleIntro("delivery"),
               },
             ],
           },
@@ -118,16 +120,18 @@ export const Bert: React.FC<Props> = ({ onClose }) => {
     <CloseButtonPanel
       onClose={onClose}
       bumpkinParts={NPC_WEARABLES.bert}
-      container={tab === 0 ? OuterPanel : undefined}
+      container={tab === "delivery" ? OuterPanel : undefined}
       tabs={[
         { icon: SUNNYSIDE.icons.expression_chat, name: t("delivery") },
-        { icon: SUNNYSIDE.icons.wardrobe, name: t("obsession") },
+        ...(hasFeatureAccess(INITIAL_FARM, "GOODBYE_BERT")
+          ? []
+          : [{ icon: SUNNYSIDE.icons.wardrobe, name: t("obsession") }]),
       ]}
       setCurrentTab={setTab}
       currentTab={tab}
     >
-      {tab === 0 && <DeliveryPanelContent npc="bert" />}
-      {tab === 1 && (
+      {tab === "delivery" && <DeliveryPanelContent npc="bert" />}
+      {tab === "obsession" && (
         <BertObsession
           currentObsession={currentObsession}
           npcs={npcs}

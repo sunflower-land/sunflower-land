@@ -4,6 +4,7 @@ import { trackFarmActivity } from "features/game/types/farmActivity";
 import { GameState, InventoryItemName } from "features/game/types/game";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { produce } from "immer";
+import { hasFeatureAccess } from "lib/flags";
 import { translate } from "lib/i18n/translate";
 
 export type CompleteBertObsessionAction = {
@@ -21,6 +22,10 @@ export function completeBertObsession({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (stateCopy) => {
+    if (hasFeatureAccess(stateCopy, "GOODBYE_BERT")) {
+      throw new Error("Bert's Obesession has ended");
+    }
+
     const { bumpkin } = stateCopy;
 
     if (!bumpkin) {

@@ -106,6 +106,8 @@ const FEATURE_FLAGS = {
   STREAM_STAGE_ACCESS: adminFeatureFlag,
 
   LOVE_ISLAND: defaultFeatureFlag,
+
+  GOODBYE_BERT: timeBasedFeatureFlag(new Date("2025-05-01T00:00:00Z")),
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;
