@@ -15,6 +15,7 @@ interface DropdownProps {
   initialIndex?: number;
   placeholder?: string;
   maxHeight?: number;
+  showSearch?: boolean;
 }
 
 export const Dropdown: React.FC<DropdownProps> = ({
@@ -26,9 +27,11 @@ export const Dropdown: React.FC<DropdownProps> = ({
   initialIndex,
   placeholder = "Select an option",
   maxHeight = 14,
+  showSearch = false,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
   const dropdownRef = useRef<HTMLDivElement>(null);
   const [selectedValue, setSelectedValue] = useState<string | undefined>(
     initialIndex !== undefined ? options[initialIndex] : undefined,
@@ -51,26 +54,50 @@ export const Dropdown: React.FC<DropdownProps> = ({
       ) {
         setIsOpen(false);
         setIsFocused(false);
+        // Clear search when closing dropdown if no value is selected
+        if (!selectedValue) {
+          setSearchTerm("");
+        }
       }
     };
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
+  }, [selectedValue]);
 
   const handleChange = (newValue: string) => {
     setSelectedValue(newValue);
     onChange(newValue);
     setIsOpen(false);
+    setSearchTerm("");
   };
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(e.target.value);
+    if (!isOpen) {
+      setIsOpen(true);
+    }
+  };
+
+  const handleInputClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    if (!disabled) {
+      setIsOpen(true);
+    }
+  };
+
+  const filteredOptions = options
+    .filter((option) => option.toLowerCase().includes(searchTerm.toLowerCase()))
+    .sort((a, b) => {
+      // If option matches searchTerm exactly (case insensitive), put it first
+      if (a.toLowerCase() === searchTerm.toLowerCase()) return -1;
+      if (b.toLowerCase() === searchTerm.toLowerCase()) return 1;
+      return 0;
+    });
 
   return (
     <div className={`relative w-full ${className}`} ref={dropdownRef}>
       <div
-        onClick={() => !disabled && setIsOpen(!isOpen)}
-        onFocus={() => setIsFocused(true)}
-        onBlur={() => setIsFocused(false)}
-        tabIndex={0}
         style={{
           borderImageRepeat: "stretch",
           borderStyle: "solid",
@@ -82,18 +109,41 @@ export const Dropdown: React.FC<DropdownProps> = ({
           outline: "none",
         }}
         className={classNames(
-          "!bg-transparent cursor-pointer w-full p-2 h-10 font-secondary flex items-center justify-between",
+          "!bg-transparent w-full p-2 h-10 font-secondary flex items-center justify-between cursor-pointer",
           {
             "opacity-50 cursor-not-allowed": disabled,
             "text-gray-500": !selectedValue,
           },
         )}
       >
-        <span>{selectedValue || placeholder}</span>
+        {showSearch ? (
+          <input
+            type="text"
+            value={isOpen ? searchTerm : selectedValue || ""}
+            onChange={handleInputChange}
+            onClick={handleInputClick}
+            onFocus={() => setIsFocused(true)}
+            onBlur={() => setIsFocused(false)}
+            placeholder={placeholder}
+            className="w-full bg-transparent outline-none cursor-text font-secondary"
+            disabled={disabled}
+          />
+        ) : (
+          <span onClick={() => !disabled && setIsOpen(!isOpen)}>
+            {selectedValue || placeholder}
+          </span>
+        )}
         <img
           src={SUNNYSIDE.icons.chevron_down}
           alt="dropdown"
-          className={`w-4 h-4 transition-transform ${isOpen ? "rotate-180" : ""}`}
+          className={`w-4 h-4 transition-transform ${isOpen ? "rotate-180" : ""} cursor-pointer`}
+          onClick={(e) => {
+            e.stopPropagation();
+            if (!disabled) {
+              setIsOpen(!isOpen);
+              setSearchTerm("");
+            }
+          }}
         />
       </div>
 
@@ -109,8 +159,11 @@ export const Dropdown: React.FC<DropdownProps> = ({
             imageRendering: "pixelated",
           }}
         >
-          <div className={`max-h-${maxHeight} overflow-y-auto scrollable`}>
-            {options.map((option) => (
+          <div
+            className="overflow-y-auto scrollable"
+            style={{ maxHeight: `${maxHeight * 4}rem` }}
+          >
+            {filteredOptions.map((option) => (
               <div
                 key={option}
                 className={classNames(
@@ -124,6 +177,11 @@ export const Dropdown: React.FC<DropdownProps> = ({
                 {option}
               </div>
             ))}
+            {filteredOptions.length === 0 && (
+              <div className="p-2 text-gray-500 font-secondary">
+                {`No options found`}
+              </div>
+            )}
           </div>
         </div>
       )}

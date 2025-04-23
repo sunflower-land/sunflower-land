@@ -40,7 +40,7 @@ const timePeriodFeatureFlag =
     return Date.now() > start.getTime() && Date.now() < end.getTime();
   };
 
-// Used for testing production features
+// Used for testing production features and dev access
 export const ADMIN_IDS = [1, 3, 39488, 128727];
 /**
  * Adam: 1
@@ -67,6 +67,8 @@ const FEATURE_FLAGS = {
   // Permanent Feature Flags
   AIRDROP_PLAYER: adminFeatureFlag,
   HOARDING_CHECK: defaultFeatureFlag,
+  STREAMER_HAT: (game) =>
+    (game.wardrobe["Streamer Hat"] ?? 0) > 0 || testnetFeatureFlag(),
 
   // Temporary Feature Flags
   FACE_RECOGNITION: (game) =>
