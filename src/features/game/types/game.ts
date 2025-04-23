@@ -71,7 +71,6 @@ import { TradeableName } from "../actions/sellMarketResource";
 import { MinigameCurrency } from "../events/minigames/purchaseMinigameItem";
 import { FactionShopCollectibleName, FactionShopFoodName } from "./factionShop";
 import { DiggingFormationName } from "./desert";
-import { Rewards } from "./rewards";
 import { ExperimentName } from "lib/flags";
 import { CollectionName, MarketplaceTradeableName } from "./marketplace";
 import { GameTransaction } from "./transactions";
@@ -1405,8 +1404,6 @@ export interface GameState {
   home: Home;
   bank: Bank;
 
-  rewards: Rewards;
-
   choreBoard: ChoreBoard;
 
   competitions: {
@@ -1570,7 +1567,6 @@ export interface GameState {
 
   christmas2024?: Christmas;
   flowerShop?: FlowerShop;
-  megastore: MegaStore;
   specialEvents: SpecialEvents;
   goblinMarket: {
     resources: Partial<

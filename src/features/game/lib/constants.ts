@@ -12,7 +12,6 @@ import { getKeys } from "../types/craftables";
 import { BumpkinParts, tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 import { Equipped } from "../types/bumpkin";
 import { isSeed, SeedName } from "../types/seeds";
-import { INITIAL_REWARDS } from "../types/rewards";
 import { makeAnimalBuilding } from "./animals";
 import { ChoreBoard } from "../types/choreBoard";
 import { getSeasonalTicket } from "../types/seasons";
@@ -452,8 +451,6 @@ export const INITIAL_FARM: GameState = {
   flower: {},
   bumpkin: INITIAL_BUMPKIN,
 
-  rewards: INITIAL_REWARDS,
-
   minigames: {
     games: {
       "easter-eggstravaganza": {
@@ -462,15 +459,6 @@ export const INITIAL_FARM: GameState = {
       },
     },
     prizes: {},
-  },
-
-  megastore: {
-    available: {
-      from: 0,
-      to: 0,
-    },
-    collectibles: [],
-    wearables: [],
   },
 
   bounties: {
@@ -757,7 +745,6 @@ export const TEST_FARM: GameState = {
   },
   choreBoard: INITIAL_CHORE_BOARD,
 
-  rewards: INITIAL_REWARDS,
   minigames: {
     games: {},
     prizes: {},
@@ -1014,11 +1001,7 @@ export const TEST_FARM: GameState = {
     mushrooms: {},
   },
   beehives: {},
-  megastore: {
-    available: makeMegaStoreAvailableDates(),
-    collectibles: [],
-    wearables: [],
-  },
+
   specialEvents: {
     current: {},
     history: {},
@@ -1085,7 +1068,6 @@ export const EMPTY: GameState = {
   calendar: {
     dates: [],
   },
-  rewards: INITIAL_REWARDS,
   bank: { taxFreeSFL: 0 },
   experiments: [],
   minigames: {
@@ -1166,11 +1148,7 @@ export const EMPTY: GameState = {
     spawnedAt: 0,
     mushrooms: {},
   },
-  megastore: {
-    available: makeMegaStoreAvailableDates(),
-    collectibles: [],
-    wearables: [],
-  },
+
   specialEvents: {
     current: {},
     history: {},

@@ -8,7 +8,6 @@ import {
   INITIAL_EQUIPMENT,
   INITIAL_STOCK,
 } from "./constants";
-import { INITIAL_REWARDS } from "../types/rewards";
 import { Equipped } from "../types/bumpkin";
 import { tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 import { EXPIRY_COOLDOWNS } from "./collectibleBuilt";
@@ -225,20 +224,9 @@ export const STATIC_OFFLINE_FARM: GameState = {
     activity: {},
   },
 
-  rewards: INITIAL_REWARDS,
-
   minigames: {
     games: {},
     prizes: {},
-  },
-
-  megastore: {
-    available: {
-      from: 0,
-      to: 0,
-    },
-    collectibles: [],
-    wearables: [],
   },
 
   bounties: {
