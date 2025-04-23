@@ -8,10 +8,9 @@ import {
   DESERT_GRID_WIDTH,
   DiggingGrid,
   DESERT_GRID_HEIGHT,
-  getTreasureCount,
-  getTreasuresFound,
   getArtefactsFound,
   SEASONAL_ARTEFACT,
+  hasClaimedReward,
 } from "features/game/types/desert";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { secondsTillReset } from "features/helios/components/hayseedHank/HayseedHankV2";
@@ -421,11 +420,11 @@ const BoostDigItems: (
 const getDefaultTab = (game: GameState) => {
   if (!hasReadDigbyIntro()) return 1;
 
-  const treasureCount = getTreasureCount({ game });
-  const treasuresFound = getTreasuresFound({ game });
-  const percentage = Math.round((treasuresFound.length / treasureCount) * 100);
+  const artefactsFound = getArtefactsFound({ game });
+  const percentage = Math.round((artefactsFound / 3) * 100);
+  const hasClaimedStreakReward = hasClaimedReward({ game });
 
-  if (percentage >= 100) {
+  if (percentage >= 100 && !hasClaimedStreakReward) {
     return 0;
   }
 
