@@ -15,7 +15,11 @@ import { weekResetsAt } from "features/game/lib/factions";
 import { MachineState } from "features/game/lib/gameMachine";
 import { getKeys } from "features/game/types/decorations";
 import { FLOWERS } from "features/game/types/flowers";
-import { BountyRequest, GameState, SFLBounty } from "features/game/types/game";
+import {
+  BountyRequest,
+  GameState,
+  ObsidianBounty,
+} from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
@@ -245,8 +249,8 @@ export const Deal: React.FC<{
 
         <p>
           {deal.coins && t("bounties.sell.coins", { amount: deal.coins })}
-          {(deal as SFLBounty).sfl &&
-            t("bounties.sell.sfl", { amount: (deal as SFLBounty).sfl })}
+          {(deal as ObsidianBounty).sfl &&
+            t("bounties.sell.sfl", { amount: (deal as ObsidianBounty).sfl })}
           {deal.items &&
             t("bounties.sell.items", {
               amount: getKeys(deal.items ?? {})

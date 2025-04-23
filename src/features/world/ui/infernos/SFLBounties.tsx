@@ -8,7 +8,11 @@ import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { Context } from "features/game/GameProvider";
 import { weekResetsAt } from "features/game/lib/factions";
 import { MachineState } from "features/game/lib/gameMachine";
-import { BountyRequest, GameState, SFLBounty } from "features/game/types/game";
+import {
+  BountyRequest,
+  GameState,
+  ObsidianBounty,
+} from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -70,8 +74,8 @@ export const SFLBountiesModal: React.FC<{
   const { bounties: exchange, inventory } = state;
 
   const deals = exchange.requests.filter(
-    (deal) => (deal as SFLBounty).sfl,
-  ) as SFLBounty[];
+    (deal) => (deal as ObsidianBounty).sfl,
+  ) as ObsidianBounty[];
 
   if (deal) {
     return (
