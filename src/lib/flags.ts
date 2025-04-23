@@ -102,6 +102,8 @@ const FEATURE_FLAGS = {
     betaTimeBasedFeatureFlag(new Date("2025-04-21T00:00:00Z"))(game) &&
     Date.now() < new Date("2025-04-29T00:00:00Z").getTime(),
   STREAM_STAGE_ACCESS: adminFeatureFlag,
+
+  LOVE_ISLAND: defaultFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;
