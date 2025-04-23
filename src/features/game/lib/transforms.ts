@@ -101,18 +101,7 @@ export function makeGame(farm: any): GameState {
     flowerShop: farm.flowerShop,
     specialEvents: farm.specialEvents,
     experiments: farm.experiments,
-    rewards: farm.rewards,
-    megastore: {
-      ...farm.megastore,
-      wearables: farm.megastore.wearables.map((wearable: any) => ({
-        ...wearable,
-        price: new Decimal(wearable.price),
-      })),
-      collectibles: farm.megastore.collectibles.map((collectible: any) => ({
-        ...collectible,
-        price: new Decimal(collectible.price),
-      })),
-    },
+
     goblinMarket: farm.goblinMarket,
     faction: farm.faction,
     dailyFactionDonationRequest: farm.dailyFactionDonationRequest
