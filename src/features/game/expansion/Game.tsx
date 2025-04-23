@@ -90,6 +90,7 @@ import {
 import { LoveCharm } from "./components/LoveCharm";
 import { ClaimReferralRewards } from "./components/ClaimReferralRewards";
 import { SoftBan } from "features/retreat/components/personhood/SoftBan";
+import { RewardBox } from "features/rewardBoxes/RewardBox";
 
 function camelToDotCase(str: string): string {
   return str.replace(/([a-z])([A-Z])/g, "$1.$2").toLowerCase() as string;
@@ -655,6 +656,8 @@ export const GameWrapper: React.FC = ({ children }) => {
 
         <Introduction />
         <NewMail />
+
+        <RewardBox />
 
         {children}
       </ToastProvider>

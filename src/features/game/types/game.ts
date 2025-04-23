@@ -94,6 +94,7 @@ import { VipBundle } from "../lib/vipAccess";
 import { InGameTaskName } from "../events/landExpansion/completeSocialTask";
 import { TwitterPost, TwitterPostName } from "./social";
 import { NetworkName } from "../events/landExpansion/updateNetwork";
+import { RewardBoxes, RewardBoxName } from "./rewardBoxes";
 
 export type Reward = {
   coins?: number;
@@ -502,7 +503,8 @@ export type InventoryItemName =
   | RecipeCraftableName
   | SeasonalCollectibleName
   | TradeFood
-  | SeasonalBanner;
+  | SeasonalBanner
+  | RewardBoxName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -1654,6 +1656,8 @@ export interface GameState {
   socialTasks?: {
     completed: Partial<Record<InGameTaskName, { completedAt: number }>>;
   };
+
+  rewardBoxes?: RewardBoxes;
 }
 
 export type FaceRecognitionEvent =

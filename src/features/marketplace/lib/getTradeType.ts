@@ -15,6 +15,9 @@ export const ITEM_TRADE_TYPES: {
   wearables: Record<BumpkinItem, TradeType>;
 } = {
   collectibles: {
+    "Bronze Love Box": "instant",
+    "Silver Love Box": "instant",
+    "Gold Love Box": "instant",
     "Polygon Banner": "instant",
     "Ronin Banner": "instant",
     "Base Banner": "instant",

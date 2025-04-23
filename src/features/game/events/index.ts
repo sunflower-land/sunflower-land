@@ -474,6 +474,14 @@ import {
   updateNetwork,
   UpdateNetworkAction,
 } from "./landExpansion/updateNetwork";
+import {
+  acknowledgeRewardBox,
+  AcknowledgeRewardBoxAction,
+} from "./landExpansion/acknowledgeRewardBox";
+import {
+  openRewardBox,
+  OpenRewardBoxAction,
+} from "./landExpansion/openRewardBox";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
@@ -616,7 +624,9 @@ export type PlayingEvent =
   | CollectCandyAction
   | BuyRewardShopItemAction
   | UpdateNetworkAction
-  | BuyMinigameItemAction;
+  | BuyMinigameItemAction
+  | AcknowledgeRewardBoxAction
+  | OpenRewardBoxAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -825,6 +835,8 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "rewardItem.bought": buyRewardShopItem,
   "network.updated": updateNetwork,
   "minigameItem.bought": buyEventShopItem,
+  "rewardBox.acknowledged": acknowledgeRewardBox,
+  "rewardBox.opened": openRewardBox,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
