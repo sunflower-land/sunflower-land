@@ -14,6 +14,7 @@ import {
   DESERT_GRID_HEIGHT,
   DESERT_GRID_WIDTH,
   getArtefactsFound,
+  hasClaimedReward,
   secondsTillDesertStorm,
 } from "features/game/types/desert";
 import { ProgressBarContainer } from "../containers/ProgressBarContainer";
@@ -1104,6 +1105,10 @@ export class BeachScene extends BaseScene {
     return Math.round((this.treasuresFound / 3) * 100);
   }
 
+  get hasClaimedStreakReward() {
+    return hasClaimedReward({ game: this.gameService.state.context.state });
+  }
+
   get isAncientShovelActive() {
     return isWearableActive({
       name: "Ancient Shovel",
@@ -1471,6 +1476,16 @@ export class BeachScene extends BaseScene {
       // Ideally should be done at the end of the animation
       // Potentially have animation of the item??
       this.populateDugItems();
+
+      if (
+        this.percentageTreasuresFound >= 100 &&
+        !this.hasClaimedStreakReward
+      ) {
+        // Phaser timeout
+        this.time.delayedCall(2000, () => {
+          npcModalManager.open("digby");
+        });
+      }
 
       if (!this.hasDigsLeft) {
         // Phaser timeout

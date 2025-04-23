@@ -355,6 +355,19 @@ export function getArtefactsFound({ game }: { game: GameState }) {
   }).length;
 }
 
+export function hasClaimedReward({ game }: { game: GameState }) {
+  const streak = game.desert.digging.streak ?? {
+    count: 0,
+    collectedAt: 0,
+    totalClaimed: 0,
+  };
+
+  return (
+    new Date().toISOString().substring(0, 10) ===
+    new Date(streak.collectedAt).toISOString().substring(0, 10)
+  );
+}
+
 export function getTreasureCount({ game }: { game: GameState }) {
   const { patterns } = game.desert.digging;
 
