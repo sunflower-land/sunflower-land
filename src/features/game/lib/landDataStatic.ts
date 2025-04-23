@@ -15,6 +15,15 @@ import { EXPIRY_COOLDOWNS } from "./collectibleBuilt";
 
 export const STATIC_OFFLINE_FARM: GameState = {
   settings: {},
+  rewardBoxes: {
+    "Bronze Love Box": {
+      history: {},
+      // reward: {
+      //   coins: 50,
+      // },
+      // spunAt: Date.now(),
+    },
+  },
   username: "Local Hero",
   coins: 10000,
   balance: new Decimal(0),
@@ -24,6 +33,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     expiresAt: Date.now() + 31 * 24 * 60 * 60 * 1000,
   },
   inventory: {
+    "Bronze Love Box": new Decimal(1),
     Beetroot: new Decimal(100),
     Jin: new Decimal(1),
     Egg: new Decimal(100),
@@ -764,7 +774,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
   },
   season: {
     season: "autumn",
-    startedAt: Date.now(),
+    startedAt: new Date("2025-04-22").getTime(),
   },
   ban: {
     status: "ok",

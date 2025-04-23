@@ -858,6 +858,10 @@ import easterBasket2025 from "assets/sfts/easter_basket.webp";
 import easterToken2025 from "assets/icons/easter_token_2025.webp";
 import easterTicket2025 from "assets/icons/easter_ticket_2025.webp";
 
+import bronzeLoveBox from "assets/rewardBoxes/bronze_love_box.webp";
+import silverLoveBox from "assets/rewardBoxes/silver_love_box.webp";
+import goldLoveBox from "assets/rewardBoxes/gold_love_box.webp";
+
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
 import { CROPS, CROP_SEEDS, GREENHOUSE_CROPS, GREENHOUSE_SEEDS } from "./crops";
@@ -5118,5 +5122,17 @@ export const ITEM_DETAILS: Items = {
   "Easter Basket": {
     image: easterBasket2025,
     description: translate("description.easterBasket2025"),
+  },
+  "Bronze Love Box": {
+    image: bronzeLoveBox,
+    description: translate("description.bronzeLoveBox"),
+  },
+  "Silver Love Box": {
+    image: silverLoveBox,
+    description: translate("description.silverLoveBox"),
+  },
+  "Gold Love Box": {
+    image: goldLoveBox,
+    description: translate("description.goldLoveBox"),
   },
 };

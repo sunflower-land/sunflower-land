@@ -137,5 +137,6 @@ export function makeGame(farm: any): GameState {
     referrals: farm.referrals,
     twitter: farm.twitter,
     ban: farm.ban,
+    rewardBoxes: farm.rewardBoxes,
   };
 }

@@ -1045,6 +1045,9 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Orange Tunnel Bunny": 2238,
   "White Tunnel Bunny": 2239,
   "Easter Basket": 2240,
+  "Bronze Love Box": 2241,
+  "Silver Love Box": 2242,
+  "Gold Love Box": 2243,
 };
 
 // The reverse of above
