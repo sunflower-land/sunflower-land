@@ -484,6 +484,8 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Ancient Clock": 755,
   "Love Charm": 756,
   "Easter Token 2025": 757,
+  "Great Bloom Banner": 758,
+  Geniseed: 759,
 
   "Australian Flag": 801,
   "Belgian Flag": 802,
