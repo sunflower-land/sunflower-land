@@ -82,7 +82,7 @@ import {
   Recipes,
   RecipeWearableName,
 } from "../lib/crafting";
-import { SeasonalCollectibleName } from "./megastore";
+import { SeasonalCollectibleName, SeasonalTierItemName } from "./megastore";
 import { TradeFood } from "../events/landExpansion/redeemTradeReward";
 import {
   CalendarEvent,
@@ -1663,6 +1663,9 @@ export interface GameState {
       startAt: number;
       endAt: number;
     }[];
+  };
+  megastore?: {
+    boughtAt: Partial<Record<SeasonalTierItemName, number>>;
   };
 }
 

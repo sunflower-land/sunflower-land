@@ -42,27 +42,6 @@ export const CHICKEN_COOP_MULTIPLIER = 1.5;
 
 export const POPOVER_TIME_MS = 1000;
 
-export const makeMegaStoreAvailableDates = () => {
-  const now = new Date();
-
-  const currentMonthStart = new Date(now);
-  const nextMonthStart = new Date(now);
-
-  // Set "from" as the first day of the current month
-  currentMonthStart.setUTCDate(1);
-  currentMonthStart.setUTCHours(0, 0, 0, 0);
-
-  // Set "to" as the first day of the next month
-  nextMonthStart.setUTCMonth(nextMonthStart.getMonth() + 1);
-  nextMonthStart.setUTCDate(1);
-  nextMonthStart.setUTCHours(0, 0, 0, 0);
-
-  return {
-    from: currentMonthStart.getTime(),
-    to: nextMonthStart.getTime(),
-  };
-};
-
 export function isBuildingReady(building: PlacedItem[]) {
   return building.some((b) => b.readyAt <= Date.now());
 }

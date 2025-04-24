@@ -48,6 +48,7 @@ type SeasonalStoreBase = {
     items: Partial<Record<InventoryItemName, number>>;
     sfl: number;
   };
+  cooldownMs?: number;
 };
 
 export type SeasonalStoreWearable = SeasonalStoreBase & {
@@ -119,6 +120,7 @@ const PHARAOH_ITEMS: SeasonalStoreItem[] = [
   },
   {
     collectible: "Treasure Key",
+    cooldownMs: 24 * 60 * 60 * 1000,
     cost: {
       items: {
         Wood: 100,
@@ -159,6 +161,7 @@ const RARE_PHARAOH_ITEMS: SeasonalStoreItem[] = [
   },
   {
     collectible: "Rare Key",
+    cooldownMs: 24 * 60 * 60 * 1000,
     cost: {
       items: {
         Wood: 250,
@@ -179,6 +182,7 @@ const EPIC_PHARAOH_ITEMS: SeasonalStoreItem[] = [
   },
   {
     collectible: "Luxury Key",
+    cooldownMs: 24 * 60 * 60 * 1000,
     cost: {
       items: {
         Wood: 500,
@@ -227,6 +231,7 @@ const BULL_RUN_ITEMS: SeasonalStoreItem[] = [
   },
   {
     collectible: "Treasure Key",
+    cooldownMs: 24 * 60 * 60 * 1000,
     cost: {
       items: {
         Horseshoe: 200,
@@ -273,6 +278,7 @@ const RARE_BULL_RUN_ITEMS: SeasonalStoreItem[] = [
   },
   {
     collectible: "Rare Key",
+    cooldownMs: 24 * 60 * 60 * 1000,
     cost: {
       items: {
         Horseshoe: 500,
@@ -310,6 +316,7 @@ const EPIC_BULL_RUN_ITEMS: SeasonalStoreItem[] = [
   },
   {
     collectible: "Luxury Key",
+    cooldownMs: 24 * 60 * 60 * 1000,
     cost: {
       items: {
         Horseshoe: 1000,
@@ -377,6 +384,7 @@ const WINDS_OF_CHANGE_ITEMS: SeasonalStoreItem[] = [
   },
   {
     collectible: "Treasure Key",
+    cooldownMs: 24 * 60 * 60 * 1000,
     cost: {
       items: {
         Timeshard: 200,
@@ -386,6 +394,7 @@ const WINDS_OF_CHANGE_ITEMS: SeasonalStoreItem[] = [
   },
   {
     collectible: "Bronze Flower Box",
+    cooldownMs: 7 * 24 * 60 * 60 * 1000,
     cost: {
       items: {
         Timeshard: 250,
@@ -432,6 +441,7 @@ const RARE_WINDS_OF_CHANGE_ITEMS: SeasonalStoreItem[] = [
   },
   {
     collectible: "Rare Key",
+    cooldownMs: 24 * 60 * 60 * 1000,
     cost: {
       items: {
         Timeshard: 500,
@@ -441,6 +451,8 @@ const RARE_WINDS_OF_CHANGE_ITEMS: SeasonalStoreItem[] = [
   },
   {
     collectible: "Silver Flower Box",
+    cooldownMs: 7 * 24 * 60 * 60 * 1000,
+
     cost: {
       items: {
         Timeshard: 750,
@@ -487,6 +499,7 @@ const EPIC_WINDS_OF_CHANGE_ITEMS: SeasonalStoreItem[] = [
   },
   {
     collectible: "Luxury Key",
+    cooldownMs: 24 * 60 * 60 * 1000,
     cost: {
       items: {
         Timeshard: 1000,
@@ -496,6 +509,8 @@ const EPIC_WINDS_OF_CHANGE_ITEMS: SeasonalStoreItem[] = [
   },
   {
     collectible: "Gold Flower Box",
+    cooldownMs: 30 * 24 * 60 * 60 * 1000,
+
     cost: {
       items: {
         Timeshard: 1500,

@@ -129,13 +129,9 @@ describe("buySeasonalItem", () => {
             "Treasure Key": new Decimal(0),
             Wood: new Decimal(100),
           },
-          pumpkinPlaza: {
-            keysBought: {
-              factionShop: {},
-              treasureShop: {},
-              megastore: {
-                "Treasure Key": { boughtAt: new Date("2024-08-09").getTime() },
-              },
+          megastore: {
+            boughtAt: {
+              "Treasure Key": new Date("2024-08-09").getTime(),
             },
           },
         },
@@ -146,7 +142,7 @@ describe("buySeasonalItem", () => {
         },
         createdAt: new Date("2024-08-09").getTime(),
       }),
-    ).toThrow("Already bought today");
+    ).toThrow("Item cannot be bought while in cooldown");
   });
 
   it("updates createdAt when key is bought", () => {
@@ -167,9 +163,9 @@ describe("buySeasonalItem", () => {
     });
     expect(state.inventory["Treasure Key"]).toStrictEqual(new Decimal(1));
     expect(state.inventory.Wood).toStrictEqual(new Decimal(0));
-    expect(
-      state.pumpkinPlaza.keysBought?.megastore["Treasure Key"]?.boughtAt,
-    ).toEqual(new Date("2024-09-01").getTime());
+    expect(state.megastore?.boughtAt["Treasure Key"]).toEqual(
+      new Date("2024-09-01").getTime(),
+    );
   });
 
   it("throws an error if Acorn House item is already crafted", () => {

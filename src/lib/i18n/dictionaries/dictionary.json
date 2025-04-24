@@ -5954,5 +5954,6 @@
   "hotAirBalloon.letsGo": "Let's go",
   "description.bronzeFlowerBox": "A bronze flower box",
   "description.silverFlowerBox": "A silver flower box",
-  "description.goldFlowerBox": "A gold flower box"
+  "description.goldFlowerBox": "A gold flower box",
+  "megastore.limit": "Cooldown: {{time}}"
 }
