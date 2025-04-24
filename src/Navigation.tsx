@@ -32,6 +32,7 @@ import { Marketplace } from "features/marketplace/Marketplace";
 import { FlowerDashboardProfile } from "features/flowerDashboard/FlowerDashboardProfile";
 import { hasFeatureAccess } from "lib/flags";
 import { GameProvider } from "features/game/GameProvider";
+import { RewardsDashboardProfile } from "features/rewardsDashboard/RewardsDashboardProfile";
 
 // Lazy load routes
 const World = lazy(() =>
@@ -207,12 +208,20 @@ export const Navigation: React.FC = () => {
                       />
                     )}
                     {hasFeatureAccess(INITIAL_FARM, "LEDGER") && (
-                      <Route
-                        path="/flower-dashboard/:id"
-                        element={
-                          <FlowerDashboardProfile key="flower-dashboard" />
-                        }
-                      />
+                      <>
+                        <Route
+                          path="/flower-dashboard/:id"
+                          element={
+                            <FlowerDashboardProfile key="flower-dashboard" />
+                          }
+                        />
+                        <Route
+                          path="/rewards-dashboard"
+                          element={
+                            <RewardsDashboardProfile key="rewards-dashboard" />
+                          }
+                        />
+                      </>
                     )}
                     <Route path="*" element={<LandExpansion key="land" />} />
                   </Routes>
