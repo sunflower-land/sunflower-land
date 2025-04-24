@@ -5775,5 +5775,14 @@
   "description.bronzeLoveBox": "青铜爱心盒",
   "description.silverLoveBox": "一个银色的爱心盒子",
   "description.goldLoveBox": "一个金色的爱心盒子",
-  "rewardBox.tapToOpen": "点按即可打开"
+  "rewardBox.tapToOpen": "点按即可打开",
+  "floatingIsland.isLive": "神秘岛",
+  "hotAirBalloon.readyToFly": "准备好飞行了吗？",
+  "hotAirBalloon.description": "你听说过神秘的浮岛吗？如果你时机合适，你可以和我一起搭车。",
+  "hotAirBalloon.exchangeInfo": "用爱情护身符兑换鲜花和奖励。",
+  "hotAirBalloon.puzzleInfo": "解开神秘难题以获得奖励",
+  "hotAirBalloon.flightTimes": "飞行时间有限",
+  "hotAirBalloon.openNow": "立即打开",
+  "hotAirBalloon.noFlights": "没有定期航班。",
+  "hotAirBalloon.letsGo": "我们走吧"
 }

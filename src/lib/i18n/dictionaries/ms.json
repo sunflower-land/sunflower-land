@@ -5775,5 +5775,14 @@
   "description.bronzeLoveBox": "Kotak cinta gangsa",
   "description.silverLoveBox": "Kotak cinta perak",
   "description.goldLoveBox": "Kotak cinta emas",
-  "rewardBox.tapToOpen": "Ketik untuk membuka"
+  "rewardBox.tapToOpen": "Ketik untuk membuka",
+  "floatingIsland.isLive": "Pulau Misteri",
+  "hotAirBalloon.readyToFly": "Bersedia untuk terbang?",
+  "hotAirBalloon.description": "Pernahkah anda mendengar tentang pulau terapung yang misterius? Jika anda tepat waktu, anda boleh menunggang dengan saya.",
+  "hotAirBalloon.exchangeInfo": "Tukar Pesona Cinta untuk BUNGA & ganjaran.",
+  "hotAirBalloon.puzzleInfo": "Selesaikan teka-teki misteri untuk ganjaran",
+  "hotAirBalloon.flightTimes": "Masa penerbangan adalah terhad",
+  "hotAirBalloon.openNow": "Buka Sekarang",
+  "hotAirBalloon.noFlights": "Tiada penerbangan berjadual tersedia.",
+  "hotAirBalloon.letsGo": "Mari kita pergi"
 }

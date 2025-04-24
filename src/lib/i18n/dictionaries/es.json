@@ -5775,5 +5775,14 @@
   "description.bronzeLoveBox": "Una caja de amor de bronce",
   "description.silverLoveBox": "Una caja de amor plateada",
   "description.goldLoveBox": "Una caja de amor dorada",
-  "rewardBox.tapToOpen": "Pulsa para abrir"
+  "rewardBox.tapToOpen": "Pulsa para abrir",
+  "floatingIsland.isLive": "Isla Misteriosa",
+  "hotAirBalloon.readyToFly": "¿Preparado para volar?",
+  "hotAirBalloon.description": "¿Has oído hablar de la misteriosa isla flotante? Si lo haces en el momento adecuado, puedes dar un paseo conmigo.",
+  "hotAirBalloon.exchangeInfo": "Cambia amuletos de amor por FLORES y recompensas.",
+  "hotAirBalloon.puzzleInfo": "Resuelve el misterioso acertijo para obtener una recompensa",
+  "hotAirBalloon.flightTimes": "Los tiempos de vuelo son limitados",
+  "hotAirBalloon.openNow": "Abrir ahora",
+  "hotAirBalloon.noFlights": "No hay vuelos programados disponibles.",
+  "hotAirBalloon.letsGo": "Vamos"
 }

@@ -5775,5 +5775,14 @@
   "description.bronzeLoveBox": "Une boîte à amour en bronze",
   "description.silverLoveBox": "Une boîte à amour en argent",
   "description.goldLoveBox": "Une boîte à amour dorée",
-  "rewardBox.tapToOpen": "Touchez pour ouvrir"
+  "rewardBox.tapToOpen": "Touchez pour ouvrir",
+  "floatingIsland.isLive": "L'île mystérieuse",
+  "hotAirBalloon.readyToFly": "Prêt à voler ?",
+  "hotAirBalloon.description": "Avez-vous entendu parler de la mystérieuse île flottante ? Si tu es au bon moment, tu peux faire un tour avec moi.",
+  "hotAirBalloon.exchangeInfo": "Échangez des breloques d'amour contre des FLEURS et des récompenses.",
+  "hotAirBalloon.puzzleInfo": "Résolvez le mystérieux casse-tête pour obtenir une récompense",
+  "hotAirBalloon.flightTimes": "Les temps de vol sont limités",
+  "hotAirBalloon.openNow": "Ouvert dès maintenant",
+  "hotAirBalloon.noFlights": "Aucun vol régulier n'est disponible.",
+  "hotAirBalloon.letsGo": "Allons-y"
 }

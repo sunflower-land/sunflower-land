@@ -5775,5 +5775,14 @@
   "description.bronzeLoveBox": "브론즈 러브 박스",
   "description.silverLoveBox": "실버 러브 박스",
   "description.goldLoveBox": "골드 러브 박스",
-  "rewardBox.tapToOpen": "탭하여 열기"
+  "rewardBox.tapToOpen": "탭하여 열기",
+  "floatingIsland.isLive": "미스터리 아일랜드",
+  "hotAirBalloon.readyToFly": "비행할 준비가 되셨나요?",
+  "hotAirBalloon.description": "수상한 떠 있는 섬에 대해 들어보셨나요?타이밍만 잘 맞추면 저랑 같이 탈 수 있어요.",
+  "hotAirBalloon.exchangeInfo": "러브 참을 꽃과 보상으로 교환하세요.",
+  "hotAirBalloon.puzzleInfo": "수수께끼의 퍼즐을 풀고 보상을 받으세요",
+  "hotAirBalloon.flightTimes": "비행 시간은 제한되어 있습니다.",
+  "hotAirBalloon.openNow": "지금 열기",
+  "hotAirBalloon.noFlights": "정기 항공편이 없습니다.",
+  "hotAirBalloon.letsGo": "갑시다"
 }

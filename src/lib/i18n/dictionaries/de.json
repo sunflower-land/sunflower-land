@@ -5775,5 +5775,14 @@
   "description.bronzeLoveBox": "Eine bronzene Liebesbox",
   "description.silverLoveBox": "Eine silberne Liebesbox",
   "description.goldLoveBox": "Eine goldene Liebesbox",
-  "rewardBox.tapToOpen": "Zum Öffnen antippen"
+  "rewardBox.tapToOpen": "Zum Öffnen antippen",
+  "floatingIsland.isLive": "Geheimnisvolle Insel",
+  "hotAirBalloon.readyToFly": "Bereit zu fliegen?",
+  "hotAirBalloon.description": "Hast du von der mysteriösen schwimmenden Insel gehört? Wenn du das richtige Timing hast, kannst du eine Fahrt mit mir erwischen.",
+  "hotAirBalloon.exchangeInfo": "Tauschen Sie Liebeszauber gegen BLUMEN und Belohnungen ein.",
+  "hotAirBalloon.puzzleInfo": "Löse das rätselhafte Rätsel und erhalte eine Belohnung",
+  "hotAirBalloon.flightTimes": "Die Flugzeiten sind begrenzt",
+  "hotAirBalloon.openNow": "Jetzt geöffnet",
+  "hotAirBalloon.noFlights": "Keine Linienflüge verfügbar.",
+  "hotAirBalloon.letsGo": "Lass uns gehen"
 }

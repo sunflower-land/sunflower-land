@@ -5775,5 +5775,14 @@
   "description.bronzeLoveBox": "Uma caixa de amor de bronze",
   "description.silverLoveBox": "Uma caixa de amor prateada",
   "description.goldLoveBox": "Uma caixa de amor dourada",
-  "rewardBox.tapToOpen": "Toque para abrir"
+  "rewardBox.tapToOpen": "Toque para abrir",
+  "floatingIsland.isLive": "Ilha Misteriosa",
+  "hotAirBalloon.readyToFly": "Pronto para voar?",
+  "hotAirBalloon.description": "Você já ouviu falar sobre a misteriosa ilha flutuante? Se você acertar na hora certa, você pode pegar uma carona comigo.",
+  "hotAirBalloon.exchangeInfo": "Troque Love Charms por FLORES e recompensas.",
+  "hotAirBalloon.puzzleInfo": "Resolva o enigma misterioso para ganhar uma recompensa",
+  "hotAirBalloon.flightTimes": "Os tempos de voo são limitados",
+  "hotAirBalloon.openNow": "Abra agora",
+  "hotAirBalloon.noFlights": "Não há voos programados disponíveis.",
+  "hotAirBalloon.letsGo": "Vamos"
 }

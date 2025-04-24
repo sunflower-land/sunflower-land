@@ -5775,5 +5775,14 @@
   "description.bronzeLoveBox": "ブロンズのラブボックス",
   "description.silverLoveBox": "シルバーラブボックス",
   "description.goldLoveBox": "ゴールドラブボックス",
-  "rewardBox.tapToOpen": "タップして開く"
+  "rewardBox.tapToOpen": "タップして開く",
+  "floatingIsland.isLive": "ミステリーアイランド",
+  "hotAirBalloon.readyToFly": "飛ぶ準備はできましたか？",
+  "hotAirBalloon.description": "不思議な浮島について聞いたことがありますか？タイミングが合えば、一緒に乗れるよ。",
+  "hotAirBalloon.exchangeInfo": "ラブチャームを花と報酬と交換してください。",
+  "hotAirBalloon.puzzleInfo": "謎のパズルを解いて報酬をもらおう",
+  "hotAirBalloon.flightTimes": "フライト時間は限られています",
+  "hotAirBalloon.openNow": "今すぐ開く",
+  "hotAirBalloon.noFlights": "定期便はありません。",
+  "hotAirBalloon.letsGo": "行こう"
 }
