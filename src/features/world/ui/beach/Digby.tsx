@@ -446,6 +446,12 @@ export const Digby: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const inventory = gameState.context.state.inventory;
   const digsLeft = getRemainingDigs(gameState.context.state);
 
+  const artefactsFound = getArtefactsFound({ game: gameState.context.state });
+  const percentage = Math.round((artefactsFound / 3) * 100);
+  const hasClaimedStreakReward = hasClaimedReward({
+    game: gameState.context.state,
+  });
+
   const { t } = useAppTranslation();
 
   useEffect(() => {
@@ -474,6 +480,7 @@ export const Digby: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         {
           icon: ITEM_DETAILS["Sand Shovel"].image,
           name: t("digby.patterns"),
+          alert: percentage >= 100 && !hasClaimedStreakReward,
         },
         {
           icon: SUNNYSIDE.icons.expression_confused,
