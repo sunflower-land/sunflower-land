@@ -17,12 +17,13 @@ import { MachineState } from "features/game/lib/gameMachine";
 import confetti from "canvas-confetti";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { getItemDescription } from "../RewardShop";
-import { RewardShopItem } from "features/game/types/rewardShop";
+import { getItemDescription } from "../FloatingIslandShop";
 import { REWARD_BOXES } from "features/game/types/rewardBoxes";
+import { FloatingShopItem } from "features/game/types/floatingIsland";
+import { getKeys } from "features/game/types/decorations";
 
 interface ItemOverlayProps {
-  item: RewardShopItem | null;
+  item: FloatingShopItem | null;
   image: string;
   isWearable: boolean;
   buff?: BuffLabel[];
@@ -74,7 +75,11 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     if (!item) return false;
 
     if (item) {
-      return loveCharmBalance.greaterThanOrEqualTo(item.cost.price);
+      return getKeys(item.cost.items).every((name) => {
+        return inventory[name]?.greaterThanOrEqualTo(
+          item.cost.items[name] ?? 0,
+        );
+      });
     }
   };
 
@@ -88,7 +93,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
 
     gameAnalytics.trackSink({
       currency: "Love Charm",
-      amount: item.cost.price,
+      amount: item.cost.items["Love Charm"] ?? 0,
       item: typedName,
       type,
     });
@@ -105,7 +110,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const handleBuy = () => {
     if (!item) return;
 
-    gameService.send("rewardItem.bought", {
+    gameService.send("floatingShopItem.bought", {
       name: item.name,
     });
 
@@ -217,15 +222,19 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
 
                     {item && (
                       <div className="flex flex-1 items-end">
-                        {/* Love Charm */}
-                        <RequirementLabel
-                          type={"item"}
-                          item={"Love Charm"}
-                          balance={loveCharmBalance}
-                          requirement={
-                            new Decimal(item.cost.price ?? new Decimal(0))
-                          }
-                        />
+                        {getKeys(item.cost.items).map((name) => {
+                          return (
+                            <RequirementLabel
+                              key={name}
+                              type={"item"}
+                              item={name}
+                              balance={inventory[name] ?? new Decimal(0)}
+                              requirement={
+                                new Decimal(item.cost.items[name] ?? 0)
+                              }
+                            />
+                          );
+                        })}
                       </div>
                     )}
                   </div>

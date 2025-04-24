@@ -9,7 +9,6 @@ import { Button } from "components/ui/Button";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import flowerIcon from "assets/icons/flower_token.webp";
-import shopIcon from "assets/icons/shop.png";
 import trophyIcon from "assets/icons/trophy.png";
 import tradeIcon from "assets/icons/trade.png";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -24,7 +23,6 @@ import {
   MachineState,
 } from "features/game/lib/gameMachine";
 import { hasFeatureAccess } from "lib/flags";
-import { RewardShop } from "../loveRewardShop/RewardShop";
 import {
   DAILY_LIMIT,
   EXCHANGE_FLOWER_PRICE,
@@ -43,10 +41,6 @@ export const Rocketman: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const hasFlowerExchange = useSelector(gameService, (state) =>
     hasFeatureAccess(state.context.state, "LOVE_CHARM_FLOWER_EXCHANGE"),
-  );
-
-  const hasRewardShop = useSelector(gameService, (state) =>
-    hasFeatureAccess(state.context.state, "LOVE_CHARM_REWARD_SHOP"),
   );
 
   const state = useSelector(gameService, _state);
@@ -91,7 +85,6 @@ export const Rocketman: React.FC<Props> = ({ onClose }) => {
                 name: "Noticeboard",
               },
             ]),
-        ...(hasRewardShop ? [{ name: "Reward Shop", icon: shopIcon }] : []),
       ]}
       currentTab={currentTab}
       setCurrentTab={setCurrentTab}
@@ -104,7 +97,6 @@ export const Rocketman: React.FC<Props> = ({ onClose }) => {
           onClose={onClose}
         />
       )}
-      {currentTab === "Reward Shop" && <RewardShop state={state} />}
     </CloseButtonPanel>
   );
 };

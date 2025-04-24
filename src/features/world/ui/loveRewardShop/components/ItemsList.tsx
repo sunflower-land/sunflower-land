@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { getItemImage, getItemBuffLabel } from "../RewardShop";
+import { getItemImage, getItemBuffLabel } from "../FloatingIslandShop";
 import { Label } from "components/ui/Label";
 import { pixelDarkBorderStyle } from "features/game/lib/style";
 import { SquareIcon } from "components/ui/SquareIcon";
@@ -11,18 +11,17 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import {
-  RewardShopCollectibleName,
-  RewardShopItem,
-  RewardShopWearableName,
-} from "features/game/types/rewardShop";
+
 import { MachineState } from "features/game/lib/gameMachine";
+import { FloatingShopItem } from "features/game/types/floatingIsland";
+import { isFloatingShopCollectible } from "features/game/events/landExpansion/buyFloatingShopItem";
+import { getKeys } from "features/game/types/decorations";
 
 interface Props {
   itemsLabel?: string;
   type?: "wearables" | "collectibles" | "keys";
-  items: RewardShopItem[];
-  onItemClick: (item: RewardShopItem) => void;
+  items: FloatingShopItem[];
+  onItemClick: (item: FloatingShopItem) => void;
 }
 
 const _state = (state: MachineState) => state.context.state;
@@ -42,7 +41,11 @@ export const ItemsList: React.FC<Props> = ({
 
   const sortedItems = items
     .slice()
-    .sort((a, b) => Number(a.cost.price) - Number(b.cost.price));
+    .sort(
+      (a, b) =>
+        Number(a.cost.items["Love Charm"] ?? 0) -
+        Number(b.cost.items["Love Charm"] ?? 0),
+    );
   const { t } = useAppTranslation();
 
   return (
@@ -64,10 +67,9 @@ export const ItemsList: React.FC<Props> = ({
           sortedItems.map((item) => {
             const buff = getItemBuffLabel(item, state);
 
-            const balanceOfItem =
-              type === "collectibles"
-                ? Number(inventory[item.name as RewardShopCollectibleName] ?? 0)
-                : Number(wardrobe[item.name as RewardShopWearableName] ?? 0);
+            const balanceOfItem = isFloatingShopCollectible(item)
+              ? Number(inventory[item.name] ?? 0)
+              : Number(wardrobe[item.name] ?? 0);
 
             return (
               <div
@@ -106,17 +108,22 @@ export const ItemsList: React.FC<Props> = ({
 
                     {/* Price */}
                     <div className="absolute px-4 bottom-3 -left-4 object-contain">
-                      <Label
-                        icon={ITEM_DETAILS["Love Charm"].image}
-                        type="warning"
-                        className={"text-xxs absolute center text-center p-1 "}
-                        style={{
-                          width: `calc(100% + ${PIXEL_SCALE * 10}px)`,
-                          height: "24px",
-                        }}
-                      >
-                        {item.cost.price}
-                      </Label>
+                      {getKeys(item.cost.items).map((name) => (
+                        <Label
+                          icon={ITEM_DETAILS[name].image}
+                          type="warning"
+                          key={name}
+                          className={
+                            "text-xxs absolute center text-center p-1 "
+                          }
+                          style={{
+                            width: `calc(100% + ${PIXEL_SCALE * 10}px)`,
+                            height: "24px",
+                          }}
+                        >
+                          {item.cost.items[name]}
+                        </Label>
+                      ))}
                     </div>
                   </div>
                 </div>

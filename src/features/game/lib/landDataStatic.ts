@@ -23,6 +23,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     expiresAt: Date.now() + 31 * 24 * 60 * 60 * 1000,
   },
   inventory: {
+    "Love Charm": new Decimal(1000),
     Beetroot: new Decimal(100),
     Jin: new Decimal(1),
     Egg: new Decimal(100),
@@ -768,5 +769,25 @@ export const STATIC_OFFLINE_FARM: GameState = {
         endAt: Date.now() + 24 * 60 * 60 * 1000 + 1000 * 60 * 30,
       },
     ],
+    shop: {
+      "Red Farmer Shirt": {
+        name: "Red Farmer Shirt",
+        cost: {
+          items: {
+            "Love Charm": 100,
+          },
+        },
+        type: "wearable",
+      },
+      "Bronze Love Box": {
+        name: "Bronze Love Box",
+        cost: {
+          items: {
+            "Love Charm": 100,
+          },
+        },
+        type: "collectible",
+      },
+    },
   },
 };

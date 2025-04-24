@@ -580,6 +580,7 @@ export const INITIAL_FARM: GameState = {
   trades: {},
   floatingIsland: {
     schedule: [],
+    shop: {},
   },
   buildings: {
     "Town Center": [
@@ -756,6 +757,7 @@ export const TEST_FARM: GameState = {
   gems: {},
   floatingIsland: {
     schedule: [],
+    shop: {},
   },
   flower: {},
   competitions: {
@@ -1090,6 +1092,7 @@ export const EMPTY: GameState = {
   stock: {},
   floatingIsland: {
     schedule: [],
+    shop: {},
   },
   stockExpiry: {},
   wardrobe: {},
