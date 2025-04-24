@@ -33,7 +33,6 @@ import { CropsAndChickens } from "./portals/CropsAndChickens";
 import { ExampleDonations } from "./donations/ExampleDonations";
 import { NPCS_WITH_ALERTS } from "../containers/BumpkinContainer";
 import { HalloweenNPC } from "./npcs/HalloweenNPC";
-import { FlowerBounties } from "./flowerShop/FlowerBounties";
 import { Santa } from "./npcs/Santa";
 import { SolarForge } from "./infernos/SolarForge";
 import { WeatherShop } from "features/game/expansion/components/temperateSeason/WeatherShop";
@@ -41,6 +40,7 @@ import { SFLBounties } from "./infernos/SFLBounties";
 import { ObsidianExchange } from "./infernos/ObsidianExchange";
 import { PortalChooser } from "./portals/PortalChooser";
 import { Rocketman } from "./npcs/Rocketman";
+import { MegaBountyBoard } from "./flowerShop/MegaBountyBoard";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -142,7 +142,7 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
         {npc === "luna" && <HalloweenNPC onClose={closeModal} />}
         {npc === "rocket man" && <Rocketman onClose={closeModal} />}
         {npc === "portaller" && <PortalNPCExample onClose={closeModal} />}
-        {npc === "poppy" && <FlowerBounties onClose={closeModal} />}
+        {npc === "poppy" && <MegaBountyBoard onClose={closeModal} />}
         {npc === "frankie" && <DecorationShopItems onClose={closeModal} />}
         {npc === "stella" && <Stylist onClose={closeModal} />}
         {npc === "grubnuk" && <DeliveryPanel npc={npc} onClose={closeModal} />}

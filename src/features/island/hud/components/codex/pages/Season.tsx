@@ -21,9 +21,9 @@ import { SeasonalMutants } from "../components/SeasonalMutants";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SeasonalStore } from "features/world/ui/megastore/SeasonalStore";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { FlowerBountiesModal } from "features/world/ui/flowerShop/FlowerBounties";
 import { BertObsession } from "features/world/ui/npcs/Bert";
 import { GameState } from "features/game/types/game";
+import { MegaBountyBoardContent } from "features/world/ui/flowerShop/MegaBountyBoard";
 
 const CHAPTER_GRAPHICS: Record<SeasonName, string> = {
   "Solar Flare": "?",
@@ -153,7 +153,7 @@ export const Season: React.FC<Props> = ({
         </div>
       </InnerPanel>
       <InnerPanel className="mb-1">
-        <FlowerBountiesModal readonly state={state} />
+        <MegaBountyBoardContent readonly />
       </InnerPanel>
       <InnerPanel className="mb-1">
         <BertObsession

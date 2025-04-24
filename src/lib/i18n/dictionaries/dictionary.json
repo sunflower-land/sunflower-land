@@ -2587,7 +2587,8 @@
   "megaStore.wearable": "Nice buy! Your new wearable is safely stored in your wardrobe. You can equip it to a bumpkin from there.",
   "megaStore.collectible": "Nice buy! Your new collectible is safely stored in your inventory.",
   "megaStore.timeRemaining": "{{timeRemaining}} left!",
-  "milestone.noviceAngler": "Congratulations, you've just reached the Novice Angler milestone! You're well on your way to becoming a fishing pro by catching each basic fish.",
+  "megaBountyBoard.message": "Welcome to the Mega Bounty Board! Check out this week's bounties. If you have any of the requested items, you can exchange them for rewards!",
+
   "milestone.advancedAngler": "Impressive, you've just reached the Advanced Angler milestone! You've mastered the art of catching each advanced fish. Keep it up!",
   "milestone.expertAngler": "Wow, you've just reached the Expert Angler milestone! You're a true fishing expert now! Catching 300 fish is no small feat.",
   "milestone.fishEncyclopedia": "Congratulations, you've just reached the Fish Encyclopedia milestone! You've become a true fish connoisseur! Discovering each basic, advanced, and expert fish is a remarkable achievement.",
@@ -4803,6 +4804,7 @@
   "chore.cook.fermentedFish.5": "Cook 5 Fermented Fish",
 
   "megaStore.msg1": "Welcome to my seasonal store. Gather resources & exchange them for rare items before time runs out!",
+  "megaBountyBoard.msg1": "Welcome to the Mega Bounty Board! Gather the resources & exchange them for rewards before time runs out!",
   "megaStore.tier.rare.requirements": "Buy 4 different basic items to unlock rare items.",
   "megaStore.tier.epic.requirements": "Buy 4 different rare items to unlock epic items.",
   "megaStore.tier.mega.requirements": "Buy 4 different epic items to unlock mega items.",

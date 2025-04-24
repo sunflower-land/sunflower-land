@@ -13,13 +13,9 @@ import {
 import { Context } from "features/game/GameProvider";
 import { weekResetsAt } from "features/game/lib/factions";
 import { MachineState } from "features/game/lib/gameMachine";
+import { ANIMALS } from "features/game/types/animals";
 import { getKeys } from "features/game/types/decorations";
-import { FLOWERS } from "features/game/types/flowers";
-import {
-  BountyRequest,
-  GameState,
-  ObsidianBounty,
-} from "features/game/types/game";
+import { BountyRequest, GameState } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
@@ -27,6 +23,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { NPC_WEARABLES } from "lib/npcs";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import React, { useContext, useState } from "react";
+import { isObsidianBounty } from "./MegaBountyBoard";
 
 interface Props {
   readonly?: boolean;
@@ -89,7 +86,7 @@ export const FlowerBountiesModal: React.FC<{
   const [deal, setDeal] = useState<BountyRequest>();
   const { bounties: exchange, inventory } = state;
 
-  const deals = exchange.requests.filter((deal) => deal.name in FLOWERS);
+  const deals = exchange.requests.filter((deal) => !(deal.name in ANIMALS));
 
   if (deal) {
     return (
@@ -249,8 +246,10 @@ export const Deal: React.FC<{
 
         <p>
           {deal.coins && t("bounties.sell.coins", { amount: deal.coins })}
-          {(deal as ObsidianBounty).sfl &&
-            t("bounties.sell.sfl", { amount: (deal as ObsidianBounty).sfl })}
+          {isObsidianBounty(deal) &&
+            t("bounties.sell.sfl", {
+              amount: deal.sfl ?? 0,
+            })}
           {deal.items &&
             t("bounties.sell.items", {
               amount: getKeys(deal.items ?? {})
