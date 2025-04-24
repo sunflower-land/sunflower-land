@@ -3827,7 +3827,7 @@
   "market": "市场",
   "workbench": "工作台",
   "treasure.shop": "宝藏商店",
-  "digging": "正在挖宝",
+  "digging": "挖宝",
   "basic.seeds": "低阶种子",
   "medium.seeds": "中阶种子",
   "eggcellentCollection.description": "收集鸡蛋 10 次",
@@ -5773,7 +5773,7 @@
   "stream.beginsSoon": "距离市政厅直播还剩：",
   "stream.isLive": "市政厅正在直播",
   "description.bronzeLoveBox": "青铜爱心盒",
-  "description.silverLoveBox": "一个银色的爱心盒子",
-  "description.goldLoveBox": "一个金色的爱心盒子",
-  "rewardBox.tapToOpen": "点按即可打开"
+  "description.silverLoveBox": "白银爱心盒",
+  "description.goldLoveBox": "黄金爱心盒",
+  "rewardBox.tapToOpen": "单击打开"
 }
