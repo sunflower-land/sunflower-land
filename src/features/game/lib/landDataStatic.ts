@@ -8,7 +8,6 @@ import {
   INITIAL_EQUIPMENT,
   INITIAL_STOCK,
 } from "./constants";
-import { INITIAL_REWARDS } from "../types/rewards";
 import { Equipped } from "../types/bumpkin";
 import { tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 import { EXPIRY_COOLDOWNS } from "./collectibleBuilt";
@@ -24,6 +23,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     expiresAt: Date.now() + 31 * 24 * 60 * 60 * 1000,
   },
   inventory: {
+    "Bronze Love Box": new Decimal(1),
     Beetroot: new Decimal(100),
     Jin: new Decimal(1),
     Egg: new Decimal(100),
@@ -108,9 +108,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Iron: new Decimal(1000),
     Gold: new Decimal(1000),
   },
-  wardrobe: {
-    Halo: 1,
-  },
+  wardrobe: {},
   previousWardrobe: {},
   bank: { taxFreeSFL: 0 },
   beehives: {},
@@ -226,20 +224,9 @@ export const STATIC_OFFLINE_FARM: GameState = {
     activity: {},
   },
 
-  rewards: INITIAL_REWARDS,
-
   minigames: {
     games: {},
     prizes: {},
-  },
-
-  megastore: {
-    available: {
-      from: 0,
-      to: 0,
-    },
-    collectibles: [],
-    wearables: [],
   },
 
   bounties: {
@@ -766,7 +753,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
   },
   season: {
     season: "autumn",
-    startedAt: Date.now(),
+    startedAt: new Date("2025-04-22").getTime(),
   },
   ban: {
     status: "ok",

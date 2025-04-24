@@ -5771,5 +5771,9 @@
   "easter-eggstravaganza.portal.rewardMessage": "Congratulations, you completed the mission! Here is your reward.",
   "maxPerPerson": "Max per player: {{max}}",
   "stream.beginsSoon": "Town Hall Starts In",
-  "stream.isLive": "Town Hall"
+  "stream.isLive": "Town Hall",
+  "description.bronzeLoveBox": "A bronze love box",
+  "description.silverLoveBox": "A silver love box",
+  "description.goldLoveBox": "A gold love box",
+  "rewardBox.tapToOpen": "Tap to open"
 }

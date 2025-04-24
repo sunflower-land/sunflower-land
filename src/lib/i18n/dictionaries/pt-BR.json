@@ -5771,5 +5771,9 @@
   "easter-eggstravaganza.portal.rewardMessage": "Parabéns, você completou a missão! Aqui está sua recompensa.",
   "maxPerPerson": "Máximo por jogador: {{max}}",
   "stream.beginsSoon": "A prefeitura começa em",
-  "stream.isLive": "Câmara Municipal"
+  "stream.isLive": "Câmara Municipal",
+  "description.bronzeLoveBox": "Uma caixa de amor de bronze",
+  "description.silverLoveBox": "Uma caixa de amor prateada",
+  "description.goldLoveBox": "Uma caixa de amor dourada",
+  "rewardBox.tapToOpen": "Toque para abrir"
 }

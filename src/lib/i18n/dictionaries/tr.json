@@ -5771,5 +5771,9 @@
   "easter-eggstravaganza.portal.rewardMessage": "Tebrikler, görevi tamamladınız! İşte ödülünüz.",
   "maxPerPerson": "Oyuncu başına maksimum: {{max}}",
   "stream.beginsSoon": "Belediye Binası Başlıyor",
-  "stream.isLive": "Belediye Binası"
+  "stream.isLive": "Belediye Binası",
+  "description.bronzeLoveBox": "Bronz bir aşk kutusu",
+  "description.silverLoveBox": "Gümüş bir aşk kutusu",
+  "description.goldLoveBox": "Altın aşk kutusu",
+  "rewardBox.tapToOpen": "Açmak için dokunun"
 }

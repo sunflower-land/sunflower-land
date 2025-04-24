@@ -19,6 +19,7 @@ import { BumpkinItem } from "features/game/types/bumpkin";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getItemDescription } from "../RewardShop";
 import { RewardShopItem } from "features/game/types/rewardShop";
+import { REWARD_BOXES } from "features/game/types/rewardBoxes";
 
 interface ItemOverlayProps {
   item: RewardShopItem | null;
@@ -114,8 +115,13 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
 
     if (showAnimations) confetti();
     trackAnalytics();
+
     setShowSuccess(true);
     setConfirmBuy(false);
+
+    if (item.name in REWARD_BOXES) {
+      onClose();
+    }
   };
 
   const buttonHandler = () => {

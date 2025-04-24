@@ -64,6 +64,8 @@ import { PlayerSelectionList } from "./ui/PlayerSelectionList";
 import { EasterIslandScene } from "./scenes/EasterIslandScene";
 import { StreamScene } from "./scenes/StreamScene";
 import { ModerationTools } from "./ui/moderationTools/ModerationTools";
+import { LoveIslandScene } from "./scenes/LoveIslandScene";
+import { hasFeatureAccess } from "lib/flags";
 
 const _roomState = (state: MachineState) => state.value;
 const _scene = (state: MachineState) => state.context.sceneId;
@@ -152,6 +154,7 @@ export const PhaserComponent: React.FC<Props> = ({
     InfernosScene,
     EasterIslandScene,
     StreamScene,
+    ...(hasFeatureAccess(state, "LOVE_ISLAND") ? [LoveIslandScene] : []),
   ];
 
   useEffect(() => {

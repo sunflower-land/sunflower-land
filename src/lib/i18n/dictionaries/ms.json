@@ -5771,5 +5771,9 @@
   "easter-eggstravaganza.portal.rewardMessage": "Tahniah, anda menyelesaikan misi! Inilah ganjaran anda.",
   "maxPerPerson": "Maksimum bagi setiap pemain: {{max}}",
   "stream.beginsSoon": "Dewan Bandaran Bermula Pada",
-  "stream.isLive": "Dewan Bandaran"
+  "stream.isLive": "Dewan Bandaran",
+  "description.bronzeLoveBox": "Kotak cinta gangsa",
+  "description.silverLoveBox": "Kotak cinta perak",
+  "description.goldLoveBox": "Kotak cinta emas",
+  "rewardBox.tapToOpen": "Ketik untuk membuka"
 }

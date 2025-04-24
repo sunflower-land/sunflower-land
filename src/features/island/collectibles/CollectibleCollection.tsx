@@ -354,6 +354,7 @@ import { BlackSheep } from "./components/BlackSheep";
 import { GoldenFence } from "./components/GoldenFence";
 import { GoldenStoneFence } from "./components/GoldenStoneFence";
 import { Tiles } from "./components/Tiles";
+import { GreatBloomBanner } from "./components/GreatBloomBanner";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
@@ -567,6 +568,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Pharaoh's Treasure Banner": PharaohsTreasureBanner,
   "Bull Run Banner": BullRunBanner,
   "Winds of Change Banner": WindsOfChangeBanner,
+  "Great Bloom Banner": GreatBloomBanner,
 
   "Bonnie's Tombstone": BonniesTombstone,
   "Chestnut Fungi Stool": ChestnutFungiStool,

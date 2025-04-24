@@ -2,7 +2,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { ButtonPanel, InnerPanel } from "components/ui/Panel";
 import React, { useContext } from "react";
-import { TrendingTrades } from "./TrendingTrades";
+import { WhatsNew } from "./WhatsNew";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useLocation, useNavigate } from "react-router";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -168,10 +168,10 @@ export const MarketplaceHotNow: React.FC = () => {
       <InnerPanel>
         <div className="p-2">
           <Label type="success" className="-ml-1 mb-2">
-            {t("marketplace.trending")}
+            {t("reward.whatsNew")}
           </Label>
 
-          <TrendingTrades trends={data} />
+          <WhatsNew />
         </div>
       </InnerPanel>
     </div>

@@ -40,7 +40,7 @@ const timePeriodFeatureFlag =
     return Date.now() > start.getTime() && Date.now() < end.getTime();
   };
 
-// Used for testing production features
+// Used for testing production features and dev access
 export const ADMIN_IDS = [1, 3, 39488, 128727];
 /**
  * Adam: 1
@@ -67,6 +67,8 @@ const FEATURE_FLAGS = {
   // Permanent Feature Flags
   AIRDROP_PLAYER: adminFeatureFlag,
   HOARDING_CHECK: defaultFeatureFlag,
+  STREAMER_HAT: (game) =>
+    (game.wardrobe["Streamer Hat"] ?? 0) > 0 || testnetFeatureFlag(),
 
   // Temporary Feature Flags
   FACE_RECOGNITION: (game) =>
@@ -102,6 +104,10 @@ const FEATURE_FLAGS = {
     betaTimeBasedFeatureFlag(new Date("2025-04-21T00:00:00Z"))(game) &&
     Date.now() < new Date("2025-04-29T00:00:00Z").getTime(),
   STREAM_STAGE_ACCESS: adminFeatureFlag,
+
+  LOVE_ISLAND: defaultFeatureFlag,
+
+  GOODBYE_BERT: timeBasedFeatureFlag(new Date("2025-05-01T00:00:00Z")),
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;

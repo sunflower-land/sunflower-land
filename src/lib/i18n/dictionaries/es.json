@@ -5771,5 +5771,9 @@
   "easter-eggstravaganza.portal.rewardMessage": "¡Enhorabuena, has completado la misión! Aquí tienes tu recompensa.",
   "maxPerPerson": "Máximo por jugador: {{max}}",
   "stream.beginsSoon": "El ayuntamiento comienza en",
-  "stream.isLive": "Ayuntamiento"
+  "stream.isLive": "Ayuntamiento",
+  "description.bronzeLoveBox": "Una caja de amor de bronce",
+  "description.silverLoveBox": "Una caja de amor plateada",
+  "description.goldLoveBox": "Una caja de amor dorada",
+  "rewardBox.tapToOpen": "Pulsa para abrir"
 }

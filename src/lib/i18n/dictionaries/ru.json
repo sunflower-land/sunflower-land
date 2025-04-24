@@ -5771,5 +5771,9 @@
   "easter-eggstravaganza.portal.rewardMessage": "Поздравляем, вы выполнили задание! Вот ваша награда.",
   "maxPerPerson": "Максимум на игрока: {{max}}",
   "stream.beginsSoon": "Ратуша начинается в",
-  "stream.isLive": "Ратуша"
+  "stream.isLive": "Ратуша",
+  "description.bronzeLoveBox": "Бронзовая шкатулка для любви",
+  "description.silverLoveBox": "Серебряная шкатулка для любви",
+  "description.goldLoveBox": "Золотая шкатулка для любви",
+  "rewardBox.tapToOpen": "Нажмите, чтобы открыть"
 }

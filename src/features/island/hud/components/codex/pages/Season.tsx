@@ -35,6 +35,7 @@ const CHAPTER_GRAPHICS: Record<SeasonName, string> = {
   "Pharaoh's Treasure": SUNNYSIDE.announcement.desertSeason,
   "Bull Run": SUNNYSIDE.announcement.bullRunSeason,
   "Winds of Change": SUNNYSIDE.announcement.windsOfChangeSeason,
+  "Great Bloom": "",
 };
 
 const CHORES_DELIVERIES_START_DATE: Record<SeasonName, string> = {
@@ -47,6 +48,7 @@ const CHORES_DELIVERIES_START_DATE: Record<SeasonName, string> = {
   "Pharaoh's Treasure": "?",
   "Bull Run": "Nov 11th",
   "Winds of Change": "Feb 10th",
+  "Great Bloom": "May 5th",
 };
 
 interface Props {

@@ -56,8 +56,6 @@ export const getItemBuffLabel = (
   return COLLECTIBLE_BUFF_LABELS(state)[item.name];
 };
 
-export const _megastore = (state: MachineState) =>
-  state.context.state.megastore;
 const _state = (state: MachineState) => state.context.state;
 
 export const MegaStore: React.FC<Props> = ({ onClose }) => {

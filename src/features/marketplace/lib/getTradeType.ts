@@ -5,11 +5,19 @@ import { CollectionName } from "features/game/types/marketplace";
 
 export type TradeType = "instant" | "onchain";
 
+/**
+ * Note from Elias:
+ * This object is used to determine whether an item can be airdropped offchain or not.
+ * Even though all trades are "instant" now, please add supply limited items as "onchain" in this object
+ */
 export const ITEM_TRADE_TYPES: {
   collectibles: Record<InventoryItemName, TradeType>;
   wearables: Record<BumpkinItem, TradeType>;
 } = {
   collectibles: {
+    "Bronze Love Box": "instant",
+    "Silver Love Box": "instant",
+    "Gold Love Box": "instant",
     "Polygon Banner": "instant",
     "Ronin Banner": "instant",
     "Base Banner": "instant",
@@ -950,7 +958,9 @@ export const ITEM_TRADE_TYPES: {
     "Autumn Duckling": "instant",
     "Winter Duckling": "instant",
     "Winds of Change Banner": "instant",
+    "Great Bloom Banner": "instant",
     Timeshard: "instant",
+    Geniseed: "instant",
     "Ancient Clock": "instant",
     Jin: "instant",
     "Floral Arch": "instant",

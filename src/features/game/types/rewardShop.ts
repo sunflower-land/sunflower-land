@@ -5,7 +5,7 @@ export type RewardShopItemName =
   | RewardShopCollectibleName
   | RewardShopWearableName;
 
-export type RewardShopCollectibleName = "Basic Bear" | "Treasure Key";
+export type RewardShopCollectibleName = "Basic Bear" | "Bronze Love Box";
 
 export type RewardShopWearableName = "Red Farmer Shirt";
 
@@ -46,8 +46,8 @@ export const REWARD_SHOP_ITEMS: Record<RewardShopItemName, RewardShopItem> = {
     },
     type: "collectible",
   },
-  "Treasure Key": {
-    name: "Treasure Key",
+  "Bronze Love Box": {
+    name: "Bronze Love Box",
     cost: {
       price: 100,
     },

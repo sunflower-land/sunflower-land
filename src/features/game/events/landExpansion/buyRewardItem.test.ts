@@ -39,7 +39,7 @@ describe("buyRewardShopItem", () => {
         state: poorState,
         action: {
           type: "rewardItem.bought",
-          name: "Treasure Key",
+          name: "Bronze Love Box",
         },
         createdAt: mockDate,
       }),
@@ -51,7 +51,7 @@ describe("buyRewardShopItem", () => {
       state: mockState,
       action: {
         type: "rewardItem.bought",
-        name: "Treasure Key",
+        name: "Bronze Love Box",
       },
       createdAt: mockDate,
     });
