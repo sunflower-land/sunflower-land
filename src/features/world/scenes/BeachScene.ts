@@ -84,6 +84,7 @@ export class BeachScene extends BaseScene {
   alreadyNotifiedOfClaim = false;
   digSoundsCooldown = false;
   sandHole?: Phaser.GameObjects.Image;
+  private digbyAlertSprite: Phaser.GameObjects.Sprite | undefined;
 
   constructor() {
     super({ name: "beach", map: { json: mapJSON } });
@@ -167,6 +168,18 @@ export class BeachScene extends BaseScene {
       frameWidth: 16,
       frameHeight: 14,
     });
+  }
+
+  get treasuresFound() {
+    return getArtefactsFound({ game: this.gameService.state.context.state });
+  }
+
+  get percentageTreasuresFound() {
+    return Math.round((this.treasuresFound / 3) * 100);
+  }
+
+  get hasClaimedStreakReward() {
+    return hasClaimedReward({ game: this.gameService.state.context.state });
   }
 
   updatePirateChest() {
@@ -608,6 +621,12 @@ export class BeachScene extends BaseScene {
       });
 
     this.digbyProgressBar?.updateBar(this.percentageTreasuresFound);
+
+    if (this.percentageTreasuresFound >= 100 && !this.hasClaimedStreakReward) {
+      this.digbyAlertSprite = this.add
+        .sprite(336, 196, "alert")
+        .setDepth(1000000000);
+    }
   };
 
   public walkToLocation = (x: number, y: number, onComplete: () => void) => {
@@ -1096,18 +1115,6 @@ export class BeachScene extends BaseScene {
     this.hoverBox?.setVisible(false);
     this.noToolHoverBox?.setVisible(false);
   };
-
-  get treasuresFound() {
-    return getArtefactsFound({ game: this.gameService.state.context.state });
-  }
-
-  get percentageTreasuresFound() {
-    return Math.round((this.treasuresFound / 3) * 100);
-  }
-
-  get hasClaimedStreakReward() {
-    return hasClaimedReward({ game: this.gameService.state.context.state });
-  }
 
   get isAncientShovelActive() {
     return isWearableActive({
@@ -1608,6 +1615,12 @@ export class BeachScene extends BaseScene {
     }
 
     this.handleOtherDiggersPositions();
+
+    // Dynamically remove the alert sprite if the reward is claimed
+    if (this.digbyAlertSprite && this.hasClaimedStreakReward) {
+      this.digbyAlertSprite.destroy();
+      this.digbyAlertSprite = undefined;
+    }
   }
 }
 
