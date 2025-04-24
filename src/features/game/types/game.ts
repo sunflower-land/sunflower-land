@@ -1657,6 +1657,13 @@ export interface GameState {
   };
 
   rewardBoxes?: RewardBoxes;
+
+  floatingIsland: {
+    schedule: {
+      startAt: number;
+      endAt: number;
+    }[];
+  };
 }
 
 export type FaceRecognitionEvent =

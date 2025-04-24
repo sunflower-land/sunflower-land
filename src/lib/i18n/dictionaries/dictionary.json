@@ -5941,5 +5941,14 @@
   "description.bronzeLoveBox": "A bronze love box",
   "description.silverLoveBox": "A silver love box",
   "description.goldLoveBox": "A gold love box",
-  "rewardBox.tapToOpen": "Tap to open"
+  "rewardBox.tapToOpen": "Tap to open",
+  "floatingIsland.isLive": "Mystery Island",
+  "hotAirBalloon.readyToFly": "Ready to fly?",
+  "hotAirBalloon.description": "Have you heard about the mysterious floating island? If you time it right, you can catch a ride with me.",
+  "hotAirBalloon.exchangeInfo": "Exchange Love Charms for FLOWER & rewards.",
+  "hotAirBalloon.puzzleInfo": "Solve the mysterious puzzle for a reward",
+  "hotAirBalloon.flightTimes": "Flight times are limited",
+  "hotAirBalloon.openNow": "Open Now",
+  "hotAirBalloon.noFlights": "No scheduled flights available.",
+  "hotAirBalloon.letsGo": "Let's go"
 }
