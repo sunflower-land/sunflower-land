@@ -76,7 +76,7 @@ const _wardrobe = (state: MachineState) => state.context.state.wardrobe;
 
 export const Bert: React.FC<Props> = ({ onClose }) => {
   const { t } = useAppTranslation();
-  const [tab, setTab] = useState<"delivery" | "obsession">("delivery");
+  const [tab, setTab] = useState<"Delivery" | "Obsession">("Delivery");
   const [showIntro, setShowIntro] = useState(!hasReadIntro());
   const dialogue = npcDialogues.bert || defaultDialogue;
   const intro = useRandomItem(dialogue.intro);
@@ -86,7 +86,7 @@ export const Bert: React.FC<Props> = ({ onClose }) => {
   const inventory = useSelector(gameService, _inventory);
   const wardrobe = useSelector(gameService, _wardrobe);
 
-  const handleIntro = (tab: "delivery" | "obsession") => {
+  const handleIntro = (tab: "Delivery" | "Obsession") => {
     setShowIntro(false);
     acknowledgeIntroRead();
     setTab(tab);
@@ -103,11 +103,11 @@ export const Bert: React.FC<Props> = ({ onClose }) => {
             actions: [
               {
                 text: t("obsession"),
-                cb: () => handleIntro("obsession"),
+                cb: () => handleIntro("Obsession"),
               },
               {
                 text: t("delivery"),
-                cb: () => handleIntro("delivery"),
+                cb: () => handleIntro("Delivery"),
               },
             ],
           },
@@ -120,18 +120,18 @@ export const Bert: React.FC<Props> = ({ onClose }) => {
     <CloseButtonPanel
       onClose={onClose}
       bumpkinParts={NPC_WEARABLES.bert}
-      container={tab === "delivery" ? OuterPanel : undefined}
+      container={tab === "Delivery" ? OuterPanel : undefined}
       tabs={[
-        { icon: SUNNYSIDE.icons.expression_chat, name: t("delivery") },
+        { icon: SUNNYSIDE.icons.expression_chat, name: "Delivery" },
         ...(hasFeatureAccess(INITIAL_FARM, "GOODBYE_BERT")
           ? []
-          : [{ icon: SUNNYSIDE.icons.wardrobe, name: t("obsession") }]),
+          : [{ icon: SUNNYSIDE.icons.wardrobe, name: "Obsession" }]),
       ]}
       setCurrentTab={setTab}
       currentTab={tab}
     >
-      {tab === "delivery" && <DeliveryPanelContent npc="bert" />}
-      {tab === "obsession" && (
+      {tab === "Delivery" && <DeliveryPanelContent npc="bert" />}
+      {tab === "Obsession" && (
         <BertObsession
           currentObsession={currentObsession}
           npcs={npcs}
