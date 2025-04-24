@@ -42,7 +42,7 @@ import { WeatherShop } from "features/game/expansion/components/temperateSeason/
 import { PortalChooser } from "./portals/PortalChooser";
 import { EventShop } from "./eventShop/eventShop";
 import { EasterEggstravaganza } from "./portals/EasterEggstravaganza";
-
+import { HotAirBalloon } from "features/loveIsland/HotAirBalloon";
 type InteractableName =
   | "desert_noticeboard"
   | "faction_noticeboard"
@@ -134,7 +134,8 @@ type InteractableName =
   | "festive_tree"
   | "portal_chooser"
   | "event_shop"
-  | "easter-eggstravaganza";
+  | "easter-eggstravaganza"
+  | "air_balloon";
 
 class InteractableModalManager {
   private listener?: (name: InteractableName, isOpen: boolean) => void;
@@ -207,6 +208,9 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
       )}
       <Modal show={interactable === "faction_intro"} onHide={closeModal}>
         <FactionWelcome onClose={closeModal} />
+      </Modal>
+      <Modal show={interactable === "air_balloon"} onHide={closeModal}>
+        <HotAirBalloon onClose={closeModal} />
       </Modal>
       <Modal show={interactable === "weather_shop"} onHide={closeModal}>
         <WeatherShop onClose={closeModal} />

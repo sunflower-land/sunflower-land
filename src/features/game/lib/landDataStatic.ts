@@ -23,7 +23,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
     expiresAt: Date.now() + 31 * 24 * 60 * 60 * 1000,
   },
   inventory: {
-    "Bronze Love Box": new Decimal(1),
     Beetroot: new Decimal(100),
     Jin: new Decimal(1),
     Egg: new Decimal(100),
@@ -757,5 +756,17 @@ export const STATIC_OFFLINE_FARM: GameState = {
   },
   ban: {
     status: "ok",
+  },
+  floatingIsland: {
+    schedule: [
+      {
+        startAt: Date.now(),
+        endAt: Date.now() + 1000 * 60 * 30,
+      },
+      {
+        startAt: Date.now() + 24 * 60 * 60 * 1000,
+        endAt: Date.now() + 24 * 60 * 60 * 1000 + 1000 * 60 * 30,
+      },
+    ],
   },
 };
