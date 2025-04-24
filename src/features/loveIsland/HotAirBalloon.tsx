@@ -6,7 +6,7 @@ import { useGame } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import React from "react";
-import { getActiveFloatingIslandSchedule } from "features/game/types/floatingIsland";
+import { getActiveFloatingIsland } from "features/game/types/floatingIsland";
 import { useNavigate } from "react-router";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 interface Props {
@@ -22,7 +22,7 @@ export const HotAirBalloon = ({ onClose }: Props) => {
 
   const navigate = useNavigate();
 
-  const isActive = getActiveFloatingIslandSchedule({
+  const isActive = getActiveFloatingIsland({
     state: gameState.context.state,
   });
 

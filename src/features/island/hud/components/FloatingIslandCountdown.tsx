@@ -7,7 +7,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { ButtonPanel } from "components/ui/Panel";
 import travelIcon from "assets/icons/world_small.png";
-import { getActiveFloatingIslandSchedule } from "features/game/types/floatingIsland";
+import { getActiveFloatingIsland } from "features/game/types/floatingIsland";
 import { useGame } from "features/game/GameProvider";
 import { Modal } from "components/ui/Modal";
 import { HotAirBalloon } from "features/loveIsland/HotAirBalloon";
@@ -53,7 +53,7 @@ export const FloatingIslandCountdown: React.FC = () => {
   const { gameState } = useGame();
 
   const [showModal, setShowModal] = useState(false);
-  const event = getActiveFloatingIslandSchedule({
+  const event = getActiveFloatingIsland({
     state: gameState.context.state,
   });
 

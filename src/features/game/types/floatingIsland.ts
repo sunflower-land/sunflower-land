@@ -1,10 +1,6 @@
 import { GameState } from "./game";
 
-export function getActiveFloatingIslandSchedule({
-  state,
-}: {
-  state: GameState;
-}) {
+export function getActiveFloatingIsland({ state }: { state: GameState }) {
   const schedule = state.floatingIsland.schedule;
   const now = Date.now();
   return schedule.find(
