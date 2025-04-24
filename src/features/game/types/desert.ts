@@ -23,6 +23,9 @@ export const SEASONAL_ARTEFACT: Record<
   "Spring Blossom": "Scarab",
   "Clash of Factions": "Scarab",
   "Winds of Change": "Ancient Clock",
+
+  // TODO: Add Great Bloom artefact
+  "Great Bloom": "Scarab",
 };
 
 export const DIGGING_FORMATIONS = {

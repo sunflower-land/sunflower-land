@@ -548,4 +548,7 @@ export const MEGASTORE: Record<SeasonName, SeasonalStore> = {
       requirement: 4,
     },
   },
+
+  // TODO: Add Great Bloom items
+  "Great Bloom": EMPTY_SEASONAL_STORE,
 };

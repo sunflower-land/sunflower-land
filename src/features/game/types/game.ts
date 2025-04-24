@@ -362,6 +362,9 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   "Easter Ticket 2025": {
     description: "placeholder",
   },
+  Geniseed: {
+    description: "placeholder",
+  },
 };
 
 export type Purchase = {

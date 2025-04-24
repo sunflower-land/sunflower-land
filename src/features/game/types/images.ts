@@ -5135,4 +5135,12 @@ export const ITEM_DETAILS: Items = {
     image: goldLoveBox,
     description: translate("description.goldLoveBox"),
   },
+  "Great Bloom Banner": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "Placeholder",
+  },
+  Geniseed: {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "Placeholder",
+  },
 };

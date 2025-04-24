@@ -1404,6 +1404,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Autumn Duckling": { width: 1, height: 1 },
   "Winter Duckling": { width: 1, height: 1 },
   "Winds of Change Banner": { width: 1, height: 2 },
+  "Great Bloom Banner": { width: 1, height: 2 },
   "Frozen Cow": { width: 2, height: 1 },
   "Frozen Sheep": { width: 2, height: 1 },
   "Summer Chicken": { width: 1, height: 1 },
