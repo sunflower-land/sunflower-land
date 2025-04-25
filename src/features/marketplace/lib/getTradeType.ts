@@ -475,7 +475,7 @@ export const ITEM_TRADE_TYPES: {
     "Bumpkin Emblem": "instant",
     "Sunflorian Emblem": "instant",
     "Nightshade Emblem": "instant",
-    Mark: "onchain",
+    Mark: "instant",
     "Pharaoh's Treasure Banner": "instant",
     "Amber Fossil": "instant",
     Gem: "instant",

@@ -13,6 +13,7 @@ import {
   getCurrentSeason,
   getSeasonalTicket,
 } from "features/game/types/seasons";
+import { BOUNTY_CATEGORIES } from "features/world/ui/flowerShop/MegaBountyBoard";
 import { produce } from "immer";
 import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 
@@ -151,7 +152,11 @@ export function sellBounty({
     if (!item || item.lte(0)) {
       throw new Error("Item does not exist in inventory");
     }
-    draft.inventory[request.name] = item.minus(1);
+    if (BOUNTY_CATEGORIES["Mark Bounties"](request)) {
+      draft.inventory[request.name] = item.minus(request.quantity);
+    } else {
+      draft.inventory[request.name] = item.minus(1);
+    }
 
     const { coins } = generateBountyCoins({
       game: draft,
@@ -172,7 +177,7 @@ export function sellBounty({
     });
 
     if ((request as ObsidianBounty).sfl) {
-      draft.balance = draft.balance.add((request as ObsidianBounty).sfl);
+      draft.balance = draft.balance.add((request as ObsidianBounty).sfl ?? 0);
     }
 
     // Mark bounty as completed

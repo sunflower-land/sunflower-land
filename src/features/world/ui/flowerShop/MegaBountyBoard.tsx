@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useLayoutEffect, useState } from "react";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { millisecondsToString } from "lib/utils/time";
@@ -10,161 +10,141 @@ import classNames from "classnames";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import {
+  BountyRequest,
   ExoticBounty,
   FishBounty,
   FlowerBounty,
   InventoryItemName,
   MarkBounty,
+  ObsidianBounty,
 } from "features/game/types/game";
-import { BountyRequest } from "features/game/types/game";
-import { ObsidianBounty } from "features/game/types/game";
 import { FISH } from "features/game/types/consumables";
-import { EXOTIC_CROPS, ExoticCropName } from "features/game/types/beans";
-import { FULL_MOON_FRUITS, FullMoonFruit } from "features/game/types/fruits";
+import { EXOTIC_CROPS } from "features/game/types/beans";
+import { FULL_MOON_FRUITS } from "features/game/types/fruits";
 import { RECIPE_CRAFTABLES } from "features/game/lib/crafting";
-import {
-  BeachBountyTreasure,
-  SELLABLE_TREASURE,
-} from "features/game/types/treasure";
-import { FLOWERS } from "features/game/types/flowers";
+import { SELLABLE_TREASURE } from "features/game/types/treasure";
+import { FlowerName, FLOWERS } from "features/game/types/flowers";
 import { getKeys } from "features/game/types/craftables";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
-import { FishName } from "features/game/types/fishing";
 import { pixelDarkBorderStyle } from "features/game/lib/style";
 import { SquareIcon } from "components/ui/SquareIcon";
-import token from "assets/icons/flower_token.webp";
 import {
   getSeasonalArtefact,
   getSeasonalTicket,
 } from "features/game/types/seasons";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { FishName } from "features/game/types/fishing";
+import { ExoticCropName } from "features/game/types/beans";
+import { BeachBountyTreasure } from "features/game/types/treasure";
+import { FullMoonFruit } from "features/game/types/fruits";
+import { ModalOverlay } from "components/ui/ModalOverlay";
+import { InnerPanel } from "components/ui/Panel";
+import { RequirementLabel } from "components/ui/RequirementsLabel";
+import { Decimal } from "decimal.js-light";
+import { generateBountyTicket } from "features/game/events/landExpansion/sellBounty";
+import { Button } from "components/ui/Button";
+import confetti from "canvas-confetti";
 
-export const MegaBountyBoard: React.FC<{
-  onClose: () => void;
-}> = ({ onClose }) => {
-  return (
-    <CloseButtonPanel
-      bumpkinParts={NPC_WEARABLES.poppy}
-      onClose={onClose}
-      tabs={[{ icon: SUNNYSIDE.icons.stopwatch, name: "Mega Bounty Board" }]}
-    >
-      <MegaBountyBoardContent />
-    </CloseButtonPanel>
-  );
+export const BOUNTY_CATEGORIES = {
+  "Flower Bounties": (bounty: BountyRequest): bounty is FlowerBounty =>
+    getKeys(FLOWERS).includes(bounty.name as FlowerName),
+  "Fish Bounties": (bounty: BountyRequest): bounty is FishBounty =>
+    getKeys(FISH).includes(bounty.name as FishName),
+  "Exotic Bounties": (bounty: BountyRequest): bounty is ExoticBounty =>
+    getKeys(EXOTIC_CROPS).includes(bounty.name as ExoticCropName) ||
+    getKeys(SELLABLE_TREASURE).includes(bounty.name as BeachBountyTreasure) ||
+    FULL_MOON_FRUITS.includes(bounty.name as FullMoonFruit) ||
+    bounty.name in RECIPE_CRAFTABLES,
+  "Mark Bounties": (bounty: BountyRequest): bounty is MarkBounty =>
+    bounty.name === "Mark",
+  "Obsidian Bounties": (bounty: BountyRequest): bounty is ObsidianBounty =>
+    bounty.name === "Obsidian",
 };
 
-export const isMarkBounty = (bounty: BountyRequest): bounty is MarkBounty =>
-  bounty.name === "Mark";
-
-export const isObsidianBounty = (
-  bounty: BountyRequest,
-): bounty is ObsidianBounty => bounty.name === "Obsidian";
-
-export const isFishBounty = (bounty: BountyRequest): bounty is FishBounty =>
-  getKeys(FISH).includes(bounty.name as FishName);
-
-export const isExoticBounty = (bounty: BountyRequest): bounty is ExoticBounty =>
-  getKeys(EXOTIC_CROPS).includes(bounty.name as ExoticCropName) ||
-  getKeys(SELLABLE_TREASURE).includes(bounty.name as BeachBountyTreasure) ||
-  FULL_MOON_FRUITS.includes(bounty.name as FullMoonFruit) ||
-  bounty.name in RECIPE_CRAFTABLES;
-
-export const isFlowerBounty = (bounty: BountyRequest): bounty is FlowerBounty =>
-  bounty.name in FLOWERS;
+export const MegaBountyBoard: React.FC<{ onClose: () => void }> = ({
+  onClose,
+}) => (
+  <CloseButtonPanel
+    bumpkinParts={NPC_WEARABLES.poppy}
+    onClose={onClose}
+    tabs={[{ icon: SUNNYSIDE.icons.stopwatch, name: "Mega Bounty Board" }]}
+  >
+    <MegaBountyBoardContent />
+  </CloseButtonPanel>
+);
 
 export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
   readonly,
 }) => {
   const { t } = useAppTranslation();
+  const { gameService } = useContext(Context);
+  const [selectedBounty, setSelectedBounty] = useState<BountyRequest>();
+  const state = useSelector(gameService, (state) => state.context.state);
+  const exchange = useSelector(
+    gameService,
+    (state) => state.context.state.bounties,
+  );
   const endTime = weekResetsAt();
   const timeRemaining = endTime - Date.now();
   const showDanger = timeRemaining < 1000 * 60 * 60 * 24;
 
-  const { gameService } = useContext(Context);
-  const bounties = useSelector(
-    gameService,
-    (state) => state.context.state.bounties,
-  );
-  const markBounties = bounties.requests.filter(isMarkBounty);
-  const fishBounties = bounties.requests.filter(isFishBounty);
-  const exoticBounties = bounties.requests.filter(isExoticBounty);
-  // console.log(exoticBounties);
-  const flowerBounties = bounties.requests.filter(isFlowerBounty);
-  const obsidianBounties = bounties.requests.filter(isObsidianBounty);
-  const [selectedBounty, setSelectedBounty] = useState<BountyRequest>();
+  const getBountiesByCategory = () => {
+    const result: Record<
+      string,
+      { categoryName: string; bounties: BountyRequest[] }
+    > = {};
 
-  const BOUNTIES_BY_CATEGORY: Record<
-    string,
-    { categoryName: string; bounties: BountyRequest[] }
-  > = {
-    "Mark Bounties": {
-      categoryName: "Mark Bounties",
-      bounties: markBounties,
-    },
-    "Fish Bounties": {
-      categoryName: "Fish Bounties",
-      bounties: fishBounties,
-    },
-    "Exotic Bounties": {
-      categoryName: "Exotic Bounties",
-      bounties: exoticBounties,
-    },
-    "Flower Bounties": {
-      categoryName: "Flower Bounties",
-      bounties: flowerBounties,
-    },
-    "Obsidian Bounties": {
-      categoryName: "Obsidian Bounties",
-      bounties: obsidianBounties,
-    },
+    Object.entries(BOUNTY_CATEGORIES).forEach(([category, checkFn]) => {
+      result[category] = {
+        categoryName: category,
+        bounties: exchange.requests.filter(checkFn),
+      };
+    });
+
+    return result;
   };
-  const getCurrency = (bounty: BountyRequest) => {
-    if (isObsidianBounty(bounty)) {
-      if (bounty.sfl !== 0) {
-        return bounty.sfl;
-      } else {
-        const currency =
-          bounty.sfl === 0 && (bounty.items?.[getSeasonalTicket()] ?? 0 > 0)
-            ? getSeasonalTicket()
-            : getSeasonalArtefact();
-        const currencyItem =
-          bounty.sfl === 0 && (bounty.items?.[currency] ?? 0 > 0)
-            ? bounty.items?.[currency]
-            : bounty.items?.[
-                Object.keys(bounty.items ?? {})[0] as InventoryItemName
-              ];
-        return currencyItem;
-      }
-    }
+  const bountiesByCategory = getBountiesByCategory();
+
+  const getCurrencyInfo = (bounty: BountyRequest) => {
+    const items = bounty.items ?? {};
+    const seasonalTicket = getSeasonalTicket();
+    const seasonalArtefact = getSeasonalArtefact();
+    const bountyTickets = generateBountyTicket({
+      game: state,
+      bounty,
+    });
 
     const currency =
-      bounty.items?.[getSeasonalTicket()] ?? 0 > 0
-        ? getSeasonalTicket()
-        : getSeasonalArtefact();
-    const currencyItem =
-      bounty.items?.[currency] ?? 0 > 0
-        ? bounty.items?.[currency]
-        : bounty.items?.[
-            Object.keys(bounty.items ?? {})[0] as InventoryItemName
-          ];
+      (items[seasonalTicket] ?? 0) > 0
+        ? seasonalTicket
+        : (items[seasonalArtefact] ?? 0) > 0
+          ? seasonalArtefact
+          : (Object.keys(items)[0] as InventoryItemName);
 
-    return currencyItem;
+    return {
+      amount:
+        currency === seasonalTicket ? bountyTickets : items[currency] ?? 0,
+      icon: ITEM_DETAILS[currency]?.image ?? "",
+    };
   };
-  const getCurrencyIcon = (item: BountyRequest) => {
-    if (isObsidianBounty(item) && item.sfl !== 0) return token;
 
-    const currencyItem =
-      item.items?.[getSeasonalTicket()] ?? 0 > 0
-        ? getSeasonalTicket()
-        : item.items?.[getSeasonalArtefact()] ?? 0 > 0
-          ? getSeasonalArtefact()
-          : Object.keys(item.items ?? {})[0];
-
-    return ITEM_DETAILS[currencyItem as InventoryItemName].image;
-  };
   return (
     <>
+      {selectedBounty && (
+        <ModalOverlay
+          show={!!selectedBounty}
+          onBackdropClick={() => setSelectedBounty(undefined)}
+        >
+          <Deal
+            bounty={selectedBounty}
+            onClose={() => setSelectedBounty(undefined)}
+            onSold={() => setSelectedBounty(undefined)}
+            readonly={readonly}
+          />
+        </ModalOverlay>
+      )}
+
       <div className="flex justify-between px-2 flex-wrap pb-1">
         <Label type="default" className="mb-1">
           {"Poppy"}
@@ -185,62 +165,222 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
 
       <div
         className={classNames("flex flex-col p-2 pt-1", {
-          ["max-h-[300px] overflow-y-auto scrollable "]: !readonly,
+          ["max-h-[450px] overflow-y-auto scrollable"]: !readonly,
         })}
       >
         <span className="text-xs pb-1">
           {readonly ? t("megaBountyBoard.message") : t("megaBountyBoard.msg1")}
         </span>
 
-        {getObjectEntries(BOUNTIES_BY_CATEGORY).map(
-          ([category, { categoryName, bounties }]) => (
-            <div key={category}>
-              <Label type="default" className="mb-1">
-                {categoryName}
-              </Label>
-              <div className="flex gap-2 flex-wrap">
-                {bounties.map((bounty) => {
-                  return (
-                    <div key={bounty.name} className="flex flex-col space-y-1">
+        <div className="flex flex-col gap-4">
+          {getObjectEntries(bountiesByCategory).map(
+            ([category, { categoryName, bounties }]) => (
+              <div key={category}>
+                <Label type="default" className="mb-2">
+                  {categoryName}
+                </Label>
+                <div className="flex gap-2 flex-wrap">
+                  {bounties.map((bounty) => {
+                    const { amount, icon } = getCurrencyInfo(bounty);
+                    const isSold = !!exchange.completed.find(
+                      (request) => request.id === bounty.id,
+                    );
+                    return (
                       <div
-                        className="bg-brown-600 cursor-pointer relative"
-                        style={{
-                          ...pixelDarkBorderStyle,
-                        }}
-                        onClick={() => setSelectedBounty(bounty)}
+                        key={bounty.name}
+                        className="flex flex-col space-y-1"
                       >
-                        <div className="flex justify-center items-center w-full h-full z-20">
-                          <SquareIcon
-                            icon={ITEM_DETAILS[bounty.name].image}
-                            width={20}
-                          />
-
-                          {/* Price */}
-                          <div className="absolute px-4 bottom-3 -left-4 object-contain">
-                            <Label
-                              icon={getCurrencyIcon(bounty)}
-                              type="warning"
-                              className={
-                                "text-xxs absolute center text-center p-1 "
-                              }
-                              style={{
-                                width: `calc(100% + ${PIXEL_SCALE * 10}px)`,
-                                height: "24px",
-                              }}
-                            >
-                              {getCurrency(bounty)}
-                            </Label>
+                        <div
+                          className="bg-brown-600 cursor-pointer relative"
+                          style={pixelDarkBorderStyle}
+                          onClick={() => setSelectedBounty(bounty)}
+                        >
+                          <div className="flex justify-center items-center w-full h-full z-20">
+                            <SquareIcon
+                              icon={ITEM_DETAILS[bounty.name]?.image ?? ""}
+                              width={20}
+                            />
+                            {isSold && (
+                              <img
+                                src={SUNNYSIDE.icons.confirm}
+                                className="absolute -right-2 -top-3"
+                                style={{
+                                  width: `${PIXEL_SCALE * 9}px`,
+                                }}
+                                alt="Completed"
+                              />
+                            )}
+                            <div className="absolute px-4 bottom-3 -left-4 object-contain">
+                              <Label
+                                icon={icon}
+                                type="warning"
+                                className="text-xxs absolute center text-center p-1"
+                                style={{
+                                  width: `calc(100% + ${PIXEL_SCALE * 10}px)`,
+                                  height: "24px",
+                                }}
+                              >
+                                {amount}
+                              </Label>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
+                    );
+                  })}
+                </div>
+              </div>
+            ),
+          )}
+        </div>
+      </div>
+    </>
+  );
+};
+
+const Deal: React.FC<{
+  bounty: BountyRequest;
+  onClose: () => void;
+  onSold: () => void;
+  readonly?: boolean;
+}> = ({ bounty, onClose, onSold, readonly }) => {
+  const [imageWidth, setImageWidth] = useState(0);
+  const [confirmExchange, setConfirmExchange] = useState(false);
+  const { t } = useAppTranslation();
+  const { gameService, showAnimations } = useContext(Context);
+  const state = useSelector(gameService, (state) => state.context.state);
+  const inventory = state.inventory;
+  const buttonHandler = () => {
+    if (!confirmExchange) {
+      setConfirmExchange(true);
+      return;
+    }
+
+    sell();
+  };
+
+  const canSell = () => {
+    if (BOUNTY_CATEGORIES["Mark Bounties"](bounty)) {
+      return inventory[bounty.name]?.gte(bounty.quantity);
+    }
+
+    return inventory[bounty.name]?.gte(1);
+  };
+
+  const sell = () => {
+    gameService.send("bounty.sold", {
+      requestId: bounty.id,
+    });
+    if (showAnimations) confetti();
+    setConfirmExchange(false);
+
+    onSold();
+  };
+
+  useLayoutEffect(() => {
+    const imgElement = new Image();
+
+    imgElement.onload = function () {
+      const trueWidth = imgElement.width;
+      const scaledWidth = trueWidth * PIXEL_SCALE;
+
+      setImageWidth(scaledWidth);
+    };
+
+    imgElement.src = ITEM_DETAILS[bounty.name].image;
+  }, []);
+  return (
+    <InnerPanel className="shadow">
+      <>
+        <div className="flex flex-col items-center space-y-2">
+          <div className="flex items-center w-full">
+            <div style={{ width: `${PIXEL_SCALE * 9}px` }} />
+            <span className="flex-1 text-center">{bounty.name}</span>
+            <img
+              src={SUNNYSIDE.icons.close}
+              className="cursor-pointer"
+              onClick={onClose}
+              style={{
+                width: `${PIXEL_SCALE * 9}px`,
+              }}
+            />
+          </div>
+
+          <div className="w-full p-2 px-1">
+            <div className="flex">
+              <div
+                className="w-[40%] relative min-w-[40%] rounded-md overflow-hidden shadow-md mr-2 flex justify-center items-center h-32"
+                style={{
+                  backgroundImage: `url(${SUNNYSIDE.ui.grey_background})`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                }}
+              >
+                <img
+                  src={ITEM_DETAILS[bounty.name].image}
+                  alt={bounty.name}
+                  className={"w-full"}
+                  style={{
+                    width: `${imageWidth}px`,
+                  }}
+                />
+              </div>
+              <div className="flex flex-col space-y-2 justify-around">
+                <span className="text-xs leading-none">
+                  {ITEM_DETAILS[bounty.name].description}
+                </span>
+                <div className="flex flex-1 content-start flex-col flex-wrap">
+                  <RequirementLabel
+                    type="item"
+                    item={bounty.name}
+                    balance={inventory[bounty.name] ?? new Decimal(0)}
+                    requirement={
+                      BOUNTY_CATEGORIES["Mark Bounties"](bounty)
+                        ? new Decimal(bounty.quantity)
+                        : new Decimal(1)
+                    }
+                  />
+                </div>
+                {getKeys(bounty.items ?? {}).map((name) => {
+                  return (
+                    <Label
+                      key={name}
+                      type="warning"
+                      icon={ITEM_DETAILS[name].image}
+                    >
+                      {`Reward: ${
+                        name !== getSeasonalTicket()
+                          ? bounty.items?.[name]
+                          : generateBountyTicket({
+                              game: state,
+                              bounty,
+                            })
+                      } ${name}s`}
+                    </Label>
                   );
                 })}
               </div>
             </div>
-          ),
+          </div>
+        </div>
+        {!readonly && (
+          <div
+            className={classNames("flex w-full", {
+              "space-x-1": confirmExchange,
+            })}
+          >
+            {confirmExchange && (
+              <Button onClick={() => setConfirmExchange(false)}>
+                {t("cancel")}
+              </Button>
+            )}
+
+            <Button disabled={!canSell()} onClick={buttonHandler}>
+              {confirmExchange ? t("confirm") : t("sell")}
+            </Button>
+          </div>
         )}
-      </div>
-    </>
+      </>
+    </InnerPanel>
   );
 };
