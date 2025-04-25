@@ -9,21 +9,7 @@ import { NPC_WEARABLES } from "lib/npcs";
 import classNames from "classnames";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
-import {
-  BountyRequest,
-  ExoticBounty,
-  FishBounty,
-  FlowerBounty,
-  InventoryItemName,
-  MarkBounty,
-  ObsidianBounty,
-} from "features/game/types/game";
-import { FISH } from "features/game/types/consumables";
-import { EXOTIC_CROPS } from "features/game/types/beans";
-import { FULL_MOON_FRUITS } from "features/game/types/fruits";
-import { RECIPE_CRAFTABLES } from "features/game/lib/crafting";
-import { SELLABLE_TREASURE } from "features/game/types/treasure";
-import { FlowerName, FLOWERS } from "features/game/types/flowers";
+import { BountyRequest, InventoryItemName } from "features/game/types/game";
 import { getKeys } from "features/game/types/craftables";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 import { pixelDarkBorderStyle } from "features/game/lib/style";
@@ -34,33 +20,16 @@ import {
 } from "features/game/types/seasons";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { FishName } from "features/game/types/fishing";
-import { ExoticCropName } from "features/game/types/beans";
-import { BeachBountyTreasure } from "features/game/types/treasure";
-import { FullMoonFruit } from "features/game/types/fruits";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { InnerPanel } from "components/ui/Panel";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { Decimal } from "decimal.js-light";
-import { generateBountyTicket } from "features/game/events/landExpansion/sellBounty";
+import {
+  BOUNTY_CATEGORIES,
+  generateBountyTicket,
+} from "features/game/events/landExpansion/sellBounty";
 import { Button } from "components/ui/Button";
 import confetti from "canvas-confetti";
-
-export const BOUNTY_CATEGORIES = {
-  "Flower Bounties": (bounty: BountyRequest): bounty is FlowerBounty =>
-    getKeys(FLOWERS).includes(bounty.name as FlowerName),
-  "Fish Bounties": (bounty: BountyRequest): bounty is FishBounty =>
-    getKeys(FISH).includes(bounty.name as FishName),
-  "Exotic Bounties": (bounty: BountyRequest): bounty is ExoticBounty =>
-    getKeys(EXOTIC_CROPS).includes(bounty.name as ExoticCropName) ||
-    getKeys(SELLABLE_TREASURE).includes(bounty.name as BeachBountyTreasure) ||
-    FULL_MOON_FRUITS.includes(bounty.name as FullMoonFruit) ||
-    bounty.name in RECIPE_CRAFTABLES,
-  "Mark Bounties": (bounty: BountyRequest): bounty is MarkBounty =>
-    bounty.name === "Mark",
-  "Obsidian Bounties": (bounty: BountyRequest): bounty is ObsidianBounty =>
-    bounty.name === "Obsidian",
-};
 
 export const MegaBountyBoard: React.FC<{ onClose: () => void }> = ({
   onClose,

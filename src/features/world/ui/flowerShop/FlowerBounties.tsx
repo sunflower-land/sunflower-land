@@ -7,6 +7,7 @@ import { ButtonPanel } from "components/ui/Panel";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
 import {
+  BOUNTY_CATEGORIES,
   generateBountyCoins,
   generateBountyTicket,
 } from "features/game/events/landExpansion/sellBounty";
@@ -23,7 +24,6 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { NPC_WEARABLES } from "lib/npcs";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import React, { useContext, useState } from "react";
-import { BOUNTY_CATEGORIES } from "./MegaBountyBoard";
 
 interface Props {
   readonly?: boolean;
