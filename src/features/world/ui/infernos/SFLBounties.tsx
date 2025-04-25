@@ -8,11 +8,7 @@ import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { Context } from "features/game/GameProvider";
 import { weekResetsAt } from "features/game/lib/factions";
 import { MachineState } from "features/game/lib/gameMachine";
-import {
-  BountyRequest,
-  GameState,
-  ObsidianBounty,
-} from "features/game/types/game";
+import { BountyRequest, GameState } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -21,6 +17,7 @@ import { useCountdown } from "lib/utils/hooks/useCountdown";
 import React, { useContext, useState } from "react";
 import { Deal } from "../flowerShop/FlowerBounties";
 import sflIcon from "assets/icons/flower_token.webp";
+import { BOUNTY_CATEGORIES } from "features/game/events/landExpansion/sellBounty";
 
 interface Props {
   readonly?: boolean;
@@ -74,8 +71,8 @@ export const SFLBountiesModal: React.FC<{
   const { bounties: exchange, inventory } = state;
 
   const deals = exchange.requests.filter(
-    (deal) => (deal as ObsidianBounty).sfl,
-  ) as ObsidianBounty[];
+    BOUNTY_CATEGORIES["Obsidian Bounties"],
+  );
 
   if (deal) {
     return (
