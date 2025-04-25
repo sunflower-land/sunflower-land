@@ -177,7 +177,12 @@ export function sellBounty({
 
     // Remove the item from the inventory
     const item = draft.inventory[request.name];
-    if (!item || item.lte(0)) {
+    if (
+      !item ||
+      item.lt(
+        BOUNTY_CATEGORIES["Mark Bounties"](request) ? request.quantity : 1,
+      )
+    ) {
       throw new Error("Item does not exist in inventory");
     }
     if (BOUNTY_CATEGORIES["Mark Bounties"](request)) {

@@ -48,6 +48,14 @@ describe("sellBounty", () => {
             Timeshard: 1,
           },
         },
+        {
+          id: "6",
+          name: "Mark",
+          quantity: 100,
+          items: {
+            Timeshard: 9,
+          },
+        },
       ],
       completed: [],
     },
@@ -375,5 +383,24 @@ describe("sellBounty", () => {
     expect(result.bounties.completed).toHaveLength(1);
     expect(result.bounties.completed[0].id).toBe("1");
     expect(result.bounties.completed[0].soldAt).toBeDefined();
+  });
+  it("sell bounty with Mark Bounties", () => {
+    const action: SellBountyAction = {
+      type: "bounty.sold",
+      requestId: "6",
+    };
+
+    const result = sellBounty({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          ...GAME_STATE.inventory,
+          Mark: new Decimal(100),
+        },
+      },
+      action,
+    });
+
+    expect(result.inventory[getSeasonalTicket()]).toEqual(new Decimal(9));
   });
 });
