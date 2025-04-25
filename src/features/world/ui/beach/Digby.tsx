@@ -420,18 +420,15 @@ const BoostDigItems: (
 const getDefaultTab = (game: GameState) => {
   if (!hasReadDigbyIntro()) return 1;
 
+  const remainingDigs = getRemainingDigs(game);
   const artefactsFound = getArtefactsFound({ game });
   const percentage = Math.round((artefactsFound / 3) * 100);
   const hasClaimedStreakReward = hasClaimedReward({ game });
 
-  if (percentage >= 100 && !hasClaimedStreakReward) {
-    return 0;
-  }
-
-  const remainingDigs = getRemainingDigs(game);
-
   if (remainingDigs <= 0) {
     return 2;
+  } else if (percentage >= 100 && !hasClaimedStreakReward) {
+    return 0;
   }
 
   return 0;

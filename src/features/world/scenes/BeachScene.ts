@@ -1484,22 +1484,19 @@ export class BeachScene extends BaseScene {
       // Potentially have animation of the item??
       this.populateDugItems();
 
-      if (
-        this.percentageTreasuresFound >= 100 &&
-        !this.hasClaimedStreakReward
-      ) {
-        // Phaser timeout
-        this.time.delayedCall(2000, () => {
-          npcModalManager.open("digby");
-        });
-      }
-
       if (!this.hasDigsLeft) {
         // Phaser timeout
         this.time.delayedCall(2000, () => {
           npcModalManager.open("digby");
         });
         this.recordDigAnalytics();
+      } else if (
+        this.percentageTreasuresFound >= 100 &&
+        !this.hasClaimedStreakReward
+      ) {
+        this.time.delayedCall(2000, () => {
+          npcModalManager.open("digby");
+        });
       }
 
       // remove sand hole
