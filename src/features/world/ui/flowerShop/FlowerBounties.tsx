@@ -14,8 +14,8 @@ import {
 import { Context } from "features/game/GameProvider";
 import { weekResetsAt } from "features/game/lib/factions";
 import { MachineState } from "features/game/lib/gameMachine";
-import { ANIMALS } from "features/game/types/animals";
 import { getKeys } from "features/game/types/decorations";
+import { FLOWERS } from "features/game/types/flowers";
 import { BountyRequest, GameState } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getSeasonalTicket } from "features/game/types/seasons";
@@ -86,7 +86,7 @@ export const FlowerBountiesModal: React.FC<{
   const [deal, setDeal] = useState<BountyRequest>();
   const { bounties: exchange, inventory } = state;
 
-  const deals = exchange.requests.filter((deal) => !(deal.name in ANIMALS));
+  const deals = exchange.requests.filter((deal) => deal.name in FLOWERS);
 
   if (deal) {
     return (

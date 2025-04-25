@@ -204,8 +204,8 @@ export function sellBounty({
       } else draft.inventory[name] = previous.add(request.items?.[name] ?? 0);
     });
 
-    if ((request as ObsidianBounty).sfl) {
-      draft.balance = draft.balance.add((request as ObsidianBounty).sfl ?? 0);
+    if (BOUNTY_CATEGORIES["Obsidian Bounties"](request)) {
+      draft.balance = draft.balance.add(request.sfl ?? 0);
     }
 
     // Mark bounty as completed

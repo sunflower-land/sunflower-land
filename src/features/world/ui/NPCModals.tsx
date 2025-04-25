@@ -1,7 +1,7 @@
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { NPCName, NPC_WEARABLES, acknowledgeNPC } from "lib/npcs";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Modal } from "components/ui/Modal";
 import { DeliveryPanel } from "./deliveries/DeliveryPanel";
 import { SceneId } from "../mmoMachine";
@@ -33,6 +33,7 @@ import { CropsAndChickens } from "./portals/CropsAndChickens";
 import { ExampleDonations } from "./donations/ExampleDonations";
 import { NPCS_WITH_ALERTS } from "../containers/BumpkinContainer";
 import { HalloweenNPC } from "./npcs/HalloweenNPC";
+import { FlowerBounties } from "./flowerShop/FlowerBounties";
 import { Santa } from "./npcs/Santa";
 import { SolarForge } from "./infernos/SolarForge";
 import { WeatherShop } from "features/game/expansion/components/temperateSeason/WeatherShop";
@@ -41,6 +42,9 @@ import { ObsidianExchange } from "./infernos/ObsidianExchange";
 import { PortalChooser } from "./portals/PortalChooser";
 import { Rocketman } from "./npcs/Rocketman";
 import { MegaBountyBoard } from "./flowerShop/MegaBountyBoard";
+import { hasFeatureAccess } from "lib/flags";
+import { Context } from "features/game/GameProvider";
+import { useSelector } from "@xstate/react";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -69,6 +73,8 @@ function getInitialNPC(scene: SceneId): NPCName | undefined {
 
 export const NPCModals: React.FC<Props> = ({ scene, id }) => {
   const { t } = useAppTranslation();
+  const { gameService } = useContext(Context);
+  const state = useSelector(gameService, (state) => state.context.state);
 
   const [npc, setNpc] = useState<NPCName | undefined>(getInitialNPC(scene));
 
@@ -142,7 +148,12 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
         {npc === "luna" && <HalloweenNPC onClose={closeModal} />}
         {npc === "rocket man" && <Rocketman onClose={closeModal} />}
         {npc === "portaller" && <PortalNPCExample onClose={closeModal} />}
-        {npc === "poppy" && <MegaBountyBoard onClose={closeModal} />}
+        {npc === "poppy" &&
+          (hasFeatureAccess(state, "MEGA_BOUNTIES") ? (
+            <MegaBountyBoard onClose={closeModal} />
+          ) : (
+            <FlowerBounties onClose={closeModal} />
+          ))}
         {npc === "frankie" && <DecorationShopItems onClose={closeModal} />}
         {npc === "stella" && <Stylist onClose={closeModal} />}
         {npc === "grubnuk" && <DeliveryPanel npc={npc} onClose={closeModal} />}
@@ -151,7 +162,12 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
         {npc === "gorga" && <ObsidianExchange onClose={closeModal} />}
         {npc === "hopper" && <Hopper onClose={closeModal} />}
         {npc === "bailey" && <WeatherShop onClose={closeModal} />}
-        {npc === "gilda" && <SFLBounties onClose={closeModal} />}
+        {npc === "gilda" &&
+          (!hasFeatureAccess(state, "MEGA_BOUNTIES") ? (
+            <SFLBounties onClose={closeModal} />
+          ) : (
+            <DeliveryPanel npc={npc} onClose={closeModal} />
+          ))}
 
         {npc === "digby" && <Digby onClose={closeModal} />}
         {npc === "pharaoh" && <DeliveryPanel npc={npc} onClose={closeModal} />}
