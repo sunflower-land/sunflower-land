@@ -84,7 +84,7 @@ export class BeachScene extends BaseScene {
   alreadyNotifiedOfClaim = false;
   digSoundsCooldown = false;
   sandHole?: Phaser.GameObjects.Image;
-  private digbyAlertSprite: Phaser.GameObjects.Sprite | undefined;
+  digbyAlertSprite: Phaser.GameObjects.Sprite | undefined;
 
   constructor() {
     super({ name: "beach", map: { json: mapJSON } });
@@ -182,6 +182,32 @@ export class BeachScene extends BaseScene {
     return hasClaimedReward({ game: this.gameService.state.context.state });
   }
 
+  handleDigbyAlertSprite() {
+    // Add an alert sprite if required artefacts found but reward is not claimed
+    if (
+      !this.digbyAlertSprite?.active &&
+      this.percentageTreasuresFound >= 100 &&
+      !this.hasClaimedStreakReward
+    ) {
+      this.digbyAlertSprite = this.add
+        .sprite(336, 196, "alert")
+        .setDepth(1000000000);
+    }
+
+    if (this.digbyAlertSprite?.active) {
+      // Hide or show the alert sprite based on Digby's speaking status
+      if (this.npcs.digby?.isSpeaking) {
+        this.digbyAlertSprite.setVisible(false);
+      } else {
+        this.digbyAlertSprite.setVisible(true);
+      }
+
+      // Destroy the alert sprite if the reward is claimed
+      if (this.hasClaimedStreakReward) {
+        this.digbyAlertSprite.destroy();
+      }
+    }
+  }
   updatePirateChest() {
     const piratePotionEquipped = isWearableActive({
       game: this.gameService.state.context.state,
@@ -621,12 +647,6 @@ export class BeachScene extends BaseScene {
       });
 
     this.digbyProgressBar?.updateBar(this.percentageTreasuresFound);
-
-    if (this.percentageTreasuresFound >= 100 && !this.hasClaimedStreakReward) {
-      this.digbyAlertSprite = this.add
-        .sprite(336, 196, "alert")
-        .setDepth(1000000000);
-    }
   };
 
   public walkToLocation = (x: number, y: number, onComplete: () => void) => {
@@ -1587,6 +1607,8 @@ export class BeachScene extends BaseScene {
   public update() {
     if (!this.currentPlayer) return;
 
+    this.handleDigbyAlertSprite();
+
     this.handleUpdateSelectedItem();
     this.handleNameTagVisibility();
 
@@ -1612,12 +1634,6 @@ export class BeachScene extends BaseScene {
     }
 
     this.handleOtherDiggersPositions();
-
-    // Dynamically remove the alert sprite if the reward is claimed
-    if (this.digbyAlertSprite && this.hasClaimedStreakReward) {
-      this.digbyAlertSprite.destroy();
-      this.digbyAlertSprite = undefined;
-    }
   }
 }
 
