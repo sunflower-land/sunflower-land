@@ -5126,7 +5126,6 @@
   "recipes.confirmCancel": "Êtes-vous sûr de vouloir supprimer ce {{recipe}} de la file d'attente ?",
   "marketplace.higherThanOffer": "Le prix doit être supérieur à l'offre la plus élevée : {{price}}.",
   "marketplace.dodgyTrades": "Les échanges entre joueurs peuvent être considérés comme suspects.",
-  "description.barnBlueprint.boost": "+5 animaux de grange par amélioration",
   "vip.benefit.cookingQueue": "Mettez les recettes en file d'attente dans les bâtiments de cuisine",
   "restrictionReason.hasBonusAnimals.barn": "grange",
   "restrictionReason.hasBonusAnimals.henHouse": "poulailler",
@@ -5784,5 +5783,7 @@
   "hotAirBalloon.flightTimes": "Les temps de vol sont limités",
   "hotAirBalloon.openNow": "Ouvert dès maintenant",
   "hotAirBalloon.noFlights": "Aucun vol régulier n'est disponible.",
-  "hotAirBalloon.letsGo": "Allons-y"
+  "hotAirBalloon.letsGo": "Allons-y",
+  "description.barnBlueprint.boost1": "+5 animaux de la grange de base",
+  "description.barnBlueprint.boost2": "+5 animaux de grange maximum par amélioration"
 }

@@ -5126,7 +5126,6 @@
   "recipes.confirmCancel": "Tem certeza de que deseja remover esse {{recipe}} da fila?",
   "marketplace.higherThanOffer": "O preço deve ser maior do que a oferta mais alta: {{price}}.",
   "marketplace.dodgyTrades": "As trocas de ida e volta entre jogadores podem ser marcadas como suspeitas.",
-  "description.barnBlueprint.boost": "+5 animais de celeiro por atualização",
   "vip.benefit.cookingQueue": "Coloque receitas em filas em prédios de culinária",
   "restrictionReason.hasBonusAnimals.barn": "celeiro",
   "restrictionReason.hasBonusAnimals.henHouse": "galinheiro",
@@ -5784,5 +5783,7 @@
   "hotAirBalloon.flightTimes": "Os tempos de voo são limitados",
   "hotAirBalloon.openNow": "Abra agora",
   "hotAirBalloon.noFlights": "Não há voos programados disponíveis.",
-  "hotAirBalloon.letsGo": "Vamos"
+  "hotAirBalloon.letsGo": "Vamos",
+  "description.barnBlueprint.boost1": "+5 Animais básicos do celeiro",
+  "description.barnBlueprint.boost2": "+5 animais de celeiro no máximo por atualização"
 }

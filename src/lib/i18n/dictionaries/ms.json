@@ -5126,7 +5126,6 @@
   "recipes.confirmCancel": "Adakah anda pasti ingin membuang {{recipe}} ini dari barisan?",
   "marketplace.higherThanOffer": "Harga mestilah lebih besar daripada tawaran tertinggi: {{price}}.",
   "marketplace.dodgyTrades": "Perdagangan berulang-alik antara pemain mungkin ditandakan sebagai mencurigakan.",
-  "description.barnBlueprint.boost": "+5 Haiwan Barn setiap Peningkatan",
   "vip.benefit.cookingQueue": "Beratur resipi di bangunan memasak",
   "restrictionReason.hasBonusAnimals.barn": "bangsal",
   "restrictionReason.hasBonusAnimals.henHouse": "rumah ayam",
@@ -5784,5 +5783,7 @@
   "hotAirBalloon.flightTimes": "Masa penerbangan adalah terhad",
   "hotAirBalloon.openNow": "Buka Sekarang",
   "hotAirBalloon.noFlights": "Tiada penerbangan berjadual tersedia.",
-  "hotAirBalloon.letsGo": "Mari kita pergi"
+  "hotAirBalloon.letsGo": "Mari kita pergi",
+  "description.barnBlueprint.boost1": "+5 Base Barn Haiwan",
+  "description.barnBlueprint.boost2": "Maksimum +5 Haiwan Barn setiap Peningkatan"
 }

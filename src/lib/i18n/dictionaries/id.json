@@ -5126,7 +5126,6 @@
   "recipes.confirmCancel": "Apakah Anda yakin ingin menghapus {{recipe}} ini dari antrian?",
   "marketplace.higherThanOffer": "Harga harus lebih besar dari penawaran tertinggi: {{price}}.",
   "marketplace.dodgyTrades": "Perdagangan bolak-balik antar pemain dapat ditandai sebagai mencurigakan.",
-  "description.barnBlueprint.boost": "+5 Hewan Gudang per Upgrade",
   "vip.benefit.cookingQueue": "Antrekan resep di gedung memasak",
   "restrictionReason.hasBonusAnimals.barn": "gudang pertanian",
   "restrictionReason.hasBonusAnimals.henHouse": "rumah ayam",
@@ -5784,5 +5783,7 @@
   "hotAirBalloon.flightTimes": "Waktu penerbangan terbatas",
   "hotAirBalloon.openNow": "Buka Sekarang",
   "hotAirBalloon.noFlights": "Tidak ada penerbangan terjadwal yang tersedia.",
-  "hotAirBalloon.letsGo": "Ayo pergi"
+  "hotAirBalloon.letsGo": "Ayo pergi",
+  "description.barnBlueprint.boost1": "+5 Hewan Base Barn",
+  "description.barnBlueprint.boost2": "+5 Hewan Gudang Maks per Upgrade"
 }

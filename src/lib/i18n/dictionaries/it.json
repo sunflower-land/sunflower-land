@@ -5126,7 +5126,6 @@
   "recipes.confirmCancel": "Sei sicuro di voler rimuovere questo {{recipe}} dalla coda?",
   "marketplace.higherThanOffer": "Il prezzo deve essere superiore all'offerta più alta: {{price}}.",
   "marketplace.dodgyTrades": "Gli scambi avanti e indietro tra giocatori possono essere contrassegnati come sospetti.",
-  "description.barnBlueprint.boost": "+5 animali da stalla per potenziamento",
   "vip.benefit.cookingQueue": "Mette in coda le ricette negli edifici di cucina",
   "restrictionReason.hasBonusAnimals.barn": "fienile",
   "restrictionReason.hasBonusAnimals.henHouse": "pollaio",
@@ -5784,5 +5783,7 @@
   "hotAirBalloon.flightTimes": "I tempi di volo sono limitati",
   "hotAirBalloon.openNow": "Apri ora",
   "hotAirBalloon.noFlights": "Nessun volo di linea disponibile.",
-  "hotAirBalloon.letsGo": "Andiamo"
+  "hotAirBalloon.letsGo": "Andiamo",
+  "description.barnBlueprint.boost1": "+5 Animali da stalla base",
+  "description.barnBlueprint.boost2": "+5 Animali da stalla massimi per potenziamento"
 }

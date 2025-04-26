@@ -5126,7 +5126,6 @@
   "recipes.confirmCancel": "Möchten Sie {{recipe}} wirklich aus der Warteschlange entfernen?",
   "marketplace.higherThanOffer": "Der Preis muss höher sein als das höchste Angebot: {{price}}.",
   "marketplace.dodgyTrades": "Hin- und Hergeschäfte zwischen Spielern können als verdächtig markiert werden.",
-  "description.barnBlueprint.boost": "+5 Scheunentiere pro Upgrade",
   "vip.benefit.cookingQueue": "Stellen Sie Rezepte in Kochgebäuden in eine Warteschlange",
   "restrictionReason.hasBonusAnimals.barn": "Scheune",
   "restrictionReason.hasBonusAnimals.henHouse": "Hühnerstall",
@@ -5784,5 +5783,7 @@
   "hotAirBalloon.flightTimes": "Die Flugzeiten sind begrenzt",
   "hotAirBalloon.openNow": "Jetzt geöffnet",
   "hotAirBalloon.noFlights": "Keine Linienflüge verfügbar.",
-  "hotAirBalloon.letsGo": "Lass uns gehen"
+  "hotAirBalloon.letsGo": "Lass uns gehen",
+  "description.barnBlueprint.boost1": "+5 Tiere in der Basisscheune",
+  "description.barnBlueprint.boost2": "+5 Max. Scheunentiere pro Upgrade"
 }

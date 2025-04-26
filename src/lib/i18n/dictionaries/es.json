@@ -5126,7 +5126,6 @@
   "recipes.confirmCancel": "¿Estás seguro de que quieres eliminar este {{recipe}} de la cola?",
   "marketplace.higherThanOffer": "El precio debe ser superior a la oferta más alta: {{price}}.",
   "marketplace.dodgyTrades": "Las operaciones de ida y vuelta entre jugadores pueden marcarse como sospechosas.",
-  "description.barnBlueprint.boost": "+5 animales de establo por mejora",
   "vip.benefit.cookingQueue": "Haz cola de recetas en los edificios de cocina",
   "restrictionReason.hasBonusAnimals.barn": "granero",
   "restrictionReason.hasBonusAnimals.henHouse": "gallinero",
@@ -5784,5 +5783,7 @@
   "hotAirBalloon.flightTimes": "Los tiempos de vuelo son limitados",
   "hotAirBalloon.openNow": "Abrir ahora",
   "hotAirBalloon.noFlights": "No hay vuelos programados disponibles.",
-  "hotAirBalloon.letsGo": "Vamos"
+  "hotAirBalloon.letsGo": "Vamos",
+  "description.barnBlueprint.boost1": "+5 animales de establo base",
+  "description.barnBlueprint.boost2": "+5 animales de establo como máximo por mejora"
 }
