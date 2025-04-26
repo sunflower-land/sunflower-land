@@ -5025,7 +5025,8 @@
   "description.jellyfish": "A luminous marine marvel that glows with mystical energy, granting enhanced fishing abilities during the warm summer months.",
   "description.chamomile": "A decorative mutant flower found during the Winds of Change chapter.",
   "description.goldenSheep.boost": "Feed Sheeps for free!",
-  "description.barnBlueprint.boost": "+5 Barn Animals per Upgrade",
+  "description.barnBlueprint.boost1": "+5 Base Barn Animals",
+  "description.barnBlueprint.boost2": "+5 Max Barn Animals per Upgrade",
   "description.solAndLuna.boost": "2x Crafting Speed",
   "description.blossomWard.boost": "+1 Plot Crop Yield in Spring",
   "description.solflareAegis.boost": "-50% Plot Crop Time in Summer",
@@ -5941,5 +5942,14 @@
   "description.bronzeLoveBox": "A bronze love box",
   "description.silverLoveBox": "A silver love box",
   "description.goldLoveBox": "A gold love box",
-  "rewardBox.tapToOpen": "Tap to open"
+  "rewardBox.tapToOpen": "Tap to open",
+  "floatingIsland.isLive": "Mystery Island",
+  "hotAirBalloon.readyToFly": "Ready to fly?",
+  "hotAirBalloon.description": "Have you heard about the mysterious floating island? If you time it right, you can catch a ride with me.",
+  "hotAirBalloon.exchangeInfo": "Exchange Love Charms for FLOWER & rewards.",
+  "hotAirBalloon.puzzleInfo": "Solve the mysterious puzzle for a reward",
+  "hotAirBalloon.flightTimes": "Flight times are limited",
+  "hotAirBalloon.openNow": "Open Now",
+  "hotAirBalloon.noFlights": "No scheduled flights available.",
+  "hotAirBalloon.letsGo": "Let's go"
 }

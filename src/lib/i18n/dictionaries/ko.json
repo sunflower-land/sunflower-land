@@ -5126,7 +5126,6 @@
   "recipes.confirmCancel": "이 {{recipe}} 을 (를) 대기열에서 정말로 제거하시겠습니까?",
   "marketplace.higherThanOffer": "가격은 최고 오퍼 ({{price}}) 보다 커야 합니다.",
   "marketplace.dodgyTrades": "플레이어 간의 거래는 의심스러운 것으로 표시될 수 있습니다.",
-  "description.barnBlueprint.boost": "업그레이드당 헛간 동물 5마리 추가",
   "vip.benefit.cookingQueue": "요리 건물에 레시피 등록하기",
   "restrictionReason.hasBonusAnimals.barn": "헛간",
   "restrictionReason.hasBonusAnimals.henHouse": "헨 하우스",
@@ -5775,5 +5774,16 @@
   "description.bronzeLoveBox": "브론즈 러브 박스",
   "description.silverLoveBox": "실버 러브 박스",
   "description.goldLoveBox": "골드 러브 박스",
-  "rewardBox.tapToOpen": "탭하여 열기"
+  "rewardBox.tapToOpen": "탭하여 열기",
+  "floatingIsland.isLive": "미스터리 아일랜드",
+  "hotAirBalloon.readyToFly": "비행할 준비가 되셨나요?",
+  "hotAirBalloon.description": "수상한 떠 있는 섬에 대해 들어보셨나요?타이밍만 잘 맞추면 저랑 같이 탈 수 있어요.",
+  "hotAirBalloon.exchangeInfo": "러브 참을 꽃과 보상으로 교환하세요.",
+  "hotAirBalloon.puzzleInfo": "수수께끼의 퍼즐을 풀고 보상을 받으세요",
+  "hotAirBalloon.flightTimes": "비행 시간은 제한되어 있습니다.",
+  "hotAirBalloon.openNow": "지금 열기",
+  "hotAirBalloon.noFlights": "정기 항공편이 없습니다.",
+  "hotAirBalloon.letsGo": "갑시다",
+  "description.barnBlueprint.boost1": "+5 기본 헛간 동물",
+  "description.barnBlueprint.boost2": "업그레이드당 헛간 동물 최대 5마리"
 }

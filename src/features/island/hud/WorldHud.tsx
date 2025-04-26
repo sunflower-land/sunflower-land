@@ -29,6 +29,7 @@ import chest from "assets/icons/chest.png";
 import { LockdownWidget } from "features/announcements/AnnouncementWidgets";
 import { RewardsButton } from "./components/referral/RewardsButton";
 import { StreamCountdown } from "./components/StreamCountdown";
+import { FloatingIslandCountdown } from "./components/FloatingIslandCountdown";
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
  * Balances, Inventory, actions etc.
@@ -118,6 +119,7 @@ const HudComponent: React.FC = () => {
 
           <StreamCountdown />
 
+          <FloatingIslandCountdown />
           <AuctionCountdown />
           {/* <SpecialEventCountdown /> */}
         </div>

@@ -5126,7 +5126,6 @@
   "recipes.confirmCancel": "Tem certeza de que deseja remover esse {{recipe}} da fila?",
   "marketplace.higherThanOffer": "O preço deve ser maior do que a oferta mais alta: {{price}}.",
   "marketplace.dodgyTrades": "As trocas de ida e volta entre jogadores podem ser marcadas como suspeitas.",
-  "description.barnBlueprint.boost": "+5 animais de celeiro por atualização",
   "vip.benefit.cookingQueue": "Coloque receitas em filas em prédios de culinária",
   "restrictionReason.hasBonusAnimals.barn": "celeiro",
   "restrictionReason.hasBonusAnimals.henHouse": "galinheiro",
@@ -5775,5 +5774,16 @@
   "description.bronzeLoveBox": "Uma caixa de amor de bronze",
   "description.silverLoveBox": "Uma caixa de amor prateada",
   "description.goldLoveBox": "Uma caixa de amor dourada",
-  "rewardBox.tapToOpen": "Toque para abrir"
+  "rewardBox.tapToOpen": "Toque para abrir",
+  "floatingIsland.isLive": "Ilha Misteriosa",
+  "hotAirBalloon.readyToFly": "Pronto para voar?",
+  "hotAirBalloon.description": "Você já ouviu falar sobre a misteriosa ilha flutuante? Se você acertar na hora certa, você pode pegar uma carona comigo.",
+  "hotAirBalloon.exchangeInfo": "Troque Love Charms por FLORES e recompensas.",
+  "hotAirBalloon.puzzleInfo": "Resolva o enigma misterioso para ganhar uma recompensa",
+  "hotAirBalloon.flightTimes": "Os tempos de voo são limitados",
+  "hotAirBalloon.openNow": "Abra agora",
+  "hotAirBalloon.noFlights": "Não há voos programados disponíveis.",
+  "hotAirBalloon.letsGo": "Vamos",
+  "description.barnBlueprint.boost1": "+5 Animais básicos do celeiro",
+  "description.barnBlueprint.boost2": "+5 animais de celeiro no máximo por atualização"
 }

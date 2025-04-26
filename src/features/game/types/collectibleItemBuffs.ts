@@ -1383,10 +1383,14 @@ function getCollectibleBuffLabels(
     ],
     "Barn Blueprint": [
       {
-        shortDescription: translate("description.barnBlueprint.boost"),
+        shortDescription: translate("description.barnBlueprint.boost1"),
         labelType: "success",
         boostTypeIcon: powerup,
-        boostedItemIcon: SUNNYSIDE.animals.cowIdle,
+      },
+      {
+        shortDescription: translate("description.barnBlueprint.boost2"),
+        labelType: "success",
+        boostTypeIcon: powerup,
       },
     ],
   };

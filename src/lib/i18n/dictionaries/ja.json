@@ -5126,7 +5126,6 @@
   "recipes.confirmCancel": "この {{recipe}} をキューから削除してもよろしいですか?",
   "marketplace.higherThanOffer": "価格は最高額の {{price}} よりも高くなければなりません。",
   "marketplace.dodgyTrades": "プレイヤー間でやり取りされる取引は、疑わしいとマークされる場合があります。",
-  "description.barnBlueprint.boost": "アップグレード1つにつき +5 バーン・アニマルズ",
   "vip.benefit.cookingQueue": "クッキングビルでレシピをキューに入れる",
   "restrictionReason.hasBonusAnimals.barn": "納屋",
   "restrictionReason.hasBonusAnimals.henHouse": "鶏小屋",
@@ -5775,5 +5774,16 @@
   "description.bronzeLoveBox": "ブロンズのラブボックス",
   "description.silverLoveBox": "シルバーラブボックス",
   "description.goldLoveBox": "ゴールドラブボックス",
-  "rewardBox.tapToOpen": "タップして開く"
+  "rewardBox.tapToOpen": "タップして開く",
+  "floatingIsland.isLive": "ミステリーアイランド",
+  "hotAirBalloon.readyToFly": "飛ぶ準備はできましたか？",
+  "hotAirBalloon.description": "不思議な浮島について聞いたことがありますか？タイミングが合えば、一緒に乗れるよ。",
+  "hotAirBalloon.exchangeInfo": "ラブチャームを花と報酬と交換してください。",
+  "hotAirBalloon.puzzleInfo": "謎のパズルを解いて報酬をもらおう",
+  "hotAirBalloon.flightTimes": "フライト時間は限られています",
+  "hotAirBalloon.openNow": "今すぐ開く",
+  "hotAirBalloon.noFlights": "定期便はありません。",
+  "hotAirBalloon.letsGo": "行こう",
+  "description.barnBlueprint.boost1": "+5 ベース・バーン・アニマルズ",
+  "description.barnBlueprint.boost2": "アップグレード1つにつき、納屋の動物数の最大値が +5"
 }

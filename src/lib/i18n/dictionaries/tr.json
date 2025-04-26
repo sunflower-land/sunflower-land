@@ -5126,7 +5126,6 @@
   "recipes.confirmCancel": "Bunu {{recipe}} kuyruğundan kaldırmak istediğinizden emin misiniz?",
   "marketplace.higherThanOffer": "Fiyat en yüksek tekliften daha yüksek olmalıdır: {{price}}.",
   "marketplace.dodgyTrades": "Oyuncular arasındaki ileri geri alım satımlar şüpheli olarak işaretlenebilir.",
-  "description.barnBlueprint.boost": "Yükseltme başına +5 Ahır Hayvanı",
   "vip.benefit.cookingQueue": "Yemek pişirme binalarında tarifleri sıraya koyun",
   "restrictionReason.hasBonusAnimals.barn": "ahır",
   "restrictionReason.hasBonusAnimals.henHouse": "tavuk evi",
@@ -5775,5 +5774,16 @@
   "description.bronzeLoveBox": "Bronz bir aşk kutusu",
   "description.silverLoveBox": "Gümüş bir aşk kutusu",
   "description.goldLoveBox": "Altın aşk kutusu",
-  "rewardBox.tapToOpen": "Açmak için dokunun"
+  "rewardBox.tapToOpen": "Açmak için dokunun",
+  "floatingIsland.isLive": "Gizemli Ada",
+  "hotAirBalloon.readyToFly": "Uçmaya hazır mısınız?",
+  "hotAirBalloon.description": "Gizemli yüzen adayı duydunuz mu? Zamanı doğru yaparsan, benimle bir gezintiye çıkabilirsin.",
+  "hotAirBalloon.exchangeInfo": "Aşk Tılsımlarını ÇIÇEK ve ödüller için değiştirin.",
+  "hotAirBalloon.puzzleInfo": "Bir ödül için gizemli bulmacayı çöz",
+  "hotAirBalloon.flightTimes": "Uçuş süreleri sınırlıdır",
+  "hotAirBalloon.openNow": "Şimdi Aç",
+  "hotAirBalloon.noFlights": "Tarifeli uçuş mevcut değil.",
+  "hotAirBalloon.letsGo": "Hadi gidelim",
+  "description.barnBlueprint.boost1": "+5 Base Barn Hayvanları",
+  "description.barnBlueprint.boost2": "Yükseltme başına +5 Maksimum Ahır Hayvanı"
 }

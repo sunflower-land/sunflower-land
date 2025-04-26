@@ -5126,7 +5126,6 @@
   "recipes.confirmCancel": "Möchten Sie {{recipe}} wirklich aus der Warteschlange entfernen?",
   "marketplace.higherThanOffer": "Der Preis muss höher sein als das höchste Angebot: {{price}}.",
   "marketplace.dodgyTrades": "Hin- und Hergeschäfte zwischen Spielern können als verdächtig markiert werden.",
-  "description.barnBlueprint.boost": "+5 Scheunentiere pro Upgrade",
   "vip.benefit.cookingQueue": "Stellen Sie Rezepte in Kochgebäuden in eine Warteschlange",
   "restrictionReason.hasBonusAnimals.barn": "Scheune",
   "restrictionReason.hasBonusAnimals.henHouse": "Hühnerstall",
@@ -5775,5 +5774,16 @@
   "description.bronzeLoveBox": "Eine bronzene Liebesbox",
   "description.silverLoveBox": "Eine silberne Liebesbox",
   "description.goldLoveBox": "Eine goldene Liebesbox",
-  "rewardBox.tapToOpen": "Zum Öffnen antippen"
+  "rewardBox.tapToOpen": "Zum Öffnen antippen",
+  "floatingIsland.isLive": "Geheimnisvolle Insel",
+  "hotAirBalloon.readyToFly": "Bereit zu fliegen?",
+  "hotAirBalloon.description": "Hast du von der mysteriösen schwimmenden Insel gehört? Wenn du das richtige Timing hast, kannst du eine Fahrt mit mir erwischen.",
+  "hotAirBalloon.exchangeInfo": "Tauschen Sie Liebeszauber gegen BLUMEN und Belohnungen ein.",
+  "hotAirBalloon.puzzleInfo": "Löse das rätselhafte Rätsel und erhalte eine Belohnung",
+  "hotAirBalloon.flightTimes": "Die Flugzeiten sind begrenzt",
+  "hotAirBalloon.openNow": "Jetzt geöffnet",
+  "hotAirBalloon.noFlights": "Keine Linienflüge verfügbar.",
+  "hotAirBalloon.letsGo": "Lass uns gehen",
+  "description.barnBlueprint.boost1": "+5 Tiere in der Basisscheune",
+  "description.barnBlueprint.boost2": "+5 Max. Scheunentiere pro Upgrade"
 }

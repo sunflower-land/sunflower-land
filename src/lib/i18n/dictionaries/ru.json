@@ -5126,7 +5126,6 @@
   "recipes.confirmCancel": "Вы действительно хотите удалить это {{recipe}} из очереди?",
   "marketplace.higherThanOffer": "Цена должна быть выше самого высокого предложения: {{price}}.",
   "marketplace.dodgyTrades": "Сделки между игроками могут быть отмечены как подозрительные.",
-  "description.barnBlueprint.boost": "+5 животных в амбаре за каждое улучшение",
   "vip.benefit.cookingQueue": "Выстраивайте рецепты в очереди в кулинарных зданиях",
   "restrictionReason.hasBonusAnimals.barn": "амбар",
   "restrictionReason.hasBonusAnimals.henHouse": "курятник",
@@ -5775,5 +5774,16 @@
   "description.bronzeLoveBox": "Бронзовая шкатулка для любви",
   "description.silverLoveBox": "Серебряная шкатулка для любви",
   "description.goldLoveBox": "Золотая шкатулка для любви",
-  "rewardBox.tapToOpen": "Нажмите, чтобы открыть"
+  "rewardBox.tapToOpen": "Нажмите, чтобы открыть",
+  "floatingIsland.isLive": "Загадочный остров",
+  "hotAirBalloon.readyToFly": "Готовы к полету?",
+  "hotAirBalloon.description": "Вы слышали о таинственном плавучем острове? Если вы выберете время, вы сможете покататься со мной.",
+  "hotAirBalloon.exchangeInfo": "Обменяйте любовные талисманы на ЦВЕТЫ и награды.",
+  "hotAirBalloon.puzzleInfo": "Решите загадочную головоломку и получите награду",
+  "hotAirBalloon.flightTimes": "Время полета ограничено",
+  "hotAirBalloon.openNow": "Открыть сейчас",
+  "hotAirBalloon.noFlights": "Нет доступных регулярных рейсов.",
+  "hotAirBalloon.letsGo": "Пойдем",
+  "description.barnBlueprint.boost1": "+5 животных в базовом амбаре",
+  "description.barnBlueprint.boost2": "Максимальное количество животных в амбаре: +5 за каждое улучшение"
 }
