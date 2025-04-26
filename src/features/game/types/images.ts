@@ -254,6 +254,7 @@ import baseBanner from "assets/sfts/base_banner.webp";
 // Banners
 import goblinBanner from "assets/decorations/banners/goblin_banner.png";
 import humanBanner from "assets/decorations/banners/human_banner.png";
+import greatBloomBanner from "assets/decorations/banners/great_bloom_banner.png";
 
 // Egg
 import redEgg from "assets/sfts/easter/red_egg.png";
@@ -829,6 +830,7 @@ import windsOfChangeBanner from "assets/decorations/banners/winds-of-change_bann
 import pesticide from "assets/sfts/pesticide.webp";
 import jin from "assets/sfts/jin_ronin.webp";
 import loveCharm from "assets/icons/love_charm.webp";
+import geniseed from "assets/icons/geniseed.webp";
 
 import floralArch from "assets/sfts/floral_arch.webp";
 import flowerCoin from "assets/sfts/flower_coin.webp";
@@ -5136,11 +5138,11 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.goldLoveBox"),
   },
   "Great Bloom Banner": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: greatBloomBanner,
     description: "Placeholder",
   },
   Geniseed: {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: geniseed,
     description: "Placeholder",
   },
 };
