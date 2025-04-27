@@ -165,4 +165,8 @@ export const GARBAGE: Record<GarbageName, Garbage> = {
     gems: 0,
     items: { "Love Charm": new Decimal(25) },
   },
+  "Easter Token 2025": {
+    sellPrice: 1,
+    gems: 0,
+  },
 };

@@ -30,7 +30,6 @@ export type Scenes = {
   bumpkin_house: Room<PlazaRoomState> | undefined;
   portal_example: Room<PlazaRoomState> | undefined;
   infernos: Room<PlazaRoomState> | undefined;
-  easter_island: Room<PlazaRoomState> | undefined;
   stream: Room<PlazaRoomState> | undefined;
   love_island: Room<PlazaRoomState> | undefined;
 };

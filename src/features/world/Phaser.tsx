@@ -61,7 +61,6 @@ import { ToastContext } from "features/game/toast/ToastProvider";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { InfernosScene } from "./scenes/InferniaScene";
 import { PlayerSelectionList } from "./ui/PlayerSelectionList";
-import { EasterIslandScene } from "./scenes/EasterIslandScene";
 import { StreamScene } from "./scenes/StreamScene";
 import { ModerationTools } from "./ui/moderationTools/ModerationTools";
 import { LoveIslandScene } from "./scenes/LoveIslandScene";
@@ -152,7 +151,6 @@ export const PhaserComponent: React.FC<Props> = ({
     ExampleAnimationScene,
     ExampleRPGScene,
     InfernosScene,
-    EasterIslandScene,
     StreamScene,
     ...(hasFeatureAccess(state, "LOVE_ISLAND") ? [LoveIslandScene] : []),
   ];
