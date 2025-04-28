@@ -64,6 +64,25 @@ export const HotAirBalloon = ({ onClose }: Props) => {
           )}
         </div>
         {schedule.map((schedule, index) => {
+          const start = new Date(schedule.startAt);
+          const end = new Date(schedule.endAt);
+          const startTime = start.toLocaleString("en-GB", {
+            weekday: "short",
+            day: "numeric",
+            month: "short",
+            hour: "2-digit",
+            minute: "2-digit",
+          });
+          const endTime = end.toLocaleString("en-GB", {
+            ...(end.getDate() !== start.getDate() && {
+              weekday: "short",
+              day: "numeric",
+              month: "short",
+            }),
+            hour: "2-digit",
+            minute: "2-digit",
+          });
+
           return (
             <Label
               type="transparent"
@@ -71,7 +90,7 @@ export const HotAirBalloon = ({ onClose }: Props) => {
               icon={SUNNYSIDE.icons.stopwatch}
               key={index}
             >
-              {`${new Date(schedule.startAt).toLocaleTimeString().slice(0, 5)}-${new Date(schedule.endAt).toLocaleTimeString().slice(0, 5)} ${new Date(schedule.startAt).toLocaleDateString(undefined, { weekday: "long" })}`}
+              {`${startTime} - ${endTime}`}
             </Label>
           );
         })}
