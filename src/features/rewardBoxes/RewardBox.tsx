@@ -1,4 +1,4 @@
-import React, { useContext, useRef } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 
 import { Label } from "components/ui/Label";
 import { Context, useGame } from "features/game/GameProvider";
@@ -72,6 +72,21 @@ export const OpeningBox: React.FC<{
   // Delay between each crow's animation
   const SEQUENCE_DELAY = 600;
 
+  const [isReady, setIsReady] = useState(false);
+
+  // Every second, check whether it is time to show
+  // We have this effect, to ensure the animation shows for at least 3 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const reward =
+        gameService.state.context.state.rewardBoxes?.[name]?.reward;
+      const readyToView = openedAt.current + 3000 < Date.now() && !!reward;
+
+      setIsReady(readyToView);
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
   // Get all available rarecrow names
   const itemNames: BoxRewardName[] = REWARD_BOXES[name].rewards.reduce(
     (acc, reward) => {
@@ -103,8 +118,6 @@ export const OpeningBox: React.FC<{
     (state) => state.context.state.rewardBoxes?.[name]?.reward,
   );
 
-  const isReady = openedAt.current + 3000 < Date.now() && !!reward;
-
   const open = () => {
     gameService.send("rewardBox.opened", { name });
     gameService.send("SAVE");
@@ -123,13 +136,13 @@ export const OpeningBox: React.FC<{
       <Panel>
         <ClaimReward
           reward={{
-            coins: reward.coins ?? 0,
+            coins: reward!.coins ?? 0,
             id: "rewardBox",
             createdAt: 0,
-            items: reward.items ?? {},
+            items: reward!.items ?? {},
             wearables: {},
-            sfl: reward.flower ?? 0,
-            vipDays: reward.vipDays ?? 0,
+            sfl: reward!.flower ?? 0,
+            vipDays: reward!.vipDays ?? 0,
           }}
           onClaim={onClaimed}
         />
