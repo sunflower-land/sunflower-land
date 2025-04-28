@@ -130,6 +130,11 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
             bounty={selectedBounty}
             onClose={() => setSelectedBounty(undefined)}
             onSold={() => setSelectedBounty(undefined)}
+            isSold={
+              !!exchange.completed.find(
+                (request) => request.id === selectedBounty.id,
+              )
+            }
             readonly={readonly}
           />
         </ModalOverlay>
@@ -241,8 +246,9 @@ const Deal: React.FC<{
   bounty: BountyRequest;
   onClose: () => void;
   onSold: () => void;
+  isSold: boolean;
   readonly?: boolean;
-}> = ({ bounty, onClose, onSold, readonly }) => {
+}> = ({ bounty, onClose, onSold, isSold, readonly }) => {
   const [imageWidth, setImageWidth] = useState(0);
   const [confirmExchange, setConfirmExchange] = useState(false);
   const { t } = useAppTranslation();
@@ -261,6 +267,10 @@ const Deal: React.FC<{
   const canSell = () => {
     if (BOUNTY_CATEGORIES["Mark Bounties"](bounty)) {
       return inventory[bounty.name]?.gte(bounty.quantity);
+    }
+
+    if (isSold) {
+      return false;
     }
 
     return inventory[bounty.name]?.gte(1);
