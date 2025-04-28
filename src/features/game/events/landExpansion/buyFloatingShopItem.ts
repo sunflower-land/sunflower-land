@@ -51,6 +51,17 @@ export function buyFloatingShopItem({
       throw new Error("Item not found in the Love Reward Shop");
     }
 
+    const boughtAt = floatingIsland.boughtAt?.[action.name];
+
+    if (boughtAt) {
+      const todayKey = new Date().toISOString().split("T")[0];
+      const boughtAtKey = new Date(boughtAt).toISOString().split("T")[0];
+
+      if (boughtAtKey === todayKey) {
+        throw new Error("Item already bought today");
+      }
+    }
+
     // Check if player has enough resources
     const { items } = item.cost;
 
@@ -79,6 +90,12 @@ export function buyFloatingShopItem({
       `${name} Bought`,
       copy.bumpkin.activity,
     );
+
+    if (!floatingIsland.boughtAt) {
+      floatingIsland.boughtAt = {};
+    }
+
+    floatingIsland.boughtAt[action.name] = createdAt;
 
     return copy;
   });

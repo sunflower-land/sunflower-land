@@ -30,9 +30,12 @@ interface ItemOverlayProps {
   isVisible: boolean;
   onClose: () => void;
   readonly?: boolean;
+  isBought?: boolean;
 }
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
+const _floatingIsland = (state: MachineState) =>
+  state.context.state.floatingIsland;
 
 export const ItemDetail: React.FC<ItemOverlayProps> = ({
   item,
@@ -41,10 +44,11 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   isWearable,
   isVisible,
   onClose,
-  readonly,
+  isBought,
 }) => {
   const { shortcutItem, gameService, showAnimations } = useContext(Context);
   const inventory = useSelector(gameService, _inventory);
+  const floatingIsland = useSelector(gameService, _floatingIsland);
 
   const [imageWidth, setImageWidth] = useState<number>(0);
   const [showSuccess, setShowSuccess] = useState<boolean>(false);
@@ -242,33 +246,33 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
               </div>
             )}
           </div>
-          {!readonly && (
-            <>
-              {!showSuccess && (
-                <div
-                  className={classNames("flex w-full", {
-                    "space-x-1": confirmBuy,
-                  })}
-                >
-                  {confirmBuy && (
-                    <Button onClick={() => setConfirmBuy(false)}>
-                      {t("cancel")}
-                    </Button>
-                  )}
+          <>
+            {!showSuccess && (
+              <div
+                className={classNames("flex w-full", {
+                  "space-x-1": confirmBuy,
+                })}
+              >
+                {confirmBuy && (
+                  <Button onClick={() => setConfirmBuy(false)}>
+                    {t("cancel")}
+                  </Button>
+                )}
 
+                {!isBought && (
                   <Button disabled={!canBuy()} onClick={buttonHandler}>
                     {getButtonLabel()}
                   </Button>
-                </div>
-              )}
-              {showSuccess && (
-                <div className="flex flex-col space-y-1">
-                  <span className="p-2 text-xs">{getSuccessCopy()}</span>
-                  <Button onClick={onClose}>{t("ok")}</Button>
-                </div>
-              )}
-            </>
-          )}
+                )}
+              </div>
+            )}
+            {showSuccess && (
+              <div className="flex flex-col space-y-1">
+                <span className="p-2 text-xs">{getSuccessCopy()}</span>
+                <Button onClick={onClose}>{t("ok")}</Button>
+              </div>
+            )}
+          </>
         </>
       )}
     </InnerPanel>

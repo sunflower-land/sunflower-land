@@ -95,7 +95,7 @@ import { InGameTaskName } from "../events/landExpansion/completeSocialTask";
 import { TwitterPost, TwitterPostName } from "./social";
 import { NetworkName } from "../events/landExpansion/updateNetwork";
 import { RewardBoxes, RewardBoxName } from "./rewardBoxes";
-import { FloatingIslandShop } from "./floatingIsland";
+import { FloatingIslandShop, FloatingShopItemName } from "./floatingIsland";
 
 export type Reward = {
   coins?: number;
@@ -1689,6 +1689,7 @@ export interface GameState {
       endAt: number;
     }[];
     shop: FloatingIslandShop;
+    boughtAt?: Partial<Record<FloatingShopItemName, number>>;
   };
   megastore?: {
     boughtAt: Partial<Record<SeasonalTierItemName, number>>;
