@@ -30,6 +30,7 @@ import {
 } from "features/game/events/landExpansion/sellBounty";
 import { Button } from "components/ui/Button";
 import confetti from "canvas-confetti";
+import flowerIcon from "assets/icons/flower_token.webp";
 
 export const MegaBountyBoard: React.FC<{ onClose: () => void }> = ({
   onClose,
@@ -76,21 +77,41 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
   const bountiesByCategory = getBountiesByCategory();
 
   const getCurrencyInfo = (bounty: BountyRequest) => {
+    // First check if this is an Obsidian bounty that rewards FLOWER tokens
+    if (
+      BOUNTY_CATEGORIES["Obsidian Bounties"](bounty) &&
+      bounty.sfl &&
+      bounty.sfl > 0
+    ) {
+      return {
+        amount: bounty.sfl,
+        icon: flowerIcon,
+      };
+    }
+
+    // Otherwise handle item rewards
     const items = bounty.items ?? {};
     const seasonalTicket = getSeasonalTicket();
     const seasonalArtefact = getSeasonalArtefact();
+
+    // Calculate bounty tickets if needed
     const bountyTickets = generateBountyTicket({
       game: state,
       bounty,
     });
 
-    const currency =
-      (items[seasonalTicket] ?? 0) > 0
-        ? seasonalTicket
-        : (items[seasonalArtefact] ?? 0) > 0
-          ? seasonalArtefact
-          : (Object.keys(items)[0] as InventoryItemName);
+    // Determine which reward currency to show, prioritizing seasonal items
+    // First check seasonal ticket, then seasonal artefact, then fallback to first item
+    let currency: InventoryItemName;
+    if ((items[seasonalTicket] ?? 0) > 0) {
+      currency = seasonalTicket;
+    } else if ((items[seasonalArtefact] ?? 0) > 0) {
+      currency = seasonalArtefact;
+    } else {
+      currency = getKeys(items)[0];
+    }
 
+    // Return amount (using bountyTickets for seasonal tickets) and icon
     return {
       amount:
         currency === seasonalTicket ? bountyTickets : items[currency] ?? 0,
@@ -328,6 +349,12 @@ const Deal: React.FC<{
                     </Label>
                   );
                 })}
+                {BOUNTY_CATEGORIES["Obsidian Bounties"](bounty) &&
+                  bounty.sfl && (
+                    <Label type="warning" icon={flowerIcon}>
+                      {`Reward: ${bounty.sfl ?? 0} FLOWER`}
+                    </Label>
+                  )}
               </div>
             </div>
           </div>

@@ -110,7 +110,7 @@ const FEATURE_FLAGS = {
   GOODBYE_BERT: timeBasedFeatureFlag(new Date("2025-05-01T00:00:00Z")),
   FLOWER_BOXES: defaultFeatureFlag,
 
-  MEGA_BOUNTIES: timeBasedFeatureFlag(new Date("2025-05-05T00:00:00Z")),
+  MEGA_BOUNTIES: betaTimeBasedFeatureFlag(new Date("2025-05-05T00:00:00Z")),
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;
