@@ -465,6 +465,7 @@ export type BountyRequest =
 export type Bounties = {
   requests: BountyRequest[];
   completed: { id: string; soldAt: number }[];
+  bonusClaimedAt?: number;
 };
 
 export type InventoryItemName =

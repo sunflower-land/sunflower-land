@@ -3,14 +3,14 @@ import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { millisecondsToString } from "lib/utils/time";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { weekResetsAt } from "features/game/lib/factions";
+import { getWeekKey, weekResetsAt } from "features/game/lib/factions";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NPC_WEARABLES } from "lib/npcs";
 import classNames from "classnames";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { BountyRequest, InventoryItemName } from "features/game/types/game";
-import { getKeys } from "features/game/types/craftables";
+import { ANIMALS, getKeys } from "features/game/types/craftables";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 import { pixelDarkBorderStyle } from "features/game/lib/style";
 import { SquareIcon } from "components/ui/SquareIcon";
@@ -75,6 +75,9 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
     return result;
   };
   const bountiesByCategory = getBountiesByCategory();
+  const allBounties = exchange.requests.filter(
+    (bounty) => !Object.keys(ANIMALS).includes(bounty.name),
+  );
 
   const getCurrencyInfo = (bounty: BountyRequest) => {
     // First check if this is an Obsidian bounty that rewards FLOWER tokens
@@ -118,6 +121,22 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
       icon: ITEM_DETAILS[currency]?.image ?? "",
     };
   };
+
+  const isAllBountiesCompleted = allBounties.every((bounty) =>
+    exchange.completed.find((completed) => completed.id === bounty.id),
+  );
+
+  const isBonusClaimed = () => {
+    const now = Date.now();
+    const weekStart = new Date(getWeekKey()).getTime();
+    const weekEnd = weekResetsAt();
+    const lastClaim = exchange.bonusClaimedAt ?? 0;
+    return lastClaim > weekStart && lastClaim < now && now < weekEnd;
+  };
+
+  const bonusClaimed = isBonusClaimed();
+
+  const handleBonusClaim = () => gameService.send("claim.bountyBoardBonus");
 
   return (
     <>
@@ -166,6 +185,26 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
         <span className="text-xs pb-1">
           {readonly ? t("megaBountyBoard.message") : t("megaBountyBoard.msg1")}
         </span>
+
+        <Label
+          type={isAllBountiesCompleted ? "success" : "default"}
+          icon={ITEM_DETAILS[getSeasonalTicket()].image}
+          secondaryIcon={bonusClaimed ? SUNNYSIDE.icons.confirm : undefined}
+          className="mb-1"
+          onClick={
+            isAllBountiesCompleted && !bonusClaimed && !readonly
+              ? handleBonusClaim
+              : undefined
+          }
+        >
+          {bonusClaimed
+            ? `All Bounties Completed!`
+            : isAllBountiesCompleted
+              ? readonly
+                ? `All Bounties Completed! Head to Poppy to claim your bonus!`
+                : `All Bounties Completed! Click here to claim your bonus ${getSeasonalTicket()}s`
+              : `Get Bonus 50 ${getSeasonalTicket()}s for completing all bounties!`}
+        </Label>
 
         <div className="flex flex-col gap-4">
           {Object.values(bountiesByCategory).every(
