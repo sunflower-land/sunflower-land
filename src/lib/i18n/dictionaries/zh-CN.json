@@ -5785,5 +5785,9 @@
   "hotAirBalloon.noFlights": "没有航班计划。",
   "hotAirBalloon.letsGo": "我们走吧",
   "description.barnBlueprint.boost1": "+5 基础畜棚容纳牲畜",
-  "description.barnBlueprint.boost2": "畜棚每次升级 +5 最大容纳牲畜"
+  "description.barnBlueprint.boost2": "畜棚每次升级 +5 最大容纳牲畜",
+  "description.bronzeFlowerBox": "青铜花盒",
+  "description.silverFlowerBox": "一个银色的花箱",
+  "description.goldFlowerBox": "一个金色的花箱",
+  "megastore.limit": "冷却时间：{{time}}"
 }

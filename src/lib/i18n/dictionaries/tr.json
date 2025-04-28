@@ -5785,5 +5785,9 @@
   "hotAirBalloon.noFlights": "Tarifeli uçuş mevcut değil.",
   "hotAirBalloon.letsGo": "Hadi gidelim",
   "description.barnBlueprint.boost1": "+5 Base Barn Hayvanları",
-  "description.barnBlueprint.boost2": "Yükseltme başına +5 Maksimum Ahır Hayvanı"
+  "description.barnBlueprint.boost2": "Yükseltme başına +5 Maksimum Ahır Hayvanı",
+  "description.bronzeFlowerBox": "Bronz çiçek kutusu",
+  "description.silverFlowerBox": "Gümüş çiçek kutusu",
+  "description.goldFlowerBox": "Altın çiçek kutusu",
+  "megastore.limit": "Bekleme Süresi: {{time}}"
 }

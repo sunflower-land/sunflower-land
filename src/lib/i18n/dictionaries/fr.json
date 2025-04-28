@@ -5785,5 +5785,9 @@
   "hotAirBalloon.noFlights": "Aucun vol régulier n'est disponible.",
   "hotAirBalloon.letsGo": "Allons-y",
   "description.barnBlueprint.boost1": "+5 animaux de la grange de base",
-  "description.barnBlueprint.boost2": "+5 animaux de grange maximum par amélioration"
+  "description.barnBlueprint.boost2": "+5 animaux de grange maximum par amélioration",
+  "description.bronzeFlowerBox": "Un bac à fleurs en bronze",
+  "description.silverFlowerBox": "Une boîte à fleurs en argent",
+  "description.goldFlowerBox": "Une boîte à fleurs en or",
+  "megastore.limit": "Temps de recharge : {{time}}"
 }
