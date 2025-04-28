@@ -5613,7 +5613,6 @@
   "description.purpleTile": "Um azulejo roxo arrojado, perfeito para criar uma atmosfera rica e animada.",
   "description.redTile": "Um azulejo vermelho impressionante, irradiando calor e energia a cada passo.",
   "description.yellowTile": "Um azulejo amarelo brilhante, capturando o calor e a alegria da luz solar.",
-  "rewardShop.msg1": "Bem-vindo à minha loja de recompensas. Colecione Love Charms e troque-os por itens raros.",
   "rewardShop.wearable": "Boa compra! Seu novo dispositivo vestível é armazenado com segurança em seu guarda-roupa. Você pode equipá-lo como um caipira a partir daí.",
   "rewardShop.collectible": "Boa compra! Seu novo item colecionável é armazenado com segurança em seu inventário.",
   "rewards.daily.description": "Recursos de bônus, moedas e {{ticket}}",
@@ -5789,5 +5788,9 @@
   "description.bronzeFlowerBox": "Uma floreira de bronze",
   "description.silverFlowerBox": "Uma caixa de flores prateada",
   "description.goldFlowerBox": "Uma caixa de flores dourada",
-  "megastore.limit": "Tempo de recarga: {{time}}"
+  "megastore.limit": "Tempo de recarga: {{time}}",
+  "megaBountyBoard.message": "Bem-vindo ao Mega Bounty Board! Confira as recompensas desta semana. Se você tiver algum dos itens solicitados, poderá trocá-los por recompensas!",
+  "megaBountyBoard.msg1": "Bem-vindo ao Mega Bounty Board! Reúna os recursos e troque-os por recompensas antes que o tempo acabe!",
+  "rewardShop.msg1": "Bem-vindo à minha loja de recompensas. Colecione Love Charms e troque-os por itens raros. Cada dia traz novos preços e itens diferentes!",
+  "rewardShop.msg2": "A loja mudará a cada 24 horas"
 }

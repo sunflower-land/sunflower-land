@@ -5613,7 +5613,6 @@
   "description.purpleTile": "Un carreau violet audacieux, parfait pour créer une atmosphère riche et animée.",
   "description.redTile": "Un carreau rouge saisissant, qui rayonne de chaleur et d'énergie à chaque pas.",
   "description.yellowTile": "Un carreau jaune vif, capturant la chaleur et la gaieté de la lumière du soleil.",
-  "rewardShop.msg1": "Bienvenue dans ma boutique de récompenses. Collectez des breloques d'amour et échangez-les contre des objets rares.",
   "rewardShop.wearable": "Bon achat ! Votre nouveau portable est rangé en toute sécurité dans votre garde-robe. Vous pouvez l'équiper en bumpkin à partir de là.",
   "rewardShop.collectible": "Bon achat ! Votre nouvel objet de collection est stocké en toute sécurité dans votre inventaire.",
   "rewards.daily.description": "Ressources bonus, pièces et {{ticket}}",
@@ -5789,5 +5788,9 @@
   "description.bronzeFlowerBox": "Un bac à fleurs en bronze",
   "description.silverFlowerBox": "Une boîte à fleurs en argent",
   "description.goldFlowerBox": "Une boîte à fleurs en or",
-  "megastore.limit": "Temps de recharge : {{time}}"
+  "megastore.limit": "Temps de recharge : {{time}}",
+  "megaBountyBoard.message": "Bienvenue sur le Mega Bounty Board ! Découvrez les primes de cette semaine. Si vous possédez l'un des objets demandés, vous pouvez les échanger contre des récompenses !",
+  "megaBountyBoard.msg1": "Bienvenue sur le Mega Bounty Board ! Rassemblez les ressources et échangez-les contre des récompenses avant la fin du temps imparti !",
+  "rewardShop.msg1": "Bienvenue dans ma boutique de récompenses. Collectez des breloques d'amour et échangez-les contre des objets rares. Chaque jour apporte de nouveaux prix et des articles différents !",
+  "rewardShop.msg2": "La boutique changera toutes les 24 heures"
 }

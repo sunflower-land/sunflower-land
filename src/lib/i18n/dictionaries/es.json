@@ -5613,7 +5613,6 @@
   "description.purpleTile": "Un atrevido azulejo morado, perfecto para crear un ambiente rico y animado.",
   "description.redTile": "Un llamativo azulejo rojo que irradia calidez y energía en cada paso.",
   "description.yellowTile": "Un azulejo amarillo brillante que captura el calor y la alegría de la luz solar.",
-  "rewardShop.msg1": "Bienvenido a mi tienda de recompensas. Colecciona amuletos de amor y cámbialos por objetos raros.",
   "rewardShop.wearable": "¡Buena compra! Tu nuevo dispositivo portátil está guardado de forma segura en tu armario. Desde allí puedes equiparlo para un paleto.",
   "rewardShop.collectible": "¡Buena compra! Tu nuevo objeto coleccionable está guardado de forma segura en tu inventario.",
   "rewards.daily.description": "Recursos adicionales, monedas y {{ticket}}",
@@ -5789,5 +5788,9 @@
   "description.bronzeFlowerBox": "Una caja de flores de bronce",
   "description.silverFlowerBox": "Una caja de flores plateada",
   "description.goldFlowerBox": "Una caja de flores dorada",
-  "megastore.limit": "Tiempo de recarga: {{time}}"
+  "megastore.limit": "Tiempo de recarga: {{time}}",
+  "megaBountyBoard.message": "¡Bienvenido al Mega Bounty Board! Echa un vistazo a las recompensas de esta semana. Si tienes alguno de los objetos solicitados, ¡puedes cambiarlos por recompensas!",
+  "megaBountyBoard.msg1": "¡Bienvenido al Mega Bounty Board! ¡Reúne los recursos y cámbialos por recompensas antes de que acabe el tiempo!",
+  "rewardShop.msg1": "Bienvenido a mi tienda de recompensas. Colecciona amuletos de amor y cámbialos por objetos raros. ¡Cada día trae nuevos precios y artículos diferentes!",
+  "rewardShop.msg2": "La tienda cambiará cada 24 horas"
 }

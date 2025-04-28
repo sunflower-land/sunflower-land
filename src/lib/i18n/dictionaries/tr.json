@@ -5613,7 +5613,6 @@
   "description.purpleTile": "Zengin ve canlı bir atmosfer yaratmak için mükemmel, koyu mor bir karo.",
   "description.redTile": "Her adımda sıcaklık ve enerji yayan çarpıcı bir kırmızı karo.",
   "description.yellowTile": "Güneş ışığının sıcaklığını ve neşesini yakalayan parlak sarı bir karo.",
-  "rewardShop.msg1": "Ödül Mağazama hoş geldiniz. Aşk Tılsımlarını toplayın ve nadir eşyalarla değiştirin.",
   "rewardShop.wearable": "Güzel satın alma! Yeni giyilebilir cihazınız gardırobunuzda güvenle saklanır. Oradan bir darbeye donatabilirsiniz.",
   "rewardShop.collectible": "Güzel satın alma! Yeni koleksiyonunuz envanterinizde güvenle saklanır.",
   "rewards.daily.description": "Bonus kaynakları, madeni paralar ve {{ticket}}",
@@ -5789,5 +5788,9 @@
   "description.bronzeFlowerBox": "Bronz çiçek kutusu",
   "description.silverFlowerBox": "Gümüş çiçek kutusu",
   "description.goldFlowerBox": "Altın çiçek kutusu",
-  "megastore.limit": "Bekleme Süresi: {{time}}"
+  "megastore.limit": "Bekleme Süresi: {{time}}",
+  "megaBountyBoard.message": "Mega Ödül Panosuna Hoş Geldiniz! Bu haftanın ödüllerine göz atın. İstediğiniz öğelerden herhangi birine sahipseniz, onları ödüllerle değiştirebilirsiniz!",
+  "megaBountyBoard.msg1": "Mega Ödül Panosuna Hoş Geldiniz! Kaynakları toplayın ve zaman dolmadan ödüllerle değiştirin!",
+  "rewardShop.msg1": "Ödül Mağazama hoş geldiniz. Aşk Tılsımlarını toplayın ve nadir eşyalarla değiştirin. Her gün yeni fiyatlar ve farklı ürünler getiriyor!",
+  "rewardShop.msg2": "Mağaza her 24 saatte bir değişecek"
 }

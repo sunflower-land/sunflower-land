@@ -5613,7 +5613,6 @@
   "description.purpleTile": "Jubin ungu yang berani, sesuai untuk mewujudkan suasana yang kaya dan meriah.",
   "description.redTile": "Jubin merah yang menarik, memancarkan kehangatan dan tenaga dalam setiap langkah.",
   "description.yellowTile": "Jubin kuning terang, menangkap kehangatan dan kegembiraan cahaya matahari.",
-  "rewardShop.msg1": "Selamat datang ke kedai ganjaran saya. Kumpulkan Love Charms & tukarnya dengan barangan langka.",
   "rewardShop.wearable": "Beli yang bagus! Boleh pakai baru anda disimpan dengan selamat di almari pakaian anda. Anda boleh melengkapkannya ke bumpkin dari sana.",
   "rewardShop.collectible": "Beli yang bagus! Koleksi baru anda disimpan dengan selamat dalam inventori anda.",
   "rewards.daily.description": "Sumber bonus, duit syiling & {{ticket}}",
@@ -5789,5 +5788,9 @@
   "description.bronzeFlowerBox": "Kotak bunga gangsa",
   "description.silverFlowerBox": "Kotak bunga perak",
   "description.goldFlowerBox": "Kotak bunga emas",
-  "megastore.limit": "Penyejukan: {{time}}"
+  "megastore.limit": "Penyejukan: {{time}}",
+  "megaBountyBoard.message": "Selamat datang ke Mega Bounty Board! Lihat hadiah minggu ini. Sekiranya anda mempunyai mana-mana item yang diminta, anda boleh menukarnya dengan ganjaran!",
+  "megaBountyBoard.msg1": "Selamat datang ke Mega Bounty Board! Kumpulkan sumber & tukarnya untuk ganjaran sebelum masa habis!",
+  "rewardShop.msg1": "Selamat datang ke kedai ganjaran saya. Kumpulkan Love Charms & tukarnya dengan barangan langka. Setiap hari membawa harga baru & item yang berbeza!",
+  "rewardShop.msg2": "Kedai akan berubah setiap 24 jam"
 }

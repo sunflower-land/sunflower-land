@@ -5613,7 +5613,6 @@
   "description.purpleTile": "醒目的紫色瓷砖，非常适合营造丰富而活泼的氛围。",
   "description.redTile": "醒目的红色瓷砖，每一步都散发着温暖和活力。",
   "description.yellowTile": "明亮的黄色瓷砖，捕捉阳光的温暖和快乐。",
-  "rewardShop.msg1": "欢迎来到我的奖励商店。收集爱心护符并用它们兑换稀有物品。",
   "rewardShop.wearable": "好眼力！您的新穿戴品已妥当存放到衣柜里了。您可以从那里给乡包佬装备。",
   "rewardShop.collectible": "好眼力！您的新收藏品已妥当存放到库存里了。",
   "rewards.daily.description": "奖励资源、金币和 {{ticket}}",
@@ -5789,5 +5788,9 @@
   "description.bronzeFlowerBox": "青铜花盒",
   "description.silverFlowerBox": "一个银色的花箱",
   "description.goldFlowerBox": "一个金色的花箱",
-  "megastore.limit": "冷却时间：{{time}}"
+  "megastore.limit": "冷却时间：{{time}}",
+  "megaBountyBoard.message": "欢迎来到超级赏金板！查看本周的赏金。如果你有任何要求的物品，你可以用它们兑换奖励！",
+  "megaBountyBoard.msg1": "欢迎来到超级赏金板！在时间用完之前，收集资源并用它们兑换奖励！",
+  "rewardShop.msg1": "欢迎来到我的奖励商店。收集爱情护身符并用它们兑换稀有物品。每天都有新的价格和不同的物品！",
+  "rewardShop.msg2": "商店每 24 小时更换一次"
 }

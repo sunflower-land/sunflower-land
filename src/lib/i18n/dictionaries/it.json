@@ -5613,7 +5613,6 @@
   "description.purpleTile": "Una piastrella viola audace, perfetta per creare un'atmosfera ricca e vivace.",
   "description.redTile": "Una sorprendente piastrella rossa, che irradia calore ed energia ad ogni passo.",
   "description.yellowTile": "Una piastrella di colore giallo brillante, che cattura il calore e l'allegria della luce solare.",
-  "rewardShop.msg1": "Benvenuto nel mio Reward Shop. Colleziona i Love Charms e scambiali con oggetti rari.",
   "rewardShop.wearable": "Bel acquisto! Il tuo nuovo dispositivo indossabile è riposto in modo sicuro nel tuo guardaroba. Da lì puoi trasformarlo in uno squalo.",
   "rewardShop.collectible": "Bel acquisto! Il tuo nuovo oggetto da collezione è conservato in modo sicuro nel tuo inventario.",
   "rewards.daily.description": "Risorse bonus, monete e {{ticket}}",
@@ -5789,5 +5788,9 @@
   "description.bronzeFlowerBox": "Una fioriera in bronzo",
   "description.silverFlowerBox": "Una fioriera in argento",
   "description.goldFlowerBox": "Una fioriera dorata",
-  "megastore.limit": "Tempo di recupero: {{time}}"
+  "megastore.limit": "Tempo di recupero: {{time}}",
+  "megaBountyBoard.message": "Benvenuto nel Mega Bounty Board! Dai un'occhiata ai premi di questa settimana. Se possiedi uno degli articoli richiesti, puoi scambiarli con dei premi!",
+  "megaBountyBoard.msg1": "Benvenuto nel Mega Bounty Board! Raccogli le risorse e scambiale con ricompense prima che scada il tempo!",
+  "rewardShop.msg1": "Benvenuto nel mio Reward Shop. Colleziona i Love Charms e scambiali con oggetti rari. Ogni giorno porta nuovi prezzi e articoli diversi!",
+  "rewardShop.msg2": "Il negozio cambierà ogni 24 ore"
 }

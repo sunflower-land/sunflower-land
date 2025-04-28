@@ -5613,7 +5613,6 @@
   "description.purpleTile": "Ubin ungu yang berani, sempurna untuk menciptakan suasana yang kaya dan hidup.",
   "description.redTile": "Ubin merah mencolok, memancarkan kehangatan dan energi di setiap langkah.",
   "description.yellowTile": "Ubin kuning cerah, menangkap kehangatan dan keceriaan sinar matahari.",
-  "rewardShop.msg1": "Selamat datang di Toko Hadiah saya. Kumpulkan Cinta Pesona & tukarkan dengan barang-barang langka.",
   "rewardShop.wearable": "Pembelian yang bagus! Perangkat baru Anda yang dapat dikenakan disimpan dengan aman di lemari pakaian Anda. Anda dapat melengkapinya menjadi bumpkin dari sana.",
   "rewardShop.collectible": "Pembelian yang bagus! Koleksi baru Anda disimpan dengan aman di inventaris Anda.",
   "rewards.daily.description": "Sumber daya bonus, koin & {{ticket}}",
@@ -5789,5 +5788,9 @@
   "description.bronzeFlowerBox": "Kotak bunga perunggu",
   "description.silverFlowerBox": "Kotak bunga perak",
   "description.goldFlowerBox": "Kotak bunga emas",
-  "megastore.limit": "Waktu pendinginan: {{time}}"
+  "megastore.limit": "Waktu pendinginan: {{time}}",
+  "megaBountyBoard.message": "Selamat datang di Mega Bounty Board! Lihat hadiah minggu ini. Jika Anda memiliki salah satu item yang diminta, Anda dapat menukarnya dengan hadiah!",
+  "megaBountyBoard.msg1": "Selamat datang di Mega Bounty Board! Kumpulkan sumber daya & tukarkan dengan hadiah sebelum waktu habis!",
+  "rewardShop.msg1": "Selamat datang di Toko Hadiah saya. Kumpulkan Cinta Pesona & tukarkan dengan barang-barang langka. Setiap hari membawa harga baru & item yang berbeda!",
+  "rewardShop.msg2": "Toko akan berubah setiap 24 jam"
 }

@@ -5613,7 +5613,6 @@
   "description.purpleTile": "大胆な紫色のタイルで、豊かで活気のある雰囲気を演出するのに最適です。",
   "description.redTile": "歩くたびに暖かさとエネルギーが放たれる印象的な赤いタイル。",
   "description.yellowTile": "明るい黄色のタイルで、太陽の光の暖かさと陽気さを捉えています。",
-  "rewardShop.msg1": "私のリワードショップへようこそ。ラブチャームを集めてレアアイテムと交換しよう。",
   "rewardShop.wearable": "いい買い物！新しいウェアラブルはワードローブに安全に保管されます。そこからバンプキンに装備できます。",
   "rewardShop.collectible": "いい買い物！新しい収集品はインベントリに安全に保管されています。",
   "rewards.daily.description": "ボーナスリソース、コイン、{{ticket}}",
@@ -5789,5 +5788,9 @@
   "description.bronzeFlowerBox": "ブロンズ製フラワーボックス",
   "description.silverFlowerBox": "シルバーフラワーボックス",
   "description.goldFlowerBox": "ゴールドフラワーボックス",
-  "megastore.limit": "クールダウン:{{time}}"
+  "megastore.limit": "クールダウン:{{time}}",
+  "megaBountyBoard.message": "メガバウンティボードへようこそ！今週のバウンティをチェックしてください。リクエストされたアイテムがあれば、報酬と交換できます！",
+  "megaBountyBoard.msg1": "メガバウンティボードへようこそ！時間がなくなる前に資源を集めて報酬と交換しよう！",
+  "rewardShop.msg1": "私のリワードショップへようこそ。ラブチャームを集めてレアアイテムと交換しよう。毎日新しい価格と異なるアイテムが登場します！",
+  "rewardShop.msg2": "ショップは24時間ごとに変わります"
 }

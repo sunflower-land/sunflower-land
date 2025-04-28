@@ -5613,7 +5613,6 @@
   "description.purpleTile": "대담한 보라색 타일로 풍부하고 활기찬 분위기를 조성하기에 적합합니다.",
   "description.redTile": "매 발걸음마다 따뜻함과 에너지를 발산하는 인상적인 빨간색 타일.",
   "description.yellowTile": "밝은 노란색 타일로 햇빛의 따뜻함과 쾌활함을 담아냅니다.",
-  "rewardShop.msg1": "제 리워드 샵에 오신 것을 환영합니다.러브 부적을 모아 희귀 아이템으로 교환하세요.",
   "rewardShop.wearable": "잘 샀어요!새 웨어러블은 옷장에 안전하게 보관됩니다.거기서 범프킨에 장착할 수 있습니다.",
   "rewardShop.collectible": "잘 샀어요!새 수집품은 인벤토리에 안전하게 보관됩니다.",
   "rewards.daily.description": "보너스 리소스, 코인 & {{ticket}}",
@@ -5789,5 +5788,9 @@
   "description.bronzeFlowerBox": "청동 꽃 상자",
   "description.silverFlowerBox": "은색 꽃 상자",
   "description.goldFlowerBox": "골드 플라워 박스",
-  "megastore.limit": "재사용 대기시간: {{time}}"
+  "megastore.limit": "재사용 대기시간: {{time}}",
+  "megaBountyBoard.message": "메가 바운티 보드에 오신 것을 환영합니다!이번 주 바운티를 확인해 보세요.요청한 아이템이 있으면 보상으로 교환할 수 있습니다!",
+  "megaBountyBoard.msg1": "메가 바운티 보드에 오신 것을 환영합니다!시간이 다 가기 전에 자원을 모아 보상으로 교환하세요!",
+  "rewardShop.msg1": "제 리워드 샵에 오신 것을 환영합니다.러브 부적을 모아 희귀 아이템으로 교환하세요.매일 새로운 가격과 다양한 아이템이 출시됩니다!",
+  "rewardShop.msg2": "상점은 24시간마다 바뀝니다."
 }
