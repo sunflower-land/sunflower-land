@@ -31,6 +31,7 @@ import {
 import { Button } from "components/ui/Button";
 import confetti from "canvas-confetti";
 import flowerIcon from "assets/icons/flower_token.webp";
+import { NO_BONUS_BOUNTIES_WEEK } from "features/game/events/landExpansion/claimBountyBonus";
 
 export const MegaBountyBoard: React.FC<{ onClose: () => void }> = ({
   onClose,
@@ -126,13 +127,33 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
     exchange.completed.find((completed) => completed.id === bounty.id),
   );
 
+  const currentWeek = getWeekKey();
+  const noBonusBountiesWeek = NO_BONUS_BOUNTIES_WEEK.includes(currentWeek);
+
   const isBonusClaimed = () => {
     const now = Date.now();
-    const weekStart = new Date(getWeekKey()).getTime();
+    const weekStart = new Date(currentWeek).getTime();
     const weekEnd = weekResetsAt();
     const lastClaim = exchange.bonusClaimedAt ?? 0;
     return lastClaim > weekStart && lastClaim < now && now < weekEnd;
   };
+
+  const getBountyBonusText = () => {
+    if (bonusClaimed) {
+      return "All Bounties Completed!";
+    }
+
+    if (isAllBountiesCompleted) {
+      if (readonly) {
+        return "All Bounties Completed! Head to Poppy to claim your bonus!";
+      }
+
+      return `All Bounties Completed! Click here to claim your bonus ${getSeasonalTicket()}s`;
+    }
+
+    return `Get Bonus 50 ${getSeasonalTicket()}s for completing all bounties!`;
+  };
+  const bountyBonusText = getBountyBonusText();
 
   const bonusClaimed = isBonusClaimed();
 
@@ -186,25 +207,21 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
           {readonly ? t("megaBountyBoard.message") : t("megaBountyBoard.msg1")}
         </span>
 
-        <Label
-          type={isAllBountiesCompleted ? "success" : "default"}
-          icon={ITEM_DETAILS[getSeasonalTicket()].image}
-          secondaryIcon={bonusClaimed ? SUNNYSIDE.icons.confirm : undefined}
-          className="mb-1"
-          onClick={
-            isAllBountiesCompleted && !bonusClaimed && !readonly
-              ? handleBonusClaim
-              : undefined
-          }
-        >
-          {bonusClaimed
-            ? `All Bounties Completed!`
-            : isAllBountiesCompleted
-              ? readonly
-                ? `All Bounties Completed! Head to Poppy to claim your bonus!`
-                : `All Bounties Completed! Click here to claim your bonus ${getSeasonalTicket()}s`
-              : `Get Bonus 50 ${getSeasonalTicket()}s for completing all bounties!`}
-        </Label>
+        {!noBonusBountiesWeek && (
+          <Label
+            type={isAllBountiesCompleted ? "success" : "default"}
+            icon={ITEM_DETAILS[getSeasonalTicket()].image}
+            secondaryIcon={bonusClaimed ? SUNNYSIDE.icons.confirm : undefined}
+            className="mb-1"
+            onClick={
+              isAllBountiesCompleted && !bonusClaimed && !readonly
+                ? handleBonusClaim
+                : undefined
+            }
+          >
+            {bountyBonusText}
+          </Label>
+        )}
 
         <div className="flex flex-col gap-4">
           {Object.values(bountiesByCategory).every(
@@ -337,6 +354,7 @@ const Deal: React.FC<{
 
     imgElement.src = ITEM_DETAILS[bounty.name].image;
   }, []);
+
   return (
     <InnerPanel className="shadow">
       <>

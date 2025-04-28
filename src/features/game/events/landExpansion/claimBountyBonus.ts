@@ -15,6 +15,13 @@ type Options = {
   createdAt?: number;
 };
 
+/**
+ * Weeks that do not have a bounty bonus
+ * - Final Week of Chapter
+ * - Week of chapter auctions
+ */
+export const NO_BONUS_BOUNTIES_WEEK = ["2025-04-28", "2025-07-28"];
+
 export function claimBountyBonus({
   state,
   createdAt = Date.now(),
@@ -32,6 +39,10 @@ export function claimBountyBonus({
     // Check if all bounties completed, else throw error
     if (!isAllBountiesCompleted) {
       throw new Error("Bounty Board not completed");
+    }
+
+    if (NO_BONUS_BOUNTIES_WEEK.includes(getWeekKey())) {
+      throw new Error("Bounty Bonus not available for this week");
     }
 
     // If bonus already claimed for the week, throw error
