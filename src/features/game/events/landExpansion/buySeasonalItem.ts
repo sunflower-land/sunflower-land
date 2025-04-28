@@ -197,8 +197,14 @@ export function isKeyBoughtWithinSeason(
               ? "Rare Key"
               : "Luxury Key";
 
-  const keyBoughtAt =
-    game.pumpkinPlaza.keysBought?.megastore[tierKey as Keys]?.boughtAt;
+  let keyBoughtAt = game.megastore?.boughtAt[tierKey as SeasonalTierItemName];
+
+  // We changed to a new field. From May 1st can remove this code
+  if (!keyBoughtAt) {
+    keyBoughtAt =
+      game.pumpkinPlaza.keysBought?.megastore?.[tierKey as Keys]?.boughtAt;
+  }
+
   const seasonTime = SEASONS[getCurrentSeason()];
   const historyKey =
     game.bumpkin.activity[`${tierKey as SeasonalTierItemName} Bought`];
