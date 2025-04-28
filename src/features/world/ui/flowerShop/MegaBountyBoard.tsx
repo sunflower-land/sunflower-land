@@ -129,6 +129,7 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
 
   const currentWeek = getWeekKey();
   const noBonusBountiesWeek = NO_BONUS_BOUNTIES_WEEK.includes(currentWeek);
+  const seasonalTicket = getSeasonalTicket();
 
   const isBonusClaimed = () => {
     const now = Date.now();
@@ -140,18 +141,18 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
 
   const getBountyBonusText = () => {
     if (bonusClaimed) {
-      return "All Bounties Completed!";
+      return t("bounties.bonus.allCompleted");
     }
 
     if (isAllBountiesCompleted) {
       if (readonly) {
-        return "All Bounties Completed! Head to Poppy to claim your bonus!";
+        return `${t("bounties.bonus.allCompleted")} ${t("bounties.bonus.headToPoppy")}`;
       }
 
-      return `All Bounties Completed! Click here to claim your bonus ${getSeasonalTicket()}s`;
+      return `${t("bounties.bonus.allCompleted")} ${t("bounties.bonus.clickToClaim", { seasonalTicket })}`;
     }
 
-    return `Get Bonus 50 ${getSeasonalTicket()}s for completing all bounties!`;
+    return t("bounties.bonus.getBonus", { seasonalTicket });
   };
   const bountyBonusText = getBountyBonusText();
 
@@ -210,7 +211,7 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
         {!noBonusBountiesWeek && (
           <Label
             type={isAllBountiesCompleted ? "success" : "default"}
-            icon={ITEM_DETAILS[getSeasonalTicket()].image}
+            icon={ITEM_DETAILS[seasonalTicket].image}
             secondaryIcon={bonusClaimed ? SUNNYSIDE.icons.confirm : undefined}
             className="mb-1"
             onClick={
