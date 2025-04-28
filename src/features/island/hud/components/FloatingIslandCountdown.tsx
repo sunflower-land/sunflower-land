@@ -11,6 +11,7 @@ import { getActiveFloatingIsland } from "features/game/types/floatingIsland";
 import { useGame } from "features/game/GameProvider";
 import { Modal } from "components/ui/Modal";
 import { HotAirBalloon } from "features/loveIsland/HotAirBalloon";
+import { hasFeatureAccess } from "lib/flags";
 
 const Countdown: React.FC<{
   startAt: number;
@@ -58,6 +59,10 @@ export const FloatingIslandCountdown: React.FC = () => {
   });
 
   if (!event || hide) {
+    return null;
+  }
+
+  if (!hasFeatureAccess(gameState.context.state, "LOVE_ISLAND")) {
     return null;
   }
 
