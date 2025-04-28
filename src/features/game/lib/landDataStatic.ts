@@ -237,61 +237,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
         soldAt: 100000,
       },
     ],
-    requests: [
-      {
-        id: "1",
-        name: "Cow",
-        level: 4,
-        coins: 100,
-      },
-      {
-        id: "3",
-        name: "Chicken",
-        level: 1,
-        coins: 100,
-      },
-      {
-        id: "4",
-        name: "Cow",
-        level: 1,
-        items: { Gem: 1 },
-      },
-      {
-        id: "2",
-        name: "Chicken",
-        level: 5,
-        items: { Scroll: 1 },
-      },
-      {
-        id: "2",
-        name: "Chicken",
-        level: 5,
-        items: { Scroll: 1 },
-      },
-      {
-        id: "2",
-        name: "Chicken",
-        level: 5,
-        items: { Scroll: 1 },
-      },
-      {
-        id: "2",
-        name: "Chicken",
-        level: 5,
-        items: { Scroll: 1 },
-      },
-      {
-        id: "22",
-        name: "Chicken",
-        level: 1,
-        items: { Gem: 1 },
-      },
-      {
-        id: "obsidian-test",
-        name: "Obsidian",
-        sfl: 5,
-      },
-    ],
+    requests: [],
   },
 
   mysteryPrizes: {},

@@ -21,12 +21,13 @@ import { BumpkinActivityName } from "./bumpkinActivity";
 import { DecorationName } from "./decorations";
 import { BeanName, ExoticCropName, MutantCropName } from "./beans";
 import {
+  FullMoonFruit,
   GreenHouseFruitName,
   GreenHouseFruitSeedName,
   PatchFruitName,
   PatchFruitSeedName,
 } from "./fruits";
-import { TreasureName } from "./treasure";
+import { BeachBountyTreasure, TreasureName } from "./treasure";
 import {
   GoblinBlacksmithItemName,
   GoblinPirateItemName,
@@ -431,12 +432,35 @@ export type FlowerBounty = Bounty & {
   name: FlowerName;
 };
 
-export type SFLBounty = Bounty & {
+export type ObsidianBounty = Bounty & {
   name: "Obsidian";
-  sfl: number;
+  sfl?: number;
 };
 
-export type BountyRequest = AnimalBounty | FlowerBounty | SFLBounty;
+export type FishBounty = Bounty & {
+  name: FishName;
+};
+
+export type ExoticBounty = Bounty & {
+  name:
+    | ExoticCropName
+    | BeachBountyTreasure
+    | FullMoonFruit
+    | RecipeCraftableName;
+};
+
+export type MarkBounty = Bounty & {
+  name: "Mark";
+  quantity: number;
+};
+
+export type BountyRequest =
+  | AnimalBounty
+  | FlowerBounty
+  | ObsidianBounty
+  | FishBounty
+  | ExoticBounty
+  | MarkBounty;
 
 export type Bounties = {
   requests: BountyRequest[];

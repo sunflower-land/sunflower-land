@@ -1,12 +1,25 @@
-import { GameState, InventoryItemName } from "./game";
+import { GameState, InventoryItemName, RecipeCraftableName } from "./game";
 import { FlowerName } from "./flowers";
 import { AnimalType } from "./animals";
 import { RecipeCollectibleName, RecipeWearableName } from "../lib/crafting";
 import { ResourceName } from "./resources";
+import { FishName } from "./fishing";
+import { ExoticCropName } from "./beans";
+import { BeachBountyTreasure } from "./treasure";
+import { FullMoonFruit } from "./fruits";
 
 export type CaughtEvent = `${InventoryItemName} Caught`;
 export type HarvestedEvent = `${FlowerName} Harvested`;
-export type BountiedEvent = `${AnimalType | FlowerName | "Obsidian"} Bountied`;
+export type BountiedEvent = `${
+  | AnimalType
+  | FlowerName
+  | "Obsidian"
+  | FishName
+  | ExoticCropName
+  | BeachBountyTreasure
+  | FullMoonFruit
+  | RecipeCraftableName
+  | "Mark"} Bountied`;
 export type CraftedEvent =
   `${RecipeCollectibleName | RecipeWearableName} Crafted`;
 

@@ -1,16 +1,49 @@
 import Decimal from "decimal.js-light";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { RECIPE_CRAFTABLES } from "features/game/lib/crafting";
 import { isWearableActive } from "features/game/lib/wearables";
 import { ANIMALS } from "features/game/types/animals";
+import { EXOTIC_CROPS, ExoticCropName } from "features/game/types/beans";
 import { getKeys } from "features/game/types/decorations";
 import { trackFarmActivity } from "features/game/types/farmActivity";
-import { BountyRequest, GameState, SFLBounty } from "features/game/types/game";
+import { FISH, FishName } from "features/game/types/fishing";
+import { FLOWERS, FlowerName } from "features/game/types/flowers";
+import { FULL_MOON_FRUITS, FullMoonFruit } from "features/game/types/fruits";
+import {
+  BountyRequest,
+  ExoticBounty,
+  FishBounty,
+  FlowerBounty,
+  GameState,
+  MarkBounty,
+  ObsidianBounty,
+} from "features/game/types/game";
 import {
   getCurrentSeason,
   getSeasonalTicket,
 } from "features/game/types/seasons";
+import {
+  SELLABLE_TREASURE,
+  BeachBountyTreasure,
+} from "features/game/types/treasure";
 import { produce } from "immer";
 import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
+
+export const BOUNTY_CATEGORIES = {
+  "Flower Bounties": (bounty: BountyRequest): bounty is FlowerBounty =>
+    getKeys(FLOWERS).includes(bounty.name as FlowerName),
+  "Fish Bounties": (bounty: BountyRequest): bounty is FishBounty =>
+    getKeys(FISH).includes(bounty.name as FishName),
+  "Exotic Bounties": (bounty: BountyRequest): bounty is ExoticBounty =>
+    getKeys(EXOTIC_CROPS).includes(bounty.name as ExoticCropName) ||
+    getKeys(SELLABLE_TREASURE).includes(bounty.name as BeachBountyTreasure) ||
+    FULL_MOON_FRUITS.includes(bounty.name as FullMoonFruit) ||
+    bounty.name in RECIPE_CRAFTABLES,
+  "Mark Bounties": (bounty: BountyRequest): bounty is MarkBounty =>
+    bounty.name === "Mark",
+  "Obsidian Bounties": (bounty: BountyRequest): bounty is ObsidianBounty =>
+    bounty.name === "Obsidian",
+};
 
 export type SellBountyAction = {
   type: "bounty.sold";
@@ -144,10 +177,19 @@ export function sellBounty({
 
     // Remove the item from the inventory
     const item = draft.inventory[request.name];
-    if (!item || item.lte(0)) {
+    if (
+      !item ||
+      item.lt(
+        BOUNTY_CATEGORIES["Mark Bounties"](request) ? request.quantity : 1,
+      )
+    ) {
       throw new Error("Item does not exist in inventory");
     }
-    draft.inventory[request.name] = item.minus(1);
+    if (BOUNTY_CATEGORIES["Mark Bounties"](request)) {
+      draft.inventory[request.name] = item.minus(request.quantity);
+    } else {
+      draft.inventory[request.name] = item.minus(1);
+    }
 
     const { coins } = generateBountyCoins({
       game: draft,
@@ -167,8 +209,8 @@ export function sellBounty({
       } else draft.inventory[name] = previous.add(request.items?.[name] ?? 0);
     });
 
-    if ((request as SFLBounty).sfl) {
-      draft.balance = draft.balance.add((request as SFLBounty).sfl);
+    if (BOUNTY_CATEGORIES["Obsidian Bounties"](request)) {
+      draft.balance = draft.balance.add(request.sfl ?? 0);
     }
 
     // Mark bounty as completed
