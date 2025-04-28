@@ -72,6 +72,7 @@ export const HotAirBalloon = ({ onClose }: Props) => {
             month: "short",
             hour: "2-digit",
             minute: "2-digit",
+            hour12: true,
           });
           const endTime = end.toLocaleString("en-GB", {
             ...(end.getDate() !== start.getDate() && {
@@ -81,6 +82,7 @@ export const HotAirBalloon = ({ onClose }: Props) => {
             }),
             hour: "2-digit",
             minute: "2-digit",
+            hour12: true,
           });
 
           return (
