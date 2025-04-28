@@ -6,7 +6,7 @@ import { getSeasonalTicket } from "features/game/types/seasons";
 import { getWeekKey } from "features/game/lib/factions";
 
 describe("claimBountyBonus", () => {
-  const createdAt = Date.now();
+  const createdAt = new Date("2025-05-06").getTime();
   const GAME_STATE: GameState = {
     ...TEST_FARM,
     bounties: {
@@ -68,7 +68,8 @@ describe("claimBountyBonus", () => {
   });
 
   it("throws an error if bonus was already claimed this week", () => {
-    const weekStart = new Date(getWeekKey()).getTime();
+    const currentWeek = getWeekKey({ date: new Date(createdAt) });
+    const weekStart = new Date(currentWeek).getTime();
     const bonusClaimedAt = weekStart + 1000; // 1 second after week start
 
     expect(() =>

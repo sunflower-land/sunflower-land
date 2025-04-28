@@ -41,14 +41,16 @@ export function claimBountyBonus({
       throw new Error("Bounty Board not completed");
     }
 
-    if (NO_BONUS_BOUNTIES_WEEK.includes(getWeekKey())) {
+    const currentWeek = getWeekKey({ date: new Date(createdAt) });
+
+    if (NO_BONUS_BOUNTIES_WEEK.includes(currentWeek)) {
       throw new Error("Bounty Bonus not available for this week");
     }
 
     // If bonus already claimed for the week, throw error
-    const currentWeekEnd = weekResetsAt();
+    const currentWeekEnd = weekResetsAt({ date: new Date(createdAt) });
     const { bonusClaimedAt = 0 } = bounties;
-    const weekStart = new Date(getWeekKey()).getTime();
+    const weekStart = new Date(currentWeek).getTime();
 
     // Check if:
     // 1. A bonus was claimed after the start of this week

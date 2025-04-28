@@ -76,8 +76,10 @@ export function getWeekNumber({
   return Math.floor(dayDifference / 7) + 1;
 }
 
-export function weekResetsAt(): number {
-  const weekStart = getWeekKey();
+export function weekResetsAt({
+  date = new Date(),
+}: { date?: Date } = {}): number {
+  const weekStart = getWeekKey({ date });
   const weekEnd = new Date(
     new Date(weekStart).getTime() + 7 * 24 * 60 * 60 * 1000,
   );
