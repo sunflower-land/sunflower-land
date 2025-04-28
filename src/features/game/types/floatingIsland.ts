@@ -23,6 +23,7 @@ export type FloatingShopCollectible = FloatingShopBase & {
 
 export type FloatingShopItem = FloatingShopWearable | FloatingShopCollectible;
 
+export type FloatingShopItemName = InventoryItemName | BumpkinItem;
 export type FloatingIslandShop = Partial<
-  Record<InventoryItemName | BumpkinItem, FloatingShopItem>
+  Record<FloatingShopItemName, FloatingShopItem>
 >;

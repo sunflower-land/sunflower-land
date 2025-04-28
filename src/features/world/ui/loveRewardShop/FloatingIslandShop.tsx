@@ -4,7 +4,7 @@ import { ModalOverlay } from "components/ui/ModalOverlay";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useState, useEffect } from "react";
 
-import { ItemsList } from "./components/ItemsList";
+import { isAlreadyBought, ItemsList } from "./components/ItemsList";
 import { ItemDetail } from "./components/ItemDetail";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -55,9 +55,8 @@ export const getItemDescription = (item: FloatingShopItem | null): string => {
 };
 
 export const FloatingIslandShop: React.FC<{
-  readonly?: boolean;
   onClose: () => void;
-}> = ({ readonly, onClose }) => {
+}> = ({ onClose }) => {
   const { gameState } = useGame();
   const state = gameState.context.state;
   const [selectedItem, setSelectedItem] = useState<FloatingShopItem | null>(
@@ -96,7 +95,10 @@ export const FloatingIslandShop: React.FC<{
           onClose={() => {
             setSelectedItem(null);
           }}
-          readonly={readonly}
+          isBought={isAlreadyBought({
+            name: selectedItem?.name,
+            game: state,
+          })}
         />
       </ModalOverlay>
       <CloseButtonPanel
@@ -109,9 +111,9 @@ export const FloatingIslandShop: React.FC<{
           </Label>
         </div>
         <div
-          className={classNames("flex flex-col p-2 pt-1", {
-            ["max-h-[300px] overflow-y-auto scrollable "]: !readonly,
-          })}
+          className={classNames(
+            "flex flex-col p-2 pt-1 max-h-[300px] overflow-y-auto scrollable ",
+          )}
         >
           <span className="text-xs pb-1 mb-2">{t("rewardShop.msg1")}</span>
           <ItemsList items={shopItems} onItemClick={handleClickItem} />

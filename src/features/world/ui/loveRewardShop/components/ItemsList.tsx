@@ -13,9 +13,14 @@ import { useSelector } from "@xstate/react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 import { MachineState } from "features/game/lib/gameMachine";
-import { FloatingShopItem } from "features/game/types/floatingIsland";
+import {
+  FloatingShopItem,
+  FloatingShopItemName,
+} from "features/game/types/floatingIsland";
 import { isFloatingShopCollectible } from "features/game/events/landExpansion/buyFloatingShopItem";
 import { getKeys } from "features/game/types/decorations";
+import { GameState } from "features/game/types/game";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   itemsLabel?: string;
@@ -27,6 +32,23 @@ interface Props {
 const _state = (state: MachineState) => state.context.state;
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _wardrobe = (state: MachineState) => state.context.state.wardrobe;
+
+export function isAlreadyBought({
+  name,
+  game,
+}: {
+  name?: FloatingShopItemName;
+  game: GameState;
+}) {
+  if (!name) return false;
+  const todayKey = new Date().toISOString().split("T")[0];
+  const boughtAt = game.floatingIsland.boughtAt?.[name];
+
+  if (!boughtAt) return false;
+
+  const boughtAtKey = new Date(boughtAt).toISOString().split("T")[0];
+  return boughtAtKey === todayKey;
+}
 
 export const ItemsList: React.FC<Props> = ({
   items,
@@ -97,13 +119,11 @@ export const ItemsList: React.FC<Props> = ({
                       />
                     )}
 
-                    {balanceOfItem > 0 && (
-                      <Label
-                        type="default"
-                        className="px-0.5 text-xxs absolute -top-2 -right-[10px]"
-                      >
-                        {balanceOfItem}
-                      </Label>
+                    {isAlreadyBought({ name: item.name, game: state }) && (
+                      <img
+                        src={SUNNYSIDE.icons.confirm}
+                        className="w-6 absolute top-0 right-0"
+                      />
                     )}
 
                     {/* Price */}
