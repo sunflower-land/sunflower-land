@@ -457,9 +457,9 @@ import {
   ExchangeFlowerAction,
 } from "./landExpansion/exchangeFLOWER";
 import {
-  buyRewardShopItem,
-  BuyRewardShopItemAction,
-} from "./landExpansion/buyRewardItem";
+  buyFloatingShopItem,
+  BuyFloatingShopItemAction,
+} from "./landExpansion/buyFloatingShopItem";
 import {
   buyEventShopItem,
   BuyMinigameItemAction,
@@ -614,7 +614,7 @@ export type PlayingEvent =
   | ExchangeFlowerAction
   // To remove once December is finished
   | CollectCandyAction
-  | BuyRewardShopItemAction
+  | BuyFloatingShopItemAction
   | UpdateNetworkAction
   | BuyMinigameItemAction
   | AcknowledgeRewardBoxAction
@@ -822,7 +822,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "socialTask.completed": completeSocialTask,
   "referral.rewardsClaimed": claimReferralRewards,
   "exchange.flower": exchangeFlower,
-  "rewardItem.bought": buyRewardShopItem,
+  "floatingShopItem.bought": buyFloatingShopItem,
   "network.updated": updateNetwork,
   "minigameItem.bought": buyEventShopItem,
   "rewardBox.acknowledged": acknowledgeRewardBox,
