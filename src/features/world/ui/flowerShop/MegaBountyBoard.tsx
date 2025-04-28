@@ -163,64 +163,73 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
         </span>
 
         <div className="flex flex-col gap-4">
-          {getObjectEntries(bountiesByCategory).map(
-            ([category, { categoryName, bounties }]) => (
-              <div key={category}>
-                <Label type="default" className="mb-2">
-                  {categoryName}
-                </Label>
-                <div className="flex gap-2 flex-wrap">
-                  {bounties.map((bounty) => {
-                    const { amount, icon } = getCurrencyInfo(bounty);
-                    const isSold = !!exchange.completed.find(
-                      (request) => request.id === bounty.id,
-                    );
-                    return (
-                      <div
-                        key={bounty.name}
-                        className="flex flex-col space-y-1"
-                      >
-                        <div
-                          className="bg-brown-600 cursor-pointer relative"
-                          style={pixelDarkBorderStyle}
-                          onClick={() => setSelectedBounty(bounty)}
-                        >
-                          <div className="flex justify-center items-center w-full h-full z-20">
-                            <SquareIcon
-                              icon={ITEM_DETAILS[bounty.name]?.image ?? ""}
-                              width={20}
-                            />
-                            {isSold && (
-                              <img
-                                src={SUNNYSIDE.icons.confirm}
-                                className="absolute -right-2 -top-3"
-                                style={{
-                                  width: `${PIXEL_SCALE * 9}px`,
-                                }}
-                                alt="Completed"
-                              />
-                            )}
-                            <div className="absolute px-4 bottom-3 -left-4 object-contain">
-                              <Label
-                                icon={icon}
-                                type="warning"
-                                className="text-xxs absolute center text-center p-1"
-                                style={{
-                                  width: `calc(100% + ${PIXEL_SCALE * 10}px)`,
-                                  height: "24px",
-                                }}
-                              >
-                                {amount}
-                              </Label>
+          {Object.values(bountiesByCategory).every(
+            ({ bounties }) => bounties.length === 0,
+          ) ? (
+            <p className="text-sm">{t("bounties.board.empty")}</p>
+          ) : (
+            getObjectEntries(bountiesByCategory).map(
+              ([category, { categoryName, bounties }]) => {
+                if (bounties.length === 0) return null;
+                return (
+                  <div key={category}>
+                    <Label type="default" className="mb-2">
+                      {categoryName}
+                    </Label>
+                    <div className="flex gap-2 flex-wrap">
+                      {bounties.map((bounty) => {
+                        const { amount, icon } = getCurrencyInfo(bounty);
+                        const isSold = !!exchange.completed.find(
+                          (request) => request.id === bounty.id,
+                        );
+                        return (
+                          <div
+                            key={bounty.name}
+                            className="flex flex-col space-y-1"
+                          >
+                            <div
+                              className="bg-brown-600 cursor-pointer relative"
+                              style={pixelDarkBorderStyle}
+                              onClick={() => setSelectedBounty(bounty)}
+                            >
+                              <div className="flex justify-center items-center w-full h-full z-20">
+                                <SquareIcon
+                                  icon={ITEM_DETAILS[bounty.name]?.image ?? ""}
+                                  width={20}
+                                />
+                                {isSold && (
+                                  <img
+                                    src={SUNNYSIDE.icons.confirm}
+                                    className="absolute -right-2 -top-3"
+                                    style={{
+                                      width: `${PIXEL_SCALE * 9}px`,
+                                    }}
+                                    alt="Completed"
+                                  />
+                                )}
+                                <div className="absolute px-4 bottom-3 -left-4 object-contain">
+                                  <Label
+                                    icon={icon}
+                                    type="warning"
+                                    className="text-xxs absolute center text-center p-1"
+                                    style={{
+                                      width: `calc(100% + ${PIXEL_SCALE * 10}px)`,
+                                      height: "24px",
+                                    }}
+                                  >
+                                    {amount}
+                                  </Label>
+                                </div>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            ),
+                        );
+                      })}
+                    </div>
+                  </div>
+                );
+              },
+            )
           )}
         </div>
       </div>
