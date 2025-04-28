@@ -3,6 +3,7 @@ import { ButtonPanel, Panel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 
 import { Context } from "features/game/GameProvider";
+import { config } from "features/wallet/WalletProvider";
 
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
@@ -26,9 +27,12 @@ import { Loading } from "features/auth/components";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
-import { config } from "features/wallet/WalletProvider";
 import { QueryClientProvider } from "@tanstack/react-query";
+import { switchChain } from "@wagmi/core";
 import { GaslessWidget } from "features/announcements/AnnouncementWidgets";
+import { getAccount } from "@wagmi/core";
+import { CONFIG } from "lib/config";
+import { base, baseSepolia } from "viem/chains";
 
 const _transaction = (state: MachineState) => state.context.state.transaction;
 const compareTransaction = (prev?: GameTransaction, next?: GameTransaction) => {
@@ -85,7 +89,13 @@ const TransactionWidget: React.FC<{
 
   const tx = loadActiveTxHash({
     event: transaction?.event as TransactionName,
-    sessionId: gameService.state.context.sessionId as string,
+    ...(transaction?.event === "transaction.flowerWithdrawn"
+      ? {
+          withdrawId: transaction.data.params.withdrawId,
+        }
+      : {
+          sessionId: gameService.state.context.sessionId as string,
+        }),
   });
 
   const { isSuccess, isError } = useWaitForTransactionReceipt({
@@ -213,6 +223,8 @@ export const Transaction: React.FC<Props> = ({ onClose, isBlocked }) => {
   const isTransacting = useSelector(gameService, _isTransacting);
   const { t } = useAppTranslation();
 
+  const transaction = useSelector(gameService, _transaction);
+
   if (isTransacting) {
     return (
       <div className="p-2">
@@ -224,9 +236,12 @@ export const Transaction: React.FC<Props> = ({ onClose, isBlocked }) => {
     );
   }
 
+  const walletAction =
+    transaction?.event === "transaction.flowerWithdrawn" ? "withdraw" : "sync";
+
   return (
     <>
-      <GameWallet action="sync">
+      <GameWallet action={walletAction}>
         <TransactionProgress isBlocked={isBlocked} onClose={onClose} />
       </GameWallet>
     </>
@@ -241,6 +256,7 @@ const EVENT_TO_NAME: Record<TransactionName, string> = {
   "transaction.wearablesWithdrawn": "Withdraw wearables",
   "transaction.offerAccepted": "Accept offer",
   "transaction.listingPurchased": "Purchase listing",
+  "transaction.flowerWithdrawn": "Withdraw flower",
 };
 
 export const TransactionProgress: React.FC<Props> = ({
@@ -254,11 +270,31 @@ export const TransactionProgress: React.FC<Props> = ({
 
   const transaction = gameService.state.context.state.transaction;
 
+  useEffect(() => {
+    if (transaction?.event !== "transaction.flowerWithdrawn") return;
+
+    // Force a switch to base if trying to withdraw flower
+    const { chainId } = getAccount(config);
+    const requiredChain = CONFIG.NETWORK === "mainnet" ? base : baseSepolia;
+
+    if (chainId !== requiredChain.id) {
+      switchChain(config, {
+        chainId: requiredChain.id as any,
+      });
+    }
+  }, []);
+
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const tx = loadActiveTxHash({
     event: transaction?.event as TransactionName,
-    sessionId: gameService.state.context.sessionId as string,
+    ...(transaction?.event === "transaction.flowerWithdrawn"
+      ? {
+          withdrawId: transaction.data.params.withdrawId,
+        }
+      : {
+          sessionId: gameService.state.context.sessionId as string,
+        }),
   });
 
   const { isSuccess, isError } = useWaitForTransactionReceipt({

@@ -168,7 +168,7 @@ export async function withdrawFlowerTransaction({
   withdrawId,
   amount,
   deadline,
-}: WithdrawFlowerParams): Promise<void> {
+}: WithdrawFlowerParams): Promise<string> {
   const hash = await writeContract(config, {
     chainId: CONFIG.NETWORK === "mainnet" ? base.id : baseSepolia.id,
     abi: SunflowerLandWithdrawFlowerABI,
@@ -190,4 +190,6 @@ export async function withdrawFlowerTransaction({
     withdrawId,
   });
   await waitForTransactionReceipt(config, { hash });
+
+  return withdrawId;
 }
