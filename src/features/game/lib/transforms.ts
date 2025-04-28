@@ -102,6 +102,7 @@ export function makeGame(farm: any): GameState {
     specialEvents: farm.specialEvents,
     experiments: farm.experiments,
     floatingIsland: farm.floatingIsland,
+    megastore: farm.megastore,
     goblinMarket: farm.goblinMarket,
     faction: farm.faction,
     dailyFactionDonationRequest: farm.dailyFactionDonationRequest

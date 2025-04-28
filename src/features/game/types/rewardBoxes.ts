@@ -7,13 +7,14 @@ export type RewardBox = {
     vipDays?: number;
     items?: Partial<Record<InventoryItemName, number>>;
     wearables?: Partial<Wardrobe>;
+    flower?: number;
   };
   history: {
     items?: Partial<Record<InventoryItemName, number>>;
     wearables?: Partial<Wardrobe>;
     coins?: number;
     vipDays?: number;
-
+    flower?: number;
     total: number;
   };
 };
@@ -21,7 +22,10 @@ export type RewardBox = {
 export type RewardBoxName =
   | "Bronze Love Box"
   | "Silver Love Box"
-  | "Gold Love Box";
+  | "Gold Love Box"
+  | "Bronze Flower Box"
+  | "Silver Flower Box"
+  | "Gold Flower Box";
 
 export type RewardBoxes = Partial<Record<RewardBoxName, RewardBox>>;
 
@@ -31,6 +35,7 @@ export type RewardBoxReward = {
   vipDays?: number;
   items?: Partial<Record<InventoryItemName, number>>;
   wearables?: Partial<Wardrobe>;
+  flower?: number;
 };
 
 type RewardBoxDetails = {
@@ -64,6 +69,30 @@ export const REWARD_BOXES: Record<RewardBoxName, RewardBoxDetails> = {
     rewards: [
       { coins: 100, weight: 100 }, // Lifeguard,
       { coins: 100, weight: 100 }, // Boater Crow,
+    ],
+  },
+  "Bronze Flower Box": {
+    rewards: [
+      { flower: 1, weight: 100 },
+      { flower: 2, weight: 100 },
+      { flower: 5, weight: 100 },
+      { flower: 10, weight: 100 },
+    ],
+  },
+  "Silver Flower Box": {
+    rewards: [
+      { flower: 1, weight: 100 },
+      { flower: 2, weight: 100 },
+      { flower: 5, weight: 100 },
+      { flower: 10, weight: 100 },
+    ],
+  },
+  "Gold Flower Box": {
+    rewards: [
+      { flower: 1, weight: 100 },
+      { flower: 2, weight: 100 },
+      { flower: 5, weight: 100 },
+      { flower: 10, weight: 100 },
     ],
   },
 };

@@ -40,6 +40,8 @@ import {
   isKeyBoughtWithinSeason,
 } from "features/game/events/landExpansion/buySeasonalItem";
 import { ARTEFACT_SHOP_KEYS } from "features/game/types/collectibles";
+import { REWARD_BOXES } from "features/game/types/rewardBoxes";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   itemsLabel?: string;
@@ -104,7 +106,7 @@ export const ItemsList: React.FC<Props> = ({
     return "";
   };
 
-  const filteredItems = type
+  let filteredItems = type
     ? items.filter((item) => {
         // Filter by type if provided
         if (type === "wearables" && "wearable" in item) return true;
@@ -113,6 +115,12 @@ export const ItemsList: React.FC<Props> = ({
         return false;
       })
     : items; // If no type provided, show all items
+
+  filteredItems = filteredItems.filter(
+    (item) =>
+      !((item as SeasonalStoreCollectible)?.collectible in REWARD_BOXES) ||
+      hasFeatureAccess(state, "FLOWER_BOXES"),
+  );
 
   const getCurrencyIcon = (item: SeasonalStoreItem) => {
     if (item.cost.sfl !== 0) return token;

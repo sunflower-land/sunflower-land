@@ -861,6 +861,9 @@ import easterTicket2025 from "assets/icons/easter_ticket_2025.webp";
 import bronzeLoveBox from "assets/rewardBoxes/bronze_love_box.webp";
 import silverLoveBox from "assets/rewardBoxes/silver_love_box.webp";
 import goldLoveBox from "assets/rewardBoxes/gold_love_box.webp";
+import bronzeFlowerBox from "assets/rewardBoxes/bronze_flower_box.webp";
+import silverFlowerBox from "assets/rewardBoxes/silver_flower_box.webp";
+import goldFlowerBox from "assets/rewardBoxes/gold_flower_box.webp";
 
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
@@ -5142,5 +5145,17 @@ export const ITEM_DETAILS: Items = {
   Geniseed: {
     image: SUNNYSIDE.icons.expression_confused,
     description: "Placeholder",
+  },
+  "Bronze Flower Box": {
+    image: bronzeFlowerBox,
+    description: translate("description.bronzeFlowerBox"),
+  },
+  "Silver Flower Box": {
+    image: silverFlowerBox,
+    description: translate("description.silverFlowerBox"),
+  },
+  "Gold Flower Box": {
+    image: goldFlowerBox,
+    description: translate("description.goldFlowerBox"),
   },
 };
