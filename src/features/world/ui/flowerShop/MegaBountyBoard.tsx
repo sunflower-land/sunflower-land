@@ -354,8 +354,11 @@ const Deal: React.FC<{
                   return (
                     <Label
                       key={name}
-                      type="warning"
+                      type={isSold ? "success" : "warning"}
                       icon={ITEM_DETAILS[name].image}
+                      secondaryIcon={
+                        isSold ? SUNNYSIDE.icons.confirm : undefined
+                      }
                     >
                       {`Reward: ${
                         name !== getSeasonalTicket()
@@ -370,7 +373,13 @@ const Deal: React.FC<{
                 })}
                 {BOUNTY_CATEGORIES["Obsidian Bounties"](bounty) &&
                   bounty.sfl && (
-                    <Label type="warning" icon={flowerIcon}>
+                    <Label
+                      type={isSold ? "success" : "warning"}
+                      icon={flowerIcon}
+                      secondaryIcon={
+                        isSold ? SUNNYSIDE.icons.confirm : undefined
+                      }
+                    >
                       {`Reward: ${bounty.sfl ?? 0} FLOWER`}
                     </Label>
                   )}
