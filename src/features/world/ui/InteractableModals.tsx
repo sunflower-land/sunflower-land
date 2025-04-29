@@ -44,6 +44,7 @@ import { EasterEggstravaganza } from "./portals/EasterEggstravaganza";
 import { HotAirBalloon } from "features/loveIsland/HotAirBalloon";
 import { FloatingIslandShop } from "./loveRewardShop/FloatingIslandShop";
 import { MegaBountyBoard } from "./flowerShop/MegaBountyBoard";
+import { PetalPuzzlePrize } from "./loveRewardShop/PetalPuzzlePrize";
 type InteractableName =
   | "desert_noticeboard"
   | "faction_noticeboard"
@@ -137,7 +138,8 @@ type InteractableName =
   | "portal_chooser"
   | "easter-eggstravaganza"
   | "air_balloon"
-  | "floating_island_shop";
+  | "floating_island_shop"
+  | "petal_puzzle_prize";
 
 class InteractableModalManager {
   private listener?: (name: InteractableName, isOpen: boolean) => void;
@@ -216,6 +218,9 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
       </Modal>
       <Modal show={interactable === "floating_island_shop"} onHide={closeModal}>
         <FloatingIslandShop onClose={closeModal} />
+      </Modal>
+      <Modal show={interactable === "petal_puzzle_prize"} onHide={closeModal}>
+        <PetalPuzzlePrize onClose={closeModal} />
       </Modal>
       <Modal show={interactable === "weather_shop"} onHide={closeModal}>
         <WeatherShop onClose={closeModal} />
