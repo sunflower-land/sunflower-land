@@ -5792,5 +5792,8 @@
   "megaBountyBoard.msg1": "Mega Ödül Panosuna Hoş Geldiniz! Kaynakları toplayın ve zaman dolmadan ödüllerle değiştirin!",
   "rewardShop.msg1": "Ödül Mağazama hoş geldiniz. Aşk Tılsımlarını toplayın ve nadir eşyalarla değiştirin. Her gün yeni fiyatlar ve farklı ürünler getiriyor!",
   "rewardShop.msg2": "Mağaza her 24 saatte bir değişecek",
-  "megaBountyBoard.message": "Mega Ödül Panosuna Hoş Geldiniz! Bu haftanın ödüllerine göz atın. İstediğiniz eşyalardan herhangi birine sahipseniz, onları ödüllerle takas etmek için plazadaki Poppy\"e gidebilirsiniz!"
+  "megaBountyBoard.message": "Mega Ödül Panosuna Hoş Geldiniz! Bu haftanın ödüllerine göz atın. İstediğiniz eşyalardan herhangi birine sahipseniz, onları ödüllerle takas etmek için plazadaki Poppy\"e gidebilirsiniz!",
+  "petalPuzzle.alreadyClaimed": "Zaten talep edildi",
+  "petalPuzzle.comeBackTomorrow": "Bugün ödülü zaten aldınız. Yarın geri gel.",
+  "petalPuzzle.congratulations": "Tebrikler, hepiniz bugünün bulmacasını çözdünüz!"
 }

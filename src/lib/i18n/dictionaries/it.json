@@ -5792,5 +5792,8 @@
   "megaBountyBoard.msg1": "Benvenuto nel Mega Bounty Board! Raccogli le risorse e scambiale con ricompense prima che scada il tempo!",
   "rewardShop.msg1": "Benvenuto nel mio Reward Shop. Colleziona i Love Charms e scambiali con oggetti rari. Ogni giorno porta nuovi prezzi e articoli diversi!",
   "rewardShop.msg2": "Il negozio cambierà ogni 24 ore",
-  "megaBountyBoard.message": "Benvenuto nel Mega Bounty Board! Dai un'occhiata ai premi di questa settimana. Se hai uno degli oggetti richiesti, puoi andare a Poppy in the plaza per scambiarli con ricompense!"
+  "megaBountyBoard.message": "Benvenuto nel Mega Bounty Board! Dai un'occhiata ai premi di questa settimana. Se hai uno degli oggetti richiesti, puoi andare a Poppy in the plaza per scambiarli con ricompense!",
+  "petalPuzzle.alreadyClaimed": "Già richiesto",
+  "petalPuzzle.comeBackTomorrow": "Hai già ritirato il premio oggi. Torna domani.",
+  "petalPuzzle.congratulations": "Congratulazioni, avete risolto tutti il puzzle di oggi!"
 }

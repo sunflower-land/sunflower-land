@@ -5792,5 +5792,8 @@
   "megaBountyBoard.msg1": "Bienvenue sur le Mega Bounty Board ! Rassemblez les ressources et échangez-les contre des récompenses avant la fin du temps imparti !",
   "rewardShop.msg1": "Bienvenue dans ma boutique de récompenses. Collectez des breloques d'amour et échangez-les contre des objets rares. Chaque jour apporte de nouveaux prix et des articles différents !",
   "rewardShop.msg2": "La boutique changera toutes les 24 heures",
-  "megaBountyBoard.message": "Bienvenue sur le Mega Bounty Board ! Découvrez les primes de cette semaine. Si vous possédez l'un des objets demandés, vous pouvez vous rendre chez Poppy in the plaza pour les échanger contre des récompenses !"
+  "megaBountyBoard.message": "Bienvenue sur le Mega Bounty Board ! Découvrez les primes de cette semaine. Si vous possédez l'un des objets demandés, vous pouvez vous rendre chez Poppy in the plaza pour les échanger contre des récompenses !",
+  "petalPuzzle.alreadyClaimed": "Déjà réclamé",
+  "petalPuzzle.comeBackTomorrow": "Vous avez déjà remporté le prix aujourd'hui. Revenez demain.",
+  "petalPuzzle.congratulations": "Félicitations, vous avez tous résolu le casse-tête d'aujourd'hui !"
 }

@@ -5792,5 +5792,8 @@
   "megaBountyBoard.msg1": "Selamat datang ke Mega Bounty Board! Kumpulkan sumber & tukarnya untuk ganjaran sebelum masa habis!",
   "rewardShop.msg1": "Selamat datang ke kedai ganjaran saya. Kumpulkan Love Charms & tukarnya dengan barangan langka. Setiap hari membawa harga baru & item yang berbeza!",
   "rewardShop.msg2": "Kedai akan berubah setiap 24 jam",
-  "megaBountyBoard.message": "Selamat datang ke Mega Bounty Board! Lihat hadiah minggu ini. Sekiranya anda mempunyai barang yang diminta, anda boleh pergi ke popi di plaza untuk menukarnya dengan ganjaran!"
+  "megaBountyBoard.message": "Selamat datang ke Mega Bounty Board! Lihat hadiah minggu ini. Sekiranya anda mempunyai barang yang diminta, anda boleh pergi ke popi di plaza untuk menukarnya dengan ganjaran!",
+  "petalPuzzle.alreadyClaimed": "Sudah dituntut",
+  "petalPuzzle.comeBackTomorrow": "Anda telah menuntut hadiah hari ini. Kembali esok.",
+  "petalPuzzle.congratulations": "Tahniah, anda semua menyelesaikan teka-teki hari ini!"
 }

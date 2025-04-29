@@ -5792,5 +5792,8 @@
   "description.bronzeFlowerBox": "A bronze flower box",
   "description.silverFlowerBox": "A silver flower box",
   "description.goldFlowerBox": "A gold flower box",
-  "megastore.limit": "Cooldown: {{time}}"
+  "megastore.limit": "Cooldown: {{time}}",
+  "petalPuzzle.alreadyClaimed": "Already claimed",
+  "petalPuzzle.comeBackTomorrow": "You have already claimed the prize today. Come back tomorrow.",
+  "petalPuzzle.congratulations": "Congratulations, you all solved today's puzzle!"
 }
