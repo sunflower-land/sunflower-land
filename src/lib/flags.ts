@@ -86,7 +86,7 @@ const FEATURE_FLAGS = {
     new Date("2025-05-01T00:00:00Z"),
   ),
   //Testnet only
-  LOVE_CHARM_REWARD_SHOP: timeBasedFeatureFlag(
+  LOVE_CHARM_REWARD_SHOP: betaTimeBasedFeatureFlag(
     new Date("2025-05-01T00:00:00Z"),
   ),
 
