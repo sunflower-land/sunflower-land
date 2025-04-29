@@ -7,6 +7,7 @@ import { getObjectEntries } from "../expansion/lib/utils";
 export type GarbageName =
   | Extract<
       InventoryItemName,
+      | "Easter Token 2025"
       | "Block Buck"
       | "War Bond"
       | "Love Letter"
