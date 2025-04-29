@@ -4,6 +4,7 @@ import { Panel } from "components/ui/Panel";
 import { hasClaimedPetalPrize } from "features/game/events/landExpansion/claimPetalPrize";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { useGame } from "features/game/GameProvider";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React from "react";
 
 export const PetalPuzzlePrize: React.FC<{ onClose: () => void }> = ({
@@ -11,6 +12,8 @@ export const PetalPuzzlePrize: React.FC<{ onClose: () => void }> = ({
 }) => {
   const { gameState, gameService } = useGame();
   const state = gameState.context.state;
+
+  const { t } = useAppTranslation();
 
   const hasClaimed = hasClaimedPetalPrize({
     state,
@@ -29,12 +32,10 @@ export const PetalPuzzlePrize: React.FC<{ onClose: () => void }> = ({
     return (
       <Panel>
         <Label type="danger" className="mb-1">
-          Already claimed
+          {t("petalPuzzle.alreadyClaimed")}
         </Label>
-        <p className="text-sm mb-2 mx-1">
-          You have already claimed the prize today. Come back tomorrow.
-        </p>
-        <Button onClick={onClose}>Close</Button>
+        <p className="text-sm mb-2 mx-1">{t("petalPuzzle.comeBackTomorrow")}</p>
+        <Button onClick={onClose}>{t("close")}</Button>
       </Panel>
     );
   }
@@ -44,7 +45,7 @@ export const PetalPuzzlePrize: React.FC<{ onClose: () => void }> = ({
       <ClaimReward
         onClaim={onClaim}
         reward={{
-          message: "Congratulations, you all solved today's puzzle!",
+          message: t("petalPuzzle.congratulations"),
           createdAt: Date.now(),
           id: "bronze-love-box",
           items: {

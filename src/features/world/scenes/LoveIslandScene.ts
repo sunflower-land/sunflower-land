@@ -107,7 +107,6 @@ export class LoveIslandScene extends BaseScene {
     };
 
     getKeys(petals).forEach((petal) => {
-      console.log({ petal, state: petals[petal], left: flower.leftPetal });
       if (petals[petal] === "active") {
         // Set slight white tint
         this[petal]?.setTint(0xcccccc);
