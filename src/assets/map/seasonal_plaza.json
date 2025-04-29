@@ -9536,21 +9536,39 @@
           "width": 31.2265814632851,
           "x": 545.002829305537,
           "y": 213.36672320409
+        },
+        {
+          "height": 43.75,
+          "id": 303,
+          "name": "",
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "mega_bounty_board"
+            }
+          ],
+          "rotation": 0,
+          "type": "",
+          "visible": true,
+          "width": 52,
+          "x": 788.5,
+          "y": 161.25
         }
       ],
       "opacity": 1,
       "tintcolor": "#00ff00",
       "type": "objectgroup",
-      "visible": false,
+      "visible": true,
       "x": 0,
       "y": 0
     }
   ],
   "nextlayerid": 159,
-  "nextobjectid": 303,
+  "nextobjectid": 304,
   "orientation": "orthogonal",
   "renderorder": "right-down",
-  "tiledversion": "1.8.4",
+  "tiledversion": "1.11.2",
   "tileheight": 16,
   "tilesets": [
     {
@@ -9656,6 +9674,6 @@
   ],
   "tilewidth": 16,
   "type": "map",
-  "version": "1.8",
+  "version": "1.10",
   "width": 55
 }
