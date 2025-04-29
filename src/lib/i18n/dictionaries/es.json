@@ -5789,8 +5789,8 @@
   "description.silverFlowerBox": "Una caja de flores plateada",
   "description.goldFlowerBox": "Una caja de flores dorada",
   "megastore.limit": "Tiempo de recarga: {{time}}",
-  "megaBountyBoard.message": "¡Bienvenido al Mega Bounty Board! Echa un vistazo a las recompensas de esta semana. Si tienes alguno de los objetos solicitados, ¡puedes cambiarlos por recompensas!",
   "megaBountyBoard.msg1": "¡Bienvenido al Mega Bounty Board! ¡Reúne los recursos y cámbialos por recompensas antes de que acabe el tiempo!",
   "rewardShop.msg1": "Bienvenido a mi tienda de recompensas. Colecciona amuletos de amor y cámbialos por objetos raros. ¡Cada día trae nuevos precios y artículos diferentes!",
-  "rewardShop.msg2": "La tienda cambiará cada 24 horas"
+  "rewardShop.msg2": "La tienda cambiará cada 24 horas",
+  "megaBountyBoard.message": "¡Bienvenido al Mega Bounty Board! Echa un vistazo a las recompensas de esta semana. Si tenéis alguno de los objetos solicitados, ¡podéis ir a Poppy, en la plaza, para cambiarlos por recompensas!"
 }
