@@ -4939,6 +4939,10 @@ export const ITEM_DETAILS: Items = {
     image: ancientClock,
     description: "",
   },
+  "Broken Pillar": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "",
+  },
   "Winds of Change Banner": {
     image: windsOfChangeBanner,
     description: "",

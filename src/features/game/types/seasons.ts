@@ -136,9 +136,7 @@ export const SEASON_ARTEFACT_NAME: Record<
   "Pharaoh's Treasure": "Scarab",
   "Bull Run": "Cow Skull",
   "Winds of Change": "Ancient Clock",
-
-  // TODO: Add Great Bloom artefact
-  "Great Bloom": "Scarab",
+  "Great Bloom": "Broken Pillar",
 };
 
 export const CHAPTER_MARVEL_FISH: Record<SeasonName, ChapterFish> = {

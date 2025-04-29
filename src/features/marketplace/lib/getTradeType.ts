@@ -965,6 +965,7 @@ export const ITEM_TRADE_TYPES: {
     Timeshard: "instant",
     Geniseed: "instant",
     "Ancient Clock": "instant",
+    "Broken Pillar": "instant",
     Jin: "instant",
     "Floral Arch": "instant",
     "Flower Coin": "instant",
