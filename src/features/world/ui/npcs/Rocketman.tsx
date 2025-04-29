@@ -12,16 +12,13 @@ import flowerIcon from "assets/icons/flower_token.webp";
 import trophyIcon from "assets/icons/trophy.png";
 import tradeIcon from "assets/icons/trade.png";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { Context } from "features/game/GameProvider";
+import { Context, useGame } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { NumberInput } from "components/ui/NumberInput";
 import { Decimal } from "decimal.js-light";
 import { setPrecision } from "lib/utils/formatNumber";
-import {
-  MachineInterpreter,
-  MachineState,
-} from "features/game/lib/gameMachine";
+import { MachineState } from "features/game/lib/gameMachine";
 import { hasFeatureAccess } from "lib/flags";
 import {
   DAILY_LIMIT,
@@ -72,31 +69,15 @@ export const Rocketman: React.FC<Props> = ({ onClose }) => {
       bumpkinParts={NPC_WEARABLES["rocket man"]}
       onClose={onClose}
       tabs={[
-        ...(hasFlowerExchange
-          ? [
-              {
-                icon: flowerIcon,
-                name: "$FLOWER Exchange",
-              },
-            ]
-          : [
-              {
-                icon: SUNNYSIDE.icons.stopwatch,
-                name: "Noticeboard",
-              },
-            ]),
+        {
+          icon: SUNNYSIDE.icons.stopwatch,
+          name: "Noticeboard",
+        },
       ]}
       currentTab={currentTab}
       setCurrentTab={setCurrentTab}
     >
       {currentTab === "Noticeboard" && <RocketmanNoticeboard />}
-      {currentTab === "$FLOWER Exchange" && (
-        <FlowerExchange
-          loveCharmCount={loveCharmCount}
-          gameService={gameService}
-          onClose={onClose}
-        />
-      )}
     </CloseButtonPanel>
   );
 };
@@ -155,17 +136,16 @@ const RocketmanNoticeboard: React.FC = () => {
 };
 
 interface FlowerExchangeProps {
-  loveCharmCount: Decimal;
-  gameService: MachineInterpreter;
   onClose: () => void;
 }
 
-const FlowerExchange: React.FC<FlowerExchangeProps> = ({
-  loveCharmCount,
-  gameService,
-  onClose,
-}) => {
+export const FlowerExchange: React.FC<FlowerExchangeProps> = ({ onClose }) => {
   const { t } = useAppTranslation();
+
+  const { gameService, gameState } = useGame();
+
+  const loveCharmCount =
+    gameState.context.state.inventory["Love Charm"] ?? new Decimal(0);
   const [loveCharms, setLoveCharms] = useState(0);
   const [flower, setFlower] = useState(0);
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -291,9 +271,15 @@ const FlowerExchange: React.FC<FlowerExchangeProps> = ({
                 : ""}
         </Label>
       )}
-      <Button disabled={isOutOfRange} onClick={() => setShowConfirmation(true)}>
-        {t("flower.exchange.button")}
-      </Button>
+      <div className="flex flex-row justify-between gap-1">
+        <Button onClick={onClose}>{t("close")}</Button>
+        <Button
+          disabled={isOutOfRange}
+          onClick={() => setShowConfirmation(true)}
+        >
+          {t("flower.exchange.button")}
+        </Button>
+      </div>
     </div>
   );
 };

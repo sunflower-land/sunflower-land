@@ -41,6 +41,10 @@ export class LoveIslandScene extends BaseScene {
     this.load.image("shop_icon", "world/shop_disc.png");
     this.load.image("giant_flower_petal", "world/giant_flower_petal.webp");
     this.load.image("love_box", "world/love_box.webp");
+    this.load.spritesheet("portal", "world/love_charm_portal_sheet.png", {
+      frameWidth: 20,
+      frameHeight: 34,
+    });
   }
 
   async create() {
@@ -79,6 +83,25 @@ export class LoveIslandScene extends BaseScene {
     this.topPetal.setRotation(Math.PI / 2);
     this.bottomPetal = this.add.sprite(270, 190, "giant_flower_petal");
     this.bottomPetal.setRotation((Math.PI * 3) / 2);
+
+    const portal = this.add.sprite(370, 140, "portal");
+    this.anims.create({
+      key: "portal_anim",
+      frames: this.anims.generateFrameNumbers("portal", {
+        start: 0,
+        end: 8,
+      }),
+      repeat: -1,
+      frameRate: 7,
+    });
+    portal.play("portal_anim", true);
+    portal.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      if (this.checkDistanceToSprite(portal, 40)) {
+        interactableModalManager.open("flower_exchange");
+      } else {
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
+      }
+    });
   }
 
   /**

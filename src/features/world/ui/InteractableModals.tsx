@@ -7,7 +7,7 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { AuctionHouseModal } from "./AuctionHouseModal";
 import { BoatModal } from "./BoatModal";
 import { PlazaBanner } from "./PlazaBanner";
-import { OuterPanel } from "components/ui/Panel";
+import { OuterPanel, Panel } from "components/ui/Panel";
 import { NyeButton } from "./NyeButton";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { BasicTreasureChest } from "./chests/BasicTreasureChest";
@@ -45,6 +45,7 @@ import { HotAirBalloon } from "features/loveIsland/HotAirBalloon";
 import { FloatingIslandShop } from "./loveRewardShop/FloatingIslandShop";
 import { MegaBountyBoard } from "./flowerShop/MegaBountyBoard";
 import { PetalPuzzlePrize } from "./loveRewardShop/PetalPuzzlePrize";
+import { FlowerExchange } from "./npcs/Rocketman";
 type InteractableName =
   | "desert_noticeboard"
   | "faction_noticeboard"
@@ -139,7 +140,8 @@ type InteractableName =
   | "easter-eggstravaganza"
   | "air_balloon"
   | "floating_island_shop"
-  | "petal_puzzle_prize";
+  | "petal_puzzle_prize"
+  | "flower_exchange";
 
 class InteractableModalManager {
   private listener?: (name: InteractableName, isOpen: boolean) => void;
@@ -493,6 +495,12 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
 
       <Modal show={interactable === "portal_chooser"} onHide={closeModal}>
         <PortalChooser onClose={closeModal} />
+      </Modal>
+
+      <Modal show={interactable === "flower_exchange"} onHide={closeModal}>
+        <Panel>
+          <FlowerExchange onClose={closeModal} />
+        </Panel>
       </Modal>
 
       <Modal show={interactable === "chicken_rescue"} onHide={closeModal}>
