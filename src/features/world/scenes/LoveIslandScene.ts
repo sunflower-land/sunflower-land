@@ -56,7 +56,7 @@ export class LoveIslandScene extends BaseScene {
     this.loveBox = this.add.sprite(270, 140, "love_box").setVisible(false);
 
     this.loveBox.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      if (this.checkDistanceToSprite(this.loveBox!, 75)) {
+      if (this.checkDistanceToSprite(this.loveBox!, 150)) {
         interactableModalManager.open("petal_puzzle_prize");
       } else {
         this.currentPlayer?.speak(translate("base.iam.far.away"));
@@ -138,10 +138,13 @@ export class LoveIslandScene extends BaseScene {
 
     const flower = server.state.giantFlower;
 
-    const solvedAt = flower.puzzleSolvedAt ?? 0;
-    // Show the box if solved in the last 30 seconds
-    const hasSolved = Date.now() - solvedAt < 30 * 1000;
-    this.loveBox?.setVisible(hasSolved);
+    const isSolved =
+      flower.leftPetal === "solved" &&
+      flower.rightPetal === "solved" &&
+      flower.topPetal === "solved" &&
+      flower.bottomPetal === "solved";
+
+    this.loveBox?.setVisible(isSolved);
   }
 
   update() {
