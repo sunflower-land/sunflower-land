@@ -204,7 +204,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     pants: "Farmer Pants",
     coat: "Chef Apron",
     hair: "Royal Braids",
-    hat: "Bunny Mask",
+
     background: "Pumpkin Plaza Background",
     shoes: "Black Farmer Boots",
     tool: "Parsnip",
@@ -466,7 +466,6 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Parsnip",
     background: "Pumpkin Plaza Background",
     shoes: "Black Farmer Boots",
-    hat: "Bunny Mask",
   },
   blacksmith: {
     body: "Light Brown Farmer Potion",
@@ -476,7 +475,6 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Hammer",
     background: "Pumpkin Plaza Background",
     shoes: "Brown Boots",
-    hat: "Bunny Mask",
   },
   bruce: {
     body: "Beige Farmer Potion",
