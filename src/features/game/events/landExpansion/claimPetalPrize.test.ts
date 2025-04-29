@@ -19,7 +19,7 @@ describe("claimPetalPrize", () => {
 
   it("requires player has not claimed petal prize already", () => {
     const now = Date.now();
-    let state = claimPetalPrize({
+    const state = claimPetalPrize({
       action: {
         type: "petalPuzzle.solved",
       },
