@@ -476,6 +476,10 @@ import {
   openRewardBox,
   OpenRewardBoxAction,
 } from "./landExpansion/openRewardBox";
+import {
+  claimPetalPrize,
+  ClaimPetalPrizeAction,
+} from "./landExpansion/claimPetalPrize";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
@@ -618,7 +622,8 @@ export type PlayingEvent =
   | UpdateNetworkAction
   | BuyMinigameItemAction
   | AcknowledgeRewardBoxAction
-  | OpenRewardBoxAction;
+  | OpenRewardBoxAction
+  | ClaimPetalPrizeAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -827,6 +832,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "minigameItem.bought": buyEventShopItem,
   "rewardBox.acknowledged": acknowledgeRewardBox,
   "rewardBox.opened": openRewardBox,
+  "petalPuzzle.solved": claimPetalPrize,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

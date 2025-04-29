@@ -1690,6 +1690,7 @@ export interface GameState {
     }[];
     shop: FloatingIslandShop;
     boughtAt?: Partial<Record<FloatingShopItemName, number>>;
+    petalPuzzleSolvedAt?: number;
   };
   megastore?: {
     boughtAt: Partial<Record<SeasonalTierItemName, number>>;

@@ -23,6 +23,8 @@ export class LoveIslandScene extends BaseScene {
   topPetal: Phaser.GameObjects.Sprite | undefined;
   bottomPetal: Phaser.GameObjects.Sprite | undefined;
 
+  loveBox: Phaser.GameObjects.Sprite | undefined;
+
   constructor() {
     super({
       name: "love_island",
@@ -38,6 +40,7 @@ export class LoveIslandScene extends BaseScene {
     super.preload();
     this.load.image("shop_icon", "world/shop_disc.png");
     this.load.image("giant_flower_petal", "world/giant_flower_petal.webp");
+    this.load.image("love_box", "world/love_box.webp");
   }
 
   async create() {
@@ -50,6 +53,15 @@ export class LoveIslandScene extends BaseScene {
     this.initialiseNPCs(BUMPKINS);
 
     const shop = this.add.sprite(270, 140, "shop_icon");
+    this.loveBox = this.add.sprite(270, 140, "love_box");
+
+    this.loveBox.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      if (this.checkDistanceToSprite(this.loveBox!, 75)) {
+        interactableModalManager.open("petal_puzzle_prize");
+      } else {
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
+      }
+    });
 
     // On click open shop
     shop.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
@@ -116,28 +128,24 @@ export class LoveIslandScene extends BaseScene {
         this[petal]?.setTint(0xff0000);
       }
     });
-
-    // if (flower.rightPetalActive) {
-    //   this.rightPetal?.setTint(0xff0000);
-    // } else {
-    //   this.rightPetal?.setTint(0xffffff);
-    // }
-
-    // if (flower.topPetalActive) {
-    //   this.topPetal?.setTint(0xff0000);
-    // } else {
-    //   this.topPetal?.setTint(0xffffff);
-    // }
-
-    // if (flower.bottomPetalActive) {
-    //   this.bottomPetal?.setTint(0xff0000);
-    // } else {
-    //   this.bottomPetal?.setTint(0xffffff);
-    // }
   }
+
+  updatePrize() {
+    const server = this.mmoServer;
+    if (!server) return;
+
+    const flower = server.state.giantFlower;
+
+    const solvedAt = flower.puzzleSolvedAt ?? 0;
+    // Show the box if solved in the last 30 seconds
+    const hasSolved = Date.now() - solvedAt < 30 * 1000;
+    this.loveBox?.setVisible(hasSolved);
+  }
+
   update() {
     super.update();
 
     this.updateFlower();
+    this.updatePrize();
   }
 }
