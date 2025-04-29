@@ -831,6 +831,7 @@ import pesticide from "assets/sfts/pesticide.webp";
 import jin from "assets/sfts/jin_ronin.webp";
 import loveCharm from "assets/icons/love_charm.webp";
 import geniseed from "assets/icons/geniseed.webp";
+import brokenPillar from "assets/icons/broken_pillar.webp";
 
 import floralArch from "assets/sfts/floral_arch.webp";
 import flowerCoin from "assets/sfts/flower_coin.webp";
@@ -4937,6 +4938,10 @@ export const ITEM_DETAILS: Items = {
   },
   "Ancient Clock": {
     image: ancientClock,
+    description: "",
+  },
+  "Broken Pillar": {
+    image: brokenPillar,
     description: "",
   },
   "Winds of Change Banner": {

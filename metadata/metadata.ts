@@ -11302,6 +11302,17 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/question_mark.png",
     name: "Ancient Clock",
   },
+  "Broken Pillar": {
+    description: "",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Bounty" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    name: "Broken Pillar",
+  },
   "Winds of Change Banner": {
     description: "",
     decimals: 0,
