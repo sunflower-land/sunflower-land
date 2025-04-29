@@ -130,6 +130,11 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
             bounty={selectedBounty}
             onClose={() => setSelectedBounty(undefined)}
             onSold={() => setSelectedBounty(undefined)}
+            isSold={
+              !!exchange.completed.find(
+                (request) => request.id === selectedBounty.id,
+              )
+            }
             readonly={readonly}
           />
         </ModalOverlay>
@@ -241,8 +246,9 @@ const Deal: React.FC<{
   bounty: BountyRequest;
   onClose: () => void;
   onSold: () => void;
+  isSold: boolean;
   readonly?: boolean;
-}> = ({ bounty, onClose, onSold, readonly }) => {
+}> = ({ bounty, onClose, onSold, isSold, readonly }) => {
   const [imageWidth, setImageWidth] = useState(0);
   const [confirmExchange, setConfirmExchange] = useState(false);
   const { t } = useAppTranslation();
@@ -261,6 +267,10 @@ const Deal: React.FC<{
   const canSell = () => {
     if (BOUNTY_CATEGORIES["Mark Bounties"](bounty)) {
       return inventory[bounty.name]?.gte(bounty.quantity);
+    }
+
+    if (isSold) {
+      return false;
     }
 
     return inventory[bounty.name]?.gte(1);
@@ -344,8 +354,11 @@ const Deal: React.FC<{
                   return (
                     <Label
                       key={name}
-                      type="warning"
+                      type={isSold ? "success" : "warning"}
                       icon={ITEM_DETAILS[name].image}
+                      secondaryIcon={
+                        isSold ? SUNNYSIDE.icons.confirm : undefined
+                      }
                     >
                       {`Reward: ${
                         name !== getSeasonalTicket()
@@ -360,7 +373,13 @@ const Deal: React.FC<{
                 })}
                 {BOUNTY_CATEGORIES["Obsidian Bounties"](bounty) &&
                   bounty.sfl && (
-                    <Label type="warning" icon={flowerIcon}>
+                    <Label
+                      type={isSold ? "success" : "warning"}
+                      icon={flowerIcon}
+                      secondaryIcon={
+                        isSold ? SUNNYSIDE.icons.confirm : undefined
+                      }
+                    >
                       {`Reward: ${bounty.sfl ?? 0} FLOWER`}
                     </Label>
                   )}

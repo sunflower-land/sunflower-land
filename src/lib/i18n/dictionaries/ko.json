@@ -5789,8 +5789,8 @@
   "description.silverFlowerBox": "은색 꽃 상자",
   "description.goldFlowerBox": "골드 플라워 박스",
   "megastore.limit": "재사용 대기시간: {{time}}",
-  "megaBountyBoard.message": "메가 바운티 보드에 오신 것을 환영합니다!이번 주 바운티를 확인해 보세요.요청한 아이템이 있으면 보상으로 교환할 수 있습니다!",
   "megaBountyBoard.msg1": "메가 바운티 보드에 오신 것을 환영합니다!시간이 다 가기 전에 자원을 모아 보상으로 교환하세요!",
   "rewardShop.msg1": "제 리워드 샵에 오신 것을 환영합니다.러브 부적을 모아 희귀 아이템으로 교환하세요.매일 새로운 가격과 다양한 아이템이 출시됩니다!",
-  "rewardShop.msg2": "상점은 24시간마다 바뀝니다."
+  "rewardShop.msg2": "상점은 24시간마다 바뀝니다.",
+  "megaBountyBoard.message": "메가 바운티 보드에 오신 것을 환영합니다!이번 주 바운티를 확인해 보세요.요청한 아이템이 있으면 광장에 있는 양귀비를 찾아가 보상으로 교환할 수 있습니다!"
 }

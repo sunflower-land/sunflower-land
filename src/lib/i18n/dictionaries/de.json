@@ -5789,8 +5789,8 @@
   "description.silverFlowerBox": "Ein silberner Blumenkasten",
   "description.goldFlowerBox": "Ein goldener Blumenkasten",
   "megastore.limit": "Abklingzeit: {{time}}",
-  "megaBountyBoard.message": "Willkommen im Mega Bounty Board! Schauen Sie sich die Bounties dieser Woche an. Wenn ihr einen der angeforderten Gegenstände habt, könnt ihr ihn gegen Belohnungen eintauschen!",
   "megaBountyBoard.msg1": "Willkommen im Mega Bounty Board! Sammle die Ressourcen und tausche sie gegen Belohnungen ein, bevor die Zeit abläuft!",
   "rewardShop.msg1": "Willkommen in meinem Prämienshop. Sammle Liebeszauber und tausche sie gegen seltene Gegenstände ein. Jeder Tag bringt neue Preise und verschiedene Artikel!",
-  "rewardShop.msg2": "Der Shop wechselt alle 24 Stunden"
+  "rewardShop.msg2": "Der Shop wechselt alle 24 Stunden",
+  "megaBountyBoard.message": "Willkommen im Mega Bounty Board! Schauen Sie sich die Bounties dieser Woche an. Wenn ihr einen der angeforderten Gegenstände habt, könnt ihr zu Poppy auf dem Platz gehen, um ihn gegen Belohnungen einzutauschen!"
 }

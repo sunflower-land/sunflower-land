@@ -44,6 +44,7 @@ import { EventShop } from "./eventShop/eventShop";
 import { EasterEggstravaganza } from "./portals/EasterEggstravaganza";
 import { HotAirBalloon } from "features/loveIsland/HotAirBalloon";
 import { FloatingIslandShop } from "./loveRewardShop/FloatingIslandShop";
+import { MegaBountyBoard } from "./flowerShop/MegaBountyBoard";
 type InteractableName =
   | "desert_noticeboard"
   | "faction_noticeboard"
@@ -87,6 +88,7 @@ type InteractableName =
   | "plaza_blue_book"
   | "plaza_orange_book"
   | "plaza_green_book"
+  | "mega_bounty_board"
   | "potion_house"
   | "clubhouse_reward"
   | "raffle"
@@ -391,6 +393,9 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
             },
           ]}
         />
+      </Modal>
+      <Modal show={interactable === "mega_bounty_board"} onHide={closeModal}>
+        <MegaBountyBoard onClose={closeModal} />
       </Modal>
       <Modal show={interactable === "beach_orange_book"} onHide={closeModal}>
         <SpeakingModal
