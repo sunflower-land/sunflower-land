@@ -52,8 +52,8 @@ export class LoveIslandScene extends BaseScene {
 
     this.initialiseNPCs(BUMPKINS);
 
-    const shop = this.add.sprite(270, 140, "shop_icon");
-    this.loveBox = this.add.sprite(270, 140, "love_box");
+    const shop = this.add.sprite(150, 140, "shop_icon");
+    this.loveBox = this.add.sprite(270, 140, "love_box").setVisible(false);
 
     this.loveBox.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
       if (this.checkDistanceToSprite(this.loveBox!, 75)) {
@@ -131,7 +131,10 @@ export class LoveIslandScene extends BaseScene {
 
   updatePrize() {
     const server = this.mmoServer;
-    if (!server) return;
+    if (!server) {
+      this.loveBox?.setVisible(false);
+      return;
+    }
 
     const flower = server.state.giantFlower;
 
