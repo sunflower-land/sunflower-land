@@ -13,6 +13,7 @@ import { useAccount, useWaitForTransactionReceipt, WagmiProvider } from "wagmi";
 import {
   DEADLINE_BUFFER_MS,
   DEADLINE_MS,
+  FlowerWithdrawnTransaction,
   GameTransaction,
   loadActiveTxHash,
   ONCHAIN_TRANSACTIONS,
@@ -259,6 +260,8 @@ const EVENT_TO_NAME: Record<TransactionName, string> = {
   "transaction.flowerWithdrawn": "Withdraw flower",
 };
 
+const _farmId = (state: MachineState) => state.context.farmId;
+
 export const TransactionProgress: React.FC<Props> = ({
   onClose,
   isBlocked,
@@ -268,7 +271,8 @@ export const TransactionProgress: React.FC<Props> = ({
   const [error, setError] = useState<string>();
   const [showError, setShowError] = useState<boolean>();
 
-  const transaction = gameService.state.context.state.transaction;
+  const farmId = useSelector(gameService, _farmId);
+  const transaction = useSelector(gameService, _transaction);
 
   useEffect(() => {
     if (transaction?.event !== "transaction.flowerWithdrawn") return;
@@ -286,6 +290,23 @@ export const TransactionProgress: React.FC<Props> = ({
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const getExpiringTimes = () => {
+    const txType = transaction?.event;
+
+    if (txType === "transaction.flowerWithdrawn") {
+      return {
+        expiresAt: (transaction?.createdAt ?? 0) + DEADLINE_MS,
+        timedOutAt: (transaction?.createdAt ?? 0) + DEADLINE_MS,
+      };
+    }
+
+    return {
+      expiresAt: (transaction?.createdAt ?? 0) + DEADLINE_MS,
+      timedOutAt:
+        (transaction?.createdAt ?? 0) + DEADLINE_MS + DEADLINE_BUFFER_MS,
+    };
+  };
+
   const tx = loadActiveTxHash({
     event: transaction?.event as TransactionName,
     ...(transaction?.event === "transaction.flowerWithdrawn"
@@ -301,10 +322,10 @@ export const TransactionProgress: React.FC<Props> = ({
     hash: tx?.hash as `0x${string}`,
   });
 
-  const expired = useCountdown((transaction?.createdAt ?? 0) + DEADLINE_MS);
-  const timedOut = useCountdown(
-    (transaction?.createdAt ?? 0) + DEADLINE_MS + DEADLINE_BUFFER_MS,
-  );
+  const { expiresAt, timedOutAt } = getExpiringTimes();
+
+  const expired = useCountdown(expiresAt);
+  const timedOut = useCountdown(timedOutAt);
 
   if (!transaction) return null;
 
@@ -323,12 +344,31 @@ export const TransactionProgress: React.FC<Props> = ({
     }
   };
 
+  const refreshWithdraw = () => {
+    const flowerTransaction = transaction as FlowerWithdrawnTransaction;
+
+    gameService.send("TRANSACT", {
+      transaction: "transaction.flowerWithdrawn",
+      request: {
+        farmId,
+        effect: {
+          type: "withdraw.flower",
+          amount: flowerTransaction.data.amount,
+        },
+      },
+    });
+
+    onClose?.();
+  };
+
   const reload = () => {
     gameService.send("REFRESH");
     if (onClose) {
       onClose();
     }
   };
+
+  const isFlowerWithdraw = transaction.event === "transaction.flowerWithdrawn";
 
   if (isSuccess) {
     return (
@@ -349,6 +389,25 @@ export const TransactionProgress: React.FC<Props> = ({
   const isTimedOut =
     Date.now() >
     (transaction?.createdAt ?? 0) + DEADLINE_MS + DEADLINE_BUFFER_MS;
+
+  const isExpired = Date.now() > (transaction?.createdAt ?? 0) + DEADLINE_MS;
+
+  if (isFlowerWithdraw && (isTimedOut || isExpired)) {
+    return (
+      <>
+        <div className="p-2">
+          <div className="flex items-center justify-between mb-2">
+            <Label icon={lockIcon} type="danger" className="-ml-1">
+              {t("transaction.expired")}
+            </Label>
+          </div>
+          <p className="text-sm mb-2">{t("transaction.refresh.message")}</p>
+        </div>
+        <Button onClick={refreshWithdraw}>{t("refresh")}</Button>
+      </>
+    );
+  }
+
   if (isTimedOut) {
     return (
       <>
@@ -365,7 +424,6 @@ export const TransactionProgress: React.FC<Props> = ({
     );
   }
 
-  const isExpired = Date.now() > (transaction?.createdAt ?? 0) + DEADLINE_MS;
   if (isExpired) {
     return (
       <>

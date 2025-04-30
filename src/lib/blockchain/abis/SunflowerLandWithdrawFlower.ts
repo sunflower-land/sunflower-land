@@ -112,13 +112,6 @@ export default [
     type: "function",
   },
   {
-    inputs: [],
-    name: "signer",
-    outputs: [{ internalType: "address", name: "", type: "address" }],
-    stateMutability: "view",
-    type: "function",
-  },
-  {
     inputs: [{ internalType: "address", name: "newOwner", type: "address" }],
     name: "transferOwnership",
     outputs: [],
