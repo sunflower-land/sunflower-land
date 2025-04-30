@@ -8,7 +8,16 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "./images";
 import { translate } from "lib/i18n/translate";
 import memoize from "lodash.memoize";
-import { hasSeasonEnded } from "./seasons";
+import {
+  getSeasonalTicket,
+  hasSeasonEnded,
+  SeasonName,
+  SEASONS,
+} from "./seasons";
+import { CHAPTER_TICKET_BOOST_ITEMS } from "../events/landExpansion/completeNPCChore";
+import { TranslationKeys } from "lib/i18n/dictionaries/types";
+import { isCollectible } from "../events/landExpansion/garbageSold";
+import { getObjectEntries } from "../expansion/lib/utils";
 
 export const COLLECTIBLE_BUFF_LABELS = memoize(getCollectibleBuffLabels);
 
@@ -1393,5 +1402,45 @@ function getCollectibleBuffLabels(
         boostTypeIcon: powerup,
       },
     ],
+    ...Object.fromEntries(
+      getObjectEntries(CHAPTER_TICKET_BOOST_ITEMS)
+        .filter(
+          ([chapter]) =>
+            !(
+              [
+                "Solar Flare",
+                "Dawn Breaker",
+                "Witches' Eve",
+                "Catch the Kraken",
+                "Spring Blossom",
+                "Clash of Factions",
+                "Pharaoh's Treasure",
+              ] as SeasonName[]
+            ).includes(chapter),
+        )
+        .flatMap(([chapter, items]) => {
+          if (hasSeasonEnded(chapter)) return [];
+
+          const ticket = getSeasonalTicket(
+            new Date(SEASONS[chapter].startDate),
+          );
+          const translationKey =
+            `description.bonus${ticket}.boost` as TranslationKeys;
+
+          return Object.values(items)
+            .filter(isCollectible)
+            .map((item) => [
+              item,
+              [
+                {
+                  shortDescription: translate(translationKey),
+                  labelType: "success",
+                  boostTypeIcon: powerup,
+                  boostedItemIcon: ITEM_DETAILS[ticket].image,
+                },
+              ],
+            ]);
+        }),
+    ),
   };
 }
