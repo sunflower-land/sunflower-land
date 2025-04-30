@@ -154,13 +154,13 @@ export const Season: React.FC<Props> = ({
           />
         </div>
       </InnerPanel>
-      <InnerPanel className="mb-1">
-        {hasFeatureAccess(state, "MEGA_BOUNTIES") ? (
-          <MegaBountyBoardContent readonly />
-        ) : (
+      {hasFeatureAccess(state, "MEGA_BOUNTIES") ? (
+        <MegaBountyBoardContent readonly />
+      ) : (
+        <InnerPanel className="mb-1">
           <FlowerBountiesModal readonly state={state} />
-        )}
-      </InnerPanel>
+        </InnerPanel>
+      )}
       <InnerPanel className="mb-1">
         <BertObsession
           readonly

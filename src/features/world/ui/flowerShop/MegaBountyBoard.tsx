@@ -21,7 +21,7 @@ import {
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ModalOverlay } from "components/ui/ModalOverlay";
-import { InnerPanel } from "components/ui/Panel";
+import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { Decimal } from "decimal.js-light";
 import {
@@ -39,6 +39,7 @@ export const MegaBountyBoard: React.FC<{ onClose: () => void }> = ({
   <CloseButtonPanel
     bumpkinParts={NPC_WEARABLES.poppy}
     onClose={onClose}
+    container={OuterPanel}
     tabs={[{ icon: SUNNYSIDE.icons.stopwatch, name: "Mega Bounty Board" }]}
   >
     <MegaBountyBoardContent />
@@ -139,23 +140,6 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
     return lastClaim > weekStart && lastClaim < now && now < weekEnd;
   };
 
-  const getBountyBonusText = () => {
-    if (bonusClaimed) {
-      return t("bounties.bonus.allCompleted");
-    }
-
-    if (isAllBountiesCompleted) {
-      if (readonly) {
-        return `${t("bounties.bonus.allCompleted")} ${t("bounties.bonus.headToPoppy")}`;
-      }
-
-      return `${t("bounties.bonus.allCompleted")} ${t("bounties.bonus.clickToClaim", { seasonalTicket })}`;
-    }
-
-    return t("bounties.bonus.getBonus", { seasonalTicket });
-  };
-  const bountyBonusText = getBountyBonusText();
-
   const bonusClaimed = isBonusClaimed();
 
   const handleBonusClaim = () => gameService.send("claim.bountyBoardBonus");
@@ -180,121 +164,145 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
           />
         </ModalOverlay>
       )}
-
-      <div className="flex justify-between px-2 flex-wrap pb-1">
-        <Label type="default" className="mb-1">
-          {"Poppy"}
-        </Label>
-        <Label
-          icon={SUNNYSIDE.icons.stopwatch}
-          type={showDanger ? "danger" : "info"}
-          className="mb-1"
-        >
-          {t("megaStore.timeRemaining", {
-            timeRemaining: millisecondsToString(timeRemaining, {
-              length: "medium",
-              removeTrailingZeros: true,
-            }),
-          })}
-        </Label>
-      </div>
-
-      <div
-        className={classNames("flex flex-col p-2 pt-1", {
-          ["max-h-[450px] overflow-y-auto scrollable"]: !readonly,
-        })}
-      >
-        <span className="text-xs pb-1">
-          {readonly ? t("megaBountyBoard.message") : t("megaBountyBoard.msg1")}
-        </span>
-
-        {!noBonusBountiesWeek && (
-          <Label
-            type={isAllBountiesCompleted ? "success" : "default"}
-            icon={ITEM_DETAILS[seasonalTicket].image}
-            secondaryIcon={bonusClaimed ? SUNNYSIDE.icons.confirm : undefined}
-            className="mb-1"
-            onClick={
-              isAllBountiesCompleted && !bonusClaimed && !readonly
-                ? handleBonusClaim
-                : undefined
-            }
-          >
-            {bountyBonusText}
+      <InnerPanel className="flex flex-col gap-2 mb-1">
+        <div className="flex justify-between px-2 flex-wrap pb-1">
+          <Label type="default" className="mb-1">
+            {"Poppy"}
           </Label>
-        )}
+          <Label
+            icon={SUNNYSIDE.icons.stopwatch}
+            type={showDanger ? "danger" : "info"}
+            className="mb-1"
+          >
+            {t("megaStore.timeRemaining", {
+              timeRemaining: millisecondsToString(timeRemaining, {
+                length: "medium",
+                removeTrailingZeros: true,
+              }),
+            })}
+          </Label>
+        </div>
 
-        <div className="flex flex-col gap-4">
-          {Object.values(bountiesByCategory).every(
-            ({ bounties }) => bounties.length === 0,
-          ) ? (
-            <p className="text-sm">{t("bounties.board.empty")}</p>
-          ) : (
-            getObjectEntries(bountiesByCategory).map(
-              ([category, { categoryName, bounties }]) => {
-                if (bounties.length === 0) return null;
-                return (
-                  <div key={category}>
-                    <Label type="default" className="mb-2">
-                      {categoryName}
-                    </Label>
-                    <div className="flex gap-2 flex-wrap">
-                      {bounties.map((bounty) => {
-                        const { amount, icon } = getCurrencyInfo(bounty);
-                        const isSold = !!exchange.completed.find(
-                          (request) => request.id === bounty.id,
-                        );
-                        return (
-                          <div
-                            key={bounty.name}
-                            className="flex flex-col space-y-1"
-                          >
+        <div
+          className={classNames("flex flex-col p-2 pt-1", {
+            ["max-h-[450px] overflow-y-auto scrollable"]: !readonly,
+          })}
+        >
+          <span className="text-xs pb-1">
+            {readonly
+              ? t("megaBountyBoard.message")
+              : t("megaBountyBoard.msg1")}
+          </span>
+
+          <div className="flex flex-col gap-4">
+            {Object.values(bountiesByCategory).every(
+              ({ bounties }) => bounties.length === 0,
+            ) ? (
+              <p className="text-sm">{t("bounties.board.empty")}</p>
+            ) : (
+              getObjectEntries(bountiesByCategory).map(
+                ([category, { categoryName, bounties }]) => {
+                  if (bounties.length === 0) return null;
+                  return (
+                    <div key={category}>
+                      <Label type="default" className="mb-2">
+                        {categoryName}
+                      </Label>
+                      <div className="flex gap-2 flex-wrap">
+                        {bounties.map((bounty) => {
+                          const { amount, icon } = getCurrencyInfo(bounty);
+                          const isSold = !!exchange.completed.find(
+                            (request) => request.id === bounty.id,
+                          );
+                          return (
                             <div
-                              className="bg-brown-600 cursor-pointer relative"
-                              style={pixelDarkBorderStyle}
-                              onClick={() => setSelectedBounty(bounty)}
+                              key={bounty.name}
+                              className="flex flex-col space-y-1"
                             >
-                              <div className="flex justify-center items-center w-full h-full z-20">
-                                <SquareIcon
-                                  icon={ITEM_DETAILS[bounty.name]?.image ?? ""}
-                                  width={20}
-                                />
-                                {isSold && (
-                                  <img
-                                    src={SUNNYSIDE.icons.confirm}
-                                    className="absolute -right-2 -top-3"
-                                    style={{
-                                      width: `${PIXEL_SCALE * 9}px`,
-                                    }}
-                                    alt="Completed"
+                              <div
+                                className="bg-brown-600 cursor-pointer relative"
+                                style={pixelDarkBorderStyle}
+                                onClick={() => setSelectedBounty(bounty)}
+                              >
+                                <div className="flex justify-center items-center w-full h-full z-20">
+                                  <SquareIcon
+                                    icon={
+                                      ITEM_DETAILS[bounty.name]?.image ?? ""
+                                    }
+                                    width={20}
                                   />
-                                )}
-                                <div className="absolute px-4 bottom-3 -left-4 object-contain">
-                                  <Label
-                                    icon={icon}
-                                    type="warning"
-                                    className="text-xxs absolute center text-center p-1"
-                                    style={{
-                                      width: `calc(100% + ${PIXEL_SCALE * 10}px)`,
-                                      height: "24px",
-                                    }}
-                                  >
-                                    {amount}
-                                  </Label>
+                                  {isSold && (
+                                    <img
+                                      src={SUNNYSIDE.icons.confirm}
+                                      className="absolute -right-2 -top-3"
+                                      style={{
+                                        width: `${PIXEL_SCALE * 9}px`,
+                                      }}
+                                      alt="Completed"
+                                    />
+                                  )}
+                                  <div className="absolute px-4 bottom-3 -left-4 object-contain">
+                                    <Label
+                                      icon={icon}
+                                      type="warning"
+                                      className="text-xxs absolute center text-center p-1"
+                                      style={{
+                                        width: `calc(100% + ${PIXEL_SCALE * 10}px)`,
+                                        height: "24px",
+                                      }}
+                                    >
+                                      {amount}
+                                    </Label>
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
-                        );
-                      })}
+                          );
+                        })}
+                      </div>
                     </div>
-                  </div>
-                );
-              },
-            )
-          )}
+                  );
+                },
+              )
+            )}
+          </div>
         </div>
-      </div>
+      </InnerPanel>
+      {!noBonusBountiesWeek && !readonly && (
+        <InnerPanel className="flex flex-col justify-center gap-2">
+          <div className="flex items-center gap-2 justify-between">
+            <Label
+              type="default"
+              className="ml-1"
+              icon={ITEM_DETAILS[seasonalTicket].image}
+            >
+              {`Bounty Bonus`}
+            </Label>
+            {isAllBountiesCompleted && (
+              <Label
+                type="success"
+                className="ml-1"
+                secondaryIcon={
+                  bonusClaimed ? SUNNYSIDE.icons.confirm : undefined
+                }
+              >
+                {t("bounties.bonus.allCompleted")}
+              </Label>
+            )}
+          </div>
+          <p className="text-xs ml-1">
+            {t("bounties.bonus.getBonus", { seasonalTicket })}
+          </p>
+          {!readonly && (
+            <Button
+              onClick={handleBonusClaim}
+              disabled={bonusClaimed || !isAllBountiesCompleted || readonly}
+            >
+              {t("bounties.bonus.clickToClaim", { seasonalTicket })}
+            </Button>
+          )}
+        </InnerPanel>
+      )}
     </>
   );
 };
