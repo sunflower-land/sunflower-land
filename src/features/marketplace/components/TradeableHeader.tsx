@@ -43,6 +43,7 @@ type TradeableHeaderProps = {
   onBack: () => void;
   onListClick: () => void;
   reload: () => void;
+  limitedPurchasesLeft: number;
 };
 
 const _balance = (state: MachineState) => state.context.state.balance;
@@ -56,6 +57,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
   authToken,
   farmId,
   limitedTradesLeft,
+  limitedPurchasesLeft,
   count,
   tradeable,
   onListClick,
@@ -235,7 +237,10 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                 {showBuyNow && (
                   <Button
                     onClick={() => setShowPurchaseModal(true)}
-                    disabled={!balance.gt(cheapestListing.sfl)}
+                    disabled={
+                      !balance.gt(cheapestListing.sfl) ||
+                      limitedPurchasesLeft <= 0
+                    }
                     className="mr-1 w-full sm:w-auto"
                   >
                     {t("marketplace.buyNow")}

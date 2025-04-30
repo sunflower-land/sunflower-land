@@ -35,6 +35,7 @@ import { isTradeResource } from "features/game/actions/tradeLimits";
 import Decimal from "decimal.js-light";
 import { useParams } from "react-router";
 import { KeyedMutator } from "swr";
+import { MAX_LIMITED_PURCHASES } from "./Tradeable";
 
 const _hasPendingOfferEffect = (state: MachineState) =>
   state.matches("marketplaceOffering") || state.matches("marketplaceAccepting");
@@ -46,11 +47,20 @@ const _inventory = (state: MachineState) => state.context.state.inventory;
 export const TradeableOffers: React.FC<{
   tradeable?: TradeableDetails;
   limitedTradesLeft: number;
+  limitedPurchasesLeft: number;
   farmId: number;
   display: TradeableDisplay;
   itemId: number;
   reload: KeyedMutator<TradeableDetails>;
-}> = ({ tradeable, limitedTradesLeft, farmId, display, itemId, reload }) => {
+}> = ({
+  tradeable,
+  limitedTradesLeft,
+  farmId,
+  display,
+  itemId,
+  reload,
+  limitedPurchasesLeft,
+}) => {
   const { authService } = useContext(Auth.Context);
   const { gameService, showAnimations } = useContext(Context);
   const { t } = useAppTranslation();
@@ -171,6 +181,11 @@ export const TradeableOffers: React.FC<{
               <Label type="default" icon={increaseArrow}>
                 {t("marketplace.offers")}
               </Label>
+              {tradeable?.expiresAt && (
+                <Label type={limitedPurchasesLeft <= 0 ? "danger" : "warning"}>
+                  {`${limitedPurchasesLeft}/${MAX_LIMITED_PURCHASES} Offers left`}
+                </Label>
+              )}
             </div>
             <div className="flex w-full flex-col sm:flex-row items-center justify-between">
               {topOffer ? (
@@ -195,7 +210,11 @@ export const TradeableOffers: React.FC<{
                   {tradeable?.isActive && (
                     <Button
                       className="w-full sm:w-fit mr-1"
-                      disabled={!tradeable || !tradeable?.isActive}
+                      disabled={
+                        !tradeable ||
+                        !tradeable?.isActive ||
+                        limitedPurchasesLeft <= 0
+                      }
                       onClick={() => setShowMakeOffer(true)}
                     >
                       <span className="whitespace-nowrap text-xs sm:text-sm">

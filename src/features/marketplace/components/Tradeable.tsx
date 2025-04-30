@@ -38,6 +38,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 
 const _trades = (state: MachineState) => state.context.state.trades;
 export const MAX_LIMITED_SALES = 1;
+export const MAX_LIMITED_PURCHASES = 3;
 
 export const Tradeable: React.FC = () => {
   const { authService } = useContext(Auth.Context);
@@ -102,6 +103,7 @@ export const Tradeable: React.FC = () => {
 
   const trades = useSelector(gameService, _trades);
   const currentWeek = getWeekKey({ date: new Date() });
+  // Weekly sales count
   const weeklySalesCount =
     trades.weeklySales?.[currentWeek]?.[display.name] ?? 0;
   const listingsCount = Object.values(trades.listings ?? {}).filter(
@@ -111,6 +113,17 @@ export const Tradeable: React.FC = () => {
   const limitedTradesLeft = isLimited
     ? MAX_LIMITED_SALES - weeklySalesCount - listingsCount
     : Infinity;
+
+  // Weekly purchases count
+  const weeklyPurchasesCount =
+    trades.weeklyPurchases?.[currentWeek]?.[display.name] ?? 0;
+  const offersCount = Object.values(trades.offers ?? {}).filter(
+    (offer) => offer.items[display.name],
+  ).length;
+  const limitedPurchasesLeft = isLimited
+    ? MAX_LIMITED_PURCHASES - weeklyPurchasesCount - offersCount
+    : Infinity;
+
   if (error) throw error;
 
   // TODO 404 view
@@ -164,6 +177,7 @@ export const Tradeable: React.FC = () => {
           authToken={authToken}
           farmId={farmId}
           limitedTradesLeft={limitedTradesLeft}
+          limitedPurchasesLeft={limitedPurchasesLeft}
           collection={collection as CollectionName}
           count={count}
           tradeable={tradeable}
@@ -203,6 +217,7 @@ export const Tradeable: React.FC = () => {
         <TradeableOffers
           itemId={Number(id)}
           limitedTradesLeft={limitedTradesLeft}
+          limitedPurchasesLeft={limitedPurchasesLeft}
           tradeable={tradeable}
           display={display}
           farmId={farmId}
