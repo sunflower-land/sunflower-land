@@ -551,6 +551,95 @@ const MEGA_WINDS_OF_CHANGE_ITEMS: SeasonalStoreItem[] = [
   },
 ];
 
+const GREAT_BLOOM_ITEMS: SeasonalStore = {
+  basic: {
+    items: [
+      {
+        collectible: "Balloon Rug",
+        cost: { sfl: 5, items: {} },
+      },
+      {
+        wearable: "Amberfall Suit",
+        cost: { sfl: 0, items: { "Broken Pillar": 20 } },
+      },
+      {
+        wearable: "Embersteel Suit",
+        cost: { sfl: 0, items: { Geniseed: 50 } },
+      },
+      {
+        wearable: "Flower Mask",
+        cost: { sfl: 0, items: { Geniseed: 300 } },
+      },
+      {
+        collectible: "Treasure Key",
+        cooldownMs: 24 * 60 * 60 * 1000,
+        cost: { sfl: 0, items: { Geniseed: 200 } },
+      },
+    ],
+  },
+  rare: {
+    items: [
+      {
+        wearable: "Glacierguard Suit",
+        cost: { sfl: 60, items: {} },
+      },
+      {
+        wearable: "Bloomwarden Suit",
+        cost: { sfl: 0, items: { "Broken Pillar": 80 } },
+      },
+      {
+        collectible: "Giant Yam",
+        cost: { sfl: 0, items: { Geniseed: 2000 } },
+      },
+      {
+        collectible: "Rare Key",
+        cooldownMs: 24 * 60 * 60 * 1000,
+        cost: { sfl: 0, items: { Geniseed: 500 } },
+      },
+      {
+        wearable: "Love Charm Shirt",
+        cost: { sfl: 0, items: { Geniseed: 650 } },
+      },
+    ],
+    requirement: 4,
+  },
+  epic: {
+    items: [
+      {
+        collectible: "Flower-Scribed Statue",
+        cost: { sfl: 0, items: { Geniseed: 1500 } },
+      },
+      {
+        collectible: "Luxury Key",
+        cooldownMs: 24 * 60 * 60 * 1000,
+        cost: { sfl: 0, items: { Geniseed: 1000 } },
+      },
+      {
+        wearable: "Frost Sword",
+        cost: { sfl: 0, items: { "Broken Pillar": 180 } },
+      },
+      {
+        collectible: "Heart Air Balloon",
+        cost: { sfl: 400, items: {} },
+      },
+      {
+        collectible: "Giant Zucchini",
+        cost: { sfl: 0, items: { Geniseed: 3000 } },
+      },
+    ],
+    requirement: 4,
+  },
+  mega: {
+    items: [
+      {
+        wearable: "Oracle Syringe",
+        cost: { sfl: 0, items: { Geniseed: 8500 } },
+      },
+    ],
+    requirement: 4,
+  },
+};
+
 export const MEGASTORE: Record<SeasonName, SeasonalStore> = {
   "Catch the Kraken": EMPTY_SEASONAL_STORE,
   "Clash of Factions": EMPTY_SEASONAL_STORE,
@@ -610,6 +699,5 @@ export const MEGASTORE: Record<SeasonName, SeasonalStore> = {
     },
   },
 
-  // TODO: Add Great Bloom items
-  "Great Bloom": EMPTY_SEASONAL_STORE,
+  "Great Bloom": GREAT_BLOOM_ITEMS,
 };
