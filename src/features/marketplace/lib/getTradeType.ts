@@ -1020,7 +1020,7 @@ export const ITEM_TRADE_TYPES: {
     "Balloon Rug": "instant",
     "Giant Yam": "instant",
     "Heart Air Balloon": "instant",
-    "Giant Zuchinni": "instant",
+    "Giant Zucchini": "instant",
     "Mini Floating Island": "instant",
   },
   wearables: {

@@ -31,7 +31,7 @@ export type SeasonalCollectibleName =
   | "Balloon Rug"
   | "Giant Yam"
   | "Heart Air Balloon"
-  | "Giant Zuchinni"
+  | "Giant Zucchini"
   | "Mini Floating Island";
 
 export type SeasonalWearableName = Extract<
