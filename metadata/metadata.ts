@@ -11840,6 +11840,163 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/2247.png",
     name: "Gold Flower Box",
   },
+  Quarry: {
+    description:
+      "An age-old stone site that never runs dry—perfect for those seeking a steady supply of free stone.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2259.png",
+    name: "Quarry",
+  },
+  "Obsidian Turtle": {
+    description:
+      "Steady and silent, this ancient creature gathers traces of volcanic stone wherever it roams.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2260.png",
+    name: "Obsidian Turtle",
+  },
+  "Winter Guardian": {
+    description:
+      "Summoned from a land where snow never melts, this frostbound protector now watches over the skies—an honored guest in unfamiliar winds.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2261.png",
+    name: "Winter Guardian",
+  },
+  "Summer Guardian": {
+    description:
+      "A blazing figure born under endless sun, this Guardian brings the heat of its homeland to the cooler heights of Sky Island.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2262.png",
+    name: "Summer Guardian",
+  },
+  "Spring Guardian": {
+    description:
+      "Awakened from fertile fields far below, this gentle spirit now nurtures life among the drifting gardens of the sky.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2263.png",
+    name: "Spring Guardian",
+  },
+  "Autumn Guardian": {
+    description:
+      "With harvest hues and a wistful gaze, this Guardian carries the essence of changing seasons from distant lands into the realm above.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2264.png",
+    name: "Autumn Guardian",
+  },
+  "Sky Pillar": {
+    description:
+      "These ancient columns are said to predate the sky itself, pulsing with the energy that keeps Sky Island afloat and in balance.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2265.png",
+    name: "Sky Pillar",
+  },
+  "Flower-Scribed Statue": {
+    description:
+      "Carved from pale stone and etched with ancient floral verses, this statue hums with the quiet wisdom of Sunflower Land.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2266.png",
+    name: "Flower-Scribed Statue",
+  },
+
+  "Balloon Rug": {
+    description:
+      "A soft, whimsical rug that feels lighter than air—perfect for lounging in style.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2267.png",
+    name: "Balloon Rug",
+  },
+  "Giant Yam": {
+    description:
+      "A root so massive it could feed a village—or at least make one impressive stew.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2268.png",
+    name: "Giant Yam",
+  },
+  "Heart Air Balloon": {
+    description:
+      "A floating symbol of love, ready to lift spirits and hearts alike.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2269.png",
+    name: "Heart Air Balloon",
+  },
+  "Giant Zuchinni": {
+    description:
+      "Impossibly large and suspiciously green, this veggie is a true garden marvel.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2270.png",
+    name: "Giant Zuchinni",
+  },
+  "Mini Floating Island": {
+    description:
+      "A small-sized patch of paradise that somehow stays afloat—perfect for peaceful moments.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2271.png",
+    name: "Mini Floating Island",
+  },
 };
 
 export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
