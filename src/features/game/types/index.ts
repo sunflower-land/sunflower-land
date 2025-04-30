@@ -1055,6 +1055,12 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Bronze Flower Box": 2245,
   "Silver Flower Box": 2246,
   "Gold Flower Box": 2247,
+  "Bronze Food Box": 2248,
+  "Silver Food Box": 2249,
+  "Gold Food Box": 2250,
+  "Bronze Tool Box": 2251,
+  "Silver Tool Box": 2252,
+  "Gold Tool Box": 2253,
 };
 
 // The reverse of above
