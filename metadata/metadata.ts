@@ -17612,4 +17612,148 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     image: "../public/wearables/images/449.png",
     name: "Easter Apron",
   },
+  "Bloomwarden Suit": {
+    description:
+      "Woven from enchanted petals and dawn's dew, this suit protects the fields and those who tend them.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Suit" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/449.png",
+    name: "Bloomwarden Suit",
+  },
+  "Embersteel Suit": {
+    description:
+      "Forged in volcanic heartfires, this armor blazes with the spirit of an unyielding defender.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Suit" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/450.png",
+    name: "Embersteel Suit",
+  },
+  "Amberfall Suit": {
+    description:
+      "Dripping with the golden hues of autumn, this suit whispers of fading leaves and hidden strength.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Suit" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/451.png",
+    name: "Amberfall Suit",
+  },
+  "Glacierguard Suit": {
+    description:
+      "Cold as the northern winds, this suit shields its wearer with ancient frostbound resilience.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Suit" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/452.png",
+    name: "Glacierguard Suit",
+  },
+  "Broccoli Hat": {
+    description:
+      " crunchy crown for the veggie lover — surprisingly comfortable and extremely nutritious-looking!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hat" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/453.png",
+    name: "Broccoli Hat",
+  },
+  "Frost Sword": {
+    description:
+      "Carved from eternal ice, this blade chills foes to their core with a single graceful swing.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Tool" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/454.png",
+    name: "Frost Sword",
+  },
+  "Medic Apron": {
+    description:
+      "Worn by the caretakers of the sick and small, this apron carries the scent of healing herbs and kindness.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Coat" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/456.png",
+    name: "Medic Apron",
+  },
+  "Obsidian Necklace": {
+    description:
+      "A shard of molten earth turned elegant charm, pulsing softly with ancient, dormant power.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Necklace" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/457.png",
+    name: "Obsidian Necklace",
+  },
+  "Red Pepper Onesie": {
+    description:
+      "Spicy, snuggly, and absolutely sizzling with personality — it’s the hottest onesie in the land!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Onesie" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/458.png",
+    name: "Red Pepper Onesie",
+  },
+  "Love Charm Shirt": {
+    description:
+      "Woven with affection and stitched with sparkles — wearing it feels like a warm hug from the universe.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Shirt" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/459.png",
+    name: "Love Charm Shirt",
+  },
+  "Sky Island Background": {
+    description:
+      "High above the clouds lies a floating haven of peace, mystery, and boundless imagination.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Background" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/460.png",
+    name: "Sky Island Background",
+  },
+  "Oracle Syringe": {
+    description:
+      "Infused with the Barn Delight, this curious tool channels healing to every ailing animals with a burst of magical care.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Wings" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/461.png",
+    name: "Oracle Syringe",
+  },
 };
