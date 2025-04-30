@@ -1409,58 +1409,19 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Frozen Sheep": { width: 2, height: 1 },
   "Summer Chicken": { width: 1, height: 1 },
   Jellyfish: { width: 1, height: 1 },
-  Quarry: {
-    width: 2,
-    height: 2,
-  },
-  "Obsidian Turtle": {
-    width: 1,
-    height: 1,
-  },
-  "Winter Guardian": {
-    width: 2,
-    height: 2,
-  },
-  "Summer Guardian": {
-    width: 2,
-    height: 2,
-  },
-  "Spring Guardian": {
-    width: 2,
-    height: 2,
-  },
-  "Autumn Guardian": {
-    width: 2,
-    height: 2,
-  },
-  "Sky Pillar": {
-    width: 2,
-    height: 2,
-  },
-  "Flower-Scribed Statue": {
-    width: 2,
-    height: 1,
-  },
-  "Balloon Rug": {
-    width: 2,
-    height: 2,
-  },
-  "Giant Yam": {
-    width: 1,
-    height: 2,
-  },
-  "Heart Air Balloon": {
-    width: 3,
-    height: 5,
-  },
-  "Giant Zuchinni": {
-    width: 1,
-    height: 2,
-  },
-  "Mini Floating Island": {
-    width: 2,
-    height: 1,
-  },
+  Quarry: { width: 2, height: 2 },
+  "Obsidian Turtle": { width: 1, height: 1 },
+  "Winter Guardian": { width: 2, height: 2 },
+  "Summer Guardian": { width: 2, height: 2 },
+  "Spring Guardian": { width: 2, height: 2 },
+  "Autumn Guardian": { width: 2, height: 2 },
+  "Sky Pillar": { width: 2, height: 2 },
+  "Flower-Scribed Statue": { width: 2, height: 1 },
+  "Balloon Rug": { width: 2, height: 2 },
+  "Giant Yam": { width: 1, height: 2 },
+  "Heart Air Balloon": { width: 3, height: 5 },
+  "Giant Zuchinni": { width: 1, height: 2 },
+  "Mini Floating Island": { width: 2, height: 1 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {

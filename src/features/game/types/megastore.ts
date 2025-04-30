@@ -34,19 +34,31 @@ export type SeasonalCollectibleName =
   | "Giant Zuchinni"
   | "Mini Floating Island";
 
-export type SeasonalWearableName =
-  // Bull Run
+export type SeasonalWearableName = Extract<
+  BumpkinItem,
   | "Cowboy Hat"
   | "Cowgirl Skirt"
   | "Cowboy Shirt"
   | "Dream Scarf"
   | "Milk Apron"
   | "Cowboy Trouser"
+
   // Winds of Change
   | "Acorn Hat"
   | "Ladybug Suit"
   | "Crab Hat"
-  | "Sickle";
+  | "Sickle"
+
+  // Great Bloom
+  | "Bloomwarden Suit"
+  | "Embersteel Suit"
+  | "Amberfall Suit"
+  | "Glacierguard Suit"
+  | "Flower Mask"
+  | "Love Charm Shirt"
+  | "Frost Sword"
+  | "Oracle Syringe"
+>;
 
 export type MegastoreKeys = "Treasure Key" | "Rare Key" | "Luxury Key";
 
