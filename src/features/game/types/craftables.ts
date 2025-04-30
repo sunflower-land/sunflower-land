@@ -1420,7 +1420,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Balloon Rug": { width: 2, height: 2 },
   "Giant Yam": { width: 1, height: 2 },
   "Heart Air Balloon": { width: 3, height: 5 },
-  "Giant Zuchinni": { width: 1, height: 2 },
+  "Giant Zucchini": { width: 1, height: 2 },
   "Mini Floating Island": { width: 2, height: 1 },
 };
 

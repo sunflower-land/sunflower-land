@@ -2415,7 +2415,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
       alt="Heart Air Balloon"
     />
   ),
-  "Giant Zuchinni": (props: CollectibleProps) => (
+  "Giant Zucchini": (props: CollectibleProps) => (
     <ImageStyle
       {...props}
       divStyle={{
@@ -2426,8 +2426,8 @@ export const COLLECTIBLE_COMPONENTS: Record<
       imgStyle={{
         width: `${PIXEL_SCALE * 23}px`,
       }}
-      image={ITEM_DETAILS["Giant Zuchinni"].image}
-      alt="Giant Zuchinni"
+      image={ITEM_DETAILS["Giant Zucchini"].image}
+      alt="Giant Zucchini"
     />
   ),
   "Mini Floating Island": (props: CollectibleProps) => (

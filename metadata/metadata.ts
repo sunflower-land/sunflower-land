@@ -11973,7 +11973,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/2269.png",
     name: "Heart Air Balloon",
   },
-  "Giant Zuchinni": {
+  "Giant Zucchini": {
     description:
       "Impossibly large and suspiciously green, this veggie is a true garden marvel.",
     decimals: 0,
@@ -11983,7 +11983,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/2270.png",
-    name: "Giant Zuchinni",
+    name: "Giant Zucchini",
   },
   "Mini Floating Island": {
     description:
