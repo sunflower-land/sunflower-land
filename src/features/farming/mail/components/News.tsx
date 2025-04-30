@@ -15,14 +15,14 @@ export const News: React.FC = () => {
         className="mb-1"
         onClick={() =>
           window.open(
-            "https://docs.sunflower-land.com/getting-started/usdflower-erc20/love-rush-earn-flower",
+            "https://docs.sunflower-land.com/player-guides/chapters-whats-new/chapter-9-the-great-bloom",
             "_blank",
           )
         }
       >
         <div className="flex flex-wrap justify-between items-center mb-1">
           <Label type="formula" className=" ml-1" icon={chapterIcon}>
-            {t("news.loveRush")}
+            {t("news.greatBloom")}
           </Label>
           <span className="underline text-xs pr-1">{t("read.more")}</span>
         </div>
@@ -30,7 +30,7 @@ export const News: React.FC = () => {
           src={SUNNYSIDE.announcement.loveRush}
           className="w-full my-1 rounded-sm"
         />
-        <p className="text-xs px-1">{t("news.loveRush.description")}</p>
+        <p className="text-xs px-1">{t("news.greatBloom.description")}</p>
       </ButtonPanel>
       <ButtonPanel
         onClick={() =>
