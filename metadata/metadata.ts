@@ -22,7 +22,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     description: "A mutant chicken filled with love and affection",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/2249.png",
+    image: "../public/erc1155/images/2255.png",
     attributes: [{ trait_type: "Tradable", value: "Yes" }],
   },
   "Dr. Cow": {
@@ -30,7 +30,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       "A mutant cow dressed as a caring doctor, gives 5% less feeding cost for cows",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/2250.png",
+    image: "../public/erc1155/images/2256.png",
     attributes: [{ trait_type: "Tradable", value: "Yes" }],
   },
   "Nurse Sheep": {
@@ -38,7 +38,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       "A mutant sheep dressed as a caring nurse, prevents sheep from getting sick during summer",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/2251.png",
+    image: "../public/erc1155/images/2257.png",
     attributes: [{ trait_type: "Tradable", value: "Yes" }],
   },
   "Pink Dolphin": {
@@ -46,7 +46,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       "A rare dolphin with a beautiful pink hue, increases fish catch by 1 during spring",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/2248.png",
+    image: "../public/erc1155/images/2254.png",
     attributes: [{ trait_type: "Tradable", value: "Yes" }],
   },
   Lunalist: {
@@ -54,7 +54,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
       "A blooming artifact devoted to the moon. A decorative mutant flower found during the Great Bloom chapter",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/2252.png",
+    image: "../public/erc1155/images/2258.png",
     attributes: [{ trait_type: "Tradable", value: "Yes" }],
   },
   "Rhubarb Tart": {
