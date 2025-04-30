@@ -11682,6 +11682,18 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/2240.png",
     name: "Easter Basket",
   },
+  "Test Box": {
+    description: "A box filled with love!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Rarity", value: "Common" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2241.png",
+    name: "Test Box",
+  },
   "Bronze Love Box": {
     description: "A box filled with love!",
     decimals: 0,
