@@ -955,7 +955,7 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
 
         const ticket = getSeasonalTicket(new Date(SEASONS[chapter].startDate));
         const translationKey =
-          `description.bonus${ticket}.boost` as TranslationKeys;
+          `description.bonus${ticket.replace(/\s+/g, "")}.boost` as TranslationKeys;
 
         return Object.values(items)
           .filter((item) => !isCollectible(item))
