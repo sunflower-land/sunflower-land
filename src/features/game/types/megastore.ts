@@ -25,7 +25,14 @@ export type SeasonalCollectibleName =
   | "Lake Rug"
   | "Hammock"
   | "Mammoth"
-  | "Cup of Chocolate";
+  | "Cup of Chocolate"
+  // Great Bloom
+  | "Flower-Scribed Statue"
+  | "Balloon Rug"
+  | "Giant Yam"
+  | "Heart Air Balloon"
+  | "Giant Zuchinni"
+  | "Mini Floating Island";
 
 export type SeasonalWearableName =
   // Bull Run

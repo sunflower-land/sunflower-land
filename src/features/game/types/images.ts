@@ -861,6 +861,20 @@ import easterBasket2025 from "assets/sfts/easter_basket.webp";
 import easterToken2025 from "assets/icons/easter_token_2025.webp";
 import easterTicket2025 from "assets/icons/easter_ticket_2025.webp";
 
+import quarry from "assets/sfts/quarry.webp";
+import obsidianTurtle from "assets/sfts/obsidian_turtle.webp";
+import winterGuardian from "assets/sfts/winter_guardian.webp";
+import summerGuardian from "assets/sfts/summer_guardian.webp";
+import springGuardian from "assets/sfts/spring_guardian.webp";
+import autumnGuardian from "assets/sfts/autumn_guardian.webp";
+import skyPillar from "assets/sfts/sky_pillar.webp";
+import flowerscribedStatue from "assets/sfts/flower-scribed_statue.webp";
+import balloonRug from "assets/sfts/balloon_rug.webp";
+import giantYam from "assets/sfts/giant_yam.webp";
+import heartAirBalloon from "assets/sfts/heart_air_balloon.webp";
+import giantZuchinni from "assets/sfts/giant_zuchinni.webp";
+import miniFloatingIsland from "assets/sfts/mini_floating_island.webp";
+
 import bronzeLoveBox from "assets/rewardBoxes/bronze_love_box.webp";
 import silverLoveBox from "assets/rewardBoxes/silver_love_box.webp";
 import goldLoveBox from "assets/rewardBoxes/gold_love_box.webp";
@@ -5198,5 +5212,57 @@ export const ITEM_DETAILS: Items = {
   "Test Box": {
     image: bronzeFoodBox,
     description: translate("description.testBox"),
+  },
+  Quarry: {
+    image: quarry,
+    description: translate("description.quarry"),
+  },
+  "Obsidian Turtle": {
+    image: obsidianTurtle,
+    description: translate("description.obsidianTurtle"),
+  },
+  "Winter Guardian": {
+    image: winterGuardian,
+    description: translate("description.winterGuardian"),
+  },
+  "Summer Guardian": {
+    image: summerGuardian,
+    description: translate("description.summerGuardian"),
+  },
+  "Spring Guardian": {
+    image: springGuardian,
+    description: translate("description.springGuardian"),
+  },
+  "Autumn Guardian": {
+    image: autumnGuardian,
+    description: translate("description.autumnGuardian"),
+  },
+  "Sky Pillar": {
+    image: skyPillar,
+    description: translate("description.skyPillar"),
+  },
+  "Flower-Scribed Statue": {
+    image: flowerscribedStatue,
+    description: translate("description.flowerscribedStatue"),
+  },
+  "Balloon Rug": {
+    image: balloonRug,
+    description: translate("description.balloonRug"),
+  },
+  "Giant Yam": {
+    image: giantYam,
+    description: translate("description.giantYam"),
+  },
+  "Heart Air Balloon": {
+    image: heartAirBalloon,
+    description: translate("description.heartAirBalloon"),
+  },
+  "Giant Zuchinni": {
+    image: giantZuchinni,
+    description: translate("description.giantZuchinni"),
+  },
+  "Mini Floating Island": {
+    image: miniFloatingIsland,
+    description: translate("description.miniFloatingIsland"),
   },
 };

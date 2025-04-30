@@ -1061,6 +1061,21 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Bronze Tool Box": 2251,
   "Silver Tool Box": 2252,
   "Gold Tool Box": 2253,
+
+  // Love Chapter - Items
+  Quarry: 2259,
+  "Obsidian Turtle": 2260,
+  "Winter Guardian": 2261,
+  "Summer Guardian": 2262,
+  "Spring Guardian": 2263,
+  "Autumn Guardian": 2264,
+  "Sky Pillar": 2265,
+  "Flower-Scribed Statue": 2266,
+  "Balloon Rug": 2267,
+  "Giant Yam": 2268,
+  "Heart Air Balloon": 2269,
+  "Giant Zuchinni": 2270,
+  "Mini Floating Island": 2271,
 };
 
 // The reverse of above
