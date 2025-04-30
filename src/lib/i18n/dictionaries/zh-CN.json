@@ -5799,5 +5799,12 @@
   "bounties.bonus.allCompleted": "所有赏金已完成！",
   "bounties.bonus.headToPoppy": "前往 Poppy 领取奖金！",
   "bounties.bonus.clickToClaim": "申领奖金",
-  "bounties.bonus.getBonus": "完成所有赏金可获得 50 {{seasonalTicket}} 的奖励！"
+  "bounties.bonus.getBonus": "完成所有赏金可获得 50 {{seasonalTicket}} 的奖励！",
+  "description.bronzeFoodBox": "青铜食物盒",
+  "description.silverFoodBox": "一个银色的食物盒",
+  "description.goldFoodBox": "一个金色的食物盒",
+  "description.bronzeToolBox": "青铜工具箱",
+  "description.silverToolBox": "银色工具箱",
+  "description.goldToolBox": "一个金色的工具箱",
+  "description.testBox": "一个测试箱"
 }

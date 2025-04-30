@@ -5799,5 +5799,12 @@
   "bounties.bonus.allCompleted": "Alle Bounties abgeschlossen!",
   "bounties.bonus.headToPoppy": "Gehe zu Poppy, um deinen Bonus zu beanspruchen!",
   "bounties.bonus.clickToClaim": "Bonus einfordern",
-  "bounties.bonus.getBonus": "Erhalte 50 {{seasonalTicket}} s Bonus, wenn du alle Bounties abschließt!"
+  "bounties.bonus.getBonus": "Erhalte 50 {{seasonalTicket}} s Bonus, wenn du alle Bounties abschließt!",
+  "description.bronzeFoodBox": "Eine bronzene Lebensmittelbox",
+  "description.silverFoodBox": "Eine silberne Lebensmittelbox",
+  "description.goldFoodBox": "Eine goldene Lebensmittelbox",
+  "description.bronzeToolBox": "Ein bronzener Werkzeugkasten",
+  "description.silverToolBox": "Ein silberner Werkzeugkasten",
+  "description.goldToolBox": "Ein goldener Werkzeugkasten",
+  "description.testBox": "Eine Testbox"
 }

@@ -5799,5 +5799,12 @@
   "bounties.bonus.allCompleted": "Tutti i premi completati!",
   "bounties.bonus.headToPoppy": "Vai su Poppy per richiedere il tuo bonus!",
   "bounties.bonus.clickToClaim": "Richiedi il bonus",
-  "bounties.bonus.getBonus": "Ottieni un bonus di 50 {{seasonalTicket}} per aver completato tutte le taglie!"
+  "bounties.bonus.getBonus": "Ottieni un bonus di 50 {{seasonalTicket}} per aver completato tutte le taglie!",
+  "description.bronzeFoodBox": "Una scatola per alimenti in bronzo",
+  "description.silverFoodBox": "Una scatola per alimenti in argento",
+  "description.goldFoodBox": "Una scatola per alimenti dorata",
+  "description.bronzeToolBox": "Una cassetta degli attrezzi in bronzo",
+  "description.silverToolBox": "Una cassetta degli attrezzi in argento",
+  "description.goldToolBox": "Una cassetta degli attrezzi dorata",
+  "description.testBox": "Una scatola di prova"
 }

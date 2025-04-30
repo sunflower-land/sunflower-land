@@ -5799,5 +5799,12 @@
   "bounties.bonus.allCompleted": "Toutes les primes sont terminées !",
   "bounties.bonus.headToPoppy": "Rendez-vous sur Poppy pour réclamer votre bonus !",
   "bounties.bonus.clickToClaim": "Réclamer une prime",
-  "bounties.bonus.getBonus": "Obtenez un bonus de 50 {{seasonalTicket}} s en complétant toutes les primes !"
+  "bounties.bonus.getBonus": "Obtenez un bonus de 50 {{seasonalTicket}} s en complétant toutes les primes !",
+  "description.bronzeFoodBox": "Une boîte à nourriture en bronze",
+  "description.silverFoodBox": "Une boîte à nourriture en argent",
+  "description.goldFoodBox": "Une boîte à nourriture dorée",
+  "description.bronzeToolBox": "Une boîte à outils en bronze",
+  "description.silverToolBox": "Une boîte à outils en argent",
+  "description.goldToolBox": "Une boîte à outils dorée",
+  "description.testBox": "Une boîte de test"
 }

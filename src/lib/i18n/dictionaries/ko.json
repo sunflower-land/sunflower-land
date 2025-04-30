@@ -5799,5 +5799,12 @@
   "bounties.bonus.allCompleted": "모든 바운티 완료!",
   "bounties.bonus.headToPoppy": "Poppy로 가서 보너스를 받으세요!",
   "bounties.bonus.clickToClaim": "클레임 보너스",
-  "bounties.bonus.getBonus": "모든 바운티를 완료하면 보너스 50 {{seasonalTicket}} 을 받으세요!"
+  "bounties.bonus.getBonus": "모든 바운티를 완료하면 보너스 50 {{seasonalTicket}} 을 받으세요!",
+  "description.bronzeFoodBox": "청동 식품 상자",
+  "description.silverFoodBox": "은색 식품 상자",
+  "description.goldFoodBox": "골드 푸드 박스",
+  "description.bronzeToolBox": "청동 도구 상자",
+  "description.silverToolBox": "은색 도구 상자",
+  "description.goldToolBox": "금색 도구 상자",
+  "description.testBox": "테스트 박스"
 }

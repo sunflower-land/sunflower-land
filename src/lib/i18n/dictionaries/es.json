@@ -5799,5 +5799,12 @@
   "bounties.bonus.allCompleted": "¡Se han completado todas las recompensas!",
   "bounties.bonus.headToPoppy": "¡Dirígete a Poppy para reclamar tu bonificación!",
   "bounties.bonus.clickToClaim": "Reclamar bonificación",
-  "bounties.bonus.getBonus": "¡Consigue 50 {{seasonalTicket}} s de bonificación por completar todas las recompensas!"
+  "bounties.bonus.getBonus": "¡Consigue 50 {{seasonalTicket}} s de bonificación por completar todas las recompensas!",
+  "description.bronzeFoodBox": "Una caja de comida de bronce",
+  "description.silverFoodBox": "Una caja de comida plateada",
+  "description.goldFoodBox": "Una caja de comida dorada",
+  "description.bronzeToolBox": "Una caja de herramientas de bronce",
+  "description.silverToolBox": "Una caja de herramientas plateada",
+  "description.goldToolBox": "Una caja de herramientas dorada",
+  "description.testBox": "Una caja de prueba"
 }

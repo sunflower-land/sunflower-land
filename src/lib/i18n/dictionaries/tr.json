@@ -5799,5 +5799,12 @@
   "bounties.bonus.allCompleted": "Tüm Ödüller Tamamlandı!",
   "bounties.bonus.headToPoppy": "Bonusunuzu almak için Poppy\"ye gidin!",
   "bounties.bonus.clickToClaim": "Bonus talep et",
-  "bounties.bonus.getBonus": "Tüm ödülleri tamamladığınızda 50 {{seasonalTicket}} s Bonus kazanın!"
+  "bounties.bonus.getBonus": "Tüm ödülleri tamamladığınızda 50 {{seasonalTicket}} s Bonus kazanın!",
+  "description.bronzeFoodBox": "Bronz yemek kutusu",
+  "description.silverFoodBox": "Gümüş bir yemek kutusu",
+  "description.goldFoodBox": "Altın yiyecek kutusu",
+  "description.bronzeToolBox": "Bronz bir alet kutusu",
+  "description.silverToolBox": "Gümüş bir alet kutusu",
+  "description.goldToolBox": "Altın bir alet kutusu",
+  "description.testBox": "Bir test kutusu"
 }

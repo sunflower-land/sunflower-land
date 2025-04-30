@@ -5799,5 +5799,12 @@
   "bounties.bonus.allCompleted": "Semua Hadiah Selesai!",
   "bounties.bonus.headToPoppy": "Pergi ke Poppy untuk menuntut bonus anda!",
   "bounties.bonus.clickToClaim": "Tuntutan bonus",
-  "bounties.bonus.getBonus": "Dapatkan Bonus 50 {{seasonalTicket}} s untuk melengkapkan semua hadiah!"
+  "bounties.bonus.getBonus": "Dapatkan Bonus 50 {{seasonalTicket}} s untuk melengkapkan semua hadiah!",
+  "description.bronzeFoodBox": "Kotak makanan gangsa",
+  "description.silverFoodBox": "Kotak makanan perak",
+  "description.goldFoodBox": "Kotak makanan emas",
+  "description.bronzeToolBox": "Kotak alat gangsa",
+  "description.silverToolBox": "Kotak alat perak",
+  "description.goldToolBox": "Kotak alat emas",
+  "description.testBox": "Kotak ujian"
 }

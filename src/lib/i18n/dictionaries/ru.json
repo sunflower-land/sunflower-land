@@ -5799,5 +5799,12 @@
   "bounties.bonus.allCompleted": "Все награды выполнены!",
   "bounties.bonus.headToPoppy": "Отправляйтесь в Poppy, чтобы получить бонус!",
   "bounties.bonus.clickToClaim": "Претендуйте бонус",
-  "bounties.bonus.getBonus": "Получите бонус 50 {{seasonalTicket}} за выполнение всех наград!"
+  "bounties.bonus.getBonus": "Получите бонус 50 {{seasonalTicket}} за выполнение всех наград!",
+  "description.bronzeFoodBox": "Бронзовая коробка для еды",
+  "description.silverFoodBox": "Серебряная коробка с едой",
+  "description.goldFoodBox": "Золотая коробка с едой",
+  "description.bronzeToolBox": "Бронзовый ящик для инструментов",
+  "description.silverToolBox": "Серебряный ящик для инструментов",
+  "description.goldToolBox": "Золотой ящик для инструментов",
+  "description.testBox": "Тестовая коробка"
 }

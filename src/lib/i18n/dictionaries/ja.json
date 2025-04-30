@@ -5799,5 +5799,12 @@
   "bounties.bonus.allCompleted": "すべてのバウンティが完了しました！",
   "bounties.bonus.headToPoppy": "ポピーに行ってボーナスを受け取りましょう！",
   "bounties.bonus.clickToClaim": "クレームボーナス",
-  "bounties.bonus.getBonus": "すべてのバウンティを完了するとボーナス50 {{seasonalTicket}} がもらえます！"
+  "bounties.bonus.getBonus": "すべてのバウンティを完了するとボーナス50 {{seasonalTicket}} がもらえます！",
+  "description.bronzeFoodBox": "ブロンズフードボックス",
+  "description.silverFoodBox": "シルバーフードボックス",
+  "description.goldFoodBox": "ゴールドフードボックス",
+  "description.bronzeToolBox": "ブロンズ製の道具箱",
+  "description.silverToolBox": "シルバーツールボックス",
+  "description.goldToolBox": "ゴールドツールボックス",
+  "description.testBox": "テストボックス"
 }
