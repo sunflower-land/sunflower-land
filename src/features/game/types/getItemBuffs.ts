@@ -5,7 +5,7 @@ import { BumpkinItem } from "./bumpkin";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "./bumpkinItemBuffs";
 import { COLLECTIBLE_BUFF_LABELS } from "./collectibleItemBuffs";
 import { GameState, InventoryItemName } from "./game";
-import { CollectionName } from "./marketplace";
+import { CollectionName, MarketplaceTradeableName } from "./marketplace";
 
 export function getItemBuffs({
   state,
@@ -13,7 +13,7 @@ export function getItemBuffs({
   collection,
 }: {
   state: GameState;
-  item: InventoryItemName | BumpkinItem | BudName;
+  item: MarketplaceTradeableName;
   collection: CollectionName;
 }): BuffLabel[] {
   if (collection === "buds") {

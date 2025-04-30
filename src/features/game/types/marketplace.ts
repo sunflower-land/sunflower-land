@@ -147,7 +147,7 @@ export type MarketplaceProfile = {
   trades: Sale[];
 };
 
-type BudNFTName = `Bud #${number}`;
+export type BudNFTName = `Bud #${number}`;
 
 export type MarketplaceTradeableName =
   | InventoryItemName

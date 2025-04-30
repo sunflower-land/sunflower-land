@@ -1591,7 +1591,15 @@ export interface GameState {
     tradePoints?: number;
     dailyListings?: { date: number; count: number };
     dailyPurchases?: { date: number; count: number };
+    weeklySales?: {
+      [date: string]: Partial<Record<MarketplaceTradeableName, number>>;
+    };
+
+    weeklyPurchases?: {
+      [date: string]: Partial<Record<MarketplaceTradeableName, number>>;
+    };
   };
+
   buds?: Record<number, Bud>;
 
   christmas2024?: Christmas;
