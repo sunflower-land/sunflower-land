@@ -867,6 +867,12 @@ import goldLoveBox from "assets/rewardBoxes/gold_love_box.webp";
 import bronzeFlowerBox from "assets/rewardBoxes/bronze_flower_box.webp";
 import silverFlowerBox from "assets/rewardBoxes/silver_flower_box.webp";
 import goldFlowerBox from "assets/rewardBoxes/gold_flower_box.webp";
+import bronzeFoodBox from "assets/rewardBoxes/brzone_food_box.webp";
+import silverFoodBox from "assets/rewardBoxes/silver_food_box.webp";
+import goldFoodBox from "assets/rewardBoxes/gold_food_box.webp";
+import bronzeToolBox from "assets/rewardBoxes/bronze_tool_box.webp";
+import silverToolBox from "assets/rewardBoxes/silver_tool_box.webp";
+import goldToolBox from "assets/rewardBoxes/gold_tool_box.webp";
 
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
@@ -5164,5 +5170,33 @@ export const ITEM_DETAILS: Items = {
   "Gold Flower Box": {
     image: goldFlowerBox,
     description: translate("description.goldFlowerBox"),
+  },
+  "Bronze Food Box": {
+    image: bronzeFoodBox,
+    description: translate("description.bronzeFoodBox"),
+  },
+  "Silver Food Box": {
+    image: silverFoodBox,
+    description: translate("description.silverFoodBox"),
+  },
+  "Gold Food Box": {
+    image: goldFoodBox,
+    description: translate("description.goldFoodBox"),
+  },
+  "Bronze Tool Box": {
+    image: bronzeToolBox,
+    description: translate("description.bronzeToolBox"),
+  },
+  "Silver Tool Box": {
+    image: silverToolBox,
+    description: translate("description.silverToolBox"),
+  },
+  "Gold Tool Box": {
+    image: goldToolBox,
+    description: translate("description.goldToolBox"),
+  },
+  "Test Box": {
+    image: bronzeFoodBox,
+    description: translate("description.testBox"),
   },
 };

@@ -5965,5 +5965,12 @@
   "megastore.limit": "Cooldown: {{time}}",
   "petalPuzzle.alreadyClaimed": "Already claimed",
   "petalPuzzle.comeBackTomorrow": "You have already claimed the prize today. Come back tomorrow.",
-  "petalPuzzle.congratulations": "Congratulations, you all solved today's puzzle!"
+  "petalPuzzle.congratulations": "Congratulations, you all solved today's puzzle!",
+  "description.bronzeFoodBox": "A bronze food box",
+  "description.silverFoodBox": "A silver food box",
+  "description.goldFoodBox": "A gold food box",
+  "description.bronzeToolBox": "A bronze tool box",
+  "description.silverToolBox": "A silver tool box",
+  "description.goldToolBox": "A gold tool box",
+  "description.testBox": "A test box"
 }
