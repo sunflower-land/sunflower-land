@@ -5537,7 +5537,6 @@
   "marketplace.welcome.five": "Verkaufe Ressourcen und Gegenstände, um $FLOWER zu verdienen.",
   "marketplace.quickswap.description": "Du wirst bald zu Quickswap weitergeleitet, einer dezentralen und von der Community betriebenen Börse, um $FLOWER zu kaufen.",
   "marketplace.estimated.price": "*Geschätzter USD/FLOWER-Preis",
-  "vip.benefit.stellaDiscounts": "Stella FLOWER Rabatte",
   "reputation.seedling.deliveries": "1 BLUMEN-Lieferung pro Tag",
   "reputation.grower.description": "FLOWER zurückziehen",
   "reputation.grower.sfl": "2 BLUMENLIEFERUNGEN PRO TAG",
@@ -5806,5 +5805,7 @@
   "description.bronzeToolBox": "Ein bronzener Werkzeugkasten",
   "description.silverToolBox": "Ein silberner Werkzeugkasten",
   "description.goldToolBox": "Ein goldener Werkzeugkasten",
-  "description.testBox": "Eine Testbox"
+  "description.testBox": "Eine Testbox",
+  "vip.benefit.stellaDiscounts": "Stella FLOWER Rabatte (50%)",
+  "vip.benefit.greatBloom": "Tolle Bloom VIP 2x FLOWER-Box-Prämien"
 }

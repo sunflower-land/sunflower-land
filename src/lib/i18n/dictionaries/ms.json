@@ -5537,7 +5537,6 @@
   "marketplace.welcome.five": "Jual sumber & item untuk mendapatkan $FLOWER.",
   "marketplace.quickswap.description": "Anda akan diarahkan ke Quickswap, pertukaran terdesentralisasi dan didorong oleh komuniti untuk membeli $ FLOWER.",
   "marketplace.estimated.price": "*Anggaran harga USD/FLOWER",
-  "vip.benefit.stellaDiscounts": "Potongan harga Stella FLOWER",
   "reputation.seedling.deliveries": "1 Penghantaran BUNGA Setiap Hari",
   "reputation.grower.description": "Menarik Bunga",
   "reputation.grower.sfl": "2 Penghantaran BUNGA Setiap Hari",
@@ -5806,5 +5805,7 @@
   "description.bronzeToolBox": "Kotak alat gangsa",
   "description.silverToolBox": "Kotak alat perak",
   "description.goldToolBox": "Kotak alat emas",
-  "description.testBox": "Kotak ujian"
+  "description.testBox": "Kotak ujian",
+  "vip.benefit.stellaDiscounts": "Diskaun Stella FLOWER (50%)",
+  "vip.benefit.greatBloom": "Ganjaran kotak FLOWER VIP 2x Bloom yang hebat"
 }

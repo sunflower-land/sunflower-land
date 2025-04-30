@@ -5537,7 +5537,6 @@
   "marketplace.welcome.five": "資源やアイテムを販売して$FLOWERを獲得しましょう。",
   "marketplace.quickswap.description": "$FLOWERを購入するための分散型のコミュニティ主導の取引所であるQuickswapにリダイレクトされようとしています。",
   "marketplace.estimated.price": "*米ドル/花のおおよその価格",
-  "vip.benefit.stellaDiscounts": "ステラフラワー割引",
   "reputation.seedling.deliveries": "1日1本の花の配達",
   "reputation.grower.description": "花を撤回",
   "reputation.grower.sfl": "1日2本の花の配達",
@@ -5806,5 +5805,7 @@
   "description.bronzeToolBox": "ブロンズ製の道具箱",
   "description.silverToolBox": "シルバーツールボックス",
   "description.goldToolBox": "ゴールドツールボックス",
-  "description.testBox": "テストボックス"
+  "description.testBox": "テストボックス",
+  "vip.benefit.stellaDiscounts": "ステラフラワー割引 (50%)",
+  "vip.benefit.greatBloom": "グレートブルーム VIP フラワーボックス報酬 x 2"
 }

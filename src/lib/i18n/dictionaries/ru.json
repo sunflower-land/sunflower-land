@@ -5537,7 +5537,6 @@
   "marketplace.welcome.five": "Продавайте ресурсы и предметы, чтобы заработать $FLOWER.",
   "marketplace.quickswap.description": "Вы скоро будете перенаправлены на Quickswap, децентрализованную биржу, управляемую сообществом, чтобы купить $FLOWER.",
   "marketplace.estimated.price": "*Ориентировочная цена цветов в долларах США",
-  "vip.benefit.stellaDiscounts": "Скидки от Стеллы ФЛАУЭР",
   "reputation.seedling.deliveries": "Доставка 1 цветка в день",
   "reputation.grower.description": "Отозвать ЦВЕТОК",
   "reputation.grower.sfl": "2 доставки цветов в день",
@@ -5806,5 +5805,7 @@
   "description.bronzeToolBox": "Бронзовый ящик для инструментов",
   "description.silverToolBox": "Серебряный ящик для инструментов",
   "description.goldToolBox": "Золотой ящик для инструментов",
-  "description.testBox": "Тестовая коробка"
+  "description.testBox": "Тестовая коробка",
+  "vip.benefit.stellaDiscounts": "Скидки от Stella FLOWER (50%)",
+  "vip.benefit.greatBloom": "2 награды в виде цветочных коробок Great Bloom VIP"
 }
