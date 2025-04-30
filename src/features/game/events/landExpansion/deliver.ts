@@ -34,6 +34,8 @@ import {
   getLoveRushStreaks,
   getLoveRushDeliveryRewards,
 } from "features/game/types/loveRushDeliveries";
+import { CHAPTER_TICKET_BOOST_ITEMS } from "./completeNPCChore";
+import { isCollectible } from "./garbageSold";
 
 export const TICKET_REWARDS: Record<QuestNPCName, number> = {
   "pumpkin' pete": 1,
@@ -70,47 +72,20 @@ export function generateDeliveryTickets({
     amount += 2;
   }
 
-  if (
-    getCurrentSeason() === "Bull Run" &&
-    isWearableActive({ game, name: "Cowboy Hat" })
-  ) {
-    amount += 1;
-  }
+  const chapter = getCurrentSeason(now);
+  const chapterBoost = CHAPTER_TICKET_BOOST_ITEMS[chapter];
 
-  if (
-    getCurrentSeason() === "Bull Run" &&
-    isWearableActive({ game, name: "Cowboy Shirt" })
-  ) {
-    amount += 1;
-  }
-
-  if (
-    getCurrentSeason() === "Bull Run" &&
-    isWearableActive({ game, name: "Cowboy Trouser" })
-  ) {
-    amount += 1;
-  }
-
-  if (
-    getCurrentSeason() === "Winds of Change" &&
-    isWearableActive({ game, name: "Acorn Hat" })
-  ) {
-    amount += 1;
-  }
-
-  if (
-    getCurrentSeason() === "Winds of Change" &&
-    isCollectibleBuilt({ game, name: "Igloo" })
-  ) {
-    amount += 1;
-  }
-
-  if (
-    getCurrentSeason() === "Winds of Change" &&
-    isCollectibleBuilt({ game, name: "Hammock" })
-  ) {
-    amount += 1;
-  }
+  Object.values(chapterBoost).forEach((item) => {
+    if (isCollectible(item)) {
+      if (isCollectibleBuilt({ game, name: item })) {
+        amount += 1;
+      }
+    } else {
+      if (isWearableActive({ game, name: item })) {
+        amount += 1;
+      }
+    }
+  });
 
   const completedAt = game.npcs?.[npc]?.deliveryCompletedAt;
 
