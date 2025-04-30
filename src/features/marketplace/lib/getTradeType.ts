@@ -1454,12 +1454,12 @@ export const ITEM_TRADE_TYPES: {
     "Glacierguard Suit": "instant",
     "Broccoli Hat": "onchain",
     "Frost Sword": "instant",
-    "Medic Apron": "instant",
+    "Medic Apron": "onchain",
     "Obsidian Necklace": "onchain",
     "Red Pepper Onesie": "instant",
     "Love Charm Shirt": "instant",
-    "Sky Island Background": "instant",
-    "Oracle Syringe": "onchain",
+    "Sky Island Background": "onchain",
+    "Oracle Syringe": "instant",
   },
 };
 
