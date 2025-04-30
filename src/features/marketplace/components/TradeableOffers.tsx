@@ -42,17 +42,15 @@ const _authToken = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
 const _balance = (state: MachineState) => state.context.state.balance;
 const _inventory = (state: MachineState) => state.context.state.inventory;
-const _bertObsession = (state: MachineState) =>
-  state.context.state.bertObsession;
-const _npcs = (state: MachineState) => state.context.state.npcs;
 
 export const TradeableOffers: React.FC<{
   tradeable?: TradeableDetails;
+  limitedTradesLeft: number;
   farmId: number;
   display: TradeableDisplay;
   itemId: number;
   reload: KeyedMutator<TradeableDetails>;
-}> = ({ tradeable, farmId, display, itemId, reload }) => {
+}> = ({ tradeable, limitedTradesLeft, farmId, display, itemId, reload }) => {
   const { authService } = useContext(Auth.Context);
   const { gameService, showAnimations } = useContext(Context);
   const { t } = useAppTranslation();
@@ -80,8 +78,6 @@ export const TradeableOffers: React.FC<{
   const authToken = useSelector(authService, _authToken);
   const balance = useSelector(gameService, _balance);
   const inventory = useSelector(gameService, _inventory);
-  const bertObsession = useSelector(gameService, _bertObsession);
-  const npcs = useSelector(gameService, _npcs);
   const [showMakeOffer, setShowMakeOffer] = useState(false);
   const [showAcceptOffer, setShowAcceptOffer] = useState(false);
   const [selectedOffer, setSelectedOffer] = useState<Offer>();
@@ -142,15 +138,6 @@ export const TradeableOffers: React.FC<{
 
   const loading = !tradeable;
   const isResource = isTradeResource(KNOWN_ITEMS[Number(id)]);
-
-  // Check if the item is a bert obsession and whether the bert obsession is completed
-  const isItemBertObsession = bertObsession?.name === display.name;
-  const obsessionCompletedAt = npcs?.bert?.questCompletedAt;
-  const isBertsObesessionCompleted =
-    !!obsessionCompletedAt &&
-    bertObsession &&
-    obsessionCompletedAt >= bertObsession.startDate &&
-    obsessionCompletedAt <= bertObsession.endDate;
 
   return (
     <>
@@ -221,9 +208,7 @@ export const TradeableOffers: React.FC<{
                     <Button
                       disabled={
                         topOffer.offeredBy.id === farmId ||
-                        (isItemBertObsession &&
-                          isBertsObesessionCompleted &&
-                          !isResource)
+                        limitedTradesLeft <= 0
                       }
                       onClick={() => setShowAcceptOffer(true)}
                       className="w-full sm:w-fit"

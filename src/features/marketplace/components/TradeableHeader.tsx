@@ -21,7 +21,6 @@ import {
 } from "features/game/lib/gameMachine";
 import { useOnMachineTransition } from "lib/utils/hooks/useOnMachineTransition";
 import { PurchaseModalContent } from "./PurchaseModalContent";
-import { TradeableDisplay } from "../lib/tradeables";
 import { formatNumber } from "lib/utils/formatNumber";
 import { KNOWN_ITEMS } from "features/game/types";
 import { useSelector } from "@xstate/react";
@@ -35,10 +34,9 @@ import { hasReputation } from "features/game/lib/reputation";
 
 type TradeableHeaderProps = {
   authToken: string;
-  dailyListings: number;
   farmId: number;
+  limitedTradesLeft: number;
   collection: CollectionName;
-  display: TradeableDisplay;
   tradeable?: TradeableDetails;
   count: number;
   pricePerUnit?: number;
@@ -53,17 +51,13 @@ const _hasTradeReputation = (state: MachineState) =>
     game: state.context.state,
     reputation: Reputation.Cropkeeper,
   });
-const _bertObsession = (state: MachineState) =>
-  state.context.state.bertObsession;
-const _npcs = (state: MachineState) => state.context.state.npcs;
 
 export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
-  dailyListings,
   authToken,
   farmId,
+  limitedTradesLeft,
   count,
   tradeable,
-  display,
   onListClick,
   reload,
 }) => {
@@ -71,8 +65,6 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
   const balance = useSelector(gameService, _balance);
   const hasTradeReputation = useSelector(gameService, _hasTradeReputation);
   const params = useParams();
-  const bertObsession = useSelector(gameService, _bertObsession);
-  const npcs = useSelector(gameService, _npcs);
   const [showPurchaseModal, setShowPurchaseModal] = useState(false);
 
   const { t } = useAppTranslation();
@@ -80,15 +72,6 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
   const cheapestListing = tradeable?.listings.reduce((cheapest, listing) => {
     return listing.sfl < cheapest.sfl ? listing : cheapest;
   }, tradeable?.listings[0]);
-
-  // Check if the item is a bert obsession and whether the bert obsession is completed
-  const isItemBertObsession = bertObsession?.name === display.name;
-  const obsessionCompletedAt = npcs?.bert?.questCompletedAt;
-  const isBertsObesessionCompleted =
-    !!obsessionCompletedAt &&
-    bertObsession &&
-    obsessionCompletedAt >= bertObsession.startDate &&
-    obsessionCompletedAt <= bertObsession.endDate;
 
   // Handle instant purchase
   useOnMachineTransition<ContextType, BlockchainEvent>(
@@ -266,9 +249,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                         getRemainingTrades({
                           game: gameService.getSnapshot().context.state,
                         }) <= 0) ||
-                      (isItemBertObsession &&
-                        isBertsObesessionCompleted &&
-                        !isResources)
+                      limitedTradesLeft <= 0
                     }
                     onClick={onListClick}
                     className="w-full sm:w-auto"
@@ -276,15 +257,6 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                     {t("marketplace.listForSale")}
                   </Button>
                 )}
-              </div>
-              <div className="mt-1">
-                {isItemBertObsession &&
-                  isBertsObesessionCompleted &&
-                  !isResources && (
-                    <Label type="danger">
-                      {`You have completed Bert's Obsession recently`}
-                    </Label>
-                  )}
               </div>
             </div>
           </div>
@@ -309,25 +281,13 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                   (!hasTradeReputation &&
                     getRemainingTrades({
                       game: gameService.getSnapshot().context.state,
-                    }) <= 0) ||
-                  (isItemBertObsession &&
-                    isBertsObesessionCompleted &&
-                    !isResources)
+                    }) <= 0)
                 }
                 className="w-full sm:w-auto"
               >
                 {t("marketplace.listForSale")}
               </Button>
             )}
-          </div>
-          <div className="mt-1">
-            {isItemBertObsession &&
-              isBertsObesessionCompleted &&
-              !isResources && (
-                <Label type="danger">
-                  {`You have completed Bert's Obsession recently`}
-                </Label>
-              )}
           </div>
         </div>
       </InnerPanel>
