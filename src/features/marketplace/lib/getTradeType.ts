@@ -1448,6 +1448,18 @@ export const ITEM_TRADE_TYPES: {
     "Handheld Bunny": "instant",
     "Bunny Mask": "instant",
     "Easter Apron": "instant",
+    "Bloomwarden Suit": "instant",
+    "Embersteel Suit": "instant",
+    "Amberfall Suit": "instant",
+    "Glacierguard Suit": "instant",
+    "Broccoli Hat": "onchain",
+    "Frost Sword": "instant",
+    "Medic Apron": "instant",
+    "Obsidian Necklace": "onchain",
+    "Red Pepper Onesie": "instant",
+    "Love Charm Shirt": "instant",
+    "Sky Island Background": "instant",
+    "Oracle Syringe": "onchain",
   },
 };
 
