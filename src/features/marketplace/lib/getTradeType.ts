@@ -1021,6 +1021,7 @@ export const ITEM_TRADE_TYPES: {
     "Giant Yam": "instant",
     "Heart Air Balloon": "instant",
     "Giant Zucchini": "instant",
+    "Giant Kale": "instant",
     "Mini Floating Island": "instant",
   },
   wearables: {

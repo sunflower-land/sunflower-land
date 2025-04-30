@@ -987,4 +987,8 @@ export const INVENTORY_RELEASES: Partial<Record<InventoryItemName, Releases>> =
       tradeAt: SEASONS["Great Bloom"].endDate,
       withdrawAt: SEASONS["Great Bloom"].endDate,
     },
+    "Giant Kale": {
+      tradeAt: SEASONS["Great Bloom"].endDate,
+      withdrawAt: SEASONS["Great Bloom"].endDate,
+    },
   };

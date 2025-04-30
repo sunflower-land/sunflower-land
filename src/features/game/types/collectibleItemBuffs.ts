@@ -1402,6 +1402,31 @@ function getCollectibleBuffLabels(
         boostTypeIcon: powerup,
       },
     ],
+    "Giant Yam": [
+      {
+        shortDescription: translate("description.giantYam.boost"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Yam.image,
+      },
+    ],
+    "Giant Zucchini": [
+      {
+        shortDescription: translate("description.giantZuchinni.boost"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Zucchini.image,
+      },
+    ],
+    "Giant Kale": [
+      {
+        shortDescription: translate("description.giantKale.boost"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Kale.image,
+      },
+    ],
+
     ...Object.fromEntries(
       getObjectEntries(CHAPTER_TICKET_BOOST_ITEMS)
         .filter(

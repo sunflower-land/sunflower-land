@@ -933,6 +933,13 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       boostedItemIcon: SEASON_ICONS["winter"],
     },
   ],
+  "Oracle Syringe": [
+    {
+      shortDescription: translate("description.oracleSyringe.boost"),
+      labelType: "success",
+      boostTypeIcon: lightning,
+    },
+  ],
   ...SPECIAL_ITEM_LABELS,
   ...Object.fromEntries(
     getObjectEntries(CHAPTER_TICKET_BOOST_ITEMS)

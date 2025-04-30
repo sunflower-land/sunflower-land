@@ -1422,6 +1422,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Heart Air Balloon": { width: 3, height: 5 },
   "Giant Zucchini": { width: 1, height: 2 },
   "Mini Floating Island": { width: 2, height: 1 },
+  "Giant Kale": { width: 2, height: 2 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {

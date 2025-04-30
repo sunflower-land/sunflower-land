@@ -5265,4 +5265,8 @@ export const ITEM_DETAILS: Items = {
     image: miniFloatingIsland,
     description: translate("description.miniFloatingIsland"),
   },
+  "Giant Kale": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.giantKale"),
+  },
 };
