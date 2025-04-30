@@ -17863,7 +17863,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/wearables/images/449.png",
+    image: "../public/wearables/images/450.png",
     name: "Bloomwarden Suit",
   },
   "Embersteel Suit": {
@@ -17875,7 +17875,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/wearables/images/450.png",
+    image: "../public/wearables/images/451.png",
     name: "Embersteel Suit",
   },
   "Amberfall Suit": {
@@ -17887,7 +17887,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/wearables/images/451.png",
+    image: "../public/wearables/images/452.png",
     name: "Amberfall Suit",
   },
   "Glacierguard Suit": {
@@ -17899,7 +17899,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/wearables/images/452.png",
+    image: "../public/wearables/images/453.png",
     name: "Glacierguard Suit",
   },
   "Broccoli Hat": {
@@ -17911,7 +17911,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/wearables/images/453.png",
+    image: "../public/wearables/images/454.png",
     name: "Broccoli Hat",
   },
   "Frost Sword": {
@@ -17923,7 +17923,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
       { trait_type: "Tradable", value: "No" },
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/wearables/images/454.png",
+    image: "../public/wearables/images/455.png",
     name: "Frost Sword",
   },
   "Medic Apron": {
