@@ -5837,5 +5837,10 @@
   "description.heartAirBalloon": "Ein schwebendes Symbol der Liebe, das bereit ist, Stimmung und Herz gleichermaßen zu heben.",
   "description.giantZuchinni": "Unglaublich groß und verdächtig grün, dieses Gemüse ist ein wahres Gartenwunder.",
   "description.miniFloatingIsland": "Ein kleines Stück Paradies, das irgendwie über Wasser bleibt — perfekt für friedliche Momente.",
-  "description.bonusGeniseed.boost": "+1 Genissamen"
+  "description.bonusGeniseed.boost": "+1 Genissamen",
+  "description.giantKale": "Ein riesiger Grünkohl...",
+  "description.giantKale.boost": "+2 Grünkohl",
+  "description.giantZuchinni.boost": "2 x Zucchini Speed",
+  "description.giantYam.boost": "+0.5 Süßkartoffeln",
+  "description.oracleSyringe.boost": "Heile Tiere kostenlos"
 }

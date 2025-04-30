@@ -5837,5 +5837,10 @@
   "description.heartAirBalloon": "Парящий символ любви, способный поднять настроение и сердца.",
   "description.giantZuchinni": "Невероятно большой и подозрительно зеленый овощ — настоящее чудо сада.",
   "description.miniFloatingIsland": "Небольшой райский уголок, который так или иначе остается на плаву и идеально подходит для спокойных моментов.",
-  "description.bonusGeniseed.boost": "+1 Дженисед"
+  "description.bonusGeniseed.boost": "+1 Дженисед",
+  "description.giantKale": "Гигантская капуста...",
+  "description.giantKale.boost": "+2 капуста",
+  "description.giantZuchinni.boost": "2-кратная скорость обработки",
+  "description.giantYam.boost": "+0.5 Ямс",
+  "description.oracleSyringe.boost": "Лечите животных бесплатно"
 }

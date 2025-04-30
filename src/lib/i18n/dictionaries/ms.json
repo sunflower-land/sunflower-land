@@ -5837,5 +5837,10 @@
   "description.heartAirBalloon": "Simbol cinta terapung, bersedia untuk mengangkat semangat dan hati.",
   "description.giantZuchinni": "Sangat besar dan hijau yang mencurigakan, sayuran ini adalah keajaiban taman yang sejati.",
   "description.miniFloatingIsland": "Tampalan syurga bersaiz kecil yang entah bagaimana kekal di atas - sesuai untuk saat-saat yang damai.",
-  "description.bonusGeniseed.boost": "+1 Geniseed"
+  "description.bonusGeniseed.boost": "+1 Geniseed",
+  "description.giantKale": "Kale gergasi...",
+  "description.giantKale.boost": "+2 Kale",
+  "description.giantZuchinni.boost": "2x Kelajuan Zuchinni",
+  "description.giantYam.boost": "+0.5 Yams",
+  "description.oracleSyringe.boost": "Sembuh haiwan secara percuma"
 }

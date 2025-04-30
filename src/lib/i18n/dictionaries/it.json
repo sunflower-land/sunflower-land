@@ -5837,5 +5837,10 @@
   "description.heartAirBalloon": "Un simbolo d'amore fluttuante, pronto a sollevare spiriti e cuori.",
   "description.giantZuchinni": "Incredibilmente grande e sospettosamente verde, questa verdura è una vera meraviglia del giardino.",
   "description.miniFloatingIsland": "Un angolo di paradiso di piccole dimensioni che in qualche modo rimane a galla, perfetto per momenti di pace.",
-  "description.bonusGeniseed.boost": "+1 Geniseed"
+  "description.bonusGeniseed.boost": "+1 Geniseed",
+  "description.giantKale": "Un cavolo gigante...",
+  "description.giantKale.boost": "+2 Kale",
+  "description.giantZuchinni.boost": "2x Zuchinni Speed",
+  "description.giantYam.boost": "+0,5 Yams",
+  "description.oracleSyringe.boost": "Cura gli animali gratis"
 }

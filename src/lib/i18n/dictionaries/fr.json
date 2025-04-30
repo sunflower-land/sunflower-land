@@ -5837,5 +5837,10 @@
   "description.heartAirBalloon": "Un symbole flottant de l'amour, prêt à remonter le moral comme au cœur.",
   "description.giantZuchinni": "Incroyablement gros et d'une couleur étrangement verte, ce légume est une véritable merveille de jardin.",
   "description.miniFloatingIsland": "Un petit coin de paradis qui, d'une manière ou d'une autre, reste à flot, idéal pour des moments paisibles.",
-  "description.bonusGeniseed.boost": "+1 Génisée"
+  "description.bonusGeniseed.boost": "+1 Génisée",
+  "description.giantKale": "Un chou frisé géant...",
+  "description.giantKale.boost": "+2 Chou frisé",
+  "description.giantZuchinni.boost": "2 x Zuchinni Speed",
+  "description.giantYam.boost": "+0,5 igname",
+  "description.oracleSyringe.boost": "Soignez les animaux gratuitement"
 }

@@ -5837,5 +5837,10 @@
   "description.heartAirBalloon": "浮遊する愛のシンボルで、気分も心も元気づけてくれます。",
   "description.giantZuchinni": "信じられないほど大きく、疑わしいほど緑色のこの野菜は、まさに庭の驚異です。",
   "description.miniFloatingIsland": "どこか海に浮かんでいるような小さな楽園で、穏やかなひとときを過ごすのにぴったりです。",
-  "description.bonusGeniseed.boost": "+1 ゲニシード"
+  "description.bonusGeniseed.boost": "+1 ゲニシード",
+  "description.giantKale": "巨大なケール...",
+  "description.giantKale.boost": "+2 ケール",
+  "description.giantZuchinni.boost": "2倍のズッキーニスピード",
+  "description.giantYam.boost": "+0.5 ヤム",
+  "description.oracleSyringe.boost": "無料で動物を癒そう"
 }
