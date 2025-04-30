@@ -277,15 +277,19 @@ export const TransactionProgress: React.FC<Props> = ({
   useEffect(() => {
     if (transaction?.event !== "transaction.flowerWithdrawn") return;
 
-    // Force a switch to base if trying to withdraw flower
-    const { chainId } = getAccount(config);
-    const requiredChain = CONFIG.NETWORK === "mainnet" ? base : baseSepolia;
+    const handleSwitchChain = async () => {
+      // Force a switch to base if trying to withdraw flower
+      const { chainId } = getAccount(config);
+      const requiredChain = CONFIG.NETWORK === "mainnet" ? base : baseSepolia;
 
-    if (chainId !== requiredChain.id) {
-      switchChain(config, {
-        chainId: requiredChain.id as any,
-      });
-    }
+      if (chainId !== requiredChain.id) {
+        await switchChain(config, {
+          chainId: requiredChain.id,
+        });
+      }
+    };
+
+    handleSwitchChain();
   }, []);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
