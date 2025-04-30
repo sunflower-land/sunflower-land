@@ -355,6 +355,75 @@ export const BUMPKIN_RELEASES: Partial<Record<BumpkinItem, Releases>> = {
   },
   "Love Heart Onesie": CAN_WITHDRAW_AND_TRADE,
   "Flower Bouquet": CAN_WITHDRAW_AND_TRADE,
+
+  "Carrot Pitchfork": {
+    tradeAt: new Date("2025-05-01"),
+    withdrawAt: new Date("2025-05-01"),
+  },
+  "Handheld Bunny": {
+    tradeAt: new Date("2025-05-01"),
+    withdrawAt: new Date("2025-05-01"),
+  },
+  "Bunny Pants": {
+    tradeAt: new Date("2025-05-01"),
+    withdrawAt: new Date("2025-05-01"),
+  },
+  "Bunny Mask": {
+    tradeAt: new Date("2025-05-01"),
+    withdrawAt: new Date("2025-05-01"),
+  },
+  "Easter Apron": {
+    tradeAt: new Date("2025-05-01"),
+    withdrawAt: new Date("2025-05-01"),
+  },
+  "Bloomwarden Suit": {
+    tradeAt: SEASONS["Great Bloom"].endDate,
+    withdrawAt: SEASONS["Great Bloom"].endDate,
+  },
+  "Embersteel Suit": {
+    tradeAt: SEASONS["Great Bloom"].endDate,
+    withdrawAt: SEASONS["Great Bloom"].endDate,
+  },
+  "Amberfall Suit": {
+    tradeAt: SEASONS["Great Bloom"].endDate,
+    withdrawAt: SEASONS["Great Bloom"].endDate,
+  },
+  "Glacierguard Suit": {
+    tradeAt: SEASONS["Great Bloom"].endDate,
+    withdrawAt: SEASONS["Great Bloom"].endDate,
+  },
+  "Broccoli Hat": {
+    tradeAt: SEASONS["Great Bloom"].endDate,
+    withdrawAt: SEASONS["Great Bloom"].endDate,
+  },
+  "Frost Sword": {
+    tradeAt: SEASONS["Great Bloom"].endDate,
+    withdrawAt: SEASONS["Great Bloom"].endDate,
+  },
+  "Medic Apron": {
+    tradeAt: SEASONS["Great Bloom"].endDate,
+    withdrawAt: SEASONS["Great Bloom"].endDate,
+  },
+  "Obsidian Necklace": {
+    tradeAt: SEASONS["Great Bloom"].endDate,
+    withdrawAt: SEASONS["Great Bloom"].endDate,
+  },
+  "Red Pepper Onesie": {
+    tradeAt: SEASONS["Great Bloom"].endDate,
+    withdrawAt: SEASONS["Great Bloom"].endDate,
+  },
+  "Love Charm Shirt": {
+    tradeAt: SEASONS["Great Bloom"].endDate,
+    withdrawAt: SEASONS["Great Bloom"].endDate,
+  },
+  "Sky Island Background": {
+    tradeAt: SEASONS["Great Bloom"].endDate,
+    withdrawAt: SEASONS["Great Bloom"].endDate,
+  },
+  "Oracle Syringe": {
+    tradeAt: SEASONS["Great Bloom"].endDate,
+    withdrawAt: SEASONS["Great Bloom"].endDate,
+  },
 };
 
 export const INVENTORY_RELEASES: Partial<Record<InventoryItemName, Releases>> =
