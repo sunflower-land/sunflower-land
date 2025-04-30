@@ -5795,5 +5795,9 @@
   "megaBountyBoard.message": "Bienvenue sur le Mega Bounty Board ! Découvrez les primes de cette semaine. Si vous possédez l'un des objets demandés, vous pouvez vous rendre chez Poppy in the plaza pour les échanger contre des récompenses !",
   "petalPuzzle.alreadyClaimed": "Déjà réclamé",
   "petalPuzzle.comeBackTomorrow": "Vous avez déjà remporté le prix aujourd'hui. Revenez demain.",
-  "petalPuzzle.congratulations": "Félicitations, vous avez tous résolu le casse-tête d'aujourd'hui !"
+  "petalPuzzle.congratulations": "Félicitations, vous avez tous résolu le casse-tête d'aujourd'hui !",
+  "bounties.bonus.allCompleted": "Toutes les primes sont terminées !",
+  "bounties.bonus.headToPoppy": "Rendez-vous sur Poppy pour réclamer votre bonus !",
+  "bounties.bonus.clickToClaim": "Réclamer une prime",
+  "bounties.bonus.getBonus": "Obtenez un bonus de 50 {{seasonalTicket}} s en complétant toutes les primes !"
 }

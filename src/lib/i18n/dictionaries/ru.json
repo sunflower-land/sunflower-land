@@ -5795,5 +5795,9 @@
   "megaBountyBoard.message": "Добро пожаловать на Mega Bounty Board! Ознакомьтесь с наградами на этой неделе. Если у вас есть запрошенные предметы, вы можете отправиться в Poppy in the Plaza и обменять их на награды!",
   "petalPuzzle.alreadyClaimed": "Уже заявлено",
   "petalPuzzle.comeBackTomorrow": "Сегодня вы уже получили приз. Возвращайтесь завтра.",
-  "petalPuzzle.congratulations": "Поздравляем, вы все решили сегодняшнюю головоломку!"
+  "petalPuzzle.congratulations": "Поздравляем, вы все решили сегодняшнюю головоломку!",
+  "bounties.bonus.allCompleted": "Все награды выполнены!",
+  "bounties.bonus.headToPoppy": "Отправляйтесь в Poppy, чтобы получить бонус!",
+  "bounties.bonus.clickToClaim": "Претендуйте бонус",
+  "bounties.bonus.getBonus": "Получите бонус 50 {{seasonalTicket}} за выполнение всех наград!"
 }

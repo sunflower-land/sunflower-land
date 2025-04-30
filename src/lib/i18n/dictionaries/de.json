@@ -5795,5 +5795,9 @@
   "megaBountyBoard.message": "Willkommen im Mega Bounty Board! Schauen Sie sich die Bounties dieser Woche an. Wenn ihr einen der angeforderten Gegenstände habt, könnt ihr zu Poppy auf dem Platz gehen, um ihn gegen Belohnungen einzutauschen!",
   "petalPuzzle.alreadyClaimed": "Bereits beansprucht",
   "petalPuzzle.comeBackTomorrow": "Sie haben den Preis heute schon beansprucht. Komm morgen wieder.",
-  "petalPuzzle.congratulations": "Herzlichen Glückwunsch, ihr habt alle das heutige Rätsel gelöst!"
+  "petalPuzzle.congratulations": "Herzlichen Glückwunsch, ihr habt alle das heutige Rätsel gelöst!",
+  "bounties.bonus.allCompleted": "Alle Bounties abgeschlossen!",
+  "bounties.bonus.headToPoppy": "Gehe zu Poppy, um deinen Bonus zu beanspruchen!",
+  "bounties.bonus.clickToClaim": "Bonus einfordern",
+  "bounties.bonus.getBonus": "Erhalte 50 {{seasonalTicket}} s Bonus, wenn du alle Bounties abschließt!"
 }

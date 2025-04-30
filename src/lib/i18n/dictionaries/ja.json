@@ -5795,5 +5795,9 @@
   "megaBountyBoard.message": "メガバウンティボードへようこそ！今週のバウンティをチェックしてください。リクエストされたアイテムがあれば、プラザのポピーに行って報酬と交換できます！",
   "petalPuzzle.alreadyClaimed": "すでに申請済み",
   "petalPuzzle.comeBackTomorrow": "本日は既に賞品を受け取っています。明日戻ってきてください。",
-  "petalPuzzle.congratulations": "おめでとうございます。みなさん、今日のパズルを解きました！"
+  "petalPuzzle.congratulations": "おめでとうございます。みなさん、今日のパズルを解きました！",
+  "bounties.bonus.allCompleted": "すべてのバウンティが完了しました！",
+  "bounties.bonus.headToPoppy": "ポピーに行ってボーナスを受け取りましょう！",
+  "bounties.bonus.clickToClaim": "クレームボーナス",
+  "bounties.bonus.getBonus": "すべてのバウンティを完了するとボーナス50 {{seasonalTicket}} がもらえます！"
 }

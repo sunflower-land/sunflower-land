@@ -5795,5 +5795,9 @@
   "megaBountyBoard.message": "Selamat datang ke Mega Bounty Board! Lihat hadiah minggu ini. Sekiranya anda mempunyai barang yang diminta, anda boleh pergi ke popi di plaza untuk menukarnya dengan ganjaran!",
   "petalPuzzle.alreadyClaimed": "Sudah dituntut",
   "petalPuzzle.comeBackTomorrow": "Anda telah menuntut hadiah hari ini. Kembali esok.",
-  "petalPuzzle.congratulations": "Tahniah, anda semua menyelesaikan teka-teki hari ini!"
+  "petalPuzzle.congratulations": "Tahniah, anda semua menyelesaikan teka-teki hari ini!",
+  "bounties.bonus.allCompleted": "Semua Hadiah Selesai!",
+  "bounties.bonus.headToPoppy": "Pergi ke Poppy untuk menuntut bonus anda!",
+  "bounties.bonus.clickToClaim": "Tuntutan bonus",
+  "bounties.bonus.getBonus": "Dapatkan Bonus 50 {{seasonalTicket}} s untuk melengkapkan semua hadiah!"
 }

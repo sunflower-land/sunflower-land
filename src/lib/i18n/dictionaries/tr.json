@@ -5795,5 +5795,9 @@
   "megaBountyBoard.message": "Mega Ödül Panosuna Hoş Geldiniz! Bu haftanın ödüllerine göz atın. İstediğiniz eşyalardan herhangi birine sahipseniz, onları ödüllerle takas etmek için plazadaki Poppy\"e gidebilirsiniz!",
   "petalPuzzle.alreadyClaimed": "Zaten talep edildi",
   "petalPuzzle.comeBackTomorrow": "Bugün ödülü zaten aldınız. Yarın geri gel.",
-  "petalPuzzle.congratulations": "Tebrikler, hepiniz bugünün bulmacasını çözdünüz!"
+  "petalPuzzle.congratulations": "Tebrikler, hepiniz bugünün bulmacasını çözdünüz!",
+  "bounties.bonus.allCompleted": "Tüm Ödüller Tamamlandı!",
+  "bounties.bonus.headToPoppy": "Bonusunuzu almak için Poppy\"ye gidin!",
+  "bounties.bonus.clickToClaim": "Bonus talep et",
+  "bounties.bonus.getBonus": "Tüm ödülleri tamamladığınızda 50 {{seasonalTicket}} s Bonus kazanın!"
 }

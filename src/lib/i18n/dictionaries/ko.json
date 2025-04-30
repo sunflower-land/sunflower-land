@@ -5795,5 +5795,9 @@
   "megaBountyBoard.message": "메가 바운티 보드에 오신 것을 환영합니다!이번 주 바운티를 확인해 보세요.요청한 아이템이 있으면 광장에 있는 양귀비를 찾아가 보상으로 교환할 수 있습니다!",
   "petalPuzzle.alreadyClaimed": "이미 청구됨",
   "petalPuzzle.comeBackTomorrow": "오늘 이미 상품을 받으셨습니다.내일 다시 오세요.",
-  "petalPuzzle.congratulations": "축하합니다. 모두 오늘의 퍼즐을 풀었습니다!"
+  "petalPuzzle.congratulations": "축하합니다. 모두 오늘의 퍼즐을 풀었습니다!",
+  "bounties.bonus.allCompleted": "모든 바운티 완료!",
+  "bounties.bonus.headToPoppy": "Poppy로 가서 보너스를 받으세요!",
+  "bounties.bonus.clickToClaim": "클레임 보너스",
+  "bounties.bonus.getBonus": "모든 바운티를 완료하면 보너스 50 {{seasonalTicket}} 을 받으세요!"
 }
