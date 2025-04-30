@@ -5837,5 +5837,10 @@
   "description.heartAirBalloon": "漂浮的爱情象征，随时准备振奋精神，振奋人心。",
   "description.giantZuchinni": "这种素食大得难以置信，绿色可疑，是真正的花园奇迹。",
   "description.miniFloatingIsland": "一小片天堂，可以以某种方式维持生计，非常适合度过宁静的时光。",
-  "description.bonusGeniseed.boost": "+1 Geniseed"
+  "description.bonusGeniseed.boost": "+1 Geniseed",
+  "description.giantKale": "一只巨型羽衣甘蓝...",
+  "description.giantKale.boost": "+2 羽衣甘蓝",
+  "description.giantZuchinni.boost": "2 倍西葫芦速度",
+  "description.giantYam.boost": "+0.5 Yams",
+  "description.oracleSyringe.boost": "免费治疗动物"
 }

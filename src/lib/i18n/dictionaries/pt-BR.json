@@ -5837,5 +5837,10 @@
   "description.heartAirBalloon": "Um símbolo flutuante do amor, pronto para elevar espíritos e corações.",
   "description.giantZuchinni": "Impossivelmente grande e suspeitosamente verde, este vegetal é uma verdadeira maravilha do jardim.",
   "description.miniFloatingIsland": "Um pequeno pedaço de paraíso que, de alguma forma, permanece flutuando, perfeito para momentos de paz.",
-  "description.bonusGeniseed.boost": "+1 Geniseed"
+  "description.bonusGeniseed.boost": "+1 Geniseed",
+  "description.giantKale": "Uma couve gigante...",
+  "description.giantKale.boost": "+2 Kale",
+  "description.giantZuchinni.boost": "2x Zuchinni Speed",
+  "description.giantYam.boost": "+0,5 inhame",
+  "description.oracleSyringe.boost": "Cure animais de graça"
 }

@@ -5837,5 +5837,10 @@
   "description.heartAirBalloon": "Yüzen bir aşk sembolü, hem ruhları hem de kalpleri yükseltmeye hazır.",
   "description.giantZuchinni": "İnanılmaz derecede büyük ve şüpheli bir şekilde yeşil olan bu sebze gerçek bir bahçe harikasıdır.",
   "description.miniFloatingIsland": "Bir şekilde ayakta kalan küçük boyutlu bir cennet parçası - huzurlu anlar için mükemmel.",
-  "description.bonusGeniseed.boost": "+1 Geniseed"
+  "description.bonusGeniseed.boost": "+1 Geniseed",
+  "description.giantKale": "Dev bir lahana...",
+  "description.giantKale.boost": "+2 Kale",
+  "description.giantZuchinni.boost": "2x İşleme Hızı",
+  "description.giantYam.boost": "+0.5 Yams",
+  "description.oracleSyringe.boost": "Hayvanları ücretsiz iyileştirin"
 }

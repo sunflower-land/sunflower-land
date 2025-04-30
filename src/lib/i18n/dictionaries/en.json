@@ -5837,5 +5837,10 @@
   "whatsOn.coopSeasonText2": "Grow mega crops, clean neighboring farms and create powerful friendships.",
   "news.greatBloom": "The Great Bloom",
   "news.greatBloom.description": "The Great Bloom is here. A 3 month race to earn Geniseed tokens and exchange them for NFTs & FLOWER.",
-  "whatsOn.flowerBox": "Exchange Geniseeds for $FLOWER Boxes"
+  "whatsOn.flowerBox": "Exchange Geniseeds for $FLOWER Boxes",
+  "description.giantKale": "A giant kale...",
+  "description.giantKale.boost": "+2 Kale",
+  "description.giantZuchinni.boost": "2x Zuchinni Speed",
+  "description.giantYam.boost": "+0.5 Yams",
+  "description.oracleSyringe.boost": "Heal animals for free"
 }
