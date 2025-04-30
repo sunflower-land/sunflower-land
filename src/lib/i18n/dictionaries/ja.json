@@ -5823,5 +5823,18 @@
   "whatsOn.coopSeasonText2": "巨大作物を育て、近隣の農場を掃除し、強力な友情を築きましょう。",
   "news.greatBloom": "ザ・グレート・ブルーム",
   "news.greatBloom.description": "グレート・ブルームがやってきました。Geniseedトークンを獲得してNFTやFLOWERと交換するための3ヶ月間のレースです。",
-  "whatsOn.flowerBox": "ジェニシーズを$フラワーボックスに交換"
+  "whatsOn.flowerBox": "ジェニシーズを$フラワーボックスに交換",
+  "description.quarry": "古くからある石造りの遺跡で、枯渇することはありません。無料の石を安定して供給したい方に最適です。",
+  "description.obsidianTurtle": "じっとしていて静かであるこの古代の生き物は、歩き回るたびに火山石の痕跡を集めます。",
+  "description.winterGuardian": "雪が決して溶けない土地から召喚されたこの霜よけは、今や空を見守っている。なじみのない風に吹かれる光栄な客だ。",
+  "description.summerGuardian": "果てしなく続く太陽の下で生まれた燃えるような姿のガーディアンは、故郷の暑さをスカイアイランドの涼しい高原にもたらします。",
+  "description.springGuardian": "はるか下の肥沃な野原から目覚めたこの優しい精神は、今、空に浮かぶ庭園の中で生命を育んでいます。",
+  "description.autumnGuardian": "収穫の色合いと物憂げな視線を持つこのガーディアンは、遠い土地から移り変わる季節のエッセンスを上空へと運んでくれます。",
+  "description.skyPillar": "これらの古代の柱は、空自体よりも前から存在し、スカイアイランドを浮かせてバランスを保つエネルギーで脈打っていると言われています。",
+  "description.flowerscribedStatue": "淡い石で彫られ、古代の花の詩が刻まれたこの像には、ひまわりの国の静かな知恵が込められています。",
+  "description.balloonRug": "空気よりも軽い肌触りのソフトで一風変わったラグは、おしゃれにくつろぐのにぴったりです。",
+  "description.giantYam": "村に食べさせるほどの巨大な根、あるいは少なくとも印象的なシチューを1つ作れるほど大きい。",
+  "description.heartAirBalloon": "浮遊する愛のシンボルで、気分も心も元気づけてくれます。",
+  "description.giantZuchinni": "信じられないほど大きく、疑わしいほど緑色のこの野菜は、まさに庭の驚異です。",
+  "description.miniFloatingIsland": "どこか海に浮かんでいるような小さな楽園で、穏やかなひとときを過ごすのにぴったりです。"
 }
