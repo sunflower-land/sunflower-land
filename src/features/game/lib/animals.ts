@@ -363,6 +363,10 @@ export function getBoostedFoodQuantity({
     foodQuantity *= 0.9;
   }
 
+  if (animalType === "Cow" && isCollectibleBuilt({ name: "Dr. Cow", game })) {
+    foodQuantity *= 0.95;
+  }
+
   if (
     animalType === "Chicken" &&
     isCollectibleBuilt({ name: "Cluckulator", game })

@@ -6004,5 +6004,13 @@
   "whatsOn.coopSeasonText2": "Grow mega crops, clean neighboring farms and create powerful friendships.",
   "news.greatBloom": "The Great Bloom",
   "news.greatBloom.description": "The Great Bloom is here. A 3 month race to earn Geniseed tokens and exchange them for NFTs & FLOWER.",
-  "whatsOn.flowerBox": "Exchange Geniseeds for $FLOWER Boxes"
+  "whatsOn.flowerBox": "Exchange Geniseeds for $FLOWER Boxes",
+  "description.loveChicken": "A mutant chicken filled with love and affection",
+  "description.drCow": "A mutant cow dressed as a caring doctor",
+  "description.drCow.boost": "5% less feeding cost for cows",
+  "description.nurseSheep": "A mutant sheep ready to help as a gentle nurse",
+  "description.nurseSheep.boost": "Sheeps cannot get sick during summer",
+  "description.pinkDolphin": "A rare dolphin with a beautiful pink hue",
+  "description.pinkDolphin.boost": "Increase fish catch by 1 during spring",
+  "description.lunalist": "A mysterious creature devoted to the moon. A decorative mutant flower found during the Great Bloom chapter"
 }

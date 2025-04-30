@@ -888,6 +888,12 @@ import bronzeToolBox from "assets/rewardBoxes/bronze_tool_box.webp";
 import silverToolBox from "assets/rewardBoxes/silver_tool_box.webp";
 import goldToolBox from "assets/rewardBoxes/gold_tool_box.webp";
 
+import loveChicken from "assets/animals/chickens/love_chicken.webp";
+import drCow from "assets/sfts/dr_cow.webp";
+import nurseSheep from "assets/sfts/nurse_sheep.webp";
+import pinkDolphin from "assets/fish/pink_dolphin.webp";
+import lunalist from "assets/flowers/lunalist.webp";
+
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
 import { CROPS, CROP_SEEDS, GREENHOUSE_CROPS, GREENHOUSE_SEEDS } from "./crops";
@@ -5264,5 +5270,25 @@ export const ITEM_DETAILS: Items = {
   "Mini Floating Island": {
     image: miniFloatingIsland,
     description: translate("description.miniFloatingIsland"),
+  },
+  "Love Chicken": {
+    image: loveChicken,
+    description: translate("description.loveChicken"),
+  },
+  "Dr. Cow": {
+    image: drCow,
+    description: translate("description.drCow"),
+  },
+  "Nurse Sheep": {
+    image: nurseSheep,
+    description: translate("description.nurseSheep"),
+  },
+  "Pink Dolphin": {
+    image: pinkDolphin,
+    description: translate("description.pinkDolphin"),
+  },
+  Lunalist: {
+    image: lunalist,
+    description: translate("description.lunalist"),
   },
 };

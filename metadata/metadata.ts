@@ -18,6 +18,45 @@ type Metadata = {
 };
 
 export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
+  "Love Chicken": {
+    description: "A mutant chicken filled with love and affection",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2249.png",
+    attributes: [{ trait_type: "Tradable", value: "Yes" }],
+  },
+  "Dr. Cow": {
+    description:
+      "A mutant cow dressed as a caring doctor, gives 5% less feeding cost for cows",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2250.png",
+    attributes: [{ trait_type: "Tradable", value: "Yes" }],
+  },
+  "Nurse Sheep": {
+    description:
+      "A mutant sheep dressed as a caring nurse, prevents sheep from getting sick during summer",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2251.png",
+    attributes: [{ trait_type: "Tradable", value: "Yes" }],
+  },
+  "Pink Dolphin": {
+    description:
+      "A rare dolphin with a beautiful pink hue, increases fish catch by 1 during spring",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2248.png",
+    attributes: [{ trait_type: "Tradable", value: "Yes" }],
+  },
+  Lunalist: {
+    description:
+      "A mysterious creature devoted to the moon. A decorative mutant flower found during the Great Bloom chapter",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2252.png",
+    attributes: [{ trait_type: "Tradable", value: "Yes" }],
+  },
   "Rhubarb Tart": {
     description: "A sweet and tangy tart featuring fresh rhubarb",
     decimals: 0,

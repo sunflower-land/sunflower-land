@@ -1442,5 +1442,28 @@ function getCollectibleBuffLabels(
             ]);
         }),
     ),
+    "Nurse Sheep": [
+      {
+        shortDescription: translate("description.nurseSheep.boost"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: SUNNYSIDE.animals.sheepSleeping,
+      },
+    ],
+    "Dr. Cow": [
+      {
+        shortDescription: translate("description.drCow.boost"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: SUNNYSIDE.animals.cowSleeping,
+      },
+    ],
+    "Pink Dolphin": [
+      {
+        shortDescription: translate("description.pinkDolphin.boost"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    ],
   };
 }
