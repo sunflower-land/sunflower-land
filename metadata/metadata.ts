@@ -51,7 +51,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   },
   Lunalist: {
     description:
-      "A mysterious creature devoted to the moon. A decorative mutant flower found during the Great Bloom chapter",
+      "A blooming artifact devoted to the moon. A decorative mutant flower found during the Great Bloom chapter",
     decimals: 0,
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/2252.png",

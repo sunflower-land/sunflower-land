@@ -355,6 +355,11 @@ import { GoldenFence } from "./components/GoldenFence";
 import { GoldenStoneFence } from "./components/GoldenStoneFence";
 import { Tiles } from "./components/Tiles";
 import { GreatBloomBanner } from "./components/GreatBloomBanner";
+import { LoveChicken } from "./components/LoveChicken";
+import { DrCow } from "./components/DrCow";
+import { NurseSheep } from "./components/NurseSheep";
+import { PinkDolphin } from "./components/PinkDolphin";
+import { Lunalist } from "./components/Lunalist";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
@@ -367,6 +372,11 @@ export const COLLECTIBLE_COMPONENTS: Record<
     }),
     {} as Record<TemplateDecorationName, React.FC<CollectibleProps>>,
   ),
+  "Love Chicken": LoveChicken,
+  "Dr. Cow": DrCow,
+  "Nurse Sheep": NurseSheep,
+  "Pink Dolphin": PinkDolphin,
+  Lunalist: Lunalist,
   "Frozen Cow": FrozenCow,
   "Frozen Sheep": FrozenSheep,
   "Summer Chicken": SummerChicken,
