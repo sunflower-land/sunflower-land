@@ -9,7 +9,7 @@ export const Lunalist: React.FC<CollectibleProps> = () => {
       src={ITEM_DETAILS["Lunalist"].image}
       style={{
         width: `${PIXEL_SCALE * 18}px`,
-        bottom: `${PIXEL_SCALE * 0}px`,
+        bottom: `${PIXEL_SCALE * 1.5}px`,
         left: `${PIXEL_SCALE * 0}px`,
       }}
       className="absolute"

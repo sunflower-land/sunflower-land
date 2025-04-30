@@ -9,7 +9,7 @@ export const LoveChicken: React.FC<CollectibleProps> = () => {
       src={ITEM_DETAILS["Love Chicken"].image}
       style={{
         width: `${PIXEL_SCALE * 16}px`,
-        bottom: `${PIXEL_SCALE * 0}px`,
+        bottom: `${PIXEL_SCALE * 3}px`,
         left: `${PIXEL_SCALE * 0}px`,
       }}
       className="absolute"
