@@ -5842,5 +5842,18 @@
   "description.giantKale.boost": "+2 Chou frisé",
   "description.giantZuchinni.boost": "2 x Zuchinni Speed",
   "description.giantYam.boost": "+0,5 igname",
-  "description.oracleSyringe.boost": "Soignez les animaux gratuitement"
+  "description.oracleSyringe.boost": "Soignez les animaux gratuitement",
+  "description.quarry.boost": "Mine Stone gratuitement",
+  "description.obsidianTurtle.boost": "+0,5 Obsidienne",
+  "description.winterGuardian.boost": "Protection contre les catastrophes hivernales",
+  "description.winterGuardian.boost2": "Événements hivernaux bénis",
+  "description.autumnGuardian.boost": "Protection contre les catastrophes automnales",
+  "description.autumnGuardian.boost2": "Événements d'automne bénis",
+  "description.springGuardian.boost": "Protection contre les catastrophes printanières",
+  "description.springGuardian.boost2": "Événements du printemps béni",
+  "description.summerGuardian.boost": "Protection contre les catastrophes estivales",
+  "description.summerGuardian.boost2": "Événements estivaux bénis",
+  "description.obsidianNecklace.boost": "2 fois la vitesse de l'obsidienne",
+  "description.medicApron.boost": "Médecine à moitié prix",
+  "description.broccoliHat.boost": "2 fois Brocoli Speed"
 }

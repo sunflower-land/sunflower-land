@@ -5842,5 +5842,18 @@
   "description.giantKale.boost": "+2 Kale",
   "description.giantZuchinni.boost": "2x Kecepatan putar",
   "description.giantYam.boost": "+0.5 Ubi",
-  "description.oracleSyringe.boost": "Sembuhkan hewan secara gratis"
+  "description.oracleSyringe.boost": "Sembuhkan hewan secara gratis",
+  "description.quarry.boost": "Batu tambang gratis",
+  "description.obsidianTurtle.boost": "+0.5 Obsidian",
+  "description.winterGuardian.boost": "Perlindungan Bencana Musim Dingin",
+  "description.winterGuardian.boost2": "Acara Musim Dingin yang Berkati",
+  "description.autumnGuardian.boost": "Perlindungan Bencana Musim Gugur",
+  "description.autumnGuardian.boost2": "Acara Musim Gugur yang Berbahagialah",
+  "description.springGuardian.boost": "Perlindungan Bencana Musim Semi",
+  "description.springGuardian.boost2": "Acara Musim Semi yang Berkati",
+  "description.summerGuardian.boost": "Perlindungan Bencana Musim Panas",
+  "description.summerGuardian.boost2": "Acara Musim Panas yang Berbahagialah",
+  "description.obsidianNecklace.boost": "Kecepatan Obsidian 2x",
+  "description.medicApron.boost": "Obat Setengah Harga",
+  "description.broccoliHat.boost": "Kecepatan Brokoli 2x"
 }

@@ -5842,5 +5842,18 @@
   "description.giantKale.boost": "+2 케일",
   "description.giantZuchinni.boost": "2x 주치니 스피드",
   "description.giantYam.boost": "+0.5 얌스",
-  "description.oracleSyringe.boost": "동물을 무료로 치료하세요"
+  "description.oracleSyringe.boost": "동물을 무료로 치료하세요",
+  "description.quarry.boost": "마인 스톤 무료",
+  "description.obsidianTurtle.boost": "+0.5 옵시디언",
+  "description.winterGuardian.boost": "겨울철 재해 보호",
+  "description.winterGuardian.boost2": "축복받은 겨울 이벤트",
+  "description.autumnGuardian.boost": "가을철 재해 보호",
+  "description.autumnGuardian.boost2": "축복받은 가을 이벤트",
+  "description.springGuardian.boost": "봄철 재해 보호",
+  "description.springGuardian.boost2": "축복받은 봄 이벤트",
+  "description.summerGuardian.boost": "여름철 재해 보호",
+  "description.summerGuardian.boost2": "축복받은 여름 이벤트",
+  "description.obsidianNecklace.boost": "옵시디언 스피드 2배",
+  "description.medicApron.boost": "하프 프라이스 의약품",
+  "description.broccoliHat.boost": "2x 브로콜리 스피드"
 }

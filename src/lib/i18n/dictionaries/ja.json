@@ -5842,5 +5842,18 @@
   "description.giantKale.boost": "+2 ケール",
   "description.giantZuchinni.boost": "2倍のズッキーニスピード",
   "description.giantYam.boost": "+0.5 ヤム",
-  "description.oracleSyringe.boost": "無料で動物を癒そう"
+  "description.oracleSyringe.boost": "無料で動物を癒そう",
+  "description.quarry.boost": "マインストーン無料",
+  "description.obsidianTurtle.boost": "+0.5 オブシディアン",
+  "description.winterGuardian.boost": "冬季防災対策",
+  "description.winterGuardian.boost2": "祝福の冬イベント",
+  "description.autumnGuardian.boost": "秋の防災対策",
+  "description.autumnGuardian.boost2": "祝福された秋のイベント",
+  "description.springGuardian.boost": "春の防災対策",
+  "description.springGuardian.boost2": "祝福された春のイベント",
+  "description.summerGuardian.boost": "夏の防災対策",
+  "description.summerGuardian.boost2": "祝福された夏のイベント",
+  "description.obsidianNecklace.boost": "2倍オブシディアンスピード",
+  "description.medicApron.boost": "半額医薬品",
+  "description.broccoliHat.boost": "2x ブロッコリースピード"
 }

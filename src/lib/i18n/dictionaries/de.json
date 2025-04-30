@@ -5842,5 +5842,18 @@
   "description.giantKale.boost": "+2 Grünkohl",
   "description.giantZuchinni.boost": "2 x Zucchini Speed",
   "description.giantYam.boost": "+0.5 Süßkartoffeln",
-  "description.oracleSyringe.boost": "Heile Tiere kostenlos"
+  "description.oracleSyringe.boost": "Heile Tiere kostenlos",
+  "description.quarry.boost": "Minenstein kostenlos",
+  "description.obsidianTurtle.boost": "+0.5 Obsidian",
+  "description.winterGuardian.boost": "Katastrophenschutz im Winter",
+  "description.winterGuardian.boost2": "Gesegnete Winterveranstaltungen",
+  "description.autumnGuardian.boost": "Katastrophenschutz im Herbst",
+  "description.autumnGuardian.boost2": "Gesegnete Herbstveranstaltungen",
+  "description.springGuardian.boost": "Katastrophenschutz im Frühling",
+  "description.springGuardian.boost2": "Veranstaltungen im gesegneten Frühling",
+  "description.summerGuardian.boost": "Katastrophenschutz im Sommer",
+  "description.summerGuardian.boost2": "Gesegnete Sommerveranstaltungen",
+  "description.obsidianNecklace.boost": "2x Obsidiangeschwindigkeit",
+  "description.medicApron.boost": "Medikamente zum halben Preis",
+  "description.broccoliHat.boost": "2 x Brokkoli Speed"
 }
