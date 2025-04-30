@@ -5537,7 +5537,6 @@
   "marketplace.welcome.five": "出售资源或物品以赚取 $FLOWER。",
   "marketplace.quickswap.description": "即将前往 Quickswap 购买 $FLOWER。这是一个去中心化的社区驱动型交易所。",
   "marketplace.estimated.price": "*预计美元 / FLOWER 价格",
-  "vip.benefit.stellaDiscounts": "Stella FLOWER 折扣",
   "reputation.seedling.deliveries": "每天 1 次 FLOWER 送货",
   "reputation.grower.description": "提取 FLOWER",
   "reputation.grower.sfl": "每天 2 次 FLOWER 送货",
@@ -5806,5 +5805,7 @@
   "description.bronzeToolBox": "青铜工具箱",
   "description.silverToolBox": "银色工具箱",
   "description.goldToolBox": "一个金色的工具箱",
-  "description.testBox": "一个测试箱"
+  "description.testBox": "一个测试箱",
+  "vip.benefit.stellaDiscounts": "Stella FLOWER 折扣 (50%)",
+  "vip.benefit.greatBloom": "Great Bloom VIP 2x 花盒奖励"
 }

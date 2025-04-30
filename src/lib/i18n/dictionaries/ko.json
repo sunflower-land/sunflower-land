@@ -5537,7 +5537,6 @@
   "marketplace.welcome.five": "자원 및 아이템을 판매하여 $FLOWER를 받으세요.",
   "marketplace.quickswap.description": "커뮤니티 중심의 탈중앙화 거래소인 퀵스왑으로 리디렉션되어 $FLOWER를 구매할 수 있습니다.",
   "marketplace.estimated.price": "*예상 USD/꽃 가격",
-  "vip.benefit.stellaDiscounts": "스텔라 플라워 할인",
   "reputation.seedling.deliveries": "하루 1송이 꽃 배달",
   "reputation.grower.description": "꽃을 인출하세요",
   "reputation.grower.sfl": "하루 2송이 꽃 배달",
@@ -5806,5 +5805,7 @@
   "description.bronzeToolBox": "청동 도구 상자",
   "description.silverToolBox": "은색 도구 상자",
   "description.goldToolBox": "금색 도구 상자",
-  "description.testBox": "테스트 박스"
+  "description.testBox": "테스트 박스",
+  "vip.benefit.stellaDiscounts": "스텔라 플라워 할인 (50%)",
+  "vip.benefit.greatBloom": "그레이트 블룸 VIP 2x 플라워 박스 보상"
 }

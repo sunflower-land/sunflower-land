@@ -5537,7 +5537,6 @@
   "marketplace.welcome.five": "$ FLOWER kazanmak için kaynakları ve öğeleri satın.",
   "marketplace.quickswap.description": "$FLOWER satın almak için merkezi olmayan ve topluluk odaklı bir borsa olan Quickswap'a yönlendirilmek üzeresiniz.",
   "marketplace.estimated.price": "*Tahmini USD/ÇIÇEK fiyatı",
-  "vip.benefit.stellaDiscounts": "Stella FLOWER indirimler",
   "reputation.seedling.deliveries": "Günde 1 ÇIÇEK Teslimatı",
   "reputation.grower.description": "ÇIÇEĞİ çekin",
   "reputation.grower.sfl": "Günde 2 ÇIÇEK Teslimatı",
@@ -5806,5 +5805,7 @@
   "description.bronzeToolBox": "Bronz bir alet kutusu",
   "description.silverToolBox": "Gümüş bir alet kutusu",
   "description.goldToolBox": "Altın bir alet kutusu",
-  "description.testBox": "Bir test kutusu"
+  "description.testBox": "Bir test kutusu",
+  "vip.benefit.stellaDiscounts": "Stella FLOWER indirimleri (%50)",
+  "vip.benefit.greatBloom": "Great Bloom VIP 2x ÇIÇEK kutusu ödülleri"
 }
