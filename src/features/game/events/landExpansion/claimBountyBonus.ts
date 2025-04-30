@@ -20,7 +20,7 @@ type Options = {
  * - Final Week of Chapter
  * - Week of chapter auctions
  */
-export const NO_BONUS_BOUNTIES_WEEK = ["2025-07-28"];
+export const NO_BONUS_BOUNTIES_WEEK = ["2025-04-28", "2025-07-28"];
 
 export function claimBountyBonus({
   state,
