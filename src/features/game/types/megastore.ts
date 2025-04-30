@@ -575,6 +575,16 @@ const GREAT_BLOOM_ITEMS: SeasonalStore = {
         cooldownMs: 24 * 60 * 60 * 1000,
         cost: { sfl: 0, items: { Geniseed: 200 } },
       },
+      {
+        collectible: "Bronze Flower Box",
+        cooldownMs: 7 * 24 * 60 * 60 * 1000,
+        cost: {
+          items: {
+            Geniseed: 250,
+          },
+          sfl: 0,
+        },
+      },
     ],
   },
   rare: {
@@ -599,6 +609,16 @@ const GREAT_BLOOM_ITEMS: SeasonalStore = {
       {
         wearable: "Love Charm Shirt",
         cost: { sfl: 0, items: { Geniseed: 650 } },
+      },
+      {
+        collectible: "Silver Flower Box",
+        cooldownMs: 7 * 24 * 60 * 60 * 1000,
+        cost: {
+          items: {
+            Geniseed: 750,
+          },
+          sfl: 0,
+        },
       },
     ],
     requirement: 4,
@@ -625,6 +645,16 @@ const GREAT_BLOOM_ITEMS: SeasonalStore = {
       {
         collectible: "Giant Zucchini",
         cost: { sfl: 0, items: { Geniseed: 3000 } },
+      },
+      {
+        collectible: "Gold Flower Box",
+        cooldownMs: 30 * 24 * 60 * 60 * 1000,
+        cost: {
+          items: {
+            Geniseed: 1500,
+          },
+          sfl: 0,
+        },
       },
     ],
     requirement: 4,
