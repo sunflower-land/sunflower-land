@@ -940,6 +940,27 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       boostTypeIcon: lightning,
     },
   ],
+  "Obsidian Necklace": [
+    {
+      shortDescription: translate("description.obsidianNecklace.boost"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+    },
+  ],
+  "Medic Apron": [
+    {
+      shortDescription: translate("description.medicApron.boost"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+    },
+  ],
+  "Broccoli Hat": [
+    {
+      shortDescription: translate("description.broccoliHat.boost"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+    },
+  ],
   ...SPECIAL_ITEM_LABELS,
   ...Object.fromEntries(
     getObjectEntries(CHAPTER_TICKET_BOOST_ITEMS)
