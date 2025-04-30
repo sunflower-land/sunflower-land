@@ -935,4 +935,56 @@ export const INVENTORY_RELEASES: Partial<Record<InventoryItemName, Releases>> =
       tradeAt: new Date("2025-08-20T00:00:00Z"),
       withdrawAt: new Date("2025-08-20T00:00:00Z"),
     },
+    Quarry: {
+      tradeAt: SEASONS["Great Bloom"].endDate,
+      withdrawAt: SEASONS["Great Bloom"].endDate,
+    },
+    "Obsidian Turtle": {
+      tradeAt: SEASONS["Great Bloom"].endDate,
+      withdrawAt: SEASONS["Great Bloom"].endDate,
+    },
+    "Winter Guardian": {
+      tradeAt: SEASONS["Great Bloom"].endDate,
+      withdrawAt: SEASONS["Great Bloom"].endDate,
+    },
+    "Summer Guardian": {
+      tradeAt: SEASONS["Great Bloom"].endDate,
+      withdrawAt: SEASONS["Great Bloom"].endDate,
+    },
+    "Spring Guardian": {
+      tradeAt: SEASONS["Great Bloom"].endDate,
+      withdrawAt: SEASONS["Great Bloom"].endDate,
+    },
+    "Autumn Guardian": {
+      tradeAt: SEASONS["Great Bloom"].endDate,
+      withdrawAt: SEASONS["Great Bloom"].endDate,
+    },
+    "Sky Pillar": {
+      tradeAt: SEASONS["Great Bloom"].endDate,
+      withdrawAt: SEASONS["Great Bloom"].endDate,
+    },
+    "Flower-Scribed Statue": {
+      tradeAt: SEASONS["Great Bloom"].endDate,
+      withdrawAt: SEASONS["Great Bloom"].endDate,
+    },
+    "Balloon Rug": {
+      tradeAt: SEASONS["Great Bloom"].endDate,
+      withdrawAt: SEASONS["Great Bloom"].endDate,
+    },
+    "Giant Yam": {
+      tradeAt: SEASONS["Great Bloom"].endDate,
+      withdrawAt: SEASONS["Great Bloom"].endDate,
+    },
+    "Heart Air Balloon": {
+      tradeAt: SEASONS["Great Bloom"].endDate,
+      withdrawAt: SEASONS["Great Bloom"].endDate,
+    },
+    "Giant Zuchinni": {
+      tradeAt: SEASONS["Great Bloom"].endDate,
+      withdrawAt: SEASONS["Great Bloom"].endDate,
+    },
+    "Mini Floating Island": {
+      tradeAt: SEASONS["Great Bloom"].endDate,
+      withdrawAt: SEASONS["Great Bloom"].endDate,
+    },
   };
