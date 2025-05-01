@@ -56,7 +56,7 @@ export class LoveIslandScene extends BaseScene {
 
     this.initialiseNPCs(BUMPKINS);
 
-    const shop = this.add.sprite(900, 490, "shop_icon");
+    const shop = this.add.sprite(743, 544, "shop_icon");
     this.loveBox = this.add.sprite(615, 566, "love_box").setVisible(false);
 
     this.loveBox.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
