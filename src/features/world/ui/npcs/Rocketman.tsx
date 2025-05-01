@@ -19,7 +19,6 @@ import { NumberInput } from "components/ui/NumberInput";
 import { Decimal } from "decimal.js-light";
 import { setPrecision } from "lib/utils/formatNumber";
 import { MachineState } from "features/game/lib/gameMachine";
-import { hasFeatureAccess } from "lib/flags";
 import {
   DAILY_LIMIT,
   EXCHANGE_FLOWER_PRICE,
@@ -36,15 +35,10 @@ export const Rocketman: React.FC<Props> = ({ onClose }) => {
   const [showIntro, setShowIntro] = useState(true);
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
-  const hasFlowerExchange = useSelector(gameService, (state) =>
-    hasFeatureAccess(state.context.state, "LOVE_CHARM_FLOWER_EXCHANGE"),
-  );
 
   const state = useSelector(gameService, _state);
 
-  const [currentTab, setCurrentTab] = useState<
-    "Noticeboard" | "$FLOWER Exchange" | "Reward Shop"
-  >(hasFlowerExchange ? "$FLOWER Exchange" : "Noticeboard");
+  const [currentTab, setCurrentTab] = useState<"Noticeboard">("Noticeboard");
   const loveCharmCount = useSelector(
     gameService,
     (state) => state.context.state.inventory["Love Charm"] ?? new Decimal(0),
