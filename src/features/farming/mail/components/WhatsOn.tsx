@@ -101,7 +101,7 @@ export const WhatsOn = () => {
         <div className="p-1">
           <div className="flex items-center justify-between mb-2">
             <Label type="default">{t("whatsOn.ticketsEnd")}</Label>
-            <Label type="formula">{t("whatsOn.april28th")}</Label>
+            <Label type="formula">{t("whatsOn.july28th")}</Label>
           </div>
           <NoticeboardItems
             items={[
