@@ -131,7 +131,7 @@ export const OpeningBox: React.FC<{
 
   const isOpened = !!gameState.context.state.rewardBoxes?.[name]?.spunAt;
 
-  if (isReady) {
+  if (isReady && reward) {
     return (
       <Panel>
         <ClaimReward
