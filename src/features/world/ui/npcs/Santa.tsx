@@ -15,8 +15,7 @@ import {
 } from "features/game/events/landExpansion/collectCandy";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
-import { secondsTillReset } from "features/helios/components/hayseedHank/HayseedHankV2";
-import { getTimeLeft, secondsToString } from "lib/utils/time";
+import { getTimeLeft, secondsTillReset, secondsToString } from "lib/utils/time";
 import { getKeys } from "features/game/types/craftables";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SquareIcon } from "components/ui/SquareIcon";
