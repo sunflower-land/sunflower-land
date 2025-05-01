@@ -5842,5 +5842,18 @@
   "description.giantKale.boost": "+2 羽衣甘蓝",
   "description.giantZuchinni.boost": "2 倍西葫芦速度",
   "description.giantYam.boost": "+0.5 Yams",
-  "description.oracleSyringe.boost": "免费治疗动物"
+  "description.oracleSyringe.boost": "免费治疗动物",
+  "description.quarry.boost": "免费开采石头",
+  "description.obsidianTurtle.boost": "+0.5 黑曜石",
+  "description.winterGuardian.boost": "冬季灾难保护",
+  "description.winterGuardian.boost2": "冬季祝福活动",
+  "description.autumnGuardian.boost": "秋季灾难保护",
+  "description.autumnGuardian.boost2": "秋日祝福活动",
+  "description.springGuardian.boost": "春季灾难保护",
+  "description.springGuardian.boost2": "春季祝福活动",
+  "description.summerGuardian.boost": "夏季灾难保护",
+  "description.summerGuardian.boost2": "夏日祝福活动",
+  "description.obsidianNecklace.boost": "2 倍黑曜石速度",
+  "description.medicApron.boost": "半价药品",
+  "description.broccoliHat.boost": "2 倍西兰花速度"
 }

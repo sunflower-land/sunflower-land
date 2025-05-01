@@ -5842,5 +5842,18 @@
   "description.giantKale.boost": "+2 Kale",
   "description.giantZuchinni.boost": "2x Zuchinni Speed",
   "description.giantYam.boost": "+0,5 inhame",
-  "description.oracleSyringe.boost": "Cure animais de graça"
+  "description.oracleSyringe.boost": "Cure animais de graça",
+  "description.quarry.boost": "Minere pedra de graça",
+  "description.obsidianTurtle.boost": "+0,5 Obsidiana",
+  "description.winterGuardian.boost": "Proteção contra desastres no inverno",
+  "description.winterGuardian.boost2": "Abençoados eventos de inverno",
+  "description.autumnGuardian.boost": "Proteção contra desastres no outono",
+  "description.autumnGuardian.boost2": "Eventos abençoados de outono",
+  "description.springGuardian.boost": "Proteção contra desastres na primavera",
+  "description.springGuardian.boost2": "Eventos abençoados da primavera",
+  "description.summerGuardian.boost": "Proteção contra desastres no verão",
+  "description.summerGuardian.boost2": "Eventos abençoados de verão",
+  "description.obsidianNecklace.boost": "2x Velocidade de Obsidiana",
+  "description.medicApron.boost": "Medicamento pela metade do preço",
+  "description.broccoliHat.boost": "2x Brócolis Speed"
 }

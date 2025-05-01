@@ -5842,5 +5842,18 @@
   "description.giantKale.boost": "+2 Kale",
   "description.giantZuchinni.boost": "2x Zuchinni Speed",
   "description.giantYam.boost": "+0.5 Yams",
-  "description.oracleSyringe.boost": "Heal animals for free"
+  "description.oracleSyringe.boost": "Heal animals for free",
+  "description.quarry.boost": "Mine stone for free",
+  "description.obsidianTurtle.boost": "+0.5 Obsidian",
+  "description.winterGuardian.boost": "Winter Disaster Protection",
+  "description.winterGuardian.boost2": "Blessed Winter Events",
+  "description.autumnGuardian.boost": "Autumn Disaster Protection",
+  "description.autumnGuardian.boost2": "Blessed Autumn Events",
+  "description.springGuardian.boost": "Spring Disaster Protection",
+  "description.springGuardian.boost2": "Blessed Spring Events",
+  "description.summerGuardian.boost": "Summer Disaster Protection",
+  "description.summerGuardian.boost2": "Blessed Summer Events",
+  "description.obsidianNecklace.boost": "2x Obsidian Speed",
+  "description.medicApron.boost": "Half Price Medicine",
+  "description.broccoliHat.boost": "2x Broccoli Speed"
 }

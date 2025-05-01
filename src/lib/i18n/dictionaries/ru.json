@@ -5842,5 +5842,18 @@
   "description.giantKale.boost": "+2 капуста",
   "description.giantZuchinni.boost": "2-кратная скорость обработки",
   "description.giantYam.boost": "+0.5 Ямс",
-  "description.oracleSyringe.boost": "Лечите животных бесплатно"
+  "description.oracleSyringe.boost": "Лечите животных бесплатно",
+  "description.quarry.boost": "Добывайте камень бесплатно",
+  "description.obsidianTurtle.boost": "+0,5 Обсидиан",
+  "description.winterGuardian.boost": "Защита от зимних стихийных бедствий",
+  "description.winterGuardian.boost2": "Благословенные зимние события",
+  "description.autumnGuardian.boost": "Защита от осенних стихийных бедствий",
+  "description.autumnGuardian.boost2": "Благословенные осенние события",
+  "description.springGuardian.boost": "Защита от весенних стихийных бедствий",
+  "description.springGuardian.boost2": "Благословенные весенние события",
+  "description.summerGuardian.boost": "Защита от стихийных бедствий в летнее время",
+  "description.summerGuardian.boost2": "Благословенные летние события",
+  "description.obsidianNecklace.boost": "Скорость обсидиана в 2 раза",
+  "description.medicApron.boost": "Лекарства за полцены",
+  "description.broccoliHat.boost": "Скорость брокколи в 2 раза"
 }
