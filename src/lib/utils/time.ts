@@ -439,3 +439,21 @@ export function getShortRelativeTime(timestamp: number): string {
     return isInFuture ? `in ${days}d` : `${days}d ago`;
   }
 }
+
+/**
+ * A function that gives you the time until the next day in seconds.
+ * @returns Time until the next day in seconds eg: 86400
+ */
+export function secondsTillReset() {
+  const currentTime = Date.now();
+
+  // Calculate the time until the next day in milliseconds
+  const nextDay = new Date(currentTime);
+  nextDay.setUTCHours(24, 0, 0, 0);
+  const timeUntilNextDay = nextDay.getTime() - currentTime;
+
+  // Convert milliseconds to seconds
+  const secondsUntilNextDay = Math.floor(timeUntilNextDay / 1000);
+
+  return secondsUntilNextDay;
+}

@@ -7,7 +7,6 @@ import { DeliveryPanel } from "./deliveries/DeliveryPanel";
 import { SceneId } from "../mmoMachine";
 
 import { Birdie } from "./npcs/Birdie";
-import { HayseedHankV2 } from "features/helios/components/hayseedHank/HayseedHankV2";
 import { PotionHouseShopItems } from "features/helios/components/potions/component/PotionHouseShopItems";
 import { Bert } from "./npcs/Bert";
 import { Finn } from "./npcs/Finn";
@@ -224,7 +223,6 @@ export const NPCModals: React.FC<Props> = ({ scene, id }) => {
           </CloseButtonPanel>
         )}
         {npc === "jafar" && <TreasureShop onClose={closeModal} />}
-        {npc === "hank" && <HayseedHankV2 onClose={closeModal} />}
         {npc === "gabi" && (
           <CloseButtonPanel
             onClose={closeModal}
