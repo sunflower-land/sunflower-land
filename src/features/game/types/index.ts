@@ -1081,6 +1081,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Heart Air Balloon": 2269,
   "Giant Zucchini": 2270,
   "Mini Floating Island": 2271,
+  "Giant Kale": 2272,
 };
 
 // The reverse of above

@@ -2455,6 +2455,21 @@ export const COLLECTIBLE_COMPONENTS: Record<
       alt="Mini Floating Island"
     />
   ),
+  "Giant Kale": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 23}px`,
+        bottom: `${PIXEL_SCALE * 3}px`,
+        left: `${PIXEL_SCALE * -3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 23}px`,
+      }}
+      image={ITEM_DETAILS["Giant Kale"].image}
+      alt="Giant Kale"
+    />
+  ),
 };
 // Need readonly versions for some troublesome components while in design mode
 

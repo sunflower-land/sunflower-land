@@ -12024,6 +12024,17 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/2270.png",
     name: "Giant Zucchini",
   },
+  "Giant Kale": {
+    description: "?",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2272.png",
+    name: "Giant Kale",
+  },
   "Mini Floating Island": {
     description:
       "A small-sized patch of paradise that somehow stays afloat—perfect for peaceful moments.",

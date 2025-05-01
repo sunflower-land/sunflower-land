@@ -32,6 +32,7 @@ export type SeasonalCollectibleName =
   | "Giant Yam"
   | "Heart Air Balloon"
   | "Giant Zucchini"
+  | "Giant Kale"
   | "Mini Floating Island";
 
 export type SeasonalWearableName = Extract<
@@ -664,6 +665,10 @@ const GREAT_BLOOM_ITEMS: SeasonalStore = {
       {
         wearable: "Oracle Syringe",
         cost: { sfl: 0, items: { Geniseed: 8500 } },
+      },
+      {
+        collectible: "Giant Kale",
+        cost: { sfl: 0, items: { Geniseed: 6000 } },
       },
     ],
     requirement: 4,

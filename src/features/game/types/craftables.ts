@@ -1427,6 +1427,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Nurse Sheep": { width: 1, height: 1 },
   Lunalist: { width: 1, height: 1 },
   "Pink Dolphin": { width: 1, height: 1 },
+  "Giant Kale": { width: 2, height: 2 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {

@@ -5291,4 +5291,8 @@ export const ITEM_DETAILS: Items = {
     image: lunalist,
     description: translate("description.lunalist"),
   },
+  "Giant Kale": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.giantKale"),
+  },
 };

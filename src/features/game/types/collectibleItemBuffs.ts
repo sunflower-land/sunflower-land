@@ -1402,6 +1402,95 @@ function getCollectibleBuffLabels(
         boostTypeIcon: powerup,
       },
     ],
+    "Giant Yam": [
+      {
+        shortDescription: translate("description.giantYam.boost"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Yam.image,
+      },
+    ],
+    "Giant Zucchini": [
+      {
+        shortDescription: translate("description.giantZuchinni.boost"),
+        labelType: "success",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS.Zucchini.image,
+      },
+    ],
+    "Giant Kale": [
+      {
+        shortDescription: translate("description.giantKale.boost"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Kale.image,
+      },
+    ],
+    "Obsidian Turtle": [
+      {
+        shortDescription: translate("description.obsidianTurtle.boost"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS["Obsidian Turtle"].image,
+      },
+    ],
+    Quarry: [
+      {
+        shortDescription: translate("description.quarry.boost"),
+        labelType: "vibrant",
+        boostTypeIcon: lightning,
+        boostedItemIcon: ITEM_DETAILS["Stone"].image,
+      },
+    ],
+    "Winter Guardian": [
+      {
+        shortDescription: translate("description.winterGuardian.boost"),
+        labelType: "vibrant",
+        boostTypeIcon: lightning,
+      },
+      {
+        shortDescription: translate("description.winterGuardian.boost2"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    ],
+    "Autumn Guardian": [
+      {
+        shortDescription: translate("description.autumnGuardian.boost"),
+        labelType: "vibrant",
+        boostTypeIcon: lightning,
+      },
+      {
+        shortDescription: translate("description.autumnGuardian.boost2"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    ],
+    "Spring Guardian": [
+      {
+        shortDescription: translate("description.springGuardian.boost"),
+        labelType: "vibrant",
+        boostTypeIcon: lightning,
+      },
+      {
+        shortDescription: translate("description.springGuardian.boost2"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    ],
+    "Summer Guardian": [
+      {
+        shortDescription: translate("description.summerGuardian.boost"),
+        labelType: "vibrant",
+        boostTypeIcon: lightning,
+      },
+      {
+        shortDescription: translate("description.summerGuardian.boost2"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    ],
+
     ...Object.fromEntries(
       getObjectEntries(CHAPTER_TICKET_BOOST_ITEMS)
         .filter(
