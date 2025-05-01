@@ -5856,5 +5856,13 @@
   "description.broccoliHat.boost": "2 x Brokkoli Speed",
   "rocketman.flower.exchange.one": "Reisen Sie mit dem Heart Air Ballon und tauschen Sie Love Charms gegen $FLOWER ein.",
   "description.obsidianNecklace.boost": "2x Lavagit Speed",
-  "description.redPepperOnesie.boost": "0,25x Red Pepper Speed"
+  "description.redPepperOnesie.boost": "0,25x Red Pepper Speed",
+  "description.loveChicken": "Ein mutiertes Huhn voller Liebe und Zuneigung",
+  "description.drCow": "Eine mutierte Kuh, verkleidet als fürsorglicher Arzt",
+  "description.drCow.boost": "5% weniger Fütterungskosten für Kühe",
+  "description.nurseSheep": "Ein mutiertes Schaf, das bereit ist, als sanfte Krankenschwester zu helfen",
+  "description.nurseSheep.boost": "Schafe können im Sommer nicht krank werden",
+  "description.pinkDolphin": "Ein seltener Delfin mit einem schönen rosa Farbton",
+  "description.pinkDolphin.boost": "Erhöhen Sie den Fischfang im Frühling um 1",
+  "description.lunalist": "Ein blühendes Artefakt, das dem Mond gewidmet ist. Eine dekorative mutierte Blume, die während des Kapitels Große Blüte gefunden wurde"
 }

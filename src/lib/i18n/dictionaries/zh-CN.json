@@ -5856,5 +5856,13 @@
   "description.broccoliHat.boost": "2 倍西兰花速度",
   "rocketman.flower.exchange.one": "乘坐 Heart Air Ballon 旅行，用 Love Charms 兑换 $FLOWER。",
   "description.obsidianNecklace.boost": "2 倍熔岩坑速度",
-  "description.redPepperOnesie.boost": "0.25 倍红辣椒速度"
+  "description.redPepperOnesie.boost": "0.25 倍红辣椒速度",
+  "description.loveChicken": "一只充满爱与感情的变种鸡",
+  "description.drCow": "一头打扮成有爱心医生的变种牛",
+  "description.drCow.boost": "奶牛的饲养成本降低 5%",
+  "description.nurseSheep": "作为一名温柔的护士，一只准备好提供帮助的变种绵羊",
+  "description.nurseSheep.boost": "夏天羊不会生病",
+  "description.pinkDolphin": "一种具有美丽粉色色调的稀有海豚",
+  "description.pinkDolphin.boost": "春季捕鱼量增加 1%",
+  "description.lunalist": "一件专用于月球的盛开神器。在 Great Bloom 章节中发现的一朵装饰性突变花"
 }

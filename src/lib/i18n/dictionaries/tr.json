@@ -5856,5 +5856,13 @@
   "description.broccoliHat.boost": "2x Brokoli Hızı",
   "rocketman.flower.exchange.one": "Aşk Tılsımlarını $FLOWER'a takas etmek için Heart Air Balon'da seyahat edin.",
   "description.obsidianNecklace.boost": "2x Lav Çukuru Hızı",
-  "description.redPepperOnesie.boost": "0.25x Kırmızı Biber Hızı"
+  "description.redPepperOnesie.boost": "0.25x Kırmızı Biber Hızı",
+  "description.loveChicken": "Sevgi ve şefkatle dolu mutant bir tavuk",
+  "description.drCow": "Bakıcı bir doktor gibi giyinmiş mutant bir inek",
+  "description.drCow.boost": "İnekler için% 5 daha az besleme maliyeti",
+  "description.nurseSheep": "Nazik bir hemşire olarak yardım etmeye hazır mutant bir koyun",
+  "description.nurseSheep.boost": "Koyunlar yaz aylarında hastalanamaz",
+  "description.pinkDolphin": "Güzel pembe renk tonuna sahip nadir bir yunus",
+  "description.pinkDolphin.boost": "İlkbaharda balık avını 1 artırın",
+  "description.lunalist": "Ay'a adanmış çiçek açan bir eser. Great Bloom bölümünde bulunan dekoratif bir mutant çiçek"
 }

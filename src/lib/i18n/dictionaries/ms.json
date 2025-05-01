@@ -5856,5 +5856,13 @@
   "description.broccoliHat.boost": "2x Kelajuan Brokoli",
   "rocketman.flower.exchange.one": "Perjalanan di Heart Air Ballon untuk menukar Love Charms dengan harga $FLOWER.",
   "description.obsidianNecklace.boost": "Kelajuan Lubang Lava 2x",
-  "description.redPepperOnesie.boost": "0.25x Kelajuan Lada Merah"
+  "description.redPepperOnesie.boost": "0.25x Kelajuan Lada Merah",
+  "description.loveChicken": "Ayam mutan yang dipenuhi dengan cinta dan kasih sayang",
+  "description.drCow": "Seekor lembu mutan berpakaian sebagai doktor yang penyayang",
+  "description.drCow.boost": "5% kurang kos makan untuk lembu",
+  "description.nurseSheep": "Seekor domba mutan bersedia membantu sebagai jururawat lembut",
+  "description.nurseSheep.boost": "Domba tidak boleh jatuh sakit semasa musim panas",
+  "description.pinkDolphin": "Lumba-lumba yang jarang berlaku dengan warna merah jambu yang indah",
+  "description.pinkDolphin.boost": "Meningkatkan tangkapan ikan sebanyak 1 semasa musim bunga",
+  "description.lunalist": "Artifak mekar yang dikhaskan untuk bulan. Bunga mutan hiasan yang ditemui semasa bab Great Bloom"
 }
