@@ -5853,7 +5853,8 @@
   "description.springGuardian.boost2": "Blessed Spring Events",
   "description.summerGuardian.boost": "Summer Disaster Protection",
   "description.summerGuardian.boost2": "Blessed Summer Events",
-  "description.obsidianNecklace.boost": "2x Obsidian Speed",
+  "description.obsidianNecklace.boost": "2x Lava Pit Speed",
   "description.medicApron.boost": "Half Price Medicine",
-  "description.broccoliHat.boost": "2x Broccoli Speed"
+  "description.broccoliHat.boost": "2x Broccoli Speed",
+  "description.redPepperOnesie.boost": "0.25x Red Pepper Speed"
 }

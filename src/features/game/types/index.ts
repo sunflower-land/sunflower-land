@@ -1061,6 +1061,11 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Bronze Tool Box": 2251,
   "Silver Tool Box": 2252,
   "Gold Tool Box": 2253,
+  "Pink Dolphin": 2254,
+  "Love Chicken": 2255,
+  "Dr. Cow": 2256,
+  "Nurse Sheep": 2257,
+  Lunalist: 2258,
 
   // Love Chapter - Items
   Quarry: 2259,

@@ -5852,8 +5852,9 @@
   "description.springGuardian.boost2": "축복받은 봄 이벤트",
   "description.summerGuardian.boost": "여름철 재해 보호",
   "description.summerGuardian.boost2": "축복받은 여름 이벤트",
-  "description.obsidianNecklace.boost": "옵시디언 스피드 2배",
   "description.medicApron.boost": "하프 프라이스 의약품",
   "description.broccoliHat.boost": "2x 브로콜리 스피드",
-  "rocketman.flower.exchange.one": "하트 에어 발롱을 타고 여행하면서 러브 참을 $FLOWER로 교환하세요."
+  "rocketman.flower.exchange.one": "하트 에어 발롱을 타고 여행하면서 러브 참을 $FLOWER로 교환하세요.",
+  "description.obsidianNecklace.boost": "2x 라바 피트 스피드",
+  "description.redPepperOnesie.boost": "0.25x 레드 페퍼 스피드"
 }

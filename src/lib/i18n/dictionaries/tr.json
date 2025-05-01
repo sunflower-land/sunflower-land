@@ -5852,8 +5852,9 @@
   "description.springGuardian.boost2": "Kutsanmış Bahar Etkinlikleri",
   "description.summerGuardian.boost": "Yaz Afet Koruması",
   "description.summerGuardian.boost2": "Kutsanmış Yaz Etkinlikleri",
-  "description.obsidianNecklace.boost": "2x Obsidiyen Hızı",
   "description.medicApron.boost": "Yarı Fiyatlı İlaç",
   "description.broccoliHat.boost": "2x Brokoli Hızı",
-  "rocketman.flower.exchange.one": "Aşk Tılsımlarını $FLOWER'a takas etmek için Heart Air Balon'da seyahat edin."
+  "rocketman.flower.exchange.one": "Aşk Tılsımlarını $FLOWER'a takas etmek için Heart Air Balon'da seyahat edin.",
+  "description.obsidianNecklace.boost": "2x Lav Çukuru Hızı",
+  "description.redPepperOnesie.boost": "0.25x Kırmızı Biber Hızı"
 }

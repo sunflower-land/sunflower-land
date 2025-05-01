@@ -5852,8 +5852,9 @@
   "description.springGuardian.boost2": "Eventi della Beata Primavera",
   "description.summerGuardian.boost": "Protezione dai disastri estivi",
   "description.summerGuardian.boost2": "Beati eventi estivi",
-  "description.obsidianNecklace.boost": "2x Obsidian Speed",
   "description.medicApron.boost": "Medicina a metà prezzo",
   "description.broccoliHat.boost": "2x Broccoli Speed",
-  "rocketman.flower.exchange.one": "Viaggia in mongolfiera Heart per scambiare Love Charms con $FLOWER."
+  "rocketman.flower.exchange.one": "Viaggia in mongolfiera Heart per scambiare Love Charms con $FLOWER.",
+  "description.obsidianNecklace.boost": "2x Lava Pit Speed",
+  "description.redPepperOnesie.boost": "0,25x Red Pepper Speed"
 }
