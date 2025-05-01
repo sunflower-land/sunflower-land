@@ -5833,7 +5833,6 @@
   "description.flowerscribedStatue": "Diese Statue ist aus hellem Stein geschnitzt und mit alten Blumenversen verziert. Sie strotzt nur so vor der stillen Weisheit des Sonnenblumenlandes.",
   "description.balloonRug": "Ein weicher, wunderlicher Teppich, der sich leichter anfühlt als Luft — perfekt, um stilvoll zu entspannen.",
   "description.giantYam": "Eine Wurzel, die so riesig ist, dass sie ein Dorf ernähren könnte — oder zumindest einen beeindruckenden Eintopf ergeben könnte.",
-  "description.heartAirBalloon": "Ein schwebendes Symbol der Liebe, das bereit ist, Stimmung und Herz gleichermaßen zu heben.",
   "description.giantZuchinni": "Unglaublich groß und verdächtig grün, dieses Gemüse ist ein wahres Gartenwunder.",
   "description.miniFloatingIsland": "Ein kleines Stück Paradies, das irgendwie über Wasser bleibt — perfekt für friedliche Momente.",
   "description.bonusGeniseed.boost": "+1 Genissamen",
@@ -5864,5 +5863,8 @@
   "description.nurseSheep.boost": "Schafe können im Sommer nicht krank werden",
   "description.pinkDolphin": "Ein seltener Delfin mit einem schönen rosa Farbton",
   "description.pinkDolphin.boost": "Erhöhen Sie den Fischfang im Frühling um 1",
-  "description.lunalist": "Ein blühendes Artefakt, das dem Mond gewidmet ist. Eine dekorative mutierte Blume, die während des Kapitels Große Blüte gefunden wurde"
+  "description.lunalist": "Ein blühendes Artefakt, das dem Mond gewidmet ist. Eine dekorative mutierte Blume, die während des Kapitels Große Blüte gefunden wurde",
+  "description.heartAirBalloon": "Ein schwebendes Symbol der Liebe, das bereit ist, Stimmung und Herz gleichermaßen zu heben. +1 Genissamen von Entbindungen, Hausarbeiten und Gaben.",
+  "whatsOn.july28th": "28. Juli",
+  "description.geniseed": "Ein Ticket, das während des Kapitels Great Bloom verwendet wurde"
 }

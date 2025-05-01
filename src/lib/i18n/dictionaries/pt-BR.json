@@ -5833,7 +5833,6 @@
   "description.flowerscribedStatue": "Esculpida em pedra clara e gravada com antigos versos florais, esta estátua fervilha com a sabedoria silenciosa da Terra dos Girassóis.",
   "description.balloonRug": "Um tapete macio e extravagante que parece mais leve que o ar, perfeito para relaxar com estilo.",
   "description.giantYam": "Uma raiz tão grande que poderia alimentar uma vila — ou pelo menos fazer um guisado impressionante.",
-  "description.heartAirBalloon": "Um símbolo flutuante do amor, pronto para elevar espíritos e corações.",
   "description.giantZuchinni": "Impossivelmente grande e suspeitosamente verde, este vegetal é uma verdadeira maravilha do jardim.",
   "description.miniFloatingIsland": "Um pequeno pedaço de paraíso que, de alguma forma, permanece flutuando, perfeito para momentos de paz.",
   "description.bonusGeniseed.boost": "+1 Geniseed",
@@ -5864,5 +5863,8 @@
   "description.nurseSheep.boost": "Ovelhas não podem ficar doentes durante o verão",
   "description.pinkDolphin": "Um golfinho raro com um lindo tom rosa",
   "description.pinkDolphin.boost": "Aumente a captura de peixe em 1% durante a primavera",
-  "description.lunalist": "Um artefato florescente dedicado à lua. Uma flor mutante decorativa encontrada durante o capítulo Great Bloom"
+  "description.lunalist": "Um artefato florescente dedicado à lua. Uma flor mutante decorativa encontrada durante o capítulo Great Bloom",
+  "description.heartAirBalloon": "Um símbolo flutuante de amor, pronto para elevar espíritos e corações. +1 Geniseeds de entregas, tarefas e recompensas.",
+  "whatsOn.july28th": "28 de julho",
+  "description.geniseed": "Um ingresso usado durante o capítulo Great Bloom"
 }

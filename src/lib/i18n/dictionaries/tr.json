@@ -5833,7 +5833,6 @@
   "description.flowerscribedStatue": "Soluk taştan oyulmuş ve antik çiçek ayetleriyle kazınmış bu heykel, Ayçiçeği Ülkesinin sessiz bilgeliğiyle uğuluyor.",
   "description.balloonRug": "Havadan daha hafif hissettiren yumuşak, tuhaf bir halı - şık bir şekilde uzanmak için mükemmeldir.",
   "description.giantYam": "Bir köyü besleyebilecek ya da en azından etkileyici bir güveç yapabilecek kadar büyük bir kök.",
-  "description.heartAirBalloon": "Yüzen bir aşk sembolü, hem ruhları hem de kalpleri yükseltmeye hazır.",
   "description.giantZuchinni": "İnanılmaz derecede büyük ve şüpheli bir şekilde yeşil olan bu sebze gerçek bir bahçe harikasıdır.",
   "description.miniFloatingIsland": "Bir şekilde ayakta kalan küçük boyutlu bir cennet parçası - huzurlu anlar için mükemmel.",
   "description.bonusGeniseed.boost": "+1 Geniseed",
@@ -5864,5 +5863,8 @@
   "description.nurseSheep.boost": "Koyunlar yaz aylarında hastalanamaz",
   "description.pinkDolphin": "Güzel pembe renk tonuna sahip nadir bir yunus",
   "description.pinkDolphin.boost": "İlkbaharda balık avını 1 artırın",
-  "description.lunalist": "Ay'a adanmış çiçek açan bir eser. Great Bloom bölümünde bulunan dekoratif bir mutant çiçek"
+  "description.lunalist": "Ay'a adanmış çiçek açan bir eser. Great Bloom bölümünde bulunan dekoratif bir mutant çiçek",
+  "description.heartAirBalloon": "Hem ruh hem de kalpleri yükseltmeye hazır, yüzen bir aşk sembolü. Teslimatlardan, ev işlerinden ve ödüllerden +1 Cenerasyon.",
+  "whatsOn.july28th": "28 Temmuz",
+  "description.geniseed": "Great Bloom bölümünde kullanılan bir bilet"
 }

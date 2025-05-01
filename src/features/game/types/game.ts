@@ -360,13 +360,13 @@ export const COUPONS: Record<Coupons, { description: string }> = {
     description: translate("description.love.charm"),
   },
   "Easter Token 2025": {
-    description: "placeholder",
+    description: "",
   },
   "Easter Ticket 2025": {
-    description: "placeholder",
+    description: "",
   },
   Geniseed: {
-    description: "placeholder",
+    description: translate("description.geniseed"),
   },
 };
 

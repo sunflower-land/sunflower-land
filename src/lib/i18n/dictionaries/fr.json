@@ -5833,7 +5833,6 @@
   "description.flowerscribedStatue": "Sculptée dans une pierre pâle et gravée d'anciens vers floraux, cette statue évoque la paisible sagesse du Pays des Tournesols.",
   "description.balloonRug": "Un tapis doux et original qui semble plus léger que l'air, idéal pour se détendre avec style.",
   "description.giantYam": "Une racine si massive qu'elle pourrait nourrir un village, ou du moins préparer un ragoût impressionnant.",
-  "description.heartAirBalloon": "Un symbole flottant de l'amour, prêt à remonter le moral comme au cœur.",
   "description.giantZuchinni": "Incroyablement gros et d'une couleur étrangement verte, ce légume est une véritable merveille de jardin.",
   "description.miniFloatingIsland": "Un petit coin de paradis qui, d'une manière ou d'une autre, reste à flot, idéal pour des moments paisibles.",
   "description.bonusGeniseed.boost": "+1 Génisée",
@@ -5864,5 +5863,8 @@
   "description.nurseSheep.boost": "Les moutons ne peuvent pas tomber malades pendant l'été",
   "description.pinkDolphin": "Un dauphin rare avec une belle teinte rose",
   "description.pinkDolphin.boost": "Augmenter les prises de poissons de 1 % au printemps",
-  "description.lunalist": "Un artefact fleuri consacré à la lune. Une fleur mutante décorative découverte lors du chapitre Great Bloom"
+  "description.lunalist": "Un artefact fleuri consacré à la lune. Une fleur mutante décorative découverte lors du chapitre Great Bloom",
+  "description.heartAirBalloon": "Un symbole flottant d'amour, prêt à remonter le moral comme au cœur. +1 graines de génisse pour les livraisons, les corvées et les primes.",
+  "whatsOn.july28th": "le 28 juillet",
+  "description.geniseed": "Un ticket utilisé lors du chapitre Great Bloom"
 }

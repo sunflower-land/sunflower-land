@@ -5833,7 +5833,6 @@
   "description.flowerscribedStatue": "Diukir dari batu pucat dan terukir dengan ayat-ayat bunga kuno, patung ini menggembung dengan kebijaksanaan Sunflower Land yang tenang.",
   "description.balloonRug": "Permaidani lembut dan aneh yang terasa lebih ringan daripada udara — sesuai untuk berehat dengan gaya.",
   "description.giantYam": "Akar yang begitu besar sehingga dapat memberi makan kampung - atau sekurang-kurangnya membuat satu rebusan yang mengagumkan.",
-  "description.heartAirBalloon": "Simbol cinta terapung, bersedia untuk mengangkat semangat dan hati.",
   "description.giantZuchinni": "Sangat besar dan hijau yang mencurigakan, sayuran ini adalah keajaiban taman yang sejati.",
   "description.miniFloatingIsland": "Tampalan syurga bersaiz kecil yang entah bagaimana kekal di atas - sesuai untuk saat-saat yang damai.",
   "description.bonusGeniseed.boost": "+1 Geniseed",
@@ -5864,5 +5863,8 @@
   "description.nurseSheep.boost": "Domba tidak boleh jatuh sakit semasa musim panas",
   "description.pinkDolphin": "Lumba-lumba yang jarang berlaku dengan warna merah jambu yang indah",
   "description.pinkDolphin.boost": "Meningkatkan tangkapan ikan sebanyak 1 semasa musim bunga",
-  "description.lunalist": "Artifak mekar yang dikhaskan untuk bulan. Bunga mutan hiasan yang ditemui semasa bab Great Bloom"
+  "description.lunalist": "Artifak mekar yang dikhaskan untuk bulan. Bunga mutan hiasan yang ditemui semasa bab Great Bloom",
+  "description.heartAirBalloon": "Simbol cinta terapung, bersedia untuk mengangkat semangat dan hati. +1 Geniseeds dari penghantaran, kerja rumah & karunia.",
+  "whatsOn.july28th": "28 Julai",
+  "description.geniseed": "Tiket yang digunakan semasa bab Great Bloom"
 }
