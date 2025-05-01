@@ -5852,8 +5852,9 @@
   "description.springGuardian.boost2": "祝福された春のイベント",
   "description.summerGuardian.boost": "夏の防災対策",
   "description.summerGuardian.boost2": "祝福された夏のイベント",
-  "description.obsidianNecklace.boost": "2倍オブシディアンスピード",
   "description.medicApron.boost": "半額医薬品",
   "description.broccoliHat.boost": "2x ブロッコリースピード",
-  "rocketman.flower.exchange.one": "ハートエアバロンに乗って、ラブチャームを$FLOWERと交換しましょう。"
+  "rocketman.flower.exchange.one": "ハートエアバロンに乗って、ラブチャームを$FLOWERと交換しましょう。",
+  "description.obsidianNecklace.boost": "2x ラバピットスピード",
+  "description.redPepperOnesie.boost": "0.25x レッドペッパースピード"
 }

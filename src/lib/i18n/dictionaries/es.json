@@ -5852,8 +5852,9 @@
   "description.springGuardian.boost2": "Benditos eventos de primavera",
   "description.summerGuardian.boost": "Protección contra desastres en verano",
   "description.summerGuardian.boost2": "Benditos eventos de verano",
-  "description.obsidianNecklace.boost": "2 veces la velocidad de obsidiana",
   "description.medicApron.boost": "Medicina a mitad de precio",
   "description.broccoliHat.boost": "2x Broccoli Speed",
-  "rocketman.flower.exchange.one": "Viaja en el Heart Air Ballon para cambiar Love Charms por $FLOWER."
+  "rocketman.flower.exchange.one": "Viaja en el Heart Air Ballon para cambiar Love Charms por $FLOWER.",
+  "description.obsidianNecklace.boost": "2 veces la velocidad de Lava Pit",
+  "description.redPepperOnesie.boost": "Velocidad de pimiento rojo 0.25x"
 }

@@ -5852,8 +5852,9 @@
   "description.springGuardian.boost2": "Acara Musim Semi yang Berkati",
   "description.summerGuardian.boost": "Perlindungan Bencana Musim Panas",
   "description.summerGuardian.boost2": "Acara Musim Panas yang Berbahagialah",
-  "description.obsidianNecklace.boost": "Kecepatan Obsidian 2x",
   "description.medicApron.boost": "Obat Setengah Harga",
   "description.broccoliHat.boost": "Kecepatan Brokoli 2x",
-  "rocketman.flower.exchange.one": "Bepergian dengan Heart Air Ballon untuk menukar Love Charms dengan $FLOWER."
+  "rocketman.flower.exchange.one": "Bepergian dengan Heart Air Ballon untuk menukar Love Charms dengan $FLOWER.",
+  "description.obsidianNecklace.boost": "2x Kecepatan Lubang Lava",
+  "description.redPepperOnesie.boost": "Kecepatan Lada Merah 0,25x"
 }

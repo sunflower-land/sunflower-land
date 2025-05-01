@@ -5852,8 +5852,9 @@
   "description.springGuardian.boost2": "Благословенные весенние события",
   "description.summerGuardian.boost": "Защита от стихийных бедствий в летнее время",
   "description.summerGuardian.boost2": "Благословенные летние события",
-  "description.obsidianNecklace.boost": "Скорость обсидиана в 2 раза",
   "description.medicApron.boost": "Лекарства за полцены",
   "description.broccoliHat.boost": "Скорость брокколи в 2 раза",
-  "rocketman.flower.exchange.one": "Путешествуйте на воздушном шаре Heart Air и обменяйте Love Charms на $FLOWER."
+  "rocketman.flower.exchange.one": "Путешествуйте на воздушном шаре Heart Air и обменяйте Love Charms на $FLOWER.",
+  "description.obsidianNecklace.boost": "Скорость лавовой ямы в 2 раза",
+  "description.redPepperOnesie.boost": "Скорость красного перца в 0,25 раза"
 }
