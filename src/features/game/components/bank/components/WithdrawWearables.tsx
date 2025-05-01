@@ -2,7 +2,7 @@ import { useSelector } from "@xstate/react";
 import React, { useContext, useEffect, useState } from "react";
 import Decimal from "decimal.js-light";
 
-import { GameState, Wardrobe } from "features/game/types/game";
+import { Wardrobe } from "features/game/types/game";
 
 import { Button } from "components/ui/Button";
 import { Box } from "components/ui/Box";
@@ -24,19 +24,6 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { canWithdrawBoostedWearable } from "features/game/types/wearableValidation";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
-
-export const isCurrentObsession = (itemName: BumpkinItem, game: GameState) => {
-  const obsessionCompletedAt = game.npcs?.bert?.questCompletedAt;
-  const currentObsession = game.bertObsession;
-
-  if (!obsessionCompletedAt || !currentObsession) return false;
-  if (currentObsession.name !== itemName) return false;
-
-  return (
-    obsessionCompletedAt >= currentObsession.startDate &&
-    obsessionCompletedAt <= currentObsession.endDate
-  );
-};
 
 interface Props {
   onWithdraw: (ids: number[], amounts: number[]) => void;
@@ -106,7 +93,7 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
   };
 
   const withdrawableItems = [...new Set([...getKeys(wardrobe)])]
-    .filter((item) => wardrobe[item] && !isCurrentObsession(item, state))
+    .filter((item) => wardrobe[item])
     .sort((a, b) => ITEM_IDS[a] - ITEM_IDS[b]);
 
   const selectedItems = getKeys(selected)

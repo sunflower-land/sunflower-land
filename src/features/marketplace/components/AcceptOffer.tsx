@@ -53,7 +53,6 @@ const AcceptOfferContent: React.FC<{
 
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
-  const { bertObsession, npcs } = state;
   const hasReputation = useSelector(gameService, _hasReputation);
 
   useOnMachineTransition<ContextType, BlockchainEvent>(
@@ -113,17 +112,6 @@ const AcceptOfferContent: React.FC<{
           points: offer.type === "instant" ? 1 : 3,
         }).multipliedPoints;
 
-  // Check if the item is a bert obsession and whether the bert obsession is completed
-  const isItemBertObsession = bertObsession?.name === display.name;
-  const obsessionCompletedAt = npcs?.bert?.questCompletedAt;
-  const isBertsObesessionCompleted =
-    !!obsessionCompletedAt &&
-    bertObsession &&
-    obsessionCompletedAt >= bertObsession.startDate &&
-    obsessionCompletedAt <= bertObsession.endDate;
-
-  const isResource = display.type === "resources";
-
   if (
     isTradeResource(display.name as InventoryItemName) &&
     hasFeatureAccess(state, "FACE_RECOGNITION") &&
@@ -171,11 +159,7 @@ const AcceptOfferContent: React.FC<{
           {t("cancel")}
         </Button>
         <Button
-          disabled={
-            !hasReputation ||
-            !hasItem ||
-            (isItemBertObsession && isBertsObesessionCompleted && !isResource)
-          }
+          disabled={!hasReputation || !hasItem}
           onClick={() => confirm()}
           className="relative"
         >

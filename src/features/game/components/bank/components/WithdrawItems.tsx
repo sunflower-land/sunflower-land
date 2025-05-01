@@ -109,27 +109,10 @@ export const WithdrawItems: React.FC<Props> = ({
     };
   };
 
-  const isCurrentObsession = (itemName: InventoryItemName) => {
-    const obsessionCompletedAt = state.npcs?.bert?.questCompletedAt;
-    const currentObsession = state.bertObsession;
-
-    if (!obsessionCompletedAt || !currentObsession) return false;
-    if (currentObsession.name !== itemName) return false;
-
-    return (
-      obsessionCompletedAt >= currentObsession.startDate &&
-      obsessionCompletedAt <= currentObsession.endDate
-    );
-  };
-
   const withdrawableItems = getKeys(inventory)
     .filter((itemName) => {
       const withdrawAt = INVENTORY_RELEASES[itemName]?.withdrawAt;
-      return (
-        !!withdrawAt &&
-        withdrawAt <= new Date() &&
-        !isCurrentObsession(itemName)
-      );
+      return !!withdrawAt && withdrawAt <= new Date();
     })
     .sort((a, b) => KNOWN_IDS[a] - KNOWN_IDS[b]);
 
