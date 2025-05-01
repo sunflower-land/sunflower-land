@@ -19,7 +19,7 @@ import { FloatingShopItem } from "features/game/types/floatingIsland";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useGame } from "features/game/GameProvider";
 import { NPC_WEARABLES } from "lib/npcs";
-import { secondsTillReset } from "features/helios/components/hayseedHank/HayseedHankV2";
+import { secondsTillReset } from "lib/utils/time";
 import { CountdownLabel } from "components/ui/CountdownLabel";
 
 export const getItemImage = (item: FloatingShopItem | null): string => {
