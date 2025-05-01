@@ -30,11 +30,13 @@ import { TradeableDisplay } from "../lib/tradeables";
 import { KNOWN_ITEMS } from "features/game/types";
 import { KeyedMutator } from "swr";
 import { isTradeResource } from "features/game/actions/tradeLimits";
+import { MAX_LIMITED_SALES } from "./Tradeable";
 
 type TradeableListingsProps = {
   authToken: string;
   tradeable?: TradeableDetails;
   display: TradeableDisplay;
+  limitedTradesLeft: number;
   farmId: number;
   id: number;
   showListItem: boolean;
@@ -50,6 +52,7 @@ const _balance = (state: MachineState) => state.context.state.balance;
 export const TradeableListings: React.FC<TradeableListingsProps> = ({
   authToken,
   tradeable,
+  limitedTradesLeft,
   farmId,
   display,
   id,
@@ -64,6 +67,7 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
 
   const isListing = useSelector(gameService, _isListing);
   const balance = useSelector(gameService, _balance);
+
   const [selectedListing, setSelectedListing] = useState<Listing>();
   const [showPurchaseModal, setShowPurchaseModal] = useState(false);
 
@@ -170,6 +174,11 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
             <Label icon={tradeIcon} type="default" className="mb-2">
               {t("marketplace.listings")}
             </Label>
+            {tradeable?.expiresAt && (
+              <Label type={limitedTradesLeft <= 0 ? "danger" : "warning"}>
+                {`${limitedTradesLeft}/${MAX_LIMITED_SALES} Listings left`}
+              </Label>
+            )}
           </div>
           <div className="mb-2">
             {loading && <Loading />}

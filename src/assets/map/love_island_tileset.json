@@ -1,0 +1,15 @@
+[
+  {
+    "columns": 64,
+    "firstgid": 1,
+    "image": "../../../../images/assets/world/floating-map.png",
+    "imageheight": 1024,
+    "imagewidth": 1024,
+    "margin": 0,
+    "name": "Sunnyside V3",
+    "spacing": 0,
+    "tilecount": 4096,
+    "tileheight": 16,
+    "tilewidth": 16
+  }
+]

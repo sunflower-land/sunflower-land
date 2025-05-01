@@ -26,6 +26,13 @@ export const HotAirBalloon = ({ onClose }: Props) => {
     state: gameState.context.state,
   });
 
+  const isOpen = schedule.some((schedule) => {
+    const now = new Date();
+    const start = new Date(schedule.startAt);
+    const end = new Date(schedule.endAt);
+    return now >= start && now <= end;
+  });
+
   return (
     <CloseButtonPanel onClose={onClose}>
       <div className="p-1">
@@ -50,11 +57,34 @@ export const HotAirBalloon = ({ onClose }: Props) => {
           <Label type="default" className="mt-2 mb-1 mr-2">
             {t("hotAirBalloon.flightTimes")}
           </Label>
-          <Label type="success" className="mt-2 mb-1">
-            {t("hotAirBalloon.openNow")}
-          </Label>
+          {isOpen && (
+            <Label type="success" className="mt-2 mb-1">
+              {t("hotAirBalloon.openNow")}
+            </Label>
+          )}
         </div>
         {schedule.map((schedule, index) => {
+          const start = new Date(schedule.startAt);
+          const end = new Date(schedule.endAt);
+          const startTime = start.toLocaleString("en-GB", {
+            weekday: "short",
+            day: "numeric",
+            month: "short",
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: true,
+          });
+          const endTime = end.toLocaleString("en-GB", {
+            ...(end.getDate() !== start.getDate() && {
+              weekday: "short",
+              day: "numeric",
+              month: "short",
+            }),
+            hour: "2-digit",
+            minute: "2-digit",
+            hour12: true,
+          });
+
           return (
             <Label
               type="transparent"
@@ -62,7 +92,7 @@ export const HotAirBalloon = ({ onClose }: Props) => {
               icon={SUNNYSIDE.icons.stopwatch}
               key={index}
             >
-              {`${new Date(schedule.startAt).toLocaleTimeString().slice(0, 5)}-${new Date(schedule.endAt).toLocaleTimeString().slice(0, 5)}`}
+              {`${startTime} - ${endTime}`}
             </Label>
           );
         })}

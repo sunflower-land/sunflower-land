@@ -141,7 +141,7 @@ export class PlazaScene extends BaseScene {
 
     this.load.image("shop_icon", "world/shop_disc.png");
     this.load.image("trade_icon", "world/trade_icon.png");
-    this.load.image("balloon", `world/hot_air_balloon.png`);
+    this.load.image("balloon", `world/heart_air_balloon.webp`);
 
     this.load.spritesheet("plaza_bud", "world/plaza_bud.png", {
       frameWidth: 15,
@@ -421,6 +421,13 @@ export class PlazaScene extends BaseScene {
 
     if (hasFeatureAccess(this.gameState, "LOVE_ISLAND")) {
       const balloon = this.add.sprite(510, 228, "balloon");
+
+      balloon.setDepth(272);
+
+      const balloonLabel = new Label(this, "FLY", "brown");
+      balloonLabel.setPosition(510, 208);
+      balloonLabel.setDepth(10000000);
+      this.add.existing(balloonLabel);
 
       // On clikc open
       balloon.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {

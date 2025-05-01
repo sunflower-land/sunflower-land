@@ -18,6 +18,45 @@ type Metadata = {
 };
 
 export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
+  "Love Chicken": {
+    description: "A mutant chicken filled with love and affection",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2255.png",
+    attributes: [{ trait_type: "Tradable", value: "Yes" }],
+  },
+  "Dr. Cow": {
+    description:
+      "A mutant cow dressed as a caring doctor, gives 5% less feeding cost for cows",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2256.png",
+    attributes: [{ trait_type: "Tradable", value: "Yes" }],
+  },
+  "Nurse Sheep": {
+    description:
+      "A mutant sheep dressed as a caring nurse, prevents sheep from getting sick during summer",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2257.png",
+    attributes: [{ trait_type: "Tradable", value: "Yes" }],
+  },
+  "Pink Dolphin": {
+    description:
+      "A rare dolphin with a beautiful pink hue, increases fish catch by 1 during spring",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2254.png",
+    attributes: [{ trait_type: "Tradable", value: "Yes" }],
+  },
+  Lunalist: {
+    description:
+      "A blooming artifact devoted to the moon. A decorative mutant flower found during the Great Bloom chapter",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2258.png",
+    attributes: [{ trait_type: "Tradable", value: "Yes" }],
+  },
   "Rhubarb Tart": {
     description: "A sweet and tangy tart featuring fresh rhubarb",
     decimals: 0,
@@ -11302,6 +11341,17 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/question_mark.png",
     name: "Ancient Clock",
   },
+  "Broken Pillar": {
+    description: "",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Bounty" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/question_mark.png",
+    name: "Broken Pillar",
+  },
   "Winds of Change Banner": {
     description: "",
     decimals: 0,
@@ -11671,6 +11721,18 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/2240.png",
     name: "Easter Basket",
   },
+  "Test Box": {
+    description: "A box filled with love!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Rarity", value: "Common" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2241.png",
+    name: "Test Box",
+  },
   "Bronze Love Box": {
     description: "A box filled with love!",
     decimals: 0,
@@ -11706,6 +11768,284 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/2243.png",
     name: "Gold Love Box",
+  },
+  "Bronze Food Box": {
+    description: "A box filled with love!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Rarity", value: "Rare" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2243.png",
+    name: "Gold Love Box",
+  },
+  "Silver Food Box": {
+    description: "A box filled with love!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Rarity", value: "Rare" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2243.png",
+    name: "Gold Love Box",
+  },
+  "Gold Food Box": {
+    description: "A box filled with love!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Rarity", value: "Rare" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2243.png",
+    name: "Gold Love Box",
+  },
+  "Bronze Tool Box": {
+    description: "A box filled with love!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Rarity", value: "Rare" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2243.png",
+    name: "Gold Love Box",
+  },
+  "Silver Tool Box": {
+    description: "A box filled with love!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Rarity", value: "Rare" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2243.png",
+    name: "Gold Love Box",
+  },
+  "Gold Tool Box": {
+    description: "A box filled with love!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Rarity", value: "Rare" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2243.png",
+    name: "Gold Love Box",
+  },
+
+  "Bronze Flower Box": {
+    description: "A box filled with love!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Rarity", value: "Common" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2245.png",
+    name: "Bronze Flower Box",
+  },
+
+  "Silver Flower Box": {
+    description: "A box filled with love!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Rarity", value: "Uncommon" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2246.png",
+    name: "Silver Flower Box",
+  },
+  "Gold Flower Box": {
+    description: "A box filled with love!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Rarity", value: "Rare" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2247.png",
+    name: "Gold Flower Box",
+  },
+  Quarry: {
+    description:
+      "An age-old stone site that never runs dry—perfect for those seeking a steady supply of free stone.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2259.png",
+    name: "Quarry",
+  },
+  "Obsidian Turtle": {
+    description:
+      "Steady and silent, this ancient creature gathers traces of volcanic stone wherever it roams.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2260.png",
+    name: "Obsidian Turtle",
+  },
+  "Winter Guardian": {
+    description:
+      "Summoned from a land where snow never melts, this frostbound protector now watches over the skies—an honored guest in unfamiliar winds.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2261.png",
+    name: "Winter Guardian",
+  },
+  "Summer Guardian": {
+    description:
+      "A blazing figure born under endless sun, this Guardian brings the heat of its homeland to the cooler heights of Sky Island.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2262.png",
+    name: "Summer Guardian",
+  },
+  "Spring Guardian": {
+    description:
+      "Awakened from fertile fields far below, this gentle spirit now nurtures life among the drifting gardens of the sky.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2263.png",
+    name: "Spring Guardian",
+  },
+  "Autumn Guardian": {
+    description:
+      "With harvest hues and a wistful gaze, this Guardian carries the essence of changing seasons from distant lands into the realm above.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2264.png",
+    name: "Autumn Guardian",
+  },
+  "Sky Pillar": {
+    description:
+      "These ancient columns are said to predate the sky itself, pulsing with the energy that keeps Sky Island afloat and in balance.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2265.png",
+    name: "Sky Pillar",
+  },
+  "Flower-Scribed Statue": {
+    description:
+      "Carved from pale stone and etched with ancient floral verses, this statue hums with the quiet wisdom of Sunflower Land.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2266.png",
+    name: "Flower-Scribed Statue",
+  },
+
+  "Balloon Rug": {
+    description:
+      "A soft, whimsical rug that feels lighter than air—perfect for lounging in style.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2267.png",
+    name: "Balloon Rug",
+  },
+  "Giant Yam": {
+    description:
+      "A root so massive it could feed a village—or at least make one impressive stew.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2268.png",
+    name: "Giant Yam",
+  },
+  "Heart Air Balloon": {
+    description:
+      "A floating symbol of love, ready to lift spirits and hearts alike. +1 Geniseeds from deliveries, chores & bounties.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2269.png",
+    name: "Heart Air Balloon",
+  },
+  "Giant Zucchini": {
+    description:
+      "Impossibly large and suspiciously green, this veggie is a true garden marvel.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2270.png",
+    name: "Giant Zucchini",
+  },
+  "Giant Kale": {
+    description: "?",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2272.png",
+    name: "Giant Kale",
+  },
+  "Mini Floating Island": {
+    description:
+      "A small-sized patch of paradise that somehow stays afloat—perfect for peaceful moments.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2271.png",
+    name: "Mini Floating Island",
   },
 };
 
@@ -17463,7 +17803,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
   },
   "Flower Mask": {
     description:
-      "A blooming masterpiece that frames your face in petals of charm. Nature’s beauty has never been so wearable!",
+      "A blooming masterpiece that frames your face in petals of charm. +1 Geniseeds from deliveries, chores & bounties.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Hat" },
@@ -17563,5 +17903,149 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/wearables/images/449.png",
     name: "Easter Apron",
+  },
+  "Bloomwarden Suit": {
+    description:
+      "Woven from enchanted petals and dawn's dew, this suit protects the fields and those who tend them.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Suit" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/450.png",
+    name: "Bloomwarden Suit",
+  },
+  "Embersteel Suit": {
+    description:
+      "Forged in volcanic heartfires, this armor blazes with the spirit of an unyielding defender.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Suit" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/451.png",
+    name: "Embersteel Suit",
+  },
+  "Amberfall Suit": {
+    description:
+      "Dripping with the golden hues of autumn, this suit whispers of fading leaves and hidden strength.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Suit" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/452.png",
+    name: "Amberfall Suit",
+  },
+  "Glacierguard Suit": {
+    description:
+      "Cold as the northern winds, this suit shields its wearer with ancient frostbound resilience.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Suit" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/453.png",
+    name: "Glacierguard Suit",
+  },
+  "Broccoli Hat": {
+    description:
+      " crunchy crown for the veggie lover — surprisingly comfortable and extremely nutritious-looking!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hat" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/454.png",
+    name: "Broccoli Hat",
+  },
+  "Frost Sword": {
+    description:
+      "Carved from eternal ice, this blade chills foes to their core with a single graceful swing.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Tool" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/455.png",
+    name: "Frost Sword",
+  },
+  "Medic Apron": {
+    description:
+      "Worn by the caretakers of the sick and small, this apron carries the scent of healing herbs and kindness.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Coat" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/456.png",
+    name: "Medic Apron",
+  },
+  "Obsidian Necklace": {
+    description:
+      "A shard of molten earth turned elegant charm, pulsing softly with ancient, dormant power.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Necklace" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/457.png",
+    name: "Obsidian Necklace",
+  },
+  "Red Pepper Onesie": {
+    description:
+      "Spicy, snuggly, and absolutely sizzling with personality — it’s the hottest onesie in the land!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Onesie" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/458.png",
+    name: "Red Pepper Onesie",
+  },
+  "Love Charm Shirt": {
+    description:
+      "Woven with affection and stitched with sparkles. +1 Geniseeds from deliveries, chores & bounties.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Shirt" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/459.png",
+    name: "Love Charm Shirt",
+  },
+  "Sky Island Background": {
+    description:
+      "High above the clouds lies a floating haven of peace, mystery, and boundless imagination.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Background" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/460.png",
+    name: "Sky Island Background",
+  },
+  "Oracle Syringe": {
+    description:
+      "Infused with the Barn Delight, this curious tool channels healing to every ailing animals with a burst of magical care.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Wings" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/461.png",
+    name: "Oracle Syringe",
   },
 };

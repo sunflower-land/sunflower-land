@@ -5,23 +5,20 @@ import { NPCPlaceable } from "features/island/bumpkin/components/NPC";
 import { NPC_WEARABLES } from "lib/npcs";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { Guide } from "features/helios/components/hayseedHank/components/Guide";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PeteHelp } from "./PeteHelp";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { GuidePath } from "features/helios/components/hayseedHank/lib/guide";
 import { MapPlacement } from "./MapPlacement";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 import { getKeys } from "features/game/types/craftables";
 import { CROPS } from "features/game/types/crops";
 import { translate } from "lib/i18n/translate";
-
-const isNoob = (state: MachineState) =>
-  getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) < 3;
+import { Guide } from "features/helios/components/hayseedHank/components/Guide";
+import { GuidePath } from "features/helios/components/hayseedHank/lib/guide";
 
 const expansions = (state: MachineState) =>
   state.context.state.inventory["Basic Land"]?.toNumber() ?? 0;
@@ -97,7 +94,6 @@ const hint = (state: MachineState) => {
 
 export const TravelTeaser: React.FC = () => {
   const { gameService, showAnimations } = useContext(Context);
-  const showSpeech = useSelector(gameService, isNoob);
   const peteHint = useSelector(gameService, hint);
   const expansionCount = useSelector(gameService, expansions);
   const { t } = useAppTranslation();
@@ -112,7 +108,7 @@ export const TravelTeaser: React.FC = () => {
     const speak = async () => {
       setPeteState("typing");
 
-      await new Promise((res) => setTimeout(() => setPeteState("idle"), 1000));
+      await new Promise(() => setTimeout(() => setPeteState("idle"), 1000));
     };
 
     speak();

@@ -30,7 +30,6 @@ export type Scenes = {
   bumpkin_house: Room<PlazaRoomState> | undefined;
   portal_example: Room<PlazaRoomState> | undefined;
   infernos: Room<PlazaRoomState> | undefined;
-  easter_island: Room<PlazaRoomState> | undefined;
   stream: Room<PlazaRoomState> | undefined;
   love_island: Room<PlazaRoomState> | undefined;
 };
@@ -71,6 +70,8 @@ export type ServerId =
   | "sunflorea_oasis"
   | "sunflorea_brazil"
   | "sunflorea_magic"
+  | "sunflorea_kale"
+  | "sunflorea_flower"
   | "sunflorea_stream";
 
 export type ServerName =
@@ -79,6 +80,8 @@ export type ServerName =
   | "Oasis"
   | "Brazil"
   | "Magic"
+  | "Kale"
+  | "Flower"
   | "Bumpkin Bazaar";
 export type ServerPurpose = "Chill & Chat" | "Trading";
 
@@ -113,7 +116,24 @@ const SERVERS: Server[] = [
     population: 0,
     purpose: "Chill & Chat",
   },
-  // { name: "Magic", id: "sunflorea_magic", population: 0 },
+  {
+    name: "Magic",
+    id: "sunflorea_magic",
+    population: 0,
+    purpose: "Chill & Chat",
+  },
+  {
+    name: "Kale",
+    id: "sunflorea_kale",
+    population: 0,
+    purpose: "Chill & Chat",
+  },
+  {
+    name: "Flower",
+    id: "sunflorea_flower",
+    population: 0,
+    purpose: "Chill & Chat",
+  },
 ];
 
 export interface MMOContext {

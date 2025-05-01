@@ -103,7 +103,14 @@ export type SoldOutCollectibleName =
   | "UFO"
   | "Black Sheep"
   | "Golden Sheep"
-  | "Barn Blueprint";
+  | "Barn Blueprint"
+  | "Quarry"
+  | "Obsidian Turtle"
+  | "Winter Guardian"
+  | "Summer Guardian"
+  | "Spring Guardian"
+  | "Autumn Guardian"
+  | "Sky Pillar";
 
 export type MegaStoreCollectibleName =
   | "Flower Cart"

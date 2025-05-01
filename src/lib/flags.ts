@@ -1,7 +1,7 @@
 import type { GameState } from "features/game/types/game";
 import { CONFIG } from "lib/config";
 
-const adminFeatureFlag = ({ wardrobe, inventory }: GameState) =>
+export const adminFeatureFlag = ({ wardrobe, inventory }: GameState) =>
   CONFIG.NETWORK === "amoy" ||
   (!!((wardrobe["Gift Giver"] ?? 0) > 0) && !!inventory["Beta Pass"]?.gt(0));
 
@@ -86,7 +86,7 @@ const FEATURE_FLAGS = {
     new Date("2025-05-01T00:00:00Z"),
   ),
   //Testnet only
-  LOVE_CHARM_REWARD_SHOP: timeBasedFeatureFlag(
+  LOVE_CHARM_REWARD_SHOP: betaTimeBasedFeatureFlag(
     new Date("2025-05-01T00:00:00Z"),
   ),
 
@@ -105,9 +105,12 @@ const FEATURE_FLAGS = {
     Date.now() < new Date("2025-04-29T00:00:00Z").getTime(),
   STREAM_STAGE_ACCESS: adminFeatureFlag,
 
-  LOVE_ISLAND: defaultFeatureFlag,
+  LOVE_ISLAND: betaTimeBasedFeatureFlag(new Date("2025-05-01T00:00:00Z")),
 
   GOODBYE_BERT: timeBasedFeatureFlag(new Date("2025-05-01T00:00:00Z")),
+  FLOWER_BOXES: betaTimeBasedFeatureFlag(new Date("2025-05-01T00:00:00Z")),
+
+  MEGA_BOUNTIES: betaTimeBasedFeatureFlag(new Date("2025-05-05T00:00:00Z")),
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;

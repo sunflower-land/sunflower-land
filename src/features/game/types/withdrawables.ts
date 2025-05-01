@@ -355,6 +355,75 @@ export const BUMPKIN_RELEASES: Partial<Record<BumpkinItem, Releases>> = {
   },
   "Love Heart Onesie": CAN_WITHDRAW_AND_TRADE,
   "Flower Bouquet": CAN_WITHDRAW_AND_TRADE,
+
+  "Carrot Pitchfork": {
+    tradeAt: new Date("2025-05-01"),
+    withdrawAt: new Date("2025-05-01"),
+  },
+  "Handheld Bunny": {
+    tradeAt: new Date("2025-05-01"),
+    withdrawAt: new Date("2025-05-01"),
+  },
+  "Bunny Pants": {
+    tradeAt: new Date("2025-05-01"),
+    withdrawAt: new Date("2025-05-01"),
+  },
+  "Bunny Mask": {
+    tradeAt: new Date("2025-05-01"),
+    withdrawAt: new Date("2025-05-01"),
+  },
+  "Easter Apron": {
+    tradeAt: new Date("2025-05-01"),
+    withdrawAt: new Date("2025-05-01"),
+  },
+  "Bloomwarden Suit": {
+    tradeAt: SEASONS["Great Bloom"].endDate,
+    withdrawAt: SEASONS["Great Bloom"].endDate,
+  },
+  "Embersteel Suit": {
+    tradeAt: SEASONS["Great Bloom"].endDate,
+    withdrawAt: SEASONS["Great Bloom"].endDate,
+  },
+  "Amberfall Suit": {
+    tradeAt: SEASONS["Great Bloom"].endDate,
+    withdrawAt: SEASONS["Great Bloom"].endDate,
+  },
+  "Glacierguard Suit": {
+    tradeAt: SEASONS["Great Bloom"].endDate,
+    withdrawAt: SEASONS["Great Bloom"].endDate,
+  },
+  "Broccoli Hat": {
+    tradeAt: SEASONS["Great Bloom"].endDate,
+    withdrawAt: SEASONS["Great Bloom"].endDate,
+  },
+  "Frost Sword": {
+    tradeAt: SEASONS["Great Bloom"].endDate,
+    withdrawAt: SEASONS["Great Bloom"].endDate,
+  },
+  "Medic Apron": {
+    tradeAt: SEASONS["Great Bloom"].endDate,
+    withdrawAt: SEASONS["Great Bloom"].endDate,
+  },
+  "Obsidian Necklace": {
+    tradeAt: SEASONS["Great Bloom"].endDate,
+    withdrawAt: SEASONS["Great Bloom"].endDate,
+  },
+  "Red Pepper Onesie": {
+    tradeAt: SEASONS["Great Bloom"].endDate,
+    withdrawAt: SEASONS["Great Bloom"].endDate,
+  },
+  "Love Charm Shirt": {
+    tradeAt: SEASONS["Great Bloom"].endDate,
+    withdrawAt: SEASONS["Great Bloom"].endDate,
+  },
+  "Sky Island Background": {
+    tradeAt: SEASONS["Great Bloom"].endDate,
+    withdrawAt: SEASONS["Great Bloom"].endDate,
+  },
+  "Oracle Syringe": {
+    tradeAt: SEASONS["Great Bloom"].endDate,
+    withdrawAt: SEASONS["Great Bloom"].endDate,
+  },
 };
 
 export const INVENTORY_RELEASES: Partial<Record<InventoryItemName, Releases>> =
@@ -865,5 +934,61 @@ export const INVENTORY_RELEASES: Partial<Record<InventoryItemName, Releases>> =
     Jin: {
       tradeAt: new Date("2025-08-20T00:00:00Z"),
       withdrawAt: new Date("2025-08-20T00:00:00Z"),
+    },
+    Quarry: {
+      tradeAt: SEASONS["Great Bloom"].endDate,
+      withdrawAt: SEASONS["Great Bloom"].endDate,
+    },
+    "Obsidian Turtle": {
+      tradeAt: SEASONS["Great Bloom"].endDate,
+      withdrawAt: SEASONS["Great Bloom"].endDate,
+    },
+    "Winter Guardian": {
+      tradeAt: SEASONS["Great Bloom"].endDate,
+      withdrawAt: SEASONS["Great Bloom"].endDate,
+    },
+    "Summer Guardian": {
+      tradeAt: SEASONS["Great Bloom"].endDate,
+      withdrawAt: SEASONS["Great Bloom"].endDate,
+    },
+    "Spring Guardian": {
+      tradeAt: SEASONS["Great Bloom"].endDate,
+      withdrawAt: SEASONS["Great Bloom"].endDate,
+    },
+    "Autumn Guardian": {
+      tradeAt: SEASONS["Great Bloom"].endDate,
+      withdrawAt: SEASONS["Great Bloom"].endDate,
+    },
+    "Sky Pillar": {
+      tradeAt: SEASONS["Great Bloom"].endDate,
+      withdrawAt: SEASONS["Great Bloom"].endDate,
+    },
+    "Flower-Scribed Statue": {
+      tradeAt: SEASONS["Great Bloom"].endDate,
+      withdrawAt: SEASONS["Great Bloom"].endDate,
+    },
+    "Balloon Rug": {
+      tradeAt: SEASONS["Great Bloom"].endDate,
+      withdrawAt: SEASONS["Great Bloom"].endDate,
+    },
+    "Giant Yam": {
+      tradeAt: SEASONS["Great Bloom"].endDate,
+      withdrawAt: SEASONS["Great Bloom"].endDate,
+    },
+    "Heart Air Balloon": {
+      tradeAt: SEASONS["Great Bloom"].endDate,
+      withdrawAt: SEASONS["Great Bloom"].endDate,
+    },
+    "Giant Zucchini": {
+      tradeAt: SEASONS["Great Bloom"].endDate,
+      withdrawAt: SEASONS["Great Bloom"].endDate,
+    },
+    "Mini Floating Island": {
+      tradeAt: SEASONS["Great Bloom"].endDate,
+      withdrawAt: SEASONS["Great Bloom"].endDate,
+    },
+    "Giant Kale": {
+      tradeAt: SEASONS["Great Bloom"].endDate,
+      withdrawAt: SEASONS["Great Bloom"].endDate,
     },
   };

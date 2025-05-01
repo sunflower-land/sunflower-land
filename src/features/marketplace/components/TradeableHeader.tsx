@@ -21,7 +21,6 @@ import {
 } from "features/game/lib/gameMachine";
 import { useOnMachineTransition } from "lib/utils/hooks/useOnMachineTransition";
 import { PurchaseModalContent } from "./PurchaseModalContent";
-import { TradeableDisplay } from "../lib/tradeables";
 import { formatNumber } from "lib/utils/formatNumber";
 import { KNOWN_ITEMS } from "features/game/types";
 import { useSelector } from "@xstate/react";
@@ -35,16 +34,16 @@ import { hasReputation } from "features/game/lib/reputation";
 
 type TradeableHeaderProps = {
   authToken: string;
-  dailyListings: number;
   farmId: number;
+  limitedTradesLeft: number;
   collection: CollectionName;
-  display: TradeableDisplay;
   tradeable?: TradeableDetails;
   count: number;
   pricePerUnit?: number;
   onBack: () => void;
   onListClick: () => void;
   reload: () => void;
+  limitedPurchasesLeft: number;
 };
 
 const _balance = (state: MachineState) => state.context.state.balance;
@@ -53,17 +52,14 @@ const _hasTradeReputation = (state: MachineState) =>
     game: state.context.state,
     reputation: Reputation.Cropkeeper,
   });
-const _bertObsession = (state: MachineState) =>
-  state.context.state.bertObsession;
-const _npcs = (state: MachineState) => state.context.state.npcs;
 
 export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
-  dailyListings,
   authToken,
   farmId,
+  limitedTradesLeft,
+  limitedPurchasesLeft,
   count,
   tradeable,
-  display,
   onListClick,
   reload,
 }) => {
@@ -71,8 +67,6 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
   const balance = useSelector(gameService, _balance);
   const hasTradeReputation = useSelector(gameService, _hasTradeReputation);
   const params = useParams();
-  const bertObsession = useSelector(gameService, _bertObsession);
-  const npcs = useSelector(gameService, _npcs);
   const [showPurchaseModal, setShowPurchaseModal] = useState(false);
 
   const { t } = useAppTranslation();
@@ -80,15 +74,6 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
   const cheapestListing = tradeable?.listings.reduce((cheapest, listing) => {
     return listing.sfl < cheapest.sfl ? listing : cheapest;
   }, tradeable?.listings[0]);
-
-  // Check if the item is a bert obsession and whether the bert obsession is completed
-  const isItemBertObsession = bertObsession?.name === display.name;
-  const obsessionCompletedAt = npcs?.bert?.questCompletedAt;
-  const isBertsObesessionCompleted =
-    !!obsessionCompletedAt &&
-    bertObsession &&
-    obsessionCompletedAt >= bertObsession.startDate &&
-    obsessionCompletedAt <= bertObsession.endDate;
 
   // Handle instant purchase
   useOnMachineTransition<ContextType, BlockchainEvent>(
@@ -166,7 +151,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
         </Modal>
       )}
       <InnerPanel className="w-full mb-1">
-        <div className="p-2 pt-1">
+        <section id="tradeable-header" className="p-2 pt-1">
           <div className="flex flex-wrap items-center justify-between mb-3 space-y-1">
             <div
               className={classNames("flex items-center justify-between w-full")}
@@ -252,7 +237,10 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                 {showBuyNow && (
                   <Button
                     onClick={() => setShowPurchaseModal(true)}
-                    disabled={!balance.gt(cheapestListing.sfl)}
+                    disabled={
+                      !balance.gt(cheapestListing.sfl) ||
+                      limitedPurchasesLeft <= 0
+                    }
                     className="mr-1 w-full sm:w-auto"
                   >
                     {t("marketplace.buyNow")}
@@ -266,9 +254,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                         getRemainingTrades({
                           game: gameService.getSnapshot().context.state,
                         }) <= 0) ||
-                      (isItemBertObsession &&
-                        isBertsObesessionCompleted &&
-                        !isResources)
+                      limitedTradesLeft <= 0
                     }
                     onClick={onListClick}
                     className="w-full sm:w-auto"
@@ -277,20 +263,14 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                   </Button>
                 )}
               </div>
-              <div className="mt-1">
-                {isItemBertObsession &&
-                  isBertsObesessionCompleted &&
-                  !isResources && (
-                    <Label type="danger">
-                      {`You have completed Bert's Obsession recently`}
-                    </Label>
-                  )}
-              </div>
             </div>
           </div>
-        </div>
+        </section>
         {/* Mobile display */}
-        <div className="flex flex-col items-center sm:hidden w-full sm:w-auto">
+        <section
+          id="tradeable-header-mobile"
+          className="flex flex-col items-center sm:hidden w-full sm:w-auto"
+        >
           <div className="flex items-center justify-between w-full">
             {showBuyNow && (
               <Button
@@ -310,9 +290,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                     getRemainingTrades({
                       game: gameService.getSnapshot().context.state,
                     }) <= 0) ||
-                  (isItemBertObsession &&
-                    isBertsObesessionCompleted &&
-                    !isResources)
+                  limitedTradesLeft <= 0
                 }
                 className="w-full sm:w-auto"
               >
@@ -320,16 +298,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
               </Button>
             )}
           </div>
-          <div className="mt-1">
-            {isItemBertObsession &&
-              isBertsObesessionCompleted &&
-              !isResources && (
-                <Label type="danger">
-                  {`You have completed Bert's Obsession recently`}
-                </Label>
-              )}
-          </div>
-        </div>
+        </section>
       </InnerPanel>
     </>
   );

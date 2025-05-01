@@ -153,6 +153,7 @@ export class BeachScene extends BaseScene {
     this.load.image("scarab", "world/scarab.webp");
     this.load.image("cow_skull", "world/cow_skull.webp");
     this.load.image("ancient_clock", "world/ancient_clock.png");
+    this.load.image("broken_pillar", "world/broken_pillar.webp");
     this.load.image("sand", "world/sand.webp");
 
     this.load.image("shovel_select", "world/shovel_select_new.webp");

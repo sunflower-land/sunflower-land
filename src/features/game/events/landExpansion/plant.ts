@@ -311,6 +311,13 @@ export const getCropPlotTime = ({
     seconds = seconds * 0.75;
   }
 
+  if (
+    crop === "Pepper" &&
+    isWearableActive({ name: "Red Pepper Onesie", game })
+  ) {
+    seconds = seconds * 0.75;
+  }
+
   if (isCollectibleActive({ name: "Harvest Hourglass", game })) {
     seconds = seconds * 0.75;
   }

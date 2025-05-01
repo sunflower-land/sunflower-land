@@ -143,6 +143,11 @@ export function openRewardBox({
       });
     }
 
+    if (selectedReward.flower) {
+      history.flower = (history.flower ?? 0) + selectedReward.flower;
+      stateCopy.balance = stateCopy.balance.plus(selectedReward.flower);
+    }
+
     // Update gacha state with the new prize - UI only
     stateCopy.rewardBoxes[name] = {
       spunAt: createdAt,

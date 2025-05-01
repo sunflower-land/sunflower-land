@@ -33,11 +33,11 @@ import {
   getSeasonalTicket,
 } from "features/game/types/seasons";
 import { ChoreBoard } from "./pages/ChoreBoard";
-import { FLOWERS } from "features/game/types/flowers";
 import { CompetitionDetails } from "features/competition/CompetitionBoard";
 import { MachineState } from "features/game/lib/gameMachine";
 import { LoveRushWidget } from "features/announcements/AnnouncementWidgets";
 import { hasFeatureAccess } from "lib/flags";
+import { ANIMALS } from "features/game/types/animals";
 
 interface Props {
   show: boolean;
@@ -128,17 +128,17 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
       ? 0
       : 1;
 
-  const incompleteFlowerBounties = bounties.requests.filter(
-    (deal) => deal.name in FLOWERS,
+  const incompleteMegaBounties = bounties.requests.filter(
+    (deal) => !Object.keys(ANIMALS).includes(deal.name),
   );
-  const incompleteFlowerBountiesCount = incompleteFlowerBounties.reduce(
+  const incompleteMegaBountiesCount = incompleteMegaBounties.reduce(
     (count, deal) => {
       const isSold = !!bounties.completed.find(
         (request) => request.id === deal.id,
       );
       return isSold ? count - 1 : count;
     },
-    incompleteFlowerBounties.length,
+    incompleteMegaBounties.length,
   );
 
   const incompleteDeliveries = delivery.orders.filter(
@@ -169,7 +169,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
     {
       name: "Leaderboard",
       icon: ITEM_DETAILS[getSeasonalTicket()].image,
-      count: incompleteObsession + incompleteFlowerBountiesCount,
+      count: incompleteObsession + incompleteMegaBountiesCount,
     },
     {
       name: "Fish",

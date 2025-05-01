@@ -114,10 +114,6 @@ import {
 import { sellTreasure, SellTreasureAction } from "./landExpansion/treasureSold";
 import { restock, RestockAction } from "./landExpansion/restock";
 import { sellGarbage, SellGarbageAction } from "./landExpansion/garbageSold";
-import {
-  completeChore,
-  CompleteChoreAction,
-} from "./landExpansion/completeChore";
 import { placeTree, PlaceTreeAction } from "./landExpansion/placeTree";
 import { expandLand, ExpandLandAction } from "./landExpansion/expandLand";
 import { placePlot, PlacePlotAction } from "./landExpansion/placePlot";
@@ -146,7 +142,6 @@ import { moveGold, MoveGoldAction } from "./landExpansion/moveGold";
 import { pickMushroom, PickMushroomAction } from "./landExpansion/pickMushroom";
 import { moveChicken, MoveChickenAction } from "./landExpansion/moveChicken";
 import { Announcements } from "../types/announcements";
-import { skipChore, SkipChoreAction } from "./landExpansion/skipChore";
 import { deliverOrder, DeliverOrderAction } from "./landExpansion/deliver";
 import { equip, EquipBumpkinAction } from "./landExpansion/equip";
 import { refundBid, RefundBidAction } from "./landExpansion/refundBid";
@@ -457,9 +452,9 @@ import {
   ExchangeFlowerAction,
 } from "./landExpansion/exchangeFLOWER";
 import {
-  buyRewardShopItem,
-  BuyRewardShopItemAction,
-} from "./landExpansion/buyRewardItem";
+  buyFloatingShopItem,
+  BuyFloatingShopItemAction,
+} from "./landExpansion/buyFloatingShopItem";
 import {
   buyEventShopItem,
   BuyMinigameItemAction,
@@ -476,6 +471,14 @@ import {
   openRewardBox,
   OpenRewardBoxAction,
 } from "./landExpansion/openRewardBox";
+import {
+  claimBountyBonus,
+  ClaimBountyBonusAction,
+} from "./landExpansion/claimBountyBonus";
+import {
+  claimPetalPrize,
+  ClaimPetalPrizeAction,
+} from "./landExpansion/claimPetalPrize";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
@@ -486,6 +489,7 @@ export type PlayingEvent =
   | SacrificeBearAction
   | SpeedUpCollectible
   | SellBountyAction
+  | ClaimBountyBonusAction
   | FeedMixedAction
   | InstantExpand
   | InstantCookRecipe
@@ -530,9 +534,6 @@ export type PlayingEvent =
   | RestockAction
   | NPCRestockAction
   | SellGarbageAction
-  // Chores
-  | CompleteChoreAction
-  | SkipChoreAction
   | ExpandLandAction
   | MessageRead
   | PickMushroomAction
@@ -614,11 +615,12 @@ export type PlayingEvent =
   | ExchangeFlowerAction
   // To remove once December is finished
   | CollectCandyAction
-  | BuyRewardShopItemAction
+  | BuyFloatingShopItemAction
   | UpdateNetworkAction
   | BuyMinigameItemAction
   | AcknowledgeRewardBoxAction
-  | OpenRewardBoxAction;
+  | OpenRewardBoxAction
+  | ClaimPetalPrizeAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -745,8 +747,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "shops.restocked": restock,
   "npc.restocked": npcRestock,
   "garbage.sold": sellGarbage,
-  "chore.completed": completeChore,
-  "chore.skipped": skipChore,
   "land.expanded": expandLand,
   "message.read": readMessage,
   "mushroom.picked": pickMushroom,
@@ -822,11 +822,13 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "socialTask.completed": completeSocialTask,
   "referral.rewardsClaimed": claimReferralRewards,
   "exchange.flower": exchangeFlower,
-  "rewardItem.bought": buyRewardShopItem,
+  "floatingShopItem.bought": buyFloatingShopItem,
   "network.updated": updateNetwork,
   "minigameItem.bought": buyEventShopItem,
   "rewardBox.acknowledged": acknowledgeRewardBox,
   "rewardBox.opened": openRewardBox,
+  "claim.bountyBoardBonus": claimBountyBonus,
+  "petalPuzzle.solved": claimPetalPrize,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

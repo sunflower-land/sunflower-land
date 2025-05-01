@@ -5,16 +5,16 @@ import { GameState, InventoryItemName } from "features/game/types/game";
 import { getItemBuffs } from "features/game/types/getItemBuffs";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
+  BudNFTName,
   CollectionName,
   MarketplaceTradeableName,
 } from "features/game/types/marketplace";
 import { budImageDomain } from "features/island/collectibles/components/Bud";
 import { OPEN_SEA_WEARABLES } from "metadata/metadata";
-import { BudName } from "features/game/types/buds";
 import { translate } from "lib/i18n/translate";
 
 export type TradeableDisplay = {
-  name: string;
+  name: MarketplaceTradeableName;
   description: string;
   image: string;
   type: CollectionName;
@@ -44,7 +44,7 @@ export function getTradeableDisplay({
   }
 
   if (type === "buds") {
-    const name = `Bud #${id}` as BudName;
+    const name = `Bud #${id}` as BudNFTName;
 
     return {
       name,

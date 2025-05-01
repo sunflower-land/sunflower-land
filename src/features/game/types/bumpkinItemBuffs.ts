@@ -9,8 +9,17 @@ import bee from "assets/icons/bee.webp";
 import chefHat from "assets/icons/chef_hat.png";
 import { ITEM_DETAILS } from "./images";
 import { translate } from "lib/i18n/translate";
-import { hasSeasonEnded } from "./seasons";
+import {
+  getSeasonalTicket,
+  hasSeasonEnded,
+  SeasonName,
+  SEASONS,
+} from "./seasons";
 import { SEASON_ICONS } from "features/island/buildings/components/building/market/SeasonalSeeds";
+import { isCollectible } from "../events/landExpansion/garbageSold";
+import { TranslationKeys } from "lib/i18n/dictionaries/types";
+import { CHAPTER_TICKET_BOOST_ITEMS } from "../events/landExpansion/completeNPCChore";
+import { getObjectEntries } from "../expansion/lib/utils";
 
 export const SPECIAL_ITEM_LABELS: Partial<Record<BumpkinItem, BuffLabel[]>> = {
   Halo: [
@@ -924,5 +933,78 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       boostedItemIcon: SEASON_ICONS["winter"],
     },
   ],
+  "Oracle Syringe": [
+    {
+      shortDescription: translate("description.oracleSyringe.boost"),
+      labelType: "success",
+      boostTypeIcon: lightning,
+    },
+  ],
+  "Obsidian Necklace": [
+    {
+      shortDescription: translate("description.obsidianNecklace.boost"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+    },
+  ],
+  "Medic Apron": [
+    {
+      shortDescription: translate("description.medicApron.boost"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+    },
+  ],
+  "Broccoli Hat": [
+    {
+      shortDescription: translate("description.broccoliHat.boost"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+    },
+  ],
+  "Red Pepper Onesie": [
+    {
+      shortDescription: translate("description.redPepperOnesie.boost"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+    },
+  ],
   ...SPECIAL_ITEM_LABELS,
+  ...Object.fromEntries(
+    getObjectEntries(CHAPTER_TICKET_BOOST_ITEMS)
+      .filter(
+        ([chapter]) =>
+          !(
+            [
+              "Solar Flare",
+              "Dawn Breaker",
+              "Witches' Eve",
+              "Catch the Kraken",
+              "Spring Blossom",
+              "Clash of Factions",
+              "Pharaoh's Treasure",
+            ] as SeasonName[]
+          ).includes(chapter),
+      )
+      .flatMap(([chapter, items]) => {
+        if (hasSeasonEnded(chapter)) return [];
+
+        const ticket = getSeasonalTicket(new Date(SEASONS[chapter].startDate));
+        const translationKey =
+          `description.bonus${ticket.replace(/\s+/g, "")}.boost` as TranslationKeys;
+
+        return Object.values(items)
+          .filter((item) => !isCollectible(item))
+          .map((item) => [
+            item,
+            [
+              {
+                shortDescription: translate(translationKey),
+                labelType: "success",
+                boostTypeIcon: powerup,
+                boostedItemIcon: ITEM_DETAILS[ticket].image,
+              },
+            ],
+          ]);
+      }),
+  ),
 };

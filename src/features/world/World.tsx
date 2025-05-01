@@ -29,6 +29,7 @@ import { GameState } from "features/game/types/game";
 import { Forbidden } from "features/auth/components/Forbidden";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { getActiveFloatingIsland } from "features/game/types/floatingIsland";
+import { adminFeatureFlag } from "lib/flags";
 interface Props {
   isCommunity?: boolean;
 }
@@ -85,7 +86,8 @@ const SCENE_ACCESS: Partial<Record<SceneId, (game: GameState) => boolean>> = {
   sunflorian_house: (game) => game.faction?.name === "sunflorians",
   bumpkin_house: (game) => game.faction?.name === "bumpkins",
   nightshade_house: (game) => game.faction?.name === "nightshades",
-  love_island: (game) => !!getActiveFloatingIsland({ state: game }),
+  love_island: (game) =>
+    !!getActiveFloatingIsland({ state: game }) || !!adminFeatureFlag(game),
   infernos: (game) => {
     const level = getBumpkinLevel(game.bumpkin?.experience ?? 0);
     return level >= 30;

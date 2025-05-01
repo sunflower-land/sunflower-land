@@ -8,7 +8,16 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "./images";
 import { translate } from "lib/i18n/translate";
 import memoize from "lodash.memoize";
-import { hasSeasonEnded } from "./seasons";
+import {
+  getSeasonalTicket,
+  hasSeasonEnded,
+  SeasonName,
+  SEASONS,
+} from "./seasons";
+import { CHAPTER_TICKET_BOOST_ITEMS } from "../events/landExpansion/completeNPCChore";
+import { TranslationKeys } from "lib/i18n/dictionaries/types";
+import { isCollectible } from "../events/landExpansion/garbageSold";
+import { getObjectEntries } from "../expansion/lib/utils";
 
 export const COLLECTIBLE_BUFF_LABELS = memoize(getCollectibleBuffLabels);
 
@@ -1389,6 +1398,158 @@ function getCollectibleBuffLabels(
       },
       {
         shortDescription: translate("description.barnBlueprint.boost2"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    ],
+    "Giant Yam": [
+      {
+        shortDescription: translate("description.giantYam.boost"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Yam.image,
+      },
+    ],
+    "Giant Zucchini": [
+      {
+        shortDescription: translate("description.giantZuchinni.boost"),
+        labelType: "success",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS.Zucchini.image,
+      },
+    ],
+    "Giant Kale": [
+      {
+        shortDescription: translate("description.giantKale.boost"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Kale.image,
+      },
+    ],
+    "Obsidian Turtle": [
+      {
+        shortDescription: translate("description.obsidianTurtle.boost"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS["Obsidian Turtle"].image,
+      },
+    ],
+    Quarry: [
+      {
+        shortDescription: translate("description.quarry.boost"),
+        labelType: "vibrant",
+        boostTypeIcon: lightning,
+        boostedItemIcon: ITEM_DETAILS["Stone"].image,
+      },
+    ],
+    "Winter Guardian": [
+      {
+        shortDescription: translate("description.winterGuardian.boost"),
+        labelType: "vibrant",
+        boostTypeIcon: lightning,
+      },
+      {
+        shortDescription: translate("description.winterGuardian.boost2"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    ],
+    "Autumn Guardian": [
+      {
+        shortDescription: translate("description.autumnGuardian.boost"),
+        labelType: "vibrant",
+        boostTypeIcon: lightning,
+      },
+      {
+        shortDescription: translate("description.autumnGuardian.boost2"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    ],
+    "Spring Guardian": [
+      {
+        shortDescription: translate("description.springGuardian.boost"),
+        labelType: "vibrant",
+        boostTypeIcon: lightning,
+      },
+      {
+        shortDescription: translate("description.springGuardian.boost2"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    ],
+    "Summer Guardian": [
+      {
+        shortDescription: translate("description.summerGuardian.boost"),
+        labelType: "vibrant",
+        boostTypeIcon: lightning,
+      },
+      {
+        shortDescription: translate("description.summerGuardian.boost2"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    ],
+
+    ...Object.fromEntries(
+      getObjectEntries(CHAPTER_TICKET_BOOST_ITEMS)
+        .filter(
+          ([chapter]) =>
+            !(
+              [
+                "Solar Flare",
+                "Dawn Breaker",
+                "Witches' Eve",
+                "Catch the Kraken",
+                "Spring Blossom",
+                "Clash of Factions",
+                "Pharaoh's Treasure",
+              ] as SeasonName[]
+            ).includes(chapter),
+        )
+        .flatMap(([chapter, items]) => {
+          if (hasSeasonEnded(chapter)) return [];
+
+          const ticket = getSeasonalTicket(
+            new Date(SEASONS[chapter].startDate),
+          );
+          const translationKey =
+            `description.bonus${ticket.replace(/\s+/g, "")}.boost` as TranslationKeys;
+
+          return Object.values(items)
+            .filter(isCollectible)
+            .map((item) => [
+              item,
+              [
+                {
+                  shortDescription: translate(translationKey),
+                  labelType: "success",
+                  boostTypeIcon: powerup,
+                  boostedItemIcon: ITEM_DETAILS[ticket].image,
+                },
+              ],
+            ]);
+        }),
+    ),
+    "Nurse Sheep": [
+      {
+        shortDescription: translate("description.nurseSheep.boost"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: SUNNYSIDE.animals.sheepSleeping,
+      },
+    ],
+    "Dr. Cow": [
+      {
+        shortDescription: translate("description.drCow.boost"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: SUNNYSIDE.animals.cowSleeping,
+      },
+    ],
+    "Pink Dolphin": [
+      {
+        shortDescription: translate("description.pinkDolphin.boost"),
         labelType: "success",
         boostTypeIcon: powerup,
       },

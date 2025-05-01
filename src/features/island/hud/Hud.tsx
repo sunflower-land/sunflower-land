@@ -20,7 +20,6 @@ import Decimal from "decimal.js-light";
 import { CurrenciesModal } from "./components/CurrenciesModal";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSound } from "lib/utils/hooks/useSound";
-import { SeasonBannerCountdown } from "./SeasonBannerCountdown";
 import { TransactionCountdown } from "./Transaction";
 import { MarketplaceButton } from "./components/MarketplaceButton";
 import { GameCalendar } from "features/game/expansion/components/temperateSeason/GameCalendar";
@@ -122,8 +121,6 @@ const HudComponent: React.FC<{
         >
           <TransactionCountdown />
           <AuctionCountdown />
-          {/* <SpecialEventCountdown /> */}
-          <SeasonBannerCountdown />
         </div>
         <div
           className="absolute z-50 flex flex-col justify-between"
