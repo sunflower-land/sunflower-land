@@ -775,15 +775,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
       },
     ],
     shop: {
-      "Red Farmer Shirt": {
-        name: "Red Farmer Shirt",
-        cost: {
-          items: {
-            "Love Charm": 100,
-          },
-        },
-        type: "wearable",
-      },
       "Bronze Love Box": {
         name: "Bronze Love Box",
         cost: {
