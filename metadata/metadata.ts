@@ -12002,7 +12002,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   },
   "Heart Air Balloon": {
     description:
-      "A floating symbol of love, ready to lift spirits and hearts alike.",
+      "A floating symbol of love, ready to lift spirits and hearts alike. +1 Geniseeds from deliveries, chores & bounties.",
     decimals: 0,
     attributes: [
       { trait_type: "Purpose", value: "Decoration" },
@@ -17803,7 +17803,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
   },
   "Flower Mask": {
     description:
-      "A blooming masterpiece that frames your face in petals of charm. Nature’s beauty has never been so wearable!",
+      "A blooming masterpiece that frames your face in petals of charm. +1 Geniseeds from deliveries, chores & bounties.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Hat" },
@@ -18014,7 +18014,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
   },
   "Love Charm Shirt": {
     description:
-      "Woven with affection and stitched with sparkles — wearing it feels like a warm hug from the universe.",
+      "Woven with affection and stitched with sparkles. +1 Geniseeds from deliveries, chores & bounties.",
     decimals: 0,
     attributes: [
       { trait_type: "Part", value: "Shirt" },
