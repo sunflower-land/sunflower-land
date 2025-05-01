@@ -5856,5 +5856,13 @@
   "description.broccoliHat.boost": "2 fois Brocoli Speed",
   "rocketman.flower.exchange.one": "Voyagez à bord de la montgolfière Heart Air pour échanger des Love Charms contre des $FLOWER.",
   "description.obsidianNecklace.boost": "2 fois la vitesse de la fosse à lave",
-  "description.redPepperOnesie.boost": "0,25x Red Pepper Speed"
+  "description.redPepperOnesie.boost": "0,25x Red Pepper Speed",
+  "description.loveChicken": "Un poulet mutant rempli d'amour et d'affection",
+  "description.drCow": "Une vache mutante déguisée en médecin attentionné",
+  "description.drCow.boost": "5 % de frais d'alimentation en moins pour les vaches",
+  "description.nurseSheep": "Un mouton mutant prêt à aider en tant que gentille nourrice",
+  "description.nurseSheep.boost": "Les moutons ne peuvent pas tomber malades pendant l'été",
+  "description.pinkDolphin": "Un dauphin rare avec une belle teinte rose",
+  "description.pinkDolphin.boost": "Augmenter les prises de poissons de 1 % au printemps",
+  "description.lunalist": "Un artefact fleuri consacré à la lune. Une fleur mutante décorative découverte lors du chapitre Great Bloom"
 }

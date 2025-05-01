@@ -5856,5 +5856,13 @@
   "description.broccoliHat.boost": "2x Broccoli Speed",
   "rocketman.flower.exchange.one": "Viaja en el Heart Air Ballon para cambiar Love Charms por $FLOWER.",
   "description.obsidianNecklace.boost": "2 veces la velocidad de Lava Pit",
-  "description.redPepperOnesie.boost": "Velocidad de pimiento rojo 0.25x"
+  "description.redPepperOnesie.boost": "Velocidad de pimiento rojo 0.25x",
+  "description.loveChicken": "Un pollo mutante lleno de amor y cariño",
+  "description.drCow": "Una vaca mutante vestida de médico cariñoso",
+  "description.drCow.boost": "5% menos de coste de alimentación para las vacas",
+  "description.nurseSheep": "Una oveja mutante lista para ayudar como amable nodriza",
+  "description.nurseSheep.boost": "Las ovejas no pueden enfermarse durante el verano",
+  "description.pinkDolphin": "Un delfín raro con un hermoso tono rosado",
+  "description.pinkDolphin.boost": "Aumente la captura de peces en un 1% durante la primavera",
+  "description.lunalist": "Un artefacto floreciente dedicado a la luna. Una flor mutante decorativa encontrada durante el capítulo de La Gran Floración"
 }

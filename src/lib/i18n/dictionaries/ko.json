@@ -5856,5 +5856,13 @@
   "description.broccoliHat.boost": "2x 브로콜리 스피드",
   "rocketman.flower.exchange.one": "하트 에어 발롱을 타고 여행하면서 러브 참을 $FLOWER로 교환하세요.",
   "description.obsidianNecklace.boost": "2x 라바 피트 스피드",
-  "description.redPepperOnesie.boost": "0.25x 레드 페퍼 스피드"
+  "description.redPepperOnesie.boost": "0.25x 레드 페퍼 스피드",
+  "description.loveChicken": "사랑과 애정이 가득한 뮤턴트 치킨",
+  "description.drCow": "자상한 의사로 분장한 돌연변이 소",
+  "description.drCow.boost": "젖소 사료 공급 비용 5% 절감",
+  "description.nurseSheep": "순한 간호사가 되어 도움을 줄 준비가 된 돌연변이 양",
+  "description.nurseSheep.boost": "양은 여름에 아플 수 없습니다",
+  "description.pinkDolphin": "핑크빛이 아름다운 희귀 돌고래",
+  "description.pinkDolphin.boost": "봄철에는 어획량을 1마리 늘립니다.",
+  "description.lunalist": "꽃을 피운 달에게 바쳐진 유물.그레이트 블룸 챕터에서 발견된 장식용 돌연변이 꽃입니다."
 }

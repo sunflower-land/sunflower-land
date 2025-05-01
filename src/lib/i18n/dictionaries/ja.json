@@ -5856,5 +5856,13 @@
   "description.broccoliHat.boost": "2x ブロッコリースピード",
   "rocketman.flower.exchange.one": "ハートエアバロンに乗って、ラブチャームを$FLOWERと交換しましょう。",
   "description.obsidianNecklace.boost": "2x ラバピットスピード",
-  "description.redPepperOnesie.boost": "0.25x レッドペッパースピード"
+  "description.redPepperOnesie.boost": "0.25x レッドペッパースピード",
+  "description.loveChicken": "愛と愛情のこもったミュータントチキン",
+  "description.drCow": "思いやりのある医者の格好をした突然変異牛",
+  "description.drCow.boost": "牛の給餌コストを 5% 削減",
+  "description.nurseSheep": "優しい看護婦として助けてくれる突然変異羊",
+  "description.nurseSheep.boost": "羊は夏の間は病気になりません",
+  "description.pinkDolphin": "ピンク色が美しい珍しいイルカ",
+  "description.pinkDolphin.boost": "春に漁獲量を1増やす",
+  "description.lunalist": "月に捧げられた咲き誇るアーティファクト。「グレート・ブルーム」の章で見つかった装飾用のミュータントフラワー"
 }
