@@ -961,6 +961,13 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
   ],
+  "Red Pepper Onesie": [
+    {
+      shortDescription: translate("description.redPepperOnesie.boost"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+    },
+  ],
   ...SPECIAL_ITEM_LABELS,
   ...Object.fromEntries(
     getObjectEntries(CHAPTER_TICKET_BOOST_ITEMS)
