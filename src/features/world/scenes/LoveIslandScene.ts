@@ -1,5 +1,5 @@
 import loveIslandJSON from "assets/map/love_island.json";
-import seasonal_tileset from "assets/map/seasonal_tileset.json";
+import loveIslandTileset from "assets/map/love_island_tileset.json";
 
 import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
@@ -30,8 +30,8 @@ export class LoveIslandScene extends BaseScene {
       name: "love_island",
       map: {
         json: loveIslandJSON,
-        imageKey: "seasonal-tileset",
-        defaultTilesetConfig: seasonal_tileset,
+        imageKey: "floating-tileset",
+        defaultTilesetConfig: loveIslandTileset,
       },
     });
   }

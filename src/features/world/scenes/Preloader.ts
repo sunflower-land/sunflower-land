@@ -49,6 +49,11 @@ export abstract class Preloader extends Phaser.Scene {
       );
 
       this.load.image(
+        "floating-tileset",
+        `${CONFIG.PROTECTED_IMAGE_URL}/world/floating-map-extruded.png`,
+      );
+
+      this.load.image(
         "christmas-tileset",
         `${CONFIG.PROTECTED_IMAGE_URL}/world/christmas-2024-map-extruded.png`,
       );
