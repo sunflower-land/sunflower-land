@@ -151,7 +151,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
         </Modal>
       )}
       <InnerPanel className="w-full mb-1">
-        <div className="p-2 pt-1">
+        <section id="tradeable-header" className="p-2 pt-1">
           <div className="flex flex-wrap items-center justify-between mb-3 space-y-1">
             <div
               className={classNames("flex items-center justify-between w-full")}
@@ -265,9 +265,12 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
               </div>
             </div>
           </div>
-        </div>
+        </section>
         {/* Mobile display */}
-        <div className="flex flex-col items-center sm:hidden w-full sm:w-auto">
+        <section
+          id="tradeable-header-mobile"
+          className="flex flex-col items-center sm:hidden w-full sm:w-auto"
+        >
           <div className="flex items-center justify-between w-full">
             {showBuyNow && (
               <Button
@@ -286,7 +289,8 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                   (!hasTradeReputation &&
                     getRemainingTrades({
                       game: gameService.getSnapshot().context.state,
-                    }) <= 0)
+                    }) <= 0) ||
+                  limitedTradesLeft <= 0
                 }
                 className="w-full sm:w-auto"
               >
@@ -294,7 +298,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
               </Button>
             )}
           </div>
-        </div>
+        </section>
       </InnerPanel>
     </>
   );
