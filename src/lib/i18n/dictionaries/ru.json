@@ -5631,7 +5631,6 @@
   "noaccount.referralCodeError": "Ошибка при проверке реферального кода",
   "reward.referral.code": "Введите свой реферальный код:",
   "description.love.charm": "Обменяйте на эксклюзивные награды и $FLOWER",
-  "rocketman.flower.exchange.one": "1 мая вы сможете обменять свои Love Charms на $FLOWER.",
   "budBuff.stem.3leafClover.boost": "+0,5 Урожай (стебель)",
   "budBuff.stem.fishHat.boost": "Вероятность получить +1 рыбу (стебель): 10%",
   "budBuff.stem.diamondGem.boost": "+0.2 Минерал (стебель)",
@@ -5855,5 +5854,6 @@
   "description.summerGuardian.boost2": "Благословенные летние события",
   "description.obsidianNecklace.boost": "Скорость обсидиана в 2 раза",
   "description.medicApron.boost": "Лекарства за полцены",
-  "description.broccoliHat.boost": "Скорость брокколи в 2 раза"
+  "description.broccoliHat.boost": "Скорость брокколи в 2 раза",
+  "rocketman.flower.exchange.one": "Путешествуйте на воздушном шаре Heart Air и обменяйте Love Charms на $FLOWER."
 }

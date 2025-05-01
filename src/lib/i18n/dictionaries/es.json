@@ -5631,7 +5631,6 @@
   "noaccount.referralCodeError": "Error al comprobar el código de referencia",
   "reward.referral.code": "Introduce tu código de referencia:",
   "description.love.charm": "Canjea por recompensas exclusivas y $FLOWER",
-  "rocketman.flower.exchange.one": "El 1 de mayo, podrás cambiar tus Love Charms por $FLOWER.",
   "budBuff.stem.3leafClover.boost": "+0.5 Cultivo (tallo)",
   "budBuff.stem.fishHat.boost": "10% de probabilidad de obtener +1 pez (tallo)",
   "budBuff.stem.diamondGem.boost": "+0.2 Mineral (tallo)",
@@ -5855,5 +5854,6 @@
   "description.summerGuardian.boost2": "Benditos eventos de verano",
   "description.obsidianNecklace.boost": "2 veces la velocidad de obsidiana",
   "description.medicApron.boost": "Medicina a mitad de precio",
-  "description.broccoliHat.boost": "2x Broccoli Speed"
+  "description.broccoliHat.boost": "2x Broccoli Speed",
+  "rocketman.flower.exchange.one": "Viaja en el Heart Air Ballon para cambiar Love Charms por $FLOWER."
 }
