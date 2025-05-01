@@ -58,6 +58,7 @@ export class LoveIslandScene extends BaseScene {
 
     const shop = this.add.sprite(743, 544, "shop_icon");
     this.loveBox = this.add.sprite(615, 566, "love_box").setVisible(false);
+    this.loveBox.setDepth(10000000);
 
     this.loveBox.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
       if (this.checkDistanceToSprite(this.loveBox!, 150)) {
