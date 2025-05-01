@@ -1686,4 +1686,44 @@ describe("feedAnimal", () => {
 
     expect(state.inventory["Mixed Grain"]).toEqual(new Decimal(2));
   });
+
+  it("takes 5% less food to feed a cow if Dr. Cow is placed", () => {
+    const state = feedAnimal({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          "Kernel Blend": new Decimal(5),
+        },
+        collectibles: {
+          "Dr. Cow": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "1",
+              readyAt: 0,
+            },
+          ],
+        },
+        barn: {
+          ...INITIAL_FARM.barn,
+          animals: {
+            "0": {
+              ...INITIAL_FARM.barn.animals["0"],
+              type: "Cow",
+              experience: 0,
+            },
+          },
+        },
+      },
+      action: {
+        type: "animal.fed",
+        animal: "Cow",
+        id: "0",
+        item: "Kernel Blend",
+      },
+    });
+
+    expect(state.inventory["Kernel Blend"]).toEqual(new Decimal(0.25));
+  });
 });

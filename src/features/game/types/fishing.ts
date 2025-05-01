@@ -64,7 +64,8 @@ export type MarineMarvelName =
   | "Battle Fish"
   | "Lemon Shark"
   | "Longhorn Cowfish"
-  | "Jellyfish";
+  | "Jellyfish"
+  | "Pink Dolphin";
 
 export type OldFishName = "Kraken Tentacle";
 
@@ -243,6 +244,7 @@ export type ChapterFish = Extract<
   | "Battle Fish"
   | "Longhorn Cowfish"
   | "Jellyfish"
+  | "Pink Dolphin"
 >;
 
 export const CHAPTER_FISH: Record<ChapterFish, Fish> = {
@@ -271,6 +273,12 @@ export const CHAPTER_FISH: Record<ChapterFish, Fish> = {
     seasons: [],
   },
   Jellyfish: {
+    baits: ["Grub", "Red Wiggler", "Fishing Lure"],
+    type: "chapter",
+    likes: [],
+    seasons: [],
+  },
+  "Pink Dolphin": {
     baits: ["Grub", "Red Wiggler", "Fishing Lure"],
     type: "chapter",
     likes: [],

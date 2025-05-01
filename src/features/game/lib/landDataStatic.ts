@@ -87,6 +87,8 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Mangrove: new Decimal(1),
     "Thermal Stone": new Decimal(1),
     "Beta Pass": new Decimal(1),
+    Hay: new Decimal(100),
+    "Dr. Cow": new Decimal(1),
   },
   previousInventory: {
     "Dirt Path": new Decimal(20),
@@ -129,6 +131,9 @@ export const STATIC_OFFLINE_FARM: GameState = {
           name: "Red Balloon Flower",
           plantedAt: 0,
           amount: 1,
+          reward: {
+            items: [{ name: "Lunalist", amount: 1 }],
+          },
         },
       },
     },
@@ -382,7 +387,14 @@ export const STATIC_OFFLINE_FARM: GameState = {
   fishing: {
     dailyAttempts: {},
     weather: "Sunny",
-    wharf: {},
+    wharf: {
+      castedAt: 0,
+      bait: "Fishing Lure",
+      chum: "Carrot",
+      caught: {
+        "Pink Dolphin": 1,
+      },
+    },
     beach: {},
   },
   mailbox: {
@@ -521,6 +533,46 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   collectibles: {
+    "Dr. Cow": [
+      {
+        id: "1",
+        createdAt: 0,
+        coordinates: { x: 13, y: -5 },
+        readyAt: 0,
+      },
+    ],
+    "Nurse Sheep": [
+      {
+        id: "1",
+        createdAt: 0,
+        coordinates: { x: 12, y: -5 },
+        readyAt: 0,
+      },
+    ],
+    "Pink Dolphin": [
+      {
+        id: "1",
+        createdAt: 0,
+        coordinates: { x: 13, y: -5 },
+        readyAt: 0,
+      },
+    ],
+    Lunalist: [
+      {
+        id: "1",
+        createdAt: 0,
+        coordinates: { x: 13, y: -5 },
+        readyAt: 0,
+      },
+    ],
+    "Love Chicken": [
+      {
+        id: "1",
+        createdAt: 0,
+        coordinates: { x: 13, y: 0 },
+        readyAt: 0,
+      },
+    ],
     "Gourmet Hourglass": [
       {
         id: "1",
@@ -656,9 +708,12 @@ export const STATIC_OFFLINE_FARM: GameState = {
         createdAt: 0,
         experience: 120,
         asleepAt: Date.now() - 1000 * 60 * 60 * 12,
-        awakeAt: Date.now() + 1000 * 60 * 60 * 12,
+        awakeAt: Date.now(),
         lovedAt: Date.now(),
         item: "Petting Hand",
+        reward: {
+          items: [{ name: "Love Chicken", amount: 1 }],
+        },
       },
     },
   },
@@ -668,7 +723,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
       "1": {
         id: "1",
         type: "Sheep",
-        state: "idle",
+        state: "sick",
         createdAt: 0,
         experience: 120,
         asleepAt: Date.now() - 1000 * 60 * 60 * 12,
@@ -699,7 +754,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     recipes: {},
   },
   season: {
-    season: "autumn",
+    season: "spring",
     startedAt: new Date("2025-04-22").getTime(),
   },
   ban: {
