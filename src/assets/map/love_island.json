@@ -7557,33 +7557,10 @@
       "width": 80,
       "x": 0,
       "y": 0
-    },
-    {
-      "draworder": "topdown",
-      "id": 50,
-      "name": "Collision",
-      "objects": [
-        {
-          "height": 16.625498764963,
-          "id": 1,
-          "name": "",
-          "rotation": 0,
-          "type": "",
-          "visible": true,
-          "width": 20.9006270188105,
-          "x": 565.26695800874,
-          "y": 715.846475394262
-        }
-      ],
-      "opacity": 1,
-      "type": "objectgroup",
-      "visible": true,
-      "x": 0,
-      "y": 0
     }
   ],
-  "nextlayerid": 51,
-  "nextobjectid": 2,
+  "nextlayerid": 49,
+  "nextobjectid": 1,
   "orientation": "orthogonal",
   "renderorder": "right-down",
   "tiledversion": "1.8.4",

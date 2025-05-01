@@ -56,8 +56,8 @@ export class LoveIslandScene extends BaseScene {
 
     this.initialiseNPCs(BUMPKINS);
 
-    const shop = this.add.sprite(150, 140, "shop_icon");
-    this.loveBox = this.add.sprite(270, 140, "love_box").setVisible(false);
+    const shop = this.add.sprite(900, 490, "shop_icon");
+    this.loveBox = this.add.sprite(615, 566, "love_box").setVisible(false);
 
     this.loveBox.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
       if (this.checkDistanceToSprite(this.loveBox!, 150)) {
@@ -76,15 +76,19 @@ export class LoveIslandScene extends BaseScene {
       }
     });
 
-    this.leftPetal = this.add.sprite(220, 140, "giant_flower_petal");
-    this.rightPetal = this.add.sprite(320, 140, "giant_flower_petal");
+    // this.leftPetal = this.add.sprite(220, 140, "giant_flower_petal");
+    this.leftPetal = this.add.sprite(566, 566, "giant_flower_petal");
+    // this.rightPetal = this.add.sprite(320, 140, "giant_flower_petal");
+    this.rightPetal = this.add.sprite(666, 566, "giant_flower_petal");
     this.rightPetal.setRotation(Math.PI);
-    this.topPetal = this.add.sprite(270, 90, "giant_flower_petal");
+    // this.topPetal = this.add.sprite(270, 90, "giant_flower_petal");
+    this.topPetal = this.add.sprite(615, 522, "giant_flower_petal");
     this.topPetal.setRotation(Math.PI / 2);
-    this.bottomPetal = this.add.sprite(270, 190, "giant_flower_petal");
+    // this.bottomPetal = this.add.sprite(270, 190, "giant_flower_petal");
+    this.bottomPetal = this.add.sprite(615, 612, "giant_flower_petal");
     this.bottomPetal.setRotation((Math.PI * 3) / 2);
 
-    const portal = this.add.sprite(370, 140, "portal");
+    const portal = this.add.sprite(568, 674, "portal");
     this.anims.create({
       key: "portal_anim",
       frames: this.anims.generateFrameNumbers("portal", {
@@ -130,14 +134,12 @@ export class LoveIslandScene extends BaseScene {
     };
 
     getKeys(petals).forEach((petal) => {
+      // Set no tint
+      this[petal]?.setVisible(petals[petal] !== "inactive");
+
       if (petals[petal] === "active") {
         // Set slight white tint
         this[petal]?.setTint(0xcccccc);
-      }
-
-      if (petals[petal] === "inactive") {
-        // Set no tint
-        this[petal]?.setTint(0xffffff);
       }
 
       if (petals[petal] === "solved") {
