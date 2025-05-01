@@ -5631,7 +5631,6 @@
   "noaccount.referralCodeError": "Erreur lors de la vérification du code de référence",
   "reward.referral.code": "Entrez votre code de parrainage :",
   "description.love.charm": "Échangez contre des récompenses exclusives et des $ FLOWER",
-  "rocketman.flower.exchange.one": "Le 1er mai, vous pourrez échanger vos Love Charms contre des $FLOWER.",
   "budBuff.stem.3leafClover.boost": "+0,5 Récolte (tige)",
   "budBuff.stem.fishHat.boost": "10 % de chances d'obtenir +1 poisson (tige)",
   "budBuff.stem.diamondGem.boost": "+0,2 Minéral (tige)",
@@ -5855,5 +5854,6 @@
   "description.summerGuardian.boost2": "Événements estivaux bénis",
   "description.obsidianNecklace.boost": "2 fois la vitesse de l'obsidienne",
   "description.medicApron.boost": "Médecine à moitié prix",
-  "description.broccoliHat.boost": "2 fois Brocoli Speed"
+  "description.broccoliHat.boost": "2 fois Brocoli Speed",
+  "rocketman.flower.exchange.one": "Voyagez à bord de la montgolfière Heart Air pour échanger des Love Charms contre des $FLOWER."
 }
