@@ -41,6 +41,7 @@ export class LoveIslandScene extends BaseScene {
     this.load.image("shop_icon", "world/shop_disc.png");
     this.load.image("giant_flower_petal", "world/giant_flower_petal.webp");
     this.load.image("love_box", "world/love_box.webp");
+    this.load.image("petal_clue", "world/petal_clue.png");
     this.load.spritesheet("portal", "world/love_charm_portal_sheet.png", {
       frameWidth: 20,
       frameHeight: 34,
@@ -75,6 +76,11 @@ export class LoveIslandScene extends BaseScene {
       } else {
         this.currentPlayer?.speak(translate("base.iam.far.away"));
       }
+    });
+
+    const clue = this.add.sprite(713, 644, "petal_clue");
+    clue.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      interactableModalManager.open("petal_clue");
     });
 
     // this.leftPetal = this.add.sprite(220, 140, "giant_flower_petal");

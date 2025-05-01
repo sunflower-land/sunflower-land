@@ -6033,5 +6033,6 @@
   "description.obsidianNecklace.boost": "2x Lava Pit Speed",
   "description.medicApron.boost": "Half Price Medicine",
   "description.broccoliHat.boost": "2x Broccoli Speed",
-  "description.redPepperOnesie.boost": "0.25x Red Pepper Speed"
+  "description.redPepperOnesie.boost": "0.25x Red Pepper Speed",
+  "interactableModals.petalClue.message1": "When the petals are in an orange bloom, a prize appears. Can you find it?"
 }

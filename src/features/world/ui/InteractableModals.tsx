@@ -87,6 +87,7 @@ type InteractableName =
   | "beach"
   | "lazy_bud"
   | "plaza_blue_book"
+  | "petal_clue"
   | "plaza_orange_book"
   | "plaza_green_book"
   | "mega_bounty_board"
@@ -319,6 +320,17 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
             },
             {
               text: t("interactableModals.plazaBlueBook.message2"),
+            },
+          ]}
+        />
+      </Modal>
+      <Modal show={interactable === "petal_clue"} onHide={closeModal}>
+        <SpeakingModal
+          onClose={closeModal}
+          bumpkinParts={NPC_WEARABLES["rocket man"]}
+          message={[
+            {
+              text: t("interactableModals.petalClue.message1"),
             },
           ]}
         />
