@@ -1,7 +1,7 @@
 import type { GameState } from "features/game/types/game";
 import { CONFIG } from "lib/config";
 
-const adminFeatureFlag = ({ wardrobe, inventory }: GameState) =>
+export const adminFeatureFlag = ({ wardrobe, inventory }: GameState) =>
   CONFIG.NETWORK === "amoy" ||
   (!!((wardrobe["Gift Giver"] ?? 0) > 0) && !!inventory["Beta Pass"]?.gt(0));
 
