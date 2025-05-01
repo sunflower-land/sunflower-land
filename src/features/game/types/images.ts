@@ -5173,11 +5173,11 @@ export const ITEM_DETAILS: Items = {
   },
   "Great Bloom Banner": {
     image: greatBloomBanner,
-    description: "Placeholder",
+    description: "A banner for the Great Bloom chapter",
   },
   Geniseed: {
     image: geniseed,
-    description: "Placeholder",
+    description: translate("description.geniseed"),
   },
   "Bronze Flower Box": {
     image: bronzeFlowerBox,

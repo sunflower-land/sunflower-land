@@ -8,7 +8,7 @@ export const DrCow: React.FC<CollectibleProps> = () => {
     <img
       src={ITEM_DETAILS["Dr. Cow"].image}
       style={{
-        width: `${PIXEL_SCALE * 19}px`,
+        width: `${PIXEL_SCALE * 25}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
         left: `${PIXEL_SCALE * 0}px`,
       }}
