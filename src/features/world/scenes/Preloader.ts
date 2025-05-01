@@ -50,7 +50,7 @@ export abstract class Preloader extends Phaser.Scene {
 
       this.load.image(
         "floating-tileset",
-        `${CONFIG.PROTECTED_IMAGE_URL}/world/floating-map-extruded.png`,
+        `${CONFIG.PROTECTED_IMAGE_URL}/world/floating-sky-map-extruded.png`,
       );
 
       this.load.image(
