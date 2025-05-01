@@ -165,10 +165,7 @@ export class LoveIslandScene extends BaseScene {
     const flower = server.state.giantFlower;
 
     const isSolved =
-      flower.leftPetal === "solved" &&
-      flower.rightPetal === "solved" &&
-      flower.topPetal === "solved" &&
-      flower.bottomPetal === "solved";
+      !!flower.puzzleSolvedAt && flower.puzzleSolvedAt > Date.now() - 10 * 1000;
 
     this.loveBox?.setVisible(isSolved);
   }
