@@ -24,6 +24,8 @@ export const STATIC_OFFLINE_FARM: GameState = {
   },
   inventory: {
     "Love Charm": new Decimal(1000),
+    "Great Bloom Banner": new Decimal(1),
+    "Winds of Change Banner": new Decimal(1),
     Beetroot: new Decimal(100),
     Timeshard: new Decimal(1000),
     Jin: new Decimal(1),
