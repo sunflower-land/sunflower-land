@@ -25,7 +25,7 @@ export const SEASONAL_ARTEFACT: Record<
   "Winds of Change": "Ancient Clock",
 
   // TODO: Add Great Bloom artefact
-  "Great Bloom": "Scarab",
+  "Great Bloom": "Broken Pillar",
 };
 
 export const DIGGING_FORMATIONS = {
