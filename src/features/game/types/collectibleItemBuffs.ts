@@ -1439,7 +1439,7 @@ function getCollectibleBuffLabels(
         shortDescription: translate("description.quarry.boost"),
         labelType: "vibrant",
         boostTypeIcon: lightning,
-        boostedItemIcon: ITEM_DETAILS["Obsidian Turtle"].image,
+        boostedItemIcon: ITEM_DETAILS["Stone"].image,
       },
     ],
     "Winter Guardian": [
