@@ -5833,7 +5833,6 @@
   "description.flowerscribedStatue": "淡い石で彫られ、古代の花の詩が刻まれたこの像には、ひまわりの国の静かな知恵が込められています。",
   "description.balloonRug": "空気よりも軽い肌触りのソフトで一風変わったラグは、おしゃれにくつろぐのにぴったりです。",
   "description.giantYam": "村に食べさせるほどの巨大な根、あるいは少なくとも印象的なシチューを1つ作れるほど大きい。",
-  "description.heartAirBalloon": "浮遊する愛のシンボルで、気分も心も元気づけてくれます。",
   "description.giantZuchinni": "信じられないほど大きく、疑わしいほど緑色のこの野菜は、まさに庭の驚異です。",
   "description.miniFloatingIsland": "どこか海に浮かんでいるような小さな楽園で、穏やかなひとときを過ごすのにぴったりです。",
   "description.bonusGeniseed.boost": "+1 ゲニシード",
@@ -5864,5 +5863,7 @@
   "description.nurseSheep.boost": "羊は夏の間は病気になりません",
   "description.pinkDolphin": "ピンク色が美しい珍しいイルカ",
   "description.pinkDolphin.boost": "春に漁獲量を1増やす",
-  "description.lunalist": "月に捧げられた咲き誇るアーティファクト。「グレート・ブルーム」の章で見つかった装飾用のミュータントフラワー"
+  "description.lunalist": "月に捧げられた咲き誇るアーティファクト。「グレート・ブルーム」の章で見つかった装飾用のミュータントフラワー",
+  "description.heartAirBalloon": "浮遊する愛のシンボル。魂も心も元気づけてくれる。出産、雑用、賞金でジェニシード1個を獲得する。",
+  "whatsOn.july28th": "7 月 28 日"
 }

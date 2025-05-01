@@ -5833,7 +5833,6 @@
   "description.flowerscribedStatue": "Scolpita in pietra chiara e incisa con antichi versi floreali, questa statua emana la quieta saggezza di Sunflower Land.",
   "description.balloonRug": "Un tappeto morbido e stravagante che sembra più leggero dell'aria, perfetto per rilassarsi con stile.",
   "description.giantYam": "Una radice così massiccia da poter sfamare un villaggio, o almeno fare uno stufato impressionante.",
-  "description.heartAirBalloon": "Un simbolo d'amore fluttuante, pronto a sollevare spiriti e cuori.",
   "description.giantZuchinni": "Incredibilmente grande e sospettosamente verde, questa verdura è una vera meraviglia del giardino.",
   "description.miniFloatingIsland": "Un angolo di paradiso di piccole dimensioni che in qualche modo rimane a galla, perfetto per momenti di pace.",
   "description.bonusGeniseed.boost": "+1 Geniseed",
@@ -5864,5 +5863,7 @@
   "description.nurseSheep.boost": "Le pecore non possono ammalarsi durante l'estate",
   "description.pinkDolphin": "Un raro delfino con una bellissima tonalità rosa",
   "description.pinkDolphin.boost": "Aumenta la cattura di pesce dell'1% durante la primavera",
-  "description.lunalist": "Un manufatto in fiore dedicato alla luna. Un fiore mutante decorativo trovato durante il capitolo La Grande Fioritura"
+  "description.lunalist": "Un manufatto in fiore dedicato alla luna. Un fiore mutante decorativo trovato durante il capitolo La Grande Fioritura",
+  "description.heartAirBalloon": "Un simbolo d'amore fluttuante, pronto a risollevare spiriti e cuori. +1 semi genici provenienti da consegne, faccende domestiche e ricompense.",
+  "whatsOn.july28th": "28 luglio"
 }
