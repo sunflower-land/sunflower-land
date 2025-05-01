@@ -5866,5 +5866,6 @@
   "description.lunalist": "月に捧げられた咲き誇るアーティファクト。「グレート・ブルーム」の章で見つかった装飾用のミュータントフラワー",
   "description.heartAirBalloon": "浮遊する愛のシンボル。魂も心も元気づけてくれる。出産、雑用、賞金でジェニシード1個を獲得する。",
   "whatsOn.july28th": "7 月 28 日",
-  "description.geniseed": "「グレート・ブルーム」チャプターで使ったチケット"
+  "description.geniseed": "「グレート・ブルーム」チャプターで使ったチケット",
+  "interactableModals.petalClue.message1": "花びらがオレンジ色に咲くと、賞品が現れます。見つけられますか？"
 }

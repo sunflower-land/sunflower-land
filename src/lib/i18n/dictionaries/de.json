@@ -5866,5 +5866,6 @@
   "description.lunalist": "Ein blühendes Artefakt, das dem Mond gewidmet ist. Eine dekorative mutierte Blume, die während des Kapitels Große Blüte gefunden wurde",
   "description.heartAirBalloon": "Ein schwebendes Symbol der Liebe, das bereit ist, Stimmung und Herz gleichermaßen zu heben. +1 Genissamen von Entbindungen, Hausarbeiten und Gaben.",
   "whatsOn.july28th": "28. Juli",
-  "description.geniseed": "Ein Ticket, das während des Kapitels Great Bloom verwendet wurde"
+  "description.geniseed": "Ein Ticket, das während des Kapitels Great Bloom verwendet wurde",
+  "interactableModals.petalClue.message1": "Wenn die Blütenblätter orange blühen, erscheint ein Preis. Kannst du ihn finden?"
 }

@@ -5866,5 +5866,6 @@
   "description.lunalist": "一件专用于月球的盛开神器。在 Great Bloom 章节中发现的一朵装饰性突变花",
   "description.heartAirBalloon": "爱情的漂浮象征，随时准备振奋精神，振奋人心。+1 来自送货、家务和赏金的Geniseeds。",
   "whatsOn.july28th": "7 月 28 日",
-  "description.geniseed": "在 Great Bloom 章节中使用的门票"
+  "description.geniseed": "在 Great Bloom 章节中使用的门票",
+  "interactableModals.petalClue.message1": "当花瓣呈橙色花朵时，会出现奖品。你能找到吗？"
 }

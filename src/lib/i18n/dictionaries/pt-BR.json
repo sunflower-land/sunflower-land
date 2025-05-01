@@ -5866,5 +5866,6 @@
   "description.lunalist": "Um artefato florescente dedicado à lua. Uma flor mutante decorativa encontrada durante o capítulo Great Bloom",
   "description.heartAirBalloon": "Um símbolo flutuante de amor, pronto para elevar espíritos e corações. +1 Geniseeds de entregas, tarefas e recompensas.",
   "whatsOn.july28th": "28 de julho",
-  "description.geniseed": "Um ingresso usado durante o capítulo Great Bloom"
+  "description.geniseed": "Um ingresso usado durante o capítulo Great Bloom",
+  "interactableModals.petalClue.message1": "Quando as pétalas estão em flor de laranjeira, aparece um prêmio. Você pode encontrá-lo?"
 }

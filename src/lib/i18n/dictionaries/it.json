@@ -5866,5 +5866,6 @@
   "description.lunalist": "Un manufatto in fiore dedicato alla luna. Un fiore mutante decorativo trovato durante il capitolo La Grande Fioritura",
   "description.heartAirBalloon": "Un simbolo d'amore fluttuante, pronto a risollevare spiriti e cuori. +1 semi genici provenienti da consegne, faccende domestiche e ricompense.",
   "whatsOn.july28th": "28 luglio",
-  "description.geniseed": "Un biglietto usato durante il capitolo Great Bloom"
+  "description.geniseed": "Un biglietto usato durante il capitolo Great Bloom",
+  "interactableModals.petalClue.message1": "Quando i petali sono in una fioritura arancione, appare un premio. Riesci a trovarlo?"
 }

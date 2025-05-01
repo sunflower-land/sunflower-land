@@ -5866,5 +5866,6 @@
   "description.lunalist": "Un artefacto floreciente dedicado a la luna. Una flor mutante decorativa encontrada durante el capítulo de La Gran Floración",
   "description.heartAirBalloon": "Un símbolo flotante del amor, listo para levantar el ánimo y los corazones por igual. +1 semillas de genio por entregas, tareas y recompensas.",
   "whatsOn.july28th": "28 de julio",
-  "description.geniseed": "Un billete usado durante el capítulo de Great Bloom"
+  "description.geniseed": "Un billete usado durante el capítulo de Great Bloom",
+  "interactableModals.petalClue.message1": "Cuando los pétalos están en flor anaranjada, aparece un premio. ¿Puedes encontrarlo?"
 }
