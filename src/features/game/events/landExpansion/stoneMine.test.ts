@@ -363,4 +363,31 @@ describe("getMinedAt", () => {
 
     expect(time).toEqual(now);
   });
+  it("doesn't require pickaxes if Quarry is built", () => {
+    const state = mineStone({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          Pickaxe: new Decimal(1),
+        },
+        collectibles: {
+          Quarry: [
+            {
+              id: "123",
+              createdAt: Date.now(),
+              coordinates: { x: 1, y: 1 },
+              readyAt: Date.now(),
+            },
+          ],
+        },
+      },
+      action: {
+        type: "stoneRock.mined",
+        index: 0,
+      },
+      createdAt: Date.now(),
+    });
+
+    expect(state.inventory.Pickaxe).toEqual(new Decimal(1));
+  });
 });
