@@ -282,6 +282,45 @@ function areAnyMineralsMined(game: GameState): Restriction {
   return areGoldsMined;
 }
 
+export function areAnyChickensHealthy(game: GameState): Restriction {
+  const chickensAreHealthy = Object.values(game.henHouse.animals).some(
+    (animal) => animal.state !== "sick",
+  );
+
+  return [chickensAreHealthy, "Chickens are healthy"];
+}
+
+export function areAnySheepsHealthy(game: GameState): Restriction {
+  const chickensAreHealthy = Object.values(game.barn.animals).some(
+    (animal) => animal.state !== "sick" && animal.type === "Sheep",
+  );
+
+  return [chickensAreHealthy, "Sheeps are healthy"];
+}
+
+export function areAnyCowsHealthy(game: GameState): Restriction {
+  const chickensAreHealthy = Object.values(game.barn.animals).some(
+    (animal) => animal.state !== "sick" && animal.type === "Cow",
+  );
+
+  return [chickensAreHealthy, "Cows are healthy"];
+}
+
+export function areAnyAnimalsHealthy(game: GameState): Restriction {
+  const areChickensHealthy = areAnyChickensHealthy(game);
+  const areSheepsHealthy = areAnySheepsHealthy(game);
+  const areCowsHealthy = areAnyCowsHealthy(game);
+
+  if (areChickensHealthy[0]) {
+    return areChickensHealthy;
+  }
+  if (areSheepsHealthy[0]) {
+    return areSheepsHealthy;
+  }
+
+  return areCowsHealthy;
+}
+
 export function areAnyChickensSleeping(game: GameState): Restriction {
   const chickensAreSleeping = Object.values(game.henHouse.animals).some(
     (animal) =>
@@ -767,6 +806,11 @@ export const REMOVAL_RESTRICTIONS: Partial<
   "Barn Blueprint": (game) =>
     hasBonusAnimals(game, "Cow") || hasBonusAnimals(game, "Sheep"),
   "Golden Sheep": (game) => areAnySheepSleeping(game),
+
+  // Great Bloom
+  "Giant Yam": (game) => cropIsGrowing({ item: "Yam", game }),
+  "Giant Zucchini": (game) => cropIsGrowing({ item: "Zucchini", game }),
+  "Giant Kale": (game) => cropIsGrowing({ item: "Kale", game }),
 };
 
 export const BUD_REMOVAL_RESTRICTIONS: Record<
