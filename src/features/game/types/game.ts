@@ -554,14 +554,6 @@ type PastAction = GameEvent & {
   createdAt: Date;
 };
 
-export interface CurrentObsession {
-  type: "collectible" | "wearable";
-  name: InventoryItemName | BumpkinItem;
-  startDate: number;
-  endDate: number;
-  reward: number;
-}
-
 export type WarCollectionOffer = {
   warBonds: number;
   startAt: string;
@@ -1481,8 +1473,6 @@ export interface GameState {
   createdAt: number;
 
   tradedAt?: string;
-  bertObsession?: CurrentObsession;
-  bertObsessionCompletedAt?: Date;
   warCollectionOffer?: WarCollectionOffer;
 
   minigames: {

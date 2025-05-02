@@ -58,16 +58,8 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
     gameService,
     _isLoveRushEventActive,
   );
-  const {
-    username,
-    bertObsession,
-    npcs,
-    bounties,
-    delivery,
-    choreBoard,
-    kingdomChores,
-    faction,
-  } = state;
+  const { username, bounties, delivery, choreBoard, kingdomChores, faction } =
+    state;
 
   const [currentTab, setCurrentTab] = useState<CodexCategoryName>("Deliveries");
   const [showMilestoneReached, setShowMilestoneReached] = useState(false);
@@ -117,17 +109,6 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
 
   const id = username ?? String(farmId);
 
-  const currentObsession = bertObsession;
-  const obsessionCompletedAt = npcs?.bert?.questCompletedAt;
-
-  const incompleteObsession =
-    !currentObsession ||
-    (obsessionCompletedAt &&
-      obsessionCompletedAt >= currentObsession.startDate &&
-      obsessionCompletedAt <= currentObsession.endDate)
-      ? 0
-      : 1;
-
   const incompleteMegaBounties = bounties.requests.filter(
     (deal) => !Object.keys(ANIMALS).includes(deal.name),
   );
@@ -169,7 +150,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
     {
       name: "Leaderboard",
       icon: ITEM_DETAILS[getSeasonalTicket()].image,
-      count: incompleteObsession + incompleteMegaBountiesCount,
+      count: incompleteMegaBountiesCount,
     },
     {
       name: "Fish",

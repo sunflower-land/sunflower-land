@@ -21,7 +21,6 @@ import { SeasonalMutants } from "../components/SeasonalMutants";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SeasonalStore } from "features/world/ui/megastore/SeasonalStore";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { BertObsession } from "features/world/ui/npcs/Bert";
 import { GameState } from "features/game/types/game";
 import { MegaBountyBoardContent } from "features/world/ui/flowerShop/MegaBountyBoard";
 import { FlowerBountiesModal } from "features/world/ui/flowerShop/FlowerBounties";
@@ -71,7 +70,6 @@ export const Season: React.FC<Props> = ({
   farmId,
 }) => {
   const { t } = useAppTranslation();
-  const { bertObsession: currentObsession, npcs, inventory, wardrobe } = state;
   return (
     <div
       className={classNames(
@@ -161,15 +159,6 @@ export const Season: React.FC<Props> = ({
           <FlowerBountiesModal readonly state={state} />
         </InnerPanel>
       )}
-      <InnerPanel className="mb-1">
-        <BertObsession
-          readonly
-          currentObsession={currentObsession}
-          npcs={npcs}
-          inventory={inventory}
-          wardrobe={wardrobe}
-        />
-      </InnerPanel>
       <InnerPanel className="mb-1">
         <SeasonalStore readonly state={state} />
       </InnerPanel>

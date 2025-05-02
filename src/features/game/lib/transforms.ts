@@ -49,8 +49,6 @@ export function makeGame(farm: any): GameState {
     trades: farm.trades,
     farmHands: farm.farmHands,
 
-    bertObsession: farm.bertObsession,
-
     expansionConstruction: farm.expansionConstruction,
     expandedAt: farm.expandedAt,
     greenhouse: farm.greenhouse,
