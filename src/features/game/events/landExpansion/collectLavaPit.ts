@@ -1,9 +1,17 @@
 import { produce } from "immer";
 import Decimal from "decimal.js-light";
 import { GameState } from "features/game/types/game";
+import { isWearableActive } from "features/game/lib/wearables";
 
-export const LAVA_PIT_MS = 72 * 60 * 60 * 1000;
+export function getLavaPitTime({ game }: { game: GameState }) {
+  const time = 72 * 60 * 60 * 1000;
 
+  if (isWearableActive({ name: "Obsidian Necklace", game })) {
+    return time * 0.5;
+  }
+
+  return time;
+}
 export type CollectLavaPitAction = {
   type: "lavaPit.collected";
   id: string;
@@ -34,8 +42,9 @@ export function collectLavaPit({
     if (lavaPit.collectedAt !== undefined) {
       throw new Error("Lava pit already collected");
     }
+    const lavaPitTime = getLavaPitTime({ game: copy });
 
-    if (createdAt - lavaPit.startedAt < LAVA_PIT_MS) {
+    if (createdAt - lavaPit.startedAt < lavaPitTime) {
       throw new Error("Lava pit still active");
     }
 

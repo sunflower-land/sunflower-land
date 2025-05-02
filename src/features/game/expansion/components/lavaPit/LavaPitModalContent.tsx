@@ -16,7 +16,7 @@ import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import Decimal from "decimal.js-light";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { secondsToString } from "lib/utils/time";
-import { LAVA_PIT_MS } from "features/game/events/landExpansion/collectLavaPit";
+import { getLavaPitTime } from "features/game/events/landExpansion/collectLavaPit";
 import { SEASON_ICONS } from "features/island/buildings/components/building/market/SeasonalSeeds";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { IngredientsPopover } from "components/ui/IngredientsPopover";
@@ -25,6 +25,8 @@ const _inventory = (state: MachineState) => state.context.state.inventory;
 const _lavaPit = (id: string) => (state: MachineState) =>
   state.context.state.lavaPits[id];
 const _season = (state: MachineState) => state.context.state.season;
+const _lavaPitTime = (state: MachineState) =>
+  getLavaPitTime({ game: state.context.state });
 
 interface Props {
   onClose: () => void;
@@ -37,21 +39,18 @@ export const LavaPitModalContent: React.FC<Props> = ({ onClose, id }) => {
   const { gameService } = useContext(Context);
   const inventory = useSelector(gameService, _inventory);
   const lavaPit = useSelector(gameService, _lavaPit(id));
+  const lavaPitTime = useSelector(gameService, _lavaPitTime);
   const season = useSelector(gameService, _season);
   const [showIngredients, setShowIngredients] = useState(false);
 
   useUiRefresher();
 
   const throwResourcesIntoPit = () => {
-    gameService.send("lavaPit.started", {
-      id,
-    });
+    gameService.send("lavaPit.started", { id });
   };
 
   const collectLavaPit = () => {
-    gameService.send("lavaPit.collected", {
-      id,
-    });
+    gameService.send("lavaPit.collected", { id });
   };
 
   const requirements = LAVA_PIT_REQUIREMENTS[season.season];
@@ -63,7 +62,7 @@ export const LavaPitModalContent: React.FC<Props> = ({ onClose, id }) => {
   );
 
   const lavaPitInProgress = lavaPit?.startedAt !== undefined;
-  const timeRemaining = LAVA_PIT_MS - (Date.now() - (lavaPit?.startedAt ?? 0));
+  const timeRemaining = lavaPitTime - (Date.now() - (lavaPit?.startedAt ?? 0));
   const canCollect = lavaPitInProgress && timeRemaining <= 0;
   const wasRecentlyCollected = Date.now() - (lavaPit?.collectedAt ?? 0) < 1000;
 
@@ -145,9 +144,7 @@ export const LavaPitModalContent: React.FC<Props> = ({ onClose, id }) => {
           )}
           {!lavaPitInProgress && (
             <Label icon={SUNNYSIDE.icons.stopwatch} type="transparent">
-              {secondsToString(LAVA_PIT_MS / 1000, {
-                length: "short",
-              })}
+              {secondsToString(lavaPitTime / 1000, { length: "short" })}
             </Label>
           )}
         </div>

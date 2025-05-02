@@ -7,13 +7,15 @@ import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { LAVA_PIT_MS } from "features/game/events/landExpansion/collectLavaPit";
 
 import animatedLavaPit from "assets/resources/lava/lava_pit_animation.webp";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
+import { getLavaPitTime } from "features/game/events/landExpansion/collectLavaPit";
 
 const _lavaPit = (id: string) => (state: MachineState) =>
   state.context.state.lavaPits[id];
+const _lavaPitTime = (state: MachineState) =>
+  getLavaPitTime({ game: state.context.state });
 
 interface Props {
   id: string;
@@ -24,14 +26,15 @@ export const LavaPit: React.FC<Props> = ({ id }) => {
 
   const { gameService, showAnimations } = useContext(Context);
   const lavaPit = useSelector(gameService, _lavaPit(id));
+  const lavaPitTime = useSelector(gameService, _lavaPitTime);
 
   useUiRefresher({ active: !!lavaPit?.startedAt });
 
   const lavaPitRunning =
-    lavaPit?.startedAt && lavaPit?.startedAt + LAVA_PIT_MS > Date.now();
+    lavaPit?.startedAt && lavaPit?.startedAt + lavaPitTime > Date.now();
 
   const lavaPitReady =
-    (lavaPit?.startedAt ?? Infinity) + LAVA_PIT_MS < Date.now() &&
+    (lavaPit?.startedAt ?? Infinity) + lavaPitTime < Date.now() &&
     !lavaPit?.collectedAt;
 
   return (
