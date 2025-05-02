@@ -219,6 +219,13 @@ export function getCropTime({
   }
 
   if (
+    crop === "Zucchini" &&
+    isCollectibleBuilt({ name: "Giant Zucchini", game })
+  ) {
+    seconds = seconds * 0.5;
+  }
+
+  if (
     isSummerCrop(crop, game.season.season, SEASONAL_SEEDS) &&
     !isGreenhouseCrop(crop) &&
     isWearableActive({ name: "Solflare Aegis", game })
@@ -574,6 +581,10 @@ export function getCropYieldAmount({
     isWearableActive({ name: "Eggplant Onesie", game })
   ) {
     amount += 0.1;
+  }
+
+  if (crop === "Yam" && isCollectibleBuilt({ name: "Giant Yam", game })) {
+    amount += 0.5;
   }
 
   if (crop === "Soybean" && isWearableActive({ name: "Tofu Mask", game })) {
