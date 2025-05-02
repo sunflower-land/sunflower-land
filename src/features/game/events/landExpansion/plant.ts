@@ -43,6 +43,7 @@ import { produce } from "immer";
 import {
   CalendarEventName,
   getActiveCalendarEvent,
+  isGuardianActive,
 } from "features/game/types/calendar";
 import { getCurrentSeason } from "features/game/types/seasons";
 import { hasVipAccess } from "features/game/lib/vipAccess";
@@ -379,6 +380,9 @@ export const getCropPlotTime = ({
 
   if (isSunshower) {
     seconds = seconds * 0.5;
+    if (isGuardianActive({ game })) {
+      seconds = seconds * 0.5;
+    }
   }
 
   return seconds;
@@ -854,6 +858,9 @@ export function getCropYieldAmount({
 
   if (getActiveCalendarEvent({ game }) === "bountifulHarvest") {
     amount += 1;
+    if (isGuardianActive({ game })) {
+      amount += 1;
+    }
   }
 
   const isInsectPlagueActive =
