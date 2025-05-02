@@ -53,7 +53,7 @@ describe("mineStone", () => {
           index: 0,
         },
       }),
-    ).toThrow("No pickaxes left");
+    ).toThrow("Not enough pickaxes");
   });
 
   it("throws an error if stone does not exist", () => {
