@@ -1,4 +1,4 @@
-import loveIslandJSON from "assets/map/love_island.json";
+import loveIslandJSON from "assets/map/love_island_map.json";
 import loveIslandTileset from "assets/map/love_island_tileset.json";
 
 import { SceneId } from "../mmoMachine";
@@ -57,7 +57,7 @@ export class LoveIslandScene extends BaseScene {
 
     this.initialiseNPCs(BUMPKINS);
 
-    const shop = this.add.sprite(743, 544, "shop_icon");
+    const shop = this.add.sprite(900, 490, "shop_icon");
     this.loveBox = this.add.sprite(615, 566, "love_box").setVisible(false);
     this.loveBox.setDepth(10000000);
 
@@ -78,7 +78,7 @@ export class LoveIslandScene extends BaseScene {
       }
     });
 
-    const clue = this.add.sprite(713, 644, "petal_clue");
+    const clue = this.add.sprite(651, 671, "petal_clue").setDepth(671);
     clue.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
       interactableModalManager.open("petal_clue");
     });

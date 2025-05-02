@@ -35,7 +35,7 @@ export const STREAMS_CONFIG = {
   } as StreamConfig,
   friday: {
     day: 5,
-    startHour: 10,
+    startHour: 11,
     startMinute: 0,
     durationMinutes: 60,
     notifyMinutesBefore: 10,
