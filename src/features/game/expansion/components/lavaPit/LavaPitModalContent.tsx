@@ -138,7 +138,7 @@ export const LavaPitModalContent: React.FC<Props> = ({ onClose, id }) => {
           )}
           {lavaPitInProgress && !canCollect && (
             <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
-              {`${t("ready.in")} ${secondsToString(timeRemaining / 1000, {
+              {`${t("ready.in")}: ${secondsToString(timeRemaining / 1000, {
                 length: "medium",
               })}`}
             </Label>

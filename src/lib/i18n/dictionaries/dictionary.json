@@ -3920,7 +3920,7 @@
   "transaction.waiting": "{{name}} in progress",
   "transaction.somethingWentWrong": "Hmmm, something went wrong. Please try again.",
   "transaction.timedOut": "Timed out",
-  "ready.in": "Ready in:",
+  "ready.in": "Ready in",
   "creating": "Creating",
   "claiming": "Claiming",
   "depositing": "Depositing",
