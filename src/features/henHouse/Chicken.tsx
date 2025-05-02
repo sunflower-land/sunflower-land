@@ -41,6 +41,7 @@ import {
 import { getAnimalXP } from "features/game/events/landExpansion/loveAnimal";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { MutantAnimalModal } from "features/farming/animals/components/MutantAnimalModal";
+import { isWearableActive } from "features/game/lib/wearables";
 
 export const CHICKEN_EMOTION_ICONS: Record<
   Exclude<TState["value"], "idle" | "needsLove" | "initial" | "sick">,
@@ -170,6 +171,11 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     game,
   });
 
+  const hasOracleSyringeEquipped = isWearableActive({
+    name: "Oracle Syringe",
+    game,
+  });
+
   // Check if the chicken has a mutant
   const { name: mutantName } = chicken.reward?.items?.[0] ?? {};
 
@@ -260,6 +266,12 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   const onSickClick = async () => {
     const medicineCount = inventory["Barn Delight"] ?? new Decimal(0);
     const hasEnoughMedicine = medicineCount.gte(1);
+
+    if (hasOracleSyringeEquipped) {
+      playCureAnimal();
+      cureChicken("Barn Delight");
+      return;
+    }
 
     if (hasEnoughMedicine) {
       playCureAnimal();
