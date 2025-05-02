@@ -31,6 +31,7 @@ import classNames from "classnames";
 import { Marketplace } from "features/marketplace/Marketplace";
 import { FlowerDashboardProfile } from "features/flowerDashboard/FlowerDashboardProfile";
 import { hasFeatureAccess } from "lib/flags";
+import { GameProvider } from "features/game/GameProvider";
 
 // Lazy load routes
 const World = lazy(() =>
@@ -149,76 +150,76 @@ export const Navigation: React.FC = () => {
 
       {showGame ? (
         <PWAInstallProvider>
-          <ZoomProvider>
-            <Modal show={showConnectionModal}>
-              <Panel>
-                <div className="text-sm p-1 mb-1">{t("welcome.offline")}</div>
-              </Panel>
-            </Modal>
-            <HashRouter>
-              <Suspense fallback={<LoadingFallback />}>
-                <Routes>
-                  {/* Forbid entry to Goblin Village when in Visiting State show Forbidden screen */}
-                  {!state.isVisiting && (
+          <GameProvider>
+            <ZoomProvider>
+              <Modal show={showConnectionModal}>
+                <Panel>
+                  <div className="text-sm p-1 mb-1">{t("welcome.offline")}</div>
+                </Panel>
+              </Modal>
+              <HashRouter>
+                <Suspense fallback={<LoadingFallback />}>
+                  <Routes>
+                    {/* Forbid entry to Goblin Village when in Visiting State show Forbidden screen */}
+                    {!state.isVisiting && (
+                      <Route
+                        path="/goblins"
+                        element={
+                          <Splash>
+                            <Forbidden
+                              onClose={() => {
+                                authService.send("RETURN");
+                              }}
+                            />
+                          </Splash>
+                        }
+                      />
+                    )}{" "}
+                    <Route path="/world" element={<World key="world" />}>
+                      <Route
+                        path="marketplace/*"
+                        element={
+                          <div className="absolute inset-0 z-50">
+                            <Marketplace />
+                          </div>
+                        }
+                      />
+                      <Route path=":name" element={null} />
+                    </Route>
                     <Route
-                      path="/goblins"
-                      element={
-                        <Splash>
-                          <Forbidden
-                            onClose={() => {
-                              authService.send("RETURN");
-                            }}
-                          />
-                        </Splash>
-                      }
+                      path="/community/:name"
+                      element={<World key="community" isCommunity />}
                     />
-                  )}
-                  <Route path="/world" element={<World key="world" />}>
                     <Route
-                      path="marketplace/*"
-                      element={
-                        <div className="absolute inset-0 z-50">
-                          <Marketplace />
-                        </div>
-                      }
+                      path="/visit/*"
+                      element={<LandExpansion key="visit" />}
                     />
-                    <Route path=":name" element={null} />
-                  </Route>
-                  <Route
-                    path="/community/:name"
-                    element={<World key="community" isCommunity />}
-                  />
-                  {CONFIG.NETWORK === "amoy" && (
-                    <Route
-                      path="/community-tools"
-                      element={<CommunityTools key="community-tools" />}
-                    />
-                  )}
-
-                  <Route
-                    path="/visit/*"
-                    element={<LandExpansion key="visit" />}
-                  />
-
-                  {CONFIG.NETWORK === "amoy" && (
-                    <Route
-                      path="/builder"
-                      element={<Builder key="builder" />}
-                    />
-                  )}
-                  {hasFeatureAccess(INITIAL_FARM, "LEDGER") && (
-                    <Route
-                      path="/flower-dashboard/:id"
-                      element={
-                        <FlowerDashboardProfile key="flower-dashboard" />
-                      }
-                    />
-                  )}
-                  <Route path="*" element={<LandExpansion key="land" />} />
-                </Routes>
-              </Suspense>
-            </HashRouter>
-          </ZoomProvider>
+                    {CONFIG.NETWORK === "amoy" && (
+                      <Route
+                        path="/community-tools"
+                        element={<CommunityTools key="community-tools" />}
+                      />
+                    )}
+                    {CONFIG.NETWORK === "amoy" && (
+                      <Route
+                        path="/builder"
+                        element={<Builder key="builder" />}
+                      />
+                    )}
+                    {hasFeatureAccess(INITIAL_FARM, "LEDGER") && (
+                      <Route
+                        path="/flower-dashboard/:id"
+                        element={
+                          <FlowerDashboardProfile key="flower-dashboard" />
+                        }
+                      />
+                    )}
+                    <Route path="*" element={<LandExpansion key="land" />} />
+                  </Routes>
+                </Suspense>
+              </HashRouter>
+            </ZoomProvider>
+          </GameProvider>
         </PWAInstallProvider>
       ) : (
         <Splash />

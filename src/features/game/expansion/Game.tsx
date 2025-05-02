@@ -109,7 +109,7 @@ const getModalStatesForEffects = () =>
     {} as Record<BlockchainState["value"], boolean>,
   );
 
-export const AUTO_SAVE_INTERVAL = 1000 * 30; // autosave every 30 seconds
+export const AUTO_SAVE_INTERVAL = 1000 * 60; // autosave every 60 seconds
 const SHOW_MODAL: Record<StateValues, boolean> = {
   ...getModalStatesForEffects(),
   // Hide these modals
