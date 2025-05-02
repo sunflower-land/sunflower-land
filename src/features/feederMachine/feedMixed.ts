@@ -8,7 +8,6 @@ import { trackActivity } from "features/game/types/bumpkinActivity";
 import { getKeys } from "features/game/types/decorations";
 import { ANIMAL_FOODS } from "features/game/types/animals";
 import { produce } from "immer";
-import { isWearableActive } from "features/game/lib/wearables";
 
 export type FeedMixedAction = {
   type: "feed.mixed";
@@ -37,18 +36,10 @@ export function getIngredients({
   }
 
   if (state.bumpkin.skills["Alternate Medicine"] && name === "Barn Delight") {
-    ingredients = Object.fromEntries(
-      Object.entries(ingredients).map(([key, value]) => [key, value.minus(1)]),
-    );
-  }
-
-  if (
-    isWearableActive({ game: state, name: "Medic Apron" }) &&
-    name === "Barn Delight"
-  ) {
-    ingredients = Object.fromEntries(
-      Object.entries(ingredients).map(([key, value]) => [key, value.div(2)]),
-    );
+    ingredients = {
+      Lemon: ANIMAL_FOODS["Barn Delight"].ingredients.Lemon?.sub(1),
+      Honey: ANIMAL_FOODS["Barn Delight"].ingredients.Honey?.sub(1),
+    };
   }
 
   return { ingredients };
