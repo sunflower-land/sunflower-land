@@ -2473,6 +2473,45 @@ describe("getCropTime", () => {
     );
   });
 
+  it("gives +2 Kale when Giant Kale is placed and ready", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Kale Seed": new Decimal(1),
+        },
+        collectibles: {
+          "Giant Kale": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: dateNow - 10000,
+              readyAt: dateNow - 10000,
+              id: "123",
+            },
+          ],
+        },
+      },
+      createdAt: dateNow,
+      action: {
+        type: "seed.planted",
+        cropId: "123",
+        index: "0",
+        item: "Kale Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+    expect((plots as Record<number, CropPlot>)[0].crop).toEqual(
+      expect.objectContaining({
+        name: "Kale",
+        plantedAt: expect.any(Number),
+        amount: 3,
+      }),
+    );
+  });
+
   it("applies a +5% speed boost with Green Thumb skill", () => {
     const baseHarvestSeconds = CROPS["Corn"].harvestSeconds;
     const time = getCropPlotTime({

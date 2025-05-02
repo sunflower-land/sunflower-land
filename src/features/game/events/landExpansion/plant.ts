@@ -606,6 +606,10 @@ export function getCropYieldAmount({
     amount += 2;
   }
 
+  if (crop === "Kale" && isCollectibleBuilt({ name: "Giant Kale", game })) {
+    amount += 2;
+  }
+
   const collectibles = game.collectibles;
 
   if (
