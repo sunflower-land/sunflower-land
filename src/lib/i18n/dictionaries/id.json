@@ -3299,7 +3299,6 @@
   "transaction.waiting": "{{name}} sedang berlangsung",
   "transaction.somethingWentWrong": "Hmmm, ada yang tidak beres. Silakan coba lagi.",
   "transaction.timedOut": "Waktu habis",
-  "ready.in": "Siap di:",
   "creating": "Menciptakan",
   "claiming": "Mengklaim",
   "depositing": "Menyetorkan",
@@ -5858,5 +5857,6 @@
   "whatsOn.july28th": "28 Juli",
   "description.geniseed": "Tiket yang digunakan selama chapter Great Bloom",
   "interactableModals.petalClue.message1": "Ketika kelopak bunga mekar oranye, hadiah muncul. Dapatkah Anda menemukannya?",
-  "birdieplaza.choresAndRewards": "Anda juga bisa mendapatkan {{seasonalTicket}} s dengan tugas mingguan, hadiah peti harian, dan sistem hadiah!"
+  "birdieplaza.choresAndRewards": "Anda juga bisa mendapatkan {{seasonalTicket}} s dengan tugas mingguan, hadiah peti harian, dan sistem hadiah!",
+  "ready.in": "Siap masuk"
 }
