@@ -112,4 +112,32 @@ describe("collectLavaPit", () => {
 
     expect(result.inventory.Obsidian).toEqual(new Decimal(1));
   });
+
+  it("gives 1.5x obsidian with obsidian turtle", () => {
+    const result = collectLavaPit({
+      state: {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+        },
+        collectibles: {
+          "Obsidian Turtle": [
+            {
+              id: "1",
+              coordinates: { x: 0, y: 0 },
+              readyAt: now,
+              createdAt: now,
+            },
+          ],
+        },
+        lavaPits: {
+          1: { x: 0, y: 0, width: 2, height: 2, startedAt: 0, createdAt: 0 },
+        },
+      },
+      action: { type: "lavaPit.collected", id: "1" },
+      createdAt: now,
+    });
+
+    expect(result.inventory.Obsidian).toEqual(new Decimal(1.5));
+  });
 });

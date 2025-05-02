@@ -2,6 +2,7 @@ import { produce } from "immer";
 import Decimal from "decimal.js-light";
 import { GameState } from "features/game/types/game";
 import { isWearableActive } from "features/game/lib/wearables";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
 export function getLavaPitTime({ game }: { game: GameState }) {
   const time = 72 * 60 * 60 * 1000;
@@ -12,6 +13,16 @@ export function getLavaPitTime({ game }: { game: GameState }) {
 
   return time;
 }
+
+export function getObsidianYield({ game }: { game: GameState }) {
+  let amount = 1;
+  if (isCollectibleBuilt({ name: "Obsidian Turtle", game })) {
+    amount += 0.5;
+  }
+
+  return amount;
+}
+
 export type CollectLavaPitAction = {
   type: "lavaPit.collected";
   id: string;
@@ -53,7 +64,8 @@ export function collectLavaPit({
 
     const obsidianAmount = copy.inventory["Obsidian"] ?? new Decimal(0);
 
-    copy.inventory["Obsidian"] = obsidianAmount.add(1);
+    const obsidianYield = getObsidianYield({ game: copy });
+    copy.inventory["Obsidian"] = obsidianAmount.add(obsidianYield);
 
     return copy;
   });
