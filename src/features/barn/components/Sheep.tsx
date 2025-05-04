@@ -41,6 +41,7 @@ import {
 import { getAnimalXP } from "features/game/events/landExpansion/loveAnimal";
 import { MutantAnimalModal } from "features/farming/animals/components/MutantAnimalModal";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { isWearableActive } from "features/game/lib/wearables";
 
 const _animalState = (state: AnimalMachineState) =>
   // Casting here because we know the value is always a string rather than an object
@@ -101,6 +102,11 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
 
   const hasGoldenSheep = isCollectibleBuilt({
     name: "Golden Sheep",
+    game,
+  });
+
+  const hasOracleSyringeEquipped = isWearableActive({
+    name: "Oracle Syringe",
     game,
   });
 
@@ -214,6 +220,12 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
   const onSickClick = async () => {
     const medicineCount = inventory["Barn Delight"] ?? new Decimal(0);
     const hasEnoughMedicine = medicineCount.gte(1);
+
+    if (hasOracleSyringeEquipped) {
+      playCureAnimal();
+      cureSheep("Barn Delight");
+      return;
+    }
 
     if (hasEnoughMedicine) {
       playCureAnimal();
