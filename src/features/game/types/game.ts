@@ -1076,6 +1076,10 @@ export type MinigameHistory = {
   prizeClaimedAt?: number;
 };
 
+export type MinigameAchievement = {
+  unlockedAt: number;
+};
+
 export type Minigame = {
   highscore: number;
   // SFL attempts purchased
@@ -1092,6 +1096,8 @@ export type Minigame = {
   };
 
   history: Record<string, MinigameHistory>;
+  achievements?: Record<string, MinigameAchievement>;
+  activities?: Record<string, Decimal>;
 };
 
 export type TradeListing = {
