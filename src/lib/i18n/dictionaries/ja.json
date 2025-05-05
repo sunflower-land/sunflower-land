@@ -5858,5 +5858,6 @@
   "description.geniseed": "「グレート・ブルーム」チャプターで使ったチケット",
   "interactableModals.petalClue.message1": "花びらがオレンジ色に咲くと、賞品が現れます。見つけられますか？",
   "birdieplaza.choresAndRewards": "また、毎週の雑用、毎日のチェスト報酬、バウンティシステムで {{seasonalTicket}} を獲得することもできます！",
-  "ready.in": "準備完了"
+  "ready.in": "準備完了",
+  "transaction.refresh.message": "取引の有効期限が切れたようです。[更新] をクリックしてもう一度試してください。"
 }

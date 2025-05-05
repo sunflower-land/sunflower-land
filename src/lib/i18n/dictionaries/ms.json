@@ -5858,5 +5858,6 @@
   "description.geniseed": "Tiket yang digunakan semasa bab Great Bloom",
   "interactableModals.petalClue.message1": "Apabila kelopak mekar oren, hadiah muncul. Bolehkah anda menemuinya?",
   "birdieplaza.choresAndRewards": "Anda juga boleh memperoleh {{seasonalTicket}} s dengan kerja mingguan, ganjaran dada harian, dan sistem hadiah!",
-  "ready.in": "Bersedia di"
+  "ready.in": "Bersedia di",
+  "transaction.refresh.message": "Nampaknya transaksi anda tamat tempoh. Sila klik Refresh untuk mencuba lagi."
 }

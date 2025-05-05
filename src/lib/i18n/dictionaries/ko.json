@@ -5858,5 +5858,6 @@
   "description.geniseed": "그레이트 블룸 챕터에서 사용한 티켓",
   "interactableModals.petalClue.message1": "꽃잎이 주황색 꽃을 피우면 상이 나타납니다.찾을 수 있나요?",
   "birdieplaza.choresAndRewards": "주간 집안일, 일일 상자 보상, 현상금 시스템을 통해서도 {{seasonalTicket}} 를 벌 수 있습니다!",
-  "ready.in": "준비 완료"
+  "ready.in": "준비 완료",
+  "transaction.refresh.message": "거래가 만료된 것 같습니다.새로 고침을 클릭하여 다시 시도하세요."
 }

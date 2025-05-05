@@ -5858,5 +5858,6 @@
   "description.geniseed": "Ein Ticket, das während des Kapitels Great Bloom verwendet wurde",
   "interactableModals.petalClue.message1": "Wenn die Blütenblätter orange blühen, erscheint ein Preis. Kannst du ihn finden?",
   "birdieplaza.choresAndRewards": "Du kannst auch {{seasonalTicket}} s durch wöchentliche Aufgaben, tägliche Truhenbelohnungen und Kopfgeldsystem verdienen!",
-  "ready.in": "Bereit rein"
+  "ready.in": "Bereit rein",
+  "transaction.refresh.message": "Sieht so aus, als ob Ihre Transaktion abgelaufen ist. Bitte klicken Sie auf Aktualisieren, um es erneut zu versuchen."
 }

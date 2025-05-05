@@ -5858,5 +5858,6 @@
   "description.geniseed": "Um ingresso usado durante o capítulo Great Bloom",
   "interactableModals.petalClue.message1": "Quando as pétalas estão em flor de laranjeira, aparece um prêmio. Você pode encontrá-lo?",
   "birdieplaza.choresAndRewards": "Você também pode ganhar {{seasonalTicket}} s por meio de tarefas semanais, recompensas diárias no baú e sistema de recompensas!",
-  "ready.in": "Pronto em"
+  "ready.in": "Pronto em",
+  "transaction.refresh.message": "Parece que sua transação expirou. Clique em atualizar para tentar novamente."
 }

@@ -5858,5 +5858,6 @@
   "description.geniseed": "Un ticket utilisé lors du chapitre Great Bloom",
   "interactableModals.petalClue.message1": "Lorsque les pétales sont en fleur d'oranger, un prix apparaît. Peux-tu le trouver ?",
   "birdieplaza.choresAndRewards": "Vous pouvez également gagner {{seasonalTicket}} s grâce à des tâches hebdomadaires, à des récompenses de coffre quotidiennes et à un système de primes !",
-  "ready.in": "Prêt à l'emploi"
+  "ready.in": "Prêt à l'emploi",
+  "transaction.refresh.message": "Il semblerait que votre transaction ait expiré. Cliquez sur Actualiser pour réessayer."
 }
