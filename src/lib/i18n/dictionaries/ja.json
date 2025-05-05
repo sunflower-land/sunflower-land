@@ -3299,7 +3299,6 @@
   "transaction.waiting": "{{name}} 進行中",
   "transaction.somethingWentWrong": "うーん、何かがおかしくなった。もう一度試してください。",
   "transaction.timedOut": "タイムアウト",
-  "ready.in": "準備完了:",
   "creating": "作成中",
   "claiming": "請求",
   "depositing": "デポジット",
@@ -5858,5 +5857,7 @@
   "whatsOn.july28th": "7 月 28 日",
   "description.geniseed": "「グレート・ブルーム」チャプターで使ったチケット",
   "interactableModals.petalClue.message1": "花びらがオレンジ色に咲くと、賞品が現れます。見つけられますか？",
-  "birdieplaza.choresAndRewards": "また、毎週の雑用、毎日のチェスト報酬、バウンティシステムで {{seasonalTicket}} を獲得することもできます！"
+  "birdieplaza.choresAndRewards": "また、毎週の雑用、毎日のチェスト報酬、バウンティシステムで {{seasonalTicket}} を獲得することもできます！",
+  "ready.in": "準備完了",
+  "transaction.refresh.message": "取引の有効期限が切れたようです。[更新] をクリックしてもう一度試してください。"
 }

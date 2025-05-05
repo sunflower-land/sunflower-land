@@ -3296,7 +3296,6 @@
   "description.macaw.boost": "+0.1 Meyve Yaması Verimi",
   "description.camel.onesie.boost": "+0.1 Meyve Yaması Verimi",
   "marketplace.offerClaimed": "Tebrikler, teklifiniz kabul edildi!",
-  "ready.in": "Hazır:",
   "creating": "Oluşturma",
   "claiming": "Talep Etmek",
   "depositing": "Para Yatırma",
@@ -5858,5 +5857,7 @@
   "whatsOn.july28th": "28 Temmuz",
   "description.geniseed": "Great Bloom bölümünde kullanılan bir bilet",
   "interactableModals.petalClue.message1": "Yapraklar turuncu bir çiçek açtığında, bir ödül belirir. Bulabiliyor musun?",
-  "birdieplaza.choresAndRewards": "Ayrıca haftalık ev işleri, günlük sandık ödülleri ve ödül sistemi ile {{seasonalTicket}} s kazanabilirsiniz!"
+  "birdieplaza.choresAndRewards": "Ayrıca haftalık ev işleri, günlük sandık ödülleri ve ödül sistemi ile {{seasonalTicket}} s kazanabilirsiniz!",
+  "ready.in": "İçeri hazır",
+  "transaction.refresh.message": "Görünüşe göre işlemin süresi doldu. Tekrar denemek için lütfen yenile'yi tıklayın."
 }

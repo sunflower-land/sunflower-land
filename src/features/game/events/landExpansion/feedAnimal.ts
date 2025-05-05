@@ -22,6 +22,7 @@ import {
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { getKeys } from "features/game/types/decorations";
+import { isWearableActive } from "features/game/lib/wearables";
 
 export const ANIMAL_SLEEP_DURATION = 24 * 60 * 60 * 1000;
 
@@ -184,6 +185,22 @@ export function feedAnimal({
     if (action.item === "Barn Delight") {
       if (animal.state !== "sick") {
         throw new Error("Cannot cure a healthy animal");
+      }
+
+      const hasOracleSyringeEquipped = isWearableActive({
+        name: "Oracle Syringe",
+        game: copy,
+      });
+
+      if (hasOracleSyringeEquipped) {
+        //Free Medicine for Animals
+        animal.state = "idle";
+
+        copy.bumpkin.activity = trackActivity(
+          `${action.animal} Cured`,
+          copy.bumpkin.activity,
+        );
+        return copy;
       }
 
       const barnDelightAmount =

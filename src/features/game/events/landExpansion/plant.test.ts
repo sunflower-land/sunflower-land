@@ -2102,6 +2102,75 @@ describe("getCropTime", () => {
     expect(time).toEqual(baseHarvestSeconds * 0.75);
   });
 
+  it("gives +0.5 Yam when Giant Yam is placed and ready", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        island: {
+          type: "desert",
+        },
+        inventory: {
+          "Yam Seed": new Decimal(1),
+        },
+        season: {
+          season: "autumn",
+          startedAt: 0,
+        },
+        collectibles: {
+          "Giant Yam": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: dateNow - 10000,
+              readyAt: dateNow - 10000,
+              id: "123",
+            },
+          ],
+        },
+      },
+      createdAt: dateNow,
+      action: {
+        type: "seed.planted",
+        cropId: "123",
+        index: "0",
+        item: "Yam Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+    expect((plots as Record<number, CropPlot>)[0].crop).toEqual(
+      expect.objectContaining({
+        name: "Yam",
+        plantedAt: expect.any(Number),
+        amount: 1.5,
+      }),
+    );
+  });
+
+  it("applies a 2x speed boost with Giant Zucchini placed", () => {
+    const baseHarvestSeconds = CROPS["Zucchini"].harvestSeconds;
+    const time = getCropPlotTime({
+      crop: "Zucchini",
+      game: {
+        ...TEST_FARM,
+        collectibles: {
+          "Giant Zucchini": [
+            {
+              id: "123",
+              coordinates: { x: -1, y: -1 },
+              createdAt: dateNow - 100,
+              readyAt: dateNow - 100,
+            },
+          ],
+        },
+      },
+      plot,
+    });
+
+    expect(time).toEqual(baseHarvestSeconds * 0.5);
+  });
+
   it("applies a 20% speed boost with Basic Scarecrow placed, plot is within AOE and crop is Sunflower", () => {
     const sunflowerHarvestSeconds = CROPS["Sunflower"].harvestSeconds;
 
@@ -2398,6 +2467,45 @@ describe("getCropTime", () => {
     expect((plots as Record<number, CropPlot>)[0].crop).toEqual(
       expect.objectContaining({
         name: "Wheat",
+        plantedAt: expect.any(Number),
+        amount: 3,
+      }),
+    );
+  });
+
+  it("gives +2 Kale when Giant Kale is placed and ready", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Kale Seed": new Decimal(1),
+        },
+        collectibles: {
+          "Giant Kale": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: dateNow - 10000,
+              readyAt: dateNow - 10000,
+              id: "123",
+            },
+          ],
+        },
+      },
+      createdAt: dateNow,
+      action: {
+        type: "seed.planted",
+        cropId: "123",
+        index: "0",
+        item: "Kale Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+    expect((plots as Record<number, CropPlot>)[0].crop).toEqual(
+      expect.objectContaining({
+        name: "Kale",
         plantedAt: expect.any(Number),
         amount: 3,
       }),

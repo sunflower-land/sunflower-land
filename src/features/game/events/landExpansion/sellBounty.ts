@@ -27,7 +27,6 @@ import {
   BeachBountyTreasure,
 } from "features/game/types/treasure";
 import { produce } from "immer";
-import { getSeasonChangeover } from "lib/utils/getSeasonWeek";
 import { isCollectible } from "./garbageSold";
 import { CHAPTER_TICKET_BOOST_ITEMS } from "./completeNPCChore";
 
@@ -116,7 +115,6 @@ export function sellBounty({
   state,
   action,
   createdAt = Date.now(),
-  farmId = 0,
 }: Options): GameState {
   return produce(state, (draft) => {
     const request = draft.bounties.requests.find(
@@ -134,21 +132,10 @@ export function sellBounty({
       throw new Error("Bounty already completed");
     }
 
-    const { ticketTasksAreFrozen } = getSeasonChangeover({
-      now: createdAt,
-      id: farmId as number,
-    });
-
     const tickets = generateBountyTicket({
       game: draft,
       bounty: request,
     });
-
-    const isTicketOrder = tickets > 0;
-
-    if (isTicketOrder && ticketTasksAreFrozen) {
-      throw new Error("Ticket tasks are frozen");
-    }
 
     // Remove the item from the inventory
     const item = draft.inventory[request.name];

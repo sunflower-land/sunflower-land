@@ -3296,7 +3296,6 @@
   "description.macaw.boost": "+0,1 resa in frutteto",
   "description.camel.onesie.boost": "+0,1 resa in frutteto",
   "marketplace.offerClaimed": "Congratulazioni, la tua offerta è stata accettata!",
-  "ready.in": "Pronto in:",
   "creating": "Creando",
   "claiming": "Reclamando",
   "depositing": "Deposito",
@@ -5858,5 +5857,7 @@
   "whatsOn.july28th": "28 luglio",
   "description.geniseed": "Un biglietto usato durante il capitolo Great Bloom",
   "interactableModals.petalClue.message1": "Quando i petali sono in una fioritura arancione, appare un premio. Riesci a trovarlo?",
-  "birdieplaza.choresAndRewards": "Puoi anche guadagnare {{seasonalTicket}} in base alle faccende settimanali, ai premi giornalieri e al sistema di ricompense!"
+  "birdieplaza.choresAndRewards": "Puoi anche guadagnare {{seasonalTicket}} in base alle faccende settimanali, ai premi giornalieri e al sistema di ricompense!",
+  "ready.in": "Pronto nel",
+  "transaction.refresh.message": "Sembra che la transazione sia scaduta. Fai clic su Aggiorna per riprovare."
 }

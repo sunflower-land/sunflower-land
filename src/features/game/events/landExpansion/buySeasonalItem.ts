@@ -33,6 +33,17 @@ type Options = {
   createdAt?: number;
 };
 
+export type FlowerBox =
+  | "Bronze Flower Box"
+  | "Silver Flower Box"
+  | "Gold Flower Box";
+
+export const FLOWER_BOXES: Record<string, true> = {
+  "Bronze Flower Box": true,
+  "Silver Flower Box": true,
+  "Gold Flower Box": true,
+};
+
 export function buySeasonalItem({
   state,
   action,
@@ -78,7 +89,9 @@ export function buySeasonalItem({
     const seasonalItemsCrafted =
       seasonalCollectiblesCrafted + seasonalWearablesCrafted;
 
-    const reduction = isKeyBoughtWithinSeason(state, tier, true) ? 0 : 1;
+    const keyReduction = isKeyBoughtWithinSeason(state, tier, true) ? 0 : 1;
+    const boxReduction = isBoxBoughtWithinSeason(state, tier, true) ? 0 : 1;
+    const reduction = keyReduction + boxReduction;
 
     // Check if player meets the tier requirement
     if (tier !== "basic") {
@@ -216,6 +229,51 @@ export function isKeyBoughtWithinSeason(
     const isWithinSeason =
       new Date(keyBoughtAt) >= seasonTime.startDate &&
       new Date(keyBoughtAt) <= seasonTime.endDate;
+    return isWithinSeason;
+  }
+
+  // This will only be triggered if isLowerTier is false
+  return false;
+}
+
+// Function to assess if Flower Box is bought within the current season
+export function isBoxBoughtWithinSeason(
+  game: GameState,
+  tier: keyof SeasonalStore,
+  isLowerTier = false,
+) {
+  const tierBox =
+    isLowerTier && tier === "rare"
+      ? "Bronze Flower Box"
+      : isLowerTier && tier === "epic"
+        ? "Silver Flower Box"
+        : isLowerTier && tier === "mega"
+          ? "Gold Flower Box"
+          : tier === "basic"
+            ? "Bronze Flower Box"
+            : tier === "rare"
+              ? "Silver Flower Box"
+              : "Gold Flower Box";
+
+  let boxBoughtAt = game.megastore?.boughtAt[tierBox as SeasonalTierItemName];
+
+  // We changed to a new field. From May 1st can remove this code
+  if (!boxBoughtAt) {
+    boxBoughtAt =
+      game.pumpkinPlaza.keysBought?.megastore?.[tierBox as Keys]?.boughtAt;
+  }
+
+  const seasonTime = SEASONS[getCurrentSeason()];
+  const historyBox =
+    game.bumpkin.activity[`${tierBox as SeasonalTierItemName} Bought`];
+
+  //If player has no history of buying keys at megastore
+  if (!boxBoughtAt && isLowerTier && !historyBox) return true;
+  // Returns false if key is bought outside current season, otherwise, true
+  if (boxBoughtAt) {
+    const isWithinSeason =
+      new Date(boxBoughtAt) >= seasonTime.startDate &&
+      new Date(boxBoughtAt) <= seasonTime.endDate;
     return isWithinSeason;
   }
 

@@ -3299,7 +3299,6 @@
   "transaction.waiting": "{{name}} sedang dijalankan",
   "transaction.somethingWentWrong": "Hmmm, ada yang salah. Sila cuba lagi.",
   "transaction.timedOut": "Tamat masa",
-  "ready.in": "Bersedia dalam:",
   "creating": "Mewujudkan",
   "claiming": "Menuntut",
   "depositing": "Mendepositkan",
@@ -5858,5 +5857,7 @@
   "whatsOn.july28th": "28 Julai",
   "description.geniseed": "Tiket yang digunakan semasa bab Great Bloom",
   "interactableModals.petalClue.message1": "Apabila kelopak mekar oren, hadiah muncul. Bolehkah anda menemuinya?",
-  "birdieplaza.choresAndRewards": "Anda juga boleh memperoleh {{seasonalTicket}} s dengan kerja mingguan, ganjaran dada harian, dan sistem hadiah!"
+  "birdieplaza.choresAndRewards": "Anda juga boleh memperoleh {{seasonalTicket}} s dengan kerja mingguan, ganjaran dada harian, dan sistem hadiah!",
+  "ready.in": "Bersedia di",
+  "transaction.refresh.message": "Nampaknya transaksi anda tamat tempoh. Sila klik Refresh untuk mencuba lagi."
 }

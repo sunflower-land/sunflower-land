@@ -3296,7 +3296,6 @@
   "description.macaw.boost": "+0.1 果坑产量",
   "description.camel.onesie.boost": "+0.1 果坑产量",
   "marketplace.offerClaimed": "恭喜，您的报价已被接受！",
-  "ready.in": "准备时间：",
   "creating": "正在创建",
   "claiming": "正在申领",
   "depositing": "正在存入",
@@ -5858,5 +5857,7 @@
   "whatsOn.july28th": "7 月 28 日",
   "description.geniseed": "在 Great Bloom 章节中使用的门票",
   "interactableModals.petalClue.message1": "当花瓣呈橙色花朵时，会出现奖品。你能找到吗？",
-  "birdieplaza.choresAndRewards": "你还可以通过每周琐事、每日宝箱奖励和赏金系统获得 {{seasonalTicket}} s！"
+  "birdieplaza.choresAndRewards": "你还可以通过每周琐事、每日宝箱奖励和赏金系统获得 {{seasonalTicket}} s！",
+  "ready.in": "准备好了",
+  "transaction.refresh.message": "看来您的交易已过期。请单击 “刷新” 重试。"
 }

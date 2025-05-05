@@ -8,6 +8,8 @@ import {
 import {
   WithdrawBudsParams,
   withdrawBudsTransaction,
+  WithdrawFlowerParams,
+  withdrawFlowerTransaction,
   WithdrawItemsParams,
   withdrawItemsTransaction,
   WithdrawWearablesParams,
@@ -76,6 +78,15 @@ export type AcceptOfferTransaction = {
   };
 };
 
+export type FlowerWithdrawnTransaction = {
+  event: "transaction.flowerWithdrawn";
+  createdAt: number;
+  data: {
+    amount: string;
+    params: WithdrawFlowerParams;
+  };
+};
+
 export type ListingPurchasedTransaction = {
   event: "transaction.listingPurchased";
   createdAt: number;
@@ -92,7 +103,8 @@ export type GameTransaction =
   | BudWithdrawnTransaction
   | BidMintedTransaction
   | AcceptOfferTransaction
-  | ListingPurchasedTransaction;
+  | ListingPurchasedTransaction
+  | FlowerWithdrawnTransaction;
 
 export type TransactionName = Extract<
   GameTransaction,
@@ -101,34 +113,56 @@ export type TransactionName = Extract<
 
 type TransactionHash = {
   deadline: number;
-  sessionId: string;
   hash: string;
   event: TransactionName;
-};
-
+} & (
+  | {
+      sessionId: string;
+      withdrawId: never;
+    }
+  | {
+      sessionId: never;
+      withdrawId: string;
+    }
+);
 export const DEADLINE_MS = 5 * 60 * 1000;
 export const DEADLINE_BUFFER_MS = 1 * 60 * 1000;
-
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `sb_wiz.hash.v.${host}-${window.location.pathname}`;
+
+type Identifier =
+  | {
+      sessionId: string;
+      withdrawId?: never;
+    }
+  | {
+      sessionId?: never;
+      withdrawId: string;
+    };
+
+type SaveTxHash = {
+  hash: string;
+  event: TransactionName;
+  deadline: number;
+} & Identifier;
+
+type LoadActiveTxHash = {
+  event: TransactionName;
+} & Identifier;
 
 export function saveTxHash({
   hash,
   event,
   deadline,
   sessionId,
-}: {
-  hash: string;
-  sessionId: string;
-  event: TransactionName;
-  deadline: number;
-}) {
-  const txHash: TransactionHash = {
+  withdrawId,
+}: SaveTxHash) {
+  const txHash = {
     hash,
     event,
-    sessionId,
     deadline,
-  };
+    ...(sessionId ? { sessionId } : { withdrawId }),
+  } as TransactionHash;
 
   localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(txHash));
 }
@@ -136,21 +170,28 @@ export function saveTxHash({
 export function loadActiveTxHash({
   event,
   sessionId,
-}: {
-  event: TransactionName;
-  sessionId: string;
-}) {
+  withdrawId,
+}: LoadActiveTxHash) {
   const item = localStorage.getItem(LOCAL_STORAGE_KEY);
-
   if (!item) return null;
 
   const txHash = JSON.parse(item) as TransactionHash;
 
-  if (txHash.event !== event) return null;
+  if (txHash.event !== event) {
+    return null;
+  }
 
-  if (txHash.sessionId !== sessionId) return null;
+  if (sessionId && txHash.sessionId !== sessionId) {
+    return null;
+  }
 
-  if (txHash.deadline * 1000 < Date.now()) return null;
+  if (withdrawId && txHash.withdrawId !== withdrawId) {
+    return null;
+  }
+
+  if (txHash.deadline * 1000 < Date.now()) {
+    return null;
+  }
 
   return txHash;
 }
@@ -170,6 +211,8 @@ export const ONCHAIN_TRANSACTIONS: TransactionHandler = {
   "transaction.progressSynced": (data) => syncProgress(data.params),
   "transaction.wearablesWithdrawn": (data) =>
     withdrawWearablesTransaction(data.params),
+  "transaction.flowerWithdrawn": (data) =>
+    withdrawFlowerTransaction(data.params),
 
   // Minting a bid has 2 separate contract methods
   "transaction.bidMinted": (data) => {
@@ -200,4 +243,5 @@ export const TRANSACTION_SIGNATURES: TransactionRequest = {
   "transaction.budWithdrawn": postEffect,
   "transaction.itemsWithdrawn": postEffect,
   "transaction.wearablesWithdrawn": postEffect,
+  "transaction.flowerWithdrawn": postEffect,
 };

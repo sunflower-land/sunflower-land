@@ -2,7 +2,7 @@ import React, { useContext, useState } from "react";
 import { useSelector } from "@xstate/react";
 
 import { Button } from "components/ui/Button";
-import { WithdrawTokens } from "./WithdrawTokens";
+import { WithdrawFlower } from "./WithdrawFlower";
 import { WithdrawItems } from "./WithdrawItems";
 import { WithdrawWearables } from "./WithdrawWearables";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -12,11 +12,12 @@ import { WithdrawBuds } from "./WithdrawBuds";
 import { Context } from "features/game/GameProvider";
 import { WithdrawResources } from "./WithdrawResources";
 import { Label } from "components/ui/Label";
-import { PIXEL_SCALE } from "features/game/lib/constants";
+import { INITIAL_FARM, PIXEL_SCALE } from "features/game/lib/constants";
 import { MachineState } from "features/game/lib/gameMachine";
 import { translate } from "lib/i18n/translate";
 import { Transaction } from "features/island/hud/Transaction";
 import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
+import { hasFeatureAccess } from "lib/flags";
 
 const getPageIcon = (page: Page) => {
   switch (page) {
@@ -73,7 +74,10 @@ const MainMenu: React.FC<{ setPage: (page: Page) => void }> = ({ setPage }) => {
       <Label type="info">{translate("withdraw.sfl.disabled")}</Label>
 
       <div className="flex space-x-1">
-        <Button onClick={() => setPage("tokens")} disabled={true}>
+        <Button
+          onClick={() => setPage("tokens")}
+          disabled={!hasFeatureAccess(INITIAL_FARM, "FLOWER_WITHDRAW")}
+        >
           <div className="flex items-center">
             <img src={getPageIcon("tokens")} className="h-4 mr-1" />
             {getPageText("tokens")}
@@ -157,10 +161,13 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
 
   const onWithdrawTokens = async (sfl: string) => {
     gameService.send("TRANSACT", {
-      transaction: "transaction.sflWithdrawn",
+      transaction: "transaction.flowerWithdrawn",
       request: {
-        captcha: flowerIcon,
-        sfl: sfl,
+        farmId,
+        effect: {
+          type: "withdraw.flower",
+          amount: sfl,
+        },
       },
     });
     onClose();
@@ -220,7 +227,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     <>
       {page === "main" && <MainMenu setPage={setPage} />}
       {page !== "main" && <NavigationMenu page={page} setPage={setPage} />}
-      {page === "tokens" && <WithdrawTokens onWithdraw={onWithdrawTokens} />}
+      {page === "tokens" && <WithdrawFlower onWithdraw={onWithdrawTokens} />}
       {page === "items" && <WithdrawItems onWithdraw={onWithdrawItems} />}
       {page === "resources" && <WithdrawResources onWithdraw={onClose} />}
       {page === "wearables" && (

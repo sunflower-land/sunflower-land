@@ -3296,7 +3296,6 @@
   "description.macaw.boost": "+0.1 Rendimiento de huertos frutales",
   "description.camel.onesie.boost": "+0.1 Rendimiento de huertos frutales",
   "marketplace.offerClaimed": "¡Enhorabuena, tu oferta ha sido aceptada!",
-  "ready.in": "Listo en:",
   "creating": "Creando",
   "claiming": "Reclamando",
   "depositing": "Depositar",
@@ -5858,5 +5857,7 @@
   "whatsOn.july28th": "28 de julio",
   "description.geniseed": "Un billete usado durante el capítulo de Great Bloom",
   "interactableModals.petalClue.message1": "Cuando los pétalos están en flor anaranjada, aparece un premio. ¿Puedes encontrarlo?",
-  "birdieplaza.choresAndRewards": "¡También puedes ganar {{seasonalTicket}} s con las tareas semanales, las recompensas diarias de los cofres y el sistema de recompensas!"
+  "birdieplaza.choresAndRewards": "¡También puedes ganar {{seasonalTicket}} s con las tareas semanales, las recompensas diarias de los cofres y el sistema de recompensas!",
+  "ready.in": "Listo en",
+  "transaction.refresh.message": "Parece que tu transacción ha caducado. Haz clic en actualizar para volver a intentarlo."
 }
