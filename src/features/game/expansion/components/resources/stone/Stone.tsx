@@ -36,9 +36,7 @@ const compareResource = (prev: Rock, next: Rock) => {
 const selectGame = (state: MachineState) => state.context.state;
 const compareGame = (prev: GameState, next: GameState) =>
   isCollectibleBuilt({ name: "Quarry", game: prev }) ===
-    isCollectibleBuilt({ name: "Quarry", game: next }) &&
-  (prev.bumpkin?.skills["Tap Prospector"] ?? false) ===
-    (next.bumpkin?.skills["Tap Prospector"] ?? false);
+  isCollectibleBuilt({ name: "Quarry", game: next });
 
 const selectSkills = (state: MachineState) =>
   state.context.state.bumpkin?.skills;
