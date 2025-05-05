@@ -90,7 +90,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Thermal Stone": new Decimal(1),
     "Beta Pass": new Decimal(1),
     Hay: new Decimal(100),
-    "Dr. Cow": new Decimal(1),
+    "Dr Cow": new Decimal(1),
   },
   previousInventory: {
     "Dirt Path": new Decimal(20),
@@ -535,7 +535,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   collectibles: {
-    "Dr. Cow": [
+    "Dr Cow": [
       {
         id: "1",
         createdAt: 0,

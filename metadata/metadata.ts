@@ -25,7 +25,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/2255.png",
     attributes: [{ trait_type: "Tradable", value: "Yes" }],
   },
-  "Dr. Cow": {
+  "Dr Cow": {
     description:
       "A mutant cow dressed as a caring doctor, gives 5% less feeding cost for cows",
     decimals: 0,
