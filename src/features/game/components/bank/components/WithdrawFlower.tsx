@@ -2,13 +2,9 @@ import { useSelector } from "@xstate/react";
 import React, { useContext, useEffect, useState } from "react";
 import Decimal from "decimal.js-light";
 import { toWei } from "web3-utils";
-
 import { Button } from "components/ui/Button";
-
 import { wallet } from "lib/blockchain/wallet";
-
 import lightning from "assets/icons/lightning.png";
-
 import { getTax } from "lib/utils/tax";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -30,11 +26,13 @@ interface Props {
 }
 
 const _state = (state: MachineState) => state.context.state;
+const _autosaving = (state: MachineState) => state.matches("autosaving");
 
-export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
+export const WithdrawFlower: React.FC<Props> = ({ onWithdraw }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
+  const autosaving = useSelector(gameService, _autosaving);
 
   const [amount, setAmount] = useState<Decimal>(new Decimal(0));
   const [tax, setTax] = useState(0);
@@ -82,14 +80,16 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
   return (
     <>
       <div className="p-2 mb-2">
-        <Label type="default">{t("withdraw.choose")}</Label>
-        <p className="text-sm mt-2">
+        <Label type="default" className="-ml-0.5">
+          {t("withdraw.choose")}
+        </Label>
+        <p className="text-xs mt-2">
           {formatNumber(balance, { decimalPlaces: 4 })}{" "}
           {t("withdraw.sfl.available")}
         </p>
 
         <div>
-          <div className="flex items-center mt-2">
+          <div className="flex items-center mt-2 -ml-1">
             <NumberInput
               value={amount}
               maxDecimalPlaces={0}
@@ -98,13 +98,13 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
             />
             <Button
               onClick={() => setAmount(setPrecision(balance.mul(0.5), 0))}
-              className="ml-2 px-1 py-1 w-auto"
+              className="ml-2 px-1 py-1 w-auto h-9"
             >
               {`50%`}
             </Button>
             <Button
               onClick={() => setAmount(setPrecision(balance, 0))}
-              className="ml-2 px-1 py-1 w-auto"
+              className="ml-2 px-1 py-1 w-auto h-9"
             >
               {t("max")}
             </Button>
@@ -129,7 +129,7 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
               {t("read.more")}
             </a>
           </p>
-          <p className="text-xs mt-1">{t("withdraw.taxFree")}</p>
+          <p className="text-xs mt-2">{t("withdraw.taxFree")}</p>
         </div>
 
         <Label type="warning" className="my-4">
@@ -141,7 +141,7 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
         </Label>
 
         <div className="w-full my-3 border-t border-white" />
-        <div className="flex items-center mb-2 text-xs">
+        <div className="flex items-center text-xs">
           <img
             src={SUNNYSIDE.icons.player}
             className="mr-3"
@@ -156,7 +156,7 @@ export const WithdrawTokens: React.FC<Props> = ({ onWithdraw }) => {
         </div>
       </div>
 
-      <Button onClick={withdraw} disabled={disableWithdraw}>
+      <Button onClick={withdraw} disabled={disableWithdraw || autosaving}>
         {t("withdraw")}
       </Button>
     </>

@@ -1537,7 +1537,6 @@ export function startGame(authContext: AuthContext) {
             ],
           },
         },
-
         buyingBlockBucks: {
           entry: "setTransactionId",
           invoke: {

@@ -77,6 +77,7 @@ const FEATURE_FLAGS = {
   FACE_RECOGNITION_TEST: defaultFeatureFlag,
 
   FLOWER_DEPOSIT: usernameFeatureFlag,
+  FLOWER_WITHDRAW: usernameFeatureFlag,
 
   // Released to All Players on 5th May
   FLOWER_GEMS: timeBasedFeatureFlag(new Date("2025-05-05T00:00:00Z")),
