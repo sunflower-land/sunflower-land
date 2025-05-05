@@ -1886,9 +1886,7 @@ describe("deliver", () => {
       createdAt: now,
     });
 
-    expect(
-      state.inventory[getSeasonalTicket(new Date("2024-05-10T16:00:00Z"))],
-    ).toEqual(new Decimal(10));
+    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(10));
   });
 
   it("can deliver items from the wardrobe", () => {
