@@ -22,8 +22,6 @@ const GAME_STATE: GameState = {
       },
       x: 1,
       y: 1,
-      height: 2,
-      width: 2,
     },
     1: {
       wood: {
@@ -32,8 +30,6 @@ const GAME_STATE: GameState = {
       },
       x: 4,
       y: 1,
-      height: 2,
-      width: 2,
     },
   },
 };

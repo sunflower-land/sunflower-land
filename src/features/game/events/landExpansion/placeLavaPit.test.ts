@@ -46,8 +46,6 @@ describe("placeLavaPit", () => {
           lavaPits: {
             "123": {
               createdAt: Date.now(),
-              height: 2,
-              width: 2,
               x: 1,
               y: 1,
             },
@@ -79,8 +77,6 @@ describe("placeLavaPit", () => {
           lavaPits: {
             "123": {
               createdAt: Date.now(),
-              height: 2,
-              width: 2,
               x: 2,
               y: 2,
             },
@@ -112,8 +108,6 @@ describe("placeLavaPit", () => {
           lavaPits: {
             "123": {
               createdAt: Date.now(),
-              height: 2,
-              width: 2,
               x: 0,
               y: 0,
             },
@@ -143,8 +137,6 @@ describe("placeLavaPit", () => {
         lavaPits: {
           "123": {
             createdAt: Date.now(),
-            height: 2,
-            width: 2,
             x: 0,
             y: 0,
           },
@@ -155,15 +147,11 @@ describe("placeLavaPit", () => {
     expect(state.lavaPits).toEqual({
       "1": {
         createdAt: expect.any(Number),
-        height: 2,
-        width: 2,
         x: 2,
         y: 2,
       },
       "123": {
         createdAt: expect.any(Number),
-        height: 2,
-        width: 2,
         x: 0,
         y: 0,
       },

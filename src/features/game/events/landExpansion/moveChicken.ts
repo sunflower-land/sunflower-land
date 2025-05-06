@@ -1,12 +1,10 @@
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
-import { isWithinAOE } from "features/game/expansion/placeable/lib/collisionDetection";
-import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
 import {
-  Chicken,
-  Collectibles,
-  GameState,
+  isWithinAOE,
   Position,
-} from "features/game/types/game";
+} from "features/game/expansion/placeable/lib/collisionDetection";
+import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
+import { Chicken, Collectibles, GameState } from "features/game/types/game";
 import { eggIsReady } from "./collectEgg";
 import { produce } from "immer";
 

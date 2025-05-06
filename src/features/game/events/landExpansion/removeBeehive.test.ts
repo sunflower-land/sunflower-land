@@ -14,8 +14,6 @@ describe("removeBeehive", () => {
     x: 3,
     y: 3,
     swarm: false,
-    height: 1,
-    width: 1,
     honey: { updatedAt: 0, produced: 0 },
     flowers: [],
   };
@@ -24,8 +22,6 @@ describe("removeBeehive", () => {
     createdAt: now,
     x: 0,
     y: 0,
-    height: 1,
-    width: 2,
     flower: {
       name: "Red Pansy",
       amount: 1,

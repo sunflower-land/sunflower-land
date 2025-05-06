@@ -11,8 +11,6 @@ describe("harvestBeehive", () => {
     x: 3,
     y: 3,
     swarm: false,
-    height: 1,
-    width: 1,
     honey: { updatedAt: 0, produced: 0 },
     flowers: [],
   };
@@ -21,8 +19,6 @@ describe("harvestBeehive", () => {
     createdAt: now,
     x: 0,
     y: 0,
-    height: 1,
-    width: 2,
     flower: {
       name: "Red Pansy",
       amount: 1,
@@ -148,8 +144,6 @@ describe("harvestBeehive", () => {
         },
         crops: {
           "987": {
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
             createdAt: 0,
@@ -186,8 +180,6 @@ describe("harvestBeehive", () => {
         },
         crops: {
           "987": {
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
             createdAt: 0,
@@ -224,8 +216,6 @@ describe("harvestBeehive", () => {
         },
         crops: {
           "987": {
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
             createdAt: 0,
@@ -249,15 +239,11 @@ describe("harvestBeehive", () => {
   it("[BEE SWARM] Does not affect crop plots that are not planted", () => {
     const crops: Record<string, CropPlot> = {
       "1": {
-        height: 1,
-        width: 1,
         x: 0,
         y: -2,
         createdAt: 0,
       },
       "2": {
-        height: 1,
-        width: 1,
         x: 1,
         y: -2,
         createdAt: 0,
@@ -304,8 +290,6 @@ describe("harvestBeehive", () => {
         },
         crops: {
           "987": {
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
             createdAt: 0,
@@ -702,8 +686,6 @@ describe("harvestBeehive", () => {
         },
         crops: {
           "987": {
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
             createdAt: 0,

@@ -25,14 +25,10 @@ const GAME_STATE: GameState = {
       },
       x: -2,
       y: 0,
-      height: 1,
-      width: 1,
     },
     1: {
       x: -2,
       y: 0,
-      height: 1,
-      width: 1,
     },
   },
 };

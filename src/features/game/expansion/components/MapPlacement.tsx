@@ -8,7 +8,7 @@ export type Coordinates = {
   y: number;
 };
 
-export type Position = {
+type Position = {
   height?: number;
   width?: number;
   z?: number;

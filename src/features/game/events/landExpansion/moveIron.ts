@@ -3,6 +3,7 @@ import { canMine } from "features/game/expansion/lib/utils";
 import { isAOEImpacted } from "features/game/expansion/placeable/lib/collisionDetection";
 import { IRON_RECOVERY_TIME } from "features/game/lib/constants";
 import { Collectibles, GameState, Rock } from "features/game/types/game";
+import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 import { produce } from "immer";
 
 export enum MOVE_IRON_ERRORS {
@@ -36,7 +37,12 @@ export function isLocked(
 
   if (canMine(rock, IRON_RECOVERY_TIME, createdAt)) return false;
 
-  return isAOEImpacted(collectibles, rock, ["Emerald Turtle"], bumpkin);
+  return isAOEImpacted(
+    collectibles,
+    { ...rock, ...RESOURCE_DIMENSIONS["Iron Rock"] },
+    ["Emerald Turtle"],
+    bumpkin,
+  );
 }
 
 export function moveIron({

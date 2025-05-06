@@ -9,8 +9,6 @@ describe("moveSunstone", () => {
           ...TEST_FARM,
           gold: {
             1: {
-              height: 1,
-              width: 1,
               x: 1,
               y: 1,
               stone: {
@@ -35,8 +33,6 @@ describe("moveSunstone", () => {
         ...TEST_FARM,
         sunstones: {
           "123": {
-            height: 1,
-            width: 1,
             x: 1,
             y: 1,
             stone: {
@@ -46,8 +42,6 @@ describe("moveSunstone", () => {
             minesLeft: 1,
           },
           "456": {
-            height: 1,
-            width: 1,
             x: 4,
             y: 4,
             stone: {
@@ -57,8 +51,6 @@ describe("moveSunstone", () => {
             minesLeft: 1,
           },
           "789": {
-            height: 1,
-            width: 1,
             x: 8,
             y: 8,
             stone: {
@@ -78,8 +70,6 @@ describe("moveSunstone", () => {
 
     expect(gameState.sunstones).toEqual({
       "123": {
-        height: 1,
-        width: 1,
         x: 2,
         y: 2,
         stone: {
@@ -89,8 +79,6 @@ describe("moveSunstone", () => {
         minesLeft: 1,
       },
       "456": {
-        height: 1,
-        width: 1,
         x: 4,
         y: 4,
         stone: {
@@ -100,8 +88,6 @@ describe("moveSunstone", () => {
         minesLeft: 1,
       },
       "789": {
-        height: 1,
-        width: 1,
         x: 8,
         y: 8,
         stone: {

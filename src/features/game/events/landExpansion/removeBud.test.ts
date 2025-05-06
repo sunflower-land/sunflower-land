@@ -54,8 +54,6 @@ describe("removeBud", () => {
           crops: {
             ["1"]: {
               createdAt: Date.now(),
-              height: 0,
-              width: 0,
               x: 0,
               y: 0,
               crop: {
@@ -95,8 +93,6 @@ describe("removeBud", () => {
           ...GAME_STATE,
           fruitPatches: {
             ["1"]: {
-              height: 0,
-              width: 0,
               x: 0,
               y: 0,
               fruit: {

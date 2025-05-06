@@ -69,8 +69,6 @@ describe("removeCrop", () => {
               createdAt: Date.now(),
               x: 1,
               y: 1,
-              height: 1,
-              width: 1,
             },
           },
         },

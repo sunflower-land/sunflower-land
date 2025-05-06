@@ -70,8 +70,6 @@ describe("placeBeehive", () => {
               createdAt: now,
               x: 0,
               y: 0,
-              height: 1,
-              width: 2,
               flower: {
                 name: "Red Pansy",
                 amount: 1,

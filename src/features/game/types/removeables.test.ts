@@ -242,8 +242,7 @@ describe("canremove", () => {
             createdAt: Date.now(),
             x: -2,
             y: -1,
-            height: 1,
-            width: 1,
+
             crop: { name: "Carrot", plantedAt: Date.now(), amount: 1 },
           },
         },
@@ -260,8 +259,7 @@ describe("canremove", () => {
             createdAt: Date.now(),
             x: -2,
             y: -1,
-            height: 1,
-            width: 1,
+
             crop: { name: "Pumpkin", plantedAt: Date.now(), amount: 1 },
           },
         },
@@ -278,8 +276,7 @@ describe("canremove", () => {
             createdAt: Date.now(),
             x: -2,
             y: -1,
-            height: 1,
-            width: 1,
+
             crop: {
               name: "Cauliflower",
               plantedAt: Date.now(),
@@ -300,8 +297,7 @@ describe("canremove", () => {
             createdAt: Date.now(),
             x: -2,
             y: -1,
-            height: 1,
-            width: 1,
+
             crop: { name: "Parsnip", plantedAt: Date.now(), amount: 1 },
           },
         },
@@ -318,8 +314,7 @@ describe("canremove", () => {
             createdAt: Date.now(),
             x: -2,
             y: -1,
-            height: 1,
-            width: 1,
+
             crop: { name: "Sunflower", plantedAt: Date.now(), amount: 1 },
           },
         },
@@ -336,8 +331,7 @@ describe("canremove", () => {
             createdAt: Date.now(),
             x: -2,
             y: -1,
-            height: 1,
-            width: 1,
+
             crop: { name: "Sunflower", plantedAt: Date.now(), amount: 1 },
           },
         },
@@ -354,8 +348,7 @@ describe("canremove", () => {
             createdAt: Date.now(),
             x: -2,
             y: -1,
-            height: 1,
-            width: 1,
+
             crop: { name: "Sunflower", plantedAt: Date.now(), amount: 1 },
           },
         },
@@ -375,8 +368,6 @@ describe("canremove", () => {
             },
             x: -3,
             y: 3,
-            height: 2,
-            width: 2,
           },
         },
       });
@@ -395,8 +386,6 @@ describe("canremove", () => {
             },
             x: -3,
             y: 3,
-            height: 2,
-            width: 2,
           },
         },
       });
@@ -415,8 +404,6 @@ describe("canremove", () => {
             },
             x: -3,
             y: 3,
-            height: 2,
-            width: 2,
           },
         },
       });
@@ -431,8 +418,7 @@ describe("canremove", () => {
           0: {
             x: 0,
             y: 3,
-            width: 1,
-            height: 1,
+
             stone: {
               amount: 1,
               minedAt: Date.now(),
@@ -451,8 +437,7 @@ describe("canremove", () => {
           0: {
             x: 0,
             y: 3,
-            width: 1,
-            height: 1,
+
             stone: {
               amount: 1,
               minedAt: Date.now(),
@@ -471,8 +456,7 @@ describe("canremove", () => {
           0: {
             x: 0,
             y: 3,
-            width: 1,
-            height: 1,
+
             stone: {
               amount: 1,
               minedAt: Date.now(),
@@ -491,8 +475,7 @@ describe("canremove", () => {
           0: {
             x: 0,
             y: 3,
-            width: 1,
-            height: 1,
+
             stone: {
               amount: 1,
               minedAt: Date.now(),
@@ -515,8 +498,7 @@ describe("canremove", () => {
             createdAt: Date.now(),
             x: -2,
             y: -1,
-            height: 1,
-            width: 1,
+
             crop: { name: "Potato", plantedAt: Date.now(), amount: 1 },
           },
         },
@@ -830,8 +812,6 @@ describe("canremove", () => {
             createdAt: Date.now(),
             x: -2,
             y: -1,
-            height: 1,
-            width: 1,
           },
         },
       });
@@ -847,8 +827,6 @@ describe("canremove", () => {
             createdAt: Date.now(),
             x: -2,
             y: -1,
-            height: 1,
-            width: 1,
           },
         },
       });
@@ -864,8 +842,7 @@ describe("canremove", () => {
             createdAt: Date.now(),
             x: -2,
             y: -1,
-            height: 1,
-            width: 1,
+
             crop: { name: "Sunflower", plantedAt: Date.now(), amount: 1 },
           },
         },
@@ -882,8 +859,7 @@ describe("canremove", () => {
             createdAt: Date.now(),
             x: -2,
             y: -1,
-            height: 1,
-            width: 1,
+
             crop: { name: "Sunflower", plantedAt: Date.now(), amount: 1 },
           },
         },
@@ -903,8 +879,6 @@ describe("canremove", () => {
             createdAt: Date.now(),
             x: -2,
             y: -1,
-            height: 1,
-            width: 1,
           },
         },
       });
@@ -923,8 +897,6 @@ describe("canremove", () => {
             createdAt: Date.now(),
             x: -2,
             y: -1,
-            height: 1,
-            width: 1,
           },
         },
       });
@@ -941,8 +913,6 @@ describe("canremove", () => {
             createdAt: Date.now(),
             x: -2,
             y: -1,
-            height: 1,
-            width: 1,
           },
         },
       });
@@ -960,8 +930,7 @@ describe("canremove", () => {
           0: {
             x: 0,
             y: 3,
-            width: 1,
-            height: 1,
+
             wood: {
               amount: 1,
               choppedAt: 0,
@@ -985,8 +954,6 @@ describe("canremove", () => {
             },
             x: -3,
             y: 3,
-            height: 2,
-            width: 2,
           },
         },
       });
@@ -1004,8 +971,7 @@ describe("canremove", () => {
           0: {
             x: 0,
             y: 3,
-            width: 1,
-            height: 1,
+
             wood: {
               amount: 1,
               choppedAt: 0,
@@ -1025,8 +991,6 @@ describe("canremove", () => {
             createdAt: Date.now(),
             x: -2,
             y: -1,
-            height: 1,
-            width: 1,
           },
         },
         inventory: {
@@ -1044,8 +1008,7 @@ describe("canremove", () => {
           0: {
             x: 0,
             y: 3,
-            width: 1,
-            height: 1,
+
             stone: {
               amount: 1,
               minedAt: 0,
@@ -1064,8 +1027,7 @@ describe("canremove", () => {
           0: {
             x: 0,
             y: 3,
-            width: 1,
-            height: 1,
+
             stone: {
               amount: 1,
               minedAt: 0,
@@ -1084,8 +1046,7 @@ describe("canremove", () => {
           0: {
             x: 0,
             y: 3,
-            width: 1,
-            height: 1,
+
             stone: {
               amount: 1,
               minedAt: 0,
@@ -1104,8 +1065,7 @@ describe("canremove", () => {
           0: {
             x: 0,
             y: 3,
-            width: 1,
-            height: 1,
+
             stone: {
               amount: 1,
               minedAt: 0,
@@ -1161,8 +1121,6 @@ describe("canremove", () => {
             createdAt: Date.now(),
             x: -2,
             y: -1,
-            height: 1,
-            width: 1,
           },
         },
         inventory: {
@@ -1249,8 +1207,7 @@ describe("canremove", () => {
           createdAt: Date.now(),
           x: -2,
           y: -1,
-          height: 1,
-          width: 1,
+
           crop: { name: "Sunflower", plantedAt: Date.now(), amount: 1 },
         },
       },
@@ -1267,8 +1224,7 @@ describe("canremove", () => {
           createdAt: Date.now(),
           x: -2,
           y: -1,
-          height: 1,
-          width: 1,
+
           crop: { name: "Sunflower", plantedAt: Date.now(), amount: 1 },
         },
       },
@@ -1288,8 +1244,7 @@ describe("canremove", () => {
           createdAt: Date.now(),
           x: -2,
           y: -1,
-          height: 1,
-          width: 1,
+
           crop: { name: "Cabbage", plantedAt: Date.now(), amount: 1 },
         },
       },
@@ -1309,8 +1264,7 @@ describe("canremove", () => {
           createdAt: Date.now(),
           x: -2,
           y: -1,
-          height: 1,
-          width: 1,
+
           crop: { name: "Sunflower", plantedAt: Date.now(), amount: 1 },
         },
       },
@@ -1330,8 +1284,7 @@ describe("canremove", () => {
           createdAt: Date.now(),
           x: -2,
           y: -1,
-          height: 1,
-          width: 1,
+
           crop: { name: "Cabbage", plantedAt: Date.now(), amount: 1 },
         },
       },
@@ -1351,8 +1304,7 @@ describe("canremove", () => {
           createdAt: Date.now(),
           x: -2,
           y: -1,
-          height: 1,
-          width: 1,
+
           crop: { name: "Sunflower", plantedAt: Date.now(), amount: 1 },
         },
       },
@@ -1487,8 +1439,7 @@ describe("canremove", () => {
           createdAt: Date.now(),
           x: -2,
           y: -1,
-          height: 1,
-          width: 1,
+
           crop: { name: "Cabbage", plantedAt: Date.now(), amount: 1 },
         },
       },
@@ -1508,8 +1459,7 @@ describe("canremove", () => {
           createdAt: Date.now(),
           x: -2,
           y: -1,
-          height: 1,
-          width: 1,
+
           crop: { name: "Sunflower", plantedAt: Date.now(), amount: 1 },
         },
       },
@@ -1529,8 +1479,7 @@ describe("canremove", () => {
           createdAt: Date.now(),
           x: -2,
           y: -1,
-          height: 1,
-          width: 1,
+
           crop: { name: "Carrot", plantedAt: Date.now(), amount: 1 },
         },
       },
@@ -1549,8 +1498,7 @@ describe("canremove", () => {
         0: {
           x: 0,
           y: 3,
-          width: 1,
-          height: 1,
+
           stone: {
             amount: 1,
             minedAt: Date.now() - 100,
@@ -1572,8 +1520,7 @@ describe("canremove", () => {
         0: {
           x: 0,
           y: 3,
-          width: 1,
-          height: 1,
+
           stone: {
             amount: 1,
             minedAt: Date.now() - 100,
@@ -1595,8 +1542,7 @@ describe("canremove", () => {
         0: {
           x: 0,
           y: 3,
-          width: 1,
-          height: 1,
+
           stone: {
             amount: 1,
             minedAt: Date.now() - 100,
@@ -1618,8 +1564,7 @@ describe("canremove", () => {
         0: {
           x: 0,
           y: 3,
-          width: 1,
-          height: 1,
+
           stone: {
             amount: 1,
             minedAt: Date.now() - 100,
@@ -1642,8 +1587,7 @@ describe("canremove", () => {
           createdAt: Date.now(),
           x: -2,
           y: -1,
-          height: 1,
-          width: 1,
+
           crop: { name: "Eggplant", plantedAt: Date.now(), amount: 1 },
         },
       },
@@ -1663,8 +1607,7 @@ describe("canremove", () => {
           createdAt: Date.now(),
           x: -2,
           y: -1,
-          height: 1,
-          width: 1,
+
           crop: { name: "Eggplant", plantedAt: Date.now(), amount: 1 },
         },
       },
@@ -1697,8 +1640,6 @@ describe("canremove", () => {
       ...TEST_FARM,
       fruitPatches: {
         "1": {
-          height: 1,
-          width: 1,
           x: 1,
           y: 1,
           fruit: {
@@ -1726,8 +1667,6 @@ describe("canremove", () => {
       ...TEST_FARM,
       fruitPatches: {
         "1": {
-          height: 1,
-          width: 1,
           x: 1,
           y: 1,
           fruit: {
@@ -1755,8 +1694,6 @@ describe("canremove", () => {
       ...TEST_FARM,
       fruitPatches: {
         "1": {
-          height: 1,
-          width: 1,
           x: 1,
           y: 1,
           fruit: {
@@ -1801,8 +1738,7 @@ describe("canremove", () => {
         0: {
           x: 0,
           y: 3,
-          width: 1,
-          height: 1,
+
           stone: {
             amount: 1,
             minedAt: Date.now() - 100,
@@ -1827,8 +1763,7 @@ describe("canremove", () => {
         0: {
           x: 0,
           y: 3,
-          width: 1,
-          height: 1,
+
           oil: {
             amount: 1,
             drilledAt: Date.now() - 100,
@@ -1878,8 +1813,6 @@ describe("canremove", () => {
         0: {
           x: 0,
           y: 3,
-          width: 1,
-          height: 1,
 
           stone: {
             amount: 1,
@@ -1905,8 +1838,7 @@ describe("canremove", () => {
         0: {
           x: 0,
           y: 3,
-          width: 1,
-          height: 1,
+
           oil: {
             amount: 1,
             drilledAt: Date.now() - 100,
