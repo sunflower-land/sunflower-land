@@ -9,10 +9,10 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import chest from "assets/icons/chest.png";
 import flowerIcon from "assets/icons/flower_token.webp";
 import { WithdrawBuds } from "./WithdrawBuds";
-import { Context } from "features/game/GameProvider";
+import { Context, useGame } from "features/game/GameProvider";
 import { WithdrawResources } from "./WithdrawResources";
 import { Label } from "components/ui/Label";
-import { INITIAL_FARM, PIXEL_SCALE } from "features/game/lib/constants";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import { MachineState } from "features/game/lib/gameMachine";
 import { translate } from "lib/i18n/translate";
 import { Transaction } from "features/island/hud/Transaction";
@@ -67,6 +67,8 @@ type Page =
   | "verify";
 
 const MainMenu: React.FC<{ setPage: (page: Page) => void }> = ({ setPage }) => {
+  const { gameState } = useGame();
+
   return (
     <div className="p-2 flex flex-col justify-center space-y-1">
       <span className="mb-1">{translate("withdraw.sync")}</span>
@@ -76,7 +78,9 @@ const MainMenu: React.FC<{ setPage: (page: Page) => void }> = ({ setPage }) => {
       <div className="flex space-x-1">
         <Button
           onClick={() => setPage("tokens")}
-          disabled={!hasFeatureAccess(INITIAL_FARM, "FLOWER_WITHDRAW")}
+          disabled={
+            !hasFeatureAccess(gameState.context.state, "FLOWER_WITHDRAW")
+          }
         >
           <div className="flex items-center">
             <img src={getPageIcon("tokens")} className="h-4 mr-1" />
