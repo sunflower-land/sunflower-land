@@ -203,7 +203,7 @@ export const DailyRewardContent: React.FC<{
             placeholder={t("deposit.flower.selectNetwork")}
           />
 
-          <div className="flex flex-col items-center px-2">
+          <div className="flex flex-col items-center px-2 mt-2">
             {streaks > 1 && !missedADay && (
               <>
                 <Label type="info" className="px-0.5 text-xs">
