@@ -5859,5 +5859,6 @@
   "interactableModals.petalClue.message1": "Apabila kelopak mekar oren, hadiah muncul. Bolehkah anda menemuinya?",
   "birdieplaza.choresAndRewards": "Anda juga boleh memperoleh {{seasonalTicket}} s dengan kerja mingguan, ganjaran dada harian, dan sistem hadiah!",
   "ready.in": "Bersedia di",
-  "transaction.refresh.message": "Nampaknya transaksi anda tamat tempoh. Sila klik Refresh untuk mencuba lagi."
+  "transaction.refresh.message": "Nampaknya transaksi anda tamat tempoh. Sila klik Refresh untuk mencuba lagi.",
+  "current.timezone": "Zon waktu semasa: {{timeZone}}"
 }

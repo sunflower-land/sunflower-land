@@ -5859,5 +5859,6 @@
   "interactableModals.petalClue.message1": "Cuando los pétalos están en flor anaranjada, aparece un premio. ¿Puedes encontrarlo?",
   "birdieplaza.choresAndRewards": "¡También puedes ganar {{seasonalTicket}} s con las tareas semanales, las recompensas diarias de los cofres y el sistema de recompensas!",
   "ready.in": "Listo en",
-  "transaction.refresh.message": "Parece que tu transacción ha caducado. Haz clic en actualizar para volver a intentarlo."
+  "transaction.refresh.message": "Parece que tu transacción ha caducado. Haz clic en actualizar para volver a intentarlo.",
+  "current.timezone": "Zona horaria actual: {{timeZone}}"
 }

@@ -5859,5 +5859,6 @@
   "interactableModals.petalClue.message1": "Lorsque les pétales sont en fleur d'oranger, un prix apparaît. Peux-tu le trouver ?",
   "birdieplaza.choresAndRewards": "Vous pouvez également gagner {{seasonalTicket}} s grâce à des tâches hebdomadaires, à des récompenses de coffre quotidiennes et à un système de primes !",
   "ready.in": "Prêt à l'emploi",
-  "transaction.refresh.message": "Il semblerait que votre transaction ait expiré. Cliquez sur Actualiser pour réessayer."
+  "transaction.refresh.message": "Il semblerait que votre transaction ait expiré. Cliquez sur Actualiser pour réessayer.",
+  "current.timezone": "Fuseau horaire actuel : {{timeZone}}"
 }
