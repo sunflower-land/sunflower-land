@@ -8,8 +8,8 @@ import { Label } from "components/ui/Label";
 import { Auction } from "features/game/lib/auctionMachine";
 import { Context } from "features/game/GameProvider";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { loadAuctions } from "./actions/loadAuctions";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { loadUpcomingAuction } from "./actions/loadUpcomingAuction";
 
 const Countdown: React.FC<{ auction: Auction; onComplete: () => void }> = ({
   auction,
@@ -88,20 +88,13 @@ export const AuctionCountdown: React.FC = () => {
 
   useEffect(() => {
     const load = async () => {
-      const { auctions } = await loadAuctions({
+      const upcoming = await loadUpcomingAuction({
         token: authState.context.user.rawToken as string,
         transactionId: gameState.context.transactionId as string,
       });
 
-      // Show countdown 1 hour from Auction
-      const upcoming = auctions.filter(
-        (auction) =>
-          auction.startAt - 60 * 60 * 1000 < Date.now() &&
-          auction.endAt > Date.now(),
-      );
-
-      if (upcoming.length > 0) {
-        setAuction(upcoming[0]);
+      if (upcoming) {
+        setAuction(upcoming);
       }
     };
 
