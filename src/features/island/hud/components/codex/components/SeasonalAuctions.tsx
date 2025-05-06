@@ -318,21 +318,21 @@ const Drops: React.FC<{
         </div>
         <div className="flex justify-between items-center">
           <Label
-            icon={chapterIcon}
+            type="transparent"
+            className="mt-1 mb-1 mr-4"
+            icon={SUNNYSIDE.icons.basket}
+          >
+            {t("season.codex.auction.totalSupply", {
+              totalSupply: maxSupply,
+            })}
+          </Label>
+          <Label
+            secondaryIcon={chapterIcon}
             type="transparent"
             className="mt-1 mb-1 ml-3"
           >
             {t("season.codex.auction.chapterSupply", {
               chapterSupply: chapterSupply,
-            })}
-          </Label>
-          <Label
-            type="transparent"
-            className="mt-1 mb-1 mr-4"
-            secondaryIcon={SUNNYSIDE.icons.basket}
-          >
-            {t("season.codex.auction.totalSupply", {
-              totalSupply: maxSupply,
             })}
           </Label>
         </div>
