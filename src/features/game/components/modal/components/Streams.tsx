@@ -143,11 +143,12 @@ export const Streams: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     minute: STREAMS_CONFIG.friday.startMinute,
   }); // Friday 11:00 AM
   const timeOptions: Intl.DateTimeFormatOptions = {
-    year: "2-digit",
-    month: "2-digit",
+    year: "numeric",
+    month: "long",
     day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
     hour12: false,
   };
   const { timeZone } = Intl.DateTimeFormat().resolvedOptions();
