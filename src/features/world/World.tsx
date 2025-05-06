@@ -1,4 +1,4 @@
-import { Context, GameProvider } from "features/game/GameProvider";
+import { Context } from "features/game/GameProvider";
 import { ModalProvider } from "features/game/components/modal/ModalProvider";
 import React, { createContext, useContext, useEffect } from "react";
 import { PhaserComponent } from "./Phaser";
@@ -42,30 +42,28 @@ export const WorldContext = createContext<{
 
 export const World: React.FC<Props> = ({ isCommunity = false }) => {
   return (
-    <GameProvider>
-      <ModalProvider>
-        <WorldContext.Provider value={{ isCommunity }}>
-          <Explore />
+    <ModalProvider>
+      <WorldContext.Provider value={{ isCommunity }}>
+        <Explore />
+        <div
+          aria-label="World"
+          className="fixed inset-safe-area pointer-events-none inset-safe-area"
+          style={{
+            zIndex: 11,
+          }}
+        >
           <div
-            aria-label="World"
-            className="fixed inset-safe-area pointer-events-none inset-safe-area"
-            style={{
-              zIndex: 11,
-            }}
+            onMouseDown={(e) => e.stopPropagation()}
+            onMouseUp={(e) => e.stopPropagation()}
+            onTouchStart={(e) => e.stopPropagation()}
+            onTouchEnd={(e) => e.stopPropagation()}
+            className="pointer-events-auto"
           >
-            <div
-              onMouseDown={(e) => e.stopPropagation()}
-              onMouseUp={(e) => e.stopPropagation()}
-              onTouchStart={(e) => e.stopPropagation()}
-              onTouchEnd={(e) => e.stopPropagation()}
-              className="pointer-events-auto"
-            >
-              <Outlet />
-            </div>
+            <Outlet />
           </div>
-        </WorldContext.Provider>
-      </ModalProvider>
-    </GameProvider>
+        </div>
+      </WorldContext.Provider>
+    </ModalProvider>
   );
 };
 
