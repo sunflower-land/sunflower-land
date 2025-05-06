@@ -205,7 +205,7 @@ export type MutantChicken =
   | "Summer Chicken"
   | "Love Chicken";
 
-export type MutantCow = "Mootant" | "Frozen Cow" | "Dr. Cow";
+export type MutantCow = "Mootant" | "Frozen Cow" | "Dr Cow";
 
 export type MutantSheep = "Toxic Tuft" | "Frozen Sheep" | "Nurse Sheep";
 

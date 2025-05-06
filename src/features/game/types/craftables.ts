@@ -1423,7 +1423,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Giant Zucchini": { width: 1, height: 2 },
   "Mini Floating Island": { width: 2, height: 1 },
   "Love Chicken": { width: 1, height: 2 },
-  "Dr. Cow": { width: 1, height: 1 },
+  "Dr Cow": { width: 1, height: 1 },
   "Nurse Sheep": { width: 1, height: 1 },
   Lunalist: { width: 1, height: 1 },
   "Pink Dolphin": { width: 1, height: 1 },

@@ -373,7 +373,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
     {} as Record<TemplateDecorationName, React.FC<CollectibleProps>>,
   ),
   "Love Chicken": LoveChicken,
-  "Dr. Cow": DrCow,
+  "Dr Cow": DrCow,
   "Nurse Sheep": NurseSheep,
   "Pink Dolphin": PinkDolphin,
   Lunalist: Lunalist,

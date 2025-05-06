@@ -5275,7 +5275,7 @@ export const ITEM_DETAILS: Items = {
     image: loveChicken,
     description: translate("description.loveChicken"),
   },
-  "Dr. Cow": {
+  "Dr Cow": {
     image: drCow,
     description: translate("description.drCow"),
   },
