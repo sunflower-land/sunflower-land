@@ -5859,5 +5859,6 @@
   "interactableModals.petalClue.message1": "Yapraklar turuncu bir çiçek açtığında, bir ödül belirir. Bulabiliyor musun?",
   "birdieplaza.choresAndRewards": "Ayrıca haftalık ev işleri, günlük sandık ödülleri ve ödül sistemi ile {{seasonalTicket}} s kazanabilirsiniz!",
   "ready.in": "İçeri hazır",
-  "transaction.refresh.message": "Görünüşe göre işlemin süresi doldu. Tekrar denemek için lütfen yenile'yi tıklayın."
+  "transaction.refresh.message": "Görünüşe göre işlemin süresi doldu. Tekrar denemek için lütfen yenile'yi tıklayın.",
+  "current.timezone": "Geçerli saat dilimi: {{timeZone}}"
 }

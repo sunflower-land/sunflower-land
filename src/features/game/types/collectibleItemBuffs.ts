@@ -1539,7 +1539,7 @@ function getCollectibleBuffLabels(
         boostedItemIcon: SUNNYSIDE.animals.sheepSleeping,
       },
     ],
-    "Dr. Cow": [
+    "Dr Cow": [
       {
         shortDescription: translate("description.drCow.boost"),
         labelType: "success",

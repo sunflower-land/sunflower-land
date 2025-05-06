@@ -1063,7 +1063,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Gold Tool Box": 2253,
   "Pink Dolphin": 2254,
   "Love Chicken": 2255,
-  "Dr. Cow": 2256,
+  "Dr Cow": 2256,
   "Nurse Sheep": 2257,
   Lunalist: 2258,
 

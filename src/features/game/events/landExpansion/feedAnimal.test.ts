@@ -1735,7 +1735,7 @@ describe("feedAnimal", () => {
     expect(state.inventory["Mixed Grain"]).toEqual(new Decimal(2));
   });
 
-  it("takes 5% less food to feed a cow if Dr. Cow is placed", () => {
+  it("takes 5% less food to feed a cow if Dr Cow is placed", () => {
     const state = feedAnimal({
       createdAt: now,
       state: {
@@ -1744,7 +1744,7 @@ describe("feedAnimal", () => {
           "Kernel Blend": new Decimal(5),
         },
         collectibles: {
-          "Dr. Cow": [
+          "Dr Cow": [
             {
               coordinates: { x: 0, y: 0 },
               createdAt: 0,

@@ -133,6 +133,16 @@ const NextDrop: React.FC<{ auctions: AuctionItems; game: GameState }> = ({
       ? buff[nextDrop.collectible as CollectibleName]
       : BUMPKIN_ITEM_BUFF_LABELS[nextDrop.wearable as BumpkinItem];
 
+  const nextDropTime = new Date(nextDrop.startAt).toLocaleString("en-AU", {
+    timeZoneName: "longOffset",
+    day: "2-digit",
+    month: "2-digit",
+    year: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  });
+
   return (
     <InnerPanel className="mb-1">
       <div className="p-1">
@@ -229,18 +239,14 @@ const NextDrop: React.FC<{ auctions: AuctionItems; game: GameState }> = ({
                 {isMobile && (
                   <div className="flex flex-col text-start text-base">
                     <TimerDisplay time={starts} />
-                    <span className="text-xs">
-                      {new Date(nextDrop.startAt).toLocaleString().slice(0, -3)}
-                    </span>
+                    <span className="text-xs">{nextDropTime}</span>
                   </div>
                 )}
               </div>
               {!isMobile && (
                 <div className="flex flex-col text-end text-base">
                   <TimerDisplay time={starts} />
-                  <span className="text-xs">
-                    {new Date(nextDrop.startAt).toLocaleString().slice(0, -3)}
-                  </span>
+                  <span className="text-xs">{nextDropTime}</span>
                 </div>
               )}
             </div>
@@ -316,7 +322,15 @@ const Drops: React.FC<{
                         className="h-4 mr-1"
                       />
                       <span className="text-xs">
-                        {new Date(drop.startAt).toLocaleString().slice(0, -3)}
+                        {new Date(drop.startAt).toLocaleString("en-AU", {
+                          timeZoneName: "longOffset",
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "2-digit",
+                          hour: "2-digit",
+                          minute: "2-digit",
+                          hour12: false,
+                        })}
                       </span>
                     </div>
                     <div className="flex items-center">

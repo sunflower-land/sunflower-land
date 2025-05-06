@@ -8,7 +8,17 @@ export const adminFeatureFlag = ({ wardrobe, inventory }: GameState) =>
 const usernameFeatureFlag = (game: GameState) => {
   return (
     testnetFeatureFlag() ||
-    ["adam", "tango", "elias", "dcol", "birb", "Celinhotv", "LittleEins"]
+    [
+      "adam",
+      "tango",
+      "elias",
+      "dcol",
+      "birb",
+      "Celinhotv",
+      "LittleEins",
+      "Craig",
+      "Spencer",
+    ]
       .map((name) => name.toLowerCase())
       .includes(game.username?.toLowerCase() ?? "")
   );

@@ -5859,5 +5859,6 @@
   "interactableModals.petalClue.message1": "当花瓣呈橙色花朵时，会出现奖品。你能找到吗？",
   "birdieplaza.choresAndRewards": "你还可以通过每周农活、每日宝箱奖励和赏金系统获得 {{seasonalTicket}} s！",
   "ready.in": "准备好了",
-  "transaction.refresh.message": "看来您的交易已过期。请单击 “刷新” 重试。"
+  "transaction.refresh.message": "看来您的交易已过期。请单击 “刷新” 重试。",
+  "current.timezone": "当前时区：{{timeZone}}"
 }
