@@ -564,12 +564,6 @@ export type WarCollectionOffer = {
   }[];
 };
 
-export type Position = {
-  x: number;
-  y: number;
-  height: number;
-  width: number;
-};
 export type Wood = {
   amount: number;
   choppedAt: number;
@@ -595,7 +589,7 @@ export type PlantedFruit = {
 export type Tree = {
   wood: Wood;
   createdAt?: number;
-} & Position;
+} & Coordinates;
 
 export type Stone = {
   amount: number;
@@ -610,7 +604,7 @@ export type FiniteResource = {
 export type Rock = {
   stone: Stone;
   createdAt?: number;
-} & Position;
+} & Coordinates;
 
 export type Oil = {
   amount: number;
@@ -622,13 +616,13 @@ export type OilReserve = {
   oil: Oil;
   drilled: number;
   createdAt: number;
-} & Position;
+} & Coordinates;
 
 export type CropPlot = {
   crop?: PlantedCrop;
   fertiliser?: CropFertiliser;
   createdAt: number;
-} & Position;
+} & Coordinates;
 
 export type GreenhousePlant = {
   name: GreenHouseCropName | GreenHouseFruitName;
@@ -643,9 +637,7 @@ export type GreenhousePot = {
 export type FruitPatch = {
   fruit?: PlantedFruit;
   fertiliser?: FruitFertiliser;
-} & Position;
-
-export type Mine = Position;
+} & Coordinates;
 
 export type BuildingProduct = {
   name: CookableName;
@@ -1228,7 +1220,7 @@ export type PlantedFlower = {
 export type FlowerBed = {
   flower?: PlantedFlower;
   createdAt: number;
-} & Position;
+} & Coordinates;
 
 export type FlowerBeds = Record<string, FlowerBed>;
 
@@ -1246,7 +1238,7 @@ export type Beehive = {
     produced: number;
   };
   flowers: AttachedFlower[];
-} & Position;
+} & Coordinates;
 
 export type Beehives = Record<string, Beehive>;
 
@@ -1402,8 +1394,6 @@ export type LavaPit = {
   createdAt: number;
   x: number;
   y: number;
-  height: number;
-  width: number;
   startedAt?: number;
   collectedAt?: number;
 };
