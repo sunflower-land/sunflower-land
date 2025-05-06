@@ -5860,5 +5860,7 @@
   "birdieplaza.choresAndRewards": "Du kannst auch {{seasonalTicket}} s durch wöchentliche Aufgaben, tägliche Truhenbelohnungen und Kopfgeldsystem verdienen!",
   "ready.in": "Bereit rein",
   "transaction.refresh.message": "Sieht so aus, als ob Ihre Transaktion abgelaufen ist. Bitte klicken Sie auf Aktualisieren, um es erneut zu versuchen.",
-  "current.timezone": "Aktuelle Zeitzone: {{timeZone}}"
+  "current.timezone": "Aktuelle Zeitzone: {{timeZone}}",
+  "season.codex.auction.chapterSupply": "Kapitel Versorgung: {{chapterSupply}}",
+  "season.codex.auction.chapterSupply.description": "Einige Lieferungen sind möglicherweise für zukünftige Ereignisse oder Kapitel reserviert."
 }

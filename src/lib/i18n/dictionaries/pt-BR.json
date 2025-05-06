@@ -5860,5 +5860,7 @@
   "birdieplaza.choresAndRewards": "Você também pode ganhar {{seasonalTicket}} s por meio de tarefas semanais, recompensas diárias no baú e sistema de recompensas!",
   "ready.in": "Pronto em",
   "transaction.refresh.message": "Parece que sua transação expirou. Clique em atualizar para tentar novamente.",
-  "current.timezone": "Fuso horário atual: {{timeZone}}"
+  "current.timezone": "Fuso horário atual: {{timeZone}}",
+  "season.codex.auction.chapterSupply": "Fonte do capítulo: {{chapterSupply}}",
+  "season.codex.auction.chapterSupply.description": "Alguns suprimentos podem ser reservados para eventos ou capítulos futuros."
 }

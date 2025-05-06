@@ -5860,5 +5860,7 @@
   "birdieplaza.choresAndRewards": "你还可以通过每周琐事、每日宝箱奖励和赏金系统获得 {{seasonalTicket}} s！",
   "ready.in": "准备好了",
   "transaction.refresh.message": "看来您的交易已过期。请单击 “刷新” 重试。",
-  "current.timezone": "当前时区：{{timeZone}}"
+  "current.timezone": "当前时区：{{timeZone}}",
+  "season.codex.auction.chapterSupply": "章节供应：{{chapterSupply}}",
+  "season.codex.auction.chapterSupply.description": "一些物资可能会保留给将来的活动或章节。"
 }
