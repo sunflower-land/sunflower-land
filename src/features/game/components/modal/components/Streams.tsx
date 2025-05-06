@@ -142,7 +142,15 @@ export const Streams: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     hour: STREAMS_CONFIG.friday.startHour,
     minute: STREAMS_CONFIG.friday.startMinute,
   }); // Friday 11:00 AM
-
+  const timeOptions: Intl.DateTimeFormatOptions = {
+    year: "2-digit",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  };
+  const { timeZone } = Intl.DateTimeFormat().resolvedOptions();
   return (
     <CloseButtonPanel bumpkinParts={NPC_WEARABLES.birdie} onClose={onClose}>
       <div className="p-2">
@@ -150,20 +158,36 @@ export const Streams: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           {t("streams.title")}
         </Label>
         <p className="text-xs mb-2">{t("streams.description")}</p>
-        <Label
-          type="transparent"
-          icon={SUNNYSIDE.icons.stopwatch}
-          className="mb-2 ml-2"
-        >
-          {`${t("streams.discord")} - ${new Date(tuesdayStream).toLocaleString()}`}
-        </Label>
-        <Label
-          type="transparent"
-          icon={SUNNYSIDE.icons.stopwatch}
-          className="mb-2 ml-2"
-        >
-          {`${t("streams.twitch")} - ${new Date(fridayStream).toLocaleString()}`}
-        </Label>
+        <section className="flex flex-col gap-1">
+          <Label
+            type="info"
+            secondaryIcon={SUNNYSIDE.icons.stopwatch}
+            className="mb-1"
+          >
+            {t("current.timezone", {
+              timeZone,
+            })}
+          </Label>
+          <Label
+            type="transparent"
+            icon={SUNNYSIDE.icons.stopwatch}
+            className="mb-2 ml-2"
+          >
+            {`${t("streams.discord")} - ${new Date(
+              tuesdayStream,
+            ).toLocaleString("en-AU", timeOptions)}`}
+          </Label>
+          <Label
+            type="transparent"
+            icon={SUNNYSIDE.icons.stopwatch}
+            className="mb-2 ml-2"
+          >
+            {`${t("streams.twitch")} - ${new Date(fridayStream).toLocaleString(
+              "en-AU",
+              timeOptions,
+            )}`}
+          </Label>
+        </section>
       </div>
       <div className="flex">
         <Button

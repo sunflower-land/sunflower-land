@@ -32,6 +32,7 @@ export const HotAirBalloon = ({ onClose }: Props) => {
     const end = new Date(schedule.endAt);
     return now >= start && now <= end;
   });
+  const { timeZone } = Intl.DateTimeFormat().resolvedOptions();
 
   return (
     <CloseButtonPanel onClose={onClose}>
@@ -53,15 +54,14 @@ export const HotAirBalloon = ({ onClose }: Props) => {
             },
           ]}
         />
-        <div className="flex ">
-          <Label type="default" className="mt-2 mb-1 mr-2">
-            {t("hotAirBalloon.flightTimes")}
+        <div className="flex flex-col gap-1">
+          <Label type="default">{t("hotAirBalloon.flightTimes")}</Label>
+          {isOpen && <Label type="success">{t("hotAirBalloon.openNow")}</Label>}
+          <Label type="info" secondaryIcon={SUNNYSIDE.icons.stopwatch}>
+            {t("current.timezone", {
+              timeZone,
+            })}
           </Label>
-          {isOpen && (
-            <Label type="success" className="mt-2 mb-1">
-              {t("hotAirBalloon.openNow")}
-            </Label>
-          )}
         </div>
         {schedule.map((schedule, index) => {
           const start = new Date(schedule.startAt);
@@ -69,20 +69,20 @@ export const HotAirBalloon = ({ onClose }: Props) => {
           const startTime = start.toLocaleString("en-GB", {
             weekday: "short",
             day: "numeric",
-            month: "short",
+            month: "numeric",
+            year: "2-digit",
             hour: "2-digit",
             minute: "2-digit",
-            hour12: true,
           });
           const endTime = end.toLocaleString("en-GB", {
             ...(end.getDate() !== start.getDate() && {
               weekday: "short",
               day: "numeric",
-              month: "short",
+              month: "numeric",
+              year: "2-digit",
             }),
             hour: "2-digit",
             minute: "2-digit",
-            hour12: true,
           });
 
           return (
