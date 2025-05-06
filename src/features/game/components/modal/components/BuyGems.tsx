@@ -303,6 +303,8 @@ export const BuyGems: React.FC<Props> = ({
     );
   }
 
+  const isWhalePack = price?.amount === PRICES[PRICES.length - 1].amount;
+
   if (price) {
     return (
       <>
@@ -342,61 +344,66 @@ export const BuyGems: React.FC<Props> = ({
             <span className="text-xs">{`${t("total")}: US$${price.usd}`}</span>
           </div>
           <div className="grid grid-cols-2 gap-3 mb-3">
-            <ButtonPanel
-              onClick={price.amount > 1 ? onCreditCardBuy : undefined}
-              className={classNames(
-                "flex relative flex-col flex-1 items-center p-2",
-                {
-                  "opacity-60 cursor-not-allowed": price.amount === 1,
-                  "cursor-pointer": price.amount > 1,
-                },
-              )}
-            >
-              <span className="mb-2 text-xs">{t("card.cash")}</span>
-              <div className="flex flex-col flex-1 justify-center items-center mb-6 w-full">
-                <img src={creditCard} className="w-1/5 sm:w-1/5" />
-                {price.amount === 1 && (
-                  <span className="text-xs italic">
-                    {`*${t("minimum")} 500 Gems`}
-                  </span>
-                )}
-              </div>
+            {!isWhalePack && (
+              <>
+                <ButtonPanel
+                  onClick={price.amount > 1 ? onCreditCardBuy : undefined}
+                  className={classNames(
+                    "flex relative flex-col flex-1 items-center p-2",
+                    {
+                      "opacity-60 cursor-not-allowed": price.amount === 1,
+                      "cursor-pointer": price.amount > 1,
+                    },
+                  )}
+                >
+                  <span className="mb-2 text-xs">{t("card.cash")}</span>
+                  <div className="flex flex-col flex-1 justify-center items-center mb-6 w-full">
+                    <img src={creditCard} className="w-1/5 sm:w-1/5" />
+                    {price.amount === 1 && (
+                      <span className="text-xs italic">
+                        {`*${t("minimum")} 500 Gems`}
+                      </span>
+                    )}
+                  </div>
 
-              <Label
-                type={price.amount === 1 ? "danger" : "warning"}
-                className="absolute -bottom-2 h-8"
-                style={{
-                  left: `${PIXEL_SCALE * -3}px`,
-                  right: `${PIXEL_SCALE * -3}px`,
-                  width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
-                }}
-              >
-                {t("transaction.payCash")}
-              </Label>
-            </ButtonPanel>
-            <ButtonPanel
-              onClick={() => setShowMaticConfirm(true)}
-              className="flex relative flex-col flex-1 items-center p-2 cursor-pointer"
-            >
-              <span className="mb-2 text-xs">{"MATIC"}</span>
-              <div className="flex flex-col flex-1 justify-center items-center mb-6 w-full">
-                <img
-                  src={SUNNYSIDE.icons.polygonIcon}
-                  className="w-1/5 sm:w-1/5"
-                />
-              </div>
-              <Label
-                type="warning"
-                className="absolute h-8 -bottom-2"
-                style={{
-                  left: `${PIXEL_SCALE * -3}px`,
-                  right: `${PIXEL_SCALE * -3}px`,
-                  width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
-                }}
-              >
-                {t("transaction.payPol")}
-              </Label>
-            </ButtonPanel>
+                  <Label
+                    type={price.amount === 1 ? "danger" : "warning"}
+                    className="absolute -bottom-2 h-8"
+                    style={{
+                      left: `${PIXEL_SCALE * -3}px`,
+                      right: `${PIXEL_SCALE * -3}px`,
+                      width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
+                    }}
+                  >
+                    {t("transaction.payCash")}
+                  </Label>
+                </ButtonPanel>
+                <ButtonPanel
+                  onClick={() => setShowMaticConfirm(true)}
+                  className="flex relative flex-col flex-1 items-center p-2 cursor-pointer"
+                >
+                  <span className="mb-2 text-xs">{"MATIC"}</span>
+                  <div className="flex flex-col flex-1 justify-center items-center mb-6 w-full">
+                    <img
+                      src={SUNNYSIDE.icons.polygonIcon}
+                      className="w-1/5 sm:w-1/5"
+                    />
+                  </div>
+                  <Label
+                    type="warning"
+                    className="absolute h-8 -bottom-2"
+                    style={{
+                      left: `${PIXEL_SCALE * -3}px`,
+                      right: `${PIXEL_SCALE * -3}px`,
+                      width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
+                    }}
+                  >
+                    {t("transaction.payPol")}
+                  </Label>
+                </ButtonPanel>
+              </>
+            )}
+
             {hasFeatureAccess(
               gameService.state.context.state,
               "FLOWER_GEMS",
@@ -423,7 +430,13 @@ export const BuyGems: React.FC<Props> = ({
               </ButtonPanel>
             )}
           </div>
-          <p className="text-xxs italic mb-2">{t("transaction.excludeFees")}</p>
+          {isWhalePack ? (
+            <p className="text-xxs italic mb-2">{t("transaction.whalePack")}</p>
+          ) : (
+            <p className="text-xxs italic mb-2">
+              {t("transaction.excludeFees")}
+            </p>
+          )}
         </div>
       </>
     );
@@ -494,8 +507,6 @@ export const BuyGems: React.FC<Props> = ({
 
         <div className="grid grid-cols-3 gap-1 gap-y-2  sm:text-sm sm:gap-2">
           {PRICES.map((price, index) => {
-            if (index === PRICES.length - 1 && !isLifetime) return null;
-
             // Compare price to base package
             const gemsPerDollar = 100 / 0.99;
             const expected = gemsPerDollar * price.usd;
