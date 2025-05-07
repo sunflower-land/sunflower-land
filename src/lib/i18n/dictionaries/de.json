@@ -5863,5 +5863,6 @@
   "current.timezone": "Aktuelle Zeitzone: {{timeZone}}",
   "season.codex.auction.chapterSupply": "Kapitel Versorgung: {{chapterSupply}}",
   "season.codex.auction.chapterSupply.description": "Einige Lieferungen sind möglicherweise für zukünftige Ereignisse oder Kapitel reserviert.",
-  "transaction.whalePack": "Das Walpaket kann nur mit FLOWER gekauft werden."
+  "transaction.whalePack": "Das Walpaket kann nur mit FLOWER gekauft werden.",
+  "deposit.flower.guide": "Um einzuzahlen, wechsele in deinem persönlichen Wallet zum {{network}} -Netzwerk und sende FLOWER an die unten angegebene Adresse."
 }

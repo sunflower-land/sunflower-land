@@ -5863,5 +5863,6 @@
   "current.timezone": "Zona waktu saat ini: {{timeZone}}",
   "season.codex.auction.chapterSupply": "Pasokan Bab: {{chapterSupply}}",
   "season.codex.auction.chapterSupply.description": "Beberapa persediaan mungkin dicadangkan untuk acara atau bab-babak mendatang.",
-  "transaction.whalePack": "Paket paus hanya dapat dibeli dengan FLOWER."
+  "transaction.whalePack": "Paket paus hanya dapat dibeli dengan FLOWER.",
+  "deposit.flower.guide": "Untuk menyetor, beralih ke jaringan {{network}} di dompet pribadi Anda dan kirim FLOWER ke alamat yang ditunjukkan di bawah ini."
 }

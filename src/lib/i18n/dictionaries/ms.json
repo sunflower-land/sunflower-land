@@ -5863,5 +5863,6 @@
   "current.timezone": "Zon waktu semasa: {{timeZone}}",
   "season.codex.auction.chapterSupply": "Bekalan Bab: {{chapterSupply}}",
   "season.codex.auction.chapterSupply.description": "Beberapa bekalan mungkin dikhaskan untuk acara atau bab masa depan.",
-  "transaction.whalePack": "Pek ikan paus hanya boleh dibeli dengan FLOWER."
+  "transaction.whalePack": "Pek ikan paus hanya boleh dibeli dengan FLOWER.",
+  "deposit.flower.guide": "Untuk membuat deposit, beralih ke rangkaian {{network}} di dompet peribadi anda dan hantar FLOWER ke alamat yang ditunjukkan di bawah."
 }

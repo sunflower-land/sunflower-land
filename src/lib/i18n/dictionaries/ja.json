@@ -5863,5 +5863,6 @@
   "current.timezone": "現在のタイムゾーン:{{timeZone}}",
   "season.codex.auction.chapterSupply": "チャプターサプライ:{{chapterSupply}}",
   "season.codex.auction.chapterSupply.description": "一部の消耗品は、今後のイベントやチャプターのために予約される可能性があります。",
-  "transaction.whalePack": "クジラパックはFLOWERでのみ購入できます。"
+  "transaction.whalePack": "クジラパックはFLOWERでのみ購入できます。",
+  "deposit.flower.guide": "入金するには、個人ウォレットの {{network}} ネットワークに切り替えて、下記のアドレスにFLOWERを送ってください。"
 }

@@ -5863,5 +5863,6 @@
   "current.timezone": "Geçerli saat dilimi: {{timeZone}}",
   "season.codex.auction.chapterSupply": "Bölüm Arzı: {{chapterSupply}}",
   "season.codex.auction.chapterSupply.description": "Bazı sarf malzemeleri gelecekteki etkinlikler veya bölümler için ayrılmış olabilir.",
-  "transaction.whalePack": "Balina paketi sadece FLOWER ile satın alınabilir."
+  "transaction.whalePack": "Balina paketi sadece FLOWER ile satın alınabilir.",
+  "deposit.flower.guide": "Para yatırmak için kişisel cüzdanınızdaki {{network}} ağına geçin ve FLOWER'ı aşağıda gösterilen adrese gönderin."
 }

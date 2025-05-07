@@ -5863,5 +5863,6 @@
   "current.timezone": "Текущий часовой пояс: {{timeZone}}",
   "season.codex.auction.chapterSupply": "Поставка главы: {{chapterSupply}}",
   "season.codex.auction.chapterSupply.description": "Некоторые материалы можно зарезервировать для будущих мероприятий или глав.",
-  "transaction.whalePack": "Набор «Кит» можно купить только вместе с FLOWER."
+  "transaction.whalePack": "Набор «Кит» можно купить только вместе с FLOWER.",
+  "deposit.flower.guide": "Чтобы внести депозит, переключитесь на сеть {{network}} в своем личном кошельке и отправьте FLOWER по указанному ниже адресу."
 }

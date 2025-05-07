@@ -5863,5 +5863,6 @@
   "current.timezone": "Zona horaria actual: {{timeZone}}",
   "season.codex.auction.chapterSupply": "Suministro de capítulos: {{chapterSupply}}",
   "season.codex.auction.chapterSupply.description": "Es posible que algunos suministros estén reservados para futuros eventos o capítulos.",
-  "transaction.whalePack": "El paquete Whale solo se puede comprar con FLOWER."
+  "transaction.whalePack": "El paquete Whale solo se puede comprar con FLOWER.",
+  "deposit.flower.guide": "Para realizar un depósito, cambia a la red {{network}} de tu monedero personal y envía FLOWER a la dirección que se muestra a continuación."
 }

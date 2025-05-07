@@ -5863,5 +5863,6 @@
   "current.timezone": "현재 시간대: {{timeZone}}",
   "season.codex.auction.chapterSupply": "챕터 공급: {{chapterSupply}}",
   "season.codex.auction.chapterSupply.description": "일부 물품은 향후 이벤트 또는 챕터를 위해 예약될 수 있습니다.",
-  "transaction.whalePack": "웨일 팩은 FLOWER에서만 구매할 수 있습니다."
+  "transaction.whalePack": "웨일 팩은 FLOWER에서만 구매할 수 있습니다.",
+  "deposit.flower.guide": "입금하려면 개인 지갑의 {{network}} 네트워크로 전환하고 아래 표시된 주소로 FLOWER를 보내세요."
 }

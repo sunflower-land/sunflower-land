@@ -5863,5 +5863,6 @@
   "current.timezone": "Fuso horário atual: {{timeZone}}",
   "season.codex.auction.chapterSupply": "Fonte do capítulo: {{chapterSupply}}",
   "season.codex.auction.chapterSupply.description": "Alguns suprimentos podem ser reservados para eventos ou capítulos futuros.",
-  "transaction.whalePack": "O pacote Whale só pode ser comprado com FLOWER."
+  "transaction.whalePack": "O pacote Whale só pode ser comprado com FLOWER.",
+  "deposit.flower.guide": "Para depositar, mude para a rede {{network}} em sua carteira pessoal e envie FLOWER para o endereço mostrado abaixo."
 }
