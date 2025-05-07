@@ -636,6 +636,7 @@ export type GreenhousePot = {
 
 export type FruitPatch = {
   fruit?: PlantedFruit;
+  createdAt: number;
   fertiliser?: FruitFertiliser;
 } & Coordinates;
 

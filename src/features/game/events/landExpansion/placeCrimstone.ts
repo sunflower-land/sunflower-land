@@ -1,8 +1,5 @@
-import { GameState } from "features/game/types/game";
-import {
-  ResourceName,
-  RESOURCE_DIMENSIONS,
-} from "features/game/types/resources";
+import { FiniteResource, GameState } from "features/game/types/game";
+import { ResourceName } from "features/game/types/resources";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
 
@@ -36,19 +33,20 @@ export function placeCrimstone({
       throw new Error("No crimstones available");
     }
 
+    const crimstone: FiniteResource = {
+      createdAt: createdAt,
+      x: action.coordinates.x,
+      y: action.coordinates.y,
+      stone: {
+        amount: 1,
+        minedAt: 0,
+      },
+      minesLeft: 5,
+    };
+
     game.crimstones = {
       ...game.crimstones,
-      [action.id as unknown as number]: {
-        createdAt: createdAt,
-        x: action.coordinates.x,
-        y: action.coordinates.y,
-        ...RESOURCE_DIMENSIONS["Crimstone Rock"],
-        stone: {
-          amount: 0,
-          minedAt: 0,
-        },
-        minesLeft: 5,
-      },
+      [action.id as unknown as number]: crimstone,
     };
 
     return game;
