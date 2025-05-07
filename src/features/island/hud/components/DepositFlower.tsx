@@ -200,7 +200,10 @@ export const DepositFlower: React.FC<{ onClose: () => void }> = ({
         {/* Deposit address */}
         {acknowledged && selectedNetwork?.value && (
           <div className="relative flex flex-col items-center justify-center gap-2 p-2 mt-2">
-            <span className="px-3 sm:px-[50px]  text-center break-all select-text">
+            <p className="text-xxs sm:text-xs text-center mb-1 -mt-1">
+              {t("deposit.flower.guide", { network: selectedNetwork.value })}
+            </p>
+            <span className="px-3 sm:px-[50px] text-center break-all select-text">
               {depositAddress}
             </span>
             <div className="flex items-center gap-1" onClick={copyToClipboard}>
