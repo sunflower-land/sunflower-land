@@ -5862,5 +5862,6 @@
   "transaction.refresh.message": "Görünüşe göre işlemin süresi doldu. Tekrar denemek için lütfen yenile'yi tıklayın.",
   "current.timezone": "Geçerli saat dilimi: {{timeZone}}",
   "season.codex.auction.chapterSupply": "Bölüm Arzı: {{chapterSupply}}",
-  "season.codex.auction.chapterSupply.description": "Bazı sarf malzemeleri gelecekteki etkinlikler veya bölümler için ayrılmış olabilir."
+  "season.codex.auction.chapterSupply.description": "Bazı sarf malzemeleri gelecekteki etkinlikler veya bölümler için ayrılmış olabilir.",
+  "transaction.whalePack": "Balina paketi sadece FLOWER ile satın alınabilir."
 }

@@ -5862,5 +5862,6 @@
   "transaction.refresh.message": "Parece que sua transação expirou. Clique em atualizar para tentar novamente.",
   "current.timezone": "Fuso horário atual: {{timeZone}}",
   "season.codex.auction.chapterSupply": "Fonte do capítulo: {{chapterSupply}}",
-  "season.codex.auction.chapterSupply.description": "Alguns suprimentos podem ser reservados para eventos ou capítulos futuros."
+  "season.codex.auction.chapterSupply.description": "Alguns suprimentos podem ser reservados para eventos ou capítulos futuros.",
+  "transaction.whalePack": "O pacote Whale só pode ser comprado com FLOWER."
 }

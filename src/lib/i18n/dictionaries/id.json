@@ -5862,5 +5862,6 @@
   "transaction.refresh.message": "Sepertinya transaksi Anda kedaluwarsa. Silakan klik refresh untuk mencoba lagi.",
   "current.timezone": "Zona waktu saat ini: {{timeZone}}",
   "season.codex.auction.chapterSupply": "Pasokan Bab: {{chapterSupply}}",
-  "season.codex.auction.chapterSupply.description": "Beberapa persediaan mungkin dicadangkan untuk acara atau bab-babak mendatang."
+  "season.codex.auction.chapterSupply.description": "Beberapa persediaan mungkin dicadangkan untuk acara atau bab-babak mendatang.",
+  "transaction.whalePack": "Paket paus hanya dapat dibeli dengan FLOWER."
 }

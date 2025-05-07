@@ -5862,5 +5862,6 @@
   "transaction.refresh.message": "Sieht so aus, als ob Ihre Transaktion abgelaufen ist. Bitte klicken Sie auf Aktualisieren, um es erneut zu versuchen.",
   "current.timezone": "Aktuelle Zeitzone: {{timeZone}}",
   "season.codex.auction.chapterSupply": "Kapitel Versorgung: {{chapterSupply}}",
-  "season.codex.auction.chapterSupply.description": "Einige Lieferungen sind möglicherweise für zukünftige Ereignisse oder Kapitel reserviert."
+  "season.codex.auction.chapterSupply.description": "Einige Lieferungen sind möglicherweise für zukünftige Ereignisse oder Kapitel reserviert.",
+  "transaction.whalePack": "Das Walpaket kann nur mit FLOWER gekauft werden."
 }

@@ -5862,5 +5862,6 @@
   "transaction.refresh.message": "Nampaknya transaksi anda tamat tempoh. Sila klik Refresh untuk mencuba lagi.",
   "current.timezone": "Zon waktu semasa: {{timeZone}}",
   "season.codex.auction.chapterSupply": "Bekalan Bab: {{chapterSupply}}",
-  "season.codex.auction.chapterSupply.description": "Beberapa bekalan mungkin dikhaskan untuk acara atau bab masa depan."
+  "season.codex.auction.chapterSupply.description": "Beberapa bekalan mungkin dikhaskan untuk acara atau bab masa depan.",
+  "transaction.whalePack": "Pek ikan paus hanya boleh dibeli dengan FLOWER."
 }
