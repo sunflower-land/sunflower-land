@@ -6030,9 +6030,6 @@
   "description.redPepperOnesie.boost": "0.25x Red Pepper Speed",
   "interactableModals.petalClue.message1": "When the petals are in an orange bloom, a prize appears. Can you find it?",
   "current.timezone": "Current timezone: {{timeZone}}",
-<<<<<<< HEAD
-  "transaction.whalePack": "Whale pack can only be bought with FLOWER."
-=======
+  "transaction.whalePack": "Whale pack can only be bought with FLOWER.",
   "deposit.flower.guide": "To deposit, switch to the {{network}} network in your personal wallet and send $FLOWER to the address shown below."
->>>>>>> f6ad5d71f ([FEAT] Add deposit instructions)
 }
