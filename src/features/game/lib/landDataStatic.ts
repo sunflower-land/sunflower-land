@@ -145,6 +145,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
 
   fruitPatches: {
     "1": {
+      createdAt: 0,
       x: -2,
       y: 6,
     },

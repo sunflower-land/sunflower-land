@@ -12,11 +12,14 @@ import {
   isFruitReadyToHarvest,
 } from "./fruitHarvested";
 
+const dateNow = Date.now();
+
 const GAME_STATE: GameState = {
   ...TEST_FARM,
   bumpkin: INITIAL_BUMPKIN,
   fruitPatches: {
     0: {
+      createdAt: dateNow,
       fruit: {
         name: "Apple",
         amount: 1,
@@ -27,7 +30,11 @@ const GAME_STATE: GameState = {
       x: -2,
       y: 0,
     },
-    1: { x: -2, y: 0 },
+    1: {
+      createdAt: dateNow,
+      x: -2,
+      y: 0,
+    },
   },
 };
 

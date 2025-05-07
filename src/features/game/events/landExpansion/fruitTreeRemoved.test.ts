@@ -3,6 +3,8 @@ import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
 import { removeFruitTree } from "./fruitTreeRemoved";
 
+const now = Date.now();
+
 const GAME_STATE: GameState = {
   ...TEST_FARM,
   bumpkin: INITIAL_BUMPKIN,
@@ -12,6 +14,7 @@ const GAME_STATE: GameState = {
   },
   fruitPatches: {
     0: {
+      createdAt: now,
       fruit: {
         name: "Apple",
         amount: 1,
@@ -23,10 +26,12 @@ const GAME_STATE: GameState = {
       y: 0,
     },
     1: {
+      createdAt: now,
       x: -2,
       y: 0,
     },
     2: {
+      createdAt: now,
       fruit: {
         name: "Blueberry",
         amount: 1,
@@ -74,6 +79,7 @@ describe("fruitTreeRemoved", () => {
           ...GAME_STATE,
           fruitPatches: {
             0: {
+              createdAt: now,
               fruit: {
                 name: "Apple",
                 amount: 1,

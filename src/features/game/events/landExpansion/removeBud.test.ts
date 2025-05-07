@@ -93,6 +93,7 @@ describe("removeBud", () => {
           ...GAME_STATE,
           fruitPatches: {
             ["1"]: {
+              createdAt: Date.now(),
               x: 0,
               y: 0,
               fruit: {

@@ -184,6 +184,7 @@ const INITIAL_SPRING_LAND: Pick<
   },
   fruitPatches: {
     "1": {
+      createdAt: 0,
       fruit: {
         amount: 2,
         name: "Apple",
@@ -195,6 +196,7 @@ const INITIAL_SPRING_LAND: Pick<
       y: 9,
     },
     "2": {
+      createdAt: 0,
       fruit: {
         amount: 1,
         name: "Apple",
@@ -431,6 +433,7 @@ const INITIAL_DESERT_LAND: Pick<
   },
   fruitPatches: {
     "1": {
+      createdAt: 0,
       fruit: {
         amount: 2,
         name: "Apple",
@@ -442,6 +445,7 @@ const INITIAL_DESERT_LAND: Pick<
       y: 9,
     },
     "2": {
+      createdAt: 0,
       fruit: {
         amount: 1,
         name: "Apple",
@@ -697,6 +701,7 @@ const INITIAL_VOLCANO_LAND: Pick<
   },
   fruitPatches: {
     "1": {
+      createdAt: 0,
       fruit: {
         amount: 2,
         name: "Apple",
@@ -708,6 +713,7 @@ const INITIAL_VOLCANO_LAND: Pick<
       y: 9,
     },
     "2": {
+      createdAt: 0,
       fruit: {
         amount: 1,
         name: "Apple",
@@ -1023,7 +1029,7 @@ export const populateSeason = (createdAt: number): Season => {
   return { startedAt: startAt, season };
 };
 
-export function upgrade({ state, action, createdAt = Date.now() }: Options) {
+export function upgrade({ state, createdAt = Date.now() }: Options) {
   let game = cloneDeep(state) as GameState;
 
   const upcoming = ISLAND_UPGRADE[game.island.type];

@@ -151,6 +151,7 @@ export function revealLand({
     // Add Fruit patches
     land.fruitPatches?.forEach((coords) => {
       game.fruitPatches[randomUUID().slice(0, 8)] = {
+        createdAt: Date.now(),
         x: coords.x + origin.x,
         y: coords.y + origin.y,
         fruit: {
