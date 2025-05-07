@@ -5862,5 +5862,6 @@
   "transaction.refresh.message": "Похоже, срок действия вашей транзакции истек. Нажмите кнопку «Обновить», чтобы повторить попытку.",
   "current.timezone": "Текущий часовой пояс: {{timeZone}}",
   "season.codex.auction.chapterSupply": "Поставка главы: {{chapterSupply}}",
-  "season.codex.auction.chapterSupply.description": "Некоторые материалы можно зарезервировать для будущих мероприятий или глав."
+  "season.codex.auction.chapterSupply.description": "Некоторые материалы можно зарезервировать для будущих мероприятий или глав.",
+  "transaction.whalePack": "Набор «Кит» можно купить только вместе с FLOWER."
 }

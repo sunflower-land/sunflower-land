@@ -5862,5 +5862,6 @@
   "transaction.refresh.message": "Parece que tu transacción ha caducado. Haz clic en actualizar para volver a intentarlo.",
   "current.timezone": "Zona horaria actual: {{timeZone}}",
   "season.codex.auction.chapterSupply": "Suministro de capítulos: {{chapterSupply}}",
-  "season.codex.auction.chapterSupply.description": "Es posible que algunos suministros estén reservados para futuros eventos o capítulos."
+  "season.codex.auction.chapterSupply.description": "Es posible que algunos suministros estén reservados para futuros eventos o capítulos.",
+  "transaction.whalePack": "El paquete Whale solo se puede comprar con FLOWER."
 }

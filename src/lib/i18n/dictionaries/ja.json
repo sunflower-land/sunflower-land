@@ -5862,5 +5862,6 @@
   "transaction.refresh.message": "取引の有効期限が切れたようです。[更新] をクリックしてもう一度試してください。",
   "current.timezone": "現在のタイムゾーン:{{timeZone}}",
   "season.codex.auction.chapterSupply": "チャプターサプライ:{{chapterSupply}}",
-  "season.codex.auction.chapterSupply.description": "一部の消耗品は、今後のイベントやチャプターのために予約される可能性があります。"
+  "season.codex.auction.chapterSupply.description": "一部の消耗品は、今後のイベントやチャプターのために予約される可能性があります。",
+  "transaction.whalePack": "クジラパックはFLOWERでのみ購入できます。"
 }
