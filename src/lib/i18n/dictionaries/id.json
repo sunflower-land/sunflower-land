@@ -5860,5 +5860,7 @@
   "birdieplaza.choresAndRewards": "Anda juga bisa mendapatkan {{seasonalTicket}} s dengan tugas mingguan, hadiah peti harian, dan sistem hadiah!",
   "ready.in": "Siap masuk",
   "transaction.refresh.message": "Sepertinya transaksi Anda kedaluwarsa. Silakan klik refresh untuk mencoba lagi.",
-  "current.timezone": "Zona waktu saat ini: {{timeZone}}"
+  "current.timezone": "Zona waktu saat ini: {{timeZone}}",
+  "season.codex.auction.chapterSupply": "Pasokan Bab: {{chapterSupply}}",
+  "season.codex.auction.chapterSupply.description": "Beberapa persediaan mungkin dicadangkan untuk acara atau bab-babak mendatang."
 }

@@ -29,5 +29,7 @@ export async function loadUpcomingAuction(
     throw new Error(ERRORS.AUCTIONEER_UPCOMING_AUCTION_NOT_FOUND);
   }
 
-  return await response.json();
+  const { data } = await response.json();
+
+  return data;
 }

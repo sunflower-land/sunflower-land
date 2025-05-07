@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 
 import worldMap from "assets/map/world_map.png";
 
@@ -25,11 +25,6 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const [showPopup, setShowPopup] = useState(false);
 
   const [reqLvl, setReqLvl] = useState(1);
-
-  useEffect(() => {
-    gameService.send("SAVE");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   const level = getBumpkinLevel(
     gameService.state.context.state.bumpkin?.experience ?? 0,

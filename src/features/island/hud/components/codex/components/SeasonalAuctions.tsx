@@ -14,7 +14,11 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Loading } from "features/auth/components";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { getKeys } from "features/game/types/decorations";
-import { SeasonName, SEASONS } from "features/game/types/seasons";
+import {
+  getCurrentSeason,
+  SeasonName,
+  SEASONS,
+} from "features/game/types/seasons";
 import { ButtonPanel, InnerPanel, OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { getImageUrl } from "lib/utils/getImageURLS";
@@ -24,6 +28,7 @@ import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 
 import lightning from "assets/icons/lightning.png";
 import sfl from "assets/icons/flower_token.webp";
+import chapterIcon from "assets/icons/chapter_icon_3.webp";
 
 import { Label } from "components/ui/Label";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
@@ -271,40 +276,69 @@ const Drops: React.FC<{
       ? buff[name as CollectibleName]
       : BUMPKIN_ITEM_BUFF_LABELS[name as BumpkinItem];
 
+  const chapter = SEASONS[getCurrentSeason()];
+  const chapterSupply = detail.auctions.reduce((acc, drop) => {
+    if (
+      drop.startAt < chapter.startDate.getTime() ||
+      drop.startAt > chapter.endDate.getTime()
+    ) {
+      return acc;
+    }
+
+    return acc + drop.supply;
+  }, 0);
+
   return (
     <>
       <div className="p-1">
         <p className="text-sm mt-3 mb-2">{name}</p>
-        <div className="flex flex-row flex-wrap justify-between">
+        <div className="flex flex-row flex-wrap justify-between items-center mr-2">
           <Label type="default" className="mt-1 mb-1">
             {detail.type === "collectible" ? t("collectible") : t("wearable")}
           </Label>
-          <Label type="default" className="mt-1 mb-1">
+          {buffLabel ? (
+            <Label
+              type={buffLabel[0].labelType}
+              icon={buffLabel[0].boostTypeIcon}
+              secondaryIcon={buffLabel[0].boostedItemIcon}
+            >
+              {buffLabel[0].shortDescription}
+            </Label>
+          ) : detail.type === "collectible" ? (
+            <div className="flex">
+              <img src={SUNNYSIDE.icons.heart} className="h-4 mr-0.5" />
+              <p className="text-xs">{t("decoration")}</p>
+            </div>
+          ) : (
+            <div className="flex">
+              <img src={SUNNYSIDE.icons.heart} className="h-4 mr-0.5" />
+              <p className="text-xs">{t("cosmetic")}</p>
+            </div>
+          )}
+        </div>
+        <div className="flex justify-between items-center">
+          <Label
+            type="transparent"
+            className="mt-1 mb-1 mr-4"
+            icon={SUNNYSIDE.icons.basket}
+          >
             {t("season.codex.auction.totalSupply", {
               totalSupply: maxSupply,
             })}
           </Label>
+          <Label
+            secondaryIcon={chapterIcon}
+            type="transparent"
+            className="mt-1 mb-1 ml-3"
+          >
+            {t("season.codex.auction.chapterSupply", {
+              chapterSupply: chapterSupply,
+            })}
+          </Label>
         </div>
-        {buffLabel ? (
-          <div className="flex">
-            <img src={lightning} className="h-4 mr-0.5" />
-            <p className="text-xs">
-              {buffLabel
-                .map(({ shortDescription }) => shortDescription)
-                .join(", ")}
-            </p>
-          </div>
-        ) : detail.type === "collectible" ? (
-          <div className="flex">
-            <img src={SUNNYSIDE.icons.heart} className="h-4 mr-0.5" />
-            <p className="text-xs">{t("decoration")}</p>
-          </div>
-        ) : (
-          <div className="flex">
-            <img src={SUNNYSIDE.icons.heart} className="h-4 mr-0.5" />
-            <p className="text-xs">{t("cosmetic")}</p>
-          </div>
-        )}
+        <p className="text-xxs italic">
+          {t("season.codex.auction.chapterSupply.description")}
+        </p>
       </div>
       <div
         style={{ maxHeight: "300px" }}

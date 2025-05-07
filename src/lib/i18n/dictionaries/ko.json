@@ -5860,5 +5860,7 @@
   "birdieplaza.choresAndRewards": "주간 집안일, 일일 상자 보상, 현상금 시스템을 통해서도 {{seasonalTicket}} 를 벌 수 있습니다!",
   "ready.in": "준비 완료",
   "transaction.refresh.message": "거래가 만료된 것 같습니다.새로 고침을 클릭하여 다시 시도하세요.",
-  "current.timezone": "현재 시간대: {{timeZone}}"
+  "current.timezone": "현재 시간대: {{timeZone}}",
+  "season.codex.auction.chapterSupply": "챕터 공급: {{chapterSupply}}",
+  "season.codex.auction.chapterSupply.description": "일부 물품은 향후 이벤트 또는 챕터를 위해 예약될 수 있습니다."
 }
