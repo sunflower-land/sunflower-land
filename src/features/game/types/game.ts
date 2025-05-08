@@ -1695,6 +1695,9 @@ export interface GameState {
   megastore?: {
     boughtAt: Partial<Record<SeasonalTierItemName, number>>;
   };
+  withdrawals?: {
+    amount: number;
+  };
 }
 
 export type FaceRecognitionEvent =

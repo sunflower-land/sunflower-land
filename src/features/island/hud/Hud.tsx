@@ -8,7 +8,7 @@ import { Inventory } from "./components/inventory/Inventory";
 import { BumpkinProfile } from "./components/BumpkinProfile";
 import { Save } from "./components/Save";
 import { DepositArgs } from "lib/blockchain/Deposit";
-import { DepositModal } from "features/goblins/bank/components/Deposit";
+import { DepositGameItemsModal } from "features/goblins/bank/components/DepositGameItems";
 import { placeEvent } from "features/game/expansion/placeable/landscapingMachine";
 import { TravelButton } from "./components/deliveries/TravelButton";
 import { CodexButton } from "./components/codex/CodexButton";
@@ -52,7 +52,7 @@ const HudComponent: React.FC<{
   const autosaving = gameState.matches("autosaving");
 
   const handleDeposit = (
-    args: Pick<DepositArgs, "sfl" | "itemIds" | "itemAmounts">,
+    args: Pick<DepositArgs, "itemIds" | "itemAmounts">,
   ) => {
     gameService.send("DEPOSIT", args);
   };
@@ -140,7 +140,7 @@ const HudComponent: React.FC<{
         <CodexButton />
         <RewardsButton />
 
-        <DepositModal
+        <DepositGameItemsModal
           farmAddress={farmAddress ?? ""}
           linkedWallet={linkedWallet ?? ""}
           handleClose={() => setShowDepositModal(false)}

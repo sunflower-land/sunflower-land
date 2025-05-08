@@ -18048,4 +18048,16 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     image: "../public/wearables/images/461.png",
     name: "Oracle Syringe",
   },
+  "Coin Head": {
+    description:
+      "Proof you put your tokens where your flowers are. Now you’ve got the hat to prove it.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hat" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/462.png",
+    name: "Coin Head",
+  },
 };

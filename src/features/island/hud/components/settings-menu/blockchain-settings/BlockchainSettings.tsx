@@ -73,7 +73,9 @@ export const BlockchainSettings: React.FC<ContentComponentProps> = ({
         )}
       </div>
 
-      <Button onClick={() => onSubMenuClick("deposit")}>{t("deposit")}</Button>
+      <Button onClick={() => onSubMenuClick("deposit")}>
+        {t("deposit.items")}
+      </Button>
       {isFullUser && (
         <Button onClick={storeOnChain}>
           {t("gameOptions.blockchainSettings.storeOnChain")}

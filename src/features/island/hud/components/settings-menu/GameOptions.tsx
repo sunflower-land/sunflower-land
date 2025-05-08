@@ -37,7 +37,7 @@ import { Share } from "./general-settings/Share";
 import { PlazaSettings } from "./plaza-settings/PlazaSettingsModal";
 import { DeveloperOptions } from "./developer-options/DeveloperOptions";
 import { Discord } from "./general-settings/DiscordModal";
-import { DepositWrapper } from "features/goblins/bank/components/Deposit";
+import { DepositWrapper } from "features/goblins/bank/components/DepositGameItems";
 import { useSound } from "lib/utils/hooks/useSound";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import lockIcon from "assets/icons/lock.png";

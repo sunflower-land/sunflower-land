@@ -5504,7 +5504,6 @@
   "transaction.withdraw.five": "将 FLOWER 代币导入 MetaMask",
   "wishingWell.sflRewardsReceived": "你收到了 {{reward}} 枚 FLOWER！",
   "wishingWell.info.one": "许愿井是一个神奇的地方，只要许个愿就可以获得 FLOWER 奖励！",
-  "withdraw.sfl.available": "FLOWER 可在链上使用",
   "withdraw.receive": "您将收到：{{sflReceived}} 枚 FLOWER",
   "withdraw.taxFree": "哥布林会根据游戏中获得的 FLOWER 向你征税。这不包括存款和市场。",
   "world.intro.visit": "拜访 NPC 并完成送货，获得 FLOWER、金币和稀有奖励。",
@@ -5863,5 +5862,12 @@
   "current.timezone": "当前时区：{{timeZone}}",
   "season.codex.auction.chapterSupply": "章节供应：{{chapterSupply}}",
   "season.codex.auction.chapterSupply.description": "一些物资可能会保留给将来的活动或章节。",
-  "transaction.whalePack": "只能用 FLOWER 购买鲸鱼配套。"
+  "transaction.whalePack": "只能用 FLOWER 购买鲸鱼配套。",
+  "deposit.flower.guide": "要存款，请在您的个人钱包中切换到 {{network}} 网络，然后将 FLOWER 发送到如下所示的地址。",
+  "twitter.post.flower": "庆祝 $FLOWER 的推出！每周将选出 5 名获胜者，赢取额外的 100 美元鲜花！",
+  "flower.launch.one": "$FLOWER ERC20 已在 BASE 上线",
+  "flower.launch.two": "存款已启用",
+  "flower.launch.three": "流动性奖励和提款即将开始",
+  "deposit.items": "存款游戏物品",
+  "withdraw.sfl.available": "{{flower}} FLOWER 可供提款"
 }

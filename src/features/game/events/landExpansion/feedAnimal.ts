@@ -159,6 +159,15 @@ export function handleFoodXP({
   return { foodXp };
 }
 
+export function getBarnDelightCost({ state }: { state: GameState }) {
+  let amount = 1;
+
+  if (isWearableActive({ name: "Medic Apron", game: state })) {
+    amount /= 2;
+  }
+  return amount;
+}
+
 export function feedAnimal({
   state,
   action,
@@ -205,12 +214,13 @@ export function feedAnimal({
 
       const barnDelightAmount =
         copy.inventory["Barn Delight"] ?? new Decimal(0);
+      const barnDelightCost = getBarnDelightCost({ state: copy });
 
-      if (barnDelightAmount.lt(1)) {
+      if (barnDelightAmount.lt(barnDelightCost)) {
         throw new Error("Not enough Barn Delight to cure the animal");
       }
 
-      copy.inventory["Barn Delight"] = barnDelightAmount.sub(1);
+      copy.inventory["Barn Delight"] = barnDelightAmount.sub(barnDelightCost);
       animal.state = "idle";
 
       copy.bumpkin.activity = trackActivity(
