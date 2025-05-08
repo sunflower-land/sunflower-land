@@ -69,7 +69,7 @@ export const FLOWERTeaserContent: React.FC = () => {
         <Button
           onClick={() => {
             window.open(
-              "https://app.uniswap.org/swap?chain=base&inputCurrency=0x3e12b9d6a4d12cd9b4a6d613872d0eb32f68b380&outputCurrency=0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913&value=1&field=input",
+              "https://app.uniswap.org/swap?chain=base&inputCurrency=0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913&outputCurrency=0x3e12b9d6a4d12cd9b4a6d613872d0eb32f68b380&value=1&field=input",
               "_blank",
             );
           }}
