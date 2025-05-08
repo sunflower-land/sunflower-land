@@ -5868,5 +5868,6 @@
   "description.obsidianNecklace.boost": "-50 % Durée de la fosse à lave",
   "description.medicApron.boost": "-50% Médicaments pour soigner les animaux",
   "description.broccoliHat.boost": "-50 % de temps de croissance du brocoli",
-  "description.redPepperOnesie.boost": "-25 % de temps de croissance du poivron rouge"
+  "description.redPepperOnesie.boost": "-25 % de temps de croissance du poivron rouge",
+  "deposit.items": "Déposer des objets de jeu"
 }

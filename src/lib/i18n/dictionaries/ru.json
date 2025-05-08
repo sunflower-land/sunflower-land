@@ -5868,5 +5868,6 @@
   "description.obsidianNecklace.boost": "Время работы лавовой ямы: -50%",
   "description.medicApron.boost": "-50% Лекарства для лечения животных",
   "description.broccoliHat.boost": "Время роста брокколи: -50%",
-  "description.redPepperOnesie.boost": "Время роста красного перца -25%"
+  "description.redPepperOnesie.boost": "Время роста красного перца -25%",
+  "deposit.items": "Депозитные игровые предметы"
 }

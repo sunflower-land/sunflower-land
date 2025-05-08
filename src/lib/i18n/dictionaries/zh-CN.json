@@ -5868,5 +5868,6 @@
   "description.obsidianNecklace.boost": "-50% 熔岩洞时间",
   "description.medicApron.boost": "-50% 治疗动物的药物",
   "description.broccoliHat.boost": "-50% 西兰花生长时间",
-  "description.redPepperOnesie.boost": "-25% 红辣椒生长时间"
+  "description.redPepperOnesie.boost": "-25% 红辣椒生长时间",
+  "deposit.items": "存款游戏物品"
 }

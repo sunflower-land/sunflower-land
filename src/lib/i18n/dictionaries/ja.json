@@ -5868,5 +5868,6 @@
   "description.obsidianNecklace.boost": "ラバピットタイム -50%",
   "description.medicApron.boost": "-50% 動物を癒す薬",
   "description.broccoliHat.boost": "-50% ブロッコリーの成長時間",
-  "description.redPepperOnesie.boost": "-25% 赤唐辛子の成長時間"
+  "description.redPepperOnesie.boost": "-25% 赤唐辛子の成長時間",
+  "deposit.items": "ゲームアイテムを入金"
 }

@@ -5868,5 +5868,6 @@
   "description.obsidianNecklace.boost": "-50% Lavagrubenzeit",
   "description.medicApron.boost": "-50% Medizin zur Heilung von Tieren",
   "description.broccoliHat.boost": "-50% Wachstumszeit von Brokkoli",
-  "description.redPepperOnesie.boost": "-25% Wachstumszeit für rote Paprika"
+  "description.redPepperOnesie.boost": "-25% Wachstumszeit für rote Paprika",
+  "deposit.items": "Spielgegenstände hinterlegen"
 }

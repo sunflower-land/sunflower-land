@@ -5868,5 +5868,6 @@
   "description.obsidianNecklace.boost": "-50% 라바 피트 타임",
   "description.medicApron.boost": "-50% 동물 치료제",
   "description.broccoliHat.boost": "-50% 브로콜리 성장 시간",
-  "description.redPepperOnesie.boost": "-25% 레드 페퍼 성장 시간"
+  "description.redPepperOnesie.boost": "-25% 레드 페퍼 성장 시간",
+  "deposit.items": "게임 아이템 입금"
 }

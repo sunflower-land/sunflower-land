@@ -5868,5 +5868,6 @@
   "description.obsidianNecklace.boost": "-50% Tempo do Poço de Lava",
   "description.medicApron.boost": "-50% Remédio para curar animais",
   "description.broccoliHat.boost": "-50% de tempo de crescimento de brócolis",
-  "description.redPepperOnesie.boost": "-25% de tempo de crescimento de pimenta vermelha"
+  "description.redPepperOnesie.boost": "-25% de tempo de crescimento de pimenta vermelha",
+  "deposit.items": "Depositar itens do jogo"
 }

@@ -5868,5 +5868,6 @@
   "description.obsidianNecklace.boost": "-50% Lava Pit Time",
   "description.medicApron.boost": "-50% Medicina per curare gli animali",
   "description.broccoliHat.boost": "-50% Tempo di crescita dei broccoli",
-  "description.redPepperOnesie.boost": "-25% Tempo di crescita del peperone rosso"
+  "description.redPepperOnesie.boost": "-25% Tempo di crescita del peperone rosso",
+  "deposit.items": "Deposita oggetti di gioco"
 }

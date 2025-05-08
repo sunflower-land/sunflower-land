@@ -5868,5 +5868,6 @@
   "description.obsidianNecklace.boost": "-50% Waktu Lubang Lava",
   "description.medicApron.boost": "-50% Obat untuk menyembuhkan hewan",
   "description.broccoliHat.boost": "-50% Waktu Pertumbuhan Brokoli",
-  "description.redPepperOnesie.boost": "-25% Waktu Pertumbuhan Lada Merah"
+  "description.redPepperOnesie.boost": "-25% Waktu Pertumbuhan Lada Merah",
+  "deposit.items": "Setor Item Game"
 }

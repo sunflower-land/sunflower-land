@@ -5868,5 +5868,6 @@
   "description.obsidianNecklace.boost": "-50% Masa Lava Pit",
   "description.medicApron.boost": "-50% Ubat untuk menyembuhkan haiwan",
   "description.broccoliHat.boost": "-50% Masa Pertumbuhan Brokoli",
-  "description.redPepperOnesie.boost": "-25% Masa Pertumbuhan Lada Merah"
+  "description.redPepperOnesie.boost": "-25% Masa Pertumbuhan Lada Merah",
+  "deposit.items": "Deposit Item Permainan"
 }
