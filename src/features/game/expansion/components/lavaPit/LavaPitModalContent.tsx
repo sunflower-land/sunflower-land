@@ -150,7 +150,7 @@ export const LavaPitModalContent: React.FC<Props> = ({ onClose, id }) => {
           )}
           {!lavaPitInProgress && (
             <Label icon={SUNNYSIDE.icons.stopwatch} type="transparent">
-              {secondsToString(lavaPitTime / 1000, { length: "short" })}
+              {secondsToString(lavaPitTime / 1000, { length: "medium" })}
             </Label>
           )}
         </div>

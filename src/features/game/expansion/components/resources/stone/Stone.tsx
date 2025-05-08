@@ -33,8 +33,8 @@ const compareResource = (prev: Rock, next: Rock) => {
   return JSON.stringify(prev) === JSON.stringify(next);
 };
 
-const selectGame = (state: MachineState) => state.context.state;
-const compareGame = (prev: GameState, next: GameState) =>
+const _state = (state: MachineState) => state.context.state;
+const _compareQuarryExistence = (prev: GameState, next: GameState) =>
   isCollectibleBuilt({ name: "Quarry", game: prev }) ===
   isCollectibleBuilt({ name: "Quarry", game: next });
 
@@ -74,7 +74,7 @@ export const Stone: React.FC<Props> = ({ id }) => {
     };
   }, []);
 
-  const game = useSelector(gameService, selectGame, compareGame);
+  const game = useSelector(gameService, _state, _compareQuarryExistence);
   const resource = useSelector(
     gameService,
     (state) => state.context.state.stones[id],
