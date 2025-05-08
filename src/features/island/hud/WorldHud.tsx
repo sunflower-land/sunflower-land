@@ -8,7 +8,7 @@ import Decimal from "decimal.js-light";
 import { DepositArgs } from "lib/blockchain/Deposit";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { Deposit } from "features/goblins/bank/components/Deposit";
+import { Deposit } from "features/goblins/bank/components/DepositGameItems";
 import { placeEvent } from "features/game/expansion/placeable/landscapingMachine";
 import { Save } from "./components/Save";
 import { PIXEL_SCALE } from "features/game/lib/constants";

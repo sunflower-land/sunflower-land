@@ -6033,7 +6033,11 @@
   "current.timezone": "Current timezone: {{timeZone}}",
   "transaction.whalePack": "Whale pack can only be bought with FLOWER.",
   "deposit.flower.guide": "To deposit, switch to the {{network}} network in your personal wallet and send FLOWER to the address shown below.",
+<<<<<<< HEAD
   "flower.launch.one": "$FLOWER ERC20 is live on BASE",
   "flower.launch.two": "Deposits are enabled",
   "flower.launch.three": "Liquidity rewards and withdrawals starting soon"
+=======
+  "deposit.items": "Deposit Game Items"
+>>>>>>> d9c1224a7 ([FEAT] Convert old deposit to in game items only)
 }
