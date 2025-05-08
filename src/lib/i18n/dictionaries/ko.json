@@ -5504,7 +5504,6 @@
   "transaction.withdraw.five": "FLOWER 토큰을 메타마스크로 가져오기",
   "wishingWell.sflRewardsReceived": "{{reward}} 꽃을 받았습니다!",
   "wishingWell.info.one": "소원의 우물은 소원을 빌기만 해도 FLOWER 보상을 받을 수 있는 마법의 장소입니다!",
-  "withdraw.sfl.available": "FLOWER는 온체인에서 구매 가능합니다.",
   "withdraw.receive": "다음과 같은 것들을 받게 됩니다: {{sflReceived}} 플라워",
   "withdraw.taxFree": "고블린은 게임 내에서 획득한 FLOWER에 세금을 부과합니다.예치금 및 마켓플레이스는 제외됩니다.",
   "world.intro.visit": "NPC를 방문하여 배송을 완료하고 꽃, 코인 및 희귀 보상을 받으세요.",
@@ -5869,5 +5868,6 @@
   "description.medicApron.boost": "-50% 동물 치료제",
   "description.broccoliHat.boost": "-50% 브로콜리 성장 시간",
   "description.redPepperOnesie.boost": "-25% 레드 페퍼 성장 시간",
-  "deposit.items": "게임 아이템 입금"
+  "deposit.items": "게임 아이템 입금",
+  "withdraw.sfl.available": "{{flower}} 꽃은 출금이 가능합니다"
 }

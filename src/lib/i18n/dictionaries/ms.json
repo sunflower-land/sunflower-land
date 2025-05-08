@@ -5504,7 +5504,6 @@
   "transaction.withdraw.five": "Import FLOWER Token ke MetaMask",
   "wishingWell.sflRewardsReceived": "Anda menerima {{reward}} BUNGA!",
   "wishingWell.info.one": "Telaga berharap adalah tempat ajaib di mana ganjaran BUNGA boleh dibuat hanya dengan membuat harapan!",
-  "withdraw.sfl.available": "FLOWER boleh didapati di rantai",
   "withdraw.receive": "Anda akan menerima: {{sflReceived}} FLOWER",
   "withdraw.taxFree": "Goblin mengenakan cukai anda ke atas FLOWER yang diperoleh dalam permainan. Ini tidak termasuk deposit & pasaran.",
   "world.intro.visit": "Lawati NPC dan lengkapkan penghantaran untuk mendapatkan BUNGA, Syiling dan ganjaran yang jarang berlaku.",
@@ -5869,5 +5868,6 @@
   "description.medicApron.boost": "-50% Ubat untuk menyembuhkan haiwan",
   "description.broccoliHat.boost": "-50% Masa Pertumbuhan Brokoli",
   "description.redPepperOnesie.boost": "-25% Masa Pertumbuhan Lada Merah",
-  "deposit.items": "Deposit Item Permainan"
+  "deposit.items": "Deposit Item Permainan",
+  "withdraw.sfl.available": "{{flower}} FLOWER tersedia untuk pengeluaran"
 }

@@ -5504,7 +5504,6 @@
   "transaction.withdraw.five": "FLOWER Token zu MetaMask importieren",
   "wishingWell.sflRewardsReceived": "Du hast {{reward}} FLOWER erhalten!",
   "wishingWell.info.one": "Der Wunschbrunnen ist ein magischer Ort, an dem Sie FLOWER-Prämien erhalten können, indem Sie sich einfach etwas wünschen!",
-  "withdraw.sfl.available": "FLOWER ist auf der Kette verfügbar",
   "withdraw.receive": "Du erhältst: {{sflReceived}} FLOWER",
   "withdraw.taxFree": "Goblins besteuern dich auf FLOWER, die du im Spiel verdient hast. Davon ausgenommen sind Einzahlungen und der Marktplatz.",
   "world.intro.visit": "Besuche NPCs und schließe Lieferungen ab, um BLUMEN, Münzen und seltene Belohnungen zu verdienen.",
@@ -5869,5 +5868,6 @@
   "description.medicApron.boost": "-50% Medizin zur Heilung von Tieren",
   "description.broccoliHat.boost": "-50% Wachstumszeit von Brokkoli",
   "description.redPepperOnesie.boost": "-25% Wachstumszeit für rote Paprika",
-  "deposit.items": "Spielgegenstände hinterlegen"
+  "deposit.items": "Spielgegenstände hinterlegen",
+  "withdraw.sfl.available": "{{flower}} FLOWER kann ausgezahlt werden"
 }

@@ -5504,7 +5504,6 @@
   "transaction.withdraw.five": "Importer le jeton FLOWER dans MetaMask",
   "wishingWell.sflRewardsReceived": "Vous avez reçu {{reward}} FLEUR !",
   "wishingWell.info.one": "Le puits à vœux est un endroit magique où les récompenses FLOWER peuvent être obtenues simplement en faisant un vœu !",
-  "withdraw.sfl.available": "FLOWER est disponible en chaîne",
   "withdraw.receive": "Vous recevrez : {{sflReceived}} FLOWER",
   "withdraw.taxFree": "Les gobelins vous taxent sur les FLEURS gagnées en jeu. Cela exclut les dépôts et le marché.",
   "world.intro.visit": "Rendez visite à des PNJ et effectuez des livraisons pour gagner des FLEURS, des pièces et des récompenses rares.",
@@ -5869,5 +5868,6 @@
   "description.medicApron.boost": "-50% Médicaments pour soigner les animaux",
   "description.broccoliHat.boost": "-50 % de temps de croissance du brocoli",
   "description.redPepperOnesie.boost": "-25 % de temps de croissance du poivron rouge",
-  "deposit.items": "Déposer des objets de jeu"
+  "deposit.items": "Déposer des objets de jeu",
+  "withdraw.sfl.available": "{{flower}} FLOWER est disponible pour le retrait"
 }

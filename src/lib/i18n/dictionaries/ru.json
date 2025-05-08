@@ -5504,7 +5504,6 @@
   "transaction.withdraw.five": "Импорт токена FLOWER в MetaMask",
   "wishingWell.sflRewardsReceived": "Вы получили {{reward}} ЦВЕТОК!",
   "wishingWell.info.one": "Колодец желаний — это волшебное место, где можно получить ЦВЕТОЧНЫЕ награды, просто загадав желание!",
-  "withdraw.sfl.available": "FLOWER доступен в сети",
   "withdraw.receive": "Вы получите: {{sflReceived}} ЦВЕТОК",
   "withdraw.taxFree": "Гоблины облагают вас налогом с цветов, заработанных в игре. Сюда не входят депозиты и рынок.",
   "world.intro.visit": "Посетите NPC и совершайте доставку, чтобы заработать ЦВЕТЫ, монеты и редкие награды.",
@@ -5869,5 +5868,6 @@
   "description.medicApron.boost": "-50% Лекарства для лечения животных",
   "description.broccoliHat.boost": "Время роста брокколи: -50%",
   "description.redPepperOnesie.boost": "Время роста красного перца -25%",
-  "deposit.items": "Депозитные игровые предметы"
+  "deposit.items": "Депозитные игровые предметы",
+  "withdraw.sfl.available": "{{flower}} FLOWER доступен для вывода"
 }

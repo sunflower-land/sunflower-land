@@ -5504,7 +5504,6 @@
   "transaction.withdraw.five": "Impor FLOWER Token ke MetaMask",
   "wishingWell.sflRewardsReceived": "Anda menerima {{reward}} BUNGA!",
   "wishingWell.info.one": "Sumur harapan adalah tempat ajaib di mana hadiah BUNGA dapat dibuat hanya dengan membuat keinginan!",
-  "withdraw.sfl.available": "FLOWER tersedia on-chain",
   "withdraw.receive": "Anda akan menerima: {{sflReceived}} BUNGA",
   "withdraw.taxFree": "Goblin mengenakan pajak atas BUNGA yang diperoleh dalam game. Ini tidak termasuk deposito & pasar.",
   "world.intro.visit": "Kunjungi NPC dan selesaikan pengiriman untuk mendapatkan BUNGA, Koin, dan hadiah langka.",
@@ -5869,5 +5868,6 @@
   "description.medicApron.boost": "-50% Obat untuk menyembuhkan hewan",
   "description.broccoliHat.boost": "-50% Waktu Pertumbuhan Brokoli",
   "description.redPepperOnesie.boost": "-25% Waktu Pertumbuhan Lada Merah",
-  "deposit.items": "Setor Item Game"
+  "deposit.items": "Setor Item Game",
+  "withdraw.sfl.available": "{{flower}} FLOWER tersedia untuk penarikan"
 }

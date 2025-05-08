@@ -5504,7 +5504,6 @@
   "transaction.withdraw.five": "FLOWER Token'i MetaMask'e aktarın",
   "wishingWell.sflRewardsReceived": "{{reward}} ÇIÇEK aldınız!",
   "wishingWell.info.one": "Dilek kuyusu, sadece dilek tutarak ÇIÇEK ödüllerinin yapılabileceği büyülü bir yerdir!",
-  "withdraw.sfl.available": "ÇIÇEK zincirde mevcuttur",
   "withdraw.receive": "Alacaksınız: {{sflReceived}} ÇIÇEK",
   "withdraw.taxFree": "Goblinler oyun içinde kazanılan ÇIÇEK üzerinden sizi vergi alır. Bu, mevduat ve pazarı hariç tutar.",
   "world.intro.visit": "ÇIÇEK, Madeni Paralar ve nadir ödüller kazanmak için NPC'leri ziyaret edin ve teslimatları tamamlayın.",
@@ -5869,5 +5868,6 @@
   "description.medicApron.boost": "-50% Hayvanları iyileştirmek için ilaç",
   "description.broccoliHat.boost": "-50% Brokoli Büyüme Süresi",
   "description.redPepperOnesie.boost": "-25% Kırmızı Biber Büyüme Süresi",
-  "deposit.items": "Oyun Öğelerini Yatırma"
+  "deposit.items": "Oyun Öğelerini Yatırma",
+  "withdraw.sfl.available": "{{flower}} FLOWER para çekilebilir"
 }

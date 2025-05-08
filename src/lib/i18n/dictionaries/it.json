@@ -5504,7 +5504,6 @@
   "transaction.withdraw.five": "Importa FLOWER Token su MetaMask",
   "wishingWell.sflRewardsReceived": "Hai ricevuto {{reward}} FIORE!",
   "wishingWell.info.one": "Il pozzo dei desideri è un luogo magico in cui è possibile ottenere premi FLOREALI semplicemente esprimendo un desiderio!",
-  "withdraw.sfl.available": "FLOWER è disponibile in catena",
   "withdraw.receive": "Riceverai: {{sflReceived}} FIORE",
   "withdraw.taxFree": "I goblin ti tassano sui FIORI guadagnati nel gioco. Sono esclusi i depositi e il marketplace.",
   "world.intro.visit": "Visita gli NPC e completa le consegne per guadagnare FIORI, monete e ricompense rare.",
@@ -5869,5 +5868,6 @@
   "description.medicApron.boost": "-50% Medicina per curare gli animali",
   "description.broccoliHat.boost": "-50% Tempo di crescita dei broccoli",
   "description.redPepperOnesie.boost": "-25% Tempo di crescita del peperone rosso",
-  "deposit.items": "Deposita oggetti di gioco"
+  "deposit.items": "Deposita oggetti di gioco",
+  "withdraw.sfl.available": "{{flower}} FLOWER è disponibile per il ritiro"
 }

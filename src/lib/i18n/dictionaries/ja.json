@@ -5504,7 +5504,6 @@
   "transaction.withdraw.five": "フラワートークンをメタマスクにインポート",
   "wishingWell.sflRewardsReceived": "{{reward}} フラワーを受け取りました！",
   "wishingWell.info.one": "願いの井戸は、願い事をするだけでFLOWERの報酬が作れる魔法の場所です！",
-  "withdraw.sfl.available": "FLOWERはオンチェーンで購入できます",
   "withdraw.receive": "お届けする商品:{{sflReceived}} フラワー",
   "withdraw.taxFree": "ゴブリンはゲーム内で獲得した花に課税します。これにはデポジットとマーケットプレイスは含まれません。",
   "world.intro.visit": "NPCを訪ねて配達を完了すると、花、コイン、レアな報酬を獲得できます。",
@@ -5869,5 +5868,6 @@
   "description.medicApron.boost": "-50% 動物を癒す薬",
   "description.broccoliHat.boost": "-50% ブロッコリーの成長時間",
   "description.redPepperOnesie.boost": "-25% 赤唐辛子の成長時間",
-  "deposit.items": "ゲームアイテムを入金"
+  "deposit.items": "ゲームアイテムを入金",
+  "withdraw.sfl.available": "{{flower}} フラワーは出金可能です"
 }

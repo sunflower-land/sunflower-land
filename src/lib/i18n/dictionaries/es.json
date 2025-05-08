@@ -5504,7 +5504,6 @@
   "transaction.withdraw.five": "Importar FLOWER Token a MetaMask",
   "wishingWell.sflRewardsReceived": "¡Has recibido {{reward}} FLOR!",
   "wishingWell.info.one": "¡El pozo de los deseos es un lugar mágico donde se pueden obtener recompensas de FLORES con solo pedir un deseo!",
-  "withdraw.sfl.available": "FLOWER está disponible en cadena",
   "withdraw.receive": "Recibirás: {{sflReceived}} FLOR",
   "withdraw.taxFree": "Los duendes pagan impuestos por las FLORES que ganes en el juego. Esto excluye los depósitos y el mercado.",
   "world.intro.visit": "Visita a los PNJ y completa las entregas para ganar FLORES, monedas y recompensas raras.",
@@ -5869,5 +5868,6 @@
   "description.medicApron.boost": "-50% Medicina para curar animales",
   "description.broccoliHat.boost": "-50% de tiempo de crecimiento del brócoli",
   "description.redPepperOnesie.boost": "-25% de tiempo de crecimiento del pimiento rojo",
-  "deposit.items": "Deposita objetos del juego"
+  "deposit.items": "Deposita objetos del juego",
+  "withdraw.sfl.available": "{{flower}} FLOWER está disponible para su retirada"
 }

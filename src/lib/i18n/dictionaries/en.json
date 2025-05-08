@@ -3663,7 +3663,7 @@
   "withdraw.verification": "Start Verification",
   "withdraw.sync": "You can only withdraw items that you have synced to the blockchain.",
   "withdraw.available": "Available May 9th",
-  "withdraw.sfl.available": "FLOWER is available on-chain",
+  "withdraw.sfl.available": "{{flower}} FLOWER is available for withdrawal",
   "withdraw.send.wallet": "Sent to your wallet",
   "withdraw.choose": "Choose amount to withdraw",
   "withdraw.receive": "You will receive: {{sflReceived}} FLOWER",

@@ -5504,7 +5504,6 @@
   "transaction.withdraw.five": "将 FLOWER 代币导入 MetaMask",
   "wishingWell.sflRewardsReceived": "你收到了 {{reward}} 枚 FLOWER！",
   "wishingWell.info.one": "许愿井是一个神奇的地方，只要许个愿就可以获得 FLOWER 奖励！",
-  "withdraw.sfl.available": "FLOWER 可在链上使用",
   "withdraw.receive": "您将收到：{{sflReceived}} 枚 FLOWER",
   "withdraw.taxFree": "哥布林会根据游戏中获得的 FLOWER 向你征税。这不包括存款和市场。",
   "world.intro.visit": "拜访 NPC 并完成送货，获得 FLOWER、金币和稀有奖励。",
@@ -5869,5 +5868,6 @@
   "description.medicApron.boost": "-50% 治疗动物的药物",
   "description.broccoliHat.boost": "-50% 西兰花生长时间",
   "description.redPepperOnesie.boost": "-25% 红辣椒生长时间",
-  "deposit.items": "存款游戏物品"
+  "deposit.items": "存款游戏物品",
+  "withdraw.sfl.available": "{{flower}} FLOWER 可供提款"
 }
