@@ -6032,5 +6032,8 @@
   "interactableModals.petalClue.message1": "When the petals are in an orange bloom, a prize appears. Can you find it?",
   "current.timezone": "Current timezone: {{timeZone}}",
   "transaction.whalePack": "Whale pack can only be bought with FLOWER.",
-  "deposit.flower.guide": "To deposit, switch to the {{network}} network in your personal wallet and send FLOWER to the address shown below."
+  "deposit.flower.guide": "To deposit, switch to the {{network}} network in your personal wallet and send FLOWER to the address shown below.",
+  "flower.launch.one": "$FLOWER ERC20 is live on BASE",
+  "flower.launch.two": "Deposits are enabled",
+  "flower.launch.three": "Liquidity rewards and withdrawals starting soon"
 }

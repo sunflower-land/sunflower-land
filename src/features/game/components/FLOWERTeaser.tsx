@@ -36,15 +36,15 @@ export const FLOWERTeaserContent: React.FC = () => {
       <NoticeboardItems
         items={[
           {
-            text: "Buy $FLOWER on Uniswap BASE.",
+            text: t("flower.launch.one"),
             icon: flowerIcon,
           },
           {
-            text: "Deposits are enabled.",
+            text: t("flower.launch.two"),
             icon: SUNNYSIDE.icons.confirm,
           },
           {
-            text: "Liquidity rewards and withdrawals starting soon.",
+            text: t("flower.launch.three"),
             icon: giftIcon,
           },
         ]}
