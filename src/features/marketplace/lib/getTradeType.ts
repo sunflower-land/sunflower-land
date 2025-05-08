@@ -1486,6 +1486,7 @@ export const ITEM_TRADE_TYPES: {
     "Love Charm Shirt": "instant",
     "Sky Island Background": "onchain",
     "Oracle Syringe": "instant",
+    "Coin Head": "instant",
   },
 };
 
