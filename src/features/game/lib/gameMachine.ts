@@ -818,8 +818,6 @@ export function startGame(authContext: AuthContext) {
               target: "FLOWERTeaser",
               cond: () => {
                 const lastRead = getFLOWERTeaserLastRead();
-                // Testing
-                return true;
 
                 if (!lastRead) return true;
 
