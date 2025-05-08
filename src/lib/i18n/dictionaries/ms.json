@@ -5864,5 +5864,9 @@
   "season.codex.auction.chapterSupply": "Bekalan Bab: {{chapterSupply}}",
   "season.codex.auction.chapterSupply.description": "Beberapa bekalan mungkin dikhaskan untuk acara atau bab masa depan.",
   "transaction.whalePack": "Pek ikan paus hanya boleh dibeli dengan FLOWER.",
-  "deposit.flower.guide": "Untuk membuat deposit, beralih ke rangkaian {{network}} di dompet peribadi anda dan hantar FLOWER ke alamat yang ditunjukkan di bawah."
+  "deposit.flower.guide": "Untuk membuat deposit, beralih ke rangkaian {{network}} di dompet peribadi anda dan hantar FLOWER ke alamat yang ditunjukkan di bawah.",
+  "twitter.post.flower": "Raikan pelancaran $FLOWER! 5 pemenang setiap minggu akan dipilih untuk memenangi tambahan 100 $FLOWER!",
+  "flower.launch.one": "$FLOWER ERC20 adalah langsung di BASE",
+  "flower.launch.two": "Deposit diaktifkan",
+  "flower.launch.three": "Ganjaran dan pengeluaran kecairan bermula tidak lama lagi"
 }

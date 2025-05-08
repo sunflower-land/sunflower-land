@@ -5864,5 +5864,9 @@
   "season.codex.auction.chapterSupply": "Pasokan Bab: {{chapterSupply}}",
   "season.codex.auction.chapterSupply.description": "Beberapa persediaan mungkin dicadangkan untuk acara atau bab-babak mendatang.",
   "transaction.whalePack": "Paket paus hanya dapat dibeli dengan FLOWER.",
-  "deposit.flower.guide": "Untuk menyetor, beralih ke jaringan {{network}} di dompet pribadi Anda dan kirim FLOWER ke alamat yang ditunjukkan di bawah ini."
+  "deposit.flower.guide": "Untuk menyetor, beralih ke jaringan {{network}} di dompet pribadi Anda dan kirim FLOWER ke alamat yang ditunjukkan di bawah ini.",
+  "twitter.post.flower": "Rayakan peluncuran $FLOWER! 5 pemenang setiap minggu akan dipilih untuk memenangkan tambahan $100 FLOWER!",
+  "flower.launch.one": "$FLOWER ERC20 sedang tayang di BASE",
+  "flower.launch.two": "Setoran diaktifkan",
+  "flower.launch.three": "Imbalan dan penarikan likuiditas segera dimulai"
 }

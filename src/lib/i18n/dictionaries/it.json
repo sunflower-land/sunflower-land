@@ -5864,5 +5864,9 @@
   "season.codex.auction.chapterSupply": "Fornitura del capitolo: {{chapterSupply}}",
   "season.codex.auction.chapterSupply.description": "Alcune forniture potrebbero essere riservate per eventi o capitoli futuri.",
   "transaction.whalePack": "Il pacchetto Whale può essere acquistato solo con FLOWER.",
-  "deposit.flower.guide": "Per depositare, passa alla rete {{network}} nel tuo portafoglio personale e invia FLOWER all'indirizzo indicato di seguito."
+  "deposit.flower.guide": "Per depositare, passa alla rete {{network}} nel tuo portafoglio personale e invia FLOWER all'indirizzo indicato di seguito.",
+  "twitter.post.flower": "Festeggia il lancio di $FLOWER! Verranno scelti 5 vincitori ogni settimana per vincere altri 100 $FLOWER!",
+  "flower.launch.one": "$FLOWER ERC20 è in diretta su BASE",
+  "flower.launch.two": "I depositi sono abilitati",
+  "flower.launch.three": "Premi e prelievi di liquidità a breve"
 }

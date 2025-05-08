@@ -5864,5 +5864,9 @@
   "season.codex.auction.chapterSupply": "Поставка главы: {{chapterSupply}}",
   "season.codex.auction.chapterSupply.description": "Некоторые материалы можно зарезервировать для будущих мероприятий или глав.",
   "transaction.whalePack": "Набор «Кит» можно купить только вместе с FLOWER.",
-  "deposit.flower.guide": "Чтобы внести депозит, переключитесь на сеть {{network}} в своем личном кошельке и отправьте FLOWER по указанному ниже адресу."
+  "deposit.flower.guide": "Чтобы внести депозит, переключитесь на сеть {{network}} в своем личном кошельке и отправьте FLOWER по указанному ниже адресу.",
+  "twitter.post.flower": "Отпразднуйте запуск $FLOWER! Каждую неделю будут выбраны 5 победителей, которые получат дополнительные 100 долларов FLOWER!",
+  "flower.launch.one": "$FLOWER ERC20 уже доступен на BASE",
+  "flower.launch.two": "Депозиты разрешены",
+  "flower.launch.three": "Вознаграждение за ликвидность и вывод средств скоро начнутся"
 }

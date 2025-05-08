@@ -5864,5 +5864,9 @@
   "season.codex.auction.chapterSupply": "Bölüm Arzı: {{chapterSupply}}",
   "season.codex.auction.chapterSupply.description": "Bazı sarf malzemeleri gelecekteki etkinlikler veya bölümler için ayrılmış olabilir.",
   "transaction.whalePack": "Balina paketi sadece FLOWER ile satın alınabilir.",
-  "deposit.flower.guide": "Para yatırmak için kişisel cüzdanınızdaki {{network}} ağına geçin ve FLOWER'ı aşağıda gösterilen adrese gönderin."
+  "deposit.flower.guide": "Para yatırmak için kişisel cüzdanınızdaki {{network}} ağına geçin ve FLOWER'ı aşağıda gösterilen adrese gönderin.",
+  "twitter.post.flower": "$FLOWER'ın lansmanını kutlayın! Her hafta 5 kazanan ekstra 100$ ÇIÇEK kazanmak için seçilecek!",
+  "flower.launch.one": "$FLOWER ERC20 BASE'de Yayında",
+  "flower.launch.two": "Para yatırma etkinleştirildi",
+  "flower.launch.three": "Likidite ödülleri ve para çekme işlemleri yakında başlıyor"
 }
