@@ -26,6 +26,7 @@ import { TextInput } from "components/ui/TextInput";
 const TWITTER_POST_DESCRIPTIONS: Record<TwitterPostName, TranslationKeys> = {
   FARM: "twitter.post.farm",
   WEEKLY: "twitter.post.weekly",
+  FLOWER: "twitter.post.flower",
 };
 
 export const Twitter: React.FC<{ onClose: () => void }> = ({ onClose }) => (
@@ -319,6 +320,17 @@ const TwitterFarm: React.FC = () => {
 };
 
 const TwitterWeekly: React.FC = () => {
+  return <TwitterBanner type="progress" postName="WEEKLY" />;
+};
+
+const TwitterFlower: React.FC = () => {
+  return <TwitterBanner type="flower" postName="FLOWER" />;
+};
+
+const TwitterBanner: React.FC<{
+  type: "progress" | "flower";
+  postName: TwitterPostName;
+}> = ({ type, postName }) => {
   const { authService } = useContext(AuthProvider.Context);
   const [authState] = useActor(authService);
   const { gameState } = useGame();
@@ -330,13 +342,14 @@ const TwitterWeekly: React.FC = () => {
 
   // In last 7 days
   const hasCompleted =
-    (twitter?.tweets?.WEEKLY?.completedAt ?? 0) >
+    (twitter?.tweets?.[postName]?.completedAt ?? 0) >
     Date.now() - 7 * 24 * 60 * 60 * 1000;
 
   useEffect(() => {
     const load = async () => {
       const data = await getBumpkinBanner(
         authState.context.user.rawToken as string,
+        type,
       );
       setImage(data.url);
     };
@@ -380,13 +393,13 @@ const TwitterWeekly: React.FC = () => {
             <div className="flex gap-1">
               {
                 // Loop through rewards and give label
-                getKeys(TWITTER_REWARDS.WEEKLY.items).map((name) => (
+                getKeys(TWITTER_REWARDS[postName].items).map((name) => (
                   <Label
                     type="warning"
                     key={name}
                     icon={ITEM_DETAILS[name].image}
                   >
-                    {`${name} x ${TWITTER_REWARDS.WEEKLY.items[name]}`}
+                    {`${name} x ${TWITTER_REWARDS[postName].items[name]}`}
                   </Label>
                 ))
               }
@@ -410,7 +423,7 @@ const TwitterWeekly: React.FC = () => {
 
       <p className="text-xs mx-1 my-1">
         {t("twitter.weekly.instructions.1", {
-          hashtag: TWITTER_HASHTAGS.WEEKLY,
+          hashtag: TWITTER_HASHTAGS[postName],
         })}
       </p>
       <p className="text-xs mx-1 mb-2">{t("twitter.weekly.instructions.2")}</p>
@@ -421,4 +434,5 @@ const TwitterWeekly: React.FC = () => {
 const TWITTER_COMPONENTS: Record<TwitterPostName, React.FC> = {
   FARM: TwitterFarm,
   WEEKLY: TwitterWeekly,
+  FLOWER: TwitterFlower,
 };

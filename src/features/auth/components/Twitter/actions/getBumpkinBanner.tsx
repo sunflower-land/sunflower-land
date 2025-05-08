@@ -2,8 +2,9 @@ import { CONFIG } from "lib/config";
 
 export const getBumpkinBanner = async (
   token: string,
+  type: "flower" | "progress",
 ): Promise<{ url: string }> => {
-  const res = await fetch(`${CONFIG.API_URL}/banner/progress`, {
+  const res = await fetch(`${CONFIG.API_URL}/banner/${type}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },
