@@ -16,6 +16,10 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { NumberInput } from "components/ui/NumberInput";
 import { Label } from "components/ui/Label";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
+import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
+import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
+import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
+import { hasFeatureAccess } from "lib/flags";
 
 const WITHDRAWAL_THRESHOLD = {
   "2025-05-08T00:00:00.000Z": 0.25,
@@ -73,16 +77,17 @@ export const WithdrawFlower: React.FC<Props> = ({ onWithdraw }) => {
     reputation: Reputation.Grower,
   });
 
-  // if (!hasAccess) {
-  //   return <RequiredReputation reputation={Reputation.Grower} />;
-  // }
+  if (!hasAccess) {
+    return <RequiredReputation reputation={Reputation.Grower} />;
+  }
 
-  // if (
-  //   hasFeatureAccess(state, "FACE_RECOGNITION") &&
-  //   !isFaceVerified({ game: state })
-  // ) {
-  //   return <FaceRecognition />;
-  // }
+  if (
+    hasFeatureAccess(state, "FACE_RECOGNITION") &&
+    !isFaceVerified({ game: state })
+  ) {
+    return <FaceRecognition />;
+  }
+
   const disableWithdraw = amount.greaterThan(balance) || amount.lessThan(0);
 
   return (
