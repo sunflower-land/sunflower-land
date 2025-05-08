@@ -120,6 +120,11 @@ const FEATURE_FLAGS = {
   FLOWER_BOXES: betaTimeBasedFeatureFlag(new Date("2025-05-01T00:00:00Z")),
 
   MEGA_BOUNTIES: betaTimeBasedFeatureFlag(new Date("2025-05-05T00:00:00Z")),
+
+  WITHDRAWAL_THRESHOLD: timePeriodFeatureFlag({
+    start: new Date("2025-05-08T00:00:00Z"),
+    end: new Date("2025-06-20T00:00:00.000Z"),
+  }),
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;

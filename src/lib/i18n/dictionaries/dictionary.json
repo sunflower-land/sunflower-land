@@ -3678,6 +3678,7 @@
   "withdraw.bumpkin.wearing": "Your Bumpkin is currently wearing the following item(s) that can't be withdrawn. You will need to unequip them before you can withdraw.",
   "withdraw.buds": "Select Buds to withdraw",
   "withdraw.budRestricted": "Used in today's bud box",
+  "withdraw.flower.limited": "During the initial launch of $FLOWER, the amount of $FLOWER you can withdraw is limited.",
   "world.lvl.requirement": "Lvl {{lvl}}",
   "world.factionMembersOnly": "Faction members only",
   "world.newArea": "New",

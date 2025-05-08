@@ -93,14 +93,17 @@ export const WithdrawFlower: React.FC<Props> = ({ onWithdraw }) => {
   return (
     <>
       <div className="p-2 mb-2">
-        <Label type="default" className="-ml-0.5">
-          {t("withdraw.choose")}
-        </Label>
-        <p className="text-xs mt-2">
-          {t("withdraw.sfl.available", {
-            flower: formatNumber(balance, { decimalPlaces: 4 }),
-          })}
-        </p>
+        <div className="flex flex-col items-start gap-2">
+          <Label type="default">{t("withdraw.choose")}</Label>
+          {hasFeatureAccess(state, "WITHDRAWAL_THRESHOLD") && (
+            <Label type="warning">{t("withdraw.flower.limited")}</Label>
+          )}
+          <p className="text-xs">
+            {t("withdraw.sfl.available", {
+              flower: formatNumber(balance, { decimalPlaces: 4 }),
+            })}
+          </p>
+        </div>
 
         <div>
           <div className="flex items-center mt-2 -ml-1">
