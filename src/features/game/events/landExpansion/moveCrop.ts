@@ -44,6 +44,7 @@ export function isLocked(
 
   const cropName = crop.name;
   const cropDetails = CROPS[cropName];
+  const cropPlotDimensions = RESOURCE_DIMENSIONS["Crop Plot"];
 
   if (isReadyToHarvest(createdAt, crop, cropDetails)) return false;
 
@@ -62,7 +63,7 @@ export function isLocked(
     const plotPosition: Position = {
       x: plot?.x,
       y: plot?.y,
-      ...RESOURCE_DIMENSIONS["Crop Plot"],
+      ...cropPlotDimensions,
     };
 
     if (
@@ -92,7 +93,7 @@ export function isLocked(
     const plotPosition: Position = {
       x: plot?.x,
       y: plot?.y,
-      ...RESOURCE_DIMENSIONS["Crop Plot"],
+      ...cropPlotDimensions,
     };
 
     if (
@@ -124,7 +125,7 @@ export function isLocked(
     const plotPosition: Position = {
       x: plot?.x,
       y: plot?.y,
-      ...RESOURCE_DIMENSIONS["Crop Plot"],
+      ...cropPlotDimensions,
     };
 
     if (
@@ -153,7 +154,7 @@ export function isLocked(
     const plotPosition: Position = {
       x: plot?.x,
       y: plot?.y,
-      ...RESOURCE_DIMENSIONS["Crop Plot"],
+      ...cropPlotDimensions,
     };
 
     if (
@@ -185,7 +186,7 @@ export function isLocked(
     const plotPosition: Position = {
       x: plot?.x,
       y: plot?.y,
-      ...RESOURCE_DIMENSIONS["Crop Plot"],
+      ...cropPlotDimensions,
     };
 
     if (isWithinAOE("Gnome", gnomePosition, plotPosition, bumpkin.skills)) {
@@ -207,7 +208,7 @@ export function isLocked(
     const plotPosition: Position = {
       x: plot?.x,
       y: plot?.y,
-      ...RESOURCE_DIMENSIONS["Crop Plot"],
+      ...cropPlotDimensions,
     };
 
     if (isWithinAOE("Queen Cornelia", position, plotPosition, bumpkin.skills)) {

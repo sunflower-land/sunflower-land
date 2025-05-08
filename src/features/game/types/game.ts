@@ -1393,11 +1393,9 @@ export type Calendar = Partial<Record<SeasonalEventName, CalendarEvent>> & {
 
 export type LavaPit = {
   createdAt: number;
-  x: number;
-  y: number;
   startedAt?: number;
   collectedAt?: number;
-};
+} & Coordinates;
 
 export type VIP = {
   bundles: { name: VipBundle; boughtAt: number }[];
