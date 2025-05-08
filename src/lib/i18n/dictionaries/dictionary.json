@@ -6035,5 +6035,6 @@
   "deposit.flower.guide": "To deposit, switch to the {{network}} network in your personal wallet and send FLOWER to the address shown below.",
   "flower.launch.one": "$FLOWER ERC20 is live on BASE",
   "flower.launch.two": "Deposits are enabled",
-  "flower.launch.three": "Liquidity rewards and withdrawals starting soon"
+  "flower.launch.three": "Liquidity rewards and withdrawals starting soon",
+  "deposit.items": "Deposit Game Items"
 }
