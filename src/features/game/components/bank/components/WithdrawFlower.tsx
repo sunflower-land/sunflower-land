@@ -21,6 +21,13 @@ import { isFaceVerified } from "features/retreat/components/personhood/lib/faceR
 import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
 import { hasFeatureAccess } from "lib/flags";
 
+const WITHDRAWAL_THRESHOLD = {
+  "2025-05-08T00:00:00.000Z": 0.25,
+  "2025-05-23T00:00:00.000Z": 0.5,
+  "2025-06-06T00:00:00.000Z": 0.75,
+  "2025-06-20T00:00:00.000Z": 1,
+};
+
 interface Props {
   onWithdraw: (sfl: string) => void;
 }
@@ -37,10 +44,16 @@ export const WithdrawFlower: React.FC<Props> = ({ onWithdraw }) => {
   const [amount, setAmount] = useState<Decimal>(new Decimal(0));
   const [tax, setTax] = useState(0);
 
-  // use whichever is lowest (current game state or on chain)
-  const balance = state.previousBalance.lessThan(state.balance)
-    ? state.previousBalance
-    : state.balance;
+  const { balance: flowerBalance, withdrawals = { amount: 0 } } = state;
+  const totalCurrentBalance = flowerBalance.add(withdrawals.amount);
+  const threshold = Object.entries(WITHDRAWAL_THRESHOLD).find(([key]) => {
+    return new Date(key) <= new Date();
+  })?.[1];
+  const thresholdAmount = totalCurrentBalance.mul(threshold ?? 0);
+
+  const balance = new Decimal(
+    Math.max(0, thresholdAmount.sub(withdrawals.amount).toNumber()),
+  );
 
   useEffect(() => {
     const _tax = getTax({
@@ -84,26 +97,27 @@ export const WithdrawFlower: React.FC<Props> = ({ onWithdraw }) => {
           {t("withdraw.choose")}
         </Label>
         <p className="text-xs mt-2">
-          {formatNumber(balance, { decimalPlaces: 4 })}{" "}
-          {t("withdraw.sfl.available")}
+          {t("withdraw.sfl.available", {
+            flower: formatNumber(balance, { decimalPlaces: 4 }),
+          })}
         </p>
 
         <div>
           <div className="flex items-center mt-2 -ml-1">
             <NumberInput
               value={amount}
-              maxDecimalPlaces={0}
+              maxDecimalPlaces={4}
               isOutOfRange={disableWithdraw}
               onValueChange={setAmount}
             />
             <Button
-              onClick={() => setAmount(setPrecision(balance.mul(0.5), 0))}
+              onClick={() => setAmount(setPrecision(balance.mul(0.5), 4))}
               className="ml-2 px-1 py-1 w-auto h-9"
             >
               {`50%`}
             </Button>
             <Button
-              onClick={() => setAmount(setPrecision(balance, 0))}
+              onClick={() => setAmount(setPrecision(balance, 4))}
               className="ml-2 px-1 py-1 w-auto h-9"
             >
               {t("max")}
