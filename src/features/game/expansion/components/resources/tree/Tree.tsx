@@ -141,8 +141,9 @@ export const Tree: React.FC<Props> = ({ id }) => {
     if (!hasTool) return;
 
     setTouchCount((count) => count + 1);
-    if (!isCollectibleBuilt({ name: "Foreman Beaver", game }))
+    if (!isCollectibleBuilt({ name: "Foreman Beaver", game })) {
       shortcutItem(tool);
+    }
 
     if (game.bumpkin.skills["Insta-Chop"]) {
       // insta-chop the tree

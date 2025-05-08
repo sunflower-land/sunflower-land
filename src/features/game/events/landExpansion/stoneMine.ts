@@ -2,7 +2,10 @@ import Decimal from "decimal.js-light";
 import { STONE_RECOVERY_TIME } from "features/game/lib/constants";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { GameState, Rock, Skills } from "../../types/game";
-import { isCollectibleActive } from "features/game/lib/collectibleBuilt";
+import {
+  isCollectibleActive,
+  isCollectibleBuilt,
+} from "features/game/lib/collectibleBuilt";
 import { produce } from "immer";
 
 export type LandExpansionStoneMineAction = {
@@ -61,6 +64,14 @@ export function getMinedAt({
   return createdAt - buff * 1000;
 }
 
+export function getRequiredPickaxeAmount(gameState: GameState) {
+  if (isCollectibleBuilt({ name: "Quarry", game: gameState })) {
+    return new Decimal(0);
+  }
+
+  return new Decimal(1);
+}
+
 export function mineStone({
   state,
   action,
@@ -83,9 +94,10 @@ export function mineStone({
     }
 
     const toolAmount = stateCopy.inventory["Pickaxe"] || new Decimal(0);
+    const requiredToolAmount = getRequiredPickaxeAmount(stateCopy);
 
-    if (toolAmount.lessThan(1)) {
-      throw new Error("No pickaxes left");
+    if (toolAmount.lessThan(requiredToolAmount)) {
+      throw new Error("Not enough pickaxes");
     }
 
     const stoneMined = rock.stone.amount;
@@ -100,7 +112,7 @@ export function mineStone({
       amount: 2,
     };
 
-    stateCopy.inventory.Pickaxe = toolAmount.sub(1);
+    stateCopy.inventory.Pickaxe = toolAmount.sub(requiredToolAmount);
     stateCopy.inventory.Stone = amountInInventory.add(stoneMined);
 
     bumpkin.activity = trackActivity("Stone Mined", bumpkin.activity);
