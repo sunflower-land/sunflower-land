@@ -30,7 +30,7 @@ import vipIcon from "assets/icons/vip.webp";
 import gemIcon from "assets/icons/gem.webp";
 import walletIcon from "assets/icons/wallet.png";
 import exchangeIcon from "assets/icons/exchange.png";
-import { hasFeatureAccess } from "lib/flags";
+
 type TransactionPage = "menu" | "deposit" | "vip" | "gems" | "swap";
 
 type PageButtonOptions = {
@@ -94,18 +94,11 @@ export const CurrenciesModal: React.FC<Props> = ({ show, onClose }) => {
       icon: vipIcon,
       label: t("season.vip.purchase"),
     },
-    ...(hasFeatureAccess(
-      gameService.getSnapshot().context.state,
-      "FLOWER_DEPOSIT",
-    )
-      ? {
-          deposit: {
-            page: "deposit",
-            icon: flowerIcon,
-            label: t("transaction.deposit.flower"),
-          },
-        }
-      : {}),
+    deposit: {
+      page: "deposit",
+      icon: flowerIcon,
+      label: t("transaction.deposit.flower"),
+    },
     swap: {
       page: "swap",
       icon: exchangeIcon,
