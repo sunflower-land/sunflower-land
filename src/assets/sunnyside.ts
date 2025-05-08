@@ -57,6 +57,7 @@ export const SUNNYSIDE = {
     loveRush: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/love_rush.webp`,
     roninBanner: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/ronin_banner.png`,
     flowerBanner: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/flower_banner.png`,
+    rocketFlower: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/rocket_flower.webp`,
     summer: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/summer_banner.webp`,
     winter: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/winter_banner.webp`,
     spring: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/spring_banner.webp`,

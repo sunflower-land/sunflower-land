@@ -821,20 +821,11 @@ export function startGame(authContext: AuthContext) {
 
                 if (!lastRead) return true;
 
-                const march31st2025 = new Date("2025-03-31").getTime();
-                const dateNow = Date.now();
-                const account = getAccount(config);
-                const accountConnectorName = account?.connector?.name;
-                const sevenDaysInMs = 7 * 24 * 60 * 60 * 1000;
-
-                // Show teaser if:
-                // 1. Player is using Ronin wallet
-                // 2. Current date is before March 31st 2025
-                // 3. Player has read teaser before AND it's been 7+ days since last read
-                return (
-                  dateNow < march31st2025 &&
-                  dateNow - (lastRead?.getTime() ?? 0) > sevenDaysInMs
-                );
+                // If read in last 3 days, don't show
+                if (lastRead.getTime() > Date.now() - 3 * 24 * 60 * 60 * 1000) {
+                  return false;
+                }
+                return true;
               },
             },
 
