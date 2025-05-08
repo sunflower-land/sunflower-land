@@ -47,9 +47,9 @@ export const WithdrawFlower: React.FC<Props> = ({ onWithdraw }) => {
   })?.[1];
   const thresholdAmount = totalCurrentBalance.mul(threshold ?? 0);
 
-  const balance = thresholdAmount.lte(withdrawals.amount)
-    ? new Decimal(0)
-    : thresholdAmount.sub(withdrawals.amount);
+  const balance = new Decimal(
+    Math.max(0, thresholdAmount.sub(withdrawals.amount).toNumber()),
+  );
 
   useEffect(() => {
     const _tax = getTax({
