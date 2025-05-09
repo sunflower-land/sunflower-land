@@ -136,6 +136,7 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
     },
   }) as unknown as MMOMachineInterpreter;
   const [mmoState] = useActor(mmoService);
+  mmoService.onStop(() => mmoState.context.server?.leave());
 
   useEffect(() => {
     if (
