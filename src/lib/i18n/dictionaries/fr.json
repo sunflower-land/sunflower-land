@@ -5869,5 +5869,6 @@
   "description.broccoliHat.boost": "-50 % de temps de croissance du brocoli",
   "description.redPepperOnesie.boost": "-25 % de temps de croissance du poivron rouge",
   "deposit.items": "Déposer des objets de jeu",
-  "withdraw.sfl.available": "{{flower}} FLOWER est disponible pour le retrait"
+  "withdraw.sfl.available": "{{flower}} FLOWER est disponible pour le retrait",
+  "withdraw.flower.limited": "Lors du lancement initial de $FLOWER, le montant de $FLOWER que vous pouvez retirer est limité."
 }

@@ -5869,5 +5869,6 @@
   "description.broccoliHat.boost": "-50% ブロッコリーの成長時間",
   "description.redPepperOnesie.boost": "-25% 赤唐辛子の成長時間",
   "deposit.items": "ゲームアイテムを入金",
-  "withdraw.sfl.available": "{{flower}} フラワーは出金可能です"
+  "withdraw.sfl.available": "{{flower}} フラワーは出金可能です",
+  "withdraw.flower.limited": "$FLOWERの最初のローンチ時には、引き出すことができる$FLOWERの金額には制限があります。"
 }

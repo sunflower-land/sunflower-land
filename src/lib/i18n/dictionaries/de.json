@@ -5869,5 +5869,6 @@
   "description.broccoliHat.boost": "-50% Wachstumszeit von Brokkoli",
   "description.redPepperOnesie.boost": "-25% Wachstumszeit für rote Paprika",
   "deposit.items": "Spielgegenstände hinterlegen",
-  "withdraw.sfl.available": "{{flower}} FLOWER kann ausgezahlt werden"
+  "withdraw.sfl.available": "{{flower}} FLOWER kann ausgezahlt werden",
+  "withdraw.flower.limited": "Beim ersten Start von $FLOWER ist der Betrag von $FLOWER, den Sie abheben können, begrenzt."
 }

@@ -5869,5 +5869,6 @@
   "description.broccoliHat.boost": "-50% Waktu Pertumbuhan Brokoli",
   "description.redPepperOnesie.boost": "-25% Waktu Pertumbuhan Lada Merah",
   "deposit.items": "Setor Item Game",
-  "withdraw.sfl.available": "{{flower}} FLOWER tersedia untuk penarikan"
+  "withdraw.sfl.available": "{{flower}} FLOWER tersedia untuk penarikan",
+  "withdraw.flower.limited": "Selama peluncuran awal $FLOWER, jumlah $FLOWER yang dapat Anda tarik terbatas."
 }

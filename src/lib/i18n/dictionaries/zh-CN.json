@@ -5869,5 +5869,6 @@
   "description.broccoliHat.boost": "-50% 西兰花生长时间",
   "description.redPepperOnesie.boost": "-25% 红辣椒生长时间",
   "deposit.items": "存款游戏物品",
-  "withdraw.sfl.available": "{{flower}} FLOWER 可供提款"
+  "withdraw.sfl.available": "{{flower}} FLOWER 可供提款",
+  "withdraw.flower.limited": "在首次推出$FLOWER期间，您可以提取的$FLOWER金额是有限的。"
 }

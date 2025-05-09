@@ -5869,5 +5869,6 @@
   "description.broccoliHat.boost": "Время роста брокколи: -50%",
   "description.redPepperOnesie.boost": "Время роста красного перца -25%",
   "deposit.items": "Депозитные игровые предметы",
-  "withdraw.sfl.available": "{{flower}} FLOWER доступен для вывода"
+  "withdraw.sfl.available": "{{flower}} FLOWER доступен для вывода",
+  "withdraw.flower.limited": "При первоначальном запуске $FLOWER сумма в долларах США, которую вы можете снять, ограничена."
 }

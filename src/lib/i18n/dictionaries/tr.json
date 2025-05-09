@@ -5869,5 +5869,6 @@
   "description.broccoliHat.boost": "-50% Brokoli Büyüme Süresi",
   "description.redPepperOnesie.boost": "-25% Kırmızı Biber Büyüme Süresi",
   "deposit.items": "Oyun Öğelerini Yatırma",
-  "withdraw.sfl.available": "{{flower}} FLOWER para çekilebilir"
+  "withdraw.sfl.available": "{{flower}} FLOWER para çekilebilir",
+  "withdraw.flower.limited": "$FLOWER'ın ilk lansmanı sırasında, çekebileceğiniz $FLOWER miktarı sınırlıdır."
 }

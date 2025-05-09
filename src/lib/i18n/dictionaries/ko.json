@@ -5869,5 +5869,6 @@
   "description.broccoliHat.boost": "-50% 브로콜리 성장 시간",
   "description.redPepperOnesie.boost": "-25% 레드 페퍼 성장 시간",
   "deposit.items": "게임 아이템 입금",
-  "withdraw.sfl.available": "{{flower}} 꽃은 출금이 가능합니다"
+  "withdraw.sfl.available": "{{flower}} 꽃은 출금이 가능합니다",
+  "withdraw.flower.limited": "$FLOWER의 최초 출시 기간 동안 인출할 수 있는 $FLOWER 금액은 제한되어 있습니다."
 }
