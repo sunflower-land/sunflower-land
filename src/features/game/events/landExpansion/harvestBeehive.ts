@@ -38,29 +38,32 @@ export const calculateSwarmBoost = (amount: number, game: GameState) => {
   return boost;
 };
 
-const applySwarmBoostToCrops = (state: GameState): GameState["crops"] => {
+const applySwarmBoostToCrops = (
+  state: GameState,
+  createdAt: number,
+): GameState["crops"] => {
   const { crops } = state;
 
   return getKeys(crops).reduce(
     (acc, cropId) => {
       const cropPlot = crops[cropId];
+      const updatedPlot = { ...cropPlot };
 
       if (cropPlot.crop) {
-        const amount = cropPlot.crop.amount;
-
-        return {
-          ...acc,
-          [cropId]: {
-            ...cropPlot,
-            crop: {
-              ...cropPlot.crop,
-              amount: calculateSwarmBoost(amount, state),
-            },
-          },
+        updatedPlot.crop = {
+          ...cropPlot.crop,
+          amount: calculateSwarmBoost(cropPlot.crop.amount, state),
         };
       }
+      updatedPlot.beeSwarm = {
+        noOfSwarms: (cropPlot.beeSwarm?.noOfSwarms ?? 0) + 1,
+        swarmActivatedAt: createdAt,
+      };
 
-      return { ...acc, [cropId]: cropPlot };
+      return {
+        ...acc,
+        [cropId]: updatedPlot,
+      };
     },
     {} as GameState["crops"],
   );
@@ -133,7 +136,7 @@ export function harvestBeehive({
     // If the beehive is full, check, apply and update swarm
     if (isFull) {
       if (stateCopy.beehives[action.id].swarm) {
-        stateCopy.crops = applySwarmBoostToCrops(stateCopy);
+        stateCopy.crops = applySwarmBoostToCrops(stateCopy, createdAt);
       }
 
       // Actual value updated on the server
