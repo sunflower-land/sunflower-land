@@ -81,8 +81,6 @@ describe("collectLavaPit", () => {
           1: {
             x: 0,
             y: 0,
-            width: 2,
-            height: 2,
             startedAt: now - 36 * 60 * 60 * 1000,
             createdAt: 0,
           },
@@ -129,7 +127,7 @@ describe("collectLavaPit", () => {
           ],
         },
         lavaPits: {
-          1: { x: 0, y: 0, width: 2, height: 2, startedAt: 0, createdAt: 0 },
+          1: { x: 0, y: 0, startedAt: 0, createdAt: 0 },
         },
       },
       action: { type: "lavaPit.collected", id: "1" },
