@@ -9,6 +9,7 @@ import { Bar, LiveProgressBar } from "components/ui/ProgressBar";
 import powerup from "assets/icons/level_up.png";
 import locust from "assets/icons/locust.webp";
 import sunshower from "assets/icons/sunshower.webp";
+import bee from "assets/icons/bee.webp";
 
 import { TimerPopover } from "../../common/TimerPopover";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
@@ -166,6 +167,19 @@ const FertilePlotComponent: React.FC<Props> = ({
             width: `${PIXEL_SCALE * 6}px`,
             bottom: `${PIXEL_SCALE * 9}px`,
             right: `${PIXEL_SCALE * 0}px`,
+          }}
+        />
+      )}
+
+      {/* Bee Swarm */}
+      {plot.beeSwarm && (
+        <img
+          className="absolute z-10 pointer-events-none"
+          src={bee}
+          style={{
+            width: `${PIXEL_SCALE * 10}px`,
+            top: `${PIXEL_SCALE * -4}px`,
+            left: `${PIXEL_SCALE * -3}px`,
           }}
         />
       )}

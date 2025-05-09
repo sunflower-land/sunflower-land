@@ -23,6 +23,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     expiresAt: Date.now() + 31 * 24 * 60 * 60 * 1000,
   },
   inventory: {
+    "Crop Plot": new Decimal(66),
     "Love Charm": new Decimal(1000),
     "Great Bloom Banner": new Decimal(1),
     "Winds of Change Banner": new Decimal(1),
