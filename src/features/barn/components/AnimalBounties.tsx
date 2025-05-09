@@ -241,7 +241,7 @@ export const AnimalDeal: React.FC<{
                 </Label>
               )}
 
-              {getKeys(deal.items ?? {}).map((name) => {
+              {getKeys(deal.items ?? {}).map((name) => (
                 <Label
                   key={name}
                   type="warning"
@@ -253,8 +253,8 @@ export const AnimalDeal: React.FC<{
                         game: state,
                         bounty: deal,
                       })}
-                </Label>;
-              })}
+                </Label>
+              ))}
             </div>
 
             <p>
@@ -317,11 +317,11 @@ export const ExchangeHud: React.FC<{
               </Label>
             )}
 
-            {getKeys(deal.items ?? {}).map((name) => {
+            {getKeys(deal.items ?? {}).map((name) => (
               <Label key={name} type="warning" icon={ITEM_DETAILS[name].image}>
                 {deal.items?.[name]}
-              </Label>;
-            })}
+              </Label>
+            ))}
           </div>
           <p className="text-xs">
             {t("bounties.animal.select", { name: deal.name })}

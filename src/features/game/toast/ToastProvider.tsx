@@ -1,4 +1,4 @@
-import React, { FC, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import Decimal from "decimal.js-light";
 import { randomID } from "lib/utils/random";
 import { createContext } from "react";
@@ -83,7 +83,9 @@ const TOAST_TIMEOUT_MS = 5000;
 /**
  * The toast provider for setting the toast list for the toast panel.
  */
-export const ToastProvider: FC = ({ children }) => {
+export const ToastProvider: React.FC<React.PropsWithChildren> = ({
+  children,
+}) => {
   const [toastsList, setToastsList] = useState<Toast[]>([]);
 
   const oldInventory = useRef<Partial<Record<InventoryItemName, Decimal>>>();

@@ -1,5 +1,5 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
 import { App } from "./App";
 import { CONFIG } from "lib/config";
 import { PortalApp } from "features/portal/PortalApp";
@@ -7,18 +7,20 @@ import "lib/firebase";
 
 // TODO - tree shaking to minimise bundle size
 if (CONFIG.PORTAL_APP) {
-  ReactDOM.render(
+  const rootElement = document.getElementById("root")!;
+  const root = createRoot(rootElement);
+  root.render(
     <React.StrictMode>
       <PortalApp />
     </React.StrictMode>,
-    document.getElementById("root"),
   );
 } else {
   // Main Game
-  ReactDOM.render(
+  const rootElement = document.getElementById("root")!;
+  const root = createRoot(rootElement);
+  root.render(
     <React.StrictMode>
       <App />
     </React.StrictMode>,
-    document.getElementById("root"),
   );
 }
