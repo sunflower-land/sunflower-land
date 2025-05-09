@@ -17,8 +17,6 @@ const GAME_STATE: GameState = {
   crops: {
     0: {
       createdAt: Date.now(),
-      height: 1,
-      width: 1,
       x: 0,
       y: 0,
       crop: {
@@ -506,8 +504,6 @@ describe("plant", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -553,8 +549,6 @@ describe("plant", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -597,8 +591,6 @@ describe("plant", () => {
         crops: {
           "0": {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 1,
             y: 1,
           },
@@ -632,8 +624,6 @@ describe("plant", () => {
       crops: {
         "0": {
           createdAt: Date.now(),
-          height: 1,
-          width: 1,
           x: 1,
           y: 1,
         },
@@ -801,8 +791,6 @@ describe("plant", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -850,8 +838,6 @@ describe("plant", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -899,8 +885,6 @@ describe("plant", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -944,8 +928,6 @@ describe("plant", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -997,8 +979,6 @@ describe("plant", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -1042,8 +1022,6 @@ describe("plant", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -1091,8 +1069,6 @@ describe("plant", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -6,
           },
@@ -1140,8 +1116,6 @@ describe("plant", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -1189,8 +1163,6 @@ describe("plant", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -1234,8 +1206,6 @@ describe("plant", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -1283,8 +1253,6 @@ describe("plant", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -1332,8 +1300,6 @@ describe("plant", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -1377,8 +1343,6 @@ describe("plant", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -1426,8 +1390,6 @@ describe("plant", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -6,
           },
@@ -1475,8 +1437,6 @@ describe("plant", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -1,
           },
@@ -1524,8 +1484,6 @@ describe("plant", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -1573,8 +1531,6 @@ describe("plant", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -6,
           },
@@ -1660,8 +1616,6 @@ describe("plant", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -1721,8 +1675,6 @@ describe("plant", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -1761,8 +1713,6 @@ describe("plant", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -1813,8 +1763,6 @@ describe("plant", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -2601,8 +2549,6 @@ describe("isPlotFertile", () => {
       createdAt: Date.now() + counter++,
       x: 1,
       y: 1,
-      height: 1,
-      width: 1,
     });
     const isFertile = isPlotFertile({
       buildings: {
@@ -2642,8 +2588,6 @@ describe("isPlotFertile", () => {
       createdAt: Date.now() + counter++,
       x: 1,
       y: 1,
-      height: 1,
-      width: 1,
     });
     const isFertile = isPlotFertile({
       buildings: {
@@ -2697,8 +2641,6 @@ describe("isPlotFertile", () => {
       createdAt: Date.now(),
       x: 1,
       y: 1,
-      height: 1,
-      width: 1,
     };
     const isFertile = isPlotFertile({
       crops: {
@@ -2740,7 +2682,7 @@ describe("getCropYield", () => {
           ],
         },
       },
-      plot: { createdAt: 0, height: 1, width: 1, x: 2, y: 3 },
+      plot: { createdAt: 0, x: 2, y: 3 },
       createdAt: Date.now(),
     });
 
@@ -2763,7 +2705,7 @@ describe("getCropYield", () => {
           ],
         },
       },
-      plot: { createdAt: 0, height: 1, width: 1, x: 5, y: 6 },
+      plot: { createdAt: 0, x: 5, y: 6 },
       createdAt: Date.now(),
     });
 
@@ -2788,8 +2730,6 @@ describe("getCropYield", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -2837,8 +2777,6 @@ describe("getCropYield", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -2886,8 +2824,6 @@ describe("getCropYield", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -2929,8 +2865,6 @@ describe("getCropYield", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -2966,8 +2900,6 @@ describe("getCropYield", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -3011,8 +2943,6 @@ describe("getCropYield", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -3051,8 +2981,6 @@ describe("getCropYield", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -3096,8 +3024,6 @@ describe("getCropYield", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -3140,8 +3066,6 @@ describe("getCropYield", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -3186,8 +3110,6 @@ describe("getCropYield", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -3231,8 +3153,6 @@ describe("getCropYield", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -3276,8 +3196,6 @@ describe("getCropYield", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -3321,8 +3239,6 @@ describe("getCropYield", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -3362,8 +3278,6 @@ describe("getCropYield", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -3407,8 +3321,6 @@ describe("getCropYield", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -3451,8 +3363,6 @@ describe("getCropYield", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -3495,8 +3405,6 @@ describe("getCropYield", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -3535,8 +3443,6 @@ describe("getCropYield", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -3579,8 +3485,6 @@ describe("getCropYield", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -3619,8 +3523,6 @@ describe("getCropYield", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 2,
             x: 0,
             y: -2,
           },
@@ -3663,8 +3565,6 @@ describe("getCropYield", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 2,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -3707,8 +3607,6 @@ describe("getCropYield", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 2,
-            width: 2,
             x: 0,
             y: -2,
           },
@@ -3748,8 +3646,6 @@ describe("getCropYield", () => {
           crops: {
             [index]: {
               createdAt: Date.now(),
-              height: 1,
-              width: 1,
               x: index,
               y: -2,
             },
@@ -3788,8 +3684,6 @@ describe("getCropYield", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -3827,8 +3721,6 @@ describe("getCropYield", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -3866,8 +3758,6 @@ describe("getCropYield", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -3908,8 +3798,6 @@ describe("getCropYield", () => {
           crops: {
             [index]: {
               createdAt: Date.now(),
-              height: 1,
-              width: 1,
               x: 0,
               y: -2,
             },
@@ -3948,8 +3836,6 @@ describe("getCropYield", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -3991,8 +3877,6 @@ describe("getCropYield", () => {
           crops: {
             [index]: {
               createdAt: Date.now(),
-              height: 1,
-              width: 1,
               x: 0,
               y: -2,
             },
@@ -4033,8 +3917,6 @@ describe("getCropYield", () => {
         createdAt: now,
         plot: {
           createdAt: now,
-          height: 1,
-          width: 1,
           x: 0,
           y: -2,
         },
@@ -4064,8 +3946,6 @@ describe("getCropYield", () => {
         createdAt: now,
         plot: {
           createdAt: now,
-          height: 1,
-          width: 1,
           x: 0,
           y: -2,
         },
@@ -4095,8 +3975,6 @@ describe("getCropYield", () => {
         createdAt: now,
         plot: {
           createdAt: now,
-          height: 1,
-          width: 1,
           x: 0,
           y: -2,
         },
@@ -4127,8 +4005,6 @@ describe("getCropYield", () => {
         createdAt: now,
         plot: {
           createdAt: now,
-          height: 1,
-          width: 1,
           x: 0,
           y: -2,
         },
@@ -4166,8 +4042,6 @@ describe("getCropYield", () => {
         createdAt: now,
         plot: {
           createdAt: now,
-          height: 1,
-          width: 1,
           x: 0,
           y: -2,
         },
@@ -4198,8 +4072,6 @@ describe("getCropYield", () => {
         createdAt: now,
         plot: {
           createdAt: now,
-          height: 1,
-          width: 1,
           x: 0,
           y: -2,
         },
@@ -4232,8 +4104,6 @@ describe("getCropYield", () => {
         createdAt: now,
         plot: {
           createdAt: now,
-          height: 1,
-          width: 1,
           x: 0,
           y: -2,
         },

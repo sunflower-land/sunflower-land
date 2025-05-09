@@ -11,8 +11,6 @@ describe("moveCrop", () => {
           ...TEST_FARM,
           crops: {
             1: {
-              height: 1,
-              width: 1,
               x: 1,
               y: 1,
               createdAt: dateNow,
@@ -34,22 +32,16 @@ describe("moveCrop", () => {
         ...TEST_FARM,
         crops: {
           123: {
-            height: 1,
-            width: 1,
             x: 1,
             y: 1,
             createdAt: 0,
           },
           456: {
-            height: 1,
-            width: 1,
             x: 4,
             y: 4,
             createdAt: 0,
           },
           789: {
-            height: 1,
-            width: 1,
             x: 8,
             y: 8,
             createdAt: 0,
@@ -64,9 +56,9 @@ describe("moveCrop", () => {
     });
 
     expect(gameState.crops).toEqual({
-      "123": { height: 1, width: 1, x: 2, y: 2, createdAt: 0 },
-      "456": { height: 1, width: 1, x: 4, y: 4, createdAt: 0 },
-      "789": { height: 1, width: 1, x: 8, y: 8, createdAt: 0 },
+      "123": { x: 2, y: 2, createdAt: 0 },
+      "456": { x: 4, y: 4, createdAt: 0 },
+      "789": { x: 8, y: 8, createdAt: 0 },
     });
   });
 
@@ -88,8 +80,6 @@ describe("moveCrop", () => {
           },
           crops: {
             1: {
-              height: 1,
-              width: 1,
               x: 0,
               y: -2,
               createdAt: dateNow,
@@ -128,8 +118,6 @@ describe("moveCrop", () => {
           },
           crops: {
             1: {
-              height: 1,
-              width: 1,
               x: 0,
               y: -2,
               createdAt: dateNow,
@@ -168,8 +156,6 @@ describe("moveCrop", () => {
           },
           crops: {
             1: {
-              height: 1,
-              width: 1,
               x: 0,
               y: -2,
               createdAt: dateNow,
@@ -208,8 +194,6 @@ describe("moveCrop", () => {
           },
           crops: {
             1: {
-              height: 1,
-              width: 1,
               x: 0,
               y: -2,
               createdAt: dateNow,
@@ -246,8 +230,6 @@ describe("moveCrop", () => {
           },
           crops: {
             1: {
-              height: 1,
-              width: 1,
               x: 0,
               y: -2,
               createdAt: dateNow,

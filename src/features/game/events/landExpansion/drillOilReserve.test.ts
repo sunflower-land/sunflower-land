@@ -23,8 +23,6 @@ describe("drillOilReserve", () => {
             "1": {
               x: 1,
               y: 1,
-              height: 2,
-              width: 2,
               createdAt: 0,
               drilled: 0,
               oil: {
@@ -51,8 +49,6 @@ describe("drillOilReserve", () => {
             "1": {
               x: 1,
               y: 1,
-              height: 2,
-              width: 2,
               createdAt: 0,
               drilled: 0,
               oil: {
@@ -85,8 +81,6 @@ describe("drillOilReserve", () => {
             "1": {
               x: 1,
               y: 1,
-              height: 2,
-              width: 2,
               createdAt: now,
               drilled: 0,
               oil: {
@@ -118,8 +112,6 @@ describe("drillOilReserve", () => {
           "1": {
             x: 1,
             y: 1,
-            height: 2,
-            width: 2,
             createdAt: now,
             drilled: 0,
             oil: {
@@ -164,8 +156,6 @@ describe("drillOilReserve", () => {
           "1": {
             x: 1,
             y: 1,
-            height: 2,
-            width: 2,
             createdAt: now,
             drilled: 0,
             oil: {
@@ -203,8 +193,6 @@ describe("drillOilReserve", () => {
           "1": {
             x: 1,
             y: 1,
-            height: 2,
-            width: 2,
             createdAt: now,
             drilled: 1,
             oil: {
@@ -246,8 +234,6 @@ describe("drillOilReserve", () => {
           "1": {
             x: 1,
             y: 1,
-            height: 2,
-            width: 2,
             createdAt: now,
             drilled: 1,
             oil: {
@@ -314,8 +300,6 @@ describe("drillOilReserve", () => {
           "1": {
             x: 1,
             y: 1,
-            height: 2,
-            width: 2,
             createdAt: now,
             drilled: 0,
             oil: {
@@ -362,8 +346,6 @@ describe("drillOilReserve", () => {
           "1": {
             x: 1,
             y: 1,
-            height: 2,
-            width: 2,
             createdAt: now,
             drilled: 0,
             oil: {
@@ -398,8 +380,6 @@ describe("drillOilReserve", () => {
           "1": {
             x: 1,
             y: 1,
-            height: 2,
-            width: 2,
             createdAt: now,
             drilled: 0,
             oil: {
@@ -448,8 +428,6 @@ describe("drillOilReserve", () => {
           "1": {
             x: 1,
             y: 1,
-            height: 2,
-            width: 2,
             createdAt: now,
             drilled: 0,
             oil: {
@@ -483,8 +461,6 @@ describe("drillOilReserve", () => {
           "1": {
             x: 1,
             y: 1,
-            height: 2,
-            width: 2,
             createdAt: now,
             drilled: 0,
             oil: {
@@ -546,8 +522,6 @@ describe("drillOilReserve", () => {
           "1": {
             x: 1,
             y: 1,
-            height: 2,
-            width: 2,
             createdAt: now,
             drilled: 0,
             oil: {

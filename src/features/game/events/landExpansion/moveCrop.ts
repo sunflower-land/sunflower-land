@@ -1,16 +1,15 @@
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
-import { isWithinAOE } from "features/game/expansion/placeable/lib/collisionDetection";
-import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
 import {
-  Collectibles,
-  CropPlot,
-  GameState,
+  isWithinAOE,
   Position,
-} from "features/game/types/game";
+} from "features/game/expansion/placeable/lib/collisionDetection";
+import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
+import { Collectibles, CropPlot, GameState } from "features/game/types/game";
 import { isReadyToHarvest } from "./harvest";
 import { CROPS } from "features/game/types/crops";
 import { isBasicCrop, isMediumCrop, isAdvancedCrop } from "./harvest";
 import { produce } from "immer";
+import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 
 export enum MOVE_CROP_ERRORS {
   NO_BUMPKIN = "You do not have a Bumpkin!",
@@ -45,6 +44,7 @@ export function isLocked(
 
   const cropName = crop.name;
   const cropDetails = CROPS[cropName];
+  const cropPlotDimensions = RESOURCE_DIMENSIONS["Crop Plot"];
 
   if (isReadyToHarvest(createdAt, crop, cropDetails)) return false;
 
@@ -63,8 +63,7 @@ export function isLocked(
     const plotPosition: Position = {
       x: plot?.x,
       y: plot?.y,
-      height: plot.height,
-      width: plot.width,
+      ...cropPlotDimensions,
     };
 
     if (
@@ -94,8 +93,7 @@ export function isLocked(
     const plotPosition: Position = {
       x: plot?.x,
       y: plot?.y,
-      height: plot.height,
-      width: plot.width,
+      ...cropPlotDimensions,
     };
 
     if (
@@ -127,8 +125,7 @@ export function isLocked(
     const plotPosition: Position = {
       x: plot?.x,
       y: plot?.y,
-      height: plot.height,
-      width: plot.width,
+      ...cropPlotDimensions,
     };
 
     if (
@@ -157,8 +154,7 @@ export function isLocked(
     const plotPosition: Position = {
       x: plot?.x,
       y: plot?.y,
-      height: plot.height,
-      width: plot.width,
+      ...cropPlotDimensions,
     };
 
     if (
@@ -190,8 +186,7 @@ export function isLocked(
     const plotPosition: Position = {
       x: plot?.x,
       y: plot?.y,
-      height: plot.height,
-      width: plot.width,
+      ...cropPlotDimensions,
     };
 
     if (isWithinAOE("Gnome", gnomePosition, plotPosition, bumpkin.skills)) {
@@ -213,8 +208,7 @@ export function isLocked(
     const plotPosition: Position = {
       x: plot?.x,
       y: plot?.y,
-      height: plot.height,
-      width: plot.width,
+      ...cropPlotDimensions,
     };
 
     if (isWithinAOE("Queen Cornelia", position, plotPosition, bumpkin.skills)) {

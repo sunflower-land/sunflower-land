@@ -3,6 +3,7 @@ import { Collectibles, GameState, Rock } from "features/game/types/game";
 import { canMine } from "./stoneMine";
 import { isAOEImpacted } from "features/game/expansion/placeable/lib/collisionDetection";
 import { produce } from "immer";
+import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 
 export enum MOVE_STONE_ERRORS {
   NO_BUMPKIN = "You do not have a Bumpkin!",
@@ -36,7 +37,7 @@ export function isLocked(
 
   return isAOEImpacted(
     collectibles,
-    rock,
+    { ...rock, ...RESOURCE_DIMENSIONS["Stone Rock"] },
     ["Emerald Turtle", "Tin Turtle"],
     bumpkin,
   );

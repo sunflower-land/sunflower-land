@@ -107,8 +107,6 @@ describe("upgradeFarm", () => {
             },
             createdAt: 1,
             drilled: 1,
-            height: 1,
-            width: 1,
             x: 1,
             y: 1,
           },
@@ -151,8 +149,6 @@ describe("upgradeFarm", () => {
               createdAt: Date.now(),
               x: -2,
               y: 0,
-              height: 1,
-              width: 3,
               flower: {
                 name: "Red Pansy",
                 amount: 1,
@@ -164,8 +160,6 @@ describe("upgradeFarm", () => {
         beehives: {
           "1234": {
             flowers: [],
-            height: 1,
-            width: 1,
             x: 1,
             y: 1,
             swarm: true,
@@ -177,13 +171,11 @@ describe("upgradeFarm", () => {
         },
         crimstones: {
           crim: {
-            height: 1,
             minesLeft: 1,
             stone: {
               amount: 1,
               minedAt: Date.now() - 1 * 60 * 60 * 1000,
             },
-            width: 1,
             x: 100,
             y: 100,
           },
@@ -237,8 +229,6 @@ describe("upgradeFarm", () => {
               createdAt: Date.now(),
               x: -2,
               y: 0,
-              height: 1,
-              width: 3,
               flower: {
                 name: "Red Pansy",
                 amount: 1,
@@ -347,13 +337,11 @@ describe("upgradeFarm", () => {
     const createdAt = Date.now();
     const sunstones = {
       "1234": {
-        height: 1,
         minesLeft: 1,
         stone: {
           amount: 1,
           minedAt: Date.now() - 1 * 60 * 60 * 1000,
         },
-        width: 1,
         x: 100,
         y: 100,
       },
@@ -409,13 +397,11 @@ describe("upgradeFarm", () => {
     const createdAt = Date.now();
     const sunstones = {
       "1234": {
-        height: 1,
         minesLeft: 1,
         stone: {
           amount: 1,
           minedAt: Date.now() - 1 * 60 * 60 * 1000,
         },
-        width: 1,
         x: 100,
         y: 100,
       },
@@ -447,13 +433,11 @@ describe("upgradeFarm", () => {
     const createdAt = Date.now();
     const sunstones = {
       "1234": {
-        height: 1,
         minesLeft: 1,
         stone: {
           amount: 1,
           minedAt: Date.now() - 1 * 60 * 60 * 1000,
         },
-        width: 1,
         x: 100,
         y: 100,
       },
@@ -489,13 +473,11 @@ describe("upgradeFarm", () => {
     const createdAt = Date.now();
     const sunstones = {
       "1234": {
-        height: 1,
         minesLeft: 1,
         stone: {
           amount: 1,
           minedAt: Date.now() - 1 * 60 * 60 * 1000,
         },
-        width: 1,
         x: 100,
         y: 100,
       },

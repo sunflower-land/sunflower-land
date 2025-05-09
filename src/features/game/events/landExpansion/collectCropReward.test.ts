@@ -29,8 +29,6 @@ describe("collectCropReward", () => {
               createdAt: Date.now(),
               x: -2,
               y: -1,
-              height: 1,
-              width: 1,
             },
           },
         },
@@ -53,8 +51,6 @@ describe("collectCropReward", () => {
               createdAt: Date.now(),
               x: -2,
               y: -1,
-              height: 1,
-              width: 1,
               crop: {
                 name: "Sunflower",
                 plantedAt: dateNow,
@@ -82,8 +78,6 @@ describe("collectCropReward", () => {
               createdAt: Date.now(),
               x: -2,
               y: -1,
-              height: 1,
-              width: 1,
               crop: {
                 name: "Sunflower",
                 plantedAt: dateNow,
@@ -118,8 +112,6 @@ describe("collectCropReward", () => {
             createdAt: Date.now(),
             x: -2,
             y: -1,
-            height: 1,
-            width: 1,
             crop: {
               name: "Sunflower",
               plantedAt: 0,
@@ -158,8 +150,6 @@ describe("collectCropReward", () => {
             createdAt: Date.now(),
             x: -2,
             y: -1,
-            height: 1,
-            width: 1,
             crop: {
               name: "Sunflower",
               plantedAt: 0,
@@ -198,8 +188,6 @@ describe("collectCropReward", () => {
             createdAt: Date.now(),
             x: -2,
             y: -1,
-            height: 1,
-            width: 1,
             crop: {
               name: "Sunflower",
               plantedAt: 0,

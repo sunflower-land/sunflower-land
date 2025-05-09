@@ -21,8 +21,7 @@ describe("updateBeehives", () => {
     createdAt: now,
     x: 0,
     y: 0,
-    height: 1,
-    width: 2,
+
     flower: {
       name: "Red Pansy",
       amount: 1,
@@ -33,8 +32,7 @@ describe("updateBeehives", () => {
   const DEFAULT_BEEHIVE: Beehive = {
     x: 3,
     y: 3,
-    height: 1,
-    width: 1,
+
     swarm: false,
     honey: { updatedAt: now, produced: 0 },
     flowers: [],
@@ -712,8 +710,7 @@ describe("updateBeehives", () => {
         flowerBeds: {
           "123": {
             createdAt: now - DEFAULT_HONEY_PRODUCTION_TIME / 2,
-            height: 1,
-            width: 2,
+
             x: 0,
             y: 0,
             flower: {
@@ -751,8 +748,7 @@ describe("updateBeehives", () => {
             ...gameState.flowers.flowerBeds,
             "456": {
               createdAt: now,
-              height: 1,
-              width: 2,
+
               x: 0,
               y: 0,
               flower: {
@@ -795,8 +791,7 @@ describe("updateBeehives", () => {
         flowerBeds: {
           "123": {
             createdAt: now - (3 * DEFAULT_HONEY_PRODUCTION_TIME) / 4,
-            height: 1,
-            width: 2,
+
             x: 0,
             y: 0,
             flower: {
@@ -825,8 +820,7 @@ describe("updateBeehives", () => {
             ...gameState.flowers.flowerBeds,
             "456": {
               createdAt: now,
-              height: 1,
-              width: 2,
+
               x: 0,
               y: 0,
               flower: {
@@ -869,8 +863,6 @@ describe("updateBeehives", () => {
       collectibles: {},
       beehives: {
         abc: {
-          height: 1,
-          width: 1,
           x: 0,
           y: 0,
           honey: { updatedAt: now, produced: 0 },
@@ -883,8 +875,7 @@ describe("updateBeehives", () => {
         flowerBeds: {
           "123": {
             createdAt: 0,
-            height: 1,
-            width: 2,
+
             x: 0,
             y: 0,
             flower: {
@@ -895,8 +886,7 @@ describe("updateBeehives", () => {
           },
           "456": {
             createdAt: 0,
-            height: 1,
-            width: 2,
+
             x: 0,
             y: 0,
             flower: {

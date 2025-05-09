@@ -29,7 +29,7 @@ import { GameGrid, getGameGrid } from "./placeable/lib/makeGrid";
 import { LandscapingHud } from "features/island/hud/LandscapingHud";
 import { Mushroom } from "features/island/mushrooms/Mushroom";
 import { useFirstRender } from "lib/utils/hooks/useFirstRender";
-import { MUSHROOM_DIMENSIONS } from "../types/resources";
+import { MUSHROOM_DIMENSIONS, RESOURCE_DIMENSIONS } from "../types/resources";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "../lib/constants";
 import { Bud } from "features/island/buds/Bud";
 import { Fisherman } from "features/island/fisherman/Fisherman";
@@ -295,15 +295,14 @@ const getIslandElements = ({
 
   mapPlacements.push(
     ...getKeys(trees).map((id, index) => {
-      const { x, y, width, height } = trees[id];
+      const { x, y } = trees[id];
 
       return (
         <MapPlacement
           key={`trees-${id}`}
           x={x}
           y={y}
-          height={height}
-          width={width}
+          {...RESOURCE_DIMENSIONS.Tree}
         >
           <Resource
             key={`tree-${id}`}
@@ -322,15 +321,14 @@ const getIslandElements = ({
 
   mapPlacements.push(
     ...getKeys(stones).map((id, index) => {
-      const { x, y, width, height } = stones[id];
+      const { x, y } = stones[id];
 
       return (
         <MapPlacement
           key={`stones-${id}`}
           x={x}
           y={y}
-          height={height}
-          width={width}
+          {...RESOURCE_DIMENSIONS["Stone Rock"]}
         >
           <Resource
             key={`stone-${id}`}
@@ -349,15 +347,14 @@ const getIslandElements = ({
 
   mapPlacements.push(
     ...getKeys(iron).map((id, index) => {
-      const { x, y, width, height } = iron[id];
+      const { x, y } = iron[id];
 
       return (
         <MapPlacement
           key={`iron-${id}`}
           x={x}
           y={y}
-          height={height}
-          width={width}
+          {...RESOURCE_DIMENSIONS["Iron Rock"]}
         >
           <Resource
             key={`iron-${id}`}
@@ -376,15 +373,14 @@ const getIslandElements = ({
 
   mapPlacements.push(
     ...getKeys(gold).map((id, index) => {
-      const { x, y, width, height } = gold[id];
+      const { x, y } = gold[id];
 
       return (
         <MapPlacement
           key={`gold-${id}`}
           x={x}
           y={y}
-          height={height}
-          width={width}
+          {...RESOURCE_DIMENSIONS["Gold Rock"]}
         >
           <Resource
             key={`gold-${id}`}
@@ -403,15 +399,14 @@ const getIslandElements = ({
 
   mapPlacements.push(
     ...getKeys(crimstones).map((id, index) => {
-      const { x, y, width, height } = crimstones[id];
+      const { x, y } = crimstones[id];
 
       return (
         <MapPlacement
           key={`crimstone-${id}`}
           x={x}
           y={y}
-          height={height}
-          width={width}
+          {...RESOURCE_DIMENSIONS["Crimstone Rock"]}
         >
           <Resource
             key={`crimstone-${id}`}
@@ -430,15 +425,14 @@ const getIslandElements = ({
 
   mapPlacements.push(
     ...getKeys(sunstones).map((id, index) => {
-      const { x, y, width, height } = sunstones[id];
+      const { x, y } = sunstones[id];
 
       return (
         <MapPlacement
           key={`ruby-${id}`}
           x={x}
           y={y}
-          height={height}
-          width={width}
+          {...RESOURCE_DIMENSIONS["Sunstone Rock"]}
         >
           <Resource
             key={`ruby-${id}`}
@@ -457,15 +451,14 @@ const getIslandElements = ({
 
   mapPlacements.push(
     ...getKeys(oilReserves).map((id, index) => {
-      const { x, y, width, height } = oilReserves[id];
+      const { x, y } = oilReserves[id];
 
       return (
         <MapPlacement
           key={`oil-reserve-${id}`}
           x={x}
           y={y}
-          height={height}
-          width={width}
+          {...RESOURCE_DIMENSIONS["Oil Reserve"]}
         >
           <Resource
             name="Oil Reserve"
@@ -483,15 +476,14 @@ const getIslandElements = ({
 
   mapPlacements.push(
     ...getKeys(lavaPits).map((id, index) => {
-      const { x, y, width, height } = lavaPits[id];
+      const { x, y } = lavaPits[id];
 
       return (
         <MapPlacement
           key={`oil-reserve-${id}`}
           x={x}
           y={y}
-          height={height}
-          width={width}
+          {...RESOURCE_DIMENSIONS["Lava Pit"]}
         >
           <Resource
             name="Lava Pit"
@@ -509,15 +501,14 @@ const getIslandElements = ({
 
   mapPlacements.push(
     ...getKeys(fruitPatches).map((id, index) => {
-      const { x, y, width, height } = fruitPatches[id];
+      const { x, y } = fruitPatches[id];
 
       return (
         <MapPlacement
           key={`fruitPatches-${id}`}
           x={x}
           y={y}
-          height={height}
-          width={width}
+          {...RESOURCE_DIMENSIONS["Fruit Patch"]}
         >
           <Resource
             name="Fruit Patch"
@@ -535,15 +526,14 @@ const getIslandElements = ({
 
   mapPlacements.push(
     ...getKeys(crops).map((id, index) => {
-      const { x, y, width, height } = crops[id];
+      const { x, y } = crops[id];
 
       return (
         <MapPlacement
           key={`crops-${id}`}
           x={x}
           y={y}
-          height={height}
-          width={width}
+          {...RESOURCE_DIMENSIONS["Crop Plot"]}
         >
           <Resource
             name="Crop Plot"
@@ -561,15 +551,14 @@ const getIslandElements = ({
 
   mapPlacements.push(
     ...getKeys(flowerBeds).map((id, index) => {
-      const { x, y, width, height } = flowerBeds[id];
+      const { x, y } = flowerBeds[id];
 
       return (
         <MapPlacement
           key={`flowers-${id}`}
           x={x}
           y={y}
-          height={height}
-          width={width}
+          {...RESOURCE_DIMENSIONS["Flower Bed"]}
         >
           <Resource
             name="Flower Bed"
@@ -657,15 +646,14 @@ const getIslandElements = ({
 
   mapPlacements.push(
     ...getKeys(beehives).map((id, index) => {
-      const { x, y, width, height } = beehives[id];
+      const { x, y } = beehives[id];
 
       return (
         <MapPlacement
           key={`beehive-${id}`}
           x={x}
           y={y}
-          height={height}
-          width={width}
+          {...RESOURCE_DIMENSIONS.Beehive}
         >
           <Resource
             name="Beehive"

@@ -1,11 +1,19 @@
 import {
   AnimalBuildingKey,
   Collectibles,
+  Beehive,
+  FiniteResource,
+  CropPlot,
+  FlowerBed,
+  Tree,
+  OilReserve,
+  LavaPit,
   GameState,
   InventoryItemName,
   IslandType,
   PlacedItem,
-  Position,
+  FruitPatch,
+  Rock,
 } from "features/game/types/game";
 import { EXPANSION_ORIGINS, LAND_SIZE } from "../../lib/constants";
 import { Coordinates } from "../../components/MapPlacement";
@@ -19,12 +27,27 @@ import { BUILDINGS_DIMENSIONS } from "features/game/types/buildings";
 import {
   MUSHROOM_DIMENSIONS,
   RESOURCE_DIMENSIONS,
+  ResourceName,
 } from "features/game/types/resources";
 import { PlaceableLocation } from "features/game/types/collectibles";
 import { AnimalType } from "features/game/types/animals";
+import { getObjectEntries } from "../../lib/utils";
 
+export type Position = {
+  width: number;
+  height: number;
+} & Coordinates;
 type BoundingBox = Position;
-
+type ResourceItem =
+  | Tree
+  | Rock
+  | FiniteResource
+  | OilReserve
+  | LavaPit
+  | CropPlot
+  | FruitPatch
+  | FlowerBed
+  | Beehive;
 /**
  * Axis aligned bounding box collision detection
  * https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection
@@ -141,27 +164,32 @@ function detectPlaceableCollision(
     }));
   });
 
-  const resources = [
-    ...Object.values(trees),
-    ...Object.values(stones),
-    ...Object.values(iron),
-    ...Object.values(gold),
-    ...Object.values(crimstones),
-    ...Object.values(sunstones),
-    ...Object.values(lavaPits),
-    ...Object.values(crops),
-    ...Object.values(fruitPatches),
-    ...Object.values(beehives),
-    ...Object.values(flowerBeds),
-    ...Object.values(oilReserves),
-  ];
+  const RESOURCE_TYPES: Record<
+    Exclude<ResourceName, "Boulder">,
+    Record<string, ResourceItem>
+  > = {
+    Tree: trees,
+    "Stone Rock": stones,
+    "Iron Rock": iron,
+    "Gold Rock": gold,
+    "Crimstone Rock": crimstones,
+    "Sunstone Rock": sunstones,
+    "Oil Reserve": oilReserves,
+    "Lava Pit": lavaPits,
+    "Crop Plot": crops,
+    "Fruit Patch": fruitPatches,
+    "Flower Bed": flowerBeds,
+    Beehive: beehives,
+  };
 
-  const resourceBoundingBoxes = resources.map((item) => ({
-    x: item.x,
-    y: item.y,
-    height: item.height,
-    width: item.width,
-  }));
+  const resourceBoundingBoxes = getObjectEntries(RESOURCE_TYPES).flatMap(
+    ([name, items]) =>
+      Object.values(items).map((item) => ({
+        x: item.x,
+        y: item.y,
+        ...RESOURCE_DIMENSIONS[name],
+      })),
+  );
 
   const budsBoundingBox = Object.values(buds ?? {})
     .filter(

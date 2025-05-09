@@ -36,7 +36,7 @@ describe("startLavaPit", () => {
           ...TEST_FARM,
           inventory: {},
           lavaPits: {
-            1: { x: 0, y: 0, width: 2, height: 2, createdAt: 0 },
+            1: { x: 0, y: 0, createdAt: 0 },
           },
         },
         action: { type: "lavaPit.started", id: "1" },
@@ -50,7 +50,7 @@ describe("startLavaPit", () => {
       state: {
         ...TEST_FARM,
         lavaPits: {
-          1: { x: 0, y: 0, width: 2, height: 2, createdAt: 0 },
+          1: { x: 0, y: 0, createdAt: 0 },
         },
       },
       action: { type: "lavaPit.started", id: "1" },
@@ -64,7 +64,7 @@ describe("startLavaPit", () => {
     const result = startLavaPit({
       state: {
         ...TEST_FARM,
-        lavaPits: { 1: { x: 0, y: 0, width: 2, height: 2, createdAt: 0 } },
+        lavaPits: { 1: { x: 0, y: 0, createdAt: 0 } },
       },
       action: { type: "lavaPit.started", id: "1" },
       createdAt: now,
@@ -82,8 +82,6 @@ describe("startLavaPit", () => {
             1: {
               x: 0,
               y: 0,
-              width: 2,
-              height: 2,
               startedAt: now,
               createdAt: 0,
             },
@@ -100,7 +98,7 @@ describe("startLavaPit", () => {
       state: {
         ...TEST_FARM,
         lavaPits: {
-          1: { x: 0, y: 0, width: 2, height: 2, createdAt: 0, collectedAt: 1 },
+          1: { x: 0, y: 0, createdAt: 0, collectedAt: 1 },
         },
       },
       action: { type: "lavaPit.started", id: "1" },
