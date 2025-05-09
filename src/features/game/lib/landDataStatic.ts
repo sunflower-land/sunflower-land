@@ -27,6 +27,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Town Center": new Decimal(1),
     House: new Decimal(1),
     Mansion: new Decimal(1),
+    "Crop Plot": new Decimal(66),
     "Love Charm": new Decimal(1000),
     "Great Bloom Banner": new Decimal(1),
     "Winds of Change Banner": new Decimal(1),
