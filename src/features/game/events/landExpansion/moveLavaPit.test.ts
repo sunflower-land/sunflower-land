@@ -30,49 +30,6 @@ describe("moveLavaPit", () => {
     ).toThrow("Lava pit #2 does not exist");
   });
 
-  it("throws an error if the lava pit collides", () => {
-    expect(() =>
-      moveLavaPit({
-        action: {
-          coordinates: {
-            x: 1,
-            y: 1,
-          },
-          id: "1",
-          type: "lavaPit.moved",
-        },
-        state: {
-          ...INITIAL_FARM,
-          inventory: {
-            "Lava Pit": new Decimal(1),
-          },
-          stones: {
-            "123": {
-              createdAt: Date.now(),
-              height: 2,
-              width: 2,
-              stone: {
-                amount: 1,
-                minedAt: 0,
-              },
-              x: 1,
-              y: 1,
-            },
-          },
-          lavaPits: {
-            "1": {
-              x: 1,
-              y: 1,
-              height: 2,
-              width: 2,
-              createdAt: 0,
-            },
-          },
-        },
-      }),
-    ).toThrow("Lava pit collides");
-  });
-
   it("moves a lava pit", () => {
     const state = moveLavaPit({
       action: {

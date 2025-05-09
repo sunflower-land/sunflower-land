@@ -10,7 +10,11 @@ import {
 import { getKeys } from "features/game/types/craftables";
 import { GameState, Inventory } from "features/game/types/game";
 import { MarketplaceTradeableName } from "features/game/types/marketplace";
-import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
+import {
+  RESOURCE_STATE_ACCESSORS,
+  RESOURCE_DIMENSIONS,
+  ResourceName,
+} from "features/game/types/resources";
 import { setPrecision } from "lib/utils/formatNumber";
 
 const PLACEABLE_DIMENSIONS = {
@@ -71,128 +75,13 @@ export const getChestBuds = (
 
 export const getChestItems = (state: GameState): Inventory => {
   const availableItems = getKeys(state.inventory).reduce((acc, itemName) => {
-    if (itemName === "Tree") {
+    if (itemName in RESOURCE_STATE_ACCESSORS) {
+      const stateAccessor = RESOURCE_STATE_ACCESSORS[itemName as ResourceName];
       return {
         ...acc,
-        Tree: new Decimal(
-          state.inventory.Tree?.minus(Object.keys(state.trees).length) ?? 0,
-        ),
-      };
-    }
-
-    if (itemName === "Stone Rock") {
-      return {
-        ...acc,
-        "Stone Rock": new Decimal(
-          state.inventory["Stone Rock"]?.minus(
-            Object.keys(state.stones).length,
-          ) ?? 0,
-        ),
-      };
-    }
-
-    if (itemName === "Iron Rock") {
-      return {
-        ...acc,
-        "Iron Rock": new Decimal(
-          state.inventory["Iron Rock"]?.minus(Object.keys(state.iron).length) ??
-            0,
-        ),
-      };
-    }
-
-    if (itemName === "Gold Rock") {
-      return {
-        ...acc,
-        "Gold Rock": new Decimal(
-          state.inventory["Gold Rock"]?.minus(Object.keys(state.gold).length) ??
-            0,
-        ),
-      };
-    }
-
-    if (itemName === "Crimstone Rock") {
-      return {
-        ...acc,
-        "Crimstone Rock": new Decimal(
-          state.inventory["Crimstone Rock"]?.minus(
-            Object.keys(state.crimstones).length,
-          ) ?? 0,
-        ),
-      };
-    }
-
-    if (itemName === "Sunstone Rock") {
-      return {
-        ...acc,
-        "Sunstone Rock": new Decimal(
-          state.inventory["Sunstone Rock"]?.minus(
-            Object.keys(state.sunstones).length,
-          ) ?? 0,
-        ),
-      };
-    }
-
-    if (itemName === "Crop Plot") {
-      return {
-        ...acc,
-        "Crop Plot": new Decimal(
-          state.inventory["Crop Plot"]?.minus(
-            Object.keys(state.crops).length,
-          ) ?? 0,
-        ),
-      };
-    }
-
-    if (itemName === "Fruit Patch") {
-      return {
-        ...acc,
-        "Fruit Patch": new Decimal(
-          state.inventory["Fruit Patch"]?.minus(
-            Object.keys(state.fruitPatches).length,
-          ) ?? 0,
-        ),
-      };
-    }
-
-    if (itemName === "Beehive") {
-      return {
-        ...acc,
-        Beehive: new Decimal(
-          state.inventory.Beehive?.minus(Object.keys(state.beehives).length) ??
-            0,
-        ),
-      };
-    }
-
-    if (itemName === "Flower Bed") {
-      return {
-        ...acc,
-        "Flower Bed": new Decimal(
-          state.inventory["Flower Bed"]?.minus(
-            Object.keys(state.flowers.flowerBeds).length,
-          ) ?? 0,
-        ),
-      };
-    }
-
-    if (itemName === "Oil Reserve") {
-      return {
-        ...acc,
-        "Oil Reserve": new Decimal(
-          state.inventory["Oil Reserve"]?.minus(
-            Object.keys(state.oilReserves).length,
-          ) ?? 0,
-        ),
-      };
-    }
-
-    if (itemName === "Lava Pit") {
-      return {
-        ...acc,
-        "Lava Pit": new Decimal(
-          state.inventory["Lava Pit"]?.minus(
-            Object.keys(state.lavaPits).length,
+        [itemName]: new Decimal(
+          state.inventory[itemName]?.minus(
+            Object.keys(stateAccessor(state)).length,
           ) ?? 0,
         ),
       };
