@@ -177,9 +177,9 @@ const FertilePlotComponent: React.FC<Props> = ({
           className="absolute z-10 pointer-events-none"
           src={bee}
           style={{
-            width: `${PIXEL_SCALE * 10}px`,
-            top: `${PIXEL_SCALE * -4}px`,
-            left: `${PIXEL_SCALE * -3}px`,
+            width: `${PIXEL_SCALE * 8}px`,
+            top: `${PIXEL_SCALE * -2}px`,
+            left: `${PIXEL_SCALE * 0}px`,
           }}
         />
       )}
