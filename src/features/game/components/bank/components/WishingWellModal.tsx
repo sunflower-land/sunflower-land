@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Modal } from "components/ui/Modal";
 
 import { Button } from "components/ui/Button";
@@ -12,9 +12,9 @@ import { formatNumber } from "lib/utils/formatNumber";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { translate } from "lib/i18n/translate";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { Label } from "components/ui/Label";
 import flowerIcon from "assets/icons/flower_token.webp";
 import { CloseButtonPanel } from "../../CloseablePanel";
+import { Merkl } from "../../modal/components/Merkl";
 
 type GrantedArgs = Pick<WishingWellTokens, "lockedTime"> & {
   onClose: () => void;
@@ -206,57 +206,14 @@ const NoWish = ({ totalTokensInWell, hasLPTokens, onClick }: NoWishArgs) => {
 };
 
 interface Props {
-  onClose?: () => void;
+  onClose: () => void;
 }
 export const WishingWellModal: React.FC<Props> = ({ onClose }) => {
   return (
     <Modal show={true} onHide={onClose}>
       <CloseButtonPanel onClose={onClose} className="relative">
-        <Merkl />
+        <Merkl onClose={onClose} />
       </CloseButtonPanel>
     </Modal>
-  );
-};
-
-const Merkl: React.FC = () => {
-  const [page, setPage] = useState(0);
-  const { t } = useAppTranslation();
-
-  if (page === 1) {
-    return (
-      <>
-        <div className="p-2">
-          <Label type="danger" className="mb-2">
-            {t("merkl.leaving")}
-          </Label>
-          <p className="text-sm mb-2">{t("merkl.3rdParty")}</p>
-          <p className="text-sm">{t("merkl.dyor")}</p>
-        </div>
-        <Button
-          onClick={() => {
-            window
-              .open(
-                "https://merkl.angle.money/polygon/pool/2/0xe69e0100A7607c10c8B313b2E757dFA301F29bd3",
-                "_blank",
-              )
-              ?.focus();
-          }}
-        >
-          {t("open")}
-        </Button>
-      </>
-    );
-  }
-  return (
-    <>
-      <div className="p-2">
-        <Label type="default" className="mb-2">
-          {t("merkl.quickswapPool")}
-        </Label>
-        <p className="text-sm mb-2">{t("merkl.introducing")}</p>
-        <p className="text-sm">{t("merkl.introducing.two")}</p>
-      </div>
-      <Button onClick={() => setPage(1)}>{t("read.more")}</Button>
-    </>
   );
 };
