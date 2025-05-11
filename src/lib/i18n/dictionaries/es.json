@@ -5870,5 +5870,12 @@
   "description.redPepperOnesie.boost": "-25% de tiempo de crecimiento del pimiento rojo",
   "deposit.items": "Deposita objetos del juego",
   "withdraw.sfl.available": "{{flower}} FLOWER está disponible para su retirada",
-  "withdraw.flower.limited": "Durante el lanzamiento inicial de $FLOWER, la cantidad de $FLOWER que puedes retirar es limitada."
+  "withdraw.flower.limited": "Durante el lanzamiento inicial de $FLOWER, la cantidad de $FLOWER que puedes retirar es limitada.",
+  "socialTask.merkl": "Recompensas Merkl LP",
+  "merkl.rewards": "Recompensas Merkl",
+  "merkl.description": "Nuestros amigos de Merkl están regalando $FLOWER a los miembros de la comunidad que proporcionan liquidez para respaldar el ecosistema.",
+  "merkl.disclaimer": "Siempre DYOR y ten cuidado con las estafas. Esto no es una inversión",
+  "merkl.one": "Reclama FLOWER todos los días en la aplicación Merkl.",
+  "merkl.two": "Recompensas adicionales cada día en el juego para los 10, 50 y 250 mejores proveedores según la clasificación",
+  "merkl.three": "¡Cajas de comida adicionales y un dispositivo portátil exclusivo para todos los proveedores!"
 }

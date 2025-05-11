@@ -5870,5 +5870,12 @@
   "description.redPepperOnesie.boost": "-25% 赤唐辛子の成長時間",
   "deposit.items": "ゲームアイテムを入金",
   "withdraw.sfl.available": "{{flower}} フラワーは出金可能です",
-  "withdraw.flower.limited": "$FLOWERの最初のローンチ時には、引き出すことができる$FLOWERの金額には制限があります。"
+  "withdraw.flower.limited": "$FLOWERの最初のローンチ時には、引き出すことができる$FLOWERの金額には制限があります。",
+  "socialTask.merkl": "メルクル LP リワード",
+  "merkl.rewards": "メルクル・リワード",
+  "merkl.description": "メルクルの友人たちは、エコシステムを支えるために流動性を提供しているコミュニティメンバーに$FLOWERをプレゼントしています。",
+  "merkl.disclaimer": "常にDYORを行い、詐欺に注意してください。これは投資ではありません。",
+  "merkl.one": "Merklアプリで毎日花を受け取ってください。",
+  "merkl.two": "リーダーボードに基づく上位10社、50社、250社のプロバイダーには、ゲーム内で毎日ボーナス報酬が与えられます",
+  "merkl.three": "おまけのフードボックスと全プロバイダー限定のウェアラブルをプレゼント！"
 }

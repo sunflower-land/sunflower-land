@@ -5870,5 +5870,12 @@
   "description.redPepperOnesie.boost": "-25% Waktu Pertumbuhan Lada Merah",
   "deposit.items": "Setor Item Game",
   "withdraw.sfl.available": "{{flower}} FLOWER tersedia untuk penarikan",
-  "withdraw.flower.limited": "Selama peluncuran awal $FLOWER, jumlah $FLOWER yang dapat Anda tarik terbatas."
+  "withdraw.flower.limited": "Selama peluncuran awal $FLOWER, jumlah $FLOWER yang dapat Anda tarik terbatas.",
+  "socialTask.merkl": "Hadiah Merkl LP",
+  "merkl.rewards": "Hadiah Merkl",
+  "merkl.description": "Teman-teman kami di Merkl memberikan $FLOWER kepada anggota komunitas yang menyediakan likuiditas untuk mendukung ekosistem.",
+  "merkl.disclaimer": "Selalu DYOR dan waspadalah terhadap penipuan. Ini bukan investasi",
+  "merkl.one": "Klaim BUNGA setiap hari di aplikasi Merkl.",
+  "merkl.two": "Hadiah bonus setiap hari dalam game untuk 10, 50 & 250 penyedia teratas berdasarkan papan peringkat",
+  "merkl.three": "Kotak makanan bonus & perangkat yang dapat dikenakan eksklusif untuk semua penyedia!"
 }

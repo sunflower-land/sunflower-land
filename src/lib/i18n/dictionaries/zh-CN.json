@@ -5870,5 +5870,12 @@
   "flower.launch.three": "流动性奖励和提款即将开始",
   "deposit.items": "存款游戏物品",
   "withdraw.sfl.available": "{{flower}} FLOWER 可供提款",
-  "withdraw.flower.limited": "在首次推出$FLOWER期间，您可以提取的$FLOWER金额是有限的。"
+  "withdraw.flower.limited": "在首次推出$FLOWER期间，您可以提取的$FLOWER金额是有限的。",
+  "socialTask.merkl": "默克尔唱片奖励",
+  "merkl.rewards": "默克尔奖励",
+  "merkl.description": "我们在默克尔的朋友正在向提供流动性以支持生态系统的社区成员赠送$FLOWER。",
+  "merkl.disclaimer": "务必使用 DYOR，谨防诈骗。这不是一项投资",
+  "merkl.one": "每天在 Merkl 应用程序中领取 FLOWER。",
+  "merkl.two": "根据排行榜，前 10、50 和 250 名提供商每天在游戏中获得奖励奖励",
+  "merkl.three": "所有供应商均可获得额外的食物盒和专属可穿戴设备！"
 }
