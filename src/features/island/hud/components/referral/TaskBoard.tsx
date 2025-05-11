@@ -20,6 +20,7 @@ import { getKeys } from "features/game/types/decorations";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import promoteIcon from "assets/icons/promote.webp";
 import tvIcon from "assets/icons/tv.webp";
+import flowerIcon from "assets/icons/flower_token.webp";
 import { secondsToString } from "lib/utils/time";
 import { hasFeatureAccess } from "lib/flags";
 
@@ -103,6 +104,12 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({ state, socialTasks }) => {
       {/* Tasks */}
       <div className="flex flex-col gap-2 m-1">
         <div className="flex flex-col gap-1 text-xs">
+          <TaskButton
+            title={t("socialTask.merkl")}
+            onClick={() => openModal("MERKL")}
+            image={flowerIcon}
+          />
+
           {hasFeatureAccess(state, "LOVE_RUSH") && (
             <TaskButton
               title={t("socialTask.helpBumpkins")}

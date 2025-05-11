@@ -17,6 +17,7 @@ import { CloseButtonPanel } from "../CloseablePanel";
 import { DiscordBonus } from "features/game/expansion/components/DiscordBoat";
 import { Streams } from "./components/Streams";
 import { LoveRush } from "./components/LoveRush";
+import { Merkl } from "./components/Merkl";
 type GlobalModal =
   | "BUY_GEMS"
   | "DISCORD"
@@ -34,7 +35,8 @@ type GlobalModal =
   | "TWITTER"
   | "REFERRAL"
   | "STREAMS"
-  | "LOVE_RUSH";
+  | "LOVE_RUSH"
+  | "MERKL";
 
 export const ModalContext = createContext<{
   openModal: (type: GlobalModal) => void;
@@ -112,6 +114,10 @@ export const ModalProvider: FC = ({ children }) => {
 
       <Modal show={opened === "LOVE_RUSH"} onHide={handleClose}>
         <LoveRush onClose={handleClose} />
+      </Modal>
+
+      <Modal show={opened === "MERKL"} onHide={handleClose}>
+        <Merkl onClose={handleClose} />
       </Modal>
 
       <Modal show={opened === "FIRST_EXPANSION"}>
