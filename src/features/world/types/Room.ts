@@ -47,6 +47,7 @@ export interface Bud extends Schema {
 export interface Message extends Schema {
   text: string;
   farmId?: number;
+  username?: string;
   sessionId: string;
   sceneId: SceneId;
   sentAt: number;
