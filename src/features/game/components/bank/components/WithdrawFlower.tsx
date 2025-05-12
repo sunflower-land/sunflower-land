@@ -21,12 +21,42 @@ import { isFaceVerified } from "features/retreat/components/personhood/lib/faceR
 import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
 import { hasFeatureAccess } from "lib/flags";
 
-const WITHDRAWAL_THRESHOLD = {
-  "2025-05-08T00:00:00.000Z": 0.25,
-  "2025-05-23T00:00:00.000Z": 0.5,
-  "2025-06-06T00:00:00.000Z": 0.75,
-  "2025-06-20T00:00:00.000Z": 1,
-};
+function getWithdrawalThreshold(createdAt: number = Date.now()) {
+  // Set constants
+  const currentDate = new Date(createdAt);
+  const initialThreshold = 0.25;
+
+  if (currentDate < new Date("2025-05-13T00:00:00.000Z")) {
+    return initialThreshold;
+  }
+
+  const startDate = new Date("2025-05-09T00:00:00.000Z");
+  const endDate = new Date("2025-06-20T00:00:00.000Z");
+  const finalThreshold = 1;
+  const dynamicThresholdRange = finalThreshold - initialThreshold; // 1 - 0.25 = 0.75
+
+  // Calculate the difference in time between the current date and the start date
+  const timeDiff = currentDate.getTime() - startDate.getTime();
+  const dayDiff = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
+
+  // Calculate the total time between the start and end dates
+  const totalTime = endDate.getTime() - startDate.getTime();
+  const totalDays = Math.floor(totalTime / (1000 * 60 * 60 * 24));
+
+  // Calculate the progress as a fraction of the total days
+  const progress = dayDiff / totalDays;
+
+  // Calculate the additional threshold based on the progress
+  const additionalThreshold = progress * dynamicThresholdRange;
+
+  // Calculate the final threshold by adding the initial threshold and the additional threshold
+  const threshold = Math.min(
+    1,
+    Number(new Decimal(initialThreshold).add(additionalThreshold)),
+  );
+
+  return threshold;
+}
 
 interface Props {
   onWithdraw: (sfl: string) => void;
@@ -46,10 +76,8 @@ export const WithdrawFlower: React.FC<Props> = ({ onWithdraw }) => {
 
   const { balance: flowerBalance, withdrawals = { amount: 0 } } = state;
   const totalCurrentBalance = flowerBalance.add(withdrawals.amount);
-  const threshold = Object.entries(WITHDRAWAL_THRESHOLD).find(([key]) => {
-    return new Date(key) <= new Date();
-  })?.[1];
-  const thresholdAmount = totalCurrentBalance.mul(threshold ?? 0);
+  const threshold = getWithdrawalThreshold();
+  const thresholdAmount = totalCurrentBalance.mul(threshold);
 
   const balance = new Decimal(
     Math.max(0, thresholdAmount.sub(withdrawals.amount).toNumber()),
