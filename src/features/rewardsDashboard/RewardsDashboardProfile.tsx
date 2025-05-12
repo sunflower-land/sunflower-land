@@ -11,6 +11,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import flowerToken from "assets/icons/flower_token.webp";
 import walletIcon from "assets/icons/wallet.png";
+import gift from "assets/icons/gift.png";
 
 const fetcher = async ([url, token]: [string, string]) => {
   return getRewardsDashboard(token);
@@ -65,7 +66,7 @@ export const RewardsDashboardProfile = () => {
               style={{ width: PIXEL_SCALE * 12, height: PIXEL_SCALE * 12 }}
             />
             <div className="flex-1 flex flex-col -mt-1">
-              <span className="text-base text-black">{`$0.11`}</span>
+              <span className="text-base">{`$0.11`}</span>
               <span className="text-xs">{`Supply: 265,000,000`}</span>
               <span className="text-xs">{`FDV: $28,000,000`}</span>
             </div>
@@ -85,31 +86,29 @@ export const RewardsDashboardProfile = () => {
               src={walletIcon}
               alt="Wallet Icon"
               className="img-highlight"
-              style={{ width: PIXEL_SCALE * 14 }}
+              style={{ width: PIXEL_SCALE * 14, height: PIXEL_SCALE * 14 }}
             />
             <div className="flex-1 flex flex-col -mt-1">
-              <span className="text-base text-black">{`102,168`}</span>
+              <span className="text-base">{`102,168`}</span>
               <span className="text-xs">{`7 day player spend`}</span>
               <span className="text-xs">{`10,246 players spent flower`}</span>
             </div>
           </div>
         </InnerPanel>
         <InnerPanel>
-          {/* <div className="flex w-full space-x-3 p-1">
-            <div>
-              <img
-                src={flowerToken}
-                alt="Flower Token"
-                className="img-highlight"
-                style={{ width: PIXEL_SCALE * 12, height: PIXEL_SCALE * 12 }}
-              />
-              <img
-                src={decreaseRightArrow}
-                alt="Decrease Right Arrow"
-                className="img-highlight"
-              />
+          <div className="flex w-full space-x-3 p-1">
+            <img
+              src={gift}
+              alt="Rewards Pool"
+              className="img-highlight"
+              style={{ width: PIXEL_SCALE * 14, height: PIXEL_SCALE * 14 }}
+            />
+            <div className="flex-1 flex flex-col -mt-1">
+              <span className="text-sm">{`Rewards Pool`}</span>
+              <span className="text-xs">{`10,245,700`}</span>
+              <span className="text-xs">{`246,000 HODLers`}</span>
             </div>
-          </div> */}
+          </div>
         </InnerPanel>
       </div>
       {/* {`Rewards Dashboard`}
