@@ -74,13 +74,13 @@ export const WithdrawFlower: React.FC<Props> = ({ onWithdraw }) => {
   const [amount, setAmount] = useState<Decimal>(new Decimal(0));
   const [tax, setTax] = useState(0);
 
-  const { balance: flowerBalance, withdrawals = { amount: 0 } } = state;
-  const totalCurrentBalance = flowerBalance.add(withdrawals.amount);
+  const { balance: flowerBalance, bank } = state;
+  const totalCurrentBalance = flowerBalance.add(bank.withdrawanAmount);
   const threshold = getWithdrawalThreshold();
   const thresholdAmount = totalCurrentBalance.mul(threshold);
 
   const balance = new Decimal(
-    Math.max(0, thresholdAmount.sub(withdrawals.amount).toNumber()),
+    Math.max(0, thresholdAmount.sub(bank.withdrawanAmount).toNumber()),
   );
 
   useEffect(() => {
