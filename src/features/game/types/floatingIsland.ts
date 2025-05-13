@@ -81,7 +81,7 @@ export const FLOATING_ISLAND_SHOP_ITEMS: Record<
   },
   "Super Totem": {
     type: "collectible",
-    cost: { items: { "Love Charm": 1500 } },
+    cost: { items: { "Love Charm": 6000 } },
     name: "Super Totem",
   },
   "Gourmet Hourglass": {
