@@ -26,7 +26,6 @@ import { MarketplaceButton } from "./components/MarketplaceButton";
 import { GameCalendar } from "features/game/expansion/components/temperateSeason/GameCalendar";
 
 import chest from "assets/icons/chest.png";
-import { LockdownWidget } from "features/announcements/AnnouncementWidgets";
 import { RewardsButton } from "./components/referral/RewardsButton";
 import { StreamCountdown } from "./components/StreamCountdown";
 import { FloatingIslandCountdown } from "./components/FloatingIslandCountdown";
@@ -162,7 +161,6 @@ const HudComponent: React.FC = () => {
                 onClose={handleDepositModal}
               />
             </CloseButtonPanel>
-            <LockdownWidget />
           </Modal>
         )}
       </HudContainer>

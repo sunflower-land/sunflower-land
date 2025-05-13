@@ -37,7 +37,6 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { Context as GameContext } from "features/game/GameProvider";
 import { GameWallet } from "features/wallet/Wallet";
 import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
-import { LockdownWidget } from "features/announcements/AnnouncementWidgets";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -527,7 +526,6 @@ export const DepositGameItemsModal: React.FC<DepositModalProps> = ({
           onClose={handleClose}
         />
       </CloseButtonPanel>
-      <LockdownWidget />
     </Modal>
   );
 };
