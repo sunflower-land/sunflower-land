@@ -20,7 +20,7 @@ import { InventoryItemName, Wardrobe } from "features/game/types/game";
 import { ITEM_TRADE_TYPES } from "features/marketplace/lib/getTradeType";
 import { getWearableImage } from "features/game/lib/getWearableImage";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { ADMIN_IDS } from "lib/flags";
+import { MANAGER_IDS } from "lib/flags";
 import { CONFIG } from "lib/config";
 import { getKeys } from "features/game/types/decorations";
 import { signTypedData } from "@wagmi/core";
@@ -280,7 +280,7 @@ export const AirdropPlayer: React.FC<
   const hasDevAccess = useSelector(
     gameService,
     (state) =>
-      ADMIN_IDS.includes(state.context.farmId) || CONFIG.NETWORK === "amoy",
+      MANAGER_IDS.includes(state.context.farmId) || CONFIG.NETWORK === "amoy",
   );
   const chainId = useSelector(walletService, (state) => state.context.chainId);
 

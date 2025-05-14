@@ -9,8 +9,8 @@ export const PinkDolphin: React.FC<CollectibleProps> = () => {
       src={ITEM_DETAILS["Pink Dolphin"].image}
       style={{
         width: `${PIXEL_SCALE * 22}px`,
-        bottom: `${PIXEL_SCALE * 1.5}px`,
-        left: `${PIXEL_SCALE * 0}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 5}px`,
       }}
       className="absolute"
       alt="Pink Dolphin"
