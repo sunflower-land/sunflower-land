@@ -1361,7 +1361,7 @@ export type UpgradableBuilding = {
 
 export type Bank = {
   taxFreeSFL: number;
-  withdrawanAmount: number;
+  withdrawnAmount: number;
 };
 
 export type TemperateSeasonName = "spring" | "summer" | "autumn" | "winter";

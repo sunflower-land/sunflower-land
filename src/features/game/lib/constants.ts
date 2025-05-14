@@ -399,7 +399,7 @@ export const INITIAL_FARM: GameState = {
   previousInventory: {},
   wardrobe: {},
   previousWardrobe: {},
-  bank: { taxFreeSFL: 0, withdrawanAmount: 0 },
+  bank: { taxFreeSFL: 0, withdrawnAmount: 0 },
 
   calendar: {
     dates: [],
@@ -734,7 +734,7 @@ export const TEST_FARM: GameState = {
     choresSkipped: 0,
   },
   stock: INITIAL_STOCK(),
-  bank: { taxFreeSFL: 0, withdrawanAmount: 0 },
+  bank: { taxFreeSFL: 0, withdrawnAmount: 0 },
   chickens: {},
   experiments: [],
   farmActivity: {},
@@ -1013,7 +1013,7 @@ export const EMPTY: GameState = {
   calendar: {
     dates: [],
   },
-  bank: { taxFreeSFL: 0, withdrawanAmount: 0 },
+  bank: { taxFreeSFL: 0, withdrawnAmount: 0 },
   experiments: [],
   minigames: {
     games: {},
