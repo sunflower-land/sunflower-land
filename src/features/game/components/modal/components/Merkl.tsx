@@ -13,7 +13,7 @@ export const Merkl: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { t } = useAppTranslation();
 
   const CAMPAIGN_ID =
-    Date.now() > new Date("2025-04-15").getTime()
+    Date.now() > new Date("2025-05-15T00:00:00Z").getTime()
       ? "0xabce6aa5c2d11a0609450db0410af89add01f8fb1047bd1317b67e26b3cdf433"
       : "0x89dd96c10c739800b241a2e77fc44b5c0766766d437501dd9dcfb0e4314e6de3";
 
