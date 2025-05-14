@@ -85,8 +85,6 @@ describe("upgradeFarm", () => {
             castedAt: 10001023,
             caught: { Anchovy: 1 },
           },
-          beach: {},
-          weather: "Sunny",
         },
         mushrooms: {
           mushrooms: {

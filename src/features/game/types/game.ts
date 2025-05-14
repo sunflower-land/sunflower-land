@@ -54,7 +54,6 @@ import { MilestoneName } from "./milestones";
 import {
   FishName,
   FishingBait,
-  FishingConditions,
   MarineMarvelName,
   OldFishName,
 } from "./fishing";
@@ -1121,9 +1120,7 @@ type FishingSpot = {
 };
 
 export type Fishing = {
-  weather: FishingConditions;
   wharf: FishingSpot;
-  beach: FishingSpot;
   dailyAttempts?: {
     [date: string]: number;
   };
