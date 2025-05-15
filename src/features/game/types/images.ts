@@ -874,6 +874,7 @@ import giantYam from "assets/sfts/giant_yam.webp";
 import heartAirBalloon from "assets/sfts/heart_air_balloon.webp";
 import giantZuchinni from "assets/sfts/giant_zuchinni.webp";
 import miniFloatingIsland from "assets/sfts/mini_floating_island.webp";
+import giantKale from "assets/sfts/giant_kale.webp";
 
 import bronzeLoveBox from "assets/rewardBoxes/bronze_love_box.webp";
 import silverLoveBox from "assets/rewardBoxes/silver_love_box.webp";
@@ -5292,7 +5293,7 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.lunalist"),
   },
   "Giant Kale": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: giantKale,
     description: translate("description.giantKale"),
   },
 };

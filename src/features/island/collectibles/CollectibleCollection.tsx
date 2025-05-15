@@ -2459,12 +2459,12 @@ export const COLLECTIBLE_COMPONENTS: Record<
     <ImageStyle
       {...props}
       divStyle={{
-        width: `${PIXEL_SCALE * 23}px`,
+        width: `${PIXEL_SCALE * 32}px`,
         bottom: `${PIXEL_SCALE * 3}px`,
-        left: `${PIXEL_SCALE * -3}px`,
+        left: `${PIXEL_SCALE * 0}px`,
       }}
       imgStyle={{
-        width: `${PIXEL_SCALE * 23}px`,
+        width: `${PIXEL_SCALE * 32}px`,
       }}
       image={ITEM_DETAILS["Giant Kale"].image}
       alt="Giant Kale"
