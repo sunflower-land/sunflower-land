@@ -1,11 +1,6 @@
 import React from "react";
 
-import {
-  GRID_WIDTH_PX,
-  INITIAL_STOCK,
-  PIXEL_SCALE,
-  StockableName,
-} from "features/game/lib/constants";
+import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 
 import { MapPlacement } from "./MapPlacement";
 import { Snorkler } from "./water/Snorkler";
@@ -22,10 +17,6 @@ import { GameState } from "features/game/types/game";
 import { CONFIG } from "lib/config";
 import { LaTomatina } from "./LaTomatina";
 import { RestockBoat } from "./RestockBoat";
-import { SHIPMENT_STOCK } from "features/game/events/landExpansion/shipmentRestocked";
-import { SEEDS } from "features/game/types/seeds";
-import { WORKBENCH_TOOLS, TREASURE_TOOLS } from "features/game/types/tools";
-import Decimal from "decimal.js-light";
 
 import fins1 from "assets/decorations/fins_yellow.webp";
 import fins2 from "assets/decorations/fins_green.webp";
@@ -45,34 +36,7 @@ export const WaterComponent: React.FC<Props> = ({
   const offset = Math.ceil((Math.sqrt(expansionCount) * LAND_WIDTH) / 2);
   const season = gameState.season.season;
   const weather = getActiveCalendarEvent({ game: gameState });
-  const getShipmentAmount = (item: StockableName, amount: number): Decimal => {
-    const totalStock = INITIAL_STOCK(gameState)[item];
-    const remainingStock = gameState.stock[item] ?? new Decimal(0);
-    // If shipment amount will exceed total stock
-    if (remainingStock.add(amount).gt(totalStock)) {
-      // return the difference between total and remaining stock
-      return totalStock.sub(remainingStock);
-    } else {
-      // else return shipment stock
-      return new Decimal(amount);
-    }
-  };
 
-  const restockTools = Object.entries(SHIPMENT_STOCK)
-    .filter((item) => item[0] in { ...WORKBENCH_TOOLS, ...TREASURE_TOOLS })
-    .filter(([item, amount]) => {
-      const shipmentAmount = getShipmentAmount(item as StockableName, amount);
-      return shipmentAmount.gt(0);
-    });
-
-  const restockSeeds = Object.entries(SHIPMENT_STOCK)
-    .filter((item) => item[0] in SEEDS)
-    .filter(([item, amount]) => {
-      const shipmentAmount = getShipmentAmount(item as StockableName, amount);
-      return shipmentAmount.gt(0);
-    });
-
-  const restockIsEmpty = [...restockSeeds, ...restockTools].length <= 0;
 
   return (
     // Container
@@ -296,13 +260,7 @@ export const WaterComponent: React.FC<Props> = ({
 
       <IslandUpgrader gameState={gameState} offset={offset} />
 
-      {!restockIsEmpty && (
-        <RestockBoat
-          restockSeeds={restockSeeds}
-          restockTools={restockTools}
-          getShipmentAmount={getShipmentAmount}
-        />
-      )}
+      <RestockBoat />
 
       <MapPlacement x={-5 - offset} y={2} width={4}>
         <LaTomatina event={gameState.specialEvents.current["La Tomatina"]} />
