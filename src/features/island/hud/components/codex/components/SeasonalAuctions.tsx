@@ -48,7 +48,7 @@ type AuctionItems = Record<BumpkinItem | InventoryItemName, AuctionDetail>;
 /**
  * Aggregates the seasonal auction items
  */
-function getSeasonalAuctions({
+export function getSeasonalAuctions({
   auctions,
   totalSupply,
   season,
@@ -262,7 +262,7 @@ const NextDrop: React.FC<{ auctions: AuctionItems; game: GameState }> = ({
   );
 };
 
-const Drops: React.FC<{
+export const Drops: React.FC<{
   detail: AuctionDetail;
   name: BumpkinItem | InventoryItemName;
   maxSupply: number;

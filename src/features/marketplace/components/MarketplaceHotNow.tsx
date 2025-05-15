@@ -29,7 +29,6 @@ export const preloadHotNow = (token: string) =>
 export const MarketplaceHotNow: React.FC = () => {
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
-  const { gameState } = useGame();
   const navigate = useNavigate();
 
   const { t } = useAppTranslation();

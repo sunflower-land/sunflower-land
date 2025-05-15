@@ -414,7 +414,7 @@ const Filters: React.FC<{ onClose: () => void; farmId: number }> = ({
   );
 };
 
-const EstimatedPrice: React.FC<{ price: number }> = ({ price }) => {
+export const EstimatedPrice: React.FC<{ price: number }> = ({ price }) => {
   const { t } = useTranslation();
   return (
     <InnerPanel className="mb-1">

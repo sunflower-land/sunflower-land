@@ -19,21 +19,6 @@ export const TicketTable: React.FC<Props> = ({
   const { t } = useAppTranslation();
   return (
     <table className="w-full text-xs table-fixed border-collapse">
-      {showHeader && (
-        <thead>
-          <tr>
-            <th style={{ border: "1px solid #b96f50" }} className="p-1.5 w-1/5">
-              <p>{t("rank")}</p>
-            </th>
-            <th style={{ border: "1px solid #b96f50" }} className="p-1.5">
-              <p>{t("player")}</p>
-            </th>
-            <th style={{ border: "1px solid #b96f50" }} className="p-1.5 w-1/5">
-              <p>{t("total")}</p>
-            </th>
-          </tr>
-        </thead>
-      )}
       <tbody>
         {rankings.map(({ id, count, rank, bumpkin }, index) => (
           <tr

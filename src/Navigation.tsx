@@ -33,6 +33,7 @@ import { FlowerDashboardProfile } from "features/flowerDashboard/FlowerDashboard
 import { hasFeatureAccess } from "lib/flags";
 import { GameProvider } from "features/game/GameProvider";
 import { RewardsDashboardProfile } from "features/rewardsDashboard/RewardsDashboardProfile";
+import { Dashboard } from "features/dashboard/Dashboard";
 
 // Lazy load routes
 const World = lazy(() =>
@@ -182,6 +183,14 @@ export const Navigation: React.FC = () => {
                         element={
                           <div className="absolute inset-0 z-50">
                             <Marketplace />
+                          </div>
+                        }
+                      />
+                      <Route
+                        path="dashboard/*"
+                        element={
+                          <div className="absolute inset-0 z-50">
+                            <Dashboard />
                           </div>
                         }
                       />
