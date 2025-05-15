@@ -15,19 +15,18 @@ import { MEGASTORE, SeasonalStore } from "./megastore";
 import { getCurrentSeason } from "./seasons";
 
 describe("SEASONAL_REWARDS", () => {
-  it("includes seasonal megastore items in all reward types with correct tier-based weightings", () => {
-    const currentSeason = getCurrentSeason(new Date());
-    const store = MEGASTORE[currentSeason];
+  const currentSeason = getCurrentSeason(new Date()); // Test all reward types
+  const rewardTypes: {
+    rewards: ChestReward[];
+    weight: number;
+  }[] = [
+    { rewards: BASIC_REWARDS(), weight: 5 },
+    { rewards: RARE_REWARDS(), weight: 25 },
+    { rewards: LUXURY_REWARDS(), weight: 50 },
+  ];
 
-    // Test all reward types
-    const rewardTypes: {
-      rewards: ChestReward[];
-      weight: number;
-    }[] = [
-      { rewards: BASIC_REWARDS(), weight: 5 },
-      { rewards: RARE_REWARDS(), weight: 25 },
-      { rewards: LUXURY_REWARDS(), weight: 50 },
-    ];
+  it("includes seasonal megastore items in all reward types with correct tier-based weightings", () => {
+    const store = MEGASTORE[currentSeason];
 
     rewardTypes.forEach(({ rewards, weight }) => {
       // Test all tiers
@@ -56,7 +55,11 @@ describe("SEASONAL_REWARDS", () => {
           }
         });
       });
+    });
+  });
 
+  it("does not include items from other seasons", () => {
+    rewardTypes.forEach(({ rewards }) => {
       // Verify items from other seasons are not included
       Object.entries(MEGASTORE).forEach(([season, seasonStore]) => {
         if (season === currentSeason) return; // Skip current season
