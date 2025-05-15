@@ -126,6 +126,5 @@ export function makeGame(farm: any): GameState {
     twitter: farm.twitter,
     ban: farm.ban,
     rewardBoxes: farm.rewardBoxes,
-    withdrawals: farm.withdrawals,
   };
 }

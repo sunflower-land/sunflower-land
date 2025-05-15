@@ -115,7 +115,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
   },
   wardrobe: {},
   previousWardrobe: {},
-  bank: { taxFreeSFL: 0 },
+  bank: { taxFreeSFL: 0, withdrawnAmount: 0 },
   beehives: {},
   crimstones: {},
   flowers: {

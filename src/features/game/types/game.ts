@@ -1361,6 +1361,7 @@ export type UpgradableBuilding = {
 
 export type Bank = {
   taxFreeSFL: number;
+  withdrawnAmount: number;
 };
 
 export type TemperateSeasonName = "spring" | "summer" | "autumn" | "winter";
@@ -1683,9 +1684,6 @@ export interface GameState {
   };
   megastore?: {
     boughtAt: Partial<Record<SeasonalTierItemName, number>>;
-  };
-  withdrawals?: {
-    amount: number;
   };
 }
 
