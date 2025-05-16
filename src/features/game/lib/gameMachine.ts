@@ -603,7 +603,7 @@ export function startGame(authContext: AuthContext) {
         discordId: "123",
         farmId:
           CONFIG.NETWORK === "mainnet"
-            ? authContext.user.token?.farmId ?? 0
+            ? (authContext.user.token?.farmId ?? 0)
             : Math.floor(Math.random() * 1000),
         actions: [],
         state: EMPTY,

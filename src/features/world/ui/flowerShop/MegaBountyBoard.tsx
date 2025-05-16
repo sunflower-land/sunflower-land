@@ -119,7 +119,7 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
     // Return amount (using bountyTickets for seasonal tickets) and icon
     return {
       amount:
-        currency === seasonalTicket ? bountyTickets : items[currency] ?? 0,
+        currency === seasonalTicket ? bountyTickets : (items[currency] ?? 0),
       icon: ITEM_DETAILS[currency]?.image ?? "",
     };
   };

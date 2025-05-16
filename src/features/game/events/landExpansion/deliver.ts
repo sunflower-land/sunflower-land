@@ -128,8 +128,8 @@ export function getCountAndTypeForDelivery(
   if (name in KNOWN_IDS) {
     count =
       name in getChestItems(state)
-        ? getChestItems(state)[name as InventoryItemName] ?? new Decimal(0)
-        : state.inventory[name as InventoryItemName] ?? new Decimal(0);
+        ? (getChestItems(state)[name as InventoryItemName] ?? new Decimal(0))
+        : (state.inventory[name as InventoryItemName] ?? new Decimal(0));
   } else {
     count =
       name in availableWardrobe(state)

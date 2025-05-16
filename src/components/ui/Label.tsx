@@ -90,7 +90,7 @@ interface Props {
   onClick?: () => void;
 }
 
-export const Label: React.FC<Props> = ({
+export const Label: React.FC<React.PropsWithChildren<Props>> = ({
   children,
   className,
   type,

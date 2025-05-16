@@ -41,7 +41,7 @@ export const Experiment: React.FC<Props> = ({
   const previousAttempts = potionHouse?.game.attempts ?? [];
   const lastAttempt = previousAttempts[previousAttempts.length - 1] ?? [];
 
-  const guessRow = isNewGame ? 0 : potionHouse?.game.attempts.length ?? 0;
+  const guessRow = isNewGame ? 0 : (potionHouse?.game.attempts.length ?? 0);
   const attempts = isNewGame
     ? new Array<{ potion: null; status: undefined }[]>(3).fill(EMPTY_ATTEMPT)
     : previousAttempts.concat(new Array(3).fill(EMPTY_ATTEMPT)).slice(0, 3);
@@ -144,7 +144,7 @@ export const Experiment: React.FC<Props> = ({
                     />
                     {/* <Prog */}
                     <ResizableBar
-                      percentage={isBombed ? 100 : score ?? 0}
+                      percentage={isBombed ? 100 : (score ?? 0)}
                       type={isBombed ? "error" : "health"}
                       outerDimensions={{
                         width: 28,
