@@ -14,6 +14,7 @@ import {
   DESERT_GRID_HEIGHT,
   DESERT_GRID_WIDTH,
   getArtefactsFound,
+  hasClaimedReward,
   secondsTillDesertStorm,
 } from "features/game/types/desert";
 import { ProgressBarContainer } from "../containers/ProgressBarContainer";
@@ -83,6 +84,7 @@ export class BeachScene extends BaseScene {
   alreadyNotifiedOfClaim = false;
   digSoundsCooldown = false;
   sandHole?: Phaser.GameObjects.Image;
+  digbyAlertSprite: Phaser.GameObjects.Sprite | undefined;
 
   constructor() {
     super({ name: "beach", map: { json: mapJSON } });
@@ -169,6 +171,44 @@ export class BeachScene extends BaseScene {
     });
   }
 
+  get treasuresFound() {
+    return getArtefactsFound({ game: this.gameService.state.context.state });
+  }
+
+  get percentageTreasuresFound() {
+    return Math.round((this.treasuresFound / 3) * 100);
+  }
+
+  get hasClaimedStreakReward() {
+    return hasClaimedReward({ game: this.gameService.state.context.state });
+  }
+
+  handleDigbyAlertSprite() {
+    // Add an alert sprite if required artefacts found but reward is not claimed
+    if (
+      !this.digbyAlertSprite?.active &&
+      this.percentageTreasuresFound >= 100 &&
+      !this.hasClaimedStreakReward
+    ) {
+      this.digbyAlertSprite = this.add
+        .sprite(336, 196, "alert")
+        .setDepth(1000000000);
+    }
+
+    if (this.digbyAlertSprite?.active) {
+      // Hide or show the alert sprite based on Digby's speaking status
+      if (this.npcs.digby?.isSpeaking) {
+        this.digbyAlertSprite.setVisible(false);
+      } else {
+        this.digbyAlertSprite.setVisible(true);
+      }
+
+      // Destroy the alert sprite if the reward is claimed
+      if (this.hasClaimedStreakReward) {
+        this.digbyAlertSprite.destroy();
+      }
+    }
+  }
   updatePirateChest() {
     const piratePotionEquipped = isWearableActive({
       game: this.gameService.state.context.state,
@@ -1097,14 +1137,6 @@ export class BeachScene extends BaseScene {
     this.noToolHoverBox?.setVisible(false);
   };
 
-  get treasuresFound() {
-    return getArtefactsFound({ game: this.gameService.state.context.state });
-  }
-
-  get percentageTreasuresFound() {
-    return Math.round((this.treasuresFound / 3) * 100);
-  }
-
   get isAncientShovelActive() {
     return isWearableActive({
       name: "Ancient Shovel",
@@ -1479,6 +1511,13 @@ export class BeachScene extends BaseScene {
           npcModalManager.open("digby");
         });
         this.recordDigAnalytics();
+      } else if (
+        this.percentageTreasuresFound >= 100 &&
+        !this.hasClaimedStreakReward
+      ) {
+        this.time.delayedCall(2000, () => {
+          npcModalManager.open("digby");
+        });
       }
 
       // remove sand hole
@@ -1568,6 +1607,8 @@ export class BeachScene extends BaseScene {
 
   public update() {
     if (!this.currentPlayer) return;
+
+    this.handleDigbyAlertSprite();
 
     this.handleUpdateSelectedItem();
     this.handleNameTagVisibility();

@@ -8,10 +8,9 @@ import {
   DESERT_GRID_WIDTH,
   DiggingGrid,
   DESERT_GRID_HEIGHT,
-  getTreasureCount,
-  getTreasuresFound,
   getArtefactsFound,
   SEASONAL_ARTEFACT,
+  hasClaimedReward,
 } from "features/game/types/desert";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { NPC_WEARABLES } from "lib/npcs";
@@ -420,18 +419,15 @@ const BoostDigItems: (
 const getDefaultTab = (game: GameState) => {
   if (!hasReadDigbyIntro()) return 1;
 
-  const treasureCount = getTreasureCount({ game });
-  const treasuresFound = getTreasuresFound({ game });
-  const percentage = Math.round((treasuresFound.length / treasureCount) * 100);
-
-  if (percentage >= 100) {
-    return 0;
-  }
-
   const remainingDigs = getRemainingDigs(game);
+  const artefactsFound = getArtefactsFound({ game });
+  const percentage = Math.round((artefactsFound / 3) * 100);
+  const hasClaimedStreakReward = hasClaimedReward({ game });
 
   if (remainingDigs <= 0) {
     return 2;
+  } else if (percentage >= 100 && !hasClaimedStreakReward) {
+    return 0;
   }
 
   return 0;
@@ -445,6 +441,12 @@ export const Digby: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
   const inventory = gameState.context.state.inventory;
   const digsLeft = getRemainingDigs(gameState.context.state);
+
+  const artefactsFound = getArtefactsFound({ game: gameState.context.state });
+  const percentage = Math.round((artefactsFound / 3) * 100);
+  const hasClaimedStreakReward = hasClaimedReward({
+    game: gameState.context.state,
+  });
 
   const { t } = useAppTranslation();
 
@@ -474,6 +476,7 @@ export const Digby: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         {
           icon: ITEM_DETAILS["Sand Shovel"].image,
           name: t("digby.patterns"),
+          alert: percentage >= 100 && !hasClaimedStreakReward,
         },
         {
           icon: SUNNYSIDE.icons.expression_confused,
