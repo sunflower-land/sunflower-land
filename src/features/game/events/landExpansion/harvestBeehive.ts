@@ -60,10 +60,7 @@ const applySwarmBoostToCrops = (
         swarmActivatedAt: createdAt,
       };
 
-      return {
-        ...acc,
-        [cropId]: updatedPlot,
-      };
+      return { ...acc, [cropId]: updatedPlot };
     },
     {} as GameState["crops"],
   );
