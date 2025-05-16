@@ -1,10 +1,9 @@
 import { produce } from "immer";
 import { GameState } from "../../types/game";
-import { FishingLocation } from "features/game/types/fishing";
 
 export type MissFishAction = {
   type: "fish.missed";
-  location: FishingLocation;
+  location?: string;
 };
 
 type Options = {
@@ -13,20 +12,15 @@ type Options = {
   createdAt?: number;
 };
 
-export function missFish({
-  state,
-  action,
-  createdAt = Date.now(),
-}: Options): GameState {
+export function missFish({ state }: Options): GameState {
   return produce(state, (game) => {
-    const location = action.location;
-    if (!game.fishing[location].castedAt) {
+    if (!game.fishing.wharf.castedAt) {
       throw new Error("Nothing has been casted");
     }
 
-    delete game.fishing[location].castedAt;
-    delete game.fishing[location].caught;
-    delete game.fishing[location].chum;
+    delete game.fishing.wharf.castedAt;
+    delete game.fishing.wharf.caught;
+    delete game.fishing.wharf.chum;
 
     return {
       ...game,

@@ -4,7 +4,10 @@ import winter_bubbles from "assets/decorations/winter_water_bubbles.png";
 import frozen_wharf from "assets/decorations/frozen_wharf.png";
 import fishSilhoutte from "assets/decorations/fish_silhouette.png";
 import { Context } from "features/game/GameProvider";
-import { MapPlacement } from "features/game/expansion/components/MapPlacement";
+import {
+  Coordinates,
+  MapPlacement,
+} from "features/game/expansion/components/MapPlacement";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { MachineState } from "features/game/lib/gameMachine";
 import React, { useContext, useState } from "react";
@@ -30,7 +33,7 @@ export const Fisherman: React.FC = () => {
   const isVisiting = useSelector(gameService, _isVisiting);
   const season = useSelector(gameService, _season);
 
-  const wharfCoords = () => {
+  const wharfCoords = (): Coordinates => {
     if (expansionCount < 7) {
       return { x: -1, y: -3 };
     }
@@ -42,11 +45,7 @@ export const Fisherman: React.FC = () => {
   };
 
   const cast = (bait: FishingBait, chum?: InventoryItemName) => {
-    gameService.send("rod.casted", {
-      bait,
-      chum,
-      location: "wharf",
-    });
+    gameService.send("rod.casted", { bait, chum });
     gameService.send("SAVE");
     setShowModal(false);
   };
@@ -54,12 +53,7 @@ export const Fisherman: React.FC = () => {
   return (
     <>
       <div className={classNames({ "pointer-events-none": isVisiting })}>
-        <MapPlacement
-          x={wharfCoords().x}
-          y={wharfCoords().y}
-          width={3}
-          height={3}
-        >
+        <MapPlacement {...wharfCoords()} width={3} height={3}>
           <FishermanNPC onClick={() => setShowModal(true)} />
           {season === "winter" ? (
             <>

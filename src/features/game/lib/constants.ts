@@ -532,9 +532,7 @@ export const INITIAL_FARM: GameState = {
 
   fishing: {
     dailyAttempts: {},
-    weather: "Sunny",
     wharf: {},
-    beach: {},
   },
   mailbox: {
     read: [],
@@ -743,9 +741,7 @@ export const TEST_FARM: GameState = {
   island: { type: "basic" },
   farmHands: { bumpkins: {} },
   fishing: {
-    weather: "Sunny",
     wharf: {},
-    beach: {},
     dailyAttempts: {},
   },
   greenhouse: {
@@ -1088,9 +1084,7 @@ export const EMPTY: GameState = {
   farmActivity: {},
   milestones: {},
   fishing: {
-    weather: "Sunny",
     wharf: {},
-    beach: {},
     dailyAttempts: {},
   },
   mushrooms: {
