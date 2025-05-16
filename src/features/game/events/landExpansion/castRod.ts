@@ -16,6 +16,7 @@ export type CastRodAction = {
   type: "rod.casted";
   bait: FishingBait;
   chum?: Chum;
+  location?: string;
 };
 
 type Options = {

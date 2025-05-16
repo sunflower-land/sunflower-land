@@ -37,7 +37,6 @@ export const WaterComponent: React.FC<Props> = ({
   const season = gameState.season.season;
   const weather = getActiveCalendarEvent({ game: gameState });
 
-
   return (
     // Container
     <div

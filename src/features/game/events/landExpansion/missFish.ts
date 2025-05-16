@@ -3,6 +3,7 @@ import { GameState } from "../../types/game";
 
 export type MissFishAction = {
   type: "fish.missed";
+  location?: string;
 };
 
 type Options = {

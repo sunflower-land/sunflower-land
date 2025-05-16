@@ -6,6 +6,7 @@ import { produce } from "immer";
 
 export type ReelRodAction = {
   type: "rod.reeled";
+  location?: string;
 };
 
 type Options = {

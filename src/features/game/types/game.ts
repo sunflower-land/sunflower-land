@@ -1125,6 +1125,10 @@ export type Fishing = {
     [date: string]: number;
   };
   extraReels?: ExtraReels;
+
+  // TODO remove after 1st June
+  beach?: FishingSpot;
+  weather?: string;
 };
 
 export type ExtraReels = {
