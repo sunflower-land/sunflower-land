@@ -35,8 +35,8 @@ export const STREAMS_CONFIG = {
   } as StreamConfig,
   friday: {
     day: 5,
-    startHour: 12,
-    startMinute: 30,
+    startHour: 11,
+    startMinute: 0,
     durationMinutes: 60,
     notifyMinutesBefore: 15,
   } as StreamConfig,
@@ -158,16 +158,18 @@ export function getStream(): StreamNotification | null {
 
 export const Streams: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { t } = useAppTranslation();
-  const tuesdayStream = getNextStreamTime({
-    day: STREAMS_CONFIG.tuesday.day,
-    hour: STREAMS_CONFIG.tuesday.startHour,
-    minute: STREAMS_CONFIG.tuesday.startMinute,
-  }).startTime; // Tuesday 3:30 PM
-  const fridayStream = getNextStreamTime({
-    day: STREAMS_CONFIG.friday.day,
-    hour: STREAMS_CONFIG.friday.startHour,
-    minute: STREAMS_CONFIG.friday.startMinute,
-  }).startTime; // Friday 11:00 AM
+  const { startTime: tuesdayStream, isOngoing: tuesdayOngoing } =
+    getNextStreamTime({
+      day: STREAMS_CONFIG.tuesday.day,
+      hour: STREAMS_CONFIG.tuesday.startHour,
+      minute: STREAMS_CONFIG.tuesday.startMinute,
+    }); // Tuesday 3:30 PM
+  const { startTime: fridayStream, isOngoing: fridayOngoing } =
+    getNextStreamTime({
+      day: STREAMS_CONFIG.friday.day,
+      hour: STREAMS_CONFIG.friday.startHour,
+      minute: STREAMS_CONFIG.friday.startMinute,
+    }); // Friday 11:00 AM
   const timeOptions: Intl.DateTimeFormatOptions = {
     year: "numeric",
     month: "long",
@@ -195,6 +197,15 @@ export const Streams: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               timeZone,
             })}
           </Label>
+          {(tuesdayOngoing || fridayOngoing) && (
+            <Label
+              type="success"
+              icon={SUNNYSIDE.icons.stopwatch}
+              className="mb-1"
+            >
+              {t(`streams.${tuesdayOngoing ? "tuesday" : "friday"}.ongoing`)}
+            </Label>
+          )}
           <Label
             type="transparent"
             icon={SUNNYSIDE.icons.stopwatch}
