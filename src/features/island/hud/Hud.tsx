@@ -25,6 +25,7 @@ import { MarketplaceButton } from "./components/MarketplaceButton";
 import { GameCalendar } from "features/game/expansion/components/temperateSeason/GameCalendar";
 import { LandscapeButton } from "./components/LandscapeButton";
 import { RewardsButton } from "./components/referral/RewardsButton";
+import { StreamCountdown } from "./components/StreamCountdown";
 
 const _farmAddress = (state: MachineState) => state.context.farmAddress;
 const _linkedWallet = (state: MachineState) => state.context.linkedWallet;
@@ -120,6 +121,7 @@ const HudComponent: React.FC<{
           }}
         >
           <TransactionCountdown />
+          <StreamCountdown />
           <AuctionCountdown />
         </div>
         <div

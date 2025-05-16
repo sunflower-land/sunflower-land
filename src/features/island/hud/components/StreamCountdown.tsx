@@ -42,7 +42,7 @@ const Countdown: React.FC<{
   return (
     <div>
       <div className="flex">
-        <Label type="default" className="ml-1" icon={promoteIcon}>
+        <Label type="success" className="ml-1" icon={promoteIcon}>
           <div
             className="sm:max-w-[350px] max-w-[150px]"
             style={{
