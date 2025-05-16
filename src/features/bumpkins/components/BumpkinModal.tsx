@@ -12,7 +12,6 @@ import {
 } from "features/game/lib/level";
 
 import { AchievementsModal } from "./Achievements";
-import { SkillsModal } from "./Skills";
 import { Skills } from "./revamp/Skills";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -115,16 +114,6 @@ export const BumpkinModal: React.FC<Props> = ({
   if (view === "achievements") {
     return (
       <AchievementsModal
-        readonly={readonly}
-        onBack={() => setView("home")}
-        onClose={onClose}
-      />
-    );
-  }
-
-  if (view === "skills") {
-    return (
-      <SkillsModal
         readonly={readonly}
         onBack={() => setView("home")}
         onClose={onClose}
