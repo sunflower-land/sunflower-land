@@ -11,6 +11,7 @@ import {
 import { Equipped } from "../types/bumpkin";
 import { tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 import { EXPIRY_COOLDOWNS } from "./collectibleBuilt";
+import { DEFAULT_HONEY_PRODUCTION_TIME } from "./updateBeehives";
 
 export const STATIC_OFFLINE_FARM: GameState = {
   settings: {},
@@ -23,6 +24,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     expiresAt: Date.now() + 31 * 24 * 60 * 60 * 1000,
   },
   inventory: {
+    "Crop Plot": new Decimal(66),
     "Love Charm": new Decimal(1000),
     "Great Bloom Banner": new Decimal(1),
     "Winds of Change Banner": new Decimal(1),
@@ -116,7 +118,15 @@ export const STATIC_OFFLINE_FARM: GameState = {
   wardrobe: {},
   previousWardrobe: {},
   bank: { taxFreeSFL: 0, withdrawnAmount: 0 },
-  beehives: {},
+  beehives: {
+    "123": {
+      swarm: true,
+      honey: { updatedAt: 0, produced: DEFAULT_HONEY_PRODUCTION_TIME },
+      flowers: [],
+      x: 0,
+      y: 0,
+    },
+  },
   crimstones: {},
   flowers: {
     discovered: {
