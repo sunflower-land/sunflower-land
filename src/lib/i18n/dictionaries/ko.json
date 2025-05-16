@@ -5750,7 +5750,6 @@
   "easter-eggstravaganza.portal.rewardMessage": "축하합니다. 임무를 완수했습니다!보상은 다음과 같습니다.",
   "maxPerPerson": "플레이어당 최대: {{max}}",
   "stream.beginsSoon": "타운홀이 시작됩니다",
-  "stream.isLive": "타운 홀",
   "description.bronzeLoveBox": "브론즈 러브 박스",
   "description.silverLoveBox": "실버 러브 박스",
   "description.goldLoveBox": "골드 러브 박스",
@@ -5875,5 +5874,8 @@
   "merkl.disclaimer": "항상 DYOR을 사용하고 사기를 조심하세요.이것은 투자가 아닙니다.",
   "merkl.one": "Merkl 앱에서 매일 꽃을 받으세요.",
   "merkl.two": "순위표 기준 상위 10위, 50위, 250개 제공자에게 매일 게임 내 보너스 보상 지급",
-  "merkl.three": "모든 공급자를 위한 보너스 푸드 박스와 전용 웨어러블!"
+  "merkl.three": "모든 공급자를 위한 보너스 푸드 박스와 전용 웨어러블!",
+  "streams.tuesday.ongoing": "디스코드 스트림 진행 중",
+  "streams.friday.ongoing": "트위치 스트리밍 진행 중",
+  "stream.isLive": "타운 홀이 생중계되었습니다!"
 }

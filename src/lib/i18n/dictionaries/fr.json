@@ -5750,7 +5750,6 @@
   "easter-eggstravaganza.portal.rewardMessage": "Félicitations, vous avez terminé la mission ! Voici ta récompense.",
   "maxPerPerson": "Maximum par joueur : {{max}}",
   "stream.beginsSoon": "L'hôtel de ville commence à",
-  "stream.isLive": "Hôtel de ville",
   "description.bronzeLoveBox": "Une boîte à amour en bronze",
   "description.silverLoveBox": "Une boîte à amour en argent",
   "description.goldLoveBox": "Une boîte à amour dorée",
@@ -5875,5 +5874,8 @@
   "merkl.disclaimer": "Toujours DYOR et méfiez-vous des escroqueries. Il ne s'agit pas d'un investissement",
   "merkl.one": "Réclamez FLOWER chaque jour dans l'application Merkl.",
   "merkl.two": "Des récompenses bonus chaque jour en jeu pour les 10, 50 et 250 meilleurs fournisseurs en fonction du classement",
-  "merkl.three": "Des boîtes alimentaires en prime et un accessoire portable exclusif pour tous les fournisseurs !"
+  "merkl.three": "Des boîtes alimentaires en prime et un accessoire portable exclusif pour tous les fournisseurs !",
+  "streams.tuesday.ongoing": "Diffusion Discord en cours",
+  "streams.friday.ongoing": "Stream Twitch en cours",
+  "stream.isLive": "L'hôtel de ville est en ligne !"
 }

@@ -5750,7 +5750,6 @@
   "easter-eggstravaganza.portal.rewardMessage": "Parabéns, você completou a missão! Aqui está sua recompensa.",
   "maxPerPerson": "Máximo por jogador: {{max}}",
   "stream.beginsSoon": "A prefeitura começa em",
-  "stream.isLive": "Câmara Municipal",
   "description.bronzeLoveBox": "Uma caixa de amor de bronze",
   "description.silverLoveBox": "Uma caixa de amor prateada",
   "description.goldLoveBox": "Uma caixa de amor dourada",
@@ -5875,5 +5874,8 @@
   "merkl.disclaimer": "Sempre faça você mesmo e tenha cuidado com os golpes. Isso não é um investimento",
   "merkl.one": "Solicite FLOWER todos os dias no aplicativo Merkl.",
   "merkl.two": "Recompensas de bônus diárias no jogo para os 10, 50 e 250 melhores fornecedores, com base na tabela de classificação",
-  "merkl.three": "Uma caixa de comida bônus e um dispositivo vestível exclusivo para todos os fornecedores!"
+  "merkl.three": "Uma caixa de comida bônus e um dispositivo vestível exclusivo para todos os fornecedores!",
+  "streams.tuesday.ongoing": "Discord Stream em andamento",
+  "streams.friday.ongoing": "Transmissão do Twitch em andamento",
+  "stream.isLive": "A prefeitura está ao vivo!"
 }

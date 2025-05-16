@@ -5750,7 +5750,6 @@
   "easter-eggstravaganza.portal.rewardMessage": "Selamat, Anda telah menyelesaikan misi! Inilah hadiahmu.",
   "maxPerPerson": "Maks per pemain: {{max}}",
   "stream.beginsSoon": "Balai Kota Dimulai Pada",
-  "stream.isLive": "Balai Kota",
   "description.bronzeLoveBox": "Kotak cinta perunggu",
   "description.silverLoveBox": "Kotak cinta perak",
   "description.goldLoveBox": "Kotak cinta emas",
@@ -5875,5 +5874,8 @@
   "merkl.disclaimer": "Selalu DYOR dan waspadalah terhadap penipuan. Ini bukan investasi",
   "merkl.one": "Klaim BUNGA setiap hari di aplikasi Merkl.",
   "merkl.two": "Hadiah bonus setiap hari dalam game untuk 10, 50 & 250 penyedia teratas berdasarkan papan peringkat",
-  "merkl.three": "Kotak makanan bonus & perangkat yang dapat dikenakan eksklusif untuk semua penyedia!"
+  "merkl.three": "Kotak makanan bonus & perangkat yang dapat dikenakan eksklusif untuk semua penyedia!",
+  "streams.tuesday.ongoing": "Streaming Discord Berlangsung",
+  "streams.friday.ongoing": "Streaming Twitch Sedang Berlangsung",
+  "stream.isLive": "Balai Kota Langsung!"
 }

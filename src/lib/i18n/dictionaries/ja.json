@@ -5750,7 +5750,6 @@
   "easter-eggstravaganza.portal.rewardMessage": "おめでとうございます。ミッションを完了しました！報酬はこちらです。",
   "maxPerPerson": "1 プレイヤーあたりの最大値:{{max}}",
   "stream.beginsSoon": "タウンホールが始まる",
-  "stream.isLive": "タウンホール",
   "description.bronzeLoveBox": "ブロンズのラブボックス",
   "description.silverLoveBox": "シルバーラブボックス",
   "description.goldLoveBox": "ゴールドラブボックス",
@@ -5875,5 +5874,8 @@
   "merkl.disclaimer": "常にDYORを行い、詐欺に注意してください。これは投資ではありません。",
   "merkl.one": "Merklアプリで毎日花を受け取ってください。",
   "merkl.two": "リーダーボードに基づく上位10社、50社、250社のプロバイダーには、ゲーム内で毎日ボーナス報酬が与えられます",
-  "merkl.three": "おまけのフードボックスと全プロバイダー限定のウェアラブルをプレゼント！"
+  "merkl.three": "おまけのフードボックスと全プロバイダー限定のウェアラブルをプレゼント！",
+  "streams.tuesday.ongoing": "Discordストリーム配信中",
+  "streams.friday.ongoing": "Twitch ストリーム配信中",
+  "stream.isLive": "タウンホールがライブです！"
 }

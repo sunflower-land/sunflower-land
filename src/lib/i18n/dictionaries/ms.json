@@ -5750,7 +5750,6 @@
   "easter-eggstravaganza.portal.rewardMessage": "Tahniah, anda menyelesaikan misi! Inilah ganjaran anda.",
   "maxPerPerson": "Maksimum bagi setiap pemain: {{max}}",
   "stream.beginsSoon": "Dewan Bandaran Bermula Pada",
-  "stream.isLive": "Dewan Bandaran",
   "description.bronzeLoveBox": "Kotak cinta gangsa",
   "description.silverLoveBox": "Kotak cinta perak",
   "description.goldLoveBox": "Kotak cinta emas",
@@ -5875,5 +5874,8 @@
   "merkl.disclaimer": "Sentiasa DIOR dan berhati-hati dengan penipuan. Ini bukan pelaburan",
   "merkl.one": "Tuntut BUNGA setiap hari dalam aplikasi Merkl.",
   "merkl.two": "Ganjaran bonus setiap hari dalam permainan untuk pembekal 10, 50 & 250 teratas berdasarkan papan pendahulu",
-  "merkl.three": "Kotak makanan bonus & pakai eksklusif untuk semua pembekal!"
+  "merkl.three": "Kotak makanan bonus & pakai eksklusif untuk semua pembekal!",
+  "streams.tuesday.ongoing": "Stream Discord Berlangsung",
+  "streams.friday.ongoing": "Aliran Twitch Berlangsung",
+  "stream.isLive": "Dewan Bandaran hidup!"
 }

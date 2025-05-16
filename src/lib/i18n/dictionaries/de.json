@@ -5750,7 +5750,6 @@
   "easter-eggstravaganza.portal.rewardMessage": "Herzlichen Glückwunsch, du hast die Mission abgeschlossen! Hier ist deine Belohnung.",
   "maxPerPerson": "Höchstzahl pro Spieler: {{max}}",
   "stream.beginsSoon": "Das Rathaus beginnt in",
-  "stream.isLive": "Rathaus",
   "description.bronzeLoveBox": "Eine bronzene Liebesbox",
   "description.silverLoveBox": "Eine silberne Liebesbox",
   "description.goldLoveBox": "Eine goldene Liebesbox",
@@ -5875,5 +5874,8 @@
   "merkl.disclaimer": "Immer DYOR und Vorsicht vor Betrug. Dies ist keine Investition",
   "merkl.one": "Hol dir FLOWER jeden Tag in der Merkl App.",
   "merkl.two": "Jeden Tag gibt es im Spiel Bonusbelohnungen für die besten 10, 50 und 250 Anbieter, basierend auf der Bestenliste",
-  "merkl.three": "Eine Bonus-Lebensmittelbox und ein exklusives Wearable für alle Anbieter!"
+  "merkl.three": "Eine Bonus-Lebensmittelbox und ein exklusives Wearable für alle Anbieter!",
+  "streams.tuesday.ongoing": "Discord-Stream läuft",
+  "streams.friday.ongoing": "Twitch-Stream läuft",
+  "stream.isLive": "Das Rathaus ist live!"
 }

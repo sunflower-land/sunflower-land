@@ -5750,7 +5750,6 @@
   "easter-eggstravaganza.portal.rewardMessage": "Tebrikler, görevi tamamladınız! İşte ödülünüz.",
   "maxPerPerson": "Oyuncu başına maksimum: {{max}}",
   "stream.beginsSoon": "Belediye Binası Başlıyor",
-  "stream.isLive": "Belediye Binası",
   "description.bronzeLoveBox": "Bronz bir aşk kutusu",
   "description.silverLoveBox": "Gümüş bir aşk kutusu",
   "description.goldLoveBox": "Altın aşk kutusu",
@@ -5875,5 +5874,8 @@
   "merkl.disclaimer": "Her zaman DYOR ve dolandırıcılıklara dikkat edin. Bu bir yatırım değil",
   "merkl.one": "Merkl uygulamasında her gün ÇIÇEK talep edin.",
   "merkl.two": "Liderlik tablosuna göre en iyi 10, 50 ve 250 sağlayıcı için oyun içi her gün bonus ödüller",
-  "merkl.three": "Bonus yiyecek kutuları ve tüm sağlayıcılar için özel bir giyilebilir cihaz!"
+  "merkl.three": "Bonus yiyecek kutuları ve tüm sağlayıcılar için özel bir giyilebilir cihaz!",
+  "streams.tuesday.ongoing": "Discord Akışı Devamında",
+  "streams.friday.ongoing": "Twitch Yayını Devamında",
+  "stream.isLive": "Belediye Binası Yayında!"
 }

@@ -5750,7 +5750,6 @@
   "easter-eggstravaganza.portal.rewardMessage": "恭喜，您完成了任务！这是您的奖励。",
   "maxPerPerson": "每位玩家至多：{{max}}",
   "stream.beginsSoon": "距离市政厅直播还剩：",
-  "stream.isLive": "市政厅正在直播",
   "description.bronzeLoveBox": "青铜爱心箱",
   "description.silverLoveBox": "白银爱心箱",
   "description.goldLoveBox": "黄金爱心箱",
@@ -5875,5 +5874,8 @@
   "merkl.disclaimer": "务必注意调查了解，谨防诈骗。这不是一项投资",
   "merkl.one": "每天在 Merkl 应用程序中领取 FLOWER。",
   "merkl.two": "根据排行榜，前 10、50 和 250 名提供者每天在游戏中获得奖励",
-  "merkl.three": "所有提供者均可获得额外的食物盒和专属穿戴品！"
+  "merkl.three": "所有提供者均可获得额外的食物盒和专属穿戴品！",
+  "streams.tuesday.ongoing": "Discord 直播正在进行中",
+  "streams.friday.ongoing": "Twitch 直播正在进行中",
+  "stream.isLive": "市政厅上线了！"
 }

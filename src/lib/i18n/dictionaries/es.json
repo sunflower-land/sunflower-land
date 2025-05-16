@@ -5750,7 +5750,6 @@
   "easter-eggstravaganza.portal.rewardMessage": "¡Enhorabuena, has completado la misión! Aquí tienes tu recompensa.",
   "maxPerPerson": "Máximo por jugador: {{max}}",
   "stream.beginsSoon": "El ayuntamiento comienza en",
-  "stream.isLive": "Ayuntamiento",
   "description.bronzeLoveBox": "Una caja de amor de bronce",
   "description.silverLoveBox": "Una caja de amor plateada",
   "description.goldLoveBox": "Una caja de amor dorada",
@@ -5875,5 +5874,8 @@
   "merkl.disclaimer": "Siempre DYOR y ten cuidado con las estafas. Esto no es una inversión",
   "merkl.one": "Reclama FLOWER todos los días en la aplicación Merkl.",
   "merkl.two": "Recompensas adicionales cada día en el juego para los 10, 50 y 250 mejores proveedores según la clasificación",
-  "merkl.three": "¡Cajas de comida adicionales y un dispositivo portátil exclusivo para todos los proveedores!"
+  "merkl.three": "¡Cajas de comida adicionales y un dispositivo portátil exclusivo para todos los proveedores!",
+  "streams.tuesday.ongoing": "Discord Stream continúa",
+  "streams.friday.ongoing": "Transmisión de Twitch en curso",
+  "stream.isLive": "¡El Ayuntamiento está en vivo!"
 }
