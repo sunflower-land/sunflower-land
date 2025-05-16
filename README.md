@@ -120,9 +120,9 @@ To add new item:
 
 🧑‍🎨 Artists - https://github.com/sunflower-land/sunflower-land/blob/main/docs/ART_CONTRIBUTING.md
 
-# ⚖️ No Licence
+# ⚖️ No License
 
-The previous version was used unethically on other Blockchains. The team is working on deciding the licence that will best suit our community. Until then, the code falls under No Licence and cannot be reused.
+The previous version was used unethically on other Blockchains. The team is working on deciding the license that will best suit our community. Until then, the code falls under No License and cannot be reused.
 
 All media assets (images and music) are not available for use in commercial or private projects.
 
