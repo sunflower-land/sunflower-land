@@ -23,8 +23,8 @@ describe("moveFlowerBed", () => {
           flowers: {
             discovered: {},
             flowerBeds: {
-              "1": { x: 1, y: 1, createdAt: 0, height: 1, width: 3 },
-              "2": { x: 0, y: 0, createdAt: 0, height: 1, width: 3 },
+              "1": { x: 1, y: 1, createdAt: 0 },
+              "2": { x: 0, y: 0, createdAt: 0 },
             },
           },
         },
@@ -45,7 +45,7 @@ describe("moveFlowerBed", () => {
         flowers: {
           discovered: {},
           flowerBeds: {
-            "1": { x: 1, y: 1, createdAt: 0, height: 0, width: 0 },
+            "1": { x: 1, y: 1, createdAt: 0 },
           },
         },
       },

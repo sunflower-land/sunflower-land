@@ -110,7 +110,7 @@ export const ManekiNeko: React.FC<Props> = ({ id }) => {
           }}
         >
           <TimeLeftPanel
-            text={t("ready.in")}
+            text={`${t("ready.in")}:`}
             timeLeft={nextRefreshInSeconds}
             showTimeLeft={showTooltip}
           />

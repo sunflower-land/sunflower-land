@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { GameState } from "features/game/types/game";
+import { FlowerBed, GameState } from "features/game/types/game";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 import { detectCollision } from "features/game/expansion/placeable/lib/collisionDetection";
 import { produce } from "immer";
@@ -54,14 +54,15 @@ export function placeFlowerBed({
       throw new Error("ID exists");
     }
 
+    const flowerBed: FlowerBed = {
+      createdAt,
+      x: action.coordinates.x,
+      y: action.coordinates.y,
+    };
+
     game.flowers.flowerBeds = {
       ...game.flowers.flowerBeds,
-      [action.id]: {
-        createdAt,
-        x: action.coordinates.x,
-        y: action.coordinates.y,
-        ...RESOURCE_DIMENSIONS["Flower Bed"],
-      },
+      [action.id]: flowerBed,
     };
 
     return game;

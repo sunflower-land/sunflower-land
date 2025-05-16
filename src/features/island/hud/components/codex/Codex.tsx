@@ -33,11 +33,11 @@ import {
   getSeasonalTicket,
 } from "features/game/types/seasons";
 import { ChoreBoard } from "./pages/ChoreBoard";
-import { FLOWERS } from "features/game/types/flowers";
 import { CompetitionDetails } from "features/competition/CompetitionBoard";
 import { MachineState } from "features/game/lib/gameMachine";
 import { LoveRushWidget } from "features/announcements/AnnouncementWidgets";
 import { hasFeatureAccess } from "lib/flags";
+import { ANIMALS } from "features/game/types/animals";
 
 interface Props {
   show: boolean;
@@ -58,16 +58,8 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
     gameService,
     _isLoveRushEventActive,
   );
-  const {
-    username,
-    bertObsession,
-    npcs,
-    bounties,
-    delivery,
-    choreBoard,
-    kingdomChores,
-    faction,
-  } = state;
+  const { username, bounties, delivery, choreBoard, kingdomChores, faction } =
+    state;
 
   const [currentTab, setCurrentTab] = useState<CodexCategoryName>("Deliveries");
   const [showMilestoneReached, setShowMilestoneReached] = useState(false);
@@ -117,28 +109,17 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
 
   const id = username ?? String(farmId);
 
-  const currentObsession = bertObsession;
-  const obsessionCompletedAt = npcs?.bert?.questCompletedAt;
-
-  const incompleteObsession =
-    !currentObsession ||
-    (obsessionCompletedAt &&
-      obsessionCompletedAt >= currentObsession.startDate &&
-      obsessionCompletedAt <= currentObsession.endDate)
-      ? 0
-      : 1;
-
-  const incompleteFlowerBounties = bounties.requests.filter(
-    (deal) => deal.name in FLOWERS,
+  const incompleteMegaBounties = bounties.requests.filter(
+    (deal) => !Object.keys(ANIMALS).includes(deal.name),
   );
-  const incompleteFlowerBountiesCount = incompleteFlowerBounties.reduce(
+  const incompleteMegaBountiesCount = incompleteMegaBounties.reduce(
     (count, deal) => {
       const isSold = !!bounties.completed.find(
         (request) => request.id === deal.id,
       );
       return isSold ? count - 1 : count;
     },
-    incompleteFlowerBounties.length,
+    incompleteMegaBounties.length,
   );
 
   const incompleteDeliveries = delivery.orders.filter(
@@ -169,7 +150,7 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
     {
       name: "Leaderboard",
       icon: ITEM_DETAILS[getSeasonalTicket()].image,
-      count: incompleteObsession + incompleteFlowerBountiesCount,
+      count: incompleteMegaBountiesCount,
     },
     {
       name: "Fish",

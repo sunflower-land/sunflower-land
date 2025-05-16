@@ -195,8 +195,8 @@ export const EasterEggstravaganza: React.FC<Props> = ({ onClose }) => {
       <PortalLeaderboard
         onBack={() => setPage("play")}
         name={"easter-eggstravaganza"}
-        startDate={new Date(Date.UTC(2025, 3, 20))}
-        endDate={new Date(Date.UTC(2025, 3, 27))}
+        startDate={new Date(Date.UTC(2025, 3, 22))}
+        endDate={new Date(Date.UTC(2025, 3, 28))}
         farmId={gameService.state.context.farmId}
         jwt={authService.state.context.user.rawToken as string}
       />
@@ -209,8 +209,8 @@ export const EasterEggstravaganza: React.FC<Props> = ({ onClose }) => {
         isAccumulator
         onBack={() => setPage("play")}
         name={"easter-eggstravaganza"}
-        startDate={new Date(Date.UTC(2025, 3, 20))}
-        endDate={new Date(Date.UTC(2025, 3, 27))}
+        startDate={new Date(Date.UTC(2025, 3, 22))}
+        endDate={new Date(Date.UTC(2025, 3, 28))}
         farmId={gameService.state.context.farmId}
         jwt={authService.state.context.user.rawToken as string}
       />

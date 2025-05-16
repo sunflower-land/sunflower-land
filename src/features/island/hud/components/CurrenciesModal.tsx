@@ -7,7 +7,6 @@ import { Panel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/game/GameProvider";
 import { VIPItems } from "features/game/components/modal/components/VIPItems";
-import { BuyGemsWidget } from "features/announcements/AnnouncementWidgets";
 import { DepositFlower } from "./DepositFlower";
 import { SwapSFLForCoins } from "./SwapSFLForCoins";
 import * as AuthProvider from "features/auth/lib/Provider";
@@ -30,7 +29,7 @@ import vipIcon from "assets/icons/vip.webp";
 import gemIcon from "assets/icons/gem.webp";
 import walletIcon from "assets/icons/wallet.png";
 import exchangeIcon from "assets/icons/exchange.png";
-import { hasFeatureAccess } from "lib/flags";
+
 type TransactionPage = "menu" | "deposit" | "vip" | "gems" | "swap";
 
 type PageButtonOptions = {
@@ -94,18 +93,11 @@ export const CurrenciesModal: React.FC<Props> = ({ show, onClose }) => {
       icon: vipIcon,
       label: t("season.vip.purchase"),
     },
-    ...(hasFeatureAccess(
-      gameService.getSnapshot().context.state,
-      "FLOWER_DEPOSIT",
-    )
-      ? {
-          deposit: {
-            page: "deposit",
-            icon: flowerIcon,
-            label: t("transaction.deposit.flower"),
-          },
-        }
-      : {}),
+    deposit: {
+      page: "deposit",
+      icon: flowerIcon,
+      label: t("transaction.deposit.flower"),
+    },
     swap: {
       page: "swap",
       icon: exchangeIcon,
@@ -251,7 +243,6 @@ export const CurrenciesModal: React.FC<Props> = ({ show, onClose }) => {
             )}
           </Panel>
           <RoninSupportWidget />
-          <BuyGemsWidget />
         </>
       )}
     </Modal>

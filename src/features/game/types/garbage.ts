@@ -7,6 +7,7 @@ import { getObjectEntries } from "../expansion/lib/utils";
 export type GarbageName =
   | Extract<
       InventoryItemName,
+      | "Easter Token 2025"
       | "Block Buck"
       | "War Bond"
       | "Love Letter"
@@ -164,5 +165,9 @@ export const GARBAGE: Record<GarbageName, Garbage> = {
     sellPrice: 0,
     gems: 0,
     items: { "Love Charm": new Decimal(25) },
+  },
+  "Easter Token 2025": {
+    sellPrice: 1,
+    gems: 0,
   },
 };

@@ -35,11 +35,16 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { SFLDiscount } from "features/game/lib/SFLDiscount";
 import {
+  FLOWER_BOXES,
+  FlowerBox,
   getSeasonalItemsCrafted,
   getStore,
+  isBoxBoughtWithinSeason,
   isKeyBoughtWithinSeason,
 } from "features/game/events/landExpansion/buySeasonalItem";
 import { ARTEFACT_SHOP_KEYS } from "features/game/types/collectibles";
+import { REWARD_BOXES } from "features/game/types/rewardBoxes";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   itemsLabel?: string;
@@ -104,7 +109,7 @@ export const ItemsList: React.FC<Props> = ({
     return "";
   };
 
-  const filteredItems = type
+  let filteredItems = type
     ? items.filter((item) => {
         // Filter by type if provided
         if (type === "wearables" && "wearable" in item) return true;
@@ -113,6 +118,12 @@ export const ItemsList: React.FC<Props> = ({
         return false;
       })
     : items; // If no type provided, show all items
+
+  filteredItems = filteredItems.filter(
+    (item) =>
+      !((item as SeasonalStoreCollectible)?.collectible in REWARD_BOXES) ||
+      hasFeatureAccess(state, "FLOWER_BOXES"),
+  );
 
   const getCurrencyIcon = (item: SeasonalStoreItem) => {
     if (item.cost.sfl !== 0) return token;
@@ -179,10 +190,18 @@ export const ItemsList: React.FC<Props> = ({
   const isKey = (name: InventoryItemName): name is Keys =>
     name in ARTEFACT_SHOP_KEYS;
 
+  const isFlowerBox = (name: InventoryItemName): name is FlowerBox =>
+    name in FLOWER_BOXES;
+
   // For Current Tier Key - Unlocked(0) / Locked(1)
   const isKeyCounted = isKeyBoughtWithinSeason(state, tiers) ? 0 : 1;
+  // For Current Tier Box - Unlocked(0) / Locked(1)
+  const isBoxCounted = isBoxBoughtWithinSeason(state, tiers) ? 0 : 1;
+
   // Reduction is by getting the lower tier of current tier
-  const reduction = isKeyBoughtWithinSeason(state, tiers, true) ? 0 : 1;
+  const keyReduction = isKeyBoughtWithinSeason(state, tiers, true) ? 0 : 1; // Reduction is by getting the lower tier of current tier
+  const boxReduction = isBoxBoughtWithinSeason(state, tiers, true) ? 0 : 1; // Reduction is by getting the lower tier of current tier
+  const reduction = keyReduction + boxReduction;
 
   const requirements = hasRequirement(tierData) ? tierData.requirement : 0;
 
@@ -288,6 +307,10 @@ export const ItemsList: React.FC<Props> = ({
             const isItemKey = isKey(
               getItemName(item) as unknown as InventoryItemName,
             );
+            const isItemFlowerBox = isFlowerBox(
+              getItemName(item) as unknown as InventoryItemName,
+            );
+
             const balanceOfItem = getBalanceOfItem(item);
 
             return (
@@ -318,6 +341,7 @@ export const ItemsList: React.FC<Props> = ({
                     {/* Confirm Icon for non-key items */}
                     {balanceOfItem > 0 &&
                       !isItemKey &&
+                      !isItemFlowerBox &&
                       (tier === "basic" ||
                         (tier === "rare" && isRareUnlocked) ||
                         (tier === "epic" && isEpicUnlocked) ||
@@ -332,8 +356,28 @@ export const ItemsList: React.FC<Props> = ({
                         />
                       )}
 
+                    {/* Confirm Icon for key items */}
                     {isItemKey &&
+                      !isItemFlowerBox &&
                       isKeyCounted === 0 &&
+                      (tier === "basic" ||
+                        (tier === "rare" && isRareUnlocked) ||
+                        (tier === "epic" && isEpicUnlocked) ||
+                        (tier === "mega" && isMegaUnlocked)) && (
+                        <img
+                          src={SUNNYSIDE.icons.confirm}
+                          className="absolute -right-2 -top-3"
+                          style={{
+                            width: `${PIXEL_SCALE * 9}px`,
+                          }}
+                          alt="crop"
+                        />
+                      )}
+
+                    {/* Confirm Icon for Flower Box items */}
+                    {isItemFlowerBox &&
+                      !isItemKey &&
+                      isBoxCounted === 0 &&
                       (tier === "basic" ||
                         (tier === "rare" && isRareUnlocked) ||
                         (tier === "epic" && isEpicUnlocked) ||

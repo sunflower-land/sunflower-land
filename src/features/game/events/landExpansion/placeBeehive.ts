@@ -36,8 +36,6 @@ export function placeBeehive({
       x: action.coordinates.x,
       y: action.coordinates.y,
       swarm: false,
-      height: 1,
-      width: 1,
       honey: {
         updatedAt: createdAt,
         produced: 0,

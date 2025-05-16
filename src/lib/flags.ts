@@ -1,14 +1,24 @@
 import type { GameState } from "features/game/types/game";
 import { CONFIG } from "lib/config";
 
-const adminFeatureFlag = ({ wardrobe, inventory }: GameState) =>
+export const adminFeatureFlag = ({ wardrobe, inventory }: GameState) =>
   CONFIG.NETWORK === "amoy" ||
   (!!((wardrobe["Gift Giver"] ?? 0) > 0) && !!inventory["Beta Pass"]?.gt(0));
 
 const usernameFeatureFlag = (game: GameState) => {
   return (
     testnetFeatureFlag() ||
-    ["adam", "tango", "elias", "dcol", "birb", "Celinhotv", "LittleEins"]
+    [
+      "adam",
+      "tango",
+      "elias",
+      "dcol",
+      "birb",
+      "Celinhotv",
+      "LittleEins",
+      "Craig",
+      "Spencer",
+    ]
       .map((name) => name.toLowerCase())
       .includes(game.username?.toLowerCase() ?? "")
   );
@@ -42,6 +52,9 @@ const timePeriodFeatureFlag =
 
 // Used for testing production features and dev access
 export const ADMIN_IDS = [1, 3, 39488, 128727];
+
+export const MANAGER_IDS = [...ADMIN_IDS, 29];
+
 /**
  * Adam: 1
  * Spencer: 3
@@ -75,8 +88,7 @@ const FEATURE_FLAGS = {
     game.createdAt > new Date("2025-01-01T00:00:00Z").getTime() ||
     !game.verified,
   FACE_RECOGNITION_TEST: defaultFeatureFlag,
-
-  FLOWER_DEPOSIT: usernameFeatureFlag,
+  FLOWER_WITHDRAW: timeBasedFeatureFlag(new Date("2025-05-09T01:00:00Z")),
 
   // Released to All Players on 5th May
   FLOWER_GEMS: timeBasedFeatureFlag(new Date("2025-05-05T00:00:00Z")),
@@ -86,7 +98,7 @@ const FEATURE_FLAGS = {
     new Date("2025-05-01T00:00:00Z"),
   ),
   //Testnet only
-  LOVE_CHARM_REWARD_SHOP: timeBasedFeatureFlag(
+  LOVE_CHARM_REWARD_SHOP: betaTimeBasedFeatureFlag(
     new Date("2025-05-01T00:00:00Z"),
   ),
 
@@ -105,7 +117,17 @@ const FEATURE_FLAGS = {
     Date.now() < new Date("2025-04-29T00:00:00Z").getTime(),
   STREAM_STAGE_ACCESS: adminFeatureFlag,
 
-  LOVE_ISLAND: defaultFeatureFlag,
+  LOVE_ISLAND: betaTimeBasedFeatureFlag(new Date("2025-05-01T00:00:00Z")),
+
+  GOODBYE_BERT: timeBasedFeatureFlag(new Date("2025-05-01T00:00:00Z")),
+  FLOWER_BOXES: betaTimeBasedFeatureFlag(new Date("2025-05-01T00:00:00Z")),
+
+  MEGA_BOUNTIES: betaTimeBasedFeatureFlag(new Date("2025-05-05T00:00:00Z")),
+
+  WITHDRAWAL_THRESHOLD: timePeriodFeatureFlag({
+    start: new Date("2025-05-08T00:00:00Z"),
+    end: new Date("2025-06-20T00:00:00.000Z"),
+  }),
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;

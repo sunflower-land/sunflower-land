@@ -1,8 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { ButtonPanel, Panel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 
 import { Context } from "features/game/GameProvider";
+import { config } from "features/wallet/WalletProvider";
 
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
@@ -12,6 +13,7 @@ import { useAccount, useWaitForTransactionReceipt, WagmiProvider } from "wagmi";
 import {
   DEADLINE_BUFFER_MS,
   DEADLINE_MS,
+  FlowerWithdrawnTransaction,
   GameTransaction,
   loadActiveTxHash,
   ONCHAIN_TRANSACTIONS,
@@ -26,9 +28,12 @@ import { Loading } from "features/auth/components";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
-import { config } from "features/wallet/WalletProvider";
 import { QueryClientProvider } from "@tanstack/react-query";
+import { switchChain } from "@wagmi/core";
 import { GaslessWidget } from "features/announcements/AnnouncementWidgets";
+import { getAccount } from "@wagmi/core";
+import { CONFIG } from "lib/config";
+import { base, baseSepolia } from "viem/chains";
 
 const _transaction = (state: MachineState) => state.context.state.transaction;
 const compareTransaction = (prev?: GameTransaction, next?: GameTransaction) => {
@@ -37,6 +42,7 @@ const compareTransaction = (prev?: GameTransaction, next?: GameTransaction) => {
 export const TransactionCountdown: React.FC = () => {
   const { gameService } = useContext(Context);
   const [showTransaction, setShowTransaction] = useState(false);
+  const hasInitialized = useRef(false);
 
   const transaction = useSelector(
     gameService,
@@ -45,8 +51,15 @@ export const TransactionCountdown: React.FC = () => {
   );
 
   useEffect(() => {
-    // Whenever something with transaction changes - pop up
-    setShowTransaction(true);
+    if (!hasInitialized.current) {
+      hasInitialized.current = true;
+      return;
+    }
+
+    // Only show transaction modal if we have a transaction and we've initialized
+    if (transaction) {
+      setShowTransaction(true);
+    }
   }, [transaction]);
 
   if (!transaction) return null;
@@ -85,7 +98,13 @@ const TransactionWidget: React.FC<{
 
   const tx = loadActiveTxHash({
     event: transaction?.event as TransactionName,
-    sessionId: gameService.state.context.sessionId as string,
+    ...(transaction?.event === "transaction.flowerWithdrawn"
+      ? {
+          withdrawId: transaction.data.params.withdrawId,
+        }
+      : {
+          sessionId: gameService.state.context.sessionId as string,
+        }),
   });
 
   const { isSuccess, isError } = useWaitForTransactionReceipt({
@@ -213,6 +232,8 @@ export const Transaction: React.FC<Props> = ({ onClose, isBlocked }) => {
   const isTransacting = useSelector(gameService, _isTransacting);
   const { t } = useAppTranslation();
 
+  const transaction = useSelector(gameService, _transaction);
+
   if (isTransacting) {
     return (
       <div className="p-2">
@@ -224,9 +245,12 @@ export const Transaction: React.FC<Props> = ({ onClose, isBlocked }) => {
     );
   }
 
+  const walletAction =
+    transaction?.event === "transaction.flowerWithdrawn" ? "withdraw" : "sync";
+
   return (
     <>
-      <GameWallet action="sync">
+      <GameWallet action={walletAction}>
         <TransactionProgress isBlocked={isBlocked} onClose={onClose} />
       </GameWallet>
     </>
@@ -241,7 +265,10 @@ const EVENT_TO_NAME: Record<TransactionName, string> = {
   "transaction.wearablesWithdrawn": "Withdraw wearables",
   "transaction.offerAccepted": "Accept offer",
   "transaction.listingPurchased": "Purchase listing",
+  "transaction.flowerWithdrawn": "Withdraw flower",
 };
+
+const _farmId = (state: MachineState) => state.context.farmId;
 
 export const TransactionProgress: React.FC<Props> = ({
   onClose,
@@ -252,23 +279,65 @@ export const TransactionProgress: React.FC<Props> = ({
   const [error, setError] = useState<string>();
   const [showError, setShowError] = useState<boolean>();
 
-  const transaction = gameService.state.context.state.transaction;
+  const farmId = useSelector(gameService, _farmId);
+  const transaction = useSelector(gameService, _transaction);
+
+  useEffect(() => {
+    if (transaction?.event !== "transaction.flowerWithdrawn") return;
+
+    const handleSwitchChain = async () => {
+      // Force a switch to base if trying to withdraw flower
+      const { chainId } = getAccount(config);
+      const requiredChain = CONFIG.NETWORK === "mainnet" ? base : baseSepolia;
+
+      if (chainId !== requiredChain.id) {
+        await switchChain(config, {
+          chainId: requiredChain.id,
+        });
+      }
+    };
+
+    handleSwitchChain();
+  }, []);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  const getExpiringTimes = () => {
+    const txType = transaction?.event;
+
+    if (txType === "transaction.flowerWithdrawn") {
+      return {
+        expiresAt: (transaction?.createdAt ?? 0) + DEADLINE_MS,
+        timedOutAt: (transaction?.createdAt ?? 0) + DEADLINE_MS,
+      };
+    }
+
+    return {
+      expiresAt: (transaction?.createdAt ?? 0) + DEADLINE_MS,
+      timedOutAt:
+        (transaction?.createdAt ?? 0) + DEADLINE_MS + DEADLINE_BUFFER_MS,
+    };
+  };
+
   const tx = loadActiveTxHash({
     event: transaction?.event as TransactionName,
-    sessionId: gameService.state.context.sessionId as string,
+    ...(transaction?.event === "transaction.flowerWithdrawn"
+      ? {
+          withdrawId: transaction.data.params.withdrawId,
+        }
+      : {
+          sessionId: gameService.state.context.sessionId as string,
+        }),
   });
 
   const { isSuccess, isError } = useWaitForTransactionReceipt({
     hash: tx?.hash as `0x${string}`,
   });
 
-  const expired = useCountdown((transaction?.createdAt ?? 0) + DEADLINE_MS);
-  const timedOut = useCountdown(
-    (transaction?.createdAt ?? 0) + DEADLINE_MS + DEADLINE_BUFFER_MS,
-  );
+  const { expiresAt, timedOutAt } = getExpiringTimes();
+
+  const expired = useCountdown(expiresAt);
+  const timedOut = useCountdown(timedOutAt);
 
   if (!transaction) return null;
 
@@ -287,12 +356,31 @@ export const TransactionProgress: React.FC<Props> = ({
     }
   };
 
+  const refreshWithdraw = () => {
+    const flowerTransaction = transaction as FlowerWithdrawnTransaction;
+
+    gameService.send("TRANSACT", {
+      transaction: "transaction.flowerWithdrawn",
+      request: {
+        farmId,
+        effect: {
+          type: "withdraw.flower",
+          amount: flowerTransaction.data.amount,
+        },
+      },
+    });
+
+    onClose?.();
+  };
+
   const reload = () => {
     gameService.send("REFRESH");
     if (onClose) {
       onClose();
     }
   };
+
+  const isFlowerWithdraw = transaction.event === "transaction.flowerWithdrawn";
 
   if (isSuccess) {
     return (
@@ -313,6 +401,25 @@ export const TransactionProgress: React.FC<Props> = ({
   const isTimedOut =
     Date.now() >
     (transaction?.createdAt ?? 0) + DEADLINE_MS + DEADLINE_BUFFER_MS;
+
+  const isExpired = Date.now() > (transaction?.createdAt ?? 0) + DEADLINE_MS;
+
+  if (isFlowerWithdraw && (isTimedOut || isExpired)) {
+    return (
+      <>
+        <div className="p-2">
+          <div className="flex items-center justify-between mb-2">
+            <Label icon={lockIcon} type="danger" className="-ml-1">
+              {t("transaction.expired")}
+            </Label>
+          </div>
+          <p className="text-sm mb-2">{t("transaction.refresh.message")}</p>
+        </div>
+        <Button onClick={refreshWithdraw}>{t("refresh")}</Button>
+      </>
+    );
+  }
+
   if (isTimedOut) {
     return (
       <>
@@ -329,7 +436,6 @@ export const TransactionProgress: React.FC<Props> = ({
     );
   }
 
-  const isExpired = Date.now() > (transaction?.createdAt ?? 0) + DEADLINE_MS;
   if (isExpired) {
     return (
       <>

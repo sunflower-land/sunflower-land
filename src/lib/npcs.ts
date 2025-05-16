@@ -204,10 +204,11 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     pants: "Farmer Pants",
     coat: "Chef Apron",
     hair: "Royal Braids",
-    hat: "Bunny Mask",
+
     background: "Pumpkin Plaza Background",
     shoes: "Black Farmer Boots",
     tool: "Parsnip",
+    hat: "Flower Mask",
   },
   "chef tuck": {
     body: "Goblin Potion",
@@ -466,7 +467,6 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Parsnip",
     background: "Pumpkin Plaza Background",
     shoes: "Black Farmer Boots",
-    hat: "Bunny Mask",
   },
   blacksmith: {
     body: "Light Brown Farmer Potion",
@@ -476,7 +476,6 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     tool: "Hammer",
     background: "Pumpkin Plaza Background",
     shoes: "Brown Boots",
-    hat: "Bunny Mask",
   },
   bruce: {
     body: "Beige Farmer Potion",
@@ -514,7 +513,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     background: "Pumpkin Plaza Background",
     shoes: "Black Farmer Boots",
     shirt: "Yellow Farmer Shirt",
-    hat: "Crab Hat",
+    hat: "Flower Mask",
   },
   grimtooth: {
     body: "Goblin Potion",
@@ -669,7 +668,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     pants: hasSeasonEnded("Pharaoh's Treasure")
       ? "Cowgirl Skirt"
       : "Oil Overalls",
-    hat: hasSeasonEnded("Pharaoh's Treasure") ? undefined : "Fossil Head",
+    hat: "Flower Mask",
     tool: hasSeasonEnded("Pharaoh's Treasure")
       ? "Shepherd Staff"
       : "Ancient Shovel",
@@ -953,7 +952,7 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
   mayor: {
     body: "Light Brown Farmer Potion",
     shirt: "Pirate Leather Polo",
-    hat: "Weather Hat",
+    hat: "Flower Mask",
     hair: "Sun Spots",
     tool: "Merch Coffee Mug",
     pants: "Farmer Pants",

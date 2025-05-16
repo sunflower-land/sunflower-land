@@ -10,9 +10,9 @@ import {
   SeasonalStoreCollectible,
   SeasonalStoreItem,
   SeasonalStoreTier,
+  SeasonalStoreWearable,
   SeasonalTierItemName,
 } from "features/game/types/megastore";
-import { ARTEFACT_SHOP_KEYS } from "features/game/types/collectibles";
 import { SFLDiscount } from "features/game/lib/SFLDiscount";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 
@@ -20,6 +20,12 @@ export function isCollectible(
   item: SeasonalStoreItem,
 ): item is SeasonalStoreCollectible {
   return "collectible" in item;
+}
+
+export function isWearable(
+  item: SeasonalStoreItem,
+): item is SeasonalStoreWearable {
+  return "wearable" in item;
 }
 
 export type BuySeasonalItemAction = {
@@ -34,12 +40,23 @@ type Options = {
   createdAt?: number;
 };
 
+export type FlowerBox =
+  | "Bronze Flower Box"
+  | "Silver Flower Box"
+  | "Gold Flower Box";
+
+export const FLOWER_BOXES: Record<FlowerBox, true> = {
+  "Bronze Flower Box": true,
+  "Silver Flower Box": true,
+  "Gold Flower Box": true,
+};
+
 export function buySeasonalItem({
   state,
   action,
   createdAt = Date.now(),
 }: Options): GameState {
-  return produce(state, (stateCopy) => {
+  return produce(state, (copy) => {
     const { name, tier } = action;
 
     const currentSeason = getCurrentSeason(new Date(createdAt));
@@ -79,12 +96,9 @@ export function buySeasonalItem({
     const seasonalItemsCrafted =
       seasonalCollectiblesCrafted + seasonalWearablesCrafted;
 
-    const isKey = (name: InventoryItemName): name is Keys =>
-      name in ARTEFACT_SHOP_KEYS;
-    const keyBoughtAt =
-      stateCopy.pumpkinPlaza.keysBought?.megastore[name as Keys]?.boughtAt;
-
-    const reduction = isKeyBoughtWithinSeason(state, tier, true) ? 0 : 1;
+    const keyReduction = isKeyBoughtWithinSeason(state, tier, true) ? 0 : 1;
+    const boxReduction = isBoxBoughtWithinSeason(state, tier, true) ? 0 : 1;
+    const reduction = keyReduction + boxReduction;
 
     // Check if player meets the tier requirement
     if (tier !== "basic") {
@@ -114,10 +128,10 @@ export function buySeasonalItem({
       }
     }
 
-    // Ensure item can only be crafted once, except for keys
-    if (!isKey(name as InventoryItemName)) {
+    // Ensure items without a cooldown, can only be bought once
+    if (!item.cooldownMs) {
       const itemCrafted =
-        stateCopy.bumpkin.activity[`${name as SeasonalTierItemName} Bought`];
+        copy.bumpkin.activity[`${name as SeasonalTierItemName} Bought`];
 
       if (itemCrafted) {
         throw new Error("This item has already been crafted");
@@ -129,66 +143,58 @@ export function buySeasonalItem({
 
     const _sfl = SFLDiscount(state, new Decimal(sfl));
 
-    if (stateCopy.balance.lessThan(_sfl)) {
+    if (copy.balance.lessThan(_sfl)) {
       throw new Error("Insufficient SFL");
     }
 
     for (const [itemName, amount] of Object.entries(items)) {
       const inventoryAmount =
-        stateCopy.inventory[itemName as InventoryItemName] || new Decimal(0);
+        copy.inventory[itemName as InventoryItemName] || new Decimal(0);
       if (inventoryAmount.lessThan(amount)) {
         throw new Error(`Insufficient ${itemName}`);
       }
     }
 
     // Deduct resources
-    stateCopy.balance = stateCopy.balance.minus(_sfl);
+    copy.balance = copy.balance.minus(_sfl);
     for (const [itemName, amount] of Object.entries(items)) {
-      stateCopy.inventory[itemName as InventoryItemName] = (
-        stateCopy.inventory[itemName as InventoryItemName] || new Decimal(0)
+      copy.inventory[itemName as InventoryItemName] = (
+        copy.inventory[itemName as InventoryItemName] || new Decimal(0)
       ).minus(amount);
     }
 
     // Add item to inventory
     if (isCollectible(item)) {
-      const current = stateCopy.inventory[item.collectible] ?? new Decimal(0);
-
-      stateCopy.inventory[item.collectible] = current.add(1);
+      const current = copy.inventory[item.collectible] ?? new Decimal(0);
+      copy.inventory[item.collectible] = current.add(1);
     } else {
-      const current = stateCopy.wardrobe[item.wearable] ?? 0;
+      const current = copy.wardrobe[item.wearable] ?? 0;
 
-      stateCopy.wardrobe[item.wearable] = current + 1;
+      copy.wardrobe[item.wearable] = current + 1;
     }
 
     // This is where the key is bought
-    if (isKey(name as InventoryItemName)) {
-      if (keyBoughtAt) {
-        const currentTime = new Date(createdAt).toISOString().slice(0, 10);
-        const lastBoughtTime = new Date(keyBoughtAt).toISOString().slice(0, 10);
-
-        if (currentTime === lastBoughtTime) {
-          throw new Error("Already bought today");
+    if (item.cooldownMs) {
+      const boughtAt = copy.megastore?.boughtAt[name as SeasonalTierItemName];
+      if (boughtAt) {
+        if (boughtAt + item.cooldownMs > createdAt) {
+          throw new Error("Item cannot be bought while in cooldown");
         }
       }
-      // Ensure `keysBought` is properly initialized
-      if (!stateCopy.pumpkinPlaza.keysBought) {
-        stateCopy.pumpkinPlaza.keysBought = {
-          treasureShop: {},
-          megastore: {},
-          factionShop: {},
-        };
-      }
-
-      stateCopy.pumpkinPlaza.keysBought.megastore[name as Keys] = {
-        boughtAt: createdAt,
-      };
     }
 
-    stateCopy.bumpkin.activity = trackActivity(
+    copy.bumpkin.activity = trackActivity(
       `${name as SeasonalTierItemName} Bought`,
-      stateCopy.bumpkin.activity,
+      copy.bumpkin.activity,
     );
-    return stateCopy;
+
+    if (!copy.megastore) {
+      copy.megastore = { boughtAt: {} };
+    }
+
+    copy.megastore.boughtAt[name as SeasonalTierItemName] = createdAt;
+
+    return copy;
   });
 }
 
@@ -211,8 +217,14 @@ export function isKeyBoughtWithinSeason(
               ? "Rare Key"
               : "Luxury Key";
 
-  const keyBoughtAt =
-    game.pumpkinPlaza.keysBought?.megastore[tierKey as Keys]?.boughtAt;
+  let keyBoughtAt = game.megastore?.boughtAt[tierKey as SeasonalTierItemName];
+
+  // We changed to a new field. From May 1st can remove this code
+  if (!keyBoughtAt) {
+    keyBoughtAt =
+      game.pumpkinPlaza.keysBought?.megastore?.[tierKey as Keys]?.boughtAt;
+  }
+
   const seasonTime = SEASONS[getCurrentSeason()];
   const historyKey =
     game.bumpkin.activity[`${tierKey as SeasonalTierItemName} Bought`];
@@ -224,6 +236,51 @@ export function isKeyBoughtWithinSeason(
     const isWithinSeason =
       new Date(keyBoughtAt) >= seasonTime.startDate &&
       new Date(keyBoughtAt) <= seasonTime.endDate;
+    return isWithinSeason;
+  }
+
+  // This will only be triggered if isLowerTier is false
+  return false;
+}
+
+// Function to assess if Flower Box is bought within the current season
+export function isBoxBoughtWithinSeason(
+  game: GameState,
+  tier: keyof SeasonalStore,
+  isLowerTier = false,
+) {
+  const tierBox =
+    isLowerTier && tier === "rare"
+      ? "Bronze Flower Box"
+      : isLowerTier && tier === "epic"
+        ? "Silver Flower Box"
+        : isLowerTier && tier === "mega"
+          ? "Gold Flower Box"
+          : tier === "basic"
+            ? "Bronze Flower Box"
+            : tier === "rare"
+              ? "Silver Flower Box"
+              : "Gold Flower Box";
+
+  let boxBoughtAt = game.megastore?.boughtAt[tierBox as SeasonalTierItemName];
+
+  // We changed to a new field. From May 1st can remove this code
+  if (!boxBoughtAt) {
+    boxBoughtAt =
+      game.pumpkinPlaza.keysBought?.megastore?.[tierBox as Keys]?.boughtAt;
+  }
+
+  const seasonTime = SEASONS[getCurrentSeason()];
+  const historyBox =
+    game.bumpkin.activity[`${tierBox as SeasonalTierItemName} Bought`];
+
+  //If player has no history of buying keys at megastore
+  if (!boxBoughtAt && isLowerTier && !historyBox) return true;
+  // Returns false if key is bought outside current season, otherwise, true
+  if (boxBoughtAt) {
+    const isWithinSeason =
+      new Date(boxBoughtAt) >= seasonTime.startDate &&
+      new Date(boxBoughtAt) <= seasonTime.endDate;
     return isWithinSeason;
   }
 

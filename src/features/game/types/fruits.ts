@@ -21,6 +21,21 @@ export type PatchFruitName =
 export type GreenHouseFruitName = "Grape";
 export type GreenHouseFruitSeedName = "Grape Seed";
 
+export type FullMoonFruit = Extract<
+  PatchFruitName,
+  "Celestine" | "Lunara" | "Duskberry"
+>;
+
+export const FULL_MOON_FRUITS: FullMoonFruit[] = [
+  "Celestine",
+  "Lunara",
+  "Duskberry",
+];
+
+export function isFullMoonFruit(fruit: PatchFruitName): fruit is FullMoonFruit {
+  return FULL_MOON_FRUITS.includes(fruit as FullMoonFruit);
+}
+
 export type PatchFruitSeedName =
   | "Apple Seed"
   | "Blueberry Seed"

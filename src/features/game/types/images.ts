@@ -254,6 +254,7 @@ import baseBanner from "assets/sfts/base_banner.webp";
 // Banners
 import goblinBanner from "assets/decorations/banners/goblin_banner.png";
 import humanBanner from "assets/decorations/banners/human_banner.png";
+import greatBloomBanner from "assets/decorations/banners/great_bloom_banner.png";
 
 // Egg
 import redEgg from "assets/sfts/easter/red_egg.png";
@@ -829,6 +830,8 @@ import windsOfChangeBanner from "assets/decorations/banners/winds-of-change_bann
 import pesticide from "assets/sfts/pesticide.webp";
 import jin from "assets/sfts/jin_ronin.webp";
 import loveCharm from "assets/icons/love_charm.webp";
+import geniseed from "assets/icons/geniseed.webp";
+import brokenPillar from "assets/icons/broken_pillar.webp";
 
 import floralArch from "assets/sfts/floral_arch.webp";
 import flowerCoin from "assets/sfts/flower_coin.webp";
@@ -858,9 +861,39 @@ import easterBasket2025 from "assets/sfts/easter_basket.webp";
 import easterToken2025 from "assets/icons/easter_token_2025.webp";
 import easterTicket2025 from "assets/icons/easter_ticket_2025.webp";
 
+import quarry from "assets/sfts/quarry.webp";
+import obsidianTurtle from "assets/sfts/obsidian_turtle.webp";
+import winterGuardian from "assets/sfts/winter_guardian.webp";
+import summerGuardian from "assets/sfts/summer_guardian.webp";
+import springGuardian from "assets/sfts/spring_guardian.webp";
+import autumnGuardian from "assets/sfts/autumn_guardian.webp";
+import skyPillar from "assets/sfts/sky_pillar.webp";
+import flowerscribedStatue from "assets/sfts/flower-scribed_statue.webp";
+import balloonRug from "assets/sfts/balloon_rug.webp";
+import giantYam from "assets/sfts/giant_yam.webp";
+import heartAirBalloon from "assets/sfts/heart_air_balloon.webp";
+import giantZuchinni from "assets/sfts/giant_zuchinni.webp";
+import miniFloatingIsland from "assets/sfts/mini_floating_island.webp";
+import giantKale from "assets/sfts/giant_kale.webp";
+
 import bronzeLoveBox from "assets/rewardBoxes/bronze_love_box.webp";
 import silverLoveBox from "assets/rewardBoxes/silver_love_box.webp";
 import goldLoveBox from "assets/rewardBoxes/gold_love_box.webp";
+import bronzeFlowerBox from "assets/rewardBoxes/bronze_flower_box.webp";
+import silverFlowerBox from "assets/rewardBoxes/silver_flower_box.webp";
+import goldFlowerBox from "assets/rewardBoxes/gold_flower_box.webp";
+import bronzeFoodBox from "assets/rewardBoxes/brzone_food_box.webp";
+import silverFoodBox from "assets/rewardBoxes/silver_food_box.webp";
+import goldFoodBox from "assets/rewardBoxes/gold_food_box.webp";
+import bronzeToolBox from "assets/rewardBoxes/bronze_tool_box.webp";
+import silverToolBox from "assets/rewardBoxes/silver_tool_box.webp";
+import goldToolBox from "assets/rewardBoxes/gold_tool_box.webp";
+
+import loveChicken from "assets/animals/chickens/love_chicken.webp";
+import drCow from "assets/sfts/dr_cow.webp";
+import nurseSheep from "assets/sfts/nurse_sheep.webp";
+import pinkDolphin from "assets/fish/pink_dolphin.webp";
+import lunalist from "assets/flowers/lunalist.webp";
 
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
@@ -4934,6 +4967,10 @@ export const ITEM_DETAILS: Items = {
     image: ancientClock,
     description: "",
   },
+  "Broken Pillar": {
+    image: brokenPillar,
+    description: "",
+  },
   "Winds of Change Banner": {
     image: windsOfChangeBanner,
     description: "",
@@ -5134,5 +5171,129 @@ export const ITEM_DETAILS: Items = {
   "Gold Love Box": {
     image: goldLoveBox,
     description: translate("description.goldLoveBox"),
+  },
+  "Great Bloom Banner": {
+    image: greatBloomBanner,
+    description: "A banner for the Great Bloom chapter",
+  },
+  Geniseed: {
+    image: geniseed,
+    description: translate("description.geniseed"),
+  },
+  "Bronze Flower Box": {
+    image: bronzeFlowerBox,
+    description: translate("description.bronzeFlowerBox"),
+  },
+  "Silver Flower Box": {
+    image: silverFlowerBox,
+    description: translate("description.silverFlowerBox"),
+  },
+  "Gold Flower Box": {
+    image: goldFlowerBox,
+    description: translate("description.goldFlowerBox"),
+  },
+  "Bronze Food Box": {
+    image: bronzeFoodBox,
+    description: translate("description.bronzeFoodBox"),
+  },
+  "Silver Food Box": {
+    image: silverFoodBox,
+    description: translate("description.silverFoodBox"),
+  },
+  "Gold Food Box": {
+    image: goldFoodBox,
+    description: translate("description.goldFoodBox"),
+  },
+  "Bronze Tool Box": {
+    image: bronzeToolBox,
+    description: translate("description.bronzeToolBox"),
+  },
+  "Silver Tool Box": {
+    image: silverToolBox,
+    description: translate("description.silverToolBox"),
+  },
+  "Gold Tool Box": {
+    image: goldToolBox,
+    description: translate("description.goldToolBox"),
+  },
+  "Test Box": {
+    image: bronzeFoodBox,
+    description: translate("description.testBox"),
+  },
+  Quarry: {
+    image: quarry,
+    description: translate("description.quarry"),
+  },
+  "Obsidian Turtle": {
+    image: obsidianTurtle,
+    description: translate("description.obsidianTurtle"),
+  },
+  "Winter Guardian": {
+    image: winterGuardian,
+    description: translate("description.winterGuardian"),
+  },
+  "Summer Guardian": {
+    image: summerGuardian,
+    description: translate("description.summerGuardian"),
+  },
+  "Spring Guardian": {
+    image: springGuardian,
+    description: translate("description.springGuardian"),
+  },
+  "Autumn Guardian": {
+    image: autumnGuardian,
+    description: translate("description.autumnGuardian"),
+  },
+  "Sky Pillar": {
+    image: skyPillar,
+    description: translate("description.skyPillar"),
+  },
+  "Flower-Scribed Statue": {
+    image: flowerscribedStatue,
+    description: translate("description.flowerscribedStatue"),
+  },
+  "Balloon Rug": {
+    image: balloonRug,
+    description: translate("description.balloonRug"),
+  },
+  "Giant Yam": {
+    image: giantYam,
+    description: translate("description.giantYam"),
+  },
+  "Heart Air Balloon": {
+    image: heartAirBalloon,
+    description: translate("description.heartAirBalloon"),
+  },
+  "Giant Zucchini": {
+    image: giantZuchinni,
+    description: translate("description.giantZuchinni"),
+  },
+  "Mini Floating Island": {
+    image: miniFloatingIsland,
+    description: translate("description.miniFloatingIsland"),
+  },
+  "Love Chicken": {
+    image: loveChicken,
+    description: translate("description.loveChicken"),
+  },
+  "Dr Cow": {
+    image: drCow,
+    description: translate("description.drCow"),
+  },
+  "Nurse Sheep": {
+    image: nurseSheep,
+    description: translate("description.nurseSheep"),
+  },
+  "Pink Dolphin": {
+    image: pinkDolphin,
+    description: translate("description.pinkDolphin"),
+  },
+  Lunalist: {
+    image: lunalist,
+    description: translate("description.lunalist"),
+  },
+  "Giant Kale": {
+    image: giantKale,
+    description: translate("description.giantKale"),
   },
 };

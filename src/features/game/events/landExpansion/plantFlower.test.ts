@@ -18,8 +18,6 @@ const GAME_STATE: GameState = {
         createdAt: Date.now(),
         x: -2,
         y: 0,
-        height: 1,
-        width: 3,
         flower: {
           name: "Red Pansy",
           amount: 1,
@@ -30,8 +28,6 @@ const GAME_STATE: GameState = {
         createdAt: Date.now(),
         x: -2,
         y: 0,
-        height: 1,
-        width: 3,
       },
     },
   },

@@ -7,6 +7,7 @@ import {
 import { FruitPatch, GameState } from "features/game/types/game";
 import { getFruitPatchTime, plantFruit } from "./fruitPlanted";
 
+const dateNow = Date.now();
 const GAME_STATE: GameState = {
   ...TEST_FARM,
   bumpkin: INITIAL_BUMPKIN,
@@ -16,6 +17,7 @@ const GAME_STATE: GameState = {
   },
   fruitPatches: {
     0: {
+      createdAt: dateNow,
       fruit: {
         name: "Apple",
         amount: 1,
@@ -25,20 +27,15 @@ const GAME_STATE: GameState = {
       },
       x: -2,
       y: 0,
-      height: 1,
-      width: 1,
     },
     1: {
+      createdAt: dateNow,
       x: -2,
       y: 0,
-      height: 1,
-      width: 1,
     },
   },
 };
 describe("fruitPlanted", () => {
-  const dateNow = Date.now();
-
   it("does not plant on non-existent fruit patch", () => {
     expect(() =>
       plantFruit({

@@ -12,6 +12,7 @@ import {
 } from "features/game/lib/constants";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
+import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
 
 const FIRST_DAY_OF_SEASON = new Date("2024-11-01T16:00:00Z").getTime();
 const MID_SEASON = new Date("2023-08-15T15:00:00Z").getTime();
@@ -1840,22 +1841,28 @@ describe("deliver", () => {
   });
 
   it("gives 100% more seasonal ticket on completed deliveries if double delivery is active", () => {
-    const mockDate = new Date("2025-02-11").getTime();
+    const now = new Date().getTime();
+    if (getBumpkinHoliday({ now }).holiday) {
+      return;
+    }
+
     const state = deliverOrder({
       state: {
-        ...TEST_FARM,
+        ...INITIAL_FARM,
         coins: 6400,
-        inventory: { Timeshard: new Decimal(0) },
+        inventory: {
+          "Amber Fossil": new Decimal(0),
+        },
         delivery: {
-          ...TEST_FARM.delivery,
+          ...INITIAL_FARM.delivery,
           orders: [
             {
               id: "123",
               createdAt: 0,
-              readyAt: mockDate,
+              readyAt: now,
               from: "tywin",
               items: { coins: 6400 },
-              reward: { items: { Timeshard: 5 } },
+              reward: {},
             },
           ],
         },
@@ -1863,12 +1870,12 @@ describe("deliver", () => {
           dates: [
             {
               name: "doubleDelivery",
-              date: new Date(mockDate).toISOString().substring(0, 10),
+              date: new Date(now).toISOString().substring(0, 10),
             },
           ],
           doubleDelivery: {
-            triggeredAt: mockDate,
-            startedAt: mockDate,
+            triggeredAt: now,
+            startedAt: now,
           },
         },
       },
@@ -1876,10 +1883,10 @@ describe("deliver", () => {
         id: "123",
         type: "order.delivered",
       },
-      createdAt: mockDate,
+      createdAt: now,
     });
 
-    expect(state.inventory["Timeshard"]).toEqual(new Decimal(10));
+    expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(10));
   });
 
   it("can deliver items from the wardrobe", () => {

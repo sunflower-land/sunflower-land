@@ -18,6 +18,7 @@ import { translate } from "lib/i18n/translate";
 import { capitalize } from "lib/utils/capitalize";
 import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
 import { DogContainer } from "../containers/DogContainer";
+import { hasFeatureAccess } from "lib/flags";
 
 export type FactionNPC = {
   npc: NPCName;
@@ -82,13 +83,6 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     direction: "left",
   },
 
-  {
-    x: 506,
-    y: 250,
-    npc: "birdie",
-    direction: "left",
-  },
-
   ...(Date.now() < new Date("2024-11-01T00:00:00").getTime()
     ? [
         {
@@ -147,6 +141,7 @@ export class PlazaScene extends BaseScene {
 
     this.load.image("shop_icon", "world/shop_disc.png");
     this.load.image("trade_icon", "world/trade_icon.png");
+    this.load.image("balloon", `world/heart_air_balloon.webp`);
 
     this.load.spritesheet("plaza_bud", "world/plaza_bud.png", {
       frameWidth: 15,
@@ -193,28 +188,22 @@ export class PlazaScene extends BaseScene {
     this.load.image("luxury_key_disc", "world/luxury_key_disc.png");
 
     // Stella Megastore items
-    this.load.spritesheet("mecha_bull", "world/mecha_bull.webp", {
-      frameWidth: 35,
-      frameHeight: 31,
-    });
-    this.load.image("mammoth", "world/mammoth.webp");
+    this.load.image("giant_zucchini", "world/giant_zucchini.webp");
 
     // Auction Items
     this.load.image("golden_sheep", "world/golden_sheep.webp");
-    this.load.image("barn_blueprint", "world/barn_blueprint.webp");
-    this.load.image("locust_king", "world/locust_king.webp");
-    this.load.image("sol_luna", "world/sol_luna.webp");
-    this.load.image("glacial_plume", "world/glacial_plume.webp");
+    this.load.image("obsidian_turtle", "world/obsidian_turtle.webp");
+    this.load.image("quarry", "world/quarry.webp");
+    this.load.image("winter_guardian", "world/winter_guardian.webp");
+    this.load.image("autumn_guardian", "world/autumn_guardian.webp");
+    this.load.image("summer_guardian", "world/summer_guardian.webp");
+    this.load.image("spring_guardian", "world/spring_guardian.webp");
+    this.load.image("broccoli_hat", "world/broccoli_hat.webp");
 
-    this.load.image("cowboy_hat", "world/cowboy_hat.png");
-    this.load.image("acorn_hat", "world/acorn_hat.png");
+    this.load.image("flower_mask", "world/flower_mask.png");
 
-    this.load.image("bull_run_banner", "world/bull_run_banner.webp");
-    this.load.image("woc_banner_summer", "world/winds_of_change_summer.webp");
-    this.load.image("woc_banner_spring", "world/winds_of_change_spring.webp");
-    this.load.image("woc_banner_autumn", "world/winds_of_change_autumn.webp");
-    this.load.image("woc_banner_winter", "world/winds_of_change_winter.webp");
     this.load.image("ronin_banner", "world/ronin_banner.webp");
+    this.load.image("great_bloom_banner", "world/great_bloom_banner.webp");
 
     this.load.spritesheet("glint", "world/glint.png", {
       frameWidth: 7,
@@ -354,6 +343,16 @@ export class PlazaScene extends BaseScene {
         },
       ];
     }
+
+    if (!hasFeatureAccess(this.gameState, "LOVE_ISLAND")) {
+      bumpkins.push({
+        x: 506,
+        y: 250,
+        npc: "birdie" as NPCName,
+        direction: "left" as const,
+      });
+    }
+
     this.initialiseNPCs(bumpkins);
 
     if (!this.joystick && !localStorage.getItem("mmo_introduction.read")) {
@@ -413,6 +412,22 @@ export class PlazaScene extends BaseScene {
     });
 
     this.add.sprite(321.5, 230, "shop_icon");
+
+    if (hasFeatureAccess(this.gameState, "LOVE_ISLAND")) {
+      const balloon = this.add.sprite(510, 228, "balloon");
+
+      balloon.setDepth(272);
+
+      const balloonLabel = new Label(this, "FLY", "brown");
+      balloonLabel.setPosition(510, 208);
+      balloonLabel.setDepth(10000000);
+      this.add.existing(balloonLabel);
+
+      // On clikc open
+      balloon.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+        interactableModalManager.open("air_balloon");
+      });
+    }
 
     if (this.gameState.inventory["Luxury Key"]) {
       this.add.sprite(825, 50, "luxury_key_disc").setDepth(1000000000);
@@ -522,25 +537,17 @@ export class PlazaScene extends BaseScene {
         });
       });
 
-    const Banners: Record<TemperateSeasonName, string> = {
-      spring: "woc_banner_spring",
-      summer: "woc_banner_summer",
-      autumn: "woc_banner_autumn",
-      winter: "woc_banner_winter",
-    };
-
     // Banner
-    const banner = Banners[season];
-    this.add.image(400, 225, banner).setDepth(225);
+    this.add.image(400, 225, "great_bloom_banner").setDepth(225);
     // .setInteractive({ cursor: "pointer" })
     // .on("pointerdown", () => {
     //   interactableModalManager.open(banner);
     // });
-    this.add.image(464, 225, banner).setDepth(225);
+    this.add.image(464, 225, "great_bloom_banner").setDepth(225);
 
-    this.add.image(480, 386, banner).setDepth(386);
+    this.add.image(480, 386, "great_bloom_banner").setDepth(386);
 
-    this.add.sprite(385, 386, banner).setDepth(386);
+    this.add.sprite(385, 386, "great_bloom_banner").setDepth(386);
 
     // Ronin Banner
     this.add.sprite(400, 150, "ronin_banner").setDepth(150);
@@ -617,9 +624,9 @@ export class PlazaScene extends BaseScene {
         }
       });
 
-    this.add.image(248, 244, "mammoth");
+    this.add.image(248, 244, "giant_zucchini");
 
-    this.add.image(288.5, 248, "acorn_hat");
+    this.add.image(288.5, 250, "flower_mask");
 
     if (this.textures.exists("sparkle")) {
       const sparkle = this.add.sprite(564, 191, "sparkle");
@@ -635,10 +642,10 @@ export class PlazaScene extends BaseScene {
         frameRate: 6,
       });
 
-      const sparkle2 = this.add.sprite(585, 205, "sparkle");
+      const sparkle2 = this.add.sprite(595, 205, "sparkle");
       sparkle2.setDepth(1000000);
 
-      const sparkle3 = this.add.sprite(598, 181, "sparkle");
+      const sparkle3 = this.add.sprite(601, 181, "sparkle");
       sparkle3.setDepth(1000000);
 
       const sparkle4 = this.add.sprite(615, 205, "sparkle");
@@ -654,20 +661,30 @@ export class PlazaScene extends BaseScene {
       sparkle5.play(`sparkel_anim`, true);
     }
 
+    // NFT Guardian Changes depending on Season
+    const Guardian: Record<TemperateSeasonName, string> = {
+      spring: "spring_guardian",
+      summer: "summer_guardian",
+      autumn: "autumn_guardian",
+      winter: "winter_guardian",
+    };
+
+    const guardian = Guardian[season];
+
     // Change image every chapter change
-    const nft1 = this.add.image(564, 191, "barn_blueprint");
+    const nft1 = this.add.image(567, 191, "quarry");
     nft1.setDepth(191);
 
-    const nft2 = this.add.image(585, 205, "sol_luna");
+    const nft2 = this.add.image(595, 205, "obsidian_turtle");
     nft2.setDepth(205);
 
-    const nft3 = this.add.image(598, 181, "golden_sheep");
+    const nft3 = this.add.image(601, 181, "golden_sheep");
     nft3.setDepth(181);
 
-    const nft4 = this.add.image(615, 205, "glacial_plume");
+    const nft4 = this.add.image(615, 205, "broccoli_hat");
     nft4.setDepth(205);
 
-    const nft5 = this.add.image(635, 191, "locust_king");
+    const nft5 = this.add.image(635, 191, guardian);
     nft5.setDepth(181);
 
     const door = this.colliders

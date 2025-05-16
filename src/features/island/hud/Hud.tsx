@@ -8,7 +8,7 @@ import { Inventory } from "./components/inventory/Inventory";
 import { BumpkinProfile } from "./components/BumpkinProfile";
 import { Save } from "./components/Save";
 import { DepositArgs } from "lib/blockchain/Deposit";
-import { DepositModal } from "features/goblins/bank/components/Deposit";
+import { DepositGameItemsModal } from "features/goblins/bank/components/DepositGameItems";
 import { placeEvent } from "features/game/expansion/placeable/landscapingMachine";
 import { TravelButton } from "./components/deliveries/TravelButton";
 import { CodexButton } from "./components/codex/CodexButton";
@@ -20,7 +20,6 @@ import Decimal from "decimal.js-light";
 import { CurrenciesModal } from "./components/CurrenciesModal";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSound } from "lib/utils/hooks/useSound";
-import { SeasonBannerCountdown } from "./SeasonBannerCountdown";
 import { TransactionCountdown } from "./Transaction";
 import { MarketplaceButton } from "./components/MarketplaceButton";
 import { GameCalendar } from "features/game/expansion/components/temperateSeason/GameCalendar";
@@ -53,7 +52,7 @@ const HudComponent: React.FC<{
   const autosaving = gameState.matches("autosaving");
 
   const handleDeposit = (
-    args: Pick<DepositArgs, "sfl" | "itemIds" | "itemAmounts">,
+    args: Pick<DepositArgs, "itemIds" | "itemAmounts">,
   ) => {
     gameService.send("DEPOSIT", args);
   };
@@ -122,8 +121,6 @@ const HudComponent: React.FC<{
         >
           <TransactionCountdown />
           <AuctionCountdown />
-          {/* <SpecialEventCountdown /> */}
-          <SeasonBannerCountdown />
         </div>
         <div
           className="absolute z-50 flex flex-col justify-between"
@@ -143,7 +140,7 @@ const HudComponent: React.FC<{
         <CodexButton />
         <RewardsButton />
 
-        <DepositModal
+        <DepositGameItemsModal
           farmAddress={farmAddress ?? ""}
           linkedWallet={linkedWallet ?? ""}
           handleClose={() => setShowDepositModal(false)}

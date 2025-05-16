@@ -41,6 +41,7 @@ import {
 import { getAnimalXP } from "features/game/events/landExpansion/loveAnimal";
 import { MutantAnimalModal } from "features/farming/animals/components/MutantAnimalModal";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { isWearableActive } from "features/game/lib/wearables";
 
 export const ANIMAL_EMOTION_ICONS: Record<
   Exclude<TState["value"], "idle" | "needsLove" | "initial" | "sick">,
@@ -160,6 +161,11 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
     game,
   });
 
+  const hasOracleSyringeEquipped = isWearableActive({
+    name: "Oracle Syringe",
+    game,
+  });
+
   const { name: mutantName } = cow.reward?.items?.[0] ?? {};
 
   const feedCow = (item?: InventoryItemName) => {
@@ -250,6 +256,12 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   const onSickClick = async () => {
     const medicineCount = inventory["Barn Delight"] ?? new Decimal(0);
     const hasEnoughMedicine = medicineCount.gte(1);
+
+    if (hasOracleSyringeEquipped) {
+      playCureAnimal();
+      cureCow("Barn Delight");
+      return;
+    }
 
     if (hasEnoughMedicine) {
       playCureAnimal();

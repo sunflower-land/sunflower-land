@@ -1,3 +1,4 @@
+import { FlowerBox } from "../events/landExpansion/buySeasonalItem";
 import { BumpkinItem } from "./bumpkin";
 import { InventoryItemName } from "./game";
 import { SeasonName } from "./seasons";
@@ -25,21 +26,41 @@ export type SeasonalCollectibleName =
   | "Lake Rug"
   | "Hammock"
   | "Mammoth"
-  | "Cup of Chocolate";
+  | "Cup of Chocolate"
+  // Great Bloom
+  | "Flower-Scribed Statue"
+  | "Balloon Rug"
+  | "Giant Yam"
+  | "Heart Air Balloon"
+  | "Giant Zucchini"
+  | "Giant Kale"
+  | "Mini Floating Island";
 
-export type SeasonalWearableName =
-  // Bull Run
+export type SeasonalWearableName = Extract<
+  BumpkinItem,
   | "Cowboy Hat"
   | "Cowgirl Skirt"
   | "Cowboy Shirt"
   | "Dream Scarf"
   | "Milk Apron"
   | "Cowboy Trouser"
+
   // Winds of Change
   | "Acorn Hat"
   | "Ladybug Suit"
   | "Crab Hat"
-  | "Sickle";
+  | "Sickle"
+
+  // Great Bloom
+  | "Bloomwarden Suit"
+  | "Embersteel Suit"
+  | "Amberfall Suit"
+  | "Glacierguard Suit"
+  | "Flower Mask"
+  | "Love Charm Shirt"
+  | "Frost Sword"
+  | "Oracle Syringe"
+>;
 
 export type MegastoreKeys = "Treasure Key" | "Rare Key" | "Luxury Key";
 
@@ -48,13 +69,14 @@ type SeasonalStoreBase = {
     items: Partial<Record<InventoryItemName, number>>;
     sfl: number;
   };
+  cooldownMs?: number;
 };
 
 export type SeasonalStoreWearable = SeasonalStoreBase & {
-  wearable: BumpkinItem;
+  wearable: SeasonalWearableName;
 };
 export type SeasonalStoreCollectible = SeasonalStoreBase & {
-  collectible: InventoryItemName;
+  collectible: SeasonalCollectibleName | MegastoreKeys | FlowerBox;
 };
 
 export type SeasonalStoreItem =
@@ -102,14 +124,14 @@ const EMPTY_SEASONAL_STORE: SeasonalStore = {
 // Test only
 const PHARAOH_ITEMS: SeasonalStoreItem[] = [
   {
-    wearable: "Red Farmer Shirt",
+    wearable: "Red Farmer Shirt" as SeasonalWearableName,
     cost: {
       items: {},
       sfl: 5,
     },
   },
   {
-    collectible: "Basic Bear",
+    collectible: "Basic Bear" as SeasonalCollectibleName,
     cost: {
       items: {
         Wood: 1,
@@ -118,7 +140,8 @@ const PHARAOH_ITEMS: SeasonalStoreItem[] = [
     },
   },
   {
-    collectible: "Treasure Key",
+    collectible: "Treasure Key" as MegastoreKeys,
+    cooldownMs: 24 * 60 * 60 * 1000,
     cost: {
       items: {
         Wood: 100,
@@ -130,7 +153,7 @@ const PHARAOH_ITEMS: SeasonalStoreItem[] = [
 
 const RARE_PHARAOH_ITEMS: SeasonalStoreItem[] = [
   {
-    wearable: "Rancher Hair",
+    wearable: "Rancher Hair" as SeasonalWearableName,
     cost: {
       items: {
         Wood: 1,
@@ -140,7 +163,7 @@ const RARE_PHARAOH_ITEMS: SeasonalStoreItem[] = [
     },
   },
   {
-    wearable: "Axe",
+    wearable: "Axe" as SeasonalWearableName,
     cost: {
       items: {
         Wood: 1,
@@ -149,7 +172,7 @@ const RARE_PHARAOH_ITEMS: SeasonalStoreItem[] = [
     },
   },
   {
-    wearable: "Yellow Farmer Shirt",
+    wearable: "Yellow Farmer Shirt" as SeasonalWearableName,
     cost: {
       items: {
         Wood: 1,
@@ -159,6 +182,7 @@ const RARE_PHARAOH_ITEMS: SeasonalStoreItem[] = [
   },
   {
     collectible: "Rare Key",
+    cooldownMs: 24 * 60 * 60 * 1000,
     cost: {
       items: {
         Wood: 250,
@@ -169,7 +193,7 @@ const RARE_PHARAOH_ITEMS: SeasonalStoreItem[] = [
 ];
 const EPIC_PHARAOH_ITEMS: SeasonalStoreItem[] = [
   {
-    wearable: "Blue Farmer Shirt",
+    wearable: "Blue Farmer Shirt" as SeasonalWearableName,
     cost: {
       items: {
         Wood: 1,
@@ -178,7 +202,8 @@ const EPIC_PHARAOH_ITEMS: SeasonalStoreItem[] = [
     },
   },
   {
-    collectible: "Luxury Key",
+    collectible: "Luxury Key" as MegastoreKeys,
+    cooldownMs: 24 * 60 * 60 * 1000,
     cost: {
       items: {
         Wood: 500,
@@ -227,6 +252,7 @@ const BULL_RUN_ITEMS: SeasonalStoreItem[] = [
   },
   {
     collectible: "Treasure Key",
+    cooldownMs: 24 * 60 * 60 * 1000,
     cost: {
       items: {
         Horseshoe: 200,
@@ -273,6 +299,7 @@ const RARE_BULL_RUN_ITEMS: SeasonalStoreItem[] = [
   },
   {
     collectible: "Rare Key",
+    cooldownMs: 24 * 60 * 60 * 1000,
     cost: {
       items: {
         Horseshoe: 500,
@@ -310,6 +337,7 @@ const EPIC_BULL_RUN_ITEMS: SeasonalStoreItem[] = [
   },
   {
     collectible: "Luxury Key",
+    cooldownMs: 24 * 60 * 60 * 1000,
     cost: {
       items: {
         Horseshoe: 1000,
@@ -377,9 +405,20 @@ const WINDS_OF_CHANGE_ITEMS: SeasonalStoreItem[] = [
   },
   {
     collectible: "Treasure Key",
+    cooldownMs: 24 * 60 * 60 * 1000,
     cost: {
       items: {
         Timeshard: 200,
+      },
+      sfl: 0,
+    },
+  },
+  {
+    collectible: "Bronze Flower Box",
+    cooldownMs: 7 * 24 * 60 * 60 * 1000,
+    cost: {
+      items: {
+        Timeshard: 250,
       },
       sfl: 0,
     },
@@ -423,9 +462,21 @@ const RARE_WINDS_OF_CHANGE_ITEMS: SeasonalStoreItem[] = [
   },
   {
     collectible: "Rare Key",
+    cooldownMs: 24 * 60 * 60 * 1000,
     cost: {
       items: {
         Timeshard: 500,
+      },
+      sfl: 0,
+    },
+  },
+  {
+    collectible: "Silver Flower Box",
+    cooldownMs: 7 * 24 * 60 * 60 * 1000,
+
+    cost: {
+      items: {
+        Timeshard: 750,
       },
       sfl: 0,
     },
@@ -469,9 +520,21 @@ const EPIC_WINDS_OF_CHANGE_ITEMS: SeasonalStoreItem[] = [
   },
   {
     collectible: "Luxury Key",
+    cooldownMs: 24 * 60 * 60 * 1000,
     cost: {
       items: {
         Timeshard: 1000,
+      },
+      sfl: 0,
+    },
+  },
+  {
+    collectible: "Gold Flower Box",
+    cooldownMs: 30 * 24 * 60 * 60 * 1000,
+
+    cost: {
+      items: {
+        Timeshard: 1500,
       },
       sfl: 0,
     },
@@ -489,6 +552,129 @@ const MEGA_WINDS_OF_CHANGE_ITEMS: SeasonalStoreItem[] = [
     },
   },
 ];
+
+const GREAT_BLOOM_ITEMS: SeasonalStore = {
+  basic: {
+    items: [
+      {
+        collectible: "Balloon Rug",
+        cost: { sfl: 5, items: {} },
+      },
+      {
+        wearable: "Amberfall Suit",
+        cost: { sfl: 0, items: { "Broken Pillar": 20 } },
+      },
+      {
+        wearable: "Embersteel Suit",
+        cost: { sfl: 0, items: { Geniseed: 50 } },
+      },
+      {
+        wearable: "Flower Mask",
+        cost: { sfl: 0, items: { Geniseed: 300 } },
+      },
+      {
+        collectible: "Treasure Key",
+        cooldownMs: 24 * 60 * 60 * 1000,
+        cost: { sfl: 0, items: { Geniseed: 200 } },
+      },
+      {
+        collectible: "Bronze Flower Box",
+        cooldownMs: 7 * 24 * 60 * 60 * 1000,
+        cost: {
+          items: {
+            Geniseed: 250,
+          },
+          sfl: 0,
+        },
+      },
+    ],
+  },
+  rare: {
+    items: [
+      {
+        wearable: "Glacierguard Suit",
+        cost: { sfl: 60, items: {} },
+      },
+      {
+        wearable: "Bloomwarden Suit",
+        cost: { sfl: 0, items: { "Broken Pillar": 80 } },
+      },
+      {
+        collectible: "Giant Yam",
+        cost: { sfl: 0, items: { Geniseed: 2000 } },
+      },
+      {
+        collectible: "Rare Key",
+        cooldownMs: 24 * 60 * 60 * 1000,
+        cost: { sfl: 0, items: { Geniseed: 500 } },
+      },
+      {
+        wearable: "Love Charm Shirt",
+        cost: { sfl: 0, items: { Geniseed: 650 } },
+      },
+      {
+        collectible: "Silver Flower Box",
+        cooldownMs: 7 * 24 * 60 * 60 * 1000,
+        cost: {
+          items: {
+            Geniseed: 750,
+          },
+          sfl: 0,
+        },
+      },
+    ],
+    requirement: 4,
+  },
+  epic: {
+    items: [
+      {
+        collectible: "Flower-Scribed Statue",
+        cost: { sfl: 0, items: { Geniseed: 1500 } },
+      },
+      {
+        collectible: "Luxury Key",
+        cooldownMs: 24 * 60 * 60 * 1000,
+        cost: { sfl: 0, items: { Geniseed: 1000 } },
+      },
+      {
+        wearable: "Frost Sword",
+        cost: { sfl: 0, items: { "Broken Pillar": 180 } },
+      },
+      {
+        collectible: "Heart Air Balloon",
+        cost: { sfl: 400, items: {} },
+      },
+      {
+        collectible: "Giant Zucchini",
+        cost: { sfl: 0, items: { Geniseed: 3000 } },
+      },
+      {
+        collectible: "Gold Flower Box",
+        cooldownMs: 30 * 24 * 60 * 60 * 1000,
+        cost: {
+          items: {
+            Geniseed: 1500,
+          },
+          sfl: 0,
+        },
+      },
+    ],
+    requirement: 4,
+  },
+  mega: {
+    items: [
+      {
+        wearable: "Oracle Syringe",
+        cost: { sfl: 0, items: { Geniseed: 8500 } },
+      },
+      {
+        collectible: "Giant Kale",
+        cost: { sfl: 0, items: { Geniseed: 6000 } },
+      },
+    ],
+    requirement: 4,
+  },
+};
 
 export const MEGASTORE: Record<SeasonName, SeasonalStore> = {
   "Catch the Kraken": EMPTY_SEASONAL_STORE,
@@ -548,4 +734,6 @@ export const MEGASTORE: Record<SeasonName, SeasonalStore> = {
       requirement: 4,
     },
   },
+
+  "Great Bloom": GREAT_BLOOM_ITEMS,
 };

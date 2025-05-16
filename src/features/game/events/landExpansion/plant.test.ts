@@ -17,8 +17,6 @@ const GAME_STATE: GameState = {
   crops: {
     0: {
       createdAt: Date.now(),
-      height: 1,
-      width: 1,
       x: 0,
       y: 0,
       crop: {
@@ -506,8 +504,6 @@ describe("plant", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -553,8 +549,6 @@ describe("plant", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -597,8 +591,6 @@ describe("plant", () => {
         crops: {
           "0": {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 1,
             y: 1,
           },
@@ -632,8 +624,6 @@ describe("plant", () => {
       crops: {
         "0": {
           createdAt: Date.now(),
-          height: 1,
-          width: 1,
           x: 1,
           y: 1,
         },
@@ -801,8 +791,6 @@ describe("plant", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -850,8 +838,6 @@ describe("plant", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -899,8 +885,6 @@ describe("plant", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -944,8 +928,6 @@ describe("plant", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -997,8 +979,6 @@ describe("plant", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -1042,8 +1022,6 @@ describe("plant", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -1091,8 +1069,6 @@ describe("plant", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -6,
           },
@@ -1140,8 +1116,6 @@ describe("plant", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -1189,8 +1163,6 @@ describe("plant", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -1234,8 +1206,6 @@ describe("plant", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -1283,8 +1253,6 @@ describe("plant", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -1332,8 +1300,6 @@ describe("plant", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -1377,8 +1343,6 @@ describe("plant", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -1426,8 +1390,6 @@ describe("plant", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -6,
           },
@@ -1475,8 +1437,6 @@ describe("plant", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -1,
           },
@@ -1524,8 +1484,6 @@ describe("plant", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -1573,8 +1531,6 @@ describe("plant", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -6,
           },
@@ -1660,8 +1616,6 @@ describe("plant", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -1721,8 +1675,6 @@ describe("plant", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -1761,8 +1713,6 @@ describe("plant", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -1813,8 +1763,6 @@ describe("plant", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -2100,6 +2048,75 @@ describe("getCropTime", () => {
     });
 
     expect(time).toEqual(baseHarvestSeconds * 0.75);
+  });
+
+  it("gives +0.5 Yam when Giant Yam is placed and ready", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        island: {
+          type: "desert",
+        },
+        inventory: {
+          "Yam Seed": new Decimal(1),
+        },
+        season: {
+          season: "autumn",
+          startedAt: 0,
+        },
+        collectibles: {
+          "Giant Yam": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: dateNow - 10000,
+              readyAt: dateNow - 10000,
+              id: "123",
+            },
+          ],
+        },
+      },
+      createdAt: dateNow,
+      action: {
+        type: "seed.planted",
+        cropId: "123",
+        index: "0",
+        item: "Yam Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+    expect((plots as Record<number, CropPlot>)[0].crop).toEqual(
+      expect.objectContaining({
+        name: "Yam",
+        plantedAt: expect.any(Number),
+        amount: 1.5,
+      }),
+    );
+  });
+
+  it("applies a 2x speed boost with Giant Zucchini placed", () => {
+    const baseHarvestSeconds = CROPS["Zucchini"].harvestSeconds;
+    const time = getCropPlotTime({
+      crop: "Zucchini",
+      game: {
+        ...TEST_FARM,
+        collectibles: {
+          "Giant Zucchini": [
+            {
+              id: "123",
+              coordinates: { x: -1, y: -1 },
+              createdAt: dateNow - 100,
+              readyAt: dateNow - 100,
+            },
+          ],
+        },
+      },
+      plot,
+    });
+
+    expect(time).toEqual(baseHarvestSeconds * 0.5);
   });
 
   it("applies a 20% speed boost with Basic Scarecrow placed, plot is within AOE and crop is Sunflower", () => {
@@ -2404,6 +2421,45 @@ describe("getCropTime", () => {
     );
   });
 
+  it("gives +2 Kale when Giant Kale is placed and ready", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Kale Seed": new Decimal(1),
+        },
+        collectibles: {
+          "Giant Kale": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: dateNow - 10000,
+              readyAt: dateNow - 10000,
+              id: "123",
+            },
+          ],
+        },
+      },
+      createdAt: dateNow,
+      action: {
+        type: "seed.planted",
+        cropId: "123",
+        index: "0",
+        item: "Kale Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+    expect((plots as Record<number, CropPlot>)[0].crop).toEqual(
+      expect.objectContaining({
+        name: "Kale",
+        plantedAt: expect.any(Number),
+        amount: 3,
+      }),
+    );
+  });
+
   it("applies a +5% speed boost with Green Thumb skill", () => {
     const baseHarvestSeconds = CROPS["Corn"].harvestSeconds;
     const time = getCropPlotTime({
@@ -2493,8 +2549,6 @@ describe("isPlotFertile", () => {
       createdAt: Date.now() + counter++,
       x: 1,
       y: 1,
-      height: 1,
-      width: 1,
     });
     const isFertile = isPlotFertile({
       buildings: {
@@ -2534,8 +2588,6 @@ describe("isPlotFertile", () => {
       createdAt: Date.now() + counter++,
       x: 1,
       y: 1,
-      height: 1,
-      width: 1,
     });
     const isFertile = isPlotFertile({
       buildings: {
@@ -2589,8 +2641,6 @@ describe("isPlotFertile", () => {
       createdAt: Date.now(),
       x: 1,
       y: 1,
-      height: 1,
-      width: 1,
     };
     const isFertile = isPlotFertile({
       crops: {
@@ -2632,7 +2682,7 @@ describe("getCropYield", () => {
           ],
         },
       },
-      plot: { createdAt: 0, height: 1, width: 1, x: 2, y: 3 },
+      plot: { createdAt: 0, x: 2, y: 3 },
       createdAt: Date.now(),
     });
 
@@ -2655,7 +2705,7 @@ describe("getCropYield", () => {
           ],
         },
       },
-      plot: { createdAt: 0, height: 1, width: 1, x: 5, y: 6 },
+      plot: { createdAt: 0, x: 5, y: 6 },
       createdAt: Date.now(),
     });
 
@@ -2680,8 +2730,6 @@ describe("getCropYield", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -2729,8 +2777,6 @@ describe("getCropYield", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -2778,8 +2824,6 @@ describe("getCropYield", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -2821,8 +2865,6 @@ describe("getCropYield", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -2858,8 +2900,6 @@ describe("getCropYield", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -2903,8 +2943,6 @@ describe("getCropYield", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -2943,8 +2981,6 @@ describe("getCropYield", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -2988,8 +3024,6 @@ describe("getCropYield", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -3032,8 +3066,6 @@ describe("getCropYield", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -3078,8 +3110,6 @@ describe("getCropYield", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -3123,8 +3153,6 @@ describe("getCropYield", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -3168,8 +3196,6 @@ describe("getCropYield", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -3213,8 +3239,6 @@ describe("getCropYield", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -3254,8 +3278,6 @@ describe("getCropYield", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -3299,8 +3321,6 @@ describe("getCropYield", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -3343,8 +3363,6 @@ describe("getCropYield", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -3387,8 +3405,6 @@ describe("getCropYield", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -3427,8 +3443,6 @@ describe("getCropYield", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -3471,8 +3485,6 @@ describe("getCropYield", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -3511,8 +3523,6 @@ describe("getCropYield", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 2,
             x: 0,
             y: -2,
           },
@@ -3555,8 +3565,6 @@ describe("getCropYield", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 2,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -3599,8 +3607,6 @@ describe("getCropYield", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 2,
-            width: 2,
             x: 0,
             y: -2,
           },
@@ -3640,8 +3646,6 @@ describe("getCropYield", () => {
           crops: {
             [index]: {
               createdAt: Date.now(),
-              height: 1,
-              width: 1,
               x: index,
               y: -2,
             },
@@ -3680,8 +3684,6 @@ describe("getCropYield", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -3719,8 +3721,6 @@ describe("getCropYield", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -3758,8 +3758,6 @@ describe("getCropYield", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -3800,8 +3798,6 @@ describe("getCropYield", () => {
           crops: {
             [index]: {
               createdAt: Date.now(),
-              height: 1,
-              width: 1,
               x: 0,
               y: -2,
             },
@@ -3840,8 +3836,6 @@ describe("getCropYield", () => {
         crops: {
           0: {
             createdAt: Date.now(),
-            height: 1,
-            width: 1,
             x: 0,
             y: -2,
           },
@@ -3883,8 +3877,6 @@ describe("getCropYield", () => {
           crops: {
             [index]: {
               createdAt: Date.now(),
-              height: 1,
-              width: 1,
               x: 0,
               y: -2,
             },
@@ -3925,8 +3917,6 @@ describe("getCropYield", () => {
         createdAt: now,
         plot: {
           createdAt: now,
-          height: 1,
-          width: 1,
           x: 0,
           y: -2,
         },
@@ -3956,8 +3946,6 @@ describe("getCropYield", () => {
         createdAt: now,
         plot: {
           createdAt: now,
-          height: 1,
-          width: 1,
           x: 0,
           y: -2,
         },
@@ -3987,8 +3975,6 @@ describe("getCropYield", () => {
         createdAt: now,
         plot: {
           createdAt: now,
-          height: 1,
-          width: 1,
           x: 0,
           y: -2,
         },
@@ -4019,8 +4005,6 @@ describe("getCropYield", () => {
         createdAt: now,
         plot: {
           createdAt: now,
-          height: 1,
-          width: 1,
           x: 0,
           y: -2,
         },
@@ -4058,8 +4042,6 @@ describe("getCropYield", () => {
         createdAt: now,
         plot: {
           createdAt: now,
-          height: 1,
-          width: 1,
           x: 0,
           y: -2,
         },
@@ -4090,8 +4072,6 @@ describe("getCropYield", () => {
         createdAt: now,
         plot: {
           createdAt: now,
-          height: 1,
-          width: 1,
           x: 0,
           y: -2,
         },
@@ -4124,8 +4104,6 @@ describe("getCropYield", () => {
         createdAt: now,
         plot: {
           createdAt: now,
-          height: 1,
-          width: 1,
           x: 0,
           y: -2,
         },

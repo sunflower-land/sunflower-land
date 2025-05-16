@@ -4,7 +4,7 @@ import {
 } from "features/game/types/marketplace";
 import React, { useContext, useState } from "react";
 import * as Auth from "features/auth/lib/Provider";
-import { useActor } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 import { useLocation, useNavigate, useParams } from "react-router";
 import { loadTradeable } from "../actions/loadTradeable";
 import { getTradeableDisplay } from "../lib/tradeables";
@@ -31,9 +31,14 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { TradeableStats } from "./TradeableStats";
 import { getKeys } from "features/game/types/decorations";
 import { tradeToId } from "../lib/offers";
-import { getDayOfYear } from "lib/utils/time";
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
 import useSWR from "swr";
+import { getWeekKey } from "features/game/lib/factions";
+import { MachineState } from "features/game/lib/gameMachine";
+
+const _trades = (state: MachineState) => state.context.state.trades;
+export const MAX_LIMITED_SALES = 1;
+export const MAX_LIMITED_PURCHASES = 3;
 
 export const Tradeable: React.FC = () => {
   const { authService } = useContext(Auth.Context);
@@ -95,17 +100,31 @@ export const Tradeable: React.FC = () => {
         token,
       }),
   );
+
+  const trades = useSelector(gameService, _trades);
+  const currentWeek = getWeekKey({ date: new Date() });
+  // Weekly sales count
+  const weeklySalesCount =
+    trades.weeklySales?.[currentWeek]?.[display.name] ?? 0;
+  const listingsCount = Object.values(trades.listings ?? {}).filter(
+    (listing) => listing.items[display.name],
+  ).length;
+  const isLimited = !!tradeable?.expiresAt;
+  const limitedTradesLeft = isLimited
+    ? MAX_LIMITED_SALES - weeklySalesCount - listingsCount
+    : Infinity;
+
+  // Weekly purchases count
+  const weeklyPurchasesCount =
+    trades.weeklyPurchases?.[currentWeek]?.[display.name] ?? 0;
+  const offersCount = Object.values(trades.offers ?? {}).filter(
+    (offer) => offer.items[display.name],
+  ).length;
+  const limitedPurchasesLeft = isLimited
+    ? MAX_LIMITED_PURCHASES - weeklyPurchasesCount - offersCount
+    : Infinity;
+
   if (error) throw error;
-
-  const getDailyListings = () => {
-    const today = getDayOfYear(new Date());
-    const dailyListings = gameState.context.state.trades.dailyListings ?? {
-      date: 0,
-      count: 0,
-    };
-
-    return dailyListings.date === today ? dailyListings.count : 0;
-  };
 
   // TODO 404 view
   if (tradeable === null) {
@@ -122,7 +141,6 @@ export const Tradeable: React.FC = () => {
     }
   };
 
-  const trades = gameState.context.state.trades;
   const hasListings = getKeys(trades.listings ?? {}).some(
     (listing) =>
       tradeToId({ details: trades.listings![listing] }) === Number(id),
@@ -156,11 +174,11 @@ export const Tradeable: React.FC = () => {
       </div>
       <div className="w-full">
         <TradeableHeader
-          dailyListings={getDailyListings()}
           authToken={authToken}
           farmId={farmId}
+          limitedTradesLeft={limitedTradesLeft}
+          limitedPurchasesLeft={limitedPurchasesLeft}
           collection={collection as CollectionName}
-          display={display}
           count={count}
           tradeable={tradeable}
           onBack={onBack}
@@ -181,6 +199,7 @@ export const Tradeable: React.FC = () => {
         <TradeableListings
           id={Number(id)}
           authToken={authState.context.user.rawToken as string}
+          limitedTradesLeft={limitedTradesLeft}
           tradeable={tradeable}
           display={display}
           farmId={farmId}
@@ -197,6 +216,8 @@ export const Tradeable: React.FC = () => {
 
         <TradeableOffers
           itemId={Number(id)}
+          limitedTradesLeft={limitedTradesLeft}
+          limitedPurchasesLeft={limitedPurchasesLeft}
           tradeable={tradeable}
           display={display}
           farmId={farmId}

@@ -35,7 +35,7 @@ Read the official docs/ litepaper here: [docs.sunflower-land.com](https://docs.s
 
 ### 👶 How to play ?
 
-Follow the official guide here: [How to Play?](https://docs.sunflower-land.com/getting-started/how-to-play)
+Follow the official guide here: [How to Play?](https://docs.sunflower-land.com/getting-started/how-to-start)
 
 ### ❓ Need Help ?
 

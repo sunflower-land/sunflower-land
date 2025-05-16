@@ -100,7 +100,15 @@ export const Auctions: React.FC<Props> = ({ auctionService, onSelect }) => {
                 <div className="flex-1 flex items-center  mt-1">
                   <img src={SUNNYSIDE.icons.stopwatch} className="h-5 mr-1" />
                   <span className="text-xs">
-                    {new Date(auction.startAt).toLocaleString()}
+                    {new Date(auction.startAt).toLocaleString("en-AU", {
+                      timeZoneName: "longOffset",
+                      day: "2-digit",
+                      month: "2-digit",
+                      year: "2-digit",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      hour12: false,
+                    })}
                   </span>
                 </div>
               )}

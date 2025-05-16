@@ -38,6 +38,8 @@ import {
   getSeasonalItemsCrafted,
   isKeyBoughtWithinSeason,
 } from "features/game/events/landExpansion/buySeasonalItem";
+import { REWARD_BOXES } from "features/game/types/rewardBoxes";
+import { secondsToString } from "lib/utils/time";
 
 interface ItemOverlayProps {
   item: SeasonalStoreItem | null;
@@ -52,8 +54,16 @@ interface ItemOverlayProps {
 
 const _sflBalance = (state: MachineState) => state.context.state.balance;
 const _inventory = (state: MachineState) => state.context.state.inventory;
-const _keysBought = (state: MachineState) =>
-  state.context.state.pumpkinPlaza.keysBought;
+
+const getCooldownLabel = (cooldownMs: number) => {
+  const days = cooldownMs / (24 * 60 * 60 * 1000);
+
+  if (days === 1) return "Limit: 1 every day";
+  if (days === 7) return "Limit: 1 every week";
+  if (days >= 30) return "Limit: 1 every 30 days";
+
+  return `Limit: 1 per ${days} days`;
+};
 
 export const ItemDetail: React.FC<ItemOverlayProps> = ({
   item,
@@ -68,7 +78,6 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const { shortcutItem, gameService, showAnimations } = useContext(Context);
   const sflBalance = useSelector(gameService, _sflBalance);
   const inventory = useSelector(gameService, _inventory);
-  const keysBought = useSelector(gameService, _keysBought);
 
   const [imageWidth, setImageWidth] = useState<number>(0);
   const [showSuccess, setShowSuccess] = useState<boolean>(false);
@@ -131,13 +140,9 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     tier === "mega" &&
     seasonalItemsCrafted - reduction >= seasonalStore.mega.requirement;
 
-  const keysBoughtAt = keysBought?.megastore[itemName as Keys]?.boughtAt;
-  const keysBoughtToday =
-    !!keysBoughtAt &&
-    new Date(keysBoughtAt).toISOString().slice(0, 10) ===
-      new Date().toISOString().slice(0, 10);
-
-  const keysAmountBoughtToday = keysBoughtToday ? 1 : 0;
+  const boughtAt = state.megastore?.boughtAt[itemName as Keys] ?? 0;
+  const itemInCooldown =
+    !!boughtAt && boughtAt + (item?.cooldownMs ?? 0) > createdAt;
 
   const itemCrafted =
     state.bumpkin.activity[`${itemName as SeasonalTierItemName} Bought`];
@@ -167,32 +172,34 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const canBuy = () => {
     if (!item) return false;
 
-    if (keysBoughtToday) return false;
+    if (item.cooldownMs) {
+      if (itemInCooldown) return false;
+    }
 
     if (tier !== "basic") {
       if (tier === "rare" && !isRareUnlocked) return false;
       if (tier === "epic" && !isEpicUnlocked) return false;
       if (tier === "mega" && !isMegaUnlocked) return false;
     }
-    if (!isKey(itemName as InventoryItemName)) {
+
+    if (!item.cooldownMs && !isKey(itemName as InventoryItemName)) {
       if (itemCrafted) {
         return false;
       }
     }
+
     if (itemReq) {
       const hasRequirements = getKeys(itemReq).every((name) => {
         const amount = itemReq[name] || new Decimal(0);
-
         const count = inventory[name] || new Decimal(0);
-
         return count.gte(amount);
       });
       if (!hasRequirements) return false;
     }
-    if (item)
-      return sflBalance.greaterThanOrEqualTo(
-        SFLDiscount(state, new Decimal(sfl)),
-      );
+
+    return sflBalance.greaterThanOrEqualTo(
+      SFLDiscount(state, new Decimal(sfl)),
+    );
   };
 
   const trackAnalytics = () => {
@@ -249,6 +256,10 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     trackAnalytics();
     setShowSuccess(true);
     setConfirmBuy(false);
+
+    if (itemName && itemName in REWARD_BOXES) {
+      onClose();
+    }
   };
 
   const buttonHandler = () => {
@@ -349,23 +360,6 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                         width: `${imageWidth}px`,
                       }}
                     />
-                    {itemName && isKey(itemName as Keys) ? (
-                      <Label
-                        type={keysBoughtToday ? "danger" : "default"}
-                        className="absolute bottom-1 right-1 text-xxs"
-                      >
-                        {t("keys.dailyLimit", { keysAmountBoughtToday })}
-                      </Label>
-                    ) : (
-                      <Label
-                        type={itemCrafted ? "danger" : "default"}
-                        className="absolute bottom-1 right-1 text-xxs"
-                      >
-                        {t("season.megastore.crafting.limit", {
-                          limit: itemCrafted ? 1 : 0,
-                        })}
-                      </Label>
-                    )}
                   </div>
                   <div className="flex flex-col space-y-2">
                     {!!buff && (
@@ -394,6 +388,33 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                     )}
                     <span className="text-xs leading-none">{description}</span>
 
+                    {itemName && item?.cooldownMs ? (
+                      <Label
+                        type={itemInCooldown ? "danger" : "default"}
+                        className="text-xxs"
+                      >
+                        {t("megastore.limit", {
+                          time: secondsToString(
+                            itemInCooldown
+                              ? (item.cooldownMs - (createdAt - boughtAt)) /
+                                  1000
+                              : item.cooldownMs / 1000,
+                            {
+                              length: "short",
+                            },
+                          ),
+                        })}
+                      </Label>
+                    ) : (
+                      <Label
+                        type={itemCrafted ? "danger" : "default"}
+                        className="text-xxs"
+                      >
+                        {t("season.megastore.crafting.limit", {
+                          limit: itemCrafted ? 1 : 0,
+                        })}
+                      </Label>
+                    )}
                     {itemReq &&
                       (sfl !== 0 ? (
                         <div className="flex flex-1 content-start flex-col flex-wrap">
@@ -480,12 +501,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                   )}
 
                   <Button
-                    disabled={
-                      !canBuy() ||
-                      (itemName &&
-                        isKey(itemName as InventoryItemName) &&
-                        !!keysBoughtToday)
-                    }
+                    disabled={!canBuy() || (itemName && !!itemInCooldown)}
                     onClick={buttonHandler}
                   >
                     {getButtonLabel()}

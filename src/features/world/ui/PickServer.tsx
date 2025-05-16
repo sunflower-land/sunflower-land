@@ -13,6 +13,7 @@ import { ResizableBar } from "components/ui/ProgressBar";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import brazilFlag from "assets/sfts/flags/brazil_flag.webp";
+import flowerIcon from "assets/icons/flower_token.webp";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useNavigate } from "react-router";
 import { Context } from "features/game/GameProvider";
@@ -30,6 +31,8 @@ const ICONS = [
   SUNNYSIDE.icons.heart,
   brazilFlag,
   CROP_LIFECYCLE.basic.Pumpkin.crop,
+  CROP_LIFECYCLE.basic.Kale.crop,
+  flowerIcon,
 ];
 
 export const PickServer: React.FC<Props> = ({ mmoService }) => {

@@ -35,6 +35,7 @@ import { isTradeResource } from "features/game/actions/tradeLimits";
 import Decimal from "decimal.js-light";
 import { useParams } from "react-router";
 import { KeyedMutator } from "swr";
+import { MAX_LIMITED_PURCHASES } from "./Tradeable";
 
 const _hasPendingOfferEffect = (state: MachineState) =>
   state.matches("marketplaceOffering") || state.matches("marketplaceAccepting");
@@ -42,17 +43,24 @@ const _authToken = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
 const _balance = (state: MachineState) => state.context.state.balance;
 const _inventory = (state: MachineState) => state.context.state.inventory;
-const _bertObsession = (state: MachineState) =>
-  state.context.state.bertObsession;
-const _npcs = (state: MachineState) => state.context.state.npcs;
 
 export const TradeableOffers: React.FC<{
   tradeable?: TradeableDetails;
+  limitedTradesLeft: number;
+  limitedPurchasesLeft: number;
   farmId: number;
   display: TradeableDisplay;
   itemId: number;
   reload: KeyedMutator<TradeableDetails>;
-}> = ({ tradeable, farmId, display, itemId, reload }) => {
+}> = ({
+  tradeable,
+  limitedTradesLeft,
+  farmId,
+  display,
+  itemId,
+  reload,
+  limitedPurchasesLeft,
+}) => {
   const { authService } = useContext(Auth.Context);
   const { gameService, showAnimations } = useContext(Context);
   const { t } = useAppTranslation();
@@ -80,8 +88,6 @@ export const TradeableOffers: React.FC<{
   const authToken = useSelector(authService, _authToken);
   const balance = useSelector(gameService, _balance);
   const inventory = useSelector(gameService, _inventory);
-  const bertObsession = useSelector(gameService, _bertObsession);
-  const npcs = useSelector(gameService, _npcs);
   const [showMakeOffer, setShowMakeOffer] = useState(false);
   const [showAcceptOffer, setShowAcceptOffer] = useState(false);
   const [selectedOffer, setSelectedOffer] = useState<Offer>();
@@ -143,15 +149,6 @@ export const TradeableOffers: React.FC<{
   const loading = !tradeable;
   const isResource = isTradeResource(KNOWN_ITEMS[Number(id)]);
 
-  // Check if the item is a bert obsession and whether the bert obsession is completed
-  const isItemBertObsession = bertObsession?.name === display.name;
-  const obsessionCompletedAt = npcs?.bert?.questCompletedAt;
-  const isBertsObesessionCompleted =
-    !!obsessionCompletedAt &&
-    bertObsession &&
-    obsessionCompletedAt >= bertObsession.startDate &&
-    obsessionCompletedAt <= bertObsession.endDate;
-
   return (
     <>
       <Modal show={showMakeOffer} onHide={handleHide}>
@@ -184,6 +181,11 @@ export const TradeableOffers: React.FC<{
               <Label type="default" icon={increaseArrow}>
                 {t("marketplace.offers")}
               </Label>
+              {tradeable?.expiresAt && (
+                <Label type={limitedPurchasesLeft <= 0 ? "danger" : "warning"}>
+                  {`${limitedPurchasesLeft}/${MAX_LIMITED_PURCHASES} Offers left`}
+                </Label>
+              )}
             </div>
             <div className="flex w-full flex-col sm:flex-row items-center justify-between">
               {topOffer ? (
@@ -208,7 +210,11 @@ export const TradeableOffers: React.FC<{
                   {tradeable?.isActive && (
                     <Button
                       className="w-full sm:w-fit mr-1"
-                      disabled={!tradeable || !tradeable?.isActive}
+                      disabled={
+                        !tradeable ||
+                        !tradeable?.isActive ||
+                        limitedPurchasesLeft <= 0
+                      }
                       onClick={() => setShowMakeOffer(true)}
                     >
                       <span className="whitespace-nowrap text-xs sm:text-sm">
@@ -221,9 +227,7 @@ export const TradeableOffers: React.FC<{
                     <Button
                       disabled={
                         topOffer.offeredBy.id === farmId ||
-                        (isItemBertObsession &&
-                          isBertsObesessionCompleted &&
-                          !isResource)
+                        limitedTradesLeft <= 0
                       }
                       onClick={() => setShowAcceptOffer(true)}
                       className="w-full sm:w-fit"

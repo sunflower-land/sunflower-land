@@ -1,3 +1,4 @@
+import clipboard from "clipboard";
 import { useActor } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
@@ -10,6 +11,7 @@ import * as AuthProvider from "features/auth/lib/Provider";
 import { CONFIG } from "lib/config";
 import { FaceRecognition } from "./FaceRecognition";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useSound } from "lib/utils/hooks/useSound";
 
 export const SoftBan: React.FC = () => {
   const { gameService, gameState } = useGame();
@@ -17,6 +19,10 @@ export const SoftBan: React.FC = () => {
   const [showDiscord, setShowDiscord] = useState(false);
   const [showTelegram, setShowTelegram] = useState(false);
   const [showFaceRecognition, setShowFaceRecognition] = useState(false);
+
+  const [showFarm, setShowFarm] = useState(false);
+
+  const copypaste = useSound("copypaste");
 
   const { t } = useAppTranslation();
 
@@ -33,12 +39,41 @@ export const SoftBan: React.FC = () => {
     return <TelegramSoftBan onClose={() => setShowTelegram(false)} />;
   }
 
+  const handleAskOnDiscord = () => {
+    window.open(
+      "https://discord.gg/sunflowerland",
+      "_blank",
+      "noopener,noreferrer",
+    );
+  };
+
   if (!hasVerifiedSocial) {
     return (
       <div className="p-1">
-        <Label icon={SUNNYSIDE.icons.search} type="default" className="mb-1">
-          {t("softBan.goblinDetection")}
-        </Label>
+        <div className="flex justify-between flex-wrap items-center">
+          <Label icon={SUNNYSIDE.icons.search} type="default" className="mb-1">
+            {t("softBan.goblinDetection")}
+          </Label>
+          <Label
+            type="default"
+            popup={showFarm}
+            className="mb-1"
+            onClick={() => {
+              setShowFarm(true);
+              setTimeout(() => {
+                setShowFarm(false);
+              }, 2000);
+              copypaste.play();
+              clipboard.copy(
+                gameService.state?.context?.farmId.toString() as string,
+              );
+            }}
+          >
+            {t("gameOptions.farmId", {
+              farmId: gameService.state?.context?.farmId,
+            })}
+          </Label>
+        </div>
         <p className="text-xs mb-2">{t("softBan.networkWarning")}</p>
         <Label type="default" className="mb-1">
           {t("softBan.step1")}
@@ -55,6 +90,12 @@ export const SoftBan: React.FC = () => {
         <Button onClick={() => setShowTelegram(true)}>
           {t("softBan.telegramVerification")}
         </Button>
+        <p
+          className="underline cursor-pointer text-xs my-1"
+          onClick={handleAskOnDiscord}
+        >
+          {t("welcome.needHelp")}
+        </p>
       </div>
     );
   }

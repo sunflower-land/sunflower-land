@@ -8,9 +8,11 @@ import clashOfFactionsBanner from "assets/decorations/banners/clash_of_factions_
 import pharaohsTreasureBanner from "assets/decorations/banners/pharaohs_treasure_banner.webp";
 import bullsRunBanner from "assets/decorations/banners/bull_run_banner.webp";
 import windsOfChangeBanner from "assets/decorations/banners/winds-of-change_banner_loop.gif";
+import greatBloomBanner from "assets/decorations/banners/great_bloom_banner.png";
 import { BeachBountySeasonalArtefact } from "./treasure";
 import { getKeys } from "./decorations";
 import { ChapterFish } from "./fishing";
+import { getObjectEntries } from "../expansion/lib/utils";
 
 export type SeasonName =
   | "Solar Flare"
@@ -21,7 +23,8 @@ export type SeasonName =
   | "Clash of Factions"
   | "Pharaoh's Treasure"
   | "Bull Run"
-  | "Winds of Change";
+  | "Winds of Change"
+  | "Great Bloom";
 
 type SeasonDates = { startDate: Date; endDate: Date };
 
@@ -62,6 +65,10 @@ export const SEASONS: Record<SeasonName, SeasonDates> = {
     startDate: new Date("2025-02-03T00:00:00.000Z"),
     endDate: new Date("2025-05-01T00:00:00.000Z"),
   },
+  "Great Bloom": {
+    startDate: new Date("2025-05-01T00:00:00.000Z"),
+    endDate: new Date("2025-08-01T00:00:00.000Z"),
+  },
 };
 
 export const SEASONAL_TICKETS_PER_GRUB_SHOP_ORDER = 10;
@@ -75,7 +82,8 @@ export type SeasonalTicket =
   | "Scroll"
   | "Amber Fossil"
   | "Horseshoe"
-  | "Timeshard";
+  | "Timeshard"
+  | "Geniseed";
 
 export type SeasonalBanner =
   | "Solar Flare Banner"
@@ -86,7 +94,8 @@ export type SeasonalBanner =
   | "Clash of Factions Banner"
   | "Pharaoh's Treasure Banner"
   | "Bull Run Banner"
-  | "Winds of Change Banner";
+  | "Winds of Change Banner"
+  | "Great Bloom Banner";
 
 export const SEASONAL_BANNERS: Record<SeasonalBanner, SeasonName> = {
   "Solar Flare Banner": "Solar Flare",
@@ -98,6 +107,7 @@ export const SEASONAL_BANNERS: Record<SeasonalBanner, SeasonName> = {
   "Pharaoh's Treasure Banner": "Pharaoh's Treasure",
   "Bull Run Banner": "Bull Run",
   "Winds of Change Banner": "Winds of Change",
+  "Great Bloom Banner": "Great Bloom",
 };
 
 export const SEASON_TICKET_NAME: Record<SeasonName, SeasonalTicket> = {
@@ -110,6 +120,7 @@ export const SEASON_TICKET_NAME: Record<SeasonName, SeasonalTicket> = {
   "Pharaoh's Treasure": "Amber Fossil",
   "Bull Run": "Horseshoe",
   "Winds of Change": "Timeshard",
+  "Great Bloom": "Geniseed",
 };
 
 export const SEASON_ARTEFACT_NAME: Record<
@@ -125,6 +136,7 @@ export const SEASON_ARTEFACT_NAME: Record<
   "Pharaoh's Treasure": "Scarab",
   "Bull Run": "Cow Skull",
   "Winds of Change": "Ancient Clock",
+  "Great Bloom": "Broken Pillar",
 };
 
 export const CHAPTER_MARVEL_FISH: Record<SeasonName, ChapterFish> = {
@@ -137,6 +149,9 @@ export const CHAPTER_MARVEL_FISH: Record<SeasonName, ChapterFish> = {
   "Pharaoh's Treasure": "Lemon Shark",
   "Bull Run": "Longhorn Cowfish",
   "Winds of Change": "Jellyfish",
+
+  // TODO: Add Great Bloom fish
+  "Great Bloom": "Jellyfish",
 };
 
 export function getChapterMarvelFish(now = new Date()): ChapterFish {
@@ -212,6 +227,7 @@ export function getSeasonalBannerImage() {
     "Pharaoh's Treasure Banner": pharaohsTreasureBanner,
     "Bull Run Banner": bullsRunBanner,
     "Winds of Change Banner": windsOfChangeBanner,
+    "Great Bloom Banner": greatBloomBanner,
   };
   return banners[getSeasonalBanner()];
 }
@@ -221,8 +237,8 @@ function getPreviousSeason(now = new Date()): SeasonName {
   const startDateOfCurrentSeason = SEASONS[currentSeason].startDate;
 
   // Find the season where the end date matches the start date of the current season
-  const previousSeason = Object.entries(SEASONS).find(
-    ([_, { endDate }]) =>
+  const previousSeason = getObjectEntries(SEASONS).find(
+    ([, { endDate }]) =>
       endDate.getTime() === startDateOfCurrentSeason.getTime(),
   );
 
@@ -230,7 +246,7 @@ function getPreviousSeason(now = new Date()): SeasonName {
     throw new Error("No previous banner found");
   }
 
-  return previousSeason[0] as SeasonName;
+  return previousSeason[0];
 }
 
 export function getPreviousSeasonalBanner(now = new Date()): SeasonalBanner {

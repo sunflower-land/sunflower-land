@@ -18,8 +18,6 @@ const GAME_STATE: GameState = {
       },
       x: 1,
       y: 1,
-      height: 1,
-      width: 1,
     },
     1: {
       stone: {
@@ -28,8 +26,6 @@ const GAME_STATE: GameState = {
       },
       x: 4,
       y: 1,
-      height: 1,
-      width: 1,
     },
   },
 };
@@ -53,7 +49,7 @@ describe("mineStone", () => {
           index: 0,
         },
       }),
-    ).toThrow("No pickaxes left");
+    ).toThrow("Not enough pickaxes");
   });
 
   it("throws an error if stone does not exist", () => {
@@ -362,5 +358,32 @@ describe("getMinedAt", () => {
     });
 
     expect(time).toEqual(now);
+  });
+  it("doesn't require pickaxes if Quarry is built", () => {
+    const state = mineStone({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          Pickaxe: new Decimal(1),
+        },
+        collectibles: {
+          Quarry: [
+            {
+              id: "123",
+              createdAt: Date.now(),
+              coordinates: { x: 1, y: 1 },
+              readyAt: Date.now(),
+            },
+          ],
+        },
+      },
+      action: {
+        type: "stoneRock.mined",
+        index: 0,
+      },
+      createdAt: Date.now(),
+    });
+
+    expect(state.inventory.Pickaxe).toEqual(new Decimal(1));
   });
 });

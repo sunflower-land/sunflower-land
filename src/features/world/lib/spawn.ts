@@ -12,8 +12,8 @@ const randomYOffset = Math.random() * 20;
 export const SPAWNS: () => SpawnLocation = () => ({
   love_island: {
     default: {
-      x: 240,
-      y: 180,
+      x: 608,
+      y: 770,
     },
   },
   stream: {
@@ -171,12 +171,6 @@ export const SPAWNS: () => SpawnLocation = () => ({
     default: {
       x: 30,
       y: 290,
-    },
-  },
-  easter_island: {
-    default: {
-      x: 230 + randomXOffset / 10,
-      y: 300 + randomYOffset / 10,
     },
   },
 });

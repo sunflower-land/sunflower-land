@@ -105,7 +105,7 @@ const ItemsList: React.FC<{
               }
               onClick={() => {
                 navigate(
-                  `${isWorldRoute ? "/world" : ""}/marketplace/collectibles/${id}`,
+                  `${isWorldRoute ? "/world" : ""}/marketplace/${type}/${id}`,
                 );
               }}
               expiresAt={expiresAt}

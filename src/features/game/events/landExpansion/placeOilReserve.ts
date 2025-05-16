@@ -1,5 +1,4 @@
-import { GameState } from "features/game/types/game";
-import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
+import { GameState, OilReserve } from "features/game/types/game";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
 
@@ -32,16 +31,20 @@ export function placeOilReserve({
       throw new Error("No oil reserve available");
     }
 
-    game.oilReserves[action.id as unknown as number] = {
-      createdAt: createdAt,
+    const newOilReserve: OilReserve = {
+      createdAt,
       x: action.coordinates.x,
       y: action.coordinates.y,
-      ...RESOURCE_DIMENSIONS["Oil Reserve"],
       oil: {
-        amount: 0,
+        amount: 10,
         drilledAt: 0,
       },
-      drilled: 5,
+      drilled: 0,
+    };
+
+    game.oilReserves = {
+      ...game.oilReserves,
+      [action.id]: newOilReserve,
     };
 
     return game;

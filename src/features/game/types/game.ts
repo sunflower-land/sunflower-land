@@ -21,12 +21,13 @@ import { BumpkinActivityName } from "./bumpkinActivity";
 import { DecorationName } from "./decorations";
 import { BeanName, ExoticCropName, MutantCropName } from "./beans";
 import {
+  FullMoonFruit,
   GreenHouseFruitName,
   GreenHouseFruitSeedName,
   PatchFruitName,
   PatchFruitSeedName,
 } from "./fruits";
-import { TreasureName } from "./treasure";
+import { BeachBountyTreasure, TreasureName } from "./treasure";
 import {
   GoblinBlacksmithItemName,
   GoblinPirateItemName,
@@ -82,7 +83,7 @@ import {
   Recipes,
   RecipeWearableName,
 } from "../lib/crafting";
-import { SeasonalCollectibleName } from "./megastore";
+import { SeasonalCollectibleName, SeasonalTierItemName } from "./megastore";
 import { TradeFood } from "../events/landExpansion/redeemTradeReward";
 import {
   CalendarEvent,
@@ -94,6 +95,7 @@ import { InGameTaskName } from "../events/landExpansion/completeSocialTask";
 import { TwitterPost, TwitterPostName } from "./social";
 import { NetworkName } from "../events/landExpansion/updateNetwork";
 import { RewardBoxes, RewardBoxName } from "./rewardBoxes";
+import { FloatingIslandShop, FloatingShopItemName } from "./floatingIsland";
 
 export type Reward = {
   coins?: number;
@@ -200,11 +202,12 @@ export type MutantChicken =
   | "Knight Chicken"
   | "Pharaoh Chicken"
   | "Alien Chicken"
-  | "Summer Chicken";
+  | "Summer Chicken"
+  | "Love Chicken";
 
-export type MutantCow = "Mootant" | "Frozen Cow";
+export type MutantCow = "Mootant" | "Frozen Cow" | "Dr Cow";
 
-export type MutantSheep = "Toxic Tuft" | "Frozen Sheep";
+export type MutantSheep = "Toxic Tuft" | "Frozen Sheep" | "Nurse Sheep";
 
 export type MutantAnimal = MutantChicken | MutantCow | MutantSheep;
 
@@ -357,10 +360,13 @@ export const COUPONS: Record<Coupons, { description: string }> = {
     description: translate("description.love.charm"),
   },
   "Easter Token 2025": {
-    description: "placeholder",
+    description: "",
   },
   "Easter Ticket 2025": {
-    description: "placeholder",
+    description: "",
+  },
+  Geniseed: {
+    description: translate("description.geniseed"),
   },
 };
 
@@ -427,16 +433,40 @@ export type FlowerBounty = Bounty & {
   name: FlowerName;
 };
 
-export type SFLBounty = Bounty & {
+export type ObsidianBounty = Bounty & {
   name: "Obsidian";
-  sfl: number;
+  sfl?: number;
 };
 
-export type BountyRequest = AnimalBounty | FlowerBounty | SFLBounty;
+export type FishBounty = Bounty & {
+  name: FishName;
+};
+
+export type ExoticBounty = Bounty & {
+  name:
+    | ExoticCropName
+    | BeachBountyTreasure
+    | FullMoonFruit
+    | RecipeCraftableName;
+};
+
+export type MarkBounty = Bounty & {
+  name: "Mark";
+  quantity: number;
+};
+
+export type BountyRequest =
+  | AnimalBounty
+  | FlowerBounty
+  | ObsidianBounty
+  | FishBounty
+  | ExoticBounty
+  | MarkBounty;
 
 export type Bounties = {
   requests: BountyRequest[];
   completed: { id: string; soldAt: number }[];
+  bonusClaimedAt?: number;
 };
 
 export type InventoryItemName =
@@ -524,14 +554,6 @@ type PastAction = GameEvent & {
   createdAt: Date;
 };
 
-export interface CurrentObsession {
-  type: "collectible" | "wearable";
-  name: InventoryItemName | BumpkinItem;
-  startDate: number;
-  endDate: number;
-  reward: number;
-}
-
 export type WarCollectionOffer = {
   warBonds: number;
   startAt: string;
@@ -542,12 +564,6 @@ export type WarCollectionOffer = {
   }[];
 };
 
-export type Position = {
-  x: number;
-  y: number;
-  height: number;
-  width: number;
-};
 export type Wood = {
   amount: number;
   choppedAt: number;
@@ -573,7 +589,7 @@ export type PlantedFruit = {
 export type Tree = {
   wood: Wood;
   createdAt?: number;
-} & Position;
+} & Coordinates;
 
 export type Stone = {
   amount: number;
@@ -588,7 +604,7 @@ export type FiniteResource = {
 export type Rock = {
   stone: Stone;
   createdAt?: number;
-} & Position;
+} & Coordinates;
 
 export type Oil = {
   amount: number;
@@ -600,13 +616,13 @@ export type OilReserve = {
   oil: Oil;
   drilled: number;
   createdAt: number;
-} & Position;
+} & Coordinates;
 
 export type CropPlot = {
   crop?: PlantedCrop;
   fertiliser?: CropFertiliser;
   createdAt: number;
-} & Position;
+} & Coordinates;
 
 export type GreenhousePlant = {
   name: GreenHouseCropName | GreenHouseFruitName;
@@ -620,10 +636,9 @@ export type GreenhousePot = {
 
 export type FruitPatch = {
   fruit?: PlantedFruit;
+  createdAt: number;
   fertiliser?: FruitFertiliser;
-} & Position;
-
-export type Mine = Position;
+} & Coordinates;
 
 export type BuildingProduct = {
   name: CookableName;
@@ -1206,7 +1221,7 @@ export type PlantedFlower = {
 export type FlowerBed = {
   flower?: PlantedFlower;
   createdAt: number;
-} & Position;
+} & Coordinates;
 
 export type FlowerBeds = Record<string, FlowerBed>;
 
@@ -1224,7 +1239,7 @@ export type Beehive = {
     produced: number;
   };
   flowers: AttachedFlower[];
-} & Position;
+} & Coordinates;
 
 export type Beehives = Record<string, Beehive>;
 
@@ -1346,6 +1361,7 @@ export type UpgradableBuilding = {
 
 export type Bank = {
   taxFreeSFL: number;
+  withdrawnAmount: number;
 };
 
 export type TemperateSeasonName = "spring" | "summer" | "autumn" | "winter";
@@ -1378,13 +1394,9 @@ export type Calendar = Partial<Record<SeasonalEventName, CalendarEvent>> & {
 
 export type LavaPit = {
   createdAt: number;
-  x: number;
-  y: number;
-  height: number;
-  width: number;
   startedAt?: number;
   collectedAt?: number;
-};
+} & Coordinates;
 
 export type VIP = {
   bundles: { name: VipBundle; boughtAt: number }[];
@@ -1451,8 +1463,6 @@ export interface GameState {
   createdAt: number;
 
   tradedAt?: string;
-  bertObsession?: CurrentObsession;
-  bertObsessionCompletedAt?: Date;
   warCollectionOffer?: WarCollectionOffer;
 
   minigames: {
@@ -1562,7 +1572,15 @@ export interface GameState {
     tradePoints?: number;
     dailyListings?: { date: number; count: number };
     dailyPurchases?: { date: number; count: number };
+    weeklySales?: {
+      [date: string]: Partial<Record<MarketplaceTradeableName, number>>;
+    };
+
+    weeklyPurchases?: {
+      [date: string]: Partial<Record<MarketplaceTradeableName, number>>;
+    };
   };
+
   buds?: Record<number, Bud>;
 
   christmas2024?: Christmas;
@@ -1654,6 +1672,19 @@ export interface GameState {
   };
 
   rewardBoxes?: RewardBoxes;
+
+  floatingIsland: {
+    schedule: {
+      startAt: number;
+      endAt: number;
+    }[];
+    shop: FloatingIslandShop;
+    boughtAt?: Partial<Record<FloatingShopItemName, number>>;
+    petalPuzzleSolvedAt?: number;
+  };
+  megastore?: {
+    boughtAt: Partial<Record<SeasonalTierItemName, number>>;
+  };
 }
 
 export type FaceRecognitionEvent =

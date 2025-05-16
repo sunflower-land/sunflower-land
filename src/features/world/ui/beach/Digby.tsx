@@ -13,9 +13,8 @@ import {
   hasClaimedReward,
 } from "features/game/types/desert";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { secondsTillReset } from "features/helios/components/hayseedHank/HayseedHankV2";
 import { NPC_WEARABLES } from "lib/npcs";
-import { secondsToString } from "lib/utils/time";
+import { secondsTillReset, secondsToString } from "lib/utils/time";
 import React, { useContext, useEffect, useState } from "react";
 import powerup from "assets/icons/level_up.png";
 import gift from "assets/icons/gift.png";

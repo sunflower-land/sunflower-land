@@ -4,7 +4,12 @@ import { STONE_RECOVERY_TIME } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
 
 import { getTimeLeft } from "lib/utils/time";
-import { InventoryItemName, Rock, Skills } from "features/game/types/game";
+import {
+  GameState,
+  InventoryItemName,
+  Rock,
+  Skills,
+} from "features/game/types/game";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -14,6 +19,7 @@ import { DepletingStone } from "./components/DepletingStone";
 import { RecoveredStone } from "./components/RecoveredStone";
 import { canMine } from "features/game/expansion/lib/utils";
 import { useSound } from "lib/utils/hooks/useSound";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
 const HITS = 3;
 const tool = "Pickaxe";
@@ -26,6 +32,11 @@ const selectInventory = (state: MachineState) => state.context.state.inventory;
 const compareResource = (prev: Rock, next: Rock) => {
   return JSON.stringify(prev) === JSON.stringify(next);
 };
+
+const _state = (state: MachineState) => state.context.state;
+const _compareQuarryExistence = (prev: GameState, next: GameState) =>
+  isCollectibleBuilt({ name: "Quarry", game: prev }) ===
+  isCollectibleBuilt({ name: "Quarry", game: next });
 
 const selectSkills = (state: MachineState) =>
   state.context.state.bumpkin?.skills;
@@ -63,6 +74,7 @@ export const Stone: React.FC<Props> = ({ id }) => {
     };
   }, []);
 
+  const game = useSelector(gameService, _state, _compareQuarryExistence);
   const resource = useSelector(
     gameService,
     (state) => state.context.state.stones[id],
@@ -86,7 +98,9 @@ export const Stone: React.FC<Props> = ({ id }) => {
   const strike = () => {
     if (!hasTool) return;
 
-    shortcutItem(tool);
+    if (!isCollectibleBuilt({ name: "Quarry", game })) {
+      shortcutItem(tool);
+    }
 
     if (skills["Tap Prospector"]) {
       // insta-mine the mineral

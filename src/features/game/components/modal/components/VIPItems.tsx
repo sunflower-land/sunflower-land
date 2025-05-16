@@ -15,6 +15,7 @@ import xpIcon from "assets/icons/xp.png";
 import vipIcon from "assets/icons/vip.webp";
 import blueVipIcon from "assets/icons/blue_vip.webp";
 import purpleVipIcon from "assets/icons/purple_vip.webp";
+import flowerIcon from "assets/icons/flower_token.webp";
 
 import trophyIcon from "assets/icons/trophy.png";
 import shopIcon from "assets/icons/shop.png";
@@ -352,6 +353,14 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
                   {
                     text: t("vip.benefit.windOfChange"),
                     icon: ITEM_DETAILS.Broccoli.image,
+                  },
+                ]
+              : []),
+            ...(getCurrentSeason() === "Great Bloom"
+              ? [
+                  {
+                    text: t("vip.benefit.greatBloom"),
+                    icon: flowerIcon,
                   },
                 ]
               : []),

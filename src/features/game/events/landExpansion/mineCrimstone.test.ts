@@ -21,8 +21,6 @@ const GAME_STATE: GameState = {
       },
       x: 1,
       y: 1,
-      height: 1,
-      width: 1,
       minesLeft: 5,
     },
     1: {
@@ -32,8 +30,6 @@ const GAME_STATE: GameState = {
       },
       x: 4,
       y: 1,
-      height: 1,
-      width: 1,
       minesLeft: 5,
     },
   },

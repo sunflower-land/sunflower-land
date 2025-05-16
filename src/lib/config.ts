@@ -61,6 +61,8 @@ const WALLETCONNECT_PROJECT_ID = import.meta.env
   .VITE_WALLETCONNECT_PROJECT_ID as string;
 const CHRISTMAS_EVENT_DONATION = import.meta.env
   .VITE_CHRISTMAS_EVENT_DONATION as string;
+const WITHDRAW_FLOWER_CONTRACT = import.meta.env
+  .VITE_WITHDRAW_FLOWER_CONTRACT as string;
 
 // Arcade Mini Games Donation Addresses
 const GREEDY_GOBLIN_DONATION = import.meta.env
@@ -174,4 +176,5 @@ export const CONFIG = {
   FIREBASE_APP_ID,
   TELEGRAM_BOT,
   TWITTER_CLIENT_ID,
+  WITHDRAW_FLOWER_CONTRACT,
 };

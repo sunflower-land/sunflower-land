@@ -39,12 +39,12 @@ export type WalletAction =
   | "login"
   | "deposit"
   | "confirmDeposit" // Only used if the player has items in their wallet
-  | "withdraw"
   | "purchase"
   | "confirmPurchase" // Only used if the player has POL
   | "donate"
   | "dailyReward"
   | "sync"
+  | "withdraw"
   | "dequip"
   | "marketplace"
   | "transfer";
@@ -61,7 +61,11 @@ const NON_NFT_ACTIONS: WalletAction[] = [
   "marketplace",
 ];
 
-const NON_POLYGON_ACTIONS: WalletAction[] = ["login", "dailyReward"];
+const NON_POLYGON_ACTIONS: WalletAction[] = [
+  "login",
+  "dailyReward",
+  "withdraw",
+];
 
 type InitialiseEvent = {
   type: "INITIALISE";

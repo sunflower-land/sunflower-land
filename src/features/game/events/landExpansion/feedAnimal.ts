@@ -22,6 +22,7 @@ import {
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { getKeys } from "features/game/types/decorations";
+import { isWearableActive } from "features/game/lib/wearables";
 
 export const ANIMAL_SLEEP_DURATION = 24 * 60 * 60 * 1000;
 
@@ -158,6 +159,15 @@ export function handleFoodXP({
   return { foodXp };
 }
 
+export function getBarnDelightCost({ state }: { state: GameState }) {
+  let amount = 1;
+
+  if (isWearableActive({ name: "Medic Apron", game: state })) {
+    amount /= 2;
+  }
+  return amount;
+}
+
 export function feedAnimal({
   state,
   action,
@@ -186,14 +196,31 @@ export function feedAnimal({
         throw new Error("Cannot cure a healthy animal");
       }
 
+      const hasOracleSyringeEquipped = isWearableActive({
+        name: "Oracle Syringe",
+        game: copy,
+      });
+
+      if (hasOracleSyringeEquipped) {
+        //Free Medicine for Animals
+        animal.state = "idle";
+
+        copy.bumpkin.activity = trackActivity(
+          `${action.animal} Cured`,
+          copy.bumpkin.activity,
+        );
+        return copy;
+      }
+
       const barnDelightAmount =
         copy.inventory["Barn Delight"] ?? new Decimal(0);
+      const barnDelightCost = getBarnDelightCost({ state: copy });
 
-      if (barnDelightAmount.lt(1)) {
+      if (barnDelightAmount.lt(barnDelightCost)) {
         throw new Error("Not enough Barn Delight to cure the animal");
       }
 
-      copy.inventory["Barn Delight"] = barnDelightAmount.sub(1);
+      copy.inventory["Barn Delight"] = barnDelightAmount.sub(barnDelightCost);
       animal.state = "idle";
 
       copy.bumpkin.activity = trackActivity(

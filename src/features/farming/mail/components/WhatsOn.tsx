@@ -8,12 +8,11 @@ import React from "react";
 
 import giftIcon from "assets/icons/gift.png";
 import lockIcon from "assets/icons/lock.png";
-import upArrow from "assets/icons/level_up.png";
-import calendarIcon from "assets/icons/calendar.webp";
-import lightningIcon from "assets/icons/lightning.png";
 import shopIcon from "assets/icons/shop.png";
 import vipIcon from "assets/icons/vip.webp";
-import skillIcon from "assets/icons/tier1_book.webp";
+import upArrow from "assets/icons/level_up.png";
+import promoteIcon from "assets/icons/promote.webp";
+
 export const WhatsOn = () => {
   const { t } = useAppTranslation();
 
@@ -22,30 +21,26 @@ export const WhatsOn = () => {
       <InnerPanel className="mb-1">
         <div className="p-1">
           <div className="flex items-center justify-between mb-2">
-            <Label type="default">{t("whatsOn.windsOfChange")}</Label>
-            <Label type="formula">{t("whatsOn.february3rd")}</Label>
+            <Label type="default">{t("whatsOn.greatBloom")}</Label>
+            <Label type="formula">{t("whatsOn.may1st")}</Label>
           </div>
           <NoticeboardItems
             items={[
               {
-                text: t("whatsOn.seasonsArrived"),
-                icon: calendarIcon,
+                text: t("whatsOn.floatingIsland"),
+                icon: ITEM_DETAILS["Heart Balloons"].image,
               },
               {
-                text: t("whatsOn.volcanoIsland"),
+                text: t("whatsOn.flowerPuzzle"),
+                icon: giftIcon,
+              },
+              {
+                text: t("whatsOn.brokenPillars"),
+                icon: ITEM_DETAILS["Broken Pillar"].image,
+              },
+              {
+                text: t("whatsOn.megaBountyBoard"),
                 icon: upArrow,
-              },
-              {
-                text: t("whatsOn.ancientClocks"),
-                icon: ITEM_DETAILS["Ancient Clock"].image,
-              },
-              {
-                text: t("whatsOn.solarForge"),
-                icon: ITEM_DETAILS["Sunstone"].image,
-              },
-              {
-                text: t("whatsOn.weatherEvents"),
-                icon: lightningIcon,
               },
             ]}
           />
@@ -56,25 +51,25 @@ export const WhatsOn = () => {
         <div className="p-1">
           <div className="flex items-center justify-between mb-2">
             <Label type="vibrant">{t("whatsOn.nftRace")}</Label>
-            <Label type="formula">{t("whatsOn.february10th")}</Label>
+            <Label type="formula">{t("whatsOn.may5th")}</Label>
           </div>
           <NoticeboardItems
             items={[
               {
-                text: t("whatsOn.timeshardsEarning"),
-                icon: ITEM_DETAILS.Timeshard.image,
+                text: t("whatsOn.genesisEarning"),
+                icon: ITEM_DETAILS.Geniseed.image,
               },
               {
-                text: t("whatsOn.timeshardsUsage"),
+                text: t("whatsOn.genesisUsage"),
                 icon: shopIcon,
+              },
+              {
+                text: t("whatsOn.flowerBox"),
+                icon: ITEM_DETAILS["Gold Flower Box"].image,
               },
               {
                 text: t("whatsOn.vipPass"),
                 icon: vipIcon,
-              },
-              {
-                text: t("whatsOn.skillSystem"),
-                icon: skillIcon,
               },
             ]}
           />
@@ -85,7 +80,7 @@ export const WhatsOn = () => {
         <div className="p-1">
           <div className="flex items-center justify-between mb-2">
             <Label type="default">{t("whatsOn.auctionWeek")}</Label>
-            <Label type="formula">{t("whatsOn.march31st")}</Label>
+            <Label type="formula">{t("whatsOn.june23rd")}</Label>
           </div>
           <NoticeboardItems
             items={[
@@ -105,25 +100,8 @@ export const WhatsOn = () => {
       <InnerPanel className="mb-1">
         <div className="p-1">
           <div className="flex items-center justify-between mb-2">
-            <Label type="default">{t("whatsOn.loveRush")}</Label>
-            <Label type="formula">{t("whatsOn.april14th")}</Label>
-          </div>
-          <NoticeboardItems
-            items={[
-              {
-                text: t("whatsOn.loveRushText"),
-                icon: giftIcon,
-              },
-            ]}
-          />
-        </div>
-      </InnerPanel>
-
-      <InnerPanel className="mb-1">
-        <div className="p-1">
-          <div className="flex items-center justify-between mb-2">
             <Label type="default">{t("whatsOn.ticketsEnd")}</Label>
-            <Label type="formula">{t("whatsOn.april28th")}</Label>
+            <Label type="formula">{t("whatsOn.july28th")}</Label>
           </div>
           <NoticeboardItems
             items={[
@@ -139,22 +117,18 @@ export const WhatsOn = () => {
       <InnerPanel className="mb-1">
         <div className="p-1">
           <div className="flex items-center justify-between mb-2">
-            <Label type="default">{t("whatsOn.mysterySeason")}</Label>
-            <Label type="formula">{t("whatsOn.may1st")}</Label>
+            <Label type="default">{t("whatsOn.coopSeason")}</Label>
+            <Label type="formula">{t("whatsOn.august1st")}</Label>
           </div>
           <NoticeboardItems
             items={[
               {
-                text: t("whatsOn.mysterySeasonText"),
-                icon: SUNNYSIDE.icons.expression_confused,
+                text: t("whatsOn.coopSeasonText"),
+                icon: SUNNYSIDE.icons.heart,
               },
               {
-                text: t("whatsOn.mysterySeasonText2"),
-                icon: SUNNYSIDE.icons.cancel,
-              },
-              {
-                text: t("whatsOn.mysterySeasonText3"),
-                icon: SUNNYSIDE.icons.cancel,
+                text: t("whatsOn.coopSeasonText2"),
+                icon: promoteIcon,
               },
             ]}
           />

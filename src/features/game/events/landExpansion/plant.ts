@@ -6,7 +6,6 @@ import {
   CropPlot,
   GameState,
   InventoryItemName,
-  Position,
 } from "../../types/game";
 import {
   COLLECTIBLES_DIMENSIONS,
@@ -18,7 +17,10 @@ import {
 } from "features/game/lib/collectibleBuilt";
 import { setPrecision } from "lib/utils/formatNumber";
 import { SEASONAL_SEEDS, SeedName, SEEDS } from "features/game/types/seeds";
-import { isWithinAOE } from "features/game/expansion/placeable/lib/collisionDetection";
+import {
+  isWithinAOE,
+  Position,
+} from "features/game/expansion/placeable/lib/collisionDetection";
 import {
   isBasicCrop,
   isMediumCrop,
@@ -43,9 +45,11 @@ import { produce } from "immer";
 import {
   CalendarEventName,
   getActiveCalendarEvent,
+  isGuardianActive,
 } from "features/game/types/calendar";
 import { getCurrentSeason } from "features/game/types/seasons";
 import { hasVipAccess } from "features/game/lib/vipAccess";
+import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 
 export type LandExpansionPlantAction = {
   type: "seed.planted";
@@ -219,6 +223,13 @@ export function getCropTime({
   }
 
   if (
+    crop === "Zucchini" &&
+    isCollectibleBuilt({ name: "Giant Zucchini", game })
+  ) {
+    seconds = seconds * 0.5;
+  }
+
+  if (
     isSummerCrop(crop, game.season.season, SEASONAL_SEEDS) &&
     !isGreenhouseCrop(crop) &&
     isWearableActive({ name: "Solflare Aegis", game })
@@ -311,6 +322,17 @@ export const getCropPlotTime = ({
     seconds = seconds * 0.75;
   }
 
+  if (
+    crop === "Pepper" &&
+    isWearableActive({ name: "Red Pepper Onesie", game })
+  ) {
+    seconds = seconds * 0.75;
+  }
+
+  if (isWearableActive({ name: "Broccoli Hat", game }) && crop === "Broccoli") {
+    seconds = seconds * 0.5;
+  }
+
   if (isCollectibleActive({ name: "Harvest Hourglass", game })) {
     seconds = seconds * 0.75;
   }
@@ -336,8 +358,7 @@ export const getCropPlotTime = ({
     const plotPosition: Position = {
       x: plot?.x,
       y: plot?.y,
-      height: plot.height,
-      width: plot.width,
+      ...RESOURCE_DIMENSIONS["Crop Plot"],
     };
 
     if (
@@ -365,6 +386,9 @@ export const getCropPlotTime = ({
 
   if (isSunshower) {
     seconds = seconds * 0.5;
+    if (isGuardianActive({ game })) {
+      seconds = seconds * 0.5;
+    }
   }
 
   return seconds;
@@ -569,6 +593,10 @@ export function getCropYieldAmount({
     amount += 0.1;
   }
 
+  if (crop === "Yam" && isCollectibleBuilt({ name: "Giant Yam", game })) {
+    amount += 0.5;
+  }
+
   if (crop === "Soybean" && isWearableActive({ name: "Tofu Mask", game })) {
     amount += 0.1;
   }
@@ -585,6 +613,10 @@ export function getCropYieldAmount({
     crop === "Barley" &&
     isCollectibleBuilt({ name: "Sheaf of Plenty", game })
   ) {
+    amount += 2;
+  }
+
+  if (crop === "Kale" && isCollectibleBuilt({ name: "Giant Kale", game })) {
     amount += 2;
   }
 
@@ -609,8 +641,7 @@ export function getCropYieldAmount({
     const plotPosition: Position = {
       x: plot?.x,
       y: plot?.y,
-      height: plot.height,
-      width: plot.width,
+      ...RESOURCE_DIMENSIONS["Crop Plot"],
     };
 
     if (
@@ -640,7 +671,15 @@ export function getCropYieldAmount({
 
     if (
       isPlotCrop(crop) &&
-      isWithinAOE("Sir Goldensnout", position, plot as CropPlot, bumpkin.skills)
+      isWithinAOE(
+        "Sir Goldensnout",
+        position,
+        {
+          ...plot,
+          ...RESOURCE_DIMENSIONS["Crop Plot"],
+        },
+        bumpkin.skills,
+      )
     ) {
       amount = amount + 0.5;
     }
@@ -667,8 +706,7 @@ export function getCropYieldAmount({
     const plotPosition: Position = {
       x: plot?.x,
       y: plot?.y,
-      height: plot.height,
-      width: plot.width,
+      ...RESOURCE_DIMENSIONS["Crop Plot"],
     };
 
     if (
@@ -703,8 +741,7 @@ export function getCropYieldAmount({
     const plotPosition: Position = {
       x: plot?.x,
       y: plot?.y,
-      height: plot.height,
-      width: plot.width,
+      ...RESOURCE_DIMENSIONS["Crop Plot"],
     };
 
     if (
@@ -832,6 +869,9 @@ export function getCropYieldAmount({
 
   if (getActiveCalendarEvent({ game }) === "bountifulHarvest") {
     amount += 1;
+    if (isGuardianActive({ game })) {
+      amount += 1;
+    }
   }
 
   const isInsectPlagueActive =

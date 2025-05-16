@@ -49,6 +49,11 @@ export abstract class Preloader extends Phaser.Scene {
       );
 
       this.load.image(
+        "floating-tileset",
+        `${CONFIG.PROTECTED_IMAGE_URL}/world/floating-sky-map-extruded.png`,
+      );
+
+      this.load.image(
         "christmas-tileset",
         `${CONFIG.PROTECTED_IMAGE_URL}/world/christmas-2024-map-extruded.png`,
       );
@@ -56,11 +61,6 @@ export abstract class Preloader extends Phaser.Scene {
       this.load.image(
         "easter-tileset",
         `${CONFIG.PROTECTED_IMAGE_URL}/world/easter-map-extruded.png`,
-      );
-
-      this.load.image(
-        "easter_island_tileset",
-        `world/easter_island_tileset.png`,
       );
 
       this.load.image("speech_bubble", "world/speech_bubble.png");

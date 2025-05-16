@@ -1,8 +1,5 @@
-import { GameState } from "features/game/types/game";
-import {
-  ResourceName,
-  RESOURCE_DIMENSIONS,
-} from "features/game/types/resources";
+import { GameState, Tree } from "features/game/types/game";
+import { ResourceName } from "features/game/types/resources";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
 
@@ -36,18 +33,19 @@ export function placeTree({
       throw new Error("No trees available");
     }
 
+    const tree: Tree = {
+      createdAt,
+      x: action.coordinates.x,
+      y: action.coordinates.y,
+      wood: {
+        amount: 1,
+        choppedAt: 0,
+      },
+    };
+
     game.trees = {
       ...game.trees,
-      [action.id as unknown as number]: {
-        createdAt: createdAt,
-        x: action.coordinates.x,
-        y: action.coordinates.y,
-        ...RESOURCE_DIMENSIONS["Tree"],
-        wood: {
-          amount: 1,
-          choppedAt: 0,
-        },
-      },
+      [action.id]: tree,
     };
 
     return game;
