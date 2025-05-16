@@ -1,5 +1,21 @@
-import { BB_TO_GEM_RATIO, InventoryItemName, Wardrobe } from "./game";
-import { SEASONS } from "./seasons";
+import {
+  FLOWER_BOXES,
+  FlowerBox,
+  isCollectible,
+  isWearable,
+} from "../events/landExpansion/buySeasonalItem";
+import { CHAPTER_TICKET_BOOST_ITEMS } from "../events/landExpansion/completeNPCChore";
+import { getObjectEntries } from "../expansion/lib/utils";
+import { ARTEFACT_SHOP_KEYS } from "./collectibles";
+import { getKeys } from "./decorations";
+import { BB_TO_GEM_RATIO, InventoryItemName, Keys, Wardrobe } from "./game";
+import {
+  MEGASTORE,
+  SeasonalCollectibleName,
+  SeasonalStore,
+  SeasonalWearableName,
+} from "./megastore";
+import { getCurrentSeason } from "./seasons";
 
 export type ChestReward = {
   items?: Partial<Record<InventoryItemName, number>>;
@@ -9,139 +25,139 @@ export type ChestReward = {
   weighting: number;
 };
 
-const multiplier = 900;
+export const CHEST_MULTIPLIER = 900;
+
+export const MEGASTORE_TIER_WEIGHTS: Record<keyof SeasonalStore, number> = {
+  basic: 0.5,
+  rare: 0.2,
+  epic: 0.1,
+  mega: 0.05,
+};
+
+const currentSeason = getCurrentSeason(new Date());
+export const MEGASTORE_RESTRICTED_ITEMS: (
+  | Keys
+  | SeasonalCollectibleName
+  | SeasonalWearableName
+  | FlowerBox
+)[] = [
+  ...Object.values(CHAPTER_TICKET_BOOST_ITEMS[currentSeason]),
+  ...getKeys(FLOWER_BOXES),
+  ...getKeys(ARTEFACT_SHOP_KEYS),
+];
 
 const SEASONAL_REWARDS: (weight: number) => ChestReward[] = (weight) => {
-  const isWindsOfChangeChapter =
-    Date.now() >= SEASONS["Winds of Change"].startDate.getTime() &&
-    Date.now() < SEASONS["Winds of Change"].endDate.getTime();
+  const store = MEGASTORE[currentSeason];
+  const rewards: ChestReward[] = [];
 
-  if (isWindsOfChangeChapter) {
-    return [
-      // Deco
-      { items: { Kite: 1 }, weighting: weight * (multiplier / 2) },
-      { items: { "Acorn House": 1 }, weighting: weight * (multiplier / 2) },
-      { items: { "Ugly Duckling": 1 }, weighting: weight * (multiplier / 5) },
-      { items: { "Spring Duckling": 1 }, weighting: weight * (multiplier / 5) },
-      { items: { "Lake Rug": 1 }, weighting: weight * (multiplier / 5) },
-      {
-        items: { "Cup of Chocolate": 1 },
-        weighting: weight * (multiplier / 25),
-      },
+  getObjectEntries(MEGASTORE_TIER_WEIGHTS).forEach(([tier, tierWeight]) => {
+    const items = store[tier].items;
 
-      //SFTs - Utility
-      { items: { Mammoth: 1 }, weighting: weight * (multiplier / 25) },
+    items.forEach((item) => {
+      if (
+        isCollectible(item) &&
+        !MEGASTORE_RESTRICTED_ITEMS.includes(item.collectible)
+      ) {
+        rewards.push({
+          items: { [item.collectible]: 1 },
+          weighting: weight * tierWeight,
+        });
+      }
+      if (
+        isWearable(item) &&
+        !MEGASTORE_RESTRICTED_ITEMS.includes(item.wearable)
+      ) {
+        rewards.push({
+          wearables: { [item.wearable]: 1 },
+          weighting: weight * tierWeight,
+        });
+      }
+    });
+  });
 
-      // Wearables
-
-      // Wearables - Utility
-      { wearables: { "Crab Hat": 1 }, weighting: weight * (multiplier / 25) },
-      {
-        wearables: { "Ladybug Suit": 1 },
-        weighting: weight * (multiplier / 10),
-      },
-
-      // Leftovers
-      { items: { Crimsteel: 1 }, weighting: weight * (multiplier / 2) },
-      { items: { "Royal Ornament": 1 }, weighting: weight * (multiplier / 2) },
-      { items: { "Royal Bedding": 1 }, weighting: weight * (multiplier / 2) },
-      { items: { "Sturdy Bed": 1 }, weighting: weight * (multiplier / 2) },
-
-      // Animals Feed
-      { items: { "Kernel Blend": 100 }, weighting: weight * multiplier },
-      { items: { Hay: 75 }, weighting: weight * multiplier },
-      { items: { NutriBarley: 50 }, weighting: weight * multiplier },
-      { items: { "Mixed Grain": 25 }, weighting: weight * multiplier },
-      { items: { Omnifeed: 50 }, weighting: weight * multiplier },
-
-      // Mega item
-      {
-        wearables: { Sickle: 1 },
-        weighting: weight * (multiplier / 50),
-      },
-    ];
-  } else {
-    return [];
-  }
+  return rewards;
 };
 
 export const BASIC_REWARDS: () => ChestReward[] = () => [
-  { coins: 1600, weighting: 100 * multiplier },
-  { coins: 3200, weighting: 50 * multiplier },
-  { coins: 8000, weighting: 20 * multiplier },
-  { items: { Gem: 1 * BB_TO_GEM_RATIO }, weighting: 100 * multiplier },
-  { items: { Gem: 2 * BB_TO_GEM_RATIO }, weighting: 50 * multiplier },
-  { items: { Gem: 5 * BB_TO_GEM_RATIO }, weighting: 20 * multiplier },
-  { items: { Gem: 10 * BB_TO_GEM_RATIO }, weighting: 5 * multiplier },
+  { coins: 1600, weighting: 100 * CHEST_MULTIPLIER },
+  { coins: 3200, weighting: 50 * CHEST_MULTIPLIER },
+  { coins: 8000, weighting: 20 * CHEST_MULTIPLIER },
+  { items: { Gem: 1 * BB_TO_GEM_RATIO }, weighting: 100 * CHEST_MULTIPLIER },
+  { items: { Gem: 2 * BB_TO_GEM_RATIO }, weighting: 50 * CHEST_MULTIPLIER },
+  { items: { Gem: 5 * BB_TO_GEM_RATIO }, weighting: 20 * CHEST_MULTIPLIER },
+  { items: { Gem: 10 * BB_TO_GEM_RATIO }, weighting: 5 * CHEST_MULTIPLIER },
   {
     items: { Axe: 5, Pickaxe: 5, "Stone Pickaxe": 5 },
-    weighting: 100 * multiplier,
+    weighting: 100 * CHEST_MULTIPLIER,
   },
-  { items: { "Iron Pickaxe": 10 }, weighting: 10 * multiplier },
-  { items: { Rod: 10 }, weighting: 20 * multiplier },
-  { items: { "Rapid Root": 10, "Sprout Mix": 10 }, weighting: 50 * multiplier },
-  { items: { "Fishing Lure": 10 }, weighting: 10 * multiplier },
-  { items: { "Pirate Cake": 5 }, weighting: 5 * multiplier },
-  { items: { "Wheat Cake": 3 }, weighting: 20 * multiplier },
-  { items: { "Goblin Brunch": 3 }, weighting: 30 * multiplier },
-  { items: { "Bumpkin Roast": 3 }, weighting: 40 * multiplier },
-  { items: { "Fermented Carrots": 5 }, weighting: 50 * multiplier },
-  { items: { "Blueberry Jam": 3 }, weighting: 100 * multiplier },
-  { items: { Rug: 1 }, weighting: 25 * multiplier },
-  { items: { "Prize Ticket": 1 }, weighting: 5 * multiplier },
-  ...SEASONAL_REWARDS(5), // Multiplier is applied in SEASONAL_REWARDS so no need to multiply by multiplier
+  { items: { "Iron Pickaxe": 10 }, weighting: 10 * CHEST_MULTIPLIER },
+  { items: { Rod: 10 }, weighting: 20 * CHEST_MULTIPLIER },
+  {
+    items: { "Rapid Root": 10, "Sprout Mix": 10 },
+    weighting: 50 * CHEST_MULTIPLIER,
+  },
+  { items: { "Fishing Lure": 10 }, weighting: 10 * CHEST_MULTIPLIER },
+  { items: { "Pirate Cake": 5 }, weighting: 5 * CHEST_MULTIPLIER },
+  { items: { "Wheat Cake": 3 }, weighting: 20 * CHEST_MULTIPLIER },
+  { items: { "Goblin Brunch": 3 }, weighting: 30 * CHEST_MULTIPLIER },
+  { items: { "Bumpkin Roast": 3 }, weighting: 40 * CHEST_MULTIPLIER },
+  { items: { "Fermented Carrots": 5 }, weighting: 50 * CHEST_MULTIPLIER },
+  { items: { "Blueberry Jam": 3 }, weighting: 100 * CHEST_MULTIPLIER },
+  { items: { Rug: 1 }, weighting: 25 * CHEST_MULTIPLIER },
+  { items: { "Prize Ticket": 1 }, weighting: 5 * CHEST_MULTIPLIER },
+  ...SEASONAL_REWARDS(5 * CHEST_MULTIPLIER),
 ];
 
 export const RARE_REWARDS: () => ChestReward[] = () => [
-  { coins: 1600, weighting: 50 * multiplier },
-  { coins: 3200, weighting: 100 * multiplier },
-  { coins: 8000, weighting: 50 * multiplier },
-  { coins: 16000, weighting: 20 * multiplier },
-  { items: { Gem: 1 * BB_TO_GEM_RATIO }, weighting: 50 * multiplier },
-  { items: { Gem: 2 * BB_TO_GEM_RATIO }, weighting: 100 * multiplier },
-  { items: { Gem: 5 * BB_TO_GEM_RATIO }, weighting: 50 * multiplier },
-  { items: { Gem: 10 * BB_TO_GEM_RATIO }, weighting: 20 * multiplier },
-  { items: { Gem: 25 * BB_TO_GEM_RATIO }, weighting: 10 * multiplier },
-  { items: { Gem: 50 * BB_TO_GEM_RATIO }, weighting: 5 * multiplier },
+  { coins: 1600, weighting: 50 * CHEST_MULTIPLIER },
+  { coins: 3200, weighting: 100 * CHEST_MULTIPLIER },
+  { coins: 8000, weighting: 50 * CHEST_MULTIPLIER },
+  { coins: 16000, weighting: 20 * CHEST_MULTIPLIER },
+  { items: { Gem: 1 * BB_TO_GEM_RATIO }, weighting: 50 * CHEST_MULTIPLIER },
+  { items: { Gem: 2 * BB_TO_GEM_RATIO }, weighting: 100 * CHEST_MULTIPLIER },
+  { items: { Gem: 5 * BB_TO_GEM_RATIO }, weighting: 50 * CHEST_MULTIPLIER },
+  { items: { Gem: 10 * BB_TO_GEM_RATIO }, weighting: 20 * CHEST_MULTIPLIER },
+  { items: { Gem: 25 * BB_TO_GEM_RATIO }, weighting: 10 * CHEST_MULTIPLIER },
+  { items: { Gem: 50 * BB_TO_GEM_RATIO }, weighting: 5 * CHEST_MULTIPLIER },
   {
     items: { Axe: 15, Pickaxe: 15, "Stone Pickaxe": 15 },
-    weighting: 50 * multiplier,
+    weighting: 50 * CHEST_MULTIPLIER,
   },
-  { items: { "Gold Pickaxe": 3 }, weighting: 50 * multiplier },
-  { items: { "Oil Drill": 3 }, weighting: 25 * multiplier },
+  { items: { "Gold Pickaxe": 3 }, weighting: 50 * CHEST_MULTIPLIER },
+  { items: { "Oil Drill": 3 }, weighting: 25 * CHEST_MULTIPLIER },
   {
     items: { Rod: 5, Earthworm: 5, "Red Wiggler": 5, Grub: 5 },
-    weighting: 50 * multiplier,
+    weighting: 50 * CHEST_MULTIPLIER,
   },
-  { items: { "Fishing Lure": 25 }, weighting: 25 * multiplier },
-  { items: { "Pirate Cake": 5 }, weighting: 30 * multiplier },
-  { items: { "Wheat Cake": 3 }, weighting: 20 * multiplier },
-  { items: { "Goblin Brunch": 3 }, weighting: 50 * multiplier },
-  { items: { "Bumpkin Roast": 3 }, weighting: 40 * multiplier },
-  { items: { "Prize Ticket": 1 }, weighting: 20 * multiplier },
-  ...SEASONAL_REWARDS(25), // Multiplier is applied in SEASONAL_REWARDS so no need to multiply by multiplier
+  { items: { "Fishing Lure": 25 }, weighting: 25 * CHEST_MULTIPLIER },
+  { items: { "Pirate Cake": 5 }, weighting: 30 * CHEST_MULTIPLIER },
+  { items: { "Wheat Cake": 3 }, weighting: 20 * CHEST_MULTIPLIER },
+  { items: { "Goblin Brunch": 3 }, weighting: 50 * CHEST_MULTIPLIER },
+  { items: { "Bumpkin Roast": 3 }, weighting: 40 * CHEST_MULTIPLIER },
+  { items: { "Prize Ticket": 1 }, weighting: 20 * CHEST_MULTIPLIER },
+  ...SEASONAL_REWARDS(25 * CHEST_MULTIPLIER),
 ];
 
 export const LUXURY_REWARDS: () => ChestReward[] = () => [
-  { coins: 3200, weighting: 50 * multiplier },
-  { coins: 8000, weighting: 100 * multiplier },
-  { coins: 16000, weighting: 50 * multiplier },
-  { items: { Gem: 5 * BB_TO_GEM_RATIO }, weighting: 50 * multiplier },
-  { items: { Gem: 10 * BB_TO_GEM_RATIO }, weighting: 100 * multiplier },
-  { items: { Gem: 25 * BB_TO_GEM_RATIO }, weighting: 25 * multiplier },
-  { items: { Gem: 50 * BB_TO_GEM_RATIO }, weighting: 10 * multiplier },
-  { items: { "Gold Pickaxe": 10 }, weighting: 75 * multiplier },
-  { items: { "Oil Drill": 5 }, weighting: 50 * multiplier },
+  { coins: 3200, weighting: 50 * CHEST_MULTIPLIER },
+  { coins: 8000, weighting: 100 * CHEST_MULTIPLIER },
+  { coins: 16000, weighting: 50 * CHEST_MULTIPLIER },
+  { items: { Gem: 5 * BB_TO_GEM_RATIO }, weighting: 50 * CHEST_MULTIPLIER },
+  { items: { Gem: 10 * BB_TO_GEM_RATIO }, weighting: 100 * CHEST_MULTIPLIER },
+  { items: { Gem: 25 * BB_TO_GEM_RATIO }, weighting: 25 * CHEST_MULTIPLIER },
+  { items: { Gem: 50 * BB_TO_GEM_RATIO }, weighting: 10 * CHEST_MULTIPLIER },
+  { items: { "Gold Pickaxe": 10 }, weighting: 75 * CHEST_MULTIPLIER },
+  { items: { "Oil Drill": 5 }, weighting: 50 * CHEST_MULTIPLIER },
   {
     items: { Rod: 10, Earthworm: 10, "Red Wiggler": 10, Grub: 10 },
-    weighting: 50 * multiplier,
+    weighting: 50 * CHEST_MULTIPLIER,
   },
-  { items: { "Fishing Lure": 25 }, weighting: 25 * multiplier },
-  { items: { "Pirate Cake": 10 }, weighting: 50 * multiplier },
-  { items: { "Goblin Brunch": 10 }, weighting: 25 * multiplier },
-  { items: { "Bumpkin Roast": 10 }, weighting: 25 * multiplier },
-  { items: { "Prize Ticket": 1 }, weighting: 50 * multiplier },
-  ...SEASONAL_REWARDS(25), // Multiplier is applied in SEASONAL_REWARDS so no need to multiply by multiplier
+  { items: { "Fishing Lure": 25 }, weighting: 25 * CHEST_MULTIPLIER },
+  { items: { "Pirate Cake": 10 }, weighting: 50 * CHEST_MULTIPLIER },
+  { items: { "Goblin Brunch": 10 }, weighting: 25 * CHEST_MULTIPLIER },
+  { items: { "Bumpkin Roast": 10 }, weighting: 25 * CHEST_MULTIPLIER },
+  { items: { "Prize Ticket": 1 }, weighting: 50 * CHEST_MULTIPLIER },
+  ...SEASONAL_REWARDS(50 * CHEST_MULTIPLIER),
 ];
 
 export const BUD_BOX_REWARDS: ChestReward[] = [

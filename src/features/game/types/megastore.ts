@@ -1,3 +1,4 @@
+import { FlowerBox } from "../events/landExpansion/buySeasonalItem";
 import { BumpkinItem } from "./bumpkin";
 import { InventoryItemName } from "./game";
 import { SeasonName } from "./seasons";
@@ -72,10 +73,10 @@ type SeasonalStoreBase = {
 };
 
 export type SeasonalStoreWearable = SeasonalStoreBase & {
-  wearable: BumpkinItem;
+  wearable: SeasonalWearableName;
 };
 export type SeasonalStoreCollectible = SeasonalStoreBase & {
-  collectible: InventoryItemName;
+  collectible: SeasonalCollectibleName | MegastoreKeys | FlowerBox;
 };
 
 export type SeasonalStoreItem =
@@ -123,14 +124,14 @@ const EMPTY_SEASONAL_STORE: SeasonalStore = {
 // Test only
 const PHARAOH_ITEMS: SeasonalStoreItem[] = [
   {
-    wearable: "Red Farmer Shirt",
+    wearable: "Red Farmer Shirt" as SeasonalWearableName,
     cost: {
       items: {},
       sfl: 5,
     },
   },
   {
-    collectible: "Basic Bear",
+    collectible: "Basic Bear" as SeasonalCollectibleName,
     cost: {
       items: {
         Wood: 1,
@@ -139,7 +140,7 @@ const PHARAOH_ITEMS: SeasonalStoreItem[] = [
     },
   },
   {
-    collectible: "Treasure Key",
+    collectible: "Treasure Key" as MegastoreKeys,
     cooldownMs: 24 * 60 * 60 * 1000,
     cost: {
       items: {
@@ -152,7 +153,7 @@ const PHARAOH_ITEMS: SeasonalStoreItem[] = [
 
 const RARE_PHARAOH_ITEMS: SeasonalStoreItem[] = [
   {
-    wearable: "Rancher Hair",
+    wearable: "Rancher Hair" as SeasonalWearableName,
     cost: {
       items: {
         Wood: 1,
@@ -162,7 +163,7 @@ const RARE_PHARAOH_ITEMS: SeasonalStoreItem[] = [
     },
   },
   {
-    wearable: "Axe",
+    wearable: "Axe" as SeasonalWearableName,
     cost: {
       items: {
         Wood: 1,
@@ -171,7 +172,7 @@ const RARE_PHARAOH_ITEMS: SeasonalStoreItem[] = [
     },
   },
   {
-    wearable: "Yellow Farmer Shirt",
+    wearable: "Yellow Farmer Shirt" as SeasonalWearableName,
     cost: {
       items: {
         Wood: 1,
@@ -192,7 +193,7 @@ const RARE_PHARAOH_ITEMS: SeasonalStoreItem[] = [
 ];
 const EPIC_PHARAOH_ITEMS: SeasonalStoreItem[] = [
   {
-    wearable: "Blue Farmer Shirt",
+    wearable: "Blue Farmer Shirt" as SeasonalWearableName,
     cost: {
       items: {
         Wood: 1,
@@ -201,7 +202,7 @@ const EPIC_PHARAOH_ITEMS: SeasonalStoreItem[] = [
     },
   },
   {
-    collectible: "Luxury Key",
+    collectible: "Luxury Key" as MegastoreKeys,
     cooldownMs: 24 * 60 * 60 * 1000,
     cost: {
       items: {
