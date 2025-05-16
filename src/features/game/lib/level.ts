@@ -123,7 +123,32 @@ export type BumpkinLevel =
   | 122
   | 123
   | 124
-  | 125;
+  | 125
+  | 126
+  | 127
+  | 128
+  | 129
+  | 130
+  | 131
+  | 132
+  | 133
+  | 134
+  | 135
+  | 136
+  | 137
+  | 138
+  | 139
+  | 140
+  | 141
+  | 142
+  | 143
+  | 144
+  | 145
+  | 146
+  | 147
+  | 148
+  | 149
+  | 150;
 
 export const LEVEL_EXPERIENCE: Record<BumpkinLevel, number> = {
   1: 0,
@@ -251,6 +276,31 @@ export const LEVEL_EXPERIENCE: Record<BumpkinLevel, number> = {
   123: 47773905,
   124: 49043905,
   125: 50333905,
+  126: 51653905,
+  127: 53003905,
+  128: 54383905,
+  129: 55793905,
+  130: 57233905,
+  131: 58708905,
+  132: 60218905,
+  133: 61763905,
+  134: 63343905,
+  135: 64958905,
+  136: 66613905,
+  137: 68308905,
+  138: 70043905,
+  139: 71818905,
+  140: 73633905,
+  141: 75493905,
+  142: 77398905,
+  143: 79348905,
+  144: 81343905,
+  145: 83383905,
+  146: 85473905,
+  147: 87613905,
+  148: 89803905,
+  149: 92043905,
+  150: 94333905,
 };
 
 export const MAX_BUMPKIN_LEVEL: BumpkinLevel = 125;
@@ -272,157 +322,6 @@ export const getBumpkinLevel = (experience: number): BumpkinLevel => {
     }
   }
   return bumpkinLevel;
-};
-
-export const OLD_SKILL_POINTS: Record<BumpkinLevel, number> = {
-  1: 0,
-  2: 1,
-  3: 2,
-  4: 3,
-  5: 3,
-  6: 4,
-  7: 5,
-  8: 6,
-  9: 7,
-  10: 7,
-  11: 8,
-  12: 9,
-  13: 10,
-  14: 10,
-  15: 11,
-  16: 12,
-  17: 13,
-  18: 13,
-  19: 14,
-  20: 15,
-  21: 16,
-  22: 16,
-  23: 17,
-  24: 18,
-  25: 18,
-  26: 19,
-  27: 20,
-  28: 21,
-  29: 21,
-  30: 22,
-  31: 22,
-  32: 23,
-  33: 23,
-  34: 24,
-  35: 24,
-  36: 25,
-  37: 25,
-  38: 26,
-  39: 26,
-  40: 27,
-  41: 27,
-  42: 28,
-  43: 28,
-  44: 29,
-  45: 29,
-  46: 30,
-  47: 30,
-  48: 31,
-  49: 31,
-  50: 32,
-  51: 32,
-  52: 33,
-  53: 33,
-  54: 34,
-  55: 34,
-  56: 35,
-  57: 35,
-  58: 36,
-  59: 36,
-  60: 37,
-  61: 37,
-  62: 38,
-  63: 38,
-  64: 39,
-  65: 39,
-  66: 40,
-  67: 40,
-  68: 41,
-  69: 41,
-  70: 42,
-  71: 42,
-  72: 43,
-  73: 43,
-  74: 44,
-  75: 44,
-  76: 45,
-  77: 45,
-  78: 46,
-  79: 46,
-  80: 47,
-  81: 47,
-  82: 48,
-  83: 48,
-  84: 49,
-  85: 49,
-  86: 50,
-  87: 50,
-  88: 51,
-  89: 51,
-  90: 52,
-  91: 52,
-  92: 53,
-  93: 53,
-  94: 54,
-  95: 54,
-  96: 55,
-  97: 55,
-  98: 56,
-  99: 56,
-  100: 57,
-  101: 57,
-  102: 58,
-  103: 58,
-  104: 59,
-  105: 59,
-  106: 60,
-  107: 60,
-  108: 61,
-  109: 61,
-  110: 62,
-  111: 62,
-  112: 63,
-  113: 63,
-  114: 64,
-  115: 64,
-  116: 65,
-  117: 65,
-  118: 66,
-  119: 66,
-  120: 67,
-  121: 67,
-  122: 68,
-  123: 68,
-  124: 69,
-  125: 69,
-};
-
-//currently is matched with the mainnet skill system (old bumpkin skills)
-export const findLevelRequiredForNextOldSkillPoint = (
-  experience: number,
-): BumpkinLevel | undefined => {
-  const currentLevel = getBumpkinLevel(experience);
-
-  if (currentLevel >= MAX_BUMPKIN_LEVEL) {
-    return;
-  }
-
-  let nextLevelWithSkillPoint: BumpkinLevel | undefined;
-  for (const key in OLD_SKILL_POINTS) {
-    const level = Number(key) as BumpkinLevel;
-    // Save the first level with more skill points than current
-    if (OLD_SKILL_POINTS[level] > OLD_SKILL_POINTS[currentLevel]) {
-      nextLevelWithSkillPoint = level;
-      break;
-    }
-  }
-
-  return nextLevelWithSkillPoint;
 };
 
 export const getExperienceToNextLevel = (experience: number) => {
