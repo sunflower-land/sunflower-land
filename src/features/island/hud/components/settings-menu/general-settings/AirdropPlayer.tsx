@@ -48,6 +48,8 @@ interface AdvancedItemsProps {
 }
 
 interface AirdropContentProps {
+  farmIds: string;
+  setFarmIds: (farmIds: string) => void;
   basicItems: Record<string, AirdropItem>;
   message: string;
   setMessage: (message: string) => void;
@@ -219,10 +221,20 @@ const AirdropContent: React.FC<AirdropContentProps> = ({
   hasDevAccess,
   showAdvancedItems,
   advancedItemsProps,
+  farmIds,
+  setFarmIds,
 }) => (
   <div className="flex flex-col gap-1 max-h-[500px] overflow-y-auto scrollable">
     <div className="p-1 flex flex-col gap-1">
       <div className="flex flex-col gap-1">
+        <Label type="default" icon={SUNNYSIDE.icons.search} className="m-1">
+          {`Farm IDs`}
+        </Label>
+        <TextInput
+          placeholder="Enter farm IDs..."
+          value={farmIds}
+          onValueChange={setFarmIds}
+        />
         {getObjectEntries(basicItems).map(
           ([key, { icon, value, setValue, maxDecimalPlaces }]) => (
             <div key={key}>
@@ -285,7 +297,7 @@ export const AirdropPlayer: React.FC<
   const chainId = useSelector(walletService, (state) => state.context.chainId);
 
   // Basic state
-  const [farmId, setFarmId] = useState(id);
+  const [farmIds, setFarmIds] = useState<string>(id.toString());
   const [coins, setCoins] = useState(0);
   const [gems, setGems] = useState<number>();
   const [loveCharm, setLoveCharm] = useState<number>();
@@ -319,23 +331,43 @@ export const AirdropPlayer: React.FC<
   );
 
   const send = async (signature?: string) => {
+    const farmIdArray = farmIds
+      .split(",")
+      .map((id) => parseInt(id.trim()))
+      .filter((id) => !isNaN(id));
+
     gameService.send("reward.airdropped", {
       effect: {
         type: "reward.airdropped",
         coins,
         items,
         wearables,
-        farmId,
+        farmIds: farmIdArray,
         vipDays,
         message,
-        // TODO: Add signature
         signature,
       },
       authToken: authService.state.context.user.rawToken as string,
     });
+
+    // Reset all states to default values
+    setFarmIds(id.toString());
+    setCoins(0);
+    setGems(undefined);
+    setLoveCharm(undefined);
+    setMessage("");
+    setShowAdvancedItems(false);
+    setVipDays(undefined);
+    setSelectedItems([]);
+    setSelectedWearables([]);
   };
 
   const signMessage = async () => {
+    const farmIdArray = farmIds
+      .split(",")
+      .map((id) => parseInt(id.trim()))
+      .filter((id) => !isNaN(id));
+
     const signature = await signTypedData(config, {
       domain: {
         name: "Sunflower Land",
@@ -346,7 +378,7 @@ export const AirdropPlayer: React.FC<
         Airdrop: [
           { name: "items", type: "string" },
           { name: "wearables", type: "string" },
-          { name: "farmId", type: "uint256" },
+          { name: "farmIds", type: "string" },
           { name: "coins", type: "uint256" },
           { name: "vipDays", type: "uint256" },
           { name: "message", type: "string" },
@@ -356,7 +388,7 @@ export const AirdropPlayer: React.FC<
       message: {
         items: JSON.stringify(items),
         wearables: JSON.stringify(wearables),
-        farmId: BigInt(farmId),
+        farmIds: JSON.stringify(farmIdArray),
         coins: BigInt(coins),
         vipDays: BigInt(vipDays ?? 0),
         message,
@@ -366,12 +398,6 @@ export const AirdropPlayer: React.FC<
   };
 
   const basicItems: Record<string, AirdropItem> = {
-    "Farm ID": {
-      value: farmId,
-      setValue: setFarmId,
-      maxDecimalPlaces: 0,
-      icon: SUNNYSIDE.icons.search,
-    },
     Coins: {
       value: coins,
       setValue: setCoins,
@@ -399,7 +425,7 @@ export const AirdropPlayer: React.FC<
   };
 
   const disabled =
-    !farmId ||
+    !farmIds ||
     !message.length ||
     !(
       coins ||
@@ -430,6 +456,8 @@ export const AirdropPlayer: React.FC<
           hasDevAccess={hasDevAccess}
           showAdvancedItems={showAdvancedItems}
           advancedItemsProps={advancedItemsProps}
+          farmIds={farmIds}
+          setFarmIds={setFarmIds}
         />
       </GameWallet>
     );
@@ -437,6 +465,8 @@ export const AirdropPlayer: React.FC<
 
   return (
     <AirdropContent
+      farmIds={farmIds}
+      setFarmIds={setFarmIds}
       basicItems={basicItems}
       message={message}
       setMessage={setMessage}
