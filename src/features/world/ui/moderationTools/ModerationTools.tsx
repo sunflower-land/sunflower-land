@@ -63,7 +63,14 @@ export const ModerationTools: React.FC<Props> = ({
 
   return (
     <>
-      <div className="fixed bottom-2 left-20">
+      <div
+        className="fixed"
+        style={{
+          left: `${PIXEL_SCALE * 3}px`,
+          bottom: `${PIXEL_SCALE * 55}px`,
+          width: `${PIXEL_SCALE * 22}px`,
+        }}
+      >
         <RoundButton onClick={toggleModerationTool}>
           <img
             src={SUNNYSIDE.badges.discord}
