@@ -58,6 +58,17 @@ describe("SEASONAL_REWARDS", () => {
     });
   });
 
+  it("does not include restricted items", () => {
+    rewardTypes.forEach(({ rewards }) => {
+      MEGASTORE_RESTRICTED_ITEMS.forEach((item) => {
+        expect(rewards).not.toContainEqual({
+          items: { [item]: 1 },
+          weighting: expect.any(Number),
+        });
+      });
+    });
+  });
+
   it("does not include items from other seasons", () => {
     rewardTypes.forEach(({ rewards }) => {
       // Verify items from other seasons are not included

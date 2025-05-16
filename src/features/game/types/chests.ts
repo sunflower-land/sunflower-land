@@ -1,15 +1,20 @@
 import {
   FLOWER_BOXES,
+  FlowerBox,
   isCollectible,
   isWearable,
 } from "../events/landExpansion/buySeasonalItem";
 import { CHAPTER_TICKET_BOOST_ITEMS } from "../events/landExpansion/completeNPCChore";
 import { getObjectEntries } from "../expansion/lib/utils";
-import { BumpkinItem } from "./bumpkin";
 import { ARTEFACT_SHOP_KEYS } from "./collectibles";
 import { getKeys } from "./decorations";
-import { BB_TO_GEM_RATIO, InventoryItemName, Wardrobe } from "./game";
-import { MEGASTORE, SeasonalStore } from "./megastore";
+import { BB_TO_GEM_RATIO, InventoryItemName, Keys, Wardrobe } from "./game";
+import {
+  MEGASTORE,
+  SeasonalCollectibleName,
+  SeasonalStore,
+  SeasonalWearableName,
+} from "./megastore";
 import { getCurrentSeason } from "./seasons";
 
 export type ChestReward = {
@@ -30,7 +35,12 @@ export const MEGASTORE_TIER_WEIGHTS: Record<keyof SeasonalStore, number> = {
 };
 
 const currentSeason = getCurrentSeason(new Date());
-export const MEGASTORE_RESTRICTED_ITEMS: (InventoryItemName | BumpkinItem)[] = [
+export const MEGASTORE_RESTRICTED_ITEMS: (
+  | Keys
+  | SeasonalCollectibleName
+  | SeasonalWearableName
+  | FlowerBox
+)[] = [
   ...Object.values(CHAPTER_TICKET_BOOST_ITEMS[currentSeason]),
   ...getKeys(FLOWER_BOXES),
   ...getKeys(ARTEFACT_SHOP_KEYS),
