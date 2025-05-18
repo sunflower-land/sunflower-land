@@ -141,7 +141,7 @@ export const PhaserComponent: React.FC<Props> = ({
     Preloader,
     new WoodlandsScene({ gameState: state }),
     BeachScene,
-    PlazaScene,
+    new PlazaScene({ gameState: state }),
     RetreatScene,
     KingdomScene,
     GoblinHouseScene,

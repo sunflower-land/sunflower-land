@@ -9,7 +9,11 @@ import { PlaceableContainer } from "../containers/PlaceableContainer";
 import { budImageDomain } from "features/island/collectibles/components/Bud";
 import { SOUNDS } from "assets/sound-effects/soundEffects";
 import { NPCName } from "lib/npcs";
-import { FactionName, TemperateSeasonName } from "features/game/types/game";
+import {
+  FactionName,
+  GameState,
+  TemperateSeasonName,
+} from "features/game/types/game";
 import { translate } from "lib/i18n/translate";
 import { capitalize } from "lib/utils/capitalize";
 import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
@@ -115,7 +119,7 @@ export class PlazaScene extends BaseScene {
 
   public arrows: Phaser.GameObjects.Sprite | undefined;
 
-  constructor() {
+  constructor({ gameState }: { gameState: GameState }) {
     super({
       name: "plaza",
       map: {

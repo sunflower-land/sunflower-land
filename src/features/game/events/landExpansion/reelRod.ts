@@ -1,12 +1,13 @@
 import { GameState } from "../../types/game";
 import Decimal from "decimal.js-light";
 import { getKeys } from "features/game/types/craftables";
+import { FishingLocation } from "features/game/types/fishing";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { produce } from "immer";
 
 export type ReelRodAction = {
   type: "rod.reeled";
-  location?: string;
+  location: FishingLocation;
 };
 
 type Options = {
@@ -15,13 +16,19 @@ type Options = {
   createdAt?: number;
 };
 
-export function reelRod({ state }: Options): GameState {
+export function reelRod({
+  state,
+  action,
+  createdAt = Date.now(),
+}: Options): GameState {
   return produce(state, (game) => {
-    if (!game.fishing.wharf.castedAt) {
+    const location = action.location;
+
+    if (!game.fishing[location].castedAt) {
       throw new Error("Nothing has been casted");
     }
 
-    const caught = game.fishing.wharf.caught ?? {};
+    const caught = game.fishing[location].caught ?? {};
     getKeys(caught).forEach((name) => {
       const previous = game.inventory[name] ?? new Decimal(0);
       game.inventory[name] = previous.add(caught[name] ?? 0);
@@ -36,9 +43,9 @@ export function reelRod({ state }: Options): GameState {
       );
     });
 
-    delete game.fishing.wharf.castedAt;
-    delete game.fishing.wharf.caught;
-    delete game.fishing.wharf.chum;
+    delete game.fishing[location].castedAt;
+    delete game.fishing[location].caught;
+    delete game.fishing[location].chum;
 
     return game;
   });

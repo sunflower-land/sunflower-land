@@ -3,6 +3,7 @@ import {
   CHUM_AMOUNTS,
   Chum,
   FishingBait,
+  FishingLocation,
   getDailyFishingCount,
   getDailyFishingLimit,
 } from "features/game/types/fishing";
@@ -15,8 +16,8 @@ import { produce } from "immer";
 export type CastRodAction = {
   type: "rod.casted";
   bait: FishingBait;
+  location: FishingLocation;
   chum?: Chum;
-  location?: string;
 };
 
 type Options = {
@@ -51,6 +52,7 @@ export function castRod({
     const { bumpkin } = game;
     const now = new Date(createdAt);
     const today = new Date(now).toISOString().split("T")[0];
+    const location = action.location;
 
     if (!bumpkin) {
       throw new Error("You do not have a Bumpkin!");
@@ -73,7 +75,7 @@ export function castRod({
       throw new Error(`Missing ${action.bait}`);
     }
 
-    if (game.fishing.wharf.castedAt) {
+    if (game.fishing[location].castedAt) {
       throw new Error(translate("error.alreadyCasted"));
     }
 
@@ -106,7 +108,7 @@ export function castRod({
     // Casts Rod
     game.fishing = {
       ...game.fishing,
-      wharf: {
+      [location]: {
         castedAt: createdAt,
         bait: action.bait,
         chum: action.chum,

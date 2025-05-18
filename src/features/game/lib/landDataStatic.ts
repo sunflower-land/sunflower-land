@@ -382,6 +382,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
 
   fishing: {
     dailyAttempts: {},
+    weather: "Sunny",
     wharf: {
       castedAt: 0,
       bait: "Fishing Lure",
@@ -390,6 +391,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
         "Pink Dolphin": 1,
       },
     },
+    beach: {},
   },
   mailbox: {
     read: [],

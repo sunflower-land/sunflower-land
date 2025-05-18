@@ -112,6 +112,8 @@ describe("canremove", () => {
           dailyAttempts: {
             [today]: 4,
           },
+          weather: "Sunny",
+          beach: {},
           wharf: {},
         },
         season: {
@@ -1418,6 +1420,8 @@ describe("canremove", () => {
       ...INITIAL_FARM,
       fishing: {
         dailyAttempts: {},
+        weather: "Sunny",
+        beach: {},
         wharf: {},
       },
       season: {
@@ -2023,6 +2027,8 @@ describe("canremove", () => {
         dailyAttempts: {
           [today]: 4,
         },
+        weather: "Sunny",
+        beach: {},
         wharf: {},
       },
       season: {

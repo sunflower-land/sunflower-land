@@ -18,7 +18,7 @@ describe("castRod", () => {
   it("requires player has a rod", () => {
     expect(() => {
       castRod({
-        action: { bait: "Earthworm", type: "rod.casted" },
+        action: { location: "wharf", bait: "Earthworm", type: "rod.casted" },
         state: farm,
       });
     }).toThrow("Missing rod");
@@ -27,7 +27,7 @@ describe("castRod", () => {
   it("requires player has bait", () => {
     expect(() => {
       castRod({
-        action: { bait: "Earthworm", type: "rod.casted" },
+        action: { location: "wharf", bait: "Earthworm", type: "rod.casted" },
         state: {
           ...farm,
           inventory: {
@@ -42,6 +42,7 @@ describe("castRod", () => {
     expect(() => {
       castRod({
         action: {
+          location: "wharf",
           bait: "Earthworm",
           chum: "Axe" as Chum,
           type: "rod.casted",
@@ -61,7 +62,7 @@ describe("castRod", () => {
   it("requires player has not already casts", () => {
     expect(() => {
       castRod({
-        action: { bait: "Earthworm", type: "rod.casted" },
+        action: { location: "wharf", bait: "Earthworm", type: "rod.casted" },
         state: {
           ...farm,
           inventory: {
@@ -70,9 +71,11 @@ describe("castRod", () => {
             Axe: new Decimal(1),
           },
           fishing: {
+            weather: "Sunny",
             wharf: {
               castedAt: 1000000200,
             },
+            beach: {},
             dailyAttempts: {},
           },
         },
@@ -84,6 +87,7 @@ describe("castRod", () => {
     expect(() => {
       castRod({
         action: {
+          location: "wharf",
           bait: "Earthworm",
           chum: "Sunflower",
           type: "rod.casted",
@@ -108,7 +112,7 @@ describe("castRod", () => {
 
     expect(() => {
       castRod({
-        action: { bait: "Earthworm", type: "rod.casted" },
+        action: { location: "wharf", bait: "Earthworm", type: "rod.casted" },
         state: {
           ...farm,
           inventory: {
@@ -120,7 +124,9 @@ describe("castRod", () => {
             dailyAttempts: {
               [date]: 20,
             },
+            weather: "Sunny",
             wharf: {},
+            beach: {},
           },
         },
       });
@@ -129,7 +135,7 @@ describe("castRod", () => {
 
   it("subtracts rod", () => {
     const state = castRod({
-      action: { bait: "Earthworm", type: "rod.casted" },
+      action: { location: "wharf", bait: "Earthworm", type: "rod.casted" },
       state: {
         ...farm,
         inventory: {
@@ -144,7 +150,7 @@ describe("castRod", () => {
 
   it("subtracts bait", () => {
     const state = castRod({
-      action: { bait: "Earthworm", type: "rod.casted" },
+      action: { location: "wharf", bait: "Earthworm", type: "rod.casted" },
       state: {
         ...farm,
         inventory: {
@@ -160,6 +166,7 @@ describe("castRod", () => {
   it("subtracts chum", () => {
     const state = castRod({
       action: {
+        location: "wharf",
         bait: "Earthworm",
         type: "rod.casted",
         chum: "Sunflower",
@@ -193,7 +200,7 @@ describe("castRod", () => {
 
     expect(() =>
       castRod({
-        action: { bait: "Earthworm", type: "rod.casted" },
+        action: { location: "wharf", bait: "Earthworm", type: "rod.casted" },
         state: {
           ...farm,
           bumpkin: bumpkinWithAnglerWaders,
@@ -201,7 +208,9 @@ describe("castRod", () => {
             dailyAttempts: {
               [today]: 20,
             },
+            weather: "Sunny",
             wharf: {},
+            beach: {},
           },
           inventory: {
             Rod: new Decimal(3),
@@ -228,7 +237,7 @@ describe("castRod", () => {
 
     expect(() => {
       castRod({
-        action: { bait: "Earthworm", type: "rod.casted" },
+        action: { location: "wharf", bait: "Earthworm", type: "rod.casted" },
         state: {
           ...farm,
           bumpkin: bumpkinWithAnglerWaders,
@@ -241,7 +250,9 @@ describe("castRod", () => {
             dailyAttempts: {
               [date]: 30,
             },
+            weather: "Sunny",
             wharf: {},
+            beach: {},
           },
         },
       });
@@ -251,7 +262,7 @@ describe("castRod", () => {
   it("casts rod on wharf", () => {
     const now = Date.now();
     const state = castRod({
-      action: { bait: "Earthworm", type: "rod.casted" },
+      action: { location: "wharf", bait: "Earthworm", type: "rod.casted" },
       state: {
         ...farm,
         inventory: {
@@ -269,6 +280,7 @@ describe("castRod", () => {
     const now = Date.now();
     const state = castRod({
       action: {
+        location: "wharf",
         bait: "Earthworm",
         type: "rod.casted",
         chum: "Sunflower",
@@ -293,7 +305,7 @@ describe("castRod", () => {
 
   it("does not subtracts rod if wearing Ancient Rod", () => {
     const state = castRod({
-      action: { bait: "Earthworm", type: "rod.casted" },
+      action: { location: "wharf", bait: "Earthworm", type: "rod.casted" },
       state: {
         ...farm,
         bumpkin: {
@@ -313,7 +325,7 @@ describe("castRod", () => {
     const now = Date.now();
     const date = new Date(now).toISOString().split("T")[0];
     const state = castRod({
-      action: { bait: "Earthworm", type: "rod.casted" },
+      action: { location: "wharf", bait: "Earthworm", type: "rod.casted" },
       state: {
         ...farm,
         inventory: {
@@ -321,7 +333,9 @@ describe("castRod", () => {
           Earthworm: new Decimal(20),
         },
         fishing: {
+          weather: "Windy",
           wharf: {},
+          beach: {},
           dailyAttempts: {
             [date]: 20,
           },
@@ -338,7 +352,7 @@ describe("castRod", () => {
     const now = Date.now();
     const date = new Date(now).toISOString().split("T")[0];
     const state = castRod({
-      action: { bait: "Earthworm", type: "rod.casted" },
+      action: { location: "wharf", bait: "Earthworm", type: "rod.casted" },
       state: {
         ...farm,
         inventory: {
@@ -346,7 +360,9 @@ describe("castRod", () => {
           Earthworm: new Decimal(20),
         },
         fishing: {
+          weather: "Windy",
           wharf: {},
+          beach: {},
           dailyAttempts: {
             [date]: 1,
           },

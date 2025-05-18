@@ -14,7 +14,9 @@ describe("buyMoreReels", () => {
             Gem: undefined,
           },
           fishing: {
+            weather: "Sunny",
             wharf: {},
+            beach: {},
             dailyAttempts: {
               [date]: 20,
             },
@@ -38,7 +40,9 @@ describe("buyMoreReels", () => {
             Gem: new Decimal(20),
           },
           fishing: {
+            weather: "Sunny",
             wharf: {},
+            beach: {},
             dailyAttempts: {
               [date]: 1,
             },
@@ -61,7 +65,9 @@ describe("buyMoreReels", () => {
           Gem: new Decimal(10),
         },
         fishing: {
+          weather: "Sunny",
           wharf: {},
+          beach: {},
           dailyAttempts: {
             [date]: 20,
           },
@@ -85,7 +91,9 @@ describe("buyMoreReels", () => {
           Gem: new Decimal(10),
         },
         fishing: {
+          weather: "Sunny",
           wharf: {},
+          beach: {},
           dailyAttempts: {
             [date]: 20,
           },
@@ -110,7 +118,9 @@ describe("buyMoreReels", () => {
           Gem: new Decimal(10),
         },
         fishing: {
+          weather: "Sunny",
           wharf: {},
+          beach: {},
           dailyAttempts: {
             [date]: 20,
           },
@@ -138,7 +148,9 @@ describe("buyMoreReels", () => {
           Gem: new Decimal(10),
         },
         fishing: {
+          weather: "Sunny",
           wharf: {},
+          beach: {},
           dailyAttempts: {
             [date]: 20,
           },
