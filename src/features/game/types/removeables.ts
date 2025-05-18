@@ -673,7 +673,7 @@ export const REMOVAL_RESTRICTIONS: Partial<
   "Woody the Beaver": (game) => areAnyTreesChopped(game),
   "Apprentice Beaver": (game) => areAnyTreesChopped(game),
   "Foreman Beaver": (game) => areAnyTreesChopped(game),
-  Quarry: (game) => areAnyTreesChopped(game),
+  Quarry: (game) => areAnyStonesMined(game),
   "Wood Nymph Wendy": (game) => areAnyTreesChopped(game),
   "Tiki Totem": (game) => areAnyTreesChopped(game),
 
