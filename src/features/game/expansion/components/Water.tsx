@@ -21,7 +21,6 @@ import { RestockBoat } from "./RestockBoat";
 import fins1 from "assets/decorations/fins_yellow.webp";
 import fins2 from "assets/decorations/fins_green.webp";
 import fins3 from "assets/decorations/fins2.webp";
-import { getActiveCalendarEvent } from "features/game/types/calendar";
 
 interface Props {
   expansionCount: number;
@@ -35,7 +34,7 @@ export const WaterComponent: React.FC<Props> = ({
   // As the land gets bigger, push the water decorations out
   const offset = Math.ceil((Math.sqrt(expansionCount) * LAND_WIDTH) / 2);
   const season = gameState.season.season;
-  const weather = getActiveCalendarEvent({ game: gameState });
+  const weather = gameState.fishing.weather;
 
   return (
     // Container
@@ -67,7 +66,7 @@ export const WaterComponent: React.FC<Props> = ({
           <SharkBumpkin x={-8} y={offset + 10} />
 
           {/* Marine Marvels when Full Moon */}
-          {weather === "fullMoon" && (
+          {weather === "Full Moon" && (
             <>
               <MapPlacement x={-7 - offset} y={9} width={2}>
                 <img

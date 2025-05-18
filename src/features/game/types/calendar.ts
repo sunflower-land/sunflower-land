@@ -360,11 +360,13 @@ export const CALENDAR_EVENT_ICONS: Record<CalendarEventName, string> = {
   fishFrenzy: fishFrenzy,
 };
 
-export const isFullMoon = (state: GameState) =>
-  getActiveCalendarEvent({ game: state }) === "fullMoon";
+export const isFullMoon = (state: GameState) => {
+  return getActiveCalendarEvent({ game: state }) === "fullMoon";
+};
 
-export const isFishFrenzy = (state: GameState) =>
-  getActiveCalendarEvent({ game: state }) === "fishFrenzy";
+export const isFishFrenzy = (state: GameState) => {
+  return getActiveCalendarEvent({ game: state }) === "fishFrenzy";
+};
 
 type SeasonGuardianName = Extract<
   InventoryItemName,
