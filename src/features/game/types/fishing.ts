@@ -228,8 +228,6 @@ export const CHUM_DETAILS: Record<Chum, string> = {
   Zucchini: "",
 };
 
-export type FishingLocation = "beach" | "wharf";
-
 type Fish = {
   baits: FishingBait[];
   type: FishType;
@@ -557,19 +555,6 @@ export const FISH: Record<FishName | MarineMarvelName, Fish> = {
 
   ...CHAPTER_FISH,
 };
-
-export type Tide = "Dusktide" | "Dawnlight";
-
-export type FishingConditions = "Sunny" | "Windy" | "Full Moon" | "Fish Frenzy";
-
-export function getTide(utcTime: Date = new Date()): Tide {
-  const hours = new Date(utcTime).getUTCHours();
-  if (hours >= 0 && hours < 12) {
-    return "Dawnlight";
-  } else {
-    return "Dusktide";
-  }
-}
 
 /**
  * Difficulty 1-5 how hard the challenge will be
