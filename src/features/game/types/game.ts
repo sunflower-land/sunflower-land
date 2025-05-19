@@ -95,6 +95,7 @@ import { TwitterPost, TwitterPostName } from "./social";
 import { NetworkName } from "../events/landExpansion/updateNetwork";
 import { RewardBoxes, RewardBoxName } from "./rewardBoxes";
 import { FloatingIslandShop, FloatingShopItemName } from "./floatingIsland";
+import { Blessing } from "../lib/blessings";
 
 export type Reward = {
   coins?: number;
@@ -1685,6 +1686,10 @@ export interface GameState {
   megastore?: {
     boughtAt: Partial<Record<SeasonalTierItemName, number>>;
   };
+  withdrawals?: {
+    amount: number;
+  };
+  blessing: Blessing;
 }
 
 export type FaceRecognitionEvent =

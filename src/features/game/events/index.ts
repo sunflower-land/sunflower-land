@@ -469,9 +469,15 @@ import {
   claimPetalPrize,
   ClaimPetalPrizeAction,
 } from "./landExpansion/claimPetalPrize";
+import { claimBlessing, ClaimBlessingAction } from "./claimBlessing";
+import {
+  claimDailyReward,
+  ClaimDailyRewardAction,
+} from "./landExpansion/claimDailyReward";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
+  | ClaimDailyRewardAction
   | SpeedUpUpgradeAction
   | ResourceBoughtAction
   | SellAnimalAction
@@ -607,7 +613,8 @@ export type PlayingEvent =
   | BuyMinigameItemAction
   | AcknowledgeRewardBoxAction
   | OpenRewardBoxAction
-  | ClaimPetalPrizeAction;
+  | ClaimPetalPrizeAction
+  | ClaimBlessingAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -681,6 +688,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "resource.bought": buyResource,
   "animal.sold": sellAnimal,
   "building.spedUp": speedUpBuilding,
+  "dailyReward.claimed": claimDailyReward,
   "bear.sacrificed": sacrificeBear,
   "collectible.spedUp": speedUpCollectible,
   "expansion.spedUp": speedUpExpansion,
@@ -813,6 +821,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "rewardBox.opened": openRewardBox,
   "claim.bountyBoardBonus": claimBountyBonus,
   "petalPuzzle.solved": claimPetalPrize,
+  "blessing.claimed": claimBlessing,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

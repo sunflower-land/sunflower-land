@@ -92,6 +92,7 @@ import { ClaimReferralRewards } from "./components/ClaimReferralRewards";
 import { SoftBan } from "features/retreat/components/personhood/SoftBan";
 import { RewardBox } from "features/rewardBoxes/RewardBox";
 import { FlowerDashboard } from "features/flowerDashboard/FlowerDashboard";
+import { ClaimBlessingReward } from "features/loveIsland/blessings/ClaimBlessing";
 
 function camelToDotCase(str: string): string {
   return str.replace(/([a-z])([A-Z])/g, "$1.$2").toLowerCase() as string;
@@ -176,6 +177,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   roninAirdrop: true,
   jinAirdrop: true,
   investigating: true,
+  blessing: true,
 };
 
 // State change selectors
@@ -233,6 +235,7 @@ const isPromoing = (state: MachineState) => state.matches("promo");
 const isBlacklisted = (state: MachineState) => state.matches("blacklisted");
 const hasAirdrop = (state: MachineState) => state.matches("airdrop");
 const isInvestigating = (state: MachineState) => state.matches("investigating");
+const isBlessing = (state: MachineState) => state.matches("blessing");
 const hasFulfilledOffers = (state: MachineState) => state.matches("offers");
 const hasVipNotification = (state: MachineState) => state.matches("vip");
 const isPlaying = (state: MachineState) => state.matches("playing");
@@ -432,7 +435,9 @@ export const GameWrapper: React.FC = ({ children }) => {
   const jinAirdrop = useSelector(gameService, isJinAirdrop);
   const showPWAInstallPrompt = useSelector(authService, _showPWAInstallPrompt);
   const investigating = useSelector(gameService, isInvestigating);
+  const blessing = useSelector(gameService, isBlessing);
 
+  console.log({ blessing });
   const { t } = useAppTranslation();
   useInterval(() => {
     gameService.send("SAVE");
@@ -642,6 +647,11 @@ export const GameWrapper: React.FC = ({ children }) => {
             {jinAirdrop && <RoninJinClaim />}
             {showReferralRewards && <ClaimReferralRewards />}
             {investigating && <SoftBan />}
+            {blessing && (
+              <ClaimBlessingReward
+                onClose={() => gameService.send("ACKNOWLEDGE")}
+              />
+            )}
           </Panel>
         </Modal>
 

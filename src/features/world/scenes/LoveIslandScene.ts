@@ -7,8 +7,16 @@ import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { translate } from "lib/i18n/translate";
 import { interactableModalManager } from "../ui/InteractableModals";
 import { getKeys } from "features/game/types/decorations";
+import { TemperateSeasonName } from "features/game/types/game";
 
 const BUMPKINS: NPCBumpkin[] = [];
+
+const GUARDIAN_MAP: Record<TemperateSeasonName, string> = {
+  autumn: "autumn_guardian",
+  spring: "spring_guardian",
+  summer: "summer_guardian",
+  winter: "winter_guardian",
+};
 
 export class LoveIslandScene extends BaseScene {
   sceneId: SceneId = "love_island";
@@ -46,6 +54,10 @@ export class LoveIslandScene extends BaseScene {
       frameWidth: 20,
       frameHeight: 34,
     });
+
+    const guardian = GUARDIAN_MAP[this.gameState.season.season];
+
+    this.load.image("guardian", `world/${guardian}.webp`);
   }
 
   async create() {
@@ -109,6 +121,15 @@ export class LoveIslandScene extends BaseScene {
     portal.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
       if (this.checkDistanceToSprite(portal, 40)) {
         interactableModalManager.open("flower_exchange");
+      } else {
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
+      }
+    });
+
+    const guardian = this.add.sprite(310, 556, "guardian");
+    guardian.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      if (this.checkDistanceToSprite(guardian, 40)) {
+        interactableModalManager.open("guardian");
       } else {
         this.currentPlayer?.speak(translate("base.iam.far.away"));
       }

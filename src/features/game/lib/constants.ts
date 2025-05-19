@@ -675,6 +675,11 @@ export const INITIAL_FARM: GameState = {
     status: "ok",
     isSocialVerified: false,
   },
+  blessing: {
+    offering: {
+      item: "Potato",
+    },
+  },
 };
 
 export const TEST_FARM: GameState = {
@@ -977,6 +982,11 @@ export const TEST_FARM: GameState = {
     isSocialVerified: false,
     status: "ok",
   },
+  blessing: {
+    offering: {
+      item: "Potato",
+    },
+  },
 };
 
 export const INITIAL_EQUIPPED: Equipped = {
@@ -1124,5 +1134,10 @@ export const EMPTY: GameState = {
   ban: {
     isSocialVerified: false,
     status: "ok",
+  },
+  blessing: {
+    offering: {
+      item: "Potato",
+    },
   },
 };

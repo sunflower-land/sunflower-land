@@ -101,6 +101,7 @@ import { getActiveCalendarEvent, SeasonalEventName } from "../types/calendar";
 import { SpecialEventName } from "../types/specialEvents";
 import { getAccount } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
+import { blessingIsReady } from "./blessings";
 
 // Run at startup in case removed from query params
 const portalName = new URLSearchParams(window.location.search).get("portal");
@@ -466,6 +467,7 @@ export type BlockchainState = {
     | "landToVisitNotFound"
     | "visiting"
     | "gameRules"
+    | "blessing"
     | "FLOWERTeaser"
     | "portalling"
     | "introduction"
@@ -870,6 +872,24 @@ export function startGame(authContext: AuthContext) {
               cond: () => isSwarming(),
             },
             {
+              target: "blessing",
+              cond: (context) => {
+                console.log({ blessiong: context.state.blessing });
+                const { offered, reward } = context.state.blessing;
+
+                if (reward) return true;
+
+                if (!offered) return false;
+
+                console.log(
+                  "SHOULD YEET? ",
+                  blessingIsReady({ game: context.state }),
+                );
+
+                return blessingIsReady({ game: context.state });
+              },
+            },
+            {
               target: "vip",
               cond: (context) => {
                 const isNew = context.state.bumpkin.experience < 100;
@@ -1124,6 +1144,19 @@ export function startGame(authContext: AuthContext) {
 
         gameRules: {
           on: {
+            ACKNOWLEDGE: {
+              target: "notifying",
+            },
+          },
+        },
+        blessing: {
+          on: {
+            "blessing.claimed": (GAME_EVENT_HANDLERS as any)[
+              "blessing.claimed"
+            ],
+            "blessing.seeked": {
+              target: STATE_MACHINE_EFFECTS["blessing.seeked"],
+            },
             ACKNOWLEDGE: {
               target: "notifying",
             },

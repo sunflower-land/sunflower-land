@@ -46,7 +46,9 @@ import { FloatingIslandShop } from "./loveRewardShop/FloatingIslandShop";
 import { MegaBountyBoard } from "./flowerShop/MegaBountyBoard";
 import { PetalPuzzlePrize } from "./loveRewardShop/PetalPuzzlePrize";
 import { FlowerExchange } from "./npcs/Rocketman";
+import { Blessings } from "features/loveIsland/blessings/Blessings";
 type InteractableName =
+  | "guardian"
   | "desert_noticeboard"
   | "faction_noticeboard"
   | "kingdom_noticeboard"
@@ -507,6 +509,12 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
 
       <Modal show={interactable === "portal_chooser"} onHide={closeModal}>
         <PortalChooser onClose={closeModal} />
+      </Modal>
+
+      <Modal show={interactable === "guardian"} onHide={closeModal}>
+        <CloseButtonPanel onClose={closeModal}>
+          <Blessings onClose={closeModal} />
+        </CloseButtonPanel>
       </Modal>
 
       <Modal show={interactable === "flower_exchange"} onHide={closeModal}>
