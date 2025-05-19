@@ -52,6 +52,8 @@ const _hasTradeReputation = (state: MachineState) =>
   });
 
 export const MarketplaceNavigation: React.FC = () => {
+  const navigate = useNavigate();
+
   const [search, setSearch] = useState("");
   const [showFilters, setShowFilters] = useState(false);
   const [showQuickswap, setShowQuickswap] = useState(false);
@@ -77,12 +79,19 @@ export const MarketplaceNavigation: React.FC = () => {
     game: gameService.getSnapshot().context.state,
   });
 
+  const goToFlowerDashboard = () => {
+    navigate("/flower-dashboard");
+  };
+
   return (
     <>
       <Modal show={showFilters} onHide={() => setShowFilters(false)}>
         <CloseButtonPanel>
           <Filters onClose={() => setShowFilters(false)} farmId={farmId} />
           <EstimatedPrice price={price} />
+          <Button onClick={goToFlowerDashboard}>
+            {t("flowerDashboard.title")}
+          </Button>
         </CloseButtonPanel>
       </Modal>
 

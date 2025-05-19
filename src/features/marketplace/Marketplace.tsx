@@ -1,5 +1,5 @@
 import { SUNNYSIDE } from "assets/sunnyside";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useCallback } from "react";
 import sflIcon from "assets/icons/flower_token.webp";
 import { MarketplaceNavigation } from "./components/MarketplaceHome";
 import { useLocation, useNavigate } from "react-router";
@@ -21,13 +21,13 @@ export const Marketplace: React.FC = () => {
   const location = useLocation();
   const { t } = useAppTranslation();
 
-  const handleClose = () => {
+  const handleClose = useCallback(() => {
     const defaultRoute = location.pathname.includes("/world")
       ? "/world/plaza"
       : "/";
 
     fromRoute ? navigate(fromRoute) : navigate(defaultRoute);
-  };
+  }, [location.pathname, fromRoute, navigate]);
 
   // exit marketplace if Escape key is pressed
   useEffect(() => {

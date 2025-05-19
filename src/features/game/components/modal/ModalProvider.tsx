@@ -36,7 +36,8 @@ type GlobalModal =
   | "REFERRAL"
   | "STREAMS"
   | "LOVE_RUSH"
-  | "MERKL";
+  | "MERKL"
+  | "DEPOSIT";
 
 export const ModalContext = createContext<{
   openModal: (type: GlobalModal) => void;
@@ -71,6 +72,12 @@ export const ModalProvider: FC = ({ children }) => {
         show={opened === "BUY_BANNER"}
         onClose={handleClose}
         initialPage="vip"
+      />
+
+      <CurrenciesModal
+        show={opened === "DEPOSIT"}
+        onClose={handleClose}
+        initialPage="deposit"
       />
 
       <Modal show={opened === "DISCORD"} onHide={handleClose}>

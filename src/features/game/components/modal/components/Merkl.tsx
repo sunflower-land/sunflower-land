@@ -1,6 +1,4 @@
 import React from "react";
-import { CloseButtonPanel } from "../../CloseablePanel";
-import { NPC_WEARABLES } from "lib/npcs";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
@@ -18,14 +16,22 @@ export const Merkl: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       : "0x89dd96c10c739800b241a2e77fc44b5c0766766d437501dd9dcfb0e4314e6de3";
 
   return (
-    <CloseButtonPanel
-      bumpkinParts={NPC_WEARABLES["rocket man"]}
-      onClose={onClose}
-    >
+    <>
       <div className="p-1">
-        <Label type="vibrant" className="mb-1" icon={SUNNYSIDE.icons.stopwatch}>
-          {t("merkl.rewards")}
-        </Label>
+        <div className="flex flex-row justify-between">
+          <Label
+            type="vibrant"
+            className="mb-1"
+            icon={SUNNYSIDE.icons.stopwatch}
+          >
+            {t("merkl.rewards")}
+          </Label>
+          <img
+            src={SUNNYSIDE.icons.close}
+            className="w-6 h-6 cursor-pointer"
+            onClick={onClose}
+          />
+        </div>
         <p className="text-xs mb-2">{t("merkl.description")}</p>
         <NoticeboardItems
           items={[
@@ -55,6 +61,6 @@ export const Merkl: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       >
         {t("read.more")}
       </Button>
-    </CloseButtonPanel>
+    </>
   );
 };
