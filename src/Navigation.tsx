@@ -29,10 +29,10 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { INITIAL_FARM, PIXEL_SCALE } from "features/game/lib/constants";
 import classNames from "classnames";
 import { Marketplace } from "features/marketplace/Marketplace";
-import { FlowerDashboardProfile } from "features/flowerDashboard/FlowerDashboardProfile";
+import { LedgerDashboardProfile } from "features/ledgerDashboard/LedgerDashboardProfile";
 import { hasFeatureAccess } from "lib/flags";
 import { GameProvider } from "features/game/GameProvider";
-import { RewardsDashboardProfile } from "features/rewardsDashboard/RewardsDashboardProfile";
+import { FlowerDashboard } from "features/flowerDashboard/FlowerDashboard";
 
 // Lazy load routes
 const World = lazy(() =>
@@ -210,16 +210,14 @@ export const Navigation: React.FC = () => {
                     {hasFeatureAccess(INITIAL_FARM, "LEDGER") && (
                       <>
                         <Route
-                          path="/flower-dashboard/:id"
+                          path="/ledger-dashboard/:id"
                           element={
-                            <FlowerDashboardProfile key="flower-dashboard" />
+                            <LedgerDashboardProfile key="ledger-dashboard" />
                           }
                         />
                         <Route
-                          path="/rewards-dashboard"
-                          element={
-                            <RewardsDashboardProfile key="rewards-dashboard" />
-                          }
+                          path="/flower-dashboard"
+                          element={<FlowerDashboard key="flower-dashboard" />}
                         />
                       </>
                     )}
