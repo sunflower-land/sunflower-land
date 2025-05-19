@@ -26,6 +26,9 @@ import { getKeys } from "features/game/types/decorations";
 import { signTypedData } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
 import { WalletContext } from "features/wallet/WalletProvider";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { Modal } from "components/ui/Modal";
+import { Panel } from "components/ui/Panel";
 
 // Types
 interface AirdropItem {
@@ -59,6 +62,8 @@ interface AirdropContentProps {
   hasDevAccess?: boolean;
   showAdvancedItems?: boolean;
   advancedItemsProps?: AdvancedItemsProps;
+  airdroppingRewardFailed?: boolean;
+  closeErrorModal: () => void;
 }
 
 // Components
@@ -223,68 +228,86 @@ const AirdropContent: React.FC<AirdropContentProps> = ({
   advancedItemsProps,
   farmIds,
   setFarmIds,
-}) => (
-  <div className="flex flex-col gap-1 max-h-[500px] overflow-y-auto scrollable">
-    <div className="p-1 flex flex-col gap-1">
-      <div className="flex flex-col gap-1">
-        <Label type="default" icon={SUNNYSIDE.icons.search} className="m-1">
-          {`Farm IDs`}
+  airdroppingRewardFailed,
+  closeErrorModal,
+}) => {
+  const { t } = useAppTranslation();
+
+  return (
+    <div className="flex flex-col gap-1 max-h-[500px] overflow-y-auto scrollable">
+      <div className="p-1 flex flex-col gap-1">
+        <div className="flex flex-col gap-1">
+          <Label type="default" icon={SUNNYSIDE.icons.search} className="m-1">
+            {`Farm IDs`}
+          </Label>
+          <TextInput
+            placeholder="Enter farm IDs..."
+            value={farmIds}
+            onValueChange={setFarmIds}
+          />
+          {getObjectEntries(basicItems).map(
+            ([key, { icon, value, setValue, maxDecimalPlaces }]) => (
+              <div key={key}>
+                <Label type="default" icon={icon} className="m-1">
+                  {key}
+                </Label>
+                <NumberInput
+                  value={value}
+                  onValueChange={(decimal) => setValue(decimal.toNumber())}
+                  maxDecimalPlaces={maxDecimalPlaces}
+                />
+              </div>
+            ),
+          )}
+          {hasDevAccess && showAdvancedItems && advancedItemsProps && (
+            <AdvancedItems {...advancedItemsProps} />
+          )}
+        </div>
+        <Label
+          type="default"
+          icon={SUNNYSIDE.icons.expression_chat}
+          className="my-1"
+        >
+          {`Message`}
         </Label>
         <TextInput
-          placeholder="Enter farm IDs..."
-          value={farmIds}
-          onValueChange={setFarmIds}
+          placeholder="Type your message..."
+          value={message}
+          onValueChange={setMessage}
         />
-        {getObjectEntries(basicItems).map(
-          ([key, { icon, value, setValue, maxDecimalPlaces }]) => (
-            <div key={key}>
-              <Label type="default" icon={icon} className="m-1">
-                {key}
-              </Label>
-              <NumberInput
-                value={value}
-                onValueChange={(decimal) => setValue(decimal.toNumber())}
-                maxDecimalPlaces={maxDecimalPlaces}
-              />
-            </div>
-          ),
-        )}
-        {hasDevAccess && showAdvancedItems && advancedItemsProps && (
-          <AdvancedItems {...advancedItemsProps} />
+        {!showAdvancedItems && hasDevAccess && (
+          <div className="flex flex-row items-center m-1">
+            <p
+              className="text-xs cursor-pointer underline py-1"
+              onClick={() => setShowAdvancedItems(true)}
+            >
+              {`Show Advanced Items`}
+            </p>
+          </div>
         )}
       </div>
-      <Label
-        type="default"
-        icon={SUNNYSIDE.icons.expression_chat}
-        className="my-1"
-      >
-        {`Message`}
-      </Label>
-      <TextInput
-        placeholder="Type your message..."
-        value={message}
-        onValueChange={setMessage}
-      />
-      {!showAdvancedItems && hasDevAccess && (
-        <div className="flex flex-row items-center m-1">
-          <p
-            className="text-xs cursor-pointer underline py-1"
-            onClick={() => setShowAdvancedItems(true)}
-          >
-            {`Show Advanced Items`}
-          </p>
-        </div>
-      )}
+      <Button className="mb-1" disabled={disabled} onClick={onSend}>
+        {`Send`}
+      </Button>
+
+      <Modal show={airdroppingRewardFailed}>
+        <Panel>
+          <div className="p-1.5">
+            <Label type="danger" className="mb-2">
+              {t("airdropping.reward.failed.title")}
+            </Label>
+            <p className="text-sm mb-2">{t("airdropping.reward.failed")}</p>
+          </div>
+          <Button onClick={closeErrorModal}>{t("continue")}</Button>
+        </Panel>
+      </Modal>
     </div>
-    <Button className="mb-1" disabled={disabled} onClick={onSend}>
-      {`Send`}
-    </Button>
-  </div>
-);
+  );
+};
 
 export const AirdropPlayer: React.FC<
   ContentComponentProps & { id?: number }
-> = ({ id = 0 }) => {
+> = ({ id }) => {
   const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
   const { walletService } = useContext(WalletContext);
@@ -294,10 +317,15 @@ export const AirdropPlayer: React.FC<
     (state) =>
       MANAGER_IDS.includes(state.context.farmId) || CONFIG.NETWORK === "amoy",
   );
+
+  const airdroppingRewardFailed = useSelector(gameService, (state) =>
+    state.matches("airdroppingRewardFailed"),
+  );
+
   const chainId = useSelector(walletService, (state) => state.context.chainId);
 
   // Basic state
-  const [farmIds, setFarmIds] = useState<string>(id.toString());
+  const [farmIds, setFarmIds] = useState<string>(id?.toString() ?? "");
   const [coins, setCoins] = useState(0);
   const [gems, setGems] = useState<number>();
   const [loveCharm, setLoveCharm] = useState<number>();
@@ -351,15 +379,15 @@ export const AirdropPlayer: React.FC<
     });
 
     // Reset all states to default values
-    setFarmIds(id.toString());
-    setCoins(0);
-    setGems(undefined);
-    setLoveCharm(undefined);
-    setMessage("");
-    setShowAdvancedItems(false);
-    setVipDays(undefined);
-    setSelectedItems([]);
-    setSelectedWearables([]);
+    // setFarmIds(id.toString());
+    // setCoins(0);
+    // setGems(undefined);
+    // setLoveCharm(undefined);
+    // setMessage("");
+    // setShowAdvancedItems(false);
+    // setVipDays(undefined);
+    // setSelectedItems([]);
+    // setSelectedWearables([]);
   };
 
   const signMessage = async () => {
@@ -458,6 +486,8 @@ export const AirdropPlayer: React.FC<
           advancedItemsProps={advancedItemsProps}
           farmIds={farmIds}
           setFarmIds={setFarmIds}
+          airdroppingRewardFailed={airdroppingRewardFailed}
+          closeErrorModal={() => gameService.send("CONTINUE")}
         />
       </GameWallet>
     );
@@ -470,12 +500,14 @@ export const AirdropPlayer: React.FC<
       basicItems={basicItems}
       message={message}
       setMessage={setMessage}
-      onSend={() => send()}
+      onSend={() => send()} // Do not simplify this. It's a function call.
       disabled={disabled}
       setShowAdvancedItems={setShowAdvancedItems}
       hasDevAccess={hasDevAccess}
       showAdvancedItems={showAdvancedItems}
       advancedItemsProps={advancedItemsProps}
+      airdroppingRewardFailed={airdroppingRewardFailed}
+      closeErrorModal={() => gameService.send("CONTINUE")}
     />
   );
 };
