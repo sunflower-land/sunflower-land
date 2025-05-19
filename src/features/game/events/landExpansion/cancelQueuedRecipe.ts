@@ -173,7 +173,6 @@ export function cancelQueuedRecipe({
     const cancelled = building.cancelled || ({} as Cancelled);
 
     cancelled[recipe.name] = {
-      count: (cancelled[recipe.name]?.count || 0) + 1,
       cancelledAt: createdAt,
     };
 

@@ -655,7 +655,6 @@ export type BuildingProduce = {
 
 export type Cancelled = Partial<{
   [key in InventoryItemName]: {
-    count: number;
     cancelledAt: number;
   };
 }>;

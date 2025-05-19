@@ -248,7 +248,6 @@ describe("cancelQueuedRecipe", () => {
 
     expect(state.buildings?.Bakery?.[0]?.cancelled).toEqual({
       "Carrot Cake": {
-        count: 1,
         cancelledAt: now,
       },
     });
@@ -349,7 +348,6 @@ describe("cancelQueuedRecipe", () => {
 
     expect(state.buildings?.Bakery?.[0]?.cancelled).toEqual({
       "Carrot Cake": {
-        count: 1,
         cancelledAt: now,
       },
     });
