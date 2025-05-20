@@ -377,17 +377,6 @@ export const AirdropPlayer: React.FC<
       },
       authToken: authService.state.context.user.rawToken as string,
     });
-
-    // Reset all states to default values
-    // setFarmIds(id.toString());
-    // setCoins(0);
-    // setGems(undefined);
-    // setLoveCharm(undefined);
-    // setMessage("");
-    // setShowAdvancedItems(false);
-    // setVipDays(undefined);
-    // setSelectedItems([]);
-    // setSelectedWearables([]);
   };
 
   const signMessage = async () => {
