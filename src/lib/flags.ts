@@ -53,7 +53,11 @@ const timePeriodFeatureFlag =
 // Used for testing production features and dev access
 export const ADMIN_IDS = [1, 3, 39488, 128727];
 
-export const MANAGER_IDS = [...ADMIN_IDS, 29];
+export const MANAGER_IDS = [
+  ...ADMIN_IDS,
+  29, // Aeon
+  130170, // Dcol
+];
 
 /**
  * Adam: 1
