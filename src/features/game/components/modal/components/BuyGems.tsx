@@ -31,7 +31,7 @@ import { hasFeatureAccess } from "lib/flags";
 export interface Price {
   amount: number;
   usd: number;
-  image?: any;
+  image?: string;
   img_width?: number;
 }
 const OLD_PRICES: Price[] = [
@@ -198,9 +198,6 @@ export const BuyGems: React.FC<Props> = ({
     gameService,
     _starterOfferSecondsLeft,
   );
-
-  const [isLoadingMatic, setIsLoadingMatic] = useState(true);
-  const [maticBalance, setMaticBalance] = useState<Decimal>(new Decimal(0));
 
   const [showMaticConfirm, setShowMaticConfirm] = useState(false);
   const [showFlowerConfirm, setShowFlowerConfirm] = useState(false);
@@ -447,11 +444,6 @@ export const BuyGems: React.FC<Props> = ({
       </>
     );
   }
-
-  const isLifetime =
-    !!gameService.getSnapshot().context.state.inventory[
-      "Lifetime Farmer Banner"
-    ];
 
   return (
     <>
