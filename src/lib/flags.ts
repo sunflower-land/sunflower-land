@@ -108,6 +108,7 @@ const FEATURE_FLAGS = {
   }),
 
   MODERATOR: (game) => !!game.wardrobe.Halo,
+  GASLESS_AUCTIONS: testnetFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;

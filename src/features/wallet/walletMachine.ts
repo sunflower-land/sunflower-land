@@ -47,7 +47,8 @@ export type WalletAction =
   | "withdraw"
   | "dequip"
   | "marketplace"
-  | "transfer";
+  | "transfer"
+  | "auction";
 
 // Certain actions do not require an NFT to perform
 const NON_NFT_ACTIONS: WalletAction[] = [
