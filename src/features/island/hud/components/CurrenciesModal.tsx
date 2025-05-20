@@ -64,11 +64,15 @@ const _token = (state: AuthMachineState) =>
 const _farmId = (state: MachineState) => state.context.farmId;
 const _autosaving = (state: MachineState) => state.matches("autosaving");
 
-export const CurrenciesModal: React.FC<Props> = ({ show, onClose }) => {
+export const CurrenciesModal: React.FC<Props> = ({
+  show,
+  onClose,
+  initialPage,
+}) => {
   const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
 
-  const [page, setPage] = useState<TransactionPage>("menu");
+  const [page, setPage] = useState<TransactionPage>(initialPage ?? "menu");
   const [showXsolla, setShowXsolla] = useState<string>();
   const [loading, setLoading] = useState(false);
   const [price, setPrice] = useState<Price>();

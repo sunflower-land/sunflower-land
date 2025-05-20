@@ -6,7 +6,7 @@ import useSWR from "swr";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { useSelector } from "@xstate/react";
 import { useParams } from "react-router";
-import { getFlowerDashboardProfile } from "./actions/getFlowerDashboardProfile";
+import { getLedgerDashboardProfile } from "./actions/getLedgerDashboardProfile";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
 import { Button } from "components/ui/Button";
@@ -14,12 +14,12 @@ import classNames from "classnames";
 import flowerToken from "assets/icons/flower_token.webp";
 
 const fetcher = async ([url, token, id]: [string, string, string]) => {
-  return getFlowerDashboardProfile(token, id);
+  return getLedgerDashboardProfile(token, id);
 };
 
 const _rawToken = (state: AuthMachineState) => state.context.user.rawToken;
 
-export const FlowerDashboardProfile = () => {
+export const LedgerDashboardProfile = () => {
   const { id } = useParams();
 
   const { authService } = useContext(AuthProvider.Context);

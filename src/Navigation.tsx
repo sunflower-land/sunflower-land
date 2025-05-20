@@ -29,10 +29,11 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { INITIAL_FARM, PIXEL_SCALE } from "features/game/lib/constants";
 import classNames from "classnames";
 import { Marketplace } from "features/marketplace/Marketplace";
-import { FlowerDashboardProfile } from "features/flowerDashboard/FlowerDashboardProfile";
+import { LedgerDashboardProfile } from "features/ledgerDashboard/LedgerDashboardProfile";
 import { hasFeatureAccess } from "lib/flags";
 import { GameProvider } from "features/game/GameProvider";
-import { RewardsDashboardProfile } from "features/rewardsDashboard/RewardsDashboardProfile";
+import { FlowerDashboard } from "features/flowerDashboard/FlowerDashboard";
+import { ModalProvider } from "features/game/components/modal/ModalProvider";
 
 // Lazy load routes
 const World = lazy(() =>
@@ -153,80 +154,86 @@ export const Navigation: React.FC = () => {
         <PWAInstallProvider>
           <GameProvider>
             <ZoomProvider>
-              <Modal show={showConnectionModal}>
-                <Panel>
-                  <div className="text-sm p-1 mb-1">{t("welcome.offline")}</div>
-                </Panel>
-              </Modal>
-              <HashRouter>
-                <Suspense fallback={<LoadingFallback />}>
-                  <Routes>
-                    {/* Forbid entry to Goblin Village when in Visiting State show Forbidden screen */}
-                    {!state.isVisiting && (
-                      <Route
-                        path="/goblins"
-                        element={
-                          <Splash>
-                            <Forbidden
-                              onClose={() => {
-                                authService.send("RETURN");
-                              }}
-                            />
-                          </Splash>
-                        }
-                      />
-                    )}{" "}
-                    <Route path="/world" element={<World key="world" />}>
-                      <Route
-                        path="marketplace/*"
-                        element={
-                          <div className="absolute inset-0 z-50">
-                            <Marketplace />
-                          </div>
-                        }
-                      />
-                      <Route path=":name" element={null} />
-                    </Route>
-                    <Route
-                      path="/community/:name"
-                      element={<World key="community" isCommunity />}
-                    />
-                    <Route
-                      path="/visit/*"
-                      element={<LandExpansion key="visit" />}
-                    />
-                    {CONFIG.NETWORK === "amoy" && (
-                      <Route
-                        path="/community-tools"
-                        element={<CommunityTools key="community-tools" />}
-                      />
-                    )}
-                    {CONFIG.NETWORK === "amoy" && (
-                      <Route
-                        path="/builder"
-                        element={<Builder key="builder" />}
-                      />
-                    )}
-                    {hasFeatureAccess(INITIAL_FARM, "LEDGER") && (
-                      <>
+              <ModalProvider>
+                <Modal show={showConnectionModal}>
+                  <Panel>
+                    <div className="text-sm p-1 mb-1">
+                      {t("welcome.offline")}
+                    </div>
+                  </Panel>
+                </Modal>
+                <HashRouter>
+                  <Suspense fallback={<LoadingFallback />}>
+                    <Routes>
+                      {/* Forbid entry to Goblin Village when in Visiting State show Forbidden screen */}
+                      {!state.isVisiting && (
                         <Route
-                          path="/flower-dashboard/:id"
+                          path="/goblins"
                           element={
-                            <FlowerDashboardProfile key="flower-dashboard" />
+                            <Splash>
+                              <Forbidden
+                                onClose={() => {
+                                  authService.send("RETURN");
+                                }}
+                              />
+                            </Splash>
+                          }
+                        />
+                      )}{" "}
+                      <Route path="/world" element={<World key="world" />}>
+                        <Route
+                          path="marketplace/*"
+                          element={
+                            <div className="absolute inset-0 z-50">
+                              <Marketplace />
+                            </div>
                           }
                         />
                         <Route
-                          path="/rewards-dashboard"
-                          element={
-                            <RewardsDashboardProfile key="rewards-dashboard" />
-                          }
+                          path="flower-dashboard"
+                          element={<FlowerDashboard />}
                         />
-                      </>
-                    )}
-                    <Route path="*" element={<LandExpansion key="land" />} />
-                  </Routes>
-                </Suspense>
-              </HashRouter>
+                        <Route path=":name" element={null} />
+                      </Route>
+                      <Route
+                        path="/community/:name"
+                        element={<World key="community" isCommunity />}
+                      />
+                      <Route
+                        path="/visit/*"
+                        element={<LandExpansion key="visit" />}
+                      />
+                      {CONFIG.NETWORK === "amoy" && (
+                        <Route
+                          path="/community-tools"
+                          element={<CommunityTools key="community-tools" />}
+                        />
+                      )}
+                      {CONFIG.NETWORK === "amoy" && (
+                        <Route
+                          path="/builder"
+                          element={<Builder key="builder" />}
+                        />
+                      )}
+                      {hasFeatureAccess(INITIAL_FARM, "LEDGER") && (
+                        <>
+                          <Route
+                            path="/ledger-dashboard/:id"
+                            element={
+                              <LedgerDashboardProfile key="ledger-dashboard" />
+                            }
+                          />
+                          <Route
+                            path="/flower-dashboard"
+                            element={<FlowerDashboard key="flower-dashboard" />}
+                          />
+                        </>
+                      )}
+                      <Route path="*" element={<LandExpansion key="land" />} />
+                    </Routes>
+                  </Suspense>
+                </HashRouter>
+              </ModalProvider>
             </ZoomProvider>
           </GameProvider>
         </PWAInstallProvider>

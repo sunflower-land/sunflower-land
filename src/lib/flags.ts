@@ -93,6 +93,8 @@ const FEATURE_FLAGS = {
   // Released to All Players on 5th May
   FLOWER_GEMS: timeBasedFeatureFlag(new Date("2025-05-05T00:00:00Z")),
 
+  FLOWER_DASHBOARD: usernameFeatureFlag,
+
   // Testnet only feature flags - Please don't change these until release
   LOVE_CHARM_FLOWER_EXCHANGE: timeBasedFeatureFlag(
     new Date("2025-05-01T00:00:00Z"),

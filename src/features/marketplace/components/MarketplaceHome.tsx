@@ -7,7 +7,7 @@ import lightning from "assets/icons/lightning.png";
 import filterIcon from "assets/icons/filter_icon.webp";
 import tradeIcon from "assets/icons/trade.png";
 import trade_point from "src/assets/icons/trade_points_coupon.webp";
-import sflIcon from "assets/icons/flower_token.webp";
+import flowerIcon from "assets/icons/flower_token.webp";
 import crownIcon from "assets/icons/vip.webp";
 
 import {
@@ -52,6 +52,8 @@ const _hasTradeReputation = (state: MachineState) =>
   });
 
 export const MarketplaceNavigation: React.FC = () => {
+  const navigate = useNavigate();
+
   const [search, setSearch] = useState("");
   const [showFilters, setShowFilters] = useState(false);
   const [showQuickswap, setShowQuickswap] = useState(false);
@@ -77,12 +79,23 @@ export const MarketplaceNavigation: React.FC = () => {
     game: gameService.getSnapshot().context.state,
   });
 
+  const goToFlowerDashboard = () => {
+    navigate("/flower-dashboard");
+  };
+
   return (
     <>
       <Modal show={showFilters} onHide={() => setShowFilters(false)}>
         <CloseButtonPanel>
           <Filters onClose={() => setShowFilters(false)} farmId={farmId} />
           <EstimatedPrice price={price} />
+          {/* Flower Dashboard Button */}
+          <Button contentAlign="start" onClick={goToFlowerDashboard}>
+            <div className="flex">
+              <img src={flowerIcon} className="w-6 mr-2" />
+              <span className="mt-0.5">{t("flowerDashboard.title")}</span>
+            </div>
+          </Button>
         </CloseButtonPanel>
       </Modal>
 
@@ -140,6 +153,13 @@ export const MarketplaceNavigation: React.FC = () => {
           </InnerPanel>
 
           <EstimatedPrice price={price} />
+          {/* Flower Dashboard Button */}
+          <Button contentAlign="start" onClick={goToFlowerDashboard}>
+            <div className="flex">
+              <img src={flowerIcon} className="w-6 mr-2" />
+              <span className="mt-0.5">{t("flowerDashboard.title")}</span>
+            </div>
+          </Button>
 
           {!hasTradeReputation && (
             <InnerPanel
@@ -420,7 +440,7 @@ const EstimatedPrice: React.FC<{ price: number }> = ({ price }) => {
     <InnerPanel className="mb-1">
       <div className="flex justify-between items-center pr-1">
         <div className="flex items-center">
-          <img src={sflIcon} className="w-6" />
+          <img src={flowerIcon} className="w-6" />
           <span className="text-sm ml-2">{`$${price.toFixed(4)}`}</span>
         </div>
       </div>
