@@ -115,6 +115,7 @@ const FEATURE_FLAGS = {
   API_PERFORMANCE: defaultFeatureFlag,
 
   OBSIDIAN_EXCHANGE: testnetFeatureFlag,
+  GASLESS_AUCTIONS: testnetFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;
