@@ -20,6 +20,7 @@ interface Props {
 
   longPress?: boolean;
   longPressInterval?: number;
+  contentAlign?: "start" | "center" | "end";
 }
 export const Button: React.FC<Props> = ({
   children,
@@ -30,6 +31,7 @@ export const Button: React.FC<Props> = ({
   longPress = false,
   longPressInterval = 50,
   variant = "primary",
+  contentAlign = "center",
 }) => {
   const longPressEvents = useLongPress(
     (e) =>
@@ -85,7 +87,9 @@ export const Button: React.FC<Props> = ({
         }}
         {...clickEvents}
       >
-        <div className="mb-1">{children}</div>
+        <div className={`mb-1 w-full flex justify-${contentAlign}`}>
+          {children}
+        </div>
       </button>
     </>
   );

@@ -53,5 +53,5 @@ export const getFlowerDashboard = async ({
 
   const response = await res.json();
 
-  return { lastUpdated: response.lastUpdated, ...response.data.data };
+  return { lastUpdated: response.data.lastUpdated, ...response.data.data };
 };

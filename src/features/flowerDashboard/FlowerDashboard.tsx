@@ -28,6 +28,8 @@ import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
 import { capitalize } from "lib/utils/capitalize";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
+import { getRelativeTime } from "lib/utils/time";
+import { hasFeatureAccess } from "lib/flags";
 
 const fetcher = async ([_, token, farmId]: [string, string, number]) => {
   return getFlowerDashboard({ farmId, token });
@@ -38,31 +40,28 @@ const _rawToken = (state: AuthMachineState) =>
 const _farmId = (state: MachineState) => state.context.farmId;
 const _estimatedPrice = (state: MachineState) =>
   state.context.prices.sfl?.usd ?? 0.0;
+const _state = (state: MachineState) => state.context.state;
 
 export const FlowerDashboard = () => {
   const { t } = useAppTranslation();
   const navigate = useNavigate();
 
   const { authService } = useContext(AuthProvider.Context);
-  const { gameService, fromRoute } = useContext(Context);
+  const { gameService } = useContext(Context);
   const { openModal } = useContext(ModalContext);
 
   const rawToken = useSelector(authService, _rawToken);
   const farmId = useSelector(gameService, _farmId);
   const estimatedPrice = useSelector(gameService, _estimatedPrice);
-
+  const state = useSelector(gameService, _state);
   const { data, isLoading, error, mutate } = useSWR(
     ["/data?type=flowerDashboard", rawToken, farmId],
     fetcher,
   );
 
   const handleClose = useCallback(() => {
-    const defaultRoute = location.pathname.includes("/world")
-      ? "/world/plaza/marketplace"
-      : "/marketplace";
-
-    fromRoute ? navigate(fromRoute) : navigate(defaultRoute);
-  }, [location.pathname, fromRoute, navigate]);
+    navigate(-1);
+  }, [navigate]);
 
   // exit marketplace if Escape key is pressed
   useEffect(() => {
@@ -79,14 +78,59 @@ export const FlowerDashboard = () => {
     };
   }, [handleClose]);
 
-  // Refresh data every 10 seconds
+  // Refresh data every 20 seconds
   useEffect(() => {
     const interval = setInterval(() => {
       mutate();
-    }, 10000);
+    }, 20 * 1000);
 
     return () => clearInterval(interval);
   }, [mutate]);
+
+  if (!hasFeatureAccess(state, "FLOWER_DASHBOARD")) {
+    return (
+      <Panel className="inset-0 fixed pointer-events-auto">
+        <div className="relative flex w-full justify-between pr-10 items-center  mr-auto h-[70px] mb-2">
+          <div
+            className="absolute inset-0 w-full h-full -z-0 rounded-sm"
+            // Repeating pixel art image background
+            style={{
+              backgroundImage: `url(${SUNNYSIDE.announcement.flowerBanner})`,
+              imageRendering: "pixelated",
+              backgroundSize: "320px",
+              backgroundPosition: "center",
+            }}
+          />
+          <div className="absolute inset-0 w-full h-full bg-black opacity-50 -z-0 rounded-sm" />
+          <div className="z-10 pl-4">
+            <p className="text-lg text-white z-10 text-shadow">
+              {t("flowerDashboard.title")}
+            </p>
+          </div>
+
+          <img
+            src={SUNNYSIDE.icons.close}
+            className="flex-none cursor-pointer absolute right-2"
+            onClick={handleClose}
+            style={{
+              width: `${PIXEL_SCALE * 11}px`,
+              height: `${PIXEL_SCALE * 11}px`,
+            }}
+          />
+        </div>
+        <Label className="m-1 mb-2" type="info">
+          {t("flowerDashboard.comingSoon")}
+        </Label>
+        <Button
+          onClick={() => {
+            navigate(-1);
+          }}
+        >
+          {t("back")}
+        </Button>
+      </Panel>
+    );
+  }
 
   if (error) {
     return (
@@ -96,13 +140,13 @@ export const FlowerDashboard = () => {
             className="absolute inset-0 w-full h-full -z-0 rounded-sm"
             // Repeating pixel art image background
             style={{
-              backgroundImage: `url(${SUNNYSIDE.announcement.marketplace})`,
-
+              backgroundImage: `url(${SUNNYSIDE.announcement.flowerBanner})`,
               imageRendering: "pixelated",
               backgroundSize: "320px",
               backgroundPosition: "center",
             }}
           />
+          <div className="absolute inset-0 w-full h-full bg-black opacity-50 -z-0 rounded-sm" />
           <div className="z-10 pl-4">
             <p className="text-lg text-white z-10 text-shadow">
               {t("flowerDashboard.title")}
@@ -140,21 +184,21 @@ export const FlowerDashboard = () => {
           className="absolute inset-0 w-full h-full -z-0 rounded-sm"
           // Repeating pixel art image background
           style={{
-            backgroundImage: `url(${SUNNYSIDE.announcement.marketplace})`,
+            backgroundImage: `url(${SUNNYSIDE.announcement.flowerBanner})`,
 
             imageRendering: "pixelated",
             backgroundSize: "320px",
             backgroundPosition: "center",
           }}
         />
+        <div className="absolute inset-0 w-full h-full bg-black opacity-50 -z-0 rounded-sm" />
         <div className="z-10 pl-4">
           <p className="text-lg text-white z-10 text-shadow">
             {t("flowerDashboard.title")}
           </p>
           <span className="text-xs text-white z-10 text-shadow">
-            {t("last.updated", {
-              date: new Date(data?.lastUpdated ?? "...").toLocaleDateString(),
-            })}
+            {t("last.updated")}{" "}
+            {data?.lastUpdated ? getRelativeTime(data?.lastUpdated) : "..."}
           </span>
         </div>
 
