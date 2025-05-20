@@ -128,6 +128,8 @@ const FEATURE_FLAGS = {
     start: new Date("2025-05-08T00:00:00Z"),
     end: new Date("2025-06-20T00:00:00.000Z"),
   }),
+
+  GEMS_CHANGES: timeBasedFeatureFlag(new Date("2025-05-21T00:00:00Z")),
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;
