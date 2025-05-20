@@ -38,9 +38,9 @@ const fetcher = async ([_, token, farmId]: [string, string, number]) => {
 const _rawToken = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
 const _farmId = (state: MachineState) => state.context.farmId;
+const _state = (state: MachineState) => state.context.state;
 const _estimatedPrice = (state: MachineState) =>
   state.context.prices.sfl?.usd ?? 0.0;
-const _state = (state: MachineState) => state.context.state;
 
 export const FlowerDashboard = () => {
   const { t } = useAppTranslation();
@@ -227,7 +227,7 @@ export const FlowerDashboard = () => {
                   />
                 </div>
                 <div className="flex-1 flex flex-col -mt-1">
-                  <span>{`$${estimatedPrice}`}</span>
+                  <span>{`$${data?.tokenInfo.priceUsd || estimatedPrice}`}</span>
                   <span className="text-xxs sm:text-xs">
                     {t("marketplace.supply", { supply: "265,000,000" })}
                   </span>
