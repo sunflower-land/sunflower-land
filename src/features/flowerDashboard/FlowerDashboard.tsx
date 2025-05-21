@@ -11,6 +11,7 @@ import { Label } from "components/ui/Label";
 import classNames from "classnames";
 
 import flowerToken from "assets/icons/flower_token.webp";
+import flame from "assets/icons/flame.webp";
 import walletIcon from "assets/icons/wallet.png";
 import gift from "assets/icons/gift.png";
 import increaseArrow from "assets/icons/increase_arrow.png";
@@ -78,11 +79,11 @@ export const FlowerDashboard = () => {
     };
   }, [handleClose]);
 
-  // Refresh data every 20 seconds
+  // Refresh data every minute
   useEffect(() => {
     const interval = setInterval(() => {
       mutate();
-    }, 20 * 1000);
+    }, 60 * 1000);
 
     return () => clearInterval(interval);
   }, [mutate]);
@@ -314,7 +315,9 @@ export const FlowerDashboard = () => {
                       borderTop: index === 0 ? "1px solid #b96f50" : "",
                     }}
                   >
-                    <p className="text-xs">{convertToTitleCase(burn)}</p>
+                    <p className="text-xs">
+                      {convertToTitleCase(burn.replace("_", " "))}
+                    </p>
                     <div className="flex justify-end">
                       <img
                         src={flowerToken}
@@ -323,7 +326,7 @@ export const FlowerDashboard = () => {
                       />
                       <p className="text-xs mb-0.5">{`${setPrecision(
                         amount,
-                        2,
+                        0,
                       ).toLocaleString()}`}</p>
                     </div>
                   </div>
@@ -502,7 +505,9 @@ export const FlowerDashboard = () => {
                       className="w-4 h-4 mt-[1px] mr-1"
                       alt="Flower Token"
                     />
-                    <p className="text-xs mb-0.5">{`${amount.toLocaleString()}`}</p>
+                    <p className="text-xs mb-0.5">{`${amount
+                      .toFixed()
+                      .toLocaleString()}`}</p>
                   </div>
                 </div>
               ))}
@@ -534,11 +539,13 @@ export const FlowerDashboard = () => {
                   </div>
                   <div className="flex justify-end">
                     <img
-                      src={flowerToken}
+                      src={flame}
                       className="w-4 h-4 mt-[1px] mr-1"
-                      alt="Flower Token"
+                      alt="Flame"
                     />
-                    <p className="text-xs mb-0.5">{`${amount.toLocaleString()}`}</p>
+                    <p className="text-xs mb-0.5">{`${amount
+                      .toFixed()
+                      .toLocaleString()}`}</p>
                   </div>
                 </div>
               ))}
