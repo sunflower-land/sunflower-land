@@ -18,7 +18,7 @@ export const getLedgerDashboardProfile = async (
   token: string,
   id: string,
 ): Promise<LedgerDashboardProfileData> => {
-  const res = await fetch(`${CONFIG.API_URL}/flower-dashboard/${id}`, {
+  const res = await fetch(`${CONFIG.API_URL}/ledger-dashboard/${id}`, {
     headers: {
       Authorization: `Bearer ${token}`,
     },

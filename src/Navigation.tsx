@@ -223,10 +223,6 @@ export const Navigation: React.FC = () => {
                               <LedgerDashboardProfile key="ledger-dashboard" />
                             }
                           />
-                          <Route
-                            path="/flower-dashboard"
-                            element={<FlowerDashboard key="flower-dashboard" />}
-                          />
                         </>
                       )}
                       <Route path="*" element={<LandExpansion key="land" />} />

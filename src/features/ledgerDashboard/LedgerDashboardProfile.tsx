@@ -27,7 +27,7 @@ export const LedgerDashboardProfile = () => {
   const { t } = useAppTranslation();
 
   const { data, isLoading, error } = useSWR(
-    ["/flower-dashboard", rawToken!, id!],
+    ["/ledger-dashboard", rawToken!, id!],
     fetcher,
   );
 
@@ -48,7 +48,7 @@ export const LedgerDashboardProfile = () => {
 
   return (
     <Panel className="inset-0 fixed pointer-events-auto">
-      {`Flower Dashboard`}
+      {`Ledger Dashboard`}
       <Label type="default">{`Team Fees - 7 Days`}</Label>
       <div className="flex">
         <img src={flowerToken} className="w-10 h-10" />
