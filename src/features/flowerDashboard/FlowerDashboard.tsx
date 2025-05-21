@@ -315,9 +315,7 @@ export const FlowerDashboard = () => {
                       borderTop: index === 0 ? "1px solid #b96f50" : "",
                     }}
                   >
-                    <p className="text-xs">
-                      {convertToTitleCase(burn.replace("_", " "))}
-                    </p>
+                    <p className="text-xs">{convertToTitleCase(burn)}</p>
                     <div className="flex justify-end">
                       <img
                         src={flowerToken}
