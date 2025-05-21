@@ -133,6 +133,8 @@ const FEATURE_FLAGS = {
   }),
 
   GEMS_CHANGES: timeBasedFeatureFlag(new Date("2025-05-21T00:00:00Z")),
+
+  MODERATOR: (game) => !!game.wardrobe.Halo,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;
