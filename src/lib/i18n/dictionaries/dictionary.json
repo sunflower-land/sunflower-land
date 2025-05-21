@@ -6096,5 +6096,5 @@
   "blessing.offer": "Offer",
   "seeking.blessing": "Claiming blessing",
   "seeking.blessing.success": "Congratulations, you have received a blessing!",
-  "seeking.blessing.maxAmount": "Insufficient {{name}}."
+  "blessing.maxAmount": "Insufficient {{name}}."
 }
