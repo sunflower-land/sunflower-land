@@ -8,6 +8,7 @@ import { translate } from "lib/i18n/translate";
 import { interactableModalManager } from "../ui/InteractableModals";
 import { getKeys } from "features/game/types/decorations";
 import { TemperateSeasonName } from "features/game/types/game";
+import { hasFeatureAccess } from "lib/flags";
 
 const BUMPKINS: NPCBumpkin[] = [];
 
@@ -126,14 +127,16 @@ export class LoveIslandScene extends BaseScene {
       }
     });
 
-    const guardian = this.add.sprite(310, 556, "guardian");
-    guardian.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-      if (this.checkDistanceToSprite(guardian, 40)) {
-        interactableModalManager.open("guardian");
-      } else {
-        this.currentPlayer?.speak(translate("base.iam.far.away"));
-      }
-    });
+    if (hasFeatureAccess(this.gameState, "BLESSING")) {
+      const guardian = this.add.sprite(310, 556, "guardian");
+      guardian.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+        if (this.checkDistanceToSprite(guardian, 40)) {
+          interactableModalManager.open("guardian");
+        } else {
+          this.currentPlayer?.speak(translate("base.iam.far.away"));
+        }
+      });
+    }
   }
 
   /**
