@@ -169,6 +169,7 @@ export const MoveableComponent: React.FC<MovableProps> = ({
   const hasRemovalAction = !!removeAction;
   const [isRestricted, restrictionReason] = hasRemoveRestriction({
     name,
+    id,
     state: gameService.state.context.state,
   });
 
