@@ -9,6 +9,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import Decimal from "decimal.js-light";
 import { NumberInput } from "components/ui/NumberInput";
 import { Button } from "components/ui/Button";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onClose: () => void;
@@ -16,6 +17,7 @@ interface Props {
 export const Blessings: React.FC<Props> = ({ onClose }) => {
   const { gameState, gameService } = useGame();
   const { authState } = useAuth();
+  const { t } = useAppTranslation();
 
   const [page, setPage] = useState(10);
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -41,15 +43,13 @@ export const Blessings: React.FC<Props> = ({ onClose }) => {
   if (showConfirmation) {
     return (
       <>
-        <Label type="danger">Are you sure?</Label>
-        <div className="text-sm ">
-          Are you sure you want to offer the following?
+        <Label type="danger">{t("blessing.areYouSure")}</Label>
+        <div className="p-1">
+          <div className="text-sm">{t("blessing.confirmOffering")}</div>
+          <div className="text-sm my-2">{`${amount.toNumber()} x ${offering.item}`}</div>
+          <div className="text-xs italic">{t("blessing.offeringWarning")}</div>
         </div>
-        <div className="text-sm">{`${amount.toNumber()} x ${offering.item}`}</div>
-        <div className="text-xs italic">
-          Offerings are donations to the Guardians and will be burnt.
-        </div>
-        <Button onClick={offer}>Confirm</Button>
+        <Button onClick={offer}>{t("blessing.confirm")}</Button>
       </>
     );
   }
@@ -59,10 +59,12 @@ export const Blessings: React.FC<Props> = ({ onClose }) => {
       <SpeakingText
         message={[
           {
-            text: "Greetings farmer...you have stumbled upon divinity. Are you worthy of a blessing?",
+            text: t("blessing.greetings"),
           },
           {
-            text: `${gameState.context.state.season.season} is blooming. Will you show your faith in the Gods?`,
+            text: t("blessing.seasonBlooming", {
+              season: gameState.context.state.season.season,
+            }),
           },
         ]}
         onClose={() => setPage(1)}
@@ -76,19 +78,16 @@ export const Blessings: React.FC<Props> = ({ onClose }) => {
   return (
     <div>
       <div className="flex justify-between mb-1 mr-10">
-        <Label type="default">Offer a Blessing</Label>
+        <Label type="default">{t("blessing.offerTitle")}</Label>
         <Label type="formula">{new Date().toISOString().slice(0, 10)}</Label>
       </div>
-      <p className="text-xs">
-        Every day, the Guardians seek an offering. Show your faith, for the
-        chance to gain a blessing.
-      </p>
-      <div className="flex">
+      <p className="text-xs m-1">{t("blessing.guardiansSeek")}</p>
+      <div className="flex items-center">
         <Box image={ITEM_DETAILS[offering.item].image} count={inventory} />
-        <div>
+        <div className="ml-2">
           <p className="text-sm">{offering.item}</p>
           <p className="text-xs">
-            The guardians seek {offering.item} for today's offering.
+            {t("blessing.chooseAmount", { name: offering.item })}
           </p>
         </div>
       </div>
@@ -96,21 +95,23 @@ export const Blessings: React.FC<Props> = ({ onClose }) => {
         value={amount}
         maxDecimalPlaces={0}
         onValueChange={setAmount}
+        className="mb-1"
       />
       {amount.lt(10) && (
-        <Label type="danger" className="my-2">{`Minimum 10 required`}</Label>
+        <Label type="danger" className="my-2">
+          {t("blessing.minimumRequired", { amount: 10 })}
+        </Label>
       )}
       {amount.gt(inventory) && (
-        <Label
-          type="danger"
-          className="my-2"
-        >{`Minimum ${inventory.toNumber()} required`}</Label>
+        <Label type="danger" className="my-2">
+          {t("blessing.minimumRequired", { amount: inventory.toNumber() })}
+        </Label>
       )}
       <Button
         disabled={amount.lt(10) || amount.gt(inventory)}
         onClick={() => setShowConfirmation(true)}
       >
-        Offer
+        {t("blessing.offer")}
       </Button>
     </div>
   );

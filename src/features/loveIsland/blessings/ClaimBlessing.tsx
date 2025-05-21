@@ -1,9 +1,11 @@
+import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { useAuth } from "features/auth/lib/Provider";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { useGame } from "features/game/GameProvider";
 import { blessingIsReady } from "features/game/lib/blessings";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { secondsToString } from "lib/utils/time";
 import React from "react";
 
@@ -13,6 +15,8 @@ interface Props {
 export const ClaimBlessingReward: React.FC<Props> = ({ onClose }) => {
   const { gameState, gameService } = useGame();
   const { authState } = useAuth();
+
+  const { t } = useAppTranslation();
 
   const { offered, reward } = gameState.context.state.blessing;
   console.log("RENDRING?");
@@ -35,10 +39,10 @@ export const ClaimBlessingReward: React.FC<Props> = ({ onClose }) => {
     return (
       <div>
         <Label type="default" className="mb-1">
-          Missing offering
+          {t("blessing.missingOffering")}
         </Label>
-        <p className="text-xs mb-1">Visit the Guardians to make an offering.</p>
-        <Button onClick={onClose}>Close</Button>
+        <p className="text-xs mb-1">{t("blessing.visitGuardians")}</p>
+        <Button onClick={onClose}>{t("close")}</Button>
       </div>
     );
   }
@@ -48,7 +52,7 @@ export const ClaimBlessingReward: React.FC<Props> = ({ onClose }) => {
       <ClaimReward
         onClaim={claimBlessing}
         reward={{
-          message: "The Gods have blessed your generosity and faith.",
+          message: t("blessing.godsBlessed"),
           createdAt: Date.now(),
           id: "guardian-reward",
           items: reward.items ?? {},
@@ -69,16 +73,18 @@ export const ClaimBlessingReward: React.FC<Props> = ({ onClose }) => {
     return (
       <div>
         <Label type="default" className="mb-1">
-          Pray to the Guardians
+          {t("blessing.prayToGuardians")}
         </Label>
-        <p className="text-xs mb-2">
-          Thank you for your offering devoted one. The guardians smile upon you,
-          patience is now key - wait until a new day to receive your blessing.
-        </p>
-        <p className="text-xs">
-          {secondsToString(readyIn / 1000, { length: "medium" })}
-        </p>
-        <Button onClick={onClose}>Close</Button>
+        <p className="text-xs m-1">{t("blessing.thankYouOffering")}</p>
+        <Label
+          type="transparent"
+          icon={SUNNYSIDE.icons.stopwatch}
+          className="ml-4 my-2"
+        >
+          {secondsToString(readyIn / 1000, { length: "medium" })}{" "}
+          {t("blessing.left")}
+        </Label>
+        <Button onClick={onClose}>{t("close")}</Button>
       </div>
     );
   }
@@ -86,10 +92,10 @@ export const ClaimBlessingReward: React.FC<Props> = ({ onClose }) => {
   return (
     <div>
       <Label type="warning" className="mb-1">
-        You have been blessed
+        {t("blessing.youHaveBeenBlessed")}
       </Label>
-      <p className="text-xs">The gods thank the faithful.</p>
-      <Button onClick={seekBlessing}>Claim Blessing</Button>
+      <p className="text-sm mb-2">{t("blessing.godsThankFaithful")}</p>
+      <Button onClick={seekBlessing}>{t("blessing.claimBlessing")}</Button>
     </div>
   );
 };

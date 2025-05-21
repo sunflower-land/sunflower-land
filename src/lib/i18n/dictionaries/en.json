@@ -5904,5 +5904,6 @@
   "referral.singleReferree": "Congratulations! You have referred a friend ({{vipCount}} VIP).",
   "referral.multipleReferrees": "Congratulations! You have referred {{totalReferrees}} friends ({{vipCount}} VIP).",
   "referral.flowerLabel": "Flower",
-  "referral.more": "..."
+  "referral.more": "...",
+  "flowerDashboard.comingSoon": "Coming Soon"
 }
