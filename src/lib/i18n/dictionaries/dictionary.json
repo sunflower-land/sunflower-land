@@ -6078,7 +6078,7 @@
   "blessing.visitGuardians": "Visit the Guardians to make an offering.",
   "blessing.godsBlessed": "The Gods have blessed your generosity and faith.",
   "blessing.prayToGuardians": "Pray to the Guardians",
-  "blessing.thankYouOffering": "Thank you for your offering devoted one. The guardians smile upon you, patience is now key - wait until a new day to receive your blessing.",
+  "blessing.thankYouOffering": "Thank you for your offering devoted one. The guardians smile upon you, patience is now key. Wait until a new day to receive your blessing.",
   "blessing.left": "left",
   "blessing.youHaveBeenBlessed": "You have been blessed",
   "blessing.godsThankFaithful": "The gods thank the faithful.",
@@ -6095,5 +6095,6 @@
   "blessing.minimumRequired": "Minimum {{amount}} required",
   "blessing.offer": "Offer",
   "seeking.blessing": "Claiming blessing",
-  "seeking.blessing.success": "Congratulations, you have received a blessing!"
+  "seeking.blessing.success": "Congratulations, you have received a blessing!",
+  "seeking.blessing.maxAmount": "Insufficient {{name}}."
 }

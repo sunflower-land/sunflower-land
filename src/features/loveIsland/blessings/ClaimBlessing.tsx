@@ -19,7 +19,6 @@ export const ClaimBlessingReward: React.FC<Props> = ({ onClose }) => {
   const { t } = useAppTranslation();
 
   const { offered, reward } = gameState.context.state.blessing;
-  console.log("RENDRING?");
 
   const seekBlessing = () => {
     gameService.send("blessing.seeked", {
@@ -75,7 +74,7 @@ export const ClaimBlessingReward: React.FC<Props> = ({ onClose }) => {
         <Label type="default" className="mb-1">
           {t("blessing.prayToGuardians")}
         </Label>
-        <p className="text-xs m-1">{t("blessing.thankYouOffering")}</p>
+        <p className="text-sm m-1">{t("blessing.thankYouOffering")}</p>
         <Label
           type="transparent"
           icon={SUNNYSIDE.icons.stopwatch}

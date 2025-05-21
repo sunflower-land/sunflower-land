@@ -104,7 +104,7 @@ export const Blessings: React.FC<Props> = ({ onClose }) => {
       )}
       {amount.gt(inventory) && (
         <Label type="danger" className="my-2">
-          {t("blessing.minimumRequired", { amount: inventory.toNumber() })}
+          {t("blessing.maxAmount", { amount: inventory.toNumber() })}
         </Label>
       )}
       <Button
