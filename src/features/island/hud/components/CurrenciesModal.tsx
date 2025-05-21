@@ -7,6 +7,7 @@ import { Panel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/game/GameProvider";
 import { VIPItems } from "features/game/components/modal/components/VIPItems";
+import { BuyGemsWidget } from "features/announcements/AnnouncementWidgets";
 import { DepositFlower } from "./DepositFlower";
 import { SwapSFLForCoins } from "./SwapSFLForCoins";
 import * as AuthProvider from "features/auth/lib/Provider";
@@ -247,6 +248,7 @@ export const CurrenciesModal: React.FC<Props> = ({
             )}
           </Panel>
           <RoninSupportWidget />
+          <BuyGemsWidget />
         </>
       )}
     </Modal>
