@@ -129,6 +129,10 @@ export const ReputationTiers: React.FC = () => {
             text: t("reputation.seedling.nft"),
             icon: ITEM_DETAILS["Grinx's Hammer"].image,
           },
+          {
+            text: "On-Chain Farm",
+            icon: SUNNYSIDE.icons.basket,
+          },
         ]}
       />
 

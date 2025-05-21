@@ -2,20 +2,17 @@ import { createMachine, Interpreter, State, assign } from "xstate";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { getFarms } from "lib/blockchain/Farm";
-import { mintNFTFarm } from "./actions/mintFarm";
 import { getCreatedAt } from "lib/blockchain/AccountMinter";
-import { Connector } from "wagmi";
-import {
-  getAccount,
-  connect,
-  signMessage,
-  CreateConnectorFn,
-  disconnect,
-} from "@wagmi/core";
+import { Connector, CreateConnectorFn } from "wagmi";
+import { connect, signMessage, getAccount, disconnect } from "wagmi/actions";
+
 import { config } from "./WalletProvider";
 import { generateSignatureMessage, wallet } from "lib/blockchain/wallet";
 import { Effect, postEffect } from "features/game/actions/effect";
 import { randomID } from "lib/utils/random";
+import { hasFeatureAccess } from "lib/flags";
+import { EMPTY } from "features/game/lib/constants";
+import { mintNFTFarm } from "./actions/mintFarm";
 
 export const ART_MODE = !CONFIG.API_URL;
 
@@ -394,6 +391,21 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
             }
           }
 
+          if (hasFeatureAccess(EMPTY, "GASLESS_AUCTIONS")) {
+            await postEffect({
+              farmId: Number(context.id),
+              token: context.jwt as string,
+              transactionId: randomID(),
+              effect: {
+                type: "nft.assigned",
+              },
+            });
+
+            return {
+              readyAt: Date.now() + 60 * 1000,
+            };
+          }
+
           await mintNFTFarm({
             id: context.id as number,
             jwt: context.jwt as string,
@@ -444,6 +456,14 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
       id: "migrating",
       invoke: {
         src: async (context) => {
+          if (hasFeatureAccess(EMPTY, "GASLESS_AUCTIONS")) {
+            return {
+              farmAddress: context.farmAddress,
+              farmId: context.id,
+              nftId: context.nftId,
+            };
+          }
+
           const { data } = await postEffect({
             farmId: Number(context.id),
             token: context.jwt as string,
