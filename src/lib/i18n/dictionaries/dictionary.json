@@ -3691,7 +3691,6 @@
   "wallet.requireFarmNFT": "Some actions require a Farm NFT. This helps keep all of your items secure on the Blockchain",
   "wallet.seedlingRequired": "Reach seedling reputation to mint a Farm NFT",
   "wallet.uniqueFarmNFT": "A unique farm NFT will be minted to store your progress",
-  "wallet.RequiresPol": "Minting the farm NFT requires POL tokens on the Polygon network and in your farm's linked wallet",
   "wallet.mintFreeNFT": "Mint your NFT",
   "wallet.wrongChain": "Wrong Chain",
   "wallet.walletAlreadyLinked": "Wallet already linked",

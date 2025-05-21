@@ -1493,6 +1493,9 @@ export function startGame(authContext: AuthContext) {
         },
         claimAuction: {
           on: {
+            "auction.claimed": {
+              target: STATE_MACHINE_EFFECTS["auction.claimed"],
+            },
             TRANSACT: {
               target: "transacting",
             },
@@ -2373,7 +2376,6 @@ export function startGame(authContext: AuthContext) {
             },
           },
         },
-
         randomising: {
           invoke: {
             src: async () => {
