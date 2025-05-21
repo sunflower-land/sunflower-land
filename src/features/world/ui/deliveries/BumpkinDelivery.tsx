@@ -54,12 +54,6 @@ import { getActiveCalendarEvent } from "features/game/types/calendar";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { MachineState } from "features/game/lib/gameMachine";
-import { hasFeatureAccess } from "lib/flags";
-import {
-  getLoveRushDeliveryRewards,
-  getLoveRushStreaks,
-  getLoveCharmReward,
-} from "features/game/types/loveRushDeliveries";
 
 export const OrderCard: React.FC<{
   order: Order;
@@ -87,15 +81,6 @@ export const OrderCard: React.FC<{
   const { t } = useAppTranslation();
 
   const tickets = generateDeliveryTickets({ game, npc: order.from });
-  const { newStreak, currentStreak } = getLoveRushStreaks({
-    streaks: game.npcs?.[order.from]?.streaks,
-  });
-  const { loveCharmReward } = getLoveRushDeliveryRewards({
-    currentStreak,
-    newStreak,
-    game,
-    npcName: order.from,
-  });
 
   return (
     <>
@@ -187,13 +172,6 @@ export const OrderCard: React.FC<{
                 ))}
               </Label>
             </div>
-            {hasFeatureAccess(game, "LOVE_RUSH") && loveCharmReward > 0 && (
-              <div className="flex flex-wrap gap-1 justify-between w-full">
-                <Label type="vibrant" icon={ITEM_DETAILS["Love Charm"].image}>
-                  {t("loveRush.deliveryStreakBonus", { loveCharmReward })}
-                </Label>
-              </div>
-            )}
           </div>
         </div>
       </div>
@@ -388,12 +366,6 @@ export const Gifts: React.FC<{
     flowerPoints += bumpkinFlowerBonuses;
   }
 
-  const { loveCharmReward } = getLoveCharmReward({
-    name,
-    flower: selected as FlowerName,
-    points: flowerPoints,
-  });
-
   return (
     <>
       <InnerPanel className="mb-1">
@@ -502,19 +474,6 @@ export const Gifts: React.FC<{
                   >{`+${flowerPoints}`}</span>
                 </Label>
               </div>
-              {hasFeatureAccess(game, "LOVE_RUSH") && (
-                <div className="absolute -top-5 right-12">
-                  <div className="relative">
-                    <img
-                      src={ITEM_DETAILS["Love Charm"].image}
-                      className="w-12"
-                    />
-                    <p className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-white text-shadow text-xs">
-                      {loveCharmReward}
-                    </p>
-                  </div>
-                </div>
-              )}
             </>
           )}
         </Button>

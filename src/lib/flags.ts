@@ -97,11 +97,6 @@ const FEATURE_FLAGS = {
 
   LEDGER: testnetLocalStorageFeatureFlag("ledger"),
 
-  // Don't change this feature flag until the love rush event is over
-  LOVE_RUSH: (game) =>
-    betaTimeBasedFeatureFlag(new Date("2025-04-07T00:00:00Z"))(game) &&
-    Date.now() < new Date("2025-05-05T00:00:00Z").getTime(),
-
   EASTER: (game) =>
     betaTimeBasedFeatureFlag(new Date("2025-04-21T00:00:00Z"))(game) &&
     Date.now() < new Date("2025-04-29T00:00:00Z").getTime(),
