@@ -94,9 +94,6 @@ const FEATURE_FLAGS = {
   FACE_RECOGNITION_TEST: defaultFeatureFlag,
   FLOWER_WITHDRAW: timeBasedFeatureFlag(new Date("2025-05-09T01:00:00Z")),
 
-  // Released to All Players on 5th May
-  FLOWER_GEMS: timeBasedFeatureFlag(new Date("2025-05-05T00:00:00Z")),
-
   FLOWER_DASHBOARD: usernameFeatureFlag,
 
   // Testnet only feature flags - Please don't change these until release
