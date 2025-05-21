@@ -23,8 +23,6 @@ import { SeasonalStore } from "features/world/ui/megastore/SeasonalStore";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { GameState } from "features/game/types/game";
 import { MegaBountyBoardContent } from "features/world/ui/flowerShop/MegaBountyBoard";
-import { FlowerBountiesModal } from "features/world/ui/flowerShop/FlowerBounties";
-import { hasFeatureAccess } from "lib/flags";
 
 const CHAPTER_GRAPHICS: Record<SeasonName, string> = {
   "Solar Flare": "?",
@@ -152,13 +150,7 @@ export const Season: React.FC<Props> = ({
           />
         </div>
       </InnerPanel>
-      {hasFeatureAccess(state, "MEGA_BOUNTIES") ? (
-        <MegaBountyBoardContent readonly />
-      ) : (
-        <InnerPanel className="mb-1">
-          <FlowerBountiesModal readonly state={state} />
-        </InnerPanel>
-      )}
+      <MegaBountyBoardContent readonly />
       <InnerPanel className="mb-1">
         <SeasonalStore readonly state={state} />
       </InnerPanel>

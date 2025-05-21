@@ -64,7 +64,6 @@ import { PlayerSelectionList } from "./ui/PlayerSelectionList";
 import { StreamScene } from "./scenes/StreamScene";
 import { ModerationTools } from "./ui/moderationTools/ModerationTools";
 import { LoveIslandScene } from "./scenes/LoveIslandScene";
-import { hasFeatureAccess } from "lib/flags";
 
 const _roomState = (state: MachineState) => state.value;
 const _scene = (state: MachineState) => state.context.sceneId;
@@ -152,7 +151,7 @@ export const PhaserComponent: React.FC<Props> = ({
     ExampleRPGScene,
     InfernosScene,
     StreamScene,
-    ...(hasFeatureAccess(state, "LOVE_ISLAND") ? [LoveIslandScene] : []),
+    LoveIslandScene,
   ];
 
   useEffect(() => {
@@ -536,7 +535,7 @@ export const PhaserComponent: React.FC<Props> = ({
         />
       )}
 
-      <NPCModals id={farmId as number} scene={scene} />
+      <NPCModals id={farmId as number} />
       <PlayerSelectionList />
       <PlayerModals game={state} farmId={farmId as number} />
       <CommunityModals />

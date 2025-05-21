@@ -1,7 +1,6 @@
 import { produce } from "immer";
 import Decimal from "decimal.js-light";
 import { GameState } from "features/game/types/game";
-import { hasFeatureAccess } from "lib/flags";
 import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { trackActivity } from "features/game/types/bumpkinActivity";
@@ -26,10 +25,6 @@ export function exchangeFlower({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (game) => {
-    if (!hasFeatureAccess(game, "LOVE_CHARM_FLOWER_EXCHANGE")) {
-      throw new Error("Flower Exchange is not available yet");
-    }
-
     if (!isFaceVerified({ game })) {
       throw new Error("Face verification required");
     }
