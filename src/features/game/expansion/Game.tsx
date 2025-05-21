@@ -437,7 +437,6 @@ export const GameWrapper: React.FC = ({ children }) => {
   const investigating = useSelector(gameService, isInvestigating);
   const blessing = useSelector(gameService, isBlessing);
 
-  console.log({ blessing });
   const { t } = useAppTranslation();
   useInterval(() => {
     gameService.send("SAVE");

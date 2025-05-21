@@ -874,17 +874,11 @@ export function startGame(authContext: AuthContext) {
             {
               target: "blessing",
               cond: (context) => {
-                console.log({ blessiong: context.state.blessing });
                 const { offered, reward } = context.state.blessing;
 
                 if (reward) return true;
 
                 if (!offered) return false;
-
-                console.log(
-                  "SHOULD YEET? ",
-                  blessingIsReady({ game: context.state }),
-                );
 
                 return blessingIsReady({ game: context.state });
               },

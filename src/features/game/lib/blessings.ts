@@ -21,14 +21,11 @@ export const GUARDIAN_PENDING_MS = 5 * 60 * 1000 + 24 * 60 * 60 * 1000;
 export function blessingIsReady({ game }: { game: GameState }) {
   const offered = game.blessing.offered;
 
-  console.log({ offered });
-
   if (!offered) return false;
 
   const offeredDate = new Date(offered.offeredAt).toISOString().slice(0, 10);
   const isReady =
     Date.now() > new Date(offeredDate).getTime() + GUARDIAN_PENDING_MS;
 
-  console.log({ offeredDate, isReady });
   return isReady;
 }
