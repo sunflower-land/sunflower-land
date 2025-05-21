@@ -94,11 +94,11 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
   const showRemove =
     isMobile && selectedItem && getRemoveAction(selectedItem.name);
   const [isRestricted, restrictionReason] = showRemove
-    ? hasRemoveRestriction(
-        selectedItem.name,
-        selectedItem.id,
-        gameService.getSnapshot().context.state,
-      )
+    ? hasRemoveRestriction({
+        name: selectedItem.name,
+        id: selectedItem.id,
+        state: gameService.getSnapshot().context.state,
+      })
     : [false, "No restriction"];
 
   useEffect(() => {

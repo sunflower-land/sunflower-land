@@ -169,11 +169,10 @@ export const MoveableComponent: React.FC<
   const isSelected = movingItem?.id === id && movingItem?.name === name;
   const removeAction = !isMobile && getRemoveAction(name);
   const hasRemovalAction = !!removeAction;
-  const [isRestricted, restrictionReason] = hasRemoveRestriction(
+  const [isRestricted, restrictionReason] = hasRemoveRestriction({
     name,
-    id,
-    gameService.getSnapshot().context.state,
-  );
+    state: gameService.getSnapshot().context.state,
+  });
 
   /**
    * Deselect if clicked outside of element
