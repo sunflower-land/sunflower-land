@@ -230,7 +230,7 @@ export const FlowerDashboard = () => {
                 <div className="flex-1 flex flex-col -mt-1">
                   <span>{`$${data?.tokenInfo.priceUsd || estimatedPrice}`}</span>
                   <span className="text-xxs sm:text-xs">
-                    {t("marketplace.supply", { supply: "265,000,000" })}
+                    {t("marketplace.supply", { supply: "256,000,000" })}
                   </span>
                   <span className="text-xxs sm:text-xs">{`FDV: $${data?.tokenInfo.fdv.toLocaleString()}`}</span>
                 </div>
