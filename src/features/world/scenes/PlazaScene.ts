@@ -14,7 +14,6 @@ import { translate } from "lib/i18n/translate";
 import { capitalize } from "lib/utils/capitalize";
 import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
 import { DogContainer } from "../containers/DogContainer";
-import { hasFeatureAccess } from "lib/flags";
 
 export type FactionNPC = {
   npc: NPCName;
@@ -340,15 +339,6 @@ export class PlazaScene extends BaseScene {
       ];
     }
 
-    if (!hasFeatureAccess(this.gameState, "LOVE_ISLAND")) {
-      bumpkins.push({
-        x: 506,
-        y: 250,
-        npc: "birdie" as NPCName,
-        direction: "left" as const,
-      });
-    }
-
     this.initialiseNPCs(bumpkins);
 
     if (!this.joystick && !localStorage.getItem("mmo_introduction.read")) {
@@ -409,21 +399,19 @@ export class PlazaScene extends BaseScene {
 
     this.add.sprite(321.5, 230, "shop_icon");
 
-    if (hasFeatureAccess(this.gameState, "LOVE_ISLAND")) {
-      const balloon = this.add.sprite(510, 228, "balloon");
+    const balloon = this.add.sprite(510, 228, "balloon");
 
-      balloon.setDepth(272);
+    balloon.setDepth(272);
 
-      const balloonLabel = new Label(this, "FLY", "brown");
-      balloonLabel.setPosition(510, 208);
-      balloonLabel.setDepth(10000000);
-      this.add.existing(balloonLabel);
+    const balloonLabel = new Label(this, "FLY", "brown");
+    balloonLabel.setPosition(510, 208);
+    balloonLabel.setDepth(10000000);
+    this.add.existing(balloonLabel);
 
-      // On clikc open
-      balloon.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
-        interactableModalManager.open("air_balloon");
-      });
-    }
+    // On clikc open
+    balloon.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      interactableModalManager.open("air_balloon");
+    });
 
     if (this.gameState.inventory["Luxury Key"]) {
       this.add.sprite(825, 50, "luxury_key_disc").setDepth(1000000000);

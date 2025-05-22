@@ -3,7 +3,6 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import React, { useState } from "react";
 // import giftIcon from "assets/icons/gift.png";
 import vipGift from "assets/decorations/vip_gift.png";
-import loveBox from "assets/decorations/love_box.webp";
 import flowerIcon from "assets/icons/flower_token.webp";
 import loveCharmSmall from "assets/icons/love_charm_small.webp";
 import lockIcon from "assets/icons/lock.png";
@@ -31,7 +30,6 @@ import { ButtonPanel } from "components/ui/Panel";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { VIPGiftContent } from "features/world/ui/VIPGift";
 import { BlockchainBox } from "./BlockchainBox";
-import { hasFeatureAccess } from "lib/flags";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { pixelOrangeBorderStyle } from "features/game/lib/style";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -218,39 +216,6 @@ export const RewardOptions: React.FC<Props> = ({
       <Label type="default" className="mb-1">
         {t("rewards.claim.title")}
       </Label>
-
-      {hasFeatureAccess(state, "BLOCKCHAIN_BOX") && (
-        <ButtonPanel
-          onClick={
-            state.pumpkinPlaza.blockchainBox
-              ? undefined
-              : () => setSelected("BLOCKCHAIN_BOX")
-          }
-          className="mb-1"
-          disabled={!!state.pumpkinPlaza.blockchainBox}
-        >
-          <div className="flex items-start">
-            <img src={loveBox} className="w-10 mr-4" />
-            <div className="relative flex-1">
-              <p className="text-sm mb-1">
-                {t("rewards.blockchain.box.title")}
-              </p>
-              <p className="text-xs">
-                {t("rewards.blockchain.box.description")}
-              </p>
-            </div>
-            {state.pumpkinPlaza.blockchainBox ? (
-              <Label className="absolute top-0 right-0" type="success">
-                {t("rewards.blockchain.box.claimed")}
-              </Label>
-            ) : (
-              <Label className="absolute top-0 right-0" type="info">
-                {t("rewards.blockchain.box.limited")}
-              </Label>
-            )}
-          </div>
-        </ButtonPanel>
-      )}
 
       <ButtonPanel
         onClick={

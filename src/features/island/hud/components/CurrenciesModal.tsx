@@ -117,14 +117,6 @@ export const CurrenciesModal: React.FC<Props> = ({
     onboardingAnalytics.logEvent("begin_checkout");
   }, []);
 
-  const onMaticBuy = async () => {
-    gameService.send("BUY_GEMS", {
-      currency: "MATIC",
-      amount: price?.amount,
-    });
-    onClose();
-  };
-
   const onFlowerBuy = async (quote: number) => {
     gameService.send("gems.bought", {
       effect: {
@@ -232,7 +224,6 @@ export const CurrenciesModal: React.FC<Props> = ({
                   price={price}
                   onFlowerBuy={onFlowerBuy}
                   setPrice={setPrice}
-                  onMaticBuy={onMaticBuy}
                   onCreditCardBuy={handleCreditCardBuy}
                   onHideBuyBBLabel={(hide) => setHideBuyBBLabel(hide)}
                   hideIntroLabel={hideBuyBBLabel}

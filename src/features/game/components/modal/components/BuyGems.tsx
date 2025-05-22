@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import { GameWallet } from "features/wallet/Wallet";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
 
@@ -15,7 +14,7 @@ import { Button } from "components/ui/Button";
 import { ButtonPanel } from "components/ui/Panel";
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { INITIAL_FARM, PIXEL_SCALE } from "features/game/lib/constants";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Loading } from "features/auth/components";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { Context } from "features/game/GameProvider";
@@ -25,8 +24,6 @@ import { secondsToString } from "lib/utils/time";
 import { ITEM_DETAILS } from "features/game/types/images";
 import flowerIcon from "assets/icons/flower_token.webp";
 import Decimal from "decimal.js-light";
-import { wallet } from "lib/blockchain/wallet";
-import { hasFeatureAccess } from "lib/flags";
 
 export interface Price {
   amount: number;
@@ -34,16 +31,8 @@ export interface Price {
   image?: string;
   img_width?: number;
 }
-const OLD_PRICES: Price[] = [
-  { amount: 100, usd: 0.99, image: ITEM_DETAILS.Gem.image, img_width: 12 },
-  { amount: 650, usd: 4.99, image: gemBundle01, img_width: 14 },
-  { amount: 1350, usd: 9.99, image: gemBundle02, img_width: 16 },
-  { amount: 2800, usd: 19.99, image: gemBundle03, img_width: 20 },
-  { amount: 7400, usd: 49.99, image: gemBundle04, img_width: 21 },
-  { amount: 15500, usd: 99.99, image: gemBundle05, img_width: 27 },
-  { amount: 200000, usd: 999.99 },
-];
-const NEW_PRICES: Price[] = [
+
+const PRICES: Price[] = [
   { amount: 100, usd: 1.29, image: ITEM_DETAILS.Gem.image, img_width: 12 },
   { amount: 650, usd: 6.49, image: gemBundle01, img_width: 14 },
   { amount: 1350, usd: 12.99, image: gemBundle02, img_width: 16 },
@@ -52,10 +41,6 @@ const NEW_PRICES: Price[] = [
   { amount: 15500, usd: 129.99, image: gemBundle05, img_width: 27 },
   { amount: 200000, usd: 1299.99 },
 ];
-
-const PRICES = hasFeatureAccess(INITIAL_FARM, "GEMS_CHANGES")
-  ? NEW_PRICES
-  : OLD_PRICES;
 
 const _starterOfferSecondsLeft = (state: MachineState) => {
   const hasPurchased = state.context.purchases.length > 0;
@@ -70,113 +55,11 @@ const _starterOfferSecondsLeft = (state: MachineState) => {
   );
 };
 
-const MaticBuyGems: React.FC<{
-  price: Price;
-  setPrice: (price: Price | undefined) => void;
-  onMaticBuy: () => void;
-}> = ({ setPrice, price, onMaticBuy }) => {
-  const { t } = useAppTranslation();
-
-  const [isLoadingMatic, setIsLoadingMatic] = useState(true);
-  const [maticBalance, setMaticBalance] = useState<Decimal>(new Decimal(0));
-
-  useEffect(() => {
-    const fetchMaticBalance = async () => {
-      setIsLoadingMatic(true);
-      const balance = await wallet.getMaticBalance();
-
-      setMaticBalance(new Decimal(balance));
-      setIsLoadingMatic(false);
-    };
-
-    fetchMaticBalance();
-  }, []);
-
-  const hasMatic = maticBalance.gt(0.1);
-
-  if (isLoadingMatic) {
-    return <Loading />;
-  }
-
-  if (!hasMatic) {
-    return (
-      <>
-        <div className="flex items-center gap-2">
-          <img
-            src={SUNNYSIDE.icons.arrow_left}
-            className="w-6 cursor-pointer"
-            onClick={() => setPrice(undefined)}
-          />
-
-          <Label
-            type="default"
-            icon={ITEM_DETAILS.Gem.image}
-            className="ml-1.5"
-          >
-            {t("transaction.buy.gems")}
-          </Label>
-        </div>
-        <p className="text-xxs italic mt-1">{t("transaction.excludeFees")}</p>
-        <div className="flex flex-col w-full items-center mb-2 px-2 text-sm">
-          <div className="flex w-full py-3 items-center text-sm justify-between">
-            <div className="flex items-center space-x-2">
-              <span>
-                {t("item")} {price.amount} {"x"}
-              </span>
-              <img src={ITEM_DETAILS.Gem.image} className="w-6" />
-            </div>
-            <span>{`${t("total")}: US$${price.usd}`}</span>
-          </div>
-
-          {/* <p className="mr-2 mb-1">{`${t("total")}: ${price.usd} USD`}</p> */}
-        </div>
-
-        <Label type="danger">{t("error.insufficientMatic")}</Label>
-
-        <Button disabled={true}>{t("confirm")}</Button>
-      </>
-    );
-  }
-
-  return (
-    <GameWallet action="confirmPurchase">
-      <div className="flex items-center gap-2">
-        <img
-          src={SUNNYSIDE.icons.arrow_left}
-          className="w-6 cursor-pointer"
-          onClick={() => setPrice(undefined)}
-        />
-
-        <Label type="default" icon={ITEM_DETAILS.Gem.image} className="ml-1.5">
-          {t("transaction.buy.gems")}
-        </Label>
-      </div>
-      <p className="text-xxs italic mt-1">{t("transaction.excludeFees")}</p>
-      <div className="flex flex-col w-full items-center mb-2 px-2 text-sm">
-        <div className="flex w-full py-3 items-center text-sm justify-between">
-          <div className="flex items-center space-x-2">
-            <span>
-              {t("item")} {price.amount} {"x"}
-            </span>
-            <img src={ITEM_DETAILS.Gem.image} className="w-6" />
-          </div>
-          <span>{`${t("total")}: US$${price.usd}`}</span>
-        </div>
-
-        {/* <p className="mr-2 mb-1">{`${t("total")}: ${price.usd} USD`}</p> */}
-      </div>
-
-      <Button onClick={() => onMaticBuy()}>{t("confirm")}</Button>
-    </GameWallet>
-  );
-};
-
 interface Props {
   isSaving: boolean;
   price?: { usd: number; amount: number };
   hideIntroLabel?: boolean;
   setPrice: (price?: { usd: number; amount: number }) => void;
-  onMaticBuy: () => void;
   onFlowerBuy: (quote: number) => void;
   onCreditCardBuy: () => void;
   onHideBuyBBLabel: (hide: boolean) => void;
@@ -187,7 +70,6 @@ export const BuyGems: React.FC<Props> = ({
   isSaving,
   price,
   setPrice,
-  onMaticBuy,
   onFlowerBuy,
   onCreditCardBuy,
   onHideBuyBBLabel,
@@ -199,29 +81,16 @@ export const BuyGems: React.FC<Props> = ({
     _starterOfferSecondsLeft,
   );
 
-  const [showMaticConfirm, setShowMaticConfirm] = useState(false);
   const [showFlowerConfirm, setShowFlowerConfirm] = useState(false);
   const { t } = useAppTranslation();
 
   useEffect(() => {
-    if (showMaticConfirm || showFlowerConfirm) {
+    if (showFlowerConfirm) {
       onHideBuyBBLabel(true);
     } else {
       onHideBuyBBLabel(false);
     }
-  }, [showMaticConfirm, showFlowerConfirm, onHideBuyBBLabel]);
-
-  if (!!price && showMaticConfirm) {
-    return (
-      <GameWallet action="purchase">
-        <MaticBuyGems
-          price={price}
-          setPrice={setPrice}
-          onMaticBuy={onMaticBuy}
-        />
-      </GameWallet>
-    );
-  }
+  }, [showFlowerConfirm, onHideBuyBBLabel]);
 
   if (!!price && showFlowerConfirm) {
     const flowerPrice = gameService.state.context.prices.sfl?.usd ?? 0.0;
@@ -385,31 +254,6 @@ export const BuyGems: React.FC<Props> = ({
                     {t("transaction.payCash")}
                   </Label>
                 </ButtonPanel>
-                {!hasFeatureAccess(INITIAL_FARM, "GEMS_CHANGES") && (
-                  <ButtonPanel
-                    onClick={() => setShowMaticConfirm(true)}
-                    className="flex relative flex-col flex-1 items-center p-2 cursor-pointer"
-                  >
-                    <span className="mb-2 text-xs">{"MATIC"}</span>
-                    <div className="flex flex-col flex-1 justify-center items-center mb-6 w-full">
-                      <img
-                        src={SUNNYSIDE.icons.polygonIcon}
-                        className="w-1/5 sm:w-1/5"
-                      />
-                    </div>
-                    <Label
-                      type="warning"
-                      className="absolute h-8 -bottom-2"
-                      style={{
-                        left: `${PIXEL_SCALE * -3}px`,
-                        right: `${PIXEL_SCALE * -3}px`,
-                        width: `calc(100% + ${PIXEL_SCALE * 6}px)`,
-                      }}
-                    >
-                      {t("transaction.payPol")}
-                    </Label>
-                  </ButtonPanel>
-                )}
               </>
             )}
             <ButtonPanel

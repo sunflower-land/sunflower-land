@@ -35,8 +35,6 @@ import {
 import { ChoreBoard } from "./pages/ChoreBoard";
 import { CompetitionDetails } from "features/competition/CompetitionBoard";
 import { MachineState } from "features/game/lib/gameMachine";
-import { LoveRushWidget } from "features/announcements/AnnouncementWidgets";
-import { hasFeatureAccess } from "lib/flags";
 import { ANIMALS } from "features/game/types/animals";
 
 interface Props {
@@ -46,18 +44,13 @@ interface Props {
 
 const _farmId = (state: MachineState) => state.context.farmId;
 const _state = (state: MachineState) => state.context.state;
-const _isLoveRushEventActive = (state: MachineState) =>
-  hasFeatureAccess(state.context.state, "LOVE_RUSH");
 
 export const Codex: React.FC<Props> = ({ show, onHide }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const farmId = useSelector(gameService, _farmId);
   const state = useSelector(gameService, _state);
-  const isLoveRushEventActive = useSelector(
-    gameService,
-    _isLoveRushEventActive,
-  );
+
   const { username, bounties, delivery, choreBoard, kingdomChores, faction } =
     state;
 
@@ -289,7 +282,6 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
             )}
           </div>
         </OuterPanel>
-        {isLoveRushEventActive && <LoveRushWidget />}
         {showMilestoneReached && (
           <div className="absolute w-full sm:w-5/6 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[200]">
             <MilestoneReached
