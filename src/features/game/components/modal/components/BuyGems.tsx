@@ -477,7 +477,7 @@ export const BuyGems: React.FC<Props> = ({
       <div className="flex flex-col w-full p-1">
         {startOfferSecondsLeft > 0 && (
           <ButtonPanel
-            onClick={() => setPrice({ amount: 300, usd: 0.99 })}
+            onClick={() => setPrice({ amount: 300, usd: 1.29 })}
             className="w-full mb-1"
           >
             <div className="flex justify-between">
@@ -496,8 +496,8 @@ export const BuyGems: React.FC<Props> = ({
                 </div>
               </div>
               <div className="flex flex-col justify-end flex-1 items-end">
-                <span className="text-sm mb-1 line-through">{`$2.99`}</span>
-                <Label type="warning">{`US$0.99`}</Label>
+                <span className="text-sm mb-1 line-through">{`$3.89`}</span>
+                <Label type="warning">{`US$1.29`}</Label>
               </div>
             </div>
           </ButtonPanel>
