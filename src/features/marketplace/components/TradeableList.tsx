@@ -3,7 +3,10 @@ import { useActor, useSelector } from "@xstate/react";
 import { Box } from "components/ui/Box";
 import { Label } from "components/ui/Label";
 import { Context } from "features/game/GameProvider";
-import { MARKETPLACE_TAX } from "features/game/types/marketplace";
+import {
+  getResourceTax,
+  MARKETPLACE_TAX,
+} from "features/game/types/marketplace";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 import tradeIcon from "assets/icons/trade.png";
@@ -95,7 +98,8 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
 
   const dailyListings = getDailyListings();
 
-  const hasAccess = hasTradeReputation || dailyListings < 1;
+  const hasAccess =
+    state.island.type !== "basic" && (hasTradeReputation || dailyListings < 1);
 
   const tradeType = getTradeType({
     collection: display.type,
@@ -378,7 +382,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
             >
               <span className="text-xs"> {t("bumpkinTrade.tradingFee")}</span>
               <p className="text-xs font-secondary">{`${formatNumber(
-                price * 0.1,
+                price * MARKETPLACE_TAX,
                 {
                   decimalPlaces: 4,
                   showTrailingZeros: true,

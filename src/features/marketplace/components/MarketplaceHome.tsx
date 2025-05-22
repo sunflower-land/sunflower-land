@@ -9,6 +9,7 @@ import tradeIcon from "assets/icons/trade.png";
 import trade_point from "src/assets/icons/trade_points_coupon.webp";
 import flowerIcon from "assets/icons/flower_token.webp";
 import crownIcon from "assets/icons/vip.webp";
+import lockIcon from "assets/icons/lock.png";
 
 import {
   Route,
@@ -44,6 +45,8 @@ import {
   hasReputation,
   Reputation,
 } from "features/game/lib/reputation";
+import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
+import { pixelGreenBorderStyle } from "features/game/lib/style";
 
 const _hasTradeReputation = (state: MachineState) =>
   hasReputation({

@@ -1,7 +1,8 @@
 import { BumpkinItem } from "./bumpkin";
-import { GameState, InventoryItemName } from "./game";
+import { GameState, InventoryItemName, IslandType } from "./game";
 import { KNOWN_ITEMS } from ".";
 import { TRADE_LIMITS } from "../actions/tradeLimits";
+import { hasVipAccess } from "../lib/vipAccess";
 
 // 10% tax on sales
 export const MARKETPLACE_TAX = 0.1;
@@ -285,4 +286,21 @@ export function getMarketPrice({
   }
 
   return price;
+}
+
+const ISLAND_RESOURCE_TAXES: Record<IslandType, number> = {
+  basic: 1,
+  spring: 0.5,
+  desert: 0.2,
+  volcano: 0.75,
+};
+
+export function getResourceTax({ game }: { game: GameState }): number {
+  let tax = ISLAND_RESOURCE_TAXES[game.island.type];
+
+  if (hasVipAccess({ game })) {
+    tax = tax * 0.5;
+  }
+
+  return tax;
 }

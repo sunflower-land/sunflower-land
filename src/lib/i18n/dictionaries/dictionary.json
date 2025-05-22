@@ -6104,5 +6104,7 @@
   "blessing.noResults": "No results found for this date",
   "blessing.donated": "{amount} x {item} donated",
   "blessing.winners": "{count} winners",
-  "blessing.maxAmount": "Insufficient {name}."
+  "blessing.maxAmount": "Insufficient {name}.",
+  "marketplace.unlocks.perks": "Grow your land to unlock discounts.",
+  "marketplace.vip.resourceDiscount": "Unlock VIP for half the resource taxes."
 }
