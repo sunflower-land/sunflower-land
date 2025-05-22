@@ -5364,6 +5364,8 @@
   "linking.wallet": "Linking wallet...",
   "linking.wallet.success": "Wallet linked successfully!",
   "linking.wallet.failed": "Failed to link wallet. Please try again.",
+  "claiming.auction": "Minting Item",
+  "claiming.auction.success": "Congratulations! Your item has been minted!",
   "sunflowerClock": "Sunflower Clock",
   "days.mon": "Mon.",
   "days.tue": "Tue.",

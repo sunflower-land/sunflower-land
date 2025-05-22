@@ -435,35 +435,10 @@ export const GameWallet: React.FC<PropsWithChildren<Props>> = ({
     <>
       <Wallet
         action={action}
-<<<<<<< HEAD
         id={farmId}
         linkedAddress={linkedWallet}
         wallet={wallet}
         farmAddress={farmAddress}
-=======
-        id={gameState.context.farmId}
-        linkedAddress={gameState.context.linkedWallet}
-        wallet={gameState.context.wallet}
-        farmAddress={gameState.context.farmAddress}
-        reputation={getReputation({ game: gameState.context.state })}
-        onReady={({ address, signature, farmAddress, nftId }) => {
-          const hasChanged =
-            (!gameState.context.linkedWallet && address) ||
-            (!gameState.context.farmAddress && farmAddress);
-          !gameState.context.nftId && nftId;
-
-          if (hasChanged)
-            gameService.send("WALLET_UPDATED", {
-              nftId,
-              linkedWallet: address,
-              farmAddress,
-            });
-
-          if (onReady) {
-            onReady({ address, signature, farmAddress, nftId });
-          }
-        }}
->>>>>>> 2f85f93db ([FEAT] Update)
       >
         {children}
       </Wallet>
