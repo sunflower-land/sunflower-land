@@ -396,7 +396,7 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
           }
 
           if (hasFeatureAccess(EMPTY, "GASLESS_AUCTIONS")) {
-            await postEffect({
+            const { data } = await postEffect({
               farmId: Number(context.id),
               token: context.jwt as string,
               transactionId: randomID(),
@@ -407,6 +407,8 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
 
             return {
               readyAt: Date.now() + 60 * 1000,
+              farmAddress: data.farmAddress,
+              nftId: data.nftId,
             };
           }
 
@@ -424,11 +426,17 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
           {
             target: "migrating",
             cond: (_, event) => Date.now() > event.data.readyAt,
+            actions: assign({
+              farmAddress: (_, event) => event.data.farmAddress,
+              nftId: (_, event) => event.data.nftId,
+            }),
           },
           {
             target: "waiting",
             actions: assign({
               nftReadyAt: (_, event) => event.data.readyAt,
+              farmAddress: (_, event) => event.data.farmAddress,
+              nftId: (_, event) => event.data.nftId,
             }),
           },
         ],

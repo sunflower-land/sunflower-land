@@ -5418,6 +5418,8 @@
   "searchHere": "Search here...",
   "airdropping.reward": "Sending reward to player...",
   "airdropping.reward.success": "Reward successfully sent to player!",
+  "claiming.auction": "Minting Item",
+  "claiming.auction.success": "Congratulations! Your item has been minted!",
   "sunflowerClock": "Sunflower Clock",
   "days.mon": "Mon.",
   "days.tue": "Tue.",
