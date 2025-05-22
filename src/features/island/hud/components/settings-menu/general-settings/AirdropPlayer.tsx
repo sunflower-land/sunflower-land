@@ -36,6 +36,7 @@ interface AirdropItem {
   setValue: (value: number) => void;
   icon: string;
   maxDecimalPlaces: number;
+  maxValue?: number;
 }
 
 interface SelectedItem {
@@ -246,11 +247,18 @@ const AirdropContent: React.FC<AirdropContentProps> = ({
             onValueChange={setFarmIds}
           />
           {getObjectEntries(basicItems).map(
-            ([key, { icon, value, setValue, maxDecimalPlaces }]) => (
-              <div key={key}>
-                <Label type="default" icon={icon} className="m-1">
-                  {key}
-                </Label>
+            ([key, { icon, value, setValue, maxDecimalPlaces, maxValue }]) => (
+              <div key={key} className="flex flex-col items-start gap-2">
+                <div className="flex flex-row items-center gap-2 w-full justify-between">
+                  <Label type="default" icon={icon} className="m-1">
+                    {key}
+                  </Label>
+                  {value > (maxValue ?? 0) && (
+                    <Label type="danger" className="text-xs">
+                      {`Max: ${maxValue}`}
+                    </Label>
+                  )}
+                </div>
                 <NumberInput
                   value={value}
                   onValueChange={(decimal) => setValue(decimal.toNumber())}
@@ -420,24 +428,28 @@ export const AirdropPlayer: React.FC<
       setValue: setCoins,
       maxDecimalPlaces: 0,
       icon: coinsIcon,
+      maxValue: 10000,
     },
     Gems: {
       value: gems ?? 0,
       setValue: setGems,
       maxDecimalPlaces: 0,
       icon: ITEM_DETAILS.Gem.image,
+      maxValue: 10000,
     },
     "Love Charm": {
       value: loveCharm ?? 0,
       setValue: setLoveCharm,
       maxDecimalPlaces: 0,
       icon: ITEM_DETAILS["Love Charm"].image,
+      maxValue: 10000,
     },
     VIP: {
       value: vipDays ?? 0,
       setValue: setVipDays,
       maxDecimalPlaces: 0,
       icon: vipIcon,
+      maxValue: 365,
     },
   };
 
@@ -451,6 +463,9 @@ export const AirdropPlayer: React.FC<
       selectedItems.length ||
       selectedWearables.length ||
       vipDays
+    ) ||
+    Object.values(basicItems).some(
+      ({ value, maxValue }) => value > (maxValue ?? 0),
     );
 
   const advancedItemsProps: AdvancedItemsProps = {
