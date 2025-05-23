@@ -23,6 +23,7 @@ export type Tradeable = {
   supply: number;
   collection: CollectionName;
   isActive: boolean;
+  isVip: boolean;
   expiresAt?: number;
 };
 

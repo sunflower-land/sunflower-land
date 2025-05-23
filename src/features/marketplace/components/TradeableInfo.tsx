@@ -171,6 +171,14 @@ export const TradeableDescription: React.FC<{
               <Label type="danger">{t("marketplace.notForSale")}</Label>
             </div>
           )}
+
+        {tradeable?.isVip && (
+          <div className="p-2 pl-0 pb-0">
+            <Label type="danger" icon={crownIcon}>
+              {t("marketplace.vipOnly")}
+            </Label>
+          </div>
+        )}
         {!canTrade && !!tradeAt && (
           <div className="p-2 pl-0 pb-0 flex items-center justify-between  flex-wrap">
             <Label type="danger" icon={SUNNYSIDE.icons.stopwatch}>

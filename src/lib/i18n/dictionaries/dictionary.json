@@ -6118,5 +6118,6 @@
   "marketplace.growFarm.title": "Grow your farm",
   "marketplace.growFarm.description": "Upgrade your island to Petal Paradise to begin selling resources.",
   "marketplace.ok": "Ok",
-  "marketplace.flower": "FLOWER"
+  "marketplace.flower": "FLOWER",
+  "marketplace.vipOnly": "VIP only"
 }
