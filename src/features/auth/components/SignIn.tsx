@@ -340,10 +340,10 @@ export const Wallets: React.FC<Props> = ({ onConnect }) => {
 
   useEffect(() => {
     (async () => {
-      const provider = await walletConnectConnector.getProvider();
+      const provider = await walletConnectConnector?.getProvider();
       setProvider(provider);
     })();
-  }, []);
+  }, [walletConnectConnector]);
 
   const setRoninDeepLink = (isOn: boolean) => {
     if (isOn && isMobile) {

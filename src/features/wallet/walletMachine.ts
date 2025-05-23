@@ -2,20 +2,18 @@ import { createMachine, Interpreter, State, assign } from "xstate";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { getFarms } from "lib/blockchain/Farm";
-import { mintNFTFarm } from "./actions/mintFarm";
 import { getCreatedAt } from "lib/blockchain/AccountMinter";
-import { Connector } from "wagmi";
-import {
-  getAccount,
-  connect,
-  signMessage,
-  CreateConnectorFn,
-  disconnect,
-} from "@wagmi/core";
+import { Connector, CreateConnectorFn } from "wagmi";
+import { connect, signMessage, getAccount, disconnect } from "wagmi/actions";
+
 import { config } from "./WalletProvider";
 import { generateSignatureMessage, wallet } from "lib/blockchain/wallet";
 import { Effect, postEffect } from "features/game/actions/effect";
 import { randomID } from "lib/utils/random";
+import { hasFeatureAccess } from "lib/flags";
+import { EMPTY } from "features/game/lib/constants";
+import { mintNFTFarm } from "./actions/mintFarm";
+import { Reputation } from "features/game/lib/reputation";
 
 export const ART_MODE = !CONFIG.API_URL;
 
@@ -32,6 +30,7 @@ export interface Context {
   nftId?: number;
   chainId?: number;
   signInAttempts?: number;
+  reputation?: Reputation;
 }
 
 export type WalletAction =
@@ -47,7 +46,8 @@ export type WalletAction =
   | "withdraw"
   | "dequip"
   | "marketplace"
-  | "transfer";
+  | "transfer"
+  | "auction";
 
 // Certain actions do not require an NFT to perform
 const NON_NFT_ACTIONS: WalletAction[] = [
@@ -74,6 +74,7 @@ type InitialiseEvent = {
   linkedAddress: string;
   farmAddress: string;
   action: WalletAction;
+  reputation: Reputation;
 };
 
 type ConnectWalletEvent = {
@@ -146,6 +147,7 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
     nftReadyAt: 0,
     action: "" as WalletAction,
     signInAttempts: 0,
+    reputation: Reputation.Beginner,
   },
   states: {
     chooseWallet: {
@@ -393,6 +395,23 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
             }
           }
 
+          if (hasFeatureAccess(EMPTY, "GASLESS_AUCTIONS")) {
+            const { data } = await postEffect({
+              farmId: Number(context.id),
+              token: context.jwt as string,
+              transactionId: randomID(),
+              effect: {
+                type: "nft.assigned",
+              },
+            });
+
+            return {
+              readyAt: Date.now() + 60 * 1000,
+              farmAddress: data.farmAddress,
+              nftId: data.nftId,
+            };
+          }
+
           await mintNFTFarm({
             id: context.id as number,
             jwt: context.jwt as string,
@@ -407,11 +426,17 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
           {
             target: "migrating",
             cond: (_, event) => Date.now() > event.data.readyAt,
+            actions: assign({
+              farmAddress: (_, event) => event.data.farmAddress,
+              nftId: (_, event) => event.data.nftId,
+            }),
           },
           {
             target: "waiting",
             actions: assign({
               nftReadyAt: (_, event) => event.data.readyAt,
+              farmAddress: (_, event) => event.data.farmAddress,
+              nftId: (_, event) => event.data.nftId,
             }),
           },
         ],
@@ -443,6 +468,14 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
       id: "migrating",
       invoke: {
         src: async (context) => {
+          if (hasFeatureAccess(EMPTY, "GASLESS_AUCTIONS")) {
+            return {
+              farmAddress: context.farmAddress,
+              farmId: context.id,
+              nftId: context.nftId,
+            };
+          }
+
           const { data } = await postEffect({
             farmId: Number(context.id),
             token: context.jwt as string,
@@ -569,6 +602,7 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
         linkedAddress: (_, event: InitialiseEvent) => event.linkedAddress,
         farmAddress: (_, event: InitialiseEvent) => event.farmAddress,
         action: (_, event: InitialiseEvent) => event.action,
+        reputation: (_, event: InitialiseEvent) => event.reputation,
       }),
     },
   },

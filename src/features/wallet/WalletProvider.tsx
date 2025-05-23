@@ -106,13 +106,6 @@ export const config = createConfig({
       ? [polygon, ronin, base]
       : [polygonAmoy, saigon, baseSepolia],
   multiInjectedProviderDiscovery: true,
-  connectors: [
-    sequenceConnector,
-    walletConnectConnector,
-    coinbaseConnector,
-    fallbackConnector,
-    waypointConnector,
-  ],
   transports: {
     // Testnet
     [polygon.id]: fallback([http(), http(getAlchemyRpc("polygon"))]),

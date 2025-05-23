@@ -161,6 +161,7 @@ export interface Context {
   fslId?: string;
   oauthNonce: string;
   data: Partial<Record<StateMachineStateName, any>>;
+  rawToken?: string;
 }
 
 export type Moderation = {
@@ -416,7 +417,7 @@ const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
           const { gameState, data } = await postEffect({
             farmId: Number(context.farmId),
             effect,
-            token: authToken,
+            token: authToken ?? context.rawToken,
             transactionId: context.transactionId as string,
           });
 
@@ -605,6 +606,7 @@ export function startGame(authContext: AuthContext) {
           CONFIG.NETWORK === "mainnet"
             ? authContext.user.token?.farmId ?? 0
             : Math.floor(Math.random() * 1000),
+        rawToken: authContext.user.rawToken,
         actions: [],
         state: EMPTY,
         sessionId: INITIAL_SESSION,
@@ -1222,6 +1224,9 @@ export function startGame(authContext: AuthContext) {
         },
         claimAuction: {
           on: {
+            "auction.claimed": {
+              target: STATE_MACHINE_EFFECTS["auction.claimed"],
+            },
             TRANSACT: {
               target: "transacting",
             },
@@ -2029,7 +2034,6 @@ export function startGame(authContext: AuthContext) {
             },
           },
         },
-
         randomising: {
           invoke: {
             src: async () => {
