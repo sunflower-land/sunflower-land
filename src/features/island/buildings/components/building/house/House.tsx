@@ -12,6 +12,7 @@ import { useNavigate } from "react-router";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { HomeBumpkins } from "./HomeBumpkins";
 import { MANOR_VARIANTS } from "features/island/lib/alternateArt";
+import { DailyReward } from "features/game/expansion/components/dailyReward/DailyReward";
 
 export const House: React.FC<BuildingProps> = ({ isBuilt, island, season }) => {
   const { gameService, showAnimations } = useContext(Context);
@@ -63,6 +64,13 @@ export const House: React.FC<BuildingProps> = ({ isBuilt, island, season }) => {
           }}
         />
       </BuildingImageWrapper>
+
+      <div
+        className="absolute"
+        style={{ left: `${PIXEL_SCALE * 7}px`, top: `${PIXEL_SCALE * -16}px` }}
+      >
+        <DailyReward />
+      </div>
 
       <div
         className="absolute w-full"

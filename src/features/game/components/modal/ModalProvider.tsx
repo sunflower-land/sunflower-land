@@ -17,6 +17,7 @@ import { CloseButtonPanel } from "../CloseablePanel";
 import { DiscordBonus } from "features/game/expansion/components/DiscordBoat";
 import { Streams } from "./components/Streams";
 import { Merkl } from "./components/Merkl";
+import { Rewards } from "features/island/hud/components/referral/Rewards";
 type GlobalModal =
   | "BUY_GEMS"
   | "DISCORD"
@@ -35,7 +36,9 @@ type GlobalModal =
   | "REFERRAL"
   | "STREAMS"
   | "MERKL"
-  | "DEPOSIT";
+  | "DEPOSIT"
+  | "DAILY_REWARD"
+  | "EARN";
 
 export const ModalContext = createContext<{
   openModal: (type: GlobalModal) => void;
@@ -214,6 +217,12 @@ export const ModalProvider: FC = ({ children }) => {
           bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}
         />
       </Modal>
+
+      <Rewards
+        show={opened === "DAILY_REWARD" || opened === "EARN"}
+        onHide={handleClose}
+        tab={opened === "DAILY_REWARD" ? "Rewards" : "Earn"}
+      />
     </ModalContext.Provider>
   );
 };

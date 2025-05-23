@@ -1,6 +1,12 @@
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import React, { useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useState,
+} from "react";
 // import giftIcon from "assets/icons/gift.png";
 import vipGift from "assets/decorations/vip_gift.png";
 import flowerIcon from "assets/icons/flower_token.webp";
@@ -9,22 +15,9 @@ import lockIcon from "assets/icons/lock.png";
 import { DailyRewardContent } from "../../../../game/expansion/components/dailyReward/DailyReward";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { TaskBoard } from "./TaskBoard";
-import { MachineInterpreter } from "features/game/lib/gameMachine";
-import { GameState } from "features/game/types/game";
-import {
-  DailyRewardContext,
-  DailyRewardEvent,
-  DailyRewardState,
-} from "features/game/expansion/components/dailyReward/rewardChestMachine";
-import {
-  Interpreter,
-  ResolveTypegenMeta,
-  TypegenDisabled,
-  BaseActionObject,
-  ServiceMap,
-  State,
-} from "xstate";
-import Decimal from "decimal.js-light";
+import { MachineState } from "features/game/lib/gameMachine";
+import { rewardChestMachine } from "features/game/expansion/components/dailyReward/rewardChestMachine";
+
 import { Label } from "components/ui/Label";
 import { ButtonPanel } from "components/ui/Panel";
 import { getSeasonalTicket } from "features/game/types/seasons";
@@ -33,61 +26,59 @@ import { BlockchainBox } from "./BlockchainBox";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { pixelOrangeBorderStyle } from "features/game/lib/style";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { useActor, useInterpret, useSelector } from "@xstate/react";
+import { getBumpkinLevel } from "features/game/lib/level";
+import { Context } from "features/game/GameProvider";
+import {
+  IN_GAME_TASKS,
+  InGameTaskName,
+} from "features/game/events/landExpansion/completeSocialTask";
+import { getKeys } from "features/game/types/decorations";
+
+const _chestCollectedAt = (state: MachineState) =>
+  state.context.state.dailyRewards?.chest?.collectedAt ?? 0;
 
 interface Props {
   show: boolean;
   onHide?: () => void;
-  gameService: MachineInterpreter;
-  state: GameState;
-  isRevealed: boolean;
-  bumpkinLevel: number;
-  chestService: Interpreter<
-    DailyRewardContext,
-    any,
-    DailyRewardEvent,
-    DailyRewardState,
-    ResolveTypegenMeta<
-      TypegenDisabled,
-      DailyRewardEvent,
-      BaseActionObject,
-      ServiceMap
-    >
-  >;
-  chestState: State<
-    DailyRewardContext,
-    DailyRewardEvent,
-    any,
-    DailyRewardState,
-    ResolveTypegenMeta<
-      TypegenDisabled,
-      DailyRewardEvent,
-      BaseActionObject,
-      ServiceMap
-    >
-  >;
-  loveCharmCount: Decimal;
-  socialTasks?: GameState["socialTasks"];
-  isChestLocked: boolean;
-  isAnyTaskCompleted: boolean;
+  tab: "Earn" | "Rewards";
 }
 
-export const Rewards: React.FC<Props> = ({
-  show,
-  onHide,
-  gameService,
-  state,
-  isRevealed,
-  bumpkinLevel,
-  chestService,
-  chestState,
-  loveCharmCount,
-  socialTasks,
-  isChestLocked,
-  isAnyTaskCompleted,
-}) => {
-  const [tab, setTab] = useState<"Earn" | "Rewards">("Earn");
+export const Rewards: React.FC<Props> = ({ show, onHide, tab }) => {
+  const [currentTab, setCurrentTab] = useState(tab);
   const { t } = useAppTranslation();
   const [showMessage, setShowMessage] = useState(true);
+
+  useLayoutEffect(() => {
+    show && setCurrentTab(tab);
+  }, [tab, show]);
+
+  const { gameService } = useContext(Context);
+  const state = useSelector(gameService, (state) => state.context.state);
+
+  const isTaskCompleted = useCallback(
+    (task: InGameTaskName) => IN_GAME_TASKS[task].requirement(state),
+    [state],
+  );
+  const isAnyTaskCompleted = getKeys(IN_GAME_TASKS)
+    .filter(
+      (task) =>
+        !(
+          ["Link your Discord", "Link your Telegram"] as InGameTaskName[]
+        ).includes(task),
+    )
+    .some(
+      (task) =>
+        isTaskCompleted(task) &&
+        !state.socialTasks?.completed[task]?.completedAt,
+    );
+
+  const chestCollectedAt = useSelector(gameService, _chestCollectedAt);
+
+  const today = new Date();
+  today.setUTCHours(0, 0, 0, 0);
+
+  const isChestCollected = chestCollectedAt > today.getTime();
 
   return (
     <Modal show={show} onHide={onHide}>
@@ -101,30 +92,17 @@ export const Rewards: React.FC<Props> = ({
           {
             icon: SUNNYSIDE.decorations.treasure_chest,
             name: "Rewards",
-            alert: isChestLocked,
+            alert: !isChestCollected,
           },
         ]}
-        currentTab={tab}
-        setCurrentTab={setTab}
+        currentTab={currentTab}
+        setCurrentTab={setCurrentTab}
         onClose={onHide}
       >
-        {tab === "Earn" && (
-          <TaskBoard state={state} socialTasks={socialTasks} />
+        {currentTab === "Earn" && (
+          <TaskBoard state={state} socialTasks={state.socialTasks} />
         )}
-        {tab === "Rewards" && (
-          <RewardOptions
-            gameService={gameService}
-            state={state}
-            isRevealed={isRevealed}
-            bumpkinLevel={bumpkinLevel}
-            chestService={chestService}
-            chestState={chestState}
-            isAnyTaskCompleted={isAnyTaskCompleted}
-            loveCharmCount={loveCharmCount}
-            isChestLocked={isChestLocked}
-            show={show}
-          />
-        )}
+        {currentTab === "Rewards" && <RewardOptions />}
         {/* {tab === 2 && <RewardsShop />} */}
       </CloseButtonPanel>
       {showMessage && (
@@ -165,14 +143,38 @@ export const Rewards: React.FC<Props> = ({
 
 export type RewardType = "DAILY_REWARD" | "VIP" | "BLOCKCHAIN_BOX";
 
-export const RewardOptions: React.FC<Props> = ({
-  gameService,
-  state,
-  isRevealed,
-  bumpkinLevel,
-  chestService,
-  chestState,
-}) => {
+export const RewardOptions: React.FC = () => {
+  const { gameService } = useContext(Context);
+  const state = useSelector(gameService, (state) => state.context.state);
+
+  // Get daily rewards data for chest state
+  const dailyRewards = useSelector(
+    gameService,
+    (state) => state.context.state.dailyRewards,
+  );
+  const bumpkinLevel = useSelector(gameService, (state) =>
+    getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0),
+  );
+  const isRevealed = useSelector(gameService, (state) =>
+    state.matches("revealed"),
+  );
+
+  // Initialize chest service to check if chest is locked
+  const chestService = useInterpret(rewardChestMachine, {
+    context: {
+      lastUsedCode: dailyRewards?.chest?.code ?? 0,
+      openedAt: dailyRewards?.chest?.collectedAt ?? 0,
+      bumpkinLevel,
+      network: state.settings.network,
+    },
+  });
+  const [chestState] = useActor(chestService);
+
+  // Load the chest state when component mounts
+  useEffect(() => {
+    chestService.send("LOAD");
+  }, [chestService]);
+
   const [selected, setSelected] = useState<RewardType>();
   const { t } = useAppTranslation();
 

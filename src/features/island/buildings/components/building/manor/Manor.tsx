@@ -13,6 +13,7 @@ import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { HomeBumpkins } from "../house/HomeBumpkins";
 import { MANOR_VARIANTS } from "features/island/lib/alternateArt";
 import { MachineState } from "features/game/lib/gameMachine";
+import { DailyReward } from "features/game/expansion/components/dailyReward/DailyReward";
 const _season = (state: MachineState) => state.context.state.season.season;
 
 export const Manor: React.FC<BuildingProps> = ({ isBuilt, island }) => {
@@ -67,6 +68,16 @@ export const Manor: React.FC<BuildingProps> = ({ isBuilt, island }) => {
           }}
         />
       </BuildingImageWrapper>
+      <div
+        className="absolute"
+        style={{
+          left: `${PIXEL_SCALE * -12}px`,
+
+          top: `${PIXEL_SCALE * -16}px`,
+        }}
+      >
+        <DailyReward />
+      </div>
 
       <div
         className="absolute w-full"
