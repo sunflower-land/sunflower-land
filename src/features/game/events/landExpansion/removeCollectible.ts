@@ -1,23 +1,19 @@
-import Decimal from "decimal.js-light";
 import { trackActivity } from "features/game/types/bumpkinActivity";
-import { CollectibleName, getKeys } from "features/game/types/craftables";
-import { GameState, PlacedLamp } from "features/game/types/game";
-import {
-  areUnsupportedChickensBrewing,
-  removeUnsupportedChickens,
-} from "./removeBuilding";
-import { REMOVAL_RESTRICTIONS } from "features/game/types/removeables";
-import { SEEDS } from "features/game/types/seeds";
+import { CollectibleName } from "features/game/types/craftables";
+import { GameState, PlacedItem, PlacedLamp } from "features/game/types/game";
+
 import { PlaceableLocation } from "features/game/types/collectibles";
-import { FLOWER_SEEDS } from "features/game/types/flowers";
 import { produce } from "immer";
+import { HourglassType } from "features/island/collectibles/components/Hourglass";
+import { HOURGLASSES } from "./burnCollectible";
 
 export enum REMOVE_COLLECTIBLE_ERRORS {
   INVALID_COLLECTIBLE = "This collectible does not exist",
   NO_BUMPKIN = "You do not have a Bumpkin",
-  CHICKEN_COOP_REMOVE_BREWING_CHICKEN = "Cannot remove Chicken Coop that causes chickens that are brewing egg to be removed",
+  // CHICKEN_COOP_REMOVE_BREWING_CHICKEN = "Cannot remove Chicken Coop that causes chickens that are brewing egg to be removed",
   GENIE_IN_USE = "Genie Lamp is in use",
   COLLECTIBLE_IN_USE = "This item is in use",
+  LIMITED_ITEM_IN_USE = "This limited time item is in use",
 }
 
 export type RemoveCollectibleAction = {
@@ -35,7 +31,7 @@ type Options = {
 
 export function removeCollectible({ state, action }: Options) {
   return produce(state, (stateCopy) => {
-    const { inventory, bumpkin } = stateCopy;
+    const { bumpkin } = stateCopy;
     let collectibleGroup =
       action.location === "home"
         ? stateCopy.home.collectibles[action.name]
@@ -55,12 +51,6 @@ export function removeCollectible({ state, action }: Options) {
 
     if (!collectibleToRemove) {
       throw new Error(REMOVE_COLLECTIBLE_ERRORS.INVALID_COLLECTIBLE);
-    }
-
-    // TODO - remove once landscaping is launched
-    const shovelAmount = inventory["Rusty Shovel"] || new Decimal(0);
-    if (shovelAmount.gte(1)) {
-      inventory["Rusty Shovel"] = inventory["Rusty Shovel"]?.minus(1);
     }
 
     collectibleGroup = collectibleGroup.filter(
@@ -86,15 +76,15 @@ export function removeCollectible({ state, action }: Options) {
       }
     }
 
-    if (action.name === "Chicken Coop") {
-      if (areUnsupportedChickensBrewing(stateCopy)) {
-        throw new Error(
-          REMOVE_COLLECTIBLE_ERRORS.CHICKEN_COOP_REMOVE_BREWING_CHICKEN,
-        );
-      }
+    // if (action.name === "Chicken Coop") {
+    //   if (areUnsupportedChickensBrewing(stateCopy)) {
+    //     throw new Error(
+    //       REMOVE_COLLECTIBLE_ERRORS.CHICKEN_COOP_REMOVE_BREWING_CHICKEN,
+    //     );
+    //   }
 
-      stateCopy.chickens = removeUnsupportedChickens(stateCopy);
-    }
+    //   stateCopy.chickens = removeUnsupportedChickens(stateCopy);
+    // }
 
     if (action.name === "Genie Lamp") {
       const collectible: PlacedLamp = collectibleToRemove;
@@ -104,28 +94,39 @@ export function removeCollectible({ state, action }: Options) {
       }
     }
 
-    const removalRestriction = REMOVAL_RESTRICTIONS[action.name];
-    if (removalRestriction) {
-      const [restricted] = removalRestriction(state);
-      if (restricted)
-        throw new Error(REMOVE_COLLECTIBLE_ERRORS.COLLECTIBLE_IN_USE);
+    if (
+      HOURGLASSES.includes(action.name as HourglassType) ||
+      action.name === "Time Warp Totem" ||
+      action.name === "Super Totem"
+    ) {
+      const collectible: PlacedItem = collectibleToRemove;
+      if (collectible) {
+        throw new Error(REMOVE_COLLECTIBLE_ERRORS.LIMITED_ITEM_IN_USE);
+      }
     }
 
-    if (action.name === "Kuebiko") {
-      getKeys(SEEDS).forEach((seed) => {
-        if (stateCopy.inventory[seed]) {
-          delete stateCopy.inventory[seed];
-        }
-      });
-    }
+    // const removalRestriction = REMOVAL_RESTRICTIONS[action.name];
+    // if (removalRestriction) {
+    //   const [restricted] = removalRestriction(state);
+    //   if (restricted)
+    //     throw new Error(REMOVE_COLLECTIBLE_ERRORS.COLLECTIBLE_IN_USE);
+    // }
 
-    if (action.name === "Hungry Caterpillar") {
-      getKeys(FLOWER_SEEDS).forEach((seed) => {
-        if (stateCopy.inventory[seed]) {
-          delete stateCopy.inventory[seed];
-        }
-      });
-    }
+    // if (action.name === "Kuebiko") {
+    //   getKeys(SEEDS).forEach((seed) => {
+    //     if (stateCopy.inventory[seed]) {
+    //       delete stateCopy.inventory[seed];
+    //     }
+    //   });
+    // }
+
+    // if (action.name === "Hungry Caterpillar") {
+    //   getKeys(FLOWER_SEEDS).forEach((seed) => {
+    //     if (stateCopy.inventory[seed]) {
+    //       delete stateCopy.inventory[seed];
+    //     }
+    //   });
+    // }
 
     bumpkin.activity = trackActivity("Collectible Removed", bumpkin.activity);
 
