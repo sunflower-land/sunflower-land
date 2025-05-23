@@ -6098,5 +6098,6 @@
   "seeking.blessing.success": "Congratulations, you have received a blessing!",
   "blessing.noResults": "No results found for this date",
   "blessing.donated": "{amount} x {item} donated",
-  "blessing.winners": "{count} winners"
+  "blessing.winners": "{count} winners",
+  "blessing.maxAmount": "Insufficient {name}."
 }
