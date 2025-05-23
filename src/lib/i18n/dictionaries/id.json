@@ -5896,5 +5896,7 @@
   "flowerDashboard.topBurners": "Pembakar Teratas",
   "flowerDashboard.title": "Dasbor Bunga",
   "flowerDashboard.last7Days": "7 hari terakhir",
-  "flowerDashboard.comingSoon": "Segera Hadir"
+  "flowerDashboard.comingSoon": "Segera Hadir",
+  "airdropping.reward.failed": "Satu atau lebih airdrop gagal. Periksa #team -logs di Discord untuk informasi lebih lanjut",
+  "airdropping.reward.failed.title": "Airdrop gagal"
 }

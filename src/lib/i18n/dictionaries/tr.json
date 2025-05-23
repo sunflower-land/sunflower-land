@@ -5896,5 +5896,7 @@
   "flowerDashboard.topBurners": "Üst Brülörler",
   "flowerDashboard.title": "Çiçek Gösterge Paneli",
   "flowerDashboard.last7Days": "Son 7 gün",
-  "flowerDashboard.comingSoon": "Yakında"
+  "flowerDashboard.comingSoon": "Yakında",
+  "airdropping.reward.failed": "Bir veya daha fazla airdrop başarısız oldu. Daha fazla bilgi için Discord'da #team -logs'u kontrol edin",
+  "airdropping.reward.failed.title": "Airdrop başarısız oldu"
 }

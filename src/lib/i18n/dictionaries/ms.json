@@ -5896,5 +5896,7 @@
   "flowerDashboard.topBurners": "Pembakar Teratas",
   "flowerDashboard.title": "Papan Pemuka Bunga",
   "flowerDashboard.last7Days": "7 hari terakhir",
-  "flowerDashboard.comingSoon": "Akan Datang"
+  "flowerDashboard.comingSoon": "Akan Datang",
+  "airdropping.reward.failed": "Satu atau lebih airdrop gagal. Semak #team -log pada Discord untuk maklumat lanjut",
+  "airdropping.reward.failed.title": "Airdrop gagal"
 }
