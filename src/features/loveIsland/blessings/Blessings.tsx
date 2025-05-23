@@ -10,11 +10,44 @@ import Decimal from "decimal.js-light";
 import { NumberInput } from "components/ui/NumberInput";
 import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { SUNNYSIDE } from "assets/sunnyside";
+import useSWR from "swr";
+import { getBlessingResults } from "../actions/getBlessingResults";
+import { Loading } from "features/auth/components";
+import { SomethingWentWrong } from "features/auth/components/SomethingWentWrong";
+import classNames from "classnames";
+import { getKeys } from "features/game/types/decorations";
 
 interface Props {
   onClose: () => void;
 }
 export const Blessings: React.FC<Props> = ({ onClose }) => {
+  const [tab, setTab] = useState(0);
+
+  return (
+    <CloseButtonPanel
+      tabs={[
+        {
+          name: "Offering",
+          icon: SUNNYSIDE.icons.heart,
+        },
+        {
+          name: "Results",
+          icon: SUNNYSIDE.icons.search,
+        },
+      ]}
+      currentTab={tab}
+      setCurrentTab={setTab}
+      onClose={onClose}
+    >
+      {tab === 0 && <BlessingOffer onClose={onClose} />}
+      {tab === 1 && <BlessingResults onClose={onClose} />}
+    </CloseButtonPanel>
+  );
+};
+
+export const BlessingOffer: React.FC<Props> = ({ onClose }) => {
   const { gameState, gameService } = useGame();
   const { authState } = useAuth();
   const { t } = useAppTranslation();
@@ -77,7 +110,7 @@ export const Blessings: React.FC<Props> = ({ onClose }) => {
 
   return (
     <div>
-      <div className="flex justify-between mb-1 mr-10">
+      <div className="flex justify-between mb-1">
         <Label type="default">{t("blessing.offerTitle")}</Label>
         <Label type="formula">{new Date().toISOString().slice(0, 10)}</Label>
       </div>
@@ -104,7 +137,10 @@ export const Blessings: React.FC<Props> = ({ onClose }) => {
       )}
       {amount.gt(inventory) && (
         <Label type="danger" className="my-2">
-          {t("blessing.maxAmount", { amount: inventory.toNumber() })}
+          {t("blessing.maxAmount", {
+            name: offering.item,
+            amount: inventory.toNumber(),
+          })}
         </Label>
       )}
       <Button
@@ -113,6 +149,96 @@ export const Blessings: React.FC<Props> = ({ onClose }) => {
       >
         {t("blessing.offer")}
       </Button>
+    </div>
+  );
+};
+
+const fetcher = async ([token, date]: [string, string]) => {
+  return getBlessingResults({ token, date });
+};
+
+export const BlessingResults: React.FC<Props> = ({ onClose }) => {
+  const { gameState, gameService } = useGame();
+  const { authState } = useAuth();
+
+  const previousDayKey = "2025-05-20"; // TESTING ONLY
+  // const previousDayKey = new Date(Date.now() - 24 * 60 * 60 * 1000)
+  //   .toISOString()
+  //   .slice(0, 10);
+
+  const {
+    data: response,
+    isLoading,
+    error,
+    mutate,
+  } = useSWR([authState.context.user.rawToken!, previousDayKey], fetcher);
+
+  const { t } = useAppTranslation();
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (error) {
+    return <SomethingWentWrong />;
+  }
+
+  if (!response?.data) {
+    return (
+      <div>
+        <Label type="formula">{previousDayKey}</Label>
+        <p className="py-2 text-sm">{t("blessing.noResults")}</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="max-h-[500px] overflow-y-auto scrollable">
+      <Label type="formula">{previousDayKey}</Label>
+      <div className="flex m-1 items-center">
+        <img
+          src={ITEM_DETAILS[response.data.item].image}
+          className="w-6 mr-1"
+        />
+        <span>
+          {t("blessing.donated", {
+            amount: Number(response.data.total).toLocaleString(),
+            item: response.data.item,
+          })}
+        </span>
+      </div>
+      <div className="flex m-1 items-center">
+        <img src={SUNNYSIDE.icons.player} className="w-6 mr-1" />
+        <span>
+          {t("blessing.winners", {
+            count: response.data.winners.length,
+          })}
+        </span>
+      </div>
+
+      <table className="w-full text-xs table-auto border-collapse">
+        <tbody>
+          {response.data.winners.map(({ farmId, reward }, index) => (
+            <tr
+              key={index}
+              className={classNames({
+                "bg-[#ead4aa]": index % 2 === 0,
+              })}
+            >
+              <td className="p-1.5">{`#${farmId}`}</td>
+              <td className="p-1.5 text-left pl-8 relative truncate flex">
+                {getKeys(reward?.items ?? {}).map((key) => (
+                  <img
+                    key={key}
+                    src={ITEM_DETAILS[key].image}
+                    className="w-4 mr-1"
+                  />
+                ))}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };
