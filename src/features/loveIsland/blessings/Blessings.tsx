@@ -161,10 +161,9 @@ export const BlessingResults: React.FC<Props> = ({ onClose }) => {
   const { gameState, gameService } = useGame();
   const { authState } = useAuth();
 
-  const previousDayKey = "2025-05-20"; // TESTING ONLY
-  // const previousDayKey = new Date(Date.now() - 24 * 60 * 60 * 1000)
-  //   .toISOString()
-  //   .slice(0, 10);
+  const previousDayKey = new Date(Date.now() - 24 * 60 * 60 * 1000)
+    .toISOString()
+    .slice(0, 10);
 
   const {
     data: response,
