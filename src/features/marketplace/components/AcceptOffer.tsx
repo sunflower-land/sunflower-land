@@ -134,7 +134,10 @@ const AcceptOfferContent: React.FC<{
   }
 
   let tax = offer.sfl * MARKETPLACE_TAX;
-  if (display.type === "resources") {
+  if (
+    display.type === "collectibles" &&
+    isTradeResource(display.name as InventoryItemName)
+  ) {
     tax = offer.sfl * getResourceTax({ game: state });
   }
 

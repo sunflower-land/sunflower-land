@@ -83,13 +83,12 @@ export const ResourceList: React.FC<Props> = ({
     return (
       <div>
         <Label type="danger" className="mb-1">
-          Grow your farm
+          {t("marketplace.growFarm.title")}
         </Label>
-        <p className="text-sm">
-          You must upgrade your island to Petal Paradise to begin selling
-          resources.
+        <p className="text-sm p-1 mb-1">
+          {t("marketplace.growFarm.description")}
         </p>
-        <Button onClick={onCancel}>Ok</Button>
+        <Button onClick={onCancel}>{t("marketplace.ok")}</Button>
       </div>
     );
   }
@@ -99,7 +98,7 @@ export const ResourceList: React.FC<Props> = ({
       <div>
         <Label type="default" className="my-1 ml-2" icon={tradeIcon}>
           {t("marketplace.listItem", {
-            type: "Resource",
+            type: t("marketplace.resource"),
           })}
         </Label>
         <div className="flex justify-between">
@@ -256,7 +255,7 @@ export const ResourceList: React.FC<Props> = ({
           <p className="text-xs font-secondary">{`${formatNumber(price, {
             decimalPlaces: 4,
             showTrailingZeros: true,
-          })} FLOWER`}</p>
+          })} ${t("marketplace.flower")}`}</p>
         </div>
         <div
           className="flex justify-between"
@@ -270,11 +269,11 @@ export const ResourceList: React.FC<Props> = ({
           </span>
           <p className="text-xs font-secondary">
             {new Decimal(quantity).equals(0)
-              ? "0.0000 FLOWER"
+              ? `0.0000 ${t("marketplace.flower")}`
               : `${formatNumber(unitPrice, {
                   decimalPlaces: 4,
                   showTrailingZeros: true,
-                })} FLOWER`}
+                })} ${t("marketplace.flower")}`}
           </p>
         </div>
         <div
@@ -291,7 +290,7 @@ export const ResourceList: React.FC<Props> = ({
               decimalPlaces: 4,
               showTrailingZeros: true,
             },
-          )} FLOWER`}</p>
+          )} ${t("marketplace.flower")}`}</p>
         </div>
         <div
           className="flex justify-between"
@@ -306,7 +305,7 @@ export const ResourceList: React.FC<Props> = ({
               decimalPlaces: 4,
               showTrailingZeros: true,
             },
-          )} FLOWER`}</p>
+          )} ${t("marketplace.flower")}`}</p>
         </div>
         <div className="flex mt-2">
           <Button onClick={onCancel} className="mr-1">

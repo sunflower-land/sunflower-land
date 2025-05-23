@@ -168,7 +168,7 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
             onClose={onListClose}
           />
         </Panel>
-        <ResourceTaxes />
+        {isResource && <ResourceTaxes />}
       </Modal>
       <InnerPanel className="mb-1">
         <div className="p-2">

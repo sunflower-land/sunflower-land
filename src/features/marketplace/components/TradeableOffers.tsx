@@ -36,6 +36,7 @@ import Decimal from "decimal.js-light";
 import { useParams } from "react-router";
 import { KeyedMutator } from "swr";
 import { MAX_LIMITED_PURCHASES } from "./Tradeable";
+import { ResourceTaxes } from "./TradeableInfo";
 
 const _hasPendingOfferEffect = (state: MachineState) =>
   state.matches("marketplaceOffering") || state.matches("marketplaceAccepting");
@@ -163,7 +164,7 @@ export const TradeableOffers: React.FC<{
         </Panel>
       </Modal>
       <Modal show={showAcceptOffer} onHide={handleHide}>
-        <Panel>
+        <Panel className="mb-1">
           <AcceptOffer
             authToken={authToken}
             itemId={itemId}
@@ -173,6 +174,7 @@ export const TradeableOffers: React.FC<{
             onOfferAccepted={reload}
           />
         </Panel>
+        {isResource && <ResourceTaxes />}
       </Modal>
       {!isResource && (
         <InnerPanel className="mb-1">

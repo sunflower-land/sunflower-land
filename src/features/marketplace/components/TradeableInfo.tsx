@@ -200,7 +200,8 @@ export const TradeableInfo: React.FC<{
     <>
       <TradeableImage display={display} supply={tradeable?.supply} />
       <TradeableDescription display={display} tradeable={tradeable} />
-      <ResourceTaxes />
+      {display.type === "collectibles" &&
+        isTradeResource(display.name as InventoryItemName) && <ResourceTaxes />}
     </>
   );
 };
@@ -237,36 +238,34 @@ export const ResourceTaxes: React.FC = () => {
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <CloseButtonPanel onClose={() => setShowModal(false)}>
           <Label type="default" className="mb-1">
-            Market Economy
+            {t("marketplace.economy.title")}
           </Label>
           <div className="p-1">
             <p className="text-sm mb-1">
-              Progress through the game to pay less resource fees when selling.
+              {t("marketplace.economy.description")}
             </p>
           </div>
           <NoticeboardItems
             items={[
               {
                 icon: SUNNYSIDE.icons.cancel,
-                text: "Tutorial Island - Cannot sell resources",
+                text: t("marketplace.economy.tutorialIsland"),
               },
               {
                 icon: SUNNYSIDE.icons.heart,
-                text: "Petal Paradise - 50% resource tax",
+                text: t("marketplace.economy.petalParadise"),
               },
               {
                 icon: SUNNYSIDE.icons.heart,
-                text: "Desert Island - 20% resource tax",
+                text: t("marketplace.economy.desertIsland"),
               },
               {
                 icon: SUNNYSIDE.icons.heart,
-                text: "Volcano Island - 15% resource tax",
+                text: t("marketplace.economy.volcanoIsland"),
               },
             ]}
           />
-          <p className="text-xs p-1">
-            Resource taxes protect the deflationary market economy.
-          </p>
+          <p className="text-xs p-1">{t("marketplace.economy.protection")}</p>
         </CloseButtonPanel>
         <div
           className={classNames(
@@ -300,7 +299,9 @@ export const ResourceTaxes: React.FC = () => {
           <div className="flex items-center ">
             <img src={lockIcon} className="w-4 mr-1" />
             <div>
-              <p className="text-xs">Resource Fee = {tax * 100}%</p>
+              <p className="text-xs">
+                {t("marketplace.resourceFee", { tax: tax * 100 })}
+              </p>
             </div>
           </div>
         </div>
