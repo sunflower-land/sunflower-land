@@ -3,10 +3,7 @@ import { useActor, useSelector } from "@xstate/react";
 import { Box } from "components/ui/Box";
 import { Label } from "components/ui/Label";
 import { Context } from "features/game/GameProvider";
-import {
-  getResourceTax,
-  MARKETPLACE_TAX,
-} from "features/game/types/marketplace";
+import { MARKETPLACE_TAX } from "features/game/types/marketplace";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 import tradeIcon from "assets/icons/trade.png";
@@ -238,6 +235,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
             <TradeableSummary
               display={display}
               sfl={price}
+              tax={price * MARKETPLACE_TAX}
               quantity={Math.max(1, quantity)}
               estTradePoints={estTradePoints}
             />
@@ -274,6 +272,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
           <TradeableSummary
             display={display}
             sfl={price}
+            tax={price * MARKETPLACE_TAX}
             quantity={Math.max(1, quantity)}
             estTradePoints={estTradePoints}
           />

@@ -7,7 +7,6 @@ import { TradeableDisplay } from "../lib/tradeables";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { formatNumber } from "lib/utils/formatNumber";
 import Decimal from "decimal.js-light";
-import { MARKETPLACE_TAX } from "features/game/types/marketplace";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
 
@@ -66,9 +65,10 @@ export const TradeableItemDetails: React.FC<{
 export const TradeableSummary: React.FC<{
   display: TradeableDisplay;
   sfl: number;
+  tax: number;
   quantity: number;
   estTradePoints?: number;
-}> = ({ display, sfl, quantity, estTradePoints }) => {
+}> = ({ display, sfl, tax, quantity, estTradePoints }) => {
   const { t } = useAppTranslation();
 
   const isResource = display.name in TRADE_LIMITS;
@@ -99,7 +99,7 @@ export const TradeableSummary: React.FC<{
       >
         <span className="text-xs"> {t("bumpkinTrade.tradingFee")}</span>
         <p className="text-xs font-secondary">{`${formatNumber(
-          new Decimal(sfl).mul(MARKETPLACE_TAX),
+          new Decimal(tax),
           {
             decimalPlaces: 4,
             showTrailingZeros: true,
@@ -116,7 +116,7 @@ export const TradeableSummary: React.FC<{
       >
         <span className="text-xs"> {t("bumpkinTrade.youWillReceive")}</span>
         <p className="text-xs font-secondary">{`${formatNumber(
-          new Decimal(sfl).mul(1 - MARKETPLACE_TAX),
+          new Decimal(sfl).minus(tax),
           {
             decimalPlaces: 4,
             showTrailingZeros: true,
