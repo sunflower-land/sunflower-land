@@ -54,7 +54,7 @@ export const House: React.FC<BuildingProps> = ({ isBuilt, island, season }) => {
     <div className="absolute h-full w-full">
       <BuildingImageWrapper name="Town Center" onClick={handleClick}>
         <img
-          src={MANOR_VARIANTS[island][season]}
+          src={MANOR_VARIANTS["spring"][season]}
           className="absolute pointer-events-none"
           id={Section.Home}
           style={{
@@ -67,7 +67,10 @@ export const House: React.FC<BuildingProps> = ({ isBuilt, island, season }) => {
 
       <div
         className="absolute"
-        style={{ left: `${PIXEL_SCALE * 7}px`, top: `${PIXEL_SCALE * -16}px` }}
+        style={{
+          left: `${PIXEL_SCALE * -5}px`,
+          top: `${PIXEL_SCALE * -8}px`,
+        }}
       >
         <DailyReward />
       </div>
