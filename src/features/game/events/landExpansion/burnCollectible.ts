@@ -18,7 +18,7 @@ type Options = {
   createdAt?: number;
 };
 
-const hourglassTypes: HourglassType[] = [
+export const HOURGLASSES: HourglassType[] = [
   "Gourmet Hourglass",
   "Harvest Hourglass",
   "Timber Hourglass",
@@ -37,7 +37,7 @@ export function burnCollectible({
     if (
       action.name !== "Time Warp Totem" &&
       action.name !== "Super Totem" &&
-      !hourglassTypes.includes(action.name as HourglassType)
+      !HOURGLASSES.includes(action.name as HourglassType)
     ) {
       throw new Error(`Cannot burn ${action.name}`);
     }
