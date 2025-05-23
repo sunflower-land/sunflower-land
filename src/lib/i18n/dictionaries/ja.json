@@ -5896,5 +5896,7 @@
   "flowerDashboard.topBurners": "トップバーナー",
   "flowerDashboard.title": "フラワーダッシュボード",
   "flowerDashboard.last7Days": "過去 7 日間",
-  "flowerDashboard.comingSoon": "近日公開"
+  "flowerDashboard.comingSoon": "近日公開",
+  "airdropping.reward.failed": "1 つまたは複数のエアドロップが失敗しました。詳細については、Discord の #team-logs を確認してください。",
+  "airdropping.reward.failed.title": "エアドロップ失敗"
 }

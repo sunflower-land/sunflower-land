@@ -5896,5 +5896,7 @@
   "flowerDashboard.topBurners": "Les meilleurs brûleurs",
   "flowerDashboard.title": "Tableau de bord Flower",
   "flowerDashboard.last7Days": "Les 7 derniers jours",
-  "flowerDashboard.comingSoon": "Prochainement"
+  "flowerDashboard.comingSoon": "Prochainement",
+  "airdropping.reward.failed": "Un ou plusieurs parachutages ont échoué. Consultez #team -logs sur Discord pour plus d'informations",
+  "airdropping.reward.failed.title": "Airdrop a échoué"
 }

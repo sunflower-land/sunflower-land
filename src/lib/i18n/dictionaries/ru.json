@@ -5896,5 +5896,7 @@
   "flowerDashboard.topBurners": "Лучшие горелки",
   "flowerDashboard.title": "Панель управления цветами",
   "flowerDashboard.last7Days": "Последние 7 дней",
-  "flowerDashboard.comingSoon": "Скоро"
+  "flowerDashboard.comingSoon": "Скоро",
+  "airdropping.reward.failed": "Одна или несколько сбросов с воздуха не удались. Проверьте #team -logs в Discord для получения дополнительной информации",
+  "airdropping.reward.failed.title": "Сбой при перебросе"
 }

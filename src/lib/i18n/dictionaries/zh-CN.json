@@ -5896,5 +5896,7 @@
   "flowerDashboard.topBurners": "顶级燃烧器",
   "flowerDashboard.title": "花卉仪表板",
   "flowerDashboard.last7Days": "最近 7 天",
-  "flowerDashboard.comingSoon": "即将推出"
+  "flowerDashboard.comingSoon": "即将推出",
+  "airdropping.reward.failed": "一次或多次空投失败。查看 Discord 上的 #team-logs 了解更多信息",
+  "airdropping.reward.failed.title": "空投失败"
 }

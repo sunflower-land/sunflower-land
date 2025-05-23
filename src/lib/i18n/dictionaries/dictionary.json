@@ -5418,6 +5418,8 @@
   "searchHere": "Search here...",
   "airdropping.reward": "Sending reward to player...",
   "airdropping.reward.success": "Reward successfully sent to player!",
+  "airdropping.reward.failed": "One or more airdrops failed. Check #team-logs on Discord for more information",
+  "airdropping.reward.failed.title": "Airdrop failed",
   "sunflowerClock": "Sunflower Clock",
   "days.mon": "Mon.",
   "days.tue": "Tue.",

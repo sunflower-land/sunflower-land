@@ -5896,5 +5896,7 @@
   "flowerDashboard.topBurners": "Los mejores quemadores",
   "flowerDashboard.title": "Panel de control de flores",
   "flowerDashboard.last7Days": "Últimos 7 días",
-  "flowerDashboard.comingSoon": "Próximamente"
+  "flowerDashboard.comingSoon": "Próximamente",
+  "airdropping.reward.failed": "Fallaron uno o más lanzamientos desde el aire. Consulta #team -logs en Discord para obtener más información",
+  "airdropping.reward.failed.title": "Airdrop falló"
 }

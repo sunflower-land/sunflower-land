@@ -5896,5 +5896,7 @@
   "flowerDashboard.topBurners": "Die besten Brenner",
   "flowerDashboard.title": "Blumen-Armaturenbrett",
   "flowerDashboard.last7Days": "Letzte 7 Tage",
-  "flowerDashboard.comingSoon": "Kommt bald"
+  "flowerDashboard.comingSoon": "Kommt bald",
+  "airdropping.reward.failed": "Ein oder mehrere Airdrops sind fehlgeschlagen. Weitere Informationen findest du unter #team -logs auf Discord",
+  "airdropping.reward.failed.title": "Airdrop ist fehlgeschlagen"
 }

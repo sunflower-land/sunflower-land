@@ -5896,5 +5896,7 @@
   "flowerDashboard.topBurners": "I migliori bruciatori",
   "flowerDashboard.title": "Cruscotto a fiori",
   "flowerDashboard.last7Days": "Ultimi 7 giorni",
-  "flowerDashboard.comingSoon": "Prossimamente"
+  "flowerDashboard.comingSoon": "Prossimamente",
+  "airdropping.reward.failed": "Uno o più airdrop sono falliti. Controlla #team -logs su Discord per maggiori informazioni",
+  "airdropping.reward.failed.title": "Airdrop non riuscito"
 }

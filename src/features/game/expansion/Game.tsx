@@ -126,6 +126,8 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   claimingStreamReward: false,
   claimingStreamRewardSuccess: false,
   claimingStreamRewardFailed: false,
+  airdroppingRewardFailed: false,
+
   // Every new state should be added below here
   gems: true,
   communityCoin: true,
