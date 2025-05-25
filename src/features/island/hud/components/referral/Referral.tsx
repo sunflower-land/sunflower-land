@@ -88,7 +88,7 @@ export const Referrees: React.FC = () => {
   }
 
   return (
-    <div>
+    <div className="max-h-[500px] overflow-y-auto scrollable">
       <div className="flex justify-between items-center">
         <Label type="default">{t("referral.summary")}</Label>
         <div className="flex items-center">
