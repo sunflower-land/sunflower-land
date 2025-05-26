@@ -10,7 +10,6 @@ import { HOURGLASSES } from "./burnCollectible";
 export enum REMOVE_COLLECTIBLE_ERRORS {
   INVALID_COLLECTIBLE = "This collectible does not exist",
   NO_BUMPKIN = "You do not have a Bumpkin",
-  // CHICKEN_COOP_REMOVE_BREWING_CHICKEN = "Cannot remove Chicken Coop that causes chickens that are brewing egg to be removed",
   GENIE_IN_USE = "Genie Lamp is in use",
   COLLECTIBLE_IN_USE = "This item is in use",
   LIMITED_ITEM_IN_USE = "This limited time item is in use",
