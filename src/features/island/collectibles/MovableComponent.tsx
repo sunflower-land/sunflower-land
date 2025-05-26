@@ -32,9 +32,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { isMobile } from "mobile-device-detect";
 import { ZoomContext } from "components/ZoomProvider";
-// import { InnerPanel } from "components/ui/Panel";
 import { RemoveKuebikoModal } from "./RemoveKuebikoModal";
-// import { hasRemoveRestriction } from "features/game/types/removeables";
 import { PlaceableLocation } from "features/game/types/collectibles";
 import { RemoveHungryCaterpillarModal } from "./RemoveHungryCaterpillarModal";
 import { RemoveCropMachineModal } from "./RemoveCropMachineModal";
@@ -174,11 +172,6 @@ export const MoveableComponent: React.FC<
   const isSelected = movingItem?.id === id && movingItem?.name === name;
   const removeAction = !isMobile && getRemoveAction(name);
   const hasRemovalAction = !!removeAction;
-  // const [isRestricted, restrictionReason] = hasRemoveRestriction({
-  //   name,
-  //   id,
-  //   state: gameService.getSnapshot().context.state,
-  // });
 
   /**
    * Deselect if clicked outside of element
@@ -401,12 +394,9 @@ export const MoveableComponent: React.FC<
             )}
             {hasRemovalAction && (
               <div
-                className={classNames("group relative cursor-pointer", {
-                  // "cursor-not-allowed": isRestricted,
-                })}
+                className="group relative cursor-pointer"
                 style={{ width: `${PIXEL_SCALE * 18}px` }}
                 onClick={(e) => {
-                  // if (!isRestricted)
                   remove();
                   e.preventDefault();
                 }}
@@ -435,27 +425,8 @@ export const MoveableComponent: React.FC<
                         top: `${PIXEL_SCALE * 3}px`,
                       }}
                     />
-                    {/* {isRestricted && (
-                      <img
-                        src={SUNNYSIDE.icons.cancel}
-                        className="absolute right-0 top-0 w-1/2 h-1/2 object-contain"
-                        alt="restricted"
-                      />
-                    )} */}
                   </>
                 )}
-                {/* {isRestricted && (
-                  <div
-                    className="flex justify-center absolute w-full pointer-events-none invisible group-hover:!visible"
-                    style={{ top: `${PIXEL_SCALE * -10}px` }}
-                  >
-                    <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
-                      <div className="text-xs mx-1 p-1">
-                        <span>{restrictionReason}</span>
-                      </div>
-                    </InnerPanel>
-                  </div>
-                )} */}
               </div>
             )}
           </div>

@@ -76,16 +76,6 @@ export function removeCollectible({ state, action }: Options) {
       }
     }
 
-    // if (action.name === "Chicken Coop") {
-    //   if (areUnsupportedChickensBrewing(stateCopy)) {
-    //     throw new Error(
-    //       REMOVE_COLLECTIBLE_ERRORS.CHICKEN_COOP_REMOVE_BREWING_CHICKEN,
-    //     );
-    //   }
-
-    //   stateCopy.chickens = removeUnsupportedChickens(stateCopy);
-    // }
-
     if (action.name === "Genie Lamp") {
       const collectible: PlacedLamp = collectibleToRemove;
       const rubbedCount = collectible.rubbedCount ?? 0;
@@ -104,29 +94,6 @@ export function removeCollectible({ state, action }: Options) {
         throw new Error(REMOVE_COLLECTIBLE_ERRORS.LIMITED_ITEM_IN_USE);
       }
     }
-
-    // const removalRestriction = REMOVAL_RESTRICTIONS[action.name];
-    // if (removalRestriction) {
-    //   const [restricted] = removalRestriction(state);
-    //   if (restricted)
-    //     throw new Error(REMOVE_COLLECTIBLE_ERRORS.COLLECTIBLE_IN_USE);
-    // }
-
-    // if (action.name === "Kuebiko") {
-    //   getKeys(SEEDS).forEach((seed) => {
-    //     if (stateCopy.inventory[seed]) {
-    //       delete stateCopy.inventory[seed];
-    //     }
-    //   });
-    // }
-
-    // if (action.name === "Hungry Caterpillar") {
-    //   getKeys(FLOWER_SEEDS).forEach((seed) => {
-    //     if (stateCopy.inventory[seed]) {
-    //       delete stateCopy.inventory[seed];
-    //     }
-    //   });
-    // }
 
     bumpkin.activity = trackActivity("Collectible Removed", bumpkin.activity);
 
