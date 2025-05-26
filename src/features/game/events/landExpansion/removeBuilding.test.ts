@@ -144,7 +144,7 @@ describe("removeBuilding", () => {
       },
     };
 
-    const [_, error] = hasRemoveRestriction({
+    const [, error] = hasRemoveRestriction({
       name: buildingName,
       state,
     });
