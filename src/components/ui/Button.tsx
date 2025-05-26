@@ -22,7 +22,7 @@ interface Props {
   longPressInterval?: number;
   contentAlign?: "start" | "center" | "end";
 }
-export const Button: React.FC<Props> = ({
+export const Button: React.FC<React.PropsWithChildren<Props>> = ({
   children,
   onClick,
   disabled,

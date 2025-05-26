@@ -8,14 +8,17 @@ interface Props {
 /**
  * Heads up display container which portals all Hud Components out to the body and applies safe area styling - should be used for all game Hud components
  */
-export const HudContainer: React.FC<Props> = ({ children, zIndex }) => {
+export const HudContainer: React.FC<React.PropsWithChildren<Props>> = ({
+  children,
+  zIndex = "z-10",
+}) => {
   return (
     <>
       {createPortal(
         <div
           data-html2canvas-ignore="true"
           aria-label="Hud"
-          className={`fixed inset-safe-area pointer-events-none ${zIndex ?? "z-10"}`}
+          className={`fixed inset-safe-area pointer-events-none ${zIndex}`}
         >
           <div // Prevent click through to Phaser
             onMouseDown={(e) => e.stopPropagation()}
