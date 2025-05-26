@@ -29,7 +29,7 @@ import {
   TypegenDisabled,
 } from "xstate";
 import { DropdownPanel } from "components/ui/DropdownPanel";
-import { NetworkOption } from "features/island/hud/components/DepositFlower";
+import { NetworkOption } from "features/island/hud/components/deposit/DepositFlower";
 import baseIcon from "assets/icons/chains/base.png";
 import { CONFIG } from "lib/config";
 import { NetworkName } from "features/game/events/landExpansion/updateNetwork";
