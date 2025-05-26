@@ -1,4 +1,7 @@
-import { BuildingName } from "features/game/types/buildings";
+import {
+  BuildingName,
+  CookingBuildingName,
+} from "features/game/types/buildings";
 import {
   BuildingProduct,
   Cancelled,
@@ -6,10 +9,15 @@ import {
   InventoryItemName,
   PlacedItem,
 } from "features/game/types/game";
-import { getCookingRequirements, getReadyAt } from "./cook";
+import {
+  BUILDING_OIL_BOOSTS,
+  getCookingRequirements,
+  getOilConsumption,
+} from "./cook";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
-import cloneDeep from "lodash.clonedeep";
+import { CookableName, COOKABLES } from "features/game/types/consumables";
+import { getCookingTime } from "features/game/expansion/lib/boosts";
 
 export type CancelQueuedRecipeAction = {
   type: "recipe.cancelled";
@@ -24,6 +32,69 @@ type Options = {
   createdAt?: number;
 };
 
+function getQueueItemCookingSeconds({
+  name,
+  appliedOilBoost,
+  game,
+  buildingName,
+  createdAt,
+}: {
+  name: CookableName;
+  appliedOilBoost: number;
+  game: GameState;
+  buildingName: CookingBuildingName;
+  createdAt: number;
+}) {
+  const skills = game.bumpkin.skills;
+  const itemOilConsumption = getOilConsumption(buildingName, name);
+  const itemCookingSeconds = COOKABLES[name].cookingSeconds;
+  const boostValue = BUILDING_OIL_BOOSTS(skills)[buildingName];
+  let boostedCookingSeconds = itemCookingSeconds;
+
+  if (appliedOilBoost >= itemOilConsumption) {
+    boostedCookingSeconds = itemCookingSeconds * (1 - boostValue);
+  } else {
+    const effectiveBoostValue =
+      (appliedOilBoost / itemOilConsumption) * boostValue;
+    boostedCookingSeconds = itemCookingSeconds * (1 - effectiveBoostValue);
+  }
+
+  const seconds = getCookingTime({
+    seconds: boostedCookingSeconds,
+    item: name,
+    game,
+    cookStartAt: createdAt,
+  });
+
+  return seconds;
+}
+
+function getUpdatedReadyAt({
+  name,
+  startAt,
+  appliedOilBoost,
+  game,
+  buildingName,
+  createdAt,
+}: {
+  name: CookableName;
+  startAt: number;
+  appliedOilBoost: number;
+  game: GameState;
+  buildingName: CookingBuildingName;
+  createdAt: number;
+}) {
+  const seconds = getQueueItemCookingSeconds({
+    name,
+    appliedOilBoost,
+    game,
+    buildingName,
+    createdAt,
+  });
+
+  return startAt + seconds * 1000;
+}
+
 /**
  * Recalculates the queue after a recipe has been modified (cancelled, sped up, etc.)
  * Returns a new queue with updated readyAt times
@@ -31,15 +102,17 @@ type Options = {
 export function recalculateQueue({
   queue,
   createdAt,
-  buildingId,
+  buildingName,
   game,
-  isInstant,
+  isInstantCook,
+  keepReadyRecipes = false,
 }: {
   queue: BuildingProduct[];
   createdAt: number;
-  buildingId: string;
+  buildingName: CookingBuildingName;
+  isInstantCook?: boolean;
+  keepReadyRecipes?: boolean;
   game: GameState;
-  isInstant?: boolean;
 }): BuildingProduct[] {
   // Keep only ready recipes
   const readyRecipes = queue.filter((r) => r.readyAt <= createdAt);
@@ -47,32 +120,47 @@ export function recalculateQueue({
   // Get all other recipes that aren't ready yet
   const upcomingRecipes = queue.filter((r) => r.readyAt > createdAt);
 
-  // Get currently cooking item
-  const currentlyCooking = getCurrentCookingItem({
-    building: { id: buildingId, crafting: queue } as PlacedItem,
-    createdAt,
-  });
+  if (isInstantCook) {
+    const updatedRecipes = upcomingRecipes.reduce((recipes, recipe, index) => {
+      const startAt = index === 0 ? createdAt : recipes[index - 1].readyAt;
 
-  // Recalculate readyAt times for upcoming recipes
-  const updatedUpcomingRecipes = upcomingRecipes.reduce(
-    (recipes, recipe, index) => {
-      // Skip recalculation for currently cooking item
-      if (
-        !isInstant &&
-        currentlyCooking &&
-        recipe.readyAt === currentlyCooking.readyAt
-      ) {
-        return [...recipes, recipe];
-      }
-
-      const previousRecipeReadyAt =
-        index === 0 ? createdAt : recipes[recipes.length - 1].readyAt;
-
-      const readyAt = getReadyAt({
-        buildingId,
-        item: recipe.name,
-        createdAt: previousRecipeReadyAt,
+      const readyAt = getUpdatedReadyAt({
+        name: recipe.name,
+        startAt,
+        appliedOilBoost: recipe.boost?.Oil ?? 0,
+        buildingName,
         game,
+        createdAt,
+      });
+
+      return [...recipes, { ...recipe, readyAt }];
+    }, [] as BuildingProduct[]);
+
+    // Instant Gratification Skill - keep ready recipes
+    if (keepReadyRecipes) {
+      return [...readyRecipes, ...updatedRecipes];
+    }
+
+    return updatedRecipes;
+  }
+
+  // Currently cooking
+  const currentRecipe = upcomingRecipes[0];
+  const remainingRecipes = upcomingRecipes.slice(1);
+
+  // Recalculate readyAt times for remaining recipes
+  const updatedRemainingRecipes = remainingRecipes.reduce(
+    (recipes, recipe, index) => {
+      const startAt =
+        index === 0 ? currentRecipe.readyAt : recipes[index - 1].readyAt;
+
+      const readyAt = getUpdatedReadyAt({
+        name: recipe.name,
+        startAt,
+        appliedOilBoost: recipe.boost?.Oil ?? 0,
+        buildingName,
+        game,
+        createdAt,
       });
 
       return [...recipes, { ...recipe, readyAt }];
@@ -80,7 +168,7 @@ export function recalculateQueue({
     [] as BuildingProduct[],
   );
 
-  return [...readyRecipes, ...updatedUpcomingRecipes];
+  return [...readyRecipes, currentRecipe, ...updatedRemainingRecipes];
 }
 
 export function getCurrentCookingItem({
@@ -90,7 +178,7 @@ export function getCurrentCookingItem({
   building: PlacedItem;
   createdAt: number;
 }) {
-  const queue = cloneDeep(building.crafting);
+  const queue = building.crafting;
   const sortedByReadyAt = queue?.sort(
     (a: BuildingProduct, b: BuildingProduct) => a.readyAt - b.readyAt,
   );
@@ -144,7 +232,12 @@ export function cancelQueuedRecipe({
     }
 
     // return resources consumed by the recipe
-    const ingredients = getCookingRequirements({ state, item: recipe.name });
+    const ingredients = getCookingRequirements({
+      state,
+      item: recipe.name,
+      skipDoubleNomBoost: !recipe.skills?.["Double Nom"],
+    });
+
     game.inventory = Object.entries(ingredients).reduce(
       (inventory, [ingredient, amount]) => {
         const count =
@@ -165,9 +258,9 @@ export function cancelQueuedRecipe({
     building.crafting = recalculateQueue({
       queue: queue.filter((r) => r.readyAt !== recipe.readyAt), // Remove cancelled recipe
       createdAt,
-      buildingId: building.id,
-      game: state,
-      isInstant: false,
+      buildingName: buildingName as CookingBuildingName,
+      isInstantCook: false,
+      game,
     });
 
     const cancelled = building.cancelled || ({} as Cancelled);
