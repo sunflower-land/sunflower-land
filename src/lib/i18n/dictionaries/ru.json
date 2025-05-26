@@ -5898,5 +5898,11 @@
   "flowerDashboard.last7Days": "Последние 7 дней",
   "flowerDashboard.comingSoon": "Скоро",
   "airdropping.reward.failed": "Одна или несколько сбросов с воздуха не удались. Проверьте #team -logs в Discord для получения дополнительной информации",
-  "airdropping.reward.failed.title": "Сбой при перебросе"
+  "airdropping.reward.failed.title": "Сбой при перебросе",
+  "referral.summary": "Резюме",
+  "referral.noReferrees": "Вы еще не пригласили друзей.",
+  "referral.singleReferree": "Поздравляю! Вы пригласили друга ({{vipCount}} VIP).",
+  "referral.multipleReferrees": "Поздравляю! Вы пригласили {{totalReferrees}} друзей ({{vipCount}} VIP).",
+  "referral.flowerLabel": "Цветок",
+  "referral.more": "..."
 }

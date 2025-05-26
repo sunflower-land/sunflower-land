@@ -5898,5 +5898,11 @@
   "flowerDashboard.last7Days": "Son 7 gün",
   "flowerDashboard.comingSoon": "Yakında",
   "airdropping.reward.failed": "Bir veya daha fazla airdrop başarısız oldu. Daha fazla bilgi için Discord'da #team -logs'u kontrol edin",
-  "airdropping.reward.failed.title": "Airdrop başarısız oldu"
+  "airdropping.reward.failed.title": "Airdrop başarısız oldu",
+  "referral.summary": "Özet",
+  "referral.noReferrees": "Henüz hiç arkadaşınızı tavsiye etmediniz.",
+  "referral.singleReferree": "Tebrikler! Bir arkadaşınızı yönlendirdiniz ({{vipCount}} VIP).",
+  "referral.multipleReferrees": "Tebrikler! {{totalReferrees}} arkadaşlarınızı yönlendirdiniz ({{vipCount}} VIP).",
+  "referral.flowerLabel": "Çiçek",
+  "referral.more": "..."
 }
