@@ -39,6 +39,7 @@ export type WalletAction =
   | "login"
   | "deposit"
   | "confirmDeposit" // Only used if the player has items in their wallet
+  | "depositFlower"
   | "purchase"
   | "confirmPurchase" // Only used if the player has POL
   | "donate"
@@ -53,6 +54,7 @@ export type WalletAction =
 const NON_NFT_ACTIONS: WalletAction[] = [
   "login",
   "deposit",
+  "depositFlower",
   "purchase",
   "donate",
   "dailyReward",
@@ -65,6 +67,7 @@ const NON_POLYGON_ACTIONS: WalletAction[] = [
   "login",
   "dailyReward",
   "withdraw",
+  "depositFlower",
 ];
 
 type InitialiseEvent = {
@@ -85,6 +88,7 @@ export type WalletEvent =
   | InitialiseEvent
   | ConnectWalletEvent
   | { type: "CONTINUE" }
+  | { type: "SWITCH_NETWORK"; chainId: number }
   | { type: "BACK" }
   | { type: "RESET" }
   | { type: "MINT" }
@@ -475,11 +479,10 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
         },
       },
     },
-
-    switchingToPolygon: {
+    switchingNetwork: {
       invoke: {
-        src: async () => {
-          await wallet.switchToPolygon();
+        src: async (_, event: any) => {
+          await wallet.switchNetwork(event.chainId);
 
           const account = getAccount(config);
 
@@ -501,7 +504,14 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
       },
     },
 
-    ready: {},
+    ready: {
+      on: {
+        SWITCH_NETWORK: {
+          target: "switchingNetwork",
+          cond: (context, event) => event.chainId !== context.chainId,
+        },
+      },
+    },
 
     // Error states
     missingNFT: {
@@ -520,8 +530,8 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
     },
     wrongNetwork: {
       on: {
-        CONTINUE: {
-          target: "switchingToPolygon",
+        SWITCH_NETWORK: {
+          target: "switchingNetwork",
         },
       },
     },
