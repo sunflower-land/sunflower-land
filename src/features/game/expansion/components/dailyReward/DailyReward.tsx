@@ -144,10 +144,6 @@ export const DailyRewardContent: React.FC<{
     chestService.send("UPDATE_NETWORK", { network });
   }, [network]);
 
-  if (bumpkinLevel <= 5) {
-    return null;
-  }
-
   const reveal = () => {
     gameService.send("REVEAL", {
       event: {
@@ -158,6 +154,16 @@ export const DailyRewardContent: React.FC<{
     });
     chestService.send("OPEN");
   };
+
+  useEffect(() => {
+    if (chestState.matches("unlocked")) {
+      reveal();
+    }
+  }, [chestState.value]);
+
+  if (bumpkinLevel <= 5) {
+    return null;
+  }
 
   const streaks = dailyRewards?.streaks ?? 0;
   const collectedAt = dailyRewards?.chest?.collectedAt ?? 0;
@@ -239,23 +245,6 @@ export const DailyRewardContent: React.FC<{
       );
     }
 
-    if (chestState.matches("unlocked")) {
-      return (
-        <>
-          <div className="flex flex-col items-center p-2">
-            <img
-              src={SUNNYSIDE.decorations.treasure_chest}
-              className="mb-2"
-              style={{
-                width: `${PIXEL_SCALE * 24}px`,
-              }}
-            />
-          </div>
-          <Button onClick={reveal}>{t("reward.open")}</Button>
-        </>
-      );
-    }
-
     if (chestState.matches("error")) {
       return (
         <>
@@ -304,24 +293,15 @@ export const DailyRewardContent: React.FC<{
       return <ChestRevealing type="Daily Reward" />;
     }
 
-    if (chestState.matches("unlocking")) {
+    if (chestState.matches("unlocking") || chestState.matches("unlocked")) {
       return <Loading text={t("unlocking")} />;
-    }
-
-    if (chestState.matches("loading")) {
-      return <Loading />;
     }
 
     return <></>;
   };
 
   return (
-    <GameWallet
-      action="dailyReward"
-      onReady={() => {
-        chestService.send("LOAD");
-      }}
-    >
+    <GameWallet action="dailyReward">
       <Content />
     </GameWallet>
   );

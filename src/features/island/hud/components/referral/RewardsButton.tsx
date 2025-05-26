@@ -38,7 +38,7 @@ export const RewardsButton: React.FC = () => {
   today.setUTCHours(0, 0, 0, 0);
 
   const isChestLocked =
-    (gameState.context.state.dailyRewards?.chest?.collectedAt ?? 0) >
+    (gameState.context.state.dailyRewards?.chest?.collectedAt ?? 0) <
     today.getTime();
 
   return (
