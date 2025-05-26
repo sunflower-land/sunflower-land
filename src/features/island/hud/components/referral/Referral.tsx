@@ -70,7 +70,9 @@ export const Referrees: React.FC = () => {
   if (isLoading) return <Loading />;
   if (error) return <SomethingWentWrong />;
 
-  const referrees = data!.data.referrees;
+  const referrees = data!.data.referrees.sort(
+    (a, b) => (b.flower ?? 0) - (a.flower ?? 0),
+  );
   const totalReferrees = referrees?.length ?? 0;
   const totalVIPReferrees =
     referrees?.filter((referree) => referree.vip).length ?? 0;
