@@ -5898,5 +5898,11 @@
   "flowerDashboard.last7Days": "Letzte 7 Tage",
   "flowerDashboard.comingSoon": "Kommt bald",
   "airdropping.reward.failed": "Ein oder mehrere Airdrops sind fehlgeschlagen. Weitere Informationen findest du unter #team -logs auf Discord",
-  "airdropping.reward.failed.title": "Airdrop ist fehlgeschlagen"
+  "airdropping.reward.failed.title": "Airdrop ist fehlgeschlagen",
+  "referral.summary": "Zusammenfassung",
+  "referral.noReferrees": "Du hast noch keine Freunde empfohlen.",
+  "referral.singleReferree": "Herzlichen Glückwunsch! Du hast einen Freund ({{vipCount}} VIP) empfohlen.",
+  "referral.multipleReferrees": "Herzlichen Glückwunsch! Du hast {{totalReferrees}} Freunde ({{vipCount}} VIP) empfohlen.",
+  "referral.flowerLabel": "Blume",
+  "referral.more": "..."
 }

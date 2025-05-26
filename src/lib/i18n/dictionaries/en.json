@@ -5898,5 +5898,11 @@
   "flowerDashboard.topBurners": "Top Burners",
   "flowerDashboard.title": "Flower Dashboard",
   "flowerDashboard.last7Days": "Last 7 days",
-  "flowerDashboard.comingSoon": "Coming Soon"
+  "flowerDashboard.comingSoon": "Coming Soon",
+  "referral.summary": "Summary",
+  "referral.noReferrees": "You have not referred any friends yet.",
+  "referral.singleReferree": "Congratulations! You have referred a friend ({{vipCount}} VIP).",
+  "referral.multipleReferrees": "Congratulations! You have referred {{totalReferrees}} friends ({{vipCount}} VIP).",
+  "referral.flowerLabel": "Flower",
+  "referral.more": "..."
 }

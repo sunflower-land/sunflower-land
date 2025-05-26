@@ -5898,5 +5898,11 @@
   "flowerDashboard.last7Days": "Últimos 7 dias",
   "flowerDashboard.comingSoon": "Em breve",
   "airdropping.reward.failed": "Um ou mais airdrops falharam. Verifique #team -logs no Discord para obter mais informações",
-  "airdropping.reward.failed.title": "Falha no lançamento aéreo"
+  "airdropping.reward.failed.title": "Falha no lançamento aéreo",
+  "referral.summary": "Resumo",
+  "referral.noReferrees": "Você ainda não indicou nenhum amigo.",
+  "referral.singleReferree": "Parabéns! Você indicou um amigo ({{vipCount}} VIP).",
+  "referral.multipleReferrees": "Parabéns! Você indicou {{totalReferrees}} amigos ({{vipCount}} VIP).",
+  "referral.flowerLabel": "Flor",
+  "referral.more": "..."
 }

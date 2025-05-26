@@ -5898,5 +5898,11 @@
   "flowerDashboard.last7Days": "지난 7일",
   "flowerDashboard.comingSoon": "곧 출시될 예정입니다",
   "airdropping.reward.failed": "하나 이상의 에어드랍이 실패했습니다.자세한 내용은 디스코드의 #team -logs를 확인하세요.",
-  "airdropping.reward.failed.title": "에어드랍 실패"
+  "airdropping.reward.failed.title": "에어드랍 실패",
+  "referral.summary": "요약",
+  "referral.noReferrees": "아직 친구를 추천하지 않으셨습니다.",
+  "referral.singleReferree": "축하합니다!친구 ({{vipCount}} VIP) 를 추천하셨습니다.",
+  "referral.multipleReferrees": "축하합니다!{{totalReferrees}} 친구 ({{vipCount}} VIP) 를 추천하셨습니다.",
+  "referral.flowerLabel": "플라워",
+  "referral.more": "..."
 }

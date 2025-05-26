@@ -5898,5 +5898,11 @@
   "flowerDashboard.last7Days": "Les 7 derniers jours",
   "flowerDashboard.comingSoon": "Prochainement",
   "airdropping.reward.failed": "Un ou plusieurs parachutages ont échoué. Consultez #team -logs sur Discord pour plus d'informations",
-  "airdropping.reward.failed.title": "Airdrop a échoué"
+  "airdropping.reward.failed.title": "Airdrop a échoué",
+  "referral.summary": "Résumé",
+  "referral.noReferrees": "Vous n'avez encore parrainé aucun ami.",
+  "referral.singleReferree": "Toutes nos félicitations ! Vous avez parrainé un ami ({{vipCount}} VIP).",
+  "referral.multipleReferrees": "Toutes nos félicitations ! Vous avez parrainé {{totalReferrees}} amis ({{vipCount}} VIP).",
+  "referral.flowerLabel": "Fleur",
+  "referral.more": "..."
 }

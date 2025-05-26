@@ -5898,5 +5898,11 @@
   "flowerDashboard.last7Days": "7 hari terakhir",
   "flowerDashboard.comingSoon": "Akan Datang",
   "airdropping.reward.failed": "Satu atau lebih airdrop gagal. Semak #team -log pada Discord untuk maklumat lanjut",
-  "airdropping.reward.failed.title": "Airdrop gagal"
+  "airdropping.reward.failed.title": "Airdrop gagal",
+  "referral.summary": "Ringkasan",
+  "referral.noReferrees": "Anda belum merujuk rakan lagi.",
+  "referral.singleReferree": "Tahniah! Anda telah merujuk rakan ({{vipCount}} VIP).",
+  "referral.multipleReferrees": "Tahniah! Anda telah merujuk rakan-rakan {{totalReferrees}} ({{vipCount}} VIP).",
+  "referral.flowerLabel": "Bunga",
+  "referral.more": "..."
 }
