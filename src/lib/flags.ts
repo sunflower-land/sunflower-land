@@ -92,9 +92,6 @@ const FEATURE_FLAGS = {
     game.createdAt > new Date("2025-01-01T00:00:00Z").getTime() ||
     !game.verified,
   FACE_RECOGNITION_TEST: defaultFeatureFlag,
-
-  FLOWER_DASHBOARD: usernameFeatureFlag,
-
   LEDGER: testnetLocalStorageFeatureFlag("ledger"),
 
   EASTER: (game) =>
