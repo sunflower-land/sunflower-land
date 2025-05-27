@@ -1164,6 +1164,8 @@
   "deliveryitem.deliverToWallet": "Deliver to your wallet",
   "deliveryitem.viewOnOpenSea": "Once delivered, you will be able to view your items on OpenSea.",
   "deliveryitem.deliver": "Deliver",
+  "desposit.loadingBalance": "Loading balance...",
+  "deposit.balanceLoadingError": "Error loading balance. Try again later.",
   "deposit.errorLoadingBalances": "There was an error loading your balances.",
   "deposit.yourPersonalWallet": "Your Personal Wallet",
   "deposit.farmWillReceive": "Your farm will receive",
