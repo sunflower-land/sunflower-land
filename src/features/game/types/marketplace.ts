@@ -293,7 +293,7 @@ const ISLAND_RESOURCE_TAXES: Record<IslandType, number> = {
   basic: 1,
   spring: 0.5,
   desert: 0.2,
-  volcano: 0.75,
+  volcano: 0.15,
 };
 
 export function getResourceTax({ game }: { game: GameState }): number {
