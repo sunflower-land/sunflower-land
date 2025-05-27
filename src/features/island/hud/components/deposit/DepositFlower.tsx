@@ -56,8 +56,7 @@ const _success = (state: MachineState) =>
 const _failed = (state: MachineState) =>
   state.matches("depositingFlowerFailed");
 const _authToken = (state: AuthMachineState) => state.context.user.rawToken;
-const _linkedWallet = (state: MachineState) =>
-  state.context.linkedWallet ?? "0xc23Ea4b3fFA70DF89874ff65759031d78e40251d";
+const _linkedWallet = (state: MachineState) => state.context.linkedWallet ?? "";
 
 export const DepositFlower: React.FC<{ onClose: () => void }> = ({
   onClose,
