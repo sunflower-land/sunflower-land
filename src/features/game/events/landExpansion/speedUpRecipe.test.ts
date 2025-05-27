@@ -15,6 +15,9 @@ import { INITIAL_FARM } from "features/game/lib/constants";
 import { getInstantGems, speedUpRecipe } from "./speedUpRecipe";
 import Decimal from "decimal.js-light";
 import { BAKERY_COOKABLES, COOKABLES } from "features/game/types/consumables";
+import { GameState } from "features/game/types/game";
+import { supplyCookingOil } from "./supplyCookingOil";
+import { cook, getCookingOilBoost } from "./cook";
 
 describe("instantCook", () => {
   it("requires item is cooking", () => {
@@ -265,6 +268,7 @@ describe("instantCook", () => {
 
   it("updates all the recipes readyAt times correctly", () => {
     const now = Date.now();
+    const TOFU_TIME = COOKABLES["Fried Tofu"].cookingSeconds * 1000;
     const POTATO_TIME = COOKABLES["Mashed Potato"].cookingSeconds * 1000;
     const RHUBARB_TIME = COOKABLES["Rhubarb Tart"].cookingSeconds * 1000;
 
@@ -281,30 +285,30 @@ describe("instantCook", () => {
               readyAt: 0,
               crafting: [
                 {
-                  name: "Mashed Potato",
-                  readyAt: now,
+                  name: "Fried Tofu",
+                  readyAt: now + TOFU_TIME,
                   amount: 1,
                 },
                 {
                   name: "Rhubarb Tart",
-                  readyAt: now + RHUBARB_TIME,
+                  readyAt: now + TOFU_TIME + RHUBARB_TIME,
                   amount: 1,
                 },
                 {
-                  name: "Rhubarb Tart",
-                  readyAt: now + RHUBARB_TIME * 2,
+                  name: "Fried Tofu",
+                  readyAt: now + TOFU_TIME + RHUBARB_TIME + TOFU_TIME,
                   amount: 1,
                 },
                 {
                   name: "Mashed Potato",
-                  readyAt: now + RHUBARB_TIME * 2 + POTATO_TIME,
+                  readyAt:
+                    now + TOFU_TIME + RHUBARB_TIME + TOFU_TIME + POTATO_TIME,
                   amount: 1,
                 },
               ],
             },
           ],
         },
-        createdAt: now,
       },
       action: {
         buildingId: "123",
@@ -317,11 +321,105 @@ describe("instantCook", () => {
     const building = state.buildings["Fire Pit"]?.[0];
     const queue = building?.crafting;
 
-    // Finished recipe
-    expect(queue?.[0].readyAt).toBe(now);
-    // Upcoming recipes
-    expect(queue?.[1].readyAt).toBeCloseTo(now + RHUBARB_TIME);
-    expect(queue?.[2].readyAt).toBeCloseTo(now + RHUBARB_TIME + POTATO_TIME);
+    // The first fried tofu should be ready now and is removed from the queue
+    // Remaining recipes should have their readyAt times updated
+    expect(queue?.[0].readyAt).toBe(now + RHUBARB_TIME);
+    expect(queue?.[1].readyAt).toBe(now + RHUBARB_TIME + TOFU_TIME);
+    expect(queue?.[2].readyAt).toBe(
+      now + RHUBARB_TIME + TOFU_TIME + POTATO_TIME,
+    );
+  });
+
+  it("does not change the queued items oil boosts", () => {
+    const now = Date.now();
+    const twentyMinutesMs = 20 * 60 * 1000;
+
+    // Have a milk already cooking
+    const state: GameState = {
+      ...INITIAL_FARM,
+      inventory: {
+        Oil: new Decimal(100),
+        Tuna: new Decimal(100),
+        "Lifetime Farmer Banner": new Decimal(1),
+        Gem: new Decimal(100),
+      },
+      buildings: {
+        Deli: [
+          {
+            id: "123",
+            coordinates: { x: 0, y: 0 },
+            createdAt: 0,
+            readyAt: 0,
+            crafting: [
+              {
+                name: "Cheese",
+                readyAt: now + twentyMinutesMs, // 20 minutes
+                amount: 1,
+              },
+            ],
+          },
+        ],
+      },
+    };
+
+    // Add 10 oil to the deli
+    const afterOilAddedState = supplyCookingOil({
+      state,
+      action: {
+        type: "cookingOil.supplied",
+        building: "Deli",
+        buildingId: "123",
+        oilQuantity: 10,
+      },
+      createdAt: Date.now(),
+    });
+
+    expect(afterOilAddedState.buildings["Deli"]?.[0].oil).toBe(10);
+
+    const boostedCookingTime = getCookingOilBoost(
+      "Fermented Fish",
+      afterOilAddedState,
+      "123",
+    );
+
+    const afterFermentedFishCookedState = cook({
+      state: afterOilAddedState,
+      action: {
+        type: "recipe.cooked",
+        item: "Fermented Fish",
+        buildingId: "123",
+      },
+      createdAt: now,
+    });
+
+    const sixteenHours = 16 * 60 * 60;
+    const sixteenHoursInMs = sixteenHours * 1000;
+    const fishShouldBeReadyAt = now + twentyMinutesMs + sixteenHoursInMs;
+
+    // Fermented fish should be ready 16 hours after 10 oil consumption
+    expect(boostedCookingTime.timeToCook).toEqual(sixteenHours); // 16 hours;
+    expect(afterFermentedFishCookedState.buildings["Deli"]?.[0].oil).toBe(0);
+    expect(
+      afterFermentedFishCookedState.buildings["Deli"]?.[0].crafting?.[1]
+        .readyAt,
+    ).toBe(fishShouldBeReadyAt);
+
+    // Speed up the recipe
+    const afterSpeedUpCheeseState = speedUpRecipe({
+      state: afterFermentedFishCookedState,
+      action: {
+        type: "recipe.spedUp",
+        buildingId: "123",
+        buildingName: "Deli",
+      },
+      createdAt: now,
+    });
+
+    const result =
+      afterSpeedUpCheeseState.buildings["Deli"]?.[0].crafting?.[0].readyAt;
+
+    // Ready at for the fish should now be minus the milk cooking time
+    expect(result).toBe(fishShouldBeReadyAt - twentyMinutesMs);
   });
 });
 
