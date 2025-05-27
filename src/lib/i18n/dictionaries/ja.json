@@ -5935,5 +5935,7 @@
   "deposit.flower.onlyDeposit": "選択したネットワークにのみFLOWERを入金してください。",
   "deposit.flower.depositFromDifferentWallet": "別のウォレットからの入金",
   "deposit.flower.sendingTransaction": "トランザクションを送信中...",
-  "deposit.flower.noDeposits": "入金が見つかりません"
+  "deposit.flower.noDeposits": "入金が見つかりません",
+  "desposit.loadingBalance": "残高を読み込んでいます...",
+  "deposit.balanceLoadingError": "残高の読み込み中にエラーが発生しました。後でもう一度試してください。"
 }

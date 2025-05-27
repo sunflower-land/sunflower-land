@@ -5935,5 +5935,7 @@
   "deposit.flower.onlyDeposit": "Hanya deposit FLOWER ke rangkaian yang dipilih.",
   "deposit.flower.depositFromDifferentWallet": "Deposit dari dompet yang berbeza",
   "deposit.flower.sendingTransaction": "Menghantar transaksi...",
-  "deposit.flower.noDeposits": "Tiada deposit ditemui"
+  "deposit.flower.noDeposits": "Tiada deposit ditemui",
+  "desposit.loadingBalance": "Memuatkan baki...",
+  "deposit.balanceLoadingError": "Ralat memuatkan baki. Cuba lagi kemudian."
 }

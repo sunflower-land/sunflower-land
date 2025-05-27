@@ -5935,5 +5935,7 @@
   "deposit.flower.onlyDeposit": "Hanya setor FLOWER ke jaringan yang dipilih.",
   "deposit.flower.depositFromDifferentWallet": "Setor dari dompet yang berbeda",
   "deposit.flower.sendingTransaction": "Mengirim transaksi...",
-  "deposit.flower.noDeposits": "Tidak ada deposit yang ditemukan"
+  "deposit.flower.noDeposits": "Tidak ada deposit yang ditemukan",
+  "desposit.loadingBalance": "Memuat saldo...",
+  "deposit.balanceLoadingError": "Kesalahan saat memuat saldo. Coba lagi nanti."
 }

@@ -5935,5 +5935,7 @@
   "deposit.flower.onlyDeposit": "Deposite FLOWER apenas na rede selecionada.",
   "deposit.flower.depositFromDifferentWallet": "Deposite de uma carteira diferente",
   "deposit.flower.sendingTransaction": "Enviando transação...",
-  "deposit.flower.noDeposits": "Nenhum depósito encontrado"
+  "deposit.flower.noDeposits": "Nenhum depósito encontrado",
+  "desposit.loadingBalance": "Carregando saldo...",
+  "deposit.balanceLoadingError": "Erro ao carregar o saldo. Tente novamente mais tarde."
 }

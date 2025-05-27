@@ -5935,5 +5935,7 @@
   "deposit.flower.onlyDeposit": "FLOWER'ı yalnızca seçilen ağa yatırın.",
   "deposit.flower.depositFromDifferentWallet": "Farklı bir cüzdandan para yatırma",
   "deposit.flower.sendingTransaction": "İşlem gönderiliyor...",
-  "deposit.flower.noDeposits": "Depozito bulunamadı"
+  "deposit.flower.noDeposits": "Depozito bulunamadı",
+  "desposit.loadingBalance": "Yükleme dengesi...",
+  "deposit.balanceLoadingError": "Yükleme dengesi hatası. Daha sonra tekrar deneyin."
 }

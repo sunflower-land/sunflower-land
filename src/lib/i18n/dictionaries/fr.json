@@ -5935,5 +5935,7 @@
   "deposit.flower.onlyDeposit": "Déposez FLOWER uniquement sur le réseau sélectionné.",
   "deposit.flower.depositFromDifferentWallet": "Effectuer un dépôt depuis un autre portefeuille",
   "deposit.flower.sendingTransaction": "Envoi de la transaction...",
-  "deposit.flower.noDeposits": "Aucun dépôt n'a été trouvé"
+  "deposit.flower.noDeposits": "Aucun dépôt n'a été trouvé",
+  "desposit.loadingBalance": "Équilibre de chargement...",
+  "deposit.balanceLoadingError": "Erreur lors du chargement de la balance. Réessayez plus tard."
 }

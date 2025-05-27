@@ -5935,5 +5935,7 @@
   "deposit.flower.onlyDeposit": "Zahlen Sie FLOWER nur im ausgewählten Netzwerk ein.",
   "deposit.flower.depositFromDifferentWallet": "Einzahlung aus einer anderen Wallet",
   "deposit.flower.sendingTransaction": "Transaktion wird gesendet...",
-  "deposit.flower.noDeposits": "Keine Einzahlungen gefunden"
+  "deposit.flower.noDeposits": "Keine Einzahlungen gefunden",
+  "desposit.loadingBalance": "Saldo wird geladen...",
+  "deposit.balanceLoadingError": "Fehler beim Laden des Guthabens. Versuchen Sie es später erneut."
 }

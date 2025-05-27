@@ -5935,5 +5935,7 @@
   "deposit.flower.onlyDeposit": "선택한 네트워크에만 FLOWER를 입금하세요.",
   "deposit.flower.depositFromDifferentWallet": "다른 지갑에서 입금",
   "deposit.flower.sendingTransaction": "거래 전송 중...",
-  "deposit.flower.noDeposits": "입금을 찾을 수 없습니다"
+  "deposit.flower.noDeposits": "입금을 찾을 수 없습니다",
+  "desposit.loadingBalance": "밸런스 로드 중...",
+  "deposit.balanceLoadingError": "밸런스를 로드하는 중 오류가 발생했습니다.나중에 다시 시도하세요."
 }

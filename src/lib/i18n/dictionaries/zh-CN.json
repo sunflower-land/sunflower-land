@@ -5935,5 +5935,7 @@
   "deposit.flower.onlyDeposit": "仅将 FLOWER 存入选定的网络。",
   "deposit.flower.depositFromDifferentWallet": "从其他钱包存款",
   "deposit.flower.sendingTransaction": "正在发送交易...",
-  "deposit.flower.noDeposits": "未发现任何存款"
+  "deposit.flower.noDeposits": "未发现任何存款",
+  "desposit.loadingBalance": "正在加载余额...",
+  "deposit.balanceLoadingError": "加载余额时出错。稍后再试。"
 }

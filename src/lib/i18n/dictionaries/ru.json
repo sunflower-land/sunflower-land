@@ -5935,5 +5935,7 @@
   "deposit.flower.onlyDeposit": "Вносите FLOWER только в выбранную сеть.",
   "deposit.flower.depositFromDifferentWallet": "Депозит с другого кошелька",
   "deposit.flower.sendingTransaction": "Отправка транзакции...",
-  "deposit.flower.noDeposits": "Депозиты не найдены"
+  "deposit.flower.noDeposits": "Депозиты не найдены",
+  "desposit.loadingBalance": "Баланс нагрузки...",
+  "deposit.balanceLoadingError": "Ошибка при загрузке баланса. Повторите попытку позже."
 }
