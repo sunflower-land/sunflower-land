@@ -99,8 +99,10 @@ import { getLastTemperateSeasonStartedAt } from "./temperateSeason";
 import { hasVipAccess } from "./vipAccess";
 import { getActiveCalendarEvent, SeasonalEventName } from "../types/calendar";
 import { SpecialEventName } from "../types/specialEvents";
-import { getAccount } from "@wagmi/core";
+import { getAccount, getChainId } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
+import { depositFlower } from "lib/blockchain/DepositFlower";
+import { NetworkOption } from "features/island/hud/components/deposit/DepositFlower";
 import { blessingIsReady } from "./blessings";
 
 // Run at startup in case removed from query params
@@ -234,6 +236,13 @@ type DepositEvent = {
   budIds: number[];
 };
 
+type DepositFlowerFromLinkedWalletEvent = {
+  type: "DEPOSIT_FLOWER_FROM_LINKED_WALLET";
+  amount: bigint;
+  depositAddress: `0x${string}`;
+  selectedNetwork: NetworkOption;
+};
+
 type UpdateEvent = {
   type: "UPDATE";
   state: GameState;
@@ -296,6 +305,7 @@ export type BlockchainEvent =
   | { type: "UPGRADE" }
   | { type: "CLOSE" }
   | { type: "RANDOMISE" }
+  | DepositFlowerFromLinkedWalletEvent
   | Effect; // Test only
 
 // // For each game event, convert it to an XState event + handler
@@ -1356,6 +1366,9 @@ export function startGame(authContext: AuthContext) {
             DEPOSIT: {
               target: "depositing",
             },
+            DEPOSIT_FLOWER_FROM_LINKED_WALLET: {
+              target: "depositingFlowerFromLinkedWallet",
+            },
             REFRESH: {
               target: "loading",
             },
@@ -1842,6 +1855,38 @@ export function startGame(authContext: AuthContext) {
         priceChanged: {
           on: {
             CONTINUE: "playing",
+          },
+        },
+        depositingFlowerFromLinkedWallet: {
+          invoke: {
+            src: async (context, event) => {
+              if (!wallet.getAccount()) throw new Error("No account");
+
+              const { amount, depositAddress, selectedNetwork } =
+                event as DepositFlowerFromLinkedWalletEvent;
+
+              await depositFlower({
+                account: wallet.getAccount() as `0x${string}`,
+                depositAddress,
+                amount,
+                selectedNetwork,
+              });
+            },
+            onDone: {
+              target: "playing",
+              actions: send(() => ({
+                type: "flower.depositStarted",
+                effect: {
+                  type: "flower.depositStarted",
+                  chainId: getChainId(config),
+                },
+                authToken: authContext.user.rawToken as string,
+              })),
+            },
+            onError: {
+              target: "error",
+              actions: "assignErrorMessage",
+            },
           },
         },
         depositing: {

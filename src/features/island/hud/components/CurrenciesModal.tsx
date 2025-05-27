@@ -8,7 +8,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/game/GameProvider";
 import { VIPItems } from "features/game/components/modal/components/VIPItems";
 import { BuyGemsWidget } from "features/announcements/AnnouncementWidgets";
-import { DepositFlower } from "./DepositFlower";
+import { DepositFlower } from "./deposit/DepositFlower";
 import { SwapSFLForCoins } from "./SwapSFLForCoins";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { RoninSupportWidget } from "features/wallet/components/PolygonRequired";
