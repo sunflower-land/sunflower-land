@@ -90,12 +90,12 @@ export const DepositFromLinkedWallet: React.FC<{
         </div>
         {balanceState === "loading" && (
           <div className="flex justify-between w-full p-2">
-            <span>{`Loading balance...`}</span>
+            <span>{`${t("deposit.loadingBalance")}`}</span>
           </div>
         )}
         {balanceState === "error" && (
           <div className="flex justify-between w-full p-2">
-            <span>{`Error loading balance. Try again later.`}</span>
+            <span>{`${t("deposit.balanceLoadingError")}`}</span>
           </div>
         )}
         {balanceState === "loaded" && (

@@ -257,7 +257,9 @@ export const FlowerDashboard = () => {
                   <Label type="default" className="mb-1.5">
                     {t("flowerDashboard.gameBurns.title")}
                   </Label>
-                  <span className="text-xs mb-1">{`Last 7 days`}</span>
+                  <span className="text-xs mb-1">
+                    {t("flowerDashboard.last7Days")}
+                  </span>
                 </div>
                 {Object.entries(data?.topGameBurns ?? {}).map(
                   ([burn, amount], index) => (
@@ -449,7 +451,9 @@ export const FlowerDashboard = () => {
                   <Label type="default" className="mb-1.5">
                     {`${t("flowerDashboard.topEarners")}`}
                   </Label>
-                  <span className="text-xs mb-1">{`Last 7 days`}</span>
+                  <span className="text-xs mb-1">
+                    {t("flowerDashboard.last7Days")}
+                  </span>
                 </div>
                 {data?.topEarners.map(({ player, amount, tokenUri }, index) => (
                   <div
@@ -490,7 +494,9 @@ export const FlowerDashboard = () => {
                   <Label type="default" className="mb-1.5">
                     {t("flowerDashboard.topBurners")}
                   </Label>
-                  <span className="text-xs mb-1">{`Last 7 days`}</span>
+                  <span className="text-xs mb-1">
+                    {t("flowerDashboard.last7Days")}
+                  </span>
                 </div>
                 {data?.topBurners.map(({ player, amount, tokenUri }, index) => (
                   <div
