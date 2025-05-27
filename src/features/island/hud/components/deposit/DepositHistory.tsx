@@ -20,16 +20,10 @@ const _deposits = (state: MachineState): ProcessedDeposit[] =>
   state.context.data["depositingFlower"]?.deposits ?? [];
 
 export const DepositHistory: React.FC<{
-  acknowledged: boolean;
   selectedNetwork: NetworkOption | undefined;
   refreshDeposits: () => void;
   firstLoadComplete: boolean;
-}> = ({
-  acknowledged,
-  selectedNetwork,
-  firstLoadComplete,
-  refreshDeposits,
-}) => {
+}> = ({ selectedNetwork, firstLoadComplete, refreshDeposits }) => {
   const { gameService } = useContext(Context);
   const { t } = useTranslation();
 
@@ -89,17 +83,15 @@ export const DepositHistory: React.FC<{
         </div>
       )}
 
-      {acknowledged && (
-        <Button
-          disabled={pending || !selectedNetwork}
-          className="w-full text-center mt-2"
-          onClick={refreshDeposits}
-        >
-          {pending
-            ? t("deposit.flower.refreshing")
-            : t("deposit.flower.refreshDeposit")}
-        </Button>
-      )}
+      <Button
+        disabled={pending || !selectedNetwork}
+        className="w-full text-center mt-2"
+        onClick={refreshDeposits}
+      >
+        {pending
+          ? t("deposit.flower.refreshing")
+          : t("deposit.flower.refreshDeposit")}
+      </Button>
     </>
   );
 };
