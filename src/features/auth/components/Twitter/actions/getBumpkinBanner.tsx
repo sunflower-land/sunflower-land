@@ -1,5 +1,11 @@
 import { CONFIG } from "lib/config";
 
+/***
+ * For Debugging Purpose
+ * Set to True when testing Banner Generation
+ * */
+process.env.DEBUG_BANNER = "false";
+
 export const getBumpkinBanner = async (
   token: string,
   type: "flower" | "progress",
@@ -10,7 +16,12 @@ export const getBumpkinBanner = async (
     },
   });
 
-  const json = await res.json();
+  if (!process.env.DEBUG_BANNER) {
+    const json = await res.json();
+    return { url: json };
+  }
 
-  return json;
+  const blob = await res.blob();
+  const url = URL.createObjectURL(blob);
+  return { url };
 };
