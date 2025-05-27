@@ -5937,5 +5937,20 @@
   "blessing.noResults": "No results found for this date",
   "blessing.donated": "{amount} x {item} donated",
   "blessing.winners": "{count} winners",
-  "blessing.maxAmount": "Insufficient {name}."
+  "blessing.maxAmount": "Insufficient {name}.",
+  "marketplace.unlocks.perks": "Grow your land to unlock discounts.",
+  "marketplace.vip.resourceDiscount": "Unlock VIP for half the resource taxes.",
+  "marketplace.economy.title": "Market Economy",
+  "marketplace.economy.description": "Progress through the game to pay less resource fees when selling.",
+  "marketplace.economy.tutorialIsland": "Tutorial Island - Cannot sell resources",
+  "marketplace.economy.petalParadise": "Petal Paradise - 50% resource tax",
+  "marketplace.economy.desertIsland": "Desert Island - 20% resource tax",
+  "marketplace.economy.volcanoIsland": "Volcano Island - 15% resource tax",
+  "marketplace.economy.protection": "Resource taxes protect the deflationary market economy.",
+  "marketplace.resourceFee": "Resource Fee = {{tax}}%",
+  "marketplace.growFarm.title": "Grow your farm",
+  "marketplace.growFarm.description": "Upgrade your island to Petal Paradise to begin selling resources.",
+  "marketplace.ok": "Ok",
+  "marketplace.flower": "FLOWER",
+  "marketplace.vipOnly": "VIP only"
 }

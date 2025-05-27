@@ -5937,5 +5937,20 @@
   "deposit.flower.sendingTransaction": "Menghantar transaksi...",
   "deposit.flower.noDeposits": "Tiada deposit ditemui",
   "desposit.loadingBalance": "Memuatkan baki...",
-  "deposit.balanceLoadingError": "Ralat memuatkan baki. Cuba lagi kemudian."
+  "deposit.balanceLoadingError": "Ralat memuatkan baki. Cuba lagi kemudian.",
+  "marketplace.unlocks.perks": "Tumbuhkan tanah anda untuk membuka kunci diskaun.",
+  "marketplace.vip.resourceDiscount": "Buka kunci VIP untuk separuh cukai sumber.",
+  "marketplace.economy.title": "Ekonomi Pasaran",
+  "marketplace.economy.description": "Kemajuan melalui permainan untuk membayar yuran sumber yang lebih sedikit semasa menjual.",
+  "marketplace.economy.tutorialIsland": "Pulau Tutorial - Tidak boleh menjual sumber",
+  "marketplace.economy.petalParadise": "Petal Paradise - 50% cukai sumber",
+  "marketplace.economy.desertIsland": "Pulau Gurun - 20% cukai sumber",
+  "marketplace.economy.volcanoIsland": "Pulau Gunung Berapi - 15% cukai sumber",
+  "marketplace.economy.protection": "Cukai sumber melindungi ekonomi pasaran deflasi.",
+  "marketplace.resourceFee": "Yuran Sumber = {{tax}}%",
+  "marketplace.growFarm.title": "Tumbuhkan ladang anda",
+  "marketplace.growFarm.description": "Naik taraf pulau anda ke Petal Paradise untuk mula menjual sumber.",
+  "marketplace.ok": "Ok",
+  "marketplace.flower": "BUNGA",
+  "marketplace.vipOnly": "VIP sahaja"
 }

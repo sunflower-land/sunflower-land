@@ -5937,5 +5937,20 @@
   "deposit.flower.sendingTransaction": "Transaktion wird gesendet...",
   "deposit.flower.noDeposits": "Keine Einzahlungen gefunden",
   "desposit.loadingBalance": "Saldo wird geladen...",
-  "deposit.balanceLoadingError": "Fehler beim Laden des Guthabens. Versuchen Sie es später erneut."
+  "deposit.balanceLoadingError": "Fehler beim Laden des Guthabens. Versuchen Sie es später erneut.",
+  "marketplace.unlocks.perks": "Vergrößere dein Land, um Rabatte freizuschalten.",
+  "marketplace.vip.resourceDiscount": "Schalte VIP für die Hälfte der Ressourcensteuern frei.",
+  "marketplace.economy.title": "Marktwirtschaft",
+  "marketplace.economy.description": "Spiele dich durch das Spiel, um beim Verkauf weniger Ressourcengebühren zu zahlen.",
+  "marketplace.economy.tutorialIsland": "Tutorial Island - Ressourcen können nicht verkauft werden",
+  "marketplace.economy.petalParadise": "Petal Paradise — 50% Ressourcensteuer",
+  "marketplace.economy.desertIsland": "Desert Island — 20% Ressourcensteuer",
+  "marketplace.economy.volcanoIsland": "Volcano Island — 15% Ressourcensteuer",
+  "marketplace.economy.protection": "Ressourcensteuern schützen die deflationäre Marktwirtschaft.",
+  "marketplace.resourceFee": "Ressourcengebühr = {{tax}}%",
+  "marketplace.growFarm.title": "Baue deine Farm aus",
+  "marketplace.growFarm.description": "Rüste deine Insel zu Petal Paradise auf, um mit dem Verkauf von Ressourcen zu beginnen.",
+  "marketplace.ok": "Ok",
+  "marketplace.flower": "BLUME",
+  "marketplace.vipOnly": "Nur VIP"
 }

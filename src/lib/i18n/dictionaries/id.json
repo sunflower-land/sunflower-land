@@ -5937,5 +5937,20 @@
   "deposit.flower.sendingTransaction": "Mengirim transaksi...",
   "deposit.flower.noDeposits": "Tidak ada deposit yang ditemukan",
   "desposit.loadingBalance": "Memuat saldo...",
-  "deposit.balanceLoadingError": "Kesalahan saat memuat saldo. Coba lagi nanti."
+  "deposit.balanceLoadingError": "Kesalahan saat memuat saldo. Coba lagi nanti.",
+  "marketplace.unlocks.perks": "Tumbuhkan tanah Anda untuk membuka diskon.",
+  "marketplace.vip.resourceDiscount": "Buka VIP untuk setengah pajak sumber daya.",
+  "marketplace.economy.title": "Ekonomi Pasar",
+  "marketplace.economy.description": "Kemajuan melalui permainan untuk membayar lebih sedikit biaya sumber daya saat menjual.",
+  "marketplace.economy.tutorialIsland": "Pulau Tutorial - Tidak dapat menjual sumber daya",
+  "marketplace.economy.petalParadise": "Petal Paradise - pajak sumber daya 50%",
+  "marketplace.economy.desertIsland": "Pulau Gurun - pajak sumber daya 20%",
+  "marketplace.economy.volcanoIsland": "Pulau Gunung Berapi - pajak sumber daya 15%",
+  "marketplace.economy.protection": "Pajak sumber daya melindungi ekonomi pasar deflasi.",
+  "marketplace.resourceFee": "Biaya Sumber Daya = {{tax}}%",
+  "marketplace.growFarm.title": "Kembangkan pertanian Anda",
+  "marketplace.growFarm.description": "Tingkatkan pulau Anda ke Petal Paradise untuk mulai menjual sumber daya.",
+  "marketplace.ok": "Oke",
+  "marketplace.flower": "BUNGA",
+  "marketplace.vipOnly": "VIP saja"
 }

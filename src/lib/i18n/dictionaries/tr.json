@@ -5937,5 +5937,20 @@
   "deposit.flower.sendingTransaction": "İşlem gönderiliyor...",
   "deposit.flower.noDeposits": "Depozito bulunamadı",
   "desposit.loadingBalance": "Yükleme dengesi...",
-  "deposit.balanceLoadingError": "Yükleme dengesi hatası. Daha sonra tekrar deneyin."
+  "deposit.balanceLoadingError": "Yükleme dengesi hatası. Daha sonra tekrar deneyin.",
+  "marketplace.unlocks.perks": "İndirimlerin kilidini açmak için arazinizi büyütün.",
+  "marketplace.vip.resourceDiscount": "Kaynak vergilerinin yarısı için VIP kilidini açın.",
+  "marketplace.economy.title": "Piyasa Ekonomisi",
+  "marketplace.economy.description": "Satış yaparken daha az kaynak ücreti ödemek için oyunda ilerleyin.",
+  "marketplace.economy.tutorialIsland": "Tutorial Island - Kaynak satılamıyor",
+  "marketplace.economy.petalParadise": "Petal Paradise -% 50 kaynak vergisi",
+  "marketplace.economy.desertIsland": "Çöl Adası -% 20 kaynak vergisi",
+  "marketplace.economy.volcanoIsland": "Volkan Adası -% 15 kaynak vergisi",
+  "marketplace.economy.protection": "Kaynak vergileri deflasyonist piyasa ekonomisini korur.",
+  "marketplace.resourceFee": "Kaynak Ücreti = {{tax}} %",
+  "marketplace.growFarm.title": "Çiftliğinizi büyütün",
+  "marketplace.growFarm.description": "Kaynak satmaya başlamak için adanızı Petal Paradise\"a yükseltin.",
+  "marketplace.ok": "Tamam.",
+  "marketplace.flower": "ÇİÇEK",
+  "marketplace.vipOnly": "Sadece VIP"
 }

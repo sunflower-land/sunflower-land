@@ -5937,5 +5937,20 @@
   "deposit.flower.sendingTransaction": "Отправка транзакции...",
   "deposit.flower.noDeposits": "Депозиты не найдены",
   "desposit.loadingBalance": "Баланс нагрузки...",
-  "deposit.balanceLoadingError": "Ошибка при загрузке баланса. Повторите попытку позже."
+  "deposit.balanceLoadingError": "Ошибка при загрузке баланса. Повторите попытку позже.",
+  "marketplace.unlocks.perks": "Развивайте свою землю, чтобы получить скидки.",
+  "marketplace.vip.resourceDiscount": "Разблокируйте VIP за половину налога на ресурсы.",
+  "marketplace.economy.title": "Рыночная экономика",
+  "marketplace.economy.description": "Продвигайтесь по игре и платите меньше ресурсов при продаже.",
+  "marketplace.economy.tutorialIsland": "Tutorial Island — нельзя продавать ресурсы",
+  "marketplace.economy.petalParadise": "Petal Paradise — налог на ресурсы в размере 50%",
+  "marketplace.economy.desertIsland": "Необитаемый остров — налог на ресурсы в размере 20%",
+  "marketplace.economy.volcanoIsland": "Остров Вулкан — налог на ресурсы в размере 15%",
+  "marketplace.economy.protection": "Налоги на ресурсы защищают дефляционную рыночную экономику.",
+  "marketplace.resourceFee": "Плата за ресурсы = {{tax}}%",
+  "marketplace.growFarm.title": "Развивайте свою ферму",
+  "marketplace.growFarm.description": "Улучшите свой остров до Petal Paradise, чтобы начать продавать ресурсы.",
+  "marketplace.ok": "Ок",
+  "marketplace.flower": "ЦВЕТОК",
+  "marketplace.vipOnly": "Только VIP"
 }

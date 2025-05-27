@@ -5937,5 +5937,20 @@
   "deposit.flower.sendingTransaction": "Invio della transazione...",
   "deposit.flower.noDeposits": "Nessun deposito trovato",
   "desposit.loadingBalance": "Saldo di caricamento...",
-  "deposit.balanceLoadingError": "Errore durante il caricamento del saldo. Riprova più tardi."
+  "deposit.balanceLoadingError": "Errore durante il caricamento del saldo. Riprova più tardi.",
+  "marketplace.unlocks.perks": "Fai crescere la tua terra per sbloccare sconti.",
+  "marketplace.vip.resourceDiscount": "Sblocca VIP pagando la metà delle tasse sulle risorse.",
+  "marketplace.economy.title": "Economia di mercato",
+  "marketplace.economy.description": "Progredisci nel gioco per pagare meno commissioni sulle risorse in caso di vendita.",
+  "marketplace.economy.tutorialIsland": "Tutorial Island - Impossibile vendere risorse",
+  "marketplace.economy.petalParadise": "Petal Paradise - imposta sulle risorse del 50%",
+  "marketplace.economy.desertIsland": "Desert Island - imposta sulle risorse del 20%",
+  "marketplace.economy.volcanoIsland": "Volcano Island - tassa sulle risorse del 15%",
+  "marketplace.economy.protection": "Le tasse sulle risorse proteggono l'economia di mercato deflazionistica.",
+  "marketplace.resourceFee": "Tariffa risorsa = {{tax}}%",
+  "marketplace.growFarm.title": "Fai crescere la tua fattoria",
+  "marketplace.growFarm.description": "Migliora la tua isola a Petal Paradise per iniziare a vendere risorse.",
+  "marketplace.ok": "Ok",
+  "marketplace.flower": "FIORE",
+  "marketplace.vipOnly": "Solo VIP"
 }

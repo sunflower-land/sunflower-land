@@ -5937,5 +5937,20 @@
   "deposit.flower.sendingTransaction": "正在发送交易...",
   "deposit.flower.noDeposits": "未发现任何存款",
   "desposit.loadingBalance": "正在加载余额...",
-  "deposit.balanceLoadingError": "加载余额时出错。稍后再试。"
+  "deposit.balanceLoadingError": "加载余额时出错。稍后再试。",
+  "marketplace.unlocks.perks": "种植您的土地以解锁折扣。",
+  "marketplace.vip.resourceDiscount": "解锁 VIP 可获得一半的资源税。",
+  "marketplace.economy.title": "市场经济",
+  "marketplace.economy.description": "在游戏中取得进展，在销售时支付更少的资源费用。",
+  "marketplace.economy.tutorialIsland": "教程岛-无法出售资源",
+  "marketplace.economy.petalParadise": "花瓣天堂-50% 的资源税",
+  "marketplace.economy.desertIsland": "荒岛-20% 的资源税",
+  "marketplace.economy.volcanoIsland": "火山岛-15% 的资源税",
+  "marketplace.economy.protection": "资源税保护通货紧缩的市场经济。",
+  "marketplace.resourceFee": "资源费 = {{tax}}%",
+  "marketplace.growFarm.title": "种植你的农场",
+  "marketplace.growFarm.description": "将您的岛屿升级为花瓣天堂即可开始出售资源。",
+  "marketplace.ok": "好吧",
+  "marketplace.flower": "花",
+  "marketplace.vipOnly": "仅限贵宾"
 }
