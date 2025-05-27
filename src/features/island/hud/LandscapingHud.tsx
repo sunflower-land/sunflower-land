@@ -24,7 +24,6 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { getRemoveAction } from "../collectibles/MovableComponent";
 import { InventoryItemName } from "features/game/types/game";
 import { RemoveKuebikoModal } from "../collectibles/RemoveKuebikoModal";
-import { hasRemoveRestriction } from "features/game/types/removeables";
 import { BudName } from "features/game/types/buds";
 import { PlaceableLocation } from "features/game/types/collectibles";
 import { HudContainer } from "components/ui/HudContainer";
@@ -85,13 +84,6 @@ const LandscapingHudComponent: React.FC<{
 
   const showRemove =
     isMobile && selectedItem && getRemoveAction(selectedItem.name);
-  const [isRestricted, restrictionReason] = showRemove
-    ? hasRemoveRestriction(
-        selectedItem.name,
-        selectedItem.id,
-        gameService.state.context.state,
-      )
-    : [false, "No restriction"];
 
   useEffect(() => {
     setShowRemoveConfirmation(false);
@@ -200,15 +192,10 @@ const LandscapingHudComponent: React.FC<{
               right: `${PIXEL_SCALE * -2}px`,
             }}
           >
-            <Label type="danger">
-              {isRestricted ? restrictionReason : t("remove")}
-            </Label>
+            <Label type="danger">{t("remove")}</Label>
           </div>
 
-          <RoundButton
-            onClick={() => !isRestricted && remove()}
-            disabled={isRestricted}
-          >
+          <RoundButton onClick={() => remove()}>
             {showRemoveConfirmation ? (
               <img
                 className="absolute group-active:translate-y-[2px]"
@@ -230,13 +217,6 @@ const LandscapingHudComponent: React.FC<{
                     top: `${PIXEL_SCALE * 4.5}px`,
                   }}
                 />
-                {isRestricted && (
-                  <img
-                    src={SUNNYSIDE.icons.cancel}
-                    className="absolute right-0 top-0 w-1/2 object-contain group-active:translate-y-[2px]"
-                    alt="restricted"
-                  />
-                )}
               </>
             )}
           </RoundButton>
