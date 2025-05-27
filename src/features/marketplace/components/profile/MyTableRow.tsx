@@ -24,6 +24,7 @@ type MyTableRowProps = {
   unitPrice: number;
   usdPrice: number;
   isFulfilled: boolean;
+  fee: number;
   isResource: boolean;
   onCancel: (id: string) => void;
   onClaim: (id: string) => void;
@@ -42,6 +43,7 @@ export const MyTableRow: React.FC<MyTableRowProps> = ({
   usdPrice,
   isResource,
   isFulfilled,
+  fee,
   onCancel,
   onRowClick,
   onClaim,
@@ -98,6 +100,9 @@ export const MyTableRow: React.FC<MyTableRowProps> = ({
                     price: formatNumber(unitPrice, { decimalPlaces: 4 }),
                   })}
                 </div>
+              )}
+              {!!fee && (
+                <div className="text-[16px] sm:text-xxs w-full">{`${fee} fee`}</div>
               )}
             </div>
           </div>

@@ -18,6 +18,8 @@ import { formatNumber, setPrecision } from "lib/utils/formatNumber";
 import lockIcon from "assets/icons/lock.png";
 import sflIcon from "assets/icons/flower_token.webp";
 import tradeIcon from "assets/icons/trade.png";
+import { useGame } from "features/game/GameProvider";
+import { getResourceTax } from "features/game/types/marketplace";
 
 type Props = {
   inventoryCount: Decimal;
@@ -50,6 +52,7 @@ export const ResourceList: React.FC<Props> = ({
   onList,
 }) => {
   const { t } = useAppTranslation();
+  const { gameState } = useGame();
 
   const unitPrice = new Decimal(quantity).equals(0)
     ? new Decimal(0)
@@ -72,12 +75,30 @@ export const ResourceList: React.FC<Props> = ({
   // For now, keep offchain
   const maxSFL = new Decimal(price).greaterThan(MAX_SFL);
 
+  const tax = getResourceTax({
+    game: gameState.context.state,
+  });
+
+  if (gameState.context.state.island.type === "basic") {
+    return (
+      <div>
+        <Label type="danger" className="mb-1">
+          {t("marketplace.growFarm.title")}
+        </Label>
+        <p className="text-sm p-1 mb-1">
+          {t("marketplace.growFarm.description")}
+        </p>
+        <Button onClick={onCancel}>{t("marketplace.ok")}</Button>
+      </div>
+    );
+  }
+
   return (
     <>
       <div>
         <Label type="default" className="my-1 ml-2" icon={tradeIcon}>
           {t("marketplace.listItem", {
-            type: "Resource",
+            type: t("marketplace.resource"),
           })}
         </Label>
         <div className="flex justify-between">
@@ -234,7 +255,7 @@ export const ResourceList: React.FC<Props> = ({
           <p className="text-xs font-secondary">{`${formatNumber(price, {
             decimalPlaces: 4,
             showTrailingZeros: true,
-          })} FLOWER`}</p>
+          })} ${t("marketplace.flower")}`}</p>
         </div>
         <div
           className="flex justify-between"
@@ -248,11 +269,11 @@ export const ResourceList: React.FC<Props> = ({
           </span>
           <p className="text-xs font-secondary">
             {new Decimal(quantity).equals(0)
-              ? "0.0000 FLOWER"
+              ? `0.0000 ${t("marketplace.flower")}`
               : `${formatNumber(unitPrice, {
                   decimalPlaces: 4,
                   showTrailingZeros: true,
-                })} FLOWER`}
+                })} ${t("marketplace.flower")}`}
           </p>
         </div>
         <div
@@ -264,12 +285,12 @@ export const ResourceList: React.FC<Props> = ({
         >
           <span className="text-xs"> {t("bumpkinTrade.tradingFee")}</span>
           <p className="text-xs font-secondary">{`${formatNumber(
-            new Decimal(price).mul(0.1),
+            new Decimal(price).mul(tax),
             {
               decimalPlaces: 4,
               showTrailingZeros: true,
             },
-          )} FLOWER`}</p>
+          )} ${t("marketplace.flower")}`}</p>
         </div>
         <div
           className="flex justify-between"
@@ -279,12 +300,12 @@ export const ResourceList: React.FC<Props> = ({
         >
           <span className="text-xs"> {t("bumpkinTrade.youWillReceive")}</span>
           <p className="text-xs font-secondary">{`${formatNumber(
-            new Decimal(price).mul(0.9),
+            new Decimal(price).mul(1 - tax),
             {
               decimalPlaces: 4,
               showTrailingZeros: true,
             },
-          )} FLOWER`}</p>
+          )} ${t("marketplace.flower")}`}</p>
         </div>
         <div className="flex mt-2">
           <Button onClick={onCancel} className="mr-1">

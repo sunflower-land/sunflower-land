@@ -20,6 +20,7 @@ import { RemoveListing } from "../RemoveListing";
 import { tradeToId } from "features/marketplace/lib/offers";
 import { isTradeResource } from "features/game/actions/tradeLimits";
 import { MyTableRow } from "./MyTableRow";
+import { MARKETPLACE_TAX } from "features/game/types/marketplace";
 
 const _isCancellingOffer = (state: MachineState) =>
   state.matches("marketplaceListingCancelling");
@@ -165,6 +166,7 @@ export const MyListings: React.FC = () => {
                       usdPrice={usd}
                       isFulfilled={!!listing.fulfilledAt || !!listing.boughtAt}
                       isResource={isResource}
+                      fee={listing.tax ?? listing.sfl * MARKETPLACE_TAX}
                       onCancel={() => setRemoveListingId(id)}
                       onRowClick={() =>
                         navigate(
