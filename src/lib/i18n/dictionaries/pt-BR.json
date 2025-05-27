@@ -5333,13 +5333,10 @@
   "gems": "Gemas",
   "usd": "USD",
   "wallet.disconnectWallet": "Desconecte a carteira",
-  "transaction.deposit.flower": "Deposite $ FLOWER",
   "transaction.swap.flowerForCoins": "Troque $FLOWER por moedas",
   "transaction.menu.title": "Selecione uma opção",
-  "deposit.flower": "Deposite $ FLOWER",
   "deposit.flower.selectNetwork": "Selecione a rede",
   "deposit.flower.minimumDeposit": "O depósito mínimo é de 5$ FLOWER.",
-  "deposit.flower.onlyDeposit": "Deposite apenas $FLOWER na rede selecionada.",
   "deposit.flower.processingTimes": "Os tempos de processamento podem variar dependendo da rede.",
   "deposit.flower.iUnderstand": "Eu entendo",
   "deposit.flower.loading": "Carregando...",
@@ -5932,5 +5929,11 @@
   "blessing.noResults": "Nenhum resultado encontrado para esta data",
   "blessing.donated": "{quantidade} x {item} doado",
   "blessing.winners": "{count} vencedores",
-  "blessing.maxAmount": "{name} insuficiente."
+  "blessing.maxAmount": "{name} insuficiente.",
+  "transaction.deposit.flower": "Deposite FLOWER",
+  "deposit.flower": "Deposite FLOWER",
+  "deposit.flower.onlyDeposit": "Deposite FLOWER apenas na rede selecionada.",
+  "deposit.flower.depositFromDifferentWallet": "Deposite de uma carteira diferente",
+  "deposit.flower.sendingTransaction": "Enviando transação...",
+  "deposit.flower.noDeposits": "Nenhum depósito encontrado"
 }

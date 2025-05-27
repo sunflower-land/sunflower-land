@@ -5333,13 +5333,10 @@
   "gems": "钻石",
   "usd": "美元",
   "wallet.disconnectWallet": "断开钱包连接",
-  "transaction.deposit.flower": "存入 $FLOWER",
   "transaction.swap.flowerForCoins": "用 $FLOWER 兑换金币",
   "transaction.menu.title": "选择一个选项",
-  "deposit.flower": "存入 $FLOWER",
   "deposit.flower.selectNetwork": "选择网络",
   "deposit.flower.minimumDeposit": "最低存款额为 5 枚 $FLOWER。",
-  "deposit.flower.onlyDeposit": "仅向所选网络存入 $FLOWER。",
   "deposit.flower.processingTimes": "处理时间可能因网络而异。",
   "deposit.flower.iUnderstand": "我明白",
   "deposit.flower.loading": "加载中...",
@@ -5932,5 +5929,11 @@
   "blessing.noResults": "未找到该日期的结果",
   "blessing.donated": "{金额} x {项目} 捐赠",
   "blessing.winners": "{count} 获胜者",
-  "blessing.maxAmount": "{名称} 不足。"
+  "blessing.maxAmount": "{名称} 不足。",
+  "transaction.deposit.flower": "存款鲜花",
+  "deposit.flower": "存款鲜花",
+  "deposit.flower.onlyDeposit": "仅将 FLOWER 存入选定的网络。",
+  "deposit.flower.depositFromDifferentWallet": "从其他钱包存款",
+  "deposit.flower.sendingTransaction": "正在发送交易...",
+  "deposit.flower.noDeposits": "未发现任何存款"
 }

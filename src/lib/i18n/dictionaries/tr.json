@@ -5333,13 +5333,10 @@
   "gems": "Mücevherler",
   "usd": "AMERİKAN DOLARI",
   "wallet.disconnectWallet": "Cüzdanı Kes",
-  "transaction.deposit.flower": "Para Yatırma $FLOWER",
   "transaction.swap.flowerForCoins": "$FLOWER'ı Madeni Paralarla Değiştir",
   "transaction.menu.title": "Bir seçenek seçin",
-  "deposit.flower": "Para Yatırma $FLOWER",
   "deposit.flower.selectNetwork": "Ağ seçin",
   "deposit.flower.minimumDeposit": "Minimum depozito 5$ ÇIÇEK.",
-  "deposit.flower.onlyDeposit": "Yalnızca seçilen ağa $FLOWER yatırın.",
   "deposit.flower.processingTimes": "İşlem süreleri ağa bağlı olarak değişebilir.",
   "deposit.flower.iUnderstand": "Anlıyorum",
   "deposit.flower.loading": "Yükleniyor...",
@@ -5932,5 +5929,11 @@
   "blessing.noResults": "Bu tarih için sonuç bulunamadı",
   "blessing.donated": "{miktar} x {item} bağışlandı",
   "blessing.winners": "{count} kazananlar",
-  "blessing.maxAmount": "Yetersiz {name}."
+  "blessing.maxAmount": "Yetersiz {name}.",
+  "transaction.deposit.flower": "Çiçek yatırma",
+  "deposit.flower": "Çiçek yatırma",
+  "deposit.flower.onlyDeposit": "FLOWER'ı yalnızca seçilen ağa yatırın.",
+  "deposit.flower.depositFromDifferentWallet": "Farklı bir cüzdandan para yatırma",
+  "deposit.flower.sendingTransaction": "İşlem gönderiliyor...",
+  "deposit.flower.noDeposits": "Depozito bulunamadı"
 }

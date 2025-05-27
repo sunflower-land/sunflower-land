@@ -5333,13 +5333,10 @@
   "gems": "Edelsteine",
   "usd": "USD",
   "wallet.disconnectWallet": "Wallet trennen",
-  "transaction.deposit.flower": "Zahlen Sie $FLOWER ein",
   "transaction.swap.flowerForCoins": "Tausche $FLOWER gegen Coins",
   "transaction.menu.title": "Wählen Sie eine Option",
-  "deposit.flower": "Zahlen Sie $FLOWER ein",
   "deposit.flower.selectNetwork": "Wählen Sie ein Netzwerk",
   "deposit.flower.minimumDeposit": "Die Mindesteinzahlung beträgt 5$ FLOWER.",
-  "deposit.flower.onlyDeposit": "Zahlen Sie $FLOWER nur in das gewählte Netzwerk ein.",
   "deposit.flower.processingTimes": "Die Verarbeitungszeiten können je nach Netzwerk variieren.",
   "deposit.flower.iUnderstand": "Ich verstehe",
   "deposit.flower.loading": "Wird geladen...",
@@ -5932,5 +5929,11 @@
   "blessing.noResults": "Für dieses Datum wurden keine Ergebnisse gefunden",
   "blessing.donated": "{Betrag} x {item} gespendet",
   "blessing.winners": "{count} Gewinner",
-  "blessing.maxAmount": "{name} ist unzureichend."
+  "blessing.maxAmount": "{name} ist unzureichend.",
+  "transaction.deposit.flower": "Zahlen Sie FLOWER ein",
+  "deposit.flower": "Zahlen Sie FLOWER ein",
+  "deposit.flower.onlyDeposit": "Zahlen Sie FLOWER nur im ausgewählten Netzwerk ein.",
+  "deposit.flower.depositFromDifferentWallet": "Einzahlung aus einer anderen Wallet",
+  "deposit.flower.sendingTransaction": "Transaktion wird gesendet...",
+  "deposit.flower.noDeposits": "Keine Einzahlungen gefunden"
 }

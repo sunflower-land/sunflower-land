@@ -5333,13 +5333,10 @@
   "gems": "宝石",
   "usd": "USD",
   "wallet.disconnectWallet": "ウォレットの接続解除",
-  "transaction.deposit.flower": "$フラワーを入金",
   "transaction.swap.flowerForCoins": "$FLOWERをコインに交換",
   "transaction.menu.title": "オプションを選択してください",
-  "deposit.flower": "$フラワーを入金",
   "deposit.flower.selectNetwork": "ネットワークを選択",
   "deposit.flower.minimumDeposit": "最低入金額は5ドルフラワーです。",
-  "deposit.flower.onlyDeposit": "選択したネットワークにのみ$FLOWERを入金してください。",
   "deposit.flower.processingTimes": "処理時間はネットワークによって異なる場合があります。",
   "deposit.flower.iUnderstand": "分かるよ",
   "deposit.flower.loading": "読み込み中...",
@@ -5932,5 +5929,11 @@
   "blessing.noResults": "この日付の結果は見つかりませんでした",
   "blessing.donated": "{金額} x {アイテム} が寄付されました",
   "blessing.winners": "{カウント} 人の勝者",
-  "blessing.maxAmount": "{name} が足りません。"
+  "blessing.maxAmount": "{name} が足りません。",
+  "transaction.deposit.flower": "デポジットフラワー",
+  "deposit.flower": "デポジットフラワー",
+  "deposit.flower.onlyDeposit": "選択したネットワークにのみFLOWERを入金してください。",
+  "deposit.flower.depositFromDifferentWallet": "別のウォレットからの入金",
+  "deposit.flower.sendingTransaction": "トランザクションを送信中...",
+  "deposit.flower.noDeposits": "入金が見つかりません"
 }

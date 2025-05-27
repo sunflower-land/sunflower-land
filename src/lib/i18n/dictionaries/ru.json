@@ -5333,13 +5333,10 @@
   "gems": "драгоценные камни",
   "usd": "ДОЛЛАР США",
   "wallet.disconnectWallet": "Отключить кошелек",
-  "transaction.deposit.flower": "Депозит FLOWER",
   "transaction.swap.flowerForCoins": "Обменяйте FLOWER на монеты",
   "transaction.menu.title": "Выберите вариант",
-  "deposit.flower": "Депозит Flower",
   "deposit.flower.selectNetwork": "Выберите сеть",
   "deposit.flower.minimumDeposit": "Минимальный депозит составляет 5 Flower.",
-  "deposit.flower.onlyDeposit": "Вносите только FLOWER в выбранную сеть.",
   "deposit.flower.processingTimes": "Время обработки может отличаться в зависимости от сети.",
   "deposit.flower.iUnderstand": "Понимаю",
   "deposit.flower.loading": "Загрузка...",
@@ -5932,5 +5929,11 @@
   "blessing.noResults": "На эту дату результатов не найдено",
   "blessing.donated": "{сумма} x {предмет} пожертвовано",
   "blessing.winners": "{count} победителей",
-  "blessing.maxAmount": "Недостаточно {name}."
+  "blessing.maxAmount": "Недостаточно {name}.",
+  "transaction.deposit.flower": "Депозит ЦВЕТОК",
+  "deposit.flower": "Депозит ЦВЕТОК",
+  "deposit.flower.onlyDeposit": "Вносите FLOWER только в выбранную сеть.",
+  "deposit.flower.depositFromDifferentWallet": "Депозит с другого кошелька",
+  "deposit.flower.sendingTransaction": "Отправка транзакции...",
+  "deposit.flower.noDeposits": "Депозиты не найдены"
 }

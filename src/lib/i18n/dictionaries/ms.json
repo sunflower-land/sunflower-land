@@ -5333,13 +5333,10 @@
   "gems": "Permata",
   "usd": "USD",
   "wallet.disconnectWallet": "Putuskan sambungan Wallet",
-  "transaction.deposit.flower": "Deposit $FLOWER",
   "transaction.swap.flowerForCoins": "Tukar $FLOWER untuk Syiling",
   "transaction.menu.title": "Pilih pilihan",
-  "deposit.flower": "Deposit $FLOWER",
   "deposit.flower.selectNetwork": "Pilih rangkaian",
   "deposit.flower.minimumDeposit": "Deposit minimum ialah 5 $FLOWER.",
-  "deposit.flower.onlyDeposit": "Hanya deposit $FLOWER ke rangkaian yang dipilih.",
   "deposit.flower.processingTimes": "Masa pemprosesan mungkin berbeza-beza bergantung kepada rangkaian.",
   "deposit.flower.iUnderstand": "Saya faham",
   "deposit.flower.loading": "Memuatkan...",
@@ -5932,5 +5929,11 @@
   "blessing.noResults": "Tiada hasil ditemui untuk tarikh ini",
   "blessing.donated": "{jumlah} x {item} disumbangkan",
   "blessing.winners": "{count} pemenang",
-  "blessing.maxAmount": "Tidak mencukupi {nama}."
+  "blessing.maxAmount": "Tidak mencukupi {nama}.",
+  "transaction.deposit.flower": "Deposit BUNGA",
+  "deposit.flower": "Deposit BUNGA",
+  "deposit.flower.onlyDeposit": "Hanya deposit FLOWER ke rangkaian yang dipilih.",
+  "deposit.flower.depositFromDifferentWallet": "Deposit dari dompet yang berbeza",
+  "deposit.flower.sendingTransaction": "Menghantar transaksi...",
+  "deposit.flower.noDeposits": "Tiada deposit ditemui"
 }
