@@ -27,6 +27,7 @@ export const DepositFromLinkedWallet: React.FC<{
   linkedWalletBalance: bigint;
   balanceState: "loading" | "loaded" | "error";
   setManualDeposit: (manualDeposit: boolean) => void;
+  fetchBalance: (selectedNetwork: NetworkOption) => Promise<void>;
 }> = ({
   depositAddress,
   linkedWallet,
@@ -34,6 +35,7 @@ export const DepositFromLinkedWallet: React.FC<{
   linkedWalletBalance,
   balanceState,
   setManualDeposit,
+  fetchBalance,
 }) => {
   const { t } = useTranslation();
   const { gameService } = useContext(Context);
@@ -51,8 +53,9 @@ export const DepositFromLinkedWallet: React.FC<{
     gameService,
     "depositingFlowerFromLinkedWallet",
     "playing",
-    () => {
+    async () => {
       setAmount(new Decimal(MIN_DEPOSIT_AMOUNT));
+      await fetchBalance(selectedNetwork);
     },
   );
 

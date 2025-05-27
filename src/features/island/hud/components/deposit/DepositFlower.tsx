@@ -186,6 +186,7 @@ export const DepositFlower: React.FC<{ onClose: () => void }> = ({
           linkedWalletBalance={balance}
           balanceState={balanceState}
           setManualDeposit={setManualDeposit}
+          fetchBalance={fetchBalance}
         />
       )}
 
