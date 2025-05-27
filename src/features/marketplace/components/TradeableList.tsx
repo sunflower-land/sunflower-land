@@ -98,9 +98,6 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
 
   const dailyListings = getDailyListings();
 
-  const hasAccess =
-    state.island.type !== "basic" && (hasTradeReputation || dailyListings < 1);
-
   const tradeType = getTradeType({
     collection: display.type,
     id,
@@ -112,6 +109,8 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
   const isResource =
     isTradeResource(display.name as InventoryItemName) &&
     display.type === "collectibles";
+
+  const hasReputation = hasTradeReputation || dailyListings < 1;
 
   // Check inventory count
   const getCount = () => {
@@ -330,7 +329,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
           })}
         </Label>
 
-        {!hasAccess && (
+        {!hasReputation && (
           <RequiredReputation reputation={Reputation.Cropkeeper} />
         )}
       </div>
