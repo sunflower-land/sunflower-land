@@ -63,6 +63,9 @@ export const Navigation: React.FC = () => {
   const [landingImageLoaded, setLandingImageLoaded] = useState(false);
 
   useEffect(() => {
+    // Testing - don't show connection modal when in UI mode
+    if (!CONFIG.API_URL) return;
+
     // Check if online on initial load
     if (!navigator.onLine) {
       setShowConnectionModal(true);

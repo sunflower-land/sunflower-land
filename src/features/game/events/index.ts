@@ -469,6 +469,7 @@ import {
   claimPetalPrize,
   ClaimPetalPrizeAction,
 } from "./landExpansion/claimPetalPrize";
+import { claimBlessing, ClaimBlessingAction } from "./claimBlessing";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
@@ -607,7 +608,8 @@ export type PlayingEvent =
   | BuyMinigameItemAction
   | AcknowledgeRewardBoxAction
   | OpenRewardBoxAction
-  | ClaimPetalPrizeAction;
+  | ClaimPetalPrizeAction
+  | ClaimBlessingAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -813,6 +815,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "rewardBox.opened": openRewardBox,
   "claim.bountyBoardBonus": claimBountyBonus,
   "petalPuzzle.solved": claimPetalPrize,
+  "blessing.claimed": claimBlessing,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
