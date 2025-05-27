@@ -28,6 +28,7 @@ import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
   pixelBlueBorderStyle,
+  pixelGrayBorderStyle,
   pixelVibrantBorderStyle,
 } from "features/game/lib/style";
 
@@ -73,13 +74,14 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip, game }) => {
   /**
    * Show available wardrobe and currently equipped items
    */
-  const wardrobe = Object.values(equipment ?? {}).reduce(
-    (acc, name) => ({
+  const wardrobe = Object.values(equipment ?? {}).reduce((acc, name) => {
+    const available = availableWardrobe(game)[name] ?? 0;
+
+    return {
       ...acc,
-      [name]: 1,
-    }),
-    availableWardrobe(game),
-  );
+      [name]: available,
+    };
+  }, availableWardrobe(game));
 
   const equipPart = (name: BumpkinItem) => {
     const part = BUMPKIN_ITEM_PART[name];
@@ -242,6 +244,7 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip, game }) => {
                     const specialItem = SPECIAL_ITEM_LABELS[name];
 
                     const buffLabel = boostLabel || specialItem;
+                    const amountEquipped = wardrobe[name] ?? 0;
 
                     return (
                       <OuterPanel
@@ -270,6 +273,14 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip, game }) => {
                             className="absolute h-4 -left-2 -top-2"
                             src={SUNNYSIDE.icons.confirm}
                           />
+                        )}
+                        {amountEquipped > 0 && (
+                          <div
+                            className="absolute -right-2 -bottom-2 bg-[#c0cbdc] text-[#181425] text-xs"
+                            style={pixelGrayBorderStyle}
+                          >
+                            {amountEquipped}
+                          </div>
                         )}
                         {!!buffLabel && (
                           <div
