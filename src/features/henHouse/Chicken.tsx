@@ -35,6 +35,7 @@ import { WakesIn } from "features/game/expansion/components/animals/WakesIn";
 import { InfoPopover } from "features/island/common/InfoPopover";
 import Decimal from "decimal.js-light";
 import {
+  getBarnDelightCost,
   handleFoodXP,
   REQUIRED_FOOD_QTY,
 } from "features/game/events/landExpansion/feedAnimal";
@@ -265,7 +266,9 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
 
   const onSickClick = async () => {
     const medicineCount = inventory["Barn Delight"] ?? new Decimal(0);
-    const hasEnoughMedicine = medicineCount.gte(1);
+    const hasEnoughMedicine = medicineCount.gte(
+      getBarnDelightCost({ state: game }),
+    );
 
     if (hasOracleSyringeEquipped) {
       playCureAnimal();
