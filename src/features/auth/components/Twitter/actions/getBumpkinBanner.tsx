@@ -18,7 +18,7 @@ export const getBumpkinBanner = async (
 
   if (process.env.DEBUG_BANNER === "false") {
     const json = await res.json();
-    return { url: json };
+    return json;
   }
 
   const blob = await res.blob();
