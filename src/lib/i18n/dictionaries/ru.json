@@ -5952,5 +5952,9 @@
   "marketplace.growFarm.description": "Улучшите свой остров до Petal Paradise, чтобы начать продавать ресурсы.",
   "marketplace.ok": "Ок",
   "marketplace.flower": "ЦВЕТОК",
-  "marketplace.vipOnly": "Только VIP"
+  "marketplace.vipOnly": "Только VIP",
+  "deposit.from": "Депозит от:",
+  "deposit.flower.depositFromLinkedWallet": "Связанный кошелек",
+  "deposit.flower.otherWallet": "Другой кошелек",
+  "deposit.flower.": "Депозит с другого кошелька"
 }

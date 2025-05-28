@@ -5952,5 +5952,9 @@
   "marketplace.growFarm.description": "Améliorez votre île en Petal Paradise pour commencer à vendre des ressources.",
   "marketplace.ok": "D'accord",
   "marketplace.flower": "FLEUR",
-  "marketplace.vipOnly": "VIP uniquement"
+  "marketplace.vipOnly": "VIP uniquement",
+  "deposit.from": "Dépôt à partir de :",
+  "deposit.flower.depositFromLinkedWallet": "Portefeuille lié",
+  "deposit.flower.otherWallet": "Autre portefeuille",
+  "deposit.flower.": "Effectuer un dépôt depuis un autre portefeuille"
 }

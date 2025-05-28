@@ -5952,5 +5952,9 @@
   "marketplace.growFarm.description": "Tingkatkan pulau Anda ke Petal Paradise untuk mulai menjual sumber daya.",
   "marketplace.ok": "Oke",
   "marketplace.flower": "BUNGA",
-  "marketplace.vipOnly": "VIP saja"
+  "marketplace.vipOnly": "VIP saja",
+  "deposit.from": "Deposit dari:",
+  "deposit.flower.depositFromLinkedWallet": "Dompet tertaut",
+  "deposit.flower.otherWallet": "Dompet lainnya",
+  "deposit.flower.": "Setor dari dompet yang berbeda"
 }

@@ -5952,5 +5952,9 @@
   "marketplace.growFarm.description": "島をペタルパラダイスにアップグレードして、資源の販売を始めましょう。",
   "marketplace.ok": "オーケー",
   "marketplace.flower": "花",
-  "marketplace.vipOnly": "VIP のみ"
+  "marketplace.vipOnly": "VIP のみ",
+  "deposit.from": "入金元:",
+  "deposit.flower.depositFromLinkedWallet": "リンクされたウォレット",
+  "deposit.flower.otherWallet": "その他の財布",
+  "deposit.flower.": "別のウォレットからの入金"
 }

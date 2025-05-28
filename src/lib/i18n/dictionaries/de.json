@@ -5952,5 +5952,9 @@
   "marketplace.growFarm.description": "Rüste deine Insel zu Petal Paradise auf, um mit dem Verkauf von Ressourcen zu beginnen.",
   "marketplace.ok": "Ok",
   "marketplace.flower": "BLUME",
-  "marketplace.vipOnly": "Nur VIP"
+  "marketplace.vipOnly": "Nur VIP",
+  "deposit.from": "Einzahlung von:",
+  "deposit.flower.depositFromLinkedWallet": "Verknüpfte Brieftasche",
+  "deposit.flower.otherWallet": "Andere Geldbörse",
+  "deposit.flower.": "Einzahlung aus einer anderen Wallet"
 }

@@ -5952,5 +5952,9 @@
   "marketplace.growFarm.description": "将您的岛屿升级为花瓣天堂即可开始出售资源。",
   "marketplace.ok": "好吧",
   "marketplace.flower": "花",
-  "marketplace.vipOnly": "仅限贵宾"
+  "marketplace.vipOnly": "仅限贵宾",
+  "deposit.from": "存款来自：",
+  "deposit.flower.depositFromLinkedWallet": "关联钱包",
+  "deposit.flower.otherWallet": "其他钱包",
+  "deposit.flower.": "从其他钱包存款"
 }
