@@ -842,7 +842,7 @@
   "fruit-dash.portal.description": "Run through the farm, dodge obstacles, and collect delicious fruits.",
   "fruit-dash.portal.missionObjectives": "Mission: Reach {{targetScore}} points.",
   "fruit-dash.portal.rewardMessage": "Congratulations, you completed the mission! Here is your reward.",
-  "mine-whack.portal.title": "Minigame - Mine Wack",
+  "mine-whack.portal.title": "Minigame - Mine Whack",
   "mine-whack.portal.description": "Tap the moles, dodge the rabbits, and race against time in this reflex challenge!",
   "mine-whack.portal.missionObjectives": "Mission: Reach {{targetScore}} points.",
   "mine-whack.portal.rewardMessage": "Congratulations, you completed the mission! Here is your reward.",
