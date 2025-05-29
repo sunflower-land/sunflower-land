@@ -6,6 +6,7 @@ import {
   CropPlot,
   GameState,
   InventoryItemName,
+  IslandType,
 } from "../../types/game";
 import {
   COLLECTIBLES_DIMENSIONS,
@@ -71,10 +72,13 @@ type IsPlotFertile = {
   buildings: Buildings;
   upgradeReadyAt?: number;
   createdAt?: number;
+  island: IslandType;
 };
 
 // First 15 plots do not need water
-const INITIAL_SUPPORTED_PLOTS = 18;
+const INITIAL_SUPPORTED_PLOTS = (island: IslandType) =>
+  island !== "basic" ? 18 : 17;
+
 // Each well can support an additional 8 plots
 const WELL_PLOT_SUPPORT = 8;
 
@@ -93,13 +97,15 @@ export const getSupportedPlots = ({
   buildings,
   upgradeReadyAt,
   createdAt = Date.now(),
+  island,
 }: {
   wellLevel: number;
   buildings: Buildings;
   upgradeReadyAt?: number;
   createdAt?: number;
+  island: IslandType;
 }) => {
-  let plots = INITIAL_SUPPORTED_PLOTS;
+  let plots = INITIAL_SUPPORTED_PLOTS(island);
   const hasWell = (buildings["Water Well"]?.length ?? 0) > 0;
   let effectiveWellLevel = wellLevel;
 
@@ -110,7 +116,8 @@ export const getSupportedPlots = ({
   if (!hasWell) return plots;
   if (effectiveWellLevel >= 4) return 99;
 
-  plots = effectiveWellLevel * WELL_PLOT_SUPPORT + INITIAL_SUPPORTED_PLOTS;
+  plots =
+    effectiveWellLevel * WELL_PLOT_SUPPORT + INITIAL_SUPPORTED_PLOTS(island);
   return plots;
 };
 
@@ -121,6 +128,7 @@ export function isPlotFertile({
   buildings,
   upgradeReadyAt,
   createdAt = Date.now(),
+  island,
 }: IsPlotFertile): boolean {
   // get the well count
   const cropsWellCanWater = getSupportedPlots({
@@ -128,13 +136,13 @@ export function isPlotFertile({
     buildings,
     upgradeReadyAt,
     createdAt,
+    island,
   });
 
   const cropPosition =
     getKeys(crops)
       .sort((a, b) => (crops[a].createdAt > crops[b].createdAt ? 1 : -1))
       .findIndex((plotId) => plotId === plotIndex) + 1;
-
   return cropPosition <= cropsWellCanWater;
 }
 
@@ -925,6 +933,7 @@ export function plant({
         buildings,
         upgradeReadyAt: stateCopy.waterWell.upgradeReadyAt ?? 0,
         createdAt,
+        island: stateCopy.island.type,
       })
     ) {
       throw new Error("Plot is not fertile");

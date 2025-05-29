@@ -95,11 +95,13 @@ export const UpgradeBuildingModal: React.FC<Props> = ({
   const currentSupportedPlots = getSupportedPlots({
     wellLevel: currentLevel,
     buildings: state.buildings,
+    island: state.island.type,
   });
 
   const nextSupportedPlots = getSupportedPlots({
     wellLevel: nextLevel,
     buildings: state.buildings,
+    island: state.island.type,
   });
 
   const nextLevelFertility = nextSupportedPlots - currentSupportedPlots;
