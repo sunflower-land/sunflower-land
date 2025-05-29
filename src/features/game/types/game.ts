@@ -645,6 +645,7 @@ export type BuildingProduct = {
   readyAt: number;
   amount?: number;
   boost?: Partial<Record<InventoryItemName, number>>;
+  skills?: Partial<Record<BumpkinRevampSkillName, boolean>>;
 };
 
 export type BuildingProduce = {

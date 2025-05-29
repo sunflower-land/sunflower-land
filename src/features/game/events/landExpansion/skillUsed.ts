@@ -115,8 +115,8 @@ function useInstantGratification({
   game: GameState;
   createdAt?: number;
 }): GameState {
-  getKeys(BUILDING_DAILY_OIL_CAPACITY).forEach((b) => {
-    const building = game.buildings[b]?.[0];
+  getKeys(BUILDING_DAILY_OIL_CAPACITY).forEach((buildingName) => {
+    const building = game.buildings[buildingName]?.[0];
     const queue = building?.crafting;
 
     if (!building || !queue) return;
@@ -137,9 +137,10 @@ function useInstantGratification({
     building.crafting = recalculateQueue({
       queue,
       createdAt,
-      buildingId: building.id,
+      buildingName,
       game,
-      isInstant: true,
+      isInstantCook: true,
+      keepReadyRecipes: true,
     });
   });
 
