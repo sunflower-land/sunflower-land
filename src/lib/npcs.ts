@@ -5,6 +5,7 @@ export type NPCName =
   | "richie"
   | "cluck e cheese"
   | "felga" // Fruit dash
+  | "minewhack" // Mine Whack
   | "digby"
   | "portaller"
   | "gambit"
@@ -168,6 +169,15 @@ export const NPC_WEARABLES: Record<NPCName, Equipped> = {
     body: "Beige Farmer Potion",
     shoes: "Yellow Boots",
     tool: "Farmer Pitchfork",
+  },
+  minewhack: {
+    hair: "Blacksmith Hair",
+    pants: "Blue Suspenders",
+    background: "Seashore Background",
+    hat: "Grumpy Cat",
+    body: "Beige Farmer Potion",
+    shoes: "Yellow Boots",
+    tool: "Grave Diggers Shovel",
   },
   pharaoh: {
     body: "Light Brown Farmer Potion",
