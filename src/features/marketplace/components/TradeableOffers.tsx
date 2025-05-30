@@ -36,6 +36,8 @@ import Decimal from "decimal.js-light";
 import { useParams } from "react-router";
 import { KeyedMutator } from "swr";
 import { MAX_LIMITED_PURCHASES } from "./Tradeable";
+import { ResourceTaxes } from "./TradeableInfo";
+import { hasVipAccess } from "features/game/lib/vipAccess";
 
 const _hasPendingOfferEffect = (state: MachineState) =>
   state.matches("marketplaceOffering") || state.matches("marketplaceAccepting");
@@ -149,6 +151,12 @@ export const TradeableOffers: React.FC<{
   const loading = !tradeable;
   const isResource = isTradeResource(KNOWN_ITEMS[Number(id)]);
 
+  const vipIsRequired =
+    tradeable?.isVip &&
+    !hasVipAccess({
+      game: gameService.getSnapshot().context.state,
+    });
+
   return (
     <>
       <Modal show={showMakeOffer} onHide={handleHide}>
@@ -163,7 +171,7 @@ export const TradeableOffers: React.FC<{
         </Panel>
       </Modal>
       <Modal show={showAcceptOffer} onHide={handleHide}>
-        <Panel>
+        <Panel className="mb-1">
           <AcceptOffer
             authToken={authToken}
             itemId={itemId}
@@ -173,6 +181,7 @@ export const TradeableOffers: React.FC<{
             onOfferAccepted={reload}
           />
         </Panel>
+        {isResource && <ResourceTaxes />}
       </Modal>
       {!isResource && (
         <InnerPanel className="mb-1">
@@ -207,7 +216,7 @@ export const TradeableOffers: React.FC<{
               )}
               {!loading && (
                 <div className="flex items-center w-full sm:w-fit">
-                  {tradeable?.isActive && (
+                  {tradeable?.isActive && !vipIsRequired && (
                     <Button
                       className="w-full sm:w-fit mr-1"
                       disabled={
@@ -223,7 +232,7 @@ export const TradeableOffers: React.FC<{
                     </Button>
                   )}
 
-                  {topOffer && tradeable?.isActive && (
+                  {topOffer && tradeable?.isActive && !vipIsRequired && (
                     <Button
                       disabled={
                         topOffer.offeredBy.id === farmId ||
@@ -292,7 +301,7 @@ export const TradeableOffers: React.FC<{
                   id={farmId}
                   tableType="offers"
                   onClick={
-                    tradeable.isActive
+                    tradeable.isActive && !vipIsRequired
                       ? (offerId) => {
                           handleSelectOffer(offerId);
                           setShowAcceptOffer(true);

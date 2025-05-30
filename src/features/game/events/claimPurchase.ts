@@ -52,7 +52,8 @@ export function claimPurchase({
       const amount = listing?.items[item] ?? 0;
 
       let sfl = new Decimal(listing?.sfl ?? 0);
-      sfl = sfl.mul(1 - MARKETPLACE_TAX);
+      const tax = listing?.tax ?? sfl.mul(MARKETPLACE_TAX);
+      sfl = sfl.minus(tax);
 
       game.balance = game.balance.plus(sfl);
 

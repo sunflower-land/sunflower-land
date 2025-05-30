@@ -2,7 +2,11 @@ import React, { useContext } from "react";
 
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
-import { Offer } from "features/game/types/marketplace";
+import {
+  getResourceTax,
+  MARKETPLACE_TAX,
+  Offer,
+} from "features/game/types/marketplace";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 import { useSelector } from "@xstate/react";
@@ -129,6 +133,14 @@ const AcceptOfferContent: React.FC<{
     );
   }
 
+  let tax = offer.sfl * MARKETPLACE_TAX;
+  if (
+    display.type === "collectibles" &&
+    isTradeResource(display.name as InventoryItemName)
+  ) {
+    tax = offer.sfl * getResourceTax({ game: state });
+  }
+
   return (
     <>
       <div className="p-2">
@@ -143,6 +155,7 @@ const AcceptOfferContent: React.FC<{
         <TradeableSummary
           display={display}
           sfl={offer.sfl}
+          tax={tax}
           quantity={offer.quantity}
           estTradePoints={estTradePoints}
         />

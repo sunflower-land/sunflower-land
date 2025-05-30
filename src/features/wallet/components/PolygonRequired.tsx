@@ -9,6 +9,7 @@ import classNames from "classnames";
 import { pixelGrayBorderStyle } from "features/game/lib/style";
 import { useGame } from "features/game/GameProvider";
 import { isRonin } from "../lib/ronin";
+import { CONFIG } from "lib/config";
 
 export const PolygonRequired: React.FC<{
   canContinue: boolean;
@@ -18,7 +19,8 @@ export const PolygonRequired: React.FC<{
 
   const doContinue = () => {
     walletService.send({
-      type: "CONTINUE",
+      type: "SWITCH_NETWORK",
+      chainId: CONFIG.POLYGON_CHAIN_ID as 137 | 80002,
     });
   };
 
@@ -51,7 +53,7 @@ export const PolygonRequired: React.FC<{
         </div>
       </div>
       <div className="flex justify-evenly space-x-1">
-        <Button onClick={doContinue} className="py-2 text-sm relative">
+        <Button onClick={doContinue} className="text-sm relative">
           <div className="text-center whitespace-nowrap">
             {canContinue ? t("statements.switchToPolygon") : t("back")}
           </div>

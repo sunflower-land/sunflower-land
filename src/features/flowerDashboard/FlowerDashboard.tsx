@@ -29,7 +29,6 @@ import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
 import { capitalize } from "lib/utils/capitalize";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { getRelativeTime } from "lib/utils/time";
-import { hasFeatureAccess } from "lib/flags";
 
 const fetcher = async ([_, token, farmId]: [string, string, number]) => {
   return getFlowerDashboard({ farmId, token });
@@ -41,6 +40,8 @@ const _farmId = (state: MachineState) => state.context.farmId;
 const _state = (state: MachineState) => state.context.state;
 const _estimatedPrice = (state: MachineState) =>
   state.context.prices.sfl?.usd ?? 0.0;
+
+const TOTAL_SUPPLY = 256000000;
 
 export const FlowerDashboard = () => {
   const { t } = useAppTranslation();
@@ -86,53 +87,6 @@ export const FlowerDashboard = () => {
 
     return () => clearInterval(interval);
   }, [mutate]);
-
-  if (!hasFeatureAccess(state, "FLOWER_DASHBOARD")) {
-    return (
-      <div className="bg-[#181425] w-full h-full safe-area-inset-top safe-area-inset-bottom">
-        <Panel className="inset-0 fixed pointer-events-auto ">
-          <div className="relative flex w-full justify-between pr-10 items-center  mr-auto h-[70px] mb-2">
-            <div
-              className="absolute inset-0 w-full h-full -z-0 rounded-sm"
-              // Repeating pixel art image background
-              style={{
-                backgroundImage: `url(${SUNNYSIDE.announcement.flowerBanner})`,
-                imageRendering: "pixelated",
-                backgroundSize: "320px",
-                backgroundPosition: "center",
-              }}
-            />
-            <div className="absolute inset-0 w-full h-full bg-black opacity-50 -z-0 rounded-sm" />
-            <div className="z-10 pl-4">
-              <p className="text-lg text-white z-10 text-shadow">
-                {t("flowerDashboard.title")}
-              </p>
-            </div>
-
-            <img
-              src={SUNNYSIDE.icons.close}
-              className="flex-none cursor-pointer absolute right-2"
-              onClick={handleClose}
-              style={{
-                width: `${PIXEL_SCALE * 11}px`,
-                height: `${PIXEL_SCALE * 11}px`,
-              }}
-            />
-          </div>
-          <Label className="m-1 mb-2" type="info">
-            {t("flowerDashboard.comingSoon")}
-          </Label>
-          <Button
-            onClick={() => {
-              navigate(-1);
-            }}
-          >
-            {t("back")}
-          </Button>
-        </Panel>
-      </div>
-    );
-  }
 
   if (error) {
     return (
@@ -180,6 +134,10 @@ export const FlowerDashboard = () => {
       </div>
     );
   }
+
+  const fdv = data?.tokenInfo.priceUsd
+    ? data.tokenInfo.priceUsd * TOTAL_SUPPLY
+    : 0;
 
   return (
     <div className="bg-[#181425] w-full h-full safe-area-inset-top safe-area-inset-bottom">
@@ -234,9 +192,11 @@ export const FlowerDashboard = () => {
                   <div className="flex-1 flex flex-col -mt-1">
                     <span>{`$${data?.tokenInfo.priceUsd || estimatedPrice}`}</span>
                     <span className="text-xxs sm:text-xs">
-                      {t("marketplace.supply", { supply: "256,000,000" })}
+                      {t("marketplace.supply", {
+                        supply: TOTAL_SUPPLY.toLocaleString(),
+                      })}
                     </span>
-                    <span className="text-xxs sm:text-xs">{`FDV: $${data?.tokenInfo.fdv.toLocaleString()}`}</span>
+                    <span className="text-xxs sm:text-xs">{`FDV: $${fdv.toLocaleString()}`}</span>
                   </div>
                 </div>
                 <a
@@ -301,9 +261,14 @@ export const FlowerDashboard = () => {
             {/* Top Burns */}
             <InnerPanel className="mb-2">
               <div className="flex flex-col w-full">
-                <Label type="default" className="mb-1.5">
-                  {t("flowerDashboard.gameBurns.title")}
-                </Label>
+                <div className="flex items-center justify-between">
+                  <Label type="default" className="mb-1.5">
+                    {t("flowerDashboard.gameBurns.title")}
+                  </Label>
+                  <span className="text-xs mb-1">
+                    {t("flowerDashboard.last7Days")}
+                  </span>
+                </div>
                 {Object.entries(data?.topGameBurns ?? {}).map(
                   ([burn, amount], index) => (
                     <div
@@ -453,6 +418,7 @@ export const FlowerDashboard = () => {
                 <Label type="default" className="mb-1.5">
                   {`${t("flowerDashboard.pools")}`}
                 </Label>
+
                 {Object.entries(data?.pools ?? {}).map(
                   ([pool, amount], index) => (
                     <div
@@ -489,9 +455,14 @@ export const FlowerDashboard = () => {
             </InnerPanel>
             <div className="flex flex-col md:flex-row gap-2 w-full">
               <InnerPanel className="w-full">
-                <Label type="default" className="mb-1.5">
-                  {`${t("flowerDashboard.topEarners")}`}
-                </Label>
+                <div className="flex items-center justify-between">
+                  <Label type="default" className="mb-1.5">
+                    {`${t("flowerDashboard.topEarners")}`}
+                  </Label>
+                  <span className="text-xs mb-1">
+                    {t("flowerDashboard.last7Days")}
+                  </span>
+                </div>
                 {data?.topEarners.map(({ player, amount, tokenUri }, index) => (
                   <div
                     key={index}
@@ -527,9 +498,14 @@ export const FlowerDashboard = () => {
                 ))}
               </InnerPanel>
               <InnerPanel className="w-full">
-                <Label type="default" className="mb-1.5">
-                  {t("flowerDashboard.topBurners")}
-                </Label>
+                <div className="flex items-center justify-between">
+                  <Label type="default" className="mb-1.5">
+                    {t("flowerDashboard.topBurners")}
+                  </Label>
+                  <span className="text-xs mb-1">
+                    {t("flowerDashboard.last7Days")}
+                  </span>
+                </div>
                 {data?.topBurners.map(({ player, amount, tokenUri }, index) => (
                   <div
                     key={index}

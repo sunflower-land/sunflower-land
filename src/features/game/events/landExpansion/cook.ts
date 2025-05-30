@@ -132,9 +132,12 @@ export function getOilConsumption(
 export function getCookingRequirements({
   state,
   item,
+  skipDoubleNomBoost = false,
 }: {
   state: GameState;
   item: CookableName;
+  // Ignored when getting the requirements for a recipe made before the skill was applied
+  skipDoubleNomBoost?: boolean;
 }): Inventory {
   let { ingredients } = COOKABLES[item];
   const { bumpkin } = state;
@@ -142,7 +145,7 @@ export function getCookingRequirements({
   ingredients = Object.entries(ingredients).reduce(
     (inventory, [ingredient, amount]) => {
       // Double Nom - 2x ingredients
-      if (bumpkin.skills["Double Nom"]) {
+      if (bumpkin.skills["Double Nom"] && !skipDoubleNomBoost) {
         amount = amount.mul(2);
       }
 
@@ -256,6 +259,8 @@ export function cook({
       {
         name: item,
         boost: { Oil: oilConsumed },
+        // Marks whether the Double Nom skill was applied at the time of cooking
+        skills: { "Double Nom": !!bumpkin.skills["Double Nom"] },
         readyAt,
         // Placeholder - can be different from backend
         amount,

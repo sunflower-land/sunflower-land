@@ -645,6 +645,7 @@ export type BuildingProduct = {
   readyAt: number;
   amount?: number;
   boost?: Partial<Record<InventoryItemName, number>>;
+  skills?: Partial<Record<BumpkinRevampSkillName, boolean>>;
 };
 
 export type BuildingProduce = {
@@ -1089,6 +1090,7 @@ export type Minigame = {
 export type TradeListing = {
   items: Partial<Record<MarketplaceTradeableName, number>>;
   sfl: number;
+  tax?: number; // Defaults to 10% of the sfl
   createdAt: number;
   collection: CollectionName;
   boughtAt?: number;
@@ -1103,6 +1105,7 @@ export type TradeListing = {
 export type TradeOffer = {
   items: Partial<Record<MarketplaceTradeableName, number>>;
   sfl: number;
+  tax?: number; // Defaults to 10% of the sfl
   collection: CollectionName;
   createdAt: number;
   fulfilledAt?: number;

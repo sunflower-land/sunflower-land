@@ -180,6 +180,7 @@ export const MyOffers: React.FC = () => {
                       isFulfilled={!!offer.fulfilledAt}
                       isResource={isResource}
                       onCancel={() => setRemoveId(id)}
+                      fee={0}
                       onRowClick={() =>
                         navigate(
                           `${isWorldRoute ? "/world" : ""}/marketplace/${details.type}/${itemId}`,

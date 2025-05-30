@@ -31,6 +31,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import Decimal from "decimal.js-light";
 import { getRemainingTrades, Reputation } from "features/game/lib/reputation";
 import { hasReputation } from "features/game/lib/reputation";
+import { hasVipAccess } from "features/game/lib/vipAccess";
 
 type TradeableHeaderProps = {
   authToken: string;
@@ -108,10 +109,17 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
     isTradeResource(KNOWN_ITEMS[Number(params.id)]) &&
     params.collection === "collectibles";
 
+  const vipIsRequired =
+    tradeable?.isVip &&
+    !hasVipAccess({
+      game: gameService.getSnapshot().context.state,
+    });
+
   const showBuyNow =
     !isResources &&
     cheapestListing &&
     tradeable?.isActive &&
+    !vipIsRequired &&
     // Don't show buy now if the listing is mine
     cheapestListing.listedById !== farmId;
   // const showFreeListing = !isVIP && dailyListings === 0;
@@ -246,7 +254,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                     {t("marketplace.buyNow")}
                   </Button>
                 )}
-                {tradeable?.isActive && (
+                {tradeable?.isActive && !vipIsRequired && (
                   <Button
                     disabled={
                       !count ||
@@ -281,7 +289,7 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
                 {t("marketplace.buyNow")}
               </Button>
             )}
-            {tradeable?.isActive && (
+            {tradeable?.isActive && !vipIsRequired && (
               <Button
                 onClick={onListClick}
                 disabled={

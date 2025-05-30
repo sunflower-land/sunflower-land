@@ -31,6 +31,7 @@ import { KNOWN_ITEMS } from "features/game/types";
 import { KeyedMutator } from "swr";
 import { isTradeResource } from "features/game/actions/tradeLimits";
 import { MAX_LIMITED_SALES } from "./Tradeable";
+import { ResourceTaxes } from "./TradeableInfo";
 
 type TradeableListingsProps = {
   authToken: string;
@@ -157,7 +158,7 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
         </Panel>
       </Modal>
       <Modal show={showListItem} onHide={!isListing ? onListClose : undefined}>
-        <Panel>
+        <Panel className="mb-1">
           <TradeableListItem
             authToken={authToken}
             display={display}
@@ -167,6 +168,7 @@ export const TradeableListings: React.FC<TradeableListingsProps> = ({
             onClose={onListClose}
           />
         </Panel>
+        {isResource && <ResourceTaxes />}
       </Modal>
       <InnerPanel className="mb-1">
         <div className="p-2">

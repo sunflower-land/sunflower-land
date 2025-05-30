@@ -49,7 +49,7 @@ export const TRADE_LIMITS: Partial<Record<TradeResource, number>> = {
   Turnip: 500,
   Kale: 500,
   Artichoke: 500,
-  Barley: 100,
+  Barley: 500,
 
   // Fruits
   Tomato: 300,
@@ -108,7 +108,7 @@ export const TRADE_MINIMUMS: Partial<Record<TradeResource, number>> = {
   Turnip: 10,
   Kale: 10,
   Artichoke: 10,
-  Barley: 1,
+  Barley: 10,
 
   Tomato: 5,
   Blueberry: 5,

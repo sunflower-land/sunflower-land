@@ -52,7 +52,7 @@ export const DropdownPanel = <T extends string>({
             {options.map((option) => (
               <div
                 key={option.value}
-                className="flex items-center gap-2 py-2 cursor-pointer hover:brightness-90"
+                className="flex items-center gap-2 py-2 cursor-pointer hover:bg-[#ead4aa]/50"
                 onClick={() => {
                   setShowDropdown(false);
                   onChange(option.value as T);
