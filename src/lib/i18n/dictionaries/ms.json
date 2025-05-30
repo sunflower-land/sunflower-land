@@ -5927,9 +5927,6 @@
   "seeking.blessing": "Menuntut berkat",
   "seeking.blessing.success": "Tahniah, anda telah menerima berkat!",
   "blessing.noResults": "Tiada hasil ditemui untuk tarikh ini",
-  "blessing.donated": "{jumlah} x {item} disumbangkan",
-  "blessing.winners": "{count} pemenang",
-  "blessing.maxAmount": "Tidak mencukupi {nama}.",
   "transaction.deposit.flower": "Deposit BUNGA",
   "deposit.flower": "Deposit BUNGA",
   "deposit.flower.onlyDeposit": "Hanya deposit FLOWER ke rangkaian yang dipilih.",
@@ -5962,5 +5959,8 @@
   "mine-whack.portal.missionObjectives": "Misi: Mencapai mata {{targetScore}}.",
   "mine-whack.portal.rewardMessage": "Tahniah, anda menyelesaikan misi! Inilah ganjaran anda.",
   "portal.mineWhack.title": "Wack Mine",
-  "portal.mineWhack.description": "Ketik tahi lalat, elakkan arnab, dan berlumba dengan masa dalam cabaran refleks ini!"
+  "portal.mineWhack.description": "Ketik tahi lalat, elakkan arnab, dan berlumba dengan masa dalam cabaran refleks ini!",
+  "blessing.donated": "{{amount}} x {{item}} disumbangkan",
+  "blessing.winners": "{{count}} pemenang",
+  "blessing.maxAmount": "Tidak mencukupi {{name}}."
 }

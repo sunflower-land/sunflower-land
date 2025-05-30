@@ -5927,9 +5927,6 @@
   "seeking.blessing": "Получение благословения",
   "seeking.blessing.success": "Поздравляем, вы получили благословение!",
   "blessing.noResults": "На эту дату результатов не найдено",
-  "blessing.donated": "{сумма} x {предмет} пожертвовано",
-  "blessing.winners": "{count} победителей",
-  "blessing.maxAmount": "Недостаточно {name}.",
   "transaction.deposit.flower": "Депозит FLOWER",
   "deposit.flower": "Депозит FLOWER",
   "deposit.flower.onlyDeposit": "Вносите FLOWER только в выбранную сеть.",
@@ -5962,5 +5959,8 @@
   "mine-whack.portal.missionObjectives": "Миссия: набрать {{targetScore}} очков.",
   "mine-whack.portal.rewardMessage": "Поздравляем, вы выполнили задание! Вот ваша награда.",
   "portal.mineWhack.title": "Мой дурак",
-  "portal.mineWhack.description": "Нажимайте кротов, уклоняйтесь от кроликов и соревнуйтесь со временем в этом рефлекторном испытании!"
+  "portal.mineWhack.description": "Нажимайте кротов, уклоняйтесь от кроликов и соревнуйтесь со временем в этом рефлекторном испытании!",
+  "blessing.donated": "{{amount}} x {{item}} пожертвовано",
+  "blessing.winners": "{{count}} победители",
+  "blessing.maxAmount": "Недостаточно {{name}}."
 }

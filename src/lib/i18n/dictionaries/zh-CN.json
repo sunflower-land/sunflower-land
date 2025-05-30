@@ -5927,9 +5927,6 @@
   "seeking.blessing": "领受祝福",
   "seeking.blessing.success": "恭喜，你蒙受了祝福！",
   "blessing.noResults": "未找到该日期的结果",
-  "blessing.donated": "已献祭 {amount} x {item}",
-  "blessing.winners": "{count} 蒙恩者",
-  "blessing.maxAmount": "{name} 不足。",
   "transaction.deposit.flower": "存入 FLOWER",
   "deposit.flower": "存入 FLOWER",
   "deposit.flower.onlyDeposit": "请注意将 FLOWER 仅存入选定的网络。",
@@ -5962,5 +5959,8 @@
   "mine-whack.portal.missionObjectives": "任务：达到 {{targetScore}} 点数。",
   "mine-whack.portal.rewardMessage": "恭喜，你完成了任务！这是你的奖励。",
   "portal.mineWhack.title": "我的 Wack",
-  "portal.mineWhack.description": "在这场反射挑战中，点击鼹鼠，躲避兔子，与时间赛跑！"
+  "portal.mineWhack.description": "在这场反射挑战中，点击鼹鼠，躲避兔子，与时间赛跑！",
+  "blessing.donated": "{{amount}} x {{item}} 已捐赠",
+  "blessing.winners": "{{count}} 获胜者",
+  "blessing.maxAmount": "不足 {{name}}。"
 }

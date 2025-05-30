@@ -5927,9 +5927,6 @@
   "seeking.blessing": "Segen beanspruchen",
   "seeking.blessing.success": "Herzlichen Glückwunsch, du hast einen Segen erhalten!",
   "blessing.noResults": "Für dieses Datum wurden keine Ergebnisse gefunden",
-  "blessing.donated": "{Betrag} x {item} gespendet",
-  "blessing.winners": "{count} Gewinner",
-  "blessing.maxAmount": "{name} ist unzureichend.",
   "transaction.deposit.flower": "Zahlen Sie FLOWER ein",
   "deposit.flower": "Zahlen Sie FLOWER ein",
   "deposit.flower.onlyDeposit": "Zahlen Sie FLOWER nur im ausgewählten Netzwerk ein.",
@@ -5962,5 +5959,8 @@
   "mine-whack.portal.missionObjectives": "Auftrag: Erreiche {{targetScore}} Punkte.",
   "mine-whack.portal.rewardMessage": "Herzlichen Glückwunsch, du hast die Mission abgeschlossen! Hier ist deine Belohnung.",
   "portal.mineWhack.title": "Mein Wack",
-  "portal.mineWhack.description": "Tippe auf die Maulwürfe, weiche den Hasen aus und spiele in dieser Reflexherausforderung gegen die Zeit!"
+  "portal.mineWhack.description": "Tippe auf die Maulwürfe, weiche den Hasen aus und spiele in dieser Reflexherausforderung gegen die Zeit!",
+  "blessing.donated": "{{amount}} x {{item}} gespendet",
+  "blessing.winners": "{{count}} Gewinner",
+  "blessing.maxAmount": "Ungenügend {{name}}."
 }

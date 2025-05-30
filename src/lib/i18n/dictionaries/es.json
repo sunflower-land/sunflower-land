@@ -5927,9 +5927,6 @@
   "seeking.blessing": "Reclamando la bendición",
   "seeking.blessing.success": "¡Felicidades, has recibido una bendición!",
   "blessing.noResults": "No se han encontrado resultados para esta fecha",
-  "blessing.donated": "{cantidad} x {artículo} donado",
-  "blessing.winners": "{count} ganadores",
-  "blessing.maxAmount": "{name} insuficiente.",
   "transaction.deposit.flower": "Deposita FLOW",
   "deposit.flower": "Deposita FLOW",
   "deposit.flower.onlyDeposit": "Deposita FLOWER solo en la red seleccionada.",
@@ -5962,5 +5959,8 @@
   "mine-whack.portal.missionObjectives": "Misión: Alcanzar {{targetScore}} puntos.",
   "mine-whack.portal.rewardMessage": "¡Enhorabuena, has completado la misión! Aquí tienes tu recompensa.",
   "portal.mineWhack.title": "Mine Wack",
-  "portal.mineWhack.description": "¡Toca los lunares, esquiva a los conejos y compite contra el tiempo en este desafío de reflejos!"
+  "portal.mineWhack.description": "¡Toca los lunares, esquiva a los conejos y compite contra el tiempo en este desafío de reflejos!",
+  "blessing.donated": "{{amount}} x {{item}} donados",
+  "blessing.winners": "{{count}} ganadores",
+  "blessing.maxAmount": "Insuficiente {{name}}."
 }

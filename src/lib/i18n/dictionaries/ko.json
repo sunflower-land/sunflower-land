@@ -5927,9 +5927,6 @@
   "seeking.blessing": "축복 받기",
   "seeking.blessing.success": "축하합니다. 축복을 받았습니다!",
   "blessing.noResults": "이 날짜에 대한 결과가 없습니다.",
-  "blessing.donated": "{금액} x {아이템} 기부",
-  "blessing.winners": "{개수} 명의 당첨자",
-  "blessing.maxAmount": "{name} 이 (가) 부족합니다.",
   "transaction.deposit.flower": "디파짓 플라워",
   "deposit.flower": "디파짓 플라워",
   "deposit.flower.onlyDeposit": "선택한 네트워크에만 FLOWER를 입금하세요.",
@@ -5962,5 +5959,8 @@
   "mine-whack.portal.missionObjectives": "임무: {{targetScore}} 포인트를 달성하세요.",
   "mine-whack.portal.rewardMessage": "축하합니다. 임무를 완수했습니다!보상은 다음과 같습니다.",
   "portal.mineWhack.title": "마인 윅",
-  "portal.mineWhack.description": "이 리플렉스 챌린지에서 두더지를 두드리고 토끼를 피하고 시간과 경쟁하세요!"
+  "portal.mineWhack.description": "이 리플렉스 챌린지에서 두더지를 두드리고 토끼를 피하고 시간과 경쟁하세요!",
+  "blessing.donated": "{{amount}} x {{item}} 기부",
+  "blessing.winners": "{{count}} 수상자",
+  "blessing.maxAmount": "부족합니다 {{name}}."
 }

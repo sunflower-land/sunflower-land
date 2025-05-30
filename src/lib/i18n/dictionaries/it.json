@@ -5927,9 +5927,6 @@
   "seeking.blessing": "Richiedere la benedizione",
   "seeking.blessing.success": "Congratulazioni, hai ricevuto una benedizione!",
   "blessing.noResults": "Nessun risultato trovato per questa data",
-  "blessing.donated": "{amount} x {item} donato",
-  "blessing.winners": "{count} vincitori",
-  "blessing.maxAmount": "{name} insufficiente.",
   "transaction.deposit.flower": "Deposito FIORE",
   "deposit.flower": "Deposito FIORE",
   "deposit.flower.onlyDeposit": "Deposita FLOWER solo sulla rete selezionata.",
@@ -5962,5 +5959,8 @@
   "mine-whack.portal.missionObjectives": "Missione: Raggiungi {{targetScore}} punti.",
   "mine-whack.portal.rewardMessage": "Congratulazioni, hai completato la missione! Ecco la tua ricompensa.",
   "portal.mineWhack.title": "Il mio Wack",
-  "portal.mineWhack.description": "Tocca le talpe, schiva i conigli e corri contro il tempo in questa sfida riflessa!"
+  "portal.mineWhack.description": "Tocca le talpe, schiva i conigli e corri contro il tempo in questa sfida riflessa!",
+  "blessing.donated": "{{amount}} x {{item}} ha donato",
+  "blessing.winners": "{{count}} vincitori",
+  "blessing.maxAmount": "Insufficiente {{name}}."
 }

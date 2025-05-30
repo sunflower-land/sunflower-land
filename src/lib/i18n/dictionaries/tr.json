@@ -5927,9 +5927,6 @@
   "seeking.blessing": "Kutsamayı talep etmek",
   "seeking.blessing.success": "Tebrikler, bir nimet aldınız!",
   "blessing.noResults": "Bu tarih için sonuç bulunamadı",
-  "blessing.donated": "{miktar} x {item} bağışlandı",
-  "blessing.winners": "{count} kazananlar",
-  "blessing.maxAmount": "Yetersiz {name}.",
   "transaction.deposit.flower": "Çiçek yatırma",
   "deposit.flower": "Çiçek yatırma",
   "deposit.flower.onlyDeposit": "FLOWER'ı yalnızca seçilen ağa yatırın.",
@@ -5962,5 +5959,8 @@
   "mine-whack.portal.missionObjectives": "Görev: {{targetScore}} puana ulaşın.",
   "mine-whack.portal.rewardMessage": "Tebrikler, görevi tamamladınız! İşte ödülünüz.",
   "portal.mineWhack.title": "Mine Wack",
-  "portal.mineWhack.description": "Bu refleks mücadelesinde benlere dokunun, tavşanlardan kaçın ve zamana karşı yarışın!"
+  "portal.mineWhack.description": "Bu refleks mücadelesinde benlere dokunun, tavşanlardan kaçın ve zamana karşı yarışın!",
+  "blessing.donated": "{{amount}} x {{item}} bağışlandı",
+  "blessing.winners": "{{count}} kazananlar",
+  "blessing.maxAmount": "Yetersiz {{name}}."
 }
