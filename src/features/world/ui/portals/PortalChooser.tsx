@@ -82,7 +82,7 @@ export const PortalChooser: React.FC<{ onClose: () => void }> = ({
 }) => {
   const { gameService } = useContext(GameContext);
   if (
-    hasFeatureAccess(gameService.state?.context?.state, "MINEWHACKBETA") &&
+    hasFeatureAccess(gameService.state?.context?.state, "MINE_WHACK_BETA") &&
     PORTAL_OPTIONS.find((game) => game.id === "mine-whack") == undefined
   ) {
     PORTAL_OPTIONS.push({
