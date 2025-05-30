@@ -5952,5 +5952,15 @@
   "marketplace.growFarm.description": "Kaynak satmaya başlamak için adanızı Petal Paradise\"a yükseltin.",
   "marketplace.ok": "Tamam.",
   "marketplace.flower": "ÇİÇEK",
-  "marketplace.vipOnly": "Sadece VIP"
+  "marketplace.vipOnly": "Sadece VIP",
+  "deposit.from": "Depozito:",
+  "deposit.flower.depositFromLinkedWallet": "Bağlantılı cüzdan",
+  "deposit.flower.otherWallet": "Diğer cüzdan",
+  "deposit.flower.": "Farklı bir cüzdandan para yatırma",
+  "mine-whack.portal.title": "Mini oyun - Mine Whack",
+  "mine-whack.portal.description": "Bu refleks mücadelesinde benlere dokunun, tavşanlardan kaçın ve zamana karşı yarışın!",
+  "mine-whack.portal.missionObjectives": "Görev: {{targetScore}} puana ulaşın.",
+  "mine-whack.portal.rewardMessage": "Tebrikler, görevi tamamladınız! İşte ödülünüz.",
+  "portal.mineWhack.title": "Mine Wack",
+  "portal.mineWhack.description": "Bu refleks mücadelesinde benlere dokunun, tavşanlardan kaçın ve zamana karşı yarışın!"
 }

@@ -87,12 +87,12 @@ interface Props {
   onClose: () => void;
 }
 
-export const FruitDash: React.FC<Props> = ({ onClose }) => {
+export const MineWhack: React.FC<Props> = ({ onClose }) => {
   const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
-  const minigame = gameState.context.state.minigames.games["fruit-dash"];
+  const minigame = gameState.context.state.minigames.games["mine-whack"];
 
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
@@ -108,7 +108,7 @@ export const FruitDash: React.FC<Props> = ({ onClose }) => {
     highscore: 0,
   };
 
-  const prize = gameState.context.state.minigames.prizes["fruit-dash"];
+  const prize = gameState.context.state.minigames.prizes["mine-whack"];
 
   const playNow = () => {
     setIsPlaying(true);
@@ -117,14 +117,14 @@ export const FruitDash: React.FC<Props> = ({ onClose }) => {
   if (isPlaying) {
     return (
       <div>
-        <Portal portalName="fruit-dash" onClose={onClose} />
+        <Portal portalName="mine-whack" onClose={onClose} />
       </div>
     );
   }
 
   const onClaim = () => {
     gameService.send("minigame.prizeClaimed", {
-      id: "fruit-dash",
+      id: "mine-whack",
     });
 
     onClose();
@@ -132,7 +132,7 @@ export const FruitDash: React.FC<Props> = ({ onClose }) => {
 
   const isComplete = isMinigameComplete({
     game: gameState.context.state,
-    name: "fruit-dash",
+    name: "mine-whack",
   });
 
   if (isComplete && !dailyAttempt.prizeClaimedAt && prize) {
@@ -140,10 +140,10 @@ export const FruitDash: React.FC<Props> = ({ onClose }) => {
       <ClaimReward
         onClaim={onClaim}
         reward={{
-          message: t("fruit-dash.portal.rewardMessage"),
+          message: t("mine-whack.portal.rewardMessage"),
           createdAt: Date.now(),
           factionPoints: 0,
-          id: "fruit-dash-rewards",
+          id: "mine-whack-rewards",
           items: prize.items,
           wearables: prize.wearables,
           sfl: 0,
@@ -159,7 +159,7 @@ export const FruitDash: React.FC<Props> = ({ onClose }) => {
         farmId={gameService.state.context.farmId}
         jwt={authService.state.context.user.rawToken as string}
         onBack={() => setPage("play")}
-        name={"fruit-dash"}
+        name={"mine-whack"}
         startDate={new Date(2024, 6, 1)}
       />
     );
@@ -170,15 +170,15 @@ export const FruitDash: React.FC<Props> = ({ onClose }) => {
       <div className="mb-1">
         <div className="p-2">
           <Label type="default" className="mb-1" icon={factions}>
-            {t("fruit-dash.portal.title")}
+            {t("mine-whack.portal.title")}
           </Label>
-          <InlineDialogue message={t("fruit-dash.portal.description")} />
+          <InlineDialogue message={t("mine-whack.portal.description")} />
         </div>
 
         <MinigamePrizeUI
           prize={prize}
           history={dailyAttempt}
-          mission={t("fruit-dash.portal.missionObjectives", {
+          mission={t("mine-whack.portal.missionObjectives", {
             targetScore: prize?.score ?? 0,
           })}
         />

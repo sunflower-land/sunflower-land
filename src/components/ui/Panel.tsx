@@ -255,7 +255,6 @@ export const DropdownOptionsPanel: React.FC<
         {
           "opacity-50": !!disabled,
           "cursor-pointer": !disabled,
-          "hover:brightness-90": !disabled,
         },
       )}
       style={{

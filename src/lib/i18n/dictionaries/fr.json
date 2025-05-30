@@ -5952,5 +5952,15 @@
   "marketplace.growFarm.description": "Améliorez votre île en Petal Paradise pour commencer à vendre des ressources.",
   "marketplace.ok": "D'accord",
   "marketplace.flower": "FLEUR",
-  "marketplace.vipOnly": "VIP uniquement"
+  "marketplace.vipOnly": "VIP uniquement",
+  "deposit.from": "Dépôt à partir de :",
+  "deposit.flower.depositFromLinkedWallet": "Portefeuille lié",
+  "deposit.flower.otherWallet": "Autre portefeuille",
+  "deposit.flower.": "Effectuer un dépôt depuis un autre portefeuille",
+  "mine-whack.portal.title": "Mini-jeu - Mine Whack",
+  "mine-whack.portal.description": "Tapez sur les taupes, esquivez les lapins et courez contre la montre dans ce défi réflexe !",
+  "mine-whack.portal.missionObjectives": "Mission : Atteindre {{targetScore}} points.",
+  "mine-whack.portal.rewardMessage": "Félicitations, vous avez terminé la mission ! Voici ta récompense.",
+  "portal.mineWhack.title": "Mine Wack",
+  "portal.mineWhack.description": "Tapez sur les taupes, esquivez les lapins et courez contre la montre dans ce défi réflexe !"
 }

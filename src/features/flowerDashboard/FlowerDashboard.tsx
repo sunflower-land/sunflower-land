@@ -41,6 +41,8 @@ const _state = (state: MachineState) => state.context.state;
 const _estimatedPrice = (state: MachineState) =>
   state.context.prices.sfl?.usd ?? 0.0;
 
+const TOTAL_SUPPLY = 256000000;
+
 export const FlowerDashboard = () => {
   const { t } = useAppTranslation();
   const navigate = useNavigate();
@@ -133,6 +135,10 @@ export const FlowerDashboard = () => {
     );
   }
 
+  const fdv = data?.tokenInfo.priceUsd
+    ? data.tokenInfo.priceUsd * TOTAL_SUPPLY
+    : 0;
+
   return (
     <div className="bg-[#181425] w-full h-full safe-area-inset-top safe-area-inset-bottom">
       <Panel className="inset-0 fixed pointer-events-auto flex flex-col overflow-y-auto scrollable">
@@ -186,9 +192,11 @@ export const FlowerDashboard = () => {
                   <div className="flex-1 flex flex-col -mt-1">
                     <span>{`$${data?.tokenInfo.priceUsd || estimatedPrice}`}</span>
                     <span className="text-xxs sm:text-xs">
-                      {t("marketplace.supply", { supply: "256,000,000" })}
+                      {t("marketplace.supply", {
+                        supply: TOTAL_SUPPLY.toLocaleString(),
+                      })}
                     </span>
-                    <span className="text-xxs sm:text-xs">{`FDV: $${data?.tokenInfo.fdv.toLocaleString()}`}</span>
+                    <span className="text-xxs sm:text-xs">{`FDV: $${fdv.toLocaleString()}`}</span>
                   </div>
                 </div>
                 <a

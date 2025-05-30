@@ -702,7 +702,7 @@ describe("feedAnimal", () => {
         },
         inventory: {
           ...INITIAL_FARM.inventory,
-          "Barn Delight": new Decimal(1),
+          "Barn Delight": new Decimal(0.5),
         },
         henHouse: {
           ...INITIAL_FARM.henHouse,
@@ -730,7 +730,7 @@ describe("feedAnimal", () => {
     });
 
     expect(state.henHouse.animals[chickenId].state).toBe("idle");
-    expect(state.inventory["Barn Delight"]).toStrictEqual(new Decimal(0.5));
+    expect(state.inventory["Barn Delight"]).toStrictEqual(new Decimal(0));
     expect(state.henHouse.animals[chickenId].experience).toBe(0);
   });
 

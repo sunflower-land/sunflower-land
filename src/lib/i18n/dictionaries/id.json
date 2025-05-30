@@ -5952,5 +5952,15 @@
   "marketplace.growFarm.description": "Tingkatkan pulau Anda ke Petal Paradise untuk mulai menjual sumber daya.",
   "marketplace.ok": "Oke",
   "marketplace.flower": "BUNGA",
-  "marketplace.vipOnly": "VIP saja"
+  "marketplace.vipOnly": "VIP saja",
+  "deposit.from": "Deposit dari:",
+  "deposit.flower.depositFromLinkedWallet": "Dompet tertaut",
+  "deposit.flower.otherWallet": "Dompet lainnya",
+  "deposit.flower.": "Setor dari dompet yang berbeda",
+  "mine-whack.portal.title": "Minigame - Mine Whack",
+  "mine-whack.portal.description": "Ketuk tahi lalat, hindari kelinci, dan berpacu melawan waktu dalam tantangan refleks ini!",
+  "mine-whack.portal.missionObjectives": "Misi: Mencapai {{targetScore}} poin.",
+  "mine-whack.portal.rewardMessage": "Selamat, Anda telah menyelesaikan misi! Inilah hadiahmu.",
+  "portal.mineWhack.title": "Tambang Wack",
+  "portal.mineWhack.description": "Ketuk tahi lalat, hindari kelinci, dan berpacu melawan waktu dalam tantangan refleks ini!"
 }

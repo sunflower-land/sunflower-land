@@ -107,6 +107,7 @@ const FEATURE_FLAGS = {
   MODERATOR: (game) => !!game.wardrobe.Halo,
 
   BLESSING: defaultFeatureFlag,
+  MINE_WHACK_BETA: defaultFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;
