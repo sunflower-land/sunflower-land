@@ -2,6 +2,7 @@ import React, { useContext, useState } from "react";
 import { Button } from "components/ui/Button";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
+import * as AuthProvider from "features/auth/lib/Provider";
 
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { OuterPanel } from "components/ui/Panel";
@@ -20,6 +21,7 @@ import { isMinigameComplete } from "features/game/events/minigames/claimMinigame
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { PortalLeaderboard } from "./PortalLeaderboard";
 
 export const MinigamePrizeUI: React.FC<{
   prize?: MinigamePrize;
@@ -86,12 +88,15 @@ interface Props {
 }
 
 export const FruitDash: React.FC<Props> = ({ onClose }) => {
+  const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
   const minigame = gameState.context.state.minigames.games["fruit-dash"];
 
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
+
+  const [page, setPage] = useState<"play" | "leaderboard">("play");
 
   const { t } = useAppTranslation();
 
@@ -148,6 +153,18 @@ export const FruitDash: React.FC<Props> = ({ onClose }) => {
     );
   }
 
+  if (page === "leaderboard") {
+    return (
+      <PortalLeaderboard
+        farmId={gameService.state.context.farmId}
+        jwt={authService.state.context.user.rawToken as string}
+        onBack={() => setPage("play")}
+        name={"fruit-dash"}
+        startDate={new Date(2024, 6, 1)}
+      />
+    );
+  }
+
   return (
     <>
       <div className="mb-1">
@@ -161,12 +178,15 @@ export const FruitDash: React.FC<Props> = ({ onClose }) => {
         <MinigamePrizeUI
           prize={prize}
           history={dailyAttempt}
-          mission={t("fruit-dash.portal.missionObjectives", {
-            targetScore: prize?.score ?? 0,
-          })}
+          mission={`Mission: Rescue ${prize?.score} chickens`}
         />
       </div>
-      <Button onClick={playNow}>{t("minigame.playNow")}</Button>
+      <div className="flex">
+        <Button className="mr-1" onClick={() => setPage("leaderboard")}>
+          {t("competition.leaderboard")}
+        </Button>
+        <Button onClick={playNow}>{t("minigame.playNow")}</Button>
+      </div>
     </>
   );
 };
