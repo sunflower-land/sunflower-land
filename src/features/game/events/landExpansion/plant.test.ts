@@ -2551,6 +2551,7 @@ describe("isPlotFertile", () => {
       y: 1,
     });
     const isFertile = isPlotFertile({
+      island: "spring",
       buildings: {
         "Water Well": [],
       },
@@ -2590,6 +2591,7 @@ describe("isPlotFertile", () => {
       y: 1,
     });
     const isFertile = isPlotFertile({
+      island: "spring",
       buildings: {
         "Water Well": [
           {
@@ -2643,6 +2645,7 @@ describe("isPlotFertile", () => {
       y: 1,
     };
     const isFertile = isPlotFertile({
+      island: "spring",
       crops: {
         0: fakePlot,
         1: fakePlot,
