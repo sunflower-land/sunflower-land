@@ -4,7 +4,10 @@ import { Label } from "components/ui/Label";
 import { useAuth } from "features/auth/lib/Provider";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { useGame } from "features/game/GameProvider";
-import { blessingIsReady } from "features/game/lib/blessings";
+import {
+  blessingIsReady,
+  GUARDIAN_PENDING_MS,
+} from "features/game/lib/blessings";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { secondsToString } from "lib/utils/time";
 import React from "react";
@@ -68,7 +71,9 @@ export const ClaimBlessingReward: React.FC<Props> = ({ onClose }) => {
   if (!isReady) {
     const offeredDate = new Date(offered!.offeredAt).toISOString().slice(0, 10);
 
-    const readyIn = Date.now() - new Date(offeredDate).getTime();
+    const readyIn =
+      new Date(offeredDate).getTime() + GUARDIAN_PENDING_MS - Date.now();
+
     return (
       <div>
         <Label type="default" className="mb-1">
