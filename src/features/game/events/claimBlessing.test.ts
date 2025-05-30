@@ -23,7 +23,7 @@ describe("claimBlessing", () => {
       state: {
         ...INITIAL_FARM,
         blessing: {
-          offering: { item: "Potato" },
+          offering: { item: "Potato", prize: "Potato" },
           reward: {
             coins: 100,
             items: {},
@@ -44,7 +44,7 @@ describe("claimBlessing", () => {
       state: {
         ...INITIAL_FARM,
         blessing: {
-          offering: { item: "Potato" },
+          offering: { item: "Potato", prize: "Potato" },
           reward: {
             coins: 100,
             items: {
@@ -67,7 +67,7 @@ describe("claimBlessing", () => {
       state: {
         ...INITIAL_FARM,
         blessing: {
-          offering: { item: "Potato" },
+          offering: { item: "Potato", prize: "Potato" },
           reward: {
             coins: 100,
             items: {

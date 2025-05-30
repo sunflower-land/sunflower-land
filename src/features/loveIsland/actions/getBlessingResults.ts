@@ -1,4 +1,3 @@
-import { Blessing } from "features/game/lib/blessings";
 import { InventoryItemName } from "features/game/types/game";
 import { CONFIG } from "lib/config";
 
@@ -9,12 +8,9 @@ type Request = {
 
 type BlessingResults = {
   data?: {
-    winners: {
-      farmId: number;
-      amount: number;
-      reward: Blessing["reward"];
-    }[];
+    winners: Record<number, number>;
     total: number;
+    prize: InventoryItemName | "Flower" | "Coin";
     item: InventoryItemName;
   };
 };

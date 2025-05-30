@@ -17,7 +17,6 @@ import { getBlessingResults } from "../actions/getBlessingResults";
 import { Loading } from "features/auth/components";
 import { SomethingWentWrong } from "features/auth/components/SomethingWentWrong";
 import classNames from "classnames";
-import { getKeys } from "features/game/types/decorations";
 
 interface Props {
   onClose: () => void;
@@ -112,9 +111,13 @@ export const BlessingOffer: React.FC<Props> = ({ onClose }) => {
     <div>
       <div className="flex justify-between mb-1">
         <Label type="default">{t("blessing.offerTitle")}</Label>
-        <Label type="formula">{new Date().toISOString().slice(0, 10)}</Label>
+        <Label type="formula">{`${new Date().toISOString().slice(0, 10)}`}</Label>
       </div>
       <p className="text-xs m-1">{t("blessing.guardiansSeek")}</p>
+      <Label
+        type="warning"
+        className="my-1"
+      >{`Today's prize = ${offering.prize}`}</Label>
       <div className="flex items-center">
         <Box image={ITEM_DETAILS[offering.item].image} count={inventory} />
         <div className="ml-2">
@@ -210,32 +213,28 @@ export const BlessingResults: React.FC<Props> = ({ onClose }) => {
         <img src={SUNNYSIDE.icons.player} className="w-6 mr-1" />
         <span>
           {t("blessing.winners", {
-            count: response.data.winners.length,
+            count: Object.keys(response.data.winners).length,
           })}
         </span>
       </div>
 
       <table className="w-full text-xs table-auto border-collapse">
         <tbody>
-          {response.data.winners.map(({ farmId, reward }, index) => (
-            <tr
-              key={index}
-              className={classNames({
-                "bg-[#ead4aa]": index % 2 === 0,
-              })}
-            >
-              <td className="p-1.5">{`#${farmId}`}</td>
-              <td className="p-1.5 text-left pl-8 relative truncate flex">
-                {getKeys(reward?.items ?? {}).map((key) => (
-                  <img
-                    key={key}
-                    src={ITEM_DETAILS[key].image}
-                    className="w-4 mr-1"
-                  />
-                ))}
-              </td>
-            </tr>
-          ))}
+          {Object.entries(response.data.winners).map(
+            ([farmId, amount], index) => (
+              <tr
+                key={index}
+                className={classNames({
+                  "bg-[#ead4aa]": index % 2 === 0,
+                })}
+              >
+                <td className="p-1.5">{`#${farmId}`}</td>
+                <td className="p-1.5 text-left pl-8 relative truncate flex">
+                  <span className="text-xs">{amount}</span>
+                </td>
+              </tr>
+            ),
+          )}
         </tbody>
       </table>
     </div>

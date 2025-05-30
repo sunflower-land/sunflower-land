@@ -772,6 +772,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
   blessing: {
     offering: {
       item: "Potato",
+      prize: "Potato",
     },
     // offered: {
     //   items: { Potato: 100 },

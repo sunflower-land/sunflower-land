@@ -3,6 +3,7 @@ import { GameState, InventoryItemName } from "../types/game";
 export type Blessing = {
   offering: {
     item: InventoryItemName;
+    prize: InventoryItemName;
   };
   offered?: {
     items: Partial<Record<InventoryItemName, number>>;

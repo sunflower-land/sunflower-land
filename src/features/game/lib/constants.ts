@@ -678,6 +678,7 @@ export const INITIAL_FARM: GameState = {
   blessing: {
     offering: {
       item: "Potato",
+      prize: "Potato",
     },
   },
 };
@@ -985,6 +986,7 @@ export const TEST_FARM: GameState = {
   blessing: {
     offering: {
       item: "Potato",
+      prize: "Potato",
     },
   },
 };
@@ -1138,6 +1140,7 @@ export const EMPTY: GameState = {
   blessing: {
     offering: {
       item: "Potato",
+      prize: "Potato",
     },
   },
 };
