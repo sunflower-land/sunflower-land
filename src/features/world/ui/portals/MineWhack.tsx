@@ -178,7 +178,9 @@ export const MineWhack: React.FC<Props> = ({ onClose }) => {
         <MinigamePrizeUI
           prize={prize}
           history={dailyAttempt}
-          mission={`Mission: Rescue ${prize?.score} chickens`}
+          mission={t("mine-whack.portal.missionObjectives", {
+            targetScore: prize?.score ?? 0,
+          })}
         />
       </div>
       <div className="flex">
