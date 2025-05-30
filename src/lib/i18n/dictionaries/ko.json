@@ -5956,5 +5956,11 @@
   "deposit.from": "입금 출처:",
   "deposit.flower.depositFromLinkedWallet": "링크드 월렛",
   "deposit.flower.otherWallet": "기타 지갑",
-  "deposit.flower.": "다른 지갑에서 입금"
+  "deposit.flower.": "다른 지갑에서 입금",
+  "mine-whack.portal.title": "미니게임 - 마인",
+  "mine-whack.portal.description": "이 리플렉스 챌린지에서 두더지를 두드리고 토끼를 피하고 시간과 경쟁하세요!",
+  "mine-whack.portal.missionObjectives": "임무: {{targetScore}} 포인트를 달성하세요.",
+  "mine-whack.portal.rewardMessage": "축하합니다. 임무를 완수했습니다!보상은 다음과 같습니다.",
+  "portal.mineWhack.title": "마인 윅",
+  "portal.mineWhack.description": "이 리플렉스 챌린지에서 두더지를 두드리고 토끼를 피하고 시간과 경쟁하세요!"
 }

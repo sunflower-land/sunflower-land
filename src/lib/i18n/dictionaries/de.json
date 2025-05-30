@@ -5956,5 +5956,11 @@
   "deposit.from": "Einzahlung von:",
   "deposit.flower.depositFromLinkedWallet": "Verknüpfte Brieftasche",
   "deposit.flower.otherWallet": "Andere Geldbörse",
-  "deposit.flower.": "Einzahlung aus einer anderen Wallet"
+  "deposit.flower.": "Einzahlung aus einer anderen Wallet",
+  "mine-whack.portal.title": "Minispiel - Mine Whack",
+  "mine-whack.portal.description": "Tippe auf die Maulwürfe, weiche den Hasen aus und spiele in dieser Reflexherausforderung gegen die Zeit!",
+  "mine-whack.portal.missionObjectives": "Auftrag: Erreiche {{targetScore}} Punkte.",
+  "mine-whack.portal.rewardMessage": "Herzlichen Glückwunsch, du hast die Mission abgeschlossen! Hier ist deine Belohnung.",
+  "portal.mineWhack.title": "Mein Wack",
+  "portal.mineWhack.description": "Tippe auf die Maulwürfe, weiche den Hasen aus und spiele in dieser Reflexherausforderung gegen die Zeit!"
 }

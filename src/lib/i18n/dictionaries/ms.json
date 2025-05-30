@@ -5956,5 +5956,11 @@
   "deposit.from": "Deposit dari:",
   "deposit.flower.depositFromLinkedWallet": "Dompet berpaut",
   "deposit.flower.otherWallet": "Dompet lain",
-  "deposit.flower.": "Deposit dari dompet yang berbeza"
+  "deposit.flower.": "Deposit dari dompet yang berbeza",
+  "mine-whack.portal.title": "Minigame - Mine Whack",
+  "mine-whack.portal.description": "Ketik tahi lalat, elakkan arnab, dan berlumba dengan masa dalam cabaran refleks ini!",
+  "mine-whack.portal.missionObjectives": "Misi: Mencapai mata {{targetScore}}.",
+  "mine-whack.portal.rewardMessage": "Tahniah, anda menyelesaikan misi! Inilah ganjaran anda.",
+  "portal.mineWhack.title": "Wack Mine",
+  "portal.mineWhack.description": "Ketik tahi lalat, elakkan arnab, dan berlumba dengan masa dalam cabaran refleks ini!"
 }

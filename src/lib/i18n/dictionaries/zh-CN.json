@@ -5956,5 +5956,11 @@
   "deposit.from": "存入来源：",
   "deposit.flower.depositFromLinkedWallet": "关联钱包",
   "deposit.flower.otherWallet": "其他钱包",
-  "deposit.flower.": "从其他钱包存入"
+  "deposit.flower.": "从其他钱包存入",
+  "mine-whack.portal.title": "小游戏-Mine Whack",
+  "mine-whack.portal.description": "在这场反射挑战中，点击鼹鼠，躲避兔子，与时间赛跑！",
+  "mine-whack.portal.missionObjectives": "任务：达到 {{targetScore}} 点数。",
+  "mine-whack.portal.rewardMessage": "恭喜，你完成了任务！这是你的奖励。",
+  "portal.mineWhack.title": "我的 Wack",
+  "portal.mineWhack.description": "在这场反射挑战中，点击鼹鼠，躲避兔子，与时间赛跑！"
 }

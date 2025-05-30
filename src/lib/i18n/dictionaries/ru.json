@@ -5956,5 +5956,11 @@
   "deposit.from": "Депозит от:",
   "deposit.flower.depositFromLinkedWallet": "Связанный кошелек",
   "deposit.flower.otherWallet": "Другой кошелек",
-  "deposit.flower.": "Депозит с другого кошелька"
+  "deposit.flower.": "Депозит с другого кошелька",
+  "mine-whack.portal.title": "Мини-игра «Мой удар»",
+  "mine-whack.portal.description": "Нажимайте кротов, уклоняйтесь от кроликов и соревнуйтесь со временем в этом рефлекторном испытании!",
+  "mine-whack.portal.missionObjectives": "Миссия: набрать {{targetScore}} очков.",
+  "mine-whack.portal.rewardMessage": "Поздравляем, вы выполнили задание! Вот ваша награда.",
+  "portal.mineWhack.title": "Мой дурак",
+  "portal.mineWhack.description": "Нажимайте кротов, уклоняйтесь от кроликов и соревнуйтесь со временем в этом рефлекторном испытании!"
 }

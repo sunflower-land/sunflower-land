@@ -5956,5 +5956,11 @@
   "deposit.from": "Deposito da:",
   "deposit.flower.depositFromLinkedWallet": "Portafoglio collegato",
   "deposit.flower.otherWallet": "Altro portafoglio",
-  "deposit.flower.": "Deposita da un altro portafoglio"
+  "deposit.flower.": "Deposita da un altro portafoglio",
+  "mine-whack.portal.title": "Minigioco - Mine Whack",
+  "mine-whack.portal.description": "Tocca le talpe, schiva i conigli e corri contro il tempo in questa sfida riflessa!",
+  "mine-whack.portal.missionObjectives": "Missione: Raggiungi {{targetScore}} punti.",
+  "mine-whack.portal.rewardMessage": "Congratulazioni, hai completato la missione! Ecco la tua ricompensa.",
+  "portal.mineWhack.title": "Il mio Wack",
+  "portal.mineWhack.description": "Tocca le talpe, schiva i conigli e corri contro il tempo in questa sfida riflessa!"
 }

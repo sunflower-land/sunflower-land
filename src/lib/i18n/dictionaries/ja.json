@@ -5956,5 +5956,11 @@
   "deposit.from": "入金元:",
   "deposit.flower.depositFromLinkedWallet": "リンクされたウォレット",
   "deposit.flower.otherWallet": "その他の財布",
-  "deposit.flower.": "別のウォレットからの入金"
+  "deposit.flower.": "別のウォレットからの入金",
+  "mine-whack.portal.title": "ミニゲーム-マインワック",
+  "mine-whack.portal.description": "このリフレックスチャレンジでは、ほくろをタップし、ウサギをかわし、時間との戦いを繰り広げましょう！",
+  "mine-whack.portal.missionObjectives": "ミッション:{{targetScore}} ポイント達成",
+  "mine-whack.portal.rewardMessage": "おめでとうございます。ミッションを完了しました！報酬はこちらです。",
+  "portal.mineWhack.title": "マイン・ワック",
+  "portal.mineWhack.description": "このリフレックスチャレンジでは、ほくろをタップし、ウサギをかわし、時間との戦いを繰り広げましょう！"
 }
