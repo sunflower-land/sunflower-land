@@ -178,7 +178,9 @@ export const FruitDash: React.FC<Props> = ({ onClose }) => {
         <MinigamePrizeUI
           prize={prize}
           history={dailyAttempt}
-          mission={`Mission: Rescue ${prize?.score} chickens`}
+          mission={t("fruit-dash.portal.missionObjectives", {
+            targetScore: prize?.score ?? 0,
+          })}
         />
       </div>
       <div className="flex">
