@@ -3925,6 +3925,39 @@ describe("getCropYield", () => {
 
     expect(state.crops["1"].crop?.amount).toEqual(1.2);
   });
+
+  it("gives a +0.4 boost if the plot has 2 beeswarms attached to it", () => {
+    const now = Date.now();
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Sunflower Seed": new Decimal(1),
+        },
+        crops: {
+          "1": {
+            createdAt: now,
+            beeSwarm: {
+              noOfSwarms: 2,
+              swarmActivatedAt: now,
+            },
+            x: 0,
+            y: 0,
+          },
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "1",
+        item: "Sunflower Seed",
+      },
+      createdAt: now,
+    });
+
+    expect(state.crops["1"].crop?.amount).toEqual(1.4);
+  });
+
   it("gives a +0.3 boost if the plot has a beeswarm attached to it with Pollen Power Up skill", () => {
     const now = Date.now();
     const state = plant({
