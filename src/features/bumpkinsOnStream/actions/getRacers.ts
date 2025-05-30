@@ -1,0 +1,25 @@
+import { CONFIG } from "lib/config";
+
+export type Racer = {
+  farmId: number;
+  username?: string;
+  tokenUri: string;
+};
+
+type Request = {
+  token: string;
+};
+
+export const getRacers = async ({
+  token,
+}: Request): Promise<{ racers: Racer[] }> => {
+  const res = await fetch(`${CONFIG.API_URL}/data?type=getRacers`, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
+  });
+
+  const response = await res.json();
+
+  return response.data;
+};

@@ -34,6 +34,7 @@ import { hasFeatureAccess } from "lib/flags";
 import { GameProvider } from "features/game/GameProvider";
 import { FlowerDashboard } from "features/flowerDashboard/FlowerDashboard";
 import { ModalProvider } from "features/game/components/modal/ModalProvider";
+import { BumpkinsOnStream } from "features/bumpkinsOnStream/BumpkinsOnStream";
 
 // Lazy load routes
 const World = lazy(() =>
@@ -227,6 +228,14 @@ export const Navigation: React.FC = () => {
                             }
                           />
                         </>
+                      )}
+                      {hasFeatureAccess(INITIAL_FARM, "BUMPKINS_ON_STREAM") && (
+                        <Route
+                          path="/bumpkins-on-stream"
+                          element={
+                            <BumpkinsOnStream key="bumpkins-on-stream" />
+                          }
+                        />
                       )}
                       <Route path="*" element={<LandExpansion key="land" />} />
                     </Routes>
