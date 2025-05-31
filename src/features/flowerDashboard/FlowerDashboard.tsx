@@ -1,11 +1,7 @@
 import React, { useCallback, useEffect } from "react";
 import { InnerPanel, Panel } from "components/ui/Panel";
 import { useContext } from "react";
-import * as AuthProvider from "features/auth/lib/Provider";
 import useSWR from "swr";
-import { AuthMachineState } from "features/auth/lib/authMachine";
-import { useSelector } from "@xstate/react";
-import { getFlowerDashboard } from "./actions/getFlowerDashboard";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
 import classNames from "classnames";
@@ -17,10 +13,8 @@ import gift from "assets/icons/gift.png";
 import increaseArrow from "assets/icons/increase_arrow.png";
 import water from "assets/icons/water.png";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { Context } from "features/game/GameProvider";
-import { MachineState } from "features/game/lib/gameMachine";
 import { Button } from "components/ui/Button";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Loading } from "features/auth/components/Loading";
 import { convertToTitleCase } from "features/island/hud/components/settings-menu/general-settings/Notifications";
@@ -29,36 +23,22 @@ import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
 import { capitalize } from "lib/utils/capitalize";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { getRelativeTime } from "lib/utils/time";
-
-const fetcher = async ([_, token, farmId]: [string, string, number]) => {
-  return getFlowerDashboard({ farmId, token });
-};
-
-const _rawToken = (state: AuthMachineState) =>
-  state.context.user.rawToken as string;
-const _farmId = (state: MachineState) => state.context.farmId;
-const _state = (state: MachineState) => state.context.state;
-const _estimatedPrice = (state: MachineState) =>
-  state.context.prices.sfl?.usd ?? 0.0;
+import { getFlowerDashboard } from "./actions/getFlowerDashboard";
 
 const TOTAL_SUPPLY = 256000000;
 
 export const FlowerDashboard = () => {
   const { t } = useAppTranslation();
   const navigate = useNavigate();
-
-  const { authService } = useContext(AuthProvider.Context);
-  const { gameService } = useContext(Context);
   const { openModal } = useContext(ModalContext);
-
-  const rawToken = useSelector(authService, _rawToken);
-  const farmId = useSelector(gameService, _farmId);
-  const estimatedPrice = useSelector(gameService, _estimatedPrice);
-  const state = useSelector(gameService, _state);
   const { data, isLoading, error, mutate } = useSWR(
-    ["/data?type=flowerDashboard", rawToken, farmId],
-    fetcher,
+    ["/data?type=flowerDashboard"],
+    getFlowerDashboard,
   );
+
+  const { pathname } = useLocation();
+
+  const isInternalRoute = pathname.includes("/game");
 
   const handleClose = useCallback(() => {
     navigate(-1);
@@ -110,15 +90,17 @@ export const FlowerDashboard = () => {
               </p>
             </div>
 
-            <img
-              src={SUNNYSIDE.icons.close}
-              className="flex-none cursor-pointer absolute right-2"
-              onClick={handleClose}
-              style={{
-                width: `${PIXEL_SCALE * 11}px`,
-                height: `${PIXEL_SCALE * 11}px`,
-              }}
-            />
+            {isInternalRoute && (
+              <img
+                src={SUNNYSIDE.icons.close}
+                className="flex-none cursor-pointer absolute right-2"
+                onClick={handleClose}
+                style={{
+                  width: `${PIXEL_SCALE * 11}px`,
+                  height: `${PIXEL_SCALE * 11}px`,
+                }}
+              />
+            )}
           </div>
           <Label className="m-1 mb-2" type="danger">
             {t("transaction.somethingWentWrong")}
@@ -135,7 +117,7 @@ export const FlowerDashboard = () => {
     );
   }
 
-  const fdv = data?.tokenInfo.priceUsd
+  const fdv = data?.tokenInfo?.priceUsd
     ? data.tokenInfo.priceUsd * TOTAL_SUPPLY
     : 0;
 
@@ -165,15 +147,17 @@ export const FlowerDashboard = () => {
             </span>
           </div>
 
-          <img
-            src={SUNNYSIDE.icons.close}
-            className="flex-none cursor-pointer absolute right-2"
-            onClick={handleClose}
-            style={{
-              width: `${PIXEL_SCALE * 11}px`,
-              height: `${PIXEL_SCALE * 11}px`,
-            }}
-          />
+          {isInternalRoute && (
+            <img
+              src={SUNNYSIDE.icons.close}
+              className="flex-none cursor-pointer absolute right-2"
+              onClick={handleClose}
+              style={{
+                width: `${PIXEL_SCALE * 11}px`,
+                height: `${PIXEL_SCALE * 11}px`,
+              }}
+            />
+          )}
         </div>
         {/* In Game Flower Stats */}
         {isLoading && <Loading />}
@@ -190,7 +174,7 @@ export const FlowerDashboard = () => {
                     />
                   </div>
                   <div className="flex-1 flex flex-col -mt-1">
-                    <span>{`$${data?.tokenInfo.priceUsd || estimatedPrice}`}</span>
+                    <span>{`$${data?.tokenInfo.priceUsd ?? "No data"}`}</span>
                     <span className="text-xxs sm:text-xs">
                       {t("marketplace.supply", {
                         supply: TOTAL_SUPPLY.toLocaleString(),
@@ -334,9 +318,14 @@ export const FlowerDashboard = () => {
                   </div>
                 </div>
                 <a
-                  className="text-xxs absolute top-1 right-1 underline cursor-pointer"
+                  className={classNames(
+                    "text-xxs absolute top-1 right-1 underline cursor-pointer",
+                    {
+                      "pointer-events-none": !openModal,
+                    },
+                  )}
                   // Open deposit modal
-                  onClick={() => openModal("DEPOSIT")}
+                  onClick={() => openModal && openModal("DEPOSIT")}
                 >
                   {t("deposit")}
                 </a>

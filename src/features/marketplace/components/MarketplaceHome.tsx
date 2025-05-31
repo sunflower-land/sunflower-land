@@ -80,7 +80,7 @@ export const MarketplaceNavigation: React.FC = () => {
   });
 
   const goToFlowerDashboard = () => {
-    navigate("/flower-dashboard");
+    navigate("/game/flower-dashboard");
   };
 
   return (

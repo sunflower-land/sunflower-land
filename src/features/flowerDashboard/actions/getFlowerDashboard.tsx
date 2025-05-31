@@ -33,25 +33,15 @@ export type FlowerDashboardData = {
   topGameBurns: Record<string, number>;
 };
 
-type Request = {
-  farmId: number;
-  token: string;
-};
-
-export const getFlowerDashboard = async ({
-  farmId,
-  token,
-}: Request): Promise<FlowerDashboardData & { lastUpdated: number }> => {
-  const res = await fetch(
-    `${CONFIG.API_URL}/data?type=flowerDashboard&farmId=${farmId}`,
-    {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    },
-  );
+export const getFlowerDashboard = async (): Promise<
+  FlowerDashboardData & { lastUpdated: number }
+> => {
+  const res = await fetch(`${CONFIG.API_URL}/flower-dashboard`);
 
   const response = await res.json();
 
-  return { lastUpdated: response.data.lastUpdated, ...response.data.data };
+  return {
+    lastUpdated: response.lastUpdated,
+    ...response.data,
+  };
 };
