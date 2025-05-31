@@ -26,7 +26,7 @@ import { Panel } from "components/ui/Panel";
 import { Hoarding } from "../components/Hoarding";
 import { Swarming } from "../components/Swarming";
 import { Cooldown } from "../components/Cooldown";
-import { Route, Routes, useNavigate } from "react-router";
+import { Route, Routes } from "react-router";
 import { Land } from "./Land";
 import { VisitingHud } from "features/island/hud/VisitingHud";
 import { VisitLandExpansionForm } from "./components/VisitLandExpansionForm";
@@ -91,7 +91,6 @@ import { LoveCharm } from "./components/LoveCharm";
 import { ClaimReferralRewards } from "./components/ClaimReferralRewards";
 import { SoftBan } from "features/retreat/components/personhood/SoftBan";
 import { RewardBox } from "features/rewardBoxes/RewardBox";
-import { FlowerDashboard } from "features/flowerDashboard/FlowerDashboard";
 import { ClaimBlessingReward } from "features/loveIsland/blessings/ClaimBlessing";
 
 function camelToDotCase(str: string): string {
@@ -262,6 +261,7 @@ const isRoninWelcomePack = (state: MachineState) =>
   state.matches("roninWelcomePack");
 const isRoninAirdrop = (state: MachineState) => state.matches("roninAirdrop");
 const isJinAirdrop = (state: MachineState) => state.matches("jinAirdrop");
+
 const GameContent: React.FC = () => {
   const { gameService } = useContext(Context);
   useSound("desert", true);
@@ -270,7 +270,6 @@ const GameContent: React.FC = () => {
   const landToVisitNotFound = useSelector(gameService, isLandToVisitNotFound);
   const { t } = useAppTranslation();
   const [gameState] = useActor(gameService);
-  const navigate = useNavigate();
 
   const PATH_ACCESS: Partial<Record<string, (game: GameState) => boolean>> = {
     GreenHouse: (game) =>
@@ -339,7 +338,6 @@ const GameContent: React.FC = () => {
         <Routes>
           <Route path="/" element={<Land />}>
             <Route path="marketplace/*" element={<Marketplace />} />
-            <Route path="flower-dashboard" element={<FlowerDashboard />} />
           </Route>
           {/* Legacy route */}
           <Route path="/farm" element={<Land />} />
