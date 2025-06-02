@@ -795,7 +795,9 @@ export function getCropYieldAmount({
     if (skills["Pollen Power Up"]) {
       beeSwarmBonus += 0.1;
     }
-    amount += beeSwarmBonus * plot.beeSwarm.noOfSwarms;
+    // Multiply by the amount of stacked beeswarms
+    beeSwarmBonus *= plot.beeSwarm.noOfSwarms;
+    amount += beeSwarmBonus;
   }
 
   // Greenhouse Crops
