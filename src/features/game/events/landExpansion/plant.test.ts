@@ -3909,7 +3909,7 @@ describe("getCropYield", () => {
           "1": {
             createdAt: now,
             beeSwarm: {
-              noOfSwarms: 1,
+              count: 1,
               swarmActivatedAt: now,
             },
             x: 0,
@@ -3941,7 +3941,7 @@ describe("getCropYield", () => {
           "1": {
             createdAt: now,
             beeSwarm: {
-              noOfSwarms: 2,
+              count: 2,
               swarmActivatedAt: now,
             },
             x: 0,
@@ -3977,7 +3977,7 @@ describe("getCropYield", () => {
           "1": {
             createdAt: now,
             beeSwarm: {
-              noOfSwarms: 1,
+              count: 1,
               swarmActivatedAt: now,
             },
             x: 0,

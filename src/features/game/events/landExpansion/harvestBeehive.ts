@@ -56,7 +56,7 @@ const applySwarmBoostToCrops = (
         };
       }
       updatedPlot.beeSwarm = {
-        noOfSwarms: (cropPlot.beeSwarm?.noOfSwarms ?? 0) + 1,
+        count: (cropPlot.beeSwarm?.count ?? 0) + 1,
         swarmActivatedAt: createdAt,
       };
 
