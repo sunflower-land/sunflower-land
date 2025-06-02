@@ -18,7 +18,14 @@ export function isValidDeal({
     return false;
   }
 
-  if (animal.state === "ready") {
+  /**
+   * If animal is ready, it would normally show its previous level until they claim yield.
+   * Hence we should check their effective level to be the previous level.
+   */
+  if (
+    animal.state === "ready" &&
+    getAnimalLevel(animal.experience, animal.type) - 1 < deal.level
+  ) {
     return false;
   }
 
