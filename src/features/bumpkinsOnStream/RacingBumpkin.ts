@@ -1,176 +1,110 @@
-// import { buildNPCSheets } from "features/bumpkins/actions/buildNPCSheets";
-// import { getAnimationUrl } from "features/world/lib/animations";
+// RacingBumpkin.ts
+import { buildNPCSheets } from "features/bumpkins/actions/buildNPCSheets";
+import { SQUARE_WIDTH } from "features/game/lib/constants";
+import { getAnimationUrl } from "features/world/lib/animations";
+import { BumpkinParts, tokenUriBuilder } from "lib/utils/tokenUriBuilder";
+import Phaser from "phaser";
 
-// import {
-//   BumpkinParts,
-//   interpretTokenUri,
-//   tokenUriBuilder,
-// } from "lib/utils/tokenUriBuilder";
-
-// export class RacingBumpkin extends Phaser.GameObjects.Container {
-//   private sprite: Phaser.GameObjects.Sprite | undefined;
-//   public shadow: Phaser.GameObjects.Sprite | undefined;
-//   private silhouette: Phaser.GameObjects.Sprite | undefined;
-//   private spriteKey: string | undefined;
-//   private idleAnimationKey: string | undefined;
-//   private walkingAnimationKey: string | undefined;
-//   private clothing: BumpkinParts;
-//   private tokenUri: string;
-//   private ready = false;
-
-//   constructor({
-//     scene,
-//     x,
-//     y,
-//     tokenUri,
-//   }: {
-//     scene: Phaser.Scene;
-//     x: number;
-//     y: number;
-//     tokenUri: string;
-//   }) {
-//     super(scene, x, y);
-
-//     this.tokenUri = tokenUri;
-//     this.clothing = this.getClothing(tokenUri);
-
-//     this.scene = scene;
-//     // scene.physics.add.existing(this);
-
-//     this.silhouette = scene.add.sprite(0, 0, "silhouette");
-//     this.add(this.silhouette);
-//     this.sprite = this.silhouette;
-
-//     this.shadow = this.scene.add
-//       .sprite(0.5, 8, "shadow")
-//       .setSize(SQUARE_WIDTH, SQUARE_WIDTH);
-//     this.add(this.shadow).moveTo(this.shadow, 0);
-
-//     this.loadSprites(scene);
-//     this.setSize(SQUARE_WIDTH, SQUARE_WIDTH);
-//   }
-
-//   private getClothing(tokenUri: string) {
-//     const interpreted = interpretTokenUri(tokenUri);
-
-//     return interpreted.equipped;
-//   }
-
-//   private async loadSprites(scene: Phaser.Scene) {
-//     console.log("Loading sprites for bumpkin");
-//     this.spriteKey = tokenUriBuilder(this.clothing);
-//     this.idleAnimationKey = `${this.spriteKey}-bumpkin-idle`;
-//     this.walkingAnimationKey = `${this.spriteKey}-bumpkin-walking`;
-
-//     // ✅ Place these logs here
-//     console.log("Sprite Key:", this.spriteKey);
-//     console.log("Texture exists:", scene.textures.exists(this.spriteKey));
-
-//     await buildNPCSheets({
-//       parts: this.clothing,
-//     });
-
-//     if (scene.textures.exists(this.spriteKey)) {
-//       console.log("Texture already exists, creating sprite immediately");
-//       // If we have idle sheet then we can create the idle animation and set the sprite up straight away
-//       this.createSprite(scene);
-//     } else {
-//       console.log("Texture doesn't exist, loading from URL");
-//       const url = getAnimationUrl(this.clothing, ["idle", "walking"]);
-//       const idleLoader = scene.load.spritesheet(this.spriteKey, url, {
-//         frameWidth: 96,
-//         frameHeight: 64,
-//       });
-
-//       idleLoader.once(`filecomplete-spritesheet-${this.spriteKey}`, () => {
-//         if (!scene.textures.exists(this.spriteKey as string) || this.ready) {
-//           return;
-//         }
-
-//         this.createSprite(scene);
-//       });
-//     }
-//   }
-
-//   public onTextureLoaded() {
-//     if (this.ready || !this.scene.textures.exists(this.spriteKey as string))
-//       return;
-
-//     this.createSprite(this.scene);
-//   }
-
-//   private createSprite(scene: Phaser.Scene) {
-//     try {
-//       const idle = scene.add
-//         .sprite(0, 2, this.spriteKey as string)
-//         .setOrigin(0.5);
-//       this.add(idle);
-//       this.sprite = idle;
-
-//       console.log("Sprite Key:", this.spriteKey);
-//       console.log(
-//         "Texture exists:",
-//         this.scene.textures.exists(this.spriteKey as string),
-//       );
-
-//       this.createIdleAnimation(0, 8);
-//       this.createWalkingAnimation(9, 16);
-//       this.sprite.play(this.idleAnimationKey as string, true);
-//       console.log("Playing idle animation after load");
-
-//       this.ready = true;
-//       if (this.silhouette?.active) {
-//         this.silhouette?.destroy();
-//       }
-//     } catch (error) {
-//       console.error("Error creating sprite:", error);
-//       // Keep the silhouette as fallback
-//       this.ready = true;
-//     }
-//   }
-
-//   private createIdleAnimation(start: number, end: number) {
-//     if (!this.scene || !this.scene.anims) return;
-
-//     this.scene.anims.create({
-//       key: this.idleAnimationKey,
-//       frames: this.scene.anims.generateFrameNumbers(this.spriteKey as string, {
-//         start,
-//         end,
-//       }),
-//       repeat: -1,
-//       frameRate: 10,
-//     });
-//   }
-
-//   private createWalkingAnimation(start: number, end: number) {
-//     if (!this.scene || !this.scene.anims) return;
-
-//     this.scene.anims.create({
-//       key: this.walkingAnimationKey,
-//       frames: this.scene.anims.generateFrameNumbers(this.spriteKey as string, {
-//         start,
-//         end,
-//       }),
-//       repeat: -1,
-//       frameRate: 10,
-//     });
-//   }
-// }
+interface Props {
+  scene: Phaser.Scene;
+  x: number;
+  y: number;
+  clothing: BumpkinParts;
+}
 
 export class RacingBumpkin extends Phaser.GameObjects.Container {
-  constructor({ scene, x, y }: { scene: Phaser.Scene; x: number; y: number }) {
+  public scene: Phaser.Scene;
+  private sprite: Phaser.GameObjects.Sprite | undefined;
+  private shadow: Phaser.GameObjects.Sprite | undefined;
+  private silhouette: Phaser.GameObjects.Sprite | undefined;
+  private clothing: BumpkinParts;
+  private spriteKey: string | undefined;
+  private idleAnimationKey: string | undefined;
+  private ready = false;
+
+  constructor({ scene, x, y, clothing }: Props) {
     super(scene, x, y);
+    this.scene = scene;
+    this.clothing = clothing;
+    this.silhouette = scene.add.sprite(0, 0, "silhouette").setOrigin(0.5);
+    this.add(this.silhouette);
+    this.sprite = this.silhouette;
 
-    const zoom = window.innerWidth < 500 ? 3 : 4;
+    this.shadow = this.scene.add
+      .sprite(0, 14, "shadow")
+      .setSize(SQUARE_WIDTH, SQUARE_WIDTH)
+      .setOrigin(0.5);
+    this.add(this.shadow);
 
-    const silhouette = scene.add
-      .sprite(0, 0, "silhouette")
-      .setOrigin(0.5)
-      .setScale(zoom);
-    this.add(silhouette);
+    this.loadSprites(scene);
+  }
 
-    // this.setSize(SQUARE_WIDTH, SQUARE_WIDTH * zoom);
-    scene.add.existing(this);
+  private async loadSprites(scene: Phaser.Scene) {
+    this.spriteKey = tokenUriBuilder(this.clothing);
+    this.idleAnimationKey = `${this.spriteKey}-bumpkin-idle`;
+
+    await buildNPCSheets({
+      parts: this.clothing,
+    });
+
+    if (scene.textures.exists(this.spriteKey)) {
+      const idle = scene.add.sprite(0, 2, this.spriteKey).setOrigin(0.5);
+      this.add(idle);
+      this.sprite = idle;
+      this.sprite.play(this.idleAnimationKey, true);
+
+      if (this.silhouette?.active) {
+        this.silhouette?.destroy();
+      }
+
+      this.ready = true;
+    } else {
+      const url = getAnimationUrl(this.clothing, ["idle"]);
+
+      const idleLoader = scene.load.spritesheet(this.spriteKey, url, {
+        frameWidth: 96,
+        frameHeight: 64,
+      });
+
+      idleLoader.once(`filecomplete-spritesheet-${this.spriteKey}`, () => {
+        if (!scene.textures.exists(this.spriteKey as string) || this.ready) {
+          return;
+        }
+
+        const idle = scene.add
+          .sprite(0, 2, this.spriteKey as string)
+          .setOrigin(0.5);
+
+        this.add(idle);
+        this.sprite = idle;
+        this.sprite.play(this.idleAnimationKey as string, true);
+
+        this.sprite = idle;
+
+        this.createIdleAnimation(0, 8);
+
+        this.sprite.play(this.idleAnimationKey as string, true);
+
+        this.ready = true;
+        if (this.silhouette?.active) {
+          this.silhouette?.destroy();
+        }
+      });
+    }
+    scene.load.start();
+  }
+
+  private createIdleAnimation(start: number, end: number) {
+    if (!this.scene || !this.scene.anims) return;
+
+    this.scene.anims.create({
+      key: this.idleAnimationKey,
+      frames: this.scene.anims.generateFrameNumbers(this.spriteKey as string, {
+        start,
+        end,
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
   }
 }

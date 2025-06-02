@@ -1,24 +1,24 @@
 import React, { useEffect, useRef } from "react";
+
 import Phaser from "phaser";
-import { useAuth } from "features/auth/lib/Provider";
-import useSWR from "swr";
 import { AuthMachineState } from "features/auth/lib/authMachine";
-import { useSelector } from "@xstate/react";
 import { getRacers, Racer } from "./actions/getRacers";
+import useSWR from "swr";
+import { useAuth } from "features/auth/lib/Provider";
+import { useSelector } from "@xstate/react";
 import { RacingBumpkin } from "./RacingBumpkin";
+import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
 
-// Game scene
 class GameScene extends Phaser.Scene {
-  private bumpkins: RacingBumpkin[] = [];
-  private racers: Racer[] = [];
-  public hasStarted = false;
-
   constructor() {
-    super({ key: "GameScene" });
+    super("GameScene");
   }
 
+  racers: Racer[] = [];
+  private bumpkinMap: Map<number, RacingBumpkin> = new Map();
+
   init(data: { racers: Racer[] }) {
-    this.racers = data?.racers || [];
+    this.racers = data.racers || [];
   }
 
   preload() {
@@ -26,56 +26,66 @@ class GameScene extends Phaser.Scene {
       frameWidth: 14,
       frameHeight: 18,
     });
+    this.load.image("shadow", "world/shadow.png");
   }
 
   create() {
+    const centerX = this.cameras.main.width / 2;
+
     this.add
-      .text(400, 50, "Bumpkins on Stream", {
+      .text(centerX, 50, "Bumpkins on Stream", {
         fontSize: "32px",
         color: "#ffffff",
+        fontFamily: "Arial",
       })
       .setOrigin(0.5);
-
-    for (let i = 0; i < 5; i++) {
-      this.addBumpkin("", 120 + i * 80);
-    }
-
-    this.add.rectangle(400, 300, 20, 20, 0xff0000); // static debug dot
   }
 
-  addBumpkin(tokenUri: string, y: number) {
+  addBumpkin(racer: Racer, x: number, y: number) {
+    const { tokenUri } = racer;
+    const clothing = interpretTokenUri(tokenUri).equipped;
+
     const bumpkin = new RacingBumpkin({
       scene: this,
-      x: 400,
-      y: y,
+      x,
+      y,
+      clothing,
     });
 
-    this.add.existing(bumpkin);
+    this.add.existing(bumpkin).setScale(3);
+  }
+
+  updateRacers(racers: Racer[]) {
+    racers.forEach((racer) => {
+      if (this.bumpkinMap.has(racer.farmId)) return;
+
+      const x = this.cameras.main.width / 2;
+      const y = Math.random() * 100 + this.bumpkinMap.size * 100;
+
+      const clothing = interpretTokenUri(racer.tokenUri).equipped;
+      const bumpkin = new RacingBumpkin({ scene: this, x, y, clothing });
+
+      this.add.existing(bumpkin).setScale(3);
+      this.bumpkinMap.set(racer.farmId, bumpkin);
+    });
   }
 }
 
-// Game configuration
 const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
   width: 800,
   height: 600,
   backgroundColor: "#2d2d2d",
-  scene: GameScene,
   parent: "game-container",
+  scene: [GameScene],
   scale: {
     mode: Phaser.Scale.FIT,
     autoCenter: Phaser.Scale.CENTER_BOTH,
   },
-  physics: {
-    default: "arcade",
-    arcade: {
-      gravity: { y: 0, x: 0 },
-      debug: false,
-    },
-  },
+  pixelArt: true,
+  autoRound: true,
 };
 
-// Fetcher function for SWR
 const fetcher = async ([, token]: [string, string]) => {
   return getRacers({ token });
 };
@@ -94,76 +104,37 @@ export const BumpkinsOnStream: React.FC = () => {
   );
 
   useEffect(() => {
-    // Initialize the game
     if (!gameRef.current) {
       gameRef.current = new Phaser.Game(config);
     }
 
-    // Cleanup on unmount
     return () => {
-      if (gameRef.current) {
-        gameRef.current.destroy(true);
-        gameRef.current = null;
-      }
+      gameRef.current?.destroy(true);
+      gameRef.current = null;
     };
   }, []);
 
   useEffect(() => {
     if (data?.racers && gameRef.current) {
       const scene = gameRef.current.scene.getScene("GameScene") as GameScene;
-      if (scene) {
-        // Restart the scene with new racer data
-        scene.scene.restart({ racers: data?.racers || [] });
-      }
+      scene.updateRacers(data.racers);
     }
-  }, [data]);
-
-  if (isLoading) {
-    return (
-      <div
-        style={{
-          width: "100%",
-          height: "100vh",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: "#2d2d2d",
-          color: "#ffffff",
-        }}
-      >
-        {`Loading...`}
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div
-        style={{
-          width: "100%",
-          height: "100vh",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          backgroundColor: "#2d2d2d",
-          color: "#ff0000",
-        }}
-      >
-        {`Error: ${error.message}`}
-      </div>
-    );
-  }
+  }, [data?.racers]);
 
   return (
     <div
       id="game-container"
       style={{
-        width: "100%",
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100vw",
         height: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
         backgroundColor: "#2d2d2d",
+        overflow: "hidden",
+        margin: 0,
+        padding: 0,
+        zIndex: 0,
       }}
     />
   );
