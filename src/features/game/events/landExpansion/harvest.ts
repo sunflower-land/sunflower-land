@@ -145,7 +145,7 @@ export function harvest({
 
     // Remove crop data for plot
     delete plot.crop;
-
+    delete plot.beeSwarm;
     delete plot.fertiliser;
 
     const cropCount = stateCopy.inventory[cropName] || new Decimal(0);

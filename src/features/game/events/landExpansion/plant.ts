@@ -798,6 +798,16 @@ export function getCropYieldAmount({
     amount += 0.2;
   }
 
+  if (plot?.beeSwarm) {
+    let beeSwarmBonus = 0.2;
+    if (skills["Pollen Power Up"]) {
+      beeSwarmBonus += 0.1;
+    }
+    // Multiply by the amount of stacked beeswarms
+    beeSwarmBonus *= plot.beeSwarm.noOfSwarms;
+    amount += beeSwarmBonus;
+  }
+
   // Greenhouse Crops
   // Rice
   if (crop === "Rice" && isWearableActive({ name: "Non La Hat", game })) {

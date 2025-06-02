@@ -1,6 +1,10 @@
 import { Beehive, CropPlot, FlowerBed } from "features/game/types/game";
 import { HARVEST_BEEHIVE_ERRORS, harvestBeehive } from "./harvestBeehive";
-import { TEST_FARM, INITIAL_BUMPKIN } from "features/game/lib/constants";
+import {
+  TEST_FARM,
+  INITIAL_BUMPKIN,
+  INITIAL_FARM,
+} from "features/game/lib/constants";
 import Decimal from "decimal.js-light";
 import { DEFAULT_HONEY_PRODUCTION_TIME } from "features/game/lib/updateBeehives";
 
@@ -236,7 +240,7 @@ describe("harvestBeehive", () => {
     expect(state.crops?.["987"].crop?.amount).toEqual(1.2);
   });
 
-  it("[BEE SWARM] Does not affect crop plots that are not planted", () => {
+  it("Adds to the swarm counter when there is no crop planted", () => {
     const crops: Record<string, CropPlot> = {
       "1": {
         x: 0,
@@ -249,10 +253,9 @@ describe("harvestBeehive", () => {
         createdAt: 0,
       },
     };
-
     const state = harvestBeehive({
       state: {
-        ...TEST_FARM,
+        ...INITIAL_FARM,
         beehives: {
           "1234": {
             ...DEFAULT_BEEHIVE,
@@ -269,9 +272,94 @@ describe("harvestBeehive", () => {
         type: "beehive.harvested",
         id: "1234",
       },
+      createdAt: now,
     });
 
-    expect(state.crops).toEqual(crops);
+    expect(state.crops).toEqual({
+      "1": {
+        x: 0,
+        y: -2,
+        createdAt: 0,
+        beeSwarm: {
+          noOfSwarms: 1,
+          swarmActivatedAt: now,
+        },
+      },
+      "2": {
+        x: 1,
+        y: -2,
+        createdAt: 0,
+        beeSwarm: {
+          noOfSwarms: 1,
+          swarmActivatedAt: now,
+        },
+      },
+    });
+  });
+
+  it("Stacks the swarm counter when there is no crop planted", () => {
+    const crops: Record<string, CropPlot> = {
+      "1": {
+        x: 0,
+        y: -2,
+        createdAt: 0,
+        beeSwarm: {
+          noOfSwarms: 1,
+          swarmActivatedAt: now,
+        },
+      },
+      "2": {
+        x: 1,
+        y: -2,
+        createdAt: 0,
+        beeSwarm: {
+          noOfSwarms: 1,
+          swarmActivatedAt: now,
+        },
+      },
+    };
+    const state = harvestBeehive({
+      state: {
+        ...INITIAL_FARM,
+        beehives: {
+          "1234": {
+            ...DEFAULT_BEEHIVE,
+            swarm: true,
+            honey: {
+              updatedAt: 0,
+              produced: DEFAULT_HONEY_PRODUCTION_TIME,
+            },
+          },
+        },
+        crops,
+      },
+      action: {
+        type: "beehive.harvested",
+        id: "1234",
+      },
+      createdAt: now,
+    });
+
+    expect(state.crops).toEqual({
+      "1": {
+        x: 0,
+        y: -2,
+        createdAt: 0,
+        beeSwarm: {
+          noOfSwarms: 2,
+          swarmActivatedAt: now,
+        },
+      },
+      "2": {
+        x: 1,
+        y: -2,
+        createdAt: 0,
+        beeSwarm: {
+          noOfSwarms: 2,
+          swarmActivatedAt: now,
+        },
+      },
+    });
   });
 
   it("sets the swarm to false after activating the swarm", () => {
