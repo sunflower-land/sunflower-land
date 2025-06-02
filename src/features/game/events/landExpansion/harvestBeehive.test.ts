@@ -281,7 +281,7 @@ describe("harvestBeehive", () => {
         y: -2,
         createdAt: 0,
         beeSwarm: {
-          noOfSwarms: 1,
+          count: 1,
           swarmActivatedAt: now,
         },
       },
@@ -290,7 +290,7 @@ describe("harvestBeehive", () => {
         y: -2,
         createdAt: 0,
         beeSwarm: {
-          noOfSwarms: 1,
+          count: 1,
           swarmActivatedAt: now,
         },
       },
@@ -304,7 +304,7 @@ describe("harvestBeehive", () => {
         y: -2,
         createdAt: 0,
         beeSwarm: {
-          noOfSwarms: 1,
+          count: 1,
           swarmActivatedAt: now,
         },
       },
@@ -313,7 +313,7 @@ describe("harvestBeehive", () => {
         y: -2,
         createdAt: 0,
         beeSwarm: {
-          noOfSwarms: 1,
+          count: 1,
           swarmActivatedAt: now,
         },
       },
@@ -346,7 +346,7 @@ describe("harvestBeehive", () => {
         y: -2,
         createdAt: 0,
         beeSwarm: {
-          noOfSwarms: 2,
+          count: 2,
           swarmActivatedAt: now,
         },
       },
@@ -355,7 +355,7 @@ describe("harvestBeehive", () => {
         y: -2,
         createdAt: 0,
         beeSwarm: {
-          noOfSwarms: 2,
+          count: 2,
           swarmActivatedAt: now,
         },
       },

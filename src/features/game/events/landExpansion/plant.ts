@@ -804,7 +804,7 @@ export function getCropYieldAmount({
       beeSwarmBonus += 0.1;
     }
     // Multiply by the amount of stacked beeswarms
-    beeSwarmBonus *= plot.beeSwarm.noOfSwarms;
+    beeSwarmBonus *= plot.beeSwarm.count;
     amount += beeSwarmBonus;
   }
 
