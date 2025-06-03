@@ -5962,5 +5962,8 @@
   "portal.mineWhack.description": "Нажимайте кротов, уклоняйтесь от кроликов и соревнуйтесь со временем в этом рефлекторном испытании!",
   "blessing.donated": "{{amount}} x {{item}} пожертвовано",
   "blessing.winners": "{{count}} победители",
-  "blessing.maxAmount": "Недостаточно {{name}}."
+  "blessing.maxAmount": "Недостаточно {{name}}.",
+  "wallet.seedlingRequired": "Заработайте репутацию саженцев, чтобы создать NFT на ферме",
+  "reputation.seedling.farmNFT": "Ончейн-ферма",
+  "reputation.seedlingRequired": "Требуется саженец"
 }

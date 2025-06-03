@@ -5962,5 +5962,8 @@
   "portal.mineWhack.description": "Ketik tahi lalat, elakkan arnab, dan berlumba dengan masa dalam cabaran refleks ini!",
   "blessing.donated": "{{amount}} x {{item}} disumbangkan",
   "blessing.winners": "{{count}} pemenang",
-  "blessing.maxAmount": "Tidak mencukupi {{name}}."
+  "blessing.maxAmount": "Tidak mencukupi {{name}}.",
+  "wallet.seedlingRequired": "Mencapai reputasi anak benih untuk membentuk Farm NFT",
+  "reputation.seedling.farmNFT": "Ladang Di Rantai",
+  "reputation.seedlingRequired": "Anak benih diperlukan"
 }

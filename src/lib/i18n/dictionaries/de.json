@@ -5962,5 +5962,8 @@
   "portal.mineWhack.description": "Tippe auf die Maulwürfe, weiche den Hasen aus und spiele in dieser Reflexherausforderung gegen die Zeit!",
   "blessing.donated": "{{amount}} x {{item}} gespendet",
   "blessing.winners": "{{count}} Gewinner",
-  "blessing.maxAmount": "Ungenügend {{name}}."
+  "blessing.maxAmount": "Ungenügend {{name}}.",
+  "wallet.seedlingRequired": "Erreiche den Ruf eines Sämlings, um ein Farm-NFT zu prägen",
+  "reputation.seedling.farmNFT": "On-Chain-Farm",
+  "reputation.seedlingRequired": "Sämling erforderlich"
 }

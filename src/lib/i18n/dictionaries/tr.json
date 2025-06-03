@@ -5962,5 +5962,8 @@
   "portal.mineWhack.description": "Bu refleks mücadelesinde benlere dokunun, tavşanlardan kaçın ve zamana karşı yarışın!",
   "blessing.donated": "{{amount}} x {{item}} bağışlandı",
   "blessing.winners": "{{count}} kazananlar",
-  "blessing.maxAmount": "Yetersiz {{name}}."
+  "blessing.maxAmount": "Yetersiz {{name}}.",
+  "wallet.seedlingRequired": "Bir Çiftlik NFT'si oluşturmak için fide itibarına ulaşın",
+  "reputation.seedling.farmNFT": "Zincir Üzerindeki Çiftlik",
+  "reputation.seedlingRequired": "Fide gerekli"
 }

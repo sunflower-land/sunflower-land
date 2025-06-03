@@ -5962,5 +5962,8 @@
   "portal.mineWhack.description": "Tapez sur les taupes, esquivez les lapins et courez contre la montre dans ce défi réflexe !",
   "blessing.donated": "{{amount}} x {{item}} a fait un don",
   "blessing.winners": "{{count}} gagnants",
-  "blessing.maxAmount": "Insuffisant {{name}}."
+  "blessing.maxAmount": "Insuffisant {{name}}.",
+  "wallet.seedlingRequired": "Atteignez la réputation d'un plant pour créer un NFT agricole",
+  "reputation.seedling.farmNFT": "Ferme en chaîne",
+  "reputation.seedlingRequired": "Semis requis"
 }

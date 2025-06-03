@@ -5962,5 +5962,8 @@
   "portal.mineWhack.description": "Tocca le talpe, schiva i conigli e corri contro il tempo in questa sfida riflessa!",
   "blessing.donated": "{{amount}} x {{item}} ha donato",
   "blessing.winners": "{{count}} vincitori",
-  "blessing.maxAmount": "Insufficiente {{name}}."
+  "blessing.maxAmount": "Insufficiente {{name}}.",
+  "wallet.seedlingRequired": "Raggiungi la reputazione delle piantine per creare un Farm NFT",
+  "reputation.seedling.farmNFT": "Azienda agricola a catena",
+  "reputation.seedlingRequired": "Piantina richiesta"
 }

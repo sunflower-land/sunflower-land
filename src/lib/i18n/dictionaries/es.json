@@ -5962,5 +5962,8 @@
   "portal.mineWhack.description": "¡Toca los lunares, esquiva a los conejos y compite contra el tiempo en este desafío de reflejos!",
   "blessing.donated": "{{amount}} x {{item}} donados",
   "blessing.winners": "{{count}} ganadores",
-  "blessing.maxAmount": "Insuficiente {{name}}."
+  "blessing.maxAmount": "Insuficiente {{name}}.",
+  "wallet.seedlingRequired": "Alcanza la reputación de una plántula para crear una granja NFT",
+  "reputation.seedling.farmNFT": "Granja en cadena",
+  "reputation.seedlingRequired": "Se requiere plántula"
 }

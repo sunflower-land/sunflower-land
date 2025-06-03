@@ -5962,5 +5962,8 @@
   "portal.mineWhack.description": "이 리플렉스 챌린지에서 두더지를 두드리고 토끼를 피하고 시간과 경쟁하세요!",
   "blessing.donated": "{{amount}} x {{item}} 기부",
   "blessing.winners": "{{count}} 수상자",
-  "blessing.maxAmount": "부족합니다 {{name}}."
+  "blessing.maxAmount": "부족합니다 {{name}}.",
+  "wallet.seedlingRequired": "묘목 평판에 도달하여 팜 NFT를 발행하세요",
+  "reputation.seedling.farmNFT": "온체인 팜",
+  "reputation.seedlingRequired": "묘목 필요"
 }

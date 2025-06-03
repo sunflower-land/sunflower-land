@@ -5962,5 +5962,8 @@
   "portal.mineWhack.description": "在这场反射挑战中，点击鼹鼠，躲避兔子，与时间赛跑！",
   "blessing.donated": "{{amount}} x {{item}} 已捐赠",
   "blessing.winners": "{{count}} 获胜者",
-  "blessing.maxAmount": "不足 {{name}}。"
+  "blessing.maxAmount": "不足 {{name}}。",
+  "wallet.seedlingRequired": "获得幼苗声誉即可铸造农场 NFT",
+  "reputation.seedling.farmNFT": "链上农场",
+  "reputation.seedlingRequired": "需要幼苗"
 }

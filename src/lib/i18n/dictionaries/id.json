@@ -5962,5 +5962,8 @@
   "portal.mineWhack.description": "Ketuk tahi lalat, hindari kelinci, dan berpacu melawan waktu dalam tantangan refleks ini!",
   "blessing.donated": "{{amount}} x {{item}} disumbangkan",
   "blessing.winners": "{{count}} pemenang",
-  "blessing.maxAmount": "Tidak cukup {{name}}."
+  "blessing.maxAmount": "Tidak cukup {{name}}.",
+  "wallet.seedlingRequired": "Raih reputasi bibit untuk mencetak NFT Pertanian",
+  "reputation.seedling.farmNFT": "Peternakan On-Chain",
+  "reputation.seedlingRequired": "Dibutuhkan pembibitan"
 }
