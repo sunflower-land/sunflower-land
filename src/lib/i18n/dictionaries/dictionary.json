@@ -3625,6 +3625,7 @@
   "wallet.signIn": "Sign In",
   "wallet.missingNFT": "Missing NFT",
   "wallet.requireFarmNFT": "Some actions require a Farm NFT. This helps keep all of your items secure on the Blockchain",
+  "wallet.seedlingRequired": "Reach seedling reputation to mint a Farm NFT",
   "wallet.uniqueFarmNFT": "A unique farm NFT will be minted to store your progress",
   "wallet.RequiresPol": "Minting the farm NFT requires POL tokens on the Polygon network and in your farm's linked wallet",
   "wallet.mintFreeNFT": "Mint your NFT",
@@ -5529,6 +5530,7 @@
   "reputation.seedling.trades": "2 Marketplace Listings per day",
   "reputation.seedling.deliveries": "1 FLOWER Delivery Per Day",
   "reputation.seedling.nft": "Withdraw NFTs",
+  "reputation.seedling.farmNFT": "On-Chain Farm",
 
   "reputation.unlock.spring": "Reach Spring Island - {{points}} points",
   "reputation.unlock.desert": "Reach Desert Island - {{points}} points",
@@ -5569,6 +5571,7 @@
   "reputation.guide.connectDiscord": "Connect your Discord account by clicking the gear icon, selecting General Settings, and clicking the Discord button.",
   "reputation.guide.proofOfHumanity": "Complete the Proof of Humanity by traveling to Retreat Island and locating the bank.",
   "reputation.guide.ownBud": "Own a Bud by purchasing it through the in-game or third-party marketplaces.",
+  "reputation.seedlingRequired": "Seedling required",
 
   "verify.verified": "You are verified!",
   "verify.verify": "Verify your account to increase your reputation.",
