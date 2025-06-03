@@ -35,7 +35,8 @@ type EffectName =
   | "moderation.muted"
   | "moderation.unmuted"
   | "blessing.offered"
-  | "blessing.seeked";
+  | "blessing.seeked"
+  | "nft.assigned";
 
 // IMPORTANT: If your effect does not go via a state in the state machine then exclude it here!
 // Create a type that excludes the events that are not individual state machine states
@@ -49,6 +50,7 @@ export type StateMachineEffectName = Exclude<
   | "moderation.kicked"
   | "moderation.muted"
   | "moderation.unmuted"
+  | "nft.assigned"
 >;
 
 export type StateMachineStateName =

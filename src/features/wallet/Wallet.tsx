@@ -14,7 +14,7 @@ import { ErrorCode } from "lib/errors";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { shortAddress } from "lib/utils/shortAddress";
-import { NFTMigrating, NFTMinting, NFTWaiting } from "./components/NFTMinting";
+import { NFTMinting, NFTWaiting } from "./components/NFTMinting";
 import { WalletContext, config } from "./WalletProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Loading } from "features/auth/components";
@@ -264,10 +264,6 @@ const WalletContent: React.FC<{ id?: number }> = ({ id }) => {
     return <NFTMinting />;
   }
 
-  if (walletState.matches("migrating")) {
-    return <NFTMigrating />;
-  }
-
   return <Loading text={t("connecting")} />;
 };
 
@@ -293,9 +289,9 @@ const WrappedWallet: React.FC<Props> = ({
     const didChange = address !== walletServiceAddress;
     if (
       didChange &&
-      (
-        ["initialising", "signing", "linking", "minting", "migrating"] as const
-      ).every((state) => !walletState.matches(state))
+      (["initialising", "signing", "linking", "minting"] as const).every(
+        (state) => !walletState.matches(state),
+      )
     ) {
       walletService.send("ACCOUNT_CHANGED");
     }
@@ -304,9 +300,9 @@ const WrappedWallet: React.FC<Props> = ({
   useEffect(() => {
     if (
       chainId !== CONFIG.POLYGON_CHAIN_ID &&
-      (
-        ["initialising", "signing", "linking", "minting", "migrating"] as const
-      ).every((state) => !walletState.matches(state))
+      (["initialising", "signing", "linking", "minting"] as const).every(
+        (state) => !walletState.matches(state),
+      )
     ) {
       walletService.send("CHAIN_CHANGED");
     }
@@ -622,10 +618,6 @@ const PortalWalletContent: React.FC<Props> = ({ id, farmAddress, action }) => {
 
   if (walletState.matches("minting")) {
     return <NFTMinting />;
-  }
-
-  if (walletState.matches("migrating")) {
-    return <NFTMigrating />;
   }
 
   return <Loading text={t("connecting")} />;

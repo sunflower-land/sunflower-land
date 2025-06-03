@@ -2,7 +2,6 @@ import { createMachine, Interpreter, State, assign } from "xstate";
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { getFarms } from "lib/blockchain/Farm";
-import { mintNFTFarm } from "./actions/mintFarm";
 import { getCreatedAt } from "lib/blockchain/AccountMinter";
 import { Connector } from "wagmi";
 import {
@@ -111,7 +110,6 @@ export type WalletState = {
     | "linking"
     | "minting"
     | "waiting"
-    | "migrating"
     | "ready"
     // Error states
     | "missingNFT"
@@ -397,25 +395,36 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
             }
           }
 
-          await mintNFTFarm({
-            id: context.id as number,
-            jwt: context.jwt as string,
-            transactionId: "0xTODO",
+          const { data } = await postEffect({
+            farmId: Number(context.id),
+            token: context.jwt as string,
+            transactionId: randomID(),
+            effect: {
+              type: "nft.assigned",
+            },
           });
 
           return {
             readyAt: Date.now() + 60 * 1000,
+            farmAddress: data.farmAddress,
+            nftId: data.nftId,
           };
         },
         onDone: [
           {
-            target: "migrating",
+            target: "ready",
             cond: (_, event) => Date.now() > event.data.readyAt,
+            actions: assign({
+              farmAddress: (_, event) => event.data.farmAddress,
+              nftId: (_, event) => event.data.nftId,
+            }),
           },
           {
             target: "waiting",
             actions: assign({
               nftReadyAt: (_, event) => event.data.readyAt,
+              farmAddress: (_, event) => event.data.farmAddress,
+              nftId: (_, event) => event.data.nftId,
             }),
           },
         ],
@@ -438,47 +447,11 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
     waiting: {
       on: {
         CONTINUE: {
-          target: "migrating",
+          target: "ready",
         },
       },
     },
 
-    migrating: {
-      id: "migrating",
-      invoke: {
-        src: async (context) => {
-          const { data } = await postEffect({
-            farmId: Number(context.id),
-            token: context.jwt as string,
-            transactionId: randomID(),
-            effect: {
-              type: "account.migrated",
-            } as Effect,
-          });
-
-          return {
-            farmAddress: data.farmAddress,
-            farmId: data.farmId,
-            nftId: data.nftId,
-          };
-        },
-        onDone: [
-          {
-            target: "ready",
-            actions: assign({
-              farmAddress: (_, event) => event.data.farmAddress,
-              nftId: (_, event) => event.data.nftId,
-            }),
-          },
-        ],
-        onError: {
-          target: "error",
-          actions: assign<Context, any>({
-            errorCode: (_context, event) => event.data.message,
-          }),
-        },
-      },
-    },
     switchingNetwork: {
       invoke: {
         src: async (_, event: any) => {
