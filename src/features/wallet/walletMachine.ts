@@ -15,6 +15,7 @@ import { config } from "./WalletProvider";
 import { generateSignatureMessage, wallet } from "lib/blockchain/wallet";
 import { Effect, postEffect } from "features/game/actions/effect";
 import { randomID } from "lib/utils/random";
+import { Reputation } from "features/game/lib/reputation";
 
 export const ART_MODE = !CONFIG.API_URL;
 
@@ -31,6 +32,7 @@ export interface Context {
   nftId?: number;
   chainId?: number;
   signInAttempts?: number;
+  reputation?: Reputation;
 }
 
 export type WalletAction =
@@ -76,6 +78,7 @@ type InitialiseEvent = {
   linkedAddress: string;
   farmAddress: string;
   action: WalletAction;
+  reputation: Reputation;
 };
 
 type ConnectWalletEvent = {
@@ -148,6 +151,7 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
     nftReadyAt: 0,
     action: "" as WalletAction,
     signInAttempts: 0,
+    reputation: Reputation.Beginner,
   },
   states: {
     chooseWallet: {
@@ -552,6 +556,7 @@ export const walletMachine = createMachine<Context, WalletEvent, WalletState>({
         linkedAddress: (_, event: InitialiseEvent) => event.linkedAddress,
         farmAddress: (_, event: InitialiseEvent) => event.farmAddress,
         action: (_, event: InitialiseEvent) => event.action,
+        reputation: (_, event: InitialiseEvent) => event.reputation,
       }),
     },
   },

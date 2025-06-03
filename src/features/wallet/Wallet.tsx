@@ -23,7 +23,7 @@ import { WagmiProvider, useAccount } from "wagmi";
 import { CONFIG } from "lib/config";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { PolygonRequired } from "./components/PolygonRequired";
-import { Reputation } from "features/game/lib/reputation";
+import { getReputation, Reputation } from "features/game/lib/reputation";
 
 interface Props {
   action: WalletAction;
@@ -37,6 +37,7 @@ interface Props {
   linkedAddress?: string;
   farmAddress?: string;
   wallet?: string;
+  reputation?: Reputation;
 }
 
 const WalletContent: React.FC<{ id?: number }> = ({ id }) => {
@@ -287,6 +288,7 @@ const WrappedWallet: React.FC<Props> = ({
   id,
   linkedAddress,
   farmAddress,
+  reputation,
 }) => {
   const { authService } = useContext(AuthContext);
   const [authState] = useActor(authService);
@@ -328,6 +330,7 @@ const WrappedWallet: React.FC<Props> = ({
       linkedAddress,
       farmAddress,
       action,
+      reputation,
     });
   }, []);
 
@@ -379,6 +382,7 @@ export const GameWallet: React.FC<Props> = ({ children, onReady, action }) => {
         linkedAddress={gameState.context.linkedWallet}
         wallet={gameState.context.wallet}
         farmAddress={gameState.context.farmAddress}
+        reputation={getReputation({ game: gameState.context.state })}
         onReady={({ address, signature, farmAddress, nftId }) => {
           const hasChanged =
             (!gameState.context.linkedWallet && address) ||
