@@ -8,6 +8,7 @@ import { useAuth } from "features/auth/lib/Provider";
 import { useSelector } from "@xstate/react";
 import { RacingBumpkin } from "./RacingBumpkin";
 import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
+import { InnerPanel, Panel } from "components/ui/Panel";
 
 class GameScene extends Phaser.Scene {
   constructor() {
@@ -30,15 +31,7 @@ class GameScene extends Phaser.Scene {
   }
 
   create() {
-    const centerX = this.cameras.main.width / 2;
-
-    this.add
-      .text(centerX, 50, "Bumpkins on Stream", {
-        fontSize: "32px",
-        color: "#ffffff",
-        fontFamily: "Arial",
-      })
-      .setOrigin(0.5);
+    this.cameras.main.setBounds(0, 0, 2000, this.cameras.main.height);
   }
 
   addBumpkin(racer: Racer, x: number, y: number) {
@@ -57,26 +50,28 @@ class GameScene extends Phaser.Scene {
 
   updateRacers(racers: Racer[]) {
     racers.forEach((racer) => {
-      if (this.bumpkinMap.has(racer.farmId)) return;
+      if (this.bumpkinMap.has(racer.id)) {
+        return;
+      }
 
-      const x = this.cameras.main.width / 2;
-      const y = Math.random() * 100 + this.bumpkinMap.size * 100;
+      const x = 30;
+      const y = this.cameras.main.height / 2;
 
       const clothing = interpretTokenUri(racer.tokenUri).equipped;
       const bumpkin = new RacingBumpkin({ scene: this, x, y, clothing });
 
       this.add.existing(bumpkin).setScale(3);
-      this.bumpkinMap.set(racer.farmId, bumpkin);
+      this.bumpkinMap.set(racer.id, bumpkin);
     });
   }
 }
 
 const config: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
-  width: 800,
+  width: 1000,
   height: 600,
   backgroundColor: "#2d2d2d",
-  parent: "game-container",
+  parent: "track-container",
   scene: [GameScene],
   scale: {
     mode: Phaser.Scale.FIT,
@@ -95,47 +90,86 @@ const _token = (state: AuthMachineState) =>
 
 export const BumpkinsOnStream: React.FC = () => {
   const gameRef = useRef<Phaser.Game | null>(null);
+  const scene = useRef<GameScene | null>(null);
   const { authService } = useAuth();
   const token = useSelector(authService, _token);
 
-  const { data, error, isLoading } = useSWR(
+  const { data, error, isLoading, mutate } = useSWR(
     ["/data?type=bumpkinsOnStream", token],
     fetcher,
   );
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      mutate();
+    }, 5 * 1000);
+
+    return () => clearInterval(interval);
+  }, [mutate]);
 
   useEffect(() => {
     if (!gameRef.current) {
       gameRef.current = new Phaser.Game(config);
     }
 
+    const checkReady = setInterval(() => {
+      const activeScene = gameRef.current?.scene.getScene(
+        "GameScene",
+      ) as GameScene;
+      if (activeScene) {
+        scene.current = activeScene;
+        clearInterval(checkReady);
+      }
+    }, 100);
+
     return () => {
       gameRef.current?.destroy(true);
       gameRef.current = null;
+      scene.current = null;
     };
   }, []);
 
   useEffect(() => {
-    if (data?.racers && gameRef.current) {
-      const scene = gameRef.current.scene.getScene("GameScene") as GameScene;
-      scene.updateRacers(data.racers);
+    if (data?.racers && scene.current) {
+      scene.current.updateRacers(data.racers);
     }
   }, [data?.racers]);
 
+  if (isLoading) {
+    return <div>{`Loading...`}</div>;
+  }
+
+  if (error) {
+    return <div>{`Error: ${error.message}`}</div>;
+  }
+
   return (
-    <div
-      id="game-container"
-      style={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        width: "100vw",
-        height: "100vh",
-        backgroundColor: "#2d2d2d",
-        overflow: "hidden",
-        margin: 0,
-        padding: 0,
-        zIndex: 0,
-      }}
-    />
+    <Panel className="h-full w-full text-white flex flex-col p-1">
+      {/* Header */}
+      <InnerPanel className="flex items-center justify-center text-3xl h-11 mb-1">
+        {`Bumpkins Race`}
+      </InnerPanel>
+
+      {/* Main Content */}
+      <div className="flex flex-1 w-full overflow-hidden">
+        {/* Sidebar */}
+        <InnerPanel className="w-40 flex flex-col space-y-1 p-2 mr-1">
+          <div className="border-b border-white pb-1">{`Racers`}</div>
+          {(data?.racers ?? []).map((racer, i) => (
+            <div key={i} className="text-sm">
+              {racer.username ?? `#${racer.id}`}
+            </div>
+          ))}
+        </InnerPanel>
+
+        {/* Track */}
+        <main className="flex-1 relative">
+          <div
+            id="track-container"
+            className="w-full h-full bg-[#2d2d2d] overflow-hidden"
+          />
+        </main>
+      </div>
+    </Panel>
   );
 };
