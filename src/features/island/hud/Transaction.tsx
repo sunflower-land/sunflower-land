@@ -19,7 +19,7 @@ import {
   ONCHAIN_TRANSACTIONS,
   TransactionName,
 } from "features/game/types/transactions";
-import { GameWallet, queryClient } from "features/wallet/Wallet";
+import { GameWallet } from "features/wallet/Wallet";
 
 import walletIcon from "assets/icons/wallet.png";
 import lockIcon from "assets/icons/lock.png";
@@ -28,7 +28,6 @@ import { Loading } from "features/auth/components";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
-import { QueryClientProvider } from "@tanstack/react-query";
 import { switchChain } from "@wagmi/core";
 import { GaslessWidget } from "features/announcements/AnnouncementWidgets";
 import { getAccount } from "@wagmi/core";
@@ -73,14 +72,10 @@ export const TransactionCountdown: React.FC = () => {
         <GaslessWidget />
       </Modal>
       <ButtonPanel onClick={() => setShowTransaction(true)} className="flex">
-        <WagmiProvider config={config}>
-          <QueryClientProvider client={queryClient}>
-            <TransactionWidget
-              transaction={transaction}
-              onOpen={() => setShowTransaction(true)}
-            />
-          </QueryClientProvider>
-        </WagmiProvider>
+        <TransactionWidget
+          transaction={transaction}
+          onOpen={() => setShowTransaction(true)}
+        />
       </ButtonPanel>
     </>
   );

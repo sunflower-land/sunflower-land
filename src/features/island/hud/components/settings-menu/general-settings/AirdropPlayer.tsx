@@ -25,10 +25,10 @@ import { CONFIG } from "lib/config";
 import { getKeys } from "features/game/types/decorations";
 import { signTypedData } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
-import { WalletContext } from "features/wallet/WalletProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
+import { useAccount } from "wagmi";
 
 // Types
 interface AirdropItem {
@@ -318,7 +318,6 @@ export const AirdropPlayer: React.FC<
 > = ({ id }) => {
   const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
-  const { walletService } = useContext(WalletContext);
 
   const hasDevAccess = useSelector(
     gameService,
@@ -330,7 +329,7 @@ export const AirdropPlayer: React.FC<
     state.matches("airdroppingRewardFailed"),
   );
 
-  const chainId = useSelector(walletService, (state) => state.context.chainId);
+  const { chainId } = useAccount();
 
   // Basic state
   const [farmIds, setFarmIds] = useState<string>(id?.toString() ?? "");
