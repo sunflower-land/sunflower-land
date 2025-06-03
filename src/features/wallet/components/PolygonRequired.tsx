@@ -4,22 +4,21 @@ import { Label } from "components/ui/Label";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { WalletContext } from "../WalletProvider";
 import classNames from "classnames";
 import { pixelGrayBorderStyle } from "features/game/lib/style";
 import { useGame } from "features/game/GameProvider";
 import { isRonin } from "../lib/ronin";
 import { CONFIG } from "lib/config";
+import { useSwitchChain } from "wagmi";
 
 export const PolygonRequired: React.FC<{
   canContinue: boolean;
 }> = ({ canContinue }) => {
   const { t } = useAppTranslation();
-  const { walletService } = useContext(WalletContext);
+  const { switchChain } = useSwitchChain();
 
   const doContinue = () => {
-    walletService.send({
-      type: "SWITCH_NETWORK",
+    switchChain({
       chainId: CONFIG.POLYGON_CHAIN_ID as 137 | 80002,
     });
   };

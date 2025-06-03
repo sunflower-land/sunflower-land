@@ -47,7 +47,6 @@ export type StateMachineEffectName = Exclude<
   | "withdraw.items"
   | "withdraw.wearables"
   | "withdraw.buds"
-  | "wallet.linked"
   | "account.migrated"
   | "moderation.kicked"
   | "moderation.muted"
@@ -79,7 +78,8 @@ export type StateMachineStateName =
   | "offeringBlessing"
   | "seekingBlessing"
   | "marketplaceBulkListingsCancelling"
-  | "marketplaceBulkOffersCancelling";
+  | "marketplaceBulkOffersCancelling"
+  | "linkingWallet";
 
 export type StateNameWithStatus =
   | `${StateMachineStateName}Success`
@@ -114,6 +114,7 @@ export const STATE_MACHINE_EFFECTS: Record<
   "blessing.seeked": "seekingBlessing",
   "marketplace.bulkListingsCancelled": "marketplaceBulkListingsCancelling",
   "marketplace.bulkOffersCancelled": "marketplaceBulkOffersCancelling",
+  "wallet.linked": "linkingWallet",
 };
 export interface Effect {
   type: EffectName;

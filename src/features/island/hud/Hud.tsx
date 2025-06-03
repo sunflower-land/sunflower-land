@@ -45,7 +45,8 @@ const HudComponent: React.FC<{
   const farmAddress = useSelector(gameService, _farmAddress);
   const linkedWallet = useSelector(gameService, _linkedWallet);
 
-  const [showDepositModal, setShowDepositModal] = useState(false);
+  // TODO LINKED_WALLET remove this
+  const [showDepositModal, setShowDepositModal] = useState(true);
   const [showBuyCurrencies, setShowBuyCurrencies] = useState(false);
 
   const sfl = useSound("sfl");

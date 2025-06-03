@@ -93,7 +93,7 @@ export const DepositGameItems: React.FC<Props> = ({
   linkedWallet,
 }) => {
   return (
-    <GameWallet action="deposit">
+    <GameWallet action="depositItems">
       <DepositOptions
         onClose={onClose}
         onDeposit={onDeposit}
@@ -312,7 +312,7 @@ const DepositOptions: React.FC<Props> = ({
         </div>
       )}
       {status === "loaded" && !emptyWallet && (
-        <GameWallet action="confirmDeposit">
+        <GameWallet action="confirmDepositItems">
           <div className="p-2 mb-1">
             <div className="flex justify-between sm:flex-row flex-col">
               <Label

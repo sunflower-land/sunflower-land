@@ -5,12 +5,11 @@ import { SUNNYSIDE } from "assets/sunnyside";
 
 import * as AuthProvider from "features/auth/lib/Provider";
 import { removeJWT } from "../actions/social";
-import { WalletContext } from "features/wallet/WalletProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const Blocked: React.FC = () => {
   const { authService } = useContext(AuthProvider.Context);
-  const { walletService } = useContext(WalletContext);
+
   const { t } = useAppTranslation();
   const tryAgain = () => {
     removeJWT();
