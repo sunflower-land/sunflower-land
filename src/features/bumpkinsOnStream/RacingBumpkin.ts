@@ -26,8 +26,15 @@ export class RacingBumpkin extends Phaser.GameObjects.Container {
     super(scene, x, y);
     this.scene = scene;
     this.clothing = clothing;
-    this.silhouette = scene.add.sprite(0, 0, "silhouette").setOrigin(0.5);
+    this.silhouette = this.scene.make.sprite({
+      x: 0,
+      y: 0,
+      key: "silhouette",
+      add: false,
+    });
+    this.silhouette.setOrigin(0.5);
     this.add(this.silhouette);
+
     this.sprite = this.silhouette;
 
     this.shadow = this.scene.add
@@ -53,11 +60,10 @@ export class RacingBumpkin extends Phaser.GameObjects.Container {
       this.sprite = idle;
       this.sprite.play(this.idleAnimationKey, true);
 
+      this.ready = true;
       if (this.silhouette?.active) {
         this.silhouette?.destroy();
       }
-
-      this.ready = true;
     } else {
       const url = getAnimationUrl(this.clothing, ["idle"]);
 
