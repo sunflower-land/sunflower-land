@@ -45,7 +45,6 @@ export type StateMachineEffectName = Exclude<
   | "withdraw.items"
   | "withdraw.wearables"
   | "withdraw.buds"
-  | "wallet.linked"
   | "account.migrated"
   | "moderation.kicked"
   | "moderation.muted"
@@ -75,7 +74,8 @@ export type StateMachineStateName =
   | "claimingStreamReward"
   | "claimingBlockchainBox"
   | "offeringBlessing"
-  | "seekingBlessing";
+  | "seekingBlessing"
+  | "linkingWallet";
 
 export type StateNameWithStatus =
   | `${StateMachineStateName}Success`
@@ -108,6 +108,7 @@ export const STATE_MACHINE_EFFECTS: Record<
   "blockchainBox.claimed": "claimingBlockchainBox",
   "blessing.offered": "offeringBlessing",
   "blessing.seeked": "seekingBlessing",
+  "wallet.linked": "linkingWallet",
 };
 export interface Effect {
   type: EffectName;

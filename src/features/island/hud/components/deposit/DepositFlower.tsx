@@ -15,11 +15,11 @@ import { NetworkName } from "features/game/events/landExpansion/updateNetwork";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { getFlowerBalance } from "lib/blockchain/DepositFlower";
 import { base, baseSepolia } from "viem/chains";
-import { WalletContext } from "features/wallet/WalletProvider";
 import { DepositAddress } from "./DepositAddress";
 import { AcknowledgeConditions } from "./AcknowledgeConditions";
 import { DepositFromLinkedWallet } from "./DepositFromLinkedWallet";
 import { Button } from "components/ui/Button";
+import { useSwitchChain } from "wagmi";
 
 export type NetworkOption = {
   value: NetworkName;
@@ -64,7 +64,6 @@ export const DepositFlower: React.FC<{ onClose: () => void }> = ({
 }) => {
   const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
-  const { walletService } = useContext(WalletContext);
   const { t } = useTranslation();
 
   const [selectedNetwork, setSelectedNetwork] = useState<
@@ -83,10 +82,11 @@ export const DepositFlower: React.FC<{ onClose: () => void }> = ({
   const failed = useSelector(gameService, _failed);
   const linkedWallet = useSelector(gameService, _linkedWallet);
   const authToken = useSelector(authService, _authToken);
+  const { switchChain } = useSwitchChain();
 
   useEffect(() => {
     if (selectedNetwork?.value) {
-      walletService.send("SWITCH_NETWORK", {
+      switchChain({
         chainId: selectedNetwork.chainId,
       });
       refreshDeposits();
