@@ -14,7 +14,7 @@ import { ErrorCode } from "lib/errors";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { shortAddress } from "lib/utils/shortAddress";
-import { NFTMigrating, NFTMinting, NFTWaiting } from "./components/NFTMinting";
+import { NFTMinting, NFTWaiting } from "./components/NFTMinting";
 import { WalletContext, config } from "./WalletProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Loading } from "features/auth/components";
@@ -23,6 +23,7 @@ import { WagmiProvider, useAccount } from "wagmi";
 import { CONFIG } from "lib/config";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { PolygonRequired } from "./components/PolygonRequired";
+import { getReputation, Reputation } from "features/game/lib/reputation";
 
 interface Props {
   action: WalletAction;
@@ -36,6 +37,7 @@ interface Props {
   linkedAddress?: string;
   farmAddress?: string;
   wallet?: string;
+  reputation?: Reputation;
 }
 
 const WalletContent: React.FC<{ id?: number }> = ({ id }) => {
@@ -45,6 +47,10 @@ const WalletContent: React.FC<{ id?: number }> = ({ id }) => {
   const { t } = useAppTranslation();
 
   const linkedAddress = walletState.context.linkedAddress;
+
+  const isSeedling =
+    (walletState.context.reputation ?? Reputation.Beginner) >=
+    Reputation.Seedling;
 
   if (walletState.matches("chooseWallet")) {
     return (
@@ -132,13 +138,16 @@ const WalletContent: React.FC<{ id?: number }> = ({ id }) => {
     return (
       <>
         <div className="p-2">
-          <Label
-            icon={SUNNYSIDE.resource.pirate_bounty}
-            type="default"
-            className="mb-2"
-          >
-            {t("wallet.missingNFT")}
-          </Label>
+          <div className="flex items-center justify-between mb-2">
+            <Label icon={SUNNYSIDE.resource.pirate_bounty} type="default">
+              {t("wallet.missingNFT")}
+            </Label>
+            {!isSeedling && (
+              <Label type="danger" icon={SUNNYSIDE.crops.seedling}>
+                {t("reputation.seedlingRequired")}
+              </Label>
+            )}
+          </div>
           <p className="text-sm mb-2">
             {t("wallet.requireFarmNFT")}
             {"."}
@@ -147,12 +156,17 @@ const WalletContent: React.FC<{ id?: number }> = ({ id }) => {
             {t("wallet.uniqueFarmNFT")}
             {"."}
           </p>
-          <p className="text-xs mb-2">
-            {t("wallet.RequiresPol")}
-            {"."}
-          </p>
+          {!isSeedling && (
+            <p className="text-xs mb-2">
+              {t("wallet.seedlingRequired")}
+              {"."}
+            </p>
+          )}
         </div>
-        <Button onClick={() => walletService.send("MINT")}>
+        <Button
+          onClick={() => walletService.send("MINT")}
+          disabled={!isSeedling}
+        >
           {t("wallet.mintFreeNFT")}
         </Button>
       </>
@@ -264,10 +278,6 @@ const WalletContent: React.FC<{ id?: number }> = ({ id }) => {
     return <NFTMinting />;
   }
 
-  if (walletState.matches("migrating")) {
-    return <NFTMigrating />;
-  }
-
   return <Loading text={t("connecting")} />;
 };
 
@@ -278,6 +288,7 @@ const WrappedWallet: React.FC<Props> = ({
   id,
   linkedAddress,
   farmAddress,
+  reputation,
 }) => {
   const { authService } = useContext(AuthContext);
   const [authState] = useActor(authService);
@@ -293,9 +304,9 @@ const WrappedWallet: React.FC<Props> = ({
     const didChange = address !== walletServiceAddress;
     if (
       didChange &&
-      (
-        ["initialising", "signing", "linking", "minting", "migrating"] as const
-      ).every((state) => !walletState.matches(state))
+      (["initialising", "signing", "linking", "minting"] as const).every(
+        (state) => !walletState.matches(state),
+      )
     ) {
       walletService.send("ACCOUNT_CHANGED");
     }
@@ -304,9 +315,9 @@ const WrappedWallet: React.FC<Props> = ({
   useEffect(() => {
     if (
       chainId !== CONFIG.POLYGON_CHAIN_ID &&
-      (
-        ["initialising", "signing", "linking", "minting", "migrating"] as const
-      ).every((state) => !walletState.matches(state))
+      (["initialising", "signing", "linking", "minting"] as const).every(
+        (state) => !walletState.matches(state),
+      )
     ) {
       walletService.send("CHAIN_CHANGED");
     }
@@ -319,6 +330,7 @@ const WrappedWallet: React.FC<Props> = ({
       linkedAddress,
       farmAddress,
       action,
+      reputation,
     });
   }, []);
 
@@ -370,6 +382,7 @@ export const GameWallet: React.FC<Props> = ({ children, onReady, action }) => {
         linkedAddress={gameState.context.linkedWallet}
         wallet={gameState.context.wallet}
         farmAddress={gameState.context.farmAddress}
+        reputation={getReputation({ game: gameState.context.state })}
         onReady={({ address, signature, farmAddress, nftId }) => {
           const hasChanged =
             (!gameState.context.linkedWallet && address) ||
@@ -622,10 +635,6 @@ const PortalWalletContent: React.FC<Props> = ({ id, farmAddress, action }) => {
 
   if (walletState.matches("minting")) {
     return <NFTMinting />;
-  }
-
-  if (walletState.matches("migrating")) {
-    return <NFTMigrating />;
   }
 
   return <Loading text={t("connecting")} />;
