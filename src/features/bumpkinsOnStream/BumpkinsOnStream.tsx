@@ -1,78 +1,16 @@
-import React, { useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import Phaser from "phaser";
 import { useAuth } from "features/auth/lib/Provider";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { useSelector } from "@xstate/react";
 import useSWR from "swr";
-import { getRacers, Racer } from "./actions/getRacers";
-import { RacingBumpkin } from "./RacingBumpkin";
+import { getRacers } from "./actions/getRacers";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
-import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
+import { getRace, Race } from "./actions/getRace";
+import { BumpkinsRaceScene } from "./phaser/BumpkinsRaceScene";
 
-export class BumpkinsRaceScene extends Phaser.Scene {
-  public static SceneKey = "BumpkinsRaceScene";
-  public ready = false;
-  private bumpkinMap = new Map<string, RacingBumpkin>();
-  private statusText: Phaser.GameObjects.Text | null = null;
-
-  constructor() {
-    super(BumpkinsRaceScene.SceneKey);
-  }
-
-  preload() {
-    this.load.spritesheet("silhouette", "world/silhouette.webp", {
-      frameWidth: 14,
-      frameHeight: 18,
-    });
-    this.load.image("shadow", "world/shadow.png");
-  }
-
-  create() {
-    this.ready = true;
-  }
-
-  updateRacers(racers: Racer[]) {
-    racers.forEach((racer) => {
-      if (this.bumpkinMap.has(`${racer.id}`)) return;
-
-      const { equipped } = interpretTokenUri(racer.tokenUri);
-      const x = 32;
-      const y =
-        this.cameras.main.height -
-        racer.startYPercent * this.cameras.main.height;
-
-      const bumpkin = new RacingBumpkin({
-        scene: this,
-        x,
-        y,
-        clothing: equipped,
-      });
-      this.add.existing(bumpkin).setScale(3);
-    });
-  }
-
-  updateText(state: "loading" | "noRace" | "error" | "ready") {
-    const textConfig = {
-      font: "24px Arial",
-      color: "#ffffff",
-    };
-
-    const messages = {
-      loading: "Loading...",
-      error: "Error",
-      ready: "Ready",
-      noRace: "No race on at the moment!",
-    };
-
-    if (this.statusText) {
-      this.statusText.destroy();
-    }
-
-    this.statusText = this.add.text(10, 10, messages[state] || "", textConfig);
-  }
-}
 // ---- React Component ----
 const _token = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
@@ -82,6 +20,7 @@ export const BumpkinsOnStream: React.FC = () => {
   const token = useSelector(authService, _token);
   const containerRef = useRef<HTMLDivElement>(null);
   const gameRef = useRef<Phaser.Game>();
+  const [race, setRace] = useState<Race>();
 
   const { data, error, isLoading, mutate } = useSWR(
     ["/data?type=bumpkinsOnStream", token],
@@ -114,9 +53,20 @@ export const BumpkinsOnStream: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
+    if (!data?.closesAt) return;
 
+    const interval = setInterval(() => {
+      if (Date.now() > data.closesAt) {
+        clearInterval(interval);
+      } else {
+        mutate(); // still polling until it closes
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [data?.closesAt]);
+
+  useEffect(() => {
     const scene = gameRef.current?.scene.getScene(
       BumpkinsRaceScene.SceneKey,
     ) as BumpkinsRaceScene;
@@ -127,12 +77,23 @@ export const BumpkinsOnStream: React.FC = () => {
       scene.updateText("loading");
     } else if (error) {
       scene.updateText("error");
+    } else if (data?.closesAt && Date.now() > data.closesAt) {
+      scene.updateText("preparing");
     } else if (data?.racers) {
       scene.updateText("ready");
     } else {
       scene.updateText("noRace");
     }
   }, [isLoading, error, data]);
+
+  useEffect(() => {
+    if (race) {
+      const scene = gameRef.current?.scene.getScene(
+        BumpkinsRaceScene.SceneKey,
+      ) as BumpkinsRaceScene;
+      scene.startRace(race);
+    }
+  }, [race]);
 
   useEffect(() => {
     if (!data?.racers) return;
@@ -142,6 +103,24 @@ export const BumpkinsOnStream: React.FC = () => {
 
     scene.updateRacers(data.racers);
   }, [data?.racers]);
+
+  const getRaceDetails = useCallback(async () => {
+    const race = await getRace({ token });
+    setRace(race);
+  }, [token]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (!data?.closesAt) return;
+
+      if (Date.now() > data.closesAt + 10000) {
+        getRaceDetails();
+        clearInterval(interval);
+      }
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [data?.closesAt]);
 
   const lobbyCloseTime = useCountdown(data?.closesAt ?? 0);
   const hasLobbyClosed = Date.now() > (data?.closesAt ?? 0);

@@ -21,6 +21,8 @@ export class RacingBumpkin extends Phaser.GameObjects.Container {
   private spriteKey: string | undefined;
   private idleAnimationKey: string | undefined;
   private ready = false;
+  public racePositions: number[] = [];
+  public currentRaceIndex = 0;
 
   constructor({ scene, x, y, clothing }: Props) {
     super(scene, x, y);
