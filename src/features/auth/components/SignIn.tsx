@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { Button } from "components/ui/Button";
 import { Context as AuthContext } from "../lib/Provider";
@@ -21,11 +21,13 @@ import {
 } from "@wagmi/core";
 import {
   useAccount,
+  useChains,
   useConnect,
   useConnections,
   useDisconnect,
   useSignMessage,
   useSwitchAccount,
+  useSwitchChain,
 } from "wagmi";
 import { fslAuthorization } from "../actions/oauth";
 import { shortAddress } from "lib/utils/shortAddress";
@@ -45,6 +47,9 @@ import { generateSignatureMessage } from "lib/blockchain/wallet";
 import { Context } from "features/game/GameProvider";
 import { isAddressEqual } from "viem";
 import { CopyAddress } from "components/ui/CopyAddress";
+import { DropdownPanel } from "components/ui/DropdownPanel";
+import { NetworkName } from "features/game/events/landExpansion/updateNetwork";
+import { networkOptions } from "features/game/expansion/components/dailyReward/DailyReward";
 
 const CONTENT_HEIGHT = 365;
 
@@ -194,8 +199,8 @@ const ConnectedToWallet: React.FC<{
     address: string;
     signature: string;
   }) => void;
-}> = ({ onSignMessage }) => {
-  const { disconnect } = useDisconnect();
+  disconnect: () => void;
+}> = ({ onSignMessage, disconnect }) => {
   const { address, connector } = useAccount();
   const { signMessageAsync, error, isError } = useSignMessage();
   const { t } = useAppTranslation();
@@ -246,7 +251,9 @@ const ConnectedToWallet: React.FC<{
 export const SignIn: React.FC<{
   type: "signin" | "signup";
 }> = ({ type }) => {
-  const [page, setPage] = useState<"home" | "other" | "ronin">("home");
+  const [page, setPage] = useState<"home" | "other" | "ronin" | "connecting">(
+    "home",
+  );
 
   const { authService } = useContext(AuthContext);
 
@@ -259,7 +266,13 @@ export const SignIn: React.FC<{
   const { disconnect } = useDisconnect();
 
   const onConnect = (connector: Connector | CreateConnectorFn) => {
+    setPage("connecting");
     connect({ connector });
+  };
+
+  const onDisconnect = () => {
+    setPage("home");
+    disconnect();
   };
 
   const isPWA = useIsPWA();
@@ -281,16 +294,6 @@ export const SignIn: React.FC<{
 
   if (isError) {
     return <ConnectError error={error} disconnect={reset} />;
-  }
-
-  if (isConnected) {
-    return (
-      <ConnectedToWallet
-        onSignMessage={({ address, signature }) =>
-          authService.send("CONNECTED", { address, signature })
-        }
-      />
-    );
   }
 
   if (page === "ronin") {
@@ -361,6 +364,17 @@ export const SignIn: React.FC<{
           </>
         )}
 
+        {page === "connecting" && (
+          <>
+            <ConnectedToWallet
+              onSignMessage={({ address, signature }) =>
+                authService.send("CONNECTED", { address, signature })
+              }
+              disconnect={onDisconnect}
+            />
+          </>
+        )}
+
         {page === "home" && (
           <OtherWalletsButton
             onClick={() => setPage("other")}
@@ -416,13 +430,10 @@ const ConnectHeader: React.FC = () => {
 };
 
 const LinkedWalletHeader: React.FC<{
-  address: `0x${string}`;
   linkedWallet: `0x${string}`;
   icon: string;
-}> = ({ address, linkedWallet, icon }) => {
+}> = ({ linkedWallet, icon }) => {
   const { t } = useAppTranslation();
-
-  const isLinkedWallet = isAddressEqual(address, linkedWallet);
 
   return (
     <>
@@ -430,8 +441,8 @@ const LinkedWalletHeader: React.FC<{
         <Label icon={walletIcon} type="default">
           Connect your linked wallet
         </Label>
-        <Label type={isLinkedWallet ? "default" : "danger"} icon={icon}>
-          {shortAddress(address)}
+        <Label type="default" icon={icon}>
+          {shortAddress(linkedWallet)}
         </Label>
       </div>
       <p className="text-xs p-2">
@@ -442,6 +453,26 @@ const LinkedWalletHeader: React.FC<{
           {`${t("deposit.linkedWallet")}`}
         </span>
         <CopyAddress address={linkedWallet} />
+      </div>
+    </>
+  );
+};
+
+const ChainRequiredHeader: React.FC<{
+  address: `0x${string}`;
+  icon: string;
+}> = ({ address, icon }) => {
+  const { t } = useAppTranslation();
+
+  return (
+    <>
+      <div className="flex justify-between items-center ml-2 mt-1 pb-2">
+        <Label icon={walletIcon} type="default">
+          Select a network
+        </Label>
+        <Label type="default" icon={icon}>
+          {shortAddress(address)}
+        </Label>
       </div>
     </>
   );
@@ -475,7 +506,7 @@ const LinkedWalletNotSelectedHeader: React.FC<{
   );
 };
 
-export const ConnectWallet: React.FC = () => {
+export const LinkWallet: React.FC = () => {
   const { gameService } = useContext(Context);
   const { authService } = useContext(AuthContext);
 
@@ -569,7 +600,7 @@ export const ConnectWallet: React.FC = () => {
   );
 };
 
-export const LinkedWalletNotConnected: React.FC<{
+export const ConnectLinkedWallet: React.FC<{
   linkedWallet: `0x${string}`;
 }> = ({ linkedWallet }) => {
   const [page, setPage] = useState<"home" | "other" | "ronin">("home");
@@ -628,11 +659,7 @@ export const LinkedWalletNotConnected: React.FC<{
       style={{ maxHeight: CONTENT_HEIGHT }}
     >
       <>
-        <LinkedWalletHeader
-          linkedWallet={linkedWallet}
-          address={linkedWallet}
-          icon={walletIcon}
-        />
+        <LinkedWalletHeader linkedWallet={linkedWallet} icon={walletIcon} />
         {page === "home" && (
           <>
             <InjectedProviderButtons onConnect={onConnect} />
@@ -666,7 +693,7 @@ export const LinkedWalletNotConnected: React.FC<{
   );
 };
 
-export const LinkedWalletNotSelected: React.FC<{
+export const SelectLinkedWallet: React.FC<{
   linkedWallet: `0x${string}`;
 }> = ({ linkedWallet }) => {
   const { gameService } = useContext(Context);
@@ -746,6 +773,110 @@ export const LinkedWalletNotSelected: React.FC<{
           Disconnect
         </Button>
       </>
+    </div>
+  );
+};
+
+export const SelectChain: React.FC<{
+  availableChains: number[];
+}> = ({ availableChains }) => {
+  const { t } = useAppTranslation();
+
+  const { chainId, connector, address } = useAccount();
+  const { disconnect } = useDisconnect();
+
+  const { switchChain, isError, isPending } = useSwitchChain();
+
+  const filteredNetworkOptions = networkOptions.filter((network) =>
+    availableChains.includes(network.chainId),
+  );
+
+  const [selectedNetwork, setSelectedNetwork] = useState<
+    NetworkName | undefined
+  >(
+    filteredNetworkOptions.find((network) => network.chainId === chainId)
+      ?.value,
+  );
+
+  useEffect(() => {
+    if (!selectedNetwork) return;
+
+    const networkOption = filteredNetworkOptions.find(
+      (network) => network.value === selectedNetwork,
+    );
+
+    if (!networkOption) return;
+
+    switchChain({
+      chainId: networkOption.chainId,
+    });
+  }, [selectedNetwork]);
+
+  const handleNetworkChange = (networkName: NetworkName) => {
+    const selectedNetwork = networkOptions.find(
+      (network) => network.value === networkName,
+    );
+
+    if (!selectedNetwork) return;
+
+    setSelectedNetwork(selectedNetwork.value);
+  };
+
+  return (
+    <>
+      <ChainRequiredHeader
+        address={address as `0x${string}`}
+        icon={getWalletIcon(connector)}
+      />
+      <DropdownPanel<NetworkName>
+        options={filteredNetworkOptions}
+        value={selectedNetwork}
+        onChange={handleNetworkChange}
+        placeholder={t("deposit.flower.selectNetwork")}
+      />
+      <div
+        style={{
+          minHeight: "100px",
+        }}
+      >
+        {isPending && <div className="text-xs p-2">Switching Network...</div>}
+        {!isPending && (
+          <div className="text-xs p-2">Please select a chain to continue.</div>
+        )}
+        {isError && (
+          <div className="text-xs p-2">
+            Error switching to {selectedNetwork}. Please try again.
+          </div>
+        )}
+      </div>
+      <Button onClick={() => disconnect()}>Disconnect Wallet</Button>
+    </>
+  );
+};
+
+export const WalletConnectedHeader: React.FC = () => {
+  const { chainId, address, connector, chain } = useAccount();
+
+  const chainIcon = networkOptions.find(
+    (network) => network.chainId === chainId,
+  )?.icon;
+
+  return (
+    <div className="flex justify-between items-center pl-1">
+      <div>
+        {chain && (
+          <Label type="formula" icon={chainIcon}>
+            {chain.name}
+          </Label>
+        )}
+      </div>
+      <div>
+        {address && (
+          <Label type="default" icon={getWalletIcon(connector)}>
+            {shortAddress(address)}
+          </Label>
+        )}
+      </div>
     </div>
   );
 };

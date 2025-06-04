@@ -77,7 +77,7 @@ const TESTNET_NETWORKS: NetworkOption[] = [
 ];
 
 // Select appropriate network options based on config
-const networkOptions =
+export const networkOptions =
   CONFIG.NETWORK === "mainnet" ? MAINNET_NETWORKS : TESTNET_NETWORKS;
 
 export const DailyRewardContent: React.FC<{
