@@ -22,17 +22,24 @@ import { CoinbaseButton } from "./components/buttons/CoinbaseButton";
 import { RoninButton } from "./components/buttons/RoninButton";
 import { OtherWalletsButton } from "./components/buttons/OtherWalletsButton";
 import {
-  ConnectWallet,
-  LinkedWalletNotConnected,
-  LinkedWalletNotSelected,
+  LinkWallet,
+  ConnectLinkedWallet,
+  SelectLinkedWallet,
+  SelectChain,
+  WalletConnectedHeader,
 } from "features/auth/components/SignIn";
-import { wallet } from "lib/blockchain/wallet";
 import { MachineState } from "features/game/lib/gameMachine";
 import { isAddressEqual } from "viem";
 import { Button } from "components/ui/Button";
-import { SUNNYSIDE } from "assets/sunnyside";
-import { mintNFTFarm } from "./actions/mintFarm";
-import { randomID } from "lib/utils/random";
+import {
+  base,
+  baseSepolia,
+  polygon,
+  polygonAmoy,
+  ronin,
+  saigon,
+} from "@wagmi/core/chains";
+import { CONFIG } from "lib/config";
 import { Reputation } from "features/game/lib/reputation";
 
 interface Props {
@@ -47,103 +54,106 @@ interface Props {
 type WalletActionSettings = {
   requiresLinkedWallet: boolean;
   requiresNFT: boolean;
+  chains: {
+    [polygon.id]?: true;
+    [polygonAmoy.id]?: true;
+    [ronin.id]?: true;
+    [saigon.id]?: true;
+    [base.id]?: true;
+    [baseSepolia.id]?: true;
+  };
 };
 
 const WALLET_ACTIONS: Record<WalletAction, WalletActionSettings> = {
   specialEvent: {
     requiresLinkedWallet: false,
     requiresNFT: false,
+    chains: {},
   },
   login: {
     requiresLinkedWallet: false,
     requiresNFT: false,
+    chains: {},
   },
   depositItems: {
     requiresLinkedWallet: true,
-    requiresNFT: true,
+    requiresNFT: false,
+    chains: {
+      [CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id]: true,
+      [CONFIG.NETWORK === "mainnet" ? base.id : baseSepolia.id]: true,
+      [CONFIG.NETWORK === "mainnet" ? ronin.id : saigon.id]: true,
+    },
   },
   confirmDepositItems: {
     requiresLinkedWallet: true,
     requiresNFT: true,
+    chains: {
+      [CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id]: true,
+    },
   },
   depositFlower: {
     requiresLinkedWallet: false,
     requiresNFT: false,
+    chains: {
+      [CONFIG.NETWORK === "mainnet" ? base.id : baseSepolia.id]: true,
+    },
   },
   donate: {
     requiresLinkedWallet: false,
     requiresNFT: false,
+    chains: {
+      [CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id]: true,
+    },
   },
   dailyReward: {
     requiresLinkedWallet: false,
     requiresNFT: false,
+    chains: {
+      [CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id]: true,
+      [CONFIG.NETWORK === "mainnet" ? base.id : baseSepolia.id]: true,
+      [CONFIG.NETWORK === "mainnet" ? ronin.id : saigon.id]: true,
+    },
   },
   withdraw: {
     requiresLinkedWallet: true,
     requiresNFT: true,
+    chains: {
+      [CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id]: true,
+    },
   },
   dequip: {
     requiresLinkedWallet: true,
     requiresNFT: true,
+    chains: {
+      [CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id]: true,
+    },
   },
   marketplace: {
     requiresLinkedWallet: true,
     requiresNFT: false,
+    chains: {},
   },
   transfer: {
     requiresLinkedWallet: true,
     requiresNFT: true,
+    chains: {
+      [CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id]: true,
+    },
   },
   sync: {
     requiresLinkedWallet: true,
     requiresNFT: true,
+    chains: {
+      [CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id]: true,
+    },
   },
   purchase: {
     requiresLinkedWallet: true,
     requiresNFT: true,
+    chains: {
+      [CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id]: true,
+    },
   },
-};
-
-const MintNFTFarm = (farmId: number) => {
-  const { authService } = useContext(AuthContext);
-  const [authState] = useActor(authService);
-
-  const { t } = useAppTranslation();
-
-  const mintFarm = async () => {
-    await mintNFTFarm({
-      id: farmId,
-      jwt: authState.context.user.rawToken as string,
-      transactionId: randomID(),
-    });
-  };
-
-  return (
-    <>
-      <div className="p-2">
-        <Label
-          icon={SUNNYSIDE.resource.pirate_bounty}
-          type="default"
-          className="mb-2"
-        >
-          {t("wallet.missingNFT")}
-        </Label>
-        <p className="text-sm mb-2">
-          {t("wallet.requireFarmNFT")}
-          {"."}
-        </p>
-        <p className="text-xs mb-2">
-          {t("wallet.uniqueFarmNFT")}
-          {"."}
-        </p>
-        <p className="text-xs mb-2">
-          {t("wallet.RequiresPol")}
-          {"."}
-        </p>
-      </div>
-      <Button onClick={() => mintFarm()}>{t("wallet.mintFreeNFT")}</Button>
-    </>
-  );
 };
 
 export const Wallet: React.FC<Props> = ({
@@ -156,8 +166,7 @@ export const Wallet: React.FC<Props> = ({
   const { authService } = useContext(AuthContext);
   const [authState] = useActor(authService);
 
-  const { address, isConnected, connector, isConnecting, isReconnecting } =
-    useAccount();
+  const { address, isConnected, connector, chainId, chain } = useAccount();
   const { disconnect } = useDisconnect();
   const { connect } = useConnect();
 
@@ -165,119 +174,45 @@ export const Wallet: React.FC<Props> = ({
 
   const icon = connector?.icon ?? walletIcon;
 
-  const requiresLinkedWallet = WALLET_ACTIONS[action].requiresLinkedWallet;
-  const requiresNFT = WALLET_ACTIONS[action].requiresNFT;
-
   const hasLinkedWallet = !!linkedAddress;
   const hasNFT = !!farmAddress;
+
+  const requiresLinkedWallet = WALLET_ACTIONS[action].requiresLinkedWallet;
+  const requiresNFT = WALLET_ACTIONS[action].requiresNFT;
+  const requiresChains = Object.values(WALLET_ACTIONS[action].chains).some(
+    Boolean,
+  );
 
   const linkedWalletSelected =
     !!address &&
     hasLinkedWallet &&
     isAddressEqual(address, linkedAddress as `0x${string}`);
 
-  console.log({ address, linkedAddress, linkedWalletSelected });
+  const validChainSelected =
+    !!chainId && chainId in WALLET_ACTIONS[action].chains;
 
-  // if (isConnecting || isReconnecting) {
-  //   return <Loading text={t("connecting")} />;
-  // }
-
-  // if (isConnected) {
-  //   return (
-  //     <>
-  //       <div className="flex">
-  //         <img
-  //           src={connector?.icon ?? walletIcon}
-  //           className="w-6 h-6 mr-2"
-  //           alt={connector?.name ?? "Wallet"}
-  //         />
-  //         <div>{shortAddress(address ?? "")}</div>
-  //         <Button onClick={() => disconnect()}>Disconnect</Button>
-  //       </div>
-  //       {children}
-  //     </>
-  //   );
-  // }
-
-  if (!isConnected && !hasLinkedWallet) {
-    return <ConnectWallet />;
-  }
-
-  if (!isConnected && hasLinkedWallet) {
+  if (!isConnected) {
     return (
-      <LinkedWalletNotConnected linkedWallet={linkedAddress as `0x${string}`} />
+      <>
+        {!hasLinkedWallet && <LinkWallet />}
+        {hasLinkedWallet && (
+          <ConnectLinkedWallet linkedWallet={linkedAddress as `0x${string}`} />
+        )}
+      </>
     );
   }
 
-  if (requiresLinkedWallet && hasLinkedWallet && !linkedWalletSelected) {
-    return (
-      <LinkedWalletNotSelected linkedWallet={linkedAddress as `0x${string}`} />
-    );
+  if (requiresLinkedWallet && !linkedWalletSelected) {
+    return <SelectLinkedWallet linkedWallet={linkedAddress as `0x${string}`} />;
   }
 
-  // if (requiresNFT && !hasNFT) {
-  //   return <MintNFTFarm id={id} />;
-  // }
-
-  // if (!isConnected) {
-  //   return (
-  //     <>
-  //       {
-  //         // Only show after login
-  //         !!id && linkedAddress && (
-  //           <div className="flex justify-between">
-  //             <Label className="ml-2 mt-1 mb-2" icon={icon} type="default">
-  //               {t("wallet.connect")}
-  //               {"-"}
-  //               {shortAddress(linkedAddress)}
-  //             </Label>
-  //           </div>
-  //         )
-  //       }
-
-  //       {!!id && !linkedAddress && (
-  //         <>
-  //           <div className="flex justify-between">
-  //             <Label className="ml-2 mt-1 mb-2" icon={icon} type="default">
-  //               {t("wallet.linkWeb3")}
-  //             </Label>
-  //           </div>
-  //           <p className="text-xs mx-1 mb-2">
-  //             {t("wallet.setupWeb3")}
-  //             {"."}
-  //           </p>
-  //         </>
-  //       )}
-
-  //       {/* <Wallets onConnect={(connector) => connect({ connector })} /> */}
-  //     </>
-  //   );
-  // }
-
-  // if (isWrongWallet) {
-  //   return (
-  //     <>
-  //       <div className="p-2">
-  //         <ConnectedWalletLabel icon={icon} address={address} />
-  //         <div className="flex justify-between items-center">
-  //           <Label type="danger" icon={walletIcon}>
-  //             {t("wallet.wrongWallet")}
-  //           </Label>
-  //           {linkedAddress && (
-  //             <Label type="formula">{shortAddress(linkedAddress)}</Label>
-  //           )}
-  //         </div>
-  //         <p className="text-sm my-2">
-  //           {t("wallet.connectedWrongWallet")}
-  //           {"."}
-  //         </p>
-  //       </div>
-  //       <Button onClick={() => walletService.send("CONTINUE")}>
-  //         {t("wallet.changeWallet")}
-  //       </Button>
-  //     </>
-  //   );
-  // }
+  if (requiresChains && !validChainSelected) {
+    return (
+      <SelectChain
+        availableChains={Object.keys(WALLET_ACTIONS[action].chains).map(Number)}
+      />
+    );
+  }
 
   // if (walletState.matches("missingNFT")) {
   //   return (
@@ -308,14 +243,6 @@ export const Wallet: React.FC<Props> = ({
   //       </Button>
   //     </>
   //   );
-  // }
-
-  // if (walletState.matches("wrongNetwork")) {
-  //   return <PolygonRequired canContinue={true} />;
-  // }
-
-  // if (walletState.matches("networkNotSupported")) {
-  //   return <PolygonRequired canContinue={false} />;
   // }
 
   // if (walletState.matches("alreadyLinkedWallet")) {
@@ -419,7 +346,13 @@ export const Wallet: React.FC<Props> = ({
   //   return <NFTMigrating />;
   // }
 
-  return <>{children}</>;
+  return (
+    <>
+      <WalletConnectedHeader />
+      {children}
+      <Button onClick={() => disconnect()}>Disconnect Wallet</Button>
+    </>
+  );
 };
 
 const _farmId = (state: MachineState) => state.context.farmId;

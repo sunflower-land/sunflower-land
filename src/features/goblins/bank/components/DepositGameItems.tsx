@@ -280,22 +280,6 @@ const DepositOptions: React.FC<Props> = ({
       {status === "loaded" && emptyWallet && (
         <div>
           <div className="p-2 space-y-2">
-            <div className="flex justify-between sm:flex-row flex-col">
-              <Label
-                type="formula"
-                icon={SUNNYSIDE.icons.polygonIcon}
-                className="mb-2"
-              >
-                {t("polygon.required")}
-              </Label>
-              <div className="-mr-4">
-                <WalletAddressLabel
-                  walletAddress={linkedWallet}
-                  showLabelTitle={true}
-                />
-              </div>
-            </div>
-
             <p className="flex text-xs sm:text-xs">
               {t("deposit.addCollectiblesToPolygonWallet")}
             </p>
@@ -314,21 +298,6 @@ const DepositOptions: React.FC<Props> = ({
       {status === "loaded" && !emptyWallet && (
         <GameWallet action="confirmDepositItems">
           <div className="p-2 mb-1">
-            <div className="flex justify-between sm:flex-row flex-col">
-              <Label
-                type="formula"
-                icon={SUNNYSIDE.icons.polygonIcon}
-                className="mb-2"
-              >
-                {t("polygon.required")}
-              </Label>
-              <div className="-mr-4 hidden sm:block">
-                <WalletAddressLabel
-                  walletAddress={linkedWallet}
-                  showLabelTitle={true}
-                />
-              </div>
-            </div>
             <div className="divide-y-2 divide-dashed divide-brown-600">
               <div className="space-y-3">
                 {hasItemsInInventory && (
