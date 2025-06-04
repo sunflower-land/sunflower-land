@@ -13,7 +13,7 @@ type Request = {
 
 export const getRacers = async ({
   token,
-}: Request): Promise<{ racers: Racer[] }> => {
+}: Request): Promise<{ racers: Racer[]; closesAt: number }> => {
   const res = await fetch(`${CONFIG.API_URL}/data?type=getRacers`, {
     headers: {
       Authorization: `Bearer ${token}`,
