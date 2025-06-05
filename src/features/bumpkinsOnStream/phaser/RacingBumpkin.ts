@@ -20,6 +20,7 @@ export class RacingBumpkin extends Phaser.GameObjects.Container {
   private clothing: BumpkinParts;
   private spriteKey: string | undefined;
   private idleAnimationKey: string | undefined;
+  private walkingAnimationKey: string | undefined;
   private ready = false;
   public racePositions: number[] = [];
   public currentRaceIndex = 0;
@@ -51,6 +52,7 @@ export class RacingBumpkin extends Phaser.GameObjects.Container {
   private async loadSprites(scene: Phaser.Scene) {
     this.spriteKey = tokenUriBuilder(this.clothing);
     this.idleAnimationKey = `${this.spriteKey}-bumpkin-idle`;
+    this.walkingAnimationKey = `${this.spriteKey}-bumpkin-walking`;
 
     await buildNPCSheets({
       parts: this.clothing,
@@ -67,7 +69,7 @@ export class RacingBumpkin extends Phaser.GameObjects.Container {
         this.silhouette?.destroy();
       }
     } else {
-      const url = getAnimationUrl(this.clothing, ["idle"]);
+      const url = getAnimationUrl(this.clothing, ["idle", "walking"]);
 
       const idleLoader = scene.load.spritesheet(this.spriteKey, url, {
         frameWidth: 96,
@@ -85,11 +87,12 @@ export class RacingBumpkin extends Phaser.GameObjects.Container {
 
         this.add(idle);
         this.sprite = idle;
-        this.sprite.play(this.idleAnimationKey as string, true);
+        this.idle();
 
         this.sprite = idle;
 
         this.createIdleAnimation(0, 8);
+        this.createWalkingAnimation(9, 16);
 
         this.sprite.play(this.idleAnimationKey as string, true);
 
@@ -99,6 +102,7 @@ export class RacingBumpkin extends Phaser.GameObjects.Container {
         }
       });
     }
+
     scene.load.start();
   }
 
@@ -114,5 +118,49 @@ export class RacingBumpkin extends Phaser.GameObjects.Container {
       repeat: -1,
       frameRate: 10,
     });
+  }
+
+  private createWalkingAnimation(start: number, end: number) {
+    if (!this.scene || !this.scene.anims) return;
+
+    this.scene.anims.create({
+      key: this.walkingAnimationKey,
+      frames: this.scene.anims.generateFrameNumbers(this.spriteKey as string, {
+        start,
+        end,
+      }),
+      repeat: -1,
+      frameRate: 10,
+    });
+  }
+
+  public walk() {
+    if (
+      this.sprite?.anims &&
+      this.scene?.anims.exists(this.walkingAnimationKey as string) &&
+      this.sprite?.anims.getName() !== this.walkingAnimationKey
+    ) {
+      try {
+        this.sprite.anims.play(this.walkingAnimationKey as string, true);
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.log("Bumpkin Container: Error playing walk animation: ", e);
+      }
+    }
+  }
+
+  public idle() {
+    if (
+      this.sprite?.anims &&
+      this.scene?.anims.exists(this.idleAnimationKey as string) &&
+      this.sprite?.anims.getName() !== this.idleAnimationKey
+    ) {
+      try {
+        this.sprite.anims.play(this.idleAnimationKey as string, true);
+      } catch (e) {
+        // eslint-disable-next-line no-console
+        console.log("Bumpkin Container: Error playing idle animation: ", e);
+      }
+    }
   }
 }

@@ -11,7 +11,6 @@ import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDeta
 import { getRace, Race } from "./actions/getRace";
 import { BumpkinsRaceScene } from "./phaser/BumpkinsRaceScene";
 
-// ---- React Component ----
 const _token = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
 
@@ -21,12 +20,16 @@ export const BumpkinsOnStream: React.FC = () => {
   const containerRef = useRef<HTMLDivElement>(null);
   const gameRef = useRef<Phaser.Game>();
   const [race, setRace] = useState<Race>();
+  const [leaderboard, setLeaderboard] = useState<
+    { id: string; position: number }[]
+  >([]);
 
   const { data, error, isLoading, mutate } = useSWR(
     ["/data?type=bumpkinsOnStream", token],
     async ([, token]) => getRacers({ token }),
   );
 
+  // set up the game
   useEffect(() => {
     const container = containerRef.current;
     if (!container) return;
@@ -39,9 +42,15 @@ export const BumpkinsOnStream: React.FC = () => {
         mode: Phaser.Scale.RESIZE,
         autoCenter: Phaser.Scale.CENTER_BOTH,
       },
+      physics: {
+        default: "arcade",
+        arcade: {
+          gravity: { y: 0, x: 0 },
+        },
+      },
       pixelArt: true,
       autoRound: true,
-      scene: [BumpkinsRaceScene],
+      scene: [new BumpkinsRaceScene()],
     };
 
     gameRef.current = new Phaser.Game(config);
@@ -52,6 +61,7 @@ export const BumpkinsOnStream: React.FC = () => {
     };
   }, []);
 
+  // poll for the lobby data
   useEffect(() => {
     if (!data?.closesAt) return;
 
@@ -59,13 +69,24 @@ export const BumpkinsOnStream: React.FC = () => {
       if (Date.now() > data.closesAt) {
         clearInterval(interval);
       } else {
-        mutate(); // still polling until it closes
+        mutate();
       }
     }, 1000);
 
     return () => clearInterval(interval);
   }, [data?.closesAt]);
 
+  // update the racers as they enter the lobby
+  useEffect(() => {
+    if (!data?.racers) return;
+    const scene = gameRef.current?.scene.getScene(
+      BumpkinsRaceScene.SceneKey,
+    ) as BumpkinsRaceScene;
+
+    scene.updateRacers(data.racers);
+  }, [data?.racers]);
+
+  // update the scene text when the state changes
   useEffect(() => {
     const scene = gameRef.current?.scene.getScene(
       BumpkinsRaceScene.SceneKey,
@@ -86,29 +107,12 @@ export const BumpkinsOnStream: React.FC = () => {
     }
   }, [isLoading, error, data]);
 
-  useEffect(() => {
-    if (race) {
-      const scene = gameRef.current?.scene.getScene(
-        BumpkinsRaceScene.SceneKey,
-      ) as BumpkinsRaceScene;
-      scene.startRace(race);
-    }
-  }, [race]);
-
-  useEffect(() => {
-    if (!data?.racers) return;
-    const scene = gameRef.current?.scene.getScene(
-      BumpkinsRaceScene.SceneKey,
-    ) as BumpkinsRaceScene;
-
-    scene.updateRacers(data.racers);
-  }, [data?.racers]);
-
   const getRaceDetails = useCallback(async () => {
     const race = await getRace({ token });
     setRace(race);
   }, [token]);
 
+  //  poll for the race details once the lobby closes
   useEffect(() => {
     const interval = setInterval(() => {
       if (!data?.closesAt) return;
@@ -121,6 +125,44 @@ export const BumpkinsOnStream: React.FC = () => {
 
     return () => clearInterval(interval);
   }, [data?.closesAt]);
+
+  // handle the starting of the race
+  useEffect(() => {
+    if (race) {
+      const scene = gameRef.current?.scene.getScene(
+        BumpkinsRaceScene.SceneKey,
+      ) as BumpkinsRaceScene;
+      scene.startRace(race);
+    }
+  }, [race]);
+
+  // handle the leaderboard
+  useEffect(() => {
+    if (!race) return;
+    if (race.startsAt && Date.now() < race.startsAt) return;
+
+    const interval = setInterval(() => {
+      const now = Date.now();
+      const elapsed = (now - race.startsAt) / 1000;
+      const frame = Math.floor(elapsed);
+
+      if (elapsed >= race.duration) {
+        clearInterval(interval);
+      }
+
+      const sorted = Object.entries(race.racers)
+        .map(([id, positions]) => ({
+          id,
+          username: data?.racers?.find((r) => r.id === Number(id))?.username,
+          position: positions[frame] ?? positions.at(-1) ?? 0,
+        }))
+        .sort((a, b) => b.position - a.position);
+
+      setLeaderboard(sorted);
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, [race]);
 
   const lobbyCloseTime = useCountdown(data?.closesAt ?? 0);
   const hasLobbyClosed = Date.now() > (data?.closesAt ?? 0);
@@ -146,11 +188,18 @@ export const BumpkinsOnStream: React.FC = () => {
           <div className="w-32 flex-shrink-0">
             <InnerPanel className="flex flex-col space-y-1 p-2 mr-1 overflow-y-auto h-full">
               <div className="w-14 text-sm border-b border-black">{`Racers`}</div>
-              {(data?.racers ?? []).map((racer, i) => (
-                <div key={i} className="text-sm">
-                  {racer.username ?? `#${racer.id}`}
-                </div>
-              ))}
+              {!leaderboard.length &&
+                (data?.racers ?? []).map((racer, i) => (
+                  <div key={i} className="text-sm">
+                    {racer.username ?? `#${racer.id}`}
+                  </div>
+                ))}
+              {leaderboard.length &&
+                leaderboard.map((racer, i) => (
+                  <div key={i} className="text-sm">
+                    {racer.username ?? `#${racer.id}`}
+                  </div>
+                ))}
             </InnerPanel>
           </div>
           <div className="flex-1 min-w-0 relative">
