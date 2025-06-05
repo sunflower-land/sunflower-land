@@ -129,11 +129,12 @@ export function speedUpRecipe({
       game.inventory[recipe.name] ?? new Decimal(0)
     ).add(recipe.amount ?? 1);
 
-    // Set the current cooking item to be ready now
-    recipe.readyAt = createdAt;
+    const queueWithoutSpedUpRecipe = queue.filter(
+      (item) => item.readyAt !== recipe.readyAt,
+    );
 
     building.crafting = recalculateQueue({
-      queue,
+      queue: queueWithoutSpedUpRecipe,
       createdAt,
       buildingName: action.buildingName as CookingBuildingName,
       isInstantCook: true,

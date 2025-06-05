@@ -140,7 +140,6 @@ function useInstantGratification({
       buildingName,
       game,
       isInstantCook: true,
-      keepReadyRecipes: true,
     });
   });
 
