@@ -36,6 +36,7 @@ import { NetworkName } from "features/game/events/landExpansion/updateNetwork";
 import { Context } from "features/game/GameProvider";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
+import { useSwitchChain } from "wagmi";
 
 const _network = (state: MachineState) => state.context.state.settings.network;
 
@@ -122,6 +123,7 @@ export const DailyRewardContent: React.FC<{
   const { t } = useAppTranslation();
 
   const network = useSelector(gameService, _network);
+  const { switchChain } = useSwitchChain();
 
   const handleNetworkChange = (networkName: NetworkName) => {
     // Use proper type checking to ensure networkName is a valid key
@@ -134,6 +136,9 @@ export const DailyRewardContent: React.FC<{
     }
 
     gameService.send("network.updated", { network: networkName });
+    switchChain({
+      chainId: networkOption.chainId,
+    });
   };
 
   useEffect(() => {

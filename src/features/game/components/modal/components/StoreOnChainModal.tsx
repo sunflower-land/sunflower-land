@@ -7,7 +7,6 @@ import { GameWallet } from "features/wallet/Wallet";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Transaction } from "features/island/hud/Transaction";
 import { Panel } from "components/ui/Panel";
-import { RoninSupportWidget } from "features/wallet/components/PolygonRequired";
 
 interface Props {
   onClose: () => void;
@@ -65,7 +64,6 @@ export const StoreOnChainModal: React.FC<Props> = ({ onClose }) => {
           </>
         </GameWallet>
       </CloseButtonPanel>
-      <RoninSupportWidget />
     </>
   );
 };
