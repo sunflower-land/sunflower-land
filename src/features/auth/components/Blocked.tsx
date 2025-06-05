@@ -15,7 +15,6 @@ export const Blocked: React.FC = () => {
     removeJWT();
 
     authService.send("REFRESH");
-    walletService.send("RESET");
   };
 
   return (
