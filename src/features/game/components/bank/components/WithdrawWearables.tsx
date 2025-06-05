@@ -24,6 +24,8 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { canWithdrawBoostedWearable } from "features/game/types/wearableValidation";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
+import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
+import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
 
 interface Props {
   onWithdraw: (ids: number[], amounts: number[]) => void;
@@ -107,6 +109,10 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
 
   if (!hasAccess) {
     return <RequiredReputation reputation={Reputation.Seedling} />;
+  }
+
+  if (!isFaceVerified({ game: state })) {
+    return <FaceRecognition />;
   }
 
   return (
