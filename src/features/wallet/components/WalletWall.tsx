@@ -159,7 +159,7 @@ export const WalletWall: React.FC<{
   const { disconnect } = useDisconnect();
   const connections = useConnections();
 
-  /** Custom ode for the WalletConnect Deep link used by the ronin wallet */
+  /** Custom code for the WalletConnect deep link used by the Ronin wallet */
   const walletConnectConnector = connectors.filter(
     ({ id }) => id === "walletConnect",
   )[0];

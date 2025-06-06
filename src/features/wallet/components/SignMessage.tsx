@@ -57,17 +57,18 @@ export const SignMessage: React.FC<{
   onDisconnect: () => void;
 }> = ({ onSignMessage, onDisconnect }) => {
   const { address, connector, isConnected } = useAccount();
-  const { signMessageAsync, error, isError } = useSignMessage();
+  const { signMessageAsync, error, isError, isPending } = useSignMessage();
   const { t } = useAppTranslation();
 
   const signIn = async (address: string) => {
+    console.log("signIn", address, isPending, isError, error);
     const signature = await signMessageAsync({
       message: generateSignatureMessage({
         address,
         nonce: Math.floor(Date.now() / 8.64e7),
       }),
     });
-
+    console.log("signature", signature);
     onSignMessage({ address, signature });
   };
 
@@ -92,15 +93,24 @@ export const SignMessage: React.FC<{
       {isError && <SignMessageErrorMessage error={error} />}
       {!isError && (
         <div className="p-2">
-          <p className="text-sm">
-            {t("wallet.signRequestInWallet")}
-            {"."}
-          </p>
+          {isPending && (
+            <p className="text-sm">
+              Please check your wallet for a signature request.
+            </p>
+          )}
+          {!isPending && (
+            <p className="text-sm">
+              {t("wallet.signRequestInWallet")}
+              {"."}
+            </p>
+          )}
         </div>
       )}
 
       <div className="flex justify-between items-center space-x-1">
-        <Button onClick={() => signIn(address ?? "")}>Sign Message</Button>
+        <Button disabled={isPending} onClick={() => signIn(address ?? "")}>
+          Sign Message
+        </Button>
         <Button onClick={() => onDisconnect()}>Disconnect</Button>
       </div>
     </>
