@@ -11,6 +11,7 @@ import {
   getArtefactsFound,
   SEASONAL_ARTEFACT,
   hasClaimedReward,
+  DiggingFormationName,
 } from "features/game/types/desert";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { NPC_WEARABLES } from "lib/npcs";
@@ -70,14 +71,17 @@ function countFormationOccurrences({
   formation: DiggingFormation;
 }): number {
   let count = 0;
+  const usedCells = new Set<string>();
 
   for (let x = 0; x < DESERT_GRID_WIDTH; x++) {
     for (let y = 0; y < DESERT_GRID_HEIGHT; y++) {
       let isPresent = true;
+      const formationCells: string[] = [];
 
       for (const plot of formation) {
         const newX = x + plot.x;
         const newY = y + plot.y;
+        const cellKey = `${newX},${newY}`;
 
         // Check if the new position is within bounds
         if (
@@ -96,10 +100,20 @@ function countFormationOccurrences({
           isPresent = false;
           break;
         }
+
+        // Check if any cell in this formation has already been used
+        if (usedCells.has(cellKey)) {
+          isPresent = false;
+          break;
+        }
+
+        formationCells.push(cellKey);
       }
 
       if (isPresent) {
         count++;
+        // Mark all cells in this formation as used
+        formationCells.forEach((cell) => usedCells.add(cell));
       }
     }
   }
@@ -292,28 +306,11 @@ export const DailyPuzzle: React.FC = () => {
           className="flex flex-wrap  scrollable overflow-y-auto pt-2 overflow-x-hidden pr-1"
           style={{ maxHeight: "300px" }}
         >
-          {patterns.map((pattern, index) => {
-            const discovered = countFormationOccurrences({
-              grid,
-              formation: DIGGING_FORMATIONS[pattern],
-            });
-
-            const duplicates = patterns.filter(
-              (p, i) => i < index && p === pattern,
-            ).length;
-
-            return (
-              <div className="w-1/4 sm:w-1/4" key={index}>
-                <div className="m-1">
-                  <Pattern
-                    key={index}
-                    pattern={DIGGING_FORMATIONS[pattern]}
-                    isDiscovered={discovered > duplicates}
-                  />
-                </div>
-              </div>
-            );
-          })}
+          <Patterns
+            patterns={patterns}
+            grid={grid}
+            artefactsFound={artefactsFound}
+          />
         </div>
 
         <div className="flex justify-between items-center mt-2 mb-1">
@@ -360,6 +357,46 @@ export const DailyPuzzle: React.FC = () => {
       )}
     </>
   );
+};
+
+const Patterns: React.FC<{
+  patterns: DiggingFormationName[];
+  grid: DiggingGrid;
+  artefactsFound: number;
+}> = ({ patterns, grid, artefactsFound }) => {
+  const foundPatterns: Partial<Record<DiggingFormationName, number>> = {};
+  let remainingArtefacts = artefactsFound;
+  const puzzlesToShow: JSX.Element[] = [];
+
+  // Not using map to avoid doing 2 iterations over patterns
+  patterns.forEach((pattern, index) => {
+    const discovered = countFormationOccurrences({
+      grid,
+      formation: DIGGING_FORMATIONS[pattern],
+    });
+
+    if (discovered > 0 && remainingArtefacts > 0) {
+      foundPatterns[pattern] = (foundPatterns[pattern] || 0) + 1;
+      remainingArtefacts--;
+    }
+
+    const foundCount = foundPatterns[pattern] || 0;
+    const isDiscovered = discovered > 0 && index < foundCount;
+
+    puzzlesToShow.push(
+      <div className="w-1/4 sm:w-1/4" key={index}>
+        <div className="m-1">
+          <Pattern
+            key={index}
+            pattern={DIGGING_FORMATIONS[pattern]}
+            isDiscovered={isDiscovered}
+          />
+        </div>
+      </div>,
+    );
+  });
+
+  return <>{puzzlesToShow}</>;
 };
 
 const isWearable = (
