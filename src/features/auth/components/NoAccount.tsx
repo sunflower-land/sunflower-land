@@ -140,12 +140,10 @@ export const NoAccount: React.FC = () => {
 
   if (showClaimAccount) {
     return (
-      <Wallet action="login">
-        <ClaimAccount
-          onBack={() => setShowClaimAccount(false)}
-          onClaim={(id) => authService.send("CLAIM", { id })}
-        />
-      </Wallet>
+      <ClaimAccount
+        onBack={() => setShowClaimAccount(false)}
+        onClaim={(id) => authService.send("CLAIM", { id })}
+      />
     );
   }
 
@@ -209,6 +207,9 @@ export const ClaimAccount: React.FC<{
   onClaim: (id: number) => void;
   onBack: () => void;
 }> = ({ onBack, onClaim }) => {
+  const { authService } = useContext(Context);
+  const [authState] = useActor(authService);
+
   const [isLoading, setIsLoading] = useState(false);
   const [tokenIds, setTokenIds] = useState<number[]>([]);
   const { t } = useAppTranslation();
@@ -217,7 +218,9 @@ export const ClaimAccount: React.FC<{
     const load = async () => {
       setIsLoading(true);
 
-      const farms = await getFarms(wallet.getAccount() as `0x${string}`);
+      const farms = await getFarms(
+        authState.context.user.token?.address as `0x${string}`,
+      );
 
       const ids = farms.map((farm) => Number(farm.tokenId));
 
