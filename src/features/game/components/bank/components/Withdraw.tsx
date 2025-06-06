@@ -17,6 +17,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { translate } from "lib/i18n/translate";
 import { Transaction } from "features/island/hud/Transaction";
 import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
+import { GameWallet } from "features/wallet/Wallet";
 
 const getPageIcon = (page: Page) => {
   switch (page) {
@@ -220,13 +221,31 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
     <>
       {page === "main" && <MainMenu setPage={setPage} />}
       {page !== "main" && <NavigationMenu page={page} setPage={setPage} />}
-      {page === "tokens" && <WithdrawFlower onWithdraw={onWithdrawTokens} />}
-      {page === "items" && <WithdrawItems onWithdraw={onWithdrawItems} />}
-      {page === "resources" && <WithdrawResources onWithdraw={onClose} />}
-      {page === "wearables" && (
-        <WithdrawWearables onWithdraw={onWithdrawWearables} />
+      {page === "tokens" && (
+        <GameWallet action="withdraw">
+          <WithdrawFlower onWithdraw={onWithdrawTokens} />
+        </GameWallet>
       )}
-      {page === "buds" && <WithdrawBuds onWithdraw={onWithdrawBuds} />}
+      {page === "items" && (
+        <GameWallet action="withdraw">
+          <WithdrawItems onWithdraw={onWithdrawItems} />
+        </GameWallet>
+      )}
+      {page === "resources" && (
+        <GameWallet action="withdraw">
+          <WithdrawResources onWithdraw={onClose} />
+        </GameWallet>
+      )}
+      {page === "wearables" && (
+        <GameWallet action="withdraw">
+          <WithdrawWearables onWithdraw={onWithdrawWearables} />
+        </GameWallet>
+      )}
+      {page === "buds" && (
+        <GameWallet action="withdraw">
+          <WithdrawBuds onWithdraw={onWithdrawBuds} />
+        </GameWallet>
+      )}
       {page === "verify" && <FaceRecognition />}
     </>
   );
