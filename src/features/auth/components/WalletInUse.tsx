@@ -21,12 +21,10 @@ export const WalletInUse: React.FC = () => {
 
   if (showClaimAccount) {
     return (
-      <Wallet action="login">
-        <ClaimAccount
-          onBack={() => setShowClaimAccount(false)}
-          onClaim={(id) => authService.send("CLAIM", { id })}
-        />
-      </Wallet>
+      <ClaimAccount
+        onBack={() => setShowClaimAccount(false)}
+        onClaim={(id) => authService.send("CLAIM", { id })}
+      />
     );
   }
 

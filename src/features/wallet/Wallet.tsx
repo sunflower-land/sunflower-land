@@ -1,18 +1,16 @@
 import { useSelector } from "@xstate/react";
-import React, { useContext } from "react";
-
-import { WalletAction } from "features/wallet/walletMachine";
+import React, { useContext, useState } from "react";
 
 import { Context } from "features/game/GameProvider";
 
-import { useAccount, useDisconnect } from "wagmi";
 import {
-  SelectChain,
-  WalletConnectedHeader,
-} from "features/auth/components/SignIn";
+  useAccount,
+  useConnections,
+  useDisconnect,
+  useSwitchChain,
+} from "wagmi";
 import { MachineState } from "features/game/lib/gameMachine";
 import { isAddressEqual } from "viem";
-import { Button } from "components/ui/Button";
 import {
   base,
   baseSepolia,
@@ -27,6 +25,27 @@ import { ConnectWallet } from "./components/ConnectWallet";
 import { LinkWallet } from "./components/LinkWallet";
 import { ConnectLinkedWallet } from "./components/ConnectLinkedWallet";
 import { SelectLinkedWallet } from "./components/SelectLinkedWallet";
+import { InnerPanel } from "components/ui/Panel";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { getWalletIcon } from "./lib/getWalletIcon";
+import { Label } from "components/ui/Label";
+import { networkOptions } from "features/game/expansion/components/dailyReward/DailyReward";
+import { shortAddress } from "lib/utils/shortAddress";
+
+type WalletAction =
+  | "specialEvent"
+  | "login"
+  | "depositItems"
+  | "confirmDepositItems"
+  | "depositFlower"
+  | "donate"
+  | "dailyReward"
+  | "withdraw"
+  | "dequip"
+  | "marketplace"
+  | "transfer"
+  | "sync"
+  | "purchase";
 
 interface Props {
   action: WalletAction;
@@ -158,6 +177,155 @@ const EstablishConnection: React.FC<{
   return <ConnectLinkedWallet linkedWallet={linkedAddress as `0x${string}`} />;
 };
 
+const WalletConnectedHeader: React.FC<{ availableChains: number[] }> = ({
+  availableChains,
+}) => {
+  const { chainId, address, connector, chain } = useAccount();
+  const { disconnect } = useDisconnect();
+  const { switchChain, isPending } = useSwitchChain();
+  const connections = useConnections();
+
+  const [showChainDropdown, setShowChainDropdown] = useState(false);
+  const [showWalletDropdown, setShowWalletDropdown] = useState(false);
+
+  const filteredNetworkOptions = networkOptions.filter((network) =>
+    availableChains.includes(network.chainId),
+  );
+
+  const onDisconnect = () => {
+    connections.forEach((connection) =>
+      disconnect({ connector: connection.connector }),
+    );
+  };
+
+  const chainName = chain?.name ?? "Select Network";
+  const chainIcon = networkOptions.find(
+    (network) => network.chainId === chainId,
+  )?.icon;
+
+  return (
+    <div className="flex justify-between items-center pl-1">
+      <div className="relative">
+        <Label
+          type="formula"
+          icon={isPending ? undefined : chainIcon}
+          secondaryIcon={
+            showChainDropdown
+              ? SUNNYSIDE.icons.chevron_up
+              : SUNNYSIDE.icons.chevron_down
+          }
+          className="cursor-pointer"
+          onClick={() => {
+            setShowChainDropdown(!showChainDropdown);
+            setShowWalletDropdown(false);
+          }}
+        >
+          {isPending ? "Switching Network..." : chainName}
+        </Label>
+
+        {showChainDropdown && (
+          <div className="absolute left-0 mt-1 z-50">
+            <InnerPanel className="flex flex-col">
+              {filteredNetworkOptions.map((network) => (
+                <div
+                  key={network.chainId}
+                  className="flex items-center gap-2 cursor-pointer hover:bg-[#ead4aa]/50 pb-1 px-2"
+                  onClick={() => {
+                    setShowChainDropdown(false);
+                    switchChain({ chainId: network.chainId });
+                  }}
+                >
+                  {network.icon && (
+                    <img src={network.icon} className="pl-1 w-5" />
+                  )}
+                  <span className="text-sm whitespace-nowrap pr-4">
+                    {network.value}
+                  </span>
+                </div>
+              ))}
+            </InnerPanel>
+          </div>
+        )}
+      </div>
+      <div className="relative">
+        {address && (
+          <Label
+            type="default"
+            icon={getWalletIcon(connector)}
+            secondaryIcon={
+              showWalletDropdown
+                ? SUNNYSIDE.icons.chevron_up
+                : SUNNYSIDE.icons.chevron_down
+            }
+            className="cursor-pointer"
+            onClick={() => {
+              setShowChainDropdown(false);
+              setShowWalletDropdown(!showWalletDropdown);
+            }}
+          >
+            {shortAddress(address)}
+          </Label>
+        )}
+        {showWalletDropdown && (
+          <div className="absolute right-0 mt-1 z-50">
+            <InnerPanel className="flex flex-col">
+              <div
+                className="flex items-center gap-2 cursor-pointer hover:bg-[#ead4aa]/50 pb-1 px-2"
+                onClick={onDisconnect}
+              >
+                <span className="text-sm">Disconnect</span>
+              </div>
+            </InnerPanel>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+const ACTION_HUMAN_NAMES: Record<WalletAction, string> = {
+  specialEvent: "use this Special Event",
+  login: "Login",
+  depositItems: "Deposit Items",
+  confirmDepositItems: "Confirm Deposit Items",
+  depositFlower: "Deposit Flower",
+  donate: "Donate",
+  dailyReward: "claim the Daily Reward",
+  withdraw: "Withdraw",
+  dequip: "Dequip",
+  marketplace: "Marketplace",
+  transfer: "Transfer",
+  sync: "Sync",
+  purchase: "Purchase",
+};
+
+const SelectChain: React.FC<{
+  action: WalletAction;
+  availableChains: number[];
+}> = ({ action, availableChains }) => {
+  const filteredNetworkOptions = networkOptions.filter((network) =>
+    availableChains.includes(network.chainId),
+  );
+
+  const multipleNetworks = filteredNetworkOptions.length > 1;
+
+  const text = `Please select ${multipleNetworks ? "a network" : filteredNetworkOptions[0].value} to ${ACTION_HUMAN_NAMES[action]}`;
+
+  return (
+    <>
+      <WalletConnectedHeader availableChains={availableChains} />
+      <p
+        className="text-sm p-2"
+        style={{
+          minHeight: "100px",
+        }}
+      >
+        {text}
+      </p>
+    </>
+  );
+};
+
 export const Wallet: React.FC<Props> = ({
   children,
   action,
@@ -165,7 +333,6 @@ export const Wallet: React.FC<Props> = ({
   farmAddress,
 }) => {
   const { address, isConnected, chainId } = useAccount();
-  const { disconnect } = useDisconnect();
 
   const { requiresLinkedWallet, requiresNFT, chains } = WALLET_ACTIONS[action];
   const requiresChain = Object.values(chains).some(Boolean);
@@ -204,7 +371,7 @@ export const Wallet: React.FC<Props> = ({
   }
 
   if (requiresChain && !hasChain) {
-    return <SelectChain availableChains={availableChains} />;
+    return <SelectChain action={action} availableChains={availableChains} />;
   }
 
   if (requiresNFT && !hasNFT) {
@@ -213,9 +380,8 @@ export const Wallet: React.FC<Props> = ({
 
   return (
     <>
-      <WalletConnectedHeader />
+      <WalletConnectedHeader availableChains={availableChains} />
       {children}
-      <Button onClick={() => disconnect()}>Disconnect Wallet</Button>
     </>
   );
 };
