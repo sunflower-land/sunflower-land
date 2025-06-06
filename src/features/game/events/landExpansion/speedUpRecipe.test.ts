@@ -486,4 +486,51 @@ describe("getInstantGems", () => {
       }),
     ).toEqual(10);
   });
+
+  it("doesn't remove other ready recipes when speeding up the current recipe", () => {
+    const now = Date.now();
+
+    const state = speedUpRecipe({
+      state: {
+        ...INITIAL_FARM,
+        buildings: {
+          "Fire Pit": [
+            {
+              id: "123",
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              readyAt: 0,
+              crafting: [
+                {
+                  name: "Mashed Potato", // Ready recipe
+                  readyAt: now - 1000,
+                  amount: 1,
+                },
+                {
+                  name: "Radish Cake",
+                  readyAt: now + 30000 + 2000,
+                  amount: 1,
+                },
+              ],
+            },
+          ],
+        },
+      },
+      action: {
+        type: "recipe.spedUp",
+        buildingId: "123",
+        buildingName: "Fire Pit",
+      },
+      createdAt: now,
+    });
+
+    expect(state.buildings["Fire Pit"]?.[0].crafting).toMatchObject([
+      {
+        name: "Mashed Potato",
+        readyAt: expect.any(Number),
+        amount: 1,
+      },
+    ]);
+    expect(state.inventory["Radish Cake"]).toEqual(new Decimal(1));
+  });
 });

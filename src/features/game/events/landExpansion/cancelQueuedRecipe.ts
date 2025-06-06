@@ -105,13 +105,11 @@ export function recalculateQueue({
   buildingName,
   game,
   isInstantCook,
-  keepReadyRecipes = false,
 }: {
   queue: BuildingProduct[];
   createdAt: number;
   buildingName: CookingBuildingName;
   isInstantCook?: boolean;
-  keepReadyRecipes?: boolean;
   game: GameState;
 }): BuildingProduct[] {
   // Keep only ready recipes
@@ -136,12 +134,7 @@ export function recalculateQueue({
       return [...recipes, { ...recipe, readyAt }];
     }, [] as BuildingProduct[]);
 
-    // Instant Gratification Skill - keep ready recipes
-    if (keepReadyRecipes) {
-      return [...readyRecipes, ...updatedRecipes];
-    }
-
-    return updatedRecipes;
+    return [...readyRecipes, ...updatedRecipes];
   }
 
   // Currently cooking
