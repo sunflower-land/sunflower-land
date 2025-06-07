@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
@@ -53,10 +53,12 @@ export const ResourceList: React.FC<Props> = ({
 }) => {
   const { t } = useAppTranslation();
   const { gameState } = useGame();
+  const [pricePerUnit, setPricePerUnit] = useState(0);
 
-  const unitPrice = new Decimal(quantity).equals(0)
-    ? new Decimal(0)
-    : new Decimal(price).dividedBy(quantity);
+  useEffect(() => {
+    setPrice(pricePerUnit * quantity);
+  }, [pricePerUnit, quantity, setPrice]);
+
   const tooLittle =
     !!quantity && new Decimal(quantity).lessThan(TRADE_MINIMUMS[itemName] ?? 0);
 
@@ -64,13 +66,13 @@ export const ResourceList: React.FC<Props> = ({
     !!price &&
     !!quantity &&
     !!floorPrice &&
-    new Decimal(floorPrice).mul(1.2).lt(unitPrice);
+    new Decimal(floorPrice).mul(1.2).lt(pricePerUnit);
 
   const isTooLow =
     !!price &&
     !!quantity &&
     !!floorPrice &&
-    new Decimal(floorPrice).mul(0.8).gt(unitPrice);
+    new Decimal(floorPrice).mul(0.8).gt(pricePerUnit);
 
   // For now, keep offchain
   const maxSFL = new Decimal(price).greaterThan(MAX_SFL);
@@ -124,9 +126,9 @@ export const ResourceList: React.FC<Props> = ({
         <div className="flex items-center justify-between">
           <Label
             type={
-              unitPrice.lessThan(floorPrice)
+              new Decimal(pricePerUnit).lessThan(floorPrice)
                 ? "danger"
-                : unitPrice.greaterThan(floorPrice)
+                : new Decimal(pricePerUnit).greaterThan(floorPrice)
                   ? "success"
                   : "warning"
             }
@@ -215,24 +217,27 @@ export const ResourceList: React.FC<Props> = ({
           </div>
           <div className="flex-1 flex flex-col items-end">
             <div className="flex items-center">
-              {new Decimal(price).greaterThan(MAX_SFL) && (
+              {new Decimal(pricePerUnit * quantity).greaterThan(MAX_SFL) && (
                 <Label type="danger" className="my-1 ml-2 mr-1">
                   {t("bumpkinTrade.max", { max: MAX_SFL })}
                 </Label>
               )}
               <Label icon={sflIcon} type="default" className="my-1 ml-2 mr-1">
-                {t("bumpkinTrade.price")}
+                {t("marketplace.label.pricePerUnit")}
               </Label>
             </div>
             <NumberInput
-              value={price}
+              value={pricePerUnit}
               maxDecimalPlaces={4}
               isRightAligned={true}
               isOutOfRange={
-                maxSFL || new Decimal(price).equals(0) || isTooHigh || isTooLow
+                maxSFL ||
+                new Decimal(pricePerUnit).equals(0) ||
+                isTooHigh ||
+                isTooLow
               }
               onValueChange={(value) => {
-                setPrice(value.toNumber());
+                setPricePerUnit(value.toNumber());
               }}
             />
           </div>
@@ -270,7 +275,7 @@ export const ResourceList: React.FC<Props> = ({
           <p className="text-xs font-secondary">
             {new Decimal(quantity).equals(0)
               ? `0.0000 ${t("marketplace.flower")}`
-              : `${formatNumber(unitPrice, {
+              : `${formatNumber(pricePerUnit, {
                   decimalPlaces: 4,
                   showTrailingZeros: true,
                 })} ${t("marketplace.flower")}`}

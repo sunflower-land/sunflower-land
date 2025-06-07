@@ -102,7 +102,7 @@ export const MyTableRow: React.FC<MyTableRowProps> = ({
                 </div>
               )}
               {!!fee && (
-                <div className="text-[16px] sm:text-xxs w-full">{`${fee} fee`}</div>
+                <div className="text-[16px] -mt-2 sm:mt-0 sm:text-xxs w-full">{`${fee} fee`}</div>
               )}
             </div>
           </div>
