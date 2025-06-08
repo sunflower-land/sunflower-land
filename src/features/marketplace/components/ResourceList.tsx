@@ -16,6 +16,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { formatNumber, setPrecision } from "lib/utils/formatNumber";
 
 import lockIcon from "assets/icons/lock.png";
+import switchIcon from "assets/icons/switch.webp";
 import sflIcon from "assets/icons/flower_token.webp";
 import tradeIcon from "assets/icons/trade.png";
 import { useGame } from "features/game/GameProvider";
@@ -38,6 +39,7 @@ type Props = {
 };
 
 const MAX_SFL = 150;
+const LOCAL_STORAGE_KEY = "resourceListInputType";
 
 export const ResourceList: React.FC<Props> = ({
   inventoryCount,
@@ -54,25 +56,34 @@ export const ResourceList: React.FC<Props> = ({
   const { t } = useAppTranslation();
   const { gameState } = useGame();
   const [pricePerUnit, setPricePerUnit] = useState(0);
+  const [inputType, setInputType] = useState<"price" | "pricePerUnit">(
+    () =>
+      (localStorage.getItem(LOCAL_STORAGE_KEY) as "price" | "pricePerUnit") ||
+      "price",
+  );
 
   useEffect(() => {
-    setPrice(pricePerUnit * quantity);
-  }, [pricePerUnit, quantity, setPrice]);
+    return () => {
+      localStorage.setItem(LOCAL_STORAGE_KEY, inputType);
+    };
+  }, [inputType]);
 
   const tooLittle =
     !!quantity && new Decimal(quantity).lessThan(TRADE_MINIMUMS[itemName] ?? 0);
 
+  const maxUnitPrice = new Decimal(floorPrice).mul(1.2).toDecimalPlaces(4);
   const isTooHigh =
     !!price &&
     !!quantity &&
     !!floorPrice &&
-    new Decimal(floorPrice).mul(1.2).lt(pricePerUnit);
+    new Decimal(pricePerUnit).toDecimalPlaces(4).gt(maxUnitPrice);
 
+  const minUnitPrice = new Decimal(floorPrice).mul(0.8).toDecimalPlaces(4);
   const isTooLow =
     !!price &&
     !!quantity &&
     !!floorPrice &&
-    new Decimal(floorPrice).mul(0.8).gt(pricePerUnit);
+    new Decimal(pricePerUnit).toDecimalPlaces(4).lt(minUnitPrice);
 
   // For now, keep offchain
   const maxSFL = new Decimal(price).greaterThan(MAX_SFL);
@@ -143,18 +154,14 @@ export const ResourceList: React.FC<Props> = ({
           {isTooLow && (
             <Label type="danger" className="my-1 ml-2 mr-1">
               {t("bumpkinTrade.minimumFloor", {
-                min: formatNumber(floorPrice * 0.8, {
-                  decimalPlaces: 4,
-                }),
+                min: minUnitPrice.toNumber(),
               })}
             </Label>
           )}
           {isTooHigh && (
             <Label type="danger" className="my-1 ml-2 mr-1">
               {t("bumpkinTrade.maximumFloor", {
-                max: formatNumber(floorPrice * 1.2, {
-                  decimalPlaces: 4,
-                }),
+                max: maxUnitPrice.toNumber(),
               })}
             </Label>
           )}
@@ -211,6 +218,9 @@ export const ResourceList: React.FC<Props> = ({
                     new Decimal(floorPrice).mul(value),
                   );
                   setPrice(estimated.toNumber());
+                  setPricePerUnit(
+                    new Decimal(estimated).dividedBy(value).toNumber(),
+                  );
                 }
               }}
             />
@@ -222,22 +232,44 @@ export const ResourceList: React.FC<Props> = ({
                   {t("bumpkinTrade.max", { max: MAX_SFL })}
                 </Label>
               )}
-              <Label icon={sflIcon} type="default" className="my-1 ml-2 mr-1">
-                {t("marketplace.label.pricePerUnit")}
+              <Label
+                icon={sflIcon}
+                secondaryIcon={switchIcon}
+                type="default"
+                className="my-1 ml-2 mr-2 cursor-pointer whitespace-nowrap"
+                onClick={() =>
+                  setInputType(inputType === "price" ? "pricePerUnit" : "price")
+                }
+              >
+                {inputType === "pricePerUnit"
+                  ? t("marketplace.label.pricePerUnit")
+                  : t("bumpkinTrade.price")}
               </Label>
             </div>
             <NumberInput
-              value={pricePerUnit}
+              value={inputType === "pricePerUnit" ? pricePerUnit : price}
               maxDecimalPlaces={4}
               isRightAligned={true}
               isOutOfRange={
                 maxSFL ||
-                new Decimal(pricePerUnit).equals(0) ||
+                new Decimal(
+                  inputType === "pricePerUnit" ? pricePerUnit : price,
+                ).equals(0) ||
                 isTooHigh ||
                 isTooLow
               }
               onValueChange={(value) => {
-                setPricePerUnit(value.toNumber());
+                if (inputType === "pricePerUnit") {
+                  setPricePerUnit(value.toNumber());
+                  setPrice(new Decimal(value).mul(quantity).toNumber());
+                } else {
+                  setPrice(value.toNumber());
+                  if (quantity > 0) {
+                    setPricePerUnit(
+                      new Decimal(value).dividedBy(quantity).toNumber(),
+                    );
+                  }
+                }
               }}
             />
           </div>
