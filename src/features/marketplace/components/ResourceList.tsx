@@ -260,6 +260,8 @@ export const ResourceList: React.FC<Props> = ({
               }
               onValueChange={(value) => {
                 if (inputType === "pricePerUnit") {
+                  if (value.equals(setPrecision(pricePerUnit, 4))) return;
+
                   setPricePerUnit(value.toNumber());
                   setPrice(new Decimal(value).mul(quantity).toNumber());
                 } else {
