@@ -5965,5 +5965,6 @@
   "wallet.seedlingRequired": "묘목 평판에 도달하여 팜 NFT를 발행하세요",
   "reputation.seedling.farmNFT": "온체인 팜",
   "reputation.seedlingRequired": "묘목 필요",
-  "stream.isLive": "타운 홀이 생중계되었습니다!"
+  "stream.isLive": "타운 홀이 생중계되었습니다!",
+  "marketplace.label.pricePerUnit": "단위당 가격"
 }

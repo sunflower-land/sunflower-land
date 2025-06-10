@@ -5965,5 +5965,6 @@
   "wallet.seedlingRequired": "Raih reputasi bibit untuk mencetak NFT Pertanian",
   "reputation.seedling.farmNFT": "Peternakan On-Chain",
   "reputation.seedlingRequired": "Dibutuhkan pembibitan",
-  "stream.isLive": "Balai Kota sedang hidup!"
+  "stream.isLive": "Balai Kota sedang hidup!",
+  "marketplace.label.pricePerUnit": "Harga per unit"
 }

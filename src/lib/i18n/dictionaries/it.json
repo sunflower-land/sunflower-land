@@ -5965,5 +5965,6 @@
   "wallet.seedlingRequired": "Raggiungi la reputazione delle piantine per creare un Farm NFT",
   "reputation.seedling.farmNFT": "Azienda agricola a catena",
   "reputation.seedlingRequired": "Piantina richiesta",
-  "stream.isLive": "Il municipio è in diretta!"
+  "stream.isLive": "Il municipio è in diretta!",
+  "marketplace.label.pricePerUnit": "Prezzo unitario"
 }

@@ -5965,5 +5965,6 @@
   "wallet.seedlingRequired": "Atteignez la réputation d'un plant pour créer un NFT agricole",
   "reputation.seedling.farmNFT": "Ferme en chaîne",
   "reputation.seedlingRequired": "Semis requis",
-  "stream.isLive": "L'hôtel de ville est en ligne !"
+  "stream.isLive": "L'hôtel de ville est en ligne !",
+  "marketplace.label.pricePerUnit": "Prix par unité"
 }

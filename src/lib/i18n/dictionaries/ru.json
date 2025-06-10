@@ -5965,5 +5965,6 @@
   "wallet.seedlingRequired": "Заработайте репутацию саженцев, чтобы создать NFT на ферме",
   "reputation.seedling.farmNFT": "Ончейн-ферма",
   "reputation.seedlingRequired": "Требуется саженец",
-  "stream.isLive": "Ратуша в прямом эфире!"
+  "stream.isLive": "Ратуша в прямом эфире!",
+  "marketplace.label.pricePerUnit": "Цена за единицу"
 }

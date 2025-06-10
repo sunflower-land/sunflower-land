@@ -5965,5 +5965,6 @@
   "wallet.seedlingRequired": "Erreiche den Ruf eines Sämlings, um ein Farm-NFT zu prägen",
   "reputation.seedling.farmNFT": "On-Chain-Farm",
   "reputation.seedlingRequired": "Sämling erforderlich",
-  "stream.isLive": "Das Rathaus ist live!"
+  "stream.isLive": "Das Rathaus ist live!",
+  "marketplace.label.pricePerUnit": "Preis pro Einheit"
 }

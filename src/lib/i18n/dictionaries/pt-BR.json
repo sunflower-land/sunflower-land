@@ -5965,5 +5965,6 @@
   "wallet.seedlingRequired": "Alcance a reputação de mudas para criar um Farm NFT",
   "reputation.seedling.farmNFT": "Fazenda On-Chain",
   "reputation.seedlingRequired": "Mudas necessárias",
-  "stream.isLive": "A Câmara Municipal está ao vivo!"
+  "stream.isLive": "A Câmara Municipal está ao vivo!",
+  "marketplace.label.pricePerUnit": "Preço por unidade"
 }

@@ -5965,5 +5965,6 @@
   "wallet.seedlingRequired": "Alcanza la reputación de una plántula para crear una granja NFT",
   "reputation.seedling.farmNFT": "Granja en cadena",
   "reputation.seedlingRequired": "Se requiere plántula",
-  "stream.isLive": "¡El Ayuntamiento está en vivo!"
+  "stream.isLive": "¡El Ayuntamiento está en vivo!",
+  "marketplace.label.pricePerUnit": "Precio por unidad"
 }

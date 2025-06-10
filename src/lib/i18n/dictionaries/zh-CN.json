@@ -5965,5 +5965,6 @@
   "wallet.seedlingRequired": "获得幼苗声誉即可铸造农场 NFT",
   "reputation.seedling.farmNFT": "链上农场",
   "reputation.seedlingRequired": "需要幼苗",
-  "stream.isLive": "市政厅上线了！"
+  "stream.isLive": "市政厅上线了！",
+  "marketplace.label.pricePerUnit": "每单位价格"
 }

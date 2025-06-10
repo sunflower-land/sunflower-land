@@ -5965,5 +5965,6 @@
   "wallet.seedlingRequired": "Bir Çiftlik NFT'si oluşturmak için fide itibarına ulaşın",
   "reputation.seedling.farmNFT": "Zincir Üzerindeki Çiftlik",
   "reputation.seedlingRequired": "Fide gerekli",
-  "stream.isLive": "Belediye Binası yayında!"
+  "stream.isLive": "Belediye Binası yayında!",
+  "marketplace.label.pricePerUnit": "Birim başına fiyat"
 }

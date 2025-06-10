@@ -5965,5 +5965,6 @@
   "wallet.seedlingRequired": "Mencapai reputasi anak benih untuk membentuk Farm NFT",
   "reputation.seedling.farmNFT": "Ladang Di Rantai",
   "reputation.seedlingRequired": "Anak benih diperlukan",
-  "stream.isLive": "Dewan Bandaran hidup!"
+  "stream.isLive": "Dewan Bandaran hidup!",
+  "marketplace.label.pricePerUnit": "Harga seunit"
 }
