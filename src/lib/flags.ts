@@ -106,7 +106,7 @@ const FEATURE_FLAGS = {
 
   MODERATOR: (game) => !!game.wardrobe.Halo,
 
-  BLESSING: defaultFeatureFlag,
+  BLESSING: testnetFeatureFlag,
   MINE_WHACK_BETA: defaultFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
