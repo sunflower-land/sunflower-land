@@ -63,7 +63,12 @@ export const DEV_PlayerSearch: React.FC<ContentComponentProps> = () => {
           )}
         </div>
         <p>{`NFT ID: ${farm.moderator?.nftId}`}</p>
-        <p>{`Discord ID: ${farm.moderator?.discordId}`}</p>
+        <div className="flex items-center">
+          <p className="mr-2">{`Discord ID:`}</p>
+          {farm.moderator?.discordId && (
+            <CopyAddress address={farm.moderator.discordId} />
+          )}
+        </div>
         <p>{`Face Recognition: ${farm.moderator?.isFaceRecognised}`}</p>
         <p>{`Login with: ${farm.moderator?.account}`}</p>
       </div>
