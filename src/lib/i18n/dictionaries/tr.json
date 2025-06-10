@@ -5875,7 +5875,6 @@
   "merkl.three": "Bonus yiyecek kutuları ve tüm sağlayıcılar için özel bir giyilebilir cihaz!",
   "streams.tuesday.ongoing": "Discord Akışı Devamında",
   "streams.friday.ongoing": "Twitch Yayını Devamında",
-  "stream.isLive": "Belediye Binası Yayında!",
   "liquidity": "Likidite",
   "flowerDashboard.sevenDayPlayerSpend": "7d Oyuncu Harcaması",
   "flowerDashboard.uniquePlayersSpent": "{{count}} oyuncular çiçek harcadı",
@@ -5965,5 +5964,6 @@
   "blessing.maxAmount": "Yetersiz {{name}}.",
   "wallet.seedlingRequired": "Bir Çiftlik NFT'si oluşturmak için fide itibarına ulaşın",
   "reputation.seedling.farmNFT": "Zincir Üzerindeki Çiftlik",
-  "reputation.seedlingRequired": "Fide gerekli"
+  "reputation.seedlingRequired": "Fide gerekli",
+  "stream.isLive": "Belediye Binası yayında!"
 }

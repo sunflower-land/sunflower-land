@@ -5875,7 +5875,6 @@
   "merkl.three": "おまけのフードボックスと全プロバイダー限定のウェアラブルをプレゼント！",
   "streams.tuesday.ongoing": "Discordストリーム配信中",
   "streams.friday.ongoing": "Twitch ストリーム配信中",
-  "stream.isLive": "タウンホールがライブです！",
   "liquidity": "流動性",
   "flowerDashboard.sevenDayPlayerSpend": "7dプレイヤーの支出",
   "flowerDashboard.uniquePlayersSpent": "{{count}} プレイヤーは花を使いました",
@@ -5965,5 +5964,6 @@
   "blessing.maxAmount": "{{name}} が不足しています。",
   "wallet.seedlingRequired": "苗木の評判を上げてファームNFTを作ろう",
   "reputation.seedling.farmNFT": "オンチェーンファーム",
-  "reputation.seedlingRequired": "苗が必要です"
+  "reputation.seedlingRequired": "苗が必要です",
+  "stream.isLive": "タウンホールがライブです！"
 }

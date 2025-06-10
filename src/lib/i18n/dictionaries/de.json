@@ -5875,7 +5875,6 @@
   "merkl.three": "Eine Bonus-Lebensmittelbox und ein exklusives Wearable für alle Anbieter!",
   "streams.tuesday.ongoing": "Discord-Stream läuft",
   "streams.friday.ongoing": "Twitch-Stream läuft",
-  "stream.isLive": "Das Rathaus ist live!",
   "liquidity": "Liquidität",
   "flowerDashboard.sevenDayPlayerSpend": "7x Ausgaben von Spielern",
   "flowerDashboard.uniquePlayersSpent": "{{count}} Spieler haben Blumen ausgegeben",
@@ -5965,5 +5964,6 @@
   "blessing.maxAmount": "Ungenügend {{name}}.",
   "wallet.seedlingRequired": "Erreiche den Ruf eines Sämlings, um ein Farm-NFT zu prägen",
   "reputation.seedling.farmNFT": "On-Chain-Farm",
-  "reputation.seedlingRequired": "Sämling erforderlich"
+  "reputation.seedlingRequired": "Sämling erforderlich",
+  "stream.isLive": "Das Rathaus ist live!"
 }

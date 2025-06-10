@@ -5875,7 +5875,6 @@
   "merkl.three": "¡Cajas de comida adicionales y un dispositivo portátil exclusivo para todos los proveedores!",
   "streams.tuesday.ongoing": "Discord Stream continúa",
   "streams.friday.ongoing": "Transmisión de Twitch en curso",
-  "stream.isLive": "¡El Ayuntamiento está en vivo!",
   "liquidity": "Liquidez",
   "flowerDashboard.sevenDayPlayerSpend": "Gasto de un jugador de 7d",
   "flowerDashboard.uniquePlayersSpent": "{{count}} los jugadores gastaron flores",
@@ -5965,5 +5964,6 @@
   "blessing.maxAmount": "Insuficiente {{name}}.",
   "wallet.seedlingRequired": "Alcanza la reputación de una plántula para crear una granja NFT",
   "reputation.seedling.farmNFT": "Granja en cadena",
-  "reputation.seedlingRequired": "Se requiere plántula"
+  "reputation.seedlingRequired": "Se requiere plántula",
+  "stream.isLive": "¡El Ayuntamiento está en vivo!"
 }

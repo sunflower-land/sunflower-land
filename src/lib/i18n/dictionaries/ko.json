@@ -5875,7 +5875,6 @@
   "merkl.three": "모든 공급자를 위한 보너스 푸드 박스와 전용 웨어러블!",
   "streams.tuesday.ongoing": "디스코드 스트림 진행 중",
   "streams.friday.ongoing": "트위치 스트리밍 진행 중",
-  "stream.isLive": "타운 홀이 생중계되었습니다!",
   "liquidity": "유동성",
   "flowerDashboard.sevenDayPlayerSpend": "7d 플레이어 지출",
   "flowerDashboard.uniquePlayersSpent": "{{count}} 플레이어가 꽃을 소비했습니다",
@@ -5965,5 +5964,6 @@
   "blessing.maxAmount": "부족합니다 {{name}}.",
   "wallet.seedlingRequired": "묘목 평판에 도달하여 팜 NFT를 발행하세요",
   "reputation.seedling.farmNFT": "온체인 팜",
-  "reputation.seedlingRequired": "묘목 필요"
+  "reputation.seedlingRequired": "묘목 필요",
+  "stream.isLive": "타운 홀이 생중계되었습니다!"
 }

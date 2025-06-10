@@ -5875,7 +5875,6 @@
   "merkl.three": "Бонусные коробки с едой и эксклюзивное носимое устройство для всех поставщиков!",
   "streams.tuesday.ongoing": "Трансляция в Дискорде продолжается",
   "streams.friday.ongoing": "Трансляция на Twitch продолжается",
-  "stream.isLive": "Ратуша в прямом эфире!",
   "liquidity": "ликвидность",
   "flowerDashboard.sevenDayPlayerSpend": "Расходы игроков в 7 раз",
   "flowerDashboard.uniquePlayersSpent": "{{count}} игроки тратили FLOWER",
@@ -5965,5 +5964,6 @@
   "blessing.maxAmount": "Недостаточно {{name}}.",
   "wallet.seedlingRequired": "Заработайте репутацию саженцев, чтобы создать NFT на ферме",
   "reputation.seedling.farmNFT": "Ончейн-ферма",
-  "reputation.seedlingRequired": "Требуется саженец"
+  "reputation.seedlingRequired": "Требуется саженец",
+  "stream.isLive": "Ратуша в прямом эфире!"
 }

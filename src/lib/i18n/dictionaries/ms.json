@@ -5875,7 +5875,6 @@
   "merkl.three": "Kotak makanan bonus & pakai eksklusif untuk semua pembekal!",
   "streams.tuesday.ongoing": "Stream Discord Berlangsung",
   "streams.friday.ongoing": "Aliran Twitch Berlangsung",
-  "stream.isLive": "Dewan Bandaran hidup!",
   "liquidity": "Kecairan",
   "flowerDashboard.sevenDayPlayerSpend": "Perbelanjaan Pemain 7d",
   "flowerDashboard.uniquePlayersSpent": "{{count}} pemain menghabiskan bunga",
@@ -5965,5 +5964,6 @@
   "blessing.maxAmount": "Tidak mencukupi {{name}}.",
   "wallet.seedlingRequired": "Mencapai reputasi anak benih untuk membentuk Farm NFT",
   "reputation.seedling.farmNFT": "Ladang Di Rantai",
-  "reputation.seedlingRequired": "Anak benih diperlukan"
+  "reputation.seedlingRequired": "Anak benih diperlukan",
+  "stream.isLive": "Dewan Bandaran hidup!"
 }
