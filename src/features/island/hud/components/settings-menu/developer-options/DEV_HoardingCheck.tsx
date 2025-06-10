@@ -10,16 +10,20 @@ import { readContract } from "viem/actions";
 import { createPublicClient, encodePacked, http, keccak256 } from "viem";
 import { polygon, polygonAmoy } from "viem/chains";
 import { CONFIG } from "lib/config";
-import { getKeys } from "features/game/types/craftables";
+import { getKeys, TOOLS } from "features/game/types/craftables";
 import { SEEDS } from "features/game/types/seeds";
-import { SELLABLE_TREASURE } from "features/game/types/treasure";
 import { Loading } from "features/auth/components";
+import { TREASURE_TOOLS } from "features/game/types/tools";
+import { SELLABLE_TREASURE } from "features/game/types/treasure";
 
 const OFFCHAIN_ITEMS = [
   "Mark",
   "Trade Point",
+  "Love Charm",
   ...getKeys(SELLABLE_TREASURE),
   ...getKeys(SEEDS),
+  ...getKeys(TOOLS),
+  ...getKeys(TREASURE_TOOLS),
 ];
 
 export const DEV_HoarderCheck: React.FC<ContentComponentProps> = () => {
