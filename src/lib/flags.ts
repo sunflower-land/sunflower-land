@@ -50,21 +50,22 @@ const timePeriodFeatureFlag =
     return Date.now() > start.getTime() && Date.now() < end.getTime();
   };
 
-// Used for testing production features and dev access
+/**
+ * Used for testing production features and dev access
+ * @Adam 1
+ * @Spencer 3
+ * @Craig 39488
+ * @Elias 128727
+ */
 export const ADMIN_IDS = [1, 3, 39488, 128727];
 
-export const MANAGER_IDS = [
-  ...ADMIN_IDS,
-  29, // Aeon
-  130170, // Dcol
-];
-
 /**
- * Adam: 1
- * Spencer: 3
- * Craig: 39488
- * Elias: 128727
+ * IDs whitelisted to airdrop players
+ * @Aeon 29
+ * @Dcol 130170
+ * @Labochi 7841
  */
+export const MANAGER_IDS = [...ADMIN_IDS, 29, 130170, 7841];
 
 export type FeatureFlag = (game: GameState) => boolean;
 
