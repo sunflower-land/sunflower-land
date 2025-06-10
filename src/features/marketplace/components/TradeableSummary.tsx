@@ -44,7 +44,10 @@ export const TradeableItemDetails: React.FC<{
       <div>
         <span className="text-sm">{`${quantity} x ${display.name}`}</span>
         <div className="flex items-center">
-          <span className="text-sm">{`${sfl} FLOWER`}</span>
+          <span className="text-sm">{`${formatNumber(sfl, {
+            decimalPlaces: 4,
+            showTrailingZeros: true,
+          })} FLOWER`}</span>
           <img src={sflIcon} className="h-6 ml-1" />
         </div>
         {estTradePoints && !isResource && (
@@ -76,6 +79,24 @@ export const TradeableSummary: React.FC<{
   return (
     <div>
       <TradeableItemDetails display={display} quantity={quantity} sfl={sfl} />
+      {isResource && (
+        <div
+          className="flex justify-between"
+          style={{
+            borderBottom: "1px solid #ead4aa",
+            padding: "5px 5px 5px 2px",
+          }}
+        >
+          <span className="text-xs">{t("marketplace.label.pricePerUnit")}</span>
+          <p className="text-xs font-secondary">{`${formatNumber(
+            sfl / quantity,
+            {
+              decimalPlaces: 4,
+              showTrailingZeros: true,
+            },
+          )} FLOWER`}</p>
+        </div>
+      )}
       <div
         className="flex justify-between"
         style={{
