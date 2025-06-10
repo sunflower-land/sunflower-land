@@ -11,37 +11,49 @@ import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDeta
 import { ButtonPanel } from "components/ui/Panel";
 import promoteIcon from "assets/icons/promote.webp";
 import { useNavigate } from "react-router";
+import {
+  acknowledgeStreamCountdown,
+  getStreamCountdownLastRead,
+} from "./acknowledgeStreamCountdown";
+
 const Countdown: React.FC<{
   startAt: number;
   endAt: number;
   notifyAt: number;
+  onClick: () => void;
   onHide: () => void;
-}> = ({ startAt, endAt, notifyAt, onHide }) => {
+}> = ({ startAt, endAt, notifyAt, onClick, onHide }) => {
   const start = useCountdown(startAt);
   const end = useCountdown(endAt);
   const { t } = useAppTranslation();
 
   if (Date.now() < startAt && Date.now() > notifyAt) {
     return (
-      <div>
-        <div className="h-6 flex justify-center">
-          <Label type="info" icon={SUNNYSIDE.icons.stopwatch} className="ml-1">
-            {t("stream.beginsSoon")}
-          </Label>
-          <img
-            src={SUNNYSIDE.icons.close}
-            className="h-5 cursor-pointer ml-2"
-            onClick={onHide}
-          />
+      <div className="flex flex-col">
+        <div className="flex justify-between">
+          <div className="h-6 flex justify-center">
+            <Label
+              type="info"
+              icon={SUNNYSIDE.icons.stopwatch}
+              className="ml-1"
+            >
+              {t("stream.beginsSoon")}
+            </Label>
+          </div>
+          <TimerDisplay time={start} />
         </div>
-        <TimerDisplay time={start} />
+        <img
+          src={SUNNYSIDE.icons.close}
+          className="h-5 cursor-pointer ml-2"
+          onClick={onHide}
+        />
       </div>
     );
   }
 
   return (
-    <div>
-      <div className="flex">
+    <div className="flex justify-between">
+      <div className="flex flex-col" onClick={onClick}>
         <Label type="success" className="ml-1" icon={promoteIcon}>
           <div
             className="sm:max-w-[350px] max-w-[150px]"
@@ -55,13 +67,13 @@ const Countdown: React.FC<{
             {t("stream.isLive")}
           </div>
         </Label>
-        <img
-          src={SUNNYSIDE.icons.close}
-          className="h-5 cursor-pointer ml-2"
-          onClick={onHide}
-        />
+        <TimerDisplay time={end} />
       </div>
-      <TimerDisplay time={end} />
+      <img
+        src={SUNNYSIDE.icons.close}
+        className="h-5 cursor-pointer ml-2"
+        onClick={onHide}
+      />
     </div>
   );
 };
@@ -80,27 +92,36 @@ export const StreamCountdown: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
+  const today = new Date().toISOString().split("T")[0];
+  const hasAcknowledged = getStreamCountdownLastRead() === today;
+
   if (
     !stream ||
     hide ||
     Date.now() < stream.notifyAt ||
-    Date.now() > stream.endAt
+    Date.now() > stream.endAt ||
+    hasAcknowledged
   ) {
     return null;
   }
+
+  const handleHide = () => {
+    acknowledgeStreamCountdown(new Date().toISOString().split("T")[0]);
+    setHide(true);
+  };
 
   return (
     <ButtonPanel
       className="flex justify-center"
       id="test-stream"
       disabled={stream.startAt > Date.now()}
-      onClick={() => navigate("/world/stream")}
     >
       <Countdown
         startAt={stream.startAt}
         endAt={stream.endAt}
         notifyAt={stream.notifyAt}
-        onHide={() => setHide(true)}
+        onClick={() => navigate("/world/stream")}
+        onHide={handleHide}
       />
     </ButtonPanel>
   );
