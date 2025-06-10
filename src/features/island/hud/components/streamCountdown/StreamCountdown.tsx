@@ -29,8 +29,8 @@ const Countdown: React.FC<{
 
   if (Date.now() < startAt && Date.now() > notifyAt) {
     return (
-      <div className="flex flex-col">
-        <div className="flex justify-between">
+      <div className="flex justify-between">
+        <div className="flex flex-col">
           <div className="h-6 flex justify-center">
             <Label
               type="info"
