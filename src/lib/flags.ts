@@ -108,7 +108,7 @@ const FEATURE_FLAGS = {
   MODERATOR: (game) => !!game.wardrobe.Halo,
 
   BLESSING: testnetFeatureFlag,
-  MINE_WHACK_BETA: defaultFeatureFlag,
+  MINE_WHACK_BETA: betaTimeBasedFeatureFlag(new Date("2025-06-13T00:00:00Z")),
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;
