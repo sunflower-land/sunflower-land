@@ -6,6 +6,7 @@ import {
   Inventory,
   TemperateSeasonName,
 } from "features/game/types/game";
+import { hasFeatureAccess } from "lib/flags";
 
 export const LAVA_PIT_REQUIREMENTS: Record<TemperateSeasonName, Inventory> = {
   autumn: {
@@ -53,7 +54,13 @@ export function startLavaPit({
       throw new Error("Lava pit not found");
     }
 
-    const requirements = LAVA_PIT_REQUIREMENTS[state.season.season];
+    const requirements = hasFeatureAccess(state, "NEW_LAVA_PIT_REQUIREMENTS")
+      ? LAVA_PIT_REQUIREMENTS[state.season.season]
+      : {
+          Oil: new Decimal(60),
+          Cobia: new Decimal(5),
+        };
+
     getKeys(requirements).forEach((item) => {
       const inventoryAmount = inventory[item] ?? new Decimal(0);
       const requiredAmount = requirements[item] ?? new Decimal(0);
