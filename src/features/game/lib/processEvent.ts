@@ -19,6 +19,7 @@ import { ANIMAL_FOODS } from "../types/animals";
 import { BumpkinItem, ITEM_IDS } from "../types/bumpkin";
 import { MaxedItem } from "./gameMachine";
 import { SEASON_TICKET_NAME } from "../types/seasons";
+import { OFFCHAIN_ITEMS } from "./offChainItems";
 
 export const MAX_INVENTORY_ITEMS: Inventory = {
   ...getKeys(EXOTIC_CROPS).reduce(
@@ -264,18 +265,6 @@ export const MAX_INVENTORY_ITEMS: Inventory = {
   "Bumpkin Emblem": new Decimal(90_000),
   "Sunflorian Emblem": new Decimal(90_000),
   "Nightshade Emblem": new Decimal(90_000),
-
-  // Stock limits
-  Axe: new Decimal(900),
-  Pickaxe: new Decimal(450),
-  "Stone Pickaxe": new Decimal(150),
-  "Iron Pickaxe": new Decimal(50),
-  "Gold Pickaxe": new Decimal(50),
-  "Oil Drill": new Decimal(50),
-  "Rusty Shovel": new Decimal(100),
-  "Sand Shovel": new Decimal(300),
-  "Sand Drill": new Decimal(60),
-  Rod: new Decimal(200),
 
   //Treasure Island Decorations
   "Abandoned Bear": new Decimal(50),
@@ -652,6 +641,7 @@ export function checkProgress({ state, action, farmId }: ProcessEventArgs): {
   const validProgress = getKeys(inventory)
     .concat(getKeys(auctionBid))
     .concat(listedInventoryItemNames)
+    .filter((name) => !OFFCHAIN_ITEMS.includes(name))
     .every((name) => {
       const inventoryAmount = inventory[name] ?? new Decimal(0);
       const auctionAmount = auctionBid[name] ?? new Decimal(0);
@@ -715,16 +705,18 @@ export function hasMaxItems({
   oldWardrobe: Wardrobe;
 }) {
   // Check inventory amounts
-  const validInventoryProgress = getKeys(currentInventory).every((name) => {
-    const oldAmount = oldInventory[name] || new Decimal(0);
-    const diff = currentInventory[name]?.minus(oldAmount) || new Decimal(0);
-    const max = MAX_INVENTORY_ITEMS[name] || new Decimal(0);
+  const validInventoryProgress = getKeys(currentInventory)
+    .filter((name) => !OFFCHAIN_ITEMS.includes(name))
+    .every((name) => {
+      const oldAmount = oldInventory[name] || new Decimal(0);
+      const diff = currentInventory[name]?.minus(oldAmount) || new Decimal(0);
+      const max = MAX_INVENTORY_ITEMS[name] || new Decimal(0);
 
-    if (max.eq(0)) return true;
-    if (diff.gt(max)) return false;
+      if (max.eq(0)) return true;
+      if (diff.gt(max)) return false;
 
-    return true;
-  });
+      return true;
+    });
 
   if (!validInventoryProgress) return true;
 
