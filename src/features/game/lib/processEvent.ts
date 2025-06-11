@@ -265,18 +265,6 @@ export const MAX_INVENTORY_ITEMS: Inventory = {
   "Sunflorian Emblem": new Decimal(90_000),
   "Nightshade Emblem": new Decimal(90_000),
 
-  // Stock limits
-  Axe: new Decimal(900),
-  Pickaxe: new Decimal(450),
-  "Stone Pickaxe": new Decimal(150),
-  "Iron Pickaxe": new Decimal(50),
-  "Gold Pickaxe": new Decimal(50),
-  "Oil Drill": new Decimal(50),
-  "Rusty Shovel": new Decimal(100),
-  "Sand Shovel": new Decimal(300),
-  "Sand Drill": new Decimal(60),
-  Rod: new Decimal(200),
-
   //Treasure Island Decorations
   "Abandoned Bear": new Decimal(50),
 
