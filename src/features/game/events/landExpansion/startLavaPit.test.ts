@@ -7,8 +7,8 @@ const TEST_FARM: GameState = {
   ...INITIAL_FARM,
   inventory: {
     ...INITIAL_FARM.inventory,
-    Oil: new Decimal(100),
-    Cobia: new Decimal(10),
+    Oil: new Decimal(120),
+    Pepper: new Decimal(1000),
   },
   season: {
     season: "summer",
@@ -57,7 +57,7 @@ describe("startLavaPit", () => {
       createdAt: now,
     });
 
-    expect(result.inventory.Oil).toEqual(new Decimal(40));
+    expect(result.inventory.Oil).toEqual(new Decimal(0));
   });
 
   it("starts the lava pit", () => {
