@@ -283,7 +283,9 @@ export const TradeableHeader: React.FC<TradeableHeaderProps> = ({
             {showBuyNow && (
               <Button
                 onClick={() => setShowPurchaseModal(true)}
-                disabled={!balance.gt(cheapestListing.sfl)}
+                disabled={
+                  !balance.gt(cheapestListing.sfl) || limitedPurchasesLeft <= 0
+                }
                 className="mr-1 w-full sm:w-auto"
               >
                 {t("marketplace.buyNow")}
