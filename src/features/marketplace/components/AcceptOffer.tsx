@@ -33,7 +33,6 @@ import { calculateTradePoints } from "features/game/events/landExpansion/addTrad
 import { InventoryItemName } from "features/game/types/game";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
-import { hasFeatureAccess } from "lib/flags";
 import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
 import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
 import { isTradeResource } from "features/game/actions/tradeLimits";
@@ -118,7 +117,6 @@ const AcceptOfferContent: React.FC<{
 
   if (
     isTradeResource(display.name as InventoryItemName) &&
-    hasFeatureAccess(state, "FACE_RECOGNITION") &&
     !isFaceVerified({ game: state })
   ) {
     return (

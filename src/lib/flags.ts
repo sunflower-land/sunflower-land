@@ -89,9 +89,6 @@ const FEATURE_FLAGS = {
     (game.wardrobe["Streamer Hat"] ?? 0) > 0 || testnetFeatureFlag(),
 
   // Temporary Feature Flags
-  FACE_RECOGNITION: (game) =>
-    game.createdAt > new Date("2025-01-01T00:00:00Z").getTime() ||
-    !game.verified,
   FACE_RECOGNITION_TEST: defaultFeatureFlag,
   LEDGER: testnetLocalStorageFeatureFlag("ledger"),
 

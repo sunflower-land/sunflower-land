@@ -112,10 +112,7 @@ export const WithdrawFlower: React.FC<Props> = ({ onWithdraw }) => {
     return <RequiredReputation reputation={Reputation.Grower} />;
   }
 
-  if (
-    hasFeatureAccess(state, "FACE_RECOGNITION") &&
-    !isFaceVerified({ game: state })
-  ) {
+  if (!isFaceVerified({ game: state })) {
     return <FaceRecognition />;
   }
 
