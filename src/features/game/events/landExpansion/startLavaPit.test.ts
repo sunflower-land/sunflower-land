@@ -3,6 +3,8 @@ import { startLavaPit } from "./startLavaPit";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
 
+import * as config from "lib/config";
+
 const TEST_FARM: GameState = {
   ...INITIAL_FARM,
   inventory: {
@@ -17,6 +19,11 @@ const TEST_FARM: GameState = {
 };
 
 describe("startLavaPit", () => {
+  const spy = jest.spyOn((config as any).default, "CONFIG", "get");
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
   const now = Date.now();
 
   it("requires the lava pit to exist", () => {
@@ -106,5 +113,34 @@ describe("startLavaPit", () => {
     });
 
     expect(result.lavaPits[1].collectedAt).toBeUndefined();
+  });
+
+  it("returns the old cobia and oil requirements if the date is prior to 2025-06-16", () => {
+    /**
+     * Old requirements:
+     * Oil: 60
+     * Cobia: 5
+     */
+    spy.mockReturnValue({ NETWORK: "mainnet" });
+
+    const now = new Date("2025-06-15T23:59:59Z").getTime();
+    const result = startLavaPit({
+      state: {
+        ...TEST_FARM,
+        inventory: {
+          ...TEST_FARM.inventory,
+          Oil: new Decimal(120),
+          Cobia: new Decimal(10),
+        },
+        lavaPits: {
+          1: { x: 0, y: 0, createdAt: 0 },
+        },
+      },
+      action: { type: "lavaPit.started", id: "1" },
+      createdAt: now,
+    });
+
+    expect(result.inventory.Oil).toEqual(new Decimal(60));
+    expect(result.inventory.Cobia).toEqual(new Decimal(5));
   });
 });
