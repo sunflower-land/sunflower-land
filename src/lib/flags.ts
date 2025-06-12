@@ -108,7 +108,7 @@ const FEATURE_FLAGS = {
   MODERATOR: (game) => !!game.wardrobe.Halo,
 
   BLESSING: testnetFeatureFlag,
-  MINE_WHACK_BETA: defaultFeatureFlag,
+  MINE_WHACK_BETA: betaTimeBasedFeatureFlag(new Date("2025-06-13T00:00:00Z")),
   NEW_LAVA_PIT_REQUIREMENTS: timeBasedFeatureFlag(
     new Date("2025-06-16T00:00:00Z"),
   ),
