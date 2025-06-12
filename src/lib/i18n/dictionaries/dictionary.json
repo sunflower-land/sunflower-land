@@ -835,6 +835,7 @@
   "cropMachine.stopped": "Crop Machine has stopped",
   "cropMachine.idle": "Crop Machine is idle",
   "cropMachine.name": "Crop Machine",
+  "cropMachine.noSeeds": "No seeds available",
   "crops-and-chickens.portal.title": "Minigame - Crops & Chickens",
   "crops-and-chickens.portal.description": "Can you help me collect the crops?",
   "crops-and-chickens.portal.missionObjectives": "Mission: Deposit {{targetScore}} points worth of crops",

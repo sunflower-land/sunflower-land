@@ -2,7 +2,11 @@ import React, { useContext, useLayoutEffect, useState } from "react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Modal } from "components/ui/Modal";
-import { Bumpkin, CropMachineQueueItem } from "features/game/types/game";
+import {
+  Bumpkin,
+  CropMachineQueueItem,
+  Inventory,
+} from "features/game/types/game";
 import {
   CropMachineState,
   MachineInterpreter,
@@ -59,7 +63,10 @@ interface Props {
   onAddOil: (oil: number) => void;
 }
 
-const ALLOWED_SEEDS = (bumpkin: Bumpkin): CropSeedName[] => {
+const ALLOWED_SEEDS = (
+  bumpkin: Bumpkin,
+  inventory: Inventory,
+): CropSeedName[] => {
   const seeds = [...BASIC_CROP_MACHINE_SEEDS];
 
   if (bumpkin.skills["Crop Extension Module I"]) {
@@ -72,7 +79,9 @@ const ALLOWED_SEEDS = (bumpkin: Bumpkin): CropSeedName[] => {
     seeds.push(...CROP_EXTENSION_MOD_III_SEEDS);
   }
 
-  return getKeys(CROP_SEEDS).filter((seed) => seeds.includes(seed));
+  return getKeys(CROP_SEEDS)
+    .filter((seed) => seeds.includes(seed))
+    .filter((seed) => inventory[seed]?.gt(0));
 };
 
 const _growingCropPackIndex = (state: CropMachineState) =>
@@ -252,6 +261,8 @@ export const CropMachineModal: React.FC<Props> = ({
     ...new Array(MAX_QUEUE_SIZE(state) - queue.length).fill(null),
   ];
 
+  const allowedSeeds = ALLOWED_SEEDS(state.bumpkin, inventory);
+
   return (
     <Modal show={show} onHide={handleHide}>
       <CloseButtonPanel
@@ -343,14 +354,13 @@ export const CropMachineModal: React.FC<Props> = ({
             {selectedPack === undefined && (
               <div className="flex flex-col w-full">
                 {!selectedSeed ? (
-                  <>
-                    <Label type="default" icon={add} className="ml-2.5 my-1">
-                      {t("cropMachine.pickSeed")}
-                    </Label>
-                    <div className="flex flex-wrap justify-start gap-1">
-                      {ALLOWED_SEEDS(state.bumpkin)
-                        .filter((seed) => inventory[seed]?.gt(0))
-                        .map((seed, index) => (
+                  allowedSeeds.length > 0 ? (
+                    <>
+                      <Label type="default" icon={add} className="ml-2.5 my-1">
+                        {t("cropMachine.pickSeed")}
+                      </Label>
+                      <div className="flex flex-wrap justify-start gap-1">
+                        {allowedSeeds.map((seed, index) => (
                           <Box
                             key={`${seed}-${index}`}
                             image={ITEM_DETAILS[seed].image}
@@ -364,8 +374,13 @@ export const CropMachineModal: React.FC<Props> = ({
                             }
                           />
                         ))}
-                    </div>
-                  </>
+                      </div>
+                    </>
+                  ) : (
+                    <Label type="warning" className="ml-2.5 my-1">
+                      {t("cropMachine.noSeeds")}
+                    </Label>
+                  )
                 ) : (
                   <div className="flex flex-col space-y-1">
                     <div className="flex items-center space-x-1">
