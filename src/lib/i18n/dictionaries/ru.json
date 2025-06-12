@@ -3960,7 +3960,7 @@
   "skill.cowSmartNutrition.buff": "-25% затрат корма для коров",
   "skill.cowSmartNutrition.debuff": "+50% затрат корма для других животных",
   "skill.crimeFruit": "+10 к запасу семян Томатов и Лимонов  ",
-  "skill.cropExtensionModule": "Разрешить использование семян моркови и капусты в комбайне",
+  "skill.cropExtensionModuleII": "Разрешить использование семян моркови и капусты в комбайне",
   "skill.cropProcessorUnit.buff": "Время роста в комбайне: -5%",
   "skill.doubleBale": "Двойной эффект от тюка",
   "skill.doubleNom.buff": "+1 еда при готовке",

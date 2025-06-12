@@ -4054,7 +4054,7 @@
   "skill.cropProcessorUnit.buff": "-5% 自动种植机种植时间",
   "skill.oilExtraction": "油田收集的石油 +1",
   "skill.leakProofTank": "自动种植机油箱容量翻至 3 倍",
-  "skill.cropExtensionModule": "允许在自动种植机中使用胡萝卜和卷心菜种子",
+  "skill.cropExtensionModuleII": "允许在自动种植机中使用胡萝卜和卷心菜种子",
   "skill.rapidRig.buff": "-20% 自动种植机种植时间",
   "skill.oilBeBack": "-20% 油田恢复时间",
   "skill.fieldExtensionModule": " +5 自动种植机生产地块",

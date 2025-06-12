@@ -4052,7 +4052,7 @@
   "skill.cropProcessorUnit.buff": "-5% クロップマシンの成長時間",
   "skill.oilExtraction": "リザーブから集めるとオイル+1",
   "skill.leakProofTank": "クロップマシンの3倍のオイルタンク容量",
-  "skill.cropExtensionModule": "にんじんとキャベツの種を栽培機で使用できるようにする",
+  "skill.cropExtensionModuleII": "にんじんとキャベツの種を栽培機で使用できるようにする",
   "skill.rapidRig.buff": "-20% クロップマシンの成長時間",
   "skill.oilBeBack": "-20% オイル補充時間",
   "skill.fieldExtensionModule": "+5 プロットをマシンに追加",
