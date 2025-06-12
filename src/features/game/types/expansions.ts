@@ -2,7 +2,7 @@ import { GameState, InventoryItemName, IslandType } from "./game";
 import { Coordinates } from "../expansion/components/MapPlacement";
 import { Nodes, TOTAL_EXPANSION_NODES } from "../expansion/lib/expansionNodes";
 import { getKeys } from "./decorations";
-import { RESOURCE_NODE_PRICES } from "../events/landExpansion/buyResource";
+import { RESOURCES } from "./resources";
 
 export type ExpandLandAction = {
   type: "land.expanded";
@@ -139,7 +139,7 @@ export function getLand({
   };
 
   // If they have bought resource nodes, we expect they should have more resources.
-  getKeys(RESOURCE_NODE_PRICES).forEach((resource) => {
+  getKeys(RESOURCES).forEach((resource) => {
     const bought =
       resource === "Beehive"
         ? game.farmActivity[`Flower Bed Bought`] ?? 0
