@@ -5966,5 +5966,7 @@
   "reputation.seedling.farmNFT": "链上农场",
   "reputation.seedlingRequired": "需要幼苗",
   "stream.isLive": "市政厅上线了！",
-  "marketplace.label.pricePerUnit": "每单位价格"
+  "marketplace.label.pricePerUnit": "每单位价格",
+  "proof.of.humanity.required": "需要人性证明",
+  "reputation.notAReputation": "你不是 {{name}}"
 }

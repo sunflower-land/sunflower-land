@@ -5966,5 +5966,7 @@
   "reputation.seedling.farmNFT": "Ladang Di Rantai",
   "reputation.seedlingRequired": "Anak benih diperlukan",
   "stream.isLive": "Dewan Bandaran hidup!",
-  "marketplace.label.pricePerUnit": "Harga seunit"
+  "marketplace.label.pricePerUnit": "Harga seunit",
+  "proof.of.humanity.required": "Bukti Kemanusiaan diperlukan",
+  "reputation.notAReputation": "Anda bukan {{name}}"
 }

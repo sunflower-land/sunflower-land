@@ -5966,5 +5966,7 @@
   "reputation.seedling.farmNFT": "Peternakan On-Chain",
   "reputation.seedlingRequired": "Dibutuhkan pembibitan",
   "stream.isLive": "Balai Kota sedang hidup!",
-  "marketplace.label.pricePerUnit": "Harga per unit"
+  "marketplace.label.pricePerUnit": "Harga per unit",
+  "proof.of.humanity.required": "Bukti Kemanusiaan diperlukan",
+  "reputation.notAReputation": "Anda bukan {{name}}"
 }

@@ -5966,5 +5966,7 @@
   "reputation.seedling.farmNFT": "Granja en cadena",
   "reputation.seedlingRequired": "Se requiere plántula",
   "stream.isLive": "¡El Ayuntamiento está en vivo!",
-  "marketplace.label.pricePerUnit": "Precio por unidad"
+  "marketplace.label.pricePerUnit": "Precio por unidad",
+  "proof.of.humanity.required": "Se requiere prueba de humanidad",
+  "reputation.notAReputation": "No eres un {{name}}"
 }

@@ -5966,5 +5966,7 @@
   "reputation.seedling.farmNFT": "Zincir Üzerindeki Çiftlik",
   "reputation.seedlingRequired": "Fide gerekli",
   "stream.isLive": "Belediye Binası yayında!",
-  "marketplace.label.pricePerUnit": "Birim başına fiyat"
+  "marketplace.label.pricePerUnit": "Birim başına fiyat",
+  "proof.of.humanity.required": "İnsanlık kanıtı gerekli",
+  "reputation.notAReputation": "Sen bir {{name}} değilsin"
 }

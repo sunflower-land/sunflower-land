@@ -5966,5 +5966,7 @@
   "reputation.seedling.farmNFT": "Ончейн-ферма",
   "reputation.seedlingRequired": "Требуется саженец",
   "stream.isLive": "Ратуша в прямом эфире!",
-  "marketplace.label.pricePerUnit": "Цена за единицу"
+  "marketplace.label.pricePerUnit": "Цена за единицу",
+  "proof.of.humanity.required": "Требуется доказательство человечности",
+  "reputation.notAReputation": "Вы не {{name}}"
 }

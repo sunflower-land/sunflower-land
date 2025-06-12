@@ -5966,5 +5966,7 @@
   "reputation.seedling.farmNFT": "온체인 팜",
   "reputation.seedlingRequired": "묘목 필요",
   "stream.isLive": "타운 홀이 생중계되었습니다!",
-  "marketplace.label.pricePerUnit": "단위당 가격"
+  "marketplace.label.pricePerUnit": "단위당 가격",
+  "proof.of.humanity.required": "인류 증명이 필요함",
+  "reputation.notAReputation": "당신은 {{name}} 가 아닙니다"
 }

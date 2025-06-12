@@ -5966,5 +5966,7 @@
   "reputation.seedling.farmNFT": "オンチェーンファーム",
   "reputation.seedlingRequired": "苗が必要です",
   "stream.isLive": "タウンホールがライブです！",
-  "marketplace.label.pricePerUnit": "ユニットあたりの価格"
+  "marketplace.label.pricePerUnit": "ユニットあたりの価格",
+  "proof.of.humanity.required": "人間性の証明が必要",
+  "reputation.notAReputation": "あなたは {{name}} ではありません"
 }

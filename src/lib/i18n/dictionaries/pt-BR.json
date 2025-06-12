@@ -5966,5 +5966,7 @@
   "reputation.seedling.farmNFT": "Fazenda On-Chain",
   "reputation.seedlingRequired": "Mudas necessárias",
   "stream.isLive": "A Câmara Municipal está ao vivo!",
-  "marketplace.label.pricePerUnit": "Preço por unidade"
+  "marketplace.label.pricePerUnit": "Preço por unidade",
+  "proof.of.humanity.required": "Prova de humanidade necessária",
+  "reputation.notAReputation": "Você não é um {{name}}"
 }

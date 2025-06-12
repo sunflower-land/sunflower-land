@@ -5966,5 +5966,7 @@
   "reputation.seedling.farmNFT": "Azienda agricola a catena",
   "reputation.seedlingRequired": "Piantina richiesta",
   "stream.isLive": "Il municipio è in diretta!",
-  "marketplace.label.pricePerUnit": "Prezzo unitario"
+  "marketplace.label.pricePerUnit": "Prezzo unitario",
+  "proof.of.humanity.required": "È richiesta una prova di umanità",
+  "reputation.notAReputation": "Non sei un {{name}}"
 }

@@ -5966,5 +5966,7 @@
   "reputation.seedling.farmNFT": "Ferme en chaîne",
   "reputation.seedlingRequired": "Semis requis",
   "stream.isLive": "L'hôtel de ville est en ligne !",
-  "marketplace.label.pricePerUnit": "Prix par unité"
+  "marketplace.label.pricePerUnit": "Prix par unité",
+  "proof.of.humanity.required": "Preuve d'humanité requise",
+  "reputation.notAReputation": "Vous n'êtes pas un {{name}}"
 }

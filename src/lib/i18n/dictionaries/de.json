@@ -5966,5 +5966,7 @@
   "reputation.seedling.farmNFT": "On-Chain-Farm",
   "reputation.seedlingRequired": "Sämling erforderlich",
   "stream.isLive": "Das Rathaus ist live!",
-  "marketplace.label.pricePerUnit": "Preis pro Einheit"
+  "marketplace.label.pricePerUnit": "Preis pro Einheit",
+  "proof.of.humanity.required": "Nachweis der Menschlichkeit erforderlich",
+  "reputation.notAReputation": "Du bist kein {{name}}"
 }
