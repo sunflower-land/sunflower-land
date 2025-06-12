@@ -279,9 +279,19 @@ export const BASIC_CROP_MACHINE_SEEDS: SeedName[] = [
   "Pumpkin Seed",
 ];
 
+export const CROP_EXTENSION_MOD_I_SEEDS: SeedName[] = [
+  "Rhubarb Seed",
+  "Zucchini Seed",
+];
+
 export const CROP_EXTENSION_MOD_II_SEEDS: SeedName[] = [
   "Carrot Seed",
   "Cabbage Seed",
+];
+
+export const CROP_EXTENSION_MOD_III_SEEDS: SeedName[] = [
+  "Yam Seed",
+  "Broccoli Seed",
 ];
 
 export function supplyCropMachine({
@@ -310,17 +320,21 @@ export function supplyCropMachine({
 
     const seedName = seedsAdded.type;
 
+    // Check if seed is allowed based on basic seeds or skills
     if (
-      !state.bumpkin.skills["Crop Extension Module II"] &&
-      !BASIC_CROP_MACHINE_SEEDS.includes(seedName)
-    ) {
-      throw new Error("You can only supply basic crop seeds!");
-    }
-
-    if (
-      !!state.bumpkin.skills["Crop Extension Module II"] &&
       !BASIC_CROP_MACHINE_SEEDS.includes(seedName) &&
-      !CROP_EXTENSION_MOD_II_SEEDS.includes(seedName)
+      !(
+        state.bumpkin.skills["Crop Extension Module I"] &&
+        CROP_EXTENSION_MOD_I_SEEDS.includes(seedName)
+      ) &&
+      !(
+        state.bumpkin.skills["Crop Extension Module II"] &&
+        CROP_EXTENSION_MOD_II_SEEDS.includes(seedName)
+      ) &&
+      !(
+        state.bumpkin.skills["Crop Extension Module III"] &&
+        CROP_EXTENSION_MOD_III_SEEDS.includes(seedName)
+      )
     ) {
       throw new Error("You can't supply these seeds");
     }
