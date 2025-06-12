@@ -2700,8 +2700,8 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     disabled: false,
   },
   // Machinery - Tier 2
-  "Crop Extension Module": {
-    name: "Crop Extension Module",
+  "Crop Extension Module II": {
+    name: "Crop Extension Module II",
     tree: "Machinery",
     requirements: {
       points: 2,
