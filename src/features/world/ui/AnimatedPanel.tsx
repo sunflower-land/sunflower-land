@@ -1,27 +1,6 @@
 import React from "react";
 import { Transition } from "@headlessui/react";
 import { InnerPanel } from "components/ui/Panel";
-import { GameState } from "features/game/types/game";
-import { getKingdomChoreBoost } from "features/game/events/landExpansion/completeKingdomChore";
-import { getKingdomPetBoost } from "features/game/events/landExpansion/feedFactionPet";
-import { getKingdomKitchenBoost } from "features/game/events/landExpansion/deliverFactionKitchen";
-
-type KingdomFeature = "kitchen" | "pet" | "kingdom_chores";
-
-export function getFactionBoosts(
-  game: GameState,
-  feature: KingdomFeature,
-  base: number,
-) {
-  switch (feature) {
-    case "kitchen":
-      return getKingdomKitchenBoost(game, base)[1];
-    case "pet":
-      return getKingdomPetBoost(game, base)[1];
-    case "kingdom_chores":
-      return getKingdomChoreBoost(game, base)[1];
-  }
-}
 
 interface Props {
   show: boolean;
