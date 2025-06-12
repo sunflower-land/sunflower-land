@@ -9,8 +9,9 @@ const TEST_FARM: GameState = {
   ...INITIAL_FARM,
   inventory: {
     ...INITIAL_FARM.inventory,
-    Oil: new Decimal(120),
-    Pepper: new Decimal(1000),
+    Oil: new Decimal(100),
+    Pepper: new Decimal(750),
+    Zucchini: new Decimal(1000),
   },
   season: {
     season: "summer",
