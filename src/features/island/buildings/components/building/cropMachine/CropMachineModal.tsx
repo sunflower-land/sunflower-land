@@ -17,7 +17,7 @@ import { millisecondsToString, secondsToString } from "lib/utils/time";
 import {
   AddSeedsInput,
   BASIC_CROP_MACHINE_SEEDS,
-  CROP_EXTENSION_MOD_SEEDS,
+  CROP_EXTENSION_MOD_II_SEEDS,
   CROP_MACHINE_PLOTS,
   MAX_OIL_CAPACITY_IN_MILLIS,
   MAX_QUEUE_SIZE,
@@ -61,8 +61,8 @@ const ALLOWED_SEEDS = (bumpkin: Bumpkin): CropSeedName[] =>
   getKeys(CROP_SEEDS).filter(
     (seed) =>
       BASIC_CROP_MACHINE_SEEDS.includes(seed) ||
-      (bumpkin.skills["Crop Extension Module"] &&
-        CROP_EXTENSION_MOD_SEEDS.includes(seed)),
+      (bumpkin.skills["Crop Extension Module II"] &&
+        CROP_EXTENSION_MOD_II_SEEDS.includes(seed)),
   );
 
 const _growingCropPackIndex = (state: CropMachineState) =>

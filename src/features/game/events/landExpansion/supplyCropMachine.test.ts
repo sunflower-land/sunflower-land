@@ -1775,7 +1775,7 @@ describe("supplyCropMachine", () => {
     expect(oilConsumedPerHour).toEqual(0.9);
   });
 
-  it("does not let player plant cabbage and carrot if player doesn't have Crop Extension Module", () => {
+  it("does not let player plant cabbage and carrot if player doesn't have Crop Extension Module II", () => {
     expect(() =>
       supplyCropMachine({
         state: {
