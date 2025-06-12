@@ -17,7 +17,9 @@ import { millisecondsToString, secondsToString } from "lib/utils/time";
 import {
   AddSeedsInput,
   BASIC_CROP_MACHINE_SEEDS,
+  CROP_EXTENSION_MOD_III_SEEDS,
   CROP_EXTENSION_MOD_II_SEEDS,
+  CROP_EXTENSION_MOD_I_SEEDS,
   CROP_MACHINE_PLOTS,
   MAX_OIL_CAPACITY_IN_MILLIS,
   MAX_QUEUE_SIZE,
@@ -57,13 +59,21 @@ interface Props {
   onAddOil: (oil: number) => void;
 }
 
-const ALLOWED_SEEDS = (bumpkin: Bumpkin): CropSeedName[] =>
-  getKeys(CROP_SEEDS).filter(
-    (seed) =>
-      BASIC_CROP_MACHINE_SEEDS.includes(seed) ||
-      (bumpkin.skills["Crop Extension Module II"] &&
-        CROP_EXTENSION_MOD_II_SEEDS.includes(seed)),
-  );
+const ALLOWED_SEEDS = (bumpkin: Bumpkin): CropSeedName[] => {
+  const seeds = [...BASIC_CROP_MACHINE_SEEDS];
+
+  if (bumpkin.skills["Crop Extension Module I"]) {
+    seeds.push(...CROP_EXTENSION_MOD_I_SEEDS);
+  }
+  if (bumpkin.skills["Crop Extension Module II"]) {
+    seeds.push(...CROP_EXTENSION_MOD_II_SEEDS);
+  }
+  if (bumpkin.skills["Crop Extension Module III"]) {
+    seeds.push(...CROP_EXTENSION_MOD_III_SEEDS);
+  }
+
+  return getKeys(CROP_SEEDS).filter((seed) => seeds.includes(seed));
+};
 
 const _growingCropPackIndex = (state: CropMachineState) =>
   state.context.growingCropPackIndex;
@@ -337,16 +347,23 @@ export const CropMachineModal: React.FC<Props> = ({
                     <Label type="default" icon={add} className="ml-2.5 my-1">
                       {t("cropMachine.pickSeed")}
                     </Label>
-                    <div className="flex">
-                      {ALLOWED_SEEDS(state.bumpkin).map((seed, index) => (
-                        <Box
-                          key={`${seed}-${index}`}
-                          image={ITEM_DETAILS[seed].image}
-                          isSelected={selectedSeed === seed}
-                          count={inventory[seed] ?? new Decimal(0)}
-                          onClick={() => handlePickSeed(seed)}
-                        />
-                      ))}
+                    <div className="flex flex-wrap justify-start gap-1">
+                      {ALLOWED_SEEDS(state.bumpkin)
+                        .filter((seed) => inventory[seed]?.gt(0))
+                        .map((seed, index) => (
+                          <Box
+                            key={`${seed}-${index}`}
+                            image={ITEM_DETAILS[seed].image}
+                            isSelected={selectedSeed === seed}
+                            count={inventory[seed] ?? new Decimal(0)}
+                            onClick={() => handlePickSeed(seed)}
+                            secondaryImage={
+                              CROP_SEEDS[seed].yield
+                                ? ITEM_DETAILS[CROP_SEEDS[seed].yield].image
+                                : undefined
+                            }
+                          />
+                        ))}
                     </div>
                   </>
                 ) : (
