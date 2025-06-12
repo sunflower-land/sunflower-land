@@ -819,6 +819,7 @@ export type Desert = {
   digging: {
     extraDigs?: number;
     patterns: DiggingFormationName[];
+    completedPatterns: DiggingFormationName[];
     grid: (DugHole | DugHole[])[];
     streak?: StreakReward;
   };
