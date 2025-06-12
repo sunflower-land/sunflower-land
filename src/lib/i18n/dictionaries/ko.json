@@ -4052,7 +4052,7 @@
   "skill.cropProcessorUnit.buff": "-5% 크롭 머신 성장 시간",
   "skill.oilExtraction": "매장량에서 수집 시 오일 +1",
   "skill.leakProofTank": "농작물 기계의 오일 탱크 용량 3배",
-  "skill.cropExtensionModule": "당근과 양배추 씨앗을 농작물 기계에 사용할 수 있도록 허용",
+  "skill.cropExtensionModuleII": "당근과 양배추 씨앗을 농작물 기계에 사용할 수 있도록 허용",
   "skill.rapidRig.buff": "-20% 크롭 머신 성장 시간",
   "skill.oilBeBack": "-20% 오일 리필 시간",
   "skill.fieldExtensionModule": "+5 플롯이 머신에 추가됨",

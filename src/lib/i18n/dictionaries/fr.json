@@ -4052,7 +4052,7 @@
   "skill.cropProcessorUnit.buff": "-5% de temps de croissance des machines de récolte",
   "skill.oilExtraction": "+1 Pétrole lors de la collecte dans les réserves",
   "skill.leakProofTank": "Capacité du réservoir d'huile triple dans la machine de récolte",
-  "skill.cropExtensionModule": "Permettre d'utiliser les graines de carottes et de choux dans les machines de culture",
+  "skill.cropExtensionModuleII": "Permettre d'utiliser les graines de carottes et de choux dans les machines de culture",
   "skill.rapidRig.buff": "-20 % de temps de croissance des machines de récolte",
   "skill.oilBeBack": "-20% Temps de remplissage d'huile",
   "skill.fieldExtensionModule": "+5 parcelles ajoutées à la machine",
