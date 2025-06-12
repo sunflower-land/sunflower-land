@@ -2622,8 +2622,8 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     name: "Crop Extension Module I",
     tree: "Machinery",
     requirements: {
-      points: 2,
-      tier: 2,
+      points: 1,
+      tier: 1,
       island: "desert",
     },
     boosts: {

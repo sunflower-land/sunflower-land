@@ -57,7 +57,9 @@ import { getKeys } from "features/game/types/decorations";
 import { MachineState } from "features/game/lib/gameMachine";
 import {
   BASIC_CROP_MACHINE_SEEDS,
+  CROP_EXTENSION_MOD_I_SEEDS,
   CROP_EXTENSION_MOD_II_SEEDS,
+  CROP_EXTENSION_MOD_III_SEEDS,
 } from "features/game/events/landExpansion/supplyCropMachine";
 import { isFullMoon } from "features/game/types/calendar";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
@@ -270,8 +272,12 @@ export const SeasonalSeeds: React.FC = () => {
 
     return (
       BASIC_CROP_MACHINE_SEEDS.includes(seed) ||
+      (bumpkin.skills["Crop Extension Module I"] &&
+        CROP_EXTENSION_MOD_I_SEEDS.includes(seed)) ||
       (bumpkin.skills["Crop Extension Module II"] &&
-        CROP_EXTENSION_MOD_II_SEEDS.includes(seed))
+        CROP_EXTENSION_MOD_II_SEEDS.includes(seed)) ||
+      (bumpkin.skills["Crop Extension Module III"] &&
+        CROP_EXTENSION_MOD_III_SEEDS.includes(seed))
     );
   });
 
