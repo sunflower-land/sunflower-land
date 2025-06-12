@@ -47,7 +47,6 @@ import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
-import { hasFeatureAccess } from "lib/flags";
 import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
 
 const _hasTradeReputation = (state: MachineState) =>
@@ -211,7 +210,6 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
   if (
     showConfirmation &&
     isResource &&
-    hasFeatureAccess(gameState.context.state, "FACE_RECOGNITION") &&
     !isFaceVerified({ game: gameState.context.state })
   ) {
     return <FaceRecognition />;

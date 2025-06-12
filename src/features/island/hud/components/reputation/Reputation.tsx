@@ -21,6 +21,7 @@ import { hasVipAccess } from "features/game/lib/vipAccess";
 import { ITEM_DETAILS } from "features/game/types/images";
 
 import lockIcon from "assets/icons/lock.png";
+import infoIcon from "assets/icons/info.webp";
 import tradeIcon from "assets/icons/trade.png";
 import increaseArrow from "assets/icons/increase_arrow.png";
 import sflIcon from "assets/icons/flower_token.webp";
@@ -31,6 +32,7 @@ import { UPGRADE_RAFTS } from "features/game/expansion/components/IslandUpgrader
 import settings from "assets/icons/settings_disc.png";
 import bank from "assets/icons/withdraw.png";
 import bud from "assets/icons/bud.png";
+import { AnimatedPanel } from "features/world/ui/AnimatedPanel";
 
 export const MyReputation: React.FC = () => {
   const { openModal } = useContext(ModalContext);
@@ -60,7 +62,9 @@ export const RequiredReputation: React.FC<{
     <ButtonPanel onClick={() => openModal("REPUTATION")}>
       <div className="flex flex-col">
         <Label type="danger" icon={lockIcon}>
-          {`You are not a ${REPUTATION_NAME[reputation]}`}
+          {t("reputation.notAReputation", {
+            name: REPUTATION_NAME[reputation],
+          })}
         </Label>
         <p className="text-xs">{text ?? t("reputation.description")}</p>
       </div>
@@ -103,117 +107,174 @@ export const ReputationSystem: React.FC<{
 
 export const ReputationTiers: React.FC = () => {
   const { t } = useAppTranslation();
+  const [showInfo, setShowInfo] = useState<"seedling" | "grower" | null>(null);
 
   return (
-    <div className="p-2 scrollable overflow-y-scroll max-h-[350px]">
-      <p className="text-xs mb-2">{t("reputation.description")}</p>
+    <>
+      <div className="p-2 scrollable overflow-y-scroll max-h-[350px]">
+        <p className="text-xs mb-2">{t("reputation.description")}</p>
 
-      <div className="flex items-center mb-1 mt-2">
-        <Label type="default" icon={SUNNYSIDE.crops.seedling} className="mr-2">
-          {t("reputation.seedling")}
-        </Label>
-        <Label type="warning">
-          {t("reputation.points", {
-            amount: REPUTATION_TIERS[Reputation.Seedling],
-          })}
-        </Label>
+        <div className="flex items-center mb-1 mt-2">
+          <Label
+            type="default"
+            icon={SUNNYSIDE.crops.seedling}
+            className="mr-2"
+          >
+            {t("reputation.seedling")}
+          </Label>
+          <Label type="warning">
+            {t("reputation.points", {
+              amount: REPUTATION_TIERS[Reputation.Seedling],
+            })}
+          </Label>
+        </div>
+        <NoticeboardItems
+          items={[
+            {
+              text: t("reputation.seedling.trades"),
+              icon: tradeIcon,
+            },
+
+            {
+              text: (
+                <span
+                  onClick={() => {
+                    if (showInfo === "seedling") {
+                      setShowInfo(null);
+                    } else {
+                      setShowInfo("seedling");
+                    }
+                  }}
+                  className="flex items-center cursor-pointer"
+                >
+                  {t("reputation.seedling.nft")}
+                  <div className="relative">
+                    <img src={infoIcon} className="w-5 ml-2" />
+                    <AnimatedPanel
+                      show={showInfo === "seedling"}
+                      className="top-0 left-8 w-20"
+                      onClick={() => setShowInfo(null)}
+                    >
+                      <div className="text-xxs p-0.5">
+                        {t("proof.of.humanity.required")}
+                      </div>
+                    </AnimatedPanel>
+                  </div>
+                </span>
+              ),
+              icon: ITEM_DETAILS["Grinx's Hammer"].image,
+            },
+            {
+              text: t("reputation.seedling.farmNFT"),
+              icon: SUNNYSIDE.icons.basket,
+            },
+          ]}
+        />
+
+        <div className="flex items-center mb-1 mt-2">
+          <Label type="default" icon={SUNNYSIDE.crops.grower} className="mr-2">
+            {t("reputation.grower")}
+          </Label>
+          <Label type="warning">
+            {t("reputation.points", {
+              amount: REPUTATION_TIERS[Reputation.Grower],
+            })}
+          </Label>
+        </div>
+        <NoticeboardItems
+          items={[
+            {
+              text: t("reputation.grower.trades"),
+              icon: tradeIcon,
+            },
+            {
+              text: (
+                <span
+                  onClick={() => {
+                    if (showInfo === "grower") {
+                      setShowInfo(null);
+                    } else {
+                      setShowInfo("grower");
+                    }
+                  }}
+                  className="flex items-center cursor-pointer"
+                >
+                  {t("reputation.grower.description")}
+                  <div className="relative">
+                    <img src={infoIcon} className="w-5 ml-2" />
+                    <AnimatedPanel
+                      show={showInfo === "grower"}
+                      className="top-0 left-8 w-20"
+                      onClick={() => setShowInfo(null)}
+                    >
+                      <div className="text-xxs p-0.5">
+                        {t("proof.of.humanity.required")}
+                      </div>
+                    </AnimatedPanel>
+                  </div>
+                </span>
+              ),
+              icon: walletIcon,
+            },
+
+            {
+              text: t("reputation.grower.auctions"),
+              icon: hammerinHarry,
+            },
+          ]}
+        />
+        <div className="flex items-center mb-1 mt-2">
+          <Label
+            type="default"
+            icon={ITEM_DETAILS["Sunflower"].image}
+            className="mr-2"
+          >
+            {t("reputation.cropkeeper")}
+          </Label>
+          <Label type="warning">
+            {t("reputation.points", {
+              amount: REPUTATION_TIERS[Reputation.Cropkeeper],
+            })}
+          </Label>
+        </div>
+        <NoticeboardItems
+          items={[
+            {
+              text: t("reputation.cropkeeper.offers"),
+              icon: increaseArrow,
+            },
+            {
+              text: t("reputation.cropkeeper.trades"),
+              icon: tradeIcon,
+            },
+            {
+              text: t("reputation.cropkeeper.description"),
+              icon: sflIcon,
+            },
+
+            {
+              text: t("reputation.cropkeeper.resources"),
+              icon: ITEM_DETAILS.Eggplant.image,
+            },
+          ]}
+        />
+
+        <div className="flex items-center mb-1 mt-2">
+          <Label
+            type={"default"}
+            icon={ITEM_DETAILS["Black Magic"].image}
+            className="mr-2"
+          >
+            {t("reputation.grandHarvester")}
+          </Label>
+          <Label type="warning">
+            {t("reputation.points", {
+              amount: REPUTATION_TIERS[Reputation.GrandHarvester],
+            })}
+          </Label>
+        </div>
       </div>
-      <NoticeboardItems
-        items={[
-          {
-            text: t("reputation.seedling.trades"),
-            icon: tradeIcon,
-          },
-
-          {
-            text: t("reputation.seedling.nft"),
-            icon: ITEM_DETAILS["Grinx's Hammer"].image,
-          },
-          {
-            text: t("reputation.seedling.farmNFT"),
-            icon: SUNNYSIDE.icons.basket,
-          },
-        ]}
-      />
-
-      <div className="flex items-center mb-1 mt-2">
-        <Label type="default" icon={SUNNYSIDE.crops.grower} className="mr-2">
-          {t("reputation.grower")}
-        </Label>
-        <Label type="warning">
-          {t("reputation.points", {
-            amount: REPUTATION_TIERS[Reputation.Grower],
-          })}
-        </Label>
-      </div>
-      <NoticeboardItems
-        items={[
-          {
-            text: t("reputation.grower.trades"),
-            icon: tradeIcon,
-          },
-          {
-            text: t("reputation.grower.description"),
-            icon: walletIcon,
-          },
-
-          {
-            text: t("reputation.grower.auctions"),
-            icon: hammerinHarry,
-          },
-        ]}
-      />
-      <div className="flex items-center mb-1 mt-2">
-        <Label
-          type="default"
-          icon={ITEM_DETAILS["Sunflower"].image}
-          className="mr-2"
-        >
-          {t("reputation.cropkeeper")}
-        </Label>
-        <Label type="warning">
-          {t("reputation.points", {
-            amount: REPUTATION_TIERS[Reputation.Cropkeeper],
-          })}
-        </Label>
-      </div>
-      <NoticeboardItems
-        items={[
-          {
-            text: t("reputation.cropkeeper.offers"),
-            icon: increaseArrow,
-          },
-          {
-            text: t("reputation.cropkeeper.trades"),
-            icon: tradeIcon,
-          },
-          {
-            text: t("reputation.cropkeeper.description"),
-            icon: sflIcon,
-          },
-
-          {
-            text: t("reputation.cropkeeper.resources"),
-            icon: ITEM_DETAILS.Eggplant.image,
-          },
-        ]}
-      />
-
-      <div className="flex items-center mb-1 mt-2">
-        <Label
-          type={"default"}
-          icon={ITEM_DETAILS["Black Magic"].image}
-          className="mr-2"
-        >
-          {t("reputation.grandHarvester")}
-        </Label>
-        <Label type="warning">
-          {t("reputation.points", {
-            amount: REPUTATION_TIERS[Reputation.GrandHarvester],
-          })}
-        </Label>
-      </div>
-    </div>
+    </>
   );
 };
 
