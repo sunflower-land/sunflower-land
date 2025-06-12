@@ -12,7 +12,7 @@ import { BuffLabel } from "features/game/types";
 import { Label } from "components/ui/Label";
 
 export type NoticeboardItemsElements = {
-  text: string;
+  text: string | React.ReactNode;
   icon: string;
   label?: BuffLabel;
 };
