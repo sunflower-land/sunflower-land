@@ -231,7 +231,8 @@ export const beehiveMachine = createMachine<
         hive: (_, event) => {
           return (event as UpdateHive).updatedHive;
         },
-        honeyProduced: ({ hive }) => hive.honey.produced,
+        honeyProduced: (_, event) =>
+          (event as UpdateHive).updatedHive.honey.produced,
       }),
       removeActiveFlower: assign((_) => ({
         attachedFlower: undefined,
