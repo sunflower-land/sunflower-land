@@ -4052,7 +4052,7 @@
   "skill.cropProcessorUnit.buff": "-5% tempo di crescita di Crop Machine",
   "skill.oilExtraction": "+1 Petrolio quando si raccoglie dalle riserve",
   "skill.leakProofTank": "Tripla capacità del serbatoio dell'olio nella macchina per il raccolto",
-  "skill.cropExtensionModule": "Consenti l'uso dei semi di carota e cavolo nella macchina per il raccolto",
+  "skill.cropExtensionModuleII": "Consenti l'uso dei semi di carota e cavolo nella macchina per il raccolto",
   "skill.rapidRig.buff": "-20% Tempo di crescita di Crop Machine",
   "skill.oilBeBack": "-20% Tempo di ricarica dell'olio",
   "skill.fieldExtensionModule": "+5 lotti aggiunti alla macchina",

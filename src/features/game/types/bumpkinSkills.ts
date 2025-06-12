@@ -2618,6 +2618,25 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   },
 
   // Machinery - Tier 1
+  "Crop Extension Module I": {
+    name: "Crop Extension Module I",
+    tree: "Machinery",
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "desert",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.cropExtensionModuleI"),
+        labelType: "vibrant",
+        boostTypeIcon: SUNNYSIDE.icons.lightning,
+        boostedItemIcon: cropExtensionModule,
+      },
+    },
+    image: cropExtensionModule,
+    disabled: false,
+  },
   "Crop Processor Unit": {
     name: "Crop Processor Unit",
     tree: "Machinery",
@@ -2710,7 +2729,27 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     boosts: {
       buff: {
-        shortDescription: translate("skill.cropExtensionModule"),
+        shortDescription: translate("skill.cropExtensionModuleII"),
+        labelType: "vibrant",
+        boostTypeIcon: SUNNYSIDE.icons.lightning,
+        boostedItemIcon: cropExtensionModule,
+      },
+    },
+    image: cropExtensionModule,
+    disabled: false,
+  },
+
+  "Crop Extension Module III": {
+    name: "Crop Extension Module III",
+    tree: "Machinery",
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "desert",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.cropExtensionModuleIII"),
         labelType: "vibrant",
         boostTypeIcon: SUNNYSIDE.icons.lightning,
         boostedItemIcon: cropExtensionModule,
