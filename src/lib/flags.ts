@@ -109,6 +109,9 @@ const FEATURE_FLAGS = {
 
   BLESSING: testnetFeatureFlag,
   MINE_WHACK_BETA: betaTimeBasedFeatureFlag(new Date("2025-06-13T00:00:00Z")),
+  NEW_LAVA_PIT_REQUIREMENTS: timeBasedFeatureFlag(
+    new Date("2025-06-16T00:00:00Z"),
+  ),
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;

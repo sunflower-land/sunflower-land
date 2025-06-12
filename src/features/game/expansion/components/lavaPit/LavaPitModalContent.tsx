@@ -23,6 +23,7 @@ import {
 import { SEASON_ICONS } from "features/island/buildings/components/building/market/SeasonalSeeds";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { IngredientsPopover } from "components/ui/IngredientsPopover";
+import { hasFeatureAccess } from "lib/flags";
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
 const _lavaPit = (id: string) => (state: MachineState) =>
@@ -59,7 +60,15 @@ export const LavaPitModalContent: React.FC<Props> = ({ onClose, id }) => {
     gameService.send("lavaPit.collected", { id });
   };
 
-  const requirements = LAVA_PIT_REQUIREMENTS[season.season];
+  const requirements = hasFeatureAccess(
+    gameService.state.context.state,
+    "NEW_LAVA_PIT_REQUIREMENTS",
+  )
+    ? LAVA_PIT_REQUIREMENTS[season.season]
+    : {
+        Oil: new Decimal(60),
+        Cobia: new Decimal(5),
+      };
 
   const hasIngredients = getKeys(requirements).every((itemName) =>
     (inventory[itemName] ?? new Decimal(0)).gte(
