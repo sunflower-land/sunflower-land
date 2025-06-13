@@ -22,7 +22,7 @@ import { isTradeResource } from "features/game/actions/tradeLimits";
 import { MyTableRow } from "./MyTableRow";
 import { MARKETPLACE_TAX } from "features/game/types/marketplace";
 import { Button } from "components/ui/Button";
-import { BulkRemoveListings } from "../BulkRemoveListings";
+import { BulkRemoveTrades } from "../BulkRemoveListings";
 
 const _isCancellingOffer = (state: MachineState) =>
   state.matches("marketplaceListingCancelling");
@@ -110,8 +110,9 @@ export const MyListings: React.FC = () => {
         )}
       </Modal>
       <Modal show={!!bulkCancel} onHide={() => setBulkCancel(false)}>
-        <BulkRemoveListings
+        <BulkRemoveTrades
           ids={Object.keys(listings)}
+          type="listings"
           authToken={authToken}
           onClose={() => setBulkCancel(false)}
         />

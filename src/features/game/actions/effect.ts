@@ -37,7 +37,8 @@ type EffectName =
   | "blessing.offered"
   | "blessing.seeked"
   | "nft.assigned"
-  | "marketplace.bulkListingsCancelled";
+  | "marketplace.bulkListingsCancelled"
+  | "marketplace.bulkOffersCancelled";
 
 // IMPORTANT: If your effect does not go via a state in the state machine then exclude it here!
 // Create a type that excludes the events that are not individual state machine states
@@ -77,7 +78,8 @@ export type StateMachineStateName =
   | "claimingBlockchainBox"
   | "offeringBlessing"
   | "seekingBlessing"
-  | "marketplaceBulkListingsCancelling";
+  | "marketplaceBulkListingsCancelling"
+  | "marketplaceBulkOffersCancelling";
 
 export type StateNameWithStatus =
   | `${StateMachineStateName}Success`
@@ -111,6 +113,7 @@ export const STATE_MACHINE_EFFECTS: Record<
   "blessing.offered": "offeringBlessing",
   "blessing.seeked": "seekingBlessing",
   "marketplace.bulkListingsCancelled": "marketplaceBulkListingsCancelling",
+  "marketplace.bulkOffersCancelled": "marketplaceBulkOffersCancelling",
 };
 export interface Effect {
   type: EffectName;

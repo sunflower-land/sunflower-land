@@ -8,25 +8,37 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 interface Props {
   ids: string[];
   authToken: string;
+  type: "listings" | "offers";
   onClose: () => void;
 }
 
-export const BulkRemoveListings: React.FC<Props> = ({
+export const BulkRemoveTrades: React.FC<Props> = ({
   onClose,
   authToken,
   ids,
+  type,
 }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
 
   const confirm = () => {
-    gameService.send("marketplace.bulkListingsCancelled", {
-      effect: {
-        type: "marketplace.bulkListingsCancelled",
-        ids,
-      },
-      authToken,
-    });
+    if (type === "listings") {
+      gameService.send("marketplace.bulkListingsCancelled", {
+        effect: {
+          type: "marketplace.bulkListingsCancelled",
+          ids,
+        },
+        authToken,
+      });
+    } else {
+      gameService.send("marketplace.bulkOffersCancelled", {
+        effect: {
+          type: "marketplace.bulkOffersCancelled",
+          ids,
+        },
+        authToken,
+      });
+    }
 
     onClose();
   };
@@ -35,10 +47,10 @@ export const BulkRemoveListings: React.FC<Props> = ({
     <Panel>
       <div className="p-2">
         <Label type="danger" className="mb-2">
-          {t("marketplace.bulkCancelListings")}
+          {t("marketplace.bulkCancel", { type })}
         </Label>
         <p className="text-sm mb-2">
-          {t("marketplace.bulkCancelListings.areYouSure")}
+          {t("marketplace.bulkCancel.areYouSure", { type })}
         </p>
       </div>
       <div className="flex">

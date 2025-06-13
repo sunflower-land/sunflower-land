@@ -2582,9 +2582,9 @@
   "marketplace.youHaveHadSales": "Your item(s) sold while you were away!",
   "marketplace.offersWereAccepted": "One or more offers were accepted while you were away!",
   "marketplace.cancelListing": "Cancel Listing",
-  "marketplace.bulkCancelListings": "Cancel Listings",
+  "marketplace.bulkCancel": "Cancel {{type}}",
   "marketplace.cancelListing.areYouSure": "Are you sure you want to cancel this listing?",
-  "marketplace.bulkCancelListings.areYouSure": "Are you sure you want to cancel all listings?",
+  "marketplace.bulkCancel.areYouSure": "Are you sure you want to cancel all {{type}}?",
   "marketplace.cancelListing.selectListing": "Please select the listing you want to cancel.",
   "marketplace.resource": "Resource",
   "marketplace.reward.seedLimit": "One of more seeds is above inventory limit",
@@ -6143,7 +6143,8 @@
   "marketplace.bulkCancel.success": "Your {{type}} have been cancelled.",
   "marketplace.bulkCancel.allFailed": "Your {{type}} were not able to be cancelled. This usually happens when a sale is in progress. If you still see the {{type}}, please try again.",
   "marketplace.bulkCancel.someSuccess": "Some of your {{type}} have been cancelled, however some were not able to be. This usually happens when a sale is in progress. If you still see the {{type}}, please try again.",
-  "marketplace.bulk.listings.cancelling": "Cancelling your listings...",
+  "marketplace.bulk.listings.cancelling": "Cancelling your listings",
   "partial.success": "Partial success",
-  "there.was.a.problem": "There was a problem"
+  "there.was.a.problem": "There was a problem",
+  "marketplace.bulk.offers.cancelling": "Cancelling your offers"
 }
