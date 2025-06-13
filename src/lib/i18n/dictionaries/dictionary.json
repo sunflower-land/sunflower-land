@@ -6139,7 +6139,6 @@
   "marketplace.flower": "FLOWER",
   "marketplace.vipOnly": "VIP only",
   "marketplace.label.pricePerUnit": "Price per unit",
-  "marketplace.bulkCancel": "Cancel all",
   "marketplace.bulkCancel.success": "Your {{type}} have been cancelled.",
   "marketplace.bulkCancel.allFailed": "Your {{type}} were not able to be cancelled. This usually happens when a sale is in progress. If you still see the {{type}}, please try again.",
   "marketplace.bulkCancel.someSuccess": "Some of your {{type}} have been cancelled, however some were not able to be. This usually happens when a sale is in progress. If you still see the {{type}}, please try again.",
