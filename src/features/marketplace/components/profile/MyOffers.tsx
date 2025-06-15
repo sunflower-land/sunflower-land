@@ -21,6 +21,8 @@ import { MyTableRow } from "./MyTableRow";
 
 import lock from "assets/icons/lock.png";
 import trade from "assets/icons/trade.png";
+import { BulkRemoveTrades } from "../BulkRemoveListings";
+import { Button } from "components/ui/Button";
 
 const _authToken = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
@@ -36,6 +38,7 @@ export const MyOffers: React.FC = () => {
 
   const [claimId, setClaimId] = useState<string>();
   const [removeId, setRemoveId] = useState<string>();
+  const [bulkCancel, setBulkCancel] = useState<boolean>(false);
 
   const authToken = useSelector(authService, _authToken);
 
@@ -122,13 +125,32 @@ export const MyOffers: React.FC = () => {
         />
       </Modal>
 
+      <Modal show={!!bulkCancel} onHide={() => setBulkCancel(false)}>
+        <BulkRemoveTrades
+          ids={Object.keys(offers)}
+          type="offers"
+          authToken={authToken}
+          onClose={() => setBulkCancel(false)}
+        />
+      </Modal>
+
       <InnerPanel className="mb-1">
         <div className="p-2">
-          <div className="flex justify-between items-center">
-            <Label className="mb-2" type="default" icon={trade}>
-              {t("marketplace.myOffers")}
-            </Label>
-            <Label className="mb-2" type="formula" icon={lock}>
+          <div className="flex justify-between flex-col mb-2">
+            <div className="flex items-center justify-between mb-1">
+              <Label type="default" icon={trade}>
+                {t("marketplace.myOffers")}
+              </Label>
+              <Button
+                className="w-fit h-8 rounded-none"
+                onClick={() => setBulkCancel(true)}
+              >
+                <p className="text-xxs sm:text-sm">
+                  {t("marketplace.bulkCancel")}
+                </p>
+              </Button>
+            </div>
+            <Label type="formula" icon={lock}>
               {t("marketplace.sflEscrowed", {
                 sfl: formatNumber(escrowedSFL, { decimalPlaces: 4 }),
               })}

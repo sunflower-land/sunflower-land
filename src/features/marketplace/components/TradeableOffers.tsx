@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
@@ -38,6 +38,7 @@ import { KeyedMutator } from "swr";
 import { MAX_LIMITED_PURCHASES } from "./Tradeable";
 import { ResourceTaxes } from "./TradeableInfo";
 import { hasVipAccess } from "features/game/lib/vipAccess";
+import { useFirstRender } from "lib/utils/hooks/useFirstRender";
 
 const _hasPendingOfferEffect = (state: MachineState) =>
   state.matches("marketplaceOffering") || state.matches("marketplaceAccepting");
@@ -45,6 +46,8 @@ const _authToken = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
 const _balance = (state: MachineState) => state.context.state.balance;
 const _inventory = (state: MachineState) => state.context.state.inventory;
+const _myOffersCount = (state: MachineState) =>
+  Object.keys(state.context.state.trades.offers ?? {}).length;
 
 export const TradeableOffers: React.FC<{
   tradeable?: TradeableDetails;
@@ -90,6 +93,7 @@ export const TradeableOffers: React.FC<{
   const authToken = useSelector(authService, _authToken);
   const balance = useSelector(gameService, _balance);
   const inventory = useSelector(gameService, _inventory);
+  const myOffersCount = useSelector(gameService, _myOffersCount);
   const [showMakeOffer, setShowMakeOffer] = useState(false);
   const [showAcceptOffer, setShowAcceptOffer] = useState(false);
   const [selectedOffer, setSelectedOffer] = useState<Offer>();
@@ -97,6 +101,8 @@ export const TradeableOffers: React.FC<{
   const topOffer = tradeable?.offers.reduce((highest, offer) => {
     return offer.sfl > highest.sfl ? offer : highest;
   }, tradeable?.offers[0]);
+
+  const isFirstRender = useFirstRender();
 
   useOnMachineTransition<ContextType, BlockchainEvent>(
     gameService,
@@ -132,6 +138,12 @@ export const TradeableOffers: React.FC<{
           : undefined,
       }),
   );
+
+  useEffect(() => {
+    if (isFirstRender) return;
+
+    reload();
+  }, [myOffersCount, isFirstRender, reload]);
 
   const handleHide = () => {
     if (hasPendingOfferEffect) return;
