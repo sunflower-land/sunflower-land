@@ -47,7 +47,7 @@ export const BulkRemoveTrades: React.FC<Props> = ({
     <Panel>
       <div className="p-2">
         <Label type="danger" className="mb-2">
-          {t("marketplace.bulkCancel", { type })}
+          {t("marketplace.bulkCancel.label", { type })}
         </Label>
         <p className="text-sm mb-2">
           {t("marketplace.bulkCancel.areYouSure", { type })}

@@ -5,8 +5,6 @@ import { useActor, useSelector } from "@xstate/react";
 import { useInterval } from "lib/utils/hooks/useInterval";
 import * as AuthProvider from "features/auth/lib/Provider";
 
-import mailIcon from "assets/icons/letter.png";
-
 import { Loading } from "features/auth/components";
 import { ErrorCode } from "lib/errors";
 import { ErrorMessage } from "features/auth/ErrorMessage";
@@ -81,7 +79,6 @@ import { DailyReset } from "../components/DailyReset";
 import { RoninWelcomePack } from "./components/RoninWelcomePack";
 import { ClaimRoninAirdrop } from "./components/onChainAirdrops/ClaimRoninAirdrop";
 import { FLOWERTeaserContent } from "../components/FLOWERTeaser";
-import { pixelGrayBorderStyle } from "../lib/style";
 import { RoninJinClaim } from "./components/RoninJinClaim";
 import {
   EFFECT_SUCCESS_COMPONENTS,
@@ -536,19 +533,6 @@ export const GameWrapper: React.FC = ({ children }) => {
             <Panel>
               <Loading />
             </Panel>
-            <div
-              className={classNames(
-                `w-full justify-center items-center flex  text-xs p-1 pr-4 mt-1 relative`,
-              )}
-              style={{
-                background: "#c0cbdc",
-                color: "#181425",
-                ...pixelGrayBorderStyle,
-              }}
-            >
-              <img src={mailIcon} className="w-8 mr-2" />
-              <p className="text-xs flex-1">{t("news.flowerSoon")}</p>
-            </div>
           </Modal>
         </Ocean>
       </>
