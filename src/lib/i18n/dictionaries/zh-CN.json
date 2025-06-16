@@ -5968,5 +5968,16 @@
   "stream.isLive": "市政厅上线了！",
   "marketplace.label.pricePerUnit": "每单位价格",
   "proof.of.humanity.required": "需要人性证明",
-  "reputation.notAReputation": "你不是 {{name}}"
+  "reputation.notAReputation": "你不是 {{name}}",
+  "failed": "失败",
+  "marketplace.bulkCancel": "全部取消",
+  "marketplace.bulkCancel.label": "取消 {{type}}",
+  "marketplace.bulkCancel.areYouSure": "您确定要取消所有 {{type}} 吗？",
+  "marketplace.bulkCancel.success": "您的 {{type}} 已取消。",
+  "marketplace.bulkCancel.allFailed": "您的 {{type}} 无法取消。这通常发生在销售进行中。如果您仍然看到 {{type}}，请重试。",
+  "marketplace.bulkCancel.someSuccess": "您的 {{type}} 中的一部分已被取消，但有些无法取消。这通常发生在销售进行中。如果您仍然看到 {{type}}，请重试。",
+  "marketplace.bulk.listings.cancelling": "取消您的房源",
+  "partial.success": "部分成功",
+  "there.was.a.problem": "出现了问题",
+  "marketplace.bulk.offers.cancelling": "取消您的报价"
 }

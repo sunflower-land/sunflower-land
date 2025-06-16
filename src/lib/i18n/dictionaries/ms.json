@@ -5968,5 +5968,16 @@
   "stream.isLive": "Dewan Bandaran hidup!",
   "marketplace.label.pricePerUnit": "Harga seunit",
   "proof.of.humanity.required": "Bukti Kemanusiaan diperlukan",
-  "reputation.notAReputation": "Anda bukan {{name}}"
+  "reputation.notAReputation": "Anda bukan {{name}}",
+  "failed": "Gagal",
+  "marketplace.bulkCancel": "Batalkan semua",
+  "marketplace.bulkCancel.label": "Batal {{type}}",
+  "marketplace.bulkCancel.areYouSure": "Adakah anda pasti mahu membatalkan semua {{type}}?",
+  "marketplace.bulkCancel.success": "{{type}} anda telah dibatalkan.",
+  "marketplace.bulkCancel.allFailed": "{{type}} anda tidak dapat dibatalkan. Ini biasanya berlaku apabila penjualan sedang dijalankan. Jika anda masih melihat {{type}}, sila cuba lagi.",
+  "marketplace.bulkCancel.someSuccess": "Sebahagian daripada {{type}} anda telah dibatalkan, namun ada yang tidak dapat. Ini biasanya berlaku apabila penjualan sedang dijalankan. Jika anda masih melihat {{type}}, sila cuba lagi.",
+  "marketplace.bulk.listings.cancelling": "Membatalkan penyenaraian anda",
+  "partial.success": "Kejayaan separa",
+  "there.was.a.problem": "Terdapat masalah",
+  "marketplace.bulk.offers.cancelling": "Membatalkan tawaran anda"
 }

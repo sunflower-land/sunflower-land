@@ -5968,5 +5968,16 @@
   "stream.isLive": "タウンホールがライブです！",
   "marketplace.label.pricePerUnit": "ユニットあたりの価格",
   "proof.of.humanity.required": "人間性の証明が必要",
-  "reputation.notAReputation": "あなたは {{name}} ではありません"
+  "reputation.notAReputation": "あなたは {{name}} ではありません",
+  "failed": "失敗",
+  "marketplace.bulkCancel": "すべてキャンセル",
+  "marketplace.bulkCancel.label": "キャンセル {{type}}",
+  "marketplace.bulkCancel.areYouSure": "{{type}} をすべてキャンセルしてもよろしいですか？",
+  "marketplace.bulkCancel.success": "{{type}} はキャンセルされました。",
+  "marketplace.bulkCancel.allFailed": "お客様の {{type}} をキャンセルできませんでした。これは通常、セールが進行中の場合に発生します。まだ {{type}} が表示される場合は、もう一度試してください。",
+  "marketplace.bulkCancel.someSuccess": "{{type}} の一部がキャンセルされましたが、キャンセルできなかったものもあります。これは通常、セールが進行中の場合に発生します。まだ {{type}} が表示される場合は、もう一度試してください。",
+  "marketplace.bulk.listings.cancelling": "出品をキャンセルする",
+  "partial.success": "部分成功",
+  "there.was.a.problem": "問題がありました",
+  "marketplace.bulk.offers.cancelling": "オファーのキャンセル"
 }

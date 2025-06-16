@@ -5968,5 +5968,16 @@
   "stream.isLive": "Belediye Binası yayında!",
   "marketplace.label.pricePerUnit": "Birim başına fiyat",
   "proof.of.humanity.required": "İnsanlık kanıtı gerekli",
-  "reputation.notAReputation": "Sen bir {{name}} değilsin"
+  "reputation.notAReputation": "Sen bir {{name}} değilsin",
+  "failed": "Başarısız",
+  "marketplace.bulkCancel": "Tümünü iptal et",
+  "marketplace.bulkCancel.label": "İptal {{type}}",
+  "marketplace.bulkCancel.areYouSure": "Tümünü iptal etmek istediğinizden emin misiniz {{type}}?",
+  "marketplace.bulkCancel.success": "{{type}} hesabınız iptal edildi.",
+  "marketplace.bulkCancel.allFailed": "{{type}} dosyanız iptal edilemedi. Bu genellikle bir satış devam ederken olur. Hala {{type}} öğesini görüyorsanız, lütfen tekrar deneyin.",
+  "marketplace.bulkCancel.someSuccess": "Bazılarınız {{type}} iptal edildi, ancak bazıları iptal edilemedi. Bu genellikle bir satış devam ederken olur. Hala {{type}} öğesini görüyorsanız, lütfen tekrar deneyin.",
+  "marketplace.bulk.listings.cancelling": "Kayıtlarınızı iptal etme",
+  "partial.success": "Kısmi başarı",
+  "there.was.a.problem": "Bir sorun vardı",
+  "marketplace.bulk.offers.cancelling": "Tekliflerinizi iptal etme"
 }

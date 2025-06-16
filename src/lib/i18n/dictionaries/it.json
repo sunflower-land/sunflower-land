@@ -5968,5 +5968,16 @@
   "stream.isLive": "Il municipio è in diretta!",
   "marketplace.label.pricePerUnit": "Prezzo unitario",
   "proof.of.humanity.required": "È richiesta una prova di umanità",
-  "reputation.notAReputation": "Non sei un {{name}}"
+  "reputation.notAReputation": "Non sei un {{name}}",
+  "failed": "Fallito",
+  "marketplace.bulkCancel": "Annulla tutto",
+  "marketplace.bulkCancel.label": "Annulla {{type}}",
+  "marketplace.bulkCancel.areYouSure": "Sei sicuro di voler cancellare tutti i {{type}}?",
+  "marketplace.bulkCancel.success": "I tuoi {{type}} sono stati cancellati.",
+  "marketplace.bulkCancel.allFailed": "I tuoi {{type}} non possono essere cancellati. Questo di solito accade quando è in corso una vendita. Se vedi ancora {{type}}, riprova.",
+  "marketplace.bulkCancel.someSuccess": "Alcuni dei tuoi {{type}} sono stati cancellati, ma altri non è stato possibile. Questo di solito accade quando è in corso una vendita. Se vedi ancora {{type}}, riprova.",
+  "marketplace.bulk.listings.cancelling": "Annullamento delle tue inserzioni",
+  "partial.success": "Successo parziale",
+  "there.was.a.problem": "C'è stato un problema",
+  "marketplace.bulk.offers.cancelling": "Annullamento delle tue offerte"
 }

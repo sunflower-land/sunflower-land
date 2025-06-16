@@ -5968,5 +5968,16 @@
   "stream.isLive": "타운 홀이 생중계되었습니다!",
   "marketplace.label.pricePerUnit": "단위당 가격",
   "proof.of.humanity.required": "인류 증명이 필요함",
-  "reputation.notAReputation": "당신은 {{name}} 가 아닙니다"
+  "reputation.notAReputation": "당신은 {{name}} 가 아닙니다",
+  "failed": "실패",
+  "marketplace.bulkCancel": "모두 취소",
+  "marketplace.bulkCancel.label": "취소 {{type}}",
+  "marketplace.bulkCancel.areYouSure": "정말로 {{type}} 를 모두 취소하시겠습니까?",
+  "marketplace.bulkCancel.success": "{{type}} 이 (가) 취소되었습니다.",
+  "marketplace.bulkCancel.allFailed": "{{type}} 을 (를) 취소할 수 없습니다.이는 일반적으로 판매가 진행 중일 때 발생합니다.여전히 {{type}} 가 표시되면 다시 시도하세요.",
+  "marketplace.bulkCancel.someSuccess": "{{type}} 중 일부는 취소되었지만 일부는 취소되지 않았습니다.이는 일반적으로 판매가 진행 중일 때 발생합니다.여전히 {{type}} 가 표시되면 다시 시도하세요.",
+  "marketplace.bulk.listings.cancelling": "리스팅 취소하기",
+  "partial.success": "부분적 성공",
+  "there.was.a.problem": "문제가 생겼어요",
+  "marketplace.bulk.offers.cancelling": "오퍼 취소하기"
 }

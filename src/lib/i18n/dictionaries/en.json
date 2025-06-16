@@ -4,6 +4,7 @@
   "ingredients": "Ingredients",
   "animals.buyAnimal": "Buy Animal",
   "accept": "Accept",
+  "failed": "Failed",
   "animals.buildingIsFull": "{{buildingName}} is full!",
   "breadWinner.description": "Earn 0.001 FLOWER",
   "breadWinner.one": "Well, well, well, partner... It looks like you need some FLOWER!",
@@ -2579,7 +2580,10 @@
   "marketplace.youHaveHadSales": "Your item(s) sold while you were away!",
   "marketplace.offersWereAccepted": "One or more offers were accepted while you were away!",
   "marketplace.cancelListing": "Cancel Listing",
+  "marketplace.bulkCancel": "Cancel all",
+  "marketplace.bulkCancel.label": "Cancel {{type}}",
   "marketplace.cancelListing.areYouSure": "Are you sure you want to cancel this listing?",
+  "marketplace.bulkCancel.areYouSure": "Are you sure you want to cancel all {{type}}?",
   "marketplace.cancelListing.selectListing": "Please select the listing you want to cancel.",
   "marketplace.resource": "Resource",
   "marketplace.reward.seedLimit": "One of more seeds is above inventory limit",
@@ -5968,5 +5972,12 @@
   "marketplace.ok": "Ok",
   "marketplace.flower": "FLOWER",
   "marketplace.vipOnly": "VIP only",
-  "marketplace.label.pricePerUnit": "Price per unit"
+  "marketplace.label.pricePerUnit": "Price per unit",
+  "marketplace.bulkCancel.success": "Your {{type}} have been cancelled.",
+  "marketplace.bulkCancel.allFailed": "Your {{type}} were not able to be cancelled. This usually happens when a sale is in progress. If you still see the {{type}}, please try again.",
+  "marketplace.bulkCancel.someSuccess": "Some of your {{type}} have been cancelled, however some were not able to be. This usually happens when a sale is in progress. If you still see the {{type}}, please try again.",
+  "marketplace.bulk.listings.cancelling": "Cancelling your listings",
+  "partial.success": "Partial success",
+  "there.was.a.problem": "There was a problem",
+  "marketplace.bulk.offers.cancelling": "Cancelling your offers"
 }

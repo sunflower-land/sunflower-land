@@ -5968,5 +5968,16 @@
   "stream.isLive": "L'hôtel de ville est en ligne !",
   "marketplace.label.pricePerUnit": "Prix par unité",
   "proof.of.humanity.required": "Preuve d'humanité requise",
-  "reputation.notAReputation": "Vous n'êtes pas un {{name}}"
+  "reputation.notAReputation": "Vous n'êtes pas un {{name}}",
+  "failed": "Échoué",
+  "marketplace.bulkCancel": "Tout annuler",
+  "marketplace.bulkCancel.label": "Annuler {{type}}",
+  "marketplace.bulkCancel.areYouSure": "Êtes-vous sûr de vouloir annuler tous les {{type}} ?",
+  "marketplace.bulkCancel.success": "Vos {{type}} ont été annulés.",
+  "marketplace.bulkCancel.allFailed": "Votre {{type}} n'a pas pu être annulé. Cela se produit généralement lorsqu'une vente est en cours. Si le message {{type}} s'affiche toujours, veuillez réessayer.",
+  "marketplace.bulkCancel.someSuccess": "Certains de vos {{type}} ont été annulés, mais d'autres n'ont pas pu l'être. Cela se produit généralement lorsqu'une vente est en cours. Si le message {{type}} s'affiche toujours, veuillez réessayer.",
+  "marketplace.bulk.listings.cancelling": "Annulation de vos annonces",
+  "partial.success": "Succès partiel",
+  "there.was.a.problem": "Il y a eu un problème",
+  "marketplace.bulk.offers.cancelling": "Annulation de vos offres"
 }

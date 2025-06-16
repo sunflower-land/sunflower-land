@@ -5968,5 +5968,16 @@
   "stream.isLive": "A Câmara Municipal está ao vivo!",
   "marketplace.label.pricePerUnit": "Preço por unidade",
   "proof.of.humanity.required": "Prova de humanidade necessária",
-  "reputation.notAReputation": "Você não é um {{name}}"
+  "reputation.notAReputation": "Você não é um {{name}}",
+  "failed": "Falhou",
+  "marketplace.bulkCancel": "Cancelar tudo",
+  "marketplace.bulkCancel.label": "Cancelar {{type}}",
+  "marketplace.bulkCancel.areYouSure": "Tem certeza de que deseja cancelar todos os {{type}}?",
+  "marketplace.bulkCancel.success": "Seus {{type}} foram cancelados.",
+  "marketplace.bulkCancel.allFailed": "Seu {{type}} não pôde ser cancelado. Isso geralmente acontece quando uma venda está em andamento. Se você ainda vê o {{type}}, tente novamente.",
+  "marketplace.bulkCancel.someSuccess": "Alguns de seus {{type}} foram cancelados, mas alguns não puderam ser cancelados. Isso geralmente acontece quando uma venda está em andamento. Se você ainda vê o {{type}}, tente novamente.",
+  "marketplace.bulk.listings.cancelling": "Cancelando seus anúncios",
+  "partial.success": "Sucesso parcial",
+  "there.was.a.problem": "Houve um problema",
+  "marketplace.bulk.offers.cancelling": "Cancelando suas ofertas"
 }

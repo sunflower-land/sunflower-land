@@ -5968,5 +5968,16 @@
   "stream.isLive": "Das Rathaus ist live!",
   "marketplace.label.pricePerUnit": "Preis pro Einheit",
   "proof.of.humanity.required": "Nachweis der Menschlichkeit erforderlich",
-  "reputation.notAReputation": "Du bist kein {{name}}"
+  "reputation.notAReputation": "Du bist kein {{name}}",
+  "failed": "Fehlgeschlagen",
+  "marketplace.bulkCancel": "Alles stornieren",
+  "marketplace.bulkCancel.label": "Stornieren {{type}}",
+  "marketplace.bulkCancel.areYouSure": "Möchten Sie wirklich alle {{type}} stornieren?",
+  "marketplace.bulkCancel.success": "Ihr {{type}} wurde storniert.",
+  "marketplace.bulkCancel.allFailed": "Ihre {{type}} konnten nicht storniert werden. Dies passiert normalerweise, wenn ein Verkauf im Gange ist. Wenn Sie immer noch {{type}} sehen, versuchen Sie es bitte erneut.",
+  "marketplace.bulkCancel.someSuccess": "Einige Ihrer {{type}} wurden storniert, einige konnten jedoch nicht storniert werden. Dies passiert normalerweise, wenn ein Verkauf im Gange ist. Wenn Sie immer noch {{type}} sehen, versuchen Sie es bitte erneut.",
+  "marketplace.bulk.listings.cancelling": "Stornieren Sie Ihre Angebote",
+  "partial.success": "Teilweiser Erfolg",
+  "there.was.a.problem": "Es gab ein Problem",
+  "marketplace.bulk.offers.cancelling": "Stornieren Sie Ihre Angebote"
 }

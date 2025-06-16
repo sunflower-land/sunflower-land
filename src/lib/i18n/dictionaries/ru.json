@@ -5968,5 +5968,16 @@
   "stream.isLive": "Ратуша в прямом эфире!",
   "marketplace.label.pricePerUnit": "Цена за единицу",
   "proof.of.humanity.required": "Требуется доказательство человечности",
-  "reputation.notAReputation": "Вы не {{name}}"
+  "reputation.notAReputation": "Вы не {{name}}",
+  "failed": "Не удалось",
+  "marketplace.bulkCancel": "Отменить все",
+  "marketplace.bulkCancel.label": "Отменить {{type}}",
+  "marketplace.bulkCancel.areYouSure": "Вы действительно хотите отменить все {{type}}?",
+  "marketplace.bulkCancel.success": "Ваш запрос {{type}} отменен.",
+  "marketplace.bulkCancel.allFailed": "Ваш запрос {{type}} не удалось отменить. Обычно это происходит во время продажи. Если вы все еще видите {{type}}, попробуйте еще раз.",
+  "marketplace.bulkCancel.someSuccess": "Некоторые из ваших {{type}} были отменены, но некоторые не смогли этого сделать. Обычно это происходит во время продажи. Если вы все еще видите {{type}}, попробуйте еще раз.",
+  "marketplace.bulk.listings.cancelling": "Отмена ваших объявлений",
+  "partial.success": "Частичный успех",
+  "there.was.a.problem": "Возникла проблема",
+  "marketplace.bulk.offers.cancelling": "Отмена ваших предложений"
 }

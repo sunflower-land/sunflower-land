@@ -5968,5 +5968,16 @@
   "stream.isLive": "Balai Kota sedang hidup!",
   "marketplace.label.pricePerUnit": "Harga per unit",
   "proof.of.humanity.required": "Bukti Kemanusiaan diperlukan",
-  "reputation.notAReputation": "Anda bukan {{name}}"
+  "reputation.notAReputation": "Anda bukan {{name}}",
+  "failed": "Gagal",
+  "marketplace.bulkCancel": "Batalkan semua",
+  "marketplace.bulkCancel.label": "Batalkan {{type}}",
+  "marketplace.bulkCancel.areYouSure": "Apakah Anda yakin ingin membatalkan semua {{type}}?",
+  "marketplace.bulkCancel.success": "{{type}} Anda telah dibatalkan.",
+  "marketplace.bulkCancel.allFailed": "{{type}} Anda tidak dapat dibatalkan. Ini biasanya terjadi ketika penjualan sedang berlangsung. Jika Anda masih melihat {{type}}, silakan coba lagi.",
+  "marketplace.bulkCancel.someSuccess": "Beberapa {{type}} Anda telah dibatalkan, namun beberapa tidak bisa. Ini biasanya terjadi ketika penjualan sedang berlangsung. Jika Anda masih melihat {{type}}, silakan coba lagi.",
+  "marketplace.bulk.listings.cancelling": "Membatalkan iklan Anda",
+  "partial.success": "Keberhasilan sebagian",
+  "there.was.a.problem": "Ada masalah",
+  "marketplace.bulk.offers.cancelling": "Membatalkan penawaran Anda"
 }
