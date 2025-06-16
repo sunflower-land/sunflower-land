@@ -38,7 +38,6 @@ import oilBarrel from "assets/icons/oil_barrel.webp";
 import { Button } from "components/ui/Button";
 import Decimal from "decimal.js-light";
 import { CROP_SEEDS, CropSeedName } from "features/game/types/crops";
-import { getKeys } from "features/game/types/craftables";
 import { useActor, useSelector } from "@xstate/react";
 import { _paused, _running, _idle } from "./CropMachine";
 import { Context } from "features/game/GameProvider";
@@ -79,9 +78,7 @@ const ALLOWED_SEEDS = (
     seeds.push(...CROP_EXTENSION_MOD_III_SEEDS);
   }
 
-  return getKeys(CROP_SEEDS)
-    .filter((seed) => seeds.includes(seed))
-    .filter((seed) => inventory[seed]?.gt(0));
+  return seeds.filter((seed) => inventory[seed]?.gt(0));
 };
 
 const _growingCropPackIndex = (state: CropMachineState) =>
