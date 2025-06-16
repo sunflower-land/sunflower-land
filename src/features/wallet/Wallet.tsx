@@ -86,13 +86,6 @@ const WALLET_ACTIONS: Record<WalletAction, WalletActionSettings> = {
   },
   depositItems: {
     requiresLinkedWallet: true,
-    requiresNFT: false,
-    chains: {
-      [CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id]: true,
-    },
-  },
-  confirmDepositItems: {
-    requiresLinkedWallet: true,
     requiresNFT: true,
     chains: {
       [CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id]: true,

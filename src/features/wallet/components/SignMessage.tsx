@@ -69,7 +69,7 @@ export const SignMessage: React.FC<{
       {!isError && (
         <div className="p-2">
           {isPending && (
-            <p className="text-sm">{t("wallet.pleaseCheckWallet")}</p>
+            <p className="text-sm">{t("walletWall.pleaseCheckWallet")}</p>
           )}
           {!isPending && (
             <p className="text-sm">
@@ -82,9 +82,11 @@ export const SignMessage: React.FC<{
 
       <div className="flex justify-between items-center space-x-1">
         <Button disabled={isPending} onClick={() => signIn(address ?? "")}>
-          {t("wallet.signMessage")}
+          {t("walletWall.signMessage")}
         </Button>
-        <Button onClick={() => onDisconnect()}>{t("wallet.disconnect")}</Button>
+        <Button onClick={() => onDisconnect()}>
+          {t("walletWall.disconnect")}
+        </Button>
       </div>
     </>
   );
