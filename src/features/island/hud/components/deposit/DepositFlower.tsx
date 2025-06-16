@@ -17,14 +17,12 @@ import { DepositAddress } from "./DepositAddress";
 import { AcknowledgeConditions } from "./AcknowledgeConditions";
 import { DepositFromLinkedWallet } from "./DepositFromLinkedWallet";
 import { Button } from "components/ui/Button";
-import { useAccount, useSwitchChain } from "wagmi";
 import {
   BASE_MAINNET_NETWORK,
   BASE_TESTNET_NETWORK,
-  networkOptions,
 } from "features/game/expansion/components/dailyReward/DailyReward";
 
-const BASE_FALLBACK_NETWORK =
+const BASE_NETWORK =
   CONFIG.NETWORK === "mainnet" ? BASE_MAINNET_NETWORK : BASE_TESTNET_NETWORK;
 
 export type NetworkOption = {
@@ -34,8 +32,7 @@ export type NetworkOption = {
 };
 
 const _depositAddress = (state: MachineState): string =>
-  state.context.data["depositingFlower"]?.depositAddress ??
-  "0x0000000000000000000000000000000000000000";
+  state.context.data["depositingFlower"]?.depositAddress;
 
 const _success = (state: MachineState) =>
   state.matches("depositingFlowerSuccess");
@@ -65,33 +62,19 @@ export const DepositFlower: React.FC<{ onClose: () => void }> = ({
   const failed = useSelector(gameService, _failed);
   const linkedWallet = useSelector(gameService, _linkedWallet);
   const authToken = useSelector(authService, _authToken);
-  const { switchChain } = useSwitchChain();
-  const { chainId } = useAccount();
 
-  const selectedNetwork =
-    networkOptions.find((network) => network.chainId === chainId) ??
-    BASE_FALLBACK_NETWORK;
+  const selectedNetwork = BASE_NETWORK;
 
   useEffect(() => {
-    if (selectedNetwork?.value) {
-      switchChain({
-        chainId: selectedNetwork.chainId,
-      });
-      refreshDeposits();
-    }
-  }, [selectedNetwork]);
+    fetchBalance(selectedNetwork);
+    refreshDeposits();
+  }, []);
 
   useEffect(() => {
     if (success || failed) {
       gameService.send("CONTINUE");
     }
   }, [success, failed]);
-
-  useEffect(() => {
-    if (!selectedNetwork) return;
-
-    fetchBalance(selectedNetwork);
-  }, [linkedWallet, selectedNetwork]);
 
   const fetchBalance = async (selectedNetwork: NetworkOption) => {
     setBalanceState("loading");

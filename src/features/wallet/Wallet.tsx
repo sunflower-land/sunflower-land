@@ -198,6 +198,7 @@ const WalletConnectedHeader: React.FC<{ availableChains: number[] }> = ({
   );
 
   const onDisconnect = () => {
+    disconnect();
     connections.forEach((connection) =>
       disconnect({ connector: connection.connector }),
     );

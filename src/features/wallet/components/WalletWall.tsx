@@ -199,6 +199,7 @@ export const WalletWall: React.FC<{
   };
 
   const onDisconnect = () => {
+    disconnect();
     connections.forEach((connection) =>
       disconnect({ connector: connection.connector }),
     );
