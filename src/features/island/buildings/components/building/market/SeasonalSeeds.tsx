@@ -268,23 +268,50 @@ export const SeasonalSeeds: React.FC = () => {
   };
 
   const cropMachineSeeds = getKeys(SEEDS).filter((seed) => {
-    if (!inventory["Crop Machine"] || currentSeasonSeeds.includes(seed)) {
+    // Skip if no crop machine
+    if (!inventory["Crop Machine"]) {
+      return false;
+    }
+
+    // Skip if seed is already in current season
+    if (currentSeasonSeeds.includes(seed)) {
       return false;
     }
 
     const isCropSeed = (seed: SeedName): seed is CropSeedName =>
       seed in CROP_SEEDS;
 
-    return (
-      isCropSeed(seed) &&
-      (BASIC_CROP_MACHINE_SEEDS.includes(seed) ||
-        (bumpkin.skills["Crop Extension Module I"] &&
-          CROP_EXTENSION_MOD_I_SEEDS.includes(seed)) ||
-        (bumpkin.skills["Crop Extension Module II"] &&
-          CROP_EXTENSION_MOD_II_SEEDS.includes(seed)) ||
-        (bumpkin.skills["Crop Extension Module III"] &&
-          CROP_EXTENSION_MOD_III_SEEDS.includes(seed)))
-    );
+    // Skip if seed is not a crop seed
+    if (!isCropSeed(seed)) {
+      return false;
+    }
+
+    // Check if seed is available based on machine modules
+    const hasModuleI = bumpkin.skills["Crop Extension Module I"];
+    const hasModuleII = bumpkin.skills["Crop Extension Module II"];
+    const hasModuleIII = bumpkin.skills["Crop Extension Module III"];
+
+    // If seed is a basic crop machine seed, return true
+    if (BASIC_CROP_MACHINE_SEEDS.includes(seed)) {
+      return true;
+    }
+
+    // If Player has Module I and seed is in the list, return true
+    if (hasModuleI && CROP_EXTENSION_MOD_I_SEEDS.includes(seed)) {
+      return true;
+    }
+
+    // If Player has Module II and seed is in the list, return true
+    if (hasModuleII && CROP_EXTENSION_MOD_II_SEEDS.includes(seed)) {
+      return true;
+    }
+
+    // If Player has Module III and seed is in the list, return true
+    if (hasModuleIII && CROP_EXTENSION_MOD_III_SEEDS.includes(seed)) {
+      return true;
+    }
+
+    return false;
   });
 
   const validSeeds = [
