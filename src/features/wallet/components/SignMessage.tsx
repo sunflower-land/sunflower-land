@@ -81,11 +81,11 @@ export const SignMessage: React.FC<{
       )}
 
       <div className="flex justify-between items-center space-x-1">
-        <Button disabled={isPending} onClick={() => signIn(address ?? "")}>
-          {t("walletWall.signMessage")}
-        </Button>
         <Button onClick={() => onDisconnect()}>
           {t("walletWall.disconnect")}
+        </Button>
+        <Button disabled={isPending} onClick={() => signIn(address ?? "")}>
+          {t("walletWall.signMessage")}
         </Button>
       </div>
     </>
