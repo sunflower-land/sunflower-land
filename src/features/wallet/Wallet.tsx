@@ -421,7 +421,9 @@ export const Wallet: React.FC<Props> = ({
 
   return (
     <>
-      <WalletConnectedHeader availableChains={availableChains} />
+      {requiresChain && (
+        <WalletConnectedHeader availableChains={availableChains} />
+      )}
       {children}
     </>
   );

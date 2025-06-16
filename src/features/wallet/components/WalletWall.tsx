@@ -86,7 +86,7 @@ const ConnectErrorMessage: React.FC<{
           <Label type="warning">{error.message}</Label>
         </div>
       );
-    case "Error":
+    default:
       return (
         <div className="py-2">
           <Label type="warning">{error.message}</Label>

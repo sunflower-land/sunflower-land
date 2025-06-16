@@ -92,13 +92,15 @@ export const DepositGameItems: React.FC<Props> = ({
   linkedWallet,
 }) => {
   return (
-    <DepositOptions
-      onClose={onClose}
-      onDeposit={onDeposit}
-      onLoaded={onLoaded}
-      farmAddress={farmAddress}
-      linkedWallet={linkedWallet}
-    />
+    <GameWallet action="depositItems">
+      <DepositOptions
+        onClose={onClose}
+        onDeposit={onDeposit}
+        onLoaded={onLoaded}
+        farmAddress={farmAddress}
+        linkedWallet={linkedWallet}
+      />
+    </GameWallet>
   );
 };
 
@@ -293,7 +295,7 @@ const DepositOptions: React.FC<Props> = ({
         </div>
       )}
       {status === "loaded" && !emptyWallet && (
-        <GameWallet action="depositItems">
+        <>
           <div className="p-2 mb-1">
             <div className="divide-y-2 divide-dashed divide-brown-600">
               <div className="space-y-3">
@@ -451,7 +453,7 @@ const DepositOptions: React.FC<Props> = ({
           >
             {t("deposit.sendToFarm")}
           </Button>
-        </GameWallet>
+        </>
       )}
     </>
   );
