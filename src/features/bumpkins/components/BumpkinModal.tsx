@@ -277,22 +277,6 @@ export const BumpkinInfo: React.FC<{
         </div>
 
         <MyReputation />
-
-        {badges.length > 0 && (
-          <ButtonPanel
-            className="mb-2 relative mt-1 !px-2 !py-1"
-            onClick={() => setView("legacyBadges")}
-          >
-            <div className="flex items-center mb-1 justify-between">
-              <div className="flex items-center">
-                <span className="text-sm">{`Legacy Badges`}</span>
-              </div>
-              <span className="underline text-sm">{t("viewAll")}</span>
-            </div>
-            <div className="flex flex-wrap items-center mt-2">{badges}</div>
-          </ButtonPanel>
-        )}
-
         {hasPowerSkills && (
           <ButtonPanel
             onClick={() => setView("powerSkills")}
@@ -311,6 +295,20 @@ export const BumpkinInfo: React.FC<{
               </div>
               <span className="underline text-sm">{t("viewAll")}</span>
             </div>
+          </ButtonPanel>
+        )}
+        {badges.length > 0 && (
+          <ButtonPanel
+            className="mb-2 relative mt-1 !px-2 !py-1"
+            onClick={() => setView("legacyBadges")}
+          >
+            <div className="flex items-center mb-1 justify-between">
+              <div className="flex items-center">
+                <span className="text-sm">{`Legacy Badges`}</span>
+              </div>
+              <span className="underline text-sm">{t("viewAll")}</span>
+            </div>
+            <div className="flex flex-wrap items-center mt-2">{badges}</div>
           </ButtonPanel>
         )}
 
