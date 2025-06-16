@@ -19,13 +19,13 @@ const SelectLinkedWalletHeader: React.FC<{
     <>
       <div className="flex justify-between items-center ml-2 mt-1">
         <Label icon={walletIcon} type="default">
-          Connect your linked wallet
+          {t("walletWall.connectLinkedWallet")}
         </Label>
         <Label type="danger" icon={icon}>
           {shortAddress(address)}
         </Label>
       </div>
-      <p className="text-xs p-2">Your linked wallet is not connected.</p>
+      <p className="text-xs p-2"></p>
       <div className="flex text-xs sm:text-xs space-x-1 p-2 pt-0">
         <span className="whitespace-nowrap">
           {`${t("deposit.linkedWallet")}`}
@@ -50,7 +50,7 @@ export const SelectLinkedWallet: React.FC<{
           icon={getWalletIcon(connector)}
         />
       }
-      onSignMessage={() => {}}
+      onSignMessage={() => null}
     />
   );
 };

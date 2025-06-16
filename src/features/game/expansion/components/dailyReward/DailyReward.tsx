@@ -28,15 +28,12 @@ import {
   State,
   TypegenDisabled,
 } from "xstate";
-import { DropdownPanel } from "components/ui/DropdownPanel";
 import { NetworkOption } from "features/island/hud/components/deposit/DepositFlower";
 import baseIcon from "assets/icons/chains/base.png";
 import { CONFIG } from "lib/config";
-import { NetworkName } from "features/game/events/landExpansion/updateNetwork";
 import { Context } from "features/game/GameProvider";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
-import { useSwitchChain } from "wagmi";
 
 const _network = (state: MachineState) => state.context.state.settings.network;
 
@@ -123,31 +120,10 @@ export const DailyRewardContent: React.FC<{
   const { t } = useAppTranslation();
 
   const network = useSelector(gameService, _network);
-  const { switchChain } = useSwitchChain();
-
-  const handleNetworkChange = (networkName: NetworkName) => {
-    // Use proper type checking to ensure networkName is a valid key
-    const networkOption = networkOptions.find(
-      (option) => option.value === networkName,
-    ) as NetworkOption;
-
-    if (!networkOption) {
-      return;
-    }
-
-    gameService.send("network.updated", { network: networkName });
-    switchChain({
-      chainId: networkOption.chainId,
-    });
-  };
 
   useEffect(() => {
     chestService.send("UPDATE_BUMPKIN_LEVEL", { bumpkinLevel });
   }, [bumpkinLevel]);
-
-  useEffect(() => {
-    chestService.send("UPDATE_NETWORK", { network });
-  }, [network]);
 
   const reveal = () => {
     gameService.send("REVEAL", {
@@ -213,13 +189,6 @@ export const DailyRewardContent: React.FC<{
     if (chestState.matches("locked")) {
       return (
         <>
-          <DropdownPanel<NetworkName>
-            options={networkOptions}
-            value={network}
-            onChange={handleNetworkChange}
-            placeholder={t("deposit.flower.selectNetwork")}
-          />
-
           <div className="flex flex-col items-center px-2 mt-2">
             {streaks > 1 && !missedADay && (
               <>
@@ -253,12 +222,6 @@ export const DailyRewardContent: React.FC<{
     if (chestState.matches("error")) {
       return (
         <>
-          <DropdownPanel<NetworkName>
-            options={networkOptions}
-            value={network}
-            onChange={handleNetworkChange}
-            placeholder={t("deposit.flower.selectNetwork")}
-          />
           <div className="flex flex-col items-center p-2">
             <Label type="danger" className="px-0.5 mb-2 text-base">
               {t("error.wentWrong")}

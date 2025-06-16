@@ -39,19 +39,19 @@ const CONTENT_HEIGHT = 365;
 const ConnectingToWallet: React.FC<{ disconnect: () => void }> = ({
   disconnect,
 }) => {
+  const { t } = useAppTranslation();
+
   return (
     <div>
       <div className="pt-1 pl-2">
         <Label type="default" icon={walletIcon}>
-          Connecting to Wallet
+          {t("walletWall.connectingToWallet")}
         </Label>
       </div>
       <div className="p-2">
-        <p className="text-sm">
-          Please accept the wallet connection request in your wallet.
-        </p>
+        <p className="text-sm">{t("walletWall.pleaseAcceptConnection")}</p>
       </div>
-      <Button onClick={disconnect}>Try another wallet</Button>
+      <Button onClick={disconnect}>{t("walletWall.tryAnotherWallet")}</Button>
     </div>
   );
 };
@@ -59,25 +59,25 @@ const ConnectingToWallet: React.FC<{ disconnect: () => void }> = ({
 const ConnectErrorMessage: React.FC<{
   error: ConnectErrorType;
 }> = ({ error }) => {
+  const { t } = useAppTranslation();
+
   switch (error.name) {
     case "ConnectorAlreadyConnectedError":
       return (
         <div className="p-2">
-          You are already connected to this wallet. Please disconnect and try
-          again.
+          {t("walletWall.connectError.alreadyConnected")}
         </div>
       );
     case "UserRejectedRequestError":
       return (
         <div className="p-2">
-          The connection request was rejected. Please try again.
+          {t("walletWall.connectError.userRejectedRequest")}
         </div>
       );
     case "ResourceUnavailableRpcError":
       return (
         <div className="p-2">
-          There is already a connection request in your wallet. Please accept it
-          or try another wallet.
+          {t("walletWall.connectError.resourceUnavailable")}
         </div>
       );
     case "WagmiCoreError":
@@ -99,16 +99,20 @@ const ConnectError: React.FC<{
   error: ConnectErrorType;
   disconnect: () => void;
 }> = ({ error, disconnect }) => {
+  const { t } = useAppTranslation();
+
   return (
     <div>
       <div className="pt-1 pl-2">
         <Label type="default" icon={walletIcon}>
-          Connecting to Wallet
+          {t("walletWall.connectingToWallet")}
         </Label>
       </div>
       <ConnectErrorMessage error={error} />
       <div>
-        <Button onClick={() => disconnect()}>Try another wallet</Button>
+        <Button onClick={() => disconnect()}>
+          {t("walletWall.tryAnotherWallet")}
+        </Button>
       </div>
     </div>
   );
@@ -149,6 +153,7 @@ export const WalletWall: React.FC<{
   }) => void;
 }> = ({ header, screen = "walletWall", onSignMessage }) => {
   const { authService } = useContext(AuthContext);
+  const { t } = useAppTranslation();
 
   const [page, setPage] = useState<"home" | "other" | "ronin">("home");
   const [showLoading, setShowLoading] = useState(false);
@@ -251,7 +256,7 @@ export const WalletWall: React.FC<{
 
               <OtherWalletsButton
                 onClick={() => setPage("other")}
-                title="Show More"
+                title={t("walletWall.showMore")}
               />
             </>
           )}
@@ -280,7 +285,7 @@ export const WalletWall: React.FC<{
               )}
               <OtherWalletsButton
                 onClick={() => setPage("home")}
-                title="Show Less"
+                title={t("walletWall.showLess")}
               />
             </>
           )}
@@ -328,7 +333,7 @@ export const WalletWall: React.FC<{
             <RoninButton onClick={() => setPage("ronin")} />
             <OtherWalletsButton
               onClick={() => setPage("other")}
-              title="Show More"
+              title={t("walletWall.showMore")}
             />
           </>
         )}
@@ -365,7 +370,7 @@ export const WalletWall: React.FC<{
             )}
             <OtherWalletsButton
               onClick={() => setPage("home")}
-              title="Show Less"
+              title={t("walletWall.showLess")}
             />
           </>
         )}
@@ -381,7 +386,7 @@ export const WalletWall: React.FC<{
             />
             <OtherWalletsButton
               onClick={() => setPage("home")}
-              title="Show Less"
+              title={t("walletWall.showLess")}
             />
           </>
         )}

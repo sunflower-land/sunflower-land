@@ -68,8 +68,8 @@ type Page =
 
 const MainMenu: React.FC<{ setPage: (page: Page) => void }> = ({ setPage }) => {
   return (
-    <div className="p-2 flex flex-col justify-center space-y-1">
-      <span className="mb-1">{translate("withdraw.sync")}</span>
+    <div className="flex flex-col justify-center space-y-1">
+      <span className="p-2 mb-1">{translate("withdraw.sync")}</span>
 
       <div className="flex space-x-1">
         <Button onClick={() => setPage("tokens")}>
@@ -122,7 +122,7 @@ const NavigationMenu: React.FC<{
   setPage: (page: Page) => void;
 }> = ({ page, setPage }) => {
   return (
-    <div className="flex items-center">
+    <div className="flex items-center pb-2">
       <img
         src={SUNNYSIDE.icons.arrow_left}
         className="self-start cursor-pointer mr-3"
@@ -222,27 +222,27 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
       {page === "main" && <MainMenu setPage={setPage} />}
       {page !== "main" && <NavigationMenu page={page} setPage={setPage} />}
       {page === "tokens" && (
-        <GameWallet action="withdraw">
+        <GameWallet action="withdrawFlower">
           <WithdrawFlower onWithdraw={onWithdrawTokens} />
         </GameWallet>
       )}
       {page === "items" && (
-        <GameWallet action="withdraw">
+        <GameWallet action="withdrawItems">
           <WithdrawItems onWithdraw={onWithdrawItems} />
         </GameWallet>
       )}
       {page === "resources" && (
-        <GameWallet action="withdraw">
+        <GameWallet action="withdrawItems">
           <WithdrawResources onWithdraw={onClose} />
         </GameWallet>
       )}
       {page === "wearables" && (
-        <GameWallet action="withdraw">
+        <GameWallet action="withdrawItems">
           <WithdrawWearables onWithdraw={onWithdrawWearables} />
         </GameWallet>
       )}
       {page === "buds" && (
-        <GameWallet action="withdraw">
+        <GameWallet action="withdrawItems">
           <WithdrawBuds onWithdraw={onWithdrawBuds} />
         </GameWallet>
       )}

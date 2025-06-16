@@ -1,3 +1,5 @@
+import React from "react";
+
 import { Connector, CreateConnectorFn, useConnect } from "wagmi";
 import { InjectedProviderButton } from "./InjectedProviderButton";
 import { fallbackConnector } from "features/wallet/WalletProvider";
@@ -37,6 +39,7 @@ export const InjectedProviderButtons = ({
             onClick={() => onConnect(connector)}
             name={connector.name}
             icon={connector.icon}
+            key={connector.id}
           />
         ))}
     </>

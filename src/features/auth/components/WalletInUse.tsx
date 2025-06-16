@@ -6,7 +6,6 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/auth/lib/Provider";
 import { isAddress } from "ethers/lib/utils";
 import { useActor } from "@xstate/react";
-import { Wallet } from "features/wallet/Wallet";
 import { ClaimAccount } from "./NoAccount";
 import { Label } from "components/ui/Label";
 import { removeJWT } from "../actions/social";

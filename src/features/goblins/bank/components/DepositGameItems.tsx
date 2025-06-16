@@ -36,7 +36,6 @@ import { getImageUrl } from "lib/utils/getImageURLS";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context as GameContext } from "features/game/GameProvider";
 import { GameWallet } from "features/wallet/Wallet";
-import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -93,15 +92,13 @@ export const DepositGameItems: React.FC<Props> = ({
   linkedWallet,
 }) => {
   return (
-    <GameWallet action="depositItems">
-      <DepositOptions
-        onClose={onClose}
-        onDeposit={onDeposit}
-        onLoaded={onLoaded}
-        farmAddress={farmAddress}
-        linkedWallet={linkedWallet}
-      />
-    </GameWallet>
+    <DepositOptions
+      onClose={onClose}
+      onDeposit={onDeposit}
+      onLoaded={onLoaded}
+      farmAddress={farmAddress}
+      linkedWallet={linkedWallet}
+    />
   );
 };
 
@@ -296,7 +293,7 @@ const DepositOptions: React.FC<Props> = ({
         </div>
       )}
       {status === "loaded" && !emptyWallet && (
-        <GameWallet action="confirmDepositItems">
+        <GameWallet action="depositItems">
           <div className="p-2 mb-1">
             <div className="divide-y-2 divide-dashed divide-brown-600">
               <div className="space-y-3">

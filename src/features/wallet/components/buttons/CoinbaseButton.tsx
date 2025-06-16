@@ -4,7 +4,6 @@ import { coinbaseConnector } from "features/wallet/WalletProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React from "react";
 import { Connector, CreateConnectorFn } from "wagmi";
-import { connect } from "wagmi/actions";
 
 export const CoinbaseButton: React.FC<{
   onConnect: (connector: Connector | CreateConnectorFn) => void;

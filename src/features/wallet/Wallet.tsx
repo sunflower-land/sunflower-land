@@ -31,16 +31,19 @@ import { getWalletIcon } from "./lib/getWalletIcon";
 import { Label } from "components/ui/Label";
 import { networkOptions } from "features/game/expansion/components/dailyReward/DailyReward";
 import { shortAddress } from "lib/utils/shortAddress";
+import { DropdownPanel } from "components/ui/DropdownPanel";
+import { NetworkName } from "features/game/events/landExpansion/updateNetwork";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
-type WalletAction =
+export type WalletAction =
   | "specialEvent"
   | "login"
   | "depositItems"
-  | "confirmDepositItems"
   | "depositFlower"
   | "donate"
   | "dailyReward"
-  | "withdraw"
+  | "withdrawItems"
+  | "withdrawFlower"
   | "dequip"
   | "marketplace"
   | "transfer"
@@ -117,11 +120,18 @@ const WALLET_ACTIONS: Record<WalletAction, WalletActionSettings> = {
       [CONFIG.NETWORK === "mainnet" ? ronin.id : saigon.id]: true,
     },
   },
-  withdraw: {
+  withdrawItems: {
     requiresLinkedWallet: true,
     requiresNFT: true,
     chains: {
       [CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id]: true,
+    },
+  },
+  withdrawFlower: {
+    requiresLinkedWallet: true,
+    requiresNFT: false,
+    chains: {
+      [CONFIG.NETWORK === "mainnet" ? base.id : baseSepolia.id]: true,
     },
   },
   dequip: {
@@ -184,6 +194,7 @@ const WalletConnectedHeader: React.FC<{ availableChains: number[] }> = ({
   const { disconnect } = useDisconnect();
   const { switchChain, isPending } = useSwitchChain();
   const connections = useConnections();
+  const { t } = useAppTranslation();
 
   const [showChainDropdown, setShowChainDropdown] = useState(false);
   const [showWalletDropdown, setShowWalletDropdown] = useState(false);
@@ -204,7 +215,11 @@ const WalletConnectedHeader: React.FC<{ availableChains: number[] }> = ({
   )?.icon;
 
   return (
-    <div className="flex justify-between items-center pl-1">
+    <div
+      className={`flex justify-between items-center pr-1 ${
+        isPending ? "pl-1" : "pl-2"
+      }`}
+    >
       <div className="relative">
         <Label
           type="formula"
@@ -273,7 +288,7 @@ const WalletConnectedHeader: React.FC<{ availableChains: number[] }> = ({
                 className="flex items-center gap-2 cursor-pointer hover:bg-[#ead4aa]/50 pb-1 px-2"
                 onClick={onDisconnect}
               >
-                <span className="text-sm">Disconnect</span>
+                <span className="text-sm">{t("walletWall.disconnect")}</span>
               </div>
             </InnerPanel>
           </div>
@@ -287,11 +302,11 @@ const ACTION_HUMAN_NAMES: Record<WalletAction, string> = {
   specialEvent: "use this Special Event",
   login: "Login",
   depositItems: "Deposit Items",
-  confirmDepositItems: "Confirm Deposit Items",
   depositFlower: "Deposit Flower",
   donate: "Donate",
   dailyReward: "claim the Daily Reward",
-  withdraw: "Withdraw",
+  withdrawItems: "Withdraw Items",
+  withdrawFlower: "Withdraw Flower",
   dequip: "Dequip",
   marketplace: "Marketplace",
   transfer: "Transfer",
@@ -303,9 +318,28 @@ const SelectChain: React.FC<{
   action: WalletAction;
   availableChains: number[];
 }> = ({ action, availableChains }) => {
+  const { t } = useAppTranslation();
+  const { switchChain, isPending } = useSwitchChain();
+  const { chainId } = useAccount();
+
+  const [selectedNetwork, setSelectedNetwork] = useState(
+    networkOptions.find((network) => network.chainId === chainId)?.value,
+  );
+
   const filteredNetworkOptions = networkOptions.filter((network) =>
     availableChains.includes(network.chainId),
   );
+
+  const handleNetworkChange = (network: NetworkName) => {
+    const selectedNetworkOption = networkOptions.find(
+      (networkOption) => networkOption.value === network,
+    );
+
+    if (selectedNetworkOption) {
+      setSelectedNetwork(network);
+      switchChain({ chainId: selectedNetworkOption.chainId });
+    }
+  };
 
   const multipleNetworks = filteredNetworkOptions.length > 1;
 
@@ -314,14 +348,19 @@ const SelectChain: React.FC<{
   return (
     <>
       <WalletConnectedHeader availableChains={availableChains} />
-      <p
-        className="text-sm p-2"
-        style={{
-          minHeight: "100px",
-        }}
-      >
-        {text}
-      </p>
+      <div className="text-sm p-2">
+        {isPending ? "Switching Network..." : text}
+      </div>
+      <div style={{ minHeight: "140px" }}>
+        <DropdownPanel<NetworkName>
+          options={filteredNetworkOptions}
+          value={selectedNetwork}
+          onChange={(network) => {
+            handleNetworkChange(network);
+          }}
+          placeholder={t("deposit.flower.selectNetwork")}
+        />
+      </div>
     </>
   );
 };

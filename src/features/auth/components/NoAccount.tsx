@@ -7,9 +7,7 @@ import React, {
 } from "react";
 import { Context } from "../lib/Provider";
 import { getFarms } from "lib/blockchain/Farm";
-import { wallet } from "lib/blockchain/wallet";
 import { Button } from "components/ui/Button";
-import { Wallet } from "features/wallet/Wallet";
 import { OuterPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { isAddress } from "web3-utils";

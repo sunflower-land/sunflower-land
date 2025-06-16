@@ -1,6 +1,7 @@
+import React from "react";
+
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
-import { CONFIG } from "lib/config";
 
 export const WechatButton: React.FC<{ onClick: () => void }> = ({
   onClick,

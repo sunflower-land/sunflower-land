@@ -436,7 +436,8 @@ const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
                 return {
                   actions: [],
                   state: event.data.state,
-                  linkedWallet: event.data.linkedWallet ?? context.linkedWallet,
+                  linkedWallet:
+                    event.data.data.linkedWallet ?? context.linkedWallet,
                   data: { ...context.data, [stateName]: event.data.data },
                 };
               }),

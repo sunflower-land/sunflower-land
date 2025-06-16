@@ -14,33 +14,10 @@ const SignMessageErrorMessage: React.FC<{
   error: SignMessageErrorType;
 }> = ({ error }) => {
   switch (error.name) {
-    case "SizeOverflowError":
-      return (
-        <div className="p-2">
-          You are already connected to this wallet. Please disconnect and try
-          again.
-        </div>
-      );
-    case "IntegerOutOfRangeError":
-      return (
-        <div className="p-2">
-          The connection request was rejected. Please try again.
-        </div>
-      );
-    case "Error":
-      return (
-        <div className="p-2">
-          There was an error signing the message. Please try again.
-        </div>
-      );
-    case "SizeExceedsPaddingSizeError":
-      return (
-        <div className="p-2">The message is too long. Please try again.</div>
-      );
     default:
       return (
-        <div className="p-2">
-          There was an error signing the message. Please try again.
+        <div className="py-2">
+          <Label type="warning">{error.message}</Label>
         </div>
       );
   }
@@ -61,14 +38,12 @@ export const SignMessage: React.FC<{
   const { t } = useAppTranslation();
 
   const signIn = async (address: string) => {
-    console.log("signIn", address, isPending, isError, error);
     const signature = await signMessageAsync({
       message: generateSignatureMessage({
         address,
         nonce: Math.floor(Date.now() / 8.64e7),
       }),
     });
-    console.log("signature", signature);
     onSignMessage({ address, signature });
   };
 
@@ -94,9 +69,7 @@ export const SignMessage: React.FC<{
       {!isError && (
         <div className="p-2">
           {isPending && (
-            <p className="text-sm">
-              Please check your wallet for a signature request.
-            </p>
+            <p className="text-sm">{t("wallet.pleaseCheckWallet")}</p>
           )}
           {!isPending && (
             <p className="text-sm">
@@ -109,9 +82,9 @@ export const SignMessage: React.FC<{
 
       <div className="flex justify-between items-center space-x-1">
         <Button disabled={isPending} onClick={() => signIn(address ?? "")}>
-          Sign Message
+          {t("wallet.signMessage")}
         </Button>
-        <Button onClick={() => onDisconnect()}>Disconnect</Button>
+        <Button onClick={() => onDisconnect()}>{t("wallet.disconnect")}</Button>
       </div>
     </>
   );

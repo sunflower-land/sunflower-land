@@ -11,11 +11,11 @@ const ConnectHeader: React.FC = () => {
     <>
       <div className="flex justify-between">
         <Label className="ml-2 mt-1 mb-2" icon={walletIcon} type="default">
-          Connect Wallet
+          {t("walletWall.connectWallet")}
         </Label>
       </div>
       <p className="text-xs mx-1 mb-2">
-        This feature requires a wallet connection. Connect a wallet to continue.
+        {t("walletWall.connectWalletDescription")}
       </p>
     </>
   );

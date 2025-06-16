@@ -1,3 +1,5 @@
+import React from "react";
+
 import { Button } from "components/ui/Button";
 import metamaskIcon from "assets/icons/metamask_pixel.png";
 import { Connector, CreateConnectorFn } from "wagmi";

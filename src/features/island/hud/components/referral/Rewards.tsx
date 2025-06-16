@@ -181,7 +181,10 @@ export const RewardOptions: React.FC = () => {
   if (selected === "DAILY_REWARD") {
     return (
       <DailyRewardContent
-        onClose={() => setSelected(undefined)}
+        onClose={() => {
+          chestService.send("LOAD");
+          setSelected(undefined);
+        }}
         gameService={gameService}
         dailyRewards={state.dailyRewards}
         isRevealed={isRevealed}

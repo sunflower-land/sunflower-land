@@ -1,7 +1,8 @@
 import { NetworkName } from "features/game/events/landExpansion/updateNetwork";
-import { trackDailyReward } from "lib/blockchain/DailyReward";
-import { wallet } from "lib/blockchain/wallet";
+import { config } from "features/wallet/WalletProvider";
+import { NETWORKS, trackDailyReward } from "lib/blockchain/DailyReward";
 import { ERRORS } from "lib/errors";
+import { getAccount } from "wagmi/actions";
 import { assign, createMachine, Interpreter, State } from "xstate";
 
 export interface DailyRewardContext {
@@ -10,7 +11,6 @@ export interface DailyRewardContext {
   code: number;
   openedAt: number;
   hasAccess: boolean;
-  network?: NetworkName;
 }
 
 /**
@@ -36,8 +36,7 @@ export type DailyRewardEvent =
   | { type: "LOAD" }
   | { type: "UNLOCK" }
   | { type: "ACKNOWLEDGE" }
-  | { type: "UPDATE_BUMPKIN_LEVEL"; bumpkinLevel: number }
-  | { type: "UPDATE_NETWORK"; network: NetworkName };
+  | { type: "UPDATE_BUMPKIN_LEVEL"; bumpkinLevel: number };
 
 export type MachineState = State<
   DailyRewardContext,
@@ -101,17 +100,20 @@ export const rewardChestMachine = createMachine<
     unlocking: {
       invoke: {
         src: async (context) => {
-          const account = wallet.getAccount();
-          if (!account) throw new Error("No account");
+          const { address, chain } = getAccount(config);
 
-          if (!context.network) {
-            throw new Error("No network");
-          }
+          if (!address || !chain) throw new Error("No account");
+
+          const network = Object.entries(NETWORKS).find(
+            ([_, network]) => network.id === chain.id,
+          )?.[0] as NetworkName;
+
+          if (!network) throw new Error("No network");
 
           const nextCode = (context.lastUsedCode + 1) % 100;
           await trackDailyReward({
-            account,
-            network: context.network,
+            account: address,
+            network,
             code: nextCode,
           });
 
@@ -152,13 +154,6 @@ export const rewardChestMachine = createMachine<
       on: {
         LOAD: "locked",
       },
-    },
-  },
-  on: {
-    UPDATE_NETWORK: {
-      actions: assign({
-        network: (_, event) => event.network,
-      }),
     },
   },
 });

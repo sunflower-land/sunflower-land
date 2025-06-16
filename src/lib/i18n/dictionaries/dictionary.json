@@ -6146,5 +6146,20 @@
   "marketplace.bulk.listings.cancelling": "Cancelling your listings",
   "partial.success": "Partial success",
   "there.was.a.problem": "There was a problem",
-  "marketplace.bulk.offers.cancelling": "Cancelling your offers"
+  "marketplace.bulk.offers.cancelling": "Cancelling your offers",
+  "walletWall.showMore": "Show More",
+  "walletWall.showLess": "Show Less",
+  "walletWall.connectingToWallet": "Connecting to wallet",
+  "walletWall.connectLinkedWallet": "Connect your linked wallet",
+  "walletWall.tryAnotherWallet": "Try another wallet",
+  "walletWall.linkedWalletNotConnected": "Your linked wallet is not connected.",
+  "walletWall.pleaseAcceptConnection": "Please accept the wallet connection request in your wallet.",
+  "walletWall.pleaseCheckWallet": "Please check your wallet for a signature request.",
+  "walletWall.signMessage": "Sign Message",
+  "walletWall.disconnect": "Disconnect",
+  "walletWall.connectWallet": "Connect Wallet",
+  "walletWall.connectWalletDescription": "This feature requires a wallet connection. Connect a wallet to continue.",
+  "walletWall.connectError.alreadyConnected": "You are already connected to this wallet. Please disconnect and try again.",
+  "walletWall.connectError.userRejectedRequest": "The connection request was rejected. Please try again.",
+  "walletWall.connectError.resourceUnavailable": "There is already a connection request in your wallet. Please accept it or try another wallet."
 }

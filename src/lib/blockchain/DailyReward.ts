@@ -86,17 +86,13 @@ export async function trackDailyReward({
   // try switch network if needed
   const { chainId } = getAccount(config);
 
-  throw new Error("Not implemented");
-
   if (NETWORKS[network].id !== chainId) {
-    console.log("Switching network", NETWORKS[network].id, chainId);
-
     try {
       await switchChain(config, {
         chainId: NETWORKS[network].id as any,
       });
     } catch (e) {
-      console.log("Error switching network", e);
+      console.error("Error switching network", e);
     }
   }
 

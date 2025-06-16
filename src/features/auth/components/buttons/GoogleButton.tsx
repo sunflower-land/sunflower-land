@@ -1,3 +1,5 @@
+import React from "react";
+
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 

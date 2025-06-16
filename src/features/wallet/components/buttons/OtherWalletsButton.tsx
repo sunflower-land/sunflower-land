@@ -1,6 +1,7 @@
+import React from "react";
+
 import { Button } from "components/ui/Button";
 import walletIcon from "assets/icons/wallet.png";
-import { t } from "i18next";
 
 export const OtherWalletsButton: React.FC<{
   onClick: () => void;
