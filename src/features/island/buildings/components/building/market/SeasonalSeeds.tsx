@@ -4,7 +4,9 @@ import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import {
+  CROP_SEEDS,
   CropName,
+  CropSeedName,
   GREENHOUSE_SEEDS,
   GreenHouseCropSeedName,
 } from "features/game/types/crops";
@@ -270,14 +272,18 @@ export const SeasonalSeeds: React.FC = () => {
       return false;
     }
 
+    const isCropSeed = (seed: SeedName): seed is CropSeedName =>
+      seed in CROP_SEEDS;
+
     return (
-      BASIC_CROP_MACHINE_SEEDS.includes(seed) ||
-      (bumpkin.skills["Crop Extension Module I"] &&
-        CROP_EXTENSION_MOD_I_SEEDS.includes(seed)) ||
-      (bumpkin.skills["Crop Extension Module II"] &&
-        CROP_EXTENSION_MOD_II_SEEDS.includes(seed)) ||
-      (bumpkin.skills["Crop Extension Module III"] &&
-        CROP_EXTENSION_MOD_III_SEEDS.includes(seed))
+      isCropSeed(seed) &&
+      (BASIC_CROP_MACHINE_SEEDS.includes(seed) ||
+        (bumpkin.skills["Crop Extension Module I"] &&
+          CROP_EXTENSION_MOD_I_SEEDS.includes(seed)) ||
+        (bumpkin.skills["Crop Extension Module II"] &&
+          CROP_EXTENSION_MOD_II_SEEDS.includes(seed)) ||
+        (bumpkin.skills["Crop Extension Module III"] &&
+          CROP_EXTENSION_MOD_III_SEEDS.includes(seed)))
     );
   });
 
