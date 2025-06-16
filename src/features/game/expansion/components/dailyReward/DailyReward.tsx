@@ -28,22 +28,29 @@ import {
   State,
   TypegenDisabled,
 } from "xstate";
-import { NetworkOption } from "features/island/hud/components/deposit/DepositFlower";
 import baseIcon from "assets/icons/chains/base.png";
 import { CONFIG } from "lib/config";
 import { Context } from "features/game/GameProvider";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
+import { NetworkName } from "features/game/events/landExpansion/updateNetwork";
 
 const _network = (state: MachineState) => state.context.state.settings.network;
 
-const MAINNET_NETWORKS: NetworkOption[] = [
-  {
-    value: "Base",
-    icon: baseIcon,
-    chainId: 8453,
-  },
+export type NetworkOption = {
+  value: NetworkName;
+  icon: string;
+  chainId: number;
+};
 
+export const BASE_MAINNET_NETWORK: NetworkOption = {
+  value: "Base",
+  icon: baseIcon,
+  chainId: 8453,
+};
+
+const MAINNET_NETWORKS: NetworkOption[] = [
+  BASE_MAINNET_NETWORK,
   {
     value: "Ronin",
     icon: SUNNYSIDE.icons.roninIcon,
@@ -56,12 +63,14 @@ const MAINNET_NETWORKS: NetworkOption[] = [
   },
 ];
 
+export const BASE_TESTNET_NETWORK: NetworkOption = {
+  value: "Base Sepolia",
+  icon: baseIcon,
+  chainId: 84532,
+};
+
 const TESTNET_NETWORKS: NetworkOption[] = [
-  {
-    value: "Base Sepolia",
-    icon: baseIcon,
-    chainId: 84532,
-  },
+  BASE_TESTNET_NETWORK,
   {
     value: "Ronin Saigon",
     icon: SUNNYSIDE.icons.roninIcon,

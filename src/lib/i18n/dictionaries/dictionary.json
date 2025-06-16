@@ -5436,6 +5436,12 @@
   "airdropping.reward.success": "Reward successfully sent to player!",
   "airdropping.reward.failed": "One or more airdrops failed. Check #team-logs on Discord for more information",
   "airdropping.reward.failed.title": "Airdrop failed",
+  "assigning.nft": "Minting NFT...",
+  "assigning.nft.success": "NFT minted successfully!",
+  "assigning.nft.failed": "Failed to mint NFT. Please try again.",
+  "linking.wallet": "Linking wallet...",
+  "linking.wallet.success": "Wallet linked successfully!",
+  "linking.wallet.failed": "Failed to link wallet. Please try again.",
   "sunflowerClock": "Sunflower Clock",
   "days.mon": "Mon.",
   "days.tue": "Tue.",
@@ -6161,5 +6167,7 @@
   "walletWall.connectWalletDescription": "This feature requires a wallet connection. Connect a wallet to continue.",
   "walletWall.connectError.alreadyConnected": "You are already connected to this wallet. Please disconnect and try again.",
   "walletWall.connectError.userRejectedRequest": "The connection request was rejected. Please try again.",
-  "walletWall.connectError.resourceUnavailable": "There is already a connection request in your wallet. Please accept it or try another wallet."
+  "walletWall.connectError.resourceUnavailable": "There is already a connection request in your wallet. Please accept it or try another wallet.",
+  "walletWall.selectSpecificNetwork": "Please select {{network}} network to {{action}}",
+  "walletWall.selectANetwork": "Please select a network to {{action}}"
 }

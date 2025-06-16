@@ -39,7 +39,7 @@ export const ConnectLinkedWallet: React.FC<{
     <>
       <WalletWall
         header={<ConnectLinkedWalletHeader linkedWallet={linkedWallet} />}
-        onSignMessage={() => {}}
+        onSignMessage={() => null}
       />
     </>
   );

@@ -34,6 +34,7 @@ import { shortAddress } from "lib/utils/shortAddress";
 import { DropdownPanel } from "components/ui/DropdownPanel";
 import { NetworkName } from "features/game/events/landExpansion/updateNetwork";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { NoNFT } from "./components/NoNFT";
 
 export type WalletAction =
   | "specialEvent"
@@ -343,7 +344,14 @@ const SelectChain: React.FC<{
 
   const multipleNetworks = filteredNetworkOptions.length > 1;
 
-  const text = `Please select ${multipleNetworks ? "a network" : filteredNetworkOptions[0].value} to ${ACTION_HUMAN_NAMES[action]}`;
+  const text = multipleNetworks
+    ? t("walletWall.selectANetwork", {
+        action: ACTION_HUMAN_NAMES[action],
+      })
+    : t("walletWall.selectSpecificNetwork", {
+        network: filteredNetworkOptions[0].value,
+        action: ACTION_HUMAN_NAMES[action],
+      });
 
   return (
     <>
@@ -414,7 +422,7 @@ export const Wallet: React.FC<Props> = ({
   }
 
   if (requiresNFT && !hasNFT) {
-    return <>NO NFT</>;
+    return <NoNFT />;
   }
 
   return (

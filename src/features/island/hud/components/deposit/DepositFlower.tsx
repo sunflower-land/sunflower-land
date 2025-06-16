@@ -3,14 +3,12 @@ import React, { useContext, useEffect, useState } from "react";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import * as AuthProvider from "features/auth/lib/Provider";
-import baseIcon from "assets/icons/chains/base.png";
 import flowerIcon from "assets/icons/flower_token.webp";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { useTranslation } from "react-i18next";
 import { CONFIG } from "lib/config";
-import { DropdownPanel } from "components/ui/DropdownPanel";
 import { NetworkName } from "features/game/events/landExpansion/updateNetwork";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { getFlowerBalance } from "lib/blockchain/DepositFlower";
@@ -19,33 +17,21 @@ import { DepositAddress } from "./DepositAddress";
 import { AcknowledgeConditions } from "./AcknowledgeConditions";
 import { DepositFromLinkedWallet } from "./DepositFromLinkedWallet";
 import { Button } from "components/ui/Button";
-import { useSwitchChain } from "wagmi";
+import { useAccount, useSwitchChain } from "wagmi";
+import {
+  BASE_MAINNET_NETWORK,
+  BASE_TESTNET_NETWORK,
+  networkOptions,
+} from "features/game/expansion/components/dailyReward/DailyReward";
+
+const BASE_FALLBACK_NETWORK =
+  CONFIG.NETWORK === "mainnet" ? BASE_MAINNET_NETWORK : BASE_TESTNET_NETWORK;
 
 export type NetworkOption = {
   value: NetworkName;
   icon: string;
   chainId: number;
 };
-
-const MAINNET_NETWORKS: NetworkOption[] = [
-  {
-    value: "Base",
-    icon: baseIcon,
-    chainId: base.id,
-  },
-];
-
-const TESTNET_NETWORKS: NetworkOption[] = [
-  {
-    value: "Base Sepolia",
-    icon: baseIcon,
-    chainId: baseSepolia.id,
-  },
-];
-
-// Select appropriate network options based on config
-const networkOptions =
-  CONFIG.NETWORK === "mainnet" ? MAINNET_NETWORKS : TESTNET_NETWORKS;
 
 const _depositAddress = (state: MachineState): string =>
   state.context.data["depositingFlower"]?.depositAddress ??
@@ -66,9 +52,6 @@ export const DepositFlower: React.FC<{ onClose: () => void }> = ({
   const { gameService } = useContext(Context);
   const { t } = useTranslation();
 
-  const [selectedNetwork, setSelectedNetwork] = useState<
-    NetworkOption | undefined
-  >();
   const [balanceState, setBalanceState] = useState<
     "loading" | "loaded" | "error"
   >("loading");
@@ -83,6 +66,11 @@ export const DepositFlower: React.FC<{ onClose: () => void }> = ({
   const linkedWallet = useSelector(gameService, _linkedWallet);
   const authToken = useSelector(authService, _authToken);
   const { switchChain } = useSwitchChain();
+  const { chainId } = useAccount();
+
+  const selectedNetwork =
+    networkOptions.find((network) => network.chainId === chainId) ??
+    BASE_FALLBACK_NETWORK;
 
   useEffect(() => {
     if (selectedNetwork?.value) {
@@ -127,22 +115,10 @@ export const DepositFlower: React.FC<{ onClose: () => void }> = ({
     gameService.send("flower.depositStarted", {
       effect: {
         type: "flower.depositStarted",
-        chainId: selectedNetwork?.chainId,
+        chainId: CONFIG.NETWORK === "mainnet" ? base.id : baseSepolia.id,
       },
       authToken,
     });
-  };
-
-  const handleNetworkChange = (networkName: NetworkName) => {
-    // Use proper type checking to ensure networkName is a valid key
-    const networkOption = networkOptions.find(
-      (option) => option.value === networkName,
-    ) as NetworkOption;
-
-    if (networkOption.value === selectedNetwork?.value) return;
-
-    setAcknowledged(false);
-    setSelectedNetwork(networkOption);
   };
 
   const handleBack = () => {
@@ -167,13 +143,6 @@ export const DepositFlower: React.FC<{ onClose: () => void }> = ({
           {t("deposit.flower")}
         </Label>
       </div>
-
-      <DropdownPanel<NetworkName>
-        options={networkOptions}
-        value={selectedNetwork?.value}
-        onChange={handleNetworkChange}
-        placeholder={t("deposit.flower.selectNetwork")}
-      />
 
       {/* Acknowledge conditions */}
       {!acknowledged && selectedNetwork?.value && (

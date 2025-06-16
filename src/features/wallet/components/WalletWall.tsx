@@ -313,17 +313,6 @@ export const WalletWall: React.FC<{
                     window.location.href = `${CONFIG.API_URL}/auth/google/authorize`;
                   }}
                 />
-                <button
-                  onClick={async () => {
-                    const response = await fetch(
-                      `${CONFIG.API_URL}/auth/dev/authorize`,
-                    );
-                    const data = await response.json();
-                    window.location.href = data.link;
-                  }}
-                >
-                  DEV ONLY BUTTON DELETE ME
-                </button>
               </>
             )}
 

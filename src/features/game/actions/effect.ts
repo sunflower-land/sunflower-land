@@ -51,7 +51,6 @@ export type StateMachineEffectName = Exclude<
   | "moderation.kicked"
   | "moderation.muted"
   | "moderation.unmuted"
-  | "nft.assigned"
 >;
 
 export type StateMachineStateName =
@@ -79,7 +78,8 @@ export type StateMachineStateName =
   | "seekingBlessing"
   | "marketplaceBulkListingsCancelling"
   | "marketplaceBulkOffersCancelling"
-  | "linkingWallet";
+  | "linkingWallet"
+  | "assigningNFT";
 
 export type StateNameWithStatus =
   | `${StateMachineStateName}Success`
@@ -115,6 +115,7 @@ export const STATE_MACHINE_EFFECTS: Record<
   "marketplace.bulkListingsCancelled": "marketplaceBulkListingsCancelling",
   "marketplace.bulkOffersCancelled": "marketplaceBulkOffersCancelling",
   "wallet.linked": "linkingWallet",
+  "nft.assigned": "assigningNFT",
 };
 export interface Effect {
   type: EffectName;

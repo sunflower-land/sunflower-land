@@ -22,5 +22,5 @@ const ConnectHeader: React.FC = () => {
 };
 
 export const ConnectWallet: React.FC = () => {
-  return <WalletWall header={<ConnectHeader />} onSignMessage={() => {}} />;
+  return <WalletWall header={<ConnectHeader />} onSignMessage={() => null} />;
 };

@@ -92,6 +92,7 @@ export async function trackDailyReward({
         chainId: NETWORKS[network].id as any,
       });
     } catch (e) {
+      // eslint-disable-next-line no-console
       console.error("Error switching network", e);
     }
   }

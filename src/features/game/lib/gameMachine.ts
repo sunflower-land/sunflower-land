@@ -438,6 +438,9 @@ const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
                   state: event.data.state,
                   linkedWallet:
                     event.data.data.linkedWallet ?? context.linkedWallet,
+                  nftId: event.data.data.nftId ?? context.nftId,
+                  farmAddress:
+                    event.data.data.farmAddress ?? context.farmAddress,
                   data: { ...context.data, [stateName]: event.data.data },
                 };
               }),
