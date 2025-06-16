@@ -53,6 +53,8 @@ import chonkyFeed from "assets/icons/skill_icons/chonky_feed.png";
 import compostingOverhaul from "assets/icons/skill_icons/composting_overhaul.png";
 import crimeFruit from "assets/icons/skill_icons/crime_fruit.png";
 import cropExtensionModule from "assets/icons/skill_icons/crop_extension_module.png";
+import rhubarb_zucchini from "assets/icons/skill_icons/rhubarb_zucchini.png";
+import yam_broccoli from "assets/icons/skill_icons/yam_broccoli.png";
 import doubleBale from "assets/icons/skill_icons/double_bale.png";
 import efficiencyExtensionModule from "assets/icons/skill_icons/efficiency_extension_module.png";
 import ferrousFavor from "assets/icons/skill_icons/ferrous_favor.png";
@@ -2631,10 +2633,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         shortDescription: translate("skill.cropExtensionModuleI"),
         labelType: "vibrant",
         boostTypeIcon: SUNNYSIDE.icons.lightning,
-        boostedItemIcon: ITEM_DETAILS["Rhubarb"].image,
+        boostedItemIcon: rhubarb_zucchini,
       },
     },
-    image: ITEM_DETAILS["Rhubarb"].image,
+    image: rhubarb_zucchini,
     disabled: false,
   },
   "Crop Processor Unit": {
@@ -2752,10 +2754,10 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
         shortDescription: translate("skill.cropExtensionModuleIII"),
         labelType: "vibrant",
         boostTypeIcon: SUNNYSIDE.icons.lightning,
-        boostedItemIcon: ITEM_DETAILS["Yam"].image,
+        boostedItemIcon: yam_broccoli,
       },
     },
-    image: ITEM_DETAILS["Yam"].image,
+    image: yam_broccoli,
     disabled: false,
   },
   "Rapid Rig": {
