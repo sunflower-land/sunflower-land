@@ -10,7 +10,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { BumpkinLevel } from "features/bumpkins/components/BumpkinModal";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { GameState } from "features/game/types/game";
+import { FactionName, GameState } from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { LABEL_STYLES } from "components/ui/Label";
 import { AirdropPlayer } from "features/island/hud/components/settings-menu/general-settings/AirdropPlayer";
@@ -19,12 +19,17 @@ import { ReportPlayer } from "./ReportPlayer";
 import { PlayerGift } from "./PlayerGift";
 import { StreamReward } from "./StreamReward";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { PlayerDetails } from "features/social/PlayerModal";
+import { OuterPanel } from "components/ui/Panel";
 
 export type PlayerModalPlayer = {
   id: number;
   username?: string;
   clothing: BumpkinParts;
   experience: number;
+  isVip: boolean;
+  faction: FactionName;
+  createdAt: number;
 };
 
 class PlayerModalManager {
@@ -43,7 +48,9 @@ class PlayerModalManager {
 
 export const playerModalManager = new PlayerModalManager();
 
-const PlayerDetails: React.FC<{ player: PlayerModalPlayer }> = ({ player }) => {
+const OldPlayerDetails: React.FC<{ player: PlayerModalPlayer }> = ({
+  player,
+}) => {
   const { t } = useAppTranslation();
   const [showLabel, setShowLabel] = useState(false);
 
@@ -114,7 +121,20 @@ export const PlayerModals: React.FC<Props> = ({ game, farmId }) => {
   const [tab, setTab] = useState<
     "Player" | "Reward" | "Stream" | "Report" | "Airdrop"
   >("Player");
-  const [player, setPlayer] = useState<PlayerModalPlayer>();
+  const [player, setPlayer] = useState<PlayerModalPlayer | undefined>({
+    id: 1456789,
+    clothing: {
+      hair: "Sun Spots",
+      shirt: "Red Farmer Shirt",
+      pants: "Farmer Overalls",
+      background: "Seashore Background",
+    },
+    experience: 100,
+    username: "Test Player",
+    isVip: true,
+    faction: "goblins",
+    createdAt: new Date("2027-06-01").getTime(),
+  });
 
   useEffect(() => {
     playerModalManager.listen((npc) => {
@@ -155,7 +175,7 @@ export const PlayerModals: React.FC<Props> = ({ game, farmId }) => {
   const notCurrentPlayer = farmId !== player?.id;
 
   return (
-    <Modal show={!!player} onHide={closeModal}>
+    <Modal show={!!player} onHide={closeModal} size="lg">
       <CloseButtonPanel
         onClose={closeModal}
         bumpkinParts={player?.clothing}
@@ -199,6 +219,7 @@ export const PlayerModals: React.FC<Props> = ({ game, farmId }) => {
               ]
             : []),
         ]}
+        container={OuterPanel}
       >
         {tab === "Player" && (
           <PlayerDetails player={player as PlayerModalPlayer} />
