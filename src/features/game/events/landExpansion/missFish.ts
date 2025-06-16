@@ -21,9 +21,5 @@ export function missFish({ state }: Options): GameState {
     delete game.fishing.wharf.castedAt;
     delete game.fishing.wharf.caught;
     delete game.fishing.wharf.chum;
-
-    return {
-      ...game,
-    };
   });
 }
