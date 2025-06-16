@@ -21,6 +21,8 @@ import { tradeToId } from "features/marketplace/lib/offers";
 import { isTradeResource } from "features/game/actions/tradeLimits";
 import { MyTableRow } from "./MyTableRow";
 import { MARKETPLACE_TAX } from "features/game/types/marketplace";
+import { Button } from "components/ui/Button";
+import { BulkRemoveTrades } from "../BulkRemoveListings";
 
 const _isCancellingOffer = (state: MachineState) =>
   state.matches("marketplaceListingCancelling");
@@ -28,11 +30,12 @@ const _trades = (state: MachineState) => state.context.state.trades;
 const _authToken = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
 const _state = (state: MachineState) => state.context.state;
+
 export const MyListings: React.FC = () => {
   const { t } = useAppTranslation();
   const params = useParams();
   const { gameService } = useContext(Context);
-  const state = useSelector(gameService, _state);
+
   const { authService } = useContext(Auth.Context);
   const isWorldRoute = useLocation().pathname.includes("/world");
 
@@ -40,7 +43,9 @@ export const MyListings: React.FC = () => {
 
   const [claimId, setClaimId] = useState<string>();
   const [removeListingId, setRemoveListingId] = useState<string>();
+  const [bulkCancel, setBulkCancel] = useState<boolean>(false);
 
+  const state = useSelector(gameService, _state);
   const isCancellingListing = useSelector(gameService, _isCancellingOffer);
   const trades = useSelector(gameService, _trades);
   const authToken = useSelector(authService, _authToken);
@@ -104,6 +109,14 @@ export const MyListings: React.FC = () => {
           />
         )}
       </Modal>
+      <Modal show={!!bulkCancel} onHide={() => setBulkCancel(false)}>
+        <BulkRemoveTrades
+          ids={Object.keys(listings)}
+          type="listings"
+          authToken={authToken}
+          onClose={() => setBulkCancel(false)}
+        />
+      </Modal>
       <Modal show={!!claimId} onHide={() => setClaimId(undefined)}>
         {claimId && (
           <ClaimPurchase
@@ -116,10 +129,18 @@ export const MyListings: React.FC = () => {
 
       <InnerPanel className="mb-1">
         <div className="p-2">
-          <div className="flex items-center justify-between">
-            <Label className="mb-2" type="default" icon={trade}>
+          <div className="flex items-center justify-between mb-2">
+            <Label type="default" icon={trade}>
               {t("marketplace.myListings")}
             </Label>
+            <Button
+              className="w-fit h-8 rounded-none"
+              onClick={() => setBulkCancel(true)}
+            >
+              <p className="text-xxs sm:text-sm">
+                {t("marketplace.bulkCancel")}
+              </p>
+            </Button>
           </div>
           <div className="flex flex-wrap">
             {getKeys(filteredListings).length === 0 ? (
