@@ -353,9 +353,7 @@ export function getTreasuresFound({ game }: { game: GameState }) {
 }
 
 export function getArtefactsFound({ game }: { game: GameState }) {
-  return game.desert.digging.grid.flat().filter((hole) => {
-    return getKeys(hole.items)[0] === SEASONAL_ARTEFACT[getCurrentSeason()];
-  }).length;
+  return game.desert.digging.completedPatterns?.length ?? 0;
 }
 
 export function hasClaimedReward({ game }: { game: GameState }) {
