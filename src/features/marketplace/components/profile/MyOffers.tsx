@@ -127,7 +127,7 @@ export const MyOffers: React.FC = () => {
 
       <Modal show={!!bulkCancel} onHide={() => setBulkCancel(false)}>
         <BulkRemoveTrades
-          ids={Object.keys(offers)}
+          ids={Object.keys(filteredOffers)}
           type="offers"
           authToken={authToken}
           onClose={() => setBulkCancel(false)}
