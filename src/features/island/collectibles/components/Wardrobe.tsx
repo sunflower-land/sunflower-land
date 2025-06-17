@@ -8,10 +8,10 @@ import { WardrobeWearables } from "features/home/components/WardrobeWearables";
 import { OuterPanel } from "components/ui/Panel";
 import { hasFeatureAccess } from "lib/flags";
 function hasOpened() {
-  return !!localStorage.getItem("hasOpenedWardrobe");
+  return !!localStorage.getItem("hasOpenedNewWardrobe");
 }
 function acknowledge() {
-  localStorage.setItem("hasOpenedWardrobe", "true");
+  localStorage.setItem("hasOpenedNewWardrobe", "true");
 }
 export const Wardrobe: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
@@ -25,7 +25,7 @@ export const Wardrobe: React.FC = () => {
       {!hasOpened() && hasAccess && (
         <img
           src={SUNNYSIDE.icons.click_icon}
-          className="absolute bottom-0 right-0 z-20 cursor-pointer"
+          className="absolute bottom-0 right-0 z-20 cursor-pointer animate-pulsate"
           style={{
             width: `${PIXEL_SCALE * 18}px`,
             right: `${PIXEL_SCALE * -8}px`,
