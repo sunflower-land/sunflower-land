@@ -122,7 +122,7 @@ const NavigationMenu: React.FC<{
   setPage: (page: Page) => void;
 }> = ({ page, setPage }) => {
   return (
-    <div className="flex items-center pb-2">
+    <div className="flex items-center ml-2 pb-1">
       <img
         src={SUNNYSIDE.icons.arrow_left}
         className="self-start cursor-pointer mr-3"

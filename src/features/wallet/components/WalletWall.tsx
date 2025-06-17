@@ -1,6 +1,5 @@
 import React from "react";
 import { Button } from "components/ui/Button";
-import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useIsPWA } from "lib/utils/hooks/useIsPWA";
 import { isMobile } from "mobile-device-detect";
@@ -13,7 +12,6 @@ import {
   useConnections,
   useDisconnect,
 } from "wagmi";
-import walletIcon from "assets/icons/wallet.png";
 import { ConnectErrorType } from "wagmi/actions";
 import { RoninButtons } from "./buttons/RoninButtons";
 import { OtherWalletsButton } from "./buttons/OtherWalletsButton";
@@ -43,12 +41,7 @@ const ConnectingToWallet: React.FC<{ disconnect: () => void }> = ({
 
   return (
     <div>
-      <div className="pt-1 pl-2">
-        <Label type="default" icon={walletIcon}>
-          {t("walletWall.connectingToWallet")}
-        </Label>
-      </div>
-      <div className="p-2">
+      <div className="px-2 mb-3 mt-1">
         <p className="text-sm">{t("walletWall.pleaseAcceptConnection")}</p>
       </div>
       <Button onClick={disconnect}>{t("walletWall.tryAnotherWallet")}</Button>
@@ -64,34 +57,26 @@ const ConnectErrorMessage: React.FC<{
   switch (error.name) {
     case "ConnectorAlreadyConnectedError":
       return (
-        <div className="p-2">
+        <div className="px-2 mt-2 mb-3">
           {t("walletWall.connectError.alreadyConnected")}
         </div>
       );
     case "UserRejectedRequestError":
       return (
-        <div className="p-2">
+        <div className="px-2 mt-2 mb-3">
           {t("walletWall.connectError.userRejectedRequest")}
         </div>
       );
     case "ResourceUnavailableRpcError":
       return (
-        <div className="p-2">
+        <div className="px-2 mt-2 mb-3">
           {t("walletWall.connectError.resourceUnavailable")}
         </div>
       );
     case "WagmiCoreError":
-      return (
-        <div className="py-2">
-          <Label type="warning">{error.message}</Label>
-        </div>
-      );
+      return <div className="px-2 mt-2 mb-3">{error.message}</div>;
     default:
-      return (
-        <div className="py-2">
-          <Label type="warning">{error.message}</Label>
-        </div>
-      );
+      return <div className="px-2 mt-2 mb-3">{error.message}</div>;
   }
 };
 
@@ -103,11 +88,6 @@ const ConnectError: React.FC<{
 
   return (
     <div>
-      <div className="pt-1 pl-2">
-        <Label type="default" icon={walletIcon}>
-          {t("walletWall.connectingToWallet")}
-        </Label>
-      </div>
       <ConnectErrorMessage error={error} />
       <div>
         <Button onClick={() => disconnect()}>
@@ -226,7 +206,7 @@ export const WalletWall: React.FC<{
   if (isMobilePWA) {
     return (
       <div
-        className="overflow-y-auto scrollable"
+        className="overflow-y-auto scrollable pt-1"
         style={{ maxHeight: CONTENT_HEIGHT }}
       >
         <>

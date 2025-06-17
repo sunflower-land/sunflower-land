@@ -122,7 +122,6 @@ export const WithdrawFlower: React.FC<Props> = ({ onWithdraw }) => {
     <>
       <div className="p-2 mb-2">
         <div className="flex flex-col items-start gap-2">
-          <Label type="default">{t("withdraw.choose")}</Label>
           {hasFeatureAccess(state, "WITHDRAWAL_THRESHOLD") && (
             <Label type="warning">{t("withdraw.flower.limited")}</Label>
           )}

@@ -116,7 +116,7 @@ export const DepositFlower: React.FC<{ onClose: () => void }> = ({
 
   return (
     <>
-      <div className="flex items-center gap-3 mb-2">
+      <div className="flex items-center ml-2 gap-3 my-2">
         <img
           src={SUNNYSIDE.icons.arrow_left}
           className="w-6 cursor-pointer"
