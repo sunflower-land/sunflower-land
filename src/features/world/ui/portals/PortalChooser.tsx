@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { ButtonPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -14,8 +14,6 @@ import { Halloween } from "./Halloween";
 import { translate } from "lib/i18n/translate";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { MineWhack } from "./MineWhack";
-import { hasFeatureAccess } from "lib/flags";
-import { Context as GameContext } from "features/game/GameProvider";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `portal-chooser-${host}-${window.location.pathname}`;
@@ -75,24 +73,18 @@ const PORTAL_OPTIONS: PortalOption[] = [
     description: translate("portal.halloween.description"),
     component: Halloween,
   },
+  {
+    id: "mine-whack",
+    npc: "minewhack",
+    title: translate("portal.mineWhack.title"),
+    description: translate("portal.mineWhack.description"),
+    component: MineWhack,
+  },
 ];
 
 export const PortalChooser: React.FC<{ onClose: () => void }> = ({
   onClose,
 }) => {
-  const { gameService } = useContext(GameContext);
-  if (
-    hasFeatureAccess(gameService.state?.context?.state, "MINE_WHACK_BETA") &&
-    PORTAL_OPTIONS.find((game) => game.id === "mine-whack") == undefined
-  ) {
-    PORTAL_OPTIONS.push({
-      id: "mine-whack",
-      npc: "minewhack",
-      title: translate("portal.mineWhack.title"),
-      description: translate("portal.mineWhack.description"),
-      component: MineWhack,
-    });
-  }
   const { t } = useAppTranslation();
   const [selectedGame, setSelectedGame] = useState<MinigameName>();
   const [showIntro, setShowIntro] = useState(!hasReadIntro());
