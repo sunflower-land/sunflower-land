@@ -8,6 +8,7 @@ import { getKeys } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
 import { STYLIST_WEARABLES } from "features/game/types/stylist";
 import { produce } from "immer";
+import { hasFeatureAccess } from "lib/flags";
 
 export type BuyWearableAction = {
   type: "wearable.bought";
@@ -26,6 +27,13 @@ export function buyWearable({
   createdAt = Date.now(),
 }: Options) {
   return produce(state, (stateCopy) => {
+    if (
+      !hasFeatureAccess(stateCopy, "WARDROBE") &&
+      action.name in STYLIST_WEARABLES
+    ) {
+      throw new Error("Wardrobe is not available");
+    }
+
     const { name } = action;
     const wearable = { ...STYLIST_WEARABLES, ...ARTEFACT_SHOP_WEARABLES }[name];
 
