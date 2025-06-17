@@ -1,4 +1,4 @@
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
@@ -46,12 +46,8 @@ export const WardrobeWearables: React.FC = () => {
     getKeys(STYLIST_WEARABLES)[0],
   );
   const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
-  const inventory = state.inventory;
+  const state = useSelector(gameService, (state) => state.context.state);
+  const { inventory, coins, wardrobe } = state;
 
   const wearable = STYLIST_WEARABLES[selected] as StylistWearable; // Add type assertion to StylistWearable
 
@@ -60,7 +56,7 @@ export const WardrobeWearables: React.FC = () => {
   const lessFunds = () => {
     if (!price) return false;
 
-    return state.coins < price;
+    return coins < price;
   };
 
   const lessIngredients = () =>
@@ -106,7 +102,7 @@ export const WardrobeWearables: React.FC = () => {
 
   const { t } = useAppTranslation();
   const Action = () => {
-    if (wearable.requiresItem && !state.inventory[wearable.requiresItem]) {
+    if (wearable.requiresItem && !inventory[wearable.requiresItem]) {
       return (
         <div className="flex items-center justify-center">
           <img
@@ -176,7 +172,7 @@ export const WardrobeWearables: React.FC = () => {
                   key={item}
                   onClick={() => setSelected(item)}
                   image={getImageUrl(ITEM_IDS[item])}
-                  count={new Decimal(state.wardrobe[item] ?? 0)}
+                  count={new Decimal(wardrobe[item] ?? 0)}
                   showOverlay={timeLimited}
                   overlayIcon={
                     <img
