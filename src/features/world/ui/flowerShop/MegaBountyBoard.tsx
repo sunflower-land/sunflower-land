@@ -201,10 +201,10 @@ export const MegaBountyBoardContent: React.FC<{ readonly?: boolean }> = ({
               <p className="text-sm">{t("bounties.board.empty")}</p>
             ) : (
               getObjectEntries(bountiesByCategory).map(
-                ([category, { categoryName, bounties }]) => {
+                ([category, { categoryName, bounties }], index) => {
                   if (bounties.length === 0) return null;
                   return (
-                    <div key={category}>
+                    <div key={`${category}-${index}`}>
                       <Label type="default" className="mb-2">
                         {categoryName}
                       </Label>
