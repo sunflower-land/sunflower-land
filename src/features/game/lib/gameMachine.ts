@@ -186,13 +186,6 @@ type CommunityEvent = {
   game: GameState;
 };
 
-type WalletUpdatedEvent = {
-  type: "WALLET_UPDATED";
-  linkedWallet: string;
-  farmAddress: string;
-  nftId: number;
-};
-
 type BuyBlockBucksEvent = {
   type: "BUY_GEMS";
   currency: Currency;
@@ -275,7 +268,6 @@ type TransactEvent = {
 export type BlockchainEvent =
   | { type: "SAVE" }
   | TransactEvent
-  | WalletUpdatedEvent
   | CommunityEvent
   | SellMarketResourceEvent
   | { type: "REFRESH" }
@@ -444,6 +436,11 @@ const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
                 return {
                   actions: [],
                   state: event.data.state,
+                  linkedWallet:
+                    event.data.data.linkedWallet ?? context.linkedWallet,
+                  nftId: event.data.data.nftId ?? context.nftId,
+                  farmAddress:
+                    event.data.data.farmAddress ?? context.farmAddress,
                   data: { ...context.data, [stateName]: event.data.data },
                 };
               }),
@@ -2141,13 +2138,6 @@ export function startGame(authContext: AuthContext) {
         COMMUNITY_UPDATE: {
           actions: assign({
             state: (_, event) => event.game,
-          }),
-        },
-        WALLET_UPDATED: {
-          actions: assign({
-            nftId: (_, event) => event.nftId,
-            farmAddress: (_, event) => event.farmAddress,
-            linkedWallet: (_, event) => event.linkedWallet,
           }),
         },
       },

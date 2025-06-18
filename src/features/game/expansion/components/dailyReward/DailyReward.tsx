@@ -28,24 +28,29 @@ import {
   State,
   TypegenDisabled,
 } from "xstate";
-import { DropdownPanel } from "components/ui/DropdownPanel";
-import { NetworkOption } from "features/island/hud/components/deposit/DepositFlower";
 import baseIcon from "assets/icons/chains/base.png";
 import { CONFIG } from "lib/config";
-import { NetworkName } from "features/game/events/landExpansion/updateNetwork";
 import { Context } from "features/game/GameProvider";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
+import { NetworkName } from "features/game/events/landExpansion/updateNetwork";
 
 const _network = (state: MachineState) => state.context.state.settings.network;
 
-const MAINNET_NETWORKS: NetworkOption[] = [
-  {
-    value: "Base",
-    icon: baseIcon,
-    chainId: 8453,
-  },
+export type NetworkOption = {
+  value: NetworkName;
+  icon: string;
+  chainId: number;
+};
 
+export const BASE_MAINNET_NETWORK: NetworkOption = {
+  value: "Base",
+  icon: baseIcon,
+  chainId: 8453,
+};
+
+const MAINNET_NETWORKS: NetworkOption[] = [
+  BASE_MAINNET_NETWORK,
   {
     value: "Ronin",
     icon: SUNNYSIDE.icons.roninIcon,
@@ -58,12 +63,14 @@ const MAINNET_NETWORKS: NetworkOption[] = [
   },
 ];
 
+export const BASE_TESTNET_NETWORK: NetworkOption = {
+  value: "Base Sepolia",
+  icon: baseIcon,
+  chainId: 84532,
+};
+
 const TESTNET_NETWORKS: NetworkOption[] = [
-  {
-    value: "Base Sepolia",
-    icon: baseIcon,
-    chainId: 84532,
-  },
+  BASE_TESTNET_NETWORK,
   {
     value: "Ronin Saigon",
     icon: SUNNYSIDE.icons.roninIcon,
@@ -77,7 +84,7 @@ const TESTNET_NETWORKS: NetworkOption[] = [
 ];
 
 // Select appropriate network options based on config
-const networkOptions =
+export const networkOptions =
   CONFIG.NETWORK === "mainnet" ? MAINNET_NETWORKS : TESTNET_NETWORKS;
 
 export const DailyRewardContent: React.FC<{
@@ -123,26 +130,9 @@ export const DailyRewardContent: React.FC<{
 
   const network = useSelector(gameService, _network);
 
-  const handleNetworkChange = (networkName: NetworkName) => {
-    // Use proper type checking to ensure networkName is a valid key
-    const networkOption = networkOptions.find(
-      (option) => option.value === networkName,
-    ) as NetworkOption;
-
-    if (!networkOption) {
-      return;
-    }
-
-    gameService.send("network.updated", { network: networkName });
-  };
-
   useEffect(() => {
     chestService.send("UPDATE_BUMPKIN_LEVEL", { bumpkinLevel });
   }, [bumpkinLevel]);
-
-  useEffect(() => {
-    chestService.send("UPDATE_NETWORK", { network });
-  }, [network]);
 
   const reveal = () => {
     gameService.send("REVEAL", {
@@ -208,13 +198,6 @@ export const DailyRewardContent: React.FC<{
     if (chestState.matches("locked")) {
       return (
         <>
-          <DropdownPanel<NetworkName>
-            options={networkOptions}
-            value={network}
-            onChange={handleNetworkChange}
-            placeholder={t("deposit.flower.selectNetwork")}
-          />
-
           <div className="flex flex-col items-center px-2 mt-2">
             {streaks > 1 && !missedADay && (
               <>
@@ -248,12 +231,6 @@ export const DailyRewardContent: React.FC<{
     if (chestState.matches("error")) {
       return (
         <>
-          <DropdownPanel<NetworkName>
-            options={networkOptions}
-            value={network}
-            onChange={handleNetworkChange}
-            placeholder={t("deposit.flower.selectNetwork")}
-          />
           <div className="flex flex-col items-center p-2">
             <Label type="danger" className="px-0.5 mb-2 text-base">
               {t("error.wentWrong")}

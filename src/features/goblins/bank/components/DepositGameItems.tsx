@@ -36,7 +36,6 @@ import { getImageUrl } from "lib/utils/getImageURLS";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context as GameContext } from "features/game/GameProvider";
 import { GameWallet } from "features/wallet/Wallet";
-import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -93,7 +92,7 @@ export const DepositGameItems: React.FC<Props> = ({
   linkedWallet,
 }) => {
   return (
-    <GameWallet action="deposit">
+    <GameWallet action="depositItems">
       <DepositOptions
         onClose={onClose}
         onDeposit={onDeposit}
@@ -280,22 +279,6 @@ const DepositOptions: React.FC<Props> = ({
       {status === "loaded" && emptyWallet && (
         <div>
           <div className="p-2 space-y-2">
-            <div className="flex justify-between sm:flex-row flex-col">
-              <Label
-                type="formula"
-                icon={SUNNYSIDE.icons.polygonIcon}
-                className="mb-2"
-              >
-                {t("polygon.required")}
-              </Label>
-              <div className="-mr-4">
-                <WalletAddressLabel
-                  walletAddress={linkedWallet}
-                  showLabelTitle={true}
-                />
-              </div>
-            </div>
-
             <p className="flex text-xs sm:text-xs">
               {t("deposit.addCollectiblesToPolygonWallet")}
             </p>
@@ -312,23 +295,8 @@ const DepositOptions: React.FC<Props> = ({
         </div>
       )}
       {status === "loaded" && !emptyWallet && (
-        <GameWallet action="confirmDeposit">
+        <>
           <div className="p-2 mb-1">
-            <div className="flex justify-between sm:flex-row flex-col">
-              <Label
-                type="formula"
-                icon={SUNNYSIDE.icons.polygonIcon}
-                className="mb-2"
-              >
-                {t("polygon.required")}
-              </Label>
-              <div className="-mr-4 hidden sm:block">
-                <WalletAddressLabel
-                  walletAddress={linkedWallet}
-                  showLabelTitle={true}
-                />
-              </div>
-            </div>
             <div className="divide-y-2 divide-dashed divide-brown-600">
               <div className="space-y-3">
                 {hasItemsInInventory && (
@@ -485,7 +453,7 @@ const DepositOptions: React.FC<Props> = ({
           >
             {t("deposit.sendToFarm")}
           </Button>
-        </GameWallet>
+        </>
       )}
     </>
   );

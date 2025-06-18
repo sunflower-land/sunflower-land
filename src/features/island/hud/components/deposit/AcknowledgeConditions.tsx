@@ -11,7 +11,7 @@ export const AcknowledgeConditions: React.FC<{
   const { t } = useTranslation();
   return (
     <>
-      <div className="flex mb-2 flex-col p-2 mt-1 text-xxs sm:text-xs">
+      <div className="flex mb-2 flex-col p-2 pt-0 mt-1 text-xs">
         <div className="w-full flex gap-1 h-8">
           <div className="w-6 flex items-center justify-center">
             <img

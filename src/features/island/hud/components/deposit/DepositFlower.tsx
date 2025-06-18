@@ -3,23 +3,27 @@ import React, { useContext, useEffect, useState } from "react";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import * as AuthProvider from "features/auth/lib/Provider";
-import baseIcon from "assets/icons/chains/base.png";
 import flowerIcon from "assets/icons/flower_token.webp";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { useTranslation } from "react-i18next";
 import { CONFIG } from "lib/config";
-import { DropdownPanel } from "components/ui/DropdownPanel";
 import { NetworkName } from "features/game/events/landExpansion/updateNetwork";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { getFlowerBalance } from "lib/blockchain/DepositFlower";
 import { base, baseSepolia } from "viem/chains";
-import { WalletContext } from "features/wallet/WalletProvider";
 import { DepositAddress } from "./DepositAddress";
 import { AcknowledgeConditions } from "./AcknowledgeConditions";
 import { DepositFromLinkedWallet } from "./DepositFromLinkedWallet";
 import { Button } from "components/ui/Button";
+import {
+  BASE_MAINNET_NETWORK,
+  BASE_TESTNET_NETWORK,
+} from "features/game/expansion/components/dailyReward/DailyReward";
+
+const BASE_NETWORK =
+  CONFIG.NETWORK === "mainnet" ? BASE_MAINNET_NETWORK : BASE_TESTNET_NETWORK;
 
 export type NetworkOption = {
   value: NetworkName;
@@ -27,29 +31,8 @@ export type NetworkOption = {
   chainId: number;
 };
 
-const MAINNET_NETWORKS: NetworkOption[] = [
-  {
-    value: "Base",
-    icon: baseIcon,
-    chainId: base.id,
-  },
-];
-
-const TESTNET_NETWORKS: NetworkOption[] = [
-  {
-    value: "Base Sepolia",
-    icon: baseIcon,
-    chainId: baseSepolia.id,
-  },
-];
-
-// Select appropriate network options based on config
-const networkOptions =
-  CONFIG.NETWORK === "mainnet" ? MAINNET_NETWORKS : TESTNET_NETWORKS;
-
 const _depositAddress = (state: MachineState): string =>
-  state.context.data["depositingFlower"]?.depositAddress ??
-  "0x0000000000000000000000000000000000000000";
+  state.context.data["depositingFlower"]?.depositAddress;
 
 const _success = (state: MachineState) =>
   state.matches("depositingFlowerSuccess");
@@ -64,12 +47,8 @@ export const DepositFlower: React.FC<{ onClose: () => void }> = ({
 }) => {
   const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
-  const { walletService } = useContext(WalletContext);
   const { t } = useTranslation();
 
-  const [selectedNetwork, setSelectedNetwork] = useState<
-    NetworkOption | undefined
-  >();
   const [balanceState, setBalanceState] = useState<
     "loading" | "loaded" | "error"
   >("loading");
@@ -84,26 +63,18 @@ export const DepositFlower: React.FC<{ onClose: () => void }> = ({
   const linkedWallet = useSelector(gameService, _linkedWallet);
   const authToken = useSelector(authService, _authToken);
 
+  const selectedNetwork = BASE_NETWORK;
+
   useEffect(() => {
-    if (selectedNetwork?.value) {
-      walletService.send("SWITCH_NETWORK", {
-        chainId: selectedNetwork.chainId,
-      });
-      refreshDeposits();
-    }
-  }, [selectedNetwork]);
+    fetchBalance(selectedNetwork);
+    refreshDeposits();
+  }, []);
 
   useEffect(() => {
     if (success || failed) {
       gameService.send("CONTINUE");
     }
   }, [success, failed]);
-
-  useEffect(() => {
-    if (!selectedNetwork) return;
-
-    fetchBalance(selectedNetwork);
-  }, [linkedWallet, selectedNetwork]);
 
   const fetchBalance = async (selectedNetwork: NetworkOption) => {
     setBalanceState("loading");
@@ -127,22 +98,10 @@ export const DepositFlower: React.FC<{ onClose: () => void }> = ({
     gameService.send("flower.depositStarted", {
       effect: {
         type: "flower.depositStarted",
-        chainId: selectedNetwork?.chainId,
+        chainId: CONFIG.NETWORK === "mainnet" ? base.id : baseSepolia.id,
       },
       authToken,
     });
-  };
-
-  const handleNetworkChange = (networkName: NetworkName) => {
-    // Use proper type checking to ensure networkName is a valid key
-    const networkOption = networkOptions.find(
-      (option) => option.value === networkName,
-    ) as NetworkOption;
-
-    if (networkOption.value === selectedNetwork?.value) return;
-
-    setAcknowledged(false);
-    setSelectedNetwork(networkOption);
   };
 
   const handleBack = () => {
@@ -157,7 +116,7 @@ export const DepositFlower: React.FC<{ onClose: () => void }> = ({
 
   return (
     <>
-      <div className="flex items-center gap-3 mb-2">
+      <div className="flex items-center ml-2 gap-3 my-2">
         <img
           src={SUNNYSIDE.icons.arrow_left}
           className="w-6 cursor-pointer"
@@ -167,13 +126,6 @@ export const DepositFlower: React.FC<{ onClose: () => void }> = ({
           {t("deposit.flower")}
         </Label>
       </div>
-
-      <DropdownPanel<NetworkName>
-        options={networkOptions}
-        value={selectedNetwork?.value}
-        onChange={handleNetworkChange}
-        placeholder={t("deposit.flower.selectNetwork")}
-      />
 
       {/* Acknowledge conditions */}
       {!acknowledged && selectedNetwork?.value && (

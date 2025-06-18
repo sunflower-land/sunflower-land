@@ -11,7 +11,6 @@ import { BuyGemsWidget } from "features/announcements/AnnouncementWidgets";
 import { DepositFlower } from "./deposit/DepositFlower";
 import { SwapSFLForCoins } from "./SwapSFLForCoins";
 import * as AuthProvider from "features/auth/lib/Provider";
-import { RoninSupportWidget } from "features/wallet/components/PolygonRequired";
 import { XsollaLoading } from "features/game/components/modal/components/XsollaLoading";
 import { XsollaIFrame } from "features/game/components/modal/components/XsollaIFrame";
 import {
@@ -238,7 +237,6 @@ export const CurrenciesModal: React.FC<Props> = ({
               <SwapSFLForCoins onClose={() => setPage("menu")} />
             )}
           </Panel>
-          <RoninSupportWidget />
           <BuyGemsWidget />
         </>
       )}

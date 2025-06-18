@@ -7,9 +7,7 @@ import React, {
 } from "react";
 import { Context } from "../lib/Provider";
 import { getFarms } from "lib/blockchain/Farm";
-import { wallet } from "lib/blockchain/wallet";
 import { Button } from "components/ui/Button";
-import { Wallet } from "features/wallet/Wallet";
 import { OuterPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { isAddress } from "web3-utils";
@@ -140,12 +138,10 @@ export const NoAccount: React.FC = () => {
 
   if (showClaimAccount) {
     return (
-      <Wallet action="login">
-        <ClaimAccount
-          onBack={() => setShowClaimAccount(false)}
-          onClaim={(id) => authService.send("CLAIM", { id })}
-        />
-      </Wallet>
+      <ClaimAccount
+        onBack={() => setShowClaimAccount(false)}
+        onClaim={(id) => authService.send("CLAIM", { id })}
+      />
     );
   }
 
@@ -209,6 +205,9 @@ export const ClaimAccount: React.FC<{
   onClaim: (id: number) => void;
   onBack: () => void;
 }> = ({ onBack, onClaim }) => {
+  const { authService } = useContext(Context);
+  const [authState] = useActor(authService);
+
   const [isLoading, setIsLoading] = useState(false);
   const [tokenIds, setTokenIds] = useState<number[]>([]);
   const { t } = useAppTranslation();
@@ -217,7 +216,9 @@ export const ClaimAccount: React.FC<{
     const load = async () => {
       setIsLoading(true);
 
-      const farms = await getFarms(wallet.getAccount() as `0x${string}`);
+      const farms = await getFarms(
+        authState.context.user.token?.address as `0x${string}`,
+      );
 
       const ids = farms.map((farm) => Number(farm.tokenId));
 

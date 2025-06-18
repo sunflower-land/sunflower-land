@@ -13,7 +13,6 @@ import { Label } from "components/ui/Label";
 import { translate } from "lib/i18n/translate";
 
 import { removeJWT } from "features/auth/actions/social";
-import { WalletContext } from "features/wallet/WalletProvider";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
@@ -80,7 +79,6 @@ const GameOptions: React.FC<ContentComponentProps> = ({
 }) => {
   const { gameService } = useContext(GameContext);
   const { authService } = useContext(Auth.Context);
-  const { walletService } = useContext(WalletContext);
 
   const { openModal } = useContext(ModalContext);
 
@@ -117,7 +115,6 @@ const GameOptions: React.FC<ContentComponentProps> = ({
   const onLogout = () => {
     removeJWT();
     authService.send("LOGOUT");
-    walletService.send("RESET");
   };
 
   const canRefresh = !gameService.state.context.state.transaction;

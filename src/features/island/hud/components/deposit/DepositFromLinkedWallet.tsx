@@ -7,7 +7,6 @@ import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { useOnMachineTransition } from "lib/utils/hooks/useOnMachineTransition";
 import { formatEther, parseEther } from "viem";
-import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
 import flowerIcon from "assets/icons/flower_token.webp";
 import { Button } from "components/ui/Button";
 import { NumberInput } from "components/ui/NumberInput";
@@ -92,21 +91,18 @@ export const DepositFromLinkedWallet: React.FC<{
     <div className="flex flex-col mt-1">
       <GameWallet action="depositFlower">
         <div className="flex flex-col my-3 justify-center">
-          <div className="ml-3">
-            <WalletAddressLabel walletAddress={linkedWallet} showLabelTitle />
-          </div>
           {balanceState === "loading" && (
-            <div className="flex justify-between w-full p-2">
+            <div className="flex justify-between w-full p-2 pt-0">
               <span>{`${t("deposit.loadingBalance")}`}</span>
             </div>
           )}
           {balanceState === "error" && (
-            <div className="flex justify-between w-full p-2">
+            <div className="flex justify-between w-full p-2 pt-0">
               <span>{`${t("deposit.balanceLoadingError")}`}</span>
             </div>
           )}
           {balanceState === "loaded" && (
-            <div className="flex justify-between w-full p-2">
+            <div className="flex justify-between w-full p-2 pt-0">
               <span>{`${t("available")}: `}</span>
               <div className="flex items-center gap-1">
                 <span>{`${formatEther(linkedWalletBalance)}`}</span>

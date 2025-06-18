@@ -585,6 +585,7 @@ export const SUNNYSIDE = {
     plus: `${CONFIG.PROTECTED_IMAGE_URL}/icons/plus.png`,
     minus: `${CONFIG.PROTECTED_IMAGE_URL}/icons/minus.png`,
     wardrobe: `${CONFIG.PROTECTED_IMAGE_URL}/icons/wardrobe.png`,
+    chevron_up: `${CONFIG.PROTECTED_IMAGE_URL}/icons/chevron_up.png`,
     chevron_down: `${CONFIG.PROTECTED_IMAGE_URL}/icons/chevron_down.png`,
     chevron_right: `${CONFIG.PROTECTED_IMAGE_URL}/icons/chevron_right.png`,
     dig_icon: `${CONFIG.PROTECTED_IMAGE_URL}/icons/dig_icon.png`,

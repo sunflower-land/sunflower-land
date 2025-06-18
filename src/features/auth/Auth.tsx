@@ -102,7 +102,7 @@ export const Auth: React.FC<Props> = ({ showOfflineModal }) => {
             {authState.matches("authorising") && <Loading />}
             {authState.matches("verifying") && <Verifying />}
             {(authState.matches("idle") || authState.matches("signIn")) && (
-              <SignIn type="signin" />
+              <SignIn />
             )}
             {authState.matches("signUp") && <SignUp />}
             {authState.matches("creating") && <Loading text={t("creating")} />}

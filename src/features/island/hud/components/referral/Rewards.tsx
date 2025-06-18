@@ -165,7 +165,6 @@ export const RewardOptions: React.FC = () => {
       lastUsedCode: dailyRewards?.chest?.code ?? 0,
       openedAt: dailyRewards?.chest?.collectedAt ?? 0,
       bumpkinLevel,
-      network: state.settings.network,
     },
   });
   const [chestState] = useActor(chestService);
@@ -181,7 +180,10 @@ export const RewardOptions: React.FC = () => {
   if (selected === "DAILY_REWARD") {
     return (
       <DailyRewardContent
-        onClose={() => setSelected(undefined)}
+        onClose={() => {
+          chestService.send("LOAD");
+          setSelected(undefined);
+        }}
         gameService={gameService}
         dailyRewards={state.dailyRewards}
         isRevealed={isRevealed}
