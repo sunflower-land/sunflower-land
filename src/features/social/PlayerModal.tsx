@@ -1,8 +1,7 @@
 import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
 import { PlayerModalPlayer } from "features/world/ui/player/PlayerModals";
-import React, { useState } from "react";
-import { useTranslation } from "react-i18next";
+import React from "react";
 
 import vipIcon from "assets/icons/vip.webp";
 import island from "assets/icons/island.png";
@@ -24,9 +23,6 @@ type Props = {
 };
 
 export const PlayerDetails: React.FC<Props> = ({ player }) => {
-  const [tab, setTab] = useState(0);
-  const { t } = useTranslation();
-
   if (!player) return null;
 
   const startDate = new Date(player?.createdAt).toLocaleString("en-US", {
@@ -49,7 +45,7 @@ export const PlayerDetails: React.FC<Props> = ({ player }) => {
             <div className="flex flex-col gap-1 text-xs mt-1 ml-2 flex-1">
               <div>{`Lvl ${getLevel(new Decimal(player?.experience ?? 0))}${player?.faction ? ` - ${capitalize(player?.faction)}` : ""}`}</div>
               <div className="flex items-center justify-between">
-                <span>{`#${player?.id}`}</span>
+                <span>{`#${player?.farmId}`}</span>
                 <span>{`Since ${startDate}`}</span>
               </div>
             </div>
@@ -79,7 +75,7 @@ export const PlayerDetails: React.FC<Props> = ({ player }) => {
           </div>
         </InnerPanel>
         <InnerPanel className="flex flex-col items-center w-full">
-          <div className="flex flex-col gap-1 p-1 w-full">
+          <div className="flex flex-col gap-1 p-1 w-full ml-1 pt-0">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-1">
                 <span className="text-xs underline cursor-pointer">{`145 friends`}</span>
