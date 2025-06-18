@@ -4052,7 +4052,7 @@
   "skill.cropProcessorUnit.buff": "-5% de tempo de crescimento da Crop Machine",
   "skill.oilExtraction": "+1 Óleo ao coletar das reservas",
   "skill.leakProofTank": "Capacidade tripla do tanque de óleo na máquina de colheita",
-  "skill.cropExtensionModule": "Permita que sementes de cenoura e repolho sejam usadas na máquina de colheita",
+  "skill.cropExtensionModuleII": "Permita que sementes de cenoura e repolho sejam usadas na máquina de colheita",
   "skill.rapidRig.buff": "-20% de tempo de crescimento da Crop Machine",
   "skill.oilBeBack": "-20% de tempo de recarga de óleo",
   "skill.fieldExtensionModule": "+5 parcelas adicionadas à máquina",

@@ -145,7 +145,7 @@ export const ButtonPanel: React.FC<
     variant?: "primary" | "secondary" | "card";
   }
 > = ({ children, disabled, variant, ...divProps }) => {
-  const { className, style, selected, ...otherDivProps } = divProps;
+  const { className, style, selected, onClick, ...otherDivProps } = divProps;
 
   let borderImage = SUNNYSIDE.ui.primaryButton;
   let borderImagePressed = SUNNYSIDE.ui.primaryButtonPressed;
@@ -190,6 +190,7 @@ export const ButtonPanel: React.FC<
         color: "#674544",
         ...style,
       }}
+      onClick={disabled ? undefined : onClick}
       {...otherDivProps}
     >
       {children}

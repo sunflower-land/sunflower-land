@@ -4200,7 +4200,7 @@
   "skill.oilGadget": "-10% Oil consumption in Crop Machine",
   "skill.oilExtraction": "+1 Oil when collecting from reserves",
   "skill.leakProofTank": "Triple oil tank capacity in crop machine",
-  "skill.cropExtensionModule": "Allow Carrot and Cabbage seeds to be used in crop machine",
+  "skill.cropExtensionModuleII": "Allow Carrot and Cabbage seeds to be used in crop machine",
   "skill.rapidRig.buff": "-20% Crop Machine growth time",
   "skill.rapidRig.debuff": "+40% Oil consumption in Crop Machine",
   "skill.oilBeBack": "-20% Oil refill time",

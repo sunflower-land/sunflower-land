@@ -140,7 +140,7 @@ describe("supplyCropMachine", () => {
           seeds: { type: "Radish Seed", amount: 10 },
         },
       }),
-    ).toThrow("You can only supply basic crop seeds!");
+    ).toThrow("You can't supply these seeds");
   });
 
   it("throws an error if the oil capacity is exceeded with an empty queue", () => {
@@ -1775,7 +1775,34 @@ describe("supplyCropMachine", () => {
     expect(oilConsumedPerHour).toEqual(0.9);
   });
 
-  it("does not let player plant cabbage and carrot if player doesn't have Crop Extension Module", () => {
+  it("does not let player plant Rhubarb if player doesn't have Crop Extension Module I", () => {
+    expect(() =>
+      supplyCropMachine({
+        state: {
+          ...GAME_STATE,
+          buildings: {
+            "Crop Machine": [
+              {
+                coordinates: { x: 0, y: 0 },
+                createdAt: 0,
+                readyAt: 0,
+                id: "0",
+                unallocatedOilTime: 3600000 + 1800000,
+                queue: [],
+              },
+            ],
+          },
+        },
+        action: {
+          type: "cropMachine.supplied",
+          seeds: { type: "Rhubarb Seed", amount: 20 },
+        },
+        createdAt: Date.now(),
+      }),
+    ).toThrow("You can't supply these seeds");
+  });
+
+  it("does not let player plant cabbage if player doesn't have Crop Extension Module II", () => {
     expect(() =>
       supplyCropMachine({
         state: {
@@ -1799,7 +1826,34 @@ describe("supplyCropMachine", () => {
         },
         createdAt: Date.now(),
       }),
-    ).toThrow("You can only supply basic crop seeds!");
+    ).toThrow("You can't supply these seeds");
+  });
+
+  it("does not let player plant Yam if player doesn't have Crop Extension Module III", () => {
+    expect(() =>
+      supplyCropMachine({
+        state: {
+          ...GAME_STATE,
+          buildings: {
+            "Crop Machine": [
+              {
+                coordinates: { x: 0, y: 0 },
+                createdAt: 0,
+                readyAt: 0,
+                id: "0",
+                unallocatedOilTime: 3600000 + 1800000,
+                queue: [],
+              },
+            ],
+          },
+        },
+        action: {
+          type: "cropMachine.supplied",
+          seeds: { type: "Yam Seed", amount: 20 },
+        },
+        createdAt: Date.now(),
+      }),
+    ).toThrow("You can't supply these seeds");
   });
 });
 
