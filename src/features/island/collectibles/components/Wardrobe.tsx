@@ -1,21 +1,31 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 
-import { INITIAL_FARM, PIXEL_SCALE } from "features/game/lib/constants";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { WardrobeWearables } from "features/home/components/WardrobeWearables";
 import { OuterPanel } from "components/ui/Panel";
 import { hasFeatureAccess } from "lib/flags";
+import { Context } from "features/game/GameProvider";
+import { useSelector } from "@xstate/react";
+
 function hasOpened() {
   return !!localStorage.getItem("hasOpenedNewWardrobe");
 }
 function acknowledge() {
   localStorage.setItem("hasOpenedNewWardrobe", "true");
 }
+
 export const Wardrobe: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
-  const hasAccess = hasFeatureAccess(INITIAL_FARM, "WARDROBE");
+  const { gameService } = useContext(Context);
+
+  // TODO: Delete this after release
+  const hasAccess = useSelector(gameService, (state) =>
+    hasFeatureAccess(state.context.state, "WARDROBE"),
+  );
+
   const open = () => {
     acknowledge();
     setShowModal(true);
