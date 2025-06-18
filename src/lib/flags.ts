@@ -106,6 +106,8 @@ const FEATURE_FLAGS = {
 
   BLESSING: testnetFeatureFlag,
   WARDROBE: testnetFeatureFlag,
+  MINE_WHACK_BETA: defaultFeatureFlag,
+  SOCIAL_FARMING: defaultFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;

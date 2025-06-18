@@ -3,7 +3,7 @@ import { NPCName } from "lib/npcs";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { SceneId } from "../mmoMachine";
 import { Moderation } from "features/game/lib/gameMachine";
-import { FactionName } from "features/game/types/game";
+import { FactionName, IslandType } from "features/game/types/game";
 
 export interface InputData {
   x: number;
@@ -24,6 +24,11 @@ export interface Player extends Schema {
   npc: NPCName;
   sceneId: SceneId;
   moderation: Moderation;
+  totalDeliveries: number;
+  dailyStreak: number;
+  isVip: boolean;
+  createdAt: number;
+  islandType: IslandType;
 
   inputQueue: InputData[];
 }

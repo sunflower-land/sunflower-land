@@ -5,11 +5,19 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import vipIcon from "assets/icons/vip.webp";
+import island from "assets/icons/island.png";
+import flowerIcon from "assets/icons/flower_token.webp";
+import deliveryBook from "assets/icons/chapter_icon_3.webp";
+
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getLevel } from "features/game/types/skills";
 import Decimal from "decimal.js-light";
 import { capitalize } from "lib/utils/capitalize";
+import { isMobile } from "mobile-device-detect";
+import { Button } from "components/ui/Button";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { ActivityFeed } from "./ActivityFeed";
 
 type Props = {
   player: PlayerModalPlayer;
@@ -19,39 +27,115 @@ export const PlayerDetails: React.FC<Props> = ({ player }) => {
   const [tab, setTab] = useState(0);
   const { t } = useTranslation();
 
-  const startDate = new Date(player.createdAt).toLocaleString("en-US", {
+  if (!player) return null;
+
+  const startDate = new Date(player?.createdAt).toLocaleString("en-US", {
     month: "short",
     year: "numeric",
   });
 
   return (
-    <>
-      <div className="flex w-full gap-1">
-        <InnerPanel className="flex flex-col gap-1 flex-1">
+    <div className="flex gap-1 w-full">
+      <div className="flex flex-col flex-1 gap-1">
+        <InnerPanel className="flex flex-col gap-1 flex-1 pb-1 px-1">
           <div className="flex items-center">
-            <Label type="default">{player.username}</Label>
-            {player.isVip && <img src={vipIcon} className="w-5 ml-2" />}
+            <Label type="default">{player?.username}</Label>
+            {player?.isVip && <img src={vipIcon} className="w-5 ml-2" />}
           </div>
-          <div className="flex">
-            <div>
-              <NPCIcon parts={player.clothing} width={PIXEL_SCALE * 14} />
+          <div className="flex pb-1">
+            <div className="w-10">
+              <NPCIcon parts={player?.clothing} width={PIXEL_SCALE * 14} />
             </div>
-            <div className="flex flex-col gap-1 text-xxs mt-1 ml-2 w-full">
-              <div>{`Lvl ${getLevel(new Decimal(player.experience))}${player.faction ? ` - ${capitalize(player.faction)}` : ""}`}</div>
+            <div className="flex flex-col gap-1 text-xs mt-1 ml-2 flex-1">
+              <div>{`Lvl ${getLevel(new Decimal(player?.experience ?? 0))}${player?.faction ? ` - ${capitalize(player?.faction)}` : ""}`}</div>
               <div className="flex items-center justify-between">
-                <span>{`#${player.id}`}</span>
-                <span>{`Player since ${startDate}`}</span>
+                <span>{`#${player?.id}`}</span>
+                <span>{`Since ${startDate}`}</span>
               </div>
             </div>
           </div>
         </InnerPanel>
-        <InnerPanel className="flex flex-col w-2/5">
-          <div>
-            <Label type="default">{`Player Details`}</Label>
-            <div></div>
+        <InnerPanel className="flex flex-col w-full pb-1">
+          <div className="p-1 flex items-center">
+            <div className="w-10">
+              <img src={island} className="w-full" />
+            </div>
+            <div className="flex pb-1 flex-col justify-center gap-1 text-xs mt-1 ml-2 flex-1">
+              <div>{`${capitalize(player?.islandType ?? "")} Island`}</div>
+              <div className="flex items-center">
+                <span>{`Market value: 1000`}</span>
+                <img src={flowerIcon} className="w-4 h-4 ml-1 mt-0.5" />
+              </div>
+            </div>
+            <Button className="flex w-fit h-9 justify-between items-center gap-1 mt-1">
+              <div className="flex items-center px-1">
+                {!isMobile && <span className="pr-1">{`Visit`}</span>}
+                <img
+                  src={SUNNYSIDE.icons.search}
+                  className="flex justify-center items-center w-4 h-4"
+                />
+              </div>
+            </Button>
+          </div>
+        </InnerPanel>
+        <InnerPanel className="flex flex-col items-center w-full">
+          <div className="flex flex-col gap-1 p-1 w-full">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-1">
+                <span className="text-xs underline cursor-pointer">{`145 friends`}</span>
+                <div className="relative w-10 h-6">
+                  <div className="absolute">
+                    <NPCIcon
+                      width={24}
+                      parts={{
+                        body: "Light Brown Farmer Potion",
+                        pants: "Angler Waders",
+                        hair: "Buzz Cut",
+                        shirt: "Chic Gala Blouse",
+                        tool: "Farmer Pitchfork",
+                        background: "Farm Background",
+                        shoes: "Black Farmer Boots",
+                      }}
+                    />
+                  </div>
+                  <div className="absolute left-3.5">
+                    <NPCIcon
+                      width={24}
+                      parts={{
+                        body: "Goblin Potion",
+                        pants: "Grape Pants",
+                        hair: "Ash Ponytail",
+                        shirt: "Tiki Armor",
+                        tool: "Axe",
+                        background: "Farm Background",
+                        shoes: "Crimstone Boots",
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+              <Button className="flex w-fit h-9 justify-between items-center gap-1 mt-1">{`Follow`}</Button>
+            </div>
+          </div>
+          <div className="flex flex-col gap-1 p-1 pt-0 mb-2 w-full">
+            <div className="text-xs">{`You cleaned their farm x times`}</div>
+            <div className="text-xs">{`They cleaned your farm x times`}</div>
+            <div className="text-xs">{`Top friend - Craig`}</div>
+          </div>
+        </InnerPanel>
+        <InnerPanel className="flex flex-col w-full pb-1">
+          <div className="p-1 flex items-center">
+            <div className="w-10">
+              <img src={deliveryBook} className="w-full" />
+            </div>
+            <div className="flex pb-1 flex-col justify-center gap-1 text-xs mt-1 ml-2 flex-1">
+              <div>{`Daily streak: ${player?.dailyStreak}`}</div>
+              <div>{`Total deliveries: ${player?.totalDeliveries}`}</div>
+            </div>
           </div>
         </InnerPanel>
       </div>
-    </>
+      {!isMobile && <ActivityFeed />}
+    </div>
   );
 };

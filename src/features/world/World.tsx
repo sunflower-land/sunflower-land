@@ -30,6 +30,7 @@ import { Forbidden } from "features/auth/components/Forbidden";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { getActiveFloatingIsland } from "features/game/types/floatingIsland";
 import { adminFeatureFlag } from "lib/flags";
+import { hasVipAccess } from "features/game/lib/vipAccess";
 interface Props {
   isCommunity?: boolean;
 }
@@ -133,6 +134,11 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
       isCommunity,
       moderation: gameState.context.moderation,
       username: gameState.context.state.username,
+      totalDeliveries: gameState.context.state.delivery.fulfilledCount,
+      dailyStreak: gameState.context.state.dailyRewards?.streaks ?? 0,
+      isVip: hasVipAccess({ game: gameState.context.state }),
+      createdAt: gameState.context.state.createdAt,
+      islandType: gameState.context.state.island.type,
     },
   }) as unknown as MMOMachineInterpreter;
   const [mmoState] = useActor(mmoService);

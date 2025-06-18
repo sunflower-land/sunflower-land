@@ -10,7 +10,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { BumpkinLevel } from "features/bumpkins/components/BumpkinModal";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { FactionName, GameState } from "features/game/types/game";
+import { FactionName, GameState, IslandType } from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { LABEL_STYLES } from "components/ui/Label";
 import { AirdropPlayer } from "features/island/hud/components/settings-menu/general-settings/AirdropPlayer";
@@ -22,14 +22,20 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { PlayerDetails } from "features/social/PlayerModal";
 import { OuterPanel } from "components/ui/Panel";
 
+import { isMobile } from "mobile-device-detect";
+import { ActivityFeed } from "features/social/ActivityFeed";
+
 export type PlayerModalPlayer = {
-  id: number;
+  farmId: number;
   username?: string;
   clothing: BumpkinParts;
   experience: number;
   isVip: boolean;
   faction: FactionName;
   createdAt: number;
+  islandType: IslandType;
+  totalDeliveries: number;
+  dailyStreak: number;
 };
 
 class PlayerModalManager {
@@ -88,13 +94,13 @@ const OldPlayerDetails: React.FC<{ player: PlayerModalPlayer }> = ({
         <div
           className="flex-auto self-start text-right text-xs mr-3 f-10 font-secondary cursor-pointer"
           onClick={() => {
-            copyToClipboard(player?.id as unknown as string);
+            copyToClipboard(player?.farmId as unknown as string);
           }}
         >
           {player?.username && (
             <p className="text-xs mb-1">{player?.username}</p>
           )}
-          <p className="text-xs">{`#${player?.id}`}</p>
+          <p className="text-xs">{`#${player?.farmId}`}</p>
           {showLabel && (
             <div
               className="absolute right-2 text-xs pointer-events-none"
@@ -119,28 +125,15 @@ interface Props {
 
 export const PlayerModals: React.FC<Props> = ({ game, farmId }) => {
   const [tab, setTab] = useState<
-    "Player" | "Reward" | "Stream" | "Report" | "Airdrop"
+    "Player" | "Reward" | "Stream" | "Report" | "Airdrop" | "Activity"
   >("Player");
-  const [player, setPlayer] = useState<PlayerModalPlayer | undefined>({
-    id: 1456789,
-    clothing: {
-      hair: "Sun Spots",
-      shirt: "Red Farmer Shirt",
-      pants: "Farmer Overalls",
-      background: "Seashore Background",
-    },
-    experience: 100,
-    username: "Test Player",
-    isVip: true,
-    faction: "goblins",
-    createdAt: new Date("2027-06-01").getTime(),
-  });
+  const [player, setPlayer] = useState<PlayerModalPlayer | undefined>();
 
   useEffect(() => {
     playerModalManager.listen((npc) => {
       setPlayer(npc);
       // Automatically set to Stream tab if player has Streamer Hat and is not current player
-      if (npc.clothing?.hat === "Streamer Hat" && farmId !== npc.id) {
+      if (npc.clothing?.hat === "Streamer Hat" && farmId !== npc.farmId) {
         setTab("Stream");
       } else if (npc.clothing.shirt === "Gift Giver") {
         setTab("Reward");
@@ -154,7 +147,7 @@ export const PlayerModals: React.FC<Props> = ({ game, farmId }) => {
     if (!player) return;
 
     const handlePlayerLeave = (playerId: number) => {
-      if (playerId === player.id) {
+      if (playerId === player.farmId) {
         closeModal();
       }
     };
@@ -172,7 +165,7 @@ export const PlayerModals: React.FC<Props> = ({ game, farmId }) => {
 
   const playerHasGift = player?.clothing.shirt === "Gift Giver";
   const playerHasStreamReward = player?.clothing.hat === "Streamer Hat";
-  const notCurrentPlayer = farmId !== player?.id;
+  const notCurrentPlayer = farmId !== player?.farmId;
 
   return (
     <Modal show={!!player} onHide={closeModal} size="lg">
@@ -186,6 +179,14 @@ export const PlayerModals: React.FC<Props> = ({ game, farmId }) => {
             icon: SUNNYSIDE.icons.player,
             name: "Player",
           },
+          ...(isMobile && hasFeatureAccess(game, "SOCIAL_FARMING")
+            ? [
+                {
+                  icon: SUNNYSIDE.icons.expression_chat,
+                  name: "Activity",
+                },
+              ]
+            : []),
           ...(playerHasGift
             ? [
                 {
@@ -221,15 +222,21 @@ export const PlayerModals: React.FC<Props> = ({ game, farmId }) => {
         ]}
         container={OuterPanel}
       >
-        {tab === "Player" && (
-          <PlayerDetails player={player as PlayerModalPlayer} />
-        )}
+        {tab === "Player" &&
+          (hasFeatureAccess(game, "SOCIAL_FARMING") ? (
+            <PlayerDetails player={player as PlayerModalPlayer} />
+          ) : (
+            <OldPlayerDetails player={player as PlayerModalPlayer} />
+          ))}
+        {tab === "Activity" && <ActivityFeed />}
         {tab === "Reward" && <PlayerGift />}
-        {tab === "Stream" && <StreamReward streamerId={player?.id as number} />}
-        {tab === "Report" && <ReportPlayer id={player?.id as number} />}
+        {tab === "Stream" && (
+          <StreamReward streamerId={player?.farmId as number} />
+        )}
+        {tab === "Report" && <ReportPlayer id={player?.farmId as number} />}
         {tab === "Airdrop" && (
           <AirdropPlayer
-            id={player?.id as number}
+            id={player?.farmId as number}
             // Noops
             onClose={alert}
             onSubMenuClick={alert}
