@@ -6002,5 +6002,8 @@
   "walletWall.connectError.userRejectedRequest": "Die Verbindungsanfrage wurde abgelehnt. Bitte versuchen Sie es erneut.",
   "walletWall.connectError.resourceUnavailable": "In Ihrer Wallet befindet sich bereits eine Verbindungsanfrage. Bitte akzeptiere sie oder versuche es mit einer anderen Wallet.",
   "walletWall.selectSpecificNetwork": "Bitte wählen Sie {{network}} Netzwerk zu {{action}}",
-  "walletWall.selectANetwork": "Bitte wählen Sie ein Netzwerk für {{action}}"
+  "walletWall.selectANetwork": "Bitte wählen Sie ein Netzwerk für {{action}}",
+  "cropMachine.noSeeds": "Keine Samen verfügbar",
+  "skill.cropExtensionModuleI": "Erlauben Sie die Verwendung von Rhabarber- und Zucchinisamen in der Erntemaschine",
+  "skill.cropExtensionModuleIII": "Erlauben Sie die Verwendung von Yamswurz- und Brokkolisamen in der Erntemaschine"
 }

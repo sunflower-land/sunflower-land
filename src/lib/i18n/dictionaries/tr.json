@@ -6002,5 +6002,8 @@
   "walletWall.connectError.userRejectedRequest": "Bağlantı isteği reddedildi. Lütfen tekrar deneyin.",
   "walletWall.connectError.resourceUnavailable": "Cüzdanınızda zaten bir bağlantı isteği var. Lütfen kabul edin veya başka bir cüzdan deneyin.",
   "walletWall.selectSpecificNetwork": "Lütfen {{network}} ağını seçin {{action}}",
-  "walletWall.selectANetwork": "Lütfen {{action}} için bir ağ seçin"
+  "walletWall.selectANetwork": "Lütfen {{action}} için bir ağ seçin",
+  "cropMachine.noSeeds": "Tohum yok",
+  "skill.cropExtensionModuleI": "Ravent ve Kabak tohumlarının mahsul makinesinde kullanılmasına izin verin",
+  "skill.cropExtensionModuleIII": "YAM ve Brokoli tohumlarının mahsul makinesinde kullanılmasına izin verin"
 }

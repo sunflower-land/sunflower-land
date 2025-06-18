@@ -6002,5 +6002,8 @@
   "walletWall.connectError.userRejectedRequest": "Permintaan koneksi ditolak. Silakan coba lagi.",
   "walletWall.connectError.resourceUnavailable": "Sudah ada permintaan koneksi di dompet Anda. Silakan terima atau coba dompet lain.",
   "walletWall.selectSpecificNetwork": "Silakan pilih jaringan {{network}} ke {{action}}",
-  "walletWall.selectANetwork": "Silakan pilih jaringan untuk {{action}}"
+  "walletWall.selectANetwork": "Silakan pilih jaringan untuk {{action}}",
+  "cropMachine.noSeeds": "Tidak ada benih yang tersedia",
+  "skill.cropExtensionModuleI": "Biarkan biji Rhubarb dan Zucchini digunakan dalam mesin tanaman",
+  "skill.cropExtensionModuleIII": "Biarkan biji ubi dan brokoli digunakan dalam mesin tanaman"
 }

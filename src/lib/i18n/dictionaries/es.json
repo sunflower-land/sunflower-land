@@ -6002,5 +6002,8 @@
   "walletWall.connectError.userRejectedRequest": "Se rechazó la solicitud de conexión. Vuelva a intentarlo.",
   "walletWall.connectError.resourceUnavailable": "Ya hay una solicitud de conexión en tu monedero. Acéptala o prueba con otro monedero.",
   "walletWall.selectSpecificNetwork": "Selecciona la red {{network}} para {{action}}",
-  "walletWall.selectANetwork": "Selecciona una red para {{action}}"
+  "walletWall.selectANetwork": "Selecciona una red para {{action}}",
+  "cropMachine.noSeeds": "No hay semillas disponibles",
+  "skill.cropExtensionModuleI": "Permita que las semillas de ruibarbo y calabacín se utilicen en la máquina de cultivo",
+  "skill.cropExtensionModuleIII": "Permita que las semillas de ñame y brócoli se utilicen en la máquina de cultivo"
 }

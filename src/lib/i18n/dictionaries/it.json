@@ -6002,5 +6002,8 @@
   "walletWall.connectError.userRejectedRequest": "La richiesta di connessione è stata rifiutata. Per favore riprova.",
   "walletWall.connectError.resourceUnavailable": "C'è già una richiesta di connessione nel tuo portafoglio. Accettala o prova un altro portafoglio.",
   "walletWall.selectSpecificNetwork": "Seleziona {{network}} rete su {{action}}",
-  "walletWall.selectANetwork": "Seleziona una rete su {{action}}"
+  "walletWall.selectANetwork": "Seleziona una rete su {{action}}",
+  "cropMachine.noSeeds": "Nessun seme disponibile",
+  "skill.cropExtensionModuleI": "Consenti l'uso dei semi di rabarbaro e zucchine nella macchina per il raccolto",
+  "skill.cropExtensionModuleIII": "Consenti l'uso dei semi di igname e broccoli nella macchina per il raccolto"
 }

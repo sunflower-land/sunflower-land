@@ -6002,5 +6002,8 @@
   "walletWall.connectError.userRejectedRequest": "Запрос на подключение был отклонен. Пожалуйста, попробуйте еще раз.",
   "walletWall.connectError.resourceUnavailable": "В вашем кошельке уже есть запрос на подключение. Пожалуйста, примите его или попробуйте использовать другой кошелек.",
   "walletWall.selectSpecificNetwork": "Выберите сеть {{network}} до {{action}}",
-  "walletWall.selectANetwork": "Выберите сеть на {{action}}"
+  "walletWall.selectANetwork": "Выберите сеть на {{action}}",
+  "cropMachine.noSeeds": "Семена отсутствуют",
+  "skill.cropExtensionModuleI": "Разрешить использование семян ревеня и цуккини в сельскохозяйственных машинах",
+  "skill.cropExtensionModuleIII": "Разрешить использование семян ямса и брокколи в сельскохозяйственных машинах"
 }

@@ -6002,5 +6002,8 @@
   "walletWall.connectError.userRejectedRequest": "连接请求被拒绝。请重试。",
   "walletWall.connectError.resourceUnavailable": "您的钱包中已经有连接请求。请接受或尝试使用其他钱包。",
   "walletWall.selectSpecificNetwork": "请选择 {{network}} 网络到 {{action}}",
-  "walletWall.selectANetwork": "请选择一个网络到 {{action}}"
+  "walletWall.selectANetwork": "请选择一个网络到 {{action}}",
+  "cropMachine.noSeeds": "没有可用的种子",
+  "skill.cropExtensionModuleI": "允许在作物机中使用大黄和西葫芦种子",
+  "skill.cropExtensionModuleIII": "允许在作物机中使用山药和西兰花种子"
 }

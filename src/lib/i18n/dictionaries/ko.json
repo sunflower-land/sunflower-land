@@ -6002,5 +6002,8 @@
   "walletWall.connectError.userRejectedRequest": "연결 요청이 거부되었습니다.다시 시도해 주세요.",
   "walletWall.connectError.resourceUnavailable": "지갑에 이미 연결 요청이 있습니다.수락하거나 다른 지갑을 사용해 보세요.",
   "walletWall.selectSpecificNetwork": "{{network}} 네트워크를 {{action}} 로 선택하십시오.",
-  "walletWall.selectANetwork": "{{action}} 에 대한 네트워크를 선택하십시오."
+  "walletWall.selectANetwork": "{{action}} 에 대한 네트워크를 선택하십시오.",
+  "cropMachine.noSeeds": "씨앗이 없습니다",
+  "skill.cropExtensionModuleI": "대황과 주키니 씨앗을 농작물 기계에 사용할 수 있도록 허용",
+  "skill.cropExtensionModuleIII": "참마와 브로콜리 씨앗을 농작물 기계에 사용할 수 있도록 허용"
 }

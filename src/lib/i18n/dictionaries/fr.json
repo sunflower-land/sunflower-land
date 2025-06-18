@@ -6002,5 +6002,8 @@
   "walletWall.connectError.userRejectedRequest": "La demande de connexion a été rejetée. Veuillez réessayer.",
   "walletWall.connectError.resourceUnavailable": "Il y a déjà une demande de connexion dans votre portefeuille. Veuillez l'accepter ou essayer un autre portefeuille.",
   "walletWall.selectSpecificNetwork": "Sélectionnez le réseau {{network}} pour {{action}}",
-  "walletWall.selectANetwork": "Sélectionnez un réseau pour {{action}}"
+  "walletWall.selectANetwork": "Sélectionnez un réseau pour {{action}}",
+  "cropMachine.noSeeds": "Aucune graine disponible",
+  "skill.cropExtensionModuleI": "Autoriser l'utilisation des graines de rhubarbe et de courgette dans la machine de culture",
+  "skill.cropExtensionModuleIII": "Autoriser l'utilisation des graines d'igname et de brocoli dans les machines de culture"
 }

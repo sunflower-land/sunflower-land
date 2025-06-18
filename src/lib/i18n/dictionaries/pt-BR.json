@@ -6002,5 +6002,8 @@
   "walletWall.connectError.userRejectedRequest": "A solicitação de conexão foi rejeitada. Por favor, tente novamente.",
   "walletWall.connectError.resourceUnavailable": "Já existe uma solicitação de conexão em sua carteira. Aceite ou experimente outra carteira.",
   "walletWall.selectSpecificNetwork": "Selecione {{network}} rede para {{action}}",
-  "walletWall.selectANetwork": "Selecione uma rede para {{action}}"
+  "walletWall.selectANetwork": "Selecione uma rede para {{action}}",
+  "cropMachine.noSeeds": "Nenhuma semente disponível",
+  "skill.cropExtensionModuleI": "Permita que sementes de ruibarbo e abobrinha sejam usadas na máquina de colheita",
+  "skill.cropExtensionModuleIII": "Permita que sementes de inhame e brócolis sejam usadas na máquina de colheita"
 }

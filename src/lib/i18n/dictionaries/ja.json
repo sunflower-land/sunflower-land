@@ -6002,5 +6002,8 @@
   "walletWall.connectError.userRejectedRequest": "接続要求は拒否されました。もう一度試してください。",
   "walletWall.connectError.resourceUnavailable": "ウォレットにはすでに接続リクエストがあります。承認するか、別のウォレットを試してください。",
   "walletWall.selectSpecificNetwork": "{{action}} へのネットワーク {{network}} を選択してください",
-  "walletWall.selectANetwork": "{{action}} のネットワークを選択してください"
+  "walletWall.selectANetwork": "{{action}} のネットワークを選択してください",
+  "cropMachine.noSeeds": "シードはありません",
+  "skill.cropExtensionModuleI": "ルバーブとズッキーニの種子をクロップマシンで使用できるようにする",
+  "skill.cropExtensionModuleIII": "ヤムイモとブロッコリーの種をクロップマシンで使用できるようにする"
 }
