@@ -150,6 +150,20 @@ const LandscapingHudComponent: React.FC<{
                 />
               </RoundButton>
 
+              {location === "farm" && (
+                <RoundButton className="mb-3.5">
+                  <img
+                    src={SUNNYSIDE.icons.decorationbush}
+                    className="absolute group-active:translate-y-[2px]"
+                    style={{
+                      top: `${PIXEL_SCALE * 5}px`,
+                      left: `${PIXEL_SCALE * 5}px`,
+                      width: `${PIXEL_SCALE * 12}px`,
+                    }}
+                  />
+                </RoundButton>
+              )}
+
               <Chest
                 onPlaceChestItem={(selected) => {
                   child.send("SELECT", {
