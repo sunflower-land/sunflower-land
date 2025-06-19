@@ -32,6 +32,7 @@ import { RemoveHungryCaterpillarModal } from "../collectibles/RemoveHungryCaterp
 import { useSound } from "lib/utils/hooks/useSound";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { RoundButton } from "components/ui/RoundButton";
+import classNames from "classnames";
 
 const compareBalance = (prev: Decimal, next: Decimal) => {
   return prev.eq(next);
@@ -57,6 +58,7 @@ const LandscapingHudComponent: React.FC<{
   const { gameService } = useContext(Context);
 
   const [showRemoveConfirmation, setShowRemoveConfirmation] = useState(false);
+  const [isEscapePressed, setIsEscapePressed] = useState(false);
 
   const button = useSound("button");
 
@@ -115,6 +117,29 @@ const LandscapingHudComponent: React.FC<{
     }
   };
 
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsEscapePressed(true);
+      }
+    };
+
+    const handleKeyUp = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsEscapePressed(false);
+        child.send("CANCEL");
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+    document.addEventListener("keyup", handleKeyUp);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.removeEventListener("keyup", handleKeyUp);
+    };
+  }, [child]);
+
   return (
     <HudContainer>
       <Balances sfl={balance} coins={coins} gems={gems ?? new Decimal(0)} />
@@ -138,10 +163,16 @@ const LandscapingHudComponent: React.FC<{
                   button.play();
                   child.send("CANCEL");
                 }}
+                buttonPressed={isEscapePressed}
               >
                 <img
                   src={SUNNYSIDE.icons.cancel}
-                  className="absolute group-active:translate-y-[2px]"
+                  className={classNames(
+                    "absolute group-active:translate-y-[2px]",
+                    {
+                      "translate-y-[2px]": isEscapePressed,
+                    },
+                  )}
                   style={{
                     top: `${PIXEL_SCALE * 5.5}px`,
                     left: `${PIXEL_SCALE * 5.5}px`,
