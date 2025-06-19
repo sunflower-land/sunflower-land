@@ -33,6 +33,7 @@ import { useSound } from "lib/utils/hooks/useSound";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { RoundButton } from "components/ui/RoundButton";
 import classNames from "classnames";
+import { CraftDecorationsModal } from "./components/decorations/CraftDecorationsModal";
 
 const compareBalance = (prev: Decimal, next: Decimal) => {
   return prev.eq(next);
@@ -59,7 +60,7 @@ const LandscapingHudComponent: React.FC<{
 
   const [showRemoveConfirmation, setShowRemoveConfirmation] = useState(false);
   const [isEscapePressed, setIsEscapePressed] = useState(false);
-
+  const [showDecorations, setShowDecorations] = useState(false);
   const button = useSound("button");
 
   const child = gameService.state.children.landscaping as MachineInterpreter;
@@ -182,17 +183,26 @@ const LandscapingHudComponent: React.FC<{
               </RoundButton>
 
               {location === "farm" && (
-                <RoundButton className="mb-3.5">
-                  <img
-                    src={SUNNYSIDE.icons.decorationbush}
-                    className="absolute group-active:translate-y-[2px]"
-                    style={{
-                      top: `${PIXEL_SCALE * 5}px`,
-                      left: `${PIXEL_SCALE * 5}px`,
-                      width: `${PIXEL_SCALE * 12}px`,
-                    }}
+                <>
+                  <RoundButton
+                    className="mb-3.5"
+                    onClick={() => setShowDecorations(true)}
+                  >
+                    <img
+                      src={SUNNYSIDE.icons.decorationbush}
+                      className="absolute group-active:translate-y-[2px]"
+                      style={{
+                        top: `${PIXEL_SCALE * 5}px`,
+                        left: `${PIXEL_SCALE * 5}px`,
+                        width: `${PIXEL_SCALE * 12}px`,
+                      }}
+                    />
+                  </RoundButton>
+                  <CraftDecorationsModal
+                    show={showDecorations}
+                    onHide={() => setShowDecorations(false)}
                   />
-                </RoundButton>
+                </>
               )}
 
               <Chest
