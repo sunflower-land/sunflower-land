@@ -14,7 +14,6 @@ interface RoundButtonProps {
   disabled?: boolean;
   className?: string;
   buttonSize?: number;
-  buttonPressed?: boolean;
 }
 
 export const RoundButton: React.FC<RoundButtonProps> = ({
@@ -23,7 +22,6 @@ export const RoundButton: React.FC<RoundButtonProps> = ({
   disabled,
   className,
   buttonSize = 22,
-  buttonPressed = false,
 }) => {
   return (
     <div
@@ -45,9 +43,7 @@ export const RoundButton: React.FC<RoundButtonProps> = ({
       />
       <img
         src={SUNNYSIDE.ui.round_button}
-        className={classNames("absolute group-active:hidden", {
-          hidden: buttonPressed,
-        })}
+        className="absolute group-active:hidden"
         style={{
           width: `${PIXEL_SCALE * buttonSize}px`,
         }}
