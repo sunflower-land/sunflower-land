@@ -81,9 +81,9 @@ export const MAX_INVENTORY_ITEMS: Inventory = {
   "Red Snapper": new Decimal(200),
 
   // Max of 1000 landscaping decoration, but only 100 for mushrooms
-  ...getKeys(LANDSCAPING_DECORATIONS())
+  ...getKeys(LANDSCAPING_DECORATIONS)
     .filter(
-      (name) => !LANDSCAPING_DECORATIONS()[name].ingredients["Wild Mushroom"],
+      (name) => !LANDSCAPING_DECORATIONS[name].ingredients["Wild Mushroom"],
     )
     .reduce(
       (acc, name) => ({
@@ -92,9 +92,9 @@ export const MAX_INVENTORY_ITEMS: Inventory = {
       }),
       {},
     ),
-  ...getKeys(LANDSCAPING_DECORATIONS())
+  ...getKeys(LANDSCAPING_DECORATIONS)
     .filter(
-      (name) => LANDSCAPING_DECORATIONS()[name].ingredients["Wild Mushroom"],
+      (name) => LANDSCAPING_DECORATIONS[name].ingredients["Wild Mushroom"],
     )
     .reduce(
       (acc, name) => ({

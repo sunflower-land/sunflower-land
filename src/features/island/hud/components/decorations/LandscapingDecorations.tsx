@@ -26,7 +26,7 @@ export const LandscapingDecorations: React.FC<Props> = ({ onClose }) => {
   const [selectedName, setSelectedName] =
     useState<LandscapingDecorationName>("Bush");
 
-  const selected = LANDSCAPING_DECORATIONS()[selectedName];
+  const selected = LANDSCAPING_DECORATIONS[selectedName];
 
   const { gameService } = useContext(Context);
   const [
@@ -97,7 +97,7 @@ export const LandscapingDecorations: React.FC<Props> = ({ onClose }) => {
       }
       content={
         <>
-          {Object.values(LANDSCAPING_DECORATIONS()).map((item: Decoration) => (
+          {Object.values(LANDSCAPING_DECORATIONS).map((item: Decoration) => (
             <Box
               isSelected={selected.name === item.name}
               key={item.name}
