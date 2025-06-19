@@ -105,6 +105,7 @@ const FEATURE_FLAGS = {
   MODERATOR: (game) => !!game.wardrobe.Halo,
 
   BLESSING: testnetFeatureFlag,
+  POTION_SHOP_EXOTIC: timeBasedFeatureFlag(new Date("2025-08-01T00:00:00Z")),
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;

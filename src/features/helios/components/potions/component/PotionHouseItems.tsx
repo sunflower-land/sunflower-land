@@ -17,6 +17,8 @@ import {
   PotionHouseItem,
 } from "features/game/types/collectibles";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { isExoticCrop } from "features/game/types/crops";
+import { hasFeatureAccess } from "lib/flags";
 
 export const PotionHouseItems: React.FC = () => {
   const { t } = useAppTranslation();
@@ -91,15 +93,24 @@ export const PotionHouseItems: React.FC = () => {
           {Object.values({
             ...POTION_HOUSE_DECORATIONS(),
             ...POTION_HOUSE_ITEMS,
-          }).map((item) => (
-            <Box
-              isSelected={selected.name === item.name}
-              key={item.name}
-              onClick={() => setSelected(item)}
-              image={ITEM_DETAILS[item.name].image}
-              count={inventory[item.name]}
-            />
-          ))}
+          }).map((item) => {
+            if (
+              isExoticCrop(item.name) &&
+              hasFeatureAccess(state, "POTION_SHOP_EXOTIC")
+            ) {
+              return null;
+            }
+
+            return (
+              <Box
+                isSelected={selected.name === item.name}
+                key={item.name}
+                onClick={() => setSelected(item)}
+                image={ITEM_DETAILS[item.name].image}
+                count={inventory[item.name]}
+              />
+            );
+          })}
         </>
       }
     />

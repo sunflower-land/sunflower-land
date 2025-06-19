@@ -2,6 +2,7 @@ import Decimal from "decimal.js-light";
 import { GameState, Inventory, Keys } from "./game";
 import { translate } from "lib/i18n/translate";
 import { SEASONS } from "./seasons";
+import { ExoticCropName } from "./beans";
 
 export type PlaceableLocation = "farm" | "home";
 
@@ -173,7 +174,8 @@ export type GoblinPirateItemName =
 export type PotionHouseItemName =
   | "Lab Grown Carrot"
   | "Lab Grown Radish"
-  | "Lab Grown Pumpkin";
+  | "Lab Grown Pumpkin"
+  | ExoticCropName;
 
 export type CraftableCollectible = {
   ingredients: Inventory;
@@ -411,6 +413,62 @@ export const POTION_HOUSE_ITEMS: Record<PotionHouseItemName, PotionHouseItem> =
       coins: 0,
       ingredients: {
         "Potion Ticket": new Decimal(7000),
+      },
+    },
+    "Black Magic": {
+      name: "Black Magic",
+      description: translate("description.black.magic"),
+      coins: 0,
+      ingredients: {
+        "Potion Ticket": new Decimal(8000),
+      },
+    },
+    "Golden Helios": {
+      name: "Golden Helios",
+      description: translate("description.golden.helios"),
+      coins: 0,
+      ingredients: {
+        "Potion Ticket": new Decimal(4000),
+      },
+    },
+    Chiogga: {
+      name: "Chiogga",
+      description: translate("description.chiogga"),
+      coins: 0,
+      ingredients: {
+        "Potion Ticket": new Decimal(2000),
+      },
+    },
+    "Purple Cauliflower": {
+      name: "Purple Cauliflower",
+      description: translate("description.purple.cauliflower"),
+      coins: 0,
+      ingredients: {
+        "Potion Ticket": new Decimal(800),
+      },
+    },
+    "Adirondack Potato": {
+      name: "Adirondack Potato",
+      description: translate("description.adirondack.potato"),
+      coins: 0,
+      ingredients: {
+        "Potion Ticket": new Decimal(600),
+      },
+    },
+    "Warty Goblin Pumpkin": {
+      name: "Warty Goblin Pumpkin",
+      description: translate("description.warty.goblin.pumpkin"),
+      coins: 0,
+      ingredients: {
+        "Potion Ticket": new Decimal(400),
+      },
+    },
+    "White Carrot": {
+      name: "White Carrot",
+      description: translate("description.white.carrot"),
+      coins: 0,
+      ingredients: {
+        "Potion Ticket": new Decimal(200),
       },
     },
   };
