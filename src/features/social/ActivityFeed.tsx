@@ -9,6 +9,7 @@ import { useSelector } from "@xstate/react";
 import { ChatInput } from "./ChatInput";
 import classNames from "classnames";
 import { FarmInteraction } from "./PlayerModal";
+import promote from "assets/icons/promote.webp";
 
 type Props = {
   chatDisabled?: boolean;
@@ -90,9 +91,17 @@ export const ActivityFeed: React.FC<Props> = ({
                     key={interaction.id}
                     direction={direction}
                     type={interaction.type}
-                    className="flex flex-col gap-1"
                   >
-                    <div className="text-xxs">{`${sender ?? ""} ${interaction.sender ? "-" : ""} ${getRelativeTime(interaction.timestamp)}`}</div>
+                    <div className="text-xxs">
+                      <span className="flex items-center gap-1">
+                        {interaction.type === "announcement" ? (
+                          <img src={promote} />
+                        ) : (
+                          `${sender ?? ""} ${interaction.sender ? "- " : ""}`
+                        )}
+                        {`${getRelativeTime(interaction.timestamp)}`}
+                      </span>
+                    </div>
                     <div className="text-xs">{interaction.text}</div>
                   </InteractionBubble>
                 </div>

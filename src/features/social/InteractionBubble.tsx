@@ -3,16 +3,22 @@ import { pixelInteractionBorderStyle } from "features/game/lib/style";
 
 import bubbleBottomLeft from "assets/ui/feed_bubble_btm_left.webp";
 import bubbleBottomRight from "assets/ui/feed_bubble_btm_right.webp";
+
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { LABEL_STYLES } from "components/ui/Label";
 import classNames from "classnames";
 
-export const InteractionBubble: React.FC<{
+type Props = {
   children: React.ReactNode;
   direction: "left" | "right";
-  type: "comment" | "action" | "milestone";
-  className?: string;
-}> = ({ children, direction, type, className }) => {
+  type: "comment" | "action" | "milestone" | "announcement";
+};
+
+export const InteractionBubble: React.FC<Props> = ({
+  children,
+  direction,
+  type,
+}) => {
   if (type === "action") {
     return (
       <div className="relative">
@@ -30,7 +36,7 @@ export const InteractionBubble: React.FC<{
     );
   }
 
-  if (type === "milestone") {
+  if (type === "milestone" || type === "announcement") {
     return (
       <div className="relative">
         <div

@@ -23,7 +23,7 @@ export type FarmInteraction = {
   sender?: string;
   timestamp: number;
   text: string;
-  type: "comment" | "action" | "milestone";
+  type: "comment" | "action" | "milestone" | "announcement";
 };
 
 export const dummyInteractions: FarmInteraction[] = [
@@ -43,10 +43,15 @@ export const dummyInteractions: FarmInteraction[] = [
   },
   {
     id: "3",
-    sender: "Elias",
     timestamp: Date.now() - 180000,
     text: "Elias reached level 10",
     type: "milestone",
+  },
+  {
+    id: "4",
+    timestamp: Date.now() - 180000,
+    text: "New Chapter Begins!",
+    type: "announcement",
   },
 ];
 
