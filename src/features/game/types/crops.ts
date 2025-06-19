@@ -512,3 +512,7 @@ export function getCropCategory(crop: ProduceName): TranslationKeys {
 
   return "crops.flower";
 }
+
+export const isExoticCrop = (item: string): item is ExoticCropName => {
+  return item in EXOTIC_CROPS;
+};
