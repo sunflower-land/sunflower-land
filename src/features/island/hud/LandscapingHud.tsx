@@ -33,6 +33,7 @@ import { useSound } from "lib/utils/hooks/useSound";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { RoundButton } from "components/ui/RoundButton";
 import { CraftDecorationsModal } from "./components/decorations/CraftDecorationsModal";
+import { hasFeatureAccess } from "lib/flags";
 
 const compareBalance = (prev: Decimal, next: Decimal) => {
   return prev.eq(next);
@@ -79,6 +80,11 @@ const LandscapingHudComponent: React.FC<{
     gameService,
     (state) => state.context.state.inventory["Gem"] ?? new Decimal(0),
     compareBlockBucks,
+  );
+
+  // TODO: Remove this once the feature flag is removed
+  const hasLandscapingAccess = useSelector(gameService, (state) =>
+    hasFeatureAccess(state.context.state, "LANDSCAPING"),
   );
 
   const selectedItem = useSelector(child, selectMovingItem);
@@ -151,7 +157,7 @@ const LandscapingHudComponent: React.FC<{
                 />
               </RoundButton>
 
-              {location === "farm" && (
+              {location === "farm" && hasLandscapingAccess && (
                 <>
                   <RoundButton
                     className="mb-3.5"

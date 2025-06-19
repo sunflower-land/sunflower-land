@@ -21,7 +21,7 @@ export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 export const CraftDecorationsModal: React.FC<Props> = ({ show, onHide }) => {
   const { t } = useAppTranslation();
   return (
-    <Modal size="lg" show={show} onHide={onHide}>
+    <Modal show={show} onHide={onHide}>
       <CloseButtonPanel
         tabs={[{ icon: SUNNYSIDE.decorations.bush, name: t("landscaping") }]}
         onClose={onHide}
