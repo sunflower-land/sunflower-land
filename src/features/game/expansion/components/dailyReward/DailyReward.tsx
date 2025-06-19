@@ -128,8 +128,6 @@ export const DailyRewardContent: React.FC<{
 }) => {
   const { t } = useAppTranslation();
 
-  const network = useSelector(gameService, _network);
-
   useEffect(() => {
     chestService.send("UPDATE_BUMPKIN_LEVEL", { bumpkinLevel });
   }, [bumpkinLevel]);
@@ -218,10 +216,7 @@ export const DailyRewardContent: React.FC<{
               }}
             />
           </div>
-          <Button
-            onClick={() => chestService.send("UNLOCK")}
-            disabled={!network}
-          >
+          <Button onClick={() => chestService.send("UNLOCK")}>
             {t("reward.unlock")}
           </Button>
         </>
