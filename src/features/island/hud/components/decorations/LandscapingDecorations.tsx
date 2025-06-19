@@ -23,8 +23,9 @@ interface Props {
 
 export const LandscapingDecorations: React.FC<Props> = ({ onClose }) => {
   const { t } = useAppTranslation();
-  const [selectedName, setSelectedName] =
-    useState<LandscapingDecorationName>("Bush");
+  const [selectedName, setSelectedName] = useState<LandscapingDecorationName>(
+    getKeys(LANDSCAPING_DECORATIONS)[0],
+  );
 
   const selected = LANDSCAPING_DECORATIONS[selectedName];
 
