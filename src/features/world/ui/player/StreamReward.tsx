@@ -11,6 +11,7 @@ import { Button } from "components/ui/Button";
 import { ErrorCode } from "lib/errors";
 import { ErrorMessage } from "features/auth/ErrorMessage";
 import { Loading } from "features/auth/components";
+import { InnerPanel } from "components/ui/Panel";
 
 export const STREAM_REWARD_COOLDOWN = 1000 * 60 * 5;
 
@@ -75,22 +76,22 @@ export const StreamReward: React.FC<{ streamerId: number }> = ({
 
   if (gameState.isClaiming) {
     return (
-      <div className="ml-1 mb-2">
+      <InnerPanel className="ml-1 mb-2">
         <RewardHeader timeToNextClaim={timeToNextClaim} />
         <Loading text={t("claiming")} />
-      </div>
+      </InnerPanel>
     );
   }
 
   if (gameState.isSuccess) {
     return (
-      <div>
+      <InnerPanel>
         <div className="ml-1 mb-2">
           <RewardHeader timeToNextClaim={timeToNextClaim} />
           <p className="text-sm">{`You have successfully claimed 5 Love Charms!`}</p>
         </div>
         <Button onClick={acknowledge}>{t("continue")}</Button>
-      </div>
+      </InnerPanel>
     );
   }
 
@@ -99,7 +100,7 @@ export const StreamReward: React.FC<{ streamerId: number }> = ({
   }
 
   return (
-    <div>
+    <InnerPanel>
       <div className="ml-1 mb-2">
         <RewardHeader timeToNextClaim={timeToNextClaim} />
         <p className="text-sm">{`You have found a streamer! Claim 5 Love Charms every 5 minutes.`}</p>
@@ -107,6 +108,6 @@ export const StreamReward: React.FC<{ streamerId: number }> = ({
       <Button onClick={claimReward} disabled={timeToNextClaim > 0}>
         {timeToNextClaim > 0 ? t("claimed") : t("claim")}
       </Button>
-    </div>
+    </InnerPanel>
   );
 };

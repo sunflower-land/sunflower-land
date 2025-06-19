@@ -381,14 +381,14 @@ export abstract class BaseScene extends Phaser.Scene {
           return {
             farmId: farmId as number,
             clothing,
-            experience: experience ?? 0,
-            username,
+            experience: experience as number,
+            username: username as string,
             faction,
-            totalDeliveries,
-            dailyStreak,
-            isVip,
-            createdAt,
-            islandType,
+            totalDeliveries: totalDeliveries as number,
+            dailyStreak: dailyStreak as number,
+            isVip: isVip as boolean,
+            createdAt: createdAt as number,
+            islandType: islandType as IslandType,
           };
         });
 
@@ -1283,15 +1283,15 @@ export abstract class BaseScene extends Phaser.Scene {
           distance < 75
         ) {
           playerModalManager.open({
-            id: player.farmId,
+            farmId: player.farmId,
             clothing: player.clothing,
             experience: player.experience,
             username: player.username,
-            isVip: hasVipAccess({ game: this.gameService.state }),
+            isVip: hasVipAccess({ game: this.gameState }),
             faction: player.faction,
             createdAt: player.createdAt,
             islandType: player.islandType,
-            totalDeliveries: player.totalDeliveries ?? 0,
+            totalDeliveries: player.totalDeliveries,
             dailyStreak: player.dailyStreak,
           });
           this.lastModalOpenTime = streamerHatLastClaimedAt;

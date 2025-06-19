@@ -53,12 +53,13 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   public experience: number | undefined;
   public farmId: number | undefined;
   public faction: FactionName | undefined;
-  private ready = false;
   public totalDeliveries: number | undefined;
   public dailyStreak: number | undefined;
   public isVip: boolean | undefined;
   public createdAt: number | undefined;
   public islandType: IslandType | undefined;
+
+  private ready = false;
 
   // Animation Keys
   private spriteKey: string | undefined;

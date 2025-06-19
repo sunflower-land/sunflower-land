@@ -1,7 +1,7 @@
 import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
 import { PlayerModalPlayer } from "features/world/ui/player/PlayerModals";
-import React from "react";
+import React, { useState } from "react";
 
 import vipIcon from "assets/icons/vip.webp";
 import island from "assets/icons/island.png";
@@ -18,11 +18,46 @@ import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ActivityFeed } from "./ActivityFeed";
 
+export type FarmInteraction = {
+  id: string;
+  sender?: string;
+  timestamp: number;
+  text: string;
+  type: "comment" | "action" | "milestone";
+};
+
+export const dummyInteractions: FarmInteraction[] = [
+  {
+    id: "1",
+    sender: "Elias",
+    timestamp: Date.now() - 60000,
+    text: "Nice farm!",
+    type: "comment",
+  },
+  {
+    id: "2",
+    sender: "Local Hero",
+    timestamp: Date.now() - 120000,
+    text: "Cleaned your farm",
+    type: "action",
+  },
+  {
+    id: "3",
+    sender: "Elias",
+    timestamp: Date.now() - 180000,
+    text: "Elias reached level 10",
+    type: "milestone",
+  },
+];
+
 type Props = {
   player: PlayerModalPlayer;
 };
 
 export const PlayerDetails: React.FC<Props> = ({ player }) => {
+  const [interactions, setInteractions] =
+    useState<FarmInteraction[]>(dummyInteractions);
+
   if (!player) return null;
 
   const startDate = new Date(player?.createdAt).toLocaleString("en-US", {
@@ -31,7 +66,7 @@ export const PlayerDetails: React.FC<Props> = ({ player }) => {
   });
 
   return (
-    <div className="flex gap-1 w-full">
+    <div className="flex gap-1 w-full max-h-[370px]">
       <div className="flex flex-col flex-1 gap-1">
         <InnerPanel className="flex flex-col gap-1 flex-1 pb-1 px-1">
           <div className="flex items-center">
@@ -110,7 +145,7 @@ export const PlayerDetails: React.FC<Props> = ({ player }) => {
                   </div>
                 </div>
               </div>
-              <Button className="flex w-fit h-9 justify-between items-center gap-1 mt-1">{`Follow`}</Button>
+              <Button className="flex w-fit h-9 justify-between items-center gap-1 mt-1 mr-0.5">{`Follow`}</Button>
             </div>
           </div>
           <div className="flex flex-col gap-1 p-1 pt-0 mb-2 w-full">
@@ -131,7 +166,15 @@ export const PlayerDetails: React.FC<Props> = ({ player }) => {
           </div>
         </InnerPanel>
       </div>
-      {!isMobile && <ActivityFeed />}
+      {!isMobile && (
+        <ActivityFeed
+          className="w-2/5 h-auto"
+          interactions={interactions}
+          onInteraction={(interaction) => {
+            setInteractions([interaction, ...interactions]);
+          }}
+        />
+      )}
     </div>
   );
 };

@@ -19,23 +19,27 @@ import { ReportPlayer } from "./ReportPlayer";
 import { PlayerGift } from "./PlayerGift";
 import { StreamReward } from "./StreamReward";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { PlayerDetails } from "features/social/PlayerModal";
-import { OuterPanel } from "components/ui/Panel";
+import {
+  dummyInteractions,
+  FarmInteraction,
+  PlayerDetails,
+} from "features/social/PlayerModal";
+import { InnerPanel, OuterPanel } from "components/ui/Panel";
 
 import { isMobile } from "mobile-device-detect";
 import { ActivityFeed } from "features/social/ActivityFeed";
 
 export type PlayerModalPlayer = {
   farmId: number;
-  username?: string;
+  username: string;
   clothing: BumpkinParts;
   experience: number;
   isVip: boolean;
-  faction: FactionName;
+  faction?: FactionName;
   createdAt: number;
   islandType: IslandType;
   totalDeliveries: number;
-  dailyStreak: number;
+  dailyStreak?: number;
 };
 
 class PlayerModalManager {
@@ -74,7 +78,7 @@ const OldPlayerDetails: React.FC<{ player: PlayerModalPlayer }> = ({
   };
 
   return (
-    <>
+    <InnerPanel>
       <div className="flex items-center ml-1 mt-2 mb-4">
         <img
           src={levelIcon}
@@ -114,7 +118,7 @@ const OldPlayerDetails: React.FC<{ player: PlayerModalPlayer }> = ({
           )}
         </div>
       </div>
-    </>
+    </InnerPanel>
   );
 };
 
@@ -127,6 +131,9 @@ export const PlayerModals: React.FC<Props> = ({ game, farmId }) => {
   const [tab, setTab] = useState<
     "Player" | "Reward" | "Stream" | "Report" | "Airdrop" | "Activity"
   >("Player");
+  // DEV_TESTING_ONLY
+  const [interactions, setInteractions] =
+    useState<FarmInteraction[]>(dummyInteractions);
   const [player, setPlayer] = useState<PlayerModalPlayer | undefined>();
 
   useEffect(() => {
@@ -228,7 +235,14 @@ export const PlayerModals: React.FC<Props> = ({ game, farmId }) => {
           ) : (
             <OldPlayerDetails player={player as PlayerModalPlayer} />
           ))}
-        {tab === "Activity" && <ActivityFeed />}
+        {tab === "Activity" && (
+          <ActivityFeed
+            interactions={interactions}
+            onInteraction={(interaction) => {
+              setInteractions([interaction, ...interactions]);
+            }}
+          />
+        )}
         {tab === "Reward" && <PlayerGift />}
         {tab === "Stream" && (
           <StreamReward streamerId={player?.farmId as number} />
