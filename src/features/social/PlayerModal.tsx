@@ -4,7 +4,10 @@ import { PlayerModalPlayer } from "features/world/ui/player/PlayerModals";
 import React, { useState } from "react";
 
 import vipIcon from "assets/icons/vip.webp";
-import island from "assets/icons/island.png";
+import basicIsland from "assets/icons/islands/basic.webp";
+import springIsland from "assets/icons/islands/spring.webp";
+import desertIsland from "assets/icons/islands/desert.webp";
+import volcanoIsland from "assets/icons/islands/volcano.webp";
 import flowerIcon from "assets/icons/flower_token.webp";
 import deliveryBook from "assets/icons/chapter_icon_3.webp";
 
@@ -17,6 +20,7 @@ import { isMobile } from "mobile-device-detect";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ActivityFeed } from "./ActivityFeed";
+import { IslandType } from "features/game/types/game";
 
 export type FarmInteraction = {
   id: string;
@@ -54,6 +58,13 @@ export const dummyInteractions: FarmInteraction[] = [
     type: "announcement",
   },
 ];
+
+const ISLAND_ICONS: Record<IslandType, string> = {
+  basic: basicIsland,
+  spring: springIsland,
+  desert: desertIsland,
+  volcano: volcanoIsland,
+};
 
 type Props = {
   player: PlayerModalPlayer;
@@ -94,7 +105,10 @@ export const PlayerDetails: React.FC<Props> = ({ player }) => {
         <InnerPanel className="flex flex-col w-full pb-1">
           <div className="p-1 flex items-center">
             <div className="w-10">
-              <img src={island} className="w-full" />
+              <img
+                src={ISLAND_ICONS[player?.islandType ?? "basic"]}
+                className="w-full"
+              />
             </div>
             <div className="flex pb-1 flex-col justify-center gap-1 text-xs mt-1 ml-2 flex-1">
               <div>{`${capitalize(player?.islandType ?? "")} Island`}</div>
