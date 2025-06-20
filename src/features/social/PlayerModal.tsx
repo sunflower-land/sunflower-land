@@ -21,6 +21,7 @@ import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ActivityFeed } from "./ActivityFeed";
 import { IslandType } from "features/game/types/game";
+import { useTranslation } from "react-i18next";
 
 export type FarmInteraction = {
   id: string;
@@ -71,6 +72,7 @@ type Props = {
 };
 
 export const PlayerDetails: React.FC<Props> = ({ player }) => {
+  const { t } = useTranslation();
   const [interactions, setInteractions] =
     useState<FarmInteraction[]>(dummyInteractions);
 
@@ -97,7 +99,7 @@ export const PlayerDetails: React.FC<Props> = ({ player }) => {
               <div>{`Lvl ${getLevel(new Decimal(player?.experience ?? 0))}${player?.faction ? ` - ${capitalize(player?.faction)}` : ""}`}</div>
               <div className="flex items-center justify-between">
                 <span>{`#${player?.farmId}`}</span>
-                <span>{`Since ${startDate}`}</span>
+                <span>{t("playerModal.since", { date: startDate })}</span>
               </div>
             </div>
           </div>
@@ -111,15 +113,19 @@ export const PlayerDetails: React.FC<Props> = ({ player }) => {
               />
             </div>
             <div className="flex pb-1 flex-col justify-center gap-1 text-xs mt-1 ml-2 flex-1">
-              <div>{`${capitalize(player?.islandType ?? "")} Island`}</div>
+              <div>
+                {t("playerModal.island", {
+                  island: capitalize(player?.islandType ?? ""),
+                })}
+              </div>
               <div className="flex items-center">
-                <span>{`Market value: 1000`}</span>
+                <span>{t("playerModal.marketValue", { value: 1000 })}</span>
                 <img src={flowerIcon} className="w-4 h-4 ml-1 mt-0.5" />
               </div>
             </div>
             <Button className="flex w-fit h-9 justify-between items-center gap-1 mt-1">
               <div className="flex items-center px-1">
-                {!isMobile && <span className="pr-1">{`Visit`}</span>}
+                {!isMobile && <span className="pr-1">{t("visit")}</span>}
                 <img
                   src={SUNNYSIDE.icons.search}
                   className="flex justify-center items-center w-4 h-4"
@@ -132,7 +138,9 @@ export const PlayerDetails: React.FC<Props> = ({ player }) => {
           <div className="flex flex-col gap-1 p-1 w-full ml-1 pt-0">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-1">
-                <span className="text-xs underline cursor-pointer">{`145 friends`}</span>
+                <span className="text-xs underline cursor-pointer">
+                  {t("playerModal.followers", { count: 145 })}
+                </span>
                 <div className="relative w-10 h-6">
                   <div className="absolute">
                     <NPCIcon
@@ -179,8 +187,14 @@ export const PlayerDetails: React.FC<Props> = ({ player }) => {
               <img src={deliveryBook} className="w-full" />
             </div>
             <div className="flex pb-1 flex-col justify-center gap-1 text-xs mt-1 ml-2 flex-1">
-              <div>{`Daily streak: ${player?.dailyStreak}`}</div>
-              <div>{`Total deliveries: ${player?.totalDeliveries}`}</div>
+              <div>
+                {t("playerModal.dailyStreak", { streak: player?.dailyStreak })}
+              </div>
+              <div>
+                {t("playerModal.totalDeliveries", {
+                  count: player?.totalDeliveries,
+                })}
+              </div>
             </div>
           </div>
         </InnerPanel>
