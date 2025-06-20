@@ -84,7 +84,7 @@ export const PlayerSelectionList: React.FC = () => {
         <div className="overflow-y-auto max-h-[70vh] scrollable">
           {playersSortedBySpecialWearables.map((player) => (
             <ButtonPanel
-              key={player.id}
+              key={player.farmId}
               className="flex flex-row items-center gap-1 mx-1 text-xs"
               onClick={() => openPlayerModal(player)}
             >
@@ -106,7 +106,7 @@ export const PlayerSelectionList: React.FC = () => {
               )}
               <div className="flex flex-col ml-1">
                 {player.username && <div>{player.username}</div>}
-                <div>{`#${player.id}`}</div>
+                <div>{`#${player.farmId}`}</div>
               </div>
               <div className="flex-grow" />
               <div className="text-center">

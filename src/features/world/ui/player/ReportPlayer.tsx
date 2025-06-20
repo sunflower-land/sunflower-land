@@ -8,6 +8,7 @@ import React, { useContext, useState } from "react";
 import { CONFIG } from "lib/config";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { useSelector } from "@xstate/react";
+import { InnerPanel } from "components/ui/Panel";
 
 interface Props {
   id: number;
@@ -72,7 +73,7 @@ export const ReportPlayer: React.FC<Props> = ({ id }) => {
   };
 
   return (
-    <div className="flex flex-col gap-2 overflow-y-auto scrollable">
+    <InnerPanel className="flex flex-col gap-2 overflow-y-auto scrollable">
       <div className="flex flex-col">
         <Label type="default" icon={SUNNYSIDE.icons.search} className="mx-2">
           {`Farm ID`}
@@ -138,6 +139,6 @@ export const ReportPlayer: React.FC<Props> = ({ id }) => {
           {isSubmitting ? "Sending..." : "Send"}
         </Button>
       </div>
-    </div>
+    </InnerPanel>
   );
 };

@@ -20,7 +20,7 @@ import {
   SceneId,
 } from "../mmoMachine";
 import { Player, PlazaRoomState } from "../types/Room";
-import { FactionName, GameState } from "features/game/types/game";
+import { FactionName, GameState, IslandType } from "features/game/types/game";
 import { translate } from "lib/i18n/translate";
 import { Room } from "colyseus.js";
 
@@ -43,6 +43,7 @@ import {
 import { playerSelectionListManager } from "../ui/PlayerSelectionList";
 import { playerModalManager } from "../ui/player/PlayerModals";
 import { STREAM_REWARD_COOLDOWN } from "../ui/player/StreamReward";
+import { hasVipAccess } from "features/game/lib/vipAccess";
 
 export type NPCBumpkin = {
   x: number;
@@ -331,6 +332,11 @@ export abstract class BaseScene extends Phaser.Scene {
           updatedAt: 0,
         },
         experience: this.gameState.bumpkin?.experience ?? 0,
+        totalDeliveries: this.gameState.delivery.fulfilledCount ?? 0,
+        dailyStreak: this.gameState.dailyRewards?.streaks ?? 0,
+        isVip: hasVipAccess({ game: this.gameState }),
+        createdAt: this.gameState.createdAt,
+        islandType: this.gameState.island.type,
       });
 
       this.initialiseCamera();
@@ -360,12 +366,29 @@ export abstract class BaseScene extends Phaser.Scene {
         if (clickedBumpkins.length === 0) return;
 
         const players = clickedBumpkins.map((clickedBumpkin) => {
-          const { farmId, clothing, experience, username } = clickedBumpkin;
-          return {
-            id: farmId!,
+          const {
+            farmId,
             clothing,
-            experience: experience ?? 0,
+            totalDeliveries,
+            dailyStreak,
+            isVip,
+            createdAt,
+            faction,
+            islandType,
+            experience,
             username,
+          } = clickedBumpkin;
+          return {
+            farmId: farmId as number,
+            clothing,
+            experience: experience as number,
+            username: username as string,
+            faction,
+            totalDeliveries: totalDeliveries as number,
+            dailyStreak: dailyStreak as number,
+            isVip: isVip as boolean,
+            createdAt: createdAt as number,
+            islandType: islandType as IslandType,
           };
         });
 
@@ -746,6 +769,11 @@ export abstract class BaseScene extends Phaser.Scene {
     clothing,
     npc,
     experience,
+    totalDeliveries,
+    dailyStreak,
+    isVip,
+    createdAt,
+    islandType,
   }: {
     isCurrentPlayer: boolean;
     x: number;
@@ -756,6 +784,11 @@ export abstract class BaseScene extends Phaser.Scene {
     clothing: Player["clothing"];
     npc?: NPCName;
     experience?: number;
+    totalDeliveries?: number;
+    dailyStreak?: number;
+    isVip?: boolean;
+    createdAt?: number;
+    islandType?: IslandType;
   }): BumpkinContainer {
     const defaultClick = () => {
       const distance = Phaser.Math.Distance.BetweenPoints(
@@ -784,6 +817,11 @@ export abstract class BaseScene extends Phaser.Scene {
       farmId,
       faction,
       onClick: defaultClick,
+      totalDeliveries,
+      dailyStreak,
+      isVip,
+      createdAt,
+      islandType,
     });
 
     if (!npc) {
@@ -1100,6 +1138,11 @@ export abstract class BaseScene extends Phaser.Scene {
           isCurrentPlayer: sessionId === server.sessionId,
           npc: player.npc,
           experience: player.experience,
+          totalDeliveries: player.totalDeliveries,
+          dailyStreak: player.dailyStreak,
+          isVip: player.isVip,
+          createdAt: player.createdAt,
+          islandType: player.islandType,
         });
       }
     });
@@ -1240,10 +1283,16 @@ export abstract class BaseScene extends Phaser.Scene {
           distance < 75
         ) {
           playerModalManager.open({
-            id: player.farmId,
+            farmId: player.farmId,
             clothing: player.clothing,
             experience: player.experience,
             username: player.username,
+            isVip: hasVipAccess({ game: this.gameState }),
+            faction: player.faction,
+            createdAt: player.createdAt,
+            islandType: player.islandType,
+            totalDeliveries: player.totalDeliveries,
+            dailyStreak: player.dailyStreak,
           });
           this.lastModalOpenTime = streamerHatLastClaimedAt;
         }

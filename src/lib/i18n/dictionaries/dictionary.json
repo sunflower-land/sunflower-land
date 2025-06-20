@@ -6172,5 +6172,11 @@
   "walletWall.connectError.userRejectedRequest": "The connection request was rejected. Please try again.",
   "walletWall.connectError.resourceUnavailable": "There is already a connection request in your wallet. Please accept it or try another wallet.",
   "walletWall.selectSpecificNetwork": "Please select {{network}} network to {{action}}",
-  "walletWall.selectANetwork": "Please select a network to {{action}}"
+  "walletWall.selectANetwork": "Please select a network to {{action}}",
+  "playerModal.since": "Since {{date}}",
+  "playerModal.marketValue": "Market value: {{value}}",
+  "playerModal.island": "{{island}} Island",
+  "playerModal.followers": "{{count}} followers",
+  "playerModal.dailyStreak": "Daily streak: {{streak}}",
+  "playerModal.totalDeliveries": "Total deliveries: {{count}}"
 }

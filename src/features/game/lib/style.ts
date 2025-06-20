@@ -7,6 +7,9 @@ import halloweenBorderOuter from "assets/ui/halloweenBorderOuter.png";
 import halloweenTabBorderInner1 from "assets/ui/halloweenTabBorderInner1.png";
 import halloweenTabBorderInner2 from "assets/ui/halloweenTabBorderInner2.png";
 
+import interactionBorder from "assets/ui/interaction_border.webp";
+import chatInputBorder from "assets/ui/chat_input_border.webp";
+
 const pixelizedBorderStyle: React.CSSProperties = {
   borderStyle: "solid",
   borderWidth: `${PIXEL_SCALE * 2}px`,
@@ -147,4 +150,15 @@ export const pixelHalloweenTabBorderMiddleStyle2: React.CSSProperties = {
   borderImage: `url(${halloweenTabBorderInner2}) 20%`,
   ...pixelizedBorderStyle,
   borderRadius: `${PIXEL_SCALE * 5}px ${PIXEL_SCALE * 5}px 0 0`,
+};
+
+export const pixelInteractionBorderStyle: React.CSSProperties = {
+  borderImage: `url(${interactionBorder}) 20%`,
+  ...pixelizedBorderStyle,
+};
+
+export const pixelChatInputBorderStyle: React.CSSProperties = {
+  borderImage: `url(${chatInputBorder}) 21%`,
+  ...pixelizedBorderStyle,
+  borderWidth: `${PIXEL_SCALE * 3}px`,
 };
