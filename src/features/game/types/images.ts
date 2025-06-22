@@ -861,6 +861,16 @@ import easterBasket2025 from "assets/sfts/easter_basket.webp";
 import easterToken2025 from "assets/icons/easter_token_2025.webp";
 import easterTicket2025 from "assets/icons/easter_ticket_2025.webp";
 
+import colorToken2025 from "assets/icons/colors_token_2025.png";
+import colorTicket2025 from "assets/icons/colors_ticket_2025.png";
+import paintBuckets from "assets/sfts/paint_buckets.webp";
+import rainbowWell from "assets/sfts/rainbow_well.webp";
+import floatingToy from "assets/sfts/floating_toy.webp";
+import rainbowFlower from "assets/sfts/rainbow_flower.webp";
+import ponyToy from "assets/sfts/pony_toy.webp";
+import redSlimeBaloon from "assets/sfts/red_slime_baloon.webp";
+import blueSlimeBaloon from "assets/sfts/blue_slime_baloon.webp";
+
 import quarry from "assets/sfts/quarry.webp";
 import obsidianTurtle from "assets/sfts/obsidian_turtle.webp";
 import winterGuardian from "assets/sfts/winter_guardian.webp";
@@ -5295,5 +5305,41 @@ export const ITEM_DETAILS: Items = {
   "Giant Kale": {
     image: giantKale,
     description: translate("description.giantKale"),
+  },
+  "Colors Token 2025": {
+    image: colorToken2025,
+    description: translate("description.colorToken2025"),
+  },
+  "Colors Ticket 2025": {
+    image: colorTicket2025,
+    description: translate("description.colorTicket2025"),
+  },
+  "Paint Buckets": {
+    image: paintBuckets,
+    description: translate("description.paintBuckets"),
+  },
+  "Rainbow Well": {
+    image: rainbowWell,
+    description: translate("description.rainbowWell"),
+  },
+  "Floating Toy": {
+    image: floatingToy,
+    description: translate("description.floatingToy"),
+  },
+  "Rainbow Flower": {
+    image: rainbowFlower,
+    description: translate("description.rainbowFlower"),
+  },
+  "Pony Toy": {
+    image: ponyToy,
+    description: translate("description.ponyToy"),
+  },
+  "Red Slime Baloon": {
+    image: redSlimeBaloon,
+    description: translate("description.redSlimeBaloon"),
+  },
+  "Blue Slime Baloon": {
+    image: blueSlimeBaloon,
+    description: translate("description.blueSlimeBaloon"),
   },
 };

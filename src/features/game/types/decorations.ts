@@ -162,7 +162,14 @@ export type EventDecorationName =
   | "White Bunny Lantern"
   | "Orange Tunnel Bunny"
   | "White Tunnel Bunny"
-  | "Easter Basket";
+  | "Easter Basket"
+  | "Paint Buckets"
+  | "Rainbow Well"
+  | "Floating Toy"
+  | "Rainbow Flower"
+  | "Pony Toy"
+  | "Red Slime Baloon"
+  | "Blue Slime Baloon";
 
 export type TileName =
   | "Black Tile"
@@ -1028,6 +1035,34 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
   },
   "Easter Basket": {
     width: 2,
+    height: 2,
+  },
+  "Paint Buckets": {
+    width: 1,
+    height: 2,
+  },
+  "Rainbow Well": {
+    width: 2,
+    height: 2,
+  },
+  "Floating Toy": {
+    width: 1,
+    height: 2,
+  },
+  "Rainbow Flower": {
+    width: 2,
+    height: 2,
+  },
+  "Pony Toy": {
+    width: 1,
+    height: 1,
+  },
+  "Red Slime Baloon": {
+    width: 1,
+    height: 2,
+  },
+  "Blue Slime Baloon": {
+    width: 1,
     height: 2,
   },
 };
