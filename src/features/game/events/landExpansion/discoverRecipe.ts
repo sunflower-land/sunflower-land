@@ -71,7 +71,7 @@ export function discoverRecipe({
       throw new Error("Insufficient Basic Land");
     }
 
-    copy.craftingBox.recipes[action.recipe] = RECIPES[action.recipe];
+    copy.craftingBox.recipes[action.recipe] = RECIPES(copy)[action.recipe];
 
     return copy;
   });
