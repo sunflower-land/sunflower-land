@@ -16,7 +16,7 @@ import { setPrecision } from "lib/utils/formatNumber";
 import { GreenHouseFruit, PatchFruit } from "features/game/types/fruits";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { ShopSellDetails } from "components/ui/layouts/ShopSellDetails";
-import { EXOTIC_CROPS, ExoticCrop } from "features/game/types/beans";
+import { ExoticCrop } from "features/game/types/beans";
 import { getKeys } from "features/game/types/craftables";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { Label } from "components/ui/Label";
@@ -30,14 +30,9 @@ import { SEASONAL_SEEDS, SEEDS } from "features/game/types/seeds";
 import { SEASON_ICONS } from "./SeasonalSeeds";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
+import { isExoticCrop } from "features/game/types/crops";
 
 const _state = (state: MachineState) => state.context.state;
-
-export const isExoticCrop = (
-  item: Crop | PatchFruit | ExoticCrop | GreenHouseFruit | GreenHouseCrop,
-): item is ExoticCrop => {
-  return item.name in EXOTIC_CROPS;
-};
 
 export const SeasonalCrops: React.FC = () => {
   const [selected, setSelected] = useState<
@@ -59,7 +54,7 @@ export const SeasonalCrops: React.FC = () => {
   const divRef = useRef<HTMLDivElement>(null);
 
   const sell = (amount: Decimal) => {
-    if (isExoticCrop(selected)) {
+    if (isExoticCrop(selected.name)) {
       gameService.send("treasure.sold", {
         item: selected.name,
         amount,
@@ -81,7 +76,7 @@ export const SeasonalCrops: React.FC = () => {
   const displaySellPrice = (
     crop: Crop | PatchFruit | ExoticCrop | GreenHouseFruit | GreenHouseCrop,
   ) =>
-    isExoticCrop(crop)
+    isExoticCrop(crop.name)
       ? crop.sellPrice
       : getSellPrice({ item: crop, game: state });
 
