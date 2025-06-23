@@ -42,6 +42,7 @@ import { COMMODITIES } from "features/game/types/resources";
 import { BEDS } from "features/game/types/beds";
 import { FLOWERS } from "features/game/types/flowers";
 import { SELLABLE_TREASURE } from "features/game/types/treasure";
+import { hasFeatureAccess } from "lib/flags";
 
 const VALID_CRAFTING_RESOURCES: InventoryItemName[] = [
   // Crops
@@ -133,6 +134,8 @@ const validCraftingResourcesSorted = (): InventoryItemName[] => {
   ];
 };
 
+const VALID_CRAFTING_WEARABLES: BumpkinItem[] = ["Basic Hair", "Farmer Pants"];
+
 const _state = (state: MachineState) => state.context.state;
 
 interface Props {
@@ -149,6 +152,7 @@ export const CraftTab: React.FC<Props> = ({
   const { t } = useTranslation();
 
   const state = useSelector(gameService, _state);
+  const hasNewCraftingAccess = hasFeatureAccess(state, "CRAFTING");
   const { inventory, wardrobe, craftingBox } = state;
   const {
     status: craftingStatus,
@@ -540,6 +544,38 @@ export const CraftTab: React.FC<Props> = ({
             );
           })}
         </div>
+        {!hasNewCraftingAccess && (
+          <>
+            <Label type="default" className="mb-1 ml-1 mt-1">
+              {t("wearables")}
+            </Label>
+            <div className="flex flex-wrap">
+              {VALID_CRAFTING_WEARABLES.map((itemName) => {
+                const amount = remainingWardrobe[itemName] || 0;
+                return (
+                  <div
+                    key={itemName}
+                    draggable={!isPending && amount > 0}
+                    onDragStart={(e) =>
+                      handleDragStart(e, { wearable: itemName })
+                    }
+                    className="flex"
+                  >
+                    <Box
+                      count={new Decimal(amount)}
+                      image={getImageUrl(ITEM_IDS[itemName])}
+                      isSelected={selectedIngredient?.wearable === itemName}
+                      onClick={() =>
+                        handleIngredientSelect({ wearable: itemName })
+                      }
+                      disabled={isPending || isCrafting}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          </>
+        )}
       </div>
 
       <ModalOverlay
