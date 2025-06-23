@@ -105,9 +105,8 @@ const FEATURE_FLAGS = {
   MODERATOR: (game) => !!game.wardrobe.Halo,
 
   BLESSING: testnetFeatureFlag,
-  POTION_SHOP_EXOTIC_DISABLED: timeBasedFeatureFlag(
-    new Date("2025-08-01T00:00:00Z"),
-  ),
+  POTION_SHOP_EXOTIC_CROPS: () =>
+    Date.now() < new Date("2025-08-01T00:00:00Z").getTime(),
   WARDROBE: testnetFeatureFlag,
   LANDSCAPING: testnetFeatureFlag,
 } satisfies Record<string, FeatureFlag>;

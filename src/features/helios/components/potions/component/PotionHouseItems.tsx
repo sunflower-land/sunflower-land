@@ -60,11 +60,22 @@ export const PotionHouseItems: React.FC = () => {
     shortcutItem(selected.name);
   };
 
-  const Action = () => (
-    <Button disabled={lessFunds() || lessIngredients()} onClick={buy}>
-      {t("buy")}
-    </Button>
-  );
+  const Action = () => {
+    if (
+      selected.name in POTION_HOUSE_ITEMS &&
+      inventory[selected.name] &&
+      !isExoticCrop(selected.name)
+    )
+      return (
+        <span className="text-xxs text-center my-1">{t("alr.minted")}</span>
+      );
+
+    return (
+      <Button disabled={lessFunds() || lessIngredients()} onClick={buy}>
+        {t("buy")}
+      </Button>
+    );
+  };
 
   return (
     <SplitScreenView
@@ -89,7 +100,7 @@ export const PotionHouseItems: React.FC = () => {
           }).map((item) => {
             if (
               isExoticCrop(item.name) &&
-              !hasFeatureAccess(state, "POTION_SHOP_EXOTIC_DISABLED")
+              hasFeatureAccess(state, "POTION_SHOP_EXOTIC_CROPS")
             ) {
               return null;
             }
