@@ -2,7 +2,6 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { useAuth } from "features/auth/lib/Provider";
-import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { useGame } from "features/game/GameProvider";
 import {
   blessingIsReady,
@@ -11,6 +10,7 @@ import {
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { secondsToString } from "lib/utils/time";
 import React from "react";
+import { BlessingResults } from "./Blessings";
 
 interface Props {
   onClose: () => void;
@@ -32,11 +32,6 @@ export const ClaimBlessingReward: React.FC<Props> = ({ onClose }) => {
     });
   };
 
-  const claimBlessing = () => {
-    gameService.send("blessing.claimed");
-    onClose();
-  };
-
   if (!offered && !reward) {
     return (
       <div>
@@ -50,20 +45,7 @@ export const ClaimBlessingReward: React.FC<Props> = ({ onClose }) => {
   }
 
   if (reward) {
-    return (
-      <ClaimReward
-        onClaim={claimBlessing}
-        reward={{
-          message: t("blessing.godsBlessed"),
-          createdAt: Date.now(),
-          id: "guardian-reward",
-          items: reward.items ?? {},
-          wearables: {},
-          sfl: 0,
-          coins: reward.coins,
-        }}
-      />
-    );
+    return <BlessingResults onClose={onClose} />;
   }
 
   const isReady = blessingIsReady({ game: gameState.context.state });
@@ -98,7 +80,7 @@ export const ClaimBlessingReward: React.FC<Props> = ({ onClose }) => {
       <Label type="warning" className="mb-1">
         {t("blessing.youHaveBeenBlessed")}
       </Label>
-      <p className="text-sm mb-2">{t("blessing.godsThankFaithful")}</p>
+      <p className="text-sm m-2">{t("blessing.godsThankFaithful")}</p>
       <Button onClick={seekBlessing}>{t("blessing.claimBlessing")}</Button>
     </div>
   );
