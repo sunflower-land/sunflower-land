@@ -868,8 +868,8 @@ import rainbowWell from "assets/sfts/rainbow_well.webp";
 import floatingToy from "assets/sfts/floating_toy.webp";
 import rainbowFlower from "assets/sfts/rainbow_flower.webp";
 import ponyToy from "assets/sfts/pony_toy.webp";
-import redSlimeBalloon from "assets/sfts/red_slime_Balloon.webp";
-import blueSlimeBalloon from "assets/sfts/blue_slime_Balloon.webp";
+import redSlimeBalloon from "assets/sfts/red_slime_balloon.webp";
+import blueSlimeBalloon from "assets/sfts/blue_slime_balloon.webp";
 
 import quarry from "assets/sfts/quarry.webp";
 import obsidianTurtle from "assets/sfts/obsidian_turtle.webp";
