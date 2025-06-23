@@ -7,7 +7,6 @@ import {
   LandscapingDecorationName,
   LANDSCAPING_DECORATIONS,
   getKeys,
-  Decoration,
 } from "features/game/types/decorations";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { gameAnalytics } from "lib/gameAnalytics";
@@ -98,19 +97,30 @@ export const LandscapingDecorations: React.FC<Props> = ({ onClose }) => {
       }
       content={
         <>
-          {Object.values(LANDSCAPING_DECORATIONS).map((item: Decoration) => (
-            <Box
-              isSelected={selected.name === item.name}
-              key={item.name}
-              onClick={() =>
-                setSelectedName(item.name as LandscapingDecorationName)
-              }
-              image={
-                ITEM_ICONS(state.island.type, state.season.season)[item.name] ??
-                ITEM_DETAILS[item.name].image
-              }
-            />
-          ))}
+          {getKeys(LANDSCAPING_DECORATIONS)
+            .filter(
+              (name) =>
+                ![
+                  "Crimson Cap",
+                  "Toadstool Seat",
+                  "Chestnut Fungi Stool",
+                  "Mahogany Cap",
+                  "Field Maple",
+                  "Red Maple",
+                  "Golden Maple",
+                ].includes(name),
+            )
+            .map((name) => (
+              <Box
+                isSelected={selected.name === name}
+                key={name}
+                onClick={() => setSelectedName(name)}
+                image={
+                  ITEM_ICONS(state.island.type, state.season.season)[name] ??
+                  ITEM_DETAILS[name].image
+                }
+              />
+            ))}
         </>
       }
     />

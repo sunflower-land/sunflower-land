@@ -97,15 +97,20 @@ const VALID_CRAFTING_RESOURCES: InventoryItemName[] = [
   "Royal Ornament",
   "Synthetic Fabric",
   "Timber",
+
+  // Others
+  "Crimson Cap",
+  "Toadstool Seat",
 ];
 
-const validCraftingResourcesSorted = () => {
+const validCraftingResourcesSorted = (): InventoryItemName[] => {
   const crops: InventoryItemName[] = [];
   const resources: InventoryItemName[] = [];
   const beds: InventoryItemName[] = [];
   const flowers: InventoryItemName[] = [];
   const treasures: InventoryItemName[] = [];
   const craftingBox: InventoryItemName[] = [];
+  const others: InventoryItemName[] = [];
 
   VALID_CRAFTING_RESOURCES.forEach((item) => {
     if (item in CROPS) crops.push(item);
@@ -114,6 +119,7 @@ const validCraftingResourcesSorted = () => {
     else if (item in FLOWERS) flowers.push(item);
     else if (item in SELLABLE_TREASURE) treasures.push(item);
     else if (item in RECIPE_CRAFTABLES) craftingBox.push(item);
+    else others.push(item);
   });
 
   return [
@@ -123,6 +129,7 @@ const validCraftingResourcesSorted = () => {
     ...flowers,
     ...treasures,
     ...craftingBox,
+    ...others,
   ];
 };
 

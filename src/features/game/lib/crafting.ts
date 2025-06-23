@@ -20,6 +20,11 @@ export type RecipeCollectibleName = Extract<
   | "Bonnie's Tombstone"
   | "Grubnash's Tombstone"
   | "Town Sign"
+  | "Field Maple"
+  | "Red Maple"
+  | "Crimson Cap"
+  | "Chestnut Fungi Stool"
+  | "Mahogany Cap"
   | "Golden Maple"
   | RecipeCraftableName
   | BedName,
@@ -287,6 +292,36 @@ export const RECIPES_OLD: Recipes = {
     time: 0,
     type: "collectible",
   },
+  "Crimson Cap": {
+    name: "Crimson Cap",
+    ingredients: [],
+    time: 30 * 60 * 1000,
+    type: "collectible",
+  },
+  "Chestnut Fungi Stool": {
+    name: "Chestnut Fungi Stool",
+    ingredients: [],
+    time: 30 * 60 * 1000,
+    type: "collectible",
+  },
+  "Mahogany Cap": {
+    name: "Mahogany Cap",
+    ingredients: [],
+    time: 30 * 60 * 1000,
+    type: "collectible",
+  },
+  "Field Maple": {
+    name: "Field Maple",
+    ingredients: [],
+    time: 30 * 60 * 1000,
+    type: "collectible",
+  },
+  "Red Maple": {
+    name: "Red Maple",
+    ingredients: [],
+    time: 30 * 60 * 1000,
+    type: "collectible",
+  },
 };
 
 export const RECIPES_REVISED: Record<
@@ -465,6 +500,36 @@ export const RECIPES_REVISED: Record<
     name: "Golden Maple",
     ingredients: [],
     time: 0,
+    type: "collectible",
+  },
+  "Crimson Cap": {
+    name: "Crimson Cap",
+    ingredients: [],
+    time: 30 * 60 * 1000,
+    type: "collectible",
+  },
+  "Chestnut Fungi Stool": {
+    name: "Chestnut Fungi Stool",
+    ingredients: [],
+    time: 30 * 60 * 1000,
+    type: "collectible",
+  },
+  "Mahogany Cap": {
+    name: "Mahogany Cap",
+    ingredients: [],
+    time: 30 * 60 * 1000,
+    type: "collectible",
+  },
+  "Field Maple": {
+    name: "Field Maple",
+    ingredients: [],
+    time: 30 * 60 * 1000,
+    type: "collectible",
+  },
+  "Red Maple": {
+    name: "Red Maple",
+    ingredients: [],
+    time: 30 * 60 * 1000,
     type: "collectible",
   },
 };
