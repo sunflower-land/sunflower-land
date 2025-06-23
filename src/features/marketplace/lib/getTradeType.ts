@@ -1035,8 +1035,8 @@ export const ITEM_TRADE_TYPES: {
     "Floating Toy": "instant",
     "Rainbow Flower": "instant",
     "Pony Toy": "instant",
-    "Red Slime Baloon": "instant",
-    "Blue Slime Baloon": "instant",
+    "Red Slime Balloon": "instant",
+    "Blue Slime Balloon": "instant",
   },
   wearables: {
     "New Years Crown": "instant",

@@ -2545,7 +2545,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
       alt="Pony Toy"
     />
   ),
-  "Red Slime Baloon": (props: CollectibleProps) => (
+  "Red Slime Balloon": (props: CollectibleProps) => (
     <ImageStyle
       {...props}
       divStyle={{
@@ -2556,11 +2556,11 @@ export const COLLECTIBLE_COMPONENTS: Record<
       imgStyle={{
         width: `${PIXEL_SCALE * 16}px`,
       }}
-      image={ITEM_DETAILS["Red Slime Baloon"].image}
-      alt="Red Slime Baloon"
+      image={ITEM_DETAILS["Red Slime Balloon"].image}
+      alt="Red Slime Balloon"
     />
   ),
-  "Blue Slime Baloon": (props: CollectibleProps) => (
+  "Blue Slime Balloon": (props: CollectibleProps) => (
     <ImageStyle
       {...props}
       divStyle={{
@@ -2571,8 +2571,8 @@ export const COLLECTIBLE_COMPONENTS: Record<
       imgStyle={{
         width: `${PIXEL_SCALE * 16}px`,
       }}
-      image={ITEM_DETAILS["Blue Slime Baloon"].image}
-      alt="Blue Slime Baloon"
+      image={ITEM_DETAILS["Blue Slime Balloon"].image}
+      alt="Blue Slime Balloon"
     />
   ),
 };

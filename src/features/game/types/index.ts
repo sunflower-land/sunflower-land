@@ -1091,8 +1091,8 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Floating Toy": 2276,
   "Rainbow Flower": 2277,
   "Pony Toy": 2278,
-  "Red Slime Baloon": 2279,
-  "Blue Slime Baloon": 2280,
+  "Red Slime Balloon": 2279,
+  "Blue Slime Balloon": 2280,
 };
 
 // The reverse of above

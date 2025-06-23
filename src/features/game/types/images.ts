@@ -868,8 +868,8 @@ import rainbowWell from "assets/sfts/rainbow_well.webp";
 import floatingToy from "assets/sfts/floating_toy.webp";
 import rainbowFlower from "assets/sfts/rainbow_flower.webp";
 import ponyToy from "assets/sfts/pony_toy.webp";
-import redSlimeBaloon from "assets/sfts/red_slime_baloon.webp";
-import blueSlimeBaloon from "assets/sfts/blue_slime_baloon.webp";
+import redSlimeBalloon from "assets/sfts/red_slime_Balloon.webp";
+import blueSlimeBalloon from "assets/sfts/blue_slime_Balloon.webp";
 
 import quarry from "assets/sfts/quarry.webp";
 import obsidianTurtle from "assets/sfts/obsidian_turtle.webp";
@@ -5334,12 +5334,12 @@ export const ITEM_DETAILS: Items = {
     image: ponyToy,
     description: translate("description.ponyToy"),
   },
-  "Red Slime Baloon": {
-    image: redSlimeBaloon,
-    description: translate("description.redSlimeBaloon"),
+  "Red Slime Balloon": {
+    image: redSlimeBalloon,
+    description: translate("description.redSlimeBalloon"),
   },
-  "Blue Slime Baloon": {
-    image: blueSlimeBaloon,
-    description: translate("description.blueSlimeBaloon"),
+  "Blue Slime Balloon": {
+    image: blueSlimeBalloon,
+    description: translate("description.blueSlimeBalloon"),
   },
 };

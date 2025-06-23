@@ -168,8 +168,8 @@ export type EventDecorationName =
   | "Floating Toy"
   | "Rainbow Flower"
   | "Pony Toy"
-  | "Red Slime Baloon"
-  | "Blue Slime Baloon";
+  | "Red Slime Balloon"
+  | "Blue Slime Balloon";
 
 export type TileName =
   | "Black Tile"
@@ -1057,11 +1057,11 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     width: 1,
     height: 1,
   },
-  "Red Slime Baloon": {
+  "Red Slime Balloon": {
     width: 1,
     height: 2,
   },
-  "Blue Slime Baloon": {
+  "Blue Slime Balloon": {
     width: 1,
     height: 2,
   },

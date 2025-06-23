@@ -15,8 +15,8 @@ export type EventCollectibleName =
   | "Rainbow Well"
   | "Rainbow Flower"
   | "Pony Toy"
-  | "Red Slime Baloon"
-  | "Blue Slime Baloon"
+  | "Red Slime Balloon"
+  | "Blue Slime Balloon"
   | "Colors Ticket 2025"
   | "Super Totem";
 
@@ -147,7 +147,7 @@ const COLORS_EVENT_ITEMS: EventStore = {
   epic: {
     items: [
       {
-        collectible: "Red Slime Baloon",
+        collectible: "Red Slime Balloon",
         cost: { sfl: 60, items: {} },
       },
       {
@@ -159,7 +159,7 @@ const COLORS_EVENT_ITEMS: EventStore = {
         cost: { sfl: 0, items: { "Colors Token 2025": 500 } },
       },
       {
-        collectible: "Blue Slime Baloon",
+        collectible: "Blue Slime Balloon",
         cost: { sfl: 0, items: { "Colors Token 2025": 750 } },
       },
       {

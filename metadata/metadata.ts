@@ -12130,7 +12130,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/2278.webp",
     name: "Pony Toy",
   },
-  "Red Slime Baloon": {
+  "Red Slime Balloon": {
     description:
       "Suspended in a ruby-red bubble, this mischievous slime squishes and squirms with excitement.",
     decimals: 0,
@@ -12140,9 +12140,9 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/2279.webp",
-    name: "Red Slime Baloon",
+    name: "Red Slime Balloon",
   },
-  "Blue Slime Baloon": {
+  "Blue Slime Balloon": {
     description:
       "Gently bobbing in a cool blue balloon, this playful slime seems to enjoy the ride.",
     decimals: 0,
@@ -12152,7 +12152,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/erc1155/images/2280.webp",
-    name: "Blue Slime Baloon",
+    name: "Blue Slime Balloon",
   },
 };
 
