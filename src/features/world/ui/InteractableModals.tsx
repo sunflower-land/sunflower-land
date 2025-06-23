@@ -47,6 +47,10 @@ import { MegaBountyBoard } from "./flowerShop/MegaBountyBoard";
 import { PetalPuzzlePrize } from "./loveRewardShop/PetalPuzzlePrize";
 import { FlowerExchange } from "./npcs/Rocketman";
 import { Blessings } from "features/loveIsland/blessings/Blessings";
+import { EventMegaStore } from "./eventmegastore/EventMegaStore";
+import { EventNoticeboard } from "./EventNoticeboard";
+import { FestivalOfColors2025 } from "./portals/FestivalOfColors2025";
+
 type InteractableName =
   | "guardian"
   | "desert_noticeboard"
@@ -144,7 +148,10 @@ type InteractableName =
   | "air_balloon"
   | "floating_island_shop"
   | "petal_puzzle_prize"
-  | "flower_exchange";
+  | "flower_exchange"
+  | "event_store"
+  | "event_noticeboard"
+  | "festival-of-colors-2025";
 
 class InteractableModalManager {
   private listener?: (name: InteractableName, isOpen: boolean) => void;
@@ -904,8 +911,22 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           <EasterEggstravaganza onClose={closeModal} />
         </CloseButtonPanel>
       </Modal>
+      <Modal
+        show={interactable === "festival-of-colors-2025"}
+        onHide={closeModal}
+      >
+        <CloseButtonPanel onClose={closeModal}>
+          <FestivalOfColors2025 onClose={closeModal} />
+        </CloseButtonPanel>
+      </Modal>
       <Modal show={interactable === "christmas_reward"}>
         <ChristmasReward onClose={closeModal} />
+      </Modal>
+      <Modal show={interactable === "event_store"} onHide={closeModal}>
+        <EventMegaStore onClose={closeModal} />
+      </Modal>
+      <Modal show={interactable === "event_noticeboard"} onHide={closeModal}>
+        <EventNoticeboard onClose={closeModal} />
       </Modal>
     </>
   );

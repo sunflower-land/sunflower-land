@@ -487,6 +487,7 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Great Bloom Banner": 758,
   Geniseed: 759,
   "Broken Pillar": 760,
+  "Colors Token 2025": 757,
 
   "Australian Flag": 801,
   "Belgian Flag": 802,
@@ -1082,6 +1083,16 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Giant Zucchini": 2270,
   "Mini Floating Island": 2271,
   "Giant Kale": 2272,
+
+  //Festival of Colors Event Items
+  "Colors Ticket 2025": 2273,
+  "Paint Buckets": 2274,
+  "Rainbow Well": 2275,
+  "Floating Toy": 2276,
+  "Rainbow Flower": 2277,
+  "Pony Toy": 2278,
+  "Red Slime Balloon": 2279,
+  "Blue Slime Balloon": 2280,
 };
 
 // The reverse of above

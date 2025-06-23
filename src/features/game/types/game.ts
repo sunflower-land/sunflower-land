@@ -238,6 +238,8 @@ export type Coupons =
   | "Love Charm"
   | "Easter Token 2025"
   | "Easter Ticket 2025"
+  | "Colors Token 2025"
+  | "Colors Ticket 2025"
   | Keys
   | SeasonalTicket
   | FactionEmblem;
@@ -367,6 +369,12 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   },
   Geniseed: {
     description: translate("description.geniseed"),
+  },
+  "Colors Token 2025": {
+    description: translate("description.colorToken2025"),
+  },
+  "Colors Ticket 2025": {
+    description: translate("description.colorTicket2025"),
   },
 };
 
@@ -1164,7 +1172,8 @@ export type Currency =
   | "Seasonal Ticket"
   | "Mark"
   | "Love Charm"
-  | "Easter Token 2025";
+  | "Easter Token 2025"
+  | "Colors Token 2025";
 
 export type ShopItemBase = {
   shortDescription: string;

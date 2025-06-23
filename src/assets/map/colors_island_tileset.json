@@ -1,0 +1,15 @@
+[
+ { 
+    "columns":74,
+    "firstgid": 1,
+    "image":"colors_island_tileset.png",
+    "imageheight":544,
+    "imagewidth":1184,
+    "margin":0,
+    "name":"Colors Island Tileset",
+    "spacing":0,
+    "tilecount":2516,
+    "tileheight":16,
+    "tilewidth":16
+}
+]

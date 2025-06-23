@@ -64,6 +64,7 @@ import { PlayerSelectionList } from "./ui/PlayerSelectionList";
 import { StreamScene } from "./scenes/StreamScene";
 import { ModerationTools } from "./ui/moderationTools/ModerationTools";
 import { LoveIslandScene } from "./scenes/LoveIslandScene";
+import { ColorsIslandScene } from "./scenes/ColorsIslandScene";
 
 const _roomState = (state: MachineState) => state.value;
 const _scene = (state: MachineState) => state.context.sceneId;
@@ -152,6 +153,7 @@ export const PhaserComponent: React.FC<Props> = ({
     InfernosScene,
     StreamScene,
     LoveIslandScene,
+    ColorsIslandScene,
   ];
 
   useEffect(() => {
