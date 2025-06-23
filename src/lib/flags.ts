@@ -95,6 +95,11 @@ const FEATURE_FLAGS = {
   EASTER: (game) =>
     betaTimeBasedFeatureFlag(new Date("2025-04-21T00:00:00Z"))(game) &&
     Date.now() < new Date("2025-04-29T00:00:00Z").getTime(),
+
+  FESTIVALOFCOLORS: (game) =>
+    betaTimeBasedFeatureFlag(new Date("2025-06-24T00:00:00Z"))(game) &&
+    Date.now() < new Date("2025-06-30T00:00:00Z").getTime(),
+
   STREAM_STAGE_ACCESS: adminFeatureFlag,
 
   WITHDRAWAL_THRESHOLD: timePeriodFeatureFlag({
