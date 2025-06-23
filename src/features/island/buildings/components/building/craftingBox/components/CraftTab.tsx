@@ -521,29 +521,35 @@ export const CraftTab: React.FC<Props> = ({
       </div>
       <div className="flex flex-col max-h-72 overflow-y-auto scrollable pr-1">
         <div className="flex flex-wrap">
-          {validCraftingResourcesSorted().map((itemName) => {
-            const amount = remainingInventory[itemName] || new Decimal(0);
-            return (
-              <div
-                key={itemName}
-                draggable={!isPending && amount.greaterThan(0)}
-                onDragStart={(e) =>
-                  handleDragStart(e, { collectible: itemName })
-                }
-                className="flex"
-              >
-                <Box
-                  count={amount}
-                  image={ITEM_DETAILS[itemName]?.image}
-                  isSelected={selectedIngredient?.collectible === itemName}
-                  onClick={() =>
-                    handleIngredientSelect({ collectible: itemName })
+          {validCraftingResourcesSorted()
+            .filter(
+              (itemName) =>
+                (itemName !== "Toadstool Seat" && itemName !== "Crimson Cap") ||
+                hasNewCraftingAccess,
+            )
+            .map((itemName) => {
+              const amount = remainingInventory[itemName] || new Decimal(0);
+              return (
+                <div
+                  key={itemName}
+                  draggable={!isPending && amount.greaterThan(0)}
+                  onDragStart={(e) =>
+                    handleDragStart(e, { collectible: itemName })
                   }
-                  disabled={isPending || isCrafting}
-                />
-              </div>
-            );
-          })}
+                  className="flex"
+                >
+                  <Box
+                    count={amount}
+                    image={ITEM_DETAILS[itemName]?.image}
+                    isSelected={selectedIngredient?.collectible === itemName}
+                    onClick={() =>
+                      handleIngredientSelect({ collectible: itemName })
+                    }
+                    disabled={isPending || isCrafting}
+                  />
+                </div>
+              );
+            })}
         </div>
         {!hasNewCraftingAccess && (
           <>
