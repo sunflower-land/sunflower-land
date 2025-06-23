@@ -147,7 +147,7 @@ const WALLET_ACTIONS: Record<WalletAction, WalletActionSettings> = {
   },
   auction: {
     requiresLinkedWallet: true,
-    requiresNFT: false,
+    requiresNFT: true,
     chains: {},
   },
   transfer: {

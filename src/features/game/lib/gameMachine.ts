@@ -1261,6 +1261,9 @@ export function startGame(authContext: AuthContext) {
             "auction.claimed": {
               target: STATE_MACHINE_EFFECTS["auction.claimed"],
             },
+            "nft.assigned": {
+              target: STATE_MACHINE_EFFECTS["nft.assigned"],
+            },
             TRANSACT: {
               target: "transacting",
             },
