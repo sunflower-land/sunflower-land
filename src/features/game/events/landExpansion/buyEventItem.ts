@@ -15,6 +15,7 @@ import {
 } from "features/game/types/eventmegastore";
 import { SFLDiscount } from "features/game/lib/SFLDiscount";
 import { trackActivity } from "features/game/types/bumpkinActivity";
+import { SeasonalTierItemName } from "features/game/types/megastore";
 
 export function isCollectible(
   item: EventStoreItem,
@@ -162,8 +163,9 @@ export function buyEventItem({
 
     // Add item to inventory
     if (isCollectible(item)) {
-      const current = copy.inventory[item.collectible] ?? new Decimal(0);
-      copy.inventory[item.collectible] = current.add(1);
+      const current =
+        copy.inventory[item.collectible as InventoryItemName] ?? new Decimal(0);
+      copy.inventory[item.collectible as InventoryItemName] = current.add(1);
     } else {
       const current = copy.wardrobe[item.wearable] ?? 0;
 
@@ -172,7 +174,7 @@ export function buyEventItem({
 
     // This is where the key is bought
     if (item.cooldownMs) {
-      const boughtAt = copy.megastore?.boughtAt[name as EventTierItemName];
+      const boughtAt = copy.megastore?.boughtAt[name as SeasonalTierItemName];
       if (boughtAt) {
         if (boughtAt + item.cooldownMs > createdAt) {
           throw new Error("Item cannot be bought while in cooldown");
@@ -189,7 +191,7 @@ export function buyEventItem({
       copy.megastore = { boughtAt: {} };
     }
 
-    copy.megastore.boughtAt[name as EventTierItemName] = createdAt;
+    copy.megastore.boughtAt[name as SeasonalTierItemName] = createdAt;
 
     return copy;
   });
@@ -214,7 +216,7 @@ export function isKeyBoughtWithinSeason(
               ? "Rare Key"
               : "Luxury Key";
 
-  let keyBoughtAt = game.megastore?.boughtAt[tierKey as EventTierItemName];
+  let keyBoughtAt = game.megastore?.boughtAt[tierKey as SeasonalTierItemName];
 
   // We changed to a new field. From May 1st can remove this code
   if (!keyBoughtAt) {
@@ -259,7 +261,7 @@ export function isBoxBoughtWithinSeason(
               ? "Silver Flower Box"
               : "Gold Flower Box";
 
-  let boxBoughtAt = game.megastore?.boughtAt[tierBox as EventTierItemName];
+  let boxBoughtAt = game.megastore?.boughtAt[tierBox as SeasonalTierItemName];
 
   // We changed to a new field. From May 1st can remove this code
   if (!boxBoughtAt) {

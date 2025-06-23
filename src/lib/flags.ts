@@ -97,8 +97,8 @@ const FEATURE_FLAGS = {
     Date.now() < new Date("2025-04-29T00:00:00Z").getTime(),
 
   FESTIVALOFCOLORS: (game) =>
-    betaTimeBasedFeatureFlag(new Date("2025-06-24T00:00:00Z"))(game) &&
-    Date.now() < new Date("2025-06-30T00:00:00Z").getTime(),
+    betaTimeBasedFeatureFlag(new Date("2025-06-30T00:00:00Z"))(game) &&
+    Date.now() < new Date("2025-07-07T00:00:00Z").getTime(),
 
   STREAM_STAGE_ACCESS: adminFeatureFlag,
 
