@@ -38,7 +38,7 @@ import { ButtonPanel, InnerPanel } from "components/ui/Panel";
 import { CollectibleName, getKeys } from "features/game/types/craftables";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { CROPS } from "features/game/types/crops";
-import { COMMODITIES } from "features/game/types/resources";
+import { ANIMAL_RESOURCES, COMMODITIES } from "features/game/types/resources";
 import { BEDS } from "features/game/types/beds";
 import { FLOWERS } from "features/game/types/flowers";
 import { SELLABLE_TREASURE } from "features/game/types/treasure";
@@ -115,7 +115,8 @@ const validCraftingResourcesSorted = (): InventoryItemName[] => {
 
   VALID_CRAFTING_RESOURCES.forEach((item) => {
     if (item in CROPS) crops.push(item);
-    else if (item in COMMODITIES) resources.push(item);
+    else if (item in { ...COMMODITIES, ...ANIMAL_RESOURCES })
+      resources.push(item);
     else if (item in BEDS) beds.push(item);
     else if (item in FLOWERS) flowers.push(item);
     else if (item in SELLABLE_TREASURE) treasures.push(item);
