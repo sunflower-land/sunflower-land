@@ -5,6 +5,7 @@ import { BaseScene } from "./BaseScene";
 import { interactableModalManager } from "../ui/InteractableModals";
 //import { Label } from "../containers/Label";
 import { translate } from "lib/i18n/translate";
+import { Label } from "../containers/Label";
 
 export class ColorsIslandScene extends BaseScene {
   sceneId: SceneId = "colors_island";
@@ -77,6 +78,11 @@ export class ColorsIslandScene extends BaseScene {
           this.currentPlayer?.speak(translate("base.iam.far.away"));
         }
       });
+
+    const portalLabel = new Label(this, "PLAY");
+    this.add.existing(portalLabel);
+    portalLabel.setPosition(173, 335 - 20);
+    portalLabel.setDepth(10000);
 
     this.physics.world.enable(portal_entrance);
     this.colliders?.add(portal_entrance);

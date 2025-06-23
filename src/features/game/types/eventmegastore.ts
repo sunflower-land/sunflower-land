@@ -98,15 +98,15 @@ const COLORS_EVENT_ITEMS: EventStore = {
       },
       {
         wearable: "Paint Splattered Hair",
-        cost: { sfl: 0, items: { "Colors Token 2025": 100 } },
-      },
-      {
-        wearable: "Paint Splattered Shirt",
         cost: { sfl: 0, items: { "Colors Token 2025": 150 } },
       },
       {
-        collectible: "Treasure Key",
+        wearable: "Paint Splattered Shirt",
         cost: { sfl: 0, items: { "Colors Token 2025": 250 } },
+      },
+      {
+        collectible: "Treasure Key",
+        cost: { sfl: 0, items: { "Colors Token 2025": 300 } },
       },
       {
         collectible: "Colors Ticket 2025",
@@ -127,19 +127,19 @@ const COLORS_EVENT_ITEMS: EventStore = {
       },
       {
         wearable: "Paint Splattered Overalls",
-        cost: { sfl: 0, items: { "Colors Token 2025": 200 } },
+        cost: { sfl: 0, items: { "Colors Token 2025": 350 } },
       },
       {
         wearable: "Paint Spray Can",
-        cost: { sfl: 0, items: { "Colors Token 2025": 250 } },
+        cost: { sfl: 0, items: { "Colors Token 2025": 450 } },
       },
       {
         collectible: "Paint Buckets",
-        cost: { sfl: 0, items: { "Colors Token 2025": 200 } },
+        cost: { sfl: 0, items: { "Colors Token 2025": 250 } },
       },
       {
         collectible: "Rare Key",
-        cost: { sfl: 0, items: { "Colors Token 2025": 350 } },
+        cost: { sfl: 0, items: { "Colors Token 2025": 500 } },
       },
     ],
     requirement: 4,
@@ -156,19 +156,19 @@ const COLORS_EVENT_ITEMS: EventStore = {
       },
       {
         collectible: "Rainbow Well",
-        cost: { sfl: 0, items: { "Colors Token 2025": 350 } },
-      },
-      {
-        collectible: "Blue Slime Baloon",
         cost: { sfl: 0, items: { "Colors Token 2025": 500 } },
       },
       {
-        collectible: "Rainbow Flower",
+        collectible: "Blue Slime Baloon",
         cost: { sfl: 0, items: { "Colors Token 2025": 750 } },
       },
       {
+        collectible: "Rainbow Flower",
+        cost: { sfl: 0, items: { "Colors Token 2025": 1000 } },
+      },
+      {
         collectible: "Luxury Key",
-        cost: { sfl: 0, items: { "Colors Token 2025": 750 } },
+        cost: { sfl: 0, items: { "Colors Token 2025": 1000 } },
       },
     ],
     requirement: 4,
