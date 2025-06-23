@@ -5910,8 +5910,6 @@
   "blessing.thankYouOffering": "Özel teklifiniz için teşekkür ederiz. Muhafızlar size gülümsüyor, sabır şimdi anahtardır. Kutsamanızı almak için yeni bir güne kadar bekleyin.",
   "blessing.left": "ayrıldı",
   "blessing.youHaveBeenBlessed": "Sen kutsanmışsın",
-  "blessing.godsThankFaithful": "Tanrılar inananlara şükrediyor.",
-  "blessing.claimBlessing": "Kutsamayı Talep Et",
   "blessing.greetings": "Selamlar çiftçi... tanrısallığa rastladın. Bir nimete layık mısın?",
   "blessing.seasonBlooming": "{{season}} çiçek açıyor. Tanrılara olan inancını gösterecek misin?",
   "blessing.areYouSure": "Emin misin?",
@@ -5919,7 +5917,6 @@
   "blessing.offeringWarning": "Sunular Muhafızlara bağışlardır ve yakılacaktır. Hiçbir ödül garanti edilmez.",
   "blessing.confirm": "Onayla",
   "blessing.offerTitle": "Bir nimet sunun",
-  "blessing.guardiansSeek": "Muhafızlar her gün bir sunu ararlar. Bir nimet kazanma şansı için inancını göster.",
   "blessing.chooseAmount": "{{name}} tutarınızı seçin",
   "blessing.minimumRequired": "Minimum {{amount}} gerekli",
   "blessing.offer": "Teklif",
@@ -6023,5 +6020,11 @@
   "event.noticeboard.two": "Bu adada, özel sınırlı öğelere harcayabileceğiniz Jetonlar kazanabileceğiniz yepyeni bir mini oyun içeren bir portal bulabilirsiniz!",
   "event.noticeboard.three": "Mağaza, önceki katmanlardan öğeler satın aldıktan sonra satın almak için yeni öğelerin kilidini açabileceğiniz Stella Mağazasına benzer bir sistem kullanır. Ayrıca $FLOWER kazanma şansına sahip olmak için olabildiğince çok etkinlik bileti almayı unutmayın!",
   "event.noticeboard.four": "Oyunun ve etkinliğin çalışma şekli her zaman değiştiğinden, bu sefer doğrudan bağış NPC yok, ancak mağazadaki herhangi bir öğeyi $FLOWER ile satın alabilir veya bunun gibi daha büyük, daha iyi ve daha şaşırtıcı etkinlikler getirmeye devam etmemize yardımcı olmak için Portal'dan denemeler satın alabilirsiniz!",
-  "event.noticeboard.five": "Bunların hepsi sizin ve desteğiniz sayesinde! Topluluk etkinlik ekibinden hepinize teşekkür ederiz! Resmi Sunflower Land Discord Sunucusu hakkındaki görüşleriniz takdir edilmektedir"
+  "event.noticeboard.five": "Bunların hepsi sizin ve desteğiniz sayesinde! Topluluk etkinlik ekibinden hepinize teşekkür ederiz! Resmi Sunflower Land Discord Sunucusu hakkındaki görüşleriniz takdir edilmektedir",
+  "blessing.godsThankFaithful": "Tanrılar sizi lütfundan ötürü ödüllendirdiler.",
+  "blessing.claimBlessing": "Sonuçları görüntüle",
+  "blessing.random": "Ödüller rastgele dağıtılır.",
+  "blessing.claim": "Ödülünüzü talep edin",
+  "blessing.guardiansSeek": "Muhafızlar her gün bir sunu ararlar. Aşk Tılsımları alma şansı için inancınızı gösterin - ödüller rastgele dağıtılır.",
+  "blessings.results": "Kutsama sonuçları"
 }

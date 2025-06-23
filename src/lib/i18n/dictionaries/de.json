@@ -5910,8 +5910,6 @@
   "blessing.thankYouOffering": "Vielen Dank für Ihr Angebot, gewidmet. Die Wächter lächeln dich an, Geduld ist jetzt entscheidend. Warte bis zu einem neuen Tag, um deinen Segen zu erhalten.",
   "blessing.left": "links",
   "blessing.youHaveBeenBlessed": "Du wurdest gesegnet",
-  "blessing.godsThankFaithful": "Die Götter danken den Gläubigen.",
-  "blessing.claimBlessing": "Beanspruche Blessing",
   "blessing.greetings": "Seid gegrüßt Farmer... Ihr seid auf Göttlichkeit gestoßen. Bist du eines Segens würdig?",
   "blessing.seasonBlooming": "{{season}} blüht. Wirst du deinen Glauben an die Götter zeigen?",
   "blessing.areYouSure": "Bist du sicher?",
@@ -5919,7 +5917,6 @@
   "blessing.offeringWarning": "Opfergaben sind Spenden an die Wächter und werden verbrannt. Es sind keine Belohnungen garantiert.",
   "blessing.confirm": "Bestätigen",
   "blessing.offerTitle": "Biete einen Segen an",
-  "blessing.guardiansSeek": "Jeden Tag suchen die Guardians nach einer Opfergabe. Zeigt euren Glauben, um die Chance zu haben, einen Segen zu erlangen.",
   "blessing.chooseAmount": "Wählen Sie Ihren {{name}} -Betrag",
   "blessing.minimumRequired": "Mindestens {{amount}} erforderlich",
   "blessing.offer": "Angebot",
@@ -6023,5 +6020,11 @@
   "event.noticeboard.two": "Auf dieser Insel findest du ein Portal mit einem brandneuen Minispiel, in dem du Marken verdienen kannst, die du für limitierte Spezialgegenstände ausgeben kannst!",
   "event.noticeboard.three": "Der Shop verwendet ein dem Stella-Shop ähnliches System, bei dem Sie neue Artikel freischalten können, die Sie kaufen können, nachdem Sie Artikel aus den vorherigen Stufen gekauft haben. Denkt auch daran, so viele Eventtickets wie möglich zu kaufen, um mehr Chancen zu haben, $FLOWER zu gewinnen!",
   "event.noticeboard.four": "Da sich die Art und Weise, wie das Spiel und das Event funktionieren, ständig ändern, gibt es dieses Mal keinen direkten NPC, aber ihr könnt alle Gegenstände im Shop mit $FLOWER kaufen oder Versuche auf dem Portal kaufen, um uns zu unterstützen und uns zu helfen, weiterhin größere, bessere und fantastischere Events wie dieses zu organisieren!",
-  "event.noticeboard.five": "Das alles haben wir dir und deiner Unterstützung zu verdanken! Wir vom Community Event Team danken euch allen! Euer Feedback auf dem offiziellen Sunflower Land Discord Server ist uns sehr wichtig"
+  "event.noticeboard.five": "Das alles haben wir dir und deiner Unterstützung zu verdanken! Wir vom Community Event Team danken euch allen! Euer Feedback auf dem offiziellen Sunflower Land Discord Server ist uns sehr wichtig",
+  "blessing.godsThankFaithful": "Die Götter haben dich für deinen Segen belohnt.",
+  "blessing.claimBlessing": "Ergebnisse ansehen",
+  "blessing.random": "Die Belohnungen werden nach dem Zufallsprinzip verteilt.",
+  "blessing.claim": "Hol dir deinen Preis",
+  "blessing.guardiansSeek": "Jeden Tag suchen die Guardians nach einer Opfergabe. Zeigt euren Glauben, um die Chance zu haben, Liebeszauber zu erhalten — die Belohnungen werden nach dem Zufallsprinzip verteilt.",
+  "blessings.results": "Segnende Ergebnisse"
 }

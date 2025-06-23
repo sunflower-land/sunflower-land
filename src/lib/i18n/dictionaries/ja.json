@@ -5910,8 +5910,6 @@
   "blessing.thankYouOffering": "献身的なものを提供していただきありがとうございます。ガーディアンはあなたに微笑みかけます。今度は忍耐が鍵です。祝福を受けるには、新しい日が来るまで待ってください。",
   "blessing.left": "左",
   "blessing.youHaveBeenBlessed": "あなたは祝福されました",
-  "blessing.godsThankFaithful": "神々は信者に感謝します。",
-  "blessing.claimBlessing": "クレーム・ブレッシング",
   "blessing.greetings": "農家の皆さん、こんにちは... あなたは神学に出くわしました。あなたは祝福を受けるに値するの？",
   "blessing.seasonBlooming": "{{season}} が咲いています。神々への信仰を示してくれませんか？",
   "blessing.areYouSure": "よろしいですか？",
@@ -5919,7 +5917,6 @@
   "blessing.offeringWarning": "お供え物はガーディアンへの寄付で、燃やされます。報酬は保証されません。",
   "blessing.confirm": "確認",
   "blessing.offerTitle": "祝福を捧げる",
-  "blessing.guardiansSeek": "ガーディアンは毎日、お供え物を求めています。信仰を示して、祝福を得るチャンスを手に入れましょう。",
   "blessing.chooseAmount": "{{name}} の金額を選択してください",
   "blessing.minimumRequired": "最小値 {{amount}} が必要です",
   "blessing.offer": "オファー",
@@ -6023,5 +6020,11 @@
   "event.noticeboard.two": "この島には、新しいミニゲームのポータルがあり、トークンを獲得して特別な限定アイテムを購入できます！",
   "event.noticeboard.three": "ショップはステラショップと同様のシステムを使用しており、前のティアのアイテムを購入した後に新しいアイテムをアンロックして購入できます。また、$FLOWERを獲得するチャンスを増やすために、できるだけ多くのイベントチケットを購入することを忘れないでください！",
   "event.noticeboard.four": "ゲームとイベントの仕組みは常に変化しているので、今回は直接寄付するNPCはありませんが、$FLOWERでショップのアイテムを購入するか、ポータルでアイテムを購入して、このようなより大きく、より良く、より素晴らしいイベントを開催し続けるための支援と支援をお願いします！",
-  "event.noticeboard.five": "これはすべてあなたとあなたのサポートのおかげです！コミュニティイベントチームの皆さん、ありがとうございました！サンフラワーランドの公式Discordサーバーに関するフィードバックをいただければ幸いです。"
+  "event.noticeboard.five": "これはすべてあなたとあなたのサポートのおかげです！コミュニティイベントチームの皆さん、ありがとうございました！サンフラワーランドの公式Discordサーバーに関するフィードバックをいただければ幸いです。",
+  "blessing.godsThankFaithful": "神々はあなたに祝福を与えました。",
+  "blessing.claimBlessing": "結果を表示",
+  "blessing.random": "報酬はランダムに分配されます。",
+  "blessing.claim": "賞品を受け取る",
+  "blessing.guardiansSeek": "ガーディアンは毎日、お供え物を求めています。信仰を示して、ラブチャームを受け取るチャンスを手に入れましょう。報酬はランダムに配布されます。",
+  "blessings.results": "祝福結果"
 }

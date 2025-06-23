@@ -5910,8 +5910,6 @@
   "blessing.thankYouOffering": "Grazie per avermi offerto una devota. I tutori ti sorridono, la pazienza ora è fondamentale. Aspettate un nuovo giorno per ricevere la vostra benedizione.",
   "blessing.left": "sinistra",
   "blessing.youHaveBeenBlessed": "Sei stato benedetto",
-  "blessing.godsThankFaithful": "Gli dei ringraziano i fedeli.",
-  "blessing.claimBlessing": "Richiedi la benedizione",
   "blessing.greetings": "Saluti contadino... ti sei imbattuto nella divinità. Sei degno di una benedizione?",
   "blessing.seasonBlooming": "{{season}} è in fiore. Dimostrerai la tua fede negli dei?",
   "blessing.areYouSure": "Ne sei sicuro?",
@@ -5919,7 +5917,6 @@
   "blessing.offeringWarning": "Le offerte sono donazioni ai Guardiani e verranno bruciate. Non sono garantite ricompense.",
   "blessing.confirm": "Confermare",
   "blessing.offerTitle": "Offri una benedizione",
-  "blessing.guardiansSeek": "Ogni giorno, i Guardiani cercano un'offerta. Dimostrate la vostra fede, per avere la possibilità di ottenere una benedizione.",
   "blessing.chooseAmount": "Scegli il tuo importo {{name}}",
   "blessing.minimumRequired": "Minimo {{amount}} richiesto",
   "blessing.offer": "Offerta",
@@ -6023,5 +6020,11 @@
   "event.noticeboard.two": "Su quest'isola puoi trovare un portale con un nuovissimo minigioco in cui puoi guadagnare gettoni da spendere in oggetti speciali limitati!",
   "event.noticeboard.three": "Il negozio utilizza un sistema simile a Stella Shop, in cui puoi sbloccare nuovi oggetti da acquistare dopo aver acquistato articoli dei livelli precedenti. Ricorda inoltre di acquistare il maggior numero possibile di biglietti per gli eventi per avere più possibilità di vincere $FLOWER!",
   "event.noticeboard.four": "Poiché il funzionamento del gioco e degli eventi è in continua evoluzione, questa volta non ci sono NPC che effettuano donazioni dirette, ma puoi acquistare qualsiasi oggetto nel negozio con $FLOWER o tentativi di acquisto sul Portale per supportarci e aiutarci a continuare a creare eventi più grandi, migliori e più incredibili come questo!",
-  "event.noticeboard.five": "Tutto questo grazie a te e al tuo supporto! Noi del team dedicato agli eventi della community ringraziamo tutti! Il tuo feedback sul server Discord ufficiale di Sunflower Land è apprezzato"
+  "event.noticeboard.five": "Tutto questo grazie a te e al tuo supporto! Noi del team dedicato agli eventi della community ringraziamo tutti! Il tuo feedback sul server Discord ufficiale di Sunflower Land è apprezzato",
+  "blessing.godsThankFaithful": "Gli dei ti hanno ricompensato per la tua benedizione.",
+  "blessing.claimBlessing": "Visualizza i risultati",
+  "blessing.random": "I premi vengono distribuiti in modo casuale.",
+  "blessing.claim": "Richiedi il tuo premio",
+  "blessing.guardiansSeek": "Ogni giorno, i Guardiani cercano un'offerta. Dimostra la tua fede per avere la possibilità di ricevere Love Charms: le ricompense vengono distribuite in modo casuale.",
+  "blessings.results": "Risultati positivi"
 }

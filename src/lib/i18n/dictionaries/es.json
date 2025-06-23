@@ -5910,8 +5910,6 @@
   "blessing.thankYouOffering": "Gracias por tu oferta, una dedicada. Los guardianes te sonríen, la paciencia es ahora la clave. Espera hasta un nuevo día para recibir tu bendición.",
   "blessing.left": "izquierda",
   "blessing.youHaveBeenBlessed": "Has sido bendecido",
-  "blessing.godsThankFaithful": "Los dioses dan las gracias a los fieles.",
-  "blessing.claimBlessing": "Reclama la bendición",
   "blessing.greetings": "Saludos, granjero... te has topado con la divinidad. ¿Eres digno de una bendición?",
   "blessing.seasonBlooming": "{{season}} está floreciendo. ¿Demostrarás tu fe en los dioses?",
   "blessing.areYouSure": "¿Estás seguro?",
@@ -5919,7 +5917,6 @@
   "blessing.offeringWarning": "Las ofrendas son donaciones a los Guardianes y se quemarán. No se garantiza ninguna recompensa.",
   "blessing.confirm": "Confirmar",
   "blessing.offerTitle": "Ofrezca una bendición",
-  "blessing.guardiansSeek": "Todos los días, los Guardianes buscan una ofrenda. Demuestra tu fe para tener la oportunidad de obtener una bendición.",
   "blessing.chooseAmount": "Elige tu importe de {{name}}",
   "blessing.minimumRequired": "Se requiere un mínimo de {{amount}}",
   "blessing.offer": "Oferta",
@@ -6023,5 +6020,11 @@
   "event.noticeboard.two": "¡En esta isla puedes encontrar un portal con un minijuego completamente nuevo en el que puedes ganar fichas para gastarlas en objetos especiales limitados!",
   "event.noticeboard.three": "La tienda usa un sistema similar al de la Tienda Stella, donde puedes desbloquear nuevos objetos para comprar después de comprar artículos de los niveles anteriores. ¡Recuerda también comprar tantas entradas para eventos como puedas para tener más posibilidades de ganar $FLOWER!",
   "event.noticeboard.four": "Como el funcionamiento del juego y de los eventos cambia constantemente, esta vez no hay PNJ que haga donaciones directas, pero puedes comprar cualquiera de los objetos de la tienda con $FLOWER o comprar intentos en el Portal para apoyarnos y ayudarnos a seguir organizando eventos más grandes, mejores y más increíbles como este.",
-  "event.noticeboard.five": "¡Todo esto es gracias a ti y a tu apoyo! ¡Desde el equipo de eventos comunitarios os damos las gracias a todos! Agradecemos vuestros comentarios sobre el servidor oficial de Discord de Sunflower Land"
+  "event.noticeboard.five": "¡Todo esto es gracias a ti y a tu apoyo! ¡Desde el equipo de eventos comunitarios os damos las gracias a todos! Agradecemos vuestros comentarios sobre el servidor oficial de Discord de Sunflower Land",
+  "blessing.godsThankFaithful": "Los dioses te han recompensado por tu bendición.",
+  "blessing.claimBlessing": "Ver resultados",
+  "blessing.random": "Las recompensas se distribuyen de forma aleatoria.",
+  "blessing.claim": "Reclama tu premio",
+  "blessing.guardiansSeek": "Todos los días, los Guardianes buscan una ofrenda. Demuestra tu fe para tener la oportunidad de recibir amuletos de amor. Las recompensas se distribuyen de forma aleatoria.",
+  "blessings.results": "Resultados de bendición"
 }
