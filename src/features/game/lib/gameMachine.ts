@@ -1496,6 +1496,9 @@ export function startGame(authContext: AuthContext) {
             "auction.claimed": {
               target: STATE_MACHINE_EFFECTS["auction.claimed"],
             },
+            "wallet.linked": {
+              target: STATE_MACHINE_EFFECTS["wallet.linked"],
+            },
             "nft.assigned": {
               target: STATE_MACHINE_EFFECTS["nft.assigned"],
             },
