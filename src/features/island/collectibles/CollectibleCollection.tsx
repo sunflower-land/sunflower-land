@@ -360,6 +360,13 @@ import { DrCow } from "./components/DrCow";
 import { NurseSheep } from "./components/NurseSheep";
 import { PinkDolphin } from "./components/PinkDolphin";
 import { Lunalist } from "./components/Lunalist";
+import { BlackMagic } from "./components/BlackMagic";
+import { GoldenHelios } from "./components/GoldenHelios";
+import { Chiogga } from "./components/Chiogga";
+import { PurpleCauliflower } from "./components/PurpleCauliflower";
+import { AdirondackPotato } from "./components/AdirondackPotato";
+import { WartyGoblinPumpkin } from "./components/WartyGoblinPumpkin";
+import { WhiteCarrot } from "./components/WhiteCarrot";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
@@ -2575,6 +2582,13 @@ export const COLLECTIBLE_COMPONENTS: Record<
       alt="Blue Slime Balloon"
     />
   ),
+  "Black Magic": BlackMagic,
+  "Golden Helios": GoldenHelios,
+  Chiogga: Chiogga,
+  "Purple Cauliflower": PurpleCauliflower,
+  "Adirondack Potato": AdirondackPotato,
+  "Warty Goblin Pumpkin": WartyGoblinPumpkin,
+  "White Carrot": WhiteCarrot,
 };
 // Need readonly versions for some troublesome components while in design mode
 

@@ -1210,6 +1210,13 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Lab Grown Carrot": { width: 1, height: 1 },
   "Lab Grown Radish": { width: 1, height: 1 },
   "Lab Grown Pumpkin": { width: 1, height: 1 },
+  "Black Magic": { width: 1, height: 1 },
+  "Golden Helios": { width: 1, height: 1 },
+  Chiogga: { width: 1, height: 1 },
+  "Purple Cauliflower": { width: 1, height: 1 },
+  "Adirondack Potato": { width: 1, height: 1 },
+  "Warty Goblin Pumpkin": { width: 1, height: 1 },
+  "White Carrot": { width: 1, height: 1 },
 
   "White Crow": { width: 1, height: 1 },
 

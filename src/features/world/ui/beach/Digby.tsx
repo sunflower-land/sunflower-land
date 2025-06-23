@@ -8,6 +8,7 @@ import {
   getArtefactsFound,
   SEASONAL_ARTEFACT,
   hasClaimedReward,
+  DiggingFormationName,
 } from "features/game/types/desert";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { NPC_WEARABLES } from "lib/npcs";
@@ -223,17 +224,7 @@ export const DailyPuzzle: React.FC = () => {
           className="flex flex-wrap  scrollable overflow-y-auto pt-2 overflow-x-hidden pr-1"
           style={{ maxHeight: "300px" }}
         >
-          {patterns.map((pattern, index) => (
-            <div className="w-1/4 sm:w-1/4" key={index}>
-              <div className="m-1">
-                <Pattern
-                  key={index}
-                  pattern={DIGGING_FORMATIONS[pattern]}
-                  isDiscovered={completedPatterns.includes(pattern)}
-                />
-              </div>
-            </div>
-          ))}
+          <Patterns patterns={patterns} completedPatterns={completedPatterns} />
         </div>
 
         <div className="flex justify-between items-center mt-2 mb-1">
@@ -278,6 +269,46 @@ export const DailyPuzzle: React.FC = () => {
           {t("claim")}
         </Button>
       )}
+    </>
+  );
+};
+
+const Patterns: React.FC<{
+  patterns: DiggingFormationName[];
+  completedPatterns: DiggingFormationName[];
+}> = ({ patterns, completedPatterns }) => {
+  const completedPatternCount = completedPatterns.reduce(
+    (acc, pattern) => {
+      acc[pattern] = (acc[pattern] || 1) + 1;
+      return acc;
+    },
+    {} as Record<DiggingFormationName, number>,
+  );
+
+  return (
+    <>
+      {patterns.map((pattern, index) => {
+        const isDiscovered = completedPatterns.includes(pattern);
+
+        // Make sure the number of completed patterns is respected
+        // ie it doesn't tick off all duplicate patterns if only one set is found
+        if (completedPatternCount[pattern] > 0) {
+          completedPatternCount[pattern] = completedPatternCount[pattern] - 1;
+        }
+
+        return (
+          <div key={index} className="w-1/4 sm:w-1/4">
+            <div className="m-1">
+              <Pattern
+                pattern={DIGGING_FORMATIONS[pattern]}
+                isDiscovered={
+                  isDiscovered && completedPatternCount[pattern] !== 0
+                }
+              />
+            </div>
+          </div>
+        );
+      })}
     </>
   );
 };
