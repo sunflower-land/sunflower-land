@@ -49,7 +49,8 @@ export type WalletAction =
   | "marketplace"
   | "transfer"
   | "sync"
-  | "purchase";
+  | "purchase"
+  | "auction";
 
 interface Props {
   action: WalletAction;
@@ -140,6 +141,11 @@ const WALLET_ACTIONS: Record<WalletAction, WalletActionSettings> = {
     },
   },
   marketplace: {
+    requiresLinkedWallet: true,
+    requiresNFT: false,
+    chains: {},
+  },
+  auction: {
     requiresLinkedWallet: true,
     requiresNFT: false,
     chains: {},
@@ -336,6 +342,7 @@ const ACTION_HUMAN_NAMES: Record<WalletAction, string> = {
   transfer: "transfer",
   sync: "sync",
   purchase: "purchase",
+  auction: "auction",
 };
 
 const SelectChain: React.FC<{

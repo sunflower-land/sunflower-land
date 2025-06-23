@@ -38,8 +38,7 @@ type EffectName =
   | "blessing.seeked"
   | "nft.assigned"
   | "marketplace.bulkListingsCancelled"
-  | "marketplace.bulkOffersCancelled";
-  | "nft.assigned"
+  | "marketplace.bulkOffersCancelled"
   | "auction.claimed";
 
 // IMPORTANT: If your effect does not go via a state in the state machine then exclude it here!
@@ -53,7 +52,6 @@ export type StateMachineEffectName = Exclude<
   | "moderation.kicked"
   | "moderation.muted"
   | "moderation.unmuted"
-  | "nft.assigned"
 >;
 
 export type StateMachineStateName =
