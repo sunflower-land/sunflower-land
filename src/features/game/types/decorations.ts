@@ -1113,10 +1113,10 @@ export const BASIC_DECORATIONS: () => Record<
   },
 });
 
-export const LANDSCAPING_DECORATIONS: () => Record<
+export const LANDSCAPING_DECORATIONS: Record<
   LandscapingDecorationName,
   Decoration
-> = () => ({
+> = {
   "Dirt Path": {
     name: "Dirt Path",
     description: translate("description.dirt.path"),
@@ -1223,7 +1223,7 @@ export const LANDSCAPING_DECORATIONS: () => Record<
       Wood: new Decimal(100),
     },
   },
-});
+};
 
 export const POTION_HOUSE_DECORATIONS: () => Record<
   PotionHouseDecorationName,
@@ -1268,6 +1268,6 @@ export const DECORATIONS: Record<
   Decoration
 > = {
   ...BASIC_DECORATIONS(),
-  ...LANDSCAPING_DECORATIONS(),
+  ...LANDSCAPING_DECORATIONS,
   ...POTION_HOUSE_DECORATIONS(),
 };
