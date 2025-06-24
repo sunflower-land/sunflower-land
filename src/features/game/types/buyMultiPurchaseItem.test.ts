@@ -77,6 +77,20 @@ describe("buyMultiplePurchaseItem", () => {
     ).toThrow("Insufficient Items");
   });
 
+  it("throws an error if there's not enough funds for multiple amount", () => {
+    expect(() =>
+      buyMultiplePurchaseItem({
+        state: { ...INITIAL_FARM, inventory: { Gem: new Decimal(99) } },
+        action: {
+          type: "multiplePurchaseItem.bought",
+          item: "Fishing Lure",
+          purchaseType: "Gem",
+          amount: 10,
+        },
+      }),
+    ).toThrow("Insufficient Items");
+  });
+
   it.todo("throws an error if there's not enough coins");
 
   it("adds the item to the inventory with purchase type gem", () => {
@@ -89,6 +103,7 @@ describe("buyMultiplePurchaseItem", () => {
         amount: 1,
       },
     });
+    expect(state.inventory["Gem"]).toEqual(new Decimal(0));
     expect(state.inventory["Fishing Lure"]).toEqual(new Decimal(1));
   });
 
@@ -102,6 +117,35 @@ describe("buyMultiplePurchaseItem", () => {
         amount: 1,
       },
     });
+    expect(state.inventory["Feather"]).toEqual(new Decimal(0));
     expect(state.inventory["Fishing Lure"]).toEqual(new Decimal(1));
+  });
+
+  it("adds the item to the inventory with purchase type gem and multiple amount", () => {
+    const state = buyMultiplePurchaseItem({
+      state: { ...INITIAL_FARM, inventory: { Gem: new Decimal(100) } },
+      action: {
+        type: "multiplePurchaseItem.bought",
+        item: "Fishing Lure",
+        purchaseType: "Gem",
+        amount: 10,
+      },
+    });
+    expect(state.inventory["Gem"]).toEqual(new Decimal(0));
+    expect(state.inventory["Fishing Lure"]).toEqual(new Decimal(10));
+  });
+
+  it("adds the item to the inventory with purchase type feather and multiple amount", () => {
+    const state = buyMultiplePurchaseItem({
+      state: { ...INITIAL_FARM, inventory: { Feather: new Decimal(1000) } },
+      action: {
+        type: "multiplePurchaseItem.bought",
+        item: "Fishing Lure",
+        purchaseType: "Feather",
+        amount: 10,
+      },
+    });
+    expect(state.inventory["Feather"]).toEqual(new Decimal(0));
+    expect(state.inventory["Fishing Lure"]).toEqual(new Decimal(10));
   });
 });
