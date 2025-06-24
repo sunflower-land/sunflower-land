@@ -4,7 +4,7 @@ import { GAME_FEE, startPotion } from "./startPotion";
 describe("startPotion", () => {
   const GAME_STATE = {
     ...TEST_FARM,
-    coins: 1000,
+    coins: 10000,
   };
 
   it("starts the first game", () => {
@@ -32,15 +32,16 @@ describe("startPotion", () => {
   });
 
   it("deducts the correct fee based on multiplier", () => {
+    const coins = 100000;
     const newState = startPotion({
-      state: GAME_STATE,
+      state: { ...GAME_STATE, coins },
       action: {
         type: "potion.started",
         multiplier: 50,
       },
     });
 
-    expect(newState.coins).toEqual(GAME_STATE.coins - GAME_FEE * 50);
+    expect(newState.coins).toEqual(coins - GAME_FEE * 50);
   });
 
   it("throws if there is already a game in progress", () => {
@@ -122,15 +123,16 @@ describe("startPotion", () => {
 
   it("increments the coins spent activity with correct multiplied amount", () => {
     const multiplier = 50;
+    const coins = 100000;
     const newState = startPotion({
-      state: { ...GAME_STATE },
+      state: { ...GAME_STATE, coins },
       action: {
         type: "potion.started",
         multiplier,
       },
     });
 
-    expect(newState.coins).toEqual(GAME_STATE.coins - GAME_FEE * multiplier);
+    expect(newState.coins).toEqual(coins - GAME_FEE * multiplier);
     expect(newState.bumpkin?.activity?.["Coins Spent"]).toEqual(
       GAME_FEE * multiplier,
     );
