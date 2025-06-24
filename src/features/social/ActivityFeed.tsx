@@ -102,7 +102,7 @@ export const ActivityFeed: React.FC<Props> = ({
                         {`${getRelativeTime(interaction.timestamp)}`}
                       </span>
                     </div>
-                    <div className="text-xs">{interaction.text}</div>
+                    <div className="text-xs break-all">{interaction.text}</div>
                   </InteractionBubble>
                 </div>
               );
