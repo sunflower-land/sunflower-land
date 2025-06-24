@@ -37,35 +37,35 @@ export const BeachBaitShop: React.FC = () => {
   const purchaseOption = purchaseType
     ? purchaseOptions[purchaseType] ?? {}
     : {};
-  const lessIngredients = () => {
+  const lessIngredients = (amount: number) => {
     if (!purchaseOption.ingredients) return true;
 
     return getObjectEntries(purchaseOption.ingredients).some(
-      ([item, amount]) => {
+      ([item, price]) => {
         const currentAmount =
           inventory[item as keyof typeof inventory] ?? new Decimal(0);
-        const ingredientCost = amount ?? new Decimal(0);
+        const ingredientCost = new Decimal(price ?? 0).mul(amount);
         if (currentAmount.lessThan(ingredientCost)) return true;
         return false;
       },
     );
   };
 
-  const craft = () => {
+  const craft = (amount: number) => {
     gameService.send("multiplePurchaseItem.bought", {
       item: selectedName,
       purchaseType,
-      amount: 1,
+      amount,
     });
 
     const blockBucks = purchaseType
       ? selectedItem.purchaseOptions[purchaseType]?.ingredients?.Gem ??
         new Decimal(0)
       : new Decimal(0);
-    if (blockBucks.gt(0)) {
+    if (new Decimal(blockBucks).gt(0)) {
       gameAnalytics.trackSink({
         currency: "Gem",
-        amount: blockBucks.toNumber(),
+        amount: new Decimal(blockBucks).toNumber(),
         item: selectedName,
         type: "Consumable",
       });
@@ -76,9 +76,14 @@ export const BeachBaitShop: React.FC = () => {
     if (purchaseType) {
       return (
         <div className="flex flex-row sm:flex-col gap-1">
-          <Button disabled={lessIngredients()} onClick={craft}>
-            {t("craft")}
-          </Button>
+          <div className="flex flex-row flex-wrap gap-1">
+            <Button disabled={lessIngredients(1)} onClick={() => craft(1)}>
+              {`${t("craft")} 1`}
+            </Button>
+            <Button disabled={lessIngredients(10)} onClick={() => craft(10)}>
+              {`${t("craft")} 10`}
+            </Button>
+          </div>
           <Button onClick={() => setPurchaseType(undefined)}>
             {t("back")}
           </Button>

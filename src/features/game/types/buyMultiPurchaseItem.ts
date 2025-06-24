@@ -72,23 +72,24 @@ export function buyMultiplePurchaseItem({ state, action }: Options) {
     }
 
     if (purchaseOption.coins) {
-      if (copy.coins < purchaseOption.coins) {
+      const coinCost = purchaseOption.coins * amount;
+      if (copy.coins < coinCost) {
         throw new Error("Insufficient Coins");
       }
 
       // Subtract from coins
-      copy.coins -= purchaseOption.coins;
+      copy.coins -= coinCost;
       copy.bumpkin.activity = trackActivity(
         "Coins Spent",
         copy.bumpkin.activity,
-        new Decimal(purchaseOption.coins),
+        new Decimal(coinCost),
       );
     }
 
     if (purchaseOption.ingredients) {
-      getObjectEntries(purchaseOption.ingredients).forEach(([item, amount]) => {
+      getObjectEntries(purchaseOption.ingredients).forEach(([item, price]) => {
         const currentAmount = copy.inventory[item] ?? new Decimal(0);
-        const ingredientCost = amount ?? new Decimal(0);
+        const ingredientCost = new Decimal(price ?? 0).mul(amount);
         if (currentAmount.lessThan(ingredientCost)) {
           throw new Error("Insufficient Items");
         }
@@ -100,7 +101,7 @@ export function buyMultiplePurchaseItem({ state, action }: Options) {
 
     // Add to inventory
     copy.inventory[item] = (copy.inventory[item] ?? new Decimal(0)).plus(
-      new Decimal(action.amount),
+      new Decimal(amount),
     );
 
     copy.bumpkin.activity = trackActivity(
