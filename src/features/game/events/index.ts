@@ -471,6 +471,10 @@ import {
   ClaimPetalPrizeAction,
 } from "./landExpansion/claimPetalPrize";
 import { claimBlessing, ClaimBlessingAction } from "./claimBlessing";
+import {
+  buyMultiplePurchaseItem,
+  BuyMultiplePurchaseItemAction,
+} from "../types/buyMultiPurchaseItem";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
@@ -611,7 +615,8 @@ export type PlayingEvent =
   | AcknowledgeRewardBoxAction
   | OpenRewardBoxAction
   | ClaimPetalPrizeAction
-  | ClaimBlessingAction;
+  | ClaimBlessingAction
+  | BuyMultiplePurchaseItemAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -819,6 +824,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "claim.bountyBoardBonus": claimBountyBonus,
   "petalPuzzle.solved": claimPetalPrize,
   "blessing.claimed": claimBlessing,
+  "multiplePurchaseItem.bought": buyMultiplePurchaseItem,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
