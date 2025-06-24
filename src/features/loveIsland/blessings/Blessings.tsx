@@ -21,31 +21,57 @@ import flowerIcon from "assets/icons/flower_token.webp";
 import coinIcon from "assets/icons/coins.webp";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 
+import autumnGuardian from "assets/sfts/autumn_guardian.webp";
+import springGuardian from "assets/sfts/spring_guardian.webp";
+import summerGuardian from "assets/sfts/summer_guardian.webp";
+import winterGuardian from "assets/sfts/winter_guardian.webp";
+import { TemperateSeasonName } from "features/game/types/game";
+
+const SEASON_GUARDIANS: Record<TemperateSeasonName, string> = {
+  autumn: autumnGuardian,
+  spring: springGuardian,
+  summer: summerGuardian,
+  winter: winterGuardian,
+};
+
 interface Props {
   onClose: () => void;
 }
 export const Blessings: React.FC<Props> = ({ onClose }) => {
   const [tab, setTab] = useState(0);
+  const { gameState } = useGame();
+  const { t } = useAppTranslation();
+
+  const season = gameState.context.state.season.season;
+
+  const guardian = SEASON_GUARDIANS[season as TemperateSeasonName];
 
   return (
-    <CloseButtonPanel
-      tabs={[
-        {
-          name: "Offering",
-          icon: SUNNYSIDE.icons.heart,
-        },
-        {
-          name: "Results",
-          icon: SUNNYSIDE.icons.search,
-        },
-      ]}
-      currentTab={tab}
-      setCurrentTab={setTab}
-      onClose={onClose}
-    >
-      {tab === 0 && <BlessingOffer onClose={onClose} />}
-      {tab === 1 && <BlessingResults onClose={onClose} />}
-    </CloseButtonPanel>
+    <>
+      <img src={guardian} className="absolute -top-24 w-48 " />
+
+      <CloseButtonPanel
+        tabs={[
+          {
+            name: "Offering",
+            icon: SUNNYSIDE.icons.heart,
+          },
+          {
+            name: "Results",
+            icon: SUNNYSIDE.icons.search,
+          },
+        ]}
+        currentTab={tab}
+        setCurrentTab={setTab}
+        onClose={onClose}
+      >
+        {tab === 0 && <BlessingOffer onClose={onClose} />}
+        {tab === 1 && <BlessingResults onClose={onClose} />}
+        <Label type="info" className="absolute top-1 right-10">
+          {t("beta")}
+        </Label>
+      </CloseButtonPanel>
+    </>
   );
 };
 
@@ -98,7 +124,9 @@ export const BlessingOffer: React.FC<Props> = ({ onClose }) => {
           },
           {
             text: t("blessing.seasonBlooming", {
-              season: gameState.context.state.season.season,
+              season:
+                gameState.context.state.season.season.charAt(0).toUpperCase() +
+                gameState.context.state.season.season.slice(1),
             }),
           },
         ]}
@@ -117,6 +145,7 @@ export const BlessingOffer: React.FC<Props> = ({ onClose }) => {
         <Label type="formula">{`${new Date().toISOString().slice(0, 10)}`}</Label>
       </div>
       <p className="text-xs m-1">{t("blessing.guardiansSeek")}</p>
+      <p className="text-xs m-1">{t("blessing.guardiansSeek.random")}</p>
 
       <div className="flex items-center">
         <Box image={ITEM_DETAILS[offering.item].image} count={inventory} />
@@ -212,7 +241,9 @@ export const BlessingResults: React.FC<Props> = ({ onClose }) => {
       <ClaimReward
         onClaim={claimBlessing}
         reward={{
-          message: t("blessing.godsBlessed"),
+          message: reward?.items?.["Love Charm"]
+            ? t("blessing.godsBlessed.winner")
+            : t("blessing.godsBlessed.loser"),
           createdAt: Date.now(),
           id: "guardian-reward",
           items: reward?.items ?? {},
@@ -231,6 +262,11 @@ export const BlessingResults: React.FC<Props> = ({ onClose }) => {
         ? coinIcon
         : ITEM_DETAILS[response.data.prize].image;
 
+  // Sort winners
+  const winners = Object.entries(response.data.winners).sort(
+    (a, b) => b[1] - a[1],
+  );
+
   return (
     <div className="max-h-[500px] overflow-y-auto scrollable">
       <Label type="formula">{`Yesterday - ${previousDayKey}`}</Label>
@@ -248,7 +284,7 @@ export const BlessingResults: React.FC<Props> = ({ onClose }) => {
       </div>
       <div className="flex m-1 items-center">
         <img src={icon} className="w-6 mr-1" />
-        <span>{`${response.data.prizeAmount} x ${response.data.prize} rewarded`}</span>
+        <span>{`${response.data.prizeAmount} ${response.data.prize} rewarded`}</span>
       </div>
 
       <Label type="default" className="my-2">
@@ -257,22 +293,20 @@ export const BlessingResults: React.FC<Props> = ({ onClose }) => {
 
       <table className="w-full text-xs table-auto border-collapse">
         <tbody>
-          {Object.entries(response.data.winners)
-            .slice(0, 5)
-            .map(([farmId, amount], index) => (
-              <tr
-                key={index}
-                className={classNames({
-                  "bg-[#ead4aa]": index % 2 === 0,
-                })}
-              >
-                <td className="p-1.5">{`#${farmId}`}</td>
-                <td className="p-1.5 text-left pl-8 relative truncate flex">
-                  <span className="text-xs">{amount}</span>
-                  <img src={icon} className="h-4 ml-1" />
-                </td>
-              </tr>
-            ))}
+          {winners.slice(0, 5).map(([farmId, amount], index) => (
+            <tr
+              key={index}
+              className={classNames({
+                "bg-[#ead4aa]": index % 2 === 0,
+              })}
+            >
+              <td className="p-1.5">{`#${farmId}`}</td>
+              <td className="p-1.5 text-left pl-8 relative truncate flex">
+                <span className="text-xs">{amount}</span>
+                <img src={icon} className="h-4 ml-1" />
+              </td>
+            </tr>
+          ))}
         </tbody>
       </table>
 
