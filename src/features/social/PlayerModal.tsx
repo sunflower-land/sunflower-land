@@ -19,7 +19,7 @@ import { capitalize } from "lib/utils/capitalize";
 import { isMobile } from "mobile-device-detect";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { ActivityFeed } from "./ActivityFeed";
+import { FollowerFeed } from "./components/FollowerFeed";
 import { IslandType } from "features/game/types/game";
 import { useTranslation } from "react-i18next";
 
@@ -32,6 +32,84 @@ export type FarmInteraction = {
 };
 
 export const dummyInteractions: FarmInteraction[] = [
+  {
+    id: "1",
+    sender: "Elias",
+    timestamp: Date.now() - 60000,
+    text: "Nice farm!",
+    type: "comment",
+  },
+  {
+    id: "2",
+    sender: "Local Hero",
+    timestamp: Date.now() - 120000,
+    text: "Cleaned your farm",
+    type: "action",
+  },
+  {
+    id: "3",
+    timestamp: Date.now() - 180000,
+    text: "Elias reached level 10",
+    type: "milestone",
+  },
+  {
+    id: "4",
+    timestamp: Date.now() - 180000,
+    text: "New Chapter Begins!",
+    type: "announcement",
+  },
+  {
+    id: "1",
+    sender: "Elias",
+    timestamp: Date.now() - 60000,
+    text: "Nice farm!",
+    type: "comment",
+  },
+  {
+    id: "2",
+    sender: "Local Hero",
+    timestamp: Date.now() - 120000,
+    text: "Cleaned your farm",
+    type: "action",
+  },
+  {
+    id: "3",
+    timestamp: Date.now() - 180000,
+    text: "Elias reached level 10",
+    type: "milestone",
+  },
+  {
+    id: "4",
+    timestamp: Date.now() - 180000,
+    text: "New Chapter Begins!",
+    type: "announcement",
+  },
+  {
+    id: "1",
+    sender: "Elias",
+    timestamp: Date.now() - 60000,
+    text: "Nice farm!",
+    type: "comment",
+  },
+  {
+    id: "2",
+    sender: "Local Hero",
+    timestamp: Date.now() - 120000,
+    text: "Cleaned your farm",
+    type: "action",
+  },
+  {
+    id: "3",
+    timestamp: Date.now() - 180000,
+    text: "Elias reached level 10",
+    type: "milestone",
+  },
+  {
+    id: "4",
+    timestamp: Date.now() - 180000,
+    text: "New Chapter Begins!",
+    type: "announcement",
+  },
   {
     id: "1",
     sender: "Elias",
@@ -200,7 +278,7 @@ export const PlayerDetails: React.FC<Props> = ({ player }) => {
         </InnerPanel>
       </div>
       {!isMobile && (
-        <ActivityFeed
+        <FollowerFeed
           className="w-2/5 h-auto"
           interactions={interactions}
           onInteraction={(interaction) => {

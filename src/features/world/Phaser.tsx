@@ -62,9 +62,10 @@ import { AuthMachineState } from "features/auth/lib/authMachine";
 import { InfernosScene } from "./scenes/InferniaScene";
 import { PlayerSelectionList } from "./ui/PlayerSelectionList";
 import { StreamScene } from "./scenes/StreamScene";
-import { ModerationTools } from "./ui/moderationTools/ModerationTools";
 import { LoveIslandScene } from "./scenes/LoveIslandScene";
 import { ColorsIslandScene } from "./scenes/ColorsIslandScene";
+import { hasFeatureAccess } from "lib/flags";
+import { WorldHud } from "features/island/hud/WorldHud";
 
 const _roomState = (state: MachineState) => state.value;
 const _scene = (state: MachineState) => state.context.sceneId;
@@ -99,7 +100,6 @@ interface Props {
 }
 
 export const PhaserComponent: React.FC<Props> = ({
-  isCommunity,
   mmoService,
   inventory,
   route,
@@ -119,13 +119,9 @@ export const PhaserComponent: React.FC<Props> = ({
 
   const [messages, setMessages] = useState<Message[]>([]);
   const [players, setPlayers] = useState<Player[]>([]);
-  const [isModerator, setIsModerator] = useState(false);
-
   const [isMuted, setIsMuted] = useState<ModerationEvent | undefined>();
-
   const [MuteEvent, setMuteEvent] = useState<ModerationEvent | undefined>();
   const [KickEvent, setKickEvent] = useState<ModerationEvent | undefined>();
-
   const [loaded, setLoaded] = useState(false);
 
   const navigate = useNavigate();
@@ -134,7 +130,6 @@ export const PhaserComponent: React.FC<Props> = ({
 
   const mmoState = useSelector(mmoService, _roomState);
   const scene = useSelector(mmoService, _scene);
-
   const rawToken = useSelector(authService, _rawToken);
 
   const scenes = [
@@ -164,15 +159,6 @@ export const PhaserComponent: React.FC<Props> = ({
       jwt: rawToken,
       gameService,
     });
-
-    // Set up moderator by looking if bumpkin has Halo hat equipped and Beta Pass in inventory
-    const { wardrobe } = state;
-    const isModerator = !!inventory["Beta Pass"] && !!wardrobe.Halo;
-
-    isModerator ? setIsModerator(true) : setIsModerator(false); // I know i know this is a bit useless but useful for debugging rofl
-
-    // Check if user is muted and if so, apply mute details to isMuted state
-    // Removed for now, will be added back later in a next PR
   }, []);
 
   useEffect(() => {
@@ -445,6 +431,12 @@ export const PhaserComponent: React.FC<Props> = ({
 
   return (
     <div>
+      <WorldHud
+        scene={scene}
+        server={mmoService.state.context.server?.name}
+        messages={messages}
+        players={players}
+      />
       <div id="game-content" ref={ref} />
 
       {/* Hud Components should all be inside here. - ie. components positioned absolutely to the window */}
@@ -464,37 +456,31 @@ export const PhaserComponent: React.FC<Props> = ({
           </InnerPanel>
         )}
 
-        <ChatUI
-          farmId={farmId}
-          gameState={state}
-          scene={scene}
-          onMessage={(m) => {
-            mmoService.state.context.server?.send(0, {
-              text: m.text ?? "?",
-            });
-          }}
-          onCommand={(name, args) => {
-            handleCommand(name, args).then(updateMessages);
-          }}
-          messages={messages ?? []}
-          isMuted={isMuted ? true : false}
-          onReact={(reaction) => {
-            mmoService.state.context.server?.send(0, {
-              reaction: { reaction },
-            });
-          }}
-          onBudPlace={(tokenId) => {
-            mmoService.state.context.server?.send(0, {
-              budId: tokenId,
-            });
-          }}
-        />
-        {isModerator && !isCommunity && (
-          <ModerationTools
-            scene={game.current?.scene.getScene(scene)}
+        {!hasFeatureAccess(state, "SOCIAL_FARMING") && (
+          <ChatUI
+            farmId={farmId}
+            gameState={state}
+            scene={scene}
+            onMessage={(m) => {
+              mmoService.state.context.server?.send(0, {
+                text: m.text ?? "?",
+              });
+            }}
+            onCommand={(name, args) => {
+              handleCommand(name, args).then(updateMessages);
+            }}
             messages={messages ?? []}
-            players={players ?? []}
-            gameService={gameService}
+            isMuted={isMuted ? true : false}
+            onReact={(reaction) => {
+              mmoService.state.context.server?.send(0, {
+                reaction: { reaction },
+              });
+            }}
+            onBudPlace={(tokenId) => {
+              mmoService.state.context.server?.send(0, {
+                budId: tokenId,
+              });
+            }}
           />
         )}
 
@@ -522,7 +508,6 @@ export const PhaserComponent: React.FC<Props> = ({
       </HudContainer>
 
       {/* Modals */}
-
       {MuteEvent && (
         <Muted event={MuteEvent} onClose={() => setMuteEvent(undefined)} />
       )}
