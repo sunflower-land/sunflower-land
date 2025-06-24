@@ -4,7 +4,7 @@ import { assign, createMachine, Interpreter, State } from "xstate";
 import { PlazaRoomState } from "./types/Room";
 
 import { CONFIG } from "lib/config";
-import { Bumpkin, FactionName } from "features/game/types/game";
+import { Bumpkin, FactionName, IslandType } from "features/game/types/game";
 import { INITIAL_BUMPKIN } from "features/game/lib/constants";
 import { SPAWNS } from "./lib/spawn";
 import { Moderation } from "features/game/lib/gameMachine";
@@ -153,6 +153,11 @@ export interface MMOContext {
   isCommunity?: boolean;
   firstDeliveryNpc?: NPCName;
   moderation: Moderation;
+  totalDeliveries: number;
+  dailyStreak: number;
+  isVip: boolean;
+  createdAt: number;
+  islandType: IslandType;
 }
 
 export type MMOState = {
@@ -217,6 +222,11 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
     previousSceneId: null,
     experience: 0,
     isCommunity: false,
+    totalDeliveries: 0,
+    dailyStreak: 0,
+    isVip: false,
+    createdAt: 0,
+    islandType: "basic",
     moderation: {
       kicked: [],
       muted: [],
@@ -327,6 +337,11 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
             moderation: context.moderation,
             username: context.username,
             faction: context.faction,
+            totalDeliveries: context.totalDeliveries,
+            dailyStreak: context.dailyStreak,
+            isVip: context.isVip,
+            createdAt: context.createdAt,
+            islandType: context.islandType,
           });
 
           return { server, client, serverId };
@@ -378,6 +393,11 @@ export const mmoMachine = createMachine<MMOContext, MMOEvent, MMOState>({
               sceneId: context.sceneId,
               experience: context.experience,
               moderation: context.moderation,
+              totalDeliveries: context.totalDeliveries,
+              dailyStreak: context.dailyStreak,
+              isVip: context.isVip,
+              createdAt: context.createdAt,
+              islandType: context.islandType,
             },
           );
 
