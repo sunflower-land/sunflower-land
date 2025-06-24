@@ -136,11 +136,13 @@ export const Box: React.FC<BoxProps> = ({
             },
           )}
         >
-          <SquareIcon
-            icon={image}
-            width={INNER_CANVAS_WIDTH}
-            className={iconClassName}
-          />
+          {image && (
+            <SquareIcon
+              icon={image}
+              width={INNER_CANVAS_WIDTH}
+              className={iconClassName}
+            />
+          )}
           {secondaryImage && (
             <img
               src={secondaryImage}

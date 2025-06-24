@@ -7,6 +7,7 @@ export type Potions = [PotionName, PotionName, PotionName, PotionName];
 
 export type StartPotionAction = {
   type: "potion.started";
+  multiplier: number;
 };
 
 type Options = {
@@ -16,9 +17,10 @@ type Options = {
 
 export const GAME_FEE = 320;
 
-export function startPotion({ state }: Options): GameState {
+export function startPotion({ state, action }: Options): GameState {
   return produce(state, (stateCopy) => {
     const { bumpkin, coins } = stateCopy;
+    const fee = GAME_FEE * action.multiplier;
 
     if (!bumpkin) {
       throw new Error("Bumpkin not found");
@@ -28,19 +30,23 @@ export function startPotion({ state }: Options): GameState {
       throw new Error("There is already a game in progress");
     }
 
-    if (stateCopy.coins < GAME_FEE) {
+    if (stateCopy.coins < fee) {
       throw new Error("Insufficient coins to start a game");
     }
 
-    stateCopy.coins = coins - GAME_FEE;
+    stateCopy.coins = coins - fee;
     bumpkin.activity = trackActivity(
       "Coins Spent",
       bumpkin?.activity,
-      new Decimal(GAME_FEE),
+      new Decimal(fee),
     );
 
     stateCopy.potionHouse = {
-      game: { status: "in_progress", attempts: [] },
+      game: {
+        status: "in_progress",
+        attempts: [],
+        multiplier: action.multiplier,
+      },
       history: stateCopy.potionHouse?.history ?? {},
     };
 
