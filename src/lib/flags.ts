@@ -95,6 +95,11 @@ const FEATURE_FLAGS = {
   EASTER: (game) =>
     betaTimeBasedFeatureFlag(new Date("2025-04-21T00:00:00Z"))(game) &&
     Date.now() < new Date("2025-04-29T00:00:00Z").getTime(),
+
+  FESTIVALOFCOLORS: (game) =>
+    betaTimeBasedFeatureFlag(new Date("2025-06-30T00:00:00Z"))(game) &&
+    Date.now() < new Date("2025-07-07T00:00:00Z").getTime(),
+
   STREAM_STAGE_ACCESS: adminFeatureFlag,
 
   WITHDRAWAL_THRESHOLD: timePeriodFeatureFlag({
@@ -104,7 +109,9 @@ const FEATURE_FLAGS = {
 
   MODERATOR: (game) => !!game.wardrobe.Halo,
 
-  BLESSING: testnetFeatureFlag,
+  BLESSING: defaultFeatureFlag,
+  POTION_SHOP_EXOTIC_CROPS: () =>
+    Date.now() < new Date("2025-08-01T00:00:00Z").getTime(),
   WARDROBE: testnetFeatureFlag,
   MINE_WHACK_BETA: defaultFeatureFlag,
   SOCIAL_FARMING: defaultFeatureFlag,

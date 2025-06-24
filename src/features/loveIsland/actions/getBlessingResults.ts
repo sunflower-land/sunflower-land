@@ -12,6 +12,7 @@ type BlessingResults = {
     total: number;
     prize: InventoryItemName | "Flower" | "Coin";
     item: InventoryItemName;
+    prizeAmount: number;
   };
 };
 

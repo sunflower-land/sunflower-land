@@ -12047,6 +12047,113 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/2271.png",
     name: "Mini Floating Island",
   },
+  "Colors Token 2025": {
+    description: "Use this in the easter event shop before the event ends!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Coupon" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/757.webp",
+    name: "Colors Token 2025",
+  },
+  "Colors Ticket 2025": {
+    description:
+      "Hold this for a chance to win $FLOWER after the easter event ends!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Coupon" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2273.webp",
+    name: "Colors Ticket 2025",
+  },
+  "Paint Buckets": {
+    description:
+      "These buckets hold the power to bring color to even the dullest day.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2274.webp",
+    name: "Paint Buckets",
+  },
+  "Rainbow Well": {
+    description:
+      "This enchanted well shimmers with every color of the rainbow, offering wishes as bright as its waters.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2275.webp",
+    name: "Rainbow Well",
+  },
+  "Floating Toy": {
+    description:
+      "This playful toy drifts through the air, spreading joy wherever the breeze takes it.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2276.webp",
+    name: "Floating Toy",
+  },
+  "Rainbow Flower": {
+    description:
+      "This rare flower radiates with vibrant magic and never fades.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2277.webp",
+    name: "Rainbow Flower",
+  },
+  "Pony Toy": {
+    description:
+      "Crafted with love and a sprinkle of magic, this tiny pony carries the spirit of every farmer’s dreams.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2278.webp",
+    name: "Pony Toy",
+  },
+  "Red Slime Balloon": {
+    description:
+      "Suspended in a ruby-red bubble, this mischievous slime squishes and squirms with excitement.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2279.webp",
+    name: "Red Slime Balloon",
+  },
+  "Blue Slime Balloon": {
+    description:
+      "Gently bobbing in a cool blue balloon, this playful slime seems to enjoy the ride.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2280.webp",
+    name: "Blue Slime Balloon",
+  },
 };
 
 export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
@@ -18059,5 +18166,88 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/wearables/images/462.png",
     name: "Coin Head",
+  },
+  "Paint Splattered Hair": {
+    description:
+      "Each streak tells a story—of bold brushes, happy accidents, and a day well spent in color",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hair" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/463.webp",
+    name: "Paint Splattered Hair",
+  },
+  "Paint Splattered Shirt": {
+    description:
+      "This shirt has seen things—brilliant ideas, wild inspiration, and maybe a little paint fight or two.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Shirt" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/464.webp",
+    name: "Paint Splattered Shirt",
+  },
+  "Paint Splattered Overalls": {
+    description:
+      "Once clean and proper, now a proud canvas of your artistic chaos. Every stain is a memory.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Pants" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/465.webp",
+    name: "Paint Splattered Overalls",
+  },
+  "Paint Spray Can": {
+    description:
+      "A favorite tool of rebellious artists —shake it and the air tingles with creativity.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Tool" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/466.webp",
+    name: "Paint Spray Can",
+  },
+  "Slime Hat": {
+    description:
+      "It crawled onto your head and refused to leave. Now you’re bonded for life... probably.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hat" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/467.webp",
+    name: "Slime Hat",
+  },
+  "Slime Wings": {
+    description: "Delightfully gooey and questionably aerodynamic",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Wings" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/468.webp",
+    name: "Slime Wings",
+  },
+  "Slime Aura": {
+    description:
+      "A squishy shimmer surrounds you, as if a mischievous slime chose you as its best friend.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Aura" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/469.webp",
+    name: "Slime Aura",
   },
 };

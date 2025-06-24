@@ -360,6 +360,13 @@ import { DrCow } from "./components/DrCow";
 import { NurseSheep } from "./components/NurseSheep";
 import { PinkDolphin } from "./components/PinkDolphin";
 import { Lunalist } from "./components/Lunalist";
+import { BlackMagic } from "./components/BlackMagic";
+import { GoldenHelios } from "./components/GoldenHelios";
+import { Chiogga } from "./components/Chiogga";
+import { PurpleCauliflower } from "./components/PurpleCauliflower";
+import { AdirondackPotato } from "./components/AdirondackPotato";
+import { WartyGoblinPumpkin } from "./components/WartyGoblinPumpkin";
+import { WhiteCarrot } from "./components/WhiteCarrot";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
@@ -2470,6 +2477,118 @@ export const COLLECTIBLE_COMPONENTS: Record<
       alt="Giant Kale"
     />
   ),
+  "Paint Buckets": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+      }}
+      image={ITEM_DETAILS["Paint Buckets"].image}
+      alt="Paint Buckets"
+    />
+  ),
+  "Rainbow Well": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 24}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 4}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Rainbow Well"].image}
+      alt="Rainbow Well"
+    />
+  ),
+  "Floating Toy": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+      }}
+      image={ITEM_DETAILS["Floating Toy"].image}
+      alt="Floating Toy"
+    />
+  ),
+  "Rainbow Flower": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 24}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 4}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Rainbow Flower"].image}
+      alt="Rainbow Flower"
+    />
+  ),
+  "Pony Toy": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 18}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 18}px`,
+      }}
+      image={ITEM_DETAILS["Pony Toy"].image}
+      alt="Pony Toy"
+    />
+  ),
+  "Red Slime Balloon": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+      }}
+      image={ITEM_DETAILS["Red Slime Balloon"].image}
+      alt="Red Slime Balloon"
+    />
+  ),
+  "Blue Slime Balloon": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 16}px`,
+      }}
+      image={ITEM_DETAILS["Blue Slime Balloon"].image}
+      alt="Blue Slime Balloon"
+    />
+  ),
+  "Black Magic": BlackMagic,
+  "Golden Helios": GoldenHelios,
+  Chiogga: Chiogga,
+  "Purple Cauliflower": PurpleCauliflower,
+  "Adirondack Potato": AdirondackPotato,
+  "Warty Goblin Pumpkin": WartyGoblinPumpkin,
+  "White Carrot": WhiteCarrot,
 };
 // Need readonly versions for some troublesome components while in design mode
 

@@ -17,6 +17,9 @@ import { getBlessingResults } from "../actions/getBlessingResults";
 import { Loading } from "features/auth/components";
 import { SomethingWentWrong } from "features/auth/components/SomethingWentWrong";
 import classNames from "classnames";
+import flowerIcon from "assets/icons/flower_token.webp";
+import coinIcon from "assets/icons/coins.webp";
+import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 
 interface Props {
   onClose: () => void;
@@ -51,7 +54,7 @@ export const BlessingOffer: React.FC<Props> = ({ onClose }) => {
   const { authState } = useAuth();
   const { t } = useAppTranslation();
 
-  const [page, setPage] = useState(10);
+  const [page, setPage] = useState(0);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [amount, setAmount] = useState<Decimal>(new Decimal(0));
 
@@ -114,10 +117,7 @@ export const BlessingOffer: React.FC<Props> = ({ onClose }) => {
         <Label type="formula">{`${new Date().toISOString().slice(0, 10)}`}</Label>
       </div>
       <p className="text-xs m-1">{t("blessing.guardiansSeek")}</p>
-      <Label
-        type="warning"
-        className="my-1"
-      >{`Today's prize = ${offering.prize}`}</Label>
+
       <div className="flex items-center">
         <Box image={ITEM_DETAILS[offering.item].image} count={inventory} />
         <div className="ml-2">
@@ -164,6 +164,8 @@ export const BlessingResults: React.FC<Props> = ({ onClose }) => {
   const { gameState, gameService } = useGame();
   const { authState } = useAuth();
 
+  const [showReward, setShowReward] = useState(false);
+
   const previousDayKey = new Date(Date.now() - 24 * 60 * 60 * 1000)
     .toISOString()
     .slice(0, 10);
@@ -174,6 +176,13 @@ export const BlessingResults: React.FC<Props> = ({ onClose }) => {
     error,
     mutate,
   } = useSWR([authState.context.user.rawToken!, previousDayKey], fetcher);
+
+  const { offered, reward } = gameState.context.state.blessing;
+
+  const claimBlessing = () => {
+    gameService.send("blessing.claimed");
+    onClose();
+  };
 
   const { t } = useAppTranslation();
 
@@ -188,15 +197,43 @@ export const BlessingResults: React.FC<Props> = ({ onClose }) => {
   if (!response?.data) {
     return (
       <div>
-        <Label type="formula">{previousDayKey}</Label>
-        <p className="py-2 text-sm">{t("blessing.noResults")}</p>
+        <div className="flex justify-between">
+          <Label type="default">{t("blessings.results")}</Label>
+          <Label type="formula">{previousDayKey}</Label>
+        </div>
+        <p className="p-2 text-sm">{t("blessing.noResults")}</p>
+        <Button onClick={onClose}>{t("close")}</Button>
       </div>
     );
   }
 
+  if (showReward) {
+    return (
+      <ClaimReward
+        onClaim={claimBlessing}
+        reward={{
+          message: t("blessing.godsBlessed"),
+          createdAt: Date.now(),
+          id: "guardian-reward",
+          items: reward?.items ?? {},
+          wearables: {},
+          sfl: 0,
+          coins: reward?.coins ?? 0,
+        }}
+      />
+    );
+  }
+
+  const icon =
+    response.data.prize === "Flower"
+      ? flowerIcon
+      : response.data.prize === "Coin"
+        ? coinIcon
+        : ITEM_DETAILS[response.data.prize].image;
+
   return (
     <div className="max-h-[500px] overflow-y-auto scrollable">
-      <Label type="formula">{previousDayKey}</Label>
+      <Label type="formula">{`Yesterday - ${previousDayKey}`}</Label>
       <div className="flex m-1 items-center">
         <img
           src={ITEM_DETAILS[response.data.item].image}
@@ -210,18 +247,19 @@ export const BlessingResults: React.FC<Props> = ({ onClose }) => {
         </span>
       </div>
       <div className="flex m-1 items-center">
-        <img src={SUNNYSIDE.icons.player} className="w-6 mr-1" />
-        <span>
-          {t("blessing.winners", {
-            count: Object.keys(response.data.winners).length,
-          })}
-        </span>
+        <img src={icon} className="w-6 mr-1" />
+        <span>{`${response.data.prizeAmount} x ${response.data.prize} rewarded`}</span>
       </div>
+
+      <Label type="default" className="my-2">
+        {t("blessing.winners", { count: response.data.total })}
+      </Label>
 
       <table className="w-full text-xs table-auto border-collapse">
         <tbody>
-          {Object.entries(response.data.winners).map(
-            ([farmId, amount], index) => (
+          {Object.entries(response.data.winners)
+            .slice(0, 5)
+            .map(([farmId, amount], index) => (
               <tr
                 key={index}
                 className={classNames({
@@ -231,12 +269,25 @@ export const BlessingResults: React.FC<Props> = ({ onClose }) => {
                 <td className="p-1.5">{`#${farmId}`}</td>
                 <td className="p-1.5 text-left pl-8 relative truncate flex">
                   <span className="text-xs">{amount}</span>
+                  <img src={icon} className="h-4 ml-1" />
                 </td>
               </tr>
-            ),
-          )}
+            ))}
         </tbody>
       </table>
+
+      <p className="text-xs m-2 italic">{t("blessing.random")}</p>
+
+      {reward && (
+        <Button
+          className="mt-2"
+          onClick={() => {
+            setShowReward(true);
+          }}
+        >
+          {t("blessing.claim")}
+        </Button>
+      )}
     </div>
   );
 };
