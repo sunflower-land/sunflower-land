@@ -27,18 +27,20 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CollectibleProps } from "../Collectible";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { LiveProgressBar } from "components/ui/ProgressBar";
-import { Modal } from "components/ui/Modal";
-import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { Label } from "components/ui/Label";
 import { secondsToString } from "lib/utils/time";
-import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
-import { GameState, InventoryItemName } from "features/game/types/game";
 import { MachineState } from "features/game/lib/gameMachine";
-import { useSelector } from "@xstate/react";
+import {
+  SFTDetailPopoverTradeDetails,
+  SFTDetailPopoverBuffs,
+  SFTDetailPopoverLabel,
+  SFTDetailPopoverInnerPanel,
+} from "components/ui/SFTDetailPopover";
+import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
+import classNames from "classnames";
 
 export type HourglassType =
   | "Gourmet Hourglass"
@@ -48,76 +50,6 @@ export type HourglassType =
   | "Blossom Hourglass"
   | "Fisher's Hourglass"
   | "Ore Hourglass";
-
-type InformationModalProps = {
-  boostEndAt: number;
-  show: boolean;
-  expiresAt: number;
-  hasExpired: boolean;
-  name: string;
-  onClose: () => void;
-  onRemove: () => void;
-  state: GameState;
-};
-
-const HourglassInfoModal: React.FC<InformationModalProps> = ({
-  show,
-  name,
-  boostEndAt,
-  hasExpired,
-  onClose,
-  onRemove,
-  state,
-}) => {
-  const { t } = useAppTranslation();
-
-  const remainingSeconds = (boostEndAt - Date.now()) / 1000;
-  const boostDescription = COLLECTIBLE_BUFF_LABELS(state)
-    [name as InventoryItemName]?.map((buff) => buff.shortDescription)
-    .join(", ");
-
-  return (
-    <Modal show={show}>
-      <CloseButtonPanel>
-        {hasExpired && (
-          <>
-            <div className="p-2">
-              <Label type="danger" icon={SUNNYSIDE.icons.stopwatch}>
-                {t("expired")}
-              </Label>
-              <p className="text-sm my-2">
-                {t("description.hourglass.expired", { hourglass: name })}
-              </p>
-            </div>
-            <Button onClick={onRemove}>{t("remove")}</Button>
-          </>
-        )}
-        {!hasExpired && (
-          <>
-            <div className="p-2">
-              <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
-                {t("time.remaining", {
-                  time: secondsToString(remainingSeconds, {
-                    length: "medium",
-                    isShortFormat: true,
-                    removeTrailingZeros: true,
-                  }),
-                })}
-              </Label>
-              <p className="text-sm my-2">
-                {t("description.hourglass.running", {
-                  boost: boostDescription ?? "",
-                  hourglass: name,
-                })}
-              </p>
-            </div>
-            <Button onClick={onClose}>{t("gotIt")}</Button>
-          </>
-        )}
-      </CloseButtonPanel>
-    </Modal>
-  );
-};
 
 type HourglassDetail = {
   fullImage: string;
@@ -184,9 +116,8 @@ export const Hourglass: React.FC<HourglassProps> = ({
   hourglass,
 }) => {
   const { gameService, showTimers } = useContext(Context);
-  const state = useSelector(gameService, _state);
   const [_, setRender] = useState(0);
-  const [showModal, setShowModal] = useState(false);
+  const { t } = useAppTranslation();
 
   const expiresAt = createdAt + HOURGLASS_DETAILS[hourglass].boostMillis;
   const hasExpired = Date.now() > expiresAt;
@@ -213,61 +144,110 @@ export const Hourglass: React.FC<HourglassProps> = ({
     });
   };
 
-  return (
-    <>
-      <HourglassInfoModal
-        show={showModal}
-        name={hourglass}
-        hasExpired={hasExpired}
-        expiresAt={expiresAt}
-        boostEndAt={createdAt + HOURGLASS_DETAILS[hourglass].boostMillis}
-        onClose={() => setShowModal(false)}
-        onRemove={handleRemove}
-        state={state}
-      />
-      {hasExpired && (
+  if (hasExpired) {
+    return (
+      <div onClick={handleRemove}>
+        {showTimers && (
+          <div className="absolute bottom-0 left-0">
+            <LiveProgressBar
+              startAt={createdAt}
+              endAt={expiresAt}
+              formatLength="medium"
+              type="error"
+              onComplete={() => setRender((r) => r + 1)}
+            />
+          </div>
+        )}
         <img
-          className="absolute cursor-pointer group-hover:img-highlight z-30"
+          className={classNames(
+            "absolute cursor-pointer group-hover:img-highlight z-30 animate-pulsate",
+          )}
           src={SUNNYSIDE.icons.dig_icon}
           style={{
             width: `${PIXEL_SCALE * 18}px`,
             right: `${PIXEL_SCALE * -8}px`,
             top: `${PIXEL_SCALE * -8}px`,
           }}
-          onClick={() => setShowModal(true)}
         />
-      )}
-      {showTimers && (
-        <div className="absolute bottom-0 left-0">
-          <LiveProgressBar
-            startAt={createdAt}
-            endAt={expiresAt}
-            formatLength="medium"
-            type="buff"
-            onComplete={() => setRender((r) => r + 1)}
-          />
-        </div>
-      )}
+        <img
+          src={shadow}
+          alt="shadow"
+          style={{
+            width: `${PIXEL_SCALE * 12}px`,
+            bottom: `-${PIXEL_SCALE * 1.6}px`,
+          }}
+          className="absolute cursor-pointer left-1/2 -translate-x-1/2 hover:img-highlight"
+        />
+        <img
+          src={getHourglassImage()}
+          style={{
+            width: `${PIXEL_SCALE * 11}px`,
+            bottom: `${PIXEL_SCALE * 0}px`,
+          }}
+          className="absolute cursor-pointer left-1/2 -translate-x-1/2 hover:img-highlight"
+          alt={hourglass}
+        />
+      </div>
+    );
+  }
 
-      <img
-        src={shadow}
-        alt="shadow"
-        style={{
-          width: `${PIXEL_SCALE * 12}px`,
-          bottom: `-${PIXEL_SCALE * 1.6}px`,
-        }}
-        className="absolute cursor-pointer left-1/2 -translate-x-1/2 hover:img-highlight"
-      />
-      <img
-        src={getHourglassImage()}
-        style={{
-          width: `${PIXEL_SCALE * 11}px`,
-          bottom: `${PIXEL_SCALE * 0}px`,
-        }}
-        className="absolute cursor-pointer left-1/2 -translate-x-1/2 hover:img-highlight"
-        alt={hourglass}
-        onClick={() => setShowModal(true)}
-      />
-    </>
+  return (
+    <Popover>
+      <PopoverButton as="span">
+        {showTimers && (
+          <div className="absolute bottom-0 left-0">
+            <LiveProgressBar
+              startAt={createdAt}
+              endAt={expiresAt}
+              formatLength="medium"
+              type="buff"
+              onComplete={() => setRender((r) => r + 1)}
+            />
+          </div>
+        )}
+
+        <img
+          src={shadow}
+          alt="shadow"
+          style={{
+            width: `${PIXEL_SCALE * 12}px`,
+            bottom: `-${PIXEL_SCALE * 1.6}px`,
+          }}
+          className="absolute cursor-pointer left-1/2 -translate-x-1/2 hover:img-highlight"
+        />
+        <img
+          src={getHourglassImage()}
+          style={{
+            width: `${PIXEL_SCALE * 11}px`,
+            bottom: `${PIXEL_SCALE * 0}px`,
+          }}
+          className="absolute cursor-pointer left-1/2 -translate-x-1/2 hover:img-highlight"
+          alt={hourglass}
+        />
+      </PopoverButton>
+
+      <PopoverPanel anchor={{ to: "left" }} className="flex">
+        <SFTDetailPopoverInnerPanel>
+          <SFTDetailPopoverLabel name={hourglass} />
+          {/* <Label
+            type="info"
+            icon={SUNNYSIDE.icons.stopwatch}
+            className="ml-1 mt-2 mb-2"
+          > */}
+          <span className="text-xs">
+            {t("time.remaining", {
+              time: secondsToString((expiresAt - Date.now()) / 1000, {
+                length: "medium",
+                isShortFormat: true,
+                removeTrailingZeros: true,
+              }),
+            })}
+          </span>
+          {/* </Label> */}
+          <SFTDetailPopoverBuffs name={hourglass} />
+          <SFTDetailPopoverTradeDetails name={hourglass} />
+        </SFTDetailPopoverInnerPanel>
+      </PopoverPanel>
+    </Popover>
   );
 };

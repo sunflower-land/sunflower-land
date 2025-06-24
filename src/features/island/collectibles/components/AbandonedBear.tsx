@@ -2,10 +2,11 @@ import React from "react";
 
 import abandonedBear from "assets/sfts/bears/abandoned_bear.png";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { SFTDetailPopover } from "components/ui/SFTDetailPopover";
 
 export const AbandonedBear: React.FC = () => {
   return (
-    <>
+    <SFTDetailPopover name="Abandoned Bear">
       <img
         src={abandonedBear}
         style={{
@@ -16,6 +17,6 @@ export const AbandonedBear: React.FC = () => {
         className="absolute"
         alt="Abandoned Bear"
       />
-    </>
+    </SFTDetailPopover>
   );
 };

@@ -2,10 +2,11 @@ import React from "react";
 
 import wendy from "assets/sfts/wood_nymph_wendy.gif";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { SFTDetailPopover } from "components/ui/SFTDetailPopover";
 
 export const WoodNymphWendy: React.FC = () => {
   return (
-    <>
+    <SFTDetailPopover name="Wood Nymph Wendy">
       <img
         src={wendy}
         style={{
@@ -16,6 +17,6 @@ export const WoodNymphWendy: React.FC = () => {
         className="absolute"
         alt="Wood Nymph Wendy"
       />
-    </>
+    </SFTDetailPopover>
   );
 };

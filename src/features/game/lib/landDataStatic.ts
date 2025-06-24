@@ -24,6 +24,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     expiresAt: Date.now() + 31 * 24 * 60 * 60 * 1000,
   },
   inventory: {
+    "Nyon Statue": new Decimal(1),
     Manor: new Decimal(1),
     "Town Center": new Decimal(1),
     House: new Decimal(1),
@@ -63,7 +64,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Morty: new Decimal(2),
     Market: new Decimal(1),
     Workbench: new Decimal(1),
-    "Basic Land": new Decimal(25),
+    "Basic Land": new Decimal(12),
     "Lava Pit": new Decimal(1),
     Bush: new Decimal(3),
     Axe: new Decimal(10),
@@ -567,7 +568,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
         readyAt: 0,
       },
     ],
-    "Love Chicken": [
+    "Nyon Statue": [
       {
         id: "1",
         createdAt: 0,
@@ -788,9 +789,9 @@ export const STATIC_OFFLINE_FARM: GameState = {
     //   items: { Potato: 100 },
     //   offeredAt: 100,
     // },
-    reward: {
-      coins: 100,
-      createdAt: 1000,
-    },
+    // reward: {
+    //   coins: 100,
+    //   createdAt: 1000,
+    // },
   },
 };

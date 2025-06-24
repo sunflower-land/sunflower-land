@@ -20,20 +20,74 @@ import { KNOWN_IDS } from "features/game/types";
 import { useSelector } from "@xstate/react";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { AuthMachineState } from "features/auth/lib/authMachine";
+import { Context } from "features/game/GameProvider";
+import { MachineInterpreter } from "features/game/lib/gameMachine";
 
 const _rawToken = (state: AuthMachineState) => state.context.user.rawToken;
 
-const SFTDetailPopoverContent = ({
+export const SFTDetailPopoverLabel = ({
   name,
-  state,
 }: {
   name: InventoryItemName;
-  state: GameState;
+}) => {
+  return (
+    <div className="flex space-x-1 mb-1">
+      <Label
+        type="transparent"
+        className="ml-2"
+        icon={ITEM_DETAILS[name].image}
+      >
+        <span className="text-xs whitespace-nowrap">{name}</span>
+      </Label>
+    </div>
+  );
+};
+
+export const SFTDetailPopoverBuffs = ({
+  name,
+}: {
+  name: InventoryItemName;
+}) => {
+  const { gameService } = useContext(Context);
+
+  // Although this reference to state could be stale if the machine updates
+  // while this component is mounted, most the time the component is not mounted.
+  const buff = COLLECTIBLE_BUFF_LABELS(gameService.getSnapshot().context.state)[
+    name
+  ];
+
+  return (
+    <div className="space-y-1">
+      {!!buff && (
+        <div className="flex flex-col gap-1">
+          {buff.map(
+            (
+              { labelType, boostTypeIcon, boostedItemIcon, shortDescription },
+              index,
+            ) => (
+              <Label
+                key={index}
+                type={labelType}
+                icon={boostTypeIcon}
+                secondaryIcon={boostedItemIcon}
+              >
+                {shortDescription}
+              </Label>
+            ),
+          )}
+        </div>
+      )}
+    </div>
+  );
+};
+
+export const SFTDetailPopoverTradeDetails = ({
+  name,
+}: {
+  name: InventoryItemName;
 }) => {
   const { authService } = useContext(AuthProvider.Context);
   const rawToken = useSelector(authService, _rawToken);
-
-  const buff = COLLECTIBLE_BUFF_LABELS(state)[name];
 
   const { data: tradeable, error } = useSWR(
     ["collectibles", KNOWN_IDS[name], rawToken],
@@ -46,71 +100,53 @@ const SFTDetailPopoverContent = ({
     { dedupingInterval: 60_000 }, // only refresh every minute
   );
 
+  if (!tradeable || error) return null;
+
+  return (
+    <>
+      <div className="text-xs">Supply: {tradeable?.supply}</div>
+      <div className="text-xs">Floor: {tradeable?.floor}</div>
+    </>
+  );
+};
+
+export const SFTDetailPopoverInnerPanel = ({
+  children,
+}: {
+  children: React.ReactNode;
+}) => {
   return (
     <InnerPanel
       className="drop-shadow-lg cursor-pointer"
       style={{ maxWidth: "16rem" }} // max-w-3xs in tailwind 4.1
     >
-      <div className="flex flex-col mb-1">
-        <div className="flex space-x-1">
-          <Label
-            type="transparent"
-            className="ml-2"
-            icon={ITEM_DETAILS[name].image}
-          >
-            <span className="text-xs whitespace-nowrap">{name}</span>
-          </Label>
-        </div>
-        <div className="space-y-1">
-          {!!buff && (
-            <div className="flex flex-col gap-1">
-              {buff.map(
-                (
-                  {
-                    labelType,
-                    boostTypeIcon,
-                    boostedItemIcon,
-                    shortDescription,
-                  },
-                  index,
-                ) => (
-                  <Label
-                    key={index}
-                    type={labelType}
-                    icon={boostTypeIcon}
-                    secondaryIcon={boostedItemIcon}
-                  >
-                    {shortDescription}
-                  </Label>
-                ),
-              )}
-            </div>
-          )}
-        </div>
-        {tradeable && !error && (
-          <>
-            <div className="text-xs">Supply: {tradeable?.supply}</div>
-            <div className="text-xs">Floor: {tradeable?.floor}</div>
-          </>
-        )}
-      </div>
+      <div className="flex flex-col space-y-1 p-1">{children}</div>
     </InnerPanel>
   );
 };
+
+const SFTDetailPopoverContent = ({ name }: { name: InventoryItemName }) => {
+  return (
+    <SFTDetailPopoverInnerPanel>
+      <SFTDetailPopoverLabel name={name} />
+      <SFTDetailPopoverBuffs name={name} />
+      <SFTDetailPopoverTradeDetails name={name} />
+    </SFTDetailPopoverInnerPanel>
+  );
+};
+
 export const SFTDetailPopover = ({
   name,
-  state,
   children,
 }: {
   name: InventoryItemName;
-  state: GameState;
   children: React.ReactNode;
 }) => {
   return (
     <Popover>
       <PopoverButton as="span">{children}</PopoverButton>
       <PopoverPanel anchor={{ to: "left" }} className="flex">
-        <SFTDetailPopoverContent name={name} state={state} />
+        <SFTDetailPopoverContent name={name} />
       </PopoverPanel>
     </Popover>
   );
