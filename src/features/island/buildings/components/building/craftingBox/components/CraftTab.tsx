@@ -21,7 +21,11 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { secondsToString } from "lib/utils/time";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SquareIcon } from "components/ui/SquareIcon";
-import { Recipe, RecipeIngredient } from "features/game/lib/crafting";
+import {
+  Recipe,
+  RECIPE_CRAFTABLES,
+  RecipeIngredient,
+} from "features/game/lib/crafting";
 import {
   findMatchingRecipe,
   getBoostedCraftingTime,
@@ -33,51 +37,103 @@ import { ModalOverlay } from "components/ui/ModalOverlay";
 import { ButtonPanel, InnerPanel } from "components/ui/Panel";
 import { CollectibleName, getKeys } from "features/game/types/craftables";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
+import { CROPS } from "features/game/types/crops";
+import { ANIMAL_RESOURCES, COMMODITIES } from "features/game/types/resources";
+import { BEDS } from "features/game/types/beds";
+import { FLOWERS } from "features/game/types/flowers";
+import { SELLABLE_TREASURE } from "features/game/types/treasure";
+import { hasFeatureAccess } from "lib/flags";
 
 const VALID_CRAFTING_RESOURCES: InventoryItemName[] = [
-  "Basic Bed",
-  "Bee Box",
-  "Blue Pansy",
-  "Carrot",
-  "Celestial Frostbloom",
-  "Coral",
-  "Crimsteel",
-  "Crimstone",
-  "Cushion",
-  "Feather",
-  "Gold",
-  "Hardened Leather",
-  "Honey",
-  "Iron",
-  "Kelp Fibre",
-  "Leather",
-  "Merino Cushion",
-  "Merino Wool",
-  "Ocean's Treasure",
-  "Oil",
-  "Pearl",
-  "Pirate Bounty",
+  // Crops
+  "Sunflower",
   "Potato",
+  "Pumpkin",
+  "Carrot",
+  "Radish",
+
+  // Resources
+  "Wood",
+  "Stone",
+  "Iron",
+  "Gold",
+  "Crimstone",
+  "Oil",
+  "Wild Mushroom",
+  "Honey",
+  "Feather",
+  "Leather",
+  "Wool",
+  "Merino Wool",
+
+  // Beds
+  "Basic Bed",
+  "Sturdy Bed",
+
+  // Flowers
+  "Red Pansy",
+  "Yellow Pansy",
+  "Blue Pansy",
+  "White Pansy",
+  "Celestial Frostbloom",
   "Primula Enigma",
   "Prism Petal",
-  "Pumpkin",
-  "Radish",
-  "Red Pansy",
+
+  // Treasure
+  "Coral",
+  "Pearl",
+  "Pirate Bounty",
+  "Seaweed",
+  "Vase",
+
+  // Crafting Box
+  "Bee Box",
+  "Crimsteel",
+  "Cushion",
+  "Hardened Leather",
+  "Kelp Fibre",
+  "Merino Cushion",
+  "Ocean's Treasure",
   "Royal Bedding",
   "Royal Ornament",
-  "Seaweed",
-  "Stone",
-  "Sturdy Bed",
-  "Sunflower",
   "Synthetic Fabric",
   "Timber",
-  "Vase",
-  "White Pansy",
-  "Wild Mushroom",
-  "Wood",
-  "Wool",
-  "Yellow Pansy",
+
+  // Others
+  "Crimson Cap",
+  "Toadstool Seat",
 ];
+
+const validCraftingResourcesSorted = (): InventoryItemName[] => {
+  const crops: InventoryItemName[] = [];
+  const resources: InventoryItemName[] = [];
+  const beds: InventoryItemName[] = [];
+  const flowers: InventoryItemName[] = [];
+  const treasures: InventoryItemName[] = [];
+  const craftingBox: InventoryItemName[] = [];
+  const others: InventoryItemName[] = [];
+
+  VALID_CRAFTING_RESOURCES.forEach((item) => {
+    if (item in CROPS) crops.push(item);
+    else if (item in { ...COMMODITIES, ...ANIMAL_RESOURCES })
+      resources.push(item);
+    else if (item in BEDS) beds.push(item);
+    else if (item in FLOWERS) flowers.push(item);
+    else if (item in SELLABLE_TREASURE) treasures.push(item);
+    else if (item in RECIPE_CRAFTABLES) craftingBox.push(item);
+    else others.push(item);
+  });
+
+  return [
+    ...crops,
+    ...resources,
+    ...beds,
+    ...flowers,
+    ...treasures,
+    ...craftingBox,
+    ...others,
+  ];
+};
 
 const VALID_CRAFTING_WEARABLES: BumpkinItem[] = ["Basic Hair", "Farmer Pants"];
 
@@ -97,6 +153,7 @@ export const CraftTab: React.FC<Props> = ({
   const { t } = useTranslation();
 
   const state = useSelector(gameService, _state);
+  const hasNewCraftingAccess = hasFeatureAccess(state, "CRAFTING");
   const { inventory, wardrobe, craftingBox } = state;
   const {
     status: craftingStatus,
@@ -464,54 +521,68 @@ export const CraftTab: React.FC<Props> = ({
       </div>
       <div className="flex flex-col max-h-72 overflow-y-auto scrollable pr-1">
         <div className="flex flex-wrap">
-          {VALID_CRAFTING_RESOURCES.map((itemName) => {
-            const amount = remainingInventory[itemName] || new Decimal(0);
-            return (
-              <div
-                key={itemName}
-                draggable={!isPending && amount.greaterThan(0)}
-                onDragStart={(e) =>
-                  handleDragStart(e, { collectible: itemName })
-                }
-                className="flex"
-              >
-                <Box
-                  count={amount}
-                  image={ITEM_DETAILS[itemName]?.image}
-                  isSelected={selectedIngredient?.collectible === itemName}
-                  onClick={() =>
-                    handleIngredientSelect({ collectible: itemName })
+          {validCraftingResourcesSorted()
+            .filter(
+              (itemName) =>
+                (itemName !== "Toadstool Seat" && itemName !== "Crimson Cap") ||
+                hasNewCraftingAccess,
+            )
+            .map((itemName) => {
+              const amount = remainingInventory[itemName] || new Decimal(0);
+              return (
+                <div
+                  key={itemName}
+                  draggable={!isPending && amount.greaterThan(0)}
+                  onDragStart={(e) =>
+                    handleDragStart(e, { collectible: itemName })
                   }
-                  disabled={isPending || isCrafting}
-                />
-              </div>
-            );
-          })}
+                  className="flex"
+                >
+                  <Box
+                    count={amount}
+                    image={ITEM_DETAILS[itemName]?.image}
+                    isSelected={selectedIngredient?.collectible === itemName}
+                    onClick={() =>
+                      handleIngredientSelect({ collectible: itemName })
+                    }
+                    disabled={isPending || isCrafting}
+                  />
+                </div>
+              );
+            })}
         </div>
-        <Label type="default" className="mb-1 ml-1 mt-1">
-          {t("wearables")}
-        </Label>
-        <div className="flex flex-wrap">
-          {VALID_CRAFTING_WEARABLES.map((itemName) => {
-            const amount = remainingWardrobe[itemName] || 0;
-            return (
-              <div
-                key={itemName}
-                draggable={!isPending && amount > 0}
-                onDragStart={(e) => handleDragStart(e, { wearable: itemName })}
-                className="flex"
-              >
-                <Box
-                  count={new Decimal(amount)}
-                  image={getImageUrl(ITEM_IDS[itemName])}
-                  isSelected={selectedIngredient?.wearable === itemName}
-                  onClick={() => handleIngredientSelect({ wearable: itemName })}
-                  disabled={isPending || isCrafting}
-                />
-              </div>
-            );
-          })}
-        </div>
+        {!hasNewCraftingAccess && (
+          <>
+            <Label type="default" className="mb-1 ml-1 mt-1">
+              {t("wearables")}
+            </Label>
+            <div className="flex flex-wrap">
+              {VALID_CRAFTING_WEARABLES.map((itemName) => {
+                const amount = remainingWardrobe[itemName] || 0;
+                return (
+                  <div
+                    key={itemName}
+                    draggable={!isPending && amount > 0}
+                    onDragStart={(e) =>
+                      handleDragStart(e, { wearable: itemName })
+                    }
+                    className="flex"
+                  >
+                    <Box
+                      count={new Decimal(amount)}
+                      image={getImageUrl(ITEM_IDS[itemName])}
+                      isSelected={selectedIngredient?.wearable === itemName}
+                      onClick={() =>
+                        handleIngredientSelect({ wearable: itemName })
+                      }
+                      disabled={isPending || isCrafting}
+                    />
+                  </div>
+                );
+              })}
+            </div>
+          </>
+        )}
       </div>
 
       <ModalOverlay
