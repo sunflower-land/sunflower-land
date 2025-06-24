@@ -146,7 +146,7 @@ export const FestivalOfColors2025: React.FC<Props> = ({ onClose }) => {
   if (isPlaying) {
     return (
       <div>
-        <Portal portalName={PORTAL_NAME} onClose={onClose} />
+        <Portal portalName={"festival-of-colors"} onClose={onClose} />
       </div>
     );
   }
