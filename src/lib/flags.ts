@@ -114,7 +114,7 @@ const FEATURE_FLAGS = {
     Date.now() < new Date("2025-08-01T00:00:00Z").getTime(),
   WARDROBE: testnetFeatureFlag,
   MINE_WHACK_BETA: defaultFeatureFlag,
-  SOCIAL_FARMING: defaultFeatureFlag,
+  SOCIAL_FARMING: testnetFeatureFlag,
   LANDSCAPING: testnetFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
