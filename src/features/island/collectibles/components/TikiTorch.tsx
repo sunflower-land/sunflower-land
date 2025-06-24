@@ -2,10 +2,11 @@ import React from "react";
 
 import tikiTorch from "assets/decorations/tiki_torch.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { SFTDetailPopover } from "components/ui/SFTDetailPopover";
 
 export const TikiTorch: React.FC = () => {
   return (
-    <>
+    <SFTDetailPopover name="Tiki Torch">
       <img
         src={tikiTorch}
         style={{
@@ -16,6 +17,6 @@ export const TikiTorch: React.FC = () => {
         className="absolute"
         alt="Tiki Torch"
       />
-    </>
+    </SFTDetailPopover>
   );
 };

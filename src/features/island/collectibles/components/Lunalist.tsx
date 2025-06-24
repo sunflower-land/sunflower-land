@@ -3,6 +3,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CollectibleProps } from "../Collectible";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ImageStyle } from "./template/ImageStyle";
+import { SFTDetailPopover } from "components/ui/SFTDetailPopover";
 
 export const Lunalist: React.FC<CollectibleProps> = () => (
   <ImageStyle

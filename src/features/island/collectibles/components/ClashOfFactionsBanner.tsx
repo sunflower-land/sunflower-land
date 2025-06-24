@@ -2,24 +2,27 @@ import React from "react";
 
 import banner from "assets/decorations/banners/clash_of_factions_banner.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { SFTDetailPopover } from "components/ui/SFTDetailPopover";
 
 export const ClashOfFactionsBanner: React.FC = () => {
   return (
-    <div
-      className="absolute pointer-events-none"
-      style={{
-        width: `${PIXEL_SCALE * 22}px`,
-        top: `${PIXEL_SCALE * -3}px`,
-        left: `${PIXEL_SCALE * -1}px`,
-      }}
-    >
-      <img
-        src={banner}
+    <SFTDetailPopover name="Clash Of Factions Banner">
+      <div
+        className="absolute pointer-events-none"
         style={{
-          width: `${PIXEL_SCALE * 18}px`,
+          width: `${PIXEL_SCALE * 22}px`,
+          top: `${PIXEL_SCALE * -3}px`,
+          left: `${PIXEL_SCALE * -1}px`,
         }}
-        alt="Clash of Factions Banner"
-      />
-    </div>
+      >
+        <img
+          src={banner}
+          style={{
+            width: `${PIXEL_SCALE * 18}px`,
+          }}
+          alt="Clash of Factions Banner"
+        />
+      </div>
+    </SFTDetailPopover>
   );
 };

@@ -2,10 +2,11 @@ import React from "react";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { SFTDetailPopover } from "components/ui/SFTDetailPopover";
 
 export const WhiteTulips: React.FC = () => {
   return (
-    <>
+    <SFTDetailPopover name="White Tulips">
       <img
         src={SUNNYSIDE.decorations.whiteTulips}
         style={{
@@ -16,6 +17,6 @@ export const WhiteTulips: React.FC = () => {
         className="absolute"
         alt="White Tulip"
       />
-    </>
+    </SFTDetailPopover>
   );
 };

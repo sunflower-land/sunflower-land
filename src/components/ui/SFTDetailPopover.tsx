@@ -31,10 +31,10 @@ export const SFTDetailPopoverLabel = ({
   name: InventoryItemName;
 }) => {
   return (
-    <div className="flex space-x-1 mb-1">
+    <div className="flex space-x-1">
       <Label
         type="transparent"
-        className="ml-2"
+        className="ml-2 underline"
         icon={ITEM_DETAILS[name].image}
       >
         <span className="text-xs whitespace-nowrap">{name}</span>
@@ -67,11 +67,12 @@ export const SFTDetailPopoverBuffs = ({
             ) => (
               <Label
                 key={index}
-                type={labelType}
+                type="transparent"
                 icon={boostTypeIcon}
                 secondaryIcon={boostedItemIcon}
+                className="mx-2"
               >
-                {shortDescription}
+                <span>{shortDescription}</span>
               </Label>
             ),
           )}
@@ -104,8 +105,12 @@ export const SFTDetailPopoverTradeDetails = ({
 
   return (
     <>
-      <div className="text-xs">Supply: {tradeable?.supply}</div>
-      <div className="text-xs">Floor: {tradeable?.floor}</div>
+      {tradeable.supply !== 0 && (
+        <div className="text-xs">Supply: {tradeable.supply}</div>
+      )}
+      {tradeable.floor !== 0 && (
+        <div className="text-xs">Floor: {tradeable.floor}</div>
+      )}
     </>
   );
 };
@@ -144,88 +149,15 @@ export const SFTDetailPopover = ({
 }) => {
   return (
     <Popover>
-      <PopoverButton as="span">{children}</PopoverButton>
-      <PopoverPanel anchor={{ to: "left" }} className="flex">
+      <PopoverButton as="span" className="cursor-pointer">
+        {children}
+      </PopoverButton>
+      <PopoverPanel
+        anchor={{ to: "left" }}
+        className="flex pointer-events-none"
+      >
         <SFTDetailPopoverContent name={name} />
       </PopoverPanel>
     </Popover>
-  );
-
-  return (
-    <Transition
-      appear={true}
-      id="ingredients-info-panel"
-      show={true}
-      enter="transition-opacity transition-transform duration-200"
-      enterFrom="opacity-0"
-      enterTo="opacity-100"
-      leave="transition-opacity duration-100"
-      leaveFrom="opacity-100"
-      leaveTo="opacity-0"
-      className={`flex absolute z-40`}
-      onClick={(e) => {
-        e.stopPropagation();
-        // onClick();
-      }}
-    >
-      <InnerPanel className="drop-shadow-lg cursor-pointer max-w-md">
-        <div className="flex flex-col mb-1">
-          <div className="flex space-x-1">
-            <Label
-              type="transparent"
-              className="ml-2"
-              icon={ITEM_DETAILS[name].image}
-            >
-              <span className="text-xs whitespace-nowrap">{name}</span>
-            </Label>
-          </div>
-          <div className="space-y-1">
-            {!!buff && (
-              <div className="flex flex-col gap-1">
-                {buff.map(
-                  (
-                    {
-                      labelType,
-                      boostTypeIcon,
-                      boostedItemIcon,
-                      shortDescription,
-                    },
-                    index,
-                  ) => (
-                    <Label
-                      key={index}
-                      type={labelType}
-                      icon={boostTypeIcon}
-                      secondaryIcon={boostedItemIcon}
-                    >
-                      {shortDescription}
-                    </Label>
-                  ),
-                )}
-              </div>
-            )}
-            {tradeable && (
-              <>
-                <div className="text-xs">Supply: {tradeable?.supply}</div>
-                <div className="text-xs">Floor: {tradeable?.floor}</div>
-              </>
-            )}
-            {/* {ingredients.map((ingredient) => (
-              <div
-                key={String(ingredient)}
-                className="capitalize space-x-1 text-xs flex items-center"
-              >
-                <img
-                  src={ITEM_DETAILS[ingredient].image}
-                  alt={ingredient}
-                  className="w-3"
-                />
-                <span className="text-xs">{ingredient}</span>
-              </div>
-            ))} */}
-          </div>
-        </div>
-      </InnerPanel>
-    </Transition>
   );
 };

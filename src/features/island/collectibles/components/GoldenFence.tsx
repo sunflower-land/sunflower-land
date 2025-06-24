@@ -5,6 +5,7 @@ import React from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 
 import { GameGrid } from "features/game/expansion/placeable/lib/makeGrid";
+import { SFTDetailPopover } from "components/ui/SFTDetailPopover";
 
 const IMAGE_PATHS: Record<string, string> = {
   top_right_bottom_left: SUNNYSIDE.decorations.goldenFenceFullEdge,
@@ -70,14 +71,16 @@ export const GoldenFence: React.FC<Props> = ({ x, y, grid }) => {
   }
 
   return (
-    <img
-      className="absolute"
-      src={image}
-      key={`${x}_${y}`}
-      style={{
-        height: `${GRID_WIDTH_PX}px`,
-        width: `${GRID_WIDTH_PX}px`,
-      }}
-    />
+    <SFTDetailPopover name="Golden Fence">
+      <img
+        className="absolute"
+        src={image}
+        key={`${x}_${y}`}
+        style={{
+          height: `${GRID_WIDTH_PX}px`,
+          width: `${GRID_WIDTH_PX}px`,
+        }}
+      />
+    </SFTDetailPopover>
   );
 };

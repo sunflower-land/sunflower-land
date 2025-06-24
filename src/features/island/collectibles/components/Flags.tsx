@@ -8,6 +8,7 @@ import {
 import { ITEM_DETAILS } from "features/game/types/images";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Flag } from "features/game/types/flags";
+import { SFTDetailPopover } from "components/ui/SFTDetailPopover";
 
 interface Props {
   flagName: CollectibleName;
@@ -15,15 +16,17 @@ interface Props {
 
 const FlagsImages: React.FC<Props> = ({ flagName }) => {
   return (
-    <img
-      className="absolute"
-      style={{
-        width: `${PIXEL_SCALE * 11}px`,
-        left: `${PIXEL_SCALE * 3}px`,
-      }}
-      src={ITEM_DETAILS[flagName].image}
-      alt={flagName}
-    />
+    <SFTDetailPopover name="flags">
+      <img
+        className="absolute"
+        style={{
+          width: `${PIXEL_SCALE * 11}px`,
+          left: `${PIXEL_SCALE * 3}px`,
+        }}
+        src={ITEM_DETAILS[flagName].image}
+        alt={flagName}
+      />
+    </SFTDetailPopover>
   );
 };
 

@@ -2,10 +2,11 @@ import React from "react";
 
 import image from "assets/sfts/volcano_gnome.webp";
 import { PIXEL_SCALE } from "features/game/lib/constants";
+import { SFTDetailPopover } from "components/ui/SFTDetailPopover";
 
 export const VolcanoGnome: React.FC = () => {
   return (
-    <>
+    <SFTDetailPopover name="Volcano Gnome">
       <img
         src={image}
         style={{
@@ -16,6 +17,6 @@ export const VolcanoGnome: React.FC = () => {
         className="absolute"
         alt="VolcanoGnome"
       />
-    </>
+    </SFTDetailPopover>
   );
 };

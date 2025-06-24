@@ -9,6 +9,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { useGame } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { TemperateSeasonName } from "features/game/types/game";
+import { SFTDetailPopover } from "components/ui/SFTDetailPopover";
 
 const _currentSeason = (state: MachineState) =>
   state.context.state.season.season;
@@ -25,21 +26,23 @@ export const WindsOfChangeBanner: React.FC = () => {
   const currentSeason = useSelector(gameService, _currentSeason);
 
   return (
-    <div
-      className="absolute pointer-events-none"
-      style={{
-        width: `${PIXEL_SCALE * 16}px`,
-        top: `${PIXEL_SCALE * -1}px`,
-        left: `${PIXEL_SCALE * 0}px`,
-      }}
-    >
-      <img
-        src={Banners[currentSeason]}
+    <SFTDetailPopover name="Winds Of Change Banner">
+      <div
+        className="absolute pointer-events-none"
         style={{
           width: `${PIXEL_SCALE * 16}px`,
+          top: `${PIXEL_SCALE * -1}px`,
+          left: `${PIXEL_SCALE * 0}px`,
         }}
-        alt="Winds of Change Banner"
-      />
-    </div>
+      >
+        <img
+          src={Banners[currentSeason]}
+          style={{
+            width: `${PIXEL_SCALE * 16}px`,
+          }}
+          alt="Winds of Change Banner"
+        />
+      </div>
+    </SFTDetailPopover>
   );
 };
