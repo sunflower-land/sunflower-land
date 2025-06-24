@@ -1,15 +1,16 @@
 import { produce } from "immer";
 import { PURCHASEABLE_BAIT, PurchaseableBait } from "./fishing";
-import { GameState, InventoryItemName } from "./game";
+import { GameState, Inventory } from "./game";
 import { getObjectEntries } from "../expansion/lib/utils";
 import Decimal from "decimal.js-light";
+import { trackActivity } from "./bumpkinActivity";
 
 // Add to this type if more purchase types are added
 export type PurchaseType = "Gem" | "Feather";
 
 type PurchaseCost = {
   coins?: number;
-  ingredients?: Partial<Record<InventoryItemName, number>>;
+  ingredients?: Inventory;
 };
 
 export type PurchaseOptions = {
@@ -48,7 +49,7 @@ const MULTIPLE_PURCHASE_ITEMS: Record<
 
 export function buyMultiplePurchaseItem({ state, action }: Options) {
   return produce(state, (copy) => {
-    const { item, purchaseType, type } = action;
+    const { item, purchaseType, type, amount } = action;
 
     if (type !== "multiplePurchaseItem.bought") {
       throw new Error("Invalid action type");
@@ -77,12 +78,17 @@ export function buyMultiplePurchaseItem({ state, action }: Options) {
 
       // Subtract from coins
       copy.coins -= purchaseOption.coins;
+      copy.bumpkin.activity = trackActivity(
+        "Coins Spent",
+        copy.bumpkin.activity,
+        new Decimal(purchaseOption.coins),
+      );
     }
 
     if (purchaseOption.ingredients) {
       getObjectEntries(purchaseOption.ingredients).forEach(([item, amount]) => {
         const currentAmount = copy.inventory[item] ?? new Decimal(0);
-        const ingredientCost = amount ?? 0;
+        const ingredientCost = amount ?? new Decimal(0);
         if (currentAmount.lessThan(ingredientCost)) {
           throw new Error("Insufficient Items");
         }
@@ -95,6 +101,12 @@ export function buyMultiplePurchaseItem({ state, action }: Options) {
     // Add to inventory
     copy.inventory[item] = (copy.inventory[item] ?? new Decimal(0)).plus(
       new Decimal(action.amount),
+    );
+
+    copy.bumpkin.activity = trackActivity(
+      `${item} Crafted`,
+      copy.bumpkin.activity,
+      new Decimal(amount),
     );
 
     return copy;
