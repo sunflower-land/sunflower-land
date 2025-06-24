@@ -115,7 +115,7 @@ const HudComponent: React.FC<Props> = ({
           {/* Handle translation of left side of the HUD */}
           <div
             className={classNames(
-              "flex justify-between transition-transform w-full h-full p-3 duration-300",
+              "flex justify-between transition-transform w-full h-full p-3 duration-200",
               {
                 "translate-x-0": hideDesktopFeed,
                 "translate-x-[300px]": showDesktopFeed,

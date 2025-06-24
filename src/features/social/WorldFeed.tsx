@@ -40,7 +40,7 @@ export const WorldFeed: React.FC<Props> = ({
   return (
     <InnerPanel
       className={classNames(
-        `fixed ${isMobile ? "w-[75%]" : "w-[300px]"} top-0 left-0 m-2 bottom-0 z-30 transition-transform duration-300`,
+        `fixed ${isMobile ? "w-[75%]" : "w-[300px]"} top-0 left-0 m-2 bottom-0 z-30 transition-transform duration-200`,
         {
           "translate-x-0 w-[300px]": showDesktopFeed,
           "-translate-x-[320px]": hideDesktopFeed,
