@@ -75,8 +75,8 @@ export const BeachBaitShop: React.FC = () => {
   const ButtonOptions = () => {
     if (purchaseType) {
       return (
-        <div className="flex flex-row sm:flex-col gap-1">
-          <div className="flex flex-row flex-wrap gap-1">
+        <div className="flex flex-col gap-1">
+          <div className="flex flex-row sm:flex-col gap-1">
             <Button disabled={lessIngredients(1)} onClick={() => craft(1)}>
               {`${t("craft")} 1`}
             </Button>
