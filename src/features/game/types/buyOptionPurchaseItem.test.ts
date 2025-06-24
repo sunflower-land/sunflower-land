@@ -1,15 +1,15 @@
 import { Decimal } from "decimal.js-light";
 import { INITIAL_FARM } from "../lib/constants";
 import {
-  buyMultiplePurchaseItem,
-  MultiplePurchaseItemName,
+  buyOptionPurchaseItem,
+  OptionPurchaseItemName,
   PurchaseType,
-} from "./buyMultiPurchaseItem";
+} from "./buyOptionPurchaseItem";
 
-describe("buyMultiplePurchaseItem", () => {
+describe("buyOptionPurchaseItem", () => {
   it("throws an error if the action type is invalid", () => {
     expect(() =>
-      buyMultiplePurchaseItem({
+      buyOptionPurchaseItem({
         state: INITIAL_FARM,
         action: {
           type: "invalid" as any,
@@ -23,11 +23,11 @@ describe("buyMultiplePurchaseItem", () => {
 
   it("throws an error if the item doesn't exist", () => {
     expect(() =>
-      buyMultiplePurchaseItem({
+      buyOptionPurchaseItem({
         state: INITIAL_FARM,
         action: {
-          type: "multiplePurchaseItem.bought",
-          item: "Random Item" as MultiplePurchaseItemName,
+          type: "optionPurchaseItem.bought",
+          item: "Random Item" as OptionPurchaseItemName,
           purchaseType: "Gem",
           amount: 1,
         },
@@ -37,11 +37,11 @@ describe("buyMultiplePurchaseItem", () => {
 
   it("throws an error if there are no purchase options", () => {
     expect(() =>
-      buyMultiplePurchaseItem({
+      buyOptionPurchaseItem({
         state: INITIAL_FARM,
         action: {
-          type: "multiplePurchaseItem.bought",
-          item: "Test Item" as MultiplePurchaseItemName,
+          type: "optionPurchaseItem.bought",
+          item: "Test Item" as OptionPurchaseItemName,
           purchaseType: "Gem",
           amount: 1,
         },
@@ -51,10 +51,10 @@ describe("buyMultiplePurchaseItem", () => {
 
   it("throws an error if the purchase type is invalid", () => {
     expect(() =>
-      buyMultiplePurchaseItem({
+      buyOptionPurchaseItem({
         state: INITIAL_FARM,
         action: {
-          type: "multiplePurchaseItem.bought",
+          type: "optionPurchaseItem.bought",
           item: "Fishing Lure",
           purchaseType: "Random" as PurchaseType,
           amount: 1,
@@ -65,10 +65,10 @@ describe("buyMultiplePurchaseItem", () => {
 
   it("throws an error if there's not enough funds", () => {
     expect(() =>
-      buyMultiplePurchaseItem({
+      buyOptionPurchaseItem({
         state: { ...INITIAL_FARM, inventory: { Gem: new Decimal(0) } },
         action: {
-          type: "multiplePurchaseItem.bought",
+          type: "optionPurchaseItem.bought",
           item: "Fishing Lure",
           purchaseType: "Gem",
           amount: 1,
@@ -79,10 +79,10 @@ describe("buyMultiplePurchaseItem", () => {
 
   it("throws an error if there's not enough funds for multiple amount", () => {
     expect(() =>
-      buyMultiplePurchaseItem({
+      buyOptionPurchaseItem({
         state: { ...INITIAL_FARM, inventory: { Gem: new Decimal(99) } },
         action: {
-          type: "multiplePurchaseItem.bought",
+          type: "optionPurchaseItem.bought",
           item: "Fishing Lure",
           purchaseType: "Gem",
           amount: 10,
@@ -94,10 +94,10 @@ describe("buyMultiplePurchaseItem", () => {
   it.todo("throws an error if there's not enough coins");
 
   it("adds the item to the inventory with purchase type gem", () => {
-    const state = buyMultiplePurchaseItem({
+    const state = buyOptionPurchaseItem({
       state: { ...INITIAL_FARM, inventory: { Gem: new Decimal(10) } },
       action: {
-        type: "multiplePurchaseItem.bought",
+        type: "optionPurchaseItem.bought",
         item: "Fishing Lure",
         purchaseType: "Gem",
         amount: 1,
@@ -108,10 +108,10 @@ describe("buyMultiplePurchaseItem", () => {
   });
 
   it("adds the item to the inventory with purchase type feather", () => {
-    const state = buyMultiplePurchaseItem({
+    const state = buyOptionPurchaseItem({
       state: { ...INITIAL_FARM, inventory: { Feather: new Decimal(100) } },
       action: {
-        type: "multiplePurchaseItem.bought",
+        type: "optionPurchaseItem.bought",
         item: "Fishing Lure",
         purchaseType: "Feather",
         amount: 1,
@@ -122,10 +122,10 @@ describe("buyMultiplePurchaseItem", () => {
   });
 
   it("adds the item to the inventory with purchase type gem and multiple amount", () => {
-    const state = buyMultiplePurchaseItem({
+    const state = buyOptionPurchaseItem({
       state: { ...INITIAL_FARM, inventory: { Gem: new Decimal(100) } },
       action: {
-        type: "multiplePurchaseItem.bought",
+        type: "optionPurchaseItem.bought",
         item: "Fishing Lure",
         purchaseType: "Gem",
         amount: 10,
@@ -136,10 +136,10 @@ describe("buyMultiplePurchaseItem", () => {
   });
 
   it("adds the item to the inventory with purchase type feather and multiple amount", () => {
-    const state = buyMultiplePurchaseItem({
+    const state = buyOptionPurchaseItem({
       state: { ...INITIAL_FARM, inventory: { Feather: new Decimal(1000) } },
       action: {
-        type: "multiplePurchaseItem.bought",
+        type: "optionPurchaseItem.bought",
         item: "Fishing Lure",
         purchaseType: "Feather",
         amount: 10,

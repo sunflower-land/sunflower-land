@@ -13,7 +13,7 @@ import {
   PURCHASEABLE_BAIT,
   PurchaseableBait,
 } from "features/game/types/fishing";
-import { PurchaseType } from "features/game/types/buyMultiPurchaseItem";
+import { PurchaseType } from "features/game/types/buyOptionPurchaseItem";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
@@ -52,7 +52,7 @@ export const BeachBaitShop: React.FC = () => {
   };
 
   const craft = (amount: number) => {
-    gameService.send("multiplePurchaseItem.bought", {
+    gameService.send("optionPurchaseItem.bought", {
       item: selectedName,
       purchaseType,
       amount,

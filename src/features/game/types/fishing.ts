@@ -2,7 +2,7 @@ import { Worm } from "./composters";
 import { GameState, InventoryItemName, TemperateSeasonName } from "./game";
 import { isWearableActive } from "../lib/wearables";
 import { translate } from "lib/i18n/translate";
-import { PurchaseOptions } from "./buyMultiPurchaseItem";
+import { PurchaseOptions } from "./buyOptionPurchaseItem";
 import { Decimal } from "decimal.js-light";
 
 export type PurchaseableBait = "Fishing Lure";

@@ -20,22 +20,22 @@ export type PurchaseOptions = {
   purchaseOptions: Partial<Record<PurchaseType, PurchaseCost>>;
 };
 
-export type MultiplePurchaseItemName = PurchaseableBait;
+export type OptionPurchaseItemName = PurchaseableBait;
 
-export type BuyMultiplePurchaseItemAction = {
-  type: "multiplePurchaseItem.bought";
-  item: MultiplePurchaseItemName;
+export type BuyOptionPurchaseItemAction = {
+  type: "optionPurchaseItem.bought";
+  item: OptionPurchaseItemName;
   purchaseType: PurchaseType;
   amount: number;
 };
 
 type Options = {
   state: Readonly<GameState>;
-  action: BuyMultiplePurchaseItemAction;
+  action: BuyOptionPurchaseItemAction;
 };
 
 const MULTIPLE_PURCHASE_ITEMS: Record<
-  MultiplePurchaseItemName | "Test Item",
+  OptionPurchaseItemName | "Test Item",
   PurchaseOptions
 > = {
   // Test Item for tests
@@ -47,11 +47,11 @@ const MULTIPLE_PURCHASE_ITEMS: Record<
   ...PURCHASEABLE_BAIT,
 };
 
-export function buyMultiplePurchaseItem({ state, action }: Options) {
+export function buyOptionPurchaseItem({ state, action }: Options) {
   return produce(state, (copy) => {
     const { item, purchaseType, type, amount } = action;
 
-    if (type !== "multiplePurchaseItem.bought") {
+    if (type !== "optionPurchaseItem.bought") {
       throw new Error("Invalid action type");
     }
 
