@@ -784,13 +784,5 @@ export const STATIC_OFFLINE_FARM: GameState = {
       item: "Potato",
       prize: "Potato",
     },
-    // offered: {
-    //   items: { Potato: 100 },
-    //   offeredAt: 100,
-    // },
-    reward: {
-      coins: 100,
-      createdAt: 1000,
-    },
   },
 };
