@@ -100,7 +100,7 @@ export const PotionHouseItems: React.FC = () => {
           }).map((item) => {
             if (
               isExoticCrop(item.name) &&
-              hasFeatureAccess(state, "POTION_SHOP_EXOTIC_CROPS")
+              !hasFeatureAccess(state, "POTION_HOUSE_UPDATES")
             ) {
               return null;
             }

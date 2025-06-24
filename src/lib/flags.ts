@@ -110,8 +110,7 @@ const FEATURE_FLAGS = {
   MODERATOR: (game) => !!game.wardrobe.Halo,
 
   BLESSING: defaultFeatureFlag,
-  POTION_SHOP_EXOTIC_CROPS: () =>
-    Date.now() < new Date("2025-08-01T00:00:00Z").getTime(),
+  POTION_HOUSE_UPDATES: timeBasedFeatureFlag(new Date("2025-08-01T00:00:00Z")),
   WARDROBE: testnetFeatureFlag,
   MINE_WHACK_BETA: defaultFeatureFlag,
   SOCIAL_FARMING: testnetFeatureFlag,
