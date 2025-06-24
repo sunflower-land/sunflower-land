@@ -29,6 +29,8 @@ export const ChatInput: React.FC<Props> = ({ disabled, onEnter }) => {
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    event.stopPropagation();
+
     if (event.key === "Enter") {
       event.preventDefault();
       if (text.trim() !== "" && isValidText()) {
