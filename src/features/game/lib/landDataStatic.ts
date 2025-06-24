@@ -24,6 +24,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     expiresAt: Date.now() + 31 * 24 * 60 * 60 * 1000,
   },
   inventory: {
+    "Beta Pass": new Decimal(1),
     Manor: new Decimal(1),
     "Town Center": new Decimal(1),
     House: new Decimal(1),
@@ -92,7 +93,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Royal Bed": new Decimal(1),
     Mangrove: new Decimal(1),
     "Thermal Stone": new Decimal(1),
-    "Beta Pass": new Decimal(1),
     Hay: new Decimal(100),
     "Dr Cow": new Decimal(1),
   },

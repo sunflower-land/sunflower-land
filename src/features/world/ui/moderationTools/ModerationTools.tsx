@@ -63,27 +63,18 @@ export const ModerationTools: React.FC<Props> = ({
 
   return (
     <>
-      <div
-        className="fixed"
-        style={{
-          left: `${PIXEL_SCALE * 3}px`,
-          bottom: `${PIXEL_SCALE * 55}px`,
-          width: `${PIXEL_SCALE * 22}px`,
-        }}
-      >
-        <RoundButton onClick={toggleModerationTool}>
-          <img
-            src={SUNNYSIDE.badges.discord}
-            className="absolute group-active:translate-y-[2px]"
-            style={{
-              height: `${PIXEL_SCALE * 12}px`,
-              width: `${PIXEL_SCALE * 12}px`,
-              top: `${PIXEL_SCALE * 4.5}px`,
-              left: `${PIXEL_SCALE * 5}px`,
-            }}
-          />
-        </RoundButton>
-      </div>
+      <RoundButton onClick={toggleModerationTool}>
+        <img
+          src={SUNNYSIDE.badges.discord}
+          className="absolute group-active:translate-y-[2px]"
+          style={{
+            height: `${PIXEL_SCALE * 12}px`,
+            width: `${PIXEL_SCALE * 12}px`,
+            top: `${PIXEL_SCALE * 4.5}px`,
+            left: `${PIXEL_SCALE * 5}px`,
+          }}
+        />
+      </RoundButton>
 
       <Modal show={showModerationTool} onHide={toggleModerationTool} size="lg">
         <CloseButtonPanel
