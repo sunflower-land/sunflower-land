@@ -420,7 +420,7 @@ const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
           const { gameState, data } = await postEffect({
             farmId: Number(context.farmId),
             effect,
-            token: authToken,
+            token: authToken ?? context.rawToken,
             transactionId: context.transactionId as string,
           });
 
@@ -1258,6 +1258,15 @@ export function startGame(authContext: AuthContext) {
         },
         claimAuction: {
           on: {
+            "auction.claimed": {
+              target: STATE_MACHINE_EFFECTS["auction.claimed"],
+            },
+            "wallet.linked": {
+              target: STATE_MACHINE_EFFECTS["wallet.linked"],
+            },
+            "nft.assigned": {
+              target: STATE_MACHINE_EFFECTS["nft.assigned"],
+            },
             TRANSACT: {
               target: "transacting",
             },
@@ -2100,7 +2109,6 @@ export function startGame(authContext: AuthContext) {
             },
           },
         },
-
         randomising: {
           invoke: {
             src: async () => {
