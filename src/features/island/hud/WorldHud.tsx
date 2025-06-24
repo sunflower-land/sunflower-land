@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 import { Balances } from "components/Balances";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { Inventory } from "./components/inventory/Inventory";
 import Decimal from "decimal.js-light";
@@ -30,24 +30,58 @@ import { isMobile } from "mobile-device-detect";
 import { dummyInteractions } from "features/social/PlayerModal";
 import { hasFeatureAccess } from "lib/flags";
 import { WorldFeedButton } from "features/social/components/WorldFeedButton";
+import { MachineState } from "features/game/lib/gameMachine";
+import { WorldContext } from "features/world/World";
+import {
+  Message,
+  ModerationTools,
+  Player,
+} from "features/world/ui/moderationTools/ModerationTools";
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
  * Balances, Inventory, actions etc.
  */
 
-const HudComponent: React.FC<{ server: string }> = ({ server }) => {
+type Props = {
+  scene: string;
+  server?: string;
+  messages: Message[];
+  players: Player[];
+};
+
+const _isModerator = (state: MachineState) =>
+  !!state.context.state.inventory["Beta Pass"] &&
+  !!state.context.state.wardrobe.Halo;
+const _autosaving = (state: MachineState) => state.matches("autosaving");
+const _farmAddress = (state: MachineState) => state.context.farmAddress;
+const _linkedWallet = (state: MachineState) => state.context.linkedWallet;
+const _isTutorial = (state: MachineState) =>
+  state.context.state.island.type === "basic";
+const _state = (state: MachineState) => state.context.state;
+
+const HudComponent: React.FC<Props> = ({
+  server,
+  scene,
+  messages,
+  players,
+}) => {
   const { t } = useAppTranslation();
+  const { isCommunity } = useContext(WorldContext);
   const { gameService, shortcutItem, selectedItem } = useContext(Context);
-  const [gameState] = useActor(gameService);
   const { openModal } = useContext(ModalContext);
 
   const [showDepositModal, setShowDepositModal] = useState(false);
   const [depositDataLoaded, setDepositDataLoaded] = useState(false);
   const [showFeed, setShowFeed] = useState(false);
 
-  const { pathname } = useLocation();
+  const autosaving = useSelector(gameService, _autosaving);
+  const farmAddress = useSelector(gameService, _farmAddress);
+  const linkedWallet = useSelector(gameService, _linkedWallet);
+  const isTutorial = useSelector(gameService, _isTutorial);
+  const isModerator = useSelector(gameService, _isModerator);
+  const state = useSelector(gameService, _state);
 
-  const autosaving = gameState.matches("autosaving");
+  const { pathname } = useLocation();
 
   const handleCurrenciesModal = () => {
     openModal("BUY_GEMS");
@@ -63,17 +97,12 @@ const HudComponent: React.FC<{ server: string }> = ({ server }) => {
     gameService.send("DEPOSIT", args);
   };
 
-  const farmAddress = gameState?.context?.farmAddress;
-  const linkedWallet = gameState?.context?.linkedWallet;
-  const isFullUser = farmAddress !== undefined;
-  const isTutorial = gameState.context.state.island.type === "basic";
-
   const showDesktopFeed = showFeed && !isMobile;
   const hideDesktopFeed = !showFeed && !isMobile;
 
   return (
     <>
-      {hasFeatureAccess(gameState.context.state, "SOCIAL_FARMING") && (
+      {hasFeatureAccess(state, "SOCIAL_FARMING") && (
         <WorldFeed
           server={server}
           showFeed={showFeed}
@@ -98,10 +127,15 @@ const HudComponent: React.FC<{ server: string }> = ({ server }) => {
               <HudBumpkin isTutorial={isTutorial} />
               <div className="flex space-x-2.5">
                 <div className="flex flex-col space-y-2.5">
-                  {hasFeatureAccess(
-                    gameState.context.state,
-                    "SOCIAL_FARMING",
-                  ) && (
+                  {/* {isModerator && !isCommunity && ( */}
+                  <ModerationTools
+                    scene={scene}
+                    messages={messages ?? []}
+                    players={players ?? []}
+                    gameService={gameService}
+                  />
+                  {/* )} */}
+                  {hasFeatureAccess(state, "SOCIAL_FARMING") && (
                     <WorldFeedButton
                       showFeed={showFeed}
                       setShowFeed={setShowFeed}
@@ -126,15 +160,13 @@ const HudComponent: React.FC<{ server: string }> = ({ server }) => {
             <div className="flex flex-col space-y-2.5">
               <Balances
                 onClick={farmAddress ? handleCurrenciesModal : undefined}
-                sfl={gameState.context.state.balance}
-                coins={gameState.context.state.coins}
-                gems={
-                  gameState.context.state.inventory["Gem"] ?? new Decimal(0)
-                }
+                sfl={state.balance}
+                coins={state.coins}
+                gems={state.inventory["Gem"] ?? new Decimal(0)}
               />
               <Inventory
-                state={gameState.context.state}
-                isFullUser={isFullUser}
+                state={state}
+                isFullUser={!!farmAddress}
                 shortcutItem={shortcutItem}
                 selectedItem={selectedItem}
                 onPlace={(selected) => {
