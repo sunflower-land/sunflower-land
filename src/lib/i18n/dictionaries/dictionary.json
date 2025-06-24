@@ -6185,7 +6185,7 @@
   "playerModal.island": "{{island}} Island",
   "playerModal.followers": "{{count}} followers",
   "playerModal.dailyStreak": "Daily streak: {{streak}}",
-  "playerModal.totalDeliveries": "Total deliveries: {{count}}"
+  "playerModal.totalDeliveries": "Total deliveries: {{count}}",
   "description.colorToken2025": "Use this in the easter event shop before the event ends!",
   "description.colorTicket2025": "Hold this for a chance to win $FLOWER after the easter event ends!",
   "description.paintBuckets": "These buckets hold the power to bring color to even the dullest day.",
