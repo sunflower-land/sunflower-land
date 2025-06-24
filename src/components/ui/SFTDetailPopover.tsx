@@ -1,27 +1,20 @@
-import React, { useContext, useRef } from "react";
-import {
-  Popover,
-  PopoverButton,
-  PopoverPanel,
-  Transition,
-} from "@headlessui/react";
+import React, { useContext } from "react";
+import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { InnerPanel } from "components/ui/Panel";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { GameState, InventoryItemName } from "features/game/types/game";
+import { InventoryItemName } from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { ItemDetail } from "features/marketplace/components/rewards/ItemDetail";
-import { getItemBuffLabel } from "features/world/ui/megastore/MegaStore";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { Label } from "./Label";
 import useSWR from "swr";
 import { loadTradeable } from "features/marketplace/actions/loadTradeable";
-import { CollectionName } from "features/game/types/marketplace";
 import { KNOWN_IDS } from "features/game/types";
 import { useSelector } from "@xstate/react";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { Context } from "features/game/GameProvider";
-import { MachineInterpreter } from "features/game/lib/gameMachine";
+import { CONFIG } from "lib/config";
+import flowerIcon from "assets/icons/flower_token.webp";
+import { formatNumber } from "lib/utils/formatNumber";
 
 const _rawToken = (state: AuthMachineState) => state.context.user.rawToken;
 
@@ -43,15 +36,13 @@ export const SFTDetailPopoverLabel = ({
   );
 };
 
-export const SFTDetailPopoverBuffs = ({
+const SFTDetailPopoverBuffsImplementation = ({
   name,
 }: {
   name: InventoryItemName;
 }) => {
   const { gameService } = useContext(Context);
 
-  // Although this reference to state could be stale if the machine updates
-  // while this component is mounted, most the time the component is not mounted.
   const buff = COLLECTIBLE_BUFF_LABELS(gameService.getSnapshot().context.state)[
     name
   ];
@@ -82,6 +73,17 @@ export const SFTDetailPopoverBuffs = ({
   );
 };
 
+export const SFTDetailPopoverBuffs = ({
+  name,
+}: {
+  name: InventoryItemName;
+}) => {
+  // annoying bug on hot reloads
+  // if (CONFIG.NETWORK !== "mainnet") return null;
+
+  return <SFTDetailPopoverBuffsImplementation name={name} />;
+};
+
 export const SFTDetailPopoverTradeDetails = ({
   name,
 }: {
@@ -105,11 +107,13 @@ export const SFTDetailPopoverTradeDetails = ({
 
   return (
     <>
-      {tradeable.supply !== 0 && (
-        <div className="text-xs">Supply: {tradeable.supply}</div>
-      )}
       {tradeable.floor !== 0 && (
-        <div className="text-xs">Floor: {tradeable.floor}</div>
+        <Label type="transparent" icon={flowerIcon} className=" text-xs ml-2">
+          <span>{`${formatNumber(tradeable.floor, { decimalPlaces: 2 })} FLOWER`}</span>
+        </Label>
+      )}
+      {tradeable.supply !== 0 && (
+        <span className="text-xs">Supply: {tradeable.supply}</span>
       )}
     </>
   );
