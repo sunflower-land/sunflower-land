@@ -6026,5 +6026,11 @@
   "blessing.random": "보상은 무작위로 분배됩니다.",
   "blessing.claim": "경품 받기",
   "blessing.guardiansSeek": "가디언들은 매일 제물을 구합니다.믿음을 보여주세요. 러브 참을 받을 기회를 잡으세요. 보상은 무작위로 분배됩니다.",
-  "blessings.results": "블레싱 결과"
+  "blessings.results": "블레싱 결과",
+  "playerModal.since": "{{date}} 이후",
+  "playerModal.marketValue": "시장 가치: {{value}}",
+  "playerModal.island": "{{island}} 아일랜드",
+  "playerModal.followers": "{{count}} 팔로워",
+  "playerModal.dailyStreak": "일일 연속 기록: {{streak}}",
+  "playerModal.totalDeliveries": "총 배송량: {{count}}"
 }

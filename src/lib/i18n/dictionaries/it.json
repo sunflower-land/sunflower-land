@@ -6026,5 +6026,11 @@
   "blessing.random": "I premi vengono distribuiti in modo casuale.",
   "blessing.claim": "Richiedi il tuo premio",
   "blessing.guardiansSeek": "Ogni giorno, i Guardiani cercano un'offerta. Dimostra la tua fede per avere la possibilità di ricevere Love Charms: le ricompense vengono distribuite in modo casuale.",
-  "blessings.results": "Risultati positivi"
+  "blessings.results": "Risultati positivi",
+  "playerModal.since": "Dal {{date}}",
+  "playerModal.marketValue": "Valore di mercato: {{value}}",
+  "playerModal.island": "{{island}} Isola",
+  "playerModal.followers": "{{count}} seguaci",
+  "playerModal.dailyStreak": "Serie giornaliera: {{streak}}",
+  "playerModal.totalDeliveries": "Totale consegne: {{count}}"
 }

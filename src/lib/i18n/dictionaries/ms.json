@@ -6026,5 +6026,11 @@
   "blessing.random": "Ganjaran diedarkan secara rawak.",
   "blessing.claim": "Tuntut hadiah anda",
   "blessing.guardiansSeek": "Setiap hari, Penjaga mencari persembahan. Tunjukkan kepercayaan anda, untuk peluang untuk menerima Love Charms - ganjaran diedarkan secara rawak.",
-  "blessings.results": "Keputusan berkat"
+  "blessings.results": "Keputusan berkat",
+  "playerModal.since": "Sejak {{date}}",
+  "playerModal.marketValue": "Nilai pasaran: {{value}}",
+  "playerModal.island": "{{island}} Pulau",
+  "playerModal.followers": "{{count}} pengikut",
+  "playerModal.dailyStreak": "Rangkaian harian: {{streak}}",
+  "playerModal.totalDeliveries": "Jumlah penghantaran: {{count}}"
 }

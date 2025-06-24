@@ -6026,5 +6026,11 @@
   "blessing.random": "報酬はランダムに分配されます。",
   "blessing.claim": "賞品を受け取る",
   "blessing.guardiansSeek": "ガーディアンは毎日、お供え物を求めています。信仰を示して、ラブチャームを受け取るチャンスを手に入れましょう。報酬はランダムに配布されます。",
-  "blessings.results": "祝福結果"
+  "blessings.results": "祝福結果",
+  "playerModal.since": "{{date}} 以降",
+  "playerModal.marketValue": "市場価値:{{value}}",
+  "playerModal.island": "{{island}} アイランド",
+  "playerModal.followers": "{{count}} フォロワー",
+  "playerModal.dailyStreak": "デイリーストリーク:{{streak}}",
+  "playerModal.totalDeliveries": "配送合計:{{count}}"
 }

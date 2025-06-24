@@ -6026,5 +6026,11 @@
   "blessing.random": "Les récompenses sont distribuées de manière aléatoire.",
   "blessing.claim": "Réclamez votre prix",
   "blessing.guardiansSeek": "Chaque jour, les Gardiens recherchent une offrande. Montrez votre foi pour avoir la chance de recevoir des Love Charms. Les récompenses sont distribuées au hasard.",
-  "blessings.results": "Résultats de la bénédiction"
+  "blessings.results": "Résultats de la bénédiction",
+  "playerModal.since": "Depuis {{date}}",
+  "playerModal.marketValue": "Valeur de marché : {{value}}",
+  "playerModal.island": "{{island}} Île",
+  "playerModal.followers": "{{count}} abonnés",
+  "playerModal.dailyStreak": "Série quotidienne : {{streak}}",
+  "playerModal.totalDeliveries": "Total des livraisons : {{count}}"
 }

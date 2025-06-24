@@ -6026,5 +6026,11 @@
   "blessing.random": "奖励是随机分配的。",
   "blessing.claim": "领取您的奖品",
   "blessing.guardiansSeek": "每天，守护者都在寻找礼物。表现出你的信心，有机会获得爱情护身符——奖励是随机分配的。",
-  "blessings.results": "祝福结果"
+  "blessings.results": "祝福结果",
+  "playerModal.since": "由于 {{date}}",
+  "playerModal.marketValue": "市场价值：{{value}}",
+  "playerModal.island": "{{island}} 岛屿",
+  "playerModal.followers": "{{count}} 粉丝",
+  "playerModal.dailyStreak": "每日连胜纪录：{{streak}}",
+  "playerModal.totalDeliveries": "总配送量：{{count}}"
 }

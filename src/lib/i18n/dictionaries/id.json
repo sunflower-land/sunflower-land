@@ -6026,5 +6026,11 @@
   "blessing.random": "Hadiah didistribusikan secara acak.",
   "blessing.claim": "Klaim hadiah Anda",
   "blessing.guardiansSeek": "Setiap hari, para Penjaga mencari persembahan. Tunjukkan iman Anda, untuk kesempatan menerima Love Charms - hadiah didistribusikan secara acak.",
-  "blessings.results": "Hasil berkah"
+  "blessings.results": "Hasil berkah",
+  "playerModal.since": "Sejak {{date}}",
+  "playerModal.marketValue": "Nilai pasar: {{value}}",
+  "playerModal.island": "{{island}} Pulau",
+  "playerModal.followers": "{{count}} pengikut",
+  "playerModal.dailyStreak": "Beruntun harian: {{streak}}",
+  "playerModal.totalDeliveries": "Total pengiriman: {{count}}"
 }

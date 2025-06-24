@@ -6026,5 +6026,11 @@
   "blessing.random": "Награды распределяются случайным образом.",
   "blessing.claim": "Получите свой приз",
   "blessing.guardiansSeek": "Каждый день Хранители ищут подношение. Покажите свою веру и получите шанс получить любовные талисманы — награды распределяются случайным образом.",
-  "blessings.results": "Результаты благословения"
+  "blessings.results": "Результаты благословения",
+  "playerModal.since": "Начиная с {{date}}",
+  "playerModal.marketValue": "Рыночная стоимость: {{value}}",
+  "playerModal.island": "{{island}} Остров",
+  "playerModal.followers": "{{count}} подписчиков",
+  "playerModal.dailyStreak": "Ежедневная серия: {{streak}}",
+  "playerModal.totalDeliveries": "Всего доставок: {{count}}"
 }

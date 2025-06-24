@@ -6026,5 +6026,11 @@
   "blessing.random": "Las recompensas se distribuyen de forma aleatoria.",
   "blessing.claim": "Reclama tu premio",
   "blessing.guardiansSeek": "Todos los días, los Guardianes buscan una ofrenda. Demuestra tu fe para tener la oportunidad de recibir amuletos de amor. Las recompensas se distribuyen de forma aleatoria.",
-  "blessings.results": "Resultados de bendición"
+  "blessings.results": "Resultados de bendición",
+  "playerModal.since": "Desde {{date}}",
+  "playerModal.marketValue": "Valor de mercado: {{value}}",
+  "playerModal.island": "{{island}} Isla",
+  "playerModal.followers": "{{count}} seguidores",
+  "playerModal.dailyStreak": "Racha diaria: {{streak}}",
+  "playerModal.totalDeliveries": "Entregas totales: {{count}}"
 }

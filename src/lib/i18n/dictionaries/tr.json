@@ -6026,5 +6026,11 @@
   "blessing.random": "Ödüller rastgele dağıtılır.",
   "blessing.claim": "Ödülünüzü talep edin",
   "blessing.guardiansSeek": "Muhafızlar her gün bir sunu ararlar. Aşk Tılsımları alma şansı için inancınızı gösterin - ödüller rastgele dağıtılır.",
-  "blessings.results": "Kutsama sonuçları"
+  "blessings.results": "Kutsama sonuçları",
+  "playerModal.since": "{{date}} 'den beri",
+  "playerModal.marketValue": "Piyasa değeri: {{value}}",
+  "playerModal.island": "{{island}} Ada",
+  "playerModal.followers": "{{count}} takipçiler",
+  "playerModal.dailyStreak": "Günlük seri: {{streak}}",
+  "playerModal.totalDeliveries": "Toplam teslimatlar: {{count}}"
 }

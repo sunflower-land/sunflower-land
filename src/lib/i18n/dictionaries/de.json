@@ -6026,5 +6026,11 @@
   "blessing.random": "Die Belohnungen werden nach dem Zufallsprinzip verteilt.",
   "blessing.claim": "Hol dir deinen Preis",
   "blessing.guardiansSeek": "Jeden Tag suchen die Guardians nach einer Opfergabe. Zeigt euren Glauben, um die Chance zu haben, Liebeszauber zu erhalten — die Belohnungen werden nach dem Zufallsprinzip verteilt.",
-  "blessings.results": "Segnende Ergebnisse"
+  "blessings.results": "Segnende Ergebnisse",
+  "playerModal.since": "Seit {{date}}",
+  "playerModal.marketValue": "Marktwert: {{value}}",
+  "playerModal.island": "{{island}} Insel",
+  "playerModal.followers": "{{count}} Anhänger",
+  "playerModal.dailyStreak": "Tagesserie: {{streak}}",
+  "playerModal.totalDeliveries": "Lieferungen insgesamt: {{count}}"
 }
