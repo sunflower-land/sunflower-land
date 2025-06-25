@@ -3,18 +3,6 @@ import { buyEventShopItem } from "./buyPortalItem";
 import Decimal from "decimal.js-light";
 
 describe("minigameItem.bought", () => {
-  it("requries minigame exists", () => {
-    expect(() =>
-      buyEventShopItem({
-        action: {
-          id: "board-game",
-          name: "Bunny Mask",
-          type: "minigameItem.bought",
-        },
-        state: INITIAL_FARM,
-      }),
-    ).toThrow("Minigame not found");
-  });
   it("requries minigame has a shop", () => {
     expect(() =>
       buyEventShopItem({

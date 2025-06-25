@@ -35,9 +35,11 @@ export function buyEventShopItem({
 
     const { bumpkin, minigames, balance } = stateCopy;
 
-    if (!minigames.games[action.id]) {
-      throw new Error("Minigame not found");
-    }
+    const minigame = minigames.games[action.id] ?? {
+      history: {},
+      purchases: [],
+      highscore: 0,
+    };
 
     const store = MINIGAME_SHOP_ITEMS[action.id];
 
@@ -70,7 +72,7 @@ export function buyEventShopItem({
       stateCopy.inventory[item] = current.sub(amount ?? 0);
     });
 
-    const purchases = minigames.games[action.id]!.shop ?? {
+    const purchases = minigame.shop ?? {
       items: {},
       wearables: {},
     };
@@ -89,7 +91,7 @@ export function buyEventShopItem({
       const current = stateCopy.inventory[name] ?? new Decimal(0);
       stateCopy.inventory[name] = current.add(1);
 
-      minigames.games[action.id]!.shop = {
+      minigame!.shop = {
         ...purchases,
         items: {
           ...purchases.items,
@@ -108,7 +110,7 @@ export function buyEventShopItem({
 
       stateCopy.wardrobe[name] = current + 1;
 
-      minigames.games[action.id]!.shop = {
+      minigame!.shop = {
         ...purchases,
         wearables: {
           ...purchases.wearables,
@@ -116,6 +118,8 @@ export function buyEventShopItem({
         },
       };
     }
+
+    minigames.games[action.id] = minigame;
 
     stateCopy.bumpkin.activity = trackActivity(
       `${name} Bought`,
