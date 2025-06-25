@@ -12,18 +12,10 @@ import { trackActivity } from "features/game/types/bumpkinActivity";
 import cloneDeep from "lodash.clonedeep";
 
 import { GameState, IslandType } from "../../types/game";
-import {
-  PURCHASEABLE_BAIT,
-  PurchaseableBait,
-} from "features/game/types/fishing";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import { getWeatherShop, WeatherShopItem } from "features/game/types/calendar";
 
-type CraftableToolName =
-  | WorkbenchToolName
-  | TreasureToolName
-  | PurchaseableBait
-  | WeatherShopItem;
+type CraftableToolName = WorkbenchToolName | TreasureToolName | WeatherShopItem;
 
 export type CraftToolAction = {
   type: "tool.crafted";
@@ -36,7 +28,6 @@ export const CRAFTABLE_TOOLS = (
 ): Record<CraftableToolName, Tool> => ({
   ...WORKBENCH_TOOLS,
   ...TREASURE_TOOLS,
-  ...PURCHASEABLE_BAIT,
   ...LOVE_ANIMAL_TOOLS,
   ...getWeatherShop(islandType),
 });

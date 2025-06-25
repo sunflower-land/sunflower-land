@@ -1,9 +1,9 @@
-import Decimal from "decimal.js-light";
 import { Worm } from "./composters";
 import { GameState, InventoryItemName, TemperateSeasonName } from "./game";
-import { Tool } from "./tools";
 import { isWearableActive } from "../lib/wearables";
 import { translate } from "lib/i18n/translate";
+import { PurchaseOptions } from "./buyOptionPurchaseItem";
+import { Decimal } from "decimal.js-light";
 
 export type PurchaseableBait = "Fishing Lure";
 export type FishingBait = Worm | PurchaseableBait;
@@ -69,12 +69,12 @@ export type MarineMarvelName =
 
 export type OldFishName = "Kraken Tentacle";
 
-export const PURCHASEABLE_BAIT: Record<PurchaseableBait, Tool> = {
+export const PURCHASEABLE_BAIT: Record<PurchaseableBait, PurchaseOptions> = {
   "Fishing Lure": {
-    ingredients: {
-      Gem: new Decimal(10),
+    purchaseOptions: {
+      Gem: { ingredients: { Gem: new Decimal(10) } },
+      Feather: { ingredients: { Feather: new Decimal(100) } },
     },
-    price: 0,
     description: translate("purchaseableBait.fishingLure.description"),
     name: "Fishing Lure",
   },
