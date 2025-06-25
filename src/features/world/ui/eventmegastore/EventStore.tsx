@@ -7,12 +7,12 @@ import { getTimeLeft, secondsToString } from "lib/utils/time";
 import React, { useState, useEffect } from "react";
 import { getCurrentSeason, SEASONS } from "features/game/types/seasons";
 import {
-  EVENTMEGASTORE,
+  COLORS_EVENT_ITEMS,
   EventStoreCollectible,
   EventStoreItem,
   EventStoreTier,
   EventStoreWearable,
-} from "features/game/types/eventmegastore";
+} from "features/game/types/festivalOfColors";
 
 import { ItemsList } from "./eventmegastore_components/ItemsList";
 import { ItemDetail } from "./eventmegastore_components/ItemDetail";
@@ -98,13 +98,13 @@ export const EventStore: React.FC<Props> = ({ readonly, state }) => {
   );
   const { t } = useAppTranslation();
 
-  const currentSeason = getCurrentSeason(new Date(createdAt));
+  const EVENTMEGASTORE = COLORS_EVENT_ITEMS;
 
   // Basic-Epic
-  const basicAllItems = EVENTMEGASTORE[currentSeason].basic.items;
-  const rareAllItems = EVENTMEGASTORE[currentSeason].rare.items;
-  const epicAllItems = EVENTMEGASTORE[currentSeason].epic.items;
-  const megaItems = EVENTMEGASTORE[currentSeason].mega.items;
+  const basicAllItems = EVENTMEGASTORE.basic.items;
+  const rareAllItems = EVENTMEGASTORE.rare.items;
+  const epicAllItems = EVENTMEGASTORE.epic.items;
+  const megaItems = EVENTMEGASTORE.mega.items;
 
   return (
     <>

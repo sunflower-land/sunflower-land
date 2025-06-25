@@ -11,6 +11,7 @@ import {
   EventShopWearableName,
 } from "features/game/types/minigameShop";
 import { MinigameName } from "features/game/types/minigames";
+import { getObjectEntries } from "features/game/expansion/lib/utils";
 
 export type BuyMinigameItemAction = {
   type: "minigameItem.bought";
@@ -32,44 +33,56 @@ export function buyEventShopItem({
   return produce(state, (stateCopy) => {
     const { name } = action;
 
-    const { bumpkin, minigames } = stateCopy;
-
-    if (!bumpkin) {
-      throw new Error("Bumpkin not found");
-    }
-
-    const item = MINIGAME_SHOP_ITEMS[action.name];
-
-    if (!item) {
-      throw new Error("Item not found in the Love Event Shop");
-    }
+    const { bumpkin, minigames, balance } = stateCopy;
 
     if (!minigames.games[action.id]) {
       throw new Error("Minigame not found");
     }
 
-    // Check if player has enough resources
-    const { price } = item.cost;
+    const store = MINIGAME_SHOP_ITEMS[action.id];
 
-    const easterTokenBalance =
-      stateCopy.inventory["Easter Token 2025"] ?? new Decimal(0);
-
-    if (easterTokenBalance.lt(price)) {
-      throw new Error("Insufficient Easter Token 2025");
+    if (!store) {
+      throw new Error("Minigame does not have a shop");
     }
 
-    // Deduct Easter Token 2025
-    stateCopy.inventory["Easter Token 2025"] = easterTokenBalance.minus(price);
+    const item = store[action.name];
 
-    const shop = minigames.games[action.id]!.shop ?? {
+    if (!item) {
+      throw new Error("Item not found in Shopx");
+    }
+
+    const { sfl, items } = item.cost;
+
+    // Check if player has enough SFL
+    if (balance.lt(sfl)) {
+      throw new Error("Insufficient SFL");
+    }
+
+    stateCopy.balance = balance.sub(new Decimal(sfl));
+
+    getObjectEntries(items).forEach(([item, amount]) => {
+      const current = stateCopy.inventory[item] ?? new Decimal(0);
+
+      if (current.lt(amount ?? 0)) {
+        throw new Error(`Insufficient ${item}`);
+      }
+
+      stateCopy.inventory[item] = current.sub(amount ?? 0);
+    });
+
+    const purchases = minigames.games[action.id]!.shop ?? {
       items: {},
       wearables: {},
     };
 
+    const max = item.max ?? 1;
+
     // Add item to inventory
-    if (isEventShopCollectible(name)) {
+    if (isEventShopCollectible(item)) {
+      const name = item.name;
+
       // If already exists, throw error
-      if (shop!.items?.[name] && shop!.items?.[name] >= item.max) {
+      if (purchases!.items?.[name] && purchases!.items?.[name] >= max) {
         throw new Error("Item already purchased");
       }
 
@@ -77,16 +90,18 @@ export function buyEventShopItem({
       stateCopy.inventory[name] = current.add(1);
 
       minigames.games[action.id]!.shop = {
-        ...shop,
+        ...purchases,
         items: {
-          ...shop.items,
-          [name]: (shop.items?.[name] ?? 0) + 1,
+          ...purchases.items,
+          [name]: (purchases.items?.[name] ?? 0) + 1,
         },
       };
     } else {
+      const name = item.name;
+
       // If already exists, throw error
-      if (shop!.wearables?.[name] && shop!.wearables?.[name] >= item.max) {
-        throw new Error("Item already purchased");
+      if (purchases!.wearables?.[name] && purchases!.wearables?.[name] >= max) {
+        throw new Error("Wearable already purchased");
       }
 
       const current = stateCopy.wardrobe[name] ?? 0;
@@ -94,10 +109,10 @@ export function buyEventShopItem({
       stateCopy.wardrobe[name] = current + 1;
 
       minigames.games[action.id]!.shop = {
-        ...shop,
+        ...purchases,
         wearables: {
-          ...shop.wearables,
-          [name]: (shop.wearables?.[name] ?? 0) + 1,
+          ...purchases.wearables,
+          [name]: (purchases.wearables?.[name] ?? 0) + 1,
         },
       };
     }

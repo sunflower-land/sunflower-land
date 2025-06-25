@@ -24,20 +24,17 @@ import confetti from "canvas-confetti";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
-  EVENTMEGASTORE,
+  COLORS_EVENT_ITEMS,
   EventStoreCollectible,
   EventStoreItem,
   EventStoreWearable,
   EventTierItemName,
-} from "features/game/types/eventmegastore";
+} from "features/game/types/festivalOfColors";
 import { getItemDescription } from "../EventStore";
 import { getKeys } from "features/game/types/craftables";
 import { ARTEFACT_SHOP_KEYS } from "features/game/types/collectibles";
 import { SFLDiscount } from "features/game/lib/SFLDiscount";
-import {
-  getEventItemsCrafted,
-  isKeyBoughtWithinSeason,
-} from "features/game/events/landExpansion/buyEventItem";
+
 import { REWARD_BOXES } from "features/game/types/rewardBoxes";
 import { secondsToString } from "lib/utils/time";
 
@@ -91,7 +88,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
 
   const createdAt = Date.now();
   const currentSeason = getCurrentSeason(new Date(createdAt));
-  const eventStore = EVENTMEGASTORE[currentSeason];
+  const eventStore = COLORS_EVENT_ITEMS;
   const tiers =
     tier === "basic"
       ? "basic"
@@ -103,20 +100,13 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
             ? "mega"
             : "basic";
 
-  const eventCollectiblesCrafted = getEventItemsCrafted(
-    state,
-    eventStore,
-    "collectible",
-    tiers,
-    true,
-  );
-  const eventWearablesCrafted = getEventItemsCrafted(
-    state,
-    eventStore,
-    "wearable",
-    tiers,
-    true,
-  );
+  const shop =
+    gameService.state.context.state.minigames.games["festival-of-colors-2025"]
+      ?.shop;
+
+  const eventCollectiblesCrafted = Object.keys(shop?.items ?? {}).length;
+  const eventWearablesCrafted = Object.keys(shop?.wearables ?? {}).length;
+
   const eventItemsCrafted = eventCollectiblesCrafted + eventWearablesCrafted;
 
   const itemName = item
@@ -128,16 +118,12 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const isKey = (name: InventoryItemName): name is Keys =>
     name in ARTEFACT_SHOP_KEYS;
 
-  const reduction = isKeyBoughtWithinSeason(state, tiers, true) ? 0 : 1;
   const isRareUnlocked =
-    tiers === "rare" &&
-    eventItemsCrafted - reduction >= eventStore.rare.requirement;
+    tiers === "rare" && eventItemsCrafted >= eventStore.rare.requirement;
   const isEpicUnlocked =
-    tiers === "epic" &&
-    eventItemsCrafted - reduction >= eventStore.epic.requirement;
+    tiers === "epic" && eventItemsCrafted >= eventStore.epic.requirement;
   const isMegaUnlocked =
-    tier === "mega" &&
-    eventItemsCrafted - reduction >= eventStore.mega.requirement;
+    tier === "mega" && eventItemsCrafted >= eventStore.mega.requirement;
 
   const boughtAt = state.megastore?.boughtAt[itemName as Keys] ?? 0;
   const itemInCooldown =
@@ -242,9 +228,9 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const handleBuy = () => {
     if (!item) return;
 
-    gameService.send("eventItem.bought", {
+    gameService.send("minigameItem.bought", {
+      id: "festival-of-colors-2025",
       name: itemName,
-      tier: tiers,
     });
 
     if (!isWearable) {
