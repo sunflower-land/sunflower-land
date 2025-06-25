@@ -27,7 +27,7 @@ import {
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 
 import { isMobile } from "mobile-device-detect";
-import { FollowerFeed } from "features/social/components/FollowerFeed";
+import { ActivityFeed } from "features/social/ActivityFeed";
 
 export type PlayerModalPlayer = {
   farmId: number;
@@ -236,7 +236,7 @@ export const PlayerModals: React.FC<Props> = ({ game, farmId }) => {
             <OldPlayerDetails player={player as PlayerModalPlayer} />
           ))}
         {tab === "Activity" && (
-          <FollowerFeed
+          <ActivityFeed
             interactions={interactions}
             onInteraction={(interaction) => {
               setInteractions([interaction, ...interactions]);

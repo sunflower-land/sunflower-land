@@ -10,21 +10,31 @@ export const LandscapeButton: React.FC = () => {
   const { gameService } = useContext(Context);
 
   return (
-    <RoundButton
-      onClick={() => {
-        button.play();
-        gameService.send("LANDSCAPE");
+    <div
+      className="absolute"
+      style={{
+        marginLeft: `${PIXEL_SCALE * 2}px`,
+        marginBottom: `${PIXEL_SCALE * 25}px`,
+        right: `${PIXEL_SCALE * 3}px`,
+        top: `${PIXEL_SCALE * 31}px`,
       }}
     >
-      <img
-        src={SUNNYSIDE.icons.drag}
-        className="absolute group-active:translate-y-[2px]"
-        style={{
-          top: `${PIXEL_SCALE * 4}px`,
-          left: `${PIXEL_SCALE * 4}px`,
-          width: `${PIXEL_SCALE * 14}px`,
+      <RoundButton
+        onClick={() => {
+          button.play();
+          gameService.send("LANDSCAPE");
         }}
-      />
-    </RoundButton>
+      >
+        <img
+          src={SUNNYSIDE.icons.drag}
+          className="absolute group-active:translate-y-[2px]"
+          style={{
+            top: `${PIXEL_SCALE * 4}px`,
+            left: `${PIXEL_SCALE * 4}px`,
+            width: `${PIXEL_SCALE * 14}px`,
+          }}
+        />
+      </RoundButton>
+    </div>
   );
 };

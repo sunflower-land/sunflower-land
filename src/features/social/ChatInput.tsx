@@ -1,11 +1,11 @@
-import React, { ChangeEvent, useContext, useRef, useState } from "react";
 import { pixelChatInputBorderStyle } from "features/game/lib/style";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import React, { ChangeEvent, useContext, useRef, useState } from "react";
+import { FarmInteraction } from "./PlayerModal";
 import { Button } from "components/ui/Button";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
-import { FarmInteraction } from "../PlayerModal";
 
 const MAX_CHARACTERS = 96;
 const ALPHA_REGEX = new RegExp(/^[\w*?!, '-.!?#]+$/);
