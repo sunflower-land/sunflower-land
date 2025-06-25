@@ -74,14 +74,6 @@ export async function autosaveRequest(
   // Useful for using cached results
   const cachedKey = getSessionId();
 
-  // Just in case the request takes too long, abort it. Some players have requests
-  // that can take a long, so use a conservative timeout of x2 the autosave interval.
-  const controller = new AbortController();
-  const timeoutId = setTimeout(
-    () => controller.abort(),
-    AUTO_SAVE_INTERVAL * 2,
-  );
-
   const response = await window.fetch(`${API_URL}/autosave/${request.farmId}`, {
     method: "POST",
     headers: {
@@ -100,10 +92,10 @@ export async function autosaveRequest(
       cachedKey,
       deviceTrackerId: request.deviceTrackerId,
     }),
-    signal: controller.signal,
+    // Just in case the request takes too long, abort it. Some players have requests
+    // that can take a long, so use a conservative timeout of x2 the autosave interval.
+    signal: AbortSignal.timeout(AUTO_SAVE_INTERVAL * 2),
   });
-
-  clearTimeout(timeoutId);
 
   return response;
 }
