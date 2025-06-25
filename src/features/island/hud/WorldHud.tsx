@@ -31,7 +31,6 @@ import { dummyInteractions } from "features/social/PlayerModal";
 import { hasFeatureAccess } from "lib/flags";
 import { WorldFeedButton } from "features/social/components/WorldFeedButton";
 import { MachineState } from "features/game/lib/gameMachine";
-import { WorldContext } from "features/world/World";
 import {
   Message,
   ModerationTools,
@@ -49,9 +48,6 @@ type Props = {
   players: Player[];
 };
 
-const _isModerator = (state: MachineState) =>
-  !!state.context.state.inventory["Beta Pass"] &&
-  !!state.context.state.wardrobe.Halo;
 const _autosaving = (state: MachineState) => state.matches("autosaving");
 const _farmAddress = (state: MachineState) => state.context.farmAddress;
 const _linkedWallet = (state: MachineState) => state.context.linkedWallet;
@@ -66,7 +62,6 @@ const HudComponent: React.FC<Props> = ({
   players,
 }) => {
   const { t } = useAppTranslation();
-  const { isCommunity } = useContext(WorldContext);
   const { gameService, shortcutItem, selectedItem } = useContext(Context);
   const { openModal } = useContext(ModalContext);
 
@@ -78,7 +73,6 @@ const HudComponent: React.FC<Props> = ({
   const farmAddress = useSelector(gameService, _farmAddress);
   const linkedWallet = useSelector(gameService, _linkedWallet);
   const isTutorial = useSelector(gameService, _isTutorial);
-  const isModerator = useSelector(gameService, _isModerator);
   const state = useSelector(gameService, _state);
 
   const { pathname } = useLocation();
@@ -111,86 +105,99 @@ const HudComponent: React.FC<Props> = ({
         />
       )}
       <HudContainer>
-        <div className="flex w-screen h-screen">
-          {/* Handle translation of left side of the HUD */}
-          <div
-            className={classNames(
-              "flex justify-between transition-transform w-full h-full p-3 duration-200",
-              {
-                "translate-x-0": hideDesktopFeed,
-                "translate-x-[300px]": showDesktopFeed,
-              },
-            )}
-          >
-            {/* Left side of the HUD */}
-            <div className="flex flex-col justify-between">
-              <HudBumpkin isTutorial={isTutorial} />
-              <div className="flex space-x-2.5">
-                <div className="flex flex-col space-y-2.5">
-                  {/* {isModerator && !isCommunity && ( */}
-                  <ModerationTools
-                    scene={scene}
-                    messages={messages ?? []}
-                    players={players ?? []}
-                    gameService={gameService}
-                  />
-                  {/* )} */}
-                  {hasFeatureAccess(state, "SOCIAL_FARMING") && (
-                    <WorldFeedButton
-                      showFeed={showFeed}
-                      setShowFeed={setShowFeed}
-                      newCount={0}
-                    />
-                  )}
-                  <MarketplaceButton />
-                  <TravelButton />
-                </div>
-                <div className="flex flex-col justify-end space-y-2.5">
-                  <TransactionCountdown />
-                  <StreamCountdown />
-                  <FloatingIslandCountdown />
-                  <AuctionCountdown />
-                </div>
-              </div>
-            </div>
-          </div>
+        <div
+          className={classNames(
+            "absolute left-0 top-0 bottom-0 p-2.5 transition-transform duration-200",
+            {
+              "translate-x-0": hideDesktopFeed,
+              "translate-x-[300px]": showDesktopFeed,
+            },
+          )}
+        >
+          <HudBumpkin isTutorial={isTutorial} />
+        </div>
+        {/* Left side of the HUD with translation */}
 
-          {/* Right side of the HUD*/}
-          <div className="fixed top-0 bottom-0 right-0 flex flex-col justify-between items-end p-3">
-            <div className="flex flex-col space-y-2.5">
-              <Balances
-                onClick={farmAddress ? handleCurrenciesModal : undefined}
-                sfl={state.balance}
-                coins={state.coins}
-                gems={state.inventory["Gem"] ?? new Decimal(0)}
-              />
-              <Inventory
-                state={state}
-                isFullUser={!!farmAddress}
-                shortcutItem={shortcutItem}
-                selectedItem={selectedItem}
-                onPlace={(selected) => {
-                  gameService.send("LANDSCAPE", {
-                    action: placeEvent(selected),
-                    placeable: selected,
-                    multiple: true,
-                  });
-                }}
-                onDepositClick={() => setShowDepositModal(true)}
-                isSaving={autosaving}
-                isFarming={false}
-                hideActions={
-                  pathname.includes("retreat") ||
-                  pathname.includes("visit") ||
-                  pathname.includes("dawn-breaker")
-                }
-              />
-            </div>
-            <div className="flex flex-col space-y-2.5">
-              <Save />
-              <Settings isFarming={false} />
-            </div>
-          </div>
+        <div
+          className={classNames(
+            "absolute bottom-0 p-2.5 left-0 flex flex-col space-y-2.5 transition-transform",
+            {
+              "translate-x-0": hideDesktopFeed,
+              "translate-x-[300px]": showDesktopFeed,
+            },
+          )}
+        >
+          {/* {isModerator && !isCommunity && ( */}
+          <ModerationTools
+            scene={scene}
+            messages={messages ?? []}
+            players={players ?? []}
+            gameService={gameService}
+          />
+          {/* )} */}
+          {hasFeatureAccess(state, "SOCIAL_FARMING") && (
+            <WorldFeedButton
+              showFeed={showFeed}
+              setShowFeed={setShowFeed}
+              newCount={0}
+            />
+          )}
+          <MarketplaceButton />
+          <TravelButton />
+        </div>
+        <div
+          className={classNames(
+            "absolute bottom-0 pb-2 pl-3 left-16 flex flex-col space-y-2.5 transition-transform",
+            {
+              "translate-x-0": hideDesktopFeed,
+              "translate-x-[300px]": showDesktopFeed,
+            },
+          )}
+        >
+          <TransactionCountdown />
+          <StreamCountdown />
+          <FloatingIslandCountdown />
+          <AuctionCountdown />
+        </div>
+
+        {/* Right side of the HUD*/}
+
+        <div className="absolute right-0 top-0 p-2.5">
+          <Balances
+            onClick={farmAddress ? handleCurrenciesModal : undefined}
+            sfl={state.balance}
+            coins={state.coins}
+            gems={state.inventory["Gem"] ?? new Decimal(0)}
+          />
+        </div>
+
+        <div className="absolute right-0 top-16 p-2.5">
+          <Inventory
+            state={state}
+            isFullUser={!!farmAddress}
+            shortcutItem={shortcutItem}
+            selectedItem={selectedItem}
+            onPlace={(selected) => {
+              gameService.send("LANDSCAPE", {
+                action: placeEvent(selected),
+                placeable: selected,
+                multiple: true,
+              });
+            }}
+            onDepositClick={() => setShowDepositModal(true)}
+            isSaving={autosaving}
+            isFarming={false}
+            hideActions={
+              pathname.includes("retreat") ||
+              pathname.includes("visit") ||
+              pathname.includes("dawn-breaker")
+            }
+          />
+        </div>
+
+        <div className="absolute bottom-0 p-2.5 right-0 flex flex-col space-y-2.5">
+          <Save />
+          <Settings isFarming={false} />
         </div>
 
         {farmAddress && linkedWallet && (

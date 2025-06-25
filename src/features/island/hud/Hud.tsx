@@ -65,65 +65,61 @@ const HudComponent: React.FC<{
   return (
     <>
       <HudContainer>
-        <div className="flex w-screen h-screen p-3 justify-between">
-          {/* Left side of the HUD */}
-          <div className="flex flex-col justify-between">
-            <HudBumpkin isTutorial={isTutorial} />
-            <div className="flex space-x-2.5">
-              <div className="flex flex-col space-y-2.5">
-                <MarketplaceButton />
-                <TravelButton />
-              </div>
-              <div className="flex flex-col justify-end space-y-2.5">
-                <TransactionCountdown />
-                <StreamCountdown />
-                <AuctionCountdown />
-              </div>
-            </div>
-          </div>
+        {/* Left side of the HUD */}
+        <div className="absolute left-0 top-0 bottom-0 p-2.5">
+          <HudBumpkin isTutorial={isTutorial} />
+        </div>
 
-          {/* Right side of the HUD */}
-          <div className="flex flex-col justify-between">
-            <div className="flex flex-col space-y-2.5 items-end">
-              <Balances
-                sfl={gameState.context.state.balance}
-                coins={gameState.context.state.coins}
-                gems={
-                  gameState.context.state.inventory["Gem"] ?? new Decimal(0)
-                }
-                onClick={handleCurrenciesModal}
-              />
-              {isFarming && <LandscapeButton />}
-              <Inventory
-                state={gameState.context.state}
-                isFullUser={isFullUser}
-                shortcutItem={shortcutItem}
-                selectedItem={selectedItem}
-                onPlace={(selected) => {
-                  gameService.send("LANDSCAPE", {
-                    action: placeEvent(selected),
-                    placeable: selected,
-                    multiple: true,
-                  });
-                }}
-                onPlaceBud={(selected) => {
-                  gameService.send("LANDSCAPE", {
-                    action: "bud.placed",
-                    placeable: selected,
-                    location,
-                  });
-                }}
-                onDepositClick={() => setShowDepositModal(true)}
-                isSaving={autosaving}
-                isFarming={isFarming}
-                hideActions={false}
-              />
-            </div>
-            <div className="flex flex-col space-y-2.5 items-end">
-              <Save />
-              <Settings isFarming={false} />
-            </div>
-          </div>
+        <div className="absolute bottom-0 p-2.5 left-0 flex flex-col space-y-2.5">
+          <MarketplaceButton />
+          <TravelButton />
+        </div>
+        <div className="absolute bottom-0 pb-2 pl-3 left-16 flex flex-col space-y-2.5">
+          <TransactionCountdown />
+          <StreamCountdown />
+          <AuctionCountdown />
+        </div>
+
+        {/* Right side of the HUD */}
+        <div className="absolute right-0 top-0 p-2.5">
+          <Balances
+            sfl={gameState.context.state.balance}
+            coins={gameState.context.state.coins}
+            gems={gameState.context.state.inventory["Gem"] ?? new Decimal(0)}
+            onClick={handleCurrenciesModal}
+          />
+        </div>
+        <div className="absolute right-0 top-16 p-2.5 flex flex-col space-y-2.5">
+          {isFarming && <LandscapeButton />}
+          <Inventory
+            state={gameState.context.state}
+            isFullUser={isFullUser}
+            shortcutItem={shortcutItem}
+            selectedItem={selectedItem}
+            onPlace={(selected) => {
+              gameService.send("LANDSCAPE", {
+                action: placeEvent(selected),
+                placeable: selected,
+                multiple: true,
+              });
+            }}
+            onPlaceBud={(selected) => {
+              gameService.send("LANDSCAPE", {
+                action: "bud.placed",
+                placeable: selected,
+                location,
+              });
+            }}
+            onDepositClick={() => setShowDepositModal(true)}
+            isSaving={autosaving}
+            isFarming={isFarming}
+            hideActions={false}
+          />
+        </div>
+
+        <div className="absolute bottom-0 p-2 right-0 flex flex-col space-y-2.5">
+          <Save />
+          <Settings isFarming={false} />
         </div>
 
         <DepositGameItemsModal

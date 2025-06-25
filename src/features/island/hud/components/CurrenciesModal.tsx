@@ -197,7 +197,7 @@ export const CurrenciesModal: React.FC<Props> = ({
 
                 <img
                   src={SUNNYSIDE.icons.close}
-                  className="w-6 h-6"
+                  className="w-6 h-6 cursor-pointer"
                   onClick={onClose}
                 />
               </div>
