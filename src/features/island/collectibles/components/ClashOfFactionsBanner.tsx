@@ -6,9 +6,9 @@ import { SFTDetailPopover } from "components/ui/SFTDetailPopover";
 
 export const ClashOfFactionsBanner: React.FC = () => {
   return (
-    <SFTDetailPopover name="Clash Of Factions Banner">
+    <SFTDetailPopover name="Clash of Factions Banner">
       <div
-        className="absolute pointer-events-none"
+        className="absolute"
         style={{
           width: `${PIXEL_SCALE * 22}px`,
           top: `${PIXEL_SCALE * -3}px`,

@@ -537,6 +537,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
         leaveFrom="opacity-100"
         leaveTo="opacity-0"
         className="flex top-1 left-1/2 -translate-x-1/2 absolute z-40 pointer-events-none"
+        as="div"
       >
         <span
           className="text-sm yield-text"
@@ -558,6 +559,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
         leaveFrom="opacity-100"
         leaveTo="opacity-0"
         className="flex top-1 left-1/2 -translate-x-1/2 absolute z-40 pointer-events-none"
+        as="div"
       >
         <span
           className="text-sm yield-text"

@@ -7,7 +7,7 @@ import { SFTDetailPopover } from "components/ui/SFTDetailPopover";
 export const AuroraLantern: React.FC = () => {
   return (
     <SFTDetailPopover name="Aurora Lantern">
-      <div className="flex justify-center items-center pointer-events-none">
+      <div className="flex justify-center items-center">
         <img
           src={auroraLantern}
           style={{

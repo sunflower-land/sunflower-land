@@ -7,7 +7,7 @@ import { SFTDetailPopover } from "components/ui/SFTDetailPopover";
 export const BettyLantern: React.FC = () => {
   return (
     <SFTDetailPopover name="Betty Lantern">
-      <div className="flex justify-center items-center pointer-events-none">
+      <div className="flex justify-center items-center">
         <img
           src={bettyLantern}
           style={{

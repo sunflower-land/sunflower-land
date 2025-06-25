@@ -229,21 +229,17 @@ export const Hourglass: React.FC<HourglassProps> = ({
       <PopoverPanel anchor={{ to: "left" }} className="flex">
         <SFTDetailPopoverInnerPanel>
           <SFTDetailPopoverLabel name={hourglass} />
-          {/* <Label
-            type="info"
-            icon={SUNNYSIDE.icons.stopwatch}
-            className="ml-1 mt-2 mb-2"
-          > */}
-          <span className="text-xs">
-            {t("time.remaining", {
-              time: secondsToString((expiresAt - Date.now()) / 1000, {
-                length: "medium",
-                isShortFormat: true,
-                removeTrailingZeros: true,
-              }),
-            })}
-          </span>
-          {/* </Label> */}
+          <Label type="info" className="mt-2 mb-2">
+            <span className="text-xs">
+              {t("time.remaining", {
+                time: secondsToString((expiresAt - Date.now()) / 1000, {
+                  length: "medium",
+                  isShortFormat: true,
+                  removeTrailingZeros: true,
+                }),
+              })}
+            </span>
+          </Label>
           <SFTDetailPopoverBuffs name={hourglass} />
           <SFTDetailPopoverTradeDetails name={hourglass} />
         </SFTDetailPopoverInnerPanel>

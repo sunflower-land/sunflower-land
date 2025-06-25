@@ -14,7 +14,7 @@ export const CabbageBoy: React.FC = () => {
           style={{
             width: `${PIXEL_SCALE * 15}px`,
           }}
-          className="absolute bottom-0 left-0 pointer-events-none"
+          className="absolute bottom-0 left-0"
         />
         <img
           src={cabbageBoy}
@@ -23,7 +23,7 @@ export const CabbageBoy: React.FC = () => {
             bottom: `${PIXEL_SCALE * 2}px`,
             left: `${PIXEL_SCALE * 0}px`,
           }}
-          className="absolute left-0 pointer-events-none"
+          className="absolute left-0"
           alt="Cabbage Boy"
         />
       </>

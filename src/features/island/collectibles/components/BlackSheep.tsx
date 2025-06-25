@@ -8,7 +8,7 @@ export const BlackSheep: React.FC = () => {
   return (
     <SFTDetailPopover name="Black Sheep">
       <div
-        className="absolute bottom-0 left-1/2 -translate-x-1/2 pointer-events-none"
+        className="absolute bottom-0 left-1/2 -translate-x-1/2"
         style={{
           width: `${PIXEL_SCALE * 25}px`,
         }}

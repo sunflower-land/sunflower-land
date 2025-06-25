@@ -8,7 +8,7 @@ export const MushroomHouse: React.FC = () => {
   return (
     <SFTDetailPopover name="Mushroom House">
       <div
-        className="absolute pointer-events-none"
+        className="absolute"
         style={{
           width: `${PIXEL_SCALE * 37}px`,
           bottom: `${PIXEL_SCALE * 0}px`,

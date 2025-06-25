@@ -16,7 +16,7 @@ export const LemonShark: React.FC = () => {
             left: `${PIXEL_SCALE * 4}px`,
             bottom: `${PIXEL_SCALE * -1}px`,
           }}
-          className="absolute pointer-events-none"
+          className="absolute"
         />
         <img
           src={trophy}

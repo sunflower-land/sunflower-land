@@ -201,6 +201,7 @@ const HOWLERS = {
     src: [SOUNDS.loops.fire],
     preload: false,
     volume: 0.25,
+    loop: false,
   }),
   harvest: new Howl({
     src: [SOUNDS.resources.harvest],

@@ -9,7 +9,7 @@ export const LabGrownCarrot: React.FC = () => {
   return (
     <SFTDetailPopover name="Lab Grown Carrot">
       <div
-        className="absolute w-full h-full pointer-events-none"
+        className="absolute w-full h-full"
         style={{
           width: `${PIXEL_SCALE * 22}px`,
           bottom: `${PIXEL_SCALE * 0}px`,

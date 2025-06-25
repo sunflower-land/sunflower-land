@@ -7,7 +7,7 @@ export const BasicScarecrow: React.FC = () => {
   return (
     <SFTDetailPopover name="Basic Scarecrow">
       <div
-        className="absolute pointer-events-none"
+        className="absolute"
         style={{
           width: `${PIXEL_SCALE * 22}px`,
           bottom: `${PIXEL_SCALE * 0}px`,

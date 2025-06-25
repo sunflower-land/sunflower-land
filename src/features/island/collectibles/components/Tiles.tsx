@@ -16,7 +16,6 @@ import purpleTileConnected from "assets/decorations/tiles/connectedTile/purple_t
 import redTileConnected from "assets/decorations/tiles/connectedTile/red_tile.webp";
 import yellowTileConnected from "assets/decorations/tiles/connectedTile/yellow_tile.webp";
 import { TileName } from "features/game/types/decorations";
-import { SFTDetailPopover } from "components/ui/SFTDetailPopover";
 
 const TILES: Record<TileName, string> = {
   "Black Tile": blackTile,
@@ -57,15 +56,13 @@ export const Tiles: React.FC<Props> = ({ name, x, y, grid }) => {
     image = CONNECTED_TILES[name];
   }
   return (
-    <SFTDetailPopover name="Tiles">
-      <img
-        className="absolute"
-        src={image}
-        key={`${x}_${y}`}
-        style={{
-          width: `${PIXEL_SCALE * 16}px`,
-        }}
-      />
-    </SFTDetailPopover>
+    <img
+      className="absolute"
+      src={image}
+      key={`${x}_${y}`}
+      style={{
+        width: `${PIXEL_SCALE * 16}px`,
+      }}
+    />
   );
 };

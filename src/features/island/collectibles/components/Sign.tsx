@@ -19,7 +19,7 @@ export const Sign: React.FC = () => {
   const farmId = useSelector(gameService, _farmId);
 
   return (
-    <SFTDetailPopover name="Sign">
+    <SFTDetailPopover name="Town Sign">
       <div
         style={{
           width: `${PIXEL_SCALE * 34}px`,

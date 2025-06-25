@@ -6,7 +6,7 @@ import { SFTDetailPopover } from "components/ui/SFTDetailPopover";
 
 export const BonniesTombstone: React.FC = () => {
   return (
-    <SFTDetailPopover name="Bonnies Tombstone">
+    <SFTDetailPopover name="Bonnie's Tombstone">
       <>
         <img
           src={SUNNYSIDE.decorations.bonniesTombstone}

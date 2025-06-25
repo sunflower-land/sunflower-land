@@ -6,9 +6,9 @@ import { SFTDetailPopover } from "components/ui/SFTDetailPopover";
 
 export const PharaohsTreasureBanner: React.FC = () => {
   return (
-    <SFTDetailPopover name="Pharaohs Treasure Banner">
+    <SFTDetailPopover name="Pharaoh's Treasure Banner">
       <div
-        className="absolute pointer-events-none"
+        className="absolute"
         style={{
           width: `${PIXEL_SCALE * 22}px`,
           top: `${PIXEL_SCALE * -3}px`,

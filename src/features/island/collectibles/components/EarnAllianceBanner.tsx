@@ -8,7 +8,7 @@ export const EarnAllianceBanner: React.FC = () => {
   return (
     <SFTDetailPopover name="Earn Alliance Banner">
       <div
-        className="absolute pointer-events-none"
+        className="absolute"
         style={{
           width: `${PIXEL_SCALE * 22}px`,
           top: `${PIXEL_SCALE * -3}px`,

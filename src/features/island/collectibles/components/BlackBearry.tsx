@@ -16,7 +16,7 @@ export const BlackBearry: React.FC = () => {
             bottom: `${PIXEL_SCALE * 0}px`,
             left: `${PIXEL_SCALE * 0}px`,
           }}
-          className="absolute pointer-events-none"
+          className="absolute"
         />
         <img
           src={blackBear}
@@ -25,7 +25,7 @@ export const BlackBearry: React.FC = () => {
             bottom: `${PIXEL_SCALE * 2}px`,
             left: `${PIXEL_SCALE * 0}px`,
           }}
-          className="absolute pointer-events-none"
+          className="absolute"
           alt="Black Bearry"
         />
       </>

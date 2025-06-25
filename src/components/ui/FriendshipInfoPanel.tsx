@@ -44,6 +44,7 @@ export const FriendshipInfoPanel: React.FC<Props> = ({
         e.stopPropagation();
         onClick();
       }}
+      as="div"
     >
       <OuterPanel className="drop-shadow-lg cursor-pointer max-w-md">
         <InnerPanel className="flex flex-col -m-0.5">

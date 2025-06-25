@@ -19,10 +19,10 @@ export const SquirrelMonkey: React.FC = () => {
             bottom: `${PIXEL_SCALE * 5}px`,
             left: `${PIXEL_SCALE * 7}px`,
           }}
-          className="absolute pointer-events-none"
+          className="absolute"
         />
         <Spritesheet
-          className="absolute pointer-events-none"
+          className="absolute"
           style={{
             width: `${PIXEL_SCALE * 26}px`,
             bottom: 0,

@@ -16,7 +16,7 @@ interface Props {
 
 const FlagsImages: React.FC<Props> = ({ flagName }) => {
   return (
-    <SFTDetailPopover name="flags">
+    <SFTDetailPopover name={flagName}>
       <img
         className="absolute"
         style={{

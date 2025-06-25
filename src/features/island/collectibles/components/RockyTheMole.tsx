@@ -6,7 +6,7 @@ import { SFTDetailPopover } from "components/ui/SFTDetailPopover";
 
 export const RockyTheMole: React.FC = () => {
   return (
-    <SFTDetailPopover name="Rocky The Mole">
+    <SFTDetailPopover name="Rocky the Mole">
       <div
         className="absolute"
         style={{

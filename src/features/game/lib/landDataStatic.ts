@@ -24,7 +24,17 @@ export const STATIC_OFFLINE_FARM: GameState = {
     expiresAt: Date.now() + 31 * 24 * 60 * 60 * 1000,
   },
   inventory: {
+    "Magic Bean": new Decimal(1),
+    "Festive Tree": new Decimal(1),
+    Fountain: new Decimal(1),
+    "Genie Lamp": new Decimal(1),
+    "Maneki Neko": new Decimal(1),
     "Nyon Statue": new Decimal(1),
+    Observatory: new Decimal(1),
+    "Super Totem": new Decimal(1),
+    "Time Warp Totem": new Decimal(1),
+    Wardrobe: new Decimal(1),
+    "Wicker Man": new Decimal(1),
     Manor: new Decimal(1),
     "Town Center": new Decimal(1),
     House: new Decimal(1),
@@ -70,7 +80,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Axe: new Decimal(10),
     Gem: new Decimal(1 * BB_TO_GEM_RATIO),
     Rug: new Decimal(1),
-    Wardrobe: new Decimal(1),
     Shovel: new Decimal(1),
     Wood: new Decimal(1000),
     Stone: new Decimal(1000),
@@ -267,7 +276,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
 
   home: {
     collectibles: {
-      Wardrobe: [
+      "Magic Bean": [
         {
           id: "1",
           createdAt: Date.now(),
@@ -278,7 +287,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
           readyAt: Date.now(),
         },
       ],
-      Rug: [
+      "Festive Tree": [
         {
           id: "2",
           createdAt: Date.now(),
@@ -289,12 +298,102 @@ export const STATIC_OFFLINE_FARM: GameState = {
           readyAt: Date.now(),
         },
       ],
+      Fountain: [
+        {
+          id: "3",
+          createdAt: Date.now(),
+          coordinates: {
+            x: 2,
+            y: 2,
+          },
+          readyAt: Date.now(),
+        },
+      ],
+      "Genie Lamp": [
+        {
+          id: "3",
+          createdAt: Date.now(),
+          coordinates: {
+            x: 4,
+            y: 2,
+          },
+          readyAt: Date.now(),
+        },
+      ],
+      "Harvest Hourglass": [
+        {
+          id: "4",
+          createdAt: Date.now(),
+          coordinates: {
+            x: 6,
+            y: 2,
+          },
+          readyAt: Date.now(),
+        },
+      ],
+      "Maneki Neko": [
+        {
+          id: "3",
+          createdAt: Date.now(),
+          coordinates: {
+            x: 8,
+            y: 2,
+          },
+          readyAt: Date.now(),
+        },
+      ],
+      "Nyon Statue": [
+        {
+          id: "2",
+          createdAt: Date.now(),
+          coordinates: {
+            x: 10,
+            y: 2,
+          },
+          readyAt: Date.now(),
+        },
+      ],
+      Observatory: [
+        {
+          id: "1",
+          createdAt: Date.now(),
+          coordinates: {
+            x: 12,
+            y: 2,
+          },
+          readyAt: Date.now(),
+        },
+      ],
       "Super Totem": [
         {
           id: "1",
           createdAt: Date.now() - 1 * 60 * 60 * 1000,
-          coordinates: { x: 0, y: 0 },
+          coordinates: { x: 14, y: 2 },
           readyAt: Date.now() - 1 * 60 * 60 * 1000,
+        },
+      ],
+      "Time Warp Totem": [
+        {
+          id: "1",
+          createdAt: Date.now(),
+          coordinates: { x: 16, y: 2 },
+          readyAt: Date.now(),
+        },
+      ],
+      "Tomato Bombard": [
+        {
+          id: "1",
+          createdAt: Date.now(),
+          coordinates: { x: 0, y: 0 },
+          readyAt: Date.now(),
+        },
+      ],
+      "Wicker Man": [
+        {
+          id: "1",
+          createdAt: Date.now(),
+          coordinates: { x: 18, y: 2 },
+          readyAt: Date.now(),
         },
       ],
     },
@@ -536,6 +635,126 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   collectibles: {
+    "Magic Bean": [
+      {
+        id: "1",
+        createdAt: Date.now(),
+        coordinates: {
+          x: 1,
+          y: 3,
+        },
+        readyAt: Date.now(),
+      },
+    ],
+    "Festive Tree": [
+      {
+        id: "2",
+        createdAt: Date.now(),
+        coordinates: {
+          x: 0,
+          y: 2,
+        },
+        readyAt: Date.now(),
+      },
+    ],
+    Fountain: [
+      {
+        id: "3",
+        createdAt: Date.now(),
+        coordinates: {
+          x: 2,
+          y: 2,
+        },
+        readyAt: Date.now(),
+      },
+    ],
+    "Genie Lamp": [
+      {
+        id: "3",
+        createdAt: Date.now(),
+        coordinates: {
+          x: 4,
+          y: 2,
+        },
+        readyAt: Date.now(),
+      },
+    ],
+    "Harvest Hourglass": [
+      {
+        id: "4",
+        createdAt: Date.now(),
+        coordinates: {
+          x: 6,
+          y: 2,
+        },
+        readyAt: Date.now(),
+      },
+    ],
+    "Maneki Neko": [
+      {
+        id: "3",
+        createdAt: Date.now(),
+        coordinates: {
+          x: 8,
+          y: 2,
+        },
+        readyAt: Date.now(),
+      },
+    ],
+    "Nyon Statue": [
+      {
+        id: "2",
+        createdAt: Date.now(),
+        coordinates: {
+          x: 10,
+          y: 2,
+        },
+        readyAt: Date.now(),
+      },
+    ],
+    Observatory: [
+      {
+        id: "1",
+        createdAt: Date.now(),
+        coordinates: {
+          x: 12,
+          y: 2,
+        },
+        readyAt: Date.now(),
+      },
+    ],
+    "Super Totem": [
+      {
+        id: "1",
+        createdAt: Date.now() - 1 * 60 * 60 * 1000,
+        coordinates: { x: 14, y: 2 },
+        readyAt: Date.now() - 1 * 60 * 60 * 1000,
+      },
+    ],
+    "Time Warp Totem": [
+      {
+        id: "1",
+        createdAt: Date.now(),
+        coordinates: { x: 16, y: 2 },
+        readyAt: Date.now(),
+      },
+    ],
+    "Tomato Bombard": [
+      {
+        id: "1",
+        createdAt: Date.now(),
+        coordinates: { x: 0, y: 0 },
+        readyAt: Date.now(),
+      },
+    ],
+    "Wicker Man": [
+      {
+        id: "1",
+        createdAt: Date.now(),
+        coordinates: { x: 18, y: 2 },
+        readyAt: Date.now(),
+      },
+    ],
     "Dr Cow": [
       {
         id: "1",

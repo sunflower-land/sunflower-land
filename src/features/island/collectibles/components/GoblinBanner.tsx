@@ -6,7 +6,7 @@ import { SFTDetailPopover } from "components/ui/SFTDetailPopover";
 
 export const GoblinBanner: React.FC = () => {
   return (
-    <SFTDetailPopover name="Goblin Banner">
+    <SFTDetailPopover name="Goblin War Banner">
       <>
         <img
           src={banner}

@@ -33,7 +33,7 @@ export const RockGolem: React.FC = () => {
         {someStonesMined ? (
           <Spritesheet
             key="closing"
-            className="absolute group-hover:img-highlight pointer-events-none"
+            className="absolute group-hover:img-highlight"
             style={{
               width: `${PIXEL_SCALE * 34}px`,
               bottom: `${PIXEL_SCALE * 0}px`,
@@ -58,7 +58,7 @@ export const RockGolem: React.FC = () => {
         ) : (
           <Spritesheet
             key="standing"
-            className="absolute group-hover:img-highlight pointer-events-none"
+            className="absolute group-hover:img-highlight"
             style={{
               width: `${PIXEL_SCALE * 34}px`,
               bottom: `${PIXEL_SCALE * 0}px`,

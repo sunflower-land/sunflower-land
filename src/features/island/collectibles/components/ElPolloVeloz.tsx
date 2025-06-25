@@ -14,7 +14,7 @@ export const ElPolloVeloz: React.FC = () => {
           style={{
             width: `${PIXEL_SCALE * 15}px`,
           }}
-          className="absolute bottom-0 pointer-events-none"
+          className="absolute bottom-0"
         />
         <img
           src={elPolloVeloz}

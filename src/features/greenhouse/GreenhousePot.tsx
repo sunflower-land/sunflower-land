@@ -146,6 +146,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
             className="flex -top-2 left-[40%] absolute w-full z-40 pointer-events-none"
+            as="div"
           >
             <img
               src={ITEM_DETAILS[harvested.current?.name ?? "Rice"].image}
@@ -169,6 +170,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
           className="flex top-[-200%] left-[50%] absolute z-40 shadow-md"
+          as="div"
         >
           <QuickSelect
             options={[
@@ -197,6 +199,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
           className="flex -top-4 left-[80%] absolute z-40 shadow-md w-auto"
+          as="div"
         >
           <Label type="danger" icon={barrelIcon} className="whitespace-nowrap">
             {`${oilRequired} ${t("greenhouse.oilRequired")}`}

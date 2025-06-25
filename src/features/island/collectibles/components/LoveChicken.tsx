@@ -9,6 +9,7 @@ export const LoveChicken: React.FC<CollectibleProps> = () => {
   return (
     <SFTDetailPopover name="Love Chicken">
       <ImageStyle
+        name="Love Chicken"
         divStyle={{
           width: `${PIXEL_SCALE * 21}px`,
           bottom: `${PIXEL_SCALE * 0}px`,

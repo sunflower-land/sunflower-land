@@ -13,7 +13,7 @@ export const EasterBunny: React.FC = () => {
           width: `${PIXEL_SCALE * 32}px`,
           bottom: "0px",
         }}
-        className="absolute pointer-events-none"
+        className="absolute"
         alt="Easter Bunny"
       />
     </SFTDetailPopover>

@@ -15,7 +15,7 @@ export const LunarCalendar: React.FC = () => {
             bottom: `${PIXEL_SCALE * 0}px`,
             left: `${PIXEL_SCALE * 0}px`,
           }}
-          className="absolute pointer-events-none"
+          className="absolute"
           alt="Lunar Calendar"
         />
       </>

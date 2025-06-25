@@ -26,9 +26,9 @@ export const WindsOfChangeBanner: React.FC = () => {
   const currentSeason = useSelector(gameService, _currentSeason);
 
   return (
-    <SFTDetailPopover name="Winds Of Change Banner">
+    <SFTDetailPopover name="Winds of Change Banner">
       <div
-        className="absolute pointer-events-none"
+        className="absolute"
         style={{
           width: `${PIXEL_SCALE * 16}px`,
           top: `${PIXEL_SCALE * -1}px`,

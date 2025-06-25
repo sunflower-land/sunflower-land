@@ -8,7 +8,7 @@ export const GiantPotato: React.FC = () => {
   return (
     <SFTDetailPopover name="Giant Potato">
       <div
-        className="absolute pointer-events-none"
+        className="absolute"
         style={{
           width: `${PIXEL_SCALE * 17}px`,
           bottom: `${PIXEL_SCALE * 0}px`,

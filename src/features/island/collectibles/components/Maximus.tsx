@@ -14,7 +14,7 @@ export const Maximus: React.FC = () => {
           bottom: `${PIXEL_SCALE * 1}px`,
           left: `${PIXEL_SCALE * 5}px`,
         }}
-        className="absolute pointer-events-none"
+        className="absolute"
         alt="Maximus"
       />
     </SFTDetailPopover>

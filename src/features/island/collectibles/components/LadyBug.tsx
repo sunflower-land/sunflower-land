@@ -14,7 +14,7 @@ export const LadyBug: React.FC = () => {
           style={{
             width: `${PIXEL_SCALE * 15}px`,
           }}
-          className="absolute bottom-0 left-0 pointer-events-none"
+          className="absolute bottom-0 left-0"
         />
         <img
           src={ladybug}
@@ -22,7 +22,7 @@ export const LadyBug: React.FC = () => {
             width: `${PIXEL_SCALE * 16}px`,
             bottom: `${PIXEL_SCALE * 2}px`,
           }}
-          className="absolute left-0 pointer-events-none"
+          className="absolute left-0"
           alt="Lady Bug"
         />
       </>

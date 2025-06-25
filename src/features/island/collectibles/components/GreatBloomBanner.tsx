@@ -8,7 +8,7 @@ export const GreatBloomBanner: React.FC = () => {
   return (
     <SFTDetailPopover name="Great Bloom Banner">
       <div
-        className="absolute pointer-events-none"
+        className="absolute"
         style={{
           width: `${PIXEL_SCALE * 16}px`,
           top: `${PIXEL_SCALE * -4}px`,

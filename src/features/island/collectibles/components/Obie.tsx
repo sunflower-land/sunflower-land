@@ -11,7 +11,7 @@ export const Obie: React.FC = () => {
       <>
         <img
           src={shadow}
-          className="absolute pointer-events-none"
+          className="absolute"
           style={{
             width: `${PIXEL_SCALE * 15}px`,
             bottom: `${PIXEL_SCALE * 0}px`,
@@ -20,7 +20,7 @@ export const Obie: React.FC = () => {
         />
         <img
           src={obie}
-          className="absolute pointer-events-none"
+          className="absolute"
           style={{
             width: `${PIXEL_SCALE * 15}px`,
             bottom: `${PIXEL_SCALE * 2}px`,

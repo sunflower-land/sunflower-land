@@ -8,7 +8,7 @@ export const CarrotSword: React.FC = () => {
   return (
     <SFTDetailPopover name="Carrot Sword">
       <div
-        className="absolute pointer-events-none"
+        className="absolute"
         style={{
           width: `${PIXEL_SCALE * 20}px`,
           bottom: `${PIXEL_SCALE * 0}px`,

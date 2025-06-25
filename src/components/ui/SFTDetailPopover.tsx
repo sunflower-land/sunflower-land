@@ -50,7 +50,7 @@ const SFTDetailPopoverBuffsImplementation = ({
   if (!buff) return null;
 
   return (
-    <div className="flex flex-col gap-1">
+    <div className="flex flex-col gap-3">
       {buff.map(
         (
           { labelType, boostTypeIcon, boostedItemIcon, shortDescription },
@@ -76,7 +76,7 @@ export const SFTDetailPopoverBuffs = ({
 }: {
   name: InventoryItemName;
 }) => {
-  // annoying bug on hot reloads
+  // annoying bug on hot reloads - seems to crash the app
   // if (CONFIG.NETWORK !== "mainnet") return null;
 
   return <SFTDetailPopoverBuffsImplementation name={name} />;
@@ -142,7 +142,11 @@ export const SFTDetailPopoverInnerPanel = ({
   );
 };
 
-const SFTDetailPopoverContent = ({ name }: { name: InventoryItemName }) => {
+export const SFTDetailPopoverContent = ({
+  name,
+}: {
+  name: InventoryItemName;
+}) => {
   return (
     <SFTDetailPopoverInnerPanel>
       <SFTDetailPopoverLabel name={name} />

@@ -15,7 +15,7 @@ export const TikiTotem: React.FC = () => {
             bottom: `${PIXEL_SCALE * 0}px`,
             left: `${PIXEL_SCALE * 1}px`,
           }}
-          className="absolute pointer-events-none"
+          className="absolute"
           alt="Tiki Totem"
         />
       </>

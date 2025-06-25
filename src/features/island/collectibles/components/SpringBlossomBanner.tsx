@@ -9,7 +9,7 @@ export const SpringBlossomBanner: React.FC = () => {
   return (
     <SFTDetailPopover name="Spring Blossom Banner">
       <div
-        className="absolute pointer-events-none"
+        className="absolute"
         style={{
           width: `${PIXEL_SCALE * 22}px`,
           top: `${PIXEL_SCALE * -6}px`,
