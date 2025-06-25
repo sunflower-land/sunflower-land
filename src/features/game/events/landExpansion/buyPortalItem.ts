@@ -12,6 +12,7 @@ import {
 } from "features/game/types/minigameShop";
 import { MinigameName } from "features/game/types/minigames";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { hasVipAccess } from "features/game/lib/vipAccess";
 
 export type BuyMinigameItemAction = {
   type: "minigameItem.bought";
@@ -55,12 +56,20 @@ export function buyEventShopItem({
 
     const { sfl, items } = item.cost;
 
-    // Check if player has enough SFL
-    if (balance.lt(sfl)) {
-      throw new Error("Insufficient SFL");
-    }
+    if (sfl) {
+      let cost = sfl;
 
-    stateCopy.balance = balance.sub(new Decimal(sfl));
+      if (hasVipAccess({ game: stateCopy })) {
+        cost = cost * 0.5;
+      }
+
+      // Check if player has enough SFL
+      if (balance.lt(cost)) {
+        throw new Error("Insufficient SFL");
+      }
+
+      stateCopy.balance = balance.sub(new Decimal(cost));
+    }
 
     getObjectEntries(items).forEach(([item, amount]) => {
       const current = stateCopy.inventory[item] ?? new Decimal(0);

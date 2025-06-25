@@ -198,6 +198,45 @@ describe("minigameItem.bought", () => {
       wearables: {},
     });
   });
+
+  it("buys a collectible with VIP discount", () => {
+    const state = buyEventShopItem({
+      action: {
+        id: "festival-of-colors-2025",
+        name: "Floating Toy",
+        type: "minigameItem.bought",
+      },
+      state: {
+        ...INITIAL_FARM,
+        vip: {
+          bundles: [],
+          expiresAt: Date.now() + 1000 * 60 * 60 * 24 * 30,
+        },
+        balance: new Decimal(100),
+        inventory: { "Colors Token 2025": new Decimal(1000) },
+        minigames: {
+          prizes: {},
+          games: {
+            "festival-of-colors-2025": {
+              highscore: 0,
+              history: {},
+            },
+          },
+        },
+      },
+    });
+
+    expect(state.balance).toEqual(new Decimal(90));
+    expect(state.inventory["Floating Toy"]).toEqual(new Decimal(1));
+
+    expect(state.minigames.games["festival-of-colors-2025"]!.shop).toEqual({
+      items: {
+        "Floating Toy": 1,
+      },
+      wearables: {},
+    });
+  });
+
   it("buys a wearable", () => {
     const state = buyEventShopItem({
       action: {

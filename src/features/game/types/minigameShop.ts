@@ -250,13 +250,13 @@ const FESTIVAL_OF_COLORS_STORE: MinigameShop = {
     name: "Slime Hat",
   },
   "Slime Wings": {
-    cost: { sfl: 100, items: {} },
+    cost: { sfl: 300, items: {} },
     type: "wearable",
     max: 1,
     name: "Slime Wings",
   },
   "Slime Aura": {
-    cost: { sfl: 200, items: {} },
+    cost: { sfl: 500, items: {} },
     type: "wearable",
     max: 1,
     name: "Slime Aura",
