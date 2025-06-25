@@ -29,7 +29,6 @@ import {
   EventStoreItem,
   EventStoreTier,
   EventStoreWearable,
-  EventTierItemName,
 } from "features/game/types/festivalOfColors";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ResizableBar } from "components/ui/ProgressBar";
@@ -63,20 +62,20 @@ export const ItemsList: React.FC<Props> = ({
     // Handling all types or specific ones if provided
     if (type === "wearables" || (!type && "wearable" in item)) {
       return (
-        state.bumpkin.activity[
-          `${(item as EventStoreWearable).wearable as EventTierItemName} Bought`
+        state.minigames.games["festival-of-colors-2025"]?.shop?.wearables?.[
+          (item as EventStoreWearable).wearable as BumpkinItem
         ] ?? 0
       );
     } else if (type === "collectibles" || (!type && "collectible" in item)) {
       return (
-        state.bumpkin.activity[
-          `${(item as EventStoreCollectible).collectible as EventTierItemName} Bought`
+        state.minigames.games["festival-of-colors-2025"]?.shop?.wearables?.[
+          (item as EventStoreCollectible).collectible as BumpkinItem
         ] ?? 0
       );
     } else if (type === "keys" || (!type && "key" in item)) {
       return (
-        state.bumpkin.activity[
-          `${(item as EventStoreCollectible).collectible as EventTierItemName} Bought`
+        state.minigames.games["festival-of-colors-2025"]?.shop?.items?.[
+          (item as EventStoreCollectible).collectible as InventoryItemName
         ] ?? 0
       );
     }
@@ -149,7 +148,7 @@ export const ItemsList: React.FC<Props> = ({
     return "requirement" in tier;
   };
 
-  const tierData = COLORS_EVENT_ITEMS;
+  const tierData = COLORS_EVENT_ITEMS[tier];
   const requirements = hasRequirement(tierData) ? tierData.requirement : 0;
 
   const eventItemsCrafted =

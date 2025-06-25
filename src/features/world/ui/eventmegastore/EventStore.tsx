@@ -1,11 +1,8 @@
-import { SUNNYSIDE } from "assets/sunnyside";
 import classNames from "classnames";
 import { Label } from "components/ui/Label";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { getTimeLeft, secondsToString } from "lib/utils/time";
 import React, { useState, useEffect } from "react";
-import { getCurrentSeason, SEASONS } from "features/game/types/seasons";
 import {
   COLORS_EVENT_ITEMS,
   EventStoreCollectible,
@@ -92,10 +89,6 @@ export const EventStore: React.FC<Props> = ({ readonly, state }) => {
     setSelectedTier(tier);
   };
 
-  const timeRemaining = getTimeLeft(
-    SEASONS[getCurrentSeason()].startDate.getTime(),
-    5875200,
-  );
   const { t } = useAppTranslation();
 
   const EVENTMEGASTORE = COLORS_EVENT_ITEMS;
@@ -130,14 +123,6 @@ export const EventStore: React.FC<Props> = ({ readonly, state }) => {
       <div className="flex justify-between px-2 flex-wrap pb-1">
         <Label type="default" className="mb-1">
           {"Event Store"}
-        </Label>
-        <Label icon={SUNNYSIDE.icons.stopwatch} type="warning" className="mb-1">
-          {t("megaStore.timeRemaining", {
-            timeRemaining: secondsToString(timeRemaining, {
-              length: "medium",
-              removeTrailingZeros: true,
-            }),
-          })}
         </Label>
       </div>
       <div
