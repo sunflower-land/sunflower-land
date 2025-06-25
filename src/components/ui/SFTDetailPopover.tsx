@@ -12,9 +12,9 @@ import { useSelector } from "@xstate/react";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { Context } from "features/game/GameProvider";
-import { CONFIG } from "lib/config";
 import flowerIcon from "assets/icons/flower_token.webp";
 import { formatNumber } from "lib/utils/formatNumber";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const _rawToken = (state: AuthMachineState) => state.context.user.rawToken;
 
@@ -47,27 +47,25 @@ const SFTDetailPopoverBuffsImplementation = ({
     name
   ];
 
+  if (!buff) return null;
+
   return (
-    <div className="space-y-1">
-      {!!buff && (
-        <div className="flex flex-col gap-1">
-          {buff.map(
-            (
-              { labelType, boostTypeIcon, boostedItemIcon, shortDescription },
-              index,
-            ) => (
-              <Label
-                key={index}
-                type="transparent"
-                icon={boostTypeIcon}
-                secondaryIcon={boostedItemIcon}
-                className="mx-2"
-              >
-                <span>{shortDescription}</span>
-              </Label>
-            ),
-          )}
-        </div>
+    <div className="flex flex-col gap-1">
+      {buff.map(
+        (
+          { labelType, boostTypeIcon, boostedItemIcon, shortDescription },
+          index,
+        ) => (
+          <Label
+            key={index}
+            type="transparent"
+            icon={boostTypeIcon}
+            secondaryIcon={boostedItemIcon}
+            className="mx-2"
+          >
+            <span>{shortDescription}</span>
+          </Label>
+        ),
       )}
     </div>
   );
@@ -89,6 +87,8 @@ export const SFTDetailPopoverTradeDetails = ({
 }: {
   name: InventoryItemName;
 }) => {
+  const { t } = useAppTranslation();
+
   const { authService } = useContext(AuthProvider.Context);
   const rawToken = useSelector(authService, _rawToken);
 
@@ -103,17 +103,25 @@ export const SFTDetailPopoverTradeDetails = ({
     { dedupingInterval: 60_000 }, // only refresh every minute
   );
 
-  if (!tradeable || error) return null;
+  if (!tradeable || error || !tradeable.isActive) return null;
 
   return (
     <>
       {tradeable.floor !== 0 && (
-        <Label type="transparent" icon={flowerIcon} className=" text-xs ml-2">
-          <span>{`${formatNumber(tradeable.floor, { decimalPlaces: 2 })} FLOWER`}</span>
+        <Label
+          type="transparent"
+          secondaryIcon={flowerIcon}
+          className="text-xs"
+        >
+          <span>{`${t("marketplace.price", { price: formatNumber(tradeable.floor, { decimalPlaces: 2 }) })}`}</span>
         </Label>
       )}
       {tradeable.supply !== 0 && (
-        <span className="text-xs">Supply: {tradeable.supply}</span>
+        <Label type="transparent" className="text-xs">
+          <span className="text-xs">
+            {t("marketplace.supply", { supply: tradeable.supply })}
+          </span>
+        </Label>
       )}
     </>
   );
@@ -129,7 +137,7 @@ export const SFTDetailPopoverInnerPanel = ({
       className="drop-shadow-lg cursor-pointer"
       style={{ maxWidth: "16rem" }} // max-w-3xs in tailwind 4.1
     >
-      <div className="flex flex-col space-y-1 p-1">{children}</div>
+      <div className="flex flex-col space-y-2 p-1">{children}</div>
     </InnerPanel>
   );
 };

@@ -3783,6 +3783,7 @@
   "marketplace.vip.season.access": "Unlimited marketplace access during the season",
   "marketplace.saleHistory": "Sales History",
   "marketplace.supply": "Supply: {{supply}}",
+  "marketplace.price": "Price: {{price}}",
   "marketplace.title3": "Title",
   "marketplace.cancelOffer": "Cancel offer",
   "marketplace.yourOffer": "Your offer",
