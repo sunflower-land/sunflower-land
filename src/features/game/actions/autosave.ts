@@ -7,6 +7,7 @@ import { makeGame } from "../lib/transforms";
 import { getSessionId } from "./loadSession";
 import Decimal from "decimal.js-light";
 import { SeedBoughtAction } from "../events/landExpansion/seedBought";
+import { AUTO_SAVE_INTERVAL } from "../expansion/Game";
 
 type Request = {
   actions: PastAction[];
@@ -73,7 +74,15 @@ export async function autosaveRequest(
   // Useful for using cached results
   const cachedKey = getSessionId();
 
-  return await window.fetch(`${API_URL}/autosave/${request.farmId}`, {
+  // Just in case the request takes too long, abort it. Some players have requests
+  // that can take a long, so use a conservative timeout of x2 the autosave interval.
+  const controller = new AbortController();
+  const timeoutId = setTimeout(
+    () => controller.abort(),
+    AUTO_SAVE_INTERVAL * 2,
+  );
+
+  const response = await window.fetch(`${API_URL}/autosave/${request.farmId}`, {
     method: "POST",
     headers: {
       ...{
@@ -91,7 +100,12 @@ export async function autosaveRequest(
       cachedKey,
       deviceTrackerId: request.deviceTrackerId,
     }),
+    signal: controller.signal,
   });
+
+  clearTimeout(timeoutId);
+
+  return response;
 }
 
 let autosaveErrors = 0;
