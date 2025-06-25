@@ -85,7 +85,7 @@ export const Inventory: React.FC<Props> = ({
   return (
     <>
       <div
-        className="flex flex-col items-end"
+        className="flex flex-col items-center absolute z-50"
         style={{
           right: `${PIXEL_SCALE * 3}px`,
           top: `${PIXEL_SCALE * (isFarming ? 58 : 31)}px`,

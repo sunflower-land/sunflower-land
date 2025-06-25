@@ -149,7 +149,7 @@ export const ChatUI: React.FC<Props> = ({
           },
         )}
         style={{
-          left: `${PIXEL_SCALE * 4}px`,
+          left: `${PIXEL_SCALE * 3}px`,
           width: `${PIXEL_SCALE * 22}px`,
           zIndex: 49,
         }}

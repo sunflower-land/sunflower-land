@@ -19,7 +19,7 @@ import { capitalize } from "lib/utils/capitalize";
 import { isMobile } from "mobile-device-detect";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { FollowerFeed } from "./components/FollowerFeed";
+import { ActivityFeed } from "./ActivityFeed";
 import { IslandType } from "features/game/types/game";
 import { useTranslation } from "react-i18next";
 
@@ -200,7 +200,7 @@ export const PlayerDetails: React.FC<Props> = ({ player }) => {
         </InnerPanel>
       </div>
       {!isMobile && (
-        <FollowerFeed
+        <ActivityFeed
           className="w-2/5 h-auto"
           interactions={interactions}
           onInteraction={(interaction) => {

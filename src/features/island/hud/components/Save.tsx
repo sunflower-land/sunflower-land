@@ -5,6 +5,7 @@ import saveIcon from "assets/icons/save.webp";
 import loadingIcon from "assets/icons/timer.gif";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
+import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { MachineState } from "features/game/lib/gameMachine";
 import { RoundButton } from "components/ui/RoundButton";
@@ -96,6 +97,17 @@ export const Save: React.FC = () => {
           }}
         />
       )}
+
+      <img
+        src={SUNNYSIDE.ui.round_button}
+        className={classNames("absolute", {
+          "opacity-0": enableButton,
+          "opacity-40": !enableButton,
+        })}
+        style={{
+          width: `${PIXEL_SCALE * 22}px`,
+        }}
+      />
     </RoundButton>
   );
 };

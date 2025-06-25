@@ -23,7 +23,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { WorldIntroduction } from "./ui/WorldIntroduction";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { GameWrapper } from "features/game/expansion/Game";
-
+import { WorldHud } from "features/island/hud/WorldHud";
 import { Loading } from "features/auth/components";
 import { GameState } from "features/game/types/game";
 import { Forbidden } from "features/auth/components/Forbidden";
@@ -201,6 +201,8 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
   // Otherwise if connected, return Plaza Screen
   return (
     <>
+      <WorldHud />
+
       <PhaserComponent
         mmoService={mmoService}
         isCommunity={isCommunity}

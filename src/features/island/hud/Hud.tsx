@@ -5,23 +5,27 @@ import { useActor, useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { Settings } from "./components/Settings";
 import { Inventory } from "./components/inventory/Inventory";
+import { BumpkinProfile } from "./components/BumpkinProfile";
 import { Save } from "./components/Save";
 import { DepositArgs } from "lib/blockchain/Deposit";
 import { DepositGameItemsModal } from "features/goblins/bank/components/DepositGameItems";
 import { placeEvent } from "features/game/expansion/placeable/landscapingMachine";
 import { TravelButton } from "./components/deliveries/TravelButton";
+import { CodexButton } from "./components/codex/CodexButton";
 import { AuctionCountdown } from "features/retreat/components/auctioneer/AuctionCountdown";
 import { PlaceableLocation } from "features/game/types/collectibles";
 import { HudContainer } from "components/ui/HudContainer";
+import { PIXEL_SCALE } from "features/game/lib/constants";
 import Decimal from "decimal.js-light";
 import { CurrenciesModal } from "./components/CurrenciesModal";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSound } from "lib/utils/hooks/useSound";
 import { TransactionCountdown } from "./Transaction";
 import { MarketplaceButton } from "./components/MarketplaceButton";
+import { GameCalendar } from "features/game/expansion/components/temperateSeason/GameCalendar";
 import { LandscapeButton } from "./components/LandscapeButton";
+import { RewardsButton } from "./components/referral/RewardsButton";
 import { StreamCountdown } from "./components/streamCountdown/StreamCountdown";
-import { HudBumpkin } from "./components/bumpkinProfile/HudBumpkin";
 
 const _farmAddress = (state: MachineState) => state.context.farmAddress;
 const _linkedWallet = (state: MachineState) => state.context.linkedWallet;
@@ -65,66 +69,78 @@ const HudComponent: React.FC<{
   return (
     <>
       <HudContainer>
-        <div className="flex w-screen h-screen p-3 justify-between">
-          {/* Left side of the HUD */}
-          <div className="flex flex-col justify-between">
-            <HudBumpkin isTutorial={isTutorial} />
-            <div className="flex space-x-2.5">
-              <div className="flex flex-col space-y-2.5">
-                <MarketplaceButton />
-                <TravelButton />
-              </div>
-              <div className="flex flex-col justify-end space-y-2.5">
-                <TransactionCountdown />
-                <StreamCountdown />
-                <AuctionCountdown />
-              </div>
-            </div>
-          </div>
-
-          {/* Right side of the HUD */}
-          <div className="flex flex-col justify-between">
-            <div className="flex flex-col space-y-2.5 items-end">
-              <Balances
-                sfl={gameState.context.state.balance}
-                coins={gameState.context.state.coins}
-                gems={
-                  gameState.context.state.inventory["Gem"] ?? new Decimal(0)
-                }
-                onClick={handleCurrenciesModal}
-              />
-              {isFarming && <LandscapeButton />}
-              <Inventory
-                state={gameState.context.state}
-                isFullUser={isFullUser}
-                shortcutItem={shortcutItem}
-                selectedItem={selectedItem}
-                onPlace={(selected) => {
-                  gameService.send("LANDSCAPE", {
-                    action: placeEvent(selected),
-                    placeable: selected,
-                    multiple: true,
-                  });
-                }}
-                onPlaceBud={(selected) => {
-                  gameService.send("LANDSCAPE", {
-                    action: "bud.placed",
-                    placeable: selected,
-                    location,
-                  });
-                }}
-                onDepositClick={() => setShowDepositModal(true)}
-                isSaving={autosaving}
-                isFarming={isFarming}
-                hideActions={false}
-              />
-            </div>
-            <div className="flex flex-col space-y-2.5 items-end">
-              <Save />
-              <Settings isFarming={false} />
-            </div>
-          </div>
+        <div>
+          {isFarming && <LandscapeButton />}
+          <Inventory
+            state={gameState.context.state}
+            isFullUser={isFullUser}
+            shortcutItem={shortcutItem}
+            selectedItem={selectedItem}
+            onPlace={(selected) => {
+              gameService.send("LANDSCAPE", {
+                action: placeEvent(selected),
+                placeable: selected,
+                multiple: true,
+              });
+            }}
+            onPlaceBud={(selected) => {
+              gameService.send("LANDSCAPE", {
+                action: "bud.placed",
+                placeable: selected,
+                location,
+              });
+            }}
+            onDepositClick={() => setShowDepositModal(true)}
+            isSaving={autosaving}
+            isFarming={isFarming}
+            hideActions={false}
+          />
         </div>
+        <Balances
+          sfl={gameState.context.state.balance}
+          coins={gameState.context.state.coins}
+          gems={gameState.context.state.inventory["Gem"] ?? new Decimal(0)}
+          onClick={handleCurrenciesModal}
+        />
+        <div
+          className="absolute z-50 flex flex-col space-y-2.5 justify-between"
+          style={{
+            left: `${PIXEL_SCALE * 3}px`,
+            bottom: `${PIXEL_SCALE * 3}px`,
+            width: `${PIXEL_SCALE * 22}px`,
+          }}
+        >
+          <MarketplaceButton />
+          <TravelButton />
+        </div>
+        <div
+          className="absolute z-50 flex flex-col justify-between"
+          style={{
+            bottom: `${PIXEL_SCALE * 3}px`,
+            left: `${PIXEL_SCALE * 28}px`,
+          }}
+        >
+          <TransactionCountdown />
+          <StreamCountdown />
+          <AuctionCountdown />
+        </div>
+        <div
+          className="absolute z-50 flex flex-col justify-between"
+          style={{
+            right: `${PIXEL_SCALE * 3}px`,
+            bottom: `${PIXEL_SCALE * 3}px`,
+            width: `${PIXEL_SCALE * 22}px`,
+            height: `${PIXEL_SCALE * 23 * 2 + 8}px`,
+          }}
+        >
+          <Save />
+          <Settings isFarming={isFarming} />
+        </div>
+
+        <BumpkinProfile />
+        {!isTutorial && <GameCalendar />}
+        <CodexButton />
+        <RewardsButton />
 
         <DepositGameItemsModal
           farmAddress={farmAddress ?? ""}
