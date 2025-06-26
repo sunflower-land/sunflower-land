@@ -1,4 +1,5 @@
 import { getKeys, TOOLS } from "../types/craftables";
+import { SEASON_TICKET_NAME } from "../types/seasons";
 import { SEEDS } from "../types/seeds";
 import { TREASURE_TOOLS } from "../types/tools";
 
@@ -12,4 +13,5 @@ export const OFFCHAIN_ITEMS = [
   ...getKeys(SEEDS),
   ...getKeys(TOOLS),
   ...getKeys(TREASURE_TOOLS),
+  ...Object.values(SEASON_TICKET_NAME),
 ];
