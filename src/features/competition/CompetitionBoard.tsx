@@ -40,6 +40,8 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { GameState } from "features/game/types/game";
 import { MachineState } from "features/game/lib/gameMachine";
 import chefIcon from "assets/icons/chef_hat.png";
+import lockIcon from "assets/icons/lock.png";
+import calendarIcon from "assets/icons/calendar.webp";
 
 const _state = (state: MachineState) => state.context.state;
 
@@ -163,27 +165,43 @@ export const CompetitionDetails: React.FC<{
     );
   }
 
+  const hasBegun = Date.now() > competition.startAt;
+
   return (
     <>
       <InnerPanel className="mb-1">
         <div className="p-1">
           <div className="flex justify-between mb-2 flex-wrap">
             <Label type="default">{t("competition.farmerCompetition")}</Label>
-            <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
-              <TimerDisplay fontSize={24} time={end} />
-            </Label>
+            {hasBegun && (
+              <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
+                <TimerDisplay fontSize={24} time={end} />
+              </Label>
+            )}
+            {!hasBegun && (
+              <Label type="formula" icon={lockIcon}>
+                {new Date(competition.startAt).toLocaleDateString()}
+              </Label>
+            )}
           </div>
           <p className="text-xs mb-3">{t("competition.hurry")}</p>
           <NoticeboardItems
             iconWidth={8}
             items={[
               {
-                icon: chefIcon,
+                icon: ITEM_DETAILS["Love Charm"].image,
                 text: t("competition.prizes.one"),
               },
               {
-                icon: ITEM_DETAILS["Love Charm"].image,
+                icon: chefIcon,
                 text: t("competition.prizes.two"),
+              },
+              {
+                icon: calendarIcon,
+                text: t("competition.prizes.three", {
+                  startDate: new Date(competition.startAt).toLocaleDateString(),
+                  endDate: new Date(competition.endAt).toLocaleDateString(),
+                }),
               },
             ]}
           />
@@ -197,7 +215,9 @@ export const CompetitionDetails: React.FC<{
               <Label type="default" className="mb-1">
                 {t("competition.earnPoints")}
               </Label>
-              <Label type="vibrant mb-1">{`${getCompetitionPoints({ game: state, name: competitionName })} points`}</Label>
+              <Label type="vibrant" className="mb-1">
+                {`${getCompetitionPoints({ game: state, name: competitionName })} points`}
+              </Label>
             </div>
             <p className="text-xs mb-3">{t("competition.earnPoints.how")}</p>
             <div className="flex flex-wrap -mx-1 items-center">
@@ -313,7 +333,7 @@ export const CompetitionLeaderboard: React.FC<{ name: CompetitionName }> = ({
       </InnerPanel>
     );
 
-  const { leaderboard, lastUpdated, miniboard, player, devs } = data;
+  const { leaderboard, lastUpdated, miniboard, player } = data;
   return (
     <>
       <InnerPanel className="mb-1">
@@ -334,15 +354,6 @@ export const CompetitionLeaderboard: React.FC<{ name: CompetitionName }> = ({
               <p className="text-center text-xs mb-2">{`...`}</p>
               <CompetitionTable items={miniboard} />
             </>
-          )}
-          {/* Add devs positions */}
-          {devs && (
-            <div className="mt-2 space-y-2">
-              <Label type="default" className="">
-                {`Devs`}
-              </Label>
-              <CompetitionTable items={devs} />
-            </div>
           )}
         </div>
       </InnerPanel>

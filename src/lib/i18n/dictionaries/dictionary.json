@@ -3964,7 +3964,7 @@
   "competition.hurry": "Welcome to Peggy's Cookoff! Cook as many dishes as you can to earn points and win prizes.",
   "competition.prizes.one": "5 million Love Charm Prize Pool",
   "competition.prizes.two": "Cook food and climb the leaderboard!",
-  "competition.prizes.three": "Bonus prizes if you can beat the devs!",
+  "competition.prizes.three": "Competition runs from {{startDate}} to {{endDate}}",
   "competition.connectFSL": "Connect FSL ID",
   "competition.bonusGift": "Bonus gift",
   "competition.createID": "You must create an FSL ID to participate in this competition & claim prizes.",
