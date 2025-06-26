@@ -4,7 +4,9 @@ import { pixelTableBorderStyle } from "features/game/lib/style";
 import { Button } from "components/ui/Button";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { POTIONS } from "./lib/potions";
-import { Box } from "./Box";
+import { Box as UiBox } from "components/ui/Box";
+import { PotionBox } from "./PotionBox";
+import { Label } from "components/ui/Label";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { PotionHouseMachineInterpreter } from "./lib/potionHouseMachine";
@@ -14,6 +16,10 @@ import { PotionName } from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SUNNYSIDE } from "assets/sunnyside";
 import shadow from "assets/npcs/shadow.png";
+import coins from "assets/icons/coins.webp";
+import potionPoint from "assets/icons/potion_point.png";
+import { GAME_FEE } from "features/game/events/landExpansion/startPotion";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   onClose: () => void;
@@ -25,11 +31,19 @@ const EMPTY_ATTEMPT = new Array<{ potion: null; status: undefined }>(4).fill({
   status: undefined,
 });
 
+const MULTIPLIERS = [1, 10, 50];
+const SINGLE_MULTIPLIER_MAX_REWARD = 50;
+
 export const Experiment: React.FC<Props> = ({
   onClose,
   potionHouseService,
 }) => {
   const { gameService } = useContext(Context);
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
   const [potionState] = useActor(potionHouseService);
   const { t } = useAppTranslation();
 
@@ -51,10 +65,14 @@ export const Experiment: React.FC<Props> = ({
   const isFinished = !isNewGame && potionHouse?.game.status === "finished";
   const isGuessing = lastAttempt.some((potion) => potion.status === "pending");
   const reward = potionHouse?.game.reward;
+  const currentGameMultiplier = hasFeatureAccess(state, "POTION_HOUSE_UPDATES")
+    ? potionHouse?.game.multiplier ?? 1
+    : 1;
 
   const [score, setScore] = useState(
     isNewGame ? 0 : calculateScore(lastAttempt),
   );
+  const [multiplier, setMultiplier] = useState(currentGameMultiplier);
 
   useEffect(() => {
     if (isGuessing) return;
@@ -68,6 +86,10 @@ export const Experiment: React.FC<Props> = ({
 
     setScore(score);
   }, [isNewGame, isGuessing]);
+
+  useEffect(() => {
+    setMultiplier(currentGameMultiplier);
+  }, [currentGameMultiplier]);
 
   const onGuessSpotClick = (guessSpot: number) => {
     // REMOVE GUESS
@@ -96,22 +118,36 @@ export const Experiment: React.FC<Props> = ({
   };
 
   const handleStart = () => {
-    gameService.send("potion.started");
-    potionHouseService.send("NEW_GAME");
+    gameService.send("potion.started", { multiplier });
+    potionHouseService.send("NEW_GAME", { multiplier });
   };
 
   const showStartButton =
     !potionHouse || potionHouse?.game.status === "finished";
+
+  const cost = GAME_FEE * multiplier;
 
   return (
     <>
       {isFinished && (
         <div className="text-center mb-3">
           {reward
-            ? `Congratulations! You won ${[reward]} points!`
-            : "Whoops! better luck next time!"}
+            ? t("reward.congratulations", { reward })
+            : t("reward.whoops")}
         </div>
       )}
+
+      {!isFinished &&
+        !showStartButton &&
+        hasFeatureAccess(state, "POTION_HOUSE_UPDATES") && (
+          <div className="flex justify-center mb-2">
+            <Label type="default" className="flex items-center">
+              <span>{t("potion.multiplier")}</span>
+              <img src={potionPoint} alt="potion point" className="w-4 mx-1" />
+              <span className="font-bold">{`${currentGameMultiplier}x`}</span>
+            </Label>
+          </div>
+        )}
 
       <div className="flex w-full gap-1 mb-3">
         {/* Left Side */}
@@ -163,7 +199,7 @@ export const Experiment: React.FC<Props> = ({
                                 key={`select-${columnIndex}`}
                                 onClick={() => onGuessSpotClick(columnIndex)}
                               >
-                                <Box
+                                <PotionBox
                                   potionName={currentGuess[columnIndex]}
                                   selected={guessSpot === columnIndex}
                                 />
@@ -172,7 +208,7 @@ export const Experiment: React.FC<Props> = ({
                           }
 
                           return (
-                            <Box
+                            <PotionBox
                               key={`${rowIndex}-${columnIndex}`}
                               potionName={potion}
                               potionStatus={status}
@@ -231,12 +267,59 @@ export const Experiment: React.FC<Props> = ({
         )}
       </div>
       {showStartButton && (
-        <div className="flex flex-col-reverse space-y-reverse space-y-1 sm:flex-row sm:space-y-0 sm:space-x-1 ">
-          <Button onClick={onClose}>{t("close")}</Button>
-          <Button
-            onClick={handleStart}
-            disabled={(gameService.state.context.state.coins ?? 0) < 320}
-          >{`${t("statements.startgame")} (320 coins)`}</Button>
+        <div className="flex space-x-2 items-center">
+          {hasFeatureAccess(state, "POTION_HOUSE_UPDATES") ? (
+            <>
+              {/* Multiplier */}
+              <div className="flex flex-col items-center gap-1">
+                <Label type="default">{"Multiplier"}</Label>
+                <div className="flex gap-1">
+                  {MULTIPLIERS.map((val) => (
+                    <div key={val} className="flex flex-col items-center">
+                      <UiBox
+                        hideCount={true}
+                        image={
+                          multiplier === val ? SUNNYSIDE.icons.confirm : null
+                        }
+                        onClick={() => setMultiplier(val)}
+                      />
+                      <Label type="chill">{`${val}x`}</Label>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </>
+          ) : (
+            <Button onClick={onClose}>{t("close")}</Button>
+          )}
+
+          {/* Start Game + Potential Prize */}
+          <div className="flex flex-col items-center gap-1 w-full">
+            <Button
+              onClick={handleStart}
+              disabled={(gameService.state.context.state.coins ?? 0) < cost}
+              className="h-fit w-fit"
+            >
+              <div className="flex items-center">
+                <span>{`${t("statements.startgame")}`}</span>
+                <img src={coins} alt="coin" className="w-4 mx-1" />
+                <span>{cost}</span>
+              </div>
+            </Button>
+            {hasFeatureAccess(state, "POTION_HOUSE_UPDATES") && (
+              <div className="flex items-center">
+                <Label type="default" className="h-fit">
+                  {t("reward.maxReward")}
+                  <img
+                    src={potionPoint}
+                    alt="potion point"
+                    className="w-4 mx-1"
+                  />
+                  {`${SINGLE_MULTIPLIER_MAX_REWARD * multiplier}`}
+                </Label>
+              </div>
+            )}
+          </div>
         </div>
       )}
     </>

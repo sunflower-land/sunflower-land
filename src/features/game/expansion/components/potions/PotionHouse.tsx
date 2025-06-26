@@ -13,6 +13,7 @@ import {
 } from "./lib/potionHouseMachine";
 import { useActor, useInterpret } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
+import book from "src/assets/icons/tier1_book.webp";
 
 interface Props {
   onClose: () => void;
@@ -50,10 +51,9 @@ export const PotionHouse: React.FC<Props> = ({ onClose }) => {
                 width: `${PIXEL_SCALE * 11}px`,
               }}
             >
-              <img
-                src={SUNNYSIDE.icons.expression_confused}
-                className="cursor-pointer h-full"
-              />
+              {!state.matches("rules") && (
+                <img src={book} className="cursor-pointer w-full p-0.5" />
+              )}
             </div>
             <h1 className="grow text-center text-lg">
               {state.matches("rules") ? "How to play" : "Potion Room"}
