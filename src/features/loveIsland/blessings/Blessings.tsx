@@ -259,7 +259,9 @@ export const BlessingResults: React.FC<Props> = ({ onClose }) => {
       </div>
 
       <Label type="default" className="my-2">
-        {t("blessing.winners", { count: response.data.total })}
+        {t("blessing.winners", {
+          count: Object.keys(response.data.winners).length,
+        })}
       </Label>
 
       <table className="w-full text-xs table-auto border-collapse">
