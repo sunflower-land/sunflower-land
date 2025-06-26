@@ -474,6 +474,10 @@ import {
   buyOptionPurchaseItem,
   BuyOptionPurchaseItemAction,
 } from "../types/buyOptionPurchaseItem";
+import {
+  InstantCraftAction,
+  speedUpCrafting,
+} from "./landExpansion/speedUpCrafting";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
@@ -614,7 +618,8 @@ export type PlayingEvent =
   | OpenRewardBoxAction
   | ClaimPetalPrizeAction
   | ClaimBlessingAction
-  | BuyOptionPurchaseItemAction;
+  | BuyOptionPurchaseItemAction
+  | InstantCraftAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -822,6 +827,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "petalPuzzle.solved": claimPetalPrize,
   "blessing.claimed": claimBlessing,
   "optionPurchaseItem.bought": buyOptionPurchaseItem,
+  "craft.spedUp": speedUpCrafting,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
