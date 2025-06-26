@@ -638,6 +638,7 @@ export function startGame(authContext: AuthContext) {
       },
       states: {
         ...EFFECT_STATES,
+
         loading: {
           id: "loading",
           always: [
