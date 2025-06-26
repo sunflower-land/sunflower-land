@@ -93,8 +93,8 @@ export async function autosaveRequest(
       deviceTrackerId: request.deviceTrackerId,
     }),
     // Just in case the request takes too long, abort it. Some players have requests
-    // that can take a long, so use a conservative timeout of x2 the autosave interval.
-    signal: AbortSignal.timeout(AUTO_SAVE_INTERVAL * 2),
+    // that can take a long, so use a conservative timeout of the autosave interval.
+    signal: AbortSignal.timeout(AUTO_SAVE_INTERVAL),
   });
 }
 
