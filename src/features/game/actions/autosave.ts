@@ -74,7 +74,7 @@ export async function autosaveRequest(
   // Useful for using cached results
   const cachedKey = getSessionId();
 
-  const response = await window.fetch(`${API_URL}/autosave/${request.farmId}`, {
+  return await window.fetch(`${API_URL}/autosave/${request.farmId}`, {
     method: "POST",
     headers: {
       ...{
@@ -96,8 +96,6 @@ export async function autosaveRequest(
     // that can take a long, so use a conservative timeout of x2 the autosave interval.
     signal: AbortSignal.timeout(AUTO_SAVE_INTERVAL * 2),
   });
-
-  return response;
 }
 
 let autosaveErrors = 0;
