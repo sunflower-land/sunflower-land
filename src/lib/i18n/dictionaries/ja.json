@@ -6037,5 +6037,9 @@
   "blessing.offeringWarning": "トリビュートはガーディアンへの寄付で、燃やされます。報酬は保証されません。",
   "blessing.offerTitle": "トリビュートを贈る",
   "blessing.guardiansSeek": "毎日、ガーディアンは賛辞を求めています。ラブチャームが手に入るチャンスがあるなら、オマージュをしましょう。",
-  "blessing.offer": "オファートリビュート"
+  "blessing.offer": "オファートリビュート",
+  "reward.maxReward": "最大報酬:",
+  "reward.congratulations": "おめでとう!{{reward}} ポイントを獲得しました！",
+  "reward.whoops": "おっと！次回は頑張ってください！",
+  "potion.multiplier": "マルチプライヤー:"
 }

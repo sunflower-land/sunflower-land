@@ -6037,5 +6037,9 @@
   "blessing.offeringWarning": "Penghormatan adalah sumbangan kepada para Penjaga dan akan dibakar. Tidak ada hadiah yang dijamin.",
   "blessing.offerTitle": "Tawarkan Penghargaan",
   "blessing.guardiansSeek": "Setiap hari, para Penjaga mencari upeti. Buat penghormatan untuk kesempatan menerima Pesona Cinta.",
-  "blessing.offer": "Tawarkan penghormatan"
+  "blessing.offer": "Tawarkan penghormatan",
+  "reward.maxReward": "Hadiah Maksimal:",
+  "reward.congratulations": "Selamat! Anda memenangkan {{reward}} poin!",
+  "reward.whoops": "Ups! lebih baik keberuntungan lain kali!",
+  "potion.multiplier": "Pengganda:"
 }

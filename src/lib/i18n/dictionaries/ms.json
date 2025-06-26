@@ -6037,5 +6037,9 @@
   "blessing.offeringWarning": "Penghormatan adalah sumbangan kepada Penjaga dan akan dibakar. Tiada ganjaran dijamin.",
   "blessing.offerTitle": "Menawarkan penghormatan",
   "blessing.guardiansSeek": "Setiap hari, Penjaga mencari penghormatan. Buat penghormatan untuk peluang menerima Love Charms.",
-  "blessing.offer": "Menawarkan penghormatan"
+  "blessing.offer": "Menawarkan penghormatan",
+  "reward.maxReward": "Ganjaran Maksimum:",
+  "reward.congratulations": "Tahniah! Anda memenangi mata {{reward}}!",
+  "reward.whoops": "Whops! Nasib baik lain kali!",
+  "potion.multiplier": "Pengganda:"
 }

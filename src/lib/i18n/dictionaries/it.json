@@ -6037,5 +6037,9 @@
   "blessing.offeringWarning": "I tributi sono donazioni ai Guardiani e verranno bruciati. Non sono garantite ricompense.",
   "blessing.offerTitle": "Offri un tributo",
   "blessing.guardiansSeek": "Ogni giorno, i Guardiani chiedono un tributo. Rendi omaggio la possibilità di ricevere Love Charms.",
-  "blessing.offer": "Offri omaggio"
+  "blessing.offer": "Offri omaggio",
+  "reward.maxReward": "Ricompensa massima:",
+  "reward.congratulations": "Congratulazioni! Hai vinto {{reward}} punti!",
+  "reward.whoops": "Ops! più fortuna la prossima volta!",
+  "potion.multiplier": "Moltiplicatore:"
 }

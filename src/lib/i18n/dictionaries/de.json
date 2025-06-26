@@ -6037,5 +6037,9 @@
   "blessing.offeringWarning": "Tribute sind Spenden an die Guardians und werden verbrannt. Es sind keine Belohnungen garantiert.",
   "blessing.offerTitle": "Bieten Sie eine Hommage an",
   "blessing.guardiansSeek": "Jeden Tag suchen die Guardians nach einer Hommage. Mache eine Hommage für die Chance, Liebeszauber zu erhalten.",
-  "blessing.offer": "Bieten Sie Tribut"
+  "blessing.offer": "Bieten Sie Tribut",
+  "reward.maxReward": "Maximale Belohnung:",
+  "reward.congratulations": "Herzlichen Glückwunsch! Du hast {{reward}} Punkte gewonnen!",
+  "reward.whoops": "Hoppla! Viel Glück beim nächsten Mal!",
+  "potion.multiplier": "Multiplikator:"
 }

@@ -6037,5 +6037,9 @@
   "blessing.offeringWarning": "Los homenajes son donaciones a los Guardianes y se quemarán. No hay recompensas garantizadas.",
   "blessing.offerTitle": "Ofrezca un tributo",
   "blessing.guardiansSeek": "Todos los días, los Guardianes buscan un homenaje. Rinde homenaje por la oportunidad de recibir Love Charms.",
-  "blessing.offer": "Ofrecer homenaje"
+  "blessing.offer": "Ofrecer homenaje",
+  "reward.maxReward": "Recompensa máxima:",
+  "reward.congratulations": "¡Felicidades! ¡Has ganado {{reward}} puntos!",
+  "reward.whoops": "¡Ups! ¡mejor suerte la próxima vez!",
+  "potion.multiplier": "Multiplicador:"
 }

@@ -6037,5 +6037,9 @@
   "blessing.offeringWarning": "Haraçlar, Muhafızlara yapılan bağışlardır ve yakılacaktır. Hiçbir ödül garanti edilmez.",
   "blessing.offerTitle": "Bir Haraç Sunun",
   "blessing.guardiansSeek": "Muhafızlar her gün bir haraç istiyor. Aşk Tılsımları alma şansı için bir övgü yapın.",
-  "blessing.offer": "Haraç teklif et"
+  "blessing.offer": "Haraç teklif et",
+  "reward.maxReward": "Maksimum Ödül:",
+  "reward.congratulations": "Tebrikler! {{reward}} puan kazandınız!",
+  "reward.whoops": "Vay canına! bir dahaki sefere daha iyi şanslar!",
+  "potion.multiplier": "çarpan:"
 }

@@ -6037,5 +6037,9 @@
   "blessing.offeringWarning": "贡品是对守护者的捐款，将被烧毁。不保证有任何奖励。",
   "blessing.offerTitle": "致敬",
   "blessing.guardiansSeek": "每天，守护者都在寻求致敬。致敬，有机会获得爱情护身符。",
-  "blessing.offer": "致敬"
+  "blessing.offer": "致敬",
+  "reward.maxReward": "最大奖励：",
+  "reward.congratulations": "恭喜！你赢了 {{reward}} 积分！",
+  "reward.whoops": "哎哟！下次好运！",
+  "potion.multiplier": "乘数："
 }

@@ -6037,5 +6037,9 @@
   "blessing.offeringWarning": "Homenagens são doações aos Guardiões e serão queimadas. Nenhuma recompensa é garantida.",
   "blessing.offerTitle": "Ofereça uma homenagem",
   "blessing.guardiansSeek": "Todos os dias, os Guardiões buscam uma homenagem. Faça uma homenagem pela chance de receber Love Charms.",
-  "blessing.offer": "Ofereça homenagem"
+  "blessing.offer": "Ofereça homenagem",
+  "reward.maxReward": "Recompensa máxima:",
+  "reward.congratulations": "Parabéns! Você ganhou {{reward}} pontos!",
+  "reward.whoops": "Opa! melhor sorte na próxima vez!",
+  "potion.multiplier": "Multiplicador:"
 }

@@ -6037,5 +6037,9 @@
   "blessing.offeringWarning": "헌정품은 가디언스에게 기부하는 것이며 태워질 것입니다.보상은 보장되지 않습니다.",
   "blessing.offerTitle": "경의를 표하세요",
   "blessing.guardiansSeek": "가디언들은 매일 공물을 바칩니다.사랑의 참을 받을 기회를 위해 경의를 표하세요.",
-  "blessing.offer": "경의를 표하세요"
+  "blessing.offer": "경의를 표하세요",
+  "reward.maxReward": "최대 보상:",
+  "reward.congratulations": "축하합니다!{{reward}} 포인트를 획득했습니다!",
+  "reward.whoops": "으악!다음에 행운을 빕니다!",
+  "potion.multiplier": "멀티플라이어:"
 }
