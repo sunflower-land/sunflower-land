@@ -36,6 +36,7 @@ import { ChoreBoard } from "./pages/ChoreBoard";
 import { CompetitionDetails } from "features/competition/CompetitionBoard";
 import { MachineState } from "features/game/lib/gameMachine";
 import { ANIMALS } from "features/game/types/animals";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   show: boolean;
@@ -165,11 +166,15 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
           },
         ]
       : []),
-    {
-      name: "Competition" as const,
-      icon: trophyIcon,
-      count: 0,
-    },
+    ...(hasFeatureAccess(state, "PEGGYS_COOKOFF")
+      ? [
+          {
+            name: "Competition" as const,
+            icon: trophyIcon,
+            count: 0,
+          },
+        ]
+      : []),
   ];
 
   return (
@@ -277,7 +282,10 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                   "flex flex-col h-full overflow-hidden overflow-y-auto scrollable",
                 )}
               >
-                <CompetitionDetails competitionName="ANIMALS" state={state} />
+                <CompetitionDetails
+                  competitionName="PEGGYS_COOKOFF"
+                  state={state}
+                />
               </div>
             )}
           </div>

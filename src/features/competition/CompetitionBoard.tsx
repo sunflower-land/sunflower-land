@@ -14,8 +14,6 @@ import {
   Panel,
 } from "components/ui/Panel";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
-import flowerIcon from "assets/icons/flower_token.webp";
-import giftIcon from "assets/icons/gift.png";
 import classNames from "classnames";
 import { toOrdinalSuffix } from "features/retreat/components/auctioneer/AuctionLeaderboardTable";
 import {
@@ -39,9 +37,9 @@ import { getRelativeTime } from "lib/utils/time";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { NPC_WEARABLES } from "lib/npcs";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { CompetitionPrizes } from "./CompetitionPrizes";
 import { GameState } from "features/game/types/game";
 import { MachineState } from "features/game/lib/gameMachine";
+import chefIcon from "assets/icons/chef_hat.png";
 
 const _state = (state: MachineState) => state.context.state;
 
@@ -75,7 +73,7 @@ export const CompetitionModal: React.FC<{
   if (showIntro) {
     return (
       <SpeakingModal
-        bumpkinParts={NPC_WEARABLES.richie}
+        bumpkinParts={NPC_WEARABLES.peggy}
         onClose={() => setShowIntro(false)}
         message={[
           {
@@ -94,7 +92,7 @@ export const CompetitionModal: React.FC<{
 
   if (!competitions.progress[competitionName]) {
     return (
-      <Panel bumpkinParts={NPC_WEARABLES.richie}>
+      <Panel bumpkinParts={NPC_WEARABLES.peggy}>
         <div className="p-1">
           <Label type="default" className="mb-1">
             {t("competition.areYouReady")}
@@ -120,7 +118,7 @@ export const CompetitionModal: React.FC<{
 
   return (
     <OuterPanel
-      bumpkinParts={NPC_WEARABLES.richie}
+      bumpkinParts={NPC_WEARABLES.peggy}
       className="scrollable overflow-y-scroll"
       style={{ maxHeight: "400px" }}
     >
@@ -180,13 +178,12 @@ export const CompetitionDetails: React.FC<{
             iconWidth={8}
             items={[
               {
-                icon: ITEM_DETAILS["Black Sheep"].image,
+                icon: chefIcon,
                 text: t("competition.prizes.one"),
               },
-              { icon: flowerIcon, text: t("competition.prizes.two") },
               {
-                icon: giftIcon,
-                text: t("competition.prizes.three"),
+                icon: ITEM_DETAILS["Love Charm"].image,
+                text: t("competition.prizes.two"),
               },
             ]}
           />
@@ -196,11 +193,11 @@ export const CompetitionDetails: React.FC<{
       <>
         <InnerPanel className="mb-1">
           <div className="p-1">
-            <div className="flex justify-between mb-2">
-              <Label type="default" className="">
+            <div className="flex justify-between flex-wrap">
+              <Label type="default" className="mb-1">
                 {t("competition.earnPoints")}
               </Label>
-              <Label type="vibrant">{`${getCompetitionPoints({ game: state, name: competitionName })} points`}</Label>
+              <Label type="vibrant mb-1">{`${getCompetitionPoints({ game: state, name: competitionName })} points`}</Label>
             </div>
             <p className="text-xs mb-3">{t("competition.earnPoints.how")}</p>
             <div className="flex flex-wrap -mx-1 items-center">
@@ -228,7 +225,7 @@ export const CompetitionDetails: React.FC<{
           </div>
         </InnerPanel>
 
-        {/* <CompetitionLeaderboard name={competitionName} /> */}
+        <CompetitionLeaderboard name={competitionName} />
 
         <InnerPanel>
           <div className="p-1">
@@ -244,22 +241,16 @@ export const CompetitionDetails: React.FC<{
                 },
 
                 {
-                  icon: flowerIcon,
+                  icon: ITEM_DETAILS["Love Charm"].image,
                   text: t("competition.rules.three"),
                 },
                 {
                   icon: SUNNYSIDE.icons.stopwatch,
                   text: t("competition.rules.four"),
                 },
-                {
-                  icon: giftIcon,
-                  text: t("competition.rules.five"),
-                },
               ]}
             />
           </div>
-
-          <CompetitionPrizes />
         </InnerPanel>
       </>
 

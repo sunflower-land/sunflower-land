@@ -103,6 +103,8 @@ import { config } from "features/wallet/WalletProvider";
 import { depositFlower } from "lib/blockchain/DepositFlower";
 import { NetworkOption } from "features/island/hud/components/deposit/DepositFlower";
 import { blessingIsReady } from "./blessings";
+import { getBumpkinLevel } from "./level";
+import { hasFeatureAccess } from "lib/flags";
 
 // Run at startup in case removed from query params
 const portalName = new URLSearchParams(window.location.search).get("portal");
@@ -1044,24 +1046,25 @@ export function startGame(authContext: AuthContext) {
                 !!context.state.nfts?.ronin?.acknowledgedAt &&
                 (context.state.inventory["Jin"] ?? new Decimal(0)).lt(1),
             },
-            // {
-            //   target: "competition",
-            //   cond: (context: Context) => {
+            {
+              target: "competition",
+              cond: (context: Context) => {
+                if (!hasFeatureAccess(context.state, "PEGGYS_COOKOFF"))
+                  return false;
 
-            //     // TODO is competition active?
+                const level = getBumpkinLevel(
+                  context.state.bumpkin?.experience ?? 0,
+                );
 
-            //     const level = getBumpkinLevel(
-            //       context.state.bumpkin?.experience ?? 0,
-            //     );
+                if (level <= 5) return false;
 
-            //     if (level <= 5) return false;
+                const competition =
+                  context.state.competitions.progress.PEGGYS_COOKOFF;
 
-            //     const competition = context.state.competitions.progress.ANIMALS;
-
-            //     // Show the competition introduction if they have not started it yet
-            //     return !competition;
-            //   },
-            // },
+                // Show the competition introduction if they have not started it yet
+                return !competition;
+              },
+            },
             {
               target: "playing",
             },
