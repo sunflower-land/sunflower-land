@@ -107,7 +107,8 @@ const FEATURE_FLAGS = {
     end: new Date("2025-06-20T00:00:00.000Z"),
   }),
 
-  MODERATOR: (game) => !!game.wardrobe.Halo,
+  MODERATOR: (game) =>
+    !!((game.wardrobe.Halo ?? 0) > 0) && !!game.inventory["Beta Pass"]?.gt(0),
 
   BLESSING: () => true,
   POTION_SHOP_EXOTIC_CROPS: () =>

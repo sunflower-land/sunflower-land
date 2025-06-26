@@ -127,14 +127,14 @@ const HudComponent: React.FC<Props> = ({
             },
           )}
         >
-          {/* {isModerator && !isCommunity && ( */}
-          <ModerationTools
-            scene={scene}
-            messages={messages ?? []}
-            players={players ?? []}
-            gameService={gameService}
-          />
-          {/* )} */}
+          {hasFeatureAccess(state, "MODERATOR") && (
+            <ModerationTools
+              scene={scene}
+              messages={messages ?? []}
+              players={players ?? []}
+              gameService={gameService}
+            />
+          )}
           {hasFeatureAccess(state, "SOCIAL_FARMING") && (
             <WorldFeedButton
               showFeed={showFeed}
