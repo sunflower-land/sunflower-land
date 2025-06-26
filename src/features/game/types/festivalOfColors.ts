@@ -1,7 +1,7 @@
 import { FlowerBox } from "../events/landExpansion/buySeasonalItem";
 import { BumpkinItem } from "./bumpkin";
 import { InventoryItemName } from "./game";
-import { SeasonName } from "./seasons";
+import { MINIGAME_SHOP_ITEMS } from "./minigameShop";
 
 export type EventTierItemName =
   | EventCollectibleName
@@ -18,7 +18,10 @@ export type EventCollectibleName =
   | "Red Slime Balloon"
   | "Blue Slime Balloon"
   | "Colors Ticket 2025"
-  | "Super Totem";
+  | "Super Totem"
+  | "Treasure Key"
+  | "Rare Key"
+  | "Luxury Key";
 
 export type EventWearableName = Extract<
   BumpkinItem,
@@ -71,37 +74,22 @@ export type EventStore = {
 
 export type EventStoreTier = keyof EventStore;
 
-const EMPTY_EVENT_STORE: EventStore = {
-  basic: {
-    items: [],
-  },
-  rare: {
-    items: [],
-    requirement: 0,
-  },
-  epic: {
-    items: [],
-    requirement: 0,
-  },
-  mega: {
-    items: [],
-    requirement: 0,
-  },
-};
+const SHOP = MINIGAME_SHOP_ITEMS["festival-of-colors-2025"]!;
 
-const COLORS_EVENT_ITEMS: EventStore = {
+export const COLORS_EVENT_ITEMS: EventStore = {
   basic: {
     items: [
       {
         collectible: "Floating Toy",
-        cost: { sfl: 20, items: {} },
+        cost: SHOP["Floating Toy"]!.cost,
       },
       {
         wearable: "Paint Splattered Hair",
-        cost: { sfl: 0, items: { "Colors Token 2025": 150 } },
+        cost: SHOP["Paint Splattered Hair"]!.cost,
       },
       {
         wearable: "Paint Splattered Shirt",
+        // TODO the rest here
         cost: { sfl: 0, items: { "Colors Token 2025": 250 } },
       },
       {
@@ -186,17 +174,4 @@ const COLORS_EVENT_ITEMS: EventStore = {
     ],
     requirement: 4,
   },
-};
-
-export const EVENTMEGASTORE: Record<SeasonName, EventStore> = {
-  "Catch the Kraken": EMPTY_EVENT_STORE,
-  "Clash of Factions": EMPTY_EVENT_STORE,
-  "Dawn Breaker": EMPTY_EVENT_STORE,
-  "Solar Flare": EMPTY_EVENT_STORE,
-  "Spring Blossom": EMPTY_EVENT_STORE,
-  "Witches' Eve": EMPTY_EVENT_STORE,
-  "Pharaoh's Treasure": EMPTY_EVENT_STORE,
-  "Bull Run": EMPTY_EVENT_STORE,
-  "Winds of Change": EMPTY_EVENT_STORE,
-  "Great Bloom": COLORS_EVENT_ITEMS,
 };

@@ -5,27 +5,23 @@ import { useActor, useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { Settings } from "./components/Settings";
 import { Inventory } from "./components/inventory/Inventory";
-import { BumpkinProfile } from "./components/BumpkinProfile";
 import { Save } from "./components/Save";
 import { DepositArgs } from "lib/blockchain/Deposit";
 import { DepositGameItemsModal } from "features/goblins/bank/components/DepositGameItems";
 import { placeEvent } from "features/game/expansion/placeable/landscapingMachine";
 import { TravelButton } from "./components/deliveries/TravelButton";
-import { CodexButton } from "./components/codex/CodexButton";
 import { AuctionCountdown } from "features/retreat/components/auctioneer/AuctionCountdown";
 import { PlaceableLocation } from "features/game/types/collectibles";
 import { HudContainer } from "components/ui/HudContainer";
-import { PIXEL_SCALE } from "features/game/lib/constants";
 import Decimal from "decimal.js-light";
 import { CurrenciesModal } from "./components/CurrenciesModal";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSound } from "lib/utils/hooks/useSound";
 import { TransactionCountdown } from "./Transaction";
 import { MarketplaceButton } from "./components/MarketplaceButton";
-import { GameCalendar } from "features/game/expansion/components/temperateSeason/GameCalendar";
 import { LandscapeButton } from "./components/LandscapeButton";
-import { RewardsButton } from "./components/referral/RewardsButton";
 import { StreamCountdown } from "./components/streamCountdown/StreamCountdown";
+import { HudBumpkin } from "./components/bumpkinProfile/HudBumpkin";
 
 const _farmAddress = (state: MachineState) => state.context.farmAddress;
 const _linkedWallet = (state: MachineState) => state.context.linkedWallet;
@@ -69,7 +65,31 @@ const HudComponent: React.FC<{
   return (
     <>
       <HudContainer>
-        <div>
+        {/* Left side of the HUD */}
+        <div className="absolute left-0 top-0 bottom-0 p-2.5">
+          <HudBumpkin isTutorial={isTutorial} />
+        </div>
+
+        <div className="absolute bottom-0 p-2.5 left-0 flex flex-col space-y-2.5">
+          <MarketplaceButton />
+          <TravelButton />
+        </div>
+        <div className="absolute bottom-0 pb-2 pl-3 left-16 flex flex-col space-y-2.5">
+          <TransactionCountdown />
+          <StreamCountdown />
+          <AuctionCountdown />
+        </div>
+
+        {/* Right side of the HUD */}
+        <div className="absolute right-0 top-0 p-2.5">
+          <Balances
+            sfl={gameState.context.state.balance}
+            coins={gameState.context.state.coins}
+            gems={gameState.context.state.inventory["Gem"] ?? new Decimal(0)}
+            onClick={handleCurrenciesModal}
+          />
+        </div>
+        <div className="absolute right-0 top-16 p-2.5 flex flex-col space-y-2.5">
           {isFarming && <LandscapeButton />}
           <Inventory
             state={gameState.context.state}
@@ -96,51 +116,11 @@ const HudComponent: React.FC<{
             hideActions={false}
           />
         </div>
-        <Balances
-          sfl={gameState.context.state.balance}
-          coins={gameState.context.state.coins}
-          gems={gameState.context.state.inventory["Gem"] ?? new Decimal(0)}
-          onClick={handleCurrenciesModal}
-        />
-        <div
-          className="absolute z-50 flex flex-col space-y-2.5 justify-between"
-          style={{
-            left: `${PIXEL_SCALE * 3}px`,
-            bottom: `${PIXEL_SCALE * 3}px`,
-            width: `${PIXEL_SCALE * 22}px`,
-          }}
-        >
-          <MarketplaceButton />
-          <TravelButton />
-        </div>
-        <div
-          className="absolute z-50 flex flex-col justify-between"
-          style={{
-            bottom: `${PIXEL_SCALE * 3}px`,
-            left: `${PIXEL_SCALE * 28}px`,
-          }}
-        >
-          <TransactionCountdown />
-          <StreamCountdown />
-          <AuctionCountdown />
-        </div>
-        <div
-          className="absolute z-50 flex flex-col justify-between"
-          style={{
-            right: `${PIXEL_SCALE * 3}px`,
-            bottom: `${PIXEL_SCALE * 3}px`,
-            width: `${PIXEL_SCALE * 22}px`,
-            height: `${PIXEL_SCALE * 23 * 2 + 8}px`,
-          }}
-        >
-          <Save />
-          <Settings isFarming={isFarming} />
-        </div>
 
-        <BumpkinProfile />
-        {!isTutorial && <GameCalendar />}
-        <CodexButton />
-        <RewardsButton />
+        <div className="absolute bottom-0 p-2 right-0 flex flex-col space-y-2.5">
+          <Save />
+          <Settings isFarming={false} />
+        </div>
 
         <DepositGameItemsModal
           farmAddress={farmAddress ?? ""}

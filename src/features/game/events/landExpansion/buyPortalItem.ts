@@ -11,6 +11,8 @@ import {
   EventShopWearableName,
 } from "features/game/types/minigameShop";
 import { MinigameName } from "features/game/types/minigames";
+import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { hasVipAccess } from "features/game/lib/vipAccess";
 
 export type BuyMinigameItemAction = {
   type: "minigameItem.bought";
@@ -32,75 +34,101 @@ export function buyEventShopItem({
   return produce(state, (stateCopy) => {
     const { name } = action;
 
-    const { bumpkin, minigames } = stateCopy;
+    const { bumpkin, minigames, balance } = stateCopy;
 
-    if (!bumpkin) {
-      throw new Error("Bumpkin not found");
+    const minigame = minigames.games[action.id] ?? {
+      history: {},
+      purchases: [],
+      highscore: 0,
+    };
+
+    const store = MINIGAME_SHOP_ITEMS[action.id];
+
+    if (!store) {
+      throw new Error("Minigame does not have a shop");
     }
 
-    const item = MINIGAME_SHOP_ITEMS[action.name];
+    const item = store[action.name];
 
     if (!item) {
-      throw new Error("Item not found in the Love Event Shop");
+      throw new Error("Item not found in Shopx");
     }
 
-    if (!minigames.games[action.id]) {
-      throw new Error("Minigame not found");
+    const { sfl, items } = item.cost;
+
+    if (sfl) {
+      let cost = sfl;
+
+      if (hasVipAccess({ game: stateCopy })) {
+        cost = cost * 0.5;
+      }
+
+      // Check if player has enough SFL
+      if (balance.lt(cost)) {
+        throw new Error("Insufficient SFL");
+      }
+
+      stateCopy.balance = balance.sub(new Decimal(cost));
     }
 
-    // Check if player has enough resources
-    const { price } = item.cost;
+    getObjectEntries(items).forEach(([item, amount]) => {
+      const current = stateCopy.inventory[item] ?? new Decimal(0);
 
-    const easterTokenBalance =
-      stateCopy.inventory["Easter Token 2025"] ?? new Decimal(0);
+      if (current.lt(amount ?? 0)) {
+        throw new Error(`Insufficient ${item}`);
+      }
 
-    if (easterTokenBalance.lt(price)) {
-      throw new Error("Insufficient Easter Token 2025");
-    }
+      stateCopy.inventory[item] = current.sub(amount ?? 0);
+    });
 
-    // Deduct Easter Token 2025
-    stateCopy.inventory["Easter Token 2025"] = easterTokenBalance.minus(price);
-
-    const shop = minigames.games[action.id]!.shop ?? {
+    const purchases = minigame.shop ?? {
       items: {},
       wearables: {},
     };
 
+    const max = item.max ?? 1;
+
     // Add item to inventory
-    if (isEventShopCollectible(name)) {
+    if (isEventShopCollectible(item)) {
+      const name = item.name;
+
       // If already exists, throw error
-      if (shop!.items?.[name] && shop!.items?.[name] >= item.max) {
+      if (purchases!.items?.[name] && purchases!.items?.[name] >= max) {
         throw new Error("Item already purchased");
       }
 
       const current = stateCopy.inventory[name] ?? new Decimal(0);
       stateCopy.inventory[name] = current.add(1);
 
-      minigames.games[action.id]!.shop = {
-        ...shop,
+      minigame!.shop = {
+        ...purchases,
         items: {
-          ...shop.items,
-          [name]: (shop.items?.[name] ?? 0) + 1,
+          ...purchases.items,
+          [name]: (purchases.items?.[name] ?? 0) + 1,
         },
       };
     } else {
+      const name = item.name;
+
       // If already exists, throw error
-      if (shop!.wearables?.[name] && shop!.wearables?.[name] >= item.max) {
-        throw new Error("Item already purchased");
+      if (purchases!.wearables?.[name] && purchases!.wearables?.[name] >= max) {
+        throw new Error("Wearable already purchased");
       }
 
       const current = stateCopy.wardrobe[name] ?? 0;
 
       stateCopy.wardrobe[name] = current + 1;
 
-      minigames.games[action.id]!.shop = {
-        ...shop,
+      minigame!.shop = {
+        ...purchases,
         wearables: {
-          ...shop.wearables,
-          [name]: (shop.wearables?.[name] ?? 0) + 1,
+          ...purchases.wearables,
+          [name]: (purchases.wearables?.[name] ?? 0) + 1,
         },
       };
     }
+
+    minigames.games[action.id] = minigame;
 
     stateCopy.bumpkin.activity = trackActivity(
       `${name} Bought`,

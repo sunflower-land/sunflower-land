@@ -278,8 +278,9 @@ export const CraftingRequirements: React.FC<Props> = ({
                 item={ingredientName}
                 balance={gameState.inventory[ingredientName] ?? new Decimal(0)}
                 requirement={
-                  (requirements.resources ?? {})[ingredientName] ??
-                  new Decimal(0)
+                  new Decimal(
+                    (requirements.resources ?? {})[ingredientName] ?? 0,
+                  )
                 }
               />
             ))}

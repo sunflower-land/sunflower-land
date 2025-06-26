@@ -17,32 +17,22 @@ import lightning from "assets/icons/lightning.png";
 import lock from "assets/icons/lock.png";
 
 import { ITEM_DETAILS } from "features/game/types/images";
-import { InventoryItemName, Keys } from "features/game/types/game";
+import { InventoryItemName } from "features/game/types/game";
 import { Context } from "features/game/GameProvider";
 import { useActor } from "@xstate/react";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import Decimal from "decimal.js-light";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
-  EVENTMEGASTORE,
+  COLORS_EVENT_ITEMS,
   EventStoreCollectible,
   EventStoreItem,
   EventStoreTier,
   EventStoreWearable,
-  EventTierItemName,
-} from "features/game/types/eventmegastore";
+} from "features/game/types/festivalOfColors";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { SFLDiscount } from "features/game/lib/SFLDiscount";
-import {
-  FLOWER_BOXES,
-  FlowerBox,
-  getEventItemsCrafted,
-  getStore,
-  isBoxBoughtWithinSeason,
-  isKeyBoughtWithinSeason,
-} from "features/game/events/landExpansion/buyEventItem";
-import { ARTEFACT_SHOP_KEYS } from "features/game/types/collectibles";
 
 interface Props {
   itemsLabel?: string;
@@ -72,20 +62,20 @@ export const ItemsList: React.FC<Props> = ({
     // Handling all types or specific ones if provided
     if (type === "wearables" || (!type && "wearable" in item)) {
       return (
-        state.bumpkin.activity[
-          `${(item as EventStoreWearable).wearable as EventTierItemName} Bought`
+        state.minigames.games["festival-of-colors-2025"]?.shop?.wearables?.[
+          (item as EventStoreWearable).wearable as BumpkinItem
         ] ?? 0
       );
     } else if (type === "collectibles" || (!type && "collectible" in item)) {
       return (
-        state.bumpkin.activity[
-          `${(item as EventStoreCollectible).collectible as EventTierItemName} Bought`
+        state.minigames.games["festival-of-colors-2025"]?.shop?.wearables?.[
+          (item as EventStoreCollectible).collectible as BumpkinItem
         ] ?? 0
       );
     } else if (type === "keys" || (!type && "key" in item)) {
       return (
-        state.bumpkin.activity[
-          `${(item as EventStoreCollectible).collectible as EventTierItemName} Bought`
+        state.minigames.games["festival-of-colors-2025"]?.shop?.items?.[
+          (item as EventStoreCollectible).collectible as InventoryItemName
         ] ?? 0
       );
     }
@@ -148,24 +138,8 @@ export const ItemsList: React.FC<Props> = ({
   };
   const createdAt = Date.now();
   const currentSeason = getCurrentSeason(new Date(createdAt));
-  const eventStore = EVENTMEGASTORE[currentSeason];
+  const eventStore = COLORS_EVENT_ITEMS;
   const tiers = tier;
-
-  const eventCollectiblesCrafted = getEventItemsCrafted(
-    state,
-    eventStore,
-    "collectible",
-    tier,
-    true,
-  );
-  const eventWearablesCrafted = getEventItemsCrafted(
-    state,
-    eventStore,
-    "wearable",
-    tier,
-    true,
-  );
-  const eventItemsCrafted = eventCollectiblesCrafted + eventWearablesCrafted;
 
   // Type guard if the requirement exists
   const hasRequirement = (
@@ -174,33 +148,22 @@ export const ItemsList: React.FC<Props> = ({
     return "requirement" in tier;
   };
 
-  const tierData = getStore(eventStore, tier);
-
-  const isKey = (name: InventoryItemName): name is Keys =>
-    name in ARTEFACT_SHOP_KEYS;
-
-  const isFlowerBox = (name: InventoryItemName): name is FlowerBox =>
-    name in FLOWER_BOXES;
-
-  // For Current Tier Key - Unlocked(0) / Locked(1)
-  const isKeyCounted = isKeyBoughtWithinSeason(state, tiers) ? 0 : 1;
-  // For Current Tier Box - Unlocked(0) / Locked(1)
-  const isBoxCounted = isBoxBoughtWithinSeason(state, tiers) ? 0 : 1;
-
-  // Reduction is by getting the lower tier of current tier
-  const keyReduction = isKeyBoughtWithinSeason(state, tiers, true) ? 0 : 1; // Reduction is by getting the lower tier of current tier
-  const boxReduction = isBoxBoughtWithinSeason(state, tiers, true) ? 0 : 1; // Reduction is by getting the lower tier of current tier
-  const reduction = keyReduction + boxReduction;
-
+  const tierData = COLORS_EVENT_ITEMS[tier];
   const requirements = hasRequirement(tierData) ? tierData.requirement : 0;
 
-  const isRareUnlocked =
-    tier === "rare" && eventItemsCrafted - reduction >= requirements;
-  const isEpicUnlocked =
-    tier === "epic" && eventItemsCrafted - reduction >= requirements;
-  const isMegaUnlocked =
-    tier === "mega" && eventItemsCrafted - reduction >= requirements;
-  const tierpercentage = eventItemsCrafted - reduction;
+  const eventItemsCrafted =
+    Object.keys(
+      state.minigames.games["festival-of-colors-2025"]?.shop?.items ?? {},
+    ).length +
+    Object.keys(
+      state.minigames.games["festival-of-colors-2025"]?.shop?.wearables ?? {},
+    ).length;
+
+  const isRareUnlocked = tier === "rare" && eventItemsCrafted;
+  const isEpicUnlocked = tier === "epic" && eventItemsCrafted;
+  const isMegaUnlocked = tier === "mega" && eventItemsCrafted;
+
+  const tierpercentage = eventItemsCrafted;
 
   const percentage = Math.round((tierpercentage / requirements) * 100);
 
@@ -293,13 +256,6 @@ export const ItemsList: React.FC<Props> = ({
         ) : (
           sortedItems.map((item) => {
             const buff = getItemBuffLabel(item, state);
-            const isItemKey = isKey(
-              getItemName(item) as unknown as InventoryItemName,
-            );
-            const isItemFlowerBox = isFlowerBox(
-              getItemName(item) as unknown as InventoryItemName,
-            );
-
             const balanceOfItem = getBalanceOfItem(item);
 
             return (
@@ -329,44 +285,6 @@ export const ItemsList: React.FC<Props> = ({
                     )}
                     {/* Confirm Icon for non-key items */}
                     {balanceOfItem > 0 &&
-                      !isItemKey &&
-                      !isItemFlowerBox &&
-                      (tier === "basic" ||
-                        (tier === "rare" && isRareUnlocked) ||
-                        (tier === "epic" && isEpicUnlocked) ||
-                        (tier === "mega" && isMegaUnlocked)) && (
-                        <img
-                          src={SUNNYSIDE.icons.confirm}
-                          className="absolute -right-2 -top-3"
-                          style={{
-                            width: `${PIXEL_SCALE * 9}px`,
-                          }}
-                          alt="crop"
-                        />
-                      )}
-
-                    {/* Confirm Icon for key items */}
-                    {isItemKey &&
-                      !isItemFlowerBox &&
-                      isKeyCounted === 0 &&
-                      (tier === "basic" ||
-                        (tier === "rare" && isRareUnlocked) ||
-                        (tier === "epic" && isEpicUnlocked) ||
-                        (tier === "mega" && isMegaUnlocked)) && (
-                        <img
-                          src={SUNNYSIDE.icons.confirm}
-                          className="absolute -right-2 -top-3"
-                          style={{
-                            width: `${PIXEL_SCALE * 9}px`,
-                          }}
-                          alt="crop"
-                        />
-                      )}
-
-                    {/* Confirm Icon for Flower Box items */}
-                    {isItemFlowerBox &&
-                      !isItemKey &&
-                      isBoxCounted === 0 &&
                       (tier === "basic" ||
                         (tier === "rare" && isRareUnlocked) ||
                         (tier === "epic" && isEpicUnlocked) ||

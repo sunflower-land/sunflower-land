@@ -20,12 +20,18 @@ import { RecoveredStone } from "./components/RecoveredStone";
 import { canMine } from "features/game/expansion/lib/utils";
 import { useSound } from "lib/utils/hooks/useSound";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { getRequiredPickaxeAmount } from "features/game/events/landExpansion/stoneMine";
 
 const HITS = 3;
 const tool = "Pickaxe";
 
-const HasTool = (inventory: Partial<Record<InventoryItemName, Decimal>>) => {
-  return (inventory[tool] ?? new Decimal(0)).gte(1);
+const HasTool = (
+  inventory: Partial<Record<InventoryItemName, Decimal>>,
+  gameState: GameState,
+) => {
+  const requiredToolAmount = getRequiredPickaxeAmount(gameState);
+  if (requiredToolAmount.lte(0)) return true;
+  return (inventory[tool] ?? new Decimal(0)).gte(requiredToolAmount);
 };
 
 const selectInventory = (state: MachineState) => state.context.state.inventory;
@@ -84,12 +90,12 @@ export const Stone: React.FC<Props> = ({ id }) => {
     gameService,
     selectInventory,
     (prev, next) =>
-      HasTool(prev) === HasTool(next) &&
+      HasTool(prev, game) === HasTool(next, game) &&
       (prev.Logger ?? new Decimal(0)).equals(next.Logger ?? new Decimal(0)),
   );
   const skills = useSelector(gameService, selectSkills, compareSkills);
 
-  const hasTool = HasTool(inventory);
+  const hasTool = HasTool(inventory, game);
   const timeLeft = getTimeLeft(resource.stone.minedAt, STONE_RECOVERY_TIME);
   const mined = !canMine(resource, STONE_RECOVERY_TIME);
 

@@ -14,6 +14,7 @@ export const HudContainer: React.FC<Props> = ({ children, zIndex }) => {
       {createPortal(
         <div
           data-html2canvas-ignore="true"
+          id="hud-container"
           aria-label="Hud"
           className={`fixed inset-safe-area pointer-events-none ${zIndex ?? "z-10"}`}
         >

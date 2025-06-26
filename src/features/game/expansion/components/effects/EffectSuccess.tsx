@@ -1,8 +1,8 @@
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
-import { Context } from "features/game/GameProvider";
+import { Context, useGame } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { StateValues } from "features/game/lib/gameMachine";
 import { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { BulkRemoveSuccess } from "./BulkRemoveSuccess";
@@ -10,6 +10,23 @@ import { StartingFaceRecognitionSuccess } from "./StartingFaceRecognitionSuccess
 import { CompletingFaceRecognitionSuccess } from "./CompletingFaceRecognitionSuccess";
 import { TwitterFollowedSuccess } from "./TwitterFollowedSuccess";
 import { TwitterPostedSuccess } from "./TwitterPostedSuccess";
+import { Loading } from "features/auth/components";
+
+const SuccessSkip: React.FC = () => {
+  const { gameService } = useGame();
+  useEffect(() => {
+    // After 500ms, send a continue event
+    setTimeout(() => {
+      gameService.send("CONTINUE");
+    }, 500);
+  }, []);
+
+  return (
+    <div className="p-1.5">
+      <Loading />
+    </div>
+  );
+};
 
 export const EFFECT_SUCCESS_COMPONENTS: Partial<
   Record<StateValues, React.ReactNode>
@@ -27,6 +44,7 @@ export const EFFECT_SUCCESS_COMPONENTS: Partial<
   marketplaceBulkOffersCancellingSuccess: (
     <BulkRemoveSuccess type="offers" effect="marketplaceBulkOffersCancelling" />
   ),
+  seekingBlessingSuccess: <SuccessSkip />,
 };
 
 function camelToDotCase(str: string): string {

@@ -53,7 +53,6 @@ import { randomID } from "lib/utils/random";
 import { buySFL } from "../actions/buySFL";
 import { PlaceableLocation } from "../types/collectibles";
 import {
-  getFLOWERTeaserLastRead,
   getGameRulesLastRead,
   getIntroductionRead,
   getVipRead,
@@ -638,6 +637,7 @@ export function startGame(authContext: AuthContext) {
       },
       states: {
         ...EFFECT_STATES,
+
         loading: {
           id: "loading",
           always: [
@@ -821,21 +821,6 @@ export function startGame(authContext: AuthContext) {
                   !lastRead ||
                   Date.now() - lastRead.getTime() > 7 * 24 * 60 * 60 * 1000
                 );
-              },
-            },
-
-            {
-              target: "FLOWERTeaser",
-              cond: () => {
-                const lastRead = getFLOWERTeaserLastRead();
-
-                if (!lastRead) return true;
-
-                // If read in last 3 days, don't show
-                if (lastRead.getTime() > Date.now() - 3 * 24 * 60 * 60 * 1000) {
-                  return false;
-                }
-                return true;
               },
             },
 
