@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CONFIG } from "lib/config";
@@ -10,6 +10,12 @@ import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { SFTDetailPopoverInnerPanel } from "components/ui/SFTDetailPopover";
 import { Label } from "components/ui/Label";
 import { getBudBuffs } from "features/game/types/budBuffs";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import * as AuthProvider from "features/auth/lib/Provider";
+import { useSelector } from "@xstate/react";
+import useSWR from "swr";
+import { loadTradeable } from "features/marketplace/actions/loadTradeable";
+import { formatNumber } from "lib/utils/formatNumber";
 
 export const budImageDomain =
   CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
@@ -17,6 +23,45 @@ export const budImageDomain =
 type Props = {
   id: string;
   type?: TypeTrait;
+};
+
+const _rawToken = (state: AuthMachineState) => state.context.user.rawToken;
+
+export const BudDetailPopoverTradeDetails = ({ id }: { id: number }) => {
+  const { t } = useAppTranslation();
+
+  const { authService } = useContext(AuthProvider.Context);
+  const rawToken = useSelector(authService, _rawToken);
+
+  const { data: tradeable, error } = useSWR(
+    ["collectibles", id, rawToken],
+    ([, id, token]) =>
+      loadTradeable({
+        type: "buds",
+        id: Number(id),
+        token: token as string,
+      }),
+    { dedupingInterval: 60_000 }, // only refresh every minute
+  );
+
+  if (!tradeable || error || !tradeable.isActive) return null;
+
+  return (
+    <div className="flex flex-col gap-1">
+      {tradeable.floor !== 0 && (
+        <Label type="transparent" className="text-xs -ml-1">
+          <span>{`${t("marketplace.price", { price: formatNumber(tradeable.floor, { decimalPlaces: 2 }) })} FLOWER`}</span>
+        </Label>
+      )}
+      {tradeable.supply !== 0 && (
+        <Label type="transparent" className="text-xs">
+          <span className="text-xs -ml-1">
+            {t("marketplace.supply", { supply: tradeable.supply })}
+          </span>
+        </Label>
+      )}
+    </div>
+  );
 };
 
 const BudDetailPopoverBuffs = ({ id }: { id: number }) => {
@@ -94,6 +139,7 @@ export const Bud: React.FC<Props> = ({ id, type }) => {
               >{`Bud ${id}`}</span>
             </div>
             <BudDetailPopoverBuffs id={Number(id)} />
+            <BudDetailPopoverTradeDetails id={Number(id)} />
           </SFTDetailPopoverInnerPanel>
         </PopoverPanel>
       </Popover>

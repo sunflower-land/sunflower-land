@@ -14,6 +14,7 @@ import { AuthMachineState } from "features/auth/lib/authMachine";
 import { Context } from "features/game/GameProvider";
 import { formatNumber } from "lib/utils/formatNumber";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { CONFIG } from "lib/config";
 
 const _rawToken = (state: AuthMachineState) => state.context.user.rawToken;
 
@@ -76,7 +77,7 @@ export const SFTDetailPopoverBuffs = ({
   name: InventoryItemName;
 }) => {
   // annoying bug on hot reloads - seems to crash the app
-  // if (CONFIG.NETWORK !== "mainnet") return null;
+  if (CONFIG.NETWORK !== "mainnet") return null;
 
   return <SFTDetailPopoverBuffsImplementation name={name} />;
 };
