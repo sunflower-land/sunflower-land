@@ -101,14 +101,6 @@ export const GenieLamp: React.FC<Props> = ({ id }) => {
               <span className="text-center text-xs mb-1">
                 {t("genieLamp.cannotWithdraw")}
                 {"."}
-                <a
-                  className="underline"
-                  href="https://docs.sunflower-land.com/player-guides/islands/treasure-island#genie-lamp"
-                  target="_blank"
-                  rel="noreferrer"
-                >
-                  {t("read.more")}
-                </a>
               </span>
             )}
           </div>

@@ -15,7 +15,7 @@ const WickerManSpriteSheet = ({ open }: { open: boolean }) => {
   const { scale } = useContext(ZoomContext);
   const wickerManGif = useRef<SpriteSheetInstance>();
 
-  const { play: burningSound } = useSound("burning");
+  const { play: burningSound, stop: stopBurningSound } = useSound("burning");
 
   const burn = () => {
     const isPlaying = wickerManGif.current?.getInfo("isPlaying");
@@ -56,6 +56,7 @@ const WickerManSpriteSheet = ({ open }: { open: boolean }) => {
       loop={true}
       onLoopComplete={(spritesheet) => {
         spritesheet.pause();
+        stopBurningSound();
       }}
     />
   );
@@ -65,7 +66,7 @@ export const WickerMan: React.FC = () => {
   return (
     <div className="relative w-full h-full cursor-pointer hover:img-highlight">
       <Popover>
-        <PopoverButton as="span" className="cursor-pointer">
+        <PopoverButton as="div" className="cursor-pointer">
           {({ open }) => <WickerManSpriteSheet open={open} />}
         </PopoverButton>
         <PopoverPanel
@@ -74,7 +75,7 @@ export const WickerMan: React.FC = () => {
         >
           <SFTDetailPopoverContent name={"Wicker Man"} />
         </PopoverPanel>
-      </Popover>{" "}
+      </Popover>
     </div>
   );
 };

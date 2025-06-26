@@ -34,7 +34,6 @@ import { Label } from "components/ui/Label";
 import { secondsToString } from "lib/utils/time";
 import { MachineState } from "features/game/lib/gameMachine";
 import {
-  SFTDetailPopoverTradeDetails,
   SFTDetailPopoverBuffs,
   SFTDetailPopoverLabel,
   SFTDetailPopoverInnerPanel,
@@ -193,7 +192,7 @@ export const Hourglass: React.FC<HourglassProps> = ({
 
   return (
     <Popover>
-      <PopoverButton as="span">
+      <PopoverButton as="div">
         {showTimers && (
           <div className="absolute bottom-0 left-0">
             <LiveProgressBar
@@ -241,7 +240,6 @@ export const Hourglass: React.FC<HourglassProps> = ({
             </span>
           </Label>
           <SFTDetailPopoverBuffs name={hourglass} />
-          <SFTDetailPopoverTradeDetails name={hourglass} />
         </SFTDetailPopoverInnerPanel>
       </PopoverPanel>
     </Popover>

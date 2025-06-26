@@ -10,27 +10,27 @@ import { Context } from "features/game/GameProvider";
 import { Revealed } from "features/game/components/Revealed";
 import { Panel } from "components/ui/Panel";
 import { Modal } from "components/ui/Modal";
-import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
-import classNames from "classnames";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { canShake } from "features/game/types/removeables";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ChestRevealing } from "features/world/ui/chests/ChestRevealing";
+import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
+import {
+  SFTDetailPopoverBuffs,
+  SFTDetailPopoverInnerPanel,
+  SFTDetailPopoverLabel,
+  SFTDetailPopoverTradeDetails,
+} from "components/ui/SFTDetailPopover";
+import { Label } from "components/ui/Label";
+import { secondsToString } from "lib/utils/time";
 
 interface Props {
   id: string;
+  open: boolean;
 }
 
-export const ManekiNeko: React.FC<Props> = ({ id }) => {
+const ManekiNekoLabel = () => {
   const { t } = useAppTranslation();
-  const { gameService } = useContext(Context);
-  const [gameState] = useActor(gameService);
-  const [showTooltip, setShowTooltip] = useState(false);
-  const manekiNekos =
-    gameState.context.state.collectibles["Maneki Neko"] ??
-    gameState.context.state.home.collectibles["Maneki Neko"] ??
-    [];
-
   useUiRefresher();
 
   const date = new Date();
@@ -41,17 +41,34 @@ export const ManekiNeko: React.FC<Props> = ({ id }) => {
       date.getUTCMinutes() * 60 +
       date.getUTCSeconds());
 
+  return (
+    <Label type="info" className="mt-2 mb-2 -ml-1">
+      <span className="text-xs">
+        {`${t("ready.in")}: ${secondsToString(nextRefreshInSeconds, {
+          length: "medium",
+        })}`}
+      </span>
+    </Label>
+  );
+};
+
+export const ManekiNekoImage: React.FC<Props> = ({ id, open }) => {
+  const { gameService } = useContext(Context);
+  const [gameState] = useActor(gameService);
+  const manekiNekos =
+    gameState.context.state.collectibles["Maneki Neko"] ??
+    gameState.context.state.home.collectibles["Maneki Neko"] ??
+    [];
+
   const hasShakenRecently = manekiNekos.some((maneki) => {
     const shakenAt = maneki.shakenAt || 0;
 
     return !canShake(shakenAt);
   });
 
-  const [isShaking, setIsShaking] = useState(hasShakenRecently);
   const [isRevealing, setIsRevealing] = useState(false);
 
   const shake = () => {
-    setIsShaking(true);
     setIsRevealing(true);
 
     // Can only shake a Maneki every 24 hours (even if you have multiple)
@@ -69,19 +86,14 @@ export const ManekiNeko: React.FC<Props> = ({ id }) => {
   };
 
   useEffect(() => {
-    setIsShaking(hasShakenRecently);
-  }, [hasShakenRecently]);
+    if (open) {
+      shake();
+    }
+  }, [open]);
 
   return (
     <>
-      <div
-        onMouseEnter={isShaking ? () => setShowTooltip(true) : undefined}
-        onMouseLeave={() => setShowTooltip(false)}
-        className={classNames("absolute w-full h-full", {
-          "cursor-pointer hover:img-highlight": !isShaking,
-        })}
-        onClick={shake}
-      >
+      <div className="absolute w-full h-full cursor-pointer hover:img-highlight">
         <img
           src={shadow}
           style={{
@@ -92,7 +104,7 @@ export const ManekiNeko: React.FC<Props> = ({ id }) => {
           className="absolute pointer-events-none"
         />
         <img
-          src={isShaking ? manekiNekoShaking : manekiNeko}
+          src={open ? manekiNekoShaking : manekiNeko}
           style={{
             width: `${PIXEL_SCALE * 16}px`,
             bottom: `${PIXEL_SCALE * 2}px`,
@@ -102,20 +114,6 @@ export const ManekiNeko: React.FC<Props> = ({ id }) => {
           alt="Maneki Neko"
         />
       </div>
-      {isShaking && (
-        <div
-          className="flex justify-center absolute w-full pointer-events-none"
-          style={{
-            top: `${PIXEL_SCALE * -24}px`,
-          }}
-        >
-          <TimeLeftPanel
-            text={`${t("ready.in")}:`}
-            timeLeft={nextRefreshInSeconds}
-            showTimeLeft={showTooltip}
-          />
-        </div>
-      )}
       {gameState.matches("revealing") && isRevealing && (
         <Modal show>
           <Panel>
@@ -131,5 +129,26 @@ export const ManekiNeko: React.FC<Props> = ({ id }) => {
         </Modal>
       )}
     </>
+  );
+};
+
+export const ManekiNeko: React.FC<Props> = ({ id }) => {
+  return (
+    <Popover>
+      <PopoverButton as="div" className="cursor-pointer">
+        {({ open }) => <ManekiNekoImage open={open} id={id} />}
+      </PopoverButton>
+      <PopoverPanel
+        anchor={{ to: "left start" }}
+        className="flex pointer-events-none"
+      >
+        <SFTDetailPopoverInnerPanel>
+          <SFTDetailPopoverLabel name={"Maneki Neko"} />
+          <ManekiNekoLabel />
+          <SFTDetailPopoverBuffs name={"Maneki Neko"} />
+          <SFTDetailPopoverTradeDetails name={"Maneki Neko"} />
+        </SFTDetailPopoverInnerPanel>
+      </PopoverPanel>
+    </Popover>
   );
 };

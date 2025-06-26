@@ -113,7 +113,7 @@ export const Bean: React.FC<CollectibleProps> = ({
 
   return (
     <Popover>
-      <PopoverButton as="span">
+      <PopoverButton as="div">
         <div className="absolute w-full h-full hover:img-highlight cursor-pointer">
           <img
             src={image}
@@ -128,12 +128,12 @@ export const Bean: React.FC<CollectibleProps> = ({
         </div>
       </PopoverButton>
 
-      <PopoverPanel anchor={{ to: "left" }} className="flex">
+      <PopoverPanel anchor={{ to: "left start" }} className="flex">
         <SFTDetailPopoverInnerPanel>
           <SFTDetailPopoverLabel name={"Magic Bean"} />
           <Label type="info" className="mt-2 mb-2 -ml-1">
             <span className="text-xs">
-              {`${t("ready.in")} ${secondsToString(timeLeft, {
+              {`${t("ready.in")}: ${secondsToString(timeLeft, {
                 length: "medium",
               })}`}
             </span>

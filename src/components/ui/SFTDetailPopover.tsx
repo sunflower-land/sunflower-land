@@ -12,7 +12,6 @@ import { useSelector } from "@xstate/react";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { AuthMachineState } from "features/auth/lib/authMachine";
 import { Context } from "features/game/GameProvider";
-import flowerIcon from "assets/icons/flower_token.webp";
 import { formatNumber } from "lib/utils/formatNumber";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
@@ -106,24 +105,20 @@ export const SFTDetailPopoverTradeDetails = ({
   if (!tradeable || error || !tradeable.isActive) return null;
 
   return (
-    <>
+    <div className="flex flex-col gap-1">
       {tradeable.floor !== 0 && (
-        <Label
-          type="transparent"
-          secondaryIcon={flowerIcon}
-          className="text-xs"
-        >
-          <span>{`${t("marketplace.price", { price: formatNumber(tradeable.floor, { decimalPlaces: 2 }) })}`}</span>
+        <Label type="transparent" className="text-xs -ml-1">
+          <span>{`${t("marketplace.price", { price: formatNumber(tradeable.floor, { decimalPlaces: 2 }) })} FLOWER`}</span>
         </Label>
       )}
       {tradeable.supply !== 0 && (
         <Label type="transparent" className="text-xs">
-          <span className="text-xs">
+          <span className="text-xs -ml-1">
             {t("marketplace.supply", { supply: tradeable.supply })}
           </span>
         </Label>
       )}
-    </>
+    </div>
   );
 };
 
@@ -165,11 +160,11 @@ export const SFTDetailPopover = ({
 }) => {
   return (
     <Popover>
-      <PopoverButton as="span" className="cursor-pointer">
+      <PopoverButton as="div" className="cursor-pointer">
         {children}
       </PopoverButton>
       <PopoverPanel
-        anchor={{ to: "left" }}
+        anchor={{ to: "left start" }}
         className="flex pointer-events-none"
       >
         <SFTDetailPopoverContent name={name} />

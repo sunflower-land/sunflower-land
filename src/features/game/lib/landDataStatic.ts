@@ -399,6 +399,19 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   farmHands: { bumpkins: {} },
+  buds: {
+    1: {
+      coordinates: { x: 0, y: -6 },
+
+      type: "Beach",
+      colour: "Beige",
+      stem: "3 Leaf Clover",
+      aura: "Basic",
+      ears: "Ears",
+
+      location: "farm",
+    },
+  },
   greenhouse: {
     oil: 100,
     pots: {},
