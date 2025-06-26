@@ -46,7 +46,7 @@ export type CompetitionTaskName =
   | "Sell chicken"
   | "Complete delivery"
   | "Eat pizza"
-  | "Cook honey cake"
+  | "Cook Honey Cake"
   | "Craft bear"
   | "Craft basic hair"
   | "Harvest barley"
@@ -112,7 +112,7 @@ export const COMPETITION_TASK_PROGRESS: Record<
     return expansions;
   },
   "Level up": (game) => getBumpkinLevel(game.bumpkin.experience),
-  "Cook honey cake": (game) => game.bumpkin.activity["Honey Cake Cooked"] ?? 0,
+  "Cook Honey Cake": (game) => game.bumpkin.activity["Honey Cake Cooked"] ?? 0,
   "Craft basic hair": (game) => game.farmActivity["Basic Hair Crafted"] ?? 0,
   "Craft bear": (game) => game.farmActivity["Basic Bear Crafted"] ?? 0,
   "Eat pizza": (game) => game.bumpkin.activity["Pizza Margherita Fed"] ?? 0,
@@ -228,6 +228,7 @@ export const COMPETITION_POINTS: Record<
       "Prepare Grape Juice": 5,
       "Prepare Banana Blast": 7,
       "Cook Orange Cake": 5,
+      "Cook Honey Cake": 10,
       "Cook Fermented Fish": 10,
       "Cook Fancy Fries": 20,
       "Cook Pancakes": 2,
@@ -256,7 +257,7 @@ export const COMPETITION_TASK_DETAILS: Record<
     icon: levelupIcon,
     description: "Cook food and level up your Bumpkin.",
   },
-  "Cook honey cake": {
+  "Cook Honey Cake": {
     icon: ITEM_DETAILS["Honey Cake"].image,
     description: "Cook a Honey Cake at the Bakery",
   },
