@@ -6008,7 +6008,6 @@
   "whatsOn.ticketPaused": "バンプキンズは休暇中です。雑用や報奨金の {{ticket}} はもう必要ありません。",
   "blessing.youHaveBeenBlessed": "神々が決めたんだ",
   "blessing.random": "寄付するプレイヤーが多いほど、報酬プールは大きくなります。報酬はランダムに分配されます。",
-  "blessing.guardiansSeek.random": "寄付するプレイヤーが多いほど、報酬プールは大きくなります。報酬はランダムに分配されます。",
   "seeking.blessing": "読み込み中",
   "seeking.blessing.success": "誰が祝福されるかは神々が決めています。",
   "blessing.donated": "{{amount}} {{item}} が寄付されました",
@@ -6041,5 +6040,6 @@
   "competition.hurry": "ペギーのクックオフへようこそ！できるだけ多くの料理を作ってポイントを獲得し、賞品を獲得しましょう。",
   "competition.prizes.one": "500万ラブチャーム賞金プール",
   "competition.prizes.two": "料理を作ってリーダーボードに登りましょう！",
-  "competition.prizes.three": "コンペティションは {{startDate}} から {{endDate}} まで続きます"
+  "competition.prizes.three": "コンペティションは {{startDate}} から {{endDate}} まで続きます",
+  "blessing.guardiansSeek.random": "寄付されたアイテムが多いほど、報酬プールは大きくなります。報酬はランダムに分配されます。"
 }

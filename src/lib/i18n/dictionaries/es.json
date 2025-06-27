@@ -6008,7 +6008,6 @@
   "whatsOn.ticketPaused": "Los Bumpkins están de vacaciones, no más {{ticket}} de tareas y recompensas.",
   "blessing.youHaveBeenBlessed": "Los dioses han decidido",
   "blessing.random": "Cuantos más jugadores donen, mayor será la cantidad de recompensas: las recompensas se distribuyen de forma aleatoria.",
-  "blessing.guardiansSeek.random": "Cuantos más jugadores donen, mayor será la cantidad de recompensas: las recompensas se distribuyen de forma aleatoria.",
   "seeking.blessing": "Cargando",
   "seeking.blessing.success": "Los dioses han decidido quién será bendecido.",
   "blessing.donated": "{{amount}} {{item}} donados",
@@ -6041,5 +6040,6 @@
   "competition.hurry": "¡Bienvenido a Peggy's Cookoff! Cocina tantos platos como puedas para ganar puntos y premios.",
   "competition.prizes.one": "Bolsa de premios Love Charm de 5 millones",
   "competition.prizes.two": "¡Cocina comida y sube en la clasificación!",
-  "competition.prizes.three": "La competencia va de {{startDate}} a {{endDate}}"
+  "competition.prizes.three": "La competencia va de {{startDate}} a {{endDate}}",
+  "blessing.guardiansSeek.random": "Cuantos más artículos se donen, mayor será la cantidad de recompensas: las recompensas se distribuyen de forma aleatoria."
 }

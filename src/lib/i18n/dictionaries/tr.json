@@ -6008,7 +6008,6 @@
   "whatsOn.ticketPaused": "Bumpkin'ler tatilde - Ev işleri ve ödüllerden artık {{ticket}} yok.",
   "blessing.youHaveBeenBlessed": "Tanrılar karar verdi",
   "blessing.random": "Ne kadar çok oyuncu bağış yaparsa, ödül havuzu o kadar büyük olur - Ödüller rastgele dağıtılır.",
-  "blessing.guardiansSeek.random": "Ne kadar çok oyuncu bağış yaparsa, ödül havuzu o kadar büyük olur - Ödüller rastgele dağıtılır.",
   "seeking.blessing": "Yükleniyor",
   "seeking.blessing.success": "Tanrılar kimin kutsanacağına karar verdi.",
   "blessing.donated": "{{amount}} {{item}} bağışlandı",
@@ -6041,5 +6040,6 @@
   "competition.hurry": "Peggy's Cookoff\"a hoş geldiniz! Puan kazanmak ve ödüller kazanmak için olabildiğince çok yemek pişirin.",
   "competition.prizes.one": "5 milyon Love Charm Ödül Havuzu",
   "competition.prizes.two": "Yemek pişirin ve liderlik tablosuna tırmanın!",
-  "competition.prizes.three": "Yarışma {{startDate}} ile {{endDate}} arasında sürer"
+  "competition.prizes.three": "Yarışma {{startDate}} ile {{endDate}} arasında sürer",
+  "blessing.guardiansSeek.random": "Ne kadar çok öğe bağışlanırsa, ödül havuzu o kadar büyük olur - Ödüller rastgele dağıtılır."
 }

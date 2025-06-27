@@ -6008,7 +6008,6 @@
   "whatsOn.ticketPaused": "Bumpkins 正在度假 —— 家务和赏金不再 [0@/美元] 了。",
   "blessing.youHaveBeenBlessed": "众神已经决定了",
   "blessing.random": "捐款的玩家越多，奖励池越大——奖励是随机分配的。",
-  "blessing.guardiansSeek.random": "捐款的玩家越多，奖励池越大——奖励是随机分配的。",
   "seeking.blessing": "加载中",
   "seeking.blessing.success": "众神已经决定谁会得到祝福。",
   "blessing.donated": "{{amount}} {{item}} 已捐赠",
@@ -6041,5 +6040,6 @@
   "competition.hurry": "欢迎来到 Peggy's Cookoff！尽可能多地烹饪菜肴以赚取积分并赢取奖品。",
   "competition.prizes.one": "500 万爱情护身符奖池",
   "competition.prizes.two": "烹饪食物并攀登排行榜！",
-  "competition.prizes.three": "比赛从 {{startDate}} 到 {{endDate}}"
+  "competition.prizes.three": "比赛从 {{startDate}} 到 {{endDate}}",
+  "blessing.guardiansSeek.random": "捐赠的物品越多，奖励池越大——奖励是随机分配的。"
 }
