@@ -14,7 +14,7 @@ interface Props {
 export const ResourceDropAnimatorComponent: React.FC<Props> = ({
   resourceName,
   resourceAmount,
-}: Props) => {
+}) => {
   const { current: direction } = useRef<"left" | "right">(
     randomInt(0, 2) === 0 ? "left" : "right",
   );

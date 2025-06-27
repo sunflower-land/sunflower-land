@@ -15,7 +15,7 @@ import { Loading } from "..";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const Telegram: React.FC<{ onClose: () => void }> = ({ onClose }) => {
-  const { gameService, gameState } = useGame();
+  const { gameState } = useGame();
   const telegram = gameState.context.state.telegram;
 
   const { t } = useAppTranslation();

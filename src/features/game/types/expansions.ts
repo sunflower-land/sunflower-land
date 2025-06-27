@@ -142,8 +142,8 @@ export function getLand({
   getKeys(RESOURCES).forEach((resource) => {
     const bought =
       resource === "Beehive"
-        ? game.farmActivity[`Flower Bed Bought`] ?? 0
-        : game.farmActivity[`${resource} Bought`] ?? 0;
+        ? (game.farmActivity[`Flower Bed Bought`] ?? 0)
+        : (game.farmActivity[`${resource} Bought`] ?? 0);
 
     expectedResources[resource as keyof Nodes] =
       (expectedResources[resource as keyof Nodes] ?? 0) + bought;

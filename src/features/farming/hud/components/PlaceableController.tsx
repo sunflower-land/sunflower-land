@@ -81,7 +81,7 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
 
   const available = isBudName(placeable)
     ? new Decimal(1)
-    : items[placeable] ?? new Decimal(0);
+    : (items[placeable] ?? new Decimal(0));
 
   const handleConfirmPlacement = () => {
     // prevents multiple toasts while spam clicking place button

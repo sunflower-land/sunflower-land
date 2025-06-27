@@ -22,7 +22,7 @@ interface Props {
 /**
  * Light panel with border effect
  */
-export const Tab: React.FC<Props> = ({
+export const Tab: React.FC<React.PropsWithChildren<Props>> = ({
   isFirstTab = true,
   vertical = false,
   isActive,

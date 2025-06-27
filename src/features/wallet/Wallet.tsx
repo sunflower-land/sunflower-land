@@ -1,5 +1,11 @@
 import { useSelector } from "@xstate/react";
-import React, { useContext, useLayoutEffect, useRef, useState } from "react";
+import React, {
+  PropsWithChildren,
+  useContext,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 
 import { Context } from "features/game/GameProvider";
 
@@ -370,7 +376,7 @@ const SelectChain: React.FC<{
   );
 };
 
-export const Wallet: React.FC<Props> = ({
+export const Wallet: React.FC<PropsWithChildren<Props>> = ({
   children,
   action,
   linkedAddress,
@@ -438,7 +444,10 @@ const _wallet = (state: MachineState) => state.context.wallet;
 const _linkedWallet = (state: MachineState): string | undefined =>
   state.context.linkedWallet;
 
-export const GameWallet: React.FC<Props> = ({ children, action }) => {
+export const GameWallet: React.FC<PropsWithChildren<Props>> = ({
+  children,
+  action,
+}) => {
   const { gameService } = useContext(Context);
 
   const farmId = useSelector(gameService, _farmId);

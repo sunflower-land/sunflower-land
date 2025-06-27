@@ -14,7 +14,7 @@ function createWrapperAndAppendToBody(wrapperId: string) {
   return wrapperElement;
 }
 
-export const ReactPortal: React.FC<Props> = ({
+export const ReactPortal: React.FC<React.PropsWithChildren<Props>> = ({
   children,
   wrapperId = "react-portal-wrapper",
 }) => {
