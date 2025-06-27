@@ -140,7 +140,7 @@ export const COLORS_EVENT_ITEMS: EventStore = {
       },
       {
         wearable: "Slime Wings",
-        cost: { sfl: 100, items: {} },
+        cost: { sfl: 200, items: {} },
       },
       {
         collectible: "Rainbow Well",
@@ -169,7 +169,7 @@ export const COLORS_EVENT_ITEMS: EventStore = {
       },
       {
         wearable: "Slime Aura",
-        cost: { sfl: 200, items: {} },
+        cost: { sfl: 500, items: {} },
       },
     ],
     requirement: 4,

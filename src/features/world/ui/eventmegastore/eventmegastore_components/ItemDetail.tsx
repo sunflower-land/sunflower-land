@@ -2,7 +2,7 @@ import React, { useContext, useLayoutEffect, useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import Decimal from "decimal.js-light";
-import { InventoryItemName, Keys } from "features/game/types/game";
+import { InventoryItemName } from "features/game/types/game";
 
 import { Context } from "features/game/GameProvider";
 import { useActor, useSelector } from "@xstate/react";
@@ -15,7 +15,6 @@ import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { MachineState } from "features/game/lib/gameMachine";
 import {
-  getCurrentSeason,
   getSeasonalArtefact,
   getSeasonalTicket,
   // getSeasonalTicket,
@@ -32,7 +31,6 @@ import {
 } from "features/game/types/festivalOfColors";
 import { getItemDescription } from "../EventStore";
 import { getKeys } from "features/game/types/craftables";
-import { ARTEFACT_SHOP_KEYS } from "features/game/types/collectibles";
 import { SFLDiscount } from "features/game/lib/SFLDiscount";
 
 import { REWARD_BOXES } from "features/game/types/rewardBoxes";
@@ -87,7 +85,6 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   ] = useActor(gameService);
 
   const createdAt = Date.now();
-  const currentSeason = getCurrentSeason(new Date(createdAt));
   const eventStore = COLORS_EVENT_ITEMS;
   const tiers =
     tier === "basic"
@@ -115,9 +112,6 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
       : (item as EventStoreCollectible).collectible
     : undefined;
 
-  const isKey = (name: InventoryItemName): name is Keys =>
-    name in ARTEFACT_SHOP_KEYS;
-
   const isRareUnlocked =
     tiers === "rare" && eventItemsCrafted >= eventStore.rare.requirement;
   const isEpicUnlocked =
@@ -125,7 +119,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const isMegaUnlocked =
     tier === "mega" && eventItemsCrafted >= eventStore.mega.requirement;
 
-  const boughtAt = state.megastore?.boughtAt[itemName as Keys] ?? 0;
+  const boughtAt = state.minigames.games["festival-of-colors-2025"] ?? 0;
   const itemInCooldown =
     !!boughtAt && boughtAt + (item?.cooldownMs ?? 0) > createdAt;
 
@@ -157,17 +151,13 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const canBuy = () => {
     if (!item) return false;
 
-    if (item.cooldownMs) {
-      if (itemInCooldown) return false;
-    }
-
     if (tier !== "basic") {
       if (tier === "rare" && !isRareUnlocked) return false;
       if (tier === "epic" && !isEpicUnlocked) return false;
       if (tier === "mega" && !isMegaUnlocked) return false;
     }
 
-    if (!item.cooldownMs && !isKey(itemName as InventoryItemName)) {
+    if (!item.cooldownMs) {
       if (itemCrafted) {
         return false;
       }
