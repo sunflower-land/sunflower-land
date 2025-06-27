@@ -48,7 +48,10 @@ export const PotionHouseItems: React.FC = () => {
     );
 
   const buy = () => {
-    if (selected.name in POTION_HOUSE_ITEMS) {
+    if (
+      selected.name in POTION_HOUSE_ITEMS ||
+      selected.name in POTION_HOUSE_EXOTIC_CROPS
+    ) {
       gameService.send("collectible.crafted", {
         name: selected.name,
       });

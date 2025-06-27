@@ -16,9 +16,12 @@ import {
   TreasureCollectibleItem,
   TREASURE_COLLECTIBLE_ITEM,
   ARTEFACT_SHOP_KEYS,
+  POTION_HOUSE_EXOTIC_CROPS,
 } from "features/game/types/collectibles";
 import { detectCollision } from "features/game/expansion/placeable/lib/collisionDetection";
 import { produce } from "immer";
+import { ExoticCropName } from "features/game/types/beans";
+import { isExoticCrop } from "features/game/types/crops";
 
 export const COLLECTIBLE_CRAFT_SECONDS: Partial<
   Record<CollectibleName, number>
@@ -68,13 +71,19 @@ export function craftCollectible({
   return produce(state, (stateCopy) => {
     const bumpkin = stateCopy.bumpkin;
 
-    const item = isPotionHouseItem(action.name)
-      ? POTION_HOUSE_ITEMS[action.name]
-      : isTreasureCollectible(action.name)
-        ? TREASURE_COLLECTIBLE_ITEM[action.name]
-        : isKey(action.name)
-          ? ARTEFACT_SHOP_KEYS[action.name]
-          : HELIOS_BLACKSMITH_ITEMS(state, new Date(createdAt))[action.name];
+    let item;
+
+    if (isPotionHouseItem(action.name)) {
+      item = POTION_HOUSE_ITEMS[action.name];
+    } else if (isExoticCrop(action.name as ExoticCropName)) {
+      item = POTION_HOUSE_EXOTIC_CROPS[action.name as ExoticCropName];
+    } else if (isTreasureCollectible(action.name)) {
+      item = TREASURE_COLLECTIBLE_ITEM[action.name];
+    } else if (isKey(action.name)) {
+      item = ARTEFACT_SHOP_KEYS[action.name];
+    } else {
+      item = HELIOS_BLACKSMITH_ITEMS(state, new Date(createdAt))[action.name];
+    }
 
     if (!item) {
       throw new Error("Item does not exist");
@@ -108,7 +117,9 @@ export function craftCollectible({
         const totalAmount = item.ingredients[ingredientName] || new Decimal(0);
 
         if (count.lessThan(totalAmount)) {
-          throw new Error(`Insufficient ingredient: ${ingredientName}`);
+          throw new Error(
+            `Insufficient ingredient: ${ingredientName.toString()}`,
+          );
         }
 
         return {
