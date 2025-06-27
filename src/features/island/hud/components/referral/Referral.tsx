@@ -206,7 +206,7 @@ export const ReferralInfo: React.FC<ReferralProps> = ({ onHide }) => {
                 icon: chest,
               },
               ...getObjectEntries(REFERRAL_PACKAGE).map(([key, value]) => ({
-                text: `${value} ${key}${value ?? 0 > 1 ? "s" : ""}`,
+                text: `${value} ${key}${(value ?? 0 > 1) ? "s" : ""}`,
                 icon: ITEM_DETAILS[key].image,
               })),
             ]}

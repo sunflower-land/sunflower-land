@@ -33,7 +33,7 @@ interface Props {
 const _bumpkinLevel = (state: MachineState) =>
   getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
 
-export const BuildingImageWrapper: React.FC<Props> = ({
+export const BuildingImageWrapper: React.FC<React.PropsWithChildren<Props>> = ({
   name,
   index,
   nonInteractible,

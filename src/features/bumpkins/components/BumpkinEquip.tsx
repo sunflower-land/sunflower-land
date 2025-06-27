@@ -314,7 +314,7 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip, game }) => {
             </div>
             {(() => {
               const buffLabel = selectedBumpkinItem
-                ? BUMPKIN_ITEM_BUFF_LABELS[selectedBumpkinItem] ?? ""
+                ? (BUMPKIN_ITEM_BUFF_LABELS[selectedBumpkinItem] ?? "")
                 : "";
 
               return (
