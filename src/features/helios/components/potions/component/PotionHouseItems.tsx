@@ -13,6 +13,7 @@ import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements
 import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
+  POTION_HOUSE_EXOTIC_CROPS,
   POTION_HOUSE_ITEMS,
   PotionHouseItem,
 } from "features/game/types/collectibles";
@@ -97,6 +98,7 @@ export const PotionHouseItems: React.FC = () => {
           {Object.values({
             ...POTION_HOUSE_DECORATIONS(),
             ...POTION_HOUSE_ITEMS,
+            ...POTION_HOUSE_EXOTIC_CROPS,
           }).map((item) => {
             if (
               isExoticCrop(item.name) &&
