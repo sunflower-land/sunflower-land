@@ -56,10 +56,12 @@ export const Dialogue: React.FC<{
 const CONTENT_HEIGHT = 350;
 const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000;
 
-const RequiresWallet: React.FC<{
-  requiresWallet: boolean;
-  hasWallet: boolean;
-}> = ({ requiresWallet, hasWallet, children }) => {
+const RequiresWallet: React.FC<
+  React.PropsWithChildren<{
+    requiresWallet: boolean;
+    hasWallet: boolean;
+  }>
+> = ({ requiresWallet, hasWallet, children }) => {
   const [acknowledged, setAcknowledged] = useState(false);
   const { t } = useAppTranslation();
 

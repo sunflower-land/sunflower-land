@@ -6,7 +6,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Panel } from "components/ui/Panel";
 import { Modal } from "components/ui/Modal";
 
-export const Splash: React.FC = ({ children }) => {
+export const Splash: React.FC<React.PropsWithChildren> = ({ children }) => {
   return (
     <div
       className="bg-blue-600 w-full bg-repeat h-full flex relative items-center justify-center"
