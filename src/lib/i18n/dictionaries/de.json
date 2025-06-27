@@ -6041,5 +6041,10 @@
   "blessing.guardiansSeek.random": "Je mehr Artikel gespendet werden, desto größer ist der Prämienpool — Belohnungen werden nach dem Zufallsprinzip verteilt.",
   "competition.rules.three": "Love Charms werden an die besten 5.000 Spieler verteilt, basierend auf ihrem Ranking.",
   "blessing.random": "Je mehr Artikel gespendet werden, desto größer ist der Prämienpool — Belohnungen werden nach dem Zufallsprinzip verteilt.",
-  "event.noticeboard.two": "Auf dieser Insel findest du ein Portal mit einem brandneuen Minispiel, in dem du Marken verdienen kannst, die du für limitierte Spezialgegenstände ausgeben kannst! Deine Versuche im Portal dauern mehrere Tage, also beeile dich nicht, sie alle auf einmal auszugeben! Kaufe die Option „Unbegrenzte Anzahl an Versuchen“, um nach Belieben zu spielen oder um so viel wie möglich zu spielen!"
+  "event.noticeboard.two": "Auf dieser Insel findest du ein Portal mit einem brandneuen Minispiel, in dem du Marken verdienen kannst, die du für limitierte Spezialgegenstände ausgeben kannst! Deine Versuche im Portal dauern mehrere Tage, also beeile dich nicht, sie alle auf einmal auszugeben! Kaufe die Option „Unbegrenzte Anzahl an Versuchen“, um nach Belieben zu spielen oder um so viel wie möglich zu spielen!",
+  "season.megastore.crafting.limit.max": "Limit: {{limit}}/{{max}}",
+  "whatsOn.peggysCookoff": "Peggys Cookoff",
+  "whatsOn.peggysCookoffText": "Das Peggy's Cookoff ist da. Koche die meisten Rezepte, um Preise zu gewinnen.",
+  "whatsOn.peggysCookoffText2": "Die 5000 besten Köche gewinnen Love Charms!",
+  "whatsOn.july10th": "10. Juli"
 }

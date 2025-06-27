@@ -6041,5 +6041,10 @@
   "blessing.guardiansSeek.random": "捐赠的物品越多，奖励池越大——奖励是随机分配的。",
   "competition.rules.three": "爱情护身符将根据排名分发给前5,000名玩家。",
   "blessing.random": "捐赠的物品越多，奖励池越大——奖励是随机分配的。",
-  "event.noticeboard.two": "在这个岛上，你可以找到一个带有全新迷你游戏的传送门，在那里你可以赚取代币来购买特殊的限量物品！你在传送门中的尝试会持续数天，所以不要急于将它们全部花掉！购买无限次尝试选项，在闲暇时玩或尽可能多地玩游戏！"
+  "event.noticeboard.two": "在这个岛上，你可以找到一个带有全新迷你游戏的传送门，在那里你可以赚取代币来购买特殊的限量物品！你在传送门中的尝试会持续数天，所以不要急于将它们全部花掉！购买无限次尝试选项，在闲暇时玩或尽可能多地玩游戏！",
+  "season.megastore.crafting.limit.max": "限制：{{limit}}/{{max}}",
+  "whatsOn.peggysCookoff": "Peggy's Cookoff",
+  "whatsOn.peggysCookoffText": "Peggy's Cookoff 就在这里。烹饪最多的食谱即可赢取奖品。",
+  "whatsOn.peggysCookoffText2": "前 5000 名厨师将赢得 Love Charms！",
+  "whatsOn.july10th": "7 月 10 日"
 }

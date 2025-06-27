@@ -6041,5 +6041,10 @@
   "blessing.guardiansSeek.random": "Ne kadar çok öğe bağışlanırsa, ödül havuzu o kadar büyük olur - Ödüller rastgele dağıtılır.",
   "competition.rules.three": "Love Charms, sıralamalarına göre en iyi 5.000 oyuncuya dağıtılacak.",
   "blessing.random": "Ne kadar çok öğe bağışlanırsa, ödül havuzu o kadar büyük olur - Ödüller rastgele dağıtılır.",
-  "event.noticeboard.two": "Bu adada, özel sınırlı öğelere harcayabileceğiniz Jetonlar kazanabileceğiniz yepyeni bir mini oyun içeren bir portal bulabilirsiniz! Portaldaki girişimleriniz günler boyunca sürüyor, bu yüzden hepsini bir kerede harcamak için acele etmeyin! Boş zamanlarınızda oynamak veya mümkün olduğunca oynamak için sınırsız deneme seçeneğini satın alın!"
+  "event.noticeboard.two": "Bu adada, özel sınırlı öğelere harcayabileceğiniz Jetonlar kazanabileceğiniz yepyeni bir mini oyun içeren bir portal bulabilirsiniz! Portaldaki girişimleriniz günler boyunca sürüyor, bu yüzden hepsini bir kerede harcamak için acele etmeyin! Boş zamanlarınızda oynamak veya mümkün olduğunca oynamak için sınırsız deneme seçeneğini satın alın!",
+  "season.megastore.crafting.limit.max": "Sınır: {{limit}}/{{max}}",
+  "whatsOn.peggysCookoff": "Peggy'nin Cookoff'u",
+  "whatsOn.peggysCookoffText": "Peggy's Cookoff burada. Ödül kazanmak için en çok tarifi pişirin.",
+  "whatsOn.peggysCookoffText2": "En iyi 5000 şef Aşk Tılsımlarını kazanacak!",
+  "whatsOn.july10th": "10 Temmuz"
 }

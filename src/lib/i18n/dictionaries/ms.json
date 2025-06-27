@@ -6041,5 +6041,10 @@
   "blessing.guardiansSeek.random": "Semakin banyak item yang disumbangkan, semakin besar kumpulan ganjaran - Ganjaran diedarkan secara rawak.",
   "competition.rules.three": "Love Charms akan diedarkan kepada 5,000 pemain teratas, berdasarkan ranking mereka.",
   "blessing.random": "Semakin banyak item yang disumbangkan, semakin besar kumpulan ganjaran - Ganjaran diedarkan secara rawak.",
-  "event.noticeboard.two": "Di pulau ini, anda boleh menemui portal dengan permainan mini baru di mana anda boleh mendapatkan Token untuk dibelanjakan untuk item terhad khas! Percubaan anda di portal berlangsung selama berhari-hari, jadi jangan tergesa-gesa untuk menghabiskan semuanya sekaligus! Beli pilihan percubaan tanpa had untuk bermain pada masa lapang atau bermain sebanyak mungkin!"
+  "event.noticeboard.two": "Di pulau ini, anda boleh menemui portal dengan permainan mini baru di mana anda boleh mendapatkan Token untuk dibelanjakan untuk item terhad khas! Percubaan anda di portal berlangsung selama berhari-hari, jadi jangan tergesa-gesa untuk menghabiskan semuanya sekaligus! Beli pilihan percubaan tanpa had untuk bermain pada masa lapang atau bermain sebanyak mungkin!",
+  "season.megastore.crafting.limit.max": "Had: {{limit}}/{{max}}",
+  "whatsOn.peggysCookoff": "Peggy's Cookoff",
+  "whatsOn.peggysCookoffText": "Peggy's Cookoff ada di sini. Masak resipi yang paling banyak untuk memenangi hadiah.",
+  "whatsOn.peggysCookoffText2": "5000 koki teratas akan memenangi Love Charms!",
+  "whatsOn.july10th": "10 Julai"
 }

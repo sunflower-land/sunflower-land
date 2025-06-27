@@ -6041,5 +6041,10 @@
   "blessing.guardiansSeek.random": "Plus le nombre d'objets donnés est élevé, plus le pool de récompenses est important. Les récompenses sont distribuées de manière aléatoire.",
   "competition.rules.three": "Love Charms sera distribué aux 5 000 meilleurs joueurs, en fonction de leur classement.",
   "blessing.random": "Plus le nombre d'objets donnés est élevé, plus le pool de récompenses est important. Les récompenses sont distribuées de manière aléatoire.",
-  "event.noticeboard.two": "Sur cette île, vous trouverez un portail avec un tout nouveau mini-jeu où vous pourrez gagner des jetons à dépenser pour des objets spéciaux en quantité limitée ! Vos tentatives sur le portail s'étalent sur plusieurs jours, alors ne vous pressez pas de les dépenser toutes en même temps ! Achetez l'option essais illimités pour jouer à votre guise ou pour jouer autant que possible !"
+  "event.noticeboard.two": "Sur cette île, vous trouverez un portail avec un tout nouveau mini-jeu où vous pourrez gagner des jetons à dépenser pour des objets spéciaux en quantité limitée ! Vos tentatives sur le portail s'étalent sur plusieurs jours, alors ne vous pressez pas de les dépenser toutes en même temps ! Achetez l'option essais illimités pour jouer à votre guise ou pour jouer autant que possible !",
+  "season.megastore.crafting.limit.max": "Limite : {{limit}}/{{max}}",
+  "whatsOn.peggysCookoff": "Peggy's Cookoff",
+  "whatsOn.peggysCookoffText": "Le Peggy's Cookoff est arrivé. Cuisinez le plus de recettes pour gagner des prix.",
+  "whatsOn.peggysCookoffText2": "Les 5 000 meilleurs chefs remporteront des Love Charms !",
+  "whatsOn.july10th": "Le 10 juillet"
 }
