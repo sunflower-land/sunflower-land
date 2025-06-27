@@ -202,7 +202,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
         ? sfl
         : item.cost.sfl === 0 &&
             (item.cost?.items[getSeasonalTicket()] ?? 0 > 0)
-          ? (item.cost?.items[getSeasonalTicket()] ?? 0)
+          ? item.cost?.items[getSeasonalTicket()] ?? 0
           : sfl;
     const itemName = isWearable
       ? ((item as EventStoreWearable).wearable as BumpkinItem)
