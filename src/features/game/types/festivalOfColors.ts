@@ -159,7 +159,7 @@ export const COLORS_EVENT_ITEMS: EventStore = {
         cost: { sfl: 0, items: { "Colors Token 2025": 1000 } },
       },
     ],
-    requirement: 4,
+    requirement: 8,
   },
   mega: {
     items: [
@@ -172,6 +172,6 @@ export const COLORS_EVENT_ITEMS: EventStore = {
         cost: { sfl: 500, items: {} },
       },
     ],
-    requirement: 4,
+    requirement: 12,
   },
 };

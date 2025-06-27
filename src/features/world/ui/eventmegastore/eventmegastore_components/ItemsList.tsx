@@ -66,13 +66,7 @@ export const ItemsList: React.FC<Props> = ({
           (item as EventStoreWearable).wearable as BumpkinItem
         ] ?? 0
       );
-    } else if (type === "collectibles" || (!type && "collectible" in item)) {
-      return (
-        state.minigames.games["festival-of-colors-2025"]?.shop?.wearables?.[
-          (item as EventStoreCollectible).collectible as BumpkinItem
-        ] ?? 0
-      );
-    } else if (type === "keys" || (!type && "key" in item)) {
+    } else {
       return (
         state.minigames.games["festival-of-colors-2025"]?.shop?.items?.[
           (item as EventStoreCollectible).collectible as InventoryItemName
@@ -159,9 +153,12 @@ export const ItemsList: React.FC<Props> = ({
       state.minigames.games["festival-of-colors-2025"]?.shop?.wearables ?? {},
     ).length;
 
-  const isRareUnlocked = tier === "rare" && eventItemsCrafted;
-  const isEpicUnlocked = tier === "epic" && eventItemsCrafted;
-  const isMegaUnlocked = tier === "mega" && eventItemsCrafted;
+  const isRareUnlocked =
+    tier === "rare" && eventItemsCrafted >= COLORS_EVENT_ITEMS.rare.requirement;
+  const isEpicUnlocked =
+    tier === "epic" && eventItemsCrafted >= COLORS_EVENT_ITEMS.epic.requirement;
+  const isMegaUnlocked =
+    tier === "mega" && eventItemsCrafted >= COLORS_EVENT_ITEMS.mega.requirement;
 
   const tierpercentage = eventItemsCrafted;
 
@@ -284,20 +281,16 @@ export const ItemsList: React.FC<Props> = ({
                       />
                     )}
                     {/* Confirm Icon for non-key items */}
-                    {balanceOfItem > 0 &&
-                      (tier === "basic" ||
-                        (tier === "rare" && isRareUnlocked) ||
-                        (tier === "epic" && isEpicUnlocked) ||
-                        (tier === "mega" && isMegaUnlocked)) && (
-                        <img
-                          src={SUNNYSIDE.icons.confirm}
-                          className="absolute -right-2 -top-3"
-                          style={{
-                            width: `${PIXEL_SCALE * 9}px`,
-                          }}
-                          alt="crop"
-                        />
-                      )}
+                    {balanceOfItem > 0 && (
+                      <img
+                        src={SUNNYSIDE.icons.confirm}
+                        className="absolute -right-2 -top-3"
+                        style={{
+                          width: `${PIXEL_SCALE * 9}px`,
+                        }}
+                        alt="crop"
+                      />
+                    )}
 
                     {((tier === "rare" && !isRareUnlocked) ||
                       (tier === "epic" && !isEpicUnlocked) ||

@@ -17,7 +17,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
   settings: {},
   username: "Local Hero",
   coins: 10000,
-  balance: new Decimal(0),
+  balance: new Decimal(1000),
   previousBalance: new Decimal(0),
   vip: {
     bundles: [{ name: "1_MONTH", boughtAt: Date.now() }],
@@ -25,6 +25,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
   },
   inventory: {
     "Beta Pass": new Decimal(1),
+    "Colors Token 2025": new Decimal(10000),
     Manor: new Decimal(1),
     "Town Center": new Decimal(1),
     House: new Decimal(1),
