@@ -34,6 +34,7 @@ import { getKeys } from "features/game/types/craftables";
 import { SFLDiscount } from "features/game/lib/SFLDiscount";
 
 import { REWARD_BOXES } from "features/game/types/rewardBoxes";
+import { secondsToString } from "lib/utils/time";
 
 interface ItemOverlayProps {
   item: EventStoreItem | null;
@@ -48,6 +49,16 @@ interface ItemOverlayProps {
 
 const _sflBalance = (state: MachineState) => state.context.state.balance;
 const _inventory = (state: MachineState) => state.context.state.inventory;
+
+const getCooldownLabel = (cooldownMs: number) => {
+  const days = cooldownMs / (24 * 60 * 60 * 1000);
+
+  if (days === 1) return "Limit: 1 every day";
+  if (days === 7) return "Limit: 1 every week";
+  if (days >= 30) return "Limit: 1 every 30 days";
+
+  return `Limit: 1 per ${days} days`;
+};
 
 export const ItemDetail: React.FC<ItemOverlayProps> = ({
   item,
@@ -73,6 +84,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     },
   ] = useActor(gameService);
 
+  const createdAt = Date.now();
   const eventStore = COLORS_EVENT_ITEMS;
   const tiers =
     tier === "basic"
@@ -106,6 +118,10 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     tiers === "epic" && eventItemsCrafted >= eventStore.epic.requirement;
   const isMegaUnlocked =
     tier === "mega" && eventItemsCrafted >= eventStore.mega.requirement;
+
+  const boughtAt = state.minigames.games["festival-of-colors-2025"] ?? 0;
+  const itemInCooldown =
+    !!boughtAt && boughtAt + (item?.cooldownMs ?? 0) > createdAt;
 
   const itemCrafted =
     state.bumpkin.activity[`${itemName as EventTierItemName} Bought`];
@@ -346,14 +362,34 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                       </div>
                     )}
                     <span className="text-xs leading-none">{description}</span>
-                    <Label
-                      type={itemCrafted ? "danger" : "default"}
-                      className="text-xxs"
-                    >
-                      {t("season.megastore.crafting.limit", {
-                        limit: itemCrafted ? 1 : 0,
-                      })}
-                    </Label>
+
+                    {itemName && item?.cooldownMs ? (
+                      <Label
+                        type={itemInCooldown ? "danger" : "default"}
+                        className="text-xxs"
+                      >
+                        {t("megastore.limit", {
+                          time: secondsToString(
+                            itemInCooldown
+                              ? (item.cooldownMs - (createdAt - boughtAt)) /
+                                  1000
+                              : item.cooldownMs / 1000,
+                            {
+                              length: "short",
+                            },
+                          ),
+                        })}
+                      </Label>
+                    ) : (
+                      <Label
+                        type={itemCrafted ? "danger" : "default"}
+                        className="text-xxs"
+                      >
+                        {t("season.megastore.crafting.limit", {
+                          limit: itemCrafted ? 1 : 0,
+                        })}
+                      </Label>
+                    )}
                     {itemReq &&
                       (sfl !== 0 ? (
                         <div className="flex flex-1 content-start flex-col flex-wrap">
@@ -439,7 +475,10 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                     </Button>
                   )}
 
-                  <Button disabled={!canBuy()} onClick={buttonHandler}>
+                  <Button
+                    disabled={!canBuy() || (itemName && !!itemInCooldown)}
+                    onClick={buttonHandler}
+                  >
                     {getButtonLabel()}
                   </Button>
                 </div>
