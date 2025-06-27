@@ -36,6 +36,7 @@ import {
   ModerationTools,
   Player,
 } from "features/world/ui/moderationTools/ModerationTools";
+import { DesertDiggingDisplay } from "./components/DesertDiggingDisplay";
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
  * Balances, Inventory, actions etc.
@@ -145,6 +146,9 @@ const HudComponent: React.FC<Props> = ({
           <MarketplaceButton />
           <TravelButton />
         </div>
+
+        {pathname.includes("beach") && <DesertDiggingDisplay />}
+
         <div
           className={classNames(
             "absolute bottom-0 pb-2 pl-3 left-16 flex flex-col space-y-2.5 transition-transform",

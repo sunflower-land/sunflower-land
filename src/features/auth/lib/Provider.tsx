@@ -8,7 +8,7 @@ interface AuthContext {
 
 export const Context = React.createContext<AuthContext>({} as AuthContext);
 
-export const Provider: React.FC = ({ children }) => {
+export const Provider: React.FC<React.PropsWithChildren> = ({ children }) => {
   const authService = useInterpret(
     authMachine,
   ) as unknown as MachineInterpreter;
