@@ -6008,7 +6008,6 @@
   "whatsOn.ticketPaused": "The Bumpkins sedang bercuti - Tidak lebih {{ticket}} dari kerja rumah & hadiah.",
   "blessing.youHaveBeenBlessed": "Tuhan telah memutuskan",
   "blessing.random": "Semakin banyak pemain yang menderma, semakin besar kumpulan ganjaran - Ganjaran diedarkan secara rawak.",
-  "blessing.guardiansSeek.random": "Semakin banyak pemain yang menderma, semakin besar kumpulan ganjaran - Ganjaran diedarkan secara rawak.",
   "seeking.blessing": "Memuatkan",
   "seeking.blessing.success": "Tuhan telah memutuskan siapa yang akan diberkati.",
   "blessing.donated": "{{amount}} {{item}} disumbangkan",
@@ -6041,5 +6040,6 @@
   "competition.hurry": "Selamat datang ke Peggy's Cookoff! Masak seberapa banyak hidangan yang anda boleh untuk mendapatkan mata dan memenangi hadiah.",
   "competition.prizes.one": "5 juta Kolam Hadiah Love Charm",
   "competition.prizes.two": "Masak makanan dan naik papan pendahulu!",
-  "competition.prizes.three": "Pertandingan berjalan dari {{startDate}} hingga {{endDate}}"
+  "competition.prizes.three": "Pertandingan berjalan dari {{startDate}} hingga {{endDate}}",
+  "blessing.guardiansSeek.random": "Semakin banyak item yang disumbangkan, semakin besar kumpulan ganjaran - Ganjaran diedarkan secara rawak."
 }

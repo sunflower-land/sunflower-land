@@ -6008,7 +6008,6 @@
   "whatsOn.ticketPaused": "범프킨은 휴일이야. 이제 집안일과 현상금 때문에 {{ticket}} 할 일은 이제 그만.",
   "blessing.youHaveBeenBlessed": "신들이 결심했다",
   "blessing.random": "기부하는 플레이어가 많을수록 보상 풀이 커집니다. 보상은 무작위로 분배됩니다.",
-  "blessing.guardiansSeek.random": "기부하는 플레이어가 많을수록 보상 풀이 커집니다. 보상은 무작위로 분배됩니다.",
   "seeking.blessing": "불러오는 중",
   "seeking.blessing.success": "누가 축복을 받을지 신들이 정했습니다.",
   "blessing.donated": "{{amount}} {{item}} 기부",
@@ -6041,5 +6040,6 @@
   "competition.hurry": "페기의 쿡오프에 오신 것을 환영합니다!가능한 한 많은 요리를 요리해서 포인트를 얻고 상품을 받으세요.",
   "competition.prizes.one": "500만 러브 참 상금 풀",
   "competition.prizes.two": "음식을 요리하고 순위표에 오르세요!",
-  "competition.prizes.three": "대회는 {{startDate}} 부터 {{endDate}} 까지 진행됩니다."
+  "competition.prizes.three": "대회는 {{startDate}} 부터 {{endDate}} 까지 진행됩니다.",
+  "blessing.guardiansSeek.random": "기부한 아이템이 많을수록 보상 풀이 커집니다. 보상은 무작위로 분배됩니다."
 }

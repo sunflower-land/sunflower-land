@@ -6008,7 +6008,6 @@
   "whatsOn.ticketPaused": "Бампкинс в отпуске — больше никаких хлопот и наград {{ticket}}.",
   "blessing.youHaveBeenBlessed": "Боги решили",
   "blessing.random": "Чем больше игроков делают пожертвования, тем больше призовой фонд — награды распределяются случайным образом.",
-  "blessing.guardiansSeek.random": "Чем больше игроков делают пожертвования, тем больше призовой фонд — награды распределяются случайным образом.",
   "seeking.blessing": "Загрузка",
   "seeking.blessing.success": "Боги решили, кого будут благословлять.",
   "blessing.donated": "{{amount}} {{item}} пожертвовано",
@@ -6041,5 +6040,6 @@
   "competition.hurry": "Добро пожаловать в ресторан Peggy's Cookoff! Приготовьте как можно больше блюд, чтобы заработать баллы и выиграть призы.",
   "competition.prizes.one": "Призовой фонд Love Charm в 5 миллионов долларов",
   "competition.prizes.two": "Готовьте еду и поднимайтесь в таблице лидеров!",
-  "competition.prizes.three": "Конкурс варьируется от {{startDate}} до {{endDate}}"
+  "competition.prizes.three": "Конкурс варьируется от {{startDate}} до {{endDate}}",
+  "blessing.guardiansSeek.random": "Чем больше подаренных предметов, тем больше призовой фонд — награды распределяются случайным образом."
 }
