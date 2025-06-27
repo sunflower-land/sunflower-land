@@ -5990,7 +5990,6 @@
   "description.redSlimeBalloon": "Yakut kırmızısı bir balonun içinde asılı kalan bu yaramaz balçık, heyecanla eziliyor ve kıvranıyor.",
   "description.blueSlimeBalloon": "Soğuk mavi bir balonda hafifçe sallanan bu eğlenceli balçık sürüşün tadını çıkarıyor gibi görünüyor.",
   "event.noticeboard.one": "Renkler Festivali 2025 Etkinliğine Hoş Geldiniz!",
-  "event.noticeboard.two": "Bu adada, özel sınırlı öğelere harcayabileceğiniz Jetonlar kazanabileceğiniz yepyeni bir mini oyun içeren bir portal bulabilirsiniz!",
   "event.noticeboard.three": "Mağaza, önceki katmanlardan öğeler satın aldıktan sonra satın almak için yeni öğelerin kilidini açabileceğiniz Stella Mağazasına benzer bir sistem kullanır. Ayrıca $FLOWER kazanma şansına sahip olmak için olabildiğince çok etkinlik bileti almayı unutmayın!",
   "event.noticeboard.four": "Oyunun ve etkinliğin çalışma şekli her zaman değiştiğinden, bu sefer doğrudan bağış NPC yok, ancak mağazadaki herhangi bir öğeyi $FLOWER ile satın alabilir veya bunun gibi daha büyük, daha iyi ve daha şaşırtıcı etkinlikler getirmeye devam etmemize yardımcı olmak için Portal'dan denemeler satın alabilirsiniz!",
   "event.noticeboard.five": "Bunların hepsi sizin ve desteğiniz sayesinde! Topluluk etkinlik ekibinden hepinize teşekkür ederiz! Resmi Sunflower Land Discord Sunucusu hakkındaki görüşleriniz takdir edilmektedir",
@@ -6041,5 +6040,6 @@
   "competition.prizes.three": "Yarışma {{startDate}} ile {{endDate}} arasında sürer",
   "blessing.guardiansSeek.random": "Ne kadar çok öğe bağışlanırsa, ödül havuzu o kadar büyük olur - Ödüller rastgele dağıtılır.",
   "competition.rules.three": "Love Charms, sıralamalarına göre en iyi 5.000 oyuncuya dağıtılacak.",
-  "blessing.random": "Ne kadar çok öğe bağışlanırsa, ödül havuzu o kadar büyük olur - Ödüller rastgele dağıtılır."
+  "blessing.random": "Ne kadar çok öğe bağışlanırsa, ödül havuzu o kadar büyük olur - Ödüller rastgele dağıtılır.",
+  "event.noticeboard.two": "Bu adada, özel sınırlı öğelere harcayabileceğiniz Jetonlar kazanabileceğiniz yepyeni bir mini oyun içeren bir portal bulabilirsiniz! Portaldaki girişimleriniz günler boyunca sürüyor, bu yüzden hepsini bir kerede harcamak için acele etmeyin! Boş zamanlarınızda oynamak veya mümkün olduğunca oynamak için sınırsız deneme seçeneğini satın alın!"
 }

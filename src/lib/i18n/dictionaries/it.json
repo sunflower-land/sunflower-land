@@ -5990,7 +5990,6 @@
   "description.redSlimeBalloon": "Sospesa in una bolla rosso rubino, questa melma maliziosa si schiaccia e si contorce per l'eccitazione.",
   "description.blueSlimeBalloon": "Oscillando dolcemente in un fantastico palloncino blu, questa melma giocosa sembra godersi il viaggio.",
   "event.noticeboard.one": "Benvenuti all'evento Festival of Colors 2025!",
-  "event.noticeboard.two": "Su quest'isola puoi trovare un portale con un nuovissimo minigioco in cui puoi guadagnare gettoni da spendere in oggetti speciali limitati!",
   "event.noticeboard.three": "Il negozio utilizza un sistema simile a Stella Shop, in cui puoi sbloccare nuovi oggetti da acquistare dopo aver acquistato articoli dei livelli precedenti. Ricorda inoltre di acquistare il maggior numero possibile di biglietti per gli eventi per avere più possibilità di vincere $FLOWER!",
   "event.noticeboard.four": "Poiché il funzionamento del gioco e degli eventi è in continua evoluzione, questa volta non ci sono NPC che effettuano donazioni dirette, ma puoi acquistare qualsiasi oggetto nel negozio con $FLOWER o tentativi di acquisto sul Portale per supportarci e aiutarci a continuare a creare eventi più grandi, migliori e più incredibili come questo!",
   "event.noticeboard.five": "Tutto questo grazie a te e al tuo supporto! Noi del team dedicato agli eventi della community ringraziamo tutti! Il tuo feedback sul server Discord ufficiale di Sunflower Land è apprezzato",
@@ -6041,5 +6040,6 @@
   "competition.prizes.three": "La competizione va da {{startDate}} a {{endDate}}",
   "blessing.guardiansSeek.random": "Più oggetti vengono donati, maggiore è il montepremi: i premi vengono distribuiti in modo casuale.",
   "competition.rules.three": "Love Charms verrà distribuito ai primi 5.000 giocatori, in base alla loro classifica.",
-  "blessing.random": "Più oggetti vengono donati, maggiore è il montepremi: i premi vengono distribuiti in modo casuale."
+  "blessing.random": "Più oggetti vengono donati, maggiore è il montepremi: i premi vengono distribuiti in modo casuale.",
+  "event.noticeboard.two": "Su quest'isola puoi trovare un portale con un nuovissimo minigioco in cui puoi guadagnare gettoni da spendere in oggetti speciali limitati! I tuoi tentativi nel portale si protraggono per giorni, quindi non c'è fretta di spenderli tutti in una volta! Acquista l'opzione tentativi illimitati per giocare a tuo piacimento o per giocare il più possibile!"
 }

@@ -5990,7 +5990,6 @@
   "description.redSlimeBalloon": "Dieser schelmische Schleim, der in einer rubinroten Blase schwebt, zerquetscht und windet sich vor Aufregung.",
   "description.blueSlimeBalloon": "Dieser verspielte Schleim wippt sanft in einem kühlen blauen Ballon und scheint die Fahrt zu genießen.",
   "event.noticeboard.one": "Willkommen zum Festival of Colors 2025!",
-  "event.noticeboard.two": "Auf dieser Insel findest du ein Portal mit einem brandneuen Minispiel, in dem du Marken verdienen kannst, die du für limitierte Spezialgegenstände ausgeben kannst!",
   "event.noticeboard.three": "Der Shop verwendet ein dem Stella-Shop ähnliches System, bei dem Sie neue Artikel freischalten können, die Sie kaufen können, nachdem Sie Artikel aus den vorherigen Stufen gekauft haben. Denkt auch daran, so viele Eventtickets wie möglich zu kaufen, um mehr Chancen zu haben, $FLOWER zu gewinnen!",
   "event.noticeboard.four": "Da sich die Art und Weise, wie das Spiel und das Event funktionieren, ständig ändern, gibt es dieses Mal keinen direkten NPC, aber ihr könnt alle Gegenstände im Shop mit $FLOWER kaufen oder Versuche auf dem Portal kaufen, um uns zu unterstützen und uns zu helfen, weiterhin größere, bessere und fantastischere Events wie dieses zu organisieren!",
   "event.noticeboard.five": "Das alles haben wir dir und deiner Unterstützung zu verdanken! Wir vom Community Event Team danken euch allen! Euer Feedback auf dem offiziellen Sunflower Land Discord Server ist uns sehr wichtig",
@@ -6041,5 +6040,6 @@
   "competition.prizes.three": "Der Wettbewerb läuft von {{startDate}} bis {{endDate}}",
   "blessing.guardiansSeek.random": "Je mehr Artikel gespendet werden, desto größer ist der Prämienpool — Belohnungen werden nach dem Zufallsprinzip verteilt.",
   "competition.rules.three": "Love Charms werden an die besten 5.000 Spieler verteilt, basierend auf ihrem Ranking.",
-  "blessing.random": "Je mehr Artikel gespendet werden, desto größer ist der Prämienpool — Belohnungen werden nach dem Zufallsprinzip verteilt."
+  "blessing.random": "Je mehr Artikel gespendet werden, desto größer ist der Prämienpool — Belohnungen werden nach dem Zufallsprinzip verteilt.",
+  "event.noticeboard.two": "Auf dieser Insel findest du ein Portal mit einem brandneuen Minispiel, in dem du Marken verdienen kannst, die du für limitierte Spezialgegenstände ausgeben kannst! Deine Versuche im Portal dauern mehrere Tage, also beeile dich nicht, sie alle auf einmal auszugeben! Kaufe die Option „Unbegrenzte Anzahl an Versuchen“, um nach Belieben zu spielen oder um so viel wie möglich zu spielen!"
 }

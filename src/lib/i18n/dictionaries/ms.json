@@ -5990,7 +5990,6 @@
   "description.redSlimeBalloon": "Digantung dalam gelembung merah rubin, lendir nakal ini bergelembung dan berkelip dengan kegembiraan.",
   "description.blueSlimeBalloon": "Perlahan-lahan melayang dalam belon biru yang sejuk, lendir yang suka bermain ini seolah-olah menikmati perjalanan.",
   "event.noticeboard.one": "Selamat datang ke Acara Festival Warna 2025!",
-  "event.noticeboard.two": "Di pulau ini, anda boleh menemui portal dengan permainan mini baru di mana anda boleh mendapatkan Token untuk dibelanjakan untuk item terhad khas!",
   "event.noticeboard.three": "Kedai ini menggunakan sistem yang serupa dengan Stella Shop, di mana anda boleh membuka kunci barang baru untuk dibeli selepas anda membeli barang dari peringkat sebelumnya. Juga ingat untuk membeli seberapa banyak tiket acara yang anda boleh untuk mempunyai lebih banyak peluang untuk memenangi $FLOWER!",
   "event.noticeboard.four": "Oleh kerana cara permainan dan acara berfungsi sentiasa berubah, tidak ada NPC derma langsung kali ini, tetapi anda boleh membeli mana-mana item di kedai dengan $FLOWER atau membeli percubaan di Portal untuk menyokong dan membantu kami terus membawa acara yang lebih besar, lebih baik dan lebih menakjubkan seperti ini!",
   "event.noticeboard.five": "Ini semua terima kasih kepada anda dan sokongan anda! Kami dari pasukan acara komuniti mengucapkan terima kasih kepada anda semua! Maklum balas anda mengenai Sunflower Land Discord Server rasmi dihargai",
@@ -6041,5 +6040,6 @@
   "competition.prizes.three": "Pertandingan berjalan dari {{startDate}} hingga {{endDate}}",
   "blessing.guardiansSeek.random": "Semakin banyak item yang disumbangkan, semakin besar kumpulan ganjaran - Ganjaran diedarkan secara rawak.",
   "competition.rules.three": "Love Charms akan diedarkan kepada 5,000 pemain teratas, berdasarkan ranking mereka.",
-  "blessing.random": "Semakin banyak item yang disumbangkan, semakin besar kumpulan ganjaran - Ganjaran diedarkan secara rawak."
+  "blessing.random": "Semakin banyak item yang disumbangkan, semakin besar kumpulan ganjaran - Ganjaran diedarkan secara rawak.",
+  "event.noticeboard.two": "Di pulau ini, anda boleh menemui portal dengan permainan mini baru di mana anda boleh mendapatkan Token untuk dibelanjakan untuk item terhad khas! Percubaan anda di portal berlangsung selama berhari-hari, jadi jangan tergesa-gesa untuk menghabiskan semuanya sekaligus! Beli pilihan percubaan tanpa had untuk bermain pada masa lapang atau bermain sebanyak mungkin!"
 }
