@@ -78,7 +78,7 @@
     "react-share": "^5.1.0",
     "react-spring": "^9.7.1",
     "react-virtualized-auto-sizer": "^1.0.24",
-    "react-window": "^1.8.10",
+    "react-window": "1.8.10",
     "serialize-error": "^11.0.0",
     "stream-browserify": "^3.0.0",
     "string-similarity": "^4.0.4",
@@ -105,8 +105,8 @@
     "@types/lodash.shuffle": "^4.2.7",
     "@types/pubsub-js": "^1.8.6",
     "@types/qrcode.react": "^1.0.5",
-    "@types/react": "^17.0.33",
-    "@types/react-dom": "^17.0.10",
+    "@types/react": "^18.3.1",
+    "@types/react-dom": "^18.3.1",
     "@types/react-google-recaptcha": "^2.1.5",
     "@types/react-window": "^1.8.8",
     "@types/string-similarity": "^4.0.0",
@@ -150,7 +150,9 @@
   "resolutions": {
     "async": "^2.6.4",
     "minimist": "^1.2.6",
-    "simple-get": "^2.8.2"
+    "simple-get": "^2.8.2",
+    "@types/react": "^18.3.1",
+    "@types/react-dom": "^18.3.1"
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": "eslint --fix",

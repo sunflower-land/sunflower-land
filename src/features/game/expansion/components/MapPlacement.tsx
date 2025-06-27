@@ -22,7 +22,7 @@ type Props = Position;
  * as the basis for its positioning. If the coordinates are 1,1 then the item will be placed one
  * grid size up and one grid right. The item will be placed at 0,0 of this coordinate.
  */
-export const MapPlacement: React.FC<Props> = ({
+export const MapPlacement: React.FC<React.PropsWithChildren<Props>> = ({
   x,
   y,
   height,

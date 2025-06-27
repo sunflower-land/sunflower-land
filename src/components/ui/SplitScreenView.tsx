@@ -39,7 +39,7 @@ export const SplitScreenView: React.FC<Props> = ({
   panel: header,
   content,
   tallDesktopContent = false,
-}: Props) => {
+}) => {
   return (
     <div
       className={classNames("flex sm:flex-row", {

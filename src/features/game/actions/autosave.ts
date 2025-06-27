@@ -7,7 +7,6 @@ import { makeGame } from "../lib/transforms";
 import { getSessionId } from "./loadSession";
 import Decimal from "decimal.js-light";
 import { SeedBoughtAction } from "../events/landExpansion/seedBought";
-import { AUTO_SAVE_INTERVAL } from "../expansion/Game";
 
 type Request = {
   actions: PastAction[];
@@ -92,9 +91,6 @@ export async function autosaveRequest(
       cachedKey,
       deviceTrackerId: request.deviceTrackerId,
     }),
-    // Just in case the request takes too long, abort it. Some players have requests
-    // that can take a long, so use a conservative timeout of the autosave interval.
-    signal: AbortSignal.timeout(AUTO_SAVE_INTERVAL),
   });
 }
 
