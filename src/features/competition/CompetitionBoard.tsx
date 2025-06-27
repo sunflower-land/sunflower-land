@@ -199,8 +199,8 @@ export const CompetitionDetails: React.FC<{
               {
                 icon: calendarIcon,
                 text: t("competition.prizes.three", {
-                  startDate: new Date(competition.startAt).toLocaleDateString(),
-                  endDate: new Date(competition.endAt).toLocaleDateString(),
+                  startDate: new Date(competition.startAt).toLocaleString(),
+                  endDate: new Date(competition.endAt).toLocaleString(),
                 }),
               },
             ]}

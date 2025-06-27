@@ -219,8 +219,7 @@ export const COMPETITION_POINTS: Record<
     },
   },
   PEGGYS_COOKOFF: {
-    // startAt: new Date("2025-07-10T00:00:00Z").getTime(),
-    startAt: new Date("2025-06-10T00:00:00Z").getTime(),
+    startAt: new Date("2025-07-10T00:00:00Z").getTime(),
     endAt: new Date("2025-07-20T00:00:00Z").getTime(),
     points: {
       "Cook Fried Tofu": 1,
