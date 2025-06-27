@@ -5497,7 +5497,6 @@
   "world.intro.visit": "Rendez visite à des PNJ et effectuez des livraisons pour gagner des FLEURS, des pièces et des récompenses rares.",
   "description.skills.liquidityProvider": "Frais de retrait FLOWER réduits de 50 %",
   "merkl.introducing.two": "Une nouvelle façon améliorée de gagner des FLOWER pour soutenir l'écosystème.",
-  "competition.rules.three": "FLOWER sera distribué aux 5 000 meilleurs joueurs, en fonction de leur classement.",
   "bounties.sell.sfl": "Êtes-vous sûr de vouloir le vendre pour {{amount}} FLOWER ?",
   "halloween.noticeboard.four": "Les meilleurs scores recevront des objets spéciaux limités, tandis que ceux ayant cumulé les meilleurs scores (somme des meilleurs scores pour chaque jour de l'événement) recevront des récompenses $FLOWER !",
   "whatsOn.sflMarketplace": "Marché aux fleurs",
@@ -6007,7 +6006,6 @@
   "whatsOn.auction.tickets": "Pas de {{ticket}} de corvées et de primes cette semaine.",
   "whatsOn.ticketPaused": "Les Bumpkins sont en vacances. Fini {{ticket}} de corvées et de primes.",
   "blessing.youHaveBeenBlessed": "Les dieux ont décidé",
-  "blessing.random": "Plus il y a de joueurs qui font des dons, plus le pool de récompenses est important. Les récompenses sont distribuées de manière aléatoire.",
   "seeking.blessing": "Chargement",
   "seeking.blessing.success": "Les dieux ont décidé qui sera béni.",
   "blessing.donated": "{{amount}} {{item}} a fait un don",
@@ -6041,5 +6039,7 @@
   "competition.prizes.one": "Cagnotte Love Charm de 5 millions",
   "competition.prizes.two": "Cuisinez et grimpez dans le classement !",
   "competition.prizes.three": "La compétition se déroule de {{startDate}} à {{endDate}}",
-  "blessing.guardiansSeek.random": "Plus le nombre d'objets donnés est élevé, plus le pool de récompenses est important. Les récompenses sont distribuées de manière aléatoire."
+  "blessing.guardiansSeek.random": "Plus le nombre d'objets donnés est élevé, plus le pool de récompenses est important. Les récompenses sont distribuées de manière aléatoire.",
+  "competition.rules.three": "Love Charms sera distribué aux 5 000 meilleurs joueurs, en fonction de leur classement.",
+  "blessing.random": "Plus le nombre d'objets donnés est élevé, plus le pool de récompenses est important. Les récompenses sont distribuées de manière aléatoire."
 }

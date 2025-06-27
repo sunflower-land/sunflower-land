@@ -5497,7 +5497,6 @@
   "world.intro.visit": "拜访 NPC 并完成送货，获得 FLOWER、金币和稀有奖励。",
   "description.skills.liquidityProvider": "FLOWER 提款费减免 50%",
   "merkl.introducing.two": "一种通过支持生态系统获得 FLOWER 的全新改进方式。",
-  "competition.rules.three": "FLOWER 将根据排名分配给前 5,000 名玩家。",
   "bounties.sell.sfl": "你确定要以 {{amount}} FLOWER 的价格出售这个吗？",
   "halloween.noticeboard.four": "分数最高的将获得特殊限量物品，而累积分数最高的玩家（活动每天最高分的总和）将获得 $FLOWER 奖励！",
   "whatsOn.sflMarketplace": "FLOWER 市场",
@@ -6007,7 +6006,6 @@
   "whatsOn.auction.tickets": "本周没有 [0@/美元] 的家务和赏金。",
   "whatsOn.ticketPaused": "Bumpkins 正在度假 —— 家务和赏金不再 [0@/美元] 了。",
   "blessing.youHaveBeenBlessed": "众神已经决定了",
-  "blessing.random": "捐款的玩家越多，奖励池越大——奖励是随机分配的。",
   "seeking.blessing": "加载中",
   "seeking.blessing.success": "众神已经决定谁会得到祝福。",
   "blessing.donated": "{{amount}} {{item}} 已捐赠",
@@ -6041,5 +6039,7 @@
   "competition.prizes.one": "500 万爱情护身符奖池",
   "competition.prizes.two": "烹饪食物并攀登排行榜！",
   "competition.prizes.three": "比赛从 {{startDate}} 到 {{endDate}}",
-  "blessing.guardiansSeek.random": "捐赠的物品越多，奖励池越大——奖励是随机分配的。"
+  "blessing.guardiansSeek.random": "捐赠的物品越多，奖励池越大——奖励是随机分配的。",
+  "competition.rules.three": "爱情护身符将根据排名分发给前5,000名玩家。",
+  "blessing.random": "捐赠的物品越多，奖励池越大——奖励是随机分配的。"
 }

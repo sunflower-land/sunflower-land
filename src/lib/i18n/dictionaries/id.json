@@ -5497,7 +5497,6 @@
   "world.intro.visit": "Kunjungi NPC dan selesaikan pengiriman untuk mendapatkan BUNGA, Koin, dan hadiah langka.",
   "description.skills.liquidityProvider": "50% pengurangan biaya penarikan FLOWER",
   "merkl.introducing.two": "Cara baru dan lebih baik untuk mendapatkan FLOWER untuk mendukung ekosistem.",
-  "competition.rules.three": "FLOWER akan didistribusikan ke 5.000 pemain teratas, berdasarkan peringkat mereka.",
   "bounties.sell.sfl": "Apakah Anda yakin ingin menjual ini seharga {{amount}} FLOWER?",
   "halloween.noticeboard.four": "Skor tertinggi akan menerima item terbatas khusus, sedangkan mereka yang memiliki skor akumulasi tertinggi (jumlah skor terbaik untuk setiap hari acara) akan menerima hadiah $FLOWER!",
   "whatsOn.sflMarketplace": "Pasar BUNGA",
@@ -6007,7 +6006,6 @@
   "whatsOn.auction.tickets": "Tidak ada {{ticket}} dari tugas-tugas dan hadiah minggu ini.",
   "whatsOn.ticketPaused": "Keluarga Bumpkins sedang berlibur - Tidak ada lagi {{ticket}} dari tugas-tugas & hadiah.",
   "blessing.youHaveBeenBlessed": "Para Dewa telah memutuskan",
-  "blessing.random": "Semakin banyak pemain yang menyumbang, semakin besar kumpulan hadiah - Hadiah didistribusikan secara acak.",
   "seeking.blessing": "Memuat",
   "seeking.blessing.success": "Para dewa telah memutuskan siapa yang akan diberkati.",
   "blessing.donated": "{{amount}} {{item}} disumbangkan",
@@ -6041,5 +6039,7 @@
   "competition.prizes.one": "Kumpulan Hadiah Cinta 5 juta",
   "competition.prizes.two": "Masak makanan dan naik papan peringkat!",
   "competition.prizes.three": "Kompetisi berjalan dari {{startDate}} hingga {{endDate}}",
-  "blessing.guardiansSeek.random": "Semakin banyak item yang disumbangkan, semakin besar kumpulan hadiah - Hadiah didistribusikan secara acak."
+  "blessing.guardiansSeek.random": "Semakin banyak item yang disumbangkan, semakin besar kumpulan hadiah - Hadiah didistribusikan secara acak.",
+  "competition.rules.three": "Love Charms akan didistribusikan ke 5.000 pemain teratas, berdasarkan peringkat mereka.",
+  "blessing.random": "Semakin banyak item yang disumbangkan, semakin besar kumpulan hadiah - Hadiah didistribusikan secara acak."
 }

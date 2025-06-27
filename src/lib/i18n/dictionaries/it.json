@@ -5497,7 +5497,6 @@
   "world.intro.visit": "Visita gli NPC e completa le consegne per guadagnare FIORI, monete e ricompense rare.",
   "description.skills.liquidityProvider": "Tariffa di prelievo FLOWER ridotta del 50%",
   "merkl.introducing.two": "Un modo nuovo e migliorato per guadagnare FIORI sostenendo l'ecosistema.",
-  "competition.rules.three": "FLOWER sarà distribuito ai primi 5.000 giocatori, in base alla loro classifica.",
   "bounties.sell.sfl": "Sei sicuro di volerlo vendere per {{amount}} FLOWER?",
   "halloween.noticeboard.four": "I punteggi più alti riceveranno articoli speciali limitati, mentre quelli con i punteggi più alti accumulati (somma dei punteggi migliori per ogni giorno dell'evento) riceveranno premi $FLOWER!",
   "whatsOn.sflMarketplace": "Mercato dei fiori",
@@ -6007,7 +6006,6 @@
   "whatsOn.auction.tickets": "Niente {{ticket}} per le faccende domestiche e le ricompense questa settimana.",
   "whatsOn.ticketPaused": "I Bumpkins sono in vacanza, niente più {{ticket}} dalle faccende domestiche e dalle ricompense.",
   "blessing.youHaveBeenBlessed": "Gli dei hanno deciso",
-  "blessing.random": "Maggiore è il numero di giocatori che effettuano una donazione, maggiore è il montepremi. Le ricompense vengono distribuite in modo casuale.",
   "seeking.blessing": "Caricamento",
   "seeking.blessing.success": "Gli dei hanno deciso chi sarà benedetto.",
   "blessing.donated": "{{amount}} {{item}} ha donato",
@@ -6041,5 +6039,7 @@
   "competition.prizes.one": "Montepremi Love Charm da 5 milioni",
   "competition.prizes.two": "Cucina il cibo e scala la classifica!",
   "competition.prizes.three": "La competizione va da {{startDate}} a {{endDate}}",
-  "blessing.guardiansSeek.random": "Più oggetti vengono donati, maggiore è il montepremi: i premi vengono distribuiti in modo casuale."
+  "blessing.guardiansSeek.random": "Più oggetti vengono donati, maggiore è il montepremi: i premi vengono distribuiti in modo casuale.",
+  "competition.rules.three": "Love Charms verrà distribuito ai primi 5.000 giocatori, in base alla loro classifica.",
+  "blessing.random": "Più oggetti vengono donati, maggiore è il montepremi: i premi vengono distribuiti in modo casuale."
 }

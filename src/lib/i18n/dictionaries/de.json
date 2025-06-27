@@ -5497,7 +5497,6 @@
   "world.intro.visit": "Besuche NPCs und schließe Lieferungen ab, um BLUMEN, Münzen und seltene Belohnungen zu verdienen.",
   "description.skills.liquidityProvider": "50% reduzierte FLOWER-Auszahlungsgebühr",
   "merkl.introducing.two": "Eine neue und verbesserte Methode, FLOWER für die Unterstützung des Ökosystems zu verdienen.",
-  "competition.rules.three": "FLOWER wird an die besten 5.000 Spieler verteilt, basierend auf ihrem Ranking.",
   "bounties.sell.sfl": "Bist du sicher, dass du das für {{amount}} FLOWER verkaufen willst?",
   "halloween.noticeboard.four": "Die Spieler mit den höchsten Punktzahlen erhalten limitierte Gegenstände, während diejenigen mit den höchsten gesammelten Punktzahlen (Summe der besten Ergebnisse an jedem Veranstaltungstag) $FLOWER-Belohnungen erhalten!",
   "whatsOn.sflMarketplace": "FLOWER-Marktplatz",
@@ -6007,7 +6006,6 @@
   "whatsOn.auction.tickets": "Keine {{ticket}} von Hausarbeiten und Kopfgeldern in dieser Woche.",
   "whatsOn.ticketPaused": "Die Bumpkins haben Ferien — Schluss mit {{ticket}} von Hausarbeiten und Kopfgeldern.",
   "blessing.youHaveBeenBlessed": "Die Götter haben entschieden",
-  "blessing.random": "Je mehr Spieler spenden, desto größer ist der Prämienpool. Die Belohnungen werden zufällig verteilt.",
   "seeking.blessing": "Wird geladen",
   "seeking.blessing.success": "Die Götter haben entschieden, wer gesegnet wird.",
   "blessing.donated": "{{amount}} {{item}} gespendet",
@@ -6041,5 +6039,7 @@
   "competition.prizes.one": "Preispool von 5 Millionen Love Charm",
   "competition.prizes.two": "Koche Essen und erklimme die Bestenliste!",
   "competition.prizes.three": "Der Wettbewerb läuft von {{startDate}} bis {{endDate}}",
-  "blessing.guardiansSeek.random": "Je mehr Artikel gespendet werden, desto größer ist der Prämienpool — Belohnungen werden nach dem Zufallsprinzip verteilt."
+  "blessing.guardiansSeek.random": "Je mehr Artikel gespendet werden, desto größer ist der Prämienpool — Belohnungen werden nach dem Zufallsprinzip verteilt.",
+  "competition.rules.three": "Love Charms werden an die besten 5.000 Spieler verteilt, basierend auf ihrem Ranking.",
+  "blessing.random": "Je mehr Artikel gespendet werden, desto größer ist der Prämienpool — Belohnungen werden nach dem Zufallsprinzip verteilt."
 }

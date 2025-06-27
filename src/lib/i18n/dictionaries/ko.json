@@ -5497,7 +5497,6 @@
   "world.intro.visit": "NPC를 방문하여 배송을 완료하고 꽃, 코인 및 희귀 보상을 받으세요.",
   "description.skills.liquidityProvider": "플라워 인출 수수료 50% 할인",
   "merkl.introducing.two": "생태계를 지원하여 FLOWER를 획득하는 새롭고 개선된 방법입니다.",
-  "competition.rules.three": "FLOWER는 랭킹을 기준으로 상위 5,000명의 플레이어에게 분배됩니다.",
   "bounties.sell.sfl": "이거 정말 {{amount}} FLOWER에 팔고 싶으세요?",
   "halloween.noticeboard.four": "가장 높은 점수를 받은 분들께는 특별 한정 아이템을 드리며, 가장 높은 누적 점수 (이벤트 당일 최고 점수 합계) 를 달성하신 분들께는 $FLOWER 보상을 드립니다!",
   "whatsOn.sflMarketplace": "플라워 마켓플레이스",
@@ -6007,7 +6006,6 @@
   "whatsOn.auction.tickets": "이번 주에는 집안일과 현상금 때문에 {{ticket}} 하지 마세요.",
   "whatsOn.ticketPaused": "범프킨은 휴일이야. 이제 집안일과 현상금 때문에 {{ticket}} 할 일은 이제 그만.",
   "blessing.youHaveBeenBlessed": "신들이 결심했다",
-  "blessing.random": "기부하는 플레이어가 많을수록 보상 풀이 커집니다. 보상은 무작위로 분배됩니다.",
   "seeking.blessing": "불러오는 중",
   "seeking.blessing.success": "누가 축복을 받을지 신들이 정했습니다.",
   "blessing.donated": "{{amount}} {{item}} 기부",
@@ -6041,5 +6039,7 @@
   "competition.prizes.one": "500만 러브 참 상금 풀",
   "competition.prizes.two": "음식을 요리하고 순위표에 오르세요!",
   "competition.prizes.three": "대회는 {{startDate}} 부터 {{endDate}} 까지 진행됩니다.",
-  "blessing.guardiansSeek.random": "기부한 아이템이 많을수록 보상 풀이 커집니다. 보상은 무작위로 분배됩니다."
+  "blessing.guardiansSeek.random": "기부한 아이템이 많을수록 보상 풀이 커집니다. 보상은 무작위로 분배됩니다.",
+  "competition.rules.three": "러브 참은 랭킹에 따라 상위 5,000명의 플레이어에게 배포됩니다.",
+  "blessing.random": "기부한 아이템이 많을수록 보상 풀이 커집니다. 보상은 무작위로 분배됩니다."
 }

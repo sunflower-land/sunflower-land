@@ -5497,7 +5497,6 @@
   "world.intro.visit": "Visita a los PNJ y completa las entregas para ganar FLORES, monedas y recompensas raras.",
   "description.skills.liquidityProvider": "Tarifa de retiro de FLOWER reducida en un 50%",
   "merkl.introducing.two": "Una forma nueva y mejorada de ganar FLOWER por apoyar el ecosistema.",
-  "competition.rules.three": "FLOWER se distribuirá entre los 5000 mejores jugadores en función de su clasificación.",
   "bounties.sell.sfl": "¿Estás seguro de que quieres venderlo por {{amount}} FLOWER?",
   "halloween.noticeboard.four": "Los que obtengan las puntuaciones más altas recibirán objetos especiales limitados, mientras que los que obtengan las puntuaciones acumuladas más altas (la suma de las mejores puntuaciones de cada día del evento) recibirán recompensas de $FLOWER.",
   "whatsOn.sflMarketplace": "Mercado de FLORES",
@@ -6007,7 +6006,6 @@
   "whatsOn.auction.tickets": "No habrá {{ticket}} de tareas y recompensas esta semana.",
   "whatsOn.ticketPaused": "Los Bumpkins están de vacaciones, no más {{ticket}} de tareas y recompensas.",
   "blessing.youHaveBeenBlessed": "Los dioses han decidido",
-  "blessing.random": "Cuantos más jugadores donen, mayor será la cantidad de recompensas: las recompensas se distribuyen de forma aleatoria.",
   "seeking.blessing": "Cargando",
   "seeking.blessing.success": "Los dioses han decidido quién será bendecido.",
   "blessing.donated": "{{amount}} {{item}} donados",
@@ -6041,5 +6039,7 @@
   "competition.prizes.one": "Bolsa de premios Love Charm de 5 millones",
   "competition.prizes.two": "¡Cocina comida y sube en la clasificación!",
   "competition.prizes.three": "La competencia va de {{startDate}} a {{endDate}}",
-  "blessing.guardiansSeek.random": "Cuantos más artículos se donen, mayor será la cantidad de recompensas: las recompensas se distribuyen de forma aleatoria."
+  "blessing.guardiansSeek.random": "Cuantos más artículos se donen, mayor será la cantidad de recompensas: las recompensas se distribuyen de forma aleatoria.",
+  "competition.rules.three": "Love Charms se distribuirá entre los 5000 mejores jugadores en función de su clasificación.",
+  "blessing.random": "Cuantos más artículos se donen, mayor será la cantidad de recompensas: las recompensas se distribuyen de forma aleatoria."
 }

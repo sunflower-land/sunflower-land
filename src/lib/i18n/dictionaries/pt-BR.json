@@ -5497,7 +5497,6 @@
   "world.intro.visit": "Visite NPCs e conclua entregas para ganhar FLORES, moedas e recompensas raras.",
   "description.skills.liquidityProvider": "Taxa de retirada de FLOWER reduzida em 50%",
   "merkl.introducing.two": "Uma forma nova e aprimorada de ganhar FLOWER por apoiar o ecossistema.",
-  "competition.rules.three": "FLOWER será distribuído aos 5.000 melhores jogadores, com base em sua classificação.",
   "bounties.sell.sfl": "Tem certeza de que quer vender isso por {{amount}} FLOWER?",
   "halloween.noticeboard.four": "As pontuações mais altas receberão itens especiais limitados, enquanto aquelas com as maiores pontuações acumuladas (soma das melhores pontuações de cada dia do evento) receberão recompensas em $ FLOWER!",
   "whatsOn.sflMarketplace": "Mercado de flores",
@@ -6007,7 +6006,6 @@
   "whatsOn.auction.tickets": "Não {{ticket}} de tarefas e recompensas desta semana.",
   "whatsOn.ticketPaused": "Os Bumpkins estão de férias - Chega de {{ticket}} de tarefas e recompensas.",
   "blessing.youHaveBeenBlessed": "Os deuses decidiram",
-  "blessing.random": "Quanto mais jogadores doarem, maior será o pool de recompensas - as recompensas são distribuídas aleatoriamente.",
   "seeking.blessing": "Carregando",
   "seeking.blessing.success": "Os deuses decidiram quem será abençoado.",
   "blessing.donated": "{{amount}} {{item}} doado",
@@ -6041,5 +6039,7 @@
   "competition.prizes.one": "Total de 5 milhões de prêmios Love Charm",
   "competition.prizes.two": "Cozinhe comida e suba na tabela de classificação!",
   "competition.prizes.three": "A competição vai de {{startDate}} a {{endDate}}",
-  "blessing.guardiansSeek.random": "Quanto mais itens forem doados, maior será o pool de recompensas - as recompensas são distribuídas aleatoriamente."
+  "blessing.guardiansSeek.random": "Quanto mais itens forem doados, maior será o pool de recompensas - as recompensas são distribuídas aleatoriamente.",
+  "competition.rules.three": "Love Charms será distribuído aos 5.000 melhores jogadores, com base em sua classificação.",
+  "blessing.random": "Quanto mais itens forem doados, maior será o pool de recompensas - as recompensas são distribuídas aleatoriamente."
 }

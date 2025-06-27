@@ -5497,7 +5497,6 @@
   "world.intro.visit": "ÇIÇEK, Madeni Paralar ve nadir ödüller kazanmak için NPC'leri ziyaret edin ve teslimatları tamamlayın.",
   "description.skills.liquidityProvider": "%50 indirimli FLOWER para çekme ücreti",
   "merkl.introducing.two": "Ekosistemi desteklemek için ÇIÇEK kazanmanın yeni ve geliştirilmiş bir yolu.",
-  "competition.rules.three": "FLOWER, sıralamalarına göre en iyi 5.000 oyuncuya dağıtılacak.",
   "bounties.sell.sfl": "Bunu {{amount}} FLOWER için satmak istediğinizden emin misiniz?",
   "halloween.noticeboard.four": "En yüksek puanlar özel sınırlı öğeler kazanırken, en yüksek puana sahip olanlar (etkinliğin her günü için en iyi puanların toplamı) $FLOWER ödülleri alacak!",
   "whatsOn.sflMarketplace": "ÇIÇEK Pazarı",
@@ -6007,7 +6006,6 @@
   "whatsOn.auction.tickets": "Bu hafta ev işleri ve ödüllerden {{ticket}} yok.",
   "whatsOn.ticketPaused": "Bumpkin'ler tatilde - Ev işleri ve ödüllerden artık {{ticket}} yok.",
   "blessing.youHaveBeenBlessed": "Tanrılar karar verdi",
-  "blessing.random": "Ne kadar çok oyuncu bağış yaparsa, ödül havuzu o kadar büyük olur - Ödüller rastgele dağıtılır.",
   "seeking.blessing": "Yükleniyor",
   "seeking.blessing.success": "Tanrılar kimin kutsanacağına karar verdi.",
   "blessing.donated": "{{amount}} {{item}} bağışlandı",
@@ -6041,5 +6039,7 @@
   "competition.prizes.one": "5 milyon Love Charm Ödül Havuzu",
   "competition.prizes.two": "Yemek pişirin ve liderlik tablosuna tırmanın!",
   "competition.prizes.three": "Yarışma {{startDate}} ile {{endDate}} arasında sürer",
-  "blessing.guardiansSeek.random": "Ne kadar çok öğe bağışlanırsa, ödül havuzu o kadar büyük olur - Ödüller rastgele dağıtılır."
+  "blessing.guardiansSeek.random": "Ne kadar çok öğe bağışlanırsa, ödül havuzu o kadar büyük olur - Ödüller rastgele dağıtılır.",
+  "competition.rules.three": "Love Charms, sıralamalarına göre en iyi 5.000 oyuncuya dağıtılacak.",
+  "blessing.random": "Ne kadar çok öğe bağışlanırsa, ödül havuzu o kadar büyük olur - Ödüller rastgele dağıtılır."
 }
