@@ -34,7 +34,7 @@ import { getKeys } from "features/game/types/craftables";
 import { SFLDiscount } from "features/game/lib/SFLDiscount";
 
 import { REWARD_BOXES } from "features/game/types/rewardBoxes";
-import { secondsToString } from "lib/utils/time";
+import { MINIGAME_SHOP_ITEMS } from "features/game/types/minigameShop";
 
 interface ItemOverlayProps {
   item: EventStoreItem | null;
@@ -119,12 +119,19 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const isMegaUnlocked =
     tier === "mega" && eventItemsCrafted >= eventStore.mega.requirement;
 
-  const boughtAt = state.minigames.games["festival-of-colors-2025"] ?? 0;
-  const itemInCooldown =
-    !!boughtAt && boughtAt + (item?.cooldownMs ?? 0) > createdAt;
+  const itemsCrafted = isWearable
+    ? state.minigames.games["festival-of-colors-2025"]?.shop?.wearables?.[
+        itemName as BumpkinItem
+      ] ?? 0
+    : state.minigames.games["festival-of-colors-2025"]?.shop?.items?.[
+        itemName as InventoryItemName
+      ] ?? 0;
 
-  const itemCrafted =
-    state.bumpkin.activity[`${itemName as EventTierItemName} Bought`];
+  const canCraftMore =
+    itemsCrafted <
+    (MINIGAME_SHOP_ITEMS["festival-of-colors-2025"]?.[
+      itemName as EventTierItemName
+    ]?.max ?? 1);
 
   const description = getItemDescription(item);
   const { sfl = 0 } = item?.cost || {};
@@ -157,10 +164,8 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
       if (tier === "mega" && !isMegaUnlocked) return false;
     }
 
-    if (!item.cooldownMs) {
-      if (itemCrafted) {
-        return false;
-      }
+    if (!canCraftMore) {
+      return false;
     }
 
     if (itemReq) {
@@ -192,7 +197,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
         ? sfl
         : item.cost.sfl === 0 &&
             (item.cost?.items[getSeasonalTicket()] ?? 0 > 0)
-          ? (item.cost?.items[getSeasonalTicket()] ?? 0)
+          ? item.cost?.items[getSeasonalTicket()] ?? 0
           : sfl;
     const itemName = isWearable
       ? ((item as EventStoreWearable).wearable as BumpkinItem)
@@ -362,34 +367,19 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                       </div>
                     )}
                     <span className="text-xs leading-none">{description}</span>
+                    <Label
+                      type={itemsCrafted ? "danger" : "default"}
+                      className="text-xxs"
+                    >
+                      {t("season.megastore.crafting.limit.max", {
+                        limit: itemsCrafted,
+                        max:
+                          MINIGAME_SHOP_ITEMS["festival-of-colors-2025"]?.[
+                            itemName as EventTierItemName
+                          ]?.max ?? 1,
+                      })}
+                    </Label>
 
-                    {itemName && item?.cooldownMs ? (
-                      <Label
-                        type={itemInCooldown ? "danger" : "default"}
-                        className="text-xxs"
-                      >
-                        {t("megastore.limit", {
-                          time: secondsToString(
-                            itemInCooldown
-                              ? (item.cooldownMs - (createdAt - boughtAt)) /
-                                  1000
-                              : item.cooldownMs / 1000,
-                            {
-                              length: "short",
-                            },
-                          ),
-                        })}
-                      </Label>
-                    ) : (
-                      <Label
-                        type={itemCrafted ? "danger" : "default"}
-                        className="text-xxs"
-                      >
-                        {t("season.megastore.crafting.limit", {
-                          limit: itemCrafted ? 1 : 0,
-                        })}
-                      </Label>
-                    )}
                     {itemReq &&
                       (sfl !== 0 ? (
                         <div className="flex flex-1 content-start flex-col flex-wrap">
@@ -475,10 +465,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                     </Button>
                   )}
 
-                  <Button
-                    disabled={!canBuy() || (itemName && !!itemInCooldown)}
-                    onClick={buttonHandler}
-                  >
+                  <Button disabled={!canBuy()} onClick={buttonHandler}>
                     {getButtonLabel()}
                   </Button>
                 </div>

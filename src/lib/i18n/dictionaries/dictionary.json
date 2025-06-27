@@ -3334,6 +3334,7 @@
   "season.place.land": "You must place it on your land",
   "season.megastore.discount": "Megastore FLOWER discount",
   "season.megastore.crafting.limit": "Limit: {{limit}}/1",
+  "season.megastore.crafting.limit.max": "Limit: {{limit}}/{{max}}",
   "season.supporter.gift": "Supporter Gift",
   "season.free.season.passes": "Free Chapter Banners",
   "season.free.season.passes.description": "Receive banners for every Chapter",
