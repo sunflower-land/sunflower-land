@@ -10,21 +10,26 @@ import {
 export const LAVA_PIT_REQUIREMENTS: Record<TemperateSeasonName, Inventory> = {
   autumn: {
     "Royal Ornament": new Decimal(1),
-    "Celestial Frostbloom": new Decimal(1),
+    Artichoke: new Decimal(30),
+    Broccoli: new Decimal(750),
+    Yam: new Decimal(1000),
   },
   winter: {
-    "Merino Wool": new Decimal(50),
-    Crimsteel: new Decimal(1),
+    "Merino Wool": new Decimal(200),
+    Onion: new Decimal(400),
+    Turnip: new Decimal(200),
   },
   spring: {
-    Gold: new Decimal(10),
-    Duskberry: new Decimal(1),
-    Lunara: new Decimal(1),
-    Celestine: new Decimal(1),
+    Celestine: new Decimal(2),
+    Lunara: new Decimal(2),
+    Duskberry: new Decimal(2),
+    Rhubarb: new Decimal(2000),
+    Kale: new Decimal(100),
   },
   summer: {
-    Oil: new Decimal(60),
-    Cobia: new Decimal(5),
+    Oil: new Decimal(100),
+    Pepper: new Decimal(750),
+    Zucchini: new Decimal(1000),
   },
 };
 
@@ -54,6 +59,7 @@ export function startLavaPit({
     }
 
     const requirements = LAVA_PIT_REQUIREMENTS[state.season.season];
+
     getKeys(requirements).forEach((item) => {
       const inventoryAmount = inventory[item] ?? new Decimal(0);
       const requiredAmount = requirements[item] ?? new Decimal(0);

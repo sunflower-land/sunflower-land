@@ -1,6 +1,6 @@
 import { Button } from "components/ui/Button";
-import { PIXEL_SCALE } from "features/game/lib/constants";
-import React, { useEffect } from "react";
+import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
+import React, { useContext, useEffect } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { GameWallet } from "features/wallet/Wallet";
 import { useSelector } from "@xstate/react";
@@ -28,21 +28,29 @@ import {
   State,
   TypegenDisabled,
 } from "xstate";
-import { DropdownPanel } from "components/ui/DropdownPanel";
-import { NetworkOption } from "features/island/hud/components/DepositFlower";
 import baseIcon from "assets/icons/chains/base.png";
 import { CONFIG } from "lib/config";
+import { Context } from "features/game/GameProvider";
+import { getBumpkinLevel } from "features/game/lib/level";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { NetworkName } from "features/game/events/landExpansion/updateNetwork";
 
 const _network = (state: MachineState) => state.context.state.settings.network;
 
-const MAINNET_NETWORKS: NetworkOption[] = [
-  {
-    value: "Base",
-    icon: baseIcon,
-    chainId: 8453,
-  },
+export type NetworkOption = {
+  value: NetworkName;
+  icon: string;
+  chainId: number;
+};
 
+export const BASE_MAINNET_NETWORK: NetworkOption = {
+  value: "Base",
+  icon: baseIcon,
+  chainId: 8453,
+};
+
+const MAINNET_NETWORKS: NetworkOption[] = [
+  BASE_MAINNET_NETWORK,
   {
     value: "Ronin",
     icon: SUNNYSIDE.icons.roninIcon,
@@ -55,12 +63,14 @@ const MAINNET_NETWORKS: NetworkOption[] = [
   },
 ];
 
+export const BASE_TESTNET_NETWORK: NetworkOption = {
+  value: "Base Sepolia",
+  icon: baseIcon,
+  chainId: 84532,
+};
+
 const TESTNET_NETWORKS: NetworkOption[] = [
-  {
-    value: "Base Sepolia",
-    icon: baseIcon,
-    chainId: 84532,
-  },
+  BASE_TESTNET_NETWORK,
   {
     value: "Ronin Saigon",
     icon: SUNNYSIDE.icons.roninIcon,
@@ -74,7 +84,7 @@ const TESTNET_NETWORKS: NetworkOption[] = [
 ];
 
 // Select appropriate network options based on config
-const networkOptions =
+export const networkOptions =
   CONFIG.NETWORK === "mainnet" ? MAINNET_NETWORKS : TESTNET_NETWORKS;
 
 export const DailyRewardContent: React.FC<{
@@ -118,29 +128,9 @@ export const DailyRewardContent: React.FC<{
 }) => {
   const { t } = useAppTranslation();
 
-  const network = useSelector(gameService, _network);
-
-  const handleNetworkChange = (networkName: NetworkName) => {
-    // Use proper type checking to ensure networkName is a valid key
-    const networkOption = networkOptions.find(
-      (option) => option.value === networkName,
-    ) as NetworkOption;
-
-    if (!networkOption) {
-      return;
-    }
-
-    gameService.send("network.updated", { network: networkName });
-    chestService.send("UPDATE_NETWORK", { network: networkName });
-  };
-
   useEffect(() => {
     chestService.send("UPDATE_BUMPKIN_LEVEL", { bumpkinLevel });
   }, [bumpkinLevel]);
-
-  if (bumpkinLevel <= 5) {
-    return null;
-  }
 
   const reveal = () => {
     gameService.send("REVEAL", {
@@ -152,6 +142,16 @@ export const DailyRewardContent: React.FC<{
     });
     chestService.send("OPEN");
   };
+
+  useEffect(() => {
+    if (chestState.matches("unlocked")) {
+      reveal();
+    }
+  }, [chestState.value]);
+
+  if (bumpkinLevel <= 5) {
+    return null;
+  }
 
   const streaks = dailyRewards?.streaks ?? 0;
   const collectedAt = dailyRewards?.chest?.collectedAt ?? 0;
@@ -196,13 +196,6 @@ export const DailyRewardContent: React.FC<{
     if (chestState.matches("locked")) {
       return (
         <>
-          <DropdownPanel<NetworkName>
-            options={networkOptions}
-            value={network}
-            onChange={handleNetworkChange}
-            placeholder={t("deposit.flower.selectNetwork")}
-          />
-
           <div className="flex flex-col items-center px-2 mt-2">
             {streaks > 1 && !missedADay && (
               <>
@@ -223,29 +216,9 @@ export const DailyRewardContent: React.FC<{
               }}
             />
           </div>
-          <Button
-            onClick={() => chestService.send("UNLOCK")}
-            disabled={!network}
-          >
+          <Button onClick={() => chestService.send("UNLOCK")}>
             {t("reward.unlock")}
           </Button>
-        </>
-      );
-    }
-
-    if (chestState.matches("unlocked")) {
-      return (
-        <>
-          <div className="flex flex-col items-center p-2">
-            <img
-              src={SUNNYSIDE.decorations.treasure_chest}
-              className="mb-2"
-              style={{
-                width: `${PIXEL_SCALE * 24}px`,
-              }}
-            />
-          </div>
-          <Button onClick={reveal}>{t("reward.open")}</Button>
         </>
       );
     }
@@ -253,12 +226,6 @@ export const DailyRewardContent: React.FC<{
     if (chestState.matches("error")) {
       return (
         <>
-          <DropdownPanel<NetworkName>
-            options={networkOptions}
-            value={network}
-            onChange={handleNetworkChange}
-            placeholder={t("deposit.flower.selectNetwork")}
-          />
           <div className="flex flex-col items-center p-2">
             <Label type="danger" className="px-0.5 mb-2 text-base">
               {t("error.wentWrong")}
@@ -298,25 +265,82 @@ export const DailyRewardContent: React.FC<{
       return <ChestRevealing type="Daily Reward" />;
     }
 
-    if (chestState.matches("unlocking")) {
+    if (chestState.matches("unlocking") || chestState.matches("unlocked")) {
       return <Loading text={t("unlocking")} />;
-    }
-
-    if (chestState.matches("loading")) {
-      return <Loading />;
     }
 
     return <></>;
   };
 
   return (
-    <GameWallet
-      action="dailyReward"
-      onReady={() => {
-        chestService.send("LOAD");
-      }}
-    >
+    <GameWallet action="dailyReward">
       <Content />
     </GameWallet>
+  );
+};
+
+const _bumpkinLevel = (state: MachineState) =>
+  getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0);
+
+const _chestCollectedAt = (state: MachineState) =>
+  state.context.state.dailyRewards?.chest?.collectedAt ?? 0;
+
+export const DailyReward: React.FC = () => {
+  const { gameService, showAnimations } = useContext(Context);
+
+  const bumpkinLevel = useSelector(gameService, _bumpkinLevel);
+  const chestCollectedAt = useSelector(gameService, _chestCollectedAt);
+
+  const { openModal } = useContext(ModalContext);
+
+  if (bumpkinLevel <= 5) {
+    return <></>;
+  }
+
+  const today = new Date();
+  today.setUTCHours(0, 0, 0, 0);
+
+  const isChestCollected = chestCollectedAt > today.getTime();
+
+  return (
+    <>
+      <div
+        className="absolute z-20"
+        style={{
+          width: `${PIXEL_SCALE * 16}px`,
+
+          height: `${PIXEL_SCALE * 16}px`,
+
+          left: `${GRID_WIDTH_PX * 1.5}px`,
+
+          top: `${GRID_WIDTH_PX * 1}px`,
+        }}
+      >
+        <img
+          id="daily-reward"
+          src={
+            isChestCollected
+              ? SUNNYSIDE.decorations.treasure_chest_opened
+              : SUNNYSIDE.decorations.treasure_chest
+          }
+          className="cursor-pointer hover:img-highlight w-full absolute bottom-0"
+          onClick={() => openModal("DAILY_REWARD")}
+        />
+
+        {!isChestCollected && (
+          <img
+            src={SUNNYSIDE.icons.expression_alerted}
+            className={"absolute" + (showAnimations ? " animate-float" : "")}
+            style={{
+              width: `${PIXEL_SCALE * 4}px`,
+
+              top: `${PIXEL_SCALE * -14}px`,
+
+              left: `${PIXEL_SCALE * 6}px`,
+            }}
+          />
+        )}
+      </div>
+    </>
   );
 };

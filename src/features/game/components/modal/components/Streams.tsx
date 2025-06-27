@@ -38,11 +38,13 @@ export const STREAMS_CONFIG = {
     startHour: 11,
     startMinute: 0,
     durationMinutes: 60,
-    notifyMinutesBefore: 10,
+    notifyMinutesBefore: 15,
   } as StreamConfig,
 };
 
-export const getNextStreamTime = (schedule: StreamSchedule): number => {
+export const getNextStreamTime = (
+  schedule: StreamSchedule,
+): { startTime: number; isOngoing: boolean } => {
   // Create a date object in Sydney timezone
   const sydneyTime = new Date();
   const sydneyDate = new Date(
@@ -56,17 +58,28 @@ export const getNextStreamTime = (schedule: StreamSchedule): number => {
 
   // Calculate minutes until next stream
   let minutesUntilStream = 0;
+  let isOngoing = false;
 
-  // If we're past the stream time today, calculate for next week
+  // Check if we're in the middle of a stream
   if (
     currentDay === schedule.day &&
     (currentHour > schedule.hour ||
       (currentHour === schedule.hour && currentMinute >= schedule.minute))
   ) {
-    minutesUntilStream =
-      7 * 24 * 60 - // Full week in minutes
-      (currentHour * 60 + currentMinute) + // Minutes passed today
-      (schedule.hour * 60 + schedule.minute); // Stream time
+    // We're past the start time today, check if we're still within stream duration
+    const minutesSinceStart =
+      (currentHour - schedule.hour) * 60 + (currentMinute - schedule.minute);
+    if (minutesSinceStart < 60) {
+      // Assuming 60 minute stream duration
+      isOngoing = true;
+      minutesUntilStream = -minutesSinceStart;
+    } else {
+      // Stream has ended, calculate for next week
+      minutesUntilStream =
+        7 * 24 * 60 - // Full week in minutes
+        (currentHour * 60 + currentMinute) + // Minutes passed today
+        (schedule.hour * 60 + schedule.minute); // Stream time
+    }
   } else {
     // Calculate days until next stream
     const daysUntilStream = (schedule.day - currentDay + 7) % 7;
@@ -97,7 +110,10 @@ export const getNextStreamTime = (schedule: StreamSchedule): number => {
   nextStreamTime.setSeconds(0);
   nextStreamTime.setMilliseconds(0);
 
-  return nextStreamTime.getTime();
+  return {
+    startTime: nextStreamTime.getTime(),
+    isOngoing,
+  };
 };
 
 export type StreamNotification = {
@@ -109,16 +125,26 @@ export type StreamNotification = {
 export function getStream(): StreamNotification | null {
   let nextStream: StreamNotification | null = null;
   let nextStreamTime = Infinity;
+  let ongoingStream: StreamNotification | null = null;
 
   for (const stream of Object.values(STREAMS_CONFIG)) {
-    const streamStartTime = getNextStreamTime({
+    const { startTime, isOngoing } = getNextStreamTime({
       day: stream.day,
       hour: stream.startHour,
       minute: stream.startMinute,
     });
 
-    if (streamStartTime < nextStreamTime) {
-      nextStreamTime = streamStartTime;
+    if (isOngoing) {
+      ongoingStream = {
+        startAt: startTime,
+        endAt: startTime + stream.durationMinutes * 60 * 1000,
+        notifyAt: startTime - stream.notifyMinutesBefore * 60 * 1000,
+      };
+      return ongoingStream;
+    }
+
+    if (startTime < nextStreamTime) {
+      nextStreamTime = startTime;
       nextStream = {
         startAt: nextStreamTime,
         endAt: nextStreamTime + stream.durationMinutes * 60 * 1000,
@@ -132,16 +158,18 @@ export function getStream(): StreamNotification | null {
 
 export const Streams: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { t } = useAppTranslation();
-  const tuesdayStream = getNextStreamTime({
-    day: STREAMS_CONFIG.tuesday.day,
-    hour: STREAMS_CONFIG.tuesday.startHour,
-    minute: STREAMS_CONFIG.tuesday.startMinute,
-  }); // Tuesday 3:30 PM
-  const fridayStream = getNextStreamTime({
-    day: STREAMS_CONFIG.friday.day,
-    hour: STREAMS_CONFIG.friday.startHour,
-    minute: STREAMS_CONFIG.friday.startMinute,
-  }); // Friday 11:00 AM
+  const { startTime: tuesdayStream, isOngoing: tuesdayOngoing } =
+    getNextStreamTime({
+      day: STREAMS_CONFIG.tuesday.day,
+      hour: STREAMS_CONFIG.tuesday.startHour,
+      minute: STREAMS_CONFIG.tuesday.startMinute,
+    }); // Tuesday 3:30 PM
+  const { startTime: fridayStream, isOngoing: fridayOngoing } =
+    getNextStreamTime({
+      day: STREAMS_CONFIG.friday.day,
+      hour: STREAMS_CONFIG.friday.startHour,
+      minute: STREAMS_CONFIG.friday.startMinute,
+    }); // Friday 11:00 AM
   const timeOptions: Intl.DateTimeFormatOptions = {
     year: "numeric",
     month: "long",
@@ -169,6 +197,15 @@ export const Streams: React.FC<{ onClose: () => void }> = ({ onClose }) => {
               timeZone,
             })}
           </Label>
+          {(tuesdayOngoing || fridayOngoing) && (
+            <Label
+              type="success"
+              icon={SUNNYSIDE.icons.stopwatch}
+              className="mb-1"
+            >
+              {t(`streams.${tuesdayOngoing ? "tuesday" : "friday"}.ongoing`)}
+            </Label>
+          )}
           <Label
             type="transparent"
             icon={SUNNYSIDE.icons.stopwatch}

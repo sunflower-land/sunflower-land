@@ -1,6 +1,8 @@
 import { GameState } from "features/game/types/game";
 
 export function isFaceVerified({ game }: { game: GameState }) {
+  if (game.verified) return true;
+
   const { faceRecognition } = game;
 
   if (!faceRecognition) {

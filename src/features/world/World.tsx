@@ -23,13 +23,14 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { WorldIntroduction } from "./ui/WorldIntroduction";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { GameWrapper } from "features/game/expansion/Game";
-import { WorldHud } from "features/island/hud/WorldHud";
+
 import { Loading } from "features/auth/components";
 import { GameState } from "features/game/types/game";
 import { Forbidden } from "features/auth/components/Forbidden";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { getActiveFloatingIsland } from "features/game/types/floatingIsland";
 import { adminFeatureFlag } from "lib/flags";
+import { hasVipAccess } from "features/game/lib/vipAccess";
 interface Props {
   isCommunity?: boolean;
 }
@@ -133,6 +134,11 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
       isCommunity,
       moderation: gameState.context.moderation,
       username: gameState.context.state.username,
+      totalDeliveries: gameState.context.state.delivery.fulfilledCount,
+      dailyStreak: gameState.context.state.dailyRewards?.streaks ?? 0,
+      isVip: hasVipAccess({ game: gameState.context.state }),
+      createdAt: gameState.context.state.createdAt,
+      islandType: gameState.context.state.island.type,
     },
   }) as unknown as MMOMachineInterpreter;
   const [mmoState] = useActor(mmoService);
@@ -195,8 +201,6 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
   // Otherwise if connected, return Plaza Screen
   return (
     <>
-      <WorldHud />
-
       <PhaserComponent
         mmoService={mmoService}
         isCommunity={isCommunity}

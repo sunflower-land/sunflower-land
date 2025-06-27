@@ -728,6 +728,7 @@ export const Land: React.FC = () => {
   const islandType = useSelector(gameService, _islandType);
   const season = useSelector(gameService, _season);
   const showMarketplace = pathname.includes("marketplace");
+  const showFlowerDashboard = pathname.includes("flower-dashboard");
 
   const {
     expansionConstruction,
@@ -909,7 +910,7 @@ export const Land: React.FC = () => {
 
       {!landscaping && !visiting && <Hud isFarming={true} location="farm" />}
 
-      {showMarketplace &&
+      {(showMarketplace || showFlowerDashboard) &&
         createPortal(
           <div
             data-html2canvas-ignore="true"

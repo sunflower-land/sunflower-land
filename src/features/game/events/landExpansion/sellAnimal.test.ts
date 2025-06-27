@@ -76,6 +76,92 @@ describe("animal.sold", () => {
     ).toThrow("Animal does not exist");
   });
 
+  it("requires chicken is not ready even if they are at the correct level", () => {
+    expect(() =>
+      sellAnimal({
+        state: {
+          ...INITIAL_FARM,
+          henHouse: {
+            level: 1,
+            animals: {
+              "1": {
+                id: "1",
+                type: "Chicken",
+                state: "ready",
+                asleepAt: 0,
+                experience: 1920,
+                createdAt: Date.now(),
+                item: "Petting Hand",
+                lovedAt: 0,
+                awakeAt: 0,
+              },
+            },
+          },
+          bounties: {
+            bonusClaimedAt: 0,
+            completed: [],
+            requests: [
+              {
+                id: "123",
+                coins: 100,
+                level: 12,
+                name: "Chicken",
+              },
+            ],
+          },
+        },
+        action: {
+          requestId: "123",
+          animalId: "1",
+          type: "animal.sold",
+        },
+      }),
+    ).toThrow("Animal does not meet requirements");
+  });
+
+  it("allows chicken to be sold if they are above the current level, even if they are ready", () => {
+    expect(() =>
+      sellAnimal({
+        state: {
+          ...INITIAL_FARM,
+          henHouse: {
+            level: 1,
+            animals: {
+              "1": {
+                id: "1",
+                type: "Chicken",
+                state: "ready",
+                asleepAt: 0,
+                experience: 2160,
+                createdAt: Date.now(),
+                item: "Petting Hand",
+                lovedAt: 0,
+                awakeAt: 0,
+              },
+            },
+          },
+          bounties: {
+            bonusClaimedAt: 0,
+            completed: [],
+            requests: [
+              {
+                id: "123",
+                coins: 100,
+                level: 12,
+                name: "Chicken",
+              },
+            ],
+          },
+        },
+        action: {
+          requestId: "123",
+          animalId: "1",
+          type: "animal.sold",
+        },
+      }),
+    ).not.toThrow("Animal does not meet requirements");
+  });
+
   it("requires chicken is correct level", () => {
     expect(() =>
       sellAnimal({

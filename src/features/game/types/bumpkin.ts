@@ -61,7 +61,8 @@ export type BumpkinHair =
   | "Ash Ponytail"
   | "Pink Ponytail"
   | "Silver Streaks"
-  | "Brown Rancher Hair";
+  | "Brown Rancher Hair"
+  | "Paint Splattered Hair";
 
 export type BumpkinShirt =
   | "Pixel Perfect Hoodie"
@@ -133,7 +134,8 @@ export type BumpkinShirt =
   | "Fossil Armor"
   | "Rice Shirt"
   | "Sakura Shirt"
-  | "Love Charm Shirt";
+  | "Love Charm Shirt"
+  | "Paint Splattered Shirt";
 
 export type BumpkinCoat =
   | "Chef Apron"
@@ -197,7 +199,8 @@ export type BumpkinTool =
   | "Flower Bouquet"
   | "Carrot Pitchfork"
   | "Handheld Bunny"
-  | "Frost Sword";
+  | "Frost Sword"
+  | "Paint Spray Can";
 
 export type BumpkinShoe =
   | "Black Farmer Boots"
@@ -335,7 +338,8 @@ export type BumpkinHat =
   | "Grumpy Cat"
   | "Bunny Mask"
   | "Broccoli Hat"
-  | "Coin Head";
+  | "Coin Head"
+  | "Slime Hat";
 
 export type BumpkinPant =
   | "Farmer Overalls"
@@ -374,7 +378,8 @@ export type BumpkinPant =
   | "Cowboy Trouser"
   | "Cowgirl Skirt"
   | "Fossil Pants"
-  | "Bunny Pants";
+  | "Bunny Pants"
+  | "Paint Splattered Overalls";
 
 export type BumpkinDress =
   | "Royal Dress"
@@ -480,11 +485,12 @@ export type BumpkinWings =
   | "Sol & Luna"
   | "Glacial Plume"
   | "Golden Wings"
-  | "Oracle Syringe";
+  | "Oracle Syringe"
+  | "Slime Wings";
 
 export type BumpkinBeard = "Wise Beard" | "Hoary Chin" | "Santa Beard";
 
-export type BumpkinAura = "Coin Aura" | "Love Puff Aura";
+export type BumpkinAura = "Coin Aura" | "Love Puff Aura" | "Slime Aura";
 
 export type BumpkinItem =
   | BumpkinBody
@@ -982,6 +988,15 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Sky Island Background": 460,
   "Oracle Syringe": 461,
   "Coin Head": 462,
+
+  //Festival of Colors Event Wearables
+  "Paint Splattered Hair": 463,
+  "Paint Splattered Shirt": 464,
+  "Paint Splattered Overalls": 465,
+  "Paint Spray Can": 466,
+  "Slime Hat": 467,
+  "Slime Wings": 468,
+  "Slime Aura": 469,
 };
 
 // The reverse of above
@@ -1505,6 +1520,13 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Sky Island Background": "background",
   "Oracle Syringe": "wings",
   "Coin Head": "hat",
+  "Paint Splattered Hair": "hair",
+  "Paint Splattered Shirt": "shirt",
+  "Paint Splattered Overalls": "pants",
+  "Paint Spray Can": "tool",
+  "Slime Hat": "hat",
+  "Slime Wings": "wings",
+  "Slime Aura": "aura",
 };
 
 /**Copied from BE just for hoarding checks */

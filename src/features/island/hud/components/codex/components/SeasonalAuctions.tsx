@@ -139,7 +139,7 @@ const NextDrop: React.FC<{ auctions: AuctionItems; game: GameState }> = ({
       : BUMPKIN_ITEM_BUFF_LABELS[nextDrop.wearable as BumpkinItem];
 
   const nextDropTime = new Date(nextDrop.startAt).toLocaleString("en-AU", {
-    timeZoneName: "longOffset",
+    timeZoneName: "shortOffset",
     day: "2-digit",
     month: "2-digit",
     year: "2-digit",
@@ -357,7 +357,7 @@ const Drops: React.FC<{
                       />
                       <span className="text-xs">
                         {new Date(drop.startAt).toLocaleString("en-AU", {
-                          timeZoneName: "longOffset",
+                          timeZoneName: "shortOffset",
                           day: "2-digit",
                           month: "2-digit",
                           year: "2-digit",

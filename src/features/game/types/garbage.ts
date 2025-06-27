@@ -31,6 +31,9 @@ export type GarbageName =
       | "Basic Bear"
       | "Water Well"
       | "Community Coin"
+      | "Colors Event Token 2025"
+      | "Colors Event Ticket 2025"
+      | "Easter Ticket 2025"
     >
   | Extract<BumpkinItem, "Basic Hair">;
 
@@ -167,6 +170,10 @@ export const GARBAGE: Record<GarbageName, Garbage> = {
     items: { "Love Charm": new Decimal(25) },
   },
   "Easter Token 2025": {
+    sellPrice: 1,
+    gems: 0,
+  },
+  "Easter Ticket 2025": {
     sellPrice: 1,
     gems: 0,
   },

@@ -393,7 +393,7 @@ export const BUMPKIN_RELEASES: Partial<Record<BumpkinItem, Releases>> = {
     withdrawAt: SEASONS["Great Bloom"].endDate,
   },
   "Broccoli Hat": {
-    tradeAt: SEASONS["Great Bloom"].endDate,
+    tradeAt: new Date("2025-07-01T00:00:00Z"),
     withdrawAt: SEASONS["Great Bloom"].endDate,
   },
   "Frost Sword": {
@@ -401,11 +401,11 @@ export const BUMPKIN_RELEASES: Partial<Record<BumpkinItem, Releases>> = {
     withdrawAt: SEASONS["Great Bloom"].endDate,
   },
   "Medic Apron": {
-    tradeAt: SEASONS["Great Bloom"].endDate,
+    tradeAt: new Date("2025-07-01T00:00:00Z"),
     withdrawAt: SEASONS["Great Bloom"].endDate,
   },
   "Obsidian Necklace": {
-    tradeAt: SEASONS["Great Bloom"].endDate,
+    tradeAt: new Date("2025-07-01T00:00:00Z"),
     withdrawAt: SEASONS["Great Bloom"].endDate,
   },
   "Red Pepper Onesie": {
@@ -417,7 +417,7 @@ export const BUMPKIN_RELEASES: Partial<Record<BumpkinItem, Releases>> = {
     withdrawAt: SEASONS["Great Bloom"].endDate,
   },
   "Sky Island Background": {
-    tradeAt: SEASONS["Great Bloom"].endDate,
+    tradeAt: new Date("2025-07-01T00:00:00Z"),
     withdrawAt: SEASONS["Great Bloom"].endDate,
   },
   "Oracle Syringe": {
@@ -936,15 +936,15 @@ export const INVENTORY_RELEASES: Partial<Record<InventoryItemName, Releases>> =
       withdrawAt: new Date("2025-08-20T00:00:00Z"),
     },
     Quarry: {
-      tradeAt: SEASONS["Great Bloom"].endDate,
+      tradeAt: new Date("2025-07-01T00:00:00Z"),
       withdrawAt: SEASONS["Great Bloom"].endDate,
     },
     "Obsidian Turtle": {
-      tradeAt: SEASONS["Great Bloom"].endDate,
+      tradeAt: new Date("2025-07-01T00:00:00Z"),
       withdrawAt: SEASONS["Great Bloom"].endDate,
     },
     "Winter Guardian": {
-      tradeAt: SEASONS["Great Bloom"].endDate,
+      tradeAt: new Date("2025-07-01T00:00:00Z"),
       withdrawAt: SEASONS["Great Bloom"].endDate,
     },
     "Summer Guardian": {
@@ -952,15 +952,15 @@ export const INVENTORY_RELEASES: Partial<Record<InventoryItemName, Releases>> =
       withdrawAt: SEASONS["Great Bloom"].endDate,
     },
     "Spring Guardian": {
-      tradeAt: SEASONS["Great Bloom"].endDate,
+      tradeAt: new Date("2025-07-01T00:00:00Z"),
       withdrawAt: SEASONS["Great Bloom"].endDate,
     },
     "Autumn Guardian": {
-      tradeAt: SEASONS["Great Bloom"].endDate,
+      tradeAt: new Date("2025-07-01T00:00:00Z"),
       withdrawAt: SEASONS["Great Bloom"].endDate,
     },
     "Sky Pillar": {
-      tradeAt: SEASONS["Great Bloom"].endDate,
+      tradeAt: new Date("2025-07-01T00:00:00Z"),
       withdrawAt: SEASONS["Great Bloom"].endDate,
     },
     "Flower-Scribed Statue": {

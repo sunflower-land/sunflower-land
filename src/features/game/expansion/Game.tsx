@@ -5,8 +5,6 @@ import { useActor, useSelector } from "@xstate/react";
 import { useInterval } from "lib/utils/hooks/useInterval";
 import * as AuthProvider from "features/auth/lib/Provider";
 
-import mailIcon from "assets/icons/letter.png";
-
 import { Loading } from "features/auth/components";
 import { ErrorCode } from "lib/errors";
 import { ErrorMessage } from "features/auth/ErrorMessage";
@@ -26,7 +24,7 @@ import { Panel } from "components/ui/Panel";
 import { Hoarding } from "../components/Hoarding";
 import { Swarming } from "../components/Swarming";
 import { Cooldown } from "../components/Cooldown";
-import { Route, Routes, useNavigate } from "react-router";
+import { Route, Routes } from "react-router";
 import { Land } from "./Land";
 import { VisitingHud } from "features/island/hud/VisitingHud";
 import { VisitLandExpansionForm } from "./components/VisitLandExpansionForm";
@@ -81,16 +79,16 @@ import { DailyReset } from "../components/DailyReset";
 import { RoninWelcomePack } from "./components/RoninWelcomePack";
 import { ClaimRoninAirdrop } from "./components/onChainAirdrops/ClaimRoninAirdrop";
 import { FLOWERTeaserContent } from "../components/FLOWERTeaser";
-import { pixelGrayBorderStyle } from "../lib/style";
 import { RoninJinClaim } from "./components/RoninJinClaim";
 import {
   EFFECT_SUCCESS_COMPONENTS,
   EffectSuccess,
-} from "./components/EffectSuccess";
+} from "./components/effects/EffectSuccess";
 import { LoveCharm } from "./components/LoveCharm";
 import { ClaimReferralRewards } from "./components/ClaimReferralRewards";
 import { SoftBan } from "features/retreat/components/personhood/SoftBan";
 import { RewardBox } from "features/rewardBoxes/RewardBox";
+import { ClaimBlessingReward } from "features/loveIsland/blessings/ClaimBlessing";
 
 function camelToDotCase(str: string): string {
   return str.replace(/([a-z])([A-Z])/g, "$1.$2").toLowerCase() as string;
@@ -125,6 +123,8 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   claimingStreamReward: false,
   claimingStreamRewardSuccess: false,
   claimingStreamRewardFailed: false,
+  airdroppingRewardFailed: false,
+
   // Every new state should be added below here
   gems: true,
   communityCoin: true,
@@ -173,6 +173,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   roninAirdrop: true,
   jinAirdrop: true,
   investigating: true,
+  blessing: true,
 };
 
 // State change selectors
@@ -230,6 +231,7 @@ const isPromoing = (state: MachineState) => state.matches("promo");
 const isBlacklisted = (state: MachineState) => state.matches("blacklisted");
 const hasAirdrop = (state: MachineState) => state.matches("airdrop");
 const isInvestigating = (state: MachineState) => state.matches("investigating");
+const isBlessing = (state: MachineState) => state.matches("blessing");
 const hasFulfilledOffers = (state: MachineState) => state.matches("offers");
 const hasVipNotification = (state: MachineState) => state.matches("vip");
 const isPlaying = (state: MachineState) => state.matches("playing");
@@ -256,6 +258,7 @@ const isRoninWelcomePack = (state: MachineState) =>
   state.matches("roninWelcomePack");
 const isRoninAirdrop = (state: MachineState) => state.matches("roninAirdrop");
 const isJinAirdrop = (state: MachineState) => state.matches("jinAirdrop");
+
 const GameContent: React.FC = () => {
   const { gameService } = useContext(Context);
   useSound("desert", true);
@@ -264,7 +267,6 @@ const GameContent: React.FC = () => {
   const landToVisitNotFound = useSelector(gameService, isLandToVisitNotFound);
   const { t } = useAppTranslation();
   const [gameState] = useActor(gameService);
-  const navigate = useNavigate();
 
   const PATH_ACCESS: Partial<Record<string, (game: GameState) => boolean>> = {
     GreenHouse: (game) =>
@@ -430,6 +432,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
   const jinAirdrop = useSelector(gameService, isJinAirdrop);
   const showPWAInstallPrompt = useSelector(authService, _showPWAInstallPrompt);
   const investigating = useSelector(gameService, isInvestigating);
+  const blessing = useSelector(gameService, isBlessing);
 
   const { t } = useAppTranslation();
   useInterval(() => {
@@ -532,19 +535,6 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
             <Panel>
               <Loading />
             </Panel>
-            <div
-              className={classNames(
-                `w-full justify-center items-center flex  text-xs p-1 pr-4 mt-1 relative`,
-              )}
-              style={{
-                background: "#c0cbdc",
-                color: "#181425",
-                ...pixelGrayBorderStyle,
-              }}
-            >
-              <img src={mailIcon} className="w-8 mr-2" />
-              <p className="text-xs flex-1">{t("news.flowerSoon")}</p>
-            </div>
           </Modal>
         </Ocean>
       </>
@@ -640,6 +630,11 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
             {jinAirdrop && <RoninJinClaim />}
             {showReferralRewards && <ClaimReferralRewards />}
             {investigating && <SoftBan />}
+            {blessing && (
+              <ClaimBlessingReward
+                onClose={() => gameService.send("ACKNOWLEDGE")}
+              />
+            )}
           </Panel>
         </Modal>
 
@@ -650,7 +645,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
         {competition && (
           <Modal show onHide={() => gameService.send("ACKNOWLEDGE")}>
             <CompetitionModal
-              competitionName="ANIMALS"
+              competitionName="PEGGYS_COOKOFF"
               onClose={() => gameService.send("ACKNOWLEDGE")}
             />
           </Modal>

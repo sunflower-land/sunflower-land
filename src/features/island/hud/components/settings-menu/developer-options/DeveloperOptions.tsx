@@ -36,6 +36,14 @@ export const DeveloperOptions: React.FC<ContentComponentProps> = ({
           {`Hoarding Check`}
         </Button>
       )}
+      {hasFeatureAccess(gameService.state?.context?.state, "MODERATOR") && (
+        <Button
+          onClick={() => onSubMenuClick("playerSearch")}
+          className="p-1 mb-1"
+        >
+          {`Player Search`}
+        </Button>
+      )}
       {CONFIG.NETWORK === "amoy" && (
         <>
           <Button

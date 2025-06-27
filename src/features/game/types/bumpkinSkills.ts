@@ -53,6 +53,8 @@ import chonkyFeed from "assets/icons/skill_icons/chonky_feed.png";
 import compostingOverhaul from "assets/icons/skill_icons/composting_overhaul.png";
 import crimeFruit from "assets/icons/skill_icons/crime_fruit.png";
 import cropExtensionModule from "assets/icons/skill_icons/crop_extension_module.png";
+import rhubarb_zucchini from "assets/icons/skill_icons/rhubarb_zucchini.png";
+import yam_broccoli from "assets/icons/skill_icons/yam_broccoli.png";
 import doubleBale from "assets/icons/skill_icons/double_bale.png";
 import efficiencyExtensionModule from "assets/icons/skill_icons/efficiency_extension_module.png";
 import ferrousFavor from "assets/icons/skill_icons/ferrous_favor.png";
@@ -2618,6 +2620,25 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
   },
 
   // Machinery - Tier 1
+  "Crop Extension Module I": {
+    name: "Crop Extension Module I",
+    tree: "Machinery",
+    requirements: {
+      points: 1,
+      tier: 1,
+      island: "desert",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.cropExtensionModuleI"),
+        labelType: "vibrant",
+        boostTypeIcon: SUNNYSIDE.icons.lightning,
+        boostedItemIcon: rhubarb_zucchini,
+      },
+    },
+    image: rhubarb_zucchini,
+    disabled: false,
+  },
   "Crop Processor Unit": {
     name: "Crop Processor Unit",
     tree: "Machinery",
@@ -2700,8 +2721,8 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     disabled: false,
   },
   // Machinery - Tier 2
-  "Crop Extension Module": {
-    name: "Crop Extension Module",
+  "Crop Extension Module II": {
+    name: "Crop Extension Module II",
     tree: "Machinery",
     requirements: {
       points: 2,
@@ -2710,13 +2731,33 @@ export const BUMPKIN_REVAMP_SKILL_TREE = {
     },
     boosts: {
       buff: {
-        shortDescription: translate("skill.cropExtensionModule"),
+        shortDescription: translate("skill.cropExtensionModuleII"),
         labelType: "vibrant",
         boostTypeIcon: SUNNYSIDE.icons.lightning,
         boostedItemIcon: cropExtensionModule,
       },
     },
     image: cropExtensionModule,
+    disabled: false,
+  },
+
+  "Crop Extension Module III": {
+    name: "Crop Extension Module III",
+    tree: "Machinery",
+    requirements: {
+      points: 2,
+      tier: 2,
+      island: "desert",
+    },
+    boosts: {
+      buff: {
+        shortDescription: translate("skill.cropExtensionModuleIII"),
+        labelType: "vibrant",
+        boostTypeIcon: SUNNYSIDE.icons.lightning,
+        boostedItemIcon: yam_broccoli,
+      },
+    },
+    image: yam_broccoli,
     disabled: false,
   },
   "Rapid Rig": {

@@ -29,11 +29,7 @@ import { hasVipAccess } from "features/game/lib/vipAccess";
 import { getActiveCalendarEvent } from "features/game/types/calendar";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
-import { hasFeatureAccess } from "lib/flags";
-import {
-  getLoveRushStreaks,
-  getLoveRushDeliveryRewards,
-} from "features/game/types/loveRushDeliveries";
+
 import { CHAPTER_TICKET_BOOST_ITEMS } from "./completeNPCChore";
 import { isCollectible } from "./garbageSold";
 
@@ -505,30 +501,6 @@ export function deliverOrder({
         points: (npc.friendship?.points ?? 0) + DELIVERY_FRIENDSHIP_POINTS,
         giftClaimedAtPoints: npc.friendship?.giftClaimedAtPoints ?? 0,
         giftedAt: npc.friendship?.giftedAt,
-      };
-    }
-
-    // Handle Love Rush rewards during the Love Rush event
-    if (hasFeatureAccess(game, "LOVE_RUSH")) {
-      const { newStreak, currentStreak } = getLoveRushStreaks({
-        streaks: npc.streaks,
-        createdAt,
-      });
-
-      const { loveCharmReward } = getLoveRushDeliveryRewards({
-        currentStreak,
-        newStreak,
-        game,
-        npcName: order.from,
-      });
-
-      const loveCharmCount = game.inventory["Love Charm"] ?? new Decimal(0);
-
-      game.inventory["Love Charm"] = loveCharmCount.add(loveCharmReward);
-
-      npc.streaks = {
-        streak: newStreak,
-        lastClaimedAt: createdAt,
       };
     }
 

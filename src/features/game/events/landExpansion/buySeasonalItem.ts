@@ -10,6 +10,7 @@ import {
   SeasonalStoreCollectible,
   SeasonalStoreItem,
   SeasonalStoreTier,
+  SeasonalStoreWearable,
   SeasonalTierItemName,
 } from "features/game/types/megastore";
 import { SFLDiscount } from "features/game/lib/SFLDiscount";
@@ -19,6 +20,12 @@ export function isCollectible(
   item: SeasonalStoreItem,
 ): item is SeasonalStoreCollectible {
   return "collectible" in item;
+}
+
+export function isWearable(
+  item: SeasonalStoreItem,
+): item is SeasonalStoreWearable {
+  return "wearable" in item;
 }
 
 export type BuySeasonalItemAction = {
@@ -38,7 +45,7 @@ export type FlowerBox =
   | "Silver Flower Box"
   | "Gold Flower Box";
 
-export const FLOWER_BOXES: Record<string, true> = {
+export const FLOWER_BOXES: Record<FlowerBox, true> = {
   "Bronze Flower Box": true,
   "Silver Flower Box": true,
   "Gold Flower Box": true,

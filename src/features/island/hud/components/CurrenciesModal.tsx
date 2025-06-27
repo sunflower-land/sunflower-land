@@ -8,10 +8,9 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/game/GameProvider";
 import { VIPItems } from "features/game/components/modal/components/VIPItems";
 import { BuyGemsWidget } from "features/announcements/AnnouncementWidgets";
-import { DepositFlower } from "./DepositFlower";
+import { DepositFlower } from "./deposit/DepositFlower";
 import { SwapSFLForCoins } from "./SwapSFLForCoins";
 import * as AuthProvider from "features/auth/lib/Provider";
-import { RoninSupportWidget } from "features/wallet/components/PolygonRequired";
 import { XsollaLoading } from "features/game/components/modal/components/XsollaLoading";
 import { XsollaIFrame } from "features/game/components/modal/components/XsollaIFrame";
 import {
@@ -65,11 +64,15 @@ const _token = (state: AuthMachineState) =>
 const _farmId = (state: MachineState) => state.context.farmId;
 const _autosaving = (state: MachineState) => state.matches("autosaving");
 
-export const CurrenciesModal: React.FC<Props> = ({ show, onClose }) => {
+export const CurrenciesModal: React.FC<Props> = ({
+  show,
+  onClose,
+  initialPage,
+}) => {
   const { authService } = useContext(AuthProvider.Context);
   const { gameService } = useContext(Context);
 
-  const [page, setPage] = useState<TransactionPage>("menu");
+  const [page, setPage] = useState<TransactionPage>(initialPage ?? "menu");
   const [showXsolla, setShowXsolla] = useState<string>();
   const [loading, setLoading] = useState(false);
   const [price, setPrice] = useState<Price>();
@@ -112,14 +115,6 @@ export const CurrenciesModal: React.FC<Props> = ({ show, onClose }) => {
 
     onboardingAnalytics.logEvent("begin_checkout");
   }, []);
-
-  const onMaticBuy = async () => {
-    gameService.send("BUY_GEMS", {
-      currency: "MATIC",
-      amount: price?.amount,
-    });
-    onClose();
-  };
 
   const onFlowerBuy = async (quote: number) => {
     gameService.send("gems.bought", {
@@ -202,7 +197,7 @@ export const CurrenciesModal: React.FC<Props> = ({ show, onClose }) => {
 
                 <img
                   src={SUNNYSIDE.icons.close}
-                  className="w-6 h-6"
+                  className="w-6 h-6 cursor-pointer"
                   onClick={onClose}
                 />
               </div>
@@ -228,7 +223,6 @@ export const CurrenciesModal: React.FC<Props> = ({ show, onClose }) => {
                   price={price}
                   onFlowerBuy={onFlowerBuy}
                   setPrice={setPrice}
-                  onMaticBuy={onMaticBuy}
                   onCreditCardBuy={handleCreditCardBuy}
                   onHideBuyBBLabel={(hide) => setHideBuyBBLabel(hide)}
                   hideIntroLabel={hideBuyBBLabel}
@@ -243,7 +237,6 @@ export const CurrenciesModal: React.FC<Props> = ({ show, onClose }) => {
               <SwapSFLForCoins onClose={() => setPage("menu")} />
             )}
           </Panel>
-          <RoninSupportWidget />
           <BuyGemsWidget />
         </>
       )}

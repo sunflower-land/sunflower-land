@@ -43,12 +43,7 @@ import {
   isBasicCrop,
   isMediumCrop,
 } from "features/game/events/landExpansion/harvest";
-
-export const isExoticCrop = (
-  item: Crop | PatchFruit | ExoticCrop | GreenHouseFruit | GreenHouseCrop,
-): item is ExoticCrop => {
-  return item.name in EXOTIC_CROPS;
-};
+import { isExoticCrop } from "features/game/types/crops";
 
 export const Crops: React.FC = () => {
   const [selected, setSelected] = useState<
@@ -73,7 +68,7 @@ export const Crops: React.FC = () => {
   const divRef = useRef<HTMLDivElement>(null);
 
   const sell = (amount: Decimal) => {
-    if (isExoticCrop(selected)) {
+    if (isExoticCrop(selected.name)) {
       gameService.send("treasure.sold", {
         item: selected.name,
         amount,
@@ -95,7 +90,7 @@ export const Crops: React.FC = () => {
   const displaySellPrice = (
     crop: Crop | PatchFruit | ExoticCrop | GreenHouseFruit | GreenHouseCrop,
   ) =>
-    isExoticCrop(crop)
+    isExoticCrop(crop.name)
       ? crop.sellPrice
       : getSellPrice({ item: crop, game: state });
 

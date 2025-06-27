@@ -11,6 +11,7 @@ import {
 import { Equipped } from "../types/bumpkin";
 import { tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 import { EXPIRY_COOLDOWNS } from "./collectibleBuilt";
+import { DEFAULT_HONEY_PRODUCTION_TIME } from "./updateBeehives";
 
 export const STATIC_OFFLINE_FARM: GameState = {
   settings: {},
@@ -23,6 +24,12 @@ export const STATIC_OFFLINE_FARM: GameState = {
     expiresAt: Date.now() + 31 * 24 * 60 * 60 * 1000,
   },
   inventory: {
+    "Beta Pass": new Decimal(1),
+    Manor: new Decimal(1),
+    "Town Center": new Decimal(1),
+    House: new Decimal(1),
+    Mansion: new Decimal(1),
+    "Crop Plot": new Decimal(66),
     "Love Charm": new Decimal(1000),
     "Great Bloom Banner": new Decimal(1),
     "Winds of Change Banner": new Decimal(1),
@@ -55,7 +62,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Marty: new Decimal(2),
     Miffy: new Decimal(2),
     Morty: new Decimal(2),
-    "Town Center": new Decimal(1),
     Market: new Decimal(1),
     Workbench: new Decimal(1),
     "Basic Land": new Decimal(25),
@@ -66,7 +72,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Rug: new Decimal(1),
     Wardrobe: new Decimal(1),
     Shovel: new Decimal(1),
-    Mansion: new Decimal(1),
     Wood: new Decimal(1000),
     Stone: new Decimal(1000),
     Iron: new Decimal(1000),
@@ -88,7 +93,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Royal Bed": new Decimal(1),
     Mangrove: new Decimal(1),
     "Thermal Stone": new Decimal(1),
-    "Beta Pass": new Decimal(1),
     Hay: new Decimal(100),
     "Dr Cow": new Decimal(1),
   },
@@ -115,8 +119,16 @@ export const STATIC_OFFLINE_FARM: GameState = {
   },
   wardrobe: {},
   previousWardrobe: {},
-  bank: { taxFreeSFL: 0 },
-  beehives: {},
+  bank: { taxFreeSFL: 0, withdrawnAmount: 0 },
+  beehives: {
+    "123": {
+      swarm: true,
+      honey: { updatedAt: 0, produced: DEFAULT_HONEY_PRODUCTION_TIME },
+      flowers: [],
+      x: 0,
+      y: 0,
+    },
+  },
   crimstones: {},
   flowers: {
     discovered: {
@@ -249,7 +261,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
   },
 
   island: {
-    type: "desert",
+    type: "spring",
   },
 
   home: {
@@ -382,7 +394,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
 
   fishing: {
     dailyAttempts: {},
-    weather: "Sunny",
     wharf: {
       castedAt: 0,
       bait: "Fishing Lure",
@@ -391,7 +402,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
         "Pink Dolphin": 1,
       },
     },
-    beach: {},
   },
   mailbox: {
     read: [],
@@ -767,6 +777,12 @@ export const STATIC_OFFLINE_FARM: GameState = {
         },
         type: "collectible",
       },
+    },
+  },
+  blessing: {
+    offering: {
+      item: "Potato",
+      prize: "Potato",
     },
   },
 };

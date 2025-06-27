@@ -8,6 +8,7 @@ import {
   BeachBountyTreasure,
   SELLABLE_TREASURE,
 } from "features/game/types/treasure";
+import { isExoticCrop } from "features/game/types/crops";
 import { produce } from "immer";
 import { setPrecision } from "lib/utils/formatNumber";
 
@@ -35,12 +36,6 @@ export const getSellPrice = (item: SellableTreasure, game: GameState) => {
   }
 
   return price;
-};
-
-export const isExoticCrop = (
-  item: BeachBountyTreasure | ExoticCropName,
-): item is ExoticCropName => {
-  return item in EXOTIC_CROPS;
 };
 
 export function sellTreasure({ state, action }: Options) {

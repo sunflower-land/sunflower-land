@@ -10,17 +10,17 @@ if (CONFIG.PORTAL_APP) {
   const rootElement = document.getElementById("root")!;
   const root = createRoot(rootElement);
   root.render(
-    <React.StrictMode>
-      <PortalApp />
-    </React.StrictMode>,
+    // <React.StrictMode>
+    <PortalApp />,
+    // </React.StrictMode>,
   );
 } else {
   // Main Game
   const rootElement = document.getElementById("root")!;
   const root = createRoot(rootElement);
   root.render(
-    <React.StrictMode>
-      <App />
-    </React.StrictMode>,
+    // <React.StrictMode>
+    <App />,
+    // </React.StrictMode>,
   );
 }

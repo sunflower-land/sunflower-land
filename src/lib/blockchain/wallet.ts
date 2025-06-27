@@ -13,7 +13,24 @@ import {
 } from "@wagmi/core";
 import { config } from "features/wallet/WalletProvider";
 import { formatEther, parseEther } from "viem";
-import { polygon, polygonAmoy } from "viem/chains";
+import { base, baseSepolia, polygon, polygonAmoy } from "viem/chains";
+
+type ChainParameter =
+  | {
+      nativeCurrency?:
+        | {
+            name: string;
+            symbol: string;
+            decimals: number;
+          }
+        | undefined
+        | undefined;
+      rpcUrls?: readonly string[] | undefined;
+      chainName?: string | undefined;
+      blockExplorerUrls?: string[] | undefined | undefined;
+      iconUrls?: string[] | undefined | undefined;
+    }
+  | undefined;
 
 const UNISWAP_ROUTER = CONFIG.QUICKSWAP_ROUTER_CONTRACT;
 const WMATIC_ADDRESS = CONFIG.WMATIC_CONTRACT;
@@ -137,34 +154,64 @@ export class Wallet {
     return maticWithFee;
   }
 
-  public async switchToPolygon() {
-    const chainParameter =
-      CONFIG.POLYGON_CHAIN_ID === 137
-        ? {
-            chainId: `0x${Number(CONFIG.POLYGON_CHAIN_ID).toString(16)}`,
-            chainName: "Polygon Mainnet",
-            nativeCurrency: {
-              name: "MATIC",
-              symbol: "MATIC",
-              decimals: 18,
-            },
-            rpcUrls: ["https://polygon-rpc.com/"],
-            blockExplorerUrls: ["https://polygonscan.com/"],
-          }
-        : {
-            chainId: `0x${Number(CONFIG.POLYGON_CHAIN_ID).toString(16)}`,
-            chainName: "Polygon Testnet Amoy",
-            nativeCurrency: {
-              name: "MATIC",
-              symbol: "MATIC",
-              decimals: 18,
-            },
-            rpcUrls: ["https://rpc-amoy.polygon.technology"],
-            blockExplorerUrls: ["https://amoy.polygonscan.com/"],
-          };
+  public async switchNetwork(chainId: number) {
+    let chainParameter: ChainParameter;
+
+    switch (chainId) {
+      case polygon.id:
+        chainParameter = {
+          chainName: "Polygon Mainnet",
+          nativeCurrency: {
+            name: "MATIC",
+            symbol: "MATIC",
+            decimals: 18,
+          },
+          rpcUrls: ["https://polygon-rpc.com/"],
+          blockExplorerUrls: ["https://polygonscan.com/"],
+        };
+        break;
+      case polygonAmoy.id:
+        chainParameter = {
+          chainName: "Polygon Testnet Amoy",
+          nativeCurrency: {
+            name: "MATIC",
+            symbol: "MATIC",
+            decimals: 18,
+          },
+          rpcUrls: ["https://rpc-amoy.polygon.technology"],
+          blockExplorerUrls: ["https://amoy.polygonscan.com/"],
+        };
+        break;
+      case base.id:
+        chainParameter = {
+          chainName: "Base Mainnet",
+          nativeCurrency: {
+            name: "ETH",
+            symbol: "ETH",
+            decimals: 18,
+          },
+          rpcUrls: ["https://mainnet.base.org"],
+          blockExplorerUrls: ["https://basescan.org/"],
+        };
+        break;
+      case baseSepolia.id:
+        chainParameter = {
+          chainName: "Base Sepolia",
+          nativeCurrency: {
+            name: "ETH",
+            symbol: "ETH",
+            decimals: 18,
+          },
+          rpcUrls: ["https://sepolia.base.org"],
+          blockExplorerUrls: ["https://sepolia.basescan.org/"],
+        };
+        break;
+      default:
+        throw new Error(`Unsupported chainId: ${chainId}`);
+    }
 
     await switchChain(config, {
-      chainId: CONFIG.POLYGON_CHAIN_ID as 137 | 80002,
+      chainId,
       addEthereumChainParameter: chainParameter,
     });
   }

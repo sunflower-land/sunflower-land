@@ -29,10 +29,11 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { INITIAL_FARM, PIXEL_SCALE } from "features/game/lib/constants";
 import classNames from "classnames";
 import { Marketplace } from "features/marketplace/Marketplace";
-import { FlowerDashboardProfile } from "features/flowerDashboard/FlowerDashboardProfile";
+import { LedgerDashboardProfile } from "features/ledgerDashboard/LedgerDashboardProfile";
 import { hasFeatureAccess } from "lib/flags";
 import { GameProvider } from "features/game/GameProvider";
-import { RewardsDashboardProfile } from "features/rewardsDashboard/RewardsDashboardProfile";
+import { FlowerDashboard } from "features/flowerDashboard/FlowerDashboard";
+import { ModalProvider } from "features/game/components/modal/ModalProvider";
 
 // Lazy load routes
 const World = lazy(() =>
@@ -62,6 +63,9 @@ export const Navigation: React.FC = () => {
   const [landingImageLoaded, setLandingImageLoaded] = useState(false);
 
   useEffect(() => {
+    // Testing - don't show connection modal when in UI mode
+    if (!CONFIG.API_URL) return;
+
     // Check if online on initial load
     if (!navigator.onLine) {
       setShowConnectionModal(true);
@@ -99,140 +103,148 @@ export const Navigation: React.FC = () => {
 
   return (
     <>
-      <Auth showOfflineModal={showConnectionModal} />
+      <HashRouter>
+        <Suspense fallback={<LoadingFallback />}>
+          <Routes>
+            {/* Public routes that don't require authentication */}
+            <Route path="/flower-dashboard" element={<FlowerDashboard />} />
 
-      {!showGame && (
-        <div
-          style={{
-            width: "100vw", // Full width of the viewport
-            height: "100vh", // Full height of the viewport
-            position: "relative",
-            overflow: "hidden",
-            backgroundColor: "#63c74d", // Optional: to visualize the container
-            backgroundImage: `url(${SUNNYSIDE.brand.greenBg})`,
-            backgroundRepeat: "repeat",
-            backgroundSize: `${PIXEL_SCALE * 64}px`,
-            imageRendering: "pixelated",
-            filter: "brightness(0.7)",
-          }}
-        >
-          <img
-            src={SUNNYSIDE.brand.landing}
-            alt="Landing image"
-            className={classNames("transition-opacity", {
-              "opacity-0": !landingImageLoaded,
-              "opacity-100": landingImageLoaded,
-            })}
-            style={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              width: `${PIXEL_SCALE * 640}px`,
-              maxWidth: "none", // Ensure the image maintains its original size
-              maxHeight: "none", // Ensure the image maintains its original size
-              transitionDuration: "1s",
-            }}
-            onLoad={() => setLandingImageLoaded(true)}
-          />
-        </div>
-      )}
-
-      {/* <div className="absolute inset-0 z-10 w-max">
-        <img
-          src={landing}
-          style={{
-            width: `${PIXEL_SCALE * 640}px`,
-            height: `${PIXEL_SCALE * 480}px`,
-            filter: "brightness(0.8)",
-          }}
-        />
-      </div> */}
-
-      {showGame ? (
-        <PWAInstallProvider>
-          <GameProvider>
-            <ZoomProvider>
-              <Modal show={showConnectionModal}>
-                <Panel>
-                  <div className="text-sm p-1 mb-1">{t("welcome.offline")}</div>
-                </Panel>
-              </Modal>
-              <HashRouter>
-                <Suspense fallback={<LoadingFallback />}>
-                  <Routes>
-                    {/* Forbid entry to Goblin Village when in Visiting State show Forbidden screen */}
-                    {!state.isVisiting && (
-                      <Route
-                        path="/goblins"
-                        element={
-                          <Splash>
-                            <Forbidden
-                              onClose={() => {
-                                authService.send("RETURN");
-                              }}
-                            />
-                          </Splash>
-                        }
+            {/* Protected routes that require authentication */}
+            <Route
+              path="/*"
+              element={
+                <>
+                  <Auth showOfflineModal={showConnectionModal} />
+                  {showGame ? (
+                    <PWAInstallProvider>
+                      <GameProvider>
+                        <ZoomProvider>
+                          <ModalProvider>
+                            <Modal show={showConnectionModal}>
+                              <Panel>
+                                <div className="text-sm p-1 mb-1">
+                                  {t("welcome.offline")}
+                                </div>
+                              </Panel>
+                            </Modal>
+                            <Routes>
+                              {/* Forbid entry to Goblin Village when in Visiting State show Forbidden screen */}
+                              {!state.isVisiting && (
+                                <Route
+                                  path="/goblins"
+                                  element={
+                                    <Splash>
+                                      <Forbidden
+                                        onClose={() => {
+                                          authService.send("RETURN");
+                                        }}
+                                      />
+                                    </Splash>
+                                  }
+                                />
+                              )}
+                              <Route
+                                path="/world"
+                                element={<World key="world" />}
+                              >
+                                <Route
+                                  path="marketplace/*"
+                                  element={
+                                    <div className="absolute inset-0 z-50">
+                                      <Marketplace />
+                                    </div>
+                                  }
+                                />
+                                <Route path=":name" element={null} />
+                              </Route>
+                              <Route
+                                path="/community/:name"
+                                element={<World key="community" isCommunity />}
+                              />
+                              <Route
+                                path="/visit/*"
+                                element={<LandExpansion key="visit" />}
+                              />
+                              {CONFIG.NETWORK === "amoy" && (
+                                <Route
+                                  path="/community-tools"
+                                  element={
+                                    <CommunityTools key="community-tools" />
+                                  }
+                                />
+                              )}
+                              {CONFIG.NETWORK === "amoy" && (
+                                <Route
+                                  path="/builder"
+                                  element={<Builder key="builder" />}
+                                />
+                              )}
+                              {hasFeatureAccess(INITIAL_FARM, "LEDGER") && (
+                                <>
+                                  <Route
+                                    path="/ledger-dashboard/:id"
+                                    element={
+                                      <LedgerDashboardProfile key="ledger-dashboard" />
+                                    }
+                                  />
+                                </>
+                              )}
+                              {/* Internal flower-dashboard route with game contexts */}
+                              <Route
+                                path="/game/flower-dashboard"
+                                element={<FlowerDashboard />}
+                              />
+                              <Route
+                                path="*"
+                                element={<LandExpansion key="land" />}
+                              />
+                            </Routes>
+                          </ModalProvider>
+                        </ZoomProvider>
+                      </GameProvider>
+                    </PWAInstallProvider>
+                  ) : (
+                    <div
+                      style={{
+                        width: "100vw",
+                        height: "100vh",
+                        position: "relative",
+                        overflow: "hidden",
+                        backgroundColor: "#63c74d",
+                        backgroundImage: `url(${SUNNYSIDE.brand.greenBg})`,
+                        backgroundRepeat: "repeat",
+                        backgroundSize: `${PIXEL_SCALE * 64}px`,
+                        imageRendering: "pixelated",
+                        filter: "brightness(0.7)",
+                      }}
+                    >
+                      <img
+                        src={SUNNYSIDE.brand.landing}
+                        alt="Landing image"
+                        className={classNames("transition-opacity", {
+                          "opacity-0": !landingImageLoaded,
+                          "opacity-100": landingImageLoaded,
+                        })}
+                        style={{
+                          position: "absolute",
+                          top: "50%",
+                          left: "50%",
+                          transform: "translate(-50%, -50%)",
+                          width: `${PIXEL_SCALE * 640}px`,
+                          maxWidth: "none",
+                          maxHeight: "none",
+                          transitionDuration: "1s",
+                        }}
+                        onLoad={() => setLandingImageLoaded(true)}
                       />
-                    )}{" "}
-                    <Route path="/world" element={<World key="world" />}>
-                      <Route
-                        path="marketplace/*"
-                        element={
-                          <div className="absolute inset-0 z-50">
-                            <Marketplace />
-                          </div>
-                        }
-                      />
-                      <Route path=":name" element={null} />
-                    </Route>
-                    <Route
-                      path="/community/:name"
-                      element={<World key="community" isCommunity />}
-                    />
-                    <Route
-                      path="/visit/*"
-                      element={<LandExpansion key="visit" />}
-                    />
-                    {CONFIG.NETWORK === "amoy" && (
-                      <Route
-                        path="/community-tools"
-                        element={<CommunityTools key="community-tools" />}
-                      />
-                    )}
-                    {CONFIG.NETWORK === "amoy" && (
-                      <Route
-                        path="/builder"
-                        element={<Builder key="builder" />}
-                      />
-                    )}
-                    {hasFeatureAccess(INITIAL_FARM, "LEDGER") && (
-                      <>
-                        <Route
-                          path="/flower-dashboard/:id"
-                          element={
-                            <FlowerDashboardProfile key="flower-dashboard" />
-                          }
-                        />
-                        <Route
-                          path="/rewards-dashboard"
-                          element={
-                            <RewardsDashboardProfile key="rewards-dashboard" />
-                          }
-                        />
-                      </>
-                    )}
-                    <Route path="*" element={<LandExpansion key="land" />} />
-                  </Routes>
-                </Suspense>
-              </HashRouter>
-            </ZoomProvider>
-          </GameProvider>
-        </PWAInstallProvider>
-      ) : (
-        <Splash />
-      )}
+                    </div>
+                  )}
+                </>
+              }
+            />
+          </Routes>
+        </Suspense>
+      </HashRouter>
     </>
   );
 };

@@ -455,13 +455,13 @@ describe("startCrafting", () => {
       type: "crafting.started",
       ingredients: [
         null,
-        null,
+        { collectible: "Stone" },
         null,
         { collectible: "Stone" },
         { collectible: "Stone" },
         { collectible: "Stone" },
         null,
-        null,
+        { collectible: "Stone" },
         null,
       ],
     };
@@ -474,7 +474,8 @@ describe("startCrafting", () => {
       createdAt: date,
     });
 
-    const craftingTime = date + RECIPES["Stone Fence"].time * 0.5;
+    const craftingTime =
+      date + (RECIPES(gameState)["Bonnie's Tombstone"]?.time ?? 0) * 0.5;
     const craftedAt = newState.craftingBox.readyAt;
     expect(craftedAt).toBe(craftingTime);
   });

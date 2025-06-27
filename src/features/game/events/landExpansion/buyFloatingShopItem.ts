@@ -5,7 +5,6 @@ import { produce } from "immer";
 
 import { trackActivity } from "features/game/types/bumpkinActivity";
 
-import { hasFeatureAccess } from "lib/flags";
 import { BumpkinItem } from "features/game/types/bumpkin";
 import {
   FloatingShopCollectible,
@@ -33,10 +32,6 @@ export function buyFloatingShopItem({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (copy) => {
-    if (!hasFeatureAccess(copy, "LOVE_CHARM_REWARD_SHOP")) {
-      throw new Error("Love Charm Reward Shop is not available");
-    }
-
     const { name } = action;
 
     const { bumpkin, floatingIsland } = copy;

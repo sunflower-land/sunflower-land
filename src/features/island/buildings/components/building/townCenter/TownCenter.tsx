@@ -10,6 +10,7 @@ import { Bumpkin } from "features/game/types/game";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { useNavigate } from "react-router";
 import { HomeBumpkins } from "../house/HomeBumpkins";
+import { DailyReward } from "features/game/expansion/components/dailyReward/DailyReward";
 
 export const TownCenter: React.FC<BuildingProps> = ({ isBuilt }) => {
   const { gameService, showAnimations } = useContext(Context);
@@ -59,6 +60,12 @@ export const TownCenter: React.FC<BuildingProps> = ({ isBuilt }) => {
           }}
         />
       </BuildingImageWrapper>
+      <div
+        className="absolute"
+        style={{ left: `${PIXEL_SCALE * 16}px`, top: `${PIXEL_SCALE * 14}px` }}
+      >
+        <DailyReward />
+      </div>
 
       <div
         className="absolute w-full"

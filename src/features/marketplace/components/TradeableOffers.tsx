@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
@@ -36,6 +36,9 @@ import Decimal from "decimal.js-light";
 import { useParams } from "react-router";
 import { KeyedMutator } from "swr";
 import { MAX_LIMITED_PURCHASES } from "./Tradeable";
+import { ResourceTaxes } from "./TradeableInfo";
+import { hasVipAccess } from "features/game/lib/vipAccess";
+import { useFirstRender } from "lib/utils/hooks/useFirstRender";
 
 const _hasPendingOfferEffect = (state: MachineState) =>
   state.matches("marketplaceOffering") || state.matches("marketplaceAccepting");
@@ -43,6 +46,8 @@ const _authToken = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
 const _balance = (state: MachineState) => state.context.state.balance;
 const _inventory = (state: MachineState) => state.context.state.inventory;
+const _myOffersCount = (state: MachineState) =>
+  Object.keys(state.context.state.trades.offers ?? {}).length;
 
 export const TradeableOffers: React.FC<{
   tradeable?: TradeableDetails;
@@ -88,6 +93,7 @@ export const TradeableOffers: React.FC<{
   const authToken = useSelector(authService, _authToken);
   const balance = useSelector(gameService, _balance);
   const inventory = useSelector(gameService, _inventory);
+  const myOffersCount = useSelector(gameService, _myOffersCount);
   const [showMakeOffer, setShowMakeOffer] = useState(false);
   const [showAcceptOffer, setShowAcceptOffer] = useState(false);
   const [selectedOffer, setSelectedOffer] = useState<Offer>();
@@ -95,6 +101,8 @@ export const TradeableOffers: React.FC<{
   const topOffer = tradeable?.offers.reduce((highest, offer) => {
     return offer.sfl > highest.sfl ? offer : highest;
   }, tradeable?.offers[0]);
+
+  const isFirstRender = useFirstRender();
 
   useOnMachineTransition<ContextType, BlockchainEvent>(
     gameService,
@@ -131,6 +139,12 @@ export const TradeableOffers: React.FC<{
       }),
   );
 
+  useEffect(() => {
+    if (isFirstRender) return;
+
+    reload();
+  }, [myOffersCount, isFirstRender, reload]);
+
   const handleHide = () => {
     if (hasPendingOfferEffect) return;
 
@@ -149,6 +163,12 @@ export const TradeableOffers: React.FC<{
   const loading = !tradeable;
   const isResource = isTradeResource(KNOWN_ITEMS[Number(id)]);
 
+  const vipIsRequired =
+    tradeable?.isVip &&
+    !hasVipAccess({
+      game: gameService.getSnapshot().context.state,
+    });
+
   return (
     <>
       <Modal show={showMakeOffer} onHide={handleHide}>
@@ -163,7 +183,7 @@ export const TradeableOffers: React.FC<{
         </Panel>
       </Modal>
       <Modal show={showAcceptOffer} onHide={handleHide}>
-        <Panel>
+        <Panel className="mb-1">
           <AcceptOffer
             authToken={authToken}
             itemId={itemId}
@@ -173,6 +193,7 @@ export const TradeableOffers: React.FC<{
             onOfferAccepted={reload}
           />
         </Panel>
+        {isResource && <ResourceTaxes />}
       </Modal>
       {!isResource && (
         <InnerPanel className="mb-1">
@@ -207,7 +228,7 @@ export const TradeableOffers: React.FC<{
               )}
               {!loading && (
                 <div className="flex items-center w-full sm:w-fit">
-                  {tradeable?.isActive && (
+                  {tradeable?.isActive && !vipIsRequired && (
                     <Button
                       className="w-full sm:w-fit mr-1"
                       disabled={
@@ -223,7 +244,7 @@ export const TradeableOffers: React.FC<{
                     </Button>
                   )}
 
-                  {topOffer && tradeable?.isActive && (
+                  {topOffer && tradeable?.isActive && !vipIsRequired && (
                     <Button
                       disabled={
                         topOffer.offeredBy.id === farmId ||
@@ -292,7 +313,7 @@ export const TradeableOffers: React.FC<{
                   id={farmId}
                   tableType="offers"
                   onClick={
-                    tradeable.isActive
+                    tradeable.isActive && !vipIsRequired
                       ? (offerId) => {
                           handleSelectOffer(offerId);
                           setShowAcceptOffer(true);

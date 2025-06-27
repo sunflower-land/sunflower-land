@@ -1,5 +1,8 @@
 import Decimal from "decimal.js-light";
-import { BuildingName } from "features/game/types/buildings";
+import {
+  BuildingName,
+  CookingBuildingName,
+} from "features/game/types/buildings";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { getKeys } from "features/game/types/decorations";
 import { GameState } from "features/game/types/game";
@@ -126,15 +129,16 @@ export function speedUpRecipe({
       game.inventory[recipe.name] ?? new Decimal(0)
     ).add(recipe.amount ?? 1);
 
-    // Remove the sped up recipe from the queue
-    const filteredQueue = queue.filter((r) => r.readyAt !== recipe.readyAt);
+    const queueWithoutSpedUpRecipe = queue.filter(
+      (item) => item.readyAt !== recipe.readyAt,
+    );
 
     building.crafting = recalculateQueue({
-      queue: filteredQueue,
+      queue: queueWithoutSpedUpRecipe,
       createdAt,
-      buildingId: building.id,
+      buildingName: action.buildingName as CookingBuildingName,
+      isInstantCook: true,
       game,
-      isInstant: true,
     });
 
     game = makeGemHistory({ game, amount: gems });

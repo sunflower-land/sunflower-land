@@ -861,6 +861,16 @@ import easterBasket2025 from "assets/sfts/easter_basket.webp";
 import easterToken2025 from "assets/icons/easter_token_2025.webp";
 import easterTicket2025 from "assets/icons/easter_ticket_2025.webp";
 
+import colorToken2025 from "assets/icons/colors_token_2025.png";
+import colorTicket2025 from "assets/icons/colors_ticket_2025.png";
+import paintBuckets from "assets/sfts/paint_buckets.webp";
+import rainbowWell from "assets/sfts/rainbow_well.webp";
+import floatingToy from "assets/sfts/floating_toy.webp";
+import rainbowFlower from "assets/sfts/rainbow_flower.webp";
+import ponyToy from "assets/sfts/pony_toy.webp";
+import redSlimeBalloon from "assets/sfts/red_slime_balloon.webp";
+import blueSlimeBalloon from "assets/sfts/blue_slime_balloon.webp";
+
 import quarry from "assets/sfts/quarry.webp";
 import obsidianTurtle from "assets/sfts/obsidian_turtle.webp";
 import winterGuardian from "assets/sfts/winter_guardian.webp";
@@ -874,6 +884,7 @@ import giantYam from "assets/sfts/giant_yam.webp";
 import heartAirBalloon from "assets/sfts/heart_air_balloon.webp";
 import giantZuchinni from "assets/sfts/giant_zuchinni.webp";
 import miniFloatingIsland from "assets/sfts/mini_floating_island.webp";
+import giantKale from "assets/sfts/giant_kale.webp";
 
 import bronzeLoveBox from "assets/rewardBoxes/bronze_love_box.webp";
 import silverLoveBox from "assets/rewardBoxes/silver_love_box.webp";
@@ -5292,7 +5303,43 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.lunalist"),
   },
   "Giant Kale": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: giantKale,
     description: translate("description.giantKale"),
+  },
+  "Colors Token 2025": {
+    image: colorToken2025,
+    description: translate("description.colorToken2025"),
+  },
+  "Colors Ticket 2025": {
+    image: colorTicket2025,
+    description: translate("description.colorTicket2025"),
+  },
+  "Paint Buckets": {
+    image: paintBuckets,
+    description: translate("description.paintBuckets"),
+  },
+  "Rainbow Well": {
+    image: rainbowWell,
+    description: translate("description.rainbowWell"),
+  },
+  "Floating Toy": {
+    image: floatingToy,
+    description: translate("description.floatingToy"),
+  },
+  "Rainbow Flower": {
+    image: rainbowFlower,
+    description: translate("description.rainbowFlower"),
+  },
+  "Pony Toy": {
+    image: ponyToy,
+    description: translate("description.ponyToy"),
+  },
+  "Red Slime Balloon": {
+    image: redSlimeBalloon,
+    description: translate("description.redSlimeBalloon"),
+  },
+  "Blue Slime Balloon": {
+    image: blueSlimeBalloon,
+    description: translate("description.blueSlimeBalloon"),
   },
 };

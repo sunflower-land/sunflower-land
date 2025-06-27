@@ -1210,6 +1210,13 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Lab Grown Carrot": { width: 1, height: 1 },
   "Lab Grown Radish": { width: 1, height: 1 },
   "Lab Grown Pumpkin": { width: 1, height: 1 },
+  "Black Magic": { width: 1, height: 1 },
+  "Golden Helios": { width: 1, height: 1 },
+  Chiogga: { width: 1, height: 1 },
+  "Purple Cauliflower": { width: 1, height: 1 },
+  "Adirondack Potato": { width: 1, height: 1 },
+  "Warty Goblin Pumpkin": { width: 1, height: 1 },
+  "White Carrot": { width: 1, height: 1 },
 
   "White Crow": { width: 1, height: 1 },
 
@@ -1423,10 +1430,10 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Giant Zucchini": { width: 1, height: 2 },
   "Mini Floating Island": { width: 2, height: 1 },
   "Love Chicken": { width: 1, height: 2 },
-  "Dr Cow": { width: 1, height: 1 },
-  "Nurse Sheep": { width: 1, height: 1 },
+  "Dr Cow": { width: 2, height: 1 },
+  "Nurse Sheep": { width: 2, height: 1 },
   Lunalist: { width: 1, height: 1 },
-  "Pink Dolphin": { width: 1, height: 1 },
+  "Pink Dolphin": { width: 2, height: 2 },
   "Giant Kale": { width: 2, height: 2 },
 };
 

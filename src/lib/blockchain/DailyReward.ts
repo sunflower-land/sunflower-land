@@ -87,9 +87,14 @@ export async function trackDailyReward({
   const { chainId } = getAccount(config);
 
   if (NETWORKS[network].id !== chainId) {
-    await switchChain(config, {
-      chainId: NETWORKS[network].id as any,
-    });
+    try {
+      await switchChain(config, {
+        chainId: NETWORKS[network].id as any,
+      });
+    } catch (e) {
+      // eslint-disable-next-line no-console
+      console.error("Error switching network", e);
+    }
   }
 
   const hash = await writeContract(config, {

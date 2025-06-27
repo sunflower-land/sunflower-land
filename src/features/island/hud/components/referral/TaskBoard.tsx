@@ -22,7 +22,6 @@ import promoteIcon from "assets/icons/promote.webp";
 import tvIcon from "assets/icons/tv.webp";
 import flowerIcon from "assets/icons/flower_token.webp";
 import { secondsToString } from "lib/utils/time";
-import { hasFeatureAccess } from "lib/flags";
 
 interface TaskBoardProps {
   state: GameState;
@@ -73,29 +72,6 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({ state, socialTasks }) => {
   return (
     <div className="flex flex-col gap-2 max-h-[500px] overflow-y-auto scrollable">
       <div className="px-1">
-        {hasFeatureAccess(state, "LOVE_RUSH") && (
-          <>
-            <div className="flex justify-between gap-2 mb-1">
-              <Label type="vibrant">{t("taskBoard.loveRush")}</Label>{" "}
-              <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
-                {`${secondsToString(
-                  (new Date("2025-05-05T00:00:00Z").getTime() - Date.now()) /
-                    1000,
-                  {
-                    length: "short",
-                  },
-                )} left`}
-              </Label>
-            </div>
-            <p className="text-xs mb-2">
-              {t("taskBoard.limitedTimeDescription")}
-            </p>
-            <img
-              src={SUNNYSIDE.announcement.loveRush}
-              className="w-full mb-2"
-            />
-          </>
-        )}
         <div className="flex justify-between gap-2 mb-2">
           <Label type="default">{t("taskBoard.howToEarn")}</Label>
         </div>
@@ -109,15 +85,6 @@ export const TaskBoard: React.FC<TaskBoardProps> = ({ state, socialTasks }) => {
             onClick={() => openModal("MERKL")}
             image={flowerIcon}
           />
-
-          {hasFeatureAccess(state, "LOVE_RUSH") && (
-            <TaskButton
-              title={t("socialTask.helpBumpkins")}
-              onClick={() => openModal("LOVE_RUSH")}
-              image={SUNNYSIDE.icons.player}
-              expiresAt={new Date("2025-05-05T00:00:00Z")}
-            />
-          )}
 
           <TaskButton
             title={t("socialTask.referFriend")}

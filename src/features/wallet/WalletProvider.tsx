@@ -1,6 +1,4 @@
 import React from "react";
-import { useInterpret } from "@xstate/react";
-import { MachineInterpreter, walletMachine } from "./walletMachine";
 import { CONFIG } from "lib/config";
 
 import { http, createConfig, fallback, injected } from "@wagmi/core";
@@ -16,14 +14,8 @@ import { walletConnect, metaMask, coinbaseWallet } from "@wagmi/connectors";
 import { sequenceWallet } from "@0xsequence/wagmi-connector";
 import { WaypointProvider } from "@sky-mavis/waypoint";
 import { EIP1193Provider } from "viem";
-
-export const WalletContext = React.createContext<{
-  walletService: MachineInterpreter;
-}>(
-  {} as {
-    walletService: MachineInterpreter;
-  },
-);
+import { WagmiProvider } from "wagmi";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 export const sequenceConnector = sequenceWallet({
   defaultNetwork: "polygon",
@@ -57,7 +49,10 @@ export const fallbackConnector = injected({
     return {
       id: "injected",
       name: "Injected Wallet",
-      provider: window.ethereum,
+      provider:
+        window.ethereum?.isMetaMask || window.ethereum?.isCoinbaseWallet
+          ? undefined
+          : window.ethereum,
     };
   },
 });
@@ -107,11 +102,12 @@ export const config = createConfig({
       : [polygonAmoy, saigon, baseSepolia],
   multiInjectedProviderDiscovery: true,
   connectors: [
+    metaMaskConnector,
     sequenceConnector,
     walletConnectConnector,
     coinbaseConnector,
-    fallbackConnector,
     waypointConnector,
+    fallbackConnector,
   ],
   transports: {
     // Testnet
@@ -126,16 +122,14 @@ export const config = createConfig({
   },
 });
 
-export const WalletProvider: React.FC<React.PropsWithChildren> = ({
+export const queryClient = new QueryClient();
+
+export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const walletService = useInterpret(
-    walletMachine,
-  ) as unknown as MachineInterpreter;
-
   return (
-    <WalletContext.Provider value={{ walletService }}>
-      {children}
-    </WalletContext.Provider>
+    <WagmiProvider config={config}>
+      <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+    </WagmiProvider>
   );
 };

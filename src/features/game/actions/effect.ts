@@ -33,7 +33,12 @@ type EffectName =
   | "account.migrated"
   | "moderation.kicked"
   | "moderation.muted"
-  | "moderation.unmuted";
+  | "moderation.unmuted"
+  | "blessing.offered"
+  | "blessing.seeked"
+  | "nft.assigned"
+  | "marketplace.bulkListingsCancelled"
+  | "marketplace.bulkOffersCancelled";
 
 // IMPORTANT: If your effect does not go via a state in the state machine then exclude it here!
 // Create a type that excludes the events that are not individual state machine states
@@ -42,7 +47,6 @@ export type StateMachineEffectName = Exclude<
   | "withdraw.items"
   | "withdraw.wearables"
   | "withdraw.buds"
-  | "wallet.linked"
   | "account.migrated"
   | "moderation.kicked"
   | "moderation.muted"
@@ -69,7 +73,13 @@ export type StateMachineStateName =
   | "assigningUsername"
   | "changingUsername"
   | "claimingStreamReward"
-  | "claimingBlockchainBox";
+  | "claimingBlockchainBox"
+  | "offeringBlessing"
+  | "seekingBlessing"
+  | "marketplaceBulkListingsCancelling"
+  | "marketplaceBulkOffersCancelling"
+  | "linkingWallet"
+  | "assigningNFT";
 
 export type StateNameWithStatus =
   | `${StateMachineStateName}Success`
@@ -100,6 +110,12 @@ export const STATE_MACHINE_EFFECTS: Record<
   "username.changed": "changingUsername",
   "streamReward.claimed": "claimingStreamReward",
   "blockchainBox.claimed": "claimingBlockchainBox",
+  "blessing.offered": "offeringBlessing",
+  "blessing.seeked": "seekingBlessing",
+  "marketplace.bulkListingsCancelled": "marketplaceBulkListingsCancelling",
+  "marketplace.bulkOffersCancelled": "marketplaceBulkOffersCancelling",
+  "wallet.linked": "linkingWallet",
+  "nft.assigned": "assigningNFT",
 };
 export interface Effect {
   type: EffectName;

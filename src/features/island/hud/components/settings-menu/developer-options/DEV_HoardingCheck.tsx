@@ -10,17 +10,8 @@ import { readContract } from "viem/actions";
 import { createPublicClient, encodePacked, http, keccak256 } from "viem";
 import { polygon, polygonAmoy } from "viem/chains";
 import { CONFIG } from "lib/config";
-import { getKeys } from "features/game/types/craftables";
-import { SEEDS } from "features/game/types/seeds";
-import { SELLABLE_TREASURE } from "features/game/types/treasure";
 import { Loading } from "features/auth/components";
-
-const OFFCHAIN_ITEMS = [
-  "Mark",
-  "Trade Point",
-  ...getKeys(SELLABLE_TREASURE),
-  ...getKeys(SEEDS),
-];
+import { OFFCHAIN_ITEMS } from "features/game/lib/offChainItems";
 
 export const DEV_HoarderCheck: React.FC<ContentComponentProps> = () => {
   const { t } = useAppTranslation();

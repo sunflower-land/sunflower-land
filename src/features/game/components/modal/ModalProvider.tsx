@@ -16,8 +16,8 @@ import { ReferralContent } from "features/island/hud/components/referral/Referra
 import { CloseButtonPanel } from "../CloseablePanel";
 import { DiscordBonus } from "features/game/expansion/components/DiscordBoat";
 import { Streams } from "./components/Streams";
-import { LoveRush } from "./components/LoveRush";
 import { Merkl } from "./components/Merkl";
+import { Rewards } from "features/island/hud/components/referral/Rewards";
 type GlobalModal =
   | "BUY_GEMS"
   | "DISCORD"
@@ -35,8 +35,10 @@ type GlobalModal =
   | "TWITTER"
   | "REFERRAL"
   | "STREAMS"
-  | "LOVE_RUSH"
-  | "MERKL";
+  | "MERKL"
+  | "DEPOSIT"
+  | "DAILY_REWARD"
+  | "EARN";
 
 export const ModalContext = createContext<{
   openModal: (type: GlobalModal) => void;
@@ -66,6 +68,12 @@ export const ModalProvider: FC<React.PropsWithChildren> = ({ children }) => {
         show={opened === "BUY_BANNER"}
         onClose={handleClose}
         initialPage="vip"
+      />
+
+      <CurrenciesModal
+        show={opened === "DEPOSIT"}
+        onClose={handleClose}
+        initialPage="deposit"
       />
 
       <Modal show={opened === "DISCORD"} onHide={handleClose}>
@@ -105,10 +113,6 @@ export const ModalProvider: FC<React.PropsWithChildren> = ({ children }) => {
 
       <Modal show={opened === "STREAMS"} onHide={handleClose}>
         <Streams onClose={handleClose} />
-      </Modal>
-
-      <Modal show={opened === "LOVE_RUSH"} onHide={handleClose}>
-        <LoveRush onClose={handleClose} />
       </Modal>
 
       <Modal show={opened === "MERKL"} onHide={handleClose}>
@@ -208,6 +212,12 @@ export const ModalProvider: FC<React.PropsWithChildren> = ({ children }) => {
           bumpkinParts={NPC_WEARABLES["pumpkin' pete"]}
         />
       </Modal>
+
+      <Rewards
+        show={opened === "DAILY_REWARD" || opened === "EARN"}
+        onHide={handleClose}
+        tab={opened === "DAILY_REWARD" ? "Rewards" : "Earn"}
+      />
     </ModalContext.Provider>
   );
 };

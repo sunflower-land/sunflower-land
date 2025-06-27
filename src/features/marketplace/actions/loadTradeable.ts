@@ -23,6 +23,7 @@ export async function loadTradeable({
       supply: 0,
       collection: type,
       isActive: false,
+      isVip: false,
       lastSalePrice: 0,
       offers: [],
       listings: [],

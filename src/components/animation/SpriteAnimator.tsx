@@ -79,6 +79,8 @@ export interface Props {
 }
 
 class Spritesheet extends React.Component<Props> {
+  private spriteRef = React.createRef<HTMLDivElement>();
+
   constructor(props: Props) {
     super(props);
 
@@ -180,6 +182,7 @@ class Spritesheet extends React.Component<Props> {
     const elSprite = React.createElement(
       "div",
       {
+        ref: this.spriteRef,
         className: `react-responsive-spritesheet ${this.id} ${className}`,
         style,
         onClick: () => onClick(this.setInstance()),
@@ -205,7 +208,9 @@ class Spritesheet extends React.Component<Props> {
     const imgLoadSprite = new Image();
     imgLoadSprite.src = image;
 
-    this.spriteEl = document.querySelector(`.${this.id}`);
+    this.spriteEl = this.spriteRef.current;
+    if (!this.spriteEl) return;
+
     this.spriteElContainer = this.spriteEl.querySelector(
       ".react-responsive-spritesheet-container",
     );

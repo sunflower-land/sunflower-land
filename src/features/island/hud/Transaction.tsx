@@ -3,13 +3,12 @@ import { ButtonPanel, Panel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 
 import { Context } from "features/game/GameProvider";
-import { config } from "features/wallet/WalletProvider";
 
 import { TimerDisplay } from "features/retreat/components/auctioneer/AuctionDetails";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { Modal } from "components/ui/Modal";
 import { Button } from "components/ui/Button";
-import { useAccount, useWaitForTransactionReceipt, WagmiProvider } from "wagmi";
+import { useAccount, useWaitForTransactionReceipt } from "wagmi";
 import {
   DEADLINE_BUFFER_MS,
   DEADLINE_MS,
@@ -19,7 +18,7 @@ import {
   ONCHAIN_TRANSACTIONS,
   TransactionName,
 } from "features/game/types/transactions";
-import { GameWallet, queryClient } from "features/wallet/Wallet";
+import { GameWallet, WalletAction } from "features/wallet/Wallet";
 
 import walletIcon from "assets/icons/wallet.png";
 import lockIcon from "assets/icons/lock.png";
@@ -28,12 +27,7 @@ import { Loading } from "features/auth/components";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
-import { QueryClientProvider } from "@tanstack/react-query";
-import { switchChain } from "@wagmi/core";
 import { GaslessWidget } from "features/announcements/AnnouncementWidgets";
-import { getAccount } from "@wagmi/core";
-import { CONFIG } from "lib/config";
-import { base, baseSepolia } from "viem/chains";
 
 const _transaction = (state: MachineState) => state.context.state.transaction;
 const compareTransaction = (prev?: GameTransaction, next?: GameTransaction) => {
@@ -73,14 +67,10 @@ export const TransactionCountdown: React.FC = () => {
         <GaslessWidget />
       </Modal>
       <ButtonPanel onClick={() => setShowTransaction(true)} className="flex">
-        <WagmiProvider config={config}>
-          <QueryClientProvider client={queryClient}>
-            <TransactionWidget
-              transaction={transaction}
-              onOpen={() => setShowTransaction(true)}
-            />
-          </QueryClientProvider>
-        </WagmiProvider>
+        <TransactionWidget
+          transaction={transaction}
+          onOpen={() => setShowTransaction(true)}
+        />
       </ButtonPanel>
     </>
   );
@@ -220,6 +210,17 @@ const TransactionWidget: React.FC<{
   );
 };
 
+const WALLET_ACTIONS: Record<TransactionName, WalletAction> = {
+  "transaction.flowerWithdrawn": "withdrawFlower",
+  "transaction.itemsWithdrawn": "withdrawItems",
+  "transaction.wearablesWithdrawn": "withdrawItems",
+  "transaction.budWithdrawn": "withdrawItems",
+  "transaction.bidMinted": "sync",
+  "transaction.listingPurchased": "marketplace",
+  "transaction.offerAccepted": "marketplace",
+  "transaction.progressSynced": "sync",
+};
+
 interface Props {
   onClose?: () => void;
   isBlocked?: boolean;
@@ -245,8 +246,9 @@ export const Transaction: React.FC<Props> = ({ onClose, isBlocked }) => {
     );
   }
 
-  const walletAction =
-    transaction?.event === "transaction.flowerWithdrawn" ? "withdraw" : "sync";
+  if (!transaction) return null;
+
+  const walletAction = WALLET_ACTIONS[transaction.event];
 
   return (
     <>
@@ -281,24 +283,6 @@ export const TransactionProgress: React.FC<Props> = ({
 
   const farmId = useSelector(gameService, _farmId);
   const transaction = useSelector(gameService, _transaction);
-
-  useEffect(() => {
-    if (transaction?.event !== "transaction.flowerWithdrawn") return;
-
-    const handleSwitchChain = async () => {
-      // Force a switch to base if trying to withdraw flower
-      const { chainId } = getAccount(config);
-      const requiredChain = CONFIG.NETWORK === "mainnet" ? base : baseSepolia;
-
-      if (chainId !== requiredChain.id) {
-        await switchChain(config, {
-          chainId: requiredChain.id,
-        });
-      }
-    };
-
-    handleSwitchChain();
-  }, []);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 

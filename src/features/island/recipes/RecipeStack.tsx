@@ -11,9 +11,11 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { getImageUrl } from "lib/utils/getImageURLS";
+import { GameState } from "features/game/types/game";
+import { useSelector } from "@xstate/react";
 
-const getRecipeImage = (recipe: RecipeItemName) => {
-  const recipeDetails = RECIPES[recipe];
+const getRecipeImage = (recipe: RecipeItemName, game: GameState) => {
+  const recipeDetails = RECIPES(game)[recipe];
 
   if (!recipeDetails) return "";
 
@@ -22,8 +24,8 @@ const getRecipeImage = (recipe: RecipeItemName) => {
     : getImageUrl(ITEM_IDS[recipeDetails.name]);
 };
 
-const getRecipeDescription = (recipe: RecipeItemName) => {
-  const recipeDetails = RECIPES[recipe];
+const getRecipeDescription = (recipe: RecipeItemName, game: GameState) => {
+  const recipeDetails = RECIPES(game)[recipe];
 
   if (!recipeDetails) return "";
 
@@ -38,6 +40,7 @@ export const RecipeStack: React.FC<{ recipes: RecipeItemName[] }> = ({
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { gameService } = useContext(Context);
+  const game = useSelector(gameService, (state) => state.context.state);
 
   const { t } = useTranslation();
 
@@ -68,8 +71,8 @@ export const RecipeStack: React.FC<{ recipes: RecipeItemName[] }> = ({
         <Panel>
           <div className="flex flex-wrap justify-center items-center space-y-2">
             {recipes.map((recipe) => {
-              const recipeImage = getRecipeImage(recipe);
-              const recipeDescription = getRecipeDescription(recipe);
+              const recipeImage = getRecipeImage(recipe, game);
+              const recipeDescription = getRecipeDescription(recipe, game);
 
               return (
                 <div

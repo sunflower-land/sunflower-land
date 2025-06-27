@@ -41,7 +41,7 @@ import {
 import { TreasureToolName, WorkbenchToolName } from "./tools";
 import { ConversationName } from "./announcements";
 import { NPCName } from "lib/npcs";
-import { SeasonalBanner, SeasonalTicket } from "./seasons";
+import { SeasonalBanner, SeasonalTicket, SeasonName } from "./seasons";
 import { Bud } from "./buds";
 import {
   CompostName,
@@ -54,7 +54,6 @@ import { MilestoneName } from "./milestones";
 import {
   FishName,
   FishingBait,
-  FishingConditions,
   MarineMarvelName,
   OldFishName,
 } from "./fishing";
@@ -96,6 +95,7 @@ import { TwitterPost, TwitterPostName } from "./social";
 import { NetworkName } from "../events/landExpansion/updateNetwork";
 import { RewardBoxes, RewardBoxName } from "./rewardBoxes";
 import { FloatingIslandShop, FloatingShopItemName } from "./floatingIsland";
+import { Blessing } from "../lib/blessings";
 
 export type Reward = {
   coins?: number;
@@ -238,6 +238,8 @@ export type Coupons =
   | "Love Charm"
   | "Easter Token 2025"
   | "Easter Ticket 2025"
+  | "Colors Token 2025"
+  | "Colors Ticket 2025"
   | Keys
   | SeasonalTicket
   | FactionEmblem;
@@ -367,6 +369,12 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   },
   Geniseed: {
     description: translate("description.geniseed"),
+  },
+  "Colors Token 2025": {
+    description: translate("description.colorToken2025"),
+  },
+  "Colors Ticket 2025": {
+    description: translate("description.colorTicket2025"),
   },
 };
 
@@ -622,6 +630,10 @@ export type CropPlot = {
   crop?: PlantedCrop;
   fertiliser?: CropFertiliser;
   createdAt: number;
+  beeSwarm?: {
+    count: number;
+    swarmActivatedAt: number;
+  };
 } & Coordinates;
 
 export type GreenhousePlant = {
@@ -645,6 +657,7 @@ export type BuildingProduct = {
   readyAt: number;
   amount?: number;
   boost?: Partial<Record<InventoryItemName, number>>;
+  skills?: Partial<Record<BumpkinRevampSkillName, boolean>>;
 };
 
 export type BuildingProduce = {
@@ -655,7 +668,6 @@ export type BuildingProduce = {
 
 export type Cancelled = Partial<{
   [key in InventoryItemName]: {
-    count: number;
     cancelledAt: number;
   };
 }>;
@@ -772,6 +784,9 @@ export type Bid = {
   biddedAt: number;
   tickets: number;
 };
+export type Minted = Partial<
+  Record<SeasonName, Record<InventoryItemName | BumpkinItem, number>>
+>;
 
 export type MazeAttempts = Partial<Record<SeasonWeek, MazeMetadata>>;
 
@@ -815,6 +830,7 @@ export type Desert = {
   digging: {
     extraDigs?: number;
     patterns: DiggingFormationName[];
+    completedPatterns?: DiggingFormationName[];
     grid: (DugHole | DugHole[])[];
     streak?: StreakReward;
   };
@@ -953,6 +969,7 @@ export type PotionHouse = {
     status: "in_progress" | "finished";
     attempts: Attempt[];
     reward?: number;
+    multiplier?: number;
   };
   history: {
     [score: number]: number;
@@ -1090,6 +1107,7 @@ export type Minigame = {
 export type TradeListing = {
   items: Partial<Record<MarketplaceTradeableName, number>>;
   sfl: number;
+  tax?: number; // Defaults to 10% of the sfl
   createdAt: number;
   collection: CollectionName;
   boughtAt?: number;
@@ -1104,6 +1122,7 @@ export type TradeListing = {
 export type TradeOffer = {
   items: Partial<Record<MarketplaceTradeableName, number>>;
   sfl: number;
+  tax?: number; // Defaults to 10% of the sfl
   collection: CollectionName;
   createdAt: number;
   fulfilledAt?: number;
@@ -1121,13 +1140,15 @@ type FishingSpot = {
 };
 
 export type Fishing = {
-  weather: FishingConditions;
   wharf: FishingSpot;
-  beach: FishingSpot;
   dailyAttempts?: {
     [date: string]: number;
   };
   extraReels?: ExtraReels;
+
+  // TODO remove after 1st June
+  beach?: FishingSpot;
+  weather?: string;
 };
 
 export type ExtraReels = {
@@ -1155,7 +1176,8 @@ export type Currency =
   | "Seasonal Ticket"
   | "Mark"
   | "Love Charm"
-  | "Easter Token 2025";
+  | "Easter Token 2025"
+  | "Colors Token 2025";
 
 export type ShopItemBase = {
   shortDescription: string;
@@ -1361,6 +1383,7 @@ export type UpgradableBuilding = {
 
 export type Bank = {
   taxFreeSFL: number;
+  withdrawnAmount: number;
 };
 
 export type TemperateSeasonName = "spring" | "summer" | "autumn" | "winter";
@@ -1557,6 +1580,7 @@ export interface GameState {
   dailyRewards?: DailyRewards;
   auctioneer: {
     bid?: Bid;
+    minted?: Minted;
   };
   chores?: ChoresV2;
   kingdomChores: KingdomChores;
@@ -1687,6 +1711,7 @@ export interface GameState {
   withdrawals?: {
     amount: number;
   };
+  blessing: Blessing;
 }
 
 export type FaceRecognitionEvent =

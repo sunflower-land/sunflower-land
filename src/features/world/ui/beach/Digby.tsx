@@ -5,13 +5,10 @@ import { Context } from "features/game/GameProvider";
 import {
   DiggingFormation,
   DIGGING_FORMATIONS,
-  DESERT_GRID_WIDTH,
-  DiggingGrid,
-  DESERT_GRID_HEIGHT,
-  getTreasureCount,
-  getTreasuresFound,
   getArtefactsFound,
   SEASONAL_ARTEFACT,
+  hasClaimedReward,
+  DiggingFormationName,
 } from "features/game/types/desert";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { NPC_WEARABLES } from "lib/npcs";
@@ -20,7 +17,7 @@ import React, { useContext, useEffect, useState } from "react";
 import powerup from "assets/icons/level_up.png";
 import gift from "assets/icons/gift.png";
 
-import { Desert, GameState } from "features/game/types/game";
+import { GameState } from "features/game/types/game";
 import { getKeys } from "features/game/types/decorations";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Button } from "components/ui/Button";
@@ -63,75 +60,10 @@ function centerFormation(formation: DiggingFormation): DiggingFormation {
   }));
 }
 
-function countFormationOccurrences({
-  grid,
-  formation,
-}: {
-  grid: DiggingGrid;
-  formation: DiggingFormation;
-}): number {
-  let count = 0;
-
-  for (let x = 0; x < DESERT_GRID_WIDTH; x++) {
-    for (let y = 0; y < DESERT_GRID_HEIGHT; y++) {
-      let isPresent = true;
-
-      for (const plot of formation) {
-        const newX = x + plot.x;
-        const newY = y + plot.y;
-
-        // Check if the new position is within bounds
-        if (
-          newX < 0 ||
-          newX >= DESERT_GRID_WIDTH ||
-          newY < 0 ||
-          newY >= DESERT_GRID_HEIGHT
-        ) {
-          isPresent = false;
-          break;
-        }
-
-        // Check if the cell matches the formation requirement
-        if (grid[newX][newY] !== plot.name) {
-          // Assuming formation includes value to match
-          isPresent = false;
-          break;
-        }
-      }
-
-      if (isPresent) {
-        count++;
-      }
-    }
-  }
-
-  return count;
-}
-
-function dugToGrid(dug: Desert["digging"]["grid"]): DiggingGrid {
-  const grid = new Array(DESERT_GRID_WIDTH)
-    .fill(0)
-    .map(() => new Array(DESERT_GRID_HEIGHT).fill(undefined));
-
-  for (const hole of dug.flat()) {
-    grid[hole.x][hole.y] = getKeys(hole.items)[0];
-  }
-
-  return grid;
-}
-
 export const Pattern: React.FC<{
   pattern: DiggingFormation;
   isDiscovered: boolean;
 }> = ({ pattern, isDiscovered }) => {
-  // Find lowest X and highest X in pattern
-  const minX = Math.min(...pattern.map((p) => p.x));
-  const maxX = Math.max(...pattern.map((p) => p.x));
-
-  const minY = Math.min(...pattern.map((p) => p.y));
-  const maxY = Math.max(...pattern.map((p) => p.y));
-
-  const squareWidth = Math.max(maxX - minX + 1, maxY - minY + 1);
   const width = 25;
 
   const centeredPattern = centerFormation(pattern);
@@ -218,14 +150,13 @@ export const DailyPuzzle: React.FC = () => {
   const [isPicking, setIsPicking] = useState(false);
   const [isRevealing, setIsRevealing] = useState(false);
 
-  const patterns = gameState.context.state.desert.digging.patterns;
+  const { patterns, completedPatterns = [] } =
+    gameState.context.state.desert.digging;
   const streak = gameState.context.state.desert.digging.streak ?? {
     count: 0,
     collectedAt: 0,
     totalClaimed: 0,
   };
-
-  const grid = dugToGrid(gameState.context.state.desert.digging.grid);
 
   const { t } = useAppTranslation();
 
@@ -293,28 +224,7 @@ export const DailyPuzzle: React.FC = () => {
           className="flex flex-wrap  scrollable overflow-y-auto pt-2 overflow-x-hidden pr-1"
           style={{ maxHeight: "300px" }}
         >
-          {patterns.map((pattern, index) => {
-            const discovered = countFormationOccurrences({
-              grid,
-              formation: DIGGING_FORMATIONS[pattern],
-            });
-
-            const duplicates = patterns.filter(
-              (p, i) => i < index && p === pattern,
-            ).length;
-
-            return (
-              <div className="w-1/4 sm:w-1/4" key={index}>
-                <div className="m-1">
-                  <Pattern
-                    key={index}
-                    pattern={DIGGING_FORMATIONS[pattern]}
-                    isDiscovered={discovered > duplicates}
-                  />
-                </div>
-              </div>
-            );
-          })}
+          <Patterns patterns={patterns} completedPatterns={completedPatterns} />
         </div>
 
         <div className="flex justify-between items-center mt-2 mb-1">
@@ -359,6 +269,46 @@ export const DailyPuzzle: React.FC = () => {
           {t("claim")}
         </Button>
       )}
+    </>
+  );
+};
+
+const Patterns: React.FC<{
+  patterns: DiggingFormationName[];
+  completedPatterns: DiggingFormationName[];
+}> = ({ patterns, completedPatterns }) => {
+  const completedPatternCount = completedPatterns.reduce(
+    (acc, pattern) => {
+      acc[pattern] = (acc[pattern] || 1) + 1;
+      return acc;
+    },
+    {} as Record<DiggingFormationName, number>,
+  );
+
+  return (
+    <>
+      {patterns.map((pattern, index) => {
+        const isDiscovered = completedPatterns.includes(pattern);
+
+        // Make sure the number of completed patterns is respected
+        // ie it doesn't tick off all duplicate patterns if only one set is found
+        if (completedPatternCount[pattern] > 0) {
+          completedPatternCount[pattern] = completedPatternCount[pattern] - 1;
+        }
+
+        return (
+          <div key={index} className="w-1/4 sm:w-1/4">
+            <div className="m-1">
+              <Pattern
+                pattern={DIGGING_FORMATIONS[pattern]}
+                isDiscovered={
+                  isDiscovered && completedPatternCount[pattern] !== 0
+                }
+              />
+            </div>
+          </div>
+        );
+      })}
     </>
   );
 };
@@ -420,18 +370,15 @@ const BoostDigItems: (
 const getDefaultTab = (game: GameState) => {
   if (!hasReadDigbyIntro()) return 1;
 
-  const treasureCount = getTreasureCount({ game });
-  const treasuresFound = getTreasuresFound({ game });
-  const percentage = Math.round((treasuresFound.length / treasureCount) * 100);
-
-  if (percentage >= 100) {
-    return 0;
-  }
-
   const remainingDigs = getRemainingDigs(game);
+  const artefactsFound = getArtefactsFound({ game });
+  const percentage = Math.round((artefactsFound / 3) * 100);
+  const hasClaimedStreakReward = hasClaimedReward({ game });
 
   if (remainingDigs <= 0) {
     return 2;
+  } else if (percentage >= 100 && !hasClaimedStreakReward) {
+    return 0;
   }
 
   return 0;
@@ -445,6 +392,12 @@ export const Digby: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
   const inventory = gameState.context.state.inventory;
   const digsLeft = getRemainingDigs(gameState.context.state);
+
+  const artefactsFound = getArtefactsFound({ game: gameState.context.state });
+  const percentage = Math.round((artefactsFound / 3) * 100);
+  const hasClaimedStreakReward = hasClaimedReward({
+    game: gameState.context.state,
+  });
 
   const { t } = useAppTranslation();
 
@@ -474,6 +427,7 @@ export const Digby: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         {
           icon: ITEM_DETAILS["Sand Shovel"].image,
           name: t("digby.patterns"),
+          alert: percentage >= 100 && !hasClaimedStreakReward,
         },
         {
           icon: SUNNYSIDE.icons.expression_confused,

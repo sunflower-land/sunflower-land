@@ -32,6 +32,8 @@ import { RemoveHungryCaterpillarModal } from "../collectibles/RemoveHungryCaterp
 import { useSound } from "lib/utils/hooks/useSound";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { RoundButton } from "components/ui/RoundButton";
+import { CraftDecorationsModal } from "./components/decorations/CraftDecorationsModal";
+import { hasFeatureAccess } from "lib/flags";
 
 const compareBalance = (prev: Decimal, next: Decimal) => {
   return prev.eq(next);
@@ -57,7 +59,7 @@ const LandscapingHudComponent: React.FC<{
   const { gameService } = useContext(Context);
 
   const [showRemoveConfirmation, setShowRemoveConfirmation] = useState(false);
-
+  const [showDecorations, setShowDecorations] = useState(false);
   const button = useSound("button");
 
   const child = gameService.state.children.landscaping as MachineInterpreter;
@@ -78,6 +80,11 @@ const LandscapingHudComponent: React.FC<{
     gameService,
     (state) => state.context.state.inventory["Gem"] ?? new Decimal(0),
     compareBlockBucks,
+  );
+
+  // TODO: Remove this once the feature flag is removed
+  const hasLandscapingAccess = useSelector(gameService, (state) =>
+    hasFeatureAccess(state.context.state, "LANDSCAPING"),
   );
 
   const selectedItem = useSelector(child, selectMovingItem);
@@ -149,6 +156,29 @@ const LandscapingHudComponent: React.FC<{
                   }}
                 />
               </RoundButton>
+
+              {location === "farm" && hasLandscapingAccess && (
+                <>
+                  <RoundButton
+                    className="mb-3.5"
+                    onClick={() => setShowDecorations(true)}
+                  >
+                    <img
+                      src={SUNNYSIDE.icons.decorationbush}
+                      className="absolute group-active:translate-y-[2px]"
+                      style={{
+                        top: `${PIXEL_SCALE * 5}px`,
+                        left: `${PIXEL_SCALE * 5}px`,
+                        width: `${PIXEL_SCALE * 12}px`,
+                      }}
+                    />
+                  </RoundButton>
+                  <CraftDecorationsModal
+                    show={showDecorations}
+                    onHide={() => setShowDecorations(false)}
+                  />
+                </>
+              )}
 
               <Chest
                 onPlaceChestItem={(selected) => {

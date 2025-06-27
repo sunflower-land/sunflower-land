@@ -1,13 +1,8 @@
-import { getAccount, switchChain } from "@wagmi/core";
 import { NetworkName } from "features/game/events/landExpansion/updateNetwork";
 import { config } from "features/wallet/WalletProvider";
-import {
-  getDailyCode,
-  NETWORKS,
-  trackDailyReward,
-} from "lib/blockchain/DailyReward";
-import { wallet } from "lib/blockchain/wallet";
+import { NETWORKS, trackDailyReward } from "lib/blockchain/DailyReward";
 import { ERRORS } from "lib/errors";
+import { getAccount } from "wagmi/actions";
 import { assign, createMachine, Interpreter, State } from "xstate";
 
 export interface DailyRewardContext {
@@ -16,7 +11,6 @@ export interface DailyRewardContext {
   code: number;
   openedAt: number;
   hasAccess: boolean;
-  network?: NetworkName;
 }
 
 /**
@@ -27,8 +21,6 @@ export interface DailyRewardContext {
 export type DailyRewardState = {
   value:
     | "initialising"
-    | "idle"
-    | "loading"
     | "comingSoon"
     | "locked"
     | "unlocking"
@@ -44,8 +36,7 @@ export type DailyRewardEvent =
   | { type: "LOAD" }
   | { type: "UNLOCK" }
   | { type: "ACKNOWLEDGE" }
-  | { type: "UPDATE_BUMPKIN_LEVEL"; bumpkinLevel: number }
-  | { type: "UPDATE_NETWORK"; network: NetworkName };
+  | { type: "UPDATE_BUMPKIN_LEVEL"; bumpkinLevel: number };
 
 export type MachineState = State<
   DailyRewardContext,
@@ -88,7 +79,7 @@ export const rewardChestMachine = createMachine<
             );
           },
         },
-        { target: "idle" },
+        { target: "locked" },
       ],
     },
     comingSoon: {
@@ -101,55 +92,6 @@ export const rewardChestMachine = createMachine<
         },
       },
     },
-    idle: {
-      on: {
-        LOAD: "loading",
-      },
-    },
-    loading: {
-      invoke: {
-        src: async (context) => {
-          const network = context.network;
-
-          if (!network) {
-            return { code: context.lastUsedCode };
-          }
-
-          const { chain } = getAccount(config);
-
-          if (NETWORKS[network].id !== chain?.id) {
-            await switchChain(config, {
-              chainId: NETWORKS[network].id as any,
-            });
-          }
-
-          const code = await getDailyCode(
-            wallet.getAccount() as `0x${string}`,
-            network,
-          );
-
-          return { code };
-        },
-        onDone: [
-          {
-            target: "unlocked",
-            cond: (context, event) => context.lastUsedCode !== event.data.code,
-            actions: assign({
-              code: (_, event) => event.data.code,
-            }),
-          },
-          {
-            target: "locked",
-            actions: assign({
-              code: (_, event) => event.data.code,
-            }),
-          },
-        ],
-        onError: {
-          target: "error",
-        },
-      },
-    },
     locked: {
       on: {
         UNLOCK: "unlocking",
@@ -158,17 +100,20 @@ export const rewardChestMachine = createMachine<
     unlocking: {
       invoke: {
         src: async (context) => {
-          const account = wallet.getAccount();
-          if (!account) throw new Error("No account");
+          const { address, chain } = getAccount(config);
 
-          if (!context.network) {
-            throw new Error("No network");
-          }
+          if (!address || !chain) throw new Error("No account");
 
-          const nextCode = (context.code + 1) % 100;
+          const network = Object.entries(NETWORKS).find(
+            ([_, network]) => network.id === chain.id,
+          )?.[0] as NetworkName;
+
+          if (!network) throw new Error("No network");
+
+          const nextCode = (context.lastUsedCode + 1) % 100;
           await trackDailyReward({
-            account,
-            network: context.network,
+            account: address,
+            network,
             code: nextCode,
           });
 
@@ -177,7 +122,6 @@ export const rewardChestMachine = createMachine<
         onDone: [
           {
             target: "unlocked",
-            cond: (context, event) => context.lastUsedCode !== event.data.code,
             actions: assign({
               code: (_, event) => event.data.nextCode,
             }),
@@ -185,7 +129,7 @@ export const rewardChestMachine = createMachine<
         ],
         onError: [
           {
-            target: "loading",
+            target: "locked",
             cond: (_, event: any) =>
               event.data.message === ERRORS.REJECTED_TRANSACTION,
           },
@@ -208,15 +152,8 @@ export const rewardChestMachine = createMachine<
     opened: {},
     error: {
       on: {
-        LOAD: "loading",
+        LOAD: "locked",
       },
-    },
-  },
-  on: {
-    UPDATE_NETWORK: {
-      actions: assign({
-        network: (_, event) => event.network,
-      }),
     },
   },
 });

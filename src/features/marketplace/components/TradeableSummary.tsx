@@ -7,7 +7,6 @@ import { TradeableDisplay } from "../lib/tradeables";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { formatNumber } from "lib/utils/formatNumber";
 import Decimal from "decimal.js-light";
-import { MARKETPLACE_TAX } from "features/game/types/marketplace";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
 
@@ -45,7 +44,10 @@ export const TradeableItemDetails: React.FC<{
       <div>
         <span className="text-sm">{`${quantity} x ${display.name}`}</span>
         <div className="flex items-center">
-          <span className="text-sm">{`${sfl} FLOWER`}</span>
+          <span className="text-sm">{`${formatNumber(sfl, {
+            decimalPlaces: 4,
+            showTrailingZeros: true,
+          })} FLOWER`}</span>
           <img src={sflIcon} className="h-6 ml-1" />
         </div>
         {estTradePoints && !isResource && (
@@ -66,9 +68,10 @@ export const TradeableItemDetails: React.FC<{
 export const TradeableSummary: React.FC<{
   display: TradeableDisplay;
   sfl: number;
+  tax: number;
   quantity: number;
   estTradePoints?: number;
-}> = ({ display, sfl, quantity, estTradePoints }) => {
+}> = ({ display, sfl, tax, quantity, estTradePoints }) => {
   const { t } = useAppTranslation();
 
   const isResource = display.name in TRADE_LIMITS;
@@ -76,6 +79,24 @@ export const TradeableSummary: React.FC<{
   return (
     <div>
       <TradeableItemDetails display={display} quantity={quantity} sfl={sfl} />
+      {isResource && (
+        <div
+          className="flex justify-between"
+          style={{
+            borderBottom: "1px solid #ead4aa",
+            padding: "5px 5px 5px 2px",
+          }}
+        >
+          <span className="text-xs">{t("marketplace.label.pricePerUnit")}</span>
+          <p className="text-xs font-secondary">{`${formatNumber(
+            sfl / quantity,
+            {
+              decimalPlaces: 4,
+              showTrailingZeros: true,
+            },
+          )} FLOWER`}</p>
+        </div>
+      )}
       <div
         className="flex justify-between"
         style={{
@@ -99,7 +120,7 @@ export const TradeableSummary: React.FC<{
       >
         <span className="text-xs"> {t("bumpkinTrade.tradingFee")}</span>
         <p className="text-xs font-secondary">{`${formatNumber(
-          new Decimal(sfl).mul(MARKETPLACE_TAX),
+          new Decimal(tax),
           {
             decimalPlaces: 4,
             showTrailingZeros: true,
@@ -116,7 +137,7 @@ export const TradeableSummary: React.FC<{
       >
         <span className="text-xs"> {t("bumpkinTrade.youWillReceive")}</span>
         <p className="text-xs font-secondary">{`${formatNumber(
-          new Decimal(sfl).mul(1 - MARKETPLACE_TAX),
+          new Decimal(sfl).minus(tax),
           {
             decimalPlaces: 4,
             showTrailingZeros: true,

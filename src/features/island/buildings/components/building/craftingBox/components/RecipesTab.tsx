@@ -63,7 +63,7 @@ export const RecipesTab: React.FC<Props> = ({
   }, [recipes, searchTerm]);
 
   const sillhouetteRecipes = useMemo(() => {
-    return Object.entries(RECIPES).reduce((acc, [name, recipe]) => {
+    return Object.entries(RECIPES(state)).reduce((acc, [name, recipe]) => {
       if (!recipes[name as RecipeItemName]) {
         acc[name as RecipeItemName] = recipe;
       }

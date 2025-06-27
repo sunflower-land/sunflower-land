@@ -12,6 +12,7 @@ import { useNavigate } from "react-router";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { HomeBumpkins } from "./HomeBumpkins";
 import { MANOR_VARIANTS } from "features/island/lib/alternateArt";
+import { DailyReward } from "features/game/expansion/components/dailyReward/DailyReward";
 
 export const House: React.FC<BuildingProps> = ({ isBuilt, island, season }) => {
   const { gameService, showAnimations } = useContext(Context);
@@ -53,7 +54,7 @@ export const House: React.FC<BuildingProps> = ({ isBuilt, island, season }) => {
     <div className="absolute h-full w-full">
       <BuildingImageWrapper name="Town Center" onClick={handleClick}>
         <img
-          src={MANOR_VARIANTS[island][season]}
+          src={MANOR_VARIANTS["spring"][season]}
           className="absolute pointer-events-none"
           id={Section.Home}
           style={{
@@ -63,6 +64,16 @@ export const House: React.FC<BuildingProps> = ({ isBuilt, island, season }) => {
           }}
         />
       </BuildingImageWrapper>
+
+      <div
+        className="absolute"
+        style={{
+          left: `${PIXEL_SCALE * -5}px`,
+          top: `${PIXEL_SCALE * -8}px`,
+        }}
+      >
+        <DailyReward />
+      </div>
 
       <div
         className="absolute w-full"

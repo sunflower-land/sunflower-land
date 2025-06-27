@@ -3,7 +3,10 @@ import { useActor, useSelector } from "@xstate/react";
 import { Box } from "components/ui/Box";
 import { Label } from "components/ui/Label";
 import { Context } from "features/game/GameProvider";
-import { MARKETPLACE_TAX } from "features/game/types/marketplace";
+import {
+  getResourceTax,
+  MARKETPLACE_TAX,
+} from "features/game/types/marketplace";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 import tradeIcon from "assets/icons/trade.png";
@@ -44,7 +47,6 @@ import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
-import { hasFeatureAccess } from "lib/flags";
 import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
 
 const _hasTradeReputation = (state: MachineState) =>
@@ -95,8 +97,6 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
 
   const dailyListings = getDailyListings();
 
-  const hasAccess = hasTradeReputation || dailyListings < 1;
-
   const tradeType = getTradeType({
     collection: display.type,
     id,
@@ -108,6 +108,8 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
   const isResource =
     isTradeResource(display.name as InventoryItemName) &&
     display.type === "collectibles";
+
+  const hasReputation = hasTradeReputation || dailyListings < 1;
 
   // Check inventory count
   const getCount = () => {
@@ -208,7 +210,6 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
   if (
     showConfirmation &&
     isResource &&
-    hasFeatureAccess(gameState.context.state, "FACE_RECOGNITION") &&
     !isFaceVerified({ game: gameState.context.state })
   ) {
     return <FaceRecognition />;
@@ -234,6 +235,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
             <TradeableSummary
               display={display}
               sfl={price}
+              tax={price * MARKETPLACE_TAX}
               quantity={Math.max(1, quantity)}
               estTradePoints={estTradePoints}
             />
@@ -255,6 +257,11 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
       );
     }
 
+    let tax = price * MARKETPLACE_TAX;
+    if (isResource) {
+      tax = price * getResourceTax({ game: state });
+    }
+
     return (
       <>
         <div className="p-2">
@@ -270,6 +277,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
           <TradeableSummary
             display={display}
             sfl={price}
+            tax={tax}
             quantity={Math.max(1, quantity)}
             estTradePoints={estTradePoints}
           />
@@ -319,7 +327,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
           })}
         </Label>
 
-        {!hasAccess && (
+        {!hasReputation && (
           <RequiredReputation reputation={Reputation.Cropkeeper} />
         )}
       </div>
@@ -378,7 +386,7 @@ export const TradeableListItem: React.FC<TradeableListItemProps> = ({
             >
               <span className="text-xs"> {t("bumpkinTrade.tradingFee")}</span>
               <p className="text-xs font-secondary">{`${formatNumber(
-                price * 0.1,
+                price * MARKETPLACE_TAX,
                 {
                   decimalPlaces: 4,
                   showTrailingZeros: true,

@@ -10,6 +10,10 @@ import { Context } from "features/game/GameProvider";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { loadUpcomingAuction } from "./actions/loadUpcomingAuction";
+import {
+  acknowledgeAuctionCountdown,
+  getAuctionCountdownLastRead,
+} from "./auctionCountdownStorage";
 
 const Countdown: React.FC<{ auction: Auction; onComplete: () => void }> = ({
   auction,
@@ -93,7 +97,7 @@ export const AuctionCountdown: React.FC = () => {
         transactionId: gameState.context.transactionId as string,
       });
 
-      if (upcoming) {
+      if (upcoming && getAuctionCountdownLastRead() !== upcoming.auctionId) {
         setAuction(upcoming);
       }
     };
@@ -101,13 +105,20 @@ export const AuctionCountdown: React.FC = () => {
     load();
   }, []);
 
+  const handleClick = () => {
+    if (auction) {
+      acknowledgeAuctionCountdown(auction.auctionId);
+      setAuction(undefined);
+    }
+  };
+
   if (!auction) {
     return null;
   }
 
   return (
     <InnerPanel className="flex justify-center" id="test-auction">
-      <Countdown auction={auction} onComplete={() => setAuction(undefined)} />
+      <Countdown auction={auction} onComplete={handleClick} />
     </InnerPanel>
   );
 };

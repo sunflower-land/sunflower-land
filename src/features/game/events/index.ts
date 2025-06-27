@@ -49,7 +49,6 @@ import {
 } from "./landExpansion/collectRecipe";
 import { feedBumpkin, FeedBumpkinAction } from "./landExpansion/feedBumpkin";
 import { detectBot, DetectBotAction } from "./detectBot";
-import { pickSkill, PickSkillAction } from "./landExpansion/pickSkill";
 import { choseSkill, ChoseSkillAction } from "./landExpansion/choseSkill";
 import { resetSkills, ResetSkillsAction } from "./landExpansion/resetSkills";
 import { seedBought, SeedBoughtAction } from "./landExpansion/seedBought";
@@ -470,6 +469,11 @@ import {
   claimPetalPrize,
   ClaimPetalPrizeAction,
 } from "./landExpansion/claimPetalPrize";
+import { claimBlessing, ClaimBlessingAction } from "./claimBlessing";
+import {
+  buyOptionPurchaseItem,
+  BuyOptionPurchaseItemAction,
+} from "../types/buyOptionPurchaseItem";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
@@ -505,7 +509,6 @@ export type PlayingEvent =
   | CollectRecipeAction
   | FeedBumpkinAction
   | DetectBotAction
-  | PickSkillAction
   | ChoseSkillAction
   | ResetSkillsAction
   | SeedBoughtAction
@@ -609,7 +612,9 @@ export type PlayingEvent =
   | BuyMinigameItemAction
   | AcknowledgeRewardBoxAction
   | OpenRewardBoxAction
-  | ClaimPetalPrizeAction;
+  | ClaimPetalPrizeAction
+  | ClaimBlessingAction
+  | BuyOptionPurchaseItemAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -716,7 +721,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "recipe.cooked": cook,
   "recipes.collected": collectRecipe,
   "bumpkin.feed": feedBumpkin,
-  "skill.picked": pickSkill,
   "skill.chosen": choseSkill,
   "skills.reset": resetSkills,
   "seed.bought": seedBought,
@@ -816,6 +820,8 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "rewardBox.opened": openRewardBox,
   "claim.bountyBoardBonus": claimBountyBonus,
   "petalPuzzle.solved": claimPetalPrize,
+  "blessing.claimed": claimBlessing,
+  "optionPurchaseItem.bought": buyOptionPurchaseItem,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

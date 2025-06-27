@@ -8,7 +8,11 @@ import { Player } from "../types/Room";
 import { NPCName, acknowledgedNPCs } from "lib/npcs";
 import { ReactionName } from "features/pumpkinPlaza/components/Reactions";
 import { getAnimationUrl } from "../lib/animations";
-import { FactionName, InventoryItemName } from "features/game/types/game";
+import {
+  FactionName,
+  InventoryItemName,
+  IslandType,
+} from "features/game/types/game";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { CONFIG } from "lib/config";
 import { formatNumber } from "lib/utils/formatNumber";
@@ -49,6 +53,12 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
   public experience: number | undefined;
   public farmId: number | undefined;
   public faction: FactionName | undefined;
+  public totalDeliveries: number | undefined;
+  public dailyStreak: number | undefined;
+  public isVip: boolean | undefined;
+  public createdAt: number | undefined;
+  public islandType: IslandType | undefined;
+
   private ready = false;
 
   // Animation Keys
@@ -75,6 +85,11 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     experience,
     farmId,
     faction,
+    totalDeliveries,
+    dailyStreak,
+    isVip,
+    createdAt,
+    islandType,
   }: {
     scene: Phaser.Scene;
     x: number;
@@ -88,6 +103,11 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     experience?: number;
     farmId?: number;
     faction?: FactionName;
+    totalDeliveries?: number;
+    dailyStreak?: number;
+    isVip?: boolean;
+    createdAt?: number;
+    islandType?: IslandType;
   }) {
     super(scene, x, y);
     this.scene = scene;
@@ -114,6 +134,11 @@ export class BumpkinContainer extends Phaser.GameObjects.Container {
     this.experience = experience;
     this.farmId = farmId;
     this.faction = faction;
+    this.totalDeliveries = totalDeliveries;
+    this.dailyStreak = dailyStreak;
+    this.isVip = isVip;
+    this.createdAt = createdAt;
+    this.islandType = islandType;
 
     if (name) {
       const text = NAME_ALIASES[name as NPCName] ?? name;

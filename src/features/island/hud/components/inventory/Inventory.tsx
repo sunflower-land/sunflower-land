@@ -12,6 +12,7 @@ import { KNOWN_IDS } from "features/game/types";
 import { BudName } from "features/game/types/buds";
 import { useSound } from "lib/utils/hooks/useSound";
 import { BasketButton } from "./BasketButton";
+import { SeedName, SEEDS } from "features/game/types/seeds";
 
 interface Props {
   state: GameState;
@@ -74,11 +75,17 @@ export const Inventory: React.FC<Props> = ({
 
     shortcutItem(item);
   };
+  const getSecondaryImage = (item: InventoryItemName) => {
+    const seed = SEEDS[item as SeedName];
+    return seed?.yield
+      ? ITEM_DETAILS[seed.yield].image
+      : ITEM_DETAILS[item]?.secondaryImage;
+  };
 
   return (
     <>
       <div
-        className="flex flex-col items-center absolute z-50"
+        className="flex flex-col items-end"
         style={{
           right: `${PIXEL_SCALE * 3}px`,
           top: `${PIXEL_SCALE * (isFarming ? 58 : 31)}px`,
@@ -98,7 +105,7 @@ export const Inventory: React.FC<Props> = ({
                 key={index}
                 isSelected={index === 0}
                 image={ITEM_DETAILS[item]?.image}
-                secondaryImage={ITEM_DETAILS[item]?.secondaryImage}
+                secondaryImage={getSecondaryImage(item)}
                 count={state.inventory[item]?.sub(
                   state.collectibles[item as CollectibleName]?.length ?? 0,
                 )}

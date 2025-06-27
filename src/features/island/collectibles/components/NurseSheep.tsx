@@ -10,7 +10,7 @@ export const NurseSheep: React.FC<CollectibleProps> = () => {
       style={{
         width: `${PIXEL_SCALE * 25}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 3.5}px`,
       }}
       className="absolute"
       alt="Nurse Sheep"

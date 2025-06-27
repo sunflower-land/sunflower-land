@@ -12,9 +12,11 @@ import shopIcon from "assets/icons/shop.png";
 import vipIcon from "assets/icons/vip.webp";
 import upArrow from "assets/icons/level_up.png";
 import promoteIcon from "assets/icons/promote.webp";
+import { getSeasonalTicket } from "features/game/types/seasons";
 
 export const WhatsOn = () => {
   const { t } = useAppTranslation();
+  const ticket = getSeasonalTicket();
 
   return (
     <div style={{ maxHeight: "300px" }}>
@@ -89,7 +91,7 @@ export const WhatsOn = () => {
                 icon: SUNNYSIDE.icons.stopwatch,
               },
               {
-                text: t("whatsOn.auction.tickets"),
+                text: t("whatsOn.auction.tickets", { ticket }),
                 icon: lockIcon,
               },
             ]}
@@ -106,8 +108,8 @@ export const WhatsOn = () => {
           <NoticeboardItems
             items={[
               {
-                text: t("whatsOn.ticketPaused"),
-                icon: ITEM_DETAILS.Timeshard.image,
+                text: t("whatsOn.ticketPaused", { ticket }),
+                icon: ITEM_DETAILS[ticket].image,
               },
             ]}
           />

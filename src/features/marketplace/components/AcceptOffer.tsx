@@ -2,7 +2,11 @@ import React, { useContext } from "react";
 
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
-import { Offer } from "features/game/types/marketplace";
+import {
+  getResourceTax,
+  MARKETPLACE_TAX,
+  Offer,
+} from "features/game/types/marketplace";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 import { useSelector } from "@xstate/react";
@@ -29,7 +33,6 @@ import { calculateTradePoints } from "features/game/events/landExpansion/addTrad
 import { InventoryItemName } from "features/game/types/game";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
-import { hasFeatureAccess } from "lib/flags";
 import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
 import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
 import { isTradeResource } from "features/game/actions/tradeLimits";
@@ -114,7 +117,6 @@ const AcceptOfferContent: React.FC<{
 
   if (
     isTradeResource(display.name as InventoryItemName) &&
-    hasFeatureAccess(state, "FACE_RECOGNITION") &&
     !isFaceVerified({ game: state })
   ) {
     return (
@@ -127,6 +129,14 @@ const AcceptOfferContent: React.FC<{
         <FaceRecognition />
       </>
     );
+  }
+
+  let tax = offer.sfl * MARKETPLACE_TAX;
+  if (
+    display.type === "collectibles" &&
+    isTradeResource(display.name as InventoryItemName)
+  ) {
+    tax = offer.sfl * getResourceTax({ game: state });
   }
 
   return (
@@ -143,6 +153,7 @@ const AcceptOfferContent: React.FC<{
         <TradeableSummary
           display={display}
           sfl={offer.sfl}
+          tax={tax}
           quantity={offer.quantity}
           estTradePoints={estTradePoints}
         />

@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useContext, useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
 import {
   getMarketPrice,
+  getResourceTax,
   TradeableDetails,
 } from "features/game/types/marketplace";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -12,6 +13,7 @@ import { TradeableDisplay } from "../lib/tradeables";
 import grassBg from "assets/ui/3x3_bg.png";
 import brownBg from "assets/brand/brown_background.png";
 import lockIcon from "assets/icons/lock.png";
+import crownIcon from "assets/icons/vip.webp";
 
 import { InventoryItemName } from "features/game/types/game";
 import { isTradeResource } from "features/game/actions/tradeLimits";
@@ -23,6 +25,13 @@ import {
   INVENTORY_RELEASES,
 } from "features/game/types/withdrawables";
 import { BUMPKIN_ITEM_PART, BumpkinItem } from "features/game/types/bumpkin";
+import { ModalContext } from "features/game/components/modal/ModalProvider";
+import { Modal } from "components/ui/Modal";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
+import classNames from "classnames";
+import { pixelGreenBorderStyle } from "features/game/lib/style";
+import { useGame } from "features/game/GameProvider";
 
 const formatDate = (date: Date) => {
   return date.toLocaleDateString("en-US", {
@@ -115,7 +124,7 @@ export const TradeableDescription: React.FC<{
   const isResource = isTradeResource(display.name as InventoryItemName);
 
   return (
-    <InnerPanel>
+    <InnerPanel className="mb-1">
       <div className="p-2">
         <Label type="default" className="mb-1" icon={SUNNYSIDE.icons.search}>
           {t("marketplace.description")}
@@ -162,6 +171,14 @@ export const TradeableDescription: React.FC<{
               <Label type="danger">{t("marketplace.notForSale")}</Label>
             </div>
           )}
+
+        {tradeable?.isVip && (
+          <div className="p-2 pl-0 pb-0">
+            <Label type="danger" icon={crownIcon}>
+              {t("marketplace.vipOnly")}
+            </Label>
+          </div>
+        )}
         {!canTrade && !!tradeAt && (
           <div className="p-2 pl-0 pb-0 flex items-center justify-between  flex-wrap">
             <Label type="danger" icon={SUNNYSIDE.icons.stopwatch}>
@@ -191,6 +208,8 @@ export const TradeableInfo: React.FC<{
     <>
       <TradeableImage display={display} supply={tradeable?.supply} />
       <TradeableDescription display={display} tradeable={tradeable} />
+      {display.type === "collectibles" &&
+        isTradeResource(display.name as InventoryItemName) && <ResourceTaxes />}
     </>
   );
 };
@@ -210,6 +229,94 @@ export const TradeableMobileInfo: React.FC<{
         />
       </div>
       <TradeableDescription display={display} tradeable={tradeable} />
+    </>
+  );
+};
+
+export const ResourceTaxes: React.FC = () => {
+  const { t } = useAppTranslation();
+  const [showModal, setShowModal] = useState(false);
+  const { openModal } = useContext(ModalContext);
+  const { gameState } = useGame();
+
+  const tax = getResourceTax({ game: gameState.context.state });
+
+  return (
+    <>
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <CloseButtonPanel onClose={() => setShowModal(false)}>
+          <Label type="default" className="mb-1">
+            {t("marketplace.economy.title")}
+          </Label>
+          <div className="p-1">
+            <p className="text-sm mb-1">
+              {t("marketplace.economy.description")}
+            </p>
+          </div>
+          <NoticeboardItems
+            items={[
+              {
+                icon: SUNNYSIDE.icons.cancel,
+                text: t("marketplace.economy.tutorialIsland"),
+              },
+              {
+                icon: SUNNYSIDE.icons.heart,
+                text: t("marketplace.economy.petalParadise"),
+              },
+              {
+                icon: SUNNYSIDE.icons.heart,
+                text: t("marketplace.economy.desertIsland"),
+              },
+              {
+                icon: SUNNYSIDE.icons.heart,
+                text: t("marketplace.economy.volcanoIsland"),
+              },
+            ]}
+          />
+          <p className="text-xs p-1">{t("marketplace.economy.protection")}</p>
+        </CloseButtonPanel>
+        <div
+          className={classNames(
+            `w-full items-center flex  text-xs p-1 pr-4 mt-1 relative`,
+          )}
+          style={{
+            background: "#3e8948",
+            color: "#ffffff",
+            ...pixelGreenBorderStyle,
+          }}
+        >
+          <img src={crownIcon} className="w-8 mr-2" />
+          <div>
+            <p className="text-xs flex-1">
+              {t("marketplace.vip.resourceDiscount")}
+            </p>
+            <span
+              onClick={() => openModal("VIP_ITEMS")}
+              className="underline text-xxs pb-1 pt-0.5 hover:text-blue-500 mb-2 text-white"
+            >
+              {t("read.more")}
+            </span>
+          </div>
+        </div>
+      </Modal>
+      <InnerPanel
+        className="mb-1 cursor-pointer"
+        onClick={() => setShowModal(true)}
+      >
+        <div className="flex justify-between items-center px-1 relative">
+          <div className="flex items-center ">
+            <img src={lockIcon} className="w-4 mr-1" />
+            <div>
+              <p className="text-xs">
+                {t("marketplace.resourceFee", { tax: tax * 100 })}
+              </p>
+            </div>
+          </div>
+        </div>
+        <p className="text-xxs italic underline mb-0.5 pl-1">
+          {t("marketplace.unlocks.perks")}
+        </p>
+      </InnerPanel>
     </>
   );
 };

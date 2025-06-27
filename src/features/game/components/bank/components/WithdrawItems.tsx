@@ -25,6 +25,8 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { MachineState } from "features/game/lib/gameMachine";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
+import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
+import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
 
 interface Props {
   onWithdraw: (ids: number[], amounts: string[]) => void;
@@ -127,6 +129,10 @@ export const WithdrawItems: React.FC<Props> = ({
 
   if (!hasAccess) {
     return <RequiredReputation reputation={Reputation.Seedling} />;
+  }
+
+  if (!isFaceVerified({ game: state })) {
+    return <FaceRecognition />;
   }
 
   return (

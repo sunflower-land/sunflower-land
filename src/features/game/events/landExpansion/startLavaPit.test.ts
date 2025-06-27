@@ -3,12 +3,15 @@ import { startLavaPit } from "./startLavaPit";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
 
+import * as config from "lib/config";
+
 const TEST_FARM: GameState = {
   ...INITIAL_FARM,
   inventory: {
     ...INITIAL_FARM.inventory,
     Oil: new Decimal(100),
-    Cobia: new Decimal(10),
+    Pepper: new Decimal(750),
+    Zucchini: new Decimal(1000),
   },
   season: {
     season: "summer",
@@ -17,6 +20,11 @@ const TEST_FARM: GameState = {
 };
 
 describe("startLavaPit", () => {
+  const spy = jest.spyOn((config as any).default, "CONFIG", "get");
+
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
   const now = Date.now();
 
   it("requires the lava pit to exist", () => {
@@ -57,7 +65,7 @@ describe("startLavaPit", () => {
       createdAt: now,
     });
 
-    expect(result.inventory.Oil).toEqual(new Decimal(40));
+    expect(result.inventory.Oil).toEqual(new Decimal(0));
   });
 
   it("starts the lava pit", () => {

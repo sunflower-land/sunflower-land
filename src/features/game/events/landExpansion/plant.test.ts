@@ -2551,6 +2551,7 @@ describe("isPlotFertile", () => {
       y: 1,
     });
     const isFertile = isPlotFertile({
+      island: "spring",
       buildings: {
         "Water Well": [],
       },
@@ -2590,6 +2591,7 @@ describe("isPlotFertile", () => {
       y: 1,
     });
     const isFertile = isPlotFertile({
+      island: "spring",
       buildings: {
         "Water Well": [
           {
@@ -2643,6 +2645,7 @@ describe("isPlotFertile", () => {
       y: 1,
     };
     const isFertile = isPlotFertile({
+      island: "spring",
       crops: {
         0: fakePlot,
         1: fakePlot,
@@ -3893,6 +3896,105 @@ describe("getCropYield", () => {
 
       expect(state.crops[index].crop?.amount).toEqual(1.25);
     });
+  });
+  it("gives a +0.2 boost if the plot has a beeswarm attached to it", () => {
+    const now = Date.now();
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Sunflower Seed": new Decimal(1),
+        },
+        crops: {
+          "1": {
+            createdAt: now,
+            beeSwarm: {
+              count: 1,
+              swarmActivatedAt: now,
+            },
+            x: 0,
+            y: 0,
+          },
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "1",
+        item: "Sunflower Seed",
+      },
+      createdAt: now,
+    });
+
+    expect(state.crops["1"].crop?.amount).toEqual(1.2);
+  });
+
+  it("gives a +0.4 boost if the plot has 2 beeswarms attached to it", () => {
+    const now = Date.now();
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Sunflower Seed": new Decimal(1),
+        },
+        crops: {
+          "1": {
+            createdAt: now,
+            beeSwarm: {
+              count: 2,
+              swarmActivatedAt: now,
+            },
+            x: 0,
+            y: 0,
+          },
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "1",
+        item: "Sunflower Seed",
+      },
+      createdAt: now,
+    });
+
+    expect(state.crops["1"].crop?.amount).toEqual(1.4);
+  });
+
+  it("gives a +0.3 boost if the plot has a beeswarm attached to it with Pollen Power Up skill", () => {
+    const now = Date.now();
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...GAME_STATE.bumpkin,
+          skills: { "Pollen Power Up": 1 },
+        },
+        inventory: {
+          "Sunflower Seed": new Decimal(1),
+        },
+        crops: {
+          "1": {
+            createdAt: now,
+            beeSwarm: {
+              count: 1,
+              swarmActivatedAt: now,
+            },
+            x: 0,
+            y: 0,
+          },
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "1",
+        item: "Sunflower Seed",
+      },
+      createdAt: now,
+    });
+
+    expect(state.crops["1"].crop?.amount).toEqual(1.3);
   });
 
   describe("getPlantedAt", () => {

@@ -1,7 +1,6 @@
 import debounce from "lodash.debounce";
 import { SpeechBubble } from "./SpeechBubble";
 import { Label } from "./Label";
-import { SQUARE_WIDTH } from "features/game/lib/constants";
 
 export class DogContainer extends Phaser.GameObjects.Container {
   public sprite: Phaser.GameObjects.Sprite | undefined;
@@ -63,10 +62,10 @@ export class DogContainer extends Phaser.GameObjects.Container {
     super(scene, x, y);
     this.dogNumber = dogNumber;
 
-    this.shadow = this.scene.add
-      .sprite(4, 8, "shadow")
-      .setSize(SQUARE_WIDTH, SQUARE_WIDTH);
-    this.add(this.shadow).moveTo(this.shadow, 0);
+    // this.shadow = this.scene.add
+    //   .sprite(4, 8, "shadow")
+    //   .setSize(SQUARE_WIDTH, SQUARE_WIDTH);
+    // this.add(this.shadow).moveTo(this.shadow, 0);
 
     this.sprite = this.scene.add.sprite(0, 0, `dog_${this.dogNumber}`);
     this.add(this.sprite);
@@ -88,8 +87,8 @@ export class DogContainer extends Phaser.GameObjects.Container {
     this.sprite?.anims.create({
       key: `dog_${this.dogNumber}-walking`,
       frames: this.sprite?.anims.generateFrameNumbers(`dog_${this.dogNumber}`, {
-        start: 0,
-        end: 6,
+        start: 10,
+        end: 17,
       }),
       frameRate: 1000 / 70,
       repeat: -1,
@@ -99,8 +98,8 @@ export class DogContainer extends Phaser.GameObjects.Container {
     this.sprite?.anims.create({
       key: `dog_${this.dogNumber}-idle`,
       frames: this.sprite?.anims.generateFrameNumbers(`dog_${this.dogNumber}`, {
-        start: 6,
-        end: 9,
+        start: 0,
+        end: 7,
       }),
       frameRate: 1000 / 280,
       repeat: -1,
@@ -116,12 +115,12 @@ export class DogContainer extends Phaser.GameObjects.Container {
   }
 
   public faceRight() {
-    this.sprite?.setFlipX(false);
+    this.sprite?.setFlipX(true);
     this.shadow?.setX(-2);
   }
 
   public faceLeft() {
-    this.sprite?.setFlipX(true);
+    this.sprite?.setFlipX(false);
     this.shadow?.setX(2);
   }
 }

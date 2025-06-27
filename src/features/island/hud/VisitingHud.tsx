@@ -10,10 +10,12 @@ import { BumpkinProfile } from "./components/BumpkinProfile";
 import { InventoryItemName } from "features/game/types/game";
 import { Settings } from "./components/Settings";
 import { createPortal } from "react-dom";
-import { TravelButton } from "./components/deliveries/TravelButton";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import Decimal from "decimal.js-light";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { RoundButton } from "components/ui/RoundButton";
+import { SUNNYSIDE } from "assets/sunnyside";
+import { useNavigate } from "react-router";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -23,6 +25,7 @@ export const VisitingHud: React.FC = () => {
   const { gameService, shortcutItem, selectedItem } = useContext(Context);
   const [gameState] = useActor(gameService);
   const { t } = useAppTranslation();
+  const navigate = useNavigate();
 
   return createPortal(
     <div
@@ -71,7 +74,25 @@ export const VisitingHud: React.FC = () => {
           height: `${PIXEL_SCALE * 23}px`,
         }}
       >
-        <TravelButton />
+        {/* <TravelButton /> */}
+        <RoundButton
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            navigate("/");
+          }}
+        >
+          <img
+            src={SUNNYSIDE.icons.worldIcon}
+            id="world-icon"
+            style={{
+              width: `${PIXEL_SCALE * 12}px`,
+              left: `${PIXEL_SCALE * 5}px`,
+              top: `${PIXEL_SCALE * 4}px`,
+            }}
+            className="absolute group-active:translate-y-[2px]"
+          />
+        </RoundButton>
       </div>
     </div>,
     document.body,
