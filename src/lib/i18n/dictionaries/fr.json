@@ -5990,7 +5990,6 @@
   "description.redSlimeBalloon": "Suspendu dans une bulle rouge rubis, ce slime espiègle s'écrase et se tortille d'excitation.",
   "description.blueSlimeBalloon": "Se balançant doucement dans un ballon bleu frais, ce slime espiègle semble apprécier le trajet.",
   "event.noticeboard.one": "Bienvenue à l'événement Festival of Colors 2025 !",
-  "event.noticeboard.two": "Sur cette île, vous trouverez un portail avec un tout nouveau mini-jeu où vous pourrez gagner des jetons à dépenser pour des objets spéciaux en quantité limitée !",
   "event.noticeboard.three": "La boutique utilise un système similaire au Stella Shop, dans lequel vous pouvez débloquer de nouveaux objets à acheter après avoir acheté des articles des niveaux précédents. Pensez également à acheter autant de billets que possible pour avoir plus de chances de gagner $FLOWER !",
   "event.noticeboard.four": "Comme le fonctionnement du jeu et des événements est en constante évolution, il n'y a pas de don direct de PNJ cette fois-ci, mais vous pouvez acheter n'importe lequel des articles de la boutique avec $FLOWER ou essayer de vous rendre sur le portail pour nous soutenir et nous aider à continuer à proposer des événements plus importants, meilleurs et plus incroyables comme celui-ci !",
   "event.noticeboard.five": "Tout cela grâce à vous et à votre soutien ! L'équipe de l'événement communautaire vous remercie tous ! Vos commentaires sur le serveur Discord officiel de Sunflower Land sont appréciés",
@@ -6041,5 +6040,6 @@
   "competition.prizes.three": "La compétition se déroule de {{startDate}} à {{endDate}}",
   "blessing.guardiansSeek.random": "Plus le nombre d'objets donnés est élevé, plus le pool de récompenses est important. Les récompenses sont distribuées de manière aléatoire.",
   "competition.rules.three": "Love Charms sera distribué aux 5 000 meilleurs joueurs, en fonction de leur classement.",
-  "blessing.random": "Plus le nombre d'objets donnés est élevé, plus le pool de récompenses est important. Les récompenses sont distribuées de manière aléatoire."
+  "blessing.random": "Plus le nombre d'objets donnés est élevé, plus le pool de récompenses est important. Les récompenses sont distribuées de manière aléatoire.",
+  "event.noticeboard.two": "Sur cette île, vous trouverez un portail avec un tout nouveau mini-jeu où vous pourrez gagner des jetons à dépenser pour des objets spéciaux en quantité limitée ! Vos tentatives sur le portail s'étalent sur plusieurs jours, alors ne vous pressez pas de les dépenser toutes en même temps ! Achetez l'option essais illimités pour jouer à votre guise ou pour jouer autant que possible !"
 }
