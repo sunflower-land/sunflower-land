@@ -1,3 +1,4 @@
+import Decimal from "decimal.js-light";
 import { InventoryItemName } from "features/game/types/game";
 import { CONFIG } from "lib/config";
 
@@ -90,6 +91,45 @@ export function submitScore({ score }: { score: number }) {
     alert(`Sunflower Land running in test mode - score submitted`);
   } else {
     window.parent.postMessage({ event: "scoreSubmitted", score }, "*");
+  }
+}
+
+/**
+ * When a player unlocks achievements
+ */
+export function achievementsUnlocked({
+  achievementNames,
+}: {
+  achievementNames: string[];
+}) {
+  if (!isInIframe) {
+    alert(`Sunflower Land running in test mode - achievements unlocked`);
+  } else {
+    window.parent.postMessage(
+      { event: "achievementsUnlocked", achievementNames },
+      "*",
+    );
+  }
+}
+
+/**
+ * When activities are tracked
+ */
+export function activitiesTracked({
+  activities,
+}: {
+  activities: Record<string, Decimal>;
+}) {
+  if (!isInIframe) {
+    alert(`Sunflower Land running in test mode - activities tracked`);
+  } else {
+    window.parent.postMessage(
+      {
+        event: "activitiesTracked",
+        activities: JSON.parse(JSON.stringify(activities)),
+      },
+      "*",
+    );
   }
 }
 

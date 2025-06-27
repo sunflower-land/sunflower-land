@@ -1,7 +1,13 @@
 import { Button } from "components/ui/Button";
+import Decimal from "decimal.js-light";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
-import { claimPrize, purchase } from "features/portal/lib/portalUtil";
+import {
+  achievementsUnlocked,
+  activitiesTracked,
+  claimPrize,
+  purchase,
+} from "features/portal/lib/portalUtil";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { NPC_WEARABLES } from "lib/npcs";
 import React, { useState } from "react";
@@ -28,7 +34,11 @@ export const PortalNPCExample: React.FC<Props> = ({ onClose }) => {
   }
 
   return (
-    <CloseButtonPanel onClose={onClose} bumpkinParts={NPC_WEARABLES.portaller}>
+    <CloseButtonPanel
+      title={t("portal.examples")}
+      onClose={onClose}
+      bumpkinParts={NPC_WEARABLES.portaller}
+    >
       <Button
         onClick={() => {
           // What it costs
@@ -51,6 +61,31 @@ export const PortalNPCExample: React.FC<Props> = ({ onClose }) => {
         }}
       >
         {t("portal.example.claimPrize")}
+      </Button>
+      <Button
+        onClick={() => {
+          // Unlock multiple achievements at the same time
+          achievementsUnlocked({
+            achievementNames: ["Achievement 1", "Achievement 2"],
+          });
+          onClose();
+        }}
+      >
+        {t("portal.example.unlockAchievements")}
+      </Button>
+      <Button
+        onClick={() => {
+          // Tracks multiple activities at the same time
+          activitiesTracked({
+            activities: {
+              "Activity 1": new Decimal(1),
+              "Activity 2": new Decimal(2),
+            },
+          });
+          onClose();
+        }}
+      >
+        {t("portal.example.trackActivities")}
       </Button>
     </CloseButtonPanel>
   );
