@@ -11,6 +11,7 @@ import lockIcon from "assets/icons/lock.png";
 import shopIcon from "assets/icons/shop.png";
 import vipIcon from "assets/icons/vip.webp";
 import upArrow from "assets/icons/level_up.png";
+import chefIcon from "assets/icons/chef_hat.png";
 import promoteIcon from "assets/icons/promote.webp";
 import { getSeasonalTicket } from "features/game/types/seasons";
 
@@ -110,6 +111,27 @@ export const WhatsOn = () => {
               {
                 text: t("whatsOn.ticketPaused", { ticket }),
                 icon: ITEM_DETAILS[ticket].image,
+              },
+            ]}
+          />
+        </div>
+      </InnerPanel>
+
+      <InnerPanel className="mb-1">
+        <div className="p-1">
+          <div className="flex items-center justify-between mb-2">
+            <Label type="default">{t("whatsOn.peggysCookoff")}</Label>
+            <Label type="formula">{t("whatsOn.july10th")}</Label>
+          </div>
+          <NoticeboardItems
+            items={[
+              {
+                text: t("whatsOn.peggysCookoffText"),
+                icon: chefIcon,
+              },
+              {
+                text: t("whatsOn.peggysCookoffText2"),
+                icon: ITEM_DETAILS["Love Charm"].image,
               },
             ]}
           />
