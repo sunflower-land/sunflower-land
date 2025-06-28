@@ -226,12 +226,12 @@ export const PhaserComponent: React.FC<Props> = ({
 
     const listener = (e: EventObject) => {
       if (e.type === "bumpkin.equipped") {
-        mmoService.state.context.server?.send(0, {
+        mmoService.getSnapshot().context.server?.send(0, {
           clothing: (e as EquipBumpkinAction).equipment,
         });
       }
       if (e.type === "UPDATE_USERNAME") {
-        mmoService.state.context.server?.send(0, {
+        mmoService.getSnapshot().context.server?.send(0, {
           username: (e as UpdateUsernameEvent).username,
         });
       }
@@ -249,8 +249,11 @@ export const PhaserComponent: React.FC<Props> = ({
 
   // When server changes, update game registry
   useEffect(() => {
-    game.current?.registry.set("mmoServer", mmoService.state.context.server);
-  }, [mmoService.state.context.server]);
+    game.current?.registry.set(
+      "mmoServer",
+      mmoService.getSnapshot().context.server,
+    );
+  }, [mmoService.getSnapshot().context.server]);
 
   // When selected item changes in context, update game registry
   useEffect(() => {
@@ -278,33 +281,36 @@ export const PhaserComponent: React.FC<Props> = ({
 
   useEffect(() => {
     // Listen to moderation events
-    mmoService.state.context.server?.onMessage(
-      "moderation_event",
-      (event: ModerationEvent) => {
-        const clientFarmId = farmId as number;
-        if (!clientFarmId || clientFarmId !== event.farmId) return;
+    mmoService
+      .getSnapshot()
+      .context.server?.onMessage(
+        "moderation_event",
+        (event: ModerationEvent) => {
+          const clientFarmId = farmId as number;
+          if (!clientFarmId || clientFarmId !== event.farmId) return;
 
-        switch (event.type) {
-          case "kick":
-            setKickEvent(event);
-            break;
-          case "mute":
-            setIsMuted(event);
-            setMuteEvent(event);
-            break;
-          default:
-            break;
-        }
-      },
-    );
+          switch (event.type) {
+            case "kick":
+              setKickEvent(event);
+              break;
+            case "mute":
+              setIsMuted(event);
+              setMuteEvent(event);
+              break;
+            default:
+              break;
+          }
+        },
+      );
 
     // Update Messages on change
-    mmoService.state.context.server?.state.messages.onChange(() => {
+    mmoService.getSnapshot().context.server?.state.messages.onChange(() => {
       const currentScene =
         game.current?.scene.getScenes(true)[0]?.scene.key ?? scene;
 
-      const sceneMessages =
-        mmoService.state.context.server?.state.messages.filter(
+      const sceneMessages = mmoService
+        .getSnapshot()
+        .context.server?.state.messages.filter(
           (m) => m.sceneId === currentScene,
         ) as Message[];
 
@@ -322,8 +328,8 @@ export const PhaserComponent: React.FC<Props> = ({
     });
 
     // Update Players on change
-    mmoService.state.context.server?.state.players.onChange(() => {
-      const playersMap = mmoService.state.context.server?.state.players;
+    mmoService.getSnapshot().context.server?.state.players.onChange(() => {
+      const playersMap = mmoService.getSnapshot().context.server?.state.players;
 
       if (playersMap) {
         setPlayers((currentPlayers) => {
@@ -370,9 +376,9 @@ export const PhaserComponent: React.FC<Props> = ({
     });
 
     mmoBus.listen((message) => {
-      mmoService.state.context.server?.send(0, message);
+      mmoService.getSnapshot().context.server?.send(0, message);
     });
-  }, [mmoService.state.context.server]);
+  }, [mmoService.getSnapshot().context.server]);
 
   useEffect(() => {
     if (isMuted?.mutedUntil) {
@@ -391,7 +397,7 @@ export const PhaserComponent: React.FC<Props> = ({
     const item = toastsList.filter((toast) => !toast.hidden)[0];
 
     if (item && item.difference.gt(0)) {
-      mmoService.state.context.server?.send(0, {
+      mmoService.getSnapshot().context.server?.send(0, {
         reaction: { reaction: item.item, quantity: item.difference.toNumber() },
       });
     }
@@ -403,8 +409,9 @@ export const PhaserComponent: React.FC<Props> = ({
     const currentScene =
       game.current?.scene.getScenes(true)[0]?.scene.key ?? scene;
 
-    const sceneMessages =
-      mmoService.state.context.server?.state.messages.filter(
+    const sceneMessages = mmoService
+      .getSnapshot()
+      .context.server?.state.messages.filter(
         (m) => m.sceneId === currentScene,
       ) as Message[];
 
@@ -462,7 +469,7 @@ export const PhaserComponent: React.FC<Props> = ({
             gameState={state}
             scene={scene}
             onMessage={(m) => {
-              mmoService.state.context.server?.send(0, {
+              mmoService.getSnapshot().context.server?.send(0, {
                 text: m.text ?? "?",
               });
             }}
@@ -472,12 +479,12 @@ export const PhaserComponent: React.FC<Props> = ({
             messages={messages ?? []}
             isMuted={isMuted ? true : false}
             onReact={(reaction) => {
-              mmoService.state.context.server?.send(0, {
+              mmoService.getSnapshot().context.server?.send(0, {
                 reaction: { reaction },
               });
             }}
             onBudPlace={(tokenId) => {
-              mmoService.state.context.server?.send(0, {
+              mmoService.getSnapshot().context.server?.send(0, {
                 budId: tokenId,
               });
             }}
