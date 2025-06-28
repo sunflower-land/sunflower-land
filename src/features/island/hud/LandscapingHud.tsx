@@ -52,9 +52,9 @@ const compareBlockBucks = (prev: Decimal, next: Decimal) => {
 const selectMovingItem = (state: MachineState) => state.context.moving;
 const isIdle = (state: MachineState) => state.matches({ editing: "idle" });
 
-const LandscapingHudComponent: React.FC<{
-  location: PlaceableLocation;
-}> = ({ location }) => {
+const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
+  location,
+}) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
 
@@ -62,7 +62,8 @@ const LandscapingHudComponent: React.FC<{
   const [showDecorations, setShowDecorations] = useState(false);
   const button = useSound("button");
 
-  const child = gameService.state.children.landscaping as MachineInterpreter;
+  const child = gameService.getSnapshot().children
+    .landscaping as MachineInterpreter;
 
   const balance = useSelector(
     gameService,
@@ -96,7 +97,7 @@ const LandscapingHudComponent: React.FC<{
     ? hasRemoveRestriction(
         selectedItem.name,
         selectedItem.id,
-        gameService.state.context.state,
+        gameService.getSnapshot().context.state,
       )
     : [false, "No restriction"];
 
@@ -302,10 +303,7 @@ const Chest: React.FC<{
         <Label
           type="default"
           className="text-xxs absolute -top-1.5 -right-0.5 group-active:translate-y-[2px]"
-          style={{
-            padding: "0 2.5",
-            height: "24px",
-          }}
+          style={{ padding: "0 2.5", height: "24px" }}
         >
           {getKeys(chestItems).reduce(
             (acc, key) => acc + (chestItems[key]?.toNumber() ?? 0),

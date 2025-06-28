@@ -384,11 +384,11 @@ export const DeliveryOrders: React.FC<Props> = ({
     return t("island.pumpkin.plaza");
   };
 
-  if (gameService.state.matches("revealing") && isRevealing) {
+  if (gameService.getSnapshot().matches("revealing") && isRevealing) {
     return <Revealing icon={chest} />;
   }
 
-  if (gameService.state.matches("revealed") && isRevealing) {
+  if (gameService.getSnapshot().matches("revealed") && isRevealing) {
     return <Revealed onAcknowledged={() => setIsRevealing(false)} />;
   }
 
@@ -428,9 +428,7 @@ export const DeliveryOrders: React.FC<Props> = ({
       <InnerPanel
         className={classNames(
           "flex flex-col h-full overflow-hidden scrollable overflow-y-auto pl-1 md:flex w-full md:w-2/3",
-          {
-            hidden: selectedId,
-          },
+          { hidden: selectedId },
         )}
       >
         <div className="p-1">
@@ -586,19 +584,14 @@ export const DeliveryOrders: React.FC<Props> = ({
         <InnerPanel
           className={classNames(
             "md:ml-1 md:flex md:flex-col items-center flex-1 relative w-full overflow-y-auto scrollable max-h-[440px]",
-            {
-              hidden: !selectedId,
-            },
+            { hidden: !selectedId },
           )}
         >
           <img
             src={SUNNYSIDE.icons.arrow_left}
             className={classNames(
               "absolute top-2 left-2 cursor-pointer md:hidden z-10",
-              {
-                hidden: !selectedId,
-                block: !!selectedId,
-              },
+              { hidden: !selectedId, block: !!selectedId },
             )}
             style={{ width: `${PIXEL_SCALE * 11}px` }}
             onClick={() => onSelect(undefined)}
@@ -794,10 +787,7 @@ export const DeliveryOrders: React.FC<Props> = ({
               </div>
               <div>
                 {!previewOrder.completedAt &&
-                  hasOrderRequirements({
-                    order: previewOrder,
-                    state,
-                  }) && (
+                  hasOrderRequirements({ order: previewOrder, state }) && (
                     <Button
                       className="!text-xs !mt-0 !-mb-1"
                       onClick={() => {

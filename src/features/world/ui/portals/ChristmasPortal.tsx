@@ -124,12 +124,8 @@ export const ChristmasPortal: React.FC<Props> = ({ onClose }) => {
     return (
       <SpeakingText
         message={[
-          {
-            text: t("minigame.discovered.one"),
-          },
-          {
-            text: t("minigame.discovered.two"),
-          },
+          { text: t("minigame.discovered.one") },
+          { text: t("minigame.discovered.two") },
         ]}
         onClose={() => setShowIntro(false)}
       />
@@ -139,10 +135,7 @@ export const ChristmasPortal: React.FC<Props> = ({ onClose }) => {
   const dateKey = new Date().toISOString().slice(0, 10);
   const history = minigame?.history ?? {};
 
-  const dailyAttempt = history[dateKey] ?? {
-    attempts: 0,
-    highscore: 0,
-  };
+  const dailyAttempt = history[dateKey] ?? { attempts: 0, highscore: 0 };
 
   const prize = gameState.context.state.minigames.prizes["christmas-delivery"];
 
@@ -159,9 +152,7 @@ export const ChristmasPortal: React.FC<Props> = ({ onClose }) => {
   }
 
   const onClaim = () => {
-    gameService.send("minigame.prizeClaimed", {
-      id: "christmas-delivery",
-    });
+    gameService.send("minigame.prizeClaimed", { id: "christmas-delivery" });
 
     onClose();
   };
@@ -196,8 +187,8 @@ export const ChristmasPortal: React.FC<Props> = ({ onClose }) => {
         name={"christmas-delivery"}
         startDate={new Date(Date.UTC(2024, 11, 14))}
         endDate={new Date(Date.UTC(2025, 0, 1))}
-        farmId={gameService.state.context.farmId}
-        jwt={authService.state.context.user.rawToken as string}
+        farmId={gameService.getSnapshot().context.farmId}
+        jwt={authService.getSnapshot().context.user.rawToken as string}
       />
     );
   }
@@ -210,8 +201,8 @@ export const ChristmasPortal: React.FC<Props> = ({ onClose }) => {
         name={"christmas-delivery"}
         startDate={new Date(Date.UTC(2024, 11, 14))}
         endDate={new Date(Date.UTC(2025, 0, 1))}
-        farmId={gameService.state.context.farmId}
-        jwt={authService.state.context.user.rawToken as string}
+        farmId={gameService.getSnapshot().context.farmId}
+        jwt={authService.getSnapshot().context.user.rawToken as string}
       />
     );
   }

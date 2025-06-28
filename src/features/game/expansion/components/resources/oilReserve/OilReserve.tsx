@@ -33,7 +33,7 @@ export const OilReserve: React.FC<Props> = ({ id }) => {
   const [drilling, setDrilling] = useState(false);
   const [oiledAmount, setOilAmount] = useState<number>();
 
-  const state = gameService.state.context.state;
+  const state = gameService.getSnapshot().context.state;
 
   const reserve = useSelector(gameService, _reserve(id), compareResource);
   const drills = useSelector(gameService, _drills);
@@ -49,10 +49,7 @@ export const OilReserve: React.FC<Props> = ({ id }) => {
   const handleDrill = async () => {
     if (!ready || drills.lessThan(getRequiredOilDrillAmount(state))) return;
 
-    const newState = gameService.send({
-      type: "oilReserve.drilled",
-      id,
-    });
+    const newState = gameService.send({ type: "oilReserve.drilled", id });
 
     if (!newState.matches("hoarding")) {
       setDrilling(true);

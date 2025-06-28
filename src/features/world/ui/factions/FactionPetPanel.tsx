@@ -91,9 +91,7 @@ const PetSleeping = ({ onWake }: { onWake: () => void }) => {
         icon={SUNNYSIDE.icons.stopwatch}
         type="info"
         className="absolute right-0 -top-7 shadow-md"
-        style={{
-          wordSpacing: 0,
-        }}
+        style={{ wordSpacing: 0 }}
       >
         {`${t("faction.pet.wakes.in", {
           time: secondsToString(secondsTillWakeUp, {
@@ -194,7 +192,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
     if (!autosaving) gameService.send("SAVE");
 
     const totalXP = getTotalXPForRequest(
-      gameService.state.context.state,
+      gameService.getSnapshot().context.state,
       pet.requests[selectedRequestIdx],
     );
     setFedXP((prev) => prev + totalXP);
@@ -237,7 +235,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
   ).gte(selectedRequest.quantity);
 
   const boost = getKingdomPetBoost(
-    gameService.state.context.state,
+    gameService.getSnapshot().context.state,
     selectedRequestReward,
   )[0];
 
@@ -259,9 +257,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
         icon={SUNNYSIDE.icons.stopwatch}
         type="info"
         className="absolute right-0 -top-7 shadow-md"
-        style={{
-          wordSpacing: 0,
-        }}
+        style={{ wordSpacing: 0 }}
       >
         {`${t("faction.pet.newRequests", {
           time: secondsToString(secondsTillWeekEnd, {
@@ -281,14 +277,8 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
             icon: FACTION_EMBLEM_ICONS[faction.name as FactionName],
             name: "Faction Pet",
           },
-          {
-            icon: SUNNYSIDE.icons.expression_confused,
-            name: t("guide"),
-          },
-          {
-            icon: SUNNYSIDE.icons.lightning,
-            name: "Streaks",
-          },
+          { icon: SUNNYSIDE.icons.expression_confused, name: t("guide") },
+          { icon: SUNNYSIDE.icons.lightning, name: "Streaks" },
         ]}
       >
         {tab === 0 && (
@@ -296,9 +286,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
             <div className="flex justify-between items-center">
               <Label
                 type="default"
-                className={classNames({
-                  pulse: refreshing || autosaving,
-                })}
+                className={classNames({ pulse: refreshing || autosaving })}
               >
                 {t("faction.pet.weeklyGoal", {
                   goalXP: goalXP.toLocaleString(),
@@ -340,7 +328,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
                           );
 
                           const boost = getKingdomPetBoost(
-                            gameService.state.context.state,
+                            gameService.getSnapshot().context.state,
                             points,
                           )[0];
 
@@ -351,9 +339,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
                               key={JSON.stringify(request)}
                               className={classNames(
                                 "flex relative flex-col flex-1 items-center p-2 cursor-pointer hover:bg-brown-300",
-                                {
-                                  "img-highlight": selectedRequestIdx === idx,
-                                },
+                                { "img-highlight": selectedRequestIdx === idx },
                               )}
                               onClick={() => setSelectedRequestIdx(idx)}
                             >
@@ -466,9 +452,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
                         <RequirementLabel
                           className={classNames(
                             "flex justify-between items-center sm:justify-center",
-                            {
-                              "-mt-1": isMobile,
-                            },
+                            { "-mt-1": isMobile },
                           )}
                           showLabel={isMobile}
                           hideIcon={!isMobile}

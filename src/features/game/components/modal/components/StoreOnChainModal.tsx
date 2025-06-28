@@ -18,15 +18,13 @@ export const StoreOnChainModal: React.FC<Props> = ({ onClose }) => {
   const storeData = () => {
     gameService.send("TRANSACT", {
       transaction: "transaction.progressSynced",
-      request: {
-        captcha: "",
-      },
+      request: { captcha: "" },
     });
     onClose();
   };
 
   // Transaction already in progress
-  const transaction = gameService.state.context.state.transaction;
+  const transaction = gameService.getSnapshot().context.state.transaction;
   if (transaction) {
     return (
       <Panel>

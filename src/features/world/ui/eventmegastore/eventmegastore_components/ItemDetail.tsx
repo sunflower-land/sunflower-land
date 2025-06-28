@@ -98,8 +98,9 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
             : "basic";
 
   const shop =
-    gameService.state.context.state.minigames.games["festival-of-colors-2025"]
-      ?.shop;
+    gameService.getSnapshot().context.state.minigames.games[
+      "festival-of-colors-2025"
+    ]?.shop;
 
   const eventCollectiblesCrafted = Object.keys(shop?.items ?? {}).length;
   const eventWearablesCrafted = Object.keys(shop?.wearables ?? {}).length;
@@ -120,12 +121,12 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     tier === "mega" && eventItemsCrafted >= eventStore.mega.requirement;
 
   const itemsCrafted = isWearable
-    ? state.minigames.games["festival-of-colors-2025"]?.shop?.wearables?.[
+    ? (state.minigames.games["festival-of-colors-2025"]?.shop?.wearables?.[
         itemName as BumpkinItem
-      ] ?? 0
-    : state.minigames.games["festival-of-colors-2025"]?.shop?.items?.[
+      ] ?? 0)
+    : (state.minigames.games["festival-of-colors-2025"]?.shop?.items?.[
         itemName as InventoryItemName
-      ] ?? 0;
+      ] ?? 0);
 
   const canCraftMore =
     itemsCrafted <
@@ -197,18 +198,13 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
         ? sfl
         : item.cost.sfl === 0 &&
             (item.cost?.items[getSeasonalTicket()] ?? 0 > 0)
-          ? item.cost?.items[getSeasonalTicket()] ?? 0
+          ? (item.cost?.items[getSeasonalTicket()] ?? 0)
           : sfl;
     const itemName = isWearable
       ? ((item as EventStoreWearable).wearable as BumpkinItem)
       : ((item as EventStoreCollectible).collectible as InventoryItemName);
 
-    gameAnalytics.trackSink({
-      currency,
-      amount: price,
-      item: itemName,
-      type,
-    });
+    gameAnalytics.trackSink({ currency, amount: price, item: itemName, type });
 
     if (!isWearable) {
       const itemName = (item as EventStoreCollectible)
@@ -312,9 +308,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                 src={SUNNYSIDE.icons.close}
                 className="cursor-pointer"
                 onClick={onClose}
-                style={{
-                  width: `${PIXEL_SCALE * 9}px`,
-                }}
+                style={{ width: `${PIXEL_SCALE * 9}px` }}
               />
             </div>
             {!showSuccess && (
@@ -336,9 +330,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                       src={image}
                       alt={itemName}
                       className={"w-full"}
-                      style={{
-                        width: `${imageWidth}px`,
-                      }}
+                      style={{ width: `${imageWidth}px` }}
                     />
                   </div>
                   <div className="flex flex-col space-y-2">

@@ -36,7 +36,7 @@ export const ObsidianExchange: React.FC<{ onClose: () => void }> = ({
     gameService.send("obsidian.exchanged");
 
     const newPrice = getObsidianSunstonePrice({
-      gameState: gameService.state.context.state,
+      gameState: gameService.getSnapshot().context.state,
     });
 
     if (newPrice > previousPrice) {
@@ -53,15 +53,9 @@ export const ObsidianExchange: React.FC<{ onClose: () => void }> = ({
       <SpeakingModal
         bumpkinParts={NPC_WEARABLES.gorga}
         message={[
-          {
-            text: t("gorga.intro.greeting"),
-          },
-          {
-            text: t("gorga.intro.two"),
-          },
-          {
-            text: t("gorga.intro.three"),
-          },
+          { text: t("gorga.intro.greeting") },
+          { text: t("gorga.intro.two") },
+          { text: t("gorga.intro.three") },
         ]}
         onClose={() => setShowIntro(false)}
       />
@@ -72,14 +66,8 @@ export const ObsidianExchange: React.FC<{ onClose: () => void }> = ({
     <CloseButtonPanel bumpkinParts={NPC_WEARABLES.gorga} onClose={onClose}>
       <CraftingRequirements
         gameState={state}
-        details={{
-          item: "Sunstone",
-        }}
-        requirements={{
-          resources: {
-            Obsidian: new Decimal(price),
-          },
-        }}
+        details={{ item: "Sunstone" }}
+        requirements={{ resources: { Obsidian: new Decimal(price) } }}
         actionView={
           <div className="relative">
             {showPriceIncrease && (

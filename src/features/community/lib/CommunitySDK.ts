@@ -28,7 +28,7 @@ export function prepareAPI({
     }
 
     public get game() {
-      return gameService.state.context.state;
+      return gameService.getSnapshot().context.state;
     }
 
     public get user() {
@@ -36,10 +36,7 @@ export function prepareAPI({
     }
 
     public async loadIsland(): Promise<CommunityIsland | null> {
-      const response = await loadIsland({
-        farmId,
-        islandId: this.islandId,
-      });
+      const response = await loadIsland({ farmId, islandId: this.islandId });
 
       if (!response) {
         return null;

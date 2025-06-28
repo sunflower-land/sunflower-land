@@ -22,7 +22,7 @@ interface Props {
 export const PotionHouse: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
 
-  const potionHouse = gameService.state.context.state.potionHouse;
+  const potionHouse = gameService.getSnapshot().context.state.potionHouse;
   const isNewGame = !potionHouse || potionHouse?.game.status === "finished";
 
   const potionHouseService = useInterpret(potionHouseMachine, {
@@ -35,10 +35,7 @@ export const PotionHouse: React.FC<Props> = ({ onClose }) => {
     <Modal show onHide={onClose}>
       <div
         className="bg-brown-600  relative"
-        style={{
-          ...pixelRoomBorderStyle,
-          padding: `${PIXEL_SCALE * 1}px`,
-        }}
+        style={{ ...pixelRoomBorderStyle, padding: `${PIXEL_SCALE * 1}px` }}
       >
         <div id="cover" />
         <div className="p-1 flex relative flex-col h-full overflow-y-auto scrollable">
@@ -62,9 +59,7 @@ export const PotionHouse: React.FC<Props> = ({ onClose }) => {
               src={SUNNYSIDE.icons.close}
               className="cursor-pointer"
               onClick={onClose}
-              style={{
-                width: `${PIXEL_SCALE * 11}px`,
-              }}
+              style={{ width: `${PIXEL_SCALE * 11}px` }}
             />
           </div>
           <div className="flex flex-col grow mb-1">

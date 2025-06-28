@@ -156,13 +156,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
   const onWithdrawTokens = async (sfl: string) => {
     gameService.send("TRANSACT", {
       transaction: "transaction.flowerWithdrawn",
-      request: {
-        farmId,
-        effect: {
-          type: "withdraw.flower",
-          amount: sfl,
-        },
-      },
+      request: { farmId, effect: { type: "withdraw.flower", amount: sfl } },
     });
     onClose();
   };
@@ -170,14 +164,7 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
   const onWithdrawItems = async (ids: number[], amounts: string[]) => {
     gameService.send("TRANSACT", {
       transaction: "transaction.itemsWithdrawn",
-      request: {
-        farmId,
-        effect: {
-          type: "withdraw.items",
-          amounts,
-          ids,
-        },
-      },
+      request: { farmId, effect: { type: "withdraw.items", amounts, ids } },
     });
     onClose();
   };
@@ -202,17 +189,12 @@ export const Withdraw: React.FC<Props> = ({ onClose }) => {
   const onWithdrawBuds = async (ids: number[]) => {
     gameService.send("TRANSACT", {
       transaction: "transaction.budWithdrawn",
-      request: {
-        effect: {
-          type: "withdraw.buds",
-          budIds: ids,
-        },
-      },
+      request: { effect: { type: "withdraw.buds", budIds: ids } },
     });
     onClose();
   };
 
-  const transaction = gameService.state.context.state.transaction;
+  const transaction = gameService.getSnapshot().context.state.transaction;
   if (transaction) {
     return <Transaction isBlocked onClose={onClose} />;
   }

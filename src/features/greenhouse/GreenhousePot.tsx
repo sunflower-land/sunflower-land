@@ -113,26 +113,19 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
       return;
     }
 
-    if (oilRequired > gameService.state.context.state.greenhouse.oil) {
+    if (oilRequired > gameService.getSnapshot().context.state.greenhouse.oil) {
       setShowOilWarning(true);
       await new Promise((res) => setTimeout(res, 2000));
       setShowOilWarning(false);
       return;
     }
 
-    gameService.send("greenhouse.planted", {
-      id,
-      seed,
-    });
+    gameService.send("greenhouse.planted", { id, seed });
   };
 
   if (!pot?.plant) {
     return (
-      <div
-        style={{
-          width: `${PIXEL_SCALE * 28}px`,
-        }}
-      >
+      <div style={{ width: `${PIXEL_SCALE * 28}px` }}>
         {/* Harvest Animation */}
         {showAnimations && (
           <Transition
@@ -151,9 +144,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
             <img
               src={ITEM_DETAILS[harvested.current?.name ?? "Rice"].image}
               className="mr-2 img-highlight-heavy"
-              style={{
-                width: `${PIXEL_SCALE * 7}px`,
-              }}
+              style={{ width: `${PIXEL_SCALE * 7}px` }}
             />
             <span className="text-sm yield-text">{`+${formatNumber(harvested.current?.amount ?? 0)}`}</span>
           </Transition>
@@ -209,9 +200,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
         <img
           src={emptyPot}
           className="cursor-pointer hover:img-highlight"
-          style={{
-            width: `${PIXEL_SCALE * 28}px`,
-          }}
+          style={{ width: `${PIXEL_SCALE * 28}px` }}
           onClick={() => plant()}
         />
       </div>
@@ -220,7 +209,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
 
   const plantedAt = pot.plant.plantedAt;
   const readyAt = getReadyAt({
-    game: gameService.state.context.state,
+    game: gameService.getSnapshot().context.state,
     plant: pot.plant.name,
     createdAt: plantedAt,
   });
@@ -240,9 +229,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
 
     harvested.current = pot.plant;
 
-    gameService.send("greenhouse.harvested", {
-      id,
-    });
+    gameService.send("greenhouse.harvested", { id });
 
     if (showAnimations) {
       setShowHarvested(true);
@@ -264,17 +251,11 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
   }
 
   return (
-    <div
-      style={{
-        width: `${PIXEL_SCALE * 28}px`,
-      }}
-    >
+    <div style={{ width: `${PIXEL_SCALE * 28}px` }}>
       <img
         src={PLANT_STAGES[pot.plant.name][stage]}
         className="cursor-pointer hover:img-highlight"
-        style={{
-          width: `${PIXEL_SCALE * 28}px`,
-        }}
+        style={{ width: `${PIXEL_SCALE * 28}px` }}
         onClick={harvest}
       />
       {showTimers && Date.now() < readyAt && (

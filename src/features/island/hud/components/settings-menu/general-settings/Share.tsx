@@ -11,7 +11,9 @@ import { Context as GameContext } from "features/game/GameProvider";
 export const Share: React.FC = () => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(GameContext);
-  const farmId = gameService.state?.context?.farmId.toString() as string;
+  const farmId = gameService
+    .getSnapshot()
+    ?.context?.farmId.toString() as string;
   const farmUrl =
     CONFIG.NETWORK === "amoy"
       ? `https://sunflower-land.com/testnet/#/visit/${farmId}`

@@ -71,11 +71,8 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
 
   const handlePurchase = () => {
     gameService.send("vip.bought", {
-      effect: {
-        type: "vip.bought",
-        bundle: selected,
-      },
-      authToken: authService.state.context.user.rawToken as string,
+      effect: { type: "vip.bought", bundle: selected },
+      authToken: authService.getSnapshot().context.user.rawToken as string,
     });
     gameAnalytics.trackSink({
       currency: "Gem",
@@ -290,9 +287,7 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
                 <div className="flex flex-1 justify-center items-center mb-6 w-full">
                   <img
                     src={VIP_ICONS[name]}
-                    style={{
-                      width: `${PIXEL_SCALE * 12}px`,
-                    }}
+                    style={{ width: `${PIXEL_SCALE * 12}px` }}
                     className="w-2/5 sm:w-1/4"
                   />
                 </div>
@@ -318,22 +313,13 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
         </Label> */}
         <div className="flex flex-col space-y-1 ml-1 mb-2 justify-between h-full">
           {[
-            {
-              text: t("vip.benefit.airdrop"),
-              icon: giftIcon,
-            },
-            {
-              text: t("vip.benefit.expBoost"),
-              icon: xpIcon,
-            },
+            { text: t("vip.benefit.airdrop"), icon: giftIcon },
+            { text: t("vip.benefit.expBoost"), icon: xpIcon },
             {
               text: t("vip.benefit.cookingQueue"),
               icon: ITEM_DETAILS["Pumpkin Soup"].image,
             },
-            {
-              text: t("vip.benefit.stellaDiscounts"),
-              icon: shopIcon,
-            },
+            { text: t("vip.benefit.stellaDiscounts"), icon: shopIcon },
             {
               text: t("vip.benefit.bonusDelivery"),
               icon: ITEM_DETAILS[getSeasonalTicket()].image,
@@ -344,10 +330,7 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
               }),
               icon: increaseArrow,
             },
-            {
-              text: t("vip.benefit.competition"),
-              icon: trophyIcon,
-            },
+            { text: t("vip.benefit.competition"), icon: trophyIcon },
             ...(getCurrentSeason() === "Winds of Change"
               ? [
                   {
@@ -357,12 +340,7 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
                 ]
               : []),
             ...(getCurrentSeason() === "Great Bloom"
-              ? [
-                  {
-                    text: t("vip.benefit.greatBloom"),
-                    icon: flowerIcon,
-                  },
-                ]
+              ? [{ text: t("vip.benefit.greatBloom"), icon: flowerIcon }]
               : []),
           ].map((item, index) => (
             <div className="flex items-center min-h-[25px]" key={index}>

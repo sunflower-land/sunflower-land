@@ -41,7 +41,7 @@ export const BuildingOilTank: React.FC<OilTankProps> = ({
   const { gameService } = useContext(Context);
   const [showAddOilModal, setShowAddOilModal] = useState<boolean>(false);
   const { t } = useAppTranslation();
-  const game = gameService.state.context.state;
+  const game = gameService.getSnapshot().context.state;
 
   const [totalOilToAdd, setTotalOilToAdd] = useState(0);
 
@@ -185,10 +185,7 @@ export const BuildingOilTank: React.FC<OilTankProps> = ({
                   <ResizableBar
                     percentage={oilInTank}
                     type={oilInTank < 10 ? "error" : "quantity"}
-                    outerDimensions={{
-                      width: 40,
-                      height: 8,
-                    }}
+                    outerDimensions={{ width: 40, height: 8 }}
                   />
                   <div className="flex">
                     <div className="text-xs">

@@ -32,8 +32,9 @@ export const LoveCharm: React.FC = () => {
   }
 
   const communityCoins =
-    gameService.state.context.state.inventory["Community Coin"]?.toNumber() ??
-    0;
+    gameService
+      .getSnapshot()
+      .context.state.inventory["Community Coin"]?.toNumber() ?? 0;
 
   const onClaim = () => {
     gameService.send("garbage.sold", {
@@ -50,9 +51,7 @@ export const LoveCharm: React.FC = () => {
         message: "Spend them wisely!",
         createdAt: Date.now(),
         id: "revealed-reward",
-        items: {
-          "Love Charm": communityCoins * 25,
-        },
+        items: { "Love Charm": communityCoins * 25 },
         wearables: {},
         sfl: 0,
         coins: 0,

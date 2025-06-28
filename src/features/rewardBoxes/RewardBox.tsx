@@ -61,9 +61,7 @@ export const RewardBox: React.FC = () => {
 
 type BoxRewardName = InventoryItemName | "Coins" | "VIP" | "Flower";
 
-export const OpeningBox: React.FC<{
-  name: RewardBoxName;
-}> = ({ name }) => {
+export const OpeningBox: React.FC<{ name: RewardBoxName }> = ({ name }) => {
   const openedAt = useRef<number>(0);
   const { gameService, gameState } = useGame();
   const { t } = useAppTranslation();
@@ -79,7 +77,7 @@ export const OpeningBox: React.FC<{
   useEffect(() => {
     const interval = setInterval(() => {
       const reward =
-        gameService.state.context.state.rewardBoxes?.[name]?.reward;
+        gameService.getSnapshot().context.state.rewardBoxes?.[name]?.reward;
       const readyToView = openedAt.current + 3000 < Date.now() && !!reward;
 
       setIsReady(readyToView);
@@ -175,9 +173,7 @@ export const OpeningBox: React.FC<{
       <div className="w-32 h-32 relative">
         <img
           src={ITEM_DETAILS[name].image}
-          className={classNames("w-full ", {
-            "animate-pulsate": isOpened,
-          })}
+          className={classNames("w-full ", { "animate-pulsate": isOpened })}
         />
         {isOpened &&
           currentCrows.current

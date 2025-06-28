@@ -117,11 +117,11 @@ const GameOptions: React.FC<ContentComponentProps> = ({
     authService.send("LOGOUT");
   };
 
-  const canRefresh = !gameService.state.context.state.transaction;
-  const hideRefresh = !gameService.state.context.nftId;
+  const canRefresh = !gameService.getSnapshot().context.state.transaction;
+  const hideRefresh = !gameService.getSnapshot().context.nftId;
 
   const hasHoardingCheck = hasFeatureAccess(
-    gameService.state?.context?.state,
+    gameService.getSnapshot()?.context?.state,
     "HOARDING_CHECK",
   );
 
@@ -142,12 +142,12 @@ const GameOptions: React.FC<ContentComponentProps> = ({
               }, 2000);
               copypaste.play();
               clipboard.copy(
-                gameService.state?.context?.farmId.toString() as string,
+                gameService.getSnapshot()?.context?.farmId.toString() as string,
               );
             }}
           >
             {t("gameOptions.farmId", {
-              farmId: gameService.state?.context?.farmId,
+              farmId: gameService.getSnapshot()?.context?.farmId,
             })}
           </Label>
         </div>
@@ -384,11 +384,7 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
     parent: "general",
     content: FaceRecognitionSettings,
   },
-  discord: {
-    title: "Discord",
-    parent: "general",
-    content: Discord,
-  },
+  discord: { title: "Discord", parent: "general", content: Discord },
   changeLanguage: {
     title: translate("gameOptions.generalSettings.changeLanguage"),
     parent: "general",
@@ -406,11 +402,7 @@ export const settingMenus: Record<SettingMenuId, SettingMenu> = {
   },
 
   // Developer Options
-  admin: {
-    title: `Airdrop Player`,
-    parent: "amoy",
-    content: AirdropPlayer,
-  },
+  admin: { title: `Airdrop Player`, parent: "amoy", content: AirdropPlayer },
   hoardingCheck: {
     title: "Hoarding Check (DEV)",
     parent: "amoy",

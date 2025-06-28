@@ -83,7 +83,7 @@ export const Discord: React.FC = () => {
 
     try {
       await addDiscordRole({
-        farmId: gameService.state.context.farmId,
+        farmId: gameService.getSnapshot().context.farmId,
         token: authState.context.user.rawToken as string,
         role: role,
       });

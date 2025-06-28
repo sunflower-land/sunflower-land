@@ -28,9 +28,9 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const [reqLvl, setReqLvl] = useState(1);
 
   const level = getBumpkinLevel(
-    gameService.state.context.state.bumpkin?.experience ?? 0,
+    gameService.getSnapshot().context.state.bumpkin?.experience ?? 0,
   );
-  const hasFaction = gameService.state.context.state.faction;
+  const hasFaction = gameService.getSnapshot().context.state.faction;
   const canTeleportToFactionHouse = level >= 7 && hasFaction;
 
   const getFactionHouseRoute = () => {
@@ -57,10 +57,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           type="danger"
           className="absolute bottom-2"
           icon={SUNNYSIDE.icons.lock}
-          style={{
-            left: "50%",
-            transform: "translateX(-50%)",
-          }}
+          style={{ left: "50%", transform: "translateX(-50%)" }}
         >
           <span className="text-xxs sm:text-sm">
             {t("world.intro.levelUpToTravel")}
@@ -447,7 +444,7 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
       </div>
 
       {hasFeatureAccess(
-        gameService.state.context.state,
+        gameService.getSnapshot().context.state,
         "FESTIVALOFCOLORS",
       ) && (
         <div

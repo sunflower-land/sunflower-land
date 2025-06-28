@@ -15,7 +15,7 @@ export const ClaimAuction: React.FC = () => {
   const { gameService } = useContext(GameContext);
   const { t } = useAppTranslation();
 
-  const bid = gameService.state.context.state.auctioneer.bid!;
+  const bid = gameService.getSnapshot().context.state.auctioneer.bid!;
   const image =
     bid.type === "collectible"
       ? ITEM_DETAILS[bid.collectible!].image
@@ -25,7 +25,7 @@ export const ClaimAuction: React.FC = () => {
     gameService.send("CLOSE");
   };
 
-  const transaction = gameService.state.context.state.transaction;
+  const transaction = gameService.getSnapshot().context.state.transaction;
   if (transaction) {
     return <Transaction isBlocked onClose={onClose} />;
   }
@@ -40,14 +40,12 @@ export const ClaimAuction: React.FC = () => {
           onMint={() =>
             gameService.send("TRANSACT", {
               transaction: "transaction.bidMinted",
-              request: {
-                auctionId: bid.auctionId,
-              },
+              request: { auctionId: bid.auctionId },
             })
           }
-          bid={gameService.state.context.state.auctioneer.bid!}
-          farmId={gameService.state.context.farmId}
-          results={gameService.state.context.auctionResults!}
+          bid={gameService.getSnapshot().context.state.auctioneer.bid!}
+          farmId={gameService.getSnapshot().context.farmId}
+          results={gameService.getSnapshot().context.auctionResults!}
         />
       </CloseButtonPanel>
     </Modal>

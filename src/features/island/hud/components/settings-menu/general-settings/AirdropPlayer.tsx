@@ -349,19 +349,13 @@ export const AirdropPlayer: React.FC<
     ...(gems ? { Gem: gems } : {}),
     ...(loveCharm ? { "Love Charm": loveCharm } : {}),
     ...selectedItems.reduce(
-      (acc, item) => ({
-        ...acc,
-        [item.name]: item.quantity,
-      }),
+      (acc, item) => ({ ...acc, [item.name]: item.quantity }),
       {} as Partial<Record<InventoryItemName, number>>,
     ),
   };
 
   const wearables = selectedWearables.reduce(
-    (acc, wearable) => ({
-      ...acc,
-      [wearable]: 1,
-    }),
+    (acc, wearable) => ({ ...acc, [wearable]: 1 }),
     {} as Wardrobe,
   );
 
@@ -382,7 +376,7 @@ export const AirdropPlayer: React.FC<
         message,
         signature,
       },
-      authToken: authService.state.context.user.rawToken as string,
+      authToken: authService.getSnapshot().context.user.rawToken as string,
     });
   };
 
@@ -393,11 +387,7 @@ export const AirdropPlayer: React.FC<
       .filter((id) => !isNaN(id));
 
     const signature = await signTypedData(config, {
-      domain: {
-        name: "Sunflower Land",
-        version: "1",
-        chainId,
-      },
+      domain: { name: "Sunflower Land", version: "1", chainId },
       types: {
         Airdrop: [
           { name: "items", type: "string" },

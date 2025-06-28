@@ -29,7 +29,9 @@ export const Gems: React.FC = () => {
   }
 
   const gems =
-    gameService.state.context.state.inventory["Block Buck"]?.toNumber() ?? 0;
+    gameService
+      .getSnapshot()
+      .context.state.inventory["Block Buck"]?.toNumber() ?? 0;
 
   const onClaim = () => {
     gameService.send("garbage.sold", { item: "Block Buck", amount: gems });
@@ -43,9 +45,7 @@ export const Gems: React.FC = () => {
         message: "Spend them wisely!",
         createdAt: Date.now(),
         id: "revealed-reward",
-        items: {
-          Gem: gems * BB_TO_GEM_RATIO,
-        },
+        items: { Gem: gems * BB_TO_GEM_RATIO },
         wearables: {},
         sfl: 0,
         coins: 0,
