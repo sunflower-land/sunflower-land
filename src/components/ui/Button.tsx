@@ -67,11 +67,14 @@ export const Button: React.FC<React.PropsWithChildren<Props>> = ({
     "--button-image": `url(${buttonImage})`,
     "--button-pressed-image": `url(${buttonPressedImage})`,
   };
+
   return (
     <>
       <button
         className={classnames(
-          `w-full p-1 text-sm object-contain justify-center items-center hover:brightness-90 cursor-pointer flex disabled:opacity-50 [border-image:var(--button-image)_3_3_4_3_fill] active:[border-image:var(--button-pressed-image)_3_3_4_3_fill] transition-transform active:scale-[0.99]`,
+          `p-1 text-sm object-contain justify-center items-center hover:brightness-90 cursor-pointer flex disabled:opacity-50 [border-image:var(--button-image)_3_3_4_3_fill] active:[border-image:var(--button-pressed-image)_3_3_4_3_fill] transition-transform active:scale-[0.99]`,
+          // If no width class is provided, set width to full: React 18 change
+          !className?.match(/\bw-/g) && "w-full",
           className,
           { "cursor-not-allowed": disabled },
         )}
