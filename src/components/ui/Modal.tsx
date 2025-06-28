@@ -47,16 +47,20 @@ export const Modal: React.FC<React.PropsWithChildren<ModalProps>> = ({
     };
   }, [show, onHide]);
 
+  const handleBackdropClick = (e: React.MouseEvent | React.TouchEvent) => {
+    // Only close if clicking/touching the backdrop itself, not the modal content
+    if (e.target === e.currentTarget) {
+      onHide?.();
+    }
+  };
+
   return (
     <Transition appear show={!!show} as={Fragment}>
       <Dialog
         initialFocus={ref}
         as="div"
         className="fixed inset-0 flex min-h-full items-center justify-center z-50 pointer-events-auto"
-        onClose={() => undefined}
-        // For some reason touchend events on mobile are triggering onClose immediately in canvas
-        // onClose={() => backdrop === "static" ? undefined : onHide?.()}
-
+        onClose={() => (backdrop === "static" ? undefined : onHide?.())}
         // Prevent click through to Phaser
         onMouseDown={(e) => e.stopPropagation()}
         onMouseUp={(e) => e.stopPropagation()}
@@ -73,13 +77,18 @@ export const Modal: React.FC<React.PropsWithChildren<ModalProps>> = ({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-black/50" />
+            <div
+              className="fixed inset-0 bg-black/50"
+              onClick={handleBackdropClick}
+              onTouchEnd={handleBackdropClick}
+            />
           </Transition.Child>
         )}
 
         <div
           className="fixed inset-0 overflow-y-auto"
-          onClick={() => onHide?.()}
+          onClick={handleBackdropClick}
+          onTouchEnd={handleBackdropClick}
         >
           <div className="flex min-h-full items-center justify-center p-2">
             <Transition.Child
@@ -109,6 +118,8 @@ export const Modal: React.FC<React.PropsWithChildren<ModalProps>> = ({
                     "w-screen h-full": !!fullscreen,
                   },
                 )}
+                onClick={(e) => e.stopPropagation()}
+                onTouchEnd={(e) => e.stopPropagation()}
               >
                 <div ref={ref}>{children}</div>
               </Dialog.Panel>
