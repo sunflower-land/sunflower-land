@@ -17,9 +17,7 @@ export const ZoomContext = createContext<Context>({
   scale: new SpringValue(1),
 });
 
-export const ZoomProvider: React.FC<React.PropsWithChildren> = ({
-  children,
-}) => {
+export const ZoomProvider: React.FC = ({ children }) => {
   const scale = useSpringValue(1, { config: config.stiff });
   // ON HOLD: Looking to implement landscape mode for mobile. This is causing some serious bugs on iOS
   const { minScale, maxScale } = getScaleLimits();
