@@ -8,7 +8,7 @@ interface Props {
   className?: string;
 }
 
-export const InfoPopover: React.FC<React.PropsWithChildren<Props>> = ({
+export const InfoPopover: React.FC<Props> = ({
   showPopover,
   children,
   className,

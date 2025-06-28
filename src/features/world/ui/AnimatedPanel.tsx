@@ -1,4 +1,4 @@
-import React, { PropsWithChildren } from "react";
+import React from "react";
 import { Transition } from "@headlessui/react";
 import { InnerPanel } from "components/ui/Panel";
 
@@ -8,7 +8,7 @@ interface Props {
   onClick?: () => void;
 }
 
-export const AnimatedPanel: React.FC<PropsWithChildren<Props>> = ({
+export const AnimatedPanel: React.FC<Props> = ({
   show,
   onClick,
   children,
