@@ -16,7 +16,7 @@ interface ModalProps {
   onShow?: () => void;
 }
 
-export const Modal: React.FC<React.PropsWithChildren<ModalProps>> = ({
+export const Modal: React.FC<ModalProps> = ({
   children,
   show,
   onHide,

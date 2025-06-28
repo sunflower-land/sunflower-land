@@ -14,7 +14,7 @@ interface Props {
   onBackdropClick: () => void;
 }
 
-export const ModalOverlay: React.FC<React.PropsWithChildren<Props>> = ({
+export const ModalOverlay: React.FC<Props> = ({
   show,
   className,
   children,

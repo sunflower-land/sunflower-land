@@ -1,11 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 
-export const Collapse: React.FC<
-  React.PropsWithChildren<{
-    isExpanded: boolean;
-    className?: string;
-  }>
-> = ({ isExpanded, children, className }) => {
+export const Collapse: React.FC<{
+  isExpanded: boolean;
+  className?: string;
+}> = ({ isExpanded, children, className }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [contentHeight, setContentHeight] = useState(0);
 
