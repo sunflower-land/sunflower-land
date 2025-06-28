@@ -35,7 +35,7 @@ export const BeachBaitShop: React.FC = () => {
   const selectedItem = PURCHASEABLE_BAIT[selectedName];
   const purchaseOptions = selectedItem.purchaseOptions;
   const purchaseOption = purchaseType
-    ? (purchaseOptions[purchaseType] ?? {})
+    ? purchaseOptions[purchaseType] ?? {}
     : {};
   const lessIngredients = (amount: number) => {
     if (!purchaseOption.ingredients) return true;
@@ -59,8 +59,8 @@ export const BeachBaitShop: React.FC = () => {
     });
 
     const blockBucks = purchaseType
-      ? (selectedItem.purchaseOptions[purchaseType]?.ingredients?.Gem ??
-        new Decimal(0))
+      ? selectedItem.purchaseOptions[purchaseType]?.ingredients?.Gem ??
+        new Decimal(0)
       : new Decimal(0);
     if (new Decimal(blockBucks).gt(0)) {
       gameAnalytics.trackSink({

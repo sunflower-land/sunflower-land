@@ -42,9 +42,7 @@ interface GameContext {
 
 export const Context = React.createContext<GameContext>({} as GameContext);
 
-export const GameProvider: React.FC<React.PropsWithChildren> = ({
-  children,
-}) => {
+export const GameProvider: React.FC = ({ children }) => {
   const { authService } = useContext(Auth.Context);
   const [authState] = useActor(authService);
 
