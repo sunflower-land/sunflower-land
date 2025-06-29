@@ -881,7 +881,7 @@ const CraftButton: React.FC<{
       <div className="flex flex-col sm:flex-row items-center justify-center gap-1 mt-2">
         <Button disabled={true}>{t("crafting")}</Button>
         <Button
-          disabled={!inventory.Gem?.gte(gems)}
+          disabled={!inventory.Gem?.gte(gems) || isPending}
           onClick={() => setShowConfirmation(true)}
         >
           <div className="flex items-center justify-center gap-1">
