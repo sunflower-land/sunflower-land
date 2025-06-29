@@ -268,4 +268,22 @@ describe("craftCollectible", () => {
       state.pumpkinPlaza.keysBought?.treasureShop["Treasure Key"]?.boughtAt,
     ).toEqual(new Date("2024-09-01").getTime());
   });
+
+  it("tracks the bumpkin activity", () => {
+    const state = craftCollectible({
+      state: {
+        ...GAME_STATE,
+        coins: 25000,
+        inventory: {
+          "Wild Mushroom": new Decimal(20),
+        },
+      },
+      action: {
+        type: "collectible.crafted",
+        name: "Fairy Circle",
+      },
+    });
+    expect(state.inventory["Fairy Circle"]).toEqual(new Decimal(1));
+    expect(state.bumpkin.activity["Coins Spent"]).toBe(25000);
+  });
 });
