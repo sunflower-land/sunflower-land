@@ -12060,7 +12060,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   },
   "Colors Ticket 2025": {
     description:
-      "Hold this for a chance to win $FLOWER after the easter event ends!",
+      "Hold this for a chance to win $FLOWER after the festival of colors event ends!",
     decimals: 0,
     attributes: [
       { trait_type: "Purpose", value: "Coupon" },
