@@ -70,6 +70,7 @@ export const DepletedOilReserve: React.FC<Props> = ({
         leaveTo="opacity-0"
         afterLeave={onOilTransitionEnd}
         className="flex -top-2 left-[40%] absolute w-full z-40"
+        as="div"
       >
         <img
           src={oil}

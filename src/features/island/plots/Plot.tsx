@@ -370,6 +370,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
           leaveFrom="opacity-100"
           leaveTo="opacity-0"
           className="flex -top-2 left-[40%] absolute z-40 pointer-events-none"
+          as="div"
         >
           <span
             className="text-sm yield-text"
