@@ -249,12 +249,14 @@ export const PlayerModals: React.FC<Props> = ({ game, farmId }) => {
         )}
         {tab === "Report" && <ReportPlayer id={player?.farmId as number} />}
         {tab === "Airdrop" && (
-          <AirdropPlayer
-            id={player?.farmId as number}
-            // Noops
-            onClose={alert}
-            onSubMenuClick={alert}
-          />
+          <InnerPanel className="flex flex-col gap-1 max-h-[500px] overflow-y-auto scrollable">
+            <AirdropPlayer
+              id={player?.farmId as number}
+              // Noops
+              onClose={alert}
+              onSubMenuClick={alert}
+            />
+          </InnerPanel>
         )}
       </CloseButtonPanel>
     </Modal>
