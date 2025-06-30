@@ -132,7 +132,7 @@ export const ManekiNekoImage: React.FC<Props> = ({ id, open }) => {
   );
 };
 
-export const ManekiNeko: React.FC<Props> = ({ id }) => {
+export const ManekiNeko: React.FC<{ id: string }> = ({ id }) => {
   return (
     <Popover>
       <PopoverButton as="div" className="cursor-pointer">
