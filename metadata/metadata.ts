@@ -12048,7 +12048,8 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     name: "Mini Floating Island",
   },
   "Colors Token 2025": {
-    description: "Use this in the festival of colors event shop before the event ends!",
+    description:
+      "Use this in the festival of colors event shop before the event ends!",
     decimals: 0,
     attributes: [
       { trait_type: "Purpose", value: "Coupon" },
