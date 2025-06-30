@@ -9,6 +9,7 @@ import {
   UpgradableBuildingKey,
 } from "features/game/types/game";
 import { produce } from "immer";
+import { trackActivity } from "features/game/types/bumpkinActivity";
 
 export type UpgradeBuildingAction = {
   type: "building.upgraded";
@@ -195,6 +196,12 @@ export function upgradeBuilding({
       copy[buildingKey].upgradeReadyAt = createdAt + upgradeCost.upgradeTime;
       copy[buildingKey].upgradedAt = createdAt;
     }
+
+    bumpkin.activity = trackActivity(
+      "Coins Spent",
+      bumpkin.activity,
+      new Decimal(upgradeCost.coins),
+    );
 
     return copy;
   });

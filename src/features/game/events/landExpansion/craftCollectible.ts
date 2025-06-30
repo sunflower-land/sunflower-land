@@ -126,6 +126,12 @@ export function craftCollectible({
       bumpkin.activity,
     );
 
+    bumpkin.activity = trackActivity(
+      "Coins Spent",
+      bumpkin.activity,
+      new Decimal(price),
+    );
+
     if (action.coordinates && action.id && !isKey(action.name)) {
       const dimensions = COLLECTIBLES_DIMENSIONS[action.name];
       const collides = detectCollision({

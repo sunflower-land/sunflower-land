@@ -1929,4 +1929,37 @@ describe("deliver", () => {
     expect(state.wardrobe["Basic Hair"]).toEqual(0);
     expect(state.inventory[getSeasonalTicket()]).toEqual(new Decimal(4));
   });
+
+  it("tracks the bumpkin activity", () => {
+    const state = deliverOrder({
+      state: {
+        ...TEST_FARM,
+        coins: 9600,
+        delivery: {
+          ...TEST_FARM.delivery,
+          orders: [
+            {
+              id: "123",
+              createdAt: 0,
+              readyAt: Date.now(),
+              from: "tywin",
+              items: {
+                coins: 9600,
+              },
+              reward: {},
+            },
+          ],
+        },
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+        },
+      },
+      action: {
+        id: "123",
+        type: "order.delivered",
+      },
+    });
+
+    expect(state.bumpkin.activity["Coins Spent"]).toBe(9600);
+  });
 });

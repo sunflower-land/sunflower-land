@@ -66,4 +66,36 @@ describe("expandLand", () => {
 
     expect(state.coins).toEqual(5);
   });
+
+  it("tracks the bumpkin activity", () => {
+    const state = expandLand({
+      action: {
+        type: "land.expanded",
+        farmId: 0,
+      },
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          experience: 1000000000,
+        },
+        inventory: {
+          "Basic Land": new Decimal(8),
+          Wood: new Decimal(400),
+          Stone: new Decimal(150),
+          Iron: new Decimal(35),
+          Gold: new Decimal(25),
+          Crimstone: new Decimal(12),
+          Oil: new Decimal(90),
+          Gem: new Decimal(3 * BB_TO_GEM_RATIO),
+        },
+        coins: 960,
+        island: {
+          type: "volcano",
+        },
+      },
+    });
+
+    expect(state.bumpkin.activity["Coins Spent"]).toBe(960);
+  });
 });
