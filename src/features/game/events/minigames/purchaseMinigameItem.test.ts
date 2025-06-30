@@ -51,7 +51,7 @@ describe("minigame.itemPurchased", () => {
         action: {
           id: "chicken-rescue",
           type: "minigame.itemPurchased",
-          sfl: 101,
+          sfl: 201,
           items: {},
         },
       }),

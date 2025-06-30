@@ -12,7 +12,7 @@ import { produce } from "immer";
 
 export type MinigameCurrency = CropName | PatchFruitName | CommodityName;
 
-const SFL_LIMIT = 100;
+const SFL_LIMIT = 200;
 
 export const MINIGAME_CURRENCY_LIMITS: Record<MinigameCurrency, number> = {
   ...getKeys(COMMODITIES).reduce(

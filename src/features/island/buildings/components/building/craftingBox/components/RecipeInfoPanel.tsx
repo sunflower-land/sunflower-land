@@ -62,6 +62,7 @@ export const RecipeInfoPanel: React.FC<Props> = ({
         e.stopPropagation();
         onClick();
       }}
+      as="div"
     >
       <InnerPanel className="drop-shadow-lg cursor-pointer w-full">
         <div className="flex flex-col mb-1">

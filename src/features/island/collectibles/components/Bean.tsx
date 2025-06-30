@@ -7,15 +7,19 @@ import { Context } from "features/game/GameProvider";
 import { Modal } from "components/ui/Modal";
 import { secondsToString } from "lib/utils/time";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { ITEM_DETAILS } from "features/game/types/images";
-import { setImageWidth } from "lib/images";
 import { InventoryItemName } from "features/game/types/game";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useActor } from "@xstate/react";
 import { Revealing } from "features/game/components/Revealing";
 import { Revealed } from "features/game/components/Revealed";
 import { Panel } from "components/ui/Panel";
+import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
+import {
+  SFTDetailPopoverInnerPanel,
+  SFTDetailPopoverLabel,
+} from "components/ui/SFTDetailPopover";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { Label } from "components/ui/Label";
 
 export const getBeanStates = (name: InventoryItemName, createdAt: number) => {
   const plantSeconds = BEANS()[name as BeanName].plantSeconds;
@@ -32,9 +36,9 @@ export const Bean: React.FC<CollectibleProps> = ({
   id,
   name = "Magic Bean",
 }) => {
+  const { t } = useAppTranslation();
   const { gameService, showAnimations } = useContext(Context);
   const [gameState] = useActor(gameService);
-  const [showModal, setShowModal] = useState(false);
   const [isRevealing, setIsRevealing] = useState(false);
 
   useUiRefresher();
@@ -108,44 +112,34 @@ export const Bean: React.FC<CollectibleProps> = ({
       : SUNNYSIDE.crops.magicBeanplanted;
 
   return (
-    <>
-      <div
-        className="absolute w-full h-full hover:img-highlight cursor-pointer"
-        onClick={() => setShowModal(true)}
-      >
-        <img
-          src={image}
-          style={{
-            width: `${PIXEL_SCALE * 30}px`,
-            left: `${PIXEL_SCALE * 1}px`,
-            bottom: `${PIXEL_SCALE * 2}px`,
-          }}
-          className="absolute pointer-events-none"
-          alt="Bean"
-        />
-      </div>
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
-        <CloseButtonPanel onClose={() => setShowModal(false)} title={name}>
-          <div className="flex flex-col justify-center items-center">
-            <span className="text-center mb-2">
-              {`Your mystery prize will be ready in ${secondsToString(
-                timeLeft,
-                {
-                  length: "full",
-                },
-              )}`}
+    <Popover>
+      <PopoverButton as="div">
+        <div className="absolute w-full h-full hover:img-highlight cursor-pointer">
+          <img
+            src={image}
+            style={{
+              width: `${PIXEL_SCALE * 30}px`,
+              left: `${PIXEL_SCALE * 1}px`,
+              bottom: `${PIXEL_SCALE * 2}px`,
+            }}
+            className="absolute pointer-events-none"
+            alt="Bean"
+          />
+        </div>
+      </PopoverButton>
+
+      <PopoverPanel anchor={{ to: "left start" }} className="flex">
+        <SFTDetailPopoverInnerPanel>
+          <SFTDetailPopoverLabel name={"Magic Bean"} />
+          <Label type="info" className="mt-2 mb-2 -ml-1">
+            <span className="text-xs">
+              {`${t("ready.in")}: ${secondsToString(timeLeft, {
+                length: "medium",
+              })}`}
             </span>
-            <img
-              src={ITEM_DETAILS[name].image}
-              className="mb-2"
-              onLoad={(e) => setImageWidth(e.currentTarget)}
-              style={{
-                opacity: 0,
-              }}
-            />
-          </div>
-        </CloseButtonPanel>
-      </Modal>
-    </>
+          </Label>
+        </SFTDetailPopoverInnerPanel>
+      </PopoverPanel>
+    </Popover>
   );
 };

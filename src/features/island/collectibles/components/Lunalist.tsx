@@ -6,6 +6,7 @@ import { ImageStyle } from "./template/ImageStyle";
 
 export const Lunalist: React.FC<CollectibleProps> = () => (
   <ImageStyle
+    name="Lunalist"
     divStyle={{
       width: `${PIXEL_SCALE * 18}px`,
       bottom: `${PIXEL_SCALE * 1.5}px`,

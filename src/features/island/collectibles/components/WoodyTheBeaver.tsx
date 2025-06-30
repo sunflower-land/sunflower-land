@@ -3,10 +3,11 @@ import React from "react";
 import woodyTheBeaver from "assets/sfts/beaver.gif";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import shadow from "assets/npcs/shadow.png";
+import { SFTDetailPopover } from "components/ui/SFTDetailPopover";
 
 export const WoodyTheBeaver: React.FC = () => {
   return (
-    <>
+    <SFTDetailPopover name="Woody the Beaver">
       <img
         src={shadow}
         style={{
@@ -24,6 +25,6 @@ export const WoodyTheBeaver: React.FC = () => {
         className="absolute"
         alt="Woody the Beaver"
       />
-    </>
+    </SFTDetailPopover>
   );
 };

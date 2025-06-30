@@ -269,6 +269,7 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
         leaveFrom="opacity-100"
         leaveTo="opacity-0"
         className="flex bottom-20 left-10 absolute z-40"
+        as="div"
       >
         <QuickSelect
           options={getKeys(PATCH_FRUIT_SEEDS)

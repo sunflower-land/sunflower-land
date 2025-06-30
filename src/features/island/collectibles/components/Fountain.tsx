@@ -3,8 +3,10 @@ import React from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import fountain from "assets/sfts/fountain.gif";
 import { useSound } from "lib/utils/hooks/useSound";
+import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
+import { SFTDetailPopoverContent } from "components/ui/SFTDetailPopover";
 
-export const Fountain: React.FC = () => {
+const FountainImage = ({ open }: { open: boolean }) => {
   const { play: fountainAudio, isPlaying } = useSound("fountain");
 
   return (
@@ -32,5 +34,21 @@ export const Fountain: React.FC = () => {
         alt="Fountain"
       />
     </div>
+  );
+};
+
+export const Fountain: React.FC = () => {
+  return (
+    <Popover>
+      <PopoverButton as="div" className="cursor-pointer">
+        {({ open }) => <FountainImage open={open} />}
+      </PopoverButton>
+      <PopoverPanel
+        anchor={{ to: "left start" }}
+        className="flex pointer-events-none"
+      >
+        <SFTDetailPopoverContent name={"Fountain"} />
+      </PopoverPanel>
+    </Popover>
   );
 };

@@ -40,6 +40,7 @@ export const IngredientsPopover: React.FC<Props> = ({
         e.stopPropagation();
         onClick();
       }}
+      as="div"
     >
       <InnerPanel className="drop-shadow-lg cursor-pointer max-w-md">
         <div className="flex flex-col mb-1">
