@@ -4,6 +4,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NPC_WEARABLES } from "lib/npcs";
 import { PotionHouseItems } from "./PotionHouseItems";
+import { OuterPanel } from "components/ui/Panel";
 
 interface Props {
   onClose: () => void;
@@ -15,6 +16,7 @@ export const PotionHouseShopItems: React.FC<Props> = ({ onClose }) => {
       bumpkinParts={NPC_WEARABLES.garth}
       tabs={[{ icon: SUNNYSIDE.icons.heart, name: "Reward Shop" }]}
       onClose={onClose}
+      container={OuterPanel}
     >
       <PotionHouseItems />
     </CloseButtonPanel>
