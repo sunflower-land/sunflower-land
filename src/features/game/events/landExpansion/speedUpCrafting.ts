@@ -2,6 +2,7 @@ import { GameState } from "features/game/types/game";
 import { produce } from "immer";
 import { getInstantGems, makeGemHistory } from "./speedUpRecipe";
 import Decimal from "decimal.js-light";
+import { hasFeatureAccess } from "lib/flags";
 
 export type InstantCraftAction = {
   type: "craft.spedUp";
@@ -19,6 +20,10 @@ export function speedUpCrafting({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (game) => {
+    if (!hasFeatureAccess(game, "CRAFTING")) {
+      throw new Error("Crafting is not enabled");
+    }
+
     if (action.type !== "craft.spedUp") {
       throw new Error("Invalid action");
     }
