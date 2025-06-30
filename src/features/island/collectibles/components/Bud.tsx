@@ -16,6 +16,7 @@ import { useSelector } from "@xstate/react";
 import useSWR from "swr";
 import { loadTradeable } from "features/marketplace/actions/loadTradeable";
 import { formatNumber } from "lib/utils/formatNumber";
+import { AuthMachineState } from "features/auth/lib/authMachine";
 
 export const budImageDomain =
   CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";

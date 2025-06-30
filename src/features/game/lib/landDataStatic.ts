@@ -725,6 +725,12 @@ export const STATIC_OFFLINE_FARM: GameState = {
         },
         readyAt: Date.now(),
       },
+      {
+        id: "1",
+        createdAt: 0,
+        coordinates: { x: 13, y: 0 },
+        readyAt: 0,
+      },
     ],
     Observatory: [
       {
@@ -798,14 +804,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
         id: "1",
         createdAt: 0,
         coordinates: { x: 13, y: -5 },
-        readyAt: 0,
-      },
-    ],
-    "Nyon Statue": [
-      {
-        id: "1",
-        createdAt: 0,
-        coordinates: { x: 13, y: 0 },
         readyAt: 0,
       },
     ],
