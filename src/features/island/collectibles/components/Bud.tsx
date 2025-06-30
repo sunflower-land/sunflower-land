@@ -94,17 +94,17 @@ const BudDetailPopoverBuffs = ({ id }: { id: number }) => {
 
 export const Bud: React.FC<Props> = ({ id, type }) => {
   return (
-    <div
-      className="absolute"
-      style={{
-        width: `${PIXEL_SCALE * 32}px`,
-        height: `${PIXEL_SCALE * 32}px`,
-        bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${-PIXEL_SCALE * 0}px`,
-      }}
-    >
-      <Popover>
-        <PopoverButton>
+    <Popover>
+      <PopoverButton as="div">
+        <div
+          className="absolute"
+          style={{
+            width: `${PIXEL_SCALE * 32}px`,
+            height: `${PIXEL_SCALE * 32}px`,
+            bottom: `${PIXEL_SCALE * 0}px`,
+            left: `${-PIXEL_SCALE * 0}px`,
+          }}
+        >
           <img
             src={shadow}
             style={{
@@ -120,30 +120,30 @@ export const Bud: React.FC<Props> = ({ id, type }) => {
             })}
             alt={`Bud ${id}`}
           />
-        </PopoverButton>
-        <PopoverPanel anchor={{ to: "left start" }}>
-          <SFTDetailPopoverInnerPanel>
-            <div className="flex space-x-1 relative">
-              <img
-                src={`https://${budImageDomain}.sunflower-land.com/images/${id}.webp`}
-                className="absolute"
-                style={{
-                  width: `48px`,
-                  bottom: "-4px",
-                  left: "-15px",
-                }}
-              />
+        </div>
+      </PopoverButton>
+      <PopoverPanel anchor={{ to: "left start" }}>
+        <SFTDetailPopoverInnerPanel>
+          <div className="flex space-x-1 relative">
+            <img
+              src={`https://${budImageDomain}.sunflower-land.com/images/${id}.webp`}
+              className="absolute"
+              style={{
+                width: `48px`,
+                bottom: "-4px",
+                left: "-15px",
+              }}
+            />
 
-              <span
-                className="text-xs whitespace-nowrap underline"
-                style={{ paddingLeft: "20px" }}
-              >{`Bud ${id}`}</span>
-            </div>
-            <BudDetailPopoverBuffs id={Number(id)} />
-            <BudDetailPopoverTradeDetails id={Number(id)} />
-          </SFTDetailPopoverInnerPanel>
-        </PopoverPanel>
-      </Popover>
-    </div>
+            <span
+              className="text-xs whitespace-nowrap underline"
+              style={{ paddingLeft: "20px" }}
+            >{`Bud ${id}`}</span>
+          </div>
+          <BudDetailPopoverBuffs id={Number(id)} />
+          <BudDetailPopoverTradeDetails id={Number(id)} />
+        </SFTDetailPopoverInnerPanel>
+      </PopoverPanel>
+    </Popover>
   );
 };
