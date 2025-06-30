@@ -14075,7 +14075,7 @@ tailwindcss@^3.4.17:
 
 tailwindscss@^0.3.0:
   version "0.3.0"
-  resolved "https://registry.npmjs.org/tailwindscss/-/tailwindscss-0.3.0.tgz"
+  resolved "https://registry.yarnpkg.com/tailwindscss/-/tailwindscss-0.3.0.tgz#11bdbb920fadb80e885b83c4ad28ff9e75eda8c6"
   integrity sha512-fv6JSA5tW++MUeZ8SUwBc3pihiHPDdZZrQlwxTr7igvCZZQ5NkK9yXvI7CZsm+KesG//rcq4CEkgA9d+pJwHtg==
 
 temp-dir@^2.0.0:
