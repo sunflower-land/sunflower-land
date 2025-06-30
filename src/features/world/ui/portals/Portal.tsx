@@ -35,6 +35,13 @@ type PortalPurchase = {
   items?: Partial<Record<InventoryItemName, number>>;
 };
 
+/**
+ * For minigames where the key is different to the hosted domain name
+ */
+const DOMAIN_MAP: Partial<Record<MinigameName, string>> = {
+  "festival-of-colors-2025": "festival-of-colors",
+};
+
 export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
@@ -68,7 +75,7 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
         token = portalToken;
       }
 
-      const baseUrl = `https://${portalName}.sunflower-land.com`;
+      const baseUrl = `https://${DOMAIN_MAP[portalName] ?? portalName}.sunflower-land.com`;
 
       // If testing a local portal, uncomment this line
       // baseUrl = `http://localhost:3001`;

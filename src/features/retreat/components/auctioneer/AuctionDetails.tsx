@@ -17,6 +17,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { GameState } from "features/game/types/game";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import classNames from "classnames";
+import { getCurrentSeason } from "features/game/types/seasons";
 
 type Props = {
   item: Auction;
@@ -86,14 +87,27 @@ export const AuctionDetails: React.FC<Props> = ({
       (game.inventory[name] ?? new Decimal(0)).gte(item.ingredients[name] ?? 0),
     ) ?? false;
 
-  const MintButton = () => {
-    if (
+  const getMintButton = () => {
+    const currentChapter = getCurrentSeason();
+    const isNotGreatBloom = currentChapter !== "Great Bloom";
+    const isGoldenSheep = isCollectible && item.collectible === "Golden Sheep";
+
+    if (isNotGreatBloom || isGoldenSheep) {
+      const hasMintedThisChapter = isCollectible
+        ? !!game.auctioneer.minted?.[currentChapter]?.[item.collectible]
+        : !!game.auctioneer.minted?.[currentChapter]?.[item.wearable];
+
+      if (hasMintedThisChapter) {
+        return <Label type="info">{t("alr.minted")}</Label>;
+      }
+    } else if (
       isCollectible
         ? !!game.inventory[item.collectible]
         : !!game.wardrobe[item.wearable]
     ) {
       return <Label type="info">{t("alr.minted")}</Label>;
     }
+
     if (isUpcomingItem) {
       return null;
     }
@@ -107,6 +121,7 @@ export const AuctionDetails: React.FC<Props> = ({
       </Button>
     );
   };
+
   const isCollectible = item.type === "collectible";
 
   const image = isCollectible
@@ -237,7 +252,7 @@ export const AuctionDetails: React.FC<Props> = ({
         </div>
       </div>
 
-      {MintButton()}
+      {getMintButton()}
     </div>
   );
 };

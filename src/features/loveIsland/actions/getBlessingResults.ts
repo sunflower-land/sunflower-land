@@ -13,6 +13,7 @@ type BlessingResults = {
     prize: InventoryItemName | "Flower" | "Coin";
     item: InventoryItemName;
     prizeAmount: number;
+    leaderboard: { username: string; uri: string; amount: number }[];
   };
 };
 

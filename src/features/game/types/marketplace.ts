@@ -279,7 +279,11 @@ export function getMarketPrice({
       return listing.sfl < cheapest.sfl ? listing : cheapest;
     }, tradeable.listings[0]);
 
-    price = cheapestListing?.sfl ?? 0;
+    if (cheapestListing) {
+      price = cheapestListing.sfl / cheapestListing.quantity;
+    } else {
+      price = 0;
+    }
   } else if (tradeable?.history.sales.length) {
     // Set it to the latest sale
     price =

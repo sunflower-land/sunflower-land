@@ -41,7 +41,7 @@ import {
 import { TreasureToolName, WorkbenchToolName } from "./tools";
 import { ConversationName } from "./announcements";
 import { NPCName } from "lib/npcs";
-import { SeasonalBanner, SeasonalTicket } from "./seasons";
+import { SeasonalBanner, SeasonalTicket, SeasonName } from "./seasons";
 import { Bud } from "./buds";
 import {
   CompostName,
@@ -784,6 +784,9 @@ export type Bid = {
   biddedAt: number;
   tickets: number;
 };
+export type Minted = Partial<
+  Record<SeasonName, Record<InventoryItemName | BumpkinItem, number>>
+>;
 
 export type MazeAttempts = Partial<Record<SeasonWeek, MazeMetadata>>;
 
@@ -966,6 +969,7 @@ export type PotionHouse = {
     status: "in_progress" | "finished";
     attempts: Attempt[];
     reward?: number;
+    multiplier?: number;
   };
   history: {
     [score: number]: number;
@@ -1576,6 +1580,7 @@ export interface GameState {
   dailyRewards?: DailyRewards;
   auctioneer: {
     bid?: Bid;
+    minted?: Minted;
   };
   chores?: ChoresV2;
   kingdomChores: KingdomChores;

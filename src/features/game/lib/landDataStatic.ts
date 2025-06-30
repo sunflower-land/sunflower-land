@@ -17,13 +17,15 @@ export const STATIC_OFFLINE_FARM: GameState = {
   settings: {},
   username: "Local Hero",
   coins: 10000,
-  balance: new Decimal(0),
+  balance: new Decimal(1000),
   previousBalance: new Decimal(0),
   vip: {
     bundles: [{ name: "1_MONTH", boughtAt: Date.now() }],
     expiresAt: Date.now() + 31 * 24 * 60 * 60 * 1000,
   },
   inventory: {
+    "Beta Pass": new Decimal(1),
+    "Colors Token 2025": new Decimal(10000),
     "Magic Bean": new Decimal(1),
     "Festive Tree": new Decimal(1),
     Fountain: new Decimal(1),
@@ -102,7 +104,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Royal Bed": new Decimal(1),
     Mangrove: new Decimal(1),
     "Thermal Stone": new Decimal(1),
-    "Beta Pass": new Decimal(1),
     Hay: new Decimal(100),
     "Dr Cow": new Decimal(1),
   },
@@ -1017,13 +1018,5 @@ export const STATIC_OFFLINE_FARM: GameState = {
       item: "Potato",
       prize: "Potato",
     },
-    // offered: {
-    //   items: { Potato: 100 },
-    //   offeredAt: 100,
-    // },
-    // reward: {
-    //   coins: 100,
-    //   createdAt: 1000,
-    // },
   },
 };

@@ -16,7 +16,7 @@ interface Props {
   onClick?: () => void;
 }
 
-export const Box: React.FC<Props> = ({
+export const PotionBox: React.FC<Props> = ({
   potionName,
   selected = false,
   potionStatus,

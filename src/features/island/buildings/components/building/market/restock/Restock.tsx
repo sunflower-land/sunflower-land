@@ -64,7 +64,7 @@ export const Restock: React.FC<{ npc: RestockNPC }> = ({ npc }) => {
         </>
       )}
       <Button className="mt-1 relative" onClick={showConfirmModal}>
-        <div className="flex items-center h-4 ">
+        <div className="flex items-center h-4">
           <p>{t("restock")}</p>
           {showShipment ? (
             <img src={stockIcon} className="h-5 absolute right-1 top-1" />

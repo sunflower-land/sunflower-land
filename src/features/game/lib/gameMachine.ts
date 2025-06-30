@@ -53,7 +53,6 @@ import { randomID } from "lib/utils/random";
 import { buySFL } from "../actions/buySFL";
 import { PlaceableLocation } from "../types/collectibles";
 import {
-  getFLOWERTeaserLastRead,
   getGameRulesLastRead,
   getIntroductionRead,
   getVipRead,
@@ -104,6 +103,9 @@ import { config } from "features/wallet/WalletProvider";
 import { depositFlower } from "lib/blockchain/DepositFlower";
 import { NetworkOption } from "features/island/hud/components/deposit/DepositFlower";
 import { blessingIsReady } from "./blessings";
+import { getBumpkinLevel } from "./level";
+import { hasFeatureAccess } from "lib/flags";
+import { COMPETITION_POINTS } from "../types/competitions";
 
 // Run at startup in case removed from query params
 const portalName = new URLSearchParams(window.location.search).get("portal");
@@ -638,6 +640,7 @@ export function startGame(authContext: AuthContext) {
       },
       states: {
         ...EFFECT_STATES,
+
         loading: {
           id: "loading",
           always: [
@@ -821,21 +824,6 @@ export function startGame(authContext: AuthContext) {
                   !lastRead ||
                   Date.now() - lastRead.getTime() > 7 * 24 * 60 * 60 * 1000
                 );
-              },
-            },
-
-            {
-              target: "FLOWERTeaser",
-              cond: () => {
-                const lastRead = getFLOWERTeaserLastRead();
-
-                if (!lastRead) return true;
-
-                // If read in last 3 days, don't show
-                if (lastRead.getTime() > Date.now() - 3 * 24 * 60 * 60 * 1000) {
-                  return false;
-                }
-                return true;
               },
             },
 
@@ -1059,24 +1047,30 @@ export function startGame(authContext: AuthContext) {
                 !!context.state.nfts?.ronin?.acknowledgedAt &&
                 (context.state.inventory["Jin"] ?? new Decimal(0)).lt(1),
             },
-            // {
-            //   target: "competition",
-            //   cond: (context: Context) => {
+            {
+              target: "competition",
+              cond: (context: Context) => {
+                if (!hasFeatureAccess(context.state, "PEGGYS_COOKOFF"))
+                  return false;
 
-            //     // TODO is competition active?
+                const hasStarted =
+                  Date.now() > COMPETITION_POINTS.PEGGYS_COOKOFF.startAt;
 
-            //     const level = getBumpkinLevel(
-            //       context.state.bumpkin?.experience ?? 0,
-            //     );
+                if (!hasStarted) return false;
 
-            //     if (level <= 5) return false;
+                const level = getBumpkinLevel(
+                  context.state.bumpkin?.experience ?? 0,
+                );
 
-            //     const competition = context.state.competitions.progress.ANIMALS;
+                if (level <= 5) return false;
 
-            //     // Show the competition introduction if they have not started it yet
-            //     return !competition;
-            //   },
-            // },
+                const competition =
+                  context.state.competitions.progress.PEGGYS_COOKOFF;
+
+                // Show the competition introduction if they have not started it yet
+                return !competition;
+              },
+            },
             {
               target: "playing",
             },

@@ -378,7 +378,6 @@ import {
   buySeasonalItem,
   BuySeasonalItemAction,
 } from "./landExpansion/buySeasonalItem";
-import { buyEventItem, BuyEventItemAction } from "./landExpansion/buyEventItem";
 import {
   discoverRecipe,
   DiscoverRecipeAction,
@@ -471,6 +470,10 @@ import {
   ClaimPetalPrizeAction,
 } from "./landExpansion/claimPetalPrize";
 import { claimBlessing, ClaimBlessingAction } from "./claimBlessing";
+import {
+  buyOptionPurchaseItem,
+  BuyOptionPurchaseItemAction,
+} from "../types/buyOptionPurchaseItem";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
@@ -590,7 +593,6 @@ export type PlayingEvent =
   | CompleteNPCChoreAction
   | ClaimProduceAction
   | BuySeasonalItemAction
-  | BuyEventItemAction
   | DiscoverRecipeAction
   | UnlockFarmhandAction
   | ClaimPurchaseAction
@@ -611,7 +613,8 @@ export type PlayingEvent =
   | AcknowledgeRewardBoxAction
   | OpenRewardBoxAction
   | ClaimPetalPrizeAction
-  | ClaimBlessingAction;
+  | ClaimBlessingAction
+  | BuyOptionPurchaseItemAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -796,7 +799,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "chore.fulfilled": completeNPCChore,
   "produce.claimed": claimProduce,
   "seasonalItem.bought": buySeasonalItem,
-  "eventItem.bought": buyEventItem,
   "recipe.discovered": discoverRecipe,
   "farmHand.unlocked": unlockFarmhand,
   "fishing.reelsBought": buyMoreReels,
@@ -819,6 +821,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "claim.bountyBoardBonus": claimBountyBonus,
   "petalPuzzle.solved": claimPetalPrize,
   "blessing.claimed": claimBlessing,
+  "optionPurchaseItem.bought": buyOptionPurchaseItem,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
