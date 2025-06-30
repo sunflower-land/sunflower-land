@@ -43,7 +43,7 @@ export const Modal: React.FC<React.PropsWithChildren<ModalProps>> = ({
       <Dialog
         initialFocus={ref}
         as="div"
-        // e="fixed inset-0 flex min-h-full items-center justify-center z-50 pointer-events-auto"
+        className="fixed inset-0 flex min-h-full items-center justify-center z-50 pointer-events-auto"
         onClose={() => (backdrop === "static" ? undefined : onHide?.())}
         // Prevent click through to Phaser
         onMouseDown={(e) => e.stopPropagation()}
