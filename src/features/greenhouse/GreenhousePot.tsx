@@ -307,6 +307,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
         leaveFrom="opacity-100"
         leaveTo="opacity-0"
         className="flex top-0 left-[90%] absolute z-40 shadow-md w-[200px]"
+        as="div"
       >
         <Label
           type="info"
