@@ -141,7 +141,8 @@ class GameAnalyticTracker {
       | "Instant Build"
       | "Instant Cook"
       | "Skills Reset"
-      | "Username Change";
+      | "Username Change"
+      | "Instant Craft";
   }) {
     const { currency, amount, type, item } = event;
 

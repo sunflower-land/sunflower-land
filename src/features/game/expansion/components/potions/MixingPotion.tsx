@@ -28,12 +28,7 @@ type AnimationSettings = {
 };
 
 const SETTINGS: Record<DesiredAnimation, AnimationSettings> = {
-  idle: {
-    autoplay: true,
-    endAt: 8,
-    sheet: potionMasterIdleSheet,
-    loop: true,
-  },
+  idle: { autoplay: true, endAt: 8, sheet: potionMasterIdleSheet, loop: true },
   startMixing: {
     autoplay: true,
     endAt: 9,
@@ -105,7 +100,7 @@ export const MixingPotion: React.FC<{
   const currentAnimation = getCurrentAnimation();
   const settings = SETTINGS[currentAnimation];
 
-  const potionHouse = gameService.state.context.state.potionHouse;
+  const potionHouse = gameService.getSnapshot().context.state.potionHouse;
   const previousAttempts = potionHouse?.game.attempts ?? [];
   const lastAttempt = previousAttempts[previousAttempts.length - 1] ?? [];
 
@@ -124,7 +119,7 @@ export const MixingPotion: React.FC<{
   }, [isGuessing]);
 
   const handleNextAnimation = () => {
-    const potionHouse = gameService.state.context.state.potionHouse;
+    const potionHouse = gameService.getSnapshot().context.state.potionHouse;
     const previousAttempts = potionHouse?.game.attempts ?? [];
     const lastAttempt = previousAttempts[previousAttempts.length - 1] ?? [];
 
@@ -149,9 +144,7 @@ export const MixingPotion: React.FC<{
         <Spritesheet
           key={currentAnimation}
           className="w-full h-full"
-          style={{
-            imageRendering: "pixelated",
-          }}
+          style={{ imageRendering: "pixelated" }}
           image={settings.sheet}
           widthFrame={100}
           heightFrame={100}
@@ -177,9 +170,7 @@ export const MixingPotion: React.FC<{
         <Spritesheet
           key={currentAnimation}
           className="w-full h-full"
-          style={{
-            imageRendering: "pixelated",
-          }}
+          style={{ imageRendering: "pixelated" }}
           image={settings.sheet}
           widthFrame={100}
           heightFrame={100}
@@ -205,9 +196,7 @@ export const MixingPotion: React.FC<{
         <Spritesheet
           key={currentAnimation}
           className="w-full h-full"
-          style={{
-            imageRendering: "pixelated",
-          }}
+          style={{ imageRendering: "pixelated" }}
           image={settings.sheet}
           widthFrame={100}
           heightFrame={100}
@@ -233,9 +222,7 @@ export const MixingPotion: React.FC<{
         <Spritesheet
           key={currentAnimation}
           className="w-full h-full"
-          style={{
-            imageRendering: "pixelated",
-          }}
+          style={{ imageRendering: "pixelated" }}
           image={settings.sheet}
           widthFrame={100}
           heightFrame={100}
@@ -261,9 +248,7 @@ export const MixingPotion: React.FC<{
         <Spritesheet
           key={currentAnimation}
           className="w-full h-full"
-          style={{
-            imageRendering: "pixelated",
-          }}
+          style={{ imageRendering: "pixelated" }}
           image={settings.sheet}
           widthFrame={100}
           heightFrame={100}

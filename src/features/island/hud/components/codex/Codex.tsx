@@ -22,7 +22,7 @@ import classNames from "classnames";
 import { useSound } from "lib/utils/hooks/useSound";
 
 import factions from "assets/icons/factions.webp";
-import trophyIcon from "assets/icons/trophy.png";
+import chefIcon from "assets/icons/chef_hat.png";
 import chores from "assets/icons/chores.webp";
 import { Leaderboards } from "features/game/expansion/components/leaderboard/actions/cache";
 import { fetchLeaderboardData } from "features/game/expansion/components/leaderboard/actions/leaderboard";
@@ -36,7 +36,6 @@ import { ChoreBoard } from "./pages/ChoreBoard";
 import { CompetitionDetails } from "features/competition/CompetitionBoard";
 import { MachineState } from "features/game/lib/gameMachine";
 import { ANIMALS } from "features/game/types/animals";
-import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   show: boolean;
@@ -166,15 +165,11 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
           },
         ]
       : []),
-    ...(hasFeatureAccess(state, "PEGGYS_COOKOFF")
-      ? [
-          {
-            name: "Competition" as const,
-            icon: trophyIcon,
-            count: 0,
-          },
-        ]
-      : []),
+    {
+      name: "Competition" as const,
+      icon: chefIcon,
+      count: 0,
+    },
   ];
 
   return (

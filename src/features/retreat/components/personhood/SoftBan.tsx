@@ -65,12 +65,12 @@ export const SoftBan: React.FC = () => {
               }, 2000);
               copypaste.play();
               clipboard.copy(
-                gameService.state?.context?.farmId.toString() as string,
+                gameService.getSnapshot()?.context?.farmId.toString() as string,
               );
             }}
           >
             {t("gameOptions.farmId", {
-              farmId: gameService.state?.context?.farmId,
+              farmId: gameService.getSnapshot()?.context?.farmId,
             })}
           </Label>
         </div>

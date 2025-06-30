@@ -27,51 +27,14 @@ import { EventObject } from "xstate";
 import { capitalize } from "lib/utils/capitalize";
 
 export const KINGDOM_NPCS: NPCBumpkin[] = [
-  {
-    x: 305,
-    y: 500,
-    npc: "billy",
-    direction: "left",
-  },
-  {
-    x: 112,
-    y: 181,
-    npc: "jester",
-  },
-  {
-    x: 263,
-    y: 105,
-    npc: "victoria",
-    direction: "left",
-  },
-  {
-    x: 353,
-    y: 737,
-    npc: "gambit",
-    direction: "left",
-  },
-  {
-    x: 110,
-    y: 800,
-    npc: "graxle",
-  },
-  {
-    x: 400,
-    y: 452,
-    npc: "barlow",
-    direction: "left",
-  },
-  {
-    x: 370,
-    y: 630,
-    npc: "reginald",
-    direction: "left",
-  },
-  {
-    x: 100,
-    y: 440,
-    npc: "nyx",
-  },
+  { x: 305, y: 500, npc: "billy", direction: "left" },
+  { x: 112, y: 181, npc: "jester" },
+  { x: 263, y: 105, npc: "victoria", direction: "left" },
+  { x: 353, y: 737, npc: "gambit", direction: "left" },
+  { x: 110, y: 800, npc: "graxle" },
+  { x: 400, y: 452, npc: "barlow", direction: "left" },
+  { x: 370, y: 630, npc: "reginald", direction: "left" },
+  { x: 100, y: 440, npc: "nyx" },
   { npc: "eldric", x: 129, y: 562 },
 ];
 
@@ -124,10 +87,7 @@ export class KingdomScene extends BaseScene {
     this.load.spritesheet(
       "portal_crops_and_chickens",
       "world/portal_well_crops_and_chickens_sheet.png",
-      {
-        frameWidth: 20,
-        frameHeight: 25,
-      },
+      { frameWidth: 20, frameHeight: 25 },
     );
 
     this.load.spritesheet("portal_halloween", "world/portal_halloween.png", {
@@ -176,9 +136,7 @@ export class KingdomScene extends BaseScene {
   }
 
   create() {
-    this.map = this.make.tilemap({
-      key: "kingdom",
-    });
+    this.map = this.make.tilemap({ key: "kingdom" });
 
     super.create();
 
@@ -245,10 +203,7 @@ export class KingdomScene extends BaseScene {
     const portal = this.add.sprite(285, 515, "portal");
     this.anims.create({
       key: "portal_anim",
-      frames: this.anims.generateFrameNumbers("portal", {
-        start: 0,
-        end: 8,
-      }),
+      frames: this.anims.generateFrameNumbers("portal", { start: 0, end: 8 }),
       repeat: -1,
       frameRate: 10,
     });
@@ -333,7 +288,7 @@ export class KingdomScene extends BaseScene {
     });
     bud3.setScale(-1, 1).play("castle_bud_3_anim", true);
 
-    const faction = this.gameService.state.context.state.faction?.name;
+    const faction = this.gameService.getSnapshot().context.state.faction?.name;
     getKeys(DOORS).forEach((key) => {
       if (faction === key) return;
 
@@ -413,7 +368,7 @@ export class KingdomScene extends BaseScene {
       });
 
     const leaderboard = await getChampionsLeaderboard<KingdomLeaderboard>({
-      farmId: Number(this.gameService.state.context.farmId),
+      farmId: Number(this.gameService.getSnapshot().context.farmId),
       date: getPreviousWeek(),
     });
 

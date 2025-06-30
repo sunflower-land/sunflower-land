@@ -35,12 +35,8 @@ export const LinkWallet: React.FC = () => {
       header={<LinkHeader />}
       onSignMessage={({ address, signature }) => {
         gameService.send("wallet.linked", {
-          effect: {
-            type: "wallet.linked",
-            linkedWallet: address,
-            signature,
-          },
-          authToken: authService.state.context.user.rawToken as string,
+          effect: { type: "wallet.linked", linkedWallet: address, signature },
+          authToken: authService.getSnapshot().context.user.rawToken as string,
         });
       }}
     />

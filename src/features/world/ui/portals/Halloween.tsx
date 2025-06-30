@@ -105,10 +105,7 @@ export const Halloween: React.FC<Props> = ({ onClose }) => {
   const dateKey = new Date().toISOString().slice(0, 10);
   const history = minigame?.history ?? {};
 
-  const dailyAttempt = history[dateKey] ?? {
-    attempts: 0,
-    highscore: 0,
-  };
+  const dailyAttempt = history[dateKey] ?? { attempts: 0, highscore: 0 };
 
   const prize = gameState.context.state.minigames.prizes["halloween"];
 
@@ -125,9 +122,7 @@ export const Halloween: React.FC<Props> = ({ onClose }) => {
   }
 
   const onClaim = () => {
-    gameService.send("minigame.prizeClaimed", {
-      id: "halloween",
-    });
+    gameService.send("minigame.prizeClaimed", { id: "halloween" });
 
     onClose();
   };
@@ -158,8 +153,8 @@ export const Halloween: React.FC<Props> = ({ onClose }) => {
   if (page === "leaderboard") {
     return (
       <PortalLeaderboard
-        farmId={gameService.state.context.farmId}
-        jwt={authService.state.context.user.rawToken as string}
+        farmId={gameService.getSnapshot().context.farmId}
+        jwt={authService.getSnapshot().context.user.rawToken as string}
         onBack={() => setPage("play")}
         name={"halloween"}
         startDate={new Date(Date.UTC(2024, 10, 1))}
@@ -174,8 +169,8 @@ export const Halloween: React.FC<Props> = ({ onClose }) => {
   if (page === "accumulator") {
     return (
       <PortalLeaderboard
-        farmId={gameService.state.context.farmId}
-        jwt={authService.state.context.user.rawToken as string}
+        farmId={gameService.getSnapshot().context.farmId}
+        jwt={authService.getSnapshot().context.user.rawToken as string}
         onBack={() => setPage("play")}
         name={"halloween"}
         formatPoints={(points: number) =>

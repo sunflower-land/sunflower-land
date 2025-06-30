@@ -16,7 +16,7 @@ export const RefundAuction: React.FC = () => {
   const { gameService } = useContext(GameContext);
   const { t } = useAppTranslation();
 
-  const bid = gameService.state.context.state.auctioneer.bid!;
+  const bid = gameService.getSnapshot().context.state.auctioneer.bid!;
   const image =
     bid.type === "collectible"
       ? ITEM_DETAILS[bid.collectible!].image
@@ -33,11 +33,11 @@ export const RefundAuction: React.FC = () => {
           <img src={image} className="w-20 h-20" />
         </div>
         <Loser
-          farmId={gameService.state.context.farmId}
+          farmId={gameService.getSnapshot().context.farmId}
           onRefund={() => {
             gameService.send("CLOSE");
           }}
-          results={gameService.state.context.auctionResults!}
+          results={gameService.getSnapshot().context.auctionResults!}
         />
       </CloseButtonPanel>
     </Modal>

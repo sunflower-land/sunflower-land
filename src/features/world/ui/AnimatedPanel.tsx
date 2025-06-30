@@ -30,6 +30,7 @@ export const AnimatedPanel: React.FC<PropsWithChildren<Props>> = ({
         e.stopPropagation();
         onClick?.();
       }}
+      as="div"
     >
       <InnerPanel className="drop-shadow-lg cursor-pointer">
         {children}

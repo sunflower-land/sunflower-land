@@ -36,7 +36,7 @@ const SeasonWeek = () => {
   const weekDayStartsAt = new Date(season.startedAt);
 
   // const makeWeekData = () => {
-  //   const dates = getCalendarDays({ game: gameService.state.context.state });
+  //   const dates = getCalendarDays({ game: gameService.getSnapshot().context.state });
 
   //   return dates;
   //   return Array.from({ length: 7 }, (_, index) => {

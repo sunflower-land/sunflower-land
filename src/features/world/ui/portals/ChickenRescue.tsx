@@ -103,10 +103,7 @@ export const ChickenRescue: React.FC<Props> = ({ onClose }) => {
   const dateKey = new Date().toISOString().slice(0, 10);
   const history = minigame?.history ?? {};
 
-  const dailyAttempt = history[dateKey] ?? {
-    attempts: 0,
-    highscore: 0,
-  };
+  const dailyAttempt = history[dateKey] ?? { attempts: 0, highscore: 0 };
 
   const prize = gameState.context.state.minigames.prizes["chicken-rescue"];
 
@@ -123,9 +120,7 @@ export const ChickenRescue: React.FC<Props> = ({ onClose }) => {
   }
 
   const onClaim = () => {
-    gameService.send("minigame.prizeClaimed", {
-      id: "chicken-rescue",
-    });
+    gameService.send("minigame.prizeClaimed", { id: "chicken-rescue" });
 
     onClose();
   };
@@ -157,8 +152,8 @@ export const ChickenRescue: React.FC<Props> = ({ onClose }) => {
   if (page === "leaderboard") {
     return (
       <PortalLeaderboard
-        farmId={gameService.state.context.farmId}
-        jwt={authService.state.context.user.rawToken as string}
+        farmId={gameService.getSnapshot().context.farmId}
+        jwt={authService.getSnapshot().context.user.rawToken as string}
         onBack={() => setPage("play")}
         name={"chicken-rescue"}
       />

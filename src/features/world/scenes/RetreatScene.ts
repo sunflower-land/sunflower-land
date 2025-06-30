@@ -11,36 +11,11 @@ import { getMarketPrices } from "features/game/actions/getMarketPrices";
 import { translate } from "lib/i18n/translate";
 
 const BUMPKINS: NPCBumpkin[] = [
-  {
-    npc: "goblet",
-    x: 295,
-    y: 62,
-    direction: "right",
-  },
-  {
-    npc: "guria",
-    x: 392,
-    y: 230,
-    direction: "right",
-  },
-  {
-    npc: "grubnuk",
-    x: 435,
-    y: 220,
-    direction: "left",
-  },
-  {
-    npc: "garbo",
-    x: 72,
-    y: 70,
-    direction: "right",
-  },
-  {
-    npc: "gordo",
-    x: 574,
-    y: 277,
-    direction: "left",
-  },
+  { npc: "goblet", x: 295, y: 62, direction: "right" },
+  { npc: "guria", x: 392, y: 230, direction: "right" },
+  { npc: "grubnuk", x: 435, y: 220, direction: "left" },
+  { npc: "garbo", x: 72, y: 70, direction: "right" },
+  { npc: "gordo", x: 574, y: 277, direction: "left" },
 ];
 
 export class RetreatScene extends BaseScene {
@@ -100,9 +75,7 @@ export class RetreatScene extends BaseScene {
   }
 
   create() {
-    this.map = this.make.tilemap({
-      key: "retreat",
-    });
+    this.map = this.make.tilemap({ key: "retreat" });
 
     super.create();
 
@@ -132,10 +105,7 @@ export class RetreatScene extends BaseScene {
     const grabnab = this.add.sprite(90, 235, "grabnab");
     this.anims.create({
       key: "grabnab_animation",
-      frames: this.anims.generateFrameNumbers("grabnab", {
-        start: 0,
-        end: 8,
-      }),
+      frames: this.anims.generateFrameNumbers("grabnab", { start: 0, end: 8 }),
       repeat: -1,
       frameRate: 10,
     });
@@ -194,10 +164,7 @@ export class RetreatScene extends BaseScene {
     const fire = this.add.sprite(415, 220, "fire");
     this.anims.create({
       key: "fire_anim",
-      frames: this.anims.generateFrameNumbers("fire", {
-        start: 0,
-        end: 3,
-      }),
+      frames: this.anims.generateFrameNumbers("fire", { start: 0, end: 3 }),
       repeat: -1,
       frameRate: 10,
     });
@@ -242,10 +209,7 @@ export class RetreatScene extends BaseScene {
     const raffle = this.add.sprite(256, 205, "raffle").setDepth(1000000000000);
     this.anims.create({
       key: "raffle_animation",
-      frames: this.anims.generateFrameNumbers("raffle", {
-        start: 0,
-        end: 7,
-      }),
+      frames: this.anims.generateFrameNumbers("raffle", { start: 0, end: 7 }),
       repeat: -1,
       frameRate: 4,
     });
@@ -263,9 +227,9 @@ export class RetreatScene extends BaseScene {
     const marketPrices = getCachedMarketPrices();
     if (!marketPrices || marketPrices.cachedAt < Date.now() - twentyFourHours) {
       getMarketPrices(
-        this.gameService.state.context.farmId,
-        this.gameService.state.context.transactionId as string,
-        this.authService.state.context.user.rawToken as string,
+        this.gameService.getSnapshot().context.farmId,
+        this.gameService.getSnapshot().context.transactionId as string,
+        this.authService.getSnapshot().context.user.rawToken as string,
       ).then(setCachedMarketPrices);
     }
   }

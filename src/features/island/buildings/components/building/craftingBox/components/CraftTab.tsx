@@ -43,6 +43,10 @@ import { BEDS } from "features/game/types/beds";
 import { FLOWERS } from "features/game/types/flowers";
 import { SELLABLE_TREASURE } from "features/game/types/treasure";
 import { hasFeatureAccess } from "lib/flags";
+import { getInstantGems } from "features/game/events/landExpansion/speedUpRecipe";
+import fastForward from "assets/icons/fast_forward.png";
+import { ConfirmationModal } from "components/ui/ConfirmationModal";
+import { gameAnalytics } from "lib/gameAnalytics";
 
 const VALID_CRAFTING_RESOURCES: InventoryItemName[] = [
   // Crops
@@ -197,10 +201,10 @@ export const CraftTab: React.FC<Props> = ({
     // Removed placed items
     getKeys(updatedInventory).forEach((itemName) => {
       const placedCount =
-        (gameService.state.context.state.collectibles[
+        (gameService.getSnapshot().context.state.collectibles[
           itemName as CollectibleName
         ]?.length ?? 0) +
-        (gameService.state.context.state.home?.collectibles[
+        (gameService.getSnapshot().context.state.home?.collectibles[
           itemName as CollectibleName
         ]?.length ?? 0);
 
@@ -219,7 +223,9 @@ export const CraftTab: React.FC<Props> = ({
   }, [inventory, selectedItems]);
 
   const remainingWardrobe = useMemo(() => {
-    const updatedWardrobe = availableWardrobe(gameService.state.context.state);
+    const updatedWardrobe = availableWardrobe(
+      gameService.getSnapshot().context.state,
+    );
 
     selectedItems.forEach((item) => {
       const wearable = item?.wearable;
@@ -397,9 +403,7 @@ export const CraftTab: React.FC<Props> = ({
     setShowConfirmModal(false);
     if (craftingStatus === "pending") return;
 
-    gameService.send("crafting.started", {
-      ingredients: selectedItems,
-    });
+    gameService.send("crafting.started", { ingredients: selectedItems });
     if (!currentRecipe) gameService.send("SAVE");
   };
 
@@ -413,7 +417,19 @@ export const CraftTab: React.FC<Props> = ({
     setSelectedIngredient(null);
   };
 
+  const handleInstantCraft = (gems: number) => {
+    gameService.send("crafting.spedUp");
+    gameAnalytics.trackSink({
+      currency: "Gem",
+      amount: gems,
+      item: "Instant Craft",
+      type: "Fee",
+    });
+  };
+
   const isDisabled = isPending || isCrafting || isCraftingBoxEmpty;
+
+  const gems = getInstantGems({ readyAt: craftingReadyAt, game: state });
 
   return (
     <>
@@ -498,6 +514,9 @@ export const CraftTab: React.FC<Props> = ({
               selectedItems={selectedItems}
               inventory={inventory}
               wardrobe={wardrobe}
+              gems={gems}
+              onInstantCraft={handleInstantCraft}
+              hasNewCraftingAccess={hasNewCraftingAccess}
             />
           </div>
         </div>
@@ -597,9 +616,7 @@ export const CraftTab: React.FC<Props> = ({
               src={SUNNYSIDE.icons.close}
               className="cursor-pointer"
               onClick={() => setShowConfirmModal(false)}
-              style={{
-                width: `${PIXEL_SCALE * 9}px`,
-              }}
+              style={{ width: `${PIXEL_SCALE * 9}px` }}
             />
           </div>
 
@@ -818,6 +835,9 @@ const CraftButton: React.FC<{
   selectedItems: (RecipeIngredient | null)[];
   inventory: Inventory;
   wardrobe: Wardrobe;
+  gems: number;
+  onInstantCraft: (gems: number) => void;
+  hasNewCraftingAccess: boolean;
 }> = ({
   isCrafting,
   isPending,
@@ -828,8 +848,12 @@ const CraftButton: React.FC<{
   selectedItems,
   inventory,
   wardrobe,
+  gems,
+  onInstantCraft,
+  hasNewCraftingAccess,
 }) => {
   const { t } = useTranslation();
+  const [showConfirmation, setShowConfirmation] = useState(false);
 
   const hasRequiredIngredients = useMemo(() => {
     return selectedItems.every((ingredient) => {
@@ -855,9 +879,35 @@ const CraftButton: React.FC<{
 
   if (isCrafting || isPending) {
     return (
-      <Button className="mt-2 whitespace-nowrap" disabled={true}>
-        {t("crafting")}
-      </Button>
+      <div className="flex flex-col sm:flex-row items-center justify-center gap-1 mt-2">
+        <Button disabled={true}>{t("crafting")}</Button>
+        {hasNewCraftingAccess && (
+          <Button
+            disabled={!inventory.Gem?.gte(gems) || isPending}
+            onClick={() => setShowConfirmation(true)}
+          >
+            <div className="flex items-center justify-center gap-1">
+              <img src={fastForward} className="h-5" />
+              <span className="text-sm flex items-center">{gems}</span>
+              <img src={ITEM_DETAILS["Gem"].image} className="h-5" />
+            </div>
+          </Button>
+        )}
+        <ConfirmationModal
+          show={showConfirmation}
+          onHide={() => setShowConfirmation(false)}
+          onCancel={() => setShowConfirmation(false)}
+          onConfirm={() => {
+            onInstantCraft(gems);
+            setShowConfirmation(false);
+          }}
+          messages={[
+            t("instantCook.confirmationMessage"),
+            t("instantCook.costMessage", { gems }),
+          ]}
+          confirmButtonLabel={t("instantCook.finish")}
+        />
+      </div>
     );
   }
 

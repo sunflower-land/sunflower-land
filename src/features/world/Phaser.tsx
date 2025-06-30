@@ -164,21 +164,14 @@ export const PhaserComponent: React.FC<Props> = ({
   useEffect(() => {
     const config: Phaser.Types.Core.GameConfig = {
       type: AUTO,
-      fps: {
-        target: 30,
-        smoothStep: true,
-      },
+      fps: { target: 30, smoothStep: true },
       backgroundColor: "#000000",
       parent: "phaser-example",
       autoRound: true,
       pixelArt: true,
       plugins: {
         global: [
-          {
-            key: "rexNinePatchPlugin",
-            plugin: NinePatchPlugin,
-            start: true,
-          },
+          { key: "rexNinePatchPlugin", plugin: NinePatchPlugin, start: true },
           {
             key: "rexVirtualJoystick",
             plugin: VirtualJoystickPlugin,
@@ -198,21 +191,13 @@ export const PhaserComponent: React.FC<Props> = ({
       height: window.innerHeight,
       physics: {
         default: "arcade",
-        arcade: {
-          debug: true,
-          gravity: { x: 0, y: 0 },
-        },
+        arcade: { debug: true, gravity: { x: 0, y: 0 } },
       },
       scene: scenes,
-      loader: {
-        crossOrigin: "anonymous",
-      },
+      loader: { crossOrigin: "anonymous" },
     };
 
-    game.current = new Game({
-      ...config,
-      parent: "game-content",
-    });
+    game.current = new Game({ ...config, parent: "game-content" });
 
     game.current.registry.set("mmoService", mmoService); // LEGACY
     game.current.registry.set("gameState", state);
@@ -398,7 +383,10 @@ export const PhaserComponent: React.FC<Props> = ({
 
     if (item && item.difference.gt(0)) {
       mmoService.getSnapshot().context.server?.send(0, {
-        reaction: { reaction: item.item, quantity: item.difference.toNumber() },
+        reaction: {
+          reaction: item.item,
+          quantity: item.difference.toNumber(),
+        },
       });
     }
   }, [toastsList]);
@@ -440,7 +428,7 @@ export const PhaserComponent: React.FC<Props> = ({
     <div>
       <WorldHud
         scene={scene}
-        server={mmoService.state.context.server?.name}
+        server={mmoService.getSnapshot().context.server?.name}
         messages={messages}
         players={players}
       />
@@ -469,9 +457,9 @@ export const PhaserComponent: React.FC<Props> = ({
             gameState={state}
             scene={scene}
             onMessage={(m) => {
-              mmoService.getSnapshot().context.server?.send(0, {
-                text: m.text ?? "?",
-              });
+              mmoService
+                .getSnapshot()
+                .context.server?.send(0, { text: m.text ?? "?" });
             }}
             onCommand={(name, args) => {
               handleCommand(name, args).then(updateMessages);
@@ -479,14 +467,14 @@ export const PhaserComponent: React.FC<Props> = ({
             messages={messages ?? []}
             isMuted={isMuted ? true : false}
             onReact={(reaction) => {
-              mmoService.getSnapshot().context.server?.send(0, {
-                reaction: { reaction },
-              });
+              mmoService
+                .getSnapshot()
+                .context.server?.send(0, { reaction: { reaction } });
             }}
             onBudPlace={(tokenId) => {
-              mmoService.getSnapshot().context.server?.send(0, {
-                budId: tokenId,
-              });
+              mmoService
+                .getSnapshot()
+                .context.server?.send(0, { budId: tokenId });
             }}
           />
         )}

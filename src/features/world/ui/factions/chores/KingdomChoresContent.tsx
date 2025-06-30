@@ -292,7 +292,7 @@ const ChoresPanel: React.FC<PanelProps> = ({
   const canComplete = progress >= chore.requirement;
 
   const boost = getKingdomChoreBoost(
-    gameService.state.context.state,
+    gameService.getSnapshot().context.state,
     chore.marks,
   )[0];
   const boostedMarks = chore.marks + boost;
@@ -331,10 +331,7 @@ const ChoresPanel: React.FC<PanelProps> = ({
             <ResizableBar
               percentage={(progress / chore.requirement) * 100}
               type={canComplete ? "progress" : "quantity"}
-              outerDimensions={{
-                width: 50,
-                height: 7,
-              }}
+              outerDimensions={{ width: 50, height: 7 }}
             />
             <span className="text-xxs">
               {t("kingdomChores.progress", {
@@ -391,10 +388,7 @@ const ChoresPanel: React.FC<PanelProps> = ({
                     {t("kingdomChores.nextSkip", {
                       skip: secondsToString(
                         (skipAvailableAt - Date.now()) / 1000,
-                        {
-                          length: "short",
-                          removeTrailingZeros: true,
-                        },
+                        { length: "short", removeTrailingZeros: true },
                       ),
                     })}
                   </Label>
@@ -423,7 +417,7 @@ const ConfirmSkip: React.FC<{
   const { t } = useAppTranslation();
 
   const boost = getKingdomChoreBoost(
-    gameService.state.context.state,
+    gameService.getSnapshot().context.state,
     chore.marks,
   )[0];
 

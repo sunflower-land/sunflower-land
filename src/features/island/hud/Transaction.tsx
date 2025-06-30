@@ -89,12 +89,8 @@ const TransactionWidget: React.FC<{
   const tx = loadActiveTxHash({
     event: transaction?.event as TransactionName,
     ...(transaction?.event === "transaction.flowerWithdrawn"
-      ? {
-          withdrawId: transaction.data.params.withdrawId,
-        }
-      : {
-          sessionId: gameService.state.context.sessionId as string,
-        }),
+      ? { withdrawId: transaction.data.params.withdrawId }
+      : { sessionId: gameService.getSnapshot().context.sessionId as string }),
   });
 
   const { isSuccess, isError } = useWaitForTransactionReceipt({
@@ -306,12 +302,8 @@ export const TransactionProgress: React.FC<Props> = ({
   const tx = loadActiveTxHash({
     event: transaction?.event as TransactionName,
     ...(transaction?.event === "transaction.flowerWithdrawn"
-      ? {
-          withdrawId: transaction.data.params.withdrawId,
-        }
-      : {
-          sessionId: gameService.state.context.sessionId as string,
-        }),
+      ? { withdrawId: transaction.data.params.withdrawId }
+      : { sessionId: gameService.getSnapshot().context.sessionId as string }),
   });
 
   const { isSuccess, isError } = useWaitForTransactionReceipt({

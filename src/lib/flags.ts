@@ -1,3 +1,4 @@
+import { COMPETITION_POINTS } from "features/game/types/competitions";
 import type { GameState } from "features/game/types/game";
 import { CONFIG } from "lib/config";
 
@@ -92,7 +93,9 @@ const FEATURE_FLAGS = {
   FACE_RECOGNITION_TEST: defaultFeatureFlag,
   LEDGER: testnetLocalStorageFeatureFlag("ledger"),
 
-  PEGGYS_COOKOFF: defaultFeatureFlag,
+  PEGGYS_COOKOFF: timeBasedFeatureFlag(
+    new Date(COMPETITION_POINTS.PEGGYS_COOKOFF.startAt),
+  ),
 
   EASTER: (game) =>
     betaTimeBasedFeatureFlag(new Date("2025-04-21T00:00:00Z"))(game) &&

@@ -47,7 +47,7 @@ export class ColorsIslandScene extends BaseScene {
 
     this.load.image("board", `world/colors_island_assets/info_board.png`);
 
-    this.load.image("board_icon", "src/assets/icons/info.webp");
+    this.load.image("board_icon", "world/question_disc.png");
 
     this.load.image("shop_icon", "world/shop_disc.png");
   }

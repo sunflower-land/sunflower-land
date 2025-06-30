@@ -39,17 +39,14 @@ export const LandscapingDecorations: React.FC<Props> = ({ onClose }) => {
 
   const price = selected.coins ?? 0;
 
-  const landscapingMachine = gameService.state.children
+  const landscapingMachine = gameService.getSnapshot().children
     .landscaping as MachineInterpreter;
 
   const buy = () => {
     landscapingMachine.send("SELECT", {
       action: "decoration.bought",
       placeable: selected.name,
-      requirements: {
-        coins: price,
-        ingredients: selected.ingredients,
-      },
+      requirements: { coins: price, ingredients: selected.ingredients },
       multiple: true,
     });
 
@@ -81,13 +78,8 @@ export const LandscapingDecorations: React.FC<Props> = ({ onClose }) => {
       panel={
         <CraftingRequirements
           gameState={state}
-          details={{
-            item: selected.name,
-          }}
-          requirements={{
-            resources: selected.ingredients,
-            coins: price,
-          }}
+          details={{ item: selected.name }}
+          requirements={{ resources: selected.ingredients, coins: price }}
           actionView={
             <Button disabled={lessFunds() || lessIngredients()} onClick={buy}>
               {t("buy")}

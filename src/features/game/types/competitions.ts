@@ -219,8 +219,7 @@ export const COMPETITION_POINTS: Record<
     },
   },
   PEGGYS_COOKOFF: {
-    // startAt: new Date("2025-07-10T00:00:00Z").getTime(),
-    startAt: new Date("2025-06-10T00:00:00Z").getTime(),
+    startAt: new Date("2025-07-10T00:00:00Z").getTime(),
     endAt: new Date("2025-07-20T00:00:00Z").getTime(),
     points: {
       "Cook Fried Tofu": 1,
@@ -334,6 +333,9 @@ export function getCompetitionPoints({
   game: GameState;
   name: CompetitionName;
 }): number {
+  const hasStarted = COMPETITION_POINTS[name].startAt > Date.now();
+
+  if (!hasStarted) return 0;
   return getKeys(COMPETITION_POINTS[name].points).reduce((total, task) => {
     const completed = getTaskCompleted({ game, name, task });
 

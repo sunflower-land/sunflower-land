@@ -78,15 +78,9 @@ export const CompetitionModal: React.FC<{
         bumpkinParts={NPC_WEARABLES.peggy}
         onClose={() => setShowIntro(false)}
         message={[
-          {
-            text: t("competition.intro.one"),
-          },
-          {
-            text: t("competition.intro.two"),
-          },
-          {
-            text: t("competition.intro.three"),
-          },
+          { text: t("competition.intro.one") },
+          { text: t("competition.intro.two") },
+          { text: t("competition.intro.three") },
         ]}
       />
     );
@@ -192,15 +186,12 @@ export const CompetitionDetails: React.FC<{
                 icon: ITEM_DETAILS["Love Charm"].image,
                 text: t("competition.prizes.one"),
               },
-              {
-                icon: chefIcon,
-                text: t("competition.prizes.two"),
-              },
+              { icon: chefIcon, text: t("competition.prizes.two") },
               {
                 icon: calendarIcon,
                 text: t("competition.prizes.three", {
-                  startDate: new Date(competition.startAt).toLocaleDateString(),
-                  endDate: new Date(competition.endAt).toLocaleDateString(),
+                  startDate: new Date(competition.startAt).toLocaleString(),
+                  endDate: new Date(competition.endAt).toLocaleString(),
                 }),
               },
             ]}
@@ -315,9 +306,9 @@ export const CompetitionLeaderboard: React.FC<{ name: CompetitionName }> = ({
   useEffect(() => {
     const load = async () => {
       const data = await getCompetitionLeaderboard({
-        farmId: gameService.state.context.farmId,
+        farmId: gameService.getSnapshot().context.farmId,
         name,
-        jwt: authService.state.context.user.rawToken as string,
+        jwt: authService.getSnapshot().context.user.rawToken as string,
       });
 
       setData(data);

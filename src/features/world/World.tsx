@@ -35,9 +35,7 @@ interface Props {
   isCommunity?: boolean;
 }
 
-export const WorldContext = createContext<{
-  isCommunity: boolean;
-}>({
+export const WorldContext = createContext<{ isCommunity: boolean }>({
   isCommunity: false,
 });
 
@@ -49,9 +47,7 @@ export const World: React.FC<Props> = ({ isCommunity = false }) => {
         <div
           aria-label="World"
           className="fixed inset-safe-area pointer-events-none inset-safe-area"
-          style={{
-            zIndex: 11,
-          }}
+          style={{ zIndex: 11 }}
         >
           <div
             onMouseDown={(e) => e.stopPropagation()}
@@ -194,7 +190,7 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
     );
   }
 
-  if (!mmoService.state) {
+  if (!mmoService.getSnapshot()) {
     return <></>;
   }
 

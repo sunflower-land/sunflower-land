@@ -45,7 +45,8 @@ interface Props {
 
 export const PlaceableController: React.FC<Props> = ({ location }) => {
   const { gameService } = useContext(Context);
-  const child = gameService.state.children.landscaping as MachineInterpreter;
+  const child = gameService.getSnapshot().children
+    .landscaping as MachineInterpreter;
   const { t } = useAppTranslation();
   const [
     {
@@ -81,7 +82,7 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
 
   const available = isBudName(placeable)
     ? new Decimal(1)
-    : (items[placeable] ?? new Decimal(0));
+    : items[placeable] ?? new Decimal(0);
 
   const handleConfirmPlacement = () => {
     // prevents multiple toasts while spam clicking place button
@@ -125,12 +126,8 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
       const nextPosition = { x: coordinates.x, y: coordinates.y - height };
       const collisionDetected = detectCollision({
         name: placeable as CollectibleName,
-        state: gameService.state.context.state,
-        position: {
-          ...nextPosition,
-          width,
-          height,
-        },
+        state: gameService.getSnapshot().context.state,
+        position: { ...nextPosition, width, height },
         location,
       });
 
@@ -141,10 +138,7 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
         location,
       });
     } else {
-      send({
-        type: "PLACE",
-        location,
-      });
+      send({ type: "PLACE", location });
     }
   };
 
@@ -230,17 +224,13 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
 
         <div
           className="flex items-stretch space-x-2 sm:h-12 w-80 sm:w-[400px]"
-          style={{
-            height: `${PIXEL_SCALE * 17}px`,
-          }}
+          style={{ height: `${PIXEL_SCALE * 17}px` }}
         >
           <Button onClick={handleCancelPlacement}>
             <img
               src={SUNNYSIDE.icons.cancel}
               alt="cancel"
-              style={{
-                width: `${PIXEL_SCALE * 11}px`,
-              }}
+              style={{ width: `${PIXEL_SCALE * 11}px` }}
             />
           </Button>
 
@@ -251,9 +241,7 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
             <img
               src={SUNNYSIDE.icons.confirm}
               alt="confirm"
-              style={{
-                width: `${PIXEL_SCALE * 12}px`,
-              }}
+              style={{ width: `${PIXEL_SCALE * 12}px` }}
             />
           </Button>
         </div>

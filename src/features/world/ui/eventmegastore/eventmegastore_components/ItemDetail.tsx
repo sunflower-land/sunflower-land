@@ -2,7 +2,7 @@ import React, { useContext, useLayoutEffect, useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import Decimal from "decimal.js-light";
-import { InventoryItemName, Keys } from "features/game/types/game";
+import { InventoryItemName } from "features/game/types/game";
 
 import { Context } from "features/game/GameProvider";
 import { useActor, useSelector } from "@xstate/react";
@@ -15,7 +15,6 @@ import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { MachineState } from "features/game/lib/gameMachine";
 import {
-  getCurrentSeason,
   getSeasonalArtefact,
   getSeasonalTicket,
   // getSeasonalTicket,
@@ -32,11 +31,10 @@ import {
 } from "features/game/types/festivalOfColors";
 import { getItemDescription } from "../EventStore";
 import { getKeys } from "features/game/types/craftables";
-import { ARTEFACT_SHOP_KEYS } from "features/game/types/collectibles";
 import { SFLDiscount } from "features/game/lib/SFLDiscount";
 
 import { REWARD_BOXES } from "features/game/types/rewardBoxes";
-import { secondsToString } from "lib/utils/time";
+import { MINIGAME_SHOP_ITEMS } from "features/game/types/minigameShop";
 
 interface ItemOverlayProps {
   item: EventStoreItem | null;
@@ -87,7 +85,6 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   ] = useActor(gameService);
 
   const createdAt = Date.now();
-  const currentSeason = getCurrentSeason(new Date(createdAt));
   const eventStore = COLORS_EVENT_ITEMS;
   const tiers =
     tier === "basic"
@@ -101,8 +98,9 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
             : "basic";
 
   const shop =
-    gameService.state.context.state.minigames.games["festival-of-colors-2025"]
-      ?.shop;
+    gameService.getSnapshot().context.state.minigames.games[
+      "festival-of-colors-2025"
+    ]?.shop;
 
   const eventCollectiblesCrafted = Object.keys(shop?.items ?? {}).length;
   const eventWearablesCrafted = Object.keys(shop?.wearables ?? {}).length;
@@ -115,9 +113,6 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
       : (item as EventStoreCollectible).collectible
     : undefined;
 
-  const isKey = (name: InventoryItemName): name is Keys =>
-    name in ARTEFACT_SHOP_KEYS;
-
   const isRareUnlocked =
     tiers === "rare" && eventItemsCrafted >= eventStore.rare.requirement;
   const isEpicUnlocked =
@@ -125,12 +120,19 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const isMegaUnlocked =
     tier === "mega" && eventItemsCrafted >= eventStore.mega.requirement;
 
-  const boughtAt = state.megastore?.boughtAt[itemName as Keys] ?? 0;
-  const itemInCooldown =
-    !!boughtAt && boughtAt + (item?.cooldownMs ?? 0) > createdAt;
+  const itemsCrafted = isWearable
+    ? state.minigames.games["festival-of-colors-2025"]?.shop?.wearables?.[
+        itemName as BumpkinItem
+      ] ?? 0
+    : state.minigames.games["festival-of-colors-2025"]?.shop?.items?.[
+        itemName as InventoryItemName
+      ] ?? 0;
 
-  const itemCrafted =
-    state.bumpkin.activity[`${itemName as EventTierItemName} Bought`];
+  const canCraftMore =
+    itemsCrafted <
+    (MINIGAME_SHOP_ITEMS["festival-of-colors-2025"]?.[
+      itemName as EventTierItemName
+    ]?.max ?? 1);
 
   const description = getItemDescription(item);
   const { sfl = 0 } = item?.cost || {};
@@ -157,20 +159,14 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
   const canBuy = () => {
     if (!item) return false;
 
-    if (item.cooldownMs) {
-      if (itemInCooldown) return false;
-    }
-
     if (tier !== "basic") {
       if (tier === "rare" && !isRareUnlocked) return false;
       if (tier === "epic" && !isEpicUnlocked) return false;
       if (tier === "mega" && !isMegaUnlocked) return false;
     }
 
-    if (!item.cooldownMs && !isKey(itemName as InventoryItemName)) {
-      if (itemCrafted) {
-        return false;
-      }
+    if (!canCraftMore) {
+      return false;
     }
 
     if (itemReq) {
@@ -202,18 +198,13 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
         ? sfl
         : item.cost.sfl === 0 &&
             (item.cost?.items[getSeasonalTicket()] ?? 0 > 0)
-          ? (item.cost?.items[getSeasonalTicket()] ?? 0)
+          ? item.cost?.items[getSeasonalTicket()] ?? 0
           : sfl;
     const itemName = isWearable
       ? ((item as EventStoreWearable).wearable as BumpkinItem)
       : ((item as EventStoreCollectible).collectible as InventoryItemName);
 
-    gameAnalytics.trackSink({
-      currency,
-      amount: price,
-      item: itemName,
-      type,
-    });
+    gameAnalytics.trackSink({ currency, amount: price, item: itemName, type });
 
     if (!isWearable) {
       const itemName = (item as EventStoreCollectible)
@@ -317,9 +308,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                 src={SUNNYSIDE.icons.close}
                 className="cursor-pointer"
                 onClick={onClose}
-                style={{
-                  width: `${PIXEL_SCALE * 9}px`,
-                }}
+                style={{ width: `${PIXEL_SCALE * 9}px` }}
               />
             </div>
             {!showSuccess && (
@@ -341,9 +330,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                       src={image}
                       alt={itemName}
                       className={"w-full"}
-                      style={{
-                        width: `${imageWidth}px`,
-                      }}
+                      style={{ width: `${imageWidth}px` }}
                     />
                   </div>
                   <div className="flex flex-col space-y-2">
@@ -372,34 +359,19 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                       </div>
                     )}
                     <span className="text-xs leading-none">{description}</span>
+                    <Label
+                      type={itemsCrafted ? "danger" : "default"}
+                      className="text-xxs"
+                    >
+                      {t("season.megastore.crafting.limit.max", {
+                        limit: itemsCrafted,
+                        max:
+                          MINIGAME_SHOP_ITEMS["festival-of-colors-2025"]?.[
+                            itemName as EventTierItemName
+                          ]?.max ?? 1,
+                      })}
+                    </Label>
 
-                    {itemName && item?.cooldownMs ? (
-                      <Label
-                        type={itemInCooldown ? "danger" : "default"}
-                        className="text-xxs"
-                      >
-                        {t("megastore.limit", {
-                          time: secondsToString(
-                            itemInCooldown
-                              ? (item.cooldownMs - (createdAt - boughtAt)) /
-                                  1000
-                              : item.cooldownMs / 1000,
-                            {
-                              length: "short",
-                            },
-                          ),
-                        })}
-                      </Label>
-                    ) : (
-                      <Label
-                        type={itemCrafted ? "danger" : "default"}
-                        className="text-xxs"
-                      >
-                        {t("season.megastore.crafting.limit", {
-                          limit: itemCrafted ? 1 : 0,
-                        })}
-                      </Label>
-                    )}
                     {itemReq &&
                       (sfl !== 0 ? (
                         <div className="flex flex-1 content-start flex-col flex-wrap">
@@ -485,10 +457,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                     </Button>
                   )}
 
-                  <Button
-                    disabled={!canBuy() || (itemName && !!itemInCooldown)}
-                    onClick={buttonHandler}
-                  >
+                  <Button disabled={!canBuy()} onClick={buttonHandler}>
                     {getButtonLabel()}
                   </Button>
                 </div>

@@ -3,6 +3,7 @@ import React from "react";
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { GameGrid } from "features/game/expansion/placeable/lib/makeGrid";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { SFTDetailPopover } from "components/ui/SFTDetailPopover";
 
 type Edges = {
   top: boolean;
@@ -106,14 +107,16 @@ export const StoneFence: React.FC<Props> = ({ x, y, grid }) => {
   }
 
   return (
-    <img
-      className="absolute"
-      src={image}
-      key={`${x}_${y}`}
-      style={{
-        height: `${GRID_WIDTH_PX}px`,
-        width: `${GRID_WIDTH_PX}px`,
-      }}
-    />
+    <SFTDetailPopover name="Stone Fence">
+      <img
+        className="absolute"
+        src={image}
+        key={`${x}_${y}`}
+        style={{
+          height: `${GRID_WIDTH_PX}px`,
+          width: `${GRID_WIDTH_PX}px`,
+        }}
+      />
+    </SFTDetailPopover>
   );
 };

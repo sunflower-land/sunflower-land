@@ -82,12 +82,7 @@ const getPriceMovement = (current: number, yesterday: number) => {
 };
 
 export const SalesPanel: React.FC<{
-  marketPrices:
-    | {
-        prices: MarketPrices;
-        cachedAt: number;
-      }
-    | undefined;
+  marketPrices: { prices: MarketPrices; cachedAt: number } | undefined;
   loadingNewPrices: boolean;
 }> = ({ marketPrices, loadingNewPrices }) => {
   const { t } = useAppTranslation();
@@ -155,7 +150,7 @@ export const SalesPanel: React.FC<{
     );
   }
 
-  if (gameService.state.matches("sellMarketResource")) {
+  if (gameService.getSnapshot().matches("sellMarketResource")) {
     return <Loading text={t("selling")} />;
   }
 
