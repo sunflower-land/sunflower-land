@@ -41,7 +41,7 @@ export const BlockchainSettings: React.FC<ContentComponentProps> = ({
   return (
     <div className="flex flex-col gap-1">
       <div className="flex justify-between">
-        {gameService.state?.context?.nftId !== undefined ? (
+        {gameService.getSnapshot()?.context?.nftId !== undefined ? (
           <Label
             type="default"
             icon={ticket}
@@ -54,19 +54,20 @@ export const BlockchainSettings: React.FC<ContentComponentProps> = ({
               }, 2000);
               copypaste.play();
               clipboard.copy(
-                gameService.state?.context?.nftId?.toString() || "",
+                gameService.getSnapshot()?.context?.nftId?.toString() || "",
               );
             }}
           >
-            {`NFT ID #${gameService.state?.context?.nftId}`}
+            {`NFT ID #${gameService.getSnapshot()?.context?.nftId}`}
           </Label>
         ) : (
           <div className="w-10" />
         )}
-        {gameService.state?.context?.linkedWallet && (
+        {gameService.getSnapshot()?.context?.linkedWallet && (
           <WalletAddressLabel
             walletAddress={
-              (gameService.state?.context?.linkedWallet as string) || "XXXX"
+              (gameService.getSnapshot()?.context?.linkedWallet as string) ||
+              "XXXX"
             }
             showLabelTitle={false}
           />

@@ -71,7 +71,7 @@ export const Emblems: React.FC<Props> = ({ emblem, factionName }) => {
   const playerRank = getFactionRanking(factionName, emblems.toNumber());
 
   const id =
-    gameService.state?.context?.state?.username ??
+    gameService.getSnapshot()?.context?.state?.username ??
     String(gameService?.state?.context?.farmId);
 
   return (
@@ -192,9 +192,7 @@ const Leaderboard: React.FC<{
           {topTen.slice(0, 7).map(({ id, rank, count }, index) => (
             <tr
               key={index}
-              className={classNames({
-                "bg-[#ead4aa]": id === playerId,
-              })}
+              className={classNames({ "bg-[#ead4aa]": id === playerId })}
             >
               <td style={{ border: "1px solid #b96f50" }} className="p-1.5">
                 {rank ?? index + 1}
@@ -225,9 +223,7 @@ const Leaderboard: React.FC<{
           {ranks.slice(0, 3).map(({ id, rank, count }, index) => (
             <tr
               key={index}
-              className={classNames({
-                "bg-[#ead4aa]": id === playerId,
-              })}
+              className={classNames({ "bg-[#ead4aa]": id === playerId })}
             >
               <td style={{ border: "1px solid #b96f50" }} className="p-1.5">
                 {rank ?? index + 1}

@@ -55,7 +55,7 @@ export const ModerationTools: React.FC<Props> = ({
 
   const [showModerationTool, setShowModerationTool] = useState(false);
   const [tab, setTab] = useState(0);
-  const moderatorFarmId = gameService.state.context.farmId;
+  const moderatorFarmId = gameService.getSnapshot().context.farmId;
 
   const toggleModerationTool = () => {
     setShowModerationTool(!showModerationTool);
@@ -82,18 +82,9 @@ export const ModerationTools: React.FC<Props> = ({
           currentTab={tab}
           setCurrentTab={setTab}
           tabs={[
-            {
-              icon: SUNNYSIDE.icons.player,
-              name: "Players",
-            },
-            {
-              icon: SUNNYSIDE.icons.expression_chat,
-              name: "Chat",
-            },
-            {
-              icon: SUNNYSIDE.icons.hammer,
-              name: "Actions",
-            },
+            { icon: SUNNYSIDE.icons.player, name: "Players" },
+            { icon: SUNNYSIDE.icons.expression_chat, name: "Chat" },
+            { icon: SUNNYSIDE.icons.hammer, name: "Actions" },
           ]}
         >
           {tab === 0 && (

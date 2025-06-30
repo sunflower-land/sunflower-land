@@ -139,7 +139,9 @@ export interface MovableProps {
 
 const getMovingItem = (state: MachineState) => state.context.moving;
 
-export const MoveableComponent: React.FC<MovableProps> = ({
+export const MoveableComponent: React.FC<
+  React.PropsWithChildren<MovableProps>
+> = ({
   name,
   id,
   index,
@@ -159,7 +161,7 @@ export const MoveableComponent: React.FC<MovableProps> = ({
   const isActive = useRef(false);
   const [showRemoveConfirmation, setShowRemoveConfirmation] = useState(false);
 
-  const landscapingMachine = gameService.state.children
+  const landscapingMachine = gameService.getSnapshot().children
     .landscaping as MachineInterpreter;
 
   const movingItem = useSelector(landscapingMachine, getMovingItem);
@@ -170,7 +172,7 @@ export const MoveableComponent: React.FC<MovableProps> = ({
   const [isRestricted, restrictionReason] = hasRemoveRestriction(
     name,
     id,
-    gameService.state.context.state,
+    gameService.getSnapshot().context.state,
   );
 
   /**
@@ -231,7 +233,7 @@ export const MoveableComponent: React.FC<MovableProps> = ({
 
   const detect = ({ x, y }: Coordinates) => {
     const game = removePlaceable({
-      state: gameService.state.context.state,
+      state: gameService.getSnapshot().context.state,
       id,
       name,
     });
@@ -239,12 +241,7 @@ export const MoveableComponent: React.FC<MovableProps> = ({
       name: name as CollectibleName,
       state: game,
       location,
-      position: {
-        x,
-        y,
-        width: dimensions.width,
-        height: dimensions.height,
-      },
+      position: { x, y, width: dimensions.width, height: dimensions.height },
     });
 
     setIsColliding(collisionDetected);
@@ -271,10 +268,7 @@ export const MoveableComponent: React.FC<MovableProps> = ({
           return;
         }
 
-        landscapingMachine.send("MOVE", {
-          name,
-          id,
-        });
+        landscapingMachine.send("MOVE", { name, id });
 
         isActive.current = true;
       }}
@@ -310,7 +304,7 @@ export const MoveableComponent: React.FC<MovableProps> = ({
         }
 
         const game = removePlaceable({
-          state: gameService.state.context.state,
+          state: gameService.getSnapshot().context.state,
           id,
           name,
         });
@@ -330,10 +324,7 @@ export const MoveableComponent: React.FC<MovableProps> = ({
           gameService.send(getMoveAction(name), {
             // Don't send name for resource events and Bud events
             ...(name in RESOURCE_MOVE_EVENTS || name === "Bud" ? {} : { name }),
-            coordinates: {
-              x: coordinatesX + xDiff,
-              y: coordinatesY + yDiff,
-            },
+            coordinates: { x: coordinatesX + xDiff, y: coordinatesY + yDiff },
             id,
             // Resources do not require location to be passed
             location: name in RESOURCE_MOVE_EVENTS ? undefined : location,
@@ -360,9 +351,7 @@ export const MoveableComponent: React.FC<MovableProps> = ({
           >
             <div
               className="relative mr-2"
-              style={{
-                width: `${PIXEL_SCALE * 18}px`,
-              }}
+              style={{ width: `${PIXEL_SCALE * 18}px` }}
             >
               <img className="w-full" src={SUNNYSIDE.icons.disc} />
               {isDragging ? (
@@ -410,9 +399,7 @@ export const MoveableComponent: React.FC<MovableProps> = ({
                 className={classNames("group relative cursor-pointer", {
                   "cursor-not-allowed": isRestricted,
                 })}
-                style={{
-                  width: `${PIXEL_SCALE * 18}px`,
-                }}
+                style={{ width: `${PIXEL_SCALE * 18}px` }}
                 onClick={(e) => {
                   if (!isRestricted) remove();
                   e.preventDefault();
@@ -454,9 +441,7 @@ export const MoveableComponent: React.FC<MovableProps> = ({
                 {isRestricted && (
                   <div
                     className="flex justify-center absolute w-full pointer-events-none invisible group-hover:!visible"
-                    style={{
-                      top: `${PIXEL_SCALE * -10}px`,
-                    }}
+                    style={{ top: `${PIXEL_SCALE * -10}px` }}
                   >
                     <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
                       <div className="text-xs mx-1 p-1">

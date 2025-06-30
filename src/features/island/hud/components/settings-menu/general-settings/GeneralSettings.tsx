@@ -22,14 +22,14 @@ export const GeneralSettings: React.FC<ContentComponentProps> = ({
         <span>{t("gameOptions.generalSettings.changeLanguage")}</span>
       </Button>
       <Button
-        disabled={!!gameService.state.context.fslId}
+        disabled={!!gameService.getSnapshot().context.fslId}
         onClick={() =>
-          connectToFSL({ nonce: gameService.state.context.oauthNonce })
+          connectToFSL({ nonce: gameService.getSnapshot().context.oauthNonce })
         }
         className="relative"
       >
         {`Connect FSL ID`}
-        {!!gameService.state.context.fslId && (
+        {!!gameService.getSnapshot().context.fslId && (
           <img
             src={SUNNYSIDE.icons.confirm}
             className="absolute right-1 top-1 h-5"
@@ -40,7 +40,7 @@ export const GeneralSettings: React.FC<ContentComponentProps> = ({
         <span>{`Discord`}</span>
       </Button>
       {hasFeatureAccess(
-        gameService.state?.context?.state,
+        gameService.getSnapshot()?.context?.state,
         "FACE_RECOGNITION_TEST",
       ) && (
         <Button onClick={() => onSubMenuClick("faceRecognition")}>

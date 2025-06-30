@@ -1,6 +1,12 @@
 import classNames from "classnames";
-import React, { Fragment, useEffect, useRef } from "react";
-import { Dialog, Transition } from "@headlessui/react";
+import React, { Fragment, useRef } from "react";
+import {
+  Dialog,
+  DialogPanel,
+  Transition,
+  TransitionChild,
+  DialogBackdrop,
+} from "@headlessui/react";
 import { useSound } from "lib/utils/hooks/useSound";
 
 interface ModalProps {
@@ -16,7 +22,7 @@ interface ModalProps {
   onShow?: () => void;
 }
 
-export const Modal: React.FC<ModalProps> = ({
+export const Modal: React.FC<React.PropsWithChildren<ModalProps>> = ({
   children,
   show,
   onHide,
@@ -32,31 +38,13 @@ export const Modal: React.FC<ModalProps> = ({
   const openSound = useSound("open");
   const closeSound = useSound("close");
 
-  // exit modal if Escape key is pressed
-  useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape" && show) {
-        onHide?.();
-      }
-    };
-
-    document.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [show, onHide]);
-
   return (
     <Transition appear show={!!show} as={Fragment}>
       <Dialog
         initialFocus={ref}
         as="div"
-        className="fixed inset-0 flex min-h-full items-center justify-center z-50 pointer-events-auto"
-        onClose={() => undefined}
-        // For some reason touchend events on mobile are triggering onClose immediately in canvas
-        // onClose={() => backdrop === "static" ? undefined : onHide?.()}
-
+        // e="fixed inset-0 flex min-h-full items-center justify-center z-50 pointer-events-auto"
+        onClose={() => (backdrop === "static" ? undefined : onHide?.())}
         // Prevent click through to Phaser
         onMouseDown={(e) => e.stopPropagation()}
         onMouseUp={(e) => e.stopPropagation()}
@@ -64,7 +52,7 @@ export const Modal: React.FC<ModalProps> = ({
         onTouchEnd={(e) => e.stopPropagation()}
       >
         {backdrop && (
-          <Transition.Child
+          <TransitionChild
             as={Fragment}
             enter="ease-out duration-300"
             enterFrom="opacity-0"
@@ -73,16 +61,13 @@ export const Modal: React.FC<ModalProps> = ({
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <div className="fixed inset-0 bg-black/50" />
-          </Transition.Child>
+            <DialogBackdrop className="fixed inset-0 bg-black/50" />
+          </TransitionChild>
         )}
 
-        <div
-          className="fixed inset-0 overflow-y-auto"
-          onClick={() => onHide?.()}
-        >
+        <div className="fixed inset-0 overflow-y-auto">
           <div className="flex min-h-full items-center justify-center p-2">
-            <Transition.Child
+            <TransitionChild
               as={Fragment}
               enter="ease-out duration-300"
               enterFrom="opacity-0"
@@ -99,7 +84,7 @@ export const Modal: React.FC<ModalProps> = ({
               }}
               afterLeave={() => onExited?.()}
             >
-              <Dialog.Panel
+              <DialogPanel
                 className={classNames(
                   `relative w-full ${dialogClassName ?? ""}`,
                   {
@@ -111,8 +96,8 @@ export const Modal: React.FC<ModalProps> = ({
                 )}
               >
                 <div ref={ref}>{children}</div>
-              </Dialog.Panel>
-            </Transition.Child>
+              </DialogPanel>
+            </TransitionChild>
           </div>
         </div>
       </Dialog>

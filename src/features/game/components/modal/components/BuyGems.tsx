@@ -93,14 +93,17 @@ export const BuyGems: React.FC<Props> = ({
   }, [showFlowerConfirm, onHideBuyBBLabel]);
 
   if (!!price && showFlowerConfirm) {
-    const flowerPrice = gameService.state.context.prices.sfl?.usd ?? 0.0;
+    const flowerPrice =
+      gameService.getSnapshot().context.prices.sfl?.usd ?? 0.0;
 
     const flowerUSD = price.usd * 0.7;
 
     // 4 Decimal places
     const flowerQuote = new Decimal(flowerUSD / flowerPrice).toFixed(4);
 
-    const hasFlower = gameService.state.context.state.balance.gte(flowerQuote);
+    const hasFlower = gameService
+      .getSnapshot()
+      .context.state.balance.gte(flowerQuote);
 
     return (
       <>
@@ -146,9 +149,7 @@ export const BuyGems: React.FC<Props> = ({
 
           <div
             className="flex justify-between my-2 pt-2"
-            style={{
-              borderTop: "1px solid #ead4aa",
-            }}
+            style={{ borderTop: "1px solid #ead4aa" }}
           >
             <p className="text-sm">{`FLOWER`}</p>
             <div className="flex items-center space-x-2">

@@ -52,7 +52,7 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
   const recruiterVoice = useSound(FACTION_RECRUITERS[faction] as any);
 
   const sameFaction = joinedFaction && joinedFaction.name === faction;
-  const hasSFL = gameService.state.context.state.balance.gte(cost);
+  const hasSFL = gameService.getSnapshot().context.state.balance.gte(cost);
 
   useEffect(() => {
     const load = async () => {
@@ -105,16 +105,12 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
 
   const intro = `${t("faction.restrited.area", {
     faction: capitalize(faction),
-  })} ${t("faction.not.pledged", {
-    faction: capitalize(faction),
-  })}`;
+  })} ${t("faction.not.pledged", { faction: capitalize(faction) })}`;
 
   const confirmFaction = `${t("faction.cost", {
     cost,
     faction: capitalize(faction),
-  })} ${t("faction.pledge.reward", {
-    banner: FACTION_BANNERS[faction],
-  })}`;
+  })} ${t("faction.pledge.reward", { banner: FACTION_BANNERS[faction] })}`;
 
   // If joined a different faction, show a message that they can't change
   if (joinedFaction && joinedFaction.name !== faction) {
@@ -183,9 +179,7 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
             reward={{
               sfl: 0,
               factionPoints: 0,
-              items: {
-                [FACTION_BANNERS[faction]]: 1,
-              },
+              items: { [FACTION_BANNERS[faction]]: 1 },
               coins: 0,
               createdAt: new Date().getTime(),
               id: `${new Date().getTime()}`,

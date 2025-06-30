@@ -137,7 +137,7 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
                         const points = calculatePoints(fulfilled, BASE_POINTS);
 
                         const boost = getKingdomKitchenBoost(
-                          gameService.state.context.state,
+                          gameService.getSnapshot().context.state,
                           points,
                         )[0];
 
@@ -148,9 +148,7 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
                             key={JSON.stringify(request)}
                             className={classNames(
                               "flex relative flex-col flex-1 items-center p-2 cursor-pointer hover:bg-brown-300",
-                              {
-                                "img-highlight": selectedRequestIdx === idx,
-                              },
+                              { "img-highlight": selectedRequestIdx === idx },
                             )}
                             onClick={() => setSelectedRequestIdx(idx)}
                           >
@@ -236,9 +234,7 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
                       <RequirementLabel
                         className={classNames(
                           "flex justify-between items-center sm:justify-center",
-                          {
-                            "-mt-1": isMobile,
-                          },
+                          { "-mt-1": isMobile },
                         )}
                         showLabel={isMobile}
                         hideIcon={!isMobile}

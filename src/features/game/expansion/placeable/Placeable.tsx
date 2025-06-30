@@ -105,12 +105,13 @@ export const Placeable: React.FC<Props> = ({ location }) => {
   const nodeRef = useRef(null);
   const { gameService } = useContext(Context);
 
-  const { island, season } = gameService.state.context.state;
+  const { island, season } = gameService.getSnapshot().context.state;
 
   const [gameState] = useActor(gameService);
   const [showHint, setShowHint] = useState(true);
 
-  const child = gameService.state.children.landscaping as MachineInterpreter;
+  const child = gameService.getSnapshot().children
+    .landscaping as MachineInterpreter;
 
   const [machine, send] = useActor(child);
   const { placeable, collisionDetected, origin, coordinates } = machine.context;
@@ -133,13 +134,8 @@ export const Placeable: React.FC<Props> = ({ location }) => {
 
   const detect = ({ x, y }: Coordinates) => {
     const collisionDetected = detectCollision({
-      state: gameService.state.context.state,
-      position: {
-        x,
-        y,
-        width: dimensions.width,
-        height: dimensions.height,
-      },
+      state: gameService.getSnapshot().context.state,
+      position: { x, y, width: dimensions.width, height: dimensions.height },
       location,
       name: placeable as CollectibleName,
     });
@@ -189,10 +185,7 @@ export const Placeable: React.FC<Props> = ({ location }) => {
       <div className="fixed left-1/2 top-1/2" style={{ zIndex: 100 }}>
         <Draggable
           key={`${origin?.x}-${origin?.y}`}
-          defaultPosition={{
-            x: DEFAULT_POSITION_X,
-            y: DEFAULT_POSITION_Y,
-          }}
+          defaultPosition={{ x: DEFAULT_POSITION_X, y: DEFAULT_POSITION_Y }}
           nodeRef={nodeRef}
           grid={[GRID_WIDTH_PX * scale.get(), GRID_WIDTH_PX * scale.get()]}
           scale={scale.get()}
@@ -228,9 +221,7 @@ export const Placeable: React.FC<Props> = ({ location }) => {
             {showHint && (
               <div
                 className="flex absolute pointer-events-none z-50 bg-[#000000af] p-1 rounded w-max"
-                style={{
-                  top: "-35px",
-                }}
+                style={{ top: "-35px" }}
               >
                 <img src={SUNNYSIDE.icons.drag} className="h-6 mr-2" />
                 <span className="text-white text-sm">

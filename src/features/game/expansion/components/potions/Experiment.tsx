@@ -51,7 +51,7 @@ export const Experiment: React.FC<Props> = ({
     context: { guessSpot, currentGuess, isNewGame, feedbackText },
   } = potionState;
 
-  const potionHouse = gameService.state.context.state.potionHouse;
+  const potionHouse = gameService.getSnapshot().context.state.potionHouse;
   const previousAttempts = potionHouse?.game.attempts ?? [];
   const lastAttempt = previousAttempts[previousAttempts.length - 1] ?? [];
 
@@ -102,10 +102,7 @@ export const Experiment: React.FC<Props> = ({
 
   const onPotionBottleClick = (potionName: PotionName) => {
     // ADD
-    potionHouseService.send("ADD_GUESS", {
-      guessSpot,
-      potion: potionName,
-    });
+    potionHouseService.send("ADD_GUESS", { guessSpot, potion: potionName });
   };
 
   const onSubmit = () => {
@@ -155,12 +152,7 @@ export const Experiment: React.FC<Props> = ({
           <div className="flex flex-col items-center">
             {/* Table */}
             <div className="w-full flex relative">
-              <div
-                className="w-full"
-                style={{
-                  ...pixelTableBorderStyle,
-                }}
-              >
+              <div className="w-full" style={{ ...pixelTableBorderStyle }}>
                 {/* Grid */}
                 <div
                   className="h-full w-full p-1"
@@ -182,10 +174,7 @@ export const Experiment: React.FC<Props> = ({
                     <ResizableBar
                       percentage={isBombed ? 100 : score ?? 0}
                       type={isBombed ? "error" : "health"}
-                      outerDimensions={{
-                        width: 28,
-                        height: 7,
-                      }}
+                      outerDimensions={{ width: 28, height: 7 }}
                     />
                   </div>
                   {attempts
@@ -297,7 +286,9 @@ export const Experiment: React.FC<Props> = ({
           <div className="flex flex-col items-center gap-1 w-full">
             <Button
               onClick={handleStart}
-              disabled={(gameService.state.context.state.coins ?? 0) < cost}
+              disabled={
+                (gameService.getSnapshot().context.state.coins ?? 0) < cost
+              }
               className="h-fit w-fit"
             >
               <div className="flex items-center">

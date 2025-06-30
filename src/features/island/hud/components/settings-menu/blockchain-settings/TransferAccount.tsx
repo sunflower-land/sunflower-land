@@ -32,10 +32,10 @@ export const TransferAccount: React.FC = () => {
     try {
       await transferAccount({
         receiver: receiver.address,
-        farmId: gameService.state.context.farmId,
+        farmId: gameService.getSnapshot().context.farmId,
         token: authState.context.user.rawToken as string,
         account: wallet.getAccount() as string,
-        nftId: gameService.state.context.nftId!,
+        nftId: gameService.getSnapshot().context.nftId!,
       });
       setState("success");
     } catch {
@@ -56,14 +56,9 @@ export const TransferAccount: React.FC = () => {
           className="w-64 md-mt-2"
           alt="Sunflower-Land Farm Account NFT Image"
         />
-        <span
-          style={{
-            wordBreak: "break-word",
-          }}
-          className="text-center mb-2"
-        >
+        <span style={{ wordBreak: "break-word" }} className="text-center mb-2">
           {t("transfer.Account", {
-            farmID: gameService.state.context.farmId,
+            farmID: gameService.getSnapshot().context.farmId,
             receivingAddress: receiver.address,
           })}
         </span>

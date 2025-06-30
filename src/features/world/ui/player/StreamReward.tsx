@@ -68,7 +68,7 @@ export const StreamReward: React.FC<{ streamerId: number }> = ({
   const claimReward = () => {
     gameService.send("streamReward.claimed", {
       effect: { type: "streamReward.claimed", streamerId },
-      authToken: authService.state.context.user.rawToken as string,
+      authToken: authService.getSnapshot().context.user.rawToken as string,
     });
   };
 

@@ -138,9 +138,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
   if (weather === "greatFreeze") return <GreatFreezePlot game={state} />;
 
   const harvestCrop = async (crop: PlantedCrop) => {
-    const newState = gameService.send("crop.harvested", {
-      index: id,
-    });
+    const newState = gameService.send("crop.harvested", { index: id });
 
     if (newState.matches("hoarding")) return;
 
@@ -215,9 +213,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
 
       // They have touched enough!
       if (isSeasoned) {
-        gameService.send("cropReward.collected", {
-          plotIndex: id,
-        });
+        gameService.send("cropReward.collected", { plotIndex: id });
         harvestCrop(crop);
       } else {
         setReward(crop.reward);
@@ -335,7 +331,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
 
         <FertilePlot
           cropName={crop?.name}
-          game={gameService.state?.context?.state ?? TEST_FARM}
+          game={gameService.getSnapshot()?.context?.state ?? TEST_FARM}
           plot={plot}
           plantedAt={crop?.plantedAt}
           fertiliser={fertiliser}
@@ -350,9 +346,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
           reward={reward}
           onCollected={onCollectReward}
           onOpen={() =>
-            gameService.send("cropReward.collected", {
-              plotIndex: id,
-            })
+            gameService.send("cropReward.collected", { plotIndex: id })
           }
         />
       )}
@@ -374,9 +368,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
         >
           <span
             className="text-sm yield-text"
-            style={{
-              color: getYieldColour(harvested.current?.amount ?? 0),
-            }}
+            style={{ color: getYieldColour(harvested.current?.amount ?? 0) }}
           >{`+${formatNumber(harvested.current?.amount ?? 0)}`}</span>
         </Transition>
       )}

@@ -154,7 +154,7 @@ export const DiscordBoat: React.FC = () => {
   }
 
   // When ready, show boat above island
-  const isReady = !!gameService.state.context.discordId && !isClaimed;
+  const isReady = !!gameService.getSnapshot().context.discordId && !isClaimed;
 
   if (alreadyClaimed.current) {
     return null;

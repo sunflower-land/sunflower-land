@@ -79,13 +79,13 @@ const KingdomChoreRow: React.FC<KingdomChoreRowProps> = ({
   chore,
   gameService,
 }) => {
-  const { faction, bumpkin } = gameService.state.context.state;
+  const { faction, bumpkin } = gameService.getSnapshot().context.state;
 
   const progress =
     (bumpkin?.activity?.[chore.activity] ?? 0) - (chore.startCount ?? 0);
 
   const boost = getKingdomChoreBoost(
-    gameService.state.context.state,
+    gameService.getSnapshot().context.state,
     chore.marks,
   )[0];
   const boostedMarks = chore.marks + boost;
@@ -105,10 +105,7 @@ const KingdomChoreRow: React.FC<KingdomChoreRowProps> = ({
             <ResizableBar
               percentage={(progress / chore.requirement) * 100}
               type="progress"
-              outerDimensions={{
-                width: 40,
-                height: 7,
-              }}
+              outerDimensions={{ width: 40, height: 7 }}
             />
             <span className="text-xs ml-2 font-secondary">{`${formatNumber(progress)}/${formatNumber(chore.requirement)}`}</span>
           </div>

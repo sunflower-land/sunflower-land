@@ -12,10 +12,7 @@ import { useContext } from "react";
 import { Context as AuthContext } from "features/auth/lib/Provider";
 
 const _isSeedling = (state: MachineState) =>
-  hasReputation({
-    game: state.context.state,
-    reputation: Reputation.Seedling,
-  });
+  hasReputation({ game: state.context.state, reputation: Reputation.Seedling });
 
 export const NoNFT: React.FC = () => {
   const { t } = useAppTranslation();
@@ -26,10 +23,8 @@ export const NoNFT: React.FC = () => {
 
   const mint = () => {
     gameService.send("nft.assigned", {
-      effect: {
-        type: "nft.assigned",
-      },
-      authToken: authService.state.context.user.rawToken as string,
+      effect: { type: "nft.assigned" },
+      authToken: authService.getSnapshot().context.user.rawToken as string,
     });
   };
 

@@ -201,10 +201,10 @@ export const CraftTab: React.FC<Props> = ({
     // Removed placed items
     getKeys(updatedInventory).forEach((itemName) => {
       const placedCount =
-        (gameService.state.context.state.collectibles[
+        (gameService.getSnapshot().context.state.collectibles[
           itemName as CollectibleName
         ]?.length ?? 0) +
-        (gameService.state.context.state.home?.collectibles[
+        (gameService.getSnapshot().context.state.home?.collectibles[
           itemName as CollectibleName
         ]?.length ?? 0);
 
@@ -223,7 +223,9 @@ export const CraftTab: React.FC<Props> = ({
   }, [inventory, selectedItems]);
 
   const remainingWardrobe = useMemo(() => {
-    const updatedWardrobe = availableWardrobe(gameService.state.context.state);
+    const updatedWardrobe = availableWardrobe(
+      gameService.getSnapshot().context.state,
+    );
 
     selectedItems.forEach((item) => {
       const wearable = item?.wearable;
@@ -401,9 +403,7 @@ export const CraftTab: React.FC<Props> = ({
     setShowConfirmModal(false);
     if (craftingStatus === "pending") return;
 
-    gameService.send("crafting.started", {
-      ingredients: selectedItems,
-    });
+    gameService.send("crafting.started", { ingredients: selectedItems });
     if (!currentRecipe) gameService.send("SAVE");
   };
 
@@ -616,9 +616,7 @@ export const CraftTab: React.FC<Props> = ({
               src={SUNNYSIDE.icons.close}
               className="cursor-pointer"
               onClick={() => setShowConfirmModal(false)}
-              style={{
-                width: `${PIXEL_SCALE * 9}px`,
-              }}
+              style={{ width: `${PIXEL_SCALE * 9}px` }}
             />
           </div>
 

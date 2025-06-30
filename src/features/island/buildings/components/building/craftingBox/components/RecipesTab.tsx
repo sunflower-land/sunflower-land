@@ -77,10 +77,10 @@ export const RecipesTab: React.FC<Props> = ({
     // Removed placed items
     getKeys(updatedInventory).forEach((itemName) => {
       const placedCount =
-        (gameService.state.context.state.collectibles[
+        (gameService.getSnapshot().context.state.collectibles[
           itemName as CollectibleName
         ]?.length ?? 0) +
-        (gameService.state.context.state.home?.collectibles[
+        (gameService.getSnapshot().context.state.home?.collectibles[
           itemName as CollectibleName
         ]?.length ?? 0);
 
@@ -93,7 +93,9 @@ export const RecipesTab: React.FC<Props> = ({
   }, [inventory]);
 
   const remainingWardrobe = useMemo(() => {
-    const updatedWardrobe = availableWardrobe(gameService.state.context.state);
+    const updatedWardrobe = availableWardrobe(
+      gameService.getSnapshot().context.state,
+    );
 
     return updatedWardrobe;
   }, [wardrobe]);
