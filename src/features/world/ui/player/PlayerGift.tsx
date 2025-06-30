@@ -10,6 +10,7 @@ import { useContext, useState } from "react";
 import { ChestRevealing } from "../chests/ChestRevealing";
 import { Context } from "features/game/GameProvider";
 import giftIcon from "assets/icons/gift.png";
+import { InnerPanel } from "components/ui/Panel";
 
 export const PlayerGift: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -62,7 +63,7 @@ export const PlayerGift: React.FC = () => {
   }
 
   return (
-    <>
+    <InnerPanel>
       <div className="ml-1 mb-2">
         <div className="flex justify-between items-center px-1 mb-2">
           <Label type="success" icon={giftIcon}>
@@ -81,6 +82,6 @@ export const PlayerGift: React.FC = () => {
       <Button onClick={open} disabled={hasOpened}>
         {t("open")}
       </Button>
-    </>
+    </InnerPanel>
   );
 };
