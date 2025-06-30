@@ -232,4 +232,42 @@ describe("upgradeBuilding", () => {
     });
     expect(result.waterWell.level).toEqual(2);
   });
+
+  it("tracks the bumpkin activity", () => {
+    const state = {
+      ...TEST_FARM,
+      coins: 50000,
+      buildings: {
+        "Hen House": [
+          {
+            id: "Hen House",
+            coordinates: { x: 0, y: 0 },
+            readyAt: 0,
+            createdAt: 0,
+          },
+        ],
+      },
+      henHouse: {
+        ...TEST_FARM.henHouse,
+        level: 2,
+      },
+      inventory: {
+        Wood: new Decimal(2500),
+        Iron: new Decimal(150),
+        Gold: new Decimal(100),
+        Crimstone: new Decimal(50),
+        Oil: new Decimal(100),
+      },
+    };
+
+    const result = upgradeBuilding({
+      state,
+      action: {
+        type: "building.upgraded",
+        buildingType: "Hen House",
+      },
+    });
+
+    expect(result.bumpkin.activity["Coins Spent"]).toBe(50000);
+  });
 });
