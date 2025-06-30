@@ -416,6 +416,12 @@ export function deliverOrder({
         }
 
         game.coins = coins - amount;
+
+        bumpkin.activity = trackActivity(
+          "Coins Spent",
+          bumpkin.activity,
+          new Decimal(amount),
+        );
       } else if (name === "sfl") {
         const sfl = game.balance;
         const amount = order.items[name] || new Decimal(0);
