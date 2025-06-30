@@ -5,7 +5,7 @@ import Decimal from "decimal.js-light";
 import { hasFeatureAccess } from "lib/flags";
 
 export type InstantCraftAction = {
-  type: "craft.spedUp";
+  type: "crafting.spedUp";
 };
 
 type Options = {
@@ -24,7 +24,7 @@ export function speedUpCrafting({
       throw new Error("Crafting is not enabled");
     }
 
-    if (action.type !== "craft.spedUp") {
+    if (action.type !== "crafting.spedUp") {
       throw new Error("Invalid action");
     }
 

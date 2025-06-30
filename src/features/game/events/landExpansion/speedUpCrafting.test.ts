@@ -17,7 +17,7 @@ describe("speedUpCrafting", () => {
             recipes: {},
           },
         },
-        action: { type: "craft.spedUp" },
+        action: { type: "crafting.spedUp" },
       }),
     ).toThrow("Crafting box is not crafting");
   });
@@ -34,7 +34,7 @@ describe("speedUpCrafting", () => {
             recipes: {},
           },
         },
-        action: { type: "craft.spedUp" },
+        action: { type: "crafting.spedUp" },
       }),
     ).toThrow("Crafting box is not crafting");
   });
@@ -52,7 +52,7 @@ describe("speedUpCrafting", () => {
             recipes: {},
           },
         },
-        action: { type: "craft.spedUp" },
+        action: { type: "crafting.spedUp" },
         createdAt,
       }),
     ).toThrow("Crafting box is not ready to be sped up");
@@ -72,7 +72,7 @@ describe("speedUpCrafting", () => {
             recipes: {},
           },
         },
-        action: { type: "craft.spedUp" },
+        action: { type: "crafting.spedUp" },
         createdAt,
       }),
     ).toThrow("Insufficient gems");
@@ -97,7 +97,7 @@ describe("speedUpCrafting", () => {
     state.inventory.Gem = new Decimal(gemsNeeded);
     const newState = speedUpCrafting({
       state,
-      action: { type: "craft.spedUp" },
+      action: { type: "crafting.spedUp" },
       createdAt,
     });
     expect(newState.inventory.Gem).toEqual(
@@ -124,7 +124,7 @@ describe("speedUpCrafting", () => {
     state.inventory.Gem = new Decimal(gemsNeeded);
     const newState = speedUpCrafting({
       state,
-      action: { type: "craft.spedUp" },
+      action: { type: "crafting.spedUp" },
       createdAt,
     });
     expect(newState.inventory.Gem).toEqual(
@@ -155,7 +155,7 @@ describe("speedUpCrafting", () => {
     state.inventory.Gem = new Decimal(gemsNeeded);
     const newState = speedUpCrafting({
       state,
-      action: { type: "craft.spedUp" },
+      action: { type: "crafting.spedUp" },
       createdAt,
     });
     expect(newState.gems.history?.[currentDateString]?.spent).toEqual(

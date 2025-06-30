@@ -418,7 +418,7 @@ export const CraftTab: React.FC<Props> = ({
   };
 
   const handleInstantCraft = (gems: number) => {
-    gameService.send("craft.spedUp");
+    gameService.send("crafting.spedUp");
     gameAnalytics.trackSink({
       currency: "Gem",
       amount: gems,

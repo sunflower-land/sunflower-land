@@ -827,7 +827,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "petalPuzzle.solved": claimPetalPrize,
   "blessing.claimed": claimBlessing,
   "optionPurchaseItem.bought": buyOptionPurchaseItem,
-  "craft.spedUp": speedUpCrafting,
+  "crafting.spedUp": speedUpCrafting,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
