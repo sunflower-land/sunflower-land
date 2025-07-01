@@ -135,6 +135,8 @@ export type MarketplaceProfile = {
   tokenUri: string;
   totalTrades: number;
   profit: number;
+  weeklyFlowerSpent: number;
+  weeklyFlowerEarned: number;
 
   listings: GameState["trades"]["listings"];
   offers: GameState["trades"]["offers"];

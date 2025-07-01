@@ -45,9 +45,12 @@ export const MarketplaceUser: React.FC = () => {
     <div className="overflow-y-scroll scrollable pr-1">
       <div className="flex flex-wrap">
         <div className="w-full sm:w-1/3 pr-1 mb-1">
-          <InnerPanel className="flex items-center">
+          <InnerPanel className="flex items-center h-full">
             <div className="h-16 w-16 flex items-center justify-center mr-2 relative">
-              <NPCIcon parts={interpretTokenUri(profile.tokenUri).equipped} />
+              <NPCIcon
+                parts={interpretTokenUri(profile.tokenUri).equipped}
+                width={60}
+              />
             </div>
             <div className="flex-1 overflow-hidden">
               <Label type="default" className="mb-0.5">
@@ -59,7 +62,7 @@ export const MarketplaceUser: React.FC = () => {
         </div>
 
         <div className="w-full sm:w-1/3 pr-1 mb-1">
-          <InnerPanel className="flex items-center">
+          <InnerPanel className="flex items-center h-full">
             <div className="h-16 w-16 flex items-center justify-center mr-2">
               <img src={tradeIcon} className="h-12" />
             </div>
@@ -73,15 +76,30 @@ export const MarketplaceUser: React.FC = () => {
         </div>
 
         <div className="w-full sm:w-1/3 mb-1">
-          <InnerPanel className="flex items-center">
+          <InnerPanel className="flex items-center h-full">
             <div className="h-16 w-16 flex items-center justify-center mr-2">
               <img src={sflIcon} className="h-12" />
             </div>
             <div>
               <Label type="default" className="mb-0.5">
-                {`FLOWER Traded`}
+                {`FLOWER Traded (last 7 days)`}
               </Label>
-              <p className="text-sm">{profile.profit}</p>
+              <div className="flex items-center space-x-4">
+                <div>
+                  <div className="flex items-center space-x-2">
+                    <span className="">{`Spent:`}</span>
+                    <span className="font-bold text-red-600">
+                      {profile.weeklyFlowerSpent.toFixed(2)}
+                    </span>
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <span className="">{`Earned:`}</span>
+                    <span className="font-bold text-green-700">
+                      {profile.weeklyFlowerEarned.toFixed(2)}
+                    </span>
+                  </div>
+                </div>
+              </div>
             </div>
           </InnerPanel>
         </div>
