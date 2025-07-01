@@ -79,7 +79,9 @@ export const isEventShopCollectible = (
   item: EventShopItem,
 ): item is EventShopCollectible => item.type === "collectible";
 
-type MinigameShop = Partial<Record<EventShopItemName, EventShopItem>>;
+type MinigameShop = Partial<
+  Record<EventShopItemName | FestivalOfColorsShopItemName, EventShopItem>
+>;
 
 export const EASTER_SHOP_ITEMS: MinigameShop = {
   "Easter Ticket 2025": {

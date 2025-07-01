@@ -9,6 +9,8 @@ import {
   MINIGAME_SHOP_ITEMS,
   EventShopCollectibleName,
   EventShopWearableName,
+  FestivalOfColorsShopItemName,
+  FestivalOfColorsShopWearableName,
 } from "features/game/types/minigameShop";
 import { MinigameName } from "features/game/types/minigames";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
@@ -17,7 +19,11 @@ import { hasVipAccess } from "features/game/lib/vipAccess";
 export type BuyMinigameItemAction = {
   type: "minigameItem.bought";
   id: MinigameName;
-  name: EventShopCollectibleName | EventShopWearableName;
+  name:
+    | EventShopCollectibleName
+    | EventShopWearableName
+    | FestivalOfColorsShopItemName
+    | FestivalOfColorsShopWearableName;
 };
 
 type Options = {
