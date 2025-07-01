@@ -4,7 +4,9 @@ import { MinigameName } from "./minigames";
 
 export type EventShopItemName =
   | EventShopCollectibleName
-  | EventShopWearableName;
+  | EventShopWearableName
+  | FestivalOfColorsShopItemName
+  | FestivalOfColorsShopWearableName;
 
 export type EventShopCollectibleName = Extract<
   InventoryItemName,
@@ -79,9 +81,7 @@ export const isEventShopCollectible = (
   item: EventShopItem,
 ): item is EventShopCollectible => item.type === "collectible";
 
-type MinigameShop = Partial<
-  Record<EventShopItemName | FestivalOfColorsShopItemName, EventShopItem>
->;
+type MinigameShop = Partial<Record<EventShopItemName, EventShopItem>>;
 
 export const EASTER_SHOP_ITEMS: MinigameShop = {
   "Easter Ticket 2025": {
