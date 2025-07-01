@@ -521,6 +521,7 @@ describe("Construct building", () => {
           y: 0,
         },
       },
+      createdAt: dateNow,
     });
 
     expect(state.bumpkin.activity["Coins Spent"]).toBe(200);

@@ -42,6 +42,11 @@ export function expandLand({ state, action, createdAt = Date.now() }: Options) {
       throw new Error("Insufficient coins");
     }
     game.coins -= coinRequirement;
+    bumpkin.activity = trackActivity(
+      "Coins Spent",
+      bumpkin.activity,
+      new Decimal(coinRequirement),
+    );
 
     const inventory = getKeys(requirements.resources).reduce(
       (inventory, ingredientName) => {
@@ -79,12 +84,6 @@ export function expandLand({ state, action, createdAt = Date.now() }: Options) {
     game.expandedAt = createdAt;
 
     game.inventory = inventory;
-
-    bumpkin.activity = trackActivity(
-      "Coins Spent",
-      bumpkin.activity,
-      new Decimal(coinRequirement),
-    );
 
     return game;
   });

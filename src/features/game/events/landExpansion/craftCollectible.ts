@@ -126,12 +126,6 @@ export function craftCollectible({
       bumpkin.activity,
     );
 
-    bumpkin.activity = trackActivity(
-      "Coins Spent",
-      bumpkin.activity,
-      new Decimal(price),
-    );
-
     if (action.coordinates && action.id && !isKey(action.name)) {
       const dimensions = COLLECTIBLES_DIMENSIONS[action.name];
       const collides = detectCollision({
@@ -168,6 +162,13 @@ export function craftCollectible({
     }
 
     stateCopy.coins = stateCopy.coins - price;
+
+    bumpkin.activity = trackActivity(
+      "Coins Spent",
+      bumpkin.activity,
+      new Decimal(price),
+    );
+
     stateCopy.inventory = {
       ...subtractedInventory,
       [action.name]: oldAmount.add(1) as Decimal,
