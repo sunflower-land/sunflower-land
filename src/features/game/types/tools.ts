@@ -83,8 +83,9 @@ export const WORKBENCH_TOOLS: Record<WorkbenchToolName, Tool> = {
     description: translate("description.oil.drill"),
     price: 100,
     ingredients: {
-      Wood: new Decimal(25),
-      Iron: new Decimal(10),
+      Wood: new Decimal(20),
+      Iron: new Decimal(9),
+      Leather: new Decimal(10),
     },
     requiredIsland: "desert",
   },
@@ -107,7 +108,8 @@ export const TREASURE_TOOLS: Record<TreasureToolName, Tool> = {
     ingredients: {
       Oil: new Decimal(1),
       Crimstone: new Decimal(1),
-      Wood: new Decimal(5),
+      Wood: new Decimal(3),
+      Leather: new Decimal(1),
     },
   },
 };

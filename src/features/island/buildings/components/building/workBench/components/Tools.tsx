@@ -1,5 +1,5 @@
 import React, { SyntheticEvent, useContext, useState } from "react";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import Decimal from "decimal.js-light";
 
 import { Box } from "components/ui/Box";
@@ -26,6 +26,7 @@ import { capitalize } from "lib/utils/capitalize";
 import { IslandType, LoveAnimalItem } from "features/game/types/game";
 import { getToolPrice } from "features/game/events/landExpansion/craftTool";
 import { Restock } from "../../market/restock/Restock";
+import { hasFeatureAccess } from "lib/flags";
 
 const isLoveAnimalTool = (
   toolName: WorkbenchToolName | LoveAnimalItem,
@@ -39,15 +40,19 @@ export const Tools: React.FC = () => {
   >("Axe");
   const { gameService, shortcutItem } = useContext(Context);
 
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const state = useSelector(gameService, (state) => state.context.state);
 
   const selected = isLoveAnimalTool(selectedName)
     ? LOVE_ANIMAL_TOOLS[selectedName]
-    : WORKBENCH_TOOLS[selectedName];
+    : selectedName === "Oil Drill" && !hasFeatureAccess(state, "LEATHER_TOOLS")
+      ? {
+          ...WORKBENCH_TOOLS["Oil Drill"],
+          ingredients: {
+            Wood: new Decimal(25),
+            Iron: new Decimal(10),
+          },
+        }
+      : WORKBENCH_TOOLS[selectedName];
 
   const inventory = state.inventory;
   const price = getToolPrice(selected, 1, state);

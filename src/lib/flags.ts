@@ -122,6 +122,7 @@ const FEATURE_FLAGS = {
   SOCIAL_FARMING: testnetFeatureFlag,
   LANDSCAPING: testnetFeatureFlag,
   CRAFTING: testnetFeatureFlag,
+  LEATHER_TOOLS: testnetFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;
