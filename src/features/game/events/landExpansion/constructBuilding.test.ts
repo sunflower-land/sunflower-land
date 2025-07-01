@@ -495,4 +495,35 @@ describe("Construct building", () => {
 
     expect(state.inventory["Kernel Blend"]).toEqual(new Decimal(5));
   });
+
+  it("tracks the bumpkin activity", () => {
+    const state = constructBuilding({
+      state: {
+        ...GAME_STATE,
+        coins: 200,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          experience: LEVEL_EXPERIENCE[30],
+        },
+        inventory: {
+          Wood: new Decimal(150),
+          Iron: new Decimal(10),
+          Gold: new Decimal(10),
+          "Basic Land": new Decimal(10),
+        },
+      },
+      action: {
+        id: "123",
+        type: "building.constructed",
+        name: "Barn",
+        coordinates: {
+          x: 0,
+          y: 0,
+        },
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.bumpkin.activity["Coins Spent"]).toBe(200);
+  });
 });

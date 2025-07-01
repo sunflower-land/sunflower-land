@@ -6,6 +6,7 @@ import { onboardingAnalytics } from "lib/onboardingAnalytics";
 
 import { expansionRequirements } from "./revealLand";
 import { produce } from "immer";
+import { trackActivity } from "features/game/types/bumpkinActivity";
 
 export type ExpandLandAction = {
   type: "land.expanded";
@@ -41,6 +42,11 @@ export function expandLand({ state, action, createdAt = Date.now() }: Options) {
       throw new Error("Insufficient coins");
     }
     game.coins -= coinRequirement;
+    bumpkin.activity = trackActivity(
+      "Coins Spent",
+      bumpkin.activity,
+      new Decimal(coinRequirement),
+    );
 
     const inventory = getKeys(requirements.resources).reduce(
       (inventory, ingredientName) => {
@@ -78,6 +84,7 @@ export function expandLand({ state, action, createdAt = Date.now() }: Options) {
     game.expandedAt = createdAt;
 
     game.inventory = inventory;
+
     return game;
   });
 }

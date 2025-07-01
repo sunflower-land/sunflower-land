@@ -173,6 +173,13 @@ export function craftCollectible({
     }
 
     stateCopy.coins = stateCopy.coins - price;
+
+    bumpkin.activity = trackActivity(
+      "Coins Spent",
+      bumpkin.activity,
+      new Decimal(price),
+    );
+
     stateCopy.inventory = {
       ...subtractedInventory,
       [action.name]: oldAmount.add(1) as Decimal,

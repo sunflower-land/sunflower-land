@@ -109,6 +109,11 @@ export function constructBuilding({
     bumpkin.activity = trackActivity("Building Constructed", bumpkin.activity);
 
     stateCopy.coins = coins - buildingToConstruct.coins;
+    bumpkin.activity = trackActivity(
+      "Coins Spent",
+      bumpkin.activity,
+      new Decimal(buildingToConstruct.coins),
+    );
     stateCopy.inventory = inventoryMinusIngredients;
     stateCopy.inventory[action.name] = buildingInventory.add(1);
     stateCopy.buildings[action.name] = [...placed, newBuilding];
