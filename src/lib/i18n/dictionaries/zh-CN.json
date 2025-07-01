@@ -5980,8 +5980,6 @@
   "festival-of-colors-2025.portal.description": "你能帮我们弹出多少气球？",
   "festival-of-colors-2025.portal.missionObjectives": "任务：达到 {{targetScore}}。",
   "festival-of-colors-2025.portal.rewardMessage": "恭喜，你完成了任务！这是你的奖励。",
-  "description.colorToken2025": "活动结束前在复活节活动商店中使用它！",
-  "description.colorTicket2025": "在复活节活动结束后，持有这个有机会赢取 $FLOWER！",
   "description.paintBuckets": "即使是最暗的一天，这些水桶也能为色彩增添色彩。",
   "description.rainbowWell": "这座迷人的水井闪烁着彩虹的各种颜色，许下了像水一样明亮的愿望。",
   "description.floatingToy": "这款俏皮的玩具漂浮在空中，无论微风吹向何处，都会传播欢乐。",
@@ -6046,5 +6044,8 @@
   "whatsOn.peggysCookoff": "Peggy's Cookoff",
   "whatsOn.peggysCookoffText": "Peggy's Cookoff 就在这里。烹饪最多的食谱即可赢取奖品。",
   "whatsOn.peggysCookoffText2": "前 5000 名厨师将赢得 Love Charms！",
-  "whatsOn.july10th": "7 月 10 日"
+  "whatsOn.july10th": "7 月 10 日",
+  "marketplace.price": "价格：{{price}}",
+  "description.colorToken2025": "在活动结束之前，在色彩节活动商店中使用它！",
+  "description.colorTicket2025": "在色彩节活动结束后，持有这个有机会赢取 $FLOWER！"
 }

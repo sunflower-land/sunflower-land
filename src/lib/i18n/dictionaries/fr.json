@@ -5980,8 +5980,6 @@
   "festival-of-colors-2025.portal.description": "Combien de ballons peux-tu nous aider à faire éclater ?",
   "festival-of-colors-2025.portal.missionObjectives": "Mission : Atteindre {{targetScore}}.",
   "festival-of-colors-2025.portal.rewardMessage": "Félicitations, vous avez terminé la mission ! Voici ta récompense.",
-  "description.colorToken2025": "Utilisez-le dans la boutique de l'événement de Pâques avant la fin de l'événement !",
-  "description.colorTicket2025": "Gardez-le pour avoir une chance de gagner $FLOWER après la fin de l'événement de Pâques !",
   "description.paintBuckets": "Ces seaux ont le pouvoir d'apporter de la couleur même lors des journées les plus ennuyeuses.",
   "description.rainbowWell": "Ce puits enchanté scintille de toutes les couleurs de l'arc-en-ciel et offre des vœux aussi brillants que ses eaux.",
   "description.floatingToy": "Ce jouet ludique flotte dans les airs et répand la joie partout où la brise le porte.",
@@ -6046,5 +6044,8 @@
   "whatsOn.peggysCookoff": "Peggy's Cookoff",
   "whatsOn.peggysCookoffText": "Le Peggy's Cookoff est arrivé. Cuisinez le plus de recettes pour gagner des prix.",
   "whatsOn.peggysCookoffText2": "Les 5 000 meilleurs chefs remporteront des Love Charms !",
-  "whatsOn.july10th": "Le 10 juillet"
+  "whatsOn.july10th": "Le 10 juillet",
+  "marketplace.price": "Prix : {{price}}",
+  "description.colorToken2025": "Utilisez-le dans la boutique événementielle du Festival des couleurs avant la fin de l'événement !",
+  "description.colorTicket2025": "Gardez-le pour courir la chance de gagner $FLOWER après la fin de l'événement du festival des couleurs !"
 }

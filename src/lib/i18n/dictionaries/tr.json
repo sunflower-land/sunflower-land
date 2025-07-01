@@ -5980,8 +5980,6 @@
   "festival-of-colors-2025.portal.description": "Kaç tane balon patlatmamıza yardım edebilirsin?",
   "festival-of-colors-2025.portal.missionObjectives": "Görev: Ulaşın {{targetScore}}.",
   "festival-of-colors-2025.portal.rewardMessage": "Tebrikler, görevi tamamladınız! İşte ödülünüz.",
-  "description.colorToken2025": "Etkinlik bitmeden bunu Paskalya etkinlik mağazasında kullanın!",
-  "description.colorTicket2025": "Paskalya etkinliği sona erdikten sonra $FLOWER kazanma şansı için bunu tut!",
   "description.paintBuckets": "Bu kovalar, en sıkıcı güne bile renk getirme gücünü elinde tutuyor.",
   "description.rainbowWell": "Bu büyülü kuyu, gökkuşağının her rengiyle parlıyor ve suları kadar parlak dilekler sunuyor.",
   "description.floatingToy": "Bu eğlenceli oyuncak havada sürükleniyor ve esinti nereye götürürse götürsün neşe yayıyor.",
@@ -6046,5 +6044,8 @@
   "whatsOn.peggysCookoff": "Peggy'nin Cookoff'u",
   "whatsOn.peggysCookoffText": "Peggy's Cookoff burada. Ödül kazanmak için en çok tarifi pişirin.",
   "whatsOn.peggysCookoffText2": "En iyi 5000 şef Aşk Tılsımlarını kazanacak!",
-  "whatsOn.july10th": "10 Temmuz"
+  "whatsOn.july10th": "10 Temmuz",
+  "marketplace.price": "Fiyat: {{price}}",
+  "description.colorToken2025": "Etkinlik bitmeden önce bunu renkler festivali etkinlik mağazasında kullanın!",
+  "description.colorTicket2025": "Renkler festivali etkinliği sona erdikten sonra $FLOWER kazanma şansı için bunu tut!"
 }

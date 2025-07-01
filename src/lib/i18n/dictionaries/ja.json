@@ -5980,8 +5980,6 @@
   "festival-of-colors-2025.portal.description": "いくつの風船を割るのを手伝ってくれませんか？",
   "festival-of-colors-2025.portal.missionObjectives": "ミッション:リーチ {{targetScore}}。",
   "festival-of-colors-2025.portal.rewardMessage": "おめでとうございます。ミッションを完了しました！報酬はこちらです。",
-  "description.colorToken2025": "イベント終了前にイースターイベントショップで使おう！",
-  "description.colorTicket2025": "これを持っていると、イースターイベント終了後に$FLOWERが当たるチャンスがあります！",
   "description.paintBuckets": "このバケツには、どんなに退屈な日でも色を映し出す力があります。",
   "description.rainbowWell": "この魅惑的な井戸は、虹のあらゆる色にきらめき、水と同じくらい明るい願いをこめてくれます。",
   "description.floatingToy": "この遊び心のあるおもちゃは空中を漂い、そよ風の吹くところならどこでも喜びが広がります。",
@@ -6046,5 +6044,8 @@
   "whatsOn.peggysCookoff": "ペギーズ・クックオフ",
   "whatsOn.peggysCookoffText": "ペギーズ・クックオフがやってきました。レシピをたくさん作って賞品を獲得しましょう。",
   "whatsOn.peggysCookoffText2": "トップ5000のシェフがラブチャームを獲得！",
-  "whatsOn.july10th": "7 月 10 日"
+  "whatsOn.july10th": "7 月 10 日",
+  "marketplace.price": "価格:{{price}}",
+  "description.colorToken2025": "イベント終了前にフェスティバル・オブ・カラーズのイベントショップで使おう！",
+  "description.colorTicket2025": "これを持っていると、フェスティバル・オブ・カラーズのイベント終了後に$FLOWERが当たるチャンスがあります！"
 }

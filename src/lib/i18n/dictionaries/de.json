@@ -5980,8 +5980,6 @@
   "festival-of-colors-2025.portal.description": "Wie viele Luftballons kannst du uns zum Platzen bringen helfen?",
   "festival-of-colors-2025.portal.missionObjectives": "Auftrag: Erreiche {{targetScore}}.",
   "festival-of-colors-2025.portal.rewardMessage": "Herzlichen Glückwunsch, du hast die Mission abgeschlossen! Hier ist deine Belohnung.",
-  "description.colorToken2025": "Benutze das im Oster-Event-Shop, bevor das Event endet!",
-  "description.colorTicket2025": "Holt das, um nach Ende des Oster-Events $FLOWER zu gewinnen!",
   "description.paintBuckets": "Diese Eimer haben die Kraft, selbst an den trüben Tagen Farbe zu verleihen.",
   "description.rainbowWell": "Dieser verzauberte Brunnen schimmert in allen Farben des Regenbogens und erfüllt Wünsche, die so hell sind wie sein Wasser.",
   "description.floatingToy": "Dieses verspielte Spielzeug schwebt durch die Luft und verbreitet Freude, wohin auch immer die Brise es treibt.",
@@ -6046,5 +6044,8 @@
   "whatsOn.peggysCookoff": "Peggys Cookoff",
   "whatsOn.peggysCookoffText": "Das Peggy's Cookoff ist da. Koche die meisten Rezepte, um Preise zu gewinnen.",
   "whatsOn.peggysCookoffText2": "Die 5000 besten Köche gewinnen Love Charms!",
-  "whatsOn.july10th": "10. Juli"
+  "whatsOn.july10th": "10. Juli",
+  "marketplace.price": "Preis: {{price}}",
+  "description.colorToken2025": "Benutze es im Festival of Colors Eventshop, bevor das Event endet!",
+  "description.colorTicket2025": "Holt das, um nach Ende des Festivals der Farben $FLOWER zu gewinnen!"
 }

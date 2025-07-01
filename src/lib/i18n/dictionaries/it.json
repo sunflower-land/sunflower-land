@@ -5980,8 +5980,6 @@
   "festival-of-colors-2025.portal.description": "Quanti palloncini puoi aiutarci a far scoppiare?",
   "festival-of-colors-2025.portal.missionObjectives": "Missione: raggiungere {{targetScore}}.",
   "festival-of-colors-2025.portal.rewardMessage": "Congratulazioni, hai completato la missione! Ecco la tua ricompensa.",
-  "description.colorToken2025": "Usalo nel negozio degli eventi di Pasqua prima che l'evento finisca!",
-  "description.colorTicket2025": "Tienilo in mano per avere la possibilità di vincere $FLOWER dopo la fine dell'evento di Pasqua!",
   "description.paintBuckets": "Questi secchi hanno il potere di dare colore anche alle giornate più noiose.",
   "description.rainbowWell": "Questo pozzo incantato brilla di tutti i colori dell'arcobaleno, offrendo auguri brillanti come le sue acque.",
   "description.floatingToy": "Questo giocattolo giocoso si muove nell'aria, diffondendo gioia ovunque la brezza lo porti.",
@@ -6046,5 +6044,8 @@
   "whatsOn.peggysCookoff": "La cucina di Peggy",
   "whatsOn.peggysCookoffText": "Il Peggy's Cookoff è qui. Cucina il maggior numero di ricette per vincere premi.",
   "whatsOn.peggysCookoffText2": "I migliori 5000 chef vinceranno Love Charms!",
-  "whatsOn.july10th": "10 luglio"
+  "whatsOn.july10th": "10 luglio",
+  "marketplace.price": "Prezzo: {{price}}",
+  "description.colorToken2025": "Usalo nel negozio dell'evento del festival dei colori prima che l'evento finisca!",
+  "description.colorTicket2025": "Tienilo in mano per avere la possibilità di vincere $FLOWER al termine dell'evento del festival dei colori!"
 }

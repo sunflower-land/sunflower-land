@@ -5980,8 +5980,6 @@
   "festival-of-colors-2025.portal.description": "Berapa banyak balon yang bisa kau bantu kami meledakkan?",
   "festival-of-colors-2025.portal.missionObjectives": "Misi: Jangkau {{targetScore}}.",
   "festival-of-colors-2025.portal.rewardMessage": "Selamat, Anda telah menyelesaikan misi! Inilah hadiahmu.",
-  "description.colorToken2025": "Gunakan ini di toko acara paskah sebelum acara berakhir!",
-  "description.colorTicket2025": "Tahan ini untuk kesempatan memenangkan $FLOWER setelah acara Paskah berakhir!",
   "description.paintBuckets": "Ember-ember ini memiliki kekuatan untuk membawa warna bahkan pada hari yang paling membosankan sekalipun.",
   "description.rainbowWell": "Sumur ajaib ini berkilau dengan setiap warna pelangi, menawarkan keinginan seterang airnya.",
   "description.floatingToy": "Mainan lucu ini melayang di udara, menyebarkan kegembiraan kemanapun angin sepoi-sepoi membawanya.",
@@ -6046,5 +6044,8 @@
   "whatsOn.peggysCookoff": "Peggy's Cookoff",
   "whatsOn.peggysCookoffText": "Peggy's Cookoff ada di sini. Masak resep paling banyak untuk memenangkan hadiah.",
   "whatsOn.peggysCookoffText2": "5000 koki teratas akan memenangkan Love Charms!",
-  "whatsOn.july10th": "10 Juli"
+  "whatsOn.july10th": "10 Juli",
+  "marketplace.price": "Harga: {{price}}",
+  "description.colorToken2025": "Gunakan ini di toko acara festival warna sebelum acara berakhir!",
+  "description.colorTicket2025": "Tahan ini untuk kesempatan memenangkan $FLOWER setelah acara festival warna berakhir!"
 }
