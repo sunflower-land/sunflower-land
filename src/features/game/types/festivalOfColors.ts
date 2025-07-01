@@ -1,7 +1,7 @@
 import { FlowerBox } from "../events/landExpansion/buySeasonalItem";
 import { BumpkinItem } from "./bumpkin";
 import { InventoryItemName } from "./game";
-import { MINIGAME_SHOP_ITEMS } from "./minigameShop";
+import { FESTIVAL_OF_COLORS_STORE } from "./minigameShop";
 
 export type EventTierItemName =
   | EventCollectibleName
@@ -74,32 +74,29 @@ export type EventStore = {
 
 export type EventStoreTier = keyof EventStore;
 
-const SHOP = MINIGAME_SHOP_ITEMS["festival-of-colors-2025"]!;
-
 export const COLORS_EVENT_ITEMS: EventStore = {
   basic: {
     items: [
       {
         collectible: "Floating Toy",
-        cost: SHOP["Floating Toy"]!.cost,
+        cost: FESTIVAL_OF_COLORS_STORE["Floating Toy"].cost,
       },
       {
         wearable: "Paint Splattered Hair",
-        cost: SHOP["Paint Splattered Hair"]!.cost,
+        cost: FESTIVAL_OF_COLORS_STORE["Paint Splattered Hair"].cost,
       },
       {
         wearable: "Paint Splattered Shirt",
-        // TODO the rest here
-        cost: { sfl: 0, items: { "Colors Token 2025": 250 } },
+        cost: FESTIVAL_OF_COLORS_STORE["Paint Splattered Shirt"].cost,
       },
       {
         collectible: "Treasure Key",
-        cost: { sfl: 0, items: { "Colors Token 2025": 300 } },
+        cost: FESTIVAL_OF_COLORS_STORE["Treasure Key"].cost,
       },
       {
         collectible: "Colors Ticket 2025",
         cooldownMs: 1000,
-        cost: { sfl: 0, items: { "Colors Token 2025": 150 } },
+        cost: FESTIVAL_OF_COLORS_STORE["Colors Ticket 2025"].cost,
       },
     ],
   },
@@ -107,27 +104,27 @@ export const COLORS_EVENT_ITEMS: EventStore = {
     items: [
       {
         collectible: "Pony Toy",
-        cost: { sfl: 40, items: {} },
+        cost: FESTIVAL_OF_COLORS_STORE["Pony Toy"].cost,
       },
       {
         wearable: "Slime Hat",
-        cost: { sfl: 50, items: {} },
+        cost: FESTIVAL_OF_COLORS_STORE["Slime Hat"].cost,
       },
       {
         wearable: "Paint Splattered Overalls",
-        cost: { sfl: 0, items: { "Colors Token 2025": 350 } },
+        cost: FESTIVAL_OF_COLORS_STORE["Paint Splattered Overalls"].cost,
       },
       {
         wearable: "Paint Spray Can",
-        cost: { sfl: 0, items: { "Colors Token 2025": 450 } },
+        cost: FESTIVAL_OF_COLORS_STORE["Paint Spray Can"].cost,
       },
       {
         collectible: "Paint Buckets",
-        cost: { sfl: 0, items: { "Colors Token 2025": 250 } },
+        cost: FESTIVAL_OF_COLORS_STORE["Paint Buckets"].cost,
       },
       {
         collectible: "Rare Key",
-        cost: { sfl: 0, items: { "Colors Token 2025": 500 } },
+        cost: FESTIVAL_OF_COLORS_STORE["Rare Key"].cost,
       },
     ],
     requirement: 4,
@@ -136,27 +133,27 @@ export const COLORS_EVENT_ITEMS: EventStore = {
     items: [
       {
         collectible: "Red Slime Balloon",
-        cost: { sfl: 60, items: {} },
+        cost: FESTIVAL_OF_COLORS_STORE["Red Slime Balloon"].cost,
       },
       {
         wearable: "Slime Wings",
-        cost: { sfl: 200, items: {} },
+        cost: FESTIVAL_OF_COLORS_STORE["Slime Wings"].cost,
       },
       {
         collectible: "Rainbow Well",
-        cost: { sfl: 0, items: { "Colors Token 2025": 500 } },
+        cost: FESTIVAL_OF_COLORS_STORE["Rainbow Well"].cost,
       },
       {
         collectible: "Blue Slime Balloon",
-        cost: { sfl: 0, items: { "Colors Token 2025": 750 } },
+        cost: FESTIVAL_OF_COLORS_STORE["Blue Slime Balloon"].cost,
       },
       {
         collectible: "Rainbow Flower",
-        cost: { sfl: 0, items: { "Colors Token 2025": 1000 } },
+        cost: FESTIVAL_OF_COLORS_STORE["Rainbow Flower"].cost,
       },
       {
         collectible: "Luxury Key",
-        cost: { sfl: 0, items: { "Colors Token 2025": 1000 } },
+        cost: FESTIVAL_OF_COLORS_STORE["Luxury Key"].cost,
       },
     ],
     requirement: 8,
@@ -165,11 +162,11 @@ export const COLORS_EVENT_ITEMS: EventStore = {
     items: [
       {
         collectible: "Super Totem",
-        cost: { sfl: 0, items: { "Colors Token 2025": 2500 } },
+        cost: FESTIVAL_OF_COLORS_STORE["Super Totem"].cost,
       },
       {
         wearable: "Slime Aura",
-        cost: { sfl: 500, items: {} },
+        cost: FESTIVAL_OF_COLORS_STORE["Slime Aura"].cost,
       },
     ],
     requirement: 12,
