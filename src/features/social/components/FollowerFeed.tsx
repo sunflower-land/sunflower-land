@@ -11,6 +11,7 @@ import { FarmInteraction } from "../PlayerModal";
 import promote from "assets/icons/promote.webp";
 import { useScrollToBottom } from "lib/utils/hooks/useScrollToBottom";
 import { ChatInput } from "./ChatInput";
+import { isMobile } from "mobile-device-detect";
 
 type Props = {
   chatDisabled?: boolean;
@@ -23,7 +24,6 @@ const _username = (state: MachineState) => state.context.state.username;
 
 export const FollowerFeed: React.FC<Props> = ({
   chatDisabled,
-  className,
   interactions = [],
   onInteraction,
 }) => {
@@ -42,7 +42,10 @@ export const FollowerFeed: React.FC<Props> = ({
 
   return (
     <InnerPanel
-      className={classNames("flex flex-col justify-between w-full", className)}
+      className={classNames("flex flex-col justify-between", {
+        "w-full": isMobile,
+        "w-2/5 h-auto": !isMobile,
+      })}
     >
       <div
         className="flex flex-col gap-1 max-h-[70%] overflow-y-auto h-[270px] sm:h-auto"

@@ -201,7 +201,6 @@ export const PlayerDetails: React.FC<Props> = ({ player }) => {
       </div>
       {!isMobile && (
         <FollowerFeed
-          className="w-2/5 h-auto"
           interactions={interactions}
           onInteraction={(interaction) => {
             setInteractions([interaction, ...interactions]);
