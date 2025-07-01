@@ -135,13 +135,14 @@ export function craftTool({ state, action }: Options) {
     bumpkin.activity,
     new Decimal(amount),
   );
+
+  stateCopy.coins = stateCopy.coins - price;
   bumpkin.activity = trackActivity(
     "Coins Spent",
     bumpkin.activity,
     new Decimal(price),
   );
 
-  stateCopy.coins = stateCopy.coins - price;
   stateCopy.inventory = {
     ...subtractedInventory,
     [action.tool]: oldAmount.add(amount) as Decimal,

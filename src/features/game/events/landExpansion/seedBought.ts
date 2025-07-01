@@ -164,17 +164,18 @@ export function seedBought({ state, action, createdAt = Date.now() }: Options) {
     const oldAmount = stateCopy.inventory[item] ?? new Decimal(0);
 
     bumpkin.activity = trackActivity(
-      "Coins Spent",
-      bumpkin?.activity,
-      new Decimal(totalExpenses),
-    );
-    bumpkin.activity = trackActivity(
       `${item} Bought`,
       bumpkin?.activity,
       new Decimal(amount),
     );
 
     stateCopy.coins = stateCopy.coins - totalExpenses;
+    bumpkin.activity = trackActivity(
+      "Coins Spent",
+      bumpkin?.activity,
+      new Decimal(totalExpenses),
+    );
+
     stateCopy.inventory[action.item] = oldAmount.add(amount) as Decimal;
     stateCopy.stock[item] = stateCopy.stock[item]?.minus(amount) as Decimal;
 
