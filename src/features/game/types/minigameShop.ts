@@ -4,7 +4,9 @@ import { MinigameName } from "./minigames";
 
 export type EventShopItemName =
   | EventShopCollectibleName
-  | EventShopWearableName;
+  | EventShopWearableName
+  | FestivalOfColorsShopItemName
+  | FestivalOfColorsShopWearableName;
 
 export type EventShopCollectibleName = Extract<
   InventoryItemName,

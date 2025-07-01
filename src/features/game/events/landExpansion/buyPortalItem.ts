@@ -5,10 +5,9 @@ import { produce } from "immer";
 
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import {
+  EventShopItemName,
   isEventShopCollectible,
   MINIGAME_SHOP_ITEMS,
-  EventShopCollectibleName,
-  EventShopWearableName,
 } from "features/game/types/minigameShop";
 import { MinigameName } from "features/game/types/minigames";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
@@ -17,7 +16,7 @@ import { hasVipAccess } from "features/game/lib/vipAccess";
 export type BuyMinigameItemAction = {
   type: "minigameItem.bought";
   id: MinigameName;
-  name: EventShopCollectibleName | EventShopWearableName;
+  name: EventShopItemName;
 };
 
 type Options = {

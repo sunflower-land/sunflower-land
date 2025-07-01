@@ -1,11 +1,17 @@
 import { FlowerBox } from "../events/landExpansion/buySeasonalItem";
 import { BumpkinItem } from "./bumpkin";
 import { InventoryItemName } from "./game";
-import { FESTIVAL_OF_COLORS_STORE } from "./minigameShop";
+import {
+  FESTIVAL_OF_COLORS_STORE,
+  FestivalOfColorsShopWearableName,
+  FestivalOfColorsShopItemName,
+} from "./minigameShop";
 
 export type EventTierItemName =
   | EventCollectibleName
   | EventWearableName
+  | FestivalOfColorsShopItemName
+  | FestivalOfColorsShopWearableName
   | MegastoreKeys;
 
 export type EventCollectibleName =
