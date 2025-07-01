@@ -113,6 +113,7 @@ export function craftTool({ state, action }: Options) {
 
   let toolIngredients = tool.ingredients;
 
+  // To delete when LEATHER_TOOLS is released
   if (!hasFeatureAccess(stateCopy, "LEATHER_TOOLS")) {
     if (action.tool === "Oil Drill") {
       toolIngredients = {
