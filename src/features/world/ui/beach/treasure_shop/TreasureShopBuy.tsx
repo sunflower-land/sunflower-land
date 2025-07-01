@@ -1,5 +1,5 @@
 import React, { SyntheticEvent, useContext, useRef, useState } from "react";
-import { useActor } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
@@ -34,6 +34,7 @@ import { getToolPrice } from "features/game/events/landExpansion/craftTool";
 import { Keys } from "features/game/types/game";
 import { isMobile } from "mobile-device-detect";
 import { Restock } from "features/island/buildings/components/building/market/restock/Restock";
+import { hasFeatureAccess } from "lib/flags";
 
 interface ToolContentProps {
   selectedName: TreasureToolName;
@@ -44,14 +45,20 @@ const ToolContent: React.FC<ToolContentProps> = ({ selectedName }) => {
 
   const { gameService, shortcutItem } = useContext(Context);
 
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const state = useSelector(gameService, (state) => state.context.state);
 
   const stock = state.stock[selectedName] || new Decimal(0);
-  const selected = TREASURE_TOOLS[selectedName];
+  const selected =
+    selectedName === "Sand Drill" && !hasFeatureAccess(state, "LEATHER_TOOLS")
+      ? {
+          ...TREASURE_TOOLS[selectedName],
+          ingredients: {
+            Oil: new Decimal(1),
+            Crimstone: new Decimal(1),
+            Wood: new Decimal(5),
+          },
+        }
+      : TREASURE_TOOLS[selectedName];
   const inventory = state.inventory;
   const bulkToolCraftAmount = makeBulkBuyTools(stock);
   const price = getToolPrice(selected, 1, state);

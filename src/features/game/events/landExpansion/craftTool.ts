@@ -113,14 +113,21 @@ export function craftTool({ state, action }: Options) {
 
   let toolIngredients = tool.ingredients;
 
-  if (
-    action.tool === "Oil Drill" &&
-    !hasFeatureAccess(stateCopy, "LEATHER_TOOLS")
-  ) {
-    toolIngredients = {
-      Wood: new Decimal(25),
-      Iron: new Decimal(10),
-    };
+  if (!hasFeatureAccess(stateCopy, "LEATHER_TOOLS")) {
+    if (action.tool === "Oil Drill") {
+      toolIngredients = {
+        Wood: new Decimal(25),
+        Iron: new Decimal(10),
+      };
+    }
+
+    if (action.tool === "Sand Drill") {
+      toolIngredients = {
+        Oil: new Decimal(1),
+        Crimstone: new Decimal(1),
+        Wood: new Decimal(5),
+      };
+    }
   }
 
   const subtractedInventory = getObjectEntries(toolIngredients).reduce(
