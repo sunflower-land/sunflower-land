@@ -5,8 +5,12 @@ import { Loading } from "features/auth/components";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useActor, useSelector } from "@xstate/react";
-import { INVENTORY_RELEASES } from "features/game/types/withdrawables";
+import {
+  BUMPKIN_RELEASES,
+  INVENTORY_RELEASES,
+} from "features/game/types/withdrawables";
 import { KNOWN_ITEMS } from "features/game/types";
+import { ITEM_NAMES as BUMPKIN_ITEM_NAMES } from "features/game/types/bumpkin";
 import { ListViewCard } from "./ListViewCard";
 import * as Auth from "features/auth/lib/Provider";
 import useSWR from "swr";
@@ -38,22 +42,11 @@ export const WhatsNew: React.FC = () => {
   if (collectiblesError || wearablesError)
     throw collectiblesError || wearablesError;
 
-  const sortItems = (items: Tradeable[]) => {
-    return items
-      .sort((a, b) => b.id - a.id)
-      .sort(
-        (a, b) =>
-          (INVENTORY_RELEASES[KNOWN_ITEMS[b.id]]?.tradeAt.getTime() ?? 0) -
-          (INVENTORY_RELEASES[KNOWN_ITEMS[a.id]]?.tradeAt.getTime() ?? 0),
-      );
-  };
-
-  const sortedCollectibles = sortItems(collectibles?.items ?? []);
-  const sortedWearables = sortItems(wearables?.items ?? []);
-
-  if (collectiblesLoading || wearablesLoading) {
-    return <Loading />;
-  }
+  const sortedCollectibles = sortItems(
+    collectibles?.items ?? [],
+    "collectibles",
+  );
+  const sortedWearables = sortItems(wearables?.items ?? [], "wearables");
 
   return (
     <div className="flex flex-wrap">
@@ -61,14 +54,26 @@ export const WhatsNew: React.FC = () => {
         <Label type="default" className="mb-2 -ml-1">
           {t("collectibles")}
         </Label>
-        <ItemsList items={sortedCollectibles} type="collectibles" />
+        {collectiblesLoading ? (
+          <Loading />
+        ) : (
+          sortedCollectibles.length > 0 && (
+            <ItemsList items={sortedCollectibles} type="collectibles" />
+          )
+        )}
       </div>
 
       <div className="w-full">
         <Label type="default" className="mb-2 -ml-1">
           {t("wearables")}
         </Label>
-        <ItemsList items={sortedWearables} type="wearables" />
+        {wearablesLoading ? (
+          <Loading />
+        ) : (
+          sortedWearables.length > 0 && (
+            <ItemsList items={sortedWearables} type="wearables" />
+          )
+        )}
       </div>
     </div>
   );
@@ -85,7 +90,7 @@ const ItemsList: React.FC<{
 
   return (
     <div className="flex flex-wrap">
-      {items.slice(0, 6).map(({ id, floor, lastSalePrice, expiresAt }) => {
+      {items.map(({ id, floor, lastSalePrice, expiresAt }) => {
         const display = getTradeableDisplay({
           type,
           id,
@@ -115,4 +120,30 @@ const ItemsList: React.FC<{
       })}
     </div>
   );
+};
+
+const sortItems = (items: Tradeable[], type: "collectibles" | "wearables") => {
+  const oneMonthAgo = new Date();
+  oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+
+  const filteredItems: Tradeable[] = [];
+
+  items.forEach((item) => {
+    let tradeAt = INVENTORY_RELEASES[KNOWN_ITEMS[item.id]]?.tradeAt;
+    if (type === "wearables") {
+      tradeAt = BUMPKIN_RELEASES[BUMPKIN_ITEM_NAMES[item.id]]?.tradeAt;
+    }
+
+    if (tradeAt && tradeAt >= oneMonthAgo) {
+      filteredItems.push(item);
+    }
+  });
+
+  return filteredItems
+    .sort((a, b) => b.id - a.id)
+    .sort(
+      (a, b) =>
+        (INVENTORY_RELEASES[KNOWN_ITEMS[b.id]]?.tradeAt.getTime() ?? 0) -
+        (INVENTORY_RELEASES[KNOWN_ITEMS[a.id]]?.tradeAt.getTime() ?? 0),
+    );
 };
