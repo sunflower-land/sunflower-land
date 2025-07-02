@@ -96,6 +96,7 @@ import { NetworkName } from "../events/landExpansion/updateNetwork";
 import { RewardBoxes, RewardBoxName } from "./rewardBoxes";
 import { FloatingIslandShop, FloatingShopItemName } from "./floatingIsland";
 import { Blessing } from "../lib/blessings";
+import { LandBiomes } from "features/island/biomes/biomes";
 
 export type Reward = {
   coins?: number;
@@ -541,7 +542,8 @@ export type InventoryItemName =
   | SeasonalCollectibleName
   | TradeFood
   | SeasonalBanner
-  | RewardBoxName;
+  | RewardBoxName
+  | LandBiomes;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 

@@ -1037,6 +1037,10 @@ export const ITEM_TRADE_TYPES: {
     "Pony Toy": "instant",
     "Red Slime Balloon": "instant",
     "Blue Slime Balloon": "instant",
+    "Basic Biome": "instant",
+    "Spring Biome": "instant",
+    "Desert Biome": "instant",
+    "Volcano Biome": "instant",
   },
   wearables: {
     "New Years Crown": "instant",
