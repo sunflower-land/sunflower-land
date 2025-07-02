@@ -6008,7 +6008,6 @@
   "blessing.donated": "{{amount}} {{item}} ha donato",
   "offering.blessing": "Il tuo tributo sta per essere inviato.",
   "offering.blessing.success.winner": "Vincitore",
-  "offering.blessing.success.loser": "Perdente",
   "blessing.beta": "Tieni presente che questa è una funzionalità beta: i risultati e i premi verranno modificati o rimossi. L'uso è a rischio e pericolo dell'utente.",
   "offering.blessing.success": "Il tuo tributo è stato inviato. Tornate domani.",
   "blessing.missingOffering": "Tributo mancante",
@@ -6047,5 +6046,6 @@
   "whatsOn.july10th": "10 luglio",
   "marketplace.price": "Prezzo: {{price}}",
   "description.colorToken2025": "Usalo nel negozio dell'evento del festival dei colori prima che l'evento finisca!",
-  "description.colorTicket2025": "Tienilo in mano per avere la possibilità di vincere $FLOWER al termine dell'evento del festival dei colori!"
+  "description.colorTicket2025": "Tienilo in mano per avere la possibilità di vincere $FLOWER al termine dell'evento del festival dei colori!",
+  "offering.blessing.success.loser": "Non questa volta"
 }

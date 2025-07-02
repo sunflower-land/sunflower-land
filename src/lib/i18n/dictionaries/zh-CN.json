@@ -6008,7 +6008,6 @@
   "blessing.donated": "{{amount}} {{item}} 已捐赠",
   "offering.blessing": "您的致敬已发送。",
   "offering.blessing.success.winner": "赢家",
-  "offering.blessing.success.loser": "失败者",
   "blessing.beta": "请注意，这是一项测试功能-结果和奖励将更改或删除。使用风险自负。",
   "offering.blessing.success": "您的致敬已发送。明天再来。",
   "blessing.missingOffering": "失踪的贡品",
@@ -6047,5 +6046,6 @@
   "whatsOn.july10th": "7 月 10 日",
   "marketplace.price": "价格：{{price}}",
   "description.colorToken2025": "在活动结束之前，在色彩节活动商店中使用它！",
-  "description.colorTicket2025": "在色彩节活动结束后，持有这个有机会赢取 $FLOWER！"
+  "description.colorTicket2025": "在色彩节活动结束后，持有这个有机会赢取 $FLOWER！",
+  "offering.blessing.success.loser": "这次不是"
 }

@@ -6008,7 +6008,6 @@
   "blessing.donated": "{{amount}} {{item}} bağışlandı",
   "offering.blessing": "Harabınız gönderiliyor.",
   "offering.blessing.success.winner": "Kazanan",
-  "offering.blessing.success.loser": "Kaybeden",
   "blessing.beta": "Lütfen bunun bir beta özelliği olduğunu unutmayın - sonuçlar ve ödüller değişecek veya kaldırılacaktır. Kendi kayıp riskinizde kullanın.",
   "offering.blessing.success": "Harabınız gönderildi. Yarın geri gel.",
   "blessing.missingOffering": "Eksik haraç",
@@ -6047,5 +6046,6 @@
   "whatsOn.july10th": "10 Temmuz",
   "marketplace.price": "Fiyat: {{price}}",
   "description.colorToken2025": "Etkinlik bitmeden önce bunu renkler festivali etkinlik mağazasında kullanın!",
-  "description.colorTicket2025": "Renkler festivali etkinliği sona erdikten sonra $FLOWER kazanma şansı için bunu tut!"
+  "description.colorTicket2025": "Renkler festivali etkinliği sona erdikten sonra $FLOWER kazanma şansı için bunu tut!",
+  "offering.blessing.success.loser": "Bu sefer değil"
 }

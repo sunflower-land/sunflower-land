@@ -6008,7 +6008,6 @@
   "blessing.donated": "{{amount}} {{item}} пожертвовано",
   "offering.blessing": "Ваша дань уважения отправлена.",
   "offering.blessing.success.winner": "Победитель",
-  "offering.blessing.success.loser": "Неудачник",
   "blessing.beta": "Обратите внимание, что это бета-функция: результаты и награды будут изменены или удалены. Используйте на свой страх и риск потери.",
   "offering.blessing.success": "Ваша дань уважения отправлена. Возвращайтесь завтра.",
   "blessing.missingOffering": "Пропущенная дань",
@@ -6047,5 +6046,6 @@
   "whatsOn.july10th": "10 июля",
   "marketplace.price": "Цена: {{price}}",
   "description.colorToken2025": "Воспользуйтесь этим в магазине мероприятий фестиваля красок до его окончания!",
-  "description.colorTicket2025": "Воспользуйтесь этой возможностью и получите шанс выиграть $FLOWER после окончания фестиваля красок!"
+  "description.colorTicket2025": "Воспользуйтесь этой возможностью и получите шанс выиграть $FLOWER после окончания фестиваля красок!",
+  "offering.blessing.success.loser": "Не в этот раз"
 }

@@ -6008,7 +6008,6 @@
   "blessing.donated": "{{amount}} {{item}} が寄付されました",
   "offering.blessing": "あなたのトリビュートが送られています。",
   "offering.blessing.success.winner": "勝者",
-  "offering.blessing.success.loser": "敗者",
   "blessing.beta": "これはベータ版機能ですのでご注意ください。結果や報酬は変更されるか、削除されます。損失については自己責任で使用してください。",
   "offering.blessing.success": "トリビュートが送信されました。明日戻ってきて。",
   "blessing.missingOffering": "トリビュートが欠けている",
@@ -6047,5 +6046,6 @@
   "whatsOn.july10th": "7 月 10 日",
   "marketplace.price": "価格:{{price}}",
   "description.colorToken2025": "イベント終了前にフェスティバル・オブ・カラーズのイベントショップで使おう！",
-  "description.colorTicket2025": "これを持っていると、フェスティバル・オブ・カラーズのイベント終了後に$FLOWERが当たるチャンスがあります！"
+  "description.colorTicket2025": "これを持っていると、フェスティバル・オブ・カラーズのイベント終了後に$FLOWERが当たるチャンスがあります！",
+  "offering.blessing.success.loser": "今回は違います"
 }

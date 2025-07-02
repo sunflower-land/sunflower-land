@@ -948,7 +948,7 @@ export const INVENTORY_RELEASES: Partial<Record<InventoryItemName, Releases>> =
       withdrawAt: SEASONS["Great Bloom"].endDate,
     },
     "Summer Guardian": {
-      tradeAt: SEASONS["Great Bloom"].endDate,
+      tradeAt: new Date("2025-07-01T00:00:00Z"),
       withdrawAt: SEASONS["Great Bloom"].endDate,
     },
     "Spring Guardian": {

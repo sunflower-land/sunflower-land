@@ -6008,7 +6008,6 @@
   "blessing.donated": "{{amount}} {{item}} gespendet",
   "offering.blessing": "Ihr Tribut wird gesendet.",
   "offering.blessing.success.winner": "Gewinner",
-  "offering.blessing.success.loser": "Verlierer",
   "blessing.beta": "Bitte beachte, dass es sich um eine Beta-Funktion handelt — Ergebnisse und Belohnungen werden sich ändern oder entfernt werden. Die Nutzung erfolgt auf eigenes Verlustrisiko.",
   "offering.blessing.success": "Ihr Tribut wurde gesendet. Komm morgen zurück.",
   "blessing.missingOffering": "Fehlender Tribut",
@@ -6047,5 +6046,6 @@
   "whatsOn.july10th": "10. Juli",
   "marketplace.price": "Preis: {{price}}",
   "description.colorToken2025": "Benutze es im Festival of Colors Eventshop, bevor das Event endet!",
-  "description.colorTicket2025": "Holt das, um nach Ende des Festivals der Farben $FLOWER zu gewinnen!"
+  "description.colorTicket2025": "Holt das, um nach Ende des Festivals der Farben $FLOWER zu gewinnen!",
+  "offering.blessing.success.loser": "Dieses Mal nicht"
 }

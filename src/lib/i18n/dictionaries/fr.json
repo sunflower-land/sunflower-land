@@ -6008,7 +6008,6 @@
   "blessing.donated": "{{amount}} {{item}} a fait un don",
   "offering.blessing": "Votre hommage est envoyé.",
   "offering.blessing.success.winner": "Vainqueur",
-  "offering.blessing.success.loser": "Perdant",
   "blessing.beta": "Veuillez noter qu'il s'agit d'une fonctionnalité bêta : les résultats et les récompenses seront modifiés ou supprimés. Utilisez-le à vos risques et périls.",
   "offering.blessing.success": "Votre hommage a été envoyé. Revenez demain.",
   "blessing.missingOffering": "Hommage disparu",
@@ -6047,5 +6046,6 @@
   "whatsOn.july10th": "Le 10 juillet",
   "marketplace.price": "Prix : {{price}}",
   "description.colorToken2025": "Utilisez-le dans la boutique événementielle du Festival des couleurs avant la fin de l'événement !",
-  "description.colorTicket2025": "Gardez-le pour courir la chance de gagner $FLOWER après la fin de l'événement du festival des couleurs !"
+  "description.colorTicket2025": "Gardez-le pour courir la chance de gagner $FLOWER après la fin de l'événement du festival des couleurs !",
+  "offering.blessing.success.loser": "Pas cette fois"
 }
