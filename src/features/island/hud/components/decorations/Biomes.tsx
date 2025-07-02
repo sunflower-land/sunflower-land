@@ -10,6 +10,7 @@ import React, { useContext, useState } from "react";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { setPrecision } from "lib/utils/formatNumber";
 
 export const Biomes: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -24,7 +25,9 @@ export const Biomes: React.FC = () => {
   const biome = LAND_BIOMES[selected];
   const { flowerUSD = 0, coins: coinPrice, ingredients } = biome;
 
-  const currentFLOWERQuote = flowerUSD * flowerPrice;
+  const currentFLOWERQuote = setPrecision(
+    new Decimal(flowerUSD).div(flowerPrice),
+  );
   const lessFunds = () => {
     if (currentFLOWERQuote) {
       return state.balance.lt(new Decimal(currentFLOWERQuote));
