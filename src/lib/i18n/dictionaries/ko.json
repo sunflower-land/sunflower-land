@@ -6008,7 +6008,6 @@
   "blessing.donated": "{{amount}} {{item}} 기부",
   "offering.blessing": "경의를 표하는 중입니다.",
   "offering.blessing.success.winner": "우승자",
-  "offering.blessing.success.loser": "실패자",
   "blessing.beta": "참고: 이 기능은 베타 기능이므로 결과 및 보상은 변경되거나 삭제됩니다.분실 위험은 본인이 감수하고 사용하세요.",
   "offering.blessing.success": "헌정문이 전송되었습니다.내일 다시 오세요.",
   "blessing.missingOffering": "사라진 공물",
@@ -6047,5 +6046,6 @@
   "whatsOn.july10th": "7월 10일",
   "marketplace.price": "가격: {{price}}",
   "description.colorToken2025": "이벤트 종료 전에 페스티벌 오브 컬러 이벤트 상점에서 사용하세요!",
-  "description.colorTicket2025": "이 기회를 놓치지 않고 컬러 페스티벌 이벤트 종료 후 $FLOWER를 받을 수 있는 기회를 잡으세요!"
+  "description.colorTicket2025": "이 기회를 놓치지 않고 컬러 페스티벌 이벤트 종료 후 $FLOWER를 받을 수 있는 기회를 잡으세요!",
+  "offering.blessing.success.loser": "이번엔 안 돼"
 }

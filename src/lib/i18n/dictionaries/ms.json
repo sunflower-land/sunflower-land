@@ -6008,7 +6008,6 @@
   "blessing.donated": "{{amount}} {{item}} disumbangkan",
   "offering.blessing": "Penghormatan anda sedang dihantar.",
   "offering.blessing.success.winner": "Pemenang",
-  "offering.blessing.success.loser": "Kalah",
   "blessing.beta": "Sila ambil perhatian bahawa ini adalah ciri beta - hasil & ganjaran akan berubah atau dikeluarkan. Gunakan dengan risiko kerugian anda sendiri.",
   "offering.blessing.success": "Penghormatan anda telah dihantar. Kembali esok.",
   "blessing.missingOffering": "Penghormatan hilang",
@@ -6047,5 +6046,6 @@
   "whatsOn.july10th": "10 Julai",
   "marketplace.price": "Harga: {{price}}",
   "description.colorToken2025": "Gunakan ini di kedai acara festival warna sebelum acara berakhir!",
-  "description.colorTicket2025": "Pegang ini untuk peluang memenangi $FLOWER selepas acara festival warna berakhir!"
+  "description.colorTicket2025": "Pegang ini untuk peluang memenangi $FLOWER selepas acara festival warna berakhir!",
+  "offering.blessing.success.loser": "Bukan kali ini"
 }
