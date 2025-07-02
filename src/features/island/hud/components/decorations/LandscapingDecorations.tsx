@@ -1,4 +1,4 @@
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
@@ -29,13 +29,14 @@ export const LandscapingDecorations: React.FC<Props> = ({ onClose }) => {
   const selected = LANDSCAPING_DECORATIONS[selectedName];
 
   const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const state = useSelector(gameService, (state) => state.context.state);
 
-  const inventory = state.inventory;
+  const {
+    inventory,
+    coins,
+    island: { type: islandType },
+    season: { season },
+  } = state;
 
   const price = selected.coins ?? 0;
 
@@ -65,7 +66,7 @@ export const LandscapingDecorations: React.FC<Props> = ({ onClose }) => {
   const lessFunds = () => {
     if (!price) return false;
 
-    return state.coins < price;
+    return coins < price;
   };
 
   const lessIngredients = () =>
@@ -108,7 +109,7 @@ export const LandscapingDecorations: React.FC<Props> = ({ onClose }) => {
                 key={name}
                 onClick={() => setSelectedName(name)}
                 image={
-                  ITEM_ICONS(state.island.type, state.season.season)[name] ??
+                  ITEM_ICONS(islandType, season)[name] ??
                   ITEM_DETAILS[name].image
                 }
               />

@@ -24,7 +24,7 @@ import { hasFeatureAccess } from "lib/flags";
 export const PotionHouseItems: React.FC = () => {
   const { t } = useAppTranslation();
   const [selected, setSelected] = useState<Decoration | PotionHouseItem>(
-    POTION_HOUSE_DECORATIONS()["Giant Potato"],
+    POTION_HOUSE_DECORATIONS["Giant Potato"],
   );
   const { gameService, shortcutItem } = useContext(Context);
   const [
@@ -99,7 +99,7 @@ export const PotionHouseItems: React.FC = () => {
       content={
         <>
           {Object.values({
-            ...POTION_HOUSE_DECORATIONS(),
+            ...POTION_HOUSE_DECORATIONS,
             ...POTION_HOUSE_ITEMS,
             ...POTION_HOUSE_EXOTIC_CROPS,
           }).map((item) => {
