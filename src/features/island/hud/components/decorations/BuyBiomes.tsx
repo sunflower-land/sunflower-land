@@ -11,6 +11,8 @@ import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import Decimal from "decimal.js-light";
 import { Label } from "components/ui/Label";
+import { Modal } from "components/ui/Modal";
+import { Panel } from "components/ui/Panel";
 
 export const BuyBiomes: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -19,6 +21,7 @@ export const BuyBiomes: React.FC = () => {
   const [selected, setSelected] = useState<LandBiomeName>(
     getKeys(LAND_BIOMES)[0],
   );
+  const [showApplyInstructions, setShowApplyInstructions] = useState(false);
 
   const biome = LAND_BIOMES[selected];
   const { coins: coinPrice, ingredients } = biome;
@@ -36,42 +39,52 @@ export const BuyBiomes: React.FC = () => {
       ingredients[name]?.greaterThan(state.inventory[name] || 0),
     );
 
-  const buyBiome = () => gameService.send("biome.bought", { biome: selected });
+  const buyBiome = () => {
+    gameService.send("biome.bought", { biome: selected });
+    setShowApplyInstructions(true);
+  };
   const biomeCount = state.inventory[selected] ?? new Decimal(0);
   const hasBoughtBiome = biomeCount.gt(0);
 
   return (
-    <SplitScreenView
-      content={
-        <>
-          {getKeys(LAND_BIOMES).map((biomeName) => {
-            return (
-              <Box
-                isSelected={selected === biomeName}
-                key={biomeName}
-                onClick={() => setSelected(biomeName)}
-                image={ITEM_DETAILS[biomeName].image}
+    <>
+      <SplitScreenView
+        content={
+          <>
+            {getKeys(LAND_BIOMES).map((biomeName) => {
+              return (
+                <Box
+                  isSelected={selected === biomeName}
+                  key={biomeName}
+                  onClick={() => setSelected(biomeName)}
+                  image={ITEM_DETAILS[biomeName].image}
+                />
+              );
+            })}
+          </>
+        }
+        panel={
+          <CraftingRequirements
+            gameState={state}
+            details={{ item: selected }}
+            requirements={{ resources: ingredients, coins: coinPrice }}
+            actionView={
+              <BiomesActionView
+                lessFunds={lessFunds}
+                lessIngredients={lessIngredients}
+                buyBiome={buyBiome}
+                hasBoughtBiome={hasBoughtBiome}
               />
-            );
-          })}
-        </>
-      }
-      panel={
-        <CraftingRequirements
-          gameState={state}
-          details={{ item: selected }}
-          requirements={{ resources: ingredients, coins: coinPrice }}
-          actionView={
-            <BiomesActionView
-              lessFunds={lessFunds}
-              lessIngredients={lessIngredients}
-              buyBiome={buyBiome}
-              hasBoughtBiome={hasBoughtBiome}
-            />
-          }
-        />
-      }
-    />
+            }
+          />
+        }
+      />
+      <ApplyInstructions
+        show={showApplyInstructions}
+        onClose={() => setShowApplyInstructions(false)}
+        biome={selected}
+      />
+    </>
   );
 };
 
@@ -90,5 +103,24 @@ const BiomesActionView: React.FC<{
     <Button disabled={lessFunds() || lessIngredients()} onClick={buyBiome}>
       {t("buy")}
     </Button>
+  );
+};
+
+const ApplyInstructions: React.FC<{
+  show: boolean;
+  onClose: () => void;
+  biome: LandBiomeName;
+}> = ({ show, onClose, biome }) => {
+  const { t } = useAppTranslation();
+  return (
+    <Modal show={show}>
+      <Panel>
+        <div className="flex flex-col items-center justify-center m-1 gap-1">
+          <img src={ITEM_DETAILS[biome].image} className="w-12 h-12" />
+          <p className="m-1">{`You have bought a new biome! Time to give your land a makeover. Head over to the biomes tab to apply it.`}</p>
+          <Button onClick={onClose}>{t("close")}</Button>
+        </div>
+      </Panel>
+    </Modal>
   );
 };
