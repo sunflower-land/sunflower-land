@@ -9,7 +9,6 @@ export type LandBiomes =
 
 type Biome = Omit<Decoration, "name"> & {
   name: LandBiomes;
-  flowerUSD?: number;
   requires?: IslandType;
 };
 
