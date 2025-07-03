@@ -135,10 +135,12 @@ export const PlayerModals: React.FC<Props> = ({ game, farmId }) => {
   const [interactions, setInteractions] =
     useState<FarmInteraction[]>(dummyInteractions);
   const [player, setPlayer] = useState<PlayerModalPlayer | undefined>();
+  const [showPlayerModal, setShowPlayerModal] = useState(false);
 
   useEffect(() => {
     playerModalManager.listen((npc) => {
       setPlayer(npc);
+      setShowPlayerModal(true);
       // Automatically set to Stream tab if player has Streamer Hat and is not current player
       if (npc.clothing?.hat === "Streamer Hat" && farmId !== npc.farmId) {
         setTab("Stream");
@@ -168,14 +170,21 @@ export const PlayerModals: React.FC<Props> = ({ game, farmId }) => {
         handlePlayerLeave(event.detail.playerId)) as EventListener);
   }, [player]);
 
-  const closeModal = () => setPlayer(undefined);
+  const closeModal = () => {
+    setShowPlayerModal(false);
+  };
 
   const playerHasGift = player?.clothing.shirt === "Gift Giver";
   const playerHasStreamReward = player?.clothing.hat === "Streamer Hat";
   const notCurrentPlayer = farmId !== player?.farmId;
 
   return (
-    <Modal show={!!player} onHide={closeModal} size="lg">
+    <Modal
+      show={showPlayerModal}
+      onHide={closeModal}
+      size="lg"
+      onExited={() => setPlayer(undefined)}
+    >
       <CloseButtonPanel
         onClose={closeModal}
         bumpkinParts={player?.clothing}
@@ -230,10 +239,11 @@ export const PlayerModals: React.FC<Props> = ({ game, farmId }) => {
         container={OuterPanel}
       >
         {tab === "Player" &&
+          player &&
           (hasFeatureAccess(game, "SOCIAL_FARMING") ? (
-            <PlayerDetails player={player as PlayerModalPlayer} />
+            <PlayerDetails player={player} />
           ) : (
-            <OldPlayerDetails player={player as PlayerModalPlayer} />
+            <OldPlayerDetails player={player} />
           ))}
         {tab === "Activity" && (
           <FollowerFeed

@@ -103,7 +103,9 @@ export const FollowerFeed: React.FC<Props> = ({
             })}
         </div>
       </div>
-      <ChatInput disabled={chatDisabled} onEnter={handleInteraction} />
+      {!chatDisabled && (
+        <ChatInput disabled={chatDisabled} onEnter={handleInteraction} />
+      )}
     </InnerPanel>
   );
 };

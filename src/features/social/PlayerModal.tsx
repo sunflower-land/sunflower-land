@@ -1,7 +1,7 @@
 import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
 import { PlayerModalPlayer } from "features/world/ui/player/PlayerModals";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import vipIcon from "assets/icons/vip.webp";
 import basicIsland from "assets/icons/islands/basic.webp";
@@ -22,6 +22,13 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { FollowerFeed } from "./components/FollowerFeed";
 import { IslandType } from "features/game/types/game";
 import { useTranslation } from "react-i18next";
+import useSWR from "swr";
+import { getPlayer } from "./actions/getPlayer";
+import { Context } from "features/game/GameProvider";
+import { useSelector } from "@xstate/react";
+import { MachineState } from "features/game/lib/gameMachine";
+import { postEffect } from "features/game/actions/effect";
+import { randomID } from "lib/utils/random";
 
 export type FarmInteraction = {
   id: string;
@@ -71,12 +78,117 @@ type Props = {
   player: PlayerModalPlayer;
 };
 
+const _farmId = (state: MachineState) => state.context.farmId;
+const _token = (state: MachineState) => state.context.rawToken;
+
+import { Room, Client } from "colyseus.js";
+const client = new Client("http://localhost:2567");
+const TIMEOUT = 1000;
+const MAX_RETRIES = 10;
+
+const useMMORoom = (
+  roomName: string,
+  farmId: number,
+  onMessage: () => void,
+) => {
+  useEffect(() => {
+    const connectionAttempts = 0;
+    const reconnectInterval: NodeJS.Timeout | null = null;
+    let room: Room | null = null;
+
+    const connect = async () => {
+      await new Promise((resolve) =>
+        setTimeout(resolve, Math.pow(2, connectionAttempts) * 1000 - 1000),
+      );
+
+      room = await client.joinOrCreate(roomName, {
+        farmId,
+      });
+
+      room.onMessage("followed", () => {
+        onMessage();
+      });
+
+      room.onError((error) => {
+        connect();
+      });
+    };
+
+    connect();
+
+    return () => {
+      reconnectInterval && clearInterval(reconnectInterval);
+      room?.leave();
+    };
+  }, [roomName, farmId, onMessage]);
+};
+
 export const PlayerDetails: React.FC<Props> = ({ player }) => {
+  const { gameService } = useContext(Context);
+  const token = useSelector(gameService, _token);
+  const farmId = useSelector(gameService, _farmId);
+
+  const [followingLoading, setFollowingLoading] = useState(false);
+
   const { t } = useTranslation();
   const [interactions, setInteractions] =
     useState<FarmInteraction[]>(dummyInteractions);
 
-  if (!player) return null;
+  const {
+    data,
+    isLoading: playerLoading,
+    error,
+    isValidating,
+    mutate,
+  } = useSWR(
+    ["player", token, player.farmId],
+    ([, token, farmId]) => {
+      return getPlayer({ token: token as string, farmId });
+    },
+    {
+      revalidateOnFocus: false,
+    },
+  );
+
+  useMMORoom("sunflorea_social", farmId, mutate);
+
+  const iAmFollowing = data?.data?.followedBy.includes(farmId);
+  const theyAreFollowingMe = data?.data?.following.includes(farmId);
+  const isMutual = iAmFollowing && theyAreFollowingMe;
+
+  const handleFollow = async () => {
+    setFollowingLoading(true);
+    try {
+      if (iAmFollowing) {
+        const { data } = await postEffect({
+          effect: {
+            type: "farm.unfollowed",
+            followedId: player.farmId,
+          },
+          transactionId: randomID(),
+          token: token as string,
+          farmId: farmId,
+        });
+        mutate(data);
+      } else {
+        const { data } = await postEffect({
+          effect: {
+            type: "farm.followed",
+            followedId: player.farmId,
+          },
+          transactionId: randomID(),
+          token: token as string,
+          farmId: farmId,
+        });
+        mutate(data);
+      }
+    } catch (e) {
+      /* eslint-disable-next-line no-console */
+      console.error(e);
+    } finally {
+      setFollowingLoading(false);
+    }
+  };
 
   const startDate = new Date(player?.createdAt).toLocaleString("en-US", {
     month: "short",
@@ -139,7 +251,9 @@ export const PlayerDetails: React.FC<Props> = ({ player }) => {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-1">
                 <span className="text-xs underline cursor-pointer">
-                  {t("playerModal.followers", { count: 145 })}
+                  {t("playerModal.followers", {
+                    count: data?.data?.followedByCount,
+                  })}
                 </span>
                 <div className="relative w-10 h-6">
                   <div className="absolute">
@@ -172,7 +286,17 @@ export const PlayerDetails: React.FC<Props> = ({ player }) => {
                   </div>
                 </div>
               </div>
-              <Button className="flex w-fit h-9 justify-between items-center gap-1 mt-1 mr-0.5">{`Follow`}</Button>
+              <Button
+                className="flex w-fit h-9 justify-between items-center gap-1 mt-1 mr-0.5"
+                disabled={playerLoading || followingLoading || error}
+                onClick={handleFollow}
+              >
+                {followingLoading
+                  ? `...`
+                  : iAmFollowing
+                    ? `Unfollow`
+                    : `Follow`}
+              </Button>
             </div>
           </div>
           <div className="flex flex-col gap-1 p-1 pt-0 mb-2 w-full">
@@ -205,6 +329,7 @@ export const PlayerDetails: React.FC<Props> = ({ player }) => {
           onInteraction={(interaction) => {
             setInteractions([interaction, ...interactions]);
           }}
+          chatDisabled={!isMutual}
         />
       )}
     </div>
