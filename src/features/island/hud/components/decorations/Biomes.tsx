@@ -4,7 +4,7 @@ import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { Context } from "features/game/GameProvider";
 import { getKeys } from "features/game/types/decorations";
-import { LAND_BIOMES, LandBiomes } from "features/island/biomes/biomes";
+import { LAND_BIOMES, LandBiomeName } from "features/island/biomes/biomes";
 import React, { useContext, useState } from "react";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Button } from "components/ui/Button";
@@ -14,7 +14,9 @@ export const Biomes: React.FC = () => {
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, (state) => state.context.state);
   const { t } = useAppTranslation();
-  const [selected, setSelected] = useState<LandBiomes>(getKeys(LAND_BIOMES)[0]);
+  const [selected, setSelected] = useState<LandBiomeName>(
+    getKeys(LAND_BIOMES)[0],
+  );
 
   const biome = LAND_BIOMES[selected];
   const { coins: coinPrice, ingredients } = biome;
