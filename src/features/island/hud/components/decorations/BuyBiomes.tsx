@@ -12,7 +12,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import Decimal from "decimal.js-light";
 import { Label } from "components/ui/Label";
 
-export const Biomes: React.FC = () => {
+export const BuyBiomes: React.FC = () => {
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, (state) => state.context.state);
   const { t } = useAppTranslation();

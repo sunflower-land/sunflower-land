@@ -5,7 +5,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { NPC_WEARABLES } from "lib/npcs";
 import React, { useState } from "react";
 import { LandscapingDecorations } from "./LandscapingDecorations";
-import { Biomes } from "./Biomes";
+import { BuyBiomes } from "./BuyBiomes";
 import { ITEM_DETAILS } from "features/game/types/images";
 
 interface Props {
@@ -29,7 +29,7 @@ export const CraftDecorationsModal: React.FC<Props> = ({ show, onHide }) => {
         container={OuterPanel}
       >
         {tab === 0 && <LandscapingDecorations onClose={onHide} />}
-        {tab === 1 && <Biomes />}
+        {tab === 1 && <BuyBiomes />}
       </CloseButtonPanel>
     </Modal>
   );

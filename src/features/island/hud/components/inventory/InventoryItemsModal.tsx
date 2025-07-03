@@ -10,6 +10,7 @@ import { Modal } from "components/ui/Modal";
 import { BudName } from "features/game/types/buds";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { OuterPanel } from "components/ui/Panel";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 interface Props {
   show: boolean;
@@ -54,6 +55,7 @@ export const InventoryItemsModal: React.FC<Props> = ({
         tabs={[
           { icon: SUNNYSIDE.icons.basket, name: t("basket") },
           { icon: chest, name: t("chest") },
+          { icon: ITEM_DETAILS["Basic Biome"].image, name: "Biomes" },
         ]}
         currentTab={currentTab}
         setCurrentTab={setCurrentTab}
