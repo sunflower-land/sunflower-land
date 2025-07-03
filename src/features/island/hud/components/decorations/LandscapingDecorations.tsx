@@ -30,13 +30,19 @@ export const LandscapingDecorations: React.FC<Props> = ({ onClose }) => {
 
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, (state) => state.context.state);
-
-  const {
-    inventory,
-    coins,
-    island: { type: islandType },
-    season: { season },
-  } = state;
+  const inventory = useSelector(
+    gameService,
+    (state) => state.context.state.inventory,
+  );
+  const coins = useSelector(gameService, (state) => state.context.state.coins);
+  const islandType = useSelector(
+    gameService,
+    (state) => state.context.state.island.type,
+  );
+  const season = useSelector(
+    gameService,
+    (state) => state.context.state.season.season,
+  );
 
   const price = selected.coins ?? 0;
 
