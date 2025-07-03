@@ -8,9 +8,11 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Modal } from "components/ui/Modal";
 import { BudName } from "features/game/types/buds";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { OuterPanel } from "components/ui/Panel";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { Biomes } from "./Biomes";
+import { getKeys } from "features/game/types/decorations";
+import { LAND_BIOMES } from "features/island/biomes/biomes";
 
 interface Props {
   show: boolean;
@@ -47,29 +49,35 @@ export const InventoryItemsModal: React.FC<Props> = ({
   isFarming,
   isFullUser,
 }) => {
-  const [currentTab, setCurrentTab] = useState<number>(0);
-  const { t } = useAppTranslation();
+  const [currentTab, setCurrentTab] = useState<"Basket" | "Chest" | "Biomes">(
+    "Basket",
+  );
+  const hasBiomes = getKeys(LAND_BIOMES).some((item) =>
+    (state.inventory[item] ?? new Decimal(0)).gt(0),
+  );
   return (
     <Modal size="lg" show={show} onHide={onHide}>
       <CloseButtonPanel
         tabs={[
-          { icon: SUNNYSIDE.icons.basket, name: t("basket") },
-          { icon: chest, name: t("chest") },
-          { icon: ITEM_DETAILS["Basic Biome"].image, name: "Biomes" },
+          { icon: SUNNYSIDE.icons.basket, name: "Basket" },
+          { icon: chest, name: "Chest" },
+          ...(hasBiomes
+            ? [{ icon: ITEM_DETAILS["Basic Biome"].image, name: "Biomes" }]
+            : []),
         ]}
         currentTab={currentTab}
         setCurrentTab={setCurrentTab}
         onClose={onHide}
         container={OuterPanel}
       >
-        {currentTab === 0 && (
+        {currentTab === "Basket" && (
           <Basket
             gameState={state}
             selected={selectedBasketItem}
             onSelect={onSelectBasketItem}
           />
         )}
-        {currentTab === 1 && (
+        {currentTab === "Chest" && (
           <Chest
             state={state}
             selected={selectedChestItem}
@@ -81,6 +89,7 @@ export const InventoryItemsModal: React.FC<Props> = ({
             isSaving={isSaving}
           />
         )}
+        {currentTab === "Biomes" && <Biomes state={state} />}
       </CloseButtonPanel>
     </Modal>
   );

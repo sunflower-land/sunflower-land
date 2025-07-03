@@ -10,6 +10,10 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { BudName } from "features/game/types/buds";
 import { translate } from "lib/i18n/translate";
 import { OuterPanel } from "components/ui/Panel";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { Biomes } from "./inventory/Biomes";
+import { LAND_BIOMES } from "features/island/biomes/biomes";
+import Decimal from "decimal.js-light";
 
 interface Props {
   show: boolean;
@@ -34,24 +38,36 @@ export const LandscapingChest: React.FC<Props> = ({
   const [selected, setSelected] = useState(
     [...buds, ...getKeys(items).sort((a, b) => a.localeCompare(b))][0],
   );
-
+  const [currentTab, setCurrentTab] = useState(0);
+  const hasBiomes = getKeys(LAND_BIOMES).some((item) =>
+    (state.inventory[item] ?? new Decimal(0)).gt(0),
+  );
   return (
     <Modal size="lg" show={show} onHide={onHide}>
       <CloseButtonPanel
-        tabs={[{ icon: chest, name: translate("chest") }]}
-        currentTab={0}
+        tabs={[
+          { icon: chest, name: translate("chest") },
+          ...(hasBiomes
+            ? [{ icon: ITEM_DETAILS["Basic Biome"].image, name: "Biomes" }]
+            : []),
+        ]}
+        currentTab={currentTab}
+        setCurrentTab={setCurrentTab}
         onClose={onHide}
         bumpkinParts={NPC_WEARABLES.grimtooth}
         container={OuterPanel}
       >
-        <Chest
-          state={state}
-          selected={selected}
-          onSelect={setSelected}
-          closeModal={onHide}
-          onPlace={onPlace}
-          onPlaceBud={onPlaceBud}
-        />
+        {currentTab === 0 && (
+          <Chest
+            state={state}
+            selected={selected}
+            onSelect={setSelected}
+            closeModal={onHide}
+            onPlace={onPlace}
+            onPlaceBud={onPlaceBud}
+          />
+        )}
+        {currentTab === 1 && <Biomes state={state} />}
       </CloseButtonPanel>
     </Modal>
   );
