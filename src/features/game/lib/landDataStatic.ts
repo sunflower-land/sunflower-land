@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable unused-imports/no-unused-vars */
 import Decimal from "decimal.js-light";
-import { BB_TO_GEM_RATIO, GameState } from "../types/game";
+import { GameState } from "../types/game";
 
 import {
   INITIAL_CHORE_BOARD,
@@ -80,7 +80,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Lava Pit": new Decimal(1),
     Bush: new Decimal(3),
     Axe: new Decimal(10),
-    Gem: new Decimal(1 * BB_TO_GEM_RATIO),
+    Gem: new Decimal(4000),
     Rug: new Decimal(1),
     Shovel: new Decimal(1),
     Wood: new Decimal(1000),
@@ -117,7 +117,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Workbench: new Decimal(1),
     "Basic Land": new Decimal(6),
     Axe: new Decimal(10),
-    Gem: new Decimal(1 * BB_TO_GEM_RATIO),
     Rug: new Decimal(1),
     Wardrobe: new Decimal(1),
     Shovel: new Decimal(1),

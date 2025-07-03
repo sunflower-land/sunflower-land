@@ -1,5 +1,6 @@
 import Decimal from "decimal.js-light";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { GameState } from "features/game/types/game";
 import { LandBiomeName, LAND_BIOMES } from "features/island/biomes/biomes";
@@ -38,6 +39,10 @@ export function buyBiome({
 
     if (biomeCount.gte(1)) {
       throw new Error("You already have the maximum number of this biome");
+    }
+
+    if (!hasRequiredIslandExpansion(game.island.type, biomeData.requires)) {
+      throw new Error("You are not in the correct island type");
     }
 
     const { ingredients, coins } = biomeData;

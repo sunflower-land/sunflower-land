@@ -36,7 +36,22 @@ describe("buyBiome", () => {
       }),
     ).toThrow("You don't have enough ingredients");
   });
+
   it.todo("ensures that player has enough coins");
+
+  it("requires the player to be in the correct island type", () => {
+    expect(() =>
+      buyBiome({
+        state: {
+          ...INITIAL_FARM,
+          inventory: { Gem: new Decimal(1000) },
+          island: { type: "basic" },
+        },
+        action: { type: "biome.bought", biome: "Spring Biome" },
+      }),
+    ).toThrow("You are not in the correct island type");
+  });
+
   it("buys the biome", () => {
     const state = buyBiome({
       state: {

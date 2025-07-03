@@ -13,6 +13,9 @@ import Decimal from "decimal.js-light";
 import { Label } from "components/ui/Label";
 import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
+import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
+import { IslandType } from "features/game/types/game";
+import { capitalize } from "lib/utils/capitalize";
 
 export const BuyBiomes: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -45,6 +48,10 @@ export const BuyBiomes: React.FC = () => {
   };
   const biomeCount = state.inventory[selected] ?? new Decimal(0);
   const hasBoughtBiome = biomeCount.gt(0);
+  const hasRequiredIslandExpansionMet = hasRequiredIslandExpansion(
+    state.island.type,
+    biome.requires,
+  );
 
   return (
     <>
@@ -74,6 +81,8 @@ export const BuyBiomes: React.FC = () => {
                 lessIngredients={lessIngredients}
                 buyBiome={buyBiome}
                 hasBoughtBiome={hasBoughtBiome}
+                hasRequiredIslandExpansionMet={hasRequiredIslandExpansionMet}
+                requiredIslandExpansion={biome.requires}
               />
             }
           />
@@ -93,10 +102,29 @@ const BiomesActionView: React.FC<{
   lessIngredients: () => boolean;
   buyBiome: () => void;
   hasBoughtBiome: boolean;
-}> = ({ lessFunds, lessIngredients, buyBiome, hasBoughtBiome }) => {
+  hasRequiredIslandExpansionMet: boolean;
+  requiredIslandExpansion?: IslandType;
+}> = ({
+  lessFunds,
+  lessIngredients,
+  buyBiome,
+  hasBoughtBiome,
+  hasRequiredIslandExpansionMet,
+  requiredIslandExpansion,
+}) => {
   const { t } = useAppTranslation();
   if (hasBoughtBiome) {
     return <Label type="danger">{t("biome.alreadyBought")}</Label>;
+  }
+
+  if (!hasRequiredIslandExpansionMet) {
+    return (
+      <Label type="danger">
+        {t("biome.notInCorrectIslandType", {
+          islandType: capitalize(requiredIslandExpansion ?? "Basic"),
+        })}
+      </Label>
+    );
   }
 
   return (
@@ -117,9 +145,9 @@ const ApplyInstructions: React.FC<{
       <Panel>
         <div className="flex flex-col items-center justify-center m-1 gap-1">
           <img src={ITEM_DETAILS[biome].image} className="w-12 h-12" />
-          <p className="m-1">{`You have bought a new biome! Time to give your land a makeover. Head over to the biomes tab to apply it.`}</p>
-          <Button onClick={onClose}>{t("close")}</Button>
+          <p className="m-1">{t("biome.applyInstructions")}</p>
         </div>
+        <Button onClick={onClose}>{t("close")}</Button>
       </Panel>
     </Modal>
   );
