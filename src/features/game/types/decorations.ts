@@ -4,6 +4,7 @@ import { BB_TO_GEM_RATIO, Inventory } from "./game";
 import { BoostTreasure, DecorationTreasure } from "./treasure";
 import { translate } from "lib/i18n/translate";
 import { Template } from "./templates";
+import { BeanName } from "./beans";
 
 /**
  * getKeys is a ref to Object.keys, but the return is typed literally.
@@ -56,7 +57,8 @@ export type LandscapingDecorationName =
   | "Stone Fence"
   | "Field Maple"
   | "Red Maple"
-  | "Golden Maple";
+  | "Golden Maple"
+  | TileName;
 
 export type ShopDecorationName =
   | BasicDecorationName
@@ -182,7 +184,8 @@ export type TileName =
 export type PotionHouseDecorationName =
   | "Giant Potato"
   | "Giant Pumpkin"
-  | "Giant Cabbage";
+  | "Giant Cabbage"
+  | BeanName;
 
 export type InteriorDecorationName = "Rug" | "Wardrobe";
 
@@ -381,6 +384,10 @@ export type DecorationName =
 
 export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
   "Jelly Lamp": {
+    width: 2,
+    height: 2,
+  },
+  "Magic Bean": {
     width: 2,
     height: 2,
   },
@@ -1258,12 +1265,66 @@ export const LANDSCAPING_DECORATIONS: Record<
       Wood: new Decimal(100),
     },
   },
+  "Black Tile": {
+    name: "Black Tile",
+    ingredients: {
+      Sand: new Decimal(1),
+      "Sea Cucumber": new Decimal(1),
+      Eggplant: new Decimal(1),
+    },
+    description: "",
+  },
+  "Blue Tile": {
+    name: "Blue Tile",
+    ingredients: {
+      Sand: new Decimal(1),
+      "Cockle Shell": new Decimal(1),
+      Blueberry: new Decimal(1),
+    },
+    description: "",
+  },
+  "Green Tile": {
+    name: "Green Tile",
+    ingredients: {
+      Sand: new Decimal(1),
+      Seaweed: new Decimal(1),
+      Kale: new Decimal(1),
+    },
+    description: "",
+  },
+  "Purple Tile": {
+    name: "Purple Tile",
+    ingredients: {
+      Sand: new Decimal(1),
+      "Clam Shell": new Decimal(1),
+      Beetroot: new Decimal(1),
+    },
+    description: "",
+  },
+  "Red Tile": {
+    name: "Red Tile",
+    ingredients: {
+      Sand: new Decimal(1),
+      "Wooden Compass": new Decimal(1),
+      Apple: new Decimal(1),
+    },
+    description: "",
+  },
+  "Yellow Tile": {
+    name: "Yellow Tile",
+    ingredients: {
+      Sand: new Decimal(1),
+      Starfish: new Decimal(1),
+      Sunflower: new Decimal(5),
+    },
+    description: "",
+  },
 };
 
-export const POTION_HOUSE_DECORATIONS: () => Record<
+export const POTION_HOUSE_DECORATIONS: Record<
   PotionHouseDecorationName,
   Decoration
-> = () => ({
+> = {
   "Magic Bean": {
     name: "Magic Bean",
     description: translate("description.magic.bean"),
@@ -1296,7 +1357,7 @@ export const POTION_HOUSE_DECORATIONS: () => Record<
       "Potion Ticket": new Decimal(1000),
     },
   },
-});
+};
 
 export const DECORATIONS: Record<
   ShopDecorationName | PotionHouseDecorationName,
@@ -1304,5 +1365,5 @@ export const DECORATIONS: Record<
 > = {
   ...BASIC_DECORATIONS(),
   ...LANDSCAPING_DECORATIONS,
-  ...POTION_HOUSE_DECORATIONS(),
+  ...POTION_HOUSE_DECORATIONS,
 };
