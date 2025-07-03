@@ -17,7 +17,11 @@ type Options = {
   createdAt?: number;
 };
 
-export function buyBiome({ state, action, createdAt = Date.now() }: Options) {
+export function buyBiome({
+  state,
+  action,
+  createdAt = Date.now(),
+}: Options): GameState {
   return produce(state, (game) => {
     if (!hasFeatureAccess(game, "LANDSCAPING")) {
       throw new Error("This feature is not available");
@@ -30,10 +34,9 @@ export function buyBiome({ state, action, createdAt = Date.now() }: Options) {
     if (!biomeData) {
       throw new Error("This biome is not available");
     }
-    const { limit = 0 } = biomeData;
     const biomeCount = game.inventory[biome] ?? new Decimal(0);
 
-    if (biomeCount.gte(limit)) {
+    if (biomeCount.gte(1)) {
       throw new Error("You already have the maximum number of this biome");
     }
 

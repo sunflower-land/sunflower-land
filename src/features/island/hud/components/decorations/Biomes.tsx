@@ -9,6 +9,8 @@ import React, { useContext, useState } from "react";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import Decimal from "decimal.js-light";
+import { Label } from "components/ui/Label";
 
 export const Biomes: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -34,6 +36,10 @@ export const Biomes: React.FC = () => {
       ingredients[name]?.greaterThan(state.inventory[name] || 0),
     );
 
+  const buyBiome = () => gameService.send("biome.bought", { biome: selected });
+  const biomeCount = state.inventory[selected] ?? new Decimal(0);
+  const hasBoughtBiome = biomeCount.gt(0);
+
   return (
     <SplitScreenView
       content={
@@ -56,12 +62,33 @@ export const Biomes: React.FC = () => {
           details={{ item: selected }}
           requirements={{ resources: ingredients, coins: coinPrice }}
           actionView={
-            <Button disabled={lessFunds() || lessIngredients()}>
-              {t("buy")}
-            </Button>
+            <BiomesActionView
+              lessFunds={lessFunds}
+              lessIngredients={lessIngredients}
+              buyBiome={buyBiome}
+              hasBoughtBiome={hasBoughtBiome}
+            />
           }
         />
       }
     />
+  );
+};
+
+const BiomesActionView: React.FC<{
+  lessFunds: () => boolean;
+  lessIngredients: () => boolean;
+  buyBiome: () => void;
+  hasBoughtBiome: boolean;
+}> = ({ lessFunds, lessIngredients, buyBiome, hasBoughtBiome }) => {
+  const { t } = useAppTranslation();
+  if (hasBoughtBiome) {
+    return <Label type="danger">{t("biome.alreadyBought")}</Label>;
+  }
+
+  return (
+    <Button disabled={lessFunds() || lessIngredients()} onClick={buyBiome}>
+      {t("buy")}
+    </Button>
   );
 };

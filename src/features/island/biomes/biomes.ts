@@ -4,10 +4,9 @@ import { IslandType } from "features/game/types/game";
 
 export type LandBiomeName = `${Capitalize<IslandType>} Biome`;
 
-type Biome = Omit<Decoration, "name"> & {
+export type Biome = Omit<Decoration, "name"> & {
   name: LandBiomeName;
   requires?: IslandType;
-  limit?: number;
 };
 
 export const LAND_BIOMES: Record<LandBiomeName, Biome> = {
@@ -18,7 +17,6 @@ export const LAND_BIOMES: Record<LandBiomeName, Biome> = {
     },
     description: "",
     requires: "basic",
-    limit: 1,
   },
   "Spring Biome": {
     name: "Spring Biome",
@@ -27,7 +25,6 @@ export const LAND_BIOMES: Record<LandBiomeName, Biome> = {
     },
     description: "",
     requires: "spring",
-    limit: 1,
   },
   "Desert Biome": {
     name: "Desert Biome",
@@ -36,7 +33,6 @@ export const LAND_BIOMES: Record<LandBiomeName, Biome> = {
     },
     description: "",
     requires: "desert",
-    limit: 1,
   },
   "Volcano Biome": {
     name: "Volcano Biome",
@@ -45,6 +41,5 @@ export const LAND_BIOMES: Record<LandBiomeName, Biome> = {
     },
     description: "",
     requires: "volcano",
-    limit: 1,
   },
 };
