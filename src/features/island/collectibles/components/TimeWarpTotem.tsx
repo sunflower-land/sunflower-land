@@ -40,40 +40,42 @@ export const TimeWarpTotem: React.FC<CollectibleProps> = ({
   };
 
   if (hasExpired) {
-    <div onClick={handleRemove}>
-      {showTimers && (
-        <div className="absolute bottom-0 left-0">
-          <LiveProgressBar
-            startAt={createdAt}
-            endAt={expiresAt}
-            formatLength="medium"
-            type="error"
-            onComplete={() => setRender((r) => r + 1)}
-          />
-        </div>
-      )}
+    return (
+      <div onClick={handleRemove}>
+        {showTimers && (
+          <div className="absolute bottom-0 left-0">
+            <LiveProgressBar
+              startAt={createdAt}
+              endAt={expiresAt}
+              formatLength="medium"
+              type="error"
+              onComplete={() => setRender((r) => r + 1)}
+            />
+          </div>
+        )}
 
-      <img
-        className="absolute cursor-pointer group-hover:img-highlight z-30 animate-pulse"
-        src={SUNNYSIDE.icons.dig_icon}
-        style={{
-          width: `${PIXEL_SCALE * 18}px`,
-          right: `${PIXEL_SCALE * -8}px`,
-          top: `${PIXEL_SCALE * -8}px`,
-        }}
-      />
+        <img
+          className="absolute cursor-pointer group-hover:img-highlight z-30 animate-pulsate"
+          src={SUNNYSIDE.icons.dig_icon}
+          style={{
+            width: `${PIXEL_SCALE * 18}px`,
+            right: `${PIXEL_SCALE * -8}px`,
+            top: `${PIXEL_SCALE * -8}px`,
+          }}
+        />
 
-      <img
-        src={tikiTotem}
-        style={{
-          width: `${PIXEL_SCALE * 13}px`,
-          bottom: `${PIXEL_SCALE * 0}px`,
-          left: `${PIXEL_SCALE * 1}px`,
-        }}
-        className="absolute cursor-pointer"
-        alt="Time Warp Totem"
-      />
-    </div>;
+        <img
+          src={tikiTotem}
+          style={{
+            width: `${PIXEL_SCALE * 13}px`,
+            bottom: `${PIXEL_SCALE * 0}px`,
+            left: `${PIXEL_SCALE * 1}px`,
+          }}
+          className="absolute cursor-pointer"
+          alt="Time Warp Totem"
+        />
+      </div>
+    );
   }
 
   return (
