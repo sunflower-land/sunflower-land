@@ -24,6 +24,7 @@ import {
   getCropCategory,
   ProduceName,
 } from "features/game/types/crops";
+import { getCurrentBiome } from "features/island/lib/alternateArt";
 
 /**
  * The props for the details for items.
@@ -120,8 +121,9 @@ function getDetails(
     count: inventoryCount,
     description: ITEM_DETAILS[details.item].description,
     image:
-      ITEM_ICONS(game.island.type, game.season.season)[details.item] ??
-      ITEM_DETAILS[details.item].image,
+      ITEM_ICONS(game.season.season, getCurrentBiome(game.island))[
+        details.item
+      ] ?? ITEM_DETAILS[details.item].image,
     name: details.item,
     limit: limit as Decimal,
   };

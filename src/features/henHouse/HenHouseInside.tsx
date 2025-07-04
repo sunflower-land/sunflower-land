@@ -28,6 +28,7 @@ import classNames from "classnames";
 import { EXTERIOR_ISLAND_BG } from "features/barn/BarnInside";
 import { ANIMAL_HOUSE_BOUNDS } from "features/game/expansion/placeable/lib/collisionDetection";
 import { hasReadGuide } from "features/game/expansion/components/animals/AnimalBuildingModal";
+import { getCurrentBiome } from "features/island/lib/alternateArt";
 
 const _henHouse = (state: MachineState) => state.context.state.henHouse;
 
@@ -140,7 +141,7 @@ export const HenHouseInside: React.FC = () => {
           width: `${84 * GRID_WIDTH_PX}px`,
           height: `${56 * GRID_WIDTH_PX}px`,
           imageRendering: "pixelated",
-          backgroundImage: `url(${EXTERIOR_ISLAND_BG[gameService.getSnapshot().context.state.island.type]})`,
+          backgroundImage: `url(${EXTERIOR_ISLAND_BG[getCurrentBiome(gameService.getSnapshot().context.state.island)]})`,
           backgroundRepeat: "repeat",
           backgroundPosition: "center",
           backgroundSize: `${96 * PIXEL_SCALE}px ${96 * PIXEL_SCALE}px`,

@@ -21,11 +21,7 @@ import { Composter } from "./composters/Composter";
 import { House } from "./house/House";
 import { Manor } from "./manor/Manor";
 import { Mansion } from "./mansion/Mansion";
-import {
-  GameState,
-  IslandType,
-  TemperateSeasonName,
-} from "features/game/types/game";
+import { GameState, TemperateSeasonName } from "features/game/types/game";
 import {
   BAKERY_VARIANTS,
   DELI_VARIANTS,
@@ -41,11 +37,12 @@ import { Greenhouse } from "./greenhouse/Greenhouse";
 import { CropMachine } from "./cropMachine/CropMachine";
 import { Barn, BARN_IMAGES } from "./barn/Barn";
 import { CraftingBox } from "./craftingBox/CraftingBox";
+import { getCurrentBiome } from "features/island/lib/alternateArt";
 
 export interface BuildingProps {
   buildingId: string;
   buildingIndex: number;
-  island: IslandType;
+  island: GameState["island"];
   craftingItemName?: CookableName;
   craftingReadyAt?: number;
   isBuilt?: boolean;
@@ -75,13 +72,8 @@ export const BUILDING_COMPONENTS: Record<
   Deli: ({ buildingId, isBuilt, season }: BuildingProps) => (
     <Deli buildingId={buildingId} isBuilt={!!isBuilt} season={season} />
   ),
-  Bakery: ({ buildingId, isBuilt, island, season }: BuildingProps) => (
-    <Bakery
-      isBuilt={!!isBuilt}
-      buildingId={buildingId}
-      island={island}
-      season={season}
-    />
+  Bakery: ({ buildingId, isBuilt, season }: BuildingProps) => (
+    <Bakery isBuilt={!!isBuilt} buildingId={buildingId} season={season} />
   ),
   "Smoothie Shack": ({
     buildingId,
@@ -121,30 +113,31 @@ export const BUILDING_COMPONENTS: Record<
 export const READONLY_BUILDINGS: (
   gameState: GameState,
 ) => Record<BuildingName, React.FC<BuildingProps>> = (gameState) => {
-  const island: IslandType = gameState.island.type;
+  const island: GameState["island"] = gameState.island;
   const season: TemperateSeasonName = gameState.season.season;
   const henHouseLevel = gameState.henHouse.level;
   const barnLevel = gameState.barn.level;
+  const biome = getCurrentBiome(island);
 
   return {
     ...BUILDING_COMPONENTS,
     "Fire Pit": () => (
       <img
-        src={FIRE_PIT_VARIANTS[island][season]}
+        src={FIRE_PIT_VARIANTS[biome][season]}
         className="absolute bottom-0"
         style={{ width: `${PIXEL_SCALE * 47}px` }}
       />
     ),
     Kitchen: () => (
       <img
-        src={KITCHEN_VARIANTS[island][season]}
+        src={KITCHEN_VARIANTS[biome][season]}
         className="absolute"
         style={{ width: `${PIXEL_SCALE * 63}px`, bottom: 0 }}
       />
     ),
     Workbench: () => (
       <img
-        src={WORKBENCH_VARIANTS[island]}
+        src={WORKBENCH_VARIANTS[biome]}
         className="relative"
         style={{
           width: `${PIXEL_SCALE * 47}px`,
@@ -154,7 +147,7 @@ export const READONLY_BUILDINGS: (
     ),
     Market: () => (
       <img
-        src={MARKET_VARIANTS[island][season]}
+        src={MARKET_VARIANTS[biome][season]}
         className="absolute bottom-0"
         style={{ width: `${PIXEL_SCALE * 48}px` }}
       />
@@ -181,7 +174,7 @@ export const READONLY_BUILDINGS: (
     ),
     "Smoothie Shack": () => (
       <img
-        src={SMOOTHIE_SHACK_VARIANTS[island]}
+        src={SMOOTHIE_SHACK_VARIANTS[biome]}
         className="absolute bottom-0"
         style={{ width: `${PIXEL_SCALE * 48}px` }}
       />
@@ -270,7 +263,7 @@ export const READONLY_BUILDINGS: (
         style={{ width: `${PIXEL_SCALE * 64}px` }}
       >
         <img
-          src={BARN_IMAGES[island][season][barnLevel]}
+          src={BARN_IMAGES[biome][season][barnLevel]}
           className="absolute bottom-0"
           style={{ width: `${PIXEL_SCALE * 64}px` }}
         />

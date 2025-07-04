@@ -30,6 +30,7 @@ import { capitalize } from "lodash";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { ButtonPanel } from "components/ui/Panel";
+import { getCurrentBiome } from "features/island/lib/alternateArt";
 
 const _state = (state: MachineState) => state.context.state;
 
@@ -88,7 +89,7 @@ export const Restock: React.FC<{ npc: RestockNPC }> = ({ npc }) => {
   );
 };
 
-const _island = (state: MachineState) => state.context.state.island.type;
+const _island = (state: MachineState) => state.context.state.island;
 
 const RestockSelectionModal: React.FC<{
   npc: RestockNPC;
@@ -106,6 +107,8 @@ const RestockSelectionModal: React.FC<{
   const shipmentAt = useCountdown(nextShipmentAt());
 
   const { ...shipmentTime } = shipmentAt;
+
+  const biome = getCurrentBiome(island);
 
   return (
     <>
@@ -145,14 +148,14 @@ const RestockSelectionModal: React.FC<{
                 <div className="flex flex-row flex-wrap flex-1">
                   <Label
                     type="default"
-                    icon={CROP_LIFECYCLE[island].Sunflower.seed}
+                    icon={CROP_LIFECYCLE[biome].Sunflower.seed}
                     className="mt-1 mr-1 capitalize"
                   >
                     {t("basic.seeds")}
                   </Label>
                   <Label
                     type="default"
-                    icon={CROP_LIFECYCLE[island].Carrot.seed}
+                    icon={CROP_LIFECYCLE[biome].Carrot.seed}
                     className="mt-1 mr-1 capitalize"
                   >
                     {t("medium.seeds")}

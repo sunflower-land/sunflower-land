@@ -9,7 +9,10 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
-import { WORKBENCH_VARIANTS } from "features/island/lib/alternateArt";
+import {
+  getCurrentBiome,
+  WORKBENCH_VARIANTS,
+} from "features/island/lib/alternateArt";
 import shadow from "assets/npcs/shadow.png";
 import { useSound } from "lib/utils/hooks/useSound";
 const needsHelp = (state: MachineState) => {
@@ -50,7 +53,7 @@ export const WorkBench: React.FC<BuildingProps> = ({ isBuilt, island }) => {
     <>
       <BuildingImageWrapper name="Workbench" onClick={handleClick}>
         <img
-          src={WORKBENCH_VARIANTS[island]}
+          src={WORKBENCH_VARIANTS[getCurrentBiome(island)]}
           className="absolute bottom-0 pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 47}px`,

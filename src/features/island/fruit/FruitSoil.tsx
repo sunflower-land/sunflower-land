@@ -5,14 +5,16 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { SOIL_IMAGES } from "../plots/lib/plant";
+import { getCurrentBiome } from "../lib/alternateArt";
 
-const _island = (state: MachineState) => state.context.state.island.type;
+const _island = (state: MachineState) => state.context.state.island;
 
 export const FruitSoil: React.FC = () => {
   const { gameService } = useContext(Context);
   const island = useSelector(gameService, _island);
 
-  const soilImage = SOIL_IMAGES[island].regular;
+  const biome = getCurrentBiome(island);
+  const soilImage = SOIL_IMAGES[biome].regular;
 
   return (
     <div className="absolute w-full h-full cursor-pointer hover:img-highlight">

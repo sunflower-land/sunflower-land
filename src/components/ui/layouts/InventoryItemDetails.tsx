@@ -24,6 +24,7 @@ import {
 import { makeUpgradableBuildingKey } from "features/game/events/landExpansion/upgradeBuilding";
 import { BuildingName } from "features/game/types/buildings";
 import { BumpkinRevampSkillName } from "features/game/types/bumpkinSkills";
+import { getCurrentBiome } from "features/island/lib/alternateArt";
 
 /**
  * The props for the details for items.
@@ -92,7 +93,7 @@ export const InventoryItemDetails: React.FC<Props> = ({
           .level
       : undefined;
     const icon =
-      ITEM_ICONS(game.island.type, game.season.season, hasLevel)[
+      ITEM_ICONS(game.season.season, getCurrentBiome(game.island), hasLevel)[
         details.item
       ] ?? item.image;
     const title = details.item;

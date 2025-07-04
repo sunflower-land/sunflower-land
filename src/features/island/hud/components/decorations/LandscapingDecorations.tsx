@@ -15,6 +15,7 @@ import React, { useContext, useState } from "react";
 import { Context } from "features/game/GameProvider";
 import { ITEM_ICONS } from "../inventory/Chest";
 import { MachineInterpreter } from "features/game/expansion/placeable/landscapingMachine";
+import { getCurrentBiome } from "features/island/lib/alternateArt";
 
 interface Props {
   onClose: () => void;
@@ -115,8 +116,10 @@ export const LandscapingDecorations: React.FC<Props> = ({ onClose }) => {
                 key={name}
                 onClick={() => setSelectedName(name)}
                 image={
-                  ITEM_ICONS(islandType, season)[name] ??
-                  ITEM_DETAILS[name].image
+                  ITEM_ICONS(
+                    state.season.season,
+                    getCurrentBiome(state.island),
+                  )[name] ?? ITEM_DETAILS[name].image
                 }
               />
             ))}

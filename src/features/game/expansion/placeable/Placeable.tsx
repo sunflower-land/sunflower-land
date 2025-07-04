@@ -27,16 +27,17 @@ import { isBudName } from "features/game/types/buds";
 import { PlaceableLocation } from "features/game/types/collectibles";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { GameState, TemperateSeasonName } from "features/game/types/game";
 import {
-  GameState,
-  IslandType,
-  TemperateSeasonName,
-} from "features/game/types/game";
-import { DIRT_PATH_VARIANTS } from "features/island/lib/alternateArt";
+  DIRT_PATH_VARIANTS,
+  getCurrentBiome,
+} from "features/island/lib/alternateArt";
+import { LandBiomeName } from "features/island/biomes/biomes";
 
 export const PLACEABLES = (state: GameState) => {
-  const island: IslandType = state.island.type;
+  const island: GameState["island"] = state.island;
   const season: TemperateSeasonName = state.season.season;
+  const biome: LandBiomeName = getCurrentBiome(island);
 
   return {
     Chicken: () => <Chicken x={0} y={0} id="123" />, // Temp id for placing, when placed action will assign a random UUID and the temp one will be overridden.
@@ -45,7 +46,7 @@ export const PLACEABLES = (state: GameState) => {
     ...READONLY_BUILDINGS(state),
     "Dirt Path": () => (
       <img
-        src={DIRT_PATH_VARIANTS[island]}
+        src={DIRT_PATH_VARIANTS[biome]}
         style={{ width: `${PIXEL_SCALE * 22}px` }}
       />
     ),
@@ -250,7 +251,7 @@ export const Placeable: React.FC<Props> = ({ location }) => {
                 readyAt={0}
                 x={0}
                 y={0}
-                island={island.type}
+                island={island}
                 season={season.season}
                 grid={grid}
                 game={gameState.context.state}

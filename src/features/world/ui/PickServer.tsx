@@ -27,11 +27,11 @@ interface Props {
 // If colyseus does not return one of the servers, it means its empty
 const ICONS = [
   SUNNYSIDE.icons.water,
-  CROP_LIFECYCLE.basic.Sunflower.crop,
+  CROP_LIFECYCLE["Basic Biome"].Sunflower.crop,
   SUNNYSIDE.icons.heart,
   brazilFlag,
-  CROP_LIFECYCLE.basic.Pumpkin.crop,
-  CROP_LIFECYCLE.basic.Kale.crop,
+  CROP_LIFECYCLE["Basic Biome"].Pumpkin.crop,
+  CROP_LIFECYCLE["Basic Biome"].Kale.crop,
   flowerIcon,
 ];
 
