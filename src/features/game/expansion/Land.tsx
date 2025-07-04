@@ -42,6 +42,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Outlet, useLocation } from "react-router";
 import { createPortal } from "react-dom";
 import {
+  getZIndex,
   NON_COLLIDING_OBJECTS,
   pickEmptyPosition,
 } from "./placeable/lib/collisionDetection";
@@ -247,6 +248,7 @@ const getIslandElements = ({
               key={`collectible-${nameIndex}-${itemIndex}`}
               x={x}
               y={y}
+              z={getZIndex(y, name)}
               height={height}
               width={width}
               canCollide={NON_COLLIDING_OBJECTS.includes(name) ? false : true}
