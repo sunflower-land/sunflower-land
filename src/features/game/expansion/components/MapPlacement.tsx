@@ -35,7 +35,7 @@ export const MapPlacement: React.FC<React.PropsWithChildren<Props>> = ({
 }) => {
   return (
     <div
-      className={"absolute"}
+      className="absolute"
       id={id}
       style={{
         top: `calc(50% - ${GRID_WIDTH_PX * y}px)`,
