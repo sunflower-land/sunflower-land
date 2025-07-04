@@ -6047,5 +6047,8 @@
   "marketplace.price": "価格:{{price}}",
   "description.colorToken2025": "イベント終了前にフェスティバル・オブ・カラーズのイベントショップで使おう！",
   "description.colorTicket2025": "これを持っていると、フェスティバル・オブ・カラーズのイベント終了後に$FLOWERが当たるチャンスがあります！",
-  "offering.blessing.success.loser": "今回は違います"
+  "offering.blessing.success.loser": "今回は違います",
+  "biome.alreadyBought": "このバイオームはすでに購入されています",
+  "biome.notInCorrectIslandType": "{{islandType}} 島にアップグレードしてこのバイオームを購入してください",
+  "biome.applyInstructions": "新しいバイオームを購入しました！土地をイメージチェンジする時が来ました。インベントリの「バイオーム」タブに移動して適用してください。"
 }

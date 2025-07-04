@@ -6047,5 +6047,8 @@
   "marketplace.price": "가격: {{price}}",
   "description.colorToken2025": "이벤트 종료 전에 페스티벌 오브 컬러 이벤트 상점에서 사용하세요!",
   "description.colorTicket2025": "이 기회를 놓치지 않고 컬러 페스티벌 이벤트 종료 후 $FLOWER를 받을 수 있는 기회를 잡으세요!",
-  "offering.blessing.success.loser": "이번엔 안 돼"
+  "offering.blessing.success.loser": "이번엔 안 돼",
+  "biome.alreadyBought": "이 바이옴을 이미 구입하셨습니다",
+  "biome.notInCorrectIslandType": "이 바이옴을 구매하려면 {{islandType}} 섬으로 업그레이드하세요",
+  "biome.applyInstructions": "새 바이옴을 구입하셨습니다!땅을 새롭게 단장할 시간입니다.인벤토리의 “생물군계” 탭으로 가서 적용하세요."
 }

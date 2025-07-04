@@ -6047,5 +6047,8 @@
   "marketplace.price": "Prix : {{price}}",
   "description.colorToken2025": "Utilisez-le dans la boutique événementielle du Festival des couleurs avant la fin de l'événement !",
   "description.colorTicket2025": "Gardez-le pour courir la chance de gagner $FLOWER après la fin de l'événement du festival des couleurs !",
-  "offering.blessing.success.loser": "Pas cette fois"
+  "offering.blessing.success.loser": "Pas cette fois",
+  "biome.alreadyBought": "Vous avez déjà acheté ce biome",
+  "biome.notInCorrectIslandType": "Passez à l'île {{islandType}} pour acheter ce biome",
+  "biome.applyInstructions": "Vous avez acheté un nouveau biome ! Il est temps de relooker votre terrain. Rendez-vous dans l'onglet « Biomes » de votre inventaire pour l'appliquer."
 }

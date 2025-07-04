@@ -6047,5 +6047,8 @@
   "marketplace.price": "Harga: {{price}}",
   "description.colorToken2025": "Gunakan ini di toko acara festival warna sebelum acara berakhir!",
   "description.colorTicket2025": "Tahan ini untuk kesempatan memenangkan $FLOWER setelah acara festival warna berakhir!",
-  "offering.blessing.success.loser": "Tidak kali ini"
+  "offering.blessing.success.loser": "Tidak kali ini",
+  "biome.alreadyBought": "Anda telah membeli bioma ini",
+  "biome.notInCorrectIslandType": "Tingkatkan ke pulau {{islandType}} untuk membeli bioma ini",
+  "biome.applyInstructions": "Anda telah membeli bioma baru! Saatnya mengubah tanah Anda. Buka tab “Bioma” di inventaris Anda untuk menerapkannya."
 }

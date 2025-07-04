@@ -6047,5 +6047,8 @@
   "marketplace.price": "Цена: {{price}}",
   "description.colorToken2025": "Воспользуйтесь этим в магазине мероприятий фестиваля красок до его окончания!",
   "description.colorTicket2025": "Воспользуйтесь этой возможностью и получите шанс выиграть $FLOWER после окончания фестиваля красок!",
-  "offering.blessing.success.loser": "Не в этот раз"
+  "offering.blessing.success.loser": "Не в этот раз",
+  "biome.alreadyBought": "Вы уже купили этот биом",
+  "biome.notInCorrectIslandType": "Чтобы купить этот биом, перейдите на остров {{islandType}}",
+  "biome.applyInstructions": "Вы купили новый биом! Пора преобразить свою землю. Перейдите на вкладку «Биомы» в своем инвентаре, чтобы применить его."
 }

@@ -6047,5 +6047,8 @@
   "marketplace.price": "Fiyat: {{price}}",
   "description.colorToken2025": "Etkinlik bitmeden önce bunu renkler festivali etkinlik mağazasında kullanın!",
   "description.colorTicket2025": "Renkler festivali etkinliği sona erdikten sonra $FLOWER kazanma şansı için bunu tut!",
-  "offering.blessing.success.loser": "Bu sefer değil"
+  "offering.blessing.success.loser": "Bu sefer değil",
+  "biome.alreadyBought": "Bu biyomu zaten satın aldınız",
+  "biome.notInCorrectIslandType": "Bu biyomu satın almak için {{islandType}} adasına yükseltin",
+  "biome.applyInstructions": "Yeni bir biyom satın aldınız! Arazinize bir makyaj yapma zamanı. Uygulamak için envanterinizdeki “Biyomlar” sekmesine gidin."
 }
