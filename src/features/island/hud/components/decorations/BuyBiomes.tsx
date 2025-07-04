@@ -20,7 +20,6 @@ import { capitalize } from "lib/utils/capitalize";
 export const BuyBiomes: React.FC = () => {
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, (state) => state.context.state);
-  const { t } = useAppTranslation();
   const [selected, setSelected] = useState<LandBiomeName>(
     getKeys(LAND_BIOMES)[0],
   );
