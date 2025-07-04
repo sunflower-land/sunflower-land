@@ -9,11 +9,12 @@ import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { setImageWidth } from "lib/images";
 import { SmoothieShackModal } from "./SmoothieShackModal";
 import {
+  getCurrentBiome,
   SMOOTHIE_SHACK_DESK_VARIANTS,
   SMOOTHIE_SHACK_VARIANTS,
 } from "features/island/lib/alternateArt";
 import { useSound } from "lib/utils/hooks/useSound";
-import { IslandType, TemperateSeasonName } from "features/game/types/game";
+import { GameState, TemperateSeasonName } from "features/game/types/game";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
@@ -23,7 +24,7 @@ import { ReadyRecipes } from "../ReadyRecipes";
 type Props = {
   buildingId: string;
   isBuilt: boolean;
-  island: IslandType;
+  island: GameState["island"];
   season: TemperateSeasonName;
 };
 
@@ -81,7 +82,7 @@ export const SmoothieShack: React.FC<Props> = ({
         ready={readyRecipes.length > 0}
       >
         <img
-          src={SMOOTHIE_SHACK_VARIANTS[island]}
+          src={SMOOTHIE_SHACK_VARIANTS[getCurrentBiome(island)]}
           className={classNames("absolute bottom-0 pointer-events-none", {
             "opacity-100": !cooking,
             "opacity-80": cooking,

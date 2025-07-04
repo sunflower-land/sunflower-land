@@ -11,13 +11,15 @@ import { InnerPanel } from "components/ui/Panel";
 import classNames from "classnames";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ZoomContext } from "components/ZoomProvider";
-import { IslandType, TemperateSeasonName } from "features/game/types/game";
+import { GameState, TemperateSeasonName } from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useSound } from "lib/utils/hooks/useSound";
 import {
+  getCurrentBiome,
   TREE_SHAKE_SHEET_VARIANTS,
   TREE_VARIANTS,
 } from "features/island/lib/alternateArt";
+import { LandBiomeName } from "features/island/biomes/biomes";
 
 const tool = "Axe";
 
@@ -28,7 +30,7 @@ interface Props {
   hasTool: boolean;
   showHelper: boolean;
   touchCount: number;
-  island: IslandType;
+  island: GameState["island"];
   season: TemperateSeasonName;
 }
 
@@ -42,6 +44,8 @@ const RecoveredTreeComponent: React.FC<Props> = ({
   const { scale } = useContext(ZoomContext);
   const [showSpritesheet, setShowSpritesheet] = useState(false);
   const [showEquipTool, setShowEquipTool] = useState(false);
+
+  const biome: LandBiomeName = getCurrentBiome(island);
 
   const shakeGif = useRef<SpriteSheetInstance>();
   const { t } = useAppTranslation();
@@ -101,7 +105,7 @@ const RecoveredTreeComponent: React.FC<Props> = ({
         {/* static tree image */}
         {!showSpritesheet && (
           <img
-            src={TREE_VARIANTS[island][season]}
+            src={TREE_VARIANTS[biome][season]}
             className={"absolute pointer-events-none"}
             style={{
               width: `${PIXEL_SCALE * 26}px`,
@@ -130,7 +134,7 @@ const RecoveredTreeComponent: React.FC<Props> = ({
               shakeGif.current = spritesheet;
               spritesheet.goToAndPlay(0);
             }}
-            image={TREE_SHAKE_SHEET_VARIANTS[island][season]}
+            image={TREE_SHAKE_SHEET_VARIANTS[biome][season]}
             widthFrame={SHAKE_SHEET_FRAME_WIDTH}
             heightFrame={SHAKE_SHEET_FRAME_HEIGHT}
             zoomScale={scale}

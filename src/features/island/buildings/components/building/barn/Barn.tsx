@@ -9,13 +9,15 @@ import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useSound } from "lib/utils/hooks/useSound";
-import { IslandType, TemperateSeasonName } from "features/game/types/game";
+import { TemperateSeasonName } from "features/game/types/game";
+import { getCurrentBiome } from "features/island/lib/alternateArt";
+import { LandBiomeName } from "features/island/biomes/biomes";
 
 export const BARN_IMAGES: Record<
-  IslandType,
+  LandBiomeName,
   Record<TemperateSeasonName, Record<number, string>>
 > = {
-  basic: {
+  "Basic Biome": {
     spring: {
       1: SUNNYSIDE.seasons.spring.barn_1,
       2: SUNNYSIDE.seasons.spring.barn_2,
@@ -37,7 +39,7 @@ export const BARN_IMAGES: Record<
       3: SUNNYSIDE.seasons.winter.barn_3,
     },
   },
-  spring: {
+  "Spring Biome": {
     spring: {
       1: SUNNYSIDE.seasons.spring.barn_1,
       2: SUNNYSIDE.seasons.spring.barn_2,
@@ -59,7 +61,7 @@ export const BARN_IMAGES: Record<
       3: SUNNYSIDE.seasons.winter.barn_3,
     },
   },
-  desert: {
+  "Desert Biome": {
     spring: {
       1: SUNNYSIDE.seasons.spring.desertBarn_1,
       2: SUNNYSIDE.seasons.spring.desertBarn_2,
@@ -81,7 +83,7 @@ export const BARN_IMAGES: Record<
       3: SUNNYSIDE.seasons.winter.desertBarn_3,
     },
   },
-  volcano: {
+  "Volcano Biome": {
     spring: {
       1: SUNNYSIDE.seasons.spring.volcanoBarn_1,
       2: SUNNYSIDE.seasons.spring.volcanoBarn_2,
@@ -162,7 +164,7 @@ export const Barn: React.FC<BuildingProps> = ({ isBuilt, island, season }) => {
           />
         )}
         <img
-          src={BARN_IMAGES[island][season][buildingLevel]}
+          src={BARN_IMAGES[getCurrentBiome(island)][season][buildingLevel]}
           className="absolute bottom-0 pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 64}px`,

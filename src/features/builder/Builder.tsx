@@ -22,7 +22,7 @@ import { useSelector } from "@xstate/react";
  * A test component for collision detection and resource sizing/dimensions
  */
 
-const _island = (state: MachineState) => state.context.state.island.type;
+const _island = (state: MachineState) => state.context.state.island;
 
 export const Builder: React.FC = () => {
   const { gameService } = useContext(Context);

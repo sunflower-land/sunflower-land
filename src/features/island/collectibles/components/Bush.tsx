@@ -3,19 +3,20 @@ import React from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CollectibleProps } from "../Collectible";
 
-import { BUSH_VARIANTS } from "features/island/lib/alternateArt";
+import {
+  BUSH_VARIANTS,
+  getCurrentBiome,
+} from "features/island/lib/alternateArt";
 import { SFTDetailPopover } from "components/ui/SFTDetailPopover";
 
 export const Bush: React.FC<CollectibleProps> = ({ game }) => {
+  const biome = getCurrentBiome(game.island);
+
   return (
     <SFTDetailPopover name="Bush">
       <>
         <img
-          src={
-            BUSH_VARIANTS[game?.island.type ?? "basic"][
-              game?.season?.season ?? "spring"
-            ]
-          }
+          src={BUSH_VARIANTS[biome][game?.season?.season ?? "spring"]}
           style={{
             width: `${PIXEL_SCALE * (game.island.type === "desert" ? 20 : game.island.type === "volcano" ? 28 : 28)}px`,
             bottom: `${PIXEL_SCALE * 0}px`,

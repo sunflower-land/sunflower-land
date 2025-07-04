@@ -12,7 +12,10 @@ import { getKeys } from "features/game/types/craftables";
 import { CROPS } from "features/game/types/crops";
 import { Bumpkin } from "features/game/types/game";
 import { CROP_SHORTAGE_HOURS } from "features/game/expansion/lib/boosts";
-import { MARKET_VARIANTS } from "features/island/lib/alternateArt";
+import {
+  getCurrentBiome,
+  MARKET_VARIANTS,
+} from "features/island/lib/alternateArt";
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { secondsToString } from "lib/utils/time";
@@ -114,7 +117,7 @@ export const Market: React.FC<BuildingProps> = ({ isBuilt, island }) => {
     <>
       <BuildingImageWrapper name="Market" onClick={handleClick}>
         <img
-          src={MARKET_VARIANTS[island][season]}
+          src={MARKET_VARIANTS[getCurrentBiome(island)][season]}
           className="absolute bottom-0 pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 48}px`,

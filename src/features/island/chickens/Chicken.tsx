@@ -249,7 +249,7 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
                 }}
               />
               <img
-                src={CROP_LIFECYCLE.basic.Wheat.crop}
+                src={CROP_LIFECYCLE["Basic Biome"].Wheat.crop}
                 className={"transition-opacity absolute z-10 opacity-0"}
                 style={{
                   width: `${PIXEL_SCALE * 8}px`,

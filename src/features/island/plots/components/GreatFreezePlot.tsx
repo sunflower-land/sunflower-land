@@ -12,6 +12,7 @@ import greatFreezeIcon from "assets/icons/great-freeze.webp";
 import { Label } from "components/ui/Label";
 import { secondsToString } from "lib/utils/time";
 import { SOIL_IMAGES } from "../lib/plant";
+import { getCurrentBiome } from "features/island/lib/alternateArt";
 
 const GreatFreezePlotComponent: React.FC<{ game: GameState }> = ({ game }) => {
   const [showModal, setShowModal] = useState(false);
@@ -24,8 +25,8 @@ const GreatFreezePlotComponent: React.FC<{ game: GameState }> = ({ game }) => {
   const handleMouseLeave = () => {
     setShowTooltip(false);
   };
-
-  const soilImage = SOIL_IMAGES[game.island.type].dry;
+  const currentBiome = getCurrentBiome(game.island);
+  const soilImage = SOIL_IMAGES[currentBiome].dry;
 
   return (
     <>

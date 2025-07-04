@@ -45,7 +45,7 @@ const HasTool = (
   return (inventory[tool] ?? new Decimal(0)).gte(axesNeeded);
 };
 
-const selectIsland = (state: MachineState) => state.context.state.island.type;
+const selectIsland = (state: MachineState) => state.context.state.island;
 const selectSeason = (state: MachineState) => state.context.state.season.season;
 const selectInventory = (state: MachineState) => state.context.state.inventory;
 const selectTreesChopped = (state: MachineState) =>
