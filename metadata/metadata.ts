@@ -12155,6 +12155,53 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/2280.webp",
     name: "Blue Slime Balloon",
   },
+  "Basic Biome": {
+    description: "A basic biome that provides a basic income and a basic life.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2281.webp",
+    name: "Basic Biome",
+  },
+  "Spring Biome": {
+    description:
+      "A spring biome that provides a spring income and a spring life.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2282.webp",
+    name: "Spring Biome",
+  },
+  "Desert Biome": {
+    description:
+      "A desert biome that provides a desert income and a desert life.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2283.webp",
+    name: "Desert Biome",
+  },
+  "Volcano Biome": {
+    description:
+      "A volcano biome that provides a volcano income and a volcano life.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2284.webp",
+    name: "Volcano Biome",
+  },
 };
 
 export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {

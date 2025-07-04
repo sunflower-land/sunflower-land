@@ -478,6 +478,7 @@ import {
   InstantCraftAction,
   speedUpCrafting,
 } from "./landExpansion/speedUpCrafting";
+import { buyBiome, BuyBiomeAction } from "./landExpansion/buyBiome";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
@@ -619,7 +620,8 @@ export type PlayingEvent =
   | ClaimPetalPrizeAction
   | ClaimBlessingAction
   | BuyOptionPurchaseItemAction
-  | InstantCraftAction;
+  | InstantCraftAction
+  | BuyBiomeAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -828,6 +830,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "blessing.claimed": claimBlessing,
   "optionPurchaseItem.bought": buyOptionPurchaseItem,
   "crafting.spedUp": speedUpCrafting,
+  "biome.bought": buyBiome,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

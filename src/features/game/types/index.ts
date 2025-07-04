@@ -1093,6 +1093,12 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Pony Toy": 2278,
   "Red Slime Balloon": 2279,
   "Blue Slime Balloon": 2280,
+
+  // Land Biomes
+  "Basic Biome": 2400,
+  "Spring Biome": 2401,
+  "Desert Biome": 2402,
+  "Volcano Biome": 2403,
 };
 
 // The reverse of above

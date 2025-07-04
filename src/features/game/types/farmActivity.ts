@@ -7,6 +7,7 @@ import { FishName } from "./fishing";
 import { ExoticCropName } from "./beans";
 import { BeachBountyTreasure } from "./treasure";
 import { FullMoonFruit } from "./fruits";
+import { LandBiomeName } from "features/island/biomes/biomes";
 
 export type CaughtEvent = `${InventoryItemName} Caught`;
 export type HarvestedEvent = `${FlowerName} Harvested`;
@@ -24,6 +25,7 @@ export type CraftedEvent =
   `${RecipeCollectibleName | RecipeWearableName} Crafted`;
 
 export type ResourceBought = `${ResourceName} Bought`;
+export type BiomeBought = `${LandBiomeName} Bought`;
 
 export type FarmActivityName =
   | CaughtEvent
@@ -31,6 +33,7 @@ export type FarmActivityName =
   | BountiedEvent
   | CraftedEvent
   | ResourceBought
+  | BiomeBought
   | "Obsidian Exchanged"
   | "FLOWER Exchanged";
 

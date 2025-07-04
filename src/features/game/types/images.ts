@@ -905,6 +905,11 @@ import nurseSheep from "assets/sfts/nurse_sheep.webp";
 import pinkDolphin from "assets/fish/pink_dolphin.webp";
 import lunalist from "assets/flowers/lunalist.webp";
 
+import basicBiome from "assets/icons/islands/basic.webp";
+import springBiome from "assets/icons/islands/spring.webp";
+import desertBiome from "assets/icons/islands/desert.webp";
+import volcanoBiome from "assets/icons/islands/volcano.webp";
+
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
 import { CROPS, CROP_SEEDS, GREENHOUSE_CROPS, GREENHOUSE_SEEDS } from "./crops";
@@ -5341,5 +5346,24 @@ export const ITEM_DETAILS: Items = {
   "Blue Slime Balloon": {
     image: blueSlimeBalloon,
     description: translate("description.blueSlimeBalloon"),
+  },
+  "Basic Biome": {
+    image: basicBiome,
+    description: "A basic biome that provides a basic income and a basic life.",
+  },
+  "Spring Biome": {
+    image: springBiome,
+    description:
+      "A spring biome that provides a spring income and a spring life.",
+  },
+  "Desert Biome": {
+    image: desertBiome,
+    description:
+      "A desert biome that provides a desert income and a desert life.",
+  },
+  "Volcano Biome": {
+    image: volcanoBiome,
+    description:
+      "A volcano biome that provides a volcano income and a volcano life.",
   },
 };

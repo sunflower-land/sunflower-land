@@ -106,6 +106,7 @@ import { blessingIsReady } from "./blessings";
 import { getBumpkinLevel } from "./level";
 import { hasFeatureAccess } from "lib/flags";
 import { COMPETITION_POINTS } from "../types/competitions";
+import { BuyBiomeAction } from "../events/landExpansion/buyBiome";
 
 // Run at startup in case removed from query params
 const portalName = new URLSearchParams(window.location.search).get("portal");
@@ -2075,6 +2076,22 @@ export function startGame(authContext: AuthContext) {
           },
           on: {
             ...PLACEMENT_EVENT_HANDLERS,
+            "biome.bought": {
+              actions: assign((context: Context, event: BuyBiomeAction) => ({
+                state: processEvent({
+                  state: context.state as GameState,
+                  action: event,
+                  farmId: context.farmId,
+                }) as GameState,
+                actions: [
+                  ...context.actions,
+                  {
+                    ...event,
+                    createdAt: new Date(),
+                  },
+                ],
+              })),
+            },
             SAVE: {
               actions: send(
                 (context) =>
