@@ -34,6 +34,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Geniseed: new Decimal(400),
     Wheat: new Decimal(400),
     Pickaxe: new Decimal(1),
+    "Blue Tile": new Decimal(1000),
     "Beta Pass": new Decimal(1),
     "Colors Token 2025": new Decimal(10000),
     "Magic Bean": new Decimal(1),

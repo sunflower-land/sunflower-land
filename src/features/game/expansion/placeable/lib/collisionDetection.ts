@@ -325,6 +325,19 @@ export const NON_COLLIDING_OBJECTS: InventoryItemName[] = [
   "Long Rug",
 ];
 
+export function getZIndex(y: number, name?: InventoryItemName) {
+  if (name && NON_COLLIDING_OBJECTS.includes(name)) {
+    // Tiles are underneath everything
+    if (name.includes("Tile")) return 0;
+
+    // Rugs sit on top of tiles
+    return 1;
+  }
+
+  // Everything else is based on it y position
+  return -y + 1000;
+}
+
 function detectHomeCollision({
   state,
   position,
