@@ -2,6 +2,7 @@
 /* eslint-disable unused-imports/no-unused-vars */
 import React from "react";
 import { GRID_WIDTH_PX } from "../../lib/constants";
+import { getZIndex } from "../placeable/lib/collisionDetection";
 
 export type Coordinates = {
   x: number;
@@ -15,7 +16,7 @@ type Position = {
   canCollide?: boolean;
 } & Coordinates;
 
-type Props = Position;
+type Props = Position & { id?: string };
 
 /**
  * This component is used to place items on the map. It uses the cartesian place coordinates
@@ -23,23 +24,25 @@ type Props = Position;
  * grid size up and one grid right. The item will be placed at 0,0 of this coordinate.
  */
 export const MapPlacement: React.FC<React.PropsWithChildren<Props>> = ({
+  id,
   x,
   y,
   height,
   width,
   children,
-  z = "unset",
+  z,
   canCollide = true,
 }) => {
   return (
     <div
       className={"absolute"}
+      id={id}
       style={{
         top: `calc(50% - ${GRID_WIDTH_PX * y}px)`,
         left: `calc(50% + ${GRID_WIDTH_PX * x}px)`,
         height: height ? `${GRID_WIDTH_PX * height}px` : "auto",
         width: width ? `${GRID_WIDTH_PX * width}px` : "auto",
-        zIndex: z,
+        zIndex: z ?? getZIndex(y),
       }}
     >
       {children}
