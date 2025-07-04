@@ -131,8 +131,8 @@ export const PlayerDetails: React.FC<Props> = ({ player }) => {
   const [followingLoading, setFollowingLoading] = useState(false);
 
   const { t } = useTranslation();
-  const [interactions, setInteractions] =
-    useState<FarmInteraction[]>(dummyInteractions);
+  // const [interactions, setInteractions] =
+  //   useState<FarmInteraction[]>(dummyInteractions);
 
   const {
     data,
@@ -141,9 +141,9 @@ export const PlayerDetails: React.FC<Props> = ({ player }) => {
     isValidating,
     mutate,
   } = useSWR(
-    ["player", token, player.farmId],
-    ([, token, farmId]) => {
-      return getPlayer({ token: token as string, farmId });
+    ["player", token, farmId, player.farmId],
+    ([, token, farmId, followedPlayerId]) => {
+      return getPlayer({ token: token as string, farmId, followedPlayerId });
     },
     {
       revalidateOnFocus: false,
@@ -188,6 +188,20 @@ export const PlayerDetails: React.FC<Props> = ({ player }) => {
     } finally {
       setFollowingLoading(false);
     }
+  };
+
+  const sendMessage = async (message: FarmInteraction) => {
+    const { data } = await postEffect({
+      effect: {
+        type: "message.sent",
+        recipientId: player.farmId,
+        message: "niceFarm",
+      },
+      transactionId: randomID(),
+      token: token as string,
+      farmId: farmId,
+    });
+    mutate(data);
   };
 
   const startDate = new Date(player?.createdAt).toLocaleString("en-US", {
@@ -325,9 +339,17 @@ export const PlayerDetails: React.FC<Props> = ({ player }) => {
       </div>
       {!isMobile && (
         <FollowerFeed
-          interactions={interactions}
+          interactions={
+            data?.data?.messages.map((message, index) => ({
+              id: randomID(),
+              sender: `You${index}`,
+              timestamp: Date.now(),
+              text: message.message,
+              type: "comment",
+            })) ?? []
+          }
           onInteraction={(interaction) => {
-            setInteractions([interaction, ...interactions]);
+            sendMessage(interaction);
           }}
           chatDisabled={!isMutual}
         />
