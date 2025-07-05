@@ -4,10 +4,12 @@ import { SUNNYSIDE } from "assets/sunnyside";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
-import { IslandType, TemperateSeasonName } from "features/game/types/game";
+import { GameState, TemperateSeasonName } from "features/game/types/game";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
+import { getCurrentBiome } from "features/island/lib/alternateArt";
+import { LandBiomeName } from "features/island/biomes/biomes";
 
 const IMAGE_GRID_WIDTH = 36;
 const VOLCANO_IMAGE_GRID_WIDTH = 48;
@@ -359,28 +361,28 @@ const WINTER_VOLCANO_LEVEL_IMAGES = {
 };
 
 const LEVEL_IMAGES: Record<
-  IslandType,
+  LandBiomeName,
   Record<TemperateSeasonName, Record<number, string>>
 > = {
-  basic: {
+  "Basic Biome": {
     spring: SPRING_BASIC_LEVEL_IMAGES,
     summer: SUMMER_BASIC_LEVEL_IMAGES,
     autumn: AUTUMN_BASIC_LEVEL_IMAGES,
     winter: WINTER_BASIC_LEVEL_IMAGES,
   },
-  spring: {
+  "Spring Biome": {
     spring: SPRING_BASIC_LEVEL_IMAGES,
     summer: SUMMER_BASIC_LEVEL_IMAGES,
     autumn: AUTUMN_BASIC_LEVEL_IMAGES,
     winter: WINTER_BASIC_LEVEL_IMAGES,
   },
-  desert: {
+  "Desert Biome": {
     spring: SPRING_DESERT_LEVEL_IMAGES,
     summer: SUMMER_DESERT_LEVEL_IMAGES,
     autumn: AUTUMN_DESERT_LEVEL_IMAGES,
     winter: WINTER_DESERT_LEVEL_IMAGES,
   },
-  volcano: {
+  "Volcano Biome": {
     spring: SPRING_VOLCANO_LEVEL_IMAGES,
     summer: SUMMER_VOLCANO_LEVEL_IMAGES,
     autumn: AUTUMN_VOLCANO_LEVEL_IMAGES,
@@ -389,21 +391,22 @@ const LEVEL_IMAGES: Record<
 };
 
 interface Props {
-  type: IslandType;
+  island: GameState["island"];
   expandedCount: number;
 }
 
 const _season = (state: MachineState) => state.context.state.season.season;
 
-export const LandBase: React.FC<Props> = ({ type, expandedCount }) => {
+export const LandBase: React.FC<Props> = ({ island, expandedCount }) => {
+  const biome = getCurrentBiome(island);
   const imageGridWidth =
-    type === "volcano" ? VOLCANO_IMAGE_GRID_WIDTH : IMAGE_GRID_WIDTH;
+    biome === "Volcano Biome" ? VOLCANO_IMAGE_GRID_WIDTH : IMAGE_GRID_WIDTH;
   const { gameService } = useContext(Context);
   const season = useSelector(gameService, _season);
   return (
     <img
       id={Section.GenesisBlock}
-      src={LEVEL_IMAGES[type][season][expandedCount]}
+      src={LEVEL_IMAGES[biome][season][expandedCount]}
       alt="land"
       className="h-auto -z-10"
       style={{
