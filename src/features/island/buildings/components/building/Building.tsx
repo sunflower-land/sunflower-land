@@ -10,11 +10,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { Context, useGame } from "features/game/GameProvider";
 import { BUILDING_COMPONENTS, READONLY_BUILDINGS } from "./BuildingComponents";
 import { CookableName } from "features/game/types/consumables";
-import {
-  GameState,
-  IslandType,
-  TemperateSeasonName,
-} from "features/game/types/game";
+import { GameState, TemperateSeasonName } from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useCountdown } from "lib/utils/hooks/useCountdown";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -50,14 +46,14 @@ interface Prop {
   showTimers: boolean;
   x: number;
   y: number;
-  island: IslandType;
+  island: GameState["island"];
   season: TemperateSeasonName;
 }
 
 export interface BuildingProps {
   buildingId: string;
   isBuilt?: boolean;
-  island: IslandType;
+  island: GameState["island"];
   season: TemperateSeasonName;
 }
 

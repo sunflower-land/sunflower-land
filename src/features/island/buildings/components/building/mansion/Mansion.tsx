@@ -62,7 +62,7 @@ export const Mansion: React.FC<BuildingProps> = ({ isBuilt, island }) => {
     <div className="absolute h-full w-full">
       <BuildingImageWrapper name="Town Center" onClick={handleClick}>
         <img
-          src={MANOR_VARIANTS["volcano"][season]}
+          src={MANOR_VARIANTS["Volcano Biome"][season]}
           className="absolute pointer-events-none"
           id={Section.Home}
           style={{

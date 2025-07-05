@@ -11,18 +11,20 @@ import { VIP_ISLAND_VARIANTS } from "features/island/lib/alternateArt";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
+import { LandBiomeName } from "features/island/biomes/biomes";
+import { getCurrentBiome } from "features/island/lib/alternateArt";
 
 interface Props {
   offset: number;
 }
 
-const _island = (state: MachineState) => state.context.state.island.type;
+const _island = (state: MachineState) => state.context.state.island;
 
 export const SeasonTeaser: React.FC<Props> = ({ offset }) => {
   const { gameService } = useContext(Context);
   const [showModal, setShowModal] = useState(false);
   const island = useSelector(gameService, _island);
-
+  const biome: LandBiomeName = getCurrentBiome(island);
   return (
     <>
       <Modal show={showModal} onHide={() => setShowModal(false)}>
@@ -30,7 +32,7 @@ export const SeasonTeaser: React.FC<Props> = ({ offset }) => {
       </Modal>
       <MapPlacement x={0} y={-6 - offset} width={6}>
         <img
-          src={VIP_ISLAND_VARIANTS[island]}
+          src={VIP_ISLAND_VARIANTS[biome]}
           style={{
             width: `${PIXEL_SCALE * 62}px`,
           }}

@@ -4,7 +4,6 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import {
   GameState,
   InventoryItemName,
-  IslandType,
   TemperateSeasonName,
 } from "features/game/types/game";
 import { CollectibleName, getKeys } from "features/game/types/craftables";
@@ -31,6 +30,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
   BUSH_VARIANTS,
   DIRT_PATH_VARIANTS,
+  getCurrentBiome,
   TREE_VARIANTS,
   WATER_WELL_VARIANTS,
 } from "features/island/lib/alternateArt";
@@ -47,30 +47,33 @@ import {
   makeUpgradableBuildingKey,
   UpgradableBuildingType,
 } from "features/game/events/landExpansion/upgradeBuilding";
+import { LandBiomeName } from "features/island/biomes/biomes";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
 export const ITEM_ICONS: (
-  island: IslandType,
   season: TemperateSeasonName,
+  biome: LandBiomeName,
   level?: number,
-) => Partial<Record<InventoryItemName, string>> = (island, season, level) => ({
-  Market: SUNNYSIDE.icons.marketIcon,
-  "Fire Pit": SUNNYSIDE.icons.firePitIcon,
-  Workbench: SUNNYSIDE.icons.workbenchIcon,
-  Kitchen: SUNNYSIDE.icons.kitchenIcon,
-  "Hen House": SUNNYSIDE.icons.henHouseIcon,
-  Bakery: SUNNYSIDE.icons.bakeryIcon,
-  Deli: SUNNYSIDE.icons.deliIcon,
-  "Smoothie Shack": SUNNYSIDE.icons.smoothieIcon,
-  Toolshed: SUNNYSIDE.icons.toolshedIcon,
-  Warehouse: SUNNYSIDE.icons.warehouseIcon,
-  Tree: TREE_VARIANTS[island][season],
-  "Dirt Path": DIRT_PATH_VARIANTS[island],
-  Greenhouse: SUNNYSIDE.icons.greenhouseIcon,
-  Bush: BUSH_VARIANTS[island][season],
-  "Water Well": WATER_WELL_VARIANTS[season][level ?? 1],
-});
+) => Partial<Record<InventoryItemName, string>> = (season, biome, level) => {
+  return {
+    Market: SUNNYSIDE.icons.marketIcon,
+    "Fire Pit": SUNNYSIDE.icons.firePitIcon,
+    Workbench: SUNNYSIDE.icons.workbenchIcon,
+    Kitchen: SUNNYSIDE.icons.kitchenIcon,
+    "Hen House": SUNNYSIDE.icons.henHouseIcon,
+    Bakery: SUNNYSIDE.icons.bakeryIcon,
+    Deli: SUNNYSIDE.icons.deliIcon,
+    "Smoothie Shack": SUNNYSIDE.icons.smoothieIcon,
+    Toolshed: SUNNYSIDE.icons.toolshedIcon,
+    Warehouse: SUNNYSIDE.icons.warehouseIcon,
+    Tree: TREE_VARIANTS[biome][season],
+    "Dirt Path": DIRT_PATH_VARIANTS[biome],
+    Greenhouse: SUNNYSIDE.icons.greenhouseIcon,
+    Bush: BUSH_VARIANTS[biome][season],
+    "Water Well": WATER_WELL_VARIANTS[season][level ?? 1],
+  };
+};
 
 interface PanelContentProps {
   selectedChestItem: InventoryItemName | `Bud-${number}`;
@@ -504,9 +507,11 @@ const ItemGroup: React.FC<ItemGroupProps> = ({
             : undefined;
 
           const image =
-            ITEM_ICONS(state.island.type, state.season.season, hasLevel)[
-              item
-            ] ?? ITEM_DETAILS[item].image;
+            ITEM_ICONS(
+              state.season.season,
+              getCurrentBiome(state.island),
+              hasLevel,
+            )[item] ?? ITEM_DETAILS[item].image;
           return (
             <Box
               count={chestMap[item]}

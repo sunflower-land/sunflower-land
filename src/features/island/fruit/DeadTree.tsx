@@ -9,23 +9,22 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
-import { IslandType } from "features/game/types/game";
+import { getCurrentBiome } from "../lib/alternateArt";
 
 interface Props {
   patchFruitName: PatchFruitName;
   hasAxes: boolean;
-  islandType: IslandType;
 }
 
-const _island = (state: MachineState) => state.context.state.island.type;
+const _island = (state: MachineState) => state.context.state.island;
 
-export const DeadTree = ({ patchFruitName, hasAxes, islandType }: Props) => {
+export const DeadTree = ({ patchFruitName, hasAxes }: Props) => {
   const { gameService } = useContext(Context);
   const { isBush } = PATCH_FRUIT[patchFruitName];
   const [showNoToolWarning, setShowNoToolWarning] = useState<boolean>(false);
 
   const island = useSelector(gameService, _island);
-
+  const biome = getCurrentBiome(island);
   const handleHover = () => {
     if (!hasAxes) {
       setShowNoToolWarning(true);
@@ -49,7 +48,7 @@ export const DeadTree = ({ patchFruitName, hasAxes, islandType }: Props) => {
       >
         {/* Dead tree/bush */}
         <img
-          src={PATCH_FRUIT_LIFECYCLE[island][patchFruitName].dead}
+          src={PATCH_FRUIT_LIFECYCLE[biome][patchFruitName].dead}
           className="absolute"
           style={{
             bottom: `${PIXEL_SCALE * (isBush ? 9 : 5)}px`,

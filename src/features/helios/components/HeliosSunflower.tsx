@@ -10,8 +10,9 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
+import { getCurrentBiome } from "features/island/lib/alternateArt";
 
-const _island = (state: MachineState) => state.context.state.island.type;
+const _island = (state: MachineState) => state.context.state.island;
 
 export const HeliosSunflower: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -27,7 +28,7 @@ export const HeliosSunflower: React.FC = () => {
         onClick={() => setShowModal(true)}
       >
         <img
-          src={CROP_LIFECYCLE[island].Sunflower.ready}
+          src={CROP_LIFECYCLE[getCurrentBiome(island)].Sunflower.ready}
           className="absolute"
           style={{
             width: `${PIXEL_SCALE * 16}px`,

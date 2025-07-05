@@ -161,7 +161,7 @@ function getCollectibleBuffLabels(
         shortDescription: translate("description.peeled.potato.boost"),
         labelType: "success",
         boostTypeIcon: powerup,
-        boostedItemIcon: CROP_LIFECYCLE.basic.Potato.crop,
+        boostedItemIcon: CROP_LIFECYCLE["Basic Biome"].Potato.crop,
       },
     ],
     "Victoria Sisters": [
@@ -169,7 +169,7 @@ function getCollectibleBuffLabels(
         shortDescription: translate("description.victoria.sisters.boost"),
         labelType: "success",
         boostTypeIcon: powerup,
-        boostedItemIcon: CROP_LIFECYCLE.basic.Pumpkin.crop,
+        boostedItemIcon: CROP_LIFECYCLE["Basic Biome"].Pumpkin.crop,
       },
     ],
     "Freya Fox": [
@@ -177,7 +177,7 @@ function getCollectibleBuffLabels(
         shortDescription: translate("description.freya.fox.boost"),
         labelType: "success",
         boostTypeIcon: powerup,
-        boostedItemIcon: CROP_LIFECYCLE.basic.Pumpkin.crop,
+        boostedItemIcon: CROP_LIFECYCLE["Basic Biome"].Pumpkin.crop,
       },
     ],
     "Easter Bunny": [
@@ -185,7 +185,7 @@ function getCollectibleBuffLabels(
         shortDescription: translate("description.easter.bunny.boost"),
         labelType: "success",
         boostTypeIcon: powerup,
-        boostedItemIcon: CROP_LIFECYCLE.basic.Carrot.crop,
+        boostedItemIcon: CROP_LIFECYCLE["Basic Biome"].Carrot.crop,
       },
     ],
     "Pablo The Bunny": [
@@ -193,7 +193,7 @@ function getCollectibleBuffLabels(
         shortDescription: translate("description.pablo.bunny.boost"),
         labelType: "success",
         boostTypeIcon: powerup,
-        boostedItemIcon: CROP_LIFECYCLE.basic.Carrot.crop,
+        boostedItemIcon: CROP_LIFECYCLE["Basic Biome"].Carrot.crop,
       },
     ],
     "Cabbage Boy": [
@@ -203,7 +203,7 @@ function getCollectibleBuffLabels(
           : translate("description.cabbage.boy.boost"),
         labelType: "success",
         boostTypeIcon: powerup,
-        boostedItemIcon: CROP_LIFECYCLE.basic.Cabbage.crop,
+        boostedItemIcon: CROP_LIFECYCLE["Basic Biome"].Cabbage.crop,
       },
     ],
     "Cabbage Girl": [
@@ -211,7 +211,7 @@ function getCollectibleBuffLabels(
         shortDescription: translate("description.cabbage.girl.boost"),
         labelType: "info",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
-        boostedItemIcon: CROP_LIFECYCLE.basic.Cabbage.crop,
+        boostedItemIcon: CROP_LIFECYCLE["Basic Biome"].Cabbage.crop,
       },
     ],
     Karkinos: [
@@ -222,7 +222,7 @@ function getCollectibleBuffLabels(
               shortDescription: translate("description.Karkinos.boost"),
               labelType: "success",
               boostTypeIcon: powerup,
-              boostedItemIcon: CROP_LIFECYCLE.basic.Cabbage.crop,
+              boostedItemIcon: CROP_LIFECYCLE["Basic Biome"].Cabbage.crop,
             },
             {
               shortDescription: translate("description.Karkinos.warning"),
@@ -235,7 +235,7 @@ function getCollectibleBuffLabels(
         shortDescription: translate("description.golden.cauliflower.boost"),
         labelType: "success",
         boostTypeIcon: powerup,
-        boostedItemIcon: CROP_LIFECYCLE.basic.Cauliflower.crop,
+        boostedItemIcon: CROP_LIFECYCLE["Basic Biome"].Cauliflower.crop,
       },
     ],
     "Mysterious Parsnip": [
@@ -243,7 +243,7 @@ function getCollectibleBuffLabels(
         shortDescription: translate("description.mysterious.parsnip.boost"),
         labelType: "info",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
-        boostedItemIcon: CROP_LIFECYCLE.basic.Parsnip.crop,
+        boostedItemIcon: CROP_LIFECYCLE["Basic Biome"].Parsnip.crop,
       },
     ],
     "Purple Trail": [
@@ -251,7 +251,7 @@ function getCollectibleBuffLabels(
         shortDescription: translate("description.purple.trail.boost"),
         labelType: "success",
         boostTypeIcon: powerup,
-        boostedItemIcon: CROP_LIFECYCLE.basic.Eggplant.crop,
+        boostedItemIcon: CROP_LIFECYCLE["Basic Biome"].Eggplant.crop,
       },
     ],
     Obie: [
@@ -259,7 +259,7 @@ function getCollectibleBuffLabels(
         shortDescription: translate("description.obie.boost"),
         labelType: "info",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
-        boostedItemIcon: CROP_LIFECYCLE.basic.Eggplant.crop,
+        boostedItemIcon: CROP_LIFECYCLE["Basic Biome"].Eggplant.crop,
       },
     ],
     Maximus: [
@@ -267,7 +267,7 @@ function getCollectibleBuffLabels(
         shortDescription: translate("description.maximus.boost"),
         labelType: "success",
         boostTypeIcon: powerup,
-        boostedItemIcon: CROP_LIFECYCLE.basic.Eggplant.crop,
+        boostedItemIcon: CROP_LIFECYCLE["Basic Biome"].Eggplant.crop,
       },
     ],
     Poppy: [
@@ -275,7 +275,7 @@ function getCollectibleBuffLabels(
         shortDescription: translate("description.poppy.boost"),
         labelType: "success",
         boostTypeIcon: powerup,
-        boostedItemIcon: CROP_LIFECYCLE.basic.Corn.crop,
+        boostedItemIcon: CROP_LIFECYCLE["Basic Biome"].Corn.crop,
       },
     ],
     Kernaldo: [
@@ -283,7 +283,7 @@ function getCollectibleBuffLabels(
         shortDescription: translate("description.kernaldo.boost"),
         labelType: "info",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
-        boostedItemIcon: CROP_LIFECYCLE.basic.Corn.crop,
+        boostedItemIcon: CROP_LIFECYCLE["Basic Biome"].Corn.crop,
       },
     ],
     "Queen Cornelia": [
@@ -291,7 +291,7 @@ function getCollectibleBuffLabels(
         shortDescription: translate("description.queen.cornelia.boost"),
         labelType: "success",
         boostTypeIcon: powerup,
-        boostedItemIcon: CROP_LIFECYCLE.basic.Corn.crop,
+        boostedItemIcon: CROP_LIFECYCLE["Basic Biome"].Corn.crop,
       },
       {
         shortDescription: translate("description.queen.cornelia.boost.aoe"),
@@ -304,7 +304,7 @@ function getCollectibleBuffLabels(
         shortDescription: translate("description.foliant.boost"),
         labelType: "success",
         boostTypeIcon: powerup,
-        boostedItemIcon: CROP_LIFECYCLE.basic.Kale.crop,
+        boostedItemIcon: CROP_LIFECYCLE["Basic Biome"].Kale.crop,
       },
     ],
     Hoot: [
@@ -336,7 +336,7 @@ function getCollectibleBuffLabels(
         shortDescription: translate("description.soybliss.boost"),
         labelType: "success",
         boostTypeIcon: powerup,
-        boostedItemIcon: CROP_LIFECYCLE.basic.Soybean.crop,
+        boostedItemIcon: CROP_LIFECYCLE["Basic Biome"].Soybean.crop,
       },
     ],
 
@@ -429,7 +429,7 @@ function getCollectibleBuffLabels(
         shortDescription: translate("description.stellar.sunflower.boost"),
         labelType: "vibrant",
         boostTypeIcon: lightning,
-        boostedItemIcon: CROP_LIFECYCLE.basic.Sunflower.crop,
+        boostedItemIcon: CROP_LIFECYCLE["Basic Biome"].Sunflower.crop,
       },
     ],
     "Potent Potato": [
@@ -437,7 +437,7 @@ function getCollectibleBuffLabels(
         shortDescription: translate("description.potent.potato.boost"),
         labelType: "vibrant",
         boostTypeIcon: lightning,
-        boostedItemIcon: CROP_LIFECYCLE.basic.Potato.crop,
+        boostedItemIcon: CROP_LIFECYCLE["Basic Biome"].Potato.crop,
       },
     ],
     "Radical Radish": [
@@ -445,7 +445,7 @@ function getCollectibleBuffLabels(
         shortDescription: translate("description.radical.radish.boost"),
         labelType: "success",
         boostTypeIcon: powerup,
-        boostedItemIcon: CROP_LIFECYCLE.basic.Radish.crop,
+        boostedItemIcon: CROP_LIFECYCLE["Basic Biome"].Radish.crop,
       },
     ],
     "Lab Grown Pumpkin": [
@@ -453,7 +453,7 @@ function getCollectibleBuffLabels(
         shortDescription: translate("description.lg.pumpkin.boost"),
         labelType: "success",
         boostTypeIcon: powerup,
-        boostedItemIcon: CROP_LIFECYCLE.basic.Pumpkin.crop,
+        boostedItemIcon: CROP_LIFECYCLE["Basic Biome"].Pumpkin.crop,
       },
     ],
     "Lab Grown Carrot": [
@@ -461,7 +461,7 @@ function getCollectibleBuffLabels(
         shortDescription: translate("description.lg.carrot.boost"),
         labelType: "success",
         boostTypeIcon: powerup,
-        boostedItemIcon: CROP_LIFECYCLE.basic.Carrot.crop,
+        boostedItemIcon: CROP_LIFECYCLE["Basic Biome"].Carrot.crop,
       },
     ],
     "Lab Grown Radish": [
@@ -469,7 +469,7 @@ function getCollectibleBuffLabels(
         shortDescription: translate("description.lg.radish.boost"),
         labelType: "success",
         boostTypeIcon: powerup,
-        boostedItemIcon: CROP_LIFECYCLE.basic.Radish.crop,
+        boostedItemIcon: CROP_LIFECYCLE["Basic Biome"].Radish.crop,
       },
     ],
 
@@ -1234,7 +1234,7 @@ function getCollectibleBuffLabels(
         shortDescription: translate("description.sheafOfPlenty.boost"),
         labelType: "success",
         boostTypeIcon: powerup,
-        boostedItemIcon: CROP_LIFECYCLE.basic.Barley.crop,
+        boostedItemIcon: CROP_LIFECYCLE["Basic Biome"].Barley.crop,
       },
     ],
     "Moo-ver": [

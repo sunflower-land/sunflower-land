@@ -44,6 +44,7 @@ import {
   isMediumCrop,
 } from "features/game/events/landExpansion/harvest";
 import { isExoticCrop } from "features/game/types/crops";
+import { getCurrentBiome } from "features/island/lib/alternateArt";
 
 export const Crops: React.FC = () => {
   const [selected, setSelected] = useState<
@@ -63,7 +64,8 @@ export const Crops: React.FC = () => {
   ] = useActor(gameService);
 
   const inventory = state.inventory;
-  const island = state.island.type;
+  const island = state.island;
+  const biome = getCurrentBiome(island);
 
   const divRef = useRef<HTMLDivElement>(null);
 
@@ -218,7 +220,7 @@ export const Crops: React.FC = () => {
             <div className="flex">
               <Label
                 className="mr-3 ml-2 mb-1"
-                icon={CROP_LIFECYCLE[island].Sunflower.crop}
+                icon={CROP_LIFECYCLE[biome].Sunflower.crop}
                 type="default"
               >
                 {`Basic Crops`}
@@ -242,7 +244,7 @@ export const Crops: React.FC = () => {
             <div className="flex">
               <Label
                 className="mr-3 ml-2 mb-1"
-                icon={CROP_LIFECYCLE[island].Carrot.crop}
+                icon={CROP_LIFECYCLE[biome].Carrot.crop}
                 type="default"
               >
                 {`Medium Crops`}
@@ -266,7 +268,7 @@ export const Crops: React.FC = () => {
             <div className="flex">
               <Label
                 className="mr-3 ml-2 mb-1"
-                icon={CROP_LIFECYCLE[island].Kale.crop}
+                icon={CROP_LIFECYCLE[biome].Kale.crop}
                 type="default"
               >
                 {`Advanced Crops`}

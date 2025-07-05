@@ -33,7 +33,7 @@ interface Props {
   showTimers: boolean;
 }
 
-const _island = (state: MachineState) => state.context.state.island.type;
+const _island = (state: MachineState) => state.context.state.island;
 
 const FertilePlotComponent: React.FC<Props> = ({
   cropName,
@@ -118,7 +118,7 @@ const FertilePlotComponent: React.FC<Props> = ({
             width: `${PIXEL_SCALE * 16}px`,
           }}
         >
-          <Soil cropName={cropName} stage={stage} islandType={island} />
+          <Soil cropName={cropName} stage={stage} island={island} />
         </div>
       </div>
       {activeInsectPlague && !isProtected && (

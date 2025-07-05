@@ -95,7 +95,7 @@ export const REACTIONS: Reaction[] = [
     hasAccess: (game: GameState) =>
       !!game.bumpkin?.achievements?.["Sunflower Superstar"],
     description: translate("reaction.sunflowers"),
-    icon: CROP_LIFECYCLE.basic.Sunflower.crop,
+    icon: CROP_LIFECYCLE["Basic Biome"].Sunflower.crop,
   },
   {
     name: "suspicious",

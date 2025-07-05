@@ -43,7 +43,7 @@ export const LabelTest: React.FC = () => {
               <Label
                 type="success"
                 icon={powerup}
-                secondaryIcon={CROP_LIFECYCLE.basic.Pumpkin.crop}
+                secondaryIcon={CROP_LIFECYCLE["Basic Biome"].Pumpkin.crop}
               >
                 {t("buff")}
               </Label>
@@ -122,7 +122,7 @@ export const LabelTest: React.FC = () => {
               <Label
                 type="chill"
                 icon={SUNNYSIDE.icons.heart}
-                secondaryIcon={CROP_LIFECYCLE.basic.Sunflower.crop}
+                secondaryIcon={CROP_LIFECYCLE["Basic Biome"].Sunflower.crop}
               >
                 {t("formula")}
               </Label>

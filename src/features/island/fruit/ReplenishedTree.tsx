@@ -5,18 +5,20 @@ import { PATCH_FRUIT, PatchFruitName } from "features/game/types/fruits";
 import { PATCH_FRUIT_LIFECYCLE } from "./fruits";
 
 import { Context } from "features/game/GameProvider";
-import { IslandType } from "features/game/types/game";
+import { GameState } from "features/game/types/game";
+import { getCurrentBiome } from "../lib/alternateArt";
 
 interface Props {
   patchFruitName: PatchFruitName;
-  islandType: IslandType;
+  island: GameState["island"];
 }
 
 export const ReplenishedTree: React.FC<Props> = ({
   patchFruitName,
-  islandType,
+  island,
 }) => {
-  const lifecycle = PATCH_FRUIT_LIFECYCLE[islandType][patchFruitName];
+  const biome = getCurrentBiome(island);
+  const lifecycle = PATCH_FRUIT_LIFECYCLE[biome][patchFruitName];
 
   const { isBush } = PATCH_FRUIT[patchFruitName];
   let bottom, left, width;
