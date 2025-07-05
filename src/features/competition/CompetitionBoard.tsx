@@ -24,6 +24,7 @@ import {
   CompetitionPlayer,
   CompetitionTaskName,
   getCompetitionPoints,
+  getCompetitionPointsPerTask,
   getTaskCompleted,
 } from "features/game/types/competitions";
 import { getKeys } from "features/game/types/decorations";
@@ -228,7 +229,11 @@ export const CompetitionDetails: React.FC<{
                     <Label
                       type="warning"
                       className="absolute -top-4 -right-2"
-                    >{`${COMPETITION_POINTS[competitionName].points[name]} points`}</Label>
+                    >{`${getCompetitionPointsPerTask({
+                      game: state,
+                      name: competitionName,
+                      task: name,
+                    })} points`}</Label>
                   </ButtonPanel>
                 </div>
               ))}

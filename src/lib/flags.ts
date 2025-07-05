@@ -93,10 +93,6 @@ const FEATURE_FLAGS = {
   FACE_RECOGNITION_TEST: defaultFeatureFlag,
   LEDGER: testnetLocalStorageFeatureFlag("ledger"),
 
-  PEGGYS_COOKOFF: timeBasedFeatureFlag(
-    new Date(COMPETITION_POINTS.PEGGYS_COOKOFF.startAt),
-  ),
-
   EASTER: (game) =>
     betaTimeBasedFeatureFlag(new Date("2025-04-21T00:00:00Z"))(game) &&
     Date.now() < new Date("2025-04-29T00:00:00Z").getTime(),
@@ -123,6 +119,12 @@ const FEATURE_FLAGS = {
   LANDSCAPING: testnetFeatureFlag,
   CRAFTING: testnetFeatureFlag,
   LEATHER_TOOLS: testnetFeatureFlag,
+
+  PEGGYS_COOKOFF: () =>
+    timePeriodFeatureFlag({
+      start: new Date(COMPETITION_POINTS.PEGGYS_COOKOFF.startAt),
+      end: new Date(COMPETITION_POINTS.PEGGYS_COOKOFF.endAt),
+    })(),
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;
