@@ -280,11 +280,11 @@ export const CompetitionDetails: React.FC<{
                 <Label type="default" className="mb-2">
                   {task}
                 </Label>
-                <p className="text-xs mb-2">
-                  {COMPETITION_TASK_DETAILS[task].description}
-                </p>
                 <div className="flex items-center justify-between mb-2">
-                  <Label type="vibrant">{`{} Points`}</Label>
+                  <p className="text-xs mb-2">
+                    {COMPETITION_TASK_DETAILS[task].description}
+                  </p>
+                  <Label type="vibrant">{`${state.competitions.progress[competitionName]?.currentProgress[task] ?? 0} Points`}</Label>
                 </div>
               </div>
             </>
