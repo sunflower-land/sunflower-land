@@ -228,28 +228,28 @@ export const FLOWER_VARIANTS = (
   flower: FlowerName,
   stage: FlowerGrowthStage | "flower_bed",
 ) => {
-  const biomeToCamelCase = biome
-    .toLowerCase()
-    .split(" ")
-    .map((word, index) =>
-      index === 0 ? word : word.charAt(0).toUpperCase() + word.slice(1),
-    )
-    .join("");
-  // When adding new biomes, the name of the folder in the image url must be in camel case of the biome name
-  // For example, "Basic Biome" should be "basicBiome"
+  const BIOME_TO_ISLAND: Record<LandBiomeName, string> = {
+    "Basic Biome": "basic",
+    "Spring Biome": "spring",
+    "Desert Biome": "desert",
+    "Volcano Biome": "volcano",
+  };
+
+  const island = BIOME_TO_ISLAND[biome];
+
   if (
     stage === "seedling" ||
     stage === "halfway" ||
     stage === "sprout" ||
     stage === "flower_bed"
   ) {
-    return `${CONFIG.PROTECTED_IMAGE_URL}/flowers/${biomeToCamelCase}/${season}/${stage}.webp`;
+    return `${CONFIG.PROTECTED_IMAGE_URL}/flowers/${island}/${season}/${stage}.webp`;
   }
 
   const flowerName = flower.toLowerCase().replace(/ /g, "_");
 
   if (flowerName)
-    return `${CONFIG.PROTECTED_IMAGE_URL}/flowers/${biomeToCamelCase}/${season}/${flowerName}_${stage}.webp`;
+    return `${CONFIG.PROTECTED_IMAGE_URL}/flowers/${island}/${season}/${flowerName}_${stage}.webp`;
 };
 
 export const DIRT_PATH_VARIANTS: Record<LandBiomeName, string> = {
