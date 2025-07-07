@@ -997,6 +997,30 @@ export function startGame(authContext: AuthContext) {
                 );
               },
             },
+            {
+              target: "competition",
+              cond: (context: Context) => {
+                if (!hasFeatureAccess(context.state, "PEGGYS_COOKOFF"))
+                  return false;
+
+                const hasStarted =
+                  Date.now() > COMPETITION_POINTS.PEGGYS_COOKOFF.startAt;
+
+                if (!hasStarted) return false;
+
+                const level = getBumpkinLevel(
+                  context.state.bumpkin?.experience ?? 0,
+                );
+
+                if (level <= 5) return false;
+
+                const competition =
+                  context.state.competitions.progress.PEGGYS_COOKOFF;
+
+                // Show the competition introduction if they have not started it yet
+                return !competition;
+              },
+            },
 
             // EVENTS THAT TARGET NOTIFYING OR LOADING MUST GO ABOVE THIS LINE
 
@@ -1047,30 +1071,6 @@ export function startGame(authContext: AuthContext) {
               cond: (context) =>
                 !!context.state.nfts?.ronin?.acknowledgedAt &&
                 (context.state.inventory["Jin"] ?? new Decimal(0)).lt(1),
-            },
-            {
-              target: "competition",
-              cond: (context: Context) => {
-                if (!hasFeatureAccess(context.state, "PEGGYS_COOKOFF"))
-                  return false;
-
-                const hasStarted =
-                  Date.now() > COMPETITION_POINTS.PEGGYS_COOKOFF.startAt;
-
-                if (!hasStarted) return false;
-
-                const level = getBumpkinLevel(
-                  context.state.bumpkin?.experience ?? 0,
-                );
-
-                if (level <= 5) return false;
-
-                const competition =
-                  context.state.competitions.progress.PEGGYS_COOKOFF;
-
-                // Show the competition introduction if they have not started it yet
-                return !competition;
-              },
             },
             {
               target: "playing",

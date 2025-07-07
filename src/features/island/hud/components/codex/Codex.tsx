@@ -165,11 +165,15 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
           },
         ]
       : []),
-    {
-      name: "Competition" as const,
-      icon: chefIcon,
-      count: 0,
-    },
+    ...(Date.now() < new Date("2025-07-17T00:00:00Z").getTime()
+      ? [
+          {
+            name: "Competition" as const,
+            icon: chefIcon,
+            count: 0,
+          },
+        ]
+      : []),
   ];
 
   return (

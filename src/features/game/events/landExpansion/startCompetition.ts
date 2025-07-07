@@ -1,10 +1,7 @@
 import {
   COMPETITION_POINTS,
-  COMPETITION_TASK_PROGRESS,
   CompetitionName,
-  CompetitionTaskName,
 } from "features/game/types/competitions";
-import { getKeys } from "features/game/types/decorations";
 import { GameState } from "features/game/types/game";
 
 import { produce } from "immer";
@@ -44,27 +41,28 @@ export function startCompetition({
       throw new Error("Player has already started competition");
     }
 
-    const progress = getKeys(COMPETITION_POINTS[action.name].points).reduce(
-      (acc, name) => {
-        const progressFn = COMPETITION_TASK_PROGRESS[name];
+    // const progress = getKeys(COMPETITION_POINTS[action.name].points).reduce(
+    //   (acc, name) => {
+    //     const progressFn = COMPETITION_TASK_PROGRESS[name];
 
-        if (!progressFn) {
-          throw new Error(`Task ${name} does not exist`);
-        }
+    //     if (!progressFn) {
+    //       throw new Error(`Task ${name} does not exist`);
+    //     }
 
-        const points = progressFn(game);
+    //     const points = progressFn(game);
 
-        return {
-          ...acc,
-          [name]: points,
-        };
-      },
-      {} as Record<CompetitionTaskName, number>,
-    );
+    //     return {
+    //       ...acc,
+    //       [name]: points,
+    //     };
+    //   },
+    //   {} as Record<CompetitionTaskName, number>,
+    // );
 
     game.competitions.progress[action.name] = {
       startedAt: createdAt,
-      initialProgress: progress,
+      currentProgress: {},
+      points: 0,
     };
 
     return game;

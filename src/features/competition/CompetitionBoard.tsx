@@ -23,9 +23,7 @@ import {
   CompetitionName,
   CompetitionPlayer,
   CompetitionTaskName,
-  getCompetitionPoints,
   getCompetitionPointsPerTask,
-  getTaskCompleted,
 } from "features/game/types/competitions";
 import { getKeys } from "features/game/types/decorations";
 import { Button } from "components/ui/Button";
@@ -208,7 +206,7 @@ export const CompetitionDetails: React.FC<{
                 {t("competition.earnPoints")}
               </Label>
               <Label type="vibrant" className="mb-1">
-                {`${getCompetitionPoints({ game: state, name: competitionName })} points`}
+                {`${state.competitions.progress[competitionName]?.points ?? 0} points`}
               </Label>
             </div>
             <p className="text-xs mb-3">{t("competition.earnPoints.how")}</p>
@@ -282,14 +280,11 @@ export const CompetitionDetails: React.FC<{
                 <Label type="default" className="mb-2">
                   {task}
                 </Label>
-                <p className="text-xs mb-2">
-                  {COMPETITION_TASK_DETAILS[task].description}
-                </p>
                 <div className="flex items-center justify-between mb-2">
-                  <p className="text-xs">
-                    {`Completed: ${getTaskCompleted({ task, name: competitionName, game: state })}`}
+                  <p className="text-xs mb-2">
+                    {COMPETITION_TASK_DETAILS[task].description}
                   </p>
-                  <Label type="vibrant">{`${getTaskCompleted({ task, name: competitionName, game: state }) * (COMPETITION_POINTS[competitionName]?.points[task] ?? 0)} Points`}</Label>
+                  <Label type="vibrant">{`${state.competitions.progress[competitionName]?.currentProgress[task] ?? 0} Points`}</Label>
                 </div>
               </div>
             </>

@@ -53,8 +53,9 @@ describe("startCompetition", () => {
           competitions: {
             progress: {
               FSL: {
+                points: 0,
                 startedAt: 100000000,
-                initialProgress: {
+                currentProgress: {
                   "Complete chore": 0,
                   "Complete delivery": 0,
                   "Expand island": 0,
@@ -106,12 +107,8 @@ describe("startCompetition", () => {
       progress: {
         FSL: {
           startedAt: now,
-          initialProgress: {
-            "Level up": 5,
-            "Expand island": 8,
-            "Complete delivery": 177,
-            "Complete chore": 13,
-          },
+          currentProgress: {},
+          points: 0,
         },
       },
     });

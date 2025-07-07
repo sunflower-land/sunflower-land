@@ -12,7 +12,9 @@ export type CompetitionName = "TESTING" | "FSL" | "ANIMALS" | "PEGGYS_COOKOFF";
 
 export type CompetitionProgress = {
   startedAt: number;
-  initialProgress: Partial<Record<CompetitionTaskName, number>>;
+  initialProgress?: Partial<Record<CompetitionTaskName, number>>;
+  currentProgress: Partial<Record<CompetitionTaskName, number>>;
+  points: number;
 };
 
 /*
@@ -337,54 +339,55 @@ export const getCompetitionPointsPerTask = ({
   task: CompetitionTaskName;
 }) => {
   let points = COMPETITION_POINTS[name]?.points[task] ?? 0;
-  if (hasVipAccess({ game })) {
+  const hasVIP = hasVipAccess({ game });
+  if (hasVIP) {
     points += 1;
   }
   return points;
 };
 
-export function getCompetitionPoints({
-  game,
-  name,
-}: {
-  game: GameState;
-  name: CompetitionName;
-}): number {
-  const hasStarted = COMPETITION_POINTS[name].startAt <= Date.now();
+// export function getCompetitionPoints({
+//   game,
+//   name,
+// }: {
+//   game: GameState;
+//   name: CompetitionName;
+// }): number {
+//   const hasStarted = COMPETITION_POINTS[name].startAt <= Date.now();
 
-  if (!hasStarted) return 0;
+//   if (!hasStarted) return 0;
 
-  return getKeys(COMPETITION_POINTS[name].points).reduce((total, task) => {
-    const completed = getTaskCompleted({ game, name, task });
-    const points = getCompetitionPointsPerTask({ game, name, task });
+//   return getKeys(COMPETITION_POINTS[name].points).reduce((total, task) => {
+//     const completed = getTaskCompleted({ game, name, task });
+//     const points = getCompetitionPointsPerTask({ game, name, task });
 
-    return total + completed * points;
-  }, 0);
-}
+//     return total + completed * points;
+//   }, 0);
+// }
 
-export function getTaskCompleted({
-  game,
-  name,
-  task,
-}: {
-  game: GameState;
-  name: CompetitionName;
-  task: CompetitionTaskName;
-}): number {
-  const { competitions } = game;
+// export function getTaskCompleted({
+//   game,
+//   name,
+//   task,
+// }: {
+//   game: GameState;
+//   name: CompetitionName;
+//   task: CompetitionTaskName;
+// }): number {
+//   const { competitions } = game;
 
-  // If the competition has not started, no progress is possible, so return 0
-  if (!competitions.progress[name]) return 0;
+//   // If the competition has not started, no progress is possible, so return 0
+//   if (!competitions.progress[name]) return 0;
 
-  const previous = competitions.progress[name].initialProgress[task];
+//   const previous = competitions.progress[name].initialProgress?.[task] ?? 0;
 
-  if (!previous) return 0;
+//   if (!previous) return 0;
 
-  const count = COMPETITION_TASK_PROGRESS[task](game);
-  const completed = count - previous;
+//   const count = COMPETITION_TASK_PROGRESS[task](game);
+//   const completed = count - previous;
 
-  return completed;
-}
+//   return completed;
+// }
 
 export type CompetitionPlayer = {
   id: number;

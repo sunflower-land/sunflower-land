@@ -215,7 +215,8 @@ export const STATIC_OFFLINE_FARM: GameState = {
   competitions: {
     progress: {
       ANIMALS: {
-        initialProgress: {
+        points: 0,
+        currentProgress: {
           "Complete chore": 0,
         },
         startedAt: 1000000,
