@@ -353,6 +353,7 @@ export function getCompetitionPoints({
   const hasStarted = COMPETITION_POINTS[name].startAt <= Date.now();
 
   if (!hasStarted) return 0;
+
   return getKeys(COMPETITION_POINTS[name].points).reduce((total, task) => {
     const completed = getTaskCompleted({ game, name, task });
     const points = getCompetitionPointsPerTask({ game, name, task });
@@ -371,7 +372,14 @@ export function getTaskCompleted({
   task: CompetitionTaskName;
 }): number {
   const { competitions } = game;
-  const previous = competitions.progress[name]?.initialProgress[task] ?? 0;
+
+  // If the competition has not started, no progress is possible, so return 0
+  if (!competitions.progress[name]) return 0;
+
+  const previous = competitions.progress[name].initialProgress[task];
+
+  if (!previous) return 0;
+
   const count = COMPETITION_TASK_PROGRESS[task](game);
   const completed = count - previous;
 
