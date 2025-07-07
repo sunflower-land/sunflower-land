@@ -22,7 +22,7 @@ import { ITEM_ICONS } from "features/island/hud/components/inventory/Chest";
 import { IngredientsPopover } from "../IngredientsPopover";
 import { BuffLabel } from "features/game/types";
 import { isSeed } from "features/game/types/seeds";
-import { getCurrentBiome } from "features/island/lib/alternateArt";
+import { getCurrentBiome } from "features/island/biomes/biomes";
 
 /**
  * The props for the details for items.

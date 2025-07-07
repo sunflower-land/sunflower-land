@@ -3,11 +3,8 @@ import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { GameState, TemperateSeasonName } from "features/game/types/game";
-import {
-  getCurrentBiome,
-  STUMP_VARIANTS,
-} from "features/island/lib/alternateArt";
-import { LandBiomeName } from "features/island/biomes/biomes";
+import { STUMP_VARIANTS } from "features/island/lib/alternateArt";
+import { getCurrentBiome, LandBiomeName } from "features/island/biomes/biomes";
 
 interface Props {
   timeLeft: number;

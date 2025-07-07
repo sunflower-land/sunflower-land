@@ -24,7 +24,8 @@ import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { translate } from "lib/i18n/translate";
-import { FLOWER_VARIANTS, getCurrentBiome } from "../lib/alternateArt";
+import { FLOWER_VARIANTS } from "../lib/alternateArt";
+import { getCurrentBiome } from "../biomes/biomes";
 
 import chest from "assets/icons/chest.png";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";

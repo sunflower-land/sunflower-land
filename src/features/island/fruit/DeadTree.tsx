@@ -9,7 +9,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
-import { getCurrentBiome } from "../lib/alternateArt";
+import { getCurrentBiome } from "../biomes/biomes";
 
 interface Props {
   patchFruitName: PatchFruitName;

@@ -8,7 +8,7 @@ import { GameState, TemperateSeasonName } from "features/game/types/game";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
-import { getCurrentBiome } from "features/island/lib/alternateArt";
+import { getCurrentBiome } from "features/island/biomes/biomes";
 import { LandBiomeName } from "features/island/biomes/biomes";
 
 const IMAGE_GRID_WIDTH = 36;

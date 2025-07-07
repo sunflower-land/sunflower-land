@@ -28,11 +28,8 @@ import { PlaceableLocation } from "features/game/types/collectibles";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { GameState, TemperateSeasonName } from "features/game/types/game";
-import {
-  DIRT_PATH_VARIANTS,
-  getCurrentBiome,
-} from "features/island/lib/alternateArt";
-import { LandBiomeName } from "features/island/biomes/biomes";
+import { DIRT_PATH_VARIANTS } from "features/island/lib/alternateArt";
+import { getCurrentBiome, LandBiomeName } from "features/island/biomes/biomes";
 
 export const PLACEABLES = (state: GameState) => {
   const island: GameState["island"] = state.island;

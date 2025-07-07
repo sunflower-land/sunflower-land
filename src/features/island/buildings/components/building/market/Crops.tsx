@@ -44,7 +44,7 @@ import {
   isMediumCrop,
 } from "features/game/events/landExpansion/harvest";
 import { isExoticCrop } from "features/game/types/crops";
-import { getCurrentBiome } from "features/island/lib/alternateArt";
+import { getCurrentBiome } from "features/island/biomes/biomes";
 
 export const Crops: React.FC = () => {
   const [selected, setSelected] = useState<

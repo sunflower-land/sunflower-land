@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import { Decoration } from "features/game/types/decorations";
-import { IslandType } from "features/game/types/game";
+import { GameState, IslandType } from "features/game/types/game";
+import { capitalize } from "lib/utils/capitalize";
 
 export type LandBiomeName = `${Capitalize<IslandType>} Biome`;
 
@@ -43,3 +44,6 @@ export const LAND_BIOMES: Record<LandBiomeName, Biome> = {
     requires: "volcano",
   },
 };
+export function getCurrentBiome(island: GameState["island"]): LandBiomeName {
+  return island.biome ?? (`${capitalize(island.type)} Biome` as LandBiomeName);
+}

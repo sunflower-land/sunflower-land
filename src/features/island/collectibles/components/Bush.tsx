@@ -3,11 +3,9 @@ import React from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { CollectibleProps } from "../Collectible";
 
-import {
-  BUSH_VARIANTS,
-  getCurrentBiome,
-} from "features/island/lib/alternateArt";
+import { BUSH_VARIANTS } from "features/island/lib/alternateArt";
 import { SFTDetailPopover } from "components/ui/SFTDetailPopover";
+import { getCurrentBiome } from "features/island/biomes/biomes";
 
 export const Bush: React.FC<CollectibleProps> = ({ game }) => {
   const biome = getCurrentBiome(game.island);

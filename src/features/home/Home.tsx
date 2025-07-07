@@ -33,7 +33,7 @@ import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";
 import { EXTERIOR_ISLAND_BG } from "features/barn/BarnInside";
 import { LandBiomeName } from "features/island/biomes/biomes";
-import { getCurrentBiome } from "features/island/lib/alternateArt";
+import { getCurrentBiome } from "features/island/biomes/biomes";
 
 const selectGameState = (state: MachineState) => state.context.state;
 const isLandscaping = (state: MachineState) => state.matches("landscaping");

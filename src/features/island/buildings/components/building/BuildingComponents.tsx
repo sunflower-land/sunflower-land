@@ -37,7 +37,7 @@ import { Greenhouse } from "./greenhouse/Greenhouse";
 import { CropMachine } from "./cropMachine/CropMachine";
 import { Barn, BARN_IMAGES } from "./barn/Barn";
 import { CraftingBox } from "./craftingBox/CraftingBox";
-import { getCurrentBiome } from "features/island/lib/alternateArt";
+import { getCurrentBiome } from "features/island/biomes/biomes";
 
 export interface BuildingProps {
   buildingId: string;

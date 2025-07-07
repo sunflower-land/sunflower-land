@@ -1,16 +1,11 @@
 import { SUNNYSIDE } from "assets/sunnyside";
 
-import { GameState, TemperateSeasonName } from "features/game/types/game";
+import { TemperateSeasonName } from "features/game/types/game";
 import { FlowerGrowthStage, FlowerName } from "features/game/types/flowers";
 import { CONFIG } from "lib/config";
 import cactiStump from "assets/resources/tree/cacti_stump.webp";
 import autumnCactiStump from "assets/resources/tree/autumn_cacti_stump.webp";
 import { LandBiomeName } from "../biomes/biomes";
-import { capitalize } from "lib/utils/capitalize";
-
-export function getCurrentBiome(island: GameState["island"]): LandBiomeName {
-  return island.biome ?? (`${capitalize(island.type)} Biome` as LandBiomeName);
-}
 
 export const FIRE_PIT_VARIANTS: Record<
   LandBiomeName,

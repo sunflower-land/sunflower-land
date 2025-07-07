@@ -6,7 +6,7 @@ import { PATCH_FRUIT_LIFECYCLE } from "./fruits";
 
 import { Context } from "features/game/GameProvider";
 import { GameState } from "features/game/types/game";
-import { getCurrentBiome } from "../lib/alternateArt";
+import { getCurrentBiome } from "../biomes/biomes";
 
 interface Props {
   patchFruitName: PatchFruitName;

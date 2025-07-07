@@ -12,10 +12,7 @@ import { useSelector } from "@xstate/react";
 import { gameAnalytics } from "lib/gameAnalytics";
 
 import { SUNNYSIDE } from "assets/sunnyside";
-import {
-  FIRE_PIT_VARIANTS,
-  getCurrentBiome,
-} from "features/island/lib/alternateArt";
+import { FIRE_PIT_VARIANTS } from "features/island/lib/alternateArt";
 import shadow from "assets/npcs/shadow.png";
 import { MachineState } from "features/game/lib/gameMachine";
 import Decimal from "decimal.js-light";
@@ -23,6 +20,7 @@ import { useSound } from "lib/utils/hooks/useSound";
 import { ReadyRecipes } from "../ReadyRecipes";
 import { useCookingState } from "features/island/buildings/lib/useCookingState";
 import { GameState, TemperateSeasonName } from "features/game/types/game";
+import { getCurrentBiome } from "features/island/biomes/biomes";
 
 type Props = {
   buildingId: string;

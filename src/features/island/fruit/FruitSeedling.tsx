@@ -12,7 +12,7 @@ import { ProgressBar } from "components/ui/ProgressBar";
 import { TimerPopover } from "../common/TimerPopover";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { GameState } from "features/game/types/game";
-import { getCurrentBiome } from "../lib/alternateArt";
+import { getCurrentBiome } from "../biomes/biomes";
 
 interface Props {
   island: GameState["island"];

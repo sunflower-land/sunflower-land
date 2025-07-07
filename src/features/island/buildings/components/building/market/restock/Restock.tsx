@@ -30,7 +30,7 @@ import { capitalize } from "lodash";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { ButtonPanel } from "components/ui/Panel";
-import { getCurrentBiome } from "features/island/lib/alternateArt";
+import { getCurrentBiome } from "features/island/biomes/biomes";
 
 const _state = (state: MachineState) => state.context.state;
 

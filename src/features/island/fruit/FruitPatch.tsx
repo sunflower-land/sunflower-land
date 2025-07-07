@@ -24,7 +24,7 @@ import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { ResourceDropAnimator } from "components/animation/ResourceDropAnimator";
 
 import powerup from "assets/icons/level_up.png";
-import { FRUIT_PATCH_VARIANTS, getCurrentBiome } from "../lib/alternateArt";
+import { FRUIT_PATCH_VARIANTS } from "../lib/alternateArt";
 import { useSound } from "lib/utils/hooks/useSound";
 import { getKeys } from "features/game/types/decorations";
 import { QuickSelect } from "features/greenhouse/QuickSelect";
@@ -34,6 +34,7 @@ import { SEASONAL_SEEDS, SeedName } from "features/game/types/seeds";
 import { SeasonalSeed } from "../plots/components/SeasonalSeed";
 import { Modal } from "components/ui/Modal";
 import { isFullMoonBerry } from "features/game/events/landExpansion/seedBought";
+import { getCurrentBiome } from "../biomes/biomes";
 
 const HasAxes = (
   inventory: Partial<Record<InventoryItemName, Decimal>>,

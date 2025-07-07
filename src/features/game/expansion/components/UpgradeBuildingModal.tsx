@@ -22,13 +22,12 @@ import powerup from "assets/icons/level_up.png";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { BARN_IMAGES } from "features/island/buildings/components/building/barn/Barn";
 import {
-  getCurrentBiome,
   HEN_HOUSE_VARIANTS,
   WATER_WELL_VARIANTS,
 } from "features/island/lib/alternateArt";
 import { getSupportedPlots } from "features/game/events/landExpansion/plant";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { LandBiomeName } from "features/island/biomes/biomes";
+import { getCurrentBiome, LandBiomeName } from "features/island/biomes/biomes";
 
 interface Props {
   buildingName: UpgradableBuildingType;

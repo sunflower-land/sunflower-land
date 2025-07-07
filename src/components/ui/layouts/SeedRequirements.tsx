@@ -24,7 +24,7 @@ import {
   getCropCategory,
   ProduceName,
 } from "features/game/types/crops";
-import { getCurrentBiome } from "features/island/lib/alternateArt";
+import { getCurrentBiome } from "features/island/biomes/biomes";
 
 /**
  * The props for the details for items.

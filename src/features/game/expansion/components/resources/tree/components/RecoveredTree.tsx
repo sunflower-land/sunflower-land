@@ -15,11 +15,10 @@ import { GameState, TemperateSeasonName } from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useSound } from "lib/utils/hooks/useSound";
 import {
-  getCurrentBiome,
   TREE_SHAKE_SHEET_VARIANTS,
   TREE_VARIANTS,
 } from "features/island/lib/alternateArt";
-import { LandBiomeName } from "features/island/biomes/biomes";
+import { getCurrentBiome, LandBiomeName } from "features/island/biomes/biomes";
 
 const tool = "Axe";
 

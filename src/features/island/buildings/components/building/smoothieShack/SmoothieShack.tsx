@@ -9,7 +9,6 @@ import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { setImageWidth } from "lib/images";
 import { SmoothieShackModal } from "./SmoothieShackModal";
 import {
-  getCurrentBiome,
   SMOOTHIE_SHACK_DESK_VARIANTS,
   SMOOTHIE_SHACK_VARIANTS,
 } from "features/island/lib/alternateArt";
@@ -20,6 +19,7 @@ import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { useCookingState } from "features/island/buildings/lib/useCookingState";
 import { ReadyRecipes } from "../ReadyRecipes";
+import { getCurrentBiome } from "features/island/biomes/biomes";
 
 type Props = {
   buildingId: string;

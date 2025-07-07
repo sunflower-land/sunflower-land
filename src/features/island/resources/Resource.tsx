@@ -30,7 +30,8 @@ import { OilReserve } from "features/game/expansion/components/resources/oilRese
 import { GameState, TemperateSeasonName } from "features/game/types/game";
 
 import { LavaPit } from "features/game/expansion/components/lavaPit/LavaPit";
-import { getCurrentBiome, TREE_VARIANTS } from "../lib/alternateArt";
+import { TREE_VARIANTS } from "../lib/alternateArt";
+import { getCurrentBiome } from "../biomes/biomes";
 
 export interface ResourceProps {
   name: ResourceName;

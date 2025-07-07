@@ -13,7 +13,7 @@ import { PATCH_FRUIT_LIFECYCLE } from "./fruits";
 import classNames from "classnames";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { GameState } from "features/game/types/game";
-import { getCurrentBiome } from "../lib/alternateArt";
+import { getCurrentBiome } from "../biomes/biomes";
 
 const pluralisedNames: Record<PatchFruitName, string> = {
   Orange: "Oranges",

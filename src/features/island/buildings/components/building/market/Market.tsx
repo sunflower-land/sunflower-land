@@ -12,10 +12,7 @@ import { getKeys } from "features/game/types/craftables";
 import { CROPS } from "features/game/types/crops";
 import { Bumpkin } from "features/game/types/game";
 import { CROP_SHORTAGE_HOURS } from "features/game/expansion/lib/boosts";
-import {
-  getCurrentBiome,
-  MARKET_VARIANTS,
-} from "features/island/lib/alternateArt";
+import { MARKET_VARIANTS } from "features/island/lib/alternateArt";
 import { Label } from "components/ui/Label";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { secondsToString } from "lib/utils/time";
@@ -24,6 +21,8 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import shadow from "assets/npcs/shadow.png";
 import lightning from "assets/icons/lightning.png";
 import { useSound } from "lib/utils/hooks/useSound";
+import { getCurrentBiome } from "features/island/biomes/biomes";
+
 const _season = (state: MachineState) => state.context.state.season.season;
 
 const _specialEvents = (state: MachineState) =>

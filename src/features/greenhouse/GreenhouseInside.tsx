@@ -13,7 +13,7 @@ import { GreenhousePot } from "./GreenhousePot";
 import { Hud } from "features/island/hud/Hud";
 import { GreenhouseOil } from "./GreenhouseOil";
 import { EXTERIOR_ISLAND_BG } from "features/barn/BarnInside";
-import { getCurrentBiome } from "features/island/lib/alternateArt";
+import { getCurrentBiome } from "features/island/biomes/biomes";
 
 const background = SUNNYSIDE.land.greenhouse_inside;
 const selectOil = (state: MachineState) => state.context.state.greenhouse.oil;

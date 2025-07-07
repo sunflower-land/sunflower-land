@@ -15,7 +15,7 @@ import React, { useContext, useState } from "react";
 import { Context } from "features/game/GameProvider";
 import { ITEM_ICONS } from "../inventory/Chest";
 import { MachineInterpreter } from "features/game/expansion/placeable/landscapingMachine";
-import { getCurrentBiome } from "features/island/lib/alternateArt";
+import { getCurrentBiome } from "features/island/biomes/biomes";
 
 interface Props {
   onClose: () => void;

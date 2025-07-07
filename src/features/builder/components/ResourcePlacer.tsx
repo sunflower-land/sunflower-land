@@ -30,7 +30,7 @@ import { GameState } from "features/game/types/game";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
-import { getCurrentBiome } from "features/island/lib/alternateArt";
+import { getCurrentBiome } from "features/island/biomes/biomes";
 
 const fruitPatch = SUNNYSIDE.fruit.apple_tree;
 const goldStone = SUNNYSIDE.fruit.apple_tree;

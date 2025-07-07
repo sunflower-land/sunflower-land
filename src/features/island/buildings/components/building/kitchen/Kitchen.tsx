@@ -7,10 +7,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { KitchenModal } from "./KitchenModal";
 import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { setImageWidth } from "lib/images";
-import {
-  getCurrentBiome,
-  KITCHEN_VARIANTS,
-} from "features/island/lib/alternateArt";
+import { KITCHEN_VARIANTS } from "features/island/lib/alternateArt";
 import shadow from "assets/npcs/shadow.png";
 import { useSound } from "lib/utils/hooks/useSound";
 import { Context } from "features/game/GameProvider";
@@ -19,6 +16,7 @@ import { useCookingState } from "features/island/buildings/lib/useCookingState";
 import { useSelector } from "@xstate/react";
 import { GameState, TemperateSeasonName } from "features/game/types/game";
 import { ReadyRecipes } from "../ReadyRecipes";
+import { getCurrentBiome } from "features/island/biomes/biomes";
 
 type Props = {
   buildingId: string;

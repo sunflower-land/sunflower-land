@@ -59,7 +59,7 @@ import {
   makeUpgradableBuildingKey,
   UpgradableBuildingType,
 } from "../events/landExpansion/upgradeBuilding";
-import { getCurrentBiome } from "features/island/lib/alternateArt";
+import { getCurrentBiome } from "features/island/biomes/biomes";
 
 export const LAND_WIDTH = 6;
 

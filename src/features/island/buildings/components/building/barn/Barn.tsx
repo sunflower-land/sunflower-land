@@ -10,7 +10,7 @@ import { Context } from "features/game/GameProvider";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useSound } from "lib/utils/hooks/useSound";
 import { TemperateSeasonName } from "features/game/types/game";
-import { getCurrentBiome } from "features/island/lib/alternateArt";
+import { getCurrentBiome } from "features/island/biomes/biomes";
 import { LandBiomeName } from "features/island/biomes/biomes";
 
 export const BARN_IMAGES: Record<

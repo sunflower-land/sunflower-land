@@ -30,7 +30,6 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import {
   BUSH_VARIANTS,
   DIRT_PATH_VARIANTS,
-  getCurrentBiome,
   TREE_VARIANTS,
   WATER_WELL_VARIANTS,
 } from "features/island/lib/alternateArt";
@@ -48,6 +47,7 @@ import {
   UpgradableBuildingType,
 } from "features/game/events/landExpansion/upgradeBuilding";
 import { LandBiomeName } from "features/island/biomes/biomes";
+import { getCurrentBiome } from "features/island/biomes/biomes";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 

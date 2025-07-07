@@ -12,7 +12,7 @@ import greatFreezeIcon from "assets/icons/great-freeze.webp";
 import { Label } from "components/ui/Label";
 import { secondsToString } from "lib/utils/time";
 import { SOIL_IMAGES } from "../lib/plant";
-import { getCurrentBiome } from "features/island/lib/alternateArt";
+import { getCurrentBiome } from "features/island/biomes/biomes";
 
 const GreatFreezePlotComponent: React.FC<{ game: GameState }> = ({ game }) => {
   const [showModal, setShowModal] = useState(false);

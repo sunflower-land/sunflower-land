@@ -28,7 +28,7 @@ import classNames from "classnames";
 import { EXTERIOR_ISLAND_BG } from "features/barn/BarnInside";
 import { ANIMAL_HOUSE_BOUNDS } from "features/game/expansion/placeable/lib/collisionDetection";
 import { hasReadGuide } from "features/game/expansion/components/animals/AnimalBuildingModal";
-import { getCurrentBiome } from "features/island/lib/alternateArt";
+import { getCurrentBiome } from "features/island/biomes/biomes";
 
 const _henHouse = (state: MachineState) => state.context.state.henHouse;
 

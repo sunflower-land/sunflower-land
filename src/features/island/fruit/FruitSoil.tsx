@@ -5,7 +5,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { SOIL_IMAGES } from "../plots/lib/plant";
-import { getCurrentBiome } from "../lib/alternateArt";
+import { getCurrentBiome } from "../biomes/biomes";
 
 const _island = (state: MachineState) => state.context.state.island;
 

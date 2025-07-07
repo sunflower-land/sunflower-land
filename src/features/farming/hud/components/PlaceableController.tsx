@@ -38,7 +38,7 @@ import {
   makeUpgradableBuildingKey,
   UpgradableBuildingType,
 } from "features/game/events/landExpansion/upgradeBuilding";
-import { getCurrentBiome } from "features/island/lib/alternateArt";
+import { getCurrentBiome } from "features/island/biomes/biomes";
 
 interface Props {
   location: PlaceableLocation;

@@ -24,7 +24,7 @@ import {
 import { makeUpgradableBuildingKey } from "features/game/events/landExpansion/upgradeBuilding";
 import { BuildingName } from "features/game/types/buildings";
 import { BumpkinRevampSkillName } from "features/game/types/bumpkinSkills";
-import { getCurrentBiome } from "features/island/lib/alternateArt";
+import { getCurrentBiome } from "features/island/biomes/biomes";
 
 /**
  * The props for the details for items.
