@@ -423,7 +423,7 @@ const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
           const { gameState, data } = await postEffect({
             farmId: Number(context.farmId),
             effect,
-            token: authToken,
+            token: authToken ?? context.rawToken,
             transactionId: context.transactionId as string,
           });
 
