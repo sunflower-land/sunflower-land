@@ -1,6 +1,6 @@
 import React, { useContext, useState } from "react";
 
-import worldMap from "assets/map/event_world_map.png";
+import worldMap from "assets/map/world_map.png";
 
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
