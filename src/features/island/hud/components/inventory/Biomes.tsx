@@ -1,14 +1,20 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { Label } from "components/ui/Label";
 import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { LAND_BIOMES, LandBiomeName } from "features/island/biomes/biomes";
+import {
+  getCurrentBiome,
+  LAND_BIOMES,
+  LandBiomeName,
+} from "features/island/biomes/biomes";
 import { GameState } from "features/game/types/game";
 import { getKeys } from "features/game/types/decorations";
 import Decimal from "decimal.js-light";
 import { InventoryItemDetails } from "components/ui/layouts/InventoryItemDetails";
 import { Button } from "components/ui/Button";
+import { Context } from "features/game/GameProvider";
+import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 
 export const Biomes: React.FC<{
   state: GameState;
@@ -16,6 +22,19 @@ export const Biomes: React.FC<{
   const divRef = useRef<HTMLDivElement>(null);
   const [selectedBiome, setSelectedBiome] =
     useState<LandBiomeName>("Basic Biome");
+  const { gameService } = useContext(Context);
+  const applyBiome = () => {
+    gameService.send({
+      type: "biome.applied",
+      biome: selectedBiome,
+    });
+  };
+  const currentBiome = getCurrentBiome(state.island);
+  const isBiomeAvailable = hasRequiredIslandExpansion(
+    state.island.type,
+    LAND_BIOMES[selectedBiome].requires,
+  );
+  const hasBiome = state.inventory[selectedBiome]?.gt(0);
   return (
     <SplitScreenView
       divRef={divRef}
@@ -33,7 +52,16 @@ export const Biomes: React.FC<{
         <InventoryItemDetails
           game={state}
           details={{ item: selectedBiome }}
-          actionView={<Button>{`Apply`}</Button>}
+          actionView={
+            <Button
+              disabled={
+                selectedBiome === currentBiome || !hasBiome || !isBiomeAvailable
+              }
+              onClick={applyBiome}
+            >
+              {`Apply`}
+            </Button>
+          }
         />
       }
     />
