@@ -1,0 +1,46 @@
+import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
+import { GameState } from "features/game/types/game";
+import {
+  LandBiomeName,
+  LAND_BIOMES,
+  getCurrentBiome,
+} from "features/island/biomes/biomes";
+import { produce } from "immer";
+import { hasFeatureAccess } from "lib/flags";
+
+export interface ApplyBiomeAction {
+  type: "biome.applied";
+  biome: LandBiomeName;
+}
+
+type Options = {
+  state: Readonly<GameState>;
+  action: ApplyBiomeAction;
+  createdAt?: number;
+};
+
+export function applyBiome({
+  state,
+  action,
+  createdAt = Date.now(),
+}: Options): GameState {
+  return produce(state, (game) => {
+    if (!hasFeatureAccess(game, "LANDSCAPING")) {
+      throw new Error("This feature is not available");
+    }
+    const { biome } = action;
+    const hasBiome = game.inventory[biome]?.gt(0);
+    if (!hasBiome) {
+      throw new Error("You do not own this biome");
+    }
+    const biomeData = LAND_BIOMES[biome];
+    if (!hasRequiredIslandExpansion(game.island.type, biomeData.requires)) {
+      throw new Error("You are not permitted to apply this biome");
+    }
+    if (getCurrentBiome(game.island) === biome) {
+      throw new Error("Biome already applied");
+    }
+    game.island.biome = biome;
+    return game;
+  });
+}
