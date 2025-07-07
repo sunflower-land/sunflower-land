@@ -11,7 +11,6 @@ import { useSound } from "lib/utils/hooks/useSound";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { Label } from "components/ui/Label";
 import { isMobile } from "mobile-device-detect";
-import { hasFeatureAccess } from "lib/flags";
 
 const showDebugBorders = false;
 
