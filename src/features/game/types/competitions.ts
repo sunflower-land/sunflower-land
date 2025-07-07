@@ -350,7 +350,7 @@ export function getCompetitionPoints({
   game: GameState;
   name: CompetitionName;
 }): number {
-  const hasStarted = COMPETITION_POINTS[name].startAt > Date.now();
+  const hasStarted = COMPETITION_POINTS[name].startAt <= Date.now();
 
   if (!hasStarted) return 0;
   return getKeys(COMPETITION_POINTS[name].points).reduce((total, task) => {
