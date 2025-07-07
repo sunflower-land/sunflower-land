@@ -6,6 +6,7 @@ import { getBumpkinLevel } from "../lib/level";
 import { getKeys } from "./decorations";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { ITEM_DETAILS } from "./images";
+import { hasVipAccess } from "../lib/vipAccess";
 
 export type CompetitionName = "TESTING" | "FSL" | "ANIMALS" | "PEGGYS_COOKOFF";
 
@@ -326,6 +327,22 @@ export const COMPETITION_TASK_DETAILS: Record<
   },
 };
 
+export const getCompetitionPointsPerTask = ({
+  game,
+  name,
+  task,
+}: {
+  game: GameState;
+  name: CompetitionName;
+  task: CompetitionTaskName;
+}) => {
+  let points = COMPETITION_POINTS[name]?.points[task] ?? 0;
+  if (hasVipAccess({ game })) {
+    points += 1;
+  }
+  return points;
+};
+
 export function getCompetitionPoints({
   game,
   name,
@@ -333,13 +350,15 @@ export function getCompetitionPoints({
   game: GameState;
   name: CompetitionName;
 }): number {
-  const hasStarted = COMPETITION_POINTS[name].startAt > Date.now();
+  const hasStarted = COMPETITION_POINTS[name].startAt <= Date.now();
 
   if (!hasStarted) return 0;
+
   return getKeys(COMPETITION_POINTS[name].points).reduce((total, task) => {
     const completed = getTaskCompleted({ game, name, task });
+    const points = getCompetitionPointsPerTask({ game, name, task });
 
-    return total + completed * (COMPETITION_POINTS[name]?.points[task] ?? 0);
+    return total + completed * points;
   }, 0);
 }
 
@@ -353,7 +372,14 @@ export function getTaskCompleted({
   task: CompetitionTaskName;
 }): number {
   const { competitions } = game;
-  const previous = competitions.progress[name]?.initialProgress[task] ?? 0;
+
+  // If the competition has not started, no progress is possible, so return 0
+  if (!competitions.progress[name]) return 0;
+
+  const previous = competitions.progress[name].initialProgress[task];
+
+  if (!previous) return 0;
+
   const count = COMPETITION_TASK_PROGRESS[task](game);
   const completed = count - previous;
 

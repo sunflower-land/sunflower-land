@@ -1,7 +1,7 @@
 import { Box } from "components/ui/Box";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { COOKABLES } from "features/game/types/consumables";
+import { CookableName, COOKABLES } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { secondsToString } from "lib/utils/time";
 import React, { useState } from "react";
@@ -14,6 +14,7 @@ import { BuildingProduct, GameState } from "features/game/types/game";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import fastForward from "assets/icons/fast_forward.png";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   cooking: BuildingProduct;
@@ -44,6 +45,20 @@ export const InProgressInfo: React.FC<Props> = ({
     readyAt: cooking.readyAt,
     game: state,
   });
+
+  // To delete after cookoff
+  const cookOffFoods: CookableName[] = [
+    "Fried Tofu",
+    "Rice Bun",
+    "Grape Juice",
+    "Banana Blast",
+    "Orange Cake",
+    "Honey Cake",
+    "Fermented Fish",
+    "Fancy Fries",
+    "Pancakes",
+    "Tofu Scramble",
+  ];
 
   return (
     <div className="flex flex-col mb-2 w-full">
@@ -76,17 +91,23 @@ export const InProgressInfo: React.FC<Props> = ({
             type="progress"
           />
         </div>
-        <Button
-          disabled={!inventory.Gem?.gte(gems)}
-          className="w-36 sm:w-44 px-3 h-12 mr-[6px]"
-          onClick={() => setShowConfirmation(true)}
-        >
-          <div className="flex items-center justify-center gap-1 mx-2">
-            <img src={fastForward} className="h-5" />
-            <span className="text-sm flex items-center">{gems}</span>
-            <img src={ITEM_DETAILS["Gem"].image} className="h-5" />
-          </div>
-        </Button>
+
+        {!(
+          hasFeatureAccess(state, "PEGGYS_COOKOFF") &&
+          cookOffFoods.includes(cooking.name)
+        ) && (
+          <Button
+            disabled={!inventory.Gem?.gte(gems)}
+            className="w-36 sm:w-44 px-3 h-12 mr-[6px]"
+            onClick={() => setShowConfirmation(true)}
+          >
+            <div className="flex items-center justify-center gap-1 mx-2">
+              <img src={fastForward} className="h-5" />
+              <span className="text-sm flex items-center">{gems}</span>
+              <img src={ITEM_DETAILS["Gem"].image} className="h-5" />
+            </div>
+          </Button>
+        )}
 
         <ConfirmationModal
           show={showConfirmation}
