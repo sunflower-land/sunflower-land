@@ -241,6 +241,11 @@ describe("collect Recipes", () => {
       });
 
       expect(state.competitions.progress["PEGGYS_COOKOFF"]!.points).toEqual(2);
+      expect(
+        state.competitions.progress["PEGGYS_COOKOFF"]!.currentProgress,
+      ).toEqual({
+        "Cook Fried Tofu": 2,
+      });
     });
     it("increments the points for the cookoff competition with VIP", () => {
       jest.useFakeTimers();
@@ -294,6 +299,11 @@ describe("collect Recipes", () => {
       });
 
       expect(state.competitions.progress["PEGGYS_COOKOFF"]!.points).toEqual(4);
+      expect(
+        state.competitions.progress["PEGGYS_COOKOFF"]!.currentProgress,
+      ).toEqual({
+        "Cook Fried Tofu": 4,
+      });
     });
   });
 });
