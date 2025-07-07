@@ -1,7 +1,7 @@
 import { Box } from "components/ui/Box";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { CookableName, COOKABLES } from "features/game/types/consumables";
+import { COOKABLES } from "features/game/types/consumables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { secondsToString } from "lib/utils/time";
 import React, { useState } from "react";
@@ -9,7 +9,10 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
-import { getInstantGems } from "features/game/events/landExpansion/speedUpRecipe";
+import {
+  COOK_OFF_FOODS,
+  getInstantGems,
+} from "features/game/events/landExpansion/speedUpRecipe";
 import { BuildingProduct, GameState } from "features/game/types/game";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import fastForward from "assets/icons/fast_forward.png";
@@ -46,20 +49,6 @@ export const InProgressInfo: React.FC<Props> = ({
     game: state,
   });
 
-  // To delete after cookoff
-  const cookOffFoods: CookableName[] = [
-    "Fried Tofu",
-    "Rice Bun",
-    "Grape Juice",
-    "Banana Blast",
-    "Orange Cake",
-    "Honey Cake",
-    "Fermented Fish",
-    "Fancy Fries",
-    "Pancakes",
-    "Tofu Scramble",
-  ];
-
   return (
     <div className="flex flex-col mb-2 w-full">
       <Label
@@ -94,7 +83,7 @@ export const InProgressInfo: React.FC<Props> = ({
 
         {!(
           hasFeatureAccess(state, "PEGGYS_COOKOFF") &&
-          cookOffFoods.includes(cooking.name)
+          COOK_OFF_FOODS.includes(cooking.name)
         ) && (
           <Button
             disabled={!inventory.Gem?.gte(gems)}

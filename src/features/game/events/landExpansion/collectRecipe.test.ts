@@ -1,6 +1,7 @@
 import { TEST_FARM } from "features/game/lib/constants";
 import { GameState, PlacedItem } from "features/game/types/game";
 import { collectRecipe } from "./collectRecipe";
+import { Decimal } from "decimal.js-light";
 
 const GAME_STATE: GameState = TEST_FARM;
 
@@ -188,5 +189,111 @@ describe("collect Recipes", () => {
         amount: 1,
       },
     ]);
+  });
+
+  describe("PEGGYS_COOKOFF", () => {
+    it("increments the points for the cookoff competition", () => {
+      jest.useFakeTimers();
+      jest.setSystemTime(new Date("2025-07-11T00:00:00Z"));
+      const now = Date.now();
+
+      const state = collectRecipe({
+        state: {
+          ...GAME_STATE,
+          competitions: {
+            progress: {
+              PEGGYS_COOKOFF: {
+                startedAt: now,
+                currentProgress: {},
+                points: 0,
+              },
+            },
+          },
+          buildings: {
+            "Fire Pit": [
+              {
+                id: "123",
+                coordinates: { x: 1, y: 1 },
+                createdAt: 0,
+                readyAt: 0,
+                crafting: [
+                  {
+                    name: "Fried Tofu",
+                    readyAt: now - 5 * 1000,
+                    amount: 1,
+                  },
+                  {
+                    name: "Fried Tofu",
+                    readyAt: now - 5 * 1000,
+                    amount: 1,
+                  },
+                ],
+              },
+            ],
+          },
+        },
+        action: {
+          type: "recipes.collected",
+          building: "Fire Pit",
+          buildingId: "123",
+        },
+        createdAt: now,
+      });
+
+      expect(state.competitions.progress["PEGGYS_COOKOFF"]!.points).toEqual(2);
+    });
+    it("increments the points for the cookoff competition with VIP", () => {
+      jest.useFakeTimers();
+      jest.setSystemTime(new Date("2025-07-11T00:00:00Z"));
+      const now = Date.now();
+
+      const state = collectRecipe({
+        state: {
+          ...GAME_STATE,
+          inventory: {
+            "Lifetime Farmer Banner": new Decimal(1),
+          },
+          competitions: {
+            progress: {
+              PEGGYS_COOKOFF: {
+                startedAt: now,
+                currentProgress: {},
+                points: 0,
+              },
+            },
+          },
+          buildings: {
+            "Fire Pit": [
+              {
+                id: "123",
+                coordinates: { x: 1, y: 1 },
+                createdAt: 0,
+                readyAt: 0,
+                crafting: [
+                  {
+                    name: "Fried Tofu",
+                    readyAt: now - 5 * 1000,
+                    amount: 1,
+                  },
+                  {
+                    name: "Fried Tofu",
+                    readyAt: now - 5 * 1000,
+                    amount: 1,
+                  },
+                ],
+              },
+            ],
+          },
+        },
+        action: {
+          type: "recipes.collected",
+          building: "Fire Pit",
+          buildingId: "123",
+        },
+        createdAt: now,
+      });
+
+      expect(state.competitions.progress["PEGGYS_COOKOFF"]!.points).toEqual(4);
+    });
   });
 });

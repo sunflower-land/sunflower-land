@@ -8,6 +8,8 @@ import { getKeys } from "features/game/types/decorations";
 import { GameState } from "features/game/types/game";
 import { produce } from "immer";
 import { getCurrentCookingItem, recalculateQueue } from "./cancelQueuedRecipe";
+import { hasFeatureAccess } from "lib/flags";
+import { CookableName } from "features/game/types/consumables";
 
 export type InstantCookRecipe = {
   type: "recipe.spedUp";
@@ -92,6 +94,20 @@ export function makeGemHistory({
   return game;
 }
 
+// To delete after cookoff
+export const COOK_OFF_FOODS: CookableName[] = [
+  "Fried Tofu",
+  "Rice Bun",
+  "Grape Juice",
+  "Banana Blast",
+  "Orange Cake",
+  "Honey Cake",
+  "Fermented Fish",
+  "Fancy Fries",
+  "Pancakes",
+  "Tofu Scramble",
+];
+
 export function speedUpRecipe({
   state,
   action,
@@ -111,6 +127,13 @@ export function speedUpRecipe({
 
     if (!queue || !recipe) {
       throw new Error("Nothing is cooking");
+    }
+
+    if (
+      hasFeatureAccess(state, "PEGGYS_COOKOFF") &&
+      COOK_OFF_FOODS.includes(recipe.name)
+    ) {
+      throw new Error("This recipe is restricted during peggy's cookoff");
     }
 
     const gems = getInstantGems({
