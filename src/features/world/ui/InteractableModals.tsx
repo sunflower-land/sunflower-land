@@ -455,7 +455,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
         <BudBox onClose={closeModal} setIsLoading={setIsLoading} />
       </Modal>
       <Modal show={interactable === "raffle"} onHide={closeModal}>
-        <Raffle onClose={closeModal} />
+        <Raffle />
       </Modal>
       <Modal show={interactable === "bank"} onHide={closeModal}>
         <BankModal onClose={closeModal} farmAddress="?" />

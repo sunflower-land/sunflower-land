@@ -49,7 +49,8 @@ export type WalletAction =
   | "marketplace"
   | "transfer"
   | "sync"
-  | "purchase";
+  | "purchase"
+  | "raffle";
 
 interface Props {
   action: WalletAction;
@@ -164,6 +165,11 @@ const WALLET_ACTIONS: Record<WalletAction, WalletActionSettings> = {
     chains: {
       [CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id]: true,
     },
+  },
+  raffle: {
+    requiresLinkedWallet: true,
+    requiresNFT: true,
+    chains: {},
   },
 };
 
@@ -311,6 +317,7 @@ const ACTION_HUMAN_NAMES: Record<WalletAction, string> = {
   transfer: "transfer",
   sync: "sync",
   purchase: "purchase",
+  raffle: "enter the raffle",
 };
 
 const SelectChain: React.FC<{

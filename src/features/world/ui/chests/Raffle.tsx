@@ -3,7 +3,6 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
 import { Context } from "features/game/GameProvider";
-import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 import React, { useContext } from "react";
 
@@ -13,12 +12,10 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import Decimal from "decimal.js-light";
 import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { GameWallet } from "features/wallet/Wallet";
+import { Panel } from "components/ui/Panel";
 
-interface Props {
-  onClose: () => void;
-}
-
-export const Raffle: React.FC<Props> = ({ onClose }) => {
+export const Raffle: React.FC = () => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const { t } = useAppTranslation();
@@ -43,48 +40,57 @@ export const Raffle: React.FC<Props> = ({ onClose }) => {
   const monthName = new Date().toLocaleString("default", { month: "long" });
 
   return (
-    <CloseButtonPanel onClose={onClose}>
-      <div className="p-2">
-        <div className="flex flex-wrap mr-12">
-          <Label
-            icon={chestIcon}
-            type="default"
-            className="mb-2 mr-3 capitalize"
-          >
-            {t("raffle.title")}
-          </Label>
-        </div>
-        <p className="text-xs mb-2">{t("raffle.description")}</p>
-        <p className="text-xs mb-1 font-secondary">{`- 5 x 1000 FLOWER winners`}</p>
-        <p className="text-xs mb-2 font-secondary">{`- 2 Bud NFTs`}</p>
-        <div className="flex justify-between items-center">
-          <Label
-            icon={SUNNYSIDE.icons.stopwatch}
-            type="info"
-            className="mb-2 mr-3 capitalize"
-          >
-            {monthName}
-          </Label>
-          {entries > 0 && (
-            <Label icon={ITEM_DETAILS["Prize Ticket"].image} type="success">
-              {entries} {entries > 1 ? t("raffle.entries") : t("raffle.entry")}
-            </Label>
-          )}
-        </div>
+    <Panel>
+      <GameWallet action="raffle">
+        <>
+          <div className="p-2">
+            <div className="flex flex-wrap mr-12">
+              <Label
+                icon={chestIcon}
+                type="default"
+                className="mb-2 mr-3 capitalize"
+              >
+                {t("raffle.title")}
+              </Label>
+            </div>
+            <p className="text-xs mb-2">{t("raffle.description")}</p>
+            <p className="text-xs mb-1 font-secondary">{`- 5 x 1000 FLOWER winners`}</p>
+            <p className="text-xs mb-2 font-secondary">{`- 2 Bud NFTs`}</p>
+            <div className="flex justify-between items-center">
+              <Label
+                icon={SUNNYSIDE.icons.stopwatch}
+                type="info"
+                className="mb-2 mr-3 capitalize"
+              >
+                {monthName}
+              </Label>
+              {entries > 0 && (
+                <Label icon={ITEM_DETAILS["Prize Ticket"].image} type="success">
+                  {entries}{" "}
+                  {entries > 1 ? t("raffle.entries") : t("raffle.entry")}
+                </Label>
+              )}
+            </div>
 
-        <div className="flex items-center space-x-1">
-          <Box image={ITEM_DETAILS["Prize Ticket"].image} count={tickets} />
-          <div>
-            {!tickets.gte(1) && (
-              <Label type="danger">{t("raffle.noTicket")}</Label>
-            )}
-            <p className="text-xs mb-2">{t("raffle.how")}</p>
+            <div className="flex items-center space-x-1">
+              <Box image={ITEM_DETAILS["Prize Ticket"].image} count={tickets} />
+              <div>
+                {!tickets.gte(1) && (
+                  <Label type="danger">{t("raffle.noTicket")}</Label>
+                )}
+                <p className="text-xs mb-2">{t("raffle.how")}</p>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
-      <Button onClick={enterRaffle} disabled={!tickets.gte(1)} className="mt-2">
-        {t("raffle.enter")}
-      </Button>
-    </CloseButtonPanel>
+          <Button
+            onClick={enterRaffle}
+            disabled={!tickets.gte(1)}
+            className="mt-2"
+          >
+            {t("raffle.enter")}
+          </Button>
+        </>
+      </GameWallet>
+    </Panel>
   );
 };
