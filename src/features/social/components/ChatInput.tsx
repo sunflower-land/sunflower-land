@@ -1,28 +1,20 @@
-import React, { ChangeEvent, useContext, useRef, useState } from "react";
+import React, { ChangeEvent, useRef, useState } from "react";
 import { pixelChatInputBorderStyle } from "features/game/lib/style";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Button } from "components/ui/Button";
-import { MachineState } from "features/game/lib/gameMachine";
-import { useSelector } from "@xstate/react";
-import { Context } from "features/game/GameProvider";
-import { FarmInteraction } from "../PlayerModal";
+import { Message } from "../types/types";
 
 const MAX_CHARACTERS = 96;
 const ALPHA_REGEX = new RegExp(/^[\w*?!, '-.!?#]+$/);
 
 type Props = {
   disabled?: boolean;
-  onEnter: (interaction: FarmInteraction) => void;
+  onEnter: (message: Message) => void;
 };
 
-const _username = (state: MachineState) => state.context.state.username;
-
 export const ChatInput: React.FC<Props> = ({ disabled, onEnter }) => {
-  const { gameService } = useContext(Context);
   const [text, setText] = useState("");
   const ref = useRef<HTMLTextAreaElement>(null);
-
-  const username = useSelector(gameService, _username);
 
   const isValidText = () => {
     return text.length <= MAX_CHARACTERS && ALPHA_REGEX.test(text);
@@ -34,13 +26,7 @@ export const ChatInput: React.FC<Props> = ({ disabled, onEnter }) => {
     if (event.key === "Enter") {
       event.preventDefault();
       if (text.trim() !== "" && isValidText()) {
-        onEnter({
-          id: `${Date.now()}`,
-          text,
-          sender: username,
-          type: "comment",
-          timestamp: Date.now(),
-        });
+        onEnter(text as Message);
         setText("");
       }
     }
@@ -76,15 +62,7 @@ export const ChatInput: React.FC<Props> = ({ disabled, onEnter }) => {
       />
       <Validation text={text} />
       <Button
-        onClick={() =>
-          onEnter({
-            id: `${Date.now()}`,
-            text,
-            sender: username,
-            type: "comment",
-            timestamp: Date.now(),
-          })
-        }
+        onClick={() => onEnter(text as Message)}
         disabled={text.length === 0}
       >
         {`Message`}

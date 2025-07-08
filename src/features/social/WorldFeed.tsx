@@ -4,7 +4,6 @@ import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import React, { useContext } from "react";
-import { FarmInteraction } from "./PlayerModal";
 import { InteractionBubble } from "./components/InteractionBubble";
 import { getRelativeTime } from "lib/utils/time";
 
@@ -13,9 +12,10 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { isMobile } from "mobile-device-detect";
+import { Interaction } from "./types/types";
 
 type Props = {
-  interactions: FarmInteraction[];
+  interactions: Interaction[];
   showFeed: boolean;
   server?: string;
   setShowFeed: (showFeed: boolean) => void;
@@ -68,24 +68,25 @@ export const WorldFeed: React.FC<Props> = ({
         </div>
         <div className="scrollable overflow-y-auto">
           <div className="flex flex-col gap-1 pr-1">
-            {interactions.map((interaction) => {
+            {interactions.map((interaction, index) => {
               const direction =
-                interaction?.sender === username ? "right" : "left";
+                interaction?.sender.username === username ? "right" : "left";
               const sender =
-                interaction?.sender === username ? "You" : interaction.sender;
+                interaction?.sender.username === username
+                  ? "You"
+                  : interaction.sender.username;
 
               return (
                 <div
-                  key={interaction.id}
+                  key={`${interaction.createdAt}-${index}`}
                   className={classNames({
-                    "pl-1":
-                      direction === "left" && interaction.type === "comment",
+                    "pl-1": direction === "left" && interaction.type === "chat",
                     "pr-1":
-                      direction === "right" && interaction.type === "comment",
+                      direction === "right" && interaction.type === "chat",
                   })}
                 >
                   <InteractionBubble
-                    key={interaction.id}
+                    key={`${interaction.sender.id}-${interaction.createdAt}-${index}`}
                     direction={direction}
                     type={interaction.type}
                   >
@@ -96,10 +97,12 @@ export const WorldFeed: React.FC<Props> = ({
                         ) : (
                           `${sender ?? ""} ${interaction.sender ? "- " : ""}`
                         )}
-                        {`${getRelativeTime(interaction.timestamp)}`}
+                        {`${getRelativeTime(interaction.createdAt)}`}
                       </span>
                     </div>
-                    <div className="text-xs break-all">{interaction.text}</div>
+                    <div className="text-xs break-all">
+                      {interaction.message}
+                    </div>
                   </InteractionBubble>
                 </div>
               );

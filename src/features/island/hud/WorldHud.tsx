@@ -27,7 +27,6 @@ import { HudBumpkin } from "./components/bumpkinProfile/HudBumpkin";
 import classNames from "classnames";
 import { WorldFeed } from "features/social/WorldFeed";
 import { isMobile } from "mobile-device-detect";
-import { dummyInteractions } from "features/social/PlayerModal";
 import { hasFeatureAccess } from "lib/flags";
 import { WorldFeedButton } from "features/social/components/WorldFeedButton";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -102,7 +101,7 @@ const HudComponent: React.FC<Props> = ({
           server={server}
           showFeed={showFeed}
           setShowFeed={setShowFeed}
-          interactions={dummyInteractions}
+          interactions={[]}
         />
       )}
       <HudContainer>
