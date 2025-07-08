@@ -10,8 +10,8 @@ import { useSelector } from "@xstate/react";
 import { capitalize } from "lib/utils/capitalize";
 import { FactionName } from "features/game/types/game";
 import {
+  FACTION_BOOST_COOLDOWN,
   SFL_COST,
-  TWO_WEEKS,
 } from "features/game/events/landExpansion/joinFaction";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { useSound } from "lib/utils/hooks/useSound";
@@ -60,7 +60,7 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
     gameService.getSnapshot().context.state.previousFaction;
   const hasRecentlyLeftFaction =
     previousFaction &&
-    Date.now() - previousFaction.leftAt < TWO_WEEKS &&
+    Date.now() - previousFaction.leftAt < FACTION_BOOST_COOLDOWN &&
     previousFaction.name !== faction;
 
   useEffect(() => {
@@ -120,7 +120,7 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
     ? `You recently left the ${capitalize(
         previousFaction.name,
       )} faction. Faction boosts are disabled until ${new Date(
-        previousFaction.leftAt + TWO_WEEKS,
+        previousFaction.leftAt + FACTION_BOOST_COOLDOWN,
       ).toLocaleDateString()}.`
     : null;
 

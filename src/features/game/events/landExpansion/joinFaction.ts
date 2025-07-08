@@ -41,7 +41,7 @@ export const FACTION_EMBLEMS: Record<FactionName, FactionEmblem> = {
 };
 
 export const SFL_COST = [5, 10, 30, 50];
-export const TWO_WEEKS = 14 * 24 * 60 * 60 * 1000;
+export const FACTION_BOOST_COOLDOWN = 42 * 24 * 60 * 60 * 1000; // 6 weeks
 
 export function joinFaction({
   state,
@@ -76,7 +76,8 @@ export function joinFaction({
       points: 0,
       history: {},
       boostCooldownUntil: isSwitchingDifferentFaction
-        ? (stateCopy.previousFaction?.leftAt ?? createdAt) + TWO_WEEKS
+        ? (stateCopy.previousFaction?.leftAt ?? createdAt) +
+          FACTION_BOOST_COOLDOWN
         : undefined, // Only add cooldown if switching to a different faction
     };
 

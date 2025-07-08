@@ -1,13 +1,12 @@
 import { TEST_FARM } from "features/game/lib/constants";
 import { FactionName } from "features/game/types/game";
 import Decimal from "decimal.js-light";
-import { joinFaction } from "./joinFaction";
+import { FACTION_BOOST_COOLDOWN, joinFaction } from "./joinFaction";
 import { getFactionRankBoostAmount } from "features/game/lib/factionRanks";
 import { leaveFaction } from "./leaveFaction";
 
 describe("joinFaction", () => {
   const TWENTY_FOUR_HOURS = 24 * 60 * 60 * 1000;
-  const TWO_WEEKS = 14 * 24 * 60 * 60 * 1000;
 
   it("throws an error if the faction is invalid", () => {
     expect(() =>
@@ -153,10 +152,10 @@ describe("joinFaction", () => {
     });
 
     expect(state.faction?.boostCooldownUntil).toBeGreaterThanOrEqual(
-      now + TWO_WEEKS - 1000,
+      now + FACTION_BOOST_COOLDOWN - 1000,
     );
     expect(state.faction?.boostCooldownUntil).toBeLessThanOrEqual(
-      now + TWO_WEEKS + 1000,
+      now + FACTION_BOOST_COOLDOWN + 1000,
     );
   });
 
@@ -179,10 +178,10 @@ describe("joinFaction", () => {
       createdAt: now,
     });
     expect(state.faction?.boostCooldownUntil).toBeGreaterThanOrEqual(
-      now + TWO_WEEKS - 1000,
+      now + FACTION_BOOST_COOLDOWN - 1000,
     );
     expect(state.faction?.boostCooldownUntil).toBeLessThanOrEqual(
-      now + TWO_WEEKS + 1000,
+      now + FACTION_BOOST_COOLDOWN + 1000,
     );
 
     // Should return 0 boost during cooldown (even with emblems)
