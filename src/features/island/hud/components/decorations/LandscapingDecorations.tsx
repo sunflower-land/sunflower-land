@@ -81,6 +81,8 @@ export const LandscapingDecorations: React.FC<Props> = ({ onClose }) => {
       selected.ingredients[name]?.greaterThan(inventory[name] || 0),
     );
 
+  const biome = getCurrentBiome(state.island);
+
   return (
     <SplitScreenView
       panel={
@@ -116,10 +118,8 @@ export const LandscapingDecorations: React.FC<Props> = ({ onClose }) => {
                 key={name}
                 onClick={() => setSelectedName(name)}
                 image={
-                  ITEM_ICONS(
-                    state.season.season,
-                    getCurrentBiome(state.island),
-                  )[name] ?? ITEM_DETAILS[name].image
+                  ITEM_ICONS(state.season.season, biome)[name] ??
+                  ITEM_DETAILS[name].image
                 }
               />
             ))}

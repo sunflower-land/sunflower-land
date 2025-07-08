@@ -55,25 +55,23 @@ export const ITEM_ICONS: (
   season: TemperateSeasonName,
   biome: LandBiomeName,
   level?: number,
-) => Partial<Record<InventoryItemName, string>> = (season, biome, level) => {
-  return {
-    Market: SUNNYSIDE.icons.marketIcon,
-    "Fire Pit": SUNNYSIDE.icons.firePitIcon,
-    Workbench: SUNNYSIDE.icons.workbenchIcon,
-    Kitchen: SUNNYSIDE.icons.kitchenIcon,
-    "Hen House": SUNNYSIDE.icons.henHouseIcon,
-    Bakery: SUNNYSIDE.icons.bakeryIcon,
-    Deli: SUNNYSIDE.icons.deliIcon,
-    "Smoothie Shack": SUNNYSIDE.icons.smoothieIcon,
-    Toolshed: SUNNYSIDE.icons.toolshedIcon,
-    Warehouse: SUNNYSIDE.icons.warehouseIcon,
-    Tree: TREE_VARIANTS[biome][season],
-    "Dirt Path": DIRT_PATH_VARIANTS[biome],
-    Greenhouse: SUNNYSIDE.icons.greenhouseIcon,
-    Bush: BUSH_VARIANTS[biome][season],
-    "Water Well": WATER_WELL_VARIANTS[season][level ?? 1],
-  };
-};
+) => Partial<Record<InventoryItemName, string>> = (season, biome, level) => ({
+  Market: SUNNYSIDE.icons.marketIcon,
+  "Fire Pit": SUNNYSIDE.icons.firePitIcon,
+  Workbench: SUNNYSIDE.icons.workbenchIcon,
+  Kitchen: SUNNYSIDE.icons.kitchenIcon,
+  "Hen House": SUNNYSIDE.icons.henHouseIcon,
+  Bakery: SUNNYSIDE.icons.bakeryIcon,
+  Deli: SUNNYSIDE.icons.deliIcon,
+  "Smoothie Shack": SUNNYSIDE.icons.smoothieIcon,
+  Toolshed: SUNNYSIDE.icons.toolshedIcon,
+  Warehouse: SUNNYSIDE.icons.warehouseIcon,
+  Tree: TREE_VARIANTS[biome][season],
+  "Dirt Path": DIRT_PATH_VARIANTS[biome],
+  Greenhouse: SUNNYSIDE.icons.greenhouseIcon,
+  Bush: BUSH_VARIANTS[biome][season],
+  "Water Well": WATER_WELL_VARIANTS[season][level ?? 1],
+});
 
 interface PanelContentProps {
   selectedChestItem: InventoryItemName | `Bud-${number}`;
@@ -494,6 +492,8 @@ const ItemGroup: React.FC<ItemGroupProps> = ({
 }) => {
   if (items.length === 0) return null;
 
+  const biome = getCurrentBiome(state.island);
+
   return (
     <div className="flex flex-col pl-2 mb-2 w-full">
       <Label type="default" className="my-1" icon={icon}>
@@ -507,11 +507,8 @@ const ItemGroup: React.FC<ItemGroupProps> = ({
             : undefined;
 
           const image =
-            ITEM_ICONS(
-              state.season.season,
-              getCurrentBiome(state.island),
-              hasLevel,
-            )[item] ?? ITEM_DETAILS[item].image;
+            ITEM_ICONS(state.season.season, biome, hasLevel)[item] ??
+            ITEM_DETAILS[item].image;
           return (
             <Box
               count={chestMap[item]}

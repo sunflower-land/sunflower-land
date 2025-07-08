@@ -4,6 +4,7 @@
   "ingredients": "Ingredients",
   "animals.buyAnimal": "Buy Animal",
   "accept": "Accept",
+  "apply": "Apply",
   "failed": "Failed",
   "animals.buildingIsFull": "{{buildingName}} is full!",
   "breadWinner.description": "Earn 0.001 FLOWER",

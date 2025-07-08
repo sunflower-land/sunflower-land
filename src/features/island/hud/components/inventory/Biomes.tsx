@@ -15,10 +15,12 @@ import { InventoryItemDetails } from "components/ui/layouts/InventoryItemDetails
 import { Button } from "components/ui/Button";
 import { Context } from "features/game/GameProvider";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const Biomes: React.FC<{
   state: GameState;
 }> = ({ state }) => {
+  const { t } = useAppTranslation();
   const divRef = useRef<HTMLDivElement>(null);
   const [selectedBiome, setSelectedBiome] =
     useState<LandBiomeName>("Basic Biome");
@@ -59,7 +61,7 @@ export const Biomes: React.FC<{
               }
               onClick={applyBiome}
             >
-              {`Apply`}
+              {t("apply")}
             </Button>
           }
         />

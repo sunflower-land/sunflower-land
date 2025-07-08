@@ -92,6 +92,7 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
   const [showPopover, setShowPopover] = useState(false);
 
   useUiRefresher();
+  const biome = getCurrentBiome(state.island);
 
   if (!flowerBed.flower) {
     return (
@@ -102,7 +103,7 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
         >
           <img
             src={FLOWER_VARIANTS(
-              getCurrentBiome(state.island),
+              biome,
               state.season.season,
               "Red Pansy",
               "flower_bed",
@@ -168,12 +169,7 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
         onMouseLeave={() => setShowPopover(false)}
       >
         <img
-          src={FLOWER_VARIANTS(
-            getCurrentBiome(state.island),
-            state.season.season,
-            flower.name,
-            stage,
-          )}
+          src={FLOWER_VARIANTS(biome, state.season.season, flower.name, stage)}
           className="absolute"
           style={{
             width: `${PIXEL_SCALE * 48}px`,

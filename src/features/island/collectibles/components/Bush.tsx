@@ -14,7 +14,7 @@ export const Bush: React.FC<CollectibleProps> = ({ game }) => {
     <SFTDetailPopover name="Bush">
       <>
         <img
-          src={BUSH_VARIANTS[biome][game?.season?.season ?? "spring"]}
+          src={BUSH_VARIANTS[biome][game.season.season]}
           style={{
             width: `${PIXEL_SCALE * (game.island.type === "desert" ? 20 : game.island.type === "volcano" ? 28 : 28)}px`,
             bottom: `${PIXEL_SCALE * 0}px`,
