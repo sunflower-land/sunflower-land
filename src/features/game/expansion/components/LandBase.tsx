@@ -168,6 +168,11 @@ const SPRING_DESERT_LEVEL_IMAGES = {
   23: SUNNYSIDE.seasons.spring.desertLevel23,
   24: SUNNYSIDE.seasons.spring.desertLevel24,
   25: SUNNYSIDE.seasons.spring.desertLevel25,
+  26: SUNNYSIDE.seasons.spring.desertLevel26,
+  27: SUNNYSIDE.seasons.spring.desertLevel27,
+  28: SUNNYSIDE.seasons.spring.desertLevel28,
+  29: SUNNYSIDE.seasons.spring.desertLevel29,
+  30: SUNNYSIDE.seasons.spring.desertLevel30,
 };
 
 const SUMMER_DESERT_LEVEL_IMAGES = {
@@ -196,6 +201,11 @@ const SUMMER_DESERT_LEVEL_IMAGES = {
   23: SUNNYSIDE.land.desertLevel23,
   24: SUNNYSIDE.land.desertLevel24,
   25: SUNNYSIDE.land.desertLevel25,
+  26: SUNNYSIDE.land.desertLevel26,
+  27: SUNNYSIDE.land.desertLevel27,
+  28: SUNNYSIDE.land.desertLevel28,
+  29: SUNNYSIDE.land.desertLevel29,
+  30: SUNNYSIDE.land.desertLevel30,
 };
 
 const AUTUMN_DESERT_LEVEL_IMAGES = {
@@ -224,6 +234,11 @@ const AUTUMN_DESERT_LEVEL_IMAGES = {
   23: SUNNYSIDE.seasons.autumn.desertLevel23,
   24: SUNNYSIDE.seasons.autumn.desertLevel24,
   25: SUNNYSIDE.seasons.autumn.desertLevel25,
+  26: SUNNYSIDE.seasons.autumn.desertLevel26,
+  27: SUNNYSIDE.seasons.autumn.desertLevel27,
+  28: SUNNYSIDE.seasons.autumn.desertLevel28,
+  29: SUNNYSIDE.seasons.autumn.desertLevel29,
+  30: SUNNYSIDE.seasons.autumn.desertLevel30,
 };
 
 const WINTER_DESERT_LEVEL_IMAGES = {
@@ -252,6 +267,11 @@ const WINTER_DESERT_LEVEL_IMAGES = {
   23: SUNNYSIDE.seasons.winter.desertLevel23,
   24: SUNNYSIDE.seasons.winter.desertLevel24,
   25: SUNNYSIDE.seasons.winter.desertLevel25,
+  26: SUNNYSIDE.seasons.winter.desertLevel26,
+  27: SUNNYSIDE.seasons.winter.desertLevel27,
+  28: SUNNYSIDE.seasons.winter.desertLevel28,
+  29: SUNNYSIDE.seasons.winter.desertLevel29,
+  30: SUNNYSIDE.seasons.winter.desertLevel30,
 };
 
 const SPRING_VOLCANO_LEVEL_IMAGES = {
@@ -428,24 +448,20 @@ export const LandBase: React.FC<Props> = ({
   season,
 }) => {
   const biome = getCurrentBiome(island);
+  // Expansion 25 of the following biomes have a slightly longer width than the ones that are 24 and below, hence why we need to have a different image grid width
   const isExtendedBiome =
     expandedCount >= 25 &&
-    (biome === "Basic Biome" || biome === "Spring Biome");
-  const imageGridWidth = () => {
-    if (biome === "Volcano Biome") {
-      return VOLCANO_IMAGE_GRID_WIDTH;
-    }
-    if (isExtendedBiome) {
-      return EXTENDED_IMAGE_GRID_WIDTH;
-    }
-    return IMAGE_GRID_WIDTH;
-  };
-  const transformLeft = () => {
-    if (isExtendedBiome) {
-      return 3 * GRID_WIDTH_PX;
-    }
-    return 0;
-  };
+    (
+      ["Basic Biome", "Spring Biome", "Desert Biome"] as LandBiomeName[]
+    ).includes(biome);
+  const imageGridWidth =
+    biome === "Volcano Biome"
+      ? VOLCANO_IMAGE_GRID_WIDTH
+      : isExtendedBiome
+        ? EXTENDED_IMAGE_GRID_WIDTH
+        : IMAGE_GRID_WIDTH;
+
+  const transformLeft = isExtendedBiome ? 3 * GRID_WIDTH_PX : 0;
   return (
     <img
       id={Section.GenesisBlock}
@@ -453,8 +469,8 @@ export const LandBase: React.FC<Props> = ({
       alt="land"
       className="h-auto -z-10"
       style={{
-        width: `${imageGridWidth() * GRID_WIDTH_PX}px`,
-        transform: `translateX(${transformLeft()}px)`,
+        width: `${imageGridWidth * GRID_WIDTH_PX}px`,
+        transform: `translateX(${transformLeft}px)`,
       }}
     />
   );

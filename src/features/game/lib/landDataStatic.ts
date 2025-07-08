@@ -76,7 +76,11 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Morty: new Decimal(2),
     Market: new Decimal(1),
     Workbench: new Decimal(1),
-    "Basic Land": new Decimal(12),
+    "Basic Land": new Decimal(30),
+    "Basic Biome": new Decimal(1),
+    "Spring Biome": new Decimal(1),
+    "Desert Biome": new Decimal(1),
+    "Volcano Biome": new Decimal(1),
     "Lava Pit": new Decimal(1),
     Bush: new Decimal(3),
     Axe: new Decimal(10),
@@ -272,7 +276,8 @@ export const STATIC_OFFLINE_FARM: GameState = {
   },
 
   island: {
-    type: "spring",
+    type: "volcano",
+    biome: "Desert Biome",
   },
 
   home: {
