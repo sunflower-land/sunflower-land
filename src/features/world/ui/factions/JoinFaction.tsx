@@ -9,7 +9,10 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { capitalize } from "lib/utils/capitalize";
 import { FactionName } from "features/game/types/game";
-import { SFL_COST } from "features/game/events/landExpansion/joinFaction";
+import {
+  SFL_COST,
+  TWO_WEEKS,
+} from "features/game/events/landExpansion/joinFaction";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { useSound } from "lib/utils/hooks/useSound";
 import { InlineDialogue } from "../TypingMessage";
@@ -55,6 +58,10 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
   const hasSFL = gameService.getSnapshot().context.state.balance.gte(cost);
   const previousFaction =
     gameService.getSnapshot().context.state.previousFaction;
+  const hasRecentlyLeftFaction =
+    previousFaction &&
+    Date.now() - previousFaction.leftAt < TWO_WEEKS &&
+    previousFaction.name !== faction;
 
   useEffect(() => {
     const load = async () => {
@@ -109,12 +116,13 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
     faction: capitalize(faction),
   })} ${t("faction.not.pledged", { faction: capitalize(faction) })}`;
 
-  const cooldownMessage =
-    previousFaction && previousFaction.name !== faction
-      ? `You recently left the ${capitalize(
-          previousFaction.name,
-        )} faction. Faction boosts are disabled for 2 weeks.`
-      : null;
+  const cooldownMessage = hasRecentlyLeftFaction
+    ? `You recently left the ${capitalize(
+        previousFaction.name,
+      )} faction. Faction boosts are disabled until ${new Date(
+        previousFaction.leftAt + TWO_WEEKS,
+      ).toLocaleDateString()}.`
+    : null;
 
   const confirmFaction = `${t("faction.cost", {
     cost,

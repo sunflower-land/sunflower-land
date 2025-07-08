@@ -70,19 +70,19 @@ export function joinFaction({
       stateCopy.previousFaction?.name !== action.faction &&
       stateCopy.previousFaction?.leftAt;
 
-    if (isSwitchingDifferentFaction) {
-      delete stateCopy.previousFaction;
-    }
-
     stateCopy.faction = {
       name: action.faction,
       pledgedAt: createdAt,
       points: 0,
       history: {},
       boostCooldownUntil: isSwitchingDifferentFaction
-        ? createdAt + TWO_WEEKS
+        ? (stateCopy.previousFaction?.leftAt ?? createdAt) + TWO_WEEKS
         : undefined, // Only add cooldown if switching to a different faction
     };
+
+    if (stateCopy.previousFaction) {
+      delete stateCopy.previousFaction;
+    }
 
     stateCopy.balance = state.balance.sub(action.sfl);
 
