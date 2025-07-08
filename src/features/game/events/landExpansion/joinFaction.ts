@@ -41,6 +41,7 @@ export const FACTION_EMBLEMS: Record<FactionName, FactionEmblem> = {
 };
 
 export const SFL_COST = [5, 10, 30, 50];
+export const TWO_WEEKS = 14 * 24 * 60 * 60 * 1000;
 
 export function joinFaction({
   state,
@@ -65,11 +66,22 @@ export function joinFaction({
       throw new Error("Not enough SFL");
     }
 
+    const isSwitchingDifferentFaction =
+      stateCopy.previousFaction?.name !== action.faction &&
+      stateCopy.previousFaction?.leftAt;
+
+    if (isSwitchingDifferentFaction) {
+      delete stateCopy.previousFaction;
+    }
+
     stateCopy.faction = {
       name: action.faction,
       pledgedAt: createdAt,
       points: 0,
       history: {},
+      boostCooldownUntil: isSwitchingDifferentFaction
+        ? createdAt + TWO_WEEKS
+        : undefined, // Only add cooldown if switching to a different faction
     };
 
     stateCopy.balance = state.balance.sub(action.sfl);

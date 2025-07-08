@@ -1334,6 +1334,7 @@ export type Faction = {
   kitchen?: FactionKitchen;
   pet?: FactionPet;
   history: Record<string, FactionHistory>;
+  boostCooldownUntil?: number;
 };
 
 export type DonationItemName =
@@ -1623,6 +1624,10 @@ export interface GameState {
     >;
   };
   faction?: Faction;
+  previousFaction?: {
+    name: FactionName;
+    leftAt: number;
+  };
   dailyFactionDonationRequest?: {
     resource: DonationItemName;
     amount: Decimal;

@@ -127,7 +127,9 @@ const _faction = (state: MachineState) =>
   state.context.state.faction as Faction;
 const _inventory = (state: MachineState) => state.context.state.inventory;
 
-const getPetState = (collectivePet: CollectivePet): PetState => {
+const getPetState = (collectivePet: CollectivePet | undefined): PetState => {
+  if (!collectivePet) return "sleeping";
+
   if (collectivePet.sleeping) return "sleeping";
 
   if (collectivePet.goalReached) return "happy";
@@ -148,7 +150,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
 
   const week = getWeekKey({ date: new Date() });
   const pet = faction.pet as FactionPet;
-  const collectivePet = faction.history[week].collectivePet as CollectivePet;
+  const collectivePet = faction.history?.[week]?.collectivePet;
   const now = Date.now();
   const day = getFactionWeekday(now);
 
@@ -174,7 +176,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
     }, FACTION_PET_REFRESH_INTERVAL);
 
     return () => clearInterval(interval);
-  });
+  }, [petState]);
 
   if (petState === "sleeping") {
     return (
@@ -214,6 +216,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
         setStreak(data.streak);
       }
 
+      setPetState(getPetState(data));
       setRefreshing(false);
     } catch (e) {
       // eslint-disable-next-line no-console
@@ -228,7 +231,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
     fulfilled,
     PET_FED_REWARDS_KEY[selectedRequestIdx as DifficultyIndex],
   );
-  const { goalXP } = collectivePet;
+  const { goalXP } = collectivePet ?? { goalXP: 0 };
 
   const canFulfillRequest = (
     inventory[selectedRequest.food] ?? new Decimal(0)
@@ -250,6 +253,8 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
   });
   const isStreakWeek =
     (faction?.history[lastWeek]?.collectivePet?.streak ?? 0) >= 2;
+  const isBoostCooldown =
+    faction?.boostCooldownUntil && faction.boostCooldownUntil > Date.now();
 
   return (
     <>
@@ -307,6 +312,12 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
                 </Label>
               )}
             </div>
+            {isBoostCooldown && (
+              <Label type="danger" className="text-xs">
+                {"Faction boost cooldown until:"}{" "}
+                {new Date(faction?.boostCooldownUntil ?? 0).toLocaleString()}
+              </Label>
+            )}
             {!showConfirm && (
               <>
                 <p className="block sm:hidden text-xs pb-1">
@@ -399,7 +410,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
                           );
                         })}
                       </div>
-                      {collectivePet.streak > 0 && (
+                      {collectivePet?.streak && collectivePet.streak > 0 && (
                         <div className="flex items-center space-x-1">
                           <p className="text-xs pb-1">{`${t("faction.pet.contributingMember")}: `}</p>
                           <img

@@ -53,6 +53,8 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
 
   const sameFaction = joinedFaction && joinedFaction.name === faction;
   const hasSFL = gameService.getSnapshot().context.state.balance.gte(cost);
+  const previousFaction =
+    gameService.getSnapshot().context.state.previousFaction;
 
   useEffect(() => {
     const load = async () => {
@@ -107,6 +109,13 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
     faction: capitalize(faction),
   })} ${t("faction.not.pledged", { faction: capitalize(faction) })}`;
 
+  const cooldownMessage =
+    previousFaction && previousFaction.name !== faction
+      ? `You recently left the ${capitalize(
+          previousFaction.name,
+        )} faction. Faction boosts are disabled for 2 weeks.`
+      : null;
+
   const confirmFaction = `${t("faction.cost", {
     cost,
     faction: capitalize(faction),
@@ -142,7 +151,10 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
               <Label type="default">{capitalize(faction)}</Label>
               <Label type="danger">{t("faction.noAccess")}</Label>
             </div>
-            <span className="text-xs sm:text-sm">
+            <span className="text-xs sm:text-sm space-y-2">
+              {cooldownMessage && (
+                <Label type="warning">{cooldownMessage}</Label>
+              )}
               <InlineDialogue message={intro} />
             </span>
           </div>
