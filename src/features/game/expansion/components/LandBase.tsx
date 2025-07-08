@@ -1,18 +1,16 @@
-import React, { useContext } from "react";
+import React from "react";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 
 import { GRID_WIDTH_PX } from "features/game/lib/constants";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { GameState, TemperateSeasonName } from "features/game/types/game";
-import { Context } from "features/game/GameProvider";
-import { useSelector } from "@xstate/react";
-import { MachineState } from "features/game/lib/gameMachine";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { LandBiomeName } from "features/island/biomes/biomes";
 
 const IMAGE_GRID_WIDTH = 36;
 const VOLCANO_IMAGE_GRID_WIDTH = 48;
+const EXTENDED_IMAGE_GRID_WIDTH = 42;
 
 const SPRING_BASIC_LEVEL_IMAGES = {
   1: SUNNYSIDE.seasons.spring.basicLevel1,
@@ -38,6 +36,13 @@ const SPRING_BASIC_LEVEL_IMAGES = {
   21: SUNNYSIDE.seasons.spring.basicLevel21,
   22: SUNNYSIDE.seasons.spring.basicLevel22,
   23: SUNNYSIDE.seasons.spring.basicLevel23,
+  24: SUNNYSIDE.seasons.spring.basicLevel24,
+  25: SUNNYSIDE.seasons.spring.basicLevel25,
+  26: SUNNYSIDE.seasons.spring.basicLevel26,
+  27: SUNNYSIDE.seasons.spring.basicLevel27,
+  28: SUNNYSIDE.seasons.spring.basicLevel28,
+  29: SUNNYSIDE.seasons.spring.basicLevel29,
+  30: SUNNYSIDE.seasons.spring.basicLevel30,
 };
 
 const SUMMER_BASIC_LEVEL_IMAGES = {
@@ -64,6 +69,13 @@ const SUMMER_BASIC_LEVEL_IMAGES = {
   21: SUNNYSIDE.land.basicLevel21,
   22: SUNNYSIDE.land.basicLevel22,
   23: SUNNYSIDE.land.basicLevel23,
+  24: SUNNYSIDE.land.basicLevel24,
+  25: SUNNYSIDE.land.basicLevel25,
+  26: SUNNYSIDE.land.basicLevel26,
+  27: SUNNYSIDE.land.basicLevel27,
+  28: SUNNYSIDE.land.basicLevel28,
+  29: SUNNYSIDE.land.basicLevel29,
+  30: SUNNYSIDE.land.basicLevel30,
 };
 const AUTUMN_BASIC_LEVEL_IMAGES = {
   1: SUNNYSIDE.seasons.autumn.basicLevel1,
@@ -89,6 +101,13 @@ const AUTUMN_BASIC_LEVEL_IMAGES = {
   21: SUNNYSIDE.seasons.autumn.basicLevel21,
   22: SUNNYSIDE.seasons.autumn.basicLevel22,
   23: SUNNYSIDE.seasons.autumn.basicLevel23,
+  24: SUNNYSIDE.seasons.autumn.basicLevel24,
+  25: SUNNYSIDE.seasons.autumn.basicLevel25,
+  26: SUNNYSIDE.seasons.autumn.basicLevel26,
+  27: SUNNYSIDE.seasons.autumn.basicLevel27,
+  28: SUNNYSIDE.seasons.autumn.basicLevel28,
+  29: SUNNYSIDE.seasons.autumn.basicLevel29,
+  30: SUNNYSIDE.seasons.autumn.basicLevel30,
 };
 const WINTER_BASIC_LEVEL_IMAGES = {
   1: SUNNYSIDE.seasons.winter.basicLevel1,
@@ -114,6 +133,13 @@ const WINTER_BASIC_LEVEL_IMAGES = {
   21: SUNNYSIDE.seasons.winter.basicLevel21,
   22: SUNNYSIDE.seasons.winter.basicLevel22,
   23: SUNNYSIDE.seasons.winter.basicLevel23,
+  24: SUNNYSIDE.seasons.winter.basicLevel24,
+  25: SUNNYSIDE.seasons.winter.basicLevel25,
+  26: SUNNYSIDE.seasons.winter.basicLevel26,
+  27: SUNNYSIDE.seasons.winter.basicLevel27,
+  28: SUNNYSIDE.seasons.winter.basicLevel28,
+  29: SUNNYSIDE.seasons.winter.basicLevel29,
+  30: SUNNYSIDE.seasons.winter.basicLevel30,
 };
 
 const SPRING_DESERT_LEVEL_IMAGES = {
@@ -393,16 +419,33 @@ const LEVEL_IMAGES: Record<
 interface Props {
   island: GameState["island"];
   expandedCount: number;
+  season: TemperateSeasonName;
 }
 
-const _season = (state: MachineState) => state.context.state.season.season;
-
-export const LandBase: React.FC<Props> = ({ island, expandedCount }) => {
+export const LandBase: React.FC<Props> = ({
+  island,
+  expandedCount,
+  season,
+}) => {
   const biome = getCurrentBiome(island);
-  const imageGridWidth =
-    biome === "Volcano Biome" ? VOLCANO_IMAGE_GRID_WIDTH : IMAGE_GRID_WIDTH;
-  const { gameService } = useContext(Context);
-  const season = useSelector(gameService, _season);
+  const isExtendedBiome =
+    expandedCount >= 25 &&
+    (biome === "Basic Biome" || biome === "Spring Biome");
+  const imageGridWidth = () => {
+    if (biome === "Volcano Biome") {
+      return VOLCANO_IMAGE_GRID_WIDTH;
+    }
+    if (isExtendedBiome) {
+      return EXTENDED_IMAGE_GRID_WIDTH;
+    }
+    return IMAGE_GRID_WIDTH;
+  };
+  const transformLeft = () => {
+    if (isExtendedBiome) {
+      return 3 * GRID_WIDTH_PX;
+    }
+    return 0;
+  };
   return (
     <img
       id={Section.GenesisBlock}
@@ -410,7 +453,8 @@ export const LandBase: React.FC<Props> = ({ island, expandedCount }) => {
       alt="land"
       className="h-auto -z-10"
       style={{
-        width: `${imageGridWidth * GRID_WIDTH_PX}px`,
+        width: `${imageGridWidth() * GRID_WIDTH_PX}px`,
+        transform: `translateX(${transformLeft()}px)`,
       }}
     />
   );
