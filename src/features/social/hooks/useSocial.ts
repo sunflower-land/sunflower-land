@@ -127,15 +127,14 @@ const getSnapshot = () => snapshot;
 
 /**
  * Gets online status from the sunflorea_social room in the Colyseus WebSocket Server
+ * Used to both retrieve the online status of farms and updating your own online status
  *
  * Pings the server every HEARTBEAT_INTERVAL to update your online status
- * and retrieve the online status of the farms you are following
- *
- * No matter how many times you call this hook, it will only connect to the server once
+ * Retrieves the online status of the farms you are following when a "heartbeat" message is received
  *
  * @param farmId Your farm id
  * @param following The IDs of the farms you want presence data about
- * @returns The presence data of the farms you are following
+ * @returns The presence data of the farms
  */
 export const useSocial = (farmId: number, following: number[]) => {
   const subscribe = useCallback(
