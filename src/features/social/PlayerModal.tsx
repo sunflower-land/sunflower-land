@@ -35,43 +35,6 @@ import { tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { useSocial } from "./hooks/useSocial";
 
-export type FarmInteraction = {
-  id: string;
-  sender?: string;
-  timestamp: number;
-  text: string;
-  type: "comment" | "action" | "milestone" | "announcement";
-};
-
-export const dummyInteractions: FarmInteraction[] = [
-  {
-    id: "1",
-    sender: "Elias",
-    timestamp: Date.now() - 60000,
-    text: "Nice farm!",
-    type: "comment",
-  },
-  {
-    id: "2",
-    sender: "Local Hero",
-    timestamp: Date.now() - 120000,
-    text: "Cleaned your farm",
-    type: "action",
-  },
-  {
-    id: "3",
-    timestamp: Date.now() - 180000,
-    text: "Elias reached level 10",
-    type: "milestone",
-  },
-  {
-    id: "4",
-    timestamp: Date.now() - 180000,
-    text: "New Chapter Begins!",
-    type: "announcement",
-  },
-];
-
 const ISLAND_ICONS: Record<IslandType, string> = {
   basic: basicIsland,
   spring: springIsland,
