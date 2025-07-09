@@ -60,8 +60,10 @@ export const ChatInput: React.FC<Props> = ({ disabled, onEnter }) => {
         className="text-xs w-full px-2 py-2 max-h-min focus:outline-none focus:ring-0"
       />
       <Validation text={text} />
-      <Button onClick={() => onEnter(text)} disabled={        disabled={text.length === 0 || !isValidText()}
-}>
+      <Button
+        onClick={() => onEnter(text)}
+        disabled={text.length === 0 || !isValidText()}
+      >
         {`Message`}
       </Button>
     </div>
