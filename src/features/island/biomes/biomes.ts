@@ -8,6 +8,7 @@ export type LandBiomeName = `${Capitalize<IslandType>} Biome`;
 export type Biome = Omit<Decoration, "name"> & {
   name: LandBiomeName;
   requires?: IslandType;
+  disabled?: boolean;
 };
 
 export const LAND_BIOMES: Record<LandBiomeName, Biome> = {
@@ -17,7 +18,7 @@ export const LAND_BIOMES: Record<LandBiomeName, Biome> = {
       Gem: new Decimal(1000),
     },
     description: "",
-    requires: "basic",
+    requires: "spring",
   },
   "Spring Biome": {
     name: "Spring Biome",
@@ -25,7 +26,7 @@ export const LAND_BIOMES: Record<LandBiomeName, Biome> = {
       Gem: new Decimal(1000),
     },
     description: "",
-    requires: "spring",
+    requires: "desert",
   },
   "Desert Biome": {
     name: "Desert Biome",
@@ -33,7 +34,7 @@ export const LAND_BIOMES: Record<LandBiomeName, Biome> = {
       Gem: new Decimal(1000),
     },
     description: "",
-    requires: "desert",
+    requires: "volcano",
   },
   "Volcano Biome": {
     name: "Volcano Biome",
@@ -41,7 +42,7 @@ export const LAND_BIOMES: Record<LandBiomeName, Biome> = {
       Gem: new Decimal(1000),
     },
     description: "",
-    requires: "volcano",
+    disabled: true,
   },
 };
 export function getCurrentBiome(island: GameState["island"]): LandBiomeName {

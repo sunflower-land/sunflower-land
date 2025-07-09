@@ -16,6 +16,7 @@ import { Panel } from "components/ui/Panel";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import { IslandType } from "features/game/types/game";
 import { capitalize } from "lib/utils/capitalize";
+import { getObjectEntries } from "features/game/expansion/lib/utils";
 
 export const BuyBiomes: React.FC = () => {
   const { gameService } = useContext(Context);
@@ -57,16 +58,18 @@ export const BuyBiomes: React.FC = () => {
       <SplitScreenView
         content={
           <>
-            {getKeys(LAND_BIOMES).map((biomeName) => {
-              return (
-                <Box
-                  isSelected={selected === biomeName}
-                  key={biomeName}
-                  onClick={() => setSelected(biomeName)}
-                  image={ITEM_DETAILS[biomeName].image}
-                />
-              );
-            })}
+            {getObjectEntries(LAND_BIOMES)
+              .filter(([, biome]) => !biome.disabled)
+              .map(([biomeName]) => {
+                return (
+                  <Box
+                    isSelected={selected === biomeName}
+                    key={biomeName}
+                    onClick={() => setSelected(biomeName)}
+                    image={ITEM_DETAILS[biomeName].image}
+                  />
+                );
+              })}
           </>
         }
         panel={
