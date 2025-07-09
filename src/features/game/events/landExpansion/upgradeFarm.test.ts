@@ -629,4 +629,24 @@ describe("upgradeFarm", () => {
       },
     });
   });
+  it("resets the biome upon upgrade", () => {
+    const state = upgrade({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          "Basic Land": new Decimal(25),
+          Oil: new Decimal(200),
+        },
+        island: {
+          type: "desert",
+          biome: "Spring Biome",
+        },
+      },
+      action: {
+        type: "farm.upgraded",
+      },
+    });
+
+    expect(state.island.biome).toBeUndefined();
+  });
 });
