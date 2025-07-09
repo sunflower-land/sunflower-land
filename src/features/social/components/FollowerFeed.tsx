@@ -11,13 +11,13 @@ import promote from "assets/icons/promote.webp";
 import { useScrollToBottom } from "lib/utils/hooks/useScrollToBottom";
 import { ChatInput } from "./ChatInput";
 import { isMobile } from "mobile-device-detect";
-import { Interaction, Message } from "../types/types";
+import { Interaction } from "../types/types";
 
 type Props = {
   chatDisabled?: boolean;
   className?: string;
   interactions: Interaction[];
-  onInteraction: (message: Message) => void;
+  onInteraction: (message: string) => void;
 };
 
 const _username = (state: MachineState) => state.context.state.username;
@@ -32,7 +32,7 @@ export const FollowerFeed: React.FC<Props> = ({
 
   const scrollContainerRef = useScrollToBottom([interactions.length]);
 
-  const handleInteraction = (message: Message) => {
+  const handleInteraction = (message: string) => {
     onInteraction(message);
   };
 

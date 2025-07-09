@@ -2,14 +2,13 @@ import React, { ChangeEvent, useRef, useState } from "react";
 import { pixelChatInputBorderStyle } from "features/game/lib/style";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Button } from "components/ui/Button";
-import { Message } from "../types/types";
 
 const MAX_CHARACTERS = 96;
 const ALPHA_REGEX = new RegExp(/^[\w*?!, '-.!?#]+$/);
 
 type Props = {
   disabled?: boolean;
-  onEnter: (message: Message) => void;
+  onEnter: (message: string) => void;
 };
 
 export const ChatInput: React.FC<Props> = ({ disabled, onEnter }) => {
@@ -26,7 +25,7 @@ export const ChatInput: React.FC<Props> = ({ disabled, onEnter }) => {
     if (event.key === "Enter") {
       event.preventDefault();
       if (text.trim() !== "" && isValidText()) {
-        onEnter(text as Message);
+        onEnter(text);
         setText("");
       }
     }
@@ -61,10 +60,7 @@ export const ChatInput: React.FC<Props> = ({ disabled, onEnter }) => {
         className="text-xs w-full px-2 py-2 max-h-min focus:outline-none focus:ring-0"
       />
       <Validation text={text} />
-      <Button
-        onClick={() => onEnter(text as Message)}
-        disabled={text.length === 0}
-      >
+      <Button onClick={() => onEnter(text)} disabled={text.length === 0}>
         {`Message`}
       </Button>
     </div>

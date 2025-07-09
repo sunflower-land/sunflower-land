@@ -31,7 +31,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { postEffect } from "features/game/actions/effect";
 import { randomID } from "lib/utils/random";
 import { Room, Client } from "colyseus.js";
-import { Interaction, Message, Player, PlayerUpdate } from "./types/types";
+import { Interaction, Player, PlayerUpdate } from "./types/types";
 import { tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 
 const ISLAND_ICONS: Record<IslandType, string> = {
@@ -172,7 +172,7 @@ export const PlayerDetails: React.FC<Props> = ({ player }) => {
     }
   };
 
-  const sendMessage = async (message: Message) => {
+  const sendMessage = async (message: string) => {
     const newMessage: Interaction = {
       type: "chat",
       message,

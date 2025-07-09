@@ -1,5 +1,3 @@
-export type Message = "niceFarm" | "thanks!";
-
 export type ParticipantInfo = {
   id: number;
   username: string;
@@ -12,7 +10,7 @@ export type Interaction = {
   type: InteractionType;
   sender: ParticipantInfo;
   recipient: ParticipantInfo;
-  message: Message;
+  message: string;
   createdAt: number;
 };
 
