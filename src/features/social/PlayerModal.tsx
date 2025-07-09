@@ -190,12 +190,27 @@ export const PlayerDetails: React.FC<Props> = ({ player }) => {
     };
 
     // Optimistically update the messages
-    mutate(
-      (current) =>
-        mergePlayerData(current!, {
-          messages: [...(current?.data?.messages ?? []), newMessage],
-        }),
-      { revalidate: false },
+mutate(
+      async (current) => {
+        const { data: response } = await postEffect({
+          effect: {
+            type: "message.sent",
+            recipientId: player.farmId,
+            message,
+          },
+          transactionId: randomID(),
+          token: token as string,
+          farmId: farmId,
+        });
+
+        return mergePlayerData(current!, response);
+      },
+      {
+        optimisticData: (_, current) =>
+          mergePlayerData(current!, {
+            messages: [...(current?.data?.messages ?? []), newMessage],
+          }),
+      },
     );
 
     const { data: response } = await postEffect({
