@@ -1,17 +1,18 @@
 import { useCallback, useSyncExternalStore } from "react";
 import { Room, Client } from "colyseus.js";
+import { CONFIG } from "lib/config";
 
-const HEARTBEAT_INTERVAL = 1_000;
+const HEARTBEAT_INTERVAL = 15 * 60 * 1000;
 const MAX_RETRY_INTERVAL = 15 * 60 * 1000;
 
+// Private data specific to the connection to the colyseus server
 const subscribers: Map<() => void, { following: number[] }> = new Map();
-
 let room: Room<unknown> | undefined = undefined;
 let heartBeatTimeout: NodeJS.Timeout | undefined = undefined;
 let reconnectTimeout: NodeJS.Timeout | undefined = undefined;
-
 let retries = 0;
 
+// Global snapshot of the player's social data
 type Snapshot = {
   status: "loading" | "connected" | "error";
   online: Record<number, number>;
@@ -90,6 +91,13 @@ const setupListeners = (
   room.onMessage("heartbeat", updateOnline);
 };
 
+const updateFollowing = () => {
+  room?.send(
+    "updateFollowing",
+    [...subscribers.values()].flatMap((s) => s.following),
+  );
+};
+
 const leaveRoom = async () => {
   clearListeners();
   await room?.leave();
@@ -97,7 +105,7 @@ const leaveRoom = async () => {
 };
 
 const joinRoom = async (notifySubscriber: () => void, farmId: number) => {
-  const client = new Client("http://localhost:2567");
+  const client = new Client(CONFIG.ROOM_URL);
 
   try {
     onLoading();
@@ -115,21 +123,28 @@ const joinRoom = async (notifySubscriber: () => void, farmId: number) => {
   }
 };
 
-const updateFollowing = () => {
-  room?.send(
-    "updateFollowing",
-    [...subscribers.values()].flatMap((s) => s.following),
-  );
-};
-
 const getSnapshot = () => snapshot;
 
+/**
+ * Gets online status from the sunflorea_social room in the Colyseus WebSocket Server
+ *
+ * Pings the server every HEARTBEAT_INTERVAL to update your online status
+ * and retrieve the online status of the farms you are following
+ *
+ * No matter how many times you call this hook, it will only connect to the server once
+ *
+ * @param farmId Your farm id
+ * @param following The IDs of the farms you want presence data about
+ * @returns The presence data of the farms you are following
+ */
 export const useSocial = (farmId: number, following: number[]) => {
   const subscribe = useCallback(
     (notifySubscriber: () => void) => {
       subscribers.set(notifySubscriber, { following });
 
+      // Only connect to server when the first component subscribes
       if (subscribers.size === 1) joinRoom(notifySubscriber, farmId);
+      // Force a reconnection attempt if the connection is down when a component subscribes
       else if (snapshot.status === "error") {
         retries = 0;
         reconnect(notifySubscriber, farmId);
@@ -137,11 +152,13 @@ export const useSocial = (farmId: number, following: number[]) => {
 
       return () => {
         subscribers.delete(notifySubscriber);
+        // Leave the room if no component is subscribed
         if (subscribers.size === 0) leaveRoom();
         else updateFollowing();
       };
     },
     [...following],
   );
+
   return useSyncExternalStore(subscribe, getSnapshot);
 };
