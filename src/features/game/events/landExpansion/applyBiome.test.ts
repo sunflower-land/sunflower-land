@@ -25,14 +25,27 @@ describe("applyBiome", () => {
       }),
     ).toThrow("You are not permitted to apply this biome");
   });
+  it("throws if selected biome is the same as the current biome and the biome is unset", () => {
+    expect(() =>
+      applyBiome({
+        state: {
+          ...INITIAL_FARM,
+          island: { type: "volcano" },
+          inventory: { "Volcano Biome": new Decimal(1) },
+        },
+        action: { type: "biome.applied", biome: "Volcano Biome" },
+        createdAt: Date.now(),
+      }),
+    ).toThrow("You are already in this biome");
+  });
   it("unapplies the biome if current biome is the same as the new biome", () => {
     const state = applyBiome({
       state: {
         ...INITIAL_FARM,
-        island: { type: "basic" },
-        inventory: { "Basic Biome": new Decimal(1) },
+        island: { type: "volcano", biome: "Volcano Biome" },
+        inventory: { "Volcano Biome": new Decimal(1) },
       },
-      action: { type: "biome.applied", biome: "Basic Biome" },
+      action: { type: "biome.applied", biome: "Volcano Biome" },
       createdAt: Date.now(),
     });
     expect(state.island.biome).toBeUndefined();

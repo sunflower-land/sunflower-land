@@ -40,6 +40,9 @@ export function applyBiome({
 
     // Unapply the biome to the default biome if player selects the same biome as their current biome
     if (getCurrentBiome(game.island) === biome) {
+      if (!game.island.biome) {
+        throw new Error("You are already in this biome");
+      }
       delete game.island.biome;
       return game; // early return
     }

@@ -56,10 +56,18 @@ export const Biomes: React.FC<{
           details={{ item: selectedBiome }}
           actionView={
             <Button
-              disabled={!hasBiome || !isBiomeAvailable}
+              disabled={
+                !hasBiome ||
+                !isBiomeAvailable ||
+                (currentBiome === selectedBiome && !state.island.biome)
+              }
               onClick={applyBiome}
             >
-              {`${t(selectedBiome === currentBiome ? "unapply" : "apply")}`}
+              {`${t(
+                currentBiome === selectedBiome && !!state.island.biome
+                  ? "unapply"
+                  : "apply",
+              )}`}
             </Button>
           }
         />
