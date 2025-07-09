@@ -73,7 +73,7 @@ const Followers = ({
   return (
     <div className="flex flex-col gap-1">
       {followers.map((follower) => {
-        const isOnline = (online[follower] ?? 0) > Date.now() - 1000;
+        const isOnline = (online[follower] ?? 0) > Date.now() - 30 * 60 * 1000;
         return (
           <div key={`flw-${follower}`}>
             <div>{follower}</div>
