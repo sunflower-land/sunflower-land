@@ -46,7 +46,7 @@ export const BuyBiomes: React.FC = () => {
     setShowApplyInstructions(true);
   };
   const biomeCount = state.inventory[selected] ?? new Decimal(0);
-  const hasBoughtBiome = biomeCount.gt(0);
+  const hasBiomeOwned = biomeCount.gt(0);
   const hasRequiredIslandExpansionMet = hasRequiredIslandExpansion(
     state.island.type,
     biome.requires,
@@ -79,7 +79,7 @@ export const BuyBiomes: React.FC = () => {
                 lessFunds={lessFunds}
                 lessIngredients={lessIngredients}
                 buyBiome={buyBiome}
-                hasBoughtBiome={hasBoughtBiome}
+                hasBiomeOwned={hasBiomeOwned}
                 hasRequiredIslandExpansionMet={hasRequiredIslandExpansionMet}
                 requiredIslandExpansion={biome.requires}
               />
@@ -100,20 +100,20 @@ const BiomesActionView: React.FC<{
   lessFunds: () => boolean;
   lessIngredients: () => boolean;
   buyBiome: () => void;
-  hasBoughtBiome: boolean;
+  hasBiomeOwned: boolean;
   hasRequiredIslandExpansionMet: boolean;
   requiredIslandExpansion?: IslandType;
 }> = ({
   lessFunds,
   lessIngredients,
   buyBiome,
-  hasBoughtBiome,
+  hasBiomeOwned,
   hasRequiredIslandExpansionMet,
   requiredIslandExpansion,
 }) => {
   const { t } = useAppTranslation();
-  if (hasBoughtBiome) {
-    return <Label type="danger">{t("biome.alreadyBought")}</Label>;
+  if (hasBiomeOwned) {
+    return <Label type="danger">{t("biome.alreadyOwn")}</Label>;
   }
 
   if (!hasRequiredIslandExpansionMet) {
