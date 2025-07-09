@@ -2,7 +2,7 @@
 import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
 import { PlayerModalPlayer } from "features/world/ui/player/PlayerModals";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 
 import vipIcon from "assets/icons/vip.webp";
 import basicIsland from "assets/icons/islands/basic.webp";
@@ -30,9 +30,47 @@ import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { postEffect } from "features/game/actions/effect";
 import { randomID } from "lib/utils/random";
-import { Room, Client } from "colyseus.js";
 import { Interaction, Player, PlayerUpdate } from "./types/types";
 import { tokenUriBuilder } from "lib/utils/tokenUriBuilder";
+import { ModalOverlay } from "components/ui/ModalOverlay";
+import { useSocial } from "./hooks/useSocial";
+
+export type FarmInteraction = {
+  id: string;
+  sender?: string;
+  timestamp: number;
+  text: string;
+  type: "comment" | "action" | "milestone" | "announcement";
+};
+
+export const dummyInteractions: FarmInteraction[] = [
+  {
+    id: "1",
+    sender: "Elias",
+    timestamp: Date.now() - 60000,
+    text: "Nice farm!",
+    type: "comment",
+  },
+  {
+    id: "2",
+    sender: "Local Hero",
+    timestamp: Date.now() - 120000,
+    text: "Cleaned your farm",
+    type: "action",
+  },
+  {
+    id: "3",
+    timestamp: Date.now() - 180000,
+    text: "Elias reached level 10",
+    type: "milestone",
+  },
+  {
+    id: "4",
+    timestamp: Date.now() - 180000,
+    text: "New Chapter Begins!",
+    type: "announcement",
+  },
+];
 
 const ISLAND_ICONS: Record<IslandType, string> = {
   basic: basicIsland,
@@ -45,52 +83,43 @@ type Props = {
   player: PlayerModalPlayer;
 };
 
-const client = new Client("http://localhost:2567");
-
 const mergePlayerData = (current: Player, update: PlayerUpdate): Player => {
   return {
     data: { ...current.data, ...update },
   } as Player;
 };
 
-const useMMORoom = (
-  roomName: string,
-  farmId: number,
-  onMessage: KeyedMutator<Player>,
-) => {
-  useEffect(() => {
-    const connectionAttempts = 0;
-    const reconnectInterval: NodeJS.Timeout | null = null;
-    let room: Room | null = null;
+const Followers = ({
+  farmId,
+  followers,
+}: {
+  farmId: number;
+  followers: number[];
+}) => {
+  const { status, online } = useSocial(farmId, followers);
+  const { t } = useTranslation();
 
-    const connect = async () => {
-      await new Promise((resolve) =>
-        setTimeout(resolve, Math.pow(2, connectionAttempts) * 1000 - 1000),
-      );
+  if (!followers.length) {
+    return (
+      <div className="flex flex-col gap-1">
+        <div className="text-xs">{t("playerModal.noFollowers")}</div>
+      </div>
+    );
+  }
 
-      room = await client.joinOrCreate(roomName, {
-        farmId,
-      });
-
-      room.onMessage("follow", (update: PlayerUpdate) => {
-        onMessage((current) => mergePlayerData(current!, update));
-      });
-      room.onMessage("chat", (update: PlayerUpdate) => {
-        onMessage((current) => mergePlayerData(current!, update));
-      });
-
-      room.onError((error) => {
-        connect();
-      });
-    };
-
-    connect();
-
-    return () => {
-      reconnectInterval && clearInterval(reconnectInterval);
-      room?.leave();
-    };
-  }, [roomName, farmId, onMessage]);
+  return (
+    <div className="flex flex-col gap-1">
+      {followers.map((follower) => {
+        const isOnline = (online[follower] ?? 0) > Date.now() - 1000;
+        return (
+          <div key={`flw-${follower}`}>
+            <div>{follower}</div>
+            <div>{isOnline ? "Online" : "Offline"}</div>
+          </div>
+        );
+      })}
+    </div>
+  );
 };
 
 const _farmId = (state: MachineState) => state.context.farmId;
@@ -103,11 +132,14 @@ export const PlayerDetails: React.FC<Props> = ({ player }) => {
   const { gameService } = useContext(Context);
 
   const [followingLoading, setFollowingLoading] = useState(false);
+  const [isFollowingFeedOpen, setIsFollowingFeedOpen] = useState(false);
 
   const token = useSelector(gameService, _token);
   const farmId = useSelector(gameService, _farmId);
   const myUsername = useSelector(gameService, _myUsername);
   const myClothing = useSelector(gameService, _myClothing);
+
+  useSocial(farmId, []);
 
   const { t } = useTranslation();
 
@@ -125,8 +157,6 @@ export const PlayerDetails: React.FC<Props> = ({ player }) => {
       revalidateOnFocus: false,
     },
   );
-
-  useMMORoom("sunflorea_social", farmId, mutate);
 
   const iAmFollowing = data?.data?.followedBy.includes(farmId);
   const theyAreFollowingMe = data?.data?.following.includes(farmId);
@@ -222,6 +252,14 @@ export const PlayerDetails: React.FC<Props> = ({ player }) => {
 
   return (
     <div className="flex gap-1 w-full max-h-[370px]">
+      <ModalOverlay
+        show={isFollowingFeedOpen}
+        onBackdropClick={() => setIsFollowingFeedOpen(false)}
+      >
+        <InnerPanel>
+          <Followers farmId={farmId} followers={data?.data?.followedBy ?? []} />
+        </InnerPanel>
+      </ModalOverlay>
       <div className="flex flex-col flex-1 gap-1">
         <InnerPanel className="flex flex-col gap-1 flex-1 pb-1 px-1">
           <div className="flex items-center">
@@ -275,7 +313,10 @@ export const PlayerDetails: React.FC<Props> = ({ player }) => {
           <div className="flex flex-col gap-1 p-1 w-full ml-1 pt-0">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-1">
-                <span className="text-xs underline cursor-pointer">
+                <span
+                  className="text-xs underline cursor-pointer"
+                  onClick={() => setIsFollowingFeedOpen(true)}
+                >
                   {t("playerModal.followers", {
                     count: data?.data?.followedByCount,
                   })}
