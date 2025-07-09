@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
 import { PlayerModalPlayer } from "features/world/ui/player/PlayerModals";
@@ -22,50 +23,16 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { FollowerFeed } from "./components/FollowerFeed";
 import { IslandType } from "features/game/types/game";
 import { useTranslation } from "react-i18next";
-import useSWR from "swr";
+import useSWR, { KeyedMutator } from "swr";
 import { getPlayer } from "./actions/getPlayer";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { postEffect } from "features/game/actions/effect";
 import { randomID } from "lib/utils/random";
-
-export type FarmInteraction = {
-  id: string;
-  sender?: string;
-  timestamp: number;
-  text: string;
-  type: "comment" | "action" | "milestone" | "announcement";
-};
-
-export const dummyInteractions: FarmInteraction[] = [
-  {
-    id: "1",
-    sender: "Elias",
-    timestamp: Date.now() - 60000,
-    text: "Nice farm!",
-    type: "comment",
-  },
-  {
-    id: "2",
-    sender: "Local Hero",
-    timestamp: Date.now() - 120000,
-    text: "Cleaned your farm",
-    type: "action",
-  },
-  {
-    id: "3",
-    timestamp: Date.now() - 180000,
-    text: "Elias reached level 10",
-    type: "milestone",
-  },
-  {
-    id: "4",
-    timestamp: Date.now() - 180000,
-    text: "New Chapter Begins!",
-    type: "announcement",
-  },
-];
+import { Room, Client } from "colyseus.js";
+import { Interaction, Player, PlayerUpdate } from "./types/types";
+import { tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 
 const ISLAND_ICONS: Record<IslandType, string> = {
   basic: basicIsland,
@@ -78,18 +45,18 @@ type Props = {
   player: PlayerModalPlayer;
 };
 
-const _farmId = (state: MachineState) => state.context.farmId;
-const _token = (state: MachineState) => state.context.rawToken;
-
-import { Room, Client } from "colyseus.js";
 const client = new Client("http://localhost:2567");
-const TIMEOUT = 1000;
-const MAX_RETRIES = 10;
+
+const mergePlayerData = (current: Player, update: PlayerUpdate): Player => {
+  return {
+    data: { ...current.data, ...update },
+  } as Player;
+};
 
 const useMMORoom = (
   roomName: string,
   farmId: number,
-  onMessage: () => void,
+  onMessage: KeyedMutator<Player>,
 ) => {
   useEffect(() => {
     const connectionAttempts = 0;
@@ -105,8 +72,11 @@ const useMMORoom = (
         farmId,
       });
 
-      room.onMessage("followed", () => {
-        onMessage();
+      room.onMessage("follow", (update: PlayerUpdate) => {
+        onMessage((current) => mergePlayerData(current!, update));
+      });
+      room.onMessage("chat", (update: PlayerUpdate) => {
+        onMessage((current) => mergePlayerData(current!, update));
       });
 
       room.onError((error) => {
@@ -123,22 +93,28 @@ const useMMORoom = (
   }, [roomName, farmId, onMessage]);
 };
 
+const _farmId = (state: MachineState) => state.context.farmId;
+const _token = (state: MachineState) => state.context.rawToken;
+const _myUsername = (state: MachineState) => state.context.state.username;
+const _myClothing = (state: MachineState) =>
+  state.context.state.bumpkin.equipped;
+
 export const PlayerDetails: React.FC<Props> = ({ player }) => {
   const { gameService } = useContext(Context);
-  const token = useSelector(gameService, _token);
-  const farmId = useSelector(gameService, _farmId);
 
   const [followingLoading, setFollowingLoading] = useState(false);
 
+  const token = useSelector(gameService, _token);
+  const farmId = useSelector(gameService, _farmId);
+  const myUsername = useSelector(gameService, _myUsername);
+  const myClothing = useSelector(gameService, _myClothing);
+
   const { t } = useTranslation();
-  // const [interactions, setInteractions] =
-  //   useState<FarmInteraction[]>(dummyInteractions);
 
   const {
     data,
     isLoading: playerLoading,
     error,
-    isValidating,
     mutate,
   } = useSWR(
     ["player", token, farmId, player.farmId],
@@ -160,7 +136,7 @@ export const PlayerDetails: React.FC<Props> = ({ player }) => {
     setFollowingLoading(true);
     try {
       if (iAmFollowing) {
-        const { data } = await postEffect({
+        const { data: response } = await postEffect({
           effect: {
             type: "farm.unfollowed",
             followedId: player.farmId,
@@ -169,9 +145,12 @@ export const PlayerDetails: React.FC<Props> = ({ player }) => {
           token: token as string,
           farmId: farmId,
         });
-        mutate(data);
+
+        mutate((current) => mergePlayerData(current!, response), {
+          revalidate: false,
+        });
       } else {
-        const { data } = await postEffect({
+        const { data: response } = await postEffect({
           effect: {
             type: "farm.followed",
             followedId: player.farmId,
@@ -180,7 +159,10 @@ export const PlayerDetails: React.FC<Props> = ({ player }) => {
           token: token as string,
           farmId: farmId,
         });
-        mutate(data);
+
+        mutate((current) => mergePlayerData(current!, response), {
+          revalidate: false,
+        });
       }
     } catch (e) {
       /* eslint-disable-next-line no-console */
@@ -190,18 +172,47 @@ export const PlayerDetails: React.FC<Props> = ({ player }) => {
     }
   };
 
-  const sendMessage = async (message: FarmInteraction) => {
-    const { data } = await postEffect({
-      effect: {
-        type: "message.sent",
-        recipientId: player.farmId,
-        message: "niceFarm",
+  const sendMessage = async (message: string) => {
+    const newMessage: Interaction = {
+      type: "chat",
+      message,
+      recipient: {
+        id: player.farmId,
+        tokenUri: tokenUriBuilder(player.clothing),
+        username: player.username ?? `#${player.farmId}`,
       },
-      transactionId: randomID(),
-      token: token as string,
-      farmId: farmId,
-    });
-    mutate(data);
+      sender: {
+        id: farmId,
+        tokenUri: tokenUriBuilder(myClothing),
+        username: myUsername ?? `#${farmId}`,
+      },
+      createdAt: Date.now(),
+    };
+
+    // Optimistically update the messages
+    mutate(
+      async (current) => {
+        const { data: response } = await postEffect({
+          effect: {
+            type: "message.sent",
+            recipientId: player.farmId,
+            message,
+          },
+          transactionId: randomID(),
+          token: token as string,
+          farmId: farmId,
+        });
+
+        return mergePlayerData(current!, response);
+      },
+      {
+        revalidate: false,
+        optimisticData: (_, current) =>
+          mergePlayerData(current!, {
+            messages: [...(current?.data?.messages ?? []), newMessage],
+          }),
+      },
+    );
   };
 
   const startDate = new Date(player?.createdAt).toLocaleString("en-US", {
@@ -339,17 +350,9 @@ export const PlayerDetails: React.FC<Props> = ({ player }) => {
       </div>
       {!isMobile && (
         <FollowerFeed
-          interactions={
-            data?.data?.messages.map((message, index) => ({
-              id: randomID(),
-              sender: `You${index}`,
-              timestamp: Date.now(),
-              text: message.message,
-              type: "comment",
-            })) ?? []
-          }
-          onInteraction={(interaction) => {
-            sendMessage(interaction);
+          interactions={data?.data?.messages ?? []}
+          onInteraction={(message) => {
+            sendMessage(message);
           }}
           chatDisabled={!isMutual}
         />
