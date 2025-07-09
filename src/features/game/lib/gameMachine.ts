@@ -773,7 +773,10 @@ export function startGame(authContext: AuthContext) {
                 landId = (event as VisitEvent).landId;
               }
 
-              const { state } = await loadGameStateForVisit(Number(landId));
+              const { state } = await loadGameStateForVisit(
+                Number(landId),
+                authContext.user.rawToken as string,
+              );
 
               return {
                 state: makeGame(state),
