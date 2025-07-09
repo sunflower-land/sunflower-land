@@ -28,12 +28,16 @@ export function applyBiome({
     if (!hasFeatureAccess(game, "LANDSCAPING")) {
       throw new Error("This feature is not available");
     }
+
     const { biome } = action;
     const hasBiome = game.inventory[biome]?.gt(0);
+
     if (!hasBiome) {
       throw new Error("You do not own this biome");
     }
+
     const biomeData = LAND_BIOMES[biome];
+
     if (!hasRequiredIslandExpansion(game.island.type, biomeData.requires)) {
       throw new Error("You are not permitted to apply this biome");
     }
@@ -48,6 +52,7 @@ export function applyBiome({
     }
 
     game.island.biome = biome;
+
     return game;
   });
 }
