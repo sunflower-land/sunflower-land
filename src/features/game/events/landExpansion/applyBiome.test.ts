@@ -25,18 +25,17 @@ describe("applyBiome", () => {
       }),
     ).toThrow("You are not permitted to apply this biome");
   });
-  it("throws if current biome is the same as the new biome", () => {
-    expect(() =>
-      applyBiome({
-        state: {
-          ...INITIAL_FARM,
-          island: { type: "basic" },
-          inventory: { "Basic Biome": new Decimal(1) },
-        },
-        action: { type: "biome.applied", biome: "Basic Biome" },
-        createdAt: Date.now(),
-      }),
-    ).toThrow("Biome already applied");
+  it("unapplies the biome if current biome is the same as the new biome", () => {
+    const state = applyBiome({
+      state: {
+        ...INITIAL_FARM,
+        island: { type: "basic" },
+        inventory: { "Basic Biome": new Decimal(1) },
+      },
+      action: { type: "biome.applied", biome: "Basic Biome" },
+      createdAt: Date.now(),
+    });
+    expect(state.island.biome).toBeUndefined();
   });
   it("applies the biome to the island", () => {
     const state = applyBiome({

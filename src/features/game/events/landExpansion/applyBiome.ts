@@ -37,9 +37,13 @@ export function applyBiome({
     if (!hasRequiredIslandExpansion(game.island.type, biomeData.requires)) {
       throw new Error("You are not permitted to apply this biome");
     }
+
+    // Unapply the biome to the default biome if player selects the same biome as their current biome
     if (getCurrentBiome(game.island) === biome) {
-      throw new Error("Biome already applied");
+      delete game.island.biome;
+      return game; // early return
     }
+
     game.island.biome = biome;
     return game;
   });
