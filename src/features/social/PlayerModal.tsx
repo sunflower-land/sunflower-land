@@ -23,7 +23,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { FollowerFeed } from "./components/FollowerFeed";
 import { IslandType } from "features/game/types/game";
 import { useTranslation } from "react-i18next";
-import useSWR, { KeyedMutator } from "swr";
+import useSWR from "swr";
 import { getPlayer } from "./actions/getPlayer";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
@@ -96,7 +96,7 @@ const Followers = ({
   farmId: number;
   followers: number[];
 }) => {
-  const { status, online } = useSocial(farmId, followers);
+  const { online } = useSocial(farmId, followers);
   const { t } = useTranslation();
 
   if (!followers.length) {
@@ -139,6 +139,7 @@ export const PlayerDetails: React.FC<Props> = ({ player }) => {
   const myUsername = useSelector(gameService, _myUsername);
   const myClothing = useSelector(gameService, _myClothing);
 
+  // Used only to share my online status with the followers
   useSocial(farmId, []);
 
   const { t } = useTranslation();
