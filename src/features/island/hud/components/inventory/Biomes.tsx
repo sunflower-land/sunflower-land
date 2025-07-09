@@ -65,7 +65,7 @@ export const Biomes: React.FC<{
             >
               {`${t(
                 currentBiome === selectedBiome && !!state.island.biome
-                  ? "unapply"
+                  ? "remove"
                   : "apply",
               )}`}
             </Button>

@@ -11,20 +11,17 @@ import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import Decimal from "decimal.js-light";
 import { Label } from "components/ui/Label";
-import { Modal } from "components/ui/Modal";
-import { Panel } from "components/ui/Panel";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import { IslandType } from "features/game/types/game";
 import { capitalize } from "lib/utils/capitalize";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 
-export const BuyBiomes: React.FC = () => {
+export const BuyBiomes: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, (state) => state.context.state);
   const [selected, setSelected] = useState<LandBiomeName>(
     getKeys(LAND_BIOMES)[0],
   );
-  const [showApplyInstructions, setShowApplyInstructions] = useState(false);
 
   const biome = LAND_BIOMES[selected];
   const { coins: coinPrice, ingredients } = biome;
@@ -44,7 +41,8 @@ export const BuyBiomes: React.FC = () => {
 
   const buyBiome = () => {
     gameService.send("biome.bought", { biome: selected });
-    setShowApplyInstructions(true);
+    gameService.send("biome.applied", { biome: selected });
+    onClose();
   };
   const biomeCount = state.inventory[selected] ?? new Decimal(0);
   const hasBiomeOwned = biomeCount.gt(0);
@@ -90,11 +88,6 @@ export const BuyBiomes: React.FC = () => {
           />
         }
       />
-      <ApplyInstructions
-        show={showApplyInstructions}
-        onClose={() => setShowApplyInstructions(false)}
-        biome={selected}
-      />
     </>
   );
 };
@@ -133,24 +126,5 @@ const BiomesActionView: React.FC<{
     <Button disabled={lessFunds() || lessIngredients()} onClick={buyBiome}>
       {t("buy")}
     </Button>
-  );
-};
-
-const ApplyInstructions: React.FC<{
-  show: boolean;
-  onClose: () => void;
-  biome: LandBiomeName;
-}> = ({ show, onClose, biome }) => {
-  const { t } = useAppTranslation();
-  return (
-    <Modal show={show}>
-      <Panel>
-        <div className="flex flex-col items-center justify-center m-1 gap-1">
-          <img src={ITEM_DETAILS[biome].image} className="w-12 h-12" />
-          <p className="m-1">{t("biome.applyInstructions")}</p>
-        </div>
-        <Button onClick={onClose}>{t("close")}</Button>
-      </Panel>
-    </Modal>
   );
 };

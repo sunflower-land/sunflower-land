@@ -125,7 +125,9 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
 
   return (
     <HudContainer>
-      <Balances sfl={balance} coins={coins} gems={gems ?? new Decimal(0)} />
+      <div className="absolute right-0 top-0 p-2.5">
+        <Balances sfl={balance} coins={coins} gems={gems ?? new Decimal(0)} />
+      </div>
 
       <>
         {idle && (
