@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
 import { PlayerModalPlayer } from "features/world/ui/player/PlayerModals";
@@ -72,11 +73,9 @@ const useMMORoom = (
       });
 
       room.onMessage("follow", (update: PlayerUpdate) => {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         onMessage((current) => mergePlayerData(current!, update));
       });
       room.onMessage("chat", (update: PlayerUpdate) => {
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
         onMessage((current) => mergePlayerData(current!, update));
       });
 
@@ -190,6 +189,7 @@ export const PlayerDetails: React.FC<Props> = ({ player }) => {
       createdAt: Date.now(),
     };
 
+    // Optimistically update the messages
     mutate(
       (current) =>
         mergePlayerData(current!, {
