@@ -19,12 +19,8 @@ import { ReportPlayer } from "./ReportPlayer";
 import { PlayerGift } from "./PlayerGift";
 import { StreamReward } from "./StreamReward";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { PlayerDetails } from "features/social/PlayerModal";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
-
 import { isMobile } from "mobile-device-detect";
-import { FollowerFeed } from "features/social/components/FollowerFeed";
-import { Interaction } from "features/social/types/types";
 
 export type PlayerModalPlayer = {
   farmId: number;
@@ -129,8 +125,6 @@ export const PlayerModals: React.FC<Props> = ({ game, farmId, isOpen }) => {
   const [tab, setTab] = useState<
     "Player" | "Reward" | "Stream" | "Report" | "Airdrop" | "Activity"
   >("Player");
-  // DEV_TESTING_ONLY
-  const [interactions, setInteractions] = useState<Interaction[]>([]);
   const [player, setPlayer] = useState<PlayerModalPlayer | undefined>();
   const [showPlayerModal, setShowPlayerModal] = useState(isOpen ?? false);
 
@@ -235,38 +229,7 @@ export const PlayerModals: React.FC<Props> = ({ game, farmId, isOpen }) => {
         ]}
         container={OuterPanel}
       >
-        {tab === "Player" &&
-          player &&
-          (hasFeatureAccess(game, "SOCIAL_FARMING") ? (
-            <PlayerDetails player={player} />
-          ) : (
-            <OldPlayerDetails player={player} />
-          ))}
-        {tab === "Activity" && (
-          <FollowerFeed
-            interactions={interactions}
-            onInteraction={(interaction) => {
-              setInteractions([
-                {
-                  type: "chat",
-                  message: interaction,
-                  createdAt: Date.now(),
-                  sender: {
-                    id: farmId,
-                    username: "You",
-                    tokenUri: "blah",
-                  },
-                  recipient: {
-                    id: player?.farmId as number,
-                    username: player?.username as string,
-                    tokenUri: "blah",
-                  },
-                },
-                ...interactions,
-              ]);
-            }}
-          />
-        )}
+        {tab === "Player" && player && <OldPlayerDetails player={player} />}
         {tab === "Reward" && <PlayerGift />}
         {tab === "Stream" && (
           <StreamReward streamerId={player?.farmId as number} />
