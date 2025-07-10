@@ -41,9 +41,10 @@ import {
   getPlazaShaderSetting,
 } from "lib/utils/hooks/usePlazaShader";
 import { playerSelectionListManager } from "../ui/PlayerSelectionList";
-import { playerModalManager } from "../ui/player/PlayerModals";
+
 import { STREAM_REWARD_COOLDOWN } from "../ui/player/StreamReward";
 import { hasVipAccess } from "features/game/lib/vipAccess";
+import { playerModalManager } from "features/social/lib/playerModalManager";
 
 export type NPCBumpkin = {
   x: number;

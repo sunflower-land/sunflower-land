@@ -1,106 +1,36 @@
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import React, { useEffect, useState } from "react";
 import { Modal } from "components/ui/Modal";
-import levelIcon from "assets/icons/level_up.png";
 import giftIcon from "assets/icons/gift.png";
 import blossom_bonding from "assets/icons/skill_icons/Bonding.png";
 
-import { PIXEL_SCALE } from "features/game/lib/constants";
-import { getBumpkinLevel } from "features/game/lib/level";
-import { BumpkinLevel } from "features/bumpkins/components/BumpkinModal";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { GameState } from "features/game/types/game";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { LABEL_STYLES } from "components/ui/Label";
 import { AirdropPlayer } from "features/island/hud/components/settings-menu/general-settings/AirdropPlayer";
 import { hasFeatureAccess } from "lib/flags";
-import { ReportPlayer } from "./ReportPlayer";
-import { PlayerGift } from "./PlayerGift";
-import { StreamReward } from "./StreamReward";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { isMobile } from "mobile-device-detect";
+import { StreamReward } from "features/world/ui/player/StreamReward";
+import { PlayerGift } from "features/world/ui/player/PlayerGift";
+import { ReportPlayer } from "features/world/ui/player/ReportPlayer";
 import {
   playerModalManager,
   PlayerModalPlayer,
-} from "features/social/lib/playerModalManager";
-
-const OldPlayerDetails: React.FC<{ player: PlayerModalPlayer }> = ({
-  player,
-}) => {
-  const { t } = useAppTranslation();
-  const [showLabel, setShowLabel] = useState(false);
-
-  const copyToClipboard = async (text: string): Promise<void> => {
-    try {
-      await navigator.clipboard.writeText(text);
-      setShowLabel(true);
-    } catch (e: unknown) {
-      setShowLabel(typeof e === "string" ? e : t("copy.failed"));
-    }
-
-    setTimeout(() => {
-      setShowLabel(false);
-    }, 2000);
-  };
-
-  return (
-    <InnerPanel>
-      <div className="flex items-center ml-1 mt-2 mb-4">
-        <img
-          src={levelIcon}
-          style={{
-            width: `${PIXEL_SCALE * 10}px`,
-            marginRight: `${PIXEL_SCALE * 4}px`,
-          }}
-        />
-        <div>
-          <p className="text-base">
-            {t("lvl")} {getBumpkinLevel(player?.experience ?? 0)}
-          </p>
-          {/* Progress bar */}
-          <BumpkinLevel experience={player?.experience} />
-        </div>
-
-        <div
-          className="flex-auto self-start text-right text-xs mr-3 f-10 font-secondary cursor-pointer"
-          onClick={() => {
-            copyToClipboard(player?.farmId as unknown as string);
-          }}
-        >
-          {player?.username && (
-            <p className="text-xs mb-1">{player?.username}</p>
-          )}
-          <p className="text-xs">{`#${player?.farmId}`}</p>
-          {showLabel && (
-            <div
-              className="absolute right-2 text-xs pointer-events-none"
-              style={{
-                ...LABEL_STYLES["default"].borderStyle,
-                background: LABEL_STYLES["default"].background,
-              }}
-            >
-              {t("copied")}
-            </div>
-          )}
-        </div>
-      </div>
-    </InnerPanel>
-  );
-};
+} from "./lib/playerModalManager";
+import { PlayerDetails } from "./components/PlayerDetails";
 
 interface Props {
   game: GameState;
   farmId: number;
-  isOpen?: boolean;
 }
 
-export const PlayerModals: React.FC<Props> = ({ game, farmId, isOpen }) => {
+export const SocialModal: React.FC<Props> = ({ game, farmId }) => {
   const [tab, setTab] = useState<
     "Player" | "Reward" | "Stream" | "Report" | "Airdrop" | "Activity"
   >("Player");
   const [player, setPlayer] = useState<PlayerModalPlayer | undefined>();
-  const [showPlayerModal, setShowPlayerModal] = useState(isOpen ?? false);
+  const [showPlayerModal, setShowPlayerModal] = useState(false);
 
   useEffect(() => {
     playerModalManager.listen((npc) => {
@@ -203,7 +133,7 @@ export const PlayerModals: React.FC<Props> = ({ game, farmId, isOpen }) => {
         ]}
         container={OuterPanel}
       >
-        {tab === "Player" && player && <OldPlayerDetails player={player} />}
+        {tab === "Player" && player && <PlayerDetails player={player} />}
         {tab === "Reward" && <PlayerGift />}
         {tab === "Stream" && (
           <StreamReward streamerId={player?.farmId as number} />
