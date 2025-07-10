@@ -38,6 +38,9 @@ import { RemoveHungryCaterpillarModal } from "./RemoveHungryCaterpillarModal";
 import { RemoveCropMachineModal } from "./RemoveCropMachineModal";
 import { HourglassType } from "./components/Hourglass";
 import { HOURGLASSES } from "features/game/events/landExpansion/burnCollectible";
+import { hasRemoveRestriction } from "features/game/types/removeables";
+import { hasFeatureAccess } from "lib/flags";
+import { InnerPanel } from "components/ui/Panel";
 
 export const RESOURCE_MOVE_EVENTS: Record<
   ResourceName,
@@ -172,6 +175,14 @@ export const MoveableComponent: React.FC<
   const isSelected = movingItem?.id === id && movingItem?.name === name;
   const removeAction = !isMobile && getRemoveAction(name);
   const hasRemovalAction = !!removeAction;
+  const hasLandscaping = useSelector(gameService, (state) =>
+    hasFeatureAccess(state.context.state, "LANDSCAPING"),
+  );
+  const [isRestricted, restrictionReason] = hasRemoveRestriction({
+    name,
+    state: gameService.getSnapshot().context.state,
+    id,
+  });
 
   /**
    * Deselect if clicked outside of element
@@ -394,10 +405,12 @@ export const MoveableComponent: React.FC<
             )}
             {hasRemovalAction && (
               <div
-                className="group relative cursor-pointer"
+                className={classNames("group relative cursor-pointer", {
+                  "cursor-not-allowed": isRestricted && !hasLandscaping,
+                })}
                 style={{ width: `${PIXEL_SCALE * 18}px` }}
                 onClick={(e) => {
-                  remove();
+                  if (!isRestricted || hasLandscaping) remove();
                   e.preventDefault();
                 }}
               >
@@ -425,7 +438,26 @@ export const MoveableComponent: React.FC<
                         top: `${PIXEL_SCALE * 3}px`,
                       }}
                     />
+                    {isRestricted && !hasLandscaping && (
+                      <img
+                        src={SUNNYSIDE.icons.cancel}
+                        className="absolute right-0 top-0 w-1/2 h-1/2 object-contain"
+                        alt="restricted"
+                      />
+                    )}
                   </>
+                )}
+                {isRestricted && !hasLandscaping && (
+                  <div
+                    className="flex justify-center absolute w-full pointer-events-none invisible group-hover:!visible"
+                    style={{ top: `${PIXEL_SCALE * -10}px` }}
+                  >
+                    <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
+                      <div className="text-xs mx-1 p-1">
+                        <span>{restrictionReason}</span>
+                      </div>
+                    </InnerPanel>
+                  </div>
                 )}
               </div>
             )}
