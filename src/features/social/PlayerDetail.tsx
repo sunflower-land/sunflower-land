@@ -91,7 +91,7 @@ const _myUsername = (state: MachineState) => state.context.state.username;
 const _myClothing = (state: MachineState) =>
   state.context.state.bumpkin.equipped;
 
-export const PlayerDetails: React.FC<Props> = ({ player }) => {
+export const PlayerDetail: React.FC<Props> = ({ player }) => {
   const { gameService } = useContext(Context);
 
   const [followingLoading, setFollowingLoading] = useState(false);
