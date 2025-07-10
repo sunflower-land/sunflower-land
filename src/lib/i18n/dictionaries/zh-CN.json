@@ -6048,7 +6048,9 @@
   "description.colorToken2025": "在活动结束之前，在色彩节活动商店中使用它！",
   "description.colorTicket2025": "在色彩节活动结束后，持有这个有机会赢取 $FLOWER！",
   "offering.blessing.success.loser": "这次不是",
-  "biome.alreadyBought": "你已经买了这个生物群落",
   "biome.notInCorrectIslandType": "升级到 {{islandType}} 岛屿即可购买这个生物群落",
-  "biome.applyInstructions": "你已经购买了一个新的生物群落！是时候改头换面了。前往物品栏中的 “生物群落” 选项卡进行应用。"
+  "biome.applyInstructions": "你已经购买了一个新的生物群落！是时候改头换面了。前往物品栏中的 “生物群落” 选项卡进行应用。",
+  "apply": "申请",
+  "unapply": "取消申请",
+  "biome.alreadyOwn": "你已经拥有这个生物群落了"
 }

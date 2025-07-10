@@ -6048,7 +6048,9 @@
   "description.colorToken2025": "Benutze es im Festival of Colors Eventshop, bevor das Event endet!",
   "description.colorTicket2025": "Holt das, um nach Ende des Festivals der Farben $FLOWER zu gewinnen!",
   "offering.blessing.success.loser": "Dieses Mal nicht",
-  "biome.alreadyBought": "Du hast dieses Biom bereits gekauft",
   "biome.notInCorrectIslandType": "Rüste auf die Insel {{islandType}} auf, um dieses Biom zu kaufen",
-  "biome.applyInstructions": "Du hast ein neues Biom gekauft! Zeit, Ihrem Land ein neues Gesicht zu geben. Gehe in deinem Inventar zum Tab „Biome“, um es anzuwenden."
+  "biome.applyInstructions": "Du hast ein neues Biom gekauft! Zeit, Ihrem Land ein neues Gesicht zu geben. Gehe in deinem Inventar zum Tab „Biome“, um es anzuwenden.",
+  "apply": "Bewerben",
+  "unapply": "Bewerbung aufheben",
+  "biome.alreadyOwn": "Du besitzt dieses Biom bereits"
 }

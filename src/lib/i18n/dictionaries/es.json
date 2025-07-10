@@ -6048,7 +6048,9 @@
   "description.colorToken2025": "¡Utilízala en la tienda de eventos del festival de colores antes de que termine el evento!",
   "description.colorTicket2025": "¡Guarda esto para tener la oportunidad de ganar $FLOWER cuando termine el festival de colores!",
   "offering.blessing.success.loser": "No esta vez",
-  "biome.alreadyBought": "Ya has comprado este bioma",
   "biome.notInCorrectIslandType": "Actualice a la isla {{islandType}} para comprar este bioma",
-  "biome.applyInstructions": "¡Has comprado un nuevo bioma! Es hora de renovar tu tierra. Dirígete a la pestaña «Biomas» de tu inventario para aplicarlo."
+  "biome.applyInstructions": "¡Has comprado un nuevo bioma! Es hora de renovar tu tierra. Dirígete a la pestaña «Biomas» de tu inventario para aplicarlo.",
+  "apply": "Aplica",
+  "unapply": "Anular la solicitud",
+  "biome.alreadyOwn": "Ya eres dueño de este bioma"
 }
