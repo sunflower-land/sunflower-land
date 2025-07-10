@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
+import React, { useContext, useState } from "react";
 import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
-import { PlayerModalPlayer } from "features/world/ui/player/PlayerModals";
-import React, { useContext, useState } from "react";
 
 import vipIcon from "assets/icons/vip.webp";
 import basicIsland from "assets/icons/islands/basic.webp";
@@ -20,20 +19,21 @@ import { capitalize } from "lib/utils/capitalize";
 import { isMobile } from "mobile-device-detect";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { FollowerFeed } from "./components/FollowerFeed";
+import { FollowerFeed } from "./FollowerFeed";
 import { IslandType } from "features/game/types/game";
 import { useTranslation } from "react-i18next";
-import useSWR from "swr";
-import { getPlayer } from "./actions/getPlayer";
+import useSWR, { KeyedMutator } from "swr";
+import { getPlayer } from "../actions/getPlayer";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { postEffect } from "features/game/actions/effect";
 import { randomID } from "lib/utils/random";
-import { Interaction, Player, PlayerUpdate } from "./types/types";
 import { tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { useSocial } from "./hooks/useSocial";
+import { PlayerModalPlayer } from "../lib/playerModalManager";
+import { Interaction, Player, PlayerUpdate } from "../types/types";
 
 const ISLAND_ICONS: Record<IslandType, string> = {
   basic: basicIsland,
@@ -91,7 +91,7 @@ const _myUsername = (state: MachineState) => state.context.state.username;
 const _myClothing = (state: MachineState) =>
   state.context.state.bumpkin.equipped;
 
-export const PlayerDetail: React.FC<Props> = ({ player }) => {
+export const PlayerDetails: React.FC<Props> = ({ player }) => {
   const { gameService } = useContext(Context);
 
   const [followingLoading, setFollowingLoading] = useState(false);
