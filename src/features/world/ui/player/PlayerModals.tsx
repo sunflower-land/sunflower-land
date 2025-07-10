@@ -208,7 +208,11 @@ export const PlayerModals: React.FC<Props> = ({ game, farmId, isOpen }) => {
         {tab === "Stream" && (
           <StreamReward streamerId={player?.farmId as number} />
         )}
-        {tab === "Report" && <ReportPlayer id={player?.farmId as number} />}
+        {tab === "Report" && (
+          <InnerPanel>
+            <ReportPlayer id={player?.farmId as number} />
+          </InnerPanel>
+        )}
         {tab === "Airdrop" && (
           <InnerPanel className="flex flex-col gap-1 max-h-[500px] overflow-y-auto scrollable">
             <AirdropPlayer

@@ -114,7 +114,7 @@ export const PlayerSelectionList: React.FC = () => {
               <div className="flex-grow" />
               <div className="text-center">
                 {t("level.number", {
-                  level: getBumpkinLevel(player.experience),
+                  level: getBumpkinLevel(player.experience ?? 0),
                 })}
               </div>
             </ButtonPanel>

@@ -5,12 +5,12 @@ export type PlayerModalPlayer = {
   farmId: number;
   username: string;
   clothing: BumpkinParts;
-  experience: number;
-  isVip: boolean;
+  experience?: number;
+  isVip?: boolean;
   faction?: FactionName;
-  createdAt: number;
-  islandType: IslandType;
-  totalDeliveries: number;
+  createdAt?: number;
+  islandType?: IslandType;
+  totalDeliveries?: number;
   dailyStreak?: number;
 };
 
