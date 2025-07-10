@@ -1,12 +1,17 @@
 {
   "exchange.flower.coins": "Exchange FLOWER for coins",
   "active": "Active",
+  "sending": "Sending...",
+  "send": "Send",
   "ingredients": "Ingredients",
   "animals.buyAnimal": "Buy Animal",
   "accept": "Accept",
   "apply": "Apply",
   "unapply": "Unapply",
   "failed": "Failed",
+  "report": "Report",
+  "reason": "Reason",
+  "message": "Message",
   "animals.buildingIsFull": "{{buildingName}} is full!",
   "breadWinner.description": "Earn 0.001 FLOWER",
   "breadWinner.one": "Well, well, well, partner... It looks like you need some FLOWER!",
@@ -6220,5 +6225,14 @@
   "whatsOn.july10th": "July 10th",
   "biome.alreadyOwn": "You already own this biome",
   "biome.notInCorrectIslandType": "Upgrade to {{islandType}} island to buy this biome",
-  "biome.applyInstructions": "You have bought a new biome! Time to give your land a makeover. Head over to the \"Biomes\" tab in your inventory to apply it."
+  "biome.applyInstructions": "You have bought a new biome! Time to give your land a makeover. Head over to the \"Biomes\" tab in your inventory to apply it.",
+  "social.report.description": "Describe the issue...",
+  "report.reason.botting": "Botting",
+  "report.reason.multiaccounting": "Multiaccounting",
+  "report.reason.bugAbuse": "Bug Abuse",
+  "report.reason.other": "Other",
+  "social.characters.remaining": "{{count}} characters remaining",
+  "report.error": "Failed to submit report. Please try again later.",
+  "report.success": "Report submitted successfully!",
+  "report.fillInAllFields": "Please fill in all fields"
 }

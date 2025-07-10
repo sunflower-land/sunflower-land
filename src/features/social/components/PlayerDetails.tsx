@@ -209,7 +209,7 @@ export const PlayerDetails: React.FC<Props> = ({ player }) => {
     );
   };
 
-  const startDate = new Date(player?.createdAt).toLocaleString("en-US", {
+  const startDate = new Date(player?.createdAt ?? 0).toLocaleString("en-US", {
     month: "short",
     year: "numeric",
   });
