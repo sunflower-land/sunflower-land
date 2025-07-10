@@ -20,6 +20,15 @@ import { supplyCookingOil } from "./supplyCookingOil";
 import { cook, getCookingOilBoost } from "./cook";
 
 describe("instantCook", () => {
+  beforeEach(() => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date("2025-07-01T00:00:00Z"));
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
+  });
+
   it("requires item is cooking", () => {
     expect(() =>
       speedUpRecipe({
