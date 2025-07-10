@@ -16,8 +16,8 @@ import radishProc from "assets/crops/radish/proc_sprite.png";
 import wheatProc from "assets/crops/wheat/proc_sprite.png";
 import kaleProc from "assets/crops/kale/proc_sprite.png";
 import soybeanProc from "assets/crops/soybean/proc_sprite.png";
-import { IslandType } from "features/game/types/game";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { LandBiomeName } from "features/island/biomes/biomes";
 
 const HARVEST_PROC_SPRITES: Record<CropName, any> = {
   Sunflower: sunflowerProc,
@@ -90,8 +90,11 @@ export const IMAGES: Record<CropName, string> = {
   Artichoke: "artichoke",
 };
 
-export const CROP_LIFECYCLE: Record<IslandType, Record<CropName, Lifecycle>> = {
-  basic: getKeys(IMAGES).reduce(
+export const CROP_LIFECYCLE: Record<
+  LandBiomeName,
+  Record<CropName, Lifecycle>
+> = {
+  "Basic Biome": getKeys(IMAGES).reduce(
     (acc, name) => ({
       ...acc,
       [name]: {
@@ -105,7 +108,7 @@ export const CROP_LIFECYCLE: Record<IslandType, Record<CropName, Lifecycle>> = {
     }),
     {} as Record<CropName, Lifecycle>,
   ),
-  spring: getKeys(IMAGES).reduce(
+  "Spring Biome": getKeys(IMAGES).reduce(
     (acc, name) => ({
       ...acc,
       [name]: {
@@ -119,7 +122,7 @@ export const CROP_LIFECYCLE: Record<IslandType, Record<CropName, Lifecycle>> = {
     }),
     {} as Record<CropName, Lifecycle>,
   ),
-  volcano: getKeys(IMAGES).reduce(
+  "Volcano Biome": getKeys(IMAGES).reduce(
     (acc, name) => ({
       ...acc,
       [name]: {
@@ -133,7 +136,7 @@ export const CROP_LIFECYCLE: Record<IslandType, Record<CropName, Lifecycle>> = {
     }),
     {} as Record<CropName, Lifecycle>,
   ),
-  desert: getKeys(IMAGES).reduce(
+  "Desert Biome": getKeys(IMAGES).reduce(
     (acc, name) => ({
       ...acc,
       [name]: {
@@ -149,20 +152,20 @@ export const CROP_LIFECYCLE: Record<IslandType, Record<CropName, Lifecycle>> = {
   ),
 };
 
-export const SOIL_IMAGES: Record<IslandType, Record<string, string>> = {
-  basic: {
+export const SOIL_IMAGES: Record<LandBiomeName, Record<string, string>> = {
+  "Basic Biome": {
     regular: SUNNYSIDE.soil.soil2,
     dry: SUNNYSIDE.soil.soil_dry,
   },
-  spring: {
+  "Spring Biome": {
     regular: SUNNYSIDE.soil.soil2,
     dry: SUNNYSIDE.soil.soil_dry,
   },
-  volcano: {
+  "Volcano Biome": {
     regular: SUNNYSIDE.soil.volcanoSoil2,
     dry: SUNNYSIDE.soil.volcanoSoilDry,
   },
-  desert: {
+  "Desert Biome": {
     regular: SUNNYSIDE.soil.soil2,
     dry: SUNNYSIDE.soil.soil_dry,
   },

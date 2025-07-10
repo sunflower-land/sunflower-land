@@ -12,7 +12,7 @@ import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { setImageWidth } from "lib/images";
 import { BAKERY_VARIANTS } from "features/island/lib/alternateArt";
 import { useSound } from "lib/utils/hooks/useSound";
-import { IslandType, TemperateSeasonName } from "features/game/types/game";
+import { TemperateSeasonName } from "features/game/types/game";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
@@ -22,7 +22,6 @@ import { ReadyRecipes } from "../ReadyRecipes";
 type Props = {
   buildingId: string;
   isBuilt: boolean;
-  island: IslandType;
   season: TemperateSeasonName;
   onRemove?: () => void;
 };

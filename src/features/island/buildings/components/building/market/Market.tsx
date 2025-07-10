@@ -21,6 +21,8 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import shadow from "assets/npcs/shadow.png";
 import lightning from "assets/icons/lightning.png";
 import { useSound } from "lib/utils/hooks/useSound";
+import { getCurrentBiome } from "features/island/biomes/biomes";
+
 const _season = (state: MachineState) => state.context.state.season.season;
 
 const _specialEvents = (state: MachineState) =>
@@ -114,7 +116,7 @@ export const Market: React.FC<BuildingProps> = ({ isBuilt, island }) => {
     <>
       <BuildingImageWrapper name="Market" onClick={handleClick}>
         <img
-          src={MARKET_VARIANTS[island][season]}
+          src={MARKET_VARIANTS[getCurrentBiome(island)][season]}
           className="absolute bottom-0 pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 48}px`,

@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { IslandType, TemperateSeasonName } from "features/game/types/game";
+import { GameState, TemperateSeasonName } from "features/game/types/game";
 import { STUMP_VARIANTS } from "features/island/lib/alternateArt";
+import { getCurrentBiome, LandBiomeName } from "features/island/biomes/biomes";
 
 interface Props {
   timeLeft: number;
-  island: IslandType;
+  island: GameState["island"];
   season: TemperateSeasonName;
 }
 
@@ -19,6 +20,8 @@ const DepletedTreeComponent: React.FC<Props> = ({
   const [showTimeLeft, setShowTimeLeft] = useState(false);
   const { t } = useAppTranslation();
 
+  const biome: LandBiomeName = getCurrentBiome(island);
+
   return (
     <div
       className="absolute w-full h-full"
@@ -27,7 +30,7 @@ const DepletedTreeComponent: React.FC<Props> = ({
     >
       <div className="absolute w-full h-full pointer-events-none">
         <img
-          src={STUMP_VARIANTS[island][season]}
+          src={STUMP_VARIANTS[biome][season]}
           className="absolute opacity-50"
           style={{
             width: `${GRID_WIDTH_PX}px`,

@@ -390,6 +390,9 @@ export const IslandUpgrader: React.FC<Props> = ({ gameState, offset }) => {
           return { x: -28, y: -10 };
       }
     }
+    if (island === "desert" && nextExpansion === 26) {
+      return { x: 1, y: -11 };
+    }
 
     return { x: 7, y: 0 };
   };

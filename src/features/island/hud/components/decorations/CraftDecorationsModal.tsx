@@ -29,7 +29,7 @@ export const CraftDecorationsModal: React.FC<Props> = ({ show, onHide }) => {
         container={OuterPanel}
       >
         {tab === 0 && <LandscapingDecorations onClose={onHide} />}
-        {tab === 1 && <BuyBiomes />}
+        {tab === 1 && <BuyBiomes onClose={onHide} />}
       </CloseButtonPanel>
     </Modal>
   );

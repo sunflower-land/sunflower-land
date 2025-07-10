@@ -21,6 +21,7 @@ import { ResizableBar } from "components/ui/ProgressBar";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import brazilFlag from "assets/sfts/flags/brazil_flag.webp";
+import flowerIcon from "assets/icons/flower_token.webp";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
@@ -37,10 +38,12 @@ type Server = {
 // If colyseus does not return one of the servers, it means its empty
 const ICONS = [
   SUNNYSIDE.icons.water,
-  CROP_LIFECYCLE.basic.Sunflower.crop,
+  CROP_LIFECYCLE["Basic Biome"].Sunflower.crop,
   SUNNYSIDE.icons.heart,
   brazilFlag,
-  CROP_LIFECYCLE.basic.Pumpkin.crop,
+  CROP_LIFECYCLE["Basic Biome"].Pumpkin.crop,
+  CROP_LIFECYCLE["Basic Biome"].Kale.crop,
+  flowerIcon,
 ];
 
 const progressBar = (progress: number, max: number, server: number) => {

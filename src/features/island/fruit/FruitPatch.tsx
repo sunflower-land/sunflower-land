@@ -34,6 +34,7 @@ import { SEASONAL_SEEDS, SeedName } from "features/game/types/seeds";
 import { SeasonalSeed } from "../plots/components/SeasonalSeed";
 import { Modal } from "components/ui/Modal";
 import { isFullMoonBerry } from "features/game/events/landExpansion/seedBought";
+import { getCurrentBiome } from "../biomes/biomes";
 
 const HasAxes = (
   inventory: Partial<Record<InventoryItemName, Decimal>>,
@@ -67,7 +68,7 @@ const compareGame = (prev: GameState, next: GameState) =>
   isCollectibleBuilt({ name: "Foreman Beaver", game: prev }) ===
   isCollectibleBuilt({ name: "Foreman Beaver", game: next });
 
-const _island = (state: MachineState) => state.context.state.island.type;
+const _island = (state: MachineState) => state.context.state.island;
 
 interface Props {
   id: string;
@@ -103,7 +104,7 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
         JSON.stringify(HasFruitSeeds(next)),
   );
   const island = useSelector(gameService, _island);
-
+  const biome = getCurrentBiome(island);
   const { play: harvestAudio } = useSound("harvest");
   const { play: plantAudio } = useSound("plant");
   const { play: treeFallAudio } = useSound("tree_fall");
@@ -210,7 +211,7 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
       <div className="w-full h-full relative">
         {/* Fruit patch soil */}
         <img
-          src={FRUIT_PATCH_VARIANTS[island]}
+          src={FRUIT_PATCH_VARIANTS[biome]}
           className="absolute pointer-events-none"
           style={{
             width: `${PIXEL_SCALE * 30}px`,

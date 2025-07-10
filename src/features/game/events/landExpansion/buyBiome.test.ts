@@ -31,7 +31,7 @@ describe("buyBiome", () => {
   it("ensures that player has enough ingredients", () => {
     expect(() =>
       buyBiome({
-        state: INITIAL_FARM,
+        state: { ...INITIAL_FARM, island: { type: "spring" } },
         action: { type: "biome.bought", biome: "Basic Biome" },
       }),
     ).toThrow("You don't have enough ingredients");
@@ -57,6 +57,7 @@ describe("buyBiome", () => {
       state: {
         ...INITIAL_FARM,
         inventory: { Gem: new Decimal(1000) },
+        island: { type: "spring" },
       },
       action: { type: "biome.bought", biome: "Basic Biome" },
     });

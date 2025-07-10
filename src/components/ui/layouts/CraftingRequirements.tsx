@@ -22,6 +22,7 @@ import { ITEM_ICONS } from "features/island/hud/components/inventory/Chest";
 import { IngredientsPopover } from "../IngredientsPopover";
 import { BuffLabel } from "features/game/types";
 import { isSeed } from "features/game/types/seeds";
+import { getCurrentBiome } from "features/island/biomes/biomes";
 
 /**
  * The props for the details for items.
@@ -122,8 +123,9 @@ function getDetails(
       count: inventoryCount,
       description: ITEM_DETAILS[details.item].description,
       image:
-        ITEM_ICONS(game.island.type, game.season.season)[details.item] ??
-        ITEM_DETAILS[details.item].image,
+        ITEM_ICONS(game.season.season, getCurrentBiome(game.island))[
+          details.item
+        ] ?? ITEM_DETAILS[details.item].image,
       name: details.item,
       limit: limit as Decimal,
     };

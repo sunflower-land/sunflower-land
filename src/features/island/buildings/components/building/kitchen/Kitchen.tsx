@@ -14,13 +14,14 @@ import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useCookingState } from "features/island/buildings/lib/useCookingState";
 import { useSelector } from "@xstate/react";
-import { IslandType, TemperateSeasonName } from "features/game/types/game";
+import { GameState, TemperateSeasonName } from "features/game/types/game";
 import { ReadyRecipes } from "../ReadyRecipes";
+import { getCurrentBiome } from "features/island/biomes/biomes";
 
 type Props = {
   buildingId: string;
   isBuilt: boolean;
-  island: IslandType;
+  island: GameState["island"];
   season: TemperateSeasonName;
 };
 
@@ -78,7 +79,7 @@ export const Kitchen: React.FC<Props> = ({
         ready={readyRecipes.length > 0}
       >
         <img
-          src={KITCHEN_VARIANTS[island][season]}
+          src={KITCHEN_VARIANTS[getCurrentBiome(island)][season]}
           className={classNames("absolute pointer-events-none bottom-0", {
             "opacity-100": !cooking,
             "opacity-80": cooking,

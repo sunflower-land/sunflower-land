@@ -13,6 +13,7 @@ import { GreenhousePot } from "./GreenhousePot";
 import { Hud } from "features/island/hud/Hud";
 import { GreenhouseOil } from "./GreenhouseOil";
 import { EXTERIOR_ISLAND_BG } from "features/barn/BarnInside";
+import { getCurrentBiome } from "features/island/biomes/biomes";
 
 const background = SUNNYSIDE.land.greenhouse_inside;
 const selectOil = (state: MachineState) => state.context.state.greenhouse.oil;
@@ -38,7 +39,7 @@ export const GreenhouseInside: React.FC = () => {
             width: `${84 * GRID_WIDTH_PX}px`,
             height: `${56 * GRID_WIDTH_PX}px`,
             imageRendering: "pixelated",
-            backgroundImage: `url(${EXTERIOR_ISLAND_BG[gameService.getSnapshot().context.state.island.type]})`,
+            backgroundImage: `url(${EXTERIOR_ISLAND_BG[getCurrentBiome(gameService.getSnapshot().context.state.island)]})`,
             backgroundRepeat: "repeat",
             backgroundPosition: "center",
             backgroundSize: `${96 * PIXEL_SCALE}px ${96 * PIXEL_SCALE}px`,

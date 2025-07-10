@@ -19,12 +19,13 @@ import Decimal from "decimal.js-light";
 import { useSound } from "lib/utils/hooks/useSound";
 import { ReadyRecipes } from "../ReadyRecipes";
 import { useCookingState } from "features/island/buildings/lib/useCookingState";
-import { IslandType, TemperateSeasonName } from "features/game/types/game";
+import { GameState, TemperateSeasonName } from "features/game/types/game";
+import { getCurrentBiome } from "features/island/biomes/biomes";
 
 type Props = {
   buildingId: string;
   isBuilt: boolean;
-  island: IslandType;
+  island: GameState["island"];
   season: TemperateSeasonName;
 };
 
@@ -97,7 +98,7 @@ export const FirePit: React.FC<Props> = ({ buildingId, isBuilt, island }) => {
         ready={readyRecipes?.length > 0}
       >
         <img
-          src={FIRE_PIT_VARIANTS[island][season]}
+          src={FIRE_PIT_VARIANTS[getCurrentBiome(island)][season]}
           className={classNames("absolute bottom-0 pointer-events-none", {
             "opacity-100": !cooking,
             "opacity-80": cooking,

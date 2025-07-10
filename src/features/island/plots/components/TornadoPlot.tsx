@@ -12,6 +12,7 @@ import tornadoIcon from "assets/icons/tornado.webp";
 import { Label } from "components/ui/Label";
 import { secondsToString } from "lib/utils/time";
 import { SOIL_IMAGES } from "../lib/plant";
+import { getCurrentBiome } from "features/island/biomes/biomes";
 
 const TornadoPlotComponent: React.FC<{ game: GameState }> = ({ game }) => {
   const [showModal, setShowModal] = useState(false);
@@ -25,7 +26,7 @@ const TornadoPlotComponent: React.FC<{ game: GameState }> = ({ game }) => {
     setShowTooltip(false);
   };
 
-  const soilImage = SOIL_IMAGES[game.island.type].dry;
+  const soilImage = SOIL_IMAGES[getCurrentBiome(game.island)].dry;
 
   return (
     <>

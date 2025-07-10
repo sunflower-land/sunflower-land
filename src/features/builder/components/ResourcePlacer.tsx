@@ -26,16 +26,17 @@ import { Sunstone } from "features/game/expansion/components/resources/sunstone/
 import { ITEM_DETAILS } from "features/game/types/images";
 import { FlowerBed } from "features/island/flowers/FlowerBed";
 import { OilReserve } from "features/game/expansion/components/resources/oilReserve/OilReserve";
-import { IslandType } from "features/game/types/game";
+import { GameState } from "features/game/types/game";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
+import { getCurrentBiome } from "features/island/biomes/biomes";
 
 const fruitPatch = SUNNYSIDE.fruit.apple_tree;
 const goldStone = SUNNYSIDE.fruit.apple_tree;
 const ironStone = SUNNYSIDE.fruit.apple_tree;
 export const getResources = (
-  island: IslandType,
+  island: GameState["island"],
 ): Record<
   keyof Layout,
   {
@@ -106,7 +107,7 @@ export const getResources = (
       height: 1,
       width: 1,
     },
-    icon: CROP_LIFECYCLE[island].Sunflower.seedling,
+    icon: CROP_LIFECYCLE[getCurrentBiome(island)].Sunflower.seedling,
   },
   boulder: {
     component: () => <Boulder />,
@@ -153,7 +154,7 @@ interface Props {
   onPlace: (coords: Coordinates) => void;
 }
 
-const _island = (state: MachineState) => state.context.state.island.type;
+const _island = (state: MachineState) => state.context.state.island;
 
 export const ResourcePlacer: React.FC<Props> = ({
   name,
