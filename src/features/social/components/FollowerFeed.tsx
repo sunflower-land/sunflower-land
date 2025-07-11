@@ -58,42 +58,48 @@ export const FollowerFeed: React.FC<Props> = ({
         )}
 
         <div className="flex flex-col gap-1">
-          {interactions.map((interaction, index) => {
-            const direction =
-              interaction?.sender.username === username ? "right" : "left";
-            const sender =
-              interaction?.sender.username === username
-                ? "You"
-                : interaction.sender.username;
+          {interactions
+            .slice()
+            .reverse()
+            .map((interaction, index) => {
+              const direction =
+                interaction?.sender.username === username ? "right" : "left";
+              const sender =
+                interaction?.sender.username === username
+                  ? "You"
+                  : interaction.sender.username;
 
-            return (
-              <div
-                key={`${interaction.createdAt}-${index}`}
-                className={classNames({
-                  "pl-1": direction === "left" && interaction.type === "chat",
-                  "pr-1": direction === "right" && interaction.type === "chat",
-                })}
-              >
-                <InteractionBubble
-                  key={`${interaction.sender.id}-${interaction.createdAt}-${index}`}
-                  direction={direction}
-                  type={interaction.type}
+              return (
+                <div
+                  key={`${interaction.createdAt}-${index}`}
+                  className={classNames({
+                    "pl-1": direction === "left" && interaction.type === "chat",
+                    "pr-1":
+                      direction === "right" && interaction.type === "chat",
+                  })}
                 >
-                  <div className="text-xxs">
-                    <span className="flex items-center gap-1">
-                      {interaction.type === "announcement" ? (
-                        <img src={promote} />
-                      ) : (
-                        `${sender ?? ""} ${interaction.sender ? "- " : ""}`
-                      )}
-                      {`${getRelativeTime(interaction.createdAt)}`}
-                    </span>
-                  </div>
-                  <div className="text-xs break-all">{interaction.message}</div>
-                </InteractionBubble>
-              </div>
-            );
-          })}
+                  <InteractionBubble
+                    key={`${interaction.sender.id}-${interaction.createdAt}-${index}`}
+                    direction={direction}
+                    type={interaction.type}
+                  >
+                    <div className="text-xxs">
+                      <span className="flex items-center gap-1">
+                        {interaction.type === "announcement" ? (
+                          <img src={promote} />
+                        ) : (
+                          `${sender ?? ""} ${interaction.sender ? "- " : ""}`
+                        )}
+                        {`${getRelativeTime(interaction.createdAt)}`}
+                      </span>
+                    </div>
+                    <div className="text-xs break-all">
+                      {interaction.message}
+                    </div>
+                  </InteractionBubble>
+                </div>
+              );
+            })}
         </div>
       </div>
       {!chatDisabled && (

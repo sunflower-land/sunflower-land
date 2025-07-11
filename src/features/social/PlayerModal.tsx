@@ -20,10 +20,13 @@ import {
 import { PlayerDetails } from "./components/PlayerDetails";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ModalOverlay } from "components/ui/ModalOverlay";
+import useSWR from "swr";
+import { getPlayer } from "./actions/getPlayer";
 
 interface Props {
   game: GameState;
   farmId: number;
+  token: string;
 }
 
 type Tab =
@@ -34,7 +37,7 @@ type Tab =
   | "Followers"
   | "Following";
 
-export const SocialModal: React.FC<Props> = ({ game, farmId }) => {
+export const PlayerModal: React.FC<Props> = ({ game, farmId, token }) => {
   const { t } = useAppTranslation();
   const [tab, setTab] = useState<Tab>("Player");
 
@@ -42,6 +45,23 @@ export const SocialModal: React.FC<Props> = ({ game, farmId }) => {
   const [showPlayerModal, setShowPlayerModal] = useState(false);
   const [showAirdrop, setShowAirdrop] = useState(false);
   const [showReport, setShowReport] = useState(false);
+
+  const {
+    data,
+    isLoading: playerLoading,
+    error,
+    mutate,
+  } = useSWR(
+    [player ? "player" : null, token, farmId, player?.farmId],
+    ([, token, farmId, followedPlayerId]) => {
+      if (!followedPlayerId) return;
+
+      return getPlayer({ token: token as string, farmId, followedPlayerId });
+    },
+    {
+      revalidateOnFocus: false,
+    },
+  );
 
   useEffect(() => {
     playerModalManager.listen((npc) => {
@@ -138,7 +158,15 @@ export const SocialModal: React.FC<Props> = ({ game, farmId }) => {
           ]}
           container={OuterPanel}
         >
-          {tab === "Player" && player && <PlayerDetails player={player} />}
+          {tab === "Player" && player && (
+            <PlayerDetails
+              player={player}
+              data={data}
+              playerLoading={playerLoading}
+              error={error}
+              mutate={mutate}
+            />
+          )}
           {tab === "Reward" && <PlayerGift />}
           {tab === "Stream" && (
             <StreamReward streamerId={player?.farmId as number} />

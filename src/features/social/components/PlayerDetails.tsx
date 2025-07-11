@@ -22,8 +22,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { FollowerFeed } from "./FollowerFeed";
 import { IslandType } from "features/game/types/game";
 import { useTranslation } from "react-i18next";
-import useSWR, { KeyedMutator } from "swr";
-import { getPlayer } from "../actions/getPlayer";
+import type { KeyedMutator } from "swr";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -44,6 +43,10 @@ const ISLAND_ICONS: Record<IslandType, string> = {
 
 type Props = {
   player: PlayerModalPlayer;
+  data?: Player;
+  error?: Error;
+  playerLoading: boolean;
+  mutate: KeyedMutator<Player | undefined>;
 };
 
 const mergePlayerData = (current: Player, update: PlayerUpdate): Player => {
@@ -91,7 +94,13 @@ const _myUsername = (state: MachineState) => state.context.state.username;
 const _myClothing = (state: MachineState) =>
   state.context.state.bumpkin.equipped;
 
-export const PlayerDetails: React.FC<Props> = ({ player }) => {
+export const PlayerDetails: React.FC<Props> = ({
+  player,
+  data,
+  error,
+  playerLoading,
+  mutate,
+}) => {
   const { gameService } = useContext(Context);
 
   const [followingLoading, setFollowingLoading] = useState(false);
@@ -107,20 +116,22 @@ export const PlayerDetails: React.FC<Props> = ({ player }) => {
 
   const { t } = useTranslation();
 
-  const {
-    data,
-    isLoading: playerLoading,
-    error,
-    mutate,
-  } = useSWR(
-    ["player", token, farmId, player.farmId],
-    ([, token, farmId, followedPlayerId]) => {
-      return getPlayer({ token: token as string, farmId, followedPlayerId });
-    },
-    {
-      revalidateOnFocus: false,
-    },
-  );
+  // console.log({ data, error, playerLoading });
+
+  // const {
+  //   data,
+  //   isLoading: playerLoading,
+  //   error,
+  //   mutate,
+  // } = useSWR(
+  //   ["player", token, farmId, player.farmId],
+  //   ([, token, farmId, followedPlayerId]) => {
+  //     return getPlayer({ token: token as string, farmId, followedPlayerId });
+  //   },
+  //   {
+  //     revalidateOnFocus: false,
+  //   },
+  // );
 
   const iAmFollowing = data?.data?.followedBy.includes(farmId);
   const theyAreFollowingMe = data?.data?.following.includes(farmId);
@@ -318,7 +329,7 @@ export const PlayerDetails: React.FC<Props> = ({ player }) => {
               </div>
               <Button
                 className="flex w-fit h-9 justify-between items-center gap-1 mt-1 mr-0.5"
-                disabled={playerLoading || followingLoading || error}
+                disabled={playerLoading || followingLoading || !!error}
                 onClick={handleFollow}
               >
                 {followingLoading
