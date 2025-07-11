@@ -63,7 +63,6 @@ import { InfernosScene } from "./scenes/InferniaScene";
 import { PlayerSelectionList } from "./ui/PlayerSelectionList";
 import { StreamScene } from "./scenes/StreamScene";
 import { LoveIslandScene } from "./scenes/LoveIslandScene";
-import { ColorsIslandScene } from "./scenes/ColorsIslandScene";
 import { hasFeatureAccess } from "lib/flags";
 import { WorldHud } from "features/island/hud/WorldHud";
 
@@ -148,7 +147,6 @@ export const PhaserComponent: React.FC<Props> = ({
     InfernosScene,
     StreamScene,
     LoveIslandScene,
-    ColorsIslandScene,
   ];
 
   useEffect(() => {
