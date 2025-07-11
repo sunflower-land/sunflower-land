@@ -6000,7 +6000,7 @@
   "playerModal.followers": "{{count}} 粉丝",
   "playerModal.dailyStreak": "每日连胜纪录：{{streak}}",
   "playerModal.totalDeliveries": "总配送量：{{count}}",
-  "whatsOn.auction.tickets": "本周无法通过农活和赏金获得 {{ticket}}。",
+  "whatsOn.auction.tickets": "本周无法通过农活和赏金获取 {{ticket}}。",
   "whatsOn.ticketPaused": "Bumpkins 正在度假 —— 无法透过农活和赏金获取 {{ticket}} 了。",
   "blessing.youHaveBeenBlessed": "神明已经决定了",
   "seeking.blessing": "加载中",
