@@ -155,7 +155,7 @@ export const FruitDash: React.FC<Props> = ({ onClose }) => {
         jwt={authService.getSnapshot().context.user.rawToken as string}
         onBack={() => setPage("play")}
         name={"fruit-dash"}
-        startDate={new Date(2024, 6, 1)}
+        startDate={new Date(2024, 6, 2)}
       />
     );
   }
