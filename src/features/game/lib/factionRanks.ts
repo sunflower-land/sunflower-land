@@ -418,6 +418,13 @@ export const getFactionRankBoostAmount = (
     game.inventory[FACTION_EMBLEMS[factionName]] ?? new Decimal(0)
   ).toNumber();
 
+  if (
+    game.faction?.boostCooldownUntil &&
+    Date.now() < game.faction.boostCooldownUntil
+  ) {
+    return [0, {}];
+  }
+
   const rank = getFactionRanking(factionName, emblems);
   const boost = rankBoostPercentage(rank.name);
 

@@ -103,6 +103,7 @@ export function makeGame(farm: any): GameState {
     megastore: farm.megastore,
     goblinMarket: farm.goblinMarket,
     faction: farm.faction,
+    previousFaction: farm.previousFaction,
     dailyFactionDonationRequest: farm.dailyFactionDonationRequest
       ? {
           resource: farm.dailyFactionDonationRequest.resource,
