@@ -314,7 +314,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
             </div>
             {isBoostCooldown && (
               <Label type="danger" className="text-xs">
-                {"Faction boost cooldown until:"}{" "}
+                {"XP boost cooldown until:"}{" "}
                 {new Date(faction?.boostCooldownUntil ?? 0).toLocaleString()}
               </Label>
             )}

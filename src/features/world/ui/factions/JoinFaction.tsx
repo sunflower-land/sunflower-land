@@ -119,9 +119,9 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
   const cooldownMessage = hasRecentlyLeftFaction
     ? `You recently left the ${capitalize(
         previousFaction.name,
-      )} faction. Faction boosts are disabled until ${new Date(
+      )} faction. XP boosts are disabled until ${new Date(
         previousFaction.leftAt + FACTION_BOOST_COOLDOWN,
-      ).toLocaleDateString()}.`
+      ).toLocaleDateString()} if you join the ${capitalize(faction)} faction.`
     : null;
 
   const confirmFaction = `${t("faction.cost", {

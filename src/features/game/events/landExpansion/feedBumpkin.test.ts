@@ -615,6 +615,53 @@ describe("feedBumpkin", () => {
     jest.useRealTimers();
   });
 
+  it("does not provide a boost if the faction pet is on a streak of 2 but the boost is on cooldown", () => {
+    const result = feedBumpkin({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+        },
+        faction: {
+          name: "sunflorians",
+          pledgedAt: 0,
+          pet: {
+            week: "2024-07-08",
+            requests: [
+              { food: "Anchovy", quantity: 1, dailyFulfilled: {} },
+              { food: "Apple Pie", quantity: 1, dailyFulfilled: {} },
+              { food: "Honey Cake", quantity: 1, dailyFulfilled: {} },
+            ],
+            qualifiesForBoost: true,
+          },
+          history: {
+            "2024-07-08": {
+              score: 100,
+              petXP: 100,
+              collectivePet: {
+                goalReached: true,
+                streak: 2,
+                totalXP: 120,
+                goalXP: 110,
+                sleeping: false,
+              },
+            },
+          },
+          boostCooldownUntil: Date.now() + 1000,
+        },
+      },
+      action: {
+        type: "bumpkin.feed",
+        food: "Boiled Eggs",
+        amount: 1,
+      },
+    });
+
+    expect(result.bumpkin?.experience).toBe(
+      new Decimal(CONSUMABLES["Boiled Eggs"].experience).toNumber(),
+    );
+  });
+
   it("gives 5% more experience with Munching Mastery skill", () => {
     const result = feedBumpkin({
       state: {
