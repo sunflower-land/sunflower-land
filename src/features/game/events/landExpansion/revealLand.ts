@@ -138,7 +138,6 @@ export function revealLand({
         y: coords.y + origin.y,
         crop: {
           name: EXPANSION_CROPS[landCount] ?? "Sunflower",
-          amount: 1,
           plantedAt: 0,
         },
       };

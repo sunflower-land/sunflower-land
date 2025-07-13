@@ -765,19 +765,19 @@ export const TEST_FARM: GameState = {
   crops: {
     1: {
       createdAt: Date.now(),
-      crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
+      crop: { name: "Sunflower", plantedAt: 0 },
       x: -2,
       y: 0,
     },
     2: {
       createdAt: Date.now(),
-      crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
+      crop: { name: "Sunflower", plantedAt: 0 },
       x: -1,
       y: 0,
     },
     3: {
       createdAt: Date.now(),
-      crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
+      crop: { name: "Sunflower", plantedAt: 0 },
       x: 0,
       y: 0,
     },

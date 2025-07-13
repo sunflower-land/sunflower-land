@@ -640,7 +640,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
       crop: {
         plantedAt: 0,
         name: "Sunflower",
-        amount: 1,
       },
     },
     "2": {
@@ -650,7 +649,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
       crop: {
         plantedAt: 0,
         name: "Sunflower",
-        amount: 1,
       },
     },
   },

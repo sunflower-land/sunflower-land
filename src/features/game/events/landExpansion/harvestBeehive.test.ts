@@ -153,7 +153,6 @@ describe("harvestBeehive", () => {
             createdAt: 0,
             crop: {
               name: "Potato",
-              amount: 1,
               plantedAt: 0,
             },
           },
@@ -165,7 +164,7 @@ describe("harvestBeehive", () => {
       },
     });
 
-    expect(state.crops?.["987"].crop?.amount).toEqual(1);
+    expect(state.crops?.["987"].beeSwarm).toBeUndefined();
   });
 
   it("does not activate a swarm when the hive is not full", () => {
@@ -189,7 +188,6 @@ describe("harvestBeehive", () => {
             createdAt: 0,
             crop: {
               name: "Potato",
-              amount: 1,
               plantedAt: 0,
             },
           },
@@ -201,7 +199,7 @@ describe("harvestBeehive", () => {
       },
     });
 
-    expect(state.crops?.["987"].crop?.amount).toEqual(1);
+    expect(state.crops?.["987"].beeSwarm).toBeUndefined();
   });
 
   it("activates the swarm when the hive is full adding 0.2 crop boost to planted crops", () => {
@@ -225,7 +223,6 @@ describe("harvestBeehive", () => {
             createdAt: 0,
             crop: {
               name: "Potato",
-              amount: 1,
               plantedAt: 0,
             },
           },
@@ -237,7 +234,10 @@ describe("harvestBeehive", () => {
       },
     });
 
-    expect(state.crops?.["987"].crop?.amount).toEqual(1.2);
+    expect(state.crops?.["987"].beeSwarm).toMatchObject({
+      count: 1,
+      swarmActivatedAt: expect.any(Number),
+    });
   });
 
   it("Adds to the swarm counter when there is no crop planted", () => {
@@ -383,7 +383,6 @@ describe("harvestBeehive", () => {
             createdAt: 0,
             crop: {
               name: "Potato",
-              amount: 1,
               plantedAt: 0,
             },
           },
@@ -750,47 +749,5 @@ describe("harvestBeehive", () => {
       },
     });
     expect(gameState.inventory.Honey).toEqual(new Decimal(1.1));
-  });
-
-  it("adds +0.3 yield on pollinated crops with Pollen Power Up skill", () => {
-    const state = harvestBeehive({
-      state: {
-        ...TEST_FARM,
-        bumpkin: {
-          ...INITIAL_BUMPKIN,
-          skills: {
-            "Pollen Power Up": 1,
-          },
-        },
-        beehives: {
-          "1234": {
-            ...DEFAULT_BEEHIVE,
-            swarm: true,
-            honey: {
-              updatedAt: 0,
-              produced: DEFAULT_HONEY_PRODUCTION_TIME,
-            },
-          },
-        },
-        crops: {
-          "987": {
-            x: 0,
-            y: -2,
-            createdAt: 0,
-            crop: {
-              name: "Potato",
-              amount: 1,
-              plantedAt: 0,
-            },
-          },
-        },
-      },
-      action: {
-        type: "beehive.harvested",
-        id: "1234",
-      },
-    });
-
-    expect(state.crops?.["987"].crop?.amount).toEqual(1.3);
   });
 });

@@ -3,7 +3,6 @@ import { GameState } from "../../types/game";
 import { CropCompostName } from "features/game/types/composters";
 import { CROPS, Crop } from "features/game/types/crops";
 import { isReadyToHarvest } from "./harvest";
-import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { produce } from "immer";
 
@@ -98,12 +97,6 @@ export function fertilisePlot({
           createdAt,
           cropDetails,
         );
-      }
-
-      if (!!crop && action.fertiliser === "Sprout Mix") {
-        if (isCollectibleBuilt({ name: "Knowledge Crab", game: stateCopy })) {
-          crop.amount = (crop.amount ?? 1) + 0.4;
-        } else crop.amount = (crop.amount ?? 1) + 0.2;
       }
     }
 

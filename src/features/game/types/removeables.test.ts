@@ -282,7 +282,7 @@ describe("canremove", () => {
               x: -2,
               y: -1,
 
-              crop: { name: "Carrot", plantedAt: now, amount: 1 },
+              crop: { name: "Carrot", plantedAt: now },
             },
           },
         },
@@ -303,7 +303,7 @@ describe("canremove", () => {
               x: -2,
               y: -1,
 
-              crop: { name: "Pumpkin", plantedAt: now, amount: 1 },
+              crop: { name: "Pumpkin", plantedAt: now },
             },
           },
         },
@@ -327,7 +327,6 @@ describe("canremove", () => {
               crop: {
                 name: "Cauliflower",
                 plantedAt: now,
-                amount: 1,
               },
             },
           },
@@ -349,7 +348,7 @@ describe("canremove", () => {
               x: -2,
               y: -1,
 
-              crop: { name: "Parsnip", plantedAt: now, amount: 1 },
+              crop: { name: "Parsnip", plantedAt: now },
             },
           },
         },
@@ -370,7 +369,7 @@ describe("canremove", () => {
               x: -2,
               y: -1,
 
-              crop: { name: "Sunflower", plantedAt: now, amount: 1 },
+              crop: { name: "Sunflower", plantedAt: now },
             },
           },
         },
@@ -391,7 +390,7 @@ describe("canremove", () => {
               x: -2,
               y: -1,
 
-              crop: { name: "Sunflower", plantedAt: now, amount: 1 },
+              crop: { name: "Sunflower", plantedAt: now },
             },
           },
         },
@@ -412,7 +411,7 @@ describe("canremove", () => {
               x: -2,
               y: -1,
 
-              crop: { name: "Sunflower", plantedAt: now, amount: 1 },
+              crop: { name: "Sunflower", plantedAt: now },
             },
           },
         },
@@ -594,7 +593,7 @@ describe("canremove", () => {
               x: -2,
               y: -1,
 
-              crop: { name: "Potato", plantedAt: now, amount: 1 },
+              crop: { name: "Potato", plantedAt: now },
             },
           },
         },
@@ -1031,7 +1030,7 @@ describe("canremove", () => {
               x: -2,
               y: -1,
 
-              crop: { name: "Sunflower", plantedAt: now, amount: 1 },
+              crop: { name: "Sunflower", plantedAt: now },
             },
           },
         },
@@ -1052,7 +1051,7 @@ describe("canremove", () => {
               x: -2,
               y: -1,
 
-              crop: { name: "Sunflower", plantedAt: now, amount: 1 },
+              crop: { name: "Sunflower", plantedAt: now },
             },
           },
         },
@@ -1477,7 +1476,7 @@ describe("canremove", () => {
             x: -2,
             y: -1,
 
-            crop: { name: "Sunflower", plantedAt: now, amount: 1 },
+            crop: { name: "Sunflower", plantedAt: now },
           },
         },
       },
@@ -1498,7 +1497,7 @@ describe("canremove", () => {
             x: -2,
             y: -1,
 
-            crop: { name: "Sunflower", plantedAt: now, amount: 1 },
+            crop: { name: "Sunflower", plantedAt: now },
           },
         },
         inventory: {
@@ -1522,7 +1521,7 @@ describe("canremove", () => {
             x: -2,
             y: -1,
 
-            crop: { name: "Cabbage", plantedAt: now, amount: 1 },
+            crop: { name: "Cabbage", plantedAt: now },
           },
         },
         inventory: {
@@ -1546,7 +1545,7 @@ describe("canremove", () => {
             x: -2,
             y: -1,
 
-            crop: { name: "Sunflower", plantedAt: now, amount: 1 },
+            crop: { name: "Sunflower", plantedAt: now },
           },
         },
         inventory: {
@@ -1570,7 +1569,7 @@ describe("canremove", () => {
             x: -2,
             y: -1,
 
-            crop: { name: "Cabbage", plantedAt: now, amount: 1 },
+            crop: { name: "Cabbage", plantedAt: now },
           },
         },
         inventory: {
@@ -1594,7 +1593,7 @@ describe("canremove", () => {
             x: -2,
             y: -1,
 
-            crop: { name: "Sunflower", plantedAt: now, amount: 1 },
+            crop: { name: "Sunflower", plantedAt: now },
           },
         },
         inventory: {
@@ -1747,7 +1746,7 @@ describe("canremove", () => {
             x: -2,
             y: -1,
 
-            crop: { name: "Cabbage", plantedAt: now, amount: 1 },
+            crop: { name: "Cabbage", plantedAt: now },
           },
         },
         inventory: {
@@ -1771,7 +1770,7 @@ describe("canremove", () => {
             x: -2,
             y: -1,
 
-            crop: { name: "Sunflower", plantedAt: now, amount: 1 },
+            crop: { name: "Sunflower", plantedAt: now },
           },
         },
         inventory: {
@@ -1795,7 +1794,7 @@ describe("canremove", () => {
             x: -2,
             y: -1,
 
-            crop: { name: "Carrot", plantedAt: now, amount: 1 },
+            crop: { name: "Carrot", plantedAt: now },
           },
         },
         inventory: {
@@ -1923,7 +1922,7 @@ describe("canremove", () => {
             x: -2,
             y: -1,
 
-            crop: { name: "Eggplant", plantedAt: now, amount: 1 },
+            crop: { name: "Eggplant", plantedAt: now },
           },
         },
         inventory: {
@@ -1947,7 +1946,7 @@ describe("canremove", () => {
             x: -2,
             y: -1,
 
-            crop: { name: "Eggplant", plantedAt: now, amount: 1 },
+            crop: { name: "Eggplant", plantedAt: now },
           },
         },
         inventory: {

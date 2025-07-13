@@ -57,7 +57,6 @@ describe("removeBud", () => {
               x: 0,
               y: 0,
               crop: {
-                amount: 1,
                 name: "Carrot",
                 plantedAt: Date.now(),
                 id: "1",

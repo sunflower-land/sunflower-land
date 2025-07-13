@@ -1466,7 +1466,7 @@ export const ITEM_TRADE_TYPES: {
     "Fossil Armor": "onchain",
     "Fossil Pants": "onchain",
     "Rice Shirt": "onchain",
-    Sickle: "onchain",
+    Sickle: "instant",
     "Speed Boots": "onchain",
     "Tomato Apron": "onchain",
     "Adventurer's Suit": "instant",

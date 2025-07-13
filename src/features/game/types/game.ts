@@ -583,11 +583,18 @@ export type Wood = {
   reward?: Omit<Reward, "sfl">;
 };
 
+export type CriticalHit = Partial<
+  Record<
+    InventoryItemName | BumpkinRevampSkillName | BumpkinSkillName | BumpkinItem,
+    boolean
+  >
+>;
+
 export type PlantedCrop = {
   id?: string;
   name: CropName;
   plantedAt: number;
-  amount: number;
+  criticalHit?: CriticalHit;
   reward?: Omit<Reward, "sfl">;
 };
 

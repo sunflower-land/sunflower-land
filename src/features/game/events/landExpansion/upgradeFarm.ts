@@ -81,7 +81,6 @@ const INITIAL_SPRING_LAND: Pick<
       crop: {
         name: "Sunflower",
         plantedAt: 0,
-        amount: 1,
       },
       x: -2,
       y: 0,
@@ -91,7 +90,6 @@ const INITIAL_SPRING_LAND: Pick<
       crop: {
         name: "Sunflower",
         plantedAt: 0,
-        amount: 1,
       },
       x: -1,
       y: 0,
@@ -101,7 +99,6 @@ const INITIAL_SPRING_LAND: Pick<
       crop: {
         name: "Sunflower",
         plantedAt: 0,
-        amount: 1,
       },
       x: 0,
       y: 0,
@@ -330,7 +327,6 @@ const INITIAL_DESERT_LAND: Pick<
       crop: {
         name: "Sunflower",
         plantedAt: 0,
-        amount: 1,
       },
       x: -2,
       y: 0,
@@ -340,7 +336,6 @@ const INITIAL_DESERT_LAND: Pick<
       crop: {
         name: "Sunflower",
         plantedAt: 0,
-        amount: 1,
       },
       x: -1,
       y: 0,
@@ -350,7 +345,6 @@ const INITIAL_DESERT_LAND: Pick<
       crop: {
         name: "Sunflower",
         plantedAt: 0,
-        amount: 1,
       },
       x: 0,
       y: 0,
@@ -598,7 +592,6 @@ const INITIAL_VOLCANO_LAND: Pick<
       crop: {
         name: "Sunflower",
         plantedAt: 0,
-        amount: 1,
       },
       x: -1,
       y: -1,
@@ -608,7 +601,6 @@ const INITIAL_VOLCANO_LAND: Pick<
       crop: {
         name: "Sunflower",
         plantedAt: 0,
-        amount: 1,
       },
       x: 0,
       y: -1,
@@ -618,7 +610,6 @@ const INITIAL_VOLCANO_LAND: Pick<
       crop: {
         name: "Sunflower",
         plantedAt: 0,
-        amount: 1,
       },
       x: 1,
       y: -1,
