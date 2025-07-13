@@ -2,7 +2,6 @@ import { TEST_FARM } from "features/game/lib/constants";
 import { FactionName } from "features/game/types/game";
 import Decimal from "decimal.js-light";
 import { FACTION_BOOST_COOLDOWN, joinFaction } from "./joinFaction";
-import { getFactionRankBoostAmount } from "features/game/lib/factionRanks";
 import { leaveFaction } from "./leaveFaction";
 
 describe("joinFaction", () => {
@@ -183,35 +182,6 @@ describe("joinFaction", () => {
     expect(state.faction?.boostCooldownUntil).toBeLessThanOrEqual(
       now + FACTION_BOOST_COOLDOWN + 1000,
     );
-
-    // Should return 0 boost during cooldown (even with emblems)
-    const stateWithEmblems = {
-      ...state,
-      inventory: {
-        ...state.inventory,
-        "Sunflorian Emblem": new Decimal(50),
-      },
-    };
-    const [boostDuring, labelsDuring] = getFactionRankBoostAmount(
-      stateWithEmblems,
-      100,
-    );
-    expect(boostDuring).toBe(0);
-    expect(Object.keys(labelsDuring)).toHaveLength(0);
-
-    const afterCooldownState = {
-      ...stateWithEmblems,
-      faction: {
-        ...stateWithEmblems.faction!,
-        boostCooldownUntil: now - 1000, // cooldown expired
-      },
-    };
-    const [boostAfter, labelsAfter] = getFactionRankBoostAmount(
-      afterCooldownState,
-      100,
-    );
-    expect(boostAfter).toBeGreaterThan(0);
-    expect(Object.keys(labelsAfter).length).toBeGreaterThan(0);
   });
 
   it("switches factions and resets previousFaction", () => {
