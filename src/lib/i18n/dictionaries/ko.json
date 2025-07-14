@@ -6052,5 +6052,6 @@
   "biome.applyInstructions": "새 바이옴을 구입하셨습니다!땅을 새롭게 단장할 시간입니다.인벤토리의 “생물군계” 탭으로 가서 적용하세요.",
   "apply": "신청하기",
   "unapply": "적용 취소",
-  "biome.alreadyOwn": "당신은 이미 이 바이옴을 소유하고 있습니다"
+  "biome.alreadyOwn": "당신은 이미 이 바이옴을 소유하고 있습니다",
+  "faction.leave.boostDisclaimer": "새 진영으로 전환한 후 6주 동안은 XP 부스트를 받을 수 없습니다."
 }

@@ -6052,5 +6052,6 @@
   "biome.applyInstructions": "Anda telah membeli bioma baru! Masa untuk memberi tanah anda ubah suai. Pergi ke tab “Biomes” dalam inventori anda untuk menerapkannya.",
   "apply": "Memohon",
   "unapply": "Tidak memohon",
-  "biome.alreadyOwn": "Anda sudah memiliki bioma ini"
+  "biome.alreadyOwn": "Anda sudah memiliki bioma ini",
+  "faction.leave.boostDisclaimer": "Anda tidak akan menerima peningkatan XP selama 6 minggu selepas beralih ke puak baru."
 }

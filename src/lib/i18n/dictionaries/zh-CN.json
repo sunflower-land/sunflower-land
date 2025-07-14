@@ -6052,5 +6052,6 @@
   "biome.applyInstructions": "您已购买新地块！是时候给您的土地大改造一番了。前往物品栏中的 “地块” 选项即可启用它。",
   "apply": "启用",
   "unapply": "取消",
-  "biome.alreadyOwn": "您已拥有此类型的地块"
+  "biome.alreadyOwn": "您已拥有此类型的地块",
+  "faction.leave.boostDisclaimer": "切换到新阵营后 6 周内你不会获得经验值提升。"
 }

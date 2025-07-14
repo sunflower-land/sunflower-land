@@ -6052,5 +6052,6 @@
   "biome.applyInstructions": "新しいバイオームを購入しました！土地をイメージチェンジする時が来ました。インベントリの「バイオーム」タブに移動して適用してください。",
   "apply": "申し込む",
   "unapply": "[適用解除]",
-  "biome.alreadyOwn": "このバイオームはすでに所有しています"
+  "biome.alreadyOwn": "このバイオームはすでに所有しています",
+  "faction.leave.boostDisclaimer": "新しい陣営に切り替えてから6週間は、XPブーストを受け取りません。"
 }

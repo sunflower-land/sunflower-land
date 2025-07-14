@@ -6052,5 +6052,6 @@
   "biome.applyInstructions": "Yeni bir biyom satın aldınız! Arazinize bir makyaj yapma zamanı. Uygulamak için envanterinizdeki “Biyomlar” sekmesine gidin.",
   "apply": "Uygula",
   "unapply": "Uygulamayı kaldır",
-  "biome.alreadyOwn": "Bu biyoma zaten sahipsin"
+  "biome.alreadyOwn": "Bu biyoma zaten sahipsin",
+  "faction.leave.boostDisclaimer": "Yeni bir fraksiyona geçtikten sonra 6 hafta boyunca XP artışları almayacaksınız."
 }

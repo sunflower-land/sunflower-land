@@ -6052,5 +6052,6 @@
   "biome.applyInstructions": "¡Has comprado un nuevo bioma! Es hora de renovar tu tierra. Dirígete a la pestaña «Biomas» de tu inventario para aplicarlo.",
   "apply": "Aplica",
   "unapply": "Anular la solicitud",
-  "biome.alreadyOwn": "Ya eres dueño de este bioma"
+  "biome.alreadyOwn": "Ya eres dueño de este bioma",
+  "faction.leave.boostDisclaimer": "No recibirás mejoras de XP durante 6 semanas después de cambiarte a una nueva facción."
 }

@@ -6052,5 +6052,6 @@
   "biome.applyInstructions": "Vous avez acheté un nouveau biome ! Il est temps de relooker votre terrain. Rendez-vous dans l'onglet « Biomes » de votre inventaire pour l'appliquer.",
   "apply": "Postulez",
   "unapply": "Déposer une demande",
-  "biome.alreadyOwn": "Vous possédez déjà ce biome"
+  "biome.alreadyOwn": "Vous possédez déjà ce biome",
+  "faction.leave.boostDisclaimer": "Vous ne recevrez pas de bonus d'expérience pendant 6 semaines après avoir changé de faction."
 }
