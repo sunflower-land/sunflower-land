@@ -18,7 +18,6 @@ const GAME_STATE: GameState = {
     0: {
       wood: {
         choppedAt: 0,
-        amount: 3,
       },
       x: 1,
       y: 1,
@@ -26,7 +25,6 @@ const GAME_STATE: GameState = {
     1: {
       wood: {
         choppedAt: 0,
-        amount: 4,
       },
       x: 4,
       y: 1,
@@ -93,12 +91,8 @@ describe("chop", () => {
 
     const game = chop(payload);
 
-    const { trees } = game;
-    const tree = (trees as Record<number, Tree>)[0];
-
     expect(game.inventory.Axe).toEqual(new Decimal(0));
-    expect(game.inventory.Wood).toEqual(new Decimal(3));
-    expect(tree.wood.amount).toBeGreaterThan(0);
+    expect(game.inventory.Wood).toEqual(new Decimal(1));
   });
 
   it("chops multiple trees", () => {
@@ -125,14 +119,8 @@ describe("chop", () => {
       } as LandExpansionChopAction,
     });
 
-    const { trees } = game;
-    const tree1 = (trees as Record<number, Tree>)[0];
-    const tree2 = (trees as Record<number, Tree>)[1];
-
     expect(game.inventory.Axe).toEqual(new Decimal(1));
-    expect(game.inventory.Wood).toEqual(new Decimal(7));
-    expect(tree1.wood.amount).toBeGreaterThan(0);
-    expect(tree2.wood.amount).toBeGreaterThan(0);
+    expect(game.inventory.Wood).toEqual(new Decimal(2));
   });
 
   it("chops trees with the logger Skill", () => {
@@ -154,11 +142,7 @@ describe("chop", () => {
       } as LandExpansionChopAction,
     });
 
-    const { trees } = game;
-    const tree = (trees as Record<number, Tree>)[0];
-
-    expect(game.inventory.Wood).toEqual(new Decimal(3));
-    expect(tree.wood.amount).toBeGreaterThan(0);
+    expect(game.inventory.Wood).toEqual(new Decimal(1));
     expect(game.inventory.Axe).toEqual(new Decimal(0.5));
   });
   it("tree replenishes normally", () => {
@@ -280,11 +264,7 @@ describe("chop", () => {
       } as LandExpansionChopAction,
     });
 
-    const { trees } = game;
-    const tree = (trees as Record<number, Tree>)[0];
-
-    expect(game.inventory.Wood).toEqual(new Decimal(3));
-    expect(tree.wood.amount).toBeGreaterThan(0);
+    expect(game.inventory.Wood).toEqual(new Decimal(1.2));
   });
 
   describe("BumpkinActivity", () => {

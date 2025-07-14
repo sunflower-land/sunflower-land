@@ -184,16 +184,16 @@ export const STATIC_OFFLINE_FARM: GameState = {
   trees: {
     1: {
       wood: {
-        amount: 2,
         choppedAt: 0,
+        criticalHit: { Native: true },
       },
       x: 4,
       y: -2,
     },
     2: {
       wood: {
-        amount: 2,
         choppedAt: 0,
+        criticalHit: { Native: true },
       },
       x: 6,
       y: -2,

@@ -4,12 +4,16 @@ import {
   isCollectibleBuilt,
 } from "features/game/lib/collectibleBuilt";
 import { TREE_RECOVERY_TIME } from "features/game/lib/constants";
+import { FACTION_ITEMS } from "features/game/lib/factions";
+import { getBudYieldBoosts } from "features/game/lib/getBudYieldBoosts";
+import { isWearableActive } from "features/game/lib/wearables";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import {
   BumpkinRevampSkillName,
   BumpkinSkillName,
 } from "features/game/types/bumpkinSkills";
 import {
+  CriticalHitName,
   GameState,
   Inventory,
   InventoryItemName,
@@ -46,6 +50,76 @@ type Options = {
 
 export function canChop(tree: Tree, now: number = Date.now()) {
   return now - tree.wood.choppedAt > TREE_RECOVERY_TIME * 1000;
+}
+
+export function getWoodDropAmount({
+  criticalDropGenerator = () => false,
+  game,
+}: {
+  game: GameState;
+  criticalDropGenerator?: (name: CriticalHitName) => boolean;
+}) {
+  const { bumpkin, inventory } = game;
+  let amount = new Decimal(1);
+
+  const hasBeaverReady =
+    isCollectibleBuilt({ name: "Woody the Beaver", game }) ||
+    isCollectibleBuilt({ name: "Apprentice Beaver", game }) ||
+    isCollectibleBuilt({ name: "Foreman Beaver", game });
+
+  if (hasBeaverReady) {
+    amount = amount.mul(1.2);
+  }
+
+  if (inventory["Discord Mod"]) {
+    amount = amount.mul(1.35);
+  }
+
+  if (inventory.Lumberjack) {
+    amount = amount.mul(1.1);
+  }
+
+  if (bumpkin.skills["Tough Tree"] && criticalDropGenerator("Tough Tree")) {
+    amount = amount.mul(3);
+  }
+
+  if (bumpkin.skills["Lumberjack's Extra"]) {
+    amount = amount.add(0.1);
+  }
+
+  if (isCollectibleBuilt({ name: "Wood Nymph Wendy", game })) {
+    amount = amount.add(0.2);
+  }
+
+  //If Tiki Totem: bonus 0.1
+  if (isCollectibleBuilt({ name: "Tiki Totem", game })) {
+    amount = amount.add(0.1);
+  }
+
+  if (isCollectibleBuilt({ name: "Squirrel", game })) {
+    amount = amount.add(0.1);
+  }
+
+  // Apply the faction shield boost if in the right faction
+  const factionName = game.faction?.name;
+  if (
+    factionName &&
+    isWearableActive({
+      game,
+      name: FACTION_ITEMS[factionName].secondaryTool,
+    })
+  ) {
+    amount = amount.add(0.25);
+  }
+
+  // Native 1 in 5 chance of getting 1 extra wood
+  if (criticalDropGenerator("Native")) {
+    amount = amount.add(1);
+  }
+
+  amount = amount.add(getBudYieldBoosts(game.buds ?? {}, "Wood"));
+
+  return amount.toDecimalPlaces(4);
 }
 
 /**
@@ -115,7 +189,7 @@ export function chop({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (stateCopy) => {
-    const { trees, bumpkin, collectibles, inventory } = stateCopy;
+    const { trees, bumpkin, inventory } = stateCopy;
 
     if (bumpkin === undefined) {
       throw new Error("You do not have a Bumpkin!");
@@ -138,7 +212,10 @@ export function chop({
       throw new Error(CHOP_ERRORS.STILL_GROWING);
     }
 
-    const woodHarvested = tree.wood.amount;
+    const woodHarvested = getWoodDropAmount({
+      game: stateCopy,
+      criticalDropGenerator: (name) => tree.wood.criticalHit?.[name] ?? false,
+    }).toNumber();
     const woodAmount = inventory.Wood || new Decimal(0);
 
     tree.wood = {
@@ -147,8 +224,6 @@ export function chop({
         skills: bumpkin.skills,
         game: stateCopy,
       }),
-      // Placeholder amount for next drop. This will get overridden on the next autosave.
-      amount: 1,
     };
     inventory.Axe = axeAmount.sub(requiredAxes);
     inventory.Wood = woodAmount.add(woodHarvested);

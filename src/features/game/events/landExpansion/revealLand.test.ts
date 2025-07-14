@@ -492,7 +492,6 @@ describe("revealLand", () => {
         trees: {
           "1": {
             wood: {
-              amount: 2,
               choppedAt: now - 2 * 60 * 1000,
             },
             x: -3,

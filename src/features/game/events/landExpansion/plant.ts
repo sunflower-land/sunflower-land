@@ -11,6 +11,7 @@ import {
 } from "../../types/crops";
 import {
   Buildings,
+  CriticalHitName,
   CropPlot,
   GameState,
   InventoryItemName,
@@ -53,11 +54,6 @@ import {
   isGuardianActive,
 } from "features/game/types/calendar";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
-import { BumpkinItem } from "features/game/types/bumpkin";
-import {
-  BumpkinSkillName,
-  BumpkinRevampSkillName,
-} from "features/game/types/bumpkinSkills";
 
 export type LandExpansionPlantAction = {
   type: "seed.planted";
@@ -453,13 +449,7 @@ export function getCropYieldAmount({
   crop: CropName | GreenHouseCropName;
   plot?: CropPlot;
   game: GameState;
-  criticalDrop?: (
-    name:
-      | InventoryItemName
-      | BumpkinSkillName
-      | BumpkinRevampSkillName
-      | BumpkinItem,
-  ) => boolean;
+  criticalDrop?: (name: CriticalHitName) => boolean;
 }): number {
   let amount = 1;
 

@@ -208,15 +208,14 @@ const INITIAL_SPRING_LAND: Pick<
   trees: {
     "1": {
       wood: {
-        amount: 2,
         choppedAt: 0,
+        criticalHit: { Native: true },
       },
       x: 3,
       y: 6,
     },
     "2": {
       wood: {
-        amount: 1,
         choppedAt: 0,
       },
       x: 3,
@@ -224,8 +223,8 @@ const INITIAL_SPRING_LAND: Pick<
     },
     "3": {
       wood: {
-        amount: 2,
         choppedAt: 0,
+        criticalHit: { Native: true },
       },
       x: 7,
       y: 9,
@@ -454,15 +453,14 @@ const INITIAL_DESERT_LAND: Pick<
   trees: {
     "1": {
       wood: {
-        amount: 2,
         choppedAt: 0,
+        criticalHit: { Native: true },
       },
       x: 4,
       y: 6,
     },
     "2": {
       wood: {
-        amount: 1,
         choppedAt: 0,
       },
       x: 4,
@@ -470,8 +468,8 @@ const INITIAL_DESERT_LAND: Pick<
     },
     "3": {
       wood: {
-        amount: 2,
         choppedAt: 0,
+        criticalHit: { Native: true },
       },
       x: 7,
       y: 9,
@@ -719,8 +717,8 @@ const INITIAL_VOLCANO_LAND: Pick<
   trees: {
     "1": {
       wood: {
-        amount: 2,
         choppedAt: 0,
+        criticalHit: { Native: true },
       },
       x: 5,
       y: 9,
@@ -728,7 +726,6 @@ const INITIAL_VOLCANO_LAND: Pick<
     },
     "2": {
       wood: {
-        amount: 1,
         choppedAt: 0,
       },
       x: 3,
@@ -737,8 +734,8 @@ const INITIAL_VOLCANO_LAND: Pick<
     },
     "3": {
       wood: {
-        amount: 2,
         choppedAt: 0,
+        criticalHit: { Native: true },
       },
       x: 7,
       y: 9,

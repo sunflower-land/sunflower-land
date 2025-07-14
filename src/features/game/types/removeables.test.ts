@@ -429,7 +429,6 @@ describe("canremove", () => {
           trees: {
             0: {
               wood: {
-                amount: 1,
                 choppedAt: now,
               },
               x: -3,
@@ -451,7 +450,6 @@ describe("canremove", () => {
           trees: {
             0: {
               wood: {
-                amount: 1,
                 choppedAt: now,
               },
               x: -3,
@@ -473,7 +471,6 @@ describe("canremove", () => {
           trees: {
             0: {
               wood: {
-                amount: 1,
                 choppedAt: now,
               },
               x: -3,
@@ -1139,7 +1136,6 @@ describe("canremove", () => {
               y: 3,
 
               wood: {
-                amount: 1,
                 choppedAt: 0,
               },
             },
@@ -1160,7 +1156,6 @@ describe("canremove", () => {
           trees: {
             0: {
               wood: {
-                amount: 1,
                 choppedAt: 0,
               },
               x: -3,
@@ -1188,7 +1183,6 @@ describe("canremove", () => {
               y: 3,
 
               wood: {
-                amount: 1,
                 choppedAt: 0,
               },
             },

@@ -232,7 +232,6 @@ describe("skillUse", () => {
             trees: {
               "123": {
                 wood: {
-                  amount: 1,
                   choppedAt: 0,
                 },
                 x: 1,
@@ -258,7 +257,6 @@ describe("skillUse", () => {
           trees: {
             "123": {
               wood: {
-                amount: 1,
                 choppedAt: dateNow,
               },
               x: 1,
@@ -267,7 +265,6 @@ describe("skillUse", () => {
             },
             "456": {
               wood: {
-                amount: 1,
                 choppedAt: dateNow,
               },
               x: 3,
@@ -295,7 +292,6 @@ describe("skillUse", () => {
             trees: {
               "123": {
                 wood: {
-                  amount: 1,
                   choppedAt: dateNow,
                 },
                 x: 1,
@@ -304,7 +300,6 @@ describe("skillUse", () => {
               },
               "456": {
                 wood: {
-                  amount: 1,
                   choppedAt: dateNow,
                 },
                 x: 3,

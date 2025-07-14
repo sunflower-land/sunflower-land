@@ -13,6 +13,7 @@ import {
 import {
   canChop,
   getRequiredAxeAmount,
+  getWoodDropAmount,
 } from "features/game/events/landExpansion/chop";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { ChestReward } from "features/island/common/chest-reward/ChestReward";
@@ -85,7 +86,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
 
   // When to hide the resource that pops out
   const [collecting, setCollecting] = useState(false);
-  const [collectedAmount, setCollectedAmount] = useState<number>();
+  const harvested = useRef<number>(0);
 
   const isSeasoned = useSelector(gameService, isSeasonedPlayer);
 
@@ -178,6 +179,13 @@ export const Tree: React.FC<Props> = ({ id }) => {
   };
 
   const chop = async () => {
+    const woodDropAmount = getWoodDropAmount({
+      game,
+      criticalDropGenerator: (name) =>
+        resource.wood.criticalHit?.[name] ?? false,
+    });
+    harvested.current = woodDropAmount.toNumber();
+
     const newState = gameService.send("timber.chopped", {
       index: id,
       item: "Axe",
@@ -186,7 +194,6 @@ export const Tree: React.FC<Props> = ({ id }) => {
     if (!newState.matches("hoarding")) {
       if (showAnimations) {
         setCollecting(true);
-        setCollectedAmount(resource.wood.amount);
       }
 
       treeFallAudio();
@@ -194,7 +201,6 @@ export const Tree: React.FC<Props> = ({ id }) => {
       if (showAnimations) {
         await new Promise((res) => setTimeout(res, 3000));
         setCollecting(false);
-        setCollectedAmount(undefined);
       }
     }
 
@@ -220,7 +226,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
 
       {/* Depleting resource animation */}
       {collecting && (
-        <DepletingTree resourceAmount={collectedAmount} season={season} />
+        <DepletingTree resourceAmount={harvested.current} season={season} />
       )}
 
       {/* Depleted resource */}

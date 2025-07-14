@@ -578,17 +578,19 @@ export type WarCollectionOffer = {
 };
 
 export type Wood = {
-  amount: number;
   choppedAt: number;
   reward?: Omit<Reward, "sfl">;
+  criticalHit?: CriticalHit;
 };
 
-export type CriticalHit = Partial<
-  Record<
-    InventoryItemName | BumpkinRevampSkillName | BumpkinSkillName | BumpkinItem,
-    boolean
-  >
->;
+export type CriticalHitName =
+  | InventoryItemName
+  | BumpkinRevampSkillName
+  | BumpkinSkillName
+  | BumpkinItem
+  | "Native";
+
+export type CriticalHit = Partial<Record<CriticalHitName, boolean>>;
 
 export type PlantedCrop = {
   id?: string;

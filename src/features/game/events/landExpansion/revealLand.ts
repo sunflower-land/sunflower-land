@@ -76,7 +76,7 @@ export function revealLand({
       game.trees[randomUUID().slice(0, 8)] = {
         x: coords.x + origin.x,
         y: coords.y + origin.y,
-        wood: { amount: 1, choppedAt: 0 },
+        wood: { choppedAt: 0 },
       };
     });
     inventory.Tree = (inventory.Tree || new Decimal(0)).add(land.trees.length);
