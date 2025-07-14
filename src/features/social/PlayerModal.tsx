@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Modal } from "components/ui/Modal";
 import giftIcon from "assets/icons/gift.png";
 
@@ -22,6 +23,14 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import useSWR from "swr";
 import { getPlayer } from "./actions/getPlayer";
+import { postEffect } from "features/game/actions/effect";
+import { randomID } from "lib/utils/random";
+import { mergeResponse } from "./lib/mergePlayerResponse";
+import { Interaction } from "./types/types";
+import { tokenUriBuilder } from "lib/utils/tokenUriBuilder";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useSelector } from "@xstate/react";
+import { Context } from "features/game/GameProvider";
 
 interface Props {
   game: GameState;
@@ -37,7 +46,13 @@ type Tab =
   | "Followers"
   | "Following";
 
+const _myClothing = (state: MachineState) =>
+  state.context.state.bumpkin.equipped;
+const _myUsername = (state: MachineState) => state.context.state.username;
+
 export const PlayerModal: React.FC<Props> = ({ game, farmId, token }) => {
+  const { gameService } = useContext(Context);
+
   const { t } = useAppTranslation();
   const [tab, setTab] = useState<Tab>("Player");
 
@@ -45,6 +60,10 @@ export const PlayerModal: React.FC<Props> = ({ game, farmId, token }) => {
   const [showPlayerModal, setShowPlayerModal] = useState(false);
   const [showAirdrop, setShowAirdrop] = useState(false);
   const [showReport, setShowReport] = useState(false);
+  const [followLoading, setFollowLoading] = useState(false);
+
+  const myClothing = useSelector(gameService, _myClothing);
+  const myUsername = useSelector(gameService, _myUsername);
 
   const {
     data,
@@ -98,6 +117,95 @@ export const PlayerModal: React.FC<Props> = ({ game, farmId, token }) => {
 
   const closeModal = () => {
     setShowPlayerModal(false);
+  };
+
+  const iAmFollowing = data?.data?.followedBy.includes(farmId);
+  const theyAreFollowingMe = data?.data?.following.includes(farmId);
+  const isMutual = iAmFollowing && theyAreFollowingMe;
+
+  const handleFollow = async () => {
+    setFollowLoading(true);
+    try {
+      if (iAmFollowing) {
+        const { data: response } = await postEffect({
+          effect: {
+            type: "farm.unfollowed",
+            followedId: player?.farmId,
+          },
+          transactionId: randomID(),
+          token: token as string,
+          farmId: farmId,
+        });
+
+        mutate((current) => mergeResponse(current!, response), {
+          revalidate: false,
+        });
+      } else {
+        const { data: response } = await postEffect({
+          effect: {
+            type: "farm.followed",
+            followedId: player?.farmId,
+          },
+          transactionId: randomID(),
+          token: token as string,
+          farmId: farmId,
+        });
+
+        mutate((current) => mergeResponse(current!, response), {
+          revalidate: false,
+        });
+      }
+    } catch (e) {
+      /* eslint-disable-next-line no-console */
+      console.error(e);
+    } finally {
+      setFollowLoading(false);
+    }
+  };
+
+  const sendMessage = async (message: string) => {
+    if (!player) return;
+
+    const newMessage: Interaction = {
+      type: "chat",
+      message,
+      recipient: {
+        id: player.farmId,
+        tokenUri: tokenUriBuilder(player.clothing),
+        username: player.username ?? `#${player.farmId}`,
+      },
+      sender: {
+        id: farmId,
+        tokenUri: tokenUriBuilder(myClothing),
+        username: myUsername ?? `#${farmId}`,
+      },
+      createdAt: Date.now(),
+    };
+
+    // Optimistically update the messages
+    mutate(
+      async (current) => {
+        const { data: response } = await postEffect({
+          effect: {
+            type: "message.sent",
+            recipientId: player.farmId,
+            message,
+          },
+          transactionId: randomID(),
+          token: token as string,
+          farmId: farmId,
+        });
+
+        return mergeResponse(current!, response);
+      },
+      {
+        revalidate: false,
+        optimisticData: (_, current) =>
+          mergeResponse(current!, {
+            messages: [newMessage, ...(current?.data?.messages ?? [])],
+          }),
+      },
+    );
   };
 
   const playerHasGift = player?.clothing.shirt === "Gift Giver";
@@ -164,7 +272,12 @@ export const PlayerModal: React.FC<Props> = ({ game, farmId, token }) => {
               data={data}
               playerLoading={playerLoading}
               error={error}
+              followLoading={followLoading}
+              iAmFollowing={!!iAmFollowing}
+              isFollowMutual={!!isMutual}
               mutate={mutate}
+              onFollow={handleFollow}
+              onChatMessage={sendMessage}
             />
           )}
           {tab === "Reward" && <PlayerGift />}
