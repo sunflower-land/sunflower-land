@@ -22,17 +22,16 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { FollowerFeed } from "./FollowerFeed";
 import { IslandType } from "features/game/types/game";
 import { useTranslation } from "react-i18next";
-import type { KeyedMutator } from "swr";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
-import { postEffect } from "features/game/actions/effect";
-import { randomID } from "lib/utils/random";
-import { tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 import { ModalOverlay } from "components/ui/ModalOverlay";
-import { useSocial } from "./hooks/useSocial";
+
 import { PlayerModalPlayer } from "../lib/playerModalManager";
-import { Interaction, Player, PlayerUpdate } from "../types/types";
+import { FollowUpdate, Player } from "../types/types";
+import { useSocial } from "../hooks/useSocial";
+import { Followers } from "./Followers";
+import { KeyedMutator } from "swr";
 
 const ISLAND_ICONS: Record<IslandType, string> = {
   basic: basicIsland,
@@ -46,179 +45,51 @@ type Props = {
   data?: Player;
   error?: Error;
   playerLoading: boolean;
+  followLoading: boolean;
+  iAmFollowing: boolean;
+  isFollowMutual: boolean;
+  onFollow: () => void;
+  onChatMessage: (message: string) => void;
   mutate: KeyedMutator<Player | undefined>;
 };
 
-const mergePlayerData = (current: Player, update: PlayerUpdate): Player => {
-  return {
-    data: { ...current.data, ...update },
-  } as Player;
-};
-
-const Followers = ({
-  farmId,
-  followers,
-}: {
-  farmId: number;
-  followers: number[];
-}) => {
-  const { online } = useSocial(farmId, followers);
-  const { t } = useTranslation();
-
-  if (!followers.length) {
-    return (
-      <div className="flex flex-col gap-1">
-        <div className="text-xs">{t("playerModal.noFollowers")}</div>
-      </div>
-    );
-  }
-
-  return (
-    <div className="flex flex-col gap-1">
-      {followers.map((follower) => {
-        const isOnline = (online[follower] ?? 0) > Date.now() - 30 * 60 * 1000;
-        return (
-          <div key={`flw-${follower}`}>
-            <div>{follower}</div>
-            <div>{isOnline ? "Online" : "Offline"}</div>
-          </div>
-        );
-      })}
-    </div>
-  );
-};
-
 const _farmId = (state: MachineState) => state.context.farmId;
-const _token = (state: MachineState) => state.context.rawToken;
-const _myUsername = (state: MachineState) => state.context.state.username;
-const _myClothing = (state: MachineState) =>
-  state.context.state.bumpkin.equipped;
 
 export const PlayerDetails: React.FC<Props> = ({
   player,
   data,
   error,
   playerLoading,
+  followLoading,
+  iAmFollowing,
+  isFollowMutual,
   mutate,
+  onFollow,
+  onChatMessage,
 }) => {
   const { gameService } = useContext(Context);
-
-  const [followingLoading, setFollowingLoading] = useState(false);
-  const [isFollowingFeedOpen, setIsFollowingFeedOpen] = useState(false);
-
-  const token = useSelector(gameService, _token);
-  const farmId = useSelector(gameService, _farmId);
-  const myUsername = useSelector(gameService, _myUsername);
-  const myClothing = useSelector(gameService, _myClothing);
-
-  // Used only to share my online status with the followers
-  useSocial(farmId, []);
-
   const { t } = useTranslation();
 
-  // console.log({ data, error, playerLoading });
+  const [isFollowingFeedOpen, setIsFollowingFeedOpen] = useState(false);
+  const farmId = useSelector(gameService, _farmId);
 
-  // const {
-  //   data,
-  //   isLoading: playerLoading,
-  //   error,
-  //   mutate,
-  // } = useSWR(
-  //   ["player", token, farmId, player.farmId],
-  //   ([, token, farmId, followedPlayerId]) => {
-  //     return getPlayer({ token: token as string, farmId, followedPlayerId });
-  //   },
-  //   {
-  //     revalidateOnFocus: false,
-  //   },
-  // );
-
-  const iAmFollowing = data?.data?.followedBy.includes(farmId);
-  const theyAreFollowingMe = data?.data?.following.includes(farmId);
-  const isMutual = iAmFollowing && theyAreFollowingMe;
-
-  const handleFollow = async () => {
-    setFollowingLoading(true);
-    try {
-      if (iAmFollowing) {
-        const { data: response } = await postEffect({
-          effect: {
-            type: "farm.unfollowed",
-            followedId: player.farmId,
-          },
-          transactionId: randomID(),
-          token: token as string,
-          farmId: farmId,
+  // Used only to share my online status with the followers
+  useSocial({
+    farmId,
+    following: data?.data?.followedBy ?? [],
+    callbacks: {
+      onFollow: (update?: FollowUpdate) => mutate(),
+      onUnfollow: (update?: FollowUpdate) => mutate(),
+      onChat: (update) => {
+        mutate((current) => {
+          return {
+            ...current,
+            messages: [update, ...(current?.data?.messages ?? [])],
+          };
         });
-
-        mutate((current) => mergePlayerData(current!, response), {
-          revalidate: false,
-        });
-      } else {
-        const { data: response } = await postEffect({
-          effect: {
-            type: "farm.followed",
-            followedId: player.farmId,
-          },
-          transactionId: randomID(),
-          token: token as string,
-          farmId: farmId,
-        });
-
-        mutate((current) => mergePlayerData(current!, response), {
-          revalidate: false,
-        });
-      }
-    } catch (e) {
-      /* eslint-disable-next-line no-console */
-      console.error(e);
-    } finally {
-      setFollowingLoading(false);
-    }
-  };
-
-  const sendMessage = async (message: string) => {
-    const newMessage: Interaction = {
-      type: "chat",
-      message,
-      recipient: {
-        id: player.farmId,
-        tokenUri: tokenUriBuilder(player.clothing),
-        username: player.username ?? `#${player.farmId}`,
       },
-      sender: {
-        id: farmId,
-        tokenUri: tokenUriBuilder(myClothing),
-        username: myUsername ?? `#${farmId}`,
-      },
-      createdAt: Date.now(),
-    };
-
-    // Optimistically update the messages
-    mutate(
-      async (current) => {
-        const { data: response } = await postEffect({
-          effect: {
-            type: "message.sent",
-            recipientId: player.farmId,
-            message,
-          },
-          transactionId: randomID(),
-          token: token as string,
-          farmId: farmId,
-        });
-
-        return mergePlayerData(current!, response);
-      },
-      {
-        revalidate: false,
-        optimisticData: (_, current) =>
-          mergePlayerData(current!, {
-            messages: [...(current?.data?.messages ?? []), newMessage],
-          }),
-      },
-    );
-  };
+    },
+  });
 
   const startDate = new Date(player?.createdAt ?? 0).toLocaleString("en-US", {
     month: "short",
@@ -329,14 +200,10 @@ export const PlayerDetails: React.FC<Props> = ({
               </div>
               <Button
                 className="flex w-fit h-9 justify-between items-center gap-1 mt-1 mr-0.5"
-                disabled={playerLoading || followingLoading || !!error}
-                onClick={handleFollow}
+                disabled={playerLoading || followLoading || !!error}
+                onClick={onFollow}
               >
-                {followingLoading
-                  ? `...`
-                  : iAmFollowing
-                    ? `Unfollow`
-                    : `Follow`}
+                {followLoading ? `...` : iAmFollowing ? `Unfollow` : `Follow`}
               </Button>
             </div>
           </div>
@@ -368,9 +235,9 @@ export const PlayerDetails: React.FC<Props> = ({
         <FollowerFeed
           interactions={data?.data?.messages ?? []}
           onInteraction={(message) => {
-            sendMessage(message);
+            onChatMessage(message);
           }}
-          chatDisabled={!isMutual}
+          chatDisabled={!isFollowMutual}
         />
       )}
     </div>

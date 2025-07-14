@@ -25,4 +25,4 @@ export type Player = {
   };
 };
 
-export type PlayerUpdate = Partial<NonNullable<Player["data"]>>;
+export type FollowUpdate = Partial<NonNullable<Player["data"]>>;
