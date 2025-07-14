@@ -488,6 +488,9 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Geniseed: 759,
   "Broken Pillar": 760,
   "Colors Token 2025": 761,
+  "Better Together Banner": 762,
+  Bracelet: 763,
+  Coprolite: 764,
 
   "Australian Flag": 801,
   "Belgian Flag": 802,

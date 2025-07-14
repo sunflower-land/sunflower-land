@@ -1041,6 +1041,9 @@ export const ITEM_TRADE_TYPES: {
     "Spring Biome": "instant",
     "Desert Biome": "instant",
     "Volcano Biome": "instant",
+    Bracelet: "instant",
+    Coprolite: "instant",
+    "Better Together Banner": "instant",
   },
   wearables: {
     "New Years Crown": "instant",

@@ -377,6 +377,7 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   "Colors Ticket 2025": {
     description: translate("description.colorTicket2025"),
   },
+  Bracelet: { description: "" },
 };
 
 export type Purchase = {

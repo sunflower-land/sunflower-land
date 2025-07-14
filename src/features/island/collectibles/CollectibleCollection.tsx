@@ -2575,6 +2575,21 @@ export const COLLECTIBLE_COMPONENTS: Record<
       alt="Blue Slime Balloon"
     />
   ),
+  "Better Together Banner": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 18}px`,
+        bottom: `${PIXEL_SCALE * 3}px`,
+        left: `${PIXEL_SCALE * -0.5}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 18}px`,
+      }}
+      image={ITEM_DETAILS["Better Together Banner"].image}
+      alt="Better Together Banner"
+    />
+  ),
 };
 // Need readonly versions for some troublesome components while in design mode
 
