@@ -38,6 +38,7 @@ export const LeaveFaction: React.FC<{
         </div>
         <p className="text-sm mb-2">{t("faction.leave.areYouSure")}</p>
         <p className="text-sm mb-2">{t("faction.leave.marks")}</p>
+        <p className="text-sm mb-2">{t("faction.leave.boostDisclaimer")}</p>
         {!!hasEmblems && (
           <p className="text-sm mb-2">{t("faction.leave.sellEmblems")}</p>
         )}

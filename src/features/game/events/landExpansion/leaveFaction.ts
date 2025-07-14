@@ -31,6 +31,11 @@ export function leaveFaction({
       throw new Error("Cannot leave a newly joined faction");
     }
 
+    game.previousFaction = {
+      name: game.faction.name,
+      leftAt: createdAt,
+    };
+
     delete game.faction;
     delete game.inventory.Mark;
 
