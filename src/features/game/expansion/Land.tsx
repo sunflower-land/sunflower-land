@@ -59,6 +59,7 @@ import {
   makeUpgradableBuildingKey,
   UpgradableBuildingType,
 } from "../events/landExpansion/upgradeBuilding";
+import { getCurrentBiome } from "features/island/biomes/biomes";
 
 export const LAND_WIDTH = 6;
 
@@ -222,7 +223,7 @@ const getIslandElements = ({
                 showTimers={showTimers}
                 x={x}
                 y={y}
-                island={game.island.type}
+                island={game.island}
                 season={game.season.season}
               />
             </MapPlacement>
@@ -816,8 +817,12 @@ export const Land: React.FC = () => {
               "pointer-events-none": visiting,
             })}
           >
-            <LandBase type={island.type} expandedCount={expansionCount} />
-            <DirtRenderer island={island.type} grid={gameGrid} />
+            <LandBase
+              island={island}
+              season={season}
+              expandedCount={expansionCount}
+            />
+            <DirtRenderer biome={getCurrentBiome(island)} grid={gameGrid} />
 
             {!landscaping && (
               <Water expansionCount={expansionCount} gameState={state} />

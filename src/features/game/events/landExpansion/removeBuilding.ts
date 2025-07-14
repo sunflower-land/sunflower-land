@@ -92,11 +92,10 @@ export function removeBuilding({
       throw new Error(REMOVE_BUILDING_ERRORS.BUILDING_UNDER_CONSTRUCTION);
     }
 
-    const [restricted, error] = hasRemoveRestriction(
-      action.name,
-      action.id,
-      stateCopy,
-    );
+    const [restricted, error] = hasRemoveRestriction({
+      name: action.name,
+      state: stateCopy,
+    });
 
     if (restricted) {
       throw new Error(error);

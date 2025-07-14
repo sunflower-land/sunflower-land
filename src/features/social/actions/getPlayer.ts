@@ -1,20 +1,10 @@
 import { CONFIG } from "lib/config";
+import { Player } from "../types/types";
 
 type Request = {
   token: string;
   farmId: number;
   followedPlayerId: number;
-};
-
-type Player = {
-  data?: {
-    farmId: number;
-    following: number[];
-    followingCount: number;
-    followedBy: number[];
-    followedByCount: number;
-    messages: { message: "niceFarm" }[];
-  };
 };
 
 export const getPlayer = async ({

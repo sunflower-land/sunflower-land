@@ -30,6 +30,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import confetti from "canvas-confetti";
 import { getInstantGems } from "features/game/events/landExpansion/speedUpRecipe";
 import { gameAnalytics } from "lib/gameAnalytics";
+import { hasFeatureAccess } from "lib/flags";
 
 export type CollectibleProps = {
   name: CollectibleName;
@@ -199,6 +200,9 @@ const LandscapingCollectible: React.FC<Props> = (props) => {
   const { gameService } = useContext(Context);
   const [showPopover, setShowPopover] = useState(false);
   const gameState = useSelector(gameService, getGameState);
+  const hasLandscaping = useSelector(gameService, (state) =>
+    hasFeatureAccess(state.context.state, "LANDSCAPING"),
+  );
 
   const CollectiblePlaced = READONLY_COLLECTIBLES[props.name];
 
@@ -207,7 +211,7 @@ const LandscapingCollectible: React.FC<Props> = (props) => {
     props.id,
     gameState,
   );
-  if (isRestricted) {
+  if (isRestricted && !hasLandscaping) {
     return (
       <div
         className="relative w-full h-full"

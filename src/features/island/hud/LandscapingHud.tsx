@@ -24,7 +24,6 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { getRemoveAction } from "../collectibles/MovableComponent";
 import { InventoryItemName } from "features/game/types/game";
 import { RemoveKuebikoModal } from "../collectibles/RemoveKuebikoModal";
-import { hasRemoveRestriction } from "features/game/types/removeables";
 import { BudName } from "features/game/types/buds";
 import { PlaceableLocation } from "features/game/types/collectibles";
 import { HudContainer } from "components/ui/HudContainer";
@@ -34,6 +33,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { RoundButton } from "components/ui/RoundButton";
 import { CraftDecorationsModal } from "./components/decorations/CraftDecorationsModal";
 import { hasFeatureAccess } from "lib/flags";
+import { hasRemoveRestriction } from "features/game/types/removeables";
 
 const compareBalance = (prev: Decimal, next: Decimal) => {
   return prev.eq(next);
@@ -94,11 +94,11 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
   const showRemove =
     isMobile && selectedItem && getRemoveAction(selectedItem.name);
   const [isRestricted, restrictionReason] = showRemove
-    ? hasRemoveRestriction(
-        selectedItem.name,
-        selectedItem.id,
-        gameService.getSnapshot().context.state,
-      )
+    ? hasRemoveRestriction({
+        name: selectedItem.name,
+        state: gameService.getSnapshot().context.state,
+        id: selectedItem.id,
+      })
     : [false, "No restriction"];
 
   useEffect(() => {
@@ -125,7 +125,9 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
 
   return (
     <HudContainer>
-      <Balances sfl={balance} coins={coins} gems={gems ?? new Decimal(0)} />
+      <div className="absolute right-0 top-0 p-2.5">
+        <Balances sfl={balance} coins={coins} gems={gems ?? new Decimal(0)} />
+      </div>
 
       <>
         {idle && (
@@ -232,13 +234,15 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
             }}
           >
             <Label type="danger">
-              {isRestricted ? restrictionReason : t("remove")}
+              {isRestricted && !hasLandscapingAccess
+                ? restrictionReason
+                : t("remove")}
             </Label>
           </div>
 
           <RoundButton
-            onClick={() => !isRestricted && remove()}
-            disabled={isRestricted}
+            onClick={() => (!isRestricted || hasLandscapingAccess) && remove()}
+            disabled={isRestricted && !hasLandscapingAccess}
           >
             {showRemoveConfirmation ? (
               <img
@@ -261,7 +265,7 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
                     top: `${PIXEL_SCALE * 4.5}px`,
                   }}
                 />
-                {isRestricted && (
+                {isRestricted && !hasLandscapingAccess && (
                   <img
                     src={SUNNYSIDE.icons.cancel}
                     className="absolute right-0 top-0 w-1/2 object-contain group-active:translate-y-[2px]"

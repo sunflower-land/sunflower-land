@@ -35,6 +35,11 @@ export function buyBiome({
     if (!biomeData) {
       throw new Error("This biome is not available");
     }
+
+    if (biomeData.disabled) {
+      throw new Error("This biome is not available");
+    }
+
     const biomeCount = game.inventory[biome] ?? new Decimal(0);
 
     if (biomeCount.gte(1)) {

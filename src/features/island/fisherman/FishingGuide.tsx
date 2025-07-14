@@ -59,7 +59,7 @@ export const FishingGuide: React.FC<Props> = ({ onClose }) => {
       content: translate("fishingGuide.condition"),
     },
     {
-      icon: CROP_LIFECYCLE.basic.Carrot.crop,
+      icon: CROP_LIFECYCLE["Basic Biome"].Carrot.crop,
       content: translate("fishingGuide.bait.chum"),
     },
     {

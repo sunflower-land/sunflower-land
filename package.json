@@ -6,6 +6,7 @@
   "private": true,
   "scripts": {
     "dev": "set NODE_ENV=development && vite --port 3000 --host",
+    "rsbuild": "set NODE_ENV=development && rsbuild dev --port 3000",
     "dev-telegram": "set NODE_ENV=development && vite --port 443 --host",
     "build": "tsc && vite build",
     "lint": "eslint --quiet --ext .tsx,.ts .",
@@ -94,6 +95,9 @@
   },
   "devDependencies": {
     "@aws-sdk/client-translate": "^3.637.0",
+    "@rsbuild/core": "^1.4.5",
+    "@rsbuild/plugin-node-polyfill": "^1.3.0",
+    "@rsbuild/plugin-react": "^1.3.4",
     "@testing-library/react-hooks": "^7.0.2",
     "@types/bad-words": "^3.0.1",
     "@types/canvas-confetti": "^1.6.4",

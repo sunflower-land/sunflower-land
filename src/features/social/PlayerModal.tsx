@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
 import { PlayerModalPlayer } from "features/world/ui/player/PlayerModals";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 
 import vipIcon from "assets/icons/vip.webp";
 import basicIsland from "assets/icons/islands/basic.webp";
@@ -29,43 +30,10 @@ import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { postEffect } from "features/game/actions/effect";
 import { randomID } from "lib/utils/random";
-
-export type FarmInteraction = {
-  id: string;
-  sender?: string;
-  timestamp: number;
-  text: string;
-  type: "comment" | "action" | "milestone" | "announcement";
-};
-
-export const dummyInteractions: FarmInteraction[] = [
-  {
-    id: "1",
-    sender: "Elias",
-    timestamp: Date.now() - 60000,
-    text: "Nice farm!",
-    type: "comment",
-  },
-  {
-    id: "2",
-    sender: "Local Hero",
-    timestamp: Date.now() - 120000,
-    text: "Cleaned your farm",
-    type: "action",
-  },
-  {
-    id: "3",
-    timestamp: Date.now() - 180000,
-    text: "Elias reached level 10",
-    type: "milestone",
-  },
-  {
-    id: "4",
-    timestamp: Date.now() - 180000,
-    text: "New Chapter Begins!",
-    type: "announcement",
-  },
-];
+import { Interaction, Player, PlayerUpdate } from "./types/types";
+import { tokenUriBuilder } from "lib/utils/tokenUriBuilder";
+import { ModalOverlay } from "components/ui/ModalOverlay";
+import { useSocial } from "./hooks/useSocial";
 
 const ISLAND_ICONS: Record<IslandType, string> = {
   basic: basicIsland,
@@ -78,67 +46,71 @@ type Props = {
   player: PlayerModalPlayer;
 };
 
+const mergePlayerData = (current: Player, update: PlayerUpdate): Player => {
+  return {
+    data: { ...current.data, ...update },
+  } as Player;
+};
+
+const Followers = ({
+  farmId,
+  followers,
+}: {
+  farmId: number;
+  followers: number[];
+}) => {
+  const { online } = useSocial(farmId, followers);
+  const { t } = useTranslation();
+
+  if (!followers.length) {
+    return (
+      <div className="flex flex-col gap-1">
+        <div className="text-xs">{t("playerModal.noFollowers")}</div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="flex flex-col gap-1">
+      {followers.map((follower) => {
+        const isOnline = (online[follower] ?? 0) > Date.now() - 30 * 60 * 1000;
+        return (
+          <div key={`flw-${follower}`}>
+            <div>{follower}</div>
+            <div>{isOnline ? "Online" : "Offline"}</div>
+          </div>
+        );
+      })}
+    </div>
+  );
+};
+
 const _farmId = (state: MachineState) => state.context.farmId;
 const _token = (state: MachineState) => state.context.rawToken;
-
-import { Room, Client } from "colyseus.js";
-const client = new Client("http://localhost:2567");
-const TIMEOUT = 1000;
-const MAX_RETRIES = 10;
-
-const useMMORoom = (
-  roomName: string,
-  farmId: number,
-  onMessage: () => void,
-) => {
-  useEffect(() => {
-    const connectionAttempts = 0;
-    const reconnectInterval: NodeJS.Timeout | null = null;
-    let room: Room | null = null;
-
-    const connect = async () => {
-      await new Promise((resolve) =>
-        setTimeout(resolve, Math.pow(2, connectionAttempts) * 1000 - 1000),
-      );
-
-      room = await client.joinOrCreate(roomName, {
-        farmId,
-      });
-
-      room.onMessage("followed", () => {
-        onMessage();
-      });
-
-      room.onError((error) => {
-        connect();
-      });
-    };
-
-    connect();
-
-    return () => {
-      reconnectInterval && clearInterval(reconnectInterval);
-      room?.leave();
-    };
-  }, [roomName, farmId, onMessage]);
-};
+const _myUsername = (state: MachineState) => state.context.state.username;
+const _myClothing = (state: MachineState) =>
+  state.context.state.bumpkin.equipped;
 
 export const PlayerDetails: React.FC<Props> = ({ player }) => {
   const { gameService } = useContext(Context);
-  const token = useSelector(gameService, _token);
-  const farmId = useSelector(gameService, _farmId);
 
   const [followingLoading, setFollowingLoading] = useState(false);
+  const [isFollowingFeedOpen, setIsFollowingFeedOpen] = useState(false);
+
+  const token = useSelector(gameService, _token);
+  const farmId = useSelector(gameService, _farmId);
+  const myUsername = useSelector(gameService, _myUsername);
+  const myClothing = useSelector(gameService, _myClothing);
+
+  // Used only to share my online status with the followers
+  useSocial(farmId, []);
 
   const { t } = useTranslation();
-  // const [interactions, setInteractions] =
-  //   useState<FarmInteraction[]>(dummyInteractions);
 
   const {
     data,
     isLoading: playerLoading,
     error,
-    isValidating,
     mutate,
   } = useSWR(
     ["player", token, farmId, player.farmId],
@@ -150,8 +122,6 @@ export const PlayerDetails: React.FC<Props> = ({ player }) => {
     },
   );
 
-  useMMORoom("sunflorea_social", farmId, mutate);
-
   const iAmFollowing = data?.data?.followedBy.includes(farmId);
   const theyAreFollowingMe = data?.data?.following.includes(farmId);
   const isMutual = iAmFollowing && theyAreFollowingMe;
@@ -160,7 +130,7 @@ export const PlayerDetails: React.FC<Props> = ({ player }) => {
     setFollowingLoading(true);
     try {
       if (iAmFollowing) {
-        const { data } = await postEffect({
+        const { data: response } = await postEffect({
           effect: {
             type: "farm.unfollowed",
             followedId: player.farmId,
@@ -169,9 +139,12 @@ export const PlayerDetails: React.FC<Props> = ({ player }) => {
           token: token as string,
           farmId: farmId,
         });
-        mutate(data);
+
+        mutate((current) => mergePlayerData(current!, response), {
+          revalidate: false,
+        });
       } else {
-        const { data } = await postEffect({
+        const { data: response } = await postEffect({
           effect: {
             type: "farm.followed",
             followedId: player.farmId,
@@ -180,7 +153,10 @@ export const PlayerDetails: React.FC<Props> = ({ player }) => {
           token: token as string,
           farmId: farmId,
         });
-        mutate(data);
+
+        mutate((current) => mergePlayerData(current!, response), {
+          revalidate: false,
+        });
       }
     } catch (e) {
       /* eslint-disable-next-line no-console */
@@ -190,18 +166,47 @@ export const PlayerDetails: React.FC<Props> = ({ player }) => {
     }
   };
 
-  const sendMessage = async (message: FarmInteraction) => {
-    const { data } = await postEffect({
-      effect: {
-        type: "message.sent",
-        recipientId: player.farmId,
-        message: "niceFarm",
+  const sendMessage = async (message: string) => {
+    const newMessage: Interaction = {
+      type: "chat",
+      message,
+      recipient: {
+        id: player.farmId,
+        tokenUri: tokenUriBuilder(player.clothing),
+        username: player.username ?? `#${player.farmId}`,
       },
-      transactionId: randomID(),
-      token: token as string,
-      farmId: farmId,
-    });
-    mutate(data);
+      sender: {
+        id: farmId,
+        tokenUri: tokenUriBuilder(myClothing),
+        username: myUsername ?? `#${farmId}`,
+      },
+      createdAt: Date.now(),
+    };
+
+    // Optimistically update the messages
+    mutate(
+      async (current) => {
+        const { data: response } = await postEffect({
+          effect: {
+            type: "message.sent",
+            recipientId: player.farmId,
+            message,
+          },
+          transactionId: randomID(),
+          token: token as string,
+          farmId: farmId,
+        });
+
+        return mergePlayerData(current!, response);
+      },
+      {
+        revalidate: false,
+        optimisticData: (_, current) =>
+          mergePlayerData(current!, {
+            messages: [...(current?.data?.messages ?? []), newMessage],
+          }),
+      },
+    );
   };
 
   const startDate = new Date(player?.createdAt).toLocaleString("en-US", {
@@ -211,6 +216,14 @@ export const PlayerDetails: React.FC<Props> = ({ player }) => {
 
   return (
     <div className="flex gap-1 w-full max-h-[370px]">
+      <ModalOverlay
+        show={isFollowingFeedOpen}
+        onBackdropClick={() => setIsFollowingFeedOpen(false)}
+      >
+        <InnerPanel>
+          <Followers farmId={farmId} followers={data?.data?.followedBy ?? []} />
+        </InnerPanel>
+      </ModalOverlay>
       <div className="flex flex-col flex-1 gap-1">
         <InnerPanel className="flex flex-col gap-1 flex-1 pb-1 px-1">
           <div className="flex items-center">
@@ -264,7 +277,10 @@ export const PlayerDetails: React.FC<Props> = ({ player }) => {
           <div className="flex flex-col gap-1 p-1 w-full ml-1 pt-0">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-1">
-                <span className="text-xs underline cursor-pointer">
+                <span
+                  className="text-xs underline cursor-pointer"
+                  onClick={() => setIsFollowingFeedOpen(true)}
+                >
                   {t("playerModal.followers", {
                     count: data?.data?.followedByCount,
                   })}
@@ -339,17 +355,9 @@ export const PlayerDetails: React.FC<Props> = ({ player }) => {
       </div>
       {!isMobile && (
         <FollowerFeed
-          interactions={
-            data?.data?.messages.map((message, index) => ({
-              id: randomID(),
-              sender: `You${index}`,
-              timestamp: Date.now(),
-              text: message.message,
-              type: "comment",
-            })) ?? []
-          }
-          onInteraction={(interaction) => {
-            sendMessage(interaction);
+          interactions={data?.data?.messages ?? []}
+          onInteraction={(message) => {
+            sendMessage(message);
           }}
           chatDisabled={!isMutual}
         />

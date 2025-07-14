@@ -93,7 +93,7 @@ export const ShopItems: React.FC<Props> = ({
           unread: showBuyHelper,
         },
         {
-          icon: CROP_LIFECYCLE.basic.Sunflower.crop,
+          icon: CROP_LIFECYCLE["Basic Biome"].Sunflower.crop,
           name: t("sell"),
           unread: !hasSoldBefore,
         },

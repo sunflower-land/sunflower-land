@@ -1471,6 +1471,7 @@ export interface GameState {
     upgradedAt?: number;
     previousExpansions?: number;
     sunstones?: number;
+    biome?: LandBiomeName;
   };
 
   username?: string;

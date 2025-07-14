@@ -4,6 +4,8 @@
   "ingredients": "Ingredients",
   "animals.buyAnimal": "Buy Animal",
   "accept": "Accept",
+  "apply": "Apply",
+  "unapply": "Unapply",
   "failed": "Failed",
   "animals.buildingIsFull": "{{buildingName}} is full!",
   "breadWinner.description": "Earn 0.001 FLOWER",
@@ -6216,7 +6218,7 @@
   "whatsOn.peggysCookoffText": "The Peggy's Cookoff is here. Cook the most recipes to win prizes.",
   "whatsOn.peggysCookoffText2": "Top 5000 chefs will win Love Charms!",
   "whatsOn.july10th": "July 10th",
-  "biome.alreadyBought": "You have already bought this biome",
+  "biome.alreadyOwn": "You already own this biome",
   "biome.notInCorrectIslandType": "Upgrade to {{islandType}} island to buy this biome",
   "biome.applyInstructions": "You have bought a new biome! Time to give your land a makeover. Head over to the \"Biomes\" tab in your inventory to apply it."
 }

@@ -19,15 +19,12 @@ import { ReportPlayer } from "./ReportPlayer";
 import { PlayerGift } from "./PlayerGift";
 import { StreamReward } from "./StreamReward";
 import { ITEM_DETAILS } from "features/game/types/images";
-import {
-  dummyInteractions,
-  FarmInteraction,
-  PlayerDetails,
-} from "features/social/PlayerModal";
+import { PlayerDetails } from "features/social/PlayerModal";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 
 import { isMobile } from "mobile-device-detect";
 import { FollowerFeed } from "features/social/components/FollowerFeed";
+import { Interaction } from "features/social/types/types";
 
 export type PlayerModalPlayer = {
   farmId: number;
@@ -132,8 +129,7 @@ export const PlayerModals: React.FC<Props> = ({ game, farmId }) => {
     "Player" | "Reward" | "Stream" | "Report" | "Airdrop" | "Activity"
   >("Player");
   // DEV_TESTING_ONLY
-  const [interactions, setInteractions] =
-    useState<FarmInteraction[]>(dummyInteractions);
+  const [interactions, setInteractions] = useState<Interaction[]>([]);
   const [player, setPlayer] = useState<PlayerModalPlayer | undefined>();
   const [showPlayerModal, setShowPlayerModal] = useState(false);
 
@@ -249,7 +245,24 @@ export const PlayerModals: React.FC<Props> = ({ game, farmId }) => {
           <FollowerFeed
             interactions={interactions}
             onInteraction={(interaction) => {
-              setInteractions([interaction, ...interactions]);
+              setInteractions([
+                {
+                  type: "chat",
+                  message: interaction,
+                  createdAt: Date.now(),
+                  sender: {
+                    id: farmId,
+                    username: "You",
+                    tokenUri: "blah",
+                  },
+                  recipient: {
+                    id: player?.farmId as number,
+                    username: player?.username as string,
+                    tokenUri: "blah",
+                  },
+                },
+                ...interactions,
+              ]);
             }}
           />
         )}

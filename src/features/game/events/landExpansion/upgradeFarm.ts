@@ -1141,6 +1141,8 @@ export function upgrade({ state, createdAt = Date.now() }: Options) {
       ...INITIAL_VOLCANO_LAND,
     };
   }
+  // Reset the biome upon upgrade
+  delete game.island.biome;
 
   return {
     ...game,

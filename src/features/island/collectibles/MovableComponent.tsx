@@ -32,12 +32,15 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { isMobile } from "mobile-device-detect";
 import { ZoomContext } from "components/ZoomProvider";
-import { InnerPanel } from "components/ui/Panel";
 import { RemoveKuebikoModal } from "./RemoveKuebikoModal";
-import { hasRemoveRestriction } from "features/game/types/removeables";
 import { PlaceableLocation } from "features/game/types/collectibles";
 import { RemoveHungryCaterpillarModal } from "./RemoveHungryCaterpillarModal";
 import { RemoveCropMachineModal } from "./RemoveCropMachineModal";
+import { HourglassType } from "./components/Hourglass";
+import { HOURGLASSES } from "features/game/events/landExpansion/burnCollectible";
+import { hasRemoveRestriction } from "features/game/types/removeables";
+import { hasFeatureAccess } from "lib/flags";
+import { InnerPanel } from "components/ui/Panel";
 
 export const RESOURCE_MOVE_EVENTS: Record<
   ResourceName,
@@ -108,7 +111,10 @@ export function getRemoveAction(
     name === "Market" ||
     name === "Fire Pit" ||
     name === "Workbench" ||
-    name === "Mansion"
+    name === "Mansion" ||
+    HOURGLASSES.includes(name as HourglassType) ||
+    name === "Time Warp Totem" ||
+    name === "Super Totem"
   ) {
     return null;
   }
@@ -169,11 +175,14 @@ export const MoveableComponent: React.FC<
   const isSelected = movingItem?.id === id && movingItem?.name === name;
   const removeAction = !isMobile && getRemoveAction(name);
   const hasRemovalAction = !!removeAction;
-  const [isRestricted, restrictionReason] = hasRemoveRestriction(
-    name,
-    id,
-    gameService.getSnapshot().context.state,
+  const hasLandscaping = useSelector(gameService, (state) =>
+    hasFeatureAccess(state.context.state, "LANDSCAPING"),
   );
+  const [isRestricted, restrictionReason] = hasRemoveRestriction({
+    name,
+    state: gameService.getSnapshot().context.state,
+    id,
+  });
 
   /**
    * Deselect if clicked outside of element
@@ -397,11 +406,11 @@ export const MoveableComponent: React.FC<
             {hasRemovalAction && (
               <div
                 className={classNames("group relative cursor-pointer", {
-                  "cursor-not-allowed": isRestricted,
+                  "cursor-not-allowed": isRestricted && !hasLandscaping,
                 })}
                 style={{ width: `${PIXEL_SCALE * 18}px` }}
                 onClick={(e) => {
-                  if (!isRestricted) remove();
+                  if (!isRestricted || hasLandscaping) remove();
                   e.preventDefault();
                 }}
               >
@@ -429,7 +438,7 @@ export const MoveableComponent: React.FC<
                         top: `${PIXEL_SCALE * 3}px`,
                       }}
                     />
-                    {isRestricted && (
+                    {isRestricted && !hasLandscaping && (
                       <img
                         src={SUNNYSIDE.icons.cancel}
                         className="absolute right-0 top-0 w-1/2 h-1/2 object-contain"
@@ -438,7 +447,7 @@ export const MoveableComponent: React.FC<
                     )}
                   </>
                 )}
-                {isRestricted && (
+                {isRestricted && !hasLandscaping && (
                   <div
                     className="flex justify-center absolute w-full pointer-events-none invisible group-hover:!visible"
                     style={{ top: `${PIXEL_SCALE * -10}px` }}

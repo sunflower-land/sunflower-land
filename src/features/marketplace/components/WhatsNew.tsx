@@ -126,7 +126,7 @@ const sortItems = (items: Tradeable[], type: "collectibles" | "wearables") => {
   const oneMonthAgo = new Date();
   oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
 
-  const filteredItems: Tradeable[] = [];
+  const filteredItems: (Tradeable & { tradeAt: number })[] = [];
 
   items.forEach((item) => {
     let tradeAt = INVENTORY_RELEASES[KNOWN_ITEMS[item.id]]?.tradeAt;
@@ -135,15 +135,18 @@ const sortItems = (items: Tradeable[], type: "collectibles" | "wearables") => {
     }
 
     if (tradeAt && tradeAt >= oneMonthAgo) {
-      filteredItems.push(item);
+      filteredItems.push({ ...item, tradeAt: tradeAt.getTime() });
     }
   });
 
-  return filteredItems
-    .sort((a, b) => b.id - a.id)
-    .sort(
-      (a, b) =>
-        (INVENTORY_RELEASES[KNOWN_ITEMS[b.id]]?.tradeAt.getTime() ?? 0) -
-        (INVENTORY_RELEASES[KNOWN_ITEMS[a.id]]?.tradeAt.getTime() ?? 0),
-    );
+  return filteredItems.sort((a, b) => {
+    const aTradeAt = a.tradeAt;
+    const bTradeAt = b.tradeAt;
+
+    if (aTradeAt !== bTradeAt) {
+      return bTradeAt - aTradeAt;
+    }
+
+    return b.id - a.id;
+  });
 };

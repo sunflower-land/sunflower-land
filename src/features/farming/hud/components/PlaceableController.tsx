@@ -32,12 +32,13 @@ import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 import { LANDSCAPING_DECORATIONS } from "features/game/types/decorations";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ITEM_ICONS } from "features/island/hud/components/inventory/Chest";
-import { IslandType, TemperateSeasonName } from "features/game/types/game";
+import { GameState, TemperateSeasonName } from "features/game/types/game";
 import {
   isBuildingUpgradable,
   makeUpgradableBuildingKey,
   UpgradableBuildingType,
 } from "features/game/events/landExpansion/upgradeBuilding";
+import { getCurrentBiome } from "features/island/biomes/biomes";
 
 interface Props {
   location: PlaceableLocation;
@@ -146,7 +147,7 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
     send("BACK");
   };
 
-  const island = gameState.context.state.island.type;
+  const island = gameState.context.state.island;
   const season = gameState.context.state.season.season;
   const buildingLevel = isBuildingUpgradable(placeable as BuildingName)
     ? gameState.context.state[
@@ -156,7 +157,7 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
 
   const getPlaceableImage = (
     placeable: LandscapingPlaceable,
-    island: IslandType,
+    island: GameState["island"],
     season: TemperateSeasonName,
     level?: number,
   ) => {
@@ -164,7 +165,7 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
       return "";
     }
     return (
-      ITEM_ICONS(island, season, level)[placeable] ??
+      ITEM_ICONS(season, getCurrentBiome(island), level)[placeable] ??
       ITEM_DETAILS[placeable].image
     );
   };

@@ -24,22 +24,25 @@ import { FeederMachine } from "features/feederMachine/FeederMachine";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { UpgradeBuildingModal } from "features/game/expansion/components/UpgradeBuildingModal";
 import { ANIMAL_HOUSE_IMAGES } from "features/henHouse/HenHouseInside";
-import { Animal, AnimalBounty, IslandType } from "features/game/types/game";
+import { Animal, AnimalBounty } from "features/game/types/game";
 import { AnimalDeal, ExchangeHud } from "./components/AnimalBounties";
 import { Modal } from "components/ui/Modal";
 import classNames from "classnames";
 import { isValidDeal } from "features/game/events/landExpansion/sellAnimal";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
 import { ANIMAL_HOUSE_BOUNDS } from "features/game/expansion/placeable/lib/collisionDetection";
+import { LandBiomeName } from "features/island/biomes/biomes";
+import { getCurrentBiome } from "features/island/biomes/biomes";
 
-export const EXTERIOR_ISLAND_BG: Record<IslandType, string> = {
-  basic: SUNNYSIDE.land.basic_building_bg,
-  spring: SUNNYSIDE.land.spring_building_bg,
-  desert: SUNNYSIDE.land.desert_building_bg,
-  volcano: SUNNYSIDE.land.volcano_building_bg,
+export const EXTERIOR_ISLAND_BG: Record<LandBiomeName, string> = {
+  "Basic Biome": SUNNYSIDE.land.basic_building_bg,
+  "Spring Biome": SUNNYSIDE.land.spring_building_bg,
+  "Desert Biome": SUNNYSIDE.land.desert_building_bg,
+  "Volcano Biome": SUNNYSIDE.land.volcano_building_bg,
 };
 
 const _barn = (state: MachineState) => state.context.state.barn;
+const _island = (state: MachineState) => state.context.state.island;
 
 type BarnAnimal = Exclude<AnimalType, "Chicken">;
 
@@ -59,6 +62,7 @@ export const BarnInside: React.FC = () => {
   const [deal, setDeal] = useState<AnimalBounty>();
 
   const barn = useSelector(gameService, _barn);
+  const island = useSelector(gameService, _island);
   const level = barn.level;
 
   const [scrollIntoView] = useScrollIntoView();
@@ -117,6 +121,7 @@ export const BarnInside: React.FC = () => {
     getValues(barn.animals).filter((animal) => animal.state === "sick").length,
     floorWidth,
   ]);
+  const currentBiome = getCurrentBiome(island);
 
   return (
     <>
@@ -159,7 +164,7 @@ export const BarnInside: React.FC = () => {
             width: `${84 * GRID_WIDTH_PX}px`,
             height: `${56 * GRID_WIDTH_PX}px`,
             imageRendering: "pixelated",
-            backgroundImage: `url(${EXTERIOR_ISLAND_BG[gameService.getSnapshot().context.state.island.type]})`,
+            backgroundImage: `url(${EXTERIOR_ISLAND_BG[currentBiome]})`,
             backgroundRepeat: "repeat",
             backgroundPosition: "center",
             backgroundSize: `${96 * PIXEL_SCALE}px ${96 * PIXEL_SCALE}px`,

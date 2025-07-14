@@ -6048,7 +6048,9 @@
   "description.colorToken2025": "Gunakan ini di kedai acara festival warna sebelum acara berakhir!",
   "description.colorTicket2025": "Pegang ini untuk peluang memenangi $FLOWER selepas acara festival warna berakhir!",
   "offering.blessing.success.loser": "Bukan kali ini",
-  "biome.alreadyBought": "Anda telah membeli bioma ini",
   "biome.notInCorrectIslandType": "Naik taraf ke pulau {{islandType}} untuk membeli bioma ini",
-  "biome.applyInstructions": "Anda telah membeli bioma baru! Masa untuk memberi tanah anda ubah suai. Pergi ke tab “Biomes” dalam inventori anda untuk menerapkannya."
+  "biome.applyInstructions": "Anda telah membeli bioma baru! Masa untuk memberi tanah anda ubah suai. Pergi ke tab “Biomes” dalam inventori anda untuk menerapkannya.",
+  "apply": "Memohon",
+  "unapply": "Tidak memohon",
+  "biome.alreadyOwn": "Anda sudah memiliki bioma ini"
 }

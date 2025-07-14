@@ -21,6 +21,7 @@ import {
   makeUpgradableBuildingKey,
   isBuildingUpgradable,
 } from "features/game/events/landExpansion/upgradeBuilding";
+import { getCurrentBiome } from "features/island/biomes/biomes";
 
 interface Props {
   onClose: () => void;
@@ -217,9 +218,11 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
               : undefined;
 
             const image =
-              ITEM_ICONS(state.island.type, state.season.season, hasLevel)[
-                name
-              ] ?? ITEM_DETAILS[name].image;
+              ITEM_ICONS(
+                state.season.season,
+                getCurrentBiome(state.island),
+                hasLevel,
+              )[name] ?? ITEM_DETAILS[name].image;
 
             return (
               <Box

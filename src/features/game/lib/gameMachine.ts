@@ -106,7 +106,6 @@ import { blessingIsReady } from "./blessings";
 import { getBumpkinLevel } from "./level";
 import { hasFeatureAccess } from "lib/flags";
 import { COMPETITION_POINTS } from "../types/competitions";
-import { BuyBiomeAction } from "../events/landExpansion/buyBiome";
 
 // Run at startup in case removed from query params
 const portalName = new URLSearchParams(window.location.search).get("portal");
@@ -353,29 +352,32 @@ const GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
     {},
   );
 
-const PLACEMENT_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
-  Object.keys(PLACEMENT_EVENTS).reduce(
-    (events, eventName) => ({
-      ...events,
-      [eventName]: {
-        actions: assign((context: Context, event: PlacementEvent) => ({
-          state: processEvent({
-            state: context.state as GameState,
-            action: event,
-            farmId: context.farmId,
-          }) as GameState,
-          actions: [
-            ...context.actions,
-            {
-              ...event,
-              createdAt: new Date(),
-            },
-          ],
-        })),
-      },
-    }),
-    {},
-  );
+const PLACEMENT_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> = [
+  ...Object.keys(PLACEMENT_EVENTS),
+  "biome.bought",
+  "biome.applied",
+].reduce(
+  (events, eventName) => ({
+    ...events,
+    [eventName]: {
+      actions: assign((context: Context, event: PlacementEvent) => ({
+        state: processEvent({
+          state: context.state as GameState,
+          action: event,
+          farmId: context.farmId,
+        }) as GameState,
+        actions: [
+          ...context.actions,
+          {
+            ...event,
+            createdAt: new Date(),
+          },
+        ],
+      })),
+    },
+  }),
+  {},
+);
 
 const EFFECT_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
   getKeys(STATE_MACHINE_EFFECTS).reduce(
@@ -773,7 +775,10 @@ export function startGame(authContext: AuthContext) {
                 landId = (event as VisitEvent).landId;
               }
 
-              const { state } = await loadGameStateForVisit(Number(landId));
+              const { state } = await loadGameStateForVisit(
+                Number(landId),
+                authContext.user.rawToken as string,
+              );
 
               return {
                 state: makeGame(state),
@@ -2076,22 +2081,6 @@ export function startGame(authContext: AuthContext) {
           },
           on: {
             ...PLACEMENT_EVENT_HANDLERS,
-            "biome.bought": {
-              actions: assign((context: Context, event: BuyBiomeAction) => ({
-                state: processEvent({
-                  state: context.state as GameState,
-                  action: event,
-                  farmId: context.farmId,
-                }) as GameState,
-                actions: [
-                  ...context.actions,
-                  {
-                    ...event,
-                    createdAt: new Date(),
-                  },
-                ],
-              })),
-            },
             SAVE: {
               actions: send(
                 (context) =>

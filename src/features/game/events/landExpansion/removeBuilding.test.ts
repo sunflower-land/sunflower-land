@@ -144,7 +144,10 @@ describe("removeBuilding", () => {
       },
     };
 
-    const [_, error] = hasRemoveRestriction(buildingName, id, state);
+    const [, error] = hasRemoveRestriction({
+      name: buildingName,
+      state,
+    });
 
     expect(() =>
       removeBuilding({
