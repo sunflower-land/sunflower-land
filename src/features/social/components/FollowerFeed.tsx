@@ -158,9 +158,9 @@ export const FollowerFeed: React.FC<Props> = ({
       >
         <div className="flex flex-col gap-1 pl-1">
           <div className="sticky top-0 bg-brown-200 z-10 pb-1">
-            <Label type="default">{`Activity`}</Label>
+            <Label type="default">{t("activity")}</Label>
           </div>
-          <div className="text-xs loading">{`Loading`}</div>
+          <div className="text-xs loading">{t("loading")}</div>
         </div>
       </InnerPanel>
     );
