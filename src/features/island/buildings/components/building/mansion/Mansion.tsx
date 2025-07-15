@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { BuildingProps } from "../Building";
 import { Context } from "features/game/GameProvider";
-import { useSelector } from "@xstate/react";
+import { useActor } from "@xstate/react";
 import { LetterBox } from "features/farming/mail/LetterBox";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Bumpkin } from "features/game/types/game";
@@ -12,30 +12,25 @@ import { useNavigate } from "react-router";
 import { Section } from "lib/utils/hooks/useScrollIntoView";
 import { HomeBumpkins } from "../house/HomeBumpkins";
 import { MANOR_VARIANTS } from "features/island/lib/alternateArt";
-import { MachineState } from "features/game/lib/gameMachine";
 import { DailyReward } from "features/game/expansion/components/dailyReward/DailyReward";
-const _season = (state: MachineState) => state.context.state.season.season;
+import { useVisiting } from "lib/utils/visitUtils";
 
-const _state = (state: MachineState) => {
-  return state.context.state;
-};
-
-export const Mansion: React.FC<BuildingProps> = ({ isBuilt, island }) => {
+export const Mansion: React.FC<BuildingProps> = ({ isBuilt, season }) => {
   const { gameService, showAnimations } = useContext(Context);
-  const state = useSelector(gameService, _state);
-
-  const bumpkin = state.bumpkin as Bumpkin;
-
-  const season = useSelector(gameService, _season);
-
-  const [showHeart, setShowHeart] = useState(false);
+  const [gameState] = useActor(gameService);
+  const { isVisiting: visiting } = useVisiting();
 
   const navigate = useNavigate();
 
+  const [showHeart, setShowHeart] = useState(false);
+
   const handleClick = () => {
     if (isBuilt) {
-      navigate("/home");
-
+      if (visiting) {
+        navigate(`/visit/${gameState.context.farmId}/home`);
+      } else {
+        navigate("/home");
+      }
       // Add future on click actions here
       return;
     }
@@ -57,6 +52,8 @@ export const Mansion: React.FC<BuildingProps> = ({ isBuilt, island }) => {
       }
     };
   }, []);
+
+  const bumpkin = gameState.context.state.bumpkin as Bumpkin;
 
   return (
     <div className="absolute h-full w-full">
@@ -90,7 +87,7 @@ export const Mansion: React.FC<BuildingProps> = ({ isBuilt, island }) => {
           left: `${PIXEL_SCALE * 0}px`,
         }}
       >
-        {bumpkin && <HomeBumpkins game={state} />}
+        {bumpkin && <HomeBumpkins game={gameState.context.state} />}
       </div>
 
       <div

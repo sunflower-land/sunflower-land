@@ -814,6 +814,13 @@ export function startGame(authContext: AuthContext) {
             },
             END_VISIT: {
               target: "loading",
+              actions: assign((_) => {
+                window.history.replaceState({}, "", "/");
+                return {
+                  state: EMPTY,
+                  sessionId: INITIAL_SESSION,
+                };
+              }),
             },
           },
         },

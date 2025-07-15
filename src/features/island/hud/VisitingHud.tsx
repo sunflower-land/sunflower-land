@@ -9,13 +9,12 @@ import { InnerPanel } from "components/ui/Panel";
 import { BumpkinProfile } from "./components/BumpkinProfile";
 import { InventoryItemName } from "features/game/types/game";
 import { Settings } from "./components/Settings";
-import { createPortal } from "react-dom";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import Decimal from "decimal.js-light";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { RoundButton } from "components/ui/RoundButton";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { useNavigate } from "react-router";
+import { HudContainer } from "components/ui/HudContainer";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -25,14 +24,9 @@ export const VisitingHud: React.FC = () => {
   const { gameService, shortcutItem, selectedItem } = useContext(Context);
   const [gameState] = useActor(gameService);
   const { t } = useAppTranslation();
-  const navigate = useNavigate();
 
-  return createPortal(
-    <div
-      data-html2canvas-ignore="true"
-      aria-label="Hud"
-      className="absolute z-40"
-    >
+  return (
+    <HudContainer>
       {!gameState.matches("landToVisitNotFound") && (
         <InnerPanel className="fixed px-2 pt-1 pb-2 bottom-2 left-1/2 -translate-x-1/2 z-50">
           <span className="text-white">
@@ -40,19 +34,23 @@ export const VisitingHud: React.FC = () => {
           </span>
         </InnerPanel>
       )}
-      <Balances
-        sfl={gameState.context.state.balance}
-        coins={gameState.context.state.coins}
-        gems={gameState.context.state.inventory["Gem"] ?? new Decimal(0)}
-      />
-      <Inventory
-        state={gameState.context.state}
-        shortcutItem={shortcutItem}
-        selectedItem={selectedItem as InventoryItemName}
-        isFarming={false}
-        isFullUser={false}
-        hideActions
-      />
+      <div className="absolute right-0 top-0 p-2.5">
+        <Balances
+          sfl={gameState.context.state.balance}
+          coins={gameState.context.state.coins}
+          gems={gameState.context.state.inventory["Gem"] ?? new Decimal(0)}
+        />
+      </div>
+      <div className="absolute right-0 top-16 p-2.5">
+        <Inventory
+          state={gameState.context.state}
+          shortcutItem={shortcutItem}
+          selectedItem={selectedItem as InventoryItemName}
+          isFarming={false}
+          isFullUser={false}
+          hideActions
+        />
+      </div>
       <BumpkinProfile />
       <div
         className="fixed z-50"
@@ -74,12 +72,11 @@ export const VisitingHud: React.FC = () => {
           height: `${PIXEL_SCALE * 23}px`,
         }}
       >
-        {/* <TravelButton /> */}
         <RoundButton
           onClick={(e) => {
             e.stopPropagation();
             e.preventDefault();
-            navigate("/");
+            gameService.send("END_VISIT");
           }}
         >
           <img
@@ -94,7 +91,6 @@ export const VisitingHud: React.FC = () => {
           />
         </RoundButton>
       </div>
-    </div>,
-    document.body,
+    </HudContainer>
   );
 };

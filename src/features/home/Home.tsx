@@ -34,6 +34,8 @@ import { NPC_WEARABLES } from "lib/npcs";
 import { EXTERIOR_ISLAND_BG } from "features/barn/BarnInside";
 import { LandBiomeName } from "features/island/biomes/biomes";
 import { getCurrentBiome } from "features/island/biomes/biomes";
+import { useVisiting } from "lib/utils/visitUtils";
+import { VisitingHud } from "features/island/hud/VisitingHud";
 
 const selectGameState = (state: MachineState) => state.context.state;
 const isLandscaping = (state: MachineState) => state.matches("landscaping");
@@ -54,7 +56,8 @@ function acknowledgeIntro() {
 }
 
 export const Home: React.FC = () => {
-  const [showIntro, setShowIntro] = useState(!hasReadIntro());
+  const { isVisiting } = useVisiting();
+  const [showIntro, setShowIntro] = useState(!hasReadIntro() && !isVisiting);
 
   const { gameService, showTimers } = useContext(Context);
 
@@ -113,6 +116,7 @@ export const Home: React.FC = () => {
               height={height}
               width={width}
               z={NON_COLLIDING_OBJECTS.includes(name) ? 0 : 1}
+              className={name === "Wardrobe" ? "pointer-events-none" : ""}
             >
               <Collectible
                 location="home"
@@ -241,12 +245,20 @@ export const Home: React.FC = () => {
 
               {!landscaping && (
                 <>
-                  <div className="absolute -top-16 left-0 w-full">
-                    <InteriorBumpkins game={state} />
-                  </div>
+                  {!isVisiting && (
+                    <div className="absolute -top-16 left-0 w-full">
+                      <InteriorBumpkins game={state} />
+                    </div>
+                  )}
                   <Button
                     className="absolute -bottom-16"
-                    onClick={() => navigate("/")}
+                    onClick={() =>
+                      navigate(
+                        isVisiting
+                          ? `/visit/${gameService.state.context.farmId}`
+                          : "/",
+                      )
+                    }
                   >
                     {t("exit")}
                   </Button>
@@ -259,8 +271,9 @@ export const Home: React.FC = () => {
           </div>
         </div>
 
-        {!landscaping && <Hud isFarming location="home" />}
+        {!landscaping && !isVisiting && <Hud isFarming location="home" />}
         {landscaping && <LandscapingHud location="home" />}
+        {isVisiting && <VisitingHud />}
 
         <Modal show={showPainting} onHide={() => setShowPainting(false)}>
           <BumpkinPainting
