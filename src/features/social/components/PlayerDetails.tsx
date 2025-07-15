@@ -29,7 +29,7 @@ import { ModalOverlay } from "components/ui/ModalOverlay";
 import { useNavigate } from "react-router";
 import { useVisiting } from "lib/utils/visitUtils";
 import { PlayerModalPlayer } from "../lib/playerModalManager";
-import { FollowUpdate, Player } from "../types/types";
+import { Player } from "../types/types";
 import { useSocial } from "../hooks/useSocial";
 import { Followers } from "./Followers";
 import { KeyedMutator } from "swr";
@@ -81,8 +81,8 @@ export const PlayerDetails: React.FC<Props> = ({
     farmId,
     following: data?.data?.followedBy ?? [],
     callbacks: {
-      onFollow: (update?: FollowUpdate) => mutate(),
-      onUnfollow: (update?: FollowUpdate) => mutate(),
+      onFollow: () => mutate(),
+      onUnfollow: () => mutate(),
       onChat: (update) => {
         mutate((current) => {
           return {
@@ -245,7 +245,8 @@ export const PlayerDetails: React.FC<Props> = ({
       </div>
       {!isMobile && (
         <FollowerFeed
-          interactions={data?.data?.messages ?? []}
+          farmId={farmId}
+          followedPlayerId={player.farmId}
           onInteraction={(message) => {
             onChatMessage(message);
           }}
