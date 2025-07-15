@@ -31,6 +31,7 @@ import { tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
+import { FollowerFeed } from "./components/FollowerFeed";
 
 interface Props {
   game: GameState;
@@ -278,6 +279,13 @@ export const PlayerModal: React.FC<Props> = ({ game, farmId, token }) => {
               mutate={mutate}
               onFollow={handleFollow}
               onChatMessage={sendMessage}
+            />
+          )}
+          {tab === "Activity" && (
+            <FollowerFeed
+              farmId={farmId}
+              followedPlayerId={player?.farmId as number}
+              onInteraction={sendMessage}
             />
           )}
           {tab === "Reward" && <PlayerGift />}

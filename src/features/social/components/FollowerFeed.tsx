@@ -229,7 +229,6 @@ export const FollowerFeed: React.FC<Props> = ({
                     "pl-1": direction === "left" && interaction.type === "chat",
                     "pr-1":
                       direction === "right" && interaction.type === "chat",
-                    "bg-error": interaction.message === "testing 6",
                   })}
                 >
                   <InteractionBubble
