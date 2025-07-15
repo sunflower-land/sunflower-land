@@ -882,7 +882,7 @@ import flowerscribedStatue from "assets/sfts/flower-scribed_statue.webp";
 import balloonRug from "assets/sfts/balloon_rug.webp";
 import giantYam from "assets/sfts/giant_yam.webp";
 import heartAirBalloon from "assets/sfts/heart_air_balloon.webp";
-import giantZuchinni from "assets/sfts/giant_zuchinni.webp";
+import giantZucchini from "assets/sfts/giant_zucchini.webp";
 import miniFloatingIsland from "assets/sfts/mini_floating_island.webp";
 import giantKale from "assets/sfts/giant_kale.webp";
 
@@ -5280,8 +5280,8 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.heartAirBalloon"),
   },
   "Giant Zucchini": {
-    image: giantZuchinni,
-    description: translate("description.giantZuchinni"),
+    image: giantZucchini,
+    description: translate("description.giantZucchini"),
   },
   "Mini Floating Island": {
     image: miniFloatingIsland,
