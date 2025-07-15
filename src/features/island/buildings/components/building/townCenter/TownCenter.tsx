@@ -68,17 +68,15 @@ export const TownCenter: React.FC<BuildingProps> = ({ isBuilt }) => {
         />
       </BuildingImageWrapper>
 
-      {!isVisiting && (
-        <div
-          className="absolute"
-          style={{
-            left: `${PIXEL_SCALE * 16}px`,
-            top: `${PIXEL_SCALE * 14}px`,
-          }}
-        >
-          <DailyReward />
-        </div>
-      )}
+      <div
+        className="absolute"
+        style={{
+          left: `${PIXEL_SCALE * 16}px`,
+          top: `${PIXEL_SCALE * 14}px`,
+        }}
+      >
+        <DailyReward />
+      </div>
 
       <div
         className="absolute w-full"
