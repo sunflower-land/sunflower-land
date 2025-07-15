@@ -26,6 +26,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
   inventory: {
     "Better Together Banner": new Decimal(1),
     Geniseed: new Decimal(400),
+    Pickaxe: new Decimal(1),
     "Beta Pass": new Decimal(1),
     "Colors Token 2025": new Decimal(10000),
     "Magic Bean": new Decimal(1),
@@ -180,7 +181,17 @@ export const STATIC_OFFLINE_FARM: GameState = {
   },
   gold: {},
   iron: {},
-  stones: {},
+  stones: {
+    0: {
+      stone: {
+        minedAt: 0,
+        criticalHit: { Native: true },
+      },
+      createdAt: 0,
+      x: 8,
+      y: -2,
+    },
+  },
   trees: {
     1: {
       wood: {

@@ -184,7 +184,6 @@ export const Tree: React.FC<Props> = ({ id }) => {
       criticalDropGenerator: (name) =>
         resource.wood.criticalHit?.[name] ?? false,
     });
-    harvested.current = woodDropAmount.toNumber();
 
     const newState = gameService.send("timber.chopped", {
       index: id,
@@ -194,6 +193,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
     if (!newState.matches("hoarding")) {
       if (showAnimations) {
         setCollecting(true);
+        harvested.current = woodDropAmount.toNumber();
       }
 
       treeFallAudio();
@@ -201,6 +201,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
       if (showAnimations) {
         await new Promise((res) => setTimeout(res, 3000));
         setCollecting(false);
+        harvested.current = 0;
       }
     }
 

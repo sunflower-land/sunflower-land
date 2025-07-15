@@ -1,12 +1,21 @@
 import Decimal from "decimal.js-light";
 import { STONE_RECOVERY_TIME } from "features/game/lib/constants";
 import { trackActivity } from "features/game/types/bumpkinActivity";
-import { GameState, Rock, Skills } from "../../types/game";
+import { CriticalHitName, GameState, Rock, Skills } from "../../types/game";
 import {
   isCollectibleActive,
   isCollectibleBuilt,
 } from "features/game/lib/collectibleBuilt";
 import { produce } from "immer";
+import {
+  Position,
+  isWithinAOE,
+} from "features/game/expansion/placeable/lib/collisionDetection";
+import { FACTION_ITEMS } from "features/game/lib/factions";
+import { getBudYieldBoosts } from "features/game/lib/getBudYieldBoosts";
+import { isWearableActive } from "features/game/lib/wearables";
+import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
+import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 
 export type LandExpansionStoneMineAction = {
   type: "stoneRock.mined";
@@ -71,6 +80,144 @@ export function getRequiredPickaxeAmount(gameState: GameState) {
 
   return new Decimal(1);
 }
+type GetStoneDropAmountArgs = {
+  game: GameState;
+  rock: Rock;
+  criticalDropGenerator?: (name: CriticalHitName) => boolean;
+};
+/**
+ * Sets the drop amount for the NEXT mine event on the rock
+ */
+export function getStoneDropAmount({
+  game,
+  rock,
+  criticalDropGenerator = () => false,
+}: GetStoneDropAmountArgs) {
+  const {
+    inventory,
+    bumpkin: { skills },
+    buds = {},
+  } = game;
+
+  let amount = 1;
+
+  if (
+    isCollectibleBuilt({ name: "Rock Golem", game }) &&
+    criticalDropGenerator("Rock Golem")
+  ) {
+    amount += 2; // 200%
+  }
+
+  if (inventory.Prospector) {
+    amount += 0.2; // 20%
+  }
+
+  if (isCollectibleBuilt({ name: "Tunnel Mole", game })) {
+    amount += 0.25;
+  }
+
+  if (isCollectibleBuilt({ name: "Stone Beetle", game })) {
+    amount += 0.1;
+  }
+
+  if (skills.Digger) {
+    amount += 0.1;
+  }
+
+  if (skills["Rock'N'Roll"]) {
+    amount += 0.1;
+  }
+
+  if (skills["Rocky Favor"]) {
+    amount += 1;
+  }
+
+  if (skills["Ferrous Favor"]) {
+    amount -= 0.5;
+  }
+
+  // Add native critical hit before the AoE boosts
+  if (criticalDropGenerator("Native")) {
+    amount += 1;
+  }
+  // If within Emerald Turtle AOE: +0.5
+  if (game.collectibles["Emerald Turtle"]?.[0]) {
+    if (!rock) return new Decimal(amount).toDecimalPlaces(4);
+
+    const emeraldTurtleCoordinates =
+      game.collectibles["Emerald Turtle"]?.[0].coordinates;
+    const emeraldTurtleDimensions = COLLECTIBLES_DIMENSIONS["Emerald Turtle"];
+
+    const emeraldTurtlePosition: Position = {
+      x: emeraldTurtleCoordinates.x,
+      y: emeraldTurtleCoordinates.y,
+      height: emeraldTurtleDimensions.height,
+      width: emeraldTurtleDimensions.width,
+    };
+
+    const rockPosition: Position = {
+      x: rock?.x,
+      y: rock?.y,
+      ...RESOURCE_DIMENSIONS["Stone Rock"],
+    };
+
+    if (
+      isCollectibleBuilt({ name: "Emerald Turtle", game }) &&
+      isWithinAOE("Emerald Turtle", emeraldTurtlePosition, rockPosition, skills)
+    ) {
+      amount += 0.5;
+    }
+  }
+
+  // If within Tin Turtle AOE: +0.1
+  if (game.collectibles["Tin Turtle"]?.[0]) {
+    if (!rock) return new Decimal(amount).toDecimalPlaces(4);
+
+    const tinTurtleCoordinates =
+      game.collectibles["Tin Turtle"]?.[0].coordinates;
+    const tinTurtleDimensions = COLLECTIBLES_DIMENSIONS["Tin Turtle"];
+
+    const tinTurtlePosition: Position = {
+      x: tinTurtleCoordinates.x,
+      y: tinTurtleCoordinates.y,
+      height: tinTurtleDimensions.height,
+      width: tinTurtleDimensions.width,
+    };
+
+    const rockPosition: Position = {
+      x: rock?.x,
+      y: rock?.y,
+      ...RESOURCE_DIMENSIONS["Stone Rock"],
+    };
+
+    if (
+      isCollectibleBuilt({ name: "Tin Turtle", game }) &&
+      isWithinAOE("Tin Turtle", tinTurtlePosition, rockPosition, skills)
+    ) {
+      amount += 0.1;
+    }
+  }
+
+  // Apply the faction shield boost if in the right faction
+  const factionName = game.faction?.name;
+  if (
+    factionName &&
+    isWearableActive({
+      game,
+      name: FACTION_ITEMS[factionName].secondaryTool,
+    })
+  ) {
+    amount += 0.25;
+  }
+
+  amount += getBudYieldBoosts(buds, "Stone");
+
+  if (game.island.type === "volcano") {
+    amount += 0.1;
+  }
+
+  return new Decimal(amount).toDecimalPlaces(4);
+}
 
 export function mineStone({
   state,
@@ -78,7 +225,7 @@ export function mineStone({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (stateCopy) => {
-    const { stones, bumpkin, collectibles } = stateCopy;
+    const { stones, bumpkin } = stateCopy;
     const rock = stones?.[action.index];
 
     if (!rock) {
@@ -99,8 +246,11 @@ export function mineStone({
     if (toolAmount.lessThan(requiredToolAmount)) {
       throw new Error("Not enough pickaxes");
     }
-
-    const stoneMined = rock.stone.amount;
+    const stoneMined = getStoneDropAmount({
+      game: stateCopy,
+      rock,
+      criticalDropGenerator: (name) => rock.stone.criticalHit?.[name] ?? false,
+    });
     const amountInInventory = stateCopy.inventory.Stone || new Decimal(0);
 
     rock.stone = {
@@ -109,7 +259,6 @@ export function mineStone({
         createdAt: Date.now(),
         game: stateCopy,
       }),
-      amount: 2,
     };
 
     stateCopy.inventory.Pickaxe = toolAmount.sub(requiredToolAmount);
