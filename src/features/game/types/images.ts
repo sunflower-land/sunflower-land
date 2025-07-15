@@ -827,11 +827,14 @@ import springDuckling from "assets/sfts/spring_duckling.webp";
 import timeshard from "assets/icons/timeshard.webp";
 import ancientClock from "assets/icons/ancient_clock.png";
 import windsOfChangeBanner from "assets/decorations/banners/winds-of-change_banner_loop.gif";
+import betterTogetherBanner from "assets/decorations/banners/better_together_banner.webp";
 import pesticide from "assets/sfts/pesticide.webp";
 import jin from "assets/sfts/jin_ronin.webp";
 import loveCharm from "assets/icons/love_charm.webp";
 import geniseed from "assets/icons/geniseed.webp";
 import brokenPillar from "assets/icons/broken_pillar.webp";
+import bracelet from "assets/icons/bracelet.webp";
+import coprolite from "assets/icons/coprolite.webp";
 
 import floralArch from "assets/sfts/floral_arch.webp";
 import flowerCoin from "assets/sfts/flower_coin.webp";
@@ -5365,5 +5368,17 @@ export const ITEM_DETAILS: Items = {
     image: volcanoBiome,
     description:
       "A volcano biome that provides a volcano income and a volcano life.",
+  },
+  Bracelet: {
+    image: bracelet,
+    description: "",
+  },
+  Coprolite: {
+    image: coprolite,
+    description: "",
+  },
+  "Better Together Banner": {
+    image: betterTogetherBanner,
+    description: "",
   },
 };

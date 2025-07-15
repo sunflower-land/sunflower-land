@@ -24,6 +24,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     expiresAt: Date.now() + 31 * 24 * 60 * 60 * 1000,
   },
   inventory: {
+    "Better Together Banner": new Decimal(1),
     "Beta Pass": new Decimal(1),
     "Colors Token 2025": new Decimal(10000),
     "Magic Bean": new Decimal(1),
