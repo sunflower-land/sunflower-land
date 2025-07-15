@@ -1,9 +1,21 @@
 import Decimal from "decimal.js-light";
 import { canMine } from "features/game/expansion/lib/utils";
-import { isCollectibleActive } from "features/game/lib/collectibleBuilt";
+import {
+  Position,
+  isWithinAOE,
+} from "features/game/expansion/placeable/lib/collisionDetection";
+import {
+  isCollectibleActive,
+  isCollectibleBuilt,
+} from "features/game/lib/collectibleBuilt";
 import { GOLD_RECOVERY_TIME } from "features/game/lib/constants";
+import { FACTION_ITEMS } from "features/game/lib/factions";
+import { getBudYieldBoosts } from "features/game/lib/getBudYieldBoosts";
+import { isWearableActive } from "features/game/lib/wearables";
 import { trackActivity } from "features/game/types/bumpkinActivity";
-import { GameState } from "features/game/types/game";
+import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
+import { CriticalHitName, GameState, Rock } from "features/game/types/game";
+import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 import { produce } from "immer";
 
 export type LandExpansionMineGoldAction = {
@@ -61,6 +73,104 @@ export function getMinedAt({ createdAt, game }: GetMinedAtArgs): number {
   return createdAt - buff * 1000;
 }
 
+/**
+ * Sets the drop amount for the NEXT mine event on the rock
+ */
+export function getGoldDropAmount({
+  game,
+  rock,
+  criticalDropGenerator = () => false,
+}: {
+  game: GameState;
+  rock: Rock;
+  criticalDropGenerator?: (name: CriticalHitName) => boolean;
+}) {
+  const {
+    inventory,
+    bumpkin: { skills },
+    buds = {},
+  } = game;
+  let amount = 1;
+
+  if (inventory["Gold Rush"]) {
+    amount += 0.5;
+  }
+
+  // 1 in 5 chance of 2.5x
+  if (skills["Gold Rush"] && criticalDropGenerator("Gold Rush")) {
+    amount += 1.5;
+  }
+
+  if (skills["Golden Touch"]) {
+    amount += 0.5;
+  }
+
+  if (criticalDropGenerator("Native")) {
+    amount += 1;
+  }
+
+  if (isCollectibleBuilt({ name: "Nugget", game })) {
+    amount += 0.25;
+  }
+
+  if (isCollectibleBuilt({ name: "Gilded Swordfish", game })) {
+    amount += 0.1;
+  }
+
+  if (isCollectibleBuilt({ name: "Gold Beetle", game })) {
+    amount += 0.1;
+  }
+
+  // If within Emerald Turtle AOE: +0.5
+  if (game.collectibles["Emerald Turtle"]?.[0]) {
+    if (!rock) return new Decimal(amount).toDecimalPlaces(4);
+
+    const emeraldTurtleCoordinates =
+      game.collectibles["Emerald Turtle"]?.[0].coordinates;
+    const emeraldTurtleDimensions = COLLECTIBLES_DIMENSIONS["Emerald Turtle"];
+
+    const emeraldTurtlePosition: Position = {
+      x: emeraldTurtleCoordinates.x,
+      y: emeraldTurtleCoordinates.y,
+      height: emeraldTurtleDimensions.height,
+      width: emeraldTurtleDimensions.width,
+    };
+
+    const rockPosition: Position = {
+      x: rock?.x,
+      y: rock?.y,
+      ...RESOURCE_DIMENSIONS["Gold Rock"],
+    };
+
+    if (
+      isCollectibleBuilt({ name: "Emerald Turtle", game }) &&
+      isWithinAOE("Emerald Turtle", emeraldTurtlePosition, rockPosition, skills)
+    ) {
+      amount += 0.5;
+    }
+  }
+
+  // Apply the faction shield boost if in the right faction
+  const factionName = game.faction?.name;
+  if (
+    factionName &&
+    isWearableActive({
+      game,
+      name: FACTION_ITEMS[factionName].secondaryTool,
+    })
+  ) {
+    amount += 0.25;
+  }
+
+  amount += getBudYieldBoosts(buds, "Gold");
+
+  if (game.island.type === "volcano") {
+    amount += 0.1;
+  }
+
+  return new Decimal(amount).toDecimalPlaces(4);
+}
+
 export function mineGold({
   state,
   action,
@@ -89,13 +199,17 @@ export function mineGold({
     if (toolAmount.lessThan(1)) {
       throw new Error(EVENT_ERRORS.NO_PICKAXES);
     }
+    const goldMined = getGoldDropAmount({
+      game: stateCopy,
+      rock: goldRock,
+      criticalDropGenerator: (name) =>
+        goldRock.stone.criticalHit?.[name] ?? false,
+    });
 
-    const goldMined = goldRock.stone.amount;
     const amountInInventory = stateCopy.inventory.Gold || new Decimal(0);
 
     goldRock.stone = {
       minedAt: getMinedAt({ createdAt, game: stateCopy }),
-      amount: 2,
     };
     bumpkin.activity = trackActivity("Gold Mined", bumpkin.activity);
 

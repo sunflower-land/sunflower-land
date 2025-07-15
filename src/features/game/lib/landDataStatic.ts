@@ -179,7 +179,17 @@ export const STATIC_OFFLINE_FARM: GameState = {
       y: 6,
     },
   },
-  gold: {},
+  gold: {
+    0: {
+      stone: {
+        minedAt: 0,
+        criticalHit: { Native: true },
+      },
+      createdAt: 0,
+      x: 8,
+      y: -4,
+    },
+  },
   iron: {
     0: {
       stone: {
