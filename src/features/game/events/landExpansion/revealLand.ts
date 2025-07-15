@@ -86,7 +86,7 @@ export function revealLand({
       game.stones[randomUUID().slice(0, 8)] = {
         x: coords.x + origin.x,
         y: coords.y + origin.y,
-        stone: { amount: 1, minedAt: 0 },
+        stone: { minedAt: 0 },
       };
     });
     inventory["Stone Rock"] = (inventory["Stone Rock"] || new Decimal(0)).add(
@@ -98,7 +98,7 @@ export function revealLand({
       game.iron[randomUUID().slice(0, 8)] = {
         x: coords.x + origin.x,
         y: coords.y + origin.y,
-        stone: { amount: 1, minedAt: 0 },
+        stone: { minedAt: 0 },
       };
     });
     inventory["Iron Rock"] = (inventory["Iron Rock"] || new Decimal(0)).add(
@@ -110,7 +110,7 @@ export function revealLand({
       game.gold[randomUUID().slice(0, 8)] = {
         x: coords.x + origin.x,
         y: coords.y + origin.y,
-        stone: { amount: 1, minedAt: 0 },
+        stone: { minedAt: 0 },
       };
     });
     inventory["Gold Rock"] = (inventory["Gold Rock"] || new Decimal(0)).add(
@@ -122,7 +122,7 @@ export function revealLand({
       game.crimstones[randomUUID().slice(0, 8)] = {
         x: coords.x + origin.x,
         y: coords.y + origin.y,
-        stone: { amount: 1, minedAt: 0 },
+        stone: { minedAt: 0 },
         minesLeft: 5,
       };
     });
@@ -172,7 +172,7 @@ export function revealLand({
       game.sunstones[id] = {
         x: coords.x + origin.x,
         y: coords.y + origin.y,
-        stone: { amount: 1, minedAt: 0 },
+        stone: { minedAt: 0 },
         minesLeft: 10,
       };
     });

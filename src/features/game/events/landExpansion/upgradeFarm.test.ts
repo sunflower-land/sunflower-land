@@ -171,7 +171,6 @@ describe("upgradeFarm", () => {
           crim: {
             minesLeft: 1,
             stone: {
-              amount: 1,
               minedAt: Date.now() - 1 * 60 * 60 * 1000,
             },
             x: 100,

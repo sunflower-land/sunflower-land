@@ -614,9 +614,8 @@ export type Tree = {
 } & Coordinates;
 
 export type Stone = {
-  amount: number;
-  // Epoch time in milliseconds
   minedAt: number;
+  criticalHit?: CriticalHit;
 };
 
 export type FiniteResource = {

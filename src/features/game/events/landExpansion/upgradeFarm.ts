@@ -235,8 +235,8 @@ const INITIAL_SPRING_LAND: Pick<
       x: 3,
       y: 9,
       stone: {
-        amount: 2,
         minedAt: 0,
+        criticalHit: { Native: true },
       },
     },
   },
@@ -245,7 +245,6 @@ const INITIAL_SPRING_LAND: Pick<
       x: 5,
       y: 8,
       stone: {
-        amount: 1,
         minedAt: 0,
       },
     },
@@ -253,7 +252,6 @@ const INITIAL_SPRING_LAND: Pick<
   stones: {
     "1": {
       stone: {
-        amount: 1,
         minedAt: 0,
       },
       x: -3,
@@ -261,7 +259,6 @@ const INITIAL_SPRING_LAND: Pick<
     },
     "2": {
       stone: {
-        amount: 1,
         minedAt: 0,
       },
       x: -2,
@@ -480,7 +477,7 @@ const INITIAL_DESERT_LAND: Pick<
       x: 3,
       y: 9,
       stone: {
-        amount: 2,
+        criticalHit: { Native: true },
         minedAt: 0,
       },
     },
@@ -490,7 +487,6 @@ const INITIAL_DESERT_LAND: Pick<
       x: 5,
       y: 8,
       stone: {
-        amount: 1,
         minedAt: 0,
       },
     },
@@ -498,7 +494,6 @@ const INITIAL_DESERT_LAND: Pick<
   stones: {
     "1": {
       stone: {
-        amount: 1,
         minedAt: 0,
       },
       x: -3,
@@ -506,7 +501,6 @@ const INITIAL_DESERT_LAND: Pick<
     },
     "2": {
       stone: {
-        amount: 1,
         minedAt: 0,
       },
       x: -2,
@@ -747,7 +741,7 @@ const INITIAL_VOLCANO_LAND: Pick<
       x: 2,
       y: 9,
       stone: {
-        amount: 2,
+        criticalHit: { Native: true },
         minedAt: 0,
       },
       createdAt: Date.now(),
@@ -758,7 +752,6 @@ const INITIAL_VOLCANO_LAND: Pick<
       x: 5,
       y: 7,
       stone: {
-        amount: 1,
         minedAt: 0,
       },
       createdAt: Date.now(),
@@ -767,7 +760,6 @@ const INITIAL_VOLCANO_LAND: Pick<
   stones: {
     "1": {
       stone: {
-        amount: 1,
         minedAt: 0,
       },
       x: -3,
@@ -776,7 +768,6 @@ const INITIAL_VOLCANO_LAND: Pick<
     },
     "2": {
       stone: {
-        amount: 1,
         minedAt: 0,
       },
       x: -2,

@@ -495,7 +495,6 @@ describe("canremove", () => {
               y: 3,
 
               stone: {
-                amount: 1,
                 minedAt: now,
               },
             },
@@ -518,7 +517,6 @@ describe("canremove", () => {
               y: 3,
 
               stone: {
-                amount: 1,
                 minedAt: now,
               },
             },
@@ -541,7 +539,6 @@ describe("canremove", () => {
               y: 3,
 
               stone: {
-                amount: 1,
                 minedAt: now,
               },
             },
@@ -564,7 +561,6 @@ describe("canremove", () => {
               y: 3,
 
               stone: {
-                amount: 1,
                 minedAt: now,
               },
             },
@@ -1227,7 +1223,6 @@ describe("canremove", () => {
               y: 3,
 
               stone: {
-                amount: 1,
                 minedAt: 0,
               },
             },
@@ -1250,7 +1245,6 @@ describe("canremove", () => {
               y: 3,
 
               stone: {
-                amount: 1,
                 minedAt: 0,
               },
             },
@@ -1273,7 +1267,6 @@ describe("canremove", () => {
               y: 3,
 
               stone: {
-                amount: 1,
                 minedAt: 0,
               },
             },
@@ -1296,7 +1289,6 @@ describe("canremove", () => {
               y: 3,
 
               stone: {
-                amount: 1,
                 minedAt: 0,
               },
             },
@@ -1812,7 +1804,6 @@ describe("canremove", () => {
             y: 3,
 
             stone: {
-              amount: 1,
               minedAt: now - 100,
             },
           },
@@ -1838,7 +1829,6 @@ describe("canremove", () => {
             y: 3,
 
             stone: {
-              amount: 1,
               minedAt: now - 100,
             },
           },
@@ -1864,7 +1854,6 @@ describe("canremove", () => {
             y: 3,
 
             stone: {
-              amount: 1,
               minedAt: now - 100,
             },
           },
@@ -1890,7 +1879,6 @@ describe("canremove", () => {
             y: 3,
 
             stone: {
-              amount: 1,
               minedAt: now - 100,
             },
           },
@@ -2124,7 +2112,6 @@ describe("canremove", () => {
             y: 3,
 
             stone: {
-              amount: 1,
               minedAt: now - 100,
             },
             minesLeft: 1,
@@ -2226,7 +2213,6 @@ describe("canremove", () => {
             y: 3,
 
             stone: {
-              amount: 1,
               minedAt: now - 100,
             },
             minesLeft: 1,
