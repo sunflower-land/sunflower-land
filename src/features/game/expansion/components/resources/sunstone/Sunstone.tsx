@@ -57,8 +57,7 @@ export const Sunstone: React.FC<Props> = ({ id, index }) => {
 
   // When to hide the resource that pops out
   const [collecting, setCollecting] = useState(false);
-  const [collectedAmount, setCollectedAmount] = useState<number>();
-
+  const harvested = useRef<number>(0);
   const divRef = useRef<HTMLDivElement>(null);
 
   const { play: miningFallAudio } = useSound("mining_fall");
@@ -117,7 +116,7 @@ export const Sunstone: React.FC<Props> = ({ id, index }) => {
     if (!newState.matches("hoarding")) {
       if (showAnimations) {
         setCollecting(true);
-        setCollectedAmount(resource.stone.amount);
+        harvested.current = 1;
       }
 
       miningFallAudio();
@@ -125,7 +124,7 @@ export const Sunstone: React.FC<Props> = ({ id, index }) => {
       if (showAnimations) {
         await new Promise((res) => setTimeout(res, 3000));
         setCollecting(false);
-        setCollectedAmount(undefined);
+        harvested.current = 0;
       }
     }
   };
@@ -146,7 +145,7 @@ export const Sunstone: React.FC<Props> = ({ id, index }) => {
       {/* Depleting resource animation */}
       {collecting && (
         <DepletingSunstone
-          resourceAmount={collectedAmount}
+          resourceAmount={harvested.current}
           minesLeft={resource.minesLeft}
         />
       )}
