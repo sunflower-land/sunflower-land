@@ -813,9 +813,8 @@ export function startGame(authContext: AuthContext) {
               target: "loadLandToVisit",
             },
             END_VISIT: {
-              target: "loading",
               actions: assign((_) => {
-                window.history.replaceState({}, "", "/");
+                window.location.href = "/";
                 return {
                   state: EMPTY,
                   sessionId: INITIAL_SESSION,
