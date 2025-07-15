@@ -146,7 +146,19 @@ export const STATIC_OFFLINE_FARM: GameState = {
       y: 0,
     },
   },
-  crimstones: {},
+  crimstones: {
+    0: {
+      stone: {
+        // minedAt: Date.now() - 1000 * 60 * 60 * 24,
+        minedAt: 0,
+        criticalHit: { Native: true },
+      },
+      createdAt: 0,
+      x: 8,
+      y: -4,
+      minesLeft: 1,
+    },
+  },
   flowers: {
     discovered: {
       "Red Balloon Flower": ["Beetroot"],
