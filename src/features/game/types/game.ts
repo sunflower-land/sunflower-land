@@ -603,9 +603,9 @@ export type PlantedCrop = {
 export type PlantedFruit = {
   name: PatchFruitName;
   plantedAt: number;
-  amount: number;
   harvestsLeft: number;
   harvestedAt: number;
+  criticalHit?: CriticalHit;
 };
 
 export type Tree = {

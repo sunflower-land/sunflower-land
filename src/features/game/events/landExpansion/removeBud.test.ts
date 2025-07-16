@@ -96,7 +96,6 @@ describe("removeBud", () => {
               x: 0,
               y: 0,
               fruit: {
-                amount: 1,
                 harvestedAt: Date.now(),
                 harvestsLeft: 1,
                 name: "Apple",

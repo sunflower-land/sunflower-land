@@ -154,7 +154,6 @@ export function revealLand({
         x: coords.x + origin.x,
         y: coords.y + origin.y,
         fruit: {
-          amount: 1,
           harvestedAt: 0,
           harvestsLeft: 3,
           name: "Apple",

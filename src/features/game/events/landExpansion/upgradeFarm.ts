@@ -183,7 +183,6 @@ const INITIAL_SPRING_LAND: Pick<
     "1": {
       createdAt: 0,
       fruit: {
-        amount: 2,
         name: "Apple",
         harvestedAt: 0,
         harvestsLeft: 3,
@@ -195,7 +194,6 @@ const INITIAL_SPRING_LAND: Pick<
     "2": {
       createdAt: 0,
       fruit: {
-        amount: 1,
         name: "Apple",
         harvestedAt: 0,
         harvestsLeft: 3,
@@ -425,7 +423,6 @@ const INITIAL_DESERT_LAND: Pick<
     "1": {
       createdAt: 0,
       fruit: {
-        amount: 2,
         name: "Apple",
         harvestedAt: 0,
         harvestsLeft: 3,
@@ -437,7 +434,6 @@ const INITIAL_DESERT_LAND: Pick<
     "2": {
       createdAt: 0,
       fruit: {
-        amount: 1,
         name: "Apple",
         harvestedAt: 0,
         harvestsLeft: 3,
@@ -685,7 +681,6 @@ const INITIAL_VOLCANO_LAND: Pick<
     "1": {
       createdAt: 0,
       fruit: {
-        amount: 2,
         name: "Apple",
         harvestedAt: 0,
         harvestsLeft: 3,
@@ -697,7 +692,6 @@ const INITIAL_VOLCANO_LAND: Pick<
     "2": {
       createdAt: 0,
       fruit: {
-        amount: 1,
         name: "Apple",
         harvestedAt: 0,
         harvestsLeft: 3,

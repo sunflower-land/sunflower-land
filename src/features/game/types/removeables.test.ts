@@ -1977,7 +1977,6 @@ describe("canremove", () => {
             x: 1,
             y: 1,
             fruit: {
-              amount: 1,
               name: "Banana",
               harvestedAt: 0,
               plantedAt: now - 10,
@@ -2014,7 +2013,6 @@ describe("canremove", () => {
             x: 1,
             y: 1,
             fruit: {
-              amount: 1,
               name: "Apple",
               harvestedAt: 0,
               plantedAt: now - 10,
@@ -2051,7 +2049,6 @@ describe("canremove", () => {
             x: 1,
             y: 1,
             fruit: {
-              amount: 1,
               name: "Orange",
               harvestedAt: 0,
               plantedAt: now - 10,
