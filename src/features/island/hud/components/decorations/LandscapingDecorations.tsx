@@ -86,11 +86,7 @@ const DecorationLabel = ({
   if (isCoolingDown()) {
     return (
       <div className="flex justify-center">
-        <Label
-          type="info"
-          className="font-secondary"
-          icon={SUNNYSIDE.icons.stopwatch}
-        >
+        <Label type="danger" className="font-secondary">
           {`${t("megastore.limit", {
             time: secondsToString((tomorrow.getTime() - Date.now()) / 1000, {
               length: "short",
