@@ -7,14 +7,16 @@ import { getRelativeTime } from "lib/utils/time";
 import { useTranslation } from "react-i18next";
 
 type Props = {
-  status: "online" | "offline";
+  farmId: number;
+  playerId: number;
   tokenUri: string;
   username: string;
   lastOnlineAt: number;
 };
 
 export const FollowDetailPanel = ({
-  status,
+  farmId,
+  playerId,
   tokenUri,
   username,
   lastOnlineAt,
@@ -23,6 +25,8 @@ export const FollowDetailPanel = ({
   const { equipped } = interpretTokenUri(tokenUri);
   const lastOnline = getRelativeTime(lastOnlineAt);
 
+  const isOnline = lastOnlineAt > Date.now() - 30 * 60 * 1000;
+
   return (
     <ButtonPanel className="flex gap-3">
       <div className="relative">
@@ -30,12 +34,16 @@ export const FollowDetailPanel = ({
           <NPCIcon parts={equipped} />
         </div>
         <div className="absolute -top-1 -right-1">
-          <OnlineStatus status={status} />
+          <OnlineStatus
+            farmId={farmId}
+            playerId={playerId}
+            lastUpdatedAt={lastOnlineAt}
+          />
         </div>
       </div>
       <div className="flex flex-col gap-0.5">
         <div>{username}</div>
-        {status !== "online" ? (
+        {!isOnline ? (
           <div className="text-xxs">
             {t("social.lastOnline", { time: lastOnline })}
           </div>

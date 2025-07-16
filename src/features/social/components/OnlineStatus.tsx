@@ -1,15 +1,27 @@
 import React from "react";
+import { useSocial } from "../hooks/useSocial";
 
 type OnlineStatusProps = {
-  status: "online" | "offline";
+  farmId: number;
+  playerId: number;
+  lastUpdatedAt: number;
   size?: number;
 };
 
 export const OnlineStatus: React.FC<OnlineStatusProps> = ({
-  status,
-  size = 10,
+  farmId,
+  playerId,
+  lastUpdatedAt,
+  size = 12,
 }) => {
-  const color = status === "online" ? "#22c55e" : "#ef4444"; // Tailwind green-500/red-500
+  const { online } = useSocial({
+    farmId,
+  });
+
+  const lastOnlineAt = online[playerId] ?? lastUpdatedAt ?? 0;
+  const isOnline = lastOnlineAt > Date.now() - 30 * 60 * 1000;
+
+  const color = isOnline ? "#22c55e" : "#ef4444"; // Tailwind green-500/red-500
   return (
     <span
       style={{

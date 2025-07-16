@@ -156,8 +156,8 @@ export const PlayerModal: React.FC<Props> = ({ game, farmId, token }) => {
     }
   };
 
-  const playerHasGift = player?.clothing.shirt === "Gift Giver";
-  const playerHasStreamReward = player?.clothing.hat === "Streamer Hat";
+  const playerHasGift = player?.clothing?.shirt === "Gift Giver";
+  const playerHasStreamReward = player?.clothing?.hat === "Streamer Hat";
   const notCurrentPlayer = farmId !== playerId;
 
   return (
