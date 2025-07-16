@@ -28,6 +28,8 @@ import { randomID } from "lib/utils/random";
 import { Equipped } from "features/game/types/bumpkin";
 import { FollowerFeedSkeleton } from "./skeletons/FollowerFeedSkeleton";
 import { useChatMessages } from "../hooks/useChatMessages";
+import { useSocial } from "../hooks/useSocial";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 type Props = {
   farmId: number;
@@ -64,6 +66,13 @@ export const FollowerFeed: React.FC<Props> = ({
   const myClothing = useSelector(gameService, _myClothing);
   const token = useSelector(authService, _token);
 
+  const { scrollContainerRef, scrollToBottom, scrolledToBottom } =
+    useScrollToBottom();
+  const [rootElement, setRootElement] = useState<HTMLElement | null>(null);
+  const [prevScrollHeight, setPrevScrollHeight] = useState<number>(0);
+  const [prevScrollTop, setPrevScrollTop] = useState<number>(0);
+  const [newMessagesCount, setNewMessagesCount] = useState(0);
+
   const {
     messages,
     isLoadingInitialData,
@@ -73,10 +82,20 @@ export const FollowerFeed: React.FC<Props> = ({
     mutate,
   } = useChatMessages(token, farmId, playerId);
 
-  const { scrollContainerRef, scrollToBottom } = useScrollToBottom();
-  const [rootElement, setRootElement] = useState<HTMLElement | null>(null);
-  const [prevScrollHeight, setPrevScrollHeight] = useState<number>(0);
-  const [prevScrollTop, setPrevScrollTop] = useState<number>(0);
+  useSocial({
+    farmId,
+    callbacks: {
+      onChat: (update) => {
+        mutate((current = []) => {
+          return [[update, ...(current[0] ?? [])], ...current.slice(1)];
+        });
+
+        if (!scrolledToBottom) {
+          setNewMessagesCount(newMessagesCount + 1);
+        }
+      },
+    },
+  });
 
   // Scroll to bottom when the component mounts
   useLayoutEffect(() => {
@@ -107,6 +126,13 @@ export const FollowerFeed: React.FC<Props> = ({
       loadMore();
     }
   }, [inView, hasMore, isLoadingMore, loadMore, scrollContainerRef]);
+
+  useEffect(() => {
+    if (scrolledToBottom && newMessagesCount > 0) {
+      scrollToBottom();
+      setNewMessagesCount(0);
+    }
+  }, [scrolledToBottom, newMessagesCount, scrollToBottom]);
 
   useLayoutEffect(() => {
     if (!isLoadingMore && scrollContainerRef.current) {
@@ -157,7 +183,7 @@ export const FollowerFeed: React.FC<Props> = ({
       },
       {
         revalidate: false,
-        optimisticData: (current = []) => {
+        optimisticData: (_, current = []) => {
           return [
             [optimisticMessage, ...(current[0] ?? [])],
             ...current.slice(1),
@@ -167,6 +193,11 @@ export const FollowerFeed: React.FC<Props> = ({
     );
 
     scrollToBottom();
+  };
+
+  const handleAcknowledgeNewMessages = () => {
+    scrollToBottom();
+    setNewMessagesCount(0);
   };
 
   if (isLoadingInitialData || playerLoading) {
@@ -204,8 +235,19 @@ export const FollowerFeed: React.FC<Props> = ({
         className="flex flex-col max-h-[70%] h-[270px] sm:max-h-none sm:h-auto sm:flex-grow gap-1 overflow-y-auto mb-1"
         ref={scrollContainerRef}
       >
-        <div className="sticky top-0 bg-brown-200 z-10 pb-1">
-          <Label type="default">{t("activity")}</Label>
+        <div className="sticky top-0 bg-brown-200 z-10 pb-1 flex justify-between">
+          <Label type="default">
+            {t("activity")}
+            {newMessagesCount > 0 && ` (${newMessagesCount})`}
+          </Label>
+          {newMessagesCount > 0 && (
+            <img
+              src={SUNNYSIDE.icons.arrow_down}
+              alt="arrow-down"
+              className="w-5 object-contain cursor-pointer"
+              onClick={handleAcknowledgeNewMessages}
+            />
+          )}
         </div>
 
         <div className="flex flex-col gap-1 -mt-2">
