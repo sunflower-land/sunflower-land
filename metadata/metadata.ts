@@ -12258,7 +12258,7 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     name: "Big Apple",
   },
   "Big Banana": {
-    description: "A big Banana",
+    description: "A big banana",
     decimals: 0,
     attributes: [
       { trait_type: "Purpose", value: "Decoration" },
