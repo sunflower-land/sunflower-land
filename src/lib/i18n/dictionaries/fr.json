@@ -6053,5 +6053,17 @@
   "apply": "Postulez",
   "unapply": "Déposer une demande",
   "biome.alreadyOwn": "Vous possédez déjà ce biome",
-  "faction.leave.boostDisclaimer": "Vous ne recevrez pas de bonus d'expérience pendant 6 semaines après avoir changé de faction."
+  "faction.leave.boostDisclaimer": "Vous ne recevrez pas de bonus d'expérience pendant 6 semaines après avoir changé de faction.",
+  "description.bigApple": "Ce n'est pas une grosse pomme, c'est une grosse pomme !",
+  "description.bigOrange": "Une grosse orange",
+  "description.bigBanana": "Une grosse banane",
+  "description.farmerMonument": "Un monument dédié aux agriculteurs de Sunflower Land",
+  "description.minerMonument": "Un monument dédié aux mineurs de Sunflower Land",
+  "description.woodcutterMonument": "Un monument dédié aux bûcherons de Sunflower Land",
+  "description.teamworkMonument": "Un monument au travail d'équipe de Sunflower Land, disponible pendant le chapitre Better Together.",
+  "description.basicCookingPot": "Une marmite de base",
+  "description.expertCookingPot": "Une marmite experte",
+  "description.advancedCookingPot": "Une marmite principale",
+  "already.built": "Déjà construit",
+  "monuments": "Monuments"
 }

@@ -6053,5 +6053,17 @@
   "apply": "Aplica",
   "unapply": "Anular la solicitud",
   "biome.alreadyOwn": "Ya eres dueño de este bioma",
-  "faction.leave.boostDisclaimer": "No recibirás mejoras de XP durante 6 semanas después de cambiarte a una nueva facción."
+  "faction.leave.boostDisclaimer": "No recibirás mejoras de XP durante 6 semanas después de cambiarte a una nueva facción.",
+  "description.bigApple": "¡No es la gran manzana, es una gran manzana!",
+  "description.bigOrange": "Una naranja grande",
+  "description.bigBanana": "Un plátano grande",
+  "description.farmerMonument": "Un monumento a los agricultores de Sunflower Land",
+  "description.minerMonument": "Un monumento a los mineros de Sunflower Land",
+  "description.woodcutterMonument": "Un monumento a los leñadores de Sunflower Land",
+  "description.teamworkMonument": "Un monumento al trabajo en equipo de Sunflower Land, disponible durante el capítulo Better Together.",
+  "description.basicCookingPot": "Una olla básica",
+  "description.expertCookingPot": "Una olla experta",
+  "description.advancedCookingPot": "Una olla maestra",
+  "already.built": "Ya construido",
+  "monuments": "Monumentos"
 }

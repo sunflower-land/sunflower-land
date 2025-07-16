@@ -6053,5 +6053,17 @@
   "apply": "신청하기",
   "unapply": "적용 취소",
   "biome.alreadyOwn": "당신은 이미 이 바이옴을 소유하고 있습니다",
-  "faction.leave.boostDisclaimer": "새 진영으로 전환한 후 6주 동안은 XP 부스트를 받을 수 없습니다."
+  "faction.leave.boostDisclaimer": "새 진영으로 전환한 후 6주 동안은 XP 부스트를 받을 수 없습니다.",
+  "description.bigApple": "큰 사과가 아니라 큰 사과예요!",
+  "description.bigOrange": "빅 오렌지",
+  "description.bigBanana": "큰 바나나",
+  "description.farmerMonument": "선플라워 랜드 농부들을 기리는 기념비",
+  "description.minerMonument": "선플라워 랜드 광부들을 기리는 기념비",
+  "description.woodcutterMonument": "선플라워 랜드의 나무꾼을 기리는 기념비",
+  "description.teamworkMonument": "선플라워 랜드의 팀워크를 기념하는 기념물로, 베터 투게더 챕터에서 이용할 수 있습니다.",
+  "description.basicCookingPot": "기본 요리 냄비",
+  "description.expertCookingPot": "전문 요리용 냄비",
+  "description.advancedCookingPot": "마스터 쿠킹 포트",
+  "already.built": "이미 구축됨",
+  "monuments": "기념비"
 }

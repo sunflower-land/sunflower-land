@@ -6053,5 +6053,17 @@
   "apply": "申し込む",
   "unapply": "[適用解除]",
   "biome.alreadyOwn": "このバイオームはすでに所有しています",
-  "faction.leave.boostDisclaimer": "新しい陣営に切り替えてから6週間は、XPブーストを受け取りません。"
+  "faction.leave.boostDisclaimer": "新しい陣営に切り替えてから6週間は、XPブーストを受け取りません。",
+  "description.bigApple": "それは大きなリンゴではありません、それは大きなリンゴです！",
+  "description.bigOrange": "大きなオレンジ",
+  "description.bigBanana": "大きなバナナ",
+  "description.farmerMonument": "ひまわりランドの農家の記念碑",
+  "description.minerMonument": "サンフラワーランドの鉱山労働者の記念碑",
+  "description.woodcutterMonument": "サンフラワーランドの木切り師たちの記念碑",
+  "description.teamworkMonument": "サンフラワーランドのチームワークを称えるモニュメントで、「ベター・トゥギャザー」チャプターで入手可能。",
+  "description.basicCookingPot": "基本的な調理鍋",
+  "description.expertCookingPot": "エキスパートクッキングポット",
+  "description.advancedCookingPot": "マスタークッキングポット",
+  "already.built": "既に構築済み",
+  "monuments": "モニュメント"
 }
