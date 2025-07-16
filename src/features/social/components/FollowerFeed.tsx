@@ -186,13 +186,15 @@ export const FollowerFeed: React.FC<Props> = ({
 
   return (
     <InnerPanel
-      className={classNames("flex flex-col justify-between", {
+      id="follower-feed"
+      className={classNames("flex flex-col", {
         "w-full": isMobile,
-        "w-2/5 h-auto": !isMobile,
+        "w-2/5": !isMobile,
       })}
     >
       <div
-        className="flex flex-col gap-1 max-h-[70%] overflow-y-auto h-[270px] sm:h-auto"
+        id="scroll-container"
+        className="flex flex-col flex-grow gap-1 overflow-y-auto mb-1"
         ref={scrollContainerRef}
       >
         <div className="sticky top-0 bg-brown-200 z-10 pb-1">
