@@ -9,11 +9,9 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getBumpkinLevel } from "features/game/lib/level";
 import {
-  playerModalManager,
-  PlayerModalPlayer,
   PlayerModals,
+  usePlayerModal,
 } from "features/world/ui/player/PlayerModals";
-import { hasVipAccess } from "features/game/lib/vipAccess";
 import { useVisiting } from "lib/utils/visitUtils";
 
 const _showHelper = (state: MachineState) =>
@@ -30,23 +28,12 @@ export const PlayerNPC: React.FC<NPCProps> = ({ parts: bumpkinParts }) => {
 
   const showHelper = useSelector(gameService, _showHelper);
   const { isVisiting } = useVisiting();
+  const { openPlayerModal } = usePlayerModal();
   const context = gameService.getSnapshot().context;
 
   const handleClick = () => {
     if (isVisiting) {
-      const playerData: PlayerModalPlayer = {
-        farmId: context.farmId,
-        username: context.state.username ?? "",
-        clothing: context.state.bumpkin?.equipped ?? bumpkinParts,
-        experience: context.state.bumpkin?.experience ?? 0,
-        isVip: hasVipAccess({ game: context.state }),
-        faction: context.state.faction?.name,
-        createdAt: context.state.createdAt ?? Date.now(),
-        islandType: context.state.island?.type ?? "basic",
-        totalDeliveries: context.state.delivery?.fulfilledCount ?? 0,
-        dailyStreak: context.state.dailyRewards?.streaks,
-      };
-      playerModalManager.open(playerData);
+      openPlayerModal(context.state.bumpkin?.equipped);
     } else {
       setOpen(true);
     }
