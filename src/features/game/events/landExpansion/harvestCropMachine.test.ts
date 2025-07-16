@@ -60,7 +60,6 @@ describe("harvestCropMachine", () => {
                 unallocatedOilTime: 0,
                 queue: [
                   {
-                    amount: 10,
                     crop: "Sunflower",
                     growTimeRemaining: 0,
                     totalGrowTime:
@@ -95,7 +94,6 @@ describe("harvestCropMachine", () => {
                 unallocatedOilTime: 0,
                 queue: [
                   {
-                    amount: 10,
                     crop: "Sunflower",
                     growTimeRemaining: 100,
                     totalGrowTime:
@@ -130,7 +128,6 @@ describe("harvestCropMachine", () => {
               unallocatedOilTime: 0,
               queue: [
                 {
-                  amount: 10,
                   crop: "Sunflower",
                   growTimeRemaining: 0,
                   readyAt: dateNow - 1000,
@@ -171,7 +168,6 @@ describe("harvestCropMachine", () => {
               unallocatedOilTime: 0,
               queue: [
                 {
-                  amount: 10,
                   crop: "Sunflower",
                   growTimeRemaining: 0,
                   readyAt: dateNow - 1000,
@@ -211,7 +207,6 @@ describe("harvestCropMachine", () => {
               unallocatedOilTime: 0,
               queue: [
                 {
-                  amount: 10,
                   crop: "Sunflower",
                   growTimeRemaining: 0,
                   readyAt: dateNow - 1000,
@@ -220,7 +215,6 @@ describe("harvestCropMachine", () => {
                   seeds: 10,
                 },
                 {
-                  amount: 10,
                   crop: "Sunflower",
                   growTimeRemaining: 0,
                   readyAt: dateNow - 2000,

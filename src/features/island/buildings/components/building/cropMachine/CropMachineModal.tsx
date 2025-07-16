@@ -49,6 +49,7 @@ import { TimeRemainingLabel } from "./components/TimeRemainingLabel";
 import { OilTank } from "./components/OilTank";
 import { formatNumber, setPrecision } from "lib/utils/formatNumber";
 import { isMobile } from "mobile-device-detect";
+import { getPackYieldAmount } from "features/game/events/landExpansion/harvestCropMachine";
 
 interface Props {
   show: boolean;
@@ -259,6 +260,7 @@ export const CropMachineModal: React.FC<Props> = ({
   ];
 
   const allowedSeeds = ALLOWED_SEEDS(state.bumpkin, inventory);
+  const cropYield = selectedPack ? getPackYieldAmount(state, selectedPack) : 0;
 
   return (
     <Modal show={show} onHide={handleHide}>
@@ -320,7 +322,7 @@ export const CropMachineModal: React.FC<Props> = ({
                   <Label type="success" icon={SUNNYSIDE.icons.confirm}>
                     {t("cropMachine.readyToHarvest")}
                   </Label>
-                  {selectedPack.amount > selectedPack.seeds && (
+                  {cropYield > selectedPack.seeds && (
                     <Label type="vibrant" icon={lightning}>
                       {t("cropMachine.boosted")}
                     </Label>
@@ -337,7 +339,7 @@ export const CropMachineModal: React.FC<Props> = ({
                     <span className="text-xs">
                       {t("cropMachine.totalCrops", {
                         cropName: selectedPack.crop.toLocaleLowerCase(),
-                        total: formatNumber(selectedPack.amount),
+                        total: formatNumber(cropYield),
                       })}
                     </span>
                   </div>
