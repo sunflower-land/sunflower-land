@@ -25,6 +25,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
   },
   inventory: {
     "Better Together Banner": new Decimal(1),
+    Geniseed: new Decimal(400),
     "Beta Pass": new Decimal(1),
     "Colors Token 2025": new Decimal(10000),
     "Magic Bean": new Decimal(1),
@@ -219,7 +220,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
 
   competitions: {
     progress: {
-      ANIMALS: {
+      PEGGYS_COOKOFF: {
         points: 0,
         currentProgress: {
           "Complete chore": 0,

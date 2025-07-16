@@ -5,17 +5,17 @@ import {
   COLLECTIBLES_DIMENSIONS,
   getKeys,
 } from "features/game/types/craftables";
-import {
-  DECORATIONS,
-  LandscapingDecorationName,
-  ShopDecorationName,
-} from "features/game/types/decorations";
 import { GameState } from "features/game/types/game";
+import {
+  LANDSCAPING_MONUMENTS,
+  LandscapingMonumentName,
+  LOVE_CHARM_MONUMENTS,
+} from "features/game/types/monuments";
 import { produce } from "immer";
 
-export type BuyDecorationAction = {
-  type: "decoration.bought";
-  name: ShopDecorationName | LandscapingDecorationName;
+export type BuyMonumentAction = {
+  type: "monument.bought";
+  name: LandscapingMonumentName;
   id?: string;
   coordinates?: {
     x: number;
@@ -25,21 +25,37 @@ export type BuyDecorationAction = {
 
 type Options = {
   state: Readonly<GameState>;
-  action: BuyDecorationAction;
+  action: BuyMonumentAction;
   createdAt?: number;
 };
 
-export function buyDecoration({
+export function buyMonument({
   state,
   action,
   createdAt = Date.now(),
 }: Options) {
   return produce(state, (stateCopy) => {
     const { name } = action;
-    const desiredItem = DECORATIONS[name];
+    const desiredItem = LANDSCAPING_MONUMENTS[name];
 
     if (!desiredItem) {
-      throw new Error("This item is not a decoration");
+      throw new Error("This item is not a monument");
+    }
+
+    // Convert createdAt to the start of the day (midnight UTC)
+    const createdAtDay = Math.floor(createdAt / (1000 * 60 * 60 * 24));
+    const monumentCreatedAt = stateCopy.monuments?.[name]?.createdAt;
+
+    if (
+      monumentCreatedAt &&
+      Math.floor(monumentCreatedAt / (1000 * 60 * 60 * 24)) === createdAtDay
+    ) {
+      throw new Error("Monument already bought today");
+    }
+
+    // You can only buy one love charm monument total
+    if (name in LOVE_CHARM_MONUMENTS && !!stateCopy.monuments?.[name]) {
+      throw new Error("Max monument reached");
     }
 
     const { bumpkin } = stateCopy;
@@ -100,7 +116,7 @@ export function buyDecoration({
       });
 
       if (collides) {
-        throw new Error("Decoration collides");
+        throw new Error("Monument collides");
       }
 
       const previous = stateCopy.collectibles[name] ?? [];
@@ -121,6 +137,14 @@ export function buyDecoration({
     stateCopy.inventory = {
       ...subtractedInventory,
       [name]: oldAmount.add(1),
+    };
+
+    if (!stateCopy.monuments) {
+      stateCopy.monuments = {};
+    }
+
+    stateCopy.monuments[name] = {
+      createdAt,
     };
 
     return stateCopy;
