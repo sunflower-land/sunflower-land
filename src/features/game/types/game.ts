@@ -1245,10 +1245,10 @@ export type Home = {
 export type PlantedFlower = {
   name: FlowerName;
   plantedAt: number;
-  amount: number;
   crossbreed?: FlowerCrossBreedName;
   dirty?: boolean;
   reward?: Reward;
+  criticalHit?: CriticalHit;
 };
 
 export type FlowerBed = {

@@ -419,7 +419,6 @@ describe("skillUse", () => {
                 y: -10,
                 flower: {
                   plantedAt: 1733412398960,
-                  amount: 2,
                   name: "Yellow Carnation",
                 },
               },
@@ -429,7 +428,6 @@ describe("skillUse", () => {
                 y: -9,
                 flower: {
                   plantedAt: 1733412401734,
-                  amount: 4,
                   name: "Yellow Carnation",
                 },
               },
@@ -439,7 +437,6 @@ describe("skillUse", () => {
                 y: -11,
                 flower: {
                   plantedAt: 1733412395200,
-                  amount: 1,
                   name: "Yellow Carnation",
                 },
               },

@@ -172,7 +172,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
         flower: {
           name: "Red Balloon Flower",
           plantedAt: 0,
-          amount: 1,
           reward: {
             items: [{ name: "Lunalist", amount: 1 }],
           },
