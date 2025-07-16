@@ -590,7 +590,7 @@ export type CriticalHitName =
   | BumpkinItem
   | "Native";
 
-export type CriticalHit = Partial<Record<CriticalHitName, boolean>>;
+export type CriticalHit = Partial<Record<CriticalHitName, number>>;
 
 export type PlantedCrop = {
   id?: string;
@@ -723,12 +723,12 @@ export type CompostBuilding = PlacedItem & {
 export type CropMachineQueueItem = {
   crop: CropName;
   seeds: number;
-  amount: number;
   growTimeRemaining: number;
   totalGrowTime: number;
   startTime?: number;
   growsUntil?: number;
   readyAt?: number;
+  criticalHit?: CriticalHit;
 };
 
 export type CropMachineBuilding = PlacedItem & {

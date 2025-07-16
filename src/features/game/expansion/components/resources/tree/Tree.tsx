@@ -182,7 +182,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
     const woodDropAmount = getWoodDropAmount({
       game,
       criticalDropGenerator: (name) =>
-        resource.wood.criticalHit?.[name] ?? false,
+        !!(resource.wood.criticalHit?.[name] ?? 0),
     });
 
     const newState = gameService.send("timber.chopped", {

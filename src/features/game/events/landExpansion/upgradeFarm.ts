@@ -209,7 +209,7 @@ const INITIAL_SPRING_LAND: Pick<
     "1": {
       wood: {
         choppedAt: 0,
-        criticalHit: { Native: true },
+        criticalHit: { Native: 1 },
       },
       x: 3,
       y: 6,
@@ -224,7 +224,7 @@ const INITIAL_SPRING_LAND: Pick<
     "3": {
       wood: {
         choppedAt: 0,
-        criticalHit: { Native: true },
+        criticalHit: { Native: 1 },
       },
       x: 7,
       y: 9,
@@ -236,7 +236,7 @@ const INITIAL_SPRING_LAND: Pick<
       y: 9,
       stone: {
         minedAt: 0,
-        criticalHit: { Native: true },
+        criticalHit: { Native: 1 },
       },
     },
   },
@@ -451,7 +451,7 @@ const INITIAL_DESERT_LAND: Pick<
     "1": {
       wood: {
         choppedAt: 0,
-        criticalHit: { Native: true },
+        criticalHit: { Native: 1 },
       },
       x: 4,
       y: 6,
@@ -466,7 +466,7 @@ const INITIAL_DESERT_LAND: Pick<
     "3": {
       wood: {
         choppedAt: 0,
-        criticalHit: { Native: true },
+        criticalHit: { Native: 1 },
       },
       x: 7,
       y: 9,
@@ -477,7 +477,7 @@ const INITIAL_DESERT_LAND: Pick<
       x: 3,
       y: 9,
       stone: {
-        criticalHit: { Native: true },
+        criticalHit: { Native: 1 },
         minedAt: 0,
       },
     },
@@ -712,7 +712,7 @@ const INITIAL_VOLCANO_LAND: Pick<
     "1": {
       wood: {
         choppedAt: 0,
-        criticalHit: { Native: true },
+        criticalHit: { Native: 1 },
       },
       x: 5,
       y: 9,
@@ -729,7 +729,7 @@ const INITIAL_VOLCANO_LAND: Pick<
     "3": {
       wood: {
         choppedAt: 0,
-        criticalHit: { Native: true },
+        criticalHit: { Native: 1 },
       },
       x: 7,
       y: 9,
@@ -741,7 +741,7 @@ const INITIAL_VOLCANO_LAND: Pick<
       x: 2,
       y: 9,
       stone: {
-        criticalHit: { Native: true },
+        criticalHit: { Native: 1 },
         minedAt: 0,
       },
       createdAt: Date.now(),

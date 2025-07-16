@@ -202,7 +202,7 @@ export function mineIron({
       game: stateCopy,
       rock: ironRock,
       criticalDropGenerator: (name) =>
-        ironRock.stone.criticalHit?.[name] ?? false,
+        !!(ironRock.stone.criticalHit?.[name] ?? 0),
     });
 
     const amountInInventory = stateCopy.inventory.Iron || new Decimal(0);

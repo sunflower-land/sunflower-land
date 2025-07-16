@@ -154,7 +154,7 @@ describe("harvest", () => {
             crop: {
               name: "Sunflower",
               plantedAt: dateNow - 2 * 60 * 1000,
-              criticalHit: { "Green Amulet": true },
+              criticalHit: { "Green Amulet": 1 },
             },
           },
         },
@@ -190,7 +190,7 @@ describe("harvest", () => {
             crop: {
               name: "Sunflower",
               plantedAt: dateNow - 2 * 60 * 1000,
-              criticalHit: { "Green Amulet": true },
+              criticalHit: { "Green Amulet": 1 },
             },
           },
         },

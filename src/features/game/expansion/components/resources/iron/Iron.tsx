@@ -113,7 +113,7 @@ export const Iron: React.FC<Props> = ({ id }) => {
       game: state,
       rock: resource,
       criticalDropGenerator: (name) =>
-        resource.stone.criticalHit?.[name] ?? false,
+        !!(resource.stone.criticalHit?.[name] ?? 0),
     });
     const newState = gameService.send("ironRock.mined", {
       index: id,

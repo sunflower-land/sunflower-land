@@ -214,7 +214,7 @@ export function chop({
 
     const woodHarvested = getWoodDropAmount({
       game: stateCopy,
-      criticalDropGenerator: (name) => tree.wood.criticalHit?.[name] ?? false,
+      criticalDropGenerator: (name) => !!(tree.wood.criticalHit?.[name] ?? 0),
     }).toNumber();
     const woodAmount = inventory.Wood || new Decimal(0);
 

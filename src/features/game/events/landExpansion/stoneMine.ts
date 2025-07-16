@@ -249,7 +249,7 @@ export function mineStone({
     const stoneMined = getStoneDropAmount({
       game: stateCopy,
       rock,
-      criticalDropGenerator: (name) => rock.stone.criticalHit?.[name] ?? false,
+      criticalDropGenerator: (name) => !!(rock.stone.criticalHit?.[name] ?? 0),
     });
     const amountInInventory = stateCopy.inventory.Stone || new Decimal(0);
 

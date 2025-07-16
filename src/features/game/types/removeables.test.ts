@@ -2458,7 +2458,6 @@ describe("canremove", () => {
               queue: [
                 {
                   crop: "Sunflower",
-                  amount: 20,
                   seeds: 20,
                   growTimeRemaining: 0,
                   totalGrowTime: 1000,

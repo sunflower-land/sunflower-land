@@ -151,7 +151,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
       stone: {
         // minedAt: Date.now() - 1000 * 60 * 60 * 24,
         minedAt: 0,
-        criticalHit: { Native: true },
+        criticalHit: { Native: 1 },
       },
       createdAt: 0,
       x: 8,
@@ -195,7 +195,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     0: {
       stone: {
         minedAt: 0,
-        criticalHit: { Native: true },
+        criticalHit: { Native: 1 },
       },
       createdAt: 0,
       x: 8,
@@ -206,7 +206,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     0: {
       stone: {
         minedAt: 0,
-        criticalHit: { Native: true },
+        criticalHit: { Native: 1 },
       },
       createdAt: 0,
       x: 8,
@@ -217,7 +217,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     0: {
       stone: {
         minedAt: 0,
-        criticalHit: { Native: true },
+        criticalHit: { Native: 1 },
       },
       createdAt: 0,
       x: 8,
@@ -228,7 +228,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     1: {
       wood: {
         choppedAt: 0,
-        criticalHit: { Native: true },
+        criticalHit: { Native: 1 },
       },
       x: 4,
       y: -2,
@@ -236,7 +236,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     2: {
       wood: {
         choppedAt: 0,
-        criticalHit: { Native: true },
+        criticalHit: { Native: 1 },
       },
       x: 6,
       y: -2,

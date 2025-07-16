@@ -264,7 +264,7 @@ export const INITIAL_RESOURCES: Pick<
       createdAt: Date.now(),
       wood: {
         choppedAt: 0,
-        criticalHit: { Native: true },
+        criticalHit: { Native: 1 },
       },
       x: -3,
       y: 3,
@@ -281,7 +281,7 @@ export const INITIAL_RESOURCES: Pick<
     3: {
       createdAt: Date.now(),
       wood: {
-        criticalHit: { Native: true },
+        criticalHit: { Native: 1 },
         choppedAt: 0,
       },
       x: 7,
@@ -911,7 +911,7 @@ export const TEST_FARM: GameState = {
   trees: {
     1: {
       wood: {
-        criticalHit: { Native: true },
+        criticalHit: { Native: 1 },
         choppedAt: 0,
       },
       x: -3,
@@ -927,7 +927,7 @@ export const TEST_FARM: GameState = {
 
     3: {
       wood: {
-        criticalHit: { Native: true },
+        criticalHit: { Native: 1 },
         choppedAt: 0,
       },
       x: 7,

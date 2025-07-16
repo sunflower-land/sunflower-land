@@ -97,7 +97,7 @@ export function harvest({
       crop: cropName,
       game: stateCopy,
       plot,
-      criticalDrop: (name) => criticalHit?.[name] ?? false,
+      criticalDrop: (name) => !!(criticalHit?.[name] ?? 0),
     });
 
     const { harvestSeconds } = CROPS[cropName];

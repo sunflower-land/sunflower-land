@@ -203,7 +203,7 @@ export function mineGold({
       game: stateCopy,
       rock: goldRock,
       criticalDropGenerator: (name) =>
-        goldRock.stone.criticalHit?.[name] ?? false,
+        !!(goldRock.stone.criticalHit?.[name] ?? 0),
     });
 
     const amountInInventory = stateCopy.inventory.Gold || new Decimal(0);
