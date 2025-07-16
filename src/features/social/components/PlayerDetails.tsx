@@ -30,6 +30,7 @@ import { useSocial } from "../hooks/useSocial";
 import { KeyedMutator } from "swr";
 import { PlayerDetailsSkeleton } from "./skeletons/PlayerDetailsSkeleton";
 import { FollowerFeedSkeleton } from "./skeletons/FollowerFeedSkeleton";
+import { OnlineStatus } from "./OnlineStatus";
 
 const ISLAND_ICONS: Record<IslandType, string> = {
   basic: basicIsland,
@@ -70,20 +71,12 @@ export const PlayerDetails: React.FC<Props> = ({
   const player = data?.data;
 
   // Used only to share my online status with the followers
-  useSocial({
+  const { online } = useSocial({
     farmId,
     following: player?.followedBy ?? [],
     callbacks: {
       onFollow: () => mutate(),
       onUnfollow: () => mutate(),
-      // onChat: (update) => {
-      //   mutate((current) => {
-      //     return {
-      //       ...current,
-      //       messages: [update, ...(current?.data?.messages ?? [])],
-      //     };
-      //   });
-      // },
     },
   });
 
@@ -109,12 +102,23 @@ export const PlayerDetails: React.FC<Props> = ({
     <div className="flex gap-1 w-full max-h-[370px]">
       <div className="flex flex-col flex-1 gap-1">
         <InnerPanel className="flex flex-col gap-1 flex-1 pb-1 px-1">
-          <div className="flex items-center">
-            <Label type="default">{player?.username}</Label>
+          <div className="flex items-center relative">
+            <Label type="default" className="relative">
+              {player?.username}
+              <div className="absolute -top-2 -right-2 z-10">
+                {player?.id && (
+                  <OnlineStatus
+                    playerId={player?.id}
+                    farmId={farmId}
+                    lastUpdatedAt={player?.lastUpdatedAt ?? 0}
+                  />
+                )}
+              </div>
+            </Label>
             {player?.isVip && <img src={vipIcon} className="w-5 ml-2" />}
           </div>
-          <div className="flex pb-1">
-            <div className="w-10">
+          <div className="flex pb-1 gap-1">
+            <div className="relative">
               <NPCIcon
                 parts={player?.clothing ?? {}}
                 width={PIXEL_SCALE * 14}

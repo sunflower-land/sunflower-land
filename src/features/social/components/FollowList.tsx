@@ -114,22 +114,15 @@ export const FollowList: React.FC<Props> = ({
             {t(`playerModal.${type}`, { count: networkCount })}
           </Label>
         </div>
-        {sortedNetworkList.map((follower) => {
-          const isOnline =
-            (online[follower] ?? 0) > Date.now() - 30 * 60 * 1000;
-
-          const lastOnlineAt =
-            online[follower] ??
-            data?.data?.network[follower]?.lastUpdatedAt ??
-            0;
-
+        {sortedNetworkList.map((followerId) => {
           return (
             <FollowDetailPanel
-              key={`flw-${follower}`}
-              status={isOnline ? "online" : "offline"}
-              tokenUri={networkDetails?.[follower]?.tokenUri ?? ""}
-              username={networkDetails?.[follower]?.username ?? ""}
-              lastOnlineAt={lastOnlineAt}
+              key={`flw-${followerId}`}
+              farmId={farmId}
+              playerId={followerId}
+              tokenUri={networkDetails?.[followerId]?.tokenUri ?? ""}
+              username={networkDetails?.[followerId]?.username ?? ""}
+              lastOnlineAt={networkDetails?.[followerId]?.lastUpdatedAt ?? 0}
             />
           );
         })}
