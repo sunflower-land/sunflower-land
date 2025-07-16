@@ -10,11 +10,6 @@ import { Context } from "features/game/GameProvider";
 import { PlayerNPC } from "features/island/bumpkin/components/PlayerNPC";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import {
-  PlayerModals,
-  usePlayerModal,
-} from "features/world/ui/player/PlayerModals";
-import { useVisiting } from "lib/utils/visitUtils";
 
 interface Props {
   game: GameState;
@@ -29,9 +24,6 @@ const FARM_HANDS_PER_BUILDING: Record<IslandType, number> = {
 
 export const HomeBumpkins: React.FC<Props> = ({ game }) => {
   const { gameService } = useContext(Context);
-  const context = gameService.getSnapshot().context;
-  const { isVisiting } = useVisiting();
-  const { openPlayerModal } = usePlayerModal();
 
   const [selectedFarmHandId, setSelectedFarmHandId] = useState<string>();
 
@@ -40,14 +32,6 @@ export const HomeBumpkins: React.FC<Props> = ({ game }) => {
   const farmHands = game.farmHands.bumpkins;
 
   const { t } = useAppTranslation();
-
-  const farmHandClick = (id: string) => {
-    if (isVisiting) {
-      openPlayerModal(farmHands[id].equipped);
-    } else {
-      setSelectedFarmHandId(id);
-    }
-  };
 
   return (
     <>
@@ -62,7 +46,7 @@ export const HomeBumpkins: React.FC<Props> = ({ game }) => {
             <div
               key={id}
               className="mr-1 cursor-pointer relative hover:img-highlight"
-              onClick={() => farmHandClick(id)}
+              onClick={() => setSelectedFarmHandId(id)}
               style={{ width: `${GRID_WIDTH_PX}px` }}
             >
               <NPCPlaceable
@@ -100,11 +84,6 @@ export const HomeBumpkins: React.FC<Props> = ({ game }) => {
           />
         </CloseButtonPanel>
       </Modal>
-      <PlayerModals
-        game={context.state}
-        farmId={context.farmId}
-        isOpen={!!selectedFarmHandId}
-      />
     </>
   );
 };

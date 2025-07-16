@@ -1,5 +1,5 @@
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal } from "components/ui/Modal";
 import levelIcon from "assets/icons/level_up.png";
 import giftIcon from "assets/icons/gift.png";
@@ -25,8 +25,6 @@ import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { isMobile } from "mobile-device-detect";
 import { FollowerFeed } from "features/social/components/FollowerFeed";
 import { Interaction } from "features/social/types/types";
-import { Context } from "features/game/GameProvider";
-import { hasVipAccess } from "features/game/lib/vipAccess";
 
 export type PlayerModalPlayer = {
   farmId: number;
@@ -126,29 +124,6 @@ interface Props {
   farmId: number;
   isOpen?: boolean;
 }
-
-export const usePlayerModal = () => {
-  const { gameService } = useContext(Context);
-  const context = gameService.getSnapshot().context;
-
-  return {
-    openPlayerModal: (clothing: BumpkinParts) => {
-      const playerData: PlayerModalPlayer = {
-        farmId: context.farmId,
-        username: context.state.username ?? "",
-        clothing,
-        experience: context.state.bumpkin?.experience ?? 0,
-        isVip: hasVipAccess({ game: context.state }),
-        faction: context.state.faction?.name,
-        createdAt: context.state.createdAt ?? Date.now(),
-        islandType: context.state.island?.type ?? "basic",
-        totalDeliveries: context.state.delivery?.fulfilledCount ?? 0,
-        dailyStreak: context.state.dailyRewards?.streaks,
-      };
-      playerModalManager.open(playerData);
-    },
-  };
-};
 
 export const PlayerModals: React.FC<Props> = ({ game, farmId, isOpen }) => {
   const [tab, setTab] = useState<
