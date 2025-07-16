@@ -29,6 +29,7 @@ import { translate } from "lib/i18n/translate";
 import { FactionShopCollectibleName } from "./factionShop";
 import { BEDS } from "./beds";
 import { SeasonalCollectibleName } from "./megastore";
+import { MonumentName } from "./monuments";
 
 export { FLAGS };
 
@@ -215,7 +216,8 @@ export type CollectibleName =
   | TreasureCollectibleItem
   | MutantFlowerName
   | BedName
-  | SeasonalCollectibleName;
+  | SeasonalCollectibleName
+  | MonumentName;
 
 export type ToolName =
   | "Axe"
@@ -1429,6 +1431,17 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   Lunalist: { width: 1, height: 1 },
   "Pink Dolphin": { width: 2, height: 2 },
   "Giant Kale": { width: 2, height: 2 },
+
+  "Big Apple": { width: 2, height: 2 },
+  "Big Orange": { width: 2, height: 2 },
+  "Big Banana": { width: 2, height: 2 },
+  "Farmer's Monument": { width: 3, height: 3 },
+  "Miner's Monument": { width: 3, height: 3 },
+  "Woodcutter's Monument": { width: 3, height: 3 },
+  "Teamwork Monument": { width: 3, height: 3 },
+  "Basic Cooking Pot": { width: 2, height: 2 },
+  "Expert Cooking Pot": { width: 2, height: 2 },
+  "Advanced Cooking Pot": { width: 2, height: 2 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {
