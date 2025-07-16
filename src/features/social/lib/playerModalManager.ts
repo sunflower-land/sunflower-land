@@ -1,4 +1,4 @@
-import { FactionName, IslandType } from "features/game/types/game";
+import { FactionName } from "features/game/types/game";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 
 export type PlayerModalPlayer = {
@@ -6,12 +6,7 @@ export type PlayerModalPlayer = {
   username: string;
   clothing: BumpkinParts;
   experience?: number;
-  isVip?: boolean;
   faction?: FactionName;
-  createdAt?: number;
-  islandType?: IslandType;
-  totalDeliveries?: number;
-  dailyStreak?: number;
 };
 
 class PlayerModalManager {

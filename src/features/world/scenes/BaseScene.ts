@@ -1124,11 +1124,6 @@ export abstract class BaseScene extends Phaser.Scene {
           isCurrentPlayer: sessionId === server.sessionId,
           npc: player.npc,
           experience: player.experience,
-          totalDeliveries: player.totalDeliveries,
-          dailyStreak: player.dailyStreak,
-          isVip: player.isVip,
-          createdAt: player.createdAt,
-          islandType: player.islandType,
         });
       }
     });
@@ -1273,12 +1268,7 @@ export abstract class BaseScene extends Phaser.Scene {
             clothing: player.clothing,
             experience: player.experience,
             username: player.username,
-            isVip: hasVipAccess({ game: this.gameState }),
             faction: player.faction,
-            createdAt: player.createdAt,
-            islandType: player.islandType,
-            totalDeliveries: player.totalDeliveries,
-            dailyStreak: player.dailyStreak,
           });
           this.lastModalOpenTime = streamerHatLastClaimedAt;
         }

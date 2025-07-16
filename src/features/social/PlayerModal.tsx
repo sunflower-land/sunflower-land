@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal } from "components/ui/Modal";
 import giftIcon from "assets/icons/gift.png";
 
@@ -14,10 +14,7 @@ import { isMobile } from "mobile-device-detect";
 import { StreamReward } from "features/world/ui/player/StreamReward";
 import { PlayerGift } from "features/world/ui/player/PlayerGift";
 import { ReportPlayer } from "features/world/ui/player/ReportPlayer";
-import {
-  playerModalManager,
-  PlayerModalPlayer,
-} from "./lib/playerModalManager";
+import { playerModalManager } from "./lib/playerModalManager";
 import { PlayerDetails } from "./components/PlayerDetails";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ModalOverlay } from "components/ui/ModalOverlay";
@@ -25,14 +22,9 @@ import useSWR from "swr";
 import { getPlayer } from "./actions/getPlayer";
 import { postEffect } from "features/game/actions/effect";
 import { randomID } from "lib/utils/random";
-import { mergeResponse } from "./lib/mergePlayerResponse";
-import { Interaction } from "./types/types";
-import { tokenUriBuilder } from "lib/utils/tokenUriBuilder";
-import { MachineState } from "features/game/lib/gameMachine";
-import { useSelector } from "@xstate/react";
-import { Context } from "features/game/GameProvider";
 import { FollowerFeed } from "./components/FollowerFeed";
 import { FollowList } from "./components/FollowList";
+import { Player } from "./types/types";
 
 interface Props {
   game: GameState;
@@ -48,24 +40,21 @@ type Tab =
   | "Followers"
   | "Following";
 
-const _myClothing = (state: MachineState) =>
-  state.context.state.bumpkin.equipped;
-const _myUsername = (state: MachineState) => state.context.state.username;
+export const mergeResponse = (current: Player, update: Player) => {
+  return {
+    data: { ...current.data, ...update },
+  } as Player;
+};
 
 export const PlayerModal: React.FC<Props> = ({ game, farmId, token }) => {
-  const { gameService } = useContext(Context);
-
   const { t } = useAppTranslation();
   const [tab, setTab] = useState<Tab>("Player");
 
-  const [player, setPlayer] = useState<PlayerModalPlayer | undefined>();
+  const [playerId, setPlayerId] = useState<number | undefined>();
   const [showPlayerModal, setShowPlayerModal] = useState(false);
   const [showAirdrop, setShowAirdrop] = useState(false);
   const [showReport, setShowReport] = useState(false);
   const [followLoading, setFollowLoading] = useState(false);
-
-  const myClothing = useSelector(gameService, _myClothing);
-  const myUsername = useSelector(gameService, _myUsername);
 
   const {
     data,
@@ -73,7 +62,7 @@ export const PlayerModal: React.FC<Props> = ({ game, farmId, token }) => {
     error,
     mutate,
   } = useSWR(
-    [player ? "player" : null, token, farmId, player?.farmId],
+    [playerId ? "player" : null, token, farmId, playerId],
     ([, token, farmId, followedPlayerId]) => {
       if (!followedPlayerId) return;
 
@@ -86,7 +75,7 @@ export const PlayerModal: React.FC<Props> = ({ game, farmId, token }) => {
 
   useEffect(() => {
     playerModalManager.listen((npc) => {
-      setPlayer(npc);
+      setPlayerId(npc.farmId);
       setShowPlayerModal(true);
       // Automatically set to Stream tab if player has Streamer Hat and is not current player
       if (npc.clothing?.hat === "Streamer Hat" && farmId !== npc.farmId) {
@@ -100,10 +89,10 @@ export const PlayerModal: React.FC<Props> = ({ game, farmId, token }) => {
   }, [farmId]);
 
   useEffect(() => {
-    if (!player) return;
+    if (!playerId) return;
 
-    const handlePlayerLeave = (playerId: number) => {
-      if (playerId === player.farmId) {
+    const handlePlayerLeave = (leavingPlayerId: number) => {
+      if (playerId === leavingPlayerId) {
         closeModal();
       }
     };
@@ -115,14 +104,16 @@ export const PlayerModal: React.FC<Props> = ({ game, farmId, token }) => {
     return () =>
       window.removeEventListener("player_leave", ((event: CustomEvent) =>
         handlePlayerLeave(event.detail.playerId)) as EventListener);
-  }, [player]);
+  }, [playerId]);
 
   const closeModal = () => {
     setShowPlayerModal(false);
   };
 
-  const iAmFollowing = data?.data?.followedBy.includes(farmId);
-  const theyAreFollowingMe = data?.data?.following.includes(farmId);
+  const player = data?.data;
+
+  const iAmFollowing = player?.followedBy.includes(farmId);
+  const theyAreFollowingMe = player?.following.includes(farmId);
   const isMutual = iAmFollowing && theyAreFollowingMe;
 
   const handleFollow = async () => {
@@ -132,7 +123,7 @@ export const PlayerModal: React.FC<Props> = ({ game, farmId, token }) => {
         const { data: response } = await postEffect({
           effect: {
             type: "farm.unfollowed",
-            followedId: player?.farmId,
+            followedId: playerId,
           },
           transactionId: randomID(),
           token: token as string,
@@ -146,7 +137,7 @@ export const PlayerModal: React.FC<Props> = ({ game, farmId, token }) => {
         const { data: response } = await postEffect({
           effect: {
             type: "farm.followed",
-            followedId: player?.farmId,
+            followedId: playerId,
           },
           transactionId: randomID(),
           token: token as string,
@@ -165,54 +156,9 @@ export const PlayerModal: React.FC<Props> = ({ game, farmId, token }) => {
     }
   };
 
-  const sendMessage = async (message: string) => {
-    if (!player) return;
-
-    const newMessage: Interaction = {
-      type: "chat",
-      message,
-      recipient: {
-        id: player.farmId,
-        tokenUri: tokenUriBuilder(player.clothing),
-        username: player.username ?? `#${player.farmId}`,
-      },
-      sender: {
-        id: farmId,
-        tokenUri: tokenUriBuilder(myClothing),
-        username: myUsername ?? `#${farmId}`,
-      },
-      createdAt: Date.now(),
-    };
-
-    // Optimistically update the messages
-    mutate(
-      async (current) => {
-        const { data: response } = await postEffect({
-          effect: {
-            type: "message.sent",
-            recipientId: player.farmId,
-            message,
-          },
-          transactionId: randomID(),
-          token: token as string,
-          farmId: farmId,
-        });
-
-        return mergeResponse(current!, response);
-      },
-      {
-        revalidate: false,
-        optimisticData: (_, current) =>
-          mergeResponse(current!, {
-            messages: [newMessage, ...(current?.data?.messages ?? [])],
-          }),
-      },
-    );
-  };
-
   const playerHasGift = player?.clothing.shirt === "Gift Giver";
   const playerHasStreamReward = player?.clothing.hat === "Streamer Hat";
-  const notCurrentPlayer = farmId !== player?.farmId;
+  const notCurrentPlayer = farmId !== playerId;
 
   return (
     <>
@@ -220,7 +166,7 @@ export const PlayerModal: React.FC<Props> = ({ game, farmId, token }) => {
         show={showPlayerModal}
         onHide={closeModal}
         size="lg"
-        onExited={() => setPlayer(undefined)}
+        onExited={() => setPlayerId(undefined)}
       >
         <CloseButtonPanel
           onClose={closeModal}
@@ -268,9 +214,8 @@ export const PlayerModal: React.FC<Props> = ({ game, farmId, token }) => {
           ]}
           container={OuterPanel}
         >
-          {tab === "Player" && player && (
+          {tab === "Player" && (
             <PlayerDetails
-              player={player}
               data={data}
               playerLoading={playerLoading}
               error={error}
@@ -279,42 +224,43 @@ export const PlayerModal: React.FC<Props> = ({ game, farmId, token }) => {
               isFollowMutual={!!isMutual}
               mutate={mutate}
               onFollow={handleFollow}
-              onChatMessage={sendMessage}
               onFollowersClick={() => setTab("Followers")}
             />
           )}
           {tab === "Activity" && (
             <FollowerFeed
               farmId={farmId}
-              followedPlayerId={player?.farmId as number}
-              onInteraction={sendMessage}
+              playerId={playerId as number}
+              playerClothing={player?.clothing}
+              playerUsername={player?.username}
+              playerLoading={playerLoading}
               chatDisabled={!isMutual}
             />
           )}
           {tab === "Followers" && (
             <FollowList
               farmId={farmId}
-              networkFarmId={player?.farmId as number}
+              networkFarmId={playerId as number}
               token={token}
-              networkList={data?.data?.followedBy ?? []}
-              networkCount={data?.data?.followedByCount ?? 0}
+              networkList={player?.followedBy ?? []}
+              networkCount={player?.followedByCount ?? 0}
+              playerLoading={playerLoading}
               type="followers"
             />
           )}
           {tab === "Following" && (
             <FollowList
               farmId={farmId}
-              networkFarmId={player?.farmId as number}
+              networkFarmId={playerId as number}
               token={token}
-              networkCount={data?.data?.followingCount ?? 0}
-              networkList={data?.data?.following ?? []}
+              networkCount={player?.followingCount ?? 0}
+              networkList={player?.following ?? []}
+              playerLoading={playerLoading}
               type="following"
             />
           )}
           {tab === "Reward" && <PlayerGift />}
-          {tab === "Stream" && (
-            <StreamReward streamerId={player?.farmId as number} />
-          )}
+          {tab === "Stream" && <StreamReward streamerId={playerId as number} />}
           <div className="flex items-center p-1 space-x-3 justify-end">
             <span
               className="text-xxs underline cursor-pointer"
@@ -341,7 +287,7 @@ export const PlayerModal: React.FC<Props> = ({ game, farmId, token }) => {
             >
               <CloseButtonPanel onClose={() => setShowAirdrop(false)}>
                 <AirdropPlayer
-                  id={player.farmId as number}
+                  id={playerId as number}
                   onClose={() => setShowAirdrop(false)}
                   onSubMenuClick={() => void 0}
                 />
@@ -356,7 +302,7 @@ export const PlayerModal: React.FC<Props> = ({ game, farmId, token }) => {
                 onClose={() => setShowReport(false)}
                 className="p-1"
               >
-                <ReportPlayer id={player?.farmId as number} />
+                <ReportPlayer id={playerId as number} />
               </CloseButtonPanel>
             </ModalOverlay>
           </>

@@ -1,3 +1,6 @@
+import { Equipped } from "features/game/types/bumpkin";
+import { FactionName, IslandType } from "features/game/types/game";
+
 export type ParticipantInfo = {
   id: number;
   username: string;
@@ -21,8 +24,20 @@ export type Player = {
     followingCount: number;
     followedBy: number[];
     followedByCount: number;
-    messages: Interaction[];
+    username: string;
+    level: number;
+    farmCreatedAt: number;
+    experience: number;
+    marketValue: number;
+    island: IslandType;
+    dailyStreak: number;
+    totalDeliveries: number;
+    isVip: boolean;
+    clothing: Equipped;
+    faction?: FactionName;
+    lastUpdatedAt: number;
   };
 };
 
-export type FollowUpdate = Partial<NonNullable<Player["data"]>>;
+export type PlayerUpdate = Partial<NonNullable<Player["data"]>>;
+export type ChatUpdate = Interaction[];

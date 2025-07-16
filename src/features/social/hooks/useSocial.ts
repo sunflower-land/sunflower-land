@@ -1,7 +1,7 @@
 import { useCallback, useSyncExternalStore } from "react";
 import { Room, Client } from "colyseus.js";
 import { CONFIG } from "lib/config";
-import { FollowUpdate, Interaction } from "../types/types";
+import { Interaction, PlayerUpdate } from "../types/types";
 
 const HEARTBEAT_INTERVAL = 15 * 60 * 1000;
 const MAX_RETRY_INTERVAL = 15 * 60 * 1000;
@@ -12,8 +12,8 @@ const subscribers: Map<
   {
     following: number[];
     callbacks?: {
-      onFollow?: (update: FollowUpdate) => void;
-      onUnfollow?: (update: FollowUpdate) => void;
+      onFollow?: (update: PlayerUpdate) => void;
+      onUnfollow?: (update: PlayerUpdate) => void;
       onChat?: (update: Interaction) => void;
     };
   }
@@ -37,8 +37,8 @@ type UseSocialParams = {
   farmId: number;
   following?: number[];
   callbacks?: {
-    onFollow?: (update: FollowUpdate) => void;
-    onUnfollow?: (update: FollowUpdate) => void;
+    onFollow?: (update: PlayerUpdate) => void;
+    onUnfollow?: (update: PlayerUpdate) => void;
     onChat?: (update: Interaction) => void;
   };
 };
@@ -93,7 +93,7 @@ const notifyAllSubscribers = () => {
   [...subscribers.keys()].forEach((notifySubscriber) => notifySubscriber());
 };
 
-const onFollow = (update: FollowUpdate) => {
+const onFollow = (update: PlayerUpdate) => {
   [...subscribers.values()].forEach((subscriber) => {
     if (subscriber.callbacks?.onFollow) {
       subscriber.callbacks.onFollow(update);
@@ -101,7 +101,7 @@ const onFollow = (update: FollowUpdate) => {
   });
 };
 
-const onUnfollow = (update: FollowUpdate) => {
+const onUnfollow = (update: PlayerUpdate) => {
   [...subscribers.values()].forEach((subscriber) => {
     if (subscriber.callbacks?.onUnfollow) {
       subscriber.callbacks.onUnfollow(update);

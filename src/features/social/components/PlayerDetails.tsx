@@ -27,10 +27,11 @@ import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useNavigate } from "react-router";
 import { useVisiting } from "lib/utils/visitUtils";
-import { PlayerModalPlayer } from "../lib/playerModalManager";
 import { Player } from "../types/types";
 import { useSocial } from "../hooks/useSocial";
 import { KeyedMutator } from "swr";
+import { PlayerDetailsSkeleton } from "./skeletons/PlayerDetailsSkeleton";
+import { FollowerFeedSkeleton } from "./skeletons/FollowerFeedSkeleton";
 
 const ISLAND_ICONS: Record<IslandType, string> = {
   basic: basicIsland,
@@ -40,7 +41,6 @@ const ISLAND_ICONS: Record<IslandType, string> = {
 };
 
 type Props = {
-  player: PlayerModalPlayer;
   data?: Player;
   error?: Error;
   playerLoading: boolean;
@@ -48,7 +48,6 @@ type Props = {
   iAmFollowing: boolean;
   isFollowMutual: boolean;
   onFollow: () => void;
-  onChatMessage: (message: string) => void;
   onFollowersClick: () => void;
   mutate: KeyedMutator<Player | undefined>;
 };
@@ -56,7 +55,6 @@ type Props = {
 const _farmId = (state: MachineState) => state.context.farmId;
 
 export const PlayerDetails: React.FC<Props> = ({
-  player,
   data,
   error,
   playerLoading,
@@ -65,7 +63,6 @@ export const PlayerDetails: React.FC<Props> = ({
   isFollowMutual,
   mutate,
   onFollow,
-  onChatMessage,
   onFollowersClick,
 }) => {
   const { gameService } = useContext(Context);
@@ -75,32 +72,49 @@ export const PlayerDetails: React.FC<Props> = ({
 
   const farmId = useSelector(gameService, _farmId);
 
+  const player = data?.data;
+
   // Used only to share my online status with the followers
   useSocial({
     farmId,
-    following: data?.data?.followedBy ?? [],
+    following: player?.followedBy ?? [],
     callbacks: {
       onFollow: () => mutate(),
       onUnfollow: () => mutate(),
-      onChat: (update) => {
-        mutate((current) => {
-          return {
-            ...current,
-            messages: [update, ...(current?.data?.messages ?? [])],
-          };
-        });
-      },
+      // onChat: (update) => {
+      //   mutate((current) => {
+      //     return {
+      //       ...current,
+      //       messages: [update, ...(current?.data?.messages ?? [])],
+      //     };
+      //   });
+      // },
     },
   });
 
+  // Show skeleton if data is loading or undefined
+  if (playerLoading) {
+    return (
+      <div className="flex gap-1 w-full max-h-[370px]">
+        <PlayerDetailsSkeleton />
+        {!isMobile && <FollowerFeedSkeleton />}
+      </div>
+    );
+  }
+
   const visitFarm = () => {
-    navigate(`/visit/${player.farmId}`);
+    if (!player) return;
+
+    navigate(`/visit/${player.id}`);
   };
 
-  const startDate = new Date(player?.createdAt ?? 0).toLocaleString("en-US", {
-    month: "short",
-    year: "numeric",
-  });
+  const startDate = new Date(player?.farmCreatedAt ?? 0).toLocaleString(
+    "en-US",
+    {
+      month: "short",
+      year: "numeric",
+    },
+  );
 
   return (
     <div className="flex gap-1 w-full max-h-[370px]">
@@ -112,12 +126,15 @@ export const PlayerDetails: React.FC<Props> = ({
           </div>
           <div className="flex pb-1">
             <div className="w-10">
-              <NPCIcon parts={player?.clothing} width={PIXEL_SCALE * 14} />
+              <NPCIcon
+                parts={player?.clothing ?? {}}
+                width={PIXEL_SCALE * 14}
+              />
             </div>
             <div className="flex flex-col gap-1 text-xs mt-1 ml-2 flex-1">
               <div>{`Lvl ${getLevel(new Decimal(player?.experience ?? 0))}${player?.faction ? ` - ${capitalize(player?.faction)}` : ""}`}</div>
               <div className="flex items-center justify-between">
-                <span>{`#${player?.farmId}`}</span>
+                <span>{`#${player?.id}`}</span>
                 <span>{t("playerModal.since", { date: startDate })}</span>
               </div>
             </div>
@@ -127,14 +144,14 @@ export const PlayerDetails: React.FC<Props> = ({
           <div className="p-1 flex items-center">
             <div className="w-10">
               <img
-                src={ISLAND_ICONS[player?.islandType ?? "basic"]}
+                src={ISLAND_ICONS[player?.island ?? "basic"]}
                 className="w-full"
               />
             </div>
             <div className="flex pb-1 flex-col justify-center gap-1 text-xs mt-1 ml-2 flex-1">
               <div>
                 {t("playerModal.island", {
-                  island: capitalize(player?.islandType ?? ""),
+                  island: capitalize(player?.island ?? ""),
                 })}
               </div>
               <div className="flex items-center">
@@ -234,13 +251,13 @@ export const PlayerDetails: React.FC<Props> = ({
           </div>
         </InnerPanel>
       </div>
-      {!isMobile && (
+      {!isMobile && player && (
         <FollowerFeed
           farmId={farmId}
-          followedPlayerId={player.farmId}
-          onInteraction={(message) => {
-            onChatMessage(message);
-          }}
+          playerId={player.id}
+          playerClothing={player.clothing}
+          playerUsername={player.username}
+          playerLoading={playerLoading}
           chatDisabled={!isFollowMutual}
         />
       )}
