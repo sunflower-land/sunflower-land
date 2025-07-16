@@ -209,7 +209,6 @@ export function plantGreenhouse({
     // Plants
     game.greenhouse.pots[potId] = {
       plant: {
-        amount: getGreenhouseYieldAmount({ crop: plantName, game }),
         name: plantName,
         plantedAt: getPlantedAt({ createdAt, crop: plantName, game }),
       },

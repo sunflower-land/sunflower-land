@@ -650,7 +650,7 @@ export type CropPlot = {
 export type GreenhousePlant = {
   name: GreenHouseCropName | GreenHouseFruitName;
   plantedAt: number;
-  amount: number;
+  criticalHit?: CriticalHit;
 };
 
 export type GreenhousePot = {

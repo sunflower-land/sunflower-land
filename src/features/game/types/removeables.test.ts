@@ -2312,7 +2312,6 @@ describe("canremove", () => {
           pots: {
             0: {
               plant: {
-                amount: 1,
                 name: "Rice",
                 plantedAt: now - 100,
               },
@@ -2346,7 +2345,6 @@ describe("canremove", () => {
           pots: {
             0: {
               plant: {
-                amount: 1,
                 name: "Grape",
                 plantedAt: now - 100,
               },
@@ -2380,7 +2378,6 @@ describe("canremove", () => {
           pots: {
             0: {
               plant: {
-                amount: 1,
                 name: "Grape",
                 plantedAt: now - 100,
               },
@@ -2414,7 +2411,6 @@ describe("canremove", () => {
           pots: {
             0: {
               plant: {
-                amount: 1,
                 name: "Rice",
                 plantedAt: now - 100,
               },

@@ -345,28 +345,24 @@ describe("skillUse", () => {
             pots: {
               "1": {
                 plant: {
-                  amount: 1,
                   name: "Olive",
                   plantedAt: 1733803854974,
                 },
               },
               "2": {
                 plant: {
-                  amount: 1,
                   name: "Olive",
                   plantedAt: 1733803856819,
                 },
               },
               "3": {
                 plant: {
-                  amount: 1,
                   name: "Olive",
                   plantedAt: 1733803855784,
                 },
               },
               "4": {
                 plant: {
-                  amount: 1,
                   name: "Olive",
                   plantedAt: 1733803857337,
                 },
