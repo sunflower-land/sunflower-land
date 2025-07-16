@@ -628,8 +628,6 @@ export type Rock = {
 } & Coordinates;
 
 export type Oil = {
-  amount: number;
-  // Epoch time in milliseconds
   drilledAt: number;
 };
 

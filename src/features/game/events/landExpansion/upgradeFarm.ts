@@ -571,7 +571,6 @@ const INITIAL_VOLCANO_LAND: Pick<
       x: -8,
       y: 8,
       oil: {
-        amount: 10,
         drilledAt: 0,
       },
       drilled: 0,

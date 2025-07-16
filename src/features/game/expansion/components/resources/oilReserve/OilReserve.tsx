@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { RecoveredOilReserve } from "./components/RecoveredOilReserve";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
@@ -9,6 +9,7 @@ import { getTimeLeft } from "lib/utils/time";
 import {
   OIL_RESERVE_RECOVERY_TIME,
   canDrillOilReserve,
+  getOilDropAmount,
   getRequiredOilDrillAmount,
 } from "features/game/events/landExpansion/drillOilReserve";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
@@ -31,7 +32,7 @@ const compareResource = (prev: IOilReserve, next: IOilReserve) => {
 export const OilReserve: React.FC<Props> = ({ id }) => {
   const { gameService } = useContext(Context);
   const [drilling, setDrilling] = useState(false);
-  const [oiledAmount, setOilAmount] = useState<number>();
+  const oilHarvested = useRef(0);
 
   const state = gameService.getSnapshot().context.state;
 
@@ -48,13 +49,13 @@ export const OilReserve: React.FC<Props> = ({ id }) => {
 
   const handleDrill = async () => {
     if (!ready || drills.lessThan(getRequiredOilDrillAmount(state))) return;
+    const oilDropAmount = getOilDropAmount(state, reserve);
 
     const newState = gameService.send({ type: "oilReserve.drilled", id });
 
     if (!newState.matches("hoarding")) {
       setDrilling(true);
-      setOilAmount(reserve.oil.amount);
-      //  TODO: Implement audio
+      oilHarvested.current += oilDropAmount;
 
       await new Promise((res) => setTimeout(res, 2000));
       setDrilling(false);
@@ -71,9 +72,9 @@ export const OilReserve: React.FC<Props> = ({ id }) => {
       {!ready && !halfReady && (
         <DepletedOilReserve
           drilling={drilling}
-          oilAmount={oiledAmount}
+          oilAmount={oilHarvested.current}
           timeLeft={timeLeft}
-          onOilTransitionEnd={() => setOilAmount(undefined)}
+          onOilTransitionEnd={() => (oilHarvested.current = 0)}
         />
       )}
     </div>

@@ -216,7 +216,6 @@ export function revealLand({
         createdAt,
         drilled: 0,
         oil: {
-          amount: 10,
           drilledAt: 0,
         },
       };

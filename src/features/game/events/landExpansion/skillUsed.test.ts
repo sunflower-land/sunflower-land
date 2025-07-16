@@ -470,7 +470,6 @@ describe("skillUse", () => {
               createdAt: 1718896710652,
               oil: {
                 drilledAt: dateNow - 1000 * 60,
-                amount: 22.1,
               },
               x: 10,
               y: -1,
@@ -480,7 +479,6 @@ describe("skillUse", () => {
               createdAt: 1715647670891,
               oil: {
                 drilledAt: 1733773070329,
-                amount: 22.1,
               },
               x: 8,
               y: -1,
@@ -490,7 +488,6 @@ describe("skillUse", () => {
               createdAt: 1716767207652,
               oil: {
                 drilledAt: dateNow - 1000 * 60,
-                amount: 22.1,
               },
               x: 6,
               y: -1,

@@ -2145,7 +2145,6 @@ describe("canremove", () => {
             y: 3,
 
             oil: {
-              amount: 1,
               drilledAt: now - 100,
             },
             createdAt: 0,
@@ -2246,7 +2245,6 @@ describe("canremove", () => {
             y: 3,
 
             oil: {
-              amount: 1,
               drilledAt: now - 100,
             },
             createdAt: 0,

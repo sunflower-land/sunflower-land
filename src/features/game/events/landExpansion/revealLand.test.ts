@@ -431,7 +431,6 @@ describe("revealLand", () => {
             createdAt: 0,
             drilled: 1,
             oil: {
-              amount: 1,
               drilledAt: 0,
             },
           },
