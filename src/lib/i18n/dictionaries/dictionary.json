@@ -1,4 +1,5 @@
 {
+  "reload": "Reload",
   "exchange.flower.coins": "Exchange FLOWER for coins",
   "active": "Active",
   "sending": "Sending...",
@@ -13,6 +14,8 @@
   "reason": "Reason",
   "message": "Message",
   "activity": "Activity",
+  "followers": "Followers",
+  "following": "Following",
   "you": "You",
   "noActivity": "No activity yet.",
   "animals.buildingIsFull": "{{buildingName}} is full!",
@@ -6215,8 +6218,12 @@
   "playerModal.since": "Since {{date}}",
   "playerModal.marketValue": "Market value: {{value}}",
   "playerModal.island": "{{island}} Island",
-  "playerModal.followers": "{{count}} followers",
+  "playerModal.followers": "Followers ({{count}})",
+  "playerModal.following": "Following ({{count}})",
+  "playerModal.no.followers": "This player currently has no followers.",
+  "playerModal.no.following": "This player currently has no one following them.",
   "playerModal.dailyStreak": "Daily streak: {{streak}}",
+  "playerModal.noFollowers": "No followers",
   "playerModal.noMoreMessages": "No more messages",
   "playerModal.totalDeliveries": "Total deliveries: {{count}}",
   "description.colorToken2025": "Use this in the festival of colors event shop before the event ends!",
@@ -6253,5 +6260,7 @@
   "social.characters.remaining": "{{count}} characters remaining",
   "report.error": "Failed to submit report. Please try again later.",
   "report.success": "Report submitted successfully!",
-  "report.fillInAllFields": "Please fill in all fields"
+  "report.fillInAllFields": "Please fill in all fields",
+  "social.lastOnline": "Last online {{time}}",
+  "social.farming": "Farming"
 }

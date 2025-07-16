@@ -32,7 +32,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { FollowerFeed } from "./components/FollowerFeed";
-import { Followers } from "./components/Followers";
+import { FollowList } from "./components/FollowList";
 
 interface Props {
   game: GameState;
@@ -291,10 +291,24 @@ export const PlayerModal: React.FC<Props> = ({ game, farmId, token }) => {
               chatDisabled={!isMutual}
             />
           )}
-          {tab === "Followers" && player && (
-            <Followers
+          {tab === "Followers" && (
+            <FollowList
               farmId={farmId}
-              followers={data?.data?.followedBy ?? []}
+              networkFarmId={player?.farmId as number}
+              token={token}
+              networkList={data?.data?.followedBy ?? []}
+              networkCount={data?.data?.followedByCount ?? 0}
+              type="followers"
+            />
+          )}
+          {tab === "Following" && (
+            <FollowList
+              farmId={farmId}
+              networkFarmId={player?.farmId as number}
+              token={token}
+              networkCount={data?.data?.followingCount ?? 0}
+              networkList={data?.data?.following ?? []}
+              type="following"
             />
           )}
           {tab === "Reward" && <PlayerGift />}

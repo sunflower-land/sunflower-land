@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
 
@@ -25,13 +25,11 @@ import { useTranslation } from "react-i18next";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
-import { ModalOverlay } from "components/ui/ModalOverlay";
 import { useNavigate } from "react-router";
 import { useVisiting } from "lib/utils/visitUtils";
 import { PlayerModalPlayer } from "../lib/playerModalManager";
 import { Player } from "../types/types";
 import { useSocial } from "../hooks/useSocial";
-import { Followers } from "./Followers";
 import { KeyedMutator } from "swr";
 
 const ISLAND_ICONS: Record<IslandType, string> = {
@@ -51,6 +49,7 @@ type Props = {
   isFollowMutual: boolean;
   onFollow: () => void;
   onChatMessage: (message: string) => void;
+  onFollowersClick: () => void;
   mutate: KeyedMutator<Player | undefined>;
 };
 
@@ -67,13 +66,13 @@ export const PlayerDetails: React.FC<Props> = ({
   mutate,
   onFollow,
   onChatMessage,
+  onFollowersClick,
 }) => {
   const { gameService } = useContext(Context);
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { isVisiting } = useVisiting();
 
-  const [isFollowingFeedOpen, setIsFollowingFeedOpen] = useState(false);
   const farmId = useSelector(gameService, _farmId);
 
   // Used only to share my online status with the followers
@@ -105,14 +104,6 @@ export const PlayerDetails: React.FC<Props> = ({
 
   return (
     <div className="flex gap-1 w-full max-h-[370px]">
-      <ModalOverlay
-        show={isFollowingFeedOpen}
-        onBackdropClick={() => setIsFollowingFeedOpen(false)}
-      >
-        <InnerPanel>
-          <Followers farmId={farmId} followers={data?.data?.followedBy ?? []} />
-        </InnerPanel>
-      </ModalOverlay>
       <div className="flex flex-col flex-1 gap-1">
         <InnerPanel className="flex flex-col gap-1 flex-1 pb-1 px-1">
           <div className="flex items-center">
@@ -173,7 +164,7 @@ export const PlayerDetails: React.FC<Props> = ({
               <div className="flex items-center gap-1">
                 <span
                   className="text-xs underline cursor-pointer"
-                  onClick={() => setIsFollowingFeedOpen(true)}
+                  onClick={onFollowersClick}
                 >
                   {t("playerModal.followers", {
                     count: data?.data?.followedByCount,
