@@ -16,6 +16,7 @@ type Props = {
   networkCount: number;
   playerLoading: boolean;
   type: "followers" | "following";
+  navigateToPlayer: (playerId: number) => void;
 };
 
 export const FollowList: React.FC<Props> = ({
@@ -26,6 +27,7 @@ export const FollowList: React.FC<Props> = ({
   networkCount,
   playerLoading,
   type,
+  navigateToPlayer,
 }) => {
   const { online } = useSocial({
     farmId: networkFarmId,
@@ -123,6 +125,9 @@ export const FollowList: React.FC<Props> = ({
               tokenUri={networkDetails?.[followerId]?.tokenUri ?? ""}
               username={networkDetails?.[followerId]?.username ?? ""}
               lastOnlineAt={networkDetails?.[followerId]?.lastUpdatedAt ?? 0}
+              // Pass navigateToPlayer to enable navigation when clicking on a player
+              // This will navigate to the player and switch to the Player tab
+              navigateToPlayer={navigateToPlayer}
             />
           );
         })}
