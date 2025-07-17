@@ -6053,5 +6053,17 @@
   "apply": "启用",
   "unapply": "取消",
   "biome.alreadyOwn": "您已拥有此类型的地块",
-  "faction.leave.boostDisclaimer": "切换到新阵营后 6 周内你不会获得经验值提升。"
+  "faction.leave.boostDisclaimer": "切换到新阵营后 6 周内你不会获得经验值提升。",
+  "description.bigApple": "这不是大苹果，而是大苹果！",
+  "description.bigOrange": "一个大橙子",
+  "description.bigBanana": "一根大香蕉",
+  "description.farmerMonument": "向日葵地农民的纪念碑",
+  "description.minerMonument": "向日葵地矿工纪念碑",
+  "description.woodcutterMonument": "向日葵之地的伐木工纪念碑",
+  "description.teamworkMonument": "《向日葵之地》团队合作的纪念碑，可在 “一起成长” 章节中获得。",
+  "description.basicCookingPot": "基本的烹饪锅",
+  "description.expertCookingPot": "一款专业的烹饪锅",
+  "description.advancedCookingPot": "烹饪大师",
+  "already.built": "已经建成",
+  "monuments": "纪念碑"
 }

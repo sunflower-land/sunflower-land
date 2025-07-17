@@ -61,7 +61,7 @@ import { placeChicken, PlaceChickenAction } from "./landExpansion/placeChicken";
 import { craftTool, CraftToolAction } from "./landExpansion/craftTool";
 import {
   buyDecoration,
-  buyDecorationAction,
+  BuyDecorationAction,
 } from "./landExpansion/buyDecoration";
 import { sellCrop, SellCropAction } from "./landExpansion/sellCrop";
 import {
@@ -480,6 +480,7 @@ import {
 } from "./landExpansion/speedUpCrafting";
 import { buyBiome, BuyBiomeAction } from "./landExpansion/buyBiome";
 import { applyBiome, ApplyBiomeAction } from "./landExpansion/applyBiome";
+import { buyMonument, BuyMonumentAction } from "./landExpansion/buyMonument";
 export type PlayingEvent =
   | ObsidianExchangedAction
   | SpeedUpUpgradeAction
@@ -519,7 +520,8 @@ export type PlayingEvent =
   | SeedBoughtAction
   | ClaimAchievementAction
   | CraftToolAction
-  | buyDecorationAction
+  | BuyDecorationAction
+  | BuyMonumentAction
   | SellCropAction
   | CollectCropRewardAction
   | CollectTreeRewardAction
@@ -638,7 +640,8 @@ export type PlacementEvent =
   | PlaceCrimstoneAction
   | PlaceFruitPatchAction
   | PlaceSunstoneAction
-  | buyDecorationAction
+  | BuyDecorationAction
+  | BuyMonumentAction
   | CraftCollectibleAction
   | MoveCollectibleAction
   | MoveBuildingAction
@@ -735,6 +738,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "achievement.claimed": claimAchievement,
   "tool.crafted": craftTool,
   "decoration.bought": buyDecoration,
+  "monument.bought": buyMonument,
   "crop.sold": sellCrop,
 
   "cropReward.collected": collectCropReward,
@@ -849,6 +853,7 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "crimstone.placed": placeCrimstone,
   "fruitPatch.placed": placeFruitPatch,
   "decoration.bought": buyDecoration,
+  "monument.bought": buyMonument,
   "collectible.crafted": craftCollectible,
   "collectible.moved": moveCollectible,
   "building.moved": moveBuilding,

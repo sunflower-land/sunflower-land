@@ -97,6 +97,7 @@ import { RewardBoxes, RewardBoxName } from "./rewardBoxes";
 import { FloatingIslandShop, FloatingShopItemName } from "./floatingIsland";
 import { Blessing } from "../lib/blessings";
 import { LandBiomeName } from "features/island/biomes/biomes";
+import { MonumentName } from "./monuments";
 
 export type Reward = {
   coins?: number;
@@ -544,7 +545,8 @@ export type InventoryItemName =
   | TradeFood
   | SeasonalBanner
   | RewardBoxName
-  | LandBiomeName;
+  | LandBiomeName
+  | MonumentName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -1721,6 +1723,8 @@ export interface GameState {
     amount: number;
   };
   blessing: Blessing;
+
+  monuments?: Partial<Record<MonumentName, { createdAt: number }>>;
 }
 
 export type FaceRecognitionEvent =

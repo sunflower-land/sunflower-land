@@ -6053,5 +6053,17 @@
   "apply": "Aplique",
   "unapply": "Cancelar a aplicação",
   "biome.alreadyOwn": "Você já possui este bioma",
-  "faction.leave.boostDisclaimer": "Você não receberá aumentos de XP por 6 semanas após mudar para uma nova facção."
+  "faction.leave.boostDisclaimer": "Você não receberá aumentos de XP por 6 semanas após mudar para uma nova facção.",
+  "description.bigApple": "Não é a maçã grande, é uma maçã grande!",
+  "description.bigOrange": "Uma grande laranja",
+  "description.bigBanana": "Uma banana grande",
+  "description.farmerMonument": "Um monumento aos agricultores da Terra do Girassol",
+  "description.minerMonument": "Um monumento aos mineiros da Terra do Girassol",
+  "description.woodcutterMonument": "Um monumento aos lenhadores da Terra do Girassol",
+  "description.teamworkMonument": "Um monumento ao trabalho em equipe da Sunflower Land, disponível durante o capítulo Better Together.",
+  "description.basicCookingPot": "Uma panela básica",
+  "description.expertCookingPot": "Uma panela especializada",
+  "description.advancedCookingPot": "Uma panela principal",
+  "already.built": "Já construído",
+  "monuments": "Monumentos"
 }

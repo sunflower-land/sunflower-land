@@ -12235,6 +12235,116 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/764.webp",
     name: "Coprolite",
   },
+  "Big Orange": {
+    description: "A big orange",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2281.webp",
+    name: "Big Orange",
+  },
+  "Big Apple": {
+    description: "It's not the big apple, it's a big apple!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2282.webp",
+    name: "Big Apple",
+  },
+  "Big Banana": {
+    description: "A big banana",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2283.webp",
+    name: "Big Banana",
+  },
+  "Farmer's Monument": {
+    description: "A monument to the farmers of Sunflower Land",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2284.webp",
+    name: "Farmer's Monument",
+  },
+  "Miner's Monument": {
+    description: "A monument to the miners of Sunflower Land",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2285.webp",
+    name: "Miner's Monument",
+  },
+  "Woodcutter's Monument": {
+    description: "A monument to the woodcutters of Sunflower Land",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2286.webp",
+    name: "Woodcutter's Monument",
+  },
+  "Teamwork Monument": {
+    description: "A monument to the teamwork of Sunflower Land",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2287.webp",
+    name: "Teamwork Monument",
+  },
+  "Basic Cooking Pot": {
+    description: "A basic cooking pot",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2288.webp",
+    name: "Basic Cooking Pot",
+  },
+  "Expert Cooking Pot": {
+    description: "A expert cooking pot",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2289.webp",
+    name: "Expert Cooking Pot",
+  },
+  "Advanced Cooking Pot": {
+    description: "A master cooking pot",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2290.webp",
+    name: "Advanced Cooking Pot",
+  },
 };
 
 export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
