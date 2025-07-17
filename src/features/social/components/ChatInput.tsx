@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useRef, useState } from "react";
+import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { pixelChatInputBorderStyle } from "features/game/lib/style";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Button } from "components/ui/Button";
@@ -12,11 +12,27 @@ type Props = {
 };
 
 export const ChatInput: React.FC<Props> = ({ disabled, onEnter }) => {
+  const { t } = useAppTranslation();
   const [text, setText] = useState("");
+  const [debounceButtonTime, setDebounceButtonTime] = useState(0);
   const ref = useRef<HTMLTextAreaElement>(null);
 
   const isValidText = () => {
     return text.length <= MAX_CHARACTERS && ALPHA_REGEX.test(text);
+  };
+
+  useEffect(() => {
+    if (debounceButtonTime > 0) {
+      setTimeout(() => setDebounceButtonTime(0), debounceButtonTime);
+    }
+  }, [debounceButtonTime]);
+
+  const handleMessage = () => {
+    if (text.trim() !== "" && isValidText()) {
+      onEnter(text);
+      setText("");
+      setDebounceButtonTime(2000);
+    }
   };
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLTextAreaElement>) => {
@@ -24,10 +40,7 @@ export const ChatInput: React.FC<Props> = ({ disabled, onEnter }) => {
 
     if (event.key === "Enter") {
       event.preventDefault();
-      if (text.trim() !== "" && isValidText()) {
-        onEnter(text);
-        setText("");
-      }
+      handleMessage();
     }
   };
 
@@ -61,10 +74,10 @@ export const ChatInput: React.FC<Props> = ({ disabled, onEnter }) => {
       />
       <Validation text={text} />
       <Button
-        onClick={() => onEnter(text)}
-        disabled={text.length === 0 || !isValidText()}
+        onClick={handleMessage}
+        disabled={text.length === 0 || !isValidText() || debounceButtonTime > 0}
       >
-        {`Message`}
+        {t("message")}
       </Button>
     </div>
   );

@@ -8,7 +8,7 @@ import React, { useContext, useState } from "react";
 import { CONFIG } from "lib/config";
 import * as AuthProvider from "features/auth/lib/Provider";
 import { useSelector } from "@xstate/react";
-import { InnerPanel } from "components/ui/Panel";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   id: number;
@@ -22,6 +22,7 @@ interface PlayerReportBody {
 }
 
 export const ReportPlayer: React.FC<Props> = ({ id }) => {
+  const { t } = useAppTranslation();
   const [reportedFarmId, setReportedFarmId] = useState(id);
   const [reason, setReason] = useState<string>();
   const [message, setMessage] = useState<string>("");
@@ -36,7 +37,7 @@ export const ReportPlayer: React.FC<Props> = ({ id }) => {
 
   const handleSubmit = async () => {
     if (!reportedFarmId || !reason || (reason === "Other" && !message)) {
-      setLogMessage("Please fill in all fields");
+      setLogMessage(t("report.fillInAllFields"));
       return;
     }
 
@@ -58,25 +59,25 @@ export const ReportPlayer: React.FC<Props> = ({ id }) => {
       });
 
       if (!response.ok) {
-        setLogMessage("Failed to send report");
+        setLogMessage(t("report.error"));
       }
 
       // Clear form after successful submission
       setReason(undefined);
       setMessage("");
     } catch (error) {
-      setLogMessage("Failed to submit report. Please try again later.");
+      setLogMessage(t("report.error"));
     } finally {
-      setLogMessage("Report submitted successfully!");
+      setLogMessage(t("report.success"));
       setIsSubmitting(false);
     }
   };
 
   return (
-    <InnerPanel className="flex flex-col gap-2 overflow-y-auto scrollable">
-      <div className="flex flex-col">
+    <div className="flex flex-col gap-2 overflow-y-auto scrollable">
+      <div className="flex flex-col gap-2 pt-1">
         <Label type="default" icon={SUNNYSIDE.icons.search} className="mx-2">
-          {`Farm ID`}
+          {`${t("farm")} ID`}
         </Label>
         <NumberInput
           value={reportedFarmId}
@@ -85,9 +86,9 @@ export const ReportPlayer: React.FC<Props> = ({ id }) => {
           readOnly
         />
       </div>
-      <div className="flex flex-col">
+      <div className="flex flex-col gap-2">
         <Label type="default" icon={SUNNYSIDE.icons.search} className="mx-2">
-          {`Reason`}
+          {t("reason")}
         </Label>
         <Dropdown
           options={REASONS}
@@ -96,21 +97,23 @@ export const ReportPlayer: React.FC<Props> = ({ id }) => {
           maxHeight={16}
         />
       </div>
-      <div className="flex flex-col">
+      <div className="flex flex-col gap-2">
         <div className="flex flex-row justify-between mb-1">
           <Label
             type="default"
             icon={SUNNYSIDE.icons.expression_chat}
             className="mx-2"
           >
-            {`Message`}
+            {t("message")}
           </Label>
           {message.length > 450 && (
             <Label
               type={message.length >= 500 ? "danger" : "warning"}
               className="mx-2"
             >
-              {`${500 - message.length} characters remaining`}
+              {t("social.characters.remaining", {
+                count: 500 - message.length,
+              })}
             </Label>
           )}
         </div>
@@ -119,7 +122,7 @@ export const ReportPlayer: React.FC<Props> = ({ id }) => {
           onValueChange={(value) => {
             setMessage(value);
           }}
-          placeholder="Describe the issue..."
+          placeholder={t("social.report.description")}
           maxLength={500}
         />
       </div>
@@ -136,9 +139,9 @@ export const ReportPlayer: React.FC<Props> = ({ id }) => {
           }
           onClick={handleSubmit}
         >
-          {isSubmitting ? "Sending..." : "Send"}
+          {isSubmitting ? t("sending") : t("send")}
         </Button>
       </div>
-    </InnerPanel>
+    </div>
   );
 };

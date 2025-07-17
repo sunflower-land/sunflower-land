@@ -66,6 +66,7 @@ import { LoveIslandScene } from "./scenes/LoveIslandScene";
 import { ColorsIslandScene } from "./scenes/ColorsIslandScene";
 import { hasFeatureAccess } from "lib/flags";
 import { WorldHud } from "features/island/hud/WorldHud";
+import { PlayerModal } from "features/social/PlayerModal";
 
 const _roomState = (state: MachineState) => state.value;
 const _scene = (state: MachineState) => state.context.sceneId;
@@ -519,7 +520,11 @@ export const PhaserComponent: React.FC<Props> = ({
 
       <NPCModals id={farmId as number} />
       <PlayerSelectionList />
-      <PlayerModals game={state} farmId={farmId as number} />
+      {hasFeatureAccess(state, "SOCIAL_FARMING") ? (
+        <PlayerModal game={state} farmId={farmId as number} token={rawToken} />
+      ) : (
+        <PlayerModals game={state} farmId={farmId as number} />
+      )}
       <CommunityModals />
       <InteractableModals id={farmId as number} scene={scene} key={scene} />
       <Modal
