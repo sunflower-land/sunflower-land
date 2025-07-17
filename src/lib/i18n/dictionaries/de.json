@@ -6053,5 +6053,17 @@
   "apply": "Bewerben",
   "unapply": "Bewerbung aufheben",
   "biome.alreadyOwn": "Du besitzt dieses Biom bereits",
-  "faction.leave.boostDisclaimer": "Nach dem Wechsel zu einer neuen Fraktion erhaltet ihr 6 Wochen lang keine XP-Boosts."
+  "faction.leave.boostDisclaimer": "Nach dem Wechsel zu einer neuen Fraktion erhaltet ihr 6 Wochen lang keine XP-Boosts.",
+  "description.bigApple": "Es ist nicht der große Apfel, es ist ein großer Apfel!",
+  "description.bigOrange": "Eine große Orange",
+  "description.bigBanana": "Eine große Banane",
+  "description.farmerMonument": "Ein Denkmal für die Bauern von Sunflower Land",
+  "description.minerMonument": "Ein Denkmal für die Bergarbeiter von Sunflower Land",
+  "description.woodcutterMonument": "Ein Denkmal für die Holzfäller von Sunflower Land",
+  "description.teamworkMonument": "Ein Denkmal für die Teamarbeit von Sunflower Land, verfügbar im Kapitel Better Together.",
+  "description.basicCookingPot": "Ein einfacher Kochtopf",
+  "description.expertCookingPot": "Ein Kochtopf von Experten",
+  "description.advancedCookingPot": "Ein Meisterkochtopf",
+  "already.built": "Bereits gebaut",
+  "monuments": "Monumente"
 }

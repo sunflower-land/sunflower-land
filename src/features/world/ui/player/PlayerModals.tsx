@@ -122,16 +122,17 @@ const OldPlayerDetails: React.FC<{ player: PlayerModalPlayer }> = ({
 interface Props {
   game: GameState;
   farmId: number;
+  isOpen?: boolean;
 }
 
-export const PlayerModals: React.FC<Props> = ({ game, farmId }) => {
+export const PlayerModals: React.FC<Props> = ({ game, farmId, isOpen }) => {
   const [tab, setTab] = useState<
     "Player" | "Reward" | "Stream" | "Report" | "Airdrop" | "Activity"
   >("Player");
   // DEV_TESTING_ONLY
   const [interactions, setInteractions] = useState<Interaction[]>([]);
   const [player, setPlayer] = useState<PlayerModalPlayer | undefined>();
-  const [showPlayerModal, setShowPlayerModal] = useState(false);
+  const [showPlayerModal, setShowPlayerModal] = useState(isOpen ?? false);
 
   useEffect(() => {
     playerModalManager.listen((npc) => {

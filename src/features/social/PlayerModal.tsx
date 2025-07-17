@@ -34,6 +34,8 @@ import { Interaction, Player, PlayerUpdate } from "./types/types";
 import { tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { useSocial } from "./hooks/useSocial";
+import { useNavigate } from "react-router";
+import { useVisiting } from "lib/utils/visitUtils";
 
 const ISLAND_ICONS: Record<IslandType, string> = {
   basic: basicIsland,
@@ -93,9 +95,11 @@ const _myClothing = (state: MachineState) =>
 
 export const PlayerDetails: React.FC<Props> = ({ player }) => {
   const { gameService } = useContext(Context);
+  const navigate = useNavigate();
 
   const [followingLoading, setFollowingLoading] = useState(false);
   const [isFollowingFeedOpen, setIsFollowingFeedOpen] = useState(false);
+  const { isVisiting } = useVisiting();
 
   const token = useSelector(gameService, _token);
   const farmId = useSelector(gameService, _farmId);
@@ -209,6 +213,10 @@ export const PlayerDetails: React.FC<Props> = ({ player }) => {
     );
   };
 
+  const visitFarm = () => {
+    navigate(`/visit/${player.farmId}`);
+  };
+
   const startDate = new Date(player?.createdAt).toLocaleString("en-US", {
     month: "short",
     year: "numeric",
@@ -262,15 +270,20 @@ export const PlayerDetails: React.FC<Props> = ({ player }) => {
                 <img src={flowerIcon} className="w-4 h-4 ml-1 mt-0.5" />
               </div>
             </div>
-            <Button className="flex w-fit h-9 justify-between items-center gap-1 mt-1">
-              <div className="flex items-center px-1">
-                {!isMobile && <span className="pr-1">{t("visit")}</span>}
-                <img
-                  src={SUNNYSIDE.icons.search}
-                  className="flex justify-center items-center w-4 h-4"
-                />
-              </div>
-            </Button>
+            {!isVisiting && (
+              <Button
+                className="flex w-fit h-9 justify-between items-center gap-1 mt-1"
+                onClick={visitFarm}
+              >
+                <div className="flex items-center px-1">
+                  {!isMobile && <span className="pr-1">{t("visit")}</span>}
+                  <img
+                    src={SUNNYSIDE.icons.search}
+                    className="flex justify-center items-center w-4 h-4"
+                  />
+                </div>
+              </Button>
+            )}
           </div>
         </InnerPanel>
         <InnerPanel className="flex flex-col items-center w-full">

@@ -1097,6 +1097,18 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Red Slime Balloon": 2279,
   "Blue Slime Balloon": 2280,
 
+  // Monument Items
+  "Big Orange": 2281,
+  "Big Apple": 2282,
+  "Big Banana": 2283,
+  "Farmer's Monument": 2284,
+  "Miner's Monument": 2285,
+  "Woodcutter's Monument": 2286,
+  "Teamwork Monument": 2287,
+  "Basic Cooking Pot": 2288,
+  "Expert Cooking Pot": 2289,
+  "Advanced Cooking Pot": 2290,
+
   // Land Biomes
   "Basic Biome": 2400,
   "Spring Biome": 2401,
