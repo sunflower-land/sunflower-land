@@ -165,15 +165,11 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
           },
         ]
       : []),
-    ...(Date.now() < new Date("2025-07-17T00:00:00Z").getTime()
-      ? [
-          {
-            name: "Competition" as const,
-            icon: chefIcon,
-            count: 0,
-          },
-        ]
-      : []),
+    {
+      name: "Competition" as const,
+      icon: chefIcon,
+      count: 0,
+    },
   ];
 
   return (
@@ -284,6 +280,9 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
                 <CompetitionDetails
                   competitionName="PEGGYS_COOKOFF"
                   state={state}
+                  hideLeaderboard={
+                    Date.now() < new Date("2025-07-17T00:00:00Z").getTime()
+                  }
                 />
               </div>
             )}
