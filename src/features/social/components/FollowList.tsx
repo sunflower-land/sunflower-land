@@ -125,8 +125,6 @@ export const FollowList: React.FC<Props> = ({
               tokenUri={networkDetails?.[followerId]?.tokenUri ?? ""}
               username={networkDetails?.[followerId]?.username ?? ""}
               lastOnlineAt={networkDetails?.[followerId]?.lastUpdatedAt ?? 0}
-              // Pass navigateToPlayer to enable navigation when clicking on a player
-              // This will navigate to the player and switch to the Player tab
               navigateToPlayer={navigateToPlayer}
             />
           );

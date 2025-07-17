@@ -60,7 +60,6 @@ export const PlayerDetails: React.FC<Props> = ({
   data,
   error,
   playerLoading,
-  playerValidating,
   followLoading,
   iAmFollowing,
   isFollowMutual,
@@ -113,14 +112,6 @@ export const PlayerDetails: React.FC<Props> = ({
                 <div
                   className="flex items-center justify-center w-6 h-6 mr-2 cursor-pointer hover:bg-brown-200 active:bg-brown-300 rounded-sm transition-colors"
                   onClick={onGoBack}
-                  aria-label="Go back to previous player"
-                  role="button"
-                  tabIndex={0}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter" || e.key === " ") {
-                      onGoBack?.();
-                    }
-                  }}
                 >
                   <img
                     src={SUNNYSIDE.icons.arrow_left}

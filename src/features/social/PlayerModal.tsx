@@ -114,14 +114,6 @@ export const PlayerModal: React.FC<Props> = ({ game, farmId, token }) => {
     });
   }, [farmId, setInitialPlayer, setInitialTab]);
 
-  useEffect(() => {
-    if (!currentPlayerId) {
-      // Reset navigation state when playerId becomes undefined
-      clearHistory();
-      return;
-    }
-  }, [currentPlayerId, clearHistory]);
-
   const playerHasGift = player?.clothing?.shirt === "Gift Giver";
   const playerHasStreamReward = player?.clothing?.hat === "Streamer Hat";
   const notCurrentPlayer = farmId !== currentPlayerId;
