@@ -111,6 +111,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Thermal Stone": new Decimal(1),
     Hay: new Decimal(100),
     "Dr Cow": new Decimal(1),
+    "Cow Scratcher": new Decimal(1),
   },
   previousInventory: {
     "Dirt Path": new Decimal(20),
@@ -132,7 +133,9 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Iron: new Decimal(1000),
     Gold: new Decimal(1000),
   },
-  wardrobe: {},
+  wardrobe: {
+    "Cowboy Hat": 1,
+  },
   previousWardrobe: {},
   bank: { taxFreeSFL: 0, withdrawnAmount: 0 },
   beehives: {
