@@ -113,7 +113,6 @@ export const ChestRevealing: React.FC<Props> = ({ type }) => {
 
   return (
     <div className="flex flex-col items-center justify-center h-44 gap-2">
-      <Label type="default">{`Determining your reward...`}</Label>
       <div className="flex flex-col items-center justify-center gap-2">
         {label && (
           <Label icon={SUNNYSIDE.decorations.treasure_chest} type="default">

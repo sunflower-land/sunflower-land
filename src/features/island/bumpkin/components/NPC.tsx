@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Spritesheet from "components/animation/SpriteAnimator";
 import classNames from "classnames";
 import {
@@ -19,6 +19,7 @@ import {
   getAnimatedWebpUrl,
   getAnimationUrl,
 } from "features/world/lib/animations";
+import silhouette from "assets/npcs/silhouette.webp";
 
 const FRAME_HEIGHT = 19;
 const AURA_WIDTH = 160 / 8;
@@ -125,6 +126,7 @@ export const NPCIcon: React.FC<NPCProps> = ({
   parts,
   width = PIXEL_SCALE * 14, // Default to original width if not passed
 }) => {
+  const [loaded, setLoaded] = useState(false);
   const idle = getAnimatedWebpUrl(parts, ["idle-small"]);
   const auraBack =
     parts.aura &&
@@ -160,7 +162,19 @@ export const NPCIcon: React.FC<NPCProps> = ({
           imageRendering: "pixelated" as const,
         }}
       >
-        <img src={idle} style={{ width: `${width}px` }} />
+        <img
+          id="idle"
+          src={idle}
+          style={{ width: `${width}px` }}
+          onLoad={() => setLoaded(true)}
+        />
+        {!loaded && (
+          <img
+            id="silhouette"
+            src={silhouette}
+            className="w-4/5 absolute top-1 left-1"
+          />
+        )}
       </div>
       {auraFront && (
         <Spritesheet

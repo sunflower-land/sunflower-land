@@ -802,7 +802,7 @@ export abstract class BaseScene extends Phaser.Scene {
       experience,
       farmId,
       faction,
-      onClick: defaultClick,
+      onClick: !isCurrentPlayer ? defaultClick : undefined,
       totalDeliveries,
       dailyStreak,
       isVip,
