@@ -29,6 +29,7 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { useSound } from "lib/utils/hooks/useSound";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
+import { setPrecision } from "lib/utils/formatNumber";
 
 const HITS = 3;
 const tool = "Axe";
@@ -193,7 +194,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
     if (!newState.matches("hoarding")) {
       if (showAnimations) {
         setCollecting(true);
-        harvested.current = woodDropAmount.toNumber();
+        harvested.current = setPrecision(woodDropAmount, 2).toNumber();
       }
 
       treeFallAudio();
