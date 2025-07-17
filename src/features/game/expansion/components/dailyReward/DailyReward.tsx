@@ -34,6 +34,7 @@ import { Context } from "features/game/GameProvider";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { NetworkName } from "features/game/events/landExpansion/updateNetwork";
+import { useVisiting } from "lib/utils/visitUtils";
 
 const _network = (state: MachineState) => state.context.state.settings.network;
 
@@ -290,8 +291,13 @@ export const DailyReward: React.FC = () => {
 
   const bumpkinLevel = useSelector(gameService, _bumpkinLevel);
   const chestCollectedAt = useSelector(gameService, _chestCollectedAt);
+  const { isVisiting } = useVisiting();
 
   const { openModal } = useContext(ModalContext);
+
+  if (isVisiting) {
+    return null;
+  }
 
   if (bumpkinLevel <= 5) {
     return <></>;

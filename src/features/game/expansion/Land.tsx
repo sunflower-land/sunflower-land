@@ -14,7 +14,7 @@ import {
 import { LandBase } from "./components/LandBase";
 import { UpcomingExpansion } from "./components/UpcomingExpansion";
 import { GameState, ExpansionConstruction, PlacedItem } from "../types/game";
-import { BuildingName, BUILDINGS_DIMENSIONS } from "../types/buildings";
+import { BuildingName, BUILDINGS_DIMENSIONS, Home } from "../types/buildings";
 import { Building } from "features/island/buildings/components/building/Building";
 import { Collectible } from "features/island/collectibles/Collectible";
 import { Water } from "./components/Water";
@@ -60,6 +60,7 @@ import {
   UpgradableBuildingType,
 } from "../events/landExpansion/upgradeBuilding";
 import { getCurrentBiome } from "features/island/biomes/biomes";
+import { useVisiting } from "lib/utils/visitUtils";
 
 export const LAND_WIDTH = 6;
 
@@ -184,6 +185,13 @@ const getIslandElements = ({
 }: IslandElementArgs) => {
   const mapPlacements: Array<JSX.Element> = [];
 
+  const home = new Set<Home | "Town Center">([
+    "Town Center",
+    "Tent",
+    "House",
+    "Manor",
+    "Mansion",
+  ]);
   mapPlacements.push(
     ...getKeys(buildings)
       .filter((name) => buildings[name])
@@ -213,6 +221,9 @@ const getIslandElements = ({
               y={y}
               height={height}
               width={width}
+              className={classNames({
+                "pointer-events-none": !home.has(name as Home) && isVisiting,
+              })}
             >
               <Building
                 name={name}
@@ -287,6 +298,7 @@ const getIslandElements = ({
             y={y}
             height={height}
             width={width}
+            className={classNames({ "pointer-events-none": isVisiting })}
           >
             <ChickenElement key={`chicken-${id}`} id={id} x={x} y={y} />
           </MapPlacement>
@@ -304,6 +316,7 @@ const getIslandElements = ({
           x={x}
           y={y}
           {...RESOURCE_DIMENSIONS.Tree}
+          className={classNames({ "pointer-events-none": isVisiting })}
         >
           <Resource
             key={`tree-${id}`}
@@ -330,6 +343,7 @@ const getIslandElements = ({
           x={x}
           y={y}
           {...RESOURCE_DIMENSIONS["Stone Rock"]}
+          className={classNames({ "pointer-events-none": isVisiting })}
         >
           <Resource
             key={`stone-${id}`}
@@ -356,6 +370,7 @@ const getIslandElements = ({
           x={x}
           y={y}
           {...RESOURCE_DIMENSIONS["Iron Rock"]}
+          className={classNames({ "pointer-events-none": isVisiting })}
         >
           <Resource
             key={`iron-${id}`}
@@ -382,6 +397,7 @@ const getIslandElements = ({
           x={x}
           y={y}
           {...RESOURCE_DIMENSIONS["Gold Rock"]}
+          className={classNames({ "pointer-events-none": isVisiting })}
         >
           <Resource
             key={`gold-${id}`}
@@ -408,6 +424,7 @@ const getIslandElements = ({
           x={x}
           y={y}
           {...RESOURCE_DIMENSIONS["Crimstone Rock"]}
+          className={classNames({ "pointer-events-none": isVisiting })}
         >
           <Resource
             key={`crimstone-${id}`}
@@ -434,6 +451,7 @@ const getIslandElements = ({
           x={x}
           y={y}
           {...RESOURCE_DIMENSIONS["Sunstone Rock"]}
+          className={classNames({ "pointer-events-none": isVisiting })}
         >
           <Resource
             key={`ruby-${id}`}
@@ -460,6 +478,7 @@ const getIslandElements = ({
           x={x}
           y={y}
           {...RESOURCE_DIMENSIONS["Oil Reserve"]}
+          className={classNames({ "pointer-events-none": isVisiting })}
         >
           <Resource
             name="Oil Reserve"
@@ -485,6 +504,7 @@ const getIslandElements = ({
           x={x}
           y={y}
           {...RESOURCE_DIMENSIONS["Lava Pit"]}
+          className={classNames({ "pointer-events-none": isVisiting })}
         >
           <Resource
             name="Lava Pit"
@@ -510,6 +530,7 @@ const getIslandElements = ({
           x={x}
           y={y}
           {...RESOURCE_DIMENSIONS["Fruit Patch"]}
+          className={classNames({ "pointer-events-none": isVisiting })}
         >
           <Resource
             name="Fruit Patch"
@@ -535,6 +556,7 @@ const getIslandElements = ({
           x={x}
           y={y}
           {...RESOURCE_DIMENSIONS["Crop Plot"]}
+          className={classNames({ "pointer-events-none": isVisiting })}
         >
           <Resource
             name="Crop Plot"
@@ -560,6 +582,7 @@ const getIslandElements = ({
           x={x}
           y={y}
           {...RESOURCE_DIMENSIONS["Flower Bed"]}
+          className={classNames({ "pointer-events-none": isVisiting })}
         >
           <Resource
             name="Flower Bed"
@@ -588,6 +611,7 @@ const getIslandElements = ({
               y={y}
               height={MUSHROOM_DIMENSIONS.height}
               width={MUSHROOM_DIMENSIONS.width}
+              className={classNames({ "pointer-events-none": isVisiting })}
             >
               <Mushroom
                 key={`mushroom-${id}`}
@@ -637,6 +661,7 @@ const getIslandElements = ({
               y={y}
               height={1}
               width={1}
+              className={classNames({ "pointer-events-none": isVisiting })}
             >
               <Airdrop key={`airdrop-${airdrop.id}`} airdrop={airdrop} />
             </MapPlacement>
@@ -655,6 +680,7 @@ const getIslandElements = ({
           x={x}
           y={y}
           {...RESOURCE_DIMENSIONS.Beehive}
+          className={classNames({ "pointer-events-none": isVisiting })}
         >
           <Resource
             name="Beehive"
@@ -714,7 +740,6 @@ const getIslandElements = ({
 
 const selectGameState = (state: MachineState) => state.context.state;
 const isLandscaping = (state: MachineState) => state.matches("landscaping");
-const isVisiting = (state: MachineState) => state.matches("visiting");
 const isPaused = (state: MachineState) => !!state.context.paused;
 const _islandType = (state: MachineState) => state.context.state.island.type;
 const _season = (state: MachineState) => state.context.state.season.season;
@@ -756,7 +781,7 @@ export const Land: React.FC = () => {
   } = state;
 
   const landscaping = useSelector(gameService, isLandscaping);
-  const visiting = useSelector(gameService, isVisiting);
+  const { isVisiting: visiting } = useVisiting();
 
   const expansionCount = inventory["Basic Land"]?.toNumber() ?? 3;
 
@@ -812,11 +837,7 @@ export const Land: React.FC = () => {
         />
 
         <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-          <div
-            className={classNames("relative w-full h-full", {
-              "pointer-events-none": visiting,
-            })}
-          >
+          <div className="relative w-full h-full">
             <LandBase
               island={island}
               season={season}
@@ -907,11 +928,7 @@ export const Land: React.FC = () => {
 
       {landscaping && <LandscapingHud location="farm" />}
 
-      {!landscaping && visiting && (
-        <div className="absolute z-20">
-          <VisitingHud />
-        </div>
-      )}
+      {visiting && <VisitingHud />}
 
       {!landscaping && !visiting && <Hud isFarming={true} location="farm" />}
 
