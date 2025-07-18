@@ -10,8 +10,13 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { InventoryItemName } from "features/game/types/game";
 import { Label } from "./Label";
-import { ChestReward } from "features/game/types/chests";
+import {
+  BASIC_SEASONAL_REWARDS_WEIGHT,
+  ChestReward,
+  SEASONAL_REWARDS,
+} from "features/game/types/chests";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
+import { getCurrentSeason } from "features/game/types/seasons";
 import chestIcon from "assets/icons/chest.png";
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
 
@@ -43,6 +48,13 @@ const RewardRow: React.FC<{
   );
 };
 
+const isStoreChapterItem = (rewardName: string) => {
+  return SEASONAL_REWARDS(BASIC_SEASONAL_REWARDS_WEIGHT).some(
+    (reward) =>
+      (reward.items && Object.keys(reward.items).includes(rewardName)) ||
+      (reward.wearables && Object.keys(reward.wearables).includes(rewardName)),
+  );
+};
 const MultipleRewardsRow: React.FC<{
   reward: ChestReward;
   chance?: string;
@@ -90,6 +102,14 @@ const MultipleRewardsRow: React.FC<{
                   </p>
                 </div>
               </div>
+
+              {/* States whether it is chapter-limited */}
+              {isStoreChapterItem(rewardName) && (
+                <div className="flex items-center w-20 sm:w-40 space-x-1 pl-[15%]">
+                  <img src={SUNNYSIDE.icons.stopwatch} />
+                  <p className="text-xxs">{`${getCurrentSeason()}`}</p>
+                </div>
+              )}
             </div>
           );
         })}

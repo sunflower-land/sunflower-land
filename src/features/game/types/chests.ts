@@ -46,7 +46,7 @@ export const MEGASTORE_RESTRICTED_ITEMS: (
   ...getKeys(ARTEFACT_SHOP_KEYS),
 ];
 
-const SEASONAL_REWARDS: (weight: number) => ChestReward[] = (weight) => {
+export const SEASONAL_REWARDS: (weight: number) => ChestReward[] = (weight) => {
   const store = MEGASTORE[currentSeason];
   const rewards: ChestReward[] = [];
 
@@ -78,6 +78,7 @@ const SEASONAL_REWARDS: (weight: number) => ChestReward[] = (weight) => {
   return rewards;
 };
 
+export const BASIC_SEASONAL_REWARDS_WEIGHT = 5 * CHEST_MULTIPLIER;
 export const BASIC_REWARDS: () => ChestReward[] = () => [
   { coins: 1600, weighting: 100 * CHEST_MULTIPLIER },
   { coins: 3200, weighting: 50 * CHEST_MULTIPLIER },
