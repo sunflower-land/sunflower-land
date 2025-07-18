@@ -36,7 +36,7 @@ export const ProduceDrops: React.FC<Props> = ({
   return (
     <>
       {itemEntries.map(([item, amount], index) => {
-        const boostedAmount = getResourceDropAmount({
+        const { amount: boostedAmount } = getResourceDropAmount({
           game,
           animalType,
           baseAmount: amount.toNumber(),

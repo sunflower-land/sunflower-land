@@ -151,7 +151,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   const idle = cowMachineState === "idle";
   const sick = cowMachineState === "sick" || cow.state === "sick";
 
-  const requiredFoodQty = getBoostedFoodQuantity({
+  const { foodQuantity: requiredFoodQty } = getBoostedFoodQuantity({
     animalType: "Cow",
     foodQuantity: REQUIRED_FOOD_QTY.Cow,
     game,
