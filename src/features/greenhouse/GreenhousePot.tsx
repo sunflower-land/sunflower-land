@@ -232,7 +232,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
       crop: pot.plant.name,
       game: state,
       criticalDrop: (name) => !!(pot.plant?.criticalHit?.[name] ?? 0),
-    });
+    }).amount;
 
     gameService.send("greenhouse.harvested", { id });
 

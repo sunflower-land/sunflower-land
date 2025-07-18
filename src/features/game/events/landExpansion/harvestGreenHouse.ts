@@ -1,4 +1,8 @@
-import { CriticalHitName, GameState } from "features/game/types/game";
+import {
+  BoostName,
+  CriticalHitName,
+  GameState,
+} from "features/game/types/game";
 import { isGreenhouseCrop, MAX_POTS } from "./plantGreenhouse";
 import {
   GREENHOUSE_CROPS,
@@ -15,7 +19,8 @@ import {
 } from "features/game/types/bumpkinActivity";
 import { produce } from "immer";
 import { getFruitYield } from "./fruitHarvested";
-import { getCropYieldAmount } from "./plant";
+import { getCropYieldAmount } from "./harvest";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 
 export const GREENHOUSE_CROP_TIME_SECONDS: Record<
   GreenHouseCropName | GreenHouseFruitName,
@@ -46,7 +51,7 @@ export function getGreenhouseCropYieldAmount({
   crop: GreenHouseCropName | GreenHouseFruitName;
   game: GameState;
   criticalDrop?: (name: CriticalHitName) => boolean;
-}): number {
+}): { amount: number; boostsUsed: BoostName[] } {
   if (isGreenhouseCrop(crop)) {
     return getCropYieldAmount({ crop, game, criticalDrop });
   }
@@ -99,11 +104,12 @@ export function harvestGreenHouse({
     }
 
     // Harvests Crop
-    const greenhouseProduce = getGreenhouseCropYieldAmount({
-      crop: pot.plant.name,
-      game,
-      criticalDrop: (name) => !!(pot.plant?.criticalHit?.[name] ?? 0),
-    });
+    const { amount: greenhouseProduce, boostsUsed } =
+      getGreenhouseCropYieldAmount({
+        crop: pot.plant.name,
+        game,
+        criticalDrop: (name) => !!(pot.plant?.criticalHit?.[name] ?? 0),
+      });
 
     const previousAmount = game.inventory[pot.plant.name] ?? new Decimal(0);
     game.inventory[pot.plant.name] = previousAmount.add(greenhouseProduce);
@@ -112,6 +118,12 @@ export function harvestGreenHouse({
     const activityName: BumpkinActivityName = `${pot.plant.name} Harvested`;
 
     game.bumpkin.activity = trackActivity(activityName, game.bumpkin.activity);
+
+    game.boostsUsedAt = updateBoostUsed({
+      game,
+      boostNames: boostsUsed,
+      createdAt,
+    });
 
     // Clears Pot
     delete pot.plant;
