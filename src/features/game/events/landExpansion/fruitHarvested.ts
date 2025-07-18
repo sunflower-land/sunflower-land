@@ -16,6 +16,7 @@ import {
   PatchFruitName,
 } from "features/game/types/fruits";
 import {
+  BoostName,
   CriticalHitName,
   GameState,
   PlantedFruit,
@@ -33,6 +34,7 @@ import {
   isGuardianActive,
 } from "features/game/types/calendar";
 import { getFruitfulBlendBuff } from "./fertiliseFruitPatch";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 
 export type HarvestFruitAction = {
   type: "fruit.harvested";
@@ -107,12 +109,14 @@ export function getFruitYield({
   name,
   fertiliser,
   criticalDrop = () => false,
-}: FruitYield) {
+}: FruitYield): { amount: number; boostsUsed: BoostName[] } {
   const { bumpkin } = game;
   let amount = 1;
+  const boostsUsed: BoostName[] = [];
 
   if (name === "Apple" && isCollectibleBuilt({ name: "Lady Bug", game })) {
     amount += 0.25;
+    boostsUsed.push("Lady Bug");
   }
 
   if (
@@ -120,18 +124,22 @@ export function getFruitYield({
     isCollectibleBuilt({ name: "Black Bearry", game })
   ) {
     amount += 1;
+    boostsUsed.push("Black Bearry");
   }
 
   if (isFruit(name) && isCollectibleBuilt({ name: "Macaw", game })) {
     if (bumpkin.skills["Loyal Macaw"]) {
       amount += 0.2;
+      boostsUsed.push("Loyal Macaw");
     } else {
       amount += 0.1;
     }
+    boostsUsed.push("Macaw");
   }
 
   if (isFruit(name) && isWearableActive({ name: "Camel Onesie", game })) {
     amount += 0.1;
+    boostsUsed.push("Camel Onesie");
   }
 
   if (
@@ -142,23 +150,28 @@ export function getFruitYield({
     isWearableActive({ name: "Fruit Picker Apron", game })
   ) {
     amount += 0.1;
+    boostsUsed.push("Fruit Picker Apron");
   }
 
   if (isFruit(name) && bumpkin.skills["Fruitful Fumble"]) {
     amount += 0.1;
+    boostsUsed.push("Fruitful Fumble");
   }
 
   // Glass Room, +0.1 yield
   if (isGreenhouseFruit(name) && bumpkin.skills["Glass Room"]) {
     amount += 0.1;
+    boostsUsed.push("Glass Room");
   }
 
   if (isGreenhouseFruit(name) && bumpkin.skills["Seeded Bounty"]) {
     amount += 0.5;
+    boostsUsed.push("Seeded Bounty");
   }
 
   if (isGreenhouseFruit(name) && bumpkin.skills["Greasy Plants"]) {
     amount += 1;
+    boostsUsed.push("Greasy Plants");
   }
 
   //Faction Quiver
@@ -171,14 +184,19 @@ export function getFruitYield({
     })
   ) {
     amount += 0.25;
+    boostsUsed.push(FACTION_ITEMS[factionName].wings);
   }
 
   if (fertiliser === "Fruitful Blend") {
-    amount += getFruitfulBlendBuff(game);
+    const { amount: fruitfulBlendBuff, boostsUsed: fruitfulBlendBuffBoosts } =
+      getFruitfulBlendBuff(game);
+    amount += fruitfulBlendBuff;
+    boostsUsed.push(...fruitfulBlendBuffBoosts);
   }
 
   if (name === "Banana" && isWearableActive({ name: "Banana Amulet", game })) {
     amount += 0.5;
+    boostsUsed.push("Banana Amulet");
   }
 
   if (
@@ -186,15 +204,18 @@ export function getFruitYield({
     isCollectibleBuilt({ name: "Banana Chicken", game })
   ) {
     amount += 0.1;
+    boostsUsed.push("Banana Chicken");
   }
 
   // Lemon
   if (name === "Lemon" && isCollectibleBuilt({ name: "Lemon Shark", game })) {
     amount += 0.2;
+    boostsUsed.push("Lemon Shark");
   }
 
   if (name === "Lemon" && isWearableActive({ name: "Lemon Shield", game })) {
     amount += 1;
+    boostsUsed.push("Lemon Shield");
   }
 
   if (
@@ -202,6 +223,7 @@ export function getFruitYield({
     isCollectibleBuilt({ name: "Reveling Lemon", game })
   ) {
     amount += 0.25;
+    boostsUsed.push("Reveling Lemon");
   }
 
   if (
@@ -209,21 +231,26 @@ export function getFruitYield({
     isCollectibleBuilt({ name: "Tomato Bombard", game })
   ) {
     amount += 1;
+    boostsUsed.push("Tomato Bombard");
   }
 
+  // TODO: Add boosts used for Buds
   amount += getBudYieldBoosts(game.buds ?? {}, name);
 
   // Grape
   if (name === "Grape" && isCollectibleBuilt({ name: "Vinny", game })) {
     amount += 0.25;
+    boostsUsed.push("Vinny");
   }
 
   if (name === "Grape" && isCollectibleBuilt({ name: "Grape Granny", game })) {
     amount += 1;
+    boostsUsed.push("Grape Granny");
   }
 
   if (name === "Grape" && isWearableActive({ name: "Grape Pants", game })) {
     amount += 0.2;
+    boostsUsed.push("Grape Pants");
   }
 
   if (
@@ -231,6 +258,7 @@ export function getFruitYield({
     isCollectibleBuilt({ name: "Pharaoh Gnome", game })
   ) {
     amount += 2;
+    boostsUsed.push("Pharaoh Gnome");
   }
 
   if (bumpkin.skills["Zesty Vibes"] && !isGreenhouseFruit(name)) {
@@ -239,6 +267,7 @@ export function getFruitYield({
     } else {
       amount -= 0.25;
     }
+    boostsUsed.push("Zesty Vibes");
   }
 
   // Greenhouse Gamble 25% chance of +1 yield
@@ -248,6 +277,7 @@ export function getFruitYield({
     criticalDrop("Greenhouse Gamble")
   ) {
     amount += 1;
+    boostsUsed.push("Greenhouse Gamble");
   }
 
   // Generous Orchard: 10% chance of +1 patch fruit
@@ -257,16 +287,21 @@ export function getFruitYield({
     isFruit(name)
   ) {
     amount += 1;
+    boostsUsed.push("Generous Orchard");
   }
 
   if (getActiveCalendarEvent({ game }) === "bountifulHarvest") {
     amount += 1;
-    if (isGuardianActive({ game })) {
+    const { hasGuardian, boostsUsed: guardianBoostsUsed } = isGuardianActive({
+      game,
+    });
+    if (hasGuardian) {
       amount += 1;
+      boostsUsed.push(...guardianBoostsUsed);
     }
   }
 
-  return amount;
+  return { amount, boostsUsed };
 }
 
 export function harvestFruit({
@@ -314,14 +349,15 @@ export function harvestFruit({
       throw new Error("No harvest left");
     }
 
-    const amount =
-      patch.fruit.amount ??
-      getFruitYield({
-        game: stateCopy,
-        name,
-        fertiliser: patch.fertiliser?.name,
-        criticalDrop: (name) => !!(criticalHit[name] ?? 0),
-      });
+    const { amount, boostsUsed } =
+      patch.fruit.amount !== undefined
+        ? { amount: patch.fruit.amount, boostsUsed: [] }
+        : getFruitYield({
+            game: stateCopy,
+            name,
+            fertiliser: patch.fertiliser?.name,
+            criticalDrop: (name) => !!(criticalHit[name] ?? 0),
+          });
 
     stateCopy.inventory[name] =
       stateCopy.inventory[name]?.add(amount) ?? new Decimal(amount);
@@ -333,6 +369,12 @@ export function harvestFruit({
     const activityName: BumpkinActivityName = `${name} Harvested`;
 
     bumpkin.activity = trackActivity(activityName, bumpkin.activity);
+
+    stateCopy.boostsUsedAt = updateBoostUsed({
+      game: stateCopy,
+      boostNames: boostsUsed,
+      createdAt,
+    });
 
     return stateCopy;
   });

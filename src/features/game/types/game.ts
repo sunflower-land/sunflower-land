@@ -588,7 +588,6 @@ export type Wood = {
 export type CriticalHitName =
   | InventoryItemName
   | BumpkinRevampSkillName
-  | BumpkinSkillName
   | BumpkinItem
   | "Native";
 
@@ -1457,6 +1456,13 @@ export type NFT = {
   acknowledgedAt?: number;
 };
 
+export type BoostName =
+  | InventoryItemName
+  | BumpkinItem
+  | BumpkinRevampSkillName;
+
+export type BoostUsedAt = Partial<Record<BoostName, number>>;
+
 export interface GameState {
   home: Home;
   bank: Bank;
@@ -1527,6 +1533,7 @@ export interface GameState {
   previousWardrobe: Wardrobe;
   stock: Inventory;
   stockExpiry: StockExpiry;
+  boostsUsedAt?: BoostUsedAt;
 
   // When an item is burnt, what the prize was
   mysteryPrizes: Partial<Record<InventoryItemName, Reveal[]>>;

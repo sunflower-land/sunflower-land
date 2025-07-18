@@ -1,4 +1,5 @@
 import {
+  BoostName,
   GameState,
   InventoryItemName,
   IslandType,
@@ -389,10 +390,20 @@ export const GUARDIAN_BOOST: Record<
   },
 };
 
-export function isGuardianActive({ game }: { game: GameState }) {
-  return getObjectEntries(GUARDIAN_BOOST).some(
+export const isGuardianActive = ({
+  game,
+}: {
+  game: GameState;
+}): { hasGuardian: boolean; boostsUsed: BoostName[] } => {
+  const guardian = getObjectEntries(GUARDIAN_BOOST).find(
     ([guardian, { season }]) =>
       season === game.season.season &&
       isCollectibleBuilt({ game, name: guardian }),
   );
-}
+  const guardianName = guardian?.[0];
+  const guardianBoostsUsed = guardianName ? [guardianName] : [];
+  return {
+    hasGuardian: !!guardian,
+    boostsUsed: guardianBoostsUsed,
+  };
+};

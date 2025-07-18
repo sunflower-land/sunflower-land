@@ -235,7 +235,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
         game: state,
         createdAt: Date.now(),
         criticalDrop: (name) => !!(pot.plant?.criticalHit?.[name] ?? 0),
-      });
+      }).amount;
 
     gameService.send("greenhouse.harvested", { id });
 

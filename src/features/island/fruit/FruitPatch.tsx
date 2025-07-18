@@ -164,7 +164,7 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
         name: fruit?.name as PatchFruitName,
         fertiliser: fertiliser?.name,
         criticalDrop: (name) => !!(fruit?.criticalHit?.[name] ?? 0),
-      });
+      }).amount;
 
     const newState = gameService.send("fruit.harvested", {
       index: id,
