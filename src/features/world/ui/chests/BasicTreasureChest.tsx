@@ -13,6 +13,11 @@ import React, { useContext, useState } from "react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ChestRevealing } from "./ChestRevealing";
 import { Keys } from "features/game/types/game";
+import { ChestRewardsList } from "components/ui/ChestRewardsList";
+import rewardsIcon from "assets/icons/stock.webp";
+import basicChest from "public/world/basic_chest.png";
+import rareChest from "public/world/wooden_chest.png";
+import luxuryChest from "public/world/luxury_chest.png";
 
 interface Props {
   onClose: () => void;
@@ -30,6 +35,32 @@ export const BasicTreasureChest: React.FC<Props> = ({
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
   const { t } = useAppTranslation();
+
+  const [tab, setTab] = useState(0);
+
+  const tabs = [
+    ...(type === "Treasure Key"
+      ? [
+          {
+            icon: basicChest,
+            name: "Basic Chest",
+          },
+        ]
+      : type === "Rare Key"
+        ? [
+            {
+              icon: rareChest,
+              name: "Rare Chest",
+            },
+          ]
+        : [
+            {
+              icon: luxuryChest,
+              name: "Luxury Chest",
+            },
+          ]),
+    { icon: rewardsIcon, name: "Rewards" },
+  ];
 
   // Just a prolonged UI state to show the shuffle of items animation
   const [isPicking, setIsPicking] = useState(false);
@@ -80,22 +111,35 @@ export const BasicTreasureChest: React.FC<Props> = ({
 
   if (!hasKey) {
     return (
-      <CloseButtonPanel onClose={onClose}>
-        <div className="p-2">
-          <Label type="danger" className="mb-2" icon={ITEM_DETAILS[type].image}>
-            {t("basic.treasure.missingKey")}
-          </Label>
-          <p className="text-xs mb-2">
-            {type === "Treasure Key" && t("basic.treasure.needKey")}
-            {type === "Rare Key" && t("rare.treasure.needKey")}
-            {type === "Luxury Key" && t("luxury.treasure.needKey")}
-            {"."}
-          </p>
-          <p className="text-xs">
-            {t("basic.treasure.getKey")}
-            {"."}
-          </p>
-        </div>
+      <CloseButtonPanel
+        tabs={tabs}
+        currentTab={tab}
+        setCurrentTab={setTab}
+        onClose={onClose}
+      >
+        {tab === 0 && (
+          <div className="p-2">
+            <Label
+              type="danger"
+              className="mb-2"
+              icon={ITEM_DETAILS[type].image}
+            >
+              {t("basic.treasure.missingKey")}
+            </Label>
+            <p className="text-xs mb-2">
+              {type === "Treasure Key" && t("basic.treasure.needKey")}
+              {type === "Rare Key" && t("rare.treasure.needKey")}
+              {type === "Luxury Key" && t("luxury.treasure.needKey")}
+              {"."}
+            </p>
+            <p className="text-xs">
+              {t("basic.treasure.getKey")}
+              {"."}
+            </p>
+          </div>
+        )}
+
+        {tab === 1 && <ChestRewardsList type={type} />}
       </CloseButtonPanel>
     );
   }
@@ -104,18 +148,25 @@ export const BasicTreasureChest: React.FC<Props> = ({
   //   new Date().getUTCMonth() === 1 && new Date().getUTCDate() <= 17;
 
   return (
-    <CloseButtonPanel onClose={onClose}>
-      <div className="p-2">
-        <div className="flex flex-wrap mr-12">
-          <Label
-            type="default"
-            icon={ITEM_DETAILS[type].image}
-            className="mb-2 mr-3 capitalize"
-            secondaryIcon={SUNNYSIDE.icons.confirm}
-          >
-            {type}
-          </Label>
-          {/* {isValentinesDayUTC && (
+    <CloseButtonPanel
+      tabs={tabs}
+      currentTab={tab}
+      setCurrentTab={setTab}
+      onClose={onClose}
+    >
+      {tab === 0 && (
+        <>
+          <div className="p-2">
+            <div className="flex flex-wrap mr-12">
+              <Label
+                type="default"
+                icon={ITEM_DETAILS[type].image}
+                className="mb-2 mr-3 capitalize"
+                secondaryIcon={SUNNYSIDE.icons.confirm}
+              >
+                {type}
+              </Label>
+              {/* {isValentinesDayUTC && (
             <Label
               className="mb-2"
               type="vibrant"
@@ -124,11 +175,15 @@ export const BasicTreasureChest: React.FC<Props> = ({
               {t("event.valentines.rewards")}
             </Label>
           )} */}
-        </div>
-        <p className="text-xs mb-2">{t("basic.treasure.congratsKey")}</p>
-        <p className="text-xs mb-2">{t("basic.treasure.openChest")}</p>
-      </div>
-      <Button onClick={open}>{t("open")}</Button>
+            </div>
+            <p className="text-xs mb-2">{t("basic.treasure.congratsKey")}</p>
+            <p className="text-xs mb-2">{t("basic.treasure.openChest")}</p>
+          </div>
+          <Button onClick={open}>{t("open")}</Button>
+        </>
+      )}
+
+      {tab === 1 && <ChestRewardsList type={type} />}
     </CloseButtonPanel>
   );
 };
