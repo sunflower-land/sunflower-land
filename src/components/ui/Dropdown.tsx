@@ -96,7 +96,14 @@ export const Dropdown: React.FC<DropdownProps> = ({
     });
 
   return (
-    <div className={`relative w-full ${className}`} ref={dropdownRef}>
+    <div
+      className={classNames(
+        "relative",
+        !className?.match(/\bw-/g) && "w-full",
+        className,
+      )}
+      ref={dropdownRef}
+    >
       <div
         style={{
           borderImageRepeat: "stretch",
