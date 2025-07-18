@@ -43,7 +43,7 @@ interface Props {
   type: ChestRewardType;
 }
 
-const CHEST_LOOT: (
+export const CHEST_LOOT: (
   game: GameState,
 ) => Record<ChestRewardType, ChestReward[]> = (state) => ({
   "Treasure Key": BASIC_REWARDS(),
