@@ -26,7 +26,7 @@ interface Props {
   setIsLoading?: (isLoading: boolean) => void;
 }
 
-export const BasicTreasureChest: React.FC<Props> = ({
+export const TreasureChest: React.FC<Props> = ({
   onClose,
   location,
   type,
