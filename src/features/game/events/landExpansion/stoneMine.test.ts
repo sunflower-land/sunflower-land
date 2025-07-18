@@ -14,7 +14,6 @@ const GAME_STATE: GameState = {
     0: {
       stone: {
         minedAt: 0,
-        amount: 2,
       },
       x: 1,
       y: 1,
@@ -22,7 +21,6 @@ const GAME_STATE: GameState = {
     1: {
       stone: {
         minedAt: 0,
-        amount: 3,
       },
       x: 4,
       y: 1,
@@ -112,7 +110,7 @@ describe("mineStone", () => {
     const game = mineStone(payload);
 
     expect(game.inventory.Pickaxe).toEqual(new Decimal(0));
-    expect(game.inventory.Stone).toEqual(new Decimal(2));
+    expect(game.inventory.Stone).toEqual(new Decimal(1));
   });
 
   it("mines multiple stone", () => {
@@ -140,7 +138,7 @@ describe("mineStone", () => {
     });
 
     expect(game.inventory.Pickaxe).toEqual(new Decimal(1));
-    expect(game.inventory.Stone).toEqual(new Decimal(5));
+    expect(game.inventory.Stone).toEqual(new Decimal(2));
   });
 
   it("mines stone after waiting", () => {
@@ -168,7 +166,7 @@ describe("mineStone", () => {
     });
 
     expect(game.inventory.Pickaxe).toEqual(new Decimal(0));
-    expect(game.inventory.Stone?.toNumber()).toBeGreaterThan(2);
+    expect(game.inventory.Stone?.toNumber()).toEqual(2);
   });
 });
 

@@ -15,7 +15,11 @@ import {
   PatchFruit,
   PatchFruitName,
 } from "features/game/types/fruits";
-import { GameState, PlantedFruit } from "features/game/types/game";
+import {
+  CriticalHitName,
+  GameState,
+  PlantedFruit,
+} from "features/game/types/game";
 import { getTimeLeft } from "lib/utils/time";
 import { FruitPatch } from "features/game/types/game";
 import { FruitCompostName } from "features/game/types/composters";
@@ -62,6 +66,7 @@ type FruitYield = {
   name: GreenHouseFruitName | PatchFruitName;
   game: GameState;
   fertiliser?: FruitCompostName;
+  criticalDrop?: (name: CriticalHitName) => boolean;
 };
 
 export function isFruitGrowing(patch: FruitPatch) {
@@ -97,9 +102,13 @@ const isAdvancedFruit = (resource: Resource): resource is PatchFruitName => {
   return resource === "Apple" || resource === "Banana";
 };
 
-export function getFruitYield({ name, game, fertiliser }: FruitYield) {
+export function getFruitYield({
+  game,
+  name,
+  fertiliser,
+  criticalDrop = () => false,
+}: FruitYield) {
   const { bumpkin } = game;
-
   let amount = 1;
 
   if (name === "Apple" && isCollectibleBuilt({ name: "Lady Bug", game })) {
@@ -114,7 +123,7 @@ export function getFruitYield({ name, game, fertiliser }: FruitYield) {
   }
 
   if (isFruit(name) && isCollectibleBuilt({ name: "Macaw", game })) {
-    if (game.bumpkin.skills["Loyal Macaw"]) {
+    if (bumpkin.skills["Loyal Macaw"]) {
       amount += 0.2;
     } else {
       amount += 0.1;
@@ -139,6 +148,7 @@ export function getFruitYield({ name, game, fertiliser }: FruitYield) {
     amount += 0.1;
   }
 
+  // Glass Room, +0.1 yield
   if (isGreenhouseFruit(name) && bumpkin.skills["Glass Room"]) {
     amount += 0.1;
   }
@@ -201,8 +211,10 @@ export function getFruitYield({ name, game, fertiliser }: FruitYield) {
     amount += 1;
   }
 
+  amount += getBudYieldBoosts(game.buds ?? {}, name);
+
+  // Grape
   if (name === "Grape" && isCollectibleBuilt({ name: "Vinny", game })) {
-    // Grape
     amount += 0.25;
   }
 
@@ -221,12 +233,30 @@ export function getFruitYield({ name, game, fertiliser }: FruitYield) {
     amount += 2;
   }
 
-  if (game.bumpkin.skills["Zesty Vibes"] && !isGreenhouseFruit(name)) {
+  if (bumpkin.skills["Zesty Vibes"] && !isGreenhouseFruit(name)) {
     if (name === "Tomato" || name === "Lemon") {
       amount += 1;
     } else {
       amount -= 0.25;
     }
+  }
+
+  // Greenhouse Gamble 25% chance of +1 yield
+  if (
+    isGreenhouseFruit(name) &&
+    bumpkin.skills["Greenhouse Gamble"] &&
+    criticalDrop("Greenhouse Gamble")
+  ) {
+    amount += 1;
+  }
+
+  // Generous Orchard: 10% chance of +1 patch fruit
+  if (
+    bumpkin.skills["Generous Orchard"] &&
+    criticalDrop("Generous Orchard") &&
+    isFruit(name)
+  ) {
+    amount += 1;
   }
 
   if (getActiveCalendarEvent({ game }) === "bountifulHarvest") {
@@ -235,8 +265,6 @@ export function getFruitYield({ name, game, fertiliser }: FruitYield) {
       amount += 1;
     }
   }
-
-  amount += getBudYieldBoosts(game.buds ?? {}, name);
 
   return amount;
 }
@@ -263,7 +291,13 @@ export function harvestFruit({
       throw new Error("Nothing was planted");
     }
 
-    const { name, plantedAt, harvestsLeft, harvestedAt, amount } = patch.fruit;
+    const {
+      name,
+      plantedAt,
+      harvestsLeft,
+      harvestedAt,
+      criticalHit = {},
+    } = patch.fruit;
 
     const { seed } = PATCH_FRUIT[name];
     const { plantSeconds } = PATCH_FRUIT_SEEDS[seed];
@@ -280,17 +314,18 @@ export function harvestFruit({
       throw new Error("No harvest left");
     }
 
+    const amount = getFruitYield({
+      game: stateCopy,
+      name,
+      fertiliser: patch.fertiliser?.name,
+      criticalDrop: (name) => !!(criticalHit[name] ?? 0),
+    });
+
     stateCopy.inventory[name] =
       stateCopy.inventory[name]?.add(amount) ?? new Decimal(amount);
 
     patch.fruit.harvestsLeft = patch.fruit.harvestsLeft - 1;
     patch.fruit.harvestedAt = getPlantedAt(seed, stateCopy, createdAt);
-
-    patch.fruit.amount = getFruitYield({
-      game: stateCopy,
-      name,
-      fertiliser: patch.fertiliser?.name,
-    });
 
     const activityName: BumpkinActivityName = `${name} Harvested`;
 

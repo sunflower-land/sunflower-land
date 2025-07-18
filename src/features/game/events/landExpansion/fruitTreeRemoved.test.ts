@@ -17,7 +17,6 @@ const GAME_STATE: GameState = {
       createdAt: now,
       fruit: {
         name: "Apple",
-        amount: 1,
         plantedAt: 123,
         harvestedAt: 0,
         harvestsLeft: 0,
@@ -34,7 +33,6 @@ const GAME_STATE: GameState = {
       createdAt: now,
       fruit: {
         name: "Blueberry",
-        amount: 1,
         plantedAt: 123,
         harvestedAt: 0,
         harvestsLeft: 0,
@@ -82,7 +80,6 @@ describe("fruitTreeRemoved", () => {
               createdAt: now,
               fruit: {
                 name: "Apple",
-                amount: 1,
                 plantedAt: 123,
                 harvestedAt: 0,
                 harvestsLeft: 3,

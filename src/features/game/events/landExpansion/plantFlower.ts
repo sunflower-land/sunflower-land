@@ -154,7 +154,6 @@ export function plantFlower({
         createdAt,
         boostedTime: getFlowerTime(action.seed, stateCopy),
       }),
-      amount: 1,
       name: flower ?? "Red Lotus",
       crossbreed: action.crossbreed,
       dirty: !flower,

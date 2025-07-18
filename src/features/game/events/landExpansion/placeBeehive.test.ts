@@ -72,7 +72,6 @@ describe("placeBeehive", () => {
               y: 0,
               flower: {
                 name: "Red Pansy",
-                amount: 1,
                 plantedAt: now,
               },
             },

@@ -24,7 +24,6 @@ describe("updateBeehives", () => {
 
     flower: {
       name: "Red Pansy",
-      amount: 1,
       plantedAt: now,
     },
   };
@@ -136,7 +135,7 @@ describe("updateBeehives", () => {
         ...DEFAULT_FLOWER_BED,
         flower: {
           name: "Red Pansy",
-          amount: 1,
+
           plantedAt: flower1PlantedAt,
         },
       },
@@ -144,7 +143,7 @@ describe("updateBeehives", () => {
         ...DEFAULT_FLOWER_BED,
         flower: {
           name: "Red Pansy",
-          amount: 1,
+
           plantedAt: flower2PlantedAt,
         },
       },
@@ -182,7 +181,7 @@ describe("updateBeehives", () => {
         ...DEFAULT_FLOWER_BED,
         flower: {
           name: "Red Pansy",
-          amount: 1,
+
           plantedAt: now,
         },
       },
@@ -219,7 +218,7 @@ describe("updateBeehives", () => {
     const flowerBeds: FlowerBeds = {
       [flowerId]: {
         ...DEFAULT_FLOWER_BED,
-        flower: { name: "Red Pansy", amount: 1, plantedAt: tenMinutesAgo },
+        flower: { name: "Red Pansy", plantedAt: tenMinutesAgo },
       },
     };
 
@@ -269,7 +268,7 @@ describe("updateBeehives", () => {
         ...DEFAULT_FLOWER_BED,
         flower: {
           name: "Red Pansy",
-          amount: 1,
+
           plantedAt: flower1PlantedAt,
         },
       },
@@ -277,7 +276,7 @@ describe("updateBeehives", () => {
         ...DEFAULT_FLOWER_BED,
         flower: {
           name: "Red Pansy",
-          amount: 1,
+
           plantedAt: flower2PlantedAt,
         },
       },
@@ -340,7 +339,7 @@ describe("updateBeehives", () => {
         ...DEFAULT_FLOWER_BED,
         flower: {
           name: "Red Pansy",
-          amount: 1,
+
           plantedAt: now - FLOWER_GROW_TIME - tenMinutes,
         },
       },
@@ -382,7 +381,7 @@ describe("updateBeehives", () => {
         ...DEFAULT_FLOWER_BED,
         flower: {
           name: "Red Pansy",
-          amount: 1,
+
           plantedAt: now - FLOWER_GROW_TIME,
         },
       },
@@ -419,7 +418,7 @@ describe("updateBeehives", () => {
         ...DEFAULT_FLOWER_BED,
         flower: {
           name: "Red Pansy",
-          amount: 1,
+
           plantedAt: now - halfTime,
         },
       },
@@ -427,7 +426,7 @@ describe("updateBeehives", () => {
         ...DEFAULT_FLOWER_BED,
         flower: {
           name: "Red Pansy",
-          amount: 1,
+
           plantedAt: now,
         },
       },
@@ -462,7 +461,7 @@ describe("updateBeehives", () => {
         ...DEFAULT_FLOWER_BED,
         flower: {
           name: "Red Pansy",
-          amount: 1,
+
           plantedAt: now,
         },
       },
@@ -497,7 +496,7 @@ describe("updateBeehives", () => {
         ...DEFAULT_FLOWER_BED,
         flower: {
           name: "Red Pansy",
-          amount: 1,
+
           plantedAt: now - quarterTime,
         },
       },
@@ -538,7 +537,7 @@ describe("updateBeehives", () => {
         ...DEFAULT_FLOWER_BED,
         flower: {
           name: "Red Pansy",
-          amount: 1,
+
           plantedAt: now - FLOWER_GROW_TIME,
         },
       },
@@ -589,7 +588,7 @@ describe("updateBeehives", () => {
         ...DEFAULT_FLOWER_BED,
         flower: {
           name: "Red Pansy",
-          amount: 1,
+
           plantedAt: now - quarterTime,
         },
       },
@@ -597,7 +596,7 @@ describe("updateBeehives", () => {
         ...DEFAULT_FLOWER_BED,
         flower: {
           name: "Red Pansy",
-          amount: 1,
+
           plantedAt: now,
         },
       },
@@ -639,7 +638,7 @@ describe("updateBeehives", () => {
         ...DEFAULT_FLOWER_BED,
         flower: {
           name: "Red Pansy",
-          amount: 1,
+
           plantedAt: now - FLOWER_GROW_TIME - tenMinutes,
         },
       },
@@ -678,7 +677,7 @@ describe("updateBeehives", () => {
         ...DEFAULT_FLOWER_BED,
         flower: {
           name: "Red Pansy",
-          amount: 1,
+
           plantedAt: now - FLOWER_GROW_TIME - tenMinutes,
         },
       },
@@ -686,7 +685,7 @@ describe("updateBeehives", () => {
         ...DEFAULT_FLOWER_BED,
         flower: {
           name: "Red Pansy",
-          amount: 1,
+
           plantedAt: now,
         },
       },
@@ -715,7 +714,7 @@ describe("updateBeehives", () => {
             y: 0,
             flower: {
               name: "Red Pansy",
-              amount: 1,
+
               plantedAt: now - DEFAULT_HONEY_PRODUCTION_TIME / 2,
             },
           },
@@ -753,7 +752,7 @@ describe("updateBeehives", () => {
               y: 0,
               flower: {
                 name: "Red Pansy",
-                amount: 1,
+
                 plantedAt: now,
               },
             },
@@ -796,7 +795,7 @@ describe("updateBeehives", () => {
             y: 0,
             flower: {
               name: "Red Pansy",
-              amount: 1,
+
               plantedAt: now - (3 * DEFAULT_HONEY_PRODUCTION_TIME) / 4,
             },
           },
@@ -825,7 +824,7 @@ describe("updateBeehives", () => {
               y: 0,
               flower: {
                 name: "Red Pansy",
-                amount: 1,
+
                 plantedAt: now,
               },
             },
@@ -880,7 +879,7 @@ describe("updateBeehives", () => {
             y: 0,
             flower: {
               name: "Red Pansy",
-              amount: 1,
+
               plantedAt: now - DEFAULT_HONEY_PRODUCTION_TIME / 2,
             },
           },
@@ -891,7 +890,7 @@ describe("updateBeehives", () => {
             y: 0,
             flower: {
               name: "Red Pansy",
-              amount: 1,
+
               plantedAt: now,
             },
           },
@@ -923,7 +922,7 @@ describe("updateBeehives", () => {
     const flowerBeds: FlowerBeds = {
       [flowerId]: {
         ...DEFAULT_FLOWER_BED,
-        flower: { name: "Red Pansy", amount: 1, plantedAt: now },
+        flower: { name: "Red Pansy", plantedAt: now },
       },
     };
 
@@ -967,7 +966,7 @@ describe("updateBeehives", () => {
     const flowerBeds: FlowerBeds = {
       [flowerId]: {
         ...DEFAULT_FLOWER_BED,
-        flower: { name: "Red Pansy", amount: 1, plantedAt: now },
+        flower: { name: "Red Pansy", plantedAt: now },
       },
     };
 
@@ -1021,7 +1020,7 @@ describe("updateBeehives", () => {
     const flowerBeds: FlowerBeds = {
       [flowerId]: {
         ...DEFAULT_FLOWER_BED,
-        flower: { name: "Red Pansy", amount: 1, plantedAt: now },
+        flower: { name: "Red Pansy", plantedAt: now },
       },
     };
 
@@ -1067,7 +1066,7 @@ describe("updateBeehives", () => {
     const flowerBeds: FlowerBeds = {
       [flowerId]: {
         ...DEFAULT_FLOWER_BED,
-        flower: { name: "Red Pansy", amount: 1, plantedAt: now },
+        flower: { name: "Red Pansy", plantedAt: now },
       },
     };
 

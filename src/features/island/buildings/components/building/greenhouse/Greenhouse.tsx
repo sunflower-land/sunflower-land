@@ -27,11 +27,7 @@ const selectReadyPlants = (state: MachineState) => {
 
       const isReady =
         Date.now() >
-        getReadyAt({
-          game: state.context.state,
-          plant: pot.plant.name,
-          createdAt: pot.plant.plantedAt,
-        });
+        getReadyAt({ plant: pot.plant.name, createdAt: pot.plant.plantedAt });
 
       if (!isReady) {
         return plants;

@@ -578,25 +578,34 @@ export type WarCollectionOffer = {
 };
 
 export type Wood = {
-  amount: number;
   choppedAt: number;
   reward?: Omit<Reward, "sfl">;
+  criticalHit?: CriticalHit;
 };
+
+export type CriticalHitName =
+  | InventoryItemName
+  | BumpkinRevampSkillName
+  | BumpkinSkillName
+  | BumpkinItem
+  | "Native";
+
+export type CriticalHit = Partial<Record<CriticalHitName, number>>;
 
 export type PlantedCrop = {
   id?: string;
   name: CropName;
   plantedAt: number;
-  amount: number;
+  criticalHit?: CriticalHit;
   reward?: Omit<Reward, "sfl">;
 };
 
 export type PlantedFruit = {
   name: PatchFruitName;
   plantedAt: number;
-  amount: number;
   harvestsLeft: number;
   harvestedAt: number;
+  criticalHit?: CriticalHit;
 };
 
 export type Tree = {
@@ -605,9 +614,8 @@ export type Tree = {
 } & Coordinates;
 
 export type Stone = {
-  amount: number;
-  // Epoch time in milliseconds
   minedAt: number;
+  criticalHit?: CriticalHit;
 };
 
 export type FiniteResource = {
@@ -620,8 +628,6 @@ export type Rock = {
 } & Coordinates;
 
 export type Oil = {
-  amount: number;
-  // Epoch time in milliseconds
   drilledAt: number;
 };
 
@@ -644,7 +650,7 @@ export type CropPlot = {
 export type GreenhousePlant = {
   name: GreenHouseCropName | GreenHouseFruitName;
   plantedAt: number;
-  amount: number;
+  criticalHit?: CriticalHit;
 };
 
 export type GreenhousePot = {
@@ -715,12 +721,12 @@ export type CompostBuilding = PlacedItem & {
 export type CropMachineQueueItem = {
   crop: CropName;
   seeds: number;
-  amount: number;
   growTimeRemaining: number;
   totalGrowTime: number;
   startTime?: number;
   growsUntil?: number;
   readyAt?: number;
+  criticalHit?: CriticalHit;
 };
 
 export type CropMachineBuilding = PlacedItem & {
@@ -1239,10 +1245,10 @@ export type Home = {
 export type PlantedFlower = {
   name: FlowerName;
   plantedAt: number;
-  amount: number;
   crossbreed?: FlowerCrossBreedName;
   dirty?: boolean;
   reward?: Reward;
+  criticalHit?: CriticalHit;
 };
 
 export type FlowerBed = {
