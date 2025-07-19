@@ -81,7 +81,7 @@ export const IMAGES: Record<CropName, string> = {
   Soybean: "soybean",
   Barley: "barley",
   Rhubarb: "rhubarb",
-  Zucchini: "zuchinni",
+  Zucchini: "zucchini",
   Yam: "yam",
   Broccoli: "brocolli",
   Pepper: "pepper",
