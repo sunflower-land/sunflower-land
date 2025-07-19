@@ -36,6 +36,8 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { NetworkName } from "features/game/events/landExpansion/updateNetwork";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { ChestRewardsList } from "components/ui/ChestRewardsList";
+import rewardIcon from "assets/icons/stock.webp";
 import { Modal } from "components/ui/Modal";
 
 const _network = (state: MachineState) => state.context.state.settings.network;
@@ -388,6 +390,10 @@ export const DailyRewardChest: React.FC<{
       name: "Daily Chest",
       icon: SUNNYSIDE.decorations.treasure_chest,
     },
+    {
+      name: "Rewards",
+      icon: rewardIcon,
+    },
   ];
 
   return (
@@ -410,6 +416,25 @@ export const DailyRewardChest: React.FC<{
             chestService={chestService}
             chestState={chestState}
           />
+        )}
+        {tab === 1 && (
+          <div className="flex flex-col gap-y-4 overflow-y-auto max-h-[400px] scrollable">
+            <ChestRewardsList
+              type="Basic Daily Rewards"
+              listTitle={"Basic: 1-4 Lands"}
+              isFirstInMultiList={true}
+            />
+            <ChestRewardsList
+              type="Advanced Daily Rewards"
+              listTitle={"Advanced: 5-8 Lands"}
+              isSubsequentInMultiList={true}
+            />
+            <ChestRewardsList
+              type="Expert Daily Rewards"
+              listTitle={"Expert: 9+ Lands"}
+              isSubsequentInMultiList={true}
+            />
+          </div>
         )}
       </CloseButtonPanel>
     </Modal>
