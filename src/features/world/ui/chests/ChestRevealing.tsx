@@ -23,7 +23,12 @@ import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { GameState, Keys } from "features/game/types/game";
-import { possibleRewards } from "features/game/types/collectDailyReward";
+import {
+  possibleRewards,
+  BASIC_DAILY_REWARDS,
+  ADVANCED_DAILY_REWARDS,
+  EXPERT_DAILY_REWARDS,
+} from "features/game/types/collectDailyReward";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 
@@ -37,6 +42,9 @@ export type ChestRewardType =
   | "Pirate Chest"
   | "Maneki Neko"
   | "Daily Reward"
+  | "Basic Daily Rewards"
+  | "Advanced Daily Rewards"
+  | "Expert Daily Rewards"
   | "Festive Tree Rewards";
 
 interface Props {
@@ -57,6 +65,9 @@ export const CHEST_LOOT: (
   "Pirate Chest": PIRATE_CHEST_REWARDS,
   "Maneki Neko": MANEKI_NEKO_REWARDS,
   "Daily Reward": possibleRewards(state),
+  "Basic Daily Rewards": BASIC_DAILY_REWARDS,
+  "Advanced Daily Rewards": ADVANCED_DAILY_REWARDS,
+  "Expert Daily Rewards": EXPERT_DAILY_REWARDS,
   "Festive Tree Rewards": FESTIVE_TREE_REWARDS,
 });
 
