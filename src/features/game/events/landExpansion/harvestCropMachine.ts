@@ -1,13 +1,15 @@
 import Decimal from "decimal.js-light";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import {
+  BoostName,
   CriticalHitName,
   CropMachineQueueItem,
   GameState,
 } from "features/game/types/game";
 import { produce } from "immer";
-import { getCropYieldAmount } from "./plant";
+import { getCropYieldAmount } from "./harvest";
 import cloneDeep from "lodash.clonedeep";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 
 export type HarvestCropMachineAction = {
   type: "cropMachine.harvested";
@@ -26,8 +28,9 @@ type Options = {
 export function getPackYieldAmount(
   state: GameState,
   pack: CropMachineQueueItem,
-): number {
+): { amount: number; boostsUsed: BoostName[] } {
   let totalYield = 0;
+  const boostsUsed: BoostName[] = [];
 
   const { criticalHit = {}, seeds, crop } = pack;
   const criticalHitObj = cloneDeep(criticalHit);
@@ -41,13 +44,16 @@ export function getPackYieldAmount(
   };
 
   for (let i = 0; i < seeds; i++) {
-    totalYield += getCropYieldAmount({
+    const { amount, boostsUsed: cropBoostsUsed } = getCropYieldAmount({
       game: state,
       crop,
       criticalDrop,
     });
+
+    totalYield += amount;
+    boostsUsed.push(...cropBoostsUsed);
   }
-  return totalYield;
+  return { amount: totalYield, boostsUsed };
 }
 
 export function harvestCropMachine({
@@ -83,7 +89,8 @@ export function harvestCropMachine({
 
     // Harvest the crops from pack
     const cropsInInventory = stateCopy.inventory[pack.crop] ?? new Decimal(0);
-    const amount = getPackYieldAmount(stateCopy, pack);
+    const { amount, boostsUsed } = getPackYieldAmount(stateCopy, pack);
+
     stateCopy.inventory[pack.crop] = cropsInInventory.add(amount);
     bumpkin.activity = trackActivity(
       `${pack.crop} Harvested`,
@@ -95,6 +102,12 @@ export function harvestCropMachine({
     machine.queue = machine.queue.filter(
       (_, index) => index !== action.packIndex,
     );
+
+    stateCopy.boostsUsedAt = updateBoostUsed({
+      game: stateCopy,
+      boostNames: boostsUsed,
+      createdAt,
+    });
 
     return stateCopy;
   });

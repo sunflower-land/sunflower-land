@@ -806,13 +806,12 @@ describe("fruitHarvested", () => {
       createdAt: dateNow,
     });
 
-    const { fruitPatches: fruitPatchesAfterHarvest } = state;
     expect(state.inventory.Blueberry).toEqual(new Decimal(1.2));
   });
 
   describe("getFruitYield", () => {
     it("provides no bonuses", () => {
-      const amount = getFruitYield({
+      const { amount } = getFruitYield({
         game: TEST_FARM,
         name: "Apple",
       });
@@ -821,7 +820,7 @@ describe("fruitHarvested", () => {
     });
 
     it("gives +.1 basic fruit yield with Fruitful Fumble skill", () => {
-      const amount = getFruitYield({
+      const { amount } = getFruitYield({
         game: {
           ...TEST_FARM,
           bumpkin: {
@@ -837,7 +836,7 @@ describe("fruitHarvested", () => {
       expect(amount).toEqual(1.1);
     });
     it("give +0.1 fruit yield when macaw is placed", () => {
-      const amount = getFruitYield({
+      const { amount } = getFruitYield({
         game: {
           ...INITIAL_FARM,
           collectibles: {
@@ -857,7 +856,7 @@ describe("fruitHarvested", () => {
       expect(amount).toEqual(1.1);
     });
     it("gives +0.2 fruit yield when macaw is placed AND has Loyal Macaw Skill", () => {
-      const amount = getFruitYield({
+      const { amount } = getFruitYield({
         game: {
           ...INITIAL_FARM,
           bumpkin: {
@@ -881,7 +880,7 @@ describe("fruitHarvested", () => {
       expect(amount).toEqual(1.2);
     });
     it("gives +0.2 fruit yield when Fruitful Bounty is claimed and Fruitful Blend is applied", () => {
-      const amount = getFruitYield({
+      const { amount } = getFruitYield({
         game: {
           ...INITIAL_FARM,
           bumpkin: {

@@ -274,7 +274,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
                   )
                 : undefined,
               timeSeconds: isSeed(selectedItem)
-                ? getHarvestTime(selectedItem)
+                ? getHarvestTime(selectedItem).seconds
                 : undefined,
               showOpenSeaLink: true,
             }}

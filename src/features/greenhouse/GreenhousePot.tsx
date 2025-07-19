@@ -97,7 +97,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
 
   const pot = pots[id];
 
-  const oilRequired = getOilUsage({
+  const { usage: oilRequired } = getOilUsage({
     seed: selectedItem as GreenHouseCropSeedName,
     game: state,
   });
@@ -232,7 +232,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
       crop: pot.plant.name,
       game: state,
       criticalDrop: (name) => !!(pot.plant?.criticalHit?.[name] ?? 0),
-    });
+    }).amount;
 
     gameService.send("greenhouse.harvested", { id });
 

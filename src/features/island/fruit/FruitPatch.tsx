@@ -157,7 +157,7 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
 
   const harvestFruit = async () => {
     if (!fruitPatch) return;
-    const amount = getFruitYield({
+    const { amount } = getFruitYield({
       game,
       name: fruit?.name as PatchFruitName,
       fertiliser: fertiliser?.name,

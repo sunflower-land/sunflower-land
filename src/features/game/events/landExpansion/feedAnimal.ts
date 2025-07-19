@@ -23,6 +23,7 @@ import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { getKeys } from "features/game/types/decorations";
 import { isWearableActive } from "features/game/lib/wearables";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 
 export const ANIMAL_SLEEP_DURATION = 24 * 60 * 60 * 1000;
 
@@ -298,11 +299,12 @@ export function feedAnimal({
     });
 
     const foodQuantity = REQUIRED_FOOD_QTY[action.animal];
-    const boostedFoodQuantity = getBoostedFoodQuantity({
-      animalType: action.animal,
-      foodQuantity,
-      game: copy,
-    });
+    const { foodQuantity: boostedFoodQuantity, boostsUsed } =
+      getBoostedFoodQuantity({
+        animalType: action.animal,
+        foodQuantity,
+        game: copy,
+      });
 
     // Take food from inventory
     const inventoryAmount = copy.inventory[food] ?? new Decimal(0);
@@ -332,6 +334,12 @@ export function feedAnimal({
       `${action.animal} Fed`,
       copy.bumpkin.activity,
     );
+
+    copy.boostsUsedAt = updateBoostUsed({
+      game: copy,
+      boostNames: boostsUsed,
+      createdAt,
+    });
 
     return copy;
   });

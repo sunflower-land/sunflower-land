@@ -283,7 +283,7 @@ export const Seeds: React.FC = () => {
                   maxHarvest: harvestCount[1],
                 }
               : undefined,
-            timeSeconds: getPlantSeconds(),
+            timeSeconds: getPlantSeconds().seconds,
           }}
           actionView={Action()}
         />

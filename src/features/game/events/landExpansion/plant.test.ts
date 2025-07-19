@@ -2,13 +2,7 @@ import Decimal from "decimal.js-light";
 import { CROPS } from "features/game/types/crops";
 import { INITIAL_BUMPKIN, TEST_FARM } from "../../lib/constants";
 import { GameState, CropPlot } from "../../types/game";
-import {
-  getCropPlotTime,
-  getCropYieldAmount,
-  getPlantedAt,
-  isPlotFertile,
-  plant,
-} from "./plant";
+import { getCropPlotTime, getPlantedAt, isPlotFertile, plant } from "./plant";
 
 const dateNow = Date.now();
 
@@ -546,6 +540,7 @@ describe("getCropTime", () => {
           equipped: { ...INITIAL_BUMPKIN.equipped, necklace: "Carrot Amulet" },
         },
       },
+      plot,
     });
 
     expect(time).toEqual(60 * 60 * 0.8);
@@ -618,44 +613,6 @@ describe("getCropTime", () => {
     });
 
     expect(time).toEqual(baseHarvestSeconds * 0.75);
-  });
-
-  it("applies the eggplant boost when wearing the onesie", () => {
-    const amount = getCropYieldAmount({
-      crop: "Eggplant",
-      game: {
-        ...TEST_FARM,
-        bumpkin: {
-          ...INITIAL_BUMPKIN,
-          equipped: {
-            ...INITIAL_BUMPKIN.equipped,
-            onesie: "Eggplant Onesie",
-          },
-        },
-      },
-      plot,
-    });
-
-    expect(amount).toEqual(1.1);
-  });
-
-  it("applies the corn boost when wearing the corn onesie", () => {
-    const amount = getCropYieldAmount({
-      crop: "Corn",
-      game: {
-        ...TEST_FARM,
-        bumpkin: {
-          ...INITIAL_BUMPKIN,
-          equipped: {
-            ...INITIAL_BUMPKIN.equipped,
-            onesie: "Corn Onesie",
-          },
-        },
-      },
-      plot,
-    });
-
-    expect(amount).toEqual(1.1);
   });
 
   it("applies a 25% speed boost with Kernaldo placed", () => {

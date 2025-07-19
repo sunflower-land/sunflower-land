@@ -260,7 +260,9 @@ export const CropMachineModal: React.FC<Props> = ({
   ];
 
   const allowedSeeds = ALLOWED_SEEDS(state.bumpkin, inventory);
-  const cropYield = selectedPack ? getPackYieldAmount(state, selectedPack) : 0;
+  const cropYield = selectedPack
+    ? getPackYieldAmount(state, selectedPack).amount
+    : 0;
 
   return (
     <Modal show={show} onHide={handleHide}>
