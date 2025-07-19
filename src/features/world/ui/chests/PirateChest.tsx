@@ -15,6 +15,8 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { NPC_WEARABLES } from "lib/npcs";
 import { Modal } from "components/ui/Modal";
+import { ChestRewardsList } from "components/ui/ChestRewardsList";
+import rewardsIcon from "assets/icons/stock.webp";
 
 interface PirateChestContentProps {
   setIsLoading?: (isLoading: boolean) => void;
@@ -176,41 +178,47 @@ export const PirateChestModal: React.FC<Props> = ({
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
-  return (
-    <Modal
-      onHide={
-        isPicking ||
-        (isRevealing &&
-          (gameState.matches("revealing") || gameState.matches("revealed")))
-          ? undefined
-          : onClose
-      }
-      show={show}
-    >
-      <CloseButtonPanel
-        onClose={
-          isPicking ||
-          (isRevealing &&
-            (gameState.matches("revealing") || gameState.matches("revealed")))
-            ? undefined
-            : onClose
-        }
-        bumpkinParts={NPC_WEARABLES["old salty"]}
-        tabs={[
+  const isClaimRewardFlowActive =
+    isPicking ||
+    (isRevealing &&
+      (gameState.matches("revealing") || gameState.matches("revealed")));
+
+  const [tab, setTab] = useState(0);
+  const tabs = [
+    {
+      icon: ITEM_DETAILS["Pirate Bounty"].image,
+      name: t("pirate.chest"),
+    },
+    ...(isClaimRewardFlowActive
+      ? []
+      : [
           {
-            icon: ITEM_DETAILS["Pirate Bounty"].image,
-            name: t("pirate.chest"),
+            icon: rewardsIcon,
+            name: "Rewards",
           },
-        ]}
+        ]),
+  ];
+
+  return (
+    <Modal onHide={isClaimRewardFlowActive ? undefined : onClose} show={show}>
+      <CloseButtonPanel
+        onClose={isClaimRewardFlowActive ? undefined : onClose}
+        tabs={tabs}
+        currentTab={tab}
+        setCurrentTab={setTab}
+        bumpkinParts={NPC_WEARABLES["old salty"]}
         className="pt-1"
       >
-        <PirateChestContent
-          setIsLoading={setIsLoading}
-          isPicking={isPicking}
-          setIsPicking={setIsPicking}
-          isRevealing={isRevealing}
-          setIsRevealing={setIsRevealing}
-        />
+        {tab === 0 && (
+          <PirateChestContent
+            setIsLoading={setIsLoading}
+            isPicking={isPicking}
+            setIsPicking={setIsPicking}
+            isRevealing={isRevealing}
+            setIsRevealing={setIsRevealing}
+          />
+        )}
+        {tab === 1 && <ChestRewardsList type="Pirate Chest" />}
       </CloseButtonPanel>
     </Modal>
   );
