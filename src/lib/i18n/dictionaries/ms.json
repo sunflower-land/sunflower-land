@@ -6052,5 +6052,18 @@
   "biome.applyInstructions": "Anda telah membeli bioma baru! Masa untuk memberi tanah anda ubah suai. Pergi ke tab “Biomes” dalam inventori anda untuk menerapkannya.",
   "apply": "Memohon",
   "unapply": "Tidak memohon",
-  "biome.alreadyOwn": "Anda sudah memiliki bioma ini"
+  "biome.alreadyOwn": "Anda sudah memiliki bioma ini",
+  "faction.leave.boostDisclaimer": "Anda tidak akan menerima peningkatan XP selama 6 minggu selepas beralih ke puak baru.",
+  "description.bigApple": "Ia bukan epal besar, ia epal besar!",
+  "description.bigOrange": "Jeruk besar",
+  "description.bigBanana": "Pisang besar",
+  "description.farmerMonument": "Tugu kepada petani Tanah Bunga Matahari",
+  "description.minerMonument": "Tugu kepada pelombong Tanah Bunga Matahari",
+  "description.woodcutterMonument": "Tugu kepada pemotong kayu Tanah Bunga Matahari",
+  "description.teamworkMonument": "Tugu kerja berpasukan Sunflower Land, tersedia semasa bab Better Together.",
+  "description.basicCookingPot": "Periuk memasak asas",
+  "description.expertCookingPot": "Periuk memasak pakar",
+  "description.advancedCookingPot": "Periuk memasak induk",
+  "already.built": "Sudah dibina",
+  "monuments": "Monumen"
 }

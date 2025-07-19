@@ -230,6 +230,7 @@ const SEASONAL_LORE: Record<SeasonName, string> = {
   `,
   "Winds of Change": "",
   "Great Bloom": "",
+  "Better Together": "",
 };
 
 export const CHORE_DIALOGUES: Partial<Record<NPCName, string[]>> = {

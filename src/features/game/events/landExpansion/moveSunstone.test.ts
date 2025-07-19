@@ -12,7 +12,6 @@ describe("moveSunstone", () => {
               x: 1,
               y: 1,
               stone: {
-                amount: 1,
                 minedAt: 0,
               },
             },
@@ -36,7 +35,6 @@ describe("moveSunstone", () => {
             x: 1,
             y: 1,
             stone: {
-              amount: 1,
               minedAt: 0,
             },
             minesLeft: 1,
@@ -45,7 +43,6 @@ describe("moveSunstone", () => {
             x: 4,
             y: 4,
             stone: {
-              amount: 1,
               minedAt: 0,
             },
             minesLeft: 1,
@@ -54,7 +51,6 @@ describe("moveSunstone", () => {
             x: 8,
             y: 8,
             stone: {
-              amount: 1,
               minedAt: 0,
             },
             minesLeft: 1,
@@ -73,7 +69,6 @@ describe("moveSunstone", () => {
         x: 2,
         y: 2,
         stone: {
-          amount: 1,
           minedAt: 0,
         },
         minesLeft: 1,
@@ -82,7 +77,6 @@ describe("moveSunstone", () => {
         x: 4,
         y: 4,
         stone: {
-          amount: 1,
           minedAt: 0,
         },
         minesLeft: 1,
@@ -91,7 +85,6 @@ describe("moveSunstone", () => {
         x: 8,
         y: 8,
         stone: {
-          amount: 1,
           minedAt: 0,
         },
         minesLeft: 1,

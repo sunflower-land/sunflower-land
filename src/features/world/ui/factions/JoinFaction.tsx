@@ -9,7 +9,10 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { capitalize } from "lib/utils/capitalize";
 import { FactionName } from "features/game/types/game";
-import { SFL_COST } from "features/game/events/landExpansion/joinFaction";
+import {
+  FACTION_BOOST_COOLDOWN,
+  SFL_COST,
+} from "features/game/events/landExpansion/joinFaction";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { useSound } from "lib/utils/hooks/useSound";
 import { InlineDialogue } from "../TypingMessage";
@@ -53,6 +56,12 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
 
   const sameFaction = joinedFaction && joinedFaction.name === faction;
   const hasSFL = gameService.getSnapshot().context.state.balance.gte(cost);
+  const previousFaction =
+    gameService.getSnapshot().context.state.previousFaction;
+  const hasRecentlyLeftFaction =
+    previousFaction &&
+    Date.now() - previousFaction.leftAt < FACTION_BOOST_COOLDOWN &&
+    previousFaction.name !== faction;
 
   useEffect(() => {
     const load = async () => {
@@ -107,6 +116,14 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
     faction: capitalize(faction),
   })} ${t("faction.not.pledged", { faction: capitalize(faction) })}`;
 
+  const cooldownMessage = hasRecentlyLeftFaction
+    ? `You recently left the ${capitalize(
+        previousFaction.name,
+      )} faction. XP boosts are disabled until ${new Date(
+        previousFaction.leftAt + FACTION_BOOST_COOLDOWN,
+      ).toLocaleDateString()} if you join the ${capitalize(faction)} faction.`
+    : null;
+
   const confirmFaction = `${t("faction.cost", {
     cost,
     faction: capitalize(faction),
@@ -142,7 +159,10 @@ export const JoinFaction: React.FC<Props> = ({ faction, onClose }) => {
               <Label type="default">{capitalize(faction)}</Label>
               <Label type="danger">{t("faction.noAccess")}</Label>
             </div>
-            <span className="text-xs sm:text-sm">
+            <span className="text-xs sm:text-sm space-y-2">
+              {cooldownMessage && (
+                <Label type="warning">{cooldownMessage}</Label>
+              )}
               <InlineDialogue message={intro} />
             </span>
           </div>

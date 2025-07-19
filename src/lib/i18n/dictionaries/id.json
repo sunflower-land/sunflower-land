@@ -6052,5 +6052,18 @@
   "biome.applyInstructions": "Anda telah membeli bioma baru! Saatnya mengubah tanah Anda. Buka tab “Bioma” di inventaris Anda untuk menerapkannya.",
   "apply": "Menerapkan",
   "unapply": "Hapus aplikasi",
-  "biome.alreadyOwn": "Anda sudah memiliki bioma ini"
+  "biome.alreadyOwn": "Anda sudah memiliki bioma ini",
+  "faction.leave.boostDisclaimer": "Anda tidak akan menerima peningkatan XP selama 6 minggu setelah beralih ke faksi baru.",
+  "description.bigApple": "Ini bukan apel besar, itu apel besar!",
+  "description.bigOrange": "Jeruk besar",
+  "description.bigBanana": "Pisang besar",
+  "description.farmerMonument": "Sebuah monumen untuk para petani Tanah Bunga Matahari",
+  "description.minerMonument": "Sebuah monumen untuk para penambang Tanah Bunga Matahari",
+  "description.woodcutterMonument": "Sebuah monumen untuk penebang kayu di Tanah Bunga Matahari",
+  "description.teamworkMonument": "Sebuah monumen untuk kerja tim Sunflower Land, tersedia selama chapter Better Together.",
+  "description.basicCookingPot": "Panci memasak dasar",
+  "description.expertCookingPot": "Panci memasak ahli",
+  "description.advancedCookingPot": "Panci memasak utama",
+  "already.built": "Sudah dibangun",
+  "monuments": "Monumen"
 }

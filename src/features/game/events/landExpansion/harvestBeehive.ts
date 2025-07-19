@@ -49,12 +49,6 @@ const applySwarmBoostToCrops = (
       const cropPlot = crops[cropId];
       const updatedPlot = { ...cropPlot };
 
-      if (cropPlot.crop) {
-        updatedPlot.crop = {
-          ...cropPlot.crop,
-          amount: calculateSwarmBoost(cropPlot.crop.amount, state),
-        };
-      }
       updatedPlot.beeSwarm = {
         count: (cropPlot.beeSwarm?.count ?? 0) + 1,
         swarmActivatedAt: createdAt,

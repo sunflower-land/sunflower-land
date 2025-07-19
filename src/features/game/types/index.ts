@@ -488,6 +488,9 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Geniseed: 759,
   "Broken Pillar": 760,
   "Colors Token 2025": 761,
+  "Better Together Banner": 762,
+  Bracelet: 763,
+  Coprolite: 764,
 
   "Australian Flag": 801,
   "Belgian Flag": 802,
@@ -1093,6 +1096,18 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Pony Toy": 2278,
   "Red Slime Balloon": 2279,
   "Blue Slime Balloon": 2280,
+
+  // Monument Items
+  "Big Orange": 2281,
+  "Big Apple": 2282,
+  "Big Banana": 2283,
+  "Farmer's Monument": 2284,
+  "Miner's Monument": 2285,
+  "Woodcutter's Monument": 2286,
+  "Teamwork Monument": 2287,
+  "Basic Cooking Pot": 2288,
+  "Expert Cooking Pot": 2289,
+  "Advanced Cooking Pot": 2290,
 
   // Land Biomes
   "Basic Biome": 2400,

@@ -8,6 +8,13 @@ import { useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getBumpkinLevel } from "features/game/lib/level";
+import {
+  playerModalManager,
+  PlayerModalPlayer,
+  PlayerModals,
+} from "features/world/ui/player/PlayerModals";
+import { hasVipAccess } from "features/game/lib/vipAccess";
+import { useVisiting } from "lib/utils/visitUtils";
 
 const _showHelper = (state: MachineState) =>
   // First Mashed Potato
@@ -22,20 +29,42 @@ export const PlayerNPC: React.FC<NPCProps> = ({ parts: bumpkinParts }) => {
   const { gameService } = useContext(Context);
 
   const showHelper = useSelector(gameService, _showHelper);
+  const { isVisiting } = useVisiting();
+  const context = gameService.getSnapshot().context;
+
+  const handleClick = () => {
+    if (isVisiting) {
+      const playerData: PlayerModalPlayer = {
+        farmId: context.farmId,
+        username: context.state.username ?? "",
+        clothing: context.state.bumpkin?.equipped ?? bumpkinParts,
+        experience: context.state.bumpkin?.experience ?? 0,
+        isVip: hasVipAccess({ game: context.state }),
+        faction: context.state.faction?.name,
+        createdAt: context.state.createdAt ?? Date.now(),
+        islandType: context.state.island?.type ?? "basic",
+        totalDeliveries: context.state.delivery?.fulfilledCount ?? 0,
+        dailyStreak: context.state.dailyRewards?.streaks,
+      };
+      playerModalManager.open(playerData);
+    } else {
+      setOpen(true);
+    }
+  };
 
   return (
     <>
       <NPCPlaceable
         key={JSON.stringify(bumpkinParts)}
         parts={bumpkinParts}
-        onClick={() => setOpen(true)}
+        onClick={handleClick}
       />
 
       {showHelper && (
         <img
           className="absolute cursor-pointer group-hover:img-highlight z-30 animate-pulsate"
           src={SUNNYSIDE.icons.click_icon}
-          onClick={() => setOpen(true)}
+          onClick={handleClick}
           style={{
             width: `${PIXEL_SCALE * 18}px`,
             right: `${PIXEL_SCALE * -8}px`,
@@ -45,6 +74,11 @@ export const PlayerNPC: React.FC<NPCProps> = ({ parts: bumpkinParts }) => {
       )}
 
       <NPCModal isOpen={open} onClose={() => setOpen(false)} />
+      <PlayerModals
+        game={context.state}
+        farmId={context.farmId}
+        isOpen={open}
+      />
     </>
   );
 };

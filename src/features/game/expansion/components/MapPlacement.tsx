@@ -2,6 +2,7 @@
 /* eslint-disable unused-imports/no-unused-vars */
 import React from "react";
 import { GRID_WIDTH_PX } from "../../lib/constants";
+import classNames from "classnames";
 
 export type Coordinates = {
   x: number;
@@ -13,6 +14,7 @@ type Position = {
   width?: number;
   z?: number;
   canCollide?: boolean;
+  className?: string;
 } & Coordinates;
 
 type Props = Position;
@@ -30,10 +32,11 @@ export const MapPlacement: React.FC<React.PropsWithChildren<Props>> = ({
   children,
   z = "unset",
   canCollide = true,
+  className,
 }) => {
   return (
     <div
-      className={"absolute"}
+      className={classNames("absolute", className)}
       style={{
         top: `calc(50% - ${GRID_WIDTH_PX * y}px)`,
         left: `calc(50% + ${GRID_WIDTH_PX * x}px)`,

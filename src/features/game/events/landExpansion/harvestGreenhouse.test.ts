@@ -87,7 +87,6 @@ describe("plantGreenhouse", () => {
             pots: {
               1: {
                 plant: {
-                  amount: 1,
                   name: "Rice",
                   plantedAt: Date.now() - 100,
                 },
@@ -121,7 +120,6 @@ describe("plantGreenhouse", () => {
           pots: {
             1: {
               plant: {
-                amount: 2,
                 name: "Rice",
                 plantedAt: Date.now() - 72 * 60 * 60 * 1000,
               },
@@ -141,7 +139,7 @@ describe("plantGreenhouse", () => {
       },
     });
 
-    expect(state.inventory.Rice).toEqual(new Decimal(2));
+    expect(state.inventory.Rice).toEqual(new Decimal(1));
   });
 
   it("clears plant", () => {
@@ -157,7 +155,6 @@ describe("plantGreenhouse", () => {
           pots: {
             1: {
               plant: {
-                amount: 2,
                 name: "Rice",
                 plantedAt: Date.now() - 72 * 60 * 60 * 1000,
               },
@@ -192,7 +189,6 @@ describe("plantGreenhouse", () => {
           pots: {
             1: {
               plant: {
-                amount: 2,
                 name: "Rice",
                 plantedAt: Date.now() - 72 * 60 * 60 * 1000,
               },

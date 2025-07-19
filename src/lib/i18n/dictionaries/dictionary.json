@@ -1128,6 +1128,16 @@
   "description.splendorFlag": "For players who have generously supported the Sunflorians, symbolizing their splendor in generosity.",
   "description.jellyLamp": "A lamp that brings a touch of luxury to any room.",
   "description.paintCan": "A paint can discovered in the festival of colors",
+  "description.bigApple": "It's not the big apple, it's a big apple!",
+  "description.bigOrange": "A big Orange",
+  "description.bigBanana": "A big Banana",
+  "description.farmerMonument": "A monument to the farmers of Sunflower Land",
+  "description.minerMonument": "A monument to the miners of Sunflower Land",
+  "description.woodcutterMonument": "A monument to the woodcutters of Sunflower Land",
+  "description.teamworkMonument": "A monument to the teamwork of Sunflower Land, available during the Better Together chapter.",
+  "description.basicCookingPot": "A basic cooking pot",
+  "description.expertCookingPot": "A expert cooking pot",
+  "description.advancedCookingPot": "A master cooking pot",
   "defaultDialogue.intro": "Hello, friend! I'm here to see if you have what I need.",
   "defaultDialogue.positiveDelivery": "Oh, fantastic! You've brought exactly what I need. Thank you!",
   "defaultDialogue.negativeDelivery": "Oh no! It seems you don't have what I need. No worries, though. Keep exploring, and we'll find another opportunity.",
@@ -1341,6 +1351,7 @@
   "faction.leave.areYouSure": "Are you sure you want to leave your faction?",
   "faction.leave.isNew": "You cannot leave faction in first 24 hours.",
   "faction.leave.marks": "Faction traitors will be punished and you will lose your banner and all your unspent marks.",
+  "faction.leave.boostDisclaimer": "You won't receive XP boosts for 6 weeks after switching to a new faction.",
   "faction.leave.sellEmblems": "You must sell your emblems before leaving.",
   "faction.claimEmblems.alreadyClaimed": "Hey! We already rewarded you with your emblems!",
   "faction.claimEmblems.emblemsEarned": "Emblems Earned",
@@ -6219,5 +6230,7 @@
   "whatsOn.july10th": "July 10th",
   "biome.alreadyOwn": "You already own this biome",
   "biome.notInCorrectIslandType": "Upgrade to {{islandType}} island to buy this biome",
-  "biome.applyInstructions": "You have bought a new biome! Time to give your land a makeover. Head over to the \"Biomes\" tab in your inventory to apply it."
+  "biome.applyInstructions": "You have bought a new biome! Time to give your land a makeover. Head over to the \"Biomes\" tab in your inventory to apply it.",
+  "already.built": "Already built",
+  "monuments": "Monuments"
 }

@@ -19,15 +19,13 @@ import {
   CropName,
   GREENHOUSE_CROPS,
   GreenHouseCropName,
-} from "features/game/types/crops";
-import { canMine } from "../expansion/lib/utils";
-import { Bud, StemTrait, TypeTrait } from "./buds";
-import {
   isAdvancedCrop,
   isBasicCrop,
   isMediumCrop,
-  isCropGrowing,
-} from "features/game/events/landExpansion/harvest";
+} from "features/game/types/crops";
+import { canMine } from "../expansion/lib/utils";
+import { Bud, StemTrait, TypeTrait } from "./buds";
+import { isCropGrowing } from "features/game/events/landExpansion/harvest";
 import { isFruitGrowing } from "features/game/events/landExpansion/fruitHarvested";
 import { CompostName, isComposting } from "./composters";
 import { getDailyFishingCount } from "./fishing";
@@ -881,12 +879,24 @@ export const hasBudRemoveRestriction = (
 
   return [false, translate("restrictionReason.noRestriction")];
 };
-
-export const hasRemoveRestriction = (
-  name: InventoryItemName | "Bud",
-  id: string,
-  state: GameState,
-): Restriction => {
+/**
+ * This function checks if a user has a restriction on removing an item.
+ * If true, item cannot be removed.
+ * If false, item can be removed.
+ *
+ * It checks if the item is a Genie Lamp and if it is, it checks if the rubbedCount is more than 0.
+ * If the rubbedCount is more than 0, it returns true and the reason is "Genie Lamp rubbed".
+ * Otherwise, it returns false and the reason is "No restriction".
+ */
+export const hasRemoveRestriction = ({
+  name,
+  state,
+  id,
+}: {
+  name: InventoryItemName | "Bud";
+  state: GameState;
+  id?: string;
+}): Restriction => {
   if (name === "Bud") {
     const bud = state.buds?.[Number(id)];
     return bud
@@ -896,25 +906,23 @@ export const hasRemoveRestriction = (
 
   if (name === "Genie Lamp") {
     const collectibleGroup = state.collectibles[name];
-    if (!collectibleGroup)
-      return [true, translate("restrictionReason.genieLampRubbed")];
+    if (!collectibleGroup) return [false, "No restriction"];
 
     const collectibleToRemove = collectibleGroup.find(
       (collectible) => collectible.id === id,
     );
-    if (!collectibleToRemove)
-      return [true, translate("restrictionReason.genieLampRubbed")];
+    if (!collectibleToRemove) return [false, "No restriction"];
 
     const rubbedCount = collectibleToRemove.rubbedCount ?? 0;
     if (rubbedCount > 0) {
-      return [true, translate("restrictionReason.genieLampRubbed")];
+      return [true, "Genie Lamp rubbed"];
     }
   }
 
   const removeRestriction = REMOVAL_RESTRICTIONS[name];
   if (removeRestriction) return removeRestriction(state);
 
-  return [false, translate("restrictionReason.noRestriction")];
+  return [false, "No restriction"];
 };
 
 export const hasMoveRestriction = (
@@ -932,11 +940,11 @@ export const hasMoveRestriction = (
     name === "Queen Cornelia" ||
     name === "Gnome";
 
-  const [isRestricted, restrictionReason] = hasRemoveRestriction(
+  const [isRestricted, restrictionReason] = hasRemoveRestriction({
     name,
     id,
     state,
-  );
+  });
 
   return [isRestricted && isAoEItem, restrictionReason];
 };
