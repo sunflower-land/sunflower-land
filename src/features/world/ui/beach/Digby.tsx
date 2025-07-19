@@ -16,6 +16,7 @@ import { secondsTillReset, secondsToString } from "lib/utils/time";
 import React, { useContext, useEffect, useState } from "react";
 import powerup from "assets/icons/level_up.png";
 import gift from "assets/icons/gift.png";
+import rewardIcon from "assets/icons/stock.webp";
 
 import { GameState } from "features/game/types/game";
 import { getKeys } from "features/game/types/decorations";
@@ -38,6 +39,8 @@ import { Revealed } from "features/game/components/Revealed";
 import { ChestRevealing, ChestRewardType } from "../chests/ChestRevealing";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { getCurrentSeason } from "features/game/types/seasons";
+import { ChestRewardsList } from "components/ui/ChestRewardsList";
+import { ModalOverlay } from "components/ui/ModalOverlay";
 
 export function hasReadDigbyIntro() {
   return !!localStorage.getItem("digging.intro");
@@ -367,6 +370,54 @@ const BoostDigItems: (
     : {}),
 });
 
+const Rewards: React.FC = () => {
+  const [showRewards, setShowRewards] = useState(false);
+  return (
+    <>
+      {/* A button instead of a 4th tab to avoid
+       * overflowing the tab list on small screens */}
+      <div className="absolute -top-9 right-0">
+        <Button onClick={() => setShowRewards(true)}>
+          <div className="flex justify-between text-xs -m-1 space-x-1">
+            <img src={rewardIcon} className="w-4" />
+            <p>{"Rewards"}</p>
+          </div>
+        </Button>
+      </div>
+
+      <ModalOverlay
+        show={showRewards}
+        onBackdropClick={() => setShowRewards(false)}
+      >
+        {showRewards && (
+          <CloseButtonPanel
+            tabs={[{ icon: rewardIcon, name: "Rewards" }]}
+            onClose={() => setShowRewards(false)}
+          >
+            <div className="flex flex-col gap-y-4 overflow-y-auto max-h-[400px] scrollable">
+              <ChestRewardsList
+                type="Basic Desert Rewards"
+                listTitle={"Basic: 1-3 days"}
+                isFirstInMultiList={true}
+              />
+              <ChestRewardsList
+                type="Advanced Desert Rewards"
+                listTitle={"Advanced: 4-10 days"}
+                isSubsequentInMultiList={true}
+              />
+              <ChestRewardsList
+                type="Expert Desert Rewards"
+                listTitle={"Expert: 11+ days"}
+                isSubsequentInMultiList={true}
+              />
+            </div>
+          </CloseButtonPanel>
+        )}
+      </ModalOverlay>
+    </>
+  );
+};
+
 const getDefaultTab = (game: GameState) => {
   if (!hasReadDigbyIntro()) return 1;
 
@@ -420,151 +471,157 @@ export const Digby: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   const canAfford = (inventory["Gem"] ?? new Decimal(0))?.gte(10);
 
   return (
-    <CloseButtonPanel
-      setCurrentTab={setTab}
-      currentTab={tab}
-      tabs={[
-        {
-          icon: ITEM_DETAILS["Sand Shovel"].image,
-          name: t("digby.patterns"),
-          alert: percentage >= 100 && !hasClaimedStreakReward,
-        },
-        {
-          icon: SUNNYSIDE.icons.expression_confused,
-          name: t("guide"),
-        },
-        {
-          icon: powerup,
-          name: "Extras",
-        },
-      ]}
-      onClose={onClose}
-      bumpkinParts={NPC_WEARABLES.digby}
-    >
-      {tab === 0 && (
-        <>
-          <DailyPuzzle />
-        </>
-      )}
-      {tab === 1 && (
-        <div className="pt-2">
-          <NoticeboardItems
-            items={[
-              {
-                icon: ITEM_DETAILS["Sand Shovel"].image,
-                text: t("digby.guide.one"),
-              },
-              {
-                icon: ITEM_DETAILS["Crab"].image,
-                text: t("digby.guide.two"),
-              },
-              {
-                icon: ITEM_DETAILS["Sand"].image,
-                text: t("digby.guide.three"),
-              },
-              {
-                icon: SUNNYSIDE.icons.stopwatch,
-                text: t("digby.guide.four"),
-              },
-            ]}
-          />
-          <Button onClick={() => setTab(0)}>{t("ok")}</Button>
-        </div>
-      )}
-      {tab === 2 && (
-        <>
-          {!showConfirm && (
-            <>
-              <div className="p-1">
-                <div className="flex items-center justify-between space-x-1 mb-1">
-                  <Label type="default">{t("desert.extraDigs")}</Label>
-                  <Label type="default" icon={SUNNYSIDE.tools.sand_shovel}>
-                    <span className="text">
-                      {t("desert.hud.digsLeft", { digsLeft })}
-                    </span>
-                  </Label>
-                </div>
-                <span className="text-xs my-2">{t("digby.moreDigsIntro")}</span>
-                <div className="flex flex-col my-2 space-y-1">
-                  {Object.entries(BoostDigItems(gameState.context.state)).map(
-                    ([item, itemData]) => (
-                      <div key={item} className="flex space-x-2">
-                        <div
-                          className="bg-brown-600 cursor-pointer relative"
-                          style={{
-                            ...pixelDarkBorderStyle,
-                          }}
-                        >
-                          <SquareIcon
-                            icon={getItemImage(
-                              item as BumpkinItem | CollectibleName,
-                            )}
-                            width={20}
-                          />
-                        </div>
-                        <div className="flex flex-col justify-center space-y-1">
-                          <div className="flex flex-col space-y-0.5">
-                            <span className="text-xs">{item}</span>
-                            <span className="text-xxs italic">
-                              {itemData.location}
-                            </span>
+    <>
+      <CloseButtonPanel
+        setCurrentTab={setTab}
+        currentTab={tab}
+        tabs={[
+          {
+            icon: ITEM_DETAILS["Sand Shovel"].image,
+            name: t("digby.patterns"),
+            alert: percentage >= 100 && !hasClaimedStreakReward,
+          },
+          {
+            icon: SUNNYSIDE.icons.expression_confused,
+            name: t("guide"),
+          },
+          {
+            icon: powerup,
+            name: "Extras",
+          },
+        ]}
+        onClose={onClose}
+        bumpkinParts={NPC_WEARABLES.digby}
+      >
+        {tab === 0 && (
+          <>
+            <DailyPuzzle />
+          </>
+        )}
+        {tab === 1 && (
+          <div className="pt-2">
+            <NoticeboardItems
+              items={[
+                {
+                  icon: ITEM_DETAILS["Sand Shovel"].image,
+                  text: t("digby.guide.one"),
+                },
+                {
+                  icon: ITEM_DETAILS["Crab"].image,
+                  text: t("digby.guide.two"),
+                },
+                {
+                  icon: ITEM_DETAILS["Sand"].image,
+                  text: t("digby.guide.three"),
+                },
+                {
+                  icon: SUNNYSIDE.icons.stopwatch,
+                  text: t("digby.guide.four"),
+                },
+              ]}
+            />
+            <Button onClick={() => setTab(0)}>{t("ok")}</Button>
+          </div>
+        )}
+        {tab === 2 && (
+          <>
+            {!showConfirm && (
+              <>
+                <div className="p-1">
+                  <div className="flex items-center justify-between space-x-1 mb-1">
+                    <Label type="default">{t("desert.extraDigs")}</Label>
+                    <Label type="default" icon={SUNNYSIDE.tools.sand_shovel}>
+                      <span className="text">
+                        {t("desert.hud.digsLeft", { digsLeft })}
+                      </span>
+                    </Label>
+                  </div>
+                  <span className="text-xs my-2">
+                    {t("digby.moreDigsIntro")}
+                  </span>
+                  <div className="flex flex-col my-2 space-y-1">
+                    {Object.entries(BoostDigItems(gameState.context.state)).map(
+                      ([item, itemData]) => (
+                        <div key={item} className="flex space-x-2">
+                          <div
+                            className="bg-brown-600 cursor-pointer relative"
+                            style={{
+                              ...pixelDarkBorderStyle,
+                            }}
+                          >
+                            <SquareIcon
+                              icon={getItemImage(
+                                item as BumpkinItem | CollectibleName,
+                              )}
+                              width={20}
+                            />
                           </div>
-                          <div className="flex flex-col gap-1">
-                            {itemData.buff.map(
-                              (
-                                {
-                                  labelType,
-                                  boostTypeIcon,
-                                  boostedItemIcon,
-                                  shortDescription,
-                                },
-                                index,
-                              ) => (
-                                <Label
-                                  key={index}
-                                  type={labelType}
-                                  icon={boostTypeIcon}
-                                  secondaryIcon={boostedItemIcon}
-                                >
-                                  {shortDescription}
-                                </Label>
-                              ),
-                            )}
+                          <div className="flex flex-col justify-center space-y-1">
+                            <div className="flex flex-col space-y-0.5">
+                              <span className="text-xs">{item}</span>
+                              <span className="text-xxs italic">
+                                {itemData.location}
+                              </span>
+                            </div>
+                            <div className="flex flex-col gap-1">
+                              {itemData.buff.map(
+                                (
+                                  {
+                                    labelType,
+                                    boostTypeIcon,
+                                    boostedItemIcon,
+                                    shortDescription,
+                                  },
+                                  index,
+                                ) => (
+                                  <Label
+                                    key={index}
+                                    type={labelType}
+                                    icon={boostTypeIcon}
+                                    secondaryIcon={boostedItemIcon}
+                                  >
+                                    {shortDescription}
+                                  </Label>
+                                ),
+                              )}
+                            </div>
                           </div>
                         </div>
-                      </div>
-                    ),
-                  )}
+                      ),
+                    )}
+                  </div>
                 </div>
-              </div>
-              <Button
-                disabled={!canAfford}
-                onClick={canAfford ? () => setShowConfirm(true) : undefined}
-              >
-                <div className="flex items-center space-x-1">
-                  <p>{t("digby.buyMoreDigs")}</p>
-                  <img src={ITEM_DETAILS.Gem.image} className="w-4" />
-                </div>
-              </Button>
-            </>
-          )}
-          {showConfirm && (
-            <>
-              <div className="flex flex-col p-2 pb-0 items-center">
-                <span className="text-sm text-start w-full mb-1">
-                  {t("desert.buyDigs.confirmation")}
-                </span>
-              </div>
-              <div className="flex justify-content-around mt-2 space-x-1">
-                <Button onClick={() => setShowConfirm(false)}>
-                  {t("cancel")}
+                <Button
+                  disabled={!canAfford}
+                  onClick={canAfford ? () => setShowConfirm(true) : undefined}
+                >
+                  <div className="flex items-center space-x-1">
+                    <p>{t("digby.buyMoreDigs")}</p>
+                    <img src={ITEM_DETAILS.Gem.image} className="w-4" />
+                  </div>
                 </Button>
-                <Button onClick={confirmBuyMoreDigs}>{t("confirm")}</Button>
-              </div>
-            </>
-          )}
-        </>
-      )}
-    </CloseButtonPanel>
+              </>
+            )}
+            {showConfirm && (
+              <>
+                <div className="flex flex-col p-2 pb-0 items-center">
+                  <span className="text-sm text-start w-full mb-1">
+                    {t("desert.buyDigs.confirmation")}
+                  </span>
+                </div>
+                <div className="flex justify-content-around mt-2 space-x-1">
+                  <Button onClick={() => setShowConfirm(false)}>
+                    {t("cancel")}
+                  </Button>
+                  <Button onClick={confirmBuyMoreDigs}>{t("confirm")}</Button>
+                </div>
+              </>
+            )}
+          </>
+        )}
+      </CloseButtonPanel>
+
+      <Rewards />
+    </>
   );
 };
