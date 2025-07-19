@@ -16,8 +16,12 @@ import {
   SEASONAL_REWARDS,
 } from "features/game/types/chests";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
-import { getCurrentSeason } from "features/game/types/seasons";
+import {
+  getCurrentSeason,
+  getSeasonalArtefact,
+} from "features/game/types/seasons";
 import chestIcon from "assets/icons/chest.png";
+import bonusReward from "assets/icons/gift.png";
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
 
 import { Box } from "./Box";
@@ -136,7 +140,7 @@ export const ChestRewardsList: React.FC<{
       0,
     );
     const rewardChance = formatNumber(
-      Math.ceil((weigthing / totalWeigthing) * 1000000) / 10000,
+      Math.ceil((weigthing / totalWeigthing) * 10000) / 100,
     );
 
     return rewardChance;
@@ -151,14 +155,40 @@ export const ChestRewardsList: React.FC<{
         <div className="py-1.5">
           <NoticeboardItems
             items={[
-              {
-                text: `Open the chest for a chance to receive one of the following rewards.`,
-                icon: chestIcon,
-              },
-              {
-                text: `Some rewards are exclusive to specific chest types.`,
-                icon: ITEM_DETAILS["Shroom Syrup"].image,
-              },
+              ...(type === "Basic Desert Rewards"
+                ? [
+                    {
+                      text: `Increase your Desert Daily Streak to earn rewards from higher tiers.`,
+                      icon: ITEM_DETAILS["Sand Drill"].image,
+                    },
+                    {
+                      text: `Claiming the reward grants one chapter artefact.`,
+                      icon: ITEM_DETAILS[getSeasonalArtefact()].image,
+                    },
+                  ]
+                : [
+                    ...(type === "Basic Daily Rewards"
+                      ? [
+                          {
+                            text: `Unlock more expansions on the first island to receive rewards from higher tiers.`,
+                            icon: SUNNYSIDE.icons.hammer,
+                          },
+                          {
+                            text: `Earn a bonus reward for each 365-day streak.`,
+                            icon: bonusReward,
+                          },
+                        ]
+                      : [
+                          {
+                            text: `Open the chest for a chance to receive one of the following rewards.`,
+                            icon: chestIcon,
+                          },
+                          {
+                            text: `Some rewards are exclusive to specific chest types.`,
+                            icon: ITEM_DETAILS["Shroom Syrup"].image,
+                          },
+                        ]),
+                  ]),
             ]}
           />
         </div>
