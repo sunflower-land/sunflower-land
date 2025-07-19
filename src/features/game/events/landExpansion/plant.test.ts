@@ -540,6 +540,7 @@ describe("getCropTime", () => {
           equipped: { ...INITIAL_BUMPKIN.equipped, necklace: "Carrot Amulet" },
         },
       },
+      plot,
     });
 
     expect(time).toEqual(60 * 60 * 0.8);

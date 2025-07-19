@@ -10,7 +10,7 @@ import {
   FlowerSeedName,
   isFlowerSeed,
 } from "features/game/types/flowers";
-import { GameState } from "features/game/types/game";
+import { BoostName, GameState } from "features/game/types/game";
 import { translate } from "lib/i18n/translate";
 import {
   isCollectibleActive,
@@ -19,6 +19,7 @@ import {
 import { produce } from "immer";
 import { SEASONAL_SEEDS } from "features/game/types/seeds";
 import { getKeys } from "features/game/types/decorations";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 
 export type PlantFlowerAction = {
   type: "flower.planted";
@@ -33,27 +34,35 @@ type Options = {
   createdAt?: number;
 };
 
-export const getFlowerTime = (seed: FlowerSeedName, game: GameState) => {
+export const getFlowerTime = (
+  seed: FlowerSeedName,
+  game: GameState,
+): { seconds: number; boostsUsed: BoostName[] } => {
   const { bumpkin } = game;
 
   let seconds = FLOWER_SEEDS[seed].plantSeconds;
+  const boostsUsed: BoostName[] = [];
 
   // If wearing Flower Crown 2x speed
   if (isWearableActive({ name: "Flower Crown", game })) {
     seconds *= 0.5;
+    boostsUsed.push("Flower Crown");
   }
 
   // If Flower Fox is built gives 10% speed boost
   if (isCollectibleBuilt({ name: "Flower Fox", game })) {
     seconds *= 0.9;
+    boostsUsed.push("Flower Fox");
   }
 
   if (isCollectibleActive({ name: "Blossom Hourglass", game })) {
     seconds *= 0.75;
+    boostsUsed.push("Blossom Hourglass");
   }
 
   if (bumpkin.skills["Blooming Boost"]) {
     seconds *= 0.9;
+    boostsUsed.push("Blooming Boost");
   }
 
   if (bumpkin.skills["Flower Power"]) {
@@ -62,9 +71,10 @@ export const getFlowerTime = (seed: FlowerSeedName, game: GameState) => {
 
   if (bumpkin.skills["Flowery Abode"]) {
     seconds *= 1.5;
+    boostsUsed.push("Flowery Abode");
   }
 
-  return seconds;
+  return { seconds, boostsUsed };
 };
 
 type GetPlantedAtArgs = {
@@ -148,11 +158,13 @@ export function plantFlower({
       (flowers.discovered[seedFlower] ?? []).includes(action.crossbreed),
     );
 
+    const { seconds, boostsUsed } = getFlowerTime(action.seed, stateCopy);
+
     flowerBed.flower = {
       plantedAt: getPlantedAt({
         seed: action.seed,
         createdAt,
-        boostedTime: getFlowerTime(action.seed, stateCopy),
+        boostedTime: seconds,
       }),
       name: flower ?? "Red Lotus",
       crossbreed: action.crossbreed,
@@ -164,6 +176,12 @@ export function plantFlower({
       bumpkin?.activity,
       new Decimal(1),
     );
+
+    stateCopy.boostsUsedAt = updateBoostUsed({
+      game: stateCopy,
+      boostNames: boostsUsed,
+      createdAt,
+    });
 
     const updatedBeehives = updateBeehives({
       game: stateCopy,
