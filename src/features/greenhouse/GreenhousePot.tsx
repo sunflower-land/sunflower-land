@@ -97,7 +97,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
 
   const pot = pots[id];
 
-  const oilRequired = getOilUsage({
+  const { usage: oilRequired } = getOilUsage({
     seed: selectedItem as GreenHouseCropSeedName,
     game: state,
   });

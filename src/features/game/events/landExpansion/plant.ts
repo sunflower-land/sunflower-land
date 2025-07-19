@@ -9,6 +9,7 @@ import {
 } from "../../types/crops";
 import {
   AOE,
+  BoostName,
   Buildings,
   Bumpkin,
   Collectibles,
@@ -48,6 +49,7 @@ import {
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 import { canUseTimeBoostAOE, setAOEAvailableAt } from "features/game/lib/aoe";
 import cloneDeep from "lodash.clonedeep";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 
 export type LandExpansionPlantAction = {
   type: "seed.planted";
@@ -188,62 +190,64 @@ export function getCropTime({
 }: {
   game: GameState;
   crop: CropName | GreenHouseCropName;
-}) {
-  let seconds = 1;
+}): { multiplier: number; boostsUsed: BoostName[] } {
+  let multiplier = 1;
+  const boostsUsed: BoostName[] = [];
 
   const { inventory, buds, bumpkin } = game;
   const skills = bumpkin?.skills ?? {};
 
   if (inventory["Seed Specialist"]?.gte(1)) {
-    seconds = seconds * 0.9;
+    multiplier = multiplier * 0.9;
+    boostsUsed.push("Seed Specialist");
   }
 
   // Scarecrow: 15% reduction
-  if (
-    isCollectibleBuilt({ name: "Nancy", game }) ||
-    isCollectibleBuilt({ name: "Scarecrow", game }) ||
-    isCollectibleBuilt({ name: "Kuebiko", game })
-  ) {
-    seconds = seconds * 0.85;
-  }
-
-  if (skills["Cultivator"]) {
-    seconds = seconds * 0.95;
+  const hasNancy = isCollectibleBuilt({ name: "Nancy", game });
+  const hasScarecrow = isCollectibleBuilt({ name: "Scarecrow", game });
+  const hasKuebiko = isCollectibleBuilt({ name: "Kuebiko", game });
+  if (hasNancy || hasScarecrow || hasKuebiko) {
+    multiplier = multiplier * 0.85;
+    if (hasKuebiko) boostsUsed.push("Kuebiko");
+    else if (hasScarecrow) boostsUsed.push("Scarecrow");
+    else if (hasNancy) boostsUsed.push("Nancy");
   }
 
   //If lunar calender: 10% reduction
   if (isCollectibleBuilt({ name: "Lunar Calendar", game })) {
-    seconds = seconds * 0.9;
+    multiplier = multiplier * 0.9;
+    boostsUsed.push("Lunar Calendar");
   }
 
-  if (
-    isCollectibleActive({ name: "Super Totem", game }) ||
-    isCollectibleActive({ name: "Time Warp Totem", game })
-  ) {
-    seconds = seconds * 0.5;
+  const hasSuperTotem = isCollectibleActive({ name: "Super Totem", game });
+  const hasTimeWarpTotem = isCollectibleActive({
+    name: "Time Warp Totem",
+    game,
+  });
+  if (hasSuperTotem || hasTimeWarpTotem) {
+    multiplier = multiplier * 0.5;
+    if (hasSuperTotem) boostsUsed.push("Super Totem");
+    else if (hasTimeWarpTotem) boostsUsed.push("Time Warp Totem");
   }
 
   if (isCollectibleActive({ name: "Harvest Hourglass", game })) {
-    seconds = seconds * 0.75;
+    multiplier = multiplier * 0.75;
+    boostsUsed.push("Harvest Hourglass");
   }
 
   if (skills["Green Thumb"] && !isGreenhouseCrop(crop)) {
-    seconds = seconds * 0.95;
+    multiplier = multiplier * 0.95;
+    boostsUsed.push("Green Thumb");
   }
 
   if (skills["Strong Roots"] && isAdvancedCrop(crop)) {
-    seconds = seconds * 0.9;
+    multiplier = multiplier * 0.9;
+    boostsUsed.push("Strong Roots");
   }
 
   if (isGreenhouseCrop(crop) && skills["Rice and Shine"]) {
-    seconds = seconds * 0.95;
-  }
-
-  if (
-    crop === "Zucchini" &&
-    isCollectibleBuilt({ name: "Giant Zucchini", game })
-  ) {
-    seconds = seconds * 0.5;
+    multiplier = multiplier * 0.95;
+    boostsUsed.push("Rice and Shine");
   }
 
   if (
@@ -251,7 +255,8 @@ export function getCropTime({
     !isGreenhouseCrop(crop) &&
     isWearableActive({ name: "Solflare Aegis", game })
   ) {
-    seconds = seconds * 0.5;
+    multiplier = multiplier * 0.5;
+    boostsUsed.push("Solflare Aegis");
   }
 
   if (
@@ -259,22 +264,25 @@ export function getCropTime({
     !isGreenhouseCrop(crop) &&
     isWearableActive({ name: "Autumn's Embrace", game })
   ) {
-    seconds = seconds * 0.5;
+    multiplier = multiplier * 0.5;
+    boostsUsed.push("Autumn's Embrace");
   }
 
   // Olive Express: 10% reduction
   if (crop === "Olive" && skills["Olive Express"]) {
-    seconds = seconds * 0.9;
+    multiplier = multiplier * 0.9;
+    boostsUsed.push("Olive Express");
   }
 
   // Rice Rocket: 10% reduction
   if (crop === "Rice" && skills["Rice Rocket"]) {
-    seconds = seconds * 0.9;
+    multiplier = multiplier * 0.9;
+    boostsUsed.push("Rice Rocket");
   }
 
-  seconds = seconds * getBudSpeedBoosts(buds ?? {}, crop);
+  multiplier *= getBudSpeedBoosts(buds ?? {}, crop);
 
-  return seconds;
+  return { multiplier, boostsUsed };
 }
 
 interface GetCropPlotTimeArgs {
@@ -291,17 +299,27 @@ export const getCropPlotTime = ({
   game,
   plot,
   createdAt,
-}: GetCropPlotTimeArgs): { time: number; aoe: AOE } => {
+}: GetCropPlotTimeArgs): {
+  time: number;
+  aoe: AOE;
+  boostsUsed: BoostName[];
+} => {
   const { aoe } = game;
   const updatedAoe = cloneDeep(aoe);
 
   let seconds = CROPS[crop].harvestSeconds;
+  const boostsUsed: BoostName[] = [];
 
-  const baseMultiplier = getCropTime({ game, crop });
+  const { multiplier: baseMultiplier, boostsUsed: baseBoostsUsed } =
+    getCropTime({
+      game,
+      crop,
+    });
   seconds *= baseMultiplier;
+  boostsUsed.push(...baseBoostsUsed);
 
   if (seconds === 0) {
-    return { time: 0, aoe: updatedAoe };
+    return { time: 0, aoe: updatedAoe, boostsUsed };
   }
 
   if (
@@ -309,10 +327,12 @@ export const getCropPlotTime = ({
     isCollectibleBuilt({ name: "Mysterious Parsnip", game })
   ) {
     seconds = seconds * 0.5;
+    boostsUsed.push("Mysterious Parsnip");
   }
 
   if (crop === "Carrot" && isWearableActive({ name: "Carrot Amulet", game })) {
     seconds = seconds * 0.8;
+    boostsUsed.push("Carrot Amulet");
   }
 
   // If Cabbage Girl: 50% reduction
@@ -321,16 +341,19 @@ export const getCropPlotTime = ({
     isCollectibleBuilt({ name: "Cabbage Girl", game })
   ) {
     seconds = seconds * 0.5;
+    boostsUsed.push("Cabbage Girl");
   }
 
   // If Obie: 25% reduction
   if (crop === "Eggplant" && isCollectibleBuilt({ name: "Obie", game })) {
     seconds = seconds * 0.75;
+    boostsUsed.push("Obie");
   }
 
   // If Kernaldo: 25% reduction
   if (crop === "Corn" && isCollectibleBuilt({ name: "Kernaldo", game })) {
     seconds = seconds * 0.75;
+    boostsUsed.push("Kernaldo");
   }
 
   if (
@@ -338,29 +361,45 @@ export const getCropPlotTime = ({
     isWearableActive({ name: "Red Pepper Onesie", game })
   ) {
     seconds = seconds * 0.75;
+    boostsUsed.push("Red Pepper Onesie");
   }
 
   if (isWearableActive({ name: "Broccoli Hat", game }) && crop === "Broccoli") {
     seconds = seconds * 0.5;
+    boostsUsed.push("Broccoli Hat");
   }
 
   if (plot?.fertiliser?.name === "Rapid Root") {
     seconds = seconds * 0.5;
   }
 
+  if (
+    crop === "Zucchini" &&
+    isCollectibleBuilt({ name: "Giant Zucchini", game })
+  ) {
+    seconds = seconds * 0.5;
+    boostsUsed.push("Giant Zucchini");
+  }
+
   const isSunshower = getActiveCalendarEvent({ game }) === "sunshower";
 
   if (isSunshower) {
     seconds = seconds * 0.5;
-    if (isGuardianActive({ game })) {
+    const { hasGuardian, boostsUsed: guardianBoostsUsed } = isGuardianActive({
+      game,
+    });
+    if (hasGuardian) {
       seconds = seconds * 0.5;
+      boostsUsed.push(...guardianBoostsUsed);
     }
   }
 
   // If within Basic Scarecrow AOE: 20% reduction
   // This must be at the end of the function as it relies on the seconds variable
   if (game.collectibles["Basic Scarecrow"]?.[0] && isBasicCrop(crop)) {
-    if (!plot || !createdAt) return { time: seconds, aoe: updatedAoe };
+    if (!plot || !createdAt) {
+      return { time: seconds, aoe: updatedAoe, boostsUsed };
+    }
 
     const basicScarecrowCoordinates =
       game.collectibles["Basic Scarecrow"]?.[0].coordinates;
@@ -401,6 +440,7 @@ export const getCropPlotTime = ({
       if (canUseAoe) {
         if (game.bumpkin.skills["Chonky Scarecrow"]) {
           seconds = seconds * 0.7;
+          boostsUsed.push("Chonky Scarecrow");
         } else {
           seconds = seconds * 0.8;
         }
@@ -412,10 +452,11 @@ export const getCropPlotTime = ({
           seconds * 1000,
         );
       }
+      boostsUsed.push("Basic Scarecrow");
     }
   }
 
-  return { time: seconds, aoe: updatedAoe };
+  return { time: seconds, aoe: updatedAoe, boostsUsed };
 };
 
 type GetPlantedAtArgs = {
@@ -533,7 +574,11 @@ export function plant({
 
     const cropName = action.item.split(" ")[0] as CropName;
 
-    const { time: boostedTime, aoe } = getCropPlotTime({
+    const {
+      time: boostedTime,
+      aoe,
+      boostsUsed,
+    } = getCropPlotTime({
       crop: cropName,
       game: stateCopy,
       plot,
@@ -564,6 +609,11 @@ export function plant({
     };
 
     inventory[action.item] = seedCount?.sub(1);
+    stateCopy.boostsUsedAt = updateBoostUsed({
+      game: stateCopy,
+      boostNames: boostsUsed,
+      createdAt,
+    });
 
     return stateCopy;
   });

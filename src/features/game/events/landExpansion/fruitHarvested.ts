@@ -363,8 +363,10 @@ export function harvestFruit({
       stateCopy.inventory[name]?.add(amount) ?? new Decimal(amount);
 
     patch.fruit.harvestsLeft = patch.fruit.harvestsLeft - 1;
-    patch.fruit.harvestedAt = getPlantedAt(seed, stateCopy, createdAt);
+    const { plantedAt: newPlantedAt, boostsUsed: fruitPlantedBoostsUsed } =
+      getPlantedAt(seed, stateCopy, createdAt);
     delete patch.fruit.amount;
+    patch.fruit.harvestedAt = newPlantedAt;
 
     const activityName: BumpkinActivityName = `${name} Harvested`;
 
@@ -372,7 +374,7 @@ export function harvestFruit({
 
     stateCopy.boostsUsedAt = updateBoostUsed({
       game: stateCopy,
-      boostNames: boostsUsed,
+      boostNames: [...boostsUsed, ...fruitPlantedBoostsUsed],
       createdAt,
     });
 
