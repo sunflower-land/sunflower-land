@@ -129,16 +129,7 @@ export const BudBox: React.FC<Props> = ({ onClose, setIsLoading }) => {
     >
       {tab === 0 && (
         <div className="p-2">
-          <div className="flex flex-wrap mr-12">
-            <Label
-              icon={chestIcon}
-              type="default"
-              className="mb-2 mr-3 capitalize"
-            >
-              {t("budBox.title")}
-            </Label>
-          </div>
-          <p className="text-xs mb-2">{t("budBox.description")}</p>
+          <p className="text-xs mb-3">{t("budBox.description")}</p>
           {BUD_ORDER.map((_, index) => {
             const budTypeTimestamp = now + 24 * 60 * 60 * 1000 * index;
             const date = new Date(budTypeTimestamp);
