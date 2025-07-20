@@ -26,9 +26,11 @@ import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { LiveProgressBar } from "components/ui/ProgressBar";
-import { getReadyAt } from "features/game/events/landExpansion/harvestGreenHouse";
+import {
+  getGreenhouseCropYieldAmount,
+  getReadyAt,
+} from "features/game/events/landExpansion/harvestGreenHouse";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { GreenhousePlant } from "features/game/types/game";
 import {
   getOilUsage,
   SEED_TO_PLANT,
@@ -86,7 +88,8 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
   const [showQuickSelect, setShowQuickSelect] = useState(false);
   const [showTimeRemaining, setShowTimeRemaining] = useState(false);
   const [showOilWarning, setShowOilWarning] = useState(false);
-  const harvested = useRef<GreenhousePlant>();
+  const harvestedName = useRef<GreenHouseCropName | GreenHouseFruitName>();
+  const harvestedAmount = useRef<number>(0);
 
   const state = useSelector(gameService, _state);
   const { inventory, greenhouse } = state;
@@ -142,11 +145,11 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
             as="div"
           >
             <img
-              src={ITEM_DETAILS[harvested.current?.name ?? "Rice"].image}
+              src={ITEM_DETAILS[harvestedName.current ?? "Rice"].image}
               className="mr-2 img-highlight-heavy"
               style={{ width: `${PIXEL_SCALE * 7}px` }}
             />
-            <span className="text-sm yield-text">{`+${formatNumber(harvested.current?.amount ?? 0)}`}</span>
+            <span className="text-sm yield-text">{`+${formatNumber(harvestedAmount.current)}`}</span>
           </Transition>
         )}
 
@@ -208,11 +211,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
   }
 
   const plantedAt = pot.plant.plantedAt;
-  const readyAt = getReadyAt({
-    game: gameService.getSnapshot().context.state,
-    plant: pot.plant.name,
-    createdAt: plantedAt,
-  });
+  const readyAt = getReadyAt({ plant: pot.plant.name, createdAt: plantedAt });
   const harvestSeconds = (readyAt - plantedAt) / 1000;
   const secondsLeft = (readyAt - Date.now()) / 1000;
   const startAt = plantedAt ?? 0;
@@ -220,6 +219,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
   const percentage = ((harvestSeconds - secondsLeft) / harvestSeconds) * 100;
 
   const harvest = async () => {
+    if (!pot.plant) return;
     if (Date.now() < readyAt) {
       setShowTimeRemaining(true);
       await new Promise((res) => setTimeout(res, 2000));
@@ -227,7 +227,12 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
       return;
     }
 
-    harvested.current = pot.plant;
+    harvestedName.current = pot.plant.name;
+    harvestedAmount.current = getGreenhouseCropYieldAmount({
+      crop: pot.plant.name,
+      game: state,
+      criticalDrop: (name) => !!(pot.plant?.criticalHit?.[name] ?? 0),
+    });
 
     gameService.send("greenhouse.harvested", { id });
 

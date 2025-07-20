@@ -827,11 +827,14 @@ import springDuckling from "assets/sfts/spring_duckling.webp";
 import timeshard from "assets/icons/timeshard.webp";
 import ancientClock from "assets/icons/ancient_clock.png";
 import windsOfChangeBanner from "assets/decorations/banners/winds-of-change_banner_loop.gif";
+import betterTogetherBanner from "assets/decorations/banners/better_together_banner.webp";
 import pesticide from "assets/sfts/pesticide.webp";
 import jin from "assets/sfts/jin_ronin.webp";
 import loveCharm from "assets/icons/love_charm.webp";
 import geniseed from "assets/icons/geniseed.webp";
 import brokenPillar from "assets/icons/broken_pillar.webp";
+import bracelet from "assets/icons/bracelet.webp";
+import coprolite from "assets/icons/coprolite.webp";
 
 import floralArch from "assets/sfts/floral_arch.webp";
 import flowerCoin from "assets/sfts/flower_coin.webp";
@@ -909,6 +912,11 @@ import basicBiome from "assets/icons/islands/basic.webp";
 import springBiome from "assets/icons/islands/spring.webp";
 import desertBiome from "assets/icons/islands/desert.webp";
 import volcanoBiome from "assets/icons/islands/volcano.webp";
+
+import farmerMonument from "assets/monuments/shovel_monument.webp";
+import minerMonument from "assets/monuments/pickaxe_monument.webp";
+import woodcutterMonument from "assets/monuments/axe_monument.webp";
+import teamworkMonument from "assets/monuments/chapters_monument_teamwork.webp";
 
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
@@ -5365,5 +5373,57 @@ export const ITEM_DETAILS: Items = {
     image: volcanoBiome,
     description:
       "A volcano biome that provides a volcano income and a volcano life.",
+  },
+  Bracelet: {
+    image: bracelet,
+    description: "",
+  },
+  Coprolite: {
+    image: coprolite,
+    description: "",
+  },
+  "Better Together Banner": {
+    image: betterTogetherBanner,
+    description: "",
+  },
+  "Big Apple": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.bigApple"),
+  },
+  "Big Orange": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.bigOrange"),
+  },
+  "Big Banana": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.bigBanana"),
+  },
+  "Farmer's Monument": {
+    image: farmerMonument,
+    description: translate("description.farmerMonument"),
+  },
+  "Miner's Monument": {
+    image: minerMonument,
+    description: translate("description.minerMonument"),
+  },
+  "Woodcutter's Monument": {
+    image: woodcutterMonument,
+    description: translate("description.woodcutterMonument"),
+  },
+  "Teamwork Monument": {
+    image: teamworkMonument,
+    description: translate("description.teamworkMonument"),
+  },
+  "Basic Cooking Pot": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.basicCookingPot"),
+  },
+  "Expert Cooking Pot": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.expertCookingPot"),
+  },
+  "Advanced Cooking Pot": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.advancedCookingPot"),
   },
 };

@@ -133,7 +133,6 @@ describe("removeBuilding", () => {
             queue: [
               {
                 crop: "Sunflower",
-                amount: 1,
                 seeds: 1,
                 totalGrowTime: 60,
                 growTimeRemaining: 60,
@@ -144,7 +143,10 @@ describe("removeBuilding", () => {
       },
     };
 
-    const [_, error] = hasRemoveRestriction(buildingName, id, state);
+    const [, error] = hasRemoveRestriction({
+      name: buildingName,
+      state,
+    });
 
     expect(() =>
       removeBuilding({

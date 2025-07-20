@@ -6052,5 +6052,18 @@
   "biome.applyInstructions": "Вы купили новый биом! Пора преобразить свою землю. Перейдите на вкладку «Биомы» в своем инвентаре, чтобы применить его.",
   "apply": "Подать заявку",
   "unapply": "Отменить заявку",
-  "biome.alreadyOwn": "У вас уже есть этот биом"
+  "biome.alreadyOwn": "У вас уже есть этот биом",
+  "faction.leave.boostDisclaimer": "После перехода в новую фракцию вы не будете получать бонусы к опыту в течение 6 недель.",
+  "description.bigApple": "Это не большое яблоко, а большое яблоко!",
+  "description.bigOrange": "Большой апельсин",
+  "description.bigBanana": "Большой банан",
+  "description.farmerMonument": "Памятник фермерам Подсолнечника Лэнд",
+  "description.minerMonument": "Памятник шахтерам Подсолнуха Лэнд",
+  "description.woodcutterMonument": "Памятник дровосекам Подсолнуха",
+  "description.teamworkMonument": "Памятник командной работе Sunflower Land, доступный в главе «Вместе лучше».",
+  "description.basicCookingPot": "Простая кухонная плита",
+  "description.expertCookingPot": "Профессиональная кастрюля для приготовления пищи",
+  "description.advancedCookingPot": "Мастерская кухонная плита",
+  "already.built": "Уже построено",
+  "monuments": "Памятники"
 }

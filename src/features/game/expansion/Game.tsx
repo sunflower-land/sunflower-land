@@ -316,13 +316,13 @@ const GameContent: React.FC = () => {
       </>
     );
   }
-
   if (visiting) {
     return (
       <>
         <div className="absolute z-10 w-full h-full">
           <Routes>
             <Route path="/:id" element={<Land />} />
+            <Route path="/:id/home" element={<Home />} />
           </Routes>
         </div>
       </>

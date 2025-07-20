@@ -6052,5 +6052,18 @@
   "biome.applyInstructions": "Yeni bir biyom satın aldınız! Arazinize bir makyaj yapma zamanı. Uygulamak için envanterinizdeki “Biyomlar” sekmesine gidin.",
   "apply": "Uygula",
   "unapply": "Uygulamayı kaldır",
-  "biome.alreadyOwn": "Bu biyoma zaten sahipsin"
+  "biome.alreadyOwn": "Bu biyoma zaten sahipsin",
+  "faction.leave.boostDisclaimer": "Yeni bir fraksiyona geçtikten sonra 6 hafta boyunca XP artışları almayacaksınız.",
+  "description.bigApple": "Büyük elma değil, büyük bir elma!",
+  "description.bigOrange": "Büyük Portakal",
+  "description.bigBanana": "Büyük bir muz",
+  "description.farmerMonument": "Ayçiçeği Toprakları Çiftçilerine Bir Anıt",
+  "description.minerMonument": "Ayçiçeği Ülkesi madencileri için bir anıt",
+  "description.woodcutterMonument": "Ayçiçeği Ülkesinin oduncuları için bir anıt",
+  "description.teamworkMonument": "Birlikte Daha İyi bölümünde bulunan Ayçiçeği Ülkesinin ekip çalışmasının bir anıtı.",
+  "description.basicCookingPot": "Temel bir pişirme kabı",
+  "description.expertCookingPot": "Uzman bir pişirme tenceresi",
+  "description.advancedCookingPot": "Usta pişirme tenceresi",
+  "already.built": "Zaten inşa edilmiş",
+  "monuments": "Anıtlar"
 }

@@ -1,5 +1,5 @@
-import { GameState } from "features/game/types/game";
-import { MAX_POTS } from "./plantGreenhouse";
+import { CriticalHitName, GameState } from "features/game/types/game";
+import { isGreenhouseCrop, MAX_POTS } from "./plantGreenhouse";
 import {
   GREENHOUSE_CROPS,
   GreenHouseCropName,
@@ -14,6 +14,8 @@ import {
   trackActivity,
 } from "features/game/types/bumpkinActivity";
 import { produce } from "immer";
+import { getFruitYield } from "./fruitHarvested";
+import { getCropYieldAmount } from "./plant";
 
 export const GREENHOUSE_CROP_TIME_SECONDS: Record<
   GreenHouseCropName | GreenHouseFruitName,
@@ -25,17 +27,31 @@ export const GREENHOUSE_CROP_TIME_SECONDS: Record<
 };
 
 export function getReadyAt({
-  game,
   plant,
   createdAt = Date.now(),
 }: {
-  game: GameState;
   plant: GreenHouseCropName | GreenHouseFruitName;
   createdAt?: number;
 }) {
   const seconds = GREENHOUSE_CROP_TIME_SECONDS[plant];
 
   return createdAt + seconds * 1000;
+}
+
+export function getGreenhouseCropYieldAmount({
+  crop,
+  game,
+  criticalDrop = () => false,
+}: {
+  crop: GreenHouseCropName | GreenHouseFruitName;
+  game: GameState;
+  criticalDrop?: (name: CriticalHitName) => boolean;
+}): number {
+  if (isGreenhouseCrop(crop)) {
+    return getCropYieldAmount({ crop, game, criticalDrop });
+  }
+
+  return getFruitYield({ name: crop, game, criticalDrop });
 }
 
 export type HarvestGreenhouseAction = {
@@ -77,18 +93,20 @@ export function harvestGreenHouse({
 
     if (
       createdAt <
-      getReadyAt({
-        game,
-        plant: pot.plant.name,
-        createdAt: pot.plant.plantedAt,
-      })
+      getReadyAt({ plant: pot.plant.name, createdAt: pot.plant.plantedAt })
     ) {
       throw new Error("Plant is not ready");
     }
 
     // Harvests Crop
+    const greenhouseProduce = getGreenhouseCropYieldAmount({
+      crop: pot.plant.name,
+      game,
+      criticalDrop: (name) => !!(pot.plant?.criticalHit?.[name] ?? 0),
+    });
+
     const previousAmount = game.inventory[pot.plant.name] ?? new Decimal(0);
-    game.inventory[pot.plant.name] = previousAmount.add(pot.plant.amount);
+    game.inventory[pot.plant.name] = previousAmount.add(greenhouseProduce);
 
     // Tracks Analytics
     const activityName: BumpkinActivityName = `${pot.plant.name} Harvested`;

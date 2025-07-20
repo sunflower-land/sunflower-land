@@ -6052,5 +6052,18 @@
   "biome.applyInstructions": "Hai acquistato un nuovo bioma! È ora di rinnovare la tua terra. Vai alla scheda «Biomi» nel tuo inventario per applicarlo.",
   "apply": "Applica",
   "unapply": "Annulla l'applicazione",
-  "biome.alreadyOwn": "Possiedi già questo bioma"
+  "biome.alreadyOwn": "Possiedi già questo bioma",
+  "faction.leave.boostDisclaimer": "Non riceverai aumenti di XP per 6 settimane dopo il passaggio a una nuova fazione.",
+  "description.bigApple": "Non è la grande mela, è una grande mela!",
+  "description.bigOrange": "Una grande arancia",
+  "description.bigBanana": "Una grande banana",
+  "description.farmerMonument": "Un monumento ai contadini di Sunflower Land",
+  "description.minerMonument": "Un monumento ai minatori di Sunflower Land",
+  "description.woodcutterMonument": "Un monumento ai taglialegna di Sunflower Land",
+  "description.teamworkMonument": "Un monumento al lavoro di squadra di Sunflower Land, disponibile nel capitolo Better Together.",
+  "description.basicCookingPot": "Una pentola da cucina di base",
+  "description.expertCookingPot": "Una pentola da cucina esperta",
+  "description.advancedCookingPot": "Una pentola da cucina da maestro",
+  "already.built": "Già costruito",
+  "monuments": "Monumenti"
 }

@@ -565,6 +565,10 @@ export function getFactionPetBoostMultiplier(game: GameState) {
 
   if (!faction) return 1;
 
+  if (faction.boostCooldownUntil && Date.now() < faction.boostCooldownUntil) {
+    return 1;
+  }
+
   const week = getWeekKey({ date: new Date() });
   const lastWeek = getWeekKey({
     date: new Date(new Date(week).getTime() - 7 * 24 * 60 * 60 * 1000),
