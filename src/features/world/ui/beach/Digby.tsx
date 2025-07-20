@@ -372,6 +372,7 @@ const BoostDigItems: (
 
 const Rewards: React.FC = () => {
   const [showRewards, setShowRewards] = useState(false);
+  const { t } = useAppTranslation();
   return (
     <>
       {/* A button instead of a 4th tab to avoid
@@ -380,7 +381,7 @@ const Rewards: React.FC = () => {
         <Button onClick={() => setShowRewards(true)}>
           <div className="flex justify-between text-xs -m-1 space-x-1">
             <img src={rewardIcon} className="w-4" />
-            <p>{"Rewards"}</p>
+            <p>{t("chestRewardsList.rewardsTitle")}</p>
           </div>
         </Button>
       </div>
@@ -391,23 +392,25 @@ const Rewards: React.FC = () => {
       >
         {showRewards && (
           <CloseButtonPanel
-            tabs={[{ icon: rewardIcon, name: "Rewards" }]}
+            tabs={[
+              { icon: rewardIcon, name: t("chestRewardsList.rewardsTitle") },
+            ]}
             onClose={() => setShowRewards(false)}
           >
             <div className="flex flex-col gap-y-4 overflow-y-auto max-h-[400px] scrollable">
               <ChestRewardsList
                 type="Basic Desert Rewards"
-                listTitle={"Basic: 1-3 days"}
+                listTitle={t("chestRewardsList.desertReward.listTitle1")}
                 isFirstInMultiList={true}
               />
               <ChestRewardsList
                 type="Advanced Desert Rewards"
-                listTitle={"Advanced: 4-10 days"}
+                listTitle={t("chestRewardsList.desertReward.listTitle2")}
                 isSubsequentInMultiList={true}
               />
               <ChestRewardsList
                 type="Expert Desert Rewards"
-                listTitle={"Expert: 11+ days"}
+                listTitle={t("chestRewardsList.desertReward.listTitle3")}
                 isSubsequentInMultiList={true}
               />
             </div>
@@ -487,7 +490,7 @@ export const Digby: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           },
           {
             icon: powerup,
-            name: "Extras",
+            name: t("digby.extras"),
           },
         ]}
         onClose={onClose}

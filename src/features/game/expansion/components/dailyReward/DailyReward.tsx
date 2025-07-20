@@ -360,6 +360,7 @@ export const DailyRewardChest: React.FC<{
   show: boolean;
   onHide?: () => void;
 }> = ({ show, onHide }) => {
+  const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, (state) => state.context.state);
 
@@ -393,11 +394,11 @@ export const DailyRewardChest: React.FC<{
   const [tab, setTab] = useState(0);
   const tabs = [
     {
-      name: "Daily Chest",
+      name: t("chestRewardsList.dailyReward.tabTitle"),
       icon: SUNNYSIDE.decorations.treasure_chest,
     },
     {
-      name: "Rewards",
+      name: t("chestRewardsList.rewardsTitle"),
       icon: rewardIcon,
     },
   ];
@@ -427,17 +428,17 @@ export const DailyRewardChest: React.FC<{
           <div className="flex flex-col gap-y-4 overflow-y-auto max-h-[400px] scrollable">
             <ChestRewardsList
               type="Basic Daily Rewards"
-              listTitle={"Basic: 1-4 Lands"}
+              listTitle={t("chestRewardsList.dailyReward.listTitle1")}
               isFirstInMultiList={true}
             />
             <ChestRewardsList
               type="Advanced Daily Rewards"
-              listTitle={"Advanced: 5-8 Lands"}
+              listTitle={t("chestRewardsList.dailyReward.listTitle2")}
               isSubsequentInMultiList={true}
             />
             <ChestRewardsList
               type="Expert Daily Rewards"
-              listTitle={"Expert: 9+ Lands"}
+              listTitle={t("chestRewardsList.dailyReward.listTitle3")}
               isSubsequentInMultiList={true}
             />
           </div>

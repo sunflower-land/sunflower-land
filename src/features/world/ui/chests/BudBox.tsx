@@ -56,8 +56,8 @@ export const BudBox: React.FC<Props> = ({ onClose, setIsLoading }) => {
   const { t } = useAppTranslation();
   const [tab, setTab] = useState(0);
   const tabs = [
-    { icon: chestIcon, name: "Bud Box" },
-    { icon: rewardsIcon, name: `Rewards` },
+    { icon: chestIcon, name: t("budBox.title") },
+    { icon: rewardsIcon, name: t("chestRewardsList.rewardsTitle") },
   ];
 
   // Just a prolonged UI state to show the shuffle of items animation

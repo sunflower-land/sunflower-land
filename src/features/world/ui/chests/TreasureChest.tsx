@@ -43,23 +43,26 @@ export const TreasureChest: React.FC<Props> = ({
       ? [
           {
             icon: basicChest,
-            name: "Basic Chest",
+            name: t("chestRewardsList.treasureChest.tabTitle1"),
           },
         ]
       : type === "Rare Key"
         ? [
             {
               icon: rareChest,
-              name: "Rare Chest",
+              name: t("chestRewardsList.treasureChest.tabTitle2"),
             },
           ]
         : [
             {
               icon: luxuryChest,
-              name: "Luxury Chest",
+              name: t("chestRewardsList.treasureChest.tabTitle3"),
             },
           ]),
-    { icon: rewardsIcon, name: "Rewards" },
+    {
+      icon: rewardsIcon,
+      name: t("chestRewardsList.rewardsTitle"),
+    },
   ];
 
   // Just a prolonged UI state to show the shuffle of items animation

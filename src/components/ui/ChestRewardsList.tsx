@@ -27,6 +27,7 @@ import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
 import { Box } from "./Box";
 import Decimal from "decimal.js-light";
 import { getImageUrl } from "lib/utils/getImageURLS";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const RewardRow: React.FC<{
   rewardName: string;
@@ -64,6 +65,7 @@ const MultipleRewardsRow: React.FC<{
   chance?: string;
   secondBG?: boolean;
 }> = ({ reward, chance, secondBG }) => {
+  const { t } = useAppTranslation();
   const rewards = reward.wearables
     ? Object.entries(reward.wearables)
     : reward.items
@@ -99,9 +101,9 @@ const MultipleRewardsRow: React.FC<{
                   <p>{rewardName}</p>
                   <p className="text-[#862935] text-xxs mt-0.5">
                     {reward.wearables
-                      ? "Wearable"
+                      ? t("wearable")
                       : isPlaceable
-                        ? "Collectible"
+                        ? t("collectible")
                         : ""}
                   </p>
                 </div>
@@ -130,6 +132,7 @@ export const ChestRewardsList: React.FC<{
   isSubsequentInMultiList?: boolean;
 }> = ({ type, listTitle, isFirstInMultiList, isSubsequentInMultiList }) => {
   const { gameService } = useContext(Context);
+  const { t } = useAppTranslation();
 
   const rewards = CHEST_LOOT(gameService.getSnapshot().context.state)[type];
 
@@ -158,11 +161,11 @@ export const ChestRewardsList: React.FC<{
               ...(type === "Basic Desert Rewards"
                 ? [
                     {
-                      text: `Increase your Desert Daily Streak to earn rewards from higher tiers.`,
+                      text: t("chestRewardsList.desertReward.desc1"),
                       icon: ITEM_DETAILS["Sand Drill"].image,
                     },
                     {
-                      text: `Claiming the reward grants one chapter artefact.`,
+                      text: t("chestRewardsList.desertReward.desc2"),
                       icon: ITEM_DETAILS[getSeasonalArtefact()].image,
                     },
                   ]
@@ -170,21 +173,21 @@ export const ChestRewardsList: React.FC<{
                     ...(type === "Basic Daily Rewards"
                       ? [
                           {
-                            text: `Unlock more expansions on the first island to receive rewards from higher tiers.`,
+                            text: t("chestRewardsList.dailyReward.desc1"),
                             icon: SUNNYSIDE.icons.hammer,
                           },
                           {
-                            text: `Earn a bonus reward for each 365-day streak.`,
+                            text: t("chestRewardsList.dailyReward.desc2"),
                             icon: bonusReward,
                           },
                         ]
                       : [
                           {
-                            text: `Open the chest for a chance to receive one of the following rewards.`,
+                            text: t("chestRewardsList.otherChests.desc1"),
                             icon: chestIcon,
                           },
                           {
-                            text: `Some rewards are exclusive to specific chest types.`,
+                            text: t("chestRewardsList.otherChests.desc2"),
                             icon: ITEM_DETAILS["Shroom Syrup"].image,
                           },
                         ]),
@@ -194,8 +197,12 @@ export const ChestRewardsList: React.FC<{
         </div>
       )}
       <div className="flex justify-between my-2 ml-0">
-        <Label type="default">{listTitle ?? `Reward`}</Label>
-        {!isSubsequentInMultiList && <Label type="default">{`Chance`}</Label>}
+        <Label type="default">
+          {listTitle ?? t("chestRewardsList.listTitle1")}
+        </Label>
+        {!isSubsequentInMultiList && (
+          <Label type="default">{t("chestRewardsList.listTitle2")}</Label>
+        )}
       </div>
       {...rewards
         .sort((a, b) => b.weighting - a.weighting) // Sort by weighting descending
@@ -204,7 +211,7 @@ export const ChestRewardsList: React.FC<{
             <div key={index}>
               {(reward.coins ?? 0 > 0) && (
                 <RewardRow
-                  rewardName="Coins"
+                  rewardName={t("coins")}
                   amount={reward.coins ?? 0}
                   chance={`${rewardChance(reward.weighting)}%`}
                   icon={SUNNYSIDE.ui.coins}

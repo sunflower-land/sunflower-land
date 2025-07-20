@@ -194,7 +194,7 @@ export const PirateChestModal: React.FC<Props> = ({
       : [
           {
             icon: rewardsIcon,
-            name: "Rewards",
+            name: t("chestRewardsList.rewardsTitle"),
           },
         ]),
   ];
