@@ -767,7 +767,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
                 </Label>
                 <div className="flex">
                   <BumpkinGiftBar onOpen={openReward} game={game} npc={npc} />
-                  {onClose && (
+                  {onClose && npc !== "finn" && (
                     <img
                       src={SUNNYSIDE.icons.close}
                       className="h-7 ml-2 cursor-pointer"
