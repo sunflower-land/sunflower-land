@@ -128,6 +128,11 @@ export const getGreenhouseCropTime = ({
     boostsUsed.push("Turbo Sprout");
   }
 
+  if (game.bumpkin.skills["Rice and Shine"]) {
+    seconds *= 0.95;
+    boostsUsed.push("Rice and Shine");
+  }
+
   return { seconds, boostsUsed };
 };
 

@@ -245,11 +245,6 @@ export function getCropTime({
     boostsUsed.push("Strong Roots");
   }
 
-  if (isGreenhouseCrop(crop) && skills["Rice and Shine"]) {
-    multiplier = multiplier * 0.95;
-    boostsUsed.push("Rice and Shine");
-  }
-
   if (
     isSummerCrop(crop, game.season.season, SEASONAL_SEEDS) &&
     !isGreenhouseCrop(crop) &&

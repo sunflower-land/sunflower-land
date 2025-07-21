@@ -123,11 +123,6 @@ export function getFruitTime({
     boostsUsed.push("Vine Velocity");
   }
 
-  if (name === "Grape Seed" && game.bumpkin.skills["Rice and Shine"]) {
-    seconds = seconds * 0.95;
-    boostsUsed.push("Rice and Shine");
-  }
-
   return { multiplier: seconds, boostsUsed };
 }
 
