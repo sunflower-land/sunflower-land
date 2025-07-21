@@ -1539,5 +1539,19 @@ function getCollectibleBuffLabels(
         boostTypeIcon: powerup,
       },
     ],
+    Toolshed: [
+      {
+        shortDescription: translate("description.toolshed.boost"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    ],
+    Warehouse: [
+      {
+        shortDescription: translate("description.warehouse.boost"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    ],
   };
 }
