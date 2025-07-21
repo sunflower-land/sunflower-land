@@ -1,10 +1,17 @@
 /* eslint-disable no-console */
-import { Beehive, Beehives, FlowerBeds, GameState } from "../types/game";
+import {
+  Beehive,
+  Beehives,
+  BoostName,
+  FlowerBeds,
+  GameState,
+} from "../types/game";
 import { isCollectibleBuilt } from "./collectibleBuilt";
 import { getKeys } from "../types/craftables";
 import { FLOWERS, FLOWER_SEEDS } from "../types/flowers";
 import { isWearableActive } from "./wearables";
 import cloneDeep from "lodash.clonedeep";
+import { updateBoostUsed } from "../types/updateBoostUsed";
 
 /**
  * updateBeehives runs on any event that changes the state for bees or flowers
@@ -16,28 +23,36 @@ import cloneDeep from "lodash.clonedeep";
  * autonomously switch beehives and continue producing while the player is offline.
  */
 
-const getHoneyProductionSpeed = (game: GameState) => {
+const getHoneyProductionSpeed = (
+  game: GameState,
+): { speed: number; boostsUsed: BoostName[] } => {
   const { bumpkin } = game;
+
+  const boostsUsed: BoostName[] = [];
 
   let speed = 1;
 
   if (isCollectibleBuilt({ name: "Queen Bee", game })) {
     speed += 1;
+    boostsUsed.push("Queen Bee");
   }
 
   if (isWearableActive({ name: "Beekeeper Hat", game })) {
     speed += 0.2;
+    boostsUsed.push("Beekeeper Hat");
   }
 
   if (bumpkin.skills["Hyper Bees"]) {
     speed += 0.1;
+    boostsUsed.push("Hyper Bees");
   }
 
   if (bumpkin.skills["Flowery Abode"]) {
     speed += 0.5;
+    boostsUsed.push("Flowery Abode");
   }
 
-  return speed;
+  return { speed, boostsUsed };
 };
 
 export const DEFAULT_HONEY_PRODUCTION_TIME = 24 * 60 * 60 * 1000;
@@ -109,7 +124,7 @@ const getFlowerReadyAt = (
 
   const plantMilliseconds =
     (FLOWER_SEEDS[FLOWERS[plantedFlower.name].seed].plantSeconds * 1000) /
-    getHoneyProductionSpeed(state);
+    getHoneyProductionSpeed(state).speed;
 
   return plantedFlower.plantedAt + plantMilliseconds;
 };
@@ -246,7 +261,7 @@ const getBeehiveDetail = ({
       : createdAt,
     availableTime: Math.ceil(
       (DEFAULT_HONEY_PRODUCTION_TIME - produced) /
-        getHoneyProductionSpeed(game),
+        getHoneyProductionSpeed(game).speed,
     ),
   };
 };
@@ -271,6 +286,8 @@ const calculateHiveDetails = ({
 const attachFlowers = ({ game, createdAt }: AttachFlowers) => {
   const stateCopy = cloneDeep(game);
   const { flowers, beehives } = stateCopy;
+
+  const boostsUsed: BoostName[] = [];
 
   let flowerDetails = calculateFlowerDetails({
     beehives,
@@ -318,12 +335,16 @@ const attachFlowers = ({ game, createdAt }: AttachFlowers) => {
       attachedAt +
       Math.min(hiveDetail.availableTime, flowerDetail.availableTime);
 
+    const { speed, boostsUsed: productionBoostsUsed } =
+      getHoneyProductionSpeed(stateCopy);
+    boostsUsed.push(...productionBoostsUsed);
+
     // Attach to hive
     beehives[hiveId].flowers.push({
       attachedAt,
       attachedUntil,
       id: flowerId,
-      rate: getHoneyProductionSpeed(stateCopy),
+      rate: speed,
     });
 
     // Update flowerDetails
@@ -332,6 +353,12 @@ const attachFlowers = ({ game, createdAt }: AttachFlowers) => {
     hiveDetails[hiveId].availableTime -= attachedUntil - attachedAt;
     hiveDetails[hiveId].beehiveAvailableAt = attachedUntil;
   }
+
+  stateCopy.boostsUsedAt = updateBoostUsed({
+    game: stateCopy,
+    boostNames: boostsUsed,
+    createdAt,
+  });
 
   return beehives;
 };
