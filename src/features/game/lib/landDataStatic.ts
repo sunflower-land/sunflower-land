@@ -953,7 +953,24 @@ export const STATIC_OFFLINE_FARM: GameState = {
       total: 10,
     },
   },
-  npcs: {},
+  npcs: {
+    bert: {
+      deliveryCount: 0,
+      friendship: {
+        updatedAt: 0,
+        points: 480,
+        giftClaimedAtPoints: 330,
+      },
+    },
+    finn: {
+      deliveryCount: 0,
+      friendship: {
+        updatedAt: 0,
+        points: 280,
+        giftClaimedAtPoints: 150,
+      },
+    },
+  },
   farmActivity: {},
   milestones: {},
   specialEvents: {
