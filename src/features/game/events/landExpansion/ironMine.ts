@@ -2,7 +2,13 @@ import Decimal from "decimal.js-light";
 import { canMine } from "features/game/expansion/lib/utils";
 import { IRON_RECOVERY_TIME } from "../../lib/constants";
 import { trackActivity } from "../../types/bumpkinActivity";
-import { AOE, CriticalHitName, GameState, Rock } from "../../types/game";
+import {
+  AOE,
+  BoostName,
+  CriticalHitName,
+  GameState,
+  Rock,
+} from "../../types/game";
 import {
   isCollectibleActive,
   isCollectibleBuilt,
@@ -17,8 +23,9 @@ import { getBudYieldBoosts } from "features/game/lib/getBudYieldBoosts";
 import { isWearableActive } from "features/game/lib/wearables";
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
-import { canUseYieldBoostAOE, setAOELastUsed } from "features/game/lib/aoe";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import cloneDeep from "lodash.clonedeep";
+import { canUseYieldBoostAOE, setAOELastUsed } from "features/game/lib/aoe";
 
 export type LandExpansionIronMineAction = {
   type: "ironRock.mined";
@@ -46,41 +53,52 @@ type GetMinedAtArgs = {
 };
 
 const getBoostedTime = ({
-  createdAt,
   game,
 }: {
-  createdAt: number;
   game: GameState;
-}): number => {
+}): {
+  boostedTime: number;
+  boostsUsed: BoostName[];
+} => {
   let totalSeconds = IRON_RECOVERY_TIME;
+  const boostsUsed: BoostName[] = [];
 
-  if (
-    isCollectibleActive({ name: "Super Totem", game }) ||
-    isCollectibleActive({ name: "Time Warp Totem", game })
-  ) {
+  const superTotemActive = isCollectibleActive({ name: "Super Totem", game });
+  const timeWarpTotemActive = isCollectibleActive({
+    name: "Time Warp Totem",
+    game,
+  });
+  if (superTotemActive || timeWarpTotemActive) {
     totalSeconds = totalSeconds * 0.5;
+    boostsUsed.push("Super Totem");
+    boostsUsed.push("Time Warp Totem");
   }
 
   if (isCollectibleActive({ name: "Ore Hourglass", game })) {
     totalSeconds = totalSeconds * 0.5;
+    boostsUsed.push("Ore Hourglass");
   }
 
   if (game.bumpkin.skills["Iron Hustle"]) {
     totalSeconds = totalSeconds * 0.7;
+    boostsUsed.push("Iron Hustle");
   }
 
   const buff = IRON_RECOVERY_TIME - totalSeconds;
 
-  return buff * 1000;
+  return { boostedTime: buff * 1000, boostsUsed };
 };
 
 /**
  * Set a mined in the past to make it replenish faster
  */
-export function getMinedAt({ createdAt, game }: GetMinedAtArgs): number {
-  const boostedTime = getBoostedTime({ createdAt, game });
+export function getMinedAt({ createdAt, game }: GetMinedAtArgs): {
+  time: number;
+  boostsUsed: BoostName[];
+} {
+  const { boostedTime, boostsUsed } = getBoostedTime({ game });
 
-  return createdAt - boostedTime;
+  return { time: createdAt - boostedTime, boostsUsed };
 }
 
 /**
@@ -96,38 +114,46 @@ export function getIronDropAmount({
   rock: Rock;
   createdAt: number;
   criticalDropGenerator?: (name: CriticalHitName) => boolean;
-}): { amount: Decimal; aoe: AOE } {
+}): { amount: Decimal; aoe: AOE; boostsUsed: BoostName[] } {
   const { aoe } = game;
   const updatedAoe = cloneDeep(aoe);
 
   let amount = 1;
+  const boostsUsed: BoostName[] = [];
 
   if (isCollectibleBuilt({ name: "Rocky the Mole", game })) {
     amount += 0.25;
+    boostsUsed.push("Rocky the Mole");
   }
 
   if (isCollectibleBuilt({ name: "Radiant Ray", game })) {
     amount += 0.1;
+    boostsUsed.push("Radiant Ray");
   }
 
   if (isCollectibleBuilt({ name: "Iron Idol", game })) {
     amount += 1;
+    boostsUsed.push("Iron Idol");
   }
 
   if (isCollectibleBuilt({ name: "Iron Beetle", game })) {
     amount += 0.1;
+    boostsUsed.push("Iron Beetle");
   }
 
   if (game.bumpkin.skills["Iron Bumpkin"]) {
     amount += 0.1;
+    boostsUsed.push("Iron Bumpkin");
   }
 
   if (game.bumpkin.skills["Rocky Favor"]) {
     amount -= 0.5;
+    boostsUsed.push("Rocky Favor");
   }
 
   if (game.bumpkin.skills["Ferrous Favor"]) {
     amount += 1;
+    boostsUsed.push("Ferrous Favor");
   }
 
   if (criticalDropGenerator("Native")) {
@@ -140,6 +166,7 @@ export function getIronDropAmount({
       return {
         amount: new Decimal(amount).toDecimalPlaces(4),
         aoe: updatedAoe,
+        boostsUsed,
       };
 
     const emeraldTurtleCoordinates =
@@ -182,6 +209,7 @@ export function getIronDropAmount({
         setAOELastUsed(updatedAoe, "Emerald Turtle", { dx, dy }, createdAt);
         amount += 0.5;
       }
+      boostsUsed.push("Emerald Turtle");
     }
   }
 
@@ -195,6 +223,7 @@ export function getIronDropAmount({
     })
   ) {
     amount += 0.25;
+    boostsUsed.push(FACTION_ITEMS[factionName].secondaryTool);
   }
 
   amount += getBudYieldBoosts(game.buds ?? {}, "Iron");
@@ -203,7 +232,11 @@ export function getIronDropAmount({
     amount += 0.1;
   }
 
-  return { amount: new Decimal(amount).toDecimalPlaces(4), aoe: updatedAoe };
+  return {
+    amount: new Decimal(amount).toDecimalPlaces(4),
+    aoe: updatedAoe,
+    boostsUsed,
+  };
 }
 
 export function mineIron({
@@ -234,10 +267,15 @@ export function mineIron({
       throw new Error(MINE_ERRORS.NO_PICKAXES);
     }
 
-    const { amount: ironMined, aoe } = ironRock.stone.amount
+    const {
+      amount: ironMined,
+      aoe,
+      boostsUsed: ironBoostsUsed,
+    } = ironRock.stone.amount
       ? {
           amount: new Decimal(ironRock.stone.amount).toDecimalPlaces(4),
           aoe: stateCopy.aoe,
+          boostsUsed: [],
         }
       : getIronDropAmount({
           game: stateCopy,
@@ -251,14 +289,33 @@ export function mineIron({
 
     const amountInInventory = stateCopy.inventory.Iron || new Decimal(0);
 
+    const { time, boostsUsed: minedAtBoostsUsed } = getMinedAt({
+      createdAt,
+      game: stateCopy,
+    });
+    const { boostedTime, boostsUsed: boostedTimeBoostsUsed } = getBoostedTime({
+      game: stateCopy,
+    });
+
     ironRock.stone = {
-      minedAt: getMinedAt({ createdAt, game: stateCopy }),
-      boostedTime: getBoostedTime({ createdAt, game: stateCopy }),
+      minedAt: time,
+      boostedTime: boostedTime,
     };
+
     bumpkin.activity = trackActivity("Iron Mined", bumpkin.activity);
 
     stateCopy.inventory["Stone Pickaxe"] = toolAmount.sub(1);
     stateCopy.inventory.Iron = amountInInventory.add(ironMined);
+
+    stateCopy.boostsUsedAt = updateBoostUsed({
+      game: stateCopy,
+      boostNames: [
+        ...ironBoostsUsed,
+        ...minedAtBoostsUsed,
+        ...boostedTimeBoostsUsed,
+      ],
+      createdAt,
+    });
     delete ironRock.stone.amount;
 
     return stateCopy;
