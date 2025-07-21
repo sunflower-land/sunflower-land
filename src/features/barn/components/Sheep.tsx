@@ -220,9 +220,8 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
 
   const onSickClick = async () => {
     const medicineCount = inventory["Barn Delight"] ?? new Decimal(0);
-    const hasEnoughMedicine = medicineCount.gte(
-      getBarnDelightCost({ state: game }),
-    );
+    const { amount: barnDelightCost } = getBarnDelightCost({ state: game });
+    const hasEnoughMedicine = medicineCount.gte(barnDelightCost);
 
     if (hasOracleSyringeEquipped) {
       playCureAnimal();

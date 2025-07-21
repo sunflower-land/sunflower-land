@@ -11,6 +11,7 @@ import {
   Animal,
   AnimalFoodName,
   AnimalMedicineName,
+  BoostName,
   GameState,
 } from "features/game/types/game";
 import {
@@ -160,13 +161,26 @@ export function handleFoodXP({
   return { foodXp };
 }
 
-export function getBarnDelightCost({ state }: { state: GameState }) {
+export function getBarnDelightCost({ state }: { state: GameState }): {
+  amount: number;
+  boostsUsed: BoostName[];
+} {
   let amount = 1;
+  const boostsUsed: BoostName[] = [];
+
+  if (isWearableActive({ name: "Oracle Syringe", game: state })) {
+    amount = 0;
+    boostsUsed.push("Oracle Syringe");
+    // Early return to avoid other boosts
+    return { amount, boostsUsed };
+  }
 
   if (isWearableActive({ name: "Medic Apron", game: state })) {
     amount /= 2;
+    boostsUsed.push("Medic Apron");
   }
-  return amount;
+
+  return { amount, boostsUsed };
 }
 
 export function feedAnimal({
@@ -197,25 +211,10 @@ export function feedAnimal({
         throw new Error("Cannot cure a healthy animal");
       }
 
-      const hasOracleSyringeEquipped = isWearableActive({
-        name: "Oracle Syringe",
-        game: copy,
-      });
-
-      if (hasOracleSyringeEquipped) {
-        //Free Medicine for Animals
-        animal.state = "idle";
-
-        copy.bumpkin.activity = trackActivity(
-          `${action.animal} Cured`,
-          copy.bumpkin.activity,
-        );
-        return copy;
-      }
-
       const barnDelightAmount =
         copy.inventory["Barn Delight"] ?? new Decimal(0);
-      const barnDelightCost = getBarnDelightCost({ state: copy });
+      const { amount: barnDelightCost, boostsUsed: barnDelightBoostsUsed } =
+        getBarnDelightCost({ state: copy });
 
       if (barnDelightAmount.lt(barnDelightCost)) {
         throw new Error("Not enough Barn Delight to cure the animal");
@@ -228,6 +227,12 @@ export function feedAnimal({
         `${action.animal} Cured`,
         copy.bumpkin.activity,
       );
+
+      copy.boostsUsedAt = updateBoostUsed({
+        game: copy,
+        boostNames: barnDelightBoostsUsed,
+        createdAt,
+      });
 
       return copy; // Early return after curing
     }
