@@ -93,7 +93,7 @@ export const SeasonalSeeds: React.FC = () => {
   const selected = SEEDS[selectedName];
   const { t } = useAppTranslation();
 
-  const price = getBuyPrice(selectedName, selected, state);
+  const { price } = getBuyPrice(selectedName, selected, state);
 
   const onSeedClick = (seedName: SeedName) => {
     setSelectedName(seedName);

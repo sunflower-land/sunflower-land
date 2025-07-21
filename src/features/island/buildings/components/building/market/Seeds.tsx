@@ -68,7 +68,7 @@ export const Seeds: React.FC = () => {
 
   const { inventory } = state;
 
-  const price = getBuyPrice(selectedName, selected, state);
+  const { price } = getBuyPrice(selectedName, selected, state);
 
   const onSeedClick = (seedName: SeedName) => {
     setSelectedName(seedName);
