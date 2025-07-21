@@ -517,6 +517,10 @@ import {
   ClaimCheersAction,
   claimDailyCheers,
 } from "./landExpansion/claimDailyCheers";
+import {
+  collectClutter,
+  CollectClutterAction,
+} from "./landExpansion/collectClutter";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
@@ -664,6 +668,8 @@ export type PlayingEvent =
   | WakeUpAnimalAction
   | ClaimCheersAction;
 
+export type VisitingEvent = CollectClutterAction;
+
 export type PlacementEvent =
   | ConstructBuildingAction
   | PlaceBuildingAction
@@ -720,7 +726,7 @@ export type PlacementEvent =
   | RemoveBeehiveAction
   | RemoveAllAction;
 
-export type GameEvent = PlayingEvent | PlacementEvent;
+export type GameEvent = PlayingEvent | PlacementEvent | VisitingEvent;
 export type GameEventName<T> = Extract<T, { type: string }>["type"];
 
 export function isEventType<T extends PlayingEvent>(
@@ -948,4 +954,12 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "items.removed": removeAll,
 };
 
-export const EVENTS = { ...PLAYING_EVENTS, ...PLACEMENT_EVENTS };
+export const VISITING_EVENTS: Handlers<VisitingEvent> = {
+  "clutter.collected": collectClutter,
+};
+
+export const EVENTS = {
+  ...PLAYING_EVENTS,
+  ...PLACEMENT_EVENTS,
+  ...VISITING_EVENTS,
+};

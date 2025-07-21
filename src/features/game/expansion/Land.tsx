@@ -52,6 +52,7 @@ import {
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { useVisiting } from "lib/utils/visitUtils";
 import { getObjectEntries } from "./lib/utils";
+import { Clutter } from "features/island/clutter/Clutter";
 
 export const LAND_WIDTH = 6;
 
@@ -79,6 +80,7 @@ type IslandElementArgs = {
   beehives: GameState["beehives"];
   oilReserves: GameState["oilReserves"];
   lavaPits: GameState["lavaPits"];
+  clutter: GameState["socialFarming"]["clutter"];
   isVisiting: boolean;
 };
 
@@ -106,6 +108,7 @@ const getIslandElements = ({
   oilReserves,
   lavaPits,
   isVisiting,
+  clutter,
 }: IslandElementArgs) => {
   const mapPlacements: Array<JSX.Element> = [];
 
@@ -593,6 +596,33 @@ const getIslandElements = ({
   }
 
   {
+    clutter &&
+      mapPlacements.push(
+        ...getKeys(clutter.locations).flatMap((id) => {
+          const { x, y } = clutter.locations[id];
+
+          return (
+            <MapPlacement
+              key={`clutter-${id}`}
+              x={x}
+              y={y}
+              height={1}
+              width={1}
+              className={classNames({ "pointer-events-none": !isVisiting })}
+            >
+              <Clutter
+                key={`clutter-${id}`}
+                id={id}
+                isFirstRender={isFirstRender}
+                type={clutter.locations[id].type}
+              />
+            </MapPlacement>
+          );
+        }),
+      );
+  }
+
+  {
     buds &&
       mapPlacements.push(
         ...getKeys(buds)
@@ -710,6 +740,7 @@ export const Land: React.FC = () => {
     oilReserves,
     island,
     lavaPits,
+    socialFarming,
   } = state;
 
   const landscaping = useSelector(gameService, isLandscaping);
@@ -825,6 +856,7 @@ export const Land: React.FC = () => {
                 oilReserves,
                 lavaPits,
                 isVisiting: visiting,
+                clutter: socialFarming?.clutter,
               }).sort((a, b) => {
                 if (a.props.canCollide === false) {
                   return -1;

@@ -1104,5 +1104,15 @@ export const STATIC_OFFLINE_FARM: GameState = {
       cheersUsed: 0,
       freeCheersClaimedAt: 0,
     },
+    clutter: {
+      spawnedAt: 0,
+      locations: {
+        "1": {
+          x: 1,
+          y: 1,
+          type: "Trash",
+        },
+      },
+    },
   },
 };

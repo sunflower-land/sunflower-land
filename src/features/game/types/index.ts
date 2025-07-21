@@ -1110,6 +1110,11 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Expert Cooking Pot": 2289,
   "Advanced Cooking Pot": 2290,
 
+  // Clutter
+  Trash: 2291,
+  Dung: 2292,
+  Weed: 2293,
+
   // Better Together - Items
   "Floor Mirror": 2294,
   "Long Rug": 2295,

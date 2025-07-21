@@ -459,6 +459,26 @@ function detectAirdropCollision(state: GameState, boundingBox: BoundingBox) {
   );
 }
 
+function detectGarbageCollision(state: GameState, boundingBox: BoundingBox) {
+  if (!state.socialFarming?.clutter?.locations) return false;
+  const { locations } = state.socialFarming.clutter;
+
+  const boundingBoxes = getKeys(locations).flatMap((id) => {
+    const location = locations[id];
+
+    return {
+      x: location.x,
+      y: location.y,
+      height: 1,
+      width: 1,
+    };
+  });
+
+  return boundingBoxes.some((resourceBoundingBox) =>
+    isOverlapping(boundingBox, resourceBoundingBox),
+  );
+}
+
 enum Direction {
   Left,
   Right,
@@ -597,7 +617,8 @@ export function detectCollision({
     detectLandCornerCollision(expansions, position) ||
     detectChickenCollision(state, position) ||
     detectMushroomCollision(state, position) ||
-    detectAirdropCollision(state, position)
+    detectAirdropCollision(state, position) ||
+    detectGarbageCollision(state, position)
   );
 }
 

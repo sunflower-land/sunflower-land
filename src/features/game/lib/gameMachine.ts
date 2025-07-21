@@ -14,6 +14,8 @@ import {
   GameEvent,
   PlayingEvent,
   GameEventName,
+  VISITING_EVENTS,
+  VisitingEvent,
 } from "../events";
 
 import {
@@ -338,6 +340,33 @@ const GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
         },
         {
           actions: assign((context: Context, event: PlayingEvent) => ({
+            state: processEvent({
+              state: context.state as GameState,
+              action: event,
+              announcements: context.announcements,
+              farmId: context.farmId,
+            }) as GameState,
+            actions: [
+              ...context.actions,
+              {
+                ...event,
+                createdAt: new Date(),
+              },
+            ],
+          })),
+        },
+      ],
+    }),
+    {},
+  );
+
+const VISITING_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
+  Object.keys(VISITING_EVENTS).reduce(
+    (events, eventName) => ({
+      ...events,
+      [eventName]: [
+        {
+          actions: assign((context: Context, event: VisitingEvent) => ({
             state: processEvent({
               state: context.state as GameState,
               action: event,
@@ -946,6 +975,9 @@ export function startGame(authContext: AuthContext) {
           on: {
             "villageProject.cheered": {
               target: `${STATE_MACHINE_VISIT_EFFECTS["villageProject.cheered"]}`,
+            },
+            SAVE: {
+              target: "autosaving",
             },
             VISIT: {
               target: "loadLandToVisit",
