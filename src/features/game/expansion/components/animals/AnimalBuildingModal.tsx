@@ -113,7 +113,8 @@ export const AnimalBuildingModal: React.FC<Props> = ({
     bumpkinLevel >= ANIMALS[selectedName].levelRequired;
 
   const atMaxCapacity =
-    getTotalAnimalsInBuilding() >= getBoostedAnimalCapacity(buildingKey, state);
+    getTotalAnimalsInBuilding() >=
+    getBoostedAnimalCapacity(buildingKey, state).capacity;
 
   if (showIntro) {
     return (

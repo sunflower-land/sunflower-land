@@ -11,7 +11,7 @@ import { CollectibleName, getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
-import { Bumpkin, Airdrop as IAirdrop } from "features/game/types/game";
+import { Airdrop as IAirdrop } from "features/game/types/game";
 import { Label } from "components/ui/Label";
 import { Box } from "components/ui/Box";
 import { CONSUMABLES, ConsumableName } from "features/game/types/consumables";
@@ -21,7 +21,6 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { InlineDialogue } from "features/world/ui/TypingMessage";
 import { getImageUrl } from "lib/utils/getImageURLS";
-import Decimal from "decimal.js-light";
 import { getFoodExpBoost } from "../lib/boosts";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
@@ -152,14 +151,10 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
                           icon={powerup}
                           className="ml-1 mb-1"
                         >{`+${formatNumber(
-                          new Decimal(
-                            getFoodExpBoost(
-                              CONSUMABLES[name as ConsumableName],
-                              bumpkin as Bumpkin,
-                              game,
-                              buds ?? {},
-                            ),
-                          ),
+                          getFoodExpBoost({
+                            food: CONSUMABLES[name as ConsumableName],
+                            game,
+                          }).boostedExp,
                           { decimalPlaces: 0 },
                         )} XP`}</Label>
                       )}

@@ -5,7 +5,6 @@ import {
   InventoryItemName,
   FERTILISERS,
   COUPONS,
-  Bumpkin,
   GameState,
   EASTER_EGG,
 } from "features/game/types/game";
@@ -41,7 +40,6 @@ import { InventoryItemDetails } from "components/ui/layouts/InventoryItemDetails
 import { SEASONAL_SEEDS, SeedName, SEEDS } from "features/game/types/seeds";
 import { getFruitHarvests } from "features/game/events/landExpansion/utils";
 import { getFoodExpBoost } from "features/game/expansion/lib/boosts";
-import Decimal from "decimal.js-light";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SELLABLE_TREASURE } from "features/game/types/treasure";
 import {
@@ -265,14 +263,10 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
                   }
                 : undefined,
               xp: isFood(selectedItem)
-                ? new Decimal(
-                    getFoodExpBoost(
-                      CONSUMABLES[selectedItem as ConsumableName],
-                      gameState.bumpkin as Bumpkin,
-                      gameState,
-                      gameState.buds ?? {},
-                    ),
-                  )
+                ? getFoodExpBoost({
+                    food: CONSUMABLES[selectedItem as ConsumableName],
+                    game: gameState,
+                  }).boostedExp
                 : undefined,
               timeSeconds: isSeed(selectedItem)
                 ? getHarvestTime(selectedItem)
