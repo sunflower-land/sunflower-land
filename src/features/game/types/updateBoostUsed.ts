@@ -10,7 +10,13 @@ export function updateBoostUsed({
   createdAt: number;
 }): BoostUsedAt {
   const { boostsUsedAt = {} } = game;
-  boostNames.forEach((boostName) => (boostsUsedAt[boostName] = createdAt));
 
-  return boostsUsedAt;
+  if (boostNames.length <= 0) return boostsUsedAt;
+
+  return boostNames.reduce<BoostUsedAt>((acc, boostName) => {
+    return {
+      ...acc,
+      [boostName]: createdAt,
+    };
+  }, boostsUsedAt);
 }
