@@ -373,7 +373,7 @@ describe("getFlowerTime", () => {
     const seed = "Bloom Seed";
     const growSeconds = FLOWER_SEEDS[seed].plantSeconds;
 
-    const time = getFlowerTime(seed, {
+    const { seconds: time } = getFlowerTime(seed, {
       ...GAME_STATE,
       collectibles: {
         "Blossom Hourglass": [
@@ -396,7 +396,7 @@ describe("getFlowerTime", () => {
     const seed = "Bloom Seed";
     const growSeconds = FLOWER_SEEDS[seed].plantSeconds;
 
-    const time = getFlowerTime(seed, {
+    const { seconds: time } = getFlowerTime(seed, {
       ...GAME_STATE,
       collectibles: {
         "Blossom Hourglass": [
@@ -417,7 +417,7 @@ describe("getFlowerTime", () => {
     const seed = "Bloom Seed";
     const growSeconds = FLOWER_SEEDS[seed].plantSeconds;
 
-    const time = getFlowerTime(seed, {
+    const { seconds: time } = getFlowerTime(seed, {
       ...GAME_STATE,
       bumpkin: {
         ...TEST_BUMPKIN,
@@ -432,7 +432,7 @@ describe("getFlowerTime", () => {
     const seed = "Bloom Seed";
     const growSeconds = FLOWER_SEEDS[seed].plantSeconds;
 
-    const time = getFlowerTime(seed, {
+    const { seconds: time } = getFlowerTime(seed, {
       ...GAME_STATE,
       bumpkin: {
         ...TEST_BUMPKIN,
