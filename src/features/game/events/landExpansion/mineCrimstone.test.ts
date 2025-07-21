@@ -205,7 +205,7 @@ describe("mineCrimstone", () => {
     it("crimstone replenishes faster with Crimstone Amulet", () => {
       const now = Date.now();
 
-      const time = getMinedAt({
+      const { time } = getMinedAt({
         game: {
           ...TEST_FARM,
           bumpkin: {
@@ -224,7 +224,7 @@ describe("mineCrimstone", () => {
     it("crimstone replenishes faster with Fireside Alchemist", () => {
       const now = Date.now();
 
-      const time = getMinedAt({
+      const { time } = getMinedAt({
         game: {
           ...GAME_STATE,
           bumpkin: {

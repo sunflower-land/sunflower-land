@@ -116,7 +116,7 @@ export const Crimstone: React.FC<Props> = ({ id, index }) => {
   };
 
   const mine = async () => {
-    const crimstoneMined = getCrimstoneDropAmount({
+    const { amount: crimstoneMined } = getCrimstoneDropAmount({
       game: state,
       rock: {
         ...resource,
