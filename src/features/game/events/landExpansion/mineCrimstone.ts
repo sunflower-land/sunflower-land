@@ -1,9 +1,10 @@
 import Decimal from "decimal.js-light";
 import { CRIMSTONE_RECOVERY_TIME } from "features/game/lib/constants";
 import { trackActivity } from "features/game/types/bumpkinActivity";
-import { GameState, Rock } from "../../types/game";
+import { FiniteResource, GameState, Rock } from "../../types/game";
 import { isWearableActive } from "features/game/lib/wearables";
 import { produce } from "immer";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
 export type MineCrimstoneAction = {
   type: "crimstoneRock.mined";
@@ -38,6 +39,40 @@ export function getMinedAt({ createdAt, game }: GetMinedAtArgs): number {
   }
 
   return time;
+}
+
+export function getCrimstoneDropAmount({
+  game,
+  rock,
+}: {
+  game: GameState;
+  rock: FiniteResource;
+}) {
+  let amount = new Decimal(1);
+
+  if (isCollectibleBuilt({ name: "Crimson Carp", game })) {
+    amount = amount.add(0.05);
+  }
+
+  if (isCollectibleBuilt({ name: "Crim Peckster", game })) {
+    amount = amount.add(0.1);
+  }
+
+  if (isWearableActive({ name: "Crimstone Armor", game })) {
+    amount = amount.add(0.1);
+  }
+
+  if (rock.minesLeft === 1) {
+    if (isWearableActive({ name: "Crimstone Hammer", game })) {
+      amount = amount.add(2);
+    }
+    if (game.bumpkin.skills["Fire Kissed"]) {
+      amount = amount.add(1);
+    }
+    amount = amount.add(2);
+  }
+
+  return amount.toDecimalPlaces(4);
 }
 
 export function mineCrimstone({
@@ -77,12 +112,11 @@ export function mineCrimstone({
       rock.minesLeft = 5;
     }
 
-    const stoneMined = rock.stone.amount;
+    const stoneMined = getCrimstoneDropAmount({ game: stateCopy, rock });
     const amountInInventory = stateCopy.inventory.Crimstone || new Decimal(0);
 
     rock.stone = {
       minedAt: getMinedAt({ createdAt, game: stateCopy }),
-      amount: 1,
     };
 
     rock.minesLeft = rock.minesLeft - 1;

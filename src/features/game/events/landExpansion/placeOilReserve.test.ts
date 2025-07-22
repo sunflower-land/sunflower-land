@@ -45,7 +45,6 @@ describe("placeOil", () => {
             "123": {
               createdAt: Date.now(),
               oil: {
-                amount: 1,
                 drilledAt: 0,
               },
               x: 1,
@@ -78,7 +77,6 @@ describe("placeOil", () => {
           "123": {
             createdAt: Date.now(),
             oil: {
-              amount: 10,
               drilledAt: 0,
             },
             x: 0,
@@ -93,7 +91,6 @@ describe("placeOil", () => {
       "1": {
         createdAt: expect.any(Number),
         oil: {
-          amount: 10,
           drilledAt: 0,
         },
         x: 2,
@@ -103,7 +100,6 @@ describe("placeOil", () => {
       "123": {
         createdAt: expect.any(Number),
         oil: {
-          amount: 10,
           drilledAt: 0,
         },
         x: 0,

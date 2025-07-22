@@ -83,7 +83,6 @@ describe("harvest", () => {
               crop: {
                 name: "Sunflower",
                 plantedAt: Date.now() - 100,
-                amount: 1,
               },
             },
           },
@@ -114,7 +113,6 @@ describe("harvest", () => {
             crop: {
               name: "Sunflower",
               plantedAt: Date.now() - 2 * 60 * 1000,
-              amount: 1,
             },
           },
         },
@@ -137,31 +135,184 @@ describe("harvest", () => {
   });
 
   it("harvests a buffed crop amount", () => {
-    const { crops: plots } = gameState;
-    const plot = (plots as Record<number, CropPlot>)[0];
+    const { crops } = GAME_STATE;
+    const plot = (crops as Record<number, CropPlot>)[0];
 
     const state = harvest({
       state: {
-        ...gameState,
+        ...GAME_STATE,
+        bumpkin: {
+          ...GAME_STATE.bumpkin,
+          equipped: {
+            ...GAME_STATE.bumpkin.equipped,
+            necklace: "Green Amulet",
+          },
+        },
         crops: {
           0: {
             ...plot,
             crop: {
               name: "Sunflower",
-              plantedAt: Date.now() - 2 * 60 * 1000,
-              amount: 2,
+              plantedAt: dateNow - 2 * 60 * 1000,
+              criticalHit: { "Green Amulet": 1 },
             },
           },
         },
       },
       action: {
         type: "crop.harvested",
+
         index: "0",
       },
       createdAt: dateNow,
     });
 
-    expect(state.inventory.Sunflower).toEqual(new Decimal(2));
+    expect(state.inventory.Sunflower).toEqual(new Decimal(10));
+  });
+
+  it("harvests a unbuffed crop amount if green amulet is not equipped", () => {
+    const { crops } = GAME_STATE;
+    const plot = (crops as Record<number, CropPlot>)[0];
+
+    const state = harvest({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...GAME_STATE.bumpkin,
+          equipped: {
+            ...GAME_STATE.bumpkin.equipped,
+            necklace: undefined,
+          },
+        },
+        crops: {
+          0: {
+            ...plot,
+            crop: {
+              name: "Sunflower",
+              plantedAt: dateNow - 2 * 60 * 1000,
+              criticalHit: { "Green Amulet": 1 },
+            },
+          },
+        },
+      },
+      action: {
+        type: "crop.harvested",
+
+        index: "0",
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.inventory.Sunflower).toEqual(new Decimal(1));
+  });
+
+  it("harvests a buffed amount if an item is equipped after planting", () => {
+    const { crops } = GAME_STATE;
+    const plot = (crops as Record<number, CropPlot>)[0];
+
+    const state = harvest({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...GAME_STATE.bumpkin,
+          equipped: {
+            ...GAME_STATE.bumpkin.equipped,
+            necklace: "Sunflower Amulet",
+          },
+        },
+        crops: {
+          0: {
+            ...plot,
+            crop: {
+              name: "Sunflower",
+              plantedAt: dateNow - 2 * 60 * 1000,
+            },
+          },
+        },
+      },
+      action: {
+        type: "crop.harvested",
+
+        index: "0",
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.inventory.Sunflower).toEqual(new Decimal(1.1));
+  });
+
+  it("harvests a buffed amount if a fertiliser is applied after planting", () => {
+    const { crops } = GAME_STATE;
+    const plot = (crops as Record<number, CropPlot>)[0];
+
+    const state = harvest({
+      state: {
+        ...GAME_STATE,
+        crops: {
+          0: {
+            ...plot,
+            crop: {
+              name: "Sunflower",
+              plantedAt: dateNow - 2 * 60 * 1000,
+            },
+            fertiliser: {
+              name: "Sprout Mix",
+              fertilisedAt: dateNow - 2 * 60 * 1000,
+            },
+          },
+        },
+      },
+      action: {
+        type: "crop.harvested",
+
+        index: "0",
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.inventory.Sunflower).toEqual(new Decimal(1.2));
+  });
+
+  it("harvests a buffed amount if a fertiliser is applied after planting with knowledge crab", () => {
+    const { crops } = GAME_STATE;
+    const plot = (crops as Record<number, CropPlot>)[0];
+
+    const state = harvest({
+      state: {
+        ...GAME_STATE,
+        crops: {
+          0: {
+            ...plot,
+            crop: {
+              name: "Sunflower",
+              plantedAt: dateNow - 2 * 60 * 1000,
+            },
+            fertiliser: {
+              name: "Sprout Mix",
+              fertilisedAt: dateNow - 2 * 60 * 1000,
+            },
+          },
+        },
+        collectibles: {
+          "Knowledge Crab": [
+            {
+              id: "123",
+              coordinates: { x: 0, y: 0 },
+              readyAt: dateNow - 2 * 60 * 1000,
+              createdAt: dateNow - 2 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "crop.harvested",
+
+        index: "0",
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.inventory.Sunflower).toEqual(new Decimal(1.4));
   });
 
   describe("BumpkinActivity", () => {
@@ -178,7 +329,6 @@ describe("harvest", () => {
               crop: {
                 name: "Sunflower",
                 plantedAt: Date.now() - 2 * 60 * 1000,
-                amount: 2,
               },
             },
           },
@@ -206,7 +356,6 @@ describe("harvest", () => {
               crop: {
                 name: "Sunflower",
                 plantedAt: Date.now() - 2 * 60 * 1000,
-                amount: 2,
               },
             },
           },
@@ -227,7 +376,6 @@ describe("harvest", () => {
               crop: {
                 name: "Potato",
                 plantedAt: Date.now() - 6 * 60 * 1000,
-                amount: 2,
               },
             },
           },

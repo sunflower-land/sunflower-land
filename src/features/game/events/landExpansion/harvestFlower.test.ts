@@ -50,7 +50,6 @@ describe("harvestFlower", () => {
                 x: 0,
                 y: 0,
                 flower: {
-                  amount: 1,
                   name: "Red Pansy",
                   plantedAt: Date.now(),
                 },
@@ -76,7 +75,6 @@ describe("harvestFlower", () => {
               x: 0,
               y: 0,
               flower: {
-                amount: 1,
                 name: "Red Pansy",
                 plantedAt: 0,
               },
@@ -103,7 +101,6 @@ describe("harvestFlower", () => {
               x: 0,
               y: 0,
               flower: {
-                amount: 1,
                 name: "Red Pansy",
                 plantedAt: 0,
               },
@@ -131,7 +128,6 @@ describe("harvestFlower", () => {
               x: 0,
               y: 0,
               flower: {
-                amount,
                 name: "Red Pansy",
                 plantedAt: 0,
               },
@@ -159,7 +155,6 @@ describe("harvestFlower", () => {
               x: 0,
               y: 0,
               flower: {
-                amount,
                 name: "Red Pansy",
                 plantedAt: 0,
               },
@@ -174,7 +169,6 @@ describe("harvestFlower", () => {
   });
 
   it("updates the discovered flowers", () => {
-    const amount = 1;
     const flowerBedId = "123";
     const state = harvestFlower({
       state: {
@@ -187,7 +181,6 @@ describe("harvestFlower", () => {
               x: 0,
               y: 0,
               flower: {
-                amount,
                 name: "Yellow Pansy",
                 crossbreed: "Sunflower",
                 plantedAt: 0,
@@ -215,7 +208,6 @@ describe("harvestFlower", () => {
               x: 0,
               y: 0,
               flower: {
-                amount: 1,
                 name: "Red Pansy",
                 plantedAt: 0,
                 reward: {

@@ -46,7 +46,6 @@ describe("placeGold", () => {
             "123": {
               createdAt: Date.now(),
               stone: {
-                amount: 1,
                 minedAt: 0,
               },
               x: 1,
@@ -79,7 +78,6 @@ describe("placeGold", () => {
           "123": {
             createdAt: Date.now(),
             stone: {
-              amount: 1,
               minedAt: 0,
             },
             x: 0,
@@ -93,7 +91,6 @@ describe("placeGold", () => {
       "1": {
         createdAt: expect.any(Number),
         stone: {
-          amount: 1,
           minedAt: 0,
         },
         x: 2,
@@ -102,7 +99,6 @@ describe("placeGold", () => {
       "123": {
         createdAt: expect.any(Number),
         stone: {
-          amount: 1,
           minedAt: 0,
         },
         x: 0,
