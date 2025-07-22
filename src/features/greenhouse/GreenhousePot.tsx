@@ -228,11 +228,13 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
     }
 
     harvestedName.current = pot.plant.name;
-    harvestedAmount.current = getGreenhouseCropYieldAmount({
-      crop: pot.plant.name,
-      game: state,
-      criticalDrop: (name) => !!(pot.plant?.criticalHit?.[name] ?? 0),
-    });
+    harvestedAmount.current =
+      pot.plant.amount ??
+      getGreenhouseCropYieldAmount({
+        crop: pot.plant.name,
+        game: state,
+        criticalDrop: (name) => !!(pot.plant?.criticalHit?.[name] ?? 0),
+      });
 
     gameService.send("greenhouse.harvested", { id });
 

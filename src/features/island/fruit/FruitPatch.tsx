@@ -157,12 +157,14 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
 
   const harvestFruit = async () => {
     if (!fruitPatch) return;
-    const amount = getFruitYield({
-      game,
-      name: fruit?.name as PatchFruitName,
-      fertiliser: fertiliser?.name,
-      criticalDrop: (name) => !!(fruit?.criticalHit?.[name] ?? 0),
-    });
+    const amount =
+      fruit?.amount ??
+      getFruitYield({
+        game,
+        name: fruit?.name as PatchFruitName,
+        fertiliser: fertiliser?.name,
+        criticalDrop: (name) => !!(fruit?.criticalHit?.[name] ?? 0),
+      });
 
     const newState = gameService.send("fruit.harvested", {
       index: id,
