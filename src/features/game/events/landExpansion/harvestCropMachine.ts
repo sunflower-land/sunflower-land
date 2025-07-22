@@ -83,7 +83,7 @@ export function harvestCropMachine({
 
     // Harvest the crops from pack
     const cropsInInventory = stateCopy.inventory[pack.crop] ?? new Decimal(0);
-    const amount = getPackYieldAmount(stateCopy, pack);
+    const amount = pack.amount ?? getPackYieldAmount(stateCopy, pack);
     stateCopy.inventory[pack.crop] = cropsInInventory.add(amount);
     bumpkin.activity = trackActivity(
       `${pack.crop} Harvested`,
