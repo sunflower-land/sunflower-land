@@ -6065,5 +6065,8 @@
   "description.expertCookingPot": "一款专业的烹饪锅",
   "description.advancedCookingPot": "烹饪大师",
   "already.built": "已经建成",
-  "monuments": "纪念碑"
+  "monuments": "纪念碑",
+  "clientOutdated.label": "版本已过期",
+  "clientOutdated.description": "重大更新现已推出！请刷新页面下载最新的游戏版本。",
+  "clientOutdated.currentVersion": "当前版本：{{version}}"
 }

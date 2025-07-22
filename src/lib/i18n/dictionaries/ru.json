@@ -6065,5 +6065,8 @@
   "description.expertCookingPot": "Профессиональная кастрюля для приготовления пищи",
   "description.advancedCookingPot": "Мастерская кухонная плита",
   "already.built": "Уже построено",
-  "monuments": "Памятники"
+  "monuments": "Памятники",
+  "clientOutdated.label": "Версия устарела",
+  "clientOutdated.description": "Доступно крупное обновление! Пожалуйста, обновите страницу, чтобы загрузить последнюю версию игры.",
+  "clientOutdated.currentVersion": "Текущая версия: {{version}}"
 }

@@ -6065,5 +6065,8 @@
   "description.expertCookingPot": "전문 요리용 냄비",
   "description.advancedCookingPot": "마스터 쿠킹 포트",
   "already.built": "이미 구축됨",
-  "monuments": "기념비"
+  "monuments": "기념비",
+  "clientOutdated.label": "버전 만료됨",
+  "clientOutdated.description": "주요 업데이트가 제공됩니다!페이지를 새로고침하여 최신 게임 버전을 다운로드하세요.",
+  "clientOutdated.currentVersion": "현재 버전: {{version}}"
 }

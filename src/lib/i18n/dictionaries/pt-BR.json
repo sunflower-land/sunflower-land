@@ -6065,5 +6065,8 @@
   "description.expertCookingPot": "Uma panela especializada",
   "description.advancedCookingPot": "Uma panela principal",
   "already.built": "Já construído",
-  "monuments": "Monumentos"
+  "monuments": "Monumentos",
+  "clientOutdated.label": "Versão desatualizada",
+  "clientOutdated.description": "Uma grande atualização está disponível! Atualize a página para baixar a versão mais recente do jogo.",
+  "clientOutdated.currentVersion": "Versão atual: {{version}}"
 }

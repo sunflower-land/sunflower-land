@@ -6065,5 +6065,8 @@
   "description.expertCookingPot": "Una pentola da cucina esperta",
   "description.advancedCookingPot": "Una pentola da cucina da maestro",
   "already.built": "Già costruito",
-  "monuments": "Monumenti"
+  "monuments": "Monumenti",
+  "clientOutdated.label": "Versione obsoleta",
+  "clientOutdated.description": "È disponibile un importante aggiornamento! Aggiorna la pagina per scaricare l'ultima versione del gioco.",
+  "clientOutdated.currentVersion": "Versione attuale: {{version}}"
 }

@@ -6065,5 +6065,8 @@
   "description.expertCookingPot": "エキスパートクッキングポット",
   "description.advancedCookingPot": "マスタークッキングポット",
   "already.built": "既に構築済み",
-  "monuments": "モニュメント"
+  "monuments": "モニュメント",
+  "clientOutdated.label": "バージョンが古い",
+  "clientOutdated.description": "メジャーアップデートがリリースされました！最新のゲームバージョンをダウンロードするには、ページを更新してください。",
+  "clientOutdated.currentVersion": "現在のバージョン:{{version}}"
 }

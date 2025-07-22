@@ -6065,5 +6065,8 @@
   "description.expertCookingPot": "Una olla experta",
   "description.advancedCookingPot": "Una olla maestra",
   "already.built": "Ya construido",
-  "monuments": "Monumentos"
+  "monuments": "Monumentos",
+  "clientOutdated.label": "Versión desactualizada",
+  "clientOutdated.description": "¡Hay una actualización importante disponible! Actualiza la página para descargar la última versión del juego.",
+  "clientOutdated.currentVersion": "Versión actual: {{version}}"
 }

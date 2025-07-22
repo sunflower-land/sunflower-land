@@ -6065,5 +6065,8 @@
   "description.expertCookingPot": "Panci memasak ahli",
   "description.advancedCookingPot": "Panci memasak utama",
   "already.built": "Sudah dibangun",
-  "monuments": "Monumen"
+  "monuments": "Monumen",
+  "clientOutdated.label": "Versi ketinggalan jaman",
+  "clientOutdated.description": "Pembaruan besar tersedia! Silakan segarkan halaman untuk mengunduh versi game terbaru.",
+  "clientOutdated.currentVersion": "Versi saat ini: {{version}}"
 }

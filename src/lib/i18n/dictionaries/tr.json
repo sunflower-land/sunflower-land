@@ -6065,5 +6065,8 @@
   "description.expertCookingPot": "Uzman bir pişirme tenceresi",
   "description.advancedCookingPot": "Usta pişirme tenceresi",
   "already.built": "Zaten inşa edilmiş",
-  "monuments": "Anıtlar"
+  "monuments": "Anıtlar",
+  "clientOutdated.label": "Sürüm Modası Geçmiş",
+  "clientOutdated.description": "Büyük bir güncelleme mevcut! En son oyun sürümünü indirmek için lütfen sayfayı yenileyin.",
+  "clientOutdated.currentVersion": "Geçerli Sürüm: {{version}}"
 }

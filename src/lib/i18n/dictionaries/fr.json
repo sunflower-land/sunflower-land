@@ -6065,5 +6065,8 @@
   "description.expertCookingPot": "Une marmite experte",
   "description.advancedCookingPot": "Une marmite principale",
   "already.built": "Déjà construit",
-  "monuments": "Monuments"
+  "monuments": "Monuments",
+  "clientOutdated.label": "Version obsolète",
+  "clientOutdated.description": "Une mise à jour majeure est disponible ! Veuillez actualiser la page pour télécharger la dernière version du jeu.",
+  "clientOutdated.currentVersion": "Version actuelle : {{version}}"
 }

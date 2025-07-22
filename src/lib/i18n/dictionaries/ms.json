@@ -6065,5 +6065,8 @@
   "description.expertCookingPot": "Periuk memasak pakar",
   "description.advancedCookingPot": "Periuk memasak induk",
   "already.built": "Sudah dibina",
-  "monuments": "Monumen"
+  "monuments": "Monumen",
+  "clientOutdated.label": "Versi ketinggalan zaman",
+  "clientOutdated.description": "Kemas kini utama tersedia! Sila muat semula halaman untuk memuat turun versi permainan terkini.",
+  "clientOutdated.currentVersion": "Versi Semasa: {{version}}"
 }

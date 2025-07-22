@@ -6065,5 +6065,8 @@
   "description.expertCookingPot": "Ein Kochtopf von Experten",
   "description.advancedCookingPot": "Ein Meisterkochtopf",
   "already.built": "Bereits gebaut",
-  "monuments": "Monumente"
+  "monuments": "Monumente",
+  "clientOutdated.label": "Version veraltet",
+  "clientOutdated.description": "Ein großes Update ist verfügbar! Bitte aktualisiere die Seite, um die neueste Spielversion herunterzuladen.",
+  "clientOutdated.currentVersion": "Aktuelle Version: {{version}}"
 }
