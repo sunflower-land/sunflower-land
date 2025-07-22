@@ -1,4 +1,4 @@
-import React, { useContext, useRef, useState } from "react";
+import React, { useContext, useState } from "react";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { Context } from "features/game/GameProvider";
@@ -35,7 +35,6 @@ import { SeasonalSeed } from "../plots/components/SeasonalSeed";
 import { Modal } from "components/ui/Modal";
 import { isFullMoonBerry } from "features/game/events/landExpansion/seedBought";
 import { getCurrentBiome } from "../biomes/biomes";
-import { getFruitYield } from "features/game/events/landExpansion/fruitHarvested";
 
 const HasAxes = (
   inventory: Partial<Record<InventoryItemName, Decimal>>,
@@ -85,10 +84,10 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
   const [collectingWood, setCollectingWood] = useState(false);
   const [collectedFruitName, setCollectedFruitName] =
     useState<PatchFruitName>();
+  const [collectedFruitAmount, setCollectedFruitAmount] = useState<number>();
   const [collectedWoodAmount, setCollectedWoodAmount] = useState<number>();
   const [showQuickSelect, setShowQuickSelect] = useState(false);
   const [showSeasonalSeed, setShowSeasonalSeed] = useState(false);
-  const fruitHarvested = useRef(0);
   const fruitPatch = useSelector(
     gameService,
     (state) => state.context.state.fruitPatches[id],
@@ -157,12 +156,6 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
 
   const harvestFruit = async () => {
     if (!fruitPatch) return;
-    const amount = getFruitYield({
-      game,
-      name: fruit?.name as PatchFruitName,
-      fertiliser: fertiliser?.name,
-      criticalDrop: (name) => !!(fruit?.criticalHit?.[name] ?? 0),
-    });
 
     const newState = gameService.send("fruit.harvested", {
       index: id,
@@ -171,7 +164,7 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
     if (!newState.matches("hoarding")) {
       setCollectingFruit(true);
       setCollectedFruitName(fruit?.name);
-      fruitHarvested.current += amount;
+      setCollectedFruitAmount(fruit?.amount);
 
       harvestAudio();
       setPlayShakingAnimation(true);
@@ -180,7 +173,7 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
 
       setCollectingFruit(false);
       setCollectedFruitName(undefined);
-      fruitHarvested.current = 0;
+      setCollectedFruitAmount(undefined);
       setPlayShakingAnimation(false);
     }
   };
@@ -255,7 +248,7 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
         {collectingFruit && (
           <ResourceDropAnimator
             resourceName={collectedFruitName}
-            resourceAmount={fruitHarvested.current}
+            resourceAmount={collectedFruitAmount}
           />
         )}
 

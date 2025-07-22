@@ -26,7 +26,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
   inventory: {
     "Better Together Banner": new Decimal(1),
     Geniseed: new Decimal(400),
-    Pickaxe: new Decimal(1),
     "Beta Pass": new Decimal(1),
     "Colors Token 2025": new Decimal(10000),
     "Magic Bean": new Decimal(1),
@@ -149,19 +148,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
       y: 0,
     },
   },
-  crimstones: {
-    0: {
-      stone: {
-        // minedAt: Date.now() - 1000 * 60 * 60 * 24,
-        minedAt: 0,
-        criticalHit: { Native: 1 },
-      },
-      createdAt: 0,
-      x: 8,
-      y: -4,
-      minesLeft: 1,
-    },
-  },
+  crimstones: {},
   flowers: {
     discovered: {
       "Red Balloon Flower": ["Beetroot"],
@@ -175,6 +162,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
         flower: {
           name: "Red Balloon Flower",
           plantedAt: 0,
+          amount: 1,
           reward: {
             items: [{ name: "Lunalist", amount: 1 }],
           },
@@ -193,52 +181,22 @@ export const STATIC_OFFLINE_FARM: GameState = {
       y: 6,
     },
   },
-  gold: {
-    0: {
-      stone: {
-        minedAt: 0,
-        criticalHit: { Native: 1 },
-      },
-      createdAt: 0,
-      x: 8,
-      y: -4,
-    },
-  },
-  iron: {
-    0: {
-      stone: {
-        minedAt: 0,
-        criticalHit: { Native: 1 },
-      },
-      createdAt: 0,
-      x: 8,
-      y: -3,
-    },
-  },
-  stones: {
-    0: {
-      stone: {
-        minedAt: 0,
-        criticalHit: { Native: 1 },
-      },
-      createdAt: 0,
-      x: 8,
-      y: -2,
-    },
-  },
+  gold: {},
+  iron: {},
+  stones: {},
   trees: {
     1: {
       wood: {
+        amount: 2,
         choppedAt: 0,
-        criticalHit: { Native: 1 },
       },
       x: 4,
       y: -2,
     },
     2: {
       wood: {
+        amount: 2,
         choppedAt: 0,
-        criticalHit: { Native: 1 },
       },
       x: 6,
       y: -2,
@@ -685,6 +643,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
       crop: {
         plantedAt: 0,
         name: "Sunflower",
+        amount: 1,
       },
     },
     "2": {
@@ -694,6 +653,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
       crop: {
         plantedAt: 0,
         name: "Sunflower",
+        amount: 1,
       },
     },
   },

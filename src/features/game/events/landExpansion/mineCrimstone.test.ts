@@ -17,6 +17,7 @@ const GAME_STATE: GameState = {
     0: {
       stone: {
         minedAt: 0,
+        amount: 2,
       },
       x: 1,
       y: 1,
@@ -25,6 +26,7 @@ const GAME_STATE: GameState = {
     1: {
       stone: {
         minedAt: 0,
+        amount: 3,
       },
       x: 4,
       y: 1,
@@ -115,7 +117,7 @@ describe("mineCrimstone", () => {
     const game = mineCrimstone(payload);
 
     expect(game.inventory["Gold Pickaxe"]).toEqual(new Decimal(0));
-    expect(game.inventory.Crimstone).toEqual(new Decimal(1));
+    expect(game.inventory.Crimstone).toEqual(new Decimal(2));
   });
 
   it("mines multiple crimstones", () => {
@@ -143,7 +145,7 @@ describe("mineCrimstone", () => {
     });
 
     expect(game.inventory["Gold Pickaxe"]).toEqual(new Decimal(1));
-    expect(game.inventory.Crimstone).toEqual(new Decimal(2));
+    expect(game.inventory.Crimstone).toEqual(new Decimal(5));
   });
 
   it("mines crimstone after waiting", () => {
@@ -171,7 +173,7 @@ describe("mineCrimstone", () => {
     });
 
     expect(game.inventory["Gold Pickaxe"]).toEqual(new Decimal(0));
-    expect(game.inventory.Crimstone?.toNumber()).toEqual(2);
+    expect(game.inventory.Crimstone?.toNumber()).toBeGreaterThan(2);
   });
 
   it("resets minesLeft after 24 hours", () => {

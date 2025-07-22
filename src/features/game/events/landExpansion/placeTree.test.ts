@@ -47,6 +47,7 @@ describe("placeTree", () => {
             "123": {
               createdAt: dateNow,
               wood: {
+                amount: 1,
                 choppedAt: 0,
               },
               x: 1,
@@ -80,6 +81,7 @@ describe("placeTree", () => {
           "123": {
             createdAt: dateNow,
             wood: {
+              amount: 1,
               choppedAt: 0,
             },
             x: 0,
@@ -94,6 +96,7 @@ describe("placeTree", () => {
       "1": {
         createdAt,
         wood: {
+          amount: 1,
           choppedAt: 0,
         },
         x: 2,
@@ -102,6 +105,7 @@ describe("placeTree", () => {
       "123": {
         createdAt,
         wood: {
+          amount: 1,
           choppedAt: 0,
         },
         x: 0,

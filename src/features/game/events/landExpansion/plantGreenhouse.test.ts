@@ -126,6 +126,7 @@ describe("plantGreenhouse", () => {
             pots: {
               1: {
                 plant: {
+                  amount: 2,
                   name: "Rice",
                   plantedAt: 0,
                 },
@@ -182,6 +183,7 @@ describe("plantGreenhouse", () => {
 
     expect(state.greenhouse.pots[1]).toEqual({
       plant: {
+        amount: 1,
         name: "Rice",
         plantedAt: now,
       },
@@ -302,6 +304,7 @@ describe("plantGreenhouse", () => {
 
     expect(state.greenhouse.pots[1]).toEqual({
       plant: {
+        amount: 2,
         name: "Rice",
         plantedAt: now,
       },
@@ -356,6 +359,7 @@ describe("plantGreenhouse", () => {
 
     expect(state.greenhouse.pots[1]).toEqual({
       plant: {
+        amount: 3,
         name: "Rice",
         plantedAt: now,
       },
@@ -404,6 +408,7 @@ describe("plantGreenhouse", () => {
 
     expect(state.greenhouse.pots[1]).toEqual({
       plant: {
+        amount: 1.2,
         name: "Grape",
         plantedAt: now,
       },
@@ -458,6 +463,7 @@ describe("plantGreenhouse", () => {
 
     expect(state.greenhouse.pots[1]).toEqual({
       plant: {
+        amount: 1.25,
         name: "Grape",
         plantedAt: now,
       },
@@ -512,6 +518,7 @@ describe("plantGreenhouse", () => {
 
     expect(state.greenhouse.pots[1]).toEqual({
       plant: {
+        amount: 1,
         name: "Grape",
         plantedAt: now,
       },
@@ -560,6 +567,7 @@ describe("plantGreenhouse", () => {
 
     expect(state.greenhouse.pots[1]).toEqual({
       plant: {
+        amount: 1,
         name: "Grape",
         plantedAt: now,
       },
@@ -614,6 +622,7 @@ describe("plantGreenhouse", () => {
 
     expect(state.greenhouse.pots[1]).toEqual({
       plant: {
+        amount: 1.25,
         name: "Olive",
         plantedAt: now,
       },
@@ -668,6 +677,7 @@ describe("plantGreenhouse", () => {
 
     expect(state.greenhouse.pots[1]).toEqual({
       plant: {
+        amount: 1,
         name: "Olive",
         plantedAt: now,
       },
@@ -716,6 +726,7 @@ describe("plantGreenhouse", () => {
 
     expect(state.greenhouse.pots[1]).toEqual({
       plant: {
+        amount: 1,
         name: "Olive",
         plantedAt: now,
       },
@@ -763,6 +774,7 @@ describe("plantGreenhouse", () => {
     const boostedTime = (GREENHOUSE_CROP_TIME_SECONDS["Rice"] * 1000) / 2;
     expect(state.greenhouse.pots[1]).toEqual({
       plant: {
+        amount: 1,
         name: "Rice",
         plantedAt: now - boostedTime,
       },
@@ -814,6 +826,7 @@ describe("plantGreenhouse", () => {
 
     expect(state.greenhouse.pots[1]).toEqual({
       plant: {
+        amount: 3,
         name: "Grape",
         plantedAt: now,
       },
@@ -860,6 +873,7 @@ describe("plantGreenhouse", () => {
 
     expect(state.greenhouse.pots[1]).toEqual({
       plant: {
+        amount: 1.25,
         name: "Grape",
         plantedAt: now,
       },
@@ -906,6 +920,7 @@ describe("plantGreenhouse", () => {
 
     expect(state.greenhouse.pots[1]).toEqual({
       plant: {
+        amount: 2,
         name: "Grape",
         plantedAt: now,
       },
@@ -954,6 +969,7 @@ describe("plantGreenhouse", () => {
 
     expect(state.greenhouse.pots[1]).toEqual({
       plant: {
+        amount: 1,
         name: "Grape",
         plantedAt: now,
       },
@@ -1002,6 +1018,7 @@ describe("plantGreenhouse", () => {
 
     expect(state.greenhouse.pots[1]).toEqual({
       plant: {
+        amount: 2,
         name: "Olive",
         plantedAt: now,
       },
@@ -1048,6 +1065,7 @@ describe("plantGreenhouse", () => {
 
     expect(state.greenhouse.pots[1]).toEqual({
       plant: {
+        amount: 1.25,
         name: "Rice",
         plantedAt: now,
       },
@@ -1135,6 +1153,7 @@ describe("plantGreenhouse", () => {
 
     expect(state.greenhouse.pots[1]).toEqual({
       plant: {
+        amount: 1.2,
         name: "Rice",
         plantedAt: expect.any(Number),
       },
@@ -1190,6 +1209,7 @@ describe("plantGreenhouse", () => {
 
     expect(state.greenhouse.pots[1]).toEqual({
       plant: {
+        amount: 1,
         name: "Rice",
         plantedAt: expect.any(Number),
       },
@@ -1241,6 +1261,7 @@ describe("plantGreenhouse", () => {
 
     expect(state.greenhouse.pots[1]).toEqual({
       plant: {
+        amount: 1.2,
         name: "Grape",
         plantedAt: now,
       },
@@ -1292,6 +1313,7 @@ describe("plantGreenhouse", () => {
 
     expect(state.greenhouse.pots[1]).toEqual({
       plant: {
+        amount: 1,
         name: "Rice",
         plantedAt: now - GREENHOUSE_CROP_TIME_SECONDS.Rice * 0.5 * 1000,
       },
@@ -1343,6 +1365,7 @@ describe("plantGreenhouse", () => {
 
     expect(state.greenhouse.pots[1]).toEqual({
       plant: {
+        amount: 1,
         name: "Rice",
         plantedAt: now - GREENHOUSE_CROP_TIME_SECONDS.Rice * 0.5 * 1000,
       },
@@ -1402,6 +1425,7 @@ describe("plantGreenhouse", () => {
 
     expect(state.greenhouse.pots[1]).toEqual({
       plant: {
+        amount: 1,
         name: "Rice",
         plantedAt: now - GREENHOUSE_CROP_TIME_SECONDS.Rice * 0.5 * 1000,
       },
@@ -1456,6 +1480,7 @@ describe("plantGreenhouse", () => {
 
     expect(state.greenhouse.pots[1]).toEqual({
       plant: {
+        amount: 1,
         name: "Rice",
         plantedAt: now - GREENHOUSE_CROP_TIME_SECONDS.Rice * 0.1 * 1000,
       },
@@ -1507,6 +1532,7 @@ describe("plantGreenhouse", () => {
 
     expect(state.greenhouse.pots[1]).toEqual({
       plant: {
+        amount: 1,
         name: "Grape",
         plantedAt: now - GREENHOUSE_CROP_TIME_SECONDS.Grape * 0.5 * 1000,
       },
@@ -1558,6 +1584,7 @@ describe("plantGreenhouse", () => {
 
     expect(state.greenhouse.pots[1]).toEqual({
       plant: {
+        amount: 1,
         name: "Grape",
         plantedAt: now - GREENHOUSE_CROP_TIME_SECONDS.Grape * 0.5 * 1000,
       },
@@ -1605,6 +1632,7 @@ describe("plantGreenhouse", () => {
 
     expect(state.greenhouse.pots[1]).toEqual({
       plant: {
+        amount: 1,
         name: "Olive",
         plantedAt: now - GREENHOUSE_CROP_TIME_SECONDS.Olive * 0.1 * 1000,
       },
@@ -1652,6 +1680,7 @@ describe("plantGreenhouse", () => {
 
     expect(state.greenhouse.pots[1]).toEqual({
       plant: {
+        amount: 1,
         name: "Rice",
         plantedAt: now - GREENHOUSE_CROP_TIME_SECONDS.Rice * 0.1 * 1000,
       },
@@ -1699,6 +1728,7 @@ describe("plantGreenhouse", () => {
 
     expect(state.greenhouse.pots[1]).toEqual({
       plant: {
+        amount: 1,
         name: "Grape",
         plantedAt: now - GREENHOUSE_CROP_TIME_SECONDS.Grape * 0.1 * 1000,
       },
@@ -1836,6 +1866,7 @@ describe("plantGreenhouse", () => {
 
     expect(state.greenhouse.pots[1]).toEqual({
       plant: {
+        amount: 1,
         name: "Rice",
         plantedAt: now,
       },
@@ -1889,6 +1920,7 @@ describe("plantGreenhouse", () => {
 
     expect(state.greenhouse.pots[1]).toEqual({
       plant: {
+        amount: 1,
         name: "Rice",
         plantedAt: now,
       },
@@ -1942,6 +1974,7 @@ describe("plantGreenhouse", () => {
 
     expect(state.greenhouse.pots[1]).toEqual({
       plant: {
+        amount: 1,
         name: "Grape",
         plantedAt: now,
       },
@@ -1995,6 +2028,7 @@ describe("plantGreenhouse", () => {
 
     expect(state.greenhouse.pots[1]).toEqual({
       plant: {
+        amount: 1,
         name: "Rice",
         plantedAt: now,
       },
@@ -2048,6 +2082,7 @@ describe("plantGreenhouse", () => {
 
     expect(state.greenhouse.pots[1]).toEqual({
       plant: {
+        amount: 1,
         name: "Rice",
         plantedAt: now,
       },
@@ -2101,6 +2136,7 @@ describe("plantGreenhouse", () => {
 
     expect(state.greenhouse.pots[1]).toEqual({
       plant: {
+        amount: 1,
         name: "Grape",
         plantedAt: now,
       },
@@ -2148,6 +2184,7 @@ describe("plantGreenhouse", () => {
 
     expect(state.greenhouse.pots[1]).toEqual({
       plant: {
+        amount: 1,
         name: "Rice",
         plantedAt: now,
       },

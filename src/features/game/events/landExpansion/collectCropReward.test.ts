@@ -54,6 +54,7 @@ describe("collectCropReward", () => {
               crop: {
                 name: "Sunflower",
                 plantedAt: dateNow,
+                amount: 1,
               },
             },
           },
@@ -80,6 +81,7 @@ describe("collectCropReward", () => {
               crop: {
                 name: "Sunflower",
                 plantedAt: dateNow,
+                amount: 1,
                 reward: {
                   items: [
                     {
@@ -113,6 +115,7 @@ describe("collectCropReward", () => {
             crop: {
               name: "Sunflower",
               plantedAt: 0,
+              amount: 1,
               reward: {
                 items: [
                   {
@@ -150,6 +153,7 @@ describe("collectCropReward", () => {
             crop: {
               name: "Sunflower",
               plantedAt: 0,
+              amount: 1,
               reward: {
                 items: [
                   {
@@ -187,6 +191,7 @@ describe("collectCropReward", () => {
             crop: {
               name: "Sunflower",
               plantedAt: 0,
+              amount: 1,
               reward: {
                 coins: 100,
               },

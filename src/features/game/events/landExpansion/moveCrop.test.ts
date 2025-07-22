@@ -85,6 +85,7 @@ describe("moveCrop", () => {
               createdAt: dateNow,
               crop: {
                 name: "Potato",
+                amount: 1,
                 plantedAt: dateNow,
               },
             },
@@ -122,6 +123,7 @@ describe("moveCrop", () => {
               createdAt: dateNow,
               crop: {
                 name: "Cauliflower",
+                amount: 1,
                 plantedAt: dateNow,
               },
             },
@@ -159,6 +161,7 @@ describe("moveCrop", () => {
               createdAt: dateNow,
               crop: {
                 name: "Potato",
+                amount: 1,
                 plantedAt: dateNow,
               },
             },
@@ -196,6 +199,7 @@ describe("moveCrop", () => {
               createdAt: dateNow,
               crop: {
                 name: "Eggplant",
+                amount: 1,
                 plantedAt: dateNow,
               },
             },
@@ -231,6 +235,7 @@ describe("moveCrop", () => {
               createdAt: dateNow,
               crop: {
                 name: "Corn",
+                amount: 1,
                 plantedAt: dateNow,
               },
             },

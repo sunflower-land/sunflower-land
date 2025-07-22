@@ -14,7 +14,6 @@ import { DepletingIron } from "./components/DepletingIron";
 import { canMine } from "features/game/expansion/lib/utils";
 import { RecoveredIron } from "./components/RecoveredIron";
 import { useSound } from "lib/utils/hooks/useSound";
-import { getIronDropAmount } from "features/game/events/landExpansion/ironMine";
 
 const HITS = 3;
 const tool = "Stone Pickaxe";
@@ -24,7 +23,6 @@ const HasTool = (inventory: Partial<Record<InventoryItemName, Decimal>>) => {
 };
 
 const selectInventory = (state: MachineState) => state.context.state.inventory;
-const selectGame = (state: MachineState) => state.context.state;
 
 const compareResource = (prev: Rock, next: Rock) => {
   return JSON.stringify(prev) === JSON.stringify(next);
@@ -47,9 +45,9 @@ export const Iron: React.FC<Props> = ({ id }) => {
 
   // When to hide the resource that pops out
   const [collecting, setCollecting] = useState(false);
+  const [collectedAmount, setCollectedAmount] = useState<number>();
 
   const divRef = useRef<HTMLDivElement>(null);
-  const harvested = useRef<number>(0);
 
   const { play: miningFallAudio } = useSound("mining_fall");
 
@@ -79,8 +77,6 @@ export const Iron: React.FC<Props> = ({ id }) => {
       (prev.Logger ?? new Decimal(0)).equals(next.Logger ?? new Decimal(0)),
   );
 
-  const state = useSelector(gameService, selectGame);
-
   const skills = useSelector(gameService, selectSkills, compareSkills);
 
   const hasTool = HasTool(inventory);
@@ -109,12 +105,6 @@ export const Iron: React.FC<Props> = ({ id }) => {
   };
 
   const mine = async () => {
-    const ironMined = getIronDropAmount({
-      game: state,
-      rock: resource,
-      criticalDropGenerator: (name) =>
-        !!(resource.stone.criticalHit?.[name] ?? 0),
-    });
     const newState = gameService.send("ironRock.mined", {
       index: id,
     });
@@ -122,7 +112,7 @@ export const Iron: React.FC<Props> = ({ id }) => {
     if (!newState.matches("hoarding")) {
       if (showAnimations) {
         setCollecting(true);
-        harvested.current = ironMined.toNumber();
+        setCollectedAmount(resource.stone.amount);
       }
 
       miningFallAudio();
@@ -130,7 +120,7 @@ export const Iron: React.FC<Props> = ({ id }) => {
       if (showAnimations) {
         await new Promise((res) => setTimeout(res, 3000));
         setCollecting(false);
-        harvested.current = 0;
+        setCollectedAmount(undefined);
       }
     }
   };
@@ -145,7 +135,7 @@ export const Iron: React.FC<Props> = ({ id }) => {
       )}
 
       {/* Depleting resource animation */}
-      {collecting && <DepletingIron resourceAmount={harvested.current} />}
+      {collecting && <DepletingIron resourceAmount={collectedAmount} />}
 
       {/* Depleted resource */}
       {mined && <DepletedIron timeLeft={timeLeft} />}

@@ -12,6 +12,7 @@ describe("moveIron", () => {
               x: 1,
               y: 1,
               stone: {
+                amount: 1,
                 minedAt: 0,
               },
             },
@@ -35,6 +36,7 @@ describe("moveIron", () => {
             x: 1,
             y: 1,
             stone: {
+              amount: 1,
               minedAt: 0,
             },
           },
@@ -42,6 +44,7 @@ describe("moveIron", () => {
             x: 4,
             y: 4,
             stone: {
+              amount: 1,
               minedAt: 0,
             },
           },
@@ -49,6 +52,7 @@ describe("moveIron", () => {
             x: 8,
             y: 8,
             stone: {
+              amount: 1,
               minedAt: 0,
             },
           },
@@ -66,6 +70,7 @@ describe("moveIron", () => {
         x: 2,
         y: 2,
         stone: {
+          amount: 1,
           minedAt: 0,
         },
       },
@@ -73,6 +78,7 @@ describe("moveIron", () => {
         x: 4,
         y: 4,
         stone: {
+          amount: 1,
           minedAt: 0,
         },
       },
@@ -80,6 +86,7 @@ describe("moveIron", () => {
         x: 8,
         y: 8,
         stone: {
+          amount: 1,
           minedAt: 0,
         },
       },
@@ -108,6 +115,7 @@ describe("moveIron", () => {
               x: 1,
               y: 2,
               stone: {
+                amount: 1,
                 minedAt: dateNow - 100,
               },
             },

@@ -12,6 +12,7 @@ import {
 } from "features/game/types/fruits";
 import { GameState } from "features/game/types/game";
 import { randomInt } from "lib/utils/random";
+import { getFruitYield } from "./fruitHarvested";
 import { isWearableActive } from "features/game/lib/wearables";
 import { produce } from "immer";
 import { SEASONAL_SEEDS } from "features/game/types/seeds";
@@ -286,6 +287,11 @@ export function plantFruit({
     patch.fruit = {
       name: fruitName,
       plantedAt: getPlantedAt(action.seed, stateCopy, createdAt),
+      amount: getFruitYield({
+        name: fruitName,
+        game: stateCopy,
+        fertiliser: patch.fertiliser?.name,
+      }),
       harvestedAt: 0,
       // Value will be overridden by BE
       harvestsLeft: harvestCount,

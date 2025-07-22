@@ -37,7 +37,10 @@ export function placeTree({
       createdAt,
       x: action.coordinates.x,
       y: action.coordinates.y,
-      wood: { choppedAt: 0 },
+      wood: {
+        amount: 1,
+        choppedAt: 0,
+      },
     };
 
     game.trees = {

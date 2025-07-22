@@ -10,9 +10,6 @@ import {
   CropName,
   GREENHOUSE_SEEDS,
   GreenHouseCropSeedName,
-  isAdvancedCrop,
-  isBasicCrop,
-  isMediumCrop,
 } from "features/game/types/crops";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Decimal } from "decimal.js-light";
@@ -49,7 +46,11 @@ import {
 import { NPC_WEARABLES } from "lib/npcs";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { formatNumber, setPrecision } from "lib/utils/formatNumber";
-
+import {
+  isAdvancedCrop,
+  isBasicCrop,
+  isMediumCrop,
+} from "features/game/events/landExpansion/harvest";
 import { Restock } from "./restock/Restock";
 import { isFullMoon } from "features/game/types/calendar";
 

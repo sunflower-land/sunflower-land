@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { CROPS } from "features/game/types/crops";
+import { CROPS, CropSeedName } from "features/game/types/crops";
 import { INITIAL_BUMPKIN, TEST_FARM } from "../../lib/constants";
 import { GameState, CropPlot } from "../../types/game";
 import {
@@ -10,20 +10,19 @@ import {
   plant,
 } from "./plant";
 
-const dateNow = Date.now();
-
 const GAME_STATE: GameState = {
   ...TEST_FARM,
   balance: new Decimal(0),
   inventory: {},
   crops: {
     0: {
-      createdAt: dateNow,
+      createdAt: Date.now(),
       x: 0,
       y: 0,
       crop: {
         name: "Sunflower",
         plantedAt: 0,
+        amount: 1,
       },
     },
   },
@@ -32,6 +31,8 @@ const GAME_STATE: GameState = {
 const firstCropId = Object.keys(GAME_STATE.crops)[0];
 
 describe("plant", () => {
+  const dateNow = Date.now();
+
   it("does not plant on non-existent plot", () => {
     const { inventory } = GAME_STATE;
     expect(() =>
@@ -116,6 +117,7 @@ describe("plant", () => {
               crop: {
                 name: "Sunflower",
                 plantedAt: dateNow,
+                amount: 1,
               },
             },
           },
@@ -204,6 +206,7 @@ describe("plant", () => {
         crop: expect.objectContaining({
           name: "Sunflower",
           plantedAt: expect.any(Number),
+          amount: 1,
         }),
       }),
     );
@@ -263,6 +266,53 @@ describe("plant", () => {
       expect.objectContaining({
         name: "Cauliflower",
         plantedAt: expect.any(Number),
+        amount: 1,
+      }),
+    );
+  });
+
+  it("plants a special cauliflower", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Cauliflower Seed": new Decimal(1),
+          "Golden Cauliflower": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        season: {
+          season: "winter",
+          startedAt: 0,
+        },
+        collectibles: {
+          "Golden Cauliflower": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 1, y: 1 },
+              // ready at < now
+              readyAt: dateNow - 5 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "123",
+        index: "0",
+
+        item: "Cauliflower Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+    expect((plots as Record<number, CropPlot>)[0].crop).toEqual(
+      expect.objectContaining({
+        name: "Cauliflower",
+        plantedAt: expect.any(Number),
+        amount: 2,
       }),
     );
   });
@@ -296,8 +346,56 @@ describe("plant", () => {
       expect.objectContaining({
         name: "Parsnip",
         plantedAt: expect.any(Number),
+        amount: 1,
       }),
     );
+  });
+
+  it("plants a special parsnip", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Parsnip Seed": new Decimal(1),
+          // "Mysterious Parsnip": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        collectibles: {
+          "Mysterious Parsnip": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 1, y: 1 },
+              // ready at < now
+              readyAt: dateNow - 5 * 60 * 1000,
+            },
+          ],
+        },
+        season: {
+          season: "winter",
+          startedAt: 0,
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "123",
+        index: "0",
+
+        item: "Parsnip Seed",
+      },
+      createdAt: dateNow,
+    });
+
+    // Should be twice as fast! (Planted in the past)
+    const parsnipTime = CROPS.Parsnip.harvestSeconds * 1000;
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+    const plantedAt =
+      (plots as Record<number, CropPlot>)[0].crop?.plantedAt || 0;
+
+    expect(plantedAt).toBe(dateNow - parsnipTime * 0.5);
   });
 
   it("reduces wheat harvest time in half if Solflare Aegis is worn", () => {
@@ -384,6 +482,183 @@ describe("plant", () => {
     expect(plantedAt).toBe(dateNow - plantTime * 0.5);
   });
 
+  it("yields +1 when wearing Blossom Ward at Spring Season", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            secondaryTool: "Blossom Ward",
+          },
+        },
+        inventory: {
+          "Kale Seed": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        season: {
+          season: "spring",
+          startedAt: 0,
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {},
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+
+        item: "Kale Seed",
+      },
+      createdAt: dateNow,
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(2);
+  });
+
+  it("yields +1 when wearing Frozen Heart at Winter Season", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            secondaryTool: "Frozen Heart",
+          },
+        },
+        inventory: {
+          "Onion Seed": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        season: {
+          season: "winter",
+          startedAt: 0,
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {},
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+
+        item: "Onion Seed",
+      },
+      createdAt: dateNow,
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(2);
+  });
+
+  it("yields 20% more parsnip if bumpkin is equipped with Parsnip Tool", () => {
+    const PARSNIP_STATE: GameState = {
+      ...TEST_FARM,
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        equipped: { ...INITIAL_BUMPKIN.equipped, tool: "Parsnip" },
+      },
+    };
+
+    const state = plant({
+      state: {
+        ...PARSNIP_STATE,
+        season: {
+          season: "winter",
+          startedAt: 0,
+        },
+        crops: {
+          "0": {
+            createdAt: Date.now(),
+            x: 1,
+            y: 1,
+          },
+        },
+        inventory: {
+          "Parsnip Seed": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        collectibles: {},
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "123",
+        index: "0",
+
+        item: "Parsnip Seed",
+      },
+      createdAt: dateNow,
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.2);
+  });
+
+  it("yields 10% more with bumpkin skill Master Farmer", () => {
+    const SKILL_STATE: GameState = {
+      ...TEST_FARM,
+      crops: {
+        "0": {
+          createdAt: Date.now(),
+          x: 1,
+          y: 1,
+        },
+      },
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        skills: { ...INITIAL_BUMPKIN.skills, "Master Farmer": 1 },
+      },
+    };
+
+    const state = plant({
+      state: {
+        ...SKILL_STATE,
+        inventory: {
+          "Sunflower Seed": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        collectibles: {},
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "123",
+        index: "0",
+
+        item: "Sunflower Seed",
+      },
+      createdAt: dateNow,
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.1);
+  });
   it("grows faster with a Nancy placed and ready", () => {
     const state = plant({
       state: {
@@ -467,6 +742,1011 @@ describe("plant", () => {
     expect(plantedAt).toBe(dateNow - sunflowerTime * 0.1);
   });
 
+  it("yields more crop with a scarecrow", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Carrot Seed": new Decimal(1),
+          Scarecrow: new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        collectibles: {
+          Scarecrow: [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 1, y: 1 },
+              // ready at < now
+              readyAt: dateNow - 5 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "123",
+        index: "0",
+
+        item: "Carrot Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.2);
+  });
+
+  it("yields +0.2 if Scary Mike is placed, plot is within AoE and planting Carrot", () => {
+    const state: GameState = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Carrot Seed": new Decimal(1),
+          "Scary Mike": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {
+          "Scary Mike": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 0, y: 0 },
+              // ready at < now
+              readyAt: dateNow - 12 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+        item: "Carrot Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.2);
+  });
+
+  it("yields +0.2 if Scary Mike is placed, plot is within AoE and planting Cabbage", () => {
+    const state: GameState = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Cabbage Seed": new Decimal(1),
+          "Scary Mike": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        season: {
+          season: "winter",
+          startedAt: 0,
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {
+          "Scary Mike": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 0, y: 0 },
+              // ready at < now
+              readyAt: dateNow - 12 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+        item: "Cabbage Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.2);
+  });
+
+  it("yields +0.2 if Scary Mike is placed, plot is within AoE and planting Beetroot", () => {
+    const state: GameState = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Beetroot Seed": new Decimal(1),
+          "Scary Mike": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        season: {
+          season: "summer",
+          startedAt: 0,
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {
+          "Scary Mike": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 0, y: 0 },
+              // ready at < now
+              readyAt: dateNow - 12 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+        item: "Beetroot Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.2);
+  });
+
+  it("yields +0.2 if Scary Mike is placed, plot is within AoE and planting Cauliflower", () => {
+    const state: GameState = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Cauliflower Seed": new Decimal(1),
+          "Scary Mike": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            x: 0,
+            y: -2,
+          },
+        },
+        season: {
+          season: "winter",
+          startedAt: 0,
+        },
+        collectibles: {
+          "Scary Mike": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 0, y: 0 },
+              // ready at < now
+              readyAt: dateNow - 12 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+        item: "Cauliflower Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.2);
+  });
+
+  it("yields +0.2 if Scary Mike is placed, plot is within AoE and planting Parsnip", () => {
+    const state: GameState = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Parsnip Seed": new Decimal(1),
+          "Scary Mike": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        season: {
+          season: "winter",
+          startedAt: 0,
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {
+          "Scary Mike": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 0, y: 0 },
+              // ready at < now
+              readyAt: dateNow - 12 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+        item: "Parsnip Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.2);
+  });
+
+  it("does not give boost if Scary Mike is placed, plot is within AoE and planting Sunflower", () => {
+    const state: GameState = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Sunflower Seed": new Decimal(1),
+          "Scary Mike": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {
+          "Scary Mike": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 0, y: 0 },
+              // ready at < now
+              readyAt: dateNow - 12 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+        item: "Sunflower Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1);
+  });
+
+  it("does not give boost if Scary Mike is placed, plot is NOT within AoE and planting Cauliflower", () => {
+    const state: GameState = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Cauliflower Seed": new Decimal(1),
+          "Scary Mike": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        season: {
+          season: "winter",
+          startedAt: 0,
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            x: 0,
+            y: -6,
+          },
+        },
+        collectibles: {
+          "Scary Mike": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 0, y: 0 },
+              // ready at < now
+              readyAt: dateNow - 12 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+        item: "Cauliflower Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1);
+  });
+
+  it("yields +0.2 if Laurie the Chuckle Crow is placed, plot is within AoE and planting Eggplant", () => {
+    const state: GameState = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Eggplant Seed": new Decimal(1),
+          "Laurie the Chuckle Crow": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        season: {
+          season: "summer",
+          startedAt: 0,
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {
+          "Laurie the Chuckle Crow": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 0, y: 0 },
+              // ready at < now
+              readyAt: dateNow - 12 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+        item: "Eggplant Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.2);
+  });
+
+  it("yields +0.2 if Laurie the Chuckle Crow is placed, plot is within AoE and planting Radish", () => {
+    const state: GameState = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Radish Seed": new Decimal(1),
+          "Laurie the Chuckle Crow": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        season: {
+          season: "summer",
+          startedAt: 0,
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {
+          "Laurie the Chuckle Crow": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 0, y: 0 },
+              // ready at < now
+              readyAt: dateNow - 12 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+        item: "Radish Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.2);
+  });
+
+  it("yields +0.2 if Laurie the Chuckle Crow is placed, plot is within AoE and planting Wheat", () => {
+    const state: GameState = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Wheat Seed": new Decimal(1),
+          "Laurie the Chuckle Crow": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {
+          "Laurie the Chuckle Crow": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 0, y: 0 },
+              // ready at < now
+              readyAt: dateNow - 12 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+        item: "Wheat Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.2);
+  });
+
+  it("yields +0.2 if Laurie the Chuckle Crow is placed, plot is within AoE and planting Kale", () => {
+    const state: GameState = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Kale Seed": new Decimal(1),
+          "Laurie the Chuckle Crow": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        season: {
+          season: "winter",
+          startedAt: 0,
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {
+          "Laurie the Chuckle Crow": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 0, y: 0 },
+              // ready at < now
+              readyAt: dateNow - 12 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+        item: "Kale Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.2);
+  });
+
+  it("yields +0.2 if Laurie the Chuckle Crow is placed, plot is within AoE and planting Corn", () => {
+    const state: GameState = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Corn Seed": new Decimal(1),
+          "Laurie the Chuckle Crow": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        season: {
+          season: "spring",
+          startedAt: 0,
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {
+          "Laurie the Chuckle Crow": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 0, y: 0 },
+              // ready at < now
+              readyAt: dateNow - 12 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+        item: "Corn Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.2);
+  });
+
+  it("does not give boost if Laurie the Chuckle Crow is placed, plot is within AoE and planting Cauliflower", () => {
+    const state: GameState = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Sunflower Seed": new Decimal(1),
+          "Laurie the Chuckle Crow": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {
+          "Laurie the Chuckle Crow": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 0, y: 0 },
+              // ready at < now
+              readyAt: dateNow - 12 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+        item: "Sunflower Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1);
+  });
+
+  it("does not give boost if Laurie the Chuckle Crow is placed, plot is NOT within AoE and planting Cauliflower", () => {
+    const state: GameState = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Cauliflower Seed": new Decimal(1),
+          "Laurie the Chuckle Crow": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        season: {
+          season: "winter",
+          startedAt: 0,
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            x: 0,
+            y: -6,
+          },
+        },
+        collectibles: {
+          "Laurie the Chuckle Crow": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 0, y: 0 },
+              // ready at < now
+              readyAt: dateNow - 12 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+        item: "Cauliflower Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1);
+  });
+
+  it("yields +1 if Queen Cornelia is placed, plot is within AoE and planting Corn", () => {
+    const state: GameState = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Corn Seed": new Decimal(1),
+          "Queen Cornelia": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        season: {
+          season: "spring",
+          startedAt: 0,
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            x: 0,
+            y: -1,
+          },
+        },
+        collectibles: {
+          "Queen Cornelia": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 0, y: 0 },
+              // ready at < now
+              readyAt: dateNow - 12 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+        item: "Corn Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(2);
+  });
+
+  it("does not boost crop if Queen Cornelia is placed, plot is within AoE but planting Radish", () => {
+    const state: GameState = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Radish Seed": new Decimal(1),
+          "Queen Cornelia": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        season: {
+          season: "summer",
+          startedAt: 0,
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {
+          "Queen Cornelia": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 0, y: 0 },
+              // ready at < now
+              readyAt: dateNow - 12 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+        item: "Radish Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1);
+  });
+
+  it("does not give boost if Queen Cornelia is placed, plot is NOT within AoE and planting Corn", () => {
+    const state: GameState = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Corn Seed": new Decimal(1),
+          "Queen Cornelia": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        season: {
+          season: "spring",
+          startedAt: 0,
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            x: 0,
+            y: -6,
+          },
+        },
+        collectibles: {
+          "Queen Cornelia": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 0, y: 0 },
+              // ready at < now
+              readyAt: dateNow - 12 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+        item: "Corn Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1);
+  });
+
+  it("yields +0.5 pumpkin with Freya Fox placed", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Pumpkin Seed": new Decimal(1),
+          "Freya Fox": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        season: {
+          season: "autumn",
+          startedAt: 0,
+        },
+        collectibles: {
+          "Freya Fox": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 1, y: 1 },
+              // ready at < now
+              readyAt: dateNow - 5 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "123",
+        index: "0",
+
+        item: "Pumpkin Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.5);
+  });
+
+  it("yields +0.1 Corn with Poppy placed", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        bumpkin: INITIAL_BUMPKIN,
+        inventory: {
+          "Corn Seed": new Decimal(1),
+          Poppy: new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            x: 0,
+            y: -2,
+          },
+        },
+        season: {
+          season: "spring",
+          startedAt: 0,
+        },
+        collectibles: {
+          Poppy: [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 1, y: 1 },
+              // ready at < now
+              readyAt: dateNow - 5 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+
+        item: "Corn Seed",
+      },
+      createdAt: dateNow,
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.1);
+  });
+
+  it("applies the Tofu Mask Boost", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            hat: "Tofu Mask",
+          },
+        },
+        inventory: {
+          "Soybean Seed": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        season: {
+          season: "spring",
+          startedAt: 0,
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            x: 0,
+            y: -2,
+          },
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+
+        item: "Soybean Seed",
+      },
+      createdAt: dateNow,
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.1);
+  });
+
+  it("applies a bud yield boost", () => {
+    const state: GameState = plant({
+      state: {
+        ...GAME_STATE,
+        bumpkin: INITIAL_BUMPKIN,
+        inventory: {
+          "Parsnip Seed": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        season: {
+          season: "winter",
+          startedAt: 0,
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            x: 0,
+            y: -2,
+          },
+        },
+        buds: {
+          1: {
+            aura: "No Aura",
+            colour: "Green",
+            type: "Castle",
+            ears: "Ears",
+            stem: "Egg Head",
+            coordinates: {
+              x: 0,
+              y: 0,
+            },
+          },
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+        item: "Parsnip Seed",
+      },
+      createdAt: dateNow,
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.3);
+  });
+
   it("applies a bud speed boost", () => {
     const state: GameState = plant({
       state: {
@@ -482,7 +1762,7 @@ describe("plant", () => {
         },
         crops: {
           0: {
-            createdAt: dateNow,
+            createdAt: Date.now(),
             x: 0,
             y: -2,
           },
@@ -518,9 +1798,96 @@ describe("plant", () => {
       dateNow - 0.1 * CROPS.Parsnip.harvestSeconds * 1000,
     );
   });
+
+  it("should yield 50% less crops when insect plague is active and farm is not protected", () => {
+    const { crops } = GAME_STATE;
+    const plot = (crops as Record<number, CropPlot>)[0];
+
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        calendar: {
+          dates: [
+            {
+              name: "insectPlague",
+              date: new Date().toISOString().split("T")[0],
+            },
+          ],
+          insectPlague: {
+            startedAt: new Date(
+              new Date().toISOString().split("T")[0],
+            ).getTime(),
+            triggeredAt: Date.now(),
+            protected: false,
+          },
+        },
+        inventory: {
+          "Sunflower Seed": new Decimal(1),
+        },
+        crops: {
+          0: {
+            ...plot,
+          },
+        },
+      },
+      action: {
+        type: "seed.planted",
+        item: "Sunflower Seed",
+        cropId: "1",
+        index: "0",
+      },
+      createdAt: Date.now(),
+    });
+
+    expect(state.crops[0].crop?.amount).toEqual(0.5);
+  });
+
+  it("should not yield 50% less crops when insect plague is active and farm is protected", () => {
+    const { crops } = GAME_STATE;
+    const plot = (crops as Record<number, CropPlot>)[0];
+
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        calendar: {
+          dates: [
+            {
+              name: "insectPlague",
+              date: new Date().toISOString().split("T")[0],
+            },
+          ],
+          insectPlague: {
+            startedAt: new Date(
+              new Date().toISOString().split("T")[0],
+            ).getTime(),
+            triggeredAt: Date.now(),
+            protected: true,
+          },
+        },
+        crops: {
+          0: {
+            ...plot,
+          },
+        },
+        inventory: {
+          "Sunflower Seed": new Decimal(1),
+        },
+      },
+      action: {
+        type: "seed.planted",
+        item: "Sunflower Seed",
+        cropId: "1",
+        index: "0",
+      },
+      createdAt: Date.now(),
+    });
+
+    expect(state.crops[0].crop?.amount).toEqual(1);
+  });
 });
 
 describe("getCropTime", () => {
+  const dateNow = Date.now();
   const plot = GAME_STATE.crops[firstCropId];
 
   it("applies a 5% speed boost with Cultivator skill", () => {
@@ -634,6 +2001,7 @@ describe("getCropTime", () => {
         },
       },
       plot,
+      createdAt: dateNow,
     });
 
     expect(amount).toEqual(1.1);
@@ -653,6 +2021,7 @@ describe("getCropTime", () => {
         },
       },
       plot,
+      createdAt: dateNow,
     });
 
     expect(amount).toEqual(1.1);
@@ -722,6 +2091,7 @@ describe("getCropTime", () => {
       expect.objectContaining({
         name: "Yam",
         plantedAt: expect.any(Number),
+        amount: 1.5,
       }),
     );
   });
@@ -924,6 +2294,168 @@ describe("getCropTime", () => {
       expect.objectContaining({
         name: "Soybean",
         plantedAt: expect.any(Number),
+        amount: 1,
+      }),
+    );
+  });
+
+  it("adds +1 soybean with Soybliss placed", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        island: {
+          type: "desert",
+        },
+        inventory: {
+          "Soybean Seed": new Decimal(1),
+        },
+        season: {
+          season: "spring",
+          startedAt: 0,
+        },
+        collectibles: {
+          Soybliss: [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: dateNow - 10000,
+              readyAt: dateNow - 10000,
+              id: "123",
+            },
+          ],
+        },
+      },
+      createdAt: dateNow,
+      action: {
+        type: "seed.planted",
+        cropId: "123",
+        index: "0",
+        item: "Soybean Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+    expect((plots as Record<number, CropPlot>)[0].crop).toEqual(
+      expect.objectContaining({
+        name: "Soybean",
+        plantedAt: expect.any(Number),
+        amount: 2,
+      }),
+    );
+  });
+
+  it("adds +2 barley with Sheaf of Plenty placed", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Barley Seed": new Decimal(1),
+        },
+        collectibles: {
+          "Sheaf of Plenty": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: dateNow - 10000,
+              readyAt: dateNow - 10000,
+              id: "123",
+            },
+          ],
+        },
+      },
+      createdAt: dateNow,
+      action: {
+        type: "seed.planted",
+        cropId: "123",
+        index: "0",
+        item: "Barley Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+    expect((plots as Record<number, CropPlot>)[0].crop).toEqual(
+      expect.objectContaining({
+        name: "Barley",
+        plantedAt: expect.any(Number),
+        amount: 3,
+      }),
+    );
+  });
+
+  it("gives +2 Wheat when Sickle is worn and ready", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            tool: "Sickle",
+          },
+        },
+        inventory: {
+          "Wheat Seed": new Decimal(1),
+        },
+        collectibles: {},
+      },
+      createdAt: dateNow,
+      action: {
+        type: "seed.planted",
+        cropId: "123",
+        index: "0",
+        item: "Wheat Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+    expect((plots as Record<number, CropPlot>)[0].crop).toEqual(
+      expect.objectContaining({
+        name: "Wheat",
+        plantedAt: expect.any(Number),
+        amount: 3,
+      }),
+    );
+  });
+
+  it("gives +2 Kale when Giant Kale is placed and ready", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Kale Seed": new Decimal(1),
+        },
+        collectibles: {
+          "Giant Kale": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: dateNow - 10000,
+              readyAt: dateNow - 10000,
+              id: "123",
+            },
+          ],
+        },
+      },
+      createdAt: dateNow,
+      action: {
+        type: "seed.planted",
+        cropId: "123",
+        index: "0",
+        item: "Kale Seed",
+      },
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+    expect((plots as Record<number, CropPlot>)[0].crop).toEqual(
+      expect.objectContaining({
+        name: "Kale",
+        plantedAt: expect.any(Number),
+        amount: 3,
       }),
     );
   });
@@ -1014,7 +2546,7 @@ describe("isPlotFertile", () => {
   it("cannot plant on the 19th field if well is not placed down, regardless of well level", () => {
     let counter = 1;
     const fakePlot = () => ({
-      createdAt: dateNow + counter++,
+      createdAt: Date.now() + counter++,
       x: 1,
       y: 1,
     });
@@ -1054,7 +2586,7 @@ describe("isPlotFertile", () => {
   it("cannot plant on 26th field if 2 wells are not avilable", () => {
     let counter = 1;
     const fakePlot = () => ({
-      createdAt: dateNow + counter++,
+      createdAt: Date.now() + counter++,
       x: 1,
       y: 1,
     });
@@ -1108,7 +2640,7 @@ describe("isPlotFertile", () => {
 
   it("can plant on 6th field without a well", () => {
     const fakePlot = {
-      createdAt: dateNow,
+      createdAt: Date.now(),
       x: 1,
       y: 1,
     };
@@ -1136,220 +2668,1550 @@ describe("isPlotFertile", () => {
   });
 });
 
-describe("getPlantedAt", () => {
-  it("returns normal planted at if time wrap is expired", () => {
-    const now = dateNow;
-
-    const time = getPlantedAt({
+describe("getCropYield", () => {
+  it("does not apply sir goldensnout boost outside AOE", () => {
+    const amount = getCropYieldAmount({
       crop: "Sunflower",
       game: {
         ...TEST_FARM,
         collectibles: {
-          "Time Warp Totem": [
+          "Sir Goldensnout": [
             {
+              coordinates: { x: 6, y: 6 },
+              createdAt: 0,
               id: "123",
-              createdAt: now - 2 * 60 * 60 * 1000 - 1,
-              coordinates: { x: 1, y: 1 },
-              readyAt: now - 2 * 60 * 60 * 1000 - 1,
+              readyAt: 0,
             },
           ],
         },
       },
-      createdAt: now,
-      plot: {
-        createdAt: now,
-        x: 0,
-        y: -2,
-      },
+      plot: { createdAt: 0, x: 2, y: 3 },
+      createdAt: Date.now(),
     });
 
-    expect(time).toEqual(now);
+    expect(amount).toEqual(1);
   });
 
-  it("crop replenishes faster with time warp", () => {
-    const now = dateNow;
-
-    const time = getPlantedAt({
+  it("applies sir goldensnout boost inside AOE", () => {
+    const amount = getCropYieldAmount({
       crop: "Sunflower",
       game: {
         ...TEST_FARM,
         collectibles: {
-          "Time Warp Totem": [
+          "Sir Goldensnout": [
             {
+              coordinates: { x: 6, y: 6 },
+              createdAt: 0,
               id: "123",
-              createdAt: now,
-              coordinates: { x: 1, y: 1 },
-              readyAt: now - 5 * 60 * 1000,
+              readyAt: 0,
             },
           ],
         },
       },
-      createdAt: now,
-      plot: {
-        createdAt: now,
-        x: 0,
-        y: -2,
-      },
+      plot: { createdAt: 0, x: 5, y: 6 },
+      createdAt: Date.now(),
     });
 
-    expect(time).toEqual(now - 30 * 1000);
+    expect(amount).toEqual(1.5);
   });
 
-  it("crop replenishes faster with Super Totem", () => {
-    const now = dateNow;
-
-    const time = getPlantedAt({
-      crop: "Sunflower",
-      game: {
-        ...TEST_FARM,
-        collectibles: {
-          "Super Totem": [
-            {
-              id: "123",
-              createdAt: now,
-              coordinates: { x: 1, y: 1 },
-              readyAt: now - 5 * 60 * 1000,
-            },
-          ],
+  it("yields +3 when wearing Infernal Pitchfork", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            tool: "Infernal Pitchfork",
+          },
         },
+        inventory: {
+          "Sunflower Seed": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {},
       },
-      createdAt: now,
-      plot: {
-        createdAt: now,
-        x: 0,
-        y: -2,
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+
+        item: "Sunflower Seed",
       },
+      createdAt: Date.now(),
     });
 
-    expect(time).toEqual(now - 30 * 1000);
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(4);
   });
 
-  it("does not apply a boost if the Super Totem has expired", () => {
-    const now = dateNow;
-    const nineDaysAgo = now - 9 * 24 * 60 * 60 * 1000;
-
-    const time = getPlantedAt({
-      crop: "Corn",
-      game: {
-        ...TEST_FARM,
-        collectibles: {
-          "Super Totem": [
-            {
-              id: "123",
-              createdAt: nineDaysAgo,
-              coordinates: { x: 1, y: 1 },
-              readyAt: nineDaysAgo,
-            },
-          ],
+  it("yields +0.25 when wearing Faction Quiver", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            wings: "Goblin Quiver",
+          },
         },
+        faction: {
+          name: "goblins",
+          pledgedAt: 0,
+          history: {},
+          points: 0,
+        },
+        inventory: {
+          "Sunflower Seed": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {},
       },
-      createdAt: now,
-      plot: {
-        createdAt: now,
-        x: 0,
-        y: -2,
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+
+        item: "Sunflower Seed",
       },
+      createdAt: Date.now(),
     });
 
-    expect(time).toEqual(now);
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.25);
   });
 
-  it("doesn't stack Super Totem and Time Warp totem", () => {
-    const now = dateNow;
-
-    const time = getPlantedAt({
-      crop: "Sunflower",
-      game: {
-        ...TEST_FARM,
-        collectibles: {
-          "Time Warp Totem": [
-            {
-              id: "123",
-              createdAt: now,
-              coordinates: { x: 1, y: 1 },
-              readyAt: now - 5 * 60 * 1000,
-            },
-          ],
-          "Super Totem": [
-            {
-              id: "123",
-              createdAt: now,
-              coordinates: { x: 1, y: 1 },
-              readyAt: now - 5 * 60 * 1000,
-            },
-          ],
+  it("boosts of Faction Quiver wont apply when pledged in different faction", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            wings: "Goblin Quiver",
+          },
         },
+        faction: {
+          name: "nightshades",
+          pledgedAt: 0,
+          history: {},
+          points: 0,
+        },
+        inventory: {
+          "Sunflower Seed": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {},
       },
-      createdAt: now,
-      plot: {
-        createdAt: now,
-        x: 0,
-        y: -2,
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+
+        item: "Sunflower Seed",
       },
+      createdAt: Date.now(),
     });
 
-    expect(time).toEqual(now - 30 * 1000);
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1);
   });
 
-  it("applies the harvest hourglass boost of -25% crop growth time for 6 hours", () => {
-    const now = dateNow;
-    const baseHarvestSeconds = CROPS["Corn"].harvestSeconds;
-
-    const time = getPlantedAt({
-      crop: "Corn",
-      game: {
-        ...TEST_FARM,
-        collectibles: {
-          "Harvest Hourglass": [
-            {
-              id: "123",
-              createdAt: now,
-              coordinates: { x: 1, y: 1 },
-              readyAt: now,
-            },
-          ],
+  it("boosts of Faction Quiver wont apply when not pledged in a faction", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          equipped: {
+            ...INITIAL_BUMPKIN.equipped,
+            wings: "Goblin Quiver",
+          },
         },
+        inventory: {
+          "Sunflower Seed": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {},
       },
-      createdAt: now,
-      plot: {
-        createdAt: now,
-        x: 0,
-        y: -2,
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+
+        item: "Sunflower Seed",
       },
+      createdAt: Date.now(),
     });
 
-    const boost = baseHarvestSeconds * 0.25 * 1000;
+    const plots = state.crops;
 
-    expect(time).toEqual(now - boost);
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1);
   });
 
-  it("does not apply a boost if the harvest hourglass has expired", () => {
-    const now = dateNow;
-    const sevenHoursAgo = now - 7 * 60 * 60 * 1000;
+  it("yields +0.2 Carrots when Lab Grown Carrot is placed", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Carrot Seed": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
 
-    const time = getPlantedAt({
-      crop: "Corn",
-      game: {
-        ...TEST_FARM,
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            x: 0,
+            y: -2,
+          },
+        },
         collectibles: {
-          "Harvest Hourglass": [
+          "Lab Grown Carrot": [
             {
               id: "123",
-              createdAt: sevenHoursAgo,
+              createdAt: Date.now(),
               coordinates: { x: 1, y: 1 },
-              readyAt: sevenHoursAgo,
+              readyAt: Date.now() - 5 * 60 * 1000,
             },
           ],
         },
       },
-      createdAt: now,
-      plot: {
-        createdAt: now,
-        x: 0,
-        y: -2,
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+
+        item: "Carrot Seed",
       },
+      createdAt: Date.now(),
     });
 
-    expect(time).toEqual(now);
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.2);
+  });
+
+  it("does not yield +0.2 Carrots when Lab Grown Carrot is not placed", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Carrot Seed": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {},
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+
+        item: "Carrot Seed",
+      },
+      createdAt: Date.now(),
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1);
+  });
+
+  it("yields +0.3 Pumpkins when Lab Grown Pumpkin is placed", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Pumpkin Seed": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        season: {
+          season: "autumn",
+          startedAt: 0,
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {
+          "Lab Grown Pumpkin": [
+            {
+              id: "123",
+              createdAt: Date.now(),
+              coordinates: { x: 1, y: 1 },
+              readyAt: Date.now() - 5 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+
+        item: "Pumpkin Seed",
+      },
+      createdAt: Date.now(),
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.3);
+  });
+
+  it("does not yield +0.3 Pumpkins when Lab Grown Pumpkin is not placed", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Pumpkin Seed": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {},
+        season: {
+          season: "autumn",
+          startedAt: 0,
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+
+        item: "Pumpkin Seed",
+      },
+      createdAt: Date.now(),
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1);
+  });
+
+  it("yields +0.4 Radishes when Lab Grown Radish is placed", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Radish Seed": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        season: {
+          season: "summer",
+          startedAt: 0,
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            x: 0,
+            y: -2,
+          },
+        },
+
+        collectibles: {
+          "Lab Grown Radish": [
+            {
+              id: "123",
+              createdAt: Date.now(),
+              coordinates: { x: 1, y: 1 },
+              readyAt: Date.now() - 5 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+
+        item: "Radish Seed",
+      },
+      createdAt: Date.now(),
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.4);
+  });
+
+  it("does not yield +0.4 Radishes when Lab Grown Radish is not placed", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Radish Seed": new Decimal(1),
+          "Water Well": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {},
+        season: {
+          season: "summer",
+          startedAt: 0,
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+
+        item: "Radish Seed",
+      },
+      createdAt: Date.now(),
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1);
+  });
+
+  it("yields +0.1 Basic Crop with Young Farmer skill", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Young Farmer": 1,
+          },
+        },
+        inventory: {
+          "Sunflower Seed": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {},
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+
+        item: "Sunflower Seed",
+      },
+      createdAt: Date.now(),
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.1);
+  });
+
+  it("doesn't yield +0.1 if not a Basic Crop with Young Farmer skill", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Young Farmer": 1,
+          },
+        },
+        inventory: {
+          "Corn Seed": new Decimal(1),
+        },
+        season: {
+          season: "spring",
+          startedAt: 0,
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {},
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+
+        item: "Corn Seed",
+      },
+      createdAt: Date.now(),
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1);
+  });
+
+  it("yields +0.1 Medium Crop with Experienced Farmer skill", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Experienced Farmer": 1,
+          },
+        },
+        inventory: {
+          "Soybean Seed": new Decimal(1),
+        },
+        season: {
+          season: "spring",
+          startedAt: 0,
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {},
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+
+        item: "Soybean Seed",
+      },
+      createdAt: Date.now(),
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.1);
+  });
+
+  it("doesn't yield +0.1 if not a Medium Crop with Experienced Farmer skill", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Experienced Farmer": 1,
+          },
+        },
+        inventory: {
+          "Sunflower Seed": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            x: 0,
+            y: -2,
+          },
+        },
+        collectibles: {},
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+
+        item: "Sunflower Seed",
+      },
+      createdAt: Date.now(),
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1);
+  });
+
+  it("yields +0.1 Advanced Crop with Old Farmer skill", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Old Farmer": 1,
+          },
+        },
+        inventory: {
+          "Eggplant Seed": new Decimal(1),
+        },
+        season: {
+          season: "summer",
+          startedAt: 0,
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            x: 0,
+            y: -2,
+          },
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+
+        item: "Eggplant Seed",
+      },
+      createdAt: Date.now(),
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1.1);
+  });
+
+  it("doesn't yields +0.1 if not a Advanced Crop with Old Farmer skill", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Old Farmer": 1,
+          },
+        },
+        inventory: {
+          "Soybean Seed": new Decimal(1),
+        },
+        season: {
+          season: "spring",
+          startedAt: 0,
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            x: 0,
+            y: -2,
+          },
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+
+        item: "Soybean Seed",
+      },
+      createdAt: Date.now(),
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(1);
+  });
+
+  it("yields +1 Advanced Crop with Acre Farm skill", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Acre Farm": 1,
+          },
+        },
+        inventory: {
+          "Eggplant Seed": new Decimal(1),
+        },
+        season: {
+          season: "summer",
+          startedAt: 0,
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            x: 0,
+            y: -2,
+          },
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+
+        item: "Eggplant Seed",
+      },
+      createdAt: Date.now(),
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(2);
+  });
+
+  it("yields -0.5 Basic Crop with Acre Farm skill", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Acre Farm": 1,
+          },
+        },
+        inventory: {
+          "Sunflower Seed": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            x: 0,
+            y: -2,
+          },
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+
+        item: "Sunflower Seed",
+      },
+      createdAt: Date.now(),
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(0.5);
+  });
+
+  it("yields -0.5 Medium Crop with Acre Farm skill", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Acre Farm": 1,
+          },
+        },
+        season: {
+          season: "spring",
+          startedAt: 0,
+        },
+        inventory: {
+          "Soybean Seed": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            x: 0,
+            y: -2,
+          },
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+
+        item: "Soybean Seed",
+      },
+      createdAt: Date.now(),
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(0.5);
+  });
+
+  it("yields +1 Basic Crop with Hectare Farm skill", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Hectare Farm": 1,
+          },
+        },
+        inventory: {
+          "Sunflower Seed": new Decimal(1),
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            x: 0,
+            y: -2,
+          },
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+
+        item: "Sunflower Seed",
+      },
+      createdAt: Date.now(),
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(2);
+  });
+
+  it("yields +1 Medium Crop with Hectare Farm skill", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Hectare Farm": 1,
+          },
+        },
+        inventory: {
+          "Soybean Seed": new Decimal(1),
+        },
+        season: {
+          season: "spring",
+          startedAt: 0,
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            x: 0,
+            y: -2,
+          },
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+
+        item: "Soybean Seed",
+      },
+      createdAt: Date.now(),
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(2);
+  });
+
+  it("yields -0.5 Advanced Crop with Hectare Farm skill", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...INITIAL_BUMPKIN,
+          skills: {
+            "Hectare Farm": 1,
+          },
+        },
+        inventory: {
+          "Eggplant Seed": new Decimal(1),
+        },
+        season: {
+          season: "summer",
+          startedAt: 0,
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            x: 0,
+            y: -2,
+          },
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+
+        item: "Eggplant Seed",
+      },
+      createdAt: Date.now(),
+    });
+
+    const plots = state.crops;
+
+    expect(plots).toBeDefined();
+
+    expect((plots as Record<number, CropPlot>)[0].crop?.amount).toEqual(0.5);
+  });
+
+  it("applies a +0.25 yield boost on new summer crops eg Zucchini, Pepper during winds of change chapter", () => {
+    const duringWindsOfChangeDate = new Date("2025-02-03T00:00:01Z");
+    const seeds = ["Zucchini Seed", "Pepper Seed"];
+
+    seeds.forEach((seed, index) => {
+      const state = plant({
+        state: {
+          ...GAME_STATE,
+          season: { season: "summer", startedAt: 0 },
+          inventory: { [seed]: new Decimal(1) },
+          vip: {
+            bundles: [{ name: "1_MONTH", boughtAt: Date.now() }],
+            expiresAt: Date.now() + 31 * 24 * 60 * 60 * 1000,
+          },
+          crops: {
+            [index]: {
+              createdAt: Date.now(),
+              x: index,
+              y: -2,
+            },
+          },
+        },
+        action: {
+          type: "seed.planted",
+          cropId: (index + 1).toString(),
+          index: index.toString(),
+          item: seed as CropSeedName,
+        },
+        createdAt: duringWindsOfChangeDate.getTime(),
+      });
+
+      expect(state.crops[index].crop?.amount).toEqual(1.25);
+    });
+  });
+
+  it("does not apply a yield boost if the VIP has expired", () => {
+    const duringWindsOfChangeDate = new Date("2025-02-03T00:00:01Z");
+
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        season: {
+          season: "summer",
+          startedAt: 0,
+        },
+        inventory: {
+          "Zucchini Seed": new Decimal(1),
+        },
+        vip: {
+          bundles: [{ name: "1_MONTH", boughtAt: Date.now() }],
+          expiresAt: duringWindsOfChangeDate.getTime() - 1,
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            x: 0,
+            y: -2,
+          },
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+        item: "Zucchini Seed",
+      },
+      createdAt: duringWindsOfChangeDate.getTime(),
+    });
+
+    expect(state.crops[0].crop?.amount).toEqual(1);
+  });
+
+  it("does not apply a yield boost to a non new crop", () => {
+    const duringWindsOfChangeDate = new Date("2025-02-03T00:00:01Z");
+
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        season: {
+          season: "summer",
+          startedAt: 0,
+        },
+        inventory: {
+          "Sunflower Seed": new Decimal(1),
+        },
+        vip: {
+          bundles: [{ name: "1_MONTH", boughtAt: Date.now() }],
+          expiresAt: duringWindsOfChangeDate.getTime() - 1,
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            x: 0,
+            y: -2,
+          },
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+        item: "Sunflower Seed",
+      },
+      createdAt: duringWindsOfChangeDate.getTime(),
+    });
+
+    expect(state.crops[0].crop?.amount).toEqual(1);
+  });
+
+  it("does not apply a yield boost if the chapter is over", () => {
+    const pastWindsOfChangeDate = new Date("2025-07-03T00:00:01Z");
+
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        season: {
+          season: "summer",
+          startedAt: 0,
+        },
+        inventory: {
+          "Zucchini Seed": new Decimal(1),
+        },
+        vip: {
+          bundles: [{ name: "1_MONTH", boughtAt: Date.now() }],
+          expiresAt: pastWindsOfChangeDate.getTime() + 24 * 60 * 60 * 1000,
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            x: 0,
+            y: -2,
+          },
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+        item: "Zucchini Seed",
+      },
+      createdAt: pastWindsOfChangeDate.getTime(),
+    });
+
+    expect(state.crops[0].crop?.amount).toEqual(1);
+  });
+
+  it("applies a +0.25 yield boost on new winter crops eg Onion, Turnip during winds of change chapter", () => {
+    const duringWindsOfChangeDate = new Date("2025-02-03T00:00:01Z");
+
+    const crops = ["Onion", "Turnip"];
+
+    crops.forEach((crop, index) => {
+      const state = plant({
+        state: {
+          ...GAME_STATE,
+          season: {
+            season: "winter",
+            startedAt: 0,
+          },
+          inventory: {
+            [`${crop} Seed`]: new Decimal(1),
+          },
+          vip: {
+            bundles: [{ name: "1_MONTH", boughtAt: Date.now() }],
+            expiresAt: Date.now() + 31 * 24 * 60 * 60 * 1000,
+          },
+          crops: {
+            [index]: {
+              createdAt: Date.now(),
+              x: 0,
+              y: -2,
+            },
+          },
+        },
+        action: {
+          type: "seed.planted",
+          cropId: "1",
+          index: index.toString(),
+          item: `${crop} Seed` as CropSeedName,
+        },
+        createdAt: duringWindsOfChangeDate.getTime(),
+      });
+
+      expect(state.crops[index].crop?.amount).toEqual(1.25);
+    });
+  });
+
+  it("applies a +0.25 yield boost on new spring crops eg Rhubarb during winds of change chapter", () => {
+    const duringWindsOfChangeDate = new Date("2025-02-03T00:00:01Z");
+
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        season: {
+          season: "spring",
+          startedAt: 0,
+        },
+        inventory: {
+          "Rhubarb Seed": new Decimal(1),
+        },
+        vip: {
+          bundles: [{ name: "1_MONTH", boughtAt: Date.now() }],
+          expiresAt: Date.now() + 31 * 24 * 60 * 60 * 1000,
+        },
+        crops: {
+          0: {
+            createdAt: Date.now(),
+            x: 0,
+            y: -2,
+          },
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "0",
+        item: "Rhubarb Seed",
+      },
+      createdAt: duringWindsOfChangeDate.getTime(),
+    });
+
+    expect(state.crops[0].crop?.amount).toEqual(1.25);
+  });
+
+  it("applies a +0.25 yield boost on new autumn crops eg Yam, Broccoli, Artichoke during winds of change chapter", () => {
+    const duringWindsOfChangeDate = new Date("2025-02-03T00:00:01Z");
+
+    // Test autumn crops
+    const crops = ["Broccoli", "Artichoke", "Yam"];
+
+    crops.forEach((crop, index) => {
+      const state = plant({
+        state: {
+          ...GAME_STATE,
+          season: {
+            season: "autumn",
+            startedAt: 0,
+          },
+          inventory: {
+            [`${crop} Seed`]: new Decimal(1),
+          },
+          vip: {
+            bundles: [{ name: "1_MONTH", boughtAt: Date.now() }],
+            expiresAt: Date.now() + 31 * 24 * 60 * 60 * 1000,
+          },
+          crops: {
+            [index]: {
+              createdAt: Date.now(),
+              x: 0,
+              y: -2,
+            },
+          },
+        },
+        action: {
+          type: "seed.planted",
+          cropId: "1",
+          index: index.toString(),
+          item: `${crop} Seed` as CropSeedName,
+        },
+        createdAt: duringWindsOfChangeDate.getTime(),
+      });
+
+      expect(state.crops[index].crop?.amount).toEqual(1.25);
+    });
+  });
+  it("gives a +0.2 boost if the plot has a beeswarm attached to it", () => {
+    const now = Date.now();
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Sunflower Seed": new Decimal(1),
+        },
+        crops: {
+          "1": {
+            createdAt: now,
+            beeSwarm: {
+              count: 1,
+              swarmActivatedAt: now,
+            },
+            x: 0,
+            y: 0,
+          },
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "1",
+        item: "Sunflower Seed",
+      },
+      createdAt: now,
+    });
+
+    expect(state.crops["1"].crop?.amount).toEqual(1.2);
+  });
+
+  it("gives a +0.4 boost if the plot has 2 beeswarms attached to it", () => {
+    const now = Date.now();
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Sunflower Seed": new Decimal(1),
+        },
+        crops: {
+          "1": {
+            createdAt: now,
+            beeSwarm: {
+              count: 2,
+              swarmActivatedAt: now,
+            },
+            x: 0,
+            y: 0,
+          },
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "1",
+        item: "Sunflower Seed",
+      },
+      createdAt: now,
+    });
+
+    expect(state.crops["1"].crop?.amount).toEqual(1.4);
+  });
+
+  it("gives a +0.3 boost if the plot has a beeswarm attached to it with Pollen Power Up skill", () => {
+    const now = Date.now();
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...GAME_STATE.bumpkin,
+          skills: { "Pollen Power Up": 1 },
+        },
+        inventory: {
+          "Sunflower Seed": new Decimal(1),
+        },
+        crops: {
+          "1": {
+            createdAt: now,
+            beeSwarm: {
+              count: 1,
+              swarmActivatedAt: now,
+            },
+            x: 0,
+            y: 0,
+          },
+        },
+      },
+      action: {
+        type: "seed.planted",
+        cropId: "1",
+        index: "1",
+        item: "Sunflower Seed",
+      },
+      createdAt: now,
+    });
+
+    expect(state.crops["1"].crop?.amount).toEqual(1.3);
+  });
+
+  describe("getPlantedAt", () => {
+    it("returns normal planted at if time wrap is expired", () => {
+      const now = Date.now();
+
+      const time = getPlantedAt({
+        crop: "Sunflower",
+        game: {
+          ...TEST_FARM,
+          collectibles: {
+            "Time Warp Totem": [
+              {
+                id: "123",
+                createdAt: now - 2 * 60 * 60 * 1000 - 1,
+                coordinates: { x: 1, y: 1 },
+                readyAt: now - 2 * 60 * 60 * 1000 - 1,
+              },
+            ],
+          },
+        },
+        createdAt: now,
+        plot: {
+          createdAt: now,
+          x: 0,
+          y: -2,
+        },
+      });
+
+      expect(time).toEqual(now);
+    });
+
+    it("crop replenishes faster with time warp", () => {
+      const now = Date.now();
+
+      const time = getPlantedAt({
+        crop: "Sunflower",
+        game: {
+          ...TEST_FARM,
+          collectibles: {
+            "Time Warp Totem": [
+              {
+                id: "123",
+                createdAt: now,
+                coordinates: { x: 1, y: 1 },
+                readyAt: now - 5 * 60 * 1000,
+              },
+            ],
+          },
+        },
+        createdAt: now,
+        plot: {
+          createdAt: now,
+          x: 0,
+          y: -2,
+        },
+      });
+
+      expect(time).toEqual(now - 30 * 1000);
+    });
+
+    it("crop replenishes faster with Super Totem", () => {
+      const now = Date.now();
+
+      const time = getPlantedAt({
+        crop: "Sunflower",
+        game: {
+          ...TEST_FARM,
+          collectibles: {
+            "Super Totem": [
+              {
+                id: "123",
+                createdAt: now,
+                coordinates: { x: 1, y: 1 },
+                readyAt: now - 5 * 60 * 1000,
+              },
+            ],
+          },
+        },
+        createdAt: now,
+        plot: {
+          createdAt: now,
+          x: 0,
+          y: -2,
+        },
+      });
+
+      expect(time).toEqual(now - 30 * 1000);
+    });
+
+    it("does not apply a boost if the Super Totem has expired", () => {
+      const now = Date.now();
+      const nineDaysAgo = now - 9 * 24 * 60 * 60 * 1000;
+
+      const time = getPlantedAt({
+        crop: "Corn",
+        game: {
+          ...TEST_FARM,
+          collectibles: {
+            "Super Totem": [
+              {
+                id: "123",
+                createdAt: nineDaysAgo,
+                coordinates: { x: 1, y: 1 },
+                readyAt: nineDaysAgo,
+              },
+            ],
+          },
+        },
+        createdAt: now,
+        plot: {
+          createdAt: now,
+          x: 0,
+          y: -2,
+        },
+      });
+
+      expect(time).toEqual(now);
+    });
+
+    it("doesn't stack Super Totem and Time Warp totem", () => {
+      const now = Date.now();
+
+      const time = getPlantedAt({
+        crop: "Sunflower",
+        game: {
+          ...TEST_FARM,
+          collectibles: {
+            "Time Warp Totem": [
+              {
+                id: "123",
+                createdAt: now,
+                coordinates: { x: 1, y: 1 },
+                readyAt: now - 5 * 60 * 1000,
+              },
+            ],
+            "Super Totem": [
+              {
+                id: "123",
+                createdAt: now,
+                coordinates: { x: 1, y: 1 },
+                readyAt: now - 5 * 60 * 1000,
+              },
+            ],
+          },
+        },
+        createdAt: now,
+        plot: {
+          createdAt: now,
+          x: 0,
+          y: -2,
+        },
+      });
+
+      expect(time).toEqual(now - 30 * 1000);
+    });
+
+    it("applies the harvest hourglass boost of -25% crop growth time for 6 hours", () => {
+      const now = Date.now();
+      const baseHarvestSeconds = CROPS["Corn"].harvestSeconds;
+
+      const time = getPlantedAt({
+        crop: "Corn",
+        game: {
+          ...TEST_FARM,
+          collectibles: {
+            "Harvest Hourglass": [
+              {
+                id: "123",
+                createdAt: now,
+                coordinates: { x: 1, y: 1 },
+                readyAt: now,
+              },
+            ],
+          },
+        },
+        createdAt: now,
+        plot: {
+          createdAt: now,
+          x: 0,
+          y: -2,
+        },
+      });
+
+      const boost = baseHarvestSeconds * 0.25 * 1000;
+
+      expect(time).toEqual(now - boost);
+    });
+
+    it("does not apply a boost if the harvest hourglass has expired", () => {
+      const now = Date.now();
+      const sevenHoursAgo = now - 7 * 60 * 60 * 1000;
+
+      const time = getPlantedAt({
+        crop: "Corn",
+        game: {
+          ...TEST_FARM,
+          collectibles: {
+            "Harvest Hourglass": [
+              {
+                id: "123",
+                createdAt: sevenHoursAgo,
+                coordinates: { x: 1, y: 1 },
+                readyAt: sevenHoursAgo,
+              },
+            ],
+          },
+        },
+        createdAt: now,
+        plot: {
+          createdAt: now,
+          x: 0,
+          y: -2,
+        },
+      });
+
+      expect(time).toEqual(now);
+    });
   });
 });

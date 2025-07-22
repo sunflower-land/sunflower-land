@@ -133,6 +133,7 @@ describe("removeBuilding", () => {
             queue: [
               {
                 crop: "Sunflower",
+                amount: 1,
                 seeds: 1,
                 totalGrowTime: 60,
                 growTimeRemaining: 60,

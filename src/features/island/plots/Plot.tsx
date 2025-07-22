@@ -1,12 +1,11 @@
 import React, { useContext, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
-import { Reward, CropPlot } from "features/game/types/game";
+import { Reward, PlantedCrop } from "features/game/types/game";
 import { CROPS } from "features/game/types/crops";
 import { PIXEL_SCALE, TEST_FARM } from "features/game/lib/constants";
 import {
   getAffectedWeather,
-  getCropYieldAmount,
   isPlotFertile,
 } from "features/game/events/landExpansion/plant";
 import Spritesheet from "components/animation/SpriteAnimator";
@@ -105,7 +104,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
   const plantCount = useSelector(gameService, selectPlants);
   const soldCount = useSelector(gameService, selectCropsSold);
   const isSeasoned = useSelector(gameService, isSeasonedPlayer);
-  const harvested = useRef<number>(0);
+  const harvested = useRef<PlantedCrop>();
   const [showHarvested, setShowHarvested] = useState(false);
 
   const { openModal } = useContext(ModalContext);
@@ -138,22 +137,15 @@ export const Plot: React.FC<Props> = ({ id }) => {
   if (weather === "tsunami") return <TsunamiPlot game={state} />;
   if (weather === "greatFreeze") return <GreatFreezePlot game={state} />;
 
-  const harvestCrop = async (plot: CropPlot) => {
-    if (!plot.crop) return;
+  const harvestCrop = async (crop: PlantedCrop) => {
     const newState = gameService.send("crop.harvested", { index: id });
 
     if (newState.matches("hoarding")) return;
 
     harvestAudio();
-    const cropAmount = getCropYieldAmount({
-      crop: plot.crop.name,
-      game: state,
-      plot,
-      criticalDrop: (name) => !!plot.crop?.criticalHit?.[name],
-    });
 
     // firework animation
-    if (showAnimations && cropAmount >= 10) {
+    if (showAnimations && crop.amount && crop.amount >= 10) {
       setProcAnimation(
         <Spritesheet
           className="absolute pointer-events-none"
@@ -163,7 +155,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
             width: `${PIXEL_SCALE * HARVEST_PROC_ANIMATION.size}px`,
             imageRendering: "pixelated",
           }}
-          image={HARVEST_PROC_ANIMATION.sprites[plot.crop.name]}
+          image={HARVEST_PROC_ANIMATION.sprites[crop.name]}
           widthFrame={HARVEST_PROC_ANIMATION.size}
           heightFrame={HARVEST_PROC_ANIMATION.size}
           zoomScale={scale}
@@ -182,7 +174,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
       });
     }
 
-    harvested.current = cropAmount;
+    harvested.current = crop;
 
     if (showAnimations) {
       setShowHarvested(true);
@@ -222,7 +214,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
       // They have touched enough!
       if (isSeasoned) {
         gameService.send("cropReward.collected", { plotIndex: id });
-        harvestCrop(plot);
+        harvestCrop(crop);
       } else {
         setReward(crop.reward);
       }
@@ -283,7 +275,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
 
     // harvest crop when ready
     if (readyToHarvest) {
-      harvestCrop(plot);
+      harvestCrop(crop);
     }
 
     setTouchCount(0);
@@ -294,7 +286,7 @@ export const Plot: React.FC<Props> = ({ id }) => {
     setTouchCount(0);
 
     if (success && crop) {
-      harvestCrop(plot);
+      harvestCrop(crop);
     }
   };
 
@@ -376,8 +368,8 @@ export const Plot: React.FC<Props> = ({ id }) => {
         >
           <span
             className="text-sm yield-text"
-            style={{ color: getYieldColour(harvested.current) }}
-          >{`+${formatNumber(harvested.current)}`}</span>
+            style={{ color: getYieldColour(harvested.current?.amount ?? 0) }}
+          >{`+${formatNumber(harvested.current?.amount ?? 0)}`}</span>
         </Transition>
       )}
     </>

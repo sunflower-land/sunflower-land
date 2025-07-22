@@ -81,6 +81,7 @@ const INITIAL_SPRING_LAND: Pick<
       crop: {
         name: "Sunflower",
         plantedAt: 0,
+        amount: 1,
       },
       x: -2,
       y: 0,
@@ -90,6 +91,7 @@ const INITIAL_SPRING_LAND: Pick<
       crop: {
         name: "Sunflower",
         plantedAt: 0,
+        amount: 1,
       },
       x: -1,
       y: 0,
@@ -99,6 +101,7 @@ const INITIAL_SPRING_LAND: Pick<
       crop: {
         name: "Sunflower",
         plantedAt: 0,
+        amount: 1,
       },
       x: 0,
       y: 0,
@@ -183,6 +186,7 @@ const INITIAL_SPRING_LAND: Pick<
     "1": {
       createdAt: 0,
       fruit: {
+        amount: 2,
         name: "Apple",
         harvestedAt: 0,
         harvestsLeft: 3,
@@ -194,6 +198,7 @@ const INITIAL_SPRING_LAND: Pick<
     "2": {
       createdAt: 0,
       fruit: {
+        amount: 1,
         name: "Apple",
         harvestedAt: 0,
         harvestsLeft: 3,
@@ -206,14 +211,15 @@ const INITIAL_SPRING_LAND: Pick<
   trees: {
     "1": {
       wood: {
+        amount: 2,
         choppedAt: 0,
-        criticalHit: { Native: 1 },
       },
       x: 3,
       y: 6,
     },
     "2": {
       wood: {
+        amount: 1,
         choppedAt: 0,
       },
       x: 3,
@@ -221,8 +227,8 @@ const INITIAL_SPRING_LAND: Pick<
     },
     "3": {
       wood: {
+        amount: 2,
         choppedAt: 0,
-        criticalHit: { Native: 1 },
       },
       x: 7,
       y: 9,
@@ -233,8 +239,8 @@ const INITIAL_SPRING_LAND: Pick<
       x: 3,
       y: 9,
       stone: {
+        amount: 2,
         minedAt: 0,
-        criticalHit: { Native: 1 },
       },
     },
   },
@@ -243,6 +249,7 @@ const INITIAL_SPRING_LAND: Pick<
       x: 5,
       y: 8,
       stone: {
+        amount: 1,
         minedAt: 0,
       },
     },
@@ -250,6 +257,7 @@ const INITIAL_SPRING_LAND: Pick<
   stones: {
     "1": {
       stone: {
+        amount: 1,
         minedAt: 0,
       },
       x: -3,
@@ -257,6 +265,7 @@ const INITIAL_SPRING_LAND: Pick<
     },
     "2": {
       stone: {
+        amount: 1,
         minedAt: 0,
       },
       x: -2,
@@ -321,6 +330,7 @@ const INITIAL_DESERT_LAND: Pick<
       crop: {
         name: "Sunflower",
         plantedAt: 0,
+        amount: 1,
       },
       x: -2,
       y: 0,
@@ -330,6 +340,7 @@ const INITIAL_DESERT_LAND: Pick<
       crop: {
         name: "Sunflower",
         plantedAt: 0,
+        amount: 1,
       },
       x: -1,
       y: 0,
@@ -339,6 +350,7 @@ const INITIAL_DESERT_LAND: Pick<
       crop: {
         name: "Sunflower",
         plantedAt: 0,
+        amount: 1,
       },
       x: 0,
       y: 0,
@@ -423,6 +435,7 @@ const INITIAL_DESERT_LAND: Pick<
     "1": {
       createdAt: 0,
       fruit: {
+        amount: 2,
         name: "Apple",
         harvestedAt: 0,
         harvestsLeft: 3,
@@ -434,6 +447,7 @@ const INITIAL_DESERT_LAND: Pick<
     "2": {
       createdAt: 0,
       fruit: {
+        amount: 1,
         name: "Apple",
         harvestedAt: 0,
         harvestsLeft: 3,
@@ -446,14 +460,15 @@ const INITIAL_DESERT_LAND: Pick<
   trees: {
     "1": {
       wood: {
+        amount: 2,
         choppedAt: 0,
-        criticalHit: { Native: 1 },
       },
       x: 4,
       y: 6,
     },
     "2": {
       wood: {
+        amount: 1,
         choppedAt: 0,
       },
       x: 4,
@@ -461,8 +476,8 @@ const INITIAL_DESERT_LAND: Pick<
     },
     "3": {
       wood: {
+        amount: 2,
         choppedAt: 0,
-        criticalHit: { Native: 1 },
       },
       x: 7,
       y: 9,
@@ -473,7 +488,7 @@ const INITIAL_DESERT_LAND: Pick<
       x: 3,
       y: 9,
       stone: {
-        criticalHit: { Native: 1 },
+        amount: 2,
         minedAt: 0,
       },
     },
@@ -483,6 +498,7 @@ const INITIAL_DESERT_LAND: Pick<
       x: 5,
       y: 8,
       stone: {
+        amount: 1,
         minedAt: 0,
       },
     },
@@ -490,6 +506,7 @@ const INITIAL_DESERT_LAND: Pick<
   stones: {
     "1": {
       stone: {
+        amount: 1,
         minedAt: 0,
       },
       x: -3,
@@ -497,6 +514,7 @@ const INITIAL_DESERT_LAND: Pick<
     },
     "2": {
       stone: {
+        amount: 1,
         minedAt: 0,
       },
       x: -2,
@@ -567,6 +585,7 @@ const INITIAL_VOLCANO_LAND: Pick<
       x: -8,
       y: 8,
       oil: {
+        amount: 10,
         drilledAt: 0,
       },
       drilled: 0,
@@ -579,6 +598,7 @@ const INITIAL_VOLCANO_LAND: Pick<
       crop: {
         name: "Sunflower",
         plantedAt: 0,
+        amount: 1,
       },
       x: -1,
       y: -1,
@@ -588,6 +608,7 @@ const INITIAL_VOLCANO_LAND: Pick<
       crop: {
         name: "Sunflower",
         plantedAt: 0,
+        amount: 1,
       },
       x: 0,
       y: -1,
@@ -597,6 +618,7 @@ const INITIAL_VOLCANO_LAND: Pick<
       crop: {
         name: "Sunflower",
         plantedAt: 0,
+        amount: 1,
       },
       x: 1,
       y: -1,
@@ -681,6 +703,7 @@ const INITIAL_VOLCANO_LAND: Pick<
     "1": {
       createdAt: 0,
       fruit: {
+        amount: 2,
         name: "Apple",
         harvestedAt: 0,
         harvestsLeft: 3,
@@ -692,6 +715,7 @@ const INITIAL_VOLCANO_LAND: Pick<
     "2": {
       createdAt: 0,
       fruit: {
+        amount: 1,
         name: "Apple",
         harvestedAt: 0,
         harvestsLeft: 3,
@@ -704,8 +728,8 @@ const INITIAL_VOLCANO_LAND: Pick<
   trees: {
     "1": {
       wood: {
+        amount: 2,
         choppedAt: 0,
-        criticalHit: { Native: 1 },
       },
       x: 5,
       y: 9,
@@ -713,6 +737,7 @@ const INITIAL_VOLCANO_LAND: Pick<
     },
     "2": {
       wood: {
+        amount: 1,
         choppedAt: 0,
       },
       x: 3,
@@ -721,8 +746,8 @@ const INITIAL_VOLCANO_LAND: Pick<
     },
     "3": {
       wood: {
+        amount: 2,
         choppedAt: 0,
-        criticalHit: { Native: 1 },
       },
       x: 7,
       y: 9,
@@ -734,7 +759,7 @@ const INITIAL_VOLCANO_LAND: Pick<
       x: 2,
       y: 9,
       stone: {
-        criticalHit: { Native: 1 },
+        amount: 2,
         minedAt: 0,
       },
       createdAt: Date.now(),
@@ -745,6 +770,7 @@ const INITIAL_VOLCANO_LAND: Pick<
       x: 5,
       y: 7,
       stone: {
+        amount: 1,
         minedAt: 0,
       },
       createdAt: Date.now(),
@@ -753,6 +779,7 @@ const INITIAL_VOLCANO_LAND: Pick<
   stones: {
     "1": {
       stone: {
+        amount: 1,
         minedAt: 0,
       },
       x: -3,
@@ -761,6 +788,7 @@ const INITIAL_VOLCANO_LAND: Pick<
     },
     "2": {
       stone: {
+        amount: 1,
         minedAt: 0,
       },
       x: -2,
