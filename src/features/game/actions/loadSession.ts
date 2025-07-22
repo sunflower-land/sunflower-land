@@ -100,6 +100,10 @@ export async function loadSession(
     throw new Error(ERRORS.SESSION_EXPIRED);
   }
 
+  if (response.status === 403) {
+    throw new Error(ERRORS.SESSION_CLIENT_ERROR);
+  }
+
   if (response.status >= 400) {
     loadSessionErrors += 1;
 

@@ -6232,5 +6232,8 @@
   "biome.notInCorrectIslandType": "Upgrade to {{islandType}} island to buy this biome",
   "biome.applyInstructions": "You have bought a new biome! Time to give your land a makeover. Head over to the \"Biomes\" tab in your inventory to apply it.",
   "already.built": "Already built",
-  "monuments": "Monuments"
+  "monuments": "Monuments",
+  "clientOutdated.label": "Version Outdated",
+  "clientOutdated.description": "A major update is available! Please refresh the page to download the latest game version.",
+  "clientOutdated.currentVersion": "Current Version: {{version}}"
 }
