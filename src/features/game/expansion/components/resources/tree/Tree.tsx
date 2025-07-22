@@ -186,7 +186,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
         game,
         criticalDropGenerator: (name) =>
           !!(resource.wood.criticalHit?.[name] ?? 0),
-      });
+      }).amount;
 
     const newState = gameService.send("timber.chopped", {
       index: id,
