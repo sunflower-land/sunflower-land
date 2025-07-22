@@ -217,6 +217,7 @@ export function mineGold({
 
     stateCopy.inventory["Iron Pickaxe"] = toolAmount.sub(1);
     stateCopy.inventory.Gold = amountInInventory.add(goldMined);
+    delete goldRock.stone.amount;
 
     return stateCopy;
   });

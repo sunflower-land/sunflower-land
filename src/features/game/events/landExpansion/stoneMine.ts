@@ -266,6 +266,7 @@ export function mineStone({
 
     stateCopy.inventory.Pickaxe = toolAmount.sub(requiredToolAmount);
     stateCopy.inventory.Stone = amountInInventory.add(stoneMined);
+    delete rock.stone.amount;
 
     bumpkin.activity = trackActivity("Stone Mined", bumpkin.activity);
 

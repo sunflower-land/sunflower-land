@@ -231,6 +231,7 @@ export function chop({
     inventory.Wood = woodAmount.add(woodHarvested);
 
     bumpkin.activity = trackActivity("Tree Chopped", bumpkin.activity);
+    delete tree.wood.amount;
 
     return stateCopy;
   });
