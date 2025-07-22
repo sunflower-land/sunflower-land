@@ -8,12 +8,6 @@ import {
   PATCH_FRUIT,
   PatchFruitName,
 } from "./fruits";
-import {
-  isAdvancedCrop,
-  isBasicCrop,
-  isMediumCrop,
-  isOvernightCrop,
-} from "../events/landExpansion/harvest";
 import { TranslationKeys } from "lib/i18n/dictionaries/types";
 
 export type CropName =
@@ -515,4 +509,38 @@ export function getCropCategory(crop: ProduceName): TranslationKeys {
 
 export const isExoticCrop = (item: string): item is ExoticCropName => {
   return item in EXOTIC_CROPS;
+};
+
+export const isBasicCrop = (cropName: CropName | GreenHouseCropName) => {
+  if (!isCrop(cropName)) return false;
+  const cropDetails = CROPS[cropName];
+  return cropDetails.harvestSeconds <= CROPS["Pumpkin"].harvestSeconds;
+};
+
+export const isMediumCrop = (cropName: CropName | GreenHouseCropName) => {
+  if (!isCrop(cropName)) return false;
+  return !(isBasicCrop(cropName) || isAdvancedCrop(cropName));
+};
+
+export const isAdvancedCrop = (cropName: CropName | GreenHouseCropName) => {
+  if (!isCrop(cropName)) return false;
+  const cropDetails = CROPS[cropName];
+  return cropDetails.harvestSeconds >= CROPS["Eggplant"].harvestSeconds;
+};
+
+function isCrop(plant: GreenHouseCropName | CropName): plant is CropName {
+  return (plant as CropName) in CROPS;
+}
+
+export const isOvernightCrop = (cropName: CropName | GreenHouseCropName) => {
+  if (isCrop(cropName)) {
+    const cropDetails = CROPS[cropName];
+    return cropDetails.harvestSeconds >= CROPS["Radish"].harvestSeconds;
+  }
+
+  const details = GREENHOUSE_CROPS[cropName];
+  return (
+    details.harvestSeconds >= 24 * 60 * 60 &&
+    details.harvestSeconds <= 36 * 60 * 60
+  );
 };

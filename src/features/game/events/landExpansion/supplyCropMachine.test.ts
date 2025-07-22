@@ -196,7 +196,6 @@ describe("supplyCropMachine", () => {
             queue: [
               {
                 crop: "Sunflower",
-                amount: 100,
                 totalGrowTime: sunflowerPackGrowTime,
                 growTimeRemaining: 0,
                 startTime: Date.now(),
@@ -289,8 +288,6 @@ describe("supplyCropMachine", () => {
     expect(newState.buildings["Crop Machine"]?.[0].queue).toStrictEqual([
       {
         crop: "Sunflower",
-        // For performance reasons getCropYield is not called in the supplyCropMachine function
-        amount: 0,
         growTimeRemaining: sunflowerTime,
         totalGrowTime: sunflowerTime,
         seeds: 5,
@@ -343,16 +340,12 @@ describe("supplyCropMachine", () => {
     expect(result.buildings["Crop Machine"]?.[0].queue).toStrictEqual([
       {
         crop: "Sunflower",
-        // For performance reasons getCropYield is not called in the supplyCropMachine function
-        amount: 0,
         growTimeRemaining: sunflowerTime, // 5 plots,
         totalGrowTime: sunflowerTime,
         seeds: 5,
       },
       {
         crop: "Potato",
-        // For performance reasons getCropYield is not called in the supplyCropMachine function
-        amount: 0,
         growTimeRemaining: potatoTime,
         totalGrowTime: potatoTime,
         seeds: 5,
@@ -378,7 +371,6 @@ describe("supplyCropMachine", () => {
             queue: [
               {
                 crop: "Sunflower",
-                amount: 5,
                 readyAt: 34567,
                 growTimeRemaining: 0,
                 totalGrowTime: 0,
@@ -386,7 +378,6 @@ describe("supplyCropMachine", () => {
               },
               {
                 crop: "Sunflower",
-                amount: 5000,
                 readyAt: 34567,
                 growTimeRemaining: 0,
                 totalGrowTime: 0,
@@ -394,7 +385,6 @@ describe("supplyCropMachine", () => {
               },
               {
                 crop: "Sunflower",
-                amount: 5,
                 seeds: 5,
                 readyAt: 34567,
                 growTimeRemaining: 0,
@@ -402,7 +392,6 @@ describe("supplyCropMachine", () => {
               },
               {
                 crop: "Sunflower",
-                amount: 5,
                 seeds: 5,
                 readyAt: 34567,
                 growTimeRemaining: 0,
@@ -410,7 +399,6 @@ describe("supplyCropMachine", () => {
               },
               {
                 crop: "Sunflower",
-                amount: 5,
                 seeds: 5,
                 readyAt: 34567,
                 growTimeRemaining: 0,
@@ -523,7 +511,6 @@ describe("supplyCropMachine", () => {
             queue: [
               {
                 crop: "Sunflower",
-                amount: 100,
                 growTimeRemaining: sunflowerPackGrowTime,
                 totalGrowTime: sunflowerPackGrowTime,
                 seeds: 100,
@@ -582,14 +569,12 @@ describe("supplyCropMachine", () => {
             queue: [
               {
                 crop: "Sunflower",
-                amount: 100,
                 growTimeRemaining: sunflowerPackGrowTime,
                 totalGrowTime: sunflowerPackGrowTime,
                 seeds: 100,
               },
               {
                 crop: "Potato",
-                amount: 100,
                 growTimeRemaining: potatoPackGrowTime,
                 totalGrowTime: potatoPackGrowTime,
                 seeds: 100,
@@ -655,7 +640,6 @@ describe("supplyCropMachine", () => {
             queue: [
               {
                 crop: "Sunflower",
-                amount: 600,
                 totalGrowTime: sunflowerTime,
                 growTimeRemaining: sunflowerTime,
                 seeds: 600,
@@ -714,14 +698,12 @@ describe("supplyCropMachine", () => {
             queue: [
               {
                 crop: "Sunflower",
-                amount: 300,
                 totalGrowTime: sunflowerTimeForThreeHundred,
                 growTimeRemaining: sunflowerTimeForThreeHundred,
                 seeds: 300,
               },
               {
                 crop: "Sunflower",
-                amount: 600,
                 totalGrowTime: sunflowerTimeForSixHundred,
                 growTimeRemaining: sunflowerTimeForSixHundred,
                 seeds: 600,
@@ -787,21 +769,18 @@ describe("supplyCropMachine", () => {
             queue: [
               {
                 crop: "Sunflower",
-                amount: 300,
                 totalGrowTime: sunflowerTime,
                 growTimeRemaining: sunflowerTime,
                 seeds: 300,
               },
               {
                 crop: "Potato",
-                amount: 500,
                 totalGrowTime: potatoTime,
                 growTimeRemaining: potatoTime,
                 seeds: 500,
               },
               {
                 crop: "Sunflower",
-                amount: 300,
                 totalGrowTime: sunflowerTime,
                 growTimeRemaining: sunflowerTime,
                 seeds: 300,
@@ -888,8 +867,6 @@ describe("supplyCropMachine", () => {
     expect(newState.buildings["Crop Machine"]?.[0].queue).toStrictEqual([
       {
         crop: "Sunflower",
-        // For performance reasons getCropYield is not called in the supplyCropMachine function
-        amount: 0,
         totalGrowTime: sunflowerTime,
         growTimeRemaining: sunflowerTime,
         seeds: 5,
@@ -918,7 +895,6 @@ describe("supplyCropMachine", () => {
             queue: [
               {
                 crop: "Sunflower",
-                amount: 100,
                 totalGrowTime: sunflowerPackGrowTime,
                 growTimeRemaining: sunflowerPackGrowTime,
                 seeds: 100,
@@ -972,7 +948,6 @@ describe("supplyCropMachine", () => {
             queue: [
               {
                 crop: "Sunflower",
-                amount: 100,
                 totalGrowTime: sunflowerPackGrowTime,
                 growTimeRemaining: 0,
                 startTime: now,
@@ -1040,7 +1015,6 @@ describe("supplyCropMachine", () => {
             queue: [
               {
                 crop: "Sunflower",
-                amount: 100,
                 totalGrowTime: packOneGrowTime,
                 growTimeRemaining: 0,
                 startTime: packOneStartTime,
@@ -1049,7 +1023,6 @@ describe("supplyCropMachine", () => {
               },
               {
                 crop: "Potato",
-                amount: 100,
                 totalGrowTime: packTwoGrowTime,
                 growTimeRemaining: packTwoGrowTime / 2,
                 startTime: packTwoStartTime,
@@ -1110,7 +1083,6 @@ describe("supplyCropMachine", () => {
             queue: [
               {
                 crop: "Sunflower",
-                amount: 100,
                 totalGrowTime: packOneGrowTime,
                 growTimeRemaining: packOneGrowTime / 2,
                 startTime: packOneStartTime,
@@ -1172,7 +1144,6 @@ describe("supplyCropMachine", () => {
             queue: [
               {
                 crop: "Sunflower",
-                amount: 100,
                 totalGrowTime: packOneGrowTime,
                 growTimeRemaining: 0,
                 startTime: now,
@@ -1181,7 +1152,6 @@ describe("supplyCropMachine", () => {
               },
               {
                 crop: "Sunflower",
-                amount: 100,
                 startTime: now + packOneGrowTime,
                 totalGrowTime: packTwoGrowTime,
                 growTimeRemaining: packTwoGrowTime / 2,
@@ -1239,7 +1209,6 @@ describe("supplyCropMachine", () => {
             queue: [
               {
                 crop: "Sunflower",
-                amount: 1000,
                 totalGrowTime: packOneGrowTime,
                 growTimeRemaining: 70 * 60 * 1000, // 70 minutes
                 startTime: packOneStartTime,
@@ -1296,7 +1265,6 @@ describe("supplyCropMachine", () => {
             queue: [
               {
                 crop: "Sunflower",
-                amount: 100,
                 totalGrowTime: sunflowerPackGrowTime,
                 growTimeRemaining: 0,
                 startTime: now,
@@ -1305,7 +1273,6 @@ describe("supplyCropMachine", () => {
               },
               {
                 crop: "Sunflower",
-                amount: 100,
                 totalGrowTime: sunflowerPackGrowTime,
                 growTimeRemaining: 0,
                 startTime: now,
@@ -1314,7 +1281,6 @@ describe("supplyCropMachine", () => {
               },
               {
                 crop: "Sunflower",
-                amount: 100,
                 totalGrowTime: sunflowerPackGrowTime,
                 growTimeRemaining: 0,
                 startTime: now,
@@ -1323,7 +1289,6 @@ describe("supplyCropMachine", () => {
               },
               {
                 crop: "Sunflower",
-                amount: 100,
                 totalGrowTime: sunflowerPackGrowTime,
                 growTimeRemaining: 0,
                 startTime: now,
@@ -1332,7 +1297,6 @@ describe("supplyCropMachine", () => {
               },
               {
                 crop: "Sunflower",
-                amount: 100,
                 totalGrowTime: sunflowerPackGrowTime,
                 growTimeRemaining: 0,
                 startTime: now,
@@ -1581,7 +1545,6 @@ describe("supplyCropMachine", () => {
             unallocatedOilTime: 0,
             queue: [
               {
-                amount: 1,
                 crop: "Sunflower",
                 growTimeRemaining: 0,
                 seeds: 1,
@@ -1968,7 +1931,6 @@ describe("getTotalOilMillisInMachine", () => {
             queue: [
               {
                 crop: "Sunflower",
-                amount: 100,
                 totalGrowTime: sunflowerPackGrowTime,
                 growTimeRemaining: 0,
                 startTime: now,
@@ -2006,7 +1968,6 @@ describe("getTotalOilMillisInMachine", () => {
             queue: [
               {
                 crop: "Sunflower",
-                amount: 100,
                 totalGrowTime: sunflowerPackGrowTime,
                 growTimeRemaining: 0,
                 startTime: now - sunflowerPackGrowTime,
@@ -2044,7 +2005,6 @@ describe("getTotalOilMillisInMachine", () => {
             queue: [
               {
                 crop: "Sunflower",
-                amount: 100,
                 totalGrowTime: sunflowerPackGrowTime,
                 growTimeRemaining: 0,
                 startTime: now - sunflowerPackGrowTime,
@@ -2084,7 +2044,6 @@ describe("getTotalOilMillisInMachine", () => {
             queue: [
               {
                 crop: "Sunflower",
-                amount: 100,
                 totalGrowTime: packGrowTime,
                 growTimeRemaining: packGrowTime / 2,
                 startTime: oneHourAgo,
@@ -2123,7 +2082,6 @@ describe("getTotalOilMillisInMachine", () => {
             queue: [
               {
                 crop: "Sunflower",
-                amount: 100,
                 totalGrowTime: packGrowTime,
                 growTimeRemaining: 0,
                 startTime: oneHourAgo,
@@ -2132,7 +2090,6 @@ describe("getTotalOilMillisInMachine", () => {
               },
               {
                 crop: "Sunflower",
-                amount: 100,
                 totalGrowTime: packGrowTime,
                 growTimeRemaining: 0,
                 startTime: now,

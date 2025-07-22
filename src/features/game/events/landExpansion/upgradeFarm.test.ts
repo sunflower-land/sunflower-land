@@ -100,7 +100,6 @@ describe("upgradeFarm", () => {
         oilReserves: {
           oil: {
             oil: {
-              amount: 10,
               drilledAt: 1,
             },
             createdAt: 1,
@@ -149,7 +148,6 @@ describe("upgradeFarm", () => {
               y: 0,
               flower: {
                 name: "Red Pansy",
-                amount: 1,
                 plantedAt: 123,
               },
             },
@@ -171,7 +169,6 @@ describe("upgradeFarm", () => {
           crim: {
             minesLeft: 1,
             stone: {
-              amount: 1,
               minedAt: Date.now() - 1 * 60 * 60 * 1000,
             },
             x: 100,
@@ -229,7 +226,6 @@ describe("upgradeFarm", () => {
               y: 0,
               flower: {
                 name: "Red Pansy",
-                amount: 1,
                 plantedAt: 123,
               },
             },
@@ -337,7 +333,6 @@ describe("upgradeFarm", () => {
       "1234": {
         minesLeft: 1,
         stone: {
-          amount: 1,
           minedAt: Date.now() - 1 * 60 * 60 * 1000,
         },
         x: 100,
@@ -397,7 +392,6 @@ describe("upgradeFarm", () => {
       "1234": {
         minesLeft: 1,
         stone: {
-          amount: 1,
           minedAt: Date.now() - 1 * 60 * 60 * 1000,
         },
         x: 100,
@@ -433,7 +427,6 @@ describe("upgradeFarm", () => {
       "1234": {
         minesLeft: 1,
         stone: {
-          amount: 1,
           minedAt: Date.now() - 1 * 60 * 60 * 1000,
         },
         x: 100,
@@ -473,7 +466,6 @@ describe("upgradeFarm", () => {
       "1234": {
         minesLeft: 1,
         stone: {
-          amount: 1,
           minedAt: Date.now() - 1 * 60 * 60 * 1000,
         },
         x: 100,

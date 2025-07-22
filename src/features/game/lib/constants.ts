@@ -215,7 +215,6 @@ export const INVENTORY_LIMIT = (
 export const INITIAL_GOLD_MINES: GameState["gold"] = {
   0: {
     stone: {
-      amount: 0.1,
       minedAt: 0,
     },
     x: -4,
@@ -226,7 +225,6 @@ export const INITIAL_GOLD_MINES: GameState["gold"] = {
 export const INITIAL_EXPANSION_IRON: GameState["iron"] = {
   0: {
     stone: {
-      amount: 0.1,
       minedAt: 0,
     },
     x: 2,
@@ -265,8 +263,8 @@ export const INITIAL_RESOURCES: Pick<
     1: {
       createdAt: Date.now(),
       wood: {
-        amount: 2,
         choppedAt: 0,
+        criticalHit: { Native: 1 },
       },
       x: -3,
       y: 3,
@@ -274,7 +272,6 @@ export const INITIAL_RESOURCES: Pick<
     2: {
       createdAt: Date.now(),
       wood: {
-        amount: 1,
         choppedAt: 0,
       },
       x: 5,
@@ -284,7 +281,7 @@ export const INITIAL_RESOURCES: Pick<
     3: {
       createdAt: Date.now(),
       wood: {
-        amount: 2,
+        criticalHit: { Native: 1 },
         choppedAt: 0,
       },
       x: 7,
@@ -295,7 +292,6 @@ export const INITIAL_RESOURCES: Pick<
     1: {
       createdAt: Date.now(),
       stone: {
-        amount: 1,
         minedAt: 0,
       },
       x: 7,
@@ -304,7 +300,6 @@ export const INITIAL_RESOURCES: Pick<
     2: {
       createdAt: Date.now(),
       stone: {
-        amount: 1,
         minedAt: 0,
       },
       x: 3,
@@ -765,19 +760,19 @@ export const TEST_FARM: GameState = {
   crops: {
     1: {
       createdAt: Date.now(),
-      crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
+      crop: { name: "Sunflower", plantedAt: 0 },
       x: -2,
       y: 0,
     },
     2: {
       createdAt: Date.now(),
-      crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
+      crop: { name: "Sunflower", plantedAt: 0 },
       x: -1,
       y: 0,
     },
     3: {
       createdAt: Date.now(),
-      crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
+      crop: { name: "Sunflower", plantedAt: 0 },
       x: 0,
       y: 0,
     },
@@ -898,7 +893,6 @@ export const TEST_FARM: GameState = {
   stones: {
     1: {
       stone: {
-        amount: 1,
         minedAt: 0,
       },
       x: 7,
@@ -906,7 +900,6 @@ export const TEST_FARM: GameState = {
     },
     2: {
       stone: {
-        amount: 1,
         minedAt: 0,
       },
       x: 3,
@@ -918,7 +911,7 @@ export const TEST_FARM: GameState = {
   trees: {
     1: {
       wood: {
-        amount: 2,
+        criticalHit: { Native: 1 },
         choppedAt: 0,
       },
       x: -3,
@@ -926,7 +919,6 @@ export const TEST_FARM: GameState = {
     },
     2: {
       wood: {
-        amount: 1,
         choppedAt: 0,
       },
       x: 7,
@@ -935,7 +927,7 @@ export const TEST_FARM: GameState = {
 
     3: {
       wood: {
-        amount: 2,
+        criticalHit: { Native: 1 },
         choppedAt: 0,
       },
       x: 7,

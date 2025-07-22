@@ -12,7 +12,6 @@ describe("moveGold", () => {
               x: 1,
               y: 1,
               stone: {
-                amount: 1,
                 minedAt: 0,
               },
             },
@@ -36,7 +35,6 @@ describe("moveGold", () => {
             x: 1,
             y: 1,
             stone: {
-              amount: 1,
               minedAt: 0,
             },
           },
@@ -44,7 +42,6 @@ describe("moveGold", () => {
             x: 4,
             y: 4,
             stone: {
-              amount: 1,
               minedAt: 0,
             },
           },
@@ -52,7 +49,6 @@ describe("moveGold", () => {
             x: 8,
             y: 8,
             stone: {
-              amount: 1,
               minedAt: 0,
             },
           },
@@ -70,7 +66,6 @@ describe("moveGold", () => {
         x: 2,
         y: 2,
         stone: {
-          amount: 1,
           minedAt: 0,
         },
       },
@@ -78,7 +73,6 @@ describe("moveGold", () => {
         x: 4,
         y: 4,
         stone: {
-          amount: 1,
           minedAt: 0,
         },
       },
@@ -86,7 +80,6 @@ describe("moveGold", () => {
         x: 8,
         y: 8,
         stone: {
-          amount: 1,
           minedAt: 0,
         },
       },
@@ -115,7 +108,6 @@ describe("moveGold", () => {
               x: 1,
               y: 2,
               stone: {
-                amount: 1,
                 minedAt: dateNow - 100,
               },
             },
