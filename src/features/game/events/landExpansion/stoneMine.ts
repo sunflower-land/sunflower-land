@@ -246,11 +246,14 @@ export function mineStone({
     if (toolAmount.lessThan(requiredToolAmount)) {
       throw new Error("Not enough pickaxes");
     }
-    const stoneMined = getStoneDropAmount({
-      game: stateCopy,
-      rock,
-      criticalDropGenerator: (name) => !!(rock.stone.criticalHit?.[name] ?? 0),
-    });
+    const stoneMined =
+      rock.stone.amount ??
+      getStoneDropAmount({
+        game: stateCopy,
+        rock,
+        criticalDropGenerator: (name) =>
+          !!(rock.stone.criticalHit?.[name] ?? 0),
+      });
     const amountInInventory = stateCopy.inventory.Stone || new Decimal(0);
 
     rock.stone = {

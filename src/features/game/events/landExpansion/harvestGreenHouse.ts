@@ -99,11 +99,13 @@ export function harvestGreenHouse({
     }
 
     // Harvests Crop
-    const greenhouseProduce = getGreenhouseCropYieldAmount({
-      crop: pot.plant.name,
-      game,
-      criticalDrop: (name) => !!(pot.plant?.criticalHit?.[name] ?? 0),
-    });
+    const greenhouseProduce =
+      pot.plant.amount ??
+      getGreenhouseCropYieldAmount({
+        crop: pot.plant.name,
+        game,
+        criticalDrop: (name) => !!(pot.plant?.criticalHit?.[name] ?? 0),
+      });
 
     const previousAmount = game.inventory[pot.plant.name] ?? new Decimal(0);
     game.inventory[pot.plant.name] = previousAmount.add(greenhouseProduce);

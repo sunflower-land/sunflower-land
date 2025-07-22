@@ -314,18 +314,21 @@ export function harvestFruit({
       throw new Error("No harvest left");
     }
 
-    const amount = getFruitYield({
-      game: stateCopy,
-      name,
-      fertiliser: patch.fertiliser?.name,
-      criticalDrop: (name) => !!(criticalHit[name] ?? 0),
-    });
+    const amount =
+      patch.fruit.amount ??
+      getFruitYield({
+        game: stateCopy,
+        name,
+        fertiliser: patch.fertiliser?.name,
+        criticalDrop: (name) => !!(criticalHit[name] ?? 0),
+      });
 
     stateCopy.inventory[name] =
       stateCopy.inventory[name]?.add(amount) ?? new Decimal(amount);
 
     patch.fruit.harvestsLeft = patch.fruit.harvestsLeft - 1;
     patch.fruit.harvestedAt = getPlantedAt(seed, stateCopy, createdAt);
+    delete patch.fruit.amount;
 
     const activityName: BumpkinActivityName = `${name} Harvested`;
 

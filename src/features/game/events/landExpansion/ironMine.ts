@@ -198,12 +198,14 @@ export function mineIron({
       throw new Error(MINE_ERRORS.NO_PICKAXES);
     }
 
-    const ironMined = getIronDropAmount({
-      game: stateCopy,
-      rock: ironRock,
-      criticalDropGenerator: (name) =>
-        !!(ironRock.stone.criticalHit?.[name] ?? 0),
-    });
+    const ironMined =
+      ironRock.stone.amount ??
+      getIronDropAmount({
+        game: stateCopy,
+        rock: ironRock,
+        criticalDropGenerator: (name) =>
+          !!(ironRock.stone.criticalHit?.[name] ?? 0),
+      });
 
     const amountInInventory = stateCopy.inventory.Iron || new Decimal(0);
 
