@@ -525,7 +525,7 @@ describe("drillOilReserve", () => {
     it("replenishes oil twice as fast with Dev Wrench", () => {
       const now = Date.now();
 
-      const time = getDrilledAt({
+      const { time } = getDrilledAt({
         game: {
           ...TEST_FARM,
           bumpkin: {
@@ -545,7 +545,7 @@ describe("drillOilReserve", () => {
     it("replenishes oil in 20% less time with Oil Be Back", () => {
       const now = Date.now();
 
-      const time = getDrilledAt({
+      const { time } = getDrilledAt({
         game: {
           ...TEST_FARM,
           bumpkin: {
