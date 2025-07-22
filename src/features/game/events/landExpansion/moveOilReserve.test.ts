@@ -14,6 +14,7 @@ describe("moveOilReserve", () => {
               x: 1,
               y: 1,
               oil: {
+                amount: 1,
                 drilledAt: 0,
               },
             },
@@ -37,6 +38,7 @@ describe("moveOilReserve", () => {
             x: 1,
             y: 1,
             oil: {
+              amount: 1,
               drilledAt: 0,
             },
             createdAt: 0,
@@ -46,6 +48,7 @@ describe("moveOilReserve", () => {
             x: 4,
             y: 4,
             oil: {
+              amount: 1,
               drilledAt: 0,
             },
             drilled: 1,
@@ -55,6 +58,7 @@ describe("moveOilReserve", () => {
             x: 8,
             y: 8,
             oil: {
+              amount: 1,
               drilledAt: 0,
             },
             drilled: 1,
@@ -74,6 +78,7 @@ describe("moveOilReserve", () => {
         x: 2,
         y: 2,
         oil: {
+          amount: 1,
           drilledAt: 0,
         },
         drilled: 1,
@@ -83,6 +88,7 @@ describe("moveOilReserve", () => {
         x: 4,
         y: 4,
         oil: {
+          amount: 1,
           drilledAt: 0,
         },
         drilled: 1,
@@ -92,6 +98,7 @@ describe("moveOilReserve", () => {
         x: 8,
         y: 8,
         oil: {
+          amount: 1,
           drilledAt: 0,
         },
         drilled: 1,

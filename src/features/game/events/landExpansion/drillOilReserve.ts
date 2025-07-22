@@ -20,7 +20,7 @@ export const BASE_OIL_DROP_AMOUNT = 10;
 export const OIL_BONUS_DROP_AMOUNT = 20;
 export const OIL_RESERVE_RECOVERY_TIME = 20 * 60 * 60;
 
-export function getOilDropAmount(game: GameState, reserve: OilReserve) {
+function getNextOilDropAmount(game: GameState, reserve: OilReserve) {
   let amount = new Decimal(BASE_OIL_DROP_AMOUNT);
 
   if ((reserve.drilled + 1) % 3 === 0) {
@@ -105,10 +105,9 @@ export function drillOilReserve({
       throw new Error("Oil reserve is still recovering");
     }
 
-    const oilDropAmount = getOilDropAmount(game, oilReserve);
-
+    // Add oil amount from last mine
     game.inventory.Oil = (game.inventory.Oil ?? new Decimal(0)).add(
-      oilDropAmount,
+      oilReserve.oil.amount,
     );
     // Take away one drill
     game.inventory["Oil Drill"] = drillAmount.sub(requiredDrills);
@@ -116,6 +115,8 @@ export function drillOilReserve({
     oilReserve.oil.drilledAt = getDrilledAt({ createdAt, game: game });
     // Increment drilled count
     oilReserve.drilled += 1;
+    // Set next drill drop amount
+    oilReserve.oil.amount = getNextOilDropAmount(game, oilReserve);
 
     game.bumpkin.activity = trackActivity("Oil Drilled", game.bumpkin.activity);
 

@@ -36,6 +36,7 @@ export function placeOilReserve({
       x: action.coordinates.x,
       y: action.coordinates.y,
       oil: {
+        amount: 10,
         drilledAt: 0,
       },
       drilled: 0,

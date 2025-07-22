@@ -38,6 +38,7 @@ export function placeCrimstone({
       x: action.coordinates.x,
       y: action.coordinates.y,
       stone: {
+        amount: 1,
         minedAt: 0,
       },
       minesLeft: 5,

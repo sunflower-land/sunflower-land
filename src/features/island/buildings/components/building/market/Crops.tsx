@@ -9,9 +9,6 @@ import {
   CROPS,
   GREENHOUSE_CROPS,
   GreenHouseCrop,
-  isAdvancedCrop,
-  isBasicCrop,
-  isMediumCrop,
 } from "features/game/types/crops";
 import { useActor } from "@xstate/react";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -41,6 +38,11 @@ import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import { NPC_WEARABLES } from "lib/npcs";
 import { BulkSellModal } from "components/ui/BulkSellModal";
 import { SUNNYSIDE } from "assets/sunnyside";
+import {
+  isAdvancedCrop,
+  isBasicCrop,
+  isMediumCrop,
+} from "features/game/events/landExpansion/harvest";
 import { isExoticCrop } from "features/game/types/crops";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 

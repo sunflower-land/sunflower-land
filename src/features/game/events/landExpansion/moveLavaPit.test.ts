@@ -48,6 +48,7 @@ describe("moveLavaPit", () => {
             "123": {
               createdAt: Date.now(),
               stone: {
+                amount: 1,
                 minedAt: 0,
               },
               x: 1,

@@ -20,10 +20,7 @@ import { RecoveredStone } from "./components/RecoveredStone";
 import { canMine } from "features/game/expansion/lib/utils";
 import { useSound } from "lib/utils/hooks/useSound";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
-import {
-  getRequiredPickaxeAmount,
-  getStoneDropAmount,
-} from "features/game/events/landExpansion/stoneMine";
+import { getRequiredPickaxeAmount } from "features/game/events/landExpansion/stoneMine";
 
 const HITS = 3;
 const tool = "Pickaxe";
@@ -64,9 +61,9 @@ export const Stone: React.FC<Props> = ({ id }) => {
 
   // When to hide the resource that pops out
   const [collecting, setCollecting] = useState(false);
+  const [collectedAmount, setCollectedAmount] = useState<number>();
 
   const divRef = useRef<HTMLDivElement>(null);
-  const harvested = useRef<number>(0);
 
   const { play: miningFallAudio } = useSound("mining_fall");
 
@@ -126,13 +123,6 @@ export const Stone: React.FC<Props> = ({ id }) => {
   };
 
   const mine = async () => {
-    const stoneMined = getStoneDropAmount({
-      game,
-      rock: resource,
-      criticalDropGenerator: (name) =>
-        !!(resource.stone.criticalHit?.[name] ?? 0),
-    });
-
     const newState = gameService.send("stoneRock.mined", {
       index: id,
     });
@@ -140,7 +130,7 @@ export const Stone: React.FC<Props> = ({ id }) => {
     if (!newState.matches("hoarding")) {
       if (showAnimations) {
         setCollecting(true);
-        harvested.current = stoneMined.toNumber();
+        setCollectedAmount(resource.stone.amount);
       }
 
       miningFallAudio();
@@ -148,7 +138,7 @@ export const Stone: React.FC<Props> = ({ id }) => {
       if (showAnimations) {
         await new Promise((res) => setTimeout(res, 3000));
         setCollecting(false);
-        harvested.current = 0;
+        setCollectedAmount(undefined);
       }
     }
   };
@@ -167,7 +157,7 @@ export const Stone: React.FC<Props> = ({ id }) => {
       )}
 
       {/* Depleting resource animation */}
-      {collecting && <DepletingStone resourceAmount={harvested.current} />}
+      {collecting && <DepletingStone resourceAmount={collectedAmount} />}
 
       {/* Depleted resource */}
       {mined && <DepletedStone timeLeft={timeLeft} />}

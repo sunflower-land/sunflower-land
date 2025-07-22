@@ -22,6 +22,7 @@ const GAME_STATE: GameState = {
       createdAt: dateNow,
       fruit: {
         name: "Apple",
+        amount: 1,
         plantedAt: 123,
         harvestedAt: 0,
         harvestsLeft: 0,
@@ -50,6 +51,7 @@ describe("fruitHarvested", () => {
           {
             name: "Apple",
             plantedAt: appleSeed.plantSeconds,
+            amount: 1,
             harvestsLeft: 3,
             harvestedAt: 0,
           },
@@ -65,6 +67,7 @@ describe("fruitHarvested", () => {
           {
             name: "Apple",
             plantedAt: 99,
+            amount: 1,
             harvestsLeft: 2,
             harvestedAt: appleSeed.plantSeconds,
           },
@@ -80,6 +83,7 @@ describe("fruitHarvested", () => {
           {
             name: "Apple",
             plantedAt: appleSeed.plantSeconds,
+            amount: 1,
             harvestsLeft: 3,
             harvestedAt: 0,
           },
@@ -95,6 +99,7 @@ describe("fruitHarvested", () => {
           {
             name: "Apple",
             plantedAt: 99,
+            amount: 1,
             harvestsLeft: 2,
             harvestedAt: appleSeed.plantSeconds,
           },
@@ -144,6 +149,7 @@ describe("fruitHarvested", () => {
               fruit: {
                 name: "Apple",
                 plantedAt: Date.now() - 100,
+                amount: 1,
                 harvestsLeft: 1,
                 harvestedAt: 0,
               },
@@ -173,6 +179,7 @@ describe("fruitHarvested", () => {
               fruit: {
                 name: "Apple",
                 plantedAt: Date.now() - 3 * 24 * 60 * 60 * 1000,
+                amount: 1,
                 harvestsLeft: 1,
                 harvestedAt: Date.now() - 100,
               },
@@ -202,6 +209,7 @@ describe("fruitHarvested", () => {
               fruit: {
                 name: "Apple",
                 plantedAt: Date.now() - 3 * 24 * 60 * 60 * 1000,
+                amount: 1,
                 harvestsLeft: 0,
                 harvestedAt: 0,
               },
@@ -234,6 +242,7 @@ describe("fruitHarvested", () => {
             fruit: {
               name: "Apple",
               plantedAt: Date.now() - 3 * 24 * 60 * 60 * 1000,
+              amount: 1,
               harvestsLeft: initialHarvest,
               harvestedAt: 0,
             },
@@ -258,6 +267,47 @@ describe("fruitHarvested", () => {
     expect(fruit?.harvestedAt).toEqual(dateNow);
   });
 
+  it("harvests the fruit which has a boost applied", () => {
+    const { fruitPatches } = GAME_STATE;
+    const fruitPatch = (fruitPatches as Record<number, FruitPatch>)[0];
+    const initialHarvest = 1;
+    const boostedAmount = 77;
+
+    const state = harvestFruit({
+      state: {
+        ...GAME_STATE,
+        inventory: {},
+        fruitPatches: {
+          0: {
+            ...fruitPatch,
+            fruit: {
+              name: "Apple",
+              plantedAt: Date.now() - 3 * 24 * 60 * 60 * 1000,
+              amount: boostedAmount,
+              harvestsLeft: initialHarvest,
+              harvestedAt: 0,
+            },
+          },
+        },
+      },
+      action: {
+        type: "fruit.harvested",
+        index: "0",
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.inventory).toEqual({
+      ...state.inventory,
+      Apple: new Decimal(boostedAmount),
+    });
+
+    const { fruitPatches: fruitPatchesAfterHarvest } = state;
+    const fruit = fruitPatchesAfterHarvest?.[0].fruit;
+    expect(fruit?.harvestsLeft).toEqual(initialHarvest - 1);
+    expect(fruit?.harvestedAt).toEqual(dateNow);
+  });
+
   it("applies Lady Bug Boost", () => {
     const { fruitPatches } = GAME_STATE;
     const fruitPatch = (fruitPatches as Record<number, FruitPatch>)[0];
@@ -267,6 +317,7 @@ describe("fruitHarvested", () => {
       state: {
         ...GAME_STATE,
         inventory: {
+          Apple: new Decimal(1),
           "Lady Bug": new Decimal(1),
         },
         collectibles: {
@@ -285,6 +336,7 @@ describe("fruitHarvested", () => {
             fruit: {
               name: "Apple",
               plantedAt: Date.now() - 3 * 24 * 60 * 60 * 1000,
+              amount: 1,
               harvestsLeft: initialHarvest,
               harvestedAt: 2,
             },
@@ -299,7 +351,8 @@ describe("fruitHarvested", () => {
     });
 
     const { fruitPatches: fruitPatchesAfterHarvest } = state;
-    expect(state.inventory.Apple).toEqual(new Decimal(1.25));
+    const fruit = fruitPatchesAfterHarvest?.[0].fruit;
+    expect(fruit?.amount).toEqual(1.25);
   });
 
   it("applies the Black Bearry Boost", () => {
@@ -329,6 +382,7 @@ describe("fruitHarvested", () => {
             fruit: {
               name: "Blueberry",
               plantedAt: Date.now() - 3 * 24 * 60 * 60 * 1000,
+              amount: 1,
               harvestsLeft: initialHarvest,
               harvestedAt: 2,
             },
@@ -344,7 +398,7 @@ describe("fruitHarvested", () => {
 
     const { fruitPatches: fruitPatchesAfterHarvest } = state;
     const fruit = fruitPatchesAfterHarvest?.[0].fruit;
-    expect(state.inventory.Blueberry).toEqual(new Decimal(2));
+    expect(fruit?.amount).toEqual(2);
   });
 
   it("includes Squirrel Monkey bonus on Oranges", () => {
@@ -374,6 +428,7 @@ describe("fruitHarvested", () => {
             fruit: {
               name: "Orange",
               plantedAt: Date.now() - 3 * 24 * 60 * 60 * 1000,
+              amount: 1,
               harvestsLeft: initialHarvest,
               harvestedAt: 2,
             },
@@ -390,6 +445,7 @@ describe("fruitHarvested", () => {
     const { fruitPatches: fruitPatchesAfterHarvest } = state;
     const fruit = fruitPatchesAfterHarvest?.[0].fruit;
 
+    expect(fruit?.amount).toEqual(1);
     expect(fruit?.harvestedAt).toEqual(
       dateNow - (PATCH_FRUIT_SEEDS["Orange Seed"].plantSeconds * 1000) / 2,
     );
@@ -422,6 +478,7 @@ describe("fruitHarvested", () => {
             fruit: {
               name: "Lemon",
               plantedAt: Date.now() - 3 * 24 * 60 * 60 * 1000,
+              amount: 1,
               harvestsLeft: initialHarvest,
               harvestedAt: 2,
             },
@@ -438,6 +495,7 @@ describe("fruitHarvested", () => {
     const { fruitPatches: fruitPatchesAfterHarvest } = state;
     const fruit = fruitPatchesAfterHarvest?.[0].fruit;
 
+    expect(fruit?.amount).toEqual(1);
     expect(fruit?.harvestedAt).toEqual(
       dateNow - (PATCH_FRUIT_SEEDS["Lemon Seed"].plantSeconds * 1000) / 2,
     );
@@ -470,6 +528,7 @@ describe("fruitHarvested", () => {
             fruit: {
               name: "Lemon",
               plantedAt: Date.now() - 3 * 24 * 60 * 60 * 1000,
+              amount: 1,
               harvestsLeft: initialHarvest,
               harvestedAt: 2,
             },
@@ -486,6 +545,7 @@ describe("fruitHarvested", () => {
     const { fruitPatches: fruitPatchesAfterHarvest } = state;
     const fruit = fruitPatchesAfterHarvest?.[0].fruit;
 
+    expect(fruit?.amount).toEqual(1);
     expect(fruit?.harvestedAt).toEqual(
       dateNow - PATCH_FRUIT_SEEDS["Lemon Seed"].plantSeconds * 1000 * 0.25,
     );
@@ -527,6 +587,7 @@ describe("fruitHarvested", () => {
             fruit: {
               name: "Lemon",
               plantedAt: Date.now() - 3 * 24 * 60 * 60 * 1000,
+              amount: 1,
               harvestsLeft: initialHarvest,
               harvestedAt: 2,
             },
@@ -543,6 +604,7 @@ describe("fruitHarvested", () => {
     const { fruitPatches: fruitPatchesAfterHarvest } = state;
     const fruit = fruitPatchesAfterHarvest?.[0].fruit;
 
+    expect(fruit?.amount).toEqual(1);
     expect(fruit?.harvestedAt).toEqual(
       dateNow - PATCH_FRUIT_SEEDS["Lemon Seed"].plantSeconds * 1000 * 0.625,
     );
@@ -575,6 +637,7 @@ describe("fruitHarvested", () => {
             fruit: {
               name: "Tomato",
               plantedAt: Date.now() - 3 * 24 * 60 * 60 * 1000,
+              amount: 1,
               harvestsLeft: initialHarvest,
               harvestedAt: 2,
             },
@@ -591,6 +654,7 @@ describe("fruitHarvested", () => {
     const { fruitPatches: fruitPatchesAfterHarvest } = state;
     const fruit = fruitPatchesAfterHarvest?.[0].fruit;
 
+    expect(fruit?.amount).toEqual(1);
     expect(fruit?.harvestedAt).toEqual(
       dateNow - (PATCH_FRUIT_SEEDS["Tomato Seed"].plantSeconds * 1000) / 2,
     );
@@ -623,6 +687,7 @@ describe("fruitHarvested", () => {
             fruit: {
               name: "Tomato",
               plantedAt: Date.now() - 3 * 24 * 60 * 60 * 1000,
+              amount: 1,
               harvestsLeft: initialHarvest,
               harvestedAt: 2,
             },
@@ -639,6 +704,7 @@ describe("fruitHarvested", () => {
     const { fruitPatches: fruitPatchesAfterHarvest } = state;
     const fruit = fruitPatchesAfterHarvest?.[0].fruit;
 
+    expect(fruit?.amount).toEqual(1);
     expect(fruit?.harvestedAt).toEqual(
       dateNow - PATCH_FRUIT_SEEDS["Tomato Seed"].plantSeconds * 1000 * 0.25,
     );
@@ -680,6 +746,7 @@ describe("fruitHarvested", () => {
             fruit: {
               name: "Tomato",
               plantedAt: Date.now() - 3 * 24 * 60 * 60 * 1000,
+              amount: 1,
               harvestsLeft: initialHarvest,
               harvestedAt: 2,
             },
@@ -696,6 +763,7 @@ describe("fruitHarvested", () => {
     const { fruitPatches: fruitPatchesAfterHarvest } = state;
     const fruit = fruitPatchesAfterHarvest?.[0].fruit;
 
+    expect(fruit?.amount).toEqual(1);
     expect(fruit?.harvestedAt).toEqual(
       dateNow - PATCH_FRUIT_SEEDS["Tomato Seed"].plantSeconds * 1000 * 0.625,
     );
@@ -716,6 +784,7 @@ describe("fruitHarvested", () => {
             fruit: {
               name: "Apple",
               plantedAt: Date.now() - 3 * 24 * 60 * 60 * 1000,
+              amount: 1,
               harvestsLeft: initialHarvest,
               harvestedAt: 0,
             },
@@ -753,6 +822,7 @@ describe("fruitHarvested", () => {
             fruit: {
               name: "Apple",
               plantedAt: Date.now() - 3 * 24 * 60 * 60 * 1000,
+              amount: 1,
               harvestsLeft: initialHarvest,
               harvestedAt: 0,
             },
@@ -793,6 +863,7 @@ describe("fruitHarvested", () => {
             fruit: {
               name: "Blueberry",
               plantedAt: Date.now() - 3 * 24 * 60 * 60 * 1000,
+              amount: 1,
               harvestsLeft: initialHarvest,
               harvestedAt: 2,
             },
@@ -807,7 +878,8 @@ describe("fruitHarvested", () => {
     });
 
     const { fruitPatches: fruitPatchesAfterHarvest } = state;
-    expect(state.inventory.Blueberry).toEqual(new Decimal(1.2));
+    const fruit = fruitPatchesAfterHarvest?.[0].fruit;
+    expect(fruit?.amount).toEqual(1.2);
   });
 
   describe("getFruitYield", () => {

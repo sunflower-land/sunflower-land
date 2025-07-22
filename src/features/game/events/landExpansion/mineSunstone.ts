@@ -52,11 +52,12 @@ export function mineSunstone({
       throw new Error(EVENT_ERRORS.NO_PICKAXES);
     }
 
-    const sunstoneMined = 1;
+    const sunstoneMined = sunstoneRock.stone.amount;
     const amountInInventory = stateCopy.inventory.Sunstone || new Decimal(0);
 
     sunstoneRock.stone = {
       minedAt: createdAt,
+      amount: 1,
     };
 
     stateCopy.inventory["Gold Pickaxe"] = toolAmount.sub(1);

@@ -19,13 +19,15 @@ import {
   CropName,
   GREENHOUSE_CROPS,
   GreenHouseCropName,
-  isAdvancedCrop,
-  isBasicCrop,
-  isMediumCrop,
 } from "features/game/types/crops";
 import { canMine } from "../expansion/lib/utils";
 import { Bud, StemTrait, TypeTrait } from "./buds";
-import { isCropGrowing } from "features/game/events/landExpansion/harvest";
+import {
+  isAdvancedCrop,
+  isBasicCrop,
+  isMediumCrop,
+  isCropGrowing,
+} from "features/game/events/landExpansion/harvest";
 import { isFruitGrowing } from "features/game/events/landExpansion/fruitHarvested";
 import { CompostName, isComposting } from "./composters";
 import { getDailyFishingCount } from "./fishing";

@@ -14,7 +14,6 @@ import { DepletingGold } from "./components/DepletingGold";
 import { RecoveredGold } from "./components/RecoveredGold";
 import { canMine } from "features/game/expansion/lib/utils";
 import { useSound } from "lib/utils/hooks/useSound";
-import { getGoldDropAmount } from "features/game/events/landExpansion/mineGold";
 
 const HITS = 3;
 const tool = "Iron Pickaxe";
@@ -24,7 +23,6 @@ const HasTool = (inventory: Partial<Record<InventoryItemName, Decimal>>) => {
 };
 
 const selectInventory = (state: MachineState) => state.context.state.inventory;
-const selectGame = (state: MachineState) => state.context.state;
 
 const compareResource = (prev: Rock, next: Rock) => {
   return JSON.stringify(prev) === JSON.stringify(next);
@@ -47,7 +45,7 @@ export const Gold: React.FC<Props> = ({ id }) => {
 
   // When to hide the resource that pops out
   const [collecting, setCollecting] = useState(false);
-  const harvested = useRef<number>(0);
+  const [collectedAmount, setCollectedAmount] = useState<number>();
 
   const divRef = useRef<HTMLDivElement>(null);
 
@@ -79,7 +77,7 @@ export const Gold: React.FC<Props> = ({ id }) => {
       (prev.Logger ?? new Decimal(0)).equals(next.Logger ?? new Decimal(0)),
   );
   const skills = useSelector(gameService, selectSkills, compareSkills);
-  const state = useSelector(gameService, selectGame);
+
   const hasTool = HasTool(inventory);
   const timeLeft = getTimeLeft(resource.stone.minedAt, GOLD_RECOVERY_TIME);
   const mined = !canMine(resource, GOLD_RECOVERY_TIME);
@@ -106,12 +104,6 @@ export const Gold: React.FC<Props> = ({ id }) => {
   };
 
   const mine = async () => {
-    const goldMined = getGoldDropAmount({
-      game: state,
-      rock: resource,
-      criticalDropGenerator: (name) =>
-        !!(resource.stone.criticalHit?.[name] ?? 0),
-    });
     const newState = gameService.send("goldRock.mined", {
       index: id,
     });
@@ -119,7 +111,7 @@ export const Gold: React.FC<Props> = ({ id }) => {
     if (!newState.matches("hoarding")) {
       if (showAnimations) {
         setCollecting(true);
-        harvested.current = goldMined.toNumber();
+        setCollectedAmount(resource.stone.amount);
       }
 
       miningFallAudio();
@@ -127,7 +119,7 @@ export const Gold: React.FC<Props> = ({ id }) => {
       if (showAnimations) {
         await new Promise((res) => setTimeout(res, 3000));
         setCollecting(false);
-        harvested.current = 0;
+        setCollectedAmount(undefined);
       }
     }
   };
@@ -142,7 +134,7 @@ export const Gold: React.FC<Props> = ({ id }) => {
       )}
 
       {/* Depleting resource animation */}
-      {collecting && <DepletingGold resourceAmount={harvested.current} />}
+      {collecting && <DepletingGold resourceAmount={collectedAmount} />}
 
       {/* Depleted resource */}
       {mined && <DepletedGold timeLeft={timeLeft} />}

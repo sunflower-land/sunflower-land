@@ -1,4 +1,8 @@
-import { isAdvancedCrop, isBasicCrop, isMediumCrop } from "../types/crops";
+import {
+  isAdvancedCrop,
+  isBasicCrop,
+  isMediumCrop,
+} from "../events/landExpansion/harvest";
 import { getUniqueAnimalResources } from "../types/animals";
 import { Bud, StemTrait, TypeTrait } from "../types/buds";
 import {

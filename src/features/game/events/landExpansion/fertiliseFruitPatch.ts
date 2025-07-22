@@ -77,6 +77,11 @@ export function fertiliseFruitPatch({
       },
     };
 
+    // Apply boost to already planted
+    if (fruitPatch.fruit) {
+      fruitPatch.fruit.amount += getFruitfulBlendBuff(stateCopy);
+    }
+
     inventory[action.fertiliser] = fertiliserAmount.minus(1);
 
     return stateCopy;

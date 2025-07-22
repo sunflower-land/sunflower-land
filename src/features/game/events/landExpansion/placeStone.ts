@@ -38,6 +38,7 @@ export function placeStone({
       x: action.coordinates.x,
       y: action.coordinates.y,
       stone: {
+        amount: 1,
         minedAt: 0,
       },
     };

@@ -46,6 +46,7 @@ describe("placeSunstone", () => {
             "123": {
               createdAt: Date.now(),
               stone: {
+                amount: 1,
                 minedAt: 0,
               },
               minesLeft: 1,
@@ -79,6 +80,7 @@ describe("placeSunstone", () => {
           "123": {
             createdAt: Date.now(),
             stone: {
+              amount: 1,
               minedAt: 0,
             },
             minesLeft: 1,
@@ -93,6 +95,7 @@ describe("placeSunstone", () => {
       "1": {
         createdAt: expect.any(Number),
         stone: {
+          amount: 1,
           minedAt: 0,
         },
         minesLeft: 10,
@@ -102,6 +105,7 @@ describe("placeSunstone", () => {
       "123": {
         createdAt: expect.any(Number),
         stone: {
+          amount: 1,
           minedAt: 0,
         },
         minesLeft: 1,
