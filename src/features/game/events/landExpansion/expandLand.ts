@@ -7,6 +7,7 @@ import { onboardingAnalytics } from "lib/onboardingAnalytics";
 import { expansionRequirements } from "./revealLand";
 import { produce } from "immer";
 import { trackActivity } from "features/game/types/bumpkinActivity";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 
 export type ExpandLandAction = {
   type: "land.expanded";
@@ -23,7 +24,7 @@ export function expandLand({ state, action, createdAt = Date.now() }: Options) {
   return produce(state, (game) => {
     const bumpkin = game.bumpkin;
 
-    const requirements = expansionRequirements({ game });
+    const { requirements, boostsUsed } = expansionRequirements({ game });
     if (!requirements) {
       throw new Error("No more land expansions available");
     }
@@ -84,6 +85,12 @@ export function expandLand({ state, action, createdAt = Date.now() }: Options) {
     game.expandedAt = createdAt;
 
     game.inventory = inventory;
+
+    game.boostsUsedAt = updateBoostUsed({
+      game,
+      boostNames: boostsUsed,
+      createdAt,
+    });
 
     return game;
   });

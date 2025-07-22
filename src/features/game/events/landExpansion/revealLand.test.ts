@@ -21,14 +21,14 @@ import { BB_TO_GEM_RATIO } from "features/game/types/game";
 
 describe("expansionRequirements", () => {
   it("returns normal expansion requirements", () => {
-    const requirements = expansionRequirements({ game: TEST_FARM });
+    const { requirements } = expansionRequirements({ game: TEST_FARM });
 
     expect(requirements?.resources).toEqual({
       Wood: 3,
     });
   });
   it("returns discounted expansion requirements with Grinx Hammer", () => {
-    const requirements = expansionRequirements({
+    const { requirements } = expansionRequirements({
       game: {
         ...TEST_FARM,
         collectibles: {
