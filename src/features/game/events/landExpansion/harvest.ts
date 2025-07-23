@@ -398,7 +398,9 @@ export function getCropYieldAmount({
     boostsUsed.push(FACTION_ITEMS[factionName].wings);
   }
 
-  amount += getBudYieldBoosts(buds ?? {}, crop);
+  const { yieldBoost, budUsed } = getBudYieldBoosts(buds ?? {}, crop);
+  amount += yieldBoost;
+  if (budUsed) boostsUsed.push(budUsed);
 
   if (isOvernightCrop(crop) && isCollectibleBuilt({ name: "Hoot", game })) {
     amount += 0.5;

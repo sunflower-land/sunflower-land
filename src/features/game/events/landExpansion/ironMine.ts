@@ -226,7 +226,9 @@ export function getIronDropAmount({
     boostsUsed.push(FACTION_ITEMS[factionName].secondaryTool);
   }
 
-  amount += getBudYieldBoosts(game.buds ?? {}, "Iron");
+  const { yieldBoost, budUsed } = getBudYieldBoosts(game.buds ?? {}, "Iron");
+  amount += yieldBoost;
+  if (budUsed) boostsUsed.push(budUsed);
 
   if (game.island.type === "volcano") {
     amount += 0.1;

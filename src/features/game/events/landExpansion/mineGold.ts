@@ -224,7 +224,9 @@ export function getGoldDropAmount({
     boostsUsed.push(FACTION_ITEMS[factionName].secondaryTool);
   }
 
-  amount += getBudYieldBoosts(buds, "Gold");
+  const { yieldBoost, budUsed } = getBudYieldBoosts(buds, "Gold");
+  amount += yieldBoost;
+  if (budUsed) boostsUsed.push(budUsed);
 
   if (game.island.type === "volcano") {
     amount += 0.1;

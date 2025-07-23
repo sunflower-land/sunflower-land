@@ -234,8 +234,9 @@ export function getFruitYield({
     boostsUsed.push("Tomato Bombard");
   }
 
-  // TODO: Add boosts used for Buds
-  amount += getBudYieldBoosts(game.buds ?? {}, name);
+  const { yieldBoost, budUsed } = getBudYieldBoosts(game.buds ?? {}, name);
+  amount += yieldBoost;
+  if (budUsed) boostsUsed.push(budUsed);
 
   // Grape
   if (name === "Grape" && isCollectibleBuilt({ name: "Vinny", game })) {

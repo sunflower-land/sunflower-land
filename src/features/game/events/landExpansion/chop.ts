@@ -139,7 +139,9 @@ export function getWoodDropAmount({
     amount = amount.add(1);
   }
 
-  amount = amount.add(getBudYieldBoosts(game.buds ?? {}, "Wood"));
+  const { yieldBoost, budUsed } = getBudYieldBoosts(game.buds ?? {}, "Wood");
+  amount = amount.add(yieldBoost);
+  if (budUsed) boostsUsed.push(budUsed);
 
   return { amount: amount.toDecimalPlaces(4), boostsUsed };
 }

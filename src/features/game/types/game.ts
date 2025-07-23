@@ -72,7 +72,11 @@ import { MinigameCurrency } from "../events/minigames/purchaseMinigameItem";
 import { FactionShopCollectibleName, FactionShopFoodName } from "./factionShop";
 import { DiggingFormationName } from "./desert";
 import { ExperimentName } from "lib/flags";
-import { CollectionName, MarketplaceTradeableName } from "./marketplace";
+import {
+  BudNFTName,
+  CollectionName,
+  MarketplaceTradeableName,
+} from "./marketplace";
 import { GameTransaction } from "./transactions";
 import { CompetitionName, CompetitionProgress } from "./competitions";
 import { AnimalType } from "./animals";
@@ -1459,7 +1463,8 @@ export type NFT = {
 export type BoostName =
   | InventoryItemName
   | BumpkinItem
-  | BumpkinRevampSkillName;
+  | BumpkinRevampSkillName
+  | BudNFTName;
 
 export type BoostUsedAt = Partial<Record<BoostName, number>>;
 

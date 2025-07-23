@@ -407,8 +407,9 @@ export function getResourceDropAmount({
     amount += 0.1;
   }
 
-  // TODO: Add bud yield boosts
-  amount += getBudYieldBoosts(buds, resource);
+  const { yieldBoost, budUsed } = getBudYieldBoosts(buds, resource);
+  amount += yieldBoost;
+  if (budUsed) boostsUsed.push(budUsed);
 
   if (multiplier) amount *= multiplier;
 

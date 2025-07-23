@@ -291,7 +291,9 @@ export function getStoneDropAmount({
     boostsUsed.push(FACTION_ITEMS[factionName].secondaryTool);
   }
 
-  amount += getBudYieldBoosts(buds, "Stone");
+  const { yieldBoost, budUsed } = getBudYieldBoosts(buds, "Stone");
+  amount += yieldBoost;
+  if (budUsed) boostsUsed.push(budUsed);
 
   if (game.island.type === "volcano") {
     amount += 0.1;
