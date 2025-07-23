@@ -171,7 +171,9 @@ export const ChestRewardsList: React.FC<{
                     },
                   ]
                 : [
-                    ...(type === "Basic Daily Rewards"
+                    ...(type === "Expert Daily Rewards" ||
+                    type === "Advanced Daily Rewards" ||
+                    type === "Basic Daily Rewards"
                       ? [
                           {
                             text: t("chestRewardsList.dailyReward.desc1"),

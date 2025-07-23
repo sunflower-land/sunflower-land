@@ -40,8 +40,7 @@ import { ChestRewardsList } from "components/ui/ChestRewardsList";
 import rewardIcon from "assets/icons/stock.webp";
 import { Modal } from "components/ui/Modal";
 import { useVisiting } from "lib/utils/visitUtils";
-
-const _network = (state: MachineState) => state.context.state.settings.network;
+import Decimal from "decimal.js-light";
 
 export type NetworkOption = {
   value: NetworkName;
@@ -426,24 +425,41 @@ export const DailyRewardChest: React.FC<{
         )}
         {tab === 1 && (
           <div className="flex flex-col gap-y-4 overflow-y-auto max-h-[400px] scrollable">
-            <ChestRewardsList
-              type="Basic Daily Rewards"
-              listTitle={t("chestRewardsList.dailyReward.listTitle1")}
-              isFirstInMultiList={true}
-            />
-            <ChestRewardsList
-              type="Advanced Daily Rewards"
-              listTitle={t("chestRewardsList.dailyReward.listTitle2")}
-              isSubsequentInMultiList={true}
-            />
-            <ChestRewardsList
-              type="Expert Daily Rewards"
-              listTitle={t("chestRewardsList.dailyReward.listTitle3")}
-              isSubsequentInMultiList={true}
+            <DailyRewardsChestList
+              basicLandCount={state.inventory["Basic Land"] ?? new Decimal(0)}
             />
           </div>
         )}
       </CloseButtonPanel>
     </Modal>
+  );
+};
+
+const DailyRewardsChestList: React.FC<{ basicLandCount: Decimal }> = ({
+  basicLandCount,
+}) => {
+  const { t } = useAppTranslation();
+  if (basicLandCount.gte(9)) {
+    return (
+      <ChestRewardsList
+        type="Expert Daily Rewards"
+        listTitle={t("chestRewardsList.dailyReward.listTitle3")}
+      />
+    );
+  }
+
+  if (basicLandCount.gte(5)) {
+    return (
+      <ChestRewardsList
+        type="Advanced Daily Rewards"
+        listTitle={t("chestRewardsList.dailyReward.listTitle2")}
+      />
+    );
+  }
+  return (
+    <ChestRewardsList
+      type="Basic Daily Rewards"
+      listTitle={t("chestRewardsList.dailyReward.listTitle1")}
+    />
   );
 };
