@@ -221,8 +221,6 @@
   "description.turbo.composter": "Produit régulièrement de l'appât et de l'engrais avancés.",
   "description.deli": "Satisfaites votre appétit avec ces mets délicats!",
   "description.smoothie.shack": "Pressé à froid!",
-  "description.warehouse": "Augmentez vos stocks de graines de 20 %",
-  "description.toolshed": "Augmentez votre stock d'outils d'établi de 50 %",
   "description.premium.composter": "Produit régulièrement de l'appât et de l'engrais experts.",
   "description.town.center": "Rassemblez-vous autour du centre-ville pour les dernières nouvelles",
   "description.market": "Achetez et vendez au marché des fermiers",
@@ -6115,5 +6113,12 @@
   "chestRewardsList.rewardsTitle": "Récompenses",
   "chestRewardsList.treasureChest.tabTitle1": "Coffre basique",
   "chestRewardsList.treasureChest.tabTitle2": "Coffre rare",
-  "chestRewardsList.treasureChest.tabTitle3": "Coffre de luxe"
+  "chestRewardsList.treasureChest.tabTitle3": "Coffre de luxe",
+  "description.warehouse": "Préserve la sécurité de vos graines",
+  "description.toolshed": "Un endroit pour ranger les outils",
+  "description.warehouse.boost": "+20 % de stocks de semences de marché",
+  "description.toolshed.boost": "+50 % de stock d'outils d'établi",
+  "landscape.confirmation.gnomes.one": "Placez les trois nains dans cet ordre (de gauche à droite) : bleu, rouge, orange.",
+  "landscape.confirmation.gnomes.two": "La parcelle de culture doit être placée directement devant le nain rouge.",
+  "landscape.confirmation.gnomes.three": "Après 24 heures, le boost sera activé pour cette seule parcelle."
 }

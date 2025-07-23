@@ -293,8 +293,6 @@
   "description.turbo.composter": "Menghasilkan umpan & baja canggih secara berkala.",
   "description.deli": "Puaskan selera makan anda dengan makanan delicatessen ini!",
   "description.smoothie.shack": "Baru diperah!",
-  "description.warehouse": "Meningkatkan stok benih anda sebanyak 20%",
-  "description.toolshed": "Meningkatkan stok alat meja kerja anda sebanyak 50%",
   "description.premium.composter": "Menghasilkan umpan & baja pakar secara berkala.",
   "description.town.center": "Berkumpul di sekitar pusat bandar untuk berita terkini",
   "description.market": "Beli dan jual di Pasar Petani",
@@ -6115,5 +6113,12 @@
   "chestRewardsList.rewardsTitle": "Ganjaran",
   "chestRewardsList.treasureChest.tabTitle1": "Dada Asas",
   "chestRewardsList.treasureChest.tabTitle2": "Dada Langka",
-  "chestRewardsList.treasureChest.tabTitle3": "Peti Mewah"
+  "chestRewardsList.treasureChest.tabTitle3": "Peti Mewah",
+  "description.warehouse": "Memastikan benih anda selamat",
+  "description.toolshed": "Tempat untuk penyimpanan alat",
+  "description.warehouse.boost": "+20% stok benih pasaran",
+  "description.toolshed.boost": "+50% stok alat meja kerja",
+  "landscape.confirmation.gnomes.one": "Letakkan tiga gnome dalam susunan ini (dari kiri ke kanan): biru, merah, oren.",
+  "landscape.confirmation.gnomes.two": "Plot tanaman harus diletakkan terus di hadapan gnome merah.",
+  "landscape.confirmation.gnomes.three": "Selepas 24 jam, rangsangan akan diaktifkan untuk plot tunggal itu."
 }

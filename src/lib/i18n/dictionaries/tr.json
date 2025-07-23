@@ -233,8 +233,6 @@
   "description.turbo.composter": "Düzenli olarak gelişmiş yem ve gübre üretir.",
   "description.deli": "Mezelerle iştahınızı tatmin edin!",
   "description.smoothie.shack": "Taze sıkılmış!",
-  "description.warehouse": "Tohum stoğunuzu %20 arttırın",
-  "description.toolshed": "Çalışma tezgahı aletlerinizi %50 arttırın",
   "description.premium.composter": "Düzenli olarak uzman yem ve gübre üretir.",
   "description.town.center": "En son haberler için şehir merkezinde toplanın.",
   "description.market": "Çiftçi pazarında alım ve satım yapın.",
@@ -6115,5 +6113,12 @@
   "chestRewardsList.rewardsTitle": "Ödüller",
   "chestRewardsList.treasureChest.tabTitle1": "Temel Sandık",
   "chestRewardsList.treasureChest.tabTitle2": "Nadir Sandık",
-  "chestRewardsList.treasureChest.tabTitle3": "Lüks Sandık"
+  "chestRewardsList.treasureChest.tabTitle3": "Lüks Sandık",
+  "description.warehouse": "Tohumlarınızı güvende tutar",
+  "description.toolshed": "Alet depolama için bir yer",
+  "description.warehouse.boost": "+20% piyasa tohum stoğu",
+  "description.toolshed.boost": "+% 50 tezgah takım stoğu",
+  "landscape.confirmation.gnomes.one": "Üç cüceyi bu sırayla yerleştirin (soldan sağa): mavi, kırmızı, turuncu.",
+  "landscape.confirmation.gnomes.two": "Mahsul arsası doğrudan kırmızı cücenin önüne yerleştirilmelidir.",
+  "landscape.confirmation.gnomes.three": "24 saat sonra, bu tek arsa için destek etkinleşecektir."
 }

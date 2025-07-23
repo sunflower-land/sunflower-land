@@ -286,8 +286,6 @@
   "description.turbo.composter": "涡轮堆肥器。定期生产进阶鱼饵和肥料",
   "description.deli": "熟食店。这些熟食满足你的口腹之欲！",
   "description.smoothie.shack": "沙冰屋。鲜榨！",
-  "description.warehouse": "仓库。种子库存增加 20%",
-  "description.toolshed": "工具棚。Workbench 工具库存增加 50%",
   "description.premium.composter": "旗舰堆肥器。定期生产专业鱼饵和肥料",
   "description.town.center": "城镇中心。聚集到 Town Center 获取最新消息",
   "description.market": "市场。在农贸市场购买和出售",
@@ -6115,5 +6113,12 @@
   "chestRewardsList.rewardsTitle": "奖励",
   "chestRewardsList.treasureChest.tabTitle1": "基础宝箱",
   "chestRewardsList.treasureChest.tabTitle2": "稀有宝箱",
-  "chestRewardsList.treasureChest.tabTitle3": "豪华宝箱"
+  "chestRewardsList.treasureChest.tabTitle3": "豪华宝箱",
+  "description.warehouse": "确保您的种子安全",
+  "description.toolshed": "存放工具的地方",
+  "description.warehouse.boost": "+20% 市场种子股",
+  "description.toolshed.boost": "+50% 工作台刀具库存",
+  "landscape.confirmation.gnomes.one": "按以下顺序（从左到右）放置三个地精：蓝色、红色、橙色。",
+  "landscape.confirmation.gnomes.two": "作物地应直接放在红色地精的前面。",
+  "landscape.confirmation.gnomes.three": "24 小时后，该单一剧情的增强将激活。"
 }

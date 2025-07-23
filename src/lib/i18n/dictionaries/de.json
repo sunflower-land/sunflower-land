@@ -293,8 +293,6 @@
   "description.turbo.composter": "Produziert regelmäßig fortschrittliche Köder und Düngemittel.",
   "description.deli": "Stillen Sie Ihren Appetit mit diesen Delikatessen!",
   "description.smoothie.shack": "Frisch gepresst!",
-  "description.warehouse": "Erhöhen Sie Ihre Saatgutbestände um 20%",
-  "description.toolshed": "Erhöhen Sie Ihren Werkzeugbestand an Werkbänken um 50%",
   "description.premium.composter": "Produziert regelmäßig fachkundige Köder und Dünger.",
   "description.town.center": "Versammeln Sie sich im Stadtzentrum, um die neuesten Nachrichten zu erhalten",
   "description.market": "Auf dem Bauernmarkt kaufen und verkaufen",
@@ -6115,5 +6113,12 @@
   "chestRewardsList.rewardsTitle": "Prämien",
   "chestRewardsList.treasureChest.tabTitle1": "Einfache Truhe",
   "chestRewardsList.treasureChest.tabTitle2": "Seltene Truhe",
-  "chestRewardsList.treasureChest.tabTitle3": "Luxuriöse Truhe"
+  "chestRewardsList.treasureChest.tabTitle3": "Luxuriöse Truhe",
+  "description.warehouse": "Schützt Ihre Samen",
+  "description.toolshed": "Ein Ort zur Aufbewahrung von Werkzeugen",
+  "description.warehouse.boost": "+20% Marktsaatgut",
+  "description.toolshed.boost": "+50% Werkbank-Werkzeugbestand",
+  "landscape.confirmation.gnomes.one": "Platziere die drei Zwerge in dieser Reihenfolge (von links nach rechts): blau, rot, orange.",
+  "landscape.confirmation.gnomes.two": "Die Anbaufläche sollte direkt vor dem roten Gnom platziert werden.",
+  "landscape.confirmation.gnomes.three": "Nach 24 Stunden wird der Boost für diese einzelne Handlung aktiviert."
 }

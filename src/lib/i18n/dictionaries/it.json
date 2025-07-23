@@ -291,8 +291,6 @@
   "description.turbo.composter": "Produce esche e fertilizzanti avanzati su base regolare.",
   "description.deli": "Soddisfa il tuo appetito con questi cibi di gastronomia!",
   "description.smoothie.shack": "Appena spremuto!",
-  "description.warehouse": "Aumenta le tue scorte di semi del 20%",
-  "description.toolshed": "Aumenta del 50% il tuo parco utensili per banchi da lavoro",
   "description.premium.composter": "Produce regolarmente esche e fertilizzanti esperti.",
   "description.town.center": "Riunitevi in giro per il centro della città per le ultime notizie",
   "description.market": "Compra e vendi al Farmer's Market",
@@ -6115,5 +6113,12 @@
   "chestRewardsList.rewardsTitle": "Premi",
   "chestRewardsList.treasureChest.tabTitle1": "Baule Basic",
   "chestRewardsList.treasureChest.tabTitle2": "Baule raro",
-  "chestRewardsList.treasureChest.tabTitle3": "Cassapanca di lusso"
+  "chestRewardsList.treasureChest.tabTitle3": "Cassapanca di lusso",
+  "description.warehouse": "Mantiene i tuoi semi al sicuro",
+  "description.toolshed": "Un posto per riporre gli attrezzi",
+  "description.warehouse.boost": "+20% delle scorte iniziali di mercato",
+  "description.toolshed.boost": "+50% stock di utensili per banco da lavoro",
+  "landscape.confirmation.gnomes.one": "Posiziona i tre gnomi in questo ordine (da sinistra a destra): blu, rosso, arancione.",
+  "landscape.confirmation.gnomes.two": "Il grafico del raccolto deve essere posizionato direttamente davanti allo gnomo rosso.",
+  "landscape.confirmation.gnomes.three": "Dopo 24 ore, il potenziamento si attiverà per quella singola trama."
 }

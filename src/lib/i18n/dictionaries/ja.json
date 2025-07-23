@@ -293,8 +293,6 @@
   "description.turbo.composter": "高度な餌と肥料を定期的に生産しています。",
   "description.deli": "これらのデリカテッセンフードで食欲を満たしましょう！",
   "description.smoothie.shack": "搾りたて！",
-  "description.warehouse": "種子の在庫を 20% 増やす",
-  "description.toolshed": "ワークベンチツールの在庫を 50% 増やしましょう",
   "description.premium.composter": "専門の餌と肥料を定期的に生産しています。",
   "description.town.center": "町の中心部に集まって最新ニュースをチェックしよう",
   "description.market": "ファーマーズマーケットでの売買",
@@ -6115,5 +6113,12 @@
   "chestRewardsList.rewardsTitle": "報酬",
   "chestRewardsList.treasureChest.tabTitle1": "ベーシックチェスト",
   "chestRewardsList.treasureChest.tabTitle2": "レア・チェスト",
-  "chestRewardsList.treasureChest.tabTitle3": "ラグジュアリーチェスト"
+  "chestRewardsList.treasureChest.tabTitle3": "ラグジュアリーチェスト",
+  "description.warehouse": "種子を安全に保ちます",
+  "description.toolshed": "ツールを保管する場所",
+  "description.warehouse.boost": "+20% マーケットシードストック",
+  "description.toolshed.boost": "+50% ワークベンチツールストック",
+  "landscape.confirmation.gnomes.one": "3 つのノームを青、赤、オレンジの順に (左から右に) 配置します。",
+  "landscape.confirmation.gnomes.two": "クロッププロットはレッドノームの真正面に配置する必要があります。",
+  "landscape.confirmation.gnomes.three": "24時間後、その1つのプロットでブーストが有効になります。"
 }

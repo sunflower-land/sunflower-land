@@ -217,8 +217,6 @@
   "description.turbo.composter": "Produz iscas e fertilizantes avançados regularmente.",
   "description.deli": "Satisfaça seu apetite com esses alimentos delicatessen!",
   "description.smoothie.shack": "Produz sucos e batidas espremidos na hora!",
-  "description.warehouse": "Aumente seu estoque de sementes em 20%",
-  "description.toolshed": "Aumente seu estoque de ferramentas em 50%",
   "description.premium.composter": "Produz iscas e fertilizantes especialistas regularmente.",
   "description.town.center": "Reúna-se ao redor do centro da cidade para as últimas notícias",
   "description.market": "Compre e venda no Mercado dos Agricultores",
@@ -6115,5 +6113,12 @@
   "chestRewardsList.rewardsTitle": "Recompensas",
   "chestRewardsList.treasureChest.tabTitle1": "Baú básico",
   "chestRewardsList.treasureChest.tabTitle2": "Baú raro",
-  "chestRewardsList.treasureChest.tabTitle3": "Baú de luxo"
+  "chestRewardsList.treasureChest.tabTitle3": "Baú de luxo",
+  "description.warehouse": "Mantém suas sementes seguras",
+  "description.toolshed": "Um local para armazenamento de ferramentas",
+  "description.warehouse.boost": "+20% de estoque de sementes do mercado",
+  "description.toolshed.boost": "+50% de estoque de ferramentas de bancada",
+  "landscape.confirmation.gnomes.one": "Coloque os três gnomos nesta ordem (da esquerda para a direita): azul, vermelho e laranja.",
+  "landscape.confirmation.gnomes.two": "A parcela de cultivo deve ser colocada diretamente na frente do gnomo vermelho.",
+  "landscape.confirmation.gnomes.three": "Após 24 horas, o impulso será ativado para aquele único lote."
 }

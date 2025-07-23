@@ -292,8 +292,6 @@
   "description.turbo.composter": "Produce cebos y fertilizantes avanzados de forma regular.",
   "description.deli": "Satisface tu apetito con estos exquisitos manjares!",
   "description.smoothie.shack": "Recién exprimido!",
-  "description.warehouse": "Aumenta tus reservas de semillas en un 20%",
-  "description.toolshed": "Aumente el stock de herramientas de su mesa de trabajo en un 50%",
   "description.premium.composter": "Produce cebos y fertilizantes expertos de forma regular.",
   "description.town.center": "Reúnase en el centro de la ciudad para recibir las últimas noticias.",
   "description.market": "Compra y vende en el Mercado del Granjero.",
@@ -6115,5 +6113,12 @@
   "chestRewardsList.rewardsTitle": "Recompensas",
   "chestRewardsList.treasureChest.tabTitle1": "Cofre básico",
   "chestRewardsList.treasureChest.tabTitle2": "Cofre raro",
-  "chestRewardsList.treasureChest.tabTitle3": "Cofre de lujo"
+  "chestRewardsList.treasureChest.tabTitle3": "Cofre de lujo",
+  "description.warehouse": "Mantiene tus semillas seguras",
+  "description.toolshed": "Un lugar para guardar herramientas",
+  "description.warehouse.boost": "Más de un 20% de stock de semillas en el mercado",
+  "description.toolshed.boost": "Más de un 50% de stock de herramientas para mesas de trabajo",
+  "landscape.confirmation.gnomes.one": "Coloca los tres gnomos en este orden (de izquierda a derecha): azul, rojo, naranja.",
+  "landscape.confirmation.gnomes.two": "La parcela de cultivo debe colocarse directamente en frente del gnomo rojo.",
+  "landscape.confirmation.gnomes.three": "Después de 24 horas, el impulso se activará para esa única parcela."
 }

@@ -1590,7 +1590,6 @@
   "description.tomato.bombard": "Берегись пушечного ядра, оно готово нанести удар любому, кто встанет на его пути",
   "description.tomato.bombard.boost": "+1 Помидор",
   "description.tomato.clown.boost": "-50% времени роста у Томатов",
-  "description.toolshed": "Увеличь свой запас инструментов на 50%",
   "description.tornadoPinwheel": "Волшебный ветряк, защищает вас от торнадо! Только для одноразового использования.",
   "description.tough.tree": "Шанс получить 3x Дерева",
   "description.town.center": "Пройдись по центру города, если хочешь узнать последние новости",
@@ -1633,7 +1632,6 @@
   "description.war.bond": "(LEGACY) Признак настоящего воина",
   "description.war.skull": "Украшает землю костями твоих врагов.",
   "description.war.tombstone": "R.I.P",
-  "description.warehouse": "Увеличь свой запас семян на 20%",
   "description.warrior.helmet": "Иммунитет к стрелам.",
   "description.warrior.pants": "Защитит твои бедра.",
   "description.warrior.shirt": "Знак настоящего воина.",
@@ -6115,5 +6113,12 @@
   "chestRewardsList.rewardsTitle": "Награды",
   "chestRewardsList.treasureChest.tabTitle1": "Базовый сундук",
   "chestRewardsList.treasureChest.tabTitle2": "Редкий сундук",
-  "chestRewardsList.treasureChest.tabTitle3": "роскошный сундук"
+  "chestRewardsList.treasureChest.tabTitle3": "роскошный сундук",
+  "description.warehouse": "Сохраняет ваши семена в безопасности",
+  "description.toolshed": "Место для хранения инструментов",
+  "description.warehouse.boost": "+20% рыночного семенного фонда",
+  "description.toolshed.boost": "+50% запаса инструментов для верстаков",
+  "landscape.confirmation.gnomes.one": "Разместите трех гномов в следующем порядке (слева направо): синий, красный, оранжевый.",
+  "landscape.confirmation.gnomes.two": "Участок для посева следует разместить прямо перед красным гномом.",
+  "landscape.confirmation.gnomes.three": "Через 24 часа буст активируется для этого единственного сюжета."
 }

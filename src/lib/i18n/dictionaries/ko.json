@@ -293,8 +293,6 @@
   "description.turbo.composter": "고급 미끼와 비료를 정기적으로 생산합니다.",
   "description.deli": "이 조제 식품으로 식욕을 만족시키세요!",
   "description.smoothie.shack": "갓 짜낸!",
-  "description.warehouse": "종자 재고를 20% 늘리십시오",
-  "description.toolshed": "워크벤치 공구 재고를 50% 늘리십시오.",
   "description.premium.composter": "정기적으로 전문 미끼와 비료를 생산합니다.",
   "description.town.center": "타운 센터에 모여 최신 뉴스를 확인하세요",
   "description.market": "파머스 마켓에서 구매 및 판매",
@@ -6115,5 +6113,12 @@
   "chestRewardsList.rewardsTitle": "리워드",
   "chestRewardsList.treasureChest.tabTitle1": "기본 상자",
   "chestRewardsList.treasureChest.tabTitle2": "레어 체스트",
-  "chestRewardsList.treasureChest.tabTitle3": "럭셔리 체스트"
+  "chestRewardsList.treasureChest.tabTitle3": "럭셔리 체스트",
+  "description.warehouse": "씨앗을 안전하게 보관합니다",
+  "description.toolshed": "공구 보관 장소",
+  "description.warehouse.boost": "+20% 의 시장 시드 재고",
+  "description.toolshed.boost": "+50% 워크벤치 툴 스톡",
+  "landscape.confirmation.gnomes.one": "세 개의 그놈을 파란색, 빨간색, 주황색 순서로 (왼쪽에서 오른쪽으로) 배치합니다.",
+  "landscape.confirmation.gnomes.two": "크롭 플롯은 빨간색 그놈 바로 앞에 배치해야 합니다.",
+  "landscape.confirmation.gnomes.three": "24시간이 지나면 해당 단일 플롯에 대해 부스트가 활성화됩니다."
 }

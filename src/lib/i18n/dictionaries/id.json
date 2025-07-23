@@ -293,8 +293,6 @@
   "description.turbo.composter": "Menghasilkan umpan & pupuk canggih secara teratur.",
   "description.deli": "Puaskan selera makan Anda dengan makanan lezat ini!",
   "description.smoothie.shack": "Baru diperas!",
-  "description.warehouse": "Tingkatkan stok benih Anda sebesar 20%",
-  "description.toolshed": "Tingkatkan stok alat meja kerja Anda hingga 50%",
   "description.premium.composter": "Menghasilkan umpan & pupuk ahli secara teratur.",
   "description.town.center": "Berkumpul di sekitar pusat kota untuk berita terbaru",
   "description.market": "Beli dan jual di Pasar Petani",
@@ -6115,5 +6113,12 @@
   "chestRewardsList.rewardsTitle": "Imbalan",
   "chestRewardsList.treasureChest.tabTitle1": "Peti Dasar",
   "chestRewardsList.treasureChest.tabTitle2": "Peti Langka",
-  "chestRewardsList.treasureChest.tabTitle3": "Peti Mewah"
+  "chestRewardsList.treasureChest.tabTitle3": "Peti Mewah",
+  "description.warehouse": "Menjaga benih Anda tetap aman",
+  "description.toolshed": "Tempat untuk penyimpanan alat",
+  "description.warehouse.boost": "+20% saham benih pasar",
+  "description.toolshed.boost": "+50% stok alat meja kerja",
+  "landscape.confirmation.gnomes.one": "Tempatkan tiga gnome dalam urutan ini (dari kiri ke kanan): biru, merah, oranye.",
+  "landscape.confirmation.gnomes.two": "Plot tanaman harus ditempatkan langsung di depan gnome merah.",
+  "landscape.confirmation.gnomes.three": "Setelah 24 jam, dorongan akan aktif untuk plot tunggal itu."
 }
