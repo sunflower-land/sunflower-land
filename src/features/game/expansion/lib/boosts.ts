@@ -394,7 +394,13 @@ export const getFoodExpBoost = ({
     boostsUsed.push("Swiss Whiskers");
   }
 
-  boostedExp = boostedExp.mul(getBudExperienceBoosts(game.buds ?? {}, food));
+  const { exp: budExp, budUsed } = getBudExperienceBoosts(
+    game.buds ?? {},
+    food,
+  );
+  boostedExp = boostedExp.mul(budExp);
+  if (budUsed) boostsUsed.push(budUsed);
+
   boostedExp = boostedExp.mul(getFactionPetBoostMultiplier(game));
 
   return { boostedExp: setPrecision(boostedExp), boostsUsed };
