@@ -38,7 +38,7 @@ const RewardRow: React.FC<{
 }> = ({ rewardName, amount, chance, icon, secondBG }) => {
   return (
     <div
-      className={`flex justify-between items-center p-1 pr-2 ${secondBG ? "bg-[#ead4aa] rounded" : "bg-[#c285697d] rounded"}`}
+      className={`flex justify-between items-center pr-2 ${secondBG ? "bg-[#ead4aa] rounded" : "bg-[#c285697d] rounded"}`}
     >
       <div className="flex items-center w-32 sm:w-40">
         <Box
@@ -60,6 +60,7 @@ const isStoreChapterItem = (rewardName: string) => {
       (reward.wearables && Object.keys(reward.wearables).includes(rewardName)),
   );
 };
+
 const MultipleRewardsRow: React.FC<{
   reward: ChestReward;
   chance?: string;
@@ -74,7 +75,7 @@ const MultipleRewardsRow: React.FC<{
 
   return (
     <div
-      className={`flex justify-between items-center p-1 pr-2 ${secondBG ? "bg-[#ead4aa] rounded" : "bg-[#c285697d] rounded"}`}
+      className={`flex justify-between items-center pr-2 ${secondBG ? "bg-[#ead4aa] rounded" : "bg-[#c285697d] rounded"}`}
     >
       <div className={`flex flex-col justify-between items-start `}>
         {rewards.map(([rewardName, amount], itemIndex) => {
@@ -219,15 +220,7 @@ export const ChestRewardsList: React.FC<{
                 />
               )}
 
-              {!!reward.items && (
-                <MultipleRewardsRow
-                  reward={reward}
-                  chance={`${rewardChance(reward.weighting)}%`}
-                  secondBG={index % 2 === 0}
-                />
-              )}
-
-              {!!reward.wearables && (
+              {(reward.items || reward.wearables) && (
                 <MultipleRewardsRow
                   reward={reward}
                   chance={`${rewardChance(reward.weighting)}%`}
