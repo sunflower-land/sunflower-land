@@ -1520,4 +1520,10 @@ export const SUNNYSIDE = {
     beeTutorial: `${CONFIG.PROTECTED_IMAGE_URL}/tutorials/bees.webp`,
     craftingBox: `${CONFIG.PROTECTED_IMAGE_URL}/tutorials/crafting_box.webp`,
   },
+
+  clutter: {
+    Trash: `${CONFIG.PROTECTED_IMAGE_URL}/clutter/trash.webp`,
+    Dung: `${CONFIG.PROTECTED_IMAGE_URL}/clutter/dung.webp`,
+    Weed: `${CONFIG.PROTECTED_IMAGE_URL}/clutter/weed.webp`,
+  },
 };

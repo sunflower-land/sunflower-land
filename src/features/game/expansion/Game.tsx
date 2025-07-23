@@ -208,7 +208,6 @@ const isRefreshing = (state: MachineState) => state.matches("refreshing");
 const isBuyingSFL = (state: MachineState) => state.matches("buyingSFL");
 const isError = (state: MachineState) => state.matches("error");
 const isHoarding = (state: MachineState) => state.matches("hoarding");
-const isVisiting = (state: MachineState) => state.matches("visiting");
 const isSwarming = (state: MachineState) => state.matches("swarming");
 const isPurchasing = (state: MachineState) =>
   state.matches("purchasing") || state.matches("buyingBlockBucks");

@@ -17,9 +17,8 @@ export const Clutter: React.FC<Props> = ({ id, type }) => {
   const collectClutter = () => {
     gameService.send("clutter.collected", {
       id,
-      visitorId: gameService.state.context.farmId,
+      visitedFarmId: gameService.state.context.farmId,
     });
-    gameService.send("SAVE");
   };
 
   return (

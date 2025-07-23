@@ -5,7 +5,7 @@ import { produce } from "immer";
 export type CollectClutterAction = {
   type: "clutter.collected";
   id: string;
-  visitorId: number;
+  visitedFarmId: number;
 };
 
 type Options = {

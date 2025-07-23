@@ -5654,4 +5654,16 @@ export const ITEM_DETAILS: Items = {
     image: solarDoll,
     description: translate("description.solarDoll"),
   },
+  Trash: {
+    image: SUNNYSIDE.clutter.Trash,
+    description: translate("description.trash"),
+  },
+  Dung: {
+    image: SUNNYSIDE.clutter.Dung,
+    description: translate("description.dung"),
+  },
+  Weed: {
+    image: SUNNYSIDE.clutter.Weed,
+    description: translate("description.weed"),
+  },
 };

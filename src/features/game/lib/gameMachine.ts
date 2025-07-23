@@ -728,6 +728,8 @@ export const saveGame = async (
 };
 
 const handleSuccessfulSave = (context: Context, event: any) => {
+  const isVisiting = !!context.visitorId;
+
   // Actions that occurred since the server request
   const recentActions = context.actions.filter(
     (action) => action.createdAt.getTime() > event.data.saveAt.getTime(),
@@ -744,7 +746,8 @@ const handleSuccessfulSave = (context: Context, event: any) => {
 
   return {
     actions: recentActions,
-    state: updatedState,
+    // TODO: Update when backend is already handled
+    visitorState: updatedState,
     saveQueued: false,
     announcements: event.data.announcements,
   };
@@ -934,7 +937,7 @@ export function startGame(authContext: AuthContext) {
                 farmId = (event as VisitEvent).landId;
               }
 
-              const { visitedFarmState, visitorId } =
+              const { visitedFarmState, visitorFarmState, visitorId } =
                 await loadGameStateForVisit(
                   Number(farmId),
                   authContext.user.rawToken as string,
@@ -944,6 +947,7 @@ export function startGame(authContext: AuthContext) {
                 state: makeGame(visitedFarmState),
                 farmId,
                 visitorId,
+                visitorState: makeGame(visitorFarmState),
               };
             },
             onDone: {
@@ -952,8 +956,8 @@ export function startGame(authContext: AuthContext) {
                 state: (_, event) => event.data.state,
                 farmId: (_, event) => event.data.farmId,
                 visitorId: (_, event) => event.data.visitorId,
-                visitorState: (context, event) => context.state,
-                actions: (context, event) => [],
+                visitorState: (_, event) => event.data.visitorState,
+                actions: (_, event) => [],
               }),
             },
             onError: {

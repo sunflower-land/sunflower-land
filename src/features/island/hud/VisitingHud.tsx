@@ -23,6 +23,7 @@ import cheer from "assets/icons/cheer.webp";
 const _cheers = (state: MachineState) => {
   return state.context.visitorState?.inventory["Cheer"] ?? new Decimal(0);
 };
+import { Save } from "./components/Save";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -86,15 +87,8 @@ export const VisitingHud: React.FC = () => {
         />
       </div>
       <BumpkinProfile />
-      <div
-        className="fixed z-50"
-        style={{
-          right: `${PIXEL_SCALE * 3}px`,
-          bottom: `${PIXEL_SCALE * 3}px`,
-          width: `${PIXEL_SCALE * 22}px`,
-          height: `${PIXEL_SCALE * 23}px`,
-        }}
-      >
+      <div className="absolute bottom-0 p-2 right-0 flex flex-col space-y-2.5">
+        <Save />
         <Settings isFarming={false} />
       </div>
       <div
