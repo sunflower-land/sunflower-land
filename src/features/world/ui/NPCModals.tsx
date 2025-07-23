@@ -7,7 +7,6 @@ import { DeliveryPanel } from "./deliveries/DeliveryPanel";
 
 import { Birdie } from "./npcs/Birdie";
 import { PotionHouseShopItems } from "features/helios/components/potions/component/PotionHouseShopItems";
-import { Bert } from "./npcs/Bert";
 import { Finn } from "./npcs/Finn";
 import { Mayor } from "./npcs/Mayor";
 import { DecorationShopItems } from "features/helios/components/decorations/component/DecorationShopItems";
@@ -228,7 +227,7 @@ export const NPCModals: React.FC<Props> = ({ id }) => {
         {npc === "grimtooth" && (
           <DeliveryPanel npc={npc} onClose={closeModal} />
         )}
-        {npc === "bert" && <Bert onClose={closeModal} />}
+        {npc === "bert" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "timmy" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "old salty" && (
           <DeliveryPanel npc={npc} onClose={closeModal} />

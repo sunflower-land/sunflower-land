@@ -75,7 +75,7 @@ export const Finn: React.FC<Props> = ({ onClose }) => {
       setCurrentTab={setTab}
       currentTab={tab}
     >
-      {tab === 0 && <DeliveryPanelContent npc="finn" />}
+      {tab === 0 && <DeliveryPanelContent onClose={onClose} npc="finn" />}
       {tab === 1 && <BeachBaitShop />}
     </CloseButtonPanel>
   );
