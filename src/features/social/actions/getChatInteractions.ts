@@ -8,14 +8,14 @@ type Request = {
   cursor?: number;
 };
 
-export const getChatMessages = async ({
+export const getChatInteractions = async ({
   token,
   farmId,
   followedPlayerId,
   cursor,
 }: Request): Promise<Interaction[]> => {
   const res = await fetch(
-    `${CONFIG.API_URL}/data?type=chatMessages&farmId=${farmId}&followedPlayerId=${followedPlayerId}&cursor=${cursor}`,
+    `${CONFIG.API_URL}/data?type=chatInteractions&farmId=${farmId}&followedPlayerId=${followedPlayerId}&cursor=${cursor}`,
     {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -25,5 +25,5 @@ export const getChatMessages = async ({
 
   const response = await res.json();
 
-  return response.data.messages ?? [];
+  return response.data.interactions ?? [];
 };

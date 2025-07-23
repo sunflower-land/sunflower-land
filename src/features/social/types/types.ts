@@ -7,7 +7,7 @@ export type ParticipantInfo = {
   tokenUri: string;
 };
 
-export type InteractionType = "chat" | "action" | "milestone" | "announcement";
+export type InteractionType = "chat" | "follow" | "milestone" | "announcement";
 
 export type Interaction = {
   type: InteractionType;

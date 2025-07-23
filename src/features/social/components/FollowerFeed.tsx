@@ -8,7 +8,6 @@ import React, {
   useState,
 } from "react";
 import { InteractionBubble } from "./InteractionBubble";
-import { getRelativeTime } from "lib/utils/time";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
@@ -27,9 +26,10 @@ import { postEffect } from "features/game/actions/effect";
 import { randomID } from "lib/utils/random";
 import { Equipped } from "features/game/types/bumpkin";
 import { FollowerFeedSkeleton } from "./skeletons/FollowerFeedSkeleton";
-import { useChatMessages } from "../hooks/useChatMessages";
+import { useChatInteractions } from "../hooks/useChatInteractions";
 import { useSocial } from "../hooks/useSocial";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { InteractionSenderMetadata } from "./InteractionSenderMetadata";
 
 type Props = {
   farmId: number;
@@ -74,24 +74,30 @@ export const FollowerFeed: React.FC<Props> = ({
   const [newMessagesCount, setNewMessagesCount] = useState(0);
 
   const {
-    messages,
+    interactions,
     isLoadingInitialData,
     isLoadingMore,
     hasMore,
     loadMore,
     mutate,
-  } = useChatMessages(token, farmId, playerId);
+  } = useChatInteractions(token, farmId, playerId);
+
+  useEffect(() => {
+    mutate();
+  }, []);
 
   useSocial({
     farmId,
     callbacks: {
-      onChat: (update) => {
-        mutate((current = []) => {
+      onInteraction: async (update) => {
+        await mutate((current = []) => {
           return [[update, ...(current[0] ?? [])], ...current.slice(1)];
         });
 
         if (!scrolledToBottom) {
           setNewMessagesCount(newMessagesCount + 1);
+        } else {
+          scrollToBottom();
         }
       },
     },
@@ -138,6 +144,12 @@ export const FollowerFeed: React.FC<Props> = ({
     }
   }, [scrolledToBottom, newMessagesCount, scrollToBottom]);
 
+  useEffect(() => {
+    if (!chatDisabled) {
+      scrollToBottom();
+    }
+  }, [chatDisabled, scrollToBottom]);
+
   useLayoutEffect(() => {
     if (!isLoadingMore && scrollContainerRef.current) {
       // Restore the scroll position when new interactions are loaded
@@ -183,7 +195,7 @@ export const FollowerFeed: React.FC<Props> = ({
 
         // Replace page 0 with latest messages. The rest will become invalid as the
         // cursor will be changed
-        return [response.messages];
+        return [response.interactions];
       },
       {
         revalidate: false,
@@ -208,7 +220,7 @@ export const FollowerFeed: React.FC<Props> = ({
     return <FollowerFeedSkeleton />;
   }
 
-  if (messages.length === 0) {
+  if (interactions.length === 0) {
     return (
       <InnerPanel
         className={classNames("flex flex-col justify-between", {
@@ -244,14 +256,18 @@ export const FollowerFeed: React.FC<Props> = ({
             {t("activity")}
             {newMessagesCount > 0 && ` (${newMessagesCount})`}
           </Label>
-          {newMessagesCount > 0 && (
-            <img
-              src={SUNNYSIDE.icons.arrow_down}
-              alt="arrow-down"
-              className="w-5 object-contain cursor-pointer"
-              onClick={handleAcknowledgeNewMessages}
-            />
-          )}
+
+          <img
+            src={SUNNYSIDE.icons.arrow_down}
+            alt="arrow-down"
+            className={classNames(
+              "w-5 mr-2 object-contain cursor-pointer transition-opacity duration-100",
+              {
+                "opacity-0": scrolledToBottom,
+              },
+            )}
+            onClick={handleAcknowledgeNewMessages}
+          />
         </div>
 
         <div className="flex flex-col gap-1 -mt-2">
@@ -266,37 +282,39 @@ export const FollowerFeed: React.FC<Props> = ({
             {hasMore ? <Loading dotsOnly /> : t("playerModal.noMoreMessages")}
           </div>
 
-          {messages
+          {interactions
             .slice()
             .reverse()
-            .map((message, index) => {
+            .map((interaction, index) => {
               const direction =
-                message?.sender.username === myUsername ? "right" : "left";
+                interaction.sender.username === myUsername ? "right" : "left";
+
               const sender =
-                message?.sender.username === myUsername
+                interaction.sender.username === myUsername
                   ? t("you")
-                  : message.sender.username;
+                  : interaction.sender.username;
 
               return (
                 <div
-                  key={`${message.createdAt}-${index}`}
+                  key={`${interaction.createdAt}-${index}`}
                   className={classNames({
-                    "pl-1": direction === "left" && message.type === "chat",
-                    "pr-1": direction === "right" && message.type === "chat",
+                    "pl-1": direction === "left" && interaction.type === "chat",
+                    "pr-1":
+                      direction === "right" && interaction.type === "chat",
                   })}
                 >
                   <InteractionBubble
-                    key={`${message.sender.id}-${message.createdAt}-${index}`}
+                    key={`${interaction.sender.id}-${interaction.createdAt}-${index}`}
                     direction={direction}
-                    type={message.type}
+                    type={interaction.type}
                   >
-                    <div className="text-xxs">
-                      <span className="flex items-center gap-1">
-                        {`${sender ?? ""} ${message.sender ? "- " : ""}`}
-                        {`${getRelativeTime(message.createdAt)}`}
-                      </span>
+                    <InteractionSenderMetadata
+                      sender={sender}
+                      createdAt={interaction.createdAt}
+                    />
+                    <div className="text-xs break-all">
+                      {interaction.message}
                     </div>
-                    <div className="text-xs break-all">{message.message}</div>
                   </InteractionBubble>
                 </div>
               );

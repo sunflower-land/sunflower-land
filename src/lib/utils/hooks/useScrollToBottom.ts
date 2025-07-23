@@ -15,6 +15,7 @@ export const useScrollToBottom = () => {
 
   const checkIsAtBottom = useCallback(() => {
     const el = scrollContainerRef.current;
+
     if (!el) return false;
     return el.scrollHeight - el.scrollTop - el.clientHeight <= 1;
   }, []);

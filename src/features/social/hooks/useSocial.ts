@@ -14,7 +14,7 @@ const subscribers: Map<
     callbacks?: {
       onFollow?: (update: PlayerUpdate) => void;
       onUnfollow?: (update: PlayerUpdate) => void;
-      onChat?: (update: Interaction) => void;
+      onInteraction?: (update: Interaction) => void;
     };
   }
 > = new Map();
@@ -39,7 +39,7 @@ type UseSocialParams = {
   callbacks?: {
     onFollow?: (update: PlayerUpdate) => void;
     onUnfollow?: (update: PlayerUpdate) => void;
-    onChat?: (update: Interaction) => void;
+    onInteraction?: (update: Interaction) => void;
   };
 };
 
@@ -109,10 +109,10 @@ const onUnfollow = (update: PlayerUpdate) => {
   });
 };
 
-const onChat = (update: Interaction) => {
+const onInteraction = (update: Interaction) => {
   [...subscribers.values()].forEach((subscriber) => {
-    if (subscriber.callbacks?.onChat) {
-      subscriber.callbacks.onChat(update);
+    if (subscriber.callbacks?.onInteraction) {
+      subscriber.callbacks.onInteraction(update);
     }
   });
 };
@@ -136,7 +136,7 @@ const setupListeners = (
   room.onMessage("heartbeat", updateOnline);
   room.onMessage("follow", onFollow);
   room.onMessage("unfollow", onUnfollow);
-  room.onMessage("chat", onChat);
+  room.onMessage("interaction", onInteraction);
 };
 
 const updateFollowing = () => {

@@ -20,7 +20,7 @@ export const InteractionBubble: React.FC<Props> = ({
   direction,
   type,
 }) => {
-  if (type === "action") {
+  if (type === "follow") {
     return (
       <div className="relative">
         <div
