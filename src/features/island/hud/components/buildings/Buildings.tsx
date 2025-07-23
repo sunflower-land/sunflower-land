@@ -22,6 +22,7 @@ import {
   isBuildingUpgradable,
 } from "features/game/events/landExpansion/upgradeBuilding";
 import { getCurrentBiome } from "features/island/biomes/biomes";
+import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 
 interface Props {
   onClose: () => void;
@@ -177,6 +178,7 @@ export const Buildings: React.FC<Props> = ({ onClose }) => {
           details={{
             item: selectedName,
           }}
+          boost={COLLECTIBLE_BUFF_LABELS(state)[selectedName]}
           requirements={{
             coins,
             resources: buildingBlueprints[

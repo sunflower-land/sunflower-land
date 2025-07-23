@@ -1,14 +1,14 @@
 import React from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { BuildingImageWrapper } from "../BuildingImageWrapper";
 import { BuildingProps } from "../Building";
 import { WAREHOUSE_VARIANTS } from "features/island/lib/alternateArt";
+import { SFTDetailPopover } from "components/ui/SFTDetailPopover";
 
 export const Warehouse: React.FC<BuildingProps> = ({ season }) => {
   return (
-    <BuildingImageWrapper name="Warehouse" nonInteractible>
+    <SFTDetailPopover name="Warehouse">
       <div
-        className="absolute pointer-events-none"
+        className="absolute"
         style={{
           width: `${PIXEL_SCALE * 50}px`,
           bottom: `${PIXEL_SCALE * 0}px`,
@@ -22,6 +22,6 @@ export const Warehouse: React.FC<BuildingProps> = ({ season }) => {
           }}
         />
       </div>
-    </BuildingImageWrapper>
+    </SFTDetailPopover>
   );
 };
