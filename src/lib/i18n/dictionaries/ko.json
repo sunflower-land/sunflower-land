@@ -4389,7 +4389,6 @@
   "reputation.points.amount": "{{points}} 평판 포인트",
   "reputation.points.description": "작업을 완료하여 평판 점수를 획득하세요.",
   "reputation.seedling.nft": "NFT 출금",
-  "reputation.unlock.spring": "스프링 아일랜드 도달 - {{points}} 포인트",
   "reputation.unlock.desert": "데저트 아일랜드 도달 - {{points}} 포인트",
   "reputation.unlock.volcano": "화산섬 도달 - {{points}} 포인트",
   "reputation.unlock.discord": "디스코드 계정 연결 - {{points}} 포인트",
@@ -5190,7 +5189,6 @@
   "skill.toughTree": "1/10 확률로 3배의 목재 생산량",
   "reputation.tiers": "티어",
   "reputation.earnPoints": "포인트 적립",
-  "reputation.guide.upgrade": "현재 섬에 있는 모든 확장팩을 잠금 해제하고 뗏목에 있는 고블린을 클릭하면 다음 섬으로 갈 수 있습니다.(기본 -> 봄 -> 사막 -> 화산)",
   "reputation.guide.levelUp": "범프킨 레벨을 올리려면 요리 건물에서 음식을 요리하고 텐트나 집 앞에 있는 범프킨을 클릭하여 먹이를 주세요.",
   "reputation.guide.proofOfHumanity": "리트리트 섬으로 가서 은행을 찾아 인류 증명을 완료하세요.",
   "reputation.guide.ownBud": "게임 내 또는 타사 마켓플레이스에서 구매하여 Bud를 소유하세요.",
@@ -6068,5 +6066,7 @@
   "monuments": "기념비",
   "clientOutdated.label": "버전 만료됨",
   "clientOutdated.description": "주요 업데이트가 제공됩니다!페이지를 새로고침하여 최신 게임 버전을 다운로드하세요.",
-  "clientOutdated.currentVersion": "현재 버전: {{version}}"
+  "clientOutdated.currentVersion": "현재 버전: {{version}}",
+  "reputation.unlock.spring": "페탈 파라다이스 도달 - {{points}} 포인트",
+  "reputation.guide.upgrade": "현재 섬에 있는 모든 확장팩을 잠금 해제하고 뗏목에 있는 고블린을 클릭하면 다음 섬으로 갈 수 있습니다.(기본 -> 꽃잎 -> 사막 -> 화산)"
 }

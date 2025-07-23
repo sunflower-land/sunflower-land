@@ -4389,7 +4389,6 @@
   "reputation.points.amount": "{{points}} 声誉积分",
   "reputation.points.description": "通过完成任务获得声誉积分。",
   "reputation.seedling.nft": "提取 NFT",
-  "reputation.unlock.spring": "到达春之岛-{{points}} 点积分",
   "reputation.unlock.desert": "到达荒岛-{{points}} 点积分",
   "reputation.unlock.volcano": "到达火山岛-{{points}} 积分",
   "reputation.unlock.discord": "连接 Discord 账户-{{points}} 积分",
@@ -5190,7 +5189,6 @@
   "skill.toughTree": "获得 x3 木材产量的几率为 1/10",
   "reputation.tiers": "等级",
   "reputation.earnPoints": "赚取积分",
-  "reputation.guide.upgrade": "解锁当前岛屿上的所有扩展包，然后点击木筏上的哥布林到达下一个岛屿。（基础岛 -> 春花岛 -> 黄沙岛 -> 火山岛）",
   "reputation.guide.levelUp": "要提升你的 Bumpkin 等级，在烹饪大楼里煮食物，然后点击帐篷或房子前面的 Bumpkin 来喂它。",
   "reputation.guide.proofOfHumanity": "前往 Retreat Island 并找到银行，完成 “人性证明”。",
   "reputation.guide.ownBud": "通过游戏内或第三方市场购买 Bud 即可拥有 Bud。",
@@ -6068,5 +6066,7 @@
   "monuments": "纪念碑",
   "clientOutdated.label": "版本已过期",
   "clientOutdated.description": "重大更新现已推出！请刷新页面下载最新的游戏版本。",
-  "clientOutdated.currentVersion": "当前版本：{{version}}"
+  "clientOutdated.currentVersion": "当前版本：{{version}}",
+  "reputation.unlock.spring": "到达 Petal Paradise-{{points}} 积分",
+  "reputation.guide.upgrade": "解锁当前岛屿上的所有扩展包，然后点击木筏上的哥布林到达下一个岛屿。（基本-> 花瓣-> 沙漠-> 火山）"
 }

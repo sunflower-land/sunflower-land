@@ -4389,7 +4389,6 @@
   "reputation.points.amount": "{{points}} Pontos de reputação",
   "reputation.points.description": "Ganhe pontos de reputação ao concluir tarefas.",
   "reputation.seedling.nft": "Retirar NFTs",
-  "reputation.unlock.spring": "Chegue à Ilha Spring - {{points}} pontos",
   "reputation.unlock.desert": "Chegue à Ilha Deserta - {{points}} pontos",
   "reputation.unlock.volcano": "Chegue à Ilha do Vulcão - {{points}} pontos",
   "reputation.unlock.discord": "Conecte a conta Discord - {{points}} pontos",
@@ -5190,7 +5189,6 @@
   "skill.toughTree": "1/10 de chance de rendimento de madeira x3",
   "reputation.tiers": "Níveis",
   "reputation.earnPoints": "Ganhe pontos",
-  "reputation.guide.upgrade": "Desbloqueie todas as expansões em sua ilha atual e clique no goblin na balsa para chegar à próxima ilha. (Básico -> Primavera -> Deserto -> Vulcão)",
   "reputation.guide.levelUp": "Para aumentar o nível do seu Bumpkin, cozinhe alimentos nos prédios de cozinha e clique no Bumpkin na frente da tenda ou da casa para alimentá-lo.",
   "reputation.guide.proofOfHumanity": "Complete a Prova de Humanidade viajando até a Ilha do Retiro e localizando o banco.",
   "reputation.guide.ownBud": "Adquira um Bud comprando-o nos mercados do jogo ou de terceiros.",
@@ -6068,5 +6066,7 @@
   "monuments": "Monumentos",
   "clientOutdated.label": "Versão desatualizada",
   "clientOutdated.description": "Uma grande atualização está disponível! Atualize a página para baixar a versão mais recente do jogo.",
-  "clientOutdated.currentVersion": "Versão atual: {{version}}"
+  "clientOutdated.currentVersion": "Versão atual: {{version}}",
+  "reputation.unlock.spring": "Alcance Petal Paradise - {{points}} pontos",
+  "reputation.guide.upgrade": "Desbloqueie todas as expansões em sua ilha atual e clique no goblin na balsa para chegar à próxima ilha. (Básico -> Pétala -> Deserto -> Vulcão)"
 }

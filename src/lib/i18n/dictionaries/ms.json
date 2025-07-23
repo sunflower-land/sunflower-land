@@ -4389,7 +4389,6 @@
   "reputation.points.amount": "{{points}} Mata Reputasi",
   "reputation.points.description": "Dapatkan mata reputasi dengan menyelesaikan tugas.",
   "reputation.seedling.nft": "Tarik balik NFT",
-  "reputation.unlock.spring": "Jangkau Pulau Spring - mata {{points}}",
   "reputation.unlock.desert": "Jangkau Pulau Gurun - mata {{points}}",
   "reputation.unlock.volcano": "Jangkau Pulau Gunung Berapi - mata {{points}}",
   "reputation.unlock.discord": "Sambungkan Akaun Discord - mata {{points}}",
@@ -5190,7 +5189,6 @@
   "skill.toughTree": "1/10 peluang hasil kayu x3",
   "reputation.tiers": "Peringkat",
   "reputation.earnPoints": "Dapatkan mata",
-  "reputation.guide.upgrade": "Buka kunci semua pengembangan di pulau anda sekarang, dan kemudian klik goblin di rakit untuk sampai ke pulau seterusnya. (Asas -> Musim Bunga -> Gurun -> Gunung Berapi)",
   "reputation.guide.levelUp": "Untuk meningkatkan Bumpkin anda, masak makanan di bangunan memasak, dan klik pada Bumpkin di hadapan khemah atau rumah untuk memberi makan.",
   "reputation.guide.proofOfHumanity": "Lengkapkan Bukti Kemanusiaan dengan pergi ke Pulau Retreat dan mencari bank.",
   "reputation.guide.ownBud": "Memiliki Bud dengan membelinya melalui pasaran dalam permainan atau pihak ketiga.",
@@ -6068,5 +6066,7 @@
   "monuments": "Monumen",
   "clientOutdated.label": "Versi ketinggalan zaman",
   "clientOutdated.description": "Kemas kini utama tersedia! Sila muat semula halaman untuk memuat turun versi permainan terkini.",
-  "clientOutdated.currentVersion": "Versi Semasa: {{version}}"
+  "clientOutdated.currentVersion": "Versi Semasa: {{version}}",
+  "reputation.unlock.spring": "Jangkau Petal Paradise - mata {{points}}",
+  "reputation.guide.upgrade": "Buka kunci semua pengembangan di pulau anda sekarang, dan kemudian klik goblin di rakit untuk sampai ke pulau seterusnya. (Asas -> Kelopak -> Gurun -> Gunung Berapi)"
 }

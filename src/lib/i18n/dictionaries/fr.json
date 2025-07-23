@@ -4389,7 +4389,6 @@
   "reputation.points.amount": "{{points}} Points de réputation",
   "reputation.points.description": "Gagnez des points de réputation en accomplissant des tâches.",
   "reputation.seedling.nft": "Retirer des NFT",
-  "reputation.unlock.spring": "Atteignez Spring Island - {{points}} points",
   "reputation.unlock.desert": "Atteignez Desert Island - {{points}} points",
   "reputation.unlock.volcano": "Atteignez Volcano Island - {{points}} points",
   "reputation.unlock.discord": "Connecter un compte Discord - {{points}} points",
@@ -5190,7 +5189,6 @@
   "skill.toughTree": "1/10 de chance d'obtenir un rendement en bois multiplié par 3",
   "reputation.tiers": "Niveaux",
   "reputation.earnPoints": "Gagnez des points",
-  "reputation.guide.upgrade": "Débloquez toutes les extensions de votre île actuelle, puis cliquez sur le gobelin sur le radeau pour atteindre l'île suivante. (Basique -> Printemps -> Désert -> Volcan)",
   "reputation.guide.levelUp": "Pour améliorer votre Bumpkin, faites cuire des aliments dans les bâtiments de cuisine et cliquez sur le Bumpkin devant la tente ou la maison pour le nourrir.",
   "reputation.guide.proofOfHumanity": "Complétez la preuve d'humanité en vous rendant sur l'île de la retraite et en localisant la banque.",
   "reputation.guide.ownBud": "Devenez propriétaire d'un Bud en l'achetant sur le site du jeu ou sur des sites de vente tiers.",
@@ -6068,5 +6066,7 @@
   "monuments": "Monuments",
   "clientOutdated.label": "Version obsolète",
   "clientOutdated.description": "Une mise à jour majeure est disponible ! Veuillez actualiser la page pour télécharger la dernière version du jeu.",
-  "clientOutdated.currentVersion": "Version actuelle : {{version}}"
+  "clientOutdated.currentVersion": "Version actuelle : {{version}}",
+  "reputation.unlock.spring": "Atteignez Petal Paradise - {{points}} points",
+  "reputation.guide.upgrade": "Débloquez toutes les extensions de votre île actuelle, puis cliquez sur le gobelin sur le radeau pour atteindre l'île suivante. (Basique -> Pétale -> Désert -> Volcan)"
 }

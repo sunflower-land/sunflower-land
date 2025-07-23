@@ -4389,7 +4389,6 @@
   "reputation.points.amount": "{{points}} İtibar Puanları",
   "reputation.points.description": "Görevleri tamamlayarak itibar puanları kazanın.",
   "reputation.seedling.nft": "NFT'leri geri çekin",
-  "reputation.unlock.spring": "Spring Island'a ulaşın - {{points}} puan",
   "reputation.unlock.desert": "Çöl Adası'na ulaşın - {{points}} puan",
   "reputation.unlock.volcano": "Volcano Island'a ulaşın - {{points}} puan",
   "reputation.unlock.discord": "Discord Hesabını Bağla - {{points}} puan",
@@ -5190,7 +5189,6 @@
   "skill.toughTree": "1/10 x3 odun verimi şansı",
   "reputation.tiers": "Katmanlar",
   "reputation.earnPoints": "Puan kazanın",
-  "reputation.guide.upgrade": "Mevcut adanızdaki tüm genişletmelerin kilidini açın, ve ardından bir sonraki adaya ulaşmak için saldaki goblin'i tıklayın. (Temel -> Bahar -> Çöl -> Volkan)",
   "reputation.guide.levelUp": "Bumpkin'inizin seviyesini yükseltmek için, yemek pişirme binalarında yemek pişirin ve onu beslemek için çadırın veya evin önündeki Bumpkin'e tıklayın.",
   "reputation.guide.proofOfHumanity": "Retreat Island'a seyahat ederek ve bankayı bularak İnsanlığın Kanıtı'nı tamamlayın.",
   "reputation.guide.ownBud": "Oyun içi veya üçüncü taraf pazarlarından satın alarak bir Bud'a sahip olun.",
@@ -6068,5 +6066,7 @@
   "monuments": "Anıtlar",
   "clientOutdated.label": "Sürüm Modası Geçmiş",
   "clientOutdated.description": "Büyük bir güncelleme mevcut! En son oyun sürümünü indirmek için lütfen sayfayı yenileyin.",
-  "clientOutdated.currentVersion": "Geçerli Sürüm: {{version}}"
+  "clientOutdated.currentVersion": "Geçerli Sürüm: {{version}}",
+  "reputation.unlock.spring": "Petal Paradise'a ulaşın - {{points}} puan",
+  "reputation.guide.upgrade": "Mevcut adanızdaki tüm genişletmelerin kilidini açın, ve ardından bir sonraki adaya ulaşmak için saldaki goblin'i tıklayın. (Temel -> Petal -> Çöl -> Volkan)"
 }

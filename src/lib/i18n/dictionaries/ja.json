@@ -4389,7 +4389,6 @@
   "reputation.points.amount": "{{points}} レピュテーションポイント",
   "reputation.points.description": "タスクを完了することで評判ポイントを獲得できます。",
   "reputation.seedling.nft": "NFTを出金する",
-  "reputation.unlock.spring": "リーチスプリングアイランド-{{points}} ポイント",
   "reputation.unlock.desert": "デザートアイランドに到達-{{points}} ポイント",
   "reputation.unlock.volcano": "火山島に到達-{{points}} ポイント",
   "reputation.unlock.discord": "Discordアカウントを接続-{{points}} ポイント",
@@ -5190,7 +5189,6 @@
   "skill.toughTree": "木材生産量が3倍になる確率は1/10",
   "reputation.tiers": "階層",
   "reputation.earnPoints": "ポイントを貯める",
-  "reputation.guide.upgrade": "現在の島のすべての拡張パックをアンロックし、いかだに乗っているゴブリンをクリックして次の島に行きましょう。(ベーシック-> 春-> 砂漠-> 火山)",
   "reputation.guide.levelUp": "バンプキンをレベルアップするには、クッキングビルで料理を作り、テントや家の前にあるバンプキンをクリックして餌を与えます。",
   "reputation.guide.proofOfHumanity": "リトリート島に移動して銀行を見つけて、プルーフ・オブ・ヒューマニティをクリアしてください。",
   "reputation.guide.ownBud": "バドをゲーム内またはサードパーティーのマーケットプレイスで購入して所有する。",
@@ -6068,5 +6066,7 @@
   "monuments": "モニュメント",
   "clientOutdated.label": "バージョンが古い",
   "clientOutdated.description": "メジャーアップデートがリリースされました！最新のゲームバージョンをダウンロードするには、ページを更新してください。",
-  "clientOutdated.currentVersion": "現在のバージョン:{{version}}"
+  "clientOutdated.currentVersion": "現在のバージョン:{{version}}",
+  "reputation.unlock.spring": "リーチペタルパラダイス-{{points}} ポイント",
+  "reputation.guide.upgrade": "現在の島のすべての拡張パックをアンロックし、いかだに乗っているゴブリンをクリックして次の島に行きましょう。(ベーシック-> 花びら-> 砂漠-> 火山)"
 }

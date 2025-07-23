@@ -4389,7 +4389,6 @@
   "reputation.points.amount": "{{points}} Poin Reputasi",
   "reputation.points.description": "Dapatkan poin reputasi dengan menyelesaikan tugas.",
   "reputation.seedling.nft": "Tarik NFT",
-  "reputation.unlock.spring": "Mencapai Spring Island - {{points}} poin",
   "reputation.unlock.desert": "Mencapai Desert Island - {{points}} poin",
   "reputation.unlock.volcano": "Mencapai Pulau Gunung Berapi - {{points}} poin",
   "reputation.unlock.discord": "Hubungkan Akun Discord - {{points}} poin",
@@ -5190,7 +5189,6 @@
   "skill.toughTree": "1/10 peluang hasil kayu x3",
   "reputation.tiers": "tingkatan",
   "reputation.earnPoints": "Dapatkan poin",
-  "reputation.guide.upgrade": "Buka semua ekspansi di pulau Anda saat ini, lalu klik goblin di rakit untuk mencapai pulau berikutnya. (Dasar -> Musim Semi -> Gurun -> Gunung Berapi)",
   "reputation.guide.levelUp": "Untuk menaikkan level Bumpkin Anda, masak makanan di gedung memasak, dan klik Bumpkin di depan tenda atau rumah untuk memberinya makan.",
   "reputation.guide.proofOfHumanity": "Lengkapi Bukti Kemanusiaan dengan melakukan perjalanan ke Pulau Retreat dan menemukan bank.",
   "reputation.guide.ownBud": "Miliki Bud dengan membelinya melalui pasar dalam game atau pihak ketiga.",
@@ -6068,5 +6066,7 @@
   "monuments": "Monumen",
   "clientOutdated.label": "Versi ketinggalan jaman",
   "clientOutdated.description": "Pembaruan besar tersedia! Silakan segarkan halaman untuk mengunduh versi game terbaru.",
-  "clientOutdated.currentVersion": "Versi saat ini: {{version}}"
+  "clientOutdated.currentVersion": "Versi saat ini: {{version}}",
+  "reputation.unlock.spring": "Mencapai Petal Paradise - {{points}} poin",
+  "reputation.guide.upgrade": "Buka semua ekspansi di pulau Anda saat ini, lalu klik goblin di rakit untuk mencapai pulau berikutnya. (Dasar -> Kelopak -> Gurun -> Gunung Berapi)"
 }
