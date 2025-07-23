@@ -109,12 +109,15 @@ export const Iron: React.FC<Props> = ({ id }) => {
   };
 
   const mine = async () => {
-    const ironMined = getIronDropAmount({
-      game: state,
-      rock: resource,
-      criticalDropGenerator: (name) =>
-        !!(resource.stone.criticalHit?.[name] ?? 0),
-    });
+    const ironMined = new Decimal(
+      resource.stone.amount ??
+        getIronDropAmount({
+          game: state,
+          rock: resource,
+          criticalDropGenerator: (name) =>
+            !!(resource.stone.criticalHit?.[name] ?? 0),
+        }),
+    );
     const newState = gameService.send("ironRock.mined", {
       index: id,
     });

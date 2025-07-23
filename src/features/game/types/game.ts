@@ -581,6 +581,7 @@ export type Wood = {
   choppedAt: number;
   reward?: Omit<Reward, "sfl">;
   criticalHit?: CriticalHit;
+  amount?: number;
 };
 
 export type CriticalHitName =
@@ -598,6 +599,7 @@ export type PlantedCrop = {
   plantedAt: number;
   criticalHit?: CriticalHit;
   reward?: Omit<Reward, "sfl">;
+  amount?: number;
 };
 
 export type PlantedFruit = {
@@ -606,6 +608,7 @@ export type PlantedFruit = {
   harvestsLeft: number;
   harvestedAt: number;
   criticalHit?: CriticalHit;
+  amount?: number;
 };
 
 export type Tree = {
@@ -616,6 +619,7 @@ export type Tree = {
 export type Stone = {
   minedAt: number;
   criticalHit?: CriticalHit;
+  amount?: number;
 };
 
 export type FiniteResource = {
@@ -640,6 +644,7 @@ export type OilReserve = {
 export type CropPlot = {
   crop?: PlantedCrop;
   fertiliser?: CropFertiliser;
+  amount?: number;
   createdAt: number;
   beeSwarm?: {
     count: number;
@@ -651,6 +656,7 @@ export type GreenhousePlant = {
   name: GreenHouseCropName | GreenHouseFruitName;
   plantedAt: number;
   criticalHit?: CriticalHit;
+  amount?: number;
 };
 
 export type GreenhousePot = {
@@ -727,6 +733,7 @@ export type CropMachineQueueItem = {
   growsUntil?: number;
   readyAt?: number;
   criticalHit?: CriticalHit;
+  amount?: number;
 };
 
 export type CropMachineBuilding = PlacedItem & {
@@ -1249,6 +1256,7 @@ export type PlantedFlower = {
   dirty?: boolean;
   reward?: Reward;
   criticalHit?: CriticalHit;
+  amount?: number;
 };
 
 export type FlowerBed = {

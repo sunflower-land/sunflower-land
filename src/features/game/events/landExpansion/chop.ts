@@ -212,10 +212,12 @@ export function chop({
       throw new Error(CHOP_ERRORS.STILL_GROWING);
     }
 
-    const woodHarvested = getWoodDropAmount({
-      game: stateCopy,
-      criticalDropGenerator: (name) => !!(tree.wood.criticalHit?.[name] ?? 0),
-    }).toNumber();
+    const woodHarvested =
+      tree.wood.amount ??
+      getWoodDropAmount({
+        game: stateCopy,
+        criticalDropGenerator: (name) => !!(tree.wood.criticalHit?.[name] ?? 0),
+      }).toNumber();
     const woodAmount = inventory.Wood || new Decimal(0);
 
     tree.wood = {
@@ -229,6 +231,7 @@ export function chop({
     inventory.Wood = woodAmount.add(woodHarvested);
 
     bumpkin.activity = trackActivity("Tree Chopped", bumpkin.activity);
+    delete tree.wood.amount;
 
     return stateCopy;
   });

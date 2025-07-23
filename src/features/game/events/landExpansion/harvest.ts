@@ -93,12 +93,14 @@ export function harvest({
     }
 
     const { name: cropName, plantedAt, reward, criticalHit } = plot.crop;
-    const amount = getCropYieldAmount({
-      crop: cropName,
-      game: stateCopy,
-      plot,
-      criticalDrop: (name) => !!(criticalHit?.[name] ?? 0),
-    });
+    const amount =
+      plot.crop.amount ??
+      getCropYieldAmount({
+        crop: cropName,
+        game: stateCopy,
+        plot,
+        criticalDrop: (name) => !!(criticalHit?.[name] ?? 0),
+      });
 
     const { harvestSeconds } = CROPS[cropName];
 

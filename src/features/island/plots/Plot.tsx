@@ -145,12 +145,14 @@ export const Plot: React.FC<Props> = ({ id }) => {
     if (newState.matches("hoarding")) return;
 
     harvestAudio();
-    const cropAmount = getCropYieldAmount({
-      crop: plot.crop.name,
-      game: state,
-      plot,
-      criticalDrop: (name) => !!plot.crop?.criticalHit?.[name],
-    });
+    const cropAmount =
+      plot.crop.amount ??
+      getCropYieldAmount({
+        crop: plot.crop.name,
+        game: state,
+        plot,
+        criticalDrop: (name) => !!plot.crop?.criticalHit?.[name],
+      });
 
     // firework animation
     if (showAnimations && cropAmount >= 10) {

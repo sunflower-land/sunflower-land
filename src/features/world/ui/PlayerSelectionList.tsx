@@ -2,7 +2,10 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import React, { useEffect, useState } from "react";
 import { Modal } from "components/ui/Modal";
 
-import { playerModalManager, PlayerModalPlayer } from "./player/PlayerModals";
+import {
+  playerModalManager,
+  PlayerModalPlayer,
+} from "features/social/lib/playerModalManager";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { ButtonPanel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -111,7 +114,7 @@ export const PlayerSelectionList: React.FC = () => {
               <div className="flex-grow" />
               <div className="text-center">
                 {t("level.number", {
-                  level: getBumpkinLevel(player.experience),
+                  level: getBumpkinLevel(player.experience ?? 0),
                 })}
               </div>
             </ButtonPanel>

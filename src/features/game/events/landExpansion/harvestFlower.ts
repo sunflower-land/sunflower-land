@@ -96,10 +96,12 @@ export function harvestFlower({
       createdAt;
 
     if (!isReady) throw new Error(translate("harvestflower.notReady"));
-    const amount = getFlowerAmount({
-      game: stateCopy,
-      criticalDrop: (name) => !!(flower.criticalHit?.[name] ?? 0),
-    });
+    const amount =
+      flower.amount ??
+      getFlowerAmount({
+        game: stateCopy,
+        criticalDrop: (name) => !!(flower.criticalHit?.[name] ?? 0),
+      });
 
     stateCopy.inventory[flower.name] = (
       stateCopy.inventory[flower.name] ?? new Decimal(0)

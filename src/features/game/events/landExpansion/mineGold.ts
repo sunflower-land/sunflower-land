@@ -199,12 +199,14 @@ export function mineGold({
     if (toolAmount.lessThan(1)) {
       throw new Error(EVENT_ERRORS.NO_PICKAXES);
     }
-    const goldMined = getGoldDropAmount({
-      game: stateCopy,
-      rock: goldRock,
-      criticalDropGenerator: (name) =>
-        !!(goldRock.stone.criticalHit?.[name] ?? 0),
-    });
+    const goldMined =
+      goldRock.stone.amount ??
+      getGoldDropAmount({
+        game: stateCopy,
+        rock: goldRock,
+        criticalDropGenerator: (name) =>
+          !!(goldRock.stone.criticalHit?.[name] ?? 0),
+      });
 
     const amountInInventory = stateCopy.inventory.Gold || new Decimal(0);
 
@@ -215,6 +217,7 @@ export function mineGold({
 
     stateCopy.inventory["Iron Pickaxe"] = toolAmount.sub(1);
     stateCopy.inventory.Gold = amountInInventory.add(goldMined);
+    delete goldRock.stone.amount;
 
     return stateCopy;
   });
