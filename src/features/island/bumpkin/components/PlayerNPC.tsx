@@ -8,13 +8,12 @@ import { useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getBumpkinLevel } from "features/game/lib/level";
+import { PlayerModals } from "features/world/ui/player/PlayerModals";
+import { useVisiting } from "lib/utils/visitUtils";
 import {
   playerModalManager,
   PlayerModalPlayer,
-  PlayerModals,
-} from "features/world/ui/player/PlayerModals";
-import { hasVipAccess } from "features/game/lib/vipAccess";
-import { useVisiting } from "lib/utils/visitUtils";
+} from "features/social/lib/playerModalManager";
 
 const _showHelper = (state: MachineState) =>
   // First Mashed Potato
@@ -39,12 +38,7 @@ export const PlayerNPC: React.FC<NPCProps> = ({ parts: bumpkinParts }) => {
         username: context.state.username ?? "",
         clothing: context.state.bumpkin?.equipped ?? bumpkinParts,
         experience: context.state.bumpkin?.experience ?? 0,
-        isVip: hasVipAccess({ game: context.state }),
         faction: context.state.faction?.name,
-        createdAt: context.state.createdAt ?? Date.now(),
-        islandType: context.state.island?.type ?? "basic",
-        totalDeliveries: context.state.delivery?.fulfilledCount ?? 0,
-        dailyStreak: context.state.dailyRewards?.streaks,
       };
       playerModalManager.open(playerData);
     } else {
