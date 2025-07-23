@@ -1,5 +1,7 @@
+import { getObjectEntries } from "../expansion/lib/utils";
 import { Bud } from "../types/buds";
 import { GameState } from "../types/game";
+import { BudNFTName } from "../types/marketplace";
 import { Resource, getAuraBoost, isCrop } from "./getBudYieldBoosts";
 
 const getTypeBoost = (bud: Bud, resource: Resource): number => {
@@ -17,12 +19,22 @@ const getBudSpeedBoost = (bud: Bud, resource: Resource): number => {
 export const getBudSpeedBoosts = (
   buds: NonNullable<GameState["buds"]>,
   resource: Resource,
-): number => {
-  const boosts = Object.values(buds)
+): { speedBoost: number; budUsed: BudNFTName | undefined } => {
+  const boosts = getObjectEntries(buds)
     // Bud must be placed to give a boost
-    .filter((buds) => !!buds.coordinates)
-    .map((bud) => getBudSpeedBoost(bud, resource));
+    .filter(([_, bud]) => !!bud.coordinates)
+    .map(([id, bud]) => [id, getBudSpeedBoost(bud, resource)] as const);
+
+  const minBoost = Math.min(...boosts.map(([_, boost]) => boost), 1);
+  const findBestBud = boosts.find(([_, boost]) => boost === minBoost);
+
+  if (!findBestBud || minBoost === 1) {
+    return { speedBoost: 1, budUsed: undefined };
+  }
 
   // Get the strongest boost from all the buds on the farm
-  return Number(Math.min(...boosts, 1).toFixed(4));
+  return {
+    speedBoost: Number(minBoost.toFixed(4)),
+    budUsed: `Bud #${findBestBud[0]}`,
+  };
 };

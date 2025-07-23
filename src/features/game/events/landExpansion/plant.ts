@@ -194,7 +194,7 @@ export function getCropTime({
   let multiplier = 1;
   const boostsUsed: BoostName[] = [];
 
-  const { inventory, buds, bumpkin } = game;
+  const { inventory, buds = {}, bumpkin } = game;
   const skills = bumpkin?.skills ?? {};
 
   if (inventory["Seed Specialist"]?.gte(1)) {
@@ -274,8 +274,10 @@ export function getCropTime({
     multiplier = multiplier * 0.9;
     boostsUsed.push("Rice Rocket");
   }
-
-  multiplier *= getBudSpeedBoosts(buds ?? {}, crop);
+  // Apply bud speed boosts
+  const { speedBoost: budMultiplier, budUsed } = getBudSpeedBoosts(buds, crop);
+  multiplier *= budMultiplier;
+  if (budUsed) boostsUsed.push(budUsed);
 
   return { multiplier, boostsUsed };
 }
@@ -501,7 +503,6 @@ export function plant({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (stateCopy) => {
-    const buds = stateCopy.buds ?? {};
     const {
       crops: plots,
       bumpkin,
