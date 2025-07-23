@@ -18,6 +18,7 @@ import { DiscordBonus } from "features/game/expansion/components/DiscordBoat";
 import { Streams } from "./components/Streams";
 import { Merkl } from "./components/Merkl";
 import { Rewards } from "features/island/hud/components/referral/Rewards";
+import { DailyRewardChest } from "features/game/expansion/components/dailyReward/DailyReward";
 type GlobalModal =
   | "BUY_GEMS"
   | "DISCORD"
@@ -213,11 +214,9 @@ export const ModalProvider: FC<React.PropsWithChildren> = ({ children }) => {
         />
       </Modal>
 
-      <Rewards
-        show={opened === "DAILY_REWARD" || opened === "EARN"}
-        onHide={handleClose}
-        tab={opened === "DAILY_REWARD" ? "Rewards" : "Earn"}
-      />
+      <Rewards show={opened === "EARN"} onHide={handleClose} tab={"Earn"} />
+
+      <DailyRewardChest show={opened === "DAILY_REWARD"} onHide={handleClose} />
     </ModalContext.Provider>
   );
 };
