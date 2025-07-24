@@ -61,7 +61,7 @@ export type Recipe = {
   | { name: RecipeWearableName; type: "wearable" }
 );
 
-export type Recipes = Record<RecipeItemName, Recipe>;
+export type Recipes = Record<Exclude<RecipeItemName, "Double Bed">, Recipe>;
 
 export const RECIPES_OLD: Recipes = {
   "Dirt Path": {
@@ -325,7 +325,10 @@ export const RECIPES_OLD: Recipes = {
 };
 
 export const RECIPES_REVISED: Record<
-  Exclude<RecipeCollectibleName, "Dirt Path" | "Fence" | "Stone Fence">,
+  Exclude<
+    RecipeCollectibleName,
+    "Dirt Path" | "Fence" | "Stone Fence" | "Double Bed"
+  >,
   Recipe
 > = {
   "Toadstool Seat": {
