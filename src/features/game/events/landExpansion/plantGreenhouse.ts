@@ -17,8 +17,7 @@ import {
 } from "features/game/types/bumpkinActivity";
 import { GREENHOUSE_CROP_TIME_SECONDS } from "./harvestGreenHouse";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
-import { getCropTime, getCropYieldAmount } from "./plant";
-import { getFruitYield } from "./fruitHarvested";
+import { getCropTime } from "./plant";
 import { getFruitTime } from "./fruitPlanted";
 import { Resource } from "features/game/lib/getBudYieldBoosts";
 import { produce } from "immer";
@@ -70,20 +69,6 @@ export function isGreenhouseFruit(
   fruit: Resource,
 ): fruit is GreenHouseFruitName {
   return (fruit as GreenHouseFruitName) in GREENHOUSE_FRUIT;
-}
-
-export function getGreenhouseYieldAmount({
-  crop,
-  game,
-}: {
-  crop: GreenHouseCropName | GreenHouseFruitName;
-  game: GameState;
-}): number {
-  if (isGreenhouseCrop(crop)) {
-    return getCropYieldAmount({ crop, game });
-  }
-
-  return getFruitYield({ name: crop, game });
 }
 
 type GetPlantedAtArgs = {

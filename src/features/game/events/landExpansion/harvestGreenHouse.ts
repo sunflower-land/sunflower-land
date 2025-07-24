@@ -41,14 +41,22 @@ export function getReadyAt({
 export function getGreenhouseCropYieldAmount({
   crop,
   game,
+  createdAt,
   criticalDrop = () => false,
 }: {
   crop: GreenHouseCropName | GreenHouseFruitName;
   game: GameState;
+  createdAt: number;
   criticalDrop?: (name: CriticalHitName) => boolean;
 }): number {
   if (isGreenhouseCrop(crop)) {
-    return getCropYieldAmount({ crop, game, criticalDrop });
+    const { amount } = getCropYieldAmount({
+      crop,
+      game,
+      criticalDrop,
+      createdAt,
+    });
+    return amount;
   }
 
   return getFruitYield({ name: crop, game, criticalDrop });
@@ -104,6 +112,7 @@ export function harvestGreenHouse({
       getGreenhouseCropYieldAmount({
         crop: pot.plant.name,
         game,
+        createdAt,
         criticalDrop: (name) => !!(pot.plant?.criticalHit?.[name] ?? 0),
       });
 

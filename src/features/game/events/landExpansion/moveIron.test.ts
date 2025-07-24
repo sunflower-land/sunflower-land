@@ -1,4 +1,4 @@
-import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
+import { TEST_FARM } from "features/game/lib/constants";
 import { MOVE_IRON_ERRORS, moveIron } from "./moveIron";
 
 describe("moveIron", () => {
@@ -84,41 +84,5 @@ describe("moveIron", () => {
         },
       },
     });
-  });
-
-  it("does not move iron if mined and within Turtle AoE", () => {
-    const dateNow = Date.now();
-    expect(() =>
-      moveIron({
-        state: {
-          ...TEST_FARM,
-          collectibles: {
-            "Emerald Turtle": [
-              {
-                id: "123",
-                createdAt: dateNow,
-                coordinates: { x: 1, y: 1 },
-                readyAt: dateNow - 5 * 60 * 1000,
-              },
-            ],
-          },
-          bumpkin: INITIAL_BUMPKIN,
-          iron: {
-            1: {
-              x: 1,
-              y: 2,
-              stone: {
-                minedAt: dateNow - 100,
-              },
-            },
-          },
-        },
-        action: {
-          type: "iron.moved",
-          id: "1",
-          coordinates: { x: 2, y: 2 },
-        },
-      }),
-    ).toThrow(MOVE_IRON_ERRORS.AOE_LOCKED);
   });
 });

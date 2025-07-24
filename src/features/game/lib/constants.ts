@@ -676,6 +676,7 @@ export const INITIAL_FARM: GameState = {
       prize: "Potato",
     },
   },
+  aoe: {},
 };
 
 export const TEST_FARM: GameState = {
@@ -981,6 +982,7 @@ export const TEST_FARM: GameState = {
       prize: "Potato",
     },
   },
+  aoe: {},
 };
 
 export const INITIAL_EQUIPPED: Equipped = {
@@ -1135,4 +1137,5 @@ export const EMPTY: GameState = {
       prize: "Potato",
     },
   },
+  aoe: {},
 };

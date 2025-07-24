@@ -111,9 +111,10 @@ export const Gold: React.FC<Props> = ({ id }) => {
         getGoldDropAmount({
           game: state,
           rock: resource,
+          createdAt: Date.now(),
           criticalDropGenerator: (name) =>
             !!(resource.stone.criticalHit?.[name] ?? 0),
-        }),
+        }).amount,
     );
     const newState = gameService.send("goldRock.mined", {
       index: id,

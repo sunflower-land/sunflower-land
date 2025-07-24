@@ -1,21 +1,19 @@
 import Decimal from "decimal.js-light";
-import {
-  TEST_FARM,
-  INITIAL_BUMPKIN,
-  GOLD_RECOVERY_TIME,
-} from "../../lib/constants";
-import { GameState } from "../../types/game";
+import { GOLD_RECOVERY_TIME, INITIAL_FARM } from "../../lib/constants";
+import { CriticalHitName, GameState } from "../../types/game";
 import {
   LandExpansionMineGoldAction,
   mineGold,
-  EVENT_ERRORS,
   getMinedAt,
+  getGoldDropAmount,
 } from "./mineGold";
+import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
 
 const GAME_STATE: GameState = {
-  ...TEST_FARM,
+  ...INITIAL_FARM,
   gold: {
     0: {
+      createdAt: Date.now(),
       stone: {
         minedAt: 0,
       },
@@ -23,6 +21,7 @@ const GAME_STATE: GameState = {
       y: 1,
     },
     1: {
+      createdAt: Date.now(),
       stone: {
         minedAt: 0,
       },
@@ -33,25 +32,18 @@ const GAME_STATE: GameState = {
 };
 
 describe("mineGold", () => {
-  beforeAll(() => {
-    jest.useFakeTimers();
-  });
-
-  it("throws an error if no iron pickaxes are left", () => {
+  it("throws an error if no axes are left", () => {
     expect(() =>
       mineGold({
-        state: {
-          ...GAME_STATE,
-          bumpkin: INITIAL_BUMPKIN,
-          inventory: { "Iron Pickaxe": new Decimal(0) },
-        },
+        state: { ...GAME_STATE, bumpkin: TEST_BUMPKIN },
         createdAt: Date.now(),
         action: {
           type: "goldRock.mined",
+
           index: "0",
         },
       }),
-    ).toThrow(EVENT_ERRORS.NO_PICKAXES);
+    ).toThrow("No iron pickaxes left");
   });
 
   it("throws an error if gold does not exist", () => {
@@ -59,7 +51,7 @@ describe("mineGold", () => {
       mineGold({
         state: {
           ...GAME_STATE,
-          bumpkin: INITIAL_BUMPKIN,
+          bumpkin: TEST_BUMPKIN,
           inventory: {
             "Iron Pickaxe": new Decimal(2),
           },
@@ -67,6 +59,7 @@ describe("mineGold", () => {
         createdAt: Date.now(),
         action: {
           type: "goldRock.mined",
+
           index: "3",
         },
       }),
@@ -77,7 +70,7 @@ describe("mineGold", () => {
     const payload = {
       state: {
         ...GAME_STATE,
-        bumpkin: INITIAL_BUMPKIN,
+        bumpkin: TEST_BUMPKIN,
         inventory: {
           "Iron Pickaxe": new Decimal(2),
         },
@@ -91,6 +84,7 @@ describe("mineGold", () => {
     };
     const game = mineGold(payload);
 
+    // Try same payload
     expect(() =>
       mineGold({
         state: game,
@@ -104,7 +98,7 @@ describe("mineGold", () => {
     const payload = {
       state: {
         ...GAME_STATE,
-        bumpkin: INITIAL_BUMPKIN,
+        bumpkin: TEST_BUMPKIN,
         inventory: {
           "Iron Pickaxe": new Decimal(1),
         },
@@ -127,7 +121,7 @@ describe("mineGold", () => {
     let game = mineGold({
       state: {
         ...GAME_STATE,
-        bumpkin: INITIAL_BUMPKIN,
+        bumpkin: TEST_BUMPKIN,
         inventory: {
           "Iron Pickaxe": new Decimal(3),
         },
@@ -135,6 +129,7 @@ describe("mineGold", () => {
       createdAt: Date.now(),
       action: {
         type: "goldRock.mined",
+
         index: "0",
       } as LandExpansionMineGoldAction,
     });
@@ -144,6 +139,7 @@ describe("mineGold", () => {
       createdAt: Date.now(),
       action: {
         type: "goldRock.mined",
+
         index: "1",
       } as LandExpansionMineGoldAction,
     });
@@ -153,10 +149,12 @@ describe("mineGold", () => {
   });
 
   it("mines gold after waiting", () => {
+    jest.useFakeTimers();
+
     const payload = {
       state: {
         ...GAME_STATE,
-        bumpkin: INITIAL_BUMPKIN,
+        bumpkin: TEST_BUMPKIN,
         inventory: {
           "Iron Pickaxe": new Decimal(2),
         },
@@ -167,6 +165,7 @@ describe("mineGold", () => {
 
         index: "0",
       } as LandExpansionMineGoldAction,
+      criticalDropGenerator: () => false,
     };
     let game = mineGold(payload);
 
@@ -179,14 +178,666 @@ describe("mineGold", () => {
     });
 
     expect(game.inventory["Iron Pickaxe"]).toEqual(new Decimal(0));
+    expect(game.inventory.Gold?.toNumber()).toBe(2);
+
+    jest.useRealTimers();
+  });
+
+  it("adds 25% gold when Nugget (T3 Mole) is placed and ready", () => {
+    const payload = {
+      state: {
+        ...GAME_STATE,
+        bumpkin: TEST_BUMPKIN,
+        inventory: {
+          "Iron Pickaxe": new Decimal(1),
+        },
+        collectibles: {
+          Nugget: [
+            {
+              id: "123",
+              createdAt: Date.now(),
+              coordinates: { x: 1, y: 1 },
+              readyAt: Date.now() - 5 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      createdAt: Date.now(),
+      action: {
+        type: "goldRock.mined",
+
+        index: "0",
+      } as LandExpansionMineGoldAction,
+      criticalDropGenerator: () => false,
+    };
+
+    const game = mineGold(payload);
+
+    expect(game.inventory["Iron Pickaxe"]).toEqual(new Decimal(0));
+    expect(game.inventory.Gold).toEqual(new Decimal(1.25));
+  });
+
+  it("adds +0.5 gold when Golden Touch skill is active", () => {
+    const payload = {
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...TEST_BUMPKIN,
+          skills: { "Golden Touch": 1 },
+        },
+        inventory: {
+          "Iron Pickaxe": new Decimal(1),
+        },
+      },
+      createdAt: Date.now(),
+      action: {
+        type: "goldRock.mined",
+
+        index: "0",
+      } as LandExpansionMineGoldAction,
+    };
+
+    const game = mineGold(payload);
+
+    expect(game.inventory["Iron Pickaxe"]).toEqual(new Decimal(0));
+    expect(game.inventory.Gold).toEqual(new Decimal(1.5));
+  });
+
+  it("applies a critical drop (2.5x) with the Bumpkin Gold Rush skill", () => {
+    const { amount } = getGoldDropAmount({
+      rock: {
+        createdAt: Date.now() - 5 * 60 * 1000,
+        stone: {
+          minedAt: Date.now() - 5 * 60 * 1000,
+        },
+        x: 0,
+        y: 0,
+      },
+      createdAt: Date.now(),
+      criticalDropGenerator: (name: CriticalHitName) => name === "Gold Rush",
+      game: {
+        ...INITIAL_FARM,
+        bumpkin: { ...TEST_BUMPKIN, skills: { "Gold Rush": 1 } },
+      },
+    });
+
+    expect(amount.toNumber()).toStrictEqual(2.5);
+  });
+
+  it("applies a critical drop (3x) with the Bumpkin Gold Rush skill and stack with legacy Gold Rush skill", () => {
+    const { amount } = getGoldDropAmount({
+      game: {
+        ...INITIAL_FARM,
+        inventory: { "Gold Rush": new Decimal(1) },
+        bumpkin: { ...TEST_BUMPKIN, skills: { "Gold Rush": 1 } },
+      },
+      rock: {
+        createdAt: Date.now() - 5 * 60 * 1000,
+        stone: {
+          minedAt: Date.now() - 5 * 60 * 1000,
+        },
+        x: 0,
+        y: 0,
+      },
+      createdAt: Date.now(),
+      criticalDropGenerator: (name: CriticalHitName) => name === "Gold Rush",
+    });
+
+    expect(amount.toNumber()).toStrictEqual(3);
+  });
+
+  it("dos not apply boost when Nugget (T3 Mole) is placed but not ready", () => {
+    const payload = {
+      state: {
+        ...GAME_STATE,
+        bumpkin: TEST_BUMPKIN,
+        inventory: {
+          "Iron Pickaxe": new Decimal(1),
+        },
+        collectibles: {
+          Nugget: [
+            {
+              id: "123",
+              createdAt: Date.now(),
+              coordinates: { x: 1, y: 1 },
+              readyAt: Date.now() + 5 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      createdAt: Date.now(),
+      action: {
+        type: "goldRock.mined",
+
+        index: "0",
+      } as LandExpansionMineGoldAction,
+      criticalDropGenerator: () => false,
+    };
+
+    const game = mineGold(payload);
+
+    expect(game.inventory["Iron Pickaxe"]).toEqual(new Decimal(0));
+    expect(game.inventory.Gold).toEqual(new Decimal(1));
+  });
+
+  it("adds bonus drop", () => {
+    const payload = {
+      state: {
+        ...GAME_STATE,
+        bumpkin: TEST_BUMPKIN,
+        inventory: {
+          "Iron Pickaxe": new Decimal(1),
+        },
+        gold: {
+          0: {
+            ...GAME_STATE.gold[0],
+            stone: {
+              minedAt: Date.now() - 25 * 60 * 60 * 1000,
+              criticalHit: {
+                Native: 1,
+              },
+            },
+          },
+        },
+      },
+      createdAt: Date.now(),
+      action: {
+        type: "goldRock.mined",
+        index: "0",
+      } as LandExpansionMineGoldAction,
+      criticalDropGenerator: (name: CriticalHitName) => name === "Native",
+    };
+
+    const game = mineGold(payload);
+
+    expect(game.inventory["Iron Pickaxe"]).toEqual(new Decimal(0));
     expect(game.inventory.Gold).toEqual(new Decimal(2));
+  });
+
+  it("adds +0.5 gold when gold is within Emerald Turtle AoE", () => {
+    const payload = {
+      state: {
+        ...GAME_STATE,
+        bumpkin: TEST_BUMPKIN,
+        inventory: {
+          "Iron Pickaxe": new Decimal(1),
+        },
+        collectibles: {
+          "Emerald Turtle": [
+            {
+              id: "123",
+              createdAt: Date.now(),
+              coordinates: { x: 2, y: 1 },
+              readyAt: Date.now() - 5 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      createdAt: Date.now(),
+      action: {
+        type: "goldRock.mined",
+
+        index: "0",
+      } as LandExpansionMineGoldAction,
+      criticalDropGenerator: () => false,
+    };
+
+    const game = mineGold(payload);
+
+    expect(game.inventory["Iron Pickaxe"]).toEqual(new Decimal(0));
+    expect(game.inventory.Gold).toEqual(new Decimal(1.5));
+  });
+
+  it("sets the AOE last used time to now", () => {
+    const now = Date.now();
+
+    const payload = {
+      state: {
+        ...GAME_STATE,
+        bumpkin: TEST_BUMPKIN,
+        inventory: {
+          "Iron Pickaxe": new Decimal(1),
+        },
+        collectibles: {
+          "Emerald Turtle": [
+            {
+              id: "123",
+              createdAt: Date.now(),
+              coordinates: { x: 2, y: 1 },
+              readyAt: Date.now() - 5 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      createdAt: now,
+      action: {
+        type: "goldRock.mined",
+
+        index: "0",
+      } as LandExpansionMineGoldAction,
+      criticalDropGenerator: () => false,
+    };
+
+    const game = mineGold(payload);
+
+    expect(game.aoe["Emerald Turtle"]).toEqual({
+      "-1": {
+        "0": now,
+      },
+    });
+  });
+
+  it("does not apply the AOE if the AOE is not ready", () => {
+    const now = Date.now();
+
+    const payload = {
+      state: {
+        ...GAME_STATE,
+        bumpkin: TEST_BUMPKIN,
+        inventory: {
+          "Iron Pickaxe": new Decimal(1),
+        },
+        collectibles: {
+          "Emerald Turtle": [
+            {
+              id: "123",
+              createdAt: Date.now(),
+              coordinates: { x: 2, y: 1 },
+              readyAt: Date.now() - 5 * 60 * 1000,
+            },
+          ],
+        },
+        aoe: {
+          "Emerald Turtle": {
+            "-1": {
+              "0": now,
+            },
+          },
+        },
+      },
+      createdAt: now,
+      action: {
+        type: "goldRock.mined",
+
+        index: "0",
+      } as LandExpansionMineGoldAction,
+      criticalDropGenerator: () => false,
+    };
+
+    const game = mineGold(payload);
+
+    expect(game.inventory.Gold).toEqual(new Decimal(1));
+  });
+
+  it("does apply the AOE if the AOE is ready", () => {
+    const now = Date.now();
+
+    const payload = {
+      state: {
+        ...GAME_STATE,
+        bumpkin: TEST_BUMPKIN,
+        inventory: {
+          "Iron Pickaxe": new Decimal(1),
+        },
+        collectibles: {
+          "Emerald Turtle": [
+            {
+              id: "123",
+              createdAt: Date.now(),
+              coordinates: { x: 2, y: 1 },
+              readyAt: Date.now() - 5 * 60 * 1000,
+            },
+          ],
+        },
+        aoe: {
+          "Emerald Turtle": {
+            "-1": {
+              "0": now - GOLD_RECOVERY_TIME * 1000,
+            },
+          },
+        },
+      },
+      createdAt: now,
+      action: {
+        type: "goldRock.mined",
+
+        index: "0",
+      } as LandExpansionMineGoldAction,
+      criticalDropGenerator: () => false,
+    };
+
+    const game = mineGold(payload);
+
+    expect(game.inventory.Gold).toEqual(new Decimal(1.5));
+  });
+
+  it("applies the AOE on a gold with boosted time", () => {
+    const boostedTime = GOLD_RECOVERY_TIME * 1000 * 0.5;
+
+    const now = Date.now();
+
+    const payload = {
+      state: {
+        ...GAME_STATE,
+        bumpkin: TEST_BUMPKIN,
+        inventory: {
+          "Iron Pickaxe": new Decimal(1),
+        },
+        gold: {
+          0: {
+            createdAt: Date.now(),
+            stone: {
+              minedAt: now - GOLD_RECOVERY_TIME * 1000,
+              boostedTime,
+            },
+            x: 1,
+            y: 1,
+          },
+        },
+        collectibles: {
+          "Emerald Turtle": [
+            {
+              id: "123",
+              createdAt: Date.now(),
+              coordinates: { x: 2, y: 1 },
+              readyAt: Date.now() - 5 * 60 * 1000,
+            },
+          ],
+        },
+        aoe: {
+          "Emerald Turtle": {
+            "-1": {
+              "0": now - (GOLD_RECOVERY_TIME * 1000 - boostedTime),
+            },
+          },
+        },
+      },
+      createdAt: now,
+      action: {
+        type: "goldRock.mined",
+
+        index: "0",
+      } as LandExpansionMineGoldAction,
+      criticalDropGenerator: () => false,
+    };
+
+    const game = mineGold(payload);
+
+    expect(game.inventory.Gold).toEqual(new Decimal(1.5));
+  });
+
+  it("adds +0.1 gold when Gilded Swordfish is placed", () => {
+    const payload = {
+      state: {
+        ...GAME_STATE,
+        bumpkin: TEST_BUMPKIN,
+        inventory: {
+          "Iron Pickaxe": new Decimal(1),
+        },
+        collectibles: {
+          "Gilded Swordfish": [
+            {
+              id: "123",
+              createdAt: Date.now(),
+              coordinates: { x: 2, y: 1 },
+              readyAt: Date.now() - 10000,
+            },
+          ],
+        },
+      },
+      createdAt: Date.now(),
+      action: {
+        type: "goldRock.mined",
+        index: "0",
+      } as LandExpansionMineGoldAction,
+      criticalDropGenerator: () => false,
+    };
+
+    const game = mineGold(payload);
+
+    expect(game.inventory["Iron Pickaxe"]).toEqual(new Decimal(0));
+    expect(game.inventory.Gold).toEqual(new Decimal(1.1));
+  });
+
+  it("adds +0.1 gold when Gilded Swordfish is placed", () => {
+    const payload = {
+      state: {
+        ...GAME_STATE,
+        bumpkin: TEST_BUMPKIN,
+        inventory: {
+          "Iron Pickaxe": new Decimal(1),
+        },
+        collectibles: {
+          "Gold Beetle": [
+            {
+              id: "123",
+              createdAt: Date.now(),
+              coordinates: { x: 2, y: 1 },
+              readyAt: Date.now() - 10000,
+            },
+          ],
+        },
+      },
+      createdAt: Date.now(),
+      action: {
+        type: "goldRock.mined",
+        index: "0",
+      } as LandExpansionMineGoldAction,
+      criticalDropGenerator: () => false,
+    };
+
+    const game = mineGold(payload);
+
+    expect(game.inventory["Iron Pickaxe"]).toEqual(new Decimal(0));
+    expect(game.inventory.Gold).toEqual(new Decimal(1.1));
+  });
+
+  it("adds +0.5 gold when Golden Touch skill is active", () => {
+    const payload = {
+      state: {
+        ...GAME_STATE,
+        bumpkin: {
+          ...TEST_BUMPKIN,
+          skills: { "Golden Touch": 1 },
+        },
+        inventory: {
+          "Iron Pickaxe": new Decimal(1),
+        },
+      },
+      createdAt: Date.now(),
+      action: {
+        type: "goldRock.mined",
+        index: "0",
+      } as LandExpansionMineGoldAction,
+      criticalDropGenerator: () => false,
+    };
+
+    const game = mineGold(payload);
+
+    expect(game.inventory["Iron Pickaxe"]).toEqual(new Decimal(0));
+    expect(game.inventory.Gold).toEqual(new Decimal(1.5));
+  });
+
+  it("adds +0.25 gold when a Faction Shield is equipped(Right Faction)", () => {
+    const state: GameState = {
+      ...GAME_STATE,
+      bumpkin: {
+        ...TEST_BUMPKIN,
+        equipped: {
+          ...TEST_BUMPKIN.equipped,
+          secondaryTool: "Goblin Shield",
+        },
+      },
+      faction: {
+        name: "goblins",
+        pledgedAt: 0,
+        history: {},
+        points: 0,
+      },
+      inventory: {
+        "Iron Pickaxe": new Decimal(1),
+      },
+    };
+    const payload = {
+      state,
+      createdAt: Date.now(),
+      action: {
+        type: "goldRock.mined",
+
+        index: "0",
+      } as LandExpansionMineGoldAction,
+      criticalDropGenerator: () => false,
+    };
+
+    const game = mineGold(payload);
+
+    expect(game.inventory["Iron Pickaxe"]).toEqual(new Decimal(0));
+    expect(game.inventory.Gold).toEqual(new Decimal(1.25));
+  });
+
+  it("Faction Shield boost is not applied if Different Faction", () => {
+    const state: GameState = {
+      ...GAME_STATE,
+      bumpkin: {
+        ...TEST_BUMPKIN,
+        equipped: {
+          ...TEST_BUMPKIN.equipped,
+          secondaryTool: "Goblin Shield",
+        },
+      },
+      faction: {
+        name: "nightshades",
+        pledgedAt: 0,
+        history: {},
+        points: 0,
+      },
+      inventory: {
+        "Iron Pickaxe": new Decimal(1),
+      },
+    };
+    const payload = {
+      state,
+      createdAt: Date.now(),
+      action: {
+        type: "goldRock.mined",
+
+        index: "0",
+      } as LandExpansionMineGoldAction,
+      criticalDropGenerator: () => false,
+    };
+
+    const game = mineGold(payload);
+
+    expect(game.inventory["Iron Pickaxe"]).toEqual(new Decimal(0));
+    expect(game.inventory.Gold).toEqual(new Decimal(1));
+  });
+
+  it("Faction Shield boost is not applied if No Faction", () => {
+    const state: GameState = {
+      ...GAME_STATE,
+      bumpkin: {
+        ...TEST_BUMPKIN,
+        equipped: {
+          ...TEST_BUMPKIN.equipped,
+          secondaryTool: "Goblin Shield",
+        },
+      },
+      inventory: {
+        "Iron Pickaxe": new Decimal(1),
+      },
+    };
+    const payload = {
+      state,
+      createdAt: Date.now(),
+      action: {
+        type: "goldRock.mined",
+
+        index: "0",
+      } as LandExpansionMineGoldAction,
+      criticalDropGenerator: () => false,
+    };
+
+    const game = mineGold(payload);
+
+    expect(game.inventory["Iron Pickaxe"]).toEqual(new Decimal(0));
+    expect(game.inventory.Gold).toEqual(new Decimal(1));
+  });
+
+  it("applies a bud boost", () => {
+    const state: GameState = {
+      ...GAME_STATE,
+      bumpkin: TEST_BUMPKIN,
+      inventory: {
+        "Iron Pickaxe": new Decimal(1),
+      },
+      buds: {
+        1: {
+          aura: "No Aura",
+          colour: "Green",
+          type: "Cave",
+          ears: "Ears",
+          stem: "Egg Head",
+          coordinates: {
+            x: 0,
+            y: 0,
+          },
+        },
+      },
+    };
+
+    const payload = {
+      state,
+      createdAt: Date.now(),
+      action: {
+        type: "goldRock.mined",
+
+        index: "0",
+      } as LandExpansionMineGoldAction,
+      criticalDropGenerator: () => false,
+    };
+
+    const game = mineGold(payload);
+
+    expect(game.inventory.Gold).toEqual(new Decimal(1.2));
+  });
+
+  it("stores the boostedTime on the gold", () => {
+    const now = Date.now();
+
+    const state = mineGold({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Iron Pickaxe": new Decimal(1),
+        },
+        collectibles: {
+          "Time Warp Totem": [
+            {
+              id: "123",
+              createdAt: now,
+              coordinates: { x: 1, y: 1 },
+              readyAt: now - 5 * 60 * 1000,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "goldRock.mined",
+        index: "0",
+      } as LandExpansionMineGoldAction,
+      createdAt: Date.now(),
+    });
+
+    expect(state.gold[0].stone.boostedTime).toEqual(
+      GOLD_RECOVERY_TIME * 0.5 * 1000,
+    );
   });
 
   describe("BumpkinActivity", () => {
     it("increments Gold mined activity by 1", () => {
       const createdAt = Date.now();
       const bumpkin = {
-        ...INITIAL_BUMPKIN,
+        ...TEST_BUMPKIN,
       };
       const game = mineGold({
         state: {
@@ -199,17 +850,18 @@ describe("mineGold", () => {
         createdAt,
         action: {
           type: "goldRock.mined",
+
           index: "0",
         } as LandExpansionMineGoldAction,
       });
 
-      expect(game.bumpkin?.activity?.["Gold Mined"]).toBe(1);
+      expect(game.bumpkin?.activity["Gold Mined"]).toBe(1);
     });
 
     it("increments Gold Mined activity by 2", () => {
       const createdAt = Date.now();
       const bumpkin = {
-        ...INITIAL_BUMPKIN,
+        ...TEST_BUMPKIN,
       };
       const state1 = mineGold({
         state: {
@@ -222,6 +874,7 @@ describe("mineGold", () => {
         createdAt,
         action: {
           type: "goldRock.mined",
+
           index: "0",
         } as LandExpansionMineGoldAction,
       });
@@ -235,159 +888,146 @@ describe("mineGold", () => {
         } as LandExpansionMineGoldAction,
       });
 
-      expect(game.bumpkin?.activity?.["Gold Mined"]).toBe(2);
+      expect(game.bumpkin?.activity["Gold Mined"]).toBe(2);
     });
   });
 
-  describe("getMinedAt", () => {
-    it("returns normal mined at", () => {
-      const now = Date.now();
+  it("gold replenishes faster with time warp", () => {
+    const now = Date.now();
 
-      const time = getMinedAt({
-        game: TEST_FARM,
-        createdAt: now,
-      });
-
-      expect(time).toEqual(now);
-    });
-
-    it("gold replenishes faster with time warp", () => {
-      const now = Date.now();
-
-      const time = getMinedAt({
-        game: {
-          ...TEST_FARM,
-          collectibles: {
-            "Time Warp Totem": [
-              {
-                id: "123",
-                createdAt: now,
-                coordinates: { x: 1, y: 1 },
-                readyAt: now - 5 * 60 * 1000,
-              },
-            ],
-          },
+    const time = getMinedAt({
+      game: {
+        ...INITIAL_FARM,
+        collectibles: {
+          "Time Warp Totem": [
+            {
+              id: "123",
+              createdAt: now,
+              coordinates: { x: 1, y: 1 },
+              readyAt: now - 5 * 60 * 1000,
+            },
+          ],
         },
-        createdAt: now,
-      });
-
-      expect(time).toEqual(now - (GOLD_RECOVERY_TIME * 1000) / 2);
+      },
+      createdAt: now,
     });
 
-    it("gold replenishes faster with Super Totem", () => {
-      const now = Date.now();
+    expect(time).toEqual(now - (GOLD_RECOVERY_TIME * 1000) / 2);
+  });
 
-      const time = getMinedAt({
-        game: {
-          ...TEST_FARM,
-          collectibles: {
-            "Super Totem": [
-              {
-                id: "123",
-                createdAt: now,
-                coordinates: { x: 1, y: 1 },
-                readyAt: now - 5 * 60 * 1000,
-              },
-            ],
-          },
+  it("gold replenishes faster with Super Totem", () => {
+    const now = Date.now();
+
+    const time = getMinedAt({
+      game: {
+        ...INITIAL_FARM,
+        collectibles: {
+          "Super Totem": [
+            {
+              id: "123",
+              createdAt: now,
+              coordinates: { x: 1, y: 1 },
+              readyAt: now - 5 * 60 * 1000,
+            },
+          ],
         },
-        createdAt: now,
-      });
-
-      expect(time).toEqual(now - (GOLD_RECOVERY_TIME * 1000) / 2);
+      },
+      createdAt: now,
     });
 
-    it("doesn't stack Super Totem and Time Warp Totem", () => {
-      const now = Date.now();
+    expect(time).toEqual(now - (GOLD_RECOVERY_TIME * 1000) / 2);
+  });
 
-      const time = getMinedAt({
-        game: {
-          ...TEST_FARM,
-          collectibles: {
-            "Time Warp Totem": [
-              {
-                id: "123",
-                createdAt: now,
-                coordinates: { x: 1, y: 1 },
-                readyAt: now - 5 * 60 * 1000,
-              },
-            ],
-            "Super Totem": [
-              {
-                id: "123",
-                createdAt: now,
-                coordinates: { x: 1, y: 1 },
-                readyAt: now - 5 * 60 * 1000,
-              },
-            ],
-          },
+  it("doesn't stack Super Totem and Time Warp Totem", () => {
+    const now = Date.now();
+
+    const time = getMinedAt({
+      game: {
+        ...INITIAL_FARM,
+        collectibles: {
+          "Time Warp Totem": [
+            {
+              id: "123",
+              createdAt: now,
+              coordinates: { x: 1, y: 1 },
+              readyAt: now - 5 * 60 * 1000,
+            },
+          ],
+          "Super Totem": [
+            {
+              id: "123",
+              createdAt: now,
+              coordinates: { x: 1, y: 1 },
+              readyAt: now - 5 * 60 * 1000,
+            },
+          ],
         },
-        createdAt: now,
-      });
-
-      expect(time).toEqual(now - (GOLD_RECOVERY_TIME * 1000) / 2);
+      },
+      createdAt: now,
     });
 
-    it("applies a boost of -10% recovery time when Midas Sprint skill is active", () => {
-      const now = Date.now();
-      const time = getMinedAt({
-        game: {
-          ...TEST_FARM,
-          bumpkin: {
-            ...TEST_FARM.bumpkin,
-            skills: { "Midas Sprint": 1 },
-          },
+    expect(time).toEqual(now - (GOLD_RECOVERY_TIME * 1000) / 2);
+  });
+
+  it("applies a Ore Hourglass boost of -50% recovery time for 3 hours", () => {
+    const now = Date.now();
+    const time = getMinedAt({
+      game: {
+        ...INITIAL_FARM,
+        collectibles: {
+          "Ore Hourglass": [
+            {
+              id: "123",
+              createdAt: now,
+              coordinates: { x: 1, y: 1 },
+              readyAt: now,
+            },
+          ],
         },
-        createdAt: now,
-      });
-
-      expect(time).toEqual(now - GOLD_RECOVERY_TIME * 1000 * 0.1);
+      },
+      createdAt: now,
     });
 
-    it("applies a Ore Hourglass boost of -50% recovery time for 3 hours", () => {
-      const now = Date.now();
-      const time = getMinedAt({
-        game: {
-          ...TEST_FARM,
-          collectibles: {
-            "Ore Hourglass": [
-              {
-                id: "123",
-                createdAt: now,
-                coordinates: { x: 1, y: 1 },
-                readyAt: now,
-              },
-            ],
-          },
+    expect(time).toEqual(now - (GOLD_RECOVERY_TIME * 1000) / 2);
+  });
+
+  it("applies a boost of -10% recovery time when Midas Sprint skill is active", () => {
+    const now = Date.now();
+    const time = getMinedAt({
+      game: {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          skills: { "Midas Sprint": 1 },
         },
-        createdAt: now,
-      });
-
-      expect(time).toEqual(now - (GOLD_RECOVERY_TIME * 1000) / 2);
+      },
+      createdAt: now,
     });
 
-    it("does not apply an Ore Hourglass boost if expired", () => {
-      const now = Date.now();
-      const fourHoursAgo = now - 4 * 60 * 60 * 1000;
+    expect(time).toEqual(now - GOLD_RECOVERY_TIME * 1000 * 0.1);
+  });
 
-      const time = getMinedAt({
-        game: {
-          ...TEST_FARM,
-          collectibles: {
-            "Ore Hourglass": [
-              {
-                id: "123",
-                createdAt: fourHoursAgo,
-                coordinates: { x: 1, y: 1 },
-                readyAt: fourHoursAgo,
-              },
-            ],
-          },
+  it("does not apply an Ore Hourglass boost if expired", () => {
+    const now = Date.now();
+    const fourHoursAgo = now - 4 * 60 * 60 * 1000;
+
+    const time = getMinedAt({
+      game: {
+        ...INITIAL_FARM,
+        collectibles: {
+          "Ore Hourglass": [
+            {
+              id: "123",
+              createdAt: fourHoursAgo,
+              coordinates: { x: 1, y: 1 },
+              readyAt: fourHoursAgo,
+            },
+          ],
         },
-        createdAt: now,
-      });
-
-      expect(time).toEqual(now);
+      },
+      createdAt: now,
     });
+
+    expect(time).toEqual(now);
   });
 });

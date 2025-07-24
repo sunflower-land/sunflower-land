@@ -16,6 +16,8 @@ import { getBudYieldBoosts } from "features/game/lib/getBudYieldBoosts";
 import { isWearableActive } from "features/game/lib/wearables";
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
+import cloneDeep from "lodash.clonedeep";
+import { canUseYieldBoostAOE, setAOELastUsed } from "features/game/lib/aoe";
 
 export type LandExpansionStoneMineAction = {
   type: "stoneRock.mined";
@@ -36,17 +38,10 @@ type GetMinedAtArgs = {
 
 export function canMine(rock: Rock, now: number = Date.now()) {
   const recoveryTime = STONE_RECOVERY_TIME;
-  return now - rock.stone.minedAt > recoveryTime * 1000;
+  return now - rock.stone.minedAt >= recoveryTime * 1000;
 }
 
-/**
- * Set a mined in the past to make it replenish faster
- */
-export function getMinedAt({
-  skills,
-  createdAt,
-  game,
-}: GetMinedAtArgs): number {
+function getBoostedTime({ skills, createdAt, game }: GetMinedAtArgs): number {
   let totalSeconds = STONE_RECOVERY_TIME;
 
   if (skills["Coal Face"]) {
@@ -70,7 +65,20 @@ export function getMinedAt({
 
   const buff = STONE_RECOVERY_TIME - totalSeconds;
 
-  return createdAt - buff * 1000;
+  return buff * 1000;
+}
+
+/**
+ * Set a mined in the past to make it replenish faster
+ */
+export function getMinedAt({
+  skills,
+  createdAt,
+  game,
+}: GetMinedAtArgs): number {
+  const boostedTime = getBoostedTime({ skills, createdAt, game });
+
+  return createdAt - boostedTime;
 }
 
 export function getRequiredPickaxeAmount(gameState: GameState) {
@@ -83,6 +91,7 @@ export function getRequiredPickaxeAmount(gameState: GameState) {
 type GetStoneDropAmountArgs = {
   game: GameState;
   rock: Rock;
+  createdAt: number;
   criticalDropGenerator?: (name: CriticalHitName) => boolean;
 };
 /**
@@ -91,13 +100,16 @@ type GetStoneDropAmountArgs = {
 export function getStoneDropAmount({
   game,
   rock,
+  createdAt,
   criticalDropGenerator = () => false,
 }: GetStoneDropAmountArgs) {
   const {
     inventory,
     bumpkin: { skills },
     buds = {},
+    aoe,
   } = game;
+  const updatedAoe = cloneDeep(aoe);
 
   let amount = 1;
 
@@ -142,7 +154,11 @@ export function getStoneDropAmount({
   }
   // If within Emerald Turtle AOE: +0.5
   if (game.collectibles["Emerald Turtle"]?.[0]) {
-    if (!rock) return new Decimal(amount).toDecimalPlaces(4);
+    if (!rock)
+      return {
+        amount: new Decimal(amount).toDecimalPlaces(4),
+        aoe: updatedAoe,
+      };
 
     const emeraldTurtleCoordinates =
       game.collectibles["Emerald Turtle"]?.[0].coordinates;
@@ -165,13 +181,31 @@ export function getStoneDropAmount({
       isCollectibleBuilt({ name: "Emerald Turtle", game }) &&
       isWithinAOE("Emerald Turtle", emeraldTurtlePosition, rockPosition, skills)
     ) {
-      amount += 0.5;
+      const dx = rock.x - emeraldTurtlePosition.x;
+      const dy = rock.y - emeraldTurtlePosition.y;
+
+      const canUseAoe = canUseYieldBoostAOE(
+        updatedAoe,
+        "Emerald Turtle",
+        { dx, dy },
+        STONE_RECOVERY_TIME * 1000 - (rock?.stone?.boostedTime ?? 0),
+        createdAt,
+      );
+
+      if (canUseAoe) {
+        setAOELastUsed(updatedAoe, "Emerald Turtle", { dx, dy }, createdAt);
+        amount += 0.5;
+      }
     }
   }
 
   // If within Tin Turtle AOE: +0.1
   if (game.collectibles["Tin Turtle"]?.[0]) {
-    if (!rock) return new Decimal(amount).toDecimalPlaces(4);
+    if (!rock)
+      return {
+        amount: new Decimal(amount).toDecimalPlaces(4),
+        aoe: updatedAoe,
+      };
 
     const tinTurtleCoordinates =
       game.collectibles["Tin Turtle"]?.[0].coordinates;
@@ -194,7 +228,21 @@ export function getStoneDropAmount({
       isCollectibleBuilt({ name: "Tin Turtle", game }) &&
       isWithinAOE("Tin Turtle", tinTurtlePosition, rockPosition, skills)
     ) {
-      amount += 0.1;
+      const dx = rock.x - tinTurtlePosition.x;
+      const dy = rock.y - tinTurtlePosition.y;
+
+      const canUseAoe = canUseYieldBoostAOE(
+        updatedAoe,
+        "Tin Turtle",
+        { dx, dy },
+        STONE_RECOVERY_TIME * 1000 - (rock?.stone?.boostedTime ?? 0),
+        createdAt,
+      );
+
+      if (canUseAoe) {
+        setAOELastUsed(updatedAoe, "Tin Turtle", { dx, dy }, createdAt);
+        amount += 0.1;
+      }
     }
   }
 
@@ -216,7 +264,7 @@ export function getStoneDropAmount({
     amount += 0.1;
   }
 
-  return new Decimal(amount).toDecimalPlaces(4);
+  return { amount: new Decimal(amount).toDecimalPlaces(4), aoe: updatedAoe };
 }
 
 export function mineStone({
@@ -246,20 +294,32 @@ export function mineStone({
     if (toolAmount.lessThan(requiredToolAmount)) {
       throw new Error("Not enough pickaxes");
     }
-    const stoneMined =
-      rock.stone.amount ??
-      getStoneDropAmount({
-        game: stateCopy,
-        rock,
-        criticalDropGenerator: (name) =>
-          !!(rock.stone.criticalHit?.[name] ?? 0),
-      });
+
+    const { amount: stoneMined, aoe } = rock.stone.amount
+      ? {
+          amount: new Decimal(rock.stone.amount).toDecimalPlaces(4),
+          aoe: stateCopy.aoe,
+        }
+      : getStoneDropAmount({
+          game: stateCopy,
+          rock,
+          createdAt,
+          criticalDropGenerator: (name) =>
+            !!(rock.stone.criticalHit?.[name] ?? 0),
+        });
+    stateCopy.aoe = aoe;
+
     const amountInInventory = stateCopy.inventory.Stone || new Decimal(0);
 
     rock.stone = {
       minedAt: getMinedAt({
         skills: bumpkin.skills,
         createdAt: Date.now(),
+        game: stateCopy,
+      }),
+      boostedTime: getBoostedTime({
+        skills: bumpkin.skills,
+        createdAt,
         game: stateCopy,
       }),
     };

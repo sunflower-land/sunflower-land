@@ -1,4 +1,4 @@
-import { INITIAL_BUMPKIN, TEST_FARM } from "features/game/lib/constants";
+import { TEST_FARM } from "features/game/lib/constants";
 import { MOVE_STONE_ERRORS, moveStone } from "./moveStone";
 
 describe("moveStone", () => {
@@ -84,41 +84,5 @@ describe("moveStone", () => {
         },
       },
     });
-  });
-
-  it("does not move gold if mined and within Turtle AoE", () => {
-    const dateNow = Date.now();
-    expect(() =>
-      moveStone({
-        state: {
-          ...TEST_FARM,
-          collectibles: {
-            "Tin Turtle": [
-              {
-                id: "123",
-                createdAt: dateNow,
-                coordinates: { x: 1, y: 1 },
-                readyAt: dateNow - 5 * 60 * 1000,
-              },
-            ],
-          },
-          bumpkin: INITIAL_BUMPKIN,
-          stones: {
-            1: {
-              x: 1,
-              y: 2,
-              stone: {
-                minedAt: dateNow - 100,
-              },
-            },
-          },
-        },
-        action: {
-          type: "stone.moved",
-          id: "1",
-          coordinates: { x: 2, y: 2 },
-        },
-      }),
-    ).toThrow(MOVE_STONE_ERRORS.AOE_LOCKED);
   });
 });

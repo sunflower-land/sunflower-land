@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { canMine } from "features/game/expansion/lib/utils";
 import { IRON_RECOVERY_TIME } from "../../lib/constants";
 import { trackActivity } from "../../types/bumpkinActivity";
-import { CriticalHitName, GameState, Rock } from "../../types/game";
+import { AOE, CriticalHitName, GameState, Rock } from "../../types/game";
 import {
   isCollectibleActive,
   isCollectibleBuilt,
@@ -17,6 +17,8 @@ import { getBudYieldBoosts } from "features/game/lib/getBudYieldBoosts";
 import { isWearableActive } from "features/game/lib/wearables";
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
+import { canUseYieldBoostAOE, setAOELastUsed } from "features/game/lib/aoe";
+import cloneDeep from "lodash.clonedeep";
 
 export type LandExpansionIronMineAction = {
   type: "ironRock.mined";
@@ -43,10 +45,13 @@ type GetMinedAtArgs = {
   game: GameState;
 };
 
-/**
- * Set a mined in the past to make it replenish faster
- */
-export function getMinedAt({ createdAt, game }: GetMinedAtArgs): number {
+const getBoostedTime = ({
+  createdAt,
+  game,
+}: {
+  createdAt: number;
+  game: GameState;
+}): number => {
   let totalSeconds = IRON_RECOVERY_TIME;
 
   if (
@@ -66,7 +71,16 @@ export function getMinedAt({ createdAt, game }: GetMinedAtArgs): number {
 
   const buff = IRON_RECOVERY_TIME - totalSeconds;
 
-  return createdAt - buff * 1000;
+  return buff * 1000;
+};
+
+/**
+ * Set a mined in the past to make it replenish faster
+ */
+export function getMinedAt({ createdAt, game }: GetMinedAtArgs): number {
+  const boostedTime = getBoostedTime({ createdAt, game });
+
+  return createdAt - boostedTime;
 }
 
 /**
@@ -75,12 +89,17 @@ export function getMinedAt({ createdAt, game }: GetMinedAtArgs): number {
 export function getIronDropAmount({
   game,
   rock,
+  createdAt,
   criticalDropGenerator = () => false,
 }: {
   game: GameState;
   rock: Rock;
+  createdAt: number;
   criticalDropGenerator?: (name: CriticalHitName) => boolean;
-}) {
+}): { amount: Decimal; aoe: AOE } {
+  const { aoe } = game;
+  const updatedAoe = cloneDeep(aoe);
+
   let amount = 1;
 
   if (isCollectibleBuilt({ name: "Rocky the Mole", game })) {
@@ -117,7 +136,11 @@ export function getIronDropAmount({
 
   // If within Emerald Turtle AOE: +0.5
   if (game.collectibles["Emerald Turtle"]?.[0]) {
-    if (!rock) return new Decimal(amount).toDecimalPlaces(4);
+    if (!rock)
+      return {
+        amount: new Decimal(amount).toDecimalPlaces(4),
+        aoe: updatedAoe,
+      };
 
     const emeraldTurtleCoordinates =
       game.collectibles["Emerald Turtle"]?.[0].coordinates;
@@ -145,7 +168,20 @@ export function getIronDropAmount({
         game.bumpkin.skills,
       )
     ) {
-      amount += 0.5;
+      const dx = rock.x - emeraldTurtlePosition.x;
+      const dy = rock.y - emeraldTurtlePosition.y;
+      const canUseAoe = canUseYieldBoostAOE(
+        updatedAoe,
+        "Emerald Turtle",
+        { dx, dy },
+        IRON_RECOVERY_TIME * 1000 - (rock?.stone?.boostedTime ?? 0),
+        createdAt,
+      );
+
+      if (canUseAoe) {
+        setAOELastUsed(updatedAoe, "Emerald Turtle", { dx, dy }, createdAt);
+        amount += 0.5;
+      }
     }
   }
 
@@ -167,7 +203,7 @@ export function getIronDropAmount({
     amount += 0.1;
   }
 
-  return new Decimal(amount).toDecimalPlaces(4);
+  return { amount: new Decimal(amount).toDecimalPlaces(4), aoe: updatedAoe };
 }
 
 export function mineIron({
@@ -198,19 +234,26 @@ export function mineIron({
       throw new Error(MINE_ERRORS.NO_PICKAXES);
     }
 
-    const ironMined =
-      ironRock.stone.amount ??
-      getIronDropAmount({
-        game: stateCopy,
-        rock: ironRock,
-        criticalDropGenerator: (name) =>
-          !!(ironRock.stone.criticalHit?.[name] ?? 0),
-      });
+    const { amount: ironMined, aoe } = ironRock.stone.amount
+      ? {
+          amount: new Decimal(ironRock.stone.amount).toDecimalPlaces(4),
+          aoe: stateCopy.aoe,
+        }
+      : getIronDropAmount({
+          game: stateCopy,
+          rock: ironRock,
+          createdAt,
+          criticalDropGenerator: (name) =>
+            !!(ironRock.stone.criticalHit?.[name] ?? 0),
+        });
+
+    stateCopy.aoe = aoe;
 
     const amountInInventory = stateCopy.inventory.Iron || new Decimal(0);
 
     ironRock.stone = {
       minedAt: getMinedAt({ createdAt, game: stateCopy }),
+      boostedTime: getBoostedTime({ createdAt, game: stateCopy }),
     };
     bumpkin.activity = trackActivity("Iron Mined", bumpkin.activity);
 

@@ -98,6 +98,7 @@ import { FloatingIslandShop, FloatingShopItemName } from "./floatingIsland";
 import { Blessing } from "../lib/blessings";
 import { LandBiomeName } from "features/island/biomes/biomes";
 import { MonumentName } from "./monuments";
+import { AOEItemName } from "../expansion/placeable/lib/collisionDetection";
 
 export type Reward = {
   coins?: number;
@@ -600,6 +601,7 @@ export type PlantedCrop = {
   criticalHit?: CriticalHit;
   reward?: Omit<Reward, "sfl">;
   amount?: number;
+  boostedTime?: number;
 };
 
 export type PlantedFruit = {
@@ -620,6 +622,7 @@ export type Stone = {
   minedAt: number;
   criticalHit?: CriticalHit;
   amount?: number;
+  boostedTime?: number;
 };
 
 export type FiniteResource = {
@@ -1739,7 +1742,13 @@ export interface GameState {
   blessing: Blessing;
 
   monuments?: Partial<Record<MonumentName, { createdAt: number }>>;
+
+  aoe: AOE;
 }
+
+export type AOE = Partial<
+  Record<AOEItemName, Partial<Record<number, Partial<Record<number, number>>>>>
+>;
 
 export type FaceRecognitionEvent =
   | { event: "succeeded"; createdAt: number; confidence: number }
