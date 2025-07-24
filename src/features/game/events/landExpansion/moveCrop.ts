@@ -7,7 +7,11 @@ import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
 import { Collectibles, CropPlot, GameState } from "features/game/types/game";
 import { isReadyToHarvest } from "./harvest";
 import { CROPS } from "features/game/types/crops";
-import { isBasicCrop, isMediumCrop, isAdvancedCrop } from "./harvest";
+import {
+  isBasicCrop,
+  isMediumCrop,
+  isAdvancedCrop,
+} from "features/game/types/crops";
 import { produce } from "immer";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 

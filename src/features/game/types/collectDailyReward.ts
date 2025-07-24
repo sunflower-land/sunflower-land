@@ -11,7 +11,7 @@ type DailyReward = {
 // if you need to add a new treasure, generate its ID using that command.
 
 // Players on the first 5 expansions
-export const BASIC_REWARDS: DailyReward[] = [
+export const BASIC_DAILY_REWARDS: DailyReward[] = [
   {
     id: "0434c1784b5f6d81",
     coins: 100,
@@ -97,7 +97,7 @@ export const BASIC_REWARDS: DailyReward[] = [
   },
 ];
 
-export const ADVANCED_REWARDS: DailyReward[] = [
+export const ADVANCED_DAILY_REWARDS: DailyReward[] = [
   {
     id: "5e3c0541ec4f8c5a",
     weighting: 50,
@@ -236,7 +236,7 @@ export const ADVANCED_REWARDS: DailyReward[] = [
   },
 ];
 
-export const EXPERT_REWARDS: DailyReward[] = [
+export const EXPERT_DAILY_REWARDS: DailyReward[] = [
   {
     id: "46ab8396f67a7f3c",
     weighting: 5,
@@ -393,20 +393,20 @@ export const EXPERT_REWARDS: DailyReward[] = [
 ];
 
 export const DAILY_REWARDS: DailyReward[] = [
-  ...BASIC_REWARDS,
-  ...ADVANCED_REWARDS,
-  ...EXPERT_REWARDS,
+  ...BASIC_DAILY_REWARDS,
+  ...ADVANCED_DAILY_REWARDS,
+  ...EXPERT_DAILY_REWARDS,
 ];
 
 // Based on their progress, determine which rewards they are eligble for
 export function possibleRewards(game: GameState) {
   if (game.inventory["Basic Land"]?.gte(9)) {
-    return EXPERT_REWARDS;
+    return EXPERT_DAILY_REWARDS;
   }
 
   if (game.inventory["Basic Land"]?.gte(5)) {
-    return ADVANCED_REWARDS;
+    return ADVANCED_DAILY_REWARDS;
   }
 
-  return BASIC_REWARDS;
+  return BASIC_DAILY_REWARDS;
 }

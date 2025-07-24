@@ -20,7 +20,6 @@ const GAME_STATE: GameState = {
         y: 0,
         flower: {
           name: "Red Pansy",
-          amount: 1,
           plantedAt: 123,
         },
       },
@@ -145,7 +144,6 @@ describe("plantFlower", () => {
       expect.objectContaining({
         flower: expect.objectContaining({
           plantedAt: expect.any(Number),
-          amount: 1,
         }),
       }),
     );

@@ -25,6 +25,8 @@ export const STATIC_OFFLINE_FARM: GameState = {
   },
   inventory: {
     "Better Together Banner": new Decimal(1),
+    Geniseed: new Decimal(400),
+    Pickaxe: new Decimal(1),
     "Beta Pass": new Decimal(1),
     "Colors Token 2025": new Decimal(10000),
     "Magic Bean": new Decimal(1),
@@ -111,6 +113,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Thermal Stone": new Decimal(1),
     Hay: new Decimal(100),
     "Dr Cow": new Decimal(1),
+    "Cow Scratcher": new Decimal(1),
   },
   previousInventory: {
     "Dirt Path": new Decimal(20),
@@ -132,7 +135,9 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Iron: new Decimal(1000),
     Gold: new Decimal(1000),
   },
-  wardrobe: {},
+  wardrobe: {
+    "Cowboy Hat": 1,
+  },
   previousWardrobe: {},
   bank: { taxFreeSFL: 0, withdrawnAmount: 0 },
   beehives: {
@@ -144,7 +149,19 @@ export const STATIC_OFFLINE_FARM: GameState = {
       y: 0,
     },
   },
-  crimstones: {},
+  crimstones: {
+    0: {
+      stone: {
+        // minedAt: Date.now() - 1000 * 60 * 60 * 24,
+        minedAt: 0,
+        criticalHit: { Native: 1 },
+      },
+      createdAt: 0,
+      x: 8,
+      y: -4,
+      minesLeft: 1,
+    },
+  },
   flowers: {
     discovered: {
       "Red Balloon Flower": ["Beetroot"],
@@ -158,7 +175,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
         flower: {
           name: "Red Balloon Flower",
           plantedAt: 0,
-          amount: 1,
           reward: {
             items: [{ name: "Lunalist", amount: 1 }],
           },
@@ -177,22 +193,52 @@ export const STATIC_OFFLINE_FARM: GameState = {
       y: 6,
     },
   },
-  gold: {},
-  iron: {},
-  stones: {},
+  gold: {
+    0: {
+      stone: {
+        minedAt: 0,
+        criticalHit: { Native: 1 },
+      },
+      createdAt: 0,
+      x: 8,
+      y: -4,
+    },
+  },
+  iron: {
+    0: {
+      stone: {
+        minedAt: 0,
+        criticalHit: { Native: 1 },
+      },
+      createdAt: 0,
+      x: 8,
+      y: -3,
+    },
+  },
+  stones: {
+    0: {
+      stone: {
+        minedAt: 0,
+        criticalHit: { Native: 1 },
+      },
+      createdAt: 0,
+      x: 8,
+      y: -2,
+    },
+  },
   trees: {
     1: {
       wood: {
-        amount: 2,
         choppedAt: 0,
+        criticalHit: { Native: 1 },
       },
       x: 4,
       y: -2,
     },
     2: {
       wood: {
-        amount: 2,
         choppedAt: 0,
+        criticalHit: { Native: 1 },
       },
       x: 6,
       y: -2,
@@ -219,7 +265,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
 
   competitions: {
     progress: {
-      ANIMALS: {
+      PEGGYS_COOKOFF: {
         points: 0,
         currentProgress: {
           "Complete chore": 0,
@@ -639,7 +685,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
       crop: {
         plantedAt: 0,
         name: "Sunflower",
-        amount: 1,
       },
     },
     "2": {
@@ -649,7 +694,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
       crop: {
         plantedAt: 0,
         name: "Sunflower",
-        amount: 1,
       },
     },
   },
@@ -909,7 +953,24 @@ export const STATIC_OFFLINE_FARM: GameState = {
       total: 10,
     },
   },
-  npcs: {},
+  npcs: {
+    bert: {
+      deliveryCount: 0,
+      friendship: {
+        updatedAt: 0,
+        points: 480,
+        giftClaimedAtPoints: 330,
+      },
+    },
+    finn: {
+      deliveryCount: 0,
+      friendship: {
+        updatedAt: 0,
+        points: 280,
+        giftClaimedAtPoints: 150,
+      },
+    },
+  },
   farmActivity: {},
   milestones: {},
   specialEvents: {

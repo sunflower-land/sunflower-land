@@ -1,7 +1,13 @@
 import Decimal from "decimal.js-light";
 import { trackActivity } from "features/game/types/bumpkinActivity";
-import { GameState } from "features/game/types/game";
+import {
+  CriticalHitName,
+  CropMachineQueueItem,
+  GameState,
+} from "features/game/types/game";
 import { produce } from "immer";
+import { getCropYieldAmount } from "./plant";
+import cloneDeep from "lodash.clonedeep";
 
 export type HarvestCropMachineAction = {
   type: "cropMachine.harvested";
@@ -13,6 +19,36 @@ type Options = {
   action: HarvestCropMachineAction;
   createdAt?: number;
 };
+
+/**
+ * run getCropYieldAmount for each amount times to get the yield amount per each seed
+ */
+export function getPackYieldAmount(
+  state: GameState,
+  pack: CropMachineQueueItem,
+): number {
+  let totalYield = 0;
+
+  const { criticalHit = {}, seeds, crop } = pack;
+  const criticalHitObj = cloneDeep(criticalHit);
+
+  const criticalDrop = (name: CriticalHitName) => {
+    if (criticalHitObj[name]) {
+      criticalHitObj[name]--;
+      return true;
+    }
+    return false;
+  };
+
+  for (let i = 0; i < seeds; i++) {
+    totalYield += getCropYieldAmount({
+      game: state,
+      crop,
+      criticalDrop,
+    });
+  }
+  return totalYield;
+}
 
 export function harvestCropMachine({
   state,
@@ -47,7 +83,8 @@ export function harvestCropMachine({
 
     // Harvest the crops from pack
     const cropsInInventory = stateCopy.inventory[pack.crop] ?? new Decimal(0);
-    stateCopy.inventory[pack.crop] = cropsInInventory.add(pack.amount);
+    const amount = pack.amount ?? getPackYieldAmount(stateCopy, pack);
+    stateCopy.inventory[pack.crop] = cropsInInventory.add(amount);
     bumpkin.activity = trackActivity(
       `${pack.crop} Harvested`,
       bumpkin.activity,

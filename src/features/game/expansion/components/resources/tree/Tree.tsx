@@ -13,6 +13,7 @@ import {
 import {
   canChop,
   getRequiredAxeAmount,
+  getWoodDropAmount,
 } from "features/game/events/landExpansion/chop";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { ChestReward } from "features/island/common/chest-reward/ChestReward";
@@ -28,6 +29,7 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { useSound } from "lib/utils/hooks/useSound";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
+import { setPrecision } from "lib/utils/formatNumber";
 
 const HITS = 3;
 const tool = "Axe";
@@ -85,7 +87,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
 
   // When to hide the resource that pops out
   const [collecting, setCollecting] = useState(false);
-  const [collectedAmount, setCollectedAmount] = useState<number>();
+  const harvested = useRef<number>(0);
 
   const isSeasoned = useSelector(gameService, isSeasonedPlayer);
 
@@ -178,6 +180,14 @@ export const Tree: React.FC<Props> = ({ id }) => {
   };
 
   const chop = async () => {
+    const woodDropAmount =
+      resource.wood.amount ??
+      getWoodDropAmount({
+        game,
+        criticalDropGenerator: (name) =>
+          !!(resource.wood.criticalHit?.[name] ?? 0),
+      });
+
     const newState = gameService.send("timber.chopped", {
       index: id,
       item: "Axe",
@@ -186,7 +196,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
     if (!newState.matches("hoarding")) {
       if (showAnimations) {
         setCollecting(true);
-        setCollectedAmount(resource.wood.amount);
+        harvested.current = setPrecision(woodDropAmount, 2).toNumber();
       }
 
       treeFallAudio();
@@ -194,7 +204,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
       if (showAnimations) {
         await new Promise((res) => setTimeout(res, 3000));
         setCollecting(false);
-        setCollectedAmount(undefined);
+        harvested.current = 0;
       }
     }
 
@@ -220,7 +230,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
 
       {/* Depleting resource animation */}
       {collecting && (
-        <DepletingTree resourceAmount={collectedAmount} season={season} />
+        <DepletingTree resourceAmount={harvested.current} season={season} />
       )}
 
       {/* Depleted resource */}

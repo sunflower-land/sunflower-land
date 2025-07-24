@@ -25,6 +25,8 @@ import { useTranslation } from "react-i18next";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
+import { useNavigate } from "react-router";
+import { useVisiting } from "lib/utils/visitUtils";
 import { Player } from "../types/types";
 import { useSocial } from "../hooks/useSocial";
 import { KeyedMutator } from "swr";
@@ -71,6 +73,8 @@ export const PlayerDetails: React.FC<Props> = ({
 }) => {
   const { gameService } = useContext(Context);
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const { isVisiting } = useVisiting();
   const farmId = useSelector(gameService, _farmId);
 
   const player = data?.data;
@@ -93,6 +97,12 @@ export const PlayerDetails: React.FC<Props> = ({
       </div>
     );
   }
+
+  const visitFarm = () => {
+    if (!player) return;
+
+    navigate(`/visit/${player.id}`);
+  };
 
   const startDate = new Date(player?.farmCreatedAt ?? 0).toLocaleString(
     "en-US",
@@ -170,15 +180,20 @@ export const PlayerDetails: React.FC<Props> = ({
                 <img src={flowerIcon} className="w-4 h-4 ml-1 mt-0.5" />
               </div>
             </div>
-            <Button className="flex w-fit h-9 justify-between items-center gap-1 mt-1">
-              <div className="flex items-center px-1">
-                {!isMobile && <span className="pr-1">{t("visit")}</span>}
-                <img
-                  src={SUNNYSIDE.icons.search}
-                  className="flex justify-center items-center w-4 h-4"
-                />
-              </div>
-            </Button>
+            {!isVisiting && (
+              <Button
+                className="flex w-fit h-9 justify-between items-center gap-1 mt-1"
+                onClick={visitFarm}
+              >
+                <div className="flex items-center px-1">
+                  {!isMobile && <span className="pr-1">{t("visit")}</span>}
+                  <img
+                    src={SUNNYSIDE.icons.search}
+                    className="flex justify-center items-center w-4 h-4"
+                  />
+                </div>
+              </Button>
+            )}
           </div>
         </InnerPanel>
         <InnerPanel className="flex flex-col items-center w-full">

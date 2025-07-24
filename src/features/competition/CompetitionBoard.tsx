@@ -130,7 +130,8 @@ export const CompetitionModal: React.FC<{
 export const CompetitionDetails: React.FC<{
   competitionName: CompetitionName;
   state: GameState;
-}> = ({ competitionName, state }) => {
+  hideLeaderboard?: boolean;
+}> = ({ competitionName, state, hideLeaderboard }) => {
   const { t } = useAppTranslation();
 
   const [task, setTask] = useState<CompetitionTaskName>();
@@ -239,7 +240,7 @@ export const CompetitionDetails: React.FC<{
           </div>
         </InnerPanel>
 
-        <CompetitionLeaderboard name={competitionName} />
+        {hideLeaderboard && <CompetitionLeaderboard name={competitionName} />}
 
         <InnerPanel>
           <div className="p-1">

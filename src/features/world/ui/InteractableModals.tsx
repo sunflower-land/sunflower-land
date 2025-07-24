@@ -10,7 +10,7 @@ import { PlazaBanner } from "./PlazaBanner";
 import { OuterPanel, Panel } from "components/ui/Panel";
 import { NyeButton } from "./NyeButton";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { BasicTreasureChest } from "./chests/BasicTreasureChest";
+import { TreasureChest } from "./chests/TreasureChest";
 import { SceneId } from "../mmoMachine";
 import { BudBox } from "./chests/BudBox";
 import { Raffle } from "./chests/Raffle";
@@ -345,7 +345,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
         />
       </Modal>
       <Modal show={interactable === "basic_chest"} onHide={closeModal}>
-        <BasicTreasureChest
+        <TreasureChest
           type="Treasure Key"
           onClose={closeModal}
           location={"plaza"}
@@ -353,7 +353,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
         />
       </Modal>
       <Modal show={interactable === "rare_chest"} onHide={closeModal}>
-        <BasicTreasureChest
+        <TreasureChest
           type="Rare Key"
           onClose={closeModal}
           location={"plaza"}
@@ -361,7 +361,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
         />
       </Modal>
       <Modal show={interactable === "luxury_chest"} onHide={closeModal}>
-        <BasicTreasureChest
+        <TreasureChest
           type="Luxury Key"
           onClose={closeModal}
           location={"plaza"}

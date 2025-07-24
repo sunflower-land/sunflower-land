@@ -389,9 +389,6 @@ export function supplyCropMachine({
     if (seedsAdded.amount > 0) {
       queue.push({
         seeds: seedsAdded.amount,
-        // getPackYieldAmount is computationally expensive - let the backend provide this
-        amount: 0,
-        // amount: getPackYieldAmount(seedsAdded.amount, crop, stateCopy),
         crop,
         growTimeRemaining: calculateCropTime(seedsAdded, state),
         totalGrowTime: calculateCropTime(seedsAdded, state),
