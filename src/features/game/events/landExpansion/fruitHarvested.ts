@@ -31,7 +31,7 @@ import { FACTION_ITEMS } from "features/game/lib/factions";
 import { produce } from "immer";
 import {
   getActiveCalendarEvent,
-  isGuardianActive,
+  getActiveGuardian,
 } from "features/game/types/calendar";
 import { getFruitfulBlendBuff } from "./fertiliseFruitPatch";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
@@ -95,12 +95,16 @@ const isFruit = (resource: Resource): resource is PatchFruitName => {
 };
 
 // Basic = Blueberry & Orange - Skill
-const isBasicFruit = (resource: Resource): resource is PatchFruitName => {
+export const isBasicFruit = (
+  resource: Resource,
+): resource is PatchFruitName => {
   return resource === "Blueberry" || resource === "Orange";
 };
 
 // Advanced = Apple, Banana - Skill
-const isAdvancedFruit = (resource: Resource): resource is PatchFruitName => {
+export const isAdvancedFruit = (
+  resource: Resource,
+): resource is PatchFruitName => {
   return resource === "Apple" || resource === "Banana";
 };
 
@@ -293,12 +297,12 @@ export function getFruitYield({
 
   if (getActiveCalendarEvent({ game }) === "bountifulHarvest") {
     amount += 1;
-    const { hasGuardian, boostsUsed: guardianBoostsUsed } = isGuardianActive({
+    const { activeGuardian } = getActiveGuardian({
       game,
     });
-    if (hasGuardian) {
+    if (activeGuardian) {
       amount += 1;
-      boostsUsed.push(...guardianBoostsUsed);
+      boostsUsed.push(activeGuardian);
     }
   }
 

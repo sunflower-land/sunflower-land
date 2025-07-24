@@ -37,7 +37,7 @@ import {
 import { isWearableActive } from "features/game/lib/wearables";
 import {
   getActiveCalendarEvent,
-  isGuardianActive,
+  getActiveGuardian,
 } from "features/game/types/calendar";
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
@@ -790,12 +790,12 @@ export function getCropYieldAmount({
 
   if (getActiveCalendarEvent({ game }) === "bountifulHarvest") {
     amount += 1;
-    const { hasGuardian, boostsUsed: guardianBoostsUsed } = isGuardianActive({
+    const { activeGuardian } = getActiveGuardian({
       game,
     });
-    if (hasGuardian) {
+    if (activeGuardian) {
       amount += 1;
-      boostsUsed.push(...guardianBoostsUsed);
+      boostsUsed.push(activeGuardian);
     }
   }
 

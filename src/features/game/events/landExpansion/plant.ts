@@ -44,7 +44,7 @@ import { produce } from "immer";
 import {
   CalendarEventName,
   getActiveCalendarEvent,
-  isGuardianActive,
+  getActiveGuardian,
 } from "features/game/types/calendar";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 import { canUseTimeBoostAOE, setAOEAvailableAt } from "features/game/lib/aoe";
@@ -382,12 +382,12 @@ export const getCropPlotTime = ({
 
   if (isSunshower) {
     seconds = seconds * 0.5;
-    const { hasGuardian, boostsUsed: guardianBoostsUsed } = isGuardianActive({
+    const { activeGuardian } = getActiveGuardian({
       game,
     });
-    if (hasGuardian) {
+    if (activeGuardian) {
       seconds = seconds * 0.5;
-      boostsUsed.push(...guardianBoostsUsed);
+      boostsUsed.push(activeGuardian);
     }
   }
 
@@ -493,7 +493,9 @@ export function getPlantedAt({
   return createdAt - offset;
 }
 
-function isPlotCrop(plant: GreenHouseCropName | CropName): plant is CropName {
+export function isPlotCrop(
+  plant: GreenHouseCropName | CropName,
+): plant is CropName {
   return (plant as CropName) in CROPS;
 }
 
