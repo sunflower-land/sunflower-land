@@ -18,6 +18,7 @@ import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
+import { BudNFTName } from "features/game/types/marketplace";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -57,6 +58,13 @@ export const WithdrawBuds: React.FC<Props> = ({ onWithdraw }) => {
     reputation: Reputation.Seedling,
   });
 
+  const isBudDisabled = (budId: number) => {
+    const bud = `Bud #${budId}` as BudNFTName;
+    const budUsedTime = state.boostsUsedAt?.[bud] ?? 0;
+
+    return budUsedTime > Date.now() - 1000 * 60 * 60 * 48; // 48 hours
+  };
+
   if (!hasAccess) {
     return <RequiredReputation reputation={Reputation.Seedling} />;
   }
@@ -77,6 +85,7 @@ export const WithdrawBuds: React.FC<Props> = ({ onWithdraw }) => {
               onClick={() => onAdd(budId)}
               image={`https://${imageDomain}.sunflower-land.com/images/${budId}.webp`}
               iconClassName="scale-[1.8] origin-bottom absolute"
+              disabled={isBudDisabled(budId)}
             />
           ))}
           {/* Pad with empty boxes */}
