@@ -1047,4 +1047,72 @@ export const INVENTORY_RELEASES: Partial<Record<InventoryItemName, Releases>> =
       tradeAt: new Date("2025-07-07T00:00:00Z"),
       withdrawAt: new Date("2025-07-07T00:00:00Z"),
     },
+    "Floor Mirror": {
+      tradeAt: SEASONS["Better Together"].endDate,
+      withdrawAt: SEASONS["Better Together"].endDate,
+    },
+    "Long Rug": {
+      tradeAt: SEASONS["Better Together"].endDate,
+      withdrawAt: SEASONS["Better Together"].endDate,
+    },
+    "Garbage Bin": {
+      tradeAt: SEASONS["Better Together"].endDate,
+      withdrawAt: SEASONS["Better Together"].endDate,
+    },
+    Wheelbarrow: {
+      tradeAt: SEASONS["Better Together"].endDate,
+      withdrawAt: SEASONS["Better Together"].endDate,
+    },
+    "Snail King": {
+      tradeAt: SEASONS["Better Together"].endDate,
+      withdrawAt: SEASONS["Better Together"].endDate,
+    },
+    "Reelmaster's Chair": {
+      tradeAt: SEASONS["Better Together"].endDate,
+      withdrawAt: SEASONS["Better Together"].endDate,
+    },
+    "Rat King": {
+      tradeAt: SEASONS["Better Together"].endDate,
+      withdrawAt: SEASONS["Better Together"].endDate,
+    },
+    "Fruit Tune Box": {
+      tradeAt: SEASONS["Better Together"].endDate,
+      withdrawAt: SEASONS["Better Together"].endDate,
+    },
+    "Double Bed": {
+      tradeAt: SEASONS["Better Together"].endDate,
+      withdrawAt: SEASONS["Better Together"].endDate,
+    },
+    "Giant Artichoke": {
+      tradeAt: SEASONS["Better Together"].endDate,
+      withdrawAt: SEASONS["Better Together"].endDate,
+    },
+    "Rocket Statue": {
+      tradeAt: SEASONS["Better Together"].endDate,
+      withdrawAt: SEASONS["Better Together"].endDate,
+    },
+    "Ant Queen": {
+      tradeAt: SEASONS["Better Together"].endDate,
+      withdrawAt: SEASONS["Better Together"].endDate,
+    },
+    "Jurassic Droplet": {
+      tradeAt: SEASONS["Better Together"].endDate,
+      withdrawAt: SEASONS["Better Together"].endDate,
+    },
+    "Giant Onion": {
+      tradeAt: SEASONS["Better Together"].endDate,
+      withdrawAt: SEASONS["Better Together"].endDate,
+    },
+    "Giant Turnip": {
+      tradeAt: SEASONS["Better Together"].endDate,
+      withdrawAt: SEASONS["Better Together"].endDate,
+    },
+    "Groovy Gramophone": {
+      tradeAt: SEASONS["Better Together"].endDate,
+      withdrawAt: SEASONS["Better Together"].endDate,
+    },
+    "Wheat Whiskers": {
+      tradeAt: SEASONS["Better Together"].endDate,
+      withdrawAt: SEASONS["Better Together"].endDate,
+    },
   };
