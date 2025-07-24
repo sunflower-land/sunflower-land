@@ -425,7 +425,7 @@ export const getCropPlotTime = ({
           "Basic Scarecrow",
           { dx, dy },
           createdAt,
-          seconds,
+          seconds * 1000,
         );
       }
     }
@@ -966,7 +966,20 @@ export function getCropYieldAmount({
       Date.now() - 24 * 60 * 60 * 1000;
 
     if (isUndisturbed && cropIsBelow && cobaltIsLeftOf && clementineIsRightOf) {
-      amount += 10;
+      const dx = 0;
+      const dy = 1;
+
+      const canUseAoe = canUseYieldBoostAOE(
+        updatedAoe,
+        "Gnome",
+        { dx, dy },
+        CROPS[crop].harvestSeconds * 1000 - (plot?.crop?.boostedTime ?? 0),
+        createdAt,
+      );
+      if (canUseAoe) {
+        setAOELastUsed(updatedAoe, "Gnome", { dx, dy }, createdAt);
+        amount += 10;
+      }
     }
   }
 

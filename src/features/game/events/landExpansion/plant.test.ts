@@ -979,7 +979,7 @@ describe("plant", () => {
       });
 
       expect(aoe["Basic Scarecrow"]?.["0"]?.["-2"]).toEqual(
-        dateNow + pumpkinHarvestSeconds * 0.8,
+        dateNow + pumpkinHarvestSeconds * 1000 * 0.8,
       );
     });
 
