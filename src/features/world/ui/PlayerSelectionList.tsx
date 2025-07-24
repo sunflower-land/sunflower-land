@@ -1,5 +1,5 @@
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Modal } from "components/ui/Modal";
 
 import {
@@ -13,6 +13,9 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import giftIcon from "assets/icons/gift.png";
 import { SquareIcon } from "components/ui/SquareIcon";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { MachineState } from "features/game/lib/gameMachine";
+import { useSelector } from "@xstate/react";
+import { Context } from "features/game/GameProvider";
 
 class PlayerSelectionListManager {
   private listener?: (players: PlayerModalPlayer[]) => void;
@@ -30,8 +33,12 @@ class PlayerSelectionListManager {
 
 export const playerSelectionListManager = new PlayerSelectionListManager();
 
+const _farmId = (state: MachineState) => state.context.farmId;
+
 export const PlayerSelectionList: React.FC = () => {
+  const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
+  const farmId = useSelector(gameService, _farmId);
 
   const [players, setPlayers] = useState<PlayerModalPlayer[]>([]);
 
@@ -85,40 +92,44 @@ export const PlayerSelectionList: React.FC = () => {
     <Modal show={!!players.length} onHide={closeModal}>
       <CloseButtonPanel title={t("select.player")} onClose={closeModal}>
         <div className="overflow-y-auto max-h-[70vh] scrollable">
-          {playersSortedBySpecialWearables.map((player) => (
-            <ButtonPanel
-              key={player.farmId}
-              className="flex flex-row items-center gap-1 mx-1 text-xs"
-              onClick={() => openPlayerModal(player)}
-            >
-              <NPCIcon parts={player.clothing} />
-              {player.clothing.shirt === "Gift Giver" &&
-                player.clothing.hat !== "Streamer Hat" && (
+          {playersSortedBySpecialWearables.map((player) => {
+            if (player.farmId === farmId) return;
+
+            return (
+              <ButtonPanel
+                key={player.farmId}
+                className="flex flex-row items-center gap-1 mx-1 text-xs"
+                onClick={() => openPlayerModal(player)}
+              >
+                <NPCIcon parts={player.clothing} />
+                {player.clothing.shirt === "Gift Giver" &&
+                  player.clothing.hat !== "Streamer Hat" && (
+                    <SquareIcon
+                      className="absolute -top-1 left-3.5"
+                      icon={giftIcon}
+                      width={7}
+                    />
+                  )}
+                {player.clothing.hat === "Streamer Hat" && (
                   <SquareIcon
                     className="absolute -top-1 left-3.5"
-                    icon={giftIcon}
+                    icon={ITEM_DETAILS["Love Charm"].image}
                     width={7}
                   />
                 )}
-              {player.clothing.hat === "Streamer Hat" && (
-                <SquareIcon
-                  className="absolute -top-1 left-3.5"
-                  icon={ITEM_DETAILS["Love Charm"].image}
-                  width={7}
-                />
-              )}
-              <div className="flex flex-col ml-1">
-                {player.username && <div>{player.username}</div>}
-                <div>{`#${player.farmId}`}</div>
-              </div>
-              <div className="flex-grow" />
-              <div className="text-center">
-                {t("level.number", {
-                  level: getBumpkinLevel(player.experience ?? 0),
-                })}
-              </div>
-            </ButtonPanel>
-          ))}
+                <div className="flex flex-col ml-1">
+                  {player.username && <div>{player.username}</div>}
+                  <div>{`#${player.farmId}`}</div>
+                </div>
+                <div className="flex-grow" />
+                <div className="text-center">
+                  {t("level.number", {
+                    level: getBumpkinLevel(player.experience ?? 0),
+                  })}
+                </div>
+              </ButtonPanel>
+            );
+          })}
         </div>
       </CloseButtonPanel>
     </Modal>

@@ -45,12 +45,15 @@ type Props = {
   data?: Player;
   error?: Error;
   playerLoading: boolean;
+  playerValidating: boolean;
   followLoading: boolean;
   iAmFollowing: boolean;
   isFollowMutual: boolean;
+  mutate: KeyedMutator<Player | undefined>;
+  canGoBack?: boolean;
   onFollow: () => void;
   onFollowersClick: () => void;
-  mutate: KeyedMutator<Player | undefined>;
+  onGoBack?: () => void;
 };
 
 const _farmId = (state: MachineState) => state.context.farmId;
@@ -65,18 +68,18 @@ export const PlayerDetails: React.FC<Props> = ({
   mutate,
   onFollow,
   onFollowersClick,
+  canGoBack,
+  onGoBack,
 }) => {
   const { gameService } = useContext(Context);
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { isVisiting } = useVisiting();
-
   const farmId = useSelector(gameService, _farmId);
 
   const player = data?.data;
 
-  // Used only to share my online status with the followers
-  const { online } = useSocial({
+  useSocial({
     farmId,
     following: player?.followedBy ?? [],
     callbacks: {
@@ -114,18 +117,32 @@ export const PlayerDetails: React.FC<Props> = ({
       <div className="flex flex-col flex-1 gap-1">
         <InnerPanel className="flex flex-col gap-1 flex-1 pb-1 px-1">
           <div className="flex items-center relative">
-            <Label type="default" className="relative">
-              {player?.username}
-              <div className="absolute -top-2 -right-2 z-10">
-                {player?.id && (
-                  <OnlineStatus
-                    playerId={player?.id}
-                    farmId={farmId}
-                    lastUpdatedAt={player?.lastUpdatedAt ?? 0}
+            <div className="flex items-center">
+              {canGoBack && (
+                <div
+                  className="flex items-center justify-center w-6 h-6 mr-2 cursor-pointer hover:bg-brown-200 active:bg-brown-300 rounded-sm transition-colors"
+                  onClick={onGoBack}
+                >
+                  <img
+                    src={SUNNYSIDE.icons.arrow_left}
+                    className="w-6"
+                    alt="Back"
                   />
-                )}
-              </div>
-            </Label>
+                </div>
+              )}
+              <Label type="default" className="relative">
+                {player?.username}
+                <div className="absolute -top-2 -right-2 z-10">
+                  {player?.id && (
+                    <OnlineStatus
+                      playerId={player?.id}
+                      farmId={farmId}
+                      lastUpdatedAt={player?.lastUpdatedAt ?? 0}
+                    />
+                  )}
+                </div>
+              </Label>
+            </div>
             {player?.isVip && <img src={vipIcon} className="w-5 ml-2" />}
           </div>
           <div className="flex pb-1 gap-1">

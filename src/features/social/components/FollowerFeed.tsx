@@ -104,6 +104,10 @@ export const FollowerFeed: React.FC<Props> = ({
     }
   }, [isLoadingInitialData, scrollToBottom]);
 
+  useLayoutEffect(() => {
+    scrollToBottom();
+  }, [playerId, scrollToBottom]);
+
   // Set scroll container as the root for the intersection observer
   useEffect(() => {
     if (scrollContainerRef.current) {
