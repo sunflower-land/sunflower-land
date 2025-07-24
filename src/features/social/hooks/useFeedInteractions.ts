@@ -1,29 +1,29 @@
 import useSWRInfinite from "swr/infinite";
-import { getChatInteractions } from "../actions/getChatInteractions";
+import { getFeedInteractions } from "../actions/getFeedInteractions";
 import { Interaction } from "../types/types";
 
-const PAGE_SIZE = 20;
+const PAGE_SIZE = 100;
 
-export function useChatInteractions(
+export function useFeedInteractions(
   token: string,
   farmId: number,
-  followedPlayerId: number,
+  isGlobal: boolean,
 ) {
   const getKey = (_: number, previousPageData: Interaction[]) => {
     if (previousPageData && previousPageData.length === 0) return null;
     const cursor =
       previousPageData?.[previousPageData.length - 1]?.createdAt ?? 0;
-    return `chat-interactions-${farmId}-${followedPlayerId}-${cursor}`;
+    return `feed-interactions-${farmId}-${isGlobal}-${cursor}`;
   };
 
   const { data, size, setSize, isValidating, mutate } = useSWRInfinite(
     getKey,
     (key) => {
       const cursor = key.split("-")[4];
-      return getChatInteractions({
+      return getFeedInteractions({
         token,
         farmId,
-        followedPlayerId,
+        isGlobal,
         cursor: Number(cursor),
       });
     },
