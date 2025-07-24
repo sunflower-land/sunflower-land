@@ -12345,6 +12345,196 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/2290.webp",
     name: "Advanced Cooking Pot",
   },
+  "Floor Mirror": {
+    description: "A tall mirror perfect for full-body reflections.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2294.webp",
+    name: "Floor Mirror",
+  },
+  "Long Rug": {
+    description: "A horizontally long patterned rug to warm up any floor.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2295.webp",
+    name: "Long Rug",
+  },
+  "Garbage Bin": {
+    description: "A sturdy bin used for collecting trash.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2296.webp",
+    name: "Garbage Bin",
+  },
+  Wheelbarrow: {
+    description: "A classic tool for moving heavy items around the farm.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2297.webp",
+    name: "Wheelbarrow",
+  },
+  "Snail King": {
+    description: "Royalty with a slime trail—slow but majestic.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2298.webp",
+    name: "Snail King",
+  },
+  "Reelmaster's Chair": {
+    description:
+      "A folding chair equipped for serious fishing. Comes with built-in rod holders and fish tales.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2299.webp",
+    name: "Reelmaster's Chair",
+  },
+  "Rat King": {
+    description: "A tangled tale of tails and questionable leadership.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2300.webp",
+    name: "Rat King",
+  },
+  "Fruit Tune Box": {
+    description: "Plays nothing but berry good music.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2301.webp",
+    name: "Fruit Tune Box",
+  },
+  "Double Bed": {
+    description: "A cozy bed that fits two comfortably.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2302.webp",
+    name: "Double Bed",
+  },
+  "Giant Artichoke": {
+    description: "The heart of the garden—literally huge Artichoke.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2303.webp",
+    name: "Giant Artichoke",
+  },
+  "Rocket Statue": {
+    description:
+      "A rocket ready for lift-off—with the whole world on its back!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2304.webp",
+    name: "Rocket Statue",
+  },
+  "Ant Queen": {
+    description: "She rules the dirt—and your crumbs.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2305.webp",
+    name: "Ant Queen",
+  },
+  "Jurassic Droplet": {
+    description: "Dino doo, polished and preserved—nature’s weirdest relic.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2306.webp",
+    name: "Jurassic Droplet",
+  },
+  "Giant Onion": {
+    description: "It’s big. It’s bold. It will make your whole field cry.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2307.webp",
+    name: "Giant Onion",
+  },
+  "Giant Turnip": {
+    description:
+      "A massive turnip that stands tall in the field—too big to harvest, but perfect for display.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2308.webp",
+    name: "Giant Turnip",
+  },
+  "Groovy Gramophone": {
+    description: "Spins vintage vibes and funky beats.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2309.webp",
+    name: "Groovy Gramophone",
+  },
+  "Wheat Whiskers": {
+    description: "A bundle of wheat playfully accompanied by curious mice.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2310.webp",
+    name: "Wheat Whiskers",
+  },
 };
 
 export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
