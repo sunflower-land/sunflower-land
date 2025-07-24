@@ -27,8 +27,7 @@ import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
 import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
 import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
-import { hasRemoveRestriction } from "features/game/types/removeables";
-import { hasFeatureAccess } from "lib/flags";
+import { hasBoostRestriction } from "features/game/types/withdrawRestrictions";
 
 interface Props {
   onWithdraw: (ids: number[], amounts: string[]) => void;
@@ -152,10 +151,6 @@ export const WithdrawItems: React.FC<Props> = ({
 
             // The inventory amount that is not placed
             const inventoryCount = inventory[itemName] ?? new Decimal(0);
-            const [isInUse] = hasRemoveRestriction({
-              name: itemName,
-              state: state,
-            });
 
             return (
               <Box
@@ -163,7 +158,10 @@ export const WithdrawItems: React.FC<Props> = ({
                 key={itemName}
                 disabled={
                   inventoryCount.lessThanOrEqualTo(0) ||
-                  (isInUse && hasFeatureAccess(state, "LANDSCAPING"))
+                  hasBoostRestriction({
+                    boostUsedAt: state.boostsUsedAt,
+                    item: itemName,
+                  }).isRestricted
                 }
                 onClick={() => onAdd(itemName)}
                 image={details.image}
