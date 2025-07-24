@@ -1041,7 +1041,7 @@ const bedsDimension = getKeys(BEDS).reduce(
     ...previous,
     [bedName]: { width: 1, height: 1 },
   }),
-  {} as Record<BedName, Dimensions>,
+  {} as Record<Exclude<BedName, "Double Bed">, Dimensions>,
 );
 
 export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
@@ -1442,6 +1442,23 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Basic Cooking Pot": { width: 2, height: 2 },
   "Expert Cooking Pot": { width: 2, height: 2 },
   "Advanced Cooking Pot": { width: 2, height: 2 },
+
+  "Floor Mirror": { width: 1, height: 1 },
+  "Long Rug": { width: 4, height: 2 },
+  "Garbage Bin": { width: 1, height: 1 },
+  Wheelbarrow: { width: 2, height: 1 },
+  "Snail King": { width: 1, height: 1 },
+  "Reelmaster's Chair": { width: 1, height: 1 },
+  "Rat King": { width: 1, height: 1 },
+  "Fruit Tune Box": { width: 1, height: 1 },
+  "Double Bed": { width: 2, height: 1 },
+  "Giant Artichoke": { width: 2, height: 2 },
+  "Rocket Statue": { width: 1, height: 1 },
+  "Ant Queen": { width: 1, height: 1 },
+  "Jurassic Droplet": { width: 2, height: 1 },
+  "Giant Onion": { width: 1, height: 2 },
+  "Giant Turnip": { width: 2, height: 2 },
+  "Groovy Gramophone": { width: 1, height: 1 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {
