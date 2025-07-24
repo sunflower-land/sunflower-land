@@ -207,7 +207,7 @@ export type BumpkinTool =
   | "Paint Spray Can"
   | "Chemist Potion"
   | "Architect Ruler"
-  | "Onion Leak";
+  | "Onion Leek";
 
 export type BumpkinShoe =
   | "Black Farmer Boots"
@@ -459,7 +459,7 @@ export type BumpkinOnesie =
   | "Love Bear Onesie"
   | "Dino Onesie"
   | "Red Pepper Onesie"
-  | "Racoon Onesie";
+  | "Raccoon Onesie";
 
 // Goes over clothes
 export type BumpkinSuit =
@@ -1024,12 +1024,12 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Garbage Bin Hat": 475,
   "Turd Topper": 476,
   "Architect Ruler": 477,
-  "Onion Leak": 478,
+  "Onion Leek": 478,
   "Oil Gallon": 479,
   "Alchemist Apron": 480,
   "Lava Swimwear": 481,
   "Wooly Dress": 482,
-  "Racoon Onesie": 483,
+  "Raccoon Onesie": 483,
 };
 
 // The reverse of above
@@ -1568,12 +1568,12 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Garbage Bin Hat": "hat",
   "Turd Topper": "hat",
   "Architect Ruler": "tool",
-  "Onion Leak": "tool",
+  "Onion Leek": "tool",
   "Oil Gallon": "secondaryTool",
   "Alchemist Apron": "coat",
   "Lava Swimwear": "dress",
   "Wooly Dress": "dress",
-  "Racoon Onesie": "onesie",
+  "Raccoon Onesie": "onesie",
 };
 
 /**Copied from BE just for hoarding checks */

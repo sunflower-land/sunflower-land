@@ -18529,7 +18529,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     image: "../public/wearables/images/477.webp",
     name: "Architect Ruler",
   },
-  "Onion Leak": {
+  "Onion Leek": {
     description:
       "This veggie’s not just juicy — it’s a source of top-secret leaks.",
     decimals: 0,
@@ -18539,7 +18539,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/wearables/images/478.webp",
-    name: "Onion Leak",
+    name: "Onion Leek",
   },
   "Oil Gallon": {
     description:
@@ -18588,7 +18588,7 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     image: "../public/wearables/images/482.webp",
     name: "Wooly Dress",
   },
-  "Racoon Onesie": {
+  "Raccoon Onesie": {
     description:
       "Cute, stripey, and ready to steal your heart and maybe your crops.",
     decimals: 0,
@@ -18598,6 +18598,6 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
     image: "../public/wearables/images/483.webp",
-    name: "Racoon Onesie",
+    name: "Raccoon Onesie",
   },
 };

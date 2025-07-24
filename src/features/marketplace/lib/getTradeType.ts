@@ -1528,12 +1528,12 @@ export const ITEM_TRADE_TYPES: {
     "Garbage Bin Hat": "instant",
     "Turd Topper": "instant",
     "Architect Ruler": "onchain",
-    "Onion Leak": "onchain",
+    "Onion Leek": "onchain",
     "Oil Gallon": "onchain",
     "Alchemist Apron": "onchain",
     "Lava Swimwear": "onchain",
     "Wooly Dress": "onchain",
-    "Racoon Onesie": "onchain",
+    "Raccoon Onesie": "onchain",
   },
 };
 
