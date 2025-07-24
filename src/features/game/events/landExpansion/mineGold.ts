@@ -4,6 +4,7 @@ import {
   Position,
   isWithinAOE,
 } from "features/game/expansion/placeable/lib/collisionDetection";
+import { canUseYieldBoostAOE, setAOELastUsed } from "features/game/lib/aoe";
 import {
   isCollectibleActive,
   isCollectibleBuilt,
@@ -17,6 +18,7 @@ import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
 import { CriticalHitName, GameState, Rock } from "features/game/types/game";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 import { produce } from "immer";
+import cloneDeep from "lodash.clonedeep";
 
 export type LandExpansionMineGoldAction = {
   type: "goldRock.mined";
@@ -43,10 +45,7 @@ type GetMinedAtArgs = {
   game: GameState;
 };
 
-/**
- * Set a mined in the past to make it replenish faster
- */
-export function getMinedAt({ createdAt, game }: GetMinedAtArgs): number {
+const getBoostedTime = ({ game }: { game: GameState }): number => {
   let totalSeconds = GOLD_RECOVERY_TIME;
 
   if (
@@ -70,7 +69,16 @@ export function getMinedAt({ createdAt, game }: GetMinedAtArgs): number {
 
   const buff = GOLD_RECOVERY_TIME - totalSeconds;
 
-  return createdAt - buff * 1000;
+  return buff * 1000;
+};
+
+/**
+ * Set a mined in the past to make it replenish faster
+ */
+export function getMinedAt({ createdAt, game }: GetMinedAtArgs): number {
+  const boostedTime = getBoostedTime({ game });
+
+  return createdAt - boostedTime;
 }
 
 /**
@@ -79,17 +87,22 @@ export function getMinedAt({ createdAt, game }: GetMinedAtArgs): number {
 export function getGoldDropAmount({
   game,
   rock,
+  createdAt,
   criticalDropGenerator = () => false,
 }: {
   game: GameState;
   rock: Rock;
+  createdAt: number;
   criticalDropGenerator?: (name: CriticalHitName) => boolean;
 }) {
   const {
     inventory,
     bumpkin: { skills },
     buds = {},
+    aoe,
   } = game;
+  const updatedAoe = cloneDeep(aoe);
+
   let amount = 1;
 
   if (inventory["Gold Rush"]) {
@@ -123,7 +136,11 @@ export function getGoldDropAmount({
 
   // If within Emerald Turtle AOE: +0.5
   if (game.collectibles["Emerald Turtle"]?.[0]) {
-    if (!rock) return new Decimal(amount).toDecimalPlaces(4);
+    if (!rock)
+      return {
+        amount: new Decimal(amount).toDecimalPlaces(4),
+        aoe: updatedAoe,
+      };
 
     const emeraldTurtleCoordinates =
       game.collectibles["Emerald Turtle"]?.[0].coordinates;
@@ -146,7 +163,21 @@ export function getGoldDropAmount({
       isCollectibleBuilt({ name: "Emerald Turtle", game }) &&
       isWithinAOE("Emerald Turtle", emeraldTurtlePosition, rockPosition, skills)
     ) {
-      amount += 0.5;
+      const dx = rock.x - emeraldTurtlePosition.x;
+      const dy = rock.y - emeraldTurtlePosition.y;
+
+      const canUseAoe = canUseYieldBoostAOE(
+        updatedAoe,
+        "Emerald Turtle",
+        { dx, dy },
+        GOLD_RECOVERY_TIME * 1000 - (rock?.stone?.boostedTime ?? 0),
+        createdAt,
+      );
+
+      if (canUseAoe) {
+        setAOELastUsed(updatedAoe, "Emerald Turtle", { dx, dy }, createdAt);
+        amount += 0.5;
+      }
     }
   }
 
@@ -168,7 +199,7 @@ export function getGoldDropAmount({
     amount += 0.1;
   }
 
-  return new Decimal(amount).toDecimalPlaces(4);
+  return { amount: new Decimal(amount).toDecimalPlaces(4), aoe: updatedAoe };
 }
 
 export function mineGold({
@@ -199,19 +230,26 @@ export function mineGold({
     if (toolAmount.lessThan(1)) {
       throw new Error(EVENT_ERRORS.NO_PICKAXES);
     }
-    const goldMined =
-      goldRock.stone.amount ??
-      getGoldDropAmount({
-        game: stateCopy,
-        rock: goldRock,
-        criticalDropGenerator: (name) =>
-          !!(goldRock.stone.criticalHit?.[name] ?? 0),
-      });
+    const { amount: goldMined, aoe } = goldRock.stone.amount
+      ? {
+          amount: new Decimal(goldRock.stone.amount).toDecimalPlaces(4),
+          aoe: stateCopy.aoe,
+        }
+      : getGoldDropAmount({
+          game: stateCopy,
+          rock: goldRock,
+          createdAt,
+          criticalDropGenerator: (name) =>
+            !!(goldRock.stone.criticalHit?.[name] ?? 0),
+        });
+
+    stateCopy.aoe = aoe;
 
     const amountInInventory = stateCopy.inventory.Gold || new Decimal(0);
 
     goldRock.stone = {
       minedAt: getMinedAt({ createdAt, game: stateCopy }),
+      boostedTime: getBoostedTime({ game: stateCopy }),
     };
     bumpkin.activity = trackActivity("Gold Mined", bumpkin.activity);
 

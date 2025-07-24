@@ -233,6 +233,7 @@ export const GreenhousePot: React.FC<Props> = ({ id }) => {
       getGreenhouseCropYieldAmount({
         crop: pot.plant.name,
         game: state,
+        createdAt: Date.now(),
         criticalDrop: (name) => !!(pot.plant?.criticalHit?.[name] ?? 0),
       });
 

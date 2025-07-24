@@ -8,7 +8,7 @@ import {
 } from "features/game/types/bumpkinActivity";
 import { CropPlot } from "features/game/types/game";
 import { produce } from "immer";
-import { getCropYieldAmount } from "./plant";
+import { getAffectedWeather, getCropYieldAmount } from "./plant";
 
 export type LandExpansionHarvestAction = {
   type: "crop.harvested";
@@ -76,10 +76,10 @@ export function harvest({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (stateCopy) => {
-    const { bumpkin, crops: plots } = stateCopy;
+    const { crops: plots, bumpkin } = stateCopy;
 
     if (!bumpkin) {
-      throw new Error("You do not have a Bumpkin!");
+      throw new Error("You do not have a Bumpkin");
     }
 
     const plot = plots[action.index];
@@ -88,19 +88,32 @@ export function harvest({
       throw new Error("Plot does not exist");
     }
 
+    const cropAffectedBy = getAffectedWeather({
+      id: action.index,
+      game: stateCopy,
+    });
+
+    if (cropAffectedBy) {
+      throw new Error(`Plot is affected by ${cropAffectedBy}`);
+    }
+
     if (!plot.crop) {
       throw new Error("Nothing was planted");
     }
 
-    const { name: cropName, plantedAt, reward, criticalHit } = plot.crop;
-    const amount =
-      plot.crop.amount ??
-      getCropYieldAmount({
-        crop: cropName,
-        game: stateCopy,
-        plot,
-        criticalDrop: (name) => !!(criticalHit?.[name] ?? 0),
-      });
+    const { name: cropName, plantedAt, reward, criticalHit = {} } = plot.crop;
+
+    const { amount, aoe } = plot.crop.amount
+      ? { amount: plot.crop.amount, aoe: stateCopy.aoe }
+      : getCropYieldAmount({
+          crop: cropName,
+          game: stateCopy,
+          plot,
+          createdAt,
+          criticalDrop: (name) => !!(criticalHit[name] ?? 0),
+        });
+
+    stateCopy.aoe = aoe;
 
     const { harvestSeconds } = CROPS[cropName];
 
@@ -131,8 +144,8 @@ export function harvest({
 
     // Remove crop data for plot
     delete plot.crop;
-    delete plot.beeSwarm;
     delete plot.fertiliser;
+    delete plot.beeSwarm;
 
     const cropCount = stateCopy.inventory[cropName] || new Decimal(0);
 

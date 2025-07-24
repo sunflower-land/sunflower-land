@@ -129,5 +129,6 @@ export function makeGame(farm: any): GameState {
     rewardBoxes: farm.rewardBoxes,
     withdrawals: farm.withdrawals,
     blessing: farm.blessing,
+    aoe: farm.aoe,
   };
 }

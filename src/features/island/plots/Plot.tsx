@@ -151,8 +151,9 @@ export const Plot: React.FC<Props> = ({ id }) => {
         crop: plot.crop.name,
         game: state,
         plot,
+        createdAt: Date.now(),
         criticalDrop: (name) => !!plot.crop?.criticalHit?.[name],
-      });
+      }).amount;
 
     // firework animation
     if (showAnimations && cropAmount >= 10) {

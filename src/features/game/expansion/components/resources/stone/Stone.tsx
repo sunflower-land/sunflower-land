@@ -131,9 +131,10 @@ export const Stone: React.FC<Props> = ({ id }) => {
         getStoneDropAmount({
           game,
           rock: resource,
+          createdAt: Date.now(),
           criticalDropGenerator: (name) =>
             !!(resource.stone.criticalHit?.[name] ?? 0),
-        }),
+        }).amount,
     );
 
     const newState = gameService.send("stoneRock.mined", {

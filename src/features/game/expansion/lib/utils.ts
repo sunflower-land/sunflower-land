@@ -5,7 +5,7 @@ export function canMine(
   recoveryTime: number,
   now: number = Date.now(),
 ) {
-  return now - rock.stone.minedAt > recoveryTime * 1000;
+  return now - rock.stone.minedAt >= recoveryTime * 1000;
 }
 
 /**

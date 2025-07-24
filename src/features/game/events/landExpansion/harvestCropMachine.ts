@@ -41,11 +41,14 @@ export function getPackYieldAmount(
   };
 
   for (let i = 0; i < seeds; i++) {
-    totalYield += getCropYieldAmount({
+    const { amount } = getCropYieldAmount({
       game: state,
       crop,
       criticalDrop,
+      createdAt: state.createdAt,
     });
+
+    totalYield += amount;
   }
   return totalYield;
 }
