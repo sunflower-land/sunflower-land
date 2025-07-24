@@ -27,7 +27,7 @@ export type RecipeCollectibleName = Extract<
   | "Mahogany Cap"
   | "Golden Maple"
   | RecipeCraftableName
-  | BedName,
+  | Exclude<BedName, "Double Bed">,
   InventoryItemName
 >;
 
@@ -61,7 +61,7 @@ export type Recipe = {
   | { name: RecipeWearableName; type: "wearable" }
 );
 
-export type Recipes = Record<Exclude<RecipeItemName, "Double Bed">, Recipe>;
+export type Recipes = Record<RecipeItemName, Recipe>;
 
 export const RECIPES_OLD: Recipes = {
   "Dirt Path": {
