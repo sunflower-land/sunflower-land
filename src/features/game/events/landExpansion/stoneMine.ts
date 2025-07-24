@@ -73,7 +73,7 @@ function getBoostedTime({ skills, game }: GetMinedAtArgs): {
   if (superTotem || timeWarpTotem) {
     totalSeconds = totalSeconds * 0.5;
     if (superTotem) boostsUsed.push("Super Totem");
-    if (timeWarpTotem) boostsUsed.push("Time Warp Totem");
+    else if (timeWarpTotem) boostsUsed.push("Time Warp Totem");
   }
 
   if (isCollectibleActive({ name: "Ore Hourglass", game })) {

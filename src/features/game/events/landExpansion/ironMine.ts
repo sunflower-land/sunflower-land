@@ -70,8 +70,8 @@ const getBoostedTime = ({
   });
   if (superTotemActive || timeWarpTotemActive) {
     totalSeconds = totalSeconds * 0.5;
-    boostsUsed.push("Super Totem");
-    boostsUsed.push("Time Warp Totem");
+    if (superTotemActive) boostsUsed.push("Super Totem");
+    else if (timeWarpTotemActive) boostsUsed.push("Time Warp Totem");
   }
 
   if (isCollectibleActive({ name: "Ore Hourglass", game })) {
