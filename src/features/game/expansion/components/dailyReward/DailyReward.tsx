@@ -1,9 +1,9 @@
 import { Button } from "components/ui/Button";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { GameWallet } from "features/wallet/Wallet";
-import { useActor, useInterpret, useSelector } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CountdownLabel } from "components/ui/CountdownLabel";
 import { Label } from "components/ui/Label";
@@ -14,7 +14,6 @@ import {
   DailyRewardState,
   DailyRewardContext,
   DailyRewardEvent,
-  rewardChestMachine,
 } from "./rewardChestMachine";
 import {
   MachineInterpreter,
@@ -41,6 +40,7 @@ import rewardIcon from "assets/icons/stock.webp";
 import { Modal } from "components/ui/Modal";
 import { useVisiting } from "lib/utils/visitUtils";
 import Decimal from "decimal.js-light";
+import { RewardOptions } from "features/island/hud/components/referral/Rewards";
 
 export type NetworkOption = {
   value: NetworkName;
@@ -357,40 +357,19 @@ export const DailyReward: React.FC = () => {
 
 export const DailyRewardChest: React.FC<{
   show: boolean;
+  tab: 0 | 1;
   onHide?: () => void;
-}> = ({ show, onHide }) => {
+}> = ({ show, onHide, tab }) => {
+  const [currentTab, setCurrentTab] = useState(tab);
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
+
+  useLayoutEffect(() => {
+    show && setCurrentTab(tab);
+  }, [tab, show]);
+
   const state = useSelector(gameService, (state) => state.context.state);
 
-  // Get daily rewards data for chest state
-  const dailyRewards = useSelector(
-    gameService,
-    (state) => state.context.state.dailyRewards,
-  );
-  const bumpkinLevel = useSelector(gameService, (state) =>
-    getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0),
-  );
-  const isRevealed = useSelector(gameService, (state) =>
-    state.matches("revealed"),
-  );
-
-  // Initialize chest service to check if chest is locked
-  const chestService = useInterpret(rewardChestMachine, {
-    context: {
-      lastUsedCode: dailyRewards?.chest?.code ?? 0,
-      openedAt: dailyRewards?.chest?.collectedAt ?? 0,
-      bumpkinLevel,
-    },
-  });
-  const [chestState] = useActor(chestService);
-
-  // Load the chest state when component mounts
-  useEffect(() => {
-    chestService.send("LOAD");
-  }, [chestService]);
-
-  const [tab, setTab] = useState(0);
   const tabs = [
     {
       name: t("chestRewardsList.dailyReward.tabTitle"),
@@ -405,25 +384,13 @@ export const DailyRewardChest: React.FC<{
   return (
     <Modal show={show} onHide={onHide}>
       <CloseButtonPanel
-        currentTab={tab}
-        setCurrentTab={setTab}
+        currentTab={currentTab}
+        setCurrentTab={setCurrentTab}
         tabs={tabs}
         onClose={onHide}
       >
-        {tab === 0 && (
-          <DailyRewardContent
-            onClose={() => {
-              chestService.send("LOAD");
-            }}
-            gameService={gameService}
-            dailyRewards={state.dailyRewards}
-            isRevealed={isRevealed}
-            bumpkinLevel={bumpkinLevel}
-            chestService={chestService}
-            chestState={chestState}
-          />
-        )}
-        {tab === 1 && (
+        {currentTab === 0 && <RewardOptions selectedButton="DAILY_REWARD" />}
+        {currentTab === 1 && (
           <div className="flex flex-col gap-y-4 overflow-y-auto max-h-[400px] scrollable">
             <DailyRewardsChestList
               basicLandCount={state.inventory["Basic Land"] ?? new Decimal(0)}

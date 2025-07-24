@@ -216,7 +216,11 @@ export const ModalProvider: FC<React.PropsWithChildren> = ({ children }) => {
 
       <Rewards show={opened === "EARN"} onHide={handleClose} tab={"Earn"} />
 
-      <DailyRewardChest show={opened === "DAILY_REWARD"} onHide={handleClose} />
+      <DailyRewardChest
+        show={opened === "DAILY_REWARD"}
+        onHide={handleClose}
+        tab={0}
+      />
     </ModalContext.Provider>
   );
 };
