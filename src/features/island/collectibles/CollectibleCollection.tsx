@@ -360,6 +360,7 @@ import { DrCow } from "./components/DrCow";
 import { NurseSheep } from "./components/NurseSheep";
 import { PinkDolphin } from "./components/PinkDolphin";
 import { Lunalist } from "./components/Lunalist";
+import { Monument } from "./components/Monument";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
@@ -2591,7 +2592,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
     />
   ),
   "Big Apple": (props: CollectibleProps) => (
-    <ImageStyle
+    <Monument
       {...props}
       divStyle={{
         width: `${PIXEL_SCALE * 22}px`,
@@ -2606,7 +2607,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
     />
   ),
   "Big Orange": (props: CollectibleProps) => (
-    <ImageStyle
+    <Monument
       {...props}
       divStyle={{
         width: `${PIXEL_SCALE * 22}px`,
@@ -2621,7 +2622,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
     />
   ),
   "Big Banana": (props: CollectibleProps) => (
-    <ImageStyle
+    <Monument
       {...props}
       divStyle={{
         width: `${PIXEL_SCALE * 22}px`,
@@ -2636,7 +2637,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
     />
   ),
   "Farmer's Monument": (props: CollectibleProps) => (
-    <ImageStyle
+    <Monument
       {...props}
       divStyle={{
         width: `${PIXEL_SCALE * 48}px`,
@@ -2651,7 +2652,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
     />
   ),
   "Miner's Monument": (props: CollectibleProps) => (
-    <ImageStyle
+    <Monument
       {...props}
       divStyle={{
         width: `${PIXEL_SCALE * 48}px`,
@@ -2666,7 +2667,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
     />
   ),
   "Woodcutter's Monument": (props: CollectibleProps) => (
-    <ImageStyle
+    <Monument
       {...props}
       divStyle={{
         width: `${PIXEL_SCALE * 48}px`,
@@ -2681,7 +2682,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
     />
   ),
   "Teamwork Monument": (props: CollectibleProps) => (
-    <ImageStyle
+    <Monument
       {...props}
       divStyle={{
         width: `${PIXEL_SCALE * 48}px`,
@@ -2696,7 +2697,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
     />
   ),
   "Basic Cooking Pot": (props: CollectibleProps) => (
-    <ImageStyle
+    <Monument
       {...props}
       divStyle={{
         width: `${PIXEL_SCALE * 22}px`,
@@ -2706,7 +2707,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
     />
   ),
   "Expert Cooking Pot": (props: CollectibleProps) => (
-    <ImageStyle
+    <Monument
       {...props}
       divStyle={{
         width: `${PIXEL_SCALE * 22}px`,
@@ -2716,7 +2717,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
     />
   ),
   "Advanced Cooking Pot": (props: CollectibleProps) => (
-    <ImageStyle
+    <Monument
       {...props}
       divStyle={{
         width: `${PIXEL_SCALE * 22}px`,
