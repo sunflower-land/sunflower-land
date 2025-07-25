@@ -21,7 +21,7 @@ import * as AuthProvider from "features/auth/lib/Provider";
 import { useInView } from "react-intersection-observer";
 import { Loading } from "features/auth/components";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { tokenUriBuilder } from "lib/utils/tokenUriBuilder";
+import { interpretTokenUri, tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 import { postEffect } from "features/game/actions/effect";
 import { randomID } from "lib/utils/random";
 import { Equipped } from "features/game/types/bumpkin";
@@ -30,6 +30,8 @@ import { useChatInteractions } from "../hooks/useChatInteractions";
 import { useSocial } from "../hooks/useSocial";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { InteractionSenderMetadata } from "./InteractionSenderMetadata";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import { NPCIcon } from "features/island/bumpkin/components/NPC";
 
 type Props = {
   farmId: number;
@@ -66,9 +68,9 @@ export const FollowerFeed: React.FC<Props> = ({
   const myClothing = useSelector(gameService, _myClothing);
   const token = useSelector(authService, _token);
 
-  const { scrollContainerRef, scrollToBottom, scrolledToBottom } =
+  const { scrollContainerRef, scrollToBottom, scrolledToBottom, scrollNode } =
     useScrollToBottom();
-  const [rootElement, setRootElement] = useState<HTMLElement | null>(null);
+
   const [prevScrollHeight, setPrevScrollHeight] = useState<number>(0);
   const [prevScrollTop, setPrevScrollTop] = useState<number>(0);
   const [newMessagesCount, setNewMessagesCount] = useState(0);
@@ -126,16 +128,9 @@ export const FollowerFeed: React.FC<Props> = ({
     scrollToBottom();
   }, [playerId, scrollToBottom]);
 
-  // Set scroll container as the root for the intersection observer
-  useEffect(() => {
-    if (scrollContainerRef.current) {
-      setRootElement(scrollContainerRef.current);
-    }
-  }, [scrollContainerRef]);
-
   // Intersection observer to load more interactions when the loader is in view
   const { ref: intersectionRef, inView } = useInView({
-    root: rootElement,
+    root: scrollNode,
     rootMargin: "0px",
     threshold: 0.1,
   });
@@ -143,11 +138,11 @@ export const FollowerFeed: React.FC<Props> = ({
   useEffect(() => {
     if (inView && hasMore && !isLoadingMore) {
       // Set the current scroll information and load more messages
-      setPrevScrollHeight(scrollContainerRef?.current?.scrollHeight ?? 0);
-      setPrevScrollTop(scrollContainerRef?.current?.scrollTop ?? 0);
+      setPrevScrollHeight(scrollNode?.scrollHeight ?? 0);
+      setPrevScrollTop(scrollNode?.scrollTop ?? 0);
       loadMore();
     }
-  }, [inView, hasMore, isLoadingMore, loadMore, scrollContainerRef]);
+  }, [inView, hasMore, isLoadingMore, loadMore, scrollNode]);
 
   useEffect(() => {
     if (scrolledToBottom && newMessagesCount > 0) {
@@ -163,16 +158,15 @@ export const FollowerFeed: React.FC<Props> = ({
   }, [chatDisabled, scrollToBottom]);
 
   useLayoutEffect(() => {
-    if (!isLoadingMore && scrollContainerRef.current) {
+    if (!isLoadingMore && scrollNode) {
       // Restore the scroll position when new interactions are loaded
-      const currentScrollHeight = scrollContainerRef.current.scrollHeight;
+      const currentScrollHeight = scrollNode.scrollHeight;
       const loaderHeight = loaderRef.current?.clientHeight ?? 0;
       const scrollDifference = currentScrollHeight - prevScrollHeight;
 
-      scrollContainerRef.current.scrollTop =
-        prevScrollTop + scrollDifference - loaderHeight;
+      scrollNode.scrollTop = prevScrollTop + scrollDifference - loaderHeight;
     }
-  }, [isLoadingMore, prevScrollHeight, prevScrollTop, scrollContainerRef]);
+  }, [isLoadingMore, prevScrollHeight, prevScrollTop, scrollNode]);
 
   const handleMessage = async (message: string) => {
     const optimisticMessage: Interaction = {
@@ -306,6 +300,10 @@ export const FollowerFeed: React.FC<Props> = ({
                   ? t("you")
                   : interaction.sender.username;
 
+              const { equipped } = interpretTokenUri(
+                interaction.sender.tokenUri,
+              );
+
               return (
                 <div
                   key={`${interaction.createdAt}-${index}`}
@@ -320,12 +318,19 @@ export const FollowerFeed: React.FC<Props> = ({
                     direction={direction}
                     type={interaction.type}
                   >
-                    <InteractionSenderMetadata
-                      sender={sender}
-                      createdAt={interaction.createdAt}
-                    />
-                    <div className="text-xs break-all">
-                      {interaction.message}
+                    <div className="flex">
+                      <div className="-ml-1 mr-1">
+                        <NPCIcon parts={equipped} width={PIXEL_SCALE * 14} />
+                      </div>
+                      <div className="flex flex-col gap-1">
+                        <InteractionSenderMetadata
+                          sender={sender}
+                          createdAt={interaction.createdAt}
+                        />
+                        <div className="text-xs break-all">
+                          {interaction.message}
+                        </div>
+                      </div>
                     </div>
                   </InteractionBubble>
                 </div>
