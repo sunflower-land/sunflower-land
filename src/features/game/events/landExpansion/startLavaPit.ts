@@ -6,6 +6,8 @@ import {
   Inventory,
   TemperateSeasonName,
 } from "features/game/types/game";
+import { isWearableActive } from "features/game/lib/wearables";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 
 export const LAVA_PIT_REQUIREMENTS: Record<TemperateSeasonName, Inventory> = {
   autumn: {
@@ -77,6 +79,14 @@ export function startLavaPit({
 
     lavaPit.startedAt = createdAt;
     lavaPit.collectedAt = undefined;
+
+    if (isWearableActive({ name: "Obsidian Necklace", game: copy })) {
+      copy.boostsUsedAt = updateBoostUsed({
+        game: copy,
+        boostNames: ["Obsidian Necklace"],
+        createdAt,
+      });
+    }
 
     return copy;
   });
