@@ -673,68 +673,7 @@ describe("mineStone", () => {
     );
   });
 
-  describe("getMinedAt", () => {
-    it("applies a speed boost of 20% with Coal Face skill", () => {
-      const now = Date.now();
-
-      const time = getMinedAt({
-        skills: { "Coal Face": 1 },
-        createdAt: now,
-        game: INITIAL_FARM,
-      });
-
-      expect(time).toEqual(now - STONE_RECOVERY_TIME * 0.2 * 1000);
-    });
-
-    it("time buffs are multiplicative", () => {
-      const now = Date.now();
-
-      const time = getMinedAt({
-        skills: { "Coal Face": 1 },
-        createdAt: now,
-        game: {
-          ...GAME_STATE,
-          collectibles: {
-            "Time Warp Totem": [
-              {
-                id: "123",
-                createdAt: now,
-                coordinates: { x: 1, y: 1 },
-                readyAt: now - 5 * 60 * 1000,
-              },
-            ],
-          },
-        },
-      });
-
-      const buff = STONE_RECOVERY_TIME - STONE_RECOVERY_TIME * 0.5 * 0.8;
-
-      expect(time).toEqual(now - buff * 1000);
-    });
-  });
-
   describe("getStoneDropAmount", () => {
-    it("applies 10% more stone with Digger skill", () => {
-      const { amount } = getStoneDropAmount({
-        game: {
-          ...INITIAL_FARM,
-          bumpkin: { ...TEST_BUMPKIN, skills: { Digger: 1 } },
-        },
-        rock: {
-          createdAt: Date.now() - 5 * 60 * 1000,
-          stone: {
-            minedAt: Date.now() - 5 * 60 * 1000,
-          },
-          x: 0,
-          y: 0,
-        },
-        createdAt: Date.now(),
-        criticalDropGenerator: () => false,
-      });
-
-      expect(amount.toNumber()).toEqual(1.1);
-    });
-
     it("applies +0.1 Stone with Rock'N'Roll skill", () => {
       const { amount } = getStoneDropAmount({
         game: {
@@ -878,7 +817,10 @@ describe("mineStone", () => {
       createdAt: now,
     });
 
-    expect(time).toEqual(now - (STONE_RECOVERY_TIME * 1000) / 2);
+    expect(time).toEqual({
+      time: now - (STONE_RECOVERY_TIME * 1000) / 2,
+      boostsUsed: ["Time Warp Totem"],
+    });
   });
 
   it("stone replenishes faster with Super Totem", () => {
@@ -903,7 +845,10 @@ describe("mineStone", () => {
       createdAt: now,
     });
 
-    expect(time).toEqual(now - (STONE_RECOVERY_TIME * 1000) / 2);
+    expect(time).toEqual({
+      time: now - (STONE_RECOVERY_TIME * 1000) / 2,
+      boostsUsed: ["Super Totem"],
+    });
   });
 
   it("doesn't stack Super Totem and Time Warp Totem", () => {
@@ -936,7 +881,10 @@ describe("mineStone", () => {
       createdAt: now,
     });
 
-    expect(time).toEqual(now - (STONE_RECOVERY_TIME * 1000) / 2);
+    expect(time).toEqual({
+      time: now - (STONE_RECOVERY_TIME * 1000) / 2,
+      boostsUsed: ["Super Totem"],
+    });
   });
 
   it("reduces the cooldown time with Speed Miner Skill", () => {
@@ -957,7 +905,10 @@ describe("mineStone", () => {
         },
       },
     });
-    expect(time).toEqual(now - STONE_RECOVERY_TIME * 0.2 * 1000);
+    expect(time).toEqual({
+      time: now - STONE_RECOVERY_TIME * 0.2 * 1000,
+      boostsUsed: ["Speed Miner"],
+    });
   });
 
   it("applies a Ore Hourglass boost of -50% recovery time for 3 hours", () => {
@@ -980,7 +931,10 @@ describe("mineStone", () => {
       },
     });
 
-    expect(time).toEqual(now - (STONE_RECOVERY_TIME * 1000) / 2);
+    expect(time).toEqual({
+      time: now - (STONE_RECOVERY_TIME * 1000) / 2,
+      boostsUsed: ["Ore Hourglass"],
+    });
   });
 
   it("does not apply an Ore Hourglass boost if expired", () => {
@@ -1005,7 +959,7 @@ describe("mineStone", () => {
       },
     });
 
-    expect(time).toEqual(now);
+    expect(time).toEqual({ time: now, boostsUsed: [] });
   });
 
   it("applies a +0.1 boost if the player is on volcano island", () => {

@@ -1,12 +1,7 @@
 import Decimal from "decimal.js-light";
 import { GOLD_RECOVERY_TIME, INITIAL_FARM } from "../../lib/constants";
 import { CriticalHitName, GameState } from "../../types/game";
-import {
-  LandExpansionMineGoldAction,
-  mineGold,
-  getMinedAt,
-  getGoldDropAmount,
-} from "./mineGold";
+import { LandExpansionMineGoldAction, mineGold, getMinedAt } from "./mineGold";
 import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
 
 const GAME_STATE: GameState = {
@@ -241,49 +236,6 @@ describe("mineGold", () => {
 
     expect(game.inventory["Iron Pickaxe"]).toEqual(new Decimal(0));
     expect(game.inventory.Gold).toEqual(new Decimal(1.5));
-  });
-
-  it("applies a critical drop (2.5x) with the Bumpkin Gold Rush skill", () => {
-    const { amount } = getGoldDropAmount({
-      rock: {
-        createdAt: Date.now() - 5 * 60 * 1000,
-        stone: {
-          minedAt: Date.now() - 5 * 60 * 1000,
-        },
-        x: 0,
-        y: 0,
-      },
-      createdAt: Date.now(),
-      criticalDropGenerator: (name: CriticalHitName) => name === "Gold Rush",
-      game: {
-        ...INITIAL_FARM,
-        bumpkin: { ...TEST_BUMPKIN, skills: { "Gold Rush": 1 } },
-      },
-    });
-
-    expect(amount.toNumber()).toStrictEqual(2.5);
-  });
-
-  it("applies a critical drop (3x) with the Bumpkin Gold Rush skill and stack with legacy Gold Rush skill", () => {
-    const { amount } = getGoldDropAmount({
-      game: {
-        ...INITIAL_FARM,
-        inventory: { "Gold Rush": new Decimal(1) },
-        bumpkin: { ...TEST_BUMPKIN, skills: { "Gold Rush": 1 } },
-      },
-      rock: {
-        createdAt: Date.now() - 5 * 60 * 1000,
-        stone: {
-          minedAt: Date.now() - 5 * 60 * 1000,
-        },
-        x: 0,
-        y: 0,
-      },
-      createdAt: Date.now(),
-      criticalDropGenerator: (name: CriticalHitName) => name === "Gold Rush",
-    });
-
-    expect(amount.toNumber()).toStrictEqual(3);
   });
 
   it("dos not apply boost when Nugget (T3 Mole) is placed but not ready", () => {
@@ -912,7 +864,10 @@ describe("mineGold", () => {
       createdAt: now,
     });
 
-    expect(time).toEqual(now - (GOLD_RECOVERY_TIME * 1000) / 2);
+    expect(time).toEqual({
+      time: now - (GOLD_RECOVERY_TIME * 1000) / 2,
+      boostsUsed: ["Time Warp Totem"],
+    });
   });
 
   it("gold replenishes faster with Super Totem", () => {
@@ -935,7 +890,10 @@ describe("mineGold", () => {
       createdAt: now,
     });
 
-    expect(time).toEqual(now - (GOLD_RECOVERY_TIME * 1000) / 2);
+    expect(time).toEqual({
+      time: now - (GOLD_RECOVERY_TIME * 1000) / 2,
+      boostsUsed: ["Super Totem"],
+    });
   });
 
   it("doesn't stack Super Totem and Time Warp Totem", () => {
@@ -966,7 +924,10 @@ describe("mineGold", () => {
       createdAt: now,
     });
 
-    expect(time).toEqual(now - (GOLD_RECOVERY_TIME * 1000) / 2);
+    expect(time).toEqual({
+      time: now - (GOLD_RECOVERY_TIME * 1000) / 2,
+      boostsUsed: ["Super Totem"],
+    });
   });
 
   it("applies a Ore Hourglass boost of -50% recovery time for 3 hours", () => {
@@ -988,7 +949,10 @@ describe("mineGold", () => {
       createdAt: now,
     });
 
-    expect(time).toEqual(now - (GOLD_RECOVERY_TIME * 1000) / 2);
+    expect(time).toEqual({
+      time: now - (GOLD_RECOVERY_TIME * 1000) / 2,
+      boostsUsed: ["Ore Hourglass"],
+    });
   });
 
   it("applies a boost of -10% recovery time when Midas Sprint skill is active", () => {
@@ -1004,7 +968,10 @@ describe("mineGold", () => {
       createdAt: now,
     });
 
-    expect(time).toEqual(now - GOLD_RECOVERY_TIME * 1000 * 0.1);
+    expect(time).toEqual({
+      time: now - GOLD_RECOVERY_TIME * 1000 * 0.1,
+      boostsUsed: ["Midas Sprint"],
+    });
   });
 
   it("does not apply an Ore Hourglass boost if expired", () => {
@@ -1028,6 +995,6 @@ describe("mineGold", () => {
       createdAt: now,
     });
 
-    expect(time).toEqual(now);
+    expect(time).toEqual({ time: now, boostsUsed: [] });
   });
 });

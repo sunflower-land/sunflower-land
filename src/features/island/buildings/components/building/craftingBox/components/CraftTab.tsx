@@ -757,7 +757,7 @@ const RecipeLabelContent: React.FC<{
     return <span>{t("instant")}</span>;
   }
 
-  const boostedCraftTime = getBoostedCraftingTime({
+  const { seconds: boostedCraftTime } = getBoostedCraftingTime({
     game: state,
     time: recipe.time,
   });

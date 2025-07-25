@@ -9,7 +9,8 @@ import {
 } from "features/game/types/animals";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { getKeys } from "features/game/types/decorations";
-import { AnimalBuilding, GameState } from "features/game/types/game";
+import { AnimalBuilding, BoostName, GameState } from "features/game/types/game";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { produce } from "immer";
 
 export type BuyAnimalAction = {
@@ -37,7 +38,7 @@ export const getBaseAnimalCapacity = (level: number): number => {
 export const getBoostedAnimalCapacity = (
   buildingKey: keyof GameState,
   game: GameState,
-): number => {
+): { capacity: number; boostsUsed: BoostName[] } => {
   const COOP_BONUS_CAPACITY = 5;
 
   const BARN_BLUEPRINT_BONUS_CAPACITY = 5;
@@ -45,6 +46,7 @@ export const getBoostedAnimalCapacity = (
   const building = game[buildingKey] as AnimalBuilding;
   const level = building.level;
   const baseCapacity = getBaseAnimalCapacity(level);
+  const boostsUsed: BoostName[] = [];
 
   if (buildingKey === "henHouse") {
     const coopActive = isCollectibleBuilt({
@@ -54,7 +56,10 @@ export const getBoostedAnimalCapacity = (
 
     const coopBonus = coopActive ? COOP_BONUS_CAPACITY * level : 0;
 
-    return baseCapacity + coopBonus;
+    if (coopActive) {
+      boostsUsed.push("Chicken Coop");
+    }
+    return { capacity: baseCapacity + coopBonus, boostsUsed };
   }
 
   if (buildingKey === "barn") {
@@ -66,10 +71,13 @@ export const getBoostedAnimalCapacity = (
       ? BARN_BLUEPRINT_BONUS_CAPACITY * level
       : 0;
 
-    return baseCapacity + capacityBonus;
+    if (bprintActive) {
+      boostsUsed.push("Barn Blueprint");
+    }
+    return { capacity: baseCapacity + capacityBonus, boostsUsed };
   }
 
-  return baseCapacity;
+  return { capacity: baseCapacity, boostsUsed };
 };
 
 export function buyAnimal({
@@ -107,7 +115,10 @@ export function buyAnimal({
       buildingRequired as AnimalBuildingType,
     );
 
-    const capacity = getBoostedAnimalCapacity(buildingKey, copy);
+    const { capacity, boostsUsed } = getBoostedAnimalCapacity(
+      buildingKey,
+      copy,
+    );
     const totalAnimalsInBuilding = getKeys(copy[buildingKey].animals).length;
 
     if (totalAnimalsInBuilding >= capacity) {
@@ -137,6 +148,12 @@ export function buyAnimal({
       bumpkin.activity,
       new Decimal(price),
     );
+
+    copy.boostsUsedAt = updateBoostUsed({
+      game: copy,
+      boostNames: boostsUsed,
+      createdAt,
+    });
 
     return copy;
   });

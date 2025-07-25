@@ -4,7 +4,6 @@ import {
   Position,
   isWithinAOE,
 } from "features/game/expansion/placeable/lib/collisionDetection";
-import { canUseYieldBoostAOE, setAOELastUsed } from "features/game/lib/aoe";
 import {
   isCollectibleActive,
   isCollectibleBuilt,
@@ -15,10 +14,18 @@ import { getBudYieldBoosts } from "features/game/lib/getBudYieldBoosts";
 import { isWearableActive } from "features/game/lib/wearables";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
-import { CriticalHitName, GameState, Rock } from "features/game/types/game";
+import {
+  AOE,
+  BoostName,
+  CriticalHitName,
+  GameState,
+  Rock,
+} from "features/game/types/game";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 import { produce } from "immer";
 import cloneDeep from "lodash.clonedeep";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
+import { canUseYieldBoostAOE, setAOELastUsed } from "features/game/lib/aoe";
 
 export type LandExpansionMineGoldAction = {
   type: "goldRock.mined";
@@ -45,40 +52,61 @@ type GetMinedAtArgs = {
   game: GameState;
 };
 
-const getBoostedTime = ({ game }: { game: GameState }): number => {
+const getBoostedTime = ({
+  game,
+}: {
+  game: GameState;
+}): {
+  boostedTime: number;
+  boostsUsed: BoostName[];
+} => {
   let totalSeconds = GOLD_RECOVERY_TIME;
+  const boostsUsed: BoostName[] = [];
 
-  if (
-    isCollectibleActive({ name: "Super Totem", game }) ||
-    isCollectibleActive({ name: "Time Warp Totem", game })
-  ) {
+  const superTotemActive = isCollectibleActive({
+    name: "Super Totem",
+    game,
+  });
+  const timeWarpTotemActive = isCollectibleActive({
+    name: "Time Warp Totem",
+    game,
+  });
+  if (superTotemActive || timeWarpTotemActive) {
     totalSeconds = totalSeconds * 0.5;
+    if (superTotemActive) boostsUsed.push("Super Totem");
+    else if (timeWarpTotemActive) boostsUsed.push("Time Warp Totem");
   }
 
   if (isCollectibleActive({ name: "Ore Hourglass", game })) {
     totalSeconds = totalSeconds * 0.5;
+    boostsUsed.push("Ore Hourglass");
   }
 
   if (game.bumpkin.skills["Midas Sprint"]) {
     totalSeconds = totalSeconds * 0.9;
+    boostsUsed.push("Midas Sprint");
   }
 
   if (game.bumpkin.skills["Midas Rush"]) {
     totalSeconds = totalSeconds * 0.8;
+    boostsUsed.push("Midas Rush");
   }
 
   const buff = GOLD_RECOVERY_TIME - totalSeconds;
 
-  return buff * 1000;
+  return { boostedTime: buff * 1000, boostsUsed };
 };
 
 /**
  * Set a mined in the past to make it replenish faster
  */
-export function getMinedAt({ createdAt, game }: GetMinedAtArgs): number {
-  const boostedTime = getBoostedTime({ game });
+export function getMinedAt({ createdAt, game }: GetMinedAtArgs): {
+  time: number;
+  boostsUsed: BoostName[];
+} {
+  const { boostedTime, boostsUsed } = getBoostedTime({ game });
 
-  return createdAt - boostedTime;
+  return { time: createdAt - boostedTime, boostsUsed };
 }
 
 /**
@@ -94,7 +122,7 @@ export function getGoldDropAmount({
   rock: Rock;
   createdAt: number;
   criticalDropGenerator?: (name: CriticalHitName) => boolean;
-}) {
+}): { amount: Decimal; boostsUsed: BoostName[]; aoe: AOE } {
   const {
     inventory,
     bumpkin: { skills },
@@ -104,18 +132,15 @@ export function getGoldDropAmount({
   const updatedAoe = cloneDeep(aoe);
 
   let amount = 1;
-
+  const boostsUsed: BoostName[] = [];
   if (inventory["Gold Rush"]) {
     amount += 0.5;
-  }
-
-  // 1 in 5 chance of 2.5x
-  if (skills["Gold Rush"] && criticalDropGenerator("Gold Rush")) {
-    amount += 1.5;
+    boostsUsed.push("Gold Rush");
   }
 
   if (skills["Golden Touch"]) {
     amount += 0.5;
+    boostsUsed.push("Golden Touch");
   }
 
   if (criticalDropGenerator("Native")) {
@@ -124,14 +149,17 @@ export function getGoldDropAmount({
 
   if (isCollectibleBuilt({ name: "Nugget", game })) {
     amount += 0.25;
+    boostsUsed.push("Nugget");
   }
 
   if (isCollectibleBuilt({ name: "Gilded Swordfish", game })) {
     amount += 0.1;
+    boostsUsed.push("Gilded Swordfish");
   }
 
   if (isCollectibleBuilt({ name: "Gold Beetle", game })) {
     amount += 0.1;
+    boostsUsed.push("Gold Beetle");
   }
 
   // If within Emerald Turtle AOE: +0.5
@@ -140,6 +168,7 @@ export function getGoldDropAmount({
       return {
         amount: new Decimal(amount).toDecimalPlaces(4),
         aoe: updatedAoe,
+        boostsUsed,
       };
 
     const emeraldTurtleCoordinates =
@@ -178,6 +207,7 @@ export function getGoldDropAmount({
         setAOELastUsed(updatedAoe, "Emerald Turtle", { dx, dy }, createdAt);
         amount += 0.5;
       }
+      boostsUsed.push("Emerald Turtle");
     }
   }
 
@@ -191,15 +221,22 @@ export function getGoldDropAmount({
     })
   ) {
     amount += 0.25;
+    boostsUsed.push(FACTION_ITEMS[factionName].secondaryTool);
   }
 
-  amount += getBudYieldBoosts(buds, "Gold");
+  const { yieldBoost, budUsed } = getBudYieldBoosts(buds, "Gold");
+  amount += yieldBoost;
+  if (budUsed) boostsUsed.push(budUsed);
 
   if (game.island.type === "volcano") {
     amount += 0.1;
   }
 
-  return { amount: new Decimal(amount).toDecimalPlaces(4), aoe: updatedAoe };
+  return {
+    amount: new Decimal(amount).toDecimalPlaces(4),
+    aoe: updatedAoe,
+    boostsUsed,
+  };
 }
 
 export function mineGold({
@@ -230,10 +267,15 @@ export function mineGold({
     if (toolAmount.lessThan(1)) {
       throw new Error(EVENT_ERRORS.NO_PICKAXES);
     }
-    const { amount: goldMined, aoe } = goldRock.stone.amount
+    const {
+      amount: goldMined,
+      aoe,
+      boostsUsed: goldBoostsUsed,
+    } = goldRock.stone.amount
       ? {
           amount: new Decimal(goldRock.stone.amount).toDecimalPlaces(4),
           aoe: stateCopy.aoe,
+          boostsUsed: [],
         }
       : getGoldDropAmount({
           game: stateCopy,
@@ -246,16 +288,32 @@ export function mineGold({
     stateCopy.aoe = aoe;
 
     const amountInInventory = stateCopy.inventory.Gold || new Decimal(0);
-
+    const { time: minedAt, boostsUsed: minedAtBoostsUsed } = getMinedAt({
+      createdAt,
+      game: stateCopy,
+    });
+    const { boostedTime, boostsUsed: boostedTimeBoostsUsed } = getBoostedTime({
+      game: stateCopy,
+    });
     goldRock.stone = {
-      minedAt: getMinedAt({ createdAt, game: stateCopy }),
-      boostedTime: getBoostedTime({ game: stateCopy }),
+      minedAt,
+      boostedTime,
     };
     bumpkin.activity = trackActivity("Gold Mined", bumpkin.activity);
 
     stateCopy.inventory["Iron Pickaxe"] = toolAmount.sub(1);
     stateCopy.inventory.Gold = amountInInventory.add(goldMined);
     delete goldRock.stone.amount;
+
+    stateCopy.boostsUsedAt = updateBoostUsed({
+      game: stateCopy,
+      boostNames: [
+        ...goldBoostsUsed,
+        ...minedAtBoostsUsed,
+        ...boostedTimeBoostsUsed,
+      ],
+      createdAt,
+    });
 
     return stateCopy;
   });

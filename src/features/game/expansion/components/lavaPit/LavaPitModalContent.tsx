@@ -29,9 +29,9 @@ const _lavaPit = (id: string) => (state: MachineState) =>
   state.context.state.lavaPits[id];
 const _season = (state: MachineState) => state.context.state.season;
 const _lavaPitTime = (state: MachineState) =>
-  getLavaPitTime({ game: state.context.state });
+  getLavaPitTime({ game: state.context.state }).time;
 const _obsidianYield = (state: MachineState) =>
-  getObsidianYield({ game: state.context.state });
+  getObsidianYield({ game: state.context.state }).amount;
 
 interface Props {
   onClose: () => void;

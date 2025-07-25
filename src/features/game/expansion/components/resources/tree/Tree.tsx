@@ -38,7 +38,7 @@ const HasTool = (
   inventory: Partial<Record<InventoryItemName, Decimal>>,
   gameState: GameState,
 ) => {
-  const axesNeeded = getRequiredAxeAmount(inventory, gameState);
+  const { amount: axesNeeded } = getRequiredAxeAmount(inventory, gameState);
 
   // has enough axes to chop the tree
 
@@ -186,7 +186,7 @@ export const Tree: React.FC<Props> = ({ id }) => {
         game,
         criticalDropGenerator: (name) =>
           !!(resource.wood.criticalHit?.[name] ?? 0),
-      });
+      }).amount;
 
     const newState = gameService.send("timber.chopped", {
       index: id,

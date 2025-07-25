@@ -21,11 +21,11 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { Label } from "components/ui/Label";
 import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { canWithdrawBoostedWearable } from "features/game/types/wearableValidation";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
 import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
 import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
+import { hasBoostRestriction } from "features/game/types/withdrawRestrictions";
 
 interface Props {
   onWithdraw: (ids: number[], amounts: number[]) => void;
@@ -96,6 +96,11 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
 
   const withdrawableItems = [...new Set([...getKeys(wardrobe)])]
     .filter((item) => wardrobe[item])
+    .filter((itemName) => {
+      const withdrawAt = BUMPKIN_RELEASES[itemName]?.withdrawAt;
+      const canWithdraw = !!withdrawAt && withdrawAt <= new Date();
+      return canWithdraw;
+    })
     .sort((a, b) => ITEM_IDS[a] - ITEM_IDS[b]);
 
   const selectedItems = getKeys(selected)
@@ -128,18 +133,17 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
           {withdrawableItems.map((itemName) => {
             const wardrobeCount = wardrobe[itemName];
 
-            const withdrawAt = BUMPKIN_RELEASES[itemName]?.withdrawAt;
-            const canWithdraw = !!withdrawAt && withdrawAt <= new Date();
-            const isInUse = !canWithdrawBoostedWearable(itemName, state);
+            const { isRestricted } = hasBoostRestriction({
+              boostUsedAt: state.boostsUsedAt,
+              item: itemName,
+            });
 
             return (
               <Box
                 count={new Decimal(wardrobeCount ?? 0)}
                 key={itemName}
                 onClick={() => onAdd(itemName)}
-                disabled={
-                  isInUse || !canWithdraw || selected[itemName] !== undefined
-                }
+                disabled={isRestricted || selected[itemName] !== undefined}
                 image={getImageUrl(ITEM_IDS[itemName])}
               />
             );

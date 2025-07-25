@@ -146,7 +146,7 @@ export const RecipesTab: React.FC<Props> = ({
         <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
           {Object.values(filteredRecipes || {}).map((recipe) => {
             const canCraft = hasRequiredIngredients(recipe);
-            const boostedCraftTime = getBoostedCraftingTime({
+            const { seconds: boostedCraftTime } = getBoostedCraftingTime({
               game: state,
               time: recipe.time,
             });

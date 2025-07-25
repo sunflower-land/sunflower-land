@@ -9,7 +9,6 @@ import { Consumable, isJuice } from "features/game/types/consumables";
 import { getFoodExpBoost } from "features/game/expansion/lib/boosts";
 
 import { SUNNYSIDE } from "assets/sunnyside";
-import { Bumpkin } from "features/game/types/game";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import { FeedBumpkinDetails } from "components/ui/layouts/FeedBumpkinDetails";
 import Decimal from "decimal.js-light";
@@ -110,9 +109,10 @@ export const Feed: React.FC<Props> = ({ food }) => {
             item: selected.name,
           }}
           properties={{
-            xp: new Decimal(
-              getFoodExpBoost(selected, bumpkin as Bumpkin, game, buds ?? {}),
-            ),
+            xp: getFoodExpBoost({
+              food: selected,
+              game,
+            }).boostedExp,
           }}
           actionView={
             <>

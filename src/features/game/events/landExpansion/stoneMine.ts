@@ -1,7 +1,14 @@
 import Decimal from "decimal.js-light";
 import { STONE_RECOVERY_TIME } from "features/game/lib/constants";
 import { trackActivity } from "features/game/types/bumpkinActivity";
-import { CriticalHitName, GameState, Rock, Skills } from "../../types/game";
+import {
+  BoostName,
+  CriticalHitName,
+  AOE,
+  GameState,
+  Rock,
+  Skills,
+} from "../../types/game";
 import {
   isCollectibleActive,
   isCollectibleBuilt,
@@ -17,6 +24,7 @@ import { isWearableActive } from "features/game/lib/wearables";
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 import cloneDeep from "lodash.clonedeep";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { canUseYieldBoostAOE, setAOELastUsed } from "features/game/lib/aoe";
 
 export type LandExpansionStoneMineAction = {
@@ -41,52 +49,67 @@ export function canMine(rock: Rock, now: number = Date.now()) {
   return now - rock.stone.minedAt >= recoveryTime * 1000;
 }
 
-function getBoostedTime({ skills, createdAt, game }: GetMinedAtArgs): number {
+function getBoostedTime({ skills, game }: GetMinedAtArgs): {
+  boostedTime: number;
+  boostsUsed: BoostName[];
+} {
   let totalSeconds = STONE_RECOVERY_TIME;
-
-  if (skills["Coal Face"]) {
-    totalSeconds = totalSeconds * 0.8;
-  }
+  const boostsUsed: BoostName[] = [];
 
   if (skills["Speed Miner"]) {
     totalSeconds = totalSeconds * 0.8;
+    boostsUsed.push("Speed Miner");
   }
 
-  if (
-    isCollectibleActive({ name: "Super Totem", game }) ||
-    isCollectibleActive({ name: "Time Warp Totem", game })
-  ) {
+  const superTotem = isCollectibleActive({
+    name: "Super Totem",
+    game,
+  });
+  const timeWarpTotem = isCollectibleActive({
+    name: "Time Warp Totem",
+    game,
+  });
+
+  if (superTotem || timeWarpTotem) {
     totalSeconds = totalSeconds * 0.5;
+    if (superTotem) boostsUsed.push("Super Totem");
+    else if (timeWarpTotem) boostsUsed.push("Time Warp Totem");
   }
 
   if (isCollectibleActive({ name: "Ore Hourglass", game })) {
     totalSeconds = totalSeconds * 0.5;
+    boostsUsed.push("Ore Hourglass");
   }
 
   const buff = STONE_RECOVERY_TIME - totalSeconds;
 
-  return buff * 1000;
+  return { boostedTime: buff * 1000, boostsUsed };
 }
 
 /**
  * Set a mined in the past to make it replenish faster
  */
-export function getMinedAt({
-  skills,
-  createdAt,
-  game,
-}: GetMinedAtArgs): number {
-  const boostedTime = getBoostedTime({ skills, createdAt, game });
+export function getMinedAt({ skills, createdAt, game }: GetMinedAtArgs): {
+  time: number;
+  boostsUsed: BoostName[];
+} {
+  const { boostedTime, boostsUsed } = getBoostedTime({
+    skills,
+    game,
+    createdAt,
+  });
 
-  return createdAt - boostedTime;
+  return { time: createdAt - boostedTime, boostsUsed };
 }
 
 export function getRequiredPickaxeAmount(gameState: GameState) {
+  const boostsUsed: BoostName[] = [];
   if (isCollectibleBuilt({ name: "Quarry", game: gameState })) {
-    return new Decimal(0);
+    boostsUsed.push("Quarry");
+    return { amount: new Decimal(0), boostsUsed };
   }
 
-  return new Decimal(1);
+  return { amount: new Decimal(1), boostsUsed };
 }
 type GetStoneDropAmountArgs = {
   game: GameState;
@@ -102,7 +125,11 @@ export function getStoneDropAmount({
   rock,
   createdAt,
   criticalDropGenerator = () => false,
-}: GetStoneDropAmountArgs) {
+}: GetStoneDropAmountArgs): {
+  amount: Decimal;
+  boostsUsed: BoostName[];
+  aoe: AOE;
+} {
   const {
     inventory,
     bumpkin: { skills },
@@ -112,40 +139,43 @@ export function getStoneDropAmount({
   const updatedAoe = cloneDeep(aoe);
 
   let amount = 1;
-
+  const boostsUsed: BoostName[] = [];
   if (
     isCollectibleBuilt({ name: "Rock Golem", game }) &&
     criticalDropGenerator("Rock Golem")
   ) {
     amount += 2; // 200%
+    boostsUsed.push("Rock Golem");
   }
 
   if (inventory.Prospector) {
     amount += 0.2; // 20%
+    boostsUsed.push("Prospector");
   }
 
   if (isCollectibleBuilt({ name: "Tunnel Mole", game })) {
     amount += 0.25;
+    boostsUsed.push("Tunnel Mole");
   }
 
   if (isCollectibleBuilt({ name: "Stone Beetle", game })) {
     amount += 0.1;
-  }
-
-  if (skills.Digger) {
-    amount += 0.1;
+    boostsUsed.push("Stone Beetle");
   }
 
   if (skills["Rock'N'Roll"]) {
     amount += 0.1;
+    boostsUsed.push("Rock'N'Roll");
   }
 
   if (skills["Rocky Favor"]) {
     amount += 1;
+    boostsUsed.push("Rocky Favor");
   }
 
   if (skills["Ferrous Favor"]) {
     amount -= 0.5;
+    boostsUsed.push("Ferrous Favor");
   }
 
   // Add native critical hit before the AoE boosts
@@ -158,6 +188,7 @@ export function getStoneDropAmount({
       return {
         amount: new Decimal(amount).toDecimalPlaces(4),
         aoe: updatedAoe,
+        boostsUsed,
       };
 
     const emeraldTurtleCoordinates =
@@ -196,6 +227,7 @@ export function getStoneDropAmount({
         setAOELastUsed(updatedAoe, "Emerald Turtle", { dx, dy }, createdAt);
         amount += 0.5;
       }
+      boostsUsed.push("Emerald Turtle");
     }
   }
 
@@ -205,6 +237,7 @@ export function getStoneDropAmount({
       return {
         amount: new Decimal(amount).toDecimalPlaces(4),
         aoe: updatedAoe,
+        boostsUsed,
       };
 
     const tinTurtleCoordinates =
@@ -243,6 +276,7 @@ export function getStoneDropAmount({
         setAOELastUsed(updatedAoe, "Tin Turtle", { dx, dy }, createdAt);
         amount += 0.1;
       }
+      boostsUsed.push("Tin Turtle");
     }
   }
 
@@ -256,15 +290,22 @@ export function getStoneDropAmount({
     })
   ) {
     amount += 0.25;
+    boostsUsed.push(FACTION_ITEMS[factionName].secondaryTool);
   }
 
-  amount += getBudYieldBoosts(buds, "Stone");
+  const { yieldBoost, budUsed } = getBudYieldBoosts(buds, "Stone");
+  amount += yieldBoost;
+  if (budUsed) boostsUsed.push(budUsed);
 
   if (game.island.type === "volcano") {
     amount += 0.1;
   }
 
-  return { amount: new Decimal(amount).toDecimalPlaces(4), aoe: updatedAoe };
+  return {
+    amount: new Decimal(amount).toDecimalPlaces(4),
+    aoe: updatedAoe,
+    boostsUsed,
+  };
 }
 
 export function mineStone({
@@ -289,16 +330,22 @@ export function mineStone({
     }
 
     const toolAmount = stateCopy.inventory["Pickaxe"] || new Decimal(0);
-    const requiredToolAmount = getRequiredPickaxeAmount(stateCopy);
+    const { amount: requiredToolAmount, boostsUsed: pickaxeBoostsUsed } =
+      getRequiredPickaxeAmount(stateCopy);
 
     if (toolAmount.lessThan(requiredToolAmount)) {
       throw new Error("Not enough pickaxes");
     }
 
-    const { amount: stoneMined, aoe } = rock.stone.amount
+    const {
+      amount: stoneMined,
+      aoe,
+      boostsUsed: stoneMinedBoostsUsed,
+    } = rock.stone.amount
       ? {
           amount: new Decimal(rock.stone.amount).toDecimalPlaces(4),
           aoe: stateCopy.aoe,
+          boostsUsed: [],
         }
       : getStoneDropAmount({
           game: stateCopy,
@@ -310,18 +357,19 @@ export function mineStone({
     stateCopy.aoe = aoe;
 
     const amountInInventory = stateCopy.inventory.Stone || new Decimal(0);
-
+    const { time: minedAt, boostsUsed: minedAtBoostsUsed } = getMinedAt({
+      skills: bumpkin.skills,
+      createdAt,
+      game: stateCopy,
+    });
+    const { boostedTime, boostsUsed: boostedTimeBoostsUsed } = getBoostedTime({
+      skills: bumpkin.skills,
+      game: stateCopy,
+      createdAt,
+    });
     rock.stone = {
-      minedAt: getMinedAt({
-        skills: bumpkin.skills,
-        createdAt: Date.now(),
-        game: stateCopy,
-      }),
-      boostedTime: getBoostedTime({
-        skills: bumpkin.skills,
-        createdAt,
-        game: stateCopy,
-      }),
+      minedAt,
+      boostedTime,
     };
 
     stateCopy.inventory.Pickaxe = toolAmount.sub(requiredToolAmount);
@@ -329,6 +377,17 @@ export function mineStone({
     delete rock.stone.amount;
 
     bumpkin.activity = trackActivity("Stone Mined", bumpkin.activity);
+
+    stateCopy.boostsUsedAt = updateBoostUsed({
+      game: stateCopy,
+      boostNames: [
+        ...minedAtBoostsUsed,
+        ...stoneMinedBoostsUsed,
+        ...boostedTimeBoostsUsed,
+        ...pickaxeBoostsUsed,
+      ],
+      createdAt,
+    });
 
     return stateCopy;
   });

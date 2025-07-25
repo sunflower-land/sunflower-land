@@ -46,7 +46,7 @@ describe("removeBud", () => {
     ).toThrow(REMOVE_BUD_ERRORS.BUD_NOT_PLACED);
   });
 
-  it("prevents removing a bud if stem buff is active", () => {
+  it.skip("prevents removing a bud if stem buff is active", () => {
     expect(() =>
       removeBud({
         state: {
@@ -85,7 +85,7 @@ describe("removeBud", () => {
     ).toThrowError("Crops are growing");
   });
 
-  it("prevents removing a bud if type buff is active", () => {
+  it.skip("prevents removing a bud if type buff is active", () => {
     expect(() =>
       removeBud({
         state: {

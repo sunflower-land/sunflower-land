@@ -471,31 +471,10 @@ describe("cook", () => {
 });
 
 describe("getReadyAt", () => {
-  it("applies 10% speed boost with Rush Hour skill", () => {
-    const now = createdAt;
-
-    const time = getReadyAt({
-      buildingId: "123",
-      item: "Boiled Eggs",
-      createdAt: now,
-      game: {
-        ...TEST_FARM,
-        bumpkin: { ...INITIAL_BUMPKIN, skills: { "Rush Hour": 1 } },
-      },
-    });
-
-    const boost = COOKABLES["Boiled Eggs"].cookingSeconds * 0.1;
-
-    const readyAt =
-      now + (COOKABLES["Boiled Eggs"].cookingSeconds - boost) * 1000;
-
-    expect(time).toEqual(readyAt);
-  });
-
   it("applies 50% speed boost with Luna's Hat", () => {
     const now = createdAt;
 
-    const time = getReadyAt({
+    const { createdAt: time } = getReadyAt({
       buildingId: "123",
       item: "Boiled Eggs",
       game: {
@@ -520,7 +499,7 @@ describe("getReadyAt", () => {
   it("applies 25% speed boost with Faction Medallion", () => {
     const now = createdAt;
 
-    const time = getReadyAt({
+    const { createdAt: time } = getReadyAt({
       buildingId: "1",
       item: "Boiled Eggs",
       createdAt: now,
@@ -553,7 +532,7 @@ describe("getReadyAt", () => {
   it("does not apply 25% speed boost with Faction Medallion when pledged in different Faction", () => {
     const now = createdAt;
 
-    const time = getReadyAt({
+    const { createdAt: time } = getReadyAt({
       buildingId: "1",
       item: "Boiled Eggs",
       createdAt: now,
@@ -583,7 +562,7 @@ describe("getReadyAt", () => {
   it("does not apply 25% speed boost with Faction Medallion when not pledged in a Faction", () => {
     const now = createdAt;
 
-    const time = getReadyAt({
+    const { createdAt: time } = getReadyAt({
       buildingId: "1",
       item: "Boiled Eggs",
       createdAt: now,
@@ -607,7 +586,7 @@ describe("getReadyAt", () => {
   it("applies Time Warp Totem", () => {
     const now = createdAt;
 
-    const time = getReadyAt({
+    const { createdAt: time } = getReadyAt({
       buildingId: "123",
       item: "Boiled Eggs",
       game: {
@@ -637,7 +616,7 @@ describe("getReadyAt", () => {
   it("applies Super Totem", () => {
     const now = createdAt;
 
-    const time = getReadyAt({
+    const { createdAt: time } = getReadyAt({
       buildingId: "123",
       item: "Boiled Eggs",
       game: {
@@ -667,7 +646,7 @@ describe("getReadyAt", () => {
   it("doesn't stack Super Totem and Time Warp Totem", () => {
     const now = createdAt;
 
-    const time = getReadyAt({
+    const { createdAt: time } = getReadyAt({
       buildingId: "123",
       item: "Boiled Eggs",
       game: {
@@ -705,7 +684,7 @@ describe("getReadyAt", () => {
   it("applies desert gnome boost", () => {
     const now = createdAt;
 
-    const time = getReadyAt({
+    const { createdAt: time } = getReadyAt({
       buildingId: "123",
       item: "Boiled Eggs",
       createdAt: now,
@@ -742,7 +721,7 @@ describe("getReadyAt", () => {
       oil: 10,
     };
 
-    const result = getReadyAt({
+    const { createdAt: result } = getReadyAt({
       buildingId: "1",
       item: "Boiled Eggs",
       createdAt: now,
@@ -790,7 +769,7 @@ describe("getReadyAt", () => {
       },
     };
 
-    const boostedTime = getReadyAt({
+    const { createdAt: boostedTime } = getReadyAt({
       buildingId: "1",
       item: "Boiled Eggs",
       createdAt: now,
@@ -836,7 +815,7 @@ describe("getReadyAt", () => {
       },
     };
 
-    const time = getReadyAt({
+    const { createdAt: time } = getReadyAt({
       buildingId: "1",
       item: "Boiled Eggs",
       createdAt: now,
@@ -851,7 +830,7 @@ describe("getReadyAt", () => {
   it("applies 10% speed boost on Firepit with Fast Feasts skill", () => {
     const now = createdAt;
 
-    const time = getReadyAt({
+    const { createdAt: time } = getReadyAt({
       buildingId: "123",
       item: "Boiled Eggs",
       createdAt: now,
@@ -872,7 +851,7 @@ describe("getReadyAt", () => {
   it("applies 10% speed boost on Kitchen with Fast Feasts skill", () => {
     const now = createdAt;
 
-    const time = getReadyAt({
+    const { createdAt: time } = getReadyAt({
       buildingId: "123",
       item: "Sunflower Crunch",
       createdAt: now,
@@ -918,7 +897,7 @@ describe("getReadyAt", () => {
   it("does not apply Swift Sizzle boost on Kitchen", () => {
     const now = createdAt;
 
-    const time = getReadyAt({
+    const { createdAt: time } = getReadyAt({
       buildingId: "123",
       item: "Sunflower Crunch",
       createdAt: now,
@@ -936,7 +915,7 @@ describe("getReadyAt", () => {
   it("applies a 10% speed boost on cakes with Frosted Cakes skill", () => {
     const now = createdAt;
 
-    const time = getReadyAt({
+    const { createdAt: time } = getReadyAt({
       buildingId: "123",
       item: "Parsnip Cake",
       createdAt: now,
@@ -984,7 +963,7 @@ describe("getReadyAt", () => {
   it("does not apply Turbo Fry boost on Fire Pit", () => {
     const now = createdAt;
 
-    const time = getReadyAt({
+    const { createdAt: time } = getReadyAt({
       buildingId: "123",
       item: "Boiled Eggs",
       createdAt: now,

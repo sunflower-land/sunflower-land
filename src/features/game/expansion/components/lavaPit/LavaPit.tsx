@@ -15,7 +15,7 @@ import { getLavaPitTime } from "features/game/events/landExpansion/collectLavaPi
 const _lavaPit = (id: string) => (state: MachineState) =>
   state.context.state.lavaPits[id];
 const _lavaPitTime = (state: MachineState) =>
-  getLavaPitTime({ game: state.context.state });
+  getLavaPitTime({ game: state.context.state }).time;
 
 interface Props {
   id: string;

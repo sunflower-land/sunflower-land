@@ -178,7 +178,7 @@ export const Expanding: React.FC<{
   const { t } = useAppTranslation();
   const readyAt = state.expansionConstruction?.readyAt ?? 0;
 
-  const requirements = expansionRequirements({ game: state });
+  const { requirements } = expansionRequirements({ game: state });
   const totalSeconds = requirements?.seconds ?? 0;
   const secondsTillReady = (readyAt - Date.now()) / 1000;
 

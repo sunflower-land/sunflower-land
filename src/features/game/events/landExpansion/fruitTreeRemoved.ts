@@ -1,10 +1,12 @@
 import Decimal from "decimal.js-light";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import {
+  BoostName,
   GameState,
   Inventory,
   InventoryItemName,
 } from "features/game/types/game";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { produce } from "immer";
 
 export enum FRUIT_TREE_REMOVED_ERRORS {
@@ -25,21 +27,25 @@ type Options = {
 };
 
 export function getRequiredAxeAmount(inventory: Inventory, game: GameState) {
+  const boostsUsed: BoostName[] = [];
   let requiredAxeAmount = 1;
 
   if (inventory.Logger?.gte(1)) {
     requiredAxeAmount = 0.5;
+    boostsUsed.push("Logger");
   }
 
   if (isCollectibleBuilt({ name: "Foreman Beaver", game })) {
     requiredAxeAmount = 0;
+    boostsUsed.push("Foreman Beaver");
   }
 
   if (game.bumpkin.skills["No Axe No Worries"]) {
     requiredAxeAmount = 0;
+    boostsUsed.push("No Axe No Worries");
   }
 
-  return requiredAxeAmount;
+  return { amount: requiredAxeAmount, boostsUsed };
 }
 
 export function getWoodReward({ state }: { state: GameState }) {
@@ -79,7 +85,8 @@ export function removeFruitTree({
       throw new Error("Nothing was planted");
     }
 
-    const requiredAxes = getRequiredAxeAmount(inventory, stateCopy);
+    const { amount: requiredAxes, boostsUsed: axeBoostsUsed } =
+      getRequiredAxeAmount(inventory, stateCopy);
 
     if (action.selectedItem !== "Axe" && requiredAxes > 0) {
       throw new Error(FRUIT_TREE_REMOVED_ERRORS.MISSING_AXE);
@@ -104,6 +111,12 @@ export function removeFruitTree({
 
     inventory.Axe = axeAmount.sub(requiredAxes);
     inventory.Wood = inventory.Wood?.add(woodReward) || new Decimal(1);
+
+    stateCopy.boostsUsedAt = updateBoostUsed({
+      game: stateCopy,
+      boostNames: [...axeBoostsUsed],
+      createdAt,
+    });
 
     return stateCopy;
   });

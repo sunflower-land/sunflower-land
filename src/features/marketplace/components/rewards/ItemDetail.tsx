@@ -145,14 +145,10 @@ export const ItemDetail: React.FC<Props> = ({ onClose, itemName }) => {
                     <RequirementLabel
                       type="xp"
                       xp={
-                        new Decimal(
-                          getFoodExpBoost(
-                            CONSUMABLES["Trade Cake" as ConsumableName],
-                            state.bumpkin,
-                            state,
-                            state.buds ?? {},
-                          ),
-                        )
+                        getFoodExpBoost({
+                          food: CONSUMABLES["Trade Cake" as ConsumableName],
+                          game: state,
+                        }).boostedExp
                       }
                     />
                   </div>

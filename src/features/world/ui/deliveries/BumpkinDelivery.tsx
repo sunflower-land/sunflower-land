@@ -65,14 +65,14 @@ export const OrderCard: React.FC<{
 
   const makeRewardAmountForLabel = (order: Order) => {
     if (order.reward.sfl !== undefined) {
-      const sfl = getOrderSellPrice<Decimal>(game, order);
+      const { reward: sfl } = getOrderSellPrice<Decimal>(game, order);
 
       return formatNumber(sfl, {
         decimalPlaces: 4,
       });
     }
 
-    const coins = getOrderSellPrice<number>(game, order);
+    const { reward: coins } = getOrderSellPrice<number>(game, order);
 
     return formatNumber(coins);
   };

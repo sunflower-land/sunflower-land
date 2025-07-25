@@ -389,10 +389,21 @@ export const GUARDIAN_BOOST: Record<
   },
 };
 
-export function isGuardianActive({ game }: { game: GameState }) {
-  return getObjectEntries(GUARDIAN_BOOST).some(
+export const getActiveGuardian = ({
+  game,
+}: {
+  game: GameState;
+}): {
+  activeGuardian: SeasonGuardianName | undefined;
+} => {
+  const guardian = getObjectEntries(GUARDIAN_BOOST).find(
     ([guardian, { season }]) =>
       season === game.season.season &&
       isCollectibleBuilt({ game, name: guardian }),
   );
-}
+
+  if (!guardian) return { activeGuardian: undefined };
+
+  const [guardianName] = guardian;
+  return { activeGuardian: guardianName };
+};

@@ -988,7 +988,10 @@ describe("mineIron", () => {
       createdAt: now,
     });
 
-    expect(time).toEqual(now - (IRON_RECOVERY_TIME * 1000) / 2);
+    expect(time).toEqual({
+      time: now - (IRON_RECOVERY_TIME * 1000) / 2,
+      boostsUsed: ["Time Warp Totem"],
+    });
   });
 
   it("iron replenishes faster with Super Totem", () => {
@@ -1011,7 +1014,10 @@ describe("mineIron", () => {
       createdAt: now,
     });
 
-    expect(time).toEqual(now - (IRON_RECOVERY_TIME * 1000) / 2);
+    expect(time).toEqual({
+      time: now - (IRON_RECOVERY_TIME * 1000) / 2,
+      boostsUsed: ["Super Totem"],
+    });
   });
 
   it("doesn't stack Super Totem and Time Warp Totem", () => {
@@ -1042,7 +1048,10 @@ describe("mineIron", () => {
       createdAt: now,
     });
 
-    expect(time).toEqual(now - (IRON_RECOVERY_TIME * 1000) / 2);
+    expect(time).toEqual({
+      time: now - (IRON_RECOVERY_TIME * 1000) / 2,
+      boostsUsed: ["Super Totem"],
+    });
   });
 
   it("applies a Ore Hourglass boost of -50% recovery time for 3 hours", () => {
@@ -1064,7 +1073,10 @@ describe("mineIron", () => {
       createdAt: now,
     });
 
-    expect(time).toEqual(now - (IRON_RECOVERY_TIME * 1000) / 2);
+    expect(time).toEqual({
+      time: now - (IRON_RECOVERY_TIME * 1000) / 2,
+      boostsUsed: ["Ore Hourglass"],
+    });
   });
 
   it("does not apply an Ore Hourglass boost if expired", () => {
@@ -1088,7 +1100,7 @@ describe("mineIron", () => {
       createdAt: now,
     });
 
-    expect(time).toEqual(now);
+    expect(time).toEqual({ time: now, boostsUsed: [] });
   });
 
   it("applies a +0.1 boost if the player is on volcano island", () => {
@@ -1155,6 +1167,9 @@ describe("getMinedAt", () => {
         },
       },
     });
-    expect(time).toEqual(now - IRON_RECOVERY_TIME * 0.3 * 1000);
+    expect(time).toEqual({
+      time: now - IRON_RECOVERY_TIME * 0.3 * 1000,
+      boostsUsed: ["Iron Hustle"],
+    });
   });
 });

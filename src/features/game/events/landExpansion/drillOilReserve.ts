@@ -2,8 +2,9 @@ import Decimal from "decimal.js-light";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { isWearableActive } from "features/game/lib/wearables";
 import { trackActivity } from "features/game/types/bumpkinActivity";
-import { GameState, OilReserve } from "features/game/types/game";
+import { BoostName, GameState, OilReserve } from "features/game/types/game";
 import { produce } from "immer";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 
 export type DrillOilReserveAction = {
   type: "oilReserve.drilled";
@@ -22,6 +23,7 @@ export const OIL_RESERVE_RECOVERY_TIME = 20 * 60 * 60;
 
 export function getOilDropAmount(game: GameState, reserve: OilReserve) {
   let amount = new Decimal(BASE_OIL_DROP_AMOUNT);
+  const boostsUsed: BoostName[] = [];
 
   if ((reserve.drilled + 1) % 3 === 0) {
     amount = amount.add(OIL_BONUS_DROP_AMOUNT);
@@ -29,25 +31,30 @@ export function getOilDropAmount(game: GameState, reserve: OilReserve) {
 
   if (isCollectibleBuilt({ name: "Battle Fish", game })) {
     amount = amount.add(0.05);
+    boostsUsed.push("Battle Fish");
   }
 
   if (isCollectibleBuilt({ name: "Knight Chicken", game })) {
     amount = amount.add(0.1);
+    boostsUsed.push("Knight Chicken");
   }
 
   if (isWearableActive({ name: "Oil Can", game })) {
     amount = amount.add(2);
+    boostsUsed.push("Oil Can");
   }
 
   if (isWearableActive({ game, name: "Oil Overalls" })) {
     amount = amount.add(10);
+    boostsUsed.push("Oil Overalls");
   }
 
   if (game.bumpkin.skills["Oil Extraction"]) {
     amount = amount.add(1);
+    boostsUsed.push("Oil Extraction");
   }
 
-  return amount.toDecimalPlaces(4).toNumber();
+  return { amount: amount.toDecimalPlaces(4).toNumber(), boostsUsed };
 }
 
 export function canDrillOilReserve(
@@ -57,11 +64,20 @@ export function canDrillOilReserve(
   return now - reserve.oil.drilledAt > OIL_RESERVE_RECOVERY_TIME * 1000;
 }
 
-export function getRequiredOilDrillAmount(gameState: GameState) {
+export function getRequiredOilDrillAmount(gameState: GameState): {
+  amount: Decimal;
+  boostsUsed: BoostName[];
+} {
+  let amount = new Decimal(1);
+  const boostsUsed: BoostName[] = [];
   if (isWearableActive({ name: "Infernal Drill", game: gameState })) {
-    return new Decimal(0);
+    amount = new Decimal(0);
+    boostsUsed.push("Infernal Drill");
+
+    // Early return
+    return { amount, boostsUsed };
   }
-  return new Decimal(1);
+  return { amount, boostsUsed };
 }
 
 type getDrilledAtArgs = {
@@ -69,18 +85,25 @@ type getDrilledAtArgs = {
   game: GameState;
 };
 
-export function getDrilledAt({ createdAt, game }: getDrilledAtArgs): number {
+export function getDrilledAt({ createdAt, game }: getDrilledAtArgs): {
+  time: number;
+  boostsUsed: BoostName[];
+} {
   let totalSeconds = OIL_RESERVE_RECOVERY_TIME;
+  const boostsUsed: BoostName[] = [];
+
   if (isWearableActive({ game, name: "Dev Wrench" })) {
     totalSeconds = totalSeconds * 0.5;
+    boostsUsed.push("Dev Wrench");
   }
   if (game.bumpkin.skills["Oil Be Back"]) {
     totalSeconds = totalSeconds * 0.8;
+    boostsUsed.push("Oil Be Back");
   }
 
   const buff = OIL_RESERVE_RECOVERY_TIME - totalSeconds;
 
-  return createdAt - buff * 1000;
+  return { time: createdAt - buff * 1000, boostsUsed };
 }
 
 export function drillOilReserve({
@@ -90,7 +113,8 @@ export function drillOilReserve({
 }: Options): GameState {
   return produce(state, (game) => {
     const oilReserve = game.oilReserves[action.id];
-    const requiredDrills = getRequiredOilDrillAmount(state);
+    const { amount: requiredDrills, boostsUsed: requiredDrillsBoostsUsed } =
+      getRequiredOilDrillAmount(state);
     const drillAmount = game.inventory["Oil Drill"] || new Decimal(0);
 
     if (!oilReserve) {
@@ -105,7 +129,10 @@ export function drillOilReserve({
       throw new Error("Oil reserve is still recovering");
     }
 
-    const oilDropAmount = getOilDropAmount(game, oilReserve);
+    const { amount: oilDropAmount, boostsUsed } = getOilDropAmount(
+      game,
+      oilReserve,
+    );
 
     game.inventory.Oil = (game.inventory.Oil ?? new Decimal(0)).add(
       oilDropAmount,
@@ -113,11 +140,25 @@ export function drillOilReserve({
     // Take away one drill
     game.inventory["Oil Drill"] = drillAmount.sub(requiredDrills);
     // Update drilled at time
-    oilReserve.oil.drilledAt = getDrilledAt({ createdAt, game: game });
+    const { time, boostsUsed: drilledAtBoostsUsed } = getDrilledAt({
+      createdAt,
+      game: game,
+    });
+    oilReserve.oil.drilledAt = time;
     // Increment drilled count
     oilReserve.drilled += 1;
 
     game.bumpkin.activity = trackActivity("Oil Drilled", game.bumpkin.activity);
+
+    game.boostsUsedAt = updateBoostUsed({
+      game,
+      boostNames: [
+        ...requiredDrillsBoostsUsed,
+        ...drilledAtBoostsUsed,
+        ...boostsUsed,
+      ],
+      createdAt,
+    });
 
     return game;
   });

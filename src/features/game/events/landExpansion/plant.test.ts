@@ -817,23 +817,6 @@ describe("plant", () => {
       expect(time).toEqual(48 * 60);
     });
 
-    it("applies a 5% speed boost with Cultivator skill", () => {
-      const { time } = getCropPlotTime({
-        crop: "Carrot",
-        game: {
-          ...FARM_WITH_PLOTS,
-          bumpkin: {
-            ...TEST_BUMPKIN,
-            skills: { Cultivator: 1 },
-          },
-        },
-        plot,
-        createdAt: dateNow,
-      });
-
-      expect(time).toEqual(57 * 60);
-    });
-
     it("applies a 10% speed boost with Lunar Calendar placed", () => {
       const carrotHarvestSeconds = CROPS["Carrot"].harvestSeconds;
       const { time } = getCropPlotTime({

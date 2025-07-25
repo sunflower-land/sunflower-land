@@ -1,6 +1,7 @@
 import { GameState } from "features/game/types/game";
 import { hasBudRemoveRestriction } from "features/game/types/removeables";
 import { produce } from "immer";
+import { hasFeatureAccess } from "lib/flags";
 
 export enum REMOVE_BUD_ERRORS {
   INVALID_BUD = "This bud does not exist",
@@ -34,13 +35,15 @@ export function removeBud({
       throw new Error(REMOVE_BUD_ERRORS.BUD_NOT_PLACED);
     }
 
-    const [isRestricted, restrictionReason] = hasBudRemoveRestriction(
-      stateCopy,
-      bud,
-    );
+    if (!hasFeatureAccess(stateCopy, "LANDSCAPING")) {
+      const [isRestricted, restrictionReason] = hasBudRemoveRestriction(
+        stateCopy,
+        bud,
+      );
 
-    if (isRestricted) {
-      throw new Error(restrictionReason);
+      if (isRestricted) {
+        throw new Error(restrictionReason);
+      }
     }
 
     delete bud.coordinates;

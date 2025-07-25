@@ -94,7 +94,7 @@ export const GreenhouseOilModal: React.FC<Props> = ({ show, onHide }) => {
           <p className="text-xs mb-2">{t("greenhouse.oilDescription")}</p>
           <div className="flex items-center flex-wrap gap-1">
             {getKeys(OIL_USAGE).map((seed) => {
-              const oilUsage = getOilUsage({
+              const { usage: oilUsage } = getOilUsage({
                 seed,
                 game: state,
               });

@@ -116,12 +116,12 @@ const makeRewardAmountForLabel = ({
   state: GameState;
 }) => {
   if (order.reward.sfl !== undefined) {
-    const sfl = getOrderSellPrice<Decimal>(state, order);
+    const { reward: sfl } = getOrderSellPrice<Decimal>(state, order);
 
     return formatNumber(sfl, { decimalPlaces: 4 });
   }
 
-  const coins = getOrderSellPrice<number>(state, order);
+  const { reward: coins } = getOrderSellPrice<number>(state, order);
 
   return formatNumber(coins);
 };
@@ -367,12 +367,12 @@ export const DeliveryOrders: React.FC<Props> = ({
 
   const makeRewardAmountForLabel = (order: Order) => {
     if (order.reward.sfl !== undefined) {
-      const sfl = getOrderSellPrice<Decimal>(state, order);
+      const { reward: sfl } = getOrderSellPrice<Decimal>(state, order);
 
       return formatNumber(sfl, { decimalPlaces: 4 });
     }
 
-    const coins = getOrderSellPrice<number>(state, order);
+    const { reward: coins } = getOrderSellPrice<number>(state, order);
 
     return formatNumber(coins);
   };
