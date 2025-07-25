@@ -398,7 +398,7 @@ export const DAILY_REWARDS: DailyReward[] = [
   ...EXPERT_DAILY_REWARDS,
 ];
 
-// Based on their progress, determine which rewards they are eligble for
+// Based on their progress, determine which rewards they are eligible for
 export function possibleRewards(game: GameState) {
   if (game.inventory["Basic Land"]?.gte(9)) {
     return EXPERT_DAILY_REWARDS;

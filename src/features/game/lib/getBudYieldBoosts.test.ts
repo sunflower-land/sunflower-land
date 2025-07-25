@@ -327,7 +327,7 @@ describe("getBudYieldBoosts", () => {
       ).toEqual(0.8);
     });
 
-    it("returns 0.3 Carrot Boost for a a Carrot Head stem", () => {
+    it("returns 0.3 Carrot Boost for a Carrot Head stem", () => {
       expect(
         getBudYieldBoosts(
           {

@@ -67,7 +67,7 @@ export const TRADE_LIMITS: Partial<Record<TradeResource, number>> = {
   Rice: 100,
   Olive: 100,
 
-  // Resouces
+  // Resources
   Wood: 500,
   Stone: 200,
   Iron: 200,
