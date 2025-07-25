@@ -1,35 +1,53 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 
 export const useScrollToBottom = () => {
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
-  const [scrolledToBottom, setScrolledToBottom] = useState(false);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const [scrollNode, setScrollNode] = useState<HTMLDivElement | null>(null);
+  const [scrolledToBottom, setScrolledToBottom] = useState(true);
+
+  const checkIsAtBottom = (el: HTMLDivElement) => {
+    const distance = el.scrollHeight - el.scrollTop - el.clientHeight;
+    return distance <= 1;
+  };
 
   const scrollToBottom = useCallback(() => {
+    if (!containerRef.current) return;
+
     requestAnimationFrame(() => {
-      if (scrollContainerRef.current) {
-        scrollContainerRef.current.scrollTop =
-          scrollContainerRef.current.scrollHeight;
-      }
+      const el = containerRef.current!;
+      el.scrollTop = el.scrollHeight;
+
+      setScrolledToBottom(checkIsAtBottom(el));
     });
   }, []);
 
-  const checkIsAtBottom = useCallback(() => {
-    const el = scrollContainerRef.current;
-    if (!el) return false;
-    return el.scrollHeight - el.scrollTop - el.clientHeight <= 1;
-  }, []);
+  const refCallback = useCallback((node: HTMLDivElement | null) => {
+    if (!node) return;
 
-  useEffect(() => {
-    const el = scrollContainerRef.current;
-    if (!el) return;
+    containerRef.current = node;
+    setScrollNode(node);
 
     const handleScroll = () => {
-      setScrolledToBottom(checkIsAtBottom());
+      setScrolledToBottom(checkIsAtBottom(node));
     };
 
-    el.addEventListener("scroll", handleScroll);
-    return () => el.removeEventListener("scroll", handleScroll);
-  }, [checkIsAtBottom]);
+    node.addEventListener("scroll", handleScroll);
+    const resizeObserver = new ResizeObserver(handleScroll);
+    resizeObserver.observe(node);
 
-  return { scrollContainerRef, scrollToBottom, scrolledToBottom };
+    // Initial check
+    handleScroll();
+
+    return () => {
+      node.removeEventListener("scroll", handleScroll);
+      resizeObserver.disconnect();
+    };
+  }, []);
+
+  return {
+    scrollContainerRef: refCallback, // use in JSX: ref={scrollContainerRef}
+    scrollToBottom,
+    scrolledToBottom,
+    scrollNode, // use for IntersectionObserver root
+  };
 };

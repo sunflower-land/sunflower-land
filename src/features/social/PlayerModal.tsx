@@ -9,7 +9,7 @@ import { GameState } from "features/game/types/game";
 import { AirdropPlayer } from "features/island/hud/components/settings-menu/general-settings/AirdropPlayer";
 import { hasFeatureAccess } from "lib/flags";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { OuterPanel } from "components/ui/Panel";
+import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { isMobile } from "mobile-device-detect";
 import { StreamReward } from "features/world/ui/player/StreamReward";
 import { PlayerGift } from "features/world/ui/player/PlayerGift";
@@ -263,28 +263,32 @@ export const PlayerModal: React.FC<Props> = ({ game, farmId, token }) => {
             />
           )}
           {tab === "Followers" && (
-            <FollowList
-              farmId={farmId}
-              networkFarmId={currentPlayerId as number}
-              token={token}
-              networkList={player?.followedBy ?? []}
-              networkCount={player?.followedByCount ?? 0}
-              playerLoading={playerLoading}
-              type="followers"
-              navigateToPlayer={navigateToPlayer}
-            />
+            <InnerPanel>
+              <FollowList
+                farmId={farmId}
+                networkFarmId={currentPlayerId as number}
+                token={token}
+                networkList={player?.followedBy ?? []}
+                networkCount={player?.followedByCount ?? 0}
+                playerLoading={playerLoading}
+                type="followers"
+                navigateToPlayer={navigateToPlayer}
+              />
+            </InnerPanel>
           )}
           {tab === "Following" && (
-            <FollowList
-              farmId={farmId}
-              networkFarmId={currentPlayerId as number}
-              token={token}
-              networkCount={player?.followingCount ?? 0}
-              networkList={player?.following ?? []}
-              playerLoading={playerLoading}
-              type="following"
-              navigateToPlayer={navigateToPlayer}
-            />
+            <InnerPanel>
+              <FollowList
+                farmId={farmId}
+                networkFarmId={currentPlayerId as number}
+                token={token}
+                networkCount={player?.followingCount ?? 0}
+                networkList={player?.following ?? []}
+                playerLoading={playerLoading}
+                type="following"
+                navigateToPlayer={navigateToPlayer}
+              />
+            </InnerPanel>
           )}
           {tab === "Reward" && <PlayerGift />}
           {tab === "Stream" && (

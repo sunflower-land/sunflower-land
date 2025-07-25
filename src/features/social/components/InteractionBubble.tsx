@@ -13,16 +13,21 @@ type Props = {
   children: React.ReactNode;
   direction: "left" | "right";
   type: InteractionType;
+  onClick?: () => void;
 };
 
 export const InteractionBubble: React.FC<Props> = ({
   children,
   direction,
   type,
+  onClick,
 }) => {
-  if (type === "action") {
+  if (type === "follow") {
     return (
-      <div className="relative">
+      <div
+        className={classNames("relative", { "cursor-pointer": onClick })}
+        onClick={onClick}
+      >
         <div
           className="flex flex-col gap-1 p-1"
           style={{
@@ -39,7 +44,10 @@ export const InteractionBubble: React.FC<Props> = ({
 
   if (type === "milestone" || type === "announcement") {
     return (
-      <div className="relative">
+      <div
+        className={classNames("relative", { "cursor-pointer": onClick })}
+        onClick={onClick}
+      >
         <div
           className="flex flex-col gap-1 p-1"
           style={{
@@ -55,7 +63,10 @@ export const InteractionBubble: React.FC<Props> = ({
   }
 
   return (
-    <div className="relative">
+    <div
+      className={classNames("relative", { "cursor-pointer": onClick })}
+      onClick={onClick}
+    >
       <div
         className="flex flex-col gap-1 p-1"
         style={{

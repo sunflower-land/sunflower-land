@@ -10,10 +10,14 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { PlayerModals } from "features/world/ui/player/PlayerModals";
 import { useVisiting } from "lib/utils/visitUtils";
+import { Context as AuthContext } from "features/auth/lib/Provider";
 import {
   playerModalManager,
   PlayerModalPlayer,
 } from "features/social/lib/playerModalManager";
+import { hasFeatureAccess } from "lib/flags";
+import { PlayerModal } from "features/social/PlayerModal";
+import { AuthMachineState } from "features/auth/lib/authMachine";
 
 const _showHelper = (state: MachineState) =>
   // First Mashed Potato
@@ -22,12 +26,16 @@ const _showHelper = (state: MachineState) =>
   // First Pumpkin Soup
   (getBumpkinLevel(state.context.state.bumpkin?.experience ?? 0) <= 3 &&
     state.context.state.inventory["Pumpkin Soup"]?.gte(1));
+const _token = (state: AuthMachineState) => state.context.user.rawToken ?? "";
 
 export const PlayerNPC: React.FC<NPCProps> = ({ parts: bumpkinParts }) => {
   const [open, setOpen] = useState(false);
   const { gameService } = useContext(Context);
+  const { authService } = useContext(AuthContext);
 
   const showHelper = useSelector(gameService, _showHelper);
+  const token = useSelector(authService, _token);
+
   const { isVisiting } = useVisiting();
   const context = gameService.getSnapshot().context;
 
@@ -68,11 +76,19 @@ export const PlayerNPC: React.FC<NPCProps> = ({ parts: bumpkinParts }) => {
       )}
 
       <NPCModal isOpen={open} onClose={() => setOpen(false)} />
-      <PlayerModals
-        game={context.state}
-        farmId={context.farmId}
-        isOpen={open}
-      />
+      {hasFeatureAccess(context.state, "SOCIAL_FARMING") ? (
+        <PlayerModal
+          game={context.state}
+          farmId={context.farmId}
+          token={token}
+        />
+      ) : (
+        <PlayerModals
+          game={context.state}
+          farmId={context.farmId}
+          isOpen={open}
+        />
+      )}
     </>
   );
 };

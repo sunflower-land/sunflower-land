@@ -1,10 +1,10 @@
 import useSWRInfinite from "swr/infinite";
-import { getChatMessages } from "../actions/getChatMessages";
+import { getChatInteractions } from "../actions/getChatInteractions";
 import { Interaction } from "../types/types";
 
 const PAGE_SIZE = 20;
 
-export function useChatMessages(
+export function useChatInteractions(
   token: string,
   farmId: number,
   followedPlayerId: number,
@@ -13,29 +13,26 @@ export function useChatMessages(
     if (previousPageData && previousPageData.length === 0) return null;
     const cursor =
       previousPageData?.[previousPageData.length - 1]?.createdAt ?? 0;
-    return `chat-${farmId}-${followedPlayerId}-${cursor}`;
+    return `chat-interactions-${farmId}-${followedPlayerId}-${cursor}`;
   };
 
   const { data, size, setSize, isValidating, mutate } = useSWRInfinite(
     getKey,
     (key) => {
-      const cursor = key.split("-")[3];
-      return getChatMessages({
+      const cursor = key.split("-")[4];
+      return getChatInteractions({
         token,
         farmId,
         followedPlayerId,
         cursor: Number(cursor),
       });
     },
-    {
-      revalidateFirstPage: false,
-    },
   );
 
-  const messages = data ? data.flat() : [];
+  const interactions = data ? data.flat().filter(Boolean) : [];
 
   return {
-    messages,
+    interactions,
     isLoadingInitialData: !data && isValidating,
     isLoadingMore:
       isValidating && size > 0 && typeof data?.[size - 1] === "undefined",

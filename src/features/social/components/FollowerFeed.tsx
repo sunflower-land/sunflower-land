@@ -8,7 +8,6 @@ import React, {
   useState,
 } from "react";
 import { InteractionBubble } from "./InteractionBubble";
-import { getRelativeTime } from "lib/utils/time";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
@@ -22,14 +21,17 @@ import * as AuthProvider from "features/auth/lib/Provider";
 import { useInView } from "react-intersection-observer";
 import { Loading } from "features/auth/components";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { tokenUriBuilder } from "lib/utils/tokenUriBuilder";
+import { interpretTokenUri, tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 import { postEffect } from "features/game/actions/effect";
 import { randomID } from "lib/utils/random";
 import { Equipped } from "features/game/types/bumpkin";
 import { FollowerFeedSkeleton } from "./skeletons/FollowerFeedSkeleton";
-import { useChatMessages } from "../hooks/useChatMessages";
+import { useChatInteractions } from "../hooks/useChatInteractions";
 import { useSocial } from "../hooks/useSocial";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { InteractionSenderMetadata } from "./InteractionSenderMetadata";
+import { PIXEL_SCALE } from "features/game/lib/constants";
+import { NPCIcon } from "features/island/bumpkin/components/NPC";
 
 type Props = {
   farmId: number;
@@ -66,33 +68,51 @@ export const FollowerFeed: React.FC<Props> = ({
   const myClothing = useSelector(gameService, _myClothing);
   const token = useSelector(authService, _token);
 
-  const { scrollContainerRef, scrollToBottom, scrolledToBottom } =
+  const { scrollContainerRef, scrollToBottom, scrolledToBottom, scrollNode } =
     useScrollToBottom();
-  const [rootElement, setRootElement] = useState<HTMLElement | null>(null);
+
   const [prevScrollHeight, setPrevScrollHeight] = useState<number>(0);
   const [prevScrollTop, setPrevScrollTop] = useState<number>(0);
   const [newMessagesCount, setNewMessagesCount] = useState(0);
 
   const {
-    messages,
+    interactions,
     isLoadingInitialData,
     isLoadingMore,
     hasMore,
     loadMore,
     mutate,
-  } = useChatMessages(token, farmId, playerId);
+  } = useChatInteractions(token, farmId, playerId);
+
+  useEffect(() => {
+    mutate();
+  }, []);
 
   useSocial({
     farmId,
     callbacks: {
-      onChat: (update) => {
-        mutate((current = []) => {
-          return [[update, ...(current[0] ?? [])], ...current.slice(1)];
-        });
+      onInteraction: async (update) => {
+        await mutate(
+          (current = []) => {
+            return [[update, ...(current[0] ?? [])], ...current.slice(1)];
+          },
+          {
+            revalidate: false,
+          },
+        );
 
         if (!scrolledToBottom) {
           setNewMessagesCount(newMessagesCount + 1);
+        } else {
+          scrollToBottom();
         }
+      },
+      onMilestone: async (update) => {
+        if (update.sender.id !== playerId) return;
+
+        await mutate((current = []) => {
+          return [[update, ...(current[0] ?? [])], ...current.slice(1)];
+        });
       },
     },
   });
@@ -108,16 +128,9 @@ export const FollowerFeed: React.FC<Props> = ({
     scrollToBottom();
   }, [playerId, scrollToBottom]);
 
-  // Set scroll container as the root for the intersection observer
-  useEffect(() => {
-    if (scrollContainerRef.current) {
-      setRootElement(scrollContainerRef.current);
-    }
-  }, [scrollContainerRef]);
-
   // Intersection observer to load more interactions when the loader is in view
   const { ref: intersectionRef, inView } = useInView({
-    root: rootElement,
+    root: scrollNode,
     rootMargin: "0px",
     threshold: 0.1,
   });
@@ -125,11 +138,11 @@ export const FollowerFeed: React.FC<Props> = ({
   useEffect(() => {
     if (inView && hasMore && !isLoadingMore) {
       // Set the current scroll information and load more messages
-      setPrevScrollHeight(scrollContainerRef?.current?.scrollHeight ?? 0);
-      setPrevScrollTop(scrollContainerRef?.current?.scrollTop ?? 0);
+      setPrevScrollHeight(scrollNode?.scrollHeight ?? 0);
+      setPrevScrollTop(scrollNode?.scrollTop ?? 0);
       loadMore();
     }
-  }, [inView, hasMore, isLoadingMore, loadMore, scrollContainerRef]);
+  }, [inView, hasMore, isLoadingMore, loadMore, scrollNode]);
 
   useEffect(() => {
     if (scrolledToBottom && newMessagesCount > 0) {
@@ -138,17 +151,22 @@ export const FollowerFeed: React.FC<Props> = ({
     }
   }, [scrolledToBottom, newMessagesCount, scrollToBottom]);
 
+  useEffect(() => {
+    if (!chatDisabled) {
+      scrollToBottom();
+    }
+  }, [chatDisabled, scrollToBottom]);
+
   useLayoutEffect(() => {
-    if (!isLoadingMore && scrollContainerRef.current) {
+    if (!isLoadingMore && scrollNode) {
       // Restore the scroll position when new interactions are loaded
-      const currentScrollHeight = scrollContainerRef.current.scrollHeight;
+      const currentScrollHeight = scrollNode.scrollHeight;
       const loaderHeight = loaderRef.current?.clientHeight ?? 0;
       const scrollDifference = currentScrollHeight - prevScrollHeight;
 
-      scrollContainerRef.current.scrollTop =
-        prevScrollTop + scrollDifference - loaderHeight;
+      scrollNode.scrollTop = prevScrollTop + scrollDifference - loaderHeight;
     }
-  }, [isLoadingMore, prevScrollHeight, prevScrollTop, scrollContainerRef]);
+  }, [isLoadingMore, prevScrollHeight, prevScrollTop, scrollNode]);
 
   const handleMessage = async (message: string) => {
     const optimisticMessage: Interaction = {
@@ -183,7 +201,7 @@ export const FollowerFeed: React.FC<Props> = ({
 
         // Replace page 0 with latest messages. The rest will become invalid as the
         // cursor will be changed
-        return [response.messages];
+        return [response.interactions];
       },
       {
         revalidate: false,
@@ -208,7 +226,7 @@ export const FollowerFeed: React.FC<Props> = ({
     return <FollowerFeedSkeleton />;
   }
 
-  if (messages.length === 0) {
+  if (interactions.length === 0) {
     return (
       <InnerPanel
         className={classNames("flex flex-col justify-between", {
@@ -244,14 +262,18 @@ export const FollowerFeed: React.FC<Props> = ({
             {t("activity")}
             {newMessagesCount > 0 && ` (${newMessagesCount})`}
           </Label>
-          {newMessagesCount > 0 && (
-            <img
-              src={SUNNYSIDE.icons.arrow_down}
-              alt="arrow-down"
-              className="w-5 object-contain cursor-pointer"
-              onClick={handleAcknowledgeNewMessages}
-            />
-          )}
+
+          <img
+            src={SUNNYSIDE.icons.arrow_down}
+            alt="arrow-down"
+            className={classNames(
+              "w-5 mr-2 object-contain cursor-pointer transition-opacity duration-100",
+              {
+                "opacity-0": scrolledToBottom,
+              },
+            )}
+            onClick={handleAcknowledgeNewMessages}
+          />
         </div>
 
         <div className="flex flex-col gap-1 -mt-2">
@@ -266,37 +288,50 @@ export const FollowerFeed: React.FC<Props> = ({
             {hasMore ? <Loading dotsOnly /> : t("playerModal.noMoreMessages")}
           </div>
 
-          {messages
+          {interactions
             .slice()
             .reverse()
-            .map((message, index) => {
+            .map((interaction, index) => {
               const direction =
-                message?.sender.username === myUsername ? "right" : "left";
+                interaction.sender.username === myUsername ? "right" : "left";
+
               const sender =
-                message?.sender.username === myUsername
+                interaction.sender.username === myUsername
                   ? t("you")
-                  : message.sender.username;
+                  : interaction.sender.username;
+
+              const { equipped } = interpretTokenUri(
+                interaction.sender.tokenUri,
+              );
 
               return (
                 <div
-                  key={`${message.createdAt}-${index}`}
+                  key={`${interaction.createdAt}-${index}`}
                   className={classNames({
-                    "pl-1": direction === "left" && message.type === "chat",
-                    "pr-1": direction === "right" && message.type === "chat",
+                    "pl-1": direction === "left" && interaction.type === "chat",
+                    "pr-1":
+                      direction === "right" && interaction.type === "chat",
                   })}
                 >
                   <InteractionBubble
-                    key={`${message.sender.id}-${message.createdAt}-${index}`}
+                    key={`${interaction.sender.id}-${interaction.createdAt}-${index}`}
                     direction={direction}
-                    type={message.type}
+                    type={interaction.type}
                   >
-                    <div className="text-xxs">
-                      <span className="flex items-center gap-1">
-                        {`${sender ?? ""} ${message.sender ? "- " : ""}`}
-                        {`${getRelativeTime(message.createdAt)}`}
-                      </span>
+                    <div className="flex">
+                      <div className="-ml-1 mr-1">
+                        <NPCIcon parts={equipped} width={PIXEL_SCALE * 14} />
+                      </div>
+                      <div className="flex flex-col gap-1">
+                        <InteractionSenderMetadata
+                          sender={sender}
+                          createdAt={interaction.createdAt}
+                        />
+                        <div className="text-xs break-all">
+                          {interaction.message}
+                        </div>
+                      </div>
                     </div>
-                    <div className="text-xs break-all">{message.message}</div>
                   </InteractionBubble>
                 </div>
               );

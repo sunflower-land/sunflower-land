@@ -3,7 +3,6 @@ import useSWR from "swr";
 import { useTranslation } from "react-i18next";
 import { useSocial } from "../hooks/useSocial";
 import { Label } from "components/ui/Label";
-import { InnerPanel } from "components/ui/Panel";
 import { FollowDetailPanel } from "./FollowDetailPanel";
 import { getFollowNetworkDetails } from "../actions/getFollowNetworkDetails";
 import { Button } from "components/ui/Button";
@@ -14,7 +13,8 @@ type Props = {
   networkFarmId: number;
   networkList: number[];
   networkCount: number;
-  playerLoading: boolean;
+  playerLoading?: boolean;
+  showLabel?: boolean;
   type: "followers" | "following";
   navigateToPlayer: (playerId: number) => void;
 };
@@ -26,6 +26,7 @@ export const FollowList: React.FC<Props> = ({
   networkList,
   networkCount,
   playerLoading,
+  showLabel = true,
   type,
   navigateToPlayer,
 }) => {
@@ -65,71 +66,75 @@ export const FollowList: React.FC<Props> = ({
 
   if (isLoading || playerLoading) {
     return (
-      <InnerPanel>
-        <div className="flex flex-col gap-1 pl-1">
-          <div className="sticky top-0 bg-brown-200 z-10 pb-1">
+      <div className="flex flex-col gap-1 pl-1">
+        <div className="sticky top-0 bg-brown-200 z-10 pb-1">
+          {showLabel && (
             <Label type="default">
               {t(`playerModal.${type}`, { count: networkCount })}
             </Label>
-          </div>
-
-          <div className="w-[60%] h-6 bg-brown-300 animate-pulse mb-2" />
+          )}
         </div>
-      </InnerPanel>
+
+        <div className="w-[60%] h-6 bg-brown-300 animate-pulse mb-2" />
+      </div>
     );
   }
 
   if (error) {
     return (
-      <InnerPanel>
+      <>
         <div className="flex flex-col gap-1 pl-1 mb-2">
           <div className="sticky top-0 bg-brown-200 z-10 pb-1">
-            {t(`playerModal.${type}`, { count: networkCount })}
+            {showLabel && (
+              <Label type="default">
+                {t(`playerModal.${type}`, { count: networkCount })}
+              </Label>
+            )}
           </div>
           <div className="text-xs">{t("error.wentWrong")}</div>
         </div>
         <Button onClick={() => mutate()}>{t("reload")}</Button>
-      </InnerPanel>
+      </>
     );
   }
 
   if (networkCount === 0) {
     return (
-      <InnerPanel>
-        <div className="flex flex-col gap-1 pl-1 mb-1">
-          <div className="sticky top-0 bg-brown-200 z-10 pb-1">
+      <div className="flex flex-col gap-1 pl-1 mb-1">
+        <div className="sticky top-0 bg-brown-200 z-10 pb-1">
+          {showLabel && (
             <Label type="default">
               {t(`playerModal.${type}`, { count: networkCount })}
             </Label>
-          </div>
-          <div className="text-xs">{t(`playerModal.no.${type}`)}</div>
+          )}
         </div>
-      </InnerPanel>
+        <div className="text-xs">{t(`playerModal.no.${type}`)}</div>
+      </div>
     );
   }
 
   return (
-    <InnerPanel>
-      <div className="flex flex-col gap-1 pt-1">
-        <div className="sticky top-0 bg-brown-200 z-10 pb-1">
+    <div className="flex flex-col gap-1 pt-1">
+      <div className="sticky top-0 bg-brown-200 z-10 pb-1">
+        {showLabel && (
           <Label type="default">
             {t(`playerModal.${type}`, { count: networkCount })}
           </Label>
-        </div>
-        {sortedNetworkList.map((followerId) => {
-          return (
-            <FollowDetailPanel
-              key={`flw-${followerId}`}
-              farmId={farmId}
-              playerId={followerId}
-              tokenUri={networkDetails?.[followerId]?.tokenUri ?? ""}
-              username={networkDetails?.[followerId]?.username ?? ""}
-              lastOnlineAt={networkDetails?.[followerId]?.lastUpdatedAt ?? 0}
-              navigateToPlayer={navigateToPlayer}
-            />
-          );
-        })}
+        )}
       </div>
-    </InnerPanel>
+      {sortedNetworkList.map((followerId) => {
+        return (
+          <FollowDetailPanel
+            key={`flw-${followerId}`}
+            farmId={farmId}
+            playerId={followerId}
+            tokenUri={networkDetails?.[followerId]?.tokenUri ?? ""}
+            username={networkDetails?.[followerId]?.username ?? ""}
+            lastOnlineAt={networkDetails?.[followerId]?.lastUpdatedAt ?? 0}
+            navigateToPlayer={navigateToPlayer}
+          />
+        );
+      })}
+    </div>
   );
 };

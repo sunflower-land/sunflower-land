@@ -109,7 +109,7 @@ export const PlayerModals: React.FC<Props> = ({ game, farmId, isOpen }) => {
       // Automatically set to Stream tab if player has Streamer Hat and is not current player
       if (npc.clothing?.hat === "Streamer Hat" && farmId !== npc.farmId) {
         setTab("Stream");
-      } else if (npc.clothing.shirt === "Gift Giver") {
+      } else if (npc.clothing?.shirt === "Gift Giver") {
         setTab("Reward");
       } else {
         setTab("Player");
@@ -139,8 +139,8 @@ export const PlayerModals: React.FC<Props> = ({ game, farmId, isOpen }) => {
     setShowPlayerModal(false);
   };
 
-  const playerHasGift = player?.clothing.shirt === "Gift Giver";
-  const playerHasStreamReward = player?.clothing.hat === "Streamer Hat";
+  const playerHasGift = player?.clothing?.shirt === "Gift Giver";
+  const playerHasStreamReward = player?.clothing?.hat === "Streamer Hat";
   const notCurrentPlayer = farmId !== player?.farmId;
 
   return (
