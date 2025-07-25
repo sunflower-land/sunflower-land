@@ -62,7 +62,8 @@ export type BumpkinHair =
   | "Pink Ponytail"
   | "Silver Streaks"
   | "Brown Rancher Hair"
-  | "Paint Splattered Hair";
+  | "Paint Splattered Hair"
+  | "Brush Back Hair";
 
 export type BumpkinShirt =
   | "Pixel Perfect Hoodie"
@@ -135,7 +136,9 @@ export type BumpkinShirt =
   | "Rice Shirt"
   | "Sakura Shirt"
   | "Love Charm Shirt"
-  | "Paint Splattered Shirt";
+  | "Paint Splattered Shirt"
+  | "Diamond Patterned Vest"
+  | "Recycle Shirt";
 
 export type BumpkinCoat =
   | "Chef Apron"
@@ -145,7 +148,8 @@ export type BumpkinCoat =
   | "Milk Apron"
   | "Tomato Apron"
   | "Easter Apron"
-  | "Medic Apron";
+  | "Medic Apron"
+  | "Alchemist Apron";
 
 export type BumpkinTool =
   | "Farmer Pitchfork"
@@ -200,7 +204,10 @@ export type BumpkinTool =
   | "Carrot Pitchfork"
   | "Handheld Bunny"
   | "Frost Sword"
-  | "Paint Spray Can";
+  | "Paint Spray Can"
+  | "Chemist Potion"
+  | "Architect Ruler"
+  | "Onion Leek";
 
 export type BumpkinShoe =
   | "Black Farmer Boots"
@@ -339,7 +346,9 @@ export type BumpkinHat =
   | "Bunny Mask"
   | "Broccoli Hat"
   | "Coin Head"
-  | "Slime Hat";
+  | "Slime Hat"
+  | "Garbage Bin Hat"
+  | "Turd Topper";
 
 export type BumpkinPant =
   | "Farmer Overalls"
@@ -396,7 +405,9 @@ export type BumpkinDress =
   | "Green Monarch Dress"
   | "Orange Monarch Dress"
   | "Desert Merchant Suit"
-  | "Adventurer's Suit";
+  | "Adventurer's Suit"
+  | "Lava Swimwear"
+  | "Wooly Dress";
 
 export type BumpkinSecondaryTool =
   | "Sunflower Shield"
@@ -420,7 +431,8 @@ export type BumpkinSecondaryTool =
   | "Solflare Aegis"
   | "Blossom Ward"
   | "Autumn's Embrace"
-  | "Frozen Heart";
+  | "Frozen Heart"
+  | "Oil Gallon";
 
 // Goes over clothes + head
 export type BumpkinOnesie =
@@ -446,7 +458,8 @@ export type BumpkinOnesie =
   | "Love Heart Onesie"
   | "Love Bear Onesie"
   | "Dino Onesie"
-  | "Red Pepper Onesie";
+  | "Red Pepper Onesie"
+  | "Raccoon Onesie";
 
 // Goes over clothes
 export type BumpkinSuit =
@@ -488,7 +501,11 @@ export type BumpkinWings =
   | "Oracle Syringe"
   | "Slime Wings";
 
-export type BumpkinBeard = "Wise Beard" | "Hoary Chin" | "Santa Beard";
+export type BumpkinBeard =
+  | "Wise Beard"
+  | "Hoary Chin"
+  | "Santa Beard"
+  | "Moustache";
 
 export type BumpkinAura = "Coin Aura" | "Love Puff Aura" | "Slime Aura";
 
@@ -997,6 +1014,22 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Slime Hat": 467,
   "Slime Wings": 468,
   "Slime Aura": 469,
+
+  //Better Together Wearables
+  "Brush Back Hair": 470,
+  Moustache: 471,
+  "Chemist Potion": 472,
+  "Diamond Patterned Vest": 473,
+  "Recycle Shirt": 474,
+  "Garbage Bin Hat": 475,
+  "Turd Topper": 476,
+  "Architect Ruler": 477,
+  "Onion Leek": 478,
+  "Oil Gallon": 479,
+  "Alchemist Apron": 480,
+  "Lava Swimwear": 481,
+  "Wooly Dress": 482,
+  "Raccoon Onesie": 483,
 };
 
 // The reverse of above
@@ -1527,6 +1560,20 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Slime Hat": "hat",
   "Slime Wings": "wings",
   "Slime Aura": "aura",
+  "Brush Back Hair": "hair",
+  Moustache: "beard",
+  "Chemist Potion": "tool",
+  "Diamond Patterned Vest": "shirt",
+  "Recycle Shirt": "shirt",
+  "Garbage Bin Hat": "hat",
+  "Turd Topper": "hat",
+  "Architect Ruler": "tool",
+  "Onion Leek": "tool",
+  "Oil Gallon": "secondaryTool",
+  "Alchemist Apron": "coat",
+  "Lava Swimwear": "dress",
+  "Wooly Dress": "dress",
+  "Raccoon Onesie": "onesie",
 };
 
 /**Copied from BE just for hoarding checks */

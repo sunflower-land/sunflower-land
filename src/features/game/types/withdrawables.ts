@@ -452,6 +452,42 @@ export const BUMPKIN_RELEASES: Partial<Record<BumpkinItem, Releases>> = {
     tradeAt: new Date("2025-07-07T00:00:00Z"),
     withdrawAt: new Date("2025-07-07T00:00:00Z"),
   },
+  "Recycle Shirt": {
+    tradeAt: SEASONS["Better Together"].endDate,
+    withdrawAt: SEASONS["Better Together"].endDate,
+  },
+  "Garbage Bin Hat": {
+    tradeAt: SEASONS["Better Together"].endDate,
+    withdrawAt: SEASONS["Better Together"].endDate,
+  },
+  "Turd Topper": {
+    tradeAt: SEASONS["Better Together"].endDate,
+    withdrawAt: SEASONS["Better Together"].endDate,
+  },
+  "Architect Ruler": {
+    tradeAt: SEASONS["Better Together"].endDate,
+    withdrawAt: SEASONS["Better Together"].endDate,
+  },
+  "Onion Leek": {
+    tradeAt: SEASONS["Better Together"].endDate,
+    withdrawAt: SEASONS["Better Together"].endDate,
+  },
+  "Oil Gallon": {
+    tradeAt: SEASONS["Better Together"].endDate,
+    withdrawAt: SEASONS["Better Together"].endDate,
+  },
+  "Lava Swimwear": {
+    tradeAt: SEASONS["Better Together"].endDate,
+    withdrawAt: SEASONS["Better Together"].endDate,
+  },
+  "Wooly Dress": {
+    tradeAt: SEASONS["Better Together"].endDate,
+    withdrawAt: SEASONS["Better Together"].endDate,
+  },
+  "Raccoon Onesie": {
+    tradeAt: SEASONS["Better Together"].endDate,
+    withdrawAt: SEASONS["Better Together"].endDate,
+  },
 };
 
 export const INVENTORY_RELEASES: Partial<Record<InventoryItemName, Releases>> =
