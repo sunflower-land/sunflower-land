@@ -181,20 +181,17 @@ export const getCookingTime = ({
   item: CookableName;
   game: GameState;
   cookStartAt: number;
-}): number => {
+}): { reducedSecs: number; boostsUsed: BoostName[] } => {
   const { bumpkin } = game;
   const buildingName = COOKABLES[item].building;
 
   let reducedSecs = new Decimal(seconds);
-
-  // Rush Hour - 10% reduction
-  if (bumpkin?.skills["Rush Hour"]) {
-    reducedSecs = reducedSecs.mul(0.9);
-  }
+  const boostsUsed: BoostName[] = [];
 
   // Luna's Hat - 50% reduction
   if (isWearableActive({ name: "Luna's Hat", game })) {
     reducedSecs = reducedSecs.mul(0.5);
+    boostsUsed.push("Luna's Hat");
   }
 
   //Faction Medallion -25% reduction
@@ -207,12 +204,19 @@ export const getCookingTime = ({
     })
   ) {
     reducedSecs = reducedSecs.mul(0.75);
+    boostsUsed.push(FACTION_ITEMS[factionName].necklace);
   }
 
   // Totems do not stack - apply either Super Totem or Time Warp Totem boost
-  const hasActiveTotem =
-    isCollectibleActive({ name: "Super Totem", game }) ||
-    isCollectibleActive({ name: "Time Warp Totem", game });
+  const hasSuperTotem = isCollectibleActive({
+    name: "Super Totem",
+    game,
+  });
+  const hasTimeWarpTotem = isCollectibleActive({
+    name: "Time Warp Totem",
+    game,
+  });
+  const hasActiveTotem = hasSuperTotem || hasTimeWarpTotem;
 
   if (hasActiveTotem) {
     const totemType = isCollectibleActive({
@@ -229,6 +233,11 @@ export const getCookingTime = ({
       game,
       boostValue: 0.5,
     });
+    if (hasSuperTotem) {
+      boostsUsed.push("Super Totem");
+    } else if (hasTimeWarpTotem) {
+      boostsUsed.push("Time Warp Totem");
+    }
   }
 
   if (isCollectibleActive({ name: "Gourmet Hourglass", game })) {
@@ -239,10 +248,12 @@ export const getCookingTime = ({
       game,
       boostValue: 0.5,
     });
+    boostsUsed.push("Gourmet Hourglass");
   }
 
   if (isCollectibleBuilt({ name: "Desert Gnome", game })) {
     reducedSecs = reducedSecs.mul(0.9);
+    boostsUsed.push("Desert Gnome");
   }
 
   if (hasValidRoninNFT(game, cookStartAt)) {
@@ -252,19 +263,22 @@ export const getCookingTime = ({
   // 10% reduction on Fire Pit with Fast Feasts skill
   if (buildingName === "Fire Pit" && bumpkin?.skills["Fast Feasts"]) {
     reducedSecs = reducedSecs.mul(0.9);
+    boostsUsed.push("Fast Feasts");
   }
 
   // 10% reduction on Kitchen with Fast Feasts skill
   if (buildingName === "Kitchen" && bumpkin?.skills["Fast Feasts"]) {
     reducedSecs = reducedSecs.mul(0.9);
+    boostsUsed.push("Fast Feasts");
   }
 
   // 10% reduction on Cakes with Frosted Cakes skill
   if (item in COOKABLE_CAKES && bumpkin?.skills["Frosted Cakes"]) {
     reducedSecs = reducedSecs.mul(0.9);
+    boostsUsed.push("Frosted Cakes");
   }
 
-  return reducedSecs.toNumber();
+  return { reducedSecs: reducedSecs.toNumber(), boostsUsed };
 };
 
 /**
