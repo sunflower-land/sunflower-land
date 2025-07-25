@@ -11,7 +11,7 @@ export function getLavaPitTime({ game }: { game: GameState }) {
 
   if (isWearableActive({ name: "Obsidian Necklace", game })) {
     time = time * 0.5;
-    boostsUsed.push("Obsidian Necklace");
+    // boostsUsed.push("Obsidian Necklace"); // already pushed during start of lava pit
   }
 
   return { time, boostsUsed };

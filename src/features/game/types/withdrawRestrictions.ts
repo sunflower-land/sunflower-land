@@ -14,6 +14,8 @@ export const BOOST_COOLDOWN_DAYS: Partial<Record<BoostName, number>> = {
   "Lunar Calendar": 2,
   "Solflare Aegis": 2,
   "Autumn's Embrace": 2,
+  "Obsidian Necklace": 3,
+  "Obsidian Turtle": 3,
   // Add other boost items with their respective cooldown days
   // Default items will use 1 day if not specified here
   // Buds would have a cooldown of 2 days
