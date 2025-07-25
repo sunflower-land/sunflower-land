@@ -16,6 +16,24 @@ interface Props {
   onClose: () => void;
 }
 
+function getFirstMondayOfMonth(date: Date): Date {
+  const year = date.getFullYear();
+  const month = date.getMonth();
+
+  // Get the first day of the month
+  const firstDay = new Date(year, month, 1);
+
+  // Get the day of the week (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
+  const dayOfWeek = firstDay.getDay();
+
+  // Calculate days to add to get to the first Monday
+  const daysToAdd = (1 - dayOfWeek + 7) % 7;
+
+  const firstMonday = new Date(year, month, 1 + daysToAdd);
+
+  return firstMonday;
+}
+
 export const VIPGift: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
@@ -57,11 +75,15 @@ export const VIPGiftContent: React.FC<Props> = ({ onClose }) => {
   const hasVip = hasVipAccess({ game: gameState.context.state });
   const openedAt = pumpkinPlaza.vipChest?.openedAt ?? 0;
 
-  // Have they opened this month?
+  const currentDate = new Date();
+  const currentFirstMonday = getFirstMondayOfMonth(currentDate);
+  const openedDate = new Date(openedAt);
+  const openedFirstMonday = getFirstMondayOfMonth(openedDate);
+
   const hasOpened =
-    !!openedAt &&
-    new Date(openedAt).toISOString().substring(0, 7) ===
-      new Date().toISOString().substring(0, 7);
+    currentDate < currentFirstMonday ||
+    (currentFirstMonday.getTime() === openedFirstMonday.getTime() &&
+      openedAt >= currentFirstMonday.getTime());
 
   const { t } = useAppTranslation();
 
