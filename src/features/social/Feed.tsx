@@ -3,7 +3,13 @@ import classNames from "classnames";
 import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import React, { useContext, useEffect, useLayoutEffect, useRef } from "react";
+import React, {
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { InteractionBubble } from "./components/InteractionBubble";
 import { getRelativeTime } from "lib/utils/time";
 
@@ -25,6 +31,8 @@ import { playerModalManager } from "./lib/playerModalManager";
 import { useSocial } from "./hooks/useSocial";
 import { useInView } from "react-intersection-observer";
 import { Loading } from "features/auth/components";
+import { FollowsIndicator } from "./components/FollowsIndicator";
+import { FollowList } from "./components/FollowList";
 
 type Props = {
   type: "world" | "local";
@@ -62,6 +70,8 @@ export const Feed: React.FC<Props> = ({
 }) => {
   const { gameService } = useContext(Context);
   const { authService } = useContext(AuthProvider.Context);
+
+  const [showFollowing, setShowFollowing] = useState(false);
 
   const username = useSelector(gameService, _username);
   const token = useSelector(authService, _token);
@@ -119,6 +129,19 @@ export const Feed: React.FC<Props> = ({
     });
   };
 
+  const handleFollowingClick = (playerId: number) => {
+    setShowFeed(false);
+    setShowFollowing(true);
+    playerModalManager.open({
+      farmId: playerId,
+    });
+  };
+
+  const handleCloseFeed = (): void => {
+    setShowFeed(false);
+    setShowFollowing(false);
+  };
+
   const showMobileFeed = showFeed && isMobile;
   const showDesktopFeed = showFeed && !isMobile;
   const hideMobileFeed = !showFeed && isMobile;
@@ -126,7 +149,6 @@ export const Feed: React.FC<Props> = ({
 
   return (
     <InnerPanel
-      id="hello-feed"
       className={classNames(
         `fixed ${isMobile ? "w-[75%]" : "w-[300px]"} top-0 left-0 m-2 bottom-0 z-30 transition-transform duration-200`,
         {
@@ -139,33 +161,69 @@ export const Feed: React.FC<Props> = ({
       )}
     >
       <div className="flex flex-col gap-2 h-full w-full">
-        <div className="sticky pb-1.5 top-0 flex justify-between items-center z-10 bg-[#e4a672]">
-          <div className="flex items-center w-full gap-2">
-            <Label type="default">
-              {t("social.feed", { type: capitalize(type) })}
-            </Label>
-            {server && <span className="text-xxs">{server}</span>}
+        <div className="sticky top-0 flex flex-col z-10 bg-[#e4a672]">
+          <div className="flex items-center gap-2 pb-1">
+            <div className="flex items-center w-full gap-2">
+              <Label type="default">
+                {t("social.feed", { type: capitalize(type) })}
+              </Label>
+              {server && <span className="text-xxs">{server}</span>}
+            </div>
+            <img
+              src={SUNNYSIDE.icons.close}
+              className="cursor-pointer"
+              alt="Close"
+              style={{
+                width: `${PIXEL_SCALE * 9}px`,
+                height: `${PIXEL_SCALE * 9}px`,
+              }}
+              onClick={handleCloseFeed}
+            />
           </div>
-          <img
-            src={SUNNYSIDE.icons.close}
-            className="cursor-pointer"
-            alt="Close"
-            style={{
-              width: `${PIXEL_SCALE * 9}px`,
-              height: `${PIXEL_SCALE * 9}px`,
-            }}
-            onClick={() => setShowFeed(false)}
-          />
+          <div className="flex items-center gap-2">
+            {showFollowing && (
+              <img
+                src={SUNNYSIDE.icons.arrow_left}
+                className="w-6"
+                alt="Back"
+                onClick={() => setShowFollowing(false)}
+              />
+            )}
+            <FollowsIndicator
+              count={following.length}
+              onClick={() => setShowFollowing(!showFollowing)}
+              type="following"
+              className="ml-1"
+            />
+          </div>
         </div>
-        <FeedContent
-          feed={feed}
-          username={username ?? `#${farmId}`}
-          isLoadingInitialData={isLoadingInitialData}
-          isLoadingMore={isLoadingMore}
-          hasMore={hasMore}
-          loadMore={loadMore}
-          onInteractionClick={handleInteractionClick}
-        />
+
+        {showFollowing && (
+          <div className="flex flex-col gap-2 -mt-2">
+            <FollowList
+              farmId={farmId}
+              token={token}
+              networkFarmId={farmId}
+              networkList={following}
+              networkCount={following.length}
+              showLabel={false}
+              type="following"
+              navigateToPlayer={handleFollowingClick}
+            />
+          </div>
+        )}
+
+        {!showFollowing && (
+          <FeedContent
+            feed={feed}
+            username={username ?? `#${farmId}`}
+            isLoadingInitialData={isLoadingInitialData}
+            isLoadingMore={isLoadingMore}
+            hasMore={hasMore}
+            loadMore={loadMore}
+            onInteractionClick={handleInteractionClick}
+          />
+        )}
       </div>
     </InnerPanel>
   );
