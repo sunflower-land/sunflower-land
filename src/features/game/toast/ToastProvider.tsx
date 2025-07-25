@@ -7,6 +7,7 @@ import { InventoryItemName } from "../types/game";
 import { BumpkinItem, ITEM_IDS } from "../types/bumpkin";
 import { Bud } from "../types/buds";
 import { KNOWN_IDS } from "../types";
+import { useVisitToastReset } from "./hooks/useVisitToastReset";
 
 /**
  * The type of the toast.
@@ -56,6 +57,7 @@ export const ToastContext = createContext<{
   setFactionPoints: (points: number) => void;
   setWardrobe: (wardrobe: Partial<Record<BumpkinItem, number>>) => void;
   setBuds: (buds: Partial<Record<number, Bud>>) => void;
+  resetToastStates: () => void;
 }>({
   toastsList: [],
   // eslint-disable-next-line no-console
@@ -72,6 +74,8 @@ export const ToastContext = createContext<{
   setWardrobe: console.log,
   // eslint-disable-next-line no-console
   setBuds: console.log,
+  // eslint-disable-next-line no-console
+  resetToastStates: console.log,
 });
 
 /**
@@ -86,6 +90,8 @@ const TOAST_TIMEOUT_MS = 5000;
 export const ToastProvider: React.FC<React.PropsWithChildren> = ({
   children,
 }) => {
+  useVisitToastReset();
+
   const [toastsList, setToastsList] = useState<Toast[]>([]);
 
   const oldInventory = useRef<Partial<Record<InventoryItemName, Decimal>>>();
@@ -460,6 +466,23 @@ export const ToastProvider: React.FC<React.PropsWithChildren> = ({
     debouncedSetOldStates();
   };
 
+  const resetToastStates = () => {
+    oldInventory.current = undefined;
+    newInventory.current = undefined;
+    oldSflBalance.current = undefined;
+    newSflBalance.current = undefined;
+    oldExperience.current = undefined;
+    newExperience.current = undefined;
+    oldCoinBalance.current = undefined;
+    newCoinBalance.current = undefined;
+    oldFactionPoints.current = undefined;
+    newFactionPoints.current = undefined;
+    oldWardrobe.current = undefined;
+    newWardrobe.current = undefined;
+    oldBuds.current = undefined;
+    newBuds.current = undefined;
+  };
+
   return (
     <ToastContext.Provider
       value={{
@@ -471,6 +494,7 @@ export const ToastProvider: React.FC<React.PropsWithChildren> = ({
         setFactionPoints,
         setWardrobe,
         setBuds,
+        resetToastStates,
       }}
     >
       {children}

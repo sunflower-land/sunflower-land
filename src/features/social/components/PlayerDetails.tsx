@@ -101,6 +101,7 @@ export const PlayerDetails: React.FC<Props> = ({
   const visitFarm = () => {
     if (!player) return;
 
+    gameService.send("VISIT", { landId: player.id });
     navigate(`/visit/${player.id}`);
   };
 
