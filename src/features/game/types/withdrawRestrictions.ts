@@ -1,13 +1,10 @@
 import { BoostName, BoostUsedAt } from "../types/game";
-import { BumpkinRevampSkillName } from "./bumpkinSkills";
 import { BudNFTName } from "./marketplace";
 
 const ONE_DAY = 24 * 60 * 60 * 1000;
 
 // Configuration object for boost cooldown restrictions
-const BOOST_COOLDOWN_DAYS: Partial<
-  Record<Exclude<BoostName, BumpkinRevampSkillName>, number>
-> = {
+const BOOST_COOLDOWN_DAYS: Partial<Record<BoostName, number>> = {
   // General Crop Boosts - 2 days
   "Green Amulet": 2,
   Kuebiko: 2,
@@ -75,7 +72,7 @@ export function hasBoostRestriction({
 }: {
   boostUsedAt: BoostUsedAt | undefined;
   createdAt?: number;
-  item: Exclude<BoostName, BumpkinRevampSkillName>;
+  item: BoostName;
 }): { isRestricted: boolean; cooldownTimeLeft: number } {
   if (!boostUsedAt) return { isRestricted: false, cooldownTimeLeft: 0 };
 
