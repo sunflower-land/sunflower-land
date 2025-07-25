@@ -13,7 +13,10 @@ export const getFeedInteractions = async ({
   farmId,
   isGlobal,
   cursor,
-}: Request): Promise<Interaction[]> => {
+}: Request): Promise<{
+  feed: Interaction[];
+  following: number[];
+}> => {
   const res = await fetch(
     `${CONFIG.API_URL}/data?type=feedInteractions&farmId=${farmId}&isGlobal=${isGlobal}&cursor=${cursor}`,
     {
@@ -25,5 +28,8 @@ export const getFeedInteractions = async ({
 
   const response = await res.json();
 
-  return response.data.feed ?? [];
+  return {
+    feed: response.data.feed,
+    following: response.data.following,
+  };
 };

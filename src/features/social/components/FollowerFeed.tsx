@@ -90,9 +90,14 @@ export const FollowerFeed: React.FC<Props> = ({
     farmId,
     callbacks: {
       onInteraction: async (update) => {
-        await mutate((current = []) => {
-          return [[update, ...(current[0] ?? [])], ...current.slice(1)];
-        });
+        await mutate(
+          (current = []) => {
+            return [[update, ...(current[0] ?? [])], ...current.slice(1)];
+          },
+          {
+            revalidate: false,
+          },
+        );
 
         if (!scrolledToBottom) {
           setNewMessagesCount(newMessagesCount + 1);

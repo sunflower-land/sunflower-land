@@ -74,12 +74,7 @@ const HudComponent: React.FC<{
   return (
     <HudContainer>
       {hasFeatureAccess(gameState.context.state, "SOCIAL_FARMING") && (
-        <Feed
-          type="local"
-          showFeed={showFeed}
-          setShowFeed={setShowFeed}
-          interactions={[]}
-        />
+        <Feed type="local" showFeed={showFeed} setShowFeed={setShowFeed} />
       )}
       <div
         className={classNames(

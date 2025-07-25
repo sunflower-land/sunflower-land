@@ -3,7 +3,7 @@ import classNames from "classnames";
 import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import React, { useContext, useRef } from "react";
+import React, { useContext, useEffect, useLayoutEffect, useRef } from "react";
 import { InteractionBubble } from "./components/InteractionBubble";
 import { getRelativeTime } from "lib/utils/time";
 
@@ -22,6 +22,9 @@ import { Interaction } from "./types/types";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
 import { playerModalManager } from "./lib/playerModalManager";
+import { useSocial } from "./hooks/useSocial";
+import { useInView } from "react-intersection-observer";
+import { Loading } from "features/auth/components";
 
 type Props = {
   type: "world" | "local";
@@ -34,6 +37,22 @@ const _username = (state: MachineState) => state.context.state.username;
 const _farmId = (state: MachineState) => state.context.farmId;
 const _token = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
+
+const mergeUpdates = (
+  current: { feed: Interaction[]; following: number[] }[] | undefined,
+  update: Interaction,
+) => {
+  if (!current || current.length === 0) {
+    return [{ feed: [update], following: [] }];
+  }
+  return [
+    {
+      feed: [update, ...(current[0]?.feed ?? [])],
+      following: current[0]?.following ?? [],
+    },
+    ...current.slice(1),
+  ];
+};
 
 export const Feed: React.FC<Props> = ({
   showFeed,
@@ -51,13 +70,45 @@ export const Feed: React.FC<Props> = ({
   const { t } = useAppTranslation();
 
   const {
-    interactions,
+    feed,
+    following,
     isLoadingInitialData,
     isLoadingMore,
     hasMore,
     loadMore,
     mutate,
   } = useFeedInteractions(token, farmId, type === "world");
+
+  useLayoutEffect(() => {
+    if (showFeed && !isLoadingInitialData) {
+      mutate();
+    }
+  }, [showFeed, isLoadingInitialData, mutate]);
+
+  useSocial({
+    farmId,
+    callbacks: {
+      onInteraction: async (update) => {
+        await mutate((current) => mergeUpdates(current, update), {
+          revalidate: false,
+        });
+      },
+      onMilestone: async (update) => {
+        // Don't show global milestones for non-world feeds if you are not following the sender
+        if (update.isGlobal && !following.includes(update.sender.id)) return;
+
+        await mutate((current) => mergeUpdates(current, update), {
+          revalidate: false,
+        });
+      },
+      onUnfollow: async () => {
+        await mutate();
+      },
+      onFollow: async () => {
+        await mutate();
+      },
+    },
+  });
 
   const handleInteractionClick = (interaction: Interaction) => {
     setShowFeed(false);
@@ -97,6 +148,7 @@ export const Feed: React.FC<Props> = ({
           </div>
           <img
             src={SUNNYSIDE.icons.close}
+            className="cursor-pointer"
             alt="Close"
             style={{
               width: `${PIXEL_SCALE * 9}px`,
@@ -106,13 +158,12 @@ export const Feed: React.FC<Props> = ({
           />
         </div>
         <FeedContent
-          interactions={interactions}
+          feed={feed}
           username={username ?? `#${farmId}`}
           isLoadingInitialData={isLoadingInitialData}
           isLoadingMore={isLoadingMore}
           hasMore={hasMore}
           loadMore={loadMore}
-          mutate={mutate}
           onInteractionClick={handleInteractionClick}
         />
       </div>
@@ -121,34 +172,46 @@ export const Feed: React.FC<Props> = ({
 };
 
 type FeedContentProps = {
-  interactions: Interaction[];
+  feed: Interaction[];
   username: string;
   isLoadingInitialData: boolean;
   isLoadingMore: boolean;
   hasMore: boolean | undefined;
   onInteractionClick: (interaction: Interaction) => void;
   loadMore: () => void;
-  mutate: () => void;
 };
 
 const FeedContent: React.FC<FeedContentProps> = ({
-  interactions,
+  feed,
   username,
   isLoadingInitialData,
   onInteractionClick,
   isLoadingMore,
   hasMore,
   loadMore,
-  mutate,
 }) => {
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   const loaderRef = useRef<HTMLDivElement>(null);
   const { t } = useAppTranslation();
+
+  // Intersection observer to load more interactions when the loader is in view
+  const { ref: intersectionRef, inView } = useInView({
+    root: scrollContainerRef.current,
+    rootMargin: "0px",
+    threshold: 0.1,
+  });
+
+  useEffect(() => {
+    if (inView && hasMore && !isLoadingMore) {
+      loadMore();
+    }
+  }, [inView, hasMore, isLoadingMore, loadMore, scrollContainerRef]);
 
   if (isLoadingInitialData) {
     return <FeedSkeleton />;
   }
 
-  if (interactions.length === 0) {
+  if (feed.length === 0) {
     return (
       <div className="flex justify-center items-center h-full">
         <Label type="default">{t("noActivity")}</Label>
@@ -157,9 +220,9 @@ const FeedContent: React.FC<FeedContentProps> = ({
   }
 
   return (
-    <div className="scrollable overflow-y-auto">
+    <div ref={scrollContainerRef} className="scrollable overflow-y-auto">
       <div className="flex flex-col gap-1 pr-1">
-        {interactions.map((interaction, index) => {
+        {feed.map((interaction, index) => {
           const direction =
             interaction?.sender.username === username ? "right" : "left";
           const sender =
@@ -188,7 +251,7 @@ const FeedContent: React.FC<FeedContentProps> = ({
               >
                 <div className="text-xxs flex">
                   <div className="-ml-1 mr-1">
-                    <NPCIcon parts={parts} />
+                    <NPCIcon parts={parts} width={PIXEL_SCALE * 14} />
                   </div>
                   <div className="flex flex-col gap-1">
                     <span className="flex items-center gap-1">
@@ -209,7 +272,16 @@ const FeedContent: React.FC<FeedContentProps> = ({
           );
         })}
       </div>
-      <div ref={loaderRef} className="h-10" />
+      <div
+        ref={(el) => {
+          (loaderRef as any).current = el;
+          intersectionRef(el);
+        }}
+        id="loading-more"
+        className="text-xs flex justify-center py-1 h-5"
+      >
+        {hasMore ? <Loading dotsOnly /> : t("playerModal.noMoreMessages")}
+      </div>
     </div>
   );
 };
