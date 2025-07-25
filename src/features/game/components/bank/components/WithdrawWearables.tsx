@@ -13,6 +13,7 @@ import { getKeys } from "features/game/types/craftables";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
+import { BUMPKIN_RELEASES } from "features/game/types/withdrawables";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/game/GameProvider";
 import { getImageUrl } from "lib/utils/getImageURLS";
@@ -25,7 +26,6 @@ import { RequiredReputation } from "features/island/hud/components/reputation/Re
 import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
 import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
 import { hasBoostRestriction } from "features/game/types/withdrawRestrictions";
-import { BUMPKIN_RELEASES } from "features/game/types/withdrawables";
 
 interface Props {
   onWithdraw: (ids: number[], amounts: number[]) => void;
