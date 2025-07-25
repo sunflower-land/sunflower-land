@@ -46,6 +46,14 @@ const BOOST_COOLDOWN_DAYS: Partial<
   "Obsidian Necklace": 3,
   "Obsidian Turtle": 3,
 
+  // Flower Boosts - 5 days
+  "Flower Crown": 5,
+  "Flower Fox": 5,
+  "Humming Bird": 5,
+  Butterfly: 5,
+  "Desert Rose": 5,
+  Chicory: 5,
+
   "Crimstone Hammer": 5,
   "Grinx's Hammer": 7,
   // Add other boost items with their respective cooldown days
