@@ -305,7 +305,7 @@ export function siteHasExpired({
 }
 
 /**
- * When the archaelogy site resets
+ * When the archaeology site resets
  * TODO - change to daily after testing
  */
 export function secondsTillDesertStorm() {
