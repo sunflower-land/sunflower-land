@@ -102,7 +102,7 @@ export const ToastPanel: React.FC = () => {
    */
   gameService.onTransition((state) => {
     // does nothing if no state changes
-    if (!state.changed) return;
+    if (!state.changed || state.value === "visiting") return;
 
     // set old and new states
     oldInventory.current = newInventory.current;
