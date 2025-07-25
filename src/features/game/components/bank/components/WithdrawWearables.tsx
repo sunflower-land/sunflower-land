@@ -13,7 +13,6 @@ import { getKeys } from "features/game/types/craftables";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
-import { BUMPKIN_RELEASES } from "features/game/types/withdrawables";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Context } from "features/game/GameProvider";
 import { getImageUrl } from "lib/utils/getImageURLS";
@@ -26,6 +25,7 @@ import { RequiredReputation } from "features/island/hud/components/reputation/Re
 import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
 import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
 import { hasBoostRestriction } from "features/game/types/withdrawRestrictions";
+import { BUMPKIN_RELEASES } from "features/game/types/withdrawables";
 
 interface Props {
   onWithdraw: (ids: number[], amounts: number[]) => void;
@@ -96,6 +96,11 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
 
   const withdrawableItems = [...new Set([...getKeys(wardrobe)])]
     .filter((item) => wardrobe[item])
+    .filter((itemName) => {
+      const withdrawAt = BUMPKIN_RELEASES[itemName]?.withdrawAt;
+      const canWithdraw = !!withdrawAt && withdrawAt <= new Date();
+      return canWithdraw;
+    })
     .sort((a, b) => ITEM_IDS[a] - ITEM_IDS[b]);
 
   const selectedItems = getKeys(selected)
@@ -128,8 +133,6 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
           {withdrawableItems.map((itemName) => {
             const wardrobeCount = wardrobe[itemName];
 
-            const withdrawAt = BUMPKIN_RELEASES[itemName]?.withdrawAt;
-            const canWithdraw = !!withdrawAt && withdrawAt <= new Date();
             const { isRestricted } = hasBoostRestriction({
               boostUsedAt: state.boostsUsedAt,
               item: itemName,
@@ -140,11 +143,7 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
                 count={new Decimal(wardrobeCount ?? 0)}
                 key={itemName}
                 onClick={() => onAdd(itemName)}
-                disabled={
-                  isRestricted ||
-                  !canWithdraw ||
-                  selected[itemName] !== undefined
-                }
+                disabled={isRestricted || selected[itemName] !== undefined}
                 image={getImageUrl(ITEM_IDS[itemName])}
               />
             );
