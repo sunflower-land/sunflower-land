@@ -103,11 +103,13 @@ export function getMinedAt({ skills, createdAt, game }: GetMinedAtArgs): {
 }
 
 export function getRequiredPickaxeAmount(gameState: GameState) {
+  const boostsUsed: BoostName[] = [];
   if (isCollectibleBuilt({ name: "Quarry", game: gameState })) {
-    return new Decimal(0);
+    boostsUsed.push("Quarry");
+    return { amount: new Decimal(0), boostsUsed };
   }
 
-  return new Decimal(1);
+  return { amount: new Decimal(1), boostsUsed };
 }
 type GetStoneDropAmountArgs = {
   game: GameState;
@@ -328,7 +330,8 @@ export function mineStone({
     }
 
     const toolAmount = stateCopy.inventory["Pickaxe"] || new Decimal(0);
-    const requiredToolAmount = getRequiredPickaxeAmount(stateCopy);
+    const { amount: requiredToolAmount, boostsUsed: pickaxeBoostsUsed } =
+      getRequiredPickaxeAmount(stateCopy);
 
     if (toolAmount.lessThan(requiredToolAmount)) {
       throw new Error("Not enough pickaxes");
@@ -381,6 +384,7 @@ export function mineStone({
         ...minedAtBoostsUsed,
         ...stoneMinedBoostsUsed,
         ...boostedTimeBoostsUsed,
+        ...pickaxeBoostsUsed,
       ],
       createdAt,
     });

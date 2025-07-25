@@ -38,7 +38,7 @@ const HasTool = (
   inventory: Partial<Record<InventoryItemName, Decimal>>,
   gameState: GameState,
 ) => {
-  const axesNeeded = getRequiredAxeAmount(inventory, gameState);
+  const { amount: axesNeeded } = getRequiredAxeAmount(inventory, gameState);
 
   // has enough axes to chop the tree
 

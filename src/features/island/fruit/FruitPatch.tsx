@@ -41,7 +41,7 @@ const HasAxes = (
   inventory: Partial<Record<InventoryItemName, Decimal>>,
   game: GameState,
 ) => {
-  const axesNeeded = getRequiredAxeAmount(inventory, game);
+  const { amount: axesNeeded } = getRequiredAxeAmount(inventory, game);
 
   // has enough axes to chop the tree
   if (axesNeeded <= 0) return true;

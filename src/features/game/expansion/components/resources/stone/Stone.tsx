@@ -32,7 +32,7 @@ const HasTool = (
   inventory: Partial<Record<InventoryItemName, Decimal>>,
   gameState: GameState,
 ) => {
-  const requiredToolAmount = getRequiredPickaxeAmount(gameState);
+  const { amount: requiredToolAmount } = getRequiredPickaxeAmount(gameState);
   if (requiredToolAmount.lte(0)) return true;
   return (inventory[tool] ?? new Decimal(0)).gte(requiredToolAmount);
 };
