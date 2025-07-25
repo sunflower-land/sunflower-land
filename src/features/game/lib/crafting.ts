@@ -27,7 +27,7 @@ export type RecipeCollectibleName = Extract<
   | "Mahogany Cap"
   | "Golden Maple"
   | RecipeCraftableName
-  | BedName,
+  | Exclude<BedName, "Double Bed">,
   InventoryItemName
 >;
 
@@ -325,7 +325,10 @@ export const RECIPES_OLD: Recipes = {
 };
 
 export const RECIPES_REVISED: Record<
-  Exclude<RecipeCollectibleName, "Dirt Path" | "Fence" | "Stone Fence">,
+  Exclude<
+    RecipeCollectibleName,
+    "Dirt Path" | "Fence" | "Stone Fence" | "Double Bed"
+  >,
   Recipe
 > = {
   "Toadstool Seat": {

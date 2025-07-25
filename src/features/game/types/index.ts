@@ -1109,6 +1109,25 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Expert Cooking Pot": 2289,
   "Advanced Cooking Pot": 2290,
 
+  // Better Together - Items
+  "Floor Mirror": 2294,
+  "Long Rug": 2295,
+  "Garbage Bin": 2296,
+  Wheelbarrow: 2297,
+  "Snail King": 2298,
+  "Reelmaster's Chair": 2299,
+  "Rat King": 2300,
+  "Fruit Tune Box": 2301,
+  "Double Bed": 2302,
+  "Giant Artichoke": 2303,
+  "Rocket Statue": 2304,
+  "Ant Queen": 2305,
+  "Jurassic Droplet": 2306,
+  "Giant Onion": 2307,
+  "Giant Turnip": 2308,
+  "Groovy Gramophone": 2309,
+  "Wheat Whiskers": 2310,
+
   // Land Biomes
   "Basic Biome": 2400,
   "Spring Biome": 2401,
