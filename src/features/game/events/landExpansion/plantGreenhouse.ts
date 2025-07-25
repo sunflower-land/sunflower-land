@@ -133,6 +133,18 @@ export const getGreenhouseCropTime = ({
     boostsUsed.push("Rice and Shine");
   }
 
+  // Olive Express: 10% reduction
+  if (crop === "Olive" && game.bumpkin.skills["Olive Express"]) {
+    seconds = seconds * 0.9;
+    boostsUsed.push("Olive Express");
+  }
+
+  // Rice Rocket: 10% reduction
+  if (crop === "Rice" && game.bumpkin.skills["Rice Rocket"]) {
+    seconds = seconds * 0.9;
+    boostsUsed.push("Rice Rocket");
+  }
+
   return { seconds, boostsUsed };
 };
 

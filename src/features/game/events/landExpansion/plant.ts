@@ -263,17 +263,6 @@ export function getCropTime({
     boostsUsed.push("Autumn's Embrace");
   }
 
-  // Olive Express: 10% reduction
-  if (crop === "Olive" && skills["Olive Express"]) {
-    multiplier = multiplier * 0.9;
-    boostsUsed.push("Olive Express");
-  }
-
-  // Rice Rocket: 10% reduction
-  if (crop === "Rice" && skills["Rice Rocket"]) {
-    multiplier = multiplier * 0.9;
-    boostsUsed.push("Rice Rocket");
-  }
   // Apply bud speed boosts
   const { speedBoost: budMultiplier, budUsed } = getBudSpeedBoosts(buds, crop);
   multiplier *= budMultiplier;
