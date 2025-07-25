@@ -105,6 +105,13 @@ export const FollowerFeed: React.FC<Props> = ({
           scrollToBottom();
         }
       },
+      onMilestone: async (update) => {
+        if (update.sender.id !== playerId) return;
+
+        await mutate((current = []) => {
+          return [[update, ...(current[0] ?? [])], ...current.slice(1)];
+        });
+      },
     },
   });
 
