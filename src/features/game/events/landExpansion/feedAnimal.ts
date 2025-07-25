@@ -192,6 +192,7 @@ export function feedAnimal({
     const { buildingRequired } = ANIMALS[action.animal];
     const buildingKey = makeAnimalBuildingKey(buildingRequired);
     const animal = copy[buildingKey].animals[action.id];
+    const boostsUsed: BoostName[] = [];
 
     if (!animal) {
       throw new Error(
@@ -263,6 +264,7 @@ export function feedAnimal({
 
     // Handle Golden Egg Free Food
     if (action.animal === "Chicken" && hasGoldenEggPlaced) {
+      boostsUsed.push("Gold Egg");
       return handleFreeFeeding({
         animal,
         animalType: action.animal,
@@ -273,6 +275,7 @@ export function feedAnimal({
 
     // Handle Golden Cow Free Food
     if (action.animal === "Cow" && hasGoldenCowPlaced) {
+      boostsUsed.push("Golden Cow");
       return handleFreeFeeding({
         animal,
         animalType: action.animal,
@@ -283,6 +286,7 @@ export function feedAnimal({
 
     // Handle Golden Sheep Free Food
     if (action.animal === "Sheep" && hasGoldenSheepPlaced) {
+      boostsUsed.push("Golden Sheep");
       return handleFreeFeeding({
         animal,
         animalType: action.animal,
@@ -304,7 +308,7 @@ export function feedAnimal({
     });
 
     const foodQuantity = REQUIRED_FOOD_QTY[action.animal];
-    const { foodQuantity: boostedFoodQuantity, boostsUsed } =
+    const { foodQuantity: boostedFoodQuantity, boostsUsed: foodBoostsUsed } =
       getBoostedFoodQuantity({
         animalType: action.animal,
         foodQuantity,
@@ -319,6 +323,8 @@ export function feedAnimal({
     }
 
     copy.inventory[food] = inventoryAmount.sub(boostedFoodQuantity);
+
+    boostsUsed.push(...foodBoostsUsed);
 
     const isReady = handleAnimalExperience(
       animal,
