@@ -80,9 +80,9 @@ export function getWoodDropAmount({
 
   if (hasBeaverReady) {
     amount = amount.mul(1.2);
-    if (hasWoodyTheBeaver) boostsUsed.push("Woody the Beaver");
+    if (hasForemanBeaver) boostsUsed.push("Foreman Beaver");
     else if (hasApprenticeBeaver) boostsUsed.push("Apprentice Beaver");
-    else if (hasForemanBeaver) boostsUsed.push("Foreman Beaver");
+    else if (hasWoodyTheBeaver) boostsUsed.push("Woody the Beaver");
   }
 
   if (inventory["Discord Mod"]) {
@@ -213,15 +213,18 @@ export function getRequiredAxeAmount(
   inventory: Inventory,
   gameState: GameState,
 ) {
+  const boostsUsed: BoostName[] = [];
   if (isCollectibleBuilt({ name: "Foreman Beaver", game: gameState })) {
-    return new Decimal(0);
+    boostsUsed.push("Foreman Beaver");
+    return { amount: new Decimal(0), boostsUsed };
   }
 
   if (inventory.Logger?.gte(1)) {
-    return new Decimal(0.5);
+    boostsUsed.push("Logger");
+    return { amount: new Decimal(0.5), boostsUsed };
   }
 
-  return new Decimal(1);
+  return { amount: new Decimal(1), boostsUsed };
 }
 
 export function chop({
@@ -236,7 +239,8 @@ export function chop({
       throw new Error("You do not have a Bumpkin!");
     }
 
-    const requiredAxes = getRequiredAxeAmount(state.inventory, state);
+    const { amount: requiredAxes, boostsUsed: axeBoostsUsed } =
+      getRequiredAxeAmount(state.inventory, state);
 
     const axeAmount = inventory.Axe || new Decimal(0);
     if (axeAmount.lessThan(requiredAxes)) {
@@ -278,7 +282,11 @@ export function chop({
 
     stateCopy.boostsUsedAt = updateBoostUsed({
       game: stateCopy,
-      boostNames: [...choppedAtBoostsUsed, ...woodHarvestedBoostsUsed],
+      boostNames: [
+        ...choppedAtBoostsUsed,
+        ...woodHarvestedBoostsUsed,
+        ...axeBoostsUsed,
+      ],
       createdAt,
     });
     return stateCopy;
