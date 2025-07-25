@@ -104,7 +104,7 @@ export const Recipes: React.FC<Props> = ({
     return latestRecipeCompletionTime;
   };
 
-  const cookingTime = getCookingTime({
+  const { reducedSecs: cookingTime } = getCookingTime({
     seconds: getCookingOilBoost(selected.name, state, buildingId).timeToCook,
     item: selected.name,
     game: state,
