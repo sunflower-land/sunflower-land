@@ -227,7 +227,7 @@ export function getCropTime({
     seconds = seconds * 0.95;
   }
 
-  //If lunar calender: 10% reduction
+  //If lunar calendar: 10% reduction
   if (isCollectibleBuilt({ name: "Lunar Calendar", game })) {
     seconds = seconds * 0.9;
   }

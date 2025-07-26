@@ -289,7 +289,7 @@ export const BumpkinInfo: React.FC<{
                   <img
                     src={SUNNYSIDE.icons.expression_alerted}
                     className="ml-2 w-2"
-                    alt="Exclaimation"
+                    alt="Exclamation"
                   />
                 )}
               </div>

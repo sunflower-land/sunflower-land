@@ -483,7 +483,7 @@ describe("plant", () => {
     expect(plantedAt - 5).toBeLessThan(dateNow - carrotTime * 0.15);
   });
 
-  it("grows faster if Lunar calender is placed", () => {
+  it("grows faster if Lunar calendar is placed", () => {
     const state = plant({
       state: {
         ...GAME_STATE,
