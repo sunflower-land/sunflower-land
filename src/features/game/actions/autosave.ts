@@ -145,6 +145,10 @@ export async function autosave(request: Request, retries = 0) {
     throw new Error(ERRORS.AUTOSAVE_CLOCK_ERROR);
   }
 
+  if (response.status === 403) {
+    throw new Error(ERRORS.AUTOSAVE_CLIENT_ERROR);
+  }
+
   if (response.status === 429) {
     throw new Error(ERRORS.TOO_MANY_REQUESTS);
   }

@@ -9,6 +9,7 @@ import { OuterPanel } from "components/ui/Panel";
 import { hasFeatureAccess } from "lib/flags";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
+import { useVisiting } from "lib/utils/visitUtils";
 
 function hasOpened() {
   return !!localStorage.getItem("hasOpenedNewWardrobe");
@@ -20,6 +21,7 @@ function acknowledge() {
 export const Wardrobe: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
   const { gameService } = useContext(Context);
+  const { isVisiting } = useVisiting();
 
   // TODO: Delete this after release
   const hasAccess = useSelector(gameService, (state) =>
@@ -32,7 +34,7 @@ export const Wardrobe: React.FC = () => {
   };
   return (
     <>
-      {!hasOpened() && hasAccess && (
+      {!hasOpened() && hasAccess && !isVisiting && (
         <img
           src={SUNNYSIDE.icons.click_icon}
           className="absolute bottom-0 right-0 z-20 cursor-pointer animate-pulsate"

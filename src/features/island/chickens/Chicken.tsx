@@ -29,8 +29,6 @@ import {
 import { MachineState as GameMachineState } from "features/game/lib/gameMachine";
 import { MoveableComponent } from "../collectibles/MovableComponent";
 import { ZoomContext } from "components/ZoomProvider";
-import { isLocked } from "features/game/events/landExpansion/moveChicken";
-import { SquareIcon } from "components/ui/SquareIcon";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useSound } from "lib/utils/hooks/useSound";
@@ -446,42 +444,6 @@ const PlaceableChicken: React.FC<Props> = ({ id }) => {
 };
 
 const isLandscaping = (state: GameMachineState) => state.matches("landscaping");
-const _collectibles = (state: GameMachineState) =>
-  state.context.state.collectibles;
-const _chickens = (state: GameMachineState) => state.context.state.chickens;
-const _bumpkin = (state: GameMachineState) => state.context.state.bumpkin;
-
-const LockedChicken: React.FC<Props> = (props) => {
-  const [showPopover, setShowPopover] = useState(false);
-  const { t } = useAppTranslation();
-
-  return (
-    <div
-      className="relative w-full h-full"
-      onMouseEnter={() => setShowPopover(true)}
-      onMouseLeave={() => setShowPopover(false)}
-    >
-      {showPopover && (
-        <div
-          className="flex justify-center absolute w-full pointer-events-none"
-          style={{
-            top: `${PIXEL_SCALE * -15}px`,
-          }}
-        >
-          <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
-            <div className="flex items-center space-x-2 mx-1 p-1">
-              <SquareIcon icon={SUNNYSIDE.icons.lock} width={5} />
-              <span className="text-xxs mb-0.5">{t("aoe.locked")}</span>
-            </div>
-          </InnerPanel>
-        </div>
-      )}
-      <div className="relative">
-        <PlaceableChicken {...props} />
-      </div>
-    </div>
-  );
-};
 
 const MoveableChicken: React.FC<Props> = (props) => {
   return (
@@ -498,16 +460,6 @@ const MoveableChicken: React.FC<Props> = (props) => {
 };
 
 const LandscapingChicken: React.FC<Props> = (props) => {
-  const { gameService } = useContext(Context);
-
-  const collectibles = useSelector(gameService, _collectibles);
-  const chickens = useSelector(gameService, _chickens);
-  const bumpkin = useSelector(gameService, _bumpkin);
-
-  if (isLocked(chickens[props.id], collectibles, Date.now(), bumpkin)) {
-    return <LockedChicken {...props} />;
-  }
-
   return <MoveableChicken {...props} />;
 };
 

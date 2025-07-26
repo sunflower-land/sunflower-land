@@ -913,6 +913,11 @@ import springBiome from "assets/icons/islands/spring.webp";
 import desertBiome from "assets/icons/islands/desert.webp";
 import volcanoBiome from "assets/icons/islands/volcano.webp";
 
+import farmerMonument from "assets/monuments/shovel_monument.webp";
+import minerMonument from "assets/monuments/pickaxe_monument.webp";
+import woodcutterMonument from "assets/monuments/axe_monument.webp";
+import teamworkMonument from "assets/monuments/chapters_monument_teamwork.webp";
+
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
 import { CROPS, CROP_SEEDS, GREENHOUSE_CROPS, GREENHOUSE_SEEDS } from "./crops";
@@ -5380,5 +5385,45 @@ export const ITEM_DETAILS: Items = {
   "Better Together Banner": {
     image: betterTogetherBanner,
     description: "",
+  },
+  "Big Apple": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.bigApple"),
+  },
+  "Big Orange": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.bigOrange"),
+  },
+  "Big Banana": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.bigBanana"),
+  },
+  "Farmer's Monument": {
+    image: farmerMonument,
+    description: translate("description.farmerMonument"),
+  },
+  "Miner's Monument": {
+    image: minerMonument,
+    description: translate("description.minerMonument"),
+  },
+  "Woodcutter's Monument": {
+    image: woodcutterMonument,
+    description: translate("description.woodcutterMonument"),
+  },
+  "Teamwork Monument": {
+    image: teamworkMonument,
+    description: translate("description.teamworkMonument"),
+  },
+  "Basic Cooking Pot": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.basicCookingPot"),
+  },
+  "Expert Cooking Pot": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.expertCookingPot"),
+  },
+  "Advanced Cooking Pot": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.advancedCookingPot"),
   },
 };

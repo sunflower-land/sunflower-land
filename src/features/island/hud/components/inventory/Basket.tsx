@@ -139,7 +139,8 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
     return getCropPlotTime({
       crop,
       game: gameState,
-    });
+      createdAt: Date.now(),
+    }).time;
   };
 
   const harvestCounts = getFruitHarvests(gameState, selectedItem as SeedName);
