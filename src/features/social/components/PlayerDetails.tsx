@@ -25,7 +25,7 @@ import { useTranslation } from "react-i18next";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { useVisiting } from "lib/utils/visitUtils";
 import { Player } from "../types/types";
 import { useSocial } from "../hooks/useSocial";
@@ -71,11 +71,12 @@ export const PlayerDetails: React.FC<Props> = ({
   canGoBack,
   onGoBack,
 }) => {
-  const { gameService } = useContext(Context);
+  const { gameService, setFromRoute } = useContext(Context);
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { isVisiting } = useVisiting();
   const farmId = useSelector(gameService, _farmId);
+  const location = useLocation();
 
   const player = data?.data;
 
@@ -101,6 +102,10 @@ export const PlayerDetails: React.FC<Props> = ({
   const visitFarm = () => {
     if (!player) return;
 
+    // Setting from route to navigate back to the correct page after visit
+    setFromRoute(location.pathname);
+
+    gameService.send("VISIT", { landId: player.id });
     navigate(`/visit/${player.id}`);
   };
 

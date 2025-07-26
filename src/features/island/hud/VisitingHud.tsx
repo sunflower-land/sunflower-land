@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 
 import { Balances } from "components/Balances";
 import { useActor } from "@xstate/react";
@@ -15,15 +15,27 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { RoundButton } from "components/ui/RoundButton";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { HudContainer } from "components/ui/HudContainer";
+import { useNavigate } from "react-router";
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
  * Balances, Inventory, actions etc.
  */
 export const VisitingHud: React.FC = () => {
-  const { gameService, shortcutItem, selectedItem } = useContext(Context);
+  const { gameService, shortcutItem, selectedItem, fromRoute } =
+    useContext(Context);
   const [gameState] = useActor(gameService);
   const { t } = useAppTranslation();
+  const navigate = useNavigate();
+
+  const handleEndVisit = () => {
+    navigate(fromRoute ?? "/");
+    gameService.send("END_VISIT");
+  };
+
+  useEffect(() => {
+    return () => handleEndVisit();
+  }, []);
 
   return (
     <HudContainer>
@@ -76,7 +88,7 @@ export const VisitingHud: React.FC = () => {
           onClick={(e) => {
             e.stopPropagation();
             e.preventDefault();
-            gameService.send("END_VISIT");
+            handleEndVisit();
           }}
         >
           <img

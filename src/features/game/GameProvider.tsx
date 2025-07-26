@@ -2,7 +2,7 @@
  * A wrapper that provides game state and dispatches events
  */
 import { useState, useCallback } from "react";
-import { useActor, useInterpret } from "@xstate/react";
+import { useActor, useInterpret, useSelector } from "@xstate/react";
 import React, { useContext } from "react";
 
 import * as Auth from "features/auth/lib/Provider";
@@ -11,7 +11,7 @@ import {
   getShortcuts,
 } from "features/farming/hud/lib/shortcuts";
 
-import { startGame, MachineInterpreter } from "./lib/gameMachine";
+import { startGame, MachineInterpreter, MachineState } from "./lib/gameMachine";
 import { InventoryItemName } from "./types/game";
 import {
   cacheShowAnimationsSetting,
@@ -42,6 +42,8 @@ interface GameContext {
 
 export const Context = React.createContext<GameContext>({} as GameContext);
 
+const _visiting = (state: MachineState) => state.matches("visiting");
+
 export const GameProvider: React.FC<React.PropsWithChildren> = ({
   children,
 }) => {
@@ -62,6 +64,8 @@ export const GameProvider: React.FC<React.PropsWithChildren> = ({
   );
   const [showTimers, setShowTimers] = useState<boolean>(getShowTimersSetting());
   const [fromRoute, setFromRoute] = useState<string>("");
+
+  const visiting = useSelector(gameService, _visiting);
 
   const shortcutItem = useCallback((item: InventoryItemName) => {
     const originalShortcuts = getShortcuts();
