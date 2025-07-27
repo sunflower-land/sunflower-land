@@ -319,6 +319,7 @@ export const NON_COLLIDING_OBJECTS: InventoryItemName[] = [
   "Red Tile",
   "Yellow Tile",
   "Balloon Rug",
+  "Long Rug",
 ];
 
 function detectHomeCollision({

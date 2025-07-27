@@ -111,7 +111,13 @@ export type SoldOutCollectibleName =
   | "Summer Guardian"
   | "Spring Guardian"
   | "Autumn Guardian"
-  | "Sky Pillar";
+  | "Sky Pillar"
+  | "Rocket Statue"
+  | "Ant Queen"
+  | "Jurassic Droplet"
+  | "Giant Onion"
+  | "Giant Turnip"
+  | "Groovy Gramophone";
 
 export type MegaStoreCollectibleName =
   | "Flower Cart"

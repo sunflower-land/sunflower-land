@@ -889,6 +889,24 @@ import giantZuchinni from "assets/sfts/giant_zuchinni.webp";
 import miniFloatingIsland from "assets/sfts/mini_floating_island.webp";
 import giantKale from "assets/sfts/giant_kale.webp";
 
+import floorMirror from "assets/sfts/floor_mirror.webp";
+import longRug from "assets/sfts/long_rug.webp";
+import garbageBin from "assets/sfts/garbage_bin.webp";
+import wheelBarrow from "assets/sfts/wheelbarrow.webp";
+import snailKing from "assets/sfts/snail_king.webp";
+import reelmastersChair from "assets/sfts/reelmasters_chair.webp";
+import ratKing from "assets/sfts/rat_king.webp";
+import fruitTuneBox from "assets/sfts/fruit_tune_box.webp";
+import doubleBed from "assets/sfts/double_bed.webp";
+import giantArtichoke from "assets/sfts/giant_artichoke.webp";
+import rocketStatue from "assets/sfts/rocket_statue.webp";
+import antQueen from "assets/sfts/ant_queen.webp";
+import jurassicDroplet from "assets/sfts/jurassic_droplet.webp";
+import giantOnion from "assets/sfts/giant_onion.webp";
+import giantTurnip from "assets/sfts/giant_turnip.webp";
+import groovyGramophone from "assets/sfts/groovy_gramophone.webp";
+import wheatWhiskers from "assets/sfts/wheat_whiskers.webp";
+
 import bronzeLoveBox from "assets/rewardBoxes/bronze_love_box.webp";
 import silverLoveBox from "assets/rewardBoxes/silver_love_box.webp";
 import goldLoveBox from "assets/rewardBoxes/gold_love_box.webp";
@@ -5425,5 +5443,73 @@ export const ITEM_DETAILS: Items = {
   "Advanced Cooking Pot": {
     image: SUNNYSIDE.icons.expression_confused,
     description: translate("description.advancedCookingPot"),
+  },
+  "Floor Mirror": {
+    image: floorMirror,
+    description: translate("description.floorMirror"),
+  },
+  "Long Rug": {
+    image: longRug,
+    description: translate("description.longRug"),
+  },
+  "Garbage Bin": {
+    image: garbageBin,
+    description: translate("description.garbageBin"),
+  },
+  Wheelbarrow: {
+    image: wheelBarrow,
+    description: translate("description.wheelBarrow"),
+  },
+  "Snail King": {
+    image: snailKing,
+    description: translate("description.snailKing"),
+  },
+  "Reelmaster's Chair": {
+    image: reelmastersChair,
+    description: translate("description.reelmastersChair"),
+  },
+  "Rat King": {
+    image: ratKing,
+    description: translate("description.ratKing"),
+  },
+  "Fruit Tune Box": {
+    image: fruitTuneBox,
+    description: translate("description.fruitTuneBox"),
+  },
+  "Double Bed": {
+    image: doubleBed,
+    description: translate("description.doubleBed"),
+  },
+  "Giant Artichoke": {
+    image: giantArtichoke,
+    description: translate("description.giantArtichoke"),
+  },
+  "Rocket Statue": {
+    image: rocketStatue,
+    description: translate("description.rocketStatue"),
+  },
+  "Ant Queen": {
+    image: antQueen,
+    description: translate("description.antQueen"),
+  },
+  "Jurassic Droplet": {
+    image: jurassicDroplet,
+    description: translate("description.jurassicDroplet"),
+  },
+  "Giant Onion": {
+    image: giantOnion,
+    description: translate("description.giantOnion"),
+  },
+  "Giant Turnip": {
+    image: giantTurnip,
+    description: translate("description.giantTurnip"),
+  },
+  "Groovy Gramophone": {
+    image: groovyGramophone,
+    description: translate("description.groovyGramophone"),
+  },
+  "Wheat Whiskers": {
+    image: wheatWhiskers,
+    description: translate("description.wheatWhiskers"),
   },
 };

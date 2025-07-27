@@ -34,7 +34,18 @@ export type SeasonalCollectibleName =
   | "Heart Air Balloon"
   | "Giant Zucchini"
   | "Giant Kale"
-  | "Mini Floating Island";
+  | "Mini Floating Island"
+  // Better Together
+  | "Floor Mirror"
+  | "Long Rug"
+  | "Garbage Bin"
+  | "Wheelbarrow"
+  | "Snail King"
+  | "Reelmaster's Chair"
+  | "Rat King"
+  | "Fruit Tune Box"
+  | "Double Bed"
+  | "Giant Artichoke";
 
 export type SeasonalWearableName = Extract<
   BumpkinItem,
