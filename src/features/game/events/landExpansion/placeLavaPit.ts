@@ -3,7 +3,6 @@ import cloneDeep from "lodash.clonedeep";
 import Decimal from "decimal.js-light";
 import { GameState, LavaPit } from "features/game/types/game";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
-import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 
 export type PlaceLavaPitAction = {
   type: "lavaPit.placed";
