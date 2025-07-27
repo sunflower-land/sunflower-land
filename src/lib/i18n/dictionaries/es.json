@@ -6120,5 +6120,22 @@
   "description.toolshed.boost": "Más de un 50% de stock de herramientas para mesas de trabajo",
   "landscape.confirmation.gnomes.one": "Coloca los tres gnomos en este orden (de izquierda a derecha): azul, rojo, naranja.",
   "landscape.confirmation.gnomes.two": "La parcela de cultivo debe colocarse directamente en frente del gnomo rojo.",
-  "landscape.confirmation.gnomes.three": "Después de 24 horas, el impulso se activará para esa única parcela."
+  "landscape.confirmation.gnomes.three": "Después de 24 horas, el impulso se activará para esa única parcela.",
+  "description.floorMirror": "Un espejo alto perfecto para reflejar todo el cuerpo.",
+  "description.longRug": "Una alfombra estampada horizontalmente larga para calentar cualquier suelo.",
+  "description.garbageBin": "Un contenedor resistente que se utiliza para recoger la basura.",
+  "description.wheelBarrow": "Una herramienta clásica para mover objetos pesados por la granja.",
+  "description.snailKing": "Una realeza con un rastro de limo, lento pero majestuoso.",
+  "description.reelmastersChair": "Una silla plegable equipada para una pesca seria. Viene con soportes para cañas integrados y cuentos de peces.",
+  "description.ratKing": "Una historia enredada de colas y un liderazgo cuestionable.",
+  "description.fruitTuneBox": "No toca más que buena música.",
+  "description.doubleBed": "Una cama acogedora en la que caben dos cómodamente.",
+  "description.giantArtichoke": "El corazón del jardín: literalmente una alcachofa enorme.",
+  "description.rocketStatue": "Un cohete listo para despegar, ¡con el mundo entero a sus espaldas!",
+  "description.antQueen": "Ella gobierna la tierra y tus migajas.",
+  "description.jurassicDroplet": "Dino Doo, pulido y conservado: la reliquia más extraña de la naturaleza.",
+  "description.giantOnion": "Es grande. Es atrevido. Hará llorar a todo tu campo.",
+  "description.giantTurnip": "Un nabo enorme que se mantiene erguido en el campo, demasiado grande para cosecharlo, pero perfecto para exhibirlo.",
+  "description.groovyGramophone": "Evoca vibraciones vintage y ritmos funky.",
+  "description.wheatWhiskers": "Un manojo de trigo acompañado juguetonamente por curiosos ratones."
 }

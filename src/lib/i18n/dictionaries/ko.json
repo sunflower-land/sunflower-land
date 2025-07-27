@@ -6120,5 +6120,22 @@
   "description.toolshed.boost": "+50% 워크벤치 툴 스톡",
   "landscape.confirmation.gnomes.one": "세 개의 그놈을 파란색, 빨간색, 주황색 순서로 (왼쪽에서 오른쪽으로) 배치합니다.",
   "landscape.confirmation.gnomes.two": "크롭 플롯은 빨간색 그놈 바로 앞에 배치해야 합니다.",
-  "landscape.confirmation.gnomes.three": "24시간이 지나면 해당 단일 플롯에 대해 부스트가 활성화됩니다."
+  "landscape.confirmation.gnomes.three": "24시간이 지나면 해당 단일 플롯에 대해 부스트가 활성화됩니다.",
+  "description.floorMirror": "전신 반사에 적합한 키 큰 거울입니다.",
+  "description.longRug": "가로로 긴 패턴의 러그로 어떤 바닥이든 따뜻하게 데울 수 있습니다.",
+  "description.garbageBin": "쓰레기를 모으는 데 사용되는 튼튼한 쓰레기통입니다.",
+  "description.wheelBarrow": "농장 곳곳에서 무거운 물건을 옮길 때 사용하는 전형적인 도구입니다.",
+  "description.snailKing": "슬라임 트레일이 있는 왕족. 느리지만 웅장합니다.",
+  "description.reelmastersChair": "본격적인 낚시를 할 수 있는 접이식 의자입니다.낚싯대 홀더와 물고기 꼬리가 내장되어 있습니다.",
+  "description.ratKing": "꼬리에 얽힌 이야기와 의심스러운 리더십에 관한 이야기.",
+  "description.fruitTuneBox": "베리 굿 뮤직 외에는 아무것도 재생하지 않습니다.",
+  "description.doubleBed": "두 사람이 편안하게 앉을 수 있는 아늑한 침대.",
+  "description.giantArtichoke": "정원의 심장부, 말 그대로 거대한 아티초크.",
+  "description.rocketStatue": "전 세계를 등에 태우고 이륙할 준비가 된 로켓입니다!",
+  "description.antQueen": "그녀는 먼지와 당신의 부스러기를 지배합니다.",
+  "description.jurassicDroplet": "광택을 내고 보존한 공룡 두—자연의 가장 이상한 유물.",
+  "description.giantOnion": "엄청 커요.대담해요.필드 전체가 울부짖게 될 거예요",
+  "description.giantTurnip": "밭에 우뚝 서 있는 거대한 순무입니다. 수확하기에는 너무 크지만 전시하기에 안성맞춤입니다.",
+  "description.groovyGramophone": "빈티지한 분위기와 펑키한 비트를 선사합니다.",
+  "description.wheatWhiskers": "호기심 많은 쥐들이 장난스럽게 반주하는 밀 다발."
 }

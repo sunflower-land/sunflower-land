@@ -6120,5 +6120,22 @@
   "description.toolshed.boost": "+50% de estoque de ferramentas de bancada",
   "landscape.confirmation.gnomes.one": "Coloque os três gnomos nesta ordem (da esquerda para a direita): azul, vermelho e laranja.",
   "landscape.confirmation.gnomes.two": "A parcela de cultivo deve ser colocada diretamente na frente do gnomo vermelho.",
-  "landscape.confirmation.gnomes.three": "Após 24 horas, o impulso será ativado para aquele único lote."
+  "landscape.confirmation.gnomes.three": "Após 24 horas, o impulso será ativado para aquele único lote.",
+  "description.floorMirror": "Um espelho alto perfeito para reflexões de corpo inteiro.",
+  "description.longRug": "Um tapete estampado horizontalmente longo para aquecer qualquer piso.",
+  "description.garbageBin": "Uma lixeira resistente usada para coletar lixo.",
+  "description.wheelBarrow": "Uma ferramenta clássica para movimentar itens pesados pela fazenda.",
+  "description.snailKing": "Realeza com uma trilha de lodo — lenta, mas majestosa.",
+  "description.reelmastersChair": "Uma cadeira dobrável equipada para pescar seriamente. Vem com suportes de varas embutidos e contos de peixe.",
+  "description.ratKing": "Uma história complicada de rabos e liderança questionável.",
+  "description.fruitTuneBox": "Não toca nada além de boa música.",
+  "description.doubleBed": "Uma cama aconchegante que acomoda duas pessoas confortavelmente.",
+  "description.giantArtichoke": "O coração do jardim — literalmente uma enorme alcachofra.",
+  "description.rocketStatue": "Um foguete pronto para decolar — com o mundo inteiro nas costas!",
+  "description.antQueen": "Ela governa a sujeira — e suas migalhas.",
+  "description.jurassicDroplet": "Dino doo, polido e preservado — a relíquia mais estranha da natureza.",
+  "description.giantOnion": "É grande. É ousado. Isso fará todo o seu campo chorar.",
+  "description.giantTurnip": "Um nabo enorme que fica alto no campo — grande demais para ser colhido, mas perfeito para ser exposto.",
+  "description.groovyGramophone": "Gira vibrações vintage e batidas descoladas.",
+  "description.wheatWhiskers": "Um feixe de trigo acompanhado de forma divertida por ratos curiosos."
 }

@@ -6120,5 +6120,22 @@
   "description.toolshed.boost": "+50% ワークベンチツールストック",
   "landscape.confirmation.gnomes.one": "3 つのノームを青、赤、オレンジの順に (左から右に) 配置します。",
   "landscape.confirmation.gnomes.two": "クロッププロットはレッドノームの真正面に配置する必要があります。",
-  "landscape.confirmation.gnomes.three": "24時間後、その1つのプロットでブーストが有効になります。"
+  "landscape.confirmation.gnomes.three": "24時間後、その1つのプロットでブーストが有効になります。",
+  "description.floorMirror": "全身を映すのに最適なトールミラー。",
+  "description.longRug": "どんな床も暖かくしてくれる、横長柄のラグです。",
+  "description.garbageBin": "ゴミ収集用の頑丈なゴミ箱。",
+  "description.wheelBarrow": "農場のあちこちで重い物を移動させるための定番の道具です。",
+  "description.snailKing": "スライムトレイルをたどる王族。ゆっくりではあるが雄大だ。",
+  "description.reelmastersChair": "本格的な釣りに適した折りたたみチェアです。ロッドホルダーとフィッシュテールが内蔵されています。",
+  "description.ratKing": "絡み合った尻尾と疑わしいリーダーシップ。",
+  "description.fruitTuneBox": "とてもいい音楽しか流れません。",
+  "description.doubleBed": "2人が快適に過ごせる居心地の良いベッド。",
+  "description.giantArtichoke": "庭の中心—文字通り巨大なアーティチョーク。",
+  "description.rocketStatue": "全世界を背負って、離陸準備万端のロケット！",
+  "description.antQueen": "彼女はあなたのパン粉と汚れを支配します。",
+  "description.jurassicDroplet": "磨き上げられて保存された恐竜のドゥー。自然界で最も奇妙な遺物。",
+  "description.giantOnion": "大きいです。大胆です。フィールド全体が泣きそうになるよ。",
+  "description.giantTurnip": "畑に高くそびえる巨大なカブ。収穫するには大きすぎますが、展示には最適です。",
+  "description.groovyGramophone": "ビンテージな雰囲気とファンキーなビートが流れます。",
+  "description.wheatWhiskers": "好奇心旺盛なネズミとふざけて遊ぶ小麦の束。"
 }

@@ -6120,5 +6120,22 @@
   "description.toolshed.boost": "+50% stock di utensili per banco da lavoro",
   "landscape.confirmation.gnomes.one": "Posiziona i tre gnomi in questo ordine (da sinistra a destra): blu, rosso, arancione.",
   "landscape.confirmation.gnomes.two": "Il grafico del raccolto deve essere posizionato direttamente davanti allo gnomo rosso.",
-  "landscape.confirmation.gnomes.three": "Dopo 24 ore, il potenziamento si attiverà per quella singola trama."
+  "landscape.confirmation.gnomes.three": "Dopo 24 ore, il potenziamento si attiverà per quella singola trama.",
+  "description.floorMirror": "Uno specchio alto perfetto per riflessi su tutto il corpo.",
+  "description.longRug": "Un tappeto a motivi orizzontali lungo per riscaldare qualsiasi pavimento.",
+  "description.garbageBin": "Un robusto cestino utilizzato per raccogliere la spazzatura.",
+  "description.wheelBarrow": "Uno strumento classico per spostare oggetti pesanti all'interno della fattoria.",
+  "description.snailKing": "Una famiglia reale con una scia melmosa: lenta ma maestosa.",
+  "description.reelmastersChair": "Una sedia pieghevole attrezzata per una pesca seria. Viene fornito con portacanne e racchette per pesci integrati.",
+  "description.ratKing": "Una storia intricata di code e leadership discutibile.",
+  "description.fruitTuneBox": "Suona solo buona musica dai frutti di bosco.",
+  "description.doubleBed": "Un comodo letto che può ospitare comodamente due persone.",
+  "description.giantArtichoke": "Il cuore del giardino: un carciofo letteralmente enorme.",
+  "description.rocketStatue": "Un razzo pronto per il decollo, con il mondo intero sulle spalle!",
+  "description.antQueen": "Lei domina lo sporco e le tue briciole.",
+  "description.jurassicDroplet": "Dino doo, levigato e conservato: la reliquia più strana della natura.",
+  "description.giantOnion": "È grande. È audace. Farà piangere tutto il tuo campo.",
+  "description.giantTurnip": "Una rapa enorme che si erge alta nel campo, troppo grande per essere raccolta, ma perfetta per essere esposta.",
+  "description.groovyGramophone": "Emette vibrazioni vintage e ritmi funky.",
+  "description.wheatWhiskers": "Un fascio di grano accompagnato giocosamente da curiosi topolini."
 }

@@ -6120,5 +6120,22 @@
   "description.toolshed.boost": "+50% Werkbank-Werkzeugbestand",
   "landscape.confirmation.gnomes.one": "Platziere die drei Zwerge in dieser Reihenfolge (von links nach rechts): blau, rot, orange.",
   "landscape.confirmation.gnomes.two": "Die Anbaufläche sollte direkt vor dem roten Gnom platziert werden.",
-  "landscape.confirmation.gnomes.three": "Nach 24 Stunden wird der Boost für diese einzelne Handlung aktiviert."
+  "landscape.confirmation.gnomes.three": "Nach 24 Stunden wird der Boost für diese einzelne Handlung aktiviert.",
+  "description.floorMirror": "Ein großer Spiegel, perfekt für Ganzkörperreflexionen.",
+  "description.longRug": "Ein horizontal langer gemusterter Teppich, der jeden Boden aufwärmt.",
+  "description.garbageBin": "Ein robuster Mülleimer, der zum Sammeln von Müll verwendet wird.",
+  "description.wheelBarrow": "Ein klassisches Werkzeug zum Bewegen schwerer Gegenstände auf der Farm.",
+  "description.snailKing": "Königshaus mit einer Schleimspur — langsam aber majestätisch.",
+  "description.reelmastersChair": "Ein Klappstuhl, der für das ernsthafte Angeln ausgestattet ist. Er ist mit eingebauten Rutenhaltern und Fischmärchen ausgestattet.",
+  "description.ratKing": "Eine verworrene Geschichte von Schwänzen und fragwürdiger Führung.",
+  "description.fruitTuneBox": "Spielt nichts als gute Beerenmusik.",
+  "description.doubleBed": "Ein gemütliches Bett, in dem bequem zwei Personen Platz finden.",
+  "description.giantArtichoke": "Das Herz des Gartens — buchstäblich riesige Artischocke.",
+  "description.rocketStatue": "Eine Rakete bereit zum Abheben — mit der ganzen Welt auf ihrem Rücken!",
+  "description.antQueen": "Sie regiert den Dreck — und deine Krümel.",
+  "description.jurassicDroplet": "Dino Doo, poliert und konserviert — das seltsamste Relikt der Natur.",
+  "description.giantOnion": "Es ist groß. Es ist gewagt. Es wird dein ganzes Feld zum Weinen bringen.",
+  "description.giantTurnip": "Eine riesige Rübe, die hoch auf dem Feld steht — zu groß zum Ernten, aber perfekt für die Präsentation.",
+  "description.groovyGramophone": "Spingt Vintage-Vibes und funky Beats.",
+  "description.wheatWhiskers": "Ein Weizenbündel, spielerisch begleitet von neugierigen Mäusen."
 }

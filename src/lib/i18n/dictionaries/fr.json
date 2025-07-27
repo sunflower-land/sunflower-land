@@ -6120,5 +6120,22 @@
   "description.toolshed.boost": "+50 % de stock d'outils d'établi",
   "landscape.confirmation.gnomes.one": "Placez les trois nains dans cet ordre (de gauche à droite) : bleu, rouge, orange.",
   "landscape.confirmation.gnomes.two": "La parcelle de culture doit être placée directement devant le nain rouge.",
-  "landscape.confirmation.gnomes.three": "Après 24 heures, le boost sera activé pour cette seule parcelle."
+  "landscape.confirmation.gnomes.three": "Après 24 heures, le boost sera activé pour cette seule parcelle.",
+  "description.floorMirror": "Un grand miroir parfait pour les reflets sur tout le corps.",
+  "description.longRug": "Un tapis à motifs longs et horizontaux pour réchauffer n'importe quel sol.",
+  "description.garbageBin": "Poubelle robuste utilisée pour la collecte des déchets.",
+  "description.wheelBarrow": "Un outil classique pour déplacer des objets lourds dans la ferme.",
+  "description.snailKing": "Une royauté avec une traînée de boue, lente mais majestueuse.",
+  "description.reelmastersChair": "Une chaise pliante équipée pour la pêche sérieuse. Comprend des porte-cannes intégrés et des tables à pêche.",
+  "description.ratKing": "Une histoire mêlée de queues et de leadership douteux.",
+  "description.fruitTuneBox": "Ne joue que de la bonne musique.",
+  "description.doubleBed": "Un lit douillet qui peut accueillir confortablement deux personnes.",
+  "description.giantArtichoke": "Le cœur du jardin : un artichaut littéralement énorme.",
+  "description.rocketStatue": "Une fusée prête à décoller, avec le monde entier sur son dos !",
+  "description.antQueen": "Elle domine la saleté et tes miettes.",
+  "description.jurassicDroplet": "Dino Doo, poli et préservé, c'est la relique la plus étrange de la nature.",
+  "description.giantOnion": "C'est grand. C'est audacieux. Cela fera pleurer tout votre champ.",
+  "description.giantTurnip": "Un navet massif qui pousse haut dans les champs, trop gros pour être récolté, mais parfait pour être exposé.",
+  "description.groovyGramophone": "Fait résonner des vibrations vintage et des rythmes funky.",
+  "description.wheatWhiskers": "Un paquet de blé accompagné de façon ludique par de curieuses souris."
 }
