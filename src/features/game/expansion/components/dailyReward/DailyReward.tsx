@@ -1,6 +1,6 @@
 import { Button } from "components/ui/Button";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useLayoutEffect, useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { GameWallet } from "features/wallet/Wallet";
 import { useSelector } from "@xstate/react";
@@ -34,8 +34,13 @@ import { Context } from "features/game/GameProvider";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { NetworkName } from "features/game/events/landExpansion/updateNetwork";
-
-const _network = (state: MachineState) => state.context.state.settings.network;
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { ChestRewardsList } from "components/ui/ChestRewardsList";
+import rewardIcon from "assets/icons/stock.webp";
+import { Modal } from "components/ui/Modal";
+import { useVisiting } from "lib/utils/visitUtils";
+import Decimal from "decimal.js-light";
+import { RewardOptions } from "features/island/hud/components/referral/Rewards";
 
 export type NetworkOption = {
   value: NetworkName;
@@ -290,8 +295,13 @@ export const DailyReward: React.FC = () => {
 
   const bumpkinLevel = useSelector(gameService, _bumpkinLevel);
   const chestCollectedAt = useSelector(gameService, _chestCollectedAt);
+  const { isVisiting } = useVisiting();
 
   const { openModal } = useContext(ModalContext);
+
+  if (isVisiting) {
+    return null;
+  }
 
   if (bumpkinLevel <= 5) {
     return <></>;
@@ -342,5 +352,81 @@ export const DailyReward: React.FC = () => {
         )}
       </div>
     </>
+  );
+};
+
+export const DailyRewardChest: React.FC<{
+  show: boolean;
+  tab: 0 | 1;
+  onHide?: () => void;
+}> = ({ show, onHide, tab }) => {
+  const [currentTab, setCurrentTab] = useState(tab);
+  const { t } = useAppTranslation();
+  const { gameService } = useContext(Context);
+
+  useLayoutEffect(() => {
+    show && setCurrentTab(tab);
+  }, [tab, show]);
+
+  const state = useSelector(gameService, (state) => state.context.state);
+
+  const tabs = [
+    {
+      name: t("chestRewardsList.dailyReward.tabTitle"),
+      icon: SUNNYSIDE.decorations.treasure_chest,
+    },
+    {
+      name: t("chestRewardsList.rewardsTitle"),
+      icon: rewardIcon,
+    },
+  ];
+
+  return (
+    <Modal show={show} onHide={onHide}>
+      <CloseButtonPanel
+        currentTab={currentTab}
+        setCurrentTab={setCurrentTab}
+        tabs={tabs}
+        onClose={onHide}
+      >
+        {currentTab === 0 && <RewardOptions selectedButton="DAILY_REWARD" />}
+        {currentTab === 1 && (
+          <div className="flex flex-col gap-y-4 overflow-y-auto max-h-[400px] scrollable">
+            <DailyRewardsChestList
+              basicLandCount={state.inventory["Basic Land"] ?? new Decimal(0)}
+            />
+          </div>
+        )}
+      </CloseButtonPanel>
+    </Modal>
+  );
+};
+
+const DailyRewardsChestList: React.FC<{ basicLandCount: Decimal }> = ({
+  basicLandCount,
+}) => {
+  const { t } = useAppTranslation();
+  if (basicLandCount.gte(9)) {
+    return (
+      <ChestRewardsList
+        type="Expert Daily Rewards"
+        listTitle={t("chestRewardsList.dailyReward.listTitle3")}
+      />
+    );
+  }
+
+  if (basicLandCount.gte(5)) {
+    return (
+      <ChestRewardsList
+        type="Advanced Daily Rewards"
+        listTitle={t("chestRewardsList.dailyReward.listTitle2")}
+      />
+    );
+  }
+  return (
+    <ChestRewardsList
+      type="Basic Daily Rewards"
+      listTitle={t("chestRewardsList.dailyReward.listTitle1")}
+    />
   );
 };

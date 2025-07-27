@@ -5,12 +5,11 @@ import levelIcon from "assets/icons/level_up.png";
 import giftIcon from "assets/icons/gift.png";
 import blossom_bonding from "assets/icons/skill_icons/Bonding.png";
 
-import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { BumpkinLevel } from "features/bumpkins/components/BumpkinModal";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { FactionName, GameState, IslandType } from "features/game/types/game";
+import { GameState } from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { LABEL_STYLES } from "components/ui/Label";
 import { AirdropPlayer } from "features/island/hud/components/settings-menu/general-settings/AirdropPlayer";
@@ -19,41 +18,12 @@ import { ReportPlayer } from "./ReportPlayer";
 import { PlayerGift } from "./PlayerGift";
 import { StreamReward } from "./StreamReward";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { PlayerDetails } from "features/social/PlayerModal";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
-
 import { isMobile } from "mobile-device-detect";
-import { FollowerFeed } from "features/social/components/FollowerFeed";
-import { Interaction } from "features/social/types/types";
-
-export type PlayerModalPlayer = {
-  farmId: number;
-  username: string;
-  clothing: BumpkinParts;
-  experience: number;
-  isVip: boolean;
-  faction?: FactionName;
-  createdAt: number;
-  islandType: IslandType;
-  totalDeliveries: number;
-  dailyStreak?: number;
-};
-
-class PlayerModalManager {
-  private listener?: (player: PlayerModalPlayer) => void;
-
-  public open(player: PlayerModalPlayer) {
-    if (this.listener) {
-      this.listener(player);
-    }
-  }
-
-  public listen(cb: (player: PlayerModalPlayer) => void) {
-    this.listener = cb;
-  }
-}
-
-export const playerModalManager = new PlayerModalManager();
+import {
+  playerModalManager,
+  PlayerModalPlayer,
+} from "features/social/lib/playerModalManager";
 
 const OldPlayerDetails: React.FC<{ player: PlayerModalPlayer }> = ({
   player,
@@ -122,16 +92,15 @@ const OldPlayerDetails: React.FC<{ player: PlayerModalPlayer }> = ({
 interface Props {
   game: GameState;
   farmId: number;
+  isOpen?: boolean;
 }
 
-export const PlayerModals: React.FC<Props> = ({ game, farmId }) => {
+export const PlayerModals: React.FC<Props> = ({ game, farmId, isOpen }) => {
   const [tab, setTab] = useState<
     "Player" | "Reward" | "Stream" | "Report" | "Airdrop" | "Activity"
   >("Player");
-  // DEV_TESTING_ONLY
-  const [interactions, setInteractions] = useState<Interaction[]>([]);
   const [player, setPlayer] = useState<PlayerModalPlayer | undefined>();
-  const [showPlayerModal, setShowPlayerModal] = useState(false);
+  const [showPlayerModal, setShowPlayerModal] = useState(isOpen ?? false);
 
   useEffect(() => {
     playerModalManager.listen((npc) => {
@@ -234,43 +203,16 @@ export const PlayerModals: React.FC<Props> = ({ game, farmId }) => {
         ]}
         container={OuterPanel}
       >
-        {tab === "Player" &&
-          player &&
-          (hasFeatureAccess(game, "SOCIAL_FARMING") ? (
-            <PlayerDetails player={player} />
-          ) : (
-            <OldPlayerDetails player={player} />
-          ))}
-        {tab === "Activity" && (
-          <FollowerFeed
-            interactions={interactions}
-            onInteraction={(interaction) => {
-              setInteractions([
-                {
-                  type: "chat",
-                  message: interaction,
-                  createdAt: Date.now(),
-                  sender: {
-                    id: farmId,
-                    username: "You",
-                    tokenUri: "blah",
-                  },
-                  recipient: {
-                    id: player?.farmId as number,
-                    username: player?.username as string,
-                    tokenUri: "blah",
-                  },
-                },
-                ...interactions,
-              ]);
-            }}
-          />
-        )}
+        {tab === "Player" && player && <OldPlayerDetails player={player} />}
         {tab === "Reward" && <PlayerGift />}
         {tab === "Stream" && (
           <StreamReward streamerId={player?.farmId as number} />
         )}
-        {tab === "Report" && <ReportPlayer id={player?.farmId as number} />}
+        {tab === "Report" && (
+          <InnerPanel>
+            <ReportPlayer id={player?.farmId as number} />
+          </InnerPanel>
+        )}
         {tab === "Airdrop" && (
           <InnerPanel className="flex flex-col gap-1 max-h-[500px] overflow-y-auto scrollable">
             <AirdropPlayer

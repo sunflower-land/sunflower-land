@@ -90,6 +90,13 @@ export const CHAPTER_TICKET_BOOST_ITEMS: Record<
     rare: "Love Charm Shirt",
     epic: "Heart Air Balloon",
   },
+
+  // TODO: Add Better Together items
+  "Better Together": {
+    basic: "Cow Scratcher",
+    rare: "Cow Scratcher",
+    epic: "Cow Scratcher",
+  },
 };
 
 export function completeNPCChore({

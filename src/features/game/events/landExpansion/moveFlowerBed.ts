@@ -1,7 +1,5 @@
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
-import { detectCollision } from "features/game/expansion/placeable/lib/collisionDetection";
 import { GameState } from "features/game/types/game";
-import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 import { produce } from "immer";
 import { translate } from "lib/i18n/translate";
 
@@ -27,23 +25,6 @@ export function moveFlowerBed({
 
     if (!flowerBed) {
       throw new Error(translate("harvestflower.noFlowerBed"));
-    }
-
-    const dimensions = RESOURCE_DIMENSIONS["Flower Bed"];
-    const collides = detectCollision({
-      state: stateCopy,
-      name: "Flower Bed",
-      location: "farm",
-      position: {
-        x: action.coordinates.x,
-        y: action.coordinates.y,
-        height: dimensions.height,
-        width: dimensions.width,
-      },
-    });
-
-    if (collides) {
-      throw new Error("Flower Bed collides");
     }
 
     flowerBed.x = action.coordinates.x;

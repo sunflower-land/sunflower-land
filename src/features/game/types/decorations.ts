@@ -194,7 +194,8 @@ export type AnimalDecorationName =
   | "Mama Duck"
   | "Summer Duckling"
   | "Autumn Duckling"
-  | "Winter Duckling";
+  | "Winter Duckling"
+  | "Wheat Whiskers";
 
 export const DECORATION_TEMPLATES = {
   "Polygon Banner": {
@@ -1071,6 +1072,10 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
   "Blue Slime Balloon": {
     width: 1,
     height: 2,
+  },
+  "Wheat Whiskers": {
+    width: 1,
+    height: 1,
   },
 };
 

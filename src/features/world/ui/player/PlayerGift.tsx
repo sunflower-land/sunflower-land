@@ -49,16 +49,22 @@ export const PlayerGift: React.FC = () => {
       new Date().toISOString().substring(0, 10);
 
   if (isPicking || (gameState.matches("revealing") && isRevealing)) {
-    return <ChestRevealing type={"Gift Giver"} />;
+    return (
+      <InnerPanel>
+        <ChestRevealing type={"Gift Giver"} />
+      </InnerPanel>
+    );
   }
 
   if (gameState.matches("revealed") && isRevealing) {
     return (
-      <Revealed
-        onAcknowledged={() => {
-          setIsRevealing(false);
-        }}
-      />
+      <InnerPanel>
+        <Revealed
+          onAcknowledged={() => {
+            setIsRevealing(false);
+          }}
+        />
+      </InnerPanel>
     );
   }
 

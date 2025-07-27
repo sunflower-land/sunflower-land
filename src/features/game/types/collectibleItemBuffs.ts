@@ -9,9 +9,9 @@ import { ITEM_DETAILS } from "./images";
 import { translate } from "lib/i18n/translate";
 import memoize from "lodash.memoize";
 import {
+  getCurrentSeason,
   getSeasonalTicket,
   hasSeasonEnded,
-  SeasonName,
   SEASONS,
 } from "./seasons";
 import { CHAPTER_TICKET_BOOST_ITEMS } from "../events/landExpansion/completeNPCChore";
@@ -1493,23 +1493,8 @@ function getCollectibleBuffLabels(
 
     ...Object.fromEntries(
       getObjectEntries(CHAPTER_TICKET_BOOST_ITEMS)
-        .filter(
-          ([chapter]) =>
-            !(
-              [
-                "Solar Flare",
-                "Dawn Breaker",
-                "Witches' Eve",
-                "Catch the Kraken",
-                "Spring Blossom",
-                "Clash of Factions",
-                "Pharaoh's Treasure",
-              ] as SeasonName[]
-            ).includes(chapter),
-        )
+        .filter(([chapter]) => getCurrentSeason() === chapter)
         .flatMap(([chapter, items]) => {
-          if (hasSeasonEnded(chapter)) return [];
-
           const ticket = getSeasonalTicket(
             new Date(SEASONS[chapter].startDate),
           );
@@ -1550,6 +1535,20 @@ function getCollectibleBuffLabels(
     "Pink Dolphin": [
       {
         shortDescription: translate("description.pinkDolphin.boost"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    ],
+    Toolshed: [
+      {
+        shortDescription: translate("description.toolshed.boost"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    ],
+    Warehouse: [
+      {
+        shortDescription: translate("description.warehouse.boost"),
         labelType: "success",
         boostTypeIcon: powerup,
       },

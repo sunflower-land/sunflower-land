@@ -18,6 +18,7 @@ import { TradeNotFound } from "./components/TradeNotFound";
 import { CONFIG } from "lib/config";
 import { MarketplaceTransferInProgress } from "./components/MarketplaceTransferInProgress";
 import { MarketplaceListingNotClaimed } from "./components/MarketplaceListingNotClaimed";
+import { ClientOutdated } from "./components/ClientOutdated";
 
 interface Props {
   errorCode: ErrorCode;
@@ -104,6 +105,13 @@ export const ErrorMessage: React.FC<Props> = ({ errorCode }) => {
     errorCode === ERRORS.RESET_MARKETPLACE_UNCLAIMED_LISTINGS
   ) {
     return <MarketplaceListingNotClaimed />;
+  }
+
+  if (
+    errorCode === ERRORS.AUTOSAVE_CLIENT_ERROR ||
+    errorCode === ERRORS.SESSION_CLIENT_ERROR
+  ) {
+    return <ClientOutdated />;
   }
 
   return <SomethingWentWrong />;

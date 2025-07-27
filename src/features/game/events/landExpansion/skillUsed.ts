@@ -13,6 +13,7 @@ import {
   OilReserve,
   InventoryItemName,
   AnimalBuildingKey,
+  AOE,
 } from "features/game/types/game";
 import { produce } from "immer";
 import { BUILDING_DAILY_OIL_CAPACITY } from "./supplyCookingOil";
@@ -23,6 +24,7 @@ import { canChop } from "./chop";
 import { canDrillOilReserve } from "./drillOilReserve";
 import { isReadyToHarvest } from "./harvest";
 import { getCurrentCookingItem, recalculateQueue } from "./cancelQueuedRecipe";
+import { AOEItemName } from "features/game/expansion/placeable/lib/collisionDetection";
 
 export type SkillUseAction = {
   type: "skill.used";
@@ -37,8 +39,12 @@ type Options = {
 
 function useInstantGrowth({
   crops,
+  aoe,
+  createdAt = Date.now(),
 }: {
   crops: Record<string, CropPlot>;
+  aoe: AOE;
+  createdAt?: number;
 }): Record<string, CropPlot> {
   // Set each plot's plantedAt to 1 (making it grow instantly)
   getKeys(crops).forEach((plot) => {
@@ -46,6 +52,32 @@ function useInstantGrowth({
     if (plantedCrop) {
       plantedCrop.plantedAt = 1;
     }
+  });
+
+  const basicScarecrowAOE = aoe["Basic Scarecrow"] ?? {};
+  Object.values(basicScarecrowAOE).forEach((dyObject) => {
+    if (!dyObject) return;
+    getKeys(dyObject).forEach((dy) => {
+      dyObject[dy] = createdAt;
+    });
+  });
+
+  const cropYieldAOEItems: AOEItemName[] = [
+    "Scary Mike",
+    "Laurie the Chuckle Crow",
+    "Gnome",
+    "Queen Cornelia",
+    "Sir Goldensnout",
+  ];
+
+  cropYieldAOEItems.forEach((item) => {
+    const aoeItem = aoe[item] ?? {};
+    Object.values(aoeItem).forEach((dyObject) => {
+      if (!dyObject) return;
+      getKeys(dyObject).forEach((dy) => {
+        dyObject[dy] = 1;
+      });
+    });
   });
 
   return crops;
@@ -372,8 +404,8 @@ export function skillUse({ state, action, createdAt = Date.now() }: Options) {
       greenhouse,
       flowers,
       oilReserves,
-      buildings,
       inventory,
+      aoe,
     } = stateCopy;
 
     const { skill } = action;
@@ -419,7 +451,7 @@ export function skillUse({ state, action, createdAt = Date.now() }: Options) {
     // TODO: Implement powers
     // Instant Growth
     if (skill === "Instant Growth") {
-      stateCopy.crops = useInstantGrowth({ crops });
+      stateCopy.crops = useInstantGrowth({ crops, aoe, createdAt });
     }
 
     if (skill === "Tree Blitz") {

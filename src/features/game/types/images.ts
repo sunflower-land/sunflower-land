@@ -827,11 +827,14 @@ import springDuckling from "assets/sfts/spring_duckling.webp";
 import timeshard from "assets/icons/timeshard.webp";
 import ancientClock from "assets/icons/ancient_clock.png";
 import windsOfChangeBanner from "assets/decorations/banners/winds-of-change_banner_loop.gif";
+import betterTogetherBanner from "assets/decorations/banners/better_together_banner.webp";
 import pesticide from "assets/sfts/pesticide.webp";
 import jin from "assets/sfts/jin_ronin.webp";
 import loveCharm from "assets/icons/love_charm.webp";
 import geniseed from "assets/icons/geniseed.webp";
 import brokenPillar from "assets/icons/broken_pillar.webp";
+import bracelet from "assets/icons/bracelet.webp";
+import coprolite from "assets/icons/coprolite.webp";
 
 import floralArch from "assets/sfts/floral_arch.webp";
 import flowerCoin from "assets/sfts/flower_coin.webp";
@@ -886,6 +889,24 @@ import giantZucchini from "assets/sfts/giant_zucchini.webp";
 import miniFloatingIsland from "assets/sfts/mini_floating_island.webp";
 import giantKale from "assets/sfts/giant_kale.webp";
 
+import floorMirror from "assets/sfts/floor_mirror.webp";
+import longRug from "assets/sfts/long_rug.webp";
+import garbageBin from "assets/sfts/garbage_bin.webp";
+import wheelBarrow from "assets/sfts/wheelbarrow.webp";
+import snailKing from "assets/sfts/snail_king.webp";
+import reelmastersChair from "assets/sfts/reelmasters_chair.webp";
+import ratKing from "assets/sfts/rat_king.webp";
+import fruitTuneBox from "assets/sfts/fruit_tune_box.webp";
+import doubleBed from "assets/sfts/double_bed.webp";
+import giantArtichoke from "assets/sfts/giant_artichoke.webp";
+import rocketStatue from "assets/sfts/rocket_statue.webp";
+import antQueen from "assets/sfts/ant_queen.webp";
+import jurassicDroplet from "assets/sfts/jurassic_droplet.webp";
+import giantOnion from "assets/sfts/giant_onion.webp";
+import giantTurnip from "assets/sfts/giant_turnip.webp";
+import groovyGramophone from "assets/sfts/groovy_gramophone.webp";
+import wheatWhiskers from "assets/sfts/wheat_whiskers.webp";
+
 import bronzeLoveBox from "assets/rewardBoxes/bronze_love_box.webp";
 import silverLoveBox from "assets/rewardBoxes/silver_love_box.webp";
 import goldLoveBox from "assets/rewardBoxes/gold_love_box.webp";
@@ -909,6 +930,11 @@ import basicBiome from "assets/icons/islands/basic.webp";
 import springBiome from "assets/icons/islands/spring.webp";
 import desertBiome from "assets/icons/islands/desert.webp";
 import volcanoBiome from "assets/icons/islands/volcano.webp";
+
+import farmerMonument from "assets/monuments/shovel_monument.webp";
+import minerMonument from "assets/monuments/pickaxe_monument.webp";
+import woodcutterMonument from "assets/monuments/axe_monument.webp";
+import teamworkMonument from "assets/monuments/chapters_monument_teamwork.webp";
 
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
@@ -5365,5 +5391,125 @@ export const ITEM_DETAILS: Items = {
     image: volcanoBiome,
     description:
       "A volcano biome that provides a volcano income and a volcano life.",
+  },
+  Bracelet: {
+    image: bracelet,
+    description: "",
+  },
+  Coprolite: {
+    image: coprolite,
+    description: "",
+  },
+  "Better Together Banner": {
+    image: betterTogetherBanner,
+    description: "",
+  },
+  "Big Apple": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.bigApple"),
+  },
+  "Big Orange": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.bigOrange"),
+  },
+  "Big Banana": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.bigBanana"),
+  },
+  "Farmer's Monument": {
+    image: farmerMonument,
+    description: translate("description.farmerMonument"),
+  },
+  "Miner's Monument": {
+    image: minerMonument,
+    description: translate("description.minerMonument"),
+  },
+  "Woodcutter's Monument": {
+    image: woodcutterMonument,
+    description: translate("description.woodcutterMonument"),
+  },
+  "Teamwork Monument": {
+    image: teamworkMonument,
+    description: translate("description.teamworkMonument"),
+  },
+  "Basic Cooking Pot": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.basicCookingPot"),
+  },
+  "Expert Cooking Pot": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.expertCookingPot"),
+  },
+  "Advanced Cooking Pot": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.advancedCookingPot"),
+  },
+  "Floor Mirror": {
+    image: floorMirror,
+    description: translate("description.floorMirror"),
+  },
+  "Long Rug": {
+    image: longRug,
+    description: translate("description.longRug"),
+  },
+  "Garbage Bin": {
+    image: garbageBin,
+    description: translate("description.garbageBin"),
+  },
+  Wheelbarrow: {
+    image: wheelBarrow,
+    description: translate("description.wheelBarrow"),
+  },
+  "Snail King": {
+    image: snailKing,
+    description: translate("description.snailKing"),
+  },
+  "Reelmaster's Chair": {
+    image: reelmastersChair,
+    description: translate("description.reelmastersChair"),
+  },
+  "Rat King": {
+    image: ratKing,
+    description: translate("description.ratKing"),
+  },
+  "Fruit Tune Box": {
+    image: fruitTuneBox,
+    description: translate("description.fruitTuneBox"),
+  },
+  "Double Bed": {
+    image: doubleBed,
+    description: translate("description.doubleBed"),
+  },
+  "Giant Artichoke": {
+    image: giantArtichoke,
+    description: translate("description.giantArtichoke"),
+  },
+  "Rocket Statue": {
+    image: rocketStatue,
+    description: translate("description.rocketStatue"),
+  },
+  "Ant Queen": {
+    image: antQueen,
+    description: translate("description.antQueen"),
+  },
+  "Jurassic Droplet": {
+    image: jurassicDroplet,
+    description: translate("description.jurassicDroplet"),
+  },
+  "Giant Onion": {
+    image: giantOnion,
+    description: translate("description.giantOnion"),
+  },
+  "Giant Turnip": {
+    image: giantTurnip,
+    description: translate("description.giantTurnip"),
+  },
+  "Groovy Gramophone": {
+    image: groovyGramophone,
+    description: translate("description.groovyGramophone"),
+  },
+  "Wheat Whiskers": {
+    image: wheatWhiskers,
+    description: translate("description.wheatWhiskers"),
   },
 };

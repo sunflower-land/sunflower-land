@@ -97,6 +97,8 @@ import { RewardBoxes, RewardBoxName } from "./rewardBoxes";
 import { FloatingIslandShop, FloatingShopItemName } from "./floatingIsland";
 import { Blessing } from "../lib/blessings";
 import { LandBiomeName } from "features/island/biomes/biomes";
+import { MonumentName } from "./monuments";
+import { AOEItemName } from "../expansion/placeable/lib/collisionDetection";
 
 export type Reward = {
   coins?: number;
@@ -377,6 +379,7 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   "Colors Ticket 2025": {
     description: translate("description.colorTicket2025"),
   },
+  Bracelet: { description: "" },
 };
 
 export type Purchase = {
@@ -543,7 +546,8 @@ export type InventoryItemName =
   | TradeFood
   | SeasonalBanner
   | RewardBoxName
-  | LandBiomeName;
+  | LandBiomeName
+  | MonumentName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -575,25 +579,38 @@ export type WarCollectionOffer = {
 };
 
 export type Wood = {
-  amount: number;
   choppedAt: number;
   reward?: Omit<Reward, "sfl">;
+  criticalHit?: CriticalHit;
+  amount?: number;
 };
+
+export type CriticalHitName =
+  | InventoryItemName
+  | BumpkinRevampSkillName
+  | BumpkinSkillName
+  | BumpkinItem
+  | "Native";
+
+export type CriticalHit = Partial<Record<CriticalHitName, number>>;
 
 export type PlantedCrop = {
   id?: string;
   name: CropName;
   plantedAt: number;
-  amount: number;
+  criticalHit?: CriticalHit;
   reward?: Omit<Reward, "sfl">;
+  amount?: number;
+  boostedTime?: number;
 };
 
 export type PlantedFruit = {
   name: PatchFruitName;
   plantedAt: number;
-  amount: number;
   harvestsLeft: number;
   harvestedAt: number;
+  criticalHit?: CriticalHit;
+  amount?: number;
 };
 
 export type Tree = {
@@ -602,9 +619,10 @@ export type Tree = {
 } & Coordinates;
 
 export type Stone = {
-  amount: number;
-  // Epoch time in milliseconds
   minedAt: number;
+  criticalHit?: CriticalHit;
+  amount?: number;
+  boostedTime?: number;
 };
 
 export type FiniteResource = {
@@ -617,8 +635,6 @@ export type Rock = {
 } & Coordinates;
 
 export type Oil = {
-  amount: number;
-  // Epoch time in milliseconds
   drilledAt: number;
 };
 
@@ -631,6 +647,7 @@ export type OilReserve = {
 export type CropPlot = {
   crop?: PlantedCrop;
   fertiliser?: CropFertiliser;
+  amount?: number;
   createdAt: number;
   beeSwarm?: {
     count: number;
@@ -641,7 +658,8 @@ export type CropPlot = {
 export type GreenhousePlant = {
   name: GreenHouseCropName | GreenHouseFruitName;
   plantedAt: number;
-  amount: number;
+  criticalHit?: CriticalHit;
+  amount?: number;
 };
 
 export type GreenhousePot = {
@@ -712,12 +730,13 @@ export type CompostBuilding = PlacedItem & {
 export type CropMachineQueueItem = {
   crop: CropName;
   seeds: number;
-  amount: number;
   growTimeRemaining: number;
   totalGrowTime: number;
   startTime?: number;
   growsUntil?: number;
   readyAt?: number;
+  criticalHit?: CriticalHit;
+  amount?: number;
 };
 
 export type CropMachineBuilding = PlacedItem & {
@@ -875,7 +894,8 @@ export type BedName =
   | "Desert Bed"
   | "Cow Bed"
   | "Pirate Bed"
-  | "Royal Bed";
+  | "Royal Bed"
+  | "Double Bed";
 
 export type RecipeCraftableName =
   | "Cushion"
@@ -1236,10 +1256,11 @@ export type Home = {
 export type PlantedFlower = {
   name: FlowerName;
   plantedAt: number;
-  amount: number;
   crossbreed?: FlowerCrossBreedName;
   dirty?: boolean;
   reward?: Reward;
+  criticalHit?: CriticalHit;
+  amount?: number;
 };
 
 export type FlowerBed = {
@@ -1720,7 +1741,15 @@ export interface GameState {
     amount: number;
   };
   blessing: Blessing;
+
+  monuments?: Partial<Record<MonumentName, { createdAt: number }>>;
+
+  aoe: AOE;
 }
+
+export type AOE = Partial<
+  Record<AOEItemName, Partial<Record<number, Partial<Record<number, number>>>>>
+>;
 
 export type FaceRecognitionEvent =
   | { event: "succeeded"; createdAt: number; confidence: number }

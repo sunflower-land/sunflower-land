@@ -1,120 +1,87 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { Label } from "components/ui/Label";
-import { InnerPanel } from "components/ui/Panel";
-import { PlayerModalPlayer } from "features/world/ui/player/PlayerModals";
-import React, { useContext, useState } from "react";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import React, { useCallback, useEffect, useState } from "react";
+import { Modal } from "components/ui/Modal";
+import giftIcon from "assets/icons/gift.png";
 
-import vipIcon from "assets/icons/vip.webp";
-import basicIsland from "assets/icons/islands/basic.webp";
-import springIsland from "assets/icons/islands/spring.webp";
-import desertIsland from "assets/icons/islands/desert.webp";
-import volcanoIsland from "assets/icons/islands/volcano.webp";
-import flowerIcon from "assets/icons/flower_token.webp";
-import deliveryBook from "assets/icons/chapter_icon_3.webp";
-
-import { NPCIcon } from "features/island/bumpkin/components/NPC";
-import { PIXEL_SCALE } from "features/game/lib/constants";
-import { getLevel } from "features/game/types/skills";
-import Decimal from "decimal.js-light";
-import { capitalize } from "lib/utils/capitalize";
-import { isMobile } from "mobile-device-detect";
-import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { FollowerFeed } from "./components/FollowerFeed";
-import { IslandType } from "features/game/types/game";
-import { useTranslation } from "react-i18next";
+import { GameState } from "features/game/types/game";
+import { AirdropPlayer } from "features/island/hud/components/settings-menu/general-settings/AirdropPlayer";
+import { hasFeatureAccess } from "lib/flags";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { OuterPanel } from "components/ui/Panel";
+import { isMobile } from "mobile-device-detect";
+import { StreamReward } from "features/world/ui/player/StreamReward";
+import { PlayerGift } from "features/world/ui/player/PlayerGift";
+import { ReportPlayer } from "features/world/ui/player/ReportPlayer";
+import { playerModalManager } from "./lib/playerModalManager";
+import { PlayerDetails } from "./components/PlayerDetails";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { ModalOverlay } from "components/ui/ModalOverlay";
 import useSWR from "swr";
 import { getPlayer } from "./actions/getPlayer";
-import { Context } from "features/game/GameProvider";
-import { useSelector } from "@xstate/react";
-import { MachineState } from "features/game/lib/gameMachine";
 import { postEffect } from "features/game/actions/effect";
 import { randomID } from "lib/utils/random";
-import { Interaction, Player, PlayerUpdate } from "./types/types";
-import { tokenUriBuilder } from "lib/utils/tokenUriBuilder";
-import { ModalOverlay } from "components/ui/ModalOverlay";
-import { useSocial } from "./hooks/useSocial";
+import { FollowerFeed } from "./components/FollowerFeed";
+import { FollowList } from "./components/FollowList";
+import { Player } from "./types/types";
+import { usePlayerNavigation } from "./hooks/usePlayerNavigation";
+import { Equipped } from "features/game/types/bumpkin";
 
-const ISLAND_ICONS: Record<IslandType, string> = {
-  basic: basicIsland,
-  spring: springIsland,
-  desert: desertIsland,
-  volcano: volcanoIsland,
-};
+interface Props {
+  game: GameState;
+  farmId: number;
+  token: string;
+}
 
-type Props = {
-  player: PlayerModalPlayer;
-};
+type Tab =
+  | "Player"
+  | "Reward"
+  | "Stream"
+  | "Activity"
+  | "Followers"
+  | "Following";
 
-const mergePlayerData = (current: Player, update: PlayerUpdate): Player => {
+export const mergeResponse = (current: Player, update: Player) => {
   return {
     data: { ...current.data, ...update },
   } as Player;
 };
 
-const Followers = ({
-  farmId,
-  followers,
-}: {
-  farmId: number;
-  followers: number[];
-}) => {
-  const { online } = useSocial(farmId, followers);
-  const { t } = useTranslation();
+export const PlayerModal: React.FC<Props> = ({ game, farmId, token }) => {
+  const { t } = useAppTranslation();
+  const [tab, setTab] = useState<Tab>("Player");
 
-  if (!followers.length) {
-    return (
-      <div className="flex flex-col gap-1">
-        <div className="text-xs">{t("playerModal.noFollowers")}</div>
-      </div>
-    );
-  }
+  const {
+    currentPlayerId,
+    canGoBack,
+    goBack,
+    clearHistory,
+    setInitialPlayer,
+    navigateToPlayer,
+  } = usePlayerNavigation();
 
-  return (
-    <div className="flex flex-col gap-1">
-      {followers.map((follower) => {
-        const isOnline = (online[follower] ?? 0) > Date.now() - 30 * 60 * 1000;
-        return (
-          <div key={`flw-${follower}`}>
-            <div>{follower}</div>
-            <div>{isOnline ? "Online" : "Offline"}</div>
-          </div>
-        );
-      })}
-    </div>
-  );
-};
+  const [showPlayerModal, setShowPlayerModal] = useState(false);
+  const [showAirdrop, setShowAirdrop] = useState(false);
+  const [showReport, setShowReport] = useState(false);
+  const [followLoading, setFollowLoading] = useState(false);
 
-const _farmId = (state: MachineState) => state.context.farmId;
-const _token = (state: MachineState) => state.context.rawToken;
-const _myUsername = (state: MachineState) => state.context.state.username;
-const _myClothing = (state: MachineState) =>
-  state.context.state.bumpkin.equipped;
-
-export const PlayerDetails: React.FC<Props> = ({ player }) => {
-  const { gameService } = useContext(Context);
-
-  const [followingLoading, setFollowingLoading] = useState(false);
-  const [isFollowingFeedOpen, setIsFollowingFeedOpen] = useState(false);
-
-  const token = useSelector(gameService, _token);
-  const farmId = useSelector(gameService, _farmId);
-  const myUsername = useSelector(gameService, _myUsername);
-  const myClothing = useSelector(gameService, _myClothing);
-
-  // Used only to share my online status with the followers
-  useSocial(farmId, []);
-
-  const { t } = useTranslation();
+  const closeModal = useCallback(() => {
+    setShowPlayerModal(false);
+    clearHistory();
+  }, [clearHistory]);
 
   const {
     data,
     isLoading: playerLoading,
+    isValidating: playerValidating,
     error,
     mutate,
   } = useSWR(
-    ["player", token, farmId, player.farmId],
+    [currentPlayerId ? "player" : null, token, farmId, currentPlayerId],
     ([, token, farmId, followedPlayerId]) => {
+      if (!followedPlayerId) return;
+
       return getPlayer({ token: token as string, farmId, followedPlayerId });
     },
     {
@@ -122,39 +89,87 @@ export const PlayerDetails: React.FC<Props> = ({ player }) => {
     },
   );
 
-  const iAmFollowing = data?.data?.followedBy.includes(farmId);
-  const theyAreFollowingMe = data?.data?.following.includes(farmId);
+  const player = data?.data;
+
+  const setInitialTab = useCallback((equipped?: Equipped) => {
+    if (equipped?.hat === "Streamer Hat" && farmId !== currentPlayerId) {
+      setTab("Stream");
+    } else if (equipped?.shirt === "Gift Giver") {
+      setTab("Reward");
+    } else {
+      setTab("Player");
+    }
+  }, []);
+
+  useEffect(() => {
+    setInitialTab(player?.clothing);
+  }, [currentPlayerId, setInitialTab]);
+
+  useEffect(() => {
+    playerModalManager.listen((npc) => {
+      setInitialPlayer(npc.farmId);
+      setShowPlayerModal(true);
+      // Automatically set to Stream tab if player has Streamer Hat and is not current player
+      setInitialTab(npc.clothing as Equipped);
+    });
+  }, [farmId, setInitialPlayer, setInitialTab]);
+
+  const playerHasGift = player?.clothing?.shirt === "Gift Giver";
+  const playerHasStreamReward = player?.clothing?.hat === "Streamer Hat";
+  const notCurrentPlayer = farmId !== currentPlayerId;
+
+  const iAmFollowing = player?.followedBy.includes(farmId);
+  const theyAreFollowingMe = player?.following.includes(farmId);
   const isMutual = iAmFollowing && theyAreFollowingMe;
 
+  // Effect to handle tab switching when player data changes
+  useEffect(() => {
+    if (!player) return;
+
+    // When navigating to a new player (data changes), reset tab state appropriately
+    // This ensures we maintain special tabs based on the new player's attributes
+
+    // Check if current tab is valid for this player
+    const isSpecialTab = tab === "Reward" || tab === "Stream";
+    const hasSpecialTab =
+      (playerHasGift && tab === "Reward") ||
+      (playerHasStreamReward && notCurrentPlayer && tab === "Stream");
+
+    // If we're on a special tab that's not valid for this player, switch to Player tab
+    if (isSpecialTab && !hasSpecialTab) {
+      setTab("Player");
+    }
+  }, [player, playerHasGift, playerHasStreamReward, notCurrentPlayer, tab]);
+
   const handleFollow = async () => {
-    setFollowingLoading(true);
+    setFollowLoading(true);
     try {
       if (iAmFollowing) {
         const { data: response } = await postEffect({
           effect: {
             type: "farm.unfollowed",
-            followedId: player.farmId,
+            followedId: currentPlayerId,
           },
           transactionId: randomID(),
           token: token as string,
           farmId: farmId,
         });
 
-        mutate((current) => mergePlayerData(current!, response), {
+        mutate((current) => mergeResponse(current!, response), {
           revalidate: false,
         });
       } else {
         const { data: response } = await postEffect({
           effect: {
             type: "farm.followed",
-            followedId: player.farmId,
+            followedId: currentPlayerId,
           },
           transactionId: randomID(),
           token: token as string,
           farmId: farmId,
         });
 
-        mutate((current) => mergePlayerData(current!, response), {
+        mutate((current) => mergeResponse(current!, response), {
           revalidate: false,
         });
       }
@@ -162,206 +177,166 @@ export const PlayerDetails: React.FC<Props> = ({ player }) => {
       /* eslint-disable-next-line no-console */
       console.error(e);
     } finally {
-      setFollowingLoading(false);
+      setFollowLoading(false);
     }
   };
 
-  const sendMessage = async (message: string) => {
-    const newMessage: Interaction = {
-      type: "chat",
-      message,
-      recipient: {
-        id: player.farmId,
-        tokenUri: tokenUriBuilder(player.clothing),
-        username: player.username ?? `#${player.farmId}`,
-      },
-      sender: {
-        id: farmId,
-        tokenUri: tokenUriBuilder(myClothing),
-        username: myUsername ?? `#${farmId}`,
-      },
-      createdAt: Date.now(),
-    };
-
-    // Optimistically update the messages
-    mutate(
-      async (current) => {
-        const { data: response } = await postEffect({
-          effect: {
-            type: "message.sent",
-            recipientId: player.farmId,
-            message,
-          },
-          transactionId: randomID(),
-          token: token as string,
-          farmId: farmId,
-        });
-
-        return mergePlayerData(current!, response);
-      },
-      {
-        revalidate: false,
-        optimisticData: (_, current) =>
-          mergePlayerData(current!, {
-            messages: [...(current?.data?.messages ?? []), newMessage],
-          }),
-      },
-    );
-  };
-
-  const startDate = new Date(player?.createdAt).toLocaleString("en-US", {
-    month: "short",
-    year: "numeric",
-  });
-
   return (
-    <div className="flex gap-1 w-full max-h-[370px]">
-      <ModalOverlay
-        show={isFollowingFeedOpen}
-        onBackdropClick={() => setIsFollowingFeedOpen(false)}
+    <>
+      <Modal
+        show={showPlayerModal}
+        onHide={closeModal}
+        size="lg"
+        onExited={() => clearHistory()}
       >
-        <InnerPanel>
-          <Followers farmId={farmId} followers={data?.data?.followedBy ?? []} />
-        </InnerPanel>
-      </ModalOverlay>
-      <div className="flex flex-col flex-1 gap-1">
-        <InnerPanel className="flex flex-col gap-1 flex-1 pb-1 px-1">
-          <div className="flex items-center">
-            <Label type="default">{player?.username}</Label>
-            {player?.isVip && <img src={vipIcon} className="w-5 ml-2" />}
-          </div>
-          <div className="flex pb-1">
-            <div className="w-10">
-              <NPCIcon parts={player?.clothing} width={PIXEL_SCALE * 14} />
-            </div>
-            <div className="flex flex-col gap-1 text-xs mt-1 ml-2 flex-1">
-              <div>{`Lvl ${getLevel(new Decimal(player?.experience ?? 0))}${player?.faction ? ` - ${capitalize(player?.faction)}` : ""}`}</div>
-              <div className="flex items-center justify-between">
-                <span>{`#${player?.farmId}`}</span>
-                <span>{t("playerModal.since", { date: startDate })}</span>
-              </div>
-            </div>
-          </div>
-        </InnerPanel>
-        <InnerPanel className="flex flex-col w-full pb-1">
-          <div className="p-1 flex items-center">
-            <div className="w-10">
-              <img
-                src={ISLAND_ICONS[player?.islandType ?? "basic"]}
-                className="w-full"
-              />
-            </div>
-            <div className="flex pb-1 flex-col justify-center gap-1 text-xs mt-1 ml-2 flex-1">
-              <div>
-                {t("playerModal.island", {
-                  island: capitalize(player?.islandType ?? ""),
-                })}
-              </div>
-              <div className="flex items-center">
-                <span>{t("playerModal.marketValue", { value: 1000 })}</span>
-                <img src={flowerIcon} className="w-4 h-4 ml-1 mt-0.5" />
-              </div>
-            </div>
-            <Button className="flex w-fit h-9 justify-between items-center gap-1 mt-1">
-              <div className="flex items-center px-1">
-                {!isMobile && <span className="pr-1">{t("visit")}</span>}
-                <img
-                  src={SUNNYSIDE.icons.search}
-                  className="flex justify-center items-center w-4 h-4"
-                />
-              </div>
-            </Button>
-          </div>
-        </InnerPanel>
-        <InnerPanel className="flex flex-col items-center w-full">
-          <div className="flex flex-col gap-1 p-1 w-full ml-1 pt-0">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-1">
-                <span
-                  className="text-xs underline cursor-pointer"
-                  onClick={() => setIsFollowingFeedOpen(true)}
-                >
-                  {t("playerModal.followers", {
-                    count: data?.data?.followedByCount,
-                  })}
-                </span>
-                <div className="relative w-10 h-6">
-                  <div className="absolute">
-                    <NPCIcon
-                      width={24}
-                      parts={{
-                        body: "Light Brown Farmer Potion",
-                        pants: "Angler Waders",
-                        hair: "Buzz Cut",
-                        shirt: "Chic Gala Blouse",
-                        tool: "Farmer Pitchfork",
-                        background: "Farm Background",
-                        shoes: "Black Farmer Boots",
-                      }}
-                    />
-                  </div>
-                  <div className="absolute left-3.5">
-                    <NPCIcon
-                      width={24}
-                      parts={{
-                        body: "Goblin Potion",
-                        pants: "Grape Pants",
-                        hair: "Ash Ponytail",
-                        shirt: "Tiki Armor",
-                        tool: "Axe",
-                        background: "Farm Background",
-                        shoes: "Crimstone Boots",
-                      }}
-                    />
-                  </div>
-                </div>
-              </div>
-              <Button
-                className="flex w-fit h-9 justify-between items-center gap-1 mt-1 mr-0.5"
-                disabled={playerLoading || followingLoading || error}
-                onClick={handleFollow}
+        <CloseButtonPanel
+          onClose={closeModal}
+          bumpkinParts={playerValidating ? undefined : player?.clothing}
+          currentTab={tab}
+          setCurrentTab={setTab}
+          tabs={[
+            {
+              icon: SUNNYSIDE.icons.player,
+              name: "Player",
+            },
+            ...(isMobile && hasFeatureAccess(game, "SOCIAL_FARMING")
+              ? [
+                  {
+                    icon: SUNNYSIDE.icons.expression_chat,
+                    name: "Activity",
+                  },
+                ]
+              : []),
+            {
+              icon: SUNNYSIDE.icons.player,
+              name: "Followers",
+            },
+            {
+              icon: SUNNYSIDE.icons.player,
+              name: "Following",
+            },
+
+            ...(playerHasGift
+              ? [
+                  {
+                    icon: giftIcon,
+                    name: "Reward",
+                  },
+                ]
+              : []),
+            ...(playerHasStreamReward && notCurrentPlayer
+              ? [
+                  {
+                    icon: ITEM_DETAILS["Love Charm"].image,
+                    name: "Stream",
+                  },
+                ]
+              : []),
+          ]}
+          container={OuterPanel}
+        >
+          {tab === "Player" && (
+            <PlayerDetails
+              data={data}
+              playerLoading={playerLoading}
+              playerValidating={playerValidating}
+              error={error}
+              followLoading={followLoading}
+              iAmFollowing={!!iAmFollowing}
+              isFollowMutual={!!isMutual}
+              mutate={mutate}
+              onFollow={handleFollow}
+              onFollowersClick={() => setTab("Followers")}
+              canGoBack={canGoBack}
+              onGoBack={goBack}
+            />
+          )}
+
+          {tab === "Activity" && (
+            <FollowerFeed
+              farmId={farmId}
+              playerId={currentPlayerId as number}
+              playerClothing={player?.clothing}
+              playerUsername={player?.username}
+              playerLoading={playerLoading}
+              chatDisabled={!isMutual}
+            />
+          )}
+          {tab === "Followers" && (
+            <FollowList
+              farmId={farmId}
+              networkFarmId={currentPlayerId as number}
+              token={token}
+              networkList={player?.followedBy ?? []}
+              networkCount={player?.followedByCount ?? 0}
+              playerLoading={playerLoading}
+              type="followers"
+              navigateToPlayer={navigateToPlayer}
+            />
+          )}
+          {tab === "Following" && (
+            <FollowList
+              farmId={farmId}
+              networkFarmId={currentPlayerId as number}
+              token={token}
+              networkCount={player?.followingCount ?? 0}
+              networkList={player?.following ?? []}
+              playerLoading={playerLoading}
+              type="following"
+              navigateToPlayer={navigateToPlayer}
+            />
+          )}
+          {tab === "Reward" && <PlayerGift />}
+          {tab === "Stream" && (
+            <StreamReward streamerId={currentPlayerId as number} />
+          )}
+          <div className="flex items-center p-1 space-x-3 justify-end">
+            <span
+              className="text-xxs underline cursor-pointer"
+              onClick={() => setShowReport(true)}
+            >
+              {t("report")}
+            </span>
+            {hasFeatureAccess(game, "AIRDROP_PLAYER") && (
+              <span
+                className="text-xxs underline cursor-pointer"
+                onClick={() => setShowAirdrop(true)}
               >
-                {followingLoading
-                  ? `...`
-                  : iAmFollowing
-                    ? `Unfollow`
-                    : `Follow`}
-              </Button>
-            </div>
+                {t("special.event.airdrop")}
+              </span>
+            )}
           </div>
-          <div className="flex flex-col gap-1 p-1 pt-0 mb-2 w-full">
-            <div className="text-xs">{`You cleaned their farm x times`}</div>
-            <div className="text-xs">{`They cleaned your farm x times`}</div>
-            <div className="text-xs">{`Top friend - Craig`}</div>
-          </div>
-        </InnerPanel>
-        <InnerPanel className="flex flex-col w-full pb-1">
-          <div className="p-1 flex items-center">
-            <div className="w-10">
-              <img src={deliveryBook} className="w-full" />
-            </div>
-            <div className="flex pb-1 flex-col justify-center gap-1 text-xs mt-1 ml-2 flex-1">
-              <div>
-                {t("playerModal.dailyStreak", { streak: player?.dailyStreak })}
-              </div>
-              <div>
-                {t("playerModal.totalDeliveries", {
-                  count: player?.totalDeliveries,
-                })}
-              </div>
-            </div>
-          </div>
-        </InnerPanel>
-      </div>
-      {!isMobile && (
-        <FollowerFeed
-          interactions={data?.data?.messages ?? []}
-          onInteraction={(message) => {
-            sendMessage(message);
-          }}
-          chatDisabled={!isMutual}
-        />
-      )}
-    </div>
+        </CloseButtonPanel>
+        {player && (
+          <>
+            <ModalOverlay
+              show={showAirdrop}
+              onBackdropClick={() => setShowAirdrop(false)}
+              className="m-2"
+            >
+              <CloseButtonPanel onClose={() => setShowAirdrop(false)}>
+                <AirdropPlayer
+                  id={currentPlayerId as number}
+                  onClose={() => setShowAirdrop(false)}
+                  onSubMenuClick={() => void 0}
+                />
+              </CloseButtonPanel>
+            </ModalOverlay>
+            <ModalOverlay
+              show={showReport}
+              onBackdropClick={() => setShowReport(false)}
+              className="m-2"
+            >
+              <CloseButtonPanel
+                onClose={() => setShowReport(false)}
+                className="p-1"
+              >
+                <ReportPlayer id={currentPlayerId as number} />
+              </CloseButtonPanel>
+            </ModalOverlay>
+          </>
+        )}
+      </Modal>
+    </>
   );
 };

@@ -1,11 +1,5 @@
 import { GameState, PlantedCrop, TemperateSeasonName } from "../../types/game";
-import {
-  Crop,
-  CropName,
-  CROPS,
-  GREENHOUSE_CROPS,
-  GreenHouseCropName,
-} from "../../types/crops";
+import { Crop, CropName, CROPS, GreenHouseCropName } from "../../types/crops";
 import { SeedName } from "features/game/types/seeds";
 import Decimal from "decimal.js-light";
 import {
@@ -14,6 +8,7 @@ import {
 } from "features/game/types/bumpkinActivity";
 import { CropPlot } from "features/game/types/game";
 import { produce } from "immer";
+import { getAffectedWeather, getCropYieldAmount } from "./plant";
 
 export type LandExpansionHarvestAction = {
   type: "crop.harvested";
@@ -59,40 +54,6 @@ export const isWinterCrop = (
   return seasonalSeeds.winter.includes(`${cropName} Seed` as SeedName);
 };
 
-export const isBasicCrop = (cropName: CropName | GreenHouseCropName) => {
-  if (!isCrop(cropName)) return false;
-  const cropDetails = CROPS[cropName];
-  return cropDetails.harvestSeconds <= CROPS["Pumpkin"].harvestSeconds;
-};
-
-export const isMediumCrop = (cropName: CropName | GreenHouseCropName) => {
-  if (!isCrop(cropName)) return false;
-  return !(isBasicCrop(cropName) || isAdvancedCrop(cropName));
-};
-
-export const isAdvancedCrop = (cropName: CropName | GreenHouseCropName) => {
-  if (!isCrop(cropName)) return false;
-  const cropDetails = CROPS[cropName];
-  return cropDetails.harvestSeconds >= CROPS["Eggplant"].harvestSeconds;
-};
-
-function isCrop(plant: GreenHouseCropName | CropName): plant is CropName {
-  return (plant as CropName) in CROPS;
-}
-
-export const isOvernightCrop = (cropName: CropName | GreenHouseCropName) => {
-  if (isCrop(cropName)) {
-    const cropDetails = CROPS[cropName];
-    return cropDetails.harvestSeconds >= CROPS["Radish"].harvestSeconds;
-  }
-
-  const details = GREENHOUSE_CROPS[cropName];
-  return (
-    details.harvestSeconds >= 24 * 60 * 60 &&
-    details.harvestSeconds <= 36 * 60 * 60
-  );
-};
-
 export const isReadyToHarvest = (
   createdAt: number,
   plantedCrop: PlantedCrop,
@@ -115,10 +76,10 @@ export function harvest({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (stateCopy) => {
-    const { bumpkin, crops: plots } = stateCopy;
+    const { crops: plots, bumpkin } = stateCopy;
 
     if (!bumpkin) {
-      throw new Error("You do not have a Bumpkin!");
+      throw new Error("You do not have a Bumpkin");
     }
 
     const plot = plots[action.index];
@@ -127,16 +88,54 @@ export function harvest({
       throw new Error("Plot does not exist");
     }
 
+    const cropAffectedBy = getAffectedWeather({
+      id: action.index,
+      game: stateCopy,
+    });
+
+    if (cropAffectedBy) {
+      throw new Error(`Plot is affected by ${cropAffectedBy}`);
+    }
+
     if (!plot.crop) {
       throw new Error("Nothing was planted");
     }
 
-    const { name: cropName, plantedAt, amount = 1, reward } = plot.crop;
+    const { name: cropName, plantedAt, reward, criticalHit = {} } = plot.crop;
+
+    const { amount, aoe } = plot.crop.amount
+      ? { amount: plot.crop.amount, aoe: stateCopy.aoe }
+      : getCropYieldAmount({
+          crop: cropName,
+          game: stateCopy,
+          plot,
+          createdAt,
+          criticalDrop: (name) => !!(criticalHit[name] ?? 0),
+        });
+
+    stateCopy.aoe = aoe;
 
     const { harvestSeconds } = CROPS[cropName];
 
     if (createdAt - plantedAt < harvestSeconds * 1000) {
       throw new Error("Not ready");
+    }
+
+    if (reward) {
+      if (reward.coins) {
+        stateCopy.coins = stateCopy.coins + reward.coins;
+      }
+
+      if (reward.items) {
+        stateCopy.inventory = reward.items.reduce((acc, item) => {
+          const amount = acc[item.name] || new Decimal(0);
+
+          return {
+            ...acc,
+            [item.name]: amount.add(item.amount),
+          };
+        }, stateCopy.inventory);
+      }
     }
 
     const activityName: BumpkinActivityName = `${cropName} Harvested`;
@@ -145,8 +144,8 @@ export function harvest({
 
     // Remove crop data for plot
     delete plot.crop;
-    delete plot.beeSwarm;
     delete plot.fertiliser;
+    delete plot.beeSwarm;
 
     const cropCount = stateCopy.inventory[cropName] || new Decimal(0);
 
