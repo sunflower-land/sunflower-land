@@ -18631,4 +18631,163 @@ export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
     image: "../public/wearables/images/469.webp",
     name: "Slime Aura",
   },
+  "Brush Back Hair": {
+    description: "Slick and stylish, ready for silly business.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hair" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/470.webp",
+    name: "Brush Back Hair",
+  },
+  Moustache: {
+    description: "Adds instant wisdom and a dash of mischief.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Beard" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/471.webp",
+    name: "Moustache",
+  },
+  "Chemist Potion": {
+    description: "A bubbling flask of who-knows-what. Handle with care!",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Tool" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/472.webp",
+    name: "Chemist Potion",
+  },
+  "Diamond Patterned Vest": {
+    description: "Sharp style that says, “I mean farm-ness.”",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Shirt" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/473.webp",
+    name: "Diamond Patterned Vest",
+  },
+  "Recycle Shirt": {
+    description: "Wear your eco-pride right on your chest.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Shirt" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/474.webp",
+    name: "Recycle Shirt",
+  },
+  "Garbage Bin Hat": {
+    description: "Trashy? Maybe. Iconic? Definitely.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hat" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/475.webp",
+    name: "Garbage Bin Hat",
+  },
+  "Turd Topper": {
+    description: "A cheeky crown for stinkers with style.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Hat" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/476.webp",
+    name: "Turd Topper",
+  },
+  "Architect Ruler": {
+    description: "For precise plans and pointy ideas.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Tool" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/477.webp",
+    name: "Architect Ruler",
+  },
+  "Onion Leek": {
+    description:
+      "This veggie’s not just juicy — it’s a source of top-secret leaks.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Tool" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/478.webp",
+    name: "Onion Leek",
+  },
+  "Oil Gallon": {
+    description:
+      "A full jug of thick, greasy oil. Essential for keeping engines running... and boots slippery.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Secondary Tool" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/479.webp",
+    name: "Oil Gallon",
+  },
+  "Alchemist Apron": {
+    description:
+      "For when experiments get heated—protects against splashes and volatile fashion choices.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Coat" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/480.webp",
+    name: "Alchemist Apron",
+  },
+  "Lava Swimwear": {
+    description:
+      "Forged in fire, cooled for splash zones. Warning: May cause spontaneous style eruptions.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Dress" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/481.webp",
+    name: "Lava Swimwear",
+  },
+  "Wooly Dress": {
+    description: " Fuzzy, cozy, and cute as a sheep.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Dress" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/482.webp",
+    name: "Wooly Dress",
+  },
+  "Raccoon Onesie": {
+    description:
+      "Cute, stripey, and ready to steal your heart and maybe your crops.",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Part", value: "Onesie" },
+      { trait_type: "Tradable", value: "No" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/wearables/images/483.webp",
+    name: "Raccoon Onesie",
+  },
 };
