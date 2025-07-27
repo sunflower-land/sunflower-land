@@ -7,6 +7,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import chest from "assets/icons/chest.png";
+import shopIcon from "assets/icons/shop.png";
 
 import { isMobile } from "mobile-device-detect";
 
@@ -167,12 +168,12 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
                     onClick={() => setShowDecorations(true)}
                   >
                     <img
-                      src={SUNNYSIDE.icons.decorationbush}
+                      src={shopIcon}
                       className="absolute group-active:translate-y-[2px]"
                       style={{
-                        top: `${PIXEL_SCALE * 5}px`,
-                        left: `${PIXEL_SCALE * 5}px`,
-                        width: `${PIXEL_SCALE * 12}px`,
+                        top: `${PIXEL_SCALE * 2}px`,
+                        left: `${PIXEL_SCALE * 3.7}px`,
+                        width: `${PIXEL_SCALE * 14}px`,
                       }}
                     />
                   </RoundButton>
