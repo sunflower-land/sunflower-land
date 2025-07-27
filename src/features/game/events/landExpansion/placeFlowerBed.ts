@@ -1,6 +1,5 @@
 import Decimal from "decimal.js-light";
 import { FlowerBed, GameState } from "features/game/types/game";
-import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 import { produce } from "immer";
 
 export type PlaceFlowerBedAction = {
