@@ -643,7 +643,6 @@ export function startGame(authContext: AuthContext) {
       },
       states: {
         ...EFFECT_STATES,
-
         loading: {
           id: "loading",
           always: [
@@ -813,13 +812,7 @@ export function startGame(authContext: AuthContext) {
               target: "loadLandToVisit",
             },
             END_VISIT: {
-              actions: assign((_) => {
-                window.location.href = "/";
-                return {
-                  state: EMPTY,
-                  sessionId: INITIAL_SESSION,
-                };
-              }),
+              target: "loading",
             },
           },
         },
@@ -1413,6 +1406,9 @@ export function startGame(authContext: AuthContext) {
               actions: assign((_, event) => ({
                 state: event.state,
               })),
+            },
+            VISIT: {
+              target: "loadLandToVisit",
             },
           },
         },

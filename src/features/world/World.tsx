@@ -30,6 +30,7 @@ import { Forbidden } from "features/auth/components/Forbidden";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { getActiveFloatingIsland } from "features/game/types/floatingIsland";
 import { adminFeatureFlag } from "lib/flags";
+
 interface Props {
   isCommunity?: boolean;
 }
@@ -114,6 +115,7 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
 
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
+
   const { name } = useParams();
   const navigate = useNavigate();
   const location = useLocation();

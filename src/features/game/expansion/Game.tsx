@@ -316,6 +316,7 @@ const GameContent: React.FC = () => {
       </>
     );
   }
+
   if (visiting) {
     return (
       <>
