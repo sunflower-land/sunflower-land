@@ -367,11 +367,13 @@ const _gameState = (state: MachineState) => state.context.state;
 const MoveableBuilding: React.FC<Prop> = (props) => {
   const { gameService } = useContext(Context);
   const gameState = useSelector(gameService, _gameState);
+  const BuildingPlaced = useMemo(
+    () => READONLY_BUILDINGS(gameState)[props.name],
+    [props.name],
+  );
 
   const landscaping = useSelector(gameService, isLandscaping);
   if (landscaping) {
-    const BuildingPlaced = READONLY_BUILDINGS(gameState)[props.name];
-
     const inProgress = props.readyAt > Date.now();
 
     // In Landscaping mode, use readonly building

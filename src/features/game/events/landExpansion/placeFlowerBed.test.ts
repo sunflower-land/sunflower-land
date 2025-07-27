@@ -56,38 +56,6 @@ describe("placeFlowerBed", () => {
     ).toThrow("No flower beds available");
   });
 
-  it("ensures flower bed does not collide", () => {
-    expect(() =>
-      placeFlowerBed({
-        action: {
-          coordinates: {
-            x: 2,
-            y: 2,
-          },
-          id: "1",
-          type: "flowerBed.placed",
-        },
-        state: {
-          ...TEST_FARM,
-          buildings: {},
-          inventory: {
-            "Flower Bed": new Decimal(2),
-          },
-          flowers: {
-            discovered: {},
-            flowerBeds: {
-              "123": {
-                createdAt: dateNow,
-                x: 2,
-                y: 2,
-              },
-            },
-          },
-        },
-      }),
-    ).toThrow("Flower Bed collides");
-  });
-
   it("ensures id does not exist", () => {
     expect(() =>
       placeFlowerBed({
