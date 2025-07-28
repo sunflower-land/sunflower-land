@@ -624,6 +624,7 @@ type OptionalCoordinates = {
 export type Tree = {
   wood: Wood;
   createdAt?: number;
+  removedAt?: number;
 } & OptionalCoordinates;
 
 export type Stone = {
