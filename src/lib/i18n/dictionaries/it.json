@@ -6138,5 +6138,6 @@
   "description.giantTurnip": "Una rapa enorme che si erge alta nel campo, troppo grande per essere raccolta, ma perfetta per essere esposta.",
   "description.groovyGramophone": "Emette vibrazioni vintage e ritmi funky.",
   "description.wheatWhiskers": "Un fascio di grano accompagnato giocosamente da curiosi topolini.",
-  "season.no.gift.found": "Nessun regalo trovato"
+  "season.no.gift.found": "Nessun regalo trovato",
+  "social.feed": "{{type}} Alimentazione"
 }

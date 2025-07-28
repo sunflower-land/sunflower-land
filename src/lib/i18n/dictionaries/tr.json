@@ -6138,5 +6138,6 @@
   "description.giantTurnip": "Tarlada uzun boylu duran, hasat edilemeyecek kadar büyük, ancak sergilenmek için mükemmel olan devasa bir şalglam.",
   "description.groovyGramophone": "Vintage hisleri ve funky ritimleri döndürür.",
   "description.wheatWhiskers": "Meraklı farelerin şakacı bir şekilde eşlik ettiği bir demet buğday.",
-  "season.no.gift.found": "Hediye bulunamadı"
+  "season.no.gift.found": "Hediye bulunamadı",
+  "social.feed": "{{type}} Besleme"
 }

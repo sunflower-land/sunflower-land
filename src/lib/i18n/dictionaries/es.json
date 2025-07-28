@@ -6138,5 +6138,6 @@
   "description.giantTurnip": "Un nabo enorme que se mantiene erguido en el campo, demasiado grande para cosecharlo, pero perfecto para exhibirlo.",
   "description.groovyGramophone": "Evoca vibraciones vintage y ritmos funky.",
   "description.wheatWhiskers": "Un manojo de trigo acompañado juguetonamente por curiosos ratones.",
-  "season.no.gift.found": "No se encontró ningún regalo"
+  "season.no.gift.found": "No se encontró ningún regalo",
+  "social.feed": "{{type}} Feed"
 }

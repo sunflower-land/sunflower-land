@@ -6138,5 +6138,6 @@
   "description.giantTurnip": "Un navet massif qui pousse haut dans les champs, trop gros pour être récolté, mais parfait pour être exposé.",
   "description.groovyGramophone": "Fait résonner des vibrations vintage et des rythmes funky.",
   "description.wheatWhiskers": "Un paquet de blé accompagné de façon ludique par de curieuses souris.",
-  "season.no.gift.found": "Aucun cadeau n'a été trouvé"
+  "season.no.gift.found": "Aucun cadeau n'a été trouvé",
+  "social.feed": "{{type}} Fil"
 }
