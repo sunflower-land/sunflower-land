@@ -641,6 +641,7 @@ export type FiniteResource = {
 export type Rock = {
   stone: Stone;
   createdAt?: number;
+  removedAt?: number;
 } & OptionalCoordinates;
 
 export type Oil = {

@@ -482,6 +482,8 @@ import { buyBiome, BuyBiomeAction } from "./landExpansion/buyBiome";
 import { applyBiome, ApplyBiomeAction } from "./landExpansion/applyBiome";
 import { buyMonument, BuyMonumentAction } from "./landExpansion/buyMonument";
 import { removeTree, RemoveTreeAction } from "./landExpansion/removeTree";
+import { removeStone, RemoveStoneAction } from "./landExpansion/removeStone";
+
 export type PlayingEvent =
   | ObsidianExchangedAction
   | SpeedUpUpgradeAction
@@ -669,7 +671,8 @@ export type PlacementEvent =
   | PlaceOilReserveAction
   | PlaceLavaPitAction
   | MoveLavaPitAction
-  | RemoveTreeAction;
+  | RemoveTreeAction
+  | RemoveStoneAction;
 
 export type GameEvent = PlayingEvent | PlacementEvent;
 export type GameEventName<T> = Extract<T, { type: string }>["type"];
@@ -884,6 +887,7 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "lavaPit.placed": placeLavaPit,
   "lavaPit.moved": moveLavaPit,
   "tree.removed": removeTree,
+  "stone.removed": removeStone,
 };
 
 export const EVENTS = { ...PLAYING_EVENTS, ...PLACEMENT_EVENTS };
