@@ -726,6 +726,10 @@ import sunflorianGoldChampion from "assets/sfts/sunflorian_gold_champion.png";
 import sunflorianSilverChampion from "assets/sfts/sunflorian_silver_champion.png";
 import sunflorianBronzeChampion from "assets/sfts/sunflorian_bronze_champion.png";
 
+import goldCookingTrophy from "assets/sfts/cooking_gold_trophy.webp";
+import silverCookingTrophy from "assets/sfts/cooking_silver_trophy.webp";
+import bronzeCookingTrophy from "assets/sfts/cooking_bronze_trophy.webp";
+
 import desertRose from "assets/sfts/desert_rose.webp";
 import sarcophagus from "assets/sfts/sarcophagus.webp";
 import anubisJackal from "assets/sfts/anubis_jackal.webp";
@@ -5511,5 +5515,17 @@ export const ITEM_DETAILS: Items = {
   "Wheat Whiskers": {
     image: wheatWhiskers,
     description: translate("description.wheatWhiskers"),
+  },
+  "Gold Cooking Trophy": {
+    image: goldCookingTrophy,
+    description: translate("description.goldCookingTrophy"),
+  },
+  "Silver Cooking Trophy": {
+    image: silverCookingTrophy,
+    description: translate("description.silverCookingTrophy"),
+  },
+  "Bronze Cooking Trophy": {
+    image: bronzeCookingTrophy,
+    description: translate("description.bronzeCookingTrophy"),
   },
 };

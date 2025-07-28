@@ -1128,6 +1128,10 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Groovy Gramophone": 2309,
   "Wheat Whiskers": 2310,
 
+  "Gold Cooking Trophy": 2311,
+  "Silver Cooking Trophy": 2312,
+  "Bronze Cooking Trophy": 2313,
+
   // Land Biomes
   "Basic Biome": 2400,
   "Spring Biome": 2401,

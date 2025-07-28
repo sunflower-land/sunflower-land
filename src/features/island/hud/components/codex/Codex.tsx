@@ -22,7 +22,6 @@ import classNames from "classnames";
 import { useSound } from "lib/utils/hooks/useSound";
 
 import factions from "assets/icons/factions.webp";
-import chefIcon from "assets/icons/chef_hat.png";
 import chores from "assets/icons/chores.webp";
 import { Leaderboards } from "features/game/expansion/components/leaderboard/actions/cache";
 import { fetchLeaderboardData } from "features/game/expansion/components/leaderboard/actions/leaderboard";
@@ -165,11 +164,6 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
           },
         ]
       : []),
-    {
-      name: "Competition" as const,
-      icon: chefIcon,
-      count: 0,
-    },
   ];
 
   return (

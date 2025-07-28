@@ -171,7 +171,10 @@ export type EventDecorationName =
   | "Rainbow Flower"
   | "Pony Toy"
   | "Red Slime Balloon"
-  | "Blue Slime Balloon";
+  | "Blue Slime Balloon"
+  | "Gold Cooking Trophy"
+  | "Silver Cooking Trophy"
+  | "Bronze Cooking Trophy";
 
 export type TileName =
   | "Black Tile"
@@ -198,6 +201,27 @@ export type AnimalDecorationName =
   | "Wheat Whiskers";
 
 export const DECORATION_TEMPLATES = {
+  "Gold Cooking Trophy": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Silver Cooking Trophy": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Bronze Cooking Trophy": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
   "Polygon Banner": {
     dimensions: {
       width: 1,
