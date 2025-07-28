@@ -3,9 +3,6 @@ import { Button } from "components/ui/Button";
 import React, { useState } from "react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ContentComponentProps } from "../GameOptions";
-import { getKeys } from "features/game/types/craftables";
-import { SEEDS } from "features/game/types/seeds";
-import { SELLABLE_TREASURE } from "features/game/types/treasure";
 import { Loading } from "features/auth/components";
 import { NumberInput } from "components/ui/NumberInput";
 import {
@@ -14,13 +11,6 @@ import {
 } from "features/game/actions/loadGameStateForVisit";
 import { useAuth } from "features/auth/lib/Provider";
 import { CopyAddress } from "components/ui/CopyAddress";
-
-const OFFCHAIN_ITEMS = [
-  "Mark",
-  "Trade Point",
-  ...getKeys(SELLABLE_TREASURE),
-  ...getKeys(SEEDS),
-];
 
 export const DEV_PlayerSearch: React.FC<ContentComponentProps> = () => {
   const { t } = useAppTranslation();
@@ -33,11 +23,11 @@ export const DEV_PlayerSearch: React.FC<ContentComponentProps> = () => {
     setState("loading");
 
     try {
-      const farm = await loadGameStateForVisit(
+      const { visitedFarmState: farm } = await loadGameStateForVisit(
         farmId,
         authState.context.user.rawToken,
       );
-      setFarm(farm?.state);
+      setFarm(farm);
     } finally {
       setState("loaded");
     }
