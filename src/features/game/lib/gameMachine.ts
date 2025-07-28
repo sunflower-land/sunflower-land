@@ -168,6 +168,7 @@ export interface Context {
   data: Partial<Record<StateMachineStateName, any>>;
   rawToken?: string;
   visitorId?: number;
+  visitorState?: GameState;
 }
 
 export type Moderation = {
@@ -396,13 +397,34 @@ const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
     ...states,
     [`${stateName}Success`]: {
       on: {
-        CONTINUE: { target: "notifying" },
+        CONTINUE: [
+          {
+            target: "visiting",
+            cond: (context: Context, event: DoneInvokeEvent<any>) =>
+              !!context.visitorId,
+          },
+          { target: "notifying" },
+        ],
       },
     },
     [`${stateName}Failed`]: {
       on: {
-        CONTINUE: { target: "notifying" },
-        REFRESH: { target: "notifying" },
+        CONTINUE: [
+          {
+            target: "visiting",
+            cond: (context: Context, event: DoneInvokeEvent<any>) =>
+              !!context.visitorId,
+          },
+          { target: "notifying" },
+        ],
+        REFRESH: [
+          {
+            target: "visiting",
+            cond: (context: Context, event: DoneInvokeEvent<any>) =>
+              !!context.visitorId,
+          },
+          { target: "notifying" },
+        ],
       },
     },
     [stateName]: {
@@ -424,11 +446,15 @@ const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
           }
 
           const { gameState, data } = await postEffect({
-            farmId: Number(context.farmId),
+            farmId: Number(context.visitorId ?? context.farmId),
             effect,
             token: authToken ?? context.rawToken,
             transactionId: context.transactionId as string,
           });
+
+          if (context.visitorId) {
+            return { state: makeGame(data.visitedFarmState), data };
+          }
 
           return { state: gameState, data };
         },
@@ -794,6 +820,7 @@ export function startGame(authContext: AuthContext) {
                 state: (_, event) => event.data.state,
                 farmId: (_, event) => event.data.farmId,
                 visitorId: (_, event) => event.data.visitorId,
+                visitorState: (context, event) => context.state,
               }),
             },
             onError: {
@@ -813,6 +840,9 @@ export function startGame(authContext: AuthContext) {
         },
         visiting: {
           on: {
+            "villageProject.cheered": {
+              target: STATE_MACHINE_EFFECTS["villageProject.cheered"],
+            },
             SAVE: {
               target: "autosaving",
             },

@@ -259,11 +259,10 @@ const isRoninWelcomePack = (state: MachineState) =>
 const isRoninAirdrop = (state: MachineState) => state.matches("roninAirdrop");
 const isJinAirdrop = (state: MachineState) => state.matches("jinAirdrop");
 
-const GameContent: React.FC = () => {
+const GameContent: React.FC<{ isVisiting: boolean }> = ({ isVisiting }) => {
   const { gameService } = useContext(Context);
   useSound("desert", true);
 
-  const visiting = useSelector(gameService, isVisiting);
   const landToVisitNotFound = useSelector(gameService, isLandToVisitNotFound);
   const { t } = useAppTranslation();
   const [gameState] = useActor(gameService);
@@ -317,7 +316,7 @@ const GameContent: React.FC = () => {
     );
   }
 
-  if (visiting) {
+  if (isVisiting) {
     return (
       <>
         <div className="absolute z-10 w-full h-full">
@@ -361,10 +360,10 @@ const GameContent: React.FC = () => {
   );
 };
 
-export const Game: React.FC = () => {
+export const Game: React.FC<{ isVisiting: boolean }> = ({ isVisiting }) => {
   return (
     <GameWrapper>
-      <GameContent />
+      <GameContent isVisiting={isVisiting} />
     </GameWrapper>
   );
 };

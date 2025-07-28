@@ -248,6 +248,7 @@ export type Coupons =
   | "Easter Ticket 2025"
   | "Colors Token 2025"
   | "Colors Ticket 2025"
+  | "Cheer"
   | Keys
   | SeasonalTicket
   | FactionEmblem;
@@ -385,6 +386,7 @@ export const COUPONS: Record<Coupons, { description: string }> = {
     description: translate("description.colorTicket2025"),
   },
   Bracelet: { description: "" },
+  Cheer: { description: translate("description.cheer") },
 };
 
 export type Purchase = {

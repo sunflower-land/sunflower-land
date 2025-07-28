@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from "react";
 
 import { Balances } from "components/Balances";
-import { useActor } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 
 import { Inventory } from "./components/inventory/Inventory";
@@ -16,6 +16,14 @@ import { RoundButton } from "components/ui/RoundButton";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { HudContainer } from "components/ui/HudContainer";
 import { useNavigate } from "react-router";
+import { MachineState } from "features/game/lib/gameMachine";
+import { NPCIcon } from "../bumpkin/components/NPC";
+import cheer from "assets/icons/cheer.webp";
+import { Label } from "components/ui/Label";
+
+const _cheers = (state: MachineState) => {
+  return state.context.visitorState?.inventory["Cheer"] ?? new Decimal(0);
+};
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -25,6 +33,8 @@ export const VisitingHud: React.FC = () => {
   const { gameService, shortcutItem, selectedItem, fromRoute } =
     useContext(Context);
   const [gameState] = useActor(gameService);
+  const cheers = useSelector(gameService, _cheers);
+
   const { t } = useAppTranslation();
   const navigate = useNavigate();
 
@@ -37,13 +47,28 @@ export const VisitingHud: React.FC = () => {
     return () => handleEndVisit();
   }, []);
 
+  const displayId =
+    gameState.context.state.username ?? gameState.context.farmId;
+
+  // const cheersCount = gameS;
+
   return (
     <HudContainer>
       {!gameState.matches("landToVisitNotFound") && (
-        <InnerPanel className="fixed px-2 pt-1 pb-2 bottom-2 left-1/2 -translate-x-1/2 z-50">
-          <span className="text-white">
-            {t("visiting.farmId", { farmId: gameState.context.farmId })}
-          </span>
+        <InnerPanel className="fixed px-2 pt-1 pb-2 bottom-2 left-1/2 -translate-x-1/2 z-50 flex flex-col">
+          <div className="grid grid-cols-2 gap-2">
+            <NPCIcon
+              parts={gameState.context.state.bumpkin?.equipped}
+              width={20}
+            />
+            <span className="text-xs whitespace-nowrap">
+              Visiting {displayId}
+            </span>
+          </div>
+          <div className="flex items-center space-x-2">
+            <img src={cheer} style={{ width: `16px` }} />
+            <span className="text-xxs">{`Cheers Available: ${cheers.toString()}`}</span>
+          </div>
         </InnerPanel>
       )}
       <div className="absolute right-0 top-0 p-2.5">
