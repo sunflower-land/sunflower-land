@@ -7,7 +7,6 @@ import { Label } from "components/ui/Label";
 import { Box } from "components/ui/Box";
 import { ITEM_DETAILS } from "features/game/types/images";
 import Decimal from "decimal.js-light";
-import { NumberInput } from "components/ui/NumberInput";
 import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -24,7 +23,10 @@ import autumnGuardian from "assets/sfts/autumn_guardian.webp";
 import springGuardian from "assets/sfts/spring_guardian.webp";
 import summerGuardian from "assets/sfts/summer_guardian.webp";
 import winterGuardian from "assets/sfts/winter_guardian.webp";
-import { TemperateSeasonName } from "features/game/types/game";
+import {
+  InventoryItemName,
+  TemperateSeasonName,
+} from "features/game/types/game";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
 
@@ -33,6 +35,27 @@ const SEASON_GUARDIANS: Record<TemperateSeasonName, string> = {
   spring: springGuardian,
   summer: summerGuardian,
   winter: winterGuardian,
+};
+
+export type BlessingInput = Extract<
+  InventoryItemName,
+  // Legacy beta testing
+  | "Kale"
+  // Real
+  | "Basic Bear"
+  | "Sand"
+  | "Crab"
+  | "Tuna"
+  | "Red Snapper"
+>;
+
+const BLESSING_AMOUNTS: Record<BlessingInput, number> = {
+  Kale: 100,
+  "Basic Bear": 10,
+  Sand: 50,
+  Crab: 50,
+  Tuna: 10,
+  "Red Snapper": 10,
 };
 
 interface Props {
@@ -83,15 +106,16 @@ export const BlessingOffer: React.FC<Props> = ({ onClose }) => {
 
   const [page, setPage] = useState(0);
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const [amount, setAmount] = useState<Decimal>(new Decimal(0));
 
   const { offering, offered } = gameState.context.state.blessing;
+
+  const amount = BLESSING_AMOUNTS[offering.item as BlessingInput];
 
   const offer = () => {
     gameService.send("blessing.offered", {
       effect: {
         type: "blessing.offered",
-        amount: amount.toNumber(),
+        amount,
         item: offering.item,
       },
       authToken: authState.context.user.rawToken as string,
@@ -108,7 +132,7 @@ export const BlessingOffer: React.FC<Props> = ({ onClose }) => {
         <Label type="danger">{t("blessing.areYouSure")}</Label>
         <div className="p-1">
           <div className="text-sm">{t("blessing.confirmOffering")}</div>
-          <div className="text-sm my-2">{`${amount.toNumber()} x ${offering.item}`}</div>
+          <div className="text-sm my-2">{`${amount} x ${offering.item}`}</div>
           <div className="text-xs italic">{t("blessing.offeringWarning")}</div>
         </div>
         <Button onClick={offer}>{t("blessing.confirm")}</Button>
@@ -147,24 +171,10 @@ export const BlessingOffer: React.FC<Props> = ({ onClose }) => {
       <div className="flex items-center">
         <Box image={ITEM_DETAILS[offering.item].image} count={inventory} />
         <div className="ml-2">
-          <p className="text-sm">{offering.item}</p>
-          <p className="text-xs">
-            {t("blessing.chooseAmount", { name: offering.item })}
-          </p>
+          <p className="text-sm">{`${amount} x ${offering.item}`}</p>
         </div>
       </div>
-      <NumberInput
-        value={amount}
-        maxDecimalPlaces={0}
-        onValueChange={setAmount}
-        className="mb-1"
-      />
-      {amount.lt(10) && (
-        <Label type="danger" className="my-2">
-          {t("blessing.minimumRequired", { amount: 10 })}
-        </Label>
-      )}
-      {amount.gt(inventory) && (
+      {new Decimal(amount).gt(inventory) && (
         <Label type="danger" className="my-2">
           {t("blessing.maxAmount", {
             name: offering.item,
@@ -173,7 +183,7 @@ export const BlessingOffer: React.FC<Props> = ({ onClose }) => {
         </Label>
       )}
       <Button
-        disabled={amount.lt(10) || amount.gt(inventory)}
+        disabled={new Decimal(amount).gt(inventory)}
         onClick={() => setShowConfirmation(true)}
       >
         {t("blessing.offer")}
