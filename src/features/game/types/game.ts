@@ -1452,6 +1452,7 @@ export type LavaPit = {
   createdAt: number;
   startedAt?: number;
   collectedAt?: number;
+  removedAt?: number;
 } & OptionalCoordinates;
 
 export type VIP = {

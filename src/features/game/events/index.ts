@@ -493,6 +493,10 @@ import {
   removeSunstone,
   RemoveSunstoneAction,
 } from "./landExpansion/removeSunstone";
+import {
+  removeLavaPit,
+  RemoveLavaPitAction,
+} from "./landExpansion/removeLavaPit";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
@@ -686,7 +690,8 @@ export type PlacementEvent =
   | RemoveIronAction
   | RemoveGoldAction
   | RemoveCrimstoneAction
-  | RemoveSunstoneAction;
+  | RemoveSunstoneAction
+  | RemoveLavaPitAction;
 
 export type GameEvent = PlayingEvent | PlacementEvent;
 export type GameEventName<T> = Extract<T, { type: string }>["type"];
@@ -906,6 +911,7 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "gold.removed": removeGold,
   "crimstone.removed": removeCrimstone,
   "sunstone.removed": removeSunstone,
+  "lavaPit.removed": removeLavaPit,
 };
 
 export const EVENTS = { ...PLAYING_EVENTS, ...PLACEMENT_EVENTS };
