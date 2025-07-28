@@ -33,6 +33,36 @@ export function placeFruitPatch({
       throw new Error("No fruit patches available");
     }
 
+    // Search for existing fruit patches that doesn't have x or y
+    const existingFruitPatch = Object.entries(game.fruitPatches).find(
+      ([_, patch]) => patch.x === undefined && patch.y === undefined,
+    );
+
+    // If there is an existing fruit patch that doesn't have x or y, update it
+    if (existingFruitPatch) {
+      const [id, patch] = existingFruitPatch;
+      const existingPatch = {
+        ...patch,
+        x: action.coordinates.x,
+        y: action.coordinates.y,
+      };
+      if (existingPatch.fruit && existingPatch.fruit.plantProgress) {
+        // HarvestedAt will be greater than plantedAt if the fruit was harvested
+        if (existingPatch.fruit.harvestedAt > existingPatch.fruit.plantedAt) {
+          existingPatch.fruit.harvestedAt =
+            createdAt - existingPatch.fruit.plantProgress;
+        } else {
+          existingPatch.fruit.plantedAt =
+            createdAt - existingPatch.fruit.plantProgress;
+        }
+        delete existingPatch.fruit.plantProgress;
+      }
+      game.fruitPatches[id] = existingPatch;
+
+      // Early return to avoid adding the new fruit patch
+      return game;
+    }
+
     const fruitPatch: FruitPatch = {
       createdAt,
       x: action.coordinates.x,

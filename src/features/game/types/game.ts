@@ -614,6 +614,7 @@ export type PlantedFruit = {
   harvestedAt: number;
   criticalHit?: CriticalHit;
   amount?: number;
+  plantProgress?: number;
 };
 
 type OptionalCoordinates = {

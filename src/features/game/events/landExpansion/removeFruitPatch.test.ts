@@ -20,11 +20,13 @@ const GAME_STATE: GameState = {
 };
 
 describe("removeFruitPatch", () => {
+  const dateNow = Date.now();
   it("throws if fruit patch not found", () => {
     expect(() =>
       removeFruitPatch({
         state: GAME_STATE,
         action: { type: "fruitPatch.removed", id: "1" },
+        createdAt: dateNow,
       }),
     ).toThrow(REMOVE_FRUIT_PATCH_ERRORS.FRUIT_PATCH_NOT_FOUND);
   });
@@ -34,6 +36,7 @@ describe("removeFruitPatch", () => {
       removeFruitPatch({
         state: GAME_STATE,
         action: { type: "fruitPatch.removed", id: "0" },
+        createdAt: dateNow,
       }),
     ).toThrow(REMOVE_FRUIT_PATCH_ERRORS.FRUIT_PATCH_NOT_PLACED);
   });
@@ -42,6 +45,7 @@ describe("removeFruitPatch", () => {
     const state = removeFruitPatch({
       state: GAME_STATE,
       action: { type: "fruitPatch.removed", id: "2" },
+      createdAt: dateNow,
     });
     expect(state.fruitPatches["2"].x).toBeUndefined();
     expect(state.fruitPatches["2"].y).toBeUndefined();
@@ -51,7 +55,32 @@ describe("removeFruitPatch", () => {
     const state = removeFruitPatch({
       state: GAME_STATE,
       action: { type: "fruitPatch.removed", id: "2" },
+      createdAt: dateNow,
     });
     expect(state.fruitPatches["2"].removedAt).toBeDefined();
+  });
+
+  it("saves the current progress", () => {
+    const state = removeFruitPatch({
+      state: {
+        ...GAME_STATE,
+        fruitPatches: {
+          ...GAME_STATE.fruitPatches,
+          "2": {
+            ...GAME_STATE.fruitPatches["2"],
+            fruit: {
+              plantProgress: 1000,
+              name: "Apple",
+              plantedAt: dateNow - 60000,
+              harvestsLeft: 0,
+              harvestedAt: 0,
+            },
+          },
+        },
+      },
+      action: { type: "fruitPatch.removed", id: "2" },
+      createdAt: dateNow,
+    });
+    expect(state.fruitPatches["2"].fruit?.plantProgress).toBe(60000);
   });
 });
