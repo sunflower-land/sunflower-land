@@ -6139,5 +6139,8 @@
   "description.groovyGramophone": "Gira vibrações vintage e batidas descoladas.",
   "description.wheatWhiskers": "Um feixe de trigo acompanhado de forma divertida por ratos curiosos.",
   "season.no.gift.found": "Nenhum presente encontrado",
-  "social.feed": "{{type}} Alimentação"
+  "social.feed": "{{type}} Alimentação",
+  "description.goldCookingTrophy": "O vencedor do concurso de culinária!",
+  "description.silverCookingTrophy": "O segundo colocado da competição de culinária!",
+  "description.bronzeCookingTrophy": "O terceiro colocado do concurso de culinária!"
 }

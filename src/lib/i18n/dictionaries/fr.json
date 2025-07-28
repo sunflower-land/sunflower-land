@@ -6139,5 +6139,8 @@
   "description.groovyGramophone": "Fait résonner des vibrations vintage et des rythmes funky.",
   "description.wheatWhiskers": "Un paquet de blé accompagné de façon ludique par de curieuses souris.",
   "season.no.gift.found": "Aucun cadeau n'a été trouvé",
-  "social.feed": "{{type}} Fil"
+  "social.feed": "{{type}} Fil",
+  "description.goldCookingTrophy": "Le gagnant du concours de cuisine !",
+  "description.silverCookingTrophy": "Finaliste du concours de cuisine !",
+  "description.bronzeCookingTrophy": "Le gagnant de la troisième place du concours de cuisine !"
 }

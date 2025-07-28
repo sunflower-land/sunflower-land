@@ -6139,5 +6139,8 @@
   "description.groovyGramophone": "Emette vibrazioni vintage e ritmi funky.",
   "description.wheatWhiskers": "Un fascio di grano accompagnato giocosamente da curiosi topolini.",
   "season.no.gift.found": "Nessun regalo trovato",
-  "social.feed": "{{type}} Alimentazione"
+  "social.feed": "{{type}} Alimentazione",
+  "description.goldCookingTrophy": "Il vincitore del concorso di cucina!",
+  "description.silverCookingTrophy": "Il secondo classificato del concorso di cucina!",
+  "description.bronzeCookingTrophy": "Il terzo classificato del concorso di cucina!"
 }

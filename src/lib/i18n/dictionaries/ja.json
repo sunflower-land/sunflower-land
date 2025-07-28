@@ -6139,5 +6139,8 @@
   "description.groovyGramophone": "ビンテージな雰囲気とファンキーなビートが流れます。",
   "description.wheatWhiskers": "好奇心旺盛なネズミとふざけて遊ぶ小麦の束。",
   "season.no.gift.found": "ギフトが見つかりません",
-  "social.feed": "{{type}} フィード"
+  "social.feed": "{{type}} フィード",
+  "description.goldCookingTrophy": "料理コンテストの優勝者！",
+  "description.silverCookingTrophy": "料理コンテストの準優勝！",
+  "description.bronzeCookingTrophy": "料理コンクールで3位入賞！"
 }

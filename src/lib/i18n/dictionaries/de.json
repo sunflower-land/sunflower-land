@@ -6139,5 +6139,8 @@
   "description.groovyGramophone": "Spingt Vintage-Vibes und funky Beats.",
   "description.wheatWhiskers": "Ein Weizenbündel, spielerisch begleitet von neugierigen Mäusen.",
   "season.no.gift.found": "Kein Geschenk gefunden",
-  "social.feed": "{{type}} Vorschub"
+  "social.feed": "{{type}} Vorschub",
+  "description.goldCookingTrophy": "Der Gewinner des Kochwettbewerbs!",
+  "description.silverCookingTrophy": "Der Zweitplatzierte des Kochwettbewerbs!",
+  "description.bronzeCookingTrophy": "Der dritte Preisträger des Kochwettbewerbs!"
 }

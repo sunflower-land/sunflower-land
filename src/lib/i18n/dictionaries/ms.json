@@ -6139,5 +6139,8 @@
   "description.groovyGramophone": "Berputar suasana vintaj dan rentak funky.",
   "description.wheatWhiskers": "Sekumpulan gandum dengan bermain disertai oleh tikus yang ingin tahu.",
   "season.no.gift.found": "Tiada hadiah ditemui",
-  "social.feed": "{{type}} Suapan"
+  "social.feed": "{{type}} Suapan",
+  "description.goldCookingTrophy": "Pemenang pertandingan memasak!",
+  "description.silverCookingTrophy": "Pengerusi pertandingan memasak!",
+  "description.bronzeCookingTrophy": "Pemenang tempat ketiga pertandingan memasak!"
 }

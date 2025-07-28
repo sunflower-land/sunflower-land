@@ -6139,5 +6139,8 @@
   "description.groovyGramophone": "Звучит винтажная атмосфера и фанк-ритмы.",
   "description.wheatWhiskers": "Пучок пшеницы в игривом сопровождении любопытных мышей.",
   "season.no.gift.found": "Подарок не найден",
-  "social.feed": "{{type}} Корм"
+  "social.feed": "{{type}} Корм",
+  "description.goldCookingTrophy": "Победитель кулинарного конкурса!",
+  "description.silverCookingTrophy": "Второе место в кулинарном конкурсе!",
+  "description.bronzeCookingTrophy": "Победитель кулинарного конкурса, занявший третье место!"
 }

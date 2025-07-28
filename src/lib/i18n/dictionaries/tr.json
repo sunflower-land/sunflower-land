@@ -6139,5 +6139,8 @@
   "description.groovyGramophone": "Vintage hisleri ve funky ritimleri döndürür.",
   "description.wheatWhiskers": "Meraklı farelerin şakacı bir şekilde eşlik ettiği bir demet buğday.",
   "season.no.gift.found": "Hediye bulunamadı",
-  "social.feed": "{{type}} Besleme"
+  "social.feed": "{{type}} Besleme",
+  "description.goldCookingTrophy": "Yemek yarışmasının galibi!",
+  "description.silverCookingTrophy": "Yemek yarışmasının ikinci oyuncusu!",
+  "description.bronzeCookingTrophy": "Yemek yarışmasının üçüncülük galibi!"
 }

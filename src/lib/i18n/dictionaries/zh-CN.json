@@ -6139,5 +6139,8 @@
   "description.groovyGramophone": "演奏复古氛围和时髦节拍。",
   "description.wheatWhiskers": "一捆小麦调皮地陪着好奇的老鼠。",
   "season.no.gift.found": "未找到礼物",
-  "social.feed": "{{type}} 饲料"
+  "social.feed": "{{type}} 饲料",
+  "description.goldCookingTrophy": "烹饪比赛的赢家！",
+  "description.silverCookingTrophy": "烹饪比赛的亚军！",
+  "description.bronzeCookingTrophy": "烹饪比赛的第三名获胜者！"
 }

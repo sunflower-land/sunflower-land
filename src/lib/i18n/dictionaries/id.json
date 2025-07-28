@@ -6139,5 +6139,8 @@
   "description.groovyGramophone": "Memutar getaran vintage dan ketukan funky.",
   "description.wheatWhiskers": "Seikat gandum dengan main-main ditemani oleh tikus yang penasaran.",
   "season.no.gift.found": "Tidak ada hadiah yang ditemukan",
-  "social.feed": "{{type}} Umpan"
+  "social.feed": "{{type}} Umpan",
+  "description.goldCookingTrophy": "Pemenang kompetisi memasak!",
+  "description.silverCookingTrophy": "Juara kedua dari kompetisi memasak!",
+  "description.bronzeCookingTrophy": "Pemenang tempat ketiga dari kompetisi memasak!"
 }

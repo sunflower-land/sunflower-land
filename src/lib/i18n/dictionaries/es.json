@@ -6139,5 +6139,8 @@
   "description.groovyGramophone": "Evoca vibraciones vintage y ritmos funky.",
   "description.wheatWhiskers": "Un manojo de trigo acompañado juguetonamente por curiosos ratones.",
   "season.no.gift.found": "No se encontró ningún regalo",
-  "social.feed": "{{type}} Feed"
+  "social.feed": "{{type}} Feed",
+  "description.goldCookingTrophy": "¡El ganador del concurso de cocina!",
+  "description.silverCookingTrophy": "¡El finalista del concurso de cocina!",
+  "description.bronzeCookingTrophy": "¡El ganador del tercer lugar del concurso de cocina!"
 }

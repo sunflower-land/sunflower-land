@@ -6139,5 +6139,8 @@
   "description.groovyGramophone": "빈티지한 분위기와 펑키한 비트를 선사합니다.",
   "description.wheatWhiskers": "호기심 많은 쥐들이 장난스럽게 반주하는 밀 다발.",
   "season.no.gift.found": "선물을 찾을 수 없습니다",
-  "social.feed": "{{type}} 피드"
+  "social.feed": "{{type}} 피드",
+  "description.goldCookingTrophy": "요리 대회의 우승자!",
+  "description.silverCookingTrophy": "요리 경연대회 준우승!",
+  "description.bronzeCookingTrophy": "요리 경연대회 3위 입상자!"
 }

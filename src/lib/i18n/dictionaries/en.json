@@ -6139,5 +6139,8 @@
   "chestRewardsList.rewardsTitle": "Rewards",
   "chestRewardsList.treasureChest.tabTitle1": "Basic Chest",
   "chestRewardsList.treasureChest.tabTitle2": "Rare Chest",
-  "chestRewardsList.treasureChest.tabTitle3": "Luxury Chest"
+  "chestRewardsList.treasureChest.tabTitle3": "Luxury Chest",
+  "description.goldCookingTrophy": "The winner of the cooking competition!",
+  "description.silverCookingTrophy": "The runner up of the cooking competition!",
+  "description.bronzeCookingTrophy": "The third place winner of the cooking competition!"
 }
