@@ -652,6 +652,7 @@ export type OilReserve = {
   oil: Oil;
   drilled: number;
   createdAt: number;
+  removedAt?: number;
 } & OptionalCoordinates;
 
 export type CropPlot = {
