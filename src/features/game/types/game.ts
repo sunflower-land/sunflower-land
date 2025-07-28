@@ -682,6 +682,7 @@ export type FruitPatch = {
   fruit?: PlantedFruit;
   createdAt: number;
   fertiliser?: FruitFertiliser;
+  removedAt?: number;
 } & OptionalCoordinates;
 
 export type BuildingProduct = {
