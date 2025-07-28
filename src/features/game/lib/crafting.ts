@@ -107,7 +107,7 @@ export type Recipe = {
 
 export type Recipes = Record<RecipeItemName, Recipe>;
 
-export const RECIPES_OLD: Recipes = {
+export const RECIPES_OLD: Omit<Recipes, DollName> = {
   "Dirt Path": {
     name: "Dirt Path",
     ingredients: [],
@@ -366,18 +366,6 @@ export const RECIPES_OLD: Recipes = {
     time: 30 * 60 * 1000,
     type: "collectible",
   },
-  ...getKeys(DOLLS).reduce(
-    (acc, doll) => ({
-      ...acc,
-      [doll]: {
-        name: doll,
-        ingredients: [],
-        time: 0,
-        type: "collectible",
-      },
-    }),
-    {} as Record<DollName, Recipe>,
-  ),
 };
 
 export const RECIPES_REVISED: Record<
