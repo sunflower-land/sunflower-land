@@ -7,31 +7,24 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { VIPAccess } from "features/game/components/VipAccess";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
 import { hasVipAccess } from "features/game/lib/vipAccess";
-import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React, { useContext, useState } from "react";
 import { Revealed } from "features/game/components/Revealed";
 import { Loading } from "features/auth/components";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
+
+const MONTHLY_REWARDS_DATES = [
+  "2025-07-01",
+  "2025-08-04",
+  "2025-09-01",
+  "2025-10-01",
+  "2025-11-03",
+  "2025-12-01",
+  "2026-01-01",
+  "2026-02-02",
+];
 
 interface Props {
   onClose: () => void;
-}
-
-function getFirstMondayOfMonth(date: Date): Date {
-  const year = date.getFullYear();
-  const month = date.getMonth();
-
-  // Get the first day of the month
-  const firstDay = new Date(year, month, 1);
-
-  // Get the day of the week (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
-  const dayOfWeek = firstDay.getDay();
-
-  // Calculate days to add to get to the first Monday
-  const daysToAdd = (1 - dayOfWeek + 7) % 7;
-
-  const firstMonday = new Date(year, month, 1 + daysToAdd);
-
-  return firstMonday;
 }
 
 export const VIPGift: React.FC<Props> = ({ onClose }) => {
@@ -50,6 +43,7 @@ export const VIPGift: React.FC<Props> = ({ onClose }) => {
 export const VIPGiftContent: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
+  const { t } = useAppTranslation();
   const { openModal } = useContext(ModalContext);
 
   const { pumpkinPlaza } = gameState.context.state;
@@ -72,20 +66,25 @@ export const VIPGiftContent: React.FC<Props> = ({ onClose }) => {
     setIsPicking(false);
   };
 
+  const currentDate = new Date();
+
   const hasVip = hasVipAccess({ game: gameState.context.state });
+  const rewardEntry = MONTHLY_REWARDS_DATES.sort(
+    (a, b) => new Date(b[0]).getTime() - new Date(a[0]).getTime(),
+  ).find(([key]) => {
+    const rewardStartDate = new Date(key);
+    return currentDate >= rewardStartDate;
+  });
+
+  if (!rewardEntry) {
+    return null;
+  }
+
+  const rewardStartDate = new Date(rewardEntry);
+
   const openedAt = pumpkinPlaza.vipChest?.openedAt ?? 0;
 
-  const currentDate = new Date();
-  const currentFirstMonday = getFirstMondayOfMonth(currentDate);
-  const openedDate = new Date(openedAt);
-  const openedFirstMonday = getFirstMondayOfMonth(openedDate);
-
-  const hasOpened =
-    currentDate < currentFirstMonday ||
-    (currentFirstMonday.getTime() === openedFirstMonday.getTime() &&
-      openedAt >= currentFirstMonday.getTime());
-
-  const { t } = useAppTranslation();
+  const hasOpened = openedAt >= rewardStartDate.getTime();
 
   if (isPicking || (gameState.matches("revealing") && isRevealing)) {
     return <Loading />;
