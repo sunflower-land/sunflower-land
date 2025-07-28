@@ -185,7 +185,7 @@ function detectPlaceableCollision(
   const resourceBoundingBoxes = getObjectEntries(RESOURCE_TYPES).flatMap(
     ([name, items]) =>
       Object.values(items)
-        .filter((item) => !!item.x && !!item.y)
+        .filter((item) => item.x !== undefined && item.y !== undefined)
         .map((item) => ({
           // Casting to non-null is safe because we filtered out items without x and y
           x: item.x!,

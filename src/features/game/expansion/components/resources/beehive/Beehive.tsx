@@ -208,7 +208,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
           (DEFAULT_HONEY_PRODUCTION_TIME - honeyProduced) / currentSpeed / 1000,
         );
 
-  if (!hive.x || !hive.y) return null;
+  if (hive.x === undefined || hive.y === undefined) return null;
 
   return (
     <>

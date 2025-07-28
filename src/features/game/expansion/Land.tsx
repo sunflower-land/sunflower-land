@@ -309,7 +309,7 @@ const getIslandElements = ({
 
   mapPlacements.push(
     ...getObjectEntries(trees)
-      .filter(([, tree]) => !!tree.x && !!tree.y)
+      .filter(([, tree]) => tree.x !== undefined && tree.y !== undefined)
       .map(([id, tree], index) => {
         const { x, y } = tree;
 
@@ -338,7 +338,7 @@ const getIslandElements = ({
 
   mapPlacements.push(
     ...getObjectEntries(stones)
-      .filter(([, stone]) => !!stone.x && !!stone.y)
+      .filter(([, stone]) => stone.x !== undefined && stone.y !== undefined)
       .map(([id, stone], index) => {
         const { x, y } = stone;
 
@@ -367,7 +367,7 @@ const getIslandElements = ({
 
   mapPlacements.push(
     ...getObjectEntries(iron)
-      .filter(([, iron]) => !!iron.x && !!iron.y)
+      .filter(([, iron]) => iron.x !== undefined && iron.y !== undefined)
       .map(([id, iron], index) => {
         const { x, y } = iron;
 
@@ -396,7 +396,7 @@ const getIslandElements = ({
 
   mapPlacements.push(
     ...getObjectEntries(gold)
-      .filter(([, gold]) => !!gold.x && !!gold.y)
+      .filter(([, gold]) => gold.x !== undefined && gold.y !== undefined)
       .map(([id, gold], index) => {
         const { x, y } = gold;
 
@@ -425,7 +425,10 @@ const getIslandElements = ({
 
   mapPlacements.push(
     ...getObjectEntries(crimstones)
-      .filter(([, crimstone]) => !!crimstone.x && !!crimstone.y)
+      .filter(
+        ([, crimstone]) =>
+          crimstone.x !== undefined && crimstone.y !== undefined,
+      )
       .map(([id, crimstone], index) => {
         const { x, y } = crimstone;
 
@@ -454,7 +457,9 @@ const getIslandElements = ({
 
   mapPlacements.push(
     ...getObjectEntries(sunstones)
-      .filter(([, sunstone]) => !!sunstone.x && !!sunstone.y)
+      .filter(
+        ([, sunstone]) => sunstone.x !== undefined && sunstone.y !== undefined,
+      )
       .map(([id, sunstone], index) => {
         const { x, y } = sunstone;
 
@@ -483,7 +488,10 @@ const getIslandElements = ({
 
   mapPlacements.push(
     ...getObjectEntries(oilReserves)
-      .filter(([, oilReserve]) => !!oilReserve.x && !!oilReserve.y)
+      .filter(
+        ([, oilReserve]) =>
+          oilReserve.x !== undefined && oilReserve.y !== undefined,
+      )
       .map(([id, oilReserve], index) => {
         const { x, y } = oilReserve;
 
@@ -511,7 +519,9 @@ const getIslandElements = ({
 
   mapPlacements.push(
     ...getObjectEntries(lavaPits)
-      .filter(([, lavaPit]) => !!lavaPit.x && !!lavaPit.y)
+      .filter(
+        ([, lavaPit]) => lavaPit.x !== undefined && lavaPit.y !== undefined,
+      )
       .map(([id, lavaPit], index) => {
         const { x, y } = lavaPit;
 
@@ -539,7 +549,10 @@ const getIslandElements = ({
 
   mapPlacements.push(
     ...getObjectEntries(fruitPatches)
-      .filter(([, fruitPatch]) => !!fruitPatch.x && !!fruitPatch.y)
+      .filter(
+        ([, fruitPatch]) =>
+          fruitPatch.x !== undefined && fruitPatch.y !== undefined,
+      )
       .map(([id, fruitPatch], index) => {
         const { x, y } = fruitPatch;
 
@@ -567,7 +580,7 @@ const getIslandElements = ({
 
   mapPlacements.push(
     ...getObjectEntries(crops)
-      .filter(([, crop]) => !!crop.x && !!crop.y)
+      .filter(([, crop]) => crop.x !== undefined && crop.y !== undefined)
       .map(([id, crop], index) => {
         const { x, y } = crop;
 
@@ -595,7 +608,10 @@ const getIslandElements = ({
 
   mapPlacements.push(
     ...getObjectEntries(flowerBeds)
-      .filter(([, flowerBed]) => !!flowerBed.x && !!flowerBed.y)
+      .filter(
+        ([, flowerBed]) =>
+          flowerBed.x !== undefined && flowerBed.y !== undefined,
+      )
       .map(([id, flowerBed], index) => {
         const { x, y } = flowerBed;
 
@@ -695,7 +711,9 @@ const getIslandElements = ({
 
   mapPlacements.push(
     ...getObjectEntries(beehives)
-      .filter(([, beehive]) => !!beehive.x && !!beehive.y)
+      .filter(
+        ([, beehive]) => beehive.x !== undefined && beehive.y !== undefined,
+      )
       .map(([id, beehive], index) => {
         const { x, y } = beehive;
 

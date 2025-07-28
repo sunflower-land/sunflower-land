@@ -17,7 +17,12 @@ const GAME_STATE: GameState = {
 describe("fertiliseCrop", () => {
   const dateNow = Date.now();
   const { inventory, crops } = GAME_STATE;
-  const plot = (crops as Record<number, CropPlot>)[0];
+  const plot = {
+    ...(crops as Record<number, CropPlot>)[0],
+    x: 1,
+    y: 0,
+    createdAt: dateNow,
+  };
 
   it("does not fertilise on non-existent plot", () => {
     expect(() =>

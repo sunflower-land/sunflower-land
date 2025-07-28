@@ -93,7 +93,7 @@ export function fertilisePlot({
     // Apply buff if already planted
     const crop = plot.crop;
 
-    if (!plot.x || !plot.y) {
+    if (plot.x === undefined || plot.y === undefined) {
       throw new Error(FERTILISE_CROP_ERRORS.PLOT_NOT_PLACED);
     }
 

@@ -42,7 +42,7 @@ const BeeComponent: React.FC<Props> = ({
   );
   const { x: flowerX, y: flowerY } = flower;
 
-  if (!flowerX || !flowerY) return null;
+  if (flowerX === undefined || flowerY === undefined) return null;
 
   return (
     <AnimatedBeeComponent
