@@ -167,6 +167,7 @@ export interface Context {
   oauthNonce: string;
   data: Partial<Record<StateMachineStateName, any>>;
   rawToken?: string;
+  visitorId?: number;
 }
 
 export type Moderation = {
@@ -647,10 +648,6 @@ export function startGame(authContext: AuthContext) {
           id: "loading",
           always: [
             {
-              target: "loadLandToVisit",
-              cond: () => window.location.href.includes("visit"),
-            },
-            {
               target: "error",
               cond: () => !!getError(),
               actions: assign({
@@ -708,6 +705,11 @@ export function startGame(authContext: AuthContext) {
             },
             onDone: [
               {
+                target: "loadLandToVisit",
+                cond: () => window.location.href.includes("visit"),
+                actions: ["assignGame"],
+              },
+              {
                 target: "blacklisted",
                 cond: (_, event) => {
                   return event.data.state.ban.status === "permanent";
@@ -762,33 +764,36 @@ export function startGame(authContext: AuthContext) {
         loadLandToVisit: {
           invoke: {
             src: async (_, event) => {
-              let landId: number;
+              let farmId: number;
 
               // We can enter this state two ways
               // 1. Directly on load if the url has a visit path (/visit)
               // 2. From a VISIT event passed back to the machine which will include a farmId in the payload
 
               if (!(event as VisitEvent).landId) {
-                landId = Number(window.location.href.split("/").pop());
+                farmId = Number(window.location.href.split("/").pop());
               } else {
-                landId = (event as VisitEvent).landId;
+                farmId = (event as VisitEvent).landId;
               }
 
-              const { state } = await loadGameStateForVisit(
-                Number(landId),
-                authContext.user.rawToken as string,
-              );
+              const { visitedFarmState, visitorId } =
+                await loadGameStateForVisit(
+                  Number(farmId),
+                  authContext.user.rawToken as string,
+                );
 
               return {
-                state: makeGame(state),
-                farmId: landId,
+                state: makeGame(visitedFarmState),
+                farmId,
+                visitorId,
               };
             },
             onDone: {
               target: "visiting",
               actions: assign({
-                state: (_context, event) => event.data.state,
-                farmId: (_context, event) => event.data.farmId,
+                state: (_, event) => event.data.state,
+                farmId: (_, event) => event.data.farmId,
+                visitorId: (_, event) => event.data.visitorId,
               }),
             },
             onError: {
@@ -808,6 +813,9 @@ export function startGame(authContext: AuthContext) {
         },
         visiting: {
           on: {
+            SAVE: {
+              target: "autosaving",
+            },
             VISIT: {
               target: "loadLandToVisit",
             },
@@ -1446,10 +1454,11 @@ export function startGame(authContext: AuthContext) {
           },
           invoke: {
             src: async (context, event) => {
+              const farmId = context.visitorId ?? context.farmId;
               const data = await saveGame(
                 context,
                 event,
-                context.farmId as number,
+                farmId as number,
                 authContext.user.rawToken as string,
               );
 
@@ -1494,6 +1503,15 @@ export function startGame(authContext: AuthContext) {
                     game.calendar[activeEvent].acknowledgedAt;
 
                   return !isAcknowledged;
+                },
+                actions: assign((context: Context, event) =>
+                  handleSuccessfulSave(context, event),
+                ),
+              },
+              {
+                target: "visiting",
+                cond: (context) => {
+                  return !!context.visitorId;
                 },
                 actions: assign((context: Context, event) =>
                   handleSuccessfulSave(context, event),
