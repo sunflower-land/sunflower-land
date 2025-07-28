@@ -46,8 +46,8 @@ describe("removeGold", () => {
       state: GAME_STATE,
       action: { type: "gold.removed", id: "2" },
     });
-    expect(state.stones["2"].x).toBeUndefined();
-    expect(state.stones["2"].y).toBeUndefined();
+    expect(state.gold["2"].x).toBeUndefined();
+    expect(state.gold["2"].y).toBeUndefined();
   });
 
   it("sets removedAt time", () => {
