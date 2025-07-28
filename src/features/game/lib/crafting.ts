@@ -31,7 +31,7 @@ export type DollName =
   | "Sizzle Doll"
   | "Angler Doll";
 
-export const DOLLS: Record<DollName, {}> = {
+export const DOLLS: Record<DollName, object> = {
   Doll: {},
   "Buzz Doll": {},
   "Lunar Doll": {},
@@ -49,6 +49,7 @@ export const DOLLS: Record<DollName, {}> = {
   "Sizzle Doll": {},
   "Angler Doll": {},
 };
+
 export type RecipeCollectibleName = Extract<
   | "Dirt Path"
   | "Fence"
