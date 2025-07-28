@@ -15,6 +15,9 @@ export const ITEM_TRADE_TYPES: {
   wearables: Record<BumpkinItem, TradeType>;
 } = {
   collectibles: {
+    "Gold Cooking Trophy": "instant",
+    "Silver Cooking Trophy": "instant",
+    "Bronze Cooking Trophy": "instant",
     "Test Box": "instant",
     "Bronze Tool Box": "instant",
     "Silver Tool Box": "instant",
