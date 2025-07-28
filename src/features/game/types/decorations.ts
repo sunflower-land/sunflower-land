@@ -5,6 +5,7 @@ import { BoostTreasure, DecorationTreasure } from "./treasure";
 import { translate } from "lib/i18n/translate";
 import { Template } from "./templates";
 import { BeanName } from "./beans";
+import { DollName, DOLLS } from "../lib/crafting";
 
 /**
  * getKeys is a ref to Object.keys, but the return is typed literally.
@@ -201,6 +202,19 @@ export type AnimalDecorationName =
   | "Wheat Whiskers";
 
 export const DECORATION_TEMPLATES = {
+  ...getKeys(DOLLS).reduce(
+    (acc, doll) => ({
+      ...acc,
+      [doll]: {
+        dimensions: {
+          width: 1,
+          height: 1,
+        },
+        isWithdrawable: () => false,
+      },
+    }),
+    {} as Record<DollName, Template>,
+  ),
   "Gold Cooking Trophy": {
     dimensions: {
       width: 1,
@@ -395,6 +409,7 @@ export const DECORATION_TEMPLATES = {
 export type TemplateDecorationName = keyof typeof DECORATION_TEMPLATES;
 
 export type DecorationName =
+  | DollName
   | AchievementDecorationName
   | ShopDecorationName
   | EventDecorationName
@@ -408,6 +423,13 @@ export type DecorationName =
   | TileName;
 
 export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
+  ...getKeys(DOLLS).reduce(
+    (acc, doll) => ({
+      ...acc,
+      [doll]: DECORATION_TEMPLATES[doll as DollName].dimensions,
+    }),
+    {} as Record<DollName, Dimensions>,
+  ),
   "Jelly Lamp": {
     width: 2,
     height: 2,

@@ -6,7 +6,49 @@ import {
   InventoryItemName,
   RecipeCraftableName,
 } from "../types/game";
+/**
+ * getKeys is a ref to Object.keys, but the return is typed literally.
+ */
+export const getKeys = Object.keys as <T extends object>(
+  obj: T,
+) => Array<keyof T>;
 
+export type DollName =
+  | "Doll"
+  | "Buzz Doll"
+  | "Lunar Doll"
+  | "Juicy Doll"
+  | "Crude Doll"
+  | "Cluck Doll"
+  | "Wooly Doll"
+  | "Moo Doll"
+  | "Bloom Doll"
+  | "Shadow Doll"
+  | "Ember Doll"
+  | "Gilded Doll"
+  | "Lumber Doll"
+  | "Harvest Doll"
+  | "Sizzle Doll"
+  | "Angler Doll";
+
+export const DOLLS: Record<DollName, {}> = {
+  Doll: {},
+  "Buzz Doll": {},
+  "Lunar Doll": {},
+  "Juicy Doll": {},
+  "Crude Doll": {},
+  "Cluck Doll": {},
+  "Wooly Doll": {},
+  "Moo Doll": {},
+  "Bloom Doll": {},
+  "Shadow Doll": {},
+  "Ember Doll": {},
+  "Gilded Doll": {},
+  "Lumber Doll": {},
+  "Harvest Doll": {},
+  "Sizzle Doll": {},
+  "Angler Doll": {},
+};
 export type RecipeCollectibleName = Extract<
   | "Dirt Path"
   | "Fence"
@@ -27,7 +69,8 @@ export type RecipeCollectibleName = Extract<
   | "Mahogany Cap"
   | "Golden Maple"
   | RecipeCraftableName
-  | Exclude<BedName, "Double Bed">,
+  | Exclude<BedName, "Double Bed">
+  | DollName,
   InventoryItemName
 >;
 
@@ -322,6 +365,18 @@ export const RECIPES_OLD: Recipes = {
     time: 30 * 60 * 1000,
     type: "collectible",
   },
+  ...getKeys(DOLLS).reduce(
+    (acc, doll) => ({
+      ...acc,
+      [doll]: {
+        name: doll,
+        ingredients: [],
+        time: 0,
+        type: "collectible",
+      },
+    }),
+    {} as Record<DollName, Recipe>,
+  ),
 };
 
 export const RECIPES_REVISED: Record<
@@ -535,6 +590,18 @@ export const RECIPES_REVISED: Record<
     time: 30 * 60 * 1000,
     type: "collectible",
   },
+  ...getKeys(DOLLS).reduce(
+    (acc, doll) => ({
+      ...acc,
+      [doll]: {
+        name: doll,
+        ingredients: [],
+        time: 30 * 60 * 1000,
+        type: "collectible",
+      },
+    }),
+    {} as Record<DollName, Recipe>,
+  ),
 };
 
 export const RECIPE_CRAFTABLES: Record<RecipeCraftableName, null> = {

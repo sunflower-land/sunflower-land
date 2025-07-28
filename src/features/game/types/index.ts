@@ -1137,6 +1137,24 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Spring Biome": 2401,
   "Desert Biome": 2402,
   "Volcano Biome": 2403,
+
+  // Dolls
+  Doll: 2501,
+  "Buzz Doll": 2502,
+  "Lunar Doll": 2503,
+  "Juicy Doll": 2504,
+  "Crude Doll": 2505,
+  "Cluck Doll": 2506,
+  "Wooly Doll": 2507,
+  "Moo Doll": 2508,
+  "Bloom Doll": 2509,
+  "Shadow Doll": 2510,
+  "Ember Doll": 2511,
+  "Gilded Doll": 2512,
+  "Lumber Doll": 2513,
+  "Harvest Doll": 2514,
+  "Sizzle Doll": 2515,
+  "Angler Doll": 2516,
 };
 
 // The reverse of above
