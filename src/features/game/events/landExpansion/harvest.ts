@@ -413,6 +413,10 @@ export function getCropYieldAmount({
     isMediumCrop(crop) &&
     plot
   ) {
+    if (plot.x === undefined || plot.y === undefined) {
+      return { amount, aoe: updatedAoe, boostsUsed };
+    }
+
     const scarecrowCoordinates =
       game.collectibles["Scary Mike"]?.[0].coordinates;
     const scarecrowDimensions = COLLECTIBLES_DIMENSIONS["Scary Mike"];
@@ -464,6 +468,10 @@ export function getCropYieldAmount({
     isCollectibleBuilt({ name: "Sir Goldensnout", game }) &&
     plot
   ) {
+    if (plot.x === undefined || plot.y === undefined) {
+      return { amount, aoe: updatedAoe, boostsUsed };
+    }
+
     const sirGoldenSnout = game.collectibles["Sir Goldensnout"][0];
 
     const position: Position = {
@@ -472,17 +480,15 @@ export function getCropYieldAmount({
       ...COLLECTIBLES_DIMENSIONS["Sir Goldensnout"],
     };
 
+    const plotPosition: Position = {
+      x: plot?.x,
+      y: plot?.y,
+      ...RESOURCE_DIMENSIONS["Crop Plot"],
+    };
+
     if (
       isPlotCrop(crop) &&
-      isWithinAOE(
-        "Sir Goldensnout",
-        position,
-        {
-          ...plot,
-          ...RESOURCE_DIMENSIONS["Crop Plot"],
-        },
-        skills,
-      )
+      isWithinAOE("Sir Goldensnout", position, plotPosition, skills)
     ) {
       const dx = plot.x - position.x;
       const dy = plot.y - position.y;
@@ -509,6 +515,10 @@ export function getCropYieldAmount({
     isAdvancedCrop(crop) &&
     plot
   ) {
+    if (plot.x === undefined || plot.y === undefined) {
+      return { amount, aoe: updatedAoe, boostsUsed };
+    }
+
     const scarecrowCoordinates =
       game.collectibles["Laurie the Chuckle Crow"]?.[0].coordinates;
     const scarecrowDimensions =
@@ -566,6 +576,10 @@ export function getCropYieldAmount({
   }
 
   if (crop === "Corn" && game.collectibles["Queen Cornelia"]?.[0] && plot) {
+    if (plot.x === undefined || plot.y === undefined) {
+      return { amount, aoe: updatedAoe, boostsUsed };
+    }
+
     const scarecrowCoordinates =
       game.collectibles["Queen Cornelia"]?.[0].coordinates;
     const scarecrowDimensions = COLLECTIBLES_DIMENSIONS["Queen Cornelia"];
@@ -619,6 +633,10 @@ export function getCropYieldAmount({
     hasGnome &&
     plot
   ) {
+    if (plot.x === undefined || plot.y === undefined) {
+      return { amount, aoe: updatedAoe, boostsUsed };
+    }
+
     const gnome = game.collectibles["Gnome"]?.[0];
 
     // Cobalt is to the left
@@ -633,10 +651,8 @@ export function getCropYieldAmount({
       clementine?.coordinates.y === clementine?.coordinates.y &&
       (clementine?.coordinates.x ?? 0) - 1 === gnome?.coordinates.x;
 
-    const cropPlot = plot;
     const cropIsBelow =
-      cropPlot.x === gnome?.coordinates.x &&
-      cropPlot.y + 1 === gnome.coordinates.y;
+      plot.x === gnome?.coordinates.x && plot.y + 1 === gnome.coordinates.y;
 
     // Must be at rest for 24
     const isUndisturbed =

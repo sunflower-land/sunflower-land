@@ -15,7 +15,9 @@ type Position = {
   z?: number;
   canCollide?: boolean;
   className?: string;
-} & Coordinates;
+  x: number;
+  y: number;
+};
 
 type Props = Position;
 

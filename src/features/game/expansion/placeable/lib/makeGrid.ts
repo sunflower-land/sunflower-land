@@ -22,6 +22,8 @@ export function getGameGrid({
   getKeys(crops || {}).forEach((plotIndex) => {
     const coords = crops[plotIndex] ?? { x: 0, y: 0 };
 
+    if (!coords.x || !coords.y) return;
+
     if (!grid[coords.x]) {
       grid[coords.x] = {};
     }
