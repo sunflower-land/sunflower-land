@@ -41,7 +41,8 @@ type EffectName =
   | "marketplace.bulkOffersCancelled"
   | "farm.followed"
   | "farm.unfollowed"
-  | "message.sent";
+  | "message.sent"
+  | "monument.cheered";
 
 // IMPORTANT: If your effect does not go via a state in the state machine then exclude it here!
 // Create a type that excludes the events that are not individual state machine states
@@ -57,6 +58,7 @@ export type StateMachineEffectName = Exclude<
   | "farm.followed"
   | "farm.unfollowed"
   | "message.sent"
+  | "monument.cheered"
 >;
 
 export type StateMachineStateName =
