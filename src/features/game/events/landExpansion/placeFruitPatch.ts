@@ -26,7 +26,9 @@ export function placeFruitPatch({
 }: Options): GameState {
   return produce(state, (game) => {
     const available = (game.inventory["Fruit Patch"] || new Decimal(0)).minus(
-      Object.keys(game.fruitPatches).length,
+      Object.values(game.fruitPatches).filter(
+        (patch) => patch.x !== undefined && patch.y !== undefined,
+      ).length,
     );
 
     if (available.lt(1)) {

@@ -26,7 +26,9 @@ export function placePlot({
 }: Options): GameState {
   return produce(state, (game) => {
     const available = (game.inventory["Crop Plot"] || new Decimal(0)).minus(
-      Object.keys(game.crops).length,
+      Object.values(game.crops).filter(
+        (plot) => plot.x !== undefined && plot.y !== undefined,
+      ).length,
     );
 
     if (available.lt(1)) {
