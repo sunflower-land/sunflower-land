@@ -484,6 +484,7 @@ import { buyMonument, BuyMonumentAction } from "./landExpansion/buyMonument";
 import { removeTree, RemoveTreeAction } from "./landExpansion/removeTree";
 import { removeStone, RemoveStoneAction } from "./landExpansion/removeStone";
 import { removeIron, RemoveIronAction } from "./landExpansion/removeIron";
+import { removeGold, RemoveGoldAction } from "./landExpansion/removeGold";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
@@ -674,7 +675,8 @@ export type PlacementEvent =
   | MoveLavaPitAction
   | RemoveTreeAction
   | RemoveStoneAction
-  | RemoveIronAction;
+  | RemoveIronAction
+  | RemoveGoldAction;
 
 export type GameEvent = PlayingEvent | PlacementEvent;
 export type GameEventName<T> = Extract<T, { type: string }>["type"];
@@ -891,6 +893,7 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "tree.removed": removeTree,
   "stone.removed": removeStone,
   "iron.removed": removeIron,
+  "gold.removed": removeGold,
 };
 
 export const EVENTS = { ...PLAYING_EVENTS, ...PLACEMENT_EVENTS };
