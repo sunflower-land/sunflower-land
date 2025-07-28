@@ -587,6 +587,7 @@ export type Wood = {
   reward?: Omit<Reward, "sfl">;
   criticalHit?: CriticalHit;
   amount?: number;
+  recoveryProgress?: number;
 };
 
 export type CriticalHitName =

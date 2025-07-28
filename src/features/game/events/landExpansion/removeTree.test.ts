@@ -57,4 +57,25 @@ describe("removeTree", () => {
     });
     expect(state.trees["2"].removedAt).toBeDefined();
   });
+  it("saves the current progress", () => {
+    const dateNow = Date.now();
+    const state = removeTree({
+      state: {
+        ...GAME_STATE,
+        trees: {
+          ...GAME_STATE.trees,
+          "2": {
+            ...GAME_STATE.trees["2"],
+            wood: {
+              ...GAME_STATE.trees["2"].wood,
+              choppedAt: dateNow - 60000,
+            },
+          },
+        },
+      },
+      action: { type: "tree.removed", id: "2" },
+      createdAt: dateNow,
+    });
+    expect(state.trees["2"].wood.recoveryProgress).toBe(60000);
+  });
 });

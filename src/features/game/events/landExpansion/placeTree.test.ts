@@ -109,4 +109,47 @@ describe("placeTree", () => {
       },
     });
   });
+
+  it("reinstates current progress", () => {
+    const createdAt = dateNow;
+    const state = placeTree({
+      action: {
+        coordinates: {
+          x: 2,
+          y: 2,
+        },
+        id: "156", // ID doesn't matter since it's an existing tree
+        name: "Tree",
+        type: "tree.placed",
+      },
+      state: {
+        ...INITIAL_FARM,
+        buildings: {},
+        inventory: {
+          Tree: new Decimal(2),
+        },
+        trees: {
+          "123": {
+            createdAt: dateNow,
+            wood: {
+              choppedAt: dateNow - 120000,
+              recoveryProgress: 60000,
+            },
+          },
+        },
+      },
+      createdAt,
+    });
+
+    expect(state.trees).toEqual({
+      "123": {
+        createdAt,
+        wood: {
+          choppedAt: dateNow - 60000,
+        },
+        x: 2,
+        y: 2,
+      },
+    });
+  });
 });

@@ -33,6 +33,8 @@ export function removeTree({ state, action, createdAt = Date.now() }: Options) {
     delete tree.y;
     tree.removedAt = createdAt;
 
+    tree.wood.recoveryProgress = createdAt - tree.wood.choppedAt;
+
     return stateCopy;
   });
 }
