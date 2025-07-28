@@ -585,7 +585,7 @@ export const RECIPES_REVISED: Record<
       [doll]: {
         name: doll,
         ingredients: [],
-        time: 30 * 60 * 1000,
+        time: 4 * 60 * 60 * 1000,
         type: "collectible",
       },
     }),
