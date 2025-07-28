@@ -151,7 +151,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
   const idle = cowMachineState === "idle";
   const sick = cowMachineState === "sick" || cow.state === "sick";
 
-  const requiredFoodQty = getBoostedFoodQuantity({
+  const { foodQuantity: requiredFoodQty } = getBoostedFoodQuantity({
     animalType: "Cow",
     foodQuantity: REQUIRED_FOOD_QTY.Cow,
     game,
@@ -256,9 +256,8 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
 
   const onSickClick = async () => {
     const medicineCount = inventory["Barn Delight"] ?? new Decimal(0);
-    const hasEnoughMedicine = medicineCount.gte(
-      getBarnDelightCost({ state: game }),
-    );
+    const { amount: barnDelightCost } = getBarnDelightCost({ state: game });
+    const hasEnoughMedicine = medicineCount.gte(barnDelightCost);
 
     if (hasOracleSyringeEquipped) {
       playCureAnimal();

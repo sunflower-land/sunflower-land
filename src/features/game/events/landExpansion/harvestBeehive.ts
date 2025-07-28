@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { GameState } from "features/game/types/game";
+import { BoostName, GameState } from "features/game/types/game";
 import {
   DEFAULT_HONEY_PRODUCTION_TIME,
   updateBeehives,
@@ -9,6 +9,7 @@ import { trackActivity } from "features/game/types/bumpkinActivity";
 import { isWearableActive } from "features/game/lib/wearables";
 import { produce } from "immer";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 
 export const HARVEST_BEEHIVE_ERRORS = {
   BEEHIVE_NOT_PLACED: "harvestBeeHive.notPlaced",
@@ -64,28 +65,38 @@ export const getHoneyMultiplier = (game: GameState) => {
   const { bumpkin } = game;
 
   let multiplier = 1;
+  const boostsUsed: BoostName[] = [];
 
   if (isWearableActive({ name: "Bee Suit", game })) {
     multiplier += 0.1;
+    boostsUsed.push("Bee Suit");
   }
 
   if (isWearableActive({ name: "Honeycomb Shield", game })) {
     multiplier += 1;
+    boostsUsed.push("Honeycomb Shield");
   }
 
   if (bumpkin.skills["Sweet Bonus"]) {
     multiplier += 0.1;
+    boostsUsed.push("Sweet Bonus");
   }
 
   if (isCollectibleBuilt({ name: "King of Bears", game })) {
     multiplier += 0.25;
+    boostsUsed.push("King of Bears");
   }
 
-  return multiplier;
+  return { multiplier, boostsUsed };
 };
 
-const getTotalHoneyProduced = (game: GameState, honeyProduced: number) => {
-  return honeyProduced * getHoneyMultiplier(game);
+const getTotalHoneyProduced = (
+  game: GameState,
+  honeyProduced: number,
+): { amount: number; boostsUsed: BoostName[] } => {
+  const { multiplier, boostsUsed } = getHoneyMultiplier(game);
+
+  return { amount: honeyProduced * multiplier, boostsUsed };
 };
 
 export function harvestBeehive({
@@ -116,7 +127,10 @@ export function harvestBeehive({
       DEFAULT_HONEY_PRODUCTION_TIME;
     const isFull = honeyProduced >= 1;
 
-    const totalHoneyProduced = getTotalHoneyProduced(stateCopy, honeyProduced);
+    const { amount: totalHoneyProduced, boostsUsed } = getTotalHoneyProduced(
+      stateCopy,
+      honeyProduced,
+    );
 
     stateCopy.beehives[action.id].honey.produced = 0;
     stateCopy.beehives[action.id].honey.updatedAt = createdAt;
@@ -133,6 +147,12 @@ export function harvestBeehive({
       // Actual value updated on the server
       stateCopy.beehives[action.id].swarm = false;
     }
+
+    stateCopy.boostsUsedAt = updateBoostUsed({
+      game: stateCopy,
+      boostNames: boostsUsed,
+      createdAt,
+    });
 
     stateCopy.bumpkin.activity = trackActivity(
       `Honey Harvested`,

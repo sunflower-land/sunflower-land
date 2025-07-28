@@ -48,8 +48,9 @@ export const OilReserve: React.FC<Props> = ({ id }) => {
   useUiRefresher({ active: !ready });
 
   const handleDrill = async () => {
-    if (!ready || drills.lessThan(getRequiredOilDrillAmount(state))) return;
-    const oilDropAmount = getOilDropAmount(state, reserve);
+    const requiredDrillAmount = getRequiredOilDrillAmount(state).amount;
+    if (!ready || drills.lessThan(requiredDrillAmount)) return;
+    const { amount: oilDropAmount } = getOilDropAmount(state, reserve);
 
     const newState = gameService.send({ type: "oilReserve.drilled", id });
 
@@ -61,7 +62,7 @@ export const OilReserve: React.FC<Props> = ({ id }) => {
       setDrilling(false);
     }
   };
-  const hasDrill = drills.gte(getRequiredOilDrillAmount(state));
+  const hasDrill = drills.gte(getRequiredOilDrillAmount(state).amount);
 
   return (
     <div className="relative w-full h-full flex justify-center items-center">

@@ -640,7 +640,7 @@ describe("getFruitTime", () => {
   it("applies a 50% speed boost with Squirrel Monkey placed for orange seeds", () => {
     const seed = "Orange Seed";
     const orangePlantSeconds = PATCH_FRUIT_SEEDS[seed].plantSeconds;
-    const time = getFruitPatchTime(seed, {
+    const { seconds: time } = getFruitPatchTime(seed, {
       ...TEST_FARM,
       collectibles: {
         "Squirrel Monkey": [
@@ -658,7 +658,7 @@ describe("getFruitTime", () => {
   it("does not apply a 50% speed boost with Squirrel Monkey placed for other seeds", () => {
     const seed = "Apple Seed";
     const applePlantSeconds = PATCH_FRUIT_SEEDS[seed].plantSeconds;
-    const time = getFruitPatchTime(seed, {
+    const { seconds: time } = getFruitPatchTime(seed, {
       ...TEST_FARM,
       collectibles: {
         "Squirrel Monkey": [
@@ -677,7 +677,7 @@ describe("getFruitTime", () => {
   it("applies a 50% time reduction for Lemons when Lemon Tea Bath is placed", () => {
     const seed = "Lemon Seed";
     const lemonPlantSeconds = PATCH_FRUIT_SEEDS[seed].plantSeconds;
-    const time = getFruitPatchTime(seed, {
+    const { seconds: time } = getFruitPatchTime(seed, {
       ...TEST_FARM,
       collectibles: {
         "Lemon Tea Bath": [
@@ -696,7 +696,7 @@ describe("getFruitTime", () => {
   it("gives a 50% growth time reduction for tomatoes when Tomato Clown is placed", () => {
     const seed = "Tomato Seed";
     const tomatoPlantSeconds = PATCH_FRUIT_SEEDS[seed].plantSeconds;
-    const time = getFruitPatchTime(seed, {
+    const { seconds: time } = getFruitPatchTime(seed, {
       ...TEST_FARM,
       collectibles: {
         "Tomato Clown": [
@@ -715,7 +715,7 @@ describe("getFruitTime", () => {
   it("applies a 10% speed boost with Nana placed for Banana plant", () => {
     const seed = "Banana Plant";
     const orangePlantSeconds = PATCH_FRUIT_SEEDS[seed].plantSeconds;
-    const time = getFruitPatchTime(seed, {
+    const { seconds: time } = getFruitPatchTime(seed, {
       ...TEST_FARM,
       collectibles: {
         Nana: [
@@ -733,7 +733,7 @@ describe("getFruitTime", () => {
   it("does not apply a 10% speed boost with Nana placed for other seeds", () => {
     const seed = "Apple Seed";
     const applePlantSeconds = PATCH_FRUIT_SEEDS[seed].plantSeconds;
-    const time = getFruitPatchTime(seed, {
+    const { seconds: time } = getFruitPatchTime(seed, {
       ...TEST_FARM,
       collectibles: {
         Nana: [
@@ -752,7 +752,7 @@ describe("getFruitTime", () => {
   it("applies a 20% speed boost with Banana Onesie", () => {
     const seed = "Banana Plant";
     const orangePlantSeconds = PATCH_FRUIT_SEEDS[seed].plantSeconds;
-    const time = getFruitPatchTime(seed, {
+    const { seconds: time } = getFruitPatchTime(seed, {
       ...TEST_FARM,
       bumpkin: {
         ...INITIAL_BUMPKIN,
@@ -770,7 +770,7 @@ describe("getFruitTime", () => {
     const now = Date.now();
     const seed = "Banana Plant";
     const plantSeconds = PATCH_FRUIT_SEEDS[seed].plantSeconds;
-    const time = getFruitPatchTime(seed, {
+    const { seconds: time } = getFruitPatchTime(seed, {
       ...TEST_FARM,
       collectibles: {
         "Orchard Hourglass": [
@@ -791,7 +791,7 @@ describe("getFruitTime", () => {
     const sevenHoursAgo = now - 1000 * 60 * 60 * 7;
     const seed = "Banana Plant";
     const plantSeconds = PATCH_FRUIT_SEEDS[seed].plantSeconds;
-    const time = getFruitPatchTime(seed, {
+    const { seconds: time } = getFruitPatchTime(seed, {
       ...TEST_FARM,
       collectibles: {
         "Orchard Hourglass": [
@@ -810,7 +810,7 @@ describe("getFruitTime", () => {
   it("applies a 10% growth speed boost on Fruit seeds with Catchup skill", () => {
     const seed = "Tomato Seed";
     const plantSeconds = PATCH_FRUIT_SEEDS[seed].plantSeconds;
-    const time = getFruitPatchTime(seed, {
+    const { seconds: time } = getFruitPatchTime(seed, {
       ...TEST_FARM,
       bumpkin: {
         ...INITIAL_BUMPKIN,
@@ -824,7 +824,7 @@ describe("getFruitTime", () => {
   });
   it("takes 2x faster to grow Apples with Long Pickings skill, but Oranges take 2x longer to grow", () => {
     const applePlantSeconds = PATCH_FRUIT_SEEDS["Apple Seed"].plantSeconds;
-    const appleTime = getFruitPatchTime("Apple Seed", {
+    const { seconds: appleTime } = getFruitPatchTime("Apple Seed", {
       ...TEST_FARM,
       bumpkin: {
         ...INITIAL_BUMPKIN,
@@ -834,7 +834,7 @@ describe("getFruitTime", () => {
       },
     });
     const orangePlantSeconds = PATCH_FRUIT_SEEDS["Orange Seed"].plantSeconds;
-    const orangeTime = getFruitPatchTime("Orange Seed", {
+    const { seconds: orangeTime } = getFruitPatchTime("Orange Seed", {
       ...TEST_FARM,
       bumpkin: {
         ...INITIAL_BUMPKIN,
@@ -848,7 +848,7 @@ describe("getFruitTime", () => {
   });
   it("takes 2x faster to grow Orange with Short Pickings skill, but Apples take 2x longer to grow", () => {
     const applePlantSeconds = PATCH_FRUIT_SEEDS["Apple Seed"].plantSeconds;
-    const appleTime = getFruitPatchTime("Apple Seed", {
+    const { seconds: appleTime } = getFruitPatchTime("Apple Seed", {
       ...TEST_FARM,
       bumpkin: {
         ...INITIAL_BUMPKIN,
@@ -858,7 +858,7 @@ describe("getFruitTime", () => {
       },
     });
     const orangePlantSeconds = PATCH_FRUIT_SEEDS["Orange Seed"].plantSeconds;
-    const orangeTime = getFruitPatchTime("Orange Seed", {
+    const { seconds: orangeTime } = getFruitPatchTime("Orange Seed", {
       ...TEST_FARM,
       bumpkin: {
         ...INITIAL_BUMPKIN,

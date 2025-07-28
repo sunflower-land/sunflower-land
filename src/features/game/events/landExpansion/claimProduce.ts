@@ -14,6 +14,7 @@ import {
 import { makeAnimalBuildingKey } from "features/game/lib/animals";
 import { getKeys } from "features/game/types/craftables";
 import { trackActivity } from "features/game/types/bumpkinActivity";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 
 export type ClaimProduceAction = {
   type: "produce.claimed";
@@ -53,7 +54,7 @@ export function claimProduce({
       const baseAmount = ANIMAL_RESOURCE_DROP[action.animal][level][
         resource
       ] as Decimal;
-      const boostedAmount = getResourceDropAmount({
+      const { amount: boostedAmount, boostsUsed } = getResourceDropAmount({
         game: copy,
         animalType: action.animal,
         baseAmount: baseAmount.toNumber(),
@@ -69,6 +70,12 @@ export function claimProduce({
         `${resource} Collected`,
         copy.bumpkin.activity,
       );
+
+      copy.boostsUsedAt = updateBoostUsed({
+        game: copy,
+        boostNames: boostsUsed,
+        createdAt,
+      });
     });
 
     // Apply reward items if any
@@ -84,10 +91,16 @@ export function claimProduce({
     }
 
     animal.asleepAt = createdAt;
-    animal.awakeAt = getBoostedAwakeAt({
+    const { awakeAt, boostsUsed } = getBoostedAwakeAt({
       animalType: animal.type,
       createdAt,
       game: copy,
+    });
+    animal.awakeAt = awakeAt;
+    copy.boostsUsedAt = updateBoostUsed({
+      game: copy,
+      boostNames: boostsUsed,
+      createdAt,
     });
     animal.state = "idle";
     animal.multiplier = 1;

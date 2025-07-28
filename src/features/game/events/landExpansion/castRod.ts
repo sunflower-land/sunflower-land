@@ -11,6 +11,7 @@ import { isWearableActive } from "features/game/lib/wearables";
 import { translate } from "lib/i18n/translate";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { produce } from "immer";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 
 export type CastRodAction = {
   type: "rod.casted";
@@ -98,6 +99,12 @@ export function castRod({
     // Subtracts Rod
     if (!isWearableActive({ name: "Ancient Rod", game })) {
       game.inventory.Rod = rodCount.sub(1);
+    } else {
+      game.boostsUsedAt = updateBoostUsed({
+        game,
+        boostNames: ["Ancient Rod"],
+        createdAt,
+      });
     }
 
     // Subtracts Bait

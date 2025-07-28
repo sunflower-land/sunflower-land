@@ -7,8 +7,9 @@ import {
 import {
   EXPANSION_REQUIREMENTS,
   getLand,
+  Requirements,
 } from "features/game/types/expansions";
-import { Airdrop, GameState } from "features/game/types/game";
+import { Airdrop, BoostName, GameState } from "features/game/types/game";
 
 import { getKeys } from "features/game/types/craftables";
 import { pickEmptyPosition } from "features/game/expansion/placeable/lib/collisionDetection";
@@ -340,13 +341,19 @@ export function revealLand({
   });
 }
 
-export const expansionRequirements = ({ game }: { game: GameState }) => {
-  const level = (game.inventory["Basic Land"]?.toNumber() ?? 3) + 1;
+export const expansionRequirements = ({
+  game,
+}: {
+  game: GameState;
+}): { requirements: Requirements | undefined; boostsUsed: BoostName[] } => {
+  const level = (game.inventory["Basic Land"]?.toNumber() ?? 0) + 1;
+
+  const boostsUsed: BoostName[] = [];
 
   const requirements = EXPANSION_REQUIREMENTS[game.island.type][level];
 
   if (!requirements) {
-    return undefined;
+    return { requirements: undefined, boostsUsed };
   }
 
   let resources = requirements.resources;
@@ -360,12 +367,10 @@ export const expansionRequirements = ({ game }: { game: GameState }) => {
       }),
       {},
     );
+    boostsUsed.push("Grinx's Hammer");
   }
 
-  return {
-    ...requirements,
-    resources,
-  };
+  return { requirements: { ...requirements, resources }, boostsUsed };
 };
 
 export function getRewards({

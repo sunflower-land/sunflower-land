@@ -239,7 +239,7 @@ export const UpcomingExpansion: React.FC = () => {
 
   const state = gameState.context.state;
 
-  const requirements = expansionRequirements({ game: state });
+  const { requirements } = expansionRequirements({ game: state });
 
   const { t } = useAppTranslation();
 

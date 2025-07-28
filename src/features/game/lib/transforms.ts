@@ -130,5 +130,6 @@ export function makeGame(farm: any): GameState {
     withdrawals: farm.withdrawals,
     blessing: farm.blessing,
     aoe: farm.aoe,
+    boostsUsedAt: farm.boostsUsedAt,
   };
 }

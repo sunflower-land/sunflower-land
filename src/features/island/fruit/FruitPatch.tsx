@@ -41,7 +41,7 @@ const HasAxes = (
   inventory: Partial<Record<InventoryItemName, Decimal>>,
   game: GameState,
 ) => {
-  const axesNeeded = getRequiredAxeAmount(inventory, game);
+  const { amount: axesNeeded } = getRequiredAxeAmount(inventory, game);
 
   // has enough axes to chop the tree
   if (axesNeeded <= 0) return true;
@@ -164,7 +164,7 @@ export const FruitPatch: React.FC<Props> = ({ id }) => {
         name: fruit?.name as PatchFruitName,
         fertiliser: fertiliser?.name,
         criticalDrop: (name) => !!(fruit?.criticalHit?.[name] ?? 0),
-      });
+      }).amount;
 
     const newState = gameService.send("fruit.harvested", {
       index: id,

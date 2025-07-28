@@ -161,7 +161,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   const { play: playLevelUp } = useSound("level_up");
   const { play: playCureAnimal } = useSound("cure_animal");
 
-  const requiredFoodQty = getBoostedFoodQuantity({
+  const { foodQuantity: requiredFoodQty } = getBoostedFoodQuantity({
     animalType: "Chicken",
     foodQuantity: REQUIRED_FOOD_QTY.Chicken,
     game,
@@ -266,9 +266,8 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
 
   const onSickClick = async () => {
     const medicineCount = inventory["Barn Delight"] ?? new Decimal(0);
-    const hasEnoughMedicine = medicineCount.gte(
-      getBarnDelightCost({ state: game }),
-    );
+    const { amount: barnDelightCost } = getBarnDelightCost({ state: game });
+    const hasEnoughMedicine = medicineCount.gte(barnDelightCost);
 
     if (hasOracleSyringeEquipped) {
       playCureAnimal();

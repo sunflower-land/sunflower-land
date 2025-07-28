@@ -72,7 +72,11 @@ import { MinigameCurrency } from "../events/minigames/purchaseMinigameItem";
 import { FactionShopCollectibleName, FactionShopFoodName } from "./factionShop";
 import { DiggingFormationName } from "./desert";
 import { ExperimentName } from "lib/flags";
-import { CollectionName, MarketplaceTradeableName } from "./marketplace";
+import {
+  BudNFTName,
+  CollectionName,
+  MarketplaceTradeableName,
+} from "./marketplace";
 import { GameTransaction } from "./transactions";
 import { CompetitionName, CompetitionProgress } from "./competitions";
 import { AnimalType } from "./animals";
@@ -588,7 +592,6 @@ export type Wood = {
 export type CriticalHitName =
   | InventoryItemName
   | BumpkinRevampSkillName
-  | BumpkinSkillName
   | BumpkinItem
   | "Native";
 
@@ -1458,6 +1461,14 @@ export type NFT = {
   acknowledgedAt?: number;
 };
 
+export type BoostName =
+  | InventoryItemName
+  | BumpkinItem
+  | BumpkinRevampSkillName
+  | BudNFTName;
+
+export type BoostUsedAt = Partial<Record<BoostName, number>>;
+
 export interface GameState {
   home: Home;
   bank: Bank;
@@ -1528,6 +1539,7 @@ export interface GameState {
   previousWardrobe: Wardrobe;
   stock: Inventory;
   stockExpiry: StockExpiry;
+  boostsUsedAt?: BoostUsedAt;
 
   // When an item is burnt, what the prize was
   mysteryPrizes: Partial<Record<InventoryItemName, Reveal[]>>;

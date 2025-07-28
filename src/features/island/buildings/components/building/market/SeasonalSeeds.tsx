@@ -93,7 +93,7 @@ export const SeasonalSeeds: React.FC = () => {
   const selected = SEEDS[selectedName];
   const { t } = useAppTranslation();
 
-  const price = getBuyPrice(selectedName, selected, state);
+  const { price } = getBuyPrice(selectedName, selected, state);
 
   const onSeedClick = (seedName: SeedName) => {
     setSelectedName(seedName);
@@ -238,18 +238,19 @@ export const SeasonalSeeds: React.FC = () => {
 
   const getPlantSeconds = () => {
     if (selectedName in FLOWER_SEEDS) {
-      return getFlowerTime(selectedName as FlowerSeedName, state);
+      return getFlowerTime(selectedName as FlowerSeedName, state).seconds;
     }
 
     if (yields && yields in PATCH_FRUIT)
-      return getFruitPatchTime(selectedName as PatchFruitSeedName, state);
+      return getFruitPatchTime(selectedName as PatchFruitSeedName, state)
+        .seconds;
 
     if (
       selectedName in GREENHOUSE_SEEDS ||
       selectedName in GREENHOUSE_FRUIT_SEEDS
     ) {
       const plant = SEED_TO_PLANT[selectedName as GreenHouseCropSeedName];
-      const seconds = getGreenhouseCropTime({
+      const { seconds } = getGreenhouseCropTime({
         crop: plant,
         game: state,
       });

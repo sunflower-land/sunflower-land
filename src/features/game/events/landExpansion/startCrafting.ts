@@ -1,10 +1,11 @@
 import Decimal from "decimal.js-light";
 import { Recipe, RecipeIngredient, Recipes } from "features/game/lib/crafting";
 import { CollectibleName } from "features/game/types/craftables";
-import { GameState } from "features/game/types/game";
+import { BoostName, GameState } from "features/game/types/game";
 import { produce } from "immer";
 import { availableWardrobe } from "./equip";
 import { isWearableActive } from "features/game/lib/wearables";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 
 export type StartCraftingAction = {
   type: "crafting.started";
@@ -25,13 +26,15 @@ export function getBoostedCraftingTime({
   time: number;
 }) {
   let seconds = time;
+  const boostsUsed: BoostName[] = [];
 
   // Sol & Luna 50% Crafting Speed
   if (isWearableActive({ name: "Sol & Luna", game })) {
     seconds *= 0.5;
+    boostsUsed.push("Sol & Luna");
   }
 
-  return seconds;
+  return { seconds, boostsUsed };
 }
 
 export function startCrafting({
@@ -105,7 +108,7 @@ export function startCrafting({
       }
     });
 
-    const recipeTime = getBoostedCraftingTime({
+    const { seconds: recipeTime, boostsUsed } = getBoostedCraftingTime({
       game: state,
       time: recipe.time,
     });
@@ -123,6 +126,12 @@ export function startCrafting({
         [recipe.name]: recipe,
       },
     };
+
+    copy.boostsUsedAt = updateBoostUsed({
+      game: copy,
+      boostNames: boostsUsed,
+      createdAt,
+    });
 
     return copy;
   });
