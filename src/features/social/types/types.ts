@@ -7,7 +7,7 @@ export type ParticipantInfo = {
   tokenUri: string;
 };
 
-export type InteractionType = "chat" | "action" | "milestone" | "announcement";
+export type InteractionType = "chat" | "follow" | "milestone" | "announcement";
 
 export type Interaction = {
   type: InteractionType;
@@ -15,6 +15,13 @@ export type Interaction = {
   recipient: ParticipantInfo;
   message: string;
   createdAt: number;
+  readAt?: number; // Timestamp when the message was read by the recipient
+  id?: string; // Unique identifier for the message
+};
+
+export type Milestone = Interaction & {
+  isGlobal?: boolean;
+  followers?: number[];
 };
 
 export type Player = {

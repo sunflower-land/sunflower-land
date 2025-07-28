@@ -22,7 +22,7 @@ export const RoundButton: React.FC<
   return (
     <div
       onClick={onClick}
-      className={classNames("relative flex z-50", className, {
+      className={classNames("relative flex", className, {
         "cursor-pointer hover:img-highlight group": !disabled,
       })}
       style={{

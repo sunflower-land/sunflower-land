@@ -1,7 +1,7 @@
 import { useCallback, useSyncExternalStore } from "react";
 import { Room, Client } from "colyseus.js";
 import { CONFIG } from "lib/config";
-import { Interaction, PlayerUpdate } from "../types/types";
+import { Interaction, Milestone, PlayerUpdate } from "../types/types";
 
 const HEARTBEAT_INTERVAL = 15 * 60 * 1000;
 const MAX_RETRY_INTERVAL = 15 * 60 * 1000;
@@ -14,7 +14,8 @@ const subscribers: Map<
     callbacks?: {
       onFollow?: (update: PlayerUpdate) => void;
       onUnfollow?: (update: PlayerUpdate) => void;
-      onChat?: (update: Interaction) => void;
+      onInteraction?: (update: Interaction) => void;
+      onMilestone?: (update: Milestone) => void;
     };
   }
 > = new Map();
@@ -39,7 +40,8 @@ type UseSocialParams = {
   callbacks?: {
     onFollow?: (update: PlayerUpdate) => void;
     onUnfollow?: (update: PlayerUpdate) => void;
-    onChat?: (update: Interaction) => void;
+    onInteraction?: (update: Interaction) => void;
+    onMilestone?: (update: Milestone) => void;
   };
 };
 
@@ -109,10 +111,18 @@ const onUnfollow = (update: PlayerUpdate) => {
   });
 };
 
-const onChat = (update: Interaction) => {
+const onInteraction = (update: Interaction) => {
   [...subscribers.values()].forEach((subscriber) => {
-    if (subscriber.callbacks?.onChat) {
-      subscriber.callbacks.onChat(update);
+    if (subscriber.callbacks?.onInteraction) {
+      subscriber.callbacks.onInteraction(update);
+    }
+  });
+};
+
+const onMilestone = (update: Milestone) => {
+  [...subscribers.values()].forEach((subscriber) => {
+    if (subscriber.callbacks?.onMilestone) {
+      subscriber.callbacks.onMilestone(update);
     }
   });
 };
@@ -136,7 +146,8 @@ const setupListeners = (
   room.onMessage("heartbeat", updateOnline);
   room.onMessage("follow", onFollow);
   room.onMessage("unfollow", onUnfollow);
-  room.onMessage("chat", onChat);
+  room.onMessage("interaction", onInteraction);
+  room.onMessage("milestone", onMilestone);
 };
 
 const updateFollowing = () => {

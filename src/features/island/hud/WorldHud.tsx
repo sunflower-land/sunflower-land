@@ -25,7 +25,7 @@ import { StreamCountdown } from "./components/streamCountdown/StreamCountdown";
 import { FloatingIslandCountdown } from "./components/FloatingIslandCountdown";
 import { HudBumpkin } from "./components/bumpkinProfile/HudBumpkin";
 import classNames from "classnames";
-import { WorldFeed } from "features/social/WorldFeed";
+import { Feed } from "features/social/Feed";
 import { isMobile } from "mobile-device-detect";
 import { hasFeatureAccess } from "lib/flags";
 import { WorldFeedButton } from "features/social/components/WorldFeedButton";
@@ -97,11 +97,11 @@ const HudComponent: React.FC<Props> = ({
   return (
     <>
       {hasFeatureAccess(state, "SOCIAL_FARMING") && (
-        <WorldFeed
+        <Feed
+          type="world"
           server={server}
           showFeed={showFeed}
           setShowFeed={setShowFeed}
-          interactions={[]}
         />
       )}
       <HudContainer>

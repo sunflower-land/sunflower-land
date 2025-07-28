@@ -33,6 +33,7 @@ import { KeyedMutator } from "swr";
 import { PlayerDetailsSkeleton } from "./skeletons/PlayerDetailsSkeleton";
 import { FollowerFeedSkeleton } from "./skeletons/FollowerFeedSkeleton";
 import { OnlineStatus } from "./OnlineStatus";
+import { FollowsIndicator } from "./FollowsIndicator";
 
 const ISLAND_ICONS: Record<IslandType, string> = {
   basic: basicIsland,
@@ -204,46 +205,11 @@ export const PlayerDetails: React.FC<Props> = ({
         <InnerPanel className="flex flex-col items-center w-full">
           <div className="flex flex-col gap-1 p-1 w-full ml-1 pt-0">
             <div className="flex items-center justify-between">
-              <div className="flex items-center gap-1">
-                <span
-                  className="text-xs underline cursor-pointer"
-                  onClick={onFollowersClick}
-                >
-                  {t("playerModal.followers", {
-                    count: data?.data?.followedByCount,
-                  })}
-                </span>
-                <div className="relative w-10 h-6">
-                  <div className="absolute">
-                    <NPCIcon
-                      width={24}
-                      parts={{
-                        body: "Light Brown Farmer Potion",
-                        pants: "Angler Waders",
-                        hair: "Buzz Cut",
-                        shirt: "Chic Gala Blouse",
-                        tool: "Farmer Pitchfork",
-                        background: "Farm Background",
-                        shoes: "Black Farmer Boots",
-                      }}
-                    />
-                  </div>
-                  <div className="absolute left-3.5">
-                    <NPCIcon
-                      width={24}
-                      parts={{
-                        body: "Goblin Potion",
-                        pants: "Grape Pants",
-                        hair: "Ash Ponytail",
-                        shirt: "Tiki Armor",
-                        tool: "Axe",
-                        background: "Farm Background",
-                        shoes: "Crimstone Boots",
-                      }}
-                    />
-                  </div>
-                </div>
-              </div>
+              <FollowsIndicator
+                count={data?.data?.followedByCount ?? 0}
+                onClick={onFollowersClick}
+                type="followers"
+              />
               <Button
                 className="flex w-fit h-9 justify-between items-center gap-1 mt-1 mr-0.5"
                 disabled={playerLoading || followLoading || !!error}

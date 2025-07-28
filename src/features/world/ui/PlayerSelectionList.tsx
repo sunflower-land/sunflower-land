@@ -59,28 +59,28 @@ export const PlayerSelectionList: React.FC = () => {
   const playersSortedBySpecialWearables = players.sort((a, b) => {
     // Sort Streamer Hat first
     if (
-      a.clothing.hat === "Streamer Hat" &&
-      b.clothing.hat !== "Streamer Hat"
+      a.clothing?.hat === "Streamer Hat" &&
+      b.clothing?.hat !== "Streamer Hat"
     ) {
       return -1;
     }
     if (
-      b.clothing.hat === "Streamer Hat" &&
-      a.clothing.hat !== "Streamer Hat"
+      b.clothing?.hat === "Streamer Hat" &&
+      a.clothing?.hat !== "Streamer Hat"
     ) {
       return 1;
     }
 
     // Then sort Gift Giver
     if (
-      a.clothing.shirt === "Gift Giver" &&
-      b.clothing.shirt !== "Gift Giver"
+      a.clothing?.shirt === "Gift Giver" &&
+      b.clothing?.shirt !== "Gift Giver"
     ) {
       return -1;
     }
     if (
-      b.clothing.shirt === "Gift Giver" &&
-      a.clothing.shirt !== "Gift Giver"
+      b.clothing?.shirt === "Gift Giver" &&
+      a.clothing?.shirt !== "Gift Giver"
     ) {
       return 1;
     }
@@ -101,16 +101,16 @@ export const PlayerSelectionList: React.FC = () => {
                 className="flex flex-row items-center gap-1 mx-1 text-xs"
                 onClick={() => openPlayerModal(player)}
               >
-                <NPCIcon parts={player.clothing} />
-                {player.clothing.shirt === "Gift Giver" &&
-                  player.clothing.hat !== "Streamer Hat" && (
+                {player.clothing && <NPCIcon parts={player.clothing} />}
+                {player.clothing?.shirt === "Gift Giver" &&
+                  player.clothing?.hat !== "Streamer Hat" && (
                     <SquareIcon
                       className="absolute -top-1 left-3.5"
                       icon={giftIcon}
                       width={7}
                     />
                   )}
-                {player.clothing.hat === "Streamer Hat" && (
+                {player.clothing?.hat === "Streamer Hat" && (
                   <SquareIcon
                     className="absolute -top-1 left-3.5"
                     icon={ITEM_DETAILS["Love Charm"].image}

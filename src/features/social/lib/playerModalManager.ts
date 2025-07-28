@@ -3,8 +3,8 @@ import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 
 export type PlayerModalPlayer = {
   farmId: number;
-  username: string;
-  clothing: BumpkinParts;
+  username?: string;
+  clothing?: BumpkinParts;
   experience?: number;
   faction?: FactionName;
 };

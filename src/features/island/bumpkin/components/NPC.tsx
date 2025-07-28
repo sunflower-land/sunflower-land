@@ -162,19 +162,21 @@ export const NPCIcon: React.FC<NPCProps> = ({
           imageRendering: "pixelated" as const,
         }}
       >
-        <img
-          id="idle"
-          src={idle}
-          style={{ width: `${width}px` }}
-          onLoad={() => setLoaded(true)}
-        />
-        {!loaded && (
+        <div className="relative">
           <img
-            id="silhouette"
-            src={silhouette}
-            className="w-4/5 absolute top-1 left-1"
+            id="idle"
+            src={idle}
+            style={{ width: `${width}px` }}
+            onLoad={() => setLoaded(true)}
           />
-        )}
+          {!loaded && (
+            <img
+              id="silhouette"
+              src={silhouette}
+              className="w-3/5 absolute top-1.5 left-1.5"
+            />
+          )}
+        </div>
       </div>
       {auraFront && (
         <Spritesheet
