@@ -33,6 +33,28 @@ export function placePlot({
       throw new Error("No plots available");
     }
 
+    const existingPlot = Object.entries(game.crops).find(
+      ([_, plot]) => plot.x === undefined && plot.y === undefined,
+    );
+
+    if (existingPlot) {
+      const [id, plot] = existingPlot;
+      const updatedPlot = {
+        ...plot,
+        x: action.coordinates.x,
+        y: action.coordinates.y,
+      };
+
+      if (updatedPlot.crop && updatedPlot.crop.plantProgress) {
+        updatedPlot.crop.plantedAt = createdAt - updatedPlot.crop.plantProgress;
+        delete updatedPlot.crop.plantProgress;
+      }
+
+      game.crops[id] = updatedPlot;
+
+      return game;
+    }
+
     const newPlot: CropPlot = {
       createdAt,
       x: action.coordinates.x,

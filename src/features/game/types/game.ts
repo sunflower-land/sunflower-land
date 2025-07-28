@@ -605,6 +605,7 @@ export type PlantedCrop = {
   reward?: Omit<Reward, "sfl">;
   amount?: number;
   boostedTime?: number;
+  plantProgress?: number;
 };
 
 export type PlantedFruit = {

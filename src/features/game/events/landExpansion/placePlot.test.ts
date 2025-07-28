@@ -98,4 +98,44 @@ describe("placePlot", () => {
       },
     });
   });
+
+  it("reinstates current progress", () => {
+    const createdAt = dateNow;
+    const state = placePlot({
+      action: {
+        coordinates: {
+          x: 2,
+          y: 2,
+        },
+        id: "156", // ID doesn't matter since it's an existing plot
+        name: "Crop Plot",
+        type: "plot.placed",
+      },
+      state: {
+        ...INITIAL_FARM,
+        buildings: {},
+        inventory: {
+          "Crop Plot": new Decimal(3),
+        },
+        crops: {
+          "123": {
+            createdAt: dateNow,
+            crop: {
+              name: "Pumpkin",
+              plantedAt: dateNow - 120000,
+              plantProgress: 60000,
+            },
+          },
+          "1": {
+            createdAt: dateNow,
+            x: 0,
+            y: 0,
+          },
+        },
+      },
+      createdAt,
+    });
+
+    expect(state.crops["123"].crop?.plantedAt).toBe(dateNow - 60000);
+  });
 });
