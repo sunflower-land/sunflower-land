@@ -77,7 +77,25 @@ export const VIPGiftContent: React.FC<Props> = ({ onClose }) => {
   });
 
   if (!rewardEntry) {
-    return null;
+    return (
+      <>
+        <div className="p-2">
+          <div className="flex justify-between items-center pr-8">
+            <VIPAccess
+              isVIP={hasVipAccess({ game: gameState.context.state })}
+              onUpgrade={() => {
+                onClose();
+                openModal("BUY_BANNER");
+              }}
+            />
+          </div>
+        </div>
+        <p className="text-xs mb-2 pl-1">{t("season.no.gift.found")}</p>
+        <Button onClick={open} disabled>
+          {t("claim")}
+        </Button>
+      </>
+    );
   }
 
   const rewardStartDate = new Date(rewardEntry);
