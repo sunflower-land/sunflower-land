@@ -73,7 +73,7 @@ export const SEASONS: Record<SeasonName, SeasonDates> = {
   },
   "Better Together": {
     startDate: new Date("2025-08-04T00:00:00.000Z"),
-    endDate: new Date("2025-11-01T00:00:00.000Z"),
+    endDate: new Date("2025-11-03T00:00:00.000Z"),
   },
 };
 
