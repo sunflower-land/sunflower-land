@@ -1412,7 +1412,7 @@ function getCollectibleBuffLabels(
     ],
     "Giant Zucchini": [
       {
-        shortDescription: translate("description.giantZucchini.boost"),
+        shortDescription: translate("description.giantZuchinni.boost"),
         labelType: "success",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
         boostedItemIcon: ITEM_DETAILS.Zucchini.image,
