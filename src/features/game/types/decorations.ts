@@ -5,7 +5,7 @@ import { BoostTreasure, DecorationTreasure } from "./treasure";
 import { translate } from "lib/i18n/translate";
 import { Template } from "./templates";
 import { BeanName } from "./beans";
-import { DollName, DOLLS } from "../lib/crafting";
+import { DollName } from "../lib/crafting";
 
 /**
  * getKeys is a ref to Object.keys, but the return is typed literally.
@@ -202,19 +202,6 @@ export type AnimalDecorationName =
   | "Wheat Whiskers";
 
 export const DECORATION_TEMPLATES = {
-  ...getKeys(DOLLS).reduce(
-    (acc, doll) => ({
-      ...acc,
-      [doll]: {
-        dimensions: {
-          width: 1,
-          height: 1,
-        },
-        isWithdrawable: () => false,
-      },
-    }),
-    {} as Record<DollName, Template>,
-  ),
   "Gold Cooking Trophy": {
     dimensions: {
       width: 1,
@@ -404,6 +391,118 @@ export const DECORATION_TEMPLATES = {
     },
     isWithdrawable: () => Date.now() > new Date("2024-11-01").getTime(),
   },
+  Doll: {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Buzz Doll": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Lunar Doll": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Juicy Doll": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Crude Doll": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Cluck Doll": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Wooly Doll": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Moo Doll": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Bloom Doll": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Shadow Doll": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Ember Doll": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Gilded Doll": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Lumber Doll": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Harvest Doll": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Sizzle Doll": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Angler Doll": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
 } satisfies Record<string, Template>;
 
 export type TemplateDecorationName = keyof typeof DECORATION_TEMPLATES;
@@ -423,13 +522,6 @@ export type DecorationName =
   | TileName;
 
 export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
-  ...getKeys(DOLLS).reduce(
-    (acc, doll) => ({
-      ...acc,
-      [doll]: DECORATION_TEMPLATES[doll as DollName].dimensions,
-    }),
-    {} as Record<DollName, Dimensions>,
-  ),
   "Jelly Lamp": {
     width: 2,
     height: 2,
