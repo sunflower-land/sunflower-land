@@ -34,6 +34,9 @@ import { PlayerDetailsSkeleton } from "./skeletons/PlayerDetailsSkeleton";
 import { FollowerFeedSkeleton } from "./skeletons/FollowerFeedSkeleton";
 import { OnlineStatus } from "./OnlineStatus";
 import { FollowsIndicator } from "./FollowsIndicator";
+import { formatNumber } from "lib/utils/formatNumber";
+import { FACTION_TO_EMBLEM } from "features/world/ui/factions/emblemTrading/EmblemsTrading";
+import { ITEM_DETAILS } from "features/game/types/images";
 
 const ISLAND_ICONS: Record<IslandType, string> = {
   basic: basicIsland,
@@ -159,7 +162,15 @@ export const PlayerDetails: React.FC<Props> = ({
               />
             </div>
             <div className="flex flex-col gap-1 text-xs mt-1 ml-2 flex-1">
-              <div>{`Lvl ${getLevel(new Decimal(player?.experience ?? 0))}${player?.faction ? ` - ${capitalize(player?.faction)}` : ""}`}</div>
+              <div className="flex items-center">
+                {`Lvl ${getLevel(new Decimal(player?.experience ?? 0))}${player?.faction ? ` - ${capitalize(player?.faction)}` : ""}`}
+                {player?.faction && (
+                  <img
+                    src={ITEM_DETAILS[FACTION_TO_EMBLEM[player.faction]].image}
+                    className="w-5 ml-1"
+                  />
+                )}
+              </div>
               <div className="flex items-center justify-between">
                 <span>{`#${player?.id}`}</span>
                 <span>{t("playerModal.since", { date: startDate })}</span>
@@ -182,7 +193,11 @@ export const PlayerDetails: React.FC<Props> = ({
                 })}
               </div>
               <div className="flex items-center">
-                <span>{t("playerModal.marketValue", { value: 1000 })}</span>
+                <span>
+                  {t("playerModal.marketValue", {
+                    value: formatNumber(player?.marketValue ?? 0),
+                  })}
+                </span>
                 <img src={flowerIcon} className="w-4 h-4 ml-1 mt-0.5" />
               </div>
             </div>
