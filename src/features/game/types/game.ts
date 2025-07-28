@@ -664,6 +664,7 @@ export type CropPlot = {
     count: number;
     swarmActivatedAt: number;
   };
+  removedAt?: number;
 } & OptionalCoordinates;
 
 export type GreenhousePlant = {
