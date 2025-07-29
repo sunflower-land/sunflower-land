@@ -19,7 +19,6 @@ import { useNavigate } from "react-router";
 import { MachineState } from "features/game/lib/gameMachine";
 import { NPCIcon } from "../bumpkin/components/NPC";
 import cheer from "assets/icons/cheer.webp";
-import { Label } from "components/ui/Label";
 
 const _cheers = (state: MachineState) => {
   return state.context.visitorState?.inventory["Cheer"] ?? new Decimal(0);
@@ -56,18 +55,20 @@ export const VisitingHud: React.FC = () => {
     <HudContainer>
       {!gameState.matches("landToVisitNotFound") && (
         <InnerPanel className="fixed px-2 pt-1 pb-2 bottom-2 left-1/2 -translate-x-1/2 z-50 flex flex-col">
-          <div className="grid grid-cols-2 gap-2">
-            <NPCIcon
-              parts={gameState.context.state.bumpkin?.equipped}
-              width={20}
-            />
-            <span className="text-xs whitespace-nowrap">
-              Visiting {displayId}
-            </span>
-          </div>
-          <div className="flex items-center space-x-2">
-            <img src={cheer} style={{ width: `16px` }} />
-            <span className="text-xxs">{`Cheers Available: ${cheers.toString()}`}</span>
+          <div className="flex flex-col p-0.5">
+            <div className="flex items-center space-x-1">
+              <NPCIcon
+                parts={gameState.context.state.bumpkin?.equipped}
+                width={20}
+              />
+              <span className="text-xs whitespace-nowrap">
+                {t("visiting.farmId", { farmId: displayId })}
+              </span>
+            </div>
+            <div className="flex items-center space-x-1">
+              <img src={cheer} style={{ width: `16px`, margin: `2px` }} />
+              <span className="text-xxs">{`${cheers.toString()} Cheers Available`}</span>
+            </div>
           </div>
         </InnerPanel>
       )}

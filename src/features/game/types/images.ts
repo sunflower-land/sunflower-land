@@ -236,6 +236,7 @@ import sunflorianEmblem from "assets/icons/sunflorian_emblem.webp";
 import nightshadeEmblem from "assets/icons/nightshade_emblem.webp";
 import mark from "assets/icons/faction_mark.webp";
 import supporterTicket from "assets/icons/supporter_ticket.png";
+import cheer from "assets/icons/cheer.webp";
 import solarFlareBanner from "assets/decorations/banners/solar_flare_banner.png";
 import dawnBreakerBanner from "assets/decorations/banners/dawn_breaker_banner.png";
 import witchesEveBanner from "assets/decorations/banners/witches_eve_banner.webp";
@@ -5204,6 +5205,10 @@ export const ITEM_DETAILS: Items = {
   "Easter Ticket 2025": {
     image: easterTicket2025,
     description: translate("description.easterTicket2025"),
+  },
+  Cheer: {
+    image: cheer,
+    description: translate("description.cheer"),
   },
   "Carrot House": {
     image: carrotHouse,

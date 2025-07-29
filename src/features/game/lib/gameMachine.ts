@@ -435,7 +435,7 @@ const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
 
           if (context.actions.length > 0) {
             await autosave({
-              farmId: Number(context.farmId),
+              farmId: Number(context.visitorId ?? context.farmId),
               sessionId: context.sessionId as string,
               actions: context.actions,
               token: authToken ?? context.rawToken,
@@ -453,7 +453,11 @@ const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
           });
 
           if (context.visitorId) {
-            return { state: makeGame(data.visitedFarmState), data };
+            return {
+              state: makeGame(data.visitedFarmState),
+              data,
+              visitorState: gameState,
+            };
           }
 
           return { state: gameState, data };
@@ -476,6 +480,18 @@ const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
                   data: { ...context.data, [stateName]: event.data.data },
                 };
               }),
+            ],
+          },
+          {
+            target: "visiting",
+            cond: (context: Context, event: DoneInvokeEvent<any>) =>
+              !!context.visitorId,
+            actions: [
+              assign((context: Context, event: DoneInvokeEvent<any>) => ({
+                actions: [],
+                state: event.data.state,
+                visitorState: event.data.visitorState,
+              })),
             ],
           },
           // If there is a transaction on the gameState move into playing so that
@@ -789,7 +805,20 @@ export function startGame(authContext: AuthContext) {
 
         loadLandToVisit: {
           invoke: {
-            src: async (_, event) => {
+            src: async (context, event) => {
+              // Autosave just in case
+              if (context.actions.length > 0) {
+                await autosave({
+                  farmId: Number(context.farmId),
+                  sessionId: context.sessionId as string,
+                  actions: context.actions,
+                  token: authContext.user.rawToken as string,
+                  fingerprint: context.fingerprint as string,
+                  deviceTrackerId: context.deviceTrackerId as string,
+                  transactionId: context.transactionId as string,
+                });
+              }
+
               let farmId: number;
 
               // We can enter this state two ways
@@ -821,6 +850,7 @@ export function startGame(authContext: AuthContext) {
                 farmId: (_, event) => event.data.farmId,
                 visitorId: (_, event) => event.data.visitorId,
                 visitorState: (context, event) => context.state,
+                actions: (context, event) => [],
               }),
             },
             onError: {

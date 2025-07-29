@@ -104,6 +104,7 @@ import { LandBiomeName } from "features/island/biomes/biomes";
 import { MonumentName } from "./monuments";
 import { AOEItemName } from "../expansion/placeable/lib/collisionDetection";
 import { Coordinates } from "../expansion/components/MapPlacement";
+import { VillageProjectName } from "features/island/collectibles/components/Monument";
 
 export type Reward = {
   coins?: number;
@@ -1774,6 +1775,15 @@ export interface GameState {
   monuments?: Partial<Record<MonumentName, { createdAt: number }>>;
 
   aoe: AOE;
+
+  socialFarming: {
+    points: number;
+    villageProjects: Partial<Record<VillageProjectName, { cheers: number }>>;
+    cheeredProjects: {
+      date: string;
+      projects: Partial<Record<VillageProjectName, number[]>>;
+    };
+  };
 }
 
 export type AOE = Partial<

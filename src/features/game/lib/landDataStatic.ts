@@ -1087,4 +1087,12 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   aoe: {},
+  socialFarming: {
+    points: 0,
+    villageProjects: {},
+    cheeredProjects: {
+      date: new Date().toISOString().split("T")[0],
+      projects: {},
+    },
+  },
 };

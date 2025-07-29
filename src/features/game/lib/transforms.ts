@@ -131,5 +131,6 @@ export function makeGame(farm: any): GameState {
     blessing: farm.blessing,
     aoe: farm.aoe,
     boostsUsedAt: farm.boostsUsedAt,
+    socialFarming: farm.socialFarming,
   };
 }
