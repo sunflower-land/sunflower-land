@@ -612,7 +612,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
         createdAt: 0,
       },
     ],
-    Deli: [
+    "Crafting Box": [
       {
         id: "123",
         readyAt: 0,

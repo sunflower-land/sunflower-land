@@ -82,6 +82,7 @@ import { CompetitionName, CompetitionProgress } from "./competitions";
 import { AnimalType } from "./animals";
 import { ChoreBoard } from "./choreBoard";
 import {
+  DollName,
   RecipeCollectibleName,
   Recipes,
   RecipeWearableName,
@@ -551,7 +552,8 @@ export type InventoryItemName =
   | SeasonalBanner
   | RewardBoxName
   | LandBiomeName
-  | MonumentName;
+  | MonumentName
+  | DollName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 

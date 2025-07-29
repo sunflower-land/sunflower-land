@@ -924,6 +924,8 @@ import bronzeToolBox from "assets/rewardBoxes/bronze_tool_box.webp";
 import silverToolBox from "assets/rewardBoxes/silver_tool_box.webp";
 import goldToolBox from "assets/rewardBoxes/gold_tool_box.webp";
 
+import doll from "assets/sfts/dolls/doll.webp";
+
 import loveChicken from "assets/animals/chickens/love_chicken.webp";
 import drCow from "assets/sfts/dr_cow.webp";
 import nurseSheep from "assets/sfts/nurse_sheep.webp";
@@ -5527,5 +5529,70 @@ export const ITEM_DETAILS: Items = {
   "Bronze Cooking Trophy": {
     image: bronzeCookingTrophy,
     description: translate("description.bronzeCookingTrophy"),
+  },
+
+  Doll: {
+    image: doll,
+    description: translate("description.doll"),
+  },
+  "Buzz Doll": {
+    image: doll,
+    description: translate("description.buzzDoll"),
+  },
+  "Lunar Doll": {
+    image: doll,
+    description: translate("description.lunarDoll"),
+  },
+  "Juicy Doll": {
+    image: doll,
+    description: translate("description.juicyDoll"),
+  },
+  "Crude Doll": {
+    image: doll,
+    description: translate("description.crudeDoll"),
+  },
+  "Cluck Doll": {
+    image: doll,
+    description: translate("description.cluckDoll"),
+  },
+  "Wooly Doll": {
+    image: doll,
+    description: translate("description.woolyDoll"),
+  },
+  "Moo Doll": {
+    image: doll,
+    description: translate("description.mooDoll"),
+  },
+  "Bloom Doll": {
+    image: doll,
+    description: translate("description.bloomDoll"),
+  },
+  "Shadow Doll": {
+    image: doll,
+    description: translate("description.shadowDoll"),
+  },
+  "Ember Doll": {
+    image: doll,
+    description: translate("description.emberDoll"),
+  },
+  "Gilded Doll": {
+    image: doll,
+    description: translate("description.gildedDoll"),
+  },
+  "Lumber Doll": {
+    image: doll,
+    description: translate("description.lumberDoll"),
+  },
+  "Harvest Doll": {
+    image: doll,
+    description: translate("description.harvestDoll"),
+  },
+  "Sizzle Doll": {
+    image: doll,
+    description: translate("description.sizzleDoll"),
+  },
+  "Angler Doll": {
+    image: doll,
+    description: translate("description.anglerDoll"),
   },
 };

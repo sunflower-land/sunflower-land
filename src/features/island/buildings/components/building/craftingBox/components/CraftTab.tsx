@@ -25,6 +25,7 @@ import {
   Recipe,
   RECIPE_CRAFTABLES,
   RecipeIngredient,
+  DOLLS,
 } from "features/game/lib/crafting";
 import {
   findMatchingRecipe,
@@ -106,6 +107,8 @@ const VALID_CRAFTING_RESOURCES: InventoryItemName[] = [
   // Others
   "Crimson Cap",
   "Toadstool Seat",
+
+  ...getKeys(DOLLS),
 ];
 
 const validCraftingResourcesSorted = (): InventoryItemName[] => {
@@ -545,6 +548,12 @@ export const CraftTab: React.FC<Props> = ({
               (itemName) =>
                 (itemName !== "Toadstool Seat" && itemName !== "Crimson Cap") ||
                 hasNewCraftingAccess,
+            )
+            // If it is a doll, but they haven't discovered it yet, don't show it.
+            .filter(
+              (itemName) =>
+                !(itemName in DOLLS) ||
+                (itemName in DOLLS && itemName in state.craftingBox.recipes),
             )
             .map((itemName) => {
               const amount = remainingInventory[itemName] || new Decimal(0);

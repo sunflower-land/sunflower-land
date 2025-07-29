@@ -15,6 +15,22 @@ export const ITEM_TRADE_TYPES: {
   wearables: Record<BumpkinItem, TradeType>;
 } = {
   collectibles: {
+    Doll: "instant",
+    "Buzz Doll": "instant",
+    "Lunar Doll": "instant",
+    "Juicy Doll": "instant",
+    "Crude Doll": "instant",
+    "Cluck Doll": "instant",
+    "Wooly Doll": "instant",
+    "Moo Doll": "instant",
+    "Bloom Doll": "instant",
+    "Shadow Doll": "instant",
+    "Ember Doll": "instant",
+    "Gilded Doll": "instant",
+    "Lumber Doll": "instant",
+    "Harvest Doll": "instant",
+    "Sizzle Doll": "instant",
+    "Angler Doll": "instant",
     "Gold Cooking Trophy": "instant",
     "Silver Cooking Trophy": "instant",
     "Bronze Cooking Trophy": "instant",

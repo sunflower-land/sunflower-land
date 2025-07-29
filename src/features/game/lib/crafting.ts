@@ -6,6 +6,49 @@ import {
   InventoryItemName,
   RecipeCraftableName,
 } from "../types/game";
+/**
+ * getKeys is a ref to Object.keys, but the return is typed literally.
+ */
+export const getKeys = Object.keys as <T extends object>(
+  obj: T,
+) => Array<keyof T>;
+
+export type DollName =
+  | "Doll"
+  | "Buzz Doll"
+  | "Lunar Doll"
+  | "Juicy Doll"
+  | "Crude Doll"
+  | "Cluck Doll"
+  | "Wooly Doll"
+  | "Moo Doll"
+  | "Bloom Doll"
+  | "Shadow Doll"
+  | "Ember Doll"
+  | "Gilded Doll"
+  | "Lumber Doll"
+  | "Harvest Doll"
+  | "Sizzle Doll"
+  | "Angler Doll";
+
+export const DOLLS: Record<DollName, object> = {
+  Doll: {},
+  "Buzz Doll": {},
+  "Lunar Doll": {},
+  "Juicy Doll": {},
+  "Crude Doll": {},
+  "Cluck Doll": {},
+  "Wooly Doll": {},
+  "Moo Doll": {},
+  "Bloom Doll": {},
+  "Shadow Doll": {},
+  "Ember Doll": {},
+  "Gilded Doll": {},
+  "Lumber Doll": {},
+  "Harvest Doll": {},
+  "Sizzle Doll": {},
+  "Angler Doll": {},
+};
 
 export type RecipeCollectibleName = Extract<
   | "Dirt Path"
@@ -27,7 +70,8 @@ export type RecipeCollectibleName = Extract<
   | "Mahogany Cap"
   | "Golden Maple"
   | RecipeCraftableName
-  | Exclude<BedName, "Double Bed">,
+  | Exclude<BedName, "Double Bed">
+  | DollName,
   InventoryItemName
 >;
 
@@ -63,7 +107,7 @@ export type Recipe = {
 
 export type Recipes = Record<RecipeItemName, Recipe>;
 
-export const RECIPES_OLD: Recipes = {
+export const RECIPES_OLD: Omit<Recipes, DollName> = {
   "Dirt Path": {
     name: "Dirt Path",
     ingredients: [],
@@ -535,6 +579,18 @@ export const RECIPES_REVISED: Record<
     time: 30 * 60 * 1000,
     type: "collectible",
   },
+  ...getKeys(DOLLS).reduce(
+    (acc, doll) => ({
+      ...acc,
+      [doll]: {
+        name: doll,
+        ingredients: [],
+        time: 4 * 60 * 60 * 1000,
+        type: "collectible",
+      },
+    }),
+    {} as Record<DollName, Recipe>,
+  ),
 };
 
 export const RECIPE_CRAFTABLES: Record<RecipeCraftableName, null> = {
