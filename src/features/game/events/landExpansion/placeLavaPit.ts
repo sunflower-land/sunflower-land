@@ -26,7 +26,9 @@ export function placeLavaPit({
   const game = cloneDeep(state) as GameState;
 
   const available = (game.inventory["Lava Pit"] || new Decimal(0)).minus(
-    Object.keys(game.lavaPits ?? {}).length,
+    Object.values(game.lavaPits).filter(
+      (lavaPit) => lavaPit.x !== undefined && lavaPit.y !== undefined,
+    ).length,
   );
 
   if (available.lt(1)) {
@@ -35,6 +37,30 @@ export function placeLavaPit({
 
   if (game.lavaPits[action.id]) {
     throw new Error("ID exists");
+  }
+
+  const existingLavaPit = Object.entries(game.lavaPits).find(
+    ([_, lavaPit]) => lavaPit.x === undefined && lavaPit.y === undefined,
+  );
+
+  if (existingLavaPit) {
+    const [id, lavaPit] = existingLavaPit;
+    const updatedLavaPit = {
+      ...lavaPit,
+      x: action.coordinates.x,
+      y: action.coordinates.y,
+    };
+
+    if (updatedLavaPit.startedAt && updatedLavaPit.removedAt) {
+      const existingProgress =
+        updatedLavaPit.removedAt - updatedLavaPit.startedAt;
+      updatedLavaPit.startedAt = createdAt - existingProgress;
+      delete updatedLavaPit.removedAt;
+    }
+
+    game.lavaPits[id] = updatedLavaPit;
+
+    return game;
   }
 
   const lavaPit: LavaPit = {
