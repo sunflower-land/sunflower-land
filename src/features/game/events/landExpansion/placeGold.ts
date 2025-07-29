@@ -26,11 +26,37 @@ export function placeGold({
 }: Options): GameState {
   return produce(state, (game) => {
     const available = (game.inventory["Gold Rock"] || new Decimal(0)).minus(
-      Object.keys(game.gold).length,
+      Object.values(game.gold).filter(
+        (gold) => gold.x !== undefined && gold.y !== undefined,
+      ).length,
     );
 
     if (available.lt(1)) {
       throw new Error("No gold available");
+    }
+
+    const existingGold = Object.entries(game.gold).find(
+      ([_, gold]) => gold.x === undefined && gold.y === undefined,
+    );
+
+    if (existingGold) {
+      const [id, gold] = existingGold;
+      const updatedGold = {
+        ...gold,
+        x: action.coordinates.x,
+        y: action.coordinates.y,
+      };
+
+      if (updatedGold.stone && updatedGold.removedAt) {
+        const existingProgress =
+          updatedGold.removedAt - updatedGold.stone.minedAt;
+        updatedGold.stone.minedAt = createdAt - existingProgress;
+        delete updatedGold.removedAt;
+      }
+
+      game.gold[id] = updatedGold;
+
+      return game;
     }
 
     const gold: Rock = {
