@@ -6158,5 +6158,13 @@
   "description.lumberDoll": "最高級の丸太から切り刻みました。",
   "description.harvestDoll": "小さなパッケージに豊かな雰囲気が詰まっています。",
   "description.sizzleDoll": "鍋から熱くして準備完了。",
-  "description.anglerDoll": "水辺の冒険に夢中。"
+  "description.anglerDoll": "水辺の冒険に夢中。",
+  "description.duneDoll": "砂に覆われ、冒険の準備は万端です。",
+  "description.mouseDoll": "卑劣で好奇心旺盛で、常に動き回っています。",
+  "description.grubbyDoll": "汚いけど、とてもかわいい。",
+  "description.nefariDoll": "悪質だが魅力的だ",
+  "description.frostyDoll": "霜が降りますが、暖かいです。",
+  "description.cosmoDoll": "コズミックだが、接地されている。",
+  "description.bigfinDoll": "大きくて親しみやすい。",
+  "description.solarDoll": "かつては実現不可能と思われていた夢を実現しました。"
 }
