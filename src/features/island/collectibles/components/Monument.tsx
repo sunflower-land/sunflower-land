@@ -144,7 +144,7 @@ export const Monument: React.FC<MonumentProps> = (input) => {
       gameService.send("villageProject.cheered", {
         effect: {
           type: "villageProject.cheered",
-          project: "Woodcutter's Monument",
+          project: input.project,
           // In the context of visiting, this is the farmId of the land being visited
           farmId: gameService.getSnapshot().context.farmId,
         },
