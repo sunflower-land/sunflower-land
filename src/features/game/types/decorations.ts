@@ -34,17 +34,6 @@ export type AchievementDecorationName =
   | "Rainbow Artist Bear"
   | "Devil Bear";
 
-export type BasicDecorationName =
-  | "White Tulips"
-  | "Potted Sunflower"
-  | "Potted Potato"
-  | "Potted Pumpkin"
-  | "Cactus"
-  | "Basic Bear"
-  | "Bonnie's Tombstone"
-  | "Grubnash's Tombstone"
-  | "Town Sign";
-
 export type LandscapingDecorationName =
   | "Dirt Path"
   | "Bush"
@@ -59,11 +48,18 @@ export type LandscapingDecorationName =
   | "Field Maple"
   | "Red Maple"
   | "Golden Maple"
-  | TileName;
+  | TileName
+  | "White Tulips"
+  | "Potted Sunflower"
+  | "Potted Potato"
+  | "Potted Pumpkin"
+  | "Cactus"
+  | "Basic Bear"
+  | "Bonnie's Tombstone"
+  | "Grubnash's Tombstone"
+  | "Town Sign";
 
-export type ShopDecorationName =
-  | BasicDecorationName
-  | LandscapingDecorationName;
+export type ShopDecorationName = LandscapingDecorationName;
 
 export type SeasonalDecorationName =
   | "Blossombeard"
@@ -1280,80 +1276,6 @@ export type Decoration = {
   coins?: number;
 };
 
-export const BASIC_DECORATIONS: () => Record<
-  BasicDecorationName,
-  Decoration
-> = () => ({
-  "White Tulips": {
-    name: "White Tulips",
-    coins: 80,
-    ingredients: {},
-    description: translate("description.white.tulips"),
-  },
-  "Potted Sunflower": {
-    name: "Potted Sunflower",
-    description: translate("description.potted.sunflower"),
-    coins: 80,
-    ingredients: {
-      Sunflower: new Decimal(100),
-    },
-  },
-  "Potted Potato": {
-    name: "Potted Potato",
-    description: translate("description.potted.potato"),
-    coins: 200,
-    ingredients: {
-      Potato: new Decimal(200),
-    },
-  },
-  "Potted Pumpkin": {
-    name: "Potted Pumpkin",
-    description: translate("description.potted.pumpkin"),
-    coins: 800,
-    ingredients: {
-      Pumpkin: new Decimal(200),
-    },
-  },
-  Cactus: {
-    name: "Cactus",
-    description: translate("description.cactus"),
-    coins: 80,
-    ingredients: {},
-  },
-  "Basic Bear": {
-    name: "Basic Bear",
-    description: translate("description.basic.bear"),
-    coins: 200,
-    ingredients: {},
-  },
-
-  "Bonnie's Tombstone": {
-    name: "Bonnie's Tombstone",
-    description: translate("description.bonnies.tombstone"),
-    coins: 0,
-    ingredients: {
-      Stone: new Decimal(10),
-    },
-  },
-
-  "Grubnash's Tombstone": {
-    name: "Grubnash's Tombstone",
-    description: translate("description.grubnashs.tombstone"),
-    coins: 0,
-    ingredients: {
-      Stone: new Decimal(20),
-      Iron: new Decimal(10),
-    },
-  },
-  "Town Sign": {
-    name: "Town Sign",
-    description: translate("description.town.sign"),
-    coins: 0,
-    ingredients: {},
-    limit: 1,
-  },
-});
-
 export const LANDSCAPING_DECORATIONS: Record<
   LandscapingDecorationName,
   Decoration
@@ -1518,6 +1440,73 @@ export const LANDSCAPING_DECORATIONS: Record<
     },
     description: "",
   },
+  "White Tulips": {
+    name: "White Tulips",
+    coins: 80,
+    ingredients: {},
+    description: translate("description.white.tulips"),
+  },
+  "Potted Sunflower": {
+    name: "Potted Sunflower",
+    description: translate("description.potted.sunflower"),
+    coins: 80,
+    ingredients: {
+      Sunflower: new Decimal(100),
+    },
+  },
+  "Potted Potato": {
+    name: "Potted Potato",
+    description: translate("description.potted.potato"),
+    coins: 200,
+    ingredients: {
+      Potato: new Decimal(200),
+    },
+  },
+  "Potted Pumpkin": {
+    name: "Potted Pumpkin",
+    description: translate("description.potted.pumpkin"),
+    coins: 800,
+    ingredients: {
+      Pumpkin: new Decimal(200),
+    },
+  },
+  Cactus: {
+    name: "Cactus",
+    description: translate("description.cactus"),
+    coins: 80,
+    ingredients: {},
+  },
+  "Basic Bear": {
+    name: "Basic Bear",
+    description: translate("description.basic.bear"),
+    coins: 200,
+    ingredients: {},
+  },
+
+  "Bonnie's Tombstone": {
+    name: "Bonnie's Tombstone",
+    description: translate("description.bonnies.tombstone"),
+    coins: 0,
+    ingredients: {
+      Stone: new Decimal(10),
+    },
+  },
+
+  "Grubnash's Tombstone": {
+    name: "Grubnash's Tombstone",
+    description: translate("description.grubnashs.tombstone"),
+    coins: 0,
+    ingredients: {
+      Stone: new Decimal(20),
+      Iron: new Decimal(10),
+    },
+  },
+  "Town Sign": {
+    name: "Town Sign",
+    description: translate("description.town.sign"),
+    coins: 0,
+    ingredients: {},
+  },
 };
 
 export const POTION_HOUSE_DECORATIONS: Record<
@@ -1562,7 +1551,6 @@ export const DECORATIONS: Record<
   ShopDecorationName | PotionHouseDecorationName,
   Decoration
 > = {
-  ...BASIC_DECORATIONS(),
   ...LANDSCAPING_DECORATIONS,
   ...POTION_HOUSE_DECORATIONS,
 };
