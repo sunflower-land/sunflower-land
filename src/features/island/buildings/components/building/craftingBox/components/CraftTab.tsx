@@ -26,6 +26,7 @@ import {
   RECIPE_CRAFTABLES,
   RecipeIngredient,
   DOLLS,
+  RECIPES_REVISED,
 } from "features/game/lib/crafting";
 import {
   findMatchingRecipe,
@@ -526,11 +527,10 @@ export const CraftTab: React.FC<Props> = ({
       </div>
 
       <div className="flex space-x-3 mb-1 ml-1 mr-2">
-        <Label type="default">{t("resources")}</Label>
         {selectedIngredient && (
           <Label
-            type="chill"
-            className=""
+            type="formula"
+            className="ml-1"
             icon={
               selectedIngredient.collectible
                 ? ITEM_DETAILS[selectedIngredient.collectible].image
@@ -552,8 +552,9 @@ export const CraftTab: React.FC<Props> = ({
             // If it is a doll, but they haven't discovered it yet, don't show it.
             .filter(
               (itemName) =>
-                !(itemName in DOLLS) ||
-                (itemName in DOLLS && itemName in state.craftingBox.recipes),
+                !(itemName in RECIPES_REVISED) ||
+                (itemName in RECIPES_REVISED &&
+                  itemName in state.craftingBox.recipes),
             )
             .map((itemName) => {
               const amount = remainingInventory[itemName] || new Decimal(0);
@@ -578,6 +579,7 @@ export const CraftTab: React.FC<Props> = ({
                 </div>
               );
             })}
+          <Box image={SUNNYSIDE.icons.expression_confused} />
         </div>
         {!hasNewCraftingAccess && (
           <>
@@ -611,6 +613,10 @@ export const CraftTab: React.FC<Props> = ({
             </div>
           </>
         )}
+        <div className="flex items-center  mt-1 mx-1">
+          <img src={SUNNYSIDE.icons.expression_confused} className="h-4 mr-1" />
+          <p className="text-xs">{t("crafting.undiscovered")}</p>
+        </div>
       </div>
 
       <ModalOverlay

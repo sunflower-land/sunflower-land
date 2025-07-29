@@ -999,7 +999,7 @@ import {
 } from "./craftables";
 import { LOVE_ANIMAL_TOOLS, TREASURE_TOOLS } from "./tools";
 import { translate } from "lib/i18n/translate";
-import { BASIC_DECORATIONS } from "./decorations";
+import { LANDSCAPING_DECORATIONS } from "./decorations";
 import { SELLABLE_TREASURE } from "./treasure";
 import { TREASURE_COLLECTIBLE_ITEM } from "./collectibles";
 import { ANIMAL_FOODS } from "./animals";
@@ -2450,15 +2450,15 @@ export const ITEM_DETAILS: Items = {
   },
   "White Tulips": {
     image: SUNNYSIDE.decorations.whiteTulips,
-    description: BASIC_DECORATIONS()["White Tulips"].description,
+    description: LANDSCAPING_DECORATIONS["White Tulips"].description,
   },
   "Potted Sunflower": {
     image: SUNNYSIDE.decorations.pottedSunflower,
-    description: BASIC_DECORATIONS()["Potted Sunflower"].description,
+    description: LANDSCAPING_DECORATIONS["Potted Sunflower"].description,
   },
   Cactus: {
     image: SUNNYSIDE.decorations.cactus,
-    description: BASIC_DECORATIONS().Cactus.description,
+    description: LANDSCAPING_DECORATIONS.Cactus.description,
   },
   "Jack-o-lantern": {
     image: jackOLanternItem,
@@ -2470,7 +2470,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Basic Bear": {
     image: basicBear,
-    description: BASIC_DECORATIONS()["Basic Bear"].description,
+    description: LANDSCAPING_DECORATIONS["Basic Bear"].description,
   },
   "Chef Bear": {
     image: chefBear,
@@ -3062,7 +3062,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Bonnie's Tombstone": {
     image: SUNNYSIDE.decorations.bonniesTombstone,
-    description: BASIC_DECORATIONS()["Bonnie's Tombstone"].description,
+    description: LANDSCAPING_DECORATIONS["Bonnie's Tombstone"].description,
   },
   "Chestnut Fungi Stool": {
     image: chestnutStool,
@@ -3086,7 +3086,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Grubnash's Tombstone": {
     image: SUNNYSIDE.decorations.grubnashTombstone,
-    description: BASIC_DECORATIONS()["Grubnash's Tombstone"].description,
+    description: LANDSCAPING_DECORATIONS["Grubnash's Tombstone"].description,
   },
   "Mahogany Cap": {
     image: mahoganyCap,

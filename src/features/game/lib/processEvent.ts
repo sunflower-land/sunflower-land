@@ -10,7 +10,7 @@ import {
 import { LEGACY_BADGE_TREE } from "../types/skills";
 import { Announcements } from "../types/announcements";
 import { EXOTIC_CROPS } from "../types/beans";
-import { BASIC_DECORATIONS, getValues } from "../types/decorations";
+import { getValues } from "../types/decorations";
 import { FISH } from "../types/fishing";
 import { LANDSCAPING_DECORATIONS } from "../types/decorations";
 import { getActiveListedItems } from "features/island/hud/components/inventory/utils/inventory";
@@ -52,15 +52,6 @@ export const MAX_INVENTORY_ITEMS: Inventory = {
     (acc, name) => ({
       ...acc,
       [name]: new Decimal(50),
-    }),
-    {},
-  ),
-
-  // Max of 100 basic decoration
-  ...getKeys(BASIC_DECORATIONS()).reduce(
-    (acc, name) => ({
-      ...acc,
-      [name]: new Decimal(100),
     }),
     {},
   ),

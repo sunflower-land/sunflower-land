@@ -28,6 +28,9 @@ import { getKeys } from "features/game/types/decorations";
 import { CollectibleName } from "features/game/types/craftables";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { getBoostedCraftingTime } from "features/game/events/landExpansion/startCrafting";
+import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
+import lightningIcon from "assets/icons/lightning.png";
+import { InventoryItemName } from "features/game/types/game";
 
 const _state = (state: MachineState) => state.context.state;
 
@@ -285,6 +288,9 @@ export const RecipesTab: React.FC<Props> = ({
                   key={recipe.name}
                   className="flex flex-col p-2 bg-brown-200 rounded-lg border border-brown-400"
                 >
+                  <Label type="transparent" className="mb-1">
+                    {recipe.name}
+                  </Label>
                   <div className="flex items-start justify-between">
                     <div className="flex flex-col mr-2">
                       <div className="flex">
@@ -308,13 +314,14 @@ export const RecipesTab: React.FC<Props> = ({
                         </ButtonPanel>
                       </div>
                       <div className="flex mt-1">
-                        <img
-                          src={SUNNYSIDE.icons.stopwatch}
-                          className="w-3 h-3 mr-1"
-                          alt="Crafting time"
-                        />
                         <SquareIcon
-                          icon={SUNNYSIDE.icons.expression_confused}
+                          icon={
+                            COLLECTIBLE_BUFF_LABELS(state)[
+                              recipe.name as InventoryItemName
+                            ]?.length
+                              ? lightningIcon
+                              : SUNNYSIDE.icons.expression_confused
+                          }
                           width={7}
                         />
                       </div>

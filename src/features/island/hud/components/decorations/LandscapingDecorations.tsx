@@ -250,30 +250,17 @@ export const LandscapingDecorations: React.FC<Props> = ({ onClose }) => {
                 <Label type="default">{t("decorations")}</Label>
               </div>
               <div className="flex flex-wrap">
-                {getKeys(LANDSCAPING_DECORATIONS)
-                  .filter(
-                    (name) =>
-                      ![
-                        "Crimson Cap",
-                        "Toadstool Seat",
-                        "Chestnut Fungi Stool",
-                        "Mahogany Cap",
-                        "Field Maple",
-                        "Red Maple",
-                        "Golden Maple",
-                      ].includes(name),
-                  )
-                  .map((name) => (
-                    <Box
-                      isSelected={selected.name === name}
-                      key={name}
-                      onClick={() => setSelected(LANDSCAPING_DECORATIONS[name])}
-                      image={
-                        ITEM_ICONS(state.season.season, biome)[name] ??
-                        ITEM_DETAILS[name].image
-                      }
-                    />
-                  ))}
+                {getKeys(LANDSCAPING_DECORATIONS).map((name) => (
+                  <Box
+                    isSelected={selected.name === name}
+                    key={name}
+                    onClick={() => setSelected(LANDSCAPING_DECORATIONS[name])}
+                    image={
+                      ITEM_ICONS(state.season.season, biome)[name] ??
+                      ITEM_DETAILS[name].image
+                    }
+                  />
+                ))}
               </div>
             </div>
             <div>

@@ -387,64 +387,28 @@ export const RECIPES_OLD: Omit<Recipes, DollName> = {
 export const RECIPES_REVISED: Record<
   Exclude<
     RecipeCollectibleName,
-    "Dirt Path" | "Fence" | "Stone Fence" | "Double Bed"
+    | "Dirt Path"
+    | "Fence"
+    | "Stone Fence"
+    | "Double Bed"
+    | "Basic Bear"
+    | "Bonnie's Tombstone"
+    | "Grubnash's Tombstone"
+    | "Town Sign"
+    | "Field Maple"
+    | "Red Maple"
+    | "Crimson Cap"
+    | "Chestnut Fungi Stool"
+    | "Mahogany Cap"
+    | "Golden Maple"
+    | "Toadstool Seat"
+    | "White Tulips"
+    | "Potted Sunflower"
+    | "Potted Potato"
+    | "Potted Pumpkin"
   >,
   Recipe
 > = {
-  "Toadstool Seat": {
-    name: "Toadstool Seat",
-    ingredients: [],
-    time: 0,
-    type: "collectible",
-  },
-  "White Tulips": {
-    name: "White Tulips",
-    ingredients: [],
-    time: 0,
-    type: "collectible",
-  },
-  "Potted Sunflower": {
-    name: "Potted Sunflower",
-    ingredients: [],
-    time: 0,
-    type: "collectible",
-  },
-  "Potted Potato": {
-    name: "Potted Potato",
-    ingredients: [],
-    time: 0,
-    type: "collectible",
-  },
-  "Potted Pumpkin": {
-    name: "Potted Pumpkin",
-    ingredients: [],
-    time: 0,
-    type: "collectible",
-  },
-  "Basic Bear": {
-    name: "Basic Bear",
-    ingredients: [],
-    time: 0,
-    type: "collectible",
-  },
-  "Bonnie's Tombstone": {
-    name: "Bonnie's Tombstone",
-    ingredients: [],
-    time: 0,
-    type: "collectible",
-  },
-  "Grubnash's Tombstone": {
-    name: "Grubnash's Tombstone",
-    ingredients: [],
-    time: 0,
-    type: "collectible",
-  },
-  "Town Sign": {
-    name: "Town Sign",
-    ingredients: [],
-    time: 0,
-    type: "collectible",
-  },
   Cushion: {
     name: "Cushion",
     ingredients: [],
@@ -559,42 +523,7 @@ export const RECIPES_REVISED: Record<
     time: 0,
     type: "collectible",
   },
-  "Golden Maple": {
-    name: "Golden Maple",
-    ingredients: [],
-    time: 0,
-    type: "collectible",
-  },
-  "Crimson Cap": {
-    name: "Crimson Cap",
-    ingredients: [],
-    time: 30 * 60 * 1000,
-    type: "collectible",
-  },
-  "Chestnut Fungi Stool": {
-    name: "Chestnut Fungi Stool",
-    ingredients: [],
-    time: 30 * 60 * 1000,
-    type: "collectible",
-  },
-  "Mahogany Cap": {
-    name: "Mahogany Cap",
-    ingredients: [],
-    time: 30 * 60 * 1000,
-    type: "collectible",
-  },
-  "Field Maple": {
-    name: "Field Maple",
-    ingredients: [],
-    time: 30 * 60 * 1000,
-    type: "collectible",
-  },
-  "Red Maple": {
-    name: "Red Maple",
-    ingredients: [],
-    time: 30 * 60 * 1000,
-    type: "collectible",
-  },
+
   ...getKeys(DOLLS).reduce(
     (acc, doll) => ({
       ...acc,
