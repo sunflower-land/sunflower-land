@@ -1,5 +1,8 @@
 import Decimal from "decimal.js-light";
-import { updateBeehives } from "features/game/lib/updateBeehives";
+import {
+  getActiveBeehives,
+  updateBeehives,
+} from "features/game/lib/updateBeehives";
 import { Beehive, GameState } from "features/game/types/game";
 import { produce } from "immer";
 
@@ -24,12 +27,37 @@ export function placeBeehive({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (copy) => {
+    const activeBeehives = getActiveBeehives(copy.beehives);
     const available = (copy.inventory.Beehive || new Decimal(0)).minus(
-      Object.keys(copy.beehives ?? {}).length,
+      Object.keys(activeBeehives).length,
     );
 
     if (available.lte(0)) {
       throw new Error("You do not have any available beehives");
+    }
+
+    const existingBeehive = Object.entries(copy.beehives).find(
+      ([_, hive]) => hive.x === undefined && hive.y === undefined,
+    );
+
+    if (existingBeehive) {
+      const [id, hive] = existingBeehive;
+      const updatedHive = {
+        ...hive,
+        x: action.coordinates.x,
+        y: action.coordinates.y,
+      };
+
+      copy.beehives[id] = updatedHive;
+
+      const updatedBeehives = updateBeehives({
+        game: copy,
+        createdAt,
+      });
+
+      copy.beehives = updatedBeehives;
+
+      return copy;
     }
 
     const beehive: Beehive = {

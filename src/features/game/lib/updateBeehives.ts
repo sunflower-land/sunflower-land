@@ -108,6 +108,14 @@ type FlowerDetail = {
   availableTime: number;
 };
 
+export const getActiveBeehives = (beehives: Beehives): Beehives => {
+  return Object.fromEntries(
+    Object.entries(beehives).filter(
+      ([_, hive]) => hive.x !== undefined || hive.y !== undefined,
+    ),
+  );
+};
+
 const getFlowerReadyAt = (
   flowerId: string,
   flowerBeds: FlowerBeds,
@@ -133,8 +141,11 @@ const updateProducedHoney = ({ game, createdAt }: UpdateBeehives) => {
   const stateCopy = cloneDeep(game);
   const { beehives, flowers } = stateCopy;
 
-  getKeys(beehives).forEach((hiveId) => {
-    const hive = beehives[hiveId];
+  // We only want to update the honey production for active beehives
+  const activeBeehives = getActiveBeehives(beehives);
+
+  // Update the honey production for each active beehive
+  Object.entries(activeBeehives).forEach(([hiveId, hive]) => {
     const attachedFlowers = hive.flowers
       .slice()
       .sort((a, b) => a.attachedAt - b.attachedAt);
@@ -171,9 +182,9 @@ const removeInactiveFlowers = ({
   createdAt,
 }: RemoveInactiveFlowers) => {
   const beehivesCopy = cloneDeep(beehives);
+  const activeBeehives = getActiveBeehives(beehivesCopy);
 
-  getKeys(beehivesCopy).forEach((hiveId) => {
-    const hive = beehivesCopy[hiveId];
+  Object.values(activeBeehives).forEach((hive) => {
     hive.flowers = hive.flowers.filter(
       (flower) =>
         flower.attachedAt <= createdAt && flower.attachedUntil > createdAt,
@@ -270,7 +281,9 @@ const calculateHiveDetails = ({
   game,
   createdAt,
 }: CalculateHiveDetails): Record<string, BeehiveDetail> => {
-  return getKeys(game.beehives).reduce(
+  const activeBeehives = getActiveBeehives(game.beehives);
+
+  return Object.keys(activeBeehives).reduce(
     (hiveDetails, beeHiveId) => ({
       ...hiveDetails,
       [beeHiveId]: getBeehiveDetail({
@@ -287,10 +300,16 @@ const attachFlowers = ({ game, createdAt }: AttachFlowers) => {
   const stateCopy = cloneDeep(game);
   const { flowers, beehives } = stateCopy;
 
+  const activeBeehives = getActiveBeehives(beehives);
+
+  if (Object.keys(activeBeehives).length === 0) {
+    return beehives;
+  }
+
   const boostsUsed: BoostName[] = [];
 
   let flowerDetails = calculateFlowerDetails({
-    beehives,
+    beehives: activeBeehives,
     flowerBeds: flowers.flowerBeds,
     createdAt,
     state: stateCopy,
@@ -340,7 +359,7 @@ const attachFlowers = ({ game, createdAt }: AttachFlowers) => {
     boostsUsed.push(...productionBoostsUsed);
 
     // Attach to hive
-    beehives[hiveId].flowers.push({
+    activeBeehives[hiveId].flowers.push({
       attachedAt,
       attachedUntil,
       id: flowerId,

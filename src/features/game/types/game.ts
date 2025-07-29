@@ -1297,6 +1297,7 @@ export type Beehive = {
     produced: number;
   };
   flowers: AttachedFlower[];
+  removedAt?: number;
 } & OptionalCoordinates;
 
 export type Beehives = Record<string, Beehive>;
