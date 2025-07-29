@@ -587,7 +587,6 @@ export type Wood = {
   reward?: Omit<Reward, "sfl">;
   criticalHit?: CriticalHit;
   amount?: number;
-  recoveryProgress?: number;
 };
 
 export type CriticalHitName =
@@ -606,7 +605,6 @@ export type PlantedCrop = {
   reward?: Omit<Reward, "sfl">;
   amount?: number;
   boostedTime?: number;
-  plantProgress?: number;
 };
 
 export type PlantedFruit = {
@@ -616,7 +614,6 @@ export type PlantedFruit = {
   harvestedAt: number;
   criticalHit?: CriticalHit;
   amount?: number;
-  plantProgress?: number;
 };
 
 type OptionalCoordinates = {

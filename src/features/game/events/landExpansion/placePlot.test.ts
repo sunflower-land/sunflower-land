@@ -122,9 +122,9 @@ describe("placePlot", () => {
             createdAt: dateNow,
             crop: {
               name: "Pumpkin",
-              plantedAt: dateNow - 120000,
-              plantProgress: 60000,
+              plantedAt: dateNow - 180000,
             },
+            removedAt: dateNow - 120000,
           },
           "1": {
             createdAt: dateNow,

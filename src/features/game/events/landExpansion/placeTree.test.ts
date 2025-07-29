@@ -132,9 +132,9 @@ describe("placeTree", () => {
           "123": {
             createdAt: dateNow,
             wood: {
-              choppedAt: dateNow - 120000,
-              recoveryProgress: 60000,
+              choppedAt: dateNow - 180000,
             },
+            removedAt: dateNow - 120000,
           },
         },
       },

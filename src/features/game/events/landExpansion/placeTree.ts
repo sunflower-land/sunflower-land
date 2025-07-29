@@ -47,10 +47,11 @@ export function placeTree({
         y: action.coordinates.y,
       };
 
-      if (updatedTree.wood && updatedTree.wood.recoveryProgress) {
-        updatedTree.wood.choppedAt =
-          createdAt - updatedTree.wood.recoveryProgress;
-        delete updatedTree.wood.recoveryProgress;
+      if (updatedTree.wood && updatedTree.removedAt) {
+        const existingProgress =
+          updatedTree.removedAt - updatedTree.wood.choppedAt;
+        updatedTree.wood.choppedAt = createdAt - existingProgress;
+        delete updatedTree.removedAt;
       }
 
       game.trees[id] = updatedTree;

@@ -36,14 +36,6 @@ export function removeFruitPatch({
     delete fruitPatch.x;
     delete fruitPatch.y;
     fruitPatch.removedAt = createdAt;
-    if (fruitPatch.fruit) {
-      if (fruitPatch.fruit.harvestedAt > fruitPatch.fruit.plantedAt) {
-        fruitPatch.fruit.plantProgress =
-          createdAt - fruitPatch.fruit.harvestedAt;
-      } else {
-        fruitPatch.fruit.plantProgress = createdAt - fruitPatch.fruit.plantedAt;
-      }
-    }
 
     return copy;
   });

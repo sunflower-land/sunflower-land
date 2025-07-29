@@ -33,10 +33,6 @@ export function removePlot({ state, action, createdAt = Date.now() }: Options) {
     delete plot.y;
     plot.removedAt = createdAt;
 
-    if (plot.crop) {
-      plot.crop.plantProgress = createdAt - plot.crop.plantedAt;
-    }
-
     return copy;
   });
 }

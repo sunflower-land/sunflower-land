@@ -51,27 +51,4 @@ describe("removePlot", () => {
     });
     expect(state.crops["2"].removedAt).toBeDefined();
   });
-
-  it("saves the current progress", () => {
-    const dateNow = Date.now();
-    const state = removePlot({
-      state: {
-        ...GAME_STATE,
-        crops: {
-          ...GAME_STATE.crops,
-          "2": {
-            ...GAME_STATE.crops["2"],
-            crop: {
-              ...GAME_STATE.crops["2"].crop,
-              name: "Pumpkin",
-              plantedAt: dateNow - 60000,
-            },
-          },
-        },
-      },
-      action: { type: "plot.removed", id: "2" },
-      createdAt: dateNow,
-    });
-    expect(state.crops["2"].crop?.plantProgress).toBe(60000);
-  });
 });

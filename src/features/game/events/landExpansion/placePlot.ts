@@ -47,9 +47,11 @@ export function placePlot({
         y: action.coordinates.y,
       };
 
-      if (updatedPlot.crop && updatedPlot.crop.plantProgress) {
-        updatedPlot.crop.plantedAt = createdAt - updatedPlot.crop.plantProgress;
-        delete updatedPlot.crop.plantProgress;
+      if (updatedPlot.crop && updatedPlot.removedAt) {
+        const existingProgress =
+          updatedPlot.removedAt - updatedPlot.crop.plantedAt;
+        updatedPlot.crop.plantedAt = createdAt - existingProgress;
+        delete updatedPlot.removedAt;
       }
 
       game.crops[id] = updatedPlot;

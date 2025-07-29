@@ -48,16 +48,18 @@ export function placeFruitPatch({
         x: action.coordinates.x,
         y: action.coordinates.y,
       };
-      if (existingPatch.fruit && existingPatch.fruit.plantProgress) {
+      if (existingPatch.fruit && existingPatch.removedAt) {
         // HarvestedAt will be greater than plantedAt if the fruit was harvested
         if (existingPatch.fruit.harvestedAt > existingPatch.fruit.plantedAt) {
-          existingPatch.fruit.harvestedAt =
-            createdAt - existingPatch.fruit.plantProgress;
+          const existingProgress =
+            existingPatch.removedAt - existingPatch.fruit.harvestedAt;
+          existingPatch.fruit.harvestedAt = createdAt - existingProgress;
         } else {
-          existingPatch.fruit.plantedAt =
-            createdAt - existingPatch.fruit.plantProgress;
+          const existingProgress =
+            existingPatch.removedAt - existingPatch.fruit.plantedAt;
+          existingPatch.fruit.plantedAt = createdAt - existingProgress;
         }
-        delete existingPatch.fruit.plantProgress;
+        delete existingPatch.removedAt;
       }
       game.fruitPatches[id] = existingPatch;
 

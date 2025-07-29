@@ -98,7 +98,7 @@ describe("placeFruitPatch", () => {
     });
   });
 
-  it("reinstates current progress", () => {
+  it("reinstates current progress when fruit was planted", () => {
     const state = placeFruitPatch({
       action: {
         coordinates: {
@@ -119,11 +119,11 @@ describe("placeFruitPatch", () => {
           "123": {
             fruit: {
               name: "Apple",
-              plantedAt: dateNow - 120000,
+              plantedAt: dateNow - 180000,
               harvestsLeft: 0,
               harvestedAt: 0,
-              plantProgress: 60000,
             },
+            removedAt: dateNow - 120000,
             createdAt: dateNow,
           },
         },
@@ -131,9 +131,9 @@ describe("placeFruitPatch", () => {
       createdAt: dateNow,
     });
     expect(state.fruitPatches["123"].fruit?.plantedAt).toBe(dateNow - 60000);
-    expect(state.fruitPatches["123"].fruit?.plantProgress).toBeUndefined();
   });
-  it("reinstates current progress", () => {
+
+  it("reinstates current progress when fruit was harvested", () => {
     const state = placeFruitPatch({
       action: {
         coordinates: {
@@ -154,18 +154,17 @@ describe("placeFruitPatch", () => {
           "123": {
             fruit: {
               name: "Apple",
-              plantedAt: dateNow - 120000,
+              plantedAt: 0,
               harvestsLeft: 0,
-              harvestedAt: 0,
-              plantProgress: 60000,
+              harvestedAt: dateNow - 180000,
             },
+            removedAt: dateNow - 120000,
             createdAt: dateNow,
           },
         },
       },
       createdAt: dateNow,
     });
-    expect(state.fruitPatches["123"].fruit?.plantedAt).toBe(dateNow - 60000);
-    expect(state.fruitPatches["123"].fruit?.plantProgress).toBeUndefined();
+    expect(state.fruitPatches["123"].fruit?.harvestedAt).toBe(dateNow - 60000);
   });
 });
