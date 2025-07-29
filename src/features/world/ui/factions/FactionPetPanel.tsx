@@ -483,7 +483,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
               />
             )}
             {showConfirm && (
-              <OuterPanel>
+              <InnerPanel>
                 <div className="space-y-3">
                   <span className="text-xs sm:text-sm">
                     {t("faction.donation.confirm", {
@@ -511,7 +511,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
                   </Button>
                   <Button onClick={handleFeed}>{t("confirm")}</Button>
                 </div>
-              </OuterPanel>
+              </InnerPanel>
             )}
           </div>
         )}
