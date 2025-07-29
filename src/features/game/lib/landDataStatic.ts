@@ -965,11 +965,11 @@ export const STATIC_OFFLINE_FARM: GameState = {
         giftClaimedAtPoints: 330,
       },
     },
-    finn: {
+    betty: {
       deliveryCount: 0,
       friendship: {
         updatedAt: 0,
-        points: 280,
+        points: 100000,
         giftClaimedAtPoints: 150,
       },
     },

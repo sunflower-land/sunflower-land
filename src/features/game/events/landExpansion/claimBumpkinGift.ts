@@ -4,7 +4,7 @@ import { BUMPKIN_GIFTS, BumpkinGift } from "features/game/types/gifts";
 import { getKeys } from "features/game/types/craftables";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
-import { RECIPES } from "features/game/lib/crafting";
+import { RecipeItemName, RECIPES } from "features/game/lib/crafting";
 import { hasFeatureAccess } from "lib/flags";
 
 export type ClaimGiftAction = {
@@ -48,6 +48,42 @@ export function getNextGift({
   }
 
   return nextGift;
+}
+
+/*
+  Recipes a Bumpkin will reveal at certain friendship points
+*/
+export function getBumpkinRecipes({
+  game,
+  npc,
+}: {
+  game: GameState;
+  npc: NPCName;
+}): RecipeItemName[] {
+  if (!hasFeatureAccess(game, "CRAFTING")) {
+    return [];
+  }
+
+  const bumpkin = BUMPKIN_GIFTS[npc];
+
+  if (!bumpkin) {
+    return [];
+  }
+
+  const friendship = game.npcs?.[npc]?.friendship;
+
+  if (!friendship) {
+    return [];
+  }
+
+  const points = friendship?.points ?? 0;
+
+  // Grab recipes where player has more points than the gift (in case recipe introduced later)
+  const missingRecipes = bumpkin.planned
+    ?.filter((gift) => gift.recipe && points >= gift.friendshipPoints)
+    .map((gift) => gift.recipe!);
+
+  return missingRecipes;
 }
 
 export function claimGift({ state, action, createdAt = Date.now() }: Options) {
@@ -96,9 +132,7 @@ export function claimGift({ state, action, createdAt = Date.now() }: Options) {
     // Provide missing recipes
     if (hasFeatureAccess(game, "CRAFTING")) {
       // Grab recipes where player has more points than the gift (in case recipe introduced later)
-      const missingRecipes = bumpkin.planned
-        ?.filter((gift) => gift.recipe && points >= gift.friendshipPoints)
-        .map((gift) => gift.recipe!);
+      const missingRecipes = getBumpkinRecipes({ game, npc: action.bumpkin });
 
       if (missingRecipes.length) {
         missingRecipes.forEach((recipe) => {

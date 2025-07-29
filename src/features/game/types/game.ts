@@ -83,6 +83,7 @@ import { ChoreBoard } from "./choreBoard";
 import {
   DollName,
   RecipeCollectibleName,
+  RecipeItemName,
   Recipes,
   RecipeWearableName,
 } from "../lib/crafting";
@@ -800,6 +801,7 @@ export type Airdrop = {
   coordinates?: Coordinates;
   factionPoints?: number;
   vipDays?: number;
+  recipes?: RecipeItemName[];
 };
 
 // Mystery Prize reveals
