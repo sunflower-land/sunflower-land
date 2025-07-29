@@ -29,7 +29,15 @@ export type DollName =
   | "Lumber Doll"
   | "Harvest Doll"
   | "Sizzle Doll"
-  | "Angler Doll";
+  | "Angler Doll"
+  | "Dune Doll"
+  | "Mouse Doll"
+  | "Grubby Doll"
+  | "Nefari Doll"
+  | "Frosty Doll"
+  | "Cosmo Doll"
+  | "Bigfin Doll"
+  | "Solar Doll";
 
 export const DOLLS: Record<DollName, object> = {
   Doll: {},
@@ -48,6 +56,14 @@ export const DOLLS: Record<DollName, object> = {
   "Harvest Doll": {},
   "Sizzle Doll": {},
   "Angler Doll": {},
+  "Dune Doll": {},
+  "Mouse Doll": {},
+  "Grubby Doll": {},
+  "Nefari Doll": {},
+  "Frosty Doll": {},
+  "Cosmo Doll": {},
+  "Bigfin Doll": {},
+  "Solar Doll": {},
 };
 
 export type RecipeCollectibleName = Extract<

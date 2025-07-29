@@ -925,6 +925,28 @@ import silverToolBox from "assets/rewardBoxes/silver_tool_box.webp";
 import goldToolBox from "assets/rewardBoxes/gold_tool_box.webp";
 
 import doll from "assets/sfts/dolls/doll.webp";
+import buzzDoll from "assets/sfts/dolls/buzz_doll.webp";
+import lunarDoll from "assets/sfts/dolls/lunar_doll.webp";
+import duneDoll from "assets/sfts/dolls/dune_doll.webp";
+import mouseDoll from "assets/sfts/dolls/mouse_doll.webp";
+import grubbyDoll from "assets/sfts/dolls/grubby_doll.webp";
+import nefariDoll from "assets/sfts/dolls/nefari_doll.webp";
+import frostyDoll from "assets/sfts/dolls/frosty_doll.webp";
+import cosmoDoll from "assets/sfts/dolls/cosmo_doll.webp";
+import bigfinDoll from "assets/sfts/dolls/bigfin_doll.webp";
+import solarDoll from "assets/sfts/dolls/solar_doll.webp";
+import anglerDoll from "assets/sfts/dolls/angler_doll.webp";
+import harvestDoll from "assets/sfts/dolls/harvest_doll.webp";
+import sizzleDoll from "assets/sfts/dolls/sizzler_doll.webp";
+import juicyDoll from "assets/sfts/dolls/juicy_doll.webp";
+import crudeDoll from "assets/sfts/dolls/crude_doll.webp";
+import cluckDoll from "assets/sfts/dolls/cluky_doll.webp";
+import woolyDoll from "assets/sfts/dolls/wooly_doll.webp";
+import mooDoll from "assets/sfts/dolls/moo_doll.webp";
+import bloomDoll from "assets/sfts/dolls/bloom_doll.webp";
+import shadowDoll from "assets/sfts/dolls/shadow_doll.webp";
+import gildedDoll from "assets/sfts/dolls/gilded_doll.webp";
+import lumberDoll from "assets/sfts/dolls/lumber_doll.webp";
 
 import loveChicken from "assets/animals/chickens/love_chicken.webp";
 import drCow from "assets/sfts/dr_cow.webp";
@@ -5536,63 +5558,95 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.doll"),
   },
   "Buzz Doll": {
-    image: doll,
+    image: buzzDoll,
     description: translate("description.buzzDoll"),
   },
   "Lunar Doll": {
-    image: doll,
+    image: lunarDoll,
     description: translate("description.lunarDoll"),
   },
   "Juicy Doll": {
-    image: doll,
+    image: juicyDoll,
     description: translate("description.juicyDoll"),
   },
   "Crude Doll": {
-    image: doll,
+    image: crudeDoll,
     description: translate("description.crudeDoll"),
   },
   "Cluck Doll": {
-    image: doll,
+    image: cluckDoll,
     description: translate("description.cluckDoll"),
   },
   "Wooly Doll": {
-    image: doll,
+    image: woolyDoll,
     description: translate("description.woolyDoll"),
   },
   "Moo Doll": {
-    image: doll,
+    image: mooDoll,
     description: translate("description.mooDoll"),
   },
   "Bloom Doll": {
-    image: doll,
+    image: bloomDoll,
     description: translate("description.bloomDoll"),
   },
   "Shadow Doll": {
-    image: doll,
+    image: shadowDoll,
     description: translate("description.shadowDoll"),
   },
   "Ember Doll": {
-    image: doll,
+    image: shadowDoll,
     description: translate("description.emberDoll"),
   },
   "Gilded Doll": {
-    image: doll,
+    image: gildedDoll,
     description: translate("description.gildedDoll"),
   },
   "Lumber Doll": {
-    image: doll,
+    image: lumberDoll,
     description: translate("description.lumberDoll"),
   },
   "Harvest Doll": {
-    image: doll,
+    image: harvestDoll,
     description: translate("description.harvestDoll"),
   },
   "Sizzle Doll": {
-    image: doll,
+    image: sizzleDoll,
     description: translate("description.sizzleDoll"),
   },
   "Angler Doll": {
-    image: doll,
+    image: anglerDoll,
     description: translate("description.anglerDoll"),
+  },
+  "Dune Doll": {
+    image: duneDoll,
+    description: translate("description.duneDoll"),
+  },
+  "Mouse Doll": {
+    image: mouseDoll,
+    description: translate("description.mouseDoll"),
+  },
+  "Grubby Doll": {
+    image: grubbyDoll,
+    description: translate("description.grubbyDoll"),
+  },
+  "Nefari Doll": {
+    image: nefariDoll,
+    description: translate("description.nefariDoll"),
+  },
+  "Frosty Doll": {
+    image: frostyDoll,
+    description: translate("description.frostyDoll"),
+  },
+  "Cosmo Doll": {
+    image: cosmoDoll,
+    description: translate("description.cosmoDoll"),
+  },
+  "Bigfin Doll": {
+    image: bigfinDoll,
+    description: translate("description.bigfinDoll"),
+  },
+  "Solar Doll": {
+    image: solarDoll,
+    description: translate("description.solarDoll"),
   },
 };
