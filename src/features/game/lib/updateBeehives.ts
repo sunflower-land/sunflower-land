@@ -116,6 +116,14 @@ export const getActiveBeehives = (beehives: Beehives): Beehives => {
   );
 };
 
+const getActiveFlowerBeds = (flowerBeds: FlowerBeds): FlowerBeds => {
+  return Object.fromEntries(
+    Object.entries(flowerBeds).filter(
+      ([, flowerBed]) => flowerBed.x !== undefined && flowerBed.y !== undefined,
+    ),
+  );
+};
+
 const getFlowerReadyAt = (
   flowerId: string,
   flowerBeds: FlowerBeds,
@@ -301,6 +309,7 @@ const attachFlowers = ({ game, createdAt }: AttachFlowers) => {
   const { flowers, beehives } = stateCopy;
 
   const activeBeehives = getActiveBeehives(beehives);
+  const activeFlowerBeds = getActiveFlowerBeds(flowers.flowerBeds);
 
   if (Object.keys(activeBeehives).length === 0) {
     return beehives;
@@ -310,7 +319,7 @@ const attachFlowers = ({ game, createdAt }: AttachFlowers) => {
 
   let flowerDetails = calculateFlowerDetails({
     beehives: activeBeehives,
-    flowerBeds: flowers.flowerBeds,
+    flowerBeds: activeFlowerBeds,
     createdAt,
     state: stateCopy,
   });

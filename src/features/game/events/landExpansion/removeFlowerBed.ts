@@ -38,6 +38,16 @@ export function removeFlowerBed({
     delete flowerBed.y;
     flowerBed.removedAt = createdAt;
 
+    const attachedBeehive = Object.values(copy.beehives).find((beehive) =>
+      beehive.flowers.some((flower) => flower.id === action.id),
+    );
+
+    if (attachedBeehive) {
+      attachedBeehive.flowers = attachedBeehive.flowers.filter(
+        (flower) => flower.id !== action.id,
+      );
+    }
+
     const updatedBeehives = updateBeehives({ game: copy, createdAt });
     copy.beehives = updatedBeehives;
 

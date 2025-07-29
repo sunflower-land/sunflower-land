@@ -1,5 +1,5 @@
 import { INITIAL_FARM } from "features/game/lib/constants";
-import { GameState } from "features/game/types/game";
+import { Beehive, GameState } from "features/game/types/game";
 import { REMOVE_FLOWER_BED_ERRORS, removeFlowerBed } from "./removeFlowerBed";
 const now = Date.now();
 
@@ -12,6 +12,14 @@ const GAME_STATE: GameState = {
       "2": { createdAt: now, x: 1, y: 0 },
     },
   },
+};
+
+const DEFAULT_BEEHIVE: Beehive = {
+  swarm: false,
+  x: 3,
+  y: 3,
+  honey: { updatedAt: now, produced: 0 },
+  flowers: [],
 };
 
 describe("removeFlowerBed", () => {
@@ -52,5 +60,42 @@ describe("removeFlowerBed", () => {
       createdAt: now,
     });
     expect(state.flowers.flowerBeds["2"].removedAt).toBeDefined();
+  });
+  it("removes the flower from the beehive", () => {
+    const state = removeFlowerBed({
+      state: {
+        ...GAME_STATE,
+        beehives: {
+          "2": {
+            ...DEFAULT_BEEHIVE,
+            flowers: [
+              {
+                id: "2",
+                attachedAt: now,
+                attachedUntil: now + 24 * 60 * 60 * 1000,
+              },
+            ],
+          },
+        },
+        flowers: {
+          discovered: {},
+          flowerBeds: {
+            "0": { createdAt: now },
+            "2": {
+              createdAt: now,
+              x: 1,
+              y: 0,
+              flower: {
+                name: "Red Pansy",
+                plantedAt: now,
+              },
+            },
+          },
+        },
+      },
+      action: { type: "flowerBed.removed", id: "2" },
+      createdAt: now,
+    });
+    expect(state.beehives["2"].flowers).toEqual([]);
   });
 });
