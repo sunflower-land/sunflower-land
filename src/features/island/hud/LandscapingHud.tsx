@@ -93,7 +93,9 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
   const idle = useSelector(child, isIdle);
 
   const showRemove =
-    isMobile && selectedItem && getRemoveAction(selectedItem.name);
+    isMobile &&
+    selectedItem &&
+    getRemoveAction(selectedItem.name, hasLandscapingAccess);
   const [isRestricted, restrictionReason] = showRemove
     ? hasRemoveRestriction({
         name: selectedItem.name,
@@ -107,7 +109,10 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
   }, [selectedItem]);
 
   const remove = () => {
-    const action = getRemoveAction(selectedItem?.name as InventoryItemName);
+    const action = getRemoveAction(
+      selectedItem?.name as InventoryItemName,
+      hasLandscapingAccess,
+    );
     if (!action) {
       return;
     }

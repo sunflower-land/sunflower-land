@@ -107,6 +107,7 @@ export const RESOURCES_REMOVE_ACTIONS: Record<
 
 export function getRemoveAction(
   name: InventoryItemName | "Bud",
+  hasLandscapingAccess?: boolean,
 ): GameEventName<PlacementEvent> | null {
   if (
     name in BUILDINGS_DIMENSIONS &&
@@ -148,7 +149,7 @@ export function getRemoveAction(
     return "bud.removed";
   }
 
-  if (name in RESOURCES_REMOVE_ACTIONS) {
+  if (name in RESOURCES_REMOVE_ACTIONS && hasLandscapingAccess) {
     return RESOURCES_REMOVE_ACTIONS[name as Exclude<ResourceName, "Boulder">];
   }
 
@@ -194,11 +195,12 @@ export const MoveableComponent: React.FC<
   const movingItem = useSelector(landscapingMachine, getMovingItem);
 
   const isSelected = movingItem?.id === id && movingItem?.name === name;
-  const removeAction = !isMobile && getRemoveAction(name);
-  const hasRemovalAction = !!removeAction;
   const hasLandscaping = useSelector(gameService, (state) =>
     hasFeatureAccess(state.context.state, "LANDSCAPING"),
   );
+  const removeAction = !isMobile && getRemoveAction(name, hasLandscaping);
+  const hasRemovalAction = !!removeAction;
+
   const [isRestricted, restrictionReason] = hasRemoveRestriction({
     name,
     state: gameService.getSnapshot().context.state,
