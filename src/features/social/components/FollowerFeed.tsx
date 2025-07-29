@@ -70,8 +70,13 @@ export const FollowerFeed: React.FC<Props> = ({
   const myClothing = useSelector(gameService, _myClothing);
   const token = useSelector(authService, _token);
 
-  const { scrollContainerRef, scrollToBottom, scrolledToBottom, scrollNode } =
-    useScrollToBottom();
+  const {
+    scrollContainerRef,
+    scrollToBottom,
+    isScrolledToBottomRef,
+    scrolledToBottom,
+    scrollNode,
+  } = useScrollToBottom();
 
   const [prevScrollHeight, setPrevScrollHeight] = useState<number>(0);
   const [prevScrollTop, setPrevScrollTop] = useState<number>(0);
@@ -100,9 +105,18 @@ export const FollowerFeed: React.FC<Props> = ({
       ).length;
 
       // Subtract the local unread count from the global unread count
-      clearUnread(unreadCount - localUnread);
+      if (localUnread > 0 && scrolledToBottom) {
+        clearUnread(unreadCount - localUnread);
+      }
     }
-  }, [interactions.length]);
+  }, [interactions[0]?.createdAt]);
+
+  useEffect(() => {
+    if (newLocalMessagesCount > 0 && scrolledToBottom) {
+      clearUnread(unreadCount - newLocalMessagesCount);
+      setNewLocalMessagesCount(0);
+    }
+  }, [scrolledToBottom, newLocalMessagesCount]);
 
   useSocial({
     farmId,
@@ -117,7 +131,8 @@ export const FollowerFeed: React.FC<Props> = ({
           },
         );
 
-        if (!scrolledToBottom) {
+        // Use the ref to determine the scrolled state to avoid it being caught in a closure
+        if (!isScrolledToBottomRef.current) {
           setNewLocalMessagesCount(newLocalMessagesCount + 1);
         } else {
           scrollToBottom();
@@ -140,8 +155,9 @@ export const FollowerFeed: React.FC<Props> = ({
     scrollToBottom();
   }, [isLoadingInitialData, playerId]);
 
+  // Scroll to bottom when the chat box is toggled
   useEffect(() => {
-    if (!chatDisabled) {
+    if (!scrolledToBottom) {
       scrollToBottom();
     }
   }, [chatDisabled]);
@@ -222,9 +238,13 @@ export const FollowerFeed: React.FC<Props> = ({
     scrollToBottom();
   };
 
-  const handleAcknowledgeNewMessages = () => {
+  const scrollToBottomAndClearUnread = () => {
     scrollToBottom();
-    setNewLocalMessagesCount(0);
+
+    if (newLocalMessagesCount > 0) {
+      clearUnread(unreadCount - newLocalMessagesCount);
+      setNewLocalMessagesCount(0);
+    }
   };
 
   if (isLoadingInitialData || playerLoading) {
@@ -277,7 +297,7 @@ export const FollowerFeed: React.FC<Props> = ({
                 "opacity-0": scrolledToBottom,
               },
             )}
-            onClick={handleAcknowledgeNewMessages}
+            onClick={scrollToBottomAndClearUnread}
           />
         </div>
 
