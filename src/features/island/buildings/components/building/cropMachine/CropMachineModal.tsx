@@ -260,7 +260,7 @@ export const CropMachineModalContent: React.FC<Props> = ({
 
   const allowedSeeds = ALLOWED_SEEDS(state.bumpkin, inventory);
   const cropYield = selectedPack
-    ? getPackYieldAmount(state, selectedPack).amount
+    ? selectedPack.amount ?? getPackYieldAmount(state, selectedPack).amount
     : 0;
 
   return (
