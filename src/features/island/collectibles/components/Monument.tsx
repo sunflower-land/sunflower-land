@@ -39,22 +39,25 @@ const CheerModal: React.FC<{
   username: string;
   onClose: () => void;
   onCheer: () => void;
-}> = ({ project, cheers, username, onClose, onCheer }) => {
+  cheersAvailable: Decimal;
+}> = ({ project, cheers, username, onClose, onCheer, cheersAvailable }) => {
   const { t } = useAppTranslation();
+
+  const hasCheersAvailable = cheersAvailable.gt(0);
 
   return (
     <Panel>
       <div className="flex justify-between sm:flex-row flex-col space-y-1">
         <Label
           type="default"
-          icon={ITEM_DETAILS["Farmer's Monument"].image}
+          icon={ITEM_DETAILS[project].image}
           className="ml-1"
         >
           {t("cheer.village.project")}
         </Label>
         <Label type="info" icon={cheer} className="ml-2 sm:ml-0">
           {t("kingdomChores.progress", {
-            progress: `${cheers}/${REQUIRED_CHEERS["Woodcutter's Monument"]}`,
+            progress: `${cheers}/${REQUIRED_CHEERS[project]}`,
           })}
         </Label>
       </div>
@@ -62,7 +65,7 @@ const CheerModal: React.FC<{
         <span>
           {t("cheer.village.project.description", {
             project,
-            goron: "goron",
+            goron: username,
           })}
         </span>
         <span>
@@ -73,7 +76,9 @@ const CheerModal: React.FC<{
       </div>
       <div className="flex space-x-1">
         <Button onClick={onClose}>{t("cancel")}</Button>
-        <Button onClick={onCheer}>{t("cheer")}</Button>
+        <Button onClick={onCheer} disabled={!hasCheersAvailable}>
+          {t("cheer")}
+        </Button>
       </div>
     </Panel>
   );
@@ -215,6 +220,7 @@ export const Monument: React.FC<MonumentProps> = (input) => {
         <CheerModal
           project={input.project}
           cheers={projectCheers}
+          cheersAvailable={cheersAvailable}
           onClose={() => setIsCheering(false)}
           onCheer={handleCheer}
           username={username}
