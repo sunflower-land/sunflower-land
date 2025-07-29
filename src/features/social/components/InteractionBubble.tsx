@@ -25,7 +25,9 @@ export const InteractionBubble: React.FC<Props> = ({
   if (type === "follow") {
     return (
       <div
-        className={classNames("relative", { "cursor-pointer": onClick })}
+        className={classNames("relative min-h-[57px]", {
+          "cursor-pointer": onClick,
+        })}
         onClick={onClick}
       >
         <div
@@ -45,7 +47,9 @@ export const InteractionBubble: React.FC<Props> = ({
   if (type === "milestone" || type === "announcement") {
     return (
       <div
-        className={classNames("relative", { "cursor-pointer": onClick })}
+        className={classNames("relative min-h-[57px]", {
+          "cursor-pointer": onClick,
+        })}
         onClick={onClick}
       >
         <div
@@ -64,7 +68,9 @@ export const InteractionBubble: React.FC<Props> = ({
 
   return (
     <div
-      className={classNames("relative", { "cursor-pointer": onClick })}
+      className={classNames("relative min-h-[57px]", {
+        "cursor-pointer": onClick,
+      })}
       onClick={onClick}
     >
       <div

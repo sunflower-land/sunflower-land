@@ -1,9 +1,18 @@
 import { useCallback, useRef, useState } from "react";
 
-export const useScrollToBottom = () => {
+export const useScrollToBottom = (): {
+  scrollContainerRef: (node: HTMLDivElement | null) => void;
+  scrollToBottom: () => void;
+  scrolledToBottom: boolean;
+  isScrolledToBottomRef: React.RefObject<boolean>;
+  scrollNode: HTMLDivElement | null;
+} => {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [scrollNode, setScrollNode] = useState<HTMLDivElement | null>(null);
   const [scrolledToBottom, setScrolledToBottom] = useState(true);
+
+  // Add a ref to track the current scroll state
+  const scrolledToBottomRef = useRef(true);
 
   const checkIsAtBottom = (el: HTMLDivElement) => {
     const distance = el.scrollHeight - el.scrollTop - el.clientHeight;
@@ -28,7 +37,9 @@ export const useScrollToBottom = () => {
     setScrollNode(node);
 
     const handleScroll = () => {
-      setScrolledToBottom(checkIsAtBottom(node));
+      const isAtBottom = checkIsAtBottom(node);
+      setScrolledToBottom(isAtBottom);
+      scrolledToBottomRef.current = isAtBottom;
     };
 
     node.addEventListener("scroll", handleScroll);
@@ -45,9 +56,10 @@ export const useScrollToBottom = () => {
   }, []);
 
   return {
-    scrollContainerRef: refCallback, // use in JSX: ref={scrollContainerRef}
+    scrollContainerRef: refCallback,
     scrollToBottom,
     scrolledToBottom,
+    isScrolledToBottomRef: scrolledToBottomRef,
     scrollNode, // use for IntersectionObserver root
   };
 };

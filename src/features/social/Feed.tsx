@@ -1,9 +1,11 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { SUNNYSIDE } from "assets/sunnyside";
 import classNames from "classnames";
 import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import React, {
+  useCallback,
   useContext,
   useEffect,
   useLayoutEffect,
@@ -33,6 +35,7 @@ import { useInView } from "react-intersection-observer";
 import { Loading } from "features/auth/components";
 import { FollowsIndicator } from "./components/FollowsIndicator";
 import { FollowList } from "./components/FollowList";
+import { useFeed } from "./FeedContext";
 
 type Props = {
   type: "world" | "local";
@@ -88,6 +91,24 @@ export const Feed: React.FC<Props> = ({
     loadMore,
     mutate,
   } = useFeedInteractions(token, farmId, type === "world");
+  const { setUnreadCount, lastAcknowledged, clearUnread } = useFeed();
+
+  // Find number of unread and set unread count when the feed loads
+  useEffect(() => {
+    if (feed.length > 0) {
+      const unreadCount = feed.filter(
+        (interaction) => interaction.createdAt > (lastAcknowledged ?? 0),
+      ).length;
+
+      setUnreadCount(unreadCount);
+    }
+  }, [feed.length]);
+
+  useEffect(() => {
+    if (showFeed) {
+      clearUnread(0);
+    }
+  }, [showFeed, setUnreadCount]);
 
   useLayoutEffect(() => {
     if (showFeed && !isLoadingInitialData) {
@@ -264,6 +285,16 @@ const FeedContent: React.FC<FeedContentProps> = ({
     }
   }, [inView, hasMore, isLoadingMore, loadMore, scrollContainerRef]);
 
+  const setRefs = useCallback(
+    (node: HTMLDivElement | null) => {
+      // Ref's from useRef needs to have the node assigned to `current`
+      (loaderRef as any).current = node;
+      // Callback refs, like the one from `useInView`, is a function that takes the node as an argument
+      intersectionRef(node);
+    },
+    [intersectionRef],
+  );
+
   if (isLoadingInitialData) {
     return <FeedSkeleton />;
   }
@@ -330,10 +361,7 @@ const FeedContent: React.FC<FeedContentProps> = ({
         })}
       </div>
       <div
-        ref={(el) => {
-          (loaderRef as any).current = el;
-          intersectionRef(el);
-        }}
+        ref={setRefs}
         id="loading-more"
         className="text-xs flex justify-center py-1 h-5"
       >
