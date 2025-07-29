@@ -81,6 +81,8 @@ export function getBumpkinRecipes({
   // Grab recipes where player has more points than the gift (in case recipe introduced later)
   const missingRecipes = bumpkin.planned
     ?.filter((gift) => gift.recipe && points >= gift.friendshipPoints)
+    // Ensure they don't already have the recipe
+    .filter((gift) => !game.craftingBox.recipes[gift.recipe!])
     .map((gift) => gift.recipe!);
 
   return missingRecipes;
