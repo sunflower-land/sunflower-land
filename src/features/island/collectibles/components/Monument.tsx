@@ -126,7 +126,7 @@ export const Monument: React.FC<MonumentProps> = (input) => {
   const username = useSelector(gameService, _username);
 
   const projectPercentage = Math.round(
-    (projectCheers / REQUIRED_CHEERS["Woodcutter's Monument"]) * 100,
+    (projectCheers / REQUIRED_CHEERS[input.project]) * 100,
   );
 
   const today = new Date().toISOString().split("T")[0];
