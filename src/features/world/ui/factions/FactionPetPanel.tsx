@@ -25,7 +25,7 @@ import {
   getFactionWeekEndTime,
   getFactionWeekday,
 } from "features/game/lib/factions";
-import { OuterPanel } from "components/ui/Panel";
+import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import classNames from "classnames";
 import { isMobile } from "mobile-device-detect";
 import {
@@ -274,6 +274,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
       <CloseButtonPanel
         onClose={onClose}
         currentTab={tab}
+        container={OuterPanel}
         setCurrentTab={(tab) => {
           setTab(tab);
         }}
@@ -287,205 +288,202 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
         ]}
       >
         {tab === 0 && (
-          <div className="p-1 space-y-2">
-            <div className="flex justify-between items-center">
-              <Label
-                type="default"
-                className={classNames({ pulse: refreshing || autosaving })}
-              >
-                {t("faction.pet.weeklyGoal", {
-                  goalXP: goalXP.toLocaleString(),
-                  totalXP: fedXP.toLocaleString(),
-                })}
-              </Label>
-              {streak > 0 && (
-                <Label
-                  type={streak >= 2 ? "success" : "default"}
-                  icon={isStreakWeek ? powerup : ""}
-                  secondaryIcon={
-                    isStreakWeek && pet.qualifiesForBoost
-                      ? SUNNYSIDE.icons.confirm
-                      : ""
-                  }
-                >
-                  {t("faction.pet.streak", { streak })}
-                </Label>
-              )}
-            </div>
-            {isBoostCooldown && (
-              <Label type="danger" className="text-xs">
-                {"XP boost cooldown until:"}{" "}
-                {new Date(faction?.boostCooldownUntil ?? 0).toLocaleString()}
-              </Label>
-            )}
+          <div>
             {!showConfirm && (
-              <>
-                <p className="block sm:hidden text-xs pb-1">
-                  {t("faction.pet.gatherResources")}
-                </p>
-                <SplitScreenView
-                  mobileReversePanelOrder
-                  content={
-                    <div className="flex flex-col space-y-2 w-full">
-                      <p className="hidden sm:block text-xs p-1 pb-2">
-                        {t("faction.pet.gatherResources")}
-                      </p>
-                      <div className="flex w-full justify-between gap-2 pl-0.5 pb-2">
-                        {pet.requests.map((request, idx) => {
-                          const fulfilled = request.dailyFulfilled[day] ?? 0;
-                          const points = calculatePoints(
-                            fulfilled,
-                            PET_FED_REWARDS_KEY[idx as DifficultyIndex],
-                          );
-
-                          const boost = getKingdomPetBoost(
-                            gameService.getSnapshot().context.state,
-                            points,
-                          )[0];
-
-                          const boostedMarks = points + boost;
-
-                          return (
-                            <OuterPanel
-                              key={JSON.stringify(request)}
-                              className={classNames(
-                                "flex relative flex-col flex-1 items-center p-2 cursor-pointer hover:bg-brown-300",
-                                { "img-highlight": selectedRequestIdx === idx },
-                              )}
-                              onClick={() => setSelectedRequestIdx(idx)}
-                            >
-                              <div className="flex flex-1 justify-center items-center mb-4 w-full relative">
-                                <SquareIcon
-                                  width={24}
-                                  icon={
-                                    ITEM_DETAILS[
-                                      request.food as InventoryItemName
-                                    ].image
-                                  }
-                                />
-                                <Label
-                                  icon={ITEM_DETAILS["Mark"].image}
-                                  secondaryIcon={
-                                    boost
-                                      ? SUNNYSIDE.icons.lightning
-                                      : undefined
-                                  }
-                                  type="warning"
-                                  className="absolute h-6"
-                                  iconWidth={10}
-                                  style={{
-                                    width: isMobile ? "113%" : "117%",
-                                    bottom: "-24px",
-                                    left: "-4px",
-                                  }}
-                                >
-                                  <span className={boost ? "pl-1.5" : ""}>
-                                    {formatNumber(boostedMarks)}
-                                  </span>
-                                </Label>
-                              </div>
-                              {selectedRequestIdx === idx && (
-                                <div id="select-box">
-                                  <img
-                                    className="absolute pointer-events-none"
-                                    src={SUNNYSIDE.ui.selectBoxTL}
-                                    style={{
-                                      top: `${PIXEL_SCALE * -3}px`,
-                                      left: `${PIXEL_SCALE * -3}px`,
-                                      width: `${PIXEL_SCALE * 8}px`,
-                                    }}
-                                  />
-                                  <img
-                                    className="absolute pointer-events-none"
-                                    src={SUNNYSIDE.ui.selectBoxTR}
-                                    style={{
-                                      top: `${PIXEL_SCALE * -3}px`,
-                                      right: `${PIXEL_SCALE * -3}px`,
-                                      width: `${PIXEL_SCALE * 8}px`,
-                                    }}
-                                  />
-                                </div>
-                              )}
-                            </OuterPanel>
-                          );
+              <SplitScreenView
+                mobileReversePanelOrder
+                content={
+                  <div className="flex flex-col space-y-2 w-full">
+                    <div className="flex justify-between items-center">
+                      <Label
+                        type="default"
+                        className={classNames({
+                          pulse: refreshing || autosaving,
                         })}
-                      </div>
-                      {collectivePet?.streak && collectivePet.streak > 0 && (
-                        <div className="flex items-center space-x-1">
-                          <p className="text-xs pb-1">{`${t("faction.pet.contributingMember")}: `}</p>
-                          <img
-                            className="w-3"
-                            src={
-                              isContributingMemberForThisWeek
-                                ? SUNNYSIDE.icons.confirm
-                                : SUNNYSIDE.icons.close
-                            }
-                          />
-                        </div>
+                      >
+                        {t("faction.pet.weeklyGoal", {
+                          goalXP: goalXP.toLocaleString(),
+                          totalXP: fedXP.toLocaleString(),
+                        })}
+                      </Label>
+                      {isBoostCooldown && (
+                        <Label type="danger" className="text-xs">
+                          {"XP boost cooldown until:"}{" "}
+                          {new Date(
+                            faction?.boostCooldownUntil ?? 0,
+                          ).toLocaleString()}
+                        </Label>
+                      )}
+                      {streak > 0 && (
+                        <Label
+                          type={streak >= 2 ? "success" : "default"}
+                          icon={isStreakWeek ? powerup : ""}
+                          secondaryIcon={
+                            isStreakWeek && pet.qualifiesForBoost
+                              ? SUNNYSIDE.icons.confirm
+                              : ""
+                          }
+                        >
+                          {t("faction.pet.streak", { streak })}
+                        </Label>
                       )}
                     </div>
-                  }
-                  panel={
-                    <div className="flex flex-col justify-between h-full sm:items-center">
-                      <div className="flex flex-col items-center space-y-1 px-1.5 mb-1">
-                        <div className="flex items-center relative">
-                          <BoostInfoPanel
-                            feature="pet"
-                            show={showBoostInfo}
-                            baseAmount={selectedRequestReward}
-                            onClick={() => setShowBoostInfo(false)}
-                          />
-                          <Label
-                            onClick={() => setShowBoostInfo(!showBoostInfo)}
-                            icon={ITEM_DETAILS["Mark"].image}
-                            secondaryIcon={
-                              boost ? SUNNYSIDE.icons.lightning : undefined
-                            }
-                            type="warning"
-                            className="m-1 cursor-pointer"
+                    <p className="hidden sm:block text-xs p-1 pb-2">
+                      {t("faction.pet.gatherResources")}
+                    </p>
+                    <div className="flex w-full flex-wrap justify-between gap-2 pl-0.5 pb-2">
+                      {pet.requests.map((request, idx) => {
+                        const fulfilled = request.dailyFulfilled[day] ?? 0;
+                        const points = calculatePoints(
+                          fulfilled,
+                          PET_FED_REWARDS_KEY[idx as DifficultyIndex],
+                        );
+
+                        const boost = getKingdomPetBoost(
+                          gameService.getSnapshot().context.state,
+                          points,
+                        )[0];
+
+                        const boostedMarks = points + boost;
+
+                        return (
+                          <OuterPanel
+                            key={JSON.stringify(request)}
+                            className={classNames(
+                              "flex relative flex-col flex-1 items-center p-2 cursor-pointer hover:bg-brown-300",
+                              { "img-highlight": selectedRequestIdx === idx },
+                            )}
+                            onClick={() => setSelectedRequestIdx(idx)}
                           >
-                            <span className={boost ? "pl-1.5" : ""}>
-                              {`${formatNumber(boostedMarks)} ${t("marks")}`}
-                            </span>
-                          </Label>
-                        </div>
-                        <div className="hidden sm:flex flex-col space-y-1 w-full justify-center items-center">
-                          <p className="text-sm">{selectedRequest.food}</p>
-                          <SquareIcon
-                            icon={
-                              ITEM_DETAILS[
-                                selectedRequest.food as InventoryItemName
-                              ].image
-                            }
-                            width={12}
-                          />
-                        </div>
-                        <RequirementLabel
-                          className={classNames(
-                            "flex justify-between items-center sm:justify-center",
-                            { "-mt-1": isMobile },
-                          )}
-                          showLabel={isMobile}
-                          hideIcon={!isMobile}
-                          type="item"
-                          item={selectedRequest.food}
-                          balance={
-                            inventory[selectedRequest.food] ?? new Decimal(0)
+                            <div className="flex flex-1 justify-center items-center mb-4 w-full relative">
+                              <SquareIcon
+                                width={24}
+                                icon={
+                                  ITEM_DETAILS[
+                                    request.food as InventoryItemName
+                                  ].image
+                                }
+                              />
+                              <Label
+                                icon={ITEM_DETAILS["Mark"].image}
+                                secondaryIcon={
+                                  boost ? SUNNYSIDE.icons.lightning : undefined
+                                }
+                                type="warning"
+                                className="absolute h-6"
+                                iconWidth={10}
+                                style={{
+                                  width: isMobile ? "113%" : "117%",
+                                  bottom: "-24px",
+                                  left: "-4px",
+                                }}
+                              >
+                                <span className={boost ? "pl-1.5" : ""}>
+                                  {formatNumber(boostedMarks)}
+                                </span>
+                              </Label>
+                            </div>
+                            {selectedRequestIdx === idx && (
+                              <div id="select-box">
+                                <img
+                                  className="absolute pointer-events-none"
+                                  src={SUNNYSIDE.ui.selectBoxTL}
+                                  style={{
+                                    top: `${PIXEL_SCALE * -3}px`,
+                                    left: `${PIXEL_SCALE * -3}px`,
+                                    width: `${PIXEL_SCALE * 8}px`,
+                                  }}
+                                />
+                                <img
+                                  className="absolute pointer-events-none"
+                                  src={SUNNYSIDE.ui.selectBoxTR}
+                                  style={{
+                                    top: `${PIXEL_SCALE * -3}px`,
+                                    right: `${PIXEL_SCALE * -3}px`,
+                                    width: `${PIXEL_SCALE * 8}px`,
+                                  }}
+                                />
+                              </div>
+                            )}
+                          </OuterPanel>
+                        );
+                      })}
+                    </div>
+                    {!!collectivePet?.streak && collectivePet.streak > 0 && (
+                      <div className="flex items-center space-x-1">
+                        <p className="text-xs pb-1">{`${t("faction.pet.contributingMember")}: `}</p>
+                        <img
+                          className="w-3"
+                          src={
+                            isContributingMemberForThisWeek
+                              ? SUNNYSIDE.icons.confirm
+                              : SUNNYSIDE.icons.close
                           }
-                          requirement={new Decimal(selectedRequest.quantity)}
                         />
                       </div>
-                      <Button
-                        disabled={!canFulfillRequest}
-                        onClick={() => setShowConfirm(true)}
-                      >{`${t("deliver")} ${selectedRequest.quantity}`}</Button>
+                    )}
+                  </div>
+                }
+                panel={
+                  <div className="flex flex-col justify-between h-full sm:items-center">
+                    <div className="flex flex-col items-center space-y-1 px-1.5 mb-1">
+                      <div className="flex items-center relative">
+                        <BoostInfoPanel
+                          feature="pet"
+                          show={showBoostInfo}
+                          baseAmount={selectedRequestReward}
+                          onClick={() => setShowBoostInfo(false)}
+                        />
+                        <Label
+                          onClick={() => setShowBoostInfo(!showBoostInfo)}
+                          icon={ITEM_DETAILS["Mark"].image}
+                          secondaryIcon={
+                            boost ? SUNNYSIDE.icons.lightning : undefined
+                          }
+                          type="warning"
+                          className="m-1 cursor-pointer"
+                        >
+                          <span className={boost ? "pl-1.5" : ""}>
+                            {`${formatNumber(boostedMarks)} ${t("marks")}`}
+                          </span>
+                        </Label>
+                      </div>
+                      <div className="hidden sm:flex flex-col space-y-1 w-full justify-center items-center">
+                        <p className="text-sm">{selectedRequest.food}</p>
+                        <SquareIcon
+                          icon={
+                            ITEM_DETAILS[
+                              selectedRequest.food as InventoryItemName
+                            ].image
+                          }
+                          width={12}
+                        />
+                      </div>
+                      <RequirementLabel
+                        className={classNames(
+                          "flex justify-between items-center sm:justify-center",
+                          { "-mt-1": isMobile },
+                        )}
+                        showLabel={isMobile}
+                        hideIcon={!isMobile}
+                        type="item"
+                        item={selectedRequest.food}
+                        balance={
+                          inventory[selectedRequest.food] ?? new Decimal(0)
+                        }
+                        requirement={new Decimal(selectedRequest.quantity)}
+                      />
                     </div>
-                  }
-                />
-              </>
+                    <Button
+                      disabled={!canFulfillRequest}
+                      onClick={() => setShowConfirm(true)}
+                    >{`${t("deliver")} ${selectedRequest.quantity}`}</Button>
+                  </div>
+                }
+              />
             )}
             {showConfirm && (
-              <>
+              <OuterPanel>
                 <div className="space-y-3">
                   <span className="text-xs sm:text-sm">
                     {t("faction.donation.confirm", {
@@ -513,12 +511,12 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
                   </Button>
                   <Button onClick={handleFeed}>{t("confirm")}</Button>
                 </div>
-              </>
+              </OuterPanel>
             )}
           </div>
         )}
         {tab === 1 && (
-          <>
+          <InnerPanel>
             <div className="p-2">
               <img src="" className="w-full mx-auto rounded-lg mb-2" />
               <div className="flex mb-2">
@@ -581,10 +579,10 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
             >
               {t("ok")}
             </Button>
-          </>
+          </InnerPanel>
         )}
         {tab === 2 && (
-          <>
+          <InnerPanel>
             <div className="p-2">
               <div className="flex items-center mb-2">
                 <div className="w-12 flex justify-center">
@@ -623,7 +621,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
             >
               {t("ok")}
             </Button>
-          </>
+          </InnerPanel>
         )}
       </CloseButtonPanel>
     </>

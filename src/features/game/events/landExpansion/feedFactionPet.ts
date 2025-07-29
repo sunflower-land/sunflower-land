@@ -51,12 +51,14 @@ export enum DifficultyIndex {
   EASY = 0,
   MEDIUM = 1,
   HARD = 2,
+  DOLL = 3,
 }
 
 export const PET_FED_REWARDS_KEY: Record<DifficultyIndex, number> = {
   [DifficultyIndex.EASY]: 4,
   [DifficultyIndex.MEDIUM]: 8,
   [DifficultyIndex.HARD]: 12,
+  [DifficultyIndex.DOLL]: 30,
 };
 
 export const getTotalXPForRequest = (
