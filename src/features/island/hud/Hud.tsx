@@ -98,11 +98,7 @@ const HudComponent: React.FC<{
         )}
       >
         {hasFeatureAccess(gameState.context.state, "SOCIAL_FARMING") && (
-          <WorldFeedButton
-            showFeed={showFeed}
-            setShowFeed={setShowFeed}
-            newCount={0}
-          />
+          <WorldFeedButton showFeed={showFeed} setShowFeed={setShowFeed} />
         )}
         <MarketplaceButton />
         <TravelButton />
