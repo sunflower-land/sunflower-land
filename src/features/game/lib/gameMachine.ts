@@ -547,7 +547,7 @@ const VISIT_EFFECT_STATES = Object.values(STATE_MACHINE_VISIT_EFFECTS).reduce(
         },
         onDone: [
           {
-            target: `Visit${stateName}Success`,
+            target: `${stateName}Success`,
             cond: (_: Context, event: DoneInvokeEvent<any>) =>
               !event.data.state.transaction,
             actions: [
@@ -577,7 +577,7 @@ const VISIT_EFFECT_STATES = Object.values(STATE_MACHINE_VISIT_EFFECTS).reduce(
           },
         ],
         onError: {
-          target: `Visit${stateName}Failed`,
+          target: `${stateName}Failed`,
           actions: "assignErrorMessage",
         },
       },
