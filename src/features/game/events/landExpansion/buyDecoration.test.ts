@@ -1,6 +1,9 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "../../lib/constants";
-import { BASIC_DECORATIONS, ShopDecorationName } from "../../types/decorations";
+import {
+  LANDSCAPING_DECORATIONS,
+  ShopDecorationName,
+} from "../../types/decorations";
 import { GameState } from "../../types/game";
 import { buyDecoration } from "./buyDecoration";
 
@@ -71,7 +74,7 @@ describe("buyDecoration", () => {
     });
 
     expect(state.coins).toEqual(
-      coins - (BASIC_DECORATIONS()["Potted Sunflower"].coins ?? 0),
+      coins - (LANDSCAPING_DECORATIONS["Potted Sunflower"].coins ?? 0),
     );
   });
 
@@ -112,7 +115,7 @@ describe("buyDecoration", () => {
       },
     });
     expect(state.bumpkin?.activity?.["Coins Spent"]).toEqual(
-      BASIC_DECORATIONS()["Potted Sunflower"].coins ?? 0,
+      LANDSCAPING_DECORATIONS["Potted Sunflower"].coins ?? 0,
     );
   });
 

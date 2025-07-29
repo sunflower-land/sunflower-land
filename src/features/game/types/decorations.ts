@@ -1504,8 +1504,10 @@ export const LANDSCAPING_DECORATIONS: Record<
   "Town Sign": {
     name: "Town Sign",
     description: translate("description.town.sign"),
-    coins: 0,
-    ingredients: {},
+    coins: 10000,
+    ingredients: {
+      Wood: new Decimal(100),
+    },
   },
 };
 
