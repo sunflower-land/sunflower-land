@@ -1279,6 +1279,7 @@ export type PlantedFlower = {
 export type FlowerBed = {
   flower?: PlantedFlower;
   createdAt: number;
+  removedAt?: number;
 } & OptionalCoordinates;
 
 export type FlowerBeds = Record<string, FlowerBed>;

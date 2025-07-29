@@ -132,4 +132,48 @@ describe("placeFlowerBed", () => {
       },
     });
   });
+
+  it("reinstates current progress", () => {
+    const createdAt = dateNow;
+    const state = placeFlowerBed({
+      action: {
+        coordinates: {
+          x: 2,
+          y: 2,
+        },
+        id: "156", // ID doesn't matter since it's an existing flower bed
+        type: "flowerBed.placed",
+      },
+      state: {
+        ...TEST_FARM,
+        buildings: {},
+        inventory: {
+          "Flower Bed": new Decimal(3),
+        },
+        flowers: {
+          flowerBeds: {
+            "123": {
+              createdAt: dateNow,
+              flower: {
+                name: "Red Pansy",
+                plantedAt: dateNow - 240000,
+              },
+              removedAt: dateNow - 180000,
+            },
+            "1": {
+              createdAt: dateNow,
+              x: 0,
+              y: 0,
+            },
+          },
+          discovered: {},
+        },
+      },
+      createdAt,
+    });
+
+    expect(state.flowers.flowerBeds["123"].flower?.plantedAt).toBe(
+      dateNow - 60000,
+    );
+  });
 });
