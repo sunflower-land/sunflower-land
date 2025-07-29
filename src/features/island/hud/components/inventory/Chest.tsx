@@ -103,7 +103,6 @@ const PanelContent: React.FC<PanelContentProps> = ({
 
   const handlePlace = () => {
     if (
-      selectedChestItem in RESOURCES ||
       selectedChestItem === "Gnome" ||
       selectedChestItem in EXPIRY_COOLDOWNS
     ) {
@@ -195,32 +194,27 @@ const PanelContent: React.FC<PanelContentProps> = ({
         show={confirmationModal}
         onHide={() => showConfirmationModal(false)}
         messages={
-          selectedChestItem in RESOURCES
-            ? [
-                t("landscape.confirmation.resourceNodes.one"),
-                t("landscape.confirmation.resourceNodes.two"),
+          selectedChestItem === "Gnome"
+            ? [redGnomeBoostInstruction()]
+            : [
+                getResourceNodeCondition(
+                  selectedChestItem as TimeBasedConsumables,
+                ),
+                t("landscape.confirmation.hourglass.one", {
+                  selectedChestItem,
+                }),
+                t("landscape.confirmation.hourglass.two", {
+                  selectedChestItem,
+                }),
+                selectedChestItem === "Time Warp Totem" ||
+                selectedChestItem === "Super Totem" ? (
+                  <Label type="danger" icon={SUNNYSIDE.icons.cancel}>
+                    {t("landscape.timeWarpTotem.nonStack")}
+                  </Label>
+                ) : (
+                  ""
+                ),
               ]
-            : selectedChestItem === "Gnome"
-              ? [redGnomeBoostInstruction()]
-              : [
-                  getResourceNodeCondition(
-                    selectedChestItem as TimeBasedConsumables,
-                  ),
-                  t("landscape.confirmation.hourglass.one", {
-                    selectedChestItem,
-                  }),
-                  t("landscape.confirmation.hourglass.two", {
-                    selectedChestItem,
-                  }),
-                  selectedChestItem === "Time Warp Totem" ||
-                  selectedChestItem === "Super Totem" ? (
-                    <Label type="danger" icon={SUNNYSIDE.icons.cancel}>
-                      {t("landscape.timeWarpTotem.nonStack")}
-                    </Label>
-                  ) : (
-                    ""
-                  ),
-                ]
         }
         onCancel={() => showConfirmationModal(false)}
         onConfirm={() => {
