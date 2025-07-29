@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 
 import { Balances } from "components/Balances";
 import { useActor, useSelector } from "@xstate/react";
@@ -41,10 +41,6 @@ export const VisitingHud: React.FC = () => {
     navigate(fromRoute ?? "/");
     gameService.send("END_VISIT");
   };
-
-  useEffect(() => {
-    return () => handleEndVisit();
-  }, []);
 
   const displayId =
     gameState.context.state.username ?? gameState.context.farmId;

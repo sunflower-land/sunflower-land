@@ -17,6 +17,7 @@ import { BumpkinItem, ITEM_IDS } from "../types/bumpkin";
 import { Bud } from "../types/buds";
 import { KNOWN_IDS } from "../types";
 import { getTradeableDisplay } from "features/marketplace/lib/tradeables";
+import { useVisiting } from "lib/utils/visitUtils";
 
 const MAX_TOAST = 6;
 
@@ -79,6 +80,7 @@ export const ToastPanel: React.FC = () => {
   } = useContext(ToastContext);
   const [visibleToasts, setVisibleToasts] = useState<Toast[]>([]);
   const [showToasts, setShowToasts] = useState<boolean>(false);
+  const { isVisiting } = useVisiting();
 
   const faction = useSelector(gameService, _faction);
 
@@ -102,11 +104,7 @@ export const ToastPanel: React.FC = () => {
    */
   gameService.onTransition((state) => {
     // does nothing if no state changes, visiting or ending visit
-    if (
-      !state.changed ||
-      state.value === "visiting" ||
-      state.event.type === "END_VISIT"
-    ) {
+    if (!state.changed || isVisiting || state.event.type === "END_VISIT") {
       return;
     }
 
