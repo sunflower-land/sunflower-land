@@ -421,6 +421,10 @@ export function getCropYieldAmount({
       game.collectibles["Scary Mike"]?.[0].coordinates;
     const scarecrowDimensions = COLLECTIBLES_DIMENSIONS["Scary Mike"];
 
+    if (!scarecrowCoordinates) {
+      return { amount, aoe: updatedAoe, boostsUsed };
+    }
+
     const scarecrowPosition: Position = {
       x: scarecrowCoordinates.x,
       y: scarecrowCoordinates.y,
@@ -474,6 +478,10 @@ export function getCropYieldAmount({
 
     const sirGoldenSnout = game.collectibles["Sir Goldensnout"][0];
 
+    if (!sirGoldenSnout?.coordinates) {
+      return { amount, aoe: updatedAoe, boostsUsed };
+    }
+
     const position: Position = {
       x: sirGoldenSnout.coordinates.x,
       y: sirGoldenSnout.coordinates.y,
@@ -523,6 +531,10 @@ export function getCropYieldAmount({
       game.collectibles["Laurie the Chuckle Crow"]?.[0].coordinates;
     const scarecrowDimensions =
       COLLECTIBLES_DIMENSIONS["Laurie the Chuckle Crow"];
+
+    if (!scarecrowCoordinates) {
+      return { amount, aoe: updatedAoe, boostsUsed };
+    }
 
     const scarecrowPosition: Position = {
       x: scarecrowCoordinates.x,
@@ -584,6 +596,10 @@ export function getCropYieldAmount({
       game.collectibles["Queen Cornelia"]?.[0].coordinates;
     const scarecrowDimensions = COLLECTIBLES_DIMENSIONS["Queen Cornelia"];
 
+    if (!scarecrowCoordinates) {
+      return { amount, aoe: updatedAoe, boostsUsed };
+    }
+
     const scarecrowPosition: Position = {
       x: scarecrowCoordinates.x,
       y: scarecrowCoordinates.y,
@@ -642,17 +658,17 @@ export function getCropYieldAmount({
     // Cobalt is to the left
     const cobalt = game.collectibles["Cobalt"]?.[0];
     const cobaltIsLeftOf =
-      cobalt?.coordinates.y === gnome?.coordinates.y &&
-      (cobalt?.coordinates.x ?? 0) + 1 === gnome?.coordinates.x;
+      cobalt?.coordinates?.y === gnome?.coordinates?.y &&
+      (cobalt?.coordinates?.x ?? 0) + 1 === gnome?.coordinates?.x;
 
     // Clementine is to the right
     const clementine = game.collectibles["Clementine"]?.[0];
     const clementineIsRightOf =
-      clementine?.coordinates.y === clementine?.coordinates.y &&
-      (clementine?.coordinates.x ?? 0) - 1 === gnome?.coordinates.x;
+      clementine?.coordinates?.y === clementine?.coordinates?.y &&
+      (clementine?.coordinates?.x ?? 0) - 1 === gnome?.coordinates?.x;
 
     const cropIsBelow =
-      plot.x === gnome?.coordinates.x && plot.y + 1 === gnome.coordinates.y;
+      plot.x === gnome?.coordinates?.x && plot.y + 1 === gnome?.coordinates?.y;
 
     // Must be at rest for 24
     const isUndisturbed =

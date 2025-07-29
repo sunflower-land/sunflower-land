@@ -175,6 +175,14 @@ export function getGoldDropAmount({
       game.collectibles["Emerald Turtle"]?.[0].coordinates;
     const emeraldTurtleDimensions = COLLECTIBLES_DIMENSIONS["Emerald Turtle"];
 
+    if (!emeraldTurtleCoordinates) {
+      return {
+        amount: new Decimal(amount).toDecimalPlaces(4),
+        aoe: updatedAoe,
+        boostsUsed,
+      };
+    }
+
     const emeraldTurtlePosition: Position = {
       x: emeraldTurtleCoordinates.x,
       y: emeraldTurtleCoordinates.y,

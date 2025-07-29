@@ -195,6 +195,14 @@ export function getStoneDropAmount({
       game.collectibles["Emerald Turtle"]?.[0].coordinates;
     const emeraldTurtleDimensions = COLLECTIBLES_DIMENSIONS["Emerald Turtle"];
 
+    if (!emeraldTurtleCoordinates) {
+      return {
+        amount: new Decimal(amount).toDecimalPlaces(4),
+        aoe: updatedAoe,
+        boostsUsed,
+      };
+    }
+
     const emeraldTurtlePosition: Position = {
       x: emeraldTurtleCoordinates.x,
       y: emeraldTurtleCoordinates.y,
@@ -243,6 +251,14 @@ export function getStoneDropAmount({
     const tinTurtleCoordinates =
       game.collectibles["Tin Turtle"]?.[0].coordinates;
     const tinTurtleDimensions = COLLECTIBLES_DIMENSIONS["Tin Turtle"];
+
+    if (!tinTurtleCoordinates) {
+      return {
+        amount: new Decimal(amount).toDecimalPlaces(4),
+        aoe: updatedAoe,
+        boostsUsed,
+      };
+    }
 
     const tinTurtlePosition: Position = {
       x: tinTurtleCoordinates.x,

@@ -718,7 +718,7 @@ export type Cancelled = Partial<{
 
 export type PlacedItem = {
   id: string;
-  coordinates: { x: number; y: number };
+  coordinates?: { x: number; y: number };
   readyAt: number;
   createdAt: number;
   cancelled?: Cancelled;

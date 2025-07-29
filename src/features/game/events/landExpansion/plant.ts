@@ -391,6 +391,10 @@ export const getCropPlotTime = ({
       game.collectibles["Basic Scarecrow"]?.[0].coordinates;
     const scarecrowDimensions = COLLECTIBLES_DIMENSIONS["Basic Scarecrow"];
 
+    if (!basicScarecrowCoordinates) {
+      return { time: seconds, aoe: updatedAoe, boostsUsed };
+    }
+
     const scarecrowPosition: Position = {
       x: basicScarecrowCoordinates.x,
       y: basicScarecrowCoordinates.y,
