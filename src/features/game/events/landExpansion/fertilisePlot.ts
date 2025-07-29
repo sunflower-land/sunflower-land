@@ -34,6 +34,7 @@ export enum FERTILISE_CROP_ERRORS {
   NO_FERTILISER_SELECTED = "No fertiliser selected!",
   NOT_A_FERTILISER = "Not a fertiliser!",
   NOT_ENOUGH_FERTILISER = "Not enough fertiliser!",
+  PLOT_NOT_PLACED = "Plot not placed!",
 }
 
 const getPlantedAt = (
@@ -58,8 +59,7 @@ export function fertilisePlot({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (stateCopy) => {
-    const { crops: plots, inventory, collectibles, bumpkin } = stateCopy;
-
+    const { crops: plots, inventory, bumpkin } = stateCopy;
     if (!bumpkin) {
       throw new Error("Bumpkin not found");
     }
@@ -92,6 +92,11 @@ export function fertilisePlot({
 
     // Apply buff if already planted
     const crop = plot.crop;
+
+    if (plot.x === undefined || plot.y === undefined) {
+      throw new Error(FERTILISE_CROP_ERRORS.PLOT_NOT_PLACED);
+    }
+
     if (crop) {
       const cropDetails = crop && CROPS[crop.name];
       if (cropDetails && isReadyToHarvest(createdAt, crop, cropDetails)) {

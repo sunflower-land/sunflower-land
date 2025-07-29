@@ -61,6 +61,7 @@ import {
 } from "../events/landExpansion/upgradeBuilding";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { useVisiting } from "lib/utils/visitUtils";
+import { getObjectEntries } from "./lib/utils";
 
 export const LAND_WIDTH = 6;
 
@@ -307,295 +308,333 @@ const getIslandElements = ({
   );
 
   mapPlacements.push(
-    ...getKeys(trees).map((id, index) => {
-      const { x, y } = trees[id];
+    ...getObjectEntries(trees)
+      .filter(([, tree]) => tree.x !== undefined && tree.y !== undefined)
+      .map(([id, tree], index) => {
+        const { x, y } = tree;
 
-      return (
-        <MapPlacement
-          key={`trees-${id}`}
-          x={x}
-          y={y}
-          {...RESOURCE_DIMENSIONS.Tree}
-          className={classNames({ "pointer-events-none": isVisiting })}
-        >
-          <Resource
-            key={`tree-${id}`}
-            name="Tree"
-            createdAt={0}
-            readyAt={0}
-            id={id}
-            index={index}
-            x={x}
-            y={y}
-          />
-        </MapPlacement>
-      );
-    }),
+        return (
+          <MapPlacement
+            key={`trees-${id}`}
+            x={x!}
+            y={y!}
+            {...RESOURCE_DIMENSIONS.Tree}
+            className={classNames({ "pointer-events-none": isVisiting })}
+          >
+            <Resource
+              key={`tree-${id}`}
+              name="Tree"
+              createdAt={0}
+              readyAt={0}
+              id={id}
+              index={index}
+              x={x!}
+              y={y!}
+            />
+          </MapPlacement>
+        );
+      }),
   );
 
   mapPlacements.push(
-    ...getKeys(stones).map((id, index) => {
-      const { x, y } = stones[id];
+    ...getObjectEntries(stones)
+      .filter(([, stone]) => stone.x !== undefined && stone.y !== undefined)
+      .map(([id, stone], index) => {
+        const { x, y } = stone;
 
-      return (
-        <MapPlacement
-          key={`stones-${id}`}
-          x={x}
-          y={y}
-          {...RESOURCE_DIMENSIONS["Stone Rock"]}
-          className={classNames({ "pointer-events-none": isVisiting })}
-        >
-          <Resource
-            key={`stone-${id}`}
-            name="Stone Rock"
-            createdAt={0}
-            readyAt={0}
-            id={id}
-            index={index}
-            x={x}
-            y={y}
-          />
-        </MapPlacement>
-      );
-    }),
+        return (
+          <MapPlacement
+            key={`stones-${id}`}
+            x={x!}
+            y={y!}
+            {...RESOURCE_DIMENSIONS["Stone Rock"]}
+            className={classNames({ "pointer-events-none": isVisiting })}
+          >
+            <Resource
+              key={`stone-${id}`}
+              name="Stone Rock"
+              createdAt={0}
+              readyAt={0}
+              id={id}
+              index={index}
+              x={x!}
+              y={y!}
+            />
+          </MapPlacement>
+        );
+      }),
   );
 
   mapPlacements.push(
-    ...getKeys(iron).map((id, index) => {
-      const { x, y } = iron[id];
+    ...getObjectEntries(iron)
+      .filter(([, iron]) => iron.x !== undefined && iron.y !== undefined)
+      .map(([id, iron], index) => {
+        const { x, y } = iron;
 
-      return (
-        <MapPlacement
-          key={`iron-${id}`}
-          x={x}
-          y={y}
-          {...RESOURCE_DIMENSIONS["Iron Rock"]}
-          className={classNames({ "pointer-events-none": isVisiting })}
-        >
-          <Resource
+        return (
+          <MapPlacement
             key={`iron-${id}`}
-            name="Iron Rock"
-            createdAt={0}
-            readyAt={0}
-            id={id}
-            index={index}
-            x={x}
-            y={y}
-          />
-        </MapPlacement>
-      );
-    }),
+            x={x!}
+            y={y!}
+            {...RESOURCE_DIMENSIONS["Iron Rock"]}
+            className={classNames({ "pointer-events-none": isVisiting })}
+          >
+            <Resource
+              key={`iron-${id}`}
+              name="Iron Rock"
+              createdAt={0}
+              readyAt={0}
+              id={id}
+              index={index}
+              x={x!}
+              y={y!}
+            />
+          </MapPlacement>
+        );
+      }),
   );
 
   mapPlacements.push(
-    ...getKeys(gold).map((id, index) => {
-      const { x, y } = gold[id];
+    ...getObjectEntries(gold)
+      .filter(([, gold]) => gold.x !== undefined && gold.y !== undefined)
+      .map(([id, gold], index) => {
+        const { x, y } = gold;
 
-      return (
-        <MapPlacement
-          key={`gold-${id}`}
-          x={x}
-          y={y}
-          {...RESOURCE_DIMENSIONS["Gold Rock"]}
-          className={classNames({ "pointer-events-none": isVisiting })}
-        >
-          <Resource
+        return (
+          <MapPlacement
             key={`gold-${id}`}
-            name="Gold Rock"
-            createdAt={0}
-            readyAt={0}
-            id={id}
-            index={index}
-            x={x}
-            y={y}
-          />
-        </MapPlacement>
-      );
-    }),
+            x={x!}
+            y={y!}
+            {...RESOURCE_DIMENSIONS["Gold Rock"]}
+            className={classNames({ "pointer-events-none": isVisiting })}
+          >
+            <Resource
+              key={`gold-${id}`}
+              name="Gold Rock"
+              createdAt={0}
+              readyAt={0}
+              id={id}
+              index={index}
+              x={x!}
+              y={y!}
+            />
+          </MapPlacement>
+        );
+      }),
   );
 
   mapPlacements.push(
-    ...getKeys(crimstones).map((id, index) => {
-      const { x, y } = crimstones[id];
+    ...getObjectEntries(crimstones)
+      .filter(
+        ([, crimstone]) =>
+          crimstone.x !== undefined && crimstone.y !== undefined,
+      )
+      .map(([id, crimstone], index) => {
+        const { x, y } = crimstone;
 
-      return (
-        <MapPlacement
-          key={`crimstone-${id}`}
-          x={x}
-          y={y}
-          {...RESOURCE_DIMENSIONS["Crimstone Rock"]}
-          className={classNames({ "pointer-events-none": isVisiting })}
-        >
-          <Resource
+        return (
+          <MapPlacement
             key={`crimstone-${id}`}
-            name="Crimstone Rock"
-            createdAt={0}
-            readyAt={0}
-            id={id}
-            index={index}
-            x={x}
-            y={y}
-          />
-        </MapPlacement>
-      );
-    }),
+            x={x!}
+            y={y!}
+            {...RESOURCE_DIMENSIONS["Crimstone Rock"]}
+            className={classNames({ "pointer-events-none": isVisiting })}
+          >
+            <Resource
+              key={`crimstone-${id}`}
+              name="Crimstone Rock"
+              createdAt={0}
+              readyAt={0}
+              id={id}
+              index={index}
+              x={x!}
+              y={y!}
+            />
+          </MapPlacement>
+        );
+      }),
   );
 
   mapPlacements.push(
-    ...getKeys(sunstones).map((id, index) => {
-      const { x, y } = sunstones[id];
+    ...getObjectEntries(sunstones)
+      .filter(
+        ([, sunstone]) => sunstone.x !== undefined && sunstone.y !== undefined,
+      )
+      .map(([id, sunstone], index) => {
+        const { x, y } = sunstone;
 
-      return (
-        <MapPlacement
-          key={`ruby-${id}`}
-          x={x}
-          y={y}
-          {...RESOURCE_DIMENSIONS["Sunstone Rock"]}
-          className={classNames({ "pointer-events-none": isVisiting })}
-        >
-          <Resource
+        return (
+          <MapPlacement
             key={`ruby-${id}`}
-            name="Sunstone Rock"
-            createdAt={0}
-            readyAt={0}
-            id={id}
-            index={index}
-            x={x}
-            y={y}
-          />
-        </MapPlacement>
-      );
-    }),
+            x={x!}
+            y={y!}
+            {...RESOURCE_DIMENSIONS["Sunstone Rock"]}
+            className={classNames({ "pointer-events-none": isVisiting })}
+          >
+            <Resource
+              key={`ruby-${id}`}
+              name="Sunstone Rock"
+              createdAt={0}
+              readyAt={0}
+              id={id}
+              index={index}
+              x={x!}
+              y={y!}
+            />
+          </MapPlacement>
+        );
+      }),
   );
 
   mapPlacements.push(
-    ...getKeys(oilReserves).map((id, index) => {
-      const { x, y } = oilReserves[id];
+    ...getObjectEntries(oilReserves)
+      .filter(
+        ([, oilReserve]) =>
+          oilReserve.x !== undefined && oilReserve.y !== undefined,
+      )
+      .map(([id, oilReserve], index) => {
+        const { x, y } = oilReserve;
 
-      return (
-        <MapPlacement
-          key={`oil-reserve-${id}`}
-          x={x}
-          y={y}
-          {...RESOURCE_DIMENSIONS["Oil Reserve"]}
-          className={classNames({ "pointer-events-none": isVisiting })}
-        >
-          <Resource
-            name="Oil Reserve"
-            createdAt={0}
-            readyAt={0}
-            id={id}
-            index={index}
-            x={x}
-            y={y}
-          />
-        </MapPlacement>
-      );
-    }),
+        return (
+          <MapPlacement
+            key={`oil-reserve-${id}`}
+            x={x!}
+            y={y!}
+            {...RESOURCE_DIMENSIONS["Oil Reserve"]}
+            className={classNames({ "pointer-events-none": isVisiting })}
+          >
+            <Resource
+              name="Oil Reserve"
+              createdAt={0}
+              readyAt={0}
+              id={id}
+              index={index}
+              x={x!}
+              y={y!}
+            />
+          </MapPlacement>
+        );
+      }),
   );
 
   mapPlacements.push(
-    ...getKeys(lavaPits).map((id, index) => {
-      const { x, y } = lavaPits[id];
+    ...getObjectEntries(lavaPits)
+      .filter(
+        ([, lavaPit]) => lavaPit.x !== undefined && lavaPit.y !== undefined,
+      )
+      .map(([id, lavaPit], index) => {
+        const { x, y } = lavaPit;
 
-      return (
-        <MapPlacement
-          key={`oil-reserve-${id}`}
-          x={x}
-          y={y}
-          {...RESOURCE_DIMENSIONS["Lava Pit"]}
-          className={classNames({ "pointer-events-none": isVisiting })}
-        >
-          <Resource
-            name="Lava Pit"
-            createdAt={0}
-            readyAt={0}
-            id={id}
-            index={index}
-            x={x}
-            y={y}
-          />
-        </MapPlacement>
-      );
-    }),
+        return (
+          <MapPlacement
+            key={`oil-reserve-${id}`}
+            x={x!}
+            y={y!}
+            {...RESOURCE_DIMENSIONS["Lava Pit"]}
+            className={classNames({ "pointer-events-none": isVisiting })}
+          >
+            <Resource
+              name="Lava Pit"
+              createdAt={0}
+              readyAt={0}
+              id={id}
+              index={index}
+              x={x!}
+              y={y!}
+            />
+          </MapPlacement>
+        );
+      }),
   );
 
   mapPlacements.push(
-    ...getKeys(fruitPatches).map((id, index) => {
-      const { x, y } = fruitPatches[id];
+    ...getObjectEntries(fruitPatches)
+      .filter(
+        ([, fruitPatch]) =>
+          fruitPatch.x !== undefined && fruitPatch.y !== undefined,
+      )
+      .map(([id, fruitPatch], index) => {
+        const { x, y } = fruitPatch;
 
-      return (
-        <MapPlacement
-          key={`fruitPatches-${id}`}
-          x={x}
-          y={y}
-          {...RESOURCE_DIMENSIONS["Fruit Patch"]}
-          className={classNames({ "pointer-events-none": isVisiting })}
-        >
-          <Resource
-            name="Fruit Patch"
-            createdAt={0}
-            readyAt={0}
-            id={id}
-            index={index}
-            x={x}
-            y={y}
-          />
-        </MapPlacement>
-      );
-    }),
+        return (
+          <MapPlacement
+            key={`fruitPatches-${id}`}
+            x={x!}
+            y={y!}
+            {...RESOURCE_DIMENSIONS["Fruit Patch"]}
+            className={classNames({ "pointer-events-none": isVisiting })}
+          >
+            <Resource
+              name="Fruit Patch"
+              createdAt={0}
+              readyAt={0}
+              id={id}
+              index={index}
+              x={x!}
+              y={y!}
+            />
+          </MapPlacement>
+        );
+      }),
   );
 
   mapPlacements.push(
-    ...getKeys(crops).map((id, index) => {
-      const { x, y } = crops[id];
+    ...getObjectEntries(crops)
+      .filter(([, crop]) => crop.x !== undefined && crop.y !== undefined)
+      .map(([id, crop], index) => {
+        const { x, y } = crop;
 
-      return (
-        <MapPlacement
-          key={`crops-${id}`}
-          x={x}
-          y={y}
-          {...RESOURCE_DIMENSIONS["Crop Plot"]}
-          className={classNames({ "pointer-events-none": isVisiting })}
-        >
-          <Resource
-            name="Crop Plot"
-            createdAt={0}
-            readyAt={0}
-            id={id}
-            index={index}
-            x={x}
-            y={y}
-          />
-        </MapPlacement>
-      );
-    }),
+        return (
+          <MapPlacement
+            key={`crops-${id}`}
+            x={x!}
+            y={y!}
+            {...RESOURCE_DIMENSIONS["Crop Plot"]}
+            className={classNames({ "pointer-events-none": isVisiting })}
+          >
+            <Resource
+              name="Crop Plot"
+              createdAt={0}
+              readyAt={0}
+              id={id}
+              index={index}
+              x={x!}
+              y={y!}
+            />
+          </MapPlacement>
+        );
+      }),
   );
 
   mapPlacements.push(
-    ...getKeys(flowerBeds).map((id, index) => {
-      const { x, y } = flowerBeds[id];
+    ...getObjectEntries(flowerBeds)
+      .filter(
+        ([, flowerBed]) =>
+          flowerBed.x !== undefined && flowerBed.y !== undefined,
+      )
+      .map(([id, flowerBed], index) => {
+        const { x, y } = flowerBed;
 
-      return (
-        <MapPlacement
-          key={`flowers-${id}`}
-          x={x}
-          y={y}
-          {...RESOURCE_DIMENSIONS["Flower Bed"]}
-          className={classNames({ "pointer-events-none": isVisiting })}
-        >
-          <Resource
-            name="Flower Bed"
-            createdAt={0}
-            readyAt={0}
-            id={id}
-            index={index}
-            x={x}
-            y={y}
-          />
-        </MapPlacement>
-      );
-    }),
+        return (
+          <MapPlacement
+            key={`flowers-${id}`}
+            x={x!}
+            y={y!}
+            {...RESOURCE_DIMENSIONS["Flower Bed"]}
+            className={classNames({ "pointer-events-none": isVisiting })}
+          >
+            <Resource
+              name="Flower Bed"
+              createdAt={0}
+              readyAt={0}
+              id={id}
+              index={index}
+              x={x!}
+              y={y!}
+            />
+          </MapPlacement>
+        );
+      }),
   );
 
   {
@@ -671,29 +710,33 @@ const getIslandElements = ({
   }
 
   mapPlacements.push(
-    ...getKeys(beehives).map((id, index) => {
-      const { x, y } = beehives[id];
+    ...getObjectEntries(beehives)
+      .filter(
+        ([, beehive]) => beehive.x !== undefined && beehive.y !== undefined,
+      )
+      .map(([id, beehive], index) => {
+        const { x, y } = beehive;
 
-      return (
-        <MapPlacement
-          key={`beehive-${id}`}
-          x={x}
-          y={y}
-          {...RESOURCE_DIMENSIONS.Beehive}
-          className={classNames({ "pointer-events-none": isVisiting })}
-        >
-          <Resource
-            name="Beehive"
-            createdAt={0}
-            readyAt={0}
-            id={id}
-            index={index}
-            x={x}
-            y={y}
-          />
-        </MapPlacement>
-      );
-    }),
+        return (
+          <MapPlacement
+            key={`beehive-${id}`}
+            x={x!}
+            y={y!}
+            {...RESOURCE_DIMENSIONS.Beehive}
+            className={classNames({ "pointer-events-none": isVisiting })}
+          >
+            <Resource
+              name="Beehive"
+              createdAt={0}
+              readyAt={0}
+              id={id}
+              index={index}
+              x={x!}
+              y={y!}
+            />
+          </MapPlacement>
+        );
+      }),
   );
 
   if (!isVisiting) {

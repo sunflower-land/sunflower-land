@@ -383,7 +383,7 @@ export const getCropPlotTime = ({
   // If within Basic Scarecrow AOE: 20% reduction
   // This must be at the end of the function as it relies on the seconds variable
   if (game.collectibles["Basic Scarecrow"]?.[0] && isBasicCrop(crop)) {
-    if (!plot || !createdAt) {
+    if (!plot || plot.x === undefined || plot.y === undefined || !createdAt) {
       return { time: seconds, aoe: updatedAoe, boostsUsed };
     }
 

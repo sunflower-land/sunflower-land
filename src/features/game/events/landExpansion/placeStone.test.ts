@@ -106,4 +106,44 @@ describe("placeStone", () => {
       },
     });
   });
+
+  it("reinstates current progress when stone was mined", () => {
+    const dateNow = Date.now();
+    const state = placeStone({
+      action: {
+        coordinates: {
+          x: 2,
+          y: 2,
+        },
+        id: "1", // ID doesn't matter since it's an existing stone
+        name: "Stone Rock",
+        type: "stone.placed",
+      },
+      state: {
+        ...INITIAL_FARM,
+        buildings: {},
+        inventory: {
+          "Stone Rock": new Decimal(2),
+        },
+        stones: {
+          "123": {
+            createdAt: dateNow,
+            stone: { minedAt: dateNow - 180000 },
+            removedAt: dateNow - 120000,
+          },
+        },
+      },
+    });
+
+    expect(state.stones).toEqual({
+      "123": {
+        createdAt: expect.any(Number),
+        stone: {
+          minedAt: dateNow - 60000,
+        },
+        x: 2,
+        y: 2,
+      },
+    });
+  });
 });

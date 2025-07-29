@@ -481,6 +481,40 @@ import {
 import { buyBiome, BuyBiomeAction } from "./landExpansion/buyBiome";
 import { applyBiome, ApplyBiomeAction } from "./landExpansion/applyBiome";
 import { buyMonument, BuyMonumentAction } from "./landExpansion/buyMonument";
+import { removeTree, RemoveTreeAction } from "./landExpansion/removeTree";
+import { removeStone, RemoveStoneAction } from "./landExpansion/removeStone";
+import { removeIron, RemoveIronAction } from "./landExpansion/removeIron";
+import { removeGold, RemoveGoldAction } from "./landExpansion/removeGold";
+import {
+  removeCrimstone,
+  RemoveCrimstoneAction,
+} from "./landExpansion/removeCrimstone";
+import {
+  removeSunstone,
+  RemoveSunstoneAction,
+} from "./landExpansion/removeSunstone";
+import {
+  removeLavaPit,
+  RemoveLavaPitAction,
+} from "./landExpansion/removeLavaPit";
+import {
+  removeOilReserve,
+  RemoveOilReserveAction,
+} from "./landExpansion/removeOilReserve";
+import { removePlot, RemovePlotAction } from "./landExpansion/removePlot";
+import {
+  removeFruitPatch,
+  RemoveFruitPatchAction,
+} from "./landExpansion/removeFruitPatch";
+import {
+  removeFlowerBed,
+  RemoveFlowerBedAction,
+} from "./landExpansion/removeFlowerBed";
+import {
+  removeBeehive,
+  RemoveBeehiveAction,
+} from "./landExpansion/removeBeehive";
+
 export type PlayingEvent =
   | ObsidianExchangedAction
   | SpeedUpUpgradeAction
@@ -667,7 +701,19 @@ export type PlacementEvent =
   | MoveOilReserveAction
   | PlaceOilReserveAction
   | PlaceLavaPitAction
-  | MoveLavaPitAction;
+  | MoveLavaPitAction
+  | RemoveTreeAction
+  | RemoveStoneAction
+  | RemoveIronAction
+  | RemoveGoldAction
+  | RemoveCrimstoneAction
+  | RemoveSunstoneAction
+  | RemoveLavaPitAction
+  | RemoveOilReserveAction
+  | RemovePlotAction
+  | RemoveFruitPatchAction
+  | RemoveFlowerBedAction
+  | RemoveBeehiveAction;
 
 export type GameEvent = PlayingEvent | PlacementEvent;
 export type GameEventName<T> = Extract<T, { type: string }>["type"];
@@ -881,6 +927,18 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "oilReserve.placed": placeOilReserve,
   "lavaPit.placed": placeLavaPit,
   "lavaPit.moved": moveLavaPit,
+  "tree.removed": removeTree,
+  "stone.removed": removeStone,
+  "iron.removed": removeIron,
+  "gold.removed": removeGold,
+  "crimstone.removed": removeCrimstone,
+  "sunstone.removed": removeSunstone,
+  "lavaPit.removed": removeLavaPit,
+  "oilReserve.removed": removeOilReserve,
+  "plot.removed": removePlot,
+  "fruitPatch.removed": removeFruitPatch,
+  "flowerBed.removed": removeFlowerBed,
+  "beehive.removed": removeBeehive,
 };
 
 export const EVENTS = { ...PLAYING_EVENTS, ...PLACEMENT_EVENTS };

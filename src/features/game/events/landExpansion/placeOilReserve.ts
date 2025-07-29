@@ -31,6 +31,31 @@ export function placeOilReserve({
       throw new Error("No oil reserve available");
     }
 
+    const existingOilReserve = Object.entries(game.oilReserves).find(
+      ([_, oilReserve]) =>
+        oilReserve.x === undefined && oilReserve.y === undefined,
+    );
+
+    if (existingOilReserve) {
+      const [id, oilReserve] = existingOilReserve;
+      const updatedOilReserve = {
+        ...oilReserve,
+        x: action.coordinates.x,
+        y: action.coordinates.y,
+      };
+
+      if (updatedOilReserve.oil && updatedOilReserve.removedAt) {
+        const existingProgress =
+          updatedOilReserve.removedAt - updatedOilReserve.oil.drilledAt;
+        updatedOilReserve.oil.drilledAt = createdAt - existingProgress;
+        delete updatedOilReserve.removedAt;
+      }
+
+      game.oilReserves[id] = updatedOilReserve;
+
+      return game;
+    }
+
     const newOilReserve: OilReserve = {
       createdAt,
       x: action.coordinates.x,

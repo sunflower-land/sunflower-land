@@ -164,7 +164,7 @@ export function getGoldDropAmount({
 
   // If within Emerald Turtle AOE: +0.5
   if (game.collectibles["Emerald Turtle"]?.[0]) {
-    if (!rock)
+    if (!rock || rock.x === undefined || rock.y === undefined)
       return {
         amount: new Decimal(amount).toDecimalPlaces(4),
         aoe: updatedAoe,

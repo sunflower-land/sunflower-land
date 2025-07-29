@@ -57,7 +57,6 @@ import {
   MarineMarvelName,
   OldFishName,
 } from "./fishing";
-import { Coordinates } from "../expansion/components/MapPlacement";
 import { MinigameName } from "./minigames";
 import {
   FlowerCrossBreedName,
@@ -104,6 +103,7 @@ import { Blessing } from "../lib/blessings";
 import { LandBiomeName } from "features/island/biomes/biomes";
 import { MonumentName } from "./monuments";
 import { AOEItemName } from "../expansion/placeable/lib/collisionDetection";
+import { Coordinates } from "../expansion/components/MapPlacement";
 
 export type Reward = {
   coins?: number;
@@ -618,10 +618,16 @@ export type PlantedFruit = {
   amount?: number;
 };
 
+type OptionalCoordinates = {
+  x?: number;
+  y?: number;
+};
+
 export type Tree = {
   wood: Wood;
   createdAt?: number;
-} & Coordinates;
+  removedAt?: number;
+} & OptionalCoordinates;
 
 export type Stone = {
   minedAt: number;
@@ -637,7 +643,8 @@ export type FiniteResource = {
 export type Rock = {
   stone: Stone;
   createdAt?: number;
-} & Coordinates;
+  removedAt?: number;
+} & OptionalCoordinates;
 
 export type Oil = {
   drilledAt: number;
@@ -647,7 +654,8 @@ export type OilReserve = {
   oil: Oil;
   drilled: number;
   createdAt: number;
-} & Coordinates;
+  removedAt?: number;
+} & OptionalCoordinates;
 
 export type CropPlot = {
   crop?: PlantedCrop;
@@ -658,7 +666,8 @@ export type CropPlot = {
     count: number;
     swarmActivatedAt: number;
   };
-} & Coordinates;
+  removedAt?: number;
+} & OptionalCoordinates;
 
 export type GreenhousePlant = {
   name: GreenHouseCropName | GreenHouseFruitName;
@@ -675,7 +684,8 @@ export type FruitPatch = {
   fruit?: PlantedFruit;
   createdAt: number;
   fertiliser?: FruitFertiliser;
-} & Coordinates;
+  removedAt?: number;
+} & OptionalCoordinates;
 
 export type BuildingProduct = {
   name: CookableName;
@@ -1271,7 +1281,8 @@ export type PlantedFlower = {
 export type FlowerBed = {
   flower?: PlantedFlower;
   createdAt: number;
-} & Coordinates;
+  removedAt?: number;
+} & OptionalCoordinates;
 
 export type FlowerBeds = Record<string, FlowerBed>;
 
@@ -1289,7 +1300,8 @@ export type Beehive = {
     produced: number;
   };
   flowers: AttachedFlower[];
-} & Coordinates;
+  removedAt?: number;
+} & OptionalCoordinates;
 
 export type Beehives = Record<string, Beehive>;
 
@@ -1447,7 +1459,8 @@ export type LavaPit = {
   createdAt: number;
   startedAt?: number;
   collectedAt?: number;
-} & Coordinates;
+  removedAt?: number;
+} & OptionalCoordinates;
 
 export type VIP = {
   bundles: { name: VipBundle; boughtAt: number }[];

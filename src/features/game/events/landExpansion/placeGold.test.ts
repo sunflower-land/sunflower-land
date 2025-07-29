@@ -106,4 +106,44 @@ describe("placeGold", () => {
       },
     });
   });
+  it("reinstates current progress when stone was mined", () => {
+    const dateNow = Date.now();
+    const state = placeGold({
+      action: {
+        coordinates: {
+          x: 2,
+          y: 2,
+        },
+        id: "1", // ID doesn't matter since it's an existing stone
+        name: "Gold Rock",
+        type: "gold.placed",
+      },
+      state: {
+        ...INITIAL_FARM,
+        buildings: {},
+        inventory: {
+          "Gold Rock": new Decimal(2),
+        },
+        gold: {
+          "123": {
+            createdAt: dateNow,
+            stone: { minedAt: dateNow - 180000 },
+            removedAt: dateNow - 120000,
+          },
+        },
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.gold).toEqual({
+      "123": {
+        createdAt: expect.any(Number),
+        stone: {
+          minedAt: dateNow - 60000,
+        },
+        x: 2,
+        y: 2,
+      },
+    });
+  });
 });

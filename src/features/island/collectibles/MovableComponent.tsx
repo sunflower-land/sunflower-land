@@ -87,6 +87,24 @@ function getMoveAction(
   throw new Error("No matching move event");
 }
 
+export const RESOURCES_REMOVE_ACTIONS: Record<
+  Exclude<ResourceName, "Boulder">,
+  GameEventName<PlacementEvent>
+> = {
+  Tree: "tree.removed",
+  "Crop Plot": "plot.removed",
+  "Fruit Patch": "fruitPatch.removed",
+  "Gold Rock": "gold.removed",
+  "Iron Rock": "iron.removed",
+  "Stone Rock": "stone.removed",
+  "Crimstone Rock": "crimstone.removed",
+  Beehive: "beehive.removed",
+  "Flower Bed": "flowerBed.removed",
+  "Sunstone Rock": "sunstone.removed",
+  "Oil Reserve": "oilReserve.removed",
+  "Lava Pit": "lavaPit.removed",
+};
+
 export function getRemoveAction(
   name: InventoryItemName | "Bud",
 ): GameEventName<PlacementEvent> | null {
@@ -104,7 +122,6 @@ export function getRemoveAction(
   }
 
   if (
-    name in RESOURCES ||
     name === "Manor" ||
     name === "House" ||
     name === "Town Center" ||
@@ -129,6 +146,10 @@ export function getRemoveAction(
 
   if (name === "Bud") {
     return "bud.removed";
+  }
+
+  if (name in RESOURCES_REMOVE_ACTIONS) {
+    return RESOURCES_REMOVE_ACTIONS[name as Exclude<ResourceName, "Boulder">];
   }
 
   return null;
