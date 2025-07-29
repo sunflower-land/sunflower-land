@@ -677,6 +677,14 @@ export const INITIAL_FARM: GameState = {
     },
   },
   aoe: {},
+  socialFarming: {
+    points: 0,
+    villageProjects: {},
+    cheeredProjects: {
+      date: "",
+      projects: {},
+    },
+  },
 };
 
 export const TEST_FARM: GameState = {
@@ -983,6 +991,14 @@ export const TEST_FARM: GameState = {
     },
   },
   aoe: {},
+  socialFarming: {
+    points: 0,
+    villageProjects: {},
+    cheeredProjects: {
+      date: new Date().toISOString().split("T")[0],
+      projects: {},
+    },
+  },
 };
 
 export const INITIAL_EQUIPPED: Equipped = {
@@ -1138,4 +1154,12 @@ export const EMPTY: GameState = {
     },
   },
   aoe: {},
+  socialFarming: {
+    points: 0,
+    villageProjects: {},
+    cheeredProjects: {
+      date: new Date().toISOString().split("T")[0],
+      projects: {},
+    },
+  },
 };

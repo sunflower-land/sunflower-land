@@ -1,8 +1,8 @@
 /**
  * A wrapper that provides game state and dispatches events
  */
-import { useState, useCallback } from "react";
-import { useActor, useInterpret, useSelector } from "@xstate/react";
+import { useState, useCallback, useEffect } from "react";
+import { useActor, useInterpret } from "@xstate/react";
 import React, { useContext } from "react";
 
 import * as Auth from "features/auth/lib/Provider";
@@ -54,6 +54,31 @@ export const GameProvider: React.FC<React.PropsWithChildren> = ({
 
   // TODO - Typescript error
   const gameService = useInterpret(gameMachine) as MachineInterpreter;
+
+  useEffect(() => {
+    const handleRouteChange = () => {
+      if (
+        !window.location.href.includes("visit") &&
+        gameService.state.matches("visiting")
+      ) {
+        gameService.send("END_VISIT");
+      }
+    };
+
+    window.addEventListener("popstate", handleRouteChange);
+    window.addEventListener("pushstate", handleRouteChange);
+    window.addEventListener("replacestate", handleRouteChange);
+
+    // Also check on mount
+    handleRouteChange();
+
+    return () => {
+      window.removeEventListener("popstate", handleRouteChange);
+      window.removeEventListener("pushstate", handleRouteChange);
+      window.removeEventListener("replacestate", handleRouteChange);
+    };
+  }, [gameService?.state?.value]);
+
   const [shortcuts, setShortcuts] =
     useState<InventoryItemName[]>(getShortcuts());
   const [showAnimations, setShowAnimations] = useState<boolean>(
@@ -64,8 +89,6 @@ export const GameProvider: React.FC<React.PropsWithChildren> = ({
   );
   const [showTimers, setShowTimers] = useState<boolean>(getShowTimersSetting());
   const [fromRoute, setFromRoute] = useState<string>("");
-
-  const visiting = useSelector(gameService, _visiting);
 
   const shortcutItem = useCallback((item: InventoryItemName) => {
     const originalShortcuts = getShortcuts();

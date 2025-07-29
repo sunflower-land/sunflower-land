@@ -1035,6 +1035,7 @@ export const ITEM_TRADE_TYPES: {
     "Yellow Tile": "instant",
     "Easter Token 2025": "onchain",
     "Easter Ticket 2025": "onchain",
+    Cheer: "instant",
     "Carrot House": "instant",
     "Orange Bunny Lantern": "instant",
     "White Bunny Lantern": "instant",

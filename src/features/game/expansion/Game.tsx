@@ -66,7 +66,10 @@ import { Transaction } from "features/island/hud/Transaction";
 import { Gems } from "./components/Gems";
 import { HenHouseInside } from "features/henHouse/HenHouseInside";
 import { BarnInside } from "features/barn/BarnInside";
-import { STATE_MACHINE_EFFECTS } from "../actions/effect";
+import {
+  STATE_MACHINE_EFFECTS,
+  STATE_MACHINE_VISIT_EFFECTS,
+} from "../actions/effect";
 import { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { GameState } from "../types/game";
 import { Ocean } from "features/world/ui/Ocean";
@@ -97,7 +100,10 @@ function camelToDotCase(str: string): string {
 const land = SUNNYSIDE.land.island;
 
 const getModalStatesForEffects = () =>
-  Object.values(STATE_MACHINE_EFFECTS).reduce(
+  Object.values({
+    ...STATE_MACHINE_EFFECTS,
+    ...STATE_MACHINE_VISIT_EFFECTS,
+  }).reduce(
     (states, stateName) => ({
       ...states,
       [stateName]: true,
@@ -238,17 +244,20 @@ const isPlaying = (state: MachineState) => state.matches("playing");
 const somethingArrived = (state: MachineState) =>
   state.matches("somethingArrived");
 const isEffectPending = (state: MachineState) =>
-  Object.values(STATE_MACHINE_EFFECTS).some((stateName) =>
-    state.matches(stateName),
-  );
+  Object.values({
+    ...STATE_MACHINE_EFFECTS,
+    ...STATE_MACHINE_VISIT_EFFECTS,
+  }).some((stateName) => state.matches(stateName));
 const isEffectSuccess = (state: MachineState) =>
-  Object.values(STATE_MACHINE_EFFECTS).some((stateName) =>
-    state.matches(`${stateName}Success`),
-  );
+  Object.values({
+    ...STATE_MACHINE_EFFECTS,
+    ...STATE_MACHINE_VISIT_EFFECTS,
+  }).some((stateName) => state.matches(`${stateName}Success`));
 const isEffectFailed = (state: MachineState) =>
-  Object.values(STATE_MACHINE_EFFECTS).some((stateName) =>
-    state.matches(`${stateName}Failed`),
-  );
+  Object.values({
+    ...STATE_MACHINE_EFFECTS,
+    ...STATE_MACHINE_VISIT_EFFECTS,
+  }).some((stateName) => state.matches(`${stateName}Failed`));
 const hasMarketplaceSales = (state: MachineState) =>
   state.matches("marketplaceSale");
 const isCompetition = (state: MachineState) => state.matches("competition");
@@ -259,11 +268,10 @@ const isRoninWelcomePack = (state: MachineState) =>
 const isRoninAirdrop = (state: MachineState) => state.matches("roninAirdrop");
 const isJinAirdrop = (state: MachineState) => state.matches("jinAirdrop");
 
-const GameContent: React.FC = () => {
+const GameContent: React.FC<{ isVisiting: boolean }> = ({ isVisiting }) => {
   const { gameService } = useContext(Context);
   useSound("desert", true);
 
-  const visiting = useSelector(gameService, isVisiting);
   const landToVisitNotFound = useSelector(gameService, isLandToVisitNotFound);
   const { t } = useAppTranslation();
   const [gameState] = useActor(gameService);
@@ -317,7 +325,7 @@ const GameContent: React.FC = () => {
     );
   }
 
-  if (visiting) {
+  if (isVisiting) {
     return (
       <>
         <div className="absolute z-10 w-full h-full">
@@ -361,10 +369,10 @@ const GameContent: React.FC = () => {
   );
 };
 
-export const Game: React.FC = () => {
+export const Game: React.FC<{ isVisiting: boolean }> = ({ isVisiting }) => {
   return (
     <GameWrapper>
-      <GameContent />
+      <GameContent isVisiting={isVisiting} />
     </GameWrapper>
   );
 };

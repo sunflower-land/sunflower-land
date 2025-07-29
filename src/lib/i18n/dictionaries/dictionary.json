@@ -1893,7 +1893,7 @@
   "compost.complete": "Compost complete",
   "aoe.locked": "AOE Locked",
   "sunflowerLandCodex": "Sunflower Land Codex",
-  "visiting.farmId": "Visiting #{{farmId}}",
+  "visiting.farmId": "Visiting {{farmId}}",
   "stock.inStock": "{{stock}} in stock",
   "stock.left": "{{stock}} left",
   "pirate.chest": "Pirate Chest",
@@ -6336,5 +6336,13 @@
   "description.cosmoDoll": "Cosmic, but grounded.",
   "description.bigfinDoll": "Big, but friendly.",
   "description.solarDoll": "A once-thought impossible dream to craft.",
-  "crafting.undiscovered": "Craft more items to discover new ingredients."
+  "crafting.undiscovered": "Craft more items to discover new ingredients.",
+  "description.cheer": "Give a cheer to your fellow farmers!",
+  "cheering.village.project": "Cheering Village Project",
+  "cheering.village.project.success": "Cheering Success!",
+  "cheering.village.project.failed": "Cheering Failed!",
+  "cheer.village.project": "Cheer Village Project",
+  "cheer.village.project.description": "You can cheer the {{project}} to help {{goron}} complete it!",
+  "cheer.village.project.confirm": "Are you sure you want to cheer the {{project}}?",
+  "cheer": "Cheer"
 }

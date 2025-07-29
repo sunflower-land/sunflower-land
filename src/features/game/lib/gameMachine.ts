@@ -90,6 +90,9 @@ import {
   postEffect,
   StateMachineStateName,
   StateNameWithStatus,
+  STATE_MACHINE_VISIT_EFFECTS,
+  StateMachineVisitStateName,
+  StateMachineVisitEffectName,
 } from "../actions/effect";
 import { TRANSACTION_SIGNATURES, TransactionName } from "../types/transactions";
 import { getKeys } from "../types/decorations";
@@ -168,6 +171,7 @@ export interface Context {
   data: Partial<Record<StateMachineStateName, any>>;
   rawToken?: string;
   visitorId?: number;
+  visitorState?: GameState;
 }
 
 export type Moderation = {
@@ -302,6 +306,7 @@ export type BlockchainEvent =
   | { type: "CLOSE" }
   | { type: "RANDOMISE" }
   | DepositFlowerFromLinkedWalletEvent
+  | { type: StateMachineVisitEffectName }
   | Effect; // Test only
 
 // // For each game event, convert it to an XState event + handler
@@ -396,13 +401,34 @@ const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
     ...states,
     [`${stateName}Success`]: {
       on: {
-        CONTINUE: { target: "notifying" },
+        CONTINUE: [
+          {
+            target: "visiting",
+            cond: (context: Context, event: DoneInvokeEvent<any>) =>
+              !!context.visitorId,
+          },
+          { target: "notifying" },
+        ],
       },
     },
     [`${stateName}Failed`]: {
       on: {
-        CONTINUE: { target: "notifying" },
-        REFRESH: { target: "notifying" },
+        CONTINUE: [
+          {
+            target: "visiting",
+            cond: (context: Context, event: DoneInvokeEvent<any>) =>
+              !!context.visitorId,
+          },
+          { target: "notifying" },
+        ],
+        REFRESH: [
+          {
+            target: "visiting",
+            cond: (context: Context, event: DoneInvokeEvent<any>) =>
+              !!context.visitorId,
+          },
+          { target: "notifying" },
+        ],
       },
     },
     [stateName]: {
@@ -474,6 +500,93 @@ const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
   {},
 );
 
+const VISIT_EFFECT_STATES = Object.values(STATE_MACHINE_VISIT_EFFECTS).reduce(
+  (states, stateName) => ({
+    ...states,
+    [`${stateName}Success`]: {
+      on: {
+        CONTINUE: [{ target: "visiting" }],
+      },
+    },
+    [`${stateName}Failed`]: {
+      on: {
+        CONTINUE: [{ target: "visiting" }],
+        REFRESH: [{ target: "visiting" }],
+      },
+    },
+    [stateName]: {
+      entry: "setTransactionId",
+      invoke: {
+        src: async (context: Context, event: PostEffectEvent) => {
+          const { effect, authToken } = event;
+
+          if (context.actions.length > 0) {
+            await autosave({
+              farmId: Number(context.visitorId),
+              sessionId: context.sessionId as string,
+              actions: context.actions,
+              token: authToken ?? context.rawToken,
+              fingerprint: context.fingerprint as string,
+              deviceTrackerId: context.deviceTrackerId as string,
+              transactionId: context.transactionId as string,
+            });
+          }
+
+          const { gameState, data } = await postEffect({
+            farmId: Number(context.visitorId),
+            effect,
+            token: authToken ?? context.rawToken,
+            transactionId: context.transactionId as string,
+          });
+
+          return {
+            state: makeGame(data.visitedFarmState),
+            data,
+            visitorState: gameState,
+          };
+        },
+        onDone: [
+          {
+            target: `${stateName}Success`,
+            cond: (_: Context, event: DoneInvokeEvent<any>) =>
+              !event.data.state.transaction,
+            actions: [
+              assign((context: Context, event: DoneInvokeEvent<any>) => {
+                return {
+                  actions: [],
+                  state: event.data.state,
+                  linkedWallet:
+                    event.data.data?.linkedWallet ?? context.linkedWallet,
+                  nftId: event.data.data?.nftId ?? context.nftId,
+                  farmAddress:
+                    event.data.data?.farmAddress ?? context.farmAddress,
+                  data: { ...context.data, [stateName]: event.data.data },
+                  visitorState: event.data.visitorState,
+                };
+              }),
+            ],
+          },
+          {
+            target: "visiting",
+            actions: [
+              assign((context: Context, event: DoneInvokeEvent<any>) => ({
+                actions: [],
+                state: event.data.state,
+                visitorState: event.data.visitorState,
+              })),
+            ],
+          },
+        ],
+        onError: {
+          target: `${stateName}Failed`,
+          actions: "assignErrorMessage",
+        },
+      },
+    },
+  }),
+  {},
+);
+
 export type BlockchainState = {
   value:
     | "loading"
@@ -527,6 +640,7 @@ export type BlockchainState = {
     | "roninAirdrop"
     | "jinAirdrop"
     | StateMachineStateName
+    | StateMachineVisitStateName
     | StateNameWithStatus; // TEST ONLY
   context: Context;
 };
@@ -644,6 +758,7 @@ export function startGame(authContext: AuthContext) {
       },
       states: {
         ...EFFECT_STATES,
+        ...VISIT_EFFECT_STATES,
         loading: {
           id: "loading",
           always: [
@@ -763,7 +878,20 @@ export function startGame(authContext: AuthContext) {
 
         loadLandToVisit: {
           invoke: {
-            src: async (_, event) => {
+            src: async (context, event) => {
+              // Autosave just in case
+              if (context.actions.length > 0) {
+                await autosave({
+                  farmId: Number(context.farmId),
+                  sessionId: context.sessionId as string,
+                  actions: context.actions,
+                  token: authContext.user.rawToken as string,
+                  fingerprint: context.fingerprint as string,
+                  deviceTrackerId: context.deviceTrackerId as string,
+                  transactionId: context.transactionId as string,
+                });
+              }
+
               let farmId: number;
 
               // We can enter this state two ways
@@ -794,6 +922,8 @@ export function startGame(authContext: AuthContext) {
                 state: (_, event) => event.data.state,
                 farmId: (_, event) => event.data.farmId,
                 visitorId: (_, event) => event.data.visitorId,
+                visitorState: (context, event) => context.state,
+                actions: (context, event) => [],
               }),
             },
             onError: {
@@ -813,14 +943,21 @@ export function startGame(authContext: AuthContext) {
         },
         visiting: {
           on: {
-            SAVE: {
-              target: "autosaving",
+            "villageProject.cheered": {
+              target: `${STATE_MACHINE_VISIT_EFFECTS["villageProject.cheered"]}`,
             },
             VISIT: {
               target: "loadLandToVisit",
             },
             END_VISIT: {
-              target: "loading",
+              target: "playing",
+              actions: assign((context) => ({
+                visitorId: undefined,
+                visitorState: undefined,
+                state: context.visitorState,
+                farmId: context.visitorId,
+                actions: [],
+              })),
             },
           },
         },
@@ -1454,7 +1591,7 @@ export function startGame(authContext: AuthContext) {
           },
           invoke: {
             src: async (context, event) => {
-              const farmId = context.visitorId ?? context.farmId;
+              const farmId = context.farmId;
               const data = await saveGame(
                 context,
                 event,
@@ -1503,15 +1640,6 @@ export function startGame(authContext: AuthContext) {
                     game.calendar[activeEvent].acknowledgedAt;
 
                   return !isAcknowledged;
-                },
-                actions: assign((context: Context, event) =>
-                  handleSuccessfulSave(context, event),
-                ),
-              },
-              {
-                target: "visiting",
-                cond: (context) => {
-                  return !!context.visitorId;
                 },
                 actions: assign((context: Context, event) =>
                   handleSuccessfulSave(context, event),

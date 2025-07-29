@@ -167,7 +167,12 @@ export const Navigation: React.FC = () => {
                                 />
                                 <Route
                                   path="/visit/*"
-                                  element={<LandExpansion key="visit" />}
+                                  element={
+                                    <LandExpansion
+                                      key="visit"
+                                      isVisiting={true}
+                                    />
+                                  }
                                 />
                                 {CONFIG.NETWORK === "amoy" && (
                                   <Route
@@ -200,7 +205,12 @@ export const Navigation: React.FC = () => {
                                 />
                                 <Route
                                   path="*"
-                                  element={<LandExpansion key="land" />}
+                                  element={
+                                    <LandExpansion
+                                      key="land"
+                                      isVisiting={false}
+                                    />
+                                  }
                                 />
                               </Routes>
                             </ModalProvider>

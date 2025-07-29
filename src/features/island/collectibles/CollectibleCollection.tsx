@@ -360,6 +360,7 @@ import { DrCow } from "./components/DrCow";
 import { NurseSheep } from "./components/NurseSheep";
 import { PinkDolphin } from "./components/PinkDolphin";
 import { Lunalist } from "./components/Lunalist";
+import { Monument } from "./components/Monument";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
@@ -2636,7 +2637,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
     />
   ),
   "Farmer's Monument": (props: CollectibleProps) => (
-    <ImageStyle
+    <Monument
       {...props}
       divStyle={{
         width: `${PIXEL_SCALE * 48}px`,
@@ -2648,10 +2649,11 @@ export const COLLECTIBLE_COMPONENTS: Record<
       }}
       image={ITEM_DETAILS["Farmer's Monument"].image}
       alt="Farmer's Monument"
+      project="Farmer's Monument"
     />
   ),
   "Miner's Monument": (props: CollectibleProps) => (
-    <ImageStyle
+    <Monument
       {...props}
       divStyle={{
         width: `${PIXEL_SCALE * 48}px`,
@@ -2663,10 +2665,11 @@ export const COLLECTIBLE_COMPONENTS: Record<
       }}
       image={ITEM_DETAILS["Miner's Monument"].image}
       alt="Miner's Monument"
+      project="Miner's Monument"
     />
   ),
   "Woodcutter's Monument": (props: CollectibleProps) => (
-    <ImageStyle
+    <Monument
       {...props}
       divStyle={{
         width: `${PIXEL_SCALE * 48}px`,
@@ -2678,10 +2681,11 @@ export const COLLECTIBLE_COMPONENTS: Record<
       }}
       image={ITEM_DETAILS["Woodcutter's Monument"].image}
       alt="Woodcutter's Monument"
+      project="Woodcutter's Monument"
     />
   ),
   "Teamwork Monument": (props: CollectibleProps) => (
-    <ImageStyle
+    <Monument
       {...props}
       divStyle={{
         width: `${PIXEL_SCALE * 48}px`,
@@ -2693,6 +2697,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
       }}
       image={ITEM_DETAILS["Teamwork Monument"].image}
       alt="Teamwork Monument"
+      project="Teamwork Monument"
     />
   ),
   "Basic Cooking Pot": (props: CollectibleProps) => (

@@ -43,6 +43,8 @@ type EffectName =
   | "farm.unfollowed"
   | "message.sent";
 
+type VisitEffectName = "villageProject.cheered";
+
 // IMPORTANT: If your effect does not go via a state in the state machine then exclude it here!
 // Create a type that excludes the events that are not individual state machine states
 export type StateMachineEffectName = Exclude<
@@ -58,6 +60,8 @@ export type StateMachineEffectName = Exclude<
   | "farm.unfollowed"
   | "message.sent"
 >;
+
+export type StateMachineVisitEffectName = VisitEffectName;
 
 export type StateMachineStateName =
   | "marketplacePurchasing"
@@ -87,9 +91,13 @@ export type StateMachineStateName =
   | "linkingWallet"
   | "assigningNFT";
 
+export type StateMachineVisitStateName = "cheeringVillageProject";
+
 export type StateNameWithStatus =
   | `${StateMachineStateName}Success`
-  | `${StateMachineStateName}Failed`;
+  | `${StateMachineStateName}Failed`
+  | `${StateMachineVisitStateName}Success`
+  | `${StateMachineVisitStateName}Failed`;
 
 // StateName is the feature.progressive_tense_verb. This will be used as the gameMachine state.
 export const STATE_MACHINE_EFFECTS: Record<
@@ -123,6 +131,14 @@ export const STATE_MACHINE_EFFECTS: Record<
   "wallet.linked": "linkingWallet",
   "nft.assigned": "assigningNFT",
 };
+
+export const STATE_MACHINE_VISIT_EFFECTS: Record<
+  StateMachineVisitEffectName,
+  StateMachineVisitStateName
+> = {
+  "villageProject.cheered": "cheeringVillageProject",
+};
+
 export interface Effect {
   type: EffectName;
   [key: string]: any;
