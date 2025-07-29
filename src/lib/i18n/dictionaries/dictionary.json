@@ -6339,6 +6339,8 @@
   "crafting.undiscovered": "Craft more items to discover new ingredients.",
   "description.cheer": "Give a cheer to your fellow farmers!",
   "cheering.village.project": "Cheering Village Project",
+  "cheering.village.project.success": "Cheering Success!",
+  "cheering.village.project.failed": "Cheering Failed!",
   "cheer.village.project": "Cheer Village Project",
   "cheer.village.project.description": "You can cheer the {{project}} to help {{goron}} complete it!",
   "cheer.village.project.confirm": "Are you sure you want to cheer the {{project}}?",
