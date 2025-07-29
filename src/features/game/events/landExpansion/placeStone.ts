@@ -26,11 +26,37 @@ export function placeStone({
 }: Options): GameState {
   return produce(state, (game) => {
     const available = (game.inventory["Stone Rock"] || new Decimal(0)).minus(
-      Object.keys(game.stones).length,
+      Object.values(game.stones).filter(
+        (stone) => stone.x !== undefined && stone.y !== undefined,
+      ).length,
     );
 
     if (available.lt(1)) {
       throw new Error("No stone available");
+    }
+
+    const existingStone = Object.entries(game.stones).find(
+      ([_, stone]) => stone.x === undefined && stone.y === undefined,
+    );
+
+    if (existingStone) {
+      const [id, stone] = existingStone;
+      const updatedStone = {
+        ...stone,
+        x: action.coordinates.x,
+        y: action.coordinates.y,
+      };
+
+      if (updatedStone.stone && updatedStone.removedAt) {
+        const existingProgress =
+          updatedStone.removedAt - updatedStone.stone.minedAt;
+        updatedStone.stone.minedAt = createdAt - existingProgress;
+        delete updatedStone.removedAt;
+      }
+
+      game.stones[id] = updatedStone;
+
+      return game;
     }
 
     const newStone: Rock = {
