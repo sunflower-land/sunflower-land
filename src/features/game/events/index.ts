@@ -506,6 +506,14 @@ import {
   removeFruitPatch,
   RemoveFruitPatchAction,
 } from "./landExpansion/removeFruitPatch";
+import {
+  removeFlowerBed,
+  RemoveFlowerBedAction,
+} from "./landExpansion/removeFlowerBed";
+import {
+  removeBeehive,
+  RemoveBeehiveAction,
+} from "./landExpansion/removeBeehive";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
@@ -703,7 +711,9 @@ export type PlacementEvent =
   | RemoveLavaPitAction
   | RemoveOilReserveAction
   | RemovePlotAction
-  | RemoveFruitPatchAction;
+  | RemoveFruitPatchAction
+  | RemoveFlowerBedAction
+  | RemoveBeehiveAction;
 
 export type GameEvent = PlayingEvent | PlacementEvent;
 export type GameEventName<T> = Extract<T, { type: string }>["type"];
@@ -927,6 +937,8 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "oilReserve.removed": removeOilReserve,
   "plot.removed": removePlot,
   "fruitPatch.removed": removeFruitPatch,
+  "flowerBed.removed": removeFlowerBed,
+  "beehive.removed": removeBeehive,
 };
 
 export const EVENTS = { ...PLAYING_EVENTS, ...PLACEMENT_EVENTS };

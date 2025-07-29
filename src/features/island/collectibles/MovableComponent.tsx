@@ -87,8 +87,9 @@ function getMoveAction(
   throw new Error("No matching move event");
 }
 
-export const RESOURCES_REMOVE_ACTIONS: Partial<
-  Record<ResourceName, GameEventName<PlacementEvent>>
+export const RESOURCES_REMOVE_ACTIONS: Record<
+  Exclude<ResourceName, "Boulder">,
+  GameEventName<PlacementEvent>
 > = {
   Tree: "tree.removed",
   "Crop Plot": "plot.removed",
@@ -97,9 +98,8 @@ export const RESOURCES_REMOVE_ACTIONS: Partial<
   "Iron Rock": "iron.removed",
   "Stone Rock": "stone.removed",
   "Crimstone Rock": "crimstone.removed",
-  Boulder: "tree.removed",
-  // Beehive: "beehive.removed",
-  // "Flower Bed": "flowerBed.removed",
+  Beehive: "beehive.removed",
+  "Flower Bed": "flowerBed.removed",
   "Sunstone Rock": "sunstone.removed",
   "Oil Reserve": "oilReserve.removed",
   "Lava Pit": "lavaPit.removed",
@@ -149,7 +149,7 @@ export function getRemoveAction(
   }
 
   if (name in RESOURCES_REMOVE_ACTIONS) {
-    return RESOURCES_REMOVE_ACTIONS[name as ResourceName] ?? null;
+    return RESOURCES_REMOVE_ACTIONS[name as Exclude<ResourceName, "Boulder">];
   }
 
   return null;
