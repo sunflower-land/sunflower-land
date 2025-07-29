@@ -81,8 +81,8 @@ export const getChestItems = (state: GameState): Inventory => {
         ...acc,
         [itemName]: new Decimal(
           state.inventory[itemName]?.minus(
-            Object.values(stateAccessor(state)).filter(
-              (resource: any) =>
+            Object.values(stateAccessor(state) ?? {}).filter(
+              (resource) =>
                 resource.x !== undefined && resource.y !== undefined,
             ).length,
           ) ?? 0,

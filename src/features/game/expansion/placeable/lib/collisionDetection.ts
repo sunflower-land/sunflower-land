@@ -38,7 +38,7 @@ export type Position = {
   height: number;
 } & Coordinates;
 type BoundingBox = Position;
-type ResourceItem =
+export type ResourceItem =
   | Tree
   | Rock
   | FiniteResource
