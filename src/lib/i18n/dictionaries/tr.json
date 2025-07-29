@@ -6142,5 +6142,21 @@
   "social.feed": "{{type}} Besleme",
   "description.goldCookingTrophy": "Yemek yarışmasının galibi!",
   "description.silverCookingTrophy": "Yemek yarışmasının ikinci oyuncusu!",
-  "description.bronzeCookingTrophy": "Yemek yarışmasının üçüncülük galibi!"
+  "description.bronzeCookingTrophy": "Yemek yarışmasının üçüncülük galibi!",
+  "description.doll": "Sade ama çekicilik dolu.",
+  "description.buzzDoll": "Tatlılık ve yapışkan sarılmalarla vızıldayan.",
+  "description.lunarDoll": "Ay ışıklı yaramazlık küçük bir oyuncak bebekte paketlenmiş.",
+  "description.juicyDoll": "Meyveli tazelik ile damlar.",
+  "description.crudeDoll": "Kaba, sert ve yağla kaygan.",
+  "description.cluckDoll": "Tüylü küstahlarla sevimli bir şekilde çırpınıyor.",
+  "description.woolyDoll": "Yumuşak, kabarık ve sarılmaya hazır.",
+  "description.mooDoll": "Çiftlik bahçesi gururuyla mırıldanıyor.",
+  "description.bloomDoll": "Çiçek açan yapraklar ve çekicilik.",
+  "description.shadowDoll": "Karanlık, gizemli ve sessizce izliyor.",
+  "description.emberDoll": "Ateşli sıcaklıkla parlıyor.",
+  "description.gildedDoll": "Bumpkin altından daha parlak parlar.",
+  "description.lumberDoll": "En iyi kütüklerden doğranmış.",
+  "description.harvestDoll": "Küçük bir pakette bol hisler.",
+  "description.sizzleDoll": "Tavayı ısıtın ve hazır olun.",
+  "description.anglerDoll": "Sulu maceralara bağımlı."
 }

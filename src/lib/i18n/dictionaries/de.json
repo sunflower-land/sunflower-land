@@ -6142,5 +6142,21 @@
   "social.feed": "{{type}} Vorschub",
   "description.goldCookingTrophy": "Der Gewinner des Kochwettbewerbs!",
   "description.silverCookingTrophy": "Der Zweitplatzierte des Kochwettbewerbs!",
-  "description.bronzeCookingTrophy": "Der dritte Preisträger des Kochwettbewerbs!"
+  "description.bronzeCookingTrophy": "Der dritte Preisträger des Kochwettbewerbs!",
+  "description.doll": "Schlicht aber voller Charme.",
+  "description.buzzDoll": "Brummt vor Süße und klebrigen Umarmungen.",
+  "description.lunarDoll": "Unfug im Mondlicht, verpackt in einer winzigen Puppe.",
+  "description.juicyDoll": "Tröpfelt vor fruchtiger Frische.",
+  "description.crudeDoll": "Rau, zäh und glatt mit Öl.",
+  "description.cluckDoll": "Gackert süß mit gefiedertem Hintern.",
+  "description.woolyDoll": "Weich, flauschig und bereit zum Kuscheln.",
+  "description.mooDoll": "Muhen mit Bauernhof-Stolz.",
+  "description.bloomDoll": "Blütenblätter und Charme in voller Blüte.",
+  "description.shadowDoll": "Dunkel, geheimnisvoll und leise beobachtend.",
+  "description.emberDoll": "Leuchtet mit feuriger Wärme.",
+  "description.gildedDoll": "Glänzt heller als Bumpkin-Gold.",
+  "description.lumberDoll": "Aus feinsten Baumstämmen gehackt.",
+  "description.harvestDoll": "Reichlich Vibes in einem winzigen Paket.",
+  "description.sizzleDoll": "Heiß aus der Pfanne und fertig.",
+  "description.anglerDoll": "Süchtig nach Wasserabenteuern."
 }

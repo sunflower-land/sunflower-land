@@ -6142,5 +6142,21 @@
   "social.feed": "{{type}} Корм",
   "description.goldCookingTrophy": "Победитель кулинарного конкурса!",
   "description.silverCookingTrophy": "Второе место в кулинарном конкурсе!",
-  "description.bronzeCookingTrophy": "Победитель кулинарного конкурса, занявший третье место!"
+  "description.bronzeCookingTrophy": "Победитель кулинарного конкурса, занявший третье место!",
+  "description.doll": "Просто, но полно очарования.",
+  "description.buzzDoll": "Гудит от сладости и липких объятий.",
+  "description.lunarDoll": "Озорство, освещенное луной, упаковано в одну маленькую куклу.",
+  "description.juicyDoll": "Капли с фруктовой свежестью.",
+  "description.crudeDoll": "Грубый, прочный и скользкий на масле.",
+  "description.cluckDoll": "Крепкая милашка с пернатой попкой.",
+  "description.woolyDoll": "Мягкий, пушистый и готовый к облеганию.",
+  "description.mooDoll": "Мычание с гордостью на ферме.",
+  "description.bloomDoll": "Лепестки и шарм в полном расцвете.",
+  "description.shadowDoll": "Мрачный, таинственный и тихо наблюдающий.",
+  "description.emberDoll": "Светится огненным теплом.",
+  "description.gildedDoll": "Сияет ярче золота Bumpkin.",
+  "description.lumberDoll": "Вырублено из самых лучших бревен.",
+  "description.harvestDoll": "Обильное настроение в крошечной упаковке.",
+  "description.sizzleDoll": "Разогрейте сковороду и готово.",
+  "description.anglerDoll": "Увлекается водными приключениями."
 }

@@ -6142,5 +6142,21 @@
   "social.feed": "{{type}} Fil",
   "description.goldCookingTrophy": "Le gagnant du concours de cuisine !",
   "description.silverCookingTrophy": "Finaliste du concours de cuisine !",
-  "description.bronzeCookingTrophy": "Le gagnant de la troisième place du concours de cuisine !"
+  "description.bronzeCookingTrophy": "Le gagnant de la troisième place du concours de cuisine !",
+  "description.doll": "Simple mais plein de charme.",
+  "description.buzzDoll": "Bourdonnante de douceur et de câlins collants.",
+  "description.lunarDoll": "Un espiègle au clair de lune emballé dans une petite poupée.",
+  "description.juicyDoll": "Dégouline d'une fraîcheur fruitée.",
+  "description.crudeDoll": "Rugueux, résistant et recouvert d'huile.",
+  "description.cluckDoll": "Elle est mignonne avec une audace à plumes.",
+  "description.woolyDoll": "Doux, moelleux et prêt à être câliné.",
+  "description.mooDoll": "Mooning avec le prix de la ferme.",
+  "description.bloomDoll": "Pétales et charme en pleine floraison.",
+  "description.shadowDoll": "Sombre, mystérieux et regardant tranquillement.",
+  "description.emberDoll": "Brille d'une chaleur ardente.",
+  "description.gildedDoll": "Brille plus que l'or Bumpkin.",
+  "description.lumberDoll": "Émincé à partir des meilleures bûches.",
+  "description.harvestDoll": "Des vibrations généreuses dans un petit emballage.",
+  "description.sizzleDoll": "Sortez de la poêle et c'est prêt.",
+  "description.anglerDoll": "Accro aux aventures aquatiques."
 }

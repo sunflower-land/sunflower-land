@@ -6142,5 +6142,21 @@
   "social.feed": "{{type}} Umpan",
   "description.goldCookingTrophy": "Pemenang kompetisi memasak!",
   "description.silverCookingTrophy": "Juara kedua dari kompetisi memasak!",
-  "description.bronzeCookingTrophy": "Pemenang tempat ketiga dari kompetisi memasak!"
+  "description.bronzeCookingTrophy": "Pemenang tempat ketiga dari kompetisi memasak!",
+  "description.doll": "Polos tapi penuh pesona.",
+  "description.buzzDoll": "Berdengung dengan rasa manis dan pelukan lengket.",
+  "description.lunarDoll": "Kerusakan yang diterangi cahaya bulan dikemas menjadi satu boneka kecil.",
+  "description.juicyDoll": "Menetes dengan kesegaran buah.",
+  "description.crudeDoll": "Kasar, tangguh, dan licin dengan minyak.",
+  "description.cluckDoll": "Berkicau lucu dengan lancang berbulu.",
+  "description.woolyDoll": "Lembut, halus, dan siap meringkuk.",
+  "description.mooDoll": "Bersenang-senang dengan kebanggaan pekarangan.",
+  "description.bloomDoll": "Kelopak dan pesona mekar penuh.",
+  "description.shadowDoll": "Gelap, misterius, dan diam-diam menonton.",
+  "description.emberDoll": "Bersinar dengan kehangatan yang berapi-api.",
+  "description.gildedDoll": "Bersinar lebih terang dari emas Bumpkin.",
+  "description.lumberDoll": "Dicincang dari kayu gelondongan terbaik.",
+  "description.harvestDoll": "Getaran melimpah dalam paket kecil.",
+  "description.sizzleDoll": "Panaskan wajan dan siap.",
+  "description.anglerDoll": "Terpikat pada petualangan berair."
 }

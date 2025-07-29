@@ -6142,5 +6142,21 @@
   "social.feed": "{{type}} 饲料",
   "description.goldCookingTrophy": "烹饪比赛的赢家！",
   "description.silverCookingTrophy": "烹饪比赛的亚军！",
-  "description.bronzeCookingTrophy": "烹饪比赛的第三名获胜者！"
+  "description.bronzeCookingTrophy": "烹饪比赛的第三名获胜者！",
+  "description.doll": "朴素但充满魅力。",
+  "description.buzzDoll": "充满甜蜜和粘稠的拥抱。",
+  "description.lunarDoll": "月光下的恶作剧装在一个小娃娃里。",
+  "description.juicyDoll": "散发清新的水果味。",
+  "description.crudeDoll": "粗糙、坚韧、油性好。",
+  "description.cluckDoll": "带着羽毛般的屁股哈哈哈哈哈哈哈哈哈哈哈哈哈",
+  "description.woolyDoll": "柔软、蓬松，随时可以依靠。",
+  "description.mooDoll": "带着农家院的自豪感。",
+  "description.bloomDoll": "花瓣和魅力盛开。",
+  "description.shadowDoll": "黑暗、神秘，静静地注视着。",
+  "description.emberDoll": "散发着火热的温暖光芒。",
+  "description.gildedDoll": "比 Bumpkin 金更亮。",
+  "description.lumberDoll": "从最好的原木中切下来。",
+  "description.harvestDoll": "小包装里有丰富的氛围。",
+  "description.sizzleDoll": "从锅里加热然后准备好了。",
+  "description.anglerDoll": "迷上了水上冒险。"
 }

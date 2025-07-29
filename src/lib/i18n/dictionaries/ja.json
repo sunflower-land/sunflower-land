@@ -6142,5 +6142,21 @@
   "social.feed": "{{type}} フィード",
   "description.goldCookingTrophy": "料理コンテストの優勝者！",
   "description.silverCookingTrophy": "料理コンテストの準優勝！",
-  "description.bronzeCookingTrophy": "料理コンクールで3位入賞！"
+  "description.bronzeCookingTrophy": "料理コンクールで3位入賞！",
+  "description.doll": "地味だけど魅力がいっぱい。",
+  "description.buzzDoll": "甘さとねばねばした抱擁でにぎわっています。",
+  "description.lunarDoll": "月明かりに照らされたいたずらが1つの小さな人形に詰め込まれています。",
+  "description.juicyDoll": "フルーティーでフレッシュなドリップ。",
+  "description.crudeDoll": "油で荒く、丈夫で、なめらかです。",
+  "description.cluckDoll": "羽毛のようなお尻でカチカチカチと音を立ててキュート。",
+  "description.woolyDoll": "柔らかく、ふわふわで、すぐに寄り添います。",
+  "description.mooDoll": "農場の誇りを持って草刈りをしています。",
+  "description.bloomDoll": "満開の花びらとチャーム。",
+  "description.shadowDoll": "暗く、神秘的で、静かに見守っている。",
+  "description.emberDoll": "燃えるような暖かさで光ります。",
+  "description.gildedDoll": "バンプキンゴールドよりも明るく輝きます。",
+  "description.lumberDoll": "最高級の丸太から切り刻みました。",
+  "description.harvestDoll": "小さなパッケージに豊かな雰囲気が詰まっています。",
+  "description.sizzleDoll": "鍋から熱くして準備完了。",
+  "description.anglerDoll": "水辺の冒険に夢中。"
 }

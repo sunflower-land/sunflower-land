@@ -6142,5 +6142,21 @@
   "social.feed": "{{type}} Feed",
   "description.goldCookingTrophy": "¡El ganador del concurso de cocina!",
   "description.silverCookingTrophy": "¡El finalista del concurso de cocina!",
-  "description.bronzeCookingTrophy": "¡El ganador del tercer lugar del concurso de cocina!"
+  "description.bronzeCookingTrophy": "¡El ganador del tercer lugar del concurso de cocina!",
+  "description.doll": "Sencillo pero lleno de encanto.",
+  "description.buzzDoll": "Llena de dulzura y abrazos pegajosos.",
+  "description.lunarDoll": "Travesuras a la luz de la luna reunidas en una muñeca pequeña.",
+  "description.juicyDoll": "Gotea de frescura afrutada.",
+  "description.crudeDoll": "Áspero, duro y resbaladizo por el aceite.",
+  "description.cluckDoll": "Careando lindo con un descaro plumoso.",
+  "description.woolyDoll": "Suave, esponjosa y lista para abrazarse.",
+  "description.mooDoll": "Amarre con orgullo de granja.",
+  "description.bloomDoll": "Pétalos y amuleto en plena floración.",
+  "description.shadowDoll": "Oscuro, misterioso y vigilando en silencio.",
+  "description.emberDoll": "Brilla con un calor ardiente.",
+  "description.gildedDoll": "Brilla más que el oro Bumpkin.",
+  "description.lumberDoll": "Cortado de los mejores troncos.",
+  "description.harvestDoll": "Vibraciones generosas en un paquete pequeño.",
+  "description.sizzleDoll": "Recién salido de la sartén y listo.",
+  "description.anglerDoll": "Enganchado a las aventuras acuáticas."
 }

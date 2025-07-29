@@ -6142,5 +6142,21 @@
   "social.feed": "{{type}} Alimentazione",
   "description.goldCookingTrophy": "Il vincitore del concorso di cucina!",
   "description.silverCookingTrophy": "Il secondo classificato del concorso di cucina!",
-  "description.bronzeCookingTrophy": "Il terzo classificato del concorso di cucina!"
+  "description.bronzeCookingTrophy": "Il terzo classificato del concorso di cucina!",
+  "description.doll": "Semplice ma pieno di fascino.",
+  "description.buzzDoll": "Brillante di dolcezza e abbracci appiccicosi.",
+  "description.lunarDoll": "Malizia al chiaro di luna racchiusa in una minuscola bambola.",
+  "description.juicyDoll": "Gocciola con freschezza fruttata.",
+  "description.crudeDoll": "Ruvido, duro e liscio con olio.",
+  "description.cluckDoll": "Bel chiocciolone con impudenza piumata.",
+  "description.woolyDoll": "Morbido, soffice e pronto per essere coccolato.",
+  "description.mooDoll": "Muggendo con Farmyard Pride.",
+  "description.bloomDoll": "Petali e ciondolo in piena fioritura.",
+  "description.shadowDoll": "Oscuro, misterioso e che osserva silenziosamente.",
+  "description.emberDoll": "Si illumina di calore ardente.",
+  "description.gildedDoll": "Brilla più dell'oro Bumpkin.",
+  "description.lumberDoll": "Tagliato dai tronchi più pregiati.",
+  "description.harvestDoll": "Vibrazioni abbondanti in un pacchetto minuscolo.",
+  "description.sizzleDoll": "Scaldate dalla padella e pronte.",
+  "description.anglerDoll": "Appassionato di avventure acquatiche."
 }

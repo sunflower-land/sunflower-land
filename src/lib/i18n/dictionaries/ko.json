@@ -6142,5 +6142,21 @@
   "social.feed": "{{type}} 피드",
   "description.goldCookingTrophy": "요리 대회의 우승자!",
   "description.silverCookingTrophy": "요리 경연대회 준우승!",
-  "description.bronzeCookingTrophy": "요리 경연대회 3위 입상자!"
+  "description.bronzeCookingTrophy": "요리 경연대회 3위 입상자!",
+  "description.doll": "평범하지만 매력이 넘칩니다.",
+  "description.buzzDoll": "달콤함과 끈적거리는 포옹으로 윙윙 거립니다.",
+  "description.lunarDoll": "달빛 장난이 작은 인형 하나에 담겨 있습니다.",
+  "description.juicyDoll": "과일향의 신선함이 물씬 풍깁니다.",
+  "description.crudeDoll": "거칠고 튼튼하며 유분이 묻어 매끈합니다.",
+  "description.cluckDoll": "깃털 같은 엉덩이로 찰랑거리는 게 귀엽다.",
+  "description.woolyDoll": "부드럽고 푹신하며 바로 껴안을 수 있습니다.",
+  "description.mooDoll": "농장의 자부심을 안고 계류하기.",
+  "description.bloomDoll": "꽃잎과 매력이 만발합니다.",
+  "description.shadowDoll": "어둡고 신비로우며 조용히 지켜보고 있습니다.",
+  "description.emberDoll": "불타는 듯한 온기로 빛납니다.",
+  "description.gildedDoll": "범프킨 골드보다 더 밝게 빛납니다.",
+  "description.lumberDoll": "최고급 통나무를 잘게 썬다.",
+  "description.harvestDoll": "작은 패키지에 담긴 풍부한 느낌.",
+  "description.sizzleDoll": "냄비를 뜨겁게 데우고 준비하세요.",
+  "description.anglerDoll": "워터 어드벤처에 푹 빠졌습니다."
 }
