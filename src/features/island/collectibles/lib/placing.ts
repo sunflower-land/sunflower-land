@@ -25,7 +25,8 @@ export function removePlaceable({
   const game = cloneDeep(state);
 
   if (name in RESOURCE_STATE_ACCESSORS) {
-    const attributeMapping = RESOURCE_STATE_ACCESSORS[name as ResourceName];
+    const attributeMapping =
+      RESOURCE_STATE_ACCESSORS[name as Exclude<ResourceName, "Boulder">];
     delete attributeMapping(game)[id];
     return game;
   }

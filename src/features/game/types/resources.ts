@@ -127,8 +127,8 @@ export const RESOURCES: Record<ResourceName, string> = {
 };
 
 export const RESOURCE_STATE_ACCESSORS: Record<
-  ResourceName,
-  (game: GameState) => Record<string, ResourceItem> | undefined
+  Exclude<ResourceName, "Boulder">,
+  (game: GameState) => Record<string, ResourceItem>
 > = {
   "Crop Plot": (game) => game.crops,
   Tree: (game) => game.trees,
@@ -136,7 +136,6 @@ export const RESOURCE_STATE_ACCESSORS: Record<
   "Iron Rock": (game) => game.iron,
   "Gold Rock": (game) => game.gold,
   "Crimstone Rock": (game) => game.crimstones,
-  Boulder: () => undefined,
   Beehive: (game) => game.beehives,
   "Fruit Patch": (game) => game.fruitPatches,
   "Flower Bed": (game) => game.flowers.flowerBeds,

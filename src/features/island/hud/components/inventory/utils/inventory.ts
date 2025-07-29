@@ -76,7 +76,8 @@ export const getChestBuds = (
 export const getChestItems = (state: GameState): Inventory => {
   const availableItems = getKeys(state.inventory).reduce((acc, itemName) => {
     if (itemName in RESOURCE_STATE_ACCESSORS) {
-      const stateAccessor = RESOURCE_STATE_ACCESSORS[itemName as ResourceName];
+      const stateAccessor =
+        RESOURCE_STATE_ACCESSORS[itemName as Exclude<ResourceName, "Boulder">];
       return {
         ...acc,
         [itemName]: new Decimal(
