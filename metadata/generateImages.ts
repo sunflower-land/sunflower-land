@@ -6,10 +6,30 @@ import { KNOWN_IDS } from "features/game/types";
 import { ITEM_DETAILS } from "features/game/types/images";
 
 const IMAGES: InventoryItemName[] = [
-  "Farmer's Monument",
-  "Miner's Monument",
-  "Woodcutter's Monument",
-  "Teamwork Monument",
+  "Doll",
+  "Buzz Doll",
+  "Lunar Doll",
+  "Juicy Doll",
+  "Crude Doll",
+  "Cluck Doll",
+  "Wooly Doll",
+  "Moo Doll",
+  "Bloom Doll",
+  "Shadow Doll",
+  "Ember Doll",
+  "Gilded Doll",
+  "Lumber Doll",
+  "Harvest Doll",
+  "Sizzle Doll",
+  "Angler Doll",
+  "Dune Doll",
+  "Mouse Doll",
+  "Grubby Doll",
+  "Nefari Doll",
+  "Frosty Doll",
+  "Cosmo Doll",
+  "Bigfin Doll",
+  "Solar Doll",
 ];
 
 const WIDTH = 1920;

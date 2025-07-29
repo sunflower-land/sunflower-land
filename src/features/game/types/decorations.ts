@@ -503,6 +503,62 @@ export const DECORATION_TEMPLATES = {
     },
     isWithdrawable: () => false,
   },
+  "Dune Doll": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Mouse Doll": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Grubby Doll": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Nefari Doll": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Frosty Doll": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Cosmo Doll": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Bigfin Doll": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
+  "Solar Doll": {
+    dimensions: {
+      width: 1,
+      height: 1,
+    },
+    isWithdrawable: () => false,
+  },
 } satisfies Record<string, Template>;
 
 export type TemplateDecorationName = keyof typeof DECORATION_TEMPLATES;
