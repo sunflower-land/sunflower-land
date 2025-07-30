@@ -471,7 +471,10 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
               quantity={idle && !hasGoldenCow ? requiredFoodQty : undefined}
             />
           )}
-          <Modal show={sleeping && showWakesIn}>
+          <Modal
+            show={sleeping && showWakesIn}
+            onHide={() => setShowWakesIn(false)}
+          >
             <CloseButtonPanel
               container={OuterPanel}
               onClose={() => setShowWakesIn(false)}

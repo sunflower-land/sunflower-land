@@ -498,7 +498,10 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
               request={requestBubbleRequest()}
             />
           )}
-          <Modal show={sleeping && showWakesIn}>
+          <Modal
+            show={sleeping && showWakesIn}
+            onHide={() => setShowWakesIn(false)}
+          >
             <CloseButtonPanel
               container={OuterPanel}
               onClose={() => setShowWakesIn(false)}
