@@ -348,6 +348,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
                             fulfilled,
                             PET_FED_REWARDS_KEY[idx as DifficultyIndex],
                           );
+                          const isDoll = request.food in DOLLS;
 
                           const boost = getKingdomPetBoost(
                             gameService.getSnapshot().context.state,
@@ -385,7 +386,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
                                   className="absolute h-6"
                                   iconWidth={10}
                                   style={{
-                                    width: isMobile ? "113%" : "117%",
+                                    width: "calc(100% + 10px)",
                                     bottom: "-24px",
                                     left: "-4px",
                                   }}
