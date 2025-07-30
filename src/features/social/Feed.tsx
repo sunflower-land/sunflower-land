@@ -28,7 +28,7 @@ import * as AuthProvider from "features/auth/lib/Provider";
 import { FeedSkeleton } from "./components/skeletons/FeedSkeleton";
 import { Interaction } from "./types/types";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
-import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
+import silhouette from "assets/npcs/silhouette.webp";
 import { playerModalManager } from "./lib/playerModalManager";
 import { useSocial } from "./hooks/useSocial";
 import { useInView } from "react-intersection-observer";
@@ -146,7 +146,7 @@ export const Feed: React.FC<Props> = ({
     playerModalManager.open({
       farmId: interaction.sender.id,
       username: interaction.sender.username,
-      clothing: interpretTokenUri(interaction.sender.tokenUri).equipped,
+      clothing: interaction.sender.clothing,
     });
   };
 
@@ -317,7 +317,6 @@ const FeedContent: React.FC<FeedContentProps> = ({
             interaction?.sender.username === username
               ? "You"
               : interaction.sender.username;
-          const parts = interpretTokenUri(interaction.sender.tokenUri).equipped;
           const onClick =
             interaction.type === "announcement"
               ? undefined
@@ -339,7 +338,18 @@ const FeedContent: React.FC<FeedContentProps> = ({
               >
                 <div className="text-xxs flex">
                   <div className="-ml-1 mr-1">
-                    <NPCIcon parts={parts} width={PIXEL_SCALE * 14} />
+                    {interaction.sender.clothing ? (
+                      <NPCIcon
+                        parts={interaction.sender.clothing}
+                        width={PIXEL_SCALE * 14}
+                      />
+                    ) : (
+                      <img
+                        id="silhouette"
+                        src={silhouette}
+                        className="w-3/5 absolute top-1.5 left-1.5"
+                      />
+                    )}
                   </div>
                   <div className="flex flex-col gap-1">
                     <span className="flex items-center gap-1">

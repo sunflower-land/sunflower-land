@@ -13,8 +13,6 @@ import deliveryBook from "assets/icons/chapter_icon_3.webp";
 
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { getLevel } from "features/game/types/skills";
-import Decimal from "decimal.js-light";
 import { capitalize } from "lib/utils/capitalize";
 import { isMobile } from "mobile-device-detect";
 import { Button } from "components/ui/Button";
@@ -163,7 +161,7 @@ export const PlayerDetails: React.FC<Props> = ({
             </div>
             <div className="flex flex-col gap-1 text-xs mt-1 ml-2 flex-1">
               <div className="flex items-center">
-                {`Lvl ${getLevel(new Decimal(player?.experience ?? 0))}${player?.faction ? ` - ${capitalize(player?.faction)}` : ""}`}
+                {`Lvl ${player?.level}${player?.faction ? ` - ${capitalize(player?.faction)}` : ""}`}
                 {player?.faction && (
                   <img
                     src={ITEM_DETAILS[FACTION_TO_EMBLEM[player.faction]].image}
