@@ -284,4 +284,52 @@ describe("loveAnimal", () => {
 
     expect(state.barn.animals["1"].item).toBe("Petting Hand");
   });
+
+  it("give +10 XP to Cow if the Baby Cow is placed", () => {
+    const state = loveAnimal({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          "Petting Hand": new Decimal(1),
+          Brush: new Decimal(1),
+          "Baby Cow": new Decimal(1),
+        },
+        collectibles: {
+          "Baby Cow": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "1",
+              readyAt: 0,
+            },
+          ],
+        },
+        barn: {
+          level: 1,
+          animals: {
+            "1": {
+              id: "1",
+              type: "Cow",
+              asleepAt: now - 9 * 60 * 60 * 1000,
+              lovedAt: 0,
+              awakeAt: now - 9 * 60 * 60 * 1000 + ANIMAL_SLEEP_DURATION,
+              createdAt: 0,
+              experience: 200,
+              state: "idle",
+              item: "Brush",
+            },
+          },
+        },
+      },
+      action: {
+        type: "animal.loved",
+        animal: "Cow",
+        id: "1",
+        item: "Brush",
+      },
+      createdAt: now,
+    });
+
+    expect(state.barn.animals["1"].experience).toBe(250);
+  });
 });
