@@ -86,7 +86,7 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
 
   // TODO: Remove this once the feature flag is removed
   const hasLandscapingAccess = useSelector(gameService, (state) =>
-    hasFeatureAccess(state.context.state, "LANDSCAPING_SHOP"),
+    hasFeatureAccess(state.context.state, "LANDSCAPING"),
   );
 
   const selectedItem = useSelector(child, selectMovingItem);
@@ -166,28 +166,32 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
                 />
               </RoundButton>
 
-              {location === "farm" && hasLandscapingAccess && (
-                <>
-                  <RoundButton
-                    className="mb-3.5"
-                    onClick={() => setShowDecorations(true)}
-                  >
-                    <img
-                      src={shopIcon}
-                      className="absolute group-active:translate-y-[2px]"
-                      style={{
-                        top: `${PIXEL_SCALE * 2}px`,
-                        left: `${PIXEL_SCALE * 3.7}px`,
-                        width: `${PIXEL_SCALE * 14}px`,
-                      }}
+              {location === "farm" &&
+                hasFeatureAccess(
+                  gameService.getSnapshot().context.state,
+                  "LANDSCAPING_SHOP",
+                ) && (
+                  <>
+                    <RoundButton
+                      className="mb-3.5"
+                      onClick={() => setShowDecorations(true)}
+                    >
+                      <img
+                        src={shopIcon}
+                        className="absolute group-active:translate-y-[2px]"
+                        style={{
+                          top: `${PIXEL_SCALE * 2}px`,
+                          left: `${PIXEL_SCALE * 3.7}px`,
+                          width: `${PIXEL_SCALE * 14}px`,
+                        }}
+                      />
+                    </RoundButton>
+                    <CraftDecorationsModal
+                      show={showDecorations}
+                      onHide={() => setShowDecorations(false)}
                     />
-                  </RoundButton>
-                  <CraftDecorationsModal
-                    show={showDecorations}
-                    onHide={() => setShowDecorations(false)}
-                  />
-                </>
-              )}
+                  </>
+                )}
 
               <Chest
                 onPlaceChestItem={(selected) => {
