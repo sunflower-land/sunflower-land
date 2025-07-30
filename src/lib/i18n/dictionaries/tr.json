@@ -6175,5 +6175,8 @@
   "cheer.village.project": "Cheer Köyü Projesi",
   "cheer.village.project.description": "{{goron}} 'i tamamlamasına yardımcı olması için {{project}} 'yi neşelendirebilirsiniz!",
   "cheer.village.project.confirm": "{{project}} 'yi neşelendirmek istediğinden emin misin?",
-  "cheer": "tezahürat"
+  "cheer": "tezahürat",
+  "crafting.recipe": "{{recipe}} Tarif",
+  "crafting.noBox": "Üretim Kutusu gerekli",
+  "recipe": "Reçete"
 }

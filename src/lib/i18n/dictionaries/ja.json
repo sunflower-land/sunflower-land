@@ -6175,5 +6175,8 @@
   "cheer.village.project": "チア・ビレッジ・プロジェクト",
   "cheer.village.project.description": "{{project}} を応援して {{goron}} が完成するのを手伝ってください！",
   "cheer.village.project.confirm": "本当に {{project}} を応援しますか？",
-  "cheer": "応援"
+  "cheer": "応援",
+  "crafting.recipe": "{{recipe}} レシピ",
+  "crafting.noBox": "クラフトボックスが必要です",
+  "recipe": "レシピ"
 }

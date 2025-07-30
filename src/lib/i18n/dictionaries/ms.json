@@ -6175,5 +6175,8 @@
   "cheer.village.project": "Projek Cheer Village",
   "cheer.village.project.description": "Anda boleh menghiburkan {{project}} untuk membantu {{goron}} menyelesaikannya!",
   "cheer.village.project.confirm": "Adakah anda pasti ingin menghiburkan {{project}}?",
-  "cheer": "Bersorak"
+  "cheer": "Bersorak",
+  "crafting.recipe": "{{recipe}} Resipi",
+  "crafting.noBox": "Kotak kerajinan diperlukan",
+  "recipe": "Resipi"
 }

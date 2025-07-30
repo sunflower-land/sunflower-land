@@ -6175,5 +6175,8 @@
   "cheer.village.project": "Проект Cheer Village",
   "cheer.village.project.description": "Вы можете поддержать {{project}}, чтобы они помогли {{goron}} пройти его!",
   "cheer.village.project.confirm": "Вы действительно хотите подбодрить {{project}}?",
-  "cheer": "Поболеть"
+  "cheer": "Поболеть",
+  "crafting.recipe": "{{recipe}} Рецепт",
+  "crafting.noBox": "Требуется коробка для рукоделия",
+  "recipe": "Рецепт"
 }

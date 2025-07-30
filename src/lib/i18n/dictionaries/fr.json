@@ -6175,5 +6175,8 @@
   "cheer.village.project": "Projet Cheer Village",
   "cheer.village.project.description": "Vous pouvez encourager {{project}} pour aider {{goron}} à le terminer !",
   "cheer.village.project.confirm": "Êtes-vous sûr de vouloir encourager le {{project}} ?",
-  "cheer": "Acclamez"
+  "cheer": "Acclamez",
+  "crafting.recipe": "{{recipe}} Recette",
+  "crafting.noBox": "Boîte de bricolage requise",
+  "recipe": "Recette"
 }

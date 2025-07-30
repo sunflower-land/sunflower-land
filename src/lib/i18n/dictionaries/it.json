@@ -6175,5 +6175,8 @@
   "cheer.village.project": "Progetto Cheer Village",
   "cheer.village.project.description": "Puoi fare il tifo per {{project}} per aiutare {{goron}} a completarlo!",
   "cheer.village.project.confirm": "Sei sicuro di voler fare il tifo per {{project}}?",
-  "cheer": "Rallegrare"
+  "cheer": "Rallegrare",
+  "crafting.recipe": "{{recipe}} Ricetta",
+  "crafting.noBox": "Scatola per artigianato richiesta",
+  "recipe": "Ricetta"
 }

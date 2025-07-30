@@ -6175,5 +6175,8 @@
   "cheer.village.project": "치어 빌리지 프로젝트",
   "cheer.village.project.description": "{{project}} 를 응원해 {{goron}} 가 완료할 수 있도록 도와주세요!",
   "cheer.village.project.confirm": "정말 {{project}} 를 응원하고 싶으세요?",
-  "cheer": "응원"
+  "cheer": "응원",
+  "crafting.recipe": "{{recipe}} 레시피",
+  "crafting.noBox": "제작 상자 필요",
+  "recipe": "레시피"
 }

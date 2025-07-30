@@ -6175,5 +6175,8 @@
   "cheer.village.project": "Cheer Village Project",
   "cheer.village.project.description": "You can cheer the {{project}} to help {{goron}} complete it!",
   "cheer.village.project.confirm": "Are you sure you want to cheer the {{project}}?",
-  "cheer": "Cheer"
+  "cheer": "Cheer",
+  "crafting.recipe": "{{recipe}} Recipe",
+  "crafting.noBox": "Crafting Box required",
+  "recipe": "Recipe"
 }

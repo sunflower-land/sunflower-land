@@ -6175,5 +6175,8 @@
   "cheer.village.project": "Cheer Village-Projekt",
   "cheer.village.project.description": "Du kannst die {{project}} anfeuern, damit sie {{goron}} dabei helfen, es zu vervollständigen!",
   "cheer.village.project.confirm": "Bist du sicher, dass du {{project}} anfeuern willst?",
-  "cheer": "Jubeln"
+  "cheer": "Jubeln",
+  "crafting.recipe": "{{recipe}} Rezept",
+  "crafting.noBox": "Bastelkiste erforderlich",
+  "recipe": "Rezept"
 }
