@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { Button } from "components/ui/Button";
 import { TextInput } from "components/ui/TextInput";
 import bud from "assets/icons/bud.png";
@@ -121,6 +121,13 @@ export const MarketplaceSearch: React.FC<{
     setAndNotifyFilters(FILTER_OPTIONS);
     setShowFilters(false);
   }, [setAndNotifyFilters]);
+
+  useEffect(() => {
+    if (navigated) {
+      resetFiltersAndClose();
+    }
+    setNavigated(false);
+  }, [navigated, setNavigated, resetFiltersAndClose]);
 
   return (
     <div className="flex relative flex-col sm:flex-row lg:flex-col z-10 w-full">

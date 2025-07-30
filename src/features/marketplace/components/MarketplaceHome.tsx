@@ -191,6 +191,7 @@ export const MarketplaceNavigation: React.FC = () => {
               search={search}
               onNavigated={() => {
                 setSearch("");
+                setNavigated(true);
               }}
               activeFilters={activeFilters}
             />
