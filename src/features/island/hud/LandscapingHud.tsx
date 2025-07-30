@@ -86,7 +86,7 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
 
   // TODO: Remove this once the feature flag is removed
   const hasLandscapingAccess = useSelector(gameService, (state) =>
-    hasFeatureAccess(state.context.state, "LANDSCAPING"),
+    hasFeatureAccess(state.context.state, "LANDSCAPING_SHOP"),
   );
 
   const selectedItem = useSelector(child, selectMovingItem);

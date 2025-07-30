@@ -118,7 +118,11 @@ const FEATURE_FLAGS = {
 
   // Better Together Chapter
   SOCIAL_FARMING: defaultFeatureFlag,
+  MONUMENTS: testnetFeatureFlag,
   LANDSCAPING: testnetFeatureFlag,
+  LANDSCAPING_SHOP: betaTimeBasedFeatureFlag(
+    SEASONS["Better Together"].startDate,
+  ),
   WARDROBE: betaTimeBasedFeatureFlag(SEASONS["Better Together"].startDate),
   CRAFTING: betaTimeBasedFeatureFlag(SEASONS["Better Together"].startDate),
   LEATHER_TOOLS: testnetFeatureFlag,

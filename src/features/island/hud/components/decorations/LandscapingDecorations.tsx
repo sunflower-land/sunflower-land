@@ -26,6 +26,7 @@ import {
 import { SUNNYSIDE } from "assets/sunnyside";
 import { GameState } from "features/game/types/game";
 import { secondsToString } from "lib/utils/time";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   onClose: () => void;
@@ -263,24 +264,26 @@ export const LandscapingDecorations: React.FC<Props> = ({ onClose }) => {
                 ))}
               </div>
             </div>
-            <div>
+            {hasFeatureAccess(state, "MONUMENTS") && (
               <div>
-                <Label type="default">{t("monuments")}</Label>
+                <div>
+                  <Label type="default">{t("monuments")}</Label>
+                </div>
+                <div className="flex flex-wrap">
+                  {getKeys(LANDSCAPING_MONUMENTS).map((name) => (
+                    <Box
+                      isSelected={selected.name === name}
+                      key={name}
+                      onClick={() => setSelected(LANDSCAPING_MONUMENTS[name])}
+                      image={
+                        ITEM_ICONS(state.season.season, biome)[name] ??
+                        ITEM_DETAILS[name].image
+                      }
+                    />
+                  ))}
+                </div>
               </div>
-              <div className="flex flex-wrap">
-                {getKeys(LANDSCAPING_MONUMENTS).map((name) => (
-                  <Box
-                    isSelected={selected.name === name}
-                    key={name}
-                    onClick={() => setSelected(LANDSCAPING_MONUMENTS[name])}
-                    image={
-                      ITEM_ICONS(state.season.season, biome)[name] ??
-                      ITEM_DETAILS[name].image
-                    }
-                  />
-                ))}
-              </div>
-            </div>
+            )}
           </div>
         </>
       }
