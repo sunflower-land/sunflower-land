@@ -95,7 +95,7 @@ export const Feed: React.FC<Props> = ({
 
   // Find number of unread and set unread count when the feed loads
   useEffect(() => {
-    if (feed.length > 0) {
+    if (feed.length > 0 && !showFeed) {
       const unreadCount = feed.filter(
         (interaction) => interaction.createdAt > (lastAcknowledged ?? 0),
       ).length;
