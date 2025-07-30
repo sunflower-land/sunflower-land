@@ -25,10 +25,14 @@ export const STATIC_OFFLINE_FARM: GameState = {
   },
   inventory: {
     "Gold Cooking Trophy": new Decimal(1),
+    Doll: new Decimal(10),
+    "Cluck Doll": new Decimal(1),
+    "Lumber Doll": new Decimal(1),
     "Silver Cooking Trophy": new Decimal(1),
     "Bronze Cooking Trophy": new Decimal(1),
     "Better Together Banner": new Decimal(1),
     Geniseed: new Decimal(400),
+    Wheat: new Decimal(400),
     Pickaxe: new Decimal(1),
     "Beta Pass": new Decimal(1),
     "Colors Token 2025": new Decimal(10000),
@@ -1019,7 +1023,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
       "1": {
         id: "1",
         type: "Sheep",
-        state: "sick",
+        state: "idle",
         createdAt: 0,
         experience: 120,
         asleepAt: Date.now() - 1000 * 60 * 60 * 12,
