@@ -6178,5 +6178,14 @@
   "cheer": "응원",
   "crafting.recipe": "{{recipe}} 레시피",
   "crafting.noBox": "제작 상자 필요",
-  "recipe": "레시피"
+  "recipe": "레시피",
+  "confirmTitle": "확실해요?",
+  "sleepingAnimal.confirmMessage": "정말로 {{animal}} 를 깨우려면 {{name}} 를 주고 싶으신가요?",
+  "sleepingAnimal.cancel": "취소",
+  "sleepingAnimal.confirm": "확인",
+  "sleepingAnimal.sleeping": "슬리핑",
+  "sleepingAnimal.sheepLoveToPlay": "{{name}} 노는 걸 좋아해.인형을 던지면 다시 일어나세요.",
+  "sleepingAnimal.dollCount": "1 x {{name}}",
+  "sleepingAnimal.availableAtCraftingBox": "크래프팅 박스에서 구매 가능",
+  "sleepingAnimal.wakeUp": "웨이크 업"
 }

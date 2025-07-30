@@ -6178,5 +6178,14 @@
   "cheer": "Acclamez",
   "crafting.recipe": "{{recipe}} Recette",
   "crafting.noBox": "Boîte de bricolage requise",
-  "recipe": "Recette"
+  "recipe": "Recette",
+  "confirmTitle": "Tu es sûr ?",
+  "sleepingAnimal.confirmMessage": "Êtes-vous sûr de vouloir donner un {{name}} pour réveiller le {{animal}} ?",
+  "sleepingAnimal.cancel": "Annuler",
+  "sleepingAnimal.confirm": "Confirmer",
+  "sleepingAnimal.sleeping": "Dormir",
+  "sleepingAnimal.sheepLoveToPlay": "{{name}} J'adore jouer. Lancez-lui une poupée pour vous réveiller à nouveau.",
+  "sleepingAnimal.dollCount": "1 x {{name}}",
+  "sleepingAnimal.availableAtCraftingBox": "Disponible dans la Crafting Box",
+  "sleepingAnimal.wakeUp": "Réveillez-vous"
 }

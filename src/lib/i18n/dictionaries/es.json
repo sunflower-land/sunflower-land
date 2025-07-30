@@ -6178,5 +6178,14 @@
   "cheer": "Anímate",
   "crafting.recipe": "{{recipe}} Receta",
   "crafting.noBox": "Se requiere una caja de artesanía",
-  "recipe": "receta"
+  "recipe": "receta",
+  "confirmTitle": "¿Estás seguro?",
+  "sleepingAnimal.confirmMessage": "¿Estás seguro de que quieres dar un {{name}} para que se despierte el {{animal}}?",
+  "sleepingAnimal.cancel": "Cancelar",
+  "sleepingAnimal.confirm": "Confirmar",
+  "sleepingAnimal.sleeping": "Durmiendo",
+  "sleepingAnimal.sheepLoveToPlay": "{{name}} me encanta jugar. Lánzala a una muñeca para despertarte de nuevo.",
+  "sleepingAnimal.dollCount": "1 x {{name}}",
+  "sleepingAnimal.availableAtCraftingBox": "Disponible en Crafting Box",
+  "sleepingAnimal.wakeUp": "Despierta"
 }

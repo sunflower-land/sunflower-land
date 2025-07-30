@@ -6178,5 +6178,14 @@
   "cheer": "Поболеть",
   "crafting.recipe": "{{recipe}} Рецепт",
   "crafting.noBox": "Требуется коробка для рукоделия",
-  "recipe": "Рецепт"
+  "recipe": "Рецепт",
+  "confirmTitle": "Вы уверены?",
+  "sleepingAnimal.confirmMessage": "Вы действительно хотите поставить {{name}}, чтобы разбудить {{animal}}?",
+  "sleepingAnimal.cancel": "Отменить",
+  "sleepingAnimal.confirm": "Подтвердить",
+  "sleepingAnimal.sleeping": "Спящий",
+  "sleepingAnimal.sheepLoveToPlay": "{{name}} обожаю играть. Бросьте куклу, чтобы снова проснуться.",
+  "sleepingAnimal.dollCount": "1 x {{name}}",
+  "sleepingAnimal.availableAtCraftingBox": "Доступно в коробке для рукоделия",
+  "sleepingAnimal.wakeUp": "Проснись"
 }

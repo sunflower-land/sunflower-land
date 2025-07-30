@@ -6178,5 +6178,14 @@
   "cheer": "Bersorak",
   "crafting.recipe": "{{recipe}} Resipi",
   "crafting.noBox": "Kotak kerajinan diperlukan",
-  "recipe": "Resipi"
+  "recipe": "Resipi",
+  "confirmTitle": "Adakah anda pasti?",
+  "sleepingAnimal.confirmMessage": "Adakah anda pasti ingin memberikan {{name}} untuk membangunkan {{animal}}?",
+  "sleepingAnimal.cancel": "Batalkan",
+  "sleepingAnimal.confirm": "Sahkan",
+  "sleepingAnimal.sleeping": "Tidur",
+  "sleepingAnimal.sheepLoveToPlay": "{{name}} suka bermain. Buangkan anak patung untuk bangun lagi.",
+  "sleepingAnimal.dollCount": "1 x {{name}}",
+  "sleepingAnimal.availableAtCraftingBox": "Boleh didapati di Kotak Crafting",
+  "sleepingAnimal.wakeUp": "Bangun"
 }
