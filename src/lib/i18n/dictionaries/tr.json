@@ -4442,7 +4442,6 @@
   "description.summerDuckling": "Güneşin tadını çıkaran bu ördek yavrusu sıcaktan nasıl zevk alacağını biliyor.",
   "description.autumnDuckling": "Gevrek yapraklar ve rahat tüyler, hasat mevsimi için hazır.",
   "description.winterDuckling": "Tüylü tüylerle paketlenmiş bu küçük çocuk, kış harikalar diyarında neşeyle dolaşıyor.",
-  "visiting.farmId": "Ziyaret # {{farmId}}",
   "world.infernos": "Infernos",
   "island.required": "{{island}} sürümüne yükseltin",
   "whatsOn.windsOfChange": "Değişim Rüzgarları",
@@ -6166,5 +6165,15 @@
   "description.frostyDoll": "Soğuk ama sıcak.",
   "description.cosmoDoll": "Kozmik, ama topraklanmış.",
   "description.bigfinDoll": "Büyük, ama arkadaş canlısı.",
-  "description.solarDoll": "Bir zamanlar imkânsız düşünülen bir rüya."
+  "description.solarDoll": "Bir zamanlar imkânsız düşünülen bir rüya.",
+  "visiting.farmId": "Ziyaret etmek {{farmId}}",
+  "crafting.undiscovered": "Yeni malzemeler keşfetmek için daha fazla öğe üretin.",
+  "description.cheer": "Çiftçi arkadaşlarınıza neşe verin!",
+  "cheering.village.project": "Tezahürat Köyü Projesi",
+  "cheering.village.project.success": "Başarı tezahürat!",
+  "cheering.village.project.failed": "Tezahürat Başarısız Oldu!",
+  "cheer.village.project": "Cheer Köyü Projesi",
+  "cheer.village.project.description": "{{goron}} 'i tamamlamasına yardımcı olması için {{project}} 'yi neşelendirebilirsiniz!",
+  "cheer.village.project.confirm": "{{project}} 'yi neşelendirmek istediğinden emin misin?",
+  "cheer": "tezahürat"
 }

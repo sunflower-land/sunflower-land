@@ -4442,7 +4442,6 @@
   "description.summerDuckling": "日差しを浴びているこのアヒルの子は、暑さを楽しむ方法を知っています。",
   "description.autumnDuckling": "さわやかな葉と心地よい羽毛で、収穫期を迎えようとしています。",
   "description.winterDuckling": "綿毛のような羽に身を包んだこの小さな子は、元気を出して冬のワンダーランドを歩き回っています。",
-  "visiting.farmId": "訪問数 {{farmId}}",
   "world.infernos": "ヴォルカロ",
   "island.required": "{{island}} にアップグレード",
   "whatsOn.windsOfChange": "ウィンズ・オブ・チェンジ",
@@ -6166,5 +6165,15 @@
   "description.frostyDoll": "霜が降りますが、暖かいです。",
   "description.cosmoDoll": "コズミックだが、接地されている。",
   "description.bigfinDoll": "大きくて親しみやすい。",
-  "description.solarDoll": "かつては実現不可能と思われていた夢を実現しました。"
+  "description.solarDoll": "かつては実現不可能と思われていた夢を実現しました。",
+  "visiting.farmId": "訪問中 {{farmId}}",
+  "crafting.undiscovered": "より多くのアイテムを作って新しい材料を発見してください。",
+  "description.cheer": "農家の仲間を元気づけましょう！",
+  "cheering.village.project": "応援村プロジェクト",
+  "cheering.village.project.success": "応援成功！",
+  "cheering.village.project.failed": "応援失敗！",
+  "cheer.village.project": "チア・ビレッジ・プロジェクト",
+  "cheer.village.project.description": "{{project}} を応援して {{goron}} が完成するのを手伝ってください！",
+  "cheer.village.project.confirm": "本当に {{project}} を応援しますか？",
+  "cheer": "応援"
 }

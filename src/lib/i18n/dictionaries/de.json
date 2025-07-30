@@ -4442,7 +4442,6 @@
   "description.summerDuckling": "Dieses Entlein sonnt sich und weiß, wie man die Hitze genießt.",
   "description.autumnDuckling": "Knackige Blätter und kuschelige Federn, bereit für die Erntezeit.",
   "description.winterDuckling": "Gebündelt in Daunenfedern watschelt dieser Kleine jubelnd durch das Winterwunderland.",
-  "visiting.farmId": "Zu Besuch bei # {{farmId}}",
   "world.infernos": "Infernos",
   "island.required": "Upgrade auf {{island}}",
   "whatsOn.windsOfChange": "Winde des Wandels",
@@ -6166,5 +6165,15 @@
   "description.frostyDoll": "Frostig, aber warm.",
   "description.cosmoDoll": "Kosmisch, aber bodenständig.",
   "description.bigfinDoll": "Groß, aber freundlich.",
-  "description.solarDoll": "Ein einst für unmöglich gehaltener Traum zum Basteln."
+  "description.solarDoll": "Ein einst für unmöglich gehaltener Traum zum Basteln.",
+  "visiting.farmId": "Zu Besuch bei {{farmId}}",
+  "crafting.undiscovered": "Stelle mehr Gegenstände her, um neue Zutaten zu entdecken.",
+  "description.cheer": "Jubeln Sie Ihren Mitbauern zu!",
+  "cheering.village.project": "Projekt Cheering Village",
+  "cheering.village.project.success": "Jubelnder Erfolg!",
+  "cheering.village.project.failed": "Jubeln gescheitert!",
+  "cheer.village.project": "Cheer Village-Projekt",
+  "cheer.village.project.description": "Du kannst die {{project}} anfeuern, damit sie {{goron}} dabei helfen, es zu vervollständigen!",
+  "cheer.village.project.confirm": "Bist du sicher, dass du {{project}} anfeuern willst?",
+  "cheer": "Jubeln"
 }

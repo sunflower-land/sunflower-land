@@ -4416,7 +4416,6 @@
   "visit": "Посетить",
   "visitIsland.enterIslandId": "Введи ID острова",
   "visitIsland.visit": "Посетить",
-  "visiting.farmId": "В гостях у {{farmId}}",
   "visitislandNotFound.title": "Остров не найден!",
   "wakesIn": "Просыпается в:",
   "wallet.connect": "Подключи свой кошелек",
@@ -6166,5 +6165,15 @@
   "description.frostyDoll": "Морозно, но тепло.",
   "description.cosmoDoll": "Космический, но обоснованный.",
   "description.bigfinDoll": "Большой, но дружелюбный.",
-  "description.solarDoll": "Когда-то считавшаяся несбыточной мечтой."
+  "description.solarDoll": "Когда-то считавшаяся несбыточной мечтой.",
+  "visiting.farmId": "Посещение {{farmId}}",
+  "crafting.undiscovered": "Создавайте больше предметов и открывайте для себя новые ингредиенты.",
+  "description.cheer": "Порадуйте коллег-фермеров!",
+  "cheering.village.project": "Проект «Веселая деревня»",
+  "cheering.village.project.success": "Приветствуем успех!",
+  "cheering.village.project.failed": "Аплодисменты не удались!",
+  "cheer.village.project": "Проект Cheer Village",
+  "cheer.village.project.description": "Вы можете поддержать {{project}}, чтобы они помогли {{goron}} пройти его!",
+  "cheer.village.project.confirm": "Вы действительно хотите подбодрить {{project}}?",
+  "cheer": "Поболеть"
 }

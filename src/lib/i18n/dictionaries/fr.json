@@ -4442,7 +4442,6 @@
   "description.summerDuckling": "Se prélassant au soleil, ce canard sait profiter de la chaleur.",
   "description.autumnDuckling": "Des feuilles croustillantes et des plumes douillettes, prêtes pour la saison des récoltes.",
   "description.winterDuckling": "Emmitouflé dans des plumes duveteuses, ce petit bonhomme se dandine joyeusement dans le pays des merveilles de l'hiver.",
-  "visiting.farmId": "N° de visite {{farmId}}",
   "world.infernos": "Infernos",
   "island.required": "Passez à {{island}}",
   "whatsOn.windsOfChange": "Un vent de changement",
@@ -6166,5 +6165,15 @@
   "description.frostyDoll": "Givré, mais chaud.",
   "description.cosmoDoll": "Cosmique, mais ancré.",
   "description.bigfinDoll": "Grand, mais sympathique.",
-  "description.solarDoll": "Un rêve que l'on croyait impossible à réaliser."
+  "description.solarDoll": "Un rêve que l'on croyait impossible à réaliser.",
+  "visiting.farmId": "Visite {{farmId}}",
+  "crafting.undiscovered": "Fabriquez plus d'objets pour découvrir de nouveaux ingrédients.",
+  "description.cheer": "Encouragez vos collègues agriculteurs !",
+  "cheering.village.project": "Projet Cheering Village",
+  "cheering.village.project.success": "Succès encourageant !",
+  "cheering.village.project.failed": "Les acclamations ont échoué !",
+  "cheer.village.project": "Projet Cheer Village",
+  "cheer.village.project.description": "Vous pouvez encourager {{project}} pour aider {{goron}} à le terminer !",
+  "cheer.village.project.confirm": "Êtes-vous sûr de vouloir encourager le {{project}} ?",
+  "cheer": "Acclamez"
 }

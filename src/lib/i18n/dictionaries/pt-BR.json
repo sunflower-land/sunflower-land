@@ -4442,7 +4442,6 @@
   "description.summerDuckling": "Tomando sol, esse patinho sabe aproveitar o calor.",
   "description.autumnDuckling": "Folhas crocantes e penas aconchegantes, prontas para a época da colheita.",
   "description.winterDuckling": "Envolto em penas felpudas, este pequeno percorre o país das maravilhas do inverno com alegria.",
-  "visiting.farmId": "Visitando # {{farmId}}",
   "world.infernos": "Infernos",
   "island.required": "Atualize para {{island}}",
   "whatsOn.windsOfChange": "Ventos de mudança",
@@ -6166,5 +6165,15 @@
   "description.frostyDoll": "Gelado, mas quente.",
   "description.cosmoDoll": "Cósmico, mas com os pés no chão.",
   "description.bigfinDoll": "Grande, mas amigável.",
-  "description.solarDoll": "Um sonho outrora considerado impossível de criar."
+  "description.solarDoll": "Um sonho outrora considerado impossível de criar.",
+  "visiting.farmId": "Visitando {{farmId}}",
+  "crafting.undiscovered": "Crie mais itens para descobrir novos ingredientes.",
+  "description.cheer": "Dê um aplauso aos seus colegas agricultores!",
+  "cheering.village.project": "Projeto Cheering Village",
+  "cheering.village.project.success": "Torcendo pelo sucesso!",
+  "cheering.village.project.failed": "A torcida falhou!",
+  "cheer.village.project": "Projeto Cheer Village",
+  "cheer.village.project.description": "Você pode aplaudir o {{project}} para ajudar {{goron}} a completá-lo!",
+  "cheer.village.project.confirm": "Tem certeza de que quer torcer pelo {{project}}?",
+  "cheer": "Aplausos"
 }

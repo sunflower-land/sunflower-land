@@ -4442,7 +4442,6 @@
   "description.summerDuckling": "在阳光下晒太阳，这只小鸭知道如何享受炎热。",
   "description.autumnDuckling": "清脆的树叶和舒适的羽毛，为收获季节做好了准备。",
   "description.winterDuckling": "这个小家伙被毛茸茸的羽毛捆绑在一起，欢呼地穿行在冬日仙境中。",
-  "visiting.farmId": "访问 # {{farmId}}",
   "world.infernos": "炼狱地",
   "island.required": "升级到 {{island}}",
   "whatsOn.windsOfChange": "风云变幻",
@@ -6166,5 +6165,15 @@
   "description.frostyDoll": "寒冷，但很温暖。",
   "description.cosmoDoll": "宇宙的，但接地气。",
   "description.bigfinDoll": "很大，但很友好。",
-  "description.solarDoll": "一个曾经被认为不可能实现的梦想。"
+  "description.solarDoll": "一个曾经被认为不可能实现的梦想。",
+  "visiting.farmId": "访问 {{farmId}}",
+  "crafting.undiscovered": "制作更多物品以发现新食材。",
+  "description.cheer": "为你的农民同胞加油！",
+  "cheering.village.project": "欢呼村项目",
+  "cheering.village.project.success": "欢呼成功！",
+  "cheering.village.project.failed": "欢呼失败！",
+  "cheer.village.project": "啦啦村项目",
+  "cheer.village.project.description": "你可以为 {{project}} 加油以帮助 {{goron}} 完成它！",
+  "cheer.village.project.confirm": "你确定要为 {{project}} 加油吗？",
+  "cheer": "欢呼"
 }

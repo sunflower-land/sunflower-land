@@ -4442,7 +4442,6 @@
   "description.summerDuckling": "Berjemur di bawah sinar matahari, anak itik ini tahu bagaimana menikmati panas.",
   "description.autumnDuckling": "Daun garing dan bulu yang selesa, siap untuk musim menuai.",
   "description.winterDuckling": "Dibungkus dengan bulu berbulu, si kecil ini berkeliaran melalui kawasan ajaib musim sejuk dengan ceria.",
-  "visiting.farmId": "Melawat # {{farmId}}",
   "world.infernos": "Infernos",
   "island.required": "Naik taraf kepada {{island}}",
   "whatsOn.windsOfChange": "Angin Perubahan",
@@ -6166,5 +6165,15 @@
   "description.frostyDoll": "Sejuk, tetapi hangat.",
   "description.cosmoDoll": "Kosmik, tetapi berasas.",
   "description.bigfinDoll": "Besar, tetapi mesra.",
-  "description.solarDoll": "Mimpi yang pernah difikirkan mustahil untuk dibuat."
+  "description.solarDoll": "Mimpi yang pernah difikirkan mustahil untuk dibuat.",
+  "visiting.farmId": "Melawat {{farmId}}",
+  "crafting.undiscovered": "Buat lebih banyak item untuk menemui bahan-bahan baru.",
+  "description.cheer": "Beri sorakan kepada rakan-rakan petani anda!",
+  "cheering.village.project": "Projek Kampung Bersorak",
+  "cheering.village.project.success": "Bersorak Kejayaan!",
+  "cheering.village.project.failed": "Bersorak Gagal!",
+  "cheer.village.project": "Projek Cheer Village",
+  "cheer.village.project.description": "Anda boleh menghiburkan {{project}} untuk membantu {{goron}} menyelesaikannya!",
+  "cheer.village.project.confirm": "Adakah anda pasti ingin menghiburkan {{project}}?",
+  "cheer": "Bersorak"
 }

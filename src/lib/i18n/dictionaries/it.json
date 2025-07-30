@@ -4442,7 +4442,6 @@
   "description.summerDuckling": "Crogiolandosi al sole, questo anatroccolo sa godersi il caldo.",
   "description.autumnDuckling": "Foglie croccanti e piume accoglienti, pronte per la stagione del raccolto.",
   "description.winterDuckling": "Avvolto in piume lanuginose, questo piccolino attraversa con allegria il paese delle meraviglie invernali.",
-  "visiting.farmId": "Visitando # {{farmId}}",
   "world.infernos": "Infernos",
   "island.required": "Esegui l'upgrade a {{island}}",
   "whatsOn.windsOfChange": "Venti di cambiamento",
@@ -6166,5 +6165,15 @@
   "description.frostyDoll": "Gelido, ma caldo.",
   "description.cosmoDoll": "Cosmico, ma radicato.",
   "description.bigfinDoll": "Grande, ma amichevole.",
-  "description.solarDoll": "Un sogno un tempo ritenuto impossibile da realizzare."
+  "description.solarDoll": "Un sogno un tempo ritenuto impossibile da realizzare.",
+  "visiting.farmId": "Visitando {{farmId}}",
+  "crafting.undiscovered": "Crea altri oggetti per scoprire nuovi ingredienti.",
+  "description.cheer": "Fai un applauso ai tuoi colleghi agricoltori!",
+  "cheering.village.project": "Progetto Cheering Village",
+  "cheering.village.project.success": "Successo esultante!",
+  "cheering.village.project.failed": "Acclamazione fallita!",
+  "cheer.village.project": "Progetto Cheer Village",
+  "cheer.village.project.description": "Puoi fare il tifo per {{project}} per aiutare {{goron}} a completarlo!",
+  "cheer.village.project.confirm": "Sei sicuro di voler fare il tifo per {{project}}?",
+  "cheer": "Rallegrare"
 }
