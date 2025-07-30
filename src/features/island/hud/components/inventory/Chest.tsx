@@ -157,7 +157,6 @@ const PanelContent: React.FC<PanelContentProps> = ({
       <div className="flex flex-col gap-y-2 text-xs">
         <p>{t("landscape.confirmation.gnomes.one")}</p>
         <p>{t("landscape.confirmation.gnomes.two")}</p>
-        <p>{t("landscape.confirmation.gnomes.three")}</p>
 
         <div className="flex justify-center mt-2 space-x-2">
           <img src={ITEM_DETAILS["Cobalt"].image} className="w-12" />
