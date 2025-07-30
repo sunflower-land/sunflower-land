@@ -93,6 +93,7 @@ import { SoftBan } from "features/retreat/components/personhood/SoftBan";
 import { RewardBox } from "features/rewardBoxes/RewardBox";
 import { ClaimBlessingReward } from "features/loveIsland/blessings/ClaimBlessing";
 import { Cheering } from "./components/Cheering";
+import { SystemMessageWidget } from "features/announcements/SystemMessageWidget";
 
 function camelToDotCase(str: string): string {
   return str.replace(/([a-z])([A-Z])/g, "$1.$2").toLowerCase() as string;
@@ -548,6 +549,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
             <Panel>
               <Loading />
             </Panel>
+            <SystemMessageWidget />
           </Modal>
         </Ocean>
       </>
