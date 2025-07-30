@@ -636,6 +636,7 @@ export type BlockchainState = {
     | "seasonChanged"
     | "randomising"
     | "competition"
+    | "cheers"
     | "roninWelcomePack"
     | "roninAirdrop"
     | "jinAirdrop"
@@ -1168,6 +1169,39 @@ export function startGame(authContext: AuthContext) {
 
                 // Show the competition introduction if they have not started it yet
                 return !competition;
+              },
+            },
+            {
+              target: "cheers",
+              cond: (context) => {
+                const now = Date.now();
+
+                const today = new Date(now).toISOString().split("T")[0];
+                const yesterday = new Date(now - 24 * 60 * 60 * 1000)
+                  .toISOString()
+                  .split("T")[0];
+
+                if (
+                  context.state.socialFarming.cheers.freeCheersClaimedAt >=
+                  new Date(today).getTime()
+                ) {
+                  throw new Error("Already claimed your daily free cheers");
+                }
+
+                const dayFreeCheersClaimed = new Date(
+                  context.state.socialFarming.cheers.freeCheersClaimedAt,
+                )
+                  .toISOString()
+                  .split("T")[0];
+
+                const cheersUsedYesterday =
+                  dayFreeCheersClaimed === yesterday
+                    ? context.state.socialFarming.cheers.cheersUsed
+                    : 0;
+
+                const newCheerCount = 3 - cheersUsedYesterday;
+
+                return newCheerCount > 0;
               },
             },
 
@@ -2161,6 +2195,14 @@ export function startGame(authContext: AuthContext) {
           },
         },
 
+        cheers: {
+          on: {
+            "cheers.claimed": (GAME_EVENT_HANDLERS as any)["cheers.claimed"],
+            ACKNOWLEDGE: {
+              target: "notifying",
+            },
+          },
+        },
         gems: {
           on: {
             ACKNOWLEDGE: {

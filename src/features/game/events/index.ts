@@ -513,6 +513,10 @@ import {
 } from "./landExpansion/removeBeehive";
 import { removeAll, RemoveAllAction } from "./landExpansion/removeAll";
 import { wakeAnimal, WakeUpAnimalAction } from "./landExpansion/wakeUpAnimal";
+import {
+  ClaimCheersAction,
+  claimDailyCheers,
+} from "./landExpansion/claimDailyCheers";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
@@ -657,7 +661,8 @@ export type PlayingEvent =
   | InstantCraftAction
   | BuyBiomeAction
   | ApplyBiomeAction
-  | WakeUpAnimalAction;
+  | WakeUpAnimalAction
+  | ClaimCheersAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -883,6 +888,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "biome.bought": buyBiome,
   "biome.applied": applyBiome,
   "animal.wakeUp": wakeAnimal,
+  "cheers.claimed": claimDailyCheers,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

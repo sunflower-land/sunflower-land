@@ -1099,5 +1099,9 @@ export const STATIC_OFFLINE_FARM: GameState = {
       date: new Date().toISOString().split("T")[0],
       projects: {},
     },
+    cheers: {
+      cheersUsed: 0,
+      freeCheersClaimedAt: 0,
+    },
   },
 };
