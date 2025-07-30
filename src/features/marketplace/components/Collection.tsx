@@ -32,7 +32,8 @@ const _state = (state: MachineState) => state.context.state;
 export const Collection: React.FC<{
   search?: string;
   onNavigated?: () => void;
-}> = ({ search, onNavigated }) => {
+  activeFilters?: string;
+}> = ({ search, onNavigated, activeFilters }) => {
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
   const { authService } = useContext(Auth.Context);
@@ -46,8 +47,22 @@ export const Collection: React.FC<{
 
   let filters = queryParams.get("filters") ?? "";
 
+  // Determines which filters to apply to the marketplace collection.
+  const getAppliedFilters = (): string => {
+    if (activeFilters && activeFilters.trim() !== "") {
+      // Show boosts
+      if (activeFilters === "utility") {
+        return "collectibles,wearables,buds,utility";
+      }
+      // Otherwise, use the provided filters
+      return activeFilters;
+    }
+    // Default filters if none are active
+    return "collectibles,wearables,buds,resources";
+  };
+
   if (search) {
-    filters = "collectibles,wearables,resources";
+    filters = getAppliedFilters();
   }
 
   const navigate = useNavigate();
