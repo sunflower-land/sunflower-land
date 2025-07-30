@@ -58,7 +58,7 @@ export const PET_FED_REWARDS_KEY: Record<DifficultyIndex, number> = {
   [DifficultyIndex.EASY]: 4,
   [DifficultyIndex.MEDIUM]: 8,
   [DifficultyIndex.HARD]: 12,
-  [DifficultyIndex.DOLL]: 30,
+  [DifficultyIndex.DOLL]: 20,
 };
 
 const DOLL_XP = 5000;
