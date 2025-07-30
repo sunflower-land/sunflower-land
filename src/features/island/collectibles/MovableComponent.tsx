@@ -35,7 +35,6 @@ import { ZoomContext } from "components/ZoomProvider";
 import { RemoveKuebikoModal } from "./RemoveKuebikoModal";
 import { PlaceableLocation } from "features/game/types/collectibles";
 import { RemoveHungryCaterpillarModal } from "./RemoveHungryCaterpillarModal";
-import { RemoveCropMachineModal } from "./RemoveCropMachineModal";
 import { HourglassType } from "./components/Hourglass";
 import { HOURGLASSES } from "features/game/events/landExpansion/burnCollectible";
 import { hasRemoveRestriction } from "features/game/types/removeables";
@@ -410,12 +409,6 @@ export const MoveableComponent: React.FC<
             </div>
             {showRemoveConfirmation && name === "Kuebiko" && (
               <RemoveKuebikoModal
-                onClose={() => setShowRemoveConfirmation(false)}
-                onRemove={() => remove()}
-              />
-            )}
-            {showRemoveConfirmation && name === "Crop Machine" && (
-              <RemoveCropMachineModal
                 onClose={() => setShowRemoveConfirmation(false)}
                 onRemove={() => remove()}
               />
