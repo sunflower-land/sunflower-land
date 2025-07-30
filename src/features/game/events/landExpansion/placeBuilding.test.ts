@@ -286,4 +286,48 @@ describe("Place building", () => {
       dateNow + 200000000,
     );
   });
+
+  it("adjusts the new readyAt for greenhouse", () => {
+    const state = placeBuilding({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          Greenhouse: new Decimal(1),
+          "Basic Land": new Decimal(10),
+        },
+        buildings: {
+          Greenhouse: [
+            {
+              id: "123",
+              createdAt: dateNow,
+              readyAt: dateNow,
+              removedAt: dateNow - 120000,
+            },
+          ],
+        },
+        greenhouse: {
+          oil: 100,
+          pots: {
+            "123": {
+              plant: {
+                name: "Olive",
+                plantedAt: dateNow - 180000,
+              },
+            },
+          },
+        },
+      },
+      action: {
+        type: "building.placed",
+        name: "Greenhouse",
+        id: "123",
+        coordinates: { x: 0, y: 1 },
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.greenhouse.pots["123"].plant?.plantedAt).toEqual(
+      dateNow - 60000,
+    );
+  });
 });

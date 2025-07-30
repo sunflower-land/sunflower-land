@@ -112,6 +112,16 @@ export function placeBuilding({
       }
 
       // Greenhouse
+      if (action.name === "Greenhouse") {
+        const { greenhouse } = stateCopy;
+        Object.values(greenhouse.pots).forEach((pot) => {
+          if (pot.plant && existingBuilding.removedAt) {
+            const existingProgress =
+              existingBuilding.removedAt - pot.plant.plantedAt;
+            pot.plant.plantedAt = createdAt - existingProgress;
+          }
+        });
+      }
 
       // Henhouse
 
