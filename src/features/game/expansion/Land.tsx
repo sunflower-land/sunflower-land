@@ -613,7 +613,6 @@ const getIslandElements = ({
               <Clutter
                 key={`clutter-${id}`}
                 id={id}
-                isFirstRender={isFirstRender}
                 type={clutter.locations[id].type}
               />
             </MapPlacement>

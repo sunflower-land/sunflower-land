@@ -14,8 +14,6 @@ import {
   GameEvent,
   PlayingEvent,
   GameEventName,
-  VISITING_EVENTS,
-  VisitingEvent,
 } from "../events";
 
 import {
@@ -311,78 +309,57 @@ export type BlockchainEvent =
   | { type: StateMachineVisitEffectName }
   | Effect; // Test only
 
+const playingEventHandler = (eventName: string) => {
+  return {
+    [eventName]: [
+      {
+        target: "hoarding",
+        cond: (context: Context, event: PlayingEvent) => {
+          const { valid } = checkProgress({
+            state: context.state as GameState,
+            action: event,
+            farmId: context.farmId,
+          });
+
+          return !valid;
+        },
+        actions: assign((context: Context, event: PlayingEvent) => {
+          const { maxedItem } = checkProgress({
+            state: context.state as GameState,
+            action: event,
+            farmId: context.farmId,
+          });
+
+          return { maxedItem };
+        }),
+      },
+      {
+        actions: assign((context: Context, event: PlayingEvent) => ({
+          state: processEvent({
+            state: context.state as GameState,
+            action: event,
+            announcements: context.announcements,
+            farmId: context.farmId,
+          }) as GameState,
+          actions: [
+            ...context.actions,
+            {
+              ...event,
+              createdAt: new Date(),
+            },
+          ],
+        })),
+      },
+    ],
+  };
+};
+
 // // For each game event, convert it to an XState event + handler
 const GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
   Object.keys(PLAYING_EVENTS).reduce(
     (events, eventName) => ({
       ...events,
-      [eventName]: [
-        {
-          target: "hoarding",
-          cond: (context: Context, event: PlayingEvent) => {
-            const { valid } = checkProgress({
-              state: context.state as GameState,
-              action: event,
-              farmId: context.farmId,
-            });
-
-            return !valid;
-          },
-          actions: assign((context: Context, event: PlayingEvent) => {
-            const { maxedItem } = checkProgress({
-              state: context.state as GameState,
-              action: event,
-              farmId: context.farmId,
-            });
-
-            return { maxedItem };
-          }),
-        },
-        {
-          actions: assign((context: Context, event: PlayingEvent) => ({
-            state: processEvent({
-              state: context.state as GameState,
-              action: event,
-              announcements: context.announcements,
-              farmId: context.farmId,
-            }) as GameState,
-            actions: [
-              ...context.actions,
-              {
-                ...event,
-                createdAt: new Date(),
-              },
-            ],
-          })),
-        },
-      ],
-    }),
-    {},
-  );
-
-const VISITING_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
-  Object.keys(VISITING_EVENTS).reduce(
-    (events, eventName) => ({
-      ...events,
-      [eventName]: [
-        {
-          actions: assign((context: Context, event: VisitingEvent) => ({
-            state: processEvent({
-              state: context.state as GameState,
-              action: event,
-              announcements: context.announcements,
-              farmId: context.farmId,
-            }) as GameState,
-            actions: [
-              ...context.actions,
-              {
-                ...event,
-                createdAt: new Date(),
-              },
-            ],
-          })),
-        },
-      ],
+      ...playingEventHandler(eventName),
     }),
     {},
   );
@@ -479,11 +456,18 @@ const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
           }
 
           const { gameState, data } = await postEffect({
-            farmId: Number(context.farmId),
+            farmId: Number(context.visitorId ?? context.farmId),
             effect,
             token: authToken ?? context.rawToken,
             transactionId: context.transactionId as string,
           });
+
+          if (context.visitorId) {
+            return {
+              state: makeGame(data.visitedFarmState),
+              data,
+            };
+          }
 
           return { state: gameState, data };
         },
@@ -728,8 +712,6 @@ export const saveGame = async (
 };
 
 const handleSuccessfulSave = (context: Context, event: any) => {
-  const isVisiting = !!context.visitorId;
-
   // Actions that occurred since the server request
   const recentActions = context.actions.filter(
     (action) => action.createdAt.getTime() > event.data.saveAt.getTime(),
@@ -980,6 +962,7 @@ export function startGame(authContext: AuthContext) {
             "villageProject.cheered": {
               target: `${STATE_MACHINE_VISIT_EFFECTS["villageProject.cheered"]}`,
             },
+            ...playingEventHandler("clutter.collected"),
             SAVE: {
               target: "autosaving",
             },

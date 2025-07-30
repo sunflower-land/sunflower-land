@@ -666,9 +666,8 @@ export type PlayingEvent =
   | BuyBiomeAction
   | ApplyBiomeAction
   | WakeUpAnimalAction
-  | ClaimCheersAction;
-
-export type VisitingEvent = CollectClutterAction;
+  | ClaimCheersAction
+  | CollectClutterAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -726,7 +725,7 @@ export type PlacementEvent =
   | RemoveBeehiveAction
   | RemoveAllAction;
 
-export type GameEvent = PlayingEvent | PlacementEvent | VisitingEvent;
+export type GameEvent = PlayingEvent | PlacementEvent;
 export type GameEventName<T> = Extract<T, { type: string }>["type"];
 
 export function isEventType<T extends PlayingEvent>(
@@ -895,6 +894,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "biome.applied": applyBiome,
   "animal.wakeUp": wakeAnimal,
   "cheers.claimed": claimDailyCheers,
+  "clutter.collected": collectClutter,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
@@ -954,12 +954,7 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "items.removed": removeAll,
 };
 
-export const VISITING_EVENTS: Handlers<VisitingEvent> = {
-  "clutter.collected": collectClutter,
-};
-
 export const EVENTS = {
   ...PLAYING_EVENTS,
   ...PLACEMENT_EVENTS,
-  ...VISITING_EVENTS,
 };

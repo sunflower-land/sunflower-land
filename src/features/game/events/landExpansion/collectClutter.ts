@@ -1,10 +1,11 @@
-import Decimal from "decimal.js-light";
-import { GameState } from "../../types/game";
 import { produce } from "immer";
+import { GameState } from "features/game/types/game";
+import { ClutterName } from "features/game/types/clutter";
 
 export type CollectClutterAction = {
   type: "clutter.collected";
   id: string;
+  clutterType: ClutterName;
   visitedFarmId: number;
 };
 
@@ -15,6 +16,7 @@ type Options = {
 };
 
 export function collectClutter({ state, action }: Options) {
+  // game state is the farm that is being visited
   return produce(state, (game) => {
     const clutters = game.socialFarming?.clutter?.locations;
 
@@ -22,12 +24,6 @@ export function collectClutter({ state, action }: Options) {
       throw new Error("No clutter found");
     }
 
-    const clutter = clutters[action.id];
     delete clutters[action.id];
-
-    const inventoryClutter = game.inventory[clutter.type] ?? new Decimal(0);
-    game.inventory[clutter.type] = inventoryClutter.add(1);
-
-    return game;
   });
 }
