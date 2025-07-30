@@ -113,22 +113,14 @@ export function getRemoveAction(
     name !== "Manor" &&
     name !== "Town Center" &&
     name !== "House" &&
-    name !== "Market" &&
-    name !== "Fire Pit" &&
-    name !== "Workbench" &&
-    name !== "Mansion"
+    name !== "Mansion" &&
+    ((name !== "Market" && name !== "Fire Pit" && name !== "Workbench") ||
+      hasLandscapingAccess)
   ) {
     return "building.removed";
   }
 
   if (
-    name === "Manor" ||
-    name === "House" ||
-    name === "Town Center" ||
-    name === "Market" ||
-    name === "Fire Pit" ||
-    name === "Workbench" ||
-    name === "Mansion" ||
     HOURGLASSES.includes(name as HourglassType) ||
     name === "Time Warp Totem" ||
     name === "Super Totem"
