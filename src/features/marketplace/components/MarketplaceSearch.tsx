@@ -154,7 +154,7 @@ export const MarketplaceSearch: React.FC<{
         {/* Large screens or screens smaller than SM */}
         <InnerPanel
           className={classNames(
-            "absolute left-1/2 -translate-x-1/2 bottom-[100%] duration-300 ease-in-out sm:hidden lg:flex",
+            "absolute sm:hidden lg:flex bottom-[95%] lg:bottom-[100%] left-1/2 -translate-x-1/2 duration-300 ease-in-out",
             {
               "opacity-0 translate-y-7 pointer-events-none": !showFilters,
               "opacity-100 translate-y-0 pointer-events-auto": showFilters,
