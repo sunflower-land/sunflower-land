@@ -1,7 +1,11 @@
 import { GameState, InventoryItemName, RecipeCraftableName } from "./game";
 import { FlowerName } from "./flowers";
 import { AnimalType } from "./animals";
-import { RecipeCollectibleName, RecipeWearableName } from "../lib/crafting";
+import {
+  DollName,
+  RecipeCollectibleName,
+  RecipeWearableName,
+} from "../lib/crafting";
 import { ResourceName } from "./resources";
 import { FishName } from "./fishing";
 import { ExoticCropName } from "./beans";
@@ -20,6 +24,7 @@ export type BountiedEvent = `${
   | BeachBountyTreasure
   | FullMoonFruit
   | RecipeCraftableName
+  | DollName
   | "Mark"} Bountied`;
 export type CraftedEvent =
   `${RecipeCollectibleName | RecipeWearableName} Crafted`;

@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
-import { RECIPE_CRAFTABLES } from "features/game/lib/crafting";
+import { DOLLS, RECIPE_CRAFTABLES } from "features/game/lib/crafting";
 import { isWearableActive } from "features/game/lib/wearables";
 import { ANIMALS } from "features/game/types/animals";
 import { EXOTIC_CROPS, ExoticCropName } from "features/game/types/beans";
@@ -11,6 +11,7 @@ import { FLOWERS, FlowerName } from "features/game/types/flowers";
 import { FULL_MOON_FRUITS, FullMoonFruit } from "features/game/types/fruits";
 import {
   BountyRequest,
+  DollBounty,
   ExoticBounty,
   FishBounty,
   FlowerBounty,
@@ -44,6 +45,8 @@ export const BOUNTY_CATEGORIES = {
     bounty.name === "Mark",
   "Obsidian Bounties": (bounty: BountyRequest): bounty is ObsidianBounty =>
     bounty.name === "Obsidian",
+  "Doll Bounties": (bounty: BountyRequest): bounty is DollBounty =>
+    bounty.name in DOLLS,
 };
 
 export type SellBountyAction = {

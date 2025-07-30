@@ -9,7 +9,7 @@ import {
 } from "features/game/lib/factions";
 import { isWearableActive } from "features/game/lib/wearables";
 import { BoostType, BoostValue } from "features/game/types/boosts";
-import { CONSUMABLES } from "features/game/types/consumables";
+import { ConsumableName, CONSUMABLES } from "features/game/types/consumables";
 import {
   BoostName,
   FactionPetRequest,
@@ -51,13 +51,17 @@ export enum DifficultyIndex {
   EASY = 0,
   MEDIUM = 1,
   HARD = 2,
+  DOLL = 3,
 }
 
 export const PET_FED_REWARDS_KEY: Record<DifficultyIndex, number> = {
   [DifficultyIndex.EASY]: 4,
   [DifficultyIndex.MEDIUM]: 8,
   [DifficultyIndex.HARD]: 12,
+  [DifficultyIndex.DOLL]: 30,
 };
+
+const DOLL_XP = 5000;
 
 export const getTotalXPForRequest = (
   game: GameState,
@@ -65,7 +69,15 @@ export const getTotalXPForRequest = (
 ) => {
   const { food, quantity } = request;
 
-  let foodXP = CONSUMABLES[food].experience;
+  const isEdible = food in CONSUMABLES;
+
+  let foodXP = 0;
+
+  if (isEdible) {
+    foodXP = CONSUMABLES[food as ConsumableName].experience;
+  } else {
+    foodXP = DOLL_XP;
+  }
 
   if (isPawShieldActive(game)) {
     foodXP += foodXP * 0.25;
