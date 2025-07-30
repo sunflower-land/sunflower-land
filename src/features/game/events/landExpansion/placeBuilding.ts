@@ -10,6 +10,7 @@ import {
 import { produce } from "immer";
 import { ComposterName } from "features/game/types/composters";
 import { getReadyAt } from "./startComposter";
+import { getBoostedAwakeAt } from "features/game/lib/animals";
 
 export enum PLACE_BUILDING_ERRORS {
   NO_BUMPKIN = "You do not have a Bumpkin!",
@@ -123,9 +124,24 @@ export function placeBuilding({
         });
       }
 
-      // Henhouse
+      // Henhouse & Barn
+      if (action.name === "Hen House" || action.name === "Barn") {
+        const buildingKey = action.name === "Hen House" ? "henHouse" : "barn";
+        const { animals } = stateCopy[buildingKey];
 
-      // Barn
+        Object.values(animals).forEach((animal) => {
+          if (existingBuilding.removedAt) {
+            const timeOffset = existingBuilding.removedAt - animal.asleepAt;
+            animal.asleepAt = createdAt - timeOffset;
+            const { awakeAt } = getBoostedAwakeAt({
+              animalType: animal.type,
+              createdAt: animal.asleepAt, // use asleepAt to calculate the new awakeAt
+              game: stateCopy,
+            });
+            animal.awakeAt = awakeAt;
+          }
+        });
+      }
 
       delete existingBuilding.removedAt;
 
