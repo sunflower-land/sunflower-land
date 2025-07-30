@@ -6,7 +6,7 @@ import { useActor, useSelector } from "@xstate/react";
 import { useLocation, useNavigate, useSearchParams } from "react-router";
 import { ListViewCard } from "./ListViewCard";
 import Decimal from "decimal.js-light";
-import { getTradeableDisplay } from "../lib/tradeables";
+import { getTradeableDisplay, TradeableDisplay } from "../lib/tradeables";
 import { InnerPanel } from "components/ui/Panel";
 import useSWR, { preload } from "swr";
 import { CONFIG } from "lib/config";
@@ -178,11 +178,29 @@ export const Collection: React.FC<{
     );
   }
 
+  // Determines if an item matches the search criteria
+  const matchesSearchCriteria = (
+    display: TradeableDisplay,
+    searchTerm: string,
+  ): boolean => {
+    const searchLower = searchTerm.toLowerCase();
+
+    // Check if name matches
+    const nameMatches = display.name.toLowerCase().includes(searchLower);
+
+    // Check if any buff description matches
+    const buffMatches = display.buffs.some((buff) =>
+      buff.shortDescription.toLowerCase().includes(searchLower),
+    );
+
+    return nameMatches || buffMatches;
+  };
+
   const items =
     data?.items.filter((item) => {
       const display = getTradeableDisplay({
-        type: item.collection,
         id: item.id,
+        type: item.collection,
         state,
       });
 
@@ -201,7 +219,7 @@ export const Collection: React.FC<{
         return false;
       }
 
-      return display.name.toLowerCase().includes(search?.toLowerCase() ?? "");
+      return matchesSearchCriteria(display, search ?? "");
     }) ?? [];
 
   const getRowHeight = () => {
