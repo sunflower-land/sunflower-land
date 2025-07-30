@@ -32,6 +32,7 @@ export const Wardrobe: React.FC = () => {
     acknowledge();
     setShowModal(true);
   };
+
   return (
     <>
       {!hasOpened() && hasAccess && !isVisiting && (
@@ -56,7 +57,7 @@ export const Wardrobe: React.FC = () => {
           hasAccess ? "cursor-pointer hover:img-highlight" : ""
         }`}
         alt="Wardrobe"
-        onClick={() => hasAccess && open()}
+        onClick={hasAccess ? open : undefined}
       />
       <Modal show={showModal} onHide={() => setShowModal(false)}>
         <CloseButtonPanel

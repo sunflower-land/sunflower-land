@@ -1,5 +1,6 @@
 import { COMPETITION_POINTS } from "features/game/types/competitions";
 import type { GameState } from "features/game/types/game";
+import { SEASONS } from "features/game/types/seasons";
 import { CONFIG } from "lib/config";
 
 export const adminFeatureFlag = ({ wardrobe, inventory }: GameState) =>
@@ -113,11 +114,13 @@ const FEATURE_FLAGS = {
 
   POTION_HOUSE_UPDATES: timeBasedFeatureFlag(new Date("2025-08-01T00:00:00Z")),
   BLESSING: () => true,
-  WARDROBE: testnetFeatureFlag,
   MINE_WHACK_BETA: defaultFeatureFlag,
+
+  // Better Together Chapter
   SOCIAL_FARMING: defaultFeatureFlag,
   LANDSCAPING: testnetFeatureFlag,
-  CRAFTING: testnetFeatureFlag,
+  WARDROBE: betaTimeBasedFeatureFlag(SEASONS["Better Together"].startDate),
+  CRAFTING: betaTimeBasedFeatureFlag(SEASONS["Better Together"].startDate),
   LEATHER_TOOLS: testnetFeatureFlag,
 
   PEGGYS_COOKOFF: () =>

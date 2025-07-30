@@ -116,7 +116,6 @@ export const Home: React.FC = () => {
               height={height}
               width={width}
               z={NON_COLLIDING_OBJECTS.includes(name) ? 0 : 1}
-              className={name === "Wardrobe" ? "pointer-events-none" : ""}
             >
               <Collectible
                 location="home"
