@@ -115,7 +115,7 @@ const FEATURE_FLAGS = {
   BLESSING: () => true,
   WARDROBE: testnetFeatureFlag,
   MINE_WHACK_BETA: defaultFeatureFlag,
-  SOCIAL_FARMING: testnetFeatureFlag,
+  SOCIAL_FARMING: defaultFeatureFlag,
   LANDSCAPING: testnetFeatureFlag,
   CRAFTING: testnetFeatureFlag,
   LEATHER_TOOLS: testnetFeatureFlag,
