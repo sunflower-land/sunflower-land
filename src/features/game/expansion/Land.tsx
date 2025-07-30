@@ -41,19 +41,8 @@ import { BackgroundIslands } from "./components/BackgroundIslands";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Outlet, useLocation } from "react-router";
 import { createPortal } from "react-dom";
-import {
-  NON_COLLIDING_OBJECTS,
-  pickEmptyPosition,
-} from "./placeable/lib/collisionDetection";
-import { EXPANSION_ORIGINS, LAND_SIZE } from "./lib/constants";
+import { NON_COLLIDING_OBJECTS } from "./placeable/lib/collisionDetection";
 
-import Decimal from "decimal.js-light";
-import { RecipeItemName } from "../lib/crafting";
-import {
-  canDiscoverRecipe,
-  RECIPE_UNLOCKS,
-} from "../events/landExpansion/discoverRecipe";
-import { RecipeStack } from "features/island/recipes/RecipeStack";
 import {
   isBuildingUpgradable,
   makeUpgradableBuildingKey,
@@ -90,73 +79,6 @@ type IslandElementArgs = {
   oilReserves: GameState["oilReserves"];
   lavaPits: GameState["lavaPits"];
   isVisiting: boolean;
-};
-
-const getRecipeLocation = (game: GameState, level: number) => {
-  const expansionBoundaries = {
-    x: EXPANSION_ORIGINS[level - 1].x - LAND_SIZE / 2,
-    y: EXPANSION_ORIGINS[level - 1].y + LAND_SIZE / 2,
-    width: LAND_SIZE,
-    height: LAND_SIZE,
-  };
-
-  return pickEmptyPosition({
-    bounding: expansionBoundaries,
-    gameState: game,
-  });
-};
-
-const findRecipeLocation = (
-  game: GameState,
-  recipe: RecipeItemName,
-  level: number,
-  direction: 1 | -1,
-): (Coordinates & { recipe: RecipeItemName }) | null => {
-  if (
-    !level ||
-    level <= 0 ||
-    (game.inventory["Basic Land"] ?? new Decimal(0)).lt(level)
-  ) {
-    return null;
-  }
-
-  const location = getRecipeLocation(game, level);
-  if (location) return { ...location, recipe };
-
-  const nextLevel = level + direction;
-
-  return findRecipeLocation(game, recipe, nextLevel, direction);
-};
-
-// Recursive function to find the recipe locations
-const getRecipeLocations = (game: GameState) => {
-  return getKeys(RECIPE_UNLOCKS)
-    .filter((recipe) => !game.craftingBox.recipes[recipe])
-    .filter((recipe) => canDiscoverRecipe(game, recipe))
-    .map((recipe) => {
-      const recipeUnlock = RECIPE_UNLOCKS[recipe];
-      return (
-        findRecipeLocation(
-          game,
-          recipe,
-          Math.min(
-            recipeUnlock!.expansion,
-            game.inventory["Basic Land"]?.toNumber() ?? 0,
-          ),
-          1,
-        ) ||
-        findRecipeLocation(
-          game,
-          recipe,
-          Math.min(
-            recipeUnlock!.expansion,
-            game.inventory["Basic Land"]?.toNumber() ?? 0,
-          ),
-          -1,
-        )
-      );
-    })
-    .filter(Boolean) as (Coordinates & { recipe: RecipeItemName })[];
 };
 
 const getIslandElements = ({
@@ -738,45 +660,6 @@ const getIslandElements = ({
         );
       }),
   );
-
-  if (!isVisiting) {
-    const recipeLocations = getRecipeLocations(game);
-    // Group recipes by location, to stop them overlapping
-    const recipeGroups = recipeLocations.reduce(
-      (groups, recipe) => {
-        const key = `${recipe.x},${recipe.y}`;
-        if (!groups[key]) {
-          groups[key] = [];
-        }
-        groups[key].push(recipe);
-        return groups;
-      },
-      {} as Record<
-        string,
-        (Coordinates & {
-          recipe: RecipeItemName;
-        })[]
-      >,
-    );
-
-    Object.entries(recipeGroups).forEach(([key, recipes]) => {
-      const [x, y] = key.split(",").map(Number);
-      mapPlacements.push(
-        <MapPlacement
-          key={`recipe-group-${key}`}
-          x={x}
-          y={y}
-          height={1}
-          width={1}
-        >
-          <RecipeStack
-            key={`recipe-${recipes}`}
-            recipes={recipes.map((r) => r.recipe)}
-          />
-        </MapPlacement>,
-      );
-    });
-  }
 
   return mapPlacements;
 };

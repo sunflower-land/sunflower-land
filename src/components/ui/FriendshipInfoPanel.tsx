@@ -4,6 +4,7 @@ import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ITEM_DETAILS } from "features/game/types/images";
 import coinsIcon from "assets/icons/coins.webp";
+import recipeIcon from "assets/decorations/page.png";
 import { getEntries } from "features/game/types/craftables";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { BumpkinGift } from "features/game/types/gifts";
@@ -102,6 +103,13 @@ export const FriendshipInfoPanel: React.FC<Props> = ({
               <div className="capitalize space-x-1 flex items-center">
                 <img src={coinsIcon} alt="Coins" className="w-4 mr-0.5" />
                 <span className="text-xs">{`${nextGift.coins} ${t("coins")}`}</span>
+              </div>
+            )}
+
+            {!!nextGift.recipe && (
+              <div className="capitalize space-x-1 flex items-center">
+                <img src={recipeIcon} alt="Coins" className="w-4 mr-0.5" />
+                <span className="text-xs">{t("recipe")}</span>
               </div>
             )}
           </div>

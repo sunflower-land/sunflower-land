@@ -378,10 +378,7 @@ import {
   buySeasonalItem,
   BuySeasonalItemAction,
 } from "./landExpansion/buySeasonalItem";
-import {
-  discoverRecipe,
-  DiscoverRecipeAction,
-} from "./landExpansion/discoverRecipe";
+
 import {
   unlockFarmhand,
   UnlockFarmhandAction,
@@ -634,7 +631,6 @@ export type PlayingEvent =
   | CompleteNPCChoreAction
   | ClaimProduceAction
   | BuySeasonalItemAction
-  | DiscoverRecipeAction
   | UnlockFarmhandAction
   | ClaimPurchaseAction
   | RedeemTradeRewardsAction
@@ -857,7 +853,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "chore.fulfilled": completeNPCChore,
   "produce.claimed": claimProduce,
   "seasonalItem.bought": buySeasonalItem,
-  "recipe.discovered": discoverRecipe,
   "farmHand.unlocked": unlockFarmhand,
   "fishing.reelsBought": buyMoreReels,
   "purchase.claimed": claimPurchase,

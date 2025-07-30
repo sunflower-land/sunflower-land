@@ -275,4 +275,56 @@ describe("claimBumpkinGift", () => {
 
     expect(state.inventory["Treasure Key"]).toEqual(new Decimal(1));
   });
+
+  it("claims a gift of a recipe", () => {
+    expect(TEST_FARM.craftingBox.recipes["Basic Bed"]).toBeUndefined();
+
+    const state = claimGift({
+      action: {
+        bumpkin: "betty",
+        type: "gift.claimed",
+      },
+      state: {
+        ...TEST_FARM,
+        npcs: {
+          betty: {
+            deliveryCount: 0,
+            friendship: {
+              points: 32,
+              updatedAt: 100002000,
+              giftClaimedAtPoints: 12,
+            },
+          },
+        },
+      },
+    });
+
+    expect(state.craftingBox.recipes["Basic Bed"]).toBeDefined();
+  });
+
+  it("claims any recipes that are missing", () => {
+    const state = claimGift({
+      action: {
+        bumpkin: "betty",
+        type: "gift.claimed",
+      },
+      state: {
+        ...TEST_FARM,
+        npcs: {
+          betty: {
+            deliveryCount: 0,
+            friendship: {
+              points: 10000,
+              updatedAt: 100002000,
+              giftClaimedAtPoints: 100,
+            },
+          },
+        },
+      },
+    });
+
+    expect(state.craftingBox.recipes["Basic Bed"]).toBeDefined();
+    expect(state.craftingBox.recipes["Doll"]).toBeDefined();
+    expect(state.craftingBox.recipes["Buzz Doll"]).toBeDefined();
+  });
 });

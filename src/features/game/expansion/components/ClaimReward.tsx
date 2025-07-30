@@ -7,11 +7,15 @@ import coins from "assets/icons/coins.webp";
 import powerup from "assets/icons/level_up.png";
 import factionPoint from "assets/icons/faction_point.webp";
 import vip from "assets/icons/vip.webp";
+import recipeIcon from "assets/decorations/page.png";
 import { CollectibleName, getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
-import { Airdrop as IAirdrop } from "features/game/types/game";
+import {
+  Airdrop as IAirdrop,
+  InventoryItemName,
+} from "features/game/types/game";
 import { Label } from "components/ui/Label";
 import { Box } from "components/ui/Box";
 import { CONSUMABLES, ConsumableName } from "features/game/types/consumables";
@@ -27,6 +31,7 @@ import { useSelector } from "@xstate/react";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 import { ButtonPanel } from "components/ui/Panel";
 import { OPEN_SEA_WEARABLES } from "metadata/metadata";
+import { RECIPES } from "features/game/lib/crafting";
 
 const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 const _game = (state: MachineState) => state.context.state;
@@ -245,6 +250,36 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
                           : t("reward.wearable")}
                       </p>
                     )}
+                  </div>
+                </ButtonPanel>
+              );
+            })}
+
+          {!!airdrop.recipes &&
+            airdrop.recipes.map((recipe) => {
+              return (
+                <ButtonPanel
+                  key={recipe}
+                  variant="card"
+                  className="flex items-start cursor-context-menu hover:brightness-100"
+                >
+                  <Box image={recipeIcon} className="-mt-2 -ml-1 -mb-1" />
+                  <div>
+                    <div className="flex flex-wrap items-center">
+                      <Label type="default" className="mb-1 mr-2">
+                        {t("crafting.recipe", {
+                          recipe: RECIPES(game)[recipe]!.name,
+                        })}
+                      </Label>
+                      {!game.inventory["Crafting Box"] && (
+                        <Label type="danger" className="mb-1">
+                          {t("crafting.noBox")}
+                        </Label>
+                      )}
+                    </div>
+                    <p className="text-xs ml-0.5 ">
+                      {ITEM_DETAILS[recipe as InventoryItemName]?.description}
+                    </p>
                   </div>
                 </ButtonPanel>
               );
