@@ -296,7 +296,7 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
                 mobileReversePanelOrder
                 content={
                   <div className="flex flex-col space-y-2 w-full">
-                    <div className="flex justify-between items-center">
+                    <div className="flex flex-wrap justify-between items-center">
                       <Label
                         type="default"
                         className={classNames({

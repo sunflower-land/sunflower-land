@@ -6178,5 +6178,14 @@
   "cheer": "Jubeln",
   "crafting.recipe": "{{recipe}} Rezept",
   "crafting.noBox": "Bastelkiste erforderlich",
-  "recipe": "Rezept"
+  "recipe": "Rezept",
+  "confirmTitle": "Bist du sicher?",
+  "sleepingAnimal.confirmMessage": "Bist du sicher, dass du {{name}} geben willst, um {{animal}} aufzuwecken?",
+  "sleepingAnimal.cancel": "Stornieren",
+  "sleepingAnimal.confirm": "Bestätigen",
+  "sleepingAnimal.sleeping": "Schlafend",
+  "sleepingAnimal.sheepLoveToPlay": "{{name}} liebe es zu spielen. Wirf eine Puppe hinein, um wieder aufzuwachen.",
+  "sleepingAnimal.dollCount": "1 x {{name}}",
+  "sleepingAnimal.availableAtCraftingBox": "Erhältlich in der Crafting Box",
+  "sleepingAnimal.wakeUp": "Wach auf"
 }

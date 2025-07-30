@@ -6178,5 +6178,14 @@
   "cheer": "応援",
   "crafting.recipe": "{{recipe}} レシピ",
   "crafting.noBox": "クラフトボックスが必要です",
-  "recipe": "レシピ"
+  "recipe": "レシピ",
+  "confirmTitle": "よろしいですか？",
+  "sleepingAnimal.confirmMessage": "本当に {{name}} を渡して {{animal}} を目覚めさせてもよろしいですか？",
+  "sleepingAnimal.cancel": "[キャンセル]",
+  "sleepingAnimal.confirm": "確認",
+  "sleepingAnimal.sleeping": "睡眠",
+  "sleepingAnimal.sheepLoveToPlay": "{{name}} 遊ぶのが大好きです。人形を投げてまた目を覚ましてください。",
+  "sleepingAnimal.dollCount": "1 x {{name}}",
+  "sleepingAnimal.availableAtCraftingBox": "クラフトボックスで購入可能",
+  "sleepingAnimal.wakeUp": "ウェイクアップ"
 }

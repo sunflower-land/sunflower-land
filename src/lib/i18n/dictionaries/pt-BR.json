@@ -6178,5 +6178,14 @@
   "cheer": "Aplausos",
   "crafting.recipe": "{{recipe}} Receita",
   "crafting.noBox": "É necessária uma caixa de fabricação",
-  "recipe": "Receita"
+  "recipe": "Receita",
+  "confirmTitle": "Você tem certeza?",
+  "sleepingAnimal.confirmMessage": "Tem certeza de que deseja dar um {{name}} para despertar o {{animal}}?",
+  "sleepingAnimal.cancel": "Cancelar",
+  "sleepingAnimal.confirm": "Confirme",
+  "sleepingAnimal.sleeping": "Dormindo",
+  "sleepingAnimal.sheepLoveToPlay": "{{name}} adora jogar. Jogue uma boneca para acordar novamente.",
+  "sleepingAnimal.dollCount": "1 x {{name}}",
+  "sleepingAnimal.availableAtCraftingBox": "Disponível na Crafting Box",
+  "sleepingAnimal.wakeUp": "Acorde"
 }

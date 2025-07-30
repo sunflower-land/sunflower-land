@@ -6178,5 +6178,14 @@
   "cheer": "tezahürat",
   "crafting.recipe": "{{recipe}} Tarif",
   "crafting.noBox": "Üretim Kutusu gerekli",
-  "recipe": "Reçete"
+  "recipe": "Reçete",
+  "confirmTitle": "Emin misin?",
+  "sleepingAnimal.confirmMessage": "{{animal}} öğesini uyandırmak için bir {{name}} vermek istediğinizden emin misiniz?",
+  "sleepingAnimal.cancel": "İptal",
+  "sleepingAnimal.confirm": "Onaylayın",
+  "sleepingAnimal.sleeping": "Uyuyor",
+  "sleepingAnimal.sheepLoveToPlay": "{{name}} oynamayı seviyorum. Tekrar uyanmak için bir Bebek fırlat.",
+  "sleepingAnimal.dollCount": "1 x {{name}}",
+  "sleepingAnimal.availableAtCraftingBox": "Crafting Box'ta mevcuttur",
+  "sleepingAnimal.wakeUp": "Uyan"
 }

@@ -6178,5 +6178,14 @@
   "cheer": "Rallegrare",
   "crafting.recipe": "{{recipe}} Ricetta",
   "crafting.noBox": "Scatola per artigianato richiesta",
-  "recipe": "Ricetta"
+  "recipe": "Ricetta",
+  "confirmTitle": "Ne sei sicuro?",
+  "sleepingAnimal.confirmMessage": "Sei sicuro di voler dare un {{name}} per svegliare il {{animal}}?",
+  "sleepingAnimal.cancel": "Annulla",
+  "sleepingAnimal.confirm": "Confermare",
+  "sleepingAnimal.sleeping": "Dormire",
+  "sleepingAnimal.sheepLoveToPlay": "{{name}} amo giocare. Lancia una bambola per risvegliarti.",
+  "sleepingAnimal.dollCount": "1 x {{name}}",
+  "sleepingAnimal.availableAtCraftingBox": "Disponibile presso il Crafting Box",
+  "sleepingAnimal.wakeUp": "Svegliati"
 }

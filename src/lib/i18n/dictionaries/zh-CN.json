@@ -6178,5 +6178,14 @@
   "cheer": "欢呼",
   "crafting.recipe": "{{recipe}} 食谱",
   "crafting.noBox": "需要制作箱",
-  "recipe": "食谱"
+  "recipe": "食谱",
+  "confirmTitle": "你确定吗？",
+  "sleepingAnimal.confirmMessage": "你确定要给 {{name}} 来唤醒 {{animal}} 吗？",
+  "sleepingAnimal.cancel": "取消",
+  "sleepingAnimal.confirm": "确认",
+  "sleepingAnimal.sleeping": "正在睡觉",
+  "sleepingAnimal.sheepLoveToPlay": "{{name}} 喜欢玩。把它扔一个娃娃让它再次醒来。",
+  "sleepingAnimal.dollCount": "1 x {{name}}",
+  "sleepingAnimal.availableAtCraftingBox": "可在制作箱中获得",
+  "sleepingAnimal.wakeUp": "醒醒吧"
 }

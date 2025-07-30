@@ -31,7 +31,6 @@ import {
 } from "features/game/types/game";
 import { ProduceDrops } from "features/game/expansion/components/animals/ProduceDrops";
 import { useSound } from "lib/utils/hooks/useSound";
-import { WakesIn } from "features/game/expansion/components/animals/WakesIn";
 import { InfoPopover } from "features/island/common/InfoPopover";
 import Decimal from "decimal.js-light";
 import {
@@ -43,6 +42,10 @@ import { getAnimalXP } from "features/game/events/landExpansion/loveAnimal";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { MutantAnimalModal } from "features/farming/animals/components/MutantAnimalModal";
 import { isWearableActive } from "features/game/lib/wearables";
+import { Modal } from "components/ui/Modal";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { OuterPanel } from "components/ui/Panel";
+import { SleepingAnimalModal } from "features/barn/components/SleepingAnimalModal";
 
 export const CHICKEN_EMOTION_ICONS: Record<
   Exclude<TState["value"], "idle" | "needsLove" | "initial" | "sick">,
@@ -316,7 +319,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     if (needsLove) return onLoveClick();
 
     if (sleeping) {
-      setShowWakesIn((prev) => !prev);
+      setShowWakesIn(true);
       return;
     }
 
@@ -437,8 +440,6 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
           height: `${GRID_WIDTH_PX * 2}px`,
         }}
         onClick={handleClick}
-        onMouseLeave={() => showWakesIn && setShowWakesIn(false)}
-        onTouchEnd={() => showWakesIn && setShowWakesIn(false)}
       >
         <div
           className="relative w-full h-full"
@@ -497,9 +498,22 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
               request={requestBubbleRequest()}
             />
           )}
-          {sleeping && showWakesIn && (
-            <WakesIn awakeAt={chicken.awakeAt} className="-top-9 z-20" />
-          )}
+          <Modal
+            show={sleeping && showWakesIn}
+            onHide={() => setShowWakesIn(false)}
+          >
+            <CloseButtonPanel
+              container={OuterPanel}
+              onClose={() => setShowWakesIn(false)}
+            >
+              <SleepingAnimalModal
+                id={chicken.id}
+                animal={chicken}
+                awakeAt={chicken.awakeAt}
+                onClose={() => setShowWakesIn(false)}
+              />
+            </CloseButtonPanel>
+          </Modal>
         </div>
         <InfoPopover
           showPopover={

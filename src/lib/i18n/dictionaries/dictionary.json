@@ -6347,5 +6347,14 @@
   "cheer": "Cheer",
   "crafting.recipe": "{{recipe}} Recipe",
   "crafting.noBox": "Crafting Box required",
-  "recipe": "Recipe"
+  "recipe": "Recipe",
+  "confirmTitle": "Are you sure?",
+  "sleepingAnimal.confirmMessage": "Are you sure you want to give a {{name}} to wake up the {{animal}}?",
+  "sleepingAnimal.cancel": "Cancel",
+  "sleepingAnimal.confirm": "Confirm",
+  "sleepingAnimal.sleeping": "Sleeping",
+  "sleepingAnimal.sheepLoveToPlay": "{{name}} love to play. Toss it a Doll to wake up again.",
+  "sleepingAnimal.dollCount": "1 x {{name}}",
+  "sleepingAnimal.availableAtCraftingBox": "Available at the Crafting Box",
+  "sleepingAnimal.wakeUp": "Wake up"
 }
