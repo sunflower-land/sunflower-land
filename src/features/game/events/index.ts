@@ -511,6 +511,7 @@ import {
   removeBeehive,
   RemoveBeehiveAction,
 } from "./landExpansion/removeBeehive";
+import { wakeAnimal, WakeUpAnimalAction } from "./landExpansion/wakeUpAnimal";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
@@ -654,7 +655,8 @@ export type PlayingEvent =
   | BuyOptionPurchaseItemAction
   | InstantCraftAction
   | BuyBiomeAction
-  | ApplyBiomeAction;
+  | ApplyBiomeAction
+  | WakeUpAnimalAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -878,6 +880,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "crafting.spedUp": speedUpCrafting,
   "biome.bought": buyBiome,
   "biome.applied": applyBiome,
+  "animal.wakeUp": wakeAnimal,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

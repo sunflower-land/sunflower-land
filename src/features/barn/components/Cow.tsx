@@ -31,7 +31,6 @@ import {
 import { Transition } from "@headlessui/react";
 import { useTranslation } from "react-i18next";
 import { useSound } from "lib/utils/hooks/useSound";
-import { WakesIn } from "features/game/expansion/components/animals/WakesIn";
 import Decimal from "decimal.js-light";
 import { InfoPopover } from "features/island/common/InfoPopover";
 import {
@@ -43,6 +42,10 @@ import { getAnimalXP } from "features/game/events/landExpansion/loveAnimal";
 import { MutantAnimalModal } from "features/farming/animals/components/MutantAnimalModal";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { isWearableActive } from "features/game/lib/wearables";
+import { Modal } from "components/ui/Modal";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { OuterPanel } from "components/ui/Panel";
+import { SleepingAnimalModal } from "./SleepingAnimalModal";
 
 export const ANIMAL_EMOTION_ICONS: Record<
   Exclude<TState["value"], "idle" | "needsLove" | "initial" | "sick">,
@@ -306,7 +309,7 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
     if (needsLove) return onLoveClick();
 
     if (sleeping) {
-      setShowWakesIn((prev) => !prev);
+      setShowWakesIn(true);
       return;
     }
 
@@ -425,8 +428,6 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
           width: `${GRID_WIDTH_PX * 2}px`,
           height: `${GRID_WIDTH_PX * 2}px`,
         }}
-        onMouseLeave={() => showWakesIn && setShowWakesIn(false)}
-        onTouchEnd={() => showWakesIn && setShowWakesIn(false)}
       >
         <div className="relative w-full h-full">
           {showDrops && (
@@ -470,9 +471,19 @@ export const Cow: React.FC<{ id: string; disabled: boolean }> = ({
               quantity={idle && !hasGoldenCow ? requiredFoodQty : undefined}
             />
           )}
-          {(sleeping || needsLove) && showWakesIn && (
-            <WakesIn awakeAt={cow.awakeAt} className="-top-10" />
-          )}
+          <Modal show={sleeping && showWakesIn}>
+            <CloseButtonPanel
+              container={OuterPanel}
+              onClose={() => setShowWakesIn(false)}
+            >
+              <SleepingAnimalModal
+                id={cow.id}
+                animal={cow}
+                awakeAt={cow.awakeAt}
+                onClose={() => setShowWakesIn(false)}
+              />
+            </CloseButtonPanel>
+          </Modal>
           <InfoPopover
             showPopover={
               showNoToolPopover ||
