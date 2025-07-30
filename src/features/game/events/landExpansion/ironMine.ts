@@ -161,41 +161,25 @@ export function getIronDropAmount({
   }
 
   // If within Emerald Turtle AOE: +0.5
-  if (game.collectibles["Emerald Turtle"]?.[0]) {
-    if (!rock || rock.x === undefined || rock.y === undefined)
-      return {
-        amount: new Decimal(amount).toDecimalPlaces(4),
-        aoe: updatedAoe,
-        boostsUsed,
-      };
-
-    const emeraldTurtleCoordinates =
-      game.collectibles["Emerald Turtle"]?.[0].coordinates;
-    const emeraldTurtleDimensions = COLLECTIBLES_DIMENSIONS["Emerald Turtle"];
-
-    if (!emeraldTurtleCoordinates) {
-      return {
-        amount: new Decimal(amount).toDecimalPlaces(4),
-        aoe: updatedAoe,
-        boostsUsed,
-      };
-    }
-
+  if (
+    isCollectibleBuilt({ name: "Emerald Turtle", game }) &&
+    rock &&
+    rock.x !== undefined &&
+    rock.y !== undefined
+  ) {
+    const coordinates = game.collectibles["Emerald Turtle"]![0].coordinates!;
     const emeraldTurtlePosition: Position = {
-      x: emeraldTurtleCoordinates.x,
-      y: emeraldTurtleCoordinates.y,
-      height: emeraldTurtleDimensions.height,
-      width: emeraldTurtleDimensions.width,
+      ...coordinates,
+      ...COLLECTIBLES_DIMENSIONS["Emerald Turtle"],
     };
 
     const rockPosition: Position = {
-      x: rock?.x,
-      y: rock?.y,
+      x: rock.x,
+      y: rock.y,
       ...RESOURCE_DIMENSIONS["Iron Rock"],
     };
 
     if (
-      isCollectibleBuilt({ name: "Emerald Turtle", game }) &&
       isWithinAOE(
         "Emerald Turtle",
         emeraldTurtlePosition,
@@ -205,6 +189,7 @@ export function getIronDropAmount({
     ) {
       const dx = rock.x - emeraldTurtlePosition.x;
       const dy = rock.y - emeraldTurtlePosition.y;
+
       const canUseAoe = canUseYieldBoostAOE(
         updatedAoe,
         "Emerald Turtle",

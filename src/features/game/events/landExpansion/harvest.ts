@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import {
   AOE,
   BoostName,
@@ -408,42 +409,27 @@ export function getCropYieldAmount({
   }
 
   if (
-    game.collectibles["Scary Mike"]?.[0] &&
+    isCollectibleBuilt({ name: "Scary Mike", game }) &&
     isPlotCrop(crop) &&
     isMediumCrop(crop) &&
-    plot
+    plot &&
+    plot.x !== undefined &&
+    plot.y !== undefined
   ) {
-    if (plot.x === undefined || plot.y === undefined) {
-      return { amount, aoe: updatedAoe, boostsUsed };
-    }
+    const dimensions = COLLECTIBLES_DIMENSIONS["Scary Mike"];
+    const coordinates = game.collectibles["Scary Mike"]![0].coordinates!;
 
-    const scarecrowCoordinates =
-      game.collectibles["Scary Mike"]?.[0].coordinates;
-    const scarecrowDimensions = COLLECTIBLES_DIMENSIONS["Scary Mike"];
-
-    if (!scarecrowCoordinates) {
-      return { amount, aoe: updatedAoe, boostsUsed };
-    }
-
-    const scarecrowPosition: Position = {
-      x: scarecrowCoordinates.x,
-      y: scarecrowCoordinates.y,
-      height: scarecrowDimensions.height,
-      width: scarecrowDimensions.width,
-    };
-
-    const plotPosition: Position = {
-      x: plot?.x,
-      y: plot?.y,
+    const plotPosition = {
+      x: plot.x,
+      y: plot.y,
       ...RESOURCE_DIMENSIONS["Crop Plot"],
     };
 
-    if (
-      isCollectibleBuilt({ name: "Scary Mike", game }) &&
-      isWithinAOE("Scary Mike", scarecrowPosition, plotPosition, skills)
-    ) {
-      const dx = plot.x - scarecrowPosition.x;
-      const dy = plot.y - scarecrowPosition.y;
+    const scaryMikePosition = { ...dimensions, ...coordinates };
+
+    if (isWithinAOE("Scary Mike", scaryMikePosition, plotPosition, skills)) {
+      const dx = plot.x - coordinates.x;
+      const dy = plot.y - coordinates.y;
 
       const canUseAoe = canUseYieldBoostAOE(
         updatedAoe,
@@ -468,38 +454,31 @@ export function getCropYieldAmount({
   }
 
   if (
-    game.collectibles["Sir Goldensnout"] &&
     isCollectibleBuilt({ name: "Sir Goldensnout", game }) &&
-    plot
+    isPlotCrop(crop) &&
+    plot &&
+    plot.x !== undefined &&
+    plot.y !== undefined
   ) {
-    if (plot.x === undefined || plot.y === undefined) {
-      return { amount, aoe: updatedAoe, boostsUsed };
-    }
-
-    const sirGoldenSnout = game.collectibles["Sir Goldensnout"][0];
-
-    if (!sirGoldenSnout?.coordinates) {
-      return { amount, aoe: updatedAoe, boostsUsed };
-    }
-
-    const position: Position = {
-      x: sirGoldenSnout.coordinates.x,
-      y: sirGoldenSnout.coordinates.y,
-      ...COLLECTIBLES_DIMENSIONS["Sir Goldensnout"],
-    };
-
-    const plotPosition: Position = {
-      x: plot?.x,
-      y: plot?.y,
+    const dimensions = COLLECTIBLES_DIMENSIONS["Sir Goldensnout"];
+    const coordinates = game.collectibles["Sir Goldensnout"]![0].coordinates!;
+    const plotPosition = {
+      x: plot.x,
+      y: plot.y,
       ...RESOURCE_DIMENSIONS["Crop Plot"],
     };
 
+    const sirGoldensnoutPosition = { ...dimensions, ...coordinates };
     if (
-      isPlotCrop(crop) &&
-      isWithinAOE("Sir Goldensnout", position, plotPosition, skills)
+      isWithinAOE(
+        "Sir Goldensnout",
+        sirGoldensnoutPosition,
+        plotPosition,
+        skills,
+      )
     ) {
-      const dx = plot.x - position.x;
-      const dy = plot.y - position.y;
+      const dx = plot.x - coordinates.x;
+      const dy = plot.y - coordinates.y;
 
       const canUseAoe = canUseYieldBoostAOE(
         updatedAoe,
@@ -513,59 +492,48 @@ export function getCropYieldAmount({
         setAOELastUsed(updatedAoe, "Sir Goldensnout", { dx, dy }, createdAt);
         amount = amount + 0.5;
       }
+      boostsUsed.push("Sir Goldensnout");
     }
-    boostsUsed.push("Sir Goldensnout");
   }
 
   if (
-    game.collectibles["Laurie the Chuckle Crow"]?.[0] &&
+    isCollectibleBuilt({ name: "Laurie the Chuckle Crow", game }) &&
     isPlotCrop(crop) &&
     isAdvancedCrop(crop) &&
-    plot
+    plot &&
+    plot.x !== undefined &&
+    plot.y !== undefined
   ) {
-    if (plot.x === undefined || plot.y === undefined) {
-      return { amount, aoe: updatedAoe, boostsUsed };
-    }
+    const coordinates =
+      game.collectibles["Laurie the Chuckle Crow"]![0].coordinates!;
 
-    const scarecrowCoordinates =
-      game.collectibles["Laurie the Chuckle Crow"]?.[0].coordinates;
-    const scarecrowDimensions =
-      COLLECTIBLES_DIMENSIONS["Laurie the Chuckle Crow"];
-
-    if (!scarecrowCoordinates) {
-      return { amount, aoe: updatedAoe, boostsUsed };
-    }
-
-    const scarecrowPosition: Position = {
-      x: scarecrowCoordinates.x,
-      y: scarecrowCoordinates.y,
-      height: scarecrowDimensions.height,
-      width: scarecrowDimensions.width,
+    const laurieCrowPosition = {
+      ...coordinates,
+      ...COLLECTIBLES_DIMENSIONS["Laurie the Chuckle Crow"],
     };
 
-    const plotPosition: Position = {
-      x: plot?.x,
-      y: plot?.y,
+    const plotPosition = {
+      x: plot.x,
+      y: plot.y,
       ...RESOURCE_DIMENSIONS["Crop Plot"],
     };
 
     if (
-      isCollectibleBuilt({ name: "Laurie the Chuckle Crow", game }) &&
       isWithinAOE(
         "Laurie the Chuckle Crow",
-        scarecrowPosition,
+        laurieCrowPosition,
         plotPosition,
         skills,
       )
     ) {
-      const dx = plotPosition.x - scarecrowPosition.x;
-      const dy = plotPosition.y - scarecrowPosition.y;
+      const dx = plotPosition.x - coordinates.x;
+      const dy = plotPosition.y - coordinates.y;
 
       const canUseAoe = canUseYieldBoostAOE(
         updatedAoe,
         "Laurie the Chuckle Crow",
         { dx, dy },
-        CROPS[crop].harvestSeconds * 1000 - (plot?.crop?.boostedTime ?? 0),
+        CROPS[crop].harvestSeconds * 1000 - (plot.crop?.boostedTime ?? 0),
         createdAt,
       );
 
@@ -587,38 +555,30 @@ export function getCropYieldAmount({
     }
   }
 
-  if (crop === "Corn" && game.collectibles["Queen Cornelia"]?.[0] && plot) {
-    if (plot.x === undefined || plot.y === undefined) {
-      return { amount, aoe: updatedAoe, boostsUsed };
-    }
+  if (
+    isCollectibleBuilt({ name: "Queen Cornelia", game }) &&
+    crop === "Corn" &&
+    plot &&
+    plot.x !== undefined &&
+    plot.y !== undefined
+  ) {
+    const coordinates = game.collectibles["Queen Cornelia"]![0].coordinates!;
 
-    const scarecrowCoordinates =
-      game.collectibles["Queen Cornelia"]?.[0].coordinates;
-    const scarecrowDimensions = COLLECTIBLES_DIMENSIONS["Queen Cornelia"];
-
-    if (!scarecrowCoordinates) {
-      return { amount, aoe: updatedAoe, boostsUsed };
-    }
-
-    const scarecrowPosition: Position = {
-      x: scarecrowCoordinates.x,
-      y: scarecrowCoordinates.y,
-      height: scarecrowDimensions.height,
-      width: scarecrowDimensions.width,
+    const queenCorneliaPosition = {
+      ...coordinates,
+      ...COLLECTIBLES_DIMENSIONS["Queen Cornelia"],
     };
 
     const plotPosition: Position = {
-      x: plot?.x,
-      y: plot?.y,
+      x: plot.x,
+      y: plot.y,
       ...RESOURCE_DIMENSIONS["Crop Plot"],
     };
-
     if (
-      isCollectibleBuilt({ name: "Queen Cornelia", game }) &&
-      isWithinAOE("Queen Cornelia", scarecrowPosition, plotPosition, skills)
+      isWithinAOE("Queen Cornelia", queenCorneliaPosition, plotPosition, skills)
     ) {
-      const dx = plotPosition.x - scarecrowPosition.x;
-      const dy = plotPosition.y - scarecrowPosition.y;
+      const dx = plotPosition.x - coordinates.x;
+      const dy = plotPosition.y - coordinates.y;
 
       const canUseAoe = canUseYieldBoostAOE(
         updatedAoe,
@@ -636,46 +596,45 @@ export function getCropYieldAmount({
     }
   }
 
-  if (crop === "Pumpkin" && isCollectibleBuilt({ name: "Freya Fox", game })) {
-    amount += 0.5;
-    boostsUsed.push("Freya Fox");
-  }
-
-  const hasGnome = isCollectibleBuilt({ name: "Gnome", game });
-
   if (
+    isCollectibleBuilt({ name: "Gnome", game }) &&
+    isCollectibleBuilt({ name: "Cobalt", game }) &&
+    isCollectibleBuilt({ name: "Clementine", game }) &&
     isPlotCrop(crop) &&
     (isMediumCrop(crop) || isAdvancedCrop(crop)) &&
-    hasGnome &&
-    plot
+    plot &&
+    plot.x !== undefined &&
+    plot.y !== undefined
   ) {
-    if (plot.x === undefined || plot.y === undefined) {
-      return { amount, aoe: updatedAoe, boostsUsed };
-    }
+    const gnomeCoordinates = game.collectibles["Gnome"]![0].coordinates!;
+    const cobaltCoordinates = game.collectibles["Cobalt"]![0].coordinates!;
+    const clementineCoordinates =
+      game.collectibles["Clementine"]![0].coordinates!;
 
-    const gnome = game.collectibles["Gnome"]?.[0];
+    const isColbatLeftOfGnome =
+      cobaltCoordinates.y === gnomeCoordinates.y &&
+      cobaltCoordinates.x + 1 === gnomeCoordinates.x;
 
-    // Cobalt is to the left
-    const cobalt = game.collectibles["Cobalt"]?.[0];
-    const cobaltIsLeftOf =
-      cobalt?.coordinates?.y === gnome?.coordinates?.y &&
-      (cobalt?.coordinates?.x ?? 0) + 1 === gnome?.coordinates?.x;
+    const isClementineRightOfGnome =
+      clementineCoordinates.y === gnomeCoordinates.y &&
+      clementineCoordinates.x - 1 === gnomeCoordinates.x;
 
-    // Clementine is to the right
-    const clementine = game.collectibles["Clementine"]?.[0];
-    const clementineIsRightOf =
-      clementine?.coordinates?.y === clementine?.coordinates?.y &&
-      (clementine?.coordinates?.x ?? 0) - 1 === gnome?.coordinates?.x;
+    const plotPosition: Position = {
+      x: plot.x,
+      y: plot.y,
+      ...RESOURCE_DIMENSIONS["Crop Plot"],
+    };
 
-    const cropIsBelow =
-      plot.x === gnome?.coordinates?.x && plot.y + 1 === gnome?.coordinates?.y;
-
-    // Must be at rest for 24
-    const isUndisturbed =
-      (gnome?.readyAt ?? gnome?.createdAt ?? 0) <
-      Date.now() - 24 * 60 * 60 * 1000;
-
-    if (isUndisturbed && cropIsBelow && cobaltIsLeftOf && clementineIsRightOf) {
+    if (
+      isWithinAOE(
+        "Gnome",
+        { ...gnomeCoordinates, ...COLLECTIBLES_DIMENSIONS["Gnome"] },
+        plotPosition,
+        skills,
+      ) &&
+      isColbatLeftOfGnome &&
+      isClementineRightOfGnome
+    ) {
       const dx = 0;
       const dy = 1;
 
@@ -690,13 +649,18 @@ export function getCropYieldAmount({
         setAOELastUsed(updatedAoe, "Gnome", { dx, dy }, createdAt);
         amount += 10;
       }
+      boostsUsed.push("Gnome");
     }
-    boostsUsed.push("Gnome");
   }
 
   if (crop === "Corn" && isCollectibleBuilt({ name: "Poppy", game })) {
     amount += 0.1;
     boostsUsed.push("Poppy");
+  }
+
+  if (crop === "Pumpkin" && isCollectibleBuilt({ name: "Freya Fox", game })) {
+    amount += 0.5;
+    boostsUsed.push("Freya Fox");
   }
 
   if (

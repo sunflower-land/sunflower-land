@@ -183,42 +183,31 @@ export function getStoneDropAmount({
     amount += 1;
   }
   // If within Emerald Turtle AOE: +0.5
-  if (game.collectibles["Emerald Turtle"]?.[0]) {
-    if (!rock || rock.x === undefined || rock.y === undefined)
-      return {
-        amount: new Decimal(amount).toDecimalPlaces(4),
-        aoe: updatedAoe,
-        boostsUsed,
-      };
-
-    const emeraldTurtleCoordinates =
-      game.collectibles["Emerald Turtle"]?.[0].coordinates;
-    const emeraldTurtleDimensions = COLLECTIBLES_DIMENSIONS["Emerald Turtle"];
-
-    if (!emeraldTurtleCoordinates) {
-      return {
-        amount: new Decimal(amount).toDecimalPlaces(4),
-        aoe: updatedAoe,
-        boostsUsed,
-      };
-    }
-
+  if (
+    isCollectibleBuilt({ name: "Emerald Turtle", game }) &&
+    rock &&
+    rock.x !== undefined &&
+    rock.y !== undefined
+  ) {
+    const coordinates = game.collectibles["Emerald Turtle"]![0].coordinates!;
     const emeraldTurtlePosition: Position = {
-      x: emeraldTurtleCoordinates.x,
-      y: emeraldTurtleCoordinates.y,
-      height: emeraldTurtleDimensions.height,
-      width: emeraldTurtleDimensions.width,
+      ...coordinates,
+      ...COLLECTIBLES_DIMENSIONS["Emerald Turtle"],
     };
 
     const rockPosition: Position = {
-      x: rock?.x,
-      y: rock?.y,
+      x: rock.x,
+      y: rock.y,
       ...RESOURCE_DIMENSIONS["Stone Rock"],
     };
 
     if (
-      isCollectibleBuilt({ name: "Emerald Turtle", game }) &&
-      isWithinAOE("Emerald Turtle", emeraldTurtlePosition, rockPosition, skills)
+      isWithinAOE(
+        "Emerald Turtle",
+        emeraldTurtlePosition,
+        rockPosition,
+        game.bumpkin.skills,
+      )
     ) {
       const dx = rock.x - emeraldTurtlePosition.x;
       const dy = rock.y - emeraldTurtlePosition.y;
@@ -239,44 +228,24 @@ export function getStoneDropAmount({
     }
   }
 
-  // If within Tin Turtle AOE: +0.1
-  if (game.collectibles["Tin Turtle"]?.[0]) {
-    if (!rock || rock.x === undefined || rock.y === undefined)
-      return {
-        amount: new Decimal(amount).toDecimalPlaces(4),
-        aoe: updatedAoe,
-        boostsUsed,
-      };
-
-    const tinTurtleCoordinates =
-      game.collectibles["Tin Turtle"]?.[0].coordinates;
-    const tinTurtleDimensions = COLLECTIBLES_DIMENSIONS["Tin Turtle"];
-
-    if (!tinTurtleCoordinates) {
-      return {
-        amount: new Decimal(amount).toDecimalPlaces(4),
-        aoe: updatedAoe,
-        boostsUsed,
-      };
-    }
-
+  if (
+    isCollectibleBuilt({ name: "Tin Turtle", game }) &&
+    rock &&
+    rock.x !== undefined &&
+    rock.y !== undefined
+  ) {
+    const coordinates = game.collectibles["Tin Turtle"]![0].coordinates!;
     const tinTurtlePosition: Position = {
-      x: tinTurtleCoordinates.x,
-      y: tinTurtleCoordinates.y,
-      height: tinTurtleDimensions.height,
-      width: tinTurtleDimensions.width,
+      ...coordinates,
+      ...COLLECTIBLES_DIMENSIONS["Tin Turtle"],
     };
-
     const rockPosition: Position = {
-      x: rock?.x,
-      y: rock?.y,
+      x: rock.x,
+      y: rock.y,
       ...RESOURCE_DIMENSIONS["Stone Rock"],
     };
 
-    if (
-      isCollectibleBuilt({ name: "Tin Turtle", game }) &&
-      isWithinAOE("Tin Turtle", tinTurtlePosition, rockPosition, skills)
-    ) {
+    if (isWithinAOE("Tin Turtle", tinTurtlePosition, rockPosition, skills)) {
       const dx = rock.x - tinTurtlePosition.x;
       const dy = rock.y - tinTurtlePosition.y;
 
