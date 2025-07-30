@@ -18,6 +18,52 @@ type Metadata = {
 };
 
 export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
+  "Baby Cow": {
+    description:
+      "Who doesn't love a baby cow? +10 cow xp from animal affection tools.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2525.png",
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Boost", value: "XP" },
+      {
+        display_type: "boost_number",
+        trait_type: "+10 cow xp from animal affection tools",
+        value: 0.1,
+      },
+    ],
+  },
+  "Baby Sheep": {
+    description: "Wooly and fluffy little baby",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2526.png",
+    attributes: [{ trait_type: "Tradable", value: "Yes" }],
+  },
+  "Janitor Chicken": {
+    description:
+      "A busy little chicken always ready to work. Reduces chicken sleep time by 5%.",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2527.png",
+    attributes: [
+      { trait_type: "Tradable", value: "Yes" },
+      { trait_type: "Boost", value: "Resource" },
+      {
+        display_type: "boost_number",
+        trait_type: "-5% chicken sleep time",
+        value: 5,
+      },
+    ],
+  },
+  "Venus Bumpkin Trap": {
+    description: "Never turn your back on this snappy plant!",
+    decimals: 0,
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2528.png",
+    attributes: [{ trait_type: "Tradable", value: "Yes" }],
+  },
   "Love Chicken": {
     description: "A mutant chicken filled with love and affection",
     decimals: 0,

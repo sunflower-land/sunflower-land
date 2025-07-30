@@ -1553,6 +1553,7 @@ function getCollectibleBuffLabels(
         boostTypeIcon: powerup,
       },
     ],
+<<<<<<< HEAD
     "Groovy Gramophone": [
       {
         shortDescription: translate("description.groovy.gramophone.boost"),
@@ -1575,6 +1576,22 @@ function getCollectibleBuffLabels(
         labelType: "info",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
         boostedItemIcon: ITEM_DETAILS["Turnip"].image,
+=======
+    "Baby Cow": [
+      {
+        shortDescription: translate("description.babyCow.boost"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: SUNNYSIDE.animals.cowSleeping,
+      },
+    ],
+    "Janitor Chicken": [
+      {
+        shortDescription: translate("description.janitorChicken.boost"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: SUNNYSIDE.animals.chickenAsleep,
+>>>>>>> 8eab556e8 ([FEAT] Add mutants)
       },
     ],
   };

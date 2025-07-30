@@ -42,6 +42,14 @@ const SEASONAL_MUTANTS: Partial<Record<SeasonName, SeasonalMutants>> = {
     sheep: "Frozen Sheep",
     banner: SUNNYSIDE.announcement.windsOfChangeSeasonRares,
   },
+  "Better Together": {
+    chicken: "Janitor Chicken",
+    flower: "Venus Bumpkin Trap",
+    fish: "Jellyfish",
+    cow: "Baby Cow",
+    sheep: "Baby Sheep",
+    banner: SUNNYSIDE.announcement.betterTogetherSeasonRares,
+  },
 };
 
 interface Props {
