@@ -1174,6 +1174,8 @@ export function startGame(authContext: AuthContext) {
             {
               target: "cheers",
               cond: (context) => {
+                if (!hasFeatureAccess(context.state, "CHEERS")) return false;
+
                 const now = Date.now();
 
                 const today = new Date(now).toISOString().split("T")[0];
@@ -1185,7 +1187,7 @@ export function startGame(authContext: AuthContext) {
                   context.state.socialFarming.cheers.freeCheersClaimedAt >=
                   new Date(today).getTime()
                 ) {
-                  throw new Error("Already claimed your daily free cheers");
+                  return false;
                 }
 
                 const dayFreeCheersClaimed = new Date(
