@@ -1099,6 +1099,9 @@ export const ITEM_TRADE_TYPES: {
     "Giant Turnip": "onchain",
     "Groovy Gramophone": "onchain",
     "Wheat Whiskers": "instant",
+    Trash: "instant",
+    Dung: "instant",
+    Weed: "instant",
   },
   wearables: {
     "New Years Crown": "instant",

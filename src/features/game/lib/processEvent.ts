@@ -609,7 +609,7 @@ export function checkProgress({ state, action, farmId }: ProcessEventArgs): {
   let newState: GameState;
 
   try {
-    newState = processEvent({ state, action, farmId });
+    newState = processEvent({ state, action, farmId }) as GameState;
   } catch {
     // Not our responsibility to catch events, pass on to the next handler
     return { valid: true };

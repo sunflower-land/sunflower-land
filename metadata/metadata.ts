@@ -12546,6 +12546,30 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/765.webp",
     name: "Cheer",
   },
+  Trash: {
+    description: "A piece of trash",
+    decimals: 0,
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2291.webp",
+    name: "Trash",
+  },
+  Dung: {
+    description: "A piece of dung",
+    decimals: 0,
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2292.webp",
+    name: "Dung",
+  },
+  Weed: {
+    description: "A weed",
+    decimals: 0,
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2293.webp",
+    name: "Weed",
+  },
 };
 
 export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
