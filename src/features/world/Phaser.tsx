@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Game, AUTO } from "phaser";
-import { useActor, useSelector } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import NinePatchPlugin from "phaser3-rex-plugins/plugins/ninepatch-plugin.js";
 import VirtualJoystickPlugin from "phaser3-rex-plugins/plugins/virtualjoystick-plugin.js";
 import { PhaserNavMeshPlugin } from "phaser-navmesh";
@@ -66,6 +66,7 @@ import { LoveIslandScene } from "./scenes/LoveIslandScene";
 import { hasFeatureAccess } from "lib/flags";
 import { WorldHud } from "features/island/hud/WorldHud";
 import { PlayerModal } from "features/social/PlayerModal";
+import { MachineState as GameMachineState } from "features/game/lib/gameMachine";
 
 const _roomState = (state: MachineState) => state.value;
 const _scene = (state: MachineState) => state.context.sceneId;
@@ -99,23 +100,19 @@ interface Props {
   route: SceneId;
 }
 
-export const PhaserComponent: React.FC<Props> = ({
-  mmoService,
-  inventory,
-  route,
-}) => {
+const _loggedInFarmId = (state: GameMachineState) =>
+  state.context.visitorId ? state.context.visitorId : state.context.farmId;
+const _state = (state: GameMachineState) => state.context.state;
+
+export const PhaserComponent: React.FC<Props> = ({ mmoService, route }) => {
   const { t } = useAppTranslation();
 
   const { authService } = useContext(AuthProvider.Context);
   const { gameService, selectedItem, shortcutItem } = useContext(Context);
-
-  const [
-    {
-      context: { state, farmId },
-    },
-  ] = useActor(gameService);
-
   const { toastsList } = useContext(ToastContext);
+
+  const loggedInFarmId = useSelector(gameService, _loggedInFarmId);
+  const state = useSelector(gameService, _state);
 
   const [messages, setMessages] = useState<Message[]>([]);
   const [players, setPlayers] = useState<Player[]>([]);
@@ -154,7 +151,7 @@ export const PhaserComponent: React.FC<Props> = ({
     // Set up community APIs
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (window as any).CommunityAPI = prepareAPI({
-      farmId: farmId as number,
+      farmId: loggedInFarmId,
       jwt: rawToken,
       gameService,
     });
@@ -202,7 +199,7 @@ export const PhaserComponent: React.FC<Props> = ({
     game.current.registry.set("gameState", state);
     game.current.registry.set("authService", authService);
     game.current.registry.set("gameService", gameService);
-    game.current.registry.set("id", farmId);
+    game.current.registry.set("id", loggedInFarmId);
     game.current.registry.set("initialScene", scene);
     game.current.registry.set("navigate", navigate);
     game.current.registry.set("selectedItem", selectedItem);
@@ -270,7 +267,7 @@ export const PhaserComponent: React.FC<Props> = ({
       .context.server?.onMessage(
         "moderation_event",
         (event: ModerationEvent) => {
-          const clientFarmId = farmId as number;
+          const clientFarmId = loggedInFarmId;
           if (!clientFarmId || clientFarmId !== event.farmId) return;
 
           switch (event.type) {
@@ -452,7 +449,7 @@ export const PhaserComponent: React.FC<Props> = ({
 
         {!hasFeatureAccess(state, "SOCIAL_FARMING") && (
           <ChatUI
-            farmId={farmId}
+            farmId={loggedInFarmId}
             gameState={state}
             scene={scene}
             onMessage={(m) => {
@@ -516,15 +513,19 @@ export const PhaserComponent: React.FC<Props> = ({
         />
       )}
 
-      <NPCModals id={farmId as number} />
+      <NPCModals id={loggedInFarmId} />
       <PlayerSelectionList />
       {hasFeatureAccess(state, "SOCIAL_FARMING") ? (
-        <PlayerModal game={state} farmId={farmId as number} token={rawToken} />
+        <PlayerModal
+          game={state}
+          loggedInFarmId={loggedInFarmId}
+          token={rawToken}
+        />
       ) : (
-        <PlayerModals game={state} farmId={farmId as number} />
+        <PlayerModals game={state} farmId={loggedInFarmId} />
       )}
       <CommunityModals />
-      <InteractableModals id={farmId as number} scene={scene} key={scene} />
+      <InteractableModals id={loggedInFarmId} scene={scene} key={scene} />
       <Modal
         show={mmoState === "loading" || mmoState === "initialising"}
         backdrop={false}

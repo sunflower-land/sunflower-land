@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import { Equipped } from "features/game/types/bumpkin";
 
 type Props = {
-  farmId: number;
+  loggedInFarmId: number;
   playerId: number;
   clothing: Equipped;
   username: string;
@@ -16,7 +16,7 @@ type Props = {
 };
 
 export const FollowDetailPanel: React.FC<Props> = ({
-  farmId,
+  loggedInFarmId,
   playerId,
   clothing,
   username,
@@ -27,7 +27,7 @@ export const FollowDetailPanel: React.FC<Props> = ({
   const lastOnline = getRelativeTime(lastOnlineAt);
 
   const isOnline = lastOnlineAt > Date.now() - 30 * 60 * 1000;
-  const isYou = farmId === playerId;
+  const isYou = loggedInFarmId === playerId;
 
   // Use useCallback to memoize the click handler
   const handleClick = useCallback(() => {
@@ -37,7 +37,6 @@ export const FollowDetailPanel: React.FC<Props> = ({
   return (
     <ButtonPanel
       className="flex gap-3 hover:bg-brown-300 transition-colors active:bg-brown-400"
-      disabled={isYou}
       onClick={handleClick}
     >
       <div className="relative">
@@ -46,7 +45,7 @@ export const FollowDetailPanel: React.FC<Props> = ({
         </div>
         <div className="absolute -top-1 -right-1">
           <OnlineStatus
-            farmId={farmId}
+            loggedInFarmId={loggedInFarmId}
             playerId={playerId}
             lastUpdatedAt={lastOnlineAt}
           />

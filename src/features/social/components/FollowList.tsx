@@ -9,7 +9,7 @@ import { Button } from "components/ui/Button";
 import { Equipped } from "features/game/types/bumpkin";
 
 type Props = {
-  farmId: number;
+  loggedInFarmId: number;
   token: string;
   networkFarmId: number;
   networkList: number[];
@@ -21,7 +21,7 @@ type Props = {
 };
 
 export const FollowList: React.FC<Props> = ({
-  farmId,
+  loggedInFarmId,
   token,
   networkFarmId,
   networkList,
@@ -41,7 +41,7 @@ export const FollowList: React.FC<Props> = ({
     [
       networkCount > 0 ? "followNetworkDetails" : null,
       token,
-      farmId,
+      loggedInFarmId,
       networkFarmId,
     ],
     ([, token, farmId, networkFarmId]) => {
@@ -127,7 +127,7 @@ export const FollowList: React.FC<Props> = ({
         return (
           <FollowDetailPanel
             key={`flw-${followerId}`}
-            farmId={farmId}
+            loggedInFarmId={loggedInFarmId}
             playerId={followerId}
             clothing={networkDetails?.[followerId]?.clothing as Equipped}
             username={networkDetails?.[followerId]?.username ?? ""}

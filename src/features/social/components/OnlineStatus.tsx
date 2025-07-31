@@ -2,20 +2,20 @@ import React from "react";
 import { useSocial } from "../hooks/useSocial";
 
 type OnlineStatusProps = {
-  farmId: number;
+  loggedInFarmId: number;
   playerId: number;
   lastUpdatedAt: number;
   size?: number;
 };
 
 export const OnlineStatus: React.FC<OnlineStatusProps> = ({
-  farmId,
+  loggedInFarmId,
   playerId,
   lastUpdatedAt,
   size = 12,
 }) => {
   const { online } = useSocial({
-    farmId,
+    farmId: loggedInFarmId,
   });
 
   const lastOnlineAt = online[playerId] ?? lastUpdatedAt ?? 0;
@@ -33,7 +33,6 @@ export const OnlineStatus: React.FC<OnlineStatusProps> = ({
         border: "1px solid #000",
         boxShadow: "0 0 2px rgba(0,0,0,0.15)",
       }}
-      title={status}
     />
   );
 };
