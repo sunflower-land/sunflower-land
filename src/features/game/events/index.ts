@@ -511,6 +511,7 @@ import {
   removeBeehive,
   RemoveBeehiveAction,
 } from "./landExpansion/removeBeehive";
+import { removeAll, RemoveAllAction } from "./landExpansion/removeAll";
 import { wakeAnimal, WakeUpAnimalAction } from "./landExpansion/wakeUpAnimal";
 
 export type PlayingEvent =
@@ -711,7 +712,8 @@ export type PlacementEvent =
   | RemovePlotAction
   | RemoveFruitPatchAction
   | RemoveFlowerBedAction
-  | RemoveBeehiveAction;
+  | RemoveBeehiveAction
+  | RemoveAllAction;
 
 export type GameEvent = PlayingEvent | PlacementEvent;
 export type GameEventName<T> = Extract<T, { type: string }>["type"];
@@ -937,6 +939,7 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "fruitPatch.removed": removeFruitPatch,
   "flowerBed.removed": removeFlowerBed,
   "beehive.removed": removeBeehive,
+  "items.removed": removeAll,
 };
 
 export const EVENTS = { ...PLAYING_EVENTS, ...PLACEMENT_EVENTS };

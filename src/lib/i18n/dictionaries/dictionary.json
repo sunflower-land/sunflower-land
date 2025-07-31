@@ -6355,5 +6355,8 @@
   "sleepingAnimal.sheepLoveToPlay": "{{name}} love to play. Toss it a Doll to wake up again.",
   "sleepingAnimal.dollCount": "1 x {{name}}",
   "sleepingAnimal.availableAtCraftingBox": "Available at the Crafting Box",
-  "sleepingAnimal.wakeUp": "Wake up"
+  "sleepingAnimal.wakeUp": "Wake up",
+  "removeAll.description.one": "This action will remove all items from the {{location}}.",
+  "removeAll.description.two": "Are you sure you want to continue?",
+  "removeAll.title": "Remove All Items"
 }
