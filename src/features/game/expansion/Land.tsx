@@ -41,16 +41,8 @@ import { BackgroundIslands } from "./components/BackgroundIslands";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Outlet, useLocation } from "react-router";
 import { createPortal } from "react-dom";
-<<<<<<< HEAD
 import { NON_COLLIDING_OBJECTS } from "./placeable/lib/collisionDetection";
-=======
-import {
-  getZIndex,
-  NON_COLLIDING_OBJECTS,
-  pickEmptyPosition,
-} from "./placeable/lib/collisionDetection";
-import { EXPANSION_ORIGINS, LAND_SIZE } from "./lib/constants";
->>>>>>> 95032b78a ([FIX] Tile positioning)
+import { getZIndex } from "./placeable/lib/collisionDetection";
 
 import {
   isBuildingUpgradable,
