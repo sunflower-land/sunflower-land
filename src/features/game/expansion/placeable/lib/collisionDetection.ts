@@ -156,12 +156,14 @@ function detectPlaceableCollision(
     const items = placed[name] as PlacedItem[];
     const dimensions = PLACEABLE_DIMENSIONS[name];
 
-    return items.map((item) => ({
-      x: item.coordinates.x,
-      y: item.coordinates.y,
-      height: dimensions.height,
-      width: dimensions.width,
-    }));
+    return items
+      .filter((item) => item.coordinates)
+      .map((item) => ({
+        x: item.coordinates!.x,
+        y: item.coordinates!.y,
+        height: dimensions.height,
+        width: dimensions.width,
+      }));
   });
 
   const RESOURCE_TYPES: Record<
@@ -375,12 +377,14 @@ function detectHomeCollision({
     const items = placed[name] as PlacedItem[];
     const dimensions = PLACEABLE_DIMENSIONS[name];
 
-    return items.map((item) => ({
-      x: item.coordinates.x,
-      y: item.coordinates.y,
-      height: dimensions.height,
-      width: dimensions.width,
-    }));
+    return items
+      .filter((item) => item.coordinates)
+      .map((item) => ({
+        x: item.coordinates!.x,
+        y: item.coordinates!.y,
+        height: dimensions.height,
+        width: dimensions.width,
+      }));
   });
 
   const budsBoundingBox = Object.values(state.buds ?? {})

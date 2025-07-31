@@ -702,6 +702,7 @@ export type BuildingProduct = {
   amount?: number;
   boost?: Partial<Record<InventoryItemName, number>>;
   skills?: Partial<Record<BumpkinRevampSkillName, boolean>>;
+  timeRemaining?: number;
 };
 
 export type BuildingProduce = {
@@ -718,9 +719,10 @@ export type Cancelled = Partial<{
 
 export type PlacedItem = {
   id: string;
-  coordinates: { x: number; y: number };
+  coordinates?: { x: number; y: number };
   readyAt: number;
   createdAt: number;
+  removedAt?: number;
   cancelled?: Cancelled;
   crafting?: BuildingProduct[];
   oil?: number;
@@ -761,6 +763,7 @@ export type CropMachineQueueItem = {
   readyAt?: number;
   criticalHit?: CriticalHit;
   amount?: number;
+  pausedTimeRemaining?: number;
 };
 
 export type CropMachineBuilding = PlacedItem & {

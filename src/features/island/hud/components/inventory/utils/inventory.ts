@@ -111,7 +111,9 @@ export const getChestItems = (state: GameState): Inventory => {
         ...acc,
         [itemName]: new Decimal(
           state.inventory[itemName]?.minus(
-            state.buildings[itemName as BuildingName]?.length ?? 0,
+            state.buildings[itemName as BuildingName]?.filter(
+              (building) => building.coordinates,
+            ).length ?? 0,
           ) ?? 0,
         ),
       };

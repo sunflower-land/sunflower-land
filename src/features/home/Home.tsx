@@ -103,35 +103,37 @@ export const Home: React.FC = () => {
       .filter((name) => collectibles[name])
       .flatMap((name, nameIndex) => {
         const items = collectibles[name]!;
-        return items.map((collectible, itemIndex) => {
-          const { readyAt, createdAt, coordinates, id } = collectible;
-          const { x, y } = coordinates;
-          const { width, height } = COLLECTIBLES_DIMENSIONS[name];
+        return items
+          .filter((collectible) => collectible.coordinates)
+          .map((collectible, itemIndex) => {
+            const { readyAt, createdAt, coordinates, id } = collectible;
+            const { x, y } = coordinates!;
+            const { width, height } = COLLECTIBLES_DIMENSIONS[name];
 
-          return (
-            <MapPlacement
-              key={`collectible-${nameIndex}-${itemIndex}`}
-              x={x}
-              y={y}
-              height={height}
-              width={width}
-              z={NON_COLLIDING_OBJECTS.includes(name) ? 0 : 1}
-            >
-              <Collectible
-                location="home"
-                name={name}
-                id={id}
-                readyAt={readyAt}
-                createdAt={createdAt}
-                showTimers={showTimers}
-                x={coordinates.x}
-                y={coordinates.y}
-                grid={gameGrid}
-                game={state}
-              />
-            </MapPlacement>
-          );
-        });
+            return (
+              <MapPlacement
+                key={`collectible-${nameIndex}-${itemIndex}`}
+                x={x}
+                y={y}
+                height={height}
+                width={width}
+                z={NON_COLLIDING_OBJECTS.includes(name) ? 0 : 1}
+              >
+                <Collectible
+                  location="home"
+                  name={name}
+                  id={id}
+                  readyAt={readyAt}
+                  createdAt={createdAt}
+                  showTimers={showTimers}
+                  x={coordinates!.x}
+                  y={coordinates!.y}
+                  grid={gameGrid}
+                  game={state}
+                />
+              </MapPlacement>
+            );
+          });
       }),
   );
 
