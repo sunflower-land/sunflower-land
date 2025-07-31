@@ -7,7 +7,12 @@ export type ParticipantInfo = {
   clothing?: Equipped;
 };
 
-export type InteractionType = "chat" | "follow" | "milestone" | "announcement";
+export type InteractionType =
+  | "chat"
+  | "follow"
+  | "milestone"
+  | "announcement"
+  | "cheer";
 
 export type Interaction = {
   type: InteractionType;

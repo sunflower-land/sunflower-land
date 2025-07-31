@@ -44,7 +44,7 @@ export const InteractionBubble: React.FC<Props> = ({
     );
   }
 
-  if (type === "milestone" || type === "announcement") {
+  if (type === "milestone" || type === "announcement" || type === "cheer") {
     return (
       <div
         className={classNames("relative min-h-[57px]", {
