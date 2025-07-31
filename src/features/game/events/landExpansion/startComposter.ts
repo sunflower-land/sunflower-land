@@ -91,6 +91,7 @@ export function getCompostAmount({
 
   if (isWearableActive({ game, name: "Turd Topper" })) {
     produceAmount += 1;
+    boostsUsed.push("Turd Topper");
   }
 
   if (produceAmount < 0) {
