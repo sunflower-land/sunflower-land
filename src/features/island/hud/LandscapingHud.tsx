@@ -179,17 +179,19 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
                   }}
                 />
               </RoundButton>
-              <RoundButton className="mb-3.5" onClick={removeAll}>
-                <img
-                  src={ITEM_DETAILS["Rusty Shovel"].image}
-                  className="absolute group-active:translate-y-[2px]"
-                  style={{
-                    top: `${PIXEL_SCALE * 5}px`,
-                    left: `${PIXEL_SCALE * 5}px`,
-                    width: `${PIXEL_SCALE * 13}px`,
-                  }}
-                />
-              </RoundButton>
+              {hasLandscapingAccess && (
+                <RoundButton className="mb-3.5" onClick={removeAll}>
+                  <img
+                    src={ITEM_DETAILS["Rusty Shovel"].image}
+                    className="absolute group-active:translate-y-[2px]"
+                    style={{
+                      top: `${PIXEL_SCALE * 5}px`,
+                      left: `${PIXEL_SCALE * 5}px`,
+                      width: `${PIXEL_SCALE * 13}px`,
+                    }}
+                  />
+                </RoundButton>
+              )}
 
               {location === "farm" &&
                 hasFeatureAccess(
