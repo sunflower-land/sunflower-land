@@ -6186,5 +6186,8 @@
   "sleepingAnimal.availableAtCraftingBox": "Disponibile presso il Crafting Box",
   "sleepingAnimal.wakeUp": "Svegliati",
   "landscape.confirmation.gnomes.one": "Posiziona i tre gnomi in questo ordine (da sinistra a destra): Cobale, Gnome, Clementine.",
-  "landscape.confirmation.gnomes.two": "Il grafico del ritaglio dovrebbe essere posizionato direttamente sotto lo Gnome."
+  "landscape.confirmation.gnomes.two": "Il grafico del ritaglio dovrebbe essere posizionato direttamente sotto lo Gnome.",
+  "removeAll.description.one": "Questa azione rimuoverà tutti gli elementi da {{location}}.",
+  "removeAll.description.two": "Sei sicuro di voler continuare?",
+  "removeAll.title": "Rimuovi tutti gli articoli"
 }

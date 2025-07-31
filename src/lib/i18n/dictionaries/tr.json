@@ -6186,5 +6186,8 @@
   "sleepingAnimal.availableAtCraftingBox": "Crafting Box'ta mevcuttur",
   "sleepingAnimal.wakeUp": "Uyan",
   "landscape.confirmation.gnomes.one": "Üç cüceyi bu sırayla yerleştirin (soldan sağa): Cobale, Gnome, Clementine.",
-  "landscape.confirmation.gnomes.two": "Mahsul arsası doğrudan Gnome'un altına yerleştirilmelidir."
+  "landscape.confirmation.gnomes.two": "Mahsul arsası doğrudan Gnome'un altına yerleştirilmelidir.",
+  "removeAll.description.one": "Bu işlem, {{location}} içindeki tüm öğeleri kaldıracaktır.",
+  "removeAll.description.two": "Devamı istediğine emin misin?",
+  "removeAll.title": "Tüm Öğeleri Kaldır"
 }

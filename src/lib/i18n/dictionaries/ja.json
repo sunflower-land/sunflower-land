@@ -6186,5 +6186,8 @@
   "sleepingAnimal.availableAtCraftingBox": "クラフトボックスで購入可能",
   "sleepingAnimal.wakeUp": "ウェイクアップ",
   "landscape.confirmation.gnomes.one": "コバール、ノーム、クレメンタインの3つのノームを（左から右に）次の順序で配置します。",
-  "landscape.confirmation.gnomes.two": "クロッププロットは Gnome の真下に配置する必要があります。"
+  "landscape.confirmation.gnomes.two": "クロッププロットは Gnome の真下に配置する必要があります。",
+  "removeAll.description.one": "このアクションにより、{{location}} からすべてのアイテムが削除されます。",
+  "removeAll.description.two": "続けてもよろしいですか？",
+  "removeAll.title": "すべての商品を削除"
 }

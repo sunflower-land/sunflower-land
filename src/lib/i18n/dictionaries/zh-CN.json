@@ -6186,5 +6186,8 @@
   "sleepingAnimal.availableAtCraftingBox": "可在制作箱中获得",
   "sleepingAnimal.wakeUp": "醒醒吧",
   "landscape.confirmation.gnomes.one": "按以下顺序（从左到右）放置三个地精：Cobale、Gnome、Clementine。",
-  "landscape.confirmation.gnomes.two": "作物地块应位于地精的正下方。"
+  "landscape.confirmation.gnomes.two": "作物地块应位于地精的正下方。",
+  "removeAll.description.one": "此操作将从 {{location}} 中移除所有项目。",
+  "removeAll.description.two": "你确定要继续吗？",
+  "removeAll.title": "移除所有物品"
 }

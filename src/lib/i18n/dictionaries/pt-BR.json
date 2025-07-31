@@ -6186,5 +6186,8 @@
   "sleepingAnimal.availableAtCraftingBox": "Disponível na Crafting Box",
   "sleepingAnimal.wakeUp": "Acorde",
   "landscape.confirmation.gnomes.one": "Coloque os três gnomos nesta ordem (da esquerda para a direita): Cobale, Gnome, Clementine.",
-  "landscape.confirmation.gnomes.two": "O terreno de cultivo deve ser colocado diretamente abaixo do Gnome."
+  "landscape.confirmation.gnomes.two": "O terreno de cultivo deve ser colocado diretamente abaixo do Gnome.",
+  "removeAll.description.one": "Essa ação removerá todos os itens do {{location}}.",
+  "removeAll.description.two": "Tem certeza de que deseja continuar?",
+  "removeAll.title": "Remover todos os itens"
 }

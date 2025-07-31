@@ -6186,5 +6186,8 @@
   "sleepingAnimal.availableAtCraftingBox": "크래프팅 박스에서 구매 가능",
   "sleepingAnimal.wakeUp": "웨이크 업",
   "landscape.confirmation.gnomes.one": "코발레, 노움, 클레멘타인 순으로 세 개의 노온을 배치합니다 (왼쪽에서 오른쪽 순).",
-  "landscape.confirmation.gnomes.two": "크롭 플롯은 그놈 바로 아래에 위치해야 합니다."
+  "landscape.confirmation.gnomes.two": "크롭 플롯은 그놈 바로 아래에 위치해야 합니다.",
+  "removeAll.description.one": "이 작업을 수행하면 {{location}} 에서 모든 항목이 제거됩니다.",
+  "removeAll.description.two": "정말 계속하시겠습니까?",
+  "removeAll.title": "모든 항목 제거"
 }

@@ -6186,5 +6186,8 @@
   "sleepingAnimal.availableAtCraftingBox": "Доступно в коробке для рукоделия",
   "sleepingAnimal.wakeUp": "Проснись",
   "landscape.confirmation.gnomes.one": "Разместите трех гномов в следующем порядке (слева направо): Кобэйл, Гном, Клементину.",
-  "landscape.confirmation.gnomes.two": "Участок для посева следует разместить прямо под гномом."
+  "landscape.confirmation.gnomes.two": "Участок для посева следует разместить прямо под гномом.",
+  "removeAll.description.one": "Это действие удалит все элементы из {{location}}.",
+  "removeAll.description.two": "Вы уверены, что хотите продолжить?",
+  "removeAll.title": "Удалить все товары"
 }
