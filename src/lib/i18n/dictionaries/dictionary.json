@@ -6363,11 +6363,17 @@
   "removeAll.description.two": "Are you sure you want to continue?",
   "removeAll.title": "Remove All Items",
   "cheers": "Cheers",
+  "cheers.available": "Cheers Available: {{count}}",
+  "cheers.confirm": "Cheer {{username}}?",
+  "cheers.confirm.description": "You can cheer each farm every 24 hours.",
   "cheering.free.description": "Every day you can claim up to 3 free cheers.",
   "cheering.free.description2": "Cheers can be given to your fellow farmers to support their farms.",
   "cheering.free.claim": "Claim Cheers",
   "description.turdTopper.boost": "+1 Fertiliser from Composters",
   "description.giantOnion.boost": "+3 Onions",
   "description.giantTurnip.boost": "2x Turnip Growth Speed",
-  "description.groovy.gramophone.boost": "+100% Growth Speed on Crop Machine"
+  "description.groovy.gramophone.boost": "+100% Growth Speed on Crop Machine",
+  "cheering.farm": "Cheering Farm",
+  "cheering.farm.success": "Cheer sent",
+  "cheering.farm.error": "Unable to cheer"
 }

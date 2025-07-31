@@ -1789,9 +1789,10 @@ export interface GameState {
   socialFarming: {
     points: number;
     villageProjects: Partial<Record<VillageProjectName, { cheers: number }>>;
-    cheeredProjects: {
+    cheersGiven: {
       date: string;
       projects: Partial<Record<VillageProjectName, number[]>>;
+      farms: number[];
     };
     cheers: {
       cheersUsed: number;

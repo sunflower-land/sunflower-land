@@ -41,7 +41,8 @@ type EffectName =
   | "marketplace.bulkOffersCancelled"
   | "farm.followed"
   | "farm.unfollowed"
-  | "message.sent";
+  | "message.sent"
+  | "farm.cheered";
 
 type VisitEffectName = "villageProject.cheered";
 
@@ -89,7 +90,8 @@ export type StateMachineStateName =
   | "marketplaceBulkListingsCancelling"
   | "marketplaceBulkOffersCancelling"
   | "linkingWallet"
-  | "assigningNFT";
+  | "assigningNFT"
+  | "cheeringFarm";
 
 export type StateMachineVisitStateName = "cheeringVillageProject";
 
@@ -130,6 +132,7 @@ export const STATE_MACHINE_EFFECTS: Record<
   "marketplace.bulkOffersCancelled": "marketplaceBulkOffersCancelling",
   "wallet.linked": "linkingWallet",
   "nft.assigned": "assigningNFT",
+  "farm.cheered": "cheeringFarm",
 };
 
 export const STATE_MACHINE_VISIT_EFFECTS: Record<
