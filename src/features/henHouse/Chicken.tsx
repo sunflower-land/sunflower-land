@@ -141,11 +141,10 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
   }, [chicken.state]);
 
   const [showDrops, setShowDrops] = useState(false);
-  const [showWakesIn, setShowWakesIn] = useState(false);
+  const [showAnimalDetails, setShowAnimalDetails] = useState(false);
   const [showNotEnoughFood, setShowNotEnoughFood] = useState(false);
   const [showNoMedicine, setShowNoMedicine] = useState(false);
   const [showFeedXP, setShowFeedXP] = useState(false);
-  const [showNoToolPopover, setShowNoToolPopover] = useState(false);
   const [showNoFoodSelected, setShowNoFoodSelected] = useState(false);
   const [showLoveItem, setShowLoveItem] = useState<LoveAnimalItem>();
   const [showMutantAnimalModal, setShowMutantAnimalModal] = useState(false);
@@ -206,9 +205,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
 
   const onLoveClick = async () => {
     if ((inventory[chicken.item] ?? new Decimal(0)).lt(1)) {
-      setShowNoToolPopover(true);
-      await new Promise((resolve) => setTimeout(resolve, 700));
-      setShowNoToolPopover(false);
+      handleShowDetails();
       return;
     }
 
@@ -267,6 +264,18 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     });
   };
 
+  const handleShowDetails = () => {
+    // Check if an event has been fired in the last 0.5 seconds - if so return;
+    const lastEventTime = gameService
+      .getSnapshot()
+      .context.actions.at(-1)?.createdAt;
+    const currentTime = Date.now();
+
+    if (currentTime - (lastEventTime?.getTime() ?? 0) < 500) return;
+
+    setShowAnimalDetails(true);
+  };
+
   const onSickClick = async () => {
     const medicineCount = inventory["Barn Delight"] ?? new Decimal(0);
     const { amount: barnDelightCost } = getBarnDelightCost({ state: game });
@@ -319,7 +328,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
     if (needsLove) return onLoveClick();
 
     if (sleeping) {
-      setShowWakesIn(true);
+      handleShowDetails();
       return;
     }
 
@@ -357,8 +366,6 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
 
   const getInfoPopoverMessage = () => {
     if (showNoFoodSelected) return t("animal.noFoodMessage");
-    if (showNoToolPopover)
-      return t("animal.toolRequired", { tool: chicken.item });
     if (showNoMedicine) return t("animal.noMedicine");
     if (showNotEnoughFood)
       return t("animal.notEnoughFood", { amount: requiredFoodQty });
@@ -419,7 +426,11 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
       : "#fff";
   const xpIndicatorAmount = getAnimalXPEarned();
 
-  const { animalXP } = getAnimalXP({ state: game, name: showLoveItem! });
+  const { animalXP } = getAnimalXP({
+    state: game,
+    name: showLoveItem!,
+    animal: "Chicken",
+  });
 
   return (
     <>
@@ -499,28 +510,25 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
             />
           )}
           <Modal
-            show={sleeping && showWakesIn}
-            onHide={() => setShowWakesIn(false)}
+            show={showAnimalDetails}
+            onHide={() => setShowAnimalDetails(false)}
           >
             <CloseButtonPanel
               container={OuterPanel}
-              onClose={() => setShowWakesIn(false)}
+              onClose={() => setShowAnimalDetails(false)}
             >
               <SleepingAnimalModal
                 id={chicken.id}
                 animal={chicken}
                 awakeAt={chicken.awakeAt}
-                onClose={() => setShowWakesIn(false)}
+                onClose={() => setShowAnimalDetails(false)}
               />
             </CloseButtonPanel>
           </Modal>
         </div>
         <InfoPopover
           showPopover={
-            showNoToolPopover ||
-            showNoFoodSelected ||
-            showNoMedicine ||
-            showNotEnoughFood
+            showNoFoodSelected || showNoMedicine || showNotEnoughFood
           }
           className="-top-10 left-1/2 transform -translate-x-1/2 z-20"
         >
@@ -536,7 +544,7 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
         animal={chicken}
         className="absolute bottom-1 left-1/2 transform -translate-x-1/2 ml-0.5 pointer-events-none"
         // Don't block level up UI with wakes in panel if accidentally clicked
-        onLevelUp={() => setShowWakesIn(false)}
+        onLevelUp={() => setShowAnimalDetails(false)}
       />
       {/* Feed XP */}
       <Transition

@@ -42,6 +42,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { Outlet, useLocation } from "react-router";
 import { createPortal } from "react-dom";
 import { NON_COLLIDING_OBJECTS } from "./placeable/lib/collisionDetection";
+import { getZIndex } from "./placeable/lib/collisionDetection";
 
 import {
   isBuildingUpgradable,
@@ -51,6 +52,7 @@ import {
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { useVisiting } from "lib/utils/visitUtils";
 import { getObjectEntries } from "./lib/utils";
+import { Clutter } from "features/island/clutter/Clutter";
 
 export const LAND_WIDTH = 6;
 
@@ -78,6 +80,7 @@ type IslandElementArgs = {
   beehives: GameState["beehives"];
   oilReserves: GameState["oilReserves"];
   lavaPits: GameState["lavaPits"];
+  clutter: GameState["socialFarming"]["clutter"];
   isVisiting: boolean;
 };
 
@@ -105,6 +108,7 @@ const getIslandElements = ({
   oilReserves,
   lavaPits,
   isVisiting,
+  clutter,
 }: IslandElementArgs) => {
   const mapPlacements: Array<JSX.Element> = [];
 
@@ -120,49 +124,51 @@ const getIslandElements = ({
       .filter((name) => buildings[name])
       .flatMap((name, nameIndex) => {
         const items = buildings[name]!;
-        return items.map((building, itemIndex) => {
-          const { x, y } = building.coordinates;
-          const { width, height } = BUILDINGS_DIMENSIONS[name];
-          const buildingKey = makeUpgradableBuildingKey(
-            name as UpgradableBuildingType,
-          );
+        return items
+          .filter((building) => building.coordinates !== undefined)
+          .map((building, itemIndex) => {
+            const { x, y } = building.coordinates!;
+            const { width, height } = BUILDINGS_DIMENSIONS[name];
+            const buildingKey = makeUpgradableBuildingKey(
+              name as UpgradableBuildingType,
+            );
 
-          const readyAt =
-            !!isBuildingUpgradable(name) && !!game[buildingKey].upgradeReadyAt
-              ? game[buildingKey].upgradeReadyAt
-              : building.readyAt;
+            const readyAt =
+              !!isBuildingUpgradable(name) && !!game[buildingKey].upgradeReadyAt
+                ? game[buildingKey].upgradeReadyAt
+                : building.readyAt;
 
-          const upgradedAt =
-            !!isBuildingUpgradable(name) && !!game[buildingKey].upgradedAt
-              ? game[buildingKey].upgradedAt
-              : building.createdAt;
+            const upgradedAt =
+              !!isBuildingUpgradable(name) && !!game[buildingKey].upgradedAt
+                ? game[buildingKey].upgradedAt
+                : building.createdAt;
 
-          return (
-            <MapPlacement
-              key={`building-${nameIndex}-${itemIndex}`}
-              x={x}
-              y={y}
-              height={height}
-              width={width}
-              className={classNames({
-                "pointer-events-none": !home.has(name as Home) && isVisiting,
-              })}
-            >
-              <Building
-                name={name}
-                id={building.id}
-                index={itemIndex}
-                readyAt={readyAt}
-                createdAt={upgradedAt}
-                showTimers={showTimers}
+            return (
+              <MapPlacement
+                key={`building-${nameIndex}-${itemIndex}`}
                 x={x}
                 y={y}
-                island={game.island}
-                season={game.season.season}
-              />
-            </MapPlacement>
-          );
-        });
+                height={height}
+                width={width}
+                className={classNames({
+                  "pointer-events-none": !home.has(name as Home) && isVisiting,
+                })}
+              >
+                <Building
+                  name={name}
+                  id={building.id}
+                  index={itemIndex}
+                  readyAt={readyAt}
+                  createdAt={upgradedAt}
+                  showTimers={showTimers}
+                  x={x}
+                  y={y}
+                  island={game.island}
+                  season={game.season.season}
+                />
+              </MapPlacement>
+            );
+          });
       }),
   );
 
@@ -172,36 +178,39 @@ const getIslandElements = ({
       .flatMap((name, nameIndex) => {
         const items = collectibles[name]!;
 
-        return items.map((collectible, itemIndex) => {
-          const { readyAt, createdAt, coordinates, id } = collectible;
-          const { x, y } = coordinates;
-          const { width, height } = COLLECTIBLES_DIMENSIONS[name];
+        return items
+          .filter((collectible) => collectible.coordinates)
+          .map((collectible, itemIndex) => {
+            const { readyAt, createdAt, coordinates, id } = collectible;
+            const { x, y } = coordinates!;
+            const { width, height } = COLLECTIBLES_DIMENSIONS[name];
 
-          return (
-            <MapPlacement
-              key={`collectible-${nameIndex}-${itemIndex}`}
-              x={x}
-              y={y}
-              height={height}
-              width={width}
-              canCollide={NON_COLLIDING_OBJECTS.includes(name) ? false : true}
-            >
-              <Collectible
-                location="farm"
-                name={name}
-                id={id}
-                readyAt={readyAt}
-                createdAt={createdAt}
-                showTimers={showTimers}
-                x={coordinates.x}
-                y={coordinates.y}
-                grid={grid}
-                game={game}
-                z={NON_COLLIDING_OBJECTS.includes(name) ? 0 : "unset"}
-              />
-            </MapPlacement>
-          );
-        });
+            return (
+              <MapPlacement
+                key={`collectible-${nameIndex}-${itemIndex}`}
+                x={x}
+                y={y}
+                z={getZIndex(y, name)}
+                height={height}
+                width={width}
+                canCollide={NON_COLLIDING_OBJECTS.includes(name) ? false : true}
+              >
+                <Collectible
+                  location="farm"
+                  name={name}
+                  id={id}
+                  readyAt={readyAt}
+                  createdAt={createdAt}
+                  showTimers={showTimers}
+                  x={coordinates!.x}
+                  y={coordinates!.y}
+                  grid={grid}
+                  game={game}
+                  z={NON_COLLIDING_OBJECTS.includes(name) ? 0 : "unset"}
+                />
+              </MapPlacement>
+            );
+          });
       }),
   );
 
@@ -587,6 +596,33 @@ const getIslandElements = ({
   }
 
   {
+    !!isVisiting &&
+      clutter &&
+      mapPlacements.push(
+        ...getKeys(clutter.locations).flatMap((id) => {
+          const { x, y } = clutter.locations[id];
+
+          return (
+            <MapPlacement
+              key={`clutter-${id}`}
+              x={x}
+              y={y}
+              height={1}
+              width={1}
+              className={classNames({ "pointer-events-none": !isVisiting })}
+            >
+              <Clutter
+                key={`clutter-${id}`}
+                id={id}
+                type={clutter.locations[id].type}
+              />
+            </MapPlacement>
+          );
+        }),
+      );
+  }
+
+  {
     buds &&
       mapPlacements.push(
         ...getKeys(buds)
@@ -704,6 +740,7 @@ export const Land: React.FC = () => {
     oilReserves,
     island,
     lavaPits,
+    socialFarming,
   } = state;
 
   const landscaping = useSelector(gameService, isLandscaping);
@@ -819,6 +856,7 @@ export const Land: React.FC = () => {
                 oilReserves,
                 lavaPits,
                 isVisiting: visiting,
+                clutter: socialFarming?.clutter,
               }).sort((a, b) => {
                 if (a.props.canCollide === false) {
                   return -1;

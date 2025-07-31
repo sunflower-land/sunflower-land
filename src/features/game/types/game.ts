@@ -106,6 +106,7 @@ import { MonumentName } from "./monuments";
 import { AOEItemName } from "../expansion/placeable/lib/collisionDetection";
 import { Coordinates } from "../expansion/components/MapPlacement";
 import { VillageProjectName } from "features/island/collectibles/components/Monument";
+import { ClutterName } from "./clutter";
 
 export type Reward = {
   coins?: number;
@@ -213,11 +214,16 @@ export type MutantChicken =
   | "Pharaoh Chicken"
   | "Alien Chicken"
   | "Summer Chicken"
-  | "Love Chicken";
+  | "Love Chicken"
+  | "Janitor Chicken";
 
-export type MutantCow = "Mootant" | "Frozen Cow" | "Dr Cow";
+export type MutantCow = "Mootant" | "Frozen Cow" | "Dr Cow" | "Baby Cow";
 
-export type MutantSheep = "Toxic Tuft" | "Frozen Sheep" | "Nurse Sheep";
+export type MutantSheep =
+  | "Toxic Tuft"
+  | "Frozen Sheep"
+  | "Nurse Sheep"
+  | "Baby Sheep";
 
 export type MutantAnimal = MutantChicken | MutantCow | MutantSheep;
 
@@ -562,7 +568,8 @@ export type InventoryItemName =
   | RewardBoxName
   | LandBiomeName
   | MonumentName
-  | DollName;
+  | DollName
+  | ClutterName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -702,6 +709,7 @@ export type BuildingProduct = {
   amount?: number;
   boost?: Partial<Record<InventoryItemName, number>>;
   skills?: Partial<Record<BumpkinRevampSkillName, boolean>>;
+  timeRemaining?: number;
 };
 
 export type BuildingProduce = {
@@ -718,9 +726,10 @@ export type Cancelled = Partial<{
 
 export type PlacedItem = {
   id: string;
-  coordinates: { x: number; y: number };
+  coordinates?: { x: number; y: number };
   readyAt: number;
   createdAt: number;
+  removedAt?: number;
   cancelled?: Cancelled;
   crafting?: BuildingProduct[];
   oil?: number;
@@ -761,6 +770,7 @@ export type CropMachineQueueItem = {
   readyAt?: number;
   criticalHit?: CriticalHit;
   amount?: number;
+  pausedTimeRemaining?: number;
 };
 
 export type CropMachineBuilding = PlacedItem & {
@@ -1782,13 +1792,41 @@ export interface GameState {
   monuments?: Partial<Record<MonumentName, { createdAt: number }>>;
 
   aoe: AOE;
-
   socialFarming: {
     points: number;
     villageProjects: Partial<Record<VillageProjectName, { cheers: number }>>;
-    cheeredProjects: {
+    cheersGiven: {
       date: string;
       projects: Partial<Record<VillageProjectName, number[]>>;
+      farms: number[];
+    };
+    cheers: {
+      cheersUsed: number;
+      freeCheersClaimedAt: number;
+    };
+    dailyCollections?: Record<
+      number,
+      {
+        pointGivenAt?: number;
+        clutter: Record<
+          string,
+          {
+            collectedAt: number;
+            type: ClutterName;
+          }
+        >;
+      }
+    >;
+    clutter?: {
+      spawnedAt: number;
+      locations: Record<
+        string,
+        {
+          type: ClutterName;
+          x: number;
+          y: number;
+        }
+      >;
     };
   };
 }

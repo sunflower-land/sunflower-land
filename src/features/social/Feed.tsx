@@ -28,7 +28,7 @@ import * as AuthProvider from "features/auth/lib/Provider";
 import { FeedSkeleton } from "./components/skeletons/FeedSkeleton";
 import { Interaction } from "./types/types";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
-import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
+import silhouette from "assets/npcs/silhouette.webp";
 import { playerModalManager } from "./lib/playerModalManager";
 import { useSocial } from "./hooks/useSocial";
 import { useInView } from "react-intersection-observer";
@@ -146,7 +146,7 @@ export const Feed: React.FC<Props> = ({
     playerModalManager.open({
       farmId: interaction.sender.id,
       username: interaction.sender.username,
-      clothing: interpretTokenUri(interaction.sender.tokenUri).equipped,
+      clothing: interaction.sender.clothing,
     });
   };
 
@@ -171,7 +171,7 @@ export const Feed: React.FC<Props> = ({
   return (
     <InnerPanel
       className={classNames(
-        `fixed ${isMobile ? "w-[75%]" : "w-[300px]"} top-0 left-0 m-2 bottom-0 z-30 transition-transform duration-200`,
+        `fixed ${isMobile ? "w-[75%]" : "w-[300px]"} inset-safe-area m-2 z-30 transition-transform duration-200`,
         {
           "translate-x-0": showDesktopFeed || showMobileFeed,
           "-translate-x-[320px]": hideDesktopFeed,
@@ -200,7 +200,7 @@ export const Feed: React.FC<Props> = ({
               onClick={handleCloseFeed}
             />
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center justify-between gap-2">
             {showFollowing && (
               <img
                 src={SUNNYSIDE.icons.arrow_left}
@@ -209,6 +209,19 @@ export const Feed: React.FC<Props> = ({
                 onClick={() => setShowFollowing(false)}
               />
             )}
+            <div
+              className="flex ml-1.5 items-center gap-1 text-xs underline cursor-pointer"
+              onClick={() => {
+                setShowFollowing(false);
+                setShowFeed(false);
+                playerModalManager.open({
+                  farmId,
+                });
+              }}
+            >
+              <img src={SUNNYSIDE.icons.player_small} className="w-4 mt-1" />
+              {t("myProfile")}
+            </div>
             <FollowsIndicator
               count={following.length}
               onClick={() => setShowFollowing(!showFollowing)}
@@ -317,7 +330,6 @@ const FeedContent: React.FC<FeedContentProps> = ({
             interaction?.sender.username === username
               ? "You"
               : interaction.sender.username;
-          const parts = interpretTokenUri(interaction.sender.tokenUri).equipped;
           const onClick =
             interaction.type === "announcement"
               ? undefined
@@ -339,7 +351,18 @@ const FeedContent: React.FC<FeedContentProps> = ({
               >
                 <div className="text-xxs flex">
                   <div className="-ml-1 mr-1">
-                    <NPCIcon parts={parts} width={PIXEL_SCALE * 14} />
+                    {interaction.sender.clothing ? (
+                      <NPCIcon
+                        parts={interaction.sender.clothing}
+                        width={PIXEL_SCALE * 14}
+                      />
+                    ) : (
+                      <img
+                        id="silhouette"
+                        src={silhouette}
+                        className="w-3/5 absolute top-1.5 left-1.5"
+                      />
+                    )}
                   </div>
                   <div className="flex flex-col gap-1">
                     <span className="flex items-center gap-1">
@@ -350,7 +373,12 @@ const FeedContent: React.FC<FeedContentProps> = ({
                       )}
                       {`${getRelativeTime(interaction.createdAt)}`}
                     </span>
-                    <div className="text-xs break-all">
+                    <div
+                      className="text-xs break-words"
+                      style={{
+                        lineHeight: 1,
+                      }}
+                    >
                       {interaction.message}
                     </div>
                   </div>

@@ -35,7 +35,6 @@ import { ZoomContext } from "components/ZoomProvider";
 import { RemoveKuebikoModal } from "./RemoveKuebikoModal";
 import { PlaceableLocation } from "features/game/types/collectibles";
 import { RemoveHungryCaterpillarModal } from "./RemoveHungryCaterpillarModal";
-import { RemoveCropMachineModal } from "./RemoveCropMachineModal";
 import { HourglassType } from "./components/Hourglass";
 import { HOURGLASSES } from "features/game/events/landExpansion/burnCollectible";
 import { hasRemoveRestriction } from "features/game/types/removeables";
@@ -114,22 +113,14 @@ export function getRemoveAction(
     name !== "Manor" &&
     name !== "Town Center" &&
     name !== "House" &&
-    name !== "Market" &&
-    name !== "Fire Pit" &&
-    name !== "Workbench" &&
-    name !== "Mansion"
+    name !== "Mansion" &&
+    ((name !== "Market" && name !== "Fire Pit" && name !== "Workbench") ||
+      hasLandscapingAccess)
   ) {
     return "building.removed";
   }
 
   if (
-    name === "Manor" ||
-    name === "House" ||
-    name === "Town Center" ||
-    name === "Market" ||
-    name === "Fire Pit" ||
-    name === "Workbench" ||
-    name === "Mansion" ||
     HOURGLASSES.includes(name as HourglassType) ||
     name === "Time Warp Totem" ||
     name === "Super Totem"
@@ -410,12 +401,6 @@ export const MoveableComponent: React.FC<
             </div>
             {showRemoveConfirmation && name === "Kuebiko" && (
               <RemoveKuebikoModal
-                onClose={() => setShowRemoveConfirmation(false)}
-                onRemove={() => remove()}
-              />
-            )}
-            {showRemoveConfirmation && name === "Crop Machine" && (
-              <RemoveCropMachineModal
                 onClose={() => setShowRemoveConfirmation(false)}
                 onRemove={() => remove()}
               />

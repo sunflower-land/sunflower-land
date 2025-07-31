@@ -33,6 +33,8 @@ export function getGameGrid({
 
   getKeys(collectibles).forEach((name) => {
     collectibles[name]?.forEach(({ coordinates }) => {
+      if (!coordinates) return;
+
       if (!grid[coordinates.x]) {
         grid[coordinates.x] = {};
       }

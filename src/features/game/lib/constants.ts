@@ -43,7 +43,7 @@ export const CHICKEN_COOP_MULTIPLIER = 1.5;
 export const POPOVER_TIME_MS = 1000;
 
 export function isBuildingReady(building: PlacedItem[]) {
-  return building.some((b) => b.readyAt <= Date.now());
+  return building.some((b) => b.readyAt <= Date.now() && b.coordinates);
 }
 
 export type StockableName = Extract<
@@ -680,10 +680,16 @@ export const INITIAL_FARM: GameState = {
   socialFarming: {
     points: 0,
     villageProjects: {},
-    cheeredProjects: {
+    cheersGiven: {
       date: "",
+      farms: [],
       projects: {},
     },
+    cheers: {
+      cheersUsed: 0,
+      freeCheersClaimedAt: 0,
+    },
+    dailyCollections: {},
   },
 };
 
@@ -994,10 +1000,16 @@ export const TEST_FARM: GameState = {
   socialFarming: {
     points: 0,
     villageProjects: {},
-    cheeredProjects: {
-      date: new Date().toISOString().split("T")[0],
+    cheersGiven: {
+      date: "",
+      farms: [],
       projects: {},
     },
+    cheers: {
+      cheersUsed: 0,
+      freeCheersClaimedAt: 0,
+    },
+    dailyCollections: {},
   },
 };
 
@@ -1157,9 +1169,15 @@ export const EMPTY: GameState = {
   socialFarming: {
     points: 0,
     villageProjects: {},
-    cheeredProjects: {
-      date: new Date().toISOString().split("T")[0],
+    cheersGiven: {
+      date: "",
+      farms: [],
       projects: {},
     },
+    cheers: {
+      cheersUsed: 0,
+      freeCheersClaimedAt: 0,
+    },
+    dailyCollections: {},
   },
 };

@@ -132,6 +132,7 @@ describe("placeIron", () => {
           },
         },
       },
+      createdAt: dateNow,
     });
 
     expect(state.iron).toEqual({

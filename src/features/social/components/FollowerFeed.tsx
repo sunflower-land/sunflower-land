@@ -2,6 +2,7 @@
 import { Label } from "components/ui/Label";
 import { InnerPanel } from "components/ui/Panel";
 import React, {
+  useCallback,
   useContext,
   useEffect,
   useLayoutEffect,
@@ -22,7 +23,6 @@ import * as AuthProvider from "features/auth/lib/Provider";
 import { useInView } from "react-intersection-observer";
 import { Loading } from "features/auth/components";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { interpretTokenUri, tokenUriBuilder } from "lib/utils/tokenUriBuilder";
 import { postEffect } from "features/game/actions/effect";
 import { randomID } from "lib/utils/random";
 import { Equipped } from "features/game/types/bumpkin";
@@ -34,6 +34,7 @@ import { InteractionSenderMetadata } from "./InteractionSenderMetadata";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { useFeed } from "../FeedContext";
+import silhouette from "assets/npcs/silhouette.webp";
 
 type Props = {
   farmId: number;
@@ -122,6 +123,8 @@ export const FollowerFeed: React.FC<Props> = ({
     farmId,
     callbacks: {
       onInteraction: async (update) => {
+        if (update.sender.id !== playerId) return;
+
         await mutate(
           (current = []) => {
             return [[update, ...(current[0] ?? [])], ...current.slice(1)];
@@ -178,6 +181,16 @@ export const FollowerFeed: React.FC<Props> = ({
     }
   }, [inView, hasMore, isLoadingMore, loadMore, scrollNode]);
 
+  const setRefs = useCallback(
+    (node: HTMLDivElement | null) => {
+      // Ref's from useRef needs to have the node assigned to `current`
+      (loaderRef as any).current = node;
+      // Callback refs, like the one from `useInView`, is a function that takes the node as an argument
+      intersectionRef(node);
+    },
+    [intersectionRef],
+  );
+
   useLayoutEffect(() => {
     if (!isLoadingMore && scrollNode) {
       // Restore the scroll position when new interactions are loaded
@@ -195,12 +208,12 @@ export const FollowerFeed: React.FC<Props> = ({
       message,
       recipient: {
         id: playerId,
-        tokenUri: tokenUriBuilder(playerClothing ?? {}),
+        clothing: playerClothing,
         username: playerUsername ?? `#${playerId}`,
       },
       sender: {
         id: farmId,
-        tokenUri: tokenUriBuilder(myClothing),
+        clothing: myClothing,
         username: myUsername ?? `#${farmId}`,
       },
       createdAt: Date.now(),
@@ -302,16 +315,15 @@ export const FollowerFeed: React.FC<Props> = ({
         </div>
 
         <div className="flex flex-col gap-1 -mt-2">
-          <div
-            ref={(el) => {
-              (loaderRef as any).current = el;
-              intersectionRef(el);
-            }}
-            id="loading-more"
-            className="text-xs flex justify-center py-1 h-5"
-          >
-            {hasMore ? <Loading dotsOnly /> : t("playerModal.noMoreMessages")}
-          </div>
+          {interactions.length > 3 && (
+            <div
+              ref={setRefs}
+              id="loading-more"
+              className="text-xs flex justify-center py-1 h-5"
+            >
+              {hasMore ? <Loading dotsOnly /> : t("playerModal.noMoreMessages")}
+            </div>
+          )}
 
           {interactions
             .slice()
@@ -324,10 +336,6 @@ export const FollowerFeed: React.FC<Props> = ({
                 interaction.sender.username === myUsername
                   ? t("you")
                   : interaction.sender.username;
-
-              const { equipped } = interpretTokenUri(
-                interaction.sender.tokenUri,
-              );
 
               return (
                 <div
@@ -344,15 +352,31 @@ export const FollowerFeed: React.FC<Props> = ({
                     type={interaction.type}
                   >
                     <div className="flex">
-                      <div className="-ml-1 mr-1">
-                        <NPCIcon parts={equipped} width={PIXEL_SCALE * 14} />
+                      <div className="-ml-1 mr-1 relative">
+                        {interaction.sender.clothing ? (
+                          <NPCIcon
+                            parts={interaction.sender.clothing}
+                            width={PIXEL_SCALE * 14}
+                          />
+                        ) : (
+                          <img
+                            id="silhouette"
+                            src={silhouette}
+                            className="w-3/5 absolute top-1.5 left-1.5"
+                          />
+                        )}
                       </div>
                       <div className="flex flex-col gap-1">
                         <InteractionSenderMetadata
                           sender={sender}
                           createdAt={interaction.createdAt}
                         />
-                        <div className="text-xs break-all">
+                        <div
+                          className="text-xs break-words"
+                          style={{
+                            lineHeight: 1,
+                          }}
+                        >
                           {interaction.message}
                         </div>
                       </div>

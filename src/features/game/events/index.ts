@@ -511,7 +511,16 @@ import {
   removeBeehive,
   RemoveBeehiveAction,
 } from "./landExpansion/removeBeehive";
+import { removeAll, RemoveAllAction } from "./landExpansion/removeAll";
 import { wakeAnimal, WakeUpAnimalAction } from "./landExpansion/wakeUpAnimal";
+import {
+  ClaimCheersAction,
+  claimDailyCheers,
+} from "./landExpansion/claimDailyCheers";
+import {
+  collectClutter,
+  CollectClutterAction,
+} from "./landExpansion/collectClutter";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
@@ -656,7 +665,9 @@ export type PlayingEvent =
   | InstantCraftAction
   | BuyBiomeAction
   | ApplyBiomeAction
-  | WakeUpAnimalAction;
+  | WakeUpAnimalAction
+  | ClaimCheersAction
+  | CollectClutterAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -711,7 +722,8 @@ export type PlacementEvent =
   | RemovePlotAction
   | RemoveFruitPatchAction
   | RemoveFlowerBedAction
-  | RemoveBeehiveAction;
+  | RemoveBeehiveAction
+  | RemoveAllAction;
 
 export type GameEvent = PlayingEvent | PlacementEvent;
 export type GameEventName<T> = Extract<T, { type: string }>["type"];
@@ -733,7 +745,8 @@ type Handlers<T> = {
     action: Extract<GameEventName<T>, { type: Name }>;
     announcements?: Announcements;
     farmId?: number;
-  }) => GameState;
+    visitorState?: GameState;
+  }) => GameState | [GameState, GameState];
 };
 
 export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
@@ -881,6 +894,8 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "biome.bought": buyBiome,
   "biome.applied": applyBiome,
   "animal.wakeUp": wakeAnimal,
+  "cheers.claimed": claimDailyCheers,
+  "clutter.collected": collectClutter,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
@@ -937,6 +952,10 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "fruitPatch.removed": removeFruitPatch,
   "flowerBed.removed": removeFlowerBed,
   "beehive.removed": removeBeehive,
+  "items.removed": removeAll,
 };
 
-export const EVENTS = { ...PLAYING_EVENTS, ...PLACEMENT_EVENTS };
+export const EVENTS = {
+  ...PLAYING_EVENTS,
+  ...PLACEMENT_EVENTS,
+};

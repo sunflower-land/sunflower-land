@@ -156,12 +156,14 @@ function detectPlaceableCollision(
     const items = placed[name] as PlacedItem[];
     const dimensions = PLACEABLE_DIMENSIONS[name];
 
-    return items.map((item) => ({
-      x: item.coordinates.x,
-      y: item.coordinates.y,
-      height: dimensions.height,
-      width: dimensions.width,
-    }));
+    return items
+      .filter((item) => item.coordinates)
+      .map((item) => ({
+        x: item.coordinates!.x,
+        y: item.coordinates!.y,
+        height: dimensions.height,
+        width: dimensions.width,
+      }));
   });
 
   const RESOURCE_TYPES: Record<
@@ -325,6 +327,19 @@ export const NON_COLLIDING_OBJECTS: InventoryItemName[] = [
   "Long Rug",
 ];
 
+export function getZIndex(y: number, name?: InventoryItemName) {
+  if (name && NON_COLLIDING_OBJECTS.includes(name)) {
+    // Tiles are underneath everything
+    if (name.includes("Tile")) return 0;
+
+    // Rugs sit on top of tiles
+    return 1;
+  }
+
+  // Everything else is based on it y position
+  return -y + 1000;
+}
+
 function detectHomeCollision({
   state,
   position,
@@ -362,12 +377,14 @@ function detectHomeCollision({
     const items = placed[name] as PlacedItem[];
     const dimensions = PLACEABLE_DIMENSIONS[name];
 
-    return items.map((item) => ({
-      x: item.coordinates.x,
-      y: item.coordinates.y,
-      height: dimensions.height,
-      width: dimensions.width,
-    }));
+    return items
+      .filter((item) => item.coordinates)
+      .map((item) => ({
+        x: item.coordinates!.x,
+        y: item.coordinates!.y,
+        height: dimensions.height,
+        width: dimensions.width,
+      }));
   });
 
   const budsBoundingBox = Object.values(state.buds ?? {})
@@ -439,6 +456,26 @@ function detectAirdropCollision(state: GameState, boundingBox: BoundingBox) {
         width: 1,
         height: 1,
       }),
+  );
+}
+
+function detectGarbageCollision(state: GameState, boundingBox: BoundingBox) {
+  if (!state.socialFarming?.clutter?.locations) return false;
+  const { locations } = state.socialFarming.clutter;
+
+  const boundingBoxes = getKeys(locations).flatMap((id) => {
+    const location = locations[id];
+
+    return {
+      x: location.x,
+      y: location.y,
+      height: 1,
+      width: 1,
+    };
+  });
+
+  return boundingBoxes.some((resourceBoundingBox) =>
+    isOverlapping(boundingBox, resourceBoundingBox),
   );
 }
 
@@ -580,7 +617,8 @@ export function detectCollision({
     detectLandCornerCollision(expansions, position) ||
     detectChickenCollision(state, position) ||
     detectMushroomCollision(state, position) ||
-    detectAirdropCollision(state, position)
+    detectAirdropCollision(state, position) ||
+    detectGarbageCollision(state, position)
   );
 }
 

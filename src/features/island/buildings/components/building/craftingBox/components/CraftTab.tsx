@@ -57,6 +57,13 @@ const VALID_CRAFTING_RESOURCES: InventoryItemName[] = [
   "Pumpkin",
   "Carrot",
   "Radish",
+  "Turnip",
+
+  // Fruits
+  "Tomato",
+  "Lunara",
+  "Duskberry",
+  "Celestine",
 
   // Resources
   "Wood",
@@ -64,6 +71,7 @@ const VALID_CRAFTING_RESOURCES: InventoryItemName[] = [
   "Iron",
   "Gold",
   "Crimstone",
+  "Obsidian",
   "Oil",
   "Wild Mushroom",
   "Honey",
@@ -104,10 +112,6 @@ const VALID_CRAFTING_RESOURCES: InventoryItemName[] = [
   "Royal Ornament",
   "Synthetic Fabric",
   "Timber",
-
-  // Others
-  "Crimson Cap",
-  "Toadstool Seat",
 
   ...getKeys(DOLLS),
 ];

@@ -162,7 +162,10 @@ export const NPCIcon: React.FC<NPCProps> = ({
           imageRendering: "pixelated" as const,
         }}
       >
-        <div className="relative">
+        <div
+          className="relative"
+          style={{ width: `${width}px`, height: `${width}px` }}
+        >
           <img
             id="idle"
             src={idle}

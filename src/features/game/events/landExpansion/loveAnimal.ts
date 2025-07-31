@@ -3,6 +3,7 @@ import {
   getAnimalLevel,
   makeAnimalBuildingKey,
 } from "features/game/lib/animals";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { AnimalLevel, ANIMALS, AnimalType } from "features/game/types/animals";
 import { GameState, LoveAnimalItem } from "features/game/types/game";
 import { produce } from "immer";
@@ -55,7 +56,11 @@ export function loveAnimal({
 
     const level = getAnimalLevel(animal.experience, animal.type);
 
-    const { animalXP } = getAnimalXP({ name: action.item, state: copy });
+    const { animalXP } = getAnimalXP({
+      name: action.item,
+      state: copy,
+      animal: action.animal,
+    });
 
     animal.experience += animalXP;
     animal.lovedAt = createdAt;
@@ -168,9 +173,11 @@ export const ITEM_XP: Record<LoveAnimalItem, number> = {
 export function getAnimalXP({
   name,
   state,
+  animal,
 }: {
   name: LoveAnimalItem;
   state: GameState;
+  animal: AnimalType;
 }) {
   let animalXP = ITEM_XP[name];
   let multiplier = 1;
@@ -178,6 +185,14 @@ export function getAnimalXP({
   if (state.bumpkin.skills["Heartwarming Instruments"]) {
     multiplier += 0.5;
   }
+
+  if (
+    animal === "Cow" &&
+    isCollectibleBuilt({ name: "Baby Cow", game: state })
+  ) {
+    animalXP += 10;
+  }
+
   animalXP *= multiplier;
 
   return { animalXP };

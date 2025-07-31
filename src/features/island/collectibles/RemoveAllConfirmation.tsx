@@ -6,34 +6,42 @@ import { Button } from "components/ui/Button";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { PlaceableLocation } from "features/game/types/collectibles";
 
 interface Props {
   onClose: () => void;
   onRemove: () => void;
+  location: PlaceableLocation;
 }
 
-export const RemoveCropMachineModal: React.FC<Props> = ({
+export const RemoveAllConfirmation: React.FC<Props> = ({
   onClose,
   onRemove,
+  location,
 }) => {
   const { t } = useAppTranslation();
   return (
     <Modal show={true} onHide={onClose}>
-      <CloseButtonPanel title={t("removeCropMachine.title")} onClose={onClose}>
+      <CloseButtonPanel title={t("removeAll.title")} onClose={onClose}>
         <div className="flex flex-col items-center p-2 w-full text-center text-sm">
           <img
-            src={ITEM_DETAILS["Crop Machine"].image}
-            className="mb-2 -mt-2.5"
+            src={ITEM_DETAILS["Rusty Shovel"].image}
+            className="mb-4"
             style={{
-              width: `${PIXEL_SCALE * 30}px`,
+              width: `${PIXEL_SCALE * 20}px`,
             }}
           />
-          <span>{t("removeCropMachine.description")}</span>
+          <span>{t("removeAll.description.one", { location })}</span>
+          <span>{t("removeAll.description.two")}</span>
         </div>
-
-        <Button onClick={onRemove} className="mt-2">
-          {t("remove")}
-        </Button>
+        <div className="flex justify-center gap-1">
+          <Button onClick={onClose} className="mt-2">
+            {t("cancel")}
+          </Button>
+          <Button onClick={onRemove} className="mt-2">
+            {t("remove")}
+          </Button>
+        </div>
       </CloseButtonPanel>
     </Modal>
   );

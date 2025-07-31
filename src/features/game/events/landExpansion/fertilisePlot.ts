@@ -110,36 +110,32 @@ export function fertilisePlot({
           createdAt,
           cropDetails,
         );
+
         crop.plantedAt = newPlantedAt;
 
         crop.boostedTime = (crop.boostedTime ?? 0) + timeReduction;
+
         if (
-          stateCopy.collectibles["Basic Scarecrow"]?.[0] &&
+          isCollectibleBuilt({ name: "Basic Scarecrow", game: stateCopy }) &&
           isBasicCrop(crop.name)
         ) {
-          const basicScarecrowCoordinates =
-            stateCopy.collectibles["Basic Scarecrow"]?.[0].coordinates;
-          const scarecrowDimensions =
-            COLLECTIBLES_DIMENSIONS["Basic Scarecrow"];
-
-          const scarecrowPosition: Position = {
-            x: basicScarecrowCoordinates.x,
-            y: basicScarecrowCoordinates.y,
-            height: scarecrowDimensions.height,
-            width: scarecrowDimensions.width,
-          };
-
+          // Get Coordinates of the Scarecrow
+          // Get Dimensions of the Scarecrow
+          const dimensions = COLLECTIBLES_DIMENSIONS["Basic Scarecrow"];
+          const coordinates =
+            stateCopy.collectibles["Basic Scarecrow"]![0].coordinates!;
+          // Coordinates is always defined because isCollectibleBuilt is true
           const plotPosition: Position = {
             x: plot?.x,
             y: plot?.y,
             ...RESOURCE_DIMENSIONS["Crop Plot"],
           };
+          const scarecrowPosition: Position = {
+            ...dimensions,
+            ...coordinates,
+          };
 
           if (
-            isCollectibleBuilt({
-              name: "Basic Scarecrow",
-              game: stateCopy,
-            }) &&
             isWithinAOE(
               "Basic Scarecrow",
               scarecrowPosition,
@@ -147,17 +143,15 @@ export function fertilisePlot({
               stateCopy.bumpkin.skills,
             )
           ) {
-            if (basicScarecrowCoordinates) {
-              const dx = plot.x - basicScarecrowCoordinates.x;
-              const dy = plot.y - basicScarecrowCoordinates.y;
-              setAOEAvailableAt(
-                stateCopy.aoe,
-                "Basic Scarecrow",
-                { dx, dy },
-                createdAt,
-                crop.plantedAt + cropDetails.harvestSeconds * 1000 - createdAt,
-              );
-            }
+            const dx = plot.x - coordinates.x;
+            const dy = plot.y - coordinates.y;
+            setAOEAvailableAt(
+              stateCopy.aoe,
+              "Basic Scarecrow",
+              { dx, dy },
+              createdAt,
+              crop.plantedAt + cropDetails.harvestSeconds * 1000 - createdAt,
+            );
           }
         }
       }

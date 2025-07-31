@@ -9,6 +9,7 @@ import { useActor } from "@xstate/react";
 import { CONFIG } from "lib/config";
 import { createErrorLogger } from "lib/errorLogger";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { SystemMessageWidget } from "features/announcements/SystemMessageWidget";
 
 function getFirstTsFileName(stackTrace: string) {
   try {
@@ -166,6 +167,8 @@ export const BoundaryError: React.FC<BoundaryErrorProps> = ({
       {onAcknowledge && (
         <Button onClick={onAcknowledge}>{t("try.again")}</Button>
       )}
+
+      <SystemMessageWidget />
     </>
   );
 };

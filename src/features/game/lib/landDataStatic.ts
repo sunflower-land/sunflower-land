@@ -26,6 +26,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
   inventory: {
     "Gold Cooking Trophy": new Decimal(1),
     Doll: new Decimal(10),
+    "Petting Hand": new Decimal(1),
     "Cluck Doll": new Decimal(1),
     "Lumber Doll": new Decimal(1),
     "Silver Cooking Trophy": new Decimal(1),
@@ -34,6 +35,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Geniseed: new Decimal(400),
     Wheat: new Decimal(400),
     Pickaxe: new Decimal(1),
+    "Blue Tile": new Decimal(1000),
     "Beta Pass": new Decimal(1),
     "Colors Token 2025": new Decimal(10000),
     "Magic Bean": new Decimal(1),
@@ -1026,9 +1028,31 @@ export const STATIC_OFFLINE_FARM: GameState = {
         state: "idle",
         createdAt: 0,
         experience: 120,
+        asleepAt: 0,
+        awakeAt: 0,
+        lovedAt: 0,
+        item: "Petting Hand",
+      },
+      "3": {
+        id: "4",
+        type: "Sheep",
+        state: "idle",
+        createdAt: 0,
+        experience: 120,
         asleepAt: Date.now() - 1000 * 60 * 60 * 12,
         awakeAt: Date.now() + 1000 * 60 * 60 * 12,
-        lovedAt: Date.now(),
+        lovedAt: 0,
+        item: "Petting Hand",
+      },
+      "4": {
+        id: "4",
+        type: "Sheep",
+        state: "idle",
+        createdAt: 0,
+        experience: 120,
+        asleepAt: Date.now(),
+        awakeAt: Date.now() + 1000 * 60 * 60 * 12,
+        lovedAt: 0,
         item: "Petting Hand",
       },
       "2": {
@@ -1094,9 +1118,24 @@ export const STATIC_OFFLINE_FARM: GameState = {
   socialFarming: {
     points: 0,
     villageProjects: {},
-    cheeredProjects: {
+    cheersGiven: {
       date: new Date().toISOString().split("T")[0],
       projects: {},
+      farms: [],
+    },
+    cheers: {
+      cheersUsed: 0,
+      freeCheersClaimedAt: 0,
+    },
+    clutter: {
+      spawnedAt: 0,
+      locations: {
+        "1": {
+          x: 1,
+          y: 1,
+          type: "Trash",
+        },
+      },
     },
   },
 };

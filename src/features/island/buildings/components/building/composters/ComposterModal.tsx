@@ -248,7 +248,7 @@ const ComposterModalContent: React.FC<{
   const { resourceBoostRequirements } = getSpeedUpCost(state, composterName);
 
   const { produceAmount } = getCompostAmount({
-    skills: bumpkin.skills,
+    game: state,
     building: composterName,
   });
 

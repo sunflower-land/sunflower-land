@@ -23,6 +23,7 @@ import { hasFeatureAccess } from "lib/flags";
 import { WalletInUse } from "./components/WalletInUse";
 import { LoginSettings } from "./components/LoginSettings";
 import { NPC_WEARABLES } from "lib/npcs";
+import { SystemMessageWidget } from "features/announcements/SystemMessageWidget";
 
 type Props = {
   showOfflineModal: boolean;
@@ -114,8 +115,8 @@ export const Auth: React.FC<Props> = ({ showOfflineModal }) => {
             )}
           </Panel>
         )}
+        <SystemMessageWidget />
       </Modal>
-
       {!authState.matches("connected") && !authState.matches("visiting") && (
         <LoginSettings />
       )}

@@ -382,30 +382,26 @@ export const getCropPlotTime = ({
 
   // If within Basic Scarecrow AOE: 20% reduction
   // This must be at the end of the function as it relies on the seconds variable
-  if (game.collectibles["Basic Scarecrow"]?.[0] && isBasicCrop(crop)) {
-    if (!plot || plot.x === undefined || plot.y === undefined || !createdAt) {
-      return { time: seconds, aoe: updatedAoe, boostsUsed };
-    }
-
-    const basicScarecrowCoordinates =
-      game.collectibles["Basic Scarecrow"]?.[0].coordinates;
-    const scarecrowDimensions = COLLECTIBLES_DIMENSIONS["Basic Scarecrow"];
-
+  if (
+    isCollectibleBuilt({ name: "Basic Scarecrow", game }) &&
+    isBasicCrop(crop) &&
+    plot &&
+    plot.x !== undefined &&
+    plot.y !== undefined
+  ) {
+    const coordinates = game.collectibles["Basic Scarecrow"]![0].coordinates!;
     const scarecrowPosition: Position = {
-      x: basicScarecrowCoordinates.x,
-      y: basicScarecrowCoordinates.y,
-      height: scarecrowDimensions.height,
-      width: scarecrowDimensions.width,
+      ...coordinates,
+      ...COLLECTIBLES_DIMENSIONS["Basic Scarecrow"],
     };
 
     const plotPosition: Position = {
-      x: plot?.x,
-      y: plot?.y,
+      x: plot.x,
+      y: plot.y,
       ...RESOURCE_DIMENSIONS["Crop Plot"],
     };
 
     if (
-      isCollectibleBuilt({ name: "Basic Scarecrow", game }) &&
       isWithinAOE(
         "Basic Scarecrow",
         scarecrowPosition,

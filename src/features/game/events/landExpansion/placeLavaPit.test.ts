@@ -153,6 +153,7 @@ describe("placeLavaPit", () => {
           },
         },
       },
+      createdAt: dateNow,
     });
 
     expect(state.lavaPits).toEqual({

@@ -1459,6 +1459,10 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Giant Onion": { width: 1, height: 2 },
   "Giant Turnip": { width: 2, height: 2 },
   "Groovy Gramophone": { width: 1, height: 1 },
+  "Baby Cow": { width: 1, height: 1 },
+  "Baby Sheep": { width: 1, height: 1 },
+  "Janitor Chicken": { width: 1, height: 1 },
+  "Venus Bumpkin Trap": { width: 1, height: 1 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {

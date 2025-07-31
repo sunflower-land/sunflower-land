@@ -92,6 +92,8 @@ import { ClaimReferralRewards } from "./components/ClaimReferralRewards";
 import { SoftBan } from "features/retreat/components/personhood/SoftBan";
 import { RewardBox } from "features/rewardBoxes/RewardBox";
 import { ClaimBlessingReward } from "features/loveIsland/blessings/ClaimBlessing";
+import { Cheering } from "./components/Cheering";
+import { SystemMessageWidget } from "features/announcements/SystemMessageWidget";
 
 function camelToDotCase(str: string): string {
   return str.replace(/([a-z])([A-Z])/g, "$1.$2").toLowerCase() as string;
@@ -180,6 +182,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   jinAirdrop: true,
   investigating: true,
   blessing: true,
+  cheers: true,
 };
 
 // State change selectors
@@ -205,7 +208,6 @@ const isRefreshing = (state: MachineState) => state.matches("refreshing");
 const isBuyingSFL = (state: MachineState) => state.matches("buyingSFL");
 const isError = (state: MachineState) => state.matches("error");
 const isHoarding = (state: MachineState) => state.matches("hoarding");
-const isVisiting = (state: MachineState) => state.matches("visiting");
 const isSwarming = (state: MachineState) => state.matches("swarming");
 const isPurchasing = (state: MachineState) =>
   state.matches("purchasing") || state.matches("buyingBlockBucks");
@@ -267,6 +269,7 @@ const isRoninWelcomePack = (state: MachineState) =>
   state.matches("roninWelcomePack");
 const isRoninAirdrop = (state: MachineState) => state.matches("roninAirdrop");
 const isJinAirdrop = (state: MachineState) => state.matches("jinAirdrop");
+const isCheers = (state: MachineState) => state.matches("cheers");
 
 const GameContent: React.FC<{ isVisiting: boolean }> = ({ isVisiting }) => {
   const { gameService } = useContext(Context);
@@ -442,6 +445,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
   const showPWAInstallPrompt = useSelector(authService, _showPWAInstallPrompt);
   const investigating = useSelector(gameService, isInvestigating);
   const blessing = useSelector(gameService, isBlessing);
+  const cheers = useSelector(gameService, isCheers);
 
   const { t } = useAppTranslation();
   useInterval(() => {
@@ -544,6 +548,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
             <Panel>
               <Loading />
             </Panel>
+            <SystemMessageWidget />
           </Modal>
         </Ocean>
       </>
@@ -644,6 +649,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
                 onClose={() => gameService.send("ACKNOWLEDGE")}
               />
             )}
+            {cheers && <Cheering />}
           </Panel>
         </Modal>
 

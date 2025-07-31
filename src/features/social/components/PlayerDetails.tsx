@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Label } from "components/ui/Label";
-import { InnerPanel } from "components/ui/Panel";
+import { InnerPanel, Panel } from "components/ui/Panel";
 
 import vipIcon from "assets/icons/vip.webp";
 import basicIsland from "assets/icons/islands/basic.webp";
@@ -10,11 +10,10 @@ import desertIsland from "assets/icons/islands/desert.webp";
 import volcanoIsland from "assets/icons/islands/volcano.webp";
 import flowerIcon from "assets/icons/flower_token.webp";
 import deliveryBook from "assets/icons/chapter_icon_3.webp";
+import cheer from "assets/icons/cheer.webp";
 
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { getLevel } from "features/game/types/skills";
-import Decimal from "decimal.js-light";
 import { capitalize } from "lib/utils/capitalize";
 import { isMobile } from "mobile-device-detect";
 import { Button } from "components/ui/Button";
@@ -37,6 +36,8 @@ import { FollowsIndicator } from "./FollowsIndicator";
 import { formatNumber } from "lib/utils/formatNumber";
 import { FACTION_TO_EMBLEM } from "features/world/ui/factions/emblemTrading/EmblemsTrading";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { ModalOverlay } from "components/ui/ModalOverlay";
+import Decimal from "decimal.js-light";
 
 const ISLAND_ICONS: Record<IslandType, string> = {
   basic: basicIsland,
@@ -61,6 +62,17 @@ type Props = {
 };
 
 const _farmId = (state: MachineState) => state.context.farmId;
+const _cheersAvailable = (state: MachineState) => {
+  return state.context.state.inventory["Cheer"] ?? new Decimal(0);
+};
+const _hasCheeredToday = (farmId: number) => (state: MachineState) => {
+  const today = new Date().toISOString().split("T")[0];
+
+  return (
+    state.context.state.socialFarming.cheersGiven.date === today &&
+    state.context.state.socialFarming.cheersGiven.farms.includes(farmId)
+  );
+};
 
 export const PlayerDetails: React.FC<Props> = ({
   data,
@@ -80,9 +92,16 @@ export const PlayerDetails: React.FC<Props> = ({
   const navigate = useNavigate();
   const { isVisiting } = useVisiting();
   const farmId = useSelector(gameService, _farmId);
+  const cheersAvailable = useSelector(gameService, _cheersAvailable);
   const location = useLocation();
+  const [showCheerModal, setShowCheerModal] = useState(false);
 
   const player = data?.data;
+
+  const hasCheeredToday = useSelector(
+    gameService,
+    _hasCheeredToday(player?.id ?? 0),
+  );
 
   useSocial({
     farmId,
@@ -113,6 +132,16 @@ export const PlayerDetails: React.FC<Props> = ({
     navigate(`/visit/${player.id}`);
   };
 
+  const cheerPlayer = () => {
+    gameService.send("farm.cheered", {
+      effect: {
+        type: "farm.cheered",
+        farmId: player?.id,
+      },
+    });
+    setShowCheerModal(false);
+  };
+
   const startDate = new Date(player?.farmCreatedAt ?? 0).toLocaleString(
     "en-US",
     {
@@ -121,38 +150,86 @@ export const PlayerDetails: React.FC<Props> = ({
     },
   );
 
+  const isSelf = player?.id === farmId;
+  const hasCheersAvailable = cheersAvailable.gt(0);
+  const displayName = player?.username ?? `#${player?.id}`;
+
   return (
     <div className="flex gap-1 w-full max-h-[370px]">
       <div className="flex flex-col flex-1 gap-1">
         <InnerPanel className="flex flex-col gap-1 flex-1 pb-1 px-1">
-          <div className="flex items-center relative">
-            <div className="flex items-center">
-              {canGoBack && (
-                <div
-                  className="flex items-center justify-center w-6 h-6 mr-2 cursor-pointer hover:bg-brown-200 active:bg-brown-300 rounded-sm transition-colors"
-                  onClick={onGoBack}
-                >
+          <ModalOverlay
+            show={showCheerModal}
+            onBackdropClick={() => setShowCheerModal(false)}
+          >
+            <Panel>
+              <div className="flex sm:flex-row flex-col space-y-1">
+                <Label type="default" icon={cheer} className="ml-1">
+                  {t("cheers.available", {
+                    count: cheersAvailable.toNumber(),
+                  })}
+                </Label>
+              </div>
+
+              <div className="p-2 text-xs flex flex-col gap-2">
+                <span>{t("cheers.confirm.description")}</span>
+                <span>{t("cheers.confirm", { username: displayName })}</span>
+              </div>
+              <div className="flex space-x-1">
+                <Button onClick={() => setShowCheerModal(false)}>
+                  {t("cancel")}
+                </Button>
+                <Button onClick={cheerPlayer} disabled={!hasCheersAvailable}>
+                  {t("cheer")}
+                </Button>
+              </div>
+            </Panel>
+          </ModalOverlay>
+          <div className="flex justify-between">
+            <div className="flex items-center relative">
+              <div className="flex items-center">
+                {canGoBack && (
+                  <div
+                    className="flex items-center justify-center w-6 h-6 mr-2 cursor-pointer hover:bg-brown-200 active:bg-brown-300 rounded-sm transition-colors"
+                    onClick={onGoBack}
+                  >
+                    <img
+                      src={SUNNYSIDE.icons.arrow_left}
+                      className="w-6"
+                      alt="Back"
+                    />
+                  </div>
+                )}
+                <Label type="default" className="relative">
+                  {player?.username}
+                  <div className="absolute -top-2 -right-2 z-10">
+                    {player?.id && (
+                      <OnlineStatus
+                        playerId={player?.id}
+                        farmId={farmId}
+                        lastUpdatedAt={player?.lastUpdatedAt ?? 0}
+                      />
+                    )}
+                  </div>
+                </Label>
+              </div>
+              {player?.isVip && <img src={vipIcon} className="w-5 ml-2" />}
+            </div>
+            {!isSelf && (
+              <Button
+                className="flex w-fit h-9 justify-between items-center gap-1 mr-1 -mb-2 mt-1"
+                onClick={() => setShowCheerModal(true)}
+                disabled={hasCheeredToday}
+              >
+                <div className="flex items-center px-1">
+                  {!isMobile && <span className="pr-1">{t("cheer")}</span>}
                   <img
-                    src={SUNNYSIDE.icons.arrow_left}
-                    className="w-6"
-                    alt="Back"
+                    src={cheer}
+                    className="flex justify-center items-center w-4 h-4"
                   />
                 </div>
-              )}
-              <Label type="default" className="relative">
-                {player?.username}
-                <div className="absolute -top-2 -right-2 z-10">
-                  {player?.id && (
-                    <OnlineStatus
-                      playerId={player?.id}
-                      farmId={farmId}
-                      lastUpdatedAt={player?.lastUpdatedAt ?? 0}
-                    />
-                  )}
-                </div>
-              </Label>
-            </div>
-            {player?.isVip && <img src={vipIcon} className="w-5 ml-2" />}
+              </Button>
+            )}
           </div>
           <div className="flex pb-1 gap-1">
             <div className="relative">
@@ -163,7 +240,7 @@ export const PlayerDetails: React.FC<Props> = ({
             </div>
             <div className="flex flex-col gap-1 text-xs mt-1 ml-2 flex-1">
               <div className="flex items-center">
-                {`Lvl ${getLevel(new Decimal(player?.experience ?? 0))}${player?.faction ? ` - ${capitalize(player?.faction)}` : ""}`}
+                {`Lvl ${player?.level}${player?.faction ? ` - ${capitalize(player?.faction)}` : ""}`}
                 {player?.faction && (
                   <img
                     src={ITEM_DETAILS[FACTION_TO_EMBLEM[player.faction]].image}
@@ -195,7 +272,9 @@ export const PlayerDetails: React.FC<Props> = ({
               <div className="flex items-center">
                 <span>
                   {t("playerModal.marketValue", {
-                    value: formatNumber(player?.marketValue ?? 0),
+                    value: formatNumber(
+                      player?.marketValue ?? 0,
+                    ).toLocaleString(),
                   })}
                 </span>
                 <img src={flowerIcon} className="w-4 h-4 ml-1 mt-0.5" />
@@ -204,6 +283,7 @@ export const PlayerDetails: React.FC<Props> = ({
             {!isVisiting && (
               <Button
                 className="flex w-fit h-9 justify-between items-center gap-1 mt-1"
+                disabled={isSelf}
                 onClick={visitFarm}
               >
                 <div className="flex items-center px-1">
@@ -227,7 +307,7 @@ export const PlayerDetails: React.FC<Props> = ({
               />
               <Button
                 className="flex w-fit h-9 justify-between items-center gap-1 mt-1 mr-0.5"
-                disabled={playerLoading || followLoading || !!error}
+                disabled={playerLoading || followLoading || !!error || isSelf}
                 onClick={onFollow}
               >
                 {followLoading ? `...` : iAmFollowing ? `Unfollow` : `Follow`}
@@ -237,7 +317,7 @@ export const PlayerDetails: React.FC<Props> = ({
           <div className="flex flex-col gap-1 p-1 pt-0 mb-2 w-full">
             <div className="text-xs">{`You cleaned their farm x times`}</div>
             <div className="text-xs">{`They cleaned your farm x times`}</div>
-            <div className="text-xs">{`Top friend - Craig`}</div>
+            <div className="text-xs">{`Top friend - x`}</div>
           </div>
         </InnerPanel>
         <InnerPanel className="flex flex-col w-full pb-1">
@@ -258,7 +338,7 @@ export const PlayerDetails: React.FC<Props> = ({
           </div>
         </InnerPanel>
       </div>
-      {!isMobile && player && (
+      {!isMobile && player && !isSelf && (
         <FollowerFeed
           farmId={farmId}
           playerId={player.id}
