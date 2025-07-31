@@ -6212,5 +6212,13 @@
   "description.babyCow": "Quem não ama um filhote de vaca?",
   "description.babySheep": "Bebezinho peludo e fofo",
   "description.janitorChicken": "Uma galinha ocupada, sempre pronta para trabalhar",
-  "description.venusBumpkinTrap": "Nunca vire as costas para esta planta atrevida!"
+  "description.venusBumpkinTrap": "Nunca vire as costas para esta planta atrevida!",
+  "description.trash": "Um pedaço de lixo. Talvez alguém encontre um uso para isso.",
+  "description.dung": "Uma pilha de esterco. Cheira mal, mas pode ser útil como fertilizante.",
+  "description.weed": "Uma erva daninha selvagem. Não é muito bonito, mas talvez tenha um propósito.",
+  "clutter": "Desordem",
+  "cleaning.farm": "Colocando bagunça na lixeira",
+  "cleaning.farm.success": "Obrigado por limpar minha fazenda!",
+  "cleaning.farm.failed": "A limpeza falhou!",
+  "social.points": "Pontos sociais: {{points}}"
 }

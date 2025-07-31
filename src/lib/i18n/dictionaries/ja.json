@@ -6212,5 +6212,13 @@
   "description.babyCow": "赤ん坊の牛が嫌いな人なんているだろうか。",
   "description.babySheep": "羊毛でふわふわの小さな赤ちゃん",
   "description.janitorChicken": "いつも仕事の準備ができている忙しい小さなニワトリ",
-  "description.venusBumpkinTrap": "このきびきびとした植物に決して背を向けないでください！"
+  "description.venusBumpkinTrap": "このきびきびとした植物に決して背を向けないでください！",
+  "description.trash": "ゴミのかけら。多分誰かがその使い道を見つけるだろう。",
+  "description.dung": "糞の山。臭いが、肥料として役立つかもしれない。",
+  "description.weed": "野生の雑草。あまりきれいではありませんが、目的があるのかもしれません。",
+  "clutter": "クラッター",
+  "cleaning.farm": "ゴミ箱に散らかったものを入れる",
+  "cleaning.farm.success": "私の農場を掃除してくれてありがとう！",
+  "cleaning.farm.failed": "クリーニングが失敗しました!",
+  "social.points": "ソーシャルポイント:{{points}}"
 }

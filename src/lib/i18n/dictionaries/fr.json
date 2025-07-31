@@ -6212,5 +6212,13 @@
   "description.babyCow": "Qui n'aime pas une petite vache ?",
   "description.babySheep": "Petit bébé laineux et moelleux",
   "description.janitorChicken": "Un petit poulet occupé, toujours prêt à travailler",
-  "description.venusBumpkinTrap": "Ne tournez jamais le dos à cette plante vivace !"
+  "description.venusBumpkinTrap": "Ne tournez jamais le dos à cette plante vivace !",
+  "description.trash": "Une poubelle. Peut-être que quelqu'un y trouvera une utilité.",
+  "description.dung": "Un tas de fumier. Ça sent mauvais, mais ça pourrait être utile comme engrais.",
+  "description.weed": "Une mauvaise herbe sauvage. Pas très joli, mais cela a peut-être un but.",
+  "clutter": "Encombrement",
+  "cleaning.farm": "Mettre du désordre dans la poubelle",
+  "cleaning.farm.success": "Merci d'avoir nettoyé ma ferme !",
+  "cleaning.farm.failed": "Le nettoyage a échoué !",
+  "social.points": "Points sociaux : {{points}}"
 }

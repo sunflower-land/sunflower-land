@@ -6212,5 +6212,13 @@
   "description.babyCow": "¿A quién no le gusta una vaca bebé?",
   "description.babySheep": "Bebé lanudo y esponjoso",
   "description.janitorChicken": "Una gallinita ocupada siempre lista para trabajar",
-  "description.venusBumpkinTrap": "¡Nunca le des la espalda a esta ingeniosa planta!"
+  "description.venusBumpkinTrap": "¡Nunca le des la espalda a esta ingeniosa planta!",
+  "description.trash": "Un pedazo de basura. Tal vez alguien le encuentre un uso.",
+  "description.dung": "Un montón de estiércol. Huele mal, pero podría ser útil como fertilizante.",
+  "description.weed": "Una hierba salvaje. No es muy bonito, pero quizá tenga un propósito.",
+  "clutter": "Desorden",
+  "cleaning.farm": "Poner el desorden en la papelera",
+  "cleaning.farm.success": "¡Gracias por limpiar mi granja!",
+  "cleaning.farm.failed": "¡Fallo en la limpieza!",
+  "social.points": "Puntos sociales: {{points}}"
 }

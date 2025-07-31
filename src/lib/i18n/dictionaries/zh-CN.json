@@ -6212,5 +6212,13 @@
   "description.babyCow": "谁不喜欢小奶牛？",
   "description.babySheep": "毛茸茸的小宝贝",
   "description.janitorChicken": "一只忙碌的小鸡随时准备工作",
-  "description.venusBumpkinTrap": "永远不要对这种活泼的植物置之不理！"
+  "description.venusBumpkinTrap": "永远不要对这种活泼的植物置之不理！",
+  "description.trash": "一块垃圾。也许有人会找到它的用处。",
+  "description.dung": "一堆粪便。很臭，但可以用作肥料。",
+  "description.weed": "一种野生大麻。不是很漂亮，但也许它有目的。",
+  "clutter": "混乱",
+  "cleaning.farm": "把杂物放进垃圾桶",
+  "cleaning.farm.success": "感谢你打扫我的农场！",
+  "cleaning.farm.failed": "清洁失败！",
+  "social.points": "社交积分：{{points}}"
 }

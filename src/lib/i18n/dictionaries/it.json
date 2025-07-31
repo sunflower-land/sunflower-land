@@ -6212,5 +6212,13 @@
   "description.babyCow": "Chi non ama un cucciolo di mucca?",
   "description.babySheep": "Bambino lanoso e soffice",
   "description.janitorChicken": "Una gallinella indaffarata sempre pronta a lavorare",
-  "description.venusBumpkinTrap": "Non voltare mai le spalle a questa pianta vivace!"
+  "description.venusBumpkinTrap": "Non voltare mai le spalle a questa pianta vivace!",
+  "description.trash": "Un pezzo di spazzatura. Forse qualcuno ne troverà un uso.",
+  "description.dung": "Un mucchio di sterco. Puzzolente, ma potrebbe essere utile come fertilizzante.",
+  "description.weed": "Un'erbaccia selvatica. Non molto carino, ma forse ha uno scopo.",
+  "clutter": "Disordine",
+  "cleaning.farm": "Mettere il disordine nel cestino",
+  "cleaning.farm.success": "Grazie per aver pulito la mia fattoria!",
+  "cleaning.farm.failed": "Pulizia fallita!",
+  "social.points": "Punti sociali: {{points}}"
 }

@@ -6212,5 +6212,13 @@
   "description.babyCow": "아기 소를 좋아하지 않는 사람이 있을까요?",
   "description.babySheep": "털이 많고 푹신한 작은 아기",
   "description.janitorChicken": "항상 일할 준비가 된 바쁜 작은 닭",
-  "description.venusBumpkinTrap": "이 멋진 식물에 등을 돌리지 마세요!"
+  "description.venusBumpkinTrap": "이 멋진 식물에 등을 돌리지 마세요!",
+  "description.trash": "쓰레기 한 조각.누군가 그 용도를 찾을 수 있을지도 몰라요.",
+  "description.dung": "배설물 더미.냄새는 나지만 비료로 유용할 수 있습니다.",
+  "description.weed": "야생 잡초.별로 예쁘지는 않지만 용도가 있는 걸지도 몰라요",
+  "clutter": "클러터",
+  "cleaning.farm": "쓰레기통에 잡동사니 넣기",
+  "cleaning.farm.success": "농장을 청소해 주셔서 감사합니다!",
+  "cleaning.farm.failed": "청소에 실패했습니다!",
+  "social.points": "소셜 포인트: {{points}}"
 }

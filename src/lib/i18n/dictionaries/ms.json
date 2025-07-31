@@ -6212,5 +6212,13 @@
   "description.babyCow": "Siapa yang tidak suka seekor lembu bayi?",
   "description.babySheep": "Bayi kecil yang berbulu dan gebu",
   "description.janitorChicken": "Ayam kecil yang sibuk sentiasa bersedia untuk bekerja",
-  "description.venusBumpkinTrap": "Jangan sekali-kali membalikkan tumbuhan yang cepat ini!"
+  "description.venusBumpkinTrap": "Jangan sekali-kali membalikkan tumbuhan yang cepat ini!",
+  "description.trash": "Sekeping sampah. Mungkin seseorang akan mencari kegunaan untuknya.",
+  "description.dung": "Tumpukan kotoran. Bau, tetapi boleh berguna sebagai baja.",
+  "description.weed": "Rumpai liar. Tidak begitu cantik, tetapi mungkin ia mempunyai tujuan.",
+  "clutter": "Kekacauan",
+  "cleaning.farm": "Meletakkan kekacauan di tong sampah",
+  "cleaning.farm.success": "Terima kasih kerana membersihkan ladang saya!",
+  "cleaning.farm.failed": "Pembersihan gagal!",
+  "social.points": "Mata Sosial: {{points}}"
 }

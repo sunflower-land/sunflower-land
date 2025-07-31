@@ -6212,5 +6212,13 @@
   "description.babyCow": "Wer liebt keine Babykuh?",
   "description.babySheep": "Wolliges und flauschiges kleines Baby",
   "description.janitorChicken": "Ein fleißiges kleines Huhn, das immer bereit ist zu arbeiten",
-  "description.venusBumpkinTrap": "Kehrt dieser bissigen Pflanze niemals den Rücken zu!"
+  "description.venusBumpkinTrap": "Kehrt dieser bissigen Pflanze niemals den Rücken zu!",
+  "description.trash": "Ein Stück Müll. Vielleicht findet jemand eine Verwendung dafür.",
+  "description.dung": "Ein Haufen Mist. Stinkt, könnte aber als Dünger nützlich sein.",
+  "description.weed": "Ein wildes Gras. Nicht sehr hübsch, aber vielleicht hat es einen Zweck.",
+  "clutter": "Unordnung",
+  "cleaning.farm": "Unordnung in den Mülleimer werfen",
+  "cleaning.farm.success": "Danke, dass du meine Farm gereinigt hast!",
+  "cleaning.farm.failed": "Die Reinigung ist fehlgeschlagen!",
+  "social.points": "Soziale Punkte: {{points}}"
 }

@@ -6212,5 +6212,13 @@
   "description.babyCow": "Siapa yang tidak suka bayi sapi?",
   "description.babySheep": "Bayi kecil berbulu dan halus",
   "description.janitorChicken": "Ayam kecil yang sibuk selalu siap bekerja",
-  "description.venusBumpkinTrap": "Jangan pernah memalingkan punggung Anda dari tanaman yang tajam ini!"
+  "description.venusBumpkinTrap": "Jangan pernah memalingkan punggung Anda dari tanaman yang tajam ini!",
+  "description.trash": "Sepotong sampah. Mungkin seseorang akan menemukan kegunaannya.",
+  "description.dung": "Tumpukan kotoran. Bau, tetapi bisa berguna sebagai pupuk.",
+  "description.weed": "Gulma liar. Tidak terlalu cantik, tapi mungkin itu memiliki tujuan.",
+  "clutter": "Kekacauan",
+  "cleaning.farm": "Menempatkan kekacauan di tempat sampah",
+  "cleaning.farm.success": "Terima kasih telah membersihkan peternakan saya!",
+  "cleaning.farm.failed": "Pembersihan gagal!",
+  "social.points": "Poin sosial: {{points}}"
 }
