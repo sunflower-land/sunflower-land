@@ -19,9 +19,16 @@ import { useNavigate } from "react-router";
 import { MachineState } from "features/game/lib/gameMachine";
 import { NPCIcon } from "../bumpkin/components/NPC";
 import cheer from "assets/icons/cheer.webp";
+import { Label } from "components/ui/Label";
+import { getTrashBinItems, useCleanFarm } from "../clutter/Clutter";
+import { TRASH_BIN_DAILY_LIMIT } from "features/game/events/landExpansion/collectClutter";
+import garbageBin from "assets/sfts/garbage_bin.webp";
 
 const _cheers = (state: MachineState) => {
   return state.context.visitorState?.inventory["Cheer"] ?? new Decimal(0);
+};
+const _socialPoints = (state: MachineState) => {
+  return state.context.state.socialFarming?.points ?? 0;
 };
 
 /**
@@ -33,9 +40,13 @@ export const VisitingHud: React.FC = () => {
     useContext(Context);
   const [gameState] = useActor(gameService);
   const cheers = useSelector(gameService, _cheers);
+  const socialPoints = useSelector(gameService, _socialPoints);
 
   const { t } = useAppTranslation();
   const navigate = useNavigate();
+  useCleanFarm();
+
+  const trashBinItems = getTrashBinItems(gameState);
 
   const handleEndVisit = () => {
     navigate(fromRoute ?? "/");
@@ -45,12 +56,10 @@ export const VisitingHud: React.FC = () => {
   const displayId =
     gameState.context.state.username ?? gameState.context.farmId;
 
-  // const cheersCount = gameS;
-
   return (
     <HudContainer>
       {!gameState.matches("landToVisitNotFound") && (
-        <InnerPanel className="fixed px-2 pt-1 pb-2 bottom-2 left-1/2 -translate-x-1/2 z-50 flex flex-col">
+        <InnerPanel className="fixed px-2 pt-1 pb-2 bottom-2 left-1/2 -translate-x-1/2 z-50 flex flex-row">
           <div className="flex flex-col p-0.5">
             <div className="flex items-center space-x-1">
               <NPCIcon
@@ -65,6 +74,11 @@ export const VisitingHud: React.FC = () => {
               <img src={cheer} style={{ width: `16px`, margin: `2px` }} />
               <span className="text-xxs">{`${cheers.toString()} Cheers Available`}</span>
             </div>
+          </div>
+          <div className="w-px h-[36px] bg-gray-300 mx-3 self-center" />
+          <div className="flex flex-col sm:flex-row items-center space-x-1">
+            <span className="text-md">{`${trashBinItems}/${TRASH_BIN_DAILY_LIMIT}`}</span>
+            <img src={garbageBin} style={{ width: `20px`, margin: `2px` }} />
           </div>
         </InnerPanel>
       )}
@@ -86,15 +100,12 @@ export const VisitingHud: React.FC = () => {
         />
       </div>
       <BumpkinProfile />
-      <div
-        className="fixed z-50"
-        style={{
-          right: `${PIXEL_SCALE * 3}px`,
-          bottom: `${PIXEL_SCALE * 3}px`,
-          width: `${PIXEL_SCALE * 22}px`,
-          height: `${PIXEL_SCALE * 23}px`,
-        }}
-      >
+      <div className="absolute p-2 left-0 top-24 flex flex-col space-y-2.5">
+        <Label type="chill">
+          {t("social.points", { points: socialPoints })}
+        </Label>
+      </div>
+      <div className="absolute bottom-0 p-2 right-0 flex flex-col space-y-2.5">
         <Settings isFarming={false} />
       </div>
       <div

@@ -309,51 +309,73 @@ export type BlockchainEvent =
   | { type: StateMachineVisitEffectName }
   | Effect; // Test only
 
+const playingEventHandler = (eventName: string) => {
+  return {
+    [eventName]: [
+      {
+        target: "hoarding",
+        cond: (context: Context, event: PlayingEvent) => {
+          const { valid } = checkProgress({
+            state: context.state as GameState,
+            action: event,
+            farmId: context.farmId,
+          });
+
+          return !valid;
+        },
+        actions: assign((context: Context, event: PlayingEvent) => {
+          const { maxedItem } = checkProgress({
+            state: context.state as GameState,
+            action: event,
+            farmId: context.farmId,
+          });
+
+          return { maxedItem };
+        }),
+      },
+      {
+        actions: assign((context: Context, event: PlayingEvent) => {
+          const result = processEvent({
+            state: context.state,
+            action: event,
+            announcements: context.announcements,
+            farmId: context.farmId,
+            visitorState: context.visitorState,
+          });
+
+          const actions = [
+            ...context.actions,
+            {
+              ...event,
+              createdAt: new Date(),
+            },
+          ];
+
+          if (Array.isArray(result)) {
+            const [state, visitorState] = result;
+            return {
+              state,
+              actions,
+              visitorState,
+            };
+          }
+
+          return {
+            state: result,
+            actions,
+          };
+        }),
+      },
+    ],
+  };
+};
+
 // // For each game event, convert it to an XState event + handler
 const GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
   Object.keys(PLAYING_EVENTS).reduce(
     (events, eventName) => ({
       ...events,
-      [eventName]: [
-        {
-          target: "hoarding",
-          cond: (context: Context, event: PlayingEvent) => {
-            const { valid } = checkProgress({
-              state: context.state as GameState,
-              action: event,
-              farmId: context.farmId,
-            });
-
-            return !valid;
-          },
-          actions: assign((context: Context, event: PlayingEvent) => {
-            const { maxedItem } = checkProgress({
-              state: context.state as GameState,
-              action: event,
-              farmId: context.farmId,
-            });
-
-            return { maxedItem };
-          }),
-        },
-        {
-          actions: assign((context: Context, event: PlayingEvent) => ({
-            state: processEvent({
-              state: context.state as GameState,
-              action: event,
-              announcements: context.announcements,
-              farmId: context.farmId,
-            }) as GameState,
-            actions: [
-              ...context.actions,
-              {
-                ...event,
-                createdAt: new Date(),
-              },
-            ],
-          })),
-        },
-      ],
+      ...playingEventHandler(eventName),
     }),
     {},
   );
@@ -450,11 +472,18 @@ const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
           }
 
           const { gameState, data } = await postEffect({
-            farmId: Number(context.farmId),
+            farmId: Number(context.visitorId ?? context.farmId),
             effect,
             token: authToken ?? context.rawToken,
             transactionId: context.transactionId as string,
           });
+
+          if (context.visitorId) {
+            return {
+              state: makeGame(data.visitedFarmState),
+              data,
+            };
+          }
 
           return { state: gameState, data };
         },
@@ -499,6 +528,17 @@ const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
   }),
   {},
 );
+
+const VISIT_EFFECT_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
+  getKeys(STATE_MACHINE_VISIT_EFFECTS).reduce(
+    (events, eventName) => ({
+      ...events,
+      [eventName]: {
+        target: STATE_MACHINE_VISIT_EFFECTS[eventName],
+      },
+    }),
+    {},
+  );
 
 const VISIT_EFFECT_STATES = Object.values(STATE_MACHINE_VISIT_EFFECTS).reduce(
   (states, stateName) => ({
@@ -704,18 +744,39 @@ const handleSuccessfulSave = (context: Context, event: any) => {
     (action) => action.createdAt.getTime() > event.data.saveAt.getTime(),
   );
 
+  if (recentActions.length === 0) {
+    return {
+      ...event.data,
+      actions: [],
+    };
+  }
+
   const updatedState = recentActions.reduce((state, action) => {
     return processEvent({
       state,
       action,
       announcements: context.announcements,
       farmId: context.farmId,
+      visitorState: context.visitorState,
     });
   }, event.data.farm);
 
+  if (Array.isArray(updatedState)) {
+    const [state, visitorState] = updatedState;
+    return {
+      state,
+      actions: recentActions,
+      visitorState,
+      saveQueued: false,
+      announcements: event.data.announcements,
+    };
+  }
+
   return {
     actions: recentActions,
+    // TODO: Update when backend is already handled
     state: updatedState,
+    visitorState: context.visitorState,
     saveQueued: false,
     announcements: event.data.announcements,
   };
@@ -905,7 +966,7 @@ export function startGame(authContext: AuthContext) {
                 farmId = (event as VisitEvent).landId;
               }
 
-              const { visitedFarmState, visitorId } =
+              const { visitedFarmState, visitorFarmState, visitorId } =
                 await loadGameStateForVisit(
                   Number(farmId),
                   authContext.user.rawToken as string,
@@ -915,6 +976,7 @@ export function startGame(authContext: AuthContext) {
                 state: makeGame(visitedFarmState),
                 farmId,
                 visitorId,
+                visitorState: makeGame(visitorFarmState),
               };
             },
             onDone: {
@@ -923,8 +985,8 @@ export function startGame(authContext: AuthContext) {
                 state: (_, event) => event.data.state,
                 farmId: (_, event) => event.data.farmId,
                 visitorId: (_, event) => event.data.visitorId,
-                visitorState: (context, event) => context.state,
-                actions: (context, event) => [],
+                visitorState: (_, event) => event.data.visitorState,
+                actions: (_, event) => [],
               }),
             },
             onError: {
@@ -944,8 +1006,10 @@ export function startGame(authContext: AuthContext) {
         },
         visiting: {
           on: {
-            "villageProject.cheered": {
-              target: `${STATE_MACHINE_VISIT_EFFECTS["villageProject.cheered"]}`,
+            ...VISIT_EFFECT_EVENT_HANDLERS,
+            ...playingEventHandler("clutter.collected"),
+            SAVE: {
+              target: "autosaving",
             },
             VISIT: {
               target: "loadLandToVisit",
@@ -1627,11 +1691,11 @@ export function startGame(authContext: AuthContext) {
           },
           invoke: {
             src: async (context, event) => {
-              const farmId = context.farmId;
+              const farmId = context.visitorId ?? context.farmId;
               const data = await saveGame(
                 context,
                 event,
-                farmId as number,
+                farmId,
                 authContext.user.rawToken as string,
               );
 
@@ -1677,6 +1741,13 @@ export function startGame(authContext: AuthContext) {
 
                   return !isAcknowledged;
                 },
+                actions: assign((context: Context, event) =>
+                  handleSuccessfulSave(context, event),
+                ),
+              },
+              {
+                target: "visiting",
+                cond: (context, _) => !!context.visitorId,
                 actions: assign((context: Context, event) =>
                   handleSuccessfulSave(context, event),
                 ),

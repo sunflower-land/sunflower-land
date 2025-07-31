@@ -106,6 +106,7 @@ import { MonumentName } from "./monuments";
 import { AOEItemName } from "../expansion/placeable/lib/collisionDetection";
 import { Coordinates } from "../expansion/components/MapPlacement";
 import { VillageProjectName } from "features/island/collectibles/components/Monument";
+import { ClutterName } from "./clutter";
 
 export type Reward = {
   coins?: number;
@@ -567,7 +568,8 @@ export type InventoryItemName =
   | RewardBoxName
   | LandBiomeName
   | MonumentName
-  | DollName;
+  | DollName
+  | ClutterName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -1790,7 +1792,6 @@ export interface GameState {
   monuments?: Partial<Record<MonumentName, { createdAt: number }>>;
 
   aoe: AOE;
-
   socialFarming: {
     points: number;
     villageProjects: Partial<Record<VillageProjectName, { cheers: number }>>;
@@ -1802,6 +1803,30 @@ export interface GameState {
     cheers: {
       cheersUsed: number;
       freeCheersClaimedAt: number;
+    };
+    dailyCollections?: Record<
+      number,
+      {
+        pointGivenAt?: number;
+        clutter: Record<
+          string,
+          {
+            collectedAt: number;
+            type: ClutterName;
+          }
+        >;
+      }
+    >;
+    clutter?: {
+      spawnedAt: number;
+      locations: Record<
+        string,
+        {
+          type: ClutterName;
+          x: number;
+          y: number;
+        }
+      >;
     };
   };
 }

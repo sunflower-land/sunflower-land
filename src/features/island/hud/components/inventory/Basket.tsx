@@ -70,6 +70,7 @@ import { ANIMAL_FOODS } from "features/game/types/animals";
 import { RECIPE_CRAFTABLES } from "features/game/lib/crafting";
 import { SEASON_ICONS } from "features/island/buildings/components/building/market/SeasonalSeeds";
 import { getFlowerTime } from "features/game/events/landExpansion/plantFlower";
+import { CLUTTER } from "features/game/types/clutter";
 
 interface Prop {
   gameState: GameState;
@@ -204,6 +205,8 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const allTools = [...workbenchTools, ...treasureTools, ...animalTools];
   const allResources = [...resources, ...craftingResources];
 
+  const clutter = getItems(CLUTTER);
+
   const itemsSection = (
     title: string,
     items: InventoryItemName[],
@@ -312,6 +315,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
             allResources,
             ITEM_DETAILS["Wood"].image,
           )}
+          {itemsSection(t("clutter"), clutter, ITEM_DETAILS.Dung.image)}
           {itemsSection(t("animal"), animalResources, ITEM_DETAILS.Egg.image)}
           {itemsSection("Feeds", animalFeeds, ITEM_DETAILS.Hay.image)}
           {itemsSection(

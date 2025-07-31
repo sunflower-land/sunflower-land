@@ -26,6 +26,7 @@ export async function loadGameStateForVisit(
   id: number,
   token?: string,
 ): Promise<{
+  visitorFarmState: GameState;
   isBanned: boolean;
   visitorId: number;
   visitedFarmState: VisitGameState;
