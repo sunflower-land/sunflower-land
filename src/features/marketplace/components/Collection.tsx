@@ -53,6 +53,9 @@ export const Collection: React.FC<{
       // Show boosts
       if (activeFilters === "utility") {
         return "collectibles,wearables,buds,utility";
+      } // Show Cosmetics
+      else if (activeFilters === "cosmetic") {
+        return "collectibles,wearables,cosmetic";
       }
       // Otherwise, use the provided filters
       return activeFilters;

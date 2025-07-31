@@ -57,6 +57,12 @@ const FILTER_OPTIONS: FilterOption[] = [
     filterType: "utility",
     active: false,
   },
+  {
+    name: translate("marketplace.cosmetics"),
+    image: SUNNYSIDE.icons.heart,
+    filterType: "cosmetic",
+    active: false,
+  },
 ];
 
 export const MarketplaceSearch: React.FC<{
@@ -154,7 +160,7 @@ export const MarketplaceSearch: React.FC<{
         {/* Large screens or screens smaller than SM */}
         <InnerPanel
           className={classNames(
-            "absolute sm:hidden lg:flex bottom-[95%] lg:bottom-[100%] left-1/2 -translate-x-1/2 duration-300 ease-in-out",
+            "absolute sm:hidden lg:flex bottom-[95%] lg:bottom-[100%] left-[50%] lg:left-[52%] -translate-x-1/2 duration-300 ease-in-out",
             {
               "opacity-0 translate-y-7 pointer-events-none": !showFilters,
               "opacity-100 translate-y-0 pointer-events-auto": showFilters,
@@ -186,7 +192,7 @@ const FilterOptionsContent: React.FC<{
       {/* Filter buttons */}
       {filterOptions.map((filter, index) => (
         <Button
-          className={classNames("relative w-11 h-11", {
+          className={classNames("relative w-11 lg:w-10 h-11 lg:h-10 p-0", {
             "ml-1": index > 0,
           })}
           onClick={() => {
@@ -206,7 +212,7 @@ const FilterOptionsContent: React.FC<{
         </Button>
       ))}
       {onClose && (
-        <div className="flex top-1/2 ml-2 mt-1 cursor-pointer">
+        <div className="flex top-1/2 ml-1 mt-1 lg:mt-0.5 cursor-pointer">
           <img
             src={SUNNYSIDE.icons.close}
             className="w-8 h-8"
