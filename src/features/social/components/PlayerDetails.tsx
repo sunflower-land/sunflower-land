@@ -151,6 +151,7 @@ export const PlayerDetails: React.FC<Props> = ({
   );
 
   const isSelf = player?.id === farmId;
+
   const hasCheersAvailable = cheersAvailable.gt(0);
   const displayName = player?.username ?? `#${player?.id}`;
 

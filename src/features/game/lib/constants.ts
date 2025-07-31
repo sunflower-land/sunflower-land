@@ -680,8 +680,9 @@ export const INITIAL_FARM: GameState = {
   socialFarming: {
     points: 0,
     villageProjects: {},
-    cheeredProjects: {
+    cheersGiven: {
       date: "",
+      farms: [],
       projects: {},
     },
     cheers: {
@@ -998,8 +999,9 @@ export const TEST_FARM: GameState = {
   socialFarming: {
     points: 0,
     villageProjects: {},
-    cheeredProjects: {
+    cheersGiven: {
       date: new Date().toISOString().split("T")[0],
+      farms: [],
       projects: {},
     },
     cheers: {
@@ -1165,9 +1167,10 @@ export const EMPTY: GameState = {
   socialFarming: {
     points: 0,
     villageProjects: {},
-    cheeredProjects: {
+    cheersGiven: {
       date: new Date().toISOString().split("T")[0],
       projects: {},
+      farms: [],
     },
     cheers: {
       cheersUsed: 0,

@@ -101,16 +101,14 @@ const _hasCheeredToday =
   (project: VillageProjectName) => (state: MachineState) => {
     const today = new Date().toISOString().split("T")[0];
 
-    if (
-      state.context.visitorState?.socialFarming.cheeredProjects.date !== today
-    ) {
+    if (state.context.visitorState?.socialFarming.cheersGiven.date !== today) {
       return false;
     }
 
     return (
-      state.context.visitorState?.socialFarming.cheeredProjects.projects[
-        project
-      ]?.includes(state.context.farmId) ?? false
+      state.context.visitorState?.socialFarming.cheersGiven.farms.includes(
+        state.context.farmId,
+      ) ?? false
     );
   };
 
