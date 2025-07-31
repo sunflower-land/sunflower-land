@@ -6194,5 +6194,6 @@
   "cheering.free.description": "Chaque jour, vous pouvez réclamer jusqu'à 3 cheers gratuits.",
   "cheering.free.description2": "Des encouragements peuvent être donnés à vos collègues agriculteurs pour qu'ils soutiennent leurs fermes.",
   "cheering.free.claim": "Réclamez Cheers",
-  "description.turdTopper.boost": "+1 Engrais de la marque Composters"
+  "description.turdTopper.boost": "+1 Engrais de la marque Composters",
+  "myProfile": "Mon profil"
 }
