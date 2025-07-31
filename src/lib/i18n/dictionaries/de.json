@@ -6206,5 +6206,11 @@
   "cheers.confirm.description": "Du kannst jede Farm alle 24 Stunden anfeuern.",
   "cheering.farm": "Jubelnder Bauernhof",
   "cheering.farm.success": "Jubel gesendet",
-  "cheering.farm.error": "Ich kann nicht jubeln"
+  "cheering.farm.error": "Ich kann nicht jubeln",
+  "description.babyCow.boost": "+10 Erfahrungspunkte für Kühe mit Werkzeugen zur Tierliebe",
+  "description.janitorChicken.boost": "-5% Schlafzeit der Hühner",
+  "description.babyCow": "Wer liebt keine Babykuh?",
+  "description.babySheep": "Wolliges und flauschiges kleines Baby",
+  "description.janitorChicken": "Ein fleißiges kleines Huhn, das immer bereit ist zu arbeiten",
+  "description.venusBumpkinTrap": "Kehrt dieser bissigen Pflanze niemals den Rücken zu!"
 }

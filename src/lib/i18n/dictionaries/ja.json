@@ -6206,5 +6206,11 @@
   "cheers.confirm.description": "24時間ごとに各農園を応援できます。",
   "cheering.farm": "チアリングファーム",
   "cheering.farm.success": "応援を送りました",
-  "cheering.farm.error": "応援できない"
+  "cheering.farm.error": "応援できない",
+  "description.babyCow.boost": "動物愛護ツールで獲得した牛経験値+10",
+  "description.janitorChicken.boost": "-5% 鶏の睡眠時間",
+  "description.babyCow": "赤ん坊の牛が嫌いな人なんているだろうか。",
+  "description.babySheep": "羊毛でふわふわの小さな赤ちゃん",
+  "description.janitorChicken": "いつも仕事の準備ができている忙しい小さなニワトリ",
+  "description.venusBumpkinTrap": "このきびきびとした植物に決して背を向けないでください！"
 }

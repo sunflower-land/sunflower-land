@@ -6206,5 +6206,11 @@
   "cheers.confirm.description": "24시간마다 각 농장을 응원할 수 있습니다.",
   "cheering.farm": "치어링 팜",
   "cheering.farm.success": "응원 전송",
-  "cheering.farm.error": "응원 불가"
+  "cheering.farm.error": "응원 불가",
+  "description.babyCow.boost": "동물 애정 도구로 얻는 소 경험치 +10",
+  "description.janitorChicken.boost": "-5% 치킨 수면 시간",
+  "description.babyCow": "아기 소를 좋아하지 않는 사람이 있을까요?",
+  "description.babySheep": "털이 많고 푹신한 작은 아기",
+  "description.janitorChicken": "항상 일할 준비가 된 바쁜 작은 닭",
+  "description.venusBumpkinTrap": "이 멋진 식물에 등을 돌리지 마세요!"
 }

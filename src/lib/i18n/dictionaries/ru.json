@@ -6206,5 +6206,11 @@
   "cheers.confirm.description": "Каждую ферму можно подбадривать каждые 24 часа.",
   "cheering.farm": "Веселая ферма",
   "cheering.farm.success": "Приветствие отправлено",
-  "cheering.farm.error": "Не могу подбодрить"
+  "cheering.farm.error": "Не могу подбодрить",
+  "description.babyCow.boost": "+10 коровьего опыта от инструментов для ухода за животными",
+  "description.janitorChicken.boost": "-5% времени сна курицы",
+  "description.babyCow": "Кто не любит коровьего детеныша?",
+  "description.babySheep": "Шерстяной и пушистый малыш",
+  "description.janitorChicken": "Занятый маленький цыпленок всегда готов к работе",
+  "description.venusBumpkinTrap": "Никогда не отворачивайтесь от этого щекотливого растения!"
 }

@@ -6206,5 +6206,11 @@
   "cheers.confirm.description": "Puedes animar cada granja cada 24 horas.",
   "cheering.farm": "Granja que aplaude",
   "cheering.farm.success": "¡Saludos enviados!",
-  "cheering.farm.error": "Incapaz de aplaudir"
+  "cheering.farm.error": "Incapaz de aplaudir",
+  "description.babyCow.boost": "+10 puntos de experiencia en vacas gracias a herramientas de afecto animal",
+  "description.janitorChicken.boost": "-5% del tiempo de sueño de los pollos",
+  "description.babyCow": "¿A quién no le gusta una vaca bebé?",
+  "description.babySheep": "Bebé lanudo y esponjoso",
+  "description.janitorChicken": "Una gallinita ocupada siempre lista para trabajar",
+  "description.venusBumpkinTrap": "¡Nunca le des la espalda a esta ingeniosa planta!"
 }

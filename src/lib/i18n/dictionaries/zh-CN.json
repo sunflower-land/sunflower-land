@@ -6206,5 +6206,11 @@
   "cheers.confirm.description": "你可以每 24 小时为每个农场加油。",
   "cheering.farm": "欢呼农场",
   "cheering.farm.success": "欢呼已发送",
-  "cheering.farm.error": "无法欢呼"
+  "cheering.farm.error": "无法欢呼",
+  "description.babyCow.boost": "+10 来自动物情感工具的奶牛经验值",
+  "description.janitorChicken.boost": "-5% 小鸡睡眠时间",
+  "description.babyCow": "谁不喜欢小奶牛？",
+  "description.babySheep": "毛茸茸的小宝贝",
+  "description.janitorChicken": "一只忙碌的小鸡随时准备工作",
+  "description.venusBumpkinTrap": "永远不要对这种活泼的植物置之不理！"
 }
