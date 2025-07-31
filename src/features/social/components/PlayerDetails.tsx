@@ -65,6 +65,14 @@ const _farmId = (state: MachineState) => state.context.farmId;
 const _cheersAvailable = (state: MachineState) => {
   return state.context.state.inventory["Cheer"] ?? new Decimal(0);
 };
+const _hasCheeredToday = (farmId: number) => (state: MachineState) => {
+  const today = new Date().toISOString().split("T")[0];
+
+  return (
+    state.context.state.socialFarming.cheersGiven.date === today &&
+    state.context.state.socialFarming.cheersGiven.farms.includes(farmId)
+  );
+};
 
 export const PlayerDetails: React.FC<Props> = ({
   data,
@@ -89,6 +97,11 @@ export const PlayerDetails: React.FC<Props> = ({
   const [showCheerModal, setShowCheerModal] = useState(false);
 
   const player = data?.data;
+
+  const hasCheeredToday = useSelector(
+    gameService,
+    _hasCheeredToday(player?.id ?? 0),
+  );
 
   useSocial({
     farmId,
@@ -206,6 +219,7 @@ export const PlayerDetails: React.FC<Props> = ({
               <Button
                 className="flex w-fit h-9 justify-between items-center gap-1 mr-1 -mb-2 mt-1"
                 onClick={() => setShowCheerModal(true)}
+                disabled={hasCheeredToday}
               >
                 <div className="flex items-center px-1">
                   {!isMobile && <span className="pr-1">{t("cheer")}</span>}
