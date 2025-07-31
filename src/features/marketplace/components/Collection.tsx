@@ -49,7 +49,7 @@ export const Collection: React.FC<{
 
   // Determines which filters to apply to the marketplace collection.
   const getAppliedFilters = (): string => {
-    if (activeFilters && activeFilters.trim() !== "") {
+    if (activeFilters && activeFilters !== "") {
       // Show boosts
       if (activeFilters === "utility") {
         return "collectibles,wearables,buds,utility";
@@ -113,8 +113,8 @@ export const Collection: React.FC<{
 
   const data = {
     items: [
-      ...(collectibles?.items || []),
       ...(resources?.items || []),
+      ...(collectibles?.items || []),
       ...(wearables?.items || []),
       ...(buds?.items || []),
       ...(limited?.items || []),
