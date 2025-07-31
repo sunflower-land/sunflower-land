@@ -54,9 +54,10 @@ describe("claimDailyCheers", () => {
         socialFarming: {
           points: 0,
           villageProjects: {},
-          cheeredProjects: {
+          cheersGiven: {
             date: new Date(now).toISOString().split("T")[0],
             projects: {},
+            farms: [],
           },
           cheers: {
             freeCheersClaimedAt: now - 24 * 60 * 60 * 1000,

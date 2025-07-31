@@ -680,8 +680,9 @@ export const INITIAL_FARM: GameState = {
   socialFarming: {
     points: 0,
     villageProjects: {},
-    cheeredProjects: {
+    cheersGiven: {
       date: "",
+      farms: [],
       projects: {},
     },
     cheers: {
