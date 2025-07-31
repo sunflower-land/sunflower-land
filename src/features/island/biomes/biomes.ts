@@ -15,7 +15,9 @@ export const LAND_BIOMES: Record<LandBiomeName, Biome> = {
   "Basic Biome": {
     name: "Basic Biome",
     ingredients: {
-      Gem: new Decimal(1000),
+      Gem: new Decimal(500),
+      Wool: new Decimal(1000),
+      Honey: new Decimal(500),
     },
     description: "",
     requires: "spring",
@@ -24,6 +26,8 @@ export const LAND_BIOMES: Record<LandBiomeName, Biome> = {
     name: "Spring Biome",
     ingredients: {
       Gem: new Decimal(1000),
+      Wool: new Decimal(2000),
+      Crimstone: new Decimal(100),
     },
     description: "",
     requires: "desert",
@@ -31,7 +35,9 @@ export const LAND_BIOMES: Record<LandBiomeName, Biome> = {
   "Desert Biome": {
     name: "Desert Biome",
     ingredients: {
-      Gem: new Decimal(1000),
+      Gem: new Decimal(1500),
+      Leather: new Decimal(1000),
+      Oil: new Decimal(500),
     },
     description: "",
     requires: "volcano",
@@ -39,7 +45,9 @@ export const LAND_BIOMES: Record<LandBiomeName, Biome> = {
   "Volcano Biome": {
     name: "Volcano Biome",
     ingredients: {
-      Gem: new Decimal(1000),
+      Gem: new Decimal(2000),
+      Leather: new Decimal(1500),
+      Obsidian: new Decimal(25),
     },
     description: "",
     disabled: true,
