@@ -189,6 +189,7 @@ export const AuctioneerContent: React.FC<Props> = ({
     <Auctions
       auctionService={auctionService}
       onSelect={(id) => setSelectedAuctionId(id)}
+      game={gameState}
     />
   );
 };

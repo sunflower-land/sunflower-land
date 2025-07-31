@@ -519,6 +519,8 @@
   "bumpkinItemBuff.goblin.medallion.boost": "-25% Cooking Time",
   "bumpkinItemBuff.nightshade.medallion.boost": "-25% Cooking Time",
   "bumpkinItemBuff.sunflorian.medallion.boost": "-25% Cooking Time",
+  "bumpkinItemBuff.lava.swimwear.boost": "-50% Lava Pit resources",
+  "bumpkinItemBuff.oil.gallon.boost": "+5 Oil",
   "equip.background": "Background",
   "equip.hair": "Hair",
   "equip.body": "Body",
@@ -6363,5 +6365,8 @@
   "cheering.free.description": "Every day you can claim up to 3 free cheers.",
   "cheering.free.description2": "Cheers can be given to your fellow farmers to support their farms.",
   "cheering.free.claim": "Claim Cheers",
-  "description.turdTopper.boost": "+1 Fertiliser from Composters"
+  "description.turdTopper.boost": "+1 Fertiliser from Composters",
+  "description.giantOnion.boost": "+3 Onions",
+  "description.giantTurnip.boost": "2x Turnip Growth Speed",
+  "description.groovy.gramophone.boost": "+100% Growth Speed on Crop Machine"
 }

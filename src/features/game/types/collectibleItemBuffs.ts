@@ -1553,5 +1553,29 @@ function getCollectibleBuffLabels(
         boostTypeIcon: powerup,
       },
     ],
+    "Groovy Gramophone": [
+      {
+        shortDescription: translate("description.groovy.gramophone.boost"),
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS["Crop Machine"].image,
+      },
+    ],
+    "Giant Onion": [
+      {
+        shortDescription: translate("description.giantOnion.boost"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS["Onion"].image,
+      },
+    ],
+    "Giant Turnip": [
+      {
+        shortDescription: translate("description.giantTurnip.boost"),
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS["Turnip"].image,
+      },
+    ],
   };
 }
