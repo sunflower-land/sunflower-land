@@ -1793,6 +1793,10 @@ export interface GameState {
       date: string;
       projects: Partial<Record<VillageProjectName, number[]>>;
     };
+    cheers: {
+      cheersUsed: number;
+      freeCheersClaimedAt: number;
+    };
   };
 }
 

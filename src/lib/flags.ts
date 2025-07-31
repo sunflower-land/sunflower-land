@@ -132,6 +132,7 @@ const FEATURE_FLAGS = {
       start: new Date(COMPETITION_POINTS.PEGGYS_COOKOFF.startAt),
       end: new Date(COMPETITION_POINTS.PEGGYS_COOKOFF.endAt),
     })(),
+  CHEERS: timeBasedFeatureFlag(new Date("2025-08-04T00:00:00Z")),
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;

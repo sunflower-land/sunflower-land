@@ -6358,5 +6358,9 @@
   "sleepingAnimal.wakeUp": "Wake up",
   "removeAll.description.one": "This action will remove all items from the {{location}}.",
   "removeAll.description.two": "Are you sure you want to continue?",
-  "removeAll.title": "Remove All Items"
+  "removeAll.title": "Remove All Items",
+  "cheers": "Cheers",
+  "cheering.free.description": "Every day you can claim up to 3 free cheers.",
+  "cheering.free.description2": "Cheers can be given to your fellow farmers to support their farms.",
+  "cheering.free.claim": "Claim Cheers"
 }
