@@ -6117,9 +6117,6 @@
   "description.toolshed": "공구 보관 장소",
   "description.warehouse.boost": "+20% 의 시장 시드 재고",
   "description.toolshed.boost": "+50% 워크벤치 툴 스톡",
-  "landscape.confirmation.gnomes.one": "세 개의 그놈을 파란색, 빨간색, 주황색 순서로 (왼쪽에서 오른쪽으로) 배치합니다.",
-  "landscape.confirmation.gnomes.two": "크롭 플롯은 빨간색 그놈 바로 앞에 배치해야 합니다.",
-  "landscape.confirmation.gnomes.three": "24시간이 지나면 해당 단일 플롯에 대해 부스트가 활성화됩니다.",
   "description.floorMirror": "전신 반사에 적합한 키 큰 거울입니다.",
   "description.longRug": "가로로 긴 패턴의 러그로 어떤 바닥이든 따뜻하게 데울 수 있습니다.",
   "description.garbageBin": "쓰레기를 모으는 데 사용되는 튼튼한 쓰레기통입니다.",
@@ -6187,5 +6184,7 @@
   "sleepingAnimal.sheepLoveToPlay": "{{name}} 노는 걸 좋아해.인형을 던지면 다시 일어나세요.",
   "sleepingAnimal.dollCount": "1 x {{name}}",
   "sleepingAnimal.availableAtCraftingBox": "크래프팅 박스에서 구매 가능",
-  "sleepingAnimal.wakeUp": "웨이크 업"
+  "sleepingAnimal.wakeUp": "웨이크 업",
+  "landscape.confirmation.gnomes.one": "코발레, 노움, 클레멘타인 순으로 세 개의 노온을 배치합니다 (왼쪽에서 오른쪽 순).",
+  "landscape.confirmation.gnomes.two": "크롭 플롯은 그놈 바로 아래에 위치해야 합니다."
 }

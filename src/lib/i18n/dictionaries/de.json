@@ -6117,9 +6117,6 @@
   "description.toolshed": "Ein Ort zur Aufbewahrung von Werkzeugen",
   "description.warehouse.boost": "+20% Marktsaatgut",
   "description.toolshed.boost": "+50% Werkbank-Werkzeugbestand",
-  "landscape.confirmation.gnomes.one": "Platziere die drei Zwerge in dieser Reihenfolge (von links nach rechts): blau, rot, orange.",
-  "landscape.confirmation.gnomes.two": "Die Anbaufläche sollte direkt vor dem roten Gnom platziert werden.",
-  "landscape.confirmation.gnomes.three": "Nach 24 Stunden wird der Boost für diese einzelne Handlung aktiviert.",
   "description.floorMirror": "Ein großer Spiegel, perfekt für Ganzkörperreflexionen.",
   "description.longRug": "Ein horizontal langer gemusterter Teppich, der jeden Boden aufwärmt.",
   "description.garbageBin": "Ein robuster Mülleimer, der zum Sammeln von Müll verwendet wird.",
@@ -6187,5 +6184,7 @@
   "sleepingAnimal.sheepLoveToPlay": "{{name}} liebe es zu spielen. Wirf eine Puppe hinein, um wieder aufzuwachen.",
   "sleepingAnimal.dollCount": "1 x {{name}}",
   "sleepingAnimal.availableAtCraftingBox": "Erhältlich in der Crafting Box",
-  "sleepingAnimal.wakeUp": "Wach auf"
+  "sleepingAnimal.wakeUp": "Wach auf",
+  "landscape.confirmation.gnomes.one": "Platziere die drei Gnome in dieser Reihenfolge (von links nach rechts): Cobale, Gnome, Clementine.",
+  "landscape.confirmation.gnomes.two": "Die Anbaufläche sollte direkt unter dem Gnom platziert werden."
 }

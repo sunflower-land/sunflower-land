@@ -6117,9 +6117,6 @@
   "description.toolshed": "Alet depolama için bir yer",
   "description.warehouse.boost": "+20% piyasa tohum stoğu",
   "description.toolshed.boost": "+% 50 tezgah takım stoğu",
-  "landscape.confirmation.gnomes.one": "Üç cüceyi bu sırayla yerleştirin (soldan sağa): mavi, kırmızı, turuncu.",
-  "landscape.confirmation.gnomes.two": "Mahsul arsası doğrudan kırmızı cücenin önüne yerleştirilmelidir.",
-  "landscape.confirmation.gnomes.three": "24 saat sonra, bu tek arsa için destek etkinleşecektir.",
   "description.floorMirror": "Tüm vücut yansımaları için mükemmel uzun bir ayna.",
   "description.longRug": "Herhangi bir zemini ısıtmak için yatay olarak uzun desenli bir halı.",
   "description.garbageBin": "Çöp toplamak için kullanılan sağlam bir çöp kutusu.",
@@ -6187,5 +6184,7 @@
   "sleepingAnimal.sheepLoveToPlay": "{{name}} oynamayı seviyorum. Tekrar uyanmak için bir Bebek fırlat.",
   "sleepingAnimal.dollCount": "1 x {{name}}",
   "sleepingAnimal.availableAtCraftingBox": "Crafting Box'ta mevcuttur",
-  "sleepingAnimal.wakeUp": "Uyan"
+  "sleepingAnimal.wakeUp": "Uyan",
+  "landscape.confirmation.gnomes.one": "Üç cüceyi bu sırayla yerleştirin (soldan sağa): Cobale, Gnome, Clementine.",
+  "landscape.confirmation.gnomes.two": "Mahsul arsası doğrudan Gnome'un altına yerleştirilmelidir."
 }

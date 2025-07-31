@@ -6117,9 +6117,6 @@
   "description.toolshed": "Место для хранения инструментов",
   "description.warehouse.boost": "+20% рыночного семенного фонда",
   "description.toolshed.boost": "+50% запаса инструментов для верстаков",
-  "landscape.confirmation.gnomes.one": "Разместите трех гномов в следующем порядке (слева направо): синий, красный, оранжевый.",
-  "landscape.confirmation.gnomes.two": "Участок для посева следует разместить прямо перед красным гномом.",
-  "landscape.confirmation.gnomes.three": "Через 24 часа буст активируется для этого единственного сюжета.",
   "description.floorMirror": "Высокое зеркало, идеально подходящее для отражения всего тела.",
   "description.longRug": "Длинный коврик с горизонтальным узором для обогрева любого пола.",
   "description.garbageBin": "Прочный контейнер, используемый для сбора мусора.",
@@ -6187,5 +6184,7 @@
   "sleepingAnimal.sheepLoveToPlay": "{{name}} обожаю играть. Бросьте куклу, чтобы снова проснуться.",
   "sleepingAnimal.dollCount": "1 x {{name}}",
   "sleepingAnimal.availableAtCraftingBox": "Доступно в коробке для рукоделия",
-  "sleepingAnimal.wakeUp": "Проснись"
+  "sleepingAnimal.wakeUp": "Проснись",
+  "landscape.confirmation.gnomes.one": "Разместите трех гномов в следующем порядке (слева направо): Кобэйл, Гном, Клементину.",
+  "landscape.confirmation.gnomes.two": "Участок для посева следует разместить прямо под гномом."
 }

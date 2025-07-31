@@ -6117,9 +6117,6 @@
   "description.toolshed": "Un lugar para guardar herramientas",
   "description.warehouse.boost": "Más 20% de existencias de semillas en el mercado",
   "description.toolshed.boost": "Más 50% de existencias de herramientas en la mesa de trabajo",
-  "landscape.confirmation.gnomes.one": "Coloca los tres gnomos en este orden (de izquierda a derecha): azul, rojo, naranja.",
-  "landscape.confirmation.gnomes.two": "La parcela de cultivo debe colocarse directamente en frente del gnomo rojo.",
-  "landscape.confirmation.gnomes.three": "Después de 24 horas, el impulso se activará para esa única parcela.",
   "description.floorMirror": "Un espejo alto perfecto para reflejar todo el cuerpo.",
   "description.longRug": "Una alfombra estampada horizontalmente larga para calentar cualquier suelo.",
   "description.garbageBin": "Un contenedor resistente que se utiliza para recoger la basura.",
@@ -6187,5 +6184,7 @@
   "sleepingAnimal.sheepLoveToPlay": "{{name}} me encanta jugar. Lánzala a una muñeca para despertarte de nuevo.",
   "sleepingAnimal.dollCount": "1 x {{name}}",
   "sleepingAnimal.availableAtCraftingBox": "Disponible en Crafting Box",
-  "sleepingAnimal.wakeUp": "Despierta"
+  "sleepingAnimal.wakeUp": "Despierta",
+  "landscape.confirmation.gnomes.one": "Coloca los tres gnomos en este orden (de izquierda a derecha): Cobale, Gnome y Clementine.",
+  "landscape.confirmation.gnomes.two": "La parcela de cultivo debe colocarse directamente debajo del gnomo."
 }

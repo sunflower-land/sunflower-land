@@ -6117,9 +6117,6 @@
   "description.toolshed": "Tempat untuk penyimpanan alat",
   "description.warehouse.boost": "+20% saham benih pasar",
   "description.toolshed.boost": "+50% stok alat meja kerja",
-  "landscape.confirmation.gnomes.one": "Tempatkan tiga gnome dalam urutan ini (dari kiri ke kanan): biru, merah, oranye.",
-  "landscape.confirmation.gnomes.two": "Plot tanaman harus ditempatkan langsung di depan gnome merah.",
-  "landscape.confirmation.gnomes.three": "Setelah 24 jam, dorongan akan aktif untuk plot tunggal itu.",
   "description.floorMirror": "Cermin tinggi yang sempurna untuk pantulan seluruh tubuh.",
   "description.longRug": "Karpet bermotif panjang horizontal untuk menghangatkan lantai apa pun.",
   "description.garbageBin": "Tempat sampah kokoh yang digunakan untuk mengumpulkan sampah.",
@@ -6187,5 +6184,7 @@
   "sleepingAnimal.sheepLoveToPlay": "{{name}} suka bermain. Lemparkan boneka untuk bangun lagi.",
   "sleepingAnimal.dollCount": "1 x {{name}}",
   "sleepingAnimal.availableAtCraftingBox": "Tersedia di Crafting Box",
-  "sleepingAnimal.wakeUp": "Bangun"
+  "sleepingAnimal.wakeUp": "Bangun",
+  "landscape.confirmation.gnomes.one": "Tempatkan tiga gnome dalam urutan ini (dari kiri ke kanan): Cobale, Gnome, Clementine.",
+  "landscape.confirmation.gnomes.two": "Plot tanaman harus ditempatkan tepat di bawah Gnome."
 }

@@ -6117,9 +6117,6 @@
   "description.toolshed": "存放工具的地方",
   "description.warehouse.boost": "+20% 市场种子股",
   "description.toolshed.boost": "+50% 工作台刀具库存",
-  "landscape.confirmation.gnomes.one": "按以下顺序（从左到右）放置三个地精：蓝色、红色、橙色。",
-  "landscape.confirmation.gnomes.two": "作物地应直接放在红色地精的前面。",
-  "landscape.confirmation.gnomes.three": "24 小时后，该单一剧情的增强将激活。",
   "description.floorMirror": "高大的镜子非常适合全身反射。",
   "description.longRug": "一款横向长图案的地毯，可为任何地板加热。",
   "description.garbageBin": "用于收集垃圾的坚固垃圾桶。",
@@ -6187,5 +6184,7 @@
   "sleepingAnimal.sheepLoveToPlay": "{{name}} 喜欢玩。把它扔一个娃娃让它再次醒来。",
   "sleepingAnimal.dollCount": "1 x {{name}}",
   "sleepingAnimal.availableAtCraftingBox": "可在制作箱中获得",
-  "sleepingAnimal.wakeUp": "醒醒吧"
+  "sleepingAnimal.wakeUp": "醒醒吧",
+  "landscape.confirmation.gnomes.one": "按以下顺序（从左到右）放置三个地精：Cobale、Gnome、Clementine。",
+  "landscape.confirmation.gnomes.two": "作物地块应位于地精的正下方。"
 }

@@ -6117,9 +6117,6 @@
   "description.toolshed": "ツールを保管する場所",
   "description.warehouse.boost": "+20% マーケットシードストック",
   "description.toolshed.boost": "+50% ワークベンチツールストック",
-  "landscape.confirmation.gnomes.one": "3 つのノームを青、赤、オレンジの順に (左から右に) 配置します。",
-  "landscape.confirmation.gnomes.two": "クロッププロットはレッドノームの真正面に配置する必要があります。",
-  "landscape.confirmation.gnomes.three": "24時間後、その1つのプロットでブーストが有効になります。",
   "description.floorMirror": "全身を映すのに最適なトールミラー。",
   "description.longRug": "どんな床も暖かくしてくれる、横長柄のラグです。",
   "description.garbageBin": "ゴミ収集用の頑丈なゴミ箱。",
@@ -6187,5 +6184,7 @@
   "sleepingAnimal.sheepLoveToPlay": "{{name}} 遊ぶのが大好きです。人形を投げてまた目を覚ましてください。",
   "sleepingAnimal.dollCount": "1 x {{name}}",
   "sleepingAnimal.availableAtCraftingBox": "クラフトボックスで購入可能",
-  "sleepingAnimal.wakeUp": "ウェイクアップ"
+  "sleepingAnimal.wakeUp": "ウェイクアップ",
+  "landscape.confirmation.gnomes.one": "コバール、ノーム、クレメンタインの3つのノームを（左から右に）次の順序で配置します。",
+  "landscape.confirmation.gnomes.two": "クロッププロットは Gnome の真下に配置する必要があります。"
 }

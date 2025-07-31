@@ -6117,9 +6117,6 @@
   "description.toolshed": "Un endroit pour ranger les outils",
   "description.warehouse.boost": "+20 % de stocks de semences de marché",
   "description.toolshed.boost": "+50 % de stock d'outils d'établi",
-  "landscape.confirmation.gnomes.one": "Placez les trois nains dans cet ordre (de gauche à droite) : bleu, rouge, orange.",
-  "landscape.confirmation.gnomes.two": "La parcelle de culture doit être placée directement devant le nain rouge.",
-  "landscape.confirmation.gnomes.three": "Après 24 heures, le boost sera activé pour cette seule parcelle.",
   "description.floorMirror": "Un grand miroir parfait pour les reflets sur tout le corps.",
   "description.longRug": "Un tapis à motifs longs et horizontaux pour réchauffer n'importe quel sol.",
   "description.garbageBin": "Poubelle robuste utilisée pour la collecte des déchets.",
@@ -6187,5 +6184,7 @@
   "sleepingAnimal.sheepLoveToPlay": "{{name}} J'adore jouer. Lancez-lui une poupée pour vous réveiller à nouveau.",
   "sleepingAnimal.dollCount": "1 x {{name}}",
   "sleepingAnimal.availableAtCraftingBox": "Disponible dans la Crafting Box",
-  "sleepingAnimal.wakeUp": "Réveillez-vous"
+  "sleepingAnimal.wakeUp": "Réveillez-vous",
+  "landscape.confirmation.gnomes.one": "Placez les trois nains dans cet ordre (de gauche à droite) : Cobale, Gnome, Clementine.",
+  "landscape.confirmation.gnomes.two": "La parcelle de culture doit être placée directement en dessous du nain."
 }
