@@ -360,7 +360,12 @@ const FeedContent: React.FC<FeedContentProps> = ({
                       )}
                       {`${getRelativeTime(interaction.createdAt)}`}
                     </span>
-                    <div className="text-xs break-words">
+                    <div
+                      className="text-xs break-words"
+                      style={{
+                        lineHeight: 1,
+                      }}
+                    >
                       {interaction.message}
                     </div>
                   </div>
