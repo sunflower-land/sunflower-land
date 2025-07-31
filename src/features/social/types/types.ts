@@ -4,7 +4,7 @@ import { FactionName, IslandType } from "features/game/types/game";
 export type ParticipantInfo = {
   id: number;
   username: string;
-  tokenUri: string;
+  clothing?: Equipped;
 };
 
 export type InteractionType = "chat" | "follow" | "milestone" | "announcement";
@@ -34,7 +34,6 @@ export type Player = {
     username: string;
     level: number;
     farmCreatedAt: number;
-    experience: number;
     marketValue: number;
     island: IslandType;
     dailyStreak: number;
