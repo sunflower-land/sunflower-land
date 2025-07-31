@@ -6206,5 +6206,11 @@
   "cheers.confirm.description": "Você pode animar cada fazenda a cada 24 horas.",
   "cheering.farm": "Fazenda Torcendo",
   "cheering.farm.success": "Aplausos enviados",
-  "cheering.farm.error": "Incapaz de torcer"
+  "cheering.farm.error": "Incapaz de torcer",
+  "description.babyCow.boost": "+10 XP de vaca com ferramentas de afeto animal",
+  "description.janitorChicken.boost": "-5% de tempo de sono do frango",
+  "description.babyCow": "Quem não ama um filhote de vaca?",
+  "description.babySheep": "Bebezinho peludo e fofo",
+  "description.janitorChicken": "Uma galinha ocupada, sempre pronta para trabalhar",
+  "description.venusBumpkinTrap": "Nunca vire as costas para esta planta atrevida!"
 }

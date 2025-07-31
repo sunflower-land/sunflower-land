@@ -361,6 +361,10 @@ import { NurseSheep } from "./components/NurseSheep";
 import { PinkDolphin } from "./components/PinkDolphin";
 import { Lunalist } from "./components/Lunalist";
 import { Monument } from "./components/Monument";
+import { BabyCow } from "./components/BabyCow";
+import { BabySheep } from "./components/BabySheep";
+import { JanitorChicken } from "./components/JanitorChicken";
+import { VenusBumpkinTrap } from "./components/VenusBumpkinTrap";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
@@ -373,6 +377,10 @@ export const COLLECTIBLE_COMPONENTS: Record<
     }),
     {} as Record<TemplateDecorationName, React.FC<CollectibleProps>>,
   ),
+  "Baby Cow": BabyCow,
+  "Baby Sheep": BabySheep,
+  "Janitor Chicken": JanitorChicken,
+  "Venus Bumpkin Trap": VenusBumpkinTrap,
   "Love Chicken": LoveChicken,
   "Dr Cow": DrCow,
   "Nurse Sheep": NurseSheep,

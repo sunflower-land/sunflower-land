@@ -5,7 +5,12 @@ import { InventoryItemName } from "features/game/types/game";
 import { KNOWN_IDS } from "features/game/types";
 import { ITEM_DETAILS } from "features/game/types/images";
 
-const IMAGES: InventoryItemName[] = ["Cheer"];
+const IMAGES: InventoryItemName[] = [
+  "Baby Cow",
+  "Baby Sheep",
+  "Janitor Chicken",
+  "Venus Bumpkin Trap",
+];
 
 const WIDTH = 1920;
 

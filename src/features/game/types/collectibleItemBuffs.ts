@@ -1577,5 +1577,21 @@ function getCollectibleBuffLabels(
         boostedItemIcon: ITEM_DETAILS["Turnip"].image,
       },
     ],
+    "Baby Cow": [
+      {
+        shortDescription: translate("description.babyCow.boost"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: SUNNYSIDE.animals.cowSleeping,
+      },
+    ],
+    "Janitor Chicken": [
+      {
+        shortDescription: translate("description.janitorChicken.boost"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: SUNNYSIDE.animals.chickenAsleep,
+      },
+    ],
   };
 }

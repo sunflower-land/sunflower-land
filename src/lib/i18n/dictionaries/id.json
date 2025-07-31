@@ -6206,5 +6206,11 @@
   "cheers.confirm.description": "Anda dapat menghibur setiap peternakan setiap 24 jam.",
   "cheering.farm": "Pertanian Bersorak",
   "cheering.farm.success": "Cheer dikirim",
-  "cheering.farm.error": "Tidak bisa bersorak"
+  "cheering.farm.error": "Tidak bisa bersorak",
+  "description.babyCow.boost": "+10 sapi xp dari alat kasih sayang hewan",
+  "description.janitorChicken.boost": "-5% waktu tidur ayam",
+  "description.babyCow": "Siapa yang tidak suka bayi sapi?",
+  "description.babySheep": "Bayi kecil berbulu dan halus",
+  "description.janitorChicken": "Ayam kecil yang sibuk selalu siap bekerja",
+  "description.venusBumpkinTrap": "Jangan pernah memalingkan punggung Anda dari tanaman yang tajam ini!"
 }

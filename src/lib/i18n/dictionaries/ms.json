@@ -6206,5 +6206,11 @@
   "cheers.confirm.description": "Anda boleh menghiburkan setiap ladang setiap 24 jam.",
   "cheering.farm": "Ladang Bersorak",
   "cheering.farm.success": "Sorak dihantar",
-  "cheering.farm.error": "Tidak dapat bersorak"
+  "cheering.farm.error": "Tidak dapat bersorak",
+  "description.babyCow.boost": "+10 xp lembu dari alat kasih sayang haiwan",
+  "description.janitorChicken.boost": "-5% masa tidur ayam",
+  "description.babyCow": "Siapa yang tidak suka seekor lembu bayi?",
+  "description.babySheep": "Bayi kecil yang berbulu dan gebu",
+  "description.janitorChicken": "Ayam kecil yang sibuk sentiasa bersedia untuk bekerja",
+  "description.venusBumpkinTrap": "Jangan sekali-kali membalikkan tumbuhan yang cepat ini!"
 }

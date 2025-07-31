@@ -289,6 +289,47 @@ describe("claimProduce", () => {
     expect(newState.inventory.Feather).toEqual(new Decimal(1.25));
   });
 
+  it("reduces the sleep time by 5% if a Janitor Chicken is placed and ready", () => {
+    const state = claimProduce({
+      createdAt: now,
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          "Janitor Chicken": new Decimal(1),
+        },
+        collectibles: {
+          "Janitor Chicken": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "1",
+              readyAt: 0,
+            },
+          ],
+        },
+        henHouse: {
+          ...INITIAL_FARM.henHouse,
+          animals: {
+            "0": {
+              ...INITIAL_FARM.henHouse.animals["0"],
+              state: "ready",
+              experience: 60,
+            },
+          },
+        },
+      },
+      action: {
+        type: "produce.claimed",
+        animal: "Chicken",
+        id: "0",
+      },
+    });
+
+    const boostedAwakeAt = now + ANIMAL_SLEEP_DURATION * 0.95;
+
+    expect(state.henHouse.animals["0"].awakeAt).toEqual(boostedAwakeAt);
+  });
+
   it("gives +0.25 yield for all produce for cows when a Cattlegrim is being worn", () => {
     const cowId = "123";
 

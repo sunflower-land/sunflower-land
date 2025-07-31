@@ -415,6 +415,8 @@
   "description.toolshed": "A place for tool storage",
   "description.warehouse.boost": "+20% market seed stock",
   "description.toolshed.boost": "+50% workbench tool stock",
+  "description.babyCow.boost": "+10 cow xp from animal affection tools",
+  "description.janitorChicken.boost": "-5% chicken sleep time",
   "description.premium.composter": "Produces expert bait & fertiliser on a regular basis.",
   "description.town.center": "Gather around the town center for the latest news",
   "description.market": "Buy and sell at the Farmer's Market",
@@ -6206,5 +6208,9 @@
   "description.groovy.gramophone.boost": "+100% Growth Speed on Crop Machine",
   "cheering.farm": "Cheering Farm",
   "cheering.farm.success": "Cheer sent",
-  "cheering.farm.error": "Unable to cheer"
+  "cheering.farm.error": "Unable to cheer",
+  "description.babyCow": "Who doesn't love a baby cow?",
+  "description.babySheep": "Wooly and fluffy little baby",
+  "description.janitorChicken": "A busy little chicken always ready to work",
+  "description.venusBumpkinTrap": "Never turn your back on this snappy plant!"
 }

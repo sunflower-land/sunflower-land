@@ -534,6 +534,11 @@ export function getBoostedAwakeAt({
       totalDuration *= 0.9;
       boostsUsed.push("Speed Chicken");
     }
+
+    if (isCollectibleBuilt({ name: "Janitor Chicken", game })) {
+      totalDuration *= 0.95;
+      boostsUsed.push("Janitor Chicken");
+    }
   }
 
   if (isSheep) {

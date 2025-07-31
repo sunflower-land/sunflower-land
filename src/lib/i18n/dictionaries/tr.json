@@ -6206,5 +6206,11 @@
   "cheers.confirm.description": "Her çiftliği her 24 saatte bir neşelendirebilirsiniz.",
   "cheering.farm": "Tezahürat Çiftliği",
   "cheering.farm.success": "Cheer gönderildi",
-  "cheering.farm.error": "Neşelenemiyor"
+  "cheering.farm.error": "Neşelenemiyor",
+  "description.babyCow.boost": "Hayvan sevgi araçlarından +10 inek xp",
+  "description.janitorChicken.boost": "-5% tavuk uyku süresi",
+  "description.babyCow": "Bebek ineği kim sevmez ki?",
+  "description.babySheep": "Yünlü ve kabarık küçük bebek",
+  "description.janitorChicken": "Meşgul küçük bir tavuk her zaman çalışmaya hazır",
+  "description.venusBumpkinTrap": "Bu keskin bitkiye asla sırtınızı dönmeyin!"
 }

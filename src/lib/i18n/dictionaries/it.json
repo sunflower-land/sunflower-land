@@ -6206,5 +6206,11 @@
   "cheers.confirm.description": "Puoi rallegrare ogni fattoria ogni 24 ore.",
   "cheering.farm": "Fattoria del tifo",
   "cheering.farm.success": "Allegria inviata",
-  "cheering.farm.error": "Incapace di rallegrare"
+  "cheering.farm.error": "Incapace di rallegrare",
+  "description.babyCow.boost": "+10 cow xp da Animal Affection Tools",
+  "description.janitorChicken.boost": "-5% del tempo di sonno del pollo",
+  "description.babyCow": "Chi non ama un cucciolo di mucca?",
+  "description.babySheep": "Bambino lanoso e soffice",
+  "description.janitorChicken": "Una gallinella indaffarata sempre pronta a lavorare",
+  "description.venusBumpkinTrap": "Non voltare mai le spalle a questa pianta vivace!"
 }

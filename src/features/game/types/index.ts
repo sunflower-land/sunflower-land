@@ -1169,6 +1169,10 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Cosmo Doll": 2522,
   "Bigfin Doll": 2523,
   "Solar Doll": 2524,
+  "Baby Cow": 2525,
+  "Baby Sheep": 2526,
+  "Janitor Chicken": 2527,
+  "Venus Bumpkin Trap": 2528,
 };
 
 // The reverse of above

@@ -6206,5 +6206,11 @@
   "cheers.confirm.description": "Vous pouvez encourager chaque ferme toutes les 24 heures.",
   "cheering.farm": "Cheering Farm",
   "cheering.farm.success": "Envoi d'acclamations",
-  "cheering.farm.error": "Incapable d'encourager"
+  "cheering.farm.error": "Incapable d'encourager",
+  "description.babyCow.boost": "+10 points d'expérience pour les vaches grâce à Animal Affection Tools",
+  "description.janitorChicken.boost": "-5 % du temps de sommeil des poulets",
+  "description.babyCow": "Qui n'aime pas une petite vache ?",
+  "description.babySheep": "Petit bébé laineux et moelleux",
+  "description.janitorChicken": "Un petit poulet occupé, toujours prêt à travailler",
+  "description.venusBumpkinTrap": "Ne tournez jamais le dos à cette plante vivace !"
 }
