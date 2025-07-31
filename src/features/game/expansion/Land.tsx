@@ -596,7 +596,8 @@ const getIslandElements = ({
   }
 
   {
-    clutter &&
+    !!isVisiting &&
+      clutter &&
       mapPlacements.push(
         ...getKeys(clutter.locations).flatMap((id) => {
           const { x, y } = clutter.locations[id];
