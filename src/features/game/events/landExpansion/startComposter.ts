@@ -11,11 +11,11 @@ import {
   CompostBuilding,
   GameState,
   InventoryItemName,
-  Skills,
 } from "features/game/types/game";
 import { translate } from "lib/i18n/translate";
 import { produce } from "immer";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
+import { isWearableActive } from "features/game/lib/wearables";
 
 export type StartComposterAction = {
   type: "composter.started";
@@ -54,14 +54,15 @@ export function getReadyAt({
 }
 
 export function getCompostAmount({
-  skills,
+  game,
   building,
 }: {
-  skills: Skills;
+  game: GameState;
   building: ComposterName;
 }): { produceAmount: number; boostsUsed: BoostName[] } {
   let { produceAmount } = composterDetails[building];
   const boostsUsed: BoostName[] = [];
+  const { skills } = game.bumpkin;
 
   if (skills["Efficient Bin"] && building === "Compost Bin") {
     produceAmount += 5;
@@ -86,6 +87,10 @@ export function getCompostAmount({
   if (skills["Composting Revamp"]) {
     produceAmount += 5;
     boostsUsed.push("Composting Revamp");
+  }
+
+  if (isWearableActive({ game, name: "Turd Topper" })) {
+    produceAmount += 1;
   }
 
   if (produceAmount < 0) {
@@ -141,7 +146,7 @@ export function startComposter({
 
     const { produceAmount, boostsUsed: composterBoostsUsed } = getCompostAmount(
       {
-        skills,
+        game: stateCopy,
         building,
       },
     );
