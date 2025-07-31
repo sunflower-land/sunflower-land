@@ -117,6 +117,12 @@ type RemoveEvent = {
   location: PlaceableLocation;
 };
 
+type RemoveAllEvent = {
+  type: "REMOVE_ALL";
+  event: "items.removed";
+  location: PlaceableLocation;
+};
+
 type ConstructEvent = {
   type: "CONSTRUCT";
   actionName: PlacementEvent;
@@ -147,6 +153,7 @@ export type BlockchainEvent =
   | SaveEvent
   | MoveEvent
   | RemoveEvent
+  | RemoveAllEvent
   | { type: "CANCEL" }
   | { type: "BACK" };
 
@@ -270,6 +277,16 @@ export const landscapingMachine = createMachine<
             },
             BUILD: {
               target: "idle",
+            },
+            REMOVE_ALL: {
+              target: "idle",
+              actions: [
+                sendParent((_context, event) => ({
+                  type: event.event,
+                  location: event.location,
+                })),
+                assign({ moving: (_) => undefined }),
+              ],
             },
             REMOVE: {
               target: "idle",
