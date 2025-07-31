@@ -6200,5 +6200,11 @@
   "bumpkinItemBuff.oil.gallon.boost": "+5 Petróleo",
   "description.giantOnion.boost": "+3 cebollas",
   "description.giantTurnip.boost": "2 veces la velocidad de crecimiento del nabo",
-  "description.groovy.gramophone.boost": "Más del 100% de velocidad de crecimiento en Crop Machine"
+  "description.groovy.gramophone.boost": "Más del 100% de velocidad de crecimiento en Crop Machine",
+  "cheers.available": "Saludos disponibles: {{count}}",
+  "cheers.confirm": "¿Salud {{username}}?",
+  "cheers.confirm.description": "Puedes animar cada granja cada 24 horas.",
+  "cheering.farm": "Granja que aplaude",
+  "cheering.farm.success": "¡Saludos enviados!",
+  "cheering.farm.error": "Incapaz de aplaudir"
 }

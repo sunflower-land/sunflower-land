@@ -6200,5 +6200,11 @@
   "bumpkinItemBuff.oil.gallon.boost": "+5 Pétrole",
   "description.giantOnion.boost": "+3 oignons",
   "description.giantTurnip.boost": "Vitesse de croissance des navets multipliée par 2",
-  "description.groovy.gramophone.boost": "Vitesse de croissance de +100 % sur la machine de récolte"
+  "description.groovy.gramophone.boost": "Vitesse de croissance de +100 % sur la machine de récolte",
+  "cheers.available": "Chefs disponibles : {{count}}",
+  "cheers.confirm": "Encouragez {{username}} ?",
+  "cheers.confirm.description": "Vous pouvez encourager chaque ferme toutes les 24 heures.",
+  "cheering.farm": "Cheering Farm",
+  "cheering.farm.success": "Envoi d'acclamations",
+  "cheering.farm.error": "Incapable d'encourager"
 }

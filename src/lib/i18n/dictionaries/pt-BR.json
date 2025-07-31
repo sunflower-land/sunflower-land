@@ -6200,5 +6200,11 @@
   "bumpkinItemBuff.oil.gallon.boost": "+5 Óleo",
   "description.giantOnion.boost": "+3 Cebolas",
   "description.giantTurnip.boost": "2x a velocidade de crescimento do nabo",
-  "description.groovy.gramophone.boost": "+100% de velocidade de crescimento na máquina de colheita"
+  "description.groovy.gramophone.boost": "+100% de velocidade de crescimento na máquina de colheita",
+  "cheers.available": "Felicidades disponíveis: {{count}}",
+  "cheers.confirm": "Felicidades {{username}}?",
+  "cheers.confirm.description": "Você pode animar cada fazenda a cada 24 horas.",
+  "cheering.farm": "Fazenda Torcendo",
+  "cheering.farm.success": "Aplausos enviados",
+  "cheering.farm.error": "Incapaz de torcer"
 }

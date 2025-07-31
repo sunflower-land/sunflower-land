@@ -6200,5 +6200,11 @@
   "bumpkinItemBuff.oil.gallon.boost": "+5 오일",
   "description.giantOnion.boost": "+3 양파",
   "description.giantTurnip.boost": "순무 성장 속도 2배",
-  "description.groovy.gramophone.boost": "크롭 머신 성장 속도 100% 증가"
+  "description.groovy.gramophone.boost": "크롭 머신 성장 속도 100% 증가",
+  "cheers.available": "응원 가능: {{count}}",
+  "cheers.confirm": "응원 {{username}}?",
+  "cheers.confirm.description": "24시간마다 각 농장을 응원할 수 있습니다.",
+  "cheering.farm": "치어링 팜",
+  "cheering.farm.success": "응원 전송",
+  "cheering.farm.error": "응원 불가"
 }

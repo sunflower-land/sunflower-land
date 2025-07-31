@@ -6200,5 +6200,11 @@
   "bumpkinItemBuff.oil.gallon.boost": "+5 Minyak",
   "description.giantOnion.boost": "+3 Bawang",
   "description.giantTurnip.boost": "2x Kelajuan Pertumbuhan Lobak",
-  "description.groovy.gramophone.boost": "+Kelajuan Pertumbuhan 100% pada Mesin Tanaman"
+  "description.groovy.gramophone.boost": "+Kelajuan Pertumbuhan 100% pada Mesin Tanaman",
+  "cheers.available": "Sorakan Tersedia: {{count}}",
+  "cheers.confirm": "Bersorak {{username}}?",
+  "cheers.confirm.description": "Anda boleh menghiburkan setiap ladang setiap 24 jam.",
+  "cheering.farm": "Ladang Bersorak",
+  "cheering.farm.success": "Sorak dihantar",
+  "cheering.farm.error": "Tidak dapat bersorak"
 }

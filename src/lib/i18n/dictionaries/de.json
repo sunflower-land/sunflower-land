@@ -6200,5 +6200,11 @@
   "bumpkinItemBuff.oil.gallon.boost": "+5 Öl",
   "description.giantOnion.boost": "+3 Zwiebeln",
   "description.giantTurnip.boost": "2-fache Wachstumsgeschwindigkeit der Rübe",
-  "description.groovy.gramophone.boost": "+100% Wachstumsgeschwindigkeit auf der Erntemaschine"
+  "description.groovy.gramophone.boost": "+100% Wachstumsgeschwindigkeit auf der Erntemaschine",
+  "cheers.available": "Prost verfügbar: {{count}}",
+  "cheers.confirm": "Jubeln {{username}}?",
+  "cheers.confirm.description": "Du kannst jede Farm alle 24 Stunden anfeuern.",
+  "cheering.farm": "Jubelnder Bauernhof",
+  "cheering.farm.success": "Jubel gesendet",
+  "cheering.farm.error": "Ich kann nicht jubeln"
 }

@@ -6200,5 +6200,11 @@
   "bumpkinItemBuff.oil.gallon.boost": "+5 Olio",
   "description.giantOnion.boost": "+3 cipolle",
   "description.giantTurnip.boost": "2x Velocità di crescita della rapa",
-  "description.groovy.gramophone.boost": "Velocità di crescita +100% su Crop Machine"
+  "description.groovy.gramophone.boost": "Velocità di crescita +100% su Crop Machine",
+  "cheers.available": "Applausi disponibili: {{count}}",
+  "cheers.confirm": "Allegri {{username}}?",
+  "cheers.confirm.description": "Puoi rallegrare ogni fattoria ogni 24 ore.",
+  "cheering.farm": "Fattoria del tifo",
+  "cheering.farm.success": "Allegria inviata",
+  "cheering.farm.error": "Incapace di rallegrare"
 }

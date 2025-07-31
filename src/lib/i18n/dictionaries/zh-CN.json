@@ -6200,5 +6200,11 @@
   "bumpkinItemBuff.oil.gallon.boost": "+5 石油",
   "description.giantOnion.boost": "+3 洋葱",
   "description.giantTurnip.boost": "萝卜生长速度的 2 倍",
-  "description.groovy.gramophone.boost": "作物机生长速度 +100%"
+  "description.groovy.gramophone.boost": "作物机生长速度 +100%",
+  "cheers.available": "干杯可用：{{count}}",
+  "cheers.confirm": "干杯 {{username}}？",
+  "cheers.confirm.description": "你可以每 24 小时为每个农场加油。",
+  "cheering.farm": "欢呼农场",
+  "cheering.farm.success": "欢呼已发送",
+  "cheering.farm.error": "无法欢呼"
 }
