@@ -371,7 +371,7 @@ export const FollowerFeed: React.FC<Props> = ({
                           sender={sender}
                           createdAt={interaction.createdAt}
                         />
-                        <div className="text-xs break-all">
+                        <div className="text-xs break-words">
                           {interaction.message}
                         </div>
                       </div>
