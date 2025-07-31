@@ -6392,5 +6392,13 @@
   "description.venusBumpkinTrap": "Never turn your back on this snappy plant!",
   "sleepingAnimal.favouriteFood": "Favourite food:",
   "sleepingAnimal.every": "Every",
-  "sleepingAnimal.missing": "Missing"
+  "sleepingAnimal.missing": "Missing",
+  "description.bonusBracelet.boost": "+1 Bracelet",
+  "description.architectRuler.boost": "+25% Crafting Box Speed",
+  "description.reelmastersChair.boost": "+5 Fishing Attempts",
+  "description.musicBox.boost": "+20% Fruit Patch Growth Speed",
+  "description.doubleBed.boost": "+2 Farmhands",
+  "description.giantArtichoke.boost": "+2 Artichokes",
+  "description.pickaxeShark.boost.1": "+15% Gold Recovery Time",
+  "description.pickaxeShark.boost.2": "10% chance of Instant Gold"
 }

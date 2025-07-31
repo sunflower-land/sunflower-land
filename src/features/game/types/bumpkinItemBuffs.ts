@@ -939,7 +939,28 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       boostedItemIcon: ITEM_DETAILS["Oil"].image,
     },
   ],
-
+  "Architect Ruler": [
+    {
+      shortDescription: translate("description.architectRuler.boost"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: ITEM_DETAILS["Crafting Box"].image,
+    },
+  ],
+  "Pickaxe Shark": [
+    {
+      shortDescription: translate("description.pickaxeShark.boost.1"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: ITEM_DETAILS["Gold"].image,
+    },
+    {
+      shortDescription: translate("description.pickaxeShark.boost.2"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: ITEM_DETAILS["Gold"].image,
+    },
+  ],
   ...SPECIAL_ITEM_LABELS,
   ...Object.fromEntries(
     getObjectEntries(CHAPTER_TICKET_BOOST_ITEMS)

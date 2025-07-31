@@ -71,6 +71,13 @@ export type SeasonalWearableName = Extract<
   | "Love Charm Shirt"
   | "Frost Sword"
   | "Oracle Syringe"
+
+  // Better Together
+  | "Garbage Bin Hat"
+  | "Architect Ruler"
+  | "Raccoon Onesie"
+  | "Recycle Shirt"
+  | "Pickaxe Shark"
 >;
 
 export type MegastoreKeys = "Treasure Key" | "Rare Key" | "Luxury Key";
@@ -687,6 +694,112 @@ const GREAT_BLOOM_ITEMS: SeasonalStore = {
   },
 };
 
+const BETTER_TOGETHER_ITEMS: SeasonalStore = {
+  basic: {
+    items: [
+      {
+        collectible: "Floor Mirror",
+        cost: { sfl: 5, items: {} },
+      },
+      {
+        collectible: "Long Rug",
+        cost: { sfl: 0, items: { Bracelet: 50 } },
+      },
+      {
+        collectible: "Garbage Bin",
+        cost: { sfl: 0, items: { Coprolite: 25 } },
+      },
+      {
+        collectible: "Bronze Flower Box",
+        cost: { sfl: 0, items: { Bracelet: 450 } },
+      },
+      {
+        collectible: "Treasure Key",
+        cost: { sfl: 0, items: { Bracelet: 250 } },
+      },
+      {
+        wearable: "Garbage Bin Hat",
+        cost: { sfl: 0, items: { Bracelet: 300 } },
+      },
+    ],
+  },
+  rare: {
+    items: [
+      {
+        collectible: "Wheelbarrow",
+        cost: { sfl: 60, items: {} },
+      },
+      {
+        collectible: "Snail King",
+        cost: { sfl: 0, items: { Coprolite: 85 } },
+      },
+      {
+        collectible: "Silver Flower Box",
+        cost: { sfl: 0, items: { Bracelet: 1000 } },
+      },
+      {
+        collectible: "Rare Key",
+        cost: { sfl: 0, items: { Bracelet: 500 } },
+      },
+      {
+        wearable: "Architect Ruler",
+        cost: { sfl: 0, items: { Bracelet: 2500 } },
+      },
+      {
+        wearable: "Raccoon Onesie",
+        cost: { sfl: 0, items: { Bracelet: 700 } },
+      },
+    ],
+    requirement: 4,
+  },
+  epic: {
+    items: [
+      {
+        collectible: "Reelmaster's Chair",
+        cost: { sfl: 0, items: { Coprolite: 160 } },
+      },
+      {
+        collectible: "Rat King",
+        cost: { sfl: 0, items: { Bracelet: 1250 } },
+      },
+      {
+        collectible: "Fruit Tune Box",
+        cost: { sfl: 0, items: { Bracelet: 3500 } },
+      },
+      {
+        collectible: "Gold Flower Box",
+        cost: { sfl: 0, items: { Bracelet: 2000 } },
+      },
+      {
+        collectible: "Luxury Key",
+        cost: { sfl: 0, items: { Bracelet: 1000 } },
+      },
+      {
+        collectible: "Double Bed",
+        cost: { sfl: 0, items: { Wool: 5000, Gem: 2500, Bracelet: 1250 } },
+      },
+      {
+        wearable: "Recycle Shirt",
+        cost: { sfl: 400, items: {} },
+      },
+    ],
+    requirement: 4,
+  },
+  mega: {
+    items: [
+      {
+        collectible: "Giant Artichoke",
+        cost: { sfl: 0, items: { Bracelet: 5500 } },
+      },
+      {
+        wearable: "Pickaxe Shark",
+        cost: { sfl: 0, items: { Bracelet: 8000 } },
+      },
+    ],
+    requirement: 4,
+  },
+};
+
 export const MEGASTORE: Record<SeasonName, SeasonalStore> = {
   "Catch the Kraken": EMPTY_SEASONAL_STORE,
   "Clash of Factions": EMPTY_SEASONAL_STORE,
@@ -748,5 +861,5 @@ export const MEGASTORE: Record<SeasonName, SeasonalStore> = {
   "Great Bloom": GREAT_BLOOM_ITEMS,
 
   // TODO: To add Better Together items
-  "Better Together": EMPTY_SEASONAL_STORE,
+  "Better Together": BETTER_TOGETHER_ITEMS,
 };
