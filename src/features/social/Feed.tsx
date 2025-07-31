@@ -360,7 +360,7 @@ const FeedContent: React.FC<FeedContentProps> = ({
                       )}
                       {`${getRelativeTime(interaction.createdAt)}`}
                     </span>
-                    <div className="text-xs break-all">
+                    <div className="text-xs break-words">
                       {interaction.message}
                     </div>
                   </div>
