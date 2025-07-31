@@ -76,6 +76,7 @@ export const SUNNYSIDE = {
     windsOfChangeSeasonRares: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/winds_of_change_rares.webp`,
     marketplace: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/marketplace_dark.png`,
     marketplaceLight: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/marketplace.png`,
+    betterTogetherSeasonRares: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/better_together_rares.webp`,
   },
   //Badges(Pre-LandExpansion Skills)
   badges: {

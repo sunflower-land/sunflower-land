@@ -965,6 +965,11 @@ import minerMonument from "assets/monuments/pickaxe_monument.webp";
 import woodcutterMonument from "assets/monuments/axe_monument.webp";
 import teamworkMonument from "assets/monuments/chapters_monument_teamwork.webp";
 
+import babyCow from "assets/sfts/baby_cow.webp";
+import babySheep from "assets/sfts/baby_sheep.webp";
+import janitorChicken from "assets/animals/chickens/janitor_chicken.webp";
+import venusBumpkinTrap from "assets/flowers/venus_bumpkin_trap.webp";
+
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
 import { CROPS, CROP_SEEDS, GREENHOUSE_CROPS, GREENHOUSE_SEEDS } from "./crops";
@@ -5653,5 +5658,21 @@ export const ITEM_DETAILS: Items = {
   "Solar Doll": {
     image: solarDoll,
     description: translate("description.solarDoll"),
+  },
+  "Baby Cow": {
+    image: babyCow,
+    description: translate("description.babyCow"),
+  },
+  "Baby Sheep": {
+    image: babySheep,
+    description: translate("description.babySheep"),
+  },
+  "Janitor Chicken": {
+    image: janitorChicken,
+    description: translate("description.janitorChicken"),
+  },
+  "Venus Bumpkin Trap": {
+    image: venusBumpkinTrap,
+    description: translate("description.venusBumpkinTrap"),
   },
 };

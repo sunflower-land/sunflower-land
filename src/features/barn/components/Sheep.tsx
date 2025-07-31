@@ -374,7 +374,11 @@ export const Sheep: React.FC<{ id: string; disabled: boolean }> = ({
       : "#fff";
   const xpIndicatorAmount = getAnimalXPEarned();
 
-  const { animalXP } = getAnimalXP({ state: game, name: showLoveItem! });
+  const { animalXP } = getAnimalXP({
+    state: game,
+    name: showLoveItem!,
+    animal: "Sheep",
+  });
 
   const { foodXp } = handleFoodXP({
     state: game,
