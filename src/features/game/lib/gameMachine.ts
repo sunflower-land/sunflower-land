@@ -744,6 +744,13 @@ const handleSuccessfulSave = (context: Context, event: any) => {
     (action) => action.createdAt.getTime() > event.data.saveAt.getTime(),
   );
 
+  if (recentActions.length === 0) {
+    return {
+      ...event.data,
+      actions: [],
+    };
+  }
+
   const updatedState = recentActions.reduce((state, action) => {
     return processEvent({
       state,
@@ -768,7 +775,8 @@ const handleSuccessfulSave = (context: Context, event: any) => {
   return {
     actions: recentActions,
     // TODO: Update when backend is already handled
-    visitorState: updatedState,
+    state: updatedState,
+    visitorState: context.visitorState,
     saveQueued: false,
     announcements: event.data.announcements,
   };
@@ -1687,7 +1695,7 @@ export function startGame(authContext: AuthContext) {
               const data = await saveGame(
                 context,
                 event,
-                farmId as number,
+                farmId,
                 authContext.user.rawToken as string,
               );
 

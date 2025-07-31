@@ -5,7 +5,11 @@ import { ClutterName } from "features/game/types/clutter";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
-import { TRASH_BIN_FARM_LIMIT } from "features/game/events/landExpansion/collectClutter";
+import {
+  TRASH_BIN_DAILY_LIMIT,
+  TRASH_BIN_FARM_LIMIT,
+} from "features/game/events/landExpansion/collectClutter";
+import classNames from "classnames";
 
 interface Props {
   id: string;
@@ -37,7 +41,13 @@ export const Clutter: React.FC<Props> = ({ id, type }) => {
   return (
     <>
       <div
-        className="relative w-full h-full cursor-pointer hover:img-highlight flex items-center justify-center"
+        className={classNames(
+          "relative w-full h-full cursor-pointer hover:img-highlight flex items-center justify-center",
+          {
+            "opacity-50 pointer-events-none":
+              getTrashBinItems(gameService.state) >= TRASH_BIN_DAILY_LIMIT,
+          },
+        )}
         onClick={collectClutter}
       >
         <img
@@ -62,14 +72,31 @@ export const useCleanFarm = () => {
       dailyCollections?.[farmId]?.clutter ?? {},
     );
     const pointGivenAt = dailyCollections?.[farmId]?.pointGivenAt;
+    const isPointGivenToday =
+      pointGivenAt &&
+      new Date(pointGivenAt).toISOString().split("T")[0] ===
+        new Date().toISOString().split("T")[0];
+
     if (
       collectedClutter.length === TRASH_BIN_FARM_LIMIT &&
-      pointGivenAt &&
-      new Date(pointGivenAt).getTime() < new Date().getTime()
+      !isPointGivenToday
     ) {
       gameService.send("farm.cleaned", {
         effect: { type: "farm.cleaned", visitedFarmId: farmId },
       });
     }
   }, [dailyCollections, farmId, gameService]);
+};
+
+export const getTrashBinItems = (state: MachineState) => {
+  const allClutter = Object.keys(_dailyCollections(state) ?? {});
+  const trashBinItems = allClutter.reduce((acc: number, farm: string) => {
+    return (
+      acc +
+      Object.keys(_dailyCollections(state)?.[Number(farm)]?.clutter ?? {})
+        .length
+    );
+  }, 0);
+
+  return trashBinItems;
 };
