@@ -1,6 +1,8 @@
+import { CONFIG } from "lib/config";
+
 export async function getSystemMessage(): Promise<string | null> {
   const response = await window.fetch(
-    `https://sunflower-land.com/system-message.txt`,
+    `https://sunflower-land.com/system-message.txt?v=${CONFIG.RELEASE_VERSION}`,
     {
       method: "GET",
     },
