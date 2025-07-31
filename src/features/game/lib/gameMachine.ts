@@ -1184,21 +1184,21 @@ export function startGame(authContext: AuthContext) {
                   .split("T")[0];
 
                 if (
-                  context.state.socialFarming.cheers.freeCheersClaimedAt >=
+                  context.state.socialFarming.cheers?.freeCheersClaimedAt >=
                   new Date(today).getTime()
                 ) {
                   return false;
                 }
 
                 const dayFreeCheersClaimed = new Date(
-                  context.state.socialFarming.cheers.freeCheersClaimedAt,
+                  context.state.socialFarming.cheers?.freeCheersClaimedAt,
                 )
                   .toISOString()
                   .split("T")[0];
 
                 const cheersUsedYesterday =
                   dayFreeCheersClaimed === yesterday
-                    ? context.state.socialFarming.cheers.cheersUsed
+                    ? context.state.socialFarming.cheers?.cheersUsed
                     : 0;
 
                 const newCheerCount = 3 - cheersUsedYesterday;
