@@ -747,7 +747,7 @@ const BETTER_TOGETHER_ITEMS: SeasonalStore = {
       },
       {
         wearable: "Raccoon Onesie",
-        cost: { sfl: 0, items: { Geniseed: 700 } },
+        cost: { sfl: 0, items: { Bracelet: 700 } },
       },
     ],
     requirement: 4,
