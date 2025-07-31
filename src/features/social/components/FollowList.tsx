@@ -6,6 +6,7 @@ import { Label } from "components/ui/Label";
 import { FollowDetailPanel } from "./FollowDetailPanel";
 import { getFollowNetworkDetails } from "../actions/getFollowNetworkDetails";
 import { Button } from "components/ui/Button";
+import { Equipped } from "features/game/types/bumpkin";
 
 type Props = {
   farmId: number;
@@ -128,7 +129,7 @@ export const FollowList: React.FC<Props> = ({
             key={`flw-${followerId}`}
             farmId={farmId}
             playerId={followerId}
-            tokenUri={networkDetails?.[followerId]?.tokenUri ?? ""}
+            clothing={networkDetails?.[followerId]?.clothing as Equipped}
             username={networkDetails?.[followerId]?.username ?? ""}
             lastOnlineAt={networkDetails?.[followerId]?.lastUpdatedAt ?? 0}
             navigateToPlayer={navigateToPlayer}

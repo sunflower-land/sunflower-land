@@ -1,15 +1,15 @@
 import React, { useCallback } from "react";
 import { ButtonPanel } from "components/ui/Panel";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
-import { interpretTokenUri } from "lib/utils/tokenUriBuilder";
 import { OnlineStatus } from "./OnlineStatus";
 import { getRelativeTime } from "lib/utils/time";
 import { useTranslation } from "react-i18next";
+import { Equipped } from "features/game/types/bumpkin";
 
 type Props = {
   farmId: number;
   playerId: number;
-  tokenUri: string;
+  clothing: Equipped;
   username: string;
   lastOnlineAt: number;
   navigateToPlayer: (playerId: number) => void;
@@ -18,13 +18,12 @@ type Props = {
 export const FollowDetailPanel: React.FC<Props> = ({
   farmId,
   playerId,
-  tokenUri,
+  clothing,
   username,
   lastOnlineAt,
   navigateToPlayer,
 }: Props) => {
   const { t } = useTranslation();
-  const { equipped } = interpretTokenUri(tokenUri);
   const lastOnline = getRelativeTime(lastOnlineAt);
 
   const isOnline = lastOnlineAt > Date.now() - 30 * 60 * 1000;
@@ -43,7 +42,7 @@ export const FollowDetailPanel: React.FC<Props> = ({
     >
       <div className="relative">
         <div className="z-10">
-          <NPCIcon parts={equipped} />
+          <NPCIcon parts={clothing} />
         </div>
         <div className="absolute -top-1 -right-1">
           <OnlineStatus

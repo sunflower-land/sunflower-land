@@ -1,3 +1,4 @@
+import { Equipped } from "features/game/types/bumpkin";
 import { CONFIG } from "lib/config";
 
 type Request = {
@@ -7,7 +8,7 @@ type Request = {
 };
 
 type Detail = {
-  tokenUri: string;
+  clothing: Equipped;
   username: string;
   lastUpdatedAt: number;
 };
