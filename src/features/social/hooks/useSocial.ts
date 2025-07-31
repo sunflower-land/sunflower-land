@@ -127,14 +127,6 @@ const onMilestone = (update: Milestone) => {
   });
 };
 
-const onCheer = (update: Cheer) => {
-  [...subscribers.values()].forEach((subscriber) => {
-    if (subscriber.callbacks?.onCheer) {
-      subscriber.callbacks.onCheer(update);
-    }
-  });
-};
-
 const clearListeners = () => {
   room?.removeAllListeners();
   heartBeatTimeout && clearInterval(heartBeatTimeout);
@@ -156,7 +148,6 @@ const setupListeners = (
   room.onMessage("unfollow", onUnfollow);
   room.onMessage("interaction", onInteraction);
   room.onMessage("milestone", onMilestone);
-  room.onMessage("cheers", onCheer);
 };
 
 const updateFollowing = () => {
