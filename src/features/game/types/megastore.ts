@@ -45,7 +45,8 @@ export type SeasonalCollectibleName =
   | "Rat King"
   | "Fruit Tune Box"
   | "Double Bed"
-  | "Giant Artichoke";
+  | "Giant Artichoke"
+  | "Teamwork Monument";
 
 export type SeasonalWearableName = Extract<
   BumpkinItem,
@@ -794,6 +795,10 @@ const BETTER_TOGETHER_ITEMS: SeasonalStore = {
       {
         wearable: "Pickaxe Shark",
         cost: { sfl: 0, items: { Bracelet: 8000 } },
+      },
+      {
+        collectible: "Teamwork Monument",
+        cost: { sfl: 0, items: { Bracelet: 1000 } },
       },
     ],
     requirement: 4,
