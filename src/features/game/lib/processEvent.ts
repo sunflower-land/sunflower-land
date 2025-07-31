@@ -731,6 +731,7 @@ type ProcessEventArgs = {
   action: GameEvent;
   announcements?: Announcements;
   farmId: number;
+  visitorState?: GameState;
 };
 
 export function processEvent({
@@ -738,7 +739,8 @@ export function processEvent({
   action,
   announcements,
   farmId,
-}: ProcessEventArgs): GameState {
+  visitorState,
+}: ProcessEventArgs): GameState | [GameState, GameState] {
   const handler = EVENTS[action.type];
 
   if (!handler) {
@@ -751,6 +753,7 @@ export function processEvent({
     action: action as never,
     announcements,
     farmId,
+    visitorState,
   });
 
   return newState;

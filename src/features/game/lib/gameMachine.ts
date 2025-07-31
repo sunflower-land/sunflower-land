@@ -334,21 +334,37 @@ const playingEventHandler = (eventName: string) => {
         }),
       },
       {
-        actions: assign((context: Context, event: PlayingEvent) => ({
-          state: processEvent({
-            state: context.state as GameState,
+        actions: assign((context: Context, event: PlayingEvent) => {
+          const result = processEvent({
+            state: context.state,
             action: event,
             announcements: context.announcements,
             farmId: context.farmId,
-          }) as GameState,
-          actions: [
+            visitorState: context.visitorState,
+          });
+
+          const actions = [
             ...context.actions,
             {
               ...event,
               createdAt: new Date(),
             },
-          ],
-        })),
+          ];
+
+          if (Array.isArray(result)) {
+            const [state, visitorState] = result;
+            return {
+              state,
+              actions,
+              visitorState,
+            };
+          }
+
+          return {
+            state: result,
+            actions,
+          };
+        }),
       },
     ],
   };
@@ -512,6 +528,17 @@ const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
   }),
   {},
 );
+
+const VISIT_EFFECT_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
+  getKeys(STATE_MACHINE_VISIT_EFFECTS).reduce(
+    (events, eventName) => ({
+      ...events,
+      [eventName]: {
+        target: STATE_MACHINE_VISIT_EFFECTS[eventName],
+      },
+    }),
+    {},
+  );
 
 const VISIT_EFFECT_STATES = Object.values(STATE_MACHINE_VISIT_EFFECTS).reduce(
   (states, stateName) => ({
@@ -723,8 +750,20 @@ const handleSuccessfulSave = (context: Context, event: any) => {
       action,
       announcements: context.announcements,
       farmId: context.farmId,
+      visitorState: context.visitorState,
     });
   }, event.data.farm);
+
+  if (Array.isArray(updatedState)) {
+    const [state, visitorState] = updatedState;
+    return {
+      state,
+      actions: recentActions,
+      visitorState,
+      saveQueued: false,
+      announcements: event.data.announcements,
+    };
+  }
 
   return {
     actions: recentActions,
@@ -959,9 +998,7 @@ export function startGame(authContext: AuthContext) {
         },
         visiting: {
           on: {
-            "villageProject.cheered": {
-              target: `${STATE_MACHINE_VISIT_EFFECTS["villageProject.cheered"]}`,
-            },
+            ...VISIT_EFFECT_EVENT_HANDLERS,
             ...playingEventHandler("clutter.collected"),
             SAVE: {
               target: "autosaving",
@@ -1646,7 +1683,7 @@ export function startGame(authContext: AuthContext) {
           },
           invoke: {
             src: async (context, event) => {
-              const farmId = context.farmId;
+              const farmId = context.visitorId ?? context.farmId;
               const data = await saveGame(
                 context,
                 event,
@@ -1696,6 +1733,13 @@ export function startGame(authContext: AuthContext) {
 
                   return !isAcknowledged;
                 },
+                actions: assign((context: Context, event) =>
+                  handleSuccessfulSave(context, event),
+                ),
+              },
+              {
+                target: "visiting",
+                cond: (context, _) => !!context.visitorId,
                 actions: assign((context: Context, event) =>
                   handleSuccessfulSave(context, event),
                 ),

@@ -745,7 +745,8 @@ type Handlers<T> = {
     action: Extract<GameEventName<T>, { type: Name }>;
     announcements?: Announcements;
     farmId?: number;
-  }) => GameState;
+    visitorState?: GameState;
+  }) => GameState | [GameState, GameState];
 };
 
 export const PLAYING_EVENTS: Handlers<PlayingEvent> = {

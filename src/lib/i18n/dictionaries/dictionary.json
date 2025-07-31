@@ -6379,5 +6379,9 @@
   "description.groovy.gramophone.boost": "+100% Growth Speed on Crop Machine",
   "cheering.farm": "Cheering Farm",
   "cheering.farm.success": "Cheer sent",
-  "cheering.farm.error": "Unable to cheer"
+  "cheering.farm.error": "Unable to cheer",
+  "cleaning.farm": "Putting clutter in the trash bin",
+  "cleaning.farm.success": "Thank you for cleaning my farm!",
+  "cleaning.farm.failed": "Cleaning failed!",
+  "social.points": "Social Points: {{points}}"
 }

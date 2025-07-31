@@ -19,11 +19,15 @@ import { useNavigate } from "react-router";
 import { MachineState } from "features/game/lib/gameMachine";
 import { NPCIcon } from "../bumpkin/components/NPC";
 import cheer from "assets/icons/cheer.webp";
+import { Label } from "components/ui/Label";
+import { useCleanFarm } from "../clutter/Clutter";
 
 const _cheers = (state: MachineState) => {
   return state.context.visitorState?.inventory["Cheer"] ?? new Decimal(0);
 };
-import { Save } from "./components/Save";
+const _socialPoints = (state: MachineState) => {
+  return state.context.state.socialFarming?.points ?? 0;
+};
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -34,9 +38,11 @@ export const VisitingHud: React.FC = () => {
     useContext(Context);
   const [gameState] = useActor(gameService);
   const cheers = useSelector(gameService, _cheers);
+  const socialPoints = useSelector(gameService, _socialPoints);
 
   const { t } = useAppTranslation();
   const navigate = useNavigate();
+  useCleanFarm();
 
   const handleEndVisit = () => {
     navigate(fromRoute ?? "/");
@@ -45,8 +51,6 @@ export const VisitingHud: React.FC = () => {
 
   const displayId =
     gameState.context.state.username ?? gameState.context.farmId;
-
-  // const cheersCount = gameS;
 
   return (
     <HudContainer>
@@ -87,8 +91,12 @@ export const VisitingHud: React.FC = () => {
         />
       </div>
       <BumpkinProfile />
+      <div className="absolute p-2 left-0 top-24 flex flex-col space-y-2.5">
+        <Label type="chill">
+          {t("social.points", { points: socialPoints })}
+        </Label>
+      </div>
       <div className="absolute bottom-0 p-2 right-0 flex flex-col space-y-2.5">
-        <Save />
         <Settings isFarming={false} />
       </div>
       <div

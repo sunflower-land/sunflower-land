@@ -1799,15 +1799,18 @@ export interface GameState {
       cheersUsed: number;
       freeCheersClaimedAt: number;
     };
-    dailyClutterCollections?: Record<
+    dailyCollections?: Record<
       number,
-      Record<
-        string,
-        {
-          collectedAt: number;
-          type: ClutterName;
-        }
-      >
+      {
+        pointGivenAt?: number;
+        clutter: Record<
+          string,
+          {
+            collectedAt: number;
+            type: ClutterName;
+          }
+        >;
+      }
     >;
     clutter?: {
       spawnedAt: number;
