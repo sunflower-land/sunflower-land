@@ -85,6 +85,8 @@ export const SleepingAnimalModal = ({
     animal: animal.type,
   });
 
+  const hasTool = gameState.context.state.inventory[animal.item]?.gt(0);
+
   return (
     <>
       <InnerPanel className="mb-1">
@@ -126,9 +128,11 @@ export const SleepingAnimalModal = ({
           <div className="w-full">
             <div className="flex items-center justify-between w-full">
               <p className="text-sm font-secondary">{`${animal.item} (+${animalXP}XP)`}</p>
-              <Label type="danger" className="text-xxs">
-                {t("sleepingAnimal.missing")}
-              </Label>
+              {!hasTool && (
+                <Label type="danger" className="text-xxs">
+                  {t("sleepingAnimal.missing")}
+                </Label>
+              )}
             </div>
             <span className="text-xs -top-0.5 relative">{`${t("sleepingAnimal.every")} ${secondsToString(
               lovePeriod / 1000,
