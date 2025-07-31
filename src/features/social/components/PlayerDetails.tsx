@@ -119,6 +119,8 @@ export const PlayerDetails: React.FC<Props> = ({
     },
   );
 
+  const isSelf = player?.id === farmId;
+
   return (
     <div className="flex gap-1 w-full max-h-[370px]">
       <div className="flex flex-col flex-1 gap-1">
@@ -202,6 +204,7 @@ export const PlayerDetails: React.FC<Props> = ({
             {!isVisiting && (
               <Button
                 className="flex w-fit h-9 justify-between items-center gap-1 mt-1"
+                disabled={isSelf}
                 onClick={visitFarm}
               >
                 <div className="flex items-center px-1">
@@ -225,7 +228,7 @@ export const PlayerDetails: React.FC<Props> = ({
               />
               <Button
                 className="flex w-fit h-9 justify-between items-center gap-1 mt-1 mr-0.5"
-                disabled={playerLoading || followLoading || !!error}
+                disabled={playerLoading || followLoading || !!error || isSelf}
                 onClick={onFollow}
               >
                 {followLoading ? `...` : iAmFollowing ? `Unfollow` : `Follow`}
@@ -235,7 +238,7 @@ export const PlayerDetails: React.FC<Props> = ({
           <div className="flex flex-col gap-1 p-1 pt-0 mb-2 w-full">
             <div className="text-xs">{`You cleaned their farm x times`}</div>
             <div className="text-xs">{`They cleaned your farm x times`}</div>
-            <div className="text-xs">{`Top friend - Craig`}</div>
+            <div className="text-xs">{`Top friend - x`}</div>
           </div>
         </InnerPanel>
         <InnerPanel className="flex flex-col w-full pb-1">
@@ -256,7 +259,7 @@ export const PlayerDetails: React.FC<Props> = ({
           </div>
         </InnerPanel>
       </div>
-      {!isMobile && player && (
+      {!isMobile && player && !isSelf && (
         <FollowerFeed
           farmId={farmId}
           playerId={player.id}

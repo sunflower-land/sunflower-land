@@ -200,7 +200,7 @@ export const Feed: React.FC<Props> = ({
               onClick={handleCloseFeed}
             />
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex items-center justify-between gap-2">
             {showFollowing && (
               <img
                 src={SUNNYSIDE.icons.arrow_left}
@@ -209,6 +209,19 @@ export const Feed: React.FC<Props> = ({
                 onClick={() => setShowFollowing(false)}
               />
             )}
+            <div
+              className="flex items-center gap-1 text-xs underline cursor-pointer"
+              onClick={() => {
+                setShowFollowing(false);
+                setShowFeed(false);
+                playerModalManager.open({
+                  farmId,
+                });
+              }}
+            >
+              <img src={SUNNYSIDE.icons.player_small} className="w-4 mt-1" />
+              {t("myProfile")}
+            </div>
             <FollowsIndicator
               count={following.length}
               onClick={() => setShowFollowing(!showFollowing)}
