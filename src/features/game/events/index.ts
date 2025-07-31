@@ -511,7 +511,12 @@ import {
   removeBeehive,
   RemoveBeehiveAction,
 } from "./landExpansion/removeBeehive";
+import { removeAll, RemoveAllAction } from "./landExpansion/removeAll";
 import { wakeAnimal, WakeUpAnimalAction } from "./landExpansion/wakeUpAnimal";
+import {
+  ClaimCheersAction,
+  claimDailyCheers,
+} from "./landExpansion/claimDailyCheers";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
@@ -656,7 +661,8 @@ export type PlayingEvent =
   | InstantCraftAction
   | BuyBiomeAction
   | ApplyBiomeAction
-  | WakeUpAnimalAction;
+  | WakeUpAnimalAction
+  | ClaimCheersAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -711,7 +717,8 @@ export type PlacementEvent =
   | RemovePlotAction
   | RemoveFruitPatchAction
   | RemoveFlowerBedAction
-  | RemoveBeehiveAction;
+  | RemoveBeehiveAction
+  | RemoveAllAction;
 
 export type GameEvent = PlayingEvent | PlacementEvent;
 export type GameEventName<T> = Extract<T, { type: string }>["type"];
@@ -881,6 +888,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "biome.bought": buyBiome,
   "biome.applied": applyBiome,
   "animal.wakeUp": wakeAnimal,
+  "cheers.claimed": claimDailyCheers,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
@@ -937,6 +945,7 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "fruitPatch.removed": removeFruitPatch,
   "flowerBed.removed": removeFlowerBed,
   "beehive.removed": removeBeehive,
+  "items.removed": removeAll,
 };
 
 export const EVENTS = { ...PLAYING_EVENTS, ...PLACEMENT_EVENTS };

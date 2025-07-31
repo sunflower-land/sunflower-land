@@ -6186,5 +6186,13 @@
   "sleepingAnimal.availableAtCraftingBox": "Disponible dans la Crafting Box",
   "sleepingAnimal.wakeUp": "Réveillez-vous",
   "landscape.confirmation.gnomes.one": "Placez les trois nains dans cet ordre (de gauche à droite) : Cobale, Gnome, Clementine.",
-  "landscape.confirmation.gnomes.two": "La parcelle de culture doit être placée directement en dessous du nain."
+  "landscape.confirmation.gnomes.two": "La parcelle de culture doit être placée directement en dessous du nain.",
+  "removeAll.description.one": "Cette action supprimera tous les éléments du {{location}}.",
+  "removeAll.description.two": "Êtes-vous sûr de vouloir continuer ?",
+  "removeAll.title": "Supprimer tous les articles",
+  "cheers": "Bravo",
+  "cheering.free.description": "Chaque jour, vous pouvez réclamer jusqu'à 3 cheers gratuits.",
+  "cheering.free.description2": "Des encouragements peuvent être donnés à vos collègues agriculteurs pour qu'ils soutiennent leurs fermes.",
+  "cheering.free.claim": "Réclamez Cheers",
+  "description.turdTopper.boost": "+1 Engrais de la marque Composters"
 }

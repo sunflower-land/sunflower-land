@@ -35,6 +35,7 @@ import { RoundButton } from "components/ui/RoundButton";
 import { CraftDecorationsModal } from "./components/decorations/CraftDecorationsModal";
 import { hasFeatureAccess } from "lib/flags";
 import { hasRemoveRestriction } from "features/game/types/removeables";
+import { RemoveAllConfirmation } from "../collectibles/RemoveAllConfirmation";
 
 const compareBalance = (prev: Decimal, next: Decimal) => {
   return prev.eq(next);
@@ -60,6 +61,8 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
   const { gameService } = useContext(Context);
 
   const [showRemoveConfirmation, setShowRemoveConfirmation] = useState(false);
+  const [showRemoveAllConfirmation, setShowRemoveAllConfirmation] =
+    useState(false);
   const [showDecorations, setShowDecorations] = useState(false);
   const button = useSound("button");
 
@@ -129,6 +132,17 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
     }
   };
 
+  const removeAll = () => {
+    if (showRemoveAllConfirmation) {
+      child.send("REMOVE_ALL", {
+        event: "items.removed",
+        location,
+      });
+      setShowRemoveAllConfirmation(false);
+    } else {
+      setShowRemoveAllConfirmation(true);
+    }
+  };
   return (
     <HudContainer>
       <div className="absolute right-0 top-0 p-2.5">
@@ -165,6 +179,19 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
                   }}
                 />
               </RoundButton>
+              {hasLandscapingAccess && (
+                <RoundButton className="mb-3.5" onClick={removeAll}>
+                  <img
+                    src={ITEM_DETAILS["Rusty Shovel"].image}
+                    className="absolute group-active:translate-y-[2px]"
+                    style={{
+                      top: `${PIXEL_SCALE * 5}px`,
+                      left: `${PIXEL_SCALE * 5}px`,
+                      width: `${PIXEL_SCALE * 13}px`,
+                    }}
+                  />
+                </RoundButton>
+              )}
 
               {location === "farm" &&
                 hasFeatureAccess(
@@ -226,6 +253,13 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
             onRemove={() => remove()}
           />
         )}
+      {showRemoveAllConfirmation && (
+        <RemoveAllConfirmation
+          onClose={() => setShowRemoveAllConfirmation(false)}
+          onRemove={() => removeAll()}
+          location={location}
+        />
+      )}
       {showRemove && (
         <div
           className="absolute flex z-50 flex-col"

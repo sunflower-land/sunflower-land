@@ -6186,5 +6186,13 @@
   "sleepingAnimal.availableAtCraftingBox": "Disponible en Crafting Box",
   "sleepingAnimal.wakeUp": "Despierta",
   "landscape.confirmation.gnomes.one": "Coloca los tres gnomos en este orden (de izquierda a derecha): Cobale, Gnome y Clementine.",
-  "landscape.confirmation.gnomes.two": "La parcela de cultivo debe colocarse directamente debajo del gnomo."
+  "landscape.confirmation.gnomes.two": "La parcela de cultivo debe colocarse directamente debajo del gnomo.",
+  "removeAll.description.one": "Esta acción eliminará todos los artículos del {{location}}.",
+  "removeAll.description.two": "¿Estás seguro de que quieres continuar?",
+  "removeAll.title": "Eliminar todos los artículos",
+  "cheers": "Aclamaciones",
+  "cheering.free.description": "Todos los días puedes conseguir hasta 3 aplausos gratis.",
+  "cheering.free.description2": "Puedes aplaudir a tus compañeros granjeros para que apoyen a sus granjas.",
+  "cheering.free.claim": "Reclama aplausos",
+  "description.turdTopper.boost": "+1 Fertilizante de compostadores"
 }

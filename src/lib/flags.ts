@@ -119,7 +119,7 @@ const FEATURE_FLAGS = {
   // Better Together Chapter
   SOCIAL_FARMING: defaultFeatureFlag,
   MONUMENTS: testnetFeatureFlag,
-  LANDSCAPING: testnetFeatureFlag,
+  LANDSCAPING: betaTimeBasedFeatureFlag(new Date("2025-08-04T00:00:00.000Z")),
   LANDSCAPING_SHOP: betaTimeBasedFeatureFlag(
     SEASONS["Better Together"].startDate,
   ),
@@ -132,6 +132,7 @@ const FEATURE_FLAGS = {
       start: new Date(COMPETITION_POINTS.PEGGYS_COOKOFF.startAt),
       end: new Date(COMPETITION_POINTS.PEGGYS_COOKOFF.endAt),
     })(),
+  CHEERS: timeBasedFeatureFlag(new Date("2025-08-04T00:00:00Z")),
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;

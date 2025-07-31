@@ -56,7 +56,11 @@ describe("buyBiome", () => {
     const state = buyBiome({
       state: {
         ...INITIAL_FARM,
-        inventory: { Gem: new Decimal(1000) },
+        inventory: {
+          Gem: new Decimal(500),
+          Wool: new Decimal(1000),
+          Honey: new Decimal(500),
+        },
         island: { type: "spring" },
       },
       action: { type: "biome.bought", biome: "Basic Biome" },

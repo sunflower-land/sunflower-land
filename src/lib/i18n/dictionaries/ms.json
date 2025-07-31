@@ -6186,5 +6186,13 @@
   "sleepingAnimal.availableAtCraftingBox": "Boleh didapati di Kotak Crafting",
   "sleepingAnimal.wakeUp": "Bangun",
   "landscape.confirmation.gnomes.one": "Letakkan tiga gnome dalam susunan ini (dari kiri ke kanan): Cobale, Gnome, Clementine.",
-  "landscape.confirmation.gnomes.two": "Plot tanaman hendaklah diletakkan tepat di bawah Gnome."
+  "landscape.confirmation.gnomes.two": "Plot tanaman hendaklah diletakkan tepat di bawah Gnome.",
+  "removeAll.description.one": "Tindakan ini akan membuang semua item dari {{location}}.",
+  "removeAll.description.two": "Adakah anda pasti mahu meneruskan?",
+  "removeAll.title": "Keluarkan Semua Item",
+  "cheers": "Sorakan",
+  "cheering.free.description": "Setiap hari anda boleh menuntut sehingga 3 sorakan percuma.",
+  "cheering.free.description2": "Sorakan boleh diberikan kepada rakan petani anda untuk menyokong ladang mereka.",
+  "cheering.free.claim": "Tuntutan Sorakan",
+  "description.turdTopper.boost": "+1 Baja dari Komposter"
 }

@@ -6186,5 +6186,13 @@
   "sleepingAnimal.availableAtCraftingBox": "크래프팅 박스에서 구매 가능",
   "sleepingAnimal.wakeUp": "웨이크 업",
   "landscape.confirmation.gnomes.one": "코발레, 노움, 클레멘타인 순으로 세 개의 노온을 배치합니다 (왼쪽에서 오른쪽 순).",
-  "landscape.confirmation.gnomes.two": "크롭 플롯은 그놈 바로 아래에 위치해야 합니다."
+  "landscape.confirmation.gnomes.two": "크롭 플롯은 그놈 바로 아래에 위치해야 합니다.",
+  "removeAll.description.one": "이 작업을 수행하면 {{location}} 에서 모든 항목이 제거됩니다.",
+  "removeAll.description.two": "정말 계속하시겠습니까?",
+  "removeAll.title": "모든 항목 제거",
+  "cheers": "건배",
+  "cheering.free.description": "매일 최대 3회의 무료 응원을 받을 수 있습니다.",
+  "cheering.free.description2": "동료 농부들이 농장을 응원해 줄 수 있도록 응원을 보낼 수 있습니다.",
+  "cheering.free.claim": "클레임 치어스",
+  "description.turdTopper.boost": "퇴비화기에서 추출한 비료 1개"
 }

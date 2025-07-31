@@ -938,4 +938,47 @@ describe("start Premium Composter", () => {
       newState.buildings["Premium Composter"]?.[0].producing?.readyAt,
     ).toBe(dateNow + 10.8 * 60 * 60 * 1000);
   });
+
+  it("gives +1 Rapid Root with Turd Topper", () => {
+    const state: GameState = {
+      ...GAME_STATE,
+      inventory: {
+        ...GAME_STATE.inventory,
+        Onion: new Decimal(5),
+        Turnip: new Decimal(2),
+      },
+      wardrobe: {
+        "Turd Topper": 1,
+      },
+      bumpkin: {
+        ...INITIAL_BUMPKIN,
+        equipped: {
+          ...INITIAL_BUMPKIN.equipped,
+          hat: "Turd Topper",
+        },
+      },
+      buildings: {
+        "Turbo Composter": [
+          {
+            coordinates: { x: 0, y: 0 },
+            createdAt: 0,
+            readyAt: 0,
+            id: "0",
+          },
+        ],
+      },
+    };
+
+    const newState = startComposter({
+      createdAt: dateNow,
+      state,
+      action: { type: "composter.started", building: "Turbo Composter" },
+    });
+
+    expect(
+      newState.buildings["Turbo Composter"]?.[0].producing?.items[
+        "Fruitful Blend"
+      ],
+    ).toBe(4);
+  });
 });

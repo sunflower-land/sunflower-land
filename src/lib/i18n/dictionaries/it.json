@@ -6186,5 +6186,13 @@
   "sleepingAnimal.availableAtCraftingBox": "Disponibile presso il Crafting Box",
   "sleepingAnimal.wakeUp": "Svegliati",
   "landscape.confirmation.gnomes.one": "Posiziona i tre gnomi in questo ordine (da sinistra a destra): Cobale, Gnome, Clementine.",
-  "landscape.confirmation.gnomes.two": "Il grafico del ritaglio dovrebbe essere posizionato direttamente sotto lo Gnome."
+  "landscape.confirmation.gnomes.two": "Il grafico del ritaglio dovrebbe essere posizionato direttamente sotto lo Gnome.",
+  "removeAll.description.one": "Questa azione rimuoverà tutti gli elementi da {{location}}.",
+  "removeAll.description.two": "Sei sicuro di voler continuare?",
+  "removeAll.title": "Rimuovi tutti gli articoli",
+  "cheers": "Cin cin",
+  "cheering.free.description": "Ogni giorno puoi richiedere fino a 3 applausi gratuiti.",
+  "cheering.free.description2": "Puoi salutare i tuoi colleghi agricoltori per sostenere le loro fattorie.",
+  "cheering.free.claim": "Reclamo Cheers",
+  "description.turdTopper.boost": "+1 fertilizzante da compostiere"
 }

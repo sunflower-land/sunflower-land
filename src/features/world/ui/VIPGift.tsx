@@ -71,7 +71,7 @@ export const VIPGiftContent: React.FC<Props> = ({ onClose }) => {
   const hasVip = hasVipAccess({ game: gameState.context.state });
   const rewardEntry = MONTHLY_REWARDS_DATES.sort(
     (a, b) => new Date(b).getTime() - new Date(a).getTime(),
-  ).find(([key]) => {
+  ).find((key) => {
     const rewardStartDate = new Date(key);
     return currentDate >= rewardStartDate;
   });

@@ -684,6 +684,10 @@ export const INITIAL_FARM: GameState = {
       date: "",
       projects: {},
     },
+    cheers: {
+      cheersUsed: 0,
+      freeCheersClaimedAt: 0,
+    },
   },
 };
 
@@ -998,6 +1002,10 @@ export const TEST_FARM: GameState = {
       date: new Date().toISOString().split("T")[0],
       projects: {},
     },
+    cheers: {
+      cheersUsed: 0,
+      freeCheersClaimedAt: 0,
+    },
   },
 };
 
@@ -1160,6 +1168,10 @@ export const EMPTY: GameState = {
     cheeredProjects: {
       date: new Date().toISOString().split("T")[0],
       projects: {},
+    },
+    cheers: {
+      cheersUsed: 0,
+      freeCheersClaimedAt: 0,
     },
   },
 };
