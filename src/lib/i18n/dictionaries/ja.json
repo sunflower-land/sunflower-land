@@ -6223,5 +6223,13 @@
   "sleepingAnimal.sheepLoveToPlay": "{{name}} 遊ぶのが大好きです。人形を投げてすぐに目を覚ましましょう。",
   "sleepingAnimal.favouriteFood": "好きな食べ物:",
   "sleepingAnimal.every": "ごと",
-  "sleepingAnimal.missing": "行方不明です"
+  "sleepingAnimal.missing": "行方不明です",
+  "description.bonusBracelet.boost": "+1 ブレスレット",
+  "description.architectRuler.boost": "クラフトボックススピード +25%",
+  "description.reelmastersChair.boost": "+5回釣りの試行",
+  "description.musicBox.boost": "+20% フルーツパッチ成長速度",
+  "description.doubleBed.boost": "+2 ファームハンズ",
+  "description.giantArtichoke.boost": "+2 アーティチョーク",
+  "description.pickaxeShark.boost.1": "+15% ゴールド回復時間",
+  "description.pickaxeShark.boost.2": "10% の確率でインスタントゴールドが手に入る"
 }

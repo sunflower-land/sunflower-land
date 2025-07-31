@@ -6223,5 +6223,13 @@
   "sleepingAnimal.sheepLoveToPlay": "{{name}} adora jogar. Jogue uma boneca para acordar instantaneamente.",
   "sleepingAnimal.favouriteFood": "Comida favorita:",
   "sleepingAnimal.every": "Cada",
-  "sleepingAnimal.missing": "Desaparecido"
+  "sleepingAnimal.missing": "Desaparecido",
+  "description.bonusBracelet.boost": "+1 pulseira",
+  "description.architectRuler.boost": "+25% de velocidade da caixa de fabricação",
+  "description.reelmastersChair.boost": "+5 tentativas de pesca",
+  "description.musicBox.boost": "+20% de velocidade de crescimento do canteiro de frutas",
+  "description.doubleBed.boost": "+2 Fazendeiros",
+  "description.giantArtichoke.boost": "+2 Alcachofras",
+  "description.pickaxeShark.boost.1": "+15% de tempo de recuperação de ouro",
+  "description.pickaxeShark.boost.2": "10% de chance de ganhar ouro instantâneo"
 }

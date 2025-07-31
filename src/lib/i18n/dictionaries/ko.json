@@ -6223,5 +6223,13 @@
   "sleepingAnimal.sheepLoveToPlay": "{{name}} 노는 걸 좋아해.인형을 던지면 바로 깨울 수 있습니다.",
   "sleepingAnimal.favouriteFood": "좋아하는 음식:",
   "sleepingAnimal.every": "모든",
-  "sleepingAnimal.missing": "실종"
+  "sleepingAnimal.missing": "실종",
+  "description.bonusBracelet.boost": "+1 브레이슬릿",
+  "description.architectRuler.boost": "제작 상자 속도 +25%",
+  "description.reelmastersChair.boost": "+5 낚시 시도",
+  "description.musicBox.boost": "+20% 과일 패치 성장 속도",
+  "description.doubleBed.boost": "+2 팜핸즈",
+  "description.giantArtichoke.boost": "+2 아티초크",
+  "description.pickaxeShark.boost.1": "골드 회복 시간 15% 증가",
+  "description.pickaxeShark.boost.2": "10% 확률로 인스턴트 골드 획득"
 }

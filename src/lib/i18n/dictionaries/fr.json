@@ -6223,5 +6223,13 @@
   "sleepingAnimal.sheepLoveToPlay": "{{name}} J'adore jouer. Lancez-lui une poupée pour vous réveiller instantanément.",
   "sleepingAnimal.favouriteFood": "Nourriture préférée :",
   "sleepingAnimal.every": "Chaque",
-  "sleepingAnimal.missing": "Disparus"
+  "sleepingAnimal.missing": "Disparus",
+  "description.bonusBracelet.boost": "+1 bracelet",
+  "description.architectRuler.boost": "Vitesse de la boîte de fabrication +25 %",
+  "description.reelmastersChair.boost": "+5 tentatives de pêche",
+  "description.musicBox.boost": "Vitesse de croissance des parcelles fruitières de +20 %",
+  "description.doubleBed.boost": "+2 Ouvriers agricoles",
+  "description.giantArtichoke.boost": "+2 artichauts",
+  "description.pickaxeShark.boost.1": "Temps de récupération de l'or +15 %",
+  "description.pickaxeShark.boost.2": "10 % de chances d'obtenir de l'or instantané"
 }

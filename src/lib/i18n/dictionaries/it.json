@@ -6223,5 +6223,13 @@
   "sleepingAnimal.sheepLoveToPlay": "{{name}} amo giocare. Lancia una bambola per svegliarti istantaneamente.",
   "sleepingAnimal.favouriteFood": "Cibo preferito:",
   "sleepingAnimal.every": "Ogni",
-  "sleepingAnimal.missing": "Mancante"
+  "sleepingAnimal.missing": "Mancante",
+  "description.bonusBracelet.boost": "+1 braccialetto",
+  "description.architectRuler.boost": "+25% alla velocità della scatola di creazione",
+  "description.reelmastersChair.boost": "+5 tentativi di pesca",
+  "description.musicBox.boost": "+20% di velocità di crescita degli appezzamenti di frutta",
+  "description.doubleBed.boost": "+2 Farmhands",
+  "description.giantArtichoke.boost": "+2 carciofi",
+  "description.pickaxeShark.boost.1": "+15% Tempo di recupero dell'oro",
+  "description.pickaxeShark.boost.2": "10% di possibilità di ottenere oro istantaneo"
 }

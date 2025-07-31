@@ -6223,5 +6223,13 @@
   "sleepingAnimal.sheepLoveToPlay": "{{name}} suka bermain. Buangkan anak patung untuk bangun insta.",
   "sleepingAnimal.favouriteFood": "Makanan kegemaran:",
   "sleepingAnimal.every": "Setiap",
-  "sleepingAnimal.missing": "hilang"
+  "sleepingAnimal.missing": "hilang",
+  "description.bonusBracelet.boost": "+1 gelang",
+  "description.architectRuler.boost": "+25% Kelajuan Kotak Kerajinan",
+  "description.reelmastersChair.boost": "+5 Percubaan Memancing",
+  "description.musicBox.boost": "+20% Kelajuan Pertumbuhan Patch Buah",
+  "description.doubleBed.boost": "+2 Farmhands",
+  "description.giantArtichoke.boost": "+2 Artichoke",
+  "description.pickaxeShark.boost.1": "+15% Masa Pemulihan Emas",
+  "description.pickaxeShark.boost.2": "Peluang 10% untuk Emas Segera"
 }
