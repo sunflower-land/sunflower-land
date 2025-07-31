@@ -195,7 +195,9 @@ export const PlayerDetails: React.FC<Props> = ({
               <div className="flex items-center">
                 <span>
                   {t("playerModal.marketValue", {
-                    value: formatNumber(player?.marketValue ?? 0),
+                    value: formatNumber(
+                      player?.marketValue ?? 0,
+                    ).toLocaleString(),
                   })}
                 </span>
                 <img src={flowerIcon} className="w-4 h-4 ml-1 mt-0.5" />
