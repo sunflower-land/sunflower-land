@@ -210,7 +210,7 @@ export const Feed: React.FC<Props> = ({
               />
             )}
             <div
-              className="flex items-center gap-1 text-xs underline cursor-pointer"
+              className="flex ml-1.5 items-center gap-1 text-xs underline cursor-pointer"
               onClick={() => {
                 setShowFollowing(false);
                 setShowFeed(false);
