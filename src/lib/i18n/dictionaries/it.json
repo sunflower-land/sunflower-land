@@ -6189,5 +6189,9 @@
   "landscape.confirmation.gnomes.two": "Il grafico del ritaglio dovrebbe essere posizionato direttamente sotto lo Gnome.",
   "removeAll.description.one": "Questa azione rimuoverà tutti gli elementi da {{location}}.",
   "removeAll.description.two": "Sei sicuro di voler continuare?",
-  "removeAll.title": "Rimuovi tutti gli articoli"
+  "removeAll.title": "Rimuovi tutti gli articoli",
+  "cheers": "Cin cin",
+  "cheering.free.description": "Ogni giorno puoi richiedere fino a 3 applausi gratuiti.",
+  "cheering.free.description2": "Puoi salutare i tuoi colleghi agricoltori per sostenere le loro fattorie.",
+  "cheering.free.claim": "Reclamo Cheers"
 }

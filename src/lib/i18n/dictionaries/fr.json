@@ -6189,5 +6189,9 @@
   "landscape.confirmation.gnomes.two": "La parcelle de culture doit être placée directement en dessous du nain.",
   "removeAll.description.one": "Cette action supprimera tous les éléments du {{location}}.",
   "removeAll.description.two": "Êtes-vous sûr de vouloir continuer ?",
-  "removeAll.title": "Supprimer tous les articles"
+  "removeAll.title": "Supprimer tous les articles",
+  "cheers": "Bravo",
+  "cheering.free.description": "Chaque jour, vous pouvez réclamer jusqu'à 3 cheers gratuits.",
+  "cheering.free.description2": "Des encouragements peuvent être donnés à vos collègues agriculteurs pour qu'ils soutiennent leurs fermes.",
+  "cheering.free.claim": "Réclamez Cheers"
 }

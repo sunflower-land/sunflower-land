@@ -6189,5 +6189,9 @@
   "landscape.confirmation.gnomes.two": "Die Anbaufläche sollte direkt unter dem Gnom platziert werden.",
   "removeAll.description.one": "Diese Aktion entfernt alle Elemente aus dem {{location}}.",
   "removeAll.description.two": "Bist du sicher, dass du fortfahren möchtest?",
-  "removeAll.title": "Alle Artikel entfernen"
+  "removeAll.title": "Alle Artikel entfernen",
+  "cheers": "Prost",
+  "cheering.free.description": "Jeden Tag kannst du bis zu 3 Gratis-Cheers in Anspruch nehmen.",
+  "cheering.free.description2": "Sie können Ihren Mitbauern zujubeln, um ihre Farmen zu unterstützen.",
+  "cheering.free.claim": "Hol dir Cheers"
 }

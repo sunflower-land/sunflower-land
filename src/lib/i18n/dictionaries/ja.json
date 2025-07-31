@@ -6189,5 +6189,9 @@
   "landscape.confirmation.gnomes.two": "クロッププロットは Gnome の真下に配置する必要があります。",
   "removeAll.description.one": "このアクションにより、{{location}} からすべてのアイテムが削除されます。",
   "removeAll.description.two": "続けてもよろしいですか？",
-  "removeAll.title": "すべての商品を削除"
+  "removeAll.title": "すべての商品を削除",
+  "cheers": "乾杯",
+  "cheering.free.description": "毎日最大3回まで無料応援を受けることができます。",
+  "cheering.free.description2": "仲間の農家に声援を送って、彼らの農場を支援することができます。",
+  "cheering.free.claim": "クレーム・チアーズ"
 }

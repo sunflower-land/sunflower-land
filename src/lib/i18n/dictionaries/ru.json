@@ -6189,5 +6189,9 @@
   "landscape.confirmation.gnomes.two": "Участок для посева следует разместить прямо под гномом.",
   "removeAll.description.one": "Это действие удалит все элементы из {{location}}.",
   "removeAll.description.two": "Вы уверены, что хотите продолжить?",
-  "removeAll.title": "Удалить все товары"
+  "removeAll.title": "Удалить все товары",
+  "cheers": "ура",
+  "cheering.free.description": "Каждый день вы можете получить до 3 бесплатных приветствия.",
+  "cheering.free.description2": "Можно поздравить коллег-фермеров за поддержку их ферм.",
+  "cheering.free.claim": "Заявите «Ура»"
 }

@@ -6189,5 +6189,9 @@
   "landscape.confirmation.gnomes.two": "作物地块应位于地精的正下方。",
   "removeAll.description.one": "此操作将从 {{location}} 中移除所有项目。",
   "removeAll.description.two": "你确定要继续吗？",
-  "removeAll.title": "移除所有物品"
+  "removeAll.title": "移除所有物品",
+  "cheers": "干杯",
+  "cheering.free.description": "每天您最多可以领取 3 次免费欢呼。",
+  "cheering.free.description2": "可以向您的农民同胞欢呼，以支持他们的农场。",
+  "cheering.free.claim": "声称干杯"
 }

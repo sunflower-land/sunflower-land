@@ -6189,5 +6189,9 @@
   "landscape.confirmation.gnomes.two": "O terreno de cultivo deve ser colocado diretamente abaixo do Gnome.",
   "removeAll.description.one": "Essa ação removerá todos os itens do {{location}}.",
   "removeAll.description.two": "Tem certeza de que deseja continuar?",
-  "removeAll.title": "Remover todos os itens"
+  "removeAll.title": "Remover todos os itens",
+  "cheers": "Saúde",
+  "cheering.free.description": "Todos os dias você pode receber até 3 brindes grátis.",
+  "cheering.free.description2": "Aplausos podem ser dados aos seus colegas agricultores para apoiarem suas fazendas.",
+  "cheering.free.claim": "Reivindique aplausos"
 }
