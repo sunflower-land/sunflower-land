@@ -6181,7 +6181,6 @@
   "sleepingAnimal.cancel": "Отменить",
   "sleepingAnimal.confirm": "Подтвердить",
   "sleepingAnimal.sleeping": "Спящий",
-  "sleepingAnimal.sheepLoveToPlay": "{{name}} обожаю играть. Бросьте куклу, чтобы снова проснуться.",
   "sleepingAnimal.dollCount": "1 x {{name}}",
   "sleepingAnimal.availableAtCraftingBox": "Доступно в коробке для рукоделия",
   "sleepingAnimal.wakeUp": "Проснись",
@@ -6220,5 +6219,9 @@
   "cleaning.farm": "Выбрасывание мусора в мусорное ведро",
   "cleaning.farm.success": "Спасибо за уборку моей фермы!",
   "cleaning.farm.failed": "Очистка не удалась!",
-  "social.points": "Очки в социальных сетях: {{points}}"
+  "social.points": "Очки в социальных сетях: {{points}}",
+  "sleepingAnimal.sheepLoveToPlay": "{{name}} обожаю играть. Бросьте куклу, чтобы мгновенно проснуться.",
+  "sleepingAnimal.favouriteFood": "Любимая еда:",
+  "sleepingAnimal.every": "Каждый",
+  "sleepingAnimal.missing": "Пропавший"
 }

@@ -6181,7 +6181,6 @@
   "sleepingAnimal.cancel": "取消",
   "sleepingAnimal.confirm": "确认",
   "sleepingAnimal.sleeping": "正在睡觉",
-  "sleepingAnimal.sheepLoveToPlay": "{{name}} 喜欢玩。把它扔一个娃娃让它再次醒来。",
   "sleepingAnimal.dollCount": "1 x {{name}}",
   "sleepingAnimal.availableAtCraftingBox": "可在制作箱中获得",
   "sleepingAnimal.wakeUp": "醒醒吧",
@@ -6220,5 +6219,9 @@
   "cleaning.farm": "把杂物放进垃圾桶",
   "cleaning.farm.success": "感谢你打扫我的农场！",
   "cleaning.farm.failed": "清洁失败！",
-  "social.points": "社交积分：{{points}}"
+  "social.points": "社交积分：{{points}}",
+  "sleepingAnimal.sheepLoveToPlay": "{{name}} 喜欢玩。把它扔一个娃娃让它即时醒来。",
+  "sleepingAnimal.favouriteFood": "最喜欢的食物：",
+  "sleepingAnimal.every": "每个",
+  "sleepingAnimal.missing": "失踪"
 }

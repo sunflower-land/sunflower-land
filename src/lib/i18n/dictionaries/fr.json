@@ -6181,7 +6181,6 @@
   "sleepingAnimal.cancel": "Annuler",
   "sleepingAnimal.confirm": "Confirmer",
   "sleepingAnimal.sleeping": "Dormir",
-  "sleepingAnimal.sheepLoveToPlay": "{{name}} J'adore jouer. Lancez-lui une poupée pour vous réveiller à nouveau.",
   "sleepingAnimal.dollCount": "1 x {{name}}",
   "sleepingAnimal.availableAtCraftingBox": "Disponible dans la Crafting Box",
   "sleepingAnimal.wakeUp": "Réveillez-vous",
@@ -6220,5 +6219,9 @@
   "cleaning.farm": "Mettre du désordre dans la poubelle",
   "cleaning.farm.success": "Merci d'avoir nettoyé ma ferme !",
   "cleaning.farm.failed": "Le nettoyage a échoué !",
-  "social.points": "Points sociaux : {{points}}"
+  "social.points": "Points sociaux : {{points}}",
+  "sleepingAnimal.sheepLoveToPlay": "{{name}} J'adore jouer. Lancez-lui une poupée pour vous réveiller instantanément.",
+  "sleepingAnimal.favouriteFood": "Nourriture préférée :",
+  "sleepingAnimal.every": "Chaque",
+  "sleepingAnimal.missing": "Disparus"
 }

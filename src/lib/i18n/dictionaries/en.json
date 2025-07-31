@@ -6192,7 +6192,7 @@
   "sleepingAnimal.cancel": "Cancel",
   "sleepingAnimal.confirm": "Confirm",
   "sleepingAnimal.sleeping": "Sleeping",
-  "sleepingAnimal.sheepLoveToPlay": "{{name}} love to play. Toss it a Doll to wake up again.",
+  "sleepingAnimal.sheepLoveToPlay": "{{name}} love to play. Toss it a Doll to insta-wake up.",
   "sleepingAnimal.dollCount": "1 x {{name}}",
   "sleepingAnimal.availableAtCraftingBox": "Available at the Crafting Box",
   "sleepingAnimal.wakeUp": "Wake up",
@@ -6220,5 +6220,8 @@
   "description.babyCow": "Who doesn't love a baby cow?",
   "description.babySheep": "Wooly and fluffy little baby",
   "description.janitorChicken": "A busy little chicken always ready to work",
-  "description.venusBumpkinTrap": "Never turn your back on this snappy plant!"
+  "description.venusBumpkinTrap": "Never turn your back on this snappy plant!",
+  "sleepingAnimal.favouriteFood": "Favourite food:",
+  "sleepingAnimal.every": "Every",
+  "sleepingAnimal.missing": "Missing"
 }

@@ -6181,7 +6181,6 @@
   "sleepingAnimal.cancel": "[キャンセル]",
   "sleepingAnimal.confirm": "確認",
   "sleepingAnimal.sleeping": "睡眠",
-  "sleepingAnimal.sheepLoveToPlay": "{{name}} 遊ぶのが大好きです。人形を投げてまた目を覚ましてください。",
   "sleepingAnimal.dollCount": "1 x {{name}}",
   "sleepingAnimal.availableAtCraftingBox": "クラフトボックスで購入可能",
   "sleepingAnimal.wakeUp": "ウェイクアップ",
@@ -6220,5 +6219,9 @@
   "cleaning.farm": "ゴミ箱に散らかったものを入れる",
   "cleaning.farm.success": "私の農場を掃除してくれてありがとう！",
   "cleaning.farm.failed": "クリーニングが失敗しました!",
-  "social.points": "ソーシャルポイント:{{points}}"
+  "social.points": "ソーシャルポイント:{{points}}",
+  "sleepingAnimal.sheepLoveToPlay": "{{name}} 遊ぶのが大好きです。人形を投げてすぐに目を覚ましましょう。",
+  "sleepingAnimal.favouriteFood": "好きな食べ物:",
+  "sleepingAnimal.every": "ごと",
+  "sleepingAnimal.missing": "行方不明です"
 }

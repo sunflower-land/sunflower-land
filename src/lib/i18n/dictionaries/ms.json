@@ -6181,7 +6181,6 @@
   "sleepingAnimal.cancel": "Batalkan",
   "sleepingAnimal.confirm": "Sahkan",
   "sleepingAnimal.sleeping": "Tidur",
-  "sleepingAnimal.sheepLoveToPlay": "{{name}} suka bermain. Buangkan anak patung untuk bangun lagi.",
   "sleepingAnimal.dollCount": "1 x {{name}}",
   "sleepingAnimal.availableAtCraftingBox": "Boleh didapati di Kotak Crafting",
   "sleepingAnimal.wakeUp": "Bangun",
@@ -6220,5 +6219,9 @@
   "cleaning.farm": "Meletakkan kekacauan di tong sampah",
   "cleaning.farm.success": "Terima kasih kerana membersihkan ladang saya!",
   "cleaning.farm.failed": "Pembersihan gagal!",
-  "social.points": "Mata Sosial: {{points}}"
+  "social.points": "Mata Sosial: {{points}}",
+  "sleepingAnimal.sheepLoveToPlay": "{{name}} suka bermain. Buangkan anak patung untuk bangun insta.",
+  "sleepingAnimal.favouriteFood": "Makanan kegemaran:",
+  "sleepingAnimal.every": "Setiap",
+  "sleepingAnimal.missing": "hilang"
 }

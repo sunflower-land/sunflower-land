@@ -6181,7 +6181,6 @@
   "sleepingAnimal.cancel": "Stornieren",
   "sleepingAnimal.confirm": "Bestätigen",
   "sleepingAnimal.sleeping": "Schlafend",
-  "sleepingAnimal.sheepLoveToPlay": "{{name}} liebe es zu spielen. Wirf eine Puppe hinein, um wieder aufzuwachen.",
   "sleepingAnimal.dollCount": "1 x {{name}}",
   "sleepingAnimal.availableAtCraftingBox": "Erhältlich in der Crafting Box",
   "sleepingAnimal.wakeUp": "Wach auf",
@@ -6220,5 +6219,9 @@
   "cleaning.farm": "Unordnung in den Mülleimer werfen",
   "cleaning.farm.success": "Danke, dass du meine Farm gereinigt hast!",
   "cleaning.farm.failed": "Die Reinigung ist fehlgeschlagen!",
-  "social.points": "Soziale Punkte: {{points}}"
+  "social.points": "Soziale Punkte: {{points}}",
+  "sleepingAnimal.sheepLoveToPlay": "{{name}} liebe es zu spielen. Wirf eine Puppe hinein, um sofort aufzuwachen.",
+  "sleepingAnimal.favouriteFood": "Lieblingsessen:",
+  "sleepingAnimal.every": "Jeder",
+  "sleepingAnimal.missing": "Fehlt"
 }

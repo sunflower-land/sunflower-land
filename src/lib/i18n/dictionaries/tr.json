@@ -6181,7 +6181,6 @@
   "sleepingAnimal.cancel": "İptal",
   "sleepingAnimal.confirm": "Onaylayın",
   "sleepingAnimal.sleeping": "Uyuyor",
-  "sleepingAnimal.sheepLoveToPlay": "{{name}} oynamayı seviyorum. Tekrar uyanmak için bir Bebek fırlat.",
   "sleepingAnimal.dollCount": "1 x {{name}}",
   "sleepingAnimal.availableAtCraftingBox": "Crafting Box'ta mevcuttur",
   "sleepingAnimal.wakeUp": "Uyan",
@@ -6220,5 +6219,9 @@
   "cleaning.farm": "Çöp kutusuna dağınıklık koymak",
   "cleaning.farm.success": "Çiftliğimi temizlediğiniz için teşekkür ederim!",
   "cleaning.farm.failed": "Temizlik başarısız oldu!",
-  "social.points": "Sosyal Puanlar: {{points}}"
+  "social.points": "Sosyal Puanlar: {{points}}",
+  "sleepingAnimal.sheepLoveToPlay": "{{name}} oynamayı seviyorum. Uyanmak için ona bir Bebek fırlat.",
+  "sleepingAnimal.favouriteFood": "Favori yemek:",
+  "sleepingAnimal.every": "Her biri",
+  "sleepingAnimal.missing": "Eksik"
 }

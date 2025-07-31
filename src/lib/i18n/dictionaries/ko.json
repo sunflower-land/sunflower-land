@@ -6181,7 +6181,6 @@
   "sleepingAnimal.cancel": "취소",
   "sleepingAnimal.confirm": "확인",
   "sleepingAnimal.sleeping": "슬리핑",
-  "sleepingAnimal.sheepLoveToPlay": "{{name}} 노는 걸 좋아해.인형을 던지면 다시 일어나세요.",
   "sleepingAnimal.dollCount": "1 x {{name}}",
   "sleepingAnimal.availableAtCraftingBox": "크래프팅 박스에서 구매 가능",
   "sleepingAnimal.wakeUp": "웨이크 업",
@@ -6220,5 +6219,9 @@
   "cleaning.farm": "쓰레기통에 잡동사니 넣기",
   "cleaning.farm.success": "농장을 청소해 주셔서 감사합니다!",
   "cleaning.farm.failed": "청소에 실패했습니다!",
-  "social.points": "소셜 포인트: {{points}}"
+  "social.points": "소셜 포인트: {{points}}",
+  "sleepingAnimal.sheepLoveToPlay": "{{name}} 노는 걸 좋아해.인형을 던지면 바로 깨울 수 있습니다.",
+  "sleepingAnimal.favouriteFood": "좋아하는 음식:",
+  "sleepingAnimal.every": "모든",
+  "sleepingAnimal.missing": "실종"
 }
