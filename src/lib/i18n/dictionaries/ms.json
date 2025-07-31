@@ -6195,5 +6195,10 @@
   "cheering.free.description2": "Sorakan boleh diberikan kepada rakan petani anda untuk menyokong ladang mereka.",
   "cheering.free.claim": "Tuntutan Sorakan",
   "description.turdTopper.boost": "+1 Baja dari Komposter",
-  "myProfile": "Profil saya"
+  "myProfile": "Profil saya",
+  "bumpkinItemBuff.lava.swimwear.boost": "-50% sumber Lava Pit",
+  "bumpkinItemBuff.oil.gallon.boost": "+5 Minyak",
+  "description.giantOnion.boost": "+3 Bawang",
+  "description.giantTurnip.boost": "2x Kelajuan Pertumbuhan Lobak",
+  "description.groovy.gramophone.boost": "+Kelajuan Pertumbuhan 100% pada Mesin Tanaman"
 }

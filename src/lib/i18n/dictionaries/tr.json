@@ -6195,5 +6195,10 @@
   "cheering.free.description2": "Çiftçilerinize çiftliklerini desteklemek için tezahürat verilebilir.",
   "cheering.free.claim": "Cheers Talep Edin",
   "description.turdTopper.boost": "+1 Kompostörlerden Gübre",
-  "myProfile": "Profilim"
+  "myProfile": "Profilim",
+  "bumpkinItemBuff.lava.swimwear.boost": "-50% Lav Çukuru kaynakları",
+  "bumpkinItemBuff.oil.gallon.boost": "+5 Yağ",
+  "description.giantOnion.boost": "+3 Soğan",
+  "description.giantTurnip.boost": "2x Şalglam Büyüme Hızı",
+  "description.groovy.gramophone.boost": "Mahsul Makinesinde +% 100 Büyüme Hızı"
 }

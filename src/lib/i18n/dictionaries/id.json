@@ -6195,5 +6195,10 @@
   "cheering.free.description2": "Sorak-sorai dapat diberikan kepada sesama petani Anda untuk mendukung pertanian mereka.",
   "cheering.free.claim": "Klaim Cheers",
   "description.turdTopper.boost": "+1 Pupuk dari Komposter",
-  "myProfile": "Profil saya"
+  "myProfile": "Profil saya",
+  "bumpkinItemBuff.lava.swimwear.boost": "-50% sumber daya Lava Pit",
+  "bumpkinItemBuff.oil.gallon.boost": "+5 Minyak",
+  "description.giantOnion.boost": "+3 Bawang",
+  "description.giantTurnip.boost": "2x Kecepatan Pertumbuhan Lobak",
+  "description.groovy.gramophone.boost": "+Kecepatan Pertumbuhan 100% pada Mesin Tanaman"
 }

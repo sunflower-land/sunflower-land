@@ -6195,5 +6195,10 @@
   "cheering.free.description2": "Aplausos podem ser dados aos seus colegas agricultores para apoiarem suas fazendas.",
   "cheering.free.claim": "Reivindique aplausos",
   "description.turdTopper.boost": "+1 fertilizante de compostores",
-  "myProfile": "Meu perfil"
+  "myProfile": "Meu perfil",
+  "bumpkinItemBuff.lava.swimwear.boost": "-50% de recursos do Poço de Lava",
+  "bumpkinItemBuff.oil.gallon.boost": "+5 Óleo",
+  "description.giantOnion.boost": "+3 Cebolas",
+  "description.giantTurnip.boost": "2x a velocidade de crescimento do nabo",
+  "description.groovy.gramophone.boost": "+100% de velocidade de crescimento na máquina de colheita"
 }

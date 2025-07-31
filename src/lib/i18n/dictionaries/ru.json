@@ -6195,5 +6195,10 @@
   "cheering.free.description2": "Можно поздравить коллег-фермеров за поддержку их ферм.",
   "cheering.free.claim": "Заявите «Ура»",
   "description.turdTopper.boost": "+1 Удобрение из компостеров",
-  "myProfile": "Мой профиль"
+  "myProfile": "Мой профиль",
+  "bumpkinItemBuff.lava.swimwear.boost": "Ресурсы лавовой ямы: -50%",
+  "bumpkinItemBuff.oil.gallon.boost": "+5 Масло",
+  "description.giantOnion.boost": "+3 лука",
+  "description.giantTurnip.boost": "Скорость роста репы в 2 раза",
+  "description.groovy.gramophone.boost": "Скорость роста на сельскохозяйственных машинах: +100%"
 }

@@ -6195,5 +6195,10 @@
   "cheering.free.description2": "可以向您的农民同胞欢呼，以支持他们的农场。",
   "cheering.free.claim": "声称干杯",
   "description.turdTopper.boost": "+1 来自堆肥者的肥料",
-  "myProfile": "我的个人资料"
+  "myProfile": "我的个人资料",
+  "bumpkinItemBuff.lava.swimwear.boost": "-50% 熔岩坑资源",
+  "bumpkinItemBuff.oil.gallon.boost": "+5 石油",
+  "description.giantOnion.boost": "+3 洋葱",
+  "description.giantTurnip.boost": "萝卜生长速度的 2 倍",
+  "description.groovy.gramophone.boost": "作物机生长速度 +100%"
 }

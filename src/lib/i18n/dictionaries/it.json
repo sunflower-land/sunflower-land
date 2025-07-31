@@ -6195,5 +6195,10 @@
   "cheering.free.description2": "Puoi salutare i tuoi colleghi agricoltori per sostenere le loro fattorie.",
   "cheering.free.claim": "Reclamo Cheers",
   "description.turdTopper.boost": "+1 fertilizzante da compostiere",
-  "myProfile": "Il mio profilo"
+  "myProfile": "Il mio profilo",
+  "bumpkinItemBuff.lava.swimwear.boost": "-50% di risorse Lava Pit",
+  "bumpkinItemBuff.oil.gallon.boost": "+5 Olio",
+  "description.giantOnion.boost": "+3 cipolle",
+  "description.giantTurnip.boost": "2x Velocità di crescita della rapa",
+  "description.groovy.gramophone.boost": "Velocità di crescita +100% su Crop Machine"
 }

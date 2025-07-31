@@ -6195,5 +6195,10 @@
   "cheering.free.description2": "Des encouragements peuvent être donnés à vos collègues agriculteurs pour qu'ils soutiennent leurs fermes.",
   "cheering.free.claim": "Réclamez Cheers",
   "description.turdTopper.boost": "+1 Engrais de la marque Composters",
-  "myProfile": "Mon profil"
+  "myProfile": "Mon profil",
+  "bumpkinItemBuff.lava.swimwear.boost": "-50 % de ressources de la fosse à lave",
+  "bumpkinItemBuff.oil.gallon.boost": "+5 Pétrole",
+  "description.giantOnion.boost": "+3 oignons",
+  "description.giantTurnip.boost": "Vitesse de croissance des navets multipliée par 2",
+  "description.groovy.gramophone.boost": "Vitesse de croissance de +100 % sur la machine de récolte"
 }

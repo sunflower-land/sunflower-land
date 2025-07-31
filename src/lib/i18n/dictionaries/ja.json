@@ -6195,5 +6195,10 @@
   "cheering.free.description2": "仲間の農家に声援を送って、彼らの農場を支援することができます。",
   "cheering.free.claim": "クレーム・チアーズ",
   "description.turdTopper.boost": "+1コンポストからの肥料",
-  "myProfile": "マイプロフィール"
+  "myProfile": "マイプロフィール",
+  "bumpkinItemBuff.lava.swimwear.boost": "ラバピットの資源 -50%",
+  "bumpkinItemBuff.oil.gallon.boost": "+5 オイル",
+  "description.giantOnion.boost": "+3 オニオン",
+  "description.giantTurnip.boost": "カブの成長速度の2倍",
+  "description.groovy.gramophone.boost": "クロップマシンの成長速度+100％"
 }

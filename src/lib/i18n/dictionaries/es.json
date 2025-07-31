@@ -6195,5 +6195,10 @@
   "cheering.free.description2": "Puedes aplaudir a tus compañeros granjeros para que apoyen a sus granjas.",
   "cheering.free.claim": "Reclama aplausos",
   "description.turdTopper.boost": "+1 Fertilizante de compostadores",
-  "myProfile": "Mi perfil"
+  "myProfile": "Mi perfil",
+  "bumpkinItemBuff.lava.swimwear.boost": "-50% de recursos de Lava Pit",
+  "bumpkinItemBuff.oil.gallon.boost": "+5 Petróleo",
+  "description.giantOnion.boost": "+3 cebollas",
+  "description.giantTurnip.boost": "2 veces la velocidad de crecimiento del nabo",
+  "description.groovy.gramophone.boost": "Más del 100% de velocidad de crecimiento en Crop Machine"
 }
