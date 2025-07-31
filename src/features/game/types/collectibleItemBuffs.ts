@@ -1593,5 +1593,35 @@ function getCollectibleBuffLabels(
         boostedItemIcon: SUNNYSIDE.animals.chickenAsleep,
       },
     ],
+    "Reelmaster's Chair": [
+      {
+        shortDescription: translate("description.reelmastersChair.boost"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    ],
+    "Music Box": [
+      {
+        shortDescription: translate("description.musicBox.boost"),
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS["Fruit Patch"].image,
+      },
+    ],
+    "Double Bed": [
+      {
+        shortDescription: translate("description.doubleBed.boost"),
+        labelType: "vibrant",
+        boostTypeIcon: lightning,
+      },
+    ],
+    "Giant Artichoke": [
+      {
+        shortDescription: translate("description.giantArtichoke.boost"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS["Artichoke"].image,
+      },
+    ],
   };
 }
