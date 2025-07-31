@@ -915,6 +915,14 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
   ],
+  "Turd Topper": [
+    {
+      shortDescription: translate("description.turdTopper.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS["Rapid Root"].image,
+    },
+  ],
   ...SPECIAL_ITEM_LABELS,
   ...Object.fromEntries(
     getObjectEntries(CHAPTER_TICKET_BOOST_ITEMS)
