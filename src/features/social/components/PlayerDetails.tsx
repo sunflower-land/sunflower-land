@@ -150,14 +150,7 @@ export const PlayerDetails: React.FC<Props> = ({
             onBackdropClick={() => setShowCheerModal(false)}
           >
             <Panel>
-              <div className="flex justify-between sm:flex-row flex-col space-y-1">
-                <Label
-                  type="default"
-                  icon={ITEM_DETAILS["Cheer"].image}
-                  className="ml-1"
-                >
-                  {`${t("cheer")} ${displayName}`}
-                </Label>
+              <div className="flex sm:flex-row flex-col space-y-1">
                 <Label type="default" icon={cheer} className="ml-1">
                   {t("cheers.available", {
                     count: cheersAvailable.toNumber(),
