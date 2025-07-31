@@ -119,7 +119,7 @@ const FEATURE_FLAGS = {
   // Better Together Chapter
   SOCIAL_FARMING: defaultFeatureFlag,
   MONUMENTS: testnetFeatureFlag,
-  LANDSCAPING: testnetFeatureFlag,
+  LANDSCAPING: betaTimeBasedFeatureFlag(new Date("2025-08-04T00:00:00.000Z")),
   LANDSCAPING_SHOP: betaTimeBasedFeatureFlag(
     SEASONS["Better Together"].startDate,
   ),
