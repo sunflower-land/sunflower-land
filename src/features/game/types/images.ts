@@ -965,7 +965,6 @@ import minerMonument from "assets/monuments/pickaxe_monument.webp";
 import woodcutterMonument from "assets/monuments/axe_monument.webp";
 import teamworkMonument from "assets/monuments/chapters_monument_teamwork.webp";
 
-
 import trash from "assets/clutter/trash.webp";
 import dung from "assets/clutter/dung.webp";
 import weed from "assets/clutter/weed.webp";
@@ -974,7 +973,6 @@ import babyCow from "assets/sfts/baby_cow.webp";
 import babySheep from "assets/sfts/baby_sheep.webp";
 import janitorChicken from "assets/animals/chickens/janitor_chicken.webp";
 import venusBumpkinTrap from "assets/flowers/venus_bumpkin_trap.webp";
-
 
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
