@@ -117,7 +117,9 @@ const FEATURE_FLAGS = {
   MINE_WHACK_BETA: defaultFeatureFlag,
 
   // Better Together Chapter
-  SOCIAL_FARMING: defaultFeatureFlag,
+  SOCIAL_FARMING: betaTimeBasedFeatureFlag(
+    SEASONS["Better Together"].startDate,
+  ),
   MONUMENTS: testnetFeatureFlag,
   LANDSCAPING: betaTimeBasedFeatureFlag(new Date("2025-08-04T00:00:00.000Z")),
   LANDSCAPING_SHOP: betaTimeBasedFeatureFlag(
