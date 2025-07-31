@@ -24,7 +24,10 @@ export function placeOilReserve({
 }: Options): GameState {
   return produce(state, (game) => {
     const available = (game.inventory["Oil Reserve"] || new Decimal(0)).minus(
-      Object.keys(game.oilReserves).length,
+      Object.values(game.oilReserves).filter(
+        (oilReserve) =>
+          oilReserve.x !== undefined && oilReserve.y !== undefined,
+      ).length,
     );
 
     if (available.lt(1)) {
