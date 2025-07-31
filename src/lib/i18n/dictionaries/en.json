@@ -6193,5 +6193,6 @@
   "cheers": "Cheers",
   "cheering.free.description": "Every day you can claim up to 3 free cheers.",
   "cheering.free.description2": "Cheers can be given to your fellow farmers to support their farms.",
-  "cheering.free.claim": "Claim Cheers"
+  "cheering.free.claim": "Claim Cheers",
+  "description.turdTopper.boost": "+1 Fertiliser from Composters"
 }

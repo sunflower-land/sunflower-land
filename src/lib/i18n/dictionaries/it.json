@@ -6193,5 +6193,6 @@
   "cheers": "Cin cin",
   "cheering.free.description": "Ogni giorno puoi richiedere fino a 3 applausi gratuiti.",
   "cheering.free.description2": "Puoi salutare i tuoi colleghi agricoltori per sostenere le loro fattorie.",
-  "cheering.free.claim": "Reclamo Cheers"
+  "cheering.free.claim": "Reclamo Cheers",
+  "description.turdTopper.boost": "+1 fertilizzante da compostiere"
 }

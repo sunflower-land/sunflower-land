@@ -6193,5 +6193,6 @@
   "cheers": "ура",
   "cheering.free.description": "Каждый день вы можете получить до 3 бесплатных приветствия.",
   "cheering.free.description2": "Можно поздравить коллег-фермеров за поддержку их ферм.",
-  "cheering.free.claim": "Заявите «Ура»"
+  "cheering.free.claim": "Заявите «Ура»",
+  "description.turdTopper.boost": "+1 Удобрение из компостеров"
 }
