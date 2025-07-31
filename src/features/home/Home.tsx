@@ -118,7 +118,7 @@ export const Home: React.FC = () => {
                 height={height}
                 width={width}
                 z={NON_COLLIDING_OBJECTS.includes(name) ? 0 : 1}
-                >
+              >
                 <Collectible
                   location="home"
                   name={name}
