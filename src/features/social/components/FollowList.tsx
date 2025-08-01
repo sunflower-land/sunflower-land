@@ -115,28 +115,37 @@ export const FollowList: React.FC<Props> = ({
   }
 
   return (
-    <div className="flex flex-col gap-1 pt-1">
-      <div className="sticky top-0 bg-brown-200 z-10 pb-1">
+    <div className="flex flex-col gap-1">
+      <div className="sticky top-0 bg-brown-200 z-10 pb-1 pt-1">
         {showLabel && (
           <Label type="default">
             {t(`playerModal.${type}`, { count: networkCount })}
           </Label>
         )}
       </div>
-      {sortedNetworkList.map((followerId) => {
-        return (
-          <FollowDetailPanel
-            key={`flw-${followerId}`}
-            farmId={farmId}
-            playerId={followerId}
-            clothing={networkDetails?.[followerId]?.clothing as Equipped}
-            username={networkDetails?.[followerId]?.username ?? ""}
-            lastOnlineAt={networkDetails?.[followerId]?.lastUpdatedAt ?? 0}
-            socialPoints={networkDetails?.[followerId]?.socialPoints ?? 0}
-            navigateToPlayer={navigateToPlayer}
-          />
-        );
-      })}
+      <div className="flex flex-col gap-1">
+        {[
+          ...sortedNetworkList,
+          ...sortedNetworkList,
+          ...sortedNetworkList,
+          ...sortedNetworkList,
+          ...sortedNetworkList,
+          ...sortedNetworkList,
+        ].map((followerId) => {
+          return (
+            <FollowDetailPanel
+              key={`flw-${followerId}`}
+              farmId={farmId}
+              playerId={followerId}
+              clothing={networkDetails?.[followerId]?.clothing as Equipped}
+              username={networkDetails?.[followerId]?.username ?? ""}
+              lastOnlineAt={networkDetails?.[followerId]?.lastUpdatedAt ?? 0}
+              socialPoints={networkDetails?.[followerId]?.socialPoints ?? 0}
+              navigateToPlayer={navigateToPlayer}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 };

@@ -194,6 +194,7 @@ export const PlayerModal: React.FC<Props> = ({ game, farmId, token }) => {
           bumpkinParts={playerValidating ? undefined : player?.clothing}
           currentTab={tab}
           setCurrentTab={setTab}
+          className="!overflow-hidden"
           tabs={[
             {
               icon: SUNNYSIDE.icons.player,
@@ -235,80 +236,91 @@ export const PlayerModal: React.FC<Props> = ({ game, farmId, token }) => {
           ]}
           container={OuterPanel}
         >
-          {tab === "Player" && (
-            <PlayerDetails
-              data={data}
-              playerLoading={playerLoading}
-              playerValidating={playerValidating}
-              error={error}
-              followLoading={followLoading}
-              iAmFollowing={!!iAmFollowing}
-              isFollowMutual={!!isMutual}
-              mutate={mutate}
-              onFollow={handleFollow}
-              onFollowersClick={() => setTab("Followers")}
-              canGoBack={canGoBack}
-              onGoBack={goBack}
-            />
-          )}
+          <div className="max-h-[390px]">
+            {tab === "Player" && (
+              <PlayerDetails
+                data={data}
+                playerLoading={playerLoading}
+                playerValidating={playerValidating}
+                error={error}
+                followLoading={followLoading}
+                iAmFollowing={!!iAmFollowing}
+                isFollowMutual={!!isMutual}
+                mutate={mutate}
+                onFollow={handleFollow}
+                onFollowersClick={() => setTab("Followers")}
+                canGoBack={canGoBack}
+                onGoBack={goBack}
+              />
+            )}
 
-          {tab === "Activity" && (
-            <FollowerFeed
-              farmId={farmId}
-              playerId={currentPlayerId as number}
-              playerClothing={player?.clothing}
-              playerUsername={player?.username}
-              playerLoading={playerLoading}
-              chatDisabled={!isMutual}
-            />
-          )}
-          {tab === "Followers" && (
-            <InnerPanel>
-              <FollowList
+            {tab === "Activity" && (
+              <FollowerFeed
                 farmId={farmId}
-                networkFarmId={currentPlayerId as number}
-                token={token}
-                networkList={player?.followedBy ?? []}
-                networkCount={player?.followedByCount ?? 0}
+                playerId={currentPlayerId as number}
+                playerClothing={player?.clothing}
+                playerUsername={player?.username}
                 playerLoading={playerLoading}
-                type="followers"
-                navigateToPlayer={navigateToPlayer}
+                chatDisabled={!isMutual}
               />
-            </InnerPanel>
-          )}
-          {tab === "Following" && (
-            <InnerPanel>
-              <FollowList
-                farmId={farmId}
-                networkFarmId={currentPlayerId as number}
-                token={token}
-                networkCount={player?.followingCount ?? 0}
-                networkList={player?.following ?? []}
-                playerLoading={playerLoading}
-                type="following"
-                navigateToPlayer={navigateToPlayer}
-              />
-            </InnerPanel>
-          )}
-          {tab === "Reward" && <PlayerGift />}
-          {tab === "Stream" && (
-            <StreamReward streamerId={currentPlayerId as number} />
-          )}
-          <div className="flex items-center p-1 space-x-3 justify-end">
-            <span
-              className="text-xxs underline cursor-pointer"
-              onClick={() => setShowReport(true)}
-            >
-              {t("report")}
-            </span>
-            {hasFeatureAccess(game, "AIRDROP_PLAYER") && (
+            )}
+            {tab === "Followers" && (
+              <InnerPanel
+                className="overflow-y-auto scrollable max-h-[390px]"
+                style={{ padding: 0 }}
+              >
+                <FollowList
+                  farmId={farmId}
+                  networkFarmId={currentPlayerId as number}
+                  token={token}
+                  networkList={[
+                    ...(player?.followedBy ?? []),
+                    ...(player?.followedBy ?? []),
+                  ]}
+                  networkCount={player?.followedByCount ?? 0}
+                  playerLoading={playerLoading}
+                  type="followers"
+                  navigateToPlayer={navigateToPlayer}
+                />
+              </InnerPanel>
+            )}
+            {tab === "Following" && (
+              <InnerPanel
+                className="overflow-y-auto scrollable max-h-[390px]"
+                style={{ padding: 0 }}
+              >
+                <FollowList
+                  farmId={farmId}
+                  networkFarmId={currentPlayerId as number}
+                  token={token}
+                  networkCount={player?.followingCount ?? 0}
+                  networkList={player?.following ?? []}
+                  playerLoading={playerLoading}
+                  type="following"
+                  navigateToPlayer={navigateToPlayer}
+                />
+              </InnerPanel>
+            )}
+            {tab === "Reward" && <PlayerGift />}
+            {tab === "Stream" && (
+              <StreamReward streamerId={currentPlayerId as number} />
+            )}
+            <div className="flex items-center p-1 space-x-3 justify-end">
               <span
                 className="text-xxs underline cursor-pointer"
-                onClick={() => setShowAirdrop(true)}
+                onClick={() => setShowReport(true)}
               >
-                {t("special.event.airdrop")}
+                {t("report")}
               </span>
-            )}
+              {hasFeatureAccess(game, "AIRDROP_PLAYER") && (
+                <span
+                  className="text-xxs underline cursor-pointer"
+                  onClick={() => setShowAirdrop(true)}
+                >
+                  {t("special.event.airdrop")}
+                </span>
+              )}
+            </div>
           </div>
         </CloseButtonPanel>
         {player && (
