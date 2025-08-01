@@ -128,7 +128,7 @@ const INITIAL_DESERT_LAND_COORDINATES: InitialLandCoordinates = {
   trees: {
     "1": { x: 4, y: 6 },
     "2": { x: 4, y: 4 },
-    "3": { x: 7, y: 9 },
+    "3": { x: 6, y: 9 },
   },
   gold: {
     "1": { x: 3, y: 9 },
@@ -176,7 +176,7 @@ const INITIAL_VOLCANO_LAND_COORDINATES: InitialLandCoordinates = {
   trees: {
     "1": { x: 5, y: 9 },
     "2": { x: 3, y: 9 },
-    "3": { x: 7, y: 9 },
+    "3": { x: 3, y: 7 },
   },
   gold: {
     "1": { x: 2, y: 9 },
@@ -518,6 +518,10 @@ function desertUpgrade(state: GameState) {
 function volcanoUpgrade(state: GameState) {
   const game = cloneDeep(state) as GameState;
   // Clear the manor
+  delete game.inventory["Town Center"];
+  delete game.inventory["House"];
+  delete game.buildings["Town Center"];
+  delete game.buildings["House"];
   delete game.inventory["Manor"];
   delete game.buildings["Manor"];
 
@@ -625,6 +629,8 @@ export function upgrade({ state, createdAt = Date.now() }: Options) {
     // Ignore errors
   }
   game = cloneDeep(game);
+
+  delete game.socialFarming.clutter;
 
   game.fishing.wharf = {};
   game.mushrooms = {
