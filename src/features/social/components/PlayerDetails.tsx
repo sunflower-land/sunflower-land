@@ -49,6 +49,7 @@ const ISLAND_ICONS: Record<IslandType, string> = {
 type Props = {
   data?: Player;
   error?: Error;
+  loggedInFarmId: number;
   playerLoading: boolean;
   playerValidating: boolean;
   followLoading: boolean;
@@ -61,7 +62,6 @@ type Props = {
   onGoBack?: () => void;
 };
 
-const _farmId = (state: MachineState) => state.context.farmId;
 const _cheersAvailable = (state: MachineState) => {
   return state.context.state.inventory["Cheer"] ?? new Decimal(0);
 };
@@ -79,6 +79,7 @@ export const PlayerDetails: React.FC<Props> = ({
   error,
   playerLoading,
   followLoading,
+  loggedInFarmId,
   iAmFollowing,
   isFollowMutual,
   mutate,
@@ -91,7 +92,6 @@ export const PlayerDetails: React.FC<Props> = ({
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { isVisiting } = useVisiting();
-  const farmId = useSelector(gameService, _farmId);
   const cheersAvailable = useSelector(gameService, _cheersAvailable);
   const location = useLocation();
   const [showCheerModal, setShowCheerModal] = useState(false);
@@ -104,7 +104,7 @@ export const PlayerDetails: React.FC<Props> = ({
   );
 
   useSocial({
-    farmId,
+    farmId: loggedInFarmId,
     following: player?.followedBy ?? [],
     callbacks: {
       onFollow: () => mutate(),
@@ -150,7 +150,7 @@ export const PlayerDetails: React.FC<Props> = ({
     },
   );
 
-  const isSelf = player?.id === farmId;
+  const isSelf = player?.id === loggedInFarmId;
   const hasCheersAvailable = cheersAvailable.gt(0);
   const displayName = player?.username ?? `#${player?.id}`;
 
@@ -206,7 +206,7 @@ export const PlayerDetails: React.FC<Props> = ({
                     {player?.id && (
                       <OnlineStatus
                         playerId={player?.id}
-                        farmId={farmId}
+                        loggedInFarmId={loggedInFarmId}
                         lastUpdatedAt={player?.lastUpdatedAt ?? 0}
                       />
                     )}
@@ -340,7 +340,7 @@ export const PlayerDetails: React.FC<Props> = ({
       </div>
       {!isMobile && player && !isSelf && (
         <FollowerFeed
-          farmId={farmId}
+          loggedInFarmId={loggedInFarmId}
           playerId={player.id}
           playerClothing={player.clothing}
           playerUsername={player.username}

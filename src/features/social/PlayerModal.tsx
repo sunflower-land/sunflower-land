@@ -30,7 +30,7 @@ import { Equipped } from "features/game/types/bumpkin";
 
 interface Props {
   game: GameState;
-  farmId: number;
+  loggedInFarmId: number;
   token: string;
 }
 
@@ -48,7 +48,11 @@ export const mergeResponse = (current: Player, update: Player) => {
   } as Player;
 };
 
-export const PlayerModal: React.FC<Props> = ({ game, farmId, token }) => {
+export const PlayerModal: React.FC<Props> = ({
+  game,
+  loggedInFarmId,
+  token,
+}) => {
   const { t } = useAppTranslation();
   const [tab, setTab] = useState<Tab>("Player");
 
@@ -68,7 +72,9 @@ export const PlayerModal: React.FC<Props> = ({ game, farmId, token }) => {
 
   const closeModal = useCallback(() => {
     setShowPlayerModal(false);
-    clearHistory();
+    setTimeout(() => {
+      clearHistory();
+    }, 100);
   }, [clearHistory]);
 
   const {
@@ -78,11 +84,15 @@ export const PlayerModal: React.FC<Props> = ({ game, farmId, token }) => {
     error,
     mutate,
   } = useSWR(
-    [currentPlayerId ? "player" : null, token, farmId, currentPlayerId],
-    ([, token, farmId, followedPlayerId]) => {
+    [currentPlayerId ? "player" : null, token, loggedInFarmId, currentPlayerId],
+    ([, token, loggedInFarmId, followedPlayerId]) => {
       if (!followedPlayerId) return;
 
-      return getPlayer({ token: token as string, farmId, followedPlayerId });
+      return getPlayer({
+        token: token as string,
+        farmId: loggedInFarmId,
+        followedPlayerId,
+      });
     },
     {
       revalidateOnFocus: false,
@@ -92,7 +102,10 @@ export const PlayerModal: React.FC<Props> = ({ game, farmId, token }) => {
   const player = data?.data;
 
   const setInitialTab = useCallback((equipped?: Equipped) => {
-    if (equipped?.hat === "Streamer Hat" && farmId !== currentPlayerId) {
+    if (
+      equipped?.hat === "Streamer Hat" &&
+      loggedInFarmId !== currentPlayerId
+    ) {
       setTab("Stream");
     } else if (equipped?.shirt === "Gift Giver") {
       setTab("Reward");
@@ -112,14 +125,14 @@ export const PlayerModal: React.FC<Props> = ({ game, farmId, token }) => {
       // Automatically set to Stream tab if player has Streamer Hat and is not current player
       setInitialTab(npc.clothing as Equipped);
     });
-  }, [farmId, setInitialPlayer, setInitialTab]);
+  }, [loggedInFarmId, setInitialPlayer, setInitialTab]);
 
   const playerHasGift = player?.clothing?.shirt === "Gift Giver";
   const playerHasStreamReward = player?.clothing?.hat === "Streamer Hat";
-  const notCurrentPlayer = farmId !== currentPlayerId;
+  const notCurrentPlayer = loggedInFarmId !== currentPlayerId;
 
-  const iAmFollowing = player?.followedBy.includes(farmId);
-  const theyAreFollowingMe = player?.following.includes(farmId);
+  const iAmFollowing = player?.followedBy.includes(loggedInFarmId);
+  const theyAreFollowingMe = player?.following.includes(loggedInFarmId);
   const isMutual = iAmFollowing && theyAreFollowingMe;
 
   // Effect to handle tab switching when player data changes
@@ -152,7 +165,7 @@ export const PlayerModal: React.FC<Props> = ({ game, farmId, token }) => {
           },
           transactionId: randomID(),
           token: token as string,
-          farmId: farmId,
+          farmId: loggedInFarmId,
         });
 
         mutate((current) => mergeResponse(current!, response), {
@@ -166,7 +179,7 @@ export const PlayerModal: React.FC<Props> = ({ game, farmId, token }) => {
           },
           transactionId: randomID(),
           token: token as string,
-          farmId: farmId,
+          farmId: loggedInFarmId,
         });
 
         mutate((current) => mergeResponse(current!, response), {
@@ -238,6 +251,7 @@ export const PlayerModal: React.FC<Props> = ({ game, farmId, token }) => {
           {tab === "Player" && (
             <PlayerDetails
               data={data}
+              loggedInFarmId={loggedInFarmId}
               playerLoading={playerLoading}
               playerValidating={playerValidating}
               error={error}
@@ -254,7 +268,7 @@ export const PlayerModal: React.FC<Props> = ({ game, farmId, token }) => {
 
           {tab === "Activity" && (
             <FollowerFeed
-              farmId={farmId}
+              loggedInFarmId={loggedInFarmId}
               playerId={currentPlayerId as number}
               playerClothing={player?.clothing}
               playerUsername={player?.username}
@@ -265,7 +279,7 @@ export const PlayerModal: React.FC<Props> = ({ game, farmId, token }) => {
           {tab === "Followers" && (
             <InnerPanel>
               <FollowList
-                farmId={farmId}
+                loggedInFarmId={loggedInFarmId}
                 networkFarmId={currentPlayerId as number}
                 token={token}
                 networkList={player?.followedBy ?? []}
@@ -279,7 +293,7 @@ export const PlayerModal: React.FC<Props> = ({ game, farmId, token }) => {
           {tab === "Following" && (
             <InnerPanel>
               <FollowList
-                farmId={farmId}
+                loggedInFarmId={loggedInFarmId}
                 networkFarmId={currentPlayerId as number}
                 token={token}
                 networkCount={player?.followingCount ?? 0}

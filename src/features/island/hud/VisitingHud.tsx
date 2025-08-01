@@ -125,14 +125,14 @@ export const VisitingHud: React.FC = () => {
           }}
         >
           <img
-            src={SUNNYSIDE.icons.worldIcon}
-            id="world-icon"
+            src={SUNNYSIDE.icons.arrow_left}
+            alt="End visit"
+            className="absolute"
             style={{
               width: `${PIXEL_SCALE * 12}px`,
               left: `${PIXEL_SCALE * 5}px`,
               top: `${PIXEL_SCALE * 4}px`,
             }}
-            className="absolute group-active:translate-y-[2px]"
           />
         </RoundButton>
       </div>
