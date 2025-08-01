@@ -4389,7 +4389,6 @@
   "reputation.seedling.nft": "NFTを出金する",
   "reputation.unlock.desert": "デザートアイランドに到達-{{points}} ポイント",
   "reputation.unlock.volcano": "火山島に到達-{{points}} ポイント",
-  "reputation.unlock.discord": "Discordアカウントを接続-{{points}} ポイント",
   "reputation.unlock.humanity": "完全な人間性の証明-{{points}} ポイント",
   "reputation.unlock.level": "レベル100に到達する-{{points}} ポイント",
   "reputation.unlock.level15": "レベル15に到達-{{points}} ポイント",
@@ -6237,5 +6236,6 @@
   "cheers.moreFreeCheersIn": "{{time}} でもっと無料応援を",
   "cheers.guide.description": "Cheersを使ってコミュニティをサポートしましょう！農場を応援してソーシャルポイントを増やしたり、記念碑やプロジェクトを応援して進捗を早めたりしましょう。",
   "cheers.guide.description2": "毎日午前 12:00（UTC）に 3 回無料の Cheers が贈られます。",
-  "cheers.guide.description3": "ゴミを片付けてボーナスチアーと交換しよう！ガルボを訪ねてゴミ、雑草、糞、害虫を焼却炉に放り込むと、追加のチアーと交換できます。"
+  "cheers.guide.description3": "ゴミを片付けてボーナスチアーと交換しよう！ガルボを訪ねてゴミ、雑草、糞、害虫を焼却炉に放り込むと、追加のチアーと交換できます。",
+  "reputation.unlock.discord": "ディスコードアカウントを確認-{{points}} ポイント"
 }

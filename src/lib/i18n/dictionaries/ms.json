@@ -4389,7 +4389,6 @@
   "reputation.seedling.nft": "Tarik balik NFT",
   "reputation.unlock.desert": "Jangkau Pulau Gurun - mata {{points}}",
   "reputation.unlock.volcano": "Jangkau Pulau Gunung Berapi - mata {{points}}",
-  "reputation.unlock.discord": "Sambungkan Akaun Discord - mata {{points}}",
   "reputation.unlock.humanity": "Bukti Kemanusiaan Lengkap - mata {{points}}",
   "reputation.unlock.level": "Mencapai lvl 100 - {{points}} mata",
   "reputation.unlock.level15": "Mencapai lvl 15 - {{points}} mata",
@@ -6237,5 +6236,6 @@
   "cheers.moreFreeCheersIn": "Lebih banyak sorakan percuma di {{time}}",
   "cheers.guide.description": "Gunakan Cheers untuk menyokong komuniti anda! Hiburkan ladang untuk meningkatkan Mata Sosialnya, atau menghiburkan monumen atau projek untuk membantu mempercepat kemajuannya.",
   "cheers.guide.description2": "Anda mendapat 3 Cheers percuma setiap hari pada 12:00 AM UTC.",
-  "cheers.guide.description3": "Bersihkan sampah untuk ditukar dengan bonus Cheers! Lawati Garbo dan buang sampah, rumpai, kotoran atau perosak ke dalam Incinerator untuk berdagang untuk mendapatkan Cheers tambahan."
+  "cheers.guide.description3": "Bersihkan sampah untuk ditukar dengan bonus Cheers! Lawati Garbo dan buang sampah, rumpai, kotoran atau perosak ke dalam Incinerator untuk berdagang untuk mendapatkan Cheers tambahan.",
+  "reputation.unlock.discord": "Sahkan Akaun Discord - mata {{points}}"
 }

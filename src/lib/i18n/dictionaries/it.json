@@ -4389,7 +4389,6 @@
   "reputation.seedling.nft": "Preleva NFT",
   "reputation.unlock.desert": "Raggiungi Desert Island - {{points}} punti",
   "reputation.unlock.volcano": "Raggiungi Volcano Island - {{points}} punti",
-  "reputation.unlock.discord": "Connetti l'account Discord - {{points}} punti",
   "reputation.unlock.humanity": "Prova completa dell'umanità - {{points}} punti",
   "reputation.unlock.level": "Raggiungi il livello 100 - {{points}} punti",
   "reputation.unlock.level15": "Raggiungi il livello 15 - {{points}} punti",
@@ -6237,5 +6236,6 @@
   "cheers.moreFreeCheersIn": "Altri applausi gratuiti in {{time}}",
   "cheers.guide.description": "Usa Cheers per sostenere la tua community! Fai il tifo per una fattoria per aumentarne i punti sociali, oppure incoraggia un monumento o un progetto per accelerarne il progresso.",
   "cheers.guide.description2": "Ricevi 3 Cheers gratuiti ogni giorno alle 00:00 UTC.",
-  "cheers.guide.description3": "Pulisci la spazzatura per scambiarla con bonus Cheers! Visita Garbo e getta rifiuti, erbacce, letame o parassiti nell'Inceneritore per scambiarli con altri Cheers."
+  "cheers.guide.description3": "Pulisci la spazzatura per scambiarla con bonus Cheers! Visita Garbo e getta rifiuti, erbacce, letame o parassiti nell'Inceneritore per scambiarli con altri Cheers.",
+  "reputation.unlock.discord": "Verifica l'account Discord - {{points}} punti"
 }

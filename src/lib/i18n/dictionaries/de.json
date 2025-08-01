@@ -4389,7 +4389,6 @@
   "reputation.seedling.nft": "NFTs abheben",
   "reputation.unlock.desert": "Erreiche Desert Island — {{points}} Punkte",
   "reputation.unlock.volcano": "Erreiche die Vulkaninsel — {{points}} Punkte",
-  "reputation.unlock.discord": "Discord-Konto verbinden - {{points}} Punkte",
   "reputation.unlock.humanity": "Vollständiger Beweis der Menschlichkeit — {{points}} Punkte",
   "reputation.unlock.level": "Erreiche Stufe 100 - {{points}} -Punkte",
   "reputation.unlock.level15": "Erreiche Stufe 15 - {{points}} -Punkte",
@@ -6237,5 +6236,6 @@
   "cheers.moreFreeCheersIn": "Noch mehr Gratis-Cheers in {{time}}",
   "cheers.guide.description": "Nutze Cheers, um deine Community zu unterstützen! Jubeln Sie einer Farm zu, um ihre Sozialpunkte zu erhöhen, oder jubeln Sie einem Denkmal oder Projekt zu, um den Fortschritt zu beschleunigen.",
   "cheers.guide.description2": "Du erhältst jeden Tag um 12:00 Uhr UTC 3 kostenlose Cheers.",
-  "cheers.guide.description3": "Räumt Müll auf und tauscht ihn gegen Bonus ein. Prost! Besuche Garbo und wirf Müll, Unkraut, Mist oder Schädlinge in den Verbrennungsofen, um gegen zusätzliche Prost einzutauschen."
+  "cheers.guide.description3": "Räumt Müll auf und tauscht ihn gegen Bonus ein. Prost! Besuche Garbo und wirf Müll, Unkraut, Mist oder Schädlinge in den Verbrennungsofen, um gegen zusätzliche Prost einzutauschen.",
+  "reputation.unlock.discord": "Discord-Konto verifizieren - {{points}} Punkte"
 }

@@ -4389,7 +4389,6 @@
   "reputation.seedling.nft": "NFT 출금",
   "reputation.unlock.desert": "데저트 아일랜드 도달 - {{points}} 포인트",
   "reputation.unlock.volcano": "화산섬 도달 - {{points}} 포인트",
-  "reputation.unlock.discord": "디스코드 계정 연결 - {{points}} 포인트",
   "reputation.unlock.humanity": "완전한 인간성 증명 - {{points}} 포인트",
   "reputation.unlock.level": "레벨 100 달성 - {{points}} 포인트",
   "reputation.unlock.level15": "레벨 15 - {{points}} 포인트 도달",
@@ -6237,5 +6236,6 @@
   "cheers.moreFreeCheersIn": "{{time}} 에서 더 많은 무료 응원",
   "cheers.guide.description": "Cheers를 사용하여 커뮤니티를 지원하세요!농장을 응원해 소셜 포인트를 올리거나 기념비 또는 프로젝트를 응원해 진행 속도를 높이세요.",
   "cheers.guide.description2": "매일 오전 12:00 UTC에 응원 3회를 무료로 받을 수 있습니다.",
-  "cheers.guide.description3": "쓰레기를 치우고 보너스 치어스로 교환하세요!가르보를 방문하여 쓰레기, 잡초, 배설물, 해충을 소각로에 던지면 추가 건배를 받을 수 있습니다."
+  "cheers.guide.description3": "쓰레기를 치우고 보너스 치어스로 교환하세요!가르보를 방문하여 쓰레기, 잡초, 배설물, 해충을 소각로에 던지면 추가 건배를 받을 수 있습니다.",
+  "reputation.unlock.discord": "디스코드 계정 확인 - {{points}} 포인트"
 }
