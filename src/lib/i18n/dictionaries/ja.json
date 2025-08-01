@@ -6232,5 +6232,10 @@
   "cheer.village.project.description": "{{project}} を応援して {{username}} が完成するのを手伝ってください！",
   "description.fruitTuneBox.boost": "+20% フルーツパッチ成長速度",
   "socialPoints": "{{points}} ソーシャルポイント",
-  "socialPoint": "1 ソーシャルポイント"
+  "socialPoint": "1 ソーシャルポイント",
+  "stream": "ストリーム",
+  "cheers.moreFreeCheersIn": "{{time}} でもっと無料応援を",
+  "cheers.guide.description": "Cheersを使ってコミュニティをサポートしましょう！農場を応援してソーシャルポイントを増やしたり、記念碑やプロジェクトを応援して進捗を早めたりしましょう。",
+  "cheers.guide.description2": "毎日午前 12:00（UTC）に 3 回無料の Cheers が贈られます。",
+  "cheers.guide.description3": "ゴミを片付けてボーナスチアーと交換しよう！ガルボを訪ねてゴミ、雑草、糞、害虫を焼却炉に放り込むと、追加のチアーと交換できます。"
 }

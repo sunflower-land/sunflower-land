@@ -6232,5 +6232,10 @@
   "cheer.village.project.description": "Du kannst die {{project}} anfeuern, damit sie {{username}} dabei helfen, es zu vervollständigen!",
   "description.fruitTuneBox.boost": "+20% Wachstumstempo für Fruchtfelder",
   "socialPoints": "{{points}} Soziale Punkte",
-  "socialPoint": "1 Sozialer Punkt"
+  "socialPoint": "1 Sozialer Punkt",
+  "stream": "Streamen",
+  "cheers.moreFreeCheersIn": "Noch mehr Gratis-Cheers in {{time}}",
+  "cheers.guide.description": "Nutze Cheers, um deine Community zu unterstützen! Jubeln Sie einer Farm zu, um ihre Sozialpunkte zu erhöhen, oder jubeln Sie einem Denkmal oder Projekt zu, um den Fortschritt zu beschleunigen.",
+  "cheers.guide.description2": "Du erhältst jeden Tag um 12:00 Uhr UTC 3 kostenlose Cheers.",
+  "cheers.guide.description3": "Räumt Müll auf und tauscht ihn gegen Bonus ein. Prost! Besuche Garbo und wirf Müll, Unkraut, Mist oder Schädlinge in den Verbrennungsofen, um gegen zusätzliche Prost einzutauschen."
 }

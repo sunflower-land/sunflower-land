@@ -6232,5 +6232,10 @@
   "cheer.village.project.description": "{{username}} 'i tamamlamasına yardımcı olması için {{project}} 'yi neşelendirebilirsiniz!",
   "description.fruitTuneBox.boost": "+20% Meyve Yaması Büyüme Hızı",
   "socialPoints": "{{points}} Sosyal Puanlar",
-  "socialPoint": "1 Sosyal Nokta"
+  "socialPoint": "1 Sosyal Nokta",
+  "stream": "Akış",
+  "cheers.moreFreeCheersIn": "Daha fazla ücretsiz tezahürat {{time}}",
+  "cheers.guide.description": "Topluluğunuzu desteklemek için Cheers\"ı kullanın! Sosyal Puanlarını artırmak için bir çiftliği neşelendirin veya ilerlemesini hızlandırmak için bir anıt veya projeyi neşelendirin.",
+  "cheers.guide.description2": "Her gün saat 12:00 UTC'de 3 ücretsiz tezahürat alırsınız.",
+  "cheers.guide.description3": "Bonus Teşekkürler almak için çöpleri temizleyin! Garbo'yu ziyaret edin ve ekstra tezahürat için çöp, yabani ot, gübre veya zararlıları Yakma Fırınına atın."
 }

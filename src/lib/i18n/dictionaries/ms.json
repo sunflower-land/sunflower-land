@@ -6232,5 +6232,10 @@
   "cheer.village.project.description": "Anda boleh menghiburkan {{project}} untuk membantu {{username}} menyelesaikannya!",
   "description.fruitTuneBox.boost": "+20% Kelajuan Pertumbuhan Patch Buah",
   "socialPoints": "{{points}} Mata Sosial",
-  "socialPoint": "1 Titik Sosial"
+  "socialPoint": "1 Titik Sosial",
+  "stream": "Stream",
+  "cheers.moreFreeCheersIn": "Lebih banyak sorakan percuma di {{time}}",
+  "cheers.guide.description": "Gunakan Cheers untuk menyokong komuniti anda! Hiburkan ladang untuk meningkatkan Mata Sosialnya, atau menghiburkan monumen atau projek untuk membantu mempercepat kemajuannya.",
+  "cheers.guide.description2": "Anda mendapat 3 Cheers percuma setiap hari pada 12:00 AM UTC.",
+  "cheers.guide.description3": "Bersihkan sampah untuk ditukar dengan bonus Cheers! Lawati Garbo dan buang sampah, rumpai, kotoran atau perosak ke dalam Incinerator untuk berdagang untuk mendapatkan Cheers tambahan."
 }

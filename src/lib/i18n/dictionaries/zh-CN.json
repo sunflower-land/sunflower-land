@@ -6232,5 +6232,10 @@
   "cheer.village.project.description": "你可以为 {{project}} 加油以帮助 {{username}} 完成它！",
   "description.fruitTuneBox.boost": "+20% 水果补丁生长速度",
   "socialPoints": "{{points}} 社交积分",
-  "socialPoint": "1 个社交积分"
+  "socialPoint": "1 个社交积分",
+  "stream": "直播",
+  "cheers.moreFreeCheersIn": "{{time}} 中有更多免费欢呼",
+  "cheers.guide.description": "使用 Cheers 来支持您的社区！为农场加油以提高其社交积分，或者为纪念碑或项目加油以帮助加快其进度。",
+  "cheers.guide.description2": "每天凌晨 12:00 UTC，你将获得 3 次免费欢呼。",
+  "cheers.guide.description3": "清理垃圾以换取奖励干杯！拜访嘉宝，将垃圾、杂草、粪便或害虫扔进焚化炉，以换取额外的欢呼。"
 }

@@ -6232,5 +6232,10 @@
   "cheer.village.project.description": "Você pode aplaudir o {{project}} para ajudar {{username}} a completá-lo!",
   "description.fruitTuneBox.boost": "+20% de velocidade de crescimento do canteiro de frutas",
   "socialPoints": "{{points}} Pontos sociais",
-  "socialPoint": "1 ponto social"
+  "socialPoint": "1 ponto social",
+  "stream": "Transmita",
+  "cheers.moreFreeCheersIn": "Mais aplausos grátis em {{time}}",
+  "cheers.guide.description": "Use o Cheers para apoiar sua comunidade! Torça por uma fazenda para aumentar seus Pontos Sociais, ou torça por um monumento ou projeto para ajudar a acelerar seu progresso.",
+  "cheers.guide.description2": "Você ganha 3 Cheers grátis todos os dias às 12:00 UTC.",
+  "cheers.guide.description3": "Limpe o lixo para trocá-lo por bônus Cheers! Visite Garbo e jogue lixo, ervas daninhas, esterco ou pragas no Incinerador para trocar por mais aplausos."
 }
