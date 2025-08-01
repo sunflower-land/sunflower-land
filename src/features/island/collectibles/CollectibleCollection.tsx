@@ -2603,12 +2603,12 @@ export const COLLECTIBLE_COMPONENTS: Record<
     <Monument
       {...props}
       divStyle={{
-        width: `${PIXEL_SCALE * 22}px`,
-        bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * -3}px`,
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 3}px`,
+        left: `${PIXEL_SCALE * 3}px`,
       }}
       imgStyle={{
-        width: `${PIXEL_SCALE * 22}px`,
+        width: `${PIXEL_SCALE * 26}px`,
       }}
       image={ITEM_DETAILS["Big Apple"].image}
       alt="Big Apple"
@@ -2619,12 +2619,12 @@ export const COLLECTIBLE_COMPONENTS: Record<
     <Monument
       {...props}
       divStyle={{
-        width: `${PIXEL_SCALE * 22}px`,
-        bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * -3}px`,
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 2}px`,
+        left: `${PIXEL_SCALE * 2}px`,
       }}
       imgStyle={{
-        width: `${PIXEL_SCALE * 22}px`,
+        width: `${PIXEL_SCALE * 28}px`,
       }}
       image={ITEM_DETAILS["Big Orange"].image}
       alt="Big Orange"
@@ -2635,12 +2635,12 @@ export const COLLECTIBLE_COMPONENTS: Record<
     <Monument
       {...props}
       divStyle={{
-        width: `${PIXEL_SCALE * 22}px`,
-        bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * -3}px`,
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 2}px`,
+        left: `${PIXEL_SCALE * 0}px`,
       }}
       imgStyle={{
-        width: `${PIXEL_SCALE * 22}px`,
+        width: `${PIXEL_SCALE * 32}px`,
       }}
       image={ITEM_DETAILS["Big Banana"].image}
       alt="Big Banana"
