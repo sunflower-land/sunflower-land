@@ -31,7 +31,7 @@ export const FollowList: React.FC<Props> = ({
   type,
   navigateToPlayer,
 }) => {
-  const { online } = useSocial({
+  useSocial({
     farmId: networkFarmId,
     following: networkList,
   });
@@ -59,10 +59,10 @@ export const FollowList: React.FC<Props> = ({
   const networkDetails = data?.data?.network;
 
   const sortedNetworkList = networkList.sort((a, b) => {
-    const aLastOnlineAt = online[a] ?? networkDetails?.[a]?.lastUpdatedAt ?? 0;
-    const bLastOnlineAt = online[b] ?? networkDetails?.[b]?.lastUpdatedAt ?? 0;
+    const aSocialPoints = networkDetails?.[a]?.socialPoints ?? 0;
+    const bSocialPoints = networkDetails?.[b]?.socialPoints ?? 0;
 
-    return bLastOnlineAt - aLastOnlineAt;
+    return bSocialPoints - aSocialPoints;
   });
 
   if (isLoading || playerLoading) {
@@ -115,27 +115,30 @@ export const FollowList: React.FC<Props> = ({
   }
 
   return (
-    <div className="flex flex-col gap-1 pt-1">
-      <div className="sticky top-0 bg-brown-200 z-10 pb-1">
+    <div className="flex flex-col gap-1 pr-0.5">
+      <div className="sticky top-0 bg-brown-200 z-10 pb-1 pt-1">
         {showLabel && (
           <Label type="default">
             {t(`playerModal.${type}`, { count: networkCount })}
           </Label>
         )}
       </div>
-      {sortedNetworkList.map((followerId) => {
-        return (
-          <FollowDetailPanel
-            key={`flw-${followerId}`}
-            loggedInFarmId={loggedInFarmId}
-            playerId={followerId}
-            clothing={networkDetails?.[followerId]?.clothing as Equipped}
-            username={networkDetails?.[followerId]?.username ?? ""}
-            lastOnlineAt={networkDetails?.[followerId]?.lastUpdatedAt ?? 0}
-            navigateToPlayer={navigateToPlayer}
-          />
-        );
-      })}
+      <div className="flex flex-col gap-1">
+        {sortedNetworkList.map((followerId) => {
+          return (
+            <FollowDetailPanel
+              key={`flw-${followerId}`}
+              loggedInFarmId={loggedInFarmId}
+              playerId={followerId}
+              clothing={networkDetails?.[followerId]?.clothing as Equipped}
+              username={networkDetails?.[followerId]?.username ?? ""}
+              lastOnlineAt={networkDetails?.[followerId]?.lastUpdatedAt ?? 0}
+              navigateToPlayer={navigateToPlayer}
+              socialPoints={networkDetails?.[followerId]?.socialPoints ?? 0}
+            />
+          );
+        })}
+      </div>
     </div>
   );
 };

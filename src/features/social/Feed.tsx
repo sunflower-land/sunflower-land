@@ -184,6 +184,14 @@ export const Feed: React.FC<Props> = ({
         <div className="sticky top-0 flex flex-col z-10 bg-[#e4a672]">
           <div className="flex items-center gap-2 pb-1">
             <div className="flex items-center w-full gap-2">
+              {showFollowing && (
+                <img
+                  src={SUNNYSIDE.icons.arrow_left}
+                  className="w-6"
+                  alt="Back"
+                  onClick={() => setShowFollowing(false)}
+                />
+              )}
               <Label type="default">
                 {t("social.feed", { type: capitalize(type) })}
               </Label>
@@ -200,15 +208,7 @@ export const Feed: React.FC<Props> = ({
               onClick={handleCloseFeed}
             />
           </div>
-          <div className="flex items-center justify-between gap-2">
-            {showFollowing && (
-              <img
-                src={SUNNYSIDE.icons.arrow_left}
-                className="w-6"
-                alt="Back"
-                onClick={() => setShowFollowing(false)}
-              />
-            )}
+          <div className="flex items-center justify-between gap-1 w-full">
             <div
               className="flex ml-1.5 items-center gap-1 text-xs underline cursor-pointer"
               onClick={() => {
@@ -232,7 +232,7 @@ export const Feed: React.FC<Props> = ({
         </div>
 
         {showFollowing && (
-          <div className="flex flex-col gap-2 -mt-2">
+          <div className="flex flex-col gap-2 -mt-2 overflow-hidden overflow-y-auto scrollable">
             <FollowList
               loggedInFarmId={farmId}
               token={token}
@@ -321,7 +321,10 @@ const FeedContent: React.FC<FeedContentProps> = ({
   }
 
   return (
-    <div ref={scrollContainerRef} className="scrollable overflow-y-auto">
+    <div
+      ref={scrollContainerRef}
+      className="scrollable overflow-hidden overflow-y-auto"
+    >
       <div className="flex flex-col gap-1 pr-1">
         {feed.map((interaction, index) => {
           const direction =
