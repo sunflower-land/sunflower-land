@@ -521,6 +521,10 @@ import {
   collectClutter,
   CollectClutterAction,
 } from "./landExpansion/collectClutter";
+import {
+  flipCollectible,
+  FlipCollectibleAction,
+} from "./landExpansion/flipCollectible";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
@@ -723,7 +727,8 @@ export type PlacementEvent =
   | RemoveFruitPatchAction
   | RemoveFlowerBedAction
   | RemoveBeehiveAction
-  | RemoveAllAction;
+  | RemoveAllAction
+  | FlipCollectibleAction;
 
 export type GameEvent = PlayingEvent | PlacementEvent;
 export type GameEventName<T> = Extract<T, { type: string }>["type"];
@@ -953,6 +958,7 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
   "flowerBed.removed": removeFlowerBed,
   "beehive.removed": removeBeehive,
   "items.removed": removeAll,
+  "collectible.flipped": flipCollectible,
 };
 
 export const EVENTS = {

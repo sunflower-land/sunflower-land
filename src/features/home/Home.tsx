@@ -130,6 +130,7 @@ export const Home: React.FC = () => {
                   y={coordinates!.y}
                   grid={gameGrid}
                   game={state}
+                  flipped={collectible.flipped}
                 />
               </MapPlacement>
             );

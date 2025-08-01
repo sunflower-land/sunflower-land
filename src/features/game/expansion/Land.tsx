@@ -210,6 +210,7 @@ const getIslandElements = ({
                   grid={grid}
                   game={game}
                   z={NON_COLLIDING_OBJECTS.includes(name) ? 0 : "unset"}
+                  flipped={collectible.flipped}
                 />
               </MapPlacement>
             );

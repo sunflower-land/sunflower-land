@@ -40,6 +40,8 @@ import { HOURGLASSES } from "features/game/events/landExpansion/burnCollectible"
 import { hasRemoveRestriction } from "features/game/types/removeables";
 import { hasFeatureAccess } from "lib/flags";
 import { InnerPanel } from "components/ui/Panel";
+import flipped from "assets/icons/flipped.webp";
+import flipIcon from "assets/icons/flip.webp";
 
 export const RESOURCE_MOVE_EVENTS: Record<
   ResourceName,
@@ -147,6 +149,10 @@ export function getRemoveAction(
   return null;
 }
 
+const isCollectible = (
+  name: CollectibleName | BuildingName | "Chicken" | "Bud",
+): name is CollectibleName => name in COLLECTIBLES_DIMENSIONS;
+
 export interface MovableProps {
   name: CollectibleName | BuildingName | "Chicken" | "Bud";
   id: string;
@@ -218,6 +224,24 @@ export const MoveableComponent: React.FC<
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [nodeRef, isSelected]);
+
+  const flip = () => {
+    if (isCollectible(name)) {
+      landscapingMachine.send("FLIP", { id, name, location });
+    }
+  };
+
+  const isFlipped = useSelector(gameService, (state) => {
+    if (!isCollectible(name)) return false;
+    const collectibles =
+      location === "home"
+        ? state.context.state.home.collectibles
+        : state.context.state.collectibles;
+    return (
+      collectibles[name]?.find((collectible) => collectible.id === id)
+        ?.flipped ?? false
+    );
+  });
 
   const remove = () => {
     if (!removeAction) {
@@ -399,6 +423,36 @@ export const MoveableComponent: React.FC<
                 />
               )}
             </div>
+            {isCollectible(name) && (
+              <div
+                className="relative mr-2"
+                style={{ width: `${PIXEL_SCALE * 18}px` }}
+                onClick={flip}
+              >
+                <img className="w-full" src={SUNNYSIDE.icons.disc} />
+                {isFlipped ? (
+                  <img
+                    className="absolute"
+                    src={flipped}
+                    style={{
+                      width: `${PIXEL_SCALE * 12}px`,
+                      right: `${PIXEL_SCALE * 3}px`,
+                      top: `${PIXEL_SCALE * 4}px`,
+                    }}
+                  />
+                ) : (
+                  <img
+                    className="absolute"
+                    src={flipIcon}
+                    style={{
+                      width: `${PIXEL_SCALE * 13}px`,
+                      right: `${PIXEL_SCALE * 2.5}px`,
+                      top: `${PIXEL_SCALE * 4}px`,
+                    }}
+                  />
+                )}
+              </div>
+            )}
             {showRemoveConfirmation && name === "Kuebiko" && (
               <RemoveKuebikoModal
                 onClose={() => setShowRemoveConfirmation(false)}
