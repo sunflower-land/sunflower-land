@@ -6237,5 +6237,9 @@
   "cheers.guide.description": "Gunakan Cheers untuk mendukung komunitas Anda! Hibur pertanian untuk meningkatkan Poin Sosialnya, atau menghibur monumen atau proyek untuk membantu mempercepat kemajuannya.",
   "cheers.guide.description2": "Anda mendapatkan 3 Cheers gratis setiap hari pukul 12:00 AM UTC.",
   "cheers.guide.description3": "Bersihkan sampah untuk ditukar dengan bonus Cheers! Kunjungi Garbo dan buang sampah, gulma, kotoran, atau hama ke dalam Incinerator untuk ditukar dengan Cheers ekstra.",
-  "reputation.unlock.discord": "Verifikasi Akun Discord - {{points}} poin"
+  "reputation.unlock.discord": "Verifikasi Akun Discord - {{points}} poin",
+  "airdrop": "Airdrop",
+  "noticeboard": "Papan pengumuman",
+  "rewards": "Imbalan",
+  "biomes": "Bioma"
 }

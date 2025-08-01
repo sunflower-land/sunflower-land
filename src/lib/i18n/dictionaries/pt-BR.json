@@ -6237,5 +6237,9 @@
   "cheers.guide.description": "Use o Cheers para apoiar sua comunidade! Torça por uma fazenda para aumentar seus Pontos Sociais, ou torça por um monumento ou projeto para ajudar a acelerar seu progresso.",
   "cheers.guide.description2": "Você ganha 3 Cheers grátis todos os dias às 12:00 UTC.",
   "cheers.guide.description3": "Limpe o lixo para trocá-lo por bônus Cheers! Visite Garbo e jogue lixo, ervas daninhas, esterco ou pragas no Incinerador para trocar por mais aplausos.",
-  "reputation.unlock.discord": "Verifique a conta Discord - {{points}} pontos"
+  "reputation.unlock.discord": "Verifique a conta Discord - {{points}} pontos",
+  "airdrop": "Airdrop",
+  "noticeboard": "Quadro de avisos",
+  "rewards": "Recompensas",
+  "biomes": "Biomas"
 }

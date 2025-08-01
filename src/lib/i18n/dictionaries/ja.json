@@ -6237,5 +6237,9 @@
   "cheers.guide.description": "Cheersを使ってコミュニティをサポートしましょう！農場を応援してソーシャルポイントを増やしたり、記念碑やプロジェクトを応援して進捗を早めたりしましょう。",
   "cheers.guide.description2": "毎日午前 12:00（UTC）に 3 回無料の Cheers が贈られます。",
   "cheers.guide.description3": "ゴミを片付けてボーナスチアーと交換しよう！ガルボを訪ねてゴミ、雑草、糞、害虫を焼却炉に放り込むと、追加のチアーと交換できます。",
-  "reputation.unlock.discord": "ディスコードアカウントを確認-{{points}} ポイント"
+  "reputation.unlock.discord": "ディスコードアカウントを確認-{{points}} ポイント",
+  "airdrop": "エアドロップ",
+  "noticeboard": "掲示板",
+  "rewards": "報酬",
+  "biomes": "バイオーム"
 }

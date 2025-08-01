@@ -6237,5 +6237,9 @@
   "cheers.guide.description": "Utilisez Cheers pour soutenir votre communauté ! Encouragez une ferme pour augmenter ses points sociaux, ou encouragez un monument ou un projet pour accélérer sa progression.",
   "cheers.guide.description2": "Vous recevez 3 Cheers gratuits chaque jour à 12h00 UTC.",
   "cheers.guide.description3": "Nettoyez les poubelles pour les échanger contre des Cheers en prime ! Visitez Garbo et jetez des déchets, des mauvaises herbes, du fumier ou des parasites dans l'incinérateur pour échanger contre des Cheers supplémentaires.",
-  "reputation.unlock.discord": "Vérifier le compte Discord - {{points}} points"
+  "reputation.unlock.discord": "Vérifier le compte Discord - {{points}} points",
+  "airdrop": "parachutage",
+  "noticeboard": "Tableau d'affichage",
+  "rewards": "Récompenses",
+  "biomes": "Biomes"
 }

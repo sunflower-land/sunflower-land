@@ -6237,5 +6237,9 @@
   "cheers.guide.description": "Topluluğunuzu desteklemek için Cheers\"ı kullanın! Sosyal Puanlarını artırmak için bir çiftliği neşelendirin veya ilerlemesini hızlandırmak için bir anıt veya projeyi neşelendirin.",
   "cheers.guide.description2": "Her gün saat 12:00 UTC'de 3 ücretsiz tezahürat alırsınız.",
   "cheers.guide.description3": "Bonus Teşekkürler almak için çöpleri temizleyin! Garbo'yu ziyaret edin ve ekstra tezahürat için çöp, yabani ot, gübre veya zararlıları Yakma Fırınına atın.",
-  "reputation.unlock.discord": "Discord Hesabını Doğrula - {{points}} puan"
+  "reputation.unlock.discord": "Discord Hesabını Doğrula - {{points}} puan",
+  "airdrop": "Airdrop",
+  "noticeboard": "İlan tahtası",
+  "rewards": "Ödüller",
+  "biomes": "Biyomlar"
 }

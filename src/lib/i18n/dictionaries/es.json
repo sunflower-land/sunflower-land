@@ -6237,5 +6237,9 @@
   "cheers.guide.description": "¡Usa Cheers para apoyar a tu comunidad! Anima a una granja para aumentar sus puntos sociales, o aplaude un monumento o proyecto para acelerar su progreso.",
   "cheers.guide.description2": "Recibirás 3 Cheers gratis todos los días a las 12:00 a.m. UTC.",
   "cheers.guide.description3": "Limpia la basura para cambiarla por una bonificación. ¡Salud! Visita Garbo y tira la basura, la maleza, el estiércol o las plagas al incinerador para cambiarlos por más aplausos.",
-  "reputation.unlock.discord": "Verificar la cuenta de Discord: {{points}} puntos"
+  "reputation.unlock.discord": "Verificar la cuenta de Discord: {{points}} puntos",
+  "airdrop": "Lanzamiento aéreo",
+  "noticeboard": "Tablón de anuncios",
+  "rewards": "Recompensas",
+  "biomes": "Biomas"
 }

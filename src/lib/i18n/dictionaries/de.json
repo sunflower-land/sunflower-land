@@ -6237,5 +6237,9 @@
   "cheers.guide.description": "Nutze Cheers, um deine Community zu unterstützen! Jubeln Sie einer Farm zu, um ihre Sozialpunkte zu erhöhen, oder jubeln Sie einem Denkmal oder Projekt zu, um den Fortschritt zu beschleunigen.",
   "cheers.guide.description2": "Du erhältst jeden Tag um 12:00 Uhr UTC 3 kostenlose Cheers.",
   "cheers.guide.description3": "Räumt Müll auf und tauscht ihn gegen Bonus ein. Prost! Besuche Garbo und wirf Müll, Unkraut, Mist oder Schädlinge in den Verbrennungsofen, um gegen zusätzliche Prost einzutauschen.",
-  "reputation.unlock.discord": "Discord-Konto verifizieren - {{points}} Punkte"
+  "reputation.unlock.discord": "Discord-Konto verifizieren - {{points}} Punkte",
+  "airdrop": "Airdrop",
+  "noticeboard": "Pinnwand",
+  "rewards": "Prämien",
+  "biomes": "Biome"
 }
