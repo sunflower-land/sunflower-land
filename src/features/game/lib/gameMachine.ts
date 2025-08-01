@@ -746,9 +746,10 @@ const handleSuccessfulSave = (context: Context, event: any) => {
 
   if (recentActions.length === 0) {
     return {
-      ...event.data,
+      state: event.data.farm,
       saveQueued: false,
       actions: [],
+      announcements: event.data.announcements,
     };
   }
 
