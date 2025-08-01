@@ -11,6 +11,7 @@ type Detail = {
   clothing: Equipped;
   username: string;
   lastUpdatedAt: number;
+  socialPoints: number;
 };
 
 type FollowNetworkDetails = {

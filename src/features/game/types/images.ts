@@ -948,6 +948,7 @@ import bloomDoll from "assets/sfts/dolls/bloom_doll.webp";
 import shadowDoll from "assets/sfts/dolls/shadow_doll.webp";
 import gildedDoll from "assets/sfts/dolls/gilded_doll.webp";
 import lumberDoll from "assets/sfts/dolls/lumber_doll.webp";
+import emberDoll from "assets/sfts/dolls/ember_doll.webp";
 
 import loveChicken from "assets/animals/chickens/love_chicken.webp";
 import drCow from "assets/sfts/dr_cow.webp";
@@ -964,7 +965,12 @@ import farmerMonument from "assets/monuments/shovel_monument.webp";
 import minerMonument from "assets/monuments/pickaxe_monument.webp";
 import woodcutterMonument from "assets/monuments/axe_monument.webp";
 import teamworkMonument from "assets/monuments/chapters_monument_teamwork.webp";
-
+import basicCookingPot from "assets/monuments/basic_cooking_pot.webp";
+import expertCookingPot from "assets/monuments/expert_cooking_pot.webp";
+import advancedCookingPot from "assets/monuments/advanced_cooking_pot.webp";
+import bigOrange from "assets/monuments/big_orange.webp";
+import bigApple from "assets/monuments/big_apple.webp";
+import bigBanana from "assets/monuments/big_banana.webp";
 
 import trash from "assets/clutter/trash.webp";
 import dung from "assets/clutter/dung.webp";
@@ -974,7 +980,6 @@ import babyCow from "assets/sfts/baby_cow.webp";
 import babySheep from "assets/sfts/baby_sheep.webp";
 import janitorChicken from "assets/animals/chickens/janitor_chicken.webp";
 import venusBumpkinTrap from "assets/flowers/venus_bumpkin_trap.webp";
-
 
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
@@ -5449,15 +5454,15 @@ export const ITEM_DETAILS: Items = {
     description: "",
   },
   "Big Apple": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: bigApple,
     description: translate("description.bigApple"),
   },
   "Big Orange": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: bigOrange,
     description: translate("description.bigOrange"),
   },
   "Big Banana": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: bigBanana,
     description: translate("description.bigBanana"),
   },
   "Farmer's Monument": {
@@ -5477,15 +5482,15 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.teamworkMonument"),
   },
   "Basic Cooking Pot": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: basicCookingPot,
     description: translate("description.basicCookingPot"),
   },
   "Expert Cooking Pot": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: expertCookingPot,
     description: translate("description.expertCookingPot"),
   },
   "Advanced Cooking Pot": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: advancedCookingPot,
     description: translate("description.advancedCookingPot"),
   },
   "Floor Mirror": {
@@ -5610,7 +5615,7 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.shadowDoll"),
   },
   "Ember Doll": {
-    image: shadowDoll,
+    image: emberDoll,
     description: translate("description.emberDoll"),
   },
   "Gilded Doll": {

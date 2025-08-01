@@ -10,8 +10,7 @@ import {
   cacheShortcuts,
   getShortcuts,
 } from "features/farming/hud/lib/shortcuts";
-
-import { startGame, MachineInterpreter, MachineState } from "./lib/gameMachine";
+import { startGame, MachineInterpreter } from "./lib/gameMachine";
 import { InventoryItemName } from "./types/game";
 import {
   cacheShowAnimationsSetting,
@@ -36,13 +35,11 @@ interface GameContext {
   toggleQuickSelect: () => void;
   showTimers: boolean;
   toggleTimers: () => void;
-  fromRoute: string;
+  fromRoute?: string;
   setFromRoute: (route: string) => void;
 }
 
 export const Context = React.createContext<GameContext>({} as GameContext);
-
-const _visiting = (state: MachineState) => state.matches("visiting");
 
 export const GameProvider: React.FC<React.PropsWithChildren> = ({
   children,
@@ -88,7 +85,7 @@ export const GameProvider: React.FC<React.PropsWithChildren> = ({
     getEnableQuickSelectSetting(),
   );
   const [showTimers, setShowTimers] = useState<boolean>(getShowTimersSetting());
-  const [fromRoute, setFromRoute] = useState<string>("");
+  const [fromRoute, setFromRoute] = useState<string | undefined>();
 
   const shortcutItem = useCallback((item: InventoryItemName) => {
     const originalShortcuts = getShortcuts();

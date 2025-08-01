@@ -38,6 +38,7 @@ export const PlayerNPC: React.FC<NPCProps> = ({ parts: bumpkinParts }) => {
 
   const { isVisiting } = useVisiting();
   const context = gameService.getSnapshot().context;
+  const loggedInFarmId = context.visitorId ?? context.farmId;
 
   const handleClick = () => {
     if (isVisiting) {
@@ -79,13 +80,13 @@ export const PlayerNPC: React.FC<NPCProps> = ({ parts: bumpkinParts }) => {
       {hasFeatureAccess(context.state, "SOCIAL_FARMING") ? (
         <PlayerModal
           game={context.state}
-          farmId={context.farmId}
+          loggedInFarmId={loggedInFarmId}
           token={token}
         />
       ) : (
         <PlayerModals
           game={context.state}
-          farmId={context.farmId}
+          farmId={loggedInFarmId}
           isOpen={open}
         />
       )}

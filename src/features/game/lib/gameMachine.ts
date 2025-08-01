@@ -747,6 +747,7 @@ const handleSuccessfulSave = (context: Context, event: any) => {
   if (recentActions.length === 0) {
     return {
       ...event.data,
+      saveQueued: false,
       actions: [],
     };
   }
@@ -774,7 +775,6 @@ const handleSuccessfulSave = (context: Context, event: any) => {
 
   return {
     actions: recentActions,
-    // TODO: Update when backend is already handled
     state: updatedState,
     visitorState: context.visitorState,
     saveQueued: false,

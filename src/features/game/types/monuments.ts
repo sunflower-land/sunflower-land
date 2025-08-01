@@ -8,7 +8,7 @@ type LoveCharmMonumentName =
 
 type MegastoreMonumentName = "Teamwork Monument";
 
-export type LandscapingMonumentName =
+export type WorkbenchMonumentName =
   | LoveCharmMonumentName
   | "Big Orange"
   | "Big Apple"
@@ -26,7 +26,7 @@ type MegastoreMonument = Omit<Decoration, "name"> & {
 };
 
 export type LandscapingMonument = Omit<Decoration, "name"> & {
-  name: LandscapingMonumentName;
+  name: WorkbenchMonumentName;
 };
 
 export type Monument =
@@ -76,8 +76,8 @@ export const LOVE_CHARM_MONUMENTS: Record<
   },
 };
 
-export const LANDSCAPING_MONUMENTS: Record<
-  LandscapingMonumentName,
+export const WORKBENCH_MONUMENTS: Record<
+  WorkbenchMonumentName,
   LandscapingMonument
 > = {
   ...LOVE_CHARM_MONUMENTS,
@@ -132,6 +132,6 @@ export const LANDSCAPING_MONUMENTS: Record<
 };
 
 export type MonumentName =
-  | LandscapingMonumentName
+  | WorkbenchMonumentName
   | LoveCharmMonumentName
   | MegastoreMonumentName;

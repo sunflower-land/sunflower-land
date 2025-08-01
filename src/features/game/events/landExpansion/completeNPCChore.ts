@@ -93,9 +93,9 @@ export const CHAPTER_TICKET_BOOST_ITEMS: Record<
 
   // TODO: Add Better Together items
   "Better Together": {
-    basic: "Cow Scratcher",
-    rare: "Cow Scratcher",
-    epic: "Cow Scratcher",
+    basic: "Garbage Bin Hat",
+    rare: "Raccoon Onesie",
+    epic: "Recycle Shirt",
   },
 };
 

@@ -47,6 +47,7 @@ export type Player = {
     clothing: Equipped;
     faction?: FactionName;
     lastUpdatedAt: number;
+    socialPoints: number;
   };
 };
 
