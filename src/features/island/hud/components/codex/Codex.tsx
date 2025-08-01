@@ -35,6 +35,8 @@ import { ChoreBoard } from "./pages/ChoreBoard";
 import { CompetitionDetails } from "features/competition/CompetitionBoard";
 import { MachineState } from "features/game/lib/gameMachine";
 import { ANIMALS } from "features/game/types/animals";
+import { SocialLeaderboard } from "./pages/SocialLeaerboard";
+import socialPointsIcon from "assets/icons/social_score.webp";
 
 interface Props {
   show: boolean;
@@ -164,6 +166,11 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
           },
         ]
       : []),
+    {
+      name: "Social Points" as const,
+      icon: socialPointsIcon,
+      count: 0,
+    },
   ];
 
   return (
@@ -265,12 +272,11 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
               />
             )}
 
-            {currentTab === "SocialPoints" && (
-              <FactionLeaderboard
-                leaderboard={data?.kingdom ?? null}
-                isLoading={data?.kingdom === undefined}
-                playerId={id}
-                faction={faction.name}
+            {currentTab === "Social Points" && (
+              <SocialLeaderboard
+                data={data?.socialPoints ?? null}
+                id={id}
+                isLoading={data?.socialPoints === undefined}
               />
             )}
 
