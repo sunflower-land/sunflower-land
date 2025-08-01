@@ -1753,6 +1753,7 @@ export interface GameState {
   };
   discord?: {
     connected: boolean;
+    verified: boolean;
   };
   referrals?: {
     totalReferrals: number;
