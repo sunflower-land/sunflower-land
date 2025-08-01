@@ -2,7 +2,7 @@ import Decimal from "decimal.js-light";
 import { TEST_FARM } from "../../lib/constants";
 import { GameState } from "../../types/game";
 import { buyMonument } from "./buyMonument";
-import { LandscapingMonumentName } from "features/game/types/monuments";
+import { WorkbenchMonumentName } from "features/game/types/monuments";
 
 const GAME_STATE: GameState = TEST_FARM;
 
@@ -13,7 +13,7 @@ describe("buyMonument", () => {
         state: GAME_STATE,
         action: {
           type: "monument.bought",
-          name: "Goblin Key" as LandscapingMonumentName,
+          name: "Goblin Key" as WorkbenchMonumentName,
         },
       }),
     ).toThrow("This item is not a monument");

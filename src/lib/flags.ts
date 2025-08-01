@@ -120,7 +120,7 @@ const FEATURE_FLAGS = {
   SOCIAL_FARMING: betaTimeBasedFeatureFlag(
     SEASONS["Better Together"].startDate,
   ),
-  MONUMENTS: testnetFeatureFlag,
+  MONUMENTS: betaTimeBasedFeatureFlag(new Date("2025-08-04T00:00:00.000Z")),
   LANDSCAPING: betaTimeBasedFeatureFlag(new Date("2025-08-04T00:00:00.000Z")),
   LANDSCAPING_SHOP: betaTimeBasedFeatureFlag(
     SEASONS["Better Together"].startDate,
