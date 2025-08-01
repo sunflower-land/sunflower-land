@@ -45,7 +45,7 @@ describe("completeSocialTask", () => {
         },
         state: {
           ...INITIAL_FARM,
-          discord: { connected: true },
+          discord: { connected: true, verified: true },
           socialTasks: {
             completed: {
               "Link your Discord": { completedAt: now - 1000 },
@@ -65,7 +65,7 @@ describe("completeSocialTask", () => {
       },
       state: {
         ...INITIAL_FARM,
-        discord: { connected: true },
+        discord: { connected: true, verified: false },
       },
     });
 
@@ -157,7 +157,7 @@ describe("completeSocialTask", () => {
       },
       state: {
         ...INITIAL_FARM,
-        discord: { connected: true },
+        discord: { connected: true, verified: false },
         inventory: {
           "Love Charm": new Decimal(10),
         },
@@ -170,7 +170,7 @@ describe("completeSocialTask", () => {
   it("initializes socialTasks if it doesn't exist", () => {
     const baseState: GameState = {
       ...INITIAL_FARM,
-      discord: { connected: true },
+      discord: { connected: true, verified: false },
     };
 
     // Ensure socialTasks is undefined
