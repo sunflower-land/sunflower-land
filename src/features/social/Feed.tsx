@@ -219,7 +219,10 @@ export const Feed: React.FC<Props> = ({
                 });
               }}
             >
-              <img src={SUNNYSIDE.icons.player_small} className="w-4 mt-1" />
+              <img
+                src={SUNNYSIDE.icons.player_small}
+                className="w-4 mt-1 whitespace-nowrap"
+              />
               {t("myProfile")}
             </div>
             <FollowsIndicator

@@ -49,7 +49,10 @@ export const FollowsIndicator: React.FC<FollowsIndicatorProps> = ({
 
   return (
     <div className={`flex items-center gap-1 ${className}`}>
-      <span className="text-xs underline cursor-pointer" onClick={onClick}>
+      <span
+        className="text-xs underline cursor-pointer whitespace-nowrap"
+        onClick={onClick}
+      >
         {t(`playerModal.${type}`, { count })}
       </span>
       <div className="relative w-10 h-6">
