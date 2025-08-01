@@ -149,6 +149,10 @@ export function getRemoveAction(
   return null;
 }
 
+const isCollectible = (
+  name: CollectibleName | BuildingName | "Chicken" | "Bud",
+): name is CollectibleName => name in COLLECTIBLES_DIMENSIONS;
+
 export interface MovableProps {
   name: CollectibleName | BuildingName | "Chicken" | "Bud";
   id: string;
@@ -222,20 +226,22 @@ export const MoveableComponent: React.FC<
   }, [nodeRef, isSelected]);
 
   const flip = () => {
-    if (name in COLLECTIBLES_DIMENSIONS) {
-      landscapingMachine.send("FLIP", { id, name: name as CollectibleName });
+    if (isCollectible(name)) {
+      landscapingMachine.send("FLIP", { id, name, location });
     }
   };
 
-  const isFlipped = useSelector(
-    gameService,
-    (state) =>
-      (name in COLLECTIBLES_DIMENSIONS &&
-        state.context.state.collectibles?.[name as CollectibleName]?.find(
-          (collectible) => collectible.id === id,
-        )?.flipped) ??
-      false,
-  );
+  const isFlipped = useSelector(gameService, (state) => {
+    if (!isCollectible(name)) return false;
+    const collectibles =
+      location === "home"
+        ? state.context.state.home.collectibles
+        : state.context.state.collectibles;
+    return (
+      collectibles[name]?.find((collectible) => collectible.id === id)
+        ?.flipped ?? false
+    );
+  });
 
   const remove = () => {
     if (!removeAction) {
@@ -417,7 +423,7 @@ export const MoveableComponent: React.FC<
                 />
               )}
             </div>
-            {name in COLLECTIBLES_DIMENSIONS && (
+            {isCollectible(name) && (
               <div
                 className="relative mr-2"
                 style={{ width: `${PIXEL_SCALE * 18}px` }}

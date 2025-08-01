@@ -127,6 +127,7 @@ type FlipEvent = {
   type: "FLIP";
   id: string;
   name: CollectibleName;
+  location: PlaceableLocation;
 };
 
 type ConstructEvent = {
@@ -302,6 +303,7 @@ export const landscapingMachine = createMachine<
                   type: "collectible.flipped",
                   id: event.id,
                   name: event.name,
+                  location: event.location,
                 })),
               ],
             },

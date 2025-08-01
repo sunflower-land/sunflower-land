@@ -1,11 +1,13 @@
 import { produce } from "immer";
 import { CollectibleName } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
+import { PlaceableLocation } from "features/game/types/collectibles";
 
 export interface FlipCollectibleAction {
   type: "collectible.flipped";
   name: CollectibleName;
   id: string;
+  location: PlaceableLocation;
 }
 
 type Options = {
@@ -20,12 +22,15 @@ export function flipCollectible({
   createdAt = Date.now(),
 }: Options) {
   return produce(state, (game) => {
-    const { name, id } = action;
+    const { name, id, location } = action;
 
-    if (!game.collectibles[name]) {
+    const collectibles =
+      location === "home" ? game.home.collectibles : game.collectibles;
+
+    if (!collectibles[name]) {
       throw new Error(`Collectible ${name} not found`);
     }
-    const collectible = game.collectibles[name].find(
+    const collectible = collectibles[name].find(
       (collectible) => collectible.id === id,
     );
 
