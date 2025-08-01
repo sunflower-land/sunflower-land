@@ -6170,7 +6170,6 @@
   "cheering.village.project.success": "Başarı tezahürat!",
   "cheering.village.project.failed": "Tezahürat Başarısız Oldu!",
   "cheer.village.project": "Cheer Köyü Projesi",
-  "cheer.village.project.description": "{{goron}} 'i tamamlamasına yardımcı olması için {{project}} 'yi neşelendirebilirsiniz!",
   "cheer.village.project.confirm": "{{project}} 'yi neşelendirmek istediğinden emin misin?",
   "cheer": "tezahürat",
   "crafting.recipe": "{{recipe}} Tarif",
@@ -6231,5 +6230,6 @@
   "description.doubleBed.boost": "+2 Farmhands",
   "description.giantArtichoke.boost": "+2 Enginar",
   "description.pickaxeShark.boost.1": "+15% Altın Kurtarma Süresi",
-  "description.pickaxeShark.boost.2": "%10 Anında Altın şansı"
+  "description.pickaxeShark.boost.2": "%10 Anında Altın şansı",
+  "cheer.village.project.description": "{{username}} 'i tamamlamasına yardımcı olması için {{project}} 'yi neşelendirebilirsiniz!"
 }

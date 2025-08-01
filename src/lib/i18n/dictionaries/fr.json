@@ -6170,7 +6170,6 @@
   "cheering.village.project.success": "Succès encourageant !",
   "cheering.village.project.failed": "Les acclamations ont échoué !",
   "cheer.village.project": "Projet Cheer Village",
-  "cheer.village.project.description": "Vous pouvez encourager {{project}} pour aider {{goron}} à le terminer !",
   "cheer.village.project.confirm": "Êtes-vous sûr de vouloir encourager le {{project}} ?",
   "cheer": "Acclamez",
   "crafting.recipe": "{{recipe}} Recette",
@@ -6231,5 +6230,6 @@
   "description.doubleBed.boost": "+2 Ouvriers agricoles",
   "description.giantArtichoke.boost": "+2 artichauts",
   "description.pickaxeShark.boost.1": "Temps de récupération de l'or +15 %",
-  "description.pickaxeShark.boost.2": "10 % de chances d'obtenir de l'or instantané"
+  "description.pickaxeShark.boost.2": "10 % de chances d'obtenir de l'or instantané",
+  "cheer.village.project.description": "Vous pouvez encourager {{project}} pour aider {{username}} à le terminer !"
 }

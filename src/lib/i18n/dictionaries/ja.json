@@ -6170,7 +6170,6 @@
   "cheering.village.project.success": "応援成功！",
   "cheering.village.project.failed": "応援失敗！",
   "cheer.village.project": "チア・ビレッジ・プロジェクト",
-  "cheer.village.project.description": "{{project}} を応援して {{goron}} が完成するのを手伝ってください！",
   "cheer.village.project.confirm": "本当に {{project}} を応援しますか？",
   "cheer": "応援",
   "crafting.recipe": "{{recipe}} レシピ",
@@ -6231,5 +6230,6 @@
   "description.doubleBed.boost": "+2 ファームハンズ",
   "description.giantArtichoke.boost": "+2 アーティチョーク",
   "description.pickaxeShark.boost.1": "+15% ゴールド回復時間",
-  "description.pickaxeShark.boost.2": "10% の確率でインスタントゴールドが手に入る"
+  "description.pickaxeShark.boost.2": "10% の確率でインスタントゴールドが手に入る",
+  "cheer.village.project.description": "{{project}} を応援して {{username}} が完成するのを手伝ってください！"
 }
