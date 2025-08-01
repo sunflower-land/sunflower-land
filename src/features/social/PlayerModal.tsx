@@ -3,6 +3,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import React, { useCallback, useEffect, useState } from "react";
 import { Modal } from "components/ui/Modal";
 import giftIcon from "assets/icons/gift.png";
+import cheer from "assets/icons/cheer.webp";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { GameState } from "features/game/types/game";
@@ -27,6 +28,7 @@ import { FollowList } from "./components/FollowList";
 import { Player } from "./types/types";
 import { usePlayerNavigation } from "./hooks/usePlayerNavigation";
 import { Equipped } from "features/game/types/bumpkin";
+import { CheersGuide } from "./components/CheersGuide";
 
 interface Props {
   game: GameState;
@@ -40,7 +42,8 @@ type Tab =
   | "Stream"
   | "Activity"
   | "Followers"
-  | "Following";
+  | "Following"
+  | "Guide";
 
 export const mergeResponse = (current: Player, update: Player) => {
   return {
@@ -135,6 +138,8 @@ export const PlayerModal: React.FC<Props> = ({
   const theyAreFollowingMe = player?.following.includes(loggedInFarmId);
   const isMutual = iAmFollowing && theyAreFollowingMe;
 
+  const isSelf = loggedInFarmId === currentPlayerId;
+
   // Effect to handle tab switching when player data changes
   useEffect(() => {
     if (!player) return;
@@ -210,9 +215,9 @@ export const PlayerModal: React.FC<Props> = ({
           tabs={[
             {
               icon: SUNNYSIDE.icons.player,
-              name: "Player",
+              name: t("player"),
             },
-            ...(isMobile && hasFeatureAccess(game, "SOCIAL_FARMING")
+            ...(isMobile && !isSelf && hasFeatureAccess(game, "SOCIAL_FARMING")
               ? [
                   {
                     icon: SUNNYSIDE.icons.expression_chat,
@@ -222,18 +227,18 @@ export const PlayerModal: React.FC<Props> = ({
               : []),
             {
               icon: SUNNYSIDE.icons.player,
-              name: "Followers",
+              name: t("followers"),
             },
             {
               icon: SUNNYSIDE.icons.player,
-              name: "Following",
+              name: t("following"),
             },
 
             ...(playerHasGift
               ? [
                   {
                     icon: giftIcon,
-                    name: "Reward",
+                    name: t("reward"),
                   },
                 ]
               : []),
@@ -241,10 +246,14 @@ export const PlayerModal: React.FC<Props> = ({
               ? [
                   {
                     icon: ITEM_DETAILS["Love Charm"].image,
-                    name: "Stream",
+                    name: t("stream"),
                   },
                 ]
               : []),
+            {
+              icon: cheer,
+              name: t("guide"),
+            },
           ]}
           container={OuterPanel}
         >
@@ -312,6 +321,7 @@ export const PlayerModal: React.FC<Props> = ({
             {tab === "Stream" && (
               <StreamReward streamerId={currentPlayerId as number} />
             )}
+            {tab === "Guide" && <CheersGuide />}
             <div className="flex items-center p-1 space-x-3 justify-end">
               <span
                 className="text-xxs underline cursor-pointer"
