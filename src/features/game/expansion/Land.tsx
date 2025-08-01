@@ -596,8 +596,7 @@ const getIslandElements = ({
   }
 
   {
-    !!isVisiting &&
-      clutter &&
+    clutter &&
       mapPlacements.push(
         ...getKeys(clutter.locations).flatMap((id) => {
           const { x, y } = clutter.locations[id];
@@ -609,7 +608,9 @@ const getIslandElements = ({
               y={y}
               height={1}
               width={1}
-              className={classNames({ "pointer-events-none": !isVisiting })}
+              className={classNames({
+                "pointer-events-none opacity-50": !isVisiting,
+              })}
             >
               <Clutter
                 key={`clutter-${id}`}
