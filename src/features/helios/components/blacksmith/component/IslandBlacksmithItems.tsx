@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { useActor } from "@xstate/react";
+import { useActor, useSelector } from "@xstate/react";
 
 import { Box } from "components/ui/Box";
 
@@ -21,6 +21,14 @@ import { getSeasonalTicket } from "features/game/types/seasons";
 import Decimal from "decimal.js-light";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
+import {
+  LOVE_CHARM_MONUMENTS,
+  MonumentName,
+  WORKBENCH_MONUMENTS,
+} from "features/game/types/monuments";
+import { GameState } from "features/game/types/game";
+import { Label } from "components/ui/Label";
+import { secondsToString } from "lib/utils/time";
 
 const VALID_EQUIPMENT: HeliosBlacksmithItem[] = [
   "Basic Scarecrow",
@@ -35,7 +43,105 @@ const VALID_EQUIPMENT: HeliosBlacksmithItem[] = [
   "Macaw",
   "Squirrel",
   "Butterfly",
+  "Basic Cooking Pot",
+  "Expert Cooking Pot",
+  "Advanced Cooking Pot",
+  "Big Orange",
+  "Big Apple",
+  "Big Banana",
+  "Farmer's Monument",
+  "Woodcutter's Monument",
+  "Miner's Monument",
 ];
+
+const DecorationLabel = ({
+  gameState,
+  selectedName,
+}: {
+  gameState: GameState;
+  selectedName: HeliosBlacksmithItem;
+}) => {
+  const { t } = useAppTranslation();
+
+  const monumentCreatedAt =
+    gameState.monuments?.[selectedName as MonumentName]?.createdAt ?? 0;
+
+  const isMonument = selectedName in WORKBENCH_MONUMENTS;
+  const isLoveCharmMonument = selectedName in LOVE_CHARM_MONUMENTS;
+  const now = new Date();
+  const tomorrow = new Date(
+    Date.UTC(
+      now.getUTCFullYear(),
+      now.getUTCMonth(),
+      now.getUTCDate() + 1,
+      0,
+      0,
+      0,
+      0,
+    ),
+  );
+
+  const hasBuiltLoveCharmMonument = () => {
+    return (
+      isLoveCharmMonument &&
+      !!gameState.monuments?.[selectedName as MonumentName]
+    );
+  };
+
+  const isCoolingDown = () => {
+    return (
+      !isLoveCharmMonument &&
+      Math.floor(monumentCreatedAt / (1000 * 60 * 60 * 24)) >=
+        Math.floor(Date.now() / (1000 * 60 * 60 * 24))
+    );
+  };
+
+  if (hasBuiltLoveCharmMonument()) {
+    return (
+      <div className="flex justify-center">
+        <Label type="success" icon={SUNNYSIDE.icons.confirm}>
+          {t("already.built")}
+        </Label>
+      </div>
+    );
+  }
+
+  if (isCoolingDown()) {
+    return (
+      <div className="flex justify-center">
+        <Label type="danger" className="font-secondary">
+          {`${t("megastore.limit", {
+            time: secondsToString((tomorrow.getTime() - Date.now()) / 1000, {
+              length: "short",
+            }),
+          })}`}
+        </Label>
+      </div>
+    );
+  }
+
+  if (isLoveCharmMonument) {
+    return (
+      <div className="flex justify-center">
+        <Label type="default">
+          {t("season.megastore.crafting.limit", {
+            limit: 0,
+          })}
+        </Label>
+      </div>
+    );
+  }
+
+  if (isMonument) {
+    return (
+      <div className="flex justify-center">
+        <Label type="default">{t("megastore.limit", { time: "1day" })}</Label>
+      </div>
+    );
+  }
+
+  return null;
+};
 
 export const IslandBlacksmithItems: React.FC = () => {
   const { t } = useAppTranslation();
@@ -47,6 +153,13 @@ export const IslandBlacksmithItems: React.FC = () => {
       context: { state },
     },
   ] = useActor(gameService);
+  const monumentCreatedAt = useSelector(
+    gameService,
+    (state) =>
+      state.context.state.monuments?.[selectedName as MonumentName]
+        ?.createdAt ?? 0,
+  );
+
   const { inventory, coins } = state;
 
   const selectedItem = HELIOS_BLACKSMITH_ITEMS(state)[selectedName];
@@ -62,15 +175,27 @@ export const IslandBlacksmithItems: React.FC = () => {
   const lessCoins = () => coins < (selectedItem?.coins ?? 0);
 
   const craft = () => {
-    gameService.send("LANDSCAPE", {
-      placeable: selectedName,
-      action: "collectible.crafted",
-      // Not used yet
-      requirements: {
-        sfl: new Decimal(0),
-        ingredients: {},
-      },
-    });
+    if (selectedName in WORKBENCH_MONUMENTS) {
+      gameService.send("LANDSCAPE", {
+        placeable: selectedName,
+        action: "monument.bought",
+        requirements: {
+          coins: selectedItem?.coins ?? 0,
+          ingredients: selectedItem?.ingredients ?? {},
+        },
+        multiple: false,
+      });
+    } else {
+      gameService.send("LANDSCAPE", {
+        placeable: selectedName,
+        action: "collectible.crafted",
+        // Not used yet
+        requirements: {
+          sfl: new Decimal(0),
+          ingredients: {},
+        },
+      });
+    }
 
     const count = state.inventory[selectedName]?.toNumber() ?? 1;
     gameAnalytics.trackMilestone({
@@ -89,6 +214,25 @@ export const IslandBlacksmithItems: React.FC = () => {
     }
 
     shortcutItem(selectedName);
+  };
+
+  const isLoveCharmMonument = selectedName in LOVE_CHARM_MONUMENTS;
+
+  const hasBuiltLoveCharmMonument = () => {
+    return (
+      isLoveCharmMonument &&
+      !!gameService.state.context.state.monuments?.[
+        selectedName as MonumentName
+      ]
+    );
+  };
+
+  const isCoolingDown = () => {
+    return (
+      !isLoveCharmMonument &&
+      Math.floor(monumentCreatedAt / (1000 * 60 * 60 * 24)) >=
+        Math.floor(Date.now() / (1000 * 60 * 60 * 24))
+    );
   };
 
   return (
@@ -112,12 +256,27 @@ export const IslandBlacksmithItems: React.FC = () => {
                 {t("alr.crafted")}
               </p>
             ) : (
-              <Button
-                disabled={lessIngredients() || lessCoins()}
-                onClick={craft}
-              >
-                {t("craft")}
-              </Button>
+              <div className="flex flex-col gap-2">
+                <div className="flex justify-left sm:justify-center ml-1">
+                  <DecorationLabel
+                    gameState={state}
+                    selectedName={selectedName}
+                  />
+                </div>
+                <div>
+                  <Button
+                    disabled={
+                      lessIngredients() ||
+                      lessCoins() ||
+                      hasBuiltLoveCharmMonument() ||
+                      isCoolingDown()
+                    }
+                    onClick={craft}
+                  >
+                    {t("craft")}
+                  </Button>
+                </div>
+              </div>
             )
           }
         />
