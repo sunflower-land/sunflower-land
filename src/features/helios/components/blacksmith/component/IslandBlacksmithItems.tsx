@@ -29,6 +29,7 @@ import {
 import { GameState } from "features/game/types/game";
 import { Label } from "components/ui/Label";
 import { secondsToString } from "lib/utils/time";
+import { hasFeatureAccess } from "lib/flags";
 
 const VALID_EQUIPMENT: HeliosBlacksmithItem[] = [
   "Basic Scarecrow",
@@ -284,7 +285,11 @@ export const IslandBlacksmithItems: React.FC = () => {
       content={
         <div className="flex flex-col">
           <div className="flex flex-wrap">
-            {VALID_EQUIPMENT.map((name: HeliosBlacksmithItem) => {
+            {VALID_EQUIPMENT.filter(
+              (equipment) =>
+                !(equipment in WORKBENCH_MONUMENTS) ||
+                hasFeatureAccess(state, "MONUMENTS"),
+            ).map((name: HeliosBlacksmithItem) => {
               return (
                 <Box
                   isSelected={selectedName === name}
