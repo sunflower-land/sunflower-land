@@ -303,7 +303,6 @@ export const landscapingMachine = createMachine<
                   id: event.id,
                   name: event.name,
                 })),
-                assign({ moving: (_) => undefined }),
               ],
             },
             REMOVE: {

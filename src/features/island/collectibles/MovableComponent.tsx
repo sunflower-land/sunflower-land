@@ -40,6 +40,8 @@ import { HOURGLASSES } from "features/game/events/landExpansion/burnCollectible"
 import { hasRemoveRestriction } from "features/game/types/removeables";
 import { hasFeatureAccess } from "lib/flags";
 import { InnerPanel } from "components/ui/Panel";
+import flipped from "assets/icons/flipped.webp";
+import flipIcon from "assets/icons/flip.webp";
 
 export const RESOURCE_MOVE_EVENTS: Record<
   ResourceName,
@@ -224,6 +226,16 @@ export const MoveableComponent: React.FC<
       landscapingMachine.send("FLIP", { id, name: name as CollectibleName });
     }
   };
+
+  const isFlipped = useSelector(
+    gameService,
+    (state) =>
+      (name in COLLECTIBLES_DIMENSIONS &&
+        state.context.state.collectibles?.[name as CollectibleName]?.find(
+          (collectible) => collectible.id === id,
+        )?.flipped) ??
+      false,
+  );
 
   const remove = () => {
     if (!removeAction) {
@@ -412,6 +424,27 @@ export const MoveableComponent: React.FC<
                 onClick={flip}
               >
                 <img className="w-full" src={SUNNYSIDE.icons.disc} />
+                {isFlipped ? (
+                  <img
+                    className="absolute"
+                    src={flipped}
+                    style={{
+                      width: `${PIXEL_SCALE * 12}px`,
+                      right: `${PIXEL_SCALE * 3}px`,
+                      top: `${PIXEL_SCALE * 4}px`,
+                    }}
+                  />
+                ) : (
+                  <img
+                    className="absolute"
+                    src={flipIcon}
+                    style={{
+                      width: `${PIXEL_SCALE * 13}px`,
+                      right: `${PIXEL_SCALE * 2.5}px`,
+                      top: `${PIXEL_SCALE * 4}px`,
+                    }}
+                  />
+                )}
               </div>
             )}
             {showRemoveConfirmation && name === "Kuebiko" && (
