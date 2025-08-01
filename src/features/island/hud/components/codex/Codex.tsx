@@ -265,6 +265,15 @@ export const Codex: React.FC<Props> = ({ show, onHide }) => {
               />
             )}
 
+            {currentTab === "SocialPoints" && (
+              <FactionLeaderboard
+                leaderboard={data?.kingdom ?? null}
+                isLoading={data?.kingdom === undefined}
+                playerId={id}
+                faction={faction.name}
+              />
+            )}
+
             {currentTab === "Competition" && (
               <div
                 className={classNames(

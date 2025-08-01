@@ -72,6 +72,12 @@ export type EmblemsLeaderboard = {
   lastUpdated: number;
 };
 
+export type SocialPointsLeaderboard = {
+  topTens: Record<FactionName, RankData[]>;
+  totalTickets: Record<FactionName, number>;
+  socialPointsRankingData?: RankData[] | null;
+};
+
 export async function getLeaderboard<T>({
   farmId,
   leaderboardName,
@@ -208,6 +214,7 @@ export async function fetchLeaderboardData(
       factionsLeaderboard,
       kingdomLeaderboard,
       emblemsLeaderboard,
+      socialPointsLeaderboard,
     ] = await Promise.all([
       getLeaderboard<TicketLeaderboard>({
         farmId: Number(farmId),
@@ -225,6 +232,14 @@ export async function fetchLeaderboardData(
       getLeaderboard<EmblemsLeaderboard>({
         farmId: Number(farmId),
         leaderboardName: "emblems",
+      }),
+      getLeaderboard<SocialPointsLeaderboard>({
+        farmId: Number(farmId),
+        leaderboardName: "socialPoints",
+      }),
+      getLeaderboard<TicketLeaderboard>({
+        farmId: Number(farmId),
+        leaderboardName: "socialPoints",
       }),
     ]);
 

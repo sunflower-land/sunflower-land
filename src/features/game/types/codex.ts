@@ -16,7 +16,8 @@ export type CodexCategoryName =
   | "Minigames"
   | "Competition"
   | "Marks"
-  | "Chore Board";
+  | "Chore Board"
+  | "Social Points";
 
 export type CollectionGroup = "fish";
 
