@@ -96,6 +96,7 @@ interface Props {
 }
 
 export const PlayerModals: React.FC<Props> = ({ game, farmId, isOpen }) => {
+  const { t } = useAppTranslation();
   const [tab, setTab] = useState<
     "Player" | "Reward" | "Stream" | "Report" | "Airdrop" | "Activity"
   >("Player");
@@ -158,13 +159,15 @@ export const PlayerModals: React.FC<Props> = ({ game, farmId, isOpen }) => {
         tabs={[
           {
             icon: SUNNYSIDE.icons.player,
-            name: "Player",
+            name: t("player"),
+            id: "Player",
           },
           ...(isMobile && hasFeatureAccess(game, "SOCIAL_FARMING")
             ? [
                 {
                   icon: SUNNYSIDE.icons.expression_chat,
-                  name: "Activity",
+                  name: t("activity"),
+                  id: "Activity",
                 },
               ]
             : []),
@@ -172,7 +175,8 @@ export const PlayerModals: React.FC<Props> = ({ game, farmId, isOpen }) => {
             ? [
                 {
                   icon: giftIcon,
-                  name: "Reward",
+                  name: t("reward"),
+                  id: "Reward",
                 },
               ]
             : []),
@@ -180,7 +184,8 @@ export const PlayerModals: React.FC<Props> = ({ game, farmId, isOpen }) => {
             ? [
                 {
                   icon: ITEM_DETAILS["Love Charm"].image,
-                  name: "Stream",
+                  name: t("stream"),
+                  id: "Stream",
                 },
               ]
             : []),
@@ -188,7 +193,8 @@ export const PlayerModals: React.FC<Props> = ({ game, farmId, isOpen }) => {
             ? [
                 {
                   icon: SUNNYSIDE.icons.search,
-                  name: "Report",
+                  name: t("report"),
+                  id: "Report",
                 },
               ]
             : []),
@@ -196,7 +202,8 @@ export const PlayerModals: React.FC<Props> = ({ game, farmId, isOpen }) => {
             ? [
                 {
                   icon: blossom_bonding,
-                  name: "Airdrop",
+                  name: t("airdrop"),
+                  id: "Airdrop",
                 },
               ]
             : []),

@@ -13,6 +13,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Biomes } from "./inventory/Biomes";
 import { LAND_BIOMES } from "features/island/biomes/biomes";
 import Decimal from "decimal.js-light";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   show: boolean;
@@ -29,6 +30,7 @@ export const LandscapingChest: React.FC<Props> = ({
   onPlace,
   onPlaceBud,
 }) => {
+  const { t } = useAppTranslation();
   const buds = getKeys(getChestBuds(state)).map(
     (budId) => `Bud-${budId}` as BudName,
   );
@@ -45,9 +47,15 @@ export const LandscapingChest: React.FC<Props> = ({
     <Modal size="lg" show={show} onHide={onHide}>
       <CloseButtonPanel
         tabs={[
-          { icon: chest, name: "Chest" },
+          { icon: chest, name: t("chest"), id: "Chest" },
           ...(hasBiomes
-            ? [{ icon: ITEM_DETAILS["Basic Biome"].image, name: "Biomes" }]
+            ? [
+                {
+                  icon: ITEM_DETAILS["Basic Biome"].image,
+                  name: t("biomes"),
+                  id: "Biomes",
+                },
+              ]
             : []),
         ]}
         currentTab={currentTab}

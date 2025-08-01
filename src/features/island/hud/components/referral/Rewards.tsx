@@ -86,13 +86,15 @@ export const Rewards: React.FC<Props> = ({ show, onHide, tab }) => {
         tabs={[
           {
             icon: loveCharmSmall,
-            name: "Earn",
+            name: t("earn"),
             alert: isAnyTaskCompleted,
+            id: "Earn",
           },
           {
             icon: SUNNYSIDE.decorations.treasure_chest,
-            name: "Rewards",
+            name: t("rewards"),
             alert: !isChestCollected,
+            id: "Rewards",
           },
         ]}
         currentTab={currentTab}
