@@ -1600,9 +1600,9 @@ function getCollectibleBuffLabels(
         boostTypeIcon: powerup,
       },
     ],
-    "Music Box": [
+    "Fruit Tune Box": [
       {
-        shortDescription: translate("description.musicBox.boost"),
+        shortDescription: translate("description.fruitTuneBox.boost"),
         labelType: "info",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
         boostedItemIcon: ITEM_DETAILS["Fruit Patch"].image,
