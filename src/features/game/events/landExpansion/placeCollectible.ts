@@ -54,13 +54,26 @@ export function placeCollectible({
 
     if (
       collectibleItems &&
-      inventoryItemBalance?.lessThanOrEqualTo(collectibleItems.length)
+      inventoryItemBalance?.lessThanOrEqualTo(
+        collectibleItems.filter((collectible) => collectible.coordinates)
+          .length,
+      )
     ) {
       throw new Error("This collectible is already placed");
     }
 
     if (!(collectible in COLLECTIBLES_DIMENSIONS)) {
       throw new Error("You cannot place this item");
+    }
+
+    const existingCollectible = collectibleItems.find(
+      (collectible) => !collectible.coordinates,
+    );
+
+    if (existingCollectible) {
+      existingCollectible.coordinates = action.coordinates;
+
+      return stateCopy;
     }
 
     const newCollectiblePlacement: PlacedItem = {
