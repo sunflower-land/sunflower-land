@@ -463,16 +463,16 @@ function detectGarbageCollision(state: GameState, boundingBox: BoundingBox) {
   if (!state.socialFarming?.clutter?.locations) return false;
   const { locations } = state.socialFarming.clutter;
 
-  const boundingBoxes = getKeys(locations).flatMap((id) => {
-    const location = locations[id];
-
-    return {
-      x: location.x,
-      y: location.y,
-      height: 1,
-      width: 1,
-    };
-  });
+  const boundingBoxes = Object.values(locations)
+    .filter((location) => location.x !== undefined && location.y !== undefined)
+    .flatMap((location) => {
+      return {
+        x: location.x!,
+        y: location.y!,
+        height: 1,
+        width: 1,
+      };
+    });
 
   return boundingBoxes.some((resourceBoundingBox) =>
     isOverlapping(boundingBox, resourceBoundingBox),

@@ -1822,9 +1822,7 @@ export interface GameState {
         string,
         {
           type: ClutterName;
-          x: number;
-          y: number;
-        }
+        } & OptionalCoordinates
       >;
     };
   };
