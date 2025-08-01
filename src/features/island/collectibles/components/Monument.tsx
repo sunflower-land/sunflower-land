@@ -11,30 +11,28 @@ import { Button } from "components/ui/Button";
 import { Modal } from "components/ui/Modal";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Label } from "components/ui/Label";
-import { InventoryItemName } from "features/game/types/game";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import Decimal from "decimal.js-light";
 import classNames from "classnames";
+import { MonumentName } from "features/game/types/monuments";
 
-export type VillageProjectName = Extract<
-  InventoryItemName,
-  | "Farmer's Monument"
-  | "Woodcutter's Monument"
-  | "Miner's Monument"
-  | "Teamwork Monument"
->;
-
-export const REQUIRED_CHEERS: Record<VillageProjectName, number> = {
-  "Farmer's Monument": 600,
-  "Woodcutter's Monument": 600,
-  "Miner's Monument": 600,
-  "Teamwork Monument": 600,
+export const REQUIRED_CHEERS: Record<MonumentName, number> = {
+  "Big Orange": 50,
+  "Big Apple": 200,
+  "Big Banana": 1000,
+  "Basic Cooking Pot": 10,
+  "Expert Cooking Pot": 50,
+  "Advanced Cooking Pot": 100,
+  "Farmer's Monument": 100,
+  "Woodcutter's Monument": 1000,
+  "Miner's Monument": 10000,
+  "Teamwork Monument": 100,
 };
 
 const CheerModal: React.FC<{
-  project: VillageProjectName;
+  project: MonumentName;
   cheers: number;
   username: string;
   onClose: () => void;
@@ -65,7 +63,7 @@ const CheerModal: React.FC<{
         <span>
           {t("cheer.village.project.description", {
             project,
-            goron: username,
+            username,
           })}
         </span>
         <span>
@@ -84,7 +82,7 @@ const CheerModal: React.FC<{
   );
 };
 
-const _cheers = (project: VillageProjectName) => (state: MachineState) => {
+const _cheers = (project: MonumentName) => (state: MachineState) => {
   return (
     state.context.state.socialFarming.villageProjects[project]?.cheers ?? 0
   );
@@ -97,23 +95,22 @@ const _cheersAvailable = (state: MachineState) => {
   return state.context.visitorState?.inventory["Cheer"] ?? new Decimal(0);
 };
 
-const _hasCheeredToday =
-  (project: VillageProjectName) => (state: MachineState) => {
-    const today = new Date().toISOString().split("T")[0];
+const _hasCheeredToday = (project: MonumentName) => (state: MachineState) => {
+  const today = new Date().toISOString().split("T")[0];
 
-    if (state.context.visitorState?.socialFarming.cheersGiven.date !== today) {
-      return false;
-    }
+  if (state.context.visitorState?.socialFarming.cheersGiven.date !== today) {
+    return false;
+  }
 
-    return (
-      state.context.visitorState?.socialFarming.cheersGiven.projects[
-        project
-      ]?.includes(state.context.farmId) ?? false
-    );
-  };
+  return (
+    state.context.visitorState?.socialFarming.cheersGiven.projects[
+      project
+    ]?.includes(state.context.farmId) ?? false
+  );
+};
 
 type MonumentProps = React.ComponentProps<typeof ImageStyle> & {
-  project: VillageProjectName;
+  project: MonumentName;
 };
 
 export const Monument: React.FC<MonumentProps> = (input) => {

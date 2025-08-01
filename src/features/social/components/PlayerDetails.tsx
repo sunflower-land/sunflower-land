@@ -11,6 +11,7 @@ import volcanoIsland from "assets/icons/islands/volcano.webp";
 import flowerIcon from "assets/icons/flower_token.webp";
 import deliveryBook from "assets/icons/chapter_icon_3.webp";
 import cheer from "assets/icons/cheer.webp";
+import socialPointsIcon from "assets/icons/social_score.webp";
 
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -38,6 +39,7 @@ import { FACTION_TO_EMBLEM } from "features/world/ui/factions/emblemTrading/Embl
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import Decimal from "decimal.js-light";
+import { useOnMachineTransition } from "lib/utils/hooks/useOnMachineTransition";
 
 const ISLAND_ICONS: Record<IslandType, string> = {
   basic: basicIsland,
@@ -49,6 +51,7 @@ const ISLAND_ICONS: Record<IslandType, string> = {
 type Props = {
   data?: Player;
   error?: Error;
+  loggedInFarmId: number;
   playerLoading: boolean;
   playerValidating: boolean;
   followLoading: boolean;
@@ -61,7 +64,6 @@ type Props = {
   onGoBack?: () => void;
 };
 
-const _farmId = (state: MachineState) => state.context.farmId;
 const _cheersAvailable = (state: MachineState) => {
   return state.context.state.inventory["Cheer"] ?? new Decimal(0);
 };
@@ -79,6 +81,7 @@ export const PlayerDetails: React.FC<Props> = ({
   error,
   playerLoading,
   followLoading,
+  loggedInFarmId,
   iAmFollowing,
   isFollowMutual,
   mutate,
@@ -91,12 +94,18 @@ export const PlayerDetails: React.FC<Props> = ({
   const { t } = useTranslation();
   const navigate = useNavigate();
   const { isVisiting } = useVisiting();
-  const farmId = useSelector(gameService, _farmId);
   const cheersAvailable = useSelector(gameService, _cheersAvailable);
   const location = useLocation();
   const [showCheerModal, setShowCheerModal] = useState(false);
 
   const player = data?.data;
+
+  useOnMachineTransition(
+    gameService,
+    "cheeringFarm",
+    "cheeringFarmSuccess",
+    mutate,
+  );
 
   const hasCheeredToday = useSelector(
     gameService,
@@ -104,7 +113,7 @@ export const PlayerDetails: React.FC<Props> = ({
   );
 
   useSocial({
-    farmId,
+    farmId: loggedInFarmId,
     following: player?.followedBy ?? [],
     callbacks: {
       onFollow: () => mutate(),
@@ -150,7 +159,7 @@ export const PlayerDetails: React.FC<Props> = ({
     },
   );
 
-  const isSelf = player?.id === farmId;
+  const isSelf = player?.id === loggedInFarmId;
   const hasCheersAvailable = cheersAvailable.gt(0);
   const displayName = player?.username ?? `#${player?.id}`;
 
@@ -187,7 +196,7 @@ export const PlayerDetails: React.FC<Props> = ({
           </ModalOverlay>
           <div className="flex justify-between">
             <div className="flex items-center relative">
-              <div className="flex items-center">
+              <div className="flex items-center flex-wrap">
                 {canGoBack && (
                   <div
                     className="flex items-center justify-center w-6 h-6 mr-2 cursor-pointer hover:bg-brown-200 active:bg-brown-300 rounded-sm transition-colors"
@@ -200,20 +209,27 @@ export const PlayerDetails: React.FC<Props> = ({
                     />
                   </div>
                 )}
-                <Label type="default" className="relative">
-                  {player?.username}
-                  <div className="absolute -top-2 -right-2 z-10">
-                    {player?.id && (
-                      <OnlineStatus
-                        playerId={player?.id}
-                        farmId={farmId}
-                        lastUpdatedAt={player?.lastUpdatedAt ?? 0}
-                      />
-                    )}
-                  </div>
+                <div className="flex items-center mr-2 mb-1">
+                  <Label type="default" className="relative">
+                    {player?.username}
+                    <div className="absolute -top-2 -right-2 z-10">
+                      {player?.id && (
+                        <OnlineStatus
+                          playerId={player?.id}
+                          loggedInFarmId={loggedInFarmId}
+                          lastUpdatedAt={player?.lastUpdatedAt ?? 0}
+                        />
+                      )}
+                    </div>
+                  </Label>
+                  {player?.isVip && <img src={vipIcon} className="w-5 ml-2" />}
+                </div>
+                <Label type="chill" className="ml-0.5" icon={socialPointsIcon}>
+                  {player?.socialPoints === 1
+                    ? t("socialPoint")
+                    : t("socialPoints", { points: player?.socialPoints })}
                 </Label>
               </div>
-              {player?.isVip && <img src={vipIcon} className="w-5 ml-2" />}
             </div>
             {!isSelf && (
               <Button
@@ -222,7 +238,6 @@ export const PlayerDetails: React.FC<Props> = ({
                 disabled={hasCheeredToday}
               >
                 <div className="flex items-center px-1">
-                  {!isMobile && <span className="pr-1">{t("cheer")}</span>}
                   <img
                     src={cheer}
                     className="flex justify-center items-center w-4 h-4"
@@ -340,7 +355,7 @@ export const PlayerDetails: React.FC<Props> = ({
       </div>
       {!isMobile && player && !isSelf && (
         <FollowerFeed
-          farmId={farmId}
+          loggedInFarmId={loggedInFarmId}
           playerId={player.id}
           playerClothing={player.clothing}
           playerUsername={player.username}

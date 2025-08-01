@@ -7,15 +7,15 @@ import {
 } from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
 import {
-  LANDSCAPING_MONUMENTS,
-  LandscapingMonumentName,
+  WORKBENCH_MONUMENTS,
+  WorkbenchMonumentName,
   LOVE_CHARM_MONUMENTS,
 } from "features/game/types/monuments";
 import { produce } from "immer";
 
 export type BuyMonumentAction = {
   type: "monument.bought";
-  name: LandscapingMonumentName;
+  name: WorkbenchMonumentName;
   id?: string;
   coordinates?: {
     x: number;
@@ -36,7 +36,7 @@ export function buyMonument({
 }: Options) {
   return produce(state, (stateCopy) => {
     const { name } = action;
-    const desiredItem = LANDSCAPING_MONUMENTS[name];
+    const desiredItem = WORKBENCH_MONUMENTS[name];
 
     if (!desiredItem) {
       throw new Error("This item is not a monument");

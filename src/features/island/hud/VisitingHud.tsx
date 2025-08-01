@@ -23,6 +23,7 @@ import { Label } from "components/ui/Label";
 import { getTrashBinItems, useCleanFarm } from "../clutter/Clutter";
 import { TRASH_BIN_DAILY_LIMIT } from "features/game/events/landExpansion/collectClutter";
 import garbageBin from "assets/sfts/garbage_bin.webp";
+import socialPointsIcon from "assets/icons/social_score.webp";
 
 const _cheers = (state: MachineState) => {
   return state.context.visitorState?.inventory["Cheer"] ?? new Decimal(0);
@@ -101,8 +102,10 @@ export const VisitingHud: React.FC = () => {
       </div>
       <BumpkinProfile />
       <div className="absolute p-2 left-0 top-24 flex flex-col space-y-2.5">
-        <Label type="chill">
-          {t("social.points", { points: socialPoints })}
+        <Label type="chill" icon={socialPointsIcon}>
+          {socialPoints === 1
+            ? t("socialPoint")
+            : t("socialPoints", { points: socialPoints })}
         </Label>
       </div>
       <div className="absolute bottom-0 p-2 right-0 flex flex-col space-y-2.5">
@@ -125,14 +128,14 @@ export const VisitingHud: React.FC = () => {
           }}
         >
           <img
-            src={SUNNYSIDE.icons.worldIcon}
-            id="world-icon"
+            src={SUNNYSIDE.icons.arrow_left}
+            alt="End visit"
+            className="absolute"
             style={{
               width: `${PIXEL_SCALE * 12}px`,
               left: `${PIXEL_SCALE * 5}px`,
               top: `${PIXEL_SCALE * 4}px`,
             }}
-            className="absolute group-active:translate-y-[2px]"
           />
         </RoundButton>
       </div>

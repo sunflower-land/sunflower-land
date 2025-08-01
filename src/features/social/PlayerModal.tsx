@@ -3,6 +3,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import React, { useCallback, useEffect, useState } from "react";
 import { Modal } from "components/ui/Modal";
 import giftIcon from "assets/icons/gift.png";
+import cheer from "assets/icons/cheer.webp";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { GameState } from "features/game/types/game";
@@ -27,10 +28,11 @@ import { FollowList } from "./components/FollowList";
 import { Player } from "./types/types";
 import { usePlayerNavigation } from "./hooks/usePlayerNavigation";
 import { Equipped } from "features/game/types/bumpkin";
+import { CheersGuide } from "./components/CheersGuide";
 
 interface Props {
   game: GameState;
-  farmId: number;
+  loggedInFarmId: number;
   token: string;
 }
 
@@ -40,7 +42,8 @@ type Tab =
   | "Stream"
   | "Activity"
   | "Followers"
-  | "Following";
+  | "Following"
+  | "Guide";
 
 export const mergeResponse = (current: Player, update: Player) => {
   return {
@@ -48,7 +51,11 @@ export const mergeResponse = (current: Player, update: Player) => {
   } as Player;
 };
 
-export const PlayerModal: React.FC<Props> = ({ game, farmId, token }) => {
+export const PlayerModal: React.FC<Props> = ({
+  game,
+  loggedInFarmId,
+  token,
+}) => {
   const { t } = useAppTranslation();
   const [tab, setTab] = useState<Tab>("Player");
 
@@ -68,7 +75,9 @@ export const PlayerModal: React.FC<Props> = ({ game, farmId, token }) => {
 
   const closeModal = useCallback(() => {
     setShowPlayerModal(false);
-    clearHistory();
+    setTimeout(() => {
+      clearHistory();
+    }, 100);
   }, [clearHistory]);
 
   const {
@@ -78,11 +87,15 @@ export const PlayerModal: React.FC<Props> = ({ game, farmId, token }) => {
     error,
     mutate,
   } = useSWR(
-    [currentPlayerId ? "player" : null, token, farmId, currentPlayerId],
-    ([, token, farmId, followedPlayerId]) => {
+    [currentPlayerId ? "player" : null, token, loggedInFarmId, currentPlayerId],
+    ([, token, loggedInFarmId, followedPlayerId]) => {
       if (!followedPlayerId) return;
 
-      return getPlayer({ token: token as string, farmId, followedPlayerId });
+      return getPlayer({
+        token: token as string,
+        farmId: loggedInFarmId,
+        followedPlayerId,
+      });
     },
     {
       revalidateOnFocus: false,
@@ -92,7 +105,10 @@ export const PlayerModal: React.FC<Props> = ({ game, farmId, token }) => {
   const player = data?.data;
 
   const setInitialTab = useCallback((equipped?: Equipped) => {
-    if (equipped?.hat === "Streamer Hat" && farmId !== currentPlayerId) {
+    if (
+      equipped?.hat === "Streamer Hat" &&
+      loggedInFarmId !== currentPlayerId
+    ) {
       setTab("Stream");
     } else if (equipped?.shirt === "Gift Giver") {
       setTab("Reward");
@@ -112,15 +128,17 @@ export const PlayerModal: React.FC<Props> = ({ game, farmId, token }) => {
       // Automatically set to Stream tab if player has Streamer Hat and is not current player
       setInitialTab(npc.clothing as Equipped);
     });
-  }, [farmId, setInitialPlayer, setInitialTab]);
+  }, [loggedInFarmId, setInitialPlayer, setInitialTab]);
 
   const playerHasGift = player?.clothing?.shirt === "Gift Giver";
   const playerHasStreamReward = player?.clothing?.hat === "Streamer Hat";
-  const notCurrentPlayer = farmId !== currentPlayerId;
+  const notCurrentPlayer = loggedInFarmId !== currentPlayerId;
 
-  const iAmFollowing = player?.followedBy.includes(farmId);
-  const theyAreFollowingMe = player?.following.includes(farmId);
+  const iAmFollowing = player?.followedBy.includes(loggedInFarmId);
+  const theyAreFollowingMe = player?.following.includes(loggedInFarmId);
   const isMutual = iAmFollowing && theyAreFollowingMe;
+
+  const isSelf = loggedInFarmId === currentPlayerId;
 
   // Effect to handle tab switching when player data changes
   useEffect(() => {
@@ -152,7 +170,7 @@ export const PlayerModal: React.FC<Props> = ({ game, farmId, token }) => {
           },
           transactionId: randomID(),
           token: token as string,
-          farmId: farmId,
+          farmId: loggedInFarmId,
         });
 
         mutate((current) => mergeResponse(current!, response), {
@@ -166,7 +184,7 @@ export const PlayerModal: React.FC<Props> = ({ game, farmId, token }) => {
           },
           transactionId: randomID(),
           token: token as string,
-          farmId: farmId,
+          farmId: loggedInFarmId,
         });
 
         mutate((current) => mergeResponse(current!, response), {
@@ -197,9 +215,9 @@ export const PlayerModal: React.FC<Props> = ({ game, farmId, token }) => {
           tabs={[
             {
               icon: SUNNYSIDE.icons.player,
-              name: "Player",
+              name: t("player"),
             },
-            ...(isMobile && hasFeatureAccess(game, "SOCIAL_FARMING")
+            ...(isMobile && !isSelf && hasFeatureAccess(game, "SOCIAL_FARMING")
               ? [
                   {
                     icon: SUNNYSIDE.icons.expression_chat,
@@ -209,18 +227,18 @@ export const PlayerModal: React.FC<Props> = ({ game, farmId, token }) => {
               : []),
             {
               icon: SUNNYSIDE.icons.player,
-              name: "Followers",
+              name: t("followers"),
             },
             {
               icon: SUNNYSIDE.icons.player,
-              name: "Following",
+              name: t("following"),
             },
 
             ...(playerHasGift
               ? [
                   {
                     icon: giftIcon,
-                    name: "Reward",
+                    name: t("reward"),
                   },
                 ]
               : []),
@@ -228,87 +246,98 @@ export const PlayerModal: React.FC<Props> = ({ game, farmId, token }) => {
               ? [
                   {
                     icon: ITEM_DETAILS["Love Charm"].image,
-                    name: "Stream",
+                    name: t("stream"),
                   },
                 ]
               : []),
+            {
+              icon: cheer,
+              name: t("guide"),
+            },
           ]}
           container={OuterPanel}
         >
-          {tab === "Player" && (
-            <PlayerDetails
-              data={data}
-              playerLoading={playerLoading}
-              playerValidating={playerValidating}
-              error={error}
-              followLoading={followLoading}
-              iAmFollowing={!!iAmFollowing}
-              isFollowMutual={!!isMutual}
-              mutate={mutate}
-              onFollow={handleFollow}
-              onFollowersClick={() => setTab("Followers")}
-              canGoBack={canGoBack}
-              onGoBack={goBack}
-            />
-          )}
+          <div className="max-h-[500px]">
+            {tab === "Player" && (
+              <PlayerDetails
+                data={data}
+                loggedInFarmId={loggedInFarmId}
+                playerLoading={playerLoading}
+                playerValidating={playerValidating}
+                error={error}
+                followLoading={followLoading}
+                iAmFollowing={!!iAmFollowing}
+                isFollowMutual={!!isMutual}
+                mutate={mutate}
+                onFollow={handleFollow}
+                onFollowersClick={() => setTab("Followers")}
+                canGoBack={canGoBack}
+                onGoBack={goBack}
+              />
+            )}
 
-          {tab === "Activity" && (
-            <FollowerFeed
-              farmId={farmId}
-              playerId={currentPlayerId as number}
-              playerClothing={player?.clothing}
-              playerUsername={player?.username}
-              playerLoading={playerLoading}
-              chatDisabled={!isMutual}
-            />
-          )}
-          {tab === "Followers" && (
-            <InnerPanel>
-              <FollowList
-                farmId={farmId}
-                networkFarmId={currentPlayerId as number}
-                token={token}
-                networkList={player?.followedBy ?? []}
-                networkCount={player?.followedByCount ?? 0}
+            {tab === "Activity" && (
+              <FollowerFeed
+                loggedInFarmId={loggedInFarmId}
+                playerId={currentPlayerId as number}
+                playerClothing={player?.clothing}
+                playerUsername={player?.username}
                 playerLoading={playerLoading}
-                type="followers"
-                navigateToPlayer={navigateToPlayer}
+                chatDisabled={!isMutual}
               />
-            </InnerPanel>
-          )}
-          {tab === "Following" && (
-            <InnerPanel>
-              <FollowList
-                farmId={farmId}
-                networkFarmId={currentPlayerId as number}
-                token={token}
-                networkCount={player?.followingCount ?? 0}
-                networkList={player?.following ?? []}
-                playerLoading={playerLoading}
-                type="following"
-                navigateToPlayer={navigateToPlayer}
-              />
-            </InnerPanel>
-          )}
-          {tab === "Reward" && <PlayerGift />}
-          {tab === "Stream" && (
-            <StreamReward streamerId={currentPlayerId as number} />
-          )}
-          <div className="flex items-center p-1 space-x-3 justify-end">
-            <span
-              className="text-xxs underline cursor-pointer"
-              onClick={() => setShowReport(true)}
-            >
-              {t("report")}
-            </span>
-            {hasFeatureAccess(game, "AIRDROP_PLAYER") && (
+            )}
+            {tab === "Followers" && (
+              <InnerPanel
+                className="overflow-y-auto scrollable max-h-[350px]"
+                style={{ padding: 0 }}
+              >
+                <FollowList
+                  loggedInFarmId={loggedInFarmId}
+                  networkFarmId={currentPlayerId as number}
+                  token={token}
+                  networkList={player?.followedBy ?? []}
+                  networkCount={player?.followedByCount ?? 0}
+                  playerLoading={playerLoading}
+                  type="followers"
+                  navigateToPlayer={navigateToPlayer}
+                />
+              </InnerPanel>
+            )}
+            {tab === "Following" && (
+              <InnerPanel className="overflow-y-auto scrollable max-h-[350px]">
+                <FollowList
+                  loggedInFarmId={loggedInFarmId}
+                  networkFarmId={currentPlayerId as number}
+                  token={token}
+                  networkCount={player?.followingCount ?? 0}
+                  networkList={player?.following ?? []}
+                  playerLoading={playerLoading}
+                  type="following"
+                  navigateToPlayer={navigateToPlayer}
+                />
+              </InnerPanel>
+            )}
+            {tab === "Reward" && <PlayerGift />}
+            {tab === "Stream" && (
+              <StreamReward streamerId={currentPlayerId as number} />
+            )}
+            {tab === "Guide" && <CheersGuide />}
+            <div className="flex items-center p-1 space-x-3 justify-end">
               <span
                 className="text-xxs underline cursor-pointer"
-                onClick={() => setShowAirdrop(true)}
+                onClick={() => setShowReport(true)}
               >
-                {t("special.event.airdrop")}
+                {t("report")}
               </span>
-            )}
+              {hasFeatureAccess(game, "AIRDROP_PLAYER") && (
+                <span
+                  className="text-xxs underline cursor-pointer"
+                  onClick={() => setShowAirdrop(true)}
+                >
+                  {t("special.event.airdrop")}
+                </span>
+              )}
+            </div>
           </div>
         </CloseButtonPanel>
         {player && (

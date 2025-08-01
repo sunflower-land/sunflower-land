@@ -1,7 +1,6 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "features/game/lib/constants";
 import { GameState } from "features/game/types/game";
-import { makeChickens } from "./removeBuilding.test";
 import {
   removeCollectible,
   REMOVE_COLLECTIBLE_ERRORS,
@@ -69,6 +68,7 @@ describe("removeCollectible", () => {
   });
 
   it("removes a collectible and does not affect collectibles of the same type", () => {
+    const dateNow = Date.now();
     const gameState = removeCollectible({
       state: {
         ...GAME_STATE,
@@ -104,9 +104,16 @@ describe("removeCollectible", () => {
         name: "Nugget",
         id: "123",
       },
+      createdAt: dateNow,
     });
 
     expect(gameState.collectibles.Nugget).toEqual([
+      {
+        id: "123",
+        createdAt: 0,
+        readyAt: 0,
+        removedAt: dateNow,
+      },
       {
         id: "456",
         createdAt: 0,
@@ -120,36 +127,6 @@ describe("removeCollectible", () => {
         readyAt: 0,
       },
     ]);
-  });
-
-  it("removes the collectible key if there are none of the type placed", () => {
-    const gameState = removeCollectible({
-      state: {
-        ...GAME_STATE,
-        inventory: {
-          "Rusty Shovel": new Decimal(2),
-        },
-        chickens: makeChickens(30),
-        collectibles: {
-          "Rock Golem": [
-            {
-              id: "123",
-              createdAt: 0,
-              coordinates: { x: 1, y: 1 },
-              readyAt: 0,
-            },
-          ],
-        },
-      },
-      action: {
-        location: "farm",
-        type: "collectible.removed",
-        name: "Rock Golem",
-        id: "123",
-      },
-    });
-
-    expect(gameState.collectibles["Rock Golem"]).toBeUndefined();
   });
 
   it("it prevents a genie lamp from being removed if it is in use", () => {

@@ -2600,48 +2600,51 @@ export const COLLECTIBLE_COMPONENTS: Record<
     />
   ),
   "Big Apple": (props: CollectibleProps) => (
-    <ImageStyle
+    <Monument
       {...props}
       divStyle={{
-        width: `${PIXEL_SCALE * 22}px`,
-        bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * -3}px`,
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 3}px`,
+        left: `${PIXEL_SCALE * 3}px`,
       }}
       imgStyle={{
-        width: `${PIXEL_SCALE * 22}px`,
+        width: `${PIXEL_SCALE * 26}px`,
       }}
       image={ITEM_DETAILS["Big Apple"].image}
       alt="Big Apple"
+      project="Big Apple"
     />
   ),
   "Big Orange": (props: CollectibleProps) => (
-    <ImageStyle
+    <Monument
       {...props}
       divStyle={{
-        width: `${PIXEL_SCALE * 22}px`,
-        bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * -3}px`,
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 2}px`,
+        left: `${PIXEL_SCALE * 2}px`,
       }}
       imgStyle={{
-        width: `${PIXEL_SCALE * 22}px`,
+        width: `${PIXEL_SCALE * 28}px`,
       }}
       image={ITEM_DETAILS["Big Orange"].image}
       alt="Big Orange"
+      project="Big Orange"
     />
   ),
   "Big Banana": (props: CollectibleProps) => (
-    <ImageStyle
+    <Monument
       {...props}
       divStyle={{
-        width: `${PIXEL_SCALE * 22}px`,
-        bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * -3}px`,
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 2}px`,
+        left: `${PIXEL_SCALE * 0}px`,
       }}
       imgStyle={{
-        width: `${PIXEL_SCALE * 22}px`,
+        width: `${PIXEL_SCALE * 32}px`,
       }}
       image={ITEM_DETAILS["Big Banana"].image}
       alt="Big Banana"
+      project="Big Banana"
     />
   ),
   "Farmer's Monument": (props: CollectibleProps) => (
@@ -2709,33 +2712,51 @@ export const COLLECTIBLE_COMPONENTS: Record<
     />
   ),
   "Basic Cooking Pot": (props: CollectibleProps) => (
-    <ImageStyle
+    <Monument
       {...props}
       divStyle={{
-        width: `${PIXEL_SCALE * 22}px`,
+        width: `${PIXEL_SCALE * 48}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * -3}px`,
+        left: `${PIXEL_SCALE * 0}px`,
       }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 27}px`,
+      }}
+      image={ITEM_DETAILS["Basic Cooking Pot"].image}
+      alt="Basic Cooking Pot"
+      project="Basic Cooking Pot"
     />
   ),
   "Expert Cooking Pot": (props: CollectibleProps) => (
-    <ImageStyle
+    <Monument
       {...props}
       divStyle={{
-        width: `${PIXEL_SCALE * 22}px`,
+        width: `${PIXEL_SCALE * 48}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * -3}px`,
+        left: `${PIXEL_SCALE * 0}px`,
       }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Expert Cooking Pot"].image}
+      alt="Expert Cooking Pot"
+      project="Expert Cooking Pot"
     />
   ),
   "Advanced Cooking Pot": (props: CollectibleProps) => (
-    <ImageStyle
+    <Monument
       {...props}
       divStyle={{
-        width: `${PIXEL_SCALE * 22}px`,
+        width: `${PIXEL_SCALE * 48}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * -3}px`,
+        left: `${PIXEL_SCALE * 0}px`,
       }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 34}px`,
+      }}
+      image={ITEM_DETAILS["Advanced Cooking Pot"].image}
+      alt="Advanced Cooking Pot"
+      project="Advanced Cooking Pot"
     />
   ),
   "Floor Mirror": (props: CollectibleProps) => (

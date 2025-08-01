@@ -97,10 +97,14 @@ export const getChestItems = (state: GameState): Inventory => {
         [itemName]: new Decimal(
           state.inventory[itemName]
             ?.minus(
-              state.collectibles[itemName as CollectibleName]?.length ?? 0,
+              state.collectibles[itemName as CollectibleName]?.filter(
+                (collectible) => collectible.coordinates,
+              ).length ?? 0,
             )
             ?.minus(
-              state.home.collectibles[itemName as CollectibleName]?.length ?? 0,
+              state.home.collectibles[itemName as CollectibleName]?.filter(
+                (collectible) => collectible.coordinates,
+              ).length ?? 0,
             ) ?? 0,
         ),
       };

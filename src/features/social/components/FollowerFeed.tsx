@@ -37,7 +37,7 @@ import { useFeed } from "../FeedContext";
 import silhouette from "assets/npcs/silhouette.webp";
 
 type Props = {
-  farmId: number;
+  loggedInFarmId: number;
   playerId: number;
   playerClothing?: Equipped;
   playerUsername?: string;
@@ -55,7 +55,7 @@ const _token = (state: AuthMachineState) =>
 
 export const FollowerFeed: React.FC<Props> = ({
   chatDisabled,
-  farmId,
+  loggedInFarmId,
   playerId,
   playerClothing,
   playerUsername,
@@ -92,7 +92,7 @@ export const FollowerFeed: React.FC<Props> = ({
     hasMore,
     loadMore,
     mutate,
-  } = useChatInteractions(token, farmId, playerId);
+  } = useChatInteractions(token, loggedInFarmId, playerId);
 
   useEffect(() => {
     // Always refetch when the component mounts
@@ -120,7 +120,7 @@ export const FollowerFeed: React.FC<Props> = ({
   }, [scrolledToBottom, newLocalMessagesCount]);
 
   useSocial({
-    farmId,
+    farmId: loggedInFarmId,
     callbacks: {
       onInteraction: async (update) => {
         if (update.sender.id !== playerId) return;
@@ -212,9 +212,9 @@ export const FollowerFeed: React.FC<Props> = ({
         username: playerUsername ?? `#${playerId}`,
       },
       sender: {
-        id: farmId,
+        id: loggedInFarmId,
         clothing: myClothing,
-        username: myUsername ?? `#${farmId}`,
+        username: myUsername ?? `#${loggedInFarmId}`,
       },
       createdAt: Date.now(),
     };
@@ -230,7 +230,7 @@ export const FollowerFeed: React.FC<Props> = ({
           },
           transactionId: randomID(),
           token: token as string,
-          farmId: farmId,
+          farmId: loggedInFarmId,
         });
 
         // Replace page 0 with latest messages. The rest will become invalid as the
@@ -295,7 +295,7 @@ export const FollowerFeed: React.FC<Props> = ({
         className="flex flex-col max-h-[70%] h-[270px] sm:max-h-none sm:h-auto sm:flex-grow gap-1 overflow-y-auto mb-1"
         ref={scrollContainerRef}
       >
-        <div className="sticky top-0 bg-brown-200 z-10 pb-1 flex justify-between">
+        <div className="sticky -top-0.5 bg-brown-200 z-10 pb-1 pt-1 flex justify-between">
           <Label type="default">
             {t("activity")}
             {newLocalMessagesCount > 0 && ` (${newLocalMessagesCount})`}
