@@ -69,13 +69,13 @@ describe("upgradeFarm", () => {
   });
 
   it("resets collectibles, buildings, fishing, chickens, mushrooms, buds, flowers, beehives, oil, crimstone", () => {
-    const createdAt = Date.now();
+    const now = Date.now();
     const state = upgrade({
       action: {
         type: "farm.upgraded",
       },
       state: {
-        ...TEST_FARM,
+        ...INITIAL_FARM,
         inventory: {
           "Basic Land": new Decimal(9),
           Gold: new Decimal(15),
@@ -143,7 +143,7 @@ describe("upgradeFarm", () => {
           discovered: {},
           flowerBeds: {
             0: {
-              createdAt: Date.now(),
+              createdAt: now,
               x: -2,
               y: 0,
               flower: {
@@ -167,21 +167,33 @@ describe("upgradeFarm", () => {
         },
         crimstones: {
           crim: {
+            createdAt: 1,
             minesLeft: 1,
-            stone: {
-              minedAt: Date.now() - 1 * 60 * 60 * 1000,
-            },
+            stone: { minedAt: now - 1 * 60 * 60 * 1000 },
             x: 100,
             y: 100,
           },
         },
       },
-      createdAt,
+      createdAt: now,
     });
 
-    expect(state.collectibles).toEqual({});
+    expect(state.collectibles).toEqual({
+      "Abandoned Bear": [
+        {
+          createdAt: 100001,
+          id: "1",
+          readyAt: 0,
+          removedAt: now,
+        },
+      ],
+    });
 
-    expect(Object.keys(state.buildings)).not.toContain("Hen House");
+    expect(
+      Object.values(state.buildings)
+        .flat()
+        .map((b) => b.coordinates),
+    ).not.toContain({ x: expect.any(Number), y: expect.any(Number) });
     expect(state.chickens).toEqual({});
     expect(state.fishing.wharf).toEqual({});
     expect(state.mushrooms).toEqual({
@@ -197,10 +209,45 @@ describe("upgradeFarm", () => {
         type: "Beach",
       },
     });
-    expect(state.flowers.flowerBeds).toEqual({});
-    expect(state.beehives).toEqual({});
-    expect(state.oilReserves).toEqual({});
-    expect(state.crimstones).toEqual({});
+    expect(state.flowers.flowerBeds).toEqual({
+      0: {
+        createdAt: now,
+        removedAt: now,
+        flower: {
+          name: "Red Pansy",
+          plantedAt: 123,
+        },
+      },
+    });
+    expect(state.beehives).toEqual({
+      "1234": {
+        flowers: [],
+        removedAt: now,
+        swarm: true,
+        honey: {
+          updatedAt: 0,
+          produced: 0,
+        },
+      },
+    });
+    expect(state.oilReserves).toEqual({
+      oil: {
+        oil: {
+          drilledAt: 1,
+        },
+        createdAt: 1,
+        drilled: 1,
+        removedAt: now,
+      },
+    });
+    expect(state.crimstones).toEqual({
+      crim: {
+        createdAt: 1,
+        minesLeft: 1,
+        stone: { minedAt: now - 1 * 60 * 60 * 1000 },
+        removedAt: now,
+      },
+    });
   });
 
   it("does not reset flower codex", () => {
@@ -246,10 +293,17 @@ describe("upgradeFarm", () => {
         type: "farm.upgraded",
       },
       state: {
-        ...TEST_FARM,
+        ...INITIAL_FARM,
         inventory: {
+          ...INITIAL_FARM.inventory,
           "Basic Land": new Decimal(9),
           Gold: new Decimal(15),
+          "Fire Pit": new Decimal(1),
+          "Crop Plot": new Decimal(31),
+          Tree: new Decimal(9),
+          "Stone Rock": new Decimal(7),
+          "Iron Rock": new Decimal(4),
+          "Gold Rock": new Decimal(2),
         },
       },
     });
@@ -258,12 +312,173 @@ describe("upgradeFarm", () => {
     expect(state.inventory["Fruit Patch"]).toEqual(new Decimal(2));
     expect(state.inventory["Town Center"]).toBeUndefined();
 
-    expect(Object.keys(state.buildings)).toEqual([
-      "House",
-      "Workbench",
-      "Market",
-      "Fire Pit",
-    ]);
+    expect(state.buildings.House?.[0].coordinates).toEqual({ x: -1, y: 5 });
+    expect(state.buildings.Workbench?.[0].coordinates).toEqual({ x: 6, y: 6 });
+    expect(state.buildings.Market?.[0].coordinates).toEqual({ x: 6, y: 3 });
+    expect(state.buildings["Fire Pit"]?.[0].coordinates).toEqual({
+      x: 6,
+      y: 0,
+    });
+
+    expect(state.crops).toEqual({
+      "1": {
+        createdAt: expect.any(Number),
+        x: -2,
+        y: 0,
+      },
+      "2": {
+        createdAt: expect.any(Number),
+        x: -1,
+        y: 0,
+      },
+      "3": {
+        createdAt: expect.any(Number),
+        x: 0,
+        y: 0,
+      },
+      "4": {
+        createdAt: expect.any(Number),
+        x: -2,
+        y: -1,
+      },
+      "5": {
+        createdAt: expect.any(Number),
+        x: -1,
+        y: -1,
+      },
+      "6": {
+        createdAt: expect.any(Number),
+        x: 0,
+        y: -1,
+      },
+      "7": {
+        createdAt: expect.any(Number),
+        x: -2,
+        y: 1,
+      },
+      "8": {
+        createdAt: expect.any(Number),
+        x: -1,
+        y: 1,
+      },
+      "9": {
+        createdAt: expect.any(Number),
+        x: 0,
+        y: 1,
+      },
+      "10": {
+        createdAt: expect.any(Number),
+        x: 1,
+        y: 1,
+      },
+      "11": {
+        createdAt: expect.any(Number),
+        x: 1,
+        y: 0,
+      },
+      "12": {
+        createdAt: expect.any(Number),
+        x: 1,
+        y: -1,
+      },
+      "13": {
+        createdAt: expect.any(Number),
+        x: 2,
+        y: 1,
+      },
+      "14": {
+        createdAt: expect.any(Number),
+        x: 2,
+        y: 0,
+      },
+      "15": {
+        createdAt: expect.any(Number),
+        x: 2,
+        y: -1,
+      },
+      "16": {
+        createdAt: expect.any(Number),
+        x: 3,
+        y: 1,
+      },
+      "17": {
+        createdAt: expect.any(Number),
+        x: 3,
+        y: 0,
+      },
+      "18": {
+        createdAt: expect.any(Number),
+        x: 3,
+        y: -1,
+      },
+    });
+
+    expect(state.fruitPatches).toEqual({
+      "1": {
+        createdAt: expect.any(Number),
+        x: 0,
+        y: 9,
+      },
+      "2": {
+        createdAt: expect.any(Number),
+        x: -2,
+        y: 9,
+      },
+    });
+
+    expect(state.trees).toEqual({
+      "1": {
+        createdAt: expect.any(Number),
+        wood: expect.any(Object),
+        x: 3,
+        y: 6,
+      },
+      "2": {
+        createdAt: expect.any(Number),
+        wood: expect.any(Object),
+        x: 3,
+        y: 4,
+      },
+      "3": {
+        createdAt: expect.any(Number),
+        wood: expect.any(Object),
+        x: 6,
+        y: 9,
+      },
+    });
+
+    expect(state.gold).toEqual({
+      "1": {
+        createdAt: expect.any(Number),
+        stone: expect.any(Object),
+        x: 3,
+        y: 9,
+      },
+    });
+
+    expect(state.iron).toEqual({
+      "1": {
+        createdAt: expect.any(Number),
+        stone: expect.any(Object),
+        x: 5,
+        y: 8,
+      },
+    });
+
+    expect(state.stones).toEqual({
+      "1": {
+        createdAt: expect.any(Number),
+        stone: expect.any(Object),
+        x: -3,
+        y: 5,
+      },
+      "2": {
+        createdAt: expect.any(Number),
+        stone: expect.any(Object),
+        x: -2,
+        y: 3,
+      },
+    });
   });
 
   it("sets island history", () => {
@@ -327,42 +542,6 @@ describe("upgradeFarm", () => {
     expect(state.inventory["Super Totem"]).toEqual(new Decimal(0));
   });
 
-  it("does not remove sunstones", () => {
-    const createdAt = Date.now();
-    const sunstones = {
-      "1234": {
-        minesLeft: 1,
-        stone: {
-          minedAt: Date.now() - 1 * 60 * 60 * 1000,
-        },
-        x: 100,
-        y: 100,
-      },
-    };
-
-    const state = upgrade({
-      action: {
-        type: "farm.upgraded",
-      },
-      state: {
-        ...TEST_FARM,
-        inventory: {
-          "Basic Land": new Decimal(16),
-          Gold: new Decimal(15),
-          Sunstone: new Decimal(1),
-        },
-        sunstones,
-      },
-      createdAt,
-    });
-
-    expect(state.inventory["Sunstone"]).toEqual(new Decimal(1));
-    expect(state.sunstones).toEqual({
-      ...sunstones,
-      "1234": { ...sunstones["1234"], x: -5, y: 5 },
-    });
-  });
-
   it("does not give extra sunstones", () => {
     const createdAt = Date.now();
 
@@ -384,41 +563,6 @@ describe("upgradeFarm", () => {
     });
 
     expect(state.inventory["Sunstone Rock"]).toBeUndefined();
-  });
-
-  it("moves the sunstones to a central location", () => {
-    const createdAt = Date.now();
-    const sunstones = {
-      "1234": {
-        minesLeft: 1,
-        stone: {
-          minedAt: Date.now() - 1 * 60 * 60 * 1000,
-        },
-        x: 100,
-        y: 100,
-      },
-    };
-
-    const state = upgrade({
-      action: {
-        type: "farm.upgraded",
-      },
-      state: {
-        ...TEST_FARM,
-        inventory: {
-          "Basic Land": new Decimal(16),
-          Gold: new Decimal(15),
-          Sunstone: new Decimal(1),
-        },
-        sunstones,
-      },
-      createdAt,
-    });
-
-    expect(state.inventory["Sunstone"]).toEqual(new Decimal(1));
-    expect(state.sunstones).toEqual({
-      "1234": { ...sunstones["1234"], x: -5, y: 5 },
-    });
   });
 
   it("saves how many sunstones you were given", () => {
