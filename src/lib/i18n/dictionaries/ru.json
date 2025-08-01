@@ -6226,10 +6226,10 @@
   "description.bonusBracelet.boost": "Браслет +1",
   "description.architectRuler.boost": "Скорость изготовления ящиков: +25%",
   "description.reelmastersChair.boost": "+5 попыток рыбалки",
-  "description.musicBox.boost": "Скорость роста фруктовых грядок: +20%",
   "description.doubleBed.boost": "+2 батраки",
   "description.giantArtichoke.boost": "+2 артишока",
   "description.pickaxeShark.boost.1": "Время восстановления золота: +15%",
   "description.pickaxeShark.boost.2": "Вероятность получения мгновенного золота: 10%",
-  "cheer.village.project.description": "Вы можете поддержать {{project}}, чтобы они помогли {{username}} пройти его!"
+  "cheer.village.project.description": "Вы можете поддержать {{project}}, чтобы они помогли {{username}} пройти его!",
+  "description.fruitTuneBox.boost": "Скорость роста фруктовых грядок: +20%"
 }

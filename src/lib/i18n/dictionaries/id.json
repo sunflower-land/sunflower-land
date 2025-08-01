@@ -6226,10 +6226,10 @@
   "description.bonusBracelet.boost": "+1 Gelang",
   "description.architectRuler.boost": "+25% Kecepatan Kotak Kerajinan",
   "description.reelmastersChair.boost": "+5 Upaya Memancing",
-  "description.musicBox.boost": "+20% Kecepatan Pertumbuhan Petak Buah",
   "description.doubleBed.boost": "+2 Farmhands",
   "description.giantArtichoke.boost": "+2 Artischock",
   "description.pickaxeShark.boost.1": "+15% Waktu Pemulihan Emas",
   "description.pickaxeShark.boost.2": "10% peluang Emas Instan",
-  "cheer.village.project.description": "Anda dapat menghibur {{project}} untuk membantu {{username}} menyelesaikannya!"
+  "cheer.village.project.description": "Anda dapat menghibur {{project}} untuk membantu {{username}} menyelesaikannya!",
+  "description.fruitTuneBox.boost": "+20% Kecepatan Pertumbuhan Petak Buah"
 }

@@ -6226,10 +6226,10 @@
   "description.bonusBracelet.boost": "+1 手链",
   "description.architectRuler.boost": "+25% 制作箱速度",
   "description.reelmastersChair.boost": "+5 次钓鱼尝试",
-  "description.musicBox.boost": "+20% 水果补丁生长速度",
   "description.doubleBed.boost": "+2 农场工人",
   "description.giantArtichoke.boost": "+2 朝鲜蓟",
   "description.pickaxeShark.boost.1": "+15% 金币回收时间",
   "description.pickaxeShark.boost.2": "10% 几率获得即时金币",
-  "cheer.village.project.description": "你可以为 {{project}} 加油以帮助 {{username}} 完成它！"
+  "cheer.village.project.description": "你可以为 {{project}} 加油以帮助 {{username}} 完成它！",
+  "description.fruitTuneBox.boost": "+20% 水果补丁生长速度"
 }

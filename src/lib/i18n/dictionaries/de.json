@@ -6226,10 +6226,10 @@
   "description.bonusBracelet.boost": "+1 Armreif",
   "description.architectRuler.boost": "+25% Geschwindigkeit beim Herstellen von Boxen",
   "description.reelmastersChair.boost": "+5 Fangversuche",
-  "description.musicBox.boost": "+20% Wachstumstempo für Fruchtfelder",
   "description.doubleBed.boost": "+2 Farmarbeiter",
   "description.giantArtichoke.boost": "+2 Artischocken",
   "description.pickaxeShark.boost.1": "+15% Gold-Wiederherstellungszeit",
   "description.pickaxeShark.boost.2": "10% Chance auf Sofort-Gold",
-  "cheer.village.project.description": "Du kannst die {{project}} anfeuern, damit sie {{username}} dabei helfen, es zu vervollständigen!"
+  "cheer.village.project.description": "Du kannst die {{project}} anfeuern, damit sie {{username}} dabei helfen, es zu vervollständigen!",
+  "description.fruitTuneBox.boost": "+20% Wachstumstempo für Fruchtfelder"
 }

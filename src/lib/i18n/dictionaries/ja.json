@@ -6226,10 +6226,10 @@
   "description.bonusBracelet.boost": "+1 ブレスレット",
   "description.architectRuler.boost": "クラフトボックススピード +25%",
   "description.reelmastersChair.boost": "+5回釣りの試行",
-  "description.musicBox.boost": "+20% フルーツパッチ成長速度",
   "description.doubleBed.boost": "+2 ファームハンズ",
   "description.giantArtichoke.boost": "+2 アーティチョーク",
   "description.pickaxeShark.boost.1": "+15% ゴールド回復時間",
   "description.pickaxeShark.boost.2": "10% の確率でインスタントゴールドが手に入る",
-  "cheer.village.project.description": "{{project}} を応援して {{username}} が完成するのを手伝ってください！"
+  "cheer.village.project.description": "{{project}} を応援して {{username}} が完成するのを手伝ってください！",
+  "description.fruitTuneBox.boost": "+20% フルーツパッチ成長速度"
 }
