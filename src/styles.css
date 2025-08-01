@@ -1511,3 +1511,7 @@ th {
     opacity: 0.5;
   }
 }
+
+.flipped img {
+  transform: scaleX(-1);
+}

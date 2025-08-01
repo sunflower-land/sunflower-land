@@ -732,6 +732,7 @@ export type PlacedItem = {
   cancelled?: Cancelled;
   crafting?: BuildingProduct[];
   oil?: number;
+  flipped?: boolean;
 };
 
 type ShakeItem = PlacedItem & { shakenAt?: number };

@@ -219,6 +219,12 @@ export const MoveableComponent: React.FC<
     };
   }, [nodeRef, isSelected]);
 
+  const flip = () => {
+    if (name in COLLECTIBLES_DIMENSIONS) {
+      landscapingMachine.send("FLIP", { id, name: name as CollectibleName });
+    }
+  };
+
   const remove = () => {
     if (!removeAction) {
       return;
@@ -399,6 +405,15 @@ export const MoveableComponent: React.FC<
                 />
               )}
             </div>
+            {name in COLLECTIBLES_DIMENSIONS && (
+              <div
+                className="relative mr-2"
+                style={{ width: `${PIXEL_SCALE * 18}px` }}
+                onClick={flip}
+              >
+                <img className="w-full" src={SUNNYSIDE.icons.disc} />
+              </div>
+            )}
             {showRemoveConfirmation && name === "Kuebiko" && (
               <RemoveKuebikoModal
                 onClose={() => setShowRemoveConfirmation(false)}

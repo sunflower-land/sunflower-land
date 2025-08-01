@@ -123,6 +123,12 @@ type RemoveAllEvent = {
   location: PlaceableLocation;
 };
 
+type FlipEvent = {
+  type: "FLIP";
+  id: string;
+  name: CollectibleName;
+};
+
 type ConstructEvent = {
   type: "CONSTRUCT";
   actionName: PlacementEvent;
@@ -154,6 +160,7 @@ export type BlockchainEvent =
   | MoveEvent
   | RemoveEvent
   | RemoveAllEvent
+  | FlipEvent
   | { type: "CANCEL" }
   | { type: "BACK" };
 
@@ -284,6 +291,17 @@ export const landscapingMachine = createMachine<
                 sendParent((_context, event) => ({
                   type: event.event,
                   location: event.location,
+                })),
+                assign({ moving: (_) => undefined }),
+              ],
+            },
+            FLIP: {
+              target: "idle",
+              actions: [
+                sendParent((_, event) => ({
+                  type: "collectible.flipped",
+                  id: event.id,
+                  name: event.name,
                 })),
                 assign({ moving: (_) => undefined }),
               ],

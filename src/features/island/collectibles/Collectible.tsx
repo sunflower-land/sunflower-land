@@ -31,6 +31,7 @@ import confetti from "canvas-confetti";
 import { getInstantGems } from "features/game/events/landExpansion/speedUpRecipe";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { hasFeatureAccess } from "lib/flags";
+import classNames from "classnames";
 
 export type CollectibleProps = {
   name: CollectibleName;
@@ -43,6 +44,7 @@ export type CollectibleProps = {
   location: PlaceableLocation;
   game: GameState;
   z?: number | string;
+  flipped?: boolean;
 };
 
 type Props = CollectibleProps & {
@@ -153,6 +155,7 @@ const CollectibleComponent: React.FC<Props> = ({
   location,
   game,
   z,
+  flipped,
 }) => {
   const CollectiblePlaced = COLLECTIBLE_COMPONENTS[name];
 
@@ -161,7 +164,12 @@ const CollectibleComponent: React.FC<Props> = ({
   useUiRefresher({ active: inProgress });
 
   return (
-    <div className="h-full" style={{ zIndex: z }}>
+    <div
+      className={classNames("h-full", {
+        flipped: flipped,
+      })}
+      style={{ zIndex: z }}
+    >
       {inProgress ? (
         <InProgressCollectible
           key={id}
@@ -233,7 +241,12 @@ const LandscapingCollectible: React.FC<Props> = (props) => {
             </InnerPanel>
           </div>
         )}
-        <div style={{ zIndex: props.z }}>
+        <div
+          className={classNames({
+            flipped: props.flipped,
+          })}
+          style={{ zIndex: props.z }}
+        >
           <CollectiblePlaced {...props} />
         </div>
       </div>
@@ -242,7 +255,12 @@ const LandscapingCollectible: React.FC<Props> = (props) => {
 
   return (
     <MoveableComponent {...(props as any)}>
-      <div style={{ zIndex: props.z }}>
+      <div
+        className={classNames({
+          flipped: props.flipped,
+        })}
+        style={{ zIndex: props.z }}
+      >
         <CollectiblePlaced {...props} />
       </div>
     </MoveableComponent>
