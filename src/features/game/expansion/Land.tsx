@@ -53,6 +53,7 @@ import { getCurrentBiome } from "features/island/biomes/biomes";
 import { useVisiting } from "lib/utils/visitUtils";
 import { getObjectEntries } from "./lib/utils";
 import { Clutter } from "features/island/clutter/Clutter";
+import { hasFeatureAccess } from "lib/flags";
 
 export const LAND_WIDTH = 6;
 
@@ -600,6 +601,7 @@ const getIslandElements = ({
   {
     clutter &&
       landscaping &&
+      hasFeatureAccess(game, "CLUTTER") &&
       mapPlacements.push(
         ...getKeys(clutter.locations).flatMap((id) => {
           const { x, y } = clutter.locations[id];

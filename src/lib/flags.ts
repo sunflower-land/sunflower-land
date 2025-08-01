@@ -128,6 +128,7 @@ const FEATURE_FLAGS = {
   WARDROBE: betaTimeBasedFeatureFlag(SEASONS["Better Together"].startDate),
   CRAFTING: betaTimeBasedFeatureFlag(SEASONS["Better Together"].startDate),
   LEATHER_TOOLS: testnetFeatureFlag,
+  CLUTTER: betaTimeBasedFeatureFlag(new Date("2025-08-04T00:00:00.000Z")),
 
   PEGGYS_COOKOFF: () =>
     timePeriodFeatureFlag({
