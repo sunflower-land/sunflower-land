@@ -331,7 +331,7 @@ export const IslandUpgrader: React.FC<Props> = ({ gameState, offset }) => {
 
     gameService.send("PLAY");
 
-    scrollIntoView(Section.Home, "auto");
+    scrollIntoView(Section.GenesisBlock, "auto");
 
     setShowTravelAnimation(false);
     if (showAnimations) confetti();
