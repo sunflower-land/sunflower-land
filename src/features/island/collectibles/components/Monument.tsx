@@ -26,7 +26,7 @@ export const REQUIRED_CHEERS: Record<MonumentName, number> = {
   "Expert Cooking Pot": 50,
   "Advanced Cooking Pot": 100,
   "Farmer's Monument": 100,
-  "Woodcutter's Monument": 100,
+  "Woodcutter's Monument": 1000,
   "Miner's Monument": 10000,
   "Teamwork Monument": 100,
 };
