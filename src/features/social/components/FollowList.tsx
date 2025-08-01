@@ -59,10 +59,10 @@ export const FollowList: React.FC<Props> = ({
   const networkDetails = data?.data?.network;
 
   const sortedNetworkList = networkList.sort((a, b) => {
-    const aLastOnlineAt = online[a] ?? networkDetails?.[a]?.lastUpdatedAt ?? 0;
-    const bLastOnlineAt = online[b] ?? networkDetails?.[b]?.lastUpdatedAt ?? 0;
+    const aSocialPoints = networkDetails?.[a]?.socialPoints ?? 0;
+    const bSocialPoints = networkDetails?.[b]?.socialPoints ?? 0;
 
-    return bLastOnlineAt - aLastOnlineAt;
+    return bSocialPoints - aSocialPoints;
   });
 
   if (isLoading || playerLoading) {
