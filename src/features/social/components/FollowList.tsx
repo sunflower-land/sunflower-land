@@ -9,7 +9,7 @@ import { Button } from "components/ui/Button";
 import { Equipped } from "features/game/types/bumpkin";
 
 type Props = {
-  farmId: number;
+  loggedInFarmId: number;
   token: string;
   networkFarmId: number;
   networkList: number[];
@@ -21,7 +21,7 @@ type Props = {
 };
 
 export const FollowList: React.FC<Props> = ({
-  farmId,
+  loggedInFarmId,
   token,
   networkFarmId,
   networkList,
@@ -31,7 +31,7 @@ export const FollowList: React.FC<Props> = ({
   type,
   navigateToPlayer,
 }) => {
-  const { online } = useSocial({
+  useSocial({
     farmId: networkFarmId,
     following: networkList,
   });
@@ -41,7 +41,7 @@ export const FollowList: React.FC<Props> = ({
     [
       networkCount > 0 ? "followNetworkDetails" : null,
       token,
-      farmId,
+      loggedInFarmId,
       networkFarmId,
     ],
     ([, token, farmId, networkFarmId]) => {
@@ -115,7 +115,7 @@ export const FollowList: React.FC<Props> = ({
   }
 
   return (
-    <div className="flex flex-col gap-1">
+    <div className="flex flex-col gap-1 pr-0.5">
       <div className="sticky top-0 bg-brown-200 z-10 pb-1 pt-1">
         {showLabel && (
           <Label type="default">
@@ -128,13 +128,13 @@ export const FollowList: React.FC<Props> = ({
           return (
             <FollowDetailPanel
               key={`flw-${followerId}`}
-              farmId={farmId}
+              loggedInFarmId={loggedInFarmId}
               playerId={followerId}
               clothing={networkDetails?.[followerId]?.clothing as Equipped}
               username={networkDetails?.[followerId]?.username ?? ""}
               lastOnlineAt={networkDetails?.[followerId]?.lastUpdatedAt ?? 0}
-              socialPoints={networkDetails?.[followerId]?.socialPoints ?? 0}
               navigateToPlayer={navigateToPlayer}
+              socialPoints={networkDetails?.[followerId]?.socialPoints ?? 0}
             />
           );
         })}

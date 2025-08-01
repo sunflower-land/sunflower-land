@@ -234,7 +234,7 @@ export const Feed: React.FC<Props> = ({
         {showFollowing && (
           <div className="flex flex-col gap-2 -mt-2 overflow-hidden overflow-y-auto scrollable">
             <FollowList
-              farmId={farmId}
+              loggedInFarmId={farmId}
               token={token}
               networkFarmId={farmId}
               networkList={following}

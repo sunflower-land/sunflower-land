@@ -6170,7 +6170,6 @@
   "cheering.village.project.success": "Приветствуем успех!",
   "cheering.village.project.failed": "Аплодисменты не удались!",
   "cheer.village.project": "Проект Cheer Village",
-  "cheer.village.project.description": "Вы можете поддержать {{project}}, чтобы они помогли {{goron}} пройти его!",
   "cheer.village.project.confirm": "Вы действительно хотите подбодрить {{project}}?",
   "cheer": "Поболеть",
   "crafting.recipe": "{{recipe}} Рецепт",
@@ -6227,9 +6226,10 @@
   "description.bonusBracelet.boost": "Браслет +1",
   "description.architectRuler.boost": "Скорость изготовления ящиков: +25%",
   "description.reelmastersChair.boost": "+5 попыток рыбалки",
-  "description.musicBox.boost": "Скорость роста фруктовых грядок: +20%",
   "description.doubleBed.boost": "+2 батраки",
   "description.giantArtichoke.boost": "+2 артишока",
   "description.pickaxeShark.boost.1": "Время восстановления золота: +15%",
-  "description.pickaxeShark.boost.2": "Вероятность получения мгновенного золота: 10%"
+  "description.pickaxeShark.boost.2": "Вероятность получения мгновенного золота: 10%",
+  "cheer.village.project.description": "Вы можете поддержать {{project}}, чтобы они помогли {{username}} пройти его!",
+  "description.fruitTuneBox.boost": "Скорость роста фруктовых грядок: +20%"
 }

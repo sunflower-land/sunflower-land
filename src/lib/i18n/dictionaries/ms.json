@@ -6170,7 +6170,6 @@
   "cheering.village.project.success": "Bersorak Kejayaan!",
   "cheering.village.project.failed": "Bersorak Gagal!",
   "cheer.village.project": "Projek Cheer Village",
-  "cheer.village.project.description": "Anda boleh menghiburkan {{project}} untuk membantu {{goron}} menyelesaikannya!",
   "cheer.village.project.confirm": "Adakah anda pasti ingin menghiburkan {{project}}?",
   "cheer": "Bersorak",
   "crafting.recipe": "{{recipe}} Resipi",
@@ -6227,9 +6226,10 @@
   "description.bonusBracelet.boost": "+1 gelang",
   "description.architectRuler.boost": "+25% Kelajuan Kotak Kerajinan",
   "description.reelmastersChair.boost": "+5 Percubaan Memancing",
-  "description.musicBox.boost": "+20% Kelajuan Pertumbuhan Patch Buah",
   "description.doubleBed.boost": "+2 Farmhands",
   "description.giantArtichoke.boost": "+2 Artichoke",
   "description.pickaxeShark.boost.1": "+15% Masa Pemulihan Emas",
-  "description.pickaxeShark.boost.2": "Peluang 10% untuk Emas Segera"
+  "description.pickaxeShark.boost.2": "Peluang 10% untuk Emas Segera",
+  "cheer.village.project.description": "Anda boleh menghiburkan {{project}} untuk membantu {{username}} menyelesaikannya!",
+  "description.fruitTuneBox.boost": "+20% Kelajuan Pertumbuhan Patch Buah"
 }

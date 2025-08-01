@@ -6170,7 +6170,6 @@
   "cheering.village.project.success": "응원 성공!",
   "cheering.village.project.failed": "응원 실패!",
   "cheer.village.project": "치어 빌리지 프로젝트",
-  "cheer.village.project.description": "{{project}} 를 응원해 {{goron}} 가 완료할 수 있도록 도와주세요!",
   "cheer.village.project.confirm": "정말 {{project}} 를 응원하고 싶으세요?",
   "cheer": "응원",
   "crafting.recipe": "{{recipe}} 레시피",
@@ -6227,9 +6226,10 @@
   "description.bonusBracelet.boost": "+1 브레이슬릿",
   "description.architectRuler.boost": "제작 상자 속도 +25%",
   "description.reelmastersChair.boost": "+5 낚시 시도",
-  "description.musicBox.boost": "+20% 과일 패치 성장 속도",
   "description.doubleBed.boost": "+2 팜핸즈",
   "description.giantArtichoke.boost": "+2 아티초크",
   "description.pickaxeShark.boost.1": "골드 회복 시간 15% 증가",
-  "description.pickaxeShark.boost.2": "10% 확률로 인스턴트 골드 획득"
+  "description.pickaxeShark.boost.2": "10% 확률로 인스턴트 골드 획득",
+  "cheer.village.project.description": "{{project}} 를 응원해 {{username}} 가 완료할 수 있도록 도와주세요!",
+  "description.fruitTuneBox.boost": "+20% 과일 패치 성장 속도"
 }
