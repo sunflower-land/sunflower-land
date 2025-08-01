@@ -53,6 +53,7 @@ import { getCurrentBiome } from "features/island/biomes/biomes";
 import { useVisiting } from "lib/utils/visitUtils";
 import { getObjectEntries } from "./lib/utils";
 import { Clutter } from "features/island/clutter/Clutter";
+import { hasFeatureAccess } from "lib/flags";
 
 export const LAND_WIDTH = 6;
 
@@ -82,6 +83,7 @@ type IslandElementArgs = {
   lavaPits: GameState["lavaPits"];
   clutter: GameState["socialFarming"]["clutter"];
   isVisiting: boolean;
+  landscaping: boolean;
 };
 
 const getIslandElements = ({
@@ -109,6 +111,7 @@ const getIslandElements = ({
   lavaPits,
   isVisiting,
   clutter,
+  landscaping,
 }: IslandElementArgs) => {
   const mapPlacements: Array<JSX.Element> = [];
 
@@ -597,6 +600,8 @@ const getIslandElements = ({
 
   {
     clutter &&
+      landscaping &&
+      hasFeatureAccess(game, "CLUTTER") &&
       mapPlacements.push(
         ...getKeys(clutter.locations).flatMap((id) => {
           const { x, y } = clutter.locations[id];
@@ -858,6 +863,7 @@ export const Land: React.FC = () => {
                 lavaPits,
                 isVisiting: visiting,
                 clutter: socialFarming?.clutter,
+                landscaping,
               }).sort((a, b) => {
                 if (a.props.canCollide === false) {
                   return -1;
