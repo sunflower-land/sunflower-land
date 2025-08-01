@@ -481,6 +481,417 @@ describe("upgradeFarm", () => {
     });
   });
 
+  it("upgrades to desert island", () => {
+    const state = upgrade({
+      action: {
+        type: "farm.upgraded",
+      },
+      state: {
+        ...INITIAL_FARM,
+        island: {
+          type: "spring",
+        },
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          "Basic Land": new Decimal(16),
+          Crimstone: new Decimal(20),
+          "Fire Pit": new Decimal(1),
+          "Crop Plot": new Decimal(45),
+          "Fruit Patch": new Decimal(11),
+          Tree: new Decimal(18),
+          "Stone Rock": new Decimal(15),
+          "Iron Rock": new Decimal(9),
+          "Gold Rock": new Decimal(6),
+          "Crimstone Rock": new Decimal(2),
+          "Sunstone Rock": new Decimal(2),
+          Beehive: new Decimal(3),
+          "Flower Bed": new Decimal(3),
+        },
+      },
+    });
+
+    expect(state.inventory.Manor).toEqual(new Decimal(1));
+    expect(state.inventory["Town Center"]).toBeUndefined();
+
+    expect(state.buildings.Manor?.[0].coordinates).toEqual({ x: -1, y: 5 });
+    expect(state.buildings.Workbench?.[0].coordinates).toEqual({ x: 6, y: 6 });
+    expect(state.buildings.Market?.[0].coordinates).toEqual({ x: 6, y: 3 });
+    expect(state.buildings["Fire Pit"]?.[0].coordinates).toEqual({
+      x: 6,
+      y: 0,
+    });
+
+    expect(state.crops).toEqual({
+      "1": {
+        createdAt: expect.any(Number),
+        x: -2,
+        y: 0,
+      },
+      "2": {
+        createdAt: expect.any(Number),
+        x: -1,
+        y: 0,
+      },
+      "3": {
+        createdAt: expect.any(Number),
+        x: 0,
+        y: 0,
+      },
+      "4": {
+        createdAt: expect.any(Number),
+        x: -2,
+        y: -1,
+      },
+      "5": {
+        createdAt: expect.any(Number),
+        x: -1,
+        y: -1,
+      },
+      "6": {
+        createdAt: expect.any(Number),
+        x: 0,
+        y: -1,
+      },
+      "7": {
+        createdAt: expect.any(Number),
+        x: -2,
+        y: 1,
+      },
+      "8": {
+        createdAt: expect.any(Number),
+        x: -1,
+        y: 1,
+      },
+      "9": {
+        createdAt: expect.any(Number),
+        x: 0,
+        y: 1,
+      },
+      "10": {
+        createdAt: expect.any(Number),
+        x: 1,
+        y: 1,
+      },
+      "11": {
+        createdAt: expect.any(Number),
+        x: 1,
+        y: 0,
+      },
+      "12": {
+        createdAt: expect.any(Number),
+        x: 1,
+        y: -1,
+      },
+      "13": {
+        createdAt: expect.any(Number),
+        x: 2,
+        y: 1,
+      },
+      "14": {
+        createdAt: expect.any(Number),
+        x: 2,
+        y: 0,
+      },
+      "15": {
+        createdAt: expect.any(Number),
+        x: 2,
+        y: -1,
+      },
+      "16": {
+        createdAt: expect.any(Number),
+        x: 3,
+        y: 1,
+      },
+      "17": {
+        createdAt: expect.any(Number),
+        x: 3,
+        y: 0,
+      },
+      "18": {
+        createdAt: expect.any(Number),
+        x: 3,
+        y: -1,
+      },
+    });
+
+    expect(state.fruitPatches).toEqual({
+      "1": {
+        createdAt: expect.any(Number),
+        x: 0,
+        y: 9,
+      },
+      "2": {
+        createdAt: expect.any(Number),
+        x: -2,
+        y: 9,
+      },
+    });
+
+    expect(state.trees).toEqual({
+      "1": {
+        createdAt: expect.any(Number),
+        wood: expect.any(Object),
+        x: 4,
+        y: 6,
+      },
+      "2": {
+        createdAt: expect.any(Number),
+        wood: expect.any(Object),
+        x: 4,
+        y: 4,
+      },
+      "3": {
+        createdAt: expect.any(Number),
+        wood: expect.any(Object),
+        x: 6,
+        y: 9,
+      },
+    });
+
+    expect(state.gold).toEqual({
+      "1": {
+        createdAt: expect.any(Number),
+        stone: expect.any(Object),
+        x: 3,
+        y: 9,
+      },
+    });
+
+    expect(state.iron).toEqual({
+      "1": {
+        createdAt: expect.any(Number),
+        stone: expect.any(Object),
+        x: 5,
+        y: 8,
+      },
+    });
+
+    expect(state.stones).toEqual({
+      "1": {
+        createdAt: expect.any(Number),
+        stone: expect.any(Object),
+        x: -3,
+        y: 5,
+      },
+      "2": {
+        createdAt: expect.any(Number),
+        stone: expect.any(Object),
+        x: -2,
+        y: 3,
+      },
+    });
+  });
+
+  it("upgrades to volcano island", () => {
+    const state = upgrade({
+      action: {
+        type: "farm.upgraded",
+      },
+      state: {
+        ...INITIAL_FARM,
+        island: {
+          type: "desert",
+        },
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          "Basic Land": new Decimal(25),
+          Oil: new Decimal(200),
+          "Fire Pit": new Decimal(1),
+          "Crop Plot": new Decimal(65),
+          "Fruit Patch": new Decimal(15),
+          Tree: new Decimal(23),
+          "Stone Rock": new Decimal(20),
+          "Iron Rock": new Decimal(12),
+          "Gold Rock": new Decimal(7),
+          "Crimstone Rock": new Decimal(4),
+          "Sunstone Rock": new Decimal(6),
+          Beehive: new Decimal(3),
+          "Flower Bed": new Decimal(3),
+        },
+      },
+    });
+    expect(state.buildings.Manor).toBeUndefined();
+
+    expect(state.inventory.Mansion).toEqual(new Decimal(1));
+    expect(state.buildings.Mansion?.[0].coordinates).toEqual({ x: -1, y: 5 });
+    expect(state.buildings.Workbench?.[0].coordinates).toEqual({ x: 6, y: 6 });
+    expect(state.buildings.Market?.[0].coordinates).toEqual({ x: 6, y: 3 });
+    expect(state.buildings["Fire Pit"]?.[0].coordinates).toEqual({
+      x: 6,
+      y: 0,
+    });
+
+    expect(state.crops).toEqual({
+      "1": {
+        createdAt: expect.any(Number),
+        x: -1,
+        y: -1,
+      },
+      "2": {
+        createdAt: expect.any(Number),
+        x: 0,
+        y: -1,
+      },
+      "3": {
+        createdAt: expect.any(Number),
+        x: 1,
+        y: -1,
+      },
+      "4": {
+        createdAt: expect.any(Number),
+        x: -1,
+        y: -2,
+      },
+      "5": {
+        createdAt: expect.any(Number),
+        x: 0,
+        y: -2,
+      },
+      "6": {
+        createdAt: expect.any(Number),
+        x: 1,
+        y: -2,
+      },
+      "7": {
+        createdAt: expect.any(Number),
+        x: -1,
+        y: 0,
+      },
+      "8": {
+        createdAt: expect.any(Number),
+        x: 0,
+        y: 0,
+      },
+      "9": {
+        createdAt: expect.any(Number),
+        x: 1,
+        y: 0,
+      },
+      "10": {
+        createdAt: expect.any(Number),
+        x: 2,
+        y: 0,
+      },
+      "11": {
+        createdAt: expect.any(Number),
+        x: 2,
+        y: -1,
+      },
+      "12": {
+        createdAt: expect.any(Number),
+        x: 2,
+        y: -2,
+      },
+      "13": {
+        createdAt: expect.any(Number),
+        x: 3,
+        y: 0,
+      },
+      "14": {
+        createdAt: expect.any(Number),
+        x: 3,
+        y: -1,
+      },
+      "15": {
+        createdAt: expect.any(Number),
+        x: 3,
+        y: -2,
+      },
+      "16": {
+        createdAt: expect.any(Number),
+        x: 4,
+        y: 0,
+      },
+      "17": {
+        createdAt: expect.any(Number),
+        x: 4,
+        y: -1,
+      },
+      "18": {
+        createdAt: expect.any(Number),
+        x: 4,
+        y: -2,
+      },
+    });
+
+    expect(state.fruitPatches).toEqual({
+      "1": {
+        createdAt: expect.any(Number),
+        x: 0,
+        y: 9,
+      },
+      "2": {
+        createdAt: expect.any(Number),
+        x: -2,
+        y: 9,
+      },
+    });
+
+    expect(state.trees).toEqual({
+      "1": {
+        createdAt: expect.any(Number),
+        wood: expect.any(Object),
+        x: 5,
+        y: 9,
+      },
+      "2": {
+        createdAt: expect.any(Number),
+        wood: expect.any(Object),
+        x: 3,
+        y: 9,
+      },
+      "3": {
+        createdAt: expect.any(Number),
+        wood: expect.any(Object),
+        x: 3,
+        y: 7,
+      },
+    });
+
+    expect(state.gold).toEqual({
+      "1": {
+        createdAt: expect.any(Number),
+        stone: expect.any(Object),
+        x: 2,
+        y: 9,
+      },
+    });
+
+    expect(state.iron).toEqual({
+      "1": {
+        createdAt: expect.any(Number),
+        stone: expect.any(Object),
+        x: 5,
+        y: 7,
+      },
+    });
+
+    expect(state.stones).toEqual({
+      "1": {
+        createdAt: expect.any(Number),
+        stone: expect.any(Object),
+        x: -3,
+        y: 5,
+      },
+      "2": {
+        createdAt: expect.any(Number),
+        stone: expect.any(Object),
+        x: -2,
+        y: 3,
+      },
+    });
+
+    expect(state.oilReserves).toEqual({
+      "1": {
+        createdAt: expect.any(Number),
+        x: -8,
+        y: 8,
+        drilled: 0,
+        oil: expect.any(Object),
+      },
+    });
+  });
+
   it("sets island history", () => {
     const createdAt = Date.now();
     const state = upgrade({
