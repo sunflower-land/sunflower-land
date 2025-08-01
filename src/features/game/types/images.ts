@@ -965,6 +965,12 @@ import farmerMonument from "assets/monuments/shovel_monument.webp";
 import minerMonument from "assets/monuments/pickaxe_monument.webp";
 import woodcutterMonument from "assets/monuments/axe_monument.webp";
 import teamworkMonument from "assets/monuments/chapters_monument_teamwork.webp";
+import basicCookingPot from "assets/monuments/basic_cooking_pot.webp";
+import expertCookingPot from "assets/monuments/expert_cooking_pot.webp";
+import advancedCookingPot from "assets/monuments/advanced_cooking_pot.webp";
+import bigOrange from "assets/monuments/big_orange.webp";
+import bigApple from "assets/monuments/big_apple.webp";
+import bigBanana from "assets/monuments/big_banana.webp";
 
 import trash from "assets/clutter/trash.webp";
 import dung from "assets/clutter/dung.webp";
