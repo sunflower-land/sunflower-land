@@ -257,7 +257,7 @@ export const PlayerModal: React.FC<Props> = ({
           ]}
           container={OuterPanel}
         >
-          <div className="max-h-[390px]">
+          <div className="max-h-[500px]">
             {tab === "Player" && (
               <PlayerDetails
                 data={data}

@@ -295,7 +295,7 @@ export const FollowerFeed: React.FC<Props> = ({
         className="flex flex-col max-h-[70%] h-[270px] sm:max-h-none sm:h-auto sm:flex-grow gap-1 overflow-y-auto mb-1"
         ref={scrollContainerRef}
       >
-        <div className="sticky top-0 bg-brown-200 z-10 pb-1 flex justify-between">
+        <div className="sticky -top-0.5 bg-brown-200 z-10 pb-1 pt-1 flex justify-between">
           <Label type="default">
             {t("activity")}
             {newLocalMessagesCount > 0 && ` (${newLocalMessagesCount})`}
