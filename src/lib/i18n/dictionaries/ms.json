@@ -6218,7 +6218,6 @@
   "cleaning.farm": "Meletakkan kekacauan di tong sampah",
   "cleaning.farm.success": "Terima kasih kerana membersihkan ladang saya!",
   "cleaning.farm.failed": "Pembersihan gagal!",
-  "social.points": "Mata Sosial: {{points}}",
   "sleepingAnimal.sheepLoveToPlay": "{{name}} suka bermain. Buangkan anak patung untuk bangun insta.",
   "sleepingAnimal.favouriteFood": "Makanan kegemaran:",
   "sleepingAnimal.every": "Setiap",
@@ -6231,5 +6230,7 @@
   "description.pickaxeShark.boost.1": "+15% Masa Pemulihan Emas",
   "description.pickaxeShark.boost.2": "Peluang 10% untuk Emas Segera",
   "cheer.village.project.description": "Anda boleh menghiburkan {{project}} untuk membantu {{username}} menyelesaikannya!",
-  "description.fruitTuneBox.boost": "+20% Kelajuan Pertumbuhan Patch Buah"
+  "description.fruitTuneBox.boost": "+20% Kelajuan Pertumbuhan Patch Buah",
+  "socialPoints": "{{points}} Mata Sosial",
+  "socialPoint": "1 Titik Sosial"
 }

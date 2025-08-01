@@ -6218,7 +6218,6 @@
   "cleaning.farm": "ゴミ箱に散らかったものを入れる",
   "cleaning.farm.success": "私の農場を掃除してくれてありがとう！",
   "cleaning.farm.failed": "クリーニングが失敗しました!",
-  "social.points": "ソーシャルポイント:{{points}}",
   "sleepingAnimal.sheepLoveToPlay": "{{name}} 遊ぶのが大好きです。人形を投げてすぐに目を覚ましましょう。",
   "sleepingAnimal.favouriteFood": "好きな食べ物:",
   "sleepingAnimal.every": "ごと",
@@ -6231,5 +6230,7 @@
   "description.pickaxeShark.boost.1": "+15% ゴールド回復時間",
   "description.pickaxeShark.boost.2": "10% の確率でインスタントゴールドが手に入る",
   "cheer.village.project.description": "{{project}} を応援して {{username}} が完成するのを手伝ってください！",
-  "description.fruitTuneBox.boost": "+20% フルーツパッチ成長速度"
+  "description.fruitTuneBox.boost": "+20% フルーツパッチ成長速度",
+  "socialPoints": "{{points}} ソーシャルポイント",
+  "socialPoint": "1 ソーシャルポイント"
 }

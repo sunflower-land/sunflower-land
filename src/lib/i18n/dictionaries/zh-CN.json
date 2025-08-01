@@ -6218,7 +6218,6 @@
   "cleaning.farm": "把杂物放进垃圾桶",
   "cleaning.farm.success": "感谢你打扫我的农场！",
   "cleaning.farm.failed": "清洁失败！",
-  "social.points": "社交积分：{{points}}",
   "sleepingAnimal.sheepLoveToPlay": "{{name}} 喜欢玩。把它扔一个娃娃让它即时醒来。",
   "sleepingAnimal.favouriteFood": "最喜欢的食物：",
   "sleepingAnimal.every": "每个",
@@ -6231,5 +6230,7 @@
   "description.pickaxeShark.boost.1": "+15% 金币回收时间",
   "description.pickaxeShark.boost.2": "10% 几率获得即时金币",
   "cheer.village.project.description": "你可以为 {{project}} 加油以帮助 {{username}} 完成它！",
-  "description.fruitTuneBox.boost": "+20% 水果补丁生长速度"
+  "description.fruitTuneBox.boost": "+20% 水果补丁生长速度",
+  "socialPoints": "{{points}} 社交积分",
+  "socialPoint": "1 个社交积分"
 }

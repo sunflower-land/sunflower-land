@@ -6218,7 +6218,6 @@
   "cleaning.farm": "Çöp kutusuna dağınıklık koymak",
   "cleaning.farm.success": "Çiftliğimi temizlediğiniz için teşekkür ederim!",
   "cleaning.farm.failed": "Temizlik başarısız oldu!",
-  "social.points": "Sosyal Puanlar: {{points}}",
   "sleepingAnimal.sheepLoveToPlay": "{{name}} oynamayı seviyorum. Uyanmak için ona bir Bebek fırlat.",
   "sleepingAnimal.favouriteFood": "Favori yemek:",
   "sleepingAnimal.every": "Her biri",
@@ -6231,5 +6230,7 @@
   "description.pickaxeShark.boost.1": "+15% Altın Kurtarma Süresi",
   "description.pickaxeShark.boost.2": "%10 Anında Altın şansı",
   "cheer.village.project.description": "{{username}} 'i tamamlamasına yardımcı olması için {{project}} 'yi neşelendirebilirsiniz!",
-  "description.fruitTuneBox.boost": "+20% Meyve Yaması Büyüme Hızı"
+  "description.fruitTuneBox.boost": "+20% Meyve Yaması Büyüme Hızı",
+  "socialPoints": "{{points}} Sosyal Puanlar",
+  "socialPoint": "1 Sosyal Nokta"
 }

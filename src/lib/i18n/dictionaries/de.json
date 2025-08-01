@@ -6218,7 +6218,6 @@
   "cleaning.farm": "Unordnung in den Mülleimer werfen",
   "cleaning.farm.success": "Danke, dass du meine Farm gereinigt hast!",
   "cleaning.farm.failed": "Die Reinigung ist fehlgeschlagen!",
-  "social.points": "Soziale Punkte: {{points}}",
   "sleepingAnimal.sheepLoveToPlay": "{{name}} liebe es zu spielen. Wirf eine Puppe hinein, um sofort aufzuwachen.",
   "sleepingAnimal.favouriteFood": "Lieblingsessen:",
   "sleepingAnimal.every": "Jeder",
@@ -6231,5 +6230,7 @@
   "description.pickaxeShark.boost.1": "+15% Gold-Wiederherstellungszeit",
   "description.pickaxeShark.boost.2": "10% Chance auf Sofort-Gold",
   "cheer.village.project.description": "Du kannst die {{project}} anfeuern, damit sie {{username}} dabei helfen, es zu vervollständigen!",
-  "description.fruitTuneBox.boost": "+20% Wachstumstempo für Fruchtfelder"
+  "description.fruitTuneBox.boost": "+20% Wachstumstempo für Fruchtfelder",
+  "socialPoints": "{{points}} Soziale Punkte",
+  "socialPoint": "1 Sozialer Punkt"
 }

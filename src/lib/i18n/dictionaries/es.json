@@ -6218,7 +6218,6 @@
   "cleaning.farm": "Poner el desorden en la papelera",
   "cleaning.farm.success": "¡Gracias por limpiar mi granja!",
   "cleaning.farm.failed": "¡Fallo en la limpieza!",
-  "social.points": "Puntos sociales: {{points}}",
   "sleepingAnimal.sheepLoveToPlay": "{{name}} me encanta jugar. Lánzala a una muñeca para despertarte al instante.",
   "sleepingAnimal.favouriteFood": "Comida favorita:",
   "sleepingAnimal.every": "Cada",
@@ -6231,5 +6230,7 @@
   "description.pickaxeShark.boost.1": "+15% de tiempo de recuperación de oro",
   "description.pickaxeShark.boost.2": "10% de probabilidad de obtener oro instantáneo",
   "cheer.village.project.description": "¡Puedes animar al {{project}} para ayudar a {{username}} a completarlo!",
-  "description.fruitTuneBox.boost": "+20% de velocidad de crecimiento de los huertos"
+  "description.fruitTuneBox.boost": "+20% de velocidad de crecimiento de los huertos",
+  "socialPoints": "{{points}} Puntos sociales",
+  "socialPoint": "1 punto social"
 }

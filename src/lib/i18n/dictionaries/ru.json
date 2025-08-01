@@ -6218,7 +6218,6 @@
   "cleaning.farm": "Выбрасывание мусора в мусорное ведро",
   "cleaning.farm.success": "Спасибо за уборку моей фермы!",
   "cleaning.farm.failed": "Очистка не удалась!",
-  "social.points": "Очки в социальных сетях: {{points}}",
   "sleepingAnimal.sheepLoveToPlay": "{{name}} обожаю играть. Бросьте куклу, чтобы мгновенно проснуться.",
   "sleepingAnimal.favouriteFood": "Любимая еда:",
   "sleepingAnimal.every": "Каждый",
@@ -6231,5 +6230,7 @@
   "description.pickaxeShark.boost.1": "Время восстановления золота: +15%",
   "description.pickaxeShark.boost.2": "Вероятность получения мгновенного золота: 10%",
   "cheer.village.project.description": "Вы можете поддержать {{project}}, чтобы они помогли {{username}} пройти его!",
-  "description.fruitTuneBox.boost": "Скорость роста фруктовых грядок: +20%"
+  "description.fruitTuneBox.boost": "Скорость роста фруктовых грядок: +20%",
+  "socialPoints": "{{points}} Социальные баллы",
+  "socialPoint": "1 Социальный балл"
 }

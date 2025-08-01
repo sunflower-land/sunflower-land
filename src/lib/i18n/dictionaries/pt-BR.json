@@ -6218,7 +6218,6 @@
   "cleaning.farm": "Colocando bagunça na lixeira",
   "cleaning.farm.success": "Obrigado por limpar minha fazenda!",
   "cleaning.farm.failed": "A limpeza falhou!",
-  "social.points": "Pontos sociais: {{points}}",
   "sleepingAnimal.sheepLoveToPlay": "{{name}} adora jogar. Jogue uma boneca para acordar instantaneamente.",
   "sleepingAnimal.favouriteFood": "Comida favorita:",
   "sleepingAnimal.every": "Cada",
@@ -6231,5 +6230,7 @@
   "description.pickaxeShark.boost.1": "+15% de tempo de recuperação de ouro",
   "description.pickaxeShark.boost.2": "10% de chance de ganhar ouro instantâneo",
   "cheer.village.project.description": "Você pode aplaudir o {{project}} para ajudar {{username}} a completá-lo!",
-  "description.fruitTuneBox.boost": "+20% de velocidade de crescimento do canteiro de frutas"
+  "description.fruitTuneBox.boost": "+20% de velocidade de crescimento do canteiro de frutas",
+  "socialPoints": "{{points}} Pontos sociais",
+  "socialPoint": "1 ponto social"
 }
