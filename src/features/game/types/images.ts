@@ -948,6 +948,7 @@ import bloomDoll from "assets/sfts/dolls/bloom_doll.webp";
 import shadowDoll from "assets/sfts/dolls/shadow_doll.webp";
 import gildedDoll from "assets/sfts/dolls/gilded_doll.webp";
 import lumberDoll from "assets/sfts/dolls/lumber_doll.webp";
+import emberDoll from "assets/sfts/dolls/ember_doll.webp";
 
 import loveChicken from "assets/animals/chickens/love_chicken.webp";
 import drCow from "assets/sfts/dr_cow.webp";
@@ -5608,7 +5609,7 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.shadowDoll"),
   },
   "Ember Doll": {
-    image: shadowDoll,
+    image: emberDoll,
     description: translate("description.emberDoll"),
   },
   "Gilded Doll": {
