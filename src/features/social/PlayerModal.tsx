@@ -216,22 +216,26 @@ export const PlayerModal: React.FC<Props> = ({
             {
               icon: SUNNYSIDE.icons.player,
               name: t("player"),
+              id: "Player",
             },
             ...(isMobile && !isSelf && hasFeatureAccess(game, "SOCIAL_FARMING")
               ? [
                   {
                     icon: SUNNYSIDE.icons.expression_chat,
-                    name: "Activity",
+                    name: t("activity"),
+                    id: "Activity",
                   },
                 ]
               : []),
             {
               icon: SUNNYSIDE.icons.player,
               name: t("followers"),
+              id: "Followers",
             },
             {
               icon: SUNNYSIDE.icons.player,
               name: t("following"),
+              id: "Following",
             },
 
             ...(playerHasGift
@@ -239,6 +243,7 @@ export const PlayerModal: React.FC<Props> = ({
                   {
                     icon: giftIcon,
                     name: t("reward"),
+                    id: "Reward",
                   },
                 ]
               : []),
@@ -247,12 +252,14 @@ export const PlayerModal: React.FC<Props> = ({
                   {
                     icon: ITEM_DETAILS["Love Charm"].image,
                     name: t("stream"),
+                    id: "Stream",
                   },
                 ]
               : []),
             {
               icon: cheer,
               name: t("guide"),
+              id: "Guide",
             },
           ]}
           container={OuterPanel}

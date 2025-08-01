@@ -20,6 +20,10 @@
   "noActivity": "No activity yet.",
   "myProfile": "My profile",
   "stream": "Stream",
+  "airdrop": "Airdrop",
+  "noticeboard": "Noticeboard",
+  "rewards": "Rewards",
+  "biomes": "Biomes",
 
   "animals.buildingIsFull": "{{buildingName}} is full!",
   "breadWinner.description": "Earn 0.001 FLOWER",
