@@ -31,13 +31,13 @@ export const CheersGuide = () => {
             time: getRelativeTime(tomorrowUTCDate.getTime()),
           })}
         </Label>
-        <div className="flex gap-2 items-start">
+        <div className="flex gap-2 items-start sm:items-center">
           <div className="w-8 flex justify-center">
             <img src={cheer} alt="Cheer" className="object-contain mt-1 h-6" />
           </div>
           <p className="text-xs flex-1">{t("cheers.guide.description")}</p>
         </div>
-        <div className="flex gap-2 items-start">
+        <div className="flex gap-2 items-start sm:items-center">
           <div className="w-8 flex justify-center">
             <img
               src={SUNNYSIDE.icons.stopwatch}
@@ -49,7 +49,7 @@ export const CheersGuide = () => {
             <p className="text-xs flex-1">{t("cheers.guide.description2")}</p>
           </div>
         </div>
-        <div className="flex gap-2 items-start">
+        <div className="flex gap-2 items-start sm:items-center">
           <div className="w-8 flex justify-center">
             <img
               src={ITEM_DETAILS.Trash.image}
