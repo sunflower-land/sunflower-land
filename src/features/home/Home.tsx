@@ -21,7 +21,7 @@ import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Modal } from "components/ui/Modal";
 import { BumpkinPainting } from "./components/BumpkinPainting";
-import { Bumpkin } from "features/game/types/game";
+import { Bumpkin, IslandType } from "features/game/types/game";
 import {
   HOME_BOUNDS,
   NON_COLLIDING_OBJECTS,
@@ -32,7 +32,6 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";
 import { EXTERIOR_ISLAND_BG } from "features/barn/BarnInside";
-import { LandBiomeName } from "features/island/biomes/biomes";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { useVisiting } from "lib/utils/visitUtils";
 import { VisitingHud } from "features/island/hud/VisitingHud";
@@ -40,11 +39,11 @@ import { VisitingHud } from "features/island/hud/VisitingHud";
 const selectGameState = (state: MachineState) => state.context.state;
 const isLandscaping = (state: MachineState) => state.matches("landscaping");
 
-const BACKGROUND_IMAGE: Record<LandBiomeName, string> = {
-  "Basic Biome": SUNNYSIDE.land.tent_inside,
-  "Spring Biome": SUNNYSIDE.land.house_inside,
-  "Desert Biome": SUNNYSIDE.land.manor_inside,
-  "Volcano Biome": SUNNYSIDE.land.mansion_inside,
+const BACKGROUND_IMAGE: Record<IslandType, string> = {
+  basic: SUNNYSIDE.land.tent_inside,
+  spring: SUNNYSIDE.land.house_inside,
+  desert: SUNNYSIDE.land.manor_inside,
+  volcano: SUNNYSIDE.land.mansion_inside,
 };
 
 function hasReadIntro() {
@@ -221,7 +220,7 @@ export const Home: React.FC = () => {
               {landscaping && <Placeable location="home" />}
 
               <img
-                src={BACKGROUND_IMAGE[currentBiome]}
+                src={BACKGROUND_IMAGE[state.island.type]}
                 id={Section.GenesisBlock}
                 className="relative z-0"
                 style={{
