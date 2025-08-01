@@ -124,14 +124,7 @@ export const FollowList: React.FC<Props> = ({
         )}
       </div>
       <div className="flex flex-col gap-1">
-        {[
-          ...sortedNetworkList,
-          ...sortedNetworkList,
-          ...sortedNetworkList,
-          ...sortedNetworkList,
-          ...sortedNetworkList,
-          ...sortedNetworkList,
-        ].map((followerId) => {
+        {sortedNetworkList.map((followerId) => {
           return (
             <FollowDetailPanel
               key={`flw-${followerId}`}

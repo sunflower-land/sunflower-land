@@ -273,10 +273,7 @@ export const PlayerModal: React.FC<Props> = ({ game, farmId, token }) => {
                   farmId={farmId}
                   networkFarmId={currentPlayerId as number}
                   token={token}
-                  networkList={[
-                    ...(player?.followedBy ?? []),
-                    ...(player?.followedBy ?? []),
-                  ]}
+                  networkList={player?.followedBy ?? []}
                   networkCount={player?.followedByCount ?? 0}
                   playerLoading={playerLoading}
                   type="followers"
