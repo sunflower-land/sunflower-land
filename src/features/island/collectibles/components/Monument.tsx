@@ -17,6 +17,11 @@ import { useSelector } from "@xstate/react";
 import Decimal from "decimal.js-light";
 import classNames from "classnames";
 import { MonumentName } from "features/game/types/monuments";
+import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
+import {
+  SFTDetailPopoverInnerPanel,
+  SFTDetailPopoverLabel,
+} from "components/ui/SFTDetailPopover";
 
 export const REQUIRED_CHEERS: Record<MonumentName, number> = {
   "Big Orange": 50,
@@ -116,6 +121,7 @@ type MonumentProps = React.ComponentProps<typeof ImageStyle> & {
 export const Monument: React.FC<MonumentProps> = (input) => {
   const { isVisiting } = useVisiting();
   const { gameService } = useContext(Context);
+  const { t } = useAppTranslation();
 
   const projectCheers = useSelector(gameService, _cheers(input.project));
   const cheersAvailable = useSelector(gameService, _cheersAvailable);
@@ -159,58 +165,77 @@ export const Monument: React.FC<MonumentProps> = (input) => {
 
   return (
     <>
-      <ImageStyle {...input} />
-      {isVisiting && !hasCheeredProjectToday && (
-        <div
-          className={classNames(
-            "absolute -top-4 -right-4 pointer-events-auto cursor-pointer hover:img-highlight",
-            {
-              "animate-pulsate": hasCheers,
-            },
-          )}
-          onClick={() => setIsCheering(true)}
-        >
-          <div
-            className="relative mr-2"
-            style={{ width: `${PIXEL_SCALE * 20}px` }}
-          >
-            <img className="w-full" src={SUNNYSIDE.icons.disc} />
-            <img
-              className={classNames("absolute")}
-              src={cheer}
-              style={{
-                width: `${PIXEL_SCALE * 17}px`,
-                right: `${PIXEL_SCALE * 2}px`,
-                top: `${PIXEL_SCALE * 2}px`,
-              }}
-            />
+      <Popover>
+        <PopoverButton as="div">
+          <div className="absolute" style={input.divStyle}>
+            <img src={input.image} style={input.imgStyle} alt={input.alt} />
           </div>
-        </div>
-      )}
-      <div
-        className="absolute bottom-2 left-1/2"
-        style={{
-          width: `${PIXEL_SCALE * 20}px`,
-        }}
-      >
-        {!hasCheeredProjectToday && (
-          <ProgressBar
-            type="quantity"
-            percentage={projectPercentage}
-            formatLength="full"
-            className="ml-1 -translate-x-1/2"
-          />
-        )}
-        {hasCheeredProjectToday && (
-          <LiveProgressBar
-            startAt={new Date(today).getTime()}
-            endAt={new Date(tomorrow).getTime()}
-            formatLength="short"
-            onComplete={() => setRender((r) => r + 1)}
-            className="ml-1 -translate-x-1/2"
-          />
-        )}
-      </div>
+
+          {isVisiting && !hasCheeredProjectToday && (
+            <div
+              className={classNames(
+                "absolute -top-4 -right-4 pointer-events-auto cursor-pointer hover:img-highlight",
+                {
+                  "animate-pulsate": hasCheers,
+                },
+              )}
+              onClick={() => setIsCheering(true)}
+            >
+              <div
+                className="relative mr-2"
+                style={{ width: `${PIXEL_SCALE * 20}px` }}
+              >
+                <img className="w-full" src={SUNNYSIDE.icons.disc} />
+                <img
+                  className={classNames("absolute")}
+                  src={cheer}
+                  style={{
+                    width: `${PIXEL_SCALE * 17}px`,
+                    right: `${PIXEL_SCALE * 2}px`,
+                    top: `${PIXEL_SCALE * 2}px`,
+                  }}
+                />
+              </div>
+            </div>
+          )}
+          <div
+            className="absolute bottom-2 left-1/2"
+            style={{
+              width: `${PIXEL_SCALE * 20}px`,
+            }}
+          >
+            {!hasCheeredProjectToday && (
+              <ProgressBar
+                type="quantity"
+                percentage={projectPercentage}
+                formatLength="full"
+                className="ml-1 -translate-x-1/2"
+              />
+            )}
+            {hasCheeredProjectToday && (
+              <LiveProgressBar
+                startAt={new Date(today).getTime()}
+                endAt={new Date(tomorrow).getTime()}
+                formatLength="short"
+                onComplete={() => setRender((r) => r + 1)}
+                className="ml-1 -translate-x-1/2"
+              />
+            )}
+          </div>
+        </PopoverButton>
+
+        <PopoverPanel anchor={{ to: "left start" }} className="flex">
+          <SFTDetailPopoverInnerPanel>
+            <SFTDetailPopoverLabel name={input.name} />
+            <Label type="info" icon={cheer} className="ml-2 sm:ml-0">
+              {t("cheers.progress", {
+                progress: `${projectCheers}/${REQUIRED_CHEERS[input.project]}`,
+              })}
+            </Label>
+          </SFTDetailPopoverInnerPanel>
+        </PopoverPanel>
+      </Popover>
+
       <Modal show={isCheering} onHide={() => setIsCheering(false)}>
         <CheerModal
           project={input.project}
