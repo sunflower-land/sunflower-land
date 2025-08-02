@@ -1,19 +1,29 @@
 import Decimal from "decimal.js-light";
+import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { TOTAL_EXPANSION_NODES } from "features/game/expansion/lib/expansionNodes";
+import { getObjectEntries } from "features/game/expansion/lib/utils";
 import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
-import { CollectibleName, getKeys } from "features/game/types/craftables";
+import { getKeys } from "features/game/lib/crafting";
+import { BuildingName } from "features/game/types/buildings";
+import { CollectibleName } from "features/game/types/craftables";
 import {
   GameState,
+  IslandType,
   Inventory,
   InventoryItemName,
-  IslandType,
   Season,
   TemperateSeasonName,
 } from "features/game/types/game";
-
-import { translate } from "lib/i18n/translate";
-import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import cloneDeep from "lodash.clonedeep";
+import { placeBuilding } from "./placeBuilding";
+import { placeFruitPatch } from "./placeFruitPatch";
+import { placeGold } from "./placeGold";
+import { placeIron } from "./placeIron";
+import { placeOilReserve } from "./placeOilReserve";
+import { placePlot } from "./placePlot";
+import { placeStone } from "./placeStone";
+import { placeTree } from "./placeTree";
+import { removeAll } from "./removeAll";
 
 export type UpgradeFarmAction = {
   type: "farm.upgraded";
@@ -25,760 +35,333 @@ type Options = {
   createdAt?: number;
 };
 
-const INITIAL_SPRING_LAND: Pick<
-  GameState,
-  "buildings" | "crops" | "fruitPatches" | "stones" | "iron" | "gold" | "trees"
-> = {
+interface InitialLandCoordinates {
+  buildings: Partial<Record<BuildingName, Coordinates>>;
+  crops: Record<string, Coordinates>;
+  fruitPatches: Record<string, Coordinates>;
+  trees: Record<string, Coordinates>;
+  gold: Record<string, Coordinates>;
+  iron: Record<string, Coordinates>;
+  stones: Record<string, Coordinates>;
+  oilReserves?: Record<string, Coordinates>;
+}
+
+const INITIAL_SPRING_LAND_COORDINATES: InitialLandCoordinates = {
   buildings: {
-    House: [
-      {
-        id: "1",
-        readyAt: 0,
-        coordinates: {
-          x: -1,
-          y: 5,
-        },
-        createdAt: 0,
-      },
-    ],
-    Workbench: [
-      {
-        id: "1",
-        readyAt: 0,
-        coordinates: {
-          x: 6,
-          y: 6,
-        },
-        createdAt: 0,
-      },
-    ],
-    Market: [
-      {
-        id: "1",
-        readyAt: 0,
-        coordinates: {
-          x: 6,
-          y: 3,
-        },
-        createdAt: 0,
-      },
-    ],
-    "Fire Pit": [
-      {
-        id: "1123",
-        readyAt: 0,
-        coordinates: {
-          x: 6,
-          y: 0,
-        },
-        createdAt: 0,
-      },
-    ],
+    House: { x: -1, y: 5 },
+    Workbench: { x: 6, y: 6 },
+    Market: { x: 6, y: 3 },
+    "Fire Pit": { x: 6, y: 0 },
   },
   crops: {
-    "1": {
-      createdAt: 1703364823336,
-      crop: {
-        name: "Sunflower",
-        plantedAt: 0,
-      },
-      x: -2,
-      y: 0,
-    },
-    "2": {
-      createdAt: 1703364823336,
-      crop: {
-        name: "Sunflower",
-        plantedAt: 0,
-      },
-      x: -1,
-      y: 0,
-    },
-    "3": {
-      createdAt: 1703364823336,
-      crop: {
-        name: "Sunflower",
-        plantedAt: 0,
-      },
-      x: 0,
-      y: 0,
-    },
-    "4": {
-      createdAt: 1703364823336,
-      x: -2,
-      y: -1,
-    },
-    "5": {
-      createdAt: 1703364823336,
-      x: -1,
-      y: -1,
-    },
-    "6": {
-      createdAt: 1703364823336,
-      x: 0,
-      y: -1,
-    },
-    "7": {
-      createdAt: 1703364823336,
-      x: -2,
-      y: 1,
-    },
-    "8": {
-      createdAt: 1703364823336,
-      x: -1,
-      y: 1,
-    },
-    "9": {
-      createdAt: 1703364823336,
-      x: 0,
-      y: 1,
-    },
-    "10": {
-      createdAt: 1703365405829,
-      x: 1,
-      y: 1,
-    },
-    "11": {
-      createdAt: 1703365405976,
-      x: 1,
-      y: 0,
-    },
-    12: {
-      createdAt: 1703365406093,
-      x: 1,
-      y: -1,
-    },
-    13: {
-      createdAt: 1703365409614,
-      x: 2,
-      y: 1,
-    },
-    "14": {
-      createdAt: 1703365409776,
-      x: 2,
-      y: 0,
-    },
-    "15": {
-      createdAt: 1703365409926,
-      x: 2,
-      y: -1,
-    },
-    "16": {
-      createdAt: 1703365428830,
-      x: 3,
-      y: 1,
-    },
-    "17": {
-      createdAt: 1703365429062,
-      x: 3,
-      y: 0,
-    },
-    18: {
-      createdAt: 1703365429630,
-      x: 3,
-      y: -1,
-    },
+    "1": { x: -2, y: 0 },
+    "2": { x: -1, y: 0 },
+    "3": { x: 0, y: 0 },
+    "4": { x: -2, y: -1 },
+    "5": { x: -1, y: -1 },
+    "6": { x: 0, y: -1 },
+    "7": { x: -2, y: 1 },
+    "8": { x: -1, y: 1 },
+    "9": { x: 0, y: 1 },
+    "10": { x: 1, y: 1 },
+    "11": { x: 1, y: 0 },
+    "12": { x: 1, y: -1 },
+    "13": { x: 2, y: 1 },
+    "14": { x: 2, y: 0 },
+    "15": { x: 2, y: -1 },
+    "16": { x: 3, y: 1 },
+    "17": { x: 3, y: 0 },
+    "18": { x: 3, y: -1 },
   },
   fruitPatches: {
-    "1": {
-      createdAt: 0,
-      fruit: {
-        name: "Apple",
-        harvestedAt: 0,
-        harvestsLeft: 3,
-        plantedAt: 0,
-      },
-      x: 0,
-      y: 9,
-    },
-    "2": {
-      createdAt: 0,
-      fruit: {
-        name: "Apple",
-        harvestedAt: 0,
-        harvestsLeft: 3,
-        plantedAt: 0,
-      },
-      x: -2,
-      y: 9,
-    },
+    "1": { x: 0, y: 9 },
+    "2": { x: -2, y: 9 },
   },
   trees: {
-    "1": {
-      wood: {
-        choppedAt: 0,
-        criticalHit: { Native: 1 },
-      },
-      x: 3,
-      y: 6,
-    },
-    "2": {
-      wood: {
-        choppedAt: 0,
-      },
-      x: 3,
-      y: 4,
-    },
-    "3": {
-      wood: {
-        choppedAt: 0,
-        criticalHit: { Native: 1 },
-      },
-      x: 7,
-      y: 9,
-    },
+    "1": { x: 3, y: 6 },
+    "2": { x: 3, y: 4 },
+    "3": { x: 6, y: 9 },
   },
   gold: {
-    1: {
-      x: 3,
-      y: 9,
-      stone: {
-        minedAt: 0,
-        criticalHit: { Native: 1 },
-      },
-    },
+    "1": { x: 3, y: 9 },
   },
   iron: {
-    "1": {
-      x: 5,
-      y: 8,
-      stone: {
-        minedAt: 0,
-      },
-    },
+    "1": { x: 5, y: 8 },
   },
   stones: {
-    "1": {
-      stone: {
-        minedAt: 0,
-      },
-      x: -3,
-      y: 5,
-    },
-    "2": {
-      stone: {
-        minedAt: 0,
-      },
-      x: -2,
-      y: 3,
-    },
+    "1": { x: -3, y: 5 },
+    "2": { x: -2, y: 3 },
   },
 };
 
-const INITIAL_DESERT_LAND: Pick<
-  GameState,
-  "buildings" | "crops" | "fruitPatches" | "stones" | "iron" | "gold" | "trees"
-> = {
+const INITIAL_DESERT_LAND_COORDINATES: InitialLandCoordinates = {
   buildings: {
-    Manor: [
-      {
-        id: "1",
-        readyAt: 0,
-        coordinates: {
-          x: -1,
-          y: 5,
-        },
-        createdAt: 0,
-      },
-    ],
-    Workbench: [
-      {
-        id: "1",
-        readyAt: 0,
-        coordinates: {
-          x: 6,
-          y: 6,
-        },
-        createdAt: 0,
-      },
-    ],
-    Market: [
-      {
-        id: "1",
-        readyAt: 0,
-        coordinates: {
-          x: 6,
-          y: 3,
-        },
-        createdAt: 0,
-      },
-    ],
-    "Fire Pit": [
-      {
-        id: "1123",
-        readyAt: 0,
-        coordinates: {
-          x: 6,
-          y: 0,
-        },
-        createdAt: 0,
-      },
-    ],
+    Manor: { x: -1, y: 5 },
+    Workbench: { x: 6, y: 6 },
+    Market: { x: 6, y: 3 },
+    "Fire Pit": { x: 6, y: 0 },
   },
   crops: {
-    "1": {
-      createdAt: 1703364823336,
-      crop: {
-        name: "Sunflower",
-        plantedAt: 0,
-      },
-      x: -2,
-      y: 0,
-    },
-    "2": {
-      createdAt: 1703364823336,
-      crop: {
-        name: "Sunflower",
-        plantedAt: 0,
-      },
-      x: -1,
-      y: 0,
-    },
-    "3": {
-      createdAt: 1703364823336,
-      crop: {
-        name: "Sunflower",
-        plantedAt: 0,
-      },
-      x: 0,
-      y: 0,
-    },
-    "4": {
-      createdAt: 1703364823336,
-      x: -2,
-      y: -1,
-    },
-    "5": {
-      createdAt: 1703364823336,
-      x: -1,
-      y: -1,
-    },
-    "6": {
-      createdAt: 1703364823336,
-      x: 0,
-      y: -1,
-    },
-    "7": {
-      createdAt: 1703364823336,
-      x: -2,
-      y: 1,
-    },
-    "8": {
-      createdAt: 1703364823336,
-      x: -1,
-      y: 1,
-    },
-    "9": {
-      createdAt: 1703364823336,
-      x: 0,
-      y: 1,
-    },
-    "10": {
-      createdAt: 1703365405829,
-      x: 1,
-      y: 1,
-    },
-    "11": {
-      createdAt: 1703365405976,
-      x: 1,
-      y: 0,
-    },
-    12: {
-      createdAt: 1703365406093,
-      x: 1,
-      y: -1,
-    },
-    13: {
-      createdAt: 1703365409614,
-      x: 2,
-      y: 1,
-    },
-    "14": {
-      createdAt: 1703365409776,
-      x: 2,
-      y: 0,
-    },
-    "15": {
-      createdAt: 1703365409926,
-      x: 2,
-      y: -1,
-    },
-    "16": {
-      createdAt: 1703365428830,
-      x: 3,
-      y: 1,
-    },
-    "17": {
-      createdAt: 1703365429062,
-      x: 3,
-      y: 0,
-    },
-    18: {
-      createdAt: 1703365429630,
-      x: 3,
-      y: -1,
-    },
+    "1": { x: -2, y: 0 },
+    "2": { x: -1, y: 0 },
+    "3": { x: 0, y: 0 },
+    "4": { x: -2, y: -1 },
+    "5": { x: -1, y: -1 },
+    "6": { x: 0, y: -1 },
+    "7": { x: -2, y: 1 },
+    "8": { x: -1, y: 1 },
+    "9": { x: 0, y: 1 },
+    "10": { x: 1, y: 1 },
+    "11": { x: 1, y: 0 },
+    "12": { x: 1, y: -1 },
+    "13": { x: 2, y: 1 },
+    "14": { x: 2, y: 0 },
+    "15": { x: 2, y: -1 },
+    "16": { x: 3, y: 1 },
+    "17": { x: 3, y: 0 },
+    "18": { x: 3, y: -1 },
   },
   fruitPatches: {
-    "1": {
-      createdAt: 0,
-      fruit: {
-        name: "Apple",
-        harvestedAt: 0,
-        harvestsLeft: 3,
-        plantedAt: 0,
-      },
-      x: 0,
-      y: 9,
-    },
-    "2": {
-      createdAt: 0,
-      fruit: {
-        name: "Apple",
-        harvestedAt: 0,
-        harvestsLeft: 3,
-        plantedAt: 0,
-      },
-      x: -2,
-      y: 9,
-    },
+    "1": { x: 0, y: 9 },
+    "2": { x: -2, y: 9 },
   },
   trees: {
-    "1": {
-      wood: {
-        choppedAt: 0,
-        criticalHit: { Native: 1 },
-      },
-      x: 4,
-      y: 6,
-    },
-    "2": {
-      wood: {
-        choppedAt: 0,
-      },
-      x: 4,
-      y: 4,
-    },
-    "3": {
-      wood: {
-        choppedAt: 0,
-        criticalHit: { Native: 1 },
-      },
-      x: 7,
-      y: 9,
-    },
+    "1": { x: 4, y: 6 },
+    "2": { x: 4, y: 4 },
+    "3": { x: 6, y: 9 },
   },
   gold: {
-    1: {
-      x: 3,
-      y: 9,
-      stone: {
-        criticalHit: { Native: 1 },
-        minedAt: 0,
-      },
-    },
+    "1": { x: 3, y: 9 },
   },
   iron: {
-    "1": {
-      x: 5,
-      y: 8,
-      stone: {
-        minedAt: 0,
-      },
-    },
+    "1": { x: 5, y: 8 },
   },
   stones: {
-    "1": {
-      stone: {
-        minedAt: 0,
-      },
-      x: -3,
-      y: 5,
-    },
-    "2": {
-      stone: {
-        minedAt: 0,
-      },
-      x: -2,
-      y: 3,
-    },
+    "1": { x: -3, y: 5 },
+    "2": { x: -2, y: 3 },
   },
 };
 
-const INITIAL_VOLCANO_LAND: Pick<
-  GameState,
-  | "buildings"
-  | "crops"
-  | "fruitPatches"
-  | "stones"
-  | "iron"
-  | "gold"
-  | "trees"
-  | "oilReserves"
-> = {
+const INITIAL_VOLCANO_LAND_COORDINATES: InitialLandCoordinates = {
   buildings: {
-    Mansion: [
-      {
-        id: "1",
-        readyAt: 0,
-        coordinates: {
-          x: -1,
-          y: 5,
-        },
-        createdAt: 0,
-      },
-    ],
-    Workbench: [
-      {
-        id: "1",
-        readyAt: 0,
-        coordinates: {
-          x: 6,
-          y: 6,
-        },
-        createdAt: 0,
-      },
-    ],
-    Market: [
-      {
-        id: "1",
-        readyAt: 0,
-        coordinates: {
-          x: 6,
-          y: 3,
-        },
-        createdAt: 0,
-      },
-    ],
-    "Fire Pit": [
-      {
-        id: "1123",
-        readyAt: 0,
-        coordinates: {
-          x: 6,
-          y: 0,
-        },
-        createdAt: 0,
-      },
-    ],
+    Mansion: { x: -1, y: 5 },
+    Workbench: { x: 6, y: 6 },
+    Market: { x: 6, y: 3 },
+    "Fire Pit": { x: 6, y: 0 },
+  },
+  crops: {
+    "1": { x: -1, y: -1 },
+    "2": { x: 0, y: -1 },
+    "3": { x: 1, y: -1 },
+    "4": { x: -1, y: -2 },
+    "5": { x: 0, y: -2 },
+    "6": { x: 1, y: -2 },
+    "7": { x: -1, y: 0 },
+    "8": { x: 0, y: 0 },
+    "9": { x: 1, y: 0 },
+    "10": { x: 2, y: 0 },
+    "11": { x: 2, y: -1 },
+    "12": { x: 2, y: -2 },
+    "13": { x: 3, y: 0 },
+    "14": { x: 3, y: -1 },
+    "15": { x: 3, y: -2 },
+    "16": { x: 4, y: 0 },
+    "17": { x: 4, y: -1 },
+    "18": { x: 4, y: -2 },
+  },
+  fruitPatches: {
+    "1": { x: 0, y: 9 },
+    "2": { x: -2, y: 9 },
+  },
+  trees: {
+    "1": { x: 5, y: 9 },
+    "2": { x: 3, y: 9 },
+    "3": { x: 3, y: 7 },
+  },
+  gold: {
+    "1": { x: 2, y: 9 },
+  },
+  iron: {
+    "1": { x: 5, y: 7 },
+  },
+  stones: {
+    "1": { x: -3, y: 5 },
+    "2": { x: -2, y: 3 },
   },
   oilReserves: {
-    "1": {
-      x: -8,
-      y: 8,
-      oil: {
-        drilledAt: 0,
-      },
-      drilled: 0,
-      createdAt: 0,
-    },
-  },
-  crops: {
-    "1": {
-      createdAt: 1703364823336,
-      crop: {
-        name: "Sunflower",
-        plantedAt: 0,
-      },
-      x: -1,
-      y: -1,
-    },
-    "2": {
-      createdAt: 1703364823336,
-      crop: {
-        name: "Sunflower",
-        plantedAt: 0,
-      },
-      x: 0,
-      y: -1,
-    },
-    "3": {
-      createdAt: 1703364823336,
-      crop: {
-        name: "Sunflower",
-        plantedAt: 0,
-      },
-      x: 1,
-      y: -1,
-    },
-    "4": {
-      createdAt: 1703364823336,
-      x: -1,
-      y: -2,
-    },
-    "5": {
-      createdAt: 1703364823336,
-      x: 0,
-      y: -2,
-    },
-    "6": {
-      createdAt: 1703364823336,
-      x: 1,
-      y: -2,
-    },
-    "7": {
-      createdAt: 1703364823336,
-      x: -1,
-      y: 0,
-    },
-    "8": {
-      createdAt: 1703364823336,
-      x: 0,
-      y: 0,
-    },
-    "9": {
-      createdAt: 1703364823336,
-      x: 1,
-      y: 0,
-    },
-    "10": {
-      createdAt: 1703365405829,
-      x: 2,
-      y: 0,
-    },
-    "11": {
-      createdAt: 1703365405976,
-      x: 2,
-      y: -1,
-    },
-    12: {
-      createdAt: 1703365406093,
-      x: 2,
-      y: -2,
-    },
-    13: {
-      createdAt: 1703365409614,
-      x: 3,
-      y: 0,
-    },
-    "14": {
-      createdAt: 1703365409776,
-      x: 3,
-      y: -1,
-    },
-    "15": {
-      createdAt: 1703365409926,
-      x: 3,
-      y: -2,
-    },
-    "16": {
-      createdAt: 1703365428830,
-      x: 4,
-      y: 0,
-    },
-    "17": {
-      createdAt: 1703365429062,
-      x: 4,
-      y: -1,
-    },
-    18: {
-      createdAt: 1703365429630,
-      x: 4,
-      y: -2,
-    },
-  },
-  fruitPatches: {
-    "1": {
-      createdAt: 0,
-      fruit: {
-        name: "Apple",
-        harvestedAt: 0,
-        harvestsLeft: 3,
-        plantedAt: 0,
-      },
-      x: 0,
-      y: 9,
-    },
-    "2": {
-      createdAt: 0,
-      fruit: {
-        name: "Apple",
-        harvestedAt: 0,
-        harvestsLeft: 3,
-        plantedAt: 0,
-      },
-      x: -2,
-      y: 9,
-    },
-  },
-  trees: {
-    "1": {
-      wood: {
-        choppedAt: 0,
-        criticalHit: { Native: 1 },
-      },
-      x: 5,
-      y: 9,
-      createdAt: Date.now(),
-    },
-    "2": {
-      wood: {
-        choppedAt: 0,
-      },
-      x: 3,
-      y: 9,
-      createdAt: Date.now(),
-    },
-    "3": {
-      wood: {
-        choppedAt: 0,
-        criticalHit: { Native: 1 },
-      },
-      x: 7,
-      y: 9,
-      createdAt: Date.now(),
-    },
-  },
-  gold: {
-    1: {
-      x: 2,
-      y: 9,
-      stone: {
-        criticalHit: { Native: 1 },
-        minedAt: 0,
-      },
-      createdAt: Date.now(),
-    },
-  },
-  iron: {
-    "1": {
-      x: 5,
-      y: 7,
-      stone: {
-        minedAt: 0,
-      },
-      createdAt: Date.now(),
-    },
-  },
-  stones: {
-    "1": {
-      stone: {
-        minedAt: 0,
-      },
-      x: -3,
-      y: 5,
-      createdAt: Date.now(),
-    },
-    "2": {
-      stone: {
-        minedAt: 0,
-      },
-      x: -2,
-      y: 3,
-      createdAt: Date.now(),
-    },
+    "1": { x: -8, y: 8 },
   },
 };
 
-const SUNSTONE_RELOCATION: Coordinates[] = [
-  { x: -5, y: 5 },
-  { x: -5, y: 9 },
-  { x: -5, y: 7 },
-  { x: -3, y: 7 },
-  { x: -1, y: 7 },
-  { x: 1, y: 7 },
-  { x: 3, y: 7 },
-];
+/**
+ * Places the initial land on the farm.
+ * All functions will place the elements on the farm.
+ * If there's existing data it will update coordinates on the existing data, otherwise it will create new ones
+ */
+function placeInitialLand({
+  state,
+  createdAt = Date.now(),
+  initialLandCoordinates,
+}: {
+  state: GameState;
+  createdAt?: number;
+  initialLandCoordinates: InitialLandCoordinates;
+}) {
+  let stateCopy = cloneDeep(state);
+
+  const {
+    buildings,
+    crops,
+    fruitPatches,
+    trees,
+    gold,
+    iron,
+    stones,
+    oilReserves,
+  } = initialLandCoordinates;
+
+  getObjectEntries(buildings).forEach(([building, coordinates]) => {
+    if (coordinates) {
+      try {
+        stateCopy = placeBuilding({
+          state: stateCopy,
+          action: {
+            type: "building.placed",
+            name: building,
+            id: "1",
+            coordinates,
+          },
+          createdAt,
+        });
+      } catch (error) {
+        // Ignore errors
+      }
+    }
+  });
+
+  getObjectEntries(crops).forEach(([id, coordinates]) => {
+    try {
+      stateCopy = placePlot({
+        state: stateCopy,
+        action: {
+          type: "plot.placed",
+          id,
+          coordinates,
+          name: "Crop Plot",
+        },
+        createdAt,
+      });
+    } catch (error) {
+      // Ignore errors
+    }
+  });
+
+  getObjectEntries(fruitPatches).forEach(([id, coordinates]) => {
+    try {
+      stateCopy = placeFruitPatch({
+        state: stateCopy,
+        action: {
+          type: "fruitPatch.placed",
+          id,
+          coordinates,
+          name: "Fruit Patch",
+        },
+        createdAt,
+      });
+    } catch (error) {
+      // Ignore errors
+    }
+  });
+
+  getObjectEntries(trees).forEach(([id, coordinates]) => {
+    try {
+      stateCopy = placeTree({
+        state: stateCopy,
+        action: {
+          type: "tree.placed",
+          id,
+          coordinates,
+          name: "Tree",
+        },
+        createdAt,
+      });
+    } catch (error) {
+      // Ignore errors
+    }
+  });
+
+  getObjectEntries(gold).forEach(([id, coordinates]) => {
+    try {
+      stateCopy = placeGold({
+        state: stateCopy,
+        action: {
+          type: "gold.placed",
+          id,
+          coordinates,
+          name: "Gold Rock",
+        },
+        createdAt,
+      });
+    } catch (error) {
+      // Ignore errors
+    }
+  });
+
+  getObjectEntries(iron).forEach(([id, coordinates]) => {
+    try {
+      stateCopy = placeIron({
+        state: stateCopy,
+        action: {
+          type: "iron.placed",
+          id,
+          coordinates,
+          name: "Iron Rock",
+        },
+        createdAt,
+      });
+    } catch (error) {
+      // Ignore errors
+    }
+  });
+
+  getObjectEntries(stones).forEach(([id, coordinates]) => {
+    try {
+      stateCopy = placeStone({
+        state: stateCopy,
+        action: {
+          type: "stone.placed",
+          id,
+          coordinates,
+          name: "Stone Rock",
+        },
+        createdAt,
+      });
+    } catch (error) {
+      // Ignore errors
+    }
+  });
+
+  if (oilReserves) {
+    getObjectEntries(oilReserves).forEach(([id, coordinates]) => {
+      try {
+        stateCopy = placeOilReserve({
+          state: stateCopy,
+          action: {
+            type: "oilReserve.placed",
+            id,
+            coordinates,
+          },
+          createdAt,
+        });
+      } catch (error) {
+        // Ignore errors
+      }
+    });
+  }
+  stateCopy = cloneDeep(stateCopy);
+
+  return stateCopy;
+}
 
 export const ISLAND_UPGRADE: Record<
   IslandType,
@@ -798,7 +381,6 @@ export const ISLAND_UPGRADE: Record<
     },
     upgrade: "desert",
   },
-  // TODO
   desert: {
     expansions: 25,
     items: {
@@ -809,54 +391,18 @@ export const ISLAND_UPGRADE: Record<
   volcano: {
     expansions: 99,
     items: {
-      Gold: new Decimal(9999999999),
+      Oil: new Decimal(9999999999),
     },
     upgrade: null,
   },
 };
 
-function springUpgrade(state: GameState) {
-  const game = cloneDeep(state) as GameState;
-  // Clear the house
-  delete game.inventory["Town Center"];
-
-  // Add new resources
-  game.inventory.House = new Decimal(1);
-
-  // Ensure they have the minimum resources to start the island with
-  // Do not give bonus sunstones
-  const minimum = { ...TOTAL_EXPANSION_NODES.spring[4], "Sunstone Rock": 0 };
-
-  Object.entries(minimum).forEach(([name, amount]) => {
-    const item = game.inventory[name as InventoryItemName] ?? new Decimal(0);
-    if (item.lt(amount)) {
-      game.inventory[name as InventoryItemName] = new Decimal(amount);
-    }
-  });
-
-  game.airdrops = [
-    ...(game.airdrops ?? []),
-    {
-      id: "spring-upgrade-reward",
-      coordinates: {
-        x: -1,
-        y: 7,
-      },
-      createdAt: 0,
-      items: {
-        Blossombeard: 1,
-      },
-      sfl: 0,
-      coins: 0,
-      wearables: {},
-      message: translate("islandupgrade.welcomePetalParadise"),
-    },
-  ];
-
-  return game;
-}
-
+/**
+ * Any stale items that are still on the island or home
+ */
 export function expireItems({ game }: { game: GameState }) {
+  // iterate and remove any temporary collectibles
+
   const temporaryCollectibles = getKeys(EXPIRY_COOLDOWNS).reduce(
     (acc, name) => {
       const items = game.collectibles[name as CollectibleName] ?? [];
@@ -889,11 +435,49 @@ export function expireItems({ game }: { game: GameState }) {
   return game;
 }
 
+function springUpgrade(state: GameState) {
+  const game = cloneDeep(state) as GameState;
+  // Clear the house
+  delete game.inventory["Town Center"];
+  delete game.buildings["Town Center"];
+
+  // Add new resources
+  game.inventory.House = new Decimal(1);
+
+  // If they do not already have fruit patches
+  if (!game.inventory["Fruit Patch"]?.gt(2)) {
+    game.inventory["Fruit Patch"] = new Decimal(2);
+  }
+
+  game.airdrops = [
+    ...(game.airdrops ?? []),
+    {
+      id: "spring-upgrade-reward",
+      coordinates: {
+        x: -1,
+        y: 7,
+      },
+      createdAt: 0,
+      items: {
+        Blossombeard: 1,
+      },
+      sfl: 0,
+      coins: 0,
+      wearables: {},
+      message: "Welcome to Petal Paradise!",
+    },
+  ];
+
+  return game;
+}
+
 function desertUpgrade(state: GameState) {
   const game = cloneDeep(state) as GameState;
   // Clear the house
   delete game.inventory["Town Center"];
   delete game.inventory["House"];
+  delete game.buildings["Town Center"];
+  delete game.buildings["House"];
 
   // Add new resources
   game.inventory.Manor = new Decimal(1);
@@ -924,7 +508,7 @@ function desertUpgrade(state: GameState) {
       sfl: 0,
       coins: 0,
       wearables: {},
-      message: translate("islandupgrade.welcomeDesertIsland"),
+      message: "Welcome to the Desert.",
     },
   ];
 
@@ -934,14 +518,19 @@ function desertUpgrade(state: GameState) {
 function volcanoUpgrade(state: GameState) {
   const game = cloneDeep(state) as GameState;
   // Clear the manor
+  delete game.inventory["Town Center"];
+  delete game.inventory["House"];
+  delete game.buildings["Town Center"];
+  delete game.buildings["House"];
   delete game.inventory["Manor"];
+  delete game.buildings["Manor"];
 
   // Add new resources
   game.inventory.Mansion = new Decimal(1);
 
   // Ensure they have the minimum resources to start the island with
   // Do not give bonus sunstones
-  const minimum = { ...TOTAL_EXPANSION_NODES.volcano[4], "Sunstone Rock": 0 };
+  const minimum = { ...TOTAL_EXPANSION_NODES.volcano[5], "Sunstone Rock": 0 };
 
   Object.entries(minimum).forEach(([name, amount]) => {
     const item = game.inventory[name as InventoryItemName] ?? new Decimal(0);
@@ -1025,39 +614,36 @@ export function upgrade({ state, createdAt = Date.now() }: Options) {
     game.inventory[name as InventoryItemName] = amount.minus(required);
   });
 
-  // Remove any time sensitive items that have expired
   game = expireItems({ game });
+  // Remove all items from the farm
+  try {
+    game = removeAll({
+      state: game,
+      action: {
+        type: "items.removed",
+        location: "farm",
+      },
+      createdAt,
+    });
+  } catch (error) {
+    // Ignore errors
+  }
+  game = cloneDeep(game);
 
-  // Clear all in progress items
-  game.collectibles = {};
-  game.buildings = {};
-  game.chickens = {};
+  delete game.socialFarming.clutter;
+
   game.fishing.wharf = {};
   game.mushrooms = {
     mushrooms: {},
     spawnedAt: game.mushrooms?.spawnedAt ?? 0,
   };
-  game.buds = Object.fromEntries(
-    Object.entries(game.buds ?? {}).map(([budId, bud]) => [
-      budId,
-      {
-        ...bud,
-        location: bud.location === "home" ? "home" : undefined,
-        coordinates: bud.location === "home" ? bud.coordinates : undefined,
-      },
-    ]),
-  );
-  game.crimstones = {};
-  game.beehives = {};
-  game.flowers.flowerBeds = {};
-  game.oilReserves = {};
 
-  Object.keys(game.sunstones).forEach((key, i) => {
-    game.sunstones[key].x = SUNSTONE_RELOCATION[i].x;
-    game.sunstones[key].y = SUNSTONE_RELOCATION[i].y;
-  });
+  let previousExpansions = game.inventory["Basic Land"]?.toNumber() ?? 0;
 
-  const previousExpansions = game.inventory["Basic Land"]?.toNumber() ?? 0;
+  if (game.expansionConstruction) {
+    previousExpansions += 1;
+  }
+
   const sunstonesForExpansion =
     TOTAL_EXPANSION_NODES[game.island.type][previousExpansions][
       "Sunstone Rock"
@@ -1075,44 +661,44 @@ export function upgrade({ state, createdAt = Date.now() }: Options) {
     previousExpansions,
     sunstones: maxSunstones,
   };
+
+  // In basic land the season is always spring. If upgrading, apply the new season.
   game.season = populateSeason(createdAt);
+
+  // Remove any previous in progress expansions (LEGACY)
+  delete game.expansionConstruction;
 
   if (upcoming.upgrade === "spring") {
     game = springUpgrade(game);
+    game.inventory["Basic Land"] = new Decimal(4);
+    game = placeInitialLand({
+      state: game,
+      createdAt,
+      initialLandCoordinates: INITIAL_SPRING_LAND_COORDINATES,
+    });
   }
 
   if (upcoming.upgrade === "desert") {
     game = desertUpgrade(game);
+    game.inventory["Basic Land"] = new Decimal(4);
+    game = placeInitialLand({
+      state: game,
+      createdAt,
+      initialLandCoordinates: INITIAL_DESERT_LAND_COORDINATES,
+    });
   }
 
   if (upcoming.upgrade === "volcano") {
     game = volcanoUpgrade(game);
-  }
-
-  // Reset expansions
-  if (upcoming.upgrade === "spring") {
-    game.inventory["Basic Land"] = new Decimal(4);
-    game = {
-      ...game,
-      ...INITIAL_SPRING_LAND,
-    };
-  }
-
-  if (upcoming.upgrade === "desert") {
-    game.inventory["Basic Land"] = new Decimal(4);
-    game = {
-      ...game,
-      ...INITIAL_DESERT_LAND,
-    };
-  }
-
-  if (upcoming.upgrade === "volcano") {
     game.inventory["Basic Land"] = new Decimal(5);
-    game = {
-      ...game,
-      ...INITIAL_VOLCANO_LAND,
-    };
+    game = placeInitialLand({
+      state: game,
+      createdAt,
+      initialLandCoordinates: INITIAL_VOLCANO_LAND_COORDINATES,
+    });
   }
+  game = cloneDeep(game);
+
   // Reset the biome upon upgrade
   delete game.island.biome;
 

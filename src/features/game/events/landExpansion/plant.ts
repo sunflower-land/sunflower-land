@@ -50,6 +50,7 @@ import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 import { canUseTimeBoostAOE, setAOEAvailableAt } from "features/game/lib/aoe";
 import cloneDeep from "lodash.clonedeep";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
+import { getObjectEntries } from "features/game/expansion/lib/utils";
 
 export type LandExpansionPlantAction = {
   type: "seed.planted";
@@ -139,9 +140,10 @@ export function isPlotFertile({
   });
 
   const cropPosition =
-    getKeys(crops)
-      .sort((a, b) => (crops[a].createdAt > crops[b].createdAt ? 1 : -1))
-      .findIndex((plotId) => plotId === plotIndex) + 1;
+    getObjectEntries(crops)
+      .filter(([, plot]) => plot.x !== undefined && plot.y !== undefined)
+      .sort(([a], [b]) => (crops[a].createdAt > crops[b].createdAt ? 1 : -1))
+      .findIndex(([plotId]) => plotId === plotIndex) + 1;
   return cropPosition <= cropsWellCanWater;
 }
 

@@ -2400,7 +2400,7 @@
   "islandNotFound.message": "You have landed in the middle of nowhere!",
   "islandNotFound.takeMeHome": "Take me home",
   "islandupgrade.confirmUpgrade": "Are you sure you want to upgrade to a new island ?",
-  "islandupgrade.warning1": "Make sure you do not have any of the following resource nodes or cooking buildings in progress. These will not be able to be harvested and will be reset, then returned to your inventory.",
+  "islandupgrade.warning1": "All your items on your land will be dug up and returned to your inventory. You can access them in your chest.",
   "islandupgrade.warning2": "Sunstone Rock, House, Market, Fire Pit and Workbench will remain placed on your land.",
   "islandupgrade.warning3": "House, Market, Fire Pit and Workbench will remain placed on your land.",
   "islandupgrade.empty.cropPlots": "Crop Plots are empty",
