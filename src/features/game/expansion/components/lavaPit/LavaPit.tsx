@@ -11,6 +11,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import animatedLavaPit from "assets/resources/lava/lava_pit_animation.webp";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { getLavaPitTime } from "features/game/events/landExpansion/collectLavaPit";
+import { LiveProgressBar } from "components/ui/ProgressBar";
 
 const _lavaPit = (id: string) => (state: MachineState) =>
   state.context.state.lavaPits[id];
@@ -23,8 +24,8 @@ interface Props {
 
 export const LavaPit: React.FC<Props> = ({ id }) => {
   const [showModal, setShowModal] = useState(false);
-
-  const { gameService, showAnimations } = useContext(Context);
+  const [renderKey, setRender] = useState<number>(0);
+  const { gameService, showAnimations, showTimers } = useContext(Context);
   const lavaPit = useSelector(gameService, _lavaPit(id));
   const lavaPitTime = useSelector(gameService, _lavaPitTime);
 
@@ -36,6 +37,11 @@ export const LavaPit: React.FC<Props> = ({ id }) => {
   const lavaPitReady =
     (lavaPit?.startedAt ?? Infinity) + lavaPitTime < Date.now() &&
     !lavaPit?.collectedAt;
+
+  const width = 36;
+  const lavaPitStartedAt = lavaPit?.startedAt ?? 0;
+  const lavaPitEndAt = lavaPitStartedAt + lavaPitTime;
+  const isReadyWithinADay = lavaPitEndAt < Date.now() + 24 * 60 * 60 * 1000;
 
   return (
     <div className="relative w-full h-full">
@@ -57,14 +63,37 @@ export const LavaPit: React.FC<Props> = ({ id }) => {
           <img
             id={`lavapit-${id}`}
             src={animatedLavaPit}
-            width={36 * PIXEL_SCALE}
+            width={width * PIXEL_SCALE}
           />
         ) : (
           <img
             id={`lavapit-${id}`}
             src={ITEM_DETAILS["Lava Pit"].image}
-            width={36 * PIXEL_SCALE}
+            width={width * PIXEL_SCALE}
           />
+        )}
+
+        {lavaPitRunning && showTimers && (
+          <div
+            className="flex justify-center absolute bg-red-500"
+            style={{
+              bottom: "12px",
+              width: `${width * PIXEL_SCALE}px`,
+              left: `${PIXEL_SCALE * ((32 - width) / 2)}px`,
+            }}
+          >
+            <LiveProgressBar
+              key={renderKey}
+              startAt={lavaPitStartedAt}
+              endAt={lavaPitEndAt}
+              formatLength={isReadyWithinADay ? "short" : "medium"}
+              className="relative"
+              style={{
+                width: `${PIXEL_SCALE * 14}px`,
+              }}
+              onComplete={() => setRender((r) => r + 1)}
+            />
+          </div>
         )}
       </div>
 

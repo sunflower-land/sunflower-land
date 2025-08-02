@@ -192,7 +192,12 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   lavaPits: {
-    "1": { createdAt: 0, x: -4, y: -6 },
+    "1": {
+      createdAt: 0,
+      startedAt: Date.now() - 1000 * (60 * 60 * 48),
+      x: -4,
+      y: -6,
+    },
   },
 
   fruitPatches: {
