@@ -622,8 +622,7 @@ export function detectCollision({
     detectLandCornerCollision(expansions, position) ||
     detectChickenCollision(state, position) ||
     detectMushroomCollision(state, position) ||
-    detectAirdropCollision(state, position) ||
-    detectGarbageCollision(state, position)
+    detectAirdropCollision(state, position)
   );
 }
 
