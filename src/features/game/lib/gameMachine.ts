@@ -739,6 +739,7 @@ export const saveGame = async (
 };
 
 const handleSuccessfulSave = (context: Context, event: any) => {
+  const isVisiting = !!context.visitorId;
   // Actions that occurred since the server request
   const recentActions = context.actions.filter(
     (action) => action.createdAt.getTime() > event.data.saveAt.getTime(),
@@ -746,7 +747,8 @@ const handleSuccessfulSave = (context: Context, event: any) => {
 
   if (recentActions.length === 0) {
     return {
-      state: event.data.farm,
+      state: isVisiting ? context.state : event.data.farm,
+      visitorState: context.visitorState,
       saveQueued: false,
       actions: [],
       announcements: event.data.announcements,
