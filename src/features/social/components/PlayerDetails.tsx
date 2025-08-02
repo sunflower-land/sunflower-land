@@ -166,7 +166,7 @@ export const PlayerDetails: React.FC<Props> = ({
   return (
     <div className="flex gap-1 w-full max-h-[370px]">
       <div className="flex flex-col flex-1 gap-1">
-        <InnerPanel className="flex flex-col gap-1 flex-1 pb-1 px-1">
+        <InnerPanel className="flex flex-col flex-1 pb-1 px-1">
           <ModalOverlay
             show={showCheerModal}
             onBackdropClick={() => setShowCheerModal(false)}
@@ -246,7 +246,7 @@ export const PlayerDetails: React.FC<Props> = ({
               </Button>
             )}
           </div>
-          <div className="flex pb-1 gap-1">
+          <div className="flex py-2">
             <div className="relative">
               <NPCIcon
                 parts={player?.clothing ?? {}}
@@ -330,9 +330,24 @@ export const PlayerDetails: React.FC<Props> = ({
             </div>
           </div>
           <div className="flex flex-col gap-1 p-1 pt-0 mb-2 w-full">
-            <div className="text-xs">{`You cleaned their farm x times`}</div>
-            <div className="text-xs">{`They cleaned your farm x times`}</div>
-            <div className="text-xs">{`Top friend - x`}</div>
+            <div className="text-xs">
+              {player?.cleaning.youCleanedThemCount === 1
+                ? t("playerModal.youCleanedThemCount.singular", {
+                    count: player?.cleaning.youCleanedThemCount,
+                  })
+                : t("playerModal.youCleanedThemCount.plural", {
+                    count: player?.cleaning.youCleanedThemCount,
+                  })}
+            </div>
+            <div className="text-xs">
+              {player?.cleaning.theyCleanedYouCount === 1
+                ? t("playerModal.theyCleanedYouCount.singular", {
+                    count: player?.cleaning.theyCleanedYouCount,
+                  })
+                : t("playerModal.theyCleanedYouCount.plural", {
+                    count: player?.cleaning.theyCleanedYouCount,
+                  })}
+            </div>
           </div>
         </InnerPanel>
         <InnerPanel className="flex flex-col w-full pb-1">

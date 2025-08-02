@@ -12,7 +12,8 @@ export type InteractionType =
   | "follow"
   | "milestone"
   | "announcement"
-  | "cheer";
+  | "cheer"
+  | "clean";
 
 export type Interaction = {
   type: InteractionType;
@@ -48,6 +49,10 @@ export type Player = {
     faction?: FactionName;
     lastUpdatedAt: number;
     socialPoints: number;
+    cleaning: {
+      youCleanedThemCount: number;
+      theyCleanedYouCount: number;
+    };
   };
 };
 
