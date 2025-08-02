@@ -12,6 +12,7 @@ import flowerIcon from "assets/icons/flower_token.webp";
 import deliveryBook from "assets/icons/chapter_icon_3.webp";
 import cheer from "assets/icons/cheer.webp";
 import socialPointsIcon from "assets/icons/social_score.webp";
+import cleanBroom from "assets/icons/clean_broom.webp";
 
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -75,6 +76,10 @@ const _hasCheeredToday = (farmId: number) => (state: MachineState) => {
     state.context.state.socialFarming.cheersGiven.farms.includes(farmId)
   );
 };
+const _hasCleanedToday = (playerId: number) => (state: MachineState) => {
+  return !!state.context.state.socialFarming.dailyCollections?.[playerId]
+    ?.pointGivenAt;
+};
 
 export const PlayerDetails: React.FC<Props> = ({
   data,
@@ -93,12 +98,17 @@ export const PlayerDetails: React.FC<Props> = ({
   const { gameService, setFromRoute } = useContext(Context);
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { isVisiting } = useVisiting();
-  const cheersAvailable = useSelector(gameService, _cheersAvailable);
   const location = useLocation();
-  const [showCheerModal, setShowCheerModal] = useState(false);
+  const { isVisiting } = useVisiting();
 
   const player = data?.data;
+
+  const cheersAvailable = useSelector(gameService, _cheersAvailable);
+  const hasCleanedToday = useSelector(
+    gameService,
+    _hasCleanedToday(player?.id ?? 0),
+  );
+  const [showCheerModal, setShowCheerModal] = useState(false);
 
   useOnMachineTransition(
     gameService,
@@ -246,14 +256,14 @@ export const PlayerDetails: React.FC<Props> = ({
               </Button>
             )}
           </div>
-          <div className="flex py-2">
+          <div className="flex ">
             <div className="relative">
               <NPCIcon
                 parts={player?.clothing ?? {}}
                 width={PIXEL_SCALE * 14}
               />
             </div>
-            <div className="flex flex-col gap-1 text-xs mt-1 ml-2 flex-1">
+            <div className="flex flex-col gap-1 text-xs mt-1 ml-2 flex-1 mb-1">
               <div className="flex items-center">
                 {`Lvl ${player?.level}${player?.faction ? ` - ${capitalize(player?.faction)}` : ""}`}
                 {player?.faction && (
@@ -297,12 +307,11 @@ export const PlayerDetails: React.FC<Props> = ({
             </div>
             {!isVisiting && (
               <Button
-                className="flex w-fit h-9 justify-between items-center gap-1 mt-1"
+                className="flex w-fit h-9 justify-between items-center gap-1 -mt-2.5 align-top"
                 disabled={isSelf}
                 onClick={visitFarm}
               >
                 <div className="flex items-center px-1">
-                  {!isMobile && <span className="pr-1">{t("visit")}</span>}
                   <img
                     src={SUNNYSIDE.icons.search}
                     className="flex justify-center items-center w-4 h-4"
@@ -311,9 +320,20 @@ export const PlayerDetails: React.FC<Props> = ({
               </Button>
             )}
           </div>
+          <div className="flex justify-between items-center pt-0 p-0.5">
+            <Label
+              type="vibrant"
+              icon={ITEM_DETAILS.Cheer.image}
+              className="ml-1"
+            >{` in progress: ${player?.projectsInProgress}`}</Label>
+            <img
+              src={hasCleanedToday ? cleanBroom : ITEM_DETAILS.Trash.image}
+              className="w-7 mr-2"
+            />
+          </div>
         </InnerPanel>
         <InnerPanel className="flex flex-col items-center w-full">
-          <div className="flex flex-col gap-1 p-1 w-full ml-1 pt-0">
+          <div className="flex flex-col gap-1 px-1 w-full ml-1 pt-0">
             <div className="flex items-center justify-between">
               <FollowsIndicator
                 count={data?.data?.followedByCount ?? 0}
@@ -329,7 +349,7 @@ export const PlayerDetails: React.FC<Props> = ({
               </Button>
             </div>
           </div>
-          <div className="flex flex-col gap-1 p-1 pt-0 mb-2 w-full">
+          <div className="flex flex-col gap-1 p-1 mb-2 w-full">
             <div className="text-xs">
               {player?.cleaning.youCleanedThemCount === 1
                 ? t("playerModal.youCleanedThemCount.singular", {

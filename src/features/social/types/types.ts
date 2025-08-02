@@ -49,6 +49,7 @@ export type Player = {
     faction?: FactionName;
     lastUpdatedAt: number;
     socialPoints: number;
+    projectsInProgress: number;
     cleaning: {
       youCleanedThemCount: number;
       theyCleanedYouCount: number;
