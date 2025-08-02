@@ -40,16 +40,16 @@ export function claimDailyCheers({
       .toISOString()
       .split("T")[0];
 
-    const cheersUsedYesterday =
-      dayFreeCheersClaimed === yesterday ? cheers.cheersUsed : 0;
+    const cheersUsedYesterday = Math.min(
+      dayFreeCheersClaimed === yesterday ? cheers.cheersUsed : 0,
+      3,
+    );
 
-    const newCheerCount = 3 - cheersUsedYesterday;
-
-    if (newCheerCount <= 0) {
+    if (cheersUsedYesterday < 0) {
       throw new Error("Not enough cheers to claim");
     }
 
-    draft.inventory.Cheer = new Decimal(newCheerCount);
+    draft.inventory.Cheer = new Decimal(cheersUsedYesterday);
 
     if (cheers.freeCheersClaimedAt < new Date(today).getTime()) {
       cheers.freeCheersClaimedAt = createdAt;
