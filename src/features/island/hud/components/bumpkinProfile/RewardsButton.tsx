@@ -10,6 +10,7 @@ import {
 import { getKeys } from "features/game/types/decorations";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
+import { isMobile } from "mobile-device-detect";
 
 export const RewardsButton: React.FC = () => {
   const { gameState } = useGame();
@@ -43,19 +44,30 @@ export const RewardsButton: React.FC = () => {
 
   return (
     <div
-      className="absolute"
-      style={{ top: `${PIXEL_SCALE * 5}px`, left: `${PIXEL_SCALE * 32}px` }}
+      className="absolute z-10"
+      style={{
+        top: `${PIXEL_SCALE * (isMobile ? 15 : 5)}px`,
+        left: `${PIXEL_SCALE * (isMobile ? 34 : 32)}px`,
+      }}
     >
-      <RoundButton buttonSize={18} onClick={() => openModal("EARN")}>
-        <img
-          src={ITEM_DETAILS["Love Charm"].image}
-          className="absolute group-active:translate-y-[2px]"
+      <RoundButton
+        buttonSize={isMobile ? 15 : 18}
+        onClick={() => openModal("EARN")}
+      >
+        <div
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
           style={{
-            width: `${PIXEL_SCALE * 14}px`,
-            left: `${PIXEL_SCALE * 2}px`,
-            top: `${PIXEL_SCALE * 5}px`,
+            width: `${PIXEL_SCALE * (isMobile ? 12 : 14)}px`,
           }}
-        />
+        >
+          <img
+            src={ITEM_DETAILS["Love Charm"].image}
+            className="group-active:translate-y-[2px]"
+            style={{
+              width: `${PIXEL_SCALE * (isMobile ? 12 : 14)}px`,
+            }}
+          />
+        </div>
         {(isAnyTaskCompleted || isChestLocked) && (
           <img
             src={SUNNYSIDE.icons.expression_alerted}
