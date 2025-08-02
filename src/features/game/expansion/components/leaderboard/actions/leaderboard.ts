@@ -72,12 +72,6 @@ export type EmblemsLeaderboard = {
   lastUpdated: number;
 };
 
-export type SocialPointsLeaderboard = {
-  topTens: Record<FactionName, RankData[]>;
-  totalTickets: Record<FactionName, number>;
-  socialPointsRankingData?: RankData[] | null;
-};
-
 export async function getLeaderboard<T>({
   farmId,
   leaderboardName,
@@ -233,10 +227,6 @@ export async function fetchLeaderboardData(
         farmId: Number(farmId),
         leaderboardName: "emblems",
       }),
-      getLeaderboard<SocialPointsLeaderboard>({
-        farmId: Number(farmId),
-        leaderboardName: "socialPoints",
-      }),
       getLeaderboard<TicketLeaderboard>({
         farmId: Number(farmId),
         leaderboardName: "socialPoints",
@@ -248,6 +238,7 @@ export async function fetchLeaderboardData(
       factions: factionsLeaderboard,
       kingdom: kingdomLeaderboard,
       emblems: emblemsLeaderboard,
+      socialPoints: socialPointsLeaderboard,
     };
   } catch (error) {
     // eslint-disable-next-line no-console
