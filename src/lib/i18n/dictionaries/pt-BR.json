@@ -6242,5 +6242,10 @@
   "noticeboard": "Quadro de avisos",
   "rewards": "Recompensas",
   "biomes": "Biomas",
-  "cheers.progress": "Progresso da torcida: {{progress}}"
+  "cheers.progress": "Progresso da torcida: {{progress}}",
+  "playerModal.youCleanedThemCount.singular": "Você limpou a fazenda deles {{count}} vez",
+  "playerModal.theyCleanedYouCount.singular": "Eles limparam sua fazenda {{count}} vez",
+  "playerModal.youCleanedThemCount.plural": "Você limpou a fazenda deles {{count}} vezes",
+  "playerModal.theyCleanedYouCount.plural": "Eles limparam sua fazenda {{count}} vezes",
+  "playerModal.topFriend": "Melhor amigo - {{username}}"
 }

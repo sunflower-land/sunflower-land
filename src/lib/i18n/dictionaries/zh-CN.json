@@ -6242,5 +6242,10 @@
   "noticeboard": "布告板",
   "rewards": "奖励",
   "biomes": "生物群落",
-  "cheers.progress": "加油进度：{{progress}}"
+  "cheers.progress": "加油进度：{{progress}}",
+  "playerModal.youCleanedThemCount.singular": "你清理了他们的农场 {{count}} 次",
+  "playerModal.theyCleanedYouCount.singular": "他们清理了你的农场 {{count}} 次",
+  "playerModal.youCleanedThemCount.plural": "你清理了他们的农场 {{count}} 次",
+  "playerModal.theyCleanedYouCount.plural": "他们清理了你的农场 {{count}} 次",
+  "playerModal.topFriend": "好友-{{username}}"
 }

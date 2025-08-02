@@ -6242,5 +6242,10 @@
   "noticeboard": "Tablón de anuncios",
   "rewards": "Recompensas",
   "biomes": "Biomas",
-  "cheers.progress": "Progreso de ánimo: {{progress}}"
+  "cheers.progress": "Progreso de ánimo: {{progress}}",
+  "playerModal.youCleanedThemCount.singular": "Limpiaste su granja {{count}} hora",
+  "playerModal.theyCleanedYouCount.singular": "Limpiaron tu granja {{count}} a la hora",
+  "playerModal.youCleanedThemCount.plural": "Has limpiado su granja {{count}} veces",
+  "playerModal.theyCleanedYouCount.plural": "Limpiaron tu granja {{count}} veces",
+  "playerModal.topFriend": "Mejor amigo - {{username}}"
 }

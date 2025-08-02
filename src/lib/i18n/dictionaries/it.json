@@ -6242,5 +6242,10 @@
   "noticeboard": "Bacheca",
   "rewards": "Premi",
   "biomes": "Biomi",
-  "cheers.progress": "Progresso del tifo: {{progress}}"
+  "cheers.progress": "Progresso del tifo: {{progress}}",
+  "playerModal.youCleanedThemCount.singular": "Hai pulito la loro fattoria {{count}} tempo",
+  "playerModal.theyCleanedYouCount.singular": "Hanno pulito la tua fattoria {{count}} tempo",
+  "playerModal.youCleanedThemCount.plural": "Hai pulito la loro fattoria {{count}} volte",
+  "playerModal.theyCleanedYouCount.plural": "Hanno pulito la tua fattoria {{count}} volte",
+  "playerModal.topFriend": "Miglior amico - {{username}}"
 }

@@ -6242,5 +6242,10 @@
   "noticeboard": "Pinnwand",
   "rewards": "Prämien",
   "biomes": "Biome",
-  "cheers.progress": "Progress anfeuern: {{progress}}"
+  "cheers.progress": "Progress anfeuern: {{progress}}",
+  "playerModal.youCleanedThemCount.singular": "Du hast ihre Farm {{count}} mal gereinigt",
+  "playerModal.theyCleanedYouCount.singular": "Sie haben deine Farm {{count}} -Zeit gereinigt",
+  "playerModal.youCleanedThemCount.plural": "Du hast ihre Farm {{count}} mal gereinigt",
+  "playerModal.theyCleanedYouCount.plural": "Sie haben deine Farm {{count}} mal gereinigt",
+  "playerModal.topFriend": "Top Freund - {{username}}"
 }

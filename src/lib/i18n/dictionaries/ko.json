@@ -6242,5 +6242,10 @@
   "noticeboard": "공지 게시판",
   "rewards": "리워드",
   "biomes": "생물군계",
-  "cheers.progress": "응원 진행: {{progress}}"
+  "cheers.progress": "응원 진행: {{progress}}",
+  "playerModal.youCleanedThemCount.singular": "{{count}} 시간에 농장을 청소했습니다",
+  "playerModal.theyCleanedYouCount.singular": "그들은 {{count}} 시간에 농장을 청소했습니다",
+  "playerModal.youCleanedThemCount.plural": "그들의 농장을 {{count}} 번 청소했습니다.",
+  "playerModal.theyCleanedYouCount.plural": "그들은 당신의 농장을 {{count}} 번 청소했습니다.",
+  "playerModal.topFriend": "최고의 친구 - {{username}}"
 }

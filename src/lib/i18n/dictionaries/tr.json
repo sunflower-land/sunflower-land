@@ -6242,5 +6242,10 @@
   "noticeboard": "İlan tahtası",
   "rewards": "Ödüller",
   "biomes": "Biyomlar",
-  "cheers.progress": "Tezahürat İlerlemesi: {{progress}}"
+  "cheers.progress": "Tezahürat İlerlemesi: {{progress}}",
+  "playerModal.youCleanedThemCount.singular": "Çiftliğini temizledin {{count}} zamanı",
+  "playerModal.theyCleanedYouCount.singular": "Çiftliğinizi temizlediler {{count}} zamanı",
+  "playerModal.youCleanedThemCount.plural": "Çiftliğini {{count}} kez temizledin",
+  "playerModal.theyCleanedYouCount.plural": "Çiftliğinizi {{count}} kez temizlediler",
+  "playerModal.topFriend": "En iyi arkadaş - {{username}}"
 }

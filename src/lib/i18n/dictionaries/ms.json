@@ -6242,5 +6242,10 @@
   "noticeboard": "Papan Pemberitahuan",
   "rewards": "Ganjaran",
   "biomes": "Biom",
-  "cheers.progress": "Kemajuan Sorak: {{progress}}"
+  "cheers.progress": "Kemajuan Sorak: {{progress}}",
+  "playerModal.youCleanedThemCount.singular": "Anda membersihkan ladang mereka {{count}} masa",
+  "playerModal.theyCleanedYouCount.singular": "Mereka membersihkan ladang anda {{count}} masa",
+  "playerModal.youCleanedThemCount.plural": "Anda membersihkan ladang mereka {{count}} kali",
+  "playerModal.theyCleanedYouCount.plural": "Mereka membersihkan ladang anda {{count}} kali",
+  "playerModal.topFriend": "Kawan teratas - {{username}}"
 }

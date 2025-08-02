@@ -6242,5 +6242,10 @@
   "noticeboard": "Доска объявлений",
   "rewards": "Награды",
   "biomes": "Биомы",
-  "cheers.progress": "Прогресс аплодисментов: {{progress}}"
+  "cheers.progress": "Прогресс аплодисментов: {{progress}}",
+  "playerModal.youCleanedThemCount.singular": "Вы убирали их ферму {{count}} время",
+  "playerModal.theyCleanedYouCount.singular": "Они убрали твою ферму {{count}} время",
+  "playerModal.youCleanedThemCount.plural": "Вы убирали их ферму {{count}} раз",
+  "playerModal.theyCleanedYouCount.plural": "Они убрали твою ферму {{count}} раз",
+  "playerModal.topFriend": "Лучший друг - {{username}}"
 }

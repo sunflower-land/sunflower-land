@@ -6242,5 +6242,10 @@
   "noticeboard": "Papan pengumuman",
   "rewards": "Imbalan",
   "biomes": "Bioma",
-  "cheers.progress": "Kemajuan Cheer: {{progress}}"
+  "cheers.progress": "Kemajuan Cheer: {{progress}}",
+  "playerModal.youCleanedThemCount.singular": "Anda membersihkan peternakan mereka {{count}} waktu",
+  "playerModal.theyCleanedYouCount.singular": "Mereka membersihkan peternakan Anda {{count}} waktu",
+  "playerModal.youCleanedThemCount.plural": "Anda membersihkan peternakan mereka {{count}} kali",
+  "playerModal.theyCleanedYouCount.plural": "Mereka membersihkan peternakan Anda {{count}} kali",
+  "playerModal.topFriend": "Teman terbaik - {{username}}"
 }

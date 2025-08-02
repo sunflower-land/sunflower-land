@@ -6242,5 +6242,10 @@
   "noticeboard": "掲示板",
   "rewards": "報酬",
   "biomes": "バイオーム",
-  "cheers.progress": "チアの進行状況:{{progress}}"
+  "cheers.progress": "チアの進行状況:{{progress}}",
+  "playerModal.youCleanedThemCount.singular": "あなたは彼らの農場を掃除した {{count}} 時間",
+  "playerModal.theyCleanedYouCount.singular": "彼らはあなたの農場を掃除しました {{count}} 時間",
+  "playerModal.youCleanedThemCount.plural": "あなたは彼らの農場を {{count}} 回掃除しました",
+  "playerModal.theyCleanedYouCount.plural": "彼らはあなたの農場を {{count}} 回掃除しました",
+  "playerModal.topFriend": "トップフレンド-{{username}}"
 }

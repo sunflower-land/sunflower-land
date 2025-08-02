@@ -6242,5 +6242,10 @@
   "noticeboard": "Tableau d'affichage",
   "rewards": "Récompenses",
   "biomes": "Biomes",
-  "cheers.progress": "Progrès des encouragements : {{progress}}"
+  "cheers.progress": "Progrès des encouragements : {{progress}}",
+  "playerModal.youCleanedThemCount.singular": "Vous avez nettoyé leur ferme {{count}} fois",
+  "playerModal.theyCleanedYouCount.singular": "Ils ont nettoyé votre ferme {{count}} fois",
+  "playerModal.youCleanedThemCount.plural": "Vous avez nettoyé leur ferme {{count}} fois",
+  "playerModal.theyCleanedYouCount.plural": "Ils ont nettoyé votre ferme {{count}} fois",
+  "playerModal.topFriend": "Meilleur ami - {{username}}"
 }
