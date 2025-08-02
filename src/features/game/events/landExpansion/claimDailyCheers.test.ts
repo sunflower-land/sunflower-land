@@ -37,7 +37,22 @@ describe("claimDailyCheers", () => {
     const now = Date.now();
 
     const game = claimDailyCheers({
-      state: INITIAL_FARM,
+      state: {
+        ...INITIAL_FARM,
+        socialFarming: {
+          points: 0,
+          villageProjects: {},
+          cheersGiven: {
+            date: new Date(now).toISOString().split("T")[0],
+            projects: {},
+            farms: [],
+          },
+          cheers: {
+            freeCheersClaimedAt: now - 24 * 60 * 60 * 1000,
+            cheersUsed: 3,
+          },
+        },
+      },
       action: { type: "cheers.claimed" },
       createdAt: now,
     });
@@ -70,5 +85,32 @@ describe("claimDailyCheers", () => {
     });
 
     expect(game?.inventory.Cheer?.toNumber()).toBe(2);
+  });
+
+  it("should only give a maximum of 3 bonus cheers if the player has used more than 3 cheers yesterday", () => {
+    const now = Date.now();
+
+    const game = claimDailyCheers({
+      state: {
+        ...INITIAL_FARM,
+        socialFarming: {
+          points: 0,
+          villageProjects: {},
+          cheersGiven: {
+            date: new Date(now).toISOString().split("T")[0],
+            projects: {},
+            farms: [],
+          },
+          cheers: {
+            freeCheersClaimedAt: now - 24 * 60 * 60 * 1000,
+            cheersUsed: 4,
+          },
+        },
+      },
+      action: { type: "cheers.claimed" },
+      createdAt: now,
+    });
+
+    expect(game?.inventory.Cheer?.toNumber()).toBe(3);
   });
 });

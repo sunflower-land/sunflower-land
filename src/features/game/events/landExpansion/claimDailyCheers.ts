@@ -45,7 +45,7 @@ export function claimDailyCheers({
       3,
     );
 
-    if (cheersUsedYesterday <= 0) {
+    if (cheersUsedYesterday < 0) {
       throw new Error("Not enough cheers to claim");
     }
 
