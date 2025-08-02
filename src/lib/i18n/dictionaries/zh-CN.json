@@ -6241,5 +6241,6 @@
   "airdrop": "空投",
   "noticeboard": "布告板",
   "rewards": "奖励",
-  "biomes": "生物群落"
+  "biomes": "生物群落",
+  "cheers.progress": "加油进度：{{progress}}"
 }

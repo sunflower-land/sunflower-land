@@ -6241,5 +6241,6 @@
   "airdrop": "Lanzamiento aéreo",
   "noticeboard": "Tablón de anuncios",
   "rewards": "Recompensas",
-  "biomes": "Biomas"
+  "biomes": "Biomas",
+  "cheers.progress": "Progreso de ánimo: {{progress}}"
 }

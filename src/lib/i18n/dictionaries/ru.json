@@ -6241,5 +6241,6 @@
   "airdrop": "Airdrop",
   "noticeboard": "Доска объявлений",
   "rewards": "Награды",
-  "biomes": "Биомы"
+  "biomes": "Биомы",
+  "cheers.progress": "Прогресс аплодисментов: {{progress}}"
 }

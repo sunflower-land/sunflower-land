@@ -6241,5 +6241,6 @@
   "airdrop": "Airdrop",
   "noticeboard": "Papan Pemberitahuan",
   "rewards": "Ganjaran",
-  "biomes": "Biom"
+  "biomes": "Biom",
+  "cheers.progress": "Kemajuan Sorak: {{progress}}"
 }

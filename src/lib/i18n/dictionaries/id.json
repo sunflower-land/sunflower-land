@@ -6241,5 +6241,6 @@
   "airdrop": "Airdrop",
   "noticeboard": "Papan pengumuman",
   "rewards": "Imbalan",
-  "biomes": "Bioma"
+  "biomes": "Bioma",
+  "cheers.progress": "Kemajuan Cheer: {{progress}}"
 }

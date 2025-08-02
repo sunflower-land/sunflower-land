@@ -6241,5 +6241,6 @@
   "airdrop": "Airdrop",
   "noticeboard": "Pinnwand",
   "rewards": "Prämien",
-  "biomes": "Biome"
+  "biomes": "Biome",
+  "cheers.progress": "Progress anfeuern: {{progress}}"
 }

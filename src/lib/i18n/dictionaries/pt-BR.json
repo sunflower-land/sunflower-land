@@ -6241,5 +6241,6 @@
   "airdrop": "Airdrop",
   "noticeboard": "Quadro de avisos",
   "rewards": "Recompensas",
-  "biomes": "Biomas"
+  "biomes": "Biomas",
+  "cheers.progress": "Progresso da torcida: {{progress}}"
 }

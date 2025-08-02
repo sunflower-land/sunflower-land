@@ -6241,5 +6241,6 @@
   "airdrop": "Airdrop",
   "noticeboard": "İlan tahtası",
   "rewards": "Ödüller",
-  "biomes": "Biyomlar"
+  "biomes": "Biyomlar",
+  "cheers.progress": "Tezahürat İlerlemesi: {{progress}}"
 }

@@ -6241,5 +6241,6 @@
   "airdrop": "エアドロップ",
   "noticeboard": "掲示板",
   "rewards": "報酬",
-  "biomes": "バイオーム"
+  "biomes": "バイオーム",
+  "cheers.progress": "チアの進行状況:{{progress}}"
 }

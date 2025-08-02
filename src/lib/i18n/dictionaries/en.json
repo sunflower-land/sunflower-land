@@ -6241,5 +6241,6 @@
   "description.pickaxeShark.boost.2": "10% chance of Instant Gold",
   "cheers.guide.description": "Use Cheers to support your community! Cheer a farm to boost its Social Points, or cheer a monument or project to help speed up its progress.",
   "cheers.guide.description2": "You get 3 free Cheers every day at 12:00 AM UTC.",
-  "cheers.guide.description3": "Clean up trash to exchange for bonus Cheers! Visit Garbo and toss trash, weeds, dung, or pests into the Incinerator to trade for extra Cheers."
+  "cheers.guide.description3": "Clean up trash to exchange for bonus Cheers! Visit Garbo and toss trash, weeds, dung, or pests into the Incinerator to trade for extra Cheers.",
+  "cheers.progress": "Cheer Progress: {{progress}}"
 }

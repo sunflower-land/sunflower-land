@@ -6241,5 +6241,6 @@
   "airdrop": "에어드랍",
   "noticeboard": "공지 게시판",
   "rewards": "리워드",
-  "biomes": "생물군계"
+  "biomes": "생물군계",
+  "cheers.progress": "응원 진행: {{progress}}"
 }

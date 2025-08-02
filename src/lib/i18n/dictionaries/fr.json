@@ -6241,5 +6241,6 @@
   "airdrop": "parachutage",
   "noticeboard": "Tableau d'affichage",
   "rewards": "Récompenses",
-  "biomes": "Biomes"
+  "biomes": "Biomes",
+  "cheers.progress": "Progrès des encouragements : {{progress}}"
 }

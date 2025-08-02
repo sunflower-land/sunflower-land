@@ -6241,5 +6241,6 @@
   "airdrop": "Airdrop",
   "noticeboard": "Bacheca",
   "rewards": "Premi",
-  "biomes": "Biomi"
+  "biomes": "Biomi",
+  "cheers.progress": "Progresso del tifo: {{progress}}"
 }
