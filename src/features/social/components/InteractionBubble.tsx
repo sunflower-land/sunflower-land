@@ -22,7 +22,7 @@ export const InteractionBubble: React.FC<Props> = ({
   type,
   onClick,
 }) => {
-  if (type === "follow") {
+  if (type === "follow" || type === "clean") {
     return (
       <div
         className={classNames("relative min-h-[57px]", {
