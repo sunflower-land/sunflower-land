@@ -166,7 +166,7 @@ export const PlayerDetails: React.FC<Props> = ({
   return (
     <div className="flex gap-1 w-full max-h-[370px]">
       <div className="flex flex-col flex-1 gap-1">
-        <InnerPanel className="flex flex-col gap-1 flex-1 pb-1 px-1">
+        <InnerPanel className="flex flex-col flex-1 pb-1 px-1">
           <ModalOverlay
             show={showCheerModal}
             onBackdropClick={() => setShowCheerModal(false)}
@@ -246,7 +246,7 @@ export const PlayerDetails: React.FC<Props> = ({
               </Button>
             )}
           </div>
-          <div className="flex pb-1 gap-1">
+          <div className="flex py-2">
             <div className="relative">
               <NPCIcon
                 parts={player?.clothing ?? {}}
@@ -347,11 +347,6 @@ export const PlayerDetails: React.FC<Props> = ({
                 : t("playerModal.theyCleanedYouCount.plural", {
                     count: player?.cleaning.theyCleanedYouCount,
                   })}
-            </div>
-            <div className="text-xs">
-              {t("playerModal.topFriend", {
-                username: "Spencer",
-              })}
             </div>
           </div>
         </InnerPanel>
