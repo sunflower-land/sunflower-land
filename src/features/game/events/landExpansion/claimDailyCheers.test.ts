@@ -69,6 +69,6 @@ describe("claimDailyCheers", () => {
       createdAt: now,
     });
 
-    expect(game?.inventory.Cheer?.toNumber()).toBe(1);
+    expect(game?.inventory.Cheer?.toNumber()).toBe(2);
   });
 });
