@@ -61,6 +61,7 @@ export const ITEM_TRADE_TYPES: {
     "Nurse Sheep": "instant",
     "Love Chicken": "instant",
     "Pink Dolphin": "instant",
+    Poseidon: "instant",
     "Bronze Love Box": "instant",
     "Silver Love Box": "instant",
     "Gold Love Box": "instant",

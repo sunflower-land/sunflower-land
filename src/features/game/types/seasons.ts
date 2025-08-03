@@ -150,9 +150,7 @@ export const CHAPTER_MARVEL_FISH: Record<SeasonName, ChapterFish> = {
   "Bull Run": "Longhorn Cowfish",
   "Winds of Change": "Jellyfish",
   "Great Bloom": "Pink Dolphin",
-
-  // TODO: Add Better Together fish
-  "Better Together": "Jellyfish",
+  "Better Together": "Poseidon",
 };
 
 export function getChapterMarvelFish(now = new Date()): ChapterFish {

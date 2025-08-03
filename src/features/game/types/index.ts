@@ -1144,6 +1144,8 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Snail: 2316,
   "Pest Net": 2317,
 
+  Poseidon: 2318,
+
   // Land Biomes
   "Basic Biome": 2400,
   "Spring Biome": 2401,

@@ -12648,6 +12648,14 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/2317.webp",
     name: "Pest Net",
   },
+  Poseidon: {
+    description: "The mythical Poseidon, the god of the sea.",
+    decimals: 0,
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2314.webp",
+    name: "Poseidon",
+  },
 };
 
 export const OPEN_SEA_WEARABLES: Record<BumpkinItem, Metadata> = {
