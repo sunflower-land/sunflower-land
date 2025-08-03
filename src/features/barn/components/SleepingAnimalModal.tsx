@@ -87,6 +87,8 @@ export const SleepingAnimalModal = ({
 
   const hasTool = gameState.context.state.inventory[animal.item]?.gt(0);
 
+  const level = getAnimalLevel(animal.experience, animal.type);
+
   return (
     <>
       <InnerPanel className="mb-1">
@@ -96,7 +98,7 @@ export const SleepingAnimalModal = ({
             className="mr-1"
           >{`${t("sleepingAnimal.sleeping")} ${animal.type}`}</Label>
           <Label type="formula" className="text-xs">
-            {`Lvl. ${getAnimalLevel(animal.experience, animal.type)}`}
+            {`Lvl. ${level}`}
           </Label>
         </div>
 
@@ -144,7 +146,7 @@ export const SleepingAnimalModal = ({
         </div>
       </InnerPanel>
 
-      {hasFeatureAccess(gameState.context.state, "CRAFTING") && (
+      {hasFeatureAccess(gameState.context.state, "CRAFTING") && level < 15 && (
         <InnerPanel>
           <div className="flex items-center">
             <img src={SUNNYSIDE.icons.heart} alt="Sleep" className="h-6 mr-2" />

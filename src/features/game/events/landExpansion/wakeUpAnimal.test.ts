@@ -245,7 +245,7 @@ describe("wakeAnimal", () => {
               type: "Sheep",
               createdAt: 0,
               state: "idle",
-              experience: 10000000,
+              experience: 5000,
               asleepAt: now - 1000,
               awakeAt: now + 1000,
               lovedAt: 0,

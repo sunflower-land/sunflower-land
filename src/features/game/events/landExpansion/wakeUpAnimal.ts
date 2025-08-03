@@ -76,6 +76,12 @@ export function wakeAnimal({
       throw new Error("Animal not asleep");
     }
 
+    const level = getAnimalLevel(animal.experience, animal.type);
+
+    if (level >= 15) {
+      throw new Error("Animal is too old to wake up");
+    }
+
     const toy = getAnimalToy({ animal });
 
     const amount = copy.inventory[toy] ?? new Decimal(0);
