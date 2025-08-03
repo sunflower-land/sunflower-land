@@ -6260,5 +6260,8 @@
   "visitorGuide.socialPointsAlt": "소셜 포인트",
   "visitorGuide.cheerMonument": "응원 {{monument}}",
   "visitorGuide.catchPests": "해충 2마리 잡기",
-  "visitorGuide.netRequired": "순 필요"
+  "visitorGuide.netRequired": "순 필요",
+  "description.poseidon": "신화적인 포세이돈, 바다의 신.",
+  "chumDetails.weed": "바다의 신을 매료시키는 특별한 친구",
+  "description.poseidon.boost": "가을철 물고기 1마리"
 }

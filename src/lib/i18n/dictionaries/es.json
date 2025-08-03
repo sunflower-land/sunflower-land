@@ -6260,5 +6260,8 @@
   "visitorGuide.socialPointsAlt": "Puntos sociales",
   "visitorGuide.cheerMonument": "Saludos {{monument}}",
   "visitorGuide.catchPests": "Atrapa 2 plagas",
-  "visitorGuide.netRequired": "Neto requerido"
+  "visitorGuide.netRequired": "Neto requerido",
+  "description.poseidon": "El mítico Poseidón, el dios del mar.",
+  "chumDetails.weed": "Un amigo especial que atrae al dios del mar",
+  "description.poseidon.boost": "+1 pez durante el otoño"
 }

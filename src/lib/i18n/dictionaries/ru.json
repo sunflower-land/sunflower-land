@@ -6260,5 +6260,8 @@
   "visitorGuide.socialPointsAlt": "Социальные баллы",
   "visitorGuide.cheerMonument": "Подбадривайте {{monument}}",
   "visitorGuide.catchPests": "Поймайте 2 вредителей",
-  "visitorGuide.netRequired": "Требуется сетка"
+  "visitorGuide.netRequired": "Требуется сетка",
+  "description.poseidon": "Мифический Посейдон, бог моря.",
+  "chumDetails.weed": "Особый приятель, привлекающий бога моря",
+  "description.poseidon.boost": "+1 Рыба осенью"
 }

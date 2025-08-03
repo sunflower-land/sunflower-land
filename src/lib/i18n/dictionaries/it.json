@@ -6260,5 +6260,8 @@
   "visitorGuide.socialPointsAlt": "Punti sociali",
   "visitorGuide.cheerMonument": "Allegria {{monument}}",
   "visitorGuide.catchPests": "Cattura 2 x parassiti",
-  "visitorGuide.netRequired": "Rete richiesta"
+  "visitorGuide.netRequired": "Rete richiesta",
+  "description.poseidon": "Il mitico Poseidone, il dio del mare.",
+  "chumDetails.weed": "Un amico speciale che attira il dio del mare",
+  "description.poseidon.boost": "+1 pesce in autunno"
 }

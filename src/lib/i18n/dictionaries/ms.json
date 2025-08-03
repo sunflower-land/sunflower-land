@@ -6260,5 +6260,8 @@
   "visitorGuide.socialPointsAlt": "Titik Sosial",
   "visitorGuide.cheerMonument": "Bersorak {{monument}}",
   "visitorGuide.catchPests": "Tangkap 2 x Perosak",
-  "visitorGuide.netRequired": "Bersih diperlukan"
+  "visitorGuide.netRequired": "Bersih diperlukan",
+  "description.poseidon": "Mitos Poseidon, dewa laut.",
+  "chumDetails.weed": "Chum khas yang menarik dewa laut",
+  "description.poseidon.boost": "+1 Ikan semasa Musim Luruh"
 }

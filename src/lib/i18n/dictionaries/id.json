@@ -6260,5 +6260,8 @@
   "visitorGuide.socialPointsAlt": "Poin sosial",
   "visitorGuide.cheerMonument": "Bersorak {{monument}}",
   "visitorGuide.catchPests": "Tangkap 2 x Hama",
-  "visitorGuide.netRequired": "Diperlukan net"
+  "visitorGuide.netRequired": "Diperlukan net",
+  "description.poseidon": "Mitos Poseidon, dewa laut.",
+  "chumDetails.weed": "Teman khusus yang menarik dewa laut",
+  "description.poseidon.boost": "+1 ikan selama musim gugur"
 }

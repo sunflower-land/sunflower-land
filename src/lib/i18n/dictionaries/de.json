@@ -6260,5 +6260,8 @@
   "visitorGuide.socialPointsAlt": "Soziale Punkte",
   "visitorGuide.cheerMonument": "Jubel {{monument}}",
   "visitorGuide.catchPests": "Fange 2 x Schädlinge",
-  "visitorGuide.netRequired": "Netz erforderlich"
+  "visitorGuide.netRequired": "Netz erforderlich",
+  "description.poseidon": "Der mythische Poseidon, der Gott des Meeres.",
+  "chumDetails.weed": "Ein besonderer Kumpel, der den Gott des Meeres anzieht",
+  "description.poseidon.boost": "+1 Fische im Herbst"
 }

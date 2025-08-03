@@ -6260,5 +6260,8 @@
   "visitorGuide.socialPointsAlt": "ソーシャル・ポイント",
   "visitorGuide.cheerMonument": "チア {{monument}}",
   "visitorGuide.catchPests": "害虫を2匹捕まえる",
-  "visitorGuide.netRequired": "ネットが必要です"
+  "visitorGuide.netRequired": "ネットが必要です",
+  "description.poseidon": "海の神、神話のポセイドン。",
+  "chumDetails.weed": "海の神を魅了する特別な仲間",
+  "description.poseidon.boost": "秋の間は+1匹の魚"
 }

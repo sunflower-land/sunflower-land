@@ -6260,5 +6260,8 @@
   "visitorGuide.socialPointsAlt": "Sosyal Puanlar",
   "visitorGuide.cheerMonument": "tezahürat {{monument}}",
   "visitorGuide.catchPests": "2 x Zararlıları yakalayın",
-  "visitorGuide.netRequired": "Net gerekli"
+  "visitorGuide.netRequired": "Net gerekli",
+  "description.poseidon": "Efsanevi Poseidon, deniz tanrısı.",
+  "chumDetails.weed": "Deniz tanrısını çeken özel arkadaş",
+  "description.poseidon.boost": "Sonbaharda +1 Balık"
 }

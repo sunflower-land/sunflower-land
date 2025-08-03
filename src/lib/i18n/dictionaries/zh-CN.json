@@ -6260,5 +6260,8 @@
   "visitorGuide.socialPointsAlt": "社交积分",
   "visitorGuide.cheerMonument": "干杯 {{monument}}",
   "visitorGuide.catchPests": "捕获 2 x 害虫",
-  "visitorGuide.netRequired": "需要净额"
+  "visitorGuide.netRequired": "需要净额",
+  "description.poseidon": "神话中的波塞冬，海洋之神。",
+  "chumDetails.weed": "吸引海神的特殊密友",
+  "description.poseidon.boost": "+1 秋天的鱼"
 }
