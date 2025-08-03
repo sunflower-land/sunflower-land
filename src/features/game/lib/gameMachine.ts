@@ -111,6 +111,7 @@ import { blessingIsReady } from "./blessings";
 import { getBumpkinLevel } from "./level";
 import { hasFeatureAccess } from "lib/flags";
 import { COMPETITION_POINTS } from "../types/competitions";
+import { hasReadNews } from "features/farming/mail/components/News";
 
 // Run at startup in case removed from query params
 const portalName = new URLSearchParams(window.location.search).get("portal");
@@ -692,6 +693,7 @@ export type BlockchainState = {
     | "randomising"
     | "competition"
     | "cheers"
+    | "news"
     | "roninWelcomePack"
     | "roninAirdrop"
     | "jinAirdrop"
@@ -1251,6 +1253,12 @@ export function startGame(authContext: AuthContext) {
 
                 // Show the competition introduction if they have not started it yet
                 return !competition;
+              },
+            },
+            {
+              target: "news",
+              cond: (context) => {
+                return !hasReadNews();
               },
             },
             {
@@ -2289,6 +2297,13 @@ export function startGame(authContext: AuthContext) {
         cheers: {
           on: {
             "cheers.claimed": (GAME_EVENT_HANDLERS as any)["cheers.claimed"],
+            ACKNOWLEDGE: {
+              target: "notifying",
+            },
+          },
+        },
+        news: {
+          on: {
             ACKNOWLEDGE: {
               target: "notifying",
             },
