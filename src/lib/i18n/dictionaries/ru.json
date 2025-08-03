@@ -6271,5 +6271,10 @@
   "visiting.thanks": "Спасибо за уборку моей фермы!",
   "visitorGuide.clutter": "Найдите спрятанный навоз, сорняки и мусор.",
   "visitorGuide.pets": "Ловите дерзких вредителей",
-  "visitorGuide.monument": "Помогите мне закончить проект"
+  "visitorGuide.monument": "Помогите мне закончить проект",
+  "visitorGuide.binGuide": "Мусор",
+  "visitorGuide.binGuide.description": "Каждый день вы можете собирать 30 кусков мусора, которые вы найдете на фермах вашего друга.",
+  "visitorGuide.binGuide.reset": "Перезагружается в {{time}}",
+  "visitorGuide.binGuide.burn": "Сжечь мусор",
+  "visitorGuide.binGuide.burn.description": "Слишком много Vegemite. Недостаточно кода. Наши разработчики из Сиднея перезагружаются — новая функция уже в пути!"
 }

@@ -6271,5 +6271,10 @@
   "visiting.thanks": "¡Gracias por limpiar mi granja!",
   "visitorGuide.clutter": "Encuentra el estiércol, la maleza y la basura escondidos.",
   "visitorGuide.pets": "Atrapa las descaradas plagas",
-  "visitorGuide.monument": "Ayúdame a terminar el proyecto"
+  "visitorGuide.monument": "Ayúdame a terminar el proyecto",
+  "visitorGuide.binGuide": "Basura",
+  "visitorGuide.binGuide.description": "Todos los días, puedes recoger 30 piezas de basura que encuentres en las granjas de tus amigos.",
+  "visitorGuide.binGuide.reset": "Se restablece en {{time}}",
+  "visitorGuide.binGuide.burn": "Quema basura",
+  "visitorGuide.binGuide.burn.description": "Demasiado Vegemite. No hay suficiente código. Nuestros desarrolladores de Sídney se están reiniciando: ¡la función está en camino!"
 }

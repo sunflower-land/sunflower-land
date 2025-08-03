@@ -6271,5 +6271,10 @@
   "visiting.thanks": "Obrigado por limpar minha fazenda!",
   "visitorGuide.clutter": "Encontre o esterco, as ervas daninhas e o lixo escondidos.",
   "visitorGuide.pets": "Pegue as pragas atrevidas",
-  "visitorGuide.monument": "Ajude-me a terminar o projeto"
+  "visitorGuide.monument": "Ajude-me a terminar o projeto",
+  "visitorGuide.binGuide": "Lixo",
+  "visitorGuide.binGuide.description": "Todos os dias, você pode pegar 30 peças de lixo que encontra nas fazendas de seus amigos.",
+  "visitorGuide.binGuide.reset": "Reinicializa em {{time}}",
+  "visitorGuide.binGuide.burn": "Queimar lixo",
+  "visitorGuide.binGuide.burn.description": "Muito Vegemite. Código insuficiente. Nossos desenvolvedores de Sydney estão reiniciando — recurso a caminho!"
 }

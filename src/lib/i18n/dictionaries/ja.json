@@ -6271,5 +6271,10 @@
   "visiting.thanks": "農場を掃除してくれてありがとう！",
   "visitorGuide.clutter": "隠された糞、雑草、ゴミを見つけてください。",
   "visitorGuide.pets": "生意気な害虫を捕まえろ",
-  "visitorGuide.monument": "プロジェクトを完了するのを手伝ってください"
+  "visitorGuide.monument": "プロジェクトを完了するのを手伝ってください",
+  "visitorGuide.binGuide": "ゴミ箱",
+  "visitorGuide.binGuide.description": "毎日、友達の農場で見つけたゴミを30個拾うことができます。",
+  "visitorGuide.binGuide.reset": "{{time}} でリセット",
+  "visitorGuide.binGuide.burn": "バーン・トラッシュ",
+  "visitorGuide.binGuide.burn.description": "ベジマイトが多すぎる。コードが足りません。シドニーのデベロッパーが再起動中 — 機能追加準備中！"
 }

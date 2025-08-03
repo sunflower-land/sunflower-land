@@ -6271,5 +6271,10 @@
   "visiting.thanks": "Terima kasih telah membersihkan peternakan saya!",
   "visitorGuide.clutter": "Temukan kotoran tersembunyi, gulma & sampah.",
   "visitorGuide.pets": "Tangkap hama nakal",
-  "visitorGuide.monument": "Bantu saya menyelesaikan proyek"
+  "visitorGuide.monument": "Bantu saya menyelesaikan proyek",
+  "visitorGuide.binGuide": "Sampah",
+  "visitorGuide.binGuide.description": "Setiap hari, Anda dapat mengambil 30 potongan sampah yang Anda temukan di peternakan teman Anda.",
+  "visitorGuide.binGuide.reset": "Mengatur ulang di {{time}}",
+  "visitorGuide.binGuide.burn": "Bakar Sampah",
+  "visitorGuide.binGuide.burn.description": "Terlalu banyak Vegemite. Tidak cukup kode. Pengembang Sydney kami sedang me-reboot - fitur dalam perjalanan!"
 }

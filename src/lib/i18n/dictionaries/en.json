@@ -6271,5 +6271,10 @@
   "visiting.thanks": "Thanks for cleaning my farm!",
   "visitorGuide.clutter": "Find the hidden dung, weeds & garbage.",
   "visitorGuide.pets": "Catch the cheeky pests",
-  "visitorGuide.monument": "Help me finish the project"
+  "visitorGuide.monument": "Help me finish the project",
+  "visitorGuide.binGuide": "Trash",
+  "visitorGuide.binGuide.description": "Every day, you can pick up 30 trash pieces that you find on your friend's farms.",
+  "visitorGuide.binGuide.reset": "Resets in {{time}}",
+  "visitorGuide.binGuide.burn": "Burn Trash",
+  "visitorGuide.binGuide.burn.description": "Too much Vegemite. Not enough code. Our Sydney devs are rebooting — feature on the way!"
 }

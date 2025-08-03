@@ -6271,5 +6271,10 @@
   "visiting.thanks": "Grazie per aver pulito la mia fattoria!",
   "visitorGuide.clutter": "Trova lo sterco, le erbacce e la spazzatura nascosti.",
   "visitorGuide.pets": "Cattura i parassiti impertinenti",
-  "visitorGuide.monument": "Aiutami a finire il progetto"
+  "visitorGuide.monument": "Aiutami a finire il progetto",
+  "visitorGuide.binGuide": "Cestino",
+  "visitorGuide.binGuide.description": "Ogni giorno puoi raccogliere 30 pezzi di spazzatura che trovi nelle fattorie dei tuoi amici.",
+  "visitorGuide.binGuide.reset": "Reimposta in {{time}}",
+  "visitorGuide.binGuide.burn": "Brucia rifiuti",
+  "visitorGuide.binGuide.burn.description": "Troppa Vegemite. Codice insufficiente. I nostri sviluppatori di Sydney si stanno riavviando: una funzionalità è in arrivo!"
 }

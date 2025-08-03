@@ -6271,5 +6271,10 @@
   "visiting.thanks": "Terima kasih kerana membersihkan ladang saya!",
   "visitorGuide.clutter": "Cari kotoran tersembunyi, rumpai & sampah.",
   "visitorGuide.pets": "Tangkap perosak yang nipis",
-  "visitorGuide.monument": "Bantu saya menyelesaikan projek"
+  "visitorGuide.monument": "Bantu saya menyelesaikan projek",
+  "visitorGuide.binGuide": "Sampah",
+  "visitorGuide.binGuide.description": "Setiap hari, anda boleh mengambil 30 keping sampah yang anda dapati di ladang rakan anda.",
+  "visitorGuide.binGuide.reset": "Menetapkan semula dalam {{time}}",
+  "visitorGuide.binGuide.burn": "Bakar Sampah",
+  "visitorGuide.binGuide.burn.description": "Terlalu banyak Vegemite. Kod tidak mencukupi. Pembangun Sydney kami sedang dimulakan semula - ciri dalam perjalanan!"
 }

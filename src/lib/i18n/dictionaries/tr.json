@@ -6271,5 +6271,10 @@
   "visiting.thanks": "Çiftliğimi temizlediğiniz için teşekkürler!",
   "visitorGuide.clutter": "Gizli gübreyi, yabani otları ve çöpleri bulun.",
   "visitorGuide.pets": "Arsız zararlıları yakalayın",
-  "visitorGuide.monument": "Projeyi bitirmemize yardım et"
+  "visitorGuide.monument": "Projeyi bitirmemize yardım et",
+  "visitorGuide.binGuide": "Çöp",
+  "visitorGuide.binGuide.description": "Her gün arkadaşınızın çiftliklerinde bulduğunuz 30 çöp parçasını toplayabilirsiniz.",
+  "visitorGuide.binGuide.reset": "{{time}} içinde sıfırlanır",
+  "visitorGuide.binGuide.burn": "Çöp Yak",
+  "visitorGuide.binGuide.burn.description": "Çok fazla Vegemite. Yeterli kod yok. Sydney geliştiricilerimiz yeniden başlatılıyor - özellik yolda!"
 }

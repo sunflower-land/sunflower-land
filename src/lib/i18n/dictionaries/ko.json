@@ -6271,5 +6271,10 @@
   "visiting.thanks": "농장을 청소해 주셔서 감사합니다!",
   "visitorGuide.clutter": "숨겨진 배설물, 잡초, 쓰레기를 찾으세요.",
   "visitorGuide.pets": "건방진 해충을 잡아라",
-  "visitorGuide.monument": "프로젝트 완료를 도와주세요."
+  "visitorGuide.monument": "프로젝트 완료를 도와주세요.",
+  "visitorGuide.binGuide": "휴지통",
+  "visitorGuide.binGuide.description": "친구의 농장에서 찾은 쓰레기 30개를 매일 주울 수 있습니다.",
+  "visitorGuide.binGuide.reset": "{{time}} 에서 재설정",
+  "visitorGuide.binGuide.burn": "휴지통 태우기",
+  "visitorGuide.binGuide.burn.description": "베지마이트가 너무 많아요코드가 충분하지 않아요.시드니 개발팀이 재부팅 중입니다. 곧 기능이 추가될 예정입니다!"
 }

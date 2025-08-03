@@ -6271,5 +6271,10 @@
   "visiting.thanks": "感谢你打扫我的农场！",
   "visitorGuide.clutter": "找到隐藏的粪便、杂草和垃圾。",
   "visitorGuide.pets": "捕捉厚脸皮的害虫",
-  "visitorGuide.monument": "帮我完成项目"
+  "visitorGuide.monument": "帮我完成项目",
+  "visitorGuide.binGuide": "垃圾",
+  "visitorGuide.binGuide.description": "每天，你可以在朋友的农场里捡起 30 块垃圾。",
+  "visitorGuide.binGuide.reset": "在 {{time}} 中重置",
+  "visitorGuide.binGuide.burn": "烧掉垃圾",
+  "visitorGuide.binGuide.burn.description": "Vegemite 太多了。代码不够。我们的悉尼开发人员正在重启——功能即将推出！"
 }

@@ -6271,5 +6271,10 @@
   "visiting.thanks": "Danke für die Reinigung meiner Farm!",
   "visitorGuide.clutter": "Finde den versteckten Mist, Unkraut und Müll.",
   "visitorGuide.pets": "Fang die frechen Plagegeister",
-  "visitorGuide.monument": "Hilf mir, das Projekt zu beenden"
+  "visitorGuide.monument": "Hilf mir, das Projekt zu beenden",
+  "visitorGuide.binGuide": "Müll",
+  "visitorGuide.binGuide.description": "Jeden Tag kannst du 30 Müllstücke einsammeln, die du auf den Farmen deines Freundes findest.",
+  "visitorGuide.binGuide.reset": "Setzt in {{time}} zurück",
+  "visitorGuide.binGuide.burn": "Müll verbrennen",
+  "visitorGuide.binGuide.burn.description": "Zu viel Vegemite. Nicht genug Code. Unsere Entwickler in Sydney starten neu — das Feature ist auf dem Weg!"
 }
