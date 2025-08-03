@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { useActor, useSelector } from "@xstate/react";
+import { useActor } from "@xstate/react";
 
 import { Box } from "components/ui/Box";
 
@@ -28,7 +28,6 @@ import {
 } from "features/game/types/monuments";
 import { GameState } from "features/game/types/game";
 import { Label } from "components/ui/Label";
-import { secondsToString } from "lib/utils/time";
 import { hasFeatureAccess } from "lib/flags";
 
 const VALID_EQUIPMENT: HeliosBlacksmithItem[] = [
@@ -64,40 +63,14 @@ const DecorationLabel = ({
 }) => {
   const { t } = useAppTranslation();
 
-  const monumentCreatedAt =
-    gameState.monuments?.[selectedName as MonumentName]?.createdAt ?? 0;
-
   const isMonument = selectedName in WORKBENCH_MONUMENTS;
   const isLoveCharmMonument = selectedName in LOVE_CHARM_MONUMENTS;
-  const now = new Date();
-  const tomorrow = new Date(
-    Date.UTC(
-      now.getUTCFullYear(),
-      now.getUTCMonth(),
-      now.getUTCDate() + 1,
-      0,
-      0,
-      0,
-      0,
-    ),
-  );
 
-  const hasBuiltLoveCharmMonument = () => {
-    return (
-      isLoveCharmMonument &&
-      !!gameState.monuments?.[selectedName as MonumentName]
-    );
+  const hasBuiltMonument = () => {
+    return !!gameState.inventory[selectedName as MonumentName]?.gt(0);
   };
 
-  const isCoolingDown = () => {
-    return (
-      !isLoveCharmMonument &&
-      Math.floor(monumentCreatedAt / (1000 * 60 * 60 * 24)) >=
-        Math.floor(Date.now() / (1000 * 60 * 60 * 24))
-    );
-  };
-
-  if (hasBuiltLoveCharmMonument()) {
+  if (hasBuiltMonument()) {
     return (
       <div className="flex justify-center">
         <Label type="success" icon={SUNNYSIDE.icons.confirm}>
@@ -107,21 +80,7 @@ const DecorationLabel = ({
     );
   }
 
-  if (isCoolingDown()) {
-    return (
-      <div className="flex justify-center">
-        <Label type="danger" className="font-secondary">
-          {`${t("megastore.limit", {
-            time: secondsToString((tomorrow.getTime() - Date.now()) / 1000, {
-              length: "short",
-            }),
-          })}`}
-        </Label>
-      </div>
-    );
-  }
-
-  if (isLoveCharmMonument) {
+  if (isMonument) {
     return (
       <div className="flex justify-center">
         <Label type="default">
@@ -129,14 +88,6 @@ const DecorationLabel = ({
             limit: 0,
           })}
         </Label>
-      </div>
-    );
-  }
-
-  if (isMonument) {
-    return (
-      <div className="flex justify-center">
-        <Label type="default">{t("megastore.limit", { time: "1day" })}</Label>
       </div>
     );
   }
@@ -154,12 +105,6 @@ export const IslandBlacksmithItems: React.FC = () => {
       context: { state },
     },
   ] = useActor(gameService);
-  const monumentCreatedAt = useSelector(
-    gameService,
-    (state) =>
-      state.context.state.monuments?.[selectedName as MonumentName]
-        ?.createdAt ?? 0,
-  );
 
   const { inventory, coins } = state;
 
@@ -217,23 +162,8 @@ export const IslandBlacksmithItems: React.FC = () => {
     shortcutItem(selectedName);
   };
 
-  const isLoveCharmMonument = selectedName in LOVE_CHARM_MONUMENTS;
-
-  const hasBuiltLoveCharmMonument = () => {
-    return (
-      isLoveCharmMonument &&
-      !!gameService.state.context.state.monuments?.[
-        selectedName as MonumentName
-      ]
-    );
-  };
-
-  const isCoolingDown = () => {
-    return (
-      !isLoveCharmMonument &&
-      Math.floor(monumentCreatedAt / (1000 * 60 * 60 * 24)) >=
-        Math.floor(Date.now() / (1000 * 60 * 60 * 24))
-    );
+  const hasBuiltMonument = () => {
+    return !!state.inventory[selectedName as MonumentName]?.gt(0);
   };
 
   return (
@@ -267,10 +197,7 @@ export const IslandBlacksmithItems: React.FC = () => {
                 <div>
                   <Button
                     disabled={
-                      lessIngredients() ||
-                      lessCoins() ||
-                      hasBuiltLoveCharmMonument() ||
-                      isCoolingDown()
+                      lessIngredients() || lessCoins() || hasBuiltMonument()
                     }
                     onClick={craft}
                   >
