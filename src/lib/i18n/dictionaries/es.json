@@ -6213,7 +6213,6 @@
   "description.dung": "Un montón de estiércol. Huele mal, pero podría ser útil como fertilizante.",
   "description.weed": "Una hierba salvaje. No es muy bonito, pero quizá tenga un propósito.",
   "clutter": "Desorden",
-  "cleaning.farm": "Poner el desorden en la papelera",
   "cleaning.farm.success": "¡Gracias por limpiar mi granja!",
   "cleaning.farm.failed": "¡Fallo en la limpieza!",
   "sleepingAnimal.sheepLoveToPlay": "{{name}} me encanta jugar. Lánzala a una muñeca para despertarte al instante.",
@@ -6255,7 +6254,6 @@
   "description.pestNet": "Se usa para atrapar plagas en las granjas de tus amigos",
   "clutter.trashBinFull": "Cubo de basura lleno",
   "visitorGuide.farmTitle": "La granja de {{username}}",
-  "visitorGuide.welcomeMessage": "Hola Bumpkin, bienvenido a mi granja. Súbete las mangas y ayúdame a ganar puntos sociales.",
   "visitorGuide.pickupClutter": "Recoge 5 x Clutter",
   "visitorGuide.socialPointsAlt": "Puntos sociales",
   "visitorGuide.cheerMonument": "Saludos {{monument}}",
@@ -6265,5 +6263,10 @@
   "chumDetails.weed": "Un amigo especial que atrae al dios del mar",
   "description.poseidon.boost": "+1 pez durante el otoño",
   "playerModal.monumentsInProgress": "Monumentos en construcción",
-  "playerModal.noMonumentsInProgress": "No hay monumentos en construcción en esta granja"
+  "playerModal.noMonumentsInProgress": "No hay monumentos en construcción en esta granja",
+  "cleaned": "Limpiado",
+  "cleaning.farm": "Notificando a Bumpkin",
+  "visitorGuide.welcomeMessage": "Hola Bumpkin, bienvenido a mi granja. Súbete las mangas y ayúdame. ¡Quién sabe, puede que te devuelva el favor!",
+  "visiting.cleaned": "Limpiado",
+  "visiting.thanks": "¡Gracias por limpiar mi granja!"
 }

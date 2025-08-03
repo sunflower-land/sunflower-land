@@ -6213,7 +6213,6 @@
   "description.dung": "糞の山。臭いが、肥料として役立つかもしれない。",
   "description.weed": "野生の雑草。あまりきれいではありませんが、目的があるのかもしれません。",
   "clutter": "クラッター",
-  "cleaning.farm": "ゴミ箱に散らかったものを入れる",
   "cleaning.farm.success": "私の農場を掃除してくれてありがとう！",
   "cleaning.farm.failed": "クリーニングが失敗しました!",
   "sleepingAnimal.sheepLoveToPlay": "{{name}} 遊ぶのが大好きです。人形を投げてすぐに目を覚ましましょう。",
@@ -6255,7 +6254,6 @@
   "description.pestNet": "友達の農場で害虫を捕まえるのに使う",
   "clutter.trashBinFull": "ゴミ箱がいっぱい",
   "visitorGuide.farmTitle": "{{username}} さんの農場",
-  "visitorGuide.welcomeMessage": "やあ、バンプキン、私の農場へようこそ。袖をまくり上げて、私がソーシャルポイントを稼ぐのを手伝ってください。",
   "visitorGuide.pickupClutter": "クラッターを5個拾う",
   "visitorGuide.socialPointsAlt": "ソーシャル・ポイント",
   "visitorGuide.cheerMonument": "チア {{monument}}",
@@ -6265,5 +6263,10 @@
   "chumDetails.weed": "海の神を魅了する特別な仲間",
   "description.poseidon.boost": "秋の間は+1匹の魚",
   "playerModal.monumentsInProgress": "進行中のモニュメント",
-  "playerModal.noMonumentsInProgress": "この農場では進行中のモニュメントはありません"
+  "playerModal.noMonumentsInProgress": "この農場では進行中のモニュメントはありません",
+  "cleaned": "クリーニング済み",
+  "cleaning.farm": "バンプキンへの通知",
+  "visitorGuide.welcomeMessage": "やあ、バンプキン、私の農場へようこそ。袖をまくり上げて私を助けてください。お返しするかもしれないけど！",
+  "visiting.cleaned": "クリーニング済み",
+  "visiting.thanks": "農場を掃除してくれてありがとう！"
 }

@@ -6213,7 +6213,6 @@
   "description.dung": "배설물 더미.냄새는 나지만 비료로 유용할 수 있습니다.",
   "description.weed": "야생 잡초.별로 예쁘지는 않지만 용도가 있는 걸지도 몰라요",
   "clutter": "클러터",
-  "cleaning.farm": "쓰레기통에 잡동사니 넣기",
   "cleaning.farm.success": "농장을 청소해 주셔서 감사합니다!",
   "cleaning.farm.failed": "청소에 실패했습니다!",
   "sleepingAnimal.sheepLoveToPlay": "{{name}} 노는 걸 좋아해.인형을 던지면 바로 깨울 수 있습니다.",
@@ -6255,7 +6254,6 @@
   "description.pestNet": "친구 농장에서 해충을 잡는 데 사용됩니다.",
   "clutter.trashBinFull": "휴지통이 가득 찼습니다",
   "visitorGuide.farmTitle": "{{username}} 님의 농장",
-  "visitorGuide.welcomeMessage": "안녕 범프킨, 우리 농장에 온 걸 환영해소매를 걷어붙이고 소셜 포인트를 적립할 수 있게 도와주세요.",
   "visitorGuide.pickupClutter": "클러터 5개를 주워",
   "visitorGuide.socialPointsAlt": "소셜 포인트",
   "visitorGuide.cheerMonument": "응원 {{monument}}",
@@ -6265,5 +6263,10 @@
   "chumDetails.weed": "바다의 신을 매료시키는 특별한 친구",
   "description.poseidon.boost": "가을철 물고기 1마리",
   "playerModal.monumentsInProgress": "진행 중인 기념비",
-  "playerModal.noMonumentsInProgress": "이 농장에는 현재 진행 중인 기념물이 없습니다."
+  "playerModal.noMonumentsInProgress": "이 농장에는 현재 진행 중인 기념물이 없습니다.",
+  "cleaned": "청소 완료",
+  "cleaning.farm": "범프킨에 알림",
+  "visitorGuide.welcomeMessage": "안녕 범프킨, 우리 농장에 온 걸 환영해소매 걷어붙이고 나 좀 도와줘누가 알겠어요, 제가 그 은혜를 갚을 수 있을지도 몰라요!",
+  "visiting.cleaned": "청소 완료",
+  "visiting.thanks": "농장을 청소해 주셔서 감사합니다!"
 }

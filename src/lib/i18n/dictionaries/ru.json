@@ -6213,7 +6213,6 @@
   "description.dung": "Куча навоза. Вонючий, но может пригодиться в качестве удобрения.",
   "description.weed": "Дикий сорняк. Не очень красиво, но, возможно, у него есть цель.",
   "clutter": "Беспорядок",
-  "cleaning.farm": "Выбрасывание мусора в мусорное ведро",
   "cleaning.farm.success": "Спасибо за уборку моей фермы!",
   "cleaning.farm.failed": "Очистка не удалась!",
   "sleepingAnimal.sheepLoveToPlay": "{{name}} обожаю играть. Бросьте куклу, чтобы мгновенно проснуться.",
@@ -6255,7 +6254,6 @@
   "description.pestNet": "Используется для ловли вредителей на фермах ваших друзей",
   "clutter.trashBinFull": "Мусорное ведро заполнено",
   "visitorGuide.farmTitle": "Ферма {{username}}",
-  "visitorGuide.welcomeMessage": "Привет, Бампкин, добро пожаловать на мою ферму. Засучите рукава и помогите мне заработать очки в социальных сетях.",
   "visitorGuide.pickupClutter": "Соберите 5 x беспорядка",
   "visitorGuide.socialPointsAlt": "Социальные баллы",
   "visitorGuide.cheerMonument": "Подбадривайте {{monument}}",
@@ -6265,5 +6263,10 @@
   "chumDetails.weed": "Особый приятель, привлекающий бога моря",
   "description.poseidon.boost": "+1 Рыба осенью",
   "playerModal.monumentsInProgress": "Памятники в стадии разработки",
-  "playerModal.noMonumentsInProgress": "На этой ферме нет строящихся памятников"
+  "playerModal.noMonumentsInProgress": "На этой ферме нет строящихся памятников",
+  "cleaned": "Очищено",
+  "cleaning.farm": "Уведомление Бампкина",
+  "visitorGuide.welcomeMessage": "Привет, Бампкин, добро пожаловать на мою ферму. Засучи рукава и помоги мне. Кто знает, возможно, я отвечу вам взаимностью!",
+  "visiting.cleaned": "Очищено",
+  "visiting.thanks": "Спасибо за уборку моей фермы!"
 }

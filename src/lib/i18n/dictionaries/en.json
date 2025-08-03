@@ -2059,6 +2059,7 @@
   "off": "Off",
   "offer.end": "Offer ends in",
   "ok": "OK",
+  "cleaned": "Cleaned",
   "on": "On",
   "open": "Open",
   "opened": "Opened",
@@ -6231,7 +6232,7 @@
   "cheering.farm": "Cheering Farm",
   "cheering.farm.success": "Cheer sent",
   "cheering.farm.error": "Unable to cheer",
-  "cleaning.farm": "Putting clutter in the trash bin",
+  "cleaning.farm": "Notifying Bumpkin",
   "cleaning.farm.success": "Thank you for cleaning my farm!",
   "cleaning.farm.failed": "Cleaning failed!",
   "description.babyCow": "Who doesn't love a baby cow?",
@@ -6260,10 +6261,12 @@
   "chumDetails.weed": "Special chum that attracts the god of the sea",
   "description.poseidon.boost": "+1 Fish during Autumn",
   "visitorGuide.farmTitle": "{{username}}'s Farm",
-  "visitorGuide.welcomeMessage": "Howdy Bumpkin, welcome to my farm. Roll up your sleeves and help me out to earn social points.",
+  "visitorGuide.welcomeMessage": "Howdy Bumpkin, welcome to my farm. Roll up your sleeves and help me out. Who knows, I may return the favor!",
   "visitorGuide.pickupClutter": "Pick up 5 x Clutter",
   "visitorGuide.socialPointsAlt": "Social Points",
   "visitorGuide.cheerMonument": "Cheer {{monument}}",
   "visitorGuide.catchPests": "Catch 2 x Pests",
-  "visitorGuide.netRequired": "Net required"
+  "visitorGuide.netRequired": "Net required",
+  "visiting.cleaned": "Cleaned",
+  "visiting.thanks": "Thanks for cleaning my farm!"
 }

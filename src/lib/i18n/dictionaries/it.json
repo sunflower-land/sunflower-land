@@ -6213,7 +6213,6 @@
   "description.dung": "Un mucchio di sterco. Puzzolente, ma potrebbe essere utile come fertilizzante.",
   "description.weed": "Un'erbaccia selvatica. Non molto carino, ma forse ha uno scopo.",
   "clutter": "Disordine",
-  "cleaning.farm": "Mettere il disordine nel cestino",
   "cleaning.farm.success": "Grazie per aver pulito la mia fattoria!",
   "cleaning.farm.failed": "Pulizia fallita!",
   "sleepingAnimal.sheepLoveToPlay": "{{name}} amo giocare. Lancia una bambola per svegliarti istantaneamente.",
@@ -6255,7 +6254,6 @@
   "description.pestNet": "Usato per catturare parassiti nelle fattorie dei tuoi amici",
   "clutter.trashBinFull": "Cestino pieno",
   "visitorGuide.farmTitle": "La fattoria di {{username}}",
-  "visitorGuide.welcomeMessage": "Salve Bumpkin, benvenuto nella mia fattoria. Rimboccatevi le maniche e aiutatemi a guadagnare punti sociali.",
   "visitorGuide.pickupClutter": "Raccogli 5 x Clutter",
   "visitorGuide.socialPointsAlt": "Punti sociali",
   "visitorGuide.cheerMonument": "Allegria {{monument}}",
@@ -6265,5 +6263,10 @@
   "chumDetails.weed": "Un amico speciale che attira il dio del mare",
   "description.poseidon.boost": "+1 pesce in autunno",
   "playerModal.monumentsInProgress": "Monumenti in corso",
-  "playerModal.noMonumentsInProgress": "Nessun monumento in corso in questa fattoria"
+  "playerModal.noMonumentsInProgress": "Nessun monumento in corso in questa fattoria",
+  "cleaned": "Pulito",
+  "cleaning.farm": "Notifica a Bumpkin",
+  "visitorGuide.welcomeMessage": "Salve Bumpkin, benvenuto nella mia fattoria. Rimboccati le maniche e aiutami. Chissà, potrei ricambiare il favore!",
+  "visiting.cleaned": "Pulito",
+  "visiting.thanks": "Grazie per aver pulito la mia fattoria!"
 }

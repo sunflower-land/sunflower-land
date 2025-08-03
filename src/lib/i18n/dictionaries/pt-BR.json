@@ -6213,7 +6213,6 @@
   "description.dung": "Uma pilha de esterco. Cheira mal, mas pode ser útil como fertilizante.",
   "description.weed": "Uma erva daninha selvagem. Não é muito bonito, mas talvez tenha um propósito.",
   "clutter": "Desordem",
-  "cleaning.farm": "Colocando bagunça na lixeira",
   "cleaning.farm.success": "Obrigado por limpar minha fazenda!",
   "cleaning.farm.failed": "A limpeza falhou!",
   "sleepingAnimal.sheepLoveToPlay": "{{name}} adora jogar. Jogue uma boneca para acordar instantaneamente.",
@@ -6255,7 +6254,6 @@
   "description.pestNet": "Usado para pegar pragas nas fazendas de seus amigos",
   "clutter.trashBinFull": "Lixeira cheia",
   "visitorGuide.farmTitle": "Fazenda de {{username}}",
-  "visitorGuide.welcomeMessage": "Olá, Bumpkin, bem-vindo à minha fazenda. Arregace as mangas e me ajude a ganhar pontos sociais.",
   "visitorGuide.pickupClutter": "Pegue 5 x Clutter",
   "visitorGuide.socialPointsAlt": "Pontos sociais",
   "visitorGuide.cheerMonument": "Felicidades {{monument}}",
@@ -6265,5 +6263,10 @@
   "chumDetails.weed": "Um amigo especial que atrai o deus do mar",
   "description.poseidon.boost": "+1 Peixe durante o outono",
   "playerModal.monumentsInProgress": "Monumentos em andamento",
-  "playerModal.noMonumentsInProgress": "Não há monumentos em andamento nesta fazenda"
+  "playerModal.noMonumentsInProgress": "Não há monumentos em andamento nesta fazenda",
+  "cleaned": "Limpo",
+  "cleaning.farm": "Notificando Bumpkin",
+  "visitorGuide.welcomeMessage": "Olá, Bumpkin, bem-vindo à minha fazenda. Arregace as mangas e me ajude. Quem sabe, talvez eu retribua o favor!",
+  "visiting.cleaned": "Limpo",
+  "visiting.thanks": "Obrigado por limpar minha fazenda!"
 }

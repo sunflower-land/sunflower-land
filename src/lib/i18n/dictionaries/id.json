@@ -6213,7 +6213,6 @@
   "description.dung": "Tumpukan kotoran. Bau, tetapi bisa berguna sebagai pupuk.",
   "description.weed": "Gulma liar. Tidak terlalu cantik, tapi mungkin itu memiliki tujuan.",
   "clutter": "Kekacauan",
-  "cleaning.farm": "Menempatkan kekacauan di tempat sampah",
   "cleaning.farm.success": "Terima kasih telah membersihkan peternakan saya!",
   "cleaning.farm.failed": "Pembersihan gagal!",
   "sleepingAnimal.sheepLoveToPlay": "{{name}} suka bermain. Lemparkan boneka untuk segera bangun.",
@@ -6255,7 +6254,6 @@
   "description.pestNet": "Digunakan untuk menangkap hama di peternakan teman Anda",
   "clutter.trashBinFull": "Tempat sampah penuh",
   "visitorGuide.farmTitle": "{{username}} Peternakan",
-  "visitorGuide.welcomeMessage": "Howdy Bumpkin, selamat datang di peternaku. Gulung lengan baju Anda dan bantu saya untuk mendapatkan poin sosial.",
   "visitorGuide.pickupClutter": "Ambil 5 x Clutter",
   "visitorGuide.socialPointsAlt": "Poin sosial",
   "visitorGuide.cheerMonument": "Bersorak {{monument}}",
@@ -6265,5 +6263,10 @@
   "chumDetails.weed": "Teman khusus yang menarik dewa laut",
   "description.poseidon.boost": "+1 ikan selama musim gugur",
   "playerModal.monumentsInProgress": "Monumen sedang berlangsung",
-  "playerModal.noMonumentsInProgress": "Tidak ada monumen yang sedang berlangsung di pertanian ini"
+  "playerModal.noMonumentsInProgress": "Tidak ada monumen yang sedang berlangsung di pertanian ini",
+  "cleaned": "Dibersihkan",
+  "cleaning.farm": "Memberi tahu Bumpkin",
+  "visitorGuide.welcomeMessage": "Howdy Bumpkin, selamat datang di peternaku. Gulung lengan bajumu dan bantu aku keluar. Siapa tahu, saya mungkin membalas budi!",
+  "visiting.cleaned": "Dibersihkan",
+  "visiting.thanks": "Terima kasih telah membersihkan peternakan saya!"
 }

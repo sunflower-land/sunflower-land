@@ -6213,7 +6213,6 @@
   "description.dung": "一堆粪便。很臭，但可以用作肥料。",
   "description.weed": "一种野生大麻。不是很漂亮，但也许它有目的。",
   "clutter": "混乱",
-  "cleaning.farm": "把杂物放进垃圾桶",
   "cleaning.farm.success": "感谢你打扫我的农场！",
   "cleaning.farm.failed": "清洁失败！",
   "sleepingAnimal.sheepLoveToPlay": "{{name}} 喜欢玩。把它扔一个娃娃让它即时醒来。",
@@ -6255,7 +6254,6 @@
   "description.pestNet": "用来在朋友的农场捕捉害虫",
   "clutter.trashBinFull": "垃圾桶装满了",
   "visitorGuide.farmTitle": "{{username}} 的农场",
-  "visitorGuide.welcomeMessage": "你好 Bumpkin，欢迎来到我的农场。卷起袖子帮我赚取社交积分。",
   "visitorGuide.pickupClutter": "捡起 5 x Clutter",
   "visitorGuide.socialPointsAlt": "社交积分",
   "visitorGuide.cheerMonument": "干杯 {{monument}}",
@@ -6265,5 +6263,10 @@
   "chumDetails.weed": "吸引海神的特殊密友",
   "description.poseidon.boost": "+1 秋天的鱼",
   "playerModal.monumentsInProgress": "建造中的纪念碑",
-  "playerModal.noMonumentsInProgress": "这个农场没有在建纪念碑"
+  "playerModal.noMonumentsInProgress": "这个农场没有在建纪念碑",
+  "cleaned": "已清理",
+  "cleaning.farm": "通知 Bumpkin",
+  "visitorGuide.welcomeMessage": "你好 Bumpkin，欢迎来到我的农场。卷起袖子来帮我。谁知道，我可能会回馈你的青睐！",
+  "visiting.cleaned": "已清理",
+  "visiting.thanks": "感谢你打扫我的农场！"
 }

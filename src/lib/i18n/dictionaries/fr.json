@@ -6213,7 +6213,6 @@
   "description.dung": "Un tas de fumier. Ça sent mauvais, mais ça pourrait être utile comme engrais.",
   "description.weed": "Une mauvaise herbe sauvage. Pas très joli, mais cela a peut-être un but.",
   "clutter": "Encombrement",
-  "cleaning.farm": "Mettre du désordre dans la poubelle",
   "cleaning.farm.success": "Merci d'avoir nettoyé ma ferme !",
   "cleaning.farm.failed": "Le nettoyage a échoué !",
   "sleepingAnimal.sheepLoveToPlay": "{{name}} J'adore jouer. Lancez-lui une poupée pour vous réveiller instantanément.",
@@ -6255,7 +6254,6 @@
   "description.pestNet": "Utilisé pour attraper les parasites dans les fermes de vos amis",
   "clutter.trashBinFull": "Poubelle pleine",
   "visitorGuide.farmTitle": "Ferme de {{username}}",
-  "visitorGuide.welcomeMessage": "Howdy Bumpkin, bienvenue dans ma ferme. Retroussez vos manches et aidez-moi à gagner des points sociaux.",
   "visitorGuide.pickupClutter": "Ramasse 5 x Clutter",
   "visitorGuide.socialPointsAlt": "Points sociaux",
   "visitorGuide.cheerMonument": "Bravo {{monument}}",
@@ -6265,5 +6263,10 @@
   "chumDetails.weed": "Un ami spécial qui attire le dieu de la mer",
   "description.poseidon.boost": "+1 poisson en automne",
   "playerModal.monumentsInProgress": "Monuments en cours",
-  "playerModal.noMonumentsInProgress": "Aucun monument en cours de construction sur cette ferme"
+  "playerModal.noMonumentsInProgress": "Aucun monument en cours de construction sur cette ferme",
+  "cleaned": "Nettoyé",
+  "cleaning.farm": "Notifier Bumpkin",
+  "visitorGuide.welcomeMessage": "Howdy Bumpkin, bienvenue dans ma ferme. Retroussez vos manches et aidez-moi. Qui sait, je te rendrai peut-être la pareille !",
+  "visiting.cleaned": "Nettoyé",
+  "visiting.thanks": "Merci d'avoir nettoyé ma ferme !"
 }

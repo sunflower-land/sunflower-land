@@ -6213,7 +6213,6 @@
   "description.dung": "Bir gübre yığını. Kokuyor ama gübre olarak faydalı olabilir.",
   "description.weed": "Vahşi bir ot. Çok güzel değil, ama belki de bir amacı vardır.",
   "clutter": "Dağınıklık",
-  "cleaning.farm": "Çöp kutusuna dağınıklık koymak",
   "cleaning.farm.success": "Çiftliğimi temizlediğiniz için teşekkür ederim!",
   "cleaning.farm.failed": "Temizlik başarısız oldu!",
   "sleepingAnimal.sheepLoveToPlay": "{{name}} oynamayı seviyorum. Uyanmak için ona bir Bebek fırlat.",
@@ -6255,7 +6254,6 @@
   "description.pestNet": "Arkadaşlarınızın çiftliklerinde zararlıları yakalamak için kullanılır",
   "clutter.trashBinFull": "Çöp kutusu dolu",
   "visitorGuide.farmTitle": "{{username}} Çiftliği",
-  "visitorGuide.welcomeMessage": "Merhaba Bumpkin, çiftliğime hoş geldin. Kollarını aç ve sosyal puan kazanmama yardım et.",
   "visitorGuide.pickupClutter": "5 x Dağınıklık topla",
   "visitorGuide.socialPointsAlt": "Sosyal Puanlar",
   "visitorGuide.cheerMonument": "tezahürat {{monument}}",
@@ -6265,5 +6263,10 @@
   "chumDetails.weed": "Deniz tanrısını çeken özel arkadaş",
   "description.poseidon.boost": "Sonbaharda +1 Balık",
   "playerModal.monumentsInProgress": "Yapılmakta olan anıtlar",
-  "playerModal.noMonumentsInProgress": "Bu çiftlikte devam eden hiçbir anıt yok"
+  "playerModal.noMonumentsInProgress": "Bu çiftlikte devam eden hiçbir anıt yok",
+  "cleaned": "Temizlenmiş",
+  "cleaning.farm": "Bumpkin'i bilgilendirmek",
+  "visitorGuide.welcomeMessage": "Merhaba Bumpkin, çiftliğime hoş geldin. Kollarını aç ve bana yardım et. Kim bilir, iyiliğe karşılık verebilirim!",
+  "visiting.cleaned": "Temizlenmiş",
+  "visiting.thanks": "Çiftliğimi temizlediğiniz için teşekkürler!"
 }

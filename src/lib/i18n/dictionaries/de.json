@@ -6213,7 +6213,6 @@
   "description.dung": "Ein Haufen Mist. Stinkt, könnte aber als Dünger nützlich sein.",
   "description.weed": "Ein wildes Gras. Nicht sehr hübsch, aber vielleicht hat es einen Zweck.",
   "clutter": "Unordnung",
-  "cleaning.farm": "Unordnung in den Mülleimer werfen",
   "cleaning.farm.success": "Danke, dass du meine Farm gereinigt hast!",
   "cleaning.farm.failed": "Die Reinigung ist fehlgeschlagen!",
   "sleepingAnimal.sheepLoveToPlay": "{{name}} liebe es zu spielen. Wirf eine Puppe hinein, um sofort aufzuwachen.",
@@ -6255,7 +6254,6 @@
   "description.pestNet": "Wird verwendet, um Schädlinge auf den Farmen deiner Freunde zu fangen",
   "clutter.trashBinFull": "Mülleimer voll",
   "visitorGuide.farmTitle": "Die Farm von {{username}}",
-  "visitorGuide.welcomeMessage": "Hallo Bumpkin, willkommen auf meiner Farm. Krempeln Sie die Ärmel hoch und helfen Sie mir, Sozialpunkte zu sammeln.",
   "visitorGuide.pickupClutter": "Sammle 5 x Clutter",
   "visitorGuide.socialPointsAlt": "Soziale Punkte",
   "visitorGuide.cheerMonument": "Jubel {{monument}}",
@@ -6265,5 +6263,10 @@
   "chumDetails.weed": "Ein besonderer Kumpel, der den Gott des Meeres anzieht",
   "description.poseidon.boost": "+1 Fische im Herbst",
   "playerModal.monumentsInProgress": "Monumente in Bearbeitung",
-  "playerModal.noMonumentsInProgress": "Auf dieser Farm sind keine Baudenkmäler in Arbeit"
+  "playerModal.noMonumentsInProgress": "Auf dieser Farm sind keine Baudenkmäler in Arbeit",
+  "cleaned": "Gereinigt",
+  "cleaning.farm": "Bumpkin benachrichtigen",
+  "visitorGuide.welcomeMessage": "Hallo Bumpkin, willkommen auf meiner Farm. Krempeln Sie die Ärmel hoch und helfen Sie mir. Wer weiß, vielleicht erwidere ich den Gefallen!",
+  "visiting.cleaned": "Gereinigt",
+  "visiting.thanks": "Danke für die Reinigung meiner Farm!"
 }
