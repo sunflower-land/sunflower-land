@@ -365,6 +365,7 @@ import { BabyCow } from "./components/BabyCow";
 import { BabySheep } from "./components/BabySheep";
 import { JanitorChicken } from "./components/JanitorChicken";
 import { VenusBumpkinTrap } from "./components/VenusBumpkinTrap";
+import { Poseidon } from "./components/Poseidon";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
@@ -649,6 +650,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Battle Fish": BattleFish,
   "Lemon Shark": LemonShark,
   "Longhorn Cowfish": LonghornCowfish,
+  Poseidon: Poseidon,
 
   "Kraken Tentacle": KrakenTentacle,
 

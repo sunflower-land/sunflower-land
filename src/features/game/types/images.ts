@@ -984,6 +984,7 @@ import babyCow from "assets/sfts/baby_cow.webp";
 import babySheep from "assets/sfts/baby_sheep.webp";
 import janitorChicken from "assets/animals/chickens/janitor_chicken.webp";
 import venusBumpkinTrap from "assets/flowers/venus_bumpkin_trap.webp";
+import poseidon from "assets/sfts/poseidon_fish.webp";
 
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
@@ -5717,5 +5718,9 @@ export const ITEM_DETAILS: Items = {
   "Pest Net": {
     image: pestNet,
     description: translate("description.pestNet"),
+  },
+  Poseidon: {
+    image: poseidon,
+    description: translate("description.poseidon"),
   },
 };

@@ -6422,5 +6422,7 @@
   "cheers.progress": "Cheer Progress: {{progress}}",
   "season.megastore.nonTradeable": "Non tradeable",
   "description.pestNet": "Used to catch pests on your friends' farms",
-  "clutter.trashBinFull": "Trash bin full"
+  "clutter.trashBinFull": "Trash bin full",
+  "description.poseidon": "The mythical Poseidon, the god of the sea.",
+  "chumDetails.weed": "Special chum that attracts the god of the sea"
 }

@@ -65,7 +65,8 @@ export type MarineMarvelName =
   | "Lemon Shark"
   | "Longhorn Cowfish"
   | "Jellyfish"
-  | "Pink Dolphin";
+  | "Pink Dolphin"
+  | "Poseidon";
 
 export type OldFishName = "Kraken Tentacle";
 
@@ -128,6 +129,7 @@ export type Chum = Extract<
   | "Onion"
   | "Turnip"
   | "Zucchini"
+  | "Weed"
 >;
 
 export const CHUM_AMOUNTS: Record<Chum, number> = {
@@ -177,6 +179,7 @@ export const CHUM_AMOUNTS: Record<Chum, number> = {
   Sunfish: 1,
   "Zebra Turkeyfish": 1,
   Zucchini: 20,
+  Weed: 3,
 };
 
 export const CHUM_DETAILS: Record<Chum, string> = {
@@ -226,6 +229,7 @@ export const CHUM_DETAILS: Record<Chum, string> = {
   Onion: translate("chumDetails.onion"),
   Turnip: translate("chumDetails.turnip"),
   Zucchini: "",
+  Weed: translate("chumDetails.weed"),
 };
 
 type Fish = {
@@ -243,6 +247,7 @@ export type ChapterFish = Extract<
   | "Longhorn Cowfish"
   | "Jellyfish"
   | "Pink Dolphin"
+  | "Poseidon"
 >;
 
 export const CHAPTER_FISH: Record<ChapterFish, Fish> = {
@@ -277,6 +282,12 @@ export const CHAPTER_FISH: Record<ChapterFish, Fish> = {
     seasons: [],
   },
   "Pink Dolphin": {
+    baits: ["Grub", "Red Wiggler", "Fishing Lure"],
+    type: "chapter",
+    likes: [],
+    seasons: [],
+  },
+  Poseidon: {
     baits: ["Grub", "Red Wiggler", "Fishing Lure"],
     type: "chapter",
     likes: [],
