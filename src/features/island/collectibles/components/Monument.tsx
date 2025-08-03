@@ -100,19 +100,20 @@ const _cheersAvailable = (state: MachineState) => {
   return state.context.visitorState?.inventory["Cheer"] ?? new Decimal(0);
 };
 
-const _hasCheeredToday = (project: MonumentName) => (state: MachineState) => {
-  const today = new Date().toISOString().split("T")[0];
+export const _hasCheeredToday =
+  (project: MonumentName) => (state: MachineState) => {
+    const today = new Date().toISOString().split("T")[0];
 
-  if (state.context.visitorState?.socialFarming.cheersGiven.date !== today) {
-    return false;
-  }
+    if (state.context.visitorState?.socialFarming.cheersGiven.date !== today) {
+      return false;
+    }
 
-  return (
-    state.context.visitorState?.socialFarming.cheersGiven.projects[
-      project
-    ]?.includes(state.context.farmId) ?? false
-  );
-};
+    return (
+      state.context.visitorState?.socialFarming.cheersGiven.projects[
+        project
+      ]?.includes(state.context.farmId) ?? false
+    );
+  };
 
 type MonumentProps = React.ComponentProps<typeof ImageStyle> & {
   project: MonumentName;

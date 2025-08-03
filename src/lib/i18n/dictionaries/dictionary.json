@@ -6422,5 +6422,12 @@
   "cheers.progress": "Cheer Progress: {{progress}}",
   "season.megastore.nonTradeable": "Non tradeable",
   "description.pestNet": "Used to catch pests on your friends' farms",
-  "clutter.trashBinFull": "Trash bin full"
+  "clutter.trashBinFull": "Trash bin full",
+  "visitorGuide.farmTitle": "{{username}}'s Farm",
+  "visitorGuide.welcomeMessage": "Howdy Bumpkin, welcome to my farm. Roll up your sleeves and help me out to earn social points.",
+  "visitorGuide.pickupClutter": "Pick up 5 x Clutter",
+  "visitorGuide.socialPointsAlt": "Social Points",
+  "visitorGuide.cheerMonument": "Cheer {{monument}}",
+  "visitorGuide.catchPests": "Catch 2 x Pests",
+  "visitorGuide.netRequired": "Net required"
 }

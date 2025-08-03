@@ -26,6 +26,7 @@ import garbageBin from "assets/sfts/garbage_bin.webp";
 import socialPointsIcon from "assets/icons/social_score.webp";
 import loadingIcon from "assets/icons/timer.gif";
 import saveIcon from "assets/icons/save.webp";
+import choreIcon from "assets/icons/chores.webp";
 import { VisitorGuide } from "./components/VisitorGuide";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -77,10 +78,9 @@ export const VisitingHud: React.FC = () => {
     <HudContainer>
       <Modal show={showVisitorGuide} onHide={() => setShowVisitorGuide(false)}>
         <CloseButtonPanel
-          onClose={() => setShowVisitorGuide(false)}
           bumpkinParts={gameState.context.state.bumpkin?.equipped}
         >
-          <VisitorGuide />
+          <VisitorGuide onClose={() => setShowVisitorGuide(false)} />
         </CloseButtonPanel>
       </Modal>
       {!gameState.matches("landToVisitNotFound") && (
@@ -123,6 +123,25 @@ export const VisitingHud: React.FC = () => {
           isFullUser={false}
           hideActions
         />
+      </div>
+      <div className="absolute right-0 top-32 p-2.5">
+        <RoundButton
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            setShowVisitorGuide(true);
+          }}
+        >
+          <img
+            src={choreIcon}
+            className="absolute group-active:translate-y-[2px]"
+            style={{
+              top: `${PIXEL_SCALE * 4}px`,
+              left: `${PIXEL_SCALE * 4}px`,
+              width: `${PIXEL_SCALE * 14}px`,
+            }}
+          />
+        </RoundButton>
       </div>
       <BumpkinProfile />
       <div className="absolute p-2 left-0 top-24 flex flex-col space-y-2.5">
