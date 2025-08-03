@@ -1106,6 +1106,10 @@ export const ITEM_TRADE_TYPES: {
     Trash: "instant",
     Dung: "instant",
     Weed: "instant",
+    Anthill: "instant",
+    Rat: "instant",
+    Snail: "instant",
+    "Pest Net": "instant",
   },
   wearables: {
     "New Years Crown": "instant",

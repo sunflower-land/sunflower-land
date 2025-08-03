@@ -601,7 +601,7 @@ const getIslandElements = ({
 
   {
     clutter &&
-      isVisiting &&
+      // isVisiting &&
       hasFeatureAccess(game, "CLUTTER") &&
       mapPlacements.push(
         ...getKeys(clutter.locations).flatMap((id) => {

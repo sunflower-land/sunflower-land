@@ -14,6 +14,8 @@ import {
   GameEvent,
   PlayingEvent,
   GameEventName,
+  VISITING_EVENTS,
+  VisitingEvent,
 } from "../events";
 
 import {
@@ -314,7 +316,7 @@ const playingEventHandler = (eventName: string) => {
     [eventName]: [
       {
         target: "hoarding",
-        cond: (context: Context, event: PlayingEvent) => {
+        cond: (context: Context, event: PlayingEvent | VisitingEvent) => {
           const { valid } = checkProgress({
             state: context.state as GameState,
             action: event,
@@ -323,48 +325,52 @@ const playingEventHandler = (eventName: string) => {
 
           return !valid;
         },
-        actions: assign((context: Context, event: PlayingEvent) => {
-          const { maxedItem } = checkProgress({
-            state: context.state as GameState,
-            action: event,
-            farmId: context.farmId,
-          });
+        actions: assign(
+          (context: Context, event: PlayingEvent | VisitingEvent) => {
+            const { maxedItem } = checkProgress({
+              state: context.state as GameState,
+              action: event,
+              farmId: context.farmId,
+            });
 
-          return { maxedItem };
-        }),
+            return { maxedItem };
+          },
+        ),
       },
       {
-        actions: assign((context: Context, event: PlayingEvent) => {
-          const result = processEvent({
-            state: context.state,
-            action: event,
-            announcements: context.announcements,
-            farmId: context.farmId,
-            visitorState: context.visitorState,
-          });
+        actions: assign(
+          (context: Context, event: PlayingEvent | VisitingEvent) => {
+            const result = processEvent({
+              state: context.state,
+              action: event,
+              announcements: context.announcements,
+              farmId: context.farmId,
+              visitorState: context.visitorState,
+            });
 
-          const actions = [
-            ...context.actions,
-            {
-              ...event,
-              createdAt: new Date(),
-            },
-          ];
+            const actions = [
+              ...context.actions,
+              {
+                ...event,
+                createdAt: new Date(),
+              },
+            ];
 
-          if (Array.isArray(result)) {
-            const [state, visitorState] = result;
+            if (Array.isArray(result)) {
+              const [state, visitorState] = result;
+              return {
+                state,
+                actions,
+                visitorState,
+              };
+            }
+
             return {
-              state,
+              state: result,
               actions,
-              visitorState,
             };
-          }
-
-          return {
-            state: result,
-            actions,
-          };
-        }),
+          },
+        ),
       },
     ],
   };
@@ -373,6 +379,15 @@ const playingEventHandler = (eventName: string) => {
 // // For each game event, convert it to an XState event + handler
 const GAME_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
   Object.keys(PLAYING_EVENTS).reduce(
+    (events, eventName) => ({
+      ...events,
+      ...playingEventHandler(eventName),
+    }),
+    {},
+  );
+
+const VISITING_EVENT_HANDLERS: TransitionsConfig<Context, BlockchainEvent> =
+  Object.keys(VISITING_EVENTS).reduce(
     (events, eventName) => ({
       ...events,
       ...playingEventHandler(eventName),
@@ -1010,7 +1025,7 @@ export function startGame(authContext: AuthContext) {
         visiting: {
           on: {
             ...VISIT_EFFECT_EVENT_HANDLERS,
-            ...playingEventHandler("clutter.collected"),
+            ...VISITING_EVENT_HANDLERS,
             SAVE: {
               target: "autosaving",
             },

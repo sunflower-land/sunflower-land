@@ -975,6 +975,10 @@ import bigBanana from "assets/monuments/big_banana.webp";
 import trash from "assets/clutter/trash.webp";
 import dung from "assets/clutter/dung.webp";
 import weed from "assets/clutter/weed.webp";
+import anthill from "assets/clutter/anthill.webp";
+import rat from "assets/clutter/rat.webp";
+import snail from "assets/clutter/snail.webp";
+import pestNet from "assets/clutter/pest_net.webp";
 
 import babyCow from "assets/sfts/baby_cow.webp";
 import babySheep from "assets/sfts/baby_sheep.webp";
@@ -5697,5 +5701,21 @@ export const ITEM_DETAILS: Items = {
   "Venus Bumpkin Trap": {
     image: venusBumpkinTrap,
     description: translate("description.venusBumpkinTrap"),
+  },
+  Anthill: {
+    image: anthill,
+    description: translate("description.anthill"),
+  },
+  Rat: {
+    image: rat,
+    description: translate("description.rat"),
+  },
+  Snail: {
+    image: snail,
+    description: translate("description.snail"),
+  },
+  "Pest Net": {
+    image: pestNet,
+    description: translate("description.pestNet"),
   },
 };

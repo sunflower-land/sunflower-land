@@ -13,7 +13,8 @@ export type WorkbenchToolName =
   | "Iron Pickaxe"
   | "Gold Pickaxe"
   | "Rod"
-  | "Oil Drill";
+  | "Oil Drill"
+  | "Pest Net";
 
 export type TreasureToolName = "Sand Shovel" | "Sand Drill";
 
@@ -26,12 +27,16 @@ export interface Tool {
   requiredIsland?: IslandType;
 }
 
-export const WORKBENCH_TOOLS: Record<WorkbenchToolName, Tool> = {
+export const WORKBENCH_TOOLS: Record<
+  WorkbenchToolName,
+  Tool & { stock: Decimal }
+> = {
   Axe: {
     name: "Axe",
     description: translate("description.axe"),
     price: 20,
     ingredients: {},
+    stock: new Decimal(200),
   },
   Pickaxe: {
     name: "Pickaxe",
@@ -40,6 +45,7 @@ export const WORKBENCH_TOOLS: Record<WorkbenchToolName, Tool> = {
     ingredients: {
       Wood: new Decimal(3),
     },
+    stock: new Decimal(60),
   },
   "Stone Pickaxe": {
     name: "Stone Pickaxe",
@@ -49,6 +55,7 @@ export const WORKBENCH_TOOLS: Record<WorkbenchToolName, Tool> = {
       Wood: new Decimal(3),
       Stone: new Decimal(5),
     },
+    stock: new Decimal(20),
   },
   "Iron Pickaxe": {
     name: "Iron Pickaxe",
@@ -59,6 +66,7 @@ export const WORKBENCH_TOOLS: Record<WorkbenchToolName, Tool> = {
       Wood: new Decimal(3),
       Iron: new Decimal(5),
     },
+    stock: new Decimal(5),
   },
   "Gold Pickaxe": {
     name: "Gold Pickaxe",
@@ -68,6 +76,7 @@ export const WORKBENCH_TOOLS: Record<WorkbenchToolName, Tool> = {
       Wood: new Decimal(3),
       Gold: new Decimal(3),
     },
+    stock: new Decimal(5),
   },
   Rod: {
     name: "Rod",
@@ -77,6 +86,7 @@ export const WORKBENCH_TOOLS: Record<WorkbenchToolName, Tool> = {
       Wood: new Decimal(3),
       Stone: new Decimal(1),
     },
+    stock: new Decimal(50),
   },
   "Oil Drill": {
     name: "Oil Drill",
@@ -88,6 +98,16 @@ export const WORKBENCH_TOOLS: Record<WorkbenchToolName, Tool> = {
       Leather: new Decimal(10),
     },
     requiredIsland: "desert",
+    stock: new Decimal(5),
+  },
+  "Pest Net": {
+    name: "Pest Net",
+    description: translate("description.pestNet"),
+    price: 50,
+    ingredients: {
+      Wool: new Decimal(2),
+    },
+    stock: new Decimal(10),
   },
 };
 

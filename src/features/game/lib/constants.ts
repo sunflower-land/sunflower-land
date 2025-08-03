@@ -26,6 +26,7 @@ import {
   isBasicFruitSeed,
 } from "../events/landExpansion/fruitPlanted";
 import { PatchFruitSeedName } from "../types/fruits";
+import { WORKBENCH_TOOLS, WorkbenchToolName } from "../types/tools";
 
 // Our "zoom" factor
 export const PIXEL_SCALE = 2.625;
@@ -63,15 +64,13 @@ export type StockableName = Extract<
 export const INITIAL_STOCK = (
   state?: GameState,
 ): Record<StockableName, Decimal> => {
-  const tools = {
-    Axe: new Decimal(200),
-    Pickaxe: new Decimal(60),
-    "Stone Pickaxe": new Decimal(20),
-    "Iron Pickaxe": new Decimal(5),
-    "Gold Pickaxe": new Decimal(5),
-    Rod: new Decimal(50),
-    "Oil Drill": new Decimal(5),
-  };
+  const tools = Object.entries(WORKBENCH_TOOLS).reduce(
+    (acc, [toolName, tool]) => ({
+      ...acc,
+      [toolName]: tool.stock,
+    }),
+    {} as Record<WorkbenchToolName, Decimal>,
+  );
 
   // increase in 50% tool stock if you have a toolshed
   if (state?.buildings.Toolshed && isBuildingReady(state.buildings.Toolshed)) {

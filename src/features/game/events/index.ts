@@ -525,6 +525,7 @@ import {
   flipCollectible,
   FlipCollectibleAction,
 } from "./landExpansion/flipCollectible";
+import { CatchPestAction, catchPest } from "./landExpansion/catchPest";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
@@ -670,8 +671,9 @@ export type PlayingEvent =
   | BuyBiomeAction
   | ApplyBiomeAction
   | WakeUpAnimalAction
-  | ClaimCheersAction
-  | CollectClutterAction;
+  | ClaimCheersAction;
+
+export type VisitingEvent = CollectClutterAction | CatchPestAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -730,7 +732,7 @@ export type PlacementEvent =
   | RemoveAllAction
   | FlipCollectibleAction;
 
-export type GameEvent = PlayingEvent | PlacementEvent;
+export type GameEvent = PlayingEvent | PlacementEvent | VisitingEvent;
 export type GameEventName<T> = Extract<T, { type: string }>["type"];
 
 export function isEventType<T extends PlayingEvent>(
@@ -900,7 +902,11 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "biome.applied": applyBiome,
   "animal.wakeUp": wakeAnimal,
   "cheers.claimed": claimDailyCheers,
+};
+
+export const VISITING_EVENTS: Handlers<VisitingEvent> = {
   "clutter.collected": collectClutter,
+  "pest.caught": catchPest,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
@@ -963,5 +969,6 @@ export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
 
 export const EVENTS = {
   ...PLAYING_EVENTS,
+  ...VISITING_EVENTS,
   ...PLACEMENT_EVENTS,
 };
