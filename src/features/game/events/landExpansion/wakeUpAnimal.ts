@@ -18,7 +18,7 @@ export function getAnimalToy({ animal }: { animal: Animal }): DollName {
   const level = getAnimalLevel(animal.experience, animal.type);
 
   // Every 5 levels, require a gilded doll
-  if (level % 5 === 0) {
+  if (level % 5 === 0 && level > 0) {
     return "Gilded Doll";
   }
 
