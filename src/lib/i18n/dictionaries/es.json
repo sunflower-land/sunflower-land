@@ -6248,5 +6248,10 @@
   "playerModal.topFriend": "Mejor amigo - {{username}}",
   "islandupgrade.warning1": "Todos los objetos que tengas en tu terreno serán desenterrados y devueltos a tu inventario. Puedes acceder a ellos desde tu cofre.",
   "description.doubleBed.boost": "+1 peones",
-  "season.megastore.nonTradeable": "No negociable"
+  "season.megastore.nonTradeable": "No negociable",
+  "description.anthill": "Un hogar bullicioso para hormigas trabajadoras. Siempre están ocupadas construyendo y organizando.",
+  "description.rat": "Una pequeña rata inteligente. No es muy bonita, pero quizás tenga un propósito en el ecosistema agrícola.",
+  "description.snail": "Un caracol que se mueve lentamente. Se toma su tiempo, pero llega a donde necesita ir.",
+  "description.pestNet": "Se usa para atrapar plagas en las granjas de tus amigos",
+  "clutter.trashBinFull": "Cubo de basura lleno"
 }

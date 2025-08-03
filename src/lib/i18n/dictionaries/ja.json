@@ -6248,5 +6248,10 @@
   "playerModal.topFriend": "トップフレンド-{{username}}",
   "islandupgrade.warning1": "土地にあるすべてのアイテムが掘り起こされ、インベントリに戻されます。これらのアイテムはチェストからアクセスできます。",
   "description.doubleBed.boost": "+1 ファームハンズ",
-  "season.megastore.nonTradeable": "取引不可"
+  "season.megastore.nonTradeable": "取引不可",
+  "description.anthill": "勤勉なアリのにぎやかな家。彼らはいつも建築と整理に忙しい。",
+  "description.rat": "賢い小さなネズミ。あまりきれいではないが、農場の生態系に何らかの目的があるのかもしれない。",
+  "description.snail": "動きの遅いカタツムリ。時間はかかりますが、必要な場所にたどり着きます。",
+  "description.pestNet": "友達の農場で害虫を捕まえるのに使う",
+  "clutter.trashBinFull": "ゴミ箱がいっぱい"
 }

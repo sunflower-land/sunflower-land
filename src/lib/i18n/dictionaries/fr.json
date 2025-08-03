@@ -6248,5 +6248,10 @@
   "playerModal.topFriend": "Meilleur ami - {{username}}",
   "islandupgrade.warning1": "Tous les objets qui se trouvent sur votre terrain seront déterrés et réintégrés à votre inventaire. Vous pouvez y accéder dans votre poitrine.",
   "description.doubleBed.boost": "+1 Fermier",
-  "season.megastore.nonTradeable": "Non échangeable"
+  "season.megastore.nonTradeable": "Non échangeable",
+  "description.anthill": "Une maison animée pour les fourmis qui travaillent dur. Ils sont toujours occupés à construire et à organiser.",
+  "description.rat": "Un petit rat intelligent. Pas très joli, mais cela a peut-être une utilité dans l'écosystème agricole.",
+  "description.snail": "Un escargot qui se déplace lentement. Cela prend du temps, mais il arrive là où il doit aller.",
+  "description.pestNet": "Utilisé pour attraper les parasites dans les fermes de vos amis",
+  "clutter.trashBinFull": "Poubelle pleine"
 }

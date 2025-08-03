@@ -6248,5 +6248,10 @@
   "playerModal.topFriend": "최고의 친구 - {{username}}",
   "islandupgrade.warning1": "토지에 있는 모든 아이템이 파헤쳐져 인벤토리로 반환됩니다.상자에서 획득할 수 있습니다.",
   "description.doubleBed.boost": "+1 팜핸즈",
-  "season.megastore.nonTradeable": "거래 불가"
+  "season.megastore.nonTradeable": "거래 불가",
+  "description.anthill": "근면한 개미들이 사는 북적이는 집.개들은 항상 건물을 짓고 정리하느라 바빠요.",
+  "description.rat": "영리한 작은 쥐.별로 예쁘지는 않지만 농장 생태계에 용도가 있는 걸지도 몰라요",
+  "description.snail": "느리게 움직이는 달팽이.시간은 걸리지만 필요한 곳에 도착합니다.",
+  "description.pestNet": "친구 농장에서 해충을 잡는 데 사용됩니다.",
+  "clutter.trashBinFull": "휴지통이 가득 찼습니다"
 }

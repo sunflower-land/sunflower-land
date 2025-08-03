@@ -6248,5 +6248,10 @@
   "playerModal.topFriend": "Melhor amigo - {{username}}",
   "islandupgrade.warning1": "Todos os seus itens em sua terra serão desenterrados e devolvidos ao seu inventário. Você pode acessá-los em seu peito.",
   "description.doubleBed.boost": "+1 Fazendeiros",
-  "season.megastore.nonTradeable": "Não negociável"
+  "season.megastore.nonTradeable": "Não negociável",
+  "description.anthill": "Um lar movimentado para formigas trabalhadoras. Eles estão sempre ocupados construindo e organizando.",
+  "description.rat": "Um ratinho inteligente. Não é muito bonito, mas talvez tenha um propósito no ecossistema agrícola.",
+  "description.snail": "Um caracol que se move lentamente. Demora, mas chega aonde precisa ir.",
+  "description.pestNet": "Usado para pegar pragas nas fazendas de seus amigos",
+  "clutter.trashBinFull": "Lixeira cheia"
 }

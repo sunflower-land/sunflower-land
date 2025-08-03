@@ -6248,5 +6248,10 @@
   "playerModal.topFriend": "好友-{{username}}",
   "islandupgrade.warning1": "你在土地上的所有物品都将被挖出来并归还到你的库存中。你可以在你的胸口访问它们。",
   "description.doubleBed.boost": "+1 农民",
-  "season.megastore.nonTradeable": "不可交易"
+  "season.megastore.nonTradeable": "不可交易",
+  "description.anthill": "辛勤工作的蚂蚁的繁华家园。他们总是忙于建造和整理。",
+  "description.rat": "一只聪明的小老鼠。不是很漂亮，但也许它在农场生态系统中有其用途。",
+  "description.snail": "一只缓慢移动的蜗牛。它需要时间，但可以到达需要去的地方。",
+  "description.pestNet": "用来在朋友的农场捕捉害虫",
+  "clutter.trashBinFull": "垃圾桶装满了"
 }

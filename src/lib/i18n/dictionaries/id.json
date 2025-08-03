@@ -6248,5 +6248,10 @@
   "playerModal.topFriend": "Teman terbaik - {{username}}",
   "islandupgrade.warning1": "Semua barang Anda di tanah Anda akan digali dan dikembalikan ke inventaris Anda. Anda dapat mengaksesnya di dada Anda.",
   "description.doubleBed.boost": "+1 Farmhands",
-  "season.megastore.nonTradeable": "Tidak dapat diperdagangkan"
+  "season.megastore.nonTradeable": "Tidak dapat diperdagangkan",
+  "description.anthill": "Rumah yang ramai untuk semut pekerja keras. Mereka selalu sibuk membangun dan mengatur.",
+  "description.rat": "Tikus kecil yang pintar. Tidak terlalu cantik, tetapi mungkin memiliki tujuan dalam ekosistem pertanian.",
+  "description.snail": "Siput yang bergerak lambat. Butuh waktu, tetapi sampai ke tempat yang harus dituju.",
+  "description.pestNet": "Digunakan untuk menangkap hama di peternakan teman Anda",
+  "clutter.trashBinFull": "Tempat sampah penuh"
 }

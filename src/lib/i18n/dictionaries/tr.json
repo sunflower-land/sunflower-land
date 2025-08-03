@@ -6248,5 +6248,10 @@
   "playerModal.topFriend": "En iyi arkadaş - {{username}}",
   "islandupgrade.warning1": "Arazinizdeki tüm eşyalarınız kazılacak ve envanterinize iade edilecektir. Onlara göğsünüzden erişebilirsiniz.",
   "description.doubleBed.boost": "+1 Farmhands",
-  "season.megastore.nonTradeable": "Takas edilemez"
+  "season.megastore.nonTradeable": "Takas edilemez",
+  "description.anthill": "Çalışkan karıncalar için hareketli bir ev. Her zaman inşa etmek ve organize etmekle meşguller.",
+  "description.rat": "Zeki küçük bir fare. Çok güzel değil, ama belki de çiftlik ekosisteminde bir amacı var.",
+  "description.snail": "Yavaş hareket eden bir salyangoz. Zamanını alır, ama gitmesi gereken yere ulaşır.",
+  "description.pestNet": "Arkadaşlarınızın çiftliklerinde zararlıları yakalamak için kullanılır",
+  "clutter.trashBinFull": "Çöp kutusu dolu"
 }
