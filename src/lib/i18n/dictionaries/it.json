@@ -6123,7 +6123,6 @@
   "description.reelmastersChair": "Una sedia pieghevole attrezzata per una pesca seria. Viene fornito con portacanne e racchette per pesci integrati.",
   "description.ratKing": "Una storia intricata di code e leadership discutibile.",
   "description.fruitTuneBox": "Suona solo buona musica dai frutti di bosco.",
-  "description.doubleBed": "Un comodo letto che può ospitare comodamente due persone.",
   "description.giantArtichoke": "Il cuore del giardino: un carciofo letteralmente enorme.",
   "description.rocketStatue": "Un razzo pronto per il decollo, con il mondo intero sulle spalle!",
   "description.antQueen": "Lei domina lo sporco e le tue briciole.",
@@ -6276,5 +6275,6 @@
   "visitorGuide.binGuide.description": "Ogni giorno puoi raccogliere 30 pezzi di spazzatura che trovi nelle fattorie dei tuoi amici.",
   "visitorGuide.binGuide.reset": "Reimposta in {{time}}",
   "visitorGuide.binGuide.burn": "Brucia rifiuti",
-  "visitorGuide.binGuide.burn.description": "Troppa Vegemite. Codice insufficiente. I nostri sviluppatori di Sydney si stanno riavviando: una funzionalità è in arrivo!"
+  "visitorGuide.binGuide.burn.description": "Troppa Vegemite. Codice insufficiente. I nostri sviluppatori di Sydney si stanno riavviando: una funzionalità è in arrivo!",
+  "description.doubleBed": "Un comodo letto fatto per gli amici."
 }

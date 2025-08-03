@@ -6123,7 +6123,6 @@
   "description.reelmastersChair": "Uma cadeira dobrável equipada para pescar seriamente. Vem com suportes de varas embutidos e contos de peixe.",
   "description.ratKing": "Uma história complicada de rabos e liderança questionável.",
   "description.fruitTuneBox": "Não toca nada além de boa música.",
-  "description.doubleBed": "Uma cama aconchegante que acomoda duas pessoas confortavelmente.",
   "description.giantArtichoke": "O coração do jardim — literalmente uma enorme alcachofra.",
   "description.rocketStatue": "Um foguete pronto para decolar — com o mundo inteiro nas costas!",
   "description.antQueen": "Ela governa a sujeira — e suas migalhas.",
@@ -6276,5 +6275,6 @@
   "visitorGuide.binGuide.description": "Todos os dias, você pode pegar 30 peças de lixo que encontra nas fazendas de seus amigos.",
   "visitorGuide.binGuide.reset": "Reinicializa em {{time}}",
   "visitorGuide.binGuide.burn": "Queimar lixo",
-  "visitorGuide.binGuide.burn.description": "Muito Vegemite. Código insuficiente. Nossos desenvolvedores de Sydney estão reiniciando — recurso a caminho!"
+  "visitorGuide.binGuide.burn.description": "Muito Vegemite. Código insuficiente. Nossos desenvolvedores de Sydney estão reiniciando — recurso a caminho!",
+  "description.doubleBed": "Uma cama aconchegante feita para amigos."
 }

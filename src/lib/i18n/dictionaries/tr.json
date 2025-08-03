@@ -6123,7 +6123,6 @@
   "description.reelmastersChair": "Ciddi balıkçılık için donatılmış katlanır sandalye. Yerleşik çubuk tutucular ve balık masalları ile birlikte gelir.",
   "description.ratKing": "Karışık bir kuyruk hikayesi ve şüpheli liderlik.",
   "description.fruitTuneBox": "Berry iyi müzikten başka bir şey çalmaz.",
-  "description.doubleBed": "İki kişiye rahatça uyan rahat bir yatak.",
   "description.giantArtichoke": "Bahçenin kalbi - kelimenin tam anlamıyla kocaman Enginar.",
   "description.rocketStatue": "Tüm dünya sırtında kalkışa hazır bir roket!",
   "description.antQueen": "Kiri ve kırıntılarınızı o yönetiyor.",
@@ -6276,5 +6275,6 @@
   "visitorGuide.binGuide.description": "Her gün arkadaşınızın çiftliklerinde bulduğunuz 30 çöp parçasını toplayabilirsiniz.",
   "visitorGuide.binGuide.reset": "{{time}} içinde sıfırlanır",
   "visitorGuide.binGuide.burn": "Çöp Yak",
-  "visitorGuide.binGuide.burn.description": "Çok fazla Vegemite. Yeterli kod yok. Sydney geliştiricilerimiz yeniden başlatılıyor - özellik yolda!"
+  "visitorGuide.binGuide.burn.description": "Çok fazla Vegemite. Yeterli kod yok. Sydney geliştiricilerimiz yeniden başlatılıyor - özellik yolda!",
+  "description.doubleBed": "Arkadaşlar için yapılmış rahat bir yatak."
 }

@@ -6123,7 +6123,6 @@
   "description.reelmastersChair": "专为严肃钓鱼而配备的折叠椅。配有内置鱼竿支架和鱼缸。",
   "description.ratKing": "一个关于尾巴和可疑领导力的错综复杂的故事。",
   "description.fruitTuneBox": "只播放浆果好音乐。",
-  "description.doubleBed": "一张舒适的床，可舒适地容纳两人。",
   "description.giantArtichoke": "花园的心脏——实际上是巨大的朝鲜蓟。",
   "description.rocketStatue": "一枚准备升空的火箭——整个世界都在它的背上！",
   "description.antQueen": "她统治着泥土和你的面包屑。",
@@ -6276,5 +6275,6 @@
   "visitorGuide.binGuide.description": "每天，你可以在朋友的农场里捡起 30 块垃圾。",
   "visitorGuide.binGuide.reset": "在 {{time}} 中重置",
   "visitorGuide.binGuide.burn": "烧掉垃圾",
-  "visitorGuide.binGuide.burn.description": "Vegemite 太多了。代码不够。我们的悉尼开发人员正在重启——功能即将推出！"
+  "visitorGuide.binGuide.burn.description": "Vegemite 太多了。代码不够。我们的悉尼开发人员正在重启——功能即将推出！",
+  "description.doubleBed": "为朋友准备的舒适床。"
 }

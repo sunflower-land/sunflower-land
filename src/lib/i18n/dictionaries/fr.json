@@ -6123,7 +6123,6 @@
   "description.reelmastersChair": "Une chaise pliante équipée pour la pêche sérieuse. Comprend des porte-cannes intégrés et des tables à pêche.",
   "description.ratKing": "Une histoire mêlée de queues et de leadership douteux.",
   "description.fruitTuneBox": "Ne joue que de la bonne musique.",
-  "description.doubleBed": "Un lit douillet qui peut accueillir confortablement deux personnes.",
   "description.giantArtichoke": "Le cœur du jardin : un artichaut littéralement énorme.",
   "description.rocketStatue": "Une fusée prête à décoller, avec le monde entier sur son dos !",
   "description.antQueen": "Elle domine la saleté et tes miettes.",
@@ -6276,5 +6275,6 @@
   "visitorGuide.binGuide.description": "Chaque jour, tu peux ramasser 30 déchets que tu trouves dans les fermes de tes amis.",
   "visitorGuide.binGuide.reset": "Se réinitialise dans {{time}}",
   "visitorGuide.binGuide.burn": "Brûlez les déchets",
-  "visitorGuide.binGuide.burn.description": "Trop de Vegemite. Pas assez de code. Nos développeurs de Sydney redémarrent, la fonctionnalité est en cours !"
+  "visitorGuide.binGuide.burn.description": "Trop de Vegemite. Pas assez de code. Nos développeurs de Sydney redémarrent, la fonctionnalité est en cours !",
+  "description.doubleBed": "Un lit douillet fait pour les amis."
 }

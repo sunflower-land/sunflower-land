@@ -6123,7 +6123,6 @@
   "description.reelmastersChair": "Una silla plegable equipada para una pesca seria. Viene con soportes para cañas integrados y cuentos de peces.",
   "description.ratKing": "Una historia enredada de colas y un liderazgo cuestionable.",
   "description.fruitTuneBox": "No toca más que buena música.",
-  "description.doubleBed": "Una cama acogedora en la que caben dos cómodamente.",
   "description.giantArtichoke": "El corazón del jardín: literalmente una alcachofa enorme.",
   "description.rocketStatue": "Un cohete listo para despegar, ¡con el mundo entero a sus espaldas!",
   "description.antQueen": "Ella gobierna la tierra y tus migajas.",
@@ -6276,5 +6275,6 @@
   "visitorGuide.binGuide.description": "Todos los días, puedes recoger 30 piezas de basura que encuentres en las granjas de tus amigos.",
   "visitorGuide.binGuide.reset": "Se restablece en {{time}}",
   "visitorGuide.binGuide.burn": "Quema basura",
-  "visitorGuide.binGuide.burn.description": "Demasiado Vegemite. No hay suficiente código. Nuestros desarrolladores de Sídney se están reiniciando: ¡la función está en camino!"
+  "visitorGuide.binGuide.burn.description": "Demasiado Vegemite. No hay suficiente código. Nuestros desarrolladores de Sídney se están reiniciando: ¡la función está en camino!",
+  "description.doubleBed": "Una cama acogedora hecha para amigos."
 }

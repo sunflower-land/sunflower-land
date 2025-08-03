@@ -6123,7 +6123,6 @@
   "description.reelmastersChair": "Складной стул, оборудованный для серьезной рыбалки. Поставляется со встроенными держателями для удочек и рыбными сказками.",
   "description.ratKing": "Запутанная история о решках и сомнительном лидерстве.",
   "description.fruitTuneBox": "Играет только хорошую музыку.",
-  "description.doubleBed": "Уютная кровать, которая с комфортом разместится вдвоем.",
   "description.giantArtichoke": "Сердце сада — буквально огромный артишок.",
   "description.rocketStatue": "Ракета, готовая к запуску, весь мир за спиной!",
   "description.antQueen": "Она управляет грязью и вашими крошками.",
@@ -6276,5 +6275,6 @@
   "visitorGuide.binGuide.description": "Каждый день вы можете собирать 30 кусков мусора, которые вы найдете на фермах вашего друга.",
   "visitorGuide.binGuide.reset": "Перезагружается в {{time}}",
   "visitorGuide.binGuide.burn": "Сжечь мусор",
-  "visitorGuide.binGuide.burn.description": "Слишком много Vegemite. Недостаточно кода. Наши разработчики из Сиднея перезагружаются — новая функция уже в пути!"
+  "visitorGuide.binGuide.burn.description": "Слишком много Vegemite. Недостаточно кода. Наши разработчики из Сиднея перезагружаются — новая функция уже в пути!",
+  "description.doubleBed": "Уютная кровать для друзей."
 }

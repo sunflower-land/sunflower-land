@@ -6123,7 +6123,6 @@
   "description.reelmastersChair": "본격적인 낚시를 할 수 있는 접이식 의자입니다.낚싯대 홀더와 물고기 꼬리가 내장되어 있습니다.",
   "description.ratKing": "꼬리에 얽힌 이야기와 의심스러운 리더십에 관한 이야기.",
   "description.fruitTuneBox": "베리 굿 뮤직 외에는 아무것도 재생하지 않습니다.",
-  "description.doubleBed": "두 사람이 편안하게 앉을 수 있는 아늑한 침대.",
   "description.giantArtichoke": "정원의 심장부, 말 그대로 거대한 아티초크.",
   "description.rocketStatue": "전 세계를 등에 태우고 이륙할 준비가 된 로켓입니다!",
   "description.antQueen": "그녀는 먼지와 당신의 부스러기를 지배합니다.",
@@ -6276,5 +6275,6 @@
   "visitorGuide.binGuide.description": "친구의 농장에서 찾은 쓰레기 30개를 매일 주울 수 있습니다.",
   "visitorGuide.binGuide.reset": "{{time}} 에서 재설정",
   "visitorGuide.binGuide.burn": "휴지통 태우기",
-  "visitorGuide.binGuide.burn.description": "베지마이트가 너무 많아요코드가 충분하지 않아요.시드니 개발팀이 재부팅 중입니다. 곧 기능이 추가될 예정입니다!"
+  "visitorGuide.binGuide.burn.description": "베지마이트가 너무 많아요코드가 충분하지 않아요.시드니 개발팀이 재부팅 중입니다. 곧 기능이 추가될 예정입니다!",
+  "description.doubleBed": "친구를 위해 만든 아늑한 침대."
 }

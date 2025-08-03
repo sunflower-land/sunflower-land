@@ -6123,7 +6123,6 @@
   "description.reelmastersChair": "本格的な釣りに適した折りたたみチェアです。ロッドホルダーとフィッシュテールが内蔵されています。",
   "description.ratKing": "絡み合った尻尾と疑わしいリーダーシップ。",
   "description.fruitTuneBox": "とてもいい音楽しか流れません。",
-  "description.doubleBed": "2人が快適に過ごせる居心地の良いベッド。",
   "description.giantArtichoke": "庭の中心—文字通り巨大なアーティチョーク。",
   "description.rocketStatue": "全世界を背負って、離陸準備万端のロケット！",
   "description.antQueen": "彼女はあなたのパン粉と汚れを支配します。",
@@ -6276,5 +6275,6 @@
   "visitorGuide.binGuide.description": "毎日、友達の農場で見つけたゴミを30個拾うことができます。",
   "visitorGuide.binGuide.reset": "{{time}} でリセット",
   "visitorGuide.binGuide.burn": "バーン・トラッシュ",
-  "visitorGuide.binGuide.burn.description": "ベジマイトが多すぎる。コードが足りません。シドニーのデベロッパーが再起動中 — 機能追加準備中！"
+  "visitorGuide.binGuide.burn.description": "ベジマイトが多すぎる。コードが足りません。シドニーのデベロッパーが再起動中 — 機能追加準備中！",
+  "description.doubleBed": "友達のために作られた居心地の良いベッド。"
 }

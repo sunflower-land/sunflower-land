@@ -6123,7 +6123,6 @@
   "description.reelmastersChair": "Kerusi lipat dilengkapi untuk memancing yang serius. Dilengkapi dengan pemegang batang terbina dalam dan kisah ikan.",
   "description.ratKing": "Kisah ekor kusut dan kepemimpinan yang dipersoalkan.",
   "description.fruitTuneBox": "Tidak memainkan apa-apa kecuali muzik yang baik berry.",
-  "description.doubleBed": "Sebuah katil yang selesa yang sesuai dengan dua orang dengan selesa.",
   "description.giantArtichoke": "Jantung taman—Artichoke yang sangat besar.",
   "description.rocketStatue": "Sebuah roket yang sedia untuk diangkat — dengan seluruh dunia di belakangnya!",
   "description.antQueen": "Dia memerintah kotoran - dan serbuk anda.",
@@ -6276,5 +6275,6 @@
   "visitorGuide.binGuide.description": "Setiap hari, anda boleh mengambil 30 keping sampah yang anda dapati di ladang rakan anda.",
   "visitorGuide.binGuide.reset": "Menetapkan semula dalam {{time}}",
   "visitorGuide.binGuide.burn": "Bakar Sampah",
-  "visitorGuide.binGuide.burn.description": "Terlalu banyak Vegemite. Kod tidak mencukupi. Pembangun Sydney kami sedang dimulakan semula - ciri dalam perjalanan!"
+  "visitorGuide.binGuide.burn.description": "Terlalu banyak Vegemite. Kod tidak mencukupi. Pembangun Sydney kami sedang dimulakan semula - ciri dalam perjalanan!",
+  "description.doubleBed": "Katil yang selesa dibuat untuk rakan-rakan."
 }
