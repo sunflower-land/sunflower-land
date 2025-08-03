@@ -2,7 +2,6 @@ import { Box } from "components/ui/Box";
 import { Label } from "components/ui/Label";
 import { ITEM_DETAILS } from "features/game/types/images";
 import React from "react";
-import socialScoreIcon from "assets/icons/social_score.webp";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { getKeys } from "features/game/lib/crafting";
 import { WORKBENCH_MONUMENTS } from "features/game/types/monuments";
@@ -52,12 +51,7 @@ export const VisitorGuide: React.FC<VisitorGuideProps> = ({ onClose }) => {
         <div>
           <p className="text-sm">{t("visitorGuide.pickupClutter")}</p>
           <div className="flex items-center my-0.5">
-            <p className="text-xs mr-1">{t("socialPoints", { points: 5 })}</p>
-            <img
-              src={socialScoreIcon}
-              alt={t("visitorGuide.socialPointsAlt")}
-              className="h-4"
-            />
+            <p className="text-xs mr-1">{t("visitorGuide.clutter")}</p>
           </div>
         </div>
       </div>
@@ -81,14 +75,7 @@ export const VisitorGuide: React.FC<VisitorGuideProps> = ({ onClose }) => {
                   </p>
                 </div>
                 <div className="flex items-center my-0.5">
-                  <p className="text-xs mr-1">
-                    {t("socialPoints", { points: 5 })}
-                  </p>
-                  <img
-                    src={socialScoreIcon}
-                    alt={t("visitorGuide.socialPointsAlt")}
-                    className="h-4"
-                  />
+                  <p className="text-xs mr-1">{t("visitorGuide.monument")}</p>
                 </div>
               </div>
             </div>
@@ -104,11 +91,6 @@ export const VisitorGuide: React.FC<VisitorGuideProps> = ({ onClose }) => {
           </div>
           <div className="flex items-center my-0.5">
             <p className="text-xs mr-1 italic">{t("coming.soon")}</p>
-            <img
-              src={socialScoreIcon}
-              alt={t("visitorGuide.socialPointsAlt")}
-              className="h-4"
-            />
           </div>
         </div>
       </div>

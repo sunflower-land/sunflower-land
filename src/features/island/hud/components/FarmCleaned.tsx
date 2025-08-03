@@ -33,7 +33,7 @@ export const FarmCleaned: React.FC = () => {
             </div>
           </div>
           <Label type="warning" icon={socialScoreIcon}>
-            {t("socialPoints", { points: 5 })}
+            {t("socialPoints", { points: 1 })}
           </Label>
         </div>
 
