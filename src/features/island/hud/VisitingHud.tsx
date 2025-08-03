@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 
 import { Balances } from "components/Balances";
 import { useActor, useSelector } from "@xstate/react";
@@ -26,6 +26,9 @@ import garbageBin from "assets/sfts/garbage_bin.webp";
 import socialPointsIcon from "assets/icons/social_score.webp";
 import loadingIcon from "assets/icons/timer.gif";
 import saveIcon from "assets/icons/save.webp";
+import { VisitorGuide } from "./components/VisitorGuide";
+import { Modal } from "components/ui/Modal";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 
 const _cheers = (state: MachineState) => {
   return state.context.visitorState?.inventory["Cheer"] ?? new Decimal(0);
@@ -44,6 +47,8 @@ const _hasUnsavedProgress = (state: MachineState) =>
 export const VisitingHud: React.FC = () => {
   const { gameService, shortcutItem, selectedItem, fromRoute } =
     useContext(Context);
+
+  const [showVisitorGuide, setShowVisitorGuide] = useState(true);
   const [gameState] = useActor(gameService);
   const cheers = useSelector(gameService, _cheers);
   const socialPoints = useSelector(gameService, _socialPoints);
@@ -70,6 +75,14 @@ export const VisitingHud: React.FC = () => {
 
   return (
     <HudContainer>
+      <Modal show={showVisitorGuide} onHide={() => setShowVisitorGuide(false)}>
+        <CloseButtonPanel
+          onClose={() => setShowVisitorGuide(false)}
+          bumpkinParts={gameState.context.state.bumpkin?.equipped}
+        >
+          <VisitorGuide />
+        </CloseButtonPanel>
+      </Modal>
       {!gameState.matches("landToVisitNotFound") && (
         <InnerPanel className="fixed px-2 pt-1 pb-2 bottom-2 left-1/2 -translate-x-1/2 z-50 flex flex-row">
           <div className="flex flex-col p-0.5">
