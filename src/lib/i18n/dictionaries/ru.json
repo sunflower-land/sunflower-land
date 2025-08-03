@@ -6253,5 +6253,12 @@
   "description.rat": "Умная маленькая крыса. Не очень красиво, но, возможно, оно предназначено для экосистемы фермы.",
   "description.snail": "Медленно движущаяся улитка. Занимает время, но добирается туда, куда нужно.",
   "description.pestNet": "Используется для ловли вредителей на фермах ваших друзей",
-  "clutter.trashBinFull": "Мусорное ведро заполнено"
+  "clutter.trashBinFull": "Мусорное ведро заполнено",
+  "visitorGuide.farmTitle": "Ферма {{username}}",
+  "visitorGuide.welcomeMessage": "Привет, Бампкин, добро пожаловать на мою ферму. Засучите рукава и помогите мне заработать очки в социальных сетях.",
+  "visitorGuide.pickupClutter": "Соберите 5 x беспорядка",
+  "visitorGuide.socialPointsAlt": "Социальные баллы",
+  "visitorGuide.cheerMonument": "Подбадривайте {{monument}}",
+  "visitorGuide.catchPests": "Поймайте 2 вредителей",
+  "visitorGuide.netRequired": "Требуется сетка"
 }

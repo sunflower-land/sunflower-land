@@ -6253,5 +6253,12 @@
   "description.rat": "영리한 작은 쥐.별로 예쁘지는 않지만 농장 생태계에 용도가 있는 걸지도 몰라요",
   "description.snail": "느리게 움직이는 달팽이.시간은 걸리지만 필요한 곳에 도착합니다.",
   "description.pestNet": "친구 농장에서 해충을 잡는 데 사용됩니다.",
-  "clutter.trashBinFull": "휴지통이 가득 찼습니다"
+  "clutter.trashBinFull": "휴지통이 가득 찼습니다",
+  "visitorGuide.farmTitle": "{{username}} 님의 농장",
+  "visitorGuide.welcomeMessage": "안녕 범프킨, 우리 농장에 온 걸 환영해소매를 걷어붙이고 소셜 포인트를 적립할 수 있게 도와주세요.",
+  "visitorGuide.pickupClutter": "클러터 5개를 주워",
+  "visitorGuide.socialPointsAlt": "소셜 포인트",
+  "visitorGuide.cheerMonument": "응원 {{monument}}",
+  "visitorGuide.catchPests": "해충 2마리 잡기",
+  "visitorGuide.netRequired": "순 필요"
 }

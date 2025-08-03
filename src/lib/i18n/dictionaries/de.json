@@ -6253,5 +6253,12 @@
   "description.rat": "Eine kluge kleine Ratte. Nicht sehr hübsch, aber vielleicht hat sie einen Zweck im Farm-Ökosystem.",
   "description.snail": "Eine sich langsam bewegende Schnecke. Sie braucht Zeit, kommt aber dahin, wo sie hin muss.",
   "description.pestNet": "Wird verwendet, um Schädlinge auf den Farmen deiner Freunde zu fangen",
-  "clutter.trashBinFull": "Mülleimer voll"
+  "clutter.trashBinFull": "Mülleimer voll",
+  "visitorGuide.farmTitle": "Die Farm von {{username}}",
+  "visitorGuide.welcomeMessage": "Hallo Bumpkin, willkommen auf meiner Farm. Krempeln Sie die Ärmel hoch und helfen Sie mir, Sozialpunkte zu sammeln.",
+  "visitorGuide.pickupClutter": "Sammle 5 x Clutter",
+  "visitorGuide.socialPointsAlt": "Soziale Punkte",
+  "visitorGuide.cheerMonument": "Jubel {{monument}}",
+  "visitorGuide.catchPests": "Fange 2 x Schädlinge",
+  "visitorGuide.netRequired": "Netz erforderlich"
 }

@@ -6253,5 +6253,12 @@
   "description.rat": "Zeki küçük bir fare. Çok güzel değil, ama belki de çiftlik ekosisteminde bir amacı var.",
   "description.snail": "Yavaş hareket eden bir salyangoz. Zamanını alır, ama gitmesi gereken yere ulaşır.",
   "description.pestNet": "Arkadaşlarınızın çiftliklerinde zararlıları yakalamak için kullanılır",
-  "clutter.trashBinFull": "Çöp kutusu dolu"
+  "clutter.trashBinFull": "Çöp kutusu dolu",
+  "visitorGuide.farmTitle": "{{username}} Çiftliği",
+  "visitorGuide.welcomeMessage": "Merhaba Bumpkin, çiftliğime hoş geldin. Kollarını aç ve sosyal puan kazanmama yardım et.",
+  "visitorGuide.pickupClutter": "5 x Dağınıklık topla",
+  "visitorGuide.socialPointsAlt": "Sosyal Puanlar",
+  "visitorGuide.cheerMonument": "tezahürat {{monument}}",
+  "visitorGuide.catchPests": "2 x Zararlıları yakalayın",
+  "visitorGuide.netRequired": "Net gerekli"
 }

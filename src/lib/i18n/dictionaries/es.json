@@ -6253,5 +6253,12 @@
   "description.rat": "Una pequeña rata inteligente. No es muy bonita, pero quizás tenga un propósito en el ecosistema agrícola.",
   "description.snail": "Un caracol que se mueve lentamente. Se toma su tiempo, pero llega a donde necesita ir.",
   "description.pestNet": "Se usa para atrapar plagas en las granjas de tus amigos",
-  "clutter.trashBinFull": "Cubo de basura lleno"
+  "clutter.trashBinFull": "Cubo de basura lleno",
+  "visitorGuide.farmTitle": "La granja de {{username}}",
+  "visitorGuide.welcomeMessage": "Hola Bumpkin, bienvenido a mi granja. Súbete las mangas y ayúdame a ganar puntos sociales.",
+  "visitorGuide.pickupClutter": "Recoge 5 x Clutter",
+  "visitorGuide.socialPointsAlt": "Puntos sociales",
+  "visitorGuide.cheerMonument": "Saludos {{monument}}",
+  "visitorGuide.catchPests": "Atrapa 2 plagas",
+  "visitorGuide.netRequired": "Neto requerido"
 }
