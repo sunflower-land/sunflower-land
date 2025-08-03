@@ -5621,7 +5621,6 @@
   "budBuff.aura.mythical.boost": "Aumento del potenziamento delle gemme del 400% (Aura)",
   "budBuff.type.sea.boost": "10% di probabilità di +1 pesce",
   "islandupgrade.confirmUpgrade": "Sei sicuro di voler passare a una nuova isola?",
-  "islandupgrade.warning1": "Assicurati di non avere nessuno dei seguenti nodi di risorse o edifici di cottura in corso. Questi non potranno essere raccolti e verranno ripristinati, quindi restituiti al tuo inventario.",
   "islandupgrade.warning2": "Sunstone Rock, House, Market, Fire Pit e Workbench rimarranno posizionati sulla tua terra.",
   "islandupgrade.warning3": "House, Market, Fire Pit e Workbench rimarranno sul tuo terreno.",
   "islandupgrade.empty.cropPlots": "I campi coltivati sono vuoti",
@@ -6247,5 +6246,6 @@
   "playerModal.theyCleanedYouCount.singular": "Hanno pulito la tua fattoria {{count}} tempo",
   "playerModal.youCleanedThemCount.plural": "Hai pulito la loro fattoria {{count}} volte",
   "playerModal.theyCleanedYouCount.plural": "Hanno pulito la tua fattoria {{count}} volte",
-  "playerModal.topFriend": "Miglior amico - {{username}}"
+  "playerModal.topFriend": "Miglior amico - {{username}}",
+  "islandupgrade.warning1": "Tutti i tuoi oggetti sulla tua terra verranno dissotterrati e restituiti al tuo inventario. Puoi accedervi dal tuo baule."
 }

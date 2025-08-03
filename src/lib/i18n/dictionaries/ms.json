@@ -5621,7 +5621,6 @@
   "budBuff.aura.mythical.boost": "+400% Peningkatan Peningkatan Bud (Aura)",
   "budBuff.type.sea.boost": "10% Peluang +1 Ikan",
   "islandupgrade.confirmUpgrade": "Adakah anda pasti ingin menaik taraf ke pulau baru?",
-  "islandupgrade.warning1": "Pastikan anda tidak mempunyai mana-mana nod sumber atau bangunan memasak berikut yang sedang dijalankan. Ini tidak akan dapat dituai dan akan ditetapkan semula, kemudian dikembalikan ke inventori anda.",
   "islandupgrade.warning2": "Sunstone Rock, House, Market, Fire Pit dan Workbench akan kekal diletakkan di tanah anda.",
   "islandupgrade.warning3": "Rumah, Pasar, Lubang Api dan Meja Kerja akan kekal diletakkan di tanah anda.",
   "islandupgrade.empty.cropPlots": "Plot Tanaman kosong",
@@ -6247,5 +6246,6 @@
   "playerModal.theyCleanedYouCount.singular": "Mereka membersihkan ladang anda {{count}} masa",
   "playerModal.youCleanedThemCount.plural": "Anda membersihkan ladang mereka {{count}} kali",
   "playerModal.theyCleanedYouCount.plural": "Mereka membersihkan ladang anda {{count}} kali",
-  "playerModal.topFriend": "Kawan teratas - {{username}}"
+  "playerModal.topFriend": "Kawan teratas - {{username}}",
+  "islandupgrade.warning1": "Semua barang anda di tanah anda akan digali dan dikembalikan ke inventori anda. Anda boleh mengaksesnya di dada anda."
 }

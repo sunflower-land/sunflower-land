@@ -5621,7 +5621,6 @@
   "budBuff.aura.mythical.boost": "Увеличение бутонов (аура): +400%",
   "budBuff.type.sea.boost": "Вероятность получения +1 рыбы: 10%",
   "islandupgrade.confirmUpgrade": "Вы действительно хотите переехать на новый остров?",
-  "islandupgrade.warning1": "Убедитесь, что у вас нет ни одного из следующих ресурсных узлов или кухонных зданий в стадии строительства. Их нельзя будет собрать, их можно будет обнулить, а затем вернуть в инвентарь.",
   "islandupgrade.warning2": "Скала Санстоун, дом, рынок, костровая яма и верстак останутся на вашей земле.",
   "islandupgrade.warning3": "Дом, рынок, место для костра и верстак останутся на вашей земле.",
   "islandupgrade.empty.cropPlots": "Земельные участки пусты",
@@ -6247,5 +6246,6 @@
   "playerModal.theyCleanedYouCount.singular": "Они убрали твою ферму {{count}} время",
   "playerModal.youCleanedThemCount.plural": "Вы убирали их ферму {{count}} раз",
   "playerModal.theyCleanedYouCount.plural": "Они убрали твою ферму {{count}} раз",
-  "playerModal.topFriend": "Лучший друг - {{username}}"
+  "playerModal.topFriend": "Лучший друг - {{username}}",
+  "islandupgrade.warning1": "Все ваши предметы на вашей земле будут выкопаны и возвращены в ваш инвентарь. Вы можете получить к ним доступ в сундуке."
 }

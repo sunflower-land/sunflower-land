@@ -5621,7 +5621,6 @@
   "budBuff.aura.mythical.boost": "+400% Tomurcuk Artışı (Aura)",
   "budBuff.type.sea.boost": "%10 +1 Balık Şansı",
   "islandupgrade.confirmUpgrade": "Yeni bir adaya yükseltmek istediğinizden emin misiniz?",
-  "islandupgrade.warning1": "Aşağıdaki kaynak düğümlerinden veya devam etmekte olan pişirme binalarından hiçbirine sahip olmadığınızdan emin olun. Bunlar hasat edilemeyecek ve sıfırlanacak, ardından envanterinize geri gönderilecektir.",
   "islandupgrade.warning2": "Sunstone Rock, Ev, Market, Ateş Çukuru ve Tezgah arazinizde yer alacaktır.",
   "islandupgrade.warning3": "Ev, Pazar, Ateş Çukuru ve Tezgah arazinizde yer alacaktır.",
   "islandupgrade.empty.cropPlots": "Mahsul arazileri boş",
@@ -6247,5 +6246,6 @@
   "playerModal.theyCleanedYouCount.singular": "Çiftliğinizi temizlediler {{count}} zamanı",
   "playerModal.youCleanedThemCount.plural": "Çiftliğini {{count}} kez temizledin",
   "playerModal.theyCleanedYouCount.plural": "Çiftliğinizi {{count}} kez temizlediler",
-  "playerModal.topFriend": "En iyi arkadaş - {{username}}"
+  "playerModal.topFriend": "En iyi arkadaş - {{username}}",
+  "islandupgrade.warning1": "Arazinizdeki tüm eşyalarınız kazılacak ve envanterinize iade edilecektir. Onlara göğsünüzden erişebilirsiniz."
 }

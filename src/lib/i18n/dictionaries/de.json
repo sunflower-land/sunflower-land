@@ -5621,7 +5621,6 @@
   "budBuff.aura.mythical.boost": "+400% Erhöhung des Knospenboosts (Aura)",
   "budBuff.type.sea.boost": "10% Chance auf +1 Fisch",
   "islandupgrade.confirmUpgrade": "Bist du sicher, dass du auf eine neue Insel upgraden möchtest?",
-  "islandupgrade.warning1": "Vergewissere dich, dass keiner der folgenden Ressourcenknoten oder Kochgebäude in Bearbeitung ist. Diese können nicht geerntet werden und werden zurückgesetzt und dann wieder in dein Inventar aufgenommen.",
   "islandupgrade.warning2": "Sonnensteinfelsen, Haus, Markt, Feuerstelle und Werkbank bleiben auf deinem Grundstück.",
   "islandupgrade.warning3": "Haus, Markt, Feuerstelle und Werkbank bleiben auf deinem Grundstück stehen.",
   "islandupgrade.empty.cropPlots": "Anbauflächen sind leer",
@@ -6247,5 +6246,6 @@
   "playerModal.theyCleanedYouCount.singular": "Sie haben deine Farm {{count}} -Zeit gereinigt",
   "playerModal.youCleanedThemCount.plural": "Du hast ihre Farm {{count}} mal gereinigt",
   "playerModal.theyCleanedYouCount.plural": "Sie haben deine Farm {{count}} mal gereinigt",
-  "playerModal.topFriend": "Top Freund - {{username}}"
+  "playerModal.topFriend": "Top Freund - {{username}}",
+  "islandupgrade.warning1": "Alle deine Gegenstände auf deinem Land werden ausgegraben und wieder in dein Inventar aufgenommen. Du kannst in deiner Truhe auf sie zugreifen."
 }

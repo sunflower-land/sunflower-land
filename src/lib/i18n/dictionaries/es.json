@@ -5621,7 +5621,6 @@
   "budBuff.aura.mythical.boost": "+400% de aumento de potencia de cogollos (aura)",
   "budBuff.type.sea.boost": "10% de probabilidad de obtener +1 pez",
   "islandupgrade.confirmUpgrade": "¿Estás seguro de que quieres cambiarte a una nueva isla?",
-  "islandupgrade.warning1": "Asegúrate de no tener ninguno de los siguientes nodos de recursos o edificios de cocina en progreso. No podrás cosecharlos, se restablecerán y, a continuación, se devolverán a tu inventario.",
   "islandupgrade.warning2": "Tu Roca Solar, la Casa, El Mercado, la Hoguera y el Banco de Trabajo permanecerán en su terreno.",
   "islandupgrade.warning3": "La casa, el mercado, la hoguera y el banco de trabajo permanecerán en su terreno.",
   "islandupgrade.empty.cropPlots": "Las parcelas de cultivo están vacías",
@@ -6247,5 +6246,6 @@
   "playerModal.theyCleanedYouCount.singular": "Limpiaron tu granja {{count}} a la hora",
   "playerModal.youCleanedThemCount.plural": "Has limpiado su granja {{count}} veces",
   "playerModal.theyCleanedYouCount.plural": "Limpiaron tu granja {{count}} veces",
-  "playerModal.topFriend": "Mejor amigo - {{username}}"
+  "playerModal.topFriend": "Mejor amigo - {{username}}",
+  "islandupgrade.warning1": "Todos los objetos que tengas en tu terreno serán desenterrados y devueltos a tu inventario. Puedes acceder a ellos desde tu cofre."
 }

@@ -5621,7 +5621,6 @@
   "budBuff.aura.mythical.boost": "+400% 蕾芽增益（光环）",
   "budBuff.type.sea.boost": "10% 几率获得 +1 条鱼",
   "islandupgrade.confirmUpgrade": "你确定要升级到新岛吗？",
-  "islandupgrade.warning1": "确保你没有正在建造的以下任何资源节点或烹饪建筑。这些物品将无法收获并会被重置，然后返回到您的库存中。",
   "islandupgrade.warning2": "太阳石脉、房屋、市场、火坑和工作台将保留在你的土地上。",
   "islandupgrade.warning3": "房屋、市场、火坑和工作台将保留在你的土地上。",
   "islandupgrade.empty.cropPlots": "田坑已无庄稼",
@@ -6247,5 +6246,6 @@
   "playerModal.theyCleanedYouCount.singular": "他们清理了你的农场 {{count}} 次",
   "playerModal.youCleanedThemCount.plural": "你清理了他们的农场 {{count}} 次",
   "playerModal.theyCleanedYouCount.plural": "他们清理了你的农场 {{count}} 次",
-  "playerModal.topFriend": "好友-{{username}}"
+  "playerModal.topFriend": "好友-{{username}}",
+  "islandupgrade.warning1": "你在土地上的所有物品都将被挖出来并归还到你的库存中。你可以在你的胸口访问它们。"
 }

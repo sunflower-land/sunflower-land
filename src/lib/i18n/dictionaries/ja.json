@@ -5621,7 +5621,6 @@
   "budBuff.aura.mythical.boost": "+400% バドブースト増加 (オーラ)",
   "budBuff.type.sea.boost": "10% の確率で+1フィッシュ獲得",
   "islandupgrade.confirmUpgrade": "新しい島にアップグレードしてもよろしいですか？",
-  "islandupgrade.warning1": "以下のリソースノードや調理施設が進行中でないことを確認してください。これらは収穫できず、リセットされてからインベントリに戻されます。",
   "islandupgrade.warning2": "サンストーンロック、ハウス、マーケット、ファイヤーピット、ワークベンチはあなたの土地に残ります。",
   "islandupgrade.warning3": "ハウス、マーケット、ファイヤーピット、ワークベンチはあなたの土地に残ります。",
   "islandupgrade.empty.cropPlots": "クロッププロットは空です",
@@ -6247,5 +6246,6 @@
   "playerModal.theyCleanedYouCount.singular": "彼らはあなたの農場を掃除しました {{count}} 時間",
   "playerModal.youCleanedThemCount.plural": "あなたは彼らの農場を {{count}} 回掃除しました",
   "playerModal.theyCleanedYouCount.plural": "彼らはあなたの農場を {{count}} 回掃除しました",
-  "playerModal.topFriend": "トップフレンド-{{username}}"
+  "playerModal.topFriend": "トップフレンド-{{username}}",
+  "islandupgrade.warning1": "土地にあるすべてのアイテムが掘り起こされ、インベントリに戻されます。これらのアイテムはチェストからアクセスできます。"
 }

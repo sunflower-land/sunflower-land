@@ -5621,7 +5621,6 @@
   "budBuff.aura.mythical.boost": "+400% de aumento de Bud Boost (Aura)",
   "budBuff.type.sea.boost": "10% de chance de +1 peixe",
   "islandupgrade.confirmUpgrade": "Tem certeza de que deseja fazer o upgrade para uma nova ilha?",
-  "islandupgrade.warning1": "Certifique-se de não ter nenhum dos seguintes nós de recursos ou edifícios de cozinha em andamento. Eles não poderão ser colhidos e serão redefinidos e, em seguida, devolvidos ao seu inventário.",
   "islandupgrade.warning2": "Sunstone Rock, House, Market, Fire Pit e Workbench permanecerão em seu terreno.",
   "islandupgrade.warning3": "A casa, o mercado, a fogueira e a bancada de trabalho permanecerão em seu terreno.",
   "islandupgrade.empty.cropPlots": "Os lotes de cultivo estão vazios",
@@ -6247,5 +6246,6 @@
   "playerModal.theyCleanedYouCount.singular": "Eles limparam sua fazenda {{count}} vez",
   "playerModal.youCleanedThemCount.plural": "Você limpou a fazenda deles {{count}} vezes",
   "playerModal.theyCleanedYouCount.plural": "Eles limparam sua fazenda {{count}} vezes",
-  "playerModal.topFriend": "Melhor amigo - {{username}}"
+  "playerModal.topFriend": "Melhor amigo - {{username}}",
+  "islandupgrade.warning1": "Todos os seus itens em sua terra serão desenterrados e devolvidos ao seu inventário. Você pode acessá-los em seu peito."
 }

@@ -5621,7 +5621,6 @@
   "budBuff.aura.mythical.boost": "Augmentation de +400 % du boost des bourgeons (aura)",
   "budBuff.type.sea.boost": "10 % de chances d'obtenir +1 poisson",
   "islandupgrade.confirmUpgrade": "Êtes-vous sûr de vouloir passer à une nouvelle île ?",
-  "islandupgrade.warning1": "Assurez-vous qu'aucun des nœuds de ressources ou bâtiments de cuisine suivants n'est en cours de construction. Ils ne pourront pas être récoltés et seront réinitialisés, puis renvoyés dans votre inventaire.",
   "islandupgrade.warning2": "Sunstone Rock, House, Market, Fire Pit et Workbench resteront placés sur votre terrain.",
   "islandupgrade.warning3": "La maison, le marché, le foyer et l'établi resteront placés sur votre terrain.",
   "islandupgrade.empty.cropPlots": "Les parcelles de culture sont vides",
@@ -6247,5 +6246,6 @@
   "playerModal.theyCleanedYouCount.singular": "Ils ont nettoyé votre ferme {{count}} fois",
   "playerModal.youCleanedThemCount.plural": "Vous avez nettoyé leur ferme {{count}} fois",
   "playerModal.theyCleanedYouCount.plural": "Ils ont nettoyé votre ferme {{count}} fois",
-  "playerModal.topFriend": "Meilleur ami - {{username}}"
+  "playerModal.topFriend": "Meilleur ami - {{username}}",
+  "islandupgrade.warning1": "Tous les objets qui se trouvent sur votre terrain seront déterrés et réintégrés à votre inventaire. Vous pouvez y accéder dans votre poitrine."
 }
