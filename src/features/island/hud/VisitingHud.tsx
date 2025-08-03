@@ -4,10 +4,8 @@ import { Balances } from "components/Balances";
 import { useActor, useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 
-import { Inventory } from "./components/inventory/Inventory";
 import { InnerPanel } from "components/ui/Panel";
 import { BumpkinProfile } from "./components/BumpkinProfile";
-import { InventoryItemName } from "features/game/types/game";
 import { Settings } from "./components/Settings";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import Decimal from "decimal.js-light";
@@ -91,12 +89,8 @@ export const VisitingHud: React.FC = () => {
   );
 
   const handleEndVisit = () => {
-    if (hasUnsavedProgress) {
-      gameService.send("SAVE");
-    } else {
-      navigate(fromRoute ?? "/");
-      gameService.send("END_VISIT");
-    }
+    navigate(fromRoute ?? "/");
+    gameService.send("END_VISIT");
   };
 
   const displayId =
@@ -154,17 +148,8 @@ export const VisitingHud: React.FC = () => {
           gems={gameState.context.state.inventory["Gem"] ?? new Decimal(0)}
         />
       </div>
+
       <div className="absolute right-0 top-16 p-2.5">
-        <Inventory
-          state={gameState.context.state}
-          shortcutItem={shortcutItem}
-          selectedItem={selectedItem as InventoryItemName}
-          isFarming={false}
-          isFullUser={false}
-          hideActions
-        />
-      </div>
-      <div className="absolute right-0 top-32 p-2.5">
         <RoundButton
           onClick={(e) => {
             e.stopPropagation();
@@ -183,7 +168,7 @@ export const VisitingHud: React.FC = () => {
           />
         </RoundButton>
       </div>
-      <div className="absolute right-0 top-48 p-2.5">
+      <div className="absolute right-0 top-32 p-2.5">
         <RoundButton
           onClick={(e) => {
             e.stopPropagation();
@@ -225,6 +210,45 @@ export const VisitingHud: React.FC = () => {
       <div
         className="fixed z-50"
         style={{
+          right: `${PIXEL_SCALE * 3}px`,
+          bottom: `${PIXEL_SCALE * 28}px`,
+          width: `${PIXEL_SCALE * 22}px`,
+          height: `${PIXEL_SCALE * 23}px`,
+        }}
+      >
+        <RoundButton
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            gameService.send("SAVE");
+          }}
+        >
+          {saving ? (
+            <img
+              src={loadingIcon}
+              className="absolute group-active:translate-y-[2px]"
+              style={{
+                top: `${PIXEL_SCALE * 5}px`,
+                left: `${PIXEL_SCALE * 7}px`,
+                width: `${PIXEL_SCALE * 8}px`,
+              }}
+            />
+          ) : (
+            <img
+              src={saveIcon}
+              className="absolute group-active:translate-y-[2px]"
+              style={{
+                top: `${PIXEL_SCALE * 4}px`,
+                left: `${PIXEL_SCALE * 5}px`,
+                width: `${PIXEL_SCALE * 12}px`,
+              }}
+            />
+          )}
+        </RoundButton>
+      </div>
+      <div
+        className="fixed z-50"
+        style={{
           left: `${PIXEL_SCALE * 3}px`,
           bottom: `${PIXEL_SCALE * 3}px`,
           width: `${PIXEL_SCALE * 22}px`,
@@ -238,38 +262,16 @@ export const VisitingHud: React.FC = () => {
             handleEndVisit();
           }}
         >
-          {saving ? (
-            <img
-              src={loadingIcon}
-              className="absolute group-active:translate-y-[2px]"
-              style={{
-                top: `${PIXEL_SCALE * 5}px`,
-                left: `${PIXEL_SCALE * 7}px`,
-                width: `${PIXEL_SCALE * 8}px`,
-              }}
-            />
-          ) : hasUnsavedProgress ? (
-            <img
-              src={saveIcon}
-              className="absolute group-active:translate-y-[2px]"
-              style={{
-                top: `${PIXEL_SCALE * 4}px`,
-                left: `${PIXEL_SCALE * 5}px`,
-                width: `${PIXEL_SCALE * 12}px`,
-              }}
-            />
-          ) : (
-            <img
-              src={SUNNYSIDE.icons.arrow_left}
-              alt="End visit"
-              className="absolute"
-              style={{
-                width: `${PIXEL_SCALE * 12}px`,
-                left: `${PIXEL_SCALE * 5}px`,
-                top: `${PIXEL_SCALE * 4}px`,
-              }}
-            />
-          )}
+          <img
+            src={SUNNYSIDE.icons.arrow_left}
+            alt="End visit"
+            className="absolute"
+            style={{
+              width: `${PIXEL_SCALE * 12}px`,
+              left: `${PIXEL_SCALE * 5}px`,
+              top: `${PIXEL_SCALE * 4}px`,
+            }}
+          />
         </RoundButton>
       </div>
     </HudContainer>
