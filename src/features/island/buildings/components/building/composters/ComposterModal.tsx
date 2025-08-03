@@ -197,7 +197,7 @@ const FertiliserLabel: React.FC<{
         type="success"
         className="text-xs whitespace-pre-line"
       >
-        {`+${getFruitfulBlendBuff(state)}`} {t("fruit")}
+        {`+${getFruitfulBlendBuff(state).amount}`} {t("fruit")}
       </Label>
     );
   }
