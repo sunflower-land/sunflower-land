@@ -509,22 +509,6 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
               request={requestBubbleRequest()}
             />
           )}
-          <Modal
-            show={showAnimalDetails}
-            onHide={() => setShowAnimalDetails(false)}
-          >
-            <CloseButtonPanel
-              container={OuterPanel}
-              onClose={() => setShowAnimalDetails(false)}
-            >
-              <SleepingAnimalModal
-                id={chicken.id}
-                animal={chicken}
-                awakeAt={chicken.awakeAt}
-                onClose={() => setShowAnimalDetails(false)}
-              />
-            </CloseButtonPanel>
-          </Modal>
         </div>
         <InfoPopover
           showPopover={
@@ -537,6 +521,22 @@ export const Chicken: React.FC<{ id: string; disabled: boolean }> = ({
           </p>
         </InfoPopover>
       </div>
+      <Modal
+        show={showAnimalDetails}
+        onHide={() => setShowAnimalDetails(false)}
+      >
+        <CloseButtonPanel
+          container={OuterPanel}
+          onClose={() => setShowAnimalDetails(false)}
+        >
+          <SleepingAnimalModal
+            id={chicken.id}
+            animal={chicken}
+            awakeAt={chicken.awakeAt}
+            onClose={() => setShowAnimalDetails(false)}
+          />
+        </CloseButtonPanel>
+      </Modal>
       {/* Level Progress */}
       <LevelProgress
         animalState={chickenMachineState}
