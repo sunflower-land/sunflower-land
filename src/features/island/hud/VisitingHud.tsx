@@ -20,8 +20,11 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { NPCIcon } from "../bumpkin/components/NPC";
 import cheer from "assets/icons/cheer.webp";
 import { Label } from "components/ui/Label";
-import { getTrashBinItems, useCleanFarm } from "../clutter/Clutter";
-import { TRASH_BIN_DAILY_LIMIT } from "features/game/events/landExpansion/collectClutter";
+import { getTrashBinItems, hasCleanedToday } from "../clutter/Clutter";
+import {
+  TRASH_BIN_DAILY_LIMIT,
+  TRASH_BIN_FARM_LIMIT,
+} from "features/game/events/landExpansion/collectClutter";
 import garbageBin from "assets/sfts/garbage_bin.webp";
 import socialPointsIcon from "assets/icons/social_score.webp";
 import loadingIcon from "assets/icons/timer.gif";
@@ -30,6 +33,7 @@ import choreIcon from "assets/icons/chores.webp";
 import { VisitorGuide } from "./components/VisitorGuide";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { FarmCleaned } from "./components/FarmCleaned";
 
 const _cheers = (state: MachineState) => {
   return state.context.visitorState?.inventory["Cheer"] ?? new Decimal(0);
@@ -40,6 +44,20 @@ const _socialPoints = (state: MachineState) => {
 const _autosaving = (state: MachineState) => state.matches("autosaving");
 const _hasUnsavedProgress = (state: MachineState) =>
   state.context.actions.length > 0;
+
+const _showCleanedModal = (state: MachineState) => {
+  const currentClutter =
+    state.context.visitorState?.socialFarming?.dailyCollections;
+
+  // If all 5 collected, pop up modal
+  const collectedClutter = Object.keys(
+    currentClutter?.[state.context.farmId]?.clutter ?? {},
+  );
+
+  return (
+    collectedClutter.length === TRASH_BIN_FARM_LIMIT && !hasCleanedToday(state)
+  );
+};
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -55,10 +73,10 @@ export const VisitingHud: React.FC = () => {
   const socialPoints = useSelector(gameService, _socialPoints);
   const saving = useSelector(gameService, _autosaving);
   const hasUnsavedProgress = useSelector(gameService, _hasUnsavedProgress);
+  const showCleanedModal = useSelector(gameService, _showCleanedModal);
 
   const { t } = useAppTranslation();
   const navigate = useNavigate();
-  useCleanFarm();
 
   const trashBinItems = getTrashBinItems(gameState);
 
@@ -81,6 +99,13 @@ export const VisitingHud: React.FC = () => {
           bumpkinParts={gameState.context.state.bumpkin?.equipped}
         >
           <VisitorGuide onClose={() => setShowVisitorGuide(false)} />
+        </CloseButtonPanel>
+      </Modal>
+      <Modal show={showCleanedModal}>
+        <CloseButtonPanel
+          bumpkinParts={gameState.context.state.bumpkin?.equipped}
+        >
+          <FarmCleaned />
         </CloseButtonPanel>
       </Modal>
       {!gameState.matches("landToVisitNotFound") && (
