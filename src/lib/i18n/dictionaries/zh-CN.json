@@ -6268,5 +6268,8 @@
   "cleaning.farm": "通知 Bumpkin",
   "visitorGuide.welcomeMessage": "你好 Bumpkin，欢迎来到我的农场。卷起袖子来帮我。谁知道，我可能会回馈你的青睐！",
   "visiting.cleaned": "已清理",
-  "visiting.thanks": "感谢你打扫我的农场！"
+  "visiting.thanks": "感谢你打扫我的农场！",
+  "visitorGuide.clutter": "找到隐藏的粪便、杂草和垃圾。",
+  "visitorGuide.pets": "捕捉厚脸皮的害虫",
+  "visitorGuide.monument": "帮我完成项目"
 }

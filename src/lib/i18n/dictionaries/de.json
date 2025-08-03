@@ -6268,5 +6268,8 @@
   "cleaning.farm": "Bumpkin benachrichtigen",
   "visitorGuide.welcomeMessage": "Hallo Bumpkin, willkommen auf meiner Farm. Krempeln Sie die Ärmel hoch und helfen Sie mir. Wer weiß, vielleicht erwidere ich den Gefallen!",
   "visiting.cleaned": "Gereinigt",
-  "visiting.thanks": "Danke für die Reinigung meiner Farm!"
+  "visiting.thanks": "Danke für die Reinigung meiner Farm!",
+  "visitorGuide.clutter": "Finde den versteckten Mist, Unkraut und Müll.",
+  "visitorGuide.pets": "Fang die frechen Plagegeister",
+  "visitorGuide.monument": "Hilf mir, das Projekt zu beenden"
 }

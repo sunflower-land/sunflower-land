@@ -6268,5 +6268,8 @@
   "cleaning.farm": "Memberi tahu Bumpkin",
   "visitorGuide.welcomeMessage": "Howdy Bumpkin, selamat datang di peternaku. Gulung lengan bajumu dan bantu aku keluar. Siapa tahu, saya mungkin membalas budi!",
   "visiting.cleaned": "Dibersihkan",
-  "visiting.thanks": "Terima kasih telah membersihkan peternakan saya!"
+  "visiting.thanks": "Terima kasih telah membersihkan peternakan saya!",
+  "visitorGuide.clutter": "Temukan kotoran tersembunyi, gulma & sampah.",
+  "visitorGuide.pets": "Tangkap hama nakal",
+  "visitorGuide.monument": "Bantu saya menyelesaikan proyek"
 }

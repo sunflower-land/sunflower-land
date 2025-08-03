@@ -6268,5 +6268,8 @@
   "cleaning.farm": "Notificando a Bumpkin",
   "visitorGuide.welcomeMessage": "Hola Bumpkin, bienvenido a mi granja. Súbete las mangas y ayúdame. ¡Quién sabe, puede que te devuelva el favor!",
   "visiting.cleaned": "Limpiado",
-  "visiting.thanks": "¡Gracias por limpiar mi granja!"
+  "visiting.thanks": "¡Gracias por limpiar mi granja!",
+  "visitorGuide.clutter": "Encuentra el estiércol, la maleza y la basura escondidos.",
+  "visitorGuide.pets": "Atrapa las descaradas plagas",
+  "visitorGuide.monument": "Ayúdame a terminar el proyecto"
 }

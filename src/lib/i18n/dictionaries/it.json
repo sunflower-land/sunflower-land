@@ -6268,5 +6268,8 @@
   "cleaning.farm": "Notifica a Bumpkin",
   "visitorGuide.welcomeMessage": "Salve Bumpkin, benvenuto nella mia fattoria. Rimboccati le maniche e aiutami. Chissà, potrei ricambiare il favore!",
   "visiting.cleaned": "Pulito",
-  "visiting.thanks": "Grazie per aver pulito la mia fattoria!"
+  "visiting.thanks": "Grazie per aver pulito la mia fattoria!",
+  "visitorGuide.clutter": "Trova lo sterco, le erbacce e la spazzatura nascosti.",
+  "visitorGuide.pets": "Cattura i parassiti impertinenti",
+  "visitorGuide.monument": "Aiutami a finire il progetto"
 }
