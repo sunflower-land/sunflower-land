@@ -13,6 +13,7 @@ import { getBumpkinLevel } from "features/game/lib/level";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useSelector } from "@xstate/react";
 import { RoundButton } from "components/ui/RoundButton";
+import { isMobile } from "mobile-device-detect";
 
 const _delivery = (state: MachineState) => state.context.state.delivery;
 const _level = (state: MachineState) =>
@@ -38,8 +39,8 @@ export const CodexButton: React.FC = () => {
     <div
       className="absolute"
       style={{
-        top: `${PIXEL_SCALE * 29}px`,
-        left: `${PIXEL_SCALE * 28}px`,
+        top: `${PIXEL_SCALE * (isMobile ? 33.5 : 29)}px`,
+        left: `${PIXEL_SCALE * (isMobile ? 23.5 : 28)}px`,
       }}
     >
       <RoundButton
@@ -48,19 +49,19 @@ export const CodexButton: React.FC = () => {
           e.preventDefault();
           setIsOpen(true);
         }}
-        buttonSize={18}
+        buttonSize={isMobile ? 15 : 18}
       >
         <div
           className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
           style={{
-            width: `${PIXEL_SCALE * 12}px`,
+            width: `${PIXEL_SCALE * (isMobile ? 10 : 12)}px`,
           }}
         >
           <img
             src={codex}
             className="group-active:translate-y-[2px]"
             style={{
-              width: `${PIXEL_SCALE * 12}px`,
+              width: `${PIXEL_SCALE * (isMobile ? 10 : 12)}px`,
             }}
           />
         </div>
@@ -133,7 +134,7 @@ export const CodexButton: React.FC = () => {
               src={SUNNYSIDE.ui.coins}
               className="absolute animate-pulsate sm:hidden"
               style={{
-                width: "30px",
+                width: "27px",
                 top: "-2px",
                 right: "-10px",
               }}

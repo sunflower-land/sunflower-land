@@ -25,6 +25,7 @@ import {
 } from "features/game/lib/temperateSeason";
 import { SeasonsIntroduction } from "./SeasonsIntroduction";
 import { RoundButton } from "components/ui/RoundButton";
+import { isMobile } from "mobile-device-detect";
 
 export type LocalCalendarDetails = {
   dateNumber: number;
@@ -126,8 +127,8 @@ const GameCalendarButton: React.FC<GameCalendarButtonProps> = ({
   <div
     className="absolute"
     style={{
-      top: `${PIXEL_SCALE * 38}px`,
-      left: `${PIXEL_SCALE * 5}px`,
+      top: `${PIXEL_SCALE * (isMobile ? 37 : 38)}px`,
+      left: `${PIXEL_SCALE * (isMobile ? 4 : 5)}px`,
     }}
   >
     <RoundButton
@@ -135,15 +136,15 @@ const GameCalendarButton: React.FC<GameCalendarButtonProps> = ({
         e.stopPropagation();
         onClick();
       }}
-      buttonSize={18}
+      buttonSize={isMobile ? 15 : 18}
     >
       <img
         src={calendarIcon}
         className="absolute group-active:translate-y-[2px]"
         style={{
-          width: `${PIXEL_SCALE * 10}px`,
-          left: `${PIXEL_SCALE * 3.5}px`,
-          top: `${PIXEL_SCALE * 3}px`,
+          width: `${PIXEL_SCALE * (isMobile ? 9 : 10)}px`,
+          left: `${PIXEL_SCALE * (isMobile ? 2.5 : 3.5)}px`,
+          top: `${PIXEL_SCALE * (isMobile ? 2 : 3)}px`,
         }}
       />
       {showTutorial && (
@@ -152,9 +153,9 @@ const GameCalendarButton: React.FC<GameCalendarButtonProps> = ({
           src={SUNNYSIDE.icons.click_icon}
           onClick={() => onClick()}
           style={{
-            width: `${PIXEL_SCALE * 15}px`,
-            left: `${PIXEL_SCALE * 12}px`,
-            top: `${PIXEL_SCALE * 12}px`,
+            width: `${PIXEL_SCALE * (isMobile ? 12 : 15)}px`,
+            left: `${PIXEL_SCALE * (isMobile ? 10 : 12)}px`,
+            top: `${PIXEL_SCALE * (isMobile ? 10 : 12)}px`,
           }}
         />
       )}
