@@ -6268,5 +6268,8 @@
   "visitorGuide.catchPests": "Catch 2 x Pests",
   "visitorGuide.netRequired": "Net required",
   "visiting.cleaned": "Cleaned",
-  "visiting.thanks": "Thanks for cleaning my farm!"
+  "visiting.thanks": "Thanks for cleaning my farm!",
+  "visitorGuide.clutter": "Find the hidden dung, weeds & garbage.",
+  "visitorGuide.pets": "Catch the cheeky pests",
+  "visitorGuide.monument": "Help me finsih the project"
 }

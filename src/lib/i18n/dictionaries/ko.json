@@ -6268,5 +6268,8 @@
   "cleaning.farm": "범프킨에 알림",
   "visitorGuide.welcomeMessage": "안녕 범프킨, 우리 농장에 온 걸 환영해소매 걷어붙이고 나 좀 도와줘누가 알겠어요, 제가 그 은혜를 갚을 수 있을지도 몰라요!",
   "visiting.cleaned": "청소 완료",
-  "visiting.thanks": "농장을 청소해 주셔서 감사합니다!"
+  "visiting.thanks": "농장을 청소해 주셔서 감사합니다!",
+  "visitorGuide.clutter": "숨겨진 배설물, 잡초, 쓰레기를 찾으세요.",
+  "visitorGuide.pets": "건방진 해충을 잡아라",
+  "visitorGuide.monument": "프로젝트 완료를 도와주세요."
 }

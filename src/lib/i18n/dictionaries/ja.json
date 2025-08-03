@@ -6268,5 +6268,8 @@
   "cleaning.farm": "バンプキンへの通知",
   "visitorGuide.welcomeMessage": "やあ、バンプキン、私の農場へようこそ。袖をまくり上げて私を助けてください。お返しするかもしれないけど！",
   "visiting.cleaned": "クリーニング済み",
-  "visiting.thanks": "農場を掃除してくれてありがとう！"
+  "visiting.thanks": "農場を掃除してくれてありがとう！",
+  "visitorGuide.clutter": "隠された糞、雑草、ゴミを見つけてください。",
+  "visitorGuide.pets": "生意気な害虫を捕まえろ",
+  "visitorGuide.monument": "プロジェクトを完了するのを手伝ってください"
 }
