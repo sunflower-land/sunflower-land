@@ -40,6 +40,12 @@ import {
 } from "features/game/events/landExpansion/buySeasonalItem";
 import { REWARD_BOXES } from "features/game/types/rewardBoxes";
 import { secondsToString } from "lib/utils/time";
+import {
+  BUMPKIN_RELEASES,
+  INVENTORY_RELEASES,
+} from "features/game/types/withdrawables";
+
+import lockIcon from "assets/icons/lock.png";
 
 interface ItemOverlayProps {
   item: SeasonalStoreItem | null;
@@ -320,6 +326,11 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
 
     return currencyItem;
   };
+
+  const isTradeable = isWearable
+    ? (item as SeasonalStoreWearable)?.wearable in BUMPKIN_RELEASES
+    : (item as SeasonalStoreCollectible)?.collectible in INVENTORY_RELEASES;
+
   return (
     <InnerPanel className="shadow">
       {isVisible && (
@@ -415,6 +426,17 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                         })}
                       </Label>
                     )}
+
+                    {!isTradeable && (
+                      <Label
+                        type="formula"
+                        icon={lockIcon}
+                        className="text-xxs"
+                      >
+                        {t("season.megastore.nonTradeable")}
+                      </Label>
+                    )}
+
                     {itemReq &&
                       (sfl !== 0 ? (
                         <div className="flex flex-1 content-start flex-col flex-wrap">

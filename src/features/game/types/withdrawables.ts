@@ -384,6 +384,10 @@ export const BUMPKIN_RELEASES: Partial<Record<BumpkinItem, Releases>> = {
     tradeAt: SEASONS["Great Bloom"].endDate,
     withdrawAt: SEASONS["Great Bloom"].endDate,
   },
+  "Flower Mask": {
+    tradeAt: SEASONS["Great Bloom"].endDate,
+    withdrawAt: SEASONS["Great Bloom"].endDate,
+  },
   "Amberfall Suit": {
     tradeAt: SEASONS["Great Bloom"].endDate,
     withdrawAt: SEASONS["Great Bloom"].endDate,
@@ -1115,10 +1119,8 @@ export const INVENTORY_RELEASES: Partial<Record<InventoryItemName, Releases>> =
       tradeAt: SEASONS["Better Together"].endDate,
       withdrawAt: SEASONS["Better Together"].endDate,
     },
-    "Double Bed": {
-      tradeAt: SEASONS["Better Together"].endDate,
-      withdrawAt: SEASONS["Better Together"].endDate,
-    },
+    // Double bed is not tradeable - explicitly set her to avoid accidental trade
+    "Double Bed": undefined,
     "Giant Artichoke": {
       tradeAt: SEASONS["Better Together"].endDate,
       withdrawAt: SEASONS["Better Together"].endDate,
