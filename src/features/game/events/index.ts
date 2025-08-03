@@ -526,6 +526,10 @@ import {
   FlipCollectibleAction,
 } from "./landExpansion/flipCollectible";
 import { CatchPestAction, catchPest } from "./landExpansion/catchPest";
+import {
+  completeProject,
+  CompleteProjectAction,
+} from "./landExpansion/completeProject";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
@@ -671,7 +675,8 @@ export type PlayingEvent =
   | BuyBiomeAction
   | ApplyBiomeAction
   | WakeUpAnimalAction
-  | ClaimCheersAction;
+  | ClaimCheersAction
+  | CompleteProjectAction;
 
 export type VisitingEvent = CollectClutterAction | CatchPestAction;
 
@@ -902,6 +907,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "biome.applied": applyBiome,
   "animal.wakeUp": wakeAnimal,
   "cheers.claimed": claimDailyCheers,
+  "project.completed": completeProject,
 };
 
 export const VISITING_EVENTS: Handlers<VisitingEvent> = {

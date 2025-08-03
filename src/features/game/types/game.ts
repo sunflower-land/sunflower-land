@@ -1790,8 +1790,6 @@ export interface GameState {
   };
   blessing: Blessing;
 
-  monuments?: Partial<Record<MonumentName, { createdAt: number }>>;
-
   aoe: AOE;
   socialFarming: {
     points: number;
