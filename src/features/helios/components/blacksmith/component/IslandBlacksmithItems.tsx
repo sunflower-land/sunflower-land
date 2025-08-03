@@ -29,6 +29,8 @@ import {
 import { GameState } from "features/game/types/game";
 import { Label } from "components/ui/Label";
 import { hasFeatureAccess } from "lib/flags";
+import cheer from "assets/icons/cheer.webp";
+import { REQUIRED_CHEERS } from "features/game/events/landExpansion/completeProject";
 
 const VALID_EQUIPMENT: HeliosBlacksmithItem[] = [
   "Basic Scarecrow",
@@ -82,7 +84,12 @@ const DecorationLabel = ({
 
   if (isMonument) {
     return (
-      <div className="flex justify-center">
+      <div className="flex items-center flex-col space-y-1">
+        <Label type="default" icon={cheer}>
+          {t("monument.requiredCheers", {
+            cheers: REQUIRED_CHEERS[selectedName as MonumentName],
+          })}
+        </Label>
         <Label type="default">
           {t("season.megastore.crafting.limit", {
             limit: 0,

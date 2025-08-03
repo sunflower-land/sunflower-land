@@ -26,6 +26,19 @@ import { REQUIRED_CHEERS } from "features/game/events/landExpansion/completeProj
 import { CheerModal } from "./Project";
 import powerup from "assets/icons/level_up.png";
 
+const BOOST_LABELS: Partial<
+  Record<
+    MonumentName,
+    | "farmersMonument.boost"
+    | "woodcuttersMonument.boost"
+    | "minersMonument.boost"
+  >
+> = {
+  "Farmer's Monument": "farmersMonument.boost",
+  "Woodcutter's Monument": "woodcuttersMonument.boost",
+  "Miner's Monument": "minersMonument.boost",
+};
+
 const ProjectModal: React.FC<{
   project: MonumentName;
   onClose: () => void;
@@ -34,6 +47,7 @@ const ProjectModal: React.FC<{
   const { t } = useAppTranslation();
 
   const isProjectComplete = cheers >= REQUIRED_CHEERS[project];
+  const boostLabel = BOOST_LABELS[project];
 
   return (
     <Panel>
@@ -62,9 +76,9 @@ const ProjectModal: React.FC<{
         </span>
       </div>
 
-      {isProjectComplete && (
+      {isProjectComplete && boostLabel && (
         <Label type="success" icon={powerup} className="mb-1 ml-2">
-          {t("monument.boost")}
+          {t(boostLabel)}
         </Label>
       )}
 
