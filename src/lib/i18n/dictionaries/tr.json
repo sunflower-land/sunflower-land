@@ -6261,8 +6261,6 @@
   "description.poseidon": "Efsanevi Poseidon, deniz tanrısı.",
   "chumDetails.weed": "Deniz tanrısını çeken özel arkadaş",
   "description.poseidon.boost": "Sonbaharda +1 Balık",
-  "playerModal.monumentsInProgress": "Yapılmakta olan anıtlar",
-  "playerModal.noMonumentsInProgress": "Bu çiftlikte devam eden hiçbir anıt yok",
   "cleaned": "Temizlenmiş",
   "cleaning.farm": "Bumpkin'i bilgilendirmek",
   "visitorGuide.welcomeMessage": "Merhaba Bumpkin, çiftliğime hoş geldin. Kollarını aç ve bana yardım et. Kim bilir, iyiliğe karşılık verebilirim!",
@@ -6282,5 +6280,7 @@
   "project.incomplete": "{{project}} {{cheers}}/{{requiredCheers}} tebrik ediyor. {{requiredCheers - cheers}} devam!",
   "monument.boost": "Büyük Portakal, Büyük Muz veya Büyük Elma satarken +1 Love Charm",
   "complete.project": "Projeyi Tamamlayın",
-  "completed.monument": "Tamamlanan Anıt"
+  "completed.monument": "Tamamlanan Anıt",
+  "playerModal.projectsInProgress": "Devamlı Projeler",
+  "playerModal.noProjectsInProgress": "Bu çiftlikte devam eden proje yok"
 }

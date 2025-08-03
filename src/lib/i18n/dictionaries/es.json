@@ -6261,8 +6261,6 @@
   "description.poseidon": "El mítico Poseidón, el dios del mar.",
   "chumDetails.weed": "Un amigo especial que atrae al dios del mar",
   "description.poseidon.boost": "+1 pez durante el otoño",
-  "playerModal.monumentsInProgress": "Monumentos en construcción",
-  "playerModal.noMonumentsInProgress": "No hay monumentos en construcción en esta granja",
   "cleaned": "Limpiado",
   "cleaning.farm": "Notificando a Bumpkin",
   "visitorGuide.welcomeMessage": "Hola Bumpkin, bienvenido a mi granja. Súbete las mangas y ayúdame. ¡Quién sabe, puede que te devuelva el favor!",
@@ -6282,5 +6280,7 @@
   "project.incomplete": "El {{project}} tiene {{cheers}}/{{requiredCheers}} aplausos. ¡Ya queda {{requiredCheers - cheers}}!",
   "monument.boost": "+1 amuleto de amor al vender Big Orange, Big Banana o Big Apple",
   "complete.project": "Proyecto completo",
-  "completed.monument": "Monumento completado"
+  "completed.monument": "Monumento completado",
+  "playerModal.projectsInProgress": "Proyectos en curso",
+  "playerModal.noProjectsInProgress": "No hay proyectos en curso en esta granja"
 }

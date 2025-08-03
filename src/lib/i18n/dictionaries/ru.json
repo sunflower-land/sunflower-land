@@ -6261,8 +6261,6 @@
   "description.poseidon": "Мифический Посейдон, бог моря.",
   "chumDetails.weed": "Особый приятель, привлекающий бога моря",
   "description.poseidon.boost": "+1 Рыба осенью",
-  "playerModal.monumentsInProgress": "Памятники в стадии разработки",
-  "playerModal.noMonumentsInProgress": "На этой ферме нет строящихся памятников",
   "cleaned": "Очищено",
   "cleaning.farm": "Уведомление Бампкина",
   "visitorGuide.welcomeMessage": "Привет, Бампкин, добро пожаловать на мою ферму. Засучи рукава и помоги мне. Кто знает, возможно, я отвечу вам взаимностью!",
@@ -6282,5 +6280,7 @@
   "project.incomplete": "{{project}} ура {{cheers}}/{{requiredCheers}}. {{requiredCheers - cheers}} вперед!",
   "monument.boost": "+1 Love Charm при продаже большого апельсина, большого банана или большого яблока",
   "complete.project": "Завершить проект",
-  "completed.monument": "Завершенный памятник"
+  "completed.monument": "Завершенный памятник",
+  "playerModal.projectsInProgress": "Проекты в стадии реализации",
+  "playerModal.noProjectsInProgress": "На этой ферме нет проектов"
 }

@@ -6261,8 +6261,6 @@
   "description.poseidon": "신화적인 포세이돈, 바다의 신.",
   "chumDetails.weed": "바다의 신을 매료시키는 특별한 친구",
   "description.poseidon.boost": "가을철 물고기 1마리",
-  "playerModal.monumentsInProgress": "진행 중인 기념비",
-  "playerModal.noMonumentsInProgress": "이 농장에는 현재 진행 중인 기념물이 없습니다.",
   "cleaned": "청소 완료",
   "cleaning.farm": "범프킨에 알림",
   "visitorGuide.welcomeMessage": "안녕 범프킨, 우리 농장에 온 걸 환영해소매 걷어붙이고 나 좀 도와줘누가 알겠어요, 제가 그 은혜를 갚을 수 있을지도 몰라요!",
@@ -6282,5 +6280,7 @@
   "project.incomplete": "{{project}} 는 {{cheers}}/{{requiredCheers}} 의 환호성이 터집니다. {{requiredCheers - cheers}} 어서 가세요!",
   "monument.boost": "빅 오렌지, 빅 바나나 또는 빅 애플 판매 시 러브 참 1개",
   "complete.project": "프로젝트 완료",
-  "completed.monument": "완성된 기념비"
+  "completed.monument": "완성된 기념비",
+  "playerModal.projectsInProgress": "진행 중인 프로젝트",
+  "playerModal.noProjectsInProgress": "이 팜에서 진행 중인 프로젝트가 없습니다."
 }

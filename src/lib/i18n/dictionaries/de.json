@@ -6261,8 +6261,6 @@
   "description.poseidon": "Der mythische Poseidon, der Gott des Meeres.",
   "chumDetails.weed": "Ein besonderer Kumpel, der den Gott des Meeres anzieht",
   "description.poseidon.boost": "+1 Fische im Herbst",
-  "playerModal.monumentsInProgress": "Monumente in Bearbeitung",
-  "playerModal.noMonumentsInProgress": "Auf dieser Farm sind keine Baudenkmäler in Arbeit",
   "cleaned": "Gereinigt",
   "cleaning.farm": "Bumpkin benachrichtigen",
   "visitorGuide.welcomeMessage": "Hallo Bumpkin, willkommen auf meiner Farm. Krempeln Sie die Ärmel hoch und helfen Sie mir. Wer weiß, vielleicht erwidere ich den Gefallen!",
@@ -6282,5 +6280,7 @@
   "project.incomplete": "Das {{project}} hat {{cheers}}/{{requiredCheers}} Prost. {{requiredCheers - cheers}} noch!",
   "monument.boost": "+1 Love Charm beim Verkauf von Big Orange, Big Banana oder Big Apple",
   "complete.project": "Projekt abschließen",
-  "completed.monument": "Monument abgeschlossen"
+  "completed.monument": "Monument abgeschlossen",
+  "playerModal.projectsInProgress": "Laufende Projekte",
+  "playerModal.noProjectsInProgress": "Keine laufenden Projekte auf dieser Farm"
 }

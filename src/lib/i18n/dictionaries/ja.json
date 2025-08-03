@@ -6261,8 +6261,6 @@
   "description.poseidon": "海の神、神話のポセイドン。",
   "chumDetails.weed": "海の神を魅了する特別な仲間",
   "description.poseidon.boost": "秋の間は+1匹の魚",
-  "playerModal.monumentsInProgress": "進行中のモニュメント",
-  "playerModal.noMonumentsInProgress": "この農場では進行中のモニュメントはありません",
   "cleaned": "クリーニング済み",
   "cleaning.farm": "バンプキンへの通知",
   "visitorGuide.welcomeMessage": "やあ、バンプキン、私の農場へようこそ。袖をまくり上げて私を助けてください。お返しするかもしれないけど！",
@@ -6282,5 +6280,7 @@
   "project.incomplete": "{{project}} は {{cheers}}/{{requiredCheers}} で乾杯しています。{{requiredCheers - cheers}} 行きます！",
   "monument.boost": "ビッグオレンジ、ビッグバナナ、ビッグアップルを販売するとラブチャーム1個が付きます",
   "complete.project": "プロジェクト完了",
-  "completed.monument": "完成した記念碑"
+  "completed.monument": "完成した記念碑",
+  "playerModal.projectsInProgress": "進行中のプロジェクト",
+  "playerModal.noProjectsInProgress": "このファームでは進行中のプロジェクトはありません"
 }

@@ -6261,8 +6261,6 @@
   "description.poseidon": "神话中的波塞冬，海洋之神。",
   "chumDetails.weed": "吸引海神的特殊密友",
   "description.poseidon.boost": "+1 秋天的鱼",
-  "playerModal.monumentsInProgress": "建造中的纪念碑",
-  "playerModal.noMonumentsInProgress": "这个农场没有在建纪念碑",
   "cleaned": "已清理",
   "cleaning.farm": "通知 Bumpkin",
   "visitorGuide.welcomeMessage": "你好 Bumpkin，欢迎来到我的农场。卷起袖子来帮我。谁知道，我可能会回馈你的青睐！",
@@ -6282,5 +6280,7 @@
   "project.incomplete": "{{project}} 有 {{cheers}}/{{requiredCheers}} 干杯。{{requiredCheers - cheers}} 要走！",
   "monument.boost": "出售 Big Orange、Big Banana 或 Big Apple 时 +1",
   "complete.project": "完成项目",
-  "completed.monument": "完工的纪念碑"
+  "completed.monument": "完工的纪念碑",
+  "playerModal.projectsInProgress": "正在进行的项目",
+  "playerModal.noProjectsInProgress": "该农场没有任何项目正在进行中"
 }
