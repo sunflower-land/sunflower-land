@@ -1,7 +1,6 @@
 import Decimal from "decimal.js-light";
 import { GameState } from "features/game/types/game";
 import { produce } from "immer";
-import { hasFeatureAccess } from "lib/flags";
 
 export type ClaimCheersAction = {
   type: "cheers.claimed";
@@ -19,10 +18,6 @@ export function claimDailyCheers({
   createdAt = Date.now(),
 }: Options) {
   return produce(state, (draft) => {
-    if (!hasFeatureAccess(draft, "CHEERS")) {
-      throw new Error("Cheers feature is not enabled");
-    }
-
     const {
       socialFarming: { cheers },
     } = draft;
