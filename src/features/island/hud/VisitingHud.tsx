@@ -24,6 +24,8 @@ import { getTrashBinItems, useCleanFarm } from "../clutter/Clutter";
 import { TRASH_BIN_DAILY_LIMIT } from "features/game/events/landExpansion/collectClutter";
 import garbageBin from "assets/sfts/garbage_bin.webp";
 import socialPointsIcon from "assets/icons/social_score.webp";
+import loadingIcon from "assets/icons/timer.gif";
+import saveIcon from "assets/icons/save.webp";
 
 const _cheers = (state: MachineState) => {
   return state.context.visitorState?.inventory["Cheer"] ?? new Decimal(0);
@@ -31,6 +33,9 @@ const _cheers = (state: MachineState) => {
 const _socialPoints = (state: MachineState) => {
   return state.context.state.socialFarming?.points ?? 0;
 };
+const _autosaving = (state: MachineState) => state.matches("autosaving");
+const _hasUnsavedProgress = (state: MachineState) =>
+  state.context.actions.length > 0;
 
 /**
  * Heads up display - a concept used in games for the small overlaid display of information.
@@ -42,6 +47,8 @@ export const VisitingHud: React.FC = () => {
   const [gameState] = useActor(gameService);
   const cheers = useSelector(gameService, _cheers);
   const socialPoints = useSelector(gameService, _socialPoints);
+  const saving = useSelector(gameService, _autosaving);
+  const hasUnsavedProgress = useSelector(gameService, _hasUnsavedProgress);
 
   const { t } = useAppTranslation();
   const navigate = useNavigate();
@@ -50,8 +57,12 @@ export const VisitingHud: React.FC = () => {
   const trashBinItems = getTrashBinItems(gameState);
 
   const handleEndVisit = () => {
-    navigate(fromRoute ?? "/");
-    gameService.send("END_VISIT");
+    if (hasUnsavedProgress) {
+      gameService.send("SAVE");
+    } else {
+      navigate(fromRoute ?? "/");
+      gameService.send("END_VISIT");
+    }
   };
 
   const displayId =
@@ -127,16 +138,38 @@ export const VisitingHud: React.FC = () => {
             handleEndVisit();
           }}
         >
-          <img
-            src={SUNNYSIDE.icons.arrow_left}
-            alt="End visit"
-            className="absolute"
-            style={{
-              width: `${PIXEL_SCALE * 12}px`,
-              left: `${PIXEL_SCALE * 5}px`,
-              top: `${PIXEL_SCALE * 4}px`,
-            }}
-          />
+          {saving ? (
+            <img
+              src={loadingIcon}
+              className="absolute group-active:translate-y-[2px]"
+              style={{
+                top: `${PIXEL_SCALE * 5}px`,
+                left: `${PIXEL_SCALE * 7}px`,
+                width: `${PIXEL_SCALE * 8}px`,
+              }}
+            />
+          ) : hasUnsavedProgress ? (
+            <img
+              src={saveIcon}
+              className="absolute group-active:translate-y-[2px]"
+              style={{
+                top: `${PIXEL_SCALE * 4}px`,
+                left: `${PIXEL_SCALE * 5}px`,
+                width: `${PIXEL_SCALE * 12}px`,
+              }}
+            />
+          ) : (
+            <img
+              src={SUNNYSIDE.icons.arrow_left}
+              alt="End visit"
+              className="absolute"
+              style={{
+                width: `${PIXEL_SCALE * 12}px`,
+                left: `${PIXEL_SCALE * 5}px`,
+                top: `${PIXEL_SCALE * 4}px`,
+              }}
+            />
+          )}
         </RoundButton>
       </div>
     </HudContainer>

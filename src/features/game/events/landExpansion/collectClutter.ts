@@ -1,3 +1,4 @@
+import Decimal from "decimal.js-light";
 import { produce } from "immer";
 import { GameState } from "features/game/types/game";
 import { ClutterName } from "features/game/types/clutter";
@@ -52,5 +53,9 @@ export function collectClutter({
 
     delete clutters[action.id];
     visitorGame.socialFarming.dailyCollections = dailyCollections;
+
+    visitorGame.inventory[action.clutterType] = (
+      visitorGame.inventory[action.clutterType] ?? new Decimal(0)
+    ).plus(1);
   });
 }

@@ -1818,6 +1818,7 @@ export interface GameState {
         >;
       }
     >;
+    caughtPests?: Record<number, string[]>;
     clutter?: {
       spawnedAt: number;
       locations: Record<
