@@ -1,5 +1,6 @@
 import { Equipped } from "features/game/types/bumpkin";
 import { FactionName, IslandType } from "features/game/types/game";
+import { MonumentName } from "features/game/types/monuments";
 
 export type ParticipantInfo = {
   id: number;
@@ -49,7 +50,11 @@ export type Player = {
     faction?: FactionName;
     lastUpdatedAt: number;
     socialPoints: number;
-    projectsInProgress: number;
+    hasCleanedToday: boolean;
+    projects: Record<
+      MonumentName,
+      { receivedCheers: number; requiredCheers: number }
+    >;
     cleaning: {
       youCleanedThemCount: number;
       theyCleanedYouCount: number;

@@ -163,6 +163,28 @@ describe("buyMonument", () => {
     });
   });
 
+  it("adds monument to village projects", () => {
+    const state = buyMonument({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          Gem: new Decimal(1000),
+          "Basic Land": new Decimal(10),
+        },
+      },
+      action: {
+        type: "monument.bought",
+        name: "Big Banana",
+        coordinates: { x: 0, y: 5 },
+        id: "456",
+      },
+    });
+
+    expect(state.socialFarming.villageProjects["Big Banana"]).toEqual({
+      cheers: 0,
+    });
+  });
+
   it("does not allow a monument to be bought twice in the same day", () => {
     const state = buyMonument({
       state: {

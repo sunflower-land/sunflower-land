@@ -6273,6 +6273,8 @@
   "playerModal.youCleanedThemCount.plural": "You cleaned their farm {{count}} times",
   "playerModal.theyCleanedYouCount.plural": "They cleaned your farm {{count}} times",
   "playerModal.topFriend": "Top friend - {{username}}",
+  "playerModal.monumentsInProgress": "Monuments in progress",
+  "playerModal.noMonumentsInProgress": "No monuments in progress on this farm",
   "description.colorToken2025": "Use this in the festival of colors event shop before the event ends!",
   "description.colorTicket2025": "Hold this for a chance to win $FLOWER after the festival of colors event ends!",
   "description.paintBuckets": "These buckets hold the power to bring color to even the dullest day.",
