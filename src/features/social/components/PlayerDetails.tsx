@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React, { useContext, useState } from "react";
 import { Label } from "components/ui/Label";
-import { InnerPanel, Panel } from "components/ui/Panel";
+import { ButtonPanel, InnerPanel, Panel } from "components/ui/Panel";
 
 import vipIcon from "assets/icons/vip.webp";
 import basicIsland from "assets/icons/islands/basic.webp";
@@ -9,7 +9,6 @@ import springIsland from "assets/icons/islands/spring.webp";
 import desertIsland from "assets/icons/islands/desert.webp";
 import volcanoIsland from "assets/icons/islands/volcano.webp";
 import flowerIcon from "assets/icons/flower_token.webp";
-import deliveryBook from "assets/icons/chapter_icon_3.webp";
 import cheer from "assets/icons/cheer.webp";
 import socialPointsIcon from "assets/icons/social_score.webp";
 
@@ -20,7 +19,7 @@ import { isMobile } from "mobile-device-detect";
 import { Button } from "components/ui/Button";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { FollowerFeed } from "./FollowerFeed";
-import { IslandType } from "features/game/types/game";
+import { InventoryItemName, IslandType } from "features/game/types/game";
 import { useTranslation } from "react-i18next";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
@@ -40,6 +39,9 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import Decimal from "decimal.js-light";
 import { useOnMachineTransition } from "lib/utils/hooks/useOnMachineTransition";
+import { getKeys } from "features/game/lib/crafting";
+import { ProgressBar } from "components/ui/ProgressBar";
+import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 
 const ISLAND_ICONS: Record<IslandType, string> = {
   basic: basicIsland,
@@ -75,6 +77,10 @@ const _hasCheeredToday = (farmId: number) => (state: MachineState) => {
     state.context.state.socialFarming.cheersGiven.farms.includes(farmId)
   );
 };
+const _haveCleanedToday = (playerId: number) => (state: MachineState) => {
+  return !!state.context.state.socialFarming.dailyCollections?.[playerId]
+    ?.pointGivenAt;
+};
 
 export const PlayerDetails: React.FC<Props> = ({
   data,
@@ -93,12 +99,13 @@ export const PlayerDetails: React.FC<Props> = ({
   const { gameService, setFromRoute } = useContext(Context);
   const { t } = useTranslation();
   const navigate = useNavigate();
-  const { isVisiting } = useVisiting();
-  const cheersAvailable = useSelector(gameService, _cheersAvailable);
   const location = useLocation();
-  const [showCheerModal, setShowCheerModal] = useState(false);
+  const { isVisiting } = useVisiting();
 
   const player = data?.data;
+
+  const cheersAvailable = useSelector(gameService, _cheersAvailable);
+  const [showCheerModal, setShowCheerModal] = useState(false);
 
   useOnMachineTransition(
     gameService,
@@ -124,7 +131,7 @@ export const PlayerDetails: React.FC<Props> = ({
   // Show skeleton if data is loading or undefined
   if (playerLoading) {
     return (
-      <div className="flex gap-1 w-full max-h-[370px]">
+      <div className="flex gap-1 w-full max-h-[400px]">
         <PlayerDetailsSkeleton />
         {!isMobile && <FollowerFeedSkeleton />}
       </div>
@@ -162,11 +169,12 @@ export const PlayerDetails: React.FC<Props> = ({
   const isSelf = player?.id === loggedInFarmId;
   const hasCheersAvailable = cheersAvailable.gt(0);
   const displayName = player?.username ?? `#${player?.id}`;
+  const inProgressProjects = getKeys(player?.projects ?? {});
 
   return (
-    <div className="flex gap-1 w-full max-h-[370px]">
+    <div className="flex gap-1 w-full max-h-[400px]">
       <div className="flex flex-col flex-1 gap-1">
-        <InnerPanel className="flex flex-col flex-1 pb-1 px-1">
+        <InnerPanel className="flex flex-col pb-1 px-1">
           <ModalOverlay
             show={showCheerModal}
             onBackdropClick={() => setShowCheerModal(false)}
@@ -196,7 +204,7 @@ export const PlayerDetails: React.FC<Props> = ({
           </ModalOverlay>
           <div className="flex justify-between">
             <div className="flex items-center relative">
-              <div className="flex items-center flex-wrap">
+              <div className="flex items-center flex-wrap gap-1">
                 {canGoBack && (
                   <div
                     className="flex items-center justify-center w-6 h-6 mr-2 cursor-pointer hover:bg-brown-200 active:bg-brown-300 rounded-sm transition-colors"
@@ -246,14 +254,14 @@ export const PlayerDetails: React.FC<Props> = ({
               </Button>
             )}
           </div>
-          <div className="flex py-2">
+          <div className="flex ">
             <div className="relative">
               <NPCIcon
                 parts={player?.clothing ?? {}}
                 width={PIXEL_SCALE * 14}
               />
             </div>
-            <div className="flex flex-col gap-1 text-xs mt-1 ml-2 flex-1">
+            <div className="flex flex-col gap-1 text-xs mt-1 ml-2 flex-1 mb-1">
               <div className="flex items-center">
                 {`Lvl ${player?.level}${player?.faction ? ` - ${capitalize(player?.faction)}` : ""}`}
                 {player?.faction && (
@@ -297,12 +305,11 @@ export const PlayerDetails: React.FC<Props> = ({
             </div>
             {!isVisiting && (
               <Button
-                className="flex w-fit h-9 justify-between items-center gap-1 mt-1"
+                className="flex w-fit h-9 justify-between items-center gap-1 -mt-2.5 align-top"
                 disabled={isSelf}
                 onClick={visitFarm}
               >
                 <div className="flex items-center px-1">
-                  {!isMobile && <span className="pr-1">{t("visit")}</span>}
                   <img
                     src={SUNNYSIDE.icons.search}
                     className="flex justify-center items-center w-4 h-4"
@@ -312,8 +319,9 @@ export const PlayerDetails: React.FC<Props> = ({
             )}
           </div>
         </InnerPanel>
+
         <InnerPanel className="flex flex-col items-center w-full">
-          <div className="flex flex-col gap-1 p-1 w-full ml-1 pt-0">
+          <div className="flex flex-col gap-1 px-1 w-full ml-1 pt-0">
             <div className="flex items-center justify-between">
               <FollowsIndicator
                 count={data?.data?.followedByCount ?? 0}
@@ -325,11 +333,13 @@ export const PlayerDetails: React.FC<Props> = ({
                 disabled={playerLoading || followLoading || !!error || isSelf}
                 onClick={onFollow}
               >
-                {followLoading ? `...` : iAmFollowing ? `Unfollow` : `Follow`}
+                <span className="text-xs">
+                  {followLoading ? `...` : iAmFollowing ? `Unfollow` : `Follow`}
+                </span>
               </Button>
             </div>
           </div>
-          <div className="flex flex-col gap-1 p-1 pt-0 mb-2 w-full">
+          <div className="flex flex-col gap-1 p-1 mb-1 w-full">
             <div className="text-xs">
               {player?.cleaning.youCleanedThemCount === 1
                 ? t("playerModal.youCleanedThemCount.singular", {
@@ -350,21 +360,61 @@ export const PlayerDetails: React.FC<Props> = ({
             </div>
           </div>
         </InnerPanel>
-        <InnerPanel className="flex flex-col w-full pb-1">
-          <div className="p-1 flex items-center">
-            <div className="w-10">
-              <img src={deliveryBook} className="w-full" />
-            </div>
-            <div className="flex pb-1 flex-col justify-center gap-1 text-xs mt-1 ml-2 flex-1">
-              <div>
-                {t("playerModal.dailyStreak", { streak: player?.dailyStreak })}
+
+        <InnerPanel className="flex flex-1 flex-col gap-1 max-h-[121px] overflow-y-auto scrollable">
+          <Label type="default">{t("playerModal.monumentsInProgress")}</Label>
+          <div className="flex gap-2 flex-wrap py-1">
+            {inProgressProjects.length > 0 ? (
+              Object.entries(player?.projects ?? {}).map(
+                ([monumentName, { receivedCheers, requiredCheers }], index) => (
+                  <div
+                    key={`${monumentName}-${index}`}
+                    className="mb-4 relative"
+                  >
+                    <Popover>
+                      <PopoverButton as="div" className="cursor-pointer">
+                        <ButtonPanel className="flex flex-col">
+                          <img
+                            src={
+                              ITEM_DETAILS[monumentName as InventoryItemName]
+                                .image
+                            }
+                            className="w-7 h-7 object-contain"
+                          />
+                        </ButtonPanel>
+                      </PopoverButton>
+                      <PopoverPanel
+                        anchor={{ to: "right start", gap: 1, offset: 5 }}
+                        className="flex pointer-events-none"
+                      >
+                        <InnerPanel className="flex flex-col gap-1 p-1">
+                          <span className="text-xxs">{monumentName}</span>
+                          <div className="flex items-center gap-1">
+                            <img
+                              src={cheer}
+                              className="w-4 h-4 object-contain"
+                            />
+                            <span className="text-xxs">
+                              {`${receivedCheers}/${requiredCheers}`}
+                            </span>
+                          </div>
+                        </InnerPanel>
+                      </PopoverPanel>
+                    </Popover>
+                    <ProgressBar
+                      percentage={(receivedCheers / requiredCheers) * 100}
+                      type="progress"
+                      formatLength="short"
+                      className="absolute bottom-0 w-full left-[5px]"
+                    />
+                  </div>
+                ),
+              )
+            ) : (
+              <div className="text-xs ml-1">
+                {t("playerModal.noMonumentsInProgress")}
               </div>
-              <div>
-                {t("playerModal.totalDeliveries", {
-                  count: player?.totalDeliveries,
-                })}
-              </div>
-            </div>
+            )}
           </div>
         </InnerPanel>
       </div>

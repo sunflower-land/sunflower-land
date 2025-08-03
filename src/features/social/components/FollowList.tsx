@@ -135,6 +135,7 @@ export const FollowList: React.FC<Props> = ({
               lastOnlineAt={networkDetails?.[followerId]?.lastUpdatedAt ?? 0}
               navigateToPlayer={navigateToPlayer}
               socialPoints={networkDetails?.[followerId]?.socialPoints ?? 0}
+              haveCleanedToday={!!networkDetails?.[followerId]?.cleanedToday}
             />
           );
         })}

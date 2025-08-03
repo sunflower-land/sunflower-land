@@ -139,6 +139,13 @@ export function buyMonument({
       [name]: oldAmount.add(1),
     };
 
+    stateCopy.socialFarming.villageProjects = {
+      ...stateCopy.socialFarming.villageProjects,
+      [name]: {
+        cheers: 0,
+      },
+    };
+
     if (!stateCopy.monuments) {
       stateCopy.monuments = {};
     }

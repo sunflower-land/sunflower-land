@@ -7,12 +7,15 @@ import { useTranslation } from "react-i18next";
 import { Equipped } from "features/game/types/bumpkin";
 import { Label } from "components/ui/Label";
 import socialPointsIcon from "assets/icons/social_score.webp";
+import { ITEM_DETAILS } from "features/game/types/images";
+import cleanBroom from "assets/icons/clean_broom.webp";
 
 type Props = {
   loggedInFarmId: number;
   playerId: number;
   clothing: Equipped;
   username: string;
+  haveCleanedToday: boolean;
   socialPoints: number;
   lastOnlineAt: number;
   navigateToPlayer: (playerId: number) => void;
@@ -23,6 +26,7 @@ export const FollowDetailPanel: React.FC<Props> = ({
   playerId,
   clothing,
   username,
+  haveCleanedToday,
   socialPoints,
   lastOnlineAt,
   navigateToPlayer,
@@ -57,7 +61,14 @@ export const FollowDetailPanel: React.FC<Props> = ({
           </div>
         </div>
         <div className="flex flex-col gap-0.5">
-          <div>{isYou ? `${t("you")}` : username}</div>
+          <div className="flex items-center gap-1">
+            <div>{isYou ? `${t("you")}` : username}</div>
+            <img
+              src={haveCleanedToday ? cleanBroom : ITEM_DETAILS.Trash.image}
+              className="w-4 h-4"
+            />
+          </div>
+
           {!isOnline ? (
             <div className="text-xxs">
               {t("social.lastOnline", { time: lastOnline })}

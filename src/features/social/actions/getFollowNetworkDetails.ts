@@ -12,6 +12,7 @@ type Detail = {
   username: string;
   lastUpdatedAt: number;
   socialPoints: number;
+  cleanedToday: boolean;
 };
 
 type FollowNetworkDetails = {
