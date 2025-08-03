@@ -132,7 +132,13 @@ export const BumpkinModal: React.FC<Props> = ({
   }
 
   if (view === "powerSkills") {
-    return <PowerSkills onHide={onClose} onBack={() => setView("home")} />;
+    return (
+      <PowerSkills
+        onHide={onClose}
+        onBack={() => setView("home")}
+        readonly={readonly}
+      />
+    );
   }
 
   const renderTabs = () => {
