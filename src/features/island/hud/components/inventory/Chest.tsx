@@ -341,7 +341,8 @@ export const Chest: React.FC<Props> = ({
       !boosts.includes(name) &&
       !banners.includes(name) &&
       !beds.includes(name) &&
-      !weatherItems.includes(name),
+      !weatherItems.includes(name) &&
+      !monuments.includes(name),
   );
 
   const ITEM_GROUPS: {
