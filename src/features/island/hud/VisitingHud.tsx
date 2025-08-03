@@ -34,6 +34,7 @@ import { VisitorGuide } from "./components/VisitorGuide";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { FarmCleaned } from "./components/FarmCleaned";
+import { BinGuide } from "./components/BinGuide";
 
 const _cheers = (state: MachineState) => {
   return state.context.visitorState?.inventory["Cheer"] ?? new Decimal(0);
@@ -68,6 +69,7 @@ export const VisitingHud: React.FC = () => {
     useContext(Context);
 
   const [showVisitorGuide, setShowVisitorGuide] = useState(true);
+  const [showBinGuide, setShowBinGuide] = useState(false);
   const [gameState] = useActor(gameService);
   const cheers = useSelector(gameService, _cheers);
   const socialPoints = useSelector(gameService, _socialPoints);
@@ -79,6 +81,14 @@ export const VisitingHud: React.FC = () => {
   const navigate = useNavigate();
 
   const trashBinItems = getTrashBinItems(gameState);
+
+  const dailyCollections =
+    gameState.context.visitorState?.socialFarming?.dailyCollections;
+
+  // If all 5 collected, pop up modal
+  const collectedClutter = Object.keys(
+    dailyCollections?.[gameState.context.farmId]?.clutter ?? {},
+  );
 
   const handleEndVisit = () => {
     if (hasUnsavedProgress) {
@@ -108,6 +118,11 @@ export const VisitingHud: React.FC = () => {
           <FarmCleaned />
         </CloseButtonPanel>
       </Modal>
+      <Modal show={showBinGuide}>
+        <CloseButtonPanel>
+          <BinGuide onClose={() => setShowBinGuide(false)} />
+        </CloseButtonPanel>
+      </Modal>
       {!gameState.matches("landToVisitNotFound") && (
         <InnerPanel className="fixed px-2 pt-1 pb-2 bottom-2 left-1/2 -translate-x-1/2 z-50 flex flex-row">
           <div className="flex flex-col p-0.5">
@@ -127,7 +142,7 @@ export const VisitingHud: React.FC = () => {
           </div>
           <div className="w-px h-[36px] bg-gray-300 mx-3 self-center" />
           <div className="flex flex-col sm:flex-row items-center space-x-1">
-            <span className="text-md">{`${trashBinItems}/${TRASH_BIN_DAILY_LIMIT}`}</span>
+            <span className="text-md">{`${collectedClutter.length}/${TRASH_BIN_FARM_LIMIT}`}</span>
             <img src={garbageBin} style={{ width: `20px`, margin: `2px` }} />
           </div>
         </InnerPanel>
@@ -166,6 +181,34 @@ export const VisitingHud: React.FC = () => {
               width: `${PIXEL_SCALE * 14}px`,
             }}
           />
+        </RoundButton>
+      </div>
+      <div className="absolute right-0 top-48 p-2.5">
+        <RoundButton
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            setShowBinGuide(true);
+          }}
+        >
+          <img
+            src={garbageBin}
+            className="absolute group-active:translate-y-[2px]"
+            style={{
+              top: `${PIXEL_SCALE * 4.5}px`,
+              left: `${PIXEL_SCALE * 6}px`,
+              width: `${PIXEL_SCALE * 10}px`,
+            }}
+          />
+          <div className="w-full absolute -bottom-3 left-0 flex items-center justify-center">
+            <Label
+              type={
+                trashBinItems >= TRASH_BIN_DAILY_LIMIT ? "danger" : "default"
+              }
+            >
+              {`${trashBinItems}/${TRASH_BIN_DAILY_LIMIT}`}
+            </Label>
+          </div>
         </RoundButton>
       </div>
       <BumpkinProfile />
