@@ -71,6 +71,7 @@ export const SUNNYSIDE = {
     desertSeason: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/desert_season.png`,
     bullRunSeason: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/bull_run_season.png`,
     windsOfChangeSeason: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/winds_of_change.png`,
+    betterTogetherSeason: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/better_together_banner.png`,
     pharaohSeasonRares: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/pharaoh_seasonal_rares.png`,
     bullRunSeasonRares: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/bull_run_seasonal_rares.webp`,
     windsOfChangeSeasonRares: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/winds_of_change_rares.webp`,

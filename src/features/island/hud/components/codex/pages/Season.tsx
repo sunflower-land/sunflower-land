@@ -35,7 +35,7 @@ const CHAPTER_GRAPHICS: Record<SeasonName, string> = {
   "Bull Run": SUNNYSIDE.announcement.bullRunSeason,
   "Winds of Change": SUNNYSIDE.announcement.windsOfChangeSeason,
   "Great Bloom": "",
-  "Better Together": "",
+  "Better Together": SUNNYSIDE.announcement.betterTogetherSeason,
 };
 
 const CHORES_DELIVERIES_START_DATE: Record<SeasonName, string> = {
