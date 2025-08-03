@@ -6247,5 +6247,6 @@
   "playerModal.theyCleanedYouCount.plural": "Mereka membersihkan ladang anda {{count}} kali",
   "playerModal.topFriend": "Kawan teratas - {{username}}",
   "islandupgrade.warning1": "Semua barang anda di tanah anda akan digali dan dikembalikan ke inventori anda. Anda boleh mengaksesnya di dada anda.",
-  "description.doubleBed.boost": "+1 Farmhands"
+  "description.doubleBed.boost": "+1 Farmhands",
+  "season.megastore.nonTradeable": "Tidak boleh diperdagangkan"
 }

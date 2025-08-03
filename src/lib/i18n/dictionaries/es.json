@@ -6247,5 +6247,6 @@
   "playerModal.theyCleanedYouCount.plural": "Limpiaron tu granja {{count}} veces",
   "playerModal.topFriend": "Mejor amigo - {{username}}",
   "islandupgrade.warning1": "Todos los objetos que tengas en tu terreno serán desenterrados y devueltos a tu inventario. Puedes acceder a ellos desde tu cofre.",
-  "description.doubleBed.boost": "+1 peones"
+  "description.doubleBed.boost": "+1 peones",
+  "season.megastore.nonTradeable": "No negociable"
 }

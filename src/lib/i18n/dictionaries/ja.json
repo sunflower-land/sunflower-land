@@ -6247,5 +6247,6 @@
   "playerModal.theyCleanedYouCount.plural": "彼らはあなたの農場を {{count}} 回掃除しました",
   "playerModal.topFriend": "トップフレンド-{{username}}",
   "islandupgrade.warning1": "土地にあるすべてのアイテムが掘り起こされ、インベントリに戻されます。これらのアイテムはチェストからアクセスできます。",
-  "description.doubleBed.boost": "+1 ファームハンズ"
+  "description.doubleBed.boost": "+1 ファームハンズ",
+  "season.megastore.nonTradeable": "取引不可"
 }

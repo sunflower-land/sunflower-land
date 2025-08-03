@@ -6247,5 +6247,6 @@
   "playerModal.theyCleanedYouCount.plural": "Они убрали твою ферму {{count}} раз",
   "playerModal.topFriend": "Лучший друг - {{username}}",
   "islandupgrade.warning1": "Все ваши предметы на вашей земле будут выкопаны и возвращены в ваш инвентарь. Вы можете получить к ним доступ в сундуке.",
-  "description.doubleBed.boost": "+1 Фермеры"
+  "description.doubleBed.boost": "+1 Фермеры",
+  "season.megastore.nonTradeable": "Не подлежит обмену"
 }

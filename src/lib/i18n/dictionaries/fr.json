@@ -6247,5 +6247,6 @@
   "playerModal.theyCleanedYouCount.plural": "Ils ont nettoyé votre ferme {{count}} fois",
   "playerModal.topFriend": "Meilleur ami - {{username}}",
   "islandupgrade.warning1": "Tous les objets qui se trouvent sur votre terrain seront déterrés et réintégrés à votre inventaire. Vous pouvez y accéder dans votre poitrine.",
-  "description.doubleBed.boost": "+1 Fermier"
+  "description.doubleBed.boost": "+1 Fermier",
+  "season.megastore.nonTradeable": "Non échangeable"
 }

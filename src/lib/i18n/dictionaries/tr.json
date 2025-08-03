@@ -6247,5 +6247,6 @@
   "playerModal.theyCleanedYouCount.plural": "Çiftliğinizi {{count}} kez temizlediler",
   "playerModal.topFriend": "En iyi arkadaş - {{username}}",
   "islandupgrade.warning1": "Arazinizdeki tüm eşyalarınız kazılacak ve envanterinize iade edilecektir. Onlara göğsünüzden erişebilirsiniz.",
-  "description.doubleBed.boost": "+1 Farmhands"
+  "description.doubleBed.boost": "+1 Farmhands",
+  "season.megastore.nonTradeable": "Takas edilemez"
 }

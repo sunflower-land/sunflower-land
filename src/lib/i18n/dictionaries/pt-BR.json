@@ -6247,5 +6247,6 @@
   "playerModal.theyCleanedYouCount.plural": "Eles limparam sua fazenda {{count}} vezes",
   "playerModal.topFriend": "Melhor amigo - {{username}}",
   "islandupgrade.warning1": "Todos os seus itens em sua terra serão desenterrados e devolvidos ao seu inventário. Você pode acessá-los em seu peito.",
-  "description.doubleBed.boost": "+1 Fazendeiros"
+  "description.doubleBed.boost": "+1 Fazendeiros",
+  "season.megastore.nonTradeable": "Não negociável"
 }

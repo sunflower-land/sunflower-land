@@ -6247,5 +6247,6 @@
   "playerModal.theyCleanedYouCount.plural": "Sie haben deine Farm {{count}} mal gereinigt",
   "playerModal.topFriend": "Top Freund - {{username}}",
   "islandupgrade.warning1": "Alle deine Gegenstände auf deinem Land werden ausgegraben und wieder in dein Inventar aufgenommen. Du kannst in deiner Truhe auf sie zugreifen.",
-  "description.doubleBed.boost": "+1 Landarbeiter"
+  "description.doubleBed.boost": "+1 Landarbeiter",
+  "season.megastore.nonTradeable": "Nicht handelbar"
 }
