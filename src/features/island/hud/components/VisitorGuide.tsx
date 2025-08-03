@@ -57,7 +57,7 @@ export const VisitorGuide: React.FC<VisitorGuideProps> = ({ onClose }) => {
         .map((monument) => {
           const hasCheered = _hasCheeredToday(monument)(gameState);
           return (
-            <div className="flex items-center">
+            <div className="flex items-center" key={monument}>
               <Box
                 image={ITEM_DETAILS[monument].image}
                 secondaryImage={
