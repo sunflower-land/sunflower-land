@@ -6263,5 +6263,7 @@
   "visitorGuide.netRequired": "Netz erforderlich",
   "description.poseidon": "Der mythische Poseidon, der Gott des Meeres.",
   "chumDetails.weed": "Ein besonderer Kumpel, der den Gott des Meeres anzieht",
-  "description.poseidon.boost": "+1 Fische im Herbst"
+  "description.poseidon.boost": "+1 Fische im Herbst",
+  "playerModal.monumentsInProgress": "Monumente in Bearbeitung",
+  "playerModal.noMonumentsInProgress": "Auf dieser Farm sind keine Baudenkmäler in Arbeit"
 }

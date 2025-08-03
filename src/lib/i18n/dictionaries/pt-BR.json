@@ -6263,5 +6263,7 @@
   "visitorGuide.netRequired": "Rede necessária",
   "description.poseidon": "O mítico Poseidon, o deus do mar.",
   "chumDetails.weed": "Um amigo especial que atrai o deus do mar",
-  "description.poseidon.boost": "+1 Peixe durante o outono"
+  "description.poseidon.boost": "+1 Peixe durante o outono",
+  "playerModal.monumentsInProgress": "Monumentos em andamento",
+  "playerModal.noMonumentsInProgress": "Não há monumentos em andamento nesta fazenda"
 }

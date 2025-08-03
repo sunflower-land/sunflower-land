@@ -6263,5 +6263,7 @@
   "visitorGuide.netRequired": "Net requis",
   "description.poseidon": "Le mythique Poséidon, dieu de la mer.",
   "chumDetails.weed": "Un ami spécial qui attire le dieu de la mer",
-  "description.poseidon.boost": "+1 poisson en automne"
+  "description.poseidon.boost": "+1 poisson en automne",
+  "playerModal.monumentsInProgress": "Monuments en cours",
+  "playerModal.noMonumentsInProgress": "Aucun monument en cours de construction sur cette ferme"
 }

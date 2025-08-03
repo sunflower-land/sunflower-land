@@ -6263,5 +6263,7 @@
   "visitorGuide.netRequired": "Diperlukan net",
   "description.poseidon": "Mitos Poseidon, dewa laut.",
   "chumDetails.weed": "Teman khusus yang menarik dewa laut",
-  "description.poseidon.boost": "+1 ikan selama musim gugur"
+  "description.poseidon.boost": "+1 ikan selama musim gugur",
+  "playerModal.monumentsInProgress": "Monumen sedang berlangsung",
+  "playerModal.noMonumentsInProgress": "Tidak ada monumen yang sedang berlangsung di pertanian ini"
 }
