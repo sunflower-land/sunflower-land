@@ -6253,5 +6253,12 @@
   "description.rat": "Tikus kecil yang bijak. Tidak begitu cantik, tetapi mungkin ia mempunyai tujuan dalam ekosistem ladang.",
   "description.snail": "Siput bergerak perlahan. Mengambil masa, tetapi sampai ke mana ia perlu pergi.",
   "description.pestNet": "Digunakan untuk menangkap perosak di ladang rakan anda",
-  "clutter.trashBinFull": "Tong sampah penuh"
+  "clutter.trashBinFull": "Tong sampah penuh",
+  "visitorGuide.farmTitle": "Ladang {{username}}",
+  "visitorGuide.welcomeMessage": "Hello Bumpkin, selamat datang ke ladang saya. Gulung lengan anda dan bantu saya mendapatkan mata sosial.",
+  "visitorGuide.pickupClutter": "Angkat 5 x Kacauter",
+  "visitorGuide.socialPointsAlt": "Titik Sosial",
+  "visitorGuide.cheerMonument": "Bersorak {{monument}}",
+  "visitorGuide.catchPests": "Tangkap 2 x Perosak",
+  "visitorGuide.netRequired": "Bersih diperlukan"
 }

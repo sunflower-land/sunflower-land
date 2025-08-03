@@ -112,6 +112,18 @@ export const Clutter: React.FC<Props> = ({ id, type }) => {
   );
 };
 
+export function hasCleanedToday(state: MachineState) {
+  const dailyCollections = _dailyCollections(state);
+  const farmId = _farmId(state);
+  const pointGivenAt = dailyCollections?.[farmId]?.pointGivenAt;
+  const isPointGivenToday =
+    pointGivenAt &&
+    new Date(pointGivenAt).toISOString().split("T")[0] ===
+      new Date().toISOString().split("T")[0];
+
+  return isPointGivenToday;
+}
+
 export const useCleanFarm = () => {
   const { gameService } = useContext(Context);
   const farmId = useSelector(gameService, _farmId);
@@ -121,15 +133,10 @@ export const useCleanFarm = () => {
     const collectedClutter = Object.keys(
       dailyCollections?.[farmId]?.clutter ?? {},
     );
-    const pointGivenAt = dailyCollections?.[farmId]?.pointGivenAt;
-    const isPointGivenToday =
-      pointGivenAt &&
-      new Date(pointGivenAt).toISOString().split("T")[0] ===
-        new Date().toISOString().split("T")[0];
 
     if (
       collectedClutter.length === TRASH_BIN_FARM_LIMIT &&
-      !isPointGivenToday
+      !hasCleanedToday(gameService.state)
     ) {
       gameService.send("farm.cleaned", {
         effect: { type: "farm.cleaned", visitedFarmId: farmId },

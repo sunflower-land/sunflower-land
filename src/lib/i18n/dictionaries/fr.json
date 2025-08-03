@@ -6253,5 +6253,12 @@
   "description.rat": "Un petit rat intelligent. Pas très joli, mais cela a peut-être une utilité dans l'écosystème agricole.",
   "description.snail": "Un escargot qui se déplace lentement. Cela prend du temps, mais il arrive là où il doit aller.",
   "description.pestNet": "Utilisé pour attraper les parasites dans les fermes de vos amis",
-  "clutter.trashBinFull": "Poubelle pleine"
+  "clutter.trashBinFull": "Poubelle pleine",
+  "visitorGuide.farmTitle": "Ferme de {{username}}",
+  "visitorGuide.welcomeMessage": "Howdy Bumpkin, bienvenue dans ma ferme. Retroussez vos manches et aidez-moi à gagner des points sociaux.",
+  "visitorGuide.pickupClutter": "Ramasse 5 x Clutter",
+  "visitorGuide.socialPointsAlt": "Points sociaux",
+  "visitorGuide.cheerMonument": "Bravo {{monument}}",
+  "visitorGuide.catchPests": "Attrapez 2 insectes nuisibles",
+  "visitorGuide.netRequired": "Net requis"
 }

@@ -6253,5 +6253,12 @@
   "description.rat": "Tikus kecil yang pintar. Tidak terlalu cantik, tetapi mungkin memiliki tujuan dalam ekosistem pertanian.",
   "description.snail": "Siput yang bergerak lambat. Butuh waktu, tetapi sampai ke tempat yang harus dituju.",
   "description.pestNet": "Digunakan untuk menangkap hama di peternakan teman Anda",
-  "clutter.trashBinFull": "Tempat sampah penuh"
+  "clutter.trashBinFull": "Tempat sampah penuh",
+  "visitorGuide.farmTitle": "{{username}} Peternakan",
+  "visitorGuide.welcomeMessage": "Howdy Bumpkin, selamat datang di peternaku. Gulung lengan baju Anda dan bantu saya untuk mendapatkan poin sosial.",
+  "visitorGuide.pickupClutter": "Ambil 5 x Clutter",
+  "visitorGuide.socialPointsAlt": "Poin sosial",
+  "visitorGuide.cheerMonument": "Bersorak {{monument}}",
+  "visitorGuide.catchPests": "Tangkap 2 x Hama",
+  "visitorGuide.netRequired": "Diperlukan net"
 }

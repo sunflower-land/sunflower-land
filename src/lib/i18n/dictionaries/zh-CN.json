@@ -6253,5 +6253,12 @@
   "description.rat": "一只聪明的小老鼠。不是很漂亮，但也许它在农场生态系统中有其用途。",
   "description.snail": "一只缓慢移动的蜗牛。它需要时间，但可以到达需要去的地方。",
   "description.pestNet": "用来在朋友的农场捕捉害虫",
-  "clutter.trashBinFull": "垃圾桶装满了"
+  "clutter.trashBinFull": "垃圾桶装满了",
+  "visitorGuide.farmTitle": "{{username}} 的农场",
+  "visitorGuide.welcomeMessage": "你好 Bumpkin，欢迎来到我的农场。卷起袖子帮我赚取社交积分。",
+  "visitorGuide.pickupClutter": "捡起 5 x Clutter",
+  "visitorGuide.socialPointsAlt": "社交积分",
+  "visitorGuide.cheerMonument": "干杯 {{monument}}",
+  "visitorGuide.catchPests": "捕获 2 x 害虫",
+  "visitorGuide.netRequired": "需要净额"
 }

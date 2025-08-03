@@ -6253,5 +6253,12 @@
   "description.rat": "Un piccolo topo intelligente. Non molto carino, ma forse ha uno scopo nell'ecosistema agricolo.",
   "description.snail": "Una lumaca che si muove lentamente. Richiede tempo, ma arriva dove deve andare.",
   "description.pestNet": "Usato per catturare parassiti nelle fattorie dei tuoi amici",
-  "clutter.trashBinFull": "Cestino pieno"
+  "clutter.trashBinFull": "Cestino pieno",
+  "visitorGuide.farmTitle": "La fattoria di {{username}}",
+  "visitorGuide.welcomeMessage": "Salve Bumpkin, benvenuto nella mia fattoria. Rimboccatevi le maniche e aiutatemi a guadagnare punti sociali.",
+  "visitorGuide.pickupClutter": "Raccogli 5 x Clutter",
+  "visitorGuide.socialPointsAlt": "Punti sociali",
+  "visitorGuide.cheerMonument": "Allegria {{monument}}",
+  "visitorGuide.catchPests": "Cattura 2 x parassiti",
+  "visitorGuide.netRequired": "Rete richiesta"
 }

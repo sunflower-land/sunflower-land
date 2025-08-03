@@ -6253,5 +6253,12 @@
   "description.rat": "賢い小さなネズミ。あまりきれいではないが、農場の生態系に何らかの目的があるのかもしれない。",
   "description.snail": "動きの遅いカタツムリ。時間はかかりますが、必要な場所にたどり着きます。",
   "description.pestNet": "友達の農場で害虫を捕まえるのに使う",
-  "clutter.trashBinFull": "ゴミ箱がいっぱい"
+  "clutter.trashBinFull": "ゴミ箱がいっぱい",
+  "visitorGuide.farmTitle": "{{username}} さんの農場",
+  "visitorGuide.welcomeMessage": "やあ、バンプキン、私の農場へようこそ。袖をまくり上げて、私がソーシャルポイントを稼ぐのを手伝ってください。",
+  "visitorGuide.pickupClutter": "クラッターを5個拾う",
+  "visitorGuide.socialPointsAlt": "ソーシャル・ポイント",
+  "visitorGuide.cheerMonument": "チア {{monument}}",
+  "visitorGuide.catchPests": "害虫を2匹捕まえる",
+  "visitorGuide.netRequired": "ネットが必要です"
 }
