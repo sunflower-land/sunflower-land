@@ -1256,6 +1256,8 @@ export function startGame(authContext: AuthContext) {
             {
               target: "cheers",
               cond: (context) => {
+                if (!hasFeatureAccess(context.state, "CHEERS")) return false;
+
                 const now = Date.now();
 
                 const today = new Date(now).toISOString().split("T")[0];
