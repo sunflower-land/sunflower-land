@@ -52,6 +52,7 @@ export const Clutter: React.FC<Props> = ({ id, type }) => {
       >
         <img
           src={ITEM_DETAILS[type].image}
+          alt={`clutter-${type}`}
           className="absolute"
           style={{
             width: `${PIXEL_SCALE * 10}px`,
