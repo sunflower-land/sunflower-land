@@ -1539,6 +1539,14 @@ function getCollectibleBuffLabels(
         boostTypeIcon: powerup,
       },
     ],
+    Poseidon: [
+      {
+        shortDescription: translate("description.poseidon.boost"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: SUNNYSIDE.icons.fish,
+      },
+    ],
     Toolshed: [
       {
         shortDescription: translate("description.toolshed.boost"),

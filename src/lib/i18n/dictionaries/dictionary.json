@@ -6424,5 +6424,6 @@
   "description.pestNet": "Used to catch pests on your friends' farms",
   "clutter.trashBinFull": "Trash bin full",
   "description.poseidon": "The mythical Poseidon, the god of the sea.",
-  "chumDetails.weed": "Special chum that attracts the god of the sea"
+  "chumDetails.weed": "Special chum that attracts the god of the sea",
+  "description.poseidon.boost": "+1 Fish during Autumn"
 }
