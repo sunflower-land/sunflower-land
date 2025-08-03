@@ -6223,7 +6223,6 @@
   "description.bonusBracelet.boost": "Браслет +1",
   "description.architectRuler.boost": "Скорость изготовления ящиков: +25%",
   "description.reelmastersChair.boost": "+5 попыток рыбалки",
-  "description.doubleBed.boost": "+2 батраки",
   "description.giantArtichoke.boost": "+2 артишока",
   "description.pickaxeShark.boost.1": "Время восстановления золота: +15%",
   "description.pickaxeShark.boost.2": "Вероятность получения мгновенного золота: 10%",
@@ -6247,5 +6246,6 @@
   "playerModal.youCleanedThemCount.plural": "Вы убирали их ферму {{count}} раз",
   "playerModal.theyCleanedYouCount.plural": "Они убрали твою ферму {{count}} раз",
   "playerModal.topFriend": "Лучший друг - {{username}}",
-  "islandupgrade.warning1": "Все ваши предметы на вашей земле будут выкопаны и возвращены в ваш инвентарь. Вы можете получить к ним доступ в сундуке."
+  "islandupgrade.warning1": "Все ваши предметы на вашей земле будут выкопаны и возвращены в ваш инвентарь. Вы можете получить к ним доступ в сундуке.",
+  "description.doubleBed.boost": "+1 Фермеры"
 }

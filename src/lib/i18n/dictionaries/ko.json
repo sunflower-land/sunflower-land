@@ -6223,7 +6223,6 @@
   "description.bonusBracelet.boost": "+1 브레이슬릿",
   "description.architectRuler.boost": "제작 상자 속도 +25%",
   "description.reelmastersChair.boost": "+5 낚시 시도",
-  "description.doubleBed.boost": "+2 팜핸즈",
   "description.giantArtichoke.boost": "+2 아티초크",
   "description.pickaxeShark.boost.1": "골드 회복 시간 15% 증가",
   "description.pickaxeShark.boost.2": "10% 확률로 인스턴트 골드 획득",
@@ -6247,5 +6246,6 @@
   "playerModal.youCleanedThemCount.plural": "그들의 농장을 {{count}} 번 청소했습니다.",
   "playerModal.theyCleanedYouCount.plural": "그들은 당신의 농장을 {{count}} 번 청소했습니다.",
   "playerModal.topFriend": "최고의 친구 - {{username}}",
-  "islandupgrade.warning1": "토지에 있는 모든 아이템이 파헤쳐져 인벤토리로 반환됩니다.상자에서 획득할 수 있습니다."
+  "islandupgrade.warning1": "토지에 있는 모든 아이템이 파헤쳐져 인벤토리로 반환됩니다.상자에서 획득할 수 있습니다.",
+  "description.doubleBed.boost": "+1 팜핸즈"
 }

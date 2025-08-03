@@ -6223,7 +6223,6 @@
   "description.bonusBracelet.boost": "+1 pulsera",
   "description.architectRuler.boost": "+25% de velocidad de fabricación de cajas",
   "description.reelmastersChair.boost": "+5 intentos de pesca",
-  "description.doubleBed.boost": "+2 peones",
   "description.giantArtichoke.boost": "+2 alcachofas",
   "description.pickaxeShark.boost.1": "+15% de tiempo de recuperación de oro",
   "description.pickaxeShark.boost.2": "10% de probabilidad de obtener oro instantáneo",
@@ -6247,5 +6246,6 @@
   "playerModal.youCleanedThemCount.plural": "Has limpiado su granja {{count}} veces",
   "playerModal.theyCleanedYouCount.plural": "Limpiaron tu granja {{count}} veces",
   "playerModal.topFriend": "Mejor amigo - {{username}}",
-  "islandupgrade.warning1": "Todos los objetos que tengas en tu terreno serán desenterrados y devueltos a tu inventario. Puedes acceder a ellos desde tu cofre."
+  "islandupgrade.warning1": "Todos los objetos que tengas en tu terreno serán desenterrados y devueltos a tu inventario. Puedes acceder a ellos desde tu cofre.",
+  "description.doubleBed.boost": "+1 peones"
 }

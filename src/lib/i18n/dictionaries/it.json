@@ -6223,7 +6223,6 @@
   "description.bonusBracelet.boost": "+1 braccialetto",
   "description.architectRuler.boost": "+25% alla velocità della scatola di creazione",
   "description.reelmastersChair.boost": "+5 tentativi di pesca",
-  "description.doubleBed.boost": "+2 Farmhands",
   "description.giantArtichoke.boost": "+2 carciofi",
   "description.pickaxeShark.boost.1": "+15% Tempo di recupero dell'oro",
   "description.pickaxeShark.boost.2": "10% di possibilità di ottenere oro istantaneo",
@@ -6247,5 +6246,6 @@
   "playerModal.youCleanedThemCount.plural": "Hai pulito la loro fattoria {{count}} volte",
   "playerModal.theyCleanedYouCount.plural": "Hanno pulito la tua fattoria {{count}} volte",
   "playerModal.topFriend": "Miglior amico - {{username}}",
-  "islandupgrade.warning1": "Tutti i tuoi oggetti sulla tua terra verranno dissotterrati e restituiti al tuo inventario. Puoi accedervi dal tuo baule."
+  "islandupgrade.warning1": "Tutti i tuoi oggetti sulla tua terra verranno dissotterrati e restituiti al tuo inventario. Puoi accedervi dal tuo baule.",
+  "description.doubleBed.boost": "+1 Farmhands"
 }

@@ -6223,7 +6223,6 @@
   "description.bonusBracelet.boost": "+1 Bileklik",
   "description.architectRuler.boost": "+25% Üretim Kutusu Hızı",
   "description.reelmastersChair.boost": "+5 Balıkçılık Denemesi",
-  "description.doubleBed.boost": "+2 Farmhands",
   "description.giantArtichoke.boost": "+2 Enginar",
   "description.pickaxeShark.boost.1": "+15% Altın Kurtarma Süresi",
   "description.pickaxeShark.boost.2": "%10 Anında Altın şansı",
@@ -6247,5 +6246,6 @@
   "playerModal.youCleanedThemCount.plural": "Çiftliğini {{count}} kez temizledin",
   "playerModal.theyCleanedYouCount.plural": "Çiftliğinizi {{count}} kez temizlediler",
   "playerModal.topFriend": "En iyi arkadaş - {{username}}",
-  "islandupgrade.warning1": "Arazinizdeki tüm eşyalarınız kazılacak ve envanterinize iade edilecektir. Onlara göğsünüzden erişebilirsiniz."
+  "islandupgrade.warning1": "Arazinizdeki tüm eşyalarınız kazılacak ve envanterinize iade edilecektir. Onlara göğsünüzden erişebilirsiniz.",
+  "description.doubleBed.boost": "+1 Farmhands"
 }

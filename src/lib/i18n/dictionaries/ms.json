@@ -6223,7 +6223,6 @@
   "description.bonusBracelet.boost": "+1 gelang",
   "description.architectRuler.boost": "+25% Kelajuan Kotak Kerajinan",
   "description.reelmastersChair.boost": "+5 Percubaan Memancing",
-  "description.doubleBed.boost": "+2 Farmhands",
   "description.giantArtichoke.boost": "+2 Artichoke",
   "description.pickaxeShark.boost.1": "+15% Masa Pemulihan Emas",
   "description.pickaxeShark.boost.2": "Peluang 10% untuk Emas Segera",
@@ -6247,5 +6246,6 @@
   "playerModal.youCleanedThemCount.plural": "Anda membersihkan ladang mereka {{count}} kali",
   "playerModal.theyCleanedYouCount.plural": "Mereka membersihkan ladang anda {{count}} kali",
   "playerModal.topFriend": "Kawan teratas - {{username}}",
-  "islandupgrade.warning1": "Semua barang anda di tanah anda akan digali dan dikembalikan ke inventori anda. Anda boleh mengaksesnya di dada anda."
+  "islandupgrade.warning1": "Semua barang anda di tanah anda akan digali dan dikembalikan ke inventori anda. Anda boleh mengaksesnya di dada anda.",
+  "description.doubleBed.boost": "+1 Farmhands"
 }

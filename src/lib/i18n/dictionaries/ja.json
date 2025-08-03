@@ -6223,7 +6223,6 @@
   "description.bonusBracelet.boost": "+1 ブレスレット",
   "description.architectRuler.boost": "クラフトボックススピード +25%",
   "description.reelmastersChair.boost": "+5回釣りの試行",
-  "description.doubleBed.boost": "+2 ファームハンズ",
   "description.giantArtichoke.boost": "+2 アーティチョーク",
   "description.pickaxeShark.boost.1": "+15% ゴールド回復時間",
   "description.pickaxeShark.boost.2": "10% の確率でインスタントゴールドが手に入る",
@@ -6247,5 +6246,6 @@
   "playerModal.youCleanedThemCount.plural": "あなたは彼らの農場を {{count}} 回掃除しました",
   "playerModal.theyCleanedYouCount.plural": "彼らはあなたの農場を {{count}} 回掃除しました",
   "playerModal.topFriend": "トップフレンド-{{username}}",
-  "islandupgrade.warning1": "土地にあるすべてのアイテムが掘り起こされ、インベントリに戻されます。これらのアイテムはチェストからアクセスできます。"
+  "islandupgrade.warning1": "土地にあるすべてのアイテムが掘り起こされ、インベントリに戻されます。これらのアイテムはチェストからアクセスできます。",
+  "description.doubleBed.boost": "+1 ファームハンズ"
 }

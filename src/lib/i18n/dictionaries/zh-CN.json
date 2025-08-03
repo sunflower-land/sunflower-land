@@ -6223,7 +6223,6 @@
   "description.bonusBracelet.boost": "+1 手链",
   "description.architectRuler.boost": "+25% 制作箱速度",
   "description.reelmastersChair.boost": "+5 次钓鱼尝试",
-  "description.doubleBed.boost": "+2 农场工人",
   "description.giantArtichoke.boost": "+2 朝鲜蓟",
   "description.pickaxeShark.boost.1": "+15% 金币回收时间",
   "description.pickaxeShark.boost.2": "10% 几率获得即时金币",
@@ -6247,5 +6246,6 @@
   "playerModal.youCleanedThemCount.plural": "你清理了他们的农场 {{count}} 次",
   "playerModal.theyCleanedYouCount.plural": "他们清理了你的农场 {{count}} 次",
   "playerModal.topFriend": "好友-{{username}}",
-  "islandupgrade.warning1": "你在土地上的所有物品都将被挖出来并归还到你的库存中。你可以在你的胸口访问它们。"
+  "islandupgrade.warning1": "你在土地上的所有物品都将被挖出来并归还到你的库存中。你可以在你的胸口访问它们。",
+  "description.doubleBed.boost": "+1 农民"
 }
