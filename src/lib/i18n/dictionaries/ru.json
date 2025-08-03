@@ -6276,5 +6276,11 @@
   "visitorGuide.binGuide.reset": "Перезагружается в {{time}}",
   "visitorGuide.binGuide.burn": "Сжечь мусор",
   "visitorGuide.binGuide.burn.description": "Слишком много Vegemite. Недостаточно кода. Наши разработчики из Сиднея перезагружаются — новая функция уже в пути!",
-  "description.doubleBed": "Уютная кровать для друзей."
+  "description.doubleBed": "Уютная кровать для друзей.",
+  "project.completed": "Поздравляю! Задание {{project}} завершено! После завершения проекта проект будет удален с вашей земли и вы сможете построить новый.",
+  "monument.completed": "Поздравляю! Задание {{project}} завершено! Каждый раз, когда вы дорабатываете «Большой апельсин», «Большой банан» или «Большое яблоко», каждый раз, когда вы дорабатываете уникальный памятник, вы получаете 1 талисман любви.",
+  "project.incomplete": "{{project}} ура {{cheers}}/{{requiredCheers}}. {{requiredCheers - cheers}} вперед!",
+  "monument.boost": "+1 Love Charm при продаже большого апельсина, большого банана или большого яблока",
+  "complete.project": "Завершить проект",
+  "completed.monument": "Завершенный памятник"
 }

@@ -6276,5 +6276,11 @@
   "visitorGuide.binGuide.reset": "Mengatur ulang di {{time}}",
   "visitorGuide.binGuide.burn": "Bakar Sampah",
   "visitorGuide.binGuide.burn.description": "Terlalu banyak Vegemite. Tidak cukup kode. Pengembang Sydney kami sedang me-reboot - fitur dalam perjalanan!",
-  "description.doubleBed": "Tempat tidur yang nyaman dibuat untuk teman-teman."
+  "description.doubleBed": "Tempat tidur yang nyaman dibuat untuk teman-teman.",
+  "project.completed": "Selamat! {{project}} selesai! Menyelesaikan proyek akan menghapus proyek dari tanah Anda dan memungkinkan Anda untuk membangun yang baru.",
+  "monument.completed": "Selamat! {{project}} selesai! Setiap monumen unik yang diselesaikan memberikan +1 Pesona Cinta setiap kali Big Orange, Big Banana atau Big Apple selesai.",
+  "project.incomplete": "{{project}} memiliki {{cheers}}/{{requiredCheers}} sorakan. {{requiredCheers - cheers}} untuk pergi!",
+  "monument.boost": "+1 Love Charm saat menjual Big Orange, Big Banana atau Big Apple",
+  "complete.project": "Proyek Lengkap",
+  "completed.monument": "Monumen Selesai"
 }

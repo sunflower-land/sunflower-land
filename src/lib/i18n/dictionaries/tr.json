@@ -6276,5 +6276,11 @@
   "visitorGuide.binGuide.reset": "{{time}} içinde sıfırlanır",
   "visitorGuide.binGuide.burn": "Çöp Yak",
   "visitorGuide.binGuide.burn.description": "Çok fazla Vegemite. Yeterli kod yok. Sydney geliştiricilerimiz yeniden başlatılıyor - özellik yolda!",
-  "description.doubleBed": "Arkadaşlar için yapılmış rahat bir yatak."
+  "description.doubleBed": "Arkadaşlar için yapılmış rahat bir yatak.",
+  "project.completed": "Tebrikler! {{project}} tamamlandı! Projeyi tamamlamak, projeyi arazinizden kaldıracak ve yeni bir tane inşa etmenize izin verecektir.",
+  "monument.completed": "Tebrikler! {{project}} tamamlandı! Tamamlanan her benzersiz anıt, her Büyük Portakal, Büyük Muz veya Büyük Elma tamamlandığında +1 Aşk Tılsımı verir.",
+  "project.incomplete": "{{project}} {{cheers}}/{{requiredCheers}} tebrik ediyor. {{requiredCheers - cheers}} devam!",
+  "monument.boost": "Büyük Portakal, Büyük Muz veya Büyük Elma satarken +1 Love Charm",
+  "complete.project": "Projeyi Tamamlayın",
+  "completed.monument": "Tamamlanan Anıt"
 }

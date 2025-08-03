@@ -6276,5 +6276,11 @@
   "visitorGuide.binGuide.reset": "Se restablece en {{time}}",
   "visitorGuide.binGuide.burn": "Quema basura",
   "visitorGuide.binGuide.burn.description": "Demasiado Vegemite. No hay suficiente código. Nuestros desarrolladores de Sídney se están reiniciando: ¡la función está en camino!",
-  "description.doubleBed": "Una cama acogedora hecha para amigos."
+  "description.doubleBed": "Una cama acogedora hecha para amigos.",
+  "project.completed": "¡Felicidades! ¡El {{project}} está completo! Completar el proyecto eliminará el proyecto de tu terreno y te permitirá construir uno nuevo.",
+  "monument.completed": "¡Felicidades! ¡El {{project}} está completo! Cada monumento único completado otorga +1 amuleto de amor cada vez que se completa una Gran Naranja, un Plátano o una Gran Manzana.",
+  "project.incomplete": "El {{project}} tiene {{cheers}}/{{requiredCheers}} aplausos. ¡Ya queda {{requiredCheers - cheers}}!",
+  "monument.boost": "+1 amuleto de amor al vender Big Orange, Big Banana o Big Apple",
+  "complete.project": "Proyecto completo",
+  "completed.monument": "Monumento completado"
 }

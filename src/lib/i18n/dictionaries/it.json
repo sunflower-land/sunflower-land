@@ -6276,5 +6276,11 @@
   "visitorGuide.binGuide.reset": "Reimposta in {{time}}",
   "visitorGuide.binGuide.burn": "Brucia rifiuti",
   "visitorGuide.binGuide.burn.description": "Troppa Vegemite. Codice insufficiente. I nostri sviluppatori di Sydney si stanno riavviando: una funzionalità è in arrivo!",
-  "description.doubleBed": "Un comodo letto fatto per gli amici."
+  "description.doubleBed": "Un comodo letto fatto per gli amici.",
+  "project.completed": "Congratulazioni! Il {{project}} è completo! Il completamento del progetto rimuoverà il progetto dal tuo terreno e ti consentirà di costruirne uno nuovo.",
+  "monument.completed": "Congratulazioni! Il {{project}} è completo! Ogni monumento unico completato dà +1 Love Charm ogni volta che viene completata una Grande Arancia, una Grande Banana o una Grande Mela.",
+  "project.incomplete": "Il {{project}} ha {{cheers}}/{{requiredCheers}} applausi. {{requiredCheers - cheers}} al via!",
+  "monument.boost": "+1 Love Charm quando vendi Big Orange, Big Banana o Big Apple",
+  "complete.project": "Progetto completo",
+  "completed.monument": "Monumento completato"
 }

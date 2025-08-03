@@ -6276,5 +6276,11 @@
   "visitorGuide.binGuide.reset": "在 {{time}} 中重置",
   "visitorGuide.binGuide.burn": "烧掉垃圾",
   "visitorGuide.binGuide.burn.description": "Vegemite 太多了。代码不够。我们的悉尼开发人员正在重启——功能即将推出！",
-  "description.doubleBed": "为朋友准备的舒适床。"
+  "description.doubleBed": "为朋友准备的舒适床。",
+  "project.completed": "恭喜！{{project}} 已完成！完成该项目将使该项目从您的土地上移除，并允许您建造一个新项目。",
+  "monument.completed": "恭喜！{{project}} 已完成！每完成一座独一无二的纪念碑每完成一座大橙子、大香蕉或大苹果，都会获得 +1 个爱情护身符。",
+  "project.incomplete": "{{project}} 有 {{cheers}}/{{requiredCheers}} 干杯。{{requiredCheers - cheers}} 要走！",
+  "monument.boost": "出售 Big Orange、Big Banana 或 Big Apple 时 +1",
+  "complete.project": "完成项目",
+  "completed.monument": "完工的纪念碑"
 }

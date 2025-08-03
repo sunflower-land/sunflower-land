@@ -6276,5 +6276,11 @@
   "visitorGuide.binGuide.reset": "{{time}} でリセット",
   "visitorGuide.binGuide.burn": "バーン・トラッシュ",
   "visitorGuide.binGuide.burn.description": "ベジマイトが多すぎる。コードが足りません。シドニーのデベロッパーが再起動中 — 機能追加準備中！",
-  "description.doubleBed": "友達のために作られた居心地の良いベッド。"
+  "description.doubleBed": "友達のために作られた居心地の良いベッド。",
+  "project.completed": "おめでとう!{{project}} が完成しました！プロジェクトを完了すると、あなたの土地からプロジェクトが削除され、新しい土地を建設できるようになります。",
+  "monument.completed": "おめでとう!{{project}} が完成しました！ビッグオレンジ、ビッグバナナ、またはビッグアップルが完成するたびに、ユニークに完成したモニュメントごとにラブチャーム+1が付与されます。",
+  "project.incomplete": "{{project}} は {{cheers}}/{{requiredCheers}} で乾杯しています。{{requiredCheers - cheers}} 行きます！",
+  "monument.boost": "ビッグオレンジ、ビッグバナナ、ビッグアップルを販売するとラブチャーム1個が付きます",
+  "complete.project": "プロジェクト完了",
+  "completed.monument": "完成した記念碑"
 }

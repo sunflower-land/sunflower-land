@@ -6276,5 +6276,11 @@
   "visitorGuide.binGuide.description": "Every day, you can pick up 30 trash pieces that you find on your friend's farms.",
   "visitorGuide.binGuide.reset": "Resets in {{time}}",
   "visitorGuide.binGuide.burn": "Burn Trash",
-  "visitorGuide.binGuide.burn.description": "Too much Vegemite. Not enough code. Our Sydney devs are rebooting — feature on the way!"
+  "visitorGuide.binGuide.burn.description": "Too much Vegemite. Not enough code. Our Sydney devs are rebooting — feature on the way!",
+  "project.completed": "Congratulations! The {{project}} is complete! Completing the project will remove the project from your land and allow you to build a new one.",
+  "monument.completed": "Congratulations! The {{project}} is complete! Each unique completed monument gives +1 Love Charm each time a Big Orange, Big Banana or Big Apple is completed.",
+  "project.incomplete": "The {{project}} has {{cheers}}/{{requiredCheers}} cheers. {{requiredCheers - cheers}} to go!",
+  "monument.boost": "+1 Love Charm when selling Big Orange, Big Banana or Big Apple",
+  "complete.project": "Complete Project",
+  "completed.monument": "Completed Monument"
 }

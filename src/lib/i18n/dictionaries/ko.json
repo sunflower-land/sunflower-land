@@ -6276,5 +6276,11 @@
   "visitorGuide.binGuide.reset": "{{time}} 에서 재설정",
   "visitorGuide.binGuide.burn": "휴지통 태우기",
   "visitorGuide.binGuide.burn.description": "베지마이트가 너무 많아요코드가 충분하지 않아요.시드니 개발팀이 재부팅 중입니다. 곧 기능이 추가될 예정입니다!",
-  "description.doubleBed": "친구를 위해 만든 아늑한 침대."
+  "description.doubleBed": "친구를 위해 만든 아늑한 침대.",
+  "project.completed": "축하합니다!{{project}} 가 완성되었습니다!프로젝트를 완료하면 해당 프로젝트가 토지에서 제거되고 새 프로젝트를 건설할 수 있습니다.",
+  "monument.completed": "축하합니다!{{project}} 가 완성되었습니다!완성된 각 기념물은 빅 오렌지, 빅 바나나, 빅 애플을 완성할 때마다 사랑의 부적을 1개씩 획득합니다.",
+  "project.incomplete": "{{project}} 는 {{cheers}}/{{requiredCheers}} 의 환호성이 터집니다. {{requiredCheers - cheers}} 어서 가세요!",
+  "monument.boost": "빅 오렌지, 빅 바나나 또는 빅 애플 판매 시 러브 참 1개",
+  "complete.project": "프로젝트 완료",
+  "completed.monument": "완성된 기념비"
 }
