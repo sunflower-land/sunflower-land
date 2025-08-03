@@ -48,6 +48,7 @@ import {
 } from "features/game/events/landExpansion/upgradeBuilding";
 import { LandBiomeName } from "features/island/biomes/biomes";
 import { getCurrentBiome } from "features/island/biomes/biomes";
+import { WORKBENCH_MONUMENTS } from "features/game/types/monuments";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -329,6 +330,10 @@ export const Chest: React.FC<Props> = ({
   const weatherItems = getKeys(collectibles).filter(
     (name) => name in WEATHER_SHOP_ITEM_COSTS,
   );
+  const monuments = getKeys(collectibles).filter(
+    (name) => name in WORKBENCH_MONUMENTS,
+  );
+
   const decorations = getKeys(collectibles).filter(
     (name) =>
       !resources.includes(name) &&
@@ -336,7 +341,8 @@ export const Chest: React.FC<Props> = ({
       !boosts.includes(name) &&
       !banners.includes(name) &&
       !beds.includes(name) &&
-      !weatherItems.includes(name),
+      !weatherItems.includes(name) &&
+      !monuments.includes(name),
   );
 
   const ITEM_GROUPS: {
@@ -373,6 +379,11 @@ export const Chest: React.FC<Props> = ({
       items: weatherItems,
       label: "weatherItems",
       icon: ITEM_DETAILS["Tornado Pinwheel"].image,
+    },
+    {
+      items: monuments,
+      label: "monuments",
+      icon: ITEM_DETAILS["Farmer's Monument"].image,
     },
     {
       items: decorations,
