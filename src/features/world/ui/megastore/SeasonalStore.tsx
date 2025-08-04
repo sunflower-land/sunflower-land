@@ -151,7 +151,7 @@ export const SeasonalStore: React.FC<{
       </div>
       <div
         className={classNames("flex flex-col p-2 pt-1", {
-          ["max-h-[500px] overflow-y-auto scrollable "]: !readonly,
+          ["max-h-[400px] overflow-y-auto scrollable "]: !readonly,
         })}
       >
         <span className="text-xs pb-1">
