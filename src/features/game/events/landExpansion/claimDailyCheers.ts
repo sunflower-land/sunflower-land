@@ -1,5 +1,7 @@
 import Decimal from "decimal.js-light";
+import { hasVipAccess } from "features/game/lib/vipAccess";
 import { GameState } from "features/game/types/game";
+import { getCurrentSeason } from "features/game/types/seasons";
 import { produce } from "immer";
 import { hasFeatureAccess } from "lib/flags";
 
@@ -28,32 +30,23 @@ export function claimDailyCheers({
     } = draft;
 
     const today = new Date(createdAt).toISOString().split("T")[0];
-    const yesterday = new Date(createdAt - 24 * 60 * 60 * 1000)
-      .toISOString()
-      .split("T")[0];
 
     if (cheers.freeCheersClaimedAt >= new Date(today).getTime()) {
       throw new Error("Already claimed your daily free cheers");
     }
 
-    const dayFreeCheersClaimed = new Date(cheers.freeCheersClaimedAt)
-      .toISOString()
-      .split("T")[0];
+    let amount = 3;
 
-    const isBetterTogetherStartDate =
-      new Date(today).getTime() === new Date("2025-08-04").getTime();
-
-    // If today is the start date, give 3 regardless of previous day's value
-    const cheersUsedYesterday = isBetterTogetherStartDate
-      ? 3
-      : // Otherwise, give the amount of cheers used yesterday, or 3 if cheers wasn't claimed yesterday
-        Math.min(dayFreeCheersClaimed === yesterday ? cheers.cheersUsed : 3, 3);
-
-    if (cheersUsedYesterday < 0) {
-      throw new Error("Not enough cheers to claim");
+    if (
+      hasVipAccess({ game: draft }) &&
+      getCurrentSeason(new Date(createdAt)) === "Better Together"
+    ) {
+      amount = 6;
     }
 
-    draft.inventory.Cheer = new Decimal(cheersUsedYesterday);
+    draft.inventory.Cheer = (draft.inventory.Cheer ?? new Decimal(0)).add(
+      amount,
+    );
 
     if (cheers.freeCheersClaimedAt < new Date(today).getTime()) {
       cheers.freeCheersClaimedAt = createdAt;
