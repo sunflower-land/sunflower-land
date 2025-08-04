@@ -26,21 +26,44 @@ export function placeTree({
 }: Options): GameState {
   return produce(state, (game) => {
     const available = (game.inventory.Tree || new Decimal(0)).minus(
-      Object.keys(game.trees).length,
+      Object.values(game.trees).filter(
+        (tree) => tree.x !== undefined && tree.y !== undefined,
+      ).length,
     );
 
     if (available.lt(1)) {
       throw new Error("No trees available");
     }
 
+    const existingTree = Object.entries(game.trees).find(
+      ([_, tree]) => tree.x === undefined && tree.y === undefined,
+    );
+
+    if (existingTree) {
+      const [id, tree] = existingTree;
+      const updatedTree = {
+        ...tree,
+        x: action.coordinates.x,
+        y: action.coordinates.y,
+      };
+
+      if (updatedTree.wood && updatedTree.removedAt) {
+        const existingProgress =
+          updatedTree.removedAt - updatedTree.wood.choppedAt;
+        updatedTree.wood.choppedAt = createdAt - existingProgress;
+        delete updatedTree.removedAt;
+      }
+
+      game.trees[id] = updatedTree;
+
+      return game;
+    }
+
     const tree: Tree = {
       createdAt,
       x: action.coordinates.x,
       y: action.coordinates.y,
-      wood: {
-        amount: 1,
-        choppedAt: 0,
-      },
+      wood: { choppedAt: 0 },
     };
 
     game.trees = {

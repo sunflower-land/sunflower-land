@@ -3,6 +3,7 @@ import { GameState, Inventory, Keys } from "./game";
 import { translate } from "lib/i18n/translate";
 import { SEASONS } from "./seasons";
 import { ExoticCropName } from "./beans";
+import { WORKBENCH_MONUMENTS, WorkbenchMonumentName } from "./monuments";
 
 export type PlaceableLocation = "farm" | "home";
 
@@ -41,7 +42,8 @@ export type HeliosBlacksmithItem =
   | "Fairy Circle"
   | "Squirrel"
   | "Macaw"
-  | "Butterfly";
+  | "Butterfly"
+  | WorkbenchMonumentName;
 
 export type TreasureCollectibleItem =
   | "Treasure Map"
@@ -111,7 +113,13 @@ export type SoldOutCollectibleName =
   | "Summer Guardian"
   | "Spring Guardian"
   | "Autumn Guardian"
-  | "Sky Pillar";
+  | "Sky Pillar"
+  | "Rocket Statue"
+  | "Ant Queen"
+  | "Jurassic Droplet"
+  | "Giant Onion"
+  | "Giant Turnip"
+  | "Groovy Gramophone";
 
 export type MegaStoreCollectibleName =
   | "Flower Cart"
@@ -306,6 +314,7 @@ export const HELIOS_BLACKSMITH_ITEMS: (
     coins: 15000,
     ingredients: {},
   },
+  ...WORKBENCH_MONUMENTS,
 });
 
 export const ARTEFACT_SHOP_KEYS: Record<Keys, CraftableCollectible> = {

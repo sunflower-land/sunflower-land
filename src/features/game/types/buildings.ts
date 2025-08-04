@@ -428,7 +428,7 @@ export const BUILDINGS: Record<BuildingName, BuildingBluePrint[]> = {
   ],
   "Crafting Box": [
     {
-      unlocksAtLevel: 6,
+      unlocksAtLevel: 6, // TODO change to 10
       coins: 0,
       constructionSeconds: 60 * 60,
       ingredients: [

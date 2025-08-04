@@ -25,6 +25,8 @@ import {
   Recipe,
   RECIPE_CRAFTABLES,
   RecipeIngredient,
+  DOLLS,
+  RECIPES_REVISED,
 } from "features/game/lib/crafting";
 import {
   findMatchingRecipe,
@@ -55,6 +57,13 @@ const VALID_CRAFTING_RESOURCES: InventoryItemName[] = [
   "Pumpkin",
   "Carrot",
   "Radish",
+  "Turnip",
+
+  // Fruits
+  "Tomato",
+  "Lunara",
+  "Duskberry",
+  "Celestine",
 
   // Resources
   "Wood",
@@ -62,6 +71,7 @@ const VALID_CRAFTING_RESOURCES: InventoryItemName[] = [
   "Iron",
   "Gold",
   "Crimstone",
+  "Obsidian",
   "Oil",
   "Wild Mushroom",
   "Honey",
@@ -103,9 +113,7 @@ const VALID_CRAFTING_RESOURCES: InventoryItemName[] = [
   "Synthetic Fabric",
   "Timber",
 
-  // Others
-  "Crimson Cap",
-  "Toadstool Seat",
+  ...getKeys(DOLLS),
 ];
 
 const validCraftingResourcesSorted = (): InventoryItemName[] => {
@@ -523,11 +531,10 @@ export const CraftTab: React.FC<Props> = ({
       </div>
 
       <div className="flex space-x-3 mb-1 ml-1 mr-2">
-        <Label type="default">{t("resources")}</Label>
         {selectedIngredient && (
           <Label
-            type="chill"
-            className=""
+            type="formula"
+            className="ml-1"
             icon={
               selectedIngredient.collectible
                 ? ITEM_DETAILS[selectedIngredient.collectible].image
@@ -545,6 +552,13 @@ export const CraftTab: React.FC<Props> = ({
               (itemName) =>
                 (itemName !== "Toadstool Seat" && itemName !== "Crimson Cap") ||
                 hasNewCraftingAccess,
+            )
+            // If it is a doll, but they haven't discovered it yet, don't show it.
+            .filter(
+              (itemName) =>
+                !(itemName in RECIPES_REVISED) ||
+                (itemName in RECIPES_REVISED &&
+                  itemName in state.craftingBox.recipes),
             )
             .map((itemName) => {
               const amount = remainingInventory[itemName] || new Decimal(0);
@@ -569,6 +583,7 @@ export const CraftTab: React.FC<Props> = ({
                 </div>
               );
             })}
+          <Box image={SUNNYSIDE.icons.expression_confused} />
         </div>
         {!hasNewCraftingAccess && (
           <>
@@ -602,6 +617,10 @@ export const CraftTab: React.FC<Props> = ({
             </div>
           </>
         )}
+        <div className="flex items-center  mt-1 mx-1">
+          <img src={SUNNYSIDE.icons.expression_confused} className="h-4 mr-1" />
+          <p className="text-xs">{t("crafting.undiscovered")}</p>
+        </div>
       </div>
 
       <ModalOverlay
@@ -757,7 +776,7 @@ const RecipeLabelContent: React.FC<{
     return <span>{t("instant")}</span>;
   }
 
-  const boostedCraftTime = getBoostedCraftingTime({
+  const { seconds: boostedCraftTime } = getBoostedCraftingTime({
     game: state,
     time: recipe.time,
   });

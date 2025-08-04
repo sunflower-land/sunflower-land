@@ -197,7 +197,7 @@ const FertiliserLabel: React.FC<{
         type="success"
         className="text-xs whitespace-pre-line"
       >
-        {`+${getFruitfulBlendBuff(state)}`} {t("fruit")}
+        {`+${getFruitfulBlendBuff(state).amount}`} {t("fruit")}
       </Label>
     );
   }
@@ -248,7 +248,7 @@ const ComposterModalContent: React.FC<{
   const { resourceBoostRequirements } = getSpeedUpCost(state, composterName);
 
   const { produceAmount } = getCompostAmount({
-    skills: bumpkin.skills,
+    game: state,
     building: composterName,
   });
 

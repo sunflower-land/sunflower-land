@@ -46,7 +46,6 @@ describe("placeIron", () => {
             "123": {
               createdAt: Date.now(),
               stone: {
-                amount: 1,
                 minedAt: 0,
               },
               x: 1,
@@ -79,7 +78,6 @@ describe("placeIron", () => {
           "123": {
             createdAt: Date.now(),
             stone: {
-              amount: 1,
               minedAt: 0,
             },
             x: 0,
@@ -93,7 +91,6 @@ describe("placeIron", () => {
       "1": {
         createdAt: expect.any(Number),
         stone: {
-          amount: 1,
           minedAt: 0,
         },
         x: 2,
@@ -102,11 +99,50 @@ describe("placeIron", () => {
       "123": {
         createdAt: expect.any(Number),
         stone: {
-          amount: 1,
           minedAt: 0,
         },
         x: 0,
         y: 0,
+      },
+    });
+  });
+  it("reinstates current progress when stone was mined", () => {
+    const dateNow = Date.now();
+    const state = placeIron({
+      action: {
+        coordinates: {
+          x: 2,
+          y: 2,
+        },
+        id: "1", // ID doesn't matter since it's an existing stone
+        name: "Iron Rock",
+        type: "iron.placed",
+      },
+      state: {
+        ...INITIAL_FARM,
+        buildings: {},
+        inventory: {
+          "Iron Rock": new Decimal(2),
+        },
+        iron: {
+          "123": {
+            createdAt: dateNow,
+            stone: { minedAt: dateNow - 180000 },
+            removedAt: dateNow - 120000,
+          },
+        },
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.iron).toEqual({
+      "123": {
+        createdAt: expect.any(Number),
+        stone: {
+          minedAt: dateNow - 60000,
+        },
+        x: 2,
+        y: 2,
       },
     });
   });

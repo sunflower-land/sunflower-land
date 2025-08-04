@@ -57,7 +57,6 @@ import {
   MarineMarvelName,
   OldFishName,
 } from "./fishing";
-import { Coordinates } from "../expansion/components/MapPlacement";
 import { MinigameName } from "./minigames";
 import {
   FlowerCrossBreedName,
@@ -72,13 +71,19 @@ import { MinigameCurrency } from "../events/minigames/purchaseMinigameItem";
 import { FactionShopCollectibleName, FactionShopFoodName } from "./factionShop";
 import { DiggingFormationName } from "./desert";
 import { ExperimentName } from "lib/flags";
-import { CollectionName, MarketplaceTradeableName } from "./marketplace";
+import {
+  BudNFTName,
+  CollectionName,
+  MarketplaceTradeableName,
+} from "./marketplace";
 import { GameTransaction } from "./transactions";
 import { CompetitionName, CompetitionProgress } from "./competitions";
 import { AnimalType } from "./animals";
 import { ChoreBoard } from "./choreBoard";
 import {
+  DollName,
   RecipeCollectibleName,
+  RecipeItemName,
   Recipes,
   RecipeWearableName,
 } from "../lib/crafting";
@@ -97,6 +102,10 @@ import { RewardBoxes, RewardBoxName } from "./rewardBoxes";
 import { FloatingIslandShop, FloatingShopItemName } from "./floatingIsland";
 import { Blessing } from "../lib/blessings";
 import { LandBiomeName } from "features/island/biomes/biomes";
+import { MonumentName } from "./monuments";
+import { AOEItemName } from "../expansion/placeable/lib/collisionDetection";
+import { Coordinates } from "../expansion/components/MapPlacement";
+import { ClutterName } from "./clutter";
 
 export type Reward = {
   coins?: number;
@@ -204,11 +213,16 @@ export type MutantChicken =
   | "Pharaoh Chicken"
   | "Alien Chicken"
   | "Summer Chicken"
-  | "Love Chicken";
+  | "Love Chicken"
+  | "Janitor Chicken";
 
-export type MutantCow = "Mootant" | "Frozen Cow" | "Dr Cow";
+export type MutantCow = "Mootant" | "Frozen Cow" | "Dr Cow" | "Baby Cow";
 
-export type MutantSheep = "Toxic Tuft" | "Frozen Sheep" | "Nurse Sheep";
+export type MutantSheep =
+  | "Toxic Tuft"
+  | "Frozen Sheep"
+  | "Nurse Sheep"
+  | "Baby Sheep";
 
 export type MutantAnimal = MutantChicken | MutantCow | MutantSheep;
 
@@ -241,6 +255,7 @@ export type Coupons =
   | "Easter Ticket 2025"
   | "Colors Token 2025"
   | "Colors Ticket 2025"
+  | "Cheer"
   | Keys
   | SeasonalTicket
   | FactionEmblem;
@@ -377,6 +392,8 @@ export const COUPONS: Record<Coupons, { description: string }> = {
   "Colors Ticket 2025": {
     description: translate("description.colorTicket2025"),
   },
+  Bracelet: { description: "" },
+  Cheer: { description: translate("description.cheer") },
 };
 
 export type Purchase = {
@@ -451,6 +468,10 @@ export type FishBounty = Bounty & {
   name: FishName;
 };
 
+export type DollBounty = Bounty & {
+  name: DollName;
+};
+
 export type ExoticBounty = Bounty & {
   name:
     | ExoticCropName
@@ -470,7 +491,8 @@ export type BountyRequest =
   | ObsidianBounty
   | FishBounty
   | ExoticBounty
-  | MarkBounty;
+  | MarkBounty
+  | DollBounty;
 
 export type Bounties = {
   requests: BountyRequest[];
@@ -543,7 +565,10 @@ export type InventoryItemName =
   | TradeFood
   | SeasonalBanner
   | RewardBoxName
-  | LandBiomeName;
+  | LandBiomeName
+  | MonumentName
+  | DollName
+  | ClutterName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -575,36 +600,55 @@ export type WarCollectionOffer = {
 };
 
 export type Wood = {
-  amount: number;
   choppedAt: number;
   reward?: Omit<Reward, "sfl">;
+  criticalHit?: CriticalHit;
+  amount?: number;
 };
+
+export type CriticalHitName =
+  | InventoryItemName
+  | BumpkinRevampSkillName
+  | BumpkinItem
+  | "Native";
+
+export type CriticalHit = Partial<Record<CriticalHitName, number>>;
 
 export type PlantedCrop = {
   id?: string;
   name: CropName;
   plantedAt: number;
-  amount: number;
+  criticalHit?: CriticalHit;
   reward?: Omit<Reward, "sfl">;
+  amount?: number;
+  boostedTime?: number;
 };
 
 export type PlantedFruit = {
   name: PatchFruitName;
   plantedAt: number;
-  amount: number;
   harvestsLeft: number;
   harvestedAt: number;
+  criticalHit?: CriticalHit;
+  amount?: number;
+};
+
+type OptionalCoordinates = {
+  x?: number;
+  y?: number;
 };
 
 export type Tree = {
   wood: Wood;
   createdAt?: number;
-} & Coordinates;
+  removedAt?: number;
+} & OptionalCoordinates;
 
 export type Stone = {
-  amount: number;
-  // Epoch time in milliseconds
   minedAt: number;
+  criticalHit?: CriticalHit;
+  amount?: number;
+  boostedTime?: number;
 };
 
 export type FiniteResource = {
@@ -614,11 +658,10 @@ export type FiniteResource = {
 export type Rock = {
   stone: Stone;
   createdAt?: number;
-} & Coordinates;
+  removedAt?: number;
+} & OptionalCoordinates;
 
 export type Oil = {
-  amount: number;
-  // Epoch time in milliseconds
   drilledAt: number;
 };
 
@@ -626,22 +669,26 @@ export type OilReserve = {
   oil: Oil;
   drilled: number;
   createdAt: number;
-} & Coordinates;
+  removedAt?: number;
+} & OptionalCoordinates;
 
 export type CropPlot = {
   crop?: PlantedCrop;
   fertiliser?: CropFertiliser;
+  amount?: number;
   createdAt: number;
   beeSwarm?: {
     count: number;
     swarmActivatedAt: number;
   };
-} & Coordinates;
+  removedAt?: number;
+} & OptionalCoordinates;
 
 export type GreenhousePlant = {
   name: GreenHouseCropName | GreenHouseFruitName;
   plantedAt: number;
-  amount: number;
+  criticalHit?: CriticalHit;
+  amount?: number;
 };
 
 export type GreenhousePot = {
@@ -652,7 +699,8 @@ export type FruitPatch = {
   fruit?: PlantedFruit;
   createdAt: number;
   fertiliser?: FruitFertiliser;
-} & Coordinates;
+  removedAt?: number;
+} & OptionalCoordinates;
 
 export type BuildingProduct = {
   name: CookableName;
@@ -660,6 +708,7 @@ export type BuildingProduct = {
   amount?: number;
   boost?: Partial<Record<InventoryItemName, number>>;
   skills?: Partial<Record<BumpkinRevampSkillName, boolean>>;
+  timeRemaining?: number;
 };
 
 export type BuildingProduce = {
@@ -676,12 +725,14 @@ export type Cancelled = Partial<{
 
 export type PlacedItem = {
   id: string;
-  coordinates: { x: number; y: number };
+  coordinates?: { x: number; y: number };
   readyAt: number;
   createdAt: number;
+  removedAt?: number;
   cancelled?: Cancelled;
   crafting?: BuildingProduct[];
   oil?: number;
+  flipped?: boolean;
 };
 
 type ShakeItem = PlacedItem & { shakenAt?: number };
@@ -712,12 +763,14 @@ export type CompostBuilding = PlacedItem & {
 export type CropMachineQueueItem = {
   crop: CropName;
   seeds: number;
-  amount: number;
   growTimeRemaining: number;
   totalGrowTime: number;
   startTime?: number;
   growsUntil?: number;
   readyAt?: number;
+  criticalHit?: CriticalHit;
+  amount?: number;
+  pausedTimeRemaining?: number;
 };
 
 export type CropMachineBuilding = PlacedItem & {
@@ -763,6 +816,7 @@ export type Airdrop = {
   coordinates?: Coordinates;
   factionPoints?: number;
   vipDays?: number;
+  recipes?: RecipeItemName[];
 };
 
 // Mystery Prize reveals
@@ -875,7 +929,8 @@ export type BedName =
   | "Desert Bed"
   | "Cow Bed"
   | "Pirate Bed"
-  | "Royal Bed";
+  | "Royal Bed"
+  | "Double Bed";
 
 export type RecipeCraftableName =
   | "Cushion"
@@ -1236,16 +1291,18 @@ export type Home = {
 export type PlantedFlower = {
   name: FlowerName;
   plantedAt: number;
-  amount: number;
   crossbreed?: FlowerCrossBreedName;
   dirty?: boolean;
   reward?: Reward;
+  criticalHit?: CriticalHit;
+  amount?: number;
 };
 
 export type FlowerBed = {
   flower?: PlantedFlower;
   createdAt: number;
-} & Coordinates;
+  removedAt?: number;
+} & OptionalCoordinates;
 
 export type FlowerBeds = Record<string, FlowerBed>;
 
@@ -1263,7 +1320,8 @@ export type Beehive = {
     produced: number;
   };
   flowers: AttachedFlower[];
-} & Coordinates;
+  removedAt?: number;
+} & OptionalCoordinates;
 
 export type Beehives = Record<string, Beehive>;
 
@@ -1334,6 +1392,7 @@ export type Faction = {
   kitchen?: FactionKitchen;
   pet?: FactionPet;
   history: Record<string, FactionHistory>;
+  boostCooldownUntil?: number;
 };
 
 export type DonationItemName =
@@ -1420,7 +1479,8 @@ export type LavaPit = {
   createdAt: number;
   startedAt?: number;
   collectedAt?: number;
-} & Coordinates;
+  removedAt?: number;
+} & OptionalCoordinates;
 
 export type VIP = {
   bundles: { name: VipBundle; boughtAt: number }[];
@@ -1435,6 +1495,14 @@ export type NFT = {
   expiresAt: number;
   acknowledgedAt?: number;
 };
+
+export type BoostName =
+  | InventoryItemName
+  | BumpkinItem
+  | BumpkinRevampSkillName
+  | BudNFTName;
+
+export type BoostUsedAt = Partial<Record<BoostName, number>>;
 
 export interface GameState {
   home: Home;
@@ -1506,6 +1574,7 @@ export interface GameState {
   previousWardrobe: Wardrobe;
   stock: Inventory;
   stockExpiry: StockExpiry;
+  boostsUsedAt?: BoostUsedAt;
 
   // When an item is burnt, what the prize was
   mysteryPrizes: Partial<Record<InventoryItemName, Reveal[]>>;
@@ -1624,6 +1693,10 @@ export interface GameState {
     >;
   };
   faction?: Faction;
+  previousFaction?: {
+    name: FactionName;
+    leftAt: number;
+  };
   dailyFactionDonationRequest?: {
     resource: DonationItemName;
     amount: Decimal;
@@ -1681,6 +1754,7 @@ export interface GameState {
   };
   discord?: {
     connected: boolean;
+    verified: boolean;
   };
   referrals?: {
     totalReferrals: number;
@@ -1715,7 +1789,51 @@ export interface GameState {
     amount: number;
   };
   blessing: Blessing;
+
+  aoe: AOE;
+  socialFarming: {
+    points: number;
+    villageProjects: Partial<Record<MonumentName, { cheers: number }>>;
+    cheersGiven: {
+      date: string;
+      projects: Partial<Record<MonumentName, number[]>>;
+      farms: number[];
+    };
+    cheers: {
+      cheersUsed: number;
+      freeCheersClaimedAt: number;
+    };
+    dailyCollections?: Record<
+      number,
+      {
+        pointGivenAt?: number;
+        clutter: Record<
+          string,
+          {
+            collectedAt: number;
+            type: ClutterName;
+          }
+        >;
+      }
+    >;
+    caughtPests?: Record<number, string[]>;
+    clutter?: {
+      spawnedAt: number;
+      locations: Record<
+        string,
+        {
+          type: ClutterName;
+          x: number;
+          y: number;
+        }
+      >;
+    };
+  };
 }
+
+export type AOE = Partial<
+  Record<AOEItemName, Partial<Record<number, Partial<Record<number, number>>>>>
+>;
 
 export type FaceRecognitionEvent =
   | { event: "succeeded"; createdAt: number; confidence: number }

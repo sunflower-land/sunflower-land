@@ -1,16 +1,22 @@
 import { BuildingName } from "features/game/types/buildings";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { getKeys } from "features/game/types/craftables";
-import { Chicken, GameState } from "features/game/types/game";
+import {
+  Chicken,
+  CropMachineBuilding,
+  GameState,
+} from "features/game/types/game";
 import { getSupportedChickens } from "./utils";
 import { hasRemoveRestriction } from "features/game/types/removeables";
 import { produce } from "immer";
+import { hasFeatureAccess } from "lib/flags";
 export enum REMOVE_BUILDING_ERRORS {
   INVALID_BUILDING = "This building does not exist",
   NO_BUMPKIN = "You do not have a Bumpkin",
   BUILDING_UNDER_CONSTRUCTION = "Cannot remove a building while it's under construction",
   WATER_WELL_REMOVE_CROPS = "Cannot remove Water Well that causes crops to uproot",
   HEN_HOUSE_REMOVE_BREWING_CHICKEN = "Cannot remove Hen House that causes chickens that are brewing egg to be removed",
+  BUILDING_NOT_PLACED = "Building not placed",
 }
 
 export type RemoveBuildingAction = {
@@ -92,18 +98,42 @@ export function removeBuilding({
       throw new Error(REMOVE_BUILDING_ERRORS.BUILDING_UNDER_CONSTRUCTION);
     }
 
+    if (!buildingToRemove.coordinates) {
+      throw new Error(REMOVE_BUILDING_ERRORS.BUILDING_NOT_PLACED);
+    }
+
     const [restricted, error] = hasRemoveRestriction({
       name: action.name,
       state: stateCopy,
     });
 
-    if (restricted) {
+    if (restricted && !hasFeatureAccess(stateCopy, "LANDSCAPING")) {
       throw new Error(error);
     }
 
-    stateCopy.buildings[action.name] = buildingGroup.filter(
-      (building) => building.id !== buildingToRemove.id,
-    );
+    delete buildingToRemove.coordinates;
+    buildingToRemove.removedAt = createdAt;
+
+    // Cooking buildings
+    if (buildingToRemove.crafting) {
+      buildingToRemove.crafting.forEach((crafting) => {
+        crafting.timeRemaining = crafting.readyAt - createdAt;
+      });
+    }
+
+    if (action.name === "Crop Machine") {
+      const cropMachine = buildingToRemove as CropMachineBuilding;
+      if (cropMachine.queue) {
+        cropMachine.queue.forEach((pack) => {
+          if (pack.readyAt) {
+            pack.pausedTimeRemaining = pack.readyAt - createdAt;
+          }
+          if (pack.growsUntil) {
+            pack.pausedTimeRemaining = pack.growsUntil - createdAt;
+          }
+        });
+      }
+    }
 
     if (action.name === "Hen House") {
       if (areUnsupportedChickensBrewing(stateCopy)) {

@@ -24,6 +24,8 @@ export const NO_BONUS_BOUNTIES_WEEK = [
   "2025-04-28",
   "2025-06-23", // Auction Week
   "2025-07-28", // Final Week
+  "2025-08-04", // Better Together Rest Week
+  "2025-10-06", // Better Together Auction Week
 ];
 
 export function claimBountyBonus({

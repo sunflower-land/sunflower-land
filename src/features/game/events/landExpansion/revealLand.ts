@@ -7,8 +7,9 @@ import {
 import {
   EXPANSION_REQUIREMENTS,
   getLand,
+  Requirements,
 } from "features/game/types/expansions";
-import { Airdrop, GameState } from "features/game/types/game";
+import { Airdrop, BoostName, GameState } from "features/game/types/game";
 
 import { getKeys } from "features/game/types/craftables";
 import { pickEmptyPosition } from "features/game/expansion/placeable/lib/collisionDetection";
@@ -76,7 +77,7 @@ export function revealLand({
       game.trees[randomUUID().slice(0, 8)] = {
         x: coords.x + origin.x,
         y: coords.y + origin.y,
-        wood: { amount: 1, choppedAt: 0 },
+        wood: { choppedAt: 0 },
       };
     });
     inventory.Tree = (inventory.Tree || new Decimal(0)).add(land.trees.length);
@@ -86,7 +87,7 @@ export function revealLand({
       game.stones[randomUUID().slice(0, 8)] = {
         x: coords.x + origin.x,
         y: coords.y + origin.y,
-        stone: { amount: 1, minedAt: 0 },
+        stone: { minedAt: 0 },
       };
     });
     inventory["Stone Rock"] = (inventory["Stone Rock"] || new Decimal(0)).add(
@@ -98,7 +99,7 @@ export function revealLand({
       game.iron[randomUUID().slice(0, 8)] = {
         x: coords.x + origin.x,
         y: coords.y + origin.y,
-        stone: { amount: 1, minedAt: 0 },
+        stone: { minedAt: 0 },
       };
     });
     inventory["Iron Rock"] = (inventory["Iron Rock"] || new Decimal(0)).add(
@@ -110,7 +111,7 @@ export function revealLand({
       game.gold[randomUUID().slice(0, 8)] = {
         x: coords.x + origin.x,
         y: coords.y + origin.y,
-        stone: { amount: 1, minedAt: 0 },
+        stone: { minedAt: 0 },
       };
     });
     inventory["Gold Rock"] = (inventory["Gold Rock"] || new Decimal(0)).add(
@@ -122,7 +123,7 @@ export function revealLand({
       game.crimstones[randomUUID().slice(0, 8)] = {
         x: coords.x + origin.x,
         y: coords.y + origin.y,
-        stone: { amount: 1, minedAt: 0 },
+        stone: { minedAt: 0 },
         minesLeft: 5,
       };
     });
@@ -138,7 +139,6 @@ export function revealLand({
         y: coords.y + origin.y,
         crop: {
           name: EXPANSION_CROPS[landCount] ?? "Sunflower",
-          amount: 1,
           plantedAt: 0,
         },
       };
@@ -155,7 +155,6 @@ export function revealLand({
         x: coords.x + origin.x,
         y: coords.y + origin.y,
         fruit: {
-          amount: 1,
           harvestedAt: 0,
           harvestsLeft: 3,
           name: "Apple",
@@ -173,7 +172,7 @@ export function revealLand({
       game.sunstones[id] = {
         x: coords.x + origin.x,
         y: coords.y + origin.y,
-        stone: { amount: 1, minedAt: 0 },
+        stone: { minedAt: 0 },
         minesLeft: 10,
       };
     });
@@ -217,7 +216,6 @@ export function revealLand({
         createdAt,
         drilled: 0,
         oil: {
-          amount: 10,
           drilledAt: 0,
         },
       };
@@ -343,13 +341,19 @@ export function revealLand({
   });
 }
 
-export const expansionRequirements = ({ game }: { game: GameState }) => {
-  const level = (game.inventory["Basic Land"]?.toNumber() ?? 3) + 1;
+export const expansionRequirements = ({
+  game,
+}: {
+  game: GameState;
+}): { requirements: Requirements | undefined; boostsUsed: BoostName[] } => {
+  const level = (game.inventory["Basic Land"]?.toNumber() ?? 0) + 1;
+
+  const boostsUsed: BoostName[] = [];
 
   const requirements = EXPANSION_REQUIREMENTS[game.island.type][level];
 
   if (!requirements) {
-    return undefined;
+    return { requirements: undefined, boostsUsed };
   }
 
   let resources = requirements.resources;
@@ -363,12 +367,10 @@ export const expansionRequirements = ({ game }: { game: GameState }) => {
       }),
       {},
     );
+    boostsUsed.push("Grinx's Hammer");
   }
 
-  return {
-    ...requirements,
-    resources,
-  };
+  return { requirements: { ...requirements, resources }, boostsUsed };
 };
 
 export function getRewards({

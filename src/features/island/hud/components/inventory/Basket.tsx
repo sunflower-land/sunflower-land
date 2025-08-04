@@ -5,7 +5,6 @@ import {
   InventoryItemName,
   FERTILISERS,
   COUPONS,
-  Bumpkin,
   GameState,
   EASTER_EGG,
 } from "features/game/types/game";
@@ -41,7 +40,6 @@ import { InventoryItemDetails } from "components/ui/layouts/InventoryItemDetails
 import { SEASONAL_SEEDS, SeedName, SEEDS } from "features/game/types/seeds";
 import { getFruitHarvests } from "features/game/events/landExpansion/utils";
 import { getFoodExpBoost } from "features/game/expansion/lib/boosts";
-import Decimal from "decimal.js-light";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { SELLABLE_TREASURE } from "features/game/types/treasure";
 import {
@@ -72,6 +70,7 @@ import { ANIMAL_FOODS } from "features/game/types/animals";
 import { RECIPE_CRAFTABLES } from "features/game/lib/crafting";
 import { SEASON_ICONS } from "features/island/buildings/components/building/market/SeasonalSeeds";
 import { getFlowerTime } from "features/game/events/landExpansion/plantFlower";
+import { CLUTTER } from "features/game/types/clutter";
 
 interface Prop {
   gameState: GameState;
@@ -120,15 +119,15 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
 
   const getHarvestTime = (seedName: SeedName) => {
     if (isFlowerSeed(seedName)) {
-      return getFlowerTime(seedName, gameState);
+      return getFlowerTime(seedName, gameState).seconds;
     }
 
     if (isPatchFruitSeed(seedName)) {
-      return getFruitPatchTime(seedName, gameState);
+      return getFruitPatchTime(seedName, gameState).seconds;
     }
     if (seedName in GREENHOUSE_SEEDS || seedName in GREENHOUSE_FRUIT_SEEDS) {
       const plant = SEED_TO_PLANT[seedName as GreenHouseCropSeedName];
-      const seconds = getGreenhouseCropTime({
+      const { seconds } = getGreenhouseCropTime({
         crop: plant,
         game: gameState,
       });
@@ -139,7 +138,8 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
     return getCropPlotTime({
       crop,
       game: gameState,
-    });
+      createdAt: Date.now(),
+    }).time;
   };
 
   const harvestCounts = getFruitHarvests(gameState, selectedItem as SeedName);
@@ -205,6 +205,8 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const allTools = [...workbenchTools, ...treasureTools, ...animalTools];
   const allResources = [...resources, ...craftingResources];
 
+  const clutter = getItems(CLUTTER);
+
   const itemsSection = (
     title: string,
     items: InventoryItemName[],
@@ -264,14 +266,10 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
                   }
                 : undefined,
               xp: isFood(selectedItem)
-                ? new Decimal(
-                    getFoodExpBoost(
-                      CONSUMABLES[selectedItem as ConsumableName],
-                      gameState.bumpkin as Bumpkin,
-                      gameState,
-                      gameState.buds ?? {},
-                    ),
-                  )
+                ? getFoodExpBoost({
+                    food: CONSUMABLES[selectedItem as ConsumableName],
+                    game: gameState,
+                  }).boostedExp
                 : undefined,
               timeSeconds: isSeed(selectedItem)
                 ? getHarvestTime(selectedItem)
@@ -317,6 +315,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
             allResources,
             ITEM_DETAILS["Wood"].image,
           )}
+          {itemsSection(t("clutter"), clutter, ITEM_DETAILS.Dung.image)}
           {itemsSection(t("animal"), animalResources, ITEM_DETAILS.Egg.image)}
           {itemsSection("Feeds", animalFeeds, ITEM_DETAILS.Hay.image)}
           {itemsSection(

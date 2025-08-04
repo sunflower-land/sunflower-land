@@ -16,7 +16,10 @@ import {
 import { RESOURCES } from "features/game/types/resources";
 import { ResourceName } from "features/game/types/resources";
 import { BudName, isBudName } from "features/game/types/buds";
-import { RESOURCE_MOVE_EVENTS } from "features/island/collectibles/MovableComponent";
+import {
+  RESOURCE_MOVE_EVENTS,
+  RESOURCES_REMOVE_ACTIONS,
+} from "features/island/collectibles/MovableComponent";
 import { PlaceableLocation } from "features/game/types/collectibles";
 
 export const RESOURCE_PLACE_EVENTS: Partial<
@@ -114,6 +117,19 @@ type RemoveEvent = {
   location: PlaceableLocation;
 };
 
+type RemoveAllEvent = {
+  type: "REMOVE_ALL";
+  event: "items.removed";
+  location: PlaceableLocation;
+};
+
+type FlipEvent = {
+  type: "FLIP";
+  id: string;
+  name: CollectibleName;
+  location: PlaceableLocation;
+};
+
 type ConstructEvent = {
   type: "CONSTRUCT";
   actionName: PlacementEvent;
@@ -144,6 +160,8 @@ export type BlockchainEvent =
   | SaveEvent
   | MoveEvent
   | RemoveEvent
+  | RemoveAllEvent
+  | FlipEvent
   | { type: "CANCEL" }
   | { type: "BACK" };
 
@@ -268,6 +286,27 @@ export const landscapingMachine = createMachine<
             BUILD: {
               target: "idle",
             },
+            REMOVE_ALL: {
+              target: "idle",
+              actions: [
+                sendParent((_context, event) => ({
+                  type: event.event,
+                  location: event.location,
+                })),
+                assign({ moving: (_) => undefined }),
+              ],
+            },
+            FLIP: {
+              target: "idle",
+              actions: [
+                sendParent((_, event) => ({
+                  type: "collectible.flipped",
+                  id: event.id,
+                  name: event.name,
+                  location: event.location,
+                })),
+              ],
+            },
             REMOVE: {
               target: "idle",
               actions: [
@@ -280,7 +319,9 @@ export const landscapingMachine = createMachine<
                         ? {}
                         : { name: event.name }),
                       id: event.id,
-                      location: event.location,
+                      ...(event.name in RESOURCES_REMOVE_ACTIONS
+                        ? {}
+                        : { location: event.location }),
                     }) as PlacementEvent,
                 ),
                 assign({ moving: (_) => undefined }),

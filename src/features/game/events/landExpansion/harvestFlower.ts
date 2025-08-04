@@ -1,5 +1,5 @@
 import { FLOWERS, FLOWER_SEEDS } from "features/game/types/flowers";
-import { GameState } from "../../types/game";
+import { BoostName, CriticalHitName, GameState } from "../../types/game";
 import Decimal from "decimal.js-light";
 import { updateBeehives } from "features/game/lib/updateBeehives";
 import { trackActivity } from "features/game/types/bumpkinActivity";
@@ -8,6 +8,8 @@ import { translate } from "lib/i18n/translate";
 
 import { trackFarmActivity } from "features/game/types/farmActivity";
 import { produce } from "immer";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 
 export type HarvestFlowerAction = {
   type: "flower.harvested";
@@ -19,6 +21,57 @@ type Options = {
   action: HarvestFlowerAction;
   createdAt?: number;
 };
+
+function getFlowerAmount({
+  game,
+  criticalDrop = () => false,
+}: {
+  game: GameState;
+  criticalDrop: (name: CriticalHitName) => boolean;
+}): { amount: number; boostsUsed: BoostName[] } {
+  const { bumpkin } = game;
+  let amount = 1;
+  const boostsUsed: BoostName[] = [];
+
+  if (
+    isCollectibleBuilt({ name: "Humming Bird", game }) &&
+    criticalDrop("Humming Bird")
+  ) {
+    amount += 1;
+    boostsUsed.push("Humming Bird");
+  }
+
+  if (
+    isCollectibleBuilt({ name: "Butterfly", game }) &&
+    criticalDrop("Butterfly")
+  ) {
+    amount += 1;
+    boostsUsed.push("Butterfly");
+  }
+
+  if (
+    isCollectibleBuilt({ name: "Desert Rose", game }) &&
+    criticalDrop("Desert Rose")
+  ) {
+    amount += 1;
+    boostsUsed.push("Desert Rose");
+  }
+
+  if (
+    isCollectibleBuilt({ name: "Chicory", game }) &&
+    criticalDrop("Chicory")
+  ) {
+    amount += 1;
+    boostsUsed.push("Chicory");
+  }
+
+  if (bumpkin.skills["Petalled Perk"] && criticalDrop("Petalled Perk")) {
+    amount += 1;
+    boostsUsed.push("Petalled Perk");
+  }
+
+  return { amount, boostsUsed };
+}
 
 export function harvestFlower({
   state,
@@ -50,10 +103,17 @@ export function harvestFlower({
       createdAt;
 
     if (!isReady) throw new Error(translate("harvestflower.notReady"));
+    const { amount, boostsUsed } =
+      flower.amount !== undefined
+        ? { amount: flower.amount, boostsUsed: [] }
+        : getFlowerAmount({
+            game: stateCopy,
+            criticalDrop: (name) => !!(flower.criticalHit?.[name] ?? 0),
+          });
 
     stateCopy.inventory[flower.name] = (
       stateCopy.inventory[flower.name] ?? new Decimal(0)
-    ).add(flower.amount);
+    ).add(amount);
 
     const discovered = flowers.discovered[flower.name] ?? [];
     if (!!flower.crossbreed && !discovered.includes(flower.crossbreed)) {
@@ -82,6 +142,12 @@ export function harvestFlower({
       stateCopy.farmActivity,
       1,
     );
+
+    stateCopy.boostsUsedAt = updateBoostUsed({
+      game: stateCopy,
+      boostNames: boostsUsed,
+      createdAt,
+    });
 
     stateCopy.beehives = updateBeehives({
       game: stateCopy,

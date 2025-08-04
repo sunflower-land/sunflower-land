@@ -6,6 +6,65 @@ import {
   InventoryItemName,
   RecipeCraftableName,
 } from "../types/game";
+/**
+ * getKeys is a ref to Object.keys, but the return is typed literally.
+ */
+export const getKeys = Object.keys as <T extends object>(
+  obj: T,
+) => Array<keyof T>;
+
+export type DollName =
+  | "Doll"
+  | "Buzz Doll"
+  | "Lunar Doll"
+  | "Juicy Doll"
+  | "Crude Doll"
+  | "Cluck Doll"
+  | "Wooly Doll"
+  | "Moo Doll"
+  | "Bloom Doll"
+  | "Shadow Doll"
+  | "Ember Doll"
+  | "Gilded Doll"
+  | "Lumber Doll"
+  | "Harvest Doll"
+  | "Sizzle Doll"
+  | "Angler Doll"
+  | "Dune Doll"
+  | "Mouse Doll"
+  | "Grubby Doll"
+  | "Nefari Doll"
+  | "Frosty Doll"
+  | "Cosmo Doll"
+  | "Bigfin Doll"
+  | "Solar Doll";
+
+export const DOLLS: Record<DollName, object> = {
+  Doll: {},
+  "Buzz Doll": {},
+  "Lunar Doll": {},
+  "Juicy Doll": {},
+  "Crude Doll": {},
+  "Cluck Doll": {},
+  "Wooly Doll": {},
+  "Moo Doll": {},
+  "Bloom Doll": {},
+  "Shadow Doll": {},
+  "Ember Doll": {},
+  "Gilded Doll": {},
+  "Lumber Doll": {},
+  "Harvest Doll": {},
+  "Sizzle Doll": {},
+  "Angler Doll": {},
+  "Dune Doll": {},
+  "Mouse Doll": {},
+  "Grubby Doll": {},
+  "Nefari Doll": {},
+  "Frosty Doll": {},
+  "Cosmo Doll": {},
+  "Bigfin Doll": {},
+  "Solar Doll": {},
+};
 
 export type RecipeCollectibleName = Extract<
   | "Dirt Path"
@@ -27,7 +86,8 @@ export type RecipeCollectibleName = Extract<
   | "Mahogany Cap"
   | "Golden Maple"
   | RecipeCraftableName
-  | BedName,
+  | Exclude<BedName, "Double Bed">
+  | DollName,
   InventoryItemName
 >;
 
@@ -63,7 +123,7 @@ export type Recipe = {
 
 export type Recipes = Record<RecipeItemName, Recipe>;
 
-export const RECIPES_OLD: Recipes = {
+export const RECIPES_OLD: Omit<Recipes, DollName> = {
   "Dirt Path": {
     name: "Dirt Path",
     ingredients: [],
@@ -325,63 +385,30 @@ export const RECIPES_OLD: Recipes = {
 };
 
 export const RECIPES_REVISED: Record<
-  Exclude<RecipeCollectibleName, "Dirt Path" | "Fence" | "Stone Fence">,
+  Exclude<
+    RecipeCollectibleName,
+    | "Dirt Path"
+    | "Fence"
+    | "Stone Fence"
+    | "Double Bed"
+    | "Basic Bear"
+    | "Bonnie's Tombstone"
+    | "Grubnash's Tombstone"
+    | "Town Sign"
+    | "Field Maple"
+    | "Red Maple"
+    | "Crimson Cap"
+    | "Chestnut Fungi Stool"
+    | "Mahogany Cap"
+    | "Golden Maple"
+    | "Toadstool Seat"
+    | "White Tulips"
+    | "Potted Sunflower"
+    | "Potted Potato"
+    | "Potted Pumpkin"
+  >,
   Recipe
 > = {
-  "Toadstool Seat": {
-    name: "Toadstool Seat",
-    ingredients: [],
-    time: 0,
-    type: "collectible",
-  },
-  "White Tulips": {
-    name: "White Tulips",
-    ingredients: [],
-    time: 0,
-    type: "collectible",
-  },
-  "Potted Sunflower": {
-    name: "Potted Sunflower",
-    ingredients: [],
-    time: 0,
-    type: "collectible",
-  },
-  "Potted Potato": {
-    name: "Potted Potato",
-    ingredients: [],
-    time: 0,
-    type: "collectible",
-  },
-  "Potted Pumpkin": {
-    name: "Potted Pumpkin",
-    ingredients: [],
-    time: 0,
-    type: "collectible",
-  },
-  "Basic Bear": {
-    name: "Basic Bear",
-    ingredients: [],
-    time: 0,
-    type: "collectible",
-  },
-  "Bonnie's Tombstone": {
-    name: "Bonnie's Tombstone",
-    ingredients: [],
-    time: 0,
-    type: "collectible",
-  },
-  "Grubnash's Tombstone": {
-    name: "Grubnash's Tombstone",
-    ingredients: [],
-    time: 0,
-    type: "collectible",
-  },
-  "Town Sign": {
-    name: "Town Sign",
-    ingredients: [],
-    time: 0,
-    type: "collectible",
-  },
   Cushion: {
     name: "Cushion",
     ingredients: [],
@@ -451,87 +478,64 @@ export const RECIPES_REVISED: Record<
   "Basic Bed": {
     name: "Basic Bed",
     ingredients: [],
-    time: 0,
+    time: 8 * 60 * 60 * 1000,
     type: "collectible",
   },
   "Fisher Bed": {
     name: "Fisher Bed",
     ingredients: [],
-    time: 0,
+    time: 8 * 60 * 60 * 1000,
     type: "collectible",
   },
   "Floral Bed": {
     name: "Floral Bed",
     ingredients: [],
-    time: 0,
+    time: 8 * 60 * 60 * 1000,
     type: "collectible",
   },
   "Sturdy Bed": {
     name: "Sturdy Bed",
     ingredients: [],
-    time: 0,
+    time: 8 * 60 * 60 * 1000,
     type: "collectible",
   },
   "Desert Bed": {
     name: "Desert Bed",
     ingredients: [],
-    time: 0,
+    time: 8 * 60 * 60 * 1000,
     type: "collectible",
   },
   "Cow Bed": {
     name: "Cow Bed",
     ingredients: [],
-    time: 0,
+    time: 8 * 60 * 60 * 1000,
     type: "collectible",
   },
   "Pirate Bed": {
     name: "Pirate Bed",
     ingredients: [],
-    time: 0,
+    time: 8 * 60 * 60 * 1000,
     type: "collectible",
   },
   "Royal Bed": {
     name: "Royal Bed",
     ingredients: [],
-    time: 0,
+    time: 8 * 60 * 60 * 1000,
     type: "collectible",
   },
-  "Golden Maple": {
-    name: "Golden Maple",
-    ingredients: [],
-    time: 0,
-    type: "collectible",
-  },
-  "Crimson Cap": {
-    name: "Crimson Cap",
-    ingredients: [],
-    time: 30 * 60 * 1000,
-    type: "collectible",
-  },
-  "Chestnut Fungi Stool": {
-    name: "Chestnut Fungi Stool",
-    ingredients: [],
-    time: 30 * 60 * 1000,
-    type: "collectible",
-  },
-  "Mahogany Cap": {
-    name: "Mahogany Cap",
-    ingredients: [],
-    time: 30 * 60 * 1000,
-    type: "collectible",
-  },
-  "Field Maple": {
-    name: "Field Maple",
-    ingredients: [],
-    time: 30 * 60 * 1000,
-    type: "collectible",
-  },
-  "Red Maple": {
-    name: "Red Maple",
-    ingredients: [],
-    time: 30 * 60 * 1000,
-    type: "collectible",
-  },
+
+  ...getKeys(DOLLS).reduce(
+    (acc, doll) => ({
+      ...acc,
+      [doll]: {
+        name: doll,
+        ingredients: [],
+        time: 8 * 60 * 60 * 1000,
+        type: "collectible",
+      },
+    }),
+    {} as Record<DollName, Recipe>,
+  ),
 };
 
 export const RECIPE_CRAFTABLES: Record<RecipeCraftableName, null> = {

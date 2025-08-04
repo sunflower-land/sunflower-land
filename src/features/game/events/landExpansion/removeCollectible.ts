@@ -32,10 +32,14 @@ type Options = {
   createdAt?: number;
 };
 
-export function removeCollectible({ state, action }: Options) {
+export function removeCollectible({
+  state,
+  action,
+  createdAt = Date.now(),
+}: Options) {
   return produce(state, (stateCopy) => {
     const { bumpkin } = stateCopy;
-    let collectibleGroup =
+    const collectibleGroup =
       action.location === "home"
         ? stateCopy.home.collectibles[action.name]
         : stateCopy.collectibles[action.name];
@@ -56,9 +60,8 @@ export function removeCollectible({ state, action }: Options) {
       throw new Error(REMOVE_COLLECTIBLE_ERRORS.INVALID_COLLECTIBLE);
     }
 
-    collectibleGroup = collectibleGroup.filter(
-      (collectible) => collectible.id !== collectibleToRemove.id,
-    );
+    delete collectibleToRemove.coordinates;
+    collectibleToRemove.removedAt = createdAt;
 
     // Remove collectible key if there are none placed
     if (collectibleGroup.length === 0) {

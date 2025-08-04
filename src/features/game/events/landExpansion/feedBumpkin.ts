@@ -4,6 +4,7 @@ import { ConsumableName, CONSUMABLES } from "features/game/types/consumables";
 import { GameState } from "features/game/types/game";
 import { getFoodExpBoost } from "features/game/expansion/lib/boosts";
 import { produce } from "immer";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 
 export enum FEED_BUMPKIN_ERRORS {
   MISSING_BUMPKIN = "You do not have a Bumpkin",
@@ -30,7 +31,6 @@ export function feedBumpkin({
 }: Options): GameState {
   return produce(state, (stateCopy) => {
     const bumpkin = stateCopy.bumpkin;
-    const buds = stateCopy.buds;
     const inventory = stateCopy.inventory;
 
     // throws error when player does not have a bumpkin
@@ -54,15 +54,11 @@ export function feedBumpkin({
     inventory[action.food] = inventoryFoodCount.sub(feedAmount);
 
     // increaes bumpkin experience
-    const foodExperience = new Decimal(
-      getFoodExpBoost(
-        CONSUMABLES[action.food],
-        bumpkin,
-        stateCopy,
-        buds ?? {},
-        createdAt,
-      ),
-    );
+    const { boostedExp: foodExperience, boostsUsed } = getFoodExpBoost({
+      food: CONSUMABLES[action.food],
+      game: stateCopy,
+      createdAt,
+    });
 
     bumpkin.experience += Number(foodExperience.mul(feedAmount));
 
@@ -72,7 +68,11 @@ export function feedBumpkin({
       bumpkin.activity,
       feedAmount,
     );
-
+    stateCopy.boostsUsedAt = updateBoostUsed({
+      game: stateCopy,
+      boostNames: boostsUsed,
+      createdAt,
+    });
     // return new state
     return stateCopy;
   });

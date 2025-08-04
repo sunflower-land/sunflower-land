@@ -1,7 +1,15 @@
 import Decimal from "decimal.js-light";
 import { trackActivity } from "features/game/types/bumpkinActivity";
-import { GameState } from "features/game/types/game";
+import {
+  BoostName,
+  CriticalHitName,
+  CropMachineQueueItem,
+  GameState,
+} from "features/game/types/game";
 import { produce } from "immer";
+import { getCropYieldAmount } from "./harvest";
+import cloneDeep from "lodash.clonedeep";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 
 export type HarvestCropMachineAction = {
   type: "cropMachine.harvested";
@@ -13,6 +21,41 @@ type Options = {
   action: HarvestCropMachineAction;
   createdAt?: number;
 };
+
+/**
+ * run getCropYieldAmount for each amount times to get the yield amount per each seed
+ */
+export function getPackYieldAmount(
+  state: GameState,
+  pack: CropMachineQueueItem,
+): { amount: number; boostsUsed: BoostName[] } {
+  let totalYield = 0;
+  const boostsUsed: BoostName[] = [];
+
+  const { criticalHit = {}, seeds, crop } = pack;
+  const criticalHitObj = cloneDeep(criticalHit);
+
+  const criticalDrop = (name: CriticalHitName) => {
+    if (criticalHitObj[name]) {
+      criticalHitObj[name]--;
+      return true;
+    }
+    return false;
+  };
+
+  for (let i = 0; i < seeds; i++) {
+    const { amount, boostsUsed: cropBoostsUsed } = getCropYieldAmount({
+      game: state,
+      crop,
+      criticalDrop,
+      createdAt: Date.now(),
+    });
+
+    totalYield += amount;
+    boostsUsed.push(...cropBoostsUsed);
+  }
+  return { amount: totalYield, boostsUsed };
+}
 
 export function harvestCropMachine({
   state,
@@ -47,7 +90,12 @@ export function harvestCropMachine({
 
     // Harvest the crops from pack
     const cropsInInventory = stateCopy.inventory[pack.crop] ?? new Decimal(0);
-    stateCopy.inventory[pack.crop] = cropsInInventory.add(pack.amount);
+    const { amount, boostsUsed } =
+      pack.amount !== undefined
+        ? { amount: pack.amount, boostsUsed: [] }
+        : getPackYieldAmount(stateCopy, pack);
+
+    stateCopy.inventory[pack.crop] = cropsInInventory.add(amount);
     bumpkin.activity = trackActivity(
       `${pack.crop} Harvested`,
       bumpkin.activity,
@@ -58,6 +106,12 @@ export function harvestCropMachine({
     machine.queue = machine.queue.filter(
       (_, index) => index !== action.packIndex,
     );
+
+    stateCopy.boostsUsedAt = updateBoostUsed({
+      game: stateCopy,
+      boostNames: boostsUsed,
+      createdAt,
+    });
 
     return stateCopy;
   });

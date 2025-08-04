@@ -45,6 +45,7 @@ export const EFFECT_SUCCESS_COMPONENTS: Partial<
     <BulkRemoveSuccess type="offers" effect="marketplaceBulkOffersCancelling" />
   ),
   seekingBlessingSuccess: <SuccessSkip />,
+  cleaningFarmSuccess: <SuccessSkip />,
 };
 
 function camelToDotCase(str: string): string {

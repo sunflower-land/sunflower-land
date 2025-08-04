@@ -35,6 +35,7 @@ const CHAPTER_GRAPHICS: Record<SeasonName, string> = {
   "Bull Run": SUNNYSIDE.announcement.bullRunSeason,
   "Winds of Change": SUNNYSIDE.announcement.windsOfChangeSeason,
   "Great Bloom": "",
+  "Better Together": SUNNYSIDE.announcement.betterTogetherSeason,
 };
 
 const CHORES_DELIVERIES_START_DATE: Record<SeasonName, string> = {
@@ -48,6 +49,7 @@ const CHORES_DELIVERIES_START_DATE: Record<SeasonName, string> = {
   "Bull Run": "Nov 11th",
   "Winds of Change": "Feb 10th",
   "Great Bloom": "May 5th",
+  "Better Together": "Aug 4th",
 };
 
 interface Props {

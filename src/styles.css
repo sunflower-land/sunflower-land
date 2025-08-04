@@ -1511,3 +1511,13 @@ th {
     opacity: 0.5;
   }
 }
+
+/* Classes to flip a collectible image */
+.flipped img {
+  transform: scaleX(-1);
+}
+
+.flipped img.absolute.left-1\/2.-translate-x-1\/2,
+.flipped img.absolute.left-1\/2.transform.-translate-x-1\/2 {
+  transform: scaleX(-1) translateX(50%);
+}

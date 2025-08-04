@@ -33,6 +33,7 @@ export const InteriorBumpkins: React.FC<Props> = ({ game }) => {
   const farmHands = game.farmHands.bumpkins;
 
   const count = getKeys(farmHands).length + 1;
+  const max = Object.keys(BEDS).length;
 
   const collectibles = game.collectibles;
   const homeCollectibles = game.home.collectibles;
@@ -124,7 +125,7 @@ export const InteriorBumpkins: React.FC<Props> = ({ game }) => {
               {t("bedsMigration.label")}
             </Label>
             <Label type="default" icon={SUNNYSIDE.icons.player}>
-              {t("bedsMigration.farmHandCount", { count })}
+              {t("bedsMigration.farmHandCount", { count, max })}
             </Label>
           </div>
           <div className="flex p-2 flex-col space-y-1 mb-2 text-xs">

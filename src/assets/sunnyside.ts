@@ -71,11 +71,17 @@ export const SUNNYSIDE = {
     desertSeason: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/desert_season.png`,
     bullRunSeason: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/bull_run_season.png`,
     windsOfChangeSeason: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/winds_of_change.png`,
+    betterTogetherSeason: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/better_together_banner.png`,
     pharaohSeasonRares: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/pharaoh_seasonal_rares.png`,
     bullRunSeasonRares: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/bull_run_seasonal_rares.webp`,
     windsOfChangeSeasonRares: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/winds_of_change_rares.webp`,
     marketplace: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/marketplace_dark.png`,
     marketplaceLight: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/marketplace.png`,
+    betterTogetherSeasonRares: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/better_together_rares.webp`,
+    crafting: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/crafting.png`,
+    social: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/social_banner.png`,
+    landscaping: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/landscaping.png`,
+    cleaning: `${CONFIG.PROTECTED_IMAGE_URL}/announcements/cleanup.png`,
   },
   //Badges(Pre-LandExpansion Skills)
   badges: {

@@ -21,14 +21,14 @@ import { BB_TO_GEM_RATIO } from "features/game/types/game";
 
 describe("expansionRequirements", () => {
   it("returns normal expansion requirements", () => {
-    const requirements = expansionRequirements({ game: TEST_FARM });
+    const { requirements } = expansionRequirements({ game: TEST_FARM });
 
     expect(requirements?.resources).toEqual({
       Wood: 3,
     });
   });
   it("returns discounted expansion requirements with Grinx Hammer", () => {
-    const requirements = expansionRequirements({
+    const { requirements } = expansionRequirements({
       game: {
         ...TEST_FARM,
         collectibles: {
@@ -396,7 +396,6 @@ describe("revealLand", () => {
             y: 3,
             minesLeft: 3,
             stone: {
-              amount: 1,
               minedAt: 0,
             },
           },
@@ -432,7 +431,6 @@ describe("revealLand", () => {
             createdAt: 0,
             drilled: 1,
             oil: {
-              amount: 1,
               drilledAt: 0,
             },
           },
@@ -468,7 +466,6 @@ describe("revealLand", () => {
             y: 3,
             minesLeft: 3,
             stone: {
-              amount: 1,
               minedAt: 0,
             },
           },
@@ -492,7 +489,6 @@ describe("revealLand", () => {
         trees: {
           "1": {
             wood: {
-              amount: 2,
               choppedAt: now - 2 * 60 * 1000,
             },
             x: -3,
@@ -524,7 +520,6 @@ describe("revealLand", () => {
         stones: {
           "1": {
             stone: {
-              amount: 2,
               minedAt: now - 2 * 60 * 1000,
             },
             x: -3,
@@ -556,7 +551,6 @@ describe("revealLand", () => {
         iron: {
           "1": {
             stone: {
-              amount: 2,
               minedAt: now - 2 * 60 * 1000,
             },
             x: -3,
@@ -588,7 +582,6 @@ describe("revealLand", () => {
         gold: {
           "1": {
             stone: {
-              amount: 2,
               minedAt: now - 2 * 60 * 1000,
             },
             x: -3,
@@ -621,7 +614,6 @@ describe("revealLand", () => {
           "1": {
             minesLeft: 10,
             stone: {
-              amount: 2,
               minedAt: now - 2 * 60 * 1000,
             },
             x: -3,

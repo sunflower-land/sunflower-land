@@ -49,6 +49,7 @@ import { TimeRemainingLabel } from "./components/TimeRemainingLabel";
 import { OilTank } from "./components/OilTank";
 import { formatNumber, setPrecision } from "lib/utils/formatNumber";
 import { isMobile } from "mobile-device-detect";
+import { getPackYieldAmount } from "features/game/events/landExpansion/harvestCropMachine";
 
 interface Props {
   show: boolean;
@@ -84,8 +85,7 @@ const ALLOWED_SEEDS = (
 const _growingCropPackIndex = (state: CropMachineState) =>
   state.context.growingCropPackIndex;
 const _inventory = (state: MachineState) => state.context.state.inventory;
-
-export const CropMachineModal: React.FC<Props> = ({
+export const CropMachineModalContent: React.FC<Props> = ({
   show,
   queue,
   service,
@@ -259,414 +259,257 @@ export const CropMachineModal: React.FC<Props> = ({
   ];
 
   const allowedSeeds = ALLOWED_SEEDS(state.bumpkin, inventory);
+  const cropYield = selectedPack
+    ? selectedPack.amount ?? getPackYieldAmount(state, selectedPack).amount
+    : 0;
 
   return (
-    <Modal show={show} onHide={handleHide}>
-      <CloseButtonPanel
-        tabs={[{ icon: SUNNYSIDE.icons.seedling, name: t("cropMachine.name") }]}
-        currentTab={tab}
-        setCurrentTab={setTab}
-        onClose={onClose}
-      >
-        <div className="flex flex-col mt-1">
-          <div className="mt-0.5 mb-1.5 ml-0.5">{getMachineStatusLabel()}</div>
-          {/* Current crop */}
-          <OuterPanel>
-            {/* Growing */}
-            {selectedPackIndex === growingCropPackIndex && (
-              <div className="flex flex-col">
-                {show && (
-                  <div className="flex flex-col space-y-1 sm:space-y-0 sm:flex-row justify-between ml-2.5 mr-0.5 my-1">
-                    <TimeRemainingLabel
-                      paused={paused}
-                      growsUntil={selectedPack.growsUntil}
-                      readyAt={selectedPack.readyAt}
-                      startTime={selectedPack.startTime as number}
-                      totalGrowTime={selectedPack.totalGrowTime}
-                      growTimeRemaining={selectedPack.growTimeRemaining}
-                    />
-                    {paused && (
-                      <Label type="default">{t("cropMachine.paused")}</Label>
-                    )}
-                  </div>
-                )}
-                <div className="flex">
-                  <Box image={ITEM_DETAILS[selectedPack.crop].image} />
-                  <div className="flex flex-col justify-center space-y-1">
-                    <span className="text-xs capitalize">
-                      {`${t("growing")} `}
-                      {selectedPack.crop === "Potato"
-                        ? `${selectedPack.crop}es`
-                        : `${selectedPack.crop}s`}
-                    </span>
-                    {show && (
-                      <PackGrowthProgressBar
-                        paused={paused}
-                        growsUntil={selectedPack.growsUntil}
-                        startTime={selectedPack.startTime as number}
-                        totalGrowTime={selectedPack.totalGrowTime}
-                        readyAt={selectedPack.readyAt}
-                        growTimeRemaining={selectedPack.growTimeRemaining}
-                      />
-                    )}
-                  </div>
-                </div>
-              </div>
-            )}
-            {/* Harvest */}
-            {selectedPack && isCropPackReady(selectedPack) && (
-              <div className="flex flex-col w-full">
-                <div className="flex justify-between ml-2.5 mr-0.5 mt-1 mb-0.5">
-                  <Label type="success" icon={SUNNYSIDE.icons.confirm}>
-                    {t("cropMachine.readyToHarvest")}
-                  </Label>
-                  {selectedPack.amount > selectedPack.seeds && (
-                    <Label type="vibrant" icon={lightning}>
-                      {t("cropMachine.boosted")}
-                    </Label>
+    <CloseButtonPanel
+      tabs={[{ icon: SUNNYSIDE.icons.seedling, name: t("cropMachine.name") }]}
+      currentTab={tab}
+      setCurrentTab={setTab}
+      onClose={onClose}
+    >
+      <div className="flex flex-col mt-1">
+        <div className="mt-0.5 mb-1.5 ml-0.5">{getMachineStatusLabel()}</div>
+        {/* Current crop */}
+        <OuterPanel>
+          {/* Growing */}
+          {selectedPackIndex === growingCropPackIndex && (
+            <div className="flex flex-col">
+              {show && (
+                <div className="flex flex-col space-y-1 sm:space-y-0 sm:flex-row justify-between ml-2.5 mr-0.5 my-1">
+                  <TimeRemainingLabel
+                    paused={paused}
+                    growsUntil={selectedPack.growsUntil}
+                    readyAt={selectedPack.readyAt}
+                    startTime={selectedPack.startTime as number}
+                    totalGrowTime={selectedPack.totalGrowTime}
+                    growTimeRemaining={selectedPack.growTimeRemaining}
+                  />
+                  {paused && (
+                    <Label type="default">{t("cropMachine.paused")}</Label>
                   )}
                 </div>
-                <div className="flex w-full">
-                  <Box image={ITEM_DETAILS[selectedPack.crop].image}></Box>
-                  <div className="flex flex-col justify-center space-y-1">
-                    <span className="text-xs">
-                      {t("cropMachine.totalSeeds", {
-                        total: selectedPack.seeds,
-                      })}
-                    </span>
-                    <span className="text-xs">
-                      {t("cropMachine.totalCrops", {
-                        cropName: selectedPack.crop.toLocaleLowerCase(),
-                        total: formatNumber(selectedPack.amount),
-                      })}
-                    </span>
-                  </div>
+              )}
+              <div className="flex">
+                <Box image={ITEM_DETAILS[selectedPack.crop].image} />
+                <div className="flex flex-col justify-center space-y-1">
+                  <span className="text-xs capitalize">
+                    {`${t("growing")} `}
+                    {selectedPack.crop === "Potato"
+                      ? `${selectedPack.crop}es`
+                      : `${selectedPack.crop}s`}
+                  </span>
+                  {show && (
+                    <PackGrowthProgressBar
+                      paused={paused}
+                      growsUntil={selectedPack.growsUntil}
+                      startTime={selectedPack.startTime as number}
+                      totalGrowTime={selectedPack.totalGrowTime}
+                      readyAt={selectedPack.readyAt}
+                      growTimeRemaining={selectedPack.growTimeRemaining}
+                    />
+                  )}
                 </div>
-                <Button className="w-full" onClick={handleHarvestCropPack}>
-                  {t("cropMachine.harvestCropPack")}
-                </Button>
               </div>
-            )}
-            {/* Add seeds */}
-            {selectedPack === undefined && (
-              <div className="flex flex-col w-full">
-                {!selectedSeed ? (
-                  allowedSeeds.length > 0 ? (
-                    <>
-                      <Label type="default" icon={add} className="ml-2.5 my-1">
-                        {t("cropMachine.pickSeed")}
-                      </Label>
-                      <div className="flex flex-wrap justify-start gap-1">
-                        {allowedSeeds.map((seed, index) => (
-                          <Box
-                            key={`${seed}-${index}`}
-                            image={ITEM_DETAILS[seed].image}
-                            isSelected={selectedSeed === seed}
-                            count={inventory[seed] ?? new Decimal(0)}
-                            onClick={() => handlePickSeed(seed)}
-                            secondaryImage={
-                              CROP_SEEDS[seed].yield
-                                ? ITEM_DETAILS[CROP_SEEDS[seed].yield].image
-                                : undefined
-                            }
-                          />
-                        ))}
-                      </div>
-                    </>
-                  ) : (
-                    <Label type="warning" className="ml-2.5 my-1">
-                      {t("cropMachine.noSeeds")}
-                    </Label>
-                  )
-                ) : (
-                  <div className="flex flex-col space-y-1">
-                    <div className="flex items-center space-x-1">
-                      <img
-                        src={SUNNYSIDE.icons.arrow_left}
-                        className="h-6 w-6 ml-1 cursor-pointer"
-                        onClick={() => setSelectedSeed(undefined)}
-                      />
-                      <div className="flex justify-between w-full my-1">
-                        <Label type="default">
-                          {t("cropMachine.addSeeds", {
-                            seedType: selectedSeed.toLocaleLowerCase(),
-                          })}
-                        </Label>
-                        <Label
-                          type={
-                            (inventory[selectedSeed]?.toNumber() ?? 0) < 1
-                              ? "danger"
-                              : "info"
-                          }
-                        >
-                          {t("cropMachine.availableInventory", {
-                            amount:
-                              (inventory[selectedSeed]?.toNumber() ?? 0) -
-                              totalSeeds,
-                          })}
-                        </Label>
-                      </div>
-                    </div>
-                    <div className="flex w-full">
-                      <Box image={ITEM_DETAILS[selectedSeed].image} />
-                      <div className="flex w-full justify-between">
-                        <div className="flex flex-col justify-center space-y-1 text-xs">
-                          <span>
-                            {t("cropMachine.seeds", { amount: totalSeeds })}
-                          </span>
-                          <span>
-                            {t("cropMachine.growTime", {
-                              time: secondsToString(
-                                calculateCropTime(
-                                  {
-                                    type: selectedSeed,
-                                    amount: totalSeeds,
-                                  },
-                                  state,
-                                ) / 1000,
-                                {
-                                  length: "medium",
-                                  isShortFormat: true,
-                                  removeTrailingZeros: true,
-                                },
-                              ),
-                            })}
-                          </span>
-                        </div>
-                        <div className="flex items-center space-x-1">
-                          <Button
-                            disabled={totalSeeds === 0}
-                            onClick={() =>
-                              decrementSeeds(CROP_MACHINE_PLOTS(state))
-                            }
-                            className={isMobile ? "" : "px-2"}
-                          >
-                            <span className={isMobile ? "text-xs" : "text-sm"}>
-                              {`-${CROP_MACHINE_PLOTS(state)}`}
-                            </span>
-                          </Button>
-                          <Button
-                            onClick={() =>
-                              incrementSeeds(CROP_MACHINE_PLOTS(state))
-                            }
-                            disabled={!canIncrementSeeds()}
-                            className={isMobile ? "" : "px-2"}
-                          >
-                            <span className={isMobile ? "text-xs" : "text-sm"}>
-                              {`+${CROP_MACHINE_PLOTS(state)}`}
-                            </span>
-                          </Button>
-                          <Button
-                            onClick={() =>
-                              incrementSeeds(
-                                (inventory[selectedSeed]?.toNumber() ?? 0) -
-                                  totalSeeds,
-                              )
-                            }
-                            disabled={!canIncrementSeeds()}
-                            className={`px-2 ${
-                              isMobile ? "" : "px-2"
-                            } w-auto min-w-min`}
-                          >
-                            <span className={isMobile ? "text-xs" : "text-sm"}>
-                              {t("cropMachine.all")}
-                            </span>
-                          </Button>
-                        </div>
-                      </div>
-                    </div>
-                    <Button
-                      disabled={totalSeeds === 0}
-                      onClick={handleAddSeeds}
-                    >
-                      {t("cropMachine.addSeedPack")}
-                    </Button>
-                  </div>
+            </div>
+          )}
+          {/* Harvest */}
+          {selectedPack && isCropPackReady(selectedPack) && (
+            <div className="flex flex-col w-full">
+              <div className="flex justify-between ml-2.5 mr-0.5 mt-1 mb-0.5">
+                <Label type="success" icon={SUNNYSIDE.icons.confirm}>
+                  {t("cropMachine.readyToHarvest")}
+                </Label>
+                {cropYield > selectedPack.seeds && (
+                  <Label type="vibrant" icon={lightning}>
+                    {t("cropMachine.boosted")}
+                  </Label>
                 )}
               </div>
-            )}
-            {/* Not started */}
-            {!!selectedPack &&
-              selectedPackIndex !== growingCropPackIndex &&
-              !isCropPackReady(selectedPack) && (
-                <div className="flex flex-col">
-                  <Label type="warning" className="my-1 ml-0.5">
-                    {t("cropMachine.notStartedYet")}
+              <div className="flex w-full">
+                <Box image={ITEM_DETAILS[selectedPack.crop].image}></Box>
+                <div className="flex flex-col justify-center space-y-1">
+                  <span className="text-xs">
+                    {t("cropMachine.totalSeeds", {
+                      total: selectedPack.seeds,
+                    })}
+                  </span>
+                  <span className="text-xs">
+                    {t("cropMachine.totalCrops", {
+                      cropName: selectedPack.crop.toLocaleLowerCase(),
+                      total: formatNumber(cropYield),
+                    })}
+                  </span>
+                </div>
+              </div>
+              <Button className="w-full" onClick={handleHarvestCropPack}>
+                {t("cropMachine.harvestCropPack")}
+              </Button>
+            </div>
+          )}
+          {/* Add seeds */}
+          {selectedPack === undefined && (
+            <div className="flex flex-col w-full">
+              {!selectedSeed ? (
+                allowedSeeds.length > 0 ? (
+                  <>
+                    <Label type="default" icon={add} className="ml-2.5 my-1">
+                      {t("cropMachine.pickSeed")}
+                    </Label>
+                    <div className="flex flex-wrap justify-start gap-1">
+                      {allowedSeeds.map((seed, index) => (
+                        <Box
+                          key={`${seed}-${index}`}
+                          image={ITEM_DETAILS[seed].image}
+                          isSelected={selectedSeed === seed}
+                          count={inventory[seed] ?? new Decimal(0)}
+                          onClick={() => handlePickSeed(seed)}
+                          secondaryImage={
+                            CROP_SEEDS[seed].yield
+                              ? ITEM_DETAILS[CROP_SEEDS[seed].yield].image
+                              : undefined
+                          }
+                        />
+                      ))}
+                    </div>
+                  </>
+                ) : (
+                  <Label type="warning" className="ml-2.5 my-1">
+                    {t("cropMachine.noSeeds")}
                   </Label>
-                  <div className="flex">
-                    <Box
-                      image={ITEM_DETAILS[`${selectedPack.crop} Seed`].image}
+                )
+              ) : (
+                <div className="flex flex-col space-y-1">
+                  <div className="flex items-center space-x-1">
+                    <img
+                      src={SUNNYSIDE.icons.arrow_left}
+                      className="h-6 w-6 ml-1 cursor-pointer"
+                      onClick={() => setSelectedSeed(undefined)}
                     />
-                    <div className="flex flex-col justify-center text-xs space-y-1">
-                      <span>
-                        {t("cropMachine.seeds", { amount: selectedPack.seeds })}
-                      </span>
-                      <span>
-                        {t("cropMachine.growTime", {
-                          time: secondsToString(
-                            calculateCropTime(
-                              {
-                                type: `${selectedPack.crop} Seed`,
-                                amount: selectedPack.seeds,
-                              },
-                              state,
-                            ) / 1000,
-                            {
-                              length: "medium",
-                              isShortFormat: true,
-                              removeTrailingZeros: true,
-                            },
-                          ),
+                    <div className="flex justify-between w-full my-1">
+                      <Label type="default">
+                        {t("cropMachine.addSeeds", {
+                          seedType: selectedSeed.toLocaleLowerCase(),
                         })}
-                      </span>
+                      </Label>
+                      <Label
+                        type={
+                          (inventory[selectedSeed]?.toNumber() ?? 0) < 1
+                            ? "danger"
+                            : "info"
+                        }
+                      >
+                        {t("cropMachine.availableInventory", {
+                          amount:
+                            (inventory[selectedSeed]?.toNumber() ?? 0) -
+                            totalSeeds,
+                        })}
+                      </Label>
                     </div>
                   </div>
+                  <div className="flex w-full">
+                    <Box image={ITEM_DETAILS[selectedSeed].image} />
+                    <div className="flex w-full justify-between">
+                      <div className="flex flex-col justify-center space-y-1 text-xs">
+                        <span>
+                          {t("cropMachine.seeds", { amount: totalSeeds })}
+                        </span>
+                        <span>
+                          {t("cropMachine.growTime", {
+                            time: secondsToString(
+                              calculateCropTime(
+                                {
+                                  type: selectedSeed,
+                                  amount: totalSeeds,
+                                },
+                                state,
+                              ) / 1000,
+                              {
+                                length: "medium",
+                                isShortFormat: true,
+                                removeTrailingZeros: true,
+                              },
+                            ),
+                          })}
+                        </span>
+                      </div>
+                      <div className="flex items-center space-x-1">
+                        <Button
+                          disabled={totalSeeds === 0}
+                          onClick={() =>
+                            decrementSeeds(CROP_MACHINE_PLOTS(state))
+                          }
+                          className={isMobile ? "" : "px-2"}
+                        >
+                          <span className={isMobile ? "text-xs" : "text-sm"}>
+                            {`-${CROP_MACHINE_PLOTS(state)}`}
+                          </span>
+                        </Button>
+                        <Button
+                          onClick={() =>
+                            incrementSeeds(CROP_MACHINE_PLOTS(state))
+                          }
+                          disabled={!canIncrementSeeds()}
+                          className={isMobile ? "" : "px-2"}
+                        >
+                          <span className={isMobile ? "text-xs" : "text-sm"}>
+                            {`+${CROP_MACHINE_PLOTS(state)}`}
+                          </span>
+                        </Button>
+                        <Button
+                          onClick={() =>
+                            incrementSeeds(
+                              (inventory[selectedSeed]?.toNumber() ?? 0) -
+                                totalSeeds,
+                            )
+                          }
+                          disabled={!canIncrementSeeds()}
+                          className={`px-2 ${
+                            isMobile ? "" : "px-2"
+                          } w-auto min-w-min`}
+                        >
+                          <span className={isMobile ? "text-xs" : "text-sm"}>
+                            {t("cropMachine.all")}
+                          </span>
+                        </Button>
+                      </div>
+                    </div>
+                  </div>
+                  <Button disabled={totalSeeds === 0} onClick={handleAddSeeds}>
+                    {t("cropMachine.addSeedPack")}
+                  </Button>
                 </div>
               )}
-          </OuterPanel>
-          {/* Queued packs */}
-          <div className="flex flex-col">
-            <Label
-              type="default"
-              className="ml-1.5 mt-2 mb-1"
-              icon={SUNNYSIDE.icons.seedling}
-            >
-              {t("cropMachine.seedPacks")}
-            </Label>
-            <div
-              className="mt-1 grid gap-2 justify-start"
-              style={{
-                gridTemplateColumns: "repeat(5, max-content)",
-              }}
-            >
-              {stackedQueue.map((item, index) => {
-                if (item === null)
-                  return (
-                    <Box
-                      key={index}
-                      image={add}
-                      onClick={() => setSelectedPackIndex(index)}
-                      isSelected={index === selectedPackIndex}
-                    />
-                  );
-
-                const isReady = item.readyAt && item.readyAt < Date.now();
-
-                return (
-                  <Box
-                    key={`${item.startTime}-${index}`}
-                    isSelected={index === selectedPackIndex}
-                    image={ITEM_DETAILS[`${item.crop} Seed`].image}
-                    count={!isReady ? new Decimal(item.seeds) : undefined}
-                    countLabelType={getQueueItemCountLabelType(
-                      index,
-                      !!isReady,
-                    )}
-                    overlayIcon={
-                      <img
-                        src={SUNNYSIDE.icons.confirm}
-                        alt="confirm"
-                        className="object-contain absolute z-10"
-                        style={{
-                          width: `${PIXEL_SCALE * 8}px`,
-                          bottom: `${0.5}px`,
-                          right: `${0.5}px`,
-                        }}
-                      />
-                    }
-                    showOverlay={!!isReady}
-                    onClick={() => setSelectedPackIndex(index)}
-                  />
-                );
-              })}
             </div>
-            {show && (
-              <OilTank
-                state={state}
-                stopped={paused || idle}
-                queue={queue}
-                unallocatedOilTime={unallocatedOilTime}
-                onAddOil={() => {
-                  // Reset Oil Before showing Overlay to Prevent accidental adding
-                  setTotalOil(0);
-                  setShowOverlayScreen(true);
-                }}
-              />
-            )}
-          </div>
-        </div>
-        <ModalOverlay
-          show={showOverlayScreen}
-          className="top-11"
-          onBackdropClick={() => setShowOverlayScreen(false)}
-        >
-          <InnerPanel>
-            <div className="flex flex-col space-y-1.5">
-              <div className="flex justify-between">
-                <div className="flex space-x-2">
-                  <Label
-                    type="default"
-                    icon={ITEM_DETAILS.Oil.image}
-                    className="m-1.5"
-                  >
-                    {t("cropMachine.addOil")}
-                  </Label>
-                </div>
-                <img
-                  src={SUNNYSIDE.icons.close}
-                  className="cursor-pointer m-0.5"
-                  onClick={() => setShowOverlayScreen(false)}
-                  style={{
-                    width: `${PIXEL_SCALE * 9}px`,
-                    height: `${PIXEL_SCALE * 9}px`,
-                  }}
-                />
-              </div>
-              <span className="px-2 text-xs pb-1">
-                {t("cropMachine.oil.description")}
-              </span>
-              <div className="flex justify-between items-center">
-                <Label
-                  type={
-                    (inventory.Oil?.toNumber() ?? 0) < 1 ? "danger" : "info"
-                  }
-                  className="mx-1.5 mt-2"
-                >
-                  {t("cropMachine.availableInventory", {
-                    amount: formatNumber(
-                      (inventory.Oil?.toNumber() ?? 0) - totalOil,
-                    ),
-                  })}
+          )}
+          {/* Not started */}
+          {!!selectedPack &&
+            selectedPackIndex !== growingCropPackIndex &&
+            !isCropPackReady(selectedPack) && (
+              <div className="flex flex-col">
+                <Label type="warning" className="my-1 ml-0.5">
+                  {t("cropMachine.notStartedYet")}
                 </Label>
-                <Label
-                  type={!canAddOneHourOfOil() ? "danger" : "info"}
-                  className="mx-1.5 mt-2"
-                >
-                  {t("cropMachine.maxRuntime", {
-                    time: millisecondsToString(
-                      MAX_OIL_CAPACITY_IN_MILLIS(state),
-                      {
-                        length: "short",
-                        isShortFormat: true,
-                        removeTrailingZeros: true,
-                      },
-                    ),
-                  })}
-                </Label>
-              </div>
-              <div className="flex ml-1">
-                <Box image={oilBarrel} />
-                <div className="flex w-full justify-between">
+                <div className="flex">
+                  <Box
+                    image={ITEM_DETAILS[`${selectedPack.crop} Seed`].image}
+                  />
                   <div className="flex flex-col justify-center text-xs space-y-1">
                     <span>
-                      {t("cropMachine.oilToAdd", {
-                        amount: formatNumber(totalOil),
-                      })}
+                      {t("cropMachine.seeds", { amount: selectedPack.seeds })}
                     </span>
                     <span>
-                      {t("cropMachine.totalRuntime", {
+                      {t("cropMachine.growTime", {
                         time: secondsToString(
-                          getOilTimeInMillis(totalOil, state) / 1000,
+                          calculateCropTime(
+                            {
+                              type: `${selectedPack.crop} Seed`,
+                              amount: selectedPack.seeds,
+                            },
+                            state,
+                          ) / 1000,
                           {
                             length: "medium",
                             isShortFormat: true,
@@ -676,38 +519,212 @@ export const CropMachineModal: React.FC<Props> = ({
                       })}
                     </span>
                   </div>
-                  <div className="flex items-center space-x-1 mr-2">
-                    <Button
-                      className="w-auto"
-                      disabled={totalOil === 0}
-                      onClick={decrementOil}
-                    >
-                      {`-${setPrecision(OIL_PER_HOUR_CONSUMPTION(state))}`}
-                    </Button>
-                    <Button
-                      className="w-auto ml-1"
-                      onClick={incrementOil}
-                      disabled={!canIncrementOil()}
-                    >
-                      {`+${setPrecision(OIL_PER_HOUR_CONSUMPTION(state))}`}
-                    </Button>
-                    <Button
-                      className="w-auto ml-1"
-                      onClick={incrementMaxOil}
-                      disabled={!canIncrementOil()}
-                    >
-                      {t("max")}
-                    </Button>
-                  </div>
                 </div>
               </div>
-              <Button disabled={totalOil === 0} onClick={handleAddOil}>
-                {t("cropMachine.addOil")}
-              </Button>
+            )}
+        </OuterPanel>
+        {/* Queued packs */}
+        <div className="flex flex-col">
+          <Label
+            type="default"
+            className="ml-1.5 mt-2 mb-1"
+            icon={SUNNYSIDE.icons.seedling}
+          >
+            {t("cropMachine.seedPacks")}
+          </Label>
+          <div
+            className="mt-1 grid gap-2 justify-start"
+            style={{
+              gridTemplateColumns: "repeat(5, max-content)",
+            }}
+          >
+            {stackedQueue.map((item, index) => {
+              if (item === null)
+                return (
+                  <Box
+                    key={index}
+                    image={add}
+                    onClick={() => setSelectedPackIndex(index)}
+                    isSelected={index === selectedPackIndex}
+                  />
+                );
+
+              const isReady = item.readyAt && item.readyAt < Date.now();
+
+              return (
+                <Box
+                  key={`${item.startTime}-${index}`}
+                  isSelected={index === selectedPackIndex}
+                  image={ITEM_DETAILS[`${item.crop} Seed`].image}
+                  count={!isReady ? new Decimal(item.seeds) : undefined}
+                  countLabelType={getQueueItemCountLabelType(index, !!isReady)}
+                  overlayIcon={
+                    <img
+                      src={SUNNYSIDE.icons.confirm}
+                      alt="confirm"
+                      className="object-contain absolute z-10"
+                      style={{
+                        width: `${PIXEL_SCALE * 8}px`,
+                        bottom: `${0.5}px`,
+                        right: `${0.5}px`,
+                      }}
+                    />
+                  }
+                  showOverlay={!!isReady}
+                  onClick={() => setSelectedPackIndex(index)}
+                />
+              );
+            })}
+          </div>
+          {show && (
+            <OilTank
+              state={state}
+              stopped={paused || idle}
+              queue={queue}
+              unallocatedOilTime={unallocatedOilTime}
+              onAddOil={() => {
+                // Reset Oil Before showing Overlay to Prevent accidental adding
+                setTotalOil(0);
+                setShowOverlayScreen(true);
+              }}
+            />
+          )}
+        </div>
+      </div>
+      <ModalOverlay
+        show={showOverlayScreen}
+        className="top-11"
+        onBackdropClick={() => setShowOverlayScreen(false)}
+      >
+        <InnerPanel>
+          <div className="flex flex-col space-y-1.5">
+            <div className="flex justify-between">
+              <div className="flex space-x-2">
+                <Label
+                  type="default"
+                  icon={ITEM_DETAILS.Oil.image}
+                  className="m-1.5"
+                >
+                  {t("cropMachine.addOil")}
+                </Label>
+              </div>
+              <img
+                src={SUNNYSIDE.icons.close}
+                className="cursor-pointer m-0.5"
+                onClick={() => setShowOverlayScreen(false)}
+                style={{
+                  width: `${PIXEL_SCALE * 9}px`,
+                  height: `${PIXEL_SCALE * 9}px`,
+                }}
+              />
             </div>
-          </InnerPanel>
-        </ModalOverlay>
-      </CloseButtonPanel>
-    </Modal>
+            <span className="px-2 text-xs pb-1">
+              {t("cropMachine.oil.description")}
+            </span>
+            <div className="flex justify-between items-center">
+              <Label
+                type={(inventory.Oil?.toNumber() ?? 0) < 1 ? "danger" : "info"}
+                className="mx-1.5 mt-2"
+              >
+                {t("cropMachine.availableInventory", {
+                  amount: formatNumber(
+                    (inventory.Oil?.toNumber() ?? 0) - totalOil,
+                  ),
+                })}
+              </Label>
+              <Label
+                type={!canAddOneHourOfOil() ? "danger" : "info"}
+                className="mx-1.5 mt-2"
+              >
+                {t("cropMachine.maxRuntime", {
+                  time: millisecondsToString(
+                    MAX_OIL_CAPACITY_IN_MILLIS(state),
+                    {
+                      length: "short",
+                      isShortFormat: true,
+                      removeTrailingZeros: true,
+                    },
+                  ),
+                })}
+              </Label>
+            </div>
+            <div className="flex ml-1">
+              <Box image={oilBarrel} />
+              <div className="flex w-full justify-between">
+                <div className="flex flex-col justify-center text-xs space-y-1">
+                  <span>
+                    {t("cropMachine.oilToAdd", {
+                      amount: formatNumber(totalOil),
+                    })}
+                  </span>
+                  <span>
+                    {t("cropMachine.totalRuntime", {
+                      time: secondsToString(
+                        getOilTimeInMillis(totalOil, state) / 1000,
+                        {
+                          length: "medium",
+                          isShortFormat: true,
+                          removeTrailingZeros: true,
+                        },
+                      ),
+                    })}
+                  </span>
+                </div>
+                <div className="flex items-center space-x-1 mr-2">
+                  <Button
+                    className="w-auto"
+                    disabled={totalOil === 0}
+                    onClick={decrementOil}
+                  >
+                    {`-${setPrecision(OIL_PER_HOUR_CONSUMPTION(state))}`}
+                  </Button>
+                  <Button
+                    className="w-auto ml-1"
+                    onClick={incrementOil}
+                    disabled={!canIncrementOil()}
+                  >
+                    {`+${setPrecision(OIL_PER_HOUR_CONSUMPTION(state))}`}
+                  </Button>
+                  <Button
+                    className="w-auto ml-1"
+                    onClick={incrementMaxOil}
+                    disabled={!canIncrementOil()}
+                  >
+                    {t("max")}
+                  </Button>
+                </div>
+              </div>
+            </div>
+            <Button disabled={totalOil === 0} onClick={handleAddOil}>
+              {t("cropMachine.addOil")}
+            </Button>
+          </div>
+        </InnerPanel>
+      </ModalOverlay>
+    </CloseButtonPanel>
   );
 };
+
+export const CropMachineModal: React.FC<Props> = ({
+  show,
+  queue,
+  service,
+  unallocatedOilTime,
+  onClose,
+  onAddSeeds,
+  onHarvestPack: onHarvestPack,
+  onAddOil,
+}) => (
+  <Modal show={show} onHide={onClose}>
+    <CropMachineModalContent
+      show={show}
+      queue={queue}
+      unallocatedOilTime={unallocatedOilTime}
+      service={service}
+      onClose={onClose}
+      onAddSeeds={onAddSeeds}
+      onHarvestPack={onHarvestPack}
+      onAddOil={onAddOil}
+    />
+  </Modal>
+);

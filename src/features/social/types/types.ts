@@ -1,10 +1,20 @@
+import { Equipped } from "features/game/types/bumpkin";
+import { FactionName, IslandType } from "features/game/types/game";
+import { MonumentName } from "features/game/types/monuments";
+
 export type ParticipantInfo = {
   id: number;
   username: string;
-  tokenUri: string;
+  clothing?: Equipped;
 };
 
-export type InteractionType = "chat" | "action" | "milestone" | "announcement";
+export type InteractionType =
+  | "chat"
+  | "follow"
+  | "milestone"
+  | "announcement"
+  | "cheer"
+  | "clean";
 
 export type Interaction = {
   type: InteractionType;
@@ -12,7 +22,18 @@ export type Interaction = {
   recipient: ParticipantInfo;
   message: string;
   createdAt: number;
+  readAt?: number; // Timestamp when the message was read by the recipient
+  id?: string; // Unique identifier for the message
 };
+
+export type Milestone = Interaction & {
+  isGlobal?: boolean;
+  followers?: number[];
+};
+
+export type ActiveProjects = Partial<
+  Record<MonumentName, { receivedCheers: number; requiredCheers: number }>
+>;
 
 export type Player = {
   data?: {
@@ -21,8 +42,26 @@ export type Player = {
     followingCount: number;
     followedBy: number[];
     followedByCount: number;
-    messages: Interaction[];
+    username: string;
+    level: number;
+    farmCreatedAt: number;
+    marketValue: number;
+    island: IslandType;
+    dailyStreak: number;
+    totalDeliveries: number;
+    isVip: boolean;
+    clothing: Equipped;
+    faction?: FactionName;
+    lastUpdatedAt: number;
+    socialPoints: number;
+    hasCleanedToday: boolean;
+    projects: ActiveProjects;
+    cleaning: {
+      youCleanedThemCount: number;
+      theyCleanedYouCount: number;
+    };
   };
 };
 
 export type PlayerUpdate = Partial<NonNullable<Player["data"]>>;
+export type ChatUpdate = Interaction[];

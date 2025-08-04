@@ -132,7 +132,13 @@ export const BumpkinModal: React.FC<Props> = ({
   }
 
   if (view === "powerSkills") {
-    return <PowerSkills onHide={onClose} onBack={() => setView("home")} />;
+    return (
+      <PowerSkills
+        onHide={onClose}
+        onBack={() => setView("home")}
+        readonly={readonly}
+      />
+    );
   }
 
   const renderTabs = () => {
@@ -184,6 +190,7 @@ export const BumpkinModal: React.FC<Props> = ({
             setView={setView}
             powerSkillsReady={powerSkillsReady}
             hasPowerSkills={hasPowerSkills}
+            readonly={readonly}
           />
         )}
 
@@ -212,6 +219,7 @@ export const BumpkinInfo: React.FC<{
   setView: (view: ViewState) => void;
   powerSkillsReady: boolean;
   hasPowerSkills: boolean;
+  readonly: boolean;
 }> = ({
   level,
   maxLevel,
@@ -219,6 +227,7 @@ export const BumpkinInfo: React.FC<{
   setView,
   powerSkillsReady,
   hasPowerSkills,
+  readonly,
 }) => {
   const { t } = useAppTranslation();
   const { bumpkin, inventory } = gameState;
@@ -277,7 +286,7 @@ export const BumpkinInfo: React.FC<{
         </div>
 
         <MyReputation />
-        {hasPowerSkills && (
+        {hasPowerSkills && !readonly && (
           <ButtonPanel
             onClick={() => setView("powerSkills")}
             className="mb-2 relative mt-1 !px-2 !py-1"
@@ -289,7 +298,7 @@ export const BumpkinInfo: React.FC<{
                   <img
                     src={SUNNYSIDE.icons.expression_alerted}
                     className="ml-2 w-2"
-                    alt="Exclaimation"
+                    alt="Exclamation"
                   />
                 )}
               </div>

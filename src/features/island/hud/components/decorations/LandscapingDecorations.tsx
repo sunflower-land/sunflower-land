@@ -4,9 +4,9 @@ import { Button } from "components/ui/Button";
 import { CraftingRequirements } from "components/ui/layouts/CraftingRequirements";
 import { SplitScreenView } from "components/ui/SplitScreenView";
 import {
-  LandscapingDecorationName,
   LANDSCAPING_DECORATIONS,
   getKeys,
+  Decoration,
 } from "features/game/types/decorations";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { gameAnalytics } from "lib/gameAnalytics";
@@ -16,6 +16,7 @@ import { Context } from "features/game/GameProvider";
 import { ITEM_ICONS } from "../inventory/Chest";
 import { MachineInterpreter } from "features/game/expansion/placeable/landscapingMachine";
 import { getCurrentBiome } from "features/island/biomes/biomes";
+import { Label } from "components/ui/Label";
 
 interface Props {
   onClose: () => void;
@@ -23,11 +24,9 @@ interface Props {
 
 export const LandscapingDecorations: React.FC<Props> = ({ onClose }) => {
   const { t } = useAppTranslation();
-  const [selectedName, setSelectedName] = useState<LandscapingDecorationName>(
-    getKeys(LANDSCAPING_DECORATIONS)[0],
+  const [selected, setSelected] = useState<Decoration>(
+    Object.values(LANDSCAPING_DECORATIONS)[0],
   );
-
-  const selected = LANDSCAPING_DECORATIONS[selectedName];
 
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, (state) => state.context.state);
@@ -36,14 +35,6 @@ export const LandscapingDecorations: React.FC<Props> = ({ onClose }) => {
     (state) => state.context.state.inventory,
   );
   const coins = useSelector(gameService, (state) => state.context.state.coins);
-  const islandType = useSelector(
-    gameService,
-    (state) => state.context.state.island.type,
-  );
-  const season = useSelector(
-    gameService,
-    (state) => state.context.state.season.season,
-  );
 
   const price = selected.coins ?? 0;
 
@@ -99,30 +90,26 @@ export const LandscapingDecorations: React.FC<Props> = ({ onClose }) => {
       }
       content={
         <>
-          {getKeys(LANDSCAPING_DECORATIONS)
-            .filter(
-              (name) =>
-                ![
-                  "Crimson Cap",
-                  "Toadstool Seat",
-                  "Chestnut Fungi Stool",
-                  "Mahogany Cap",
-                  "Field Maple",
-                  "Red Maple",
-                  "Golden Maple",
-                ].includes(name),
-            )
-            .map((name) => (
-              <Box
-                isSelected={selected.name === name}
-                key={name}
-                onClick={() => setSelectedName(name)}
-                image={
-                  ITEM_ICONS(state.season.season, biome)[name] ??
-                  ITEM_DETAILS[name].image
-                }
-              />
-            ))}
+          <div className="flex flex-col gap-2">
+            <div>
+              <div>
+                <Label type="default">{t("decorations")}</Label>
+              </div>
+              <div className="flex flex-wrap">
+                {getKeys(LANDSCAPING_DECORATIONS).map((name) => (
+                  <Box
+                    isSelected={selected.name === name}
+                    key={name}
+                    onClick={() => setSelected(LANDSCAPING_DECORATIONS[name])}
+                    image={
+                      ITEM_ICONS(state.season.season, biome)[name] ??
+                      ITEM_DETAILS[name].image
+                    }
+                  />
+                ))}
+              </div>
+            </div>
+          </div>
         </>
       }
     />

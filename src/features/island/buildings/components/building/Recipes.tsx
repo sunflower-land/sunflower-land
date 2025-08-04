@@ -1,6 +1,5 @@
 import React, { Dispatch, SetStateAction, useContext, useState } from "react";
 import { useActor } from "@xstate/react";
-import Decimal from "decimal.js-light";
 
 import { Box } from "components/ui/Box";
 import { Button } from "components/ui/Button";
@@ -105,7 +104,7 @@ export const Recipes: React.FC<Props> = ({
     return latestRecipeCompletionTime;
   };
 
-  const cookingTime = getCookingTime({
+  const { reducedSecs: cookingTime } = getCookingTime({
     seconds: getCookingOilBoost(selected.name, state, buildingId).timeToCook,
     item: selected.name,
     game: state,
@@ -175,9 +174,10 @@ export const Recipes: React.FC<Props> = ({
               hideDescription
               requirements={{
                 resources: ingredients,
-                xp: new Decimal(
-                  getFoodExpBoost(selected, bumpkin, state, buds ?? {}),
-                ),
+                xp: getFoodExpBoost({
+                  food: selected,
+                  game: state,
+                }).boostedExp,
                 timeSeconds: cookingTime,
               }}
               actionView={

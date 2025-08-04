@@ -112,7 +112,7 @@ export const Placeable: React.FC<Props> = ({ location }) => {
     .landscaping as MachineInterpreter;
 
   const [machine, send] = useActor(child);
-  const { placeable, collisionDetected, origin, coordinates } = machine.context;
+  const { placeable, collisionDetected, origin } = machine.context;
 
   const grid = getGameGrid(gameState.context.state);
 
@@ -145,13 +145,15 @@ export const Placeable: React.FC<Props> = ({ location }) => {
     getInitialCoordinates(origin);
 
   useEffect(() => {
-    const [startingX, startingY] = getInitialCoordinates({ x: 0, y: 0 });
+    if (!placeable) return;
+
+    const [startingX, startingY] = getInitialCoordinates(origin);
 
     detect({
       x: Math.round(startingX / GRID_WIDTH_PX),
       y: Math.round(-startingY / GRID_WIDTH_PX),
     });
-  }, []);
+  }, [placeable]);
 
   useEffect(() => {
     setShowHint(true);
@@ -171,7 +173,7 @@ export const Placeable: React.FC<Props> = ({ location }) => {
         id="bg-overlay "
         className=" bg-black opacity-40 fixed inset-0"
         style={{
-          zIndex: 99,
+          zIndex: 1999,
           height: "200%",
           right: "-1000px",
           left: "-1000px",
@@ -180,7 +182,7 @@ export const Placeable: React.FC<Props> = ({ location }) => {
           bottom: "1000px",
         }}
       />
-      <div className="fixed left-1/2 top-1/2" style={{ zIndex: 100 }}>
+      <div className="fixed left-1/2 top-1/2" style={{ zIndex: 2000 }}>
         <Draggable
           key={`${origin?.x}-${origin?.y}`}
           defaultPosition={{ x: DEFAULT_POSITION_X, y: DEFAULT_POSITION_Y }}

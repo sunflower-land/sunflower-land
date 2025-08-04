@@ -9,9 +9,9 @@ import { ITEM_DETAILS } from "./images";
 import { translate } from "lib/i18n/translate";
 import memoize from "lodash.memoize";
 import {
+  getCurrentSeason,
   getSeasonalTicket,
   hasSeasonEnded,
-  SeasonName,
   SEASONS,
 } from "./seasons";
 import { CHAPTER_TICKET_BOOST_ITEMS } from "../events/landExpansion/completeNPCChore";
@@ -1412,7 +1412,7 @@ function getCollectibleBuffLabels(
     ],
     "Giant Zucchini": [
       {
-        shortDescription: translate("description.giantZuchinni.boost"),
+        shortDescription: translate("description.giantZucchini.boost"),
         labelType: "success",
         boostTypeIcon: SUNNYSIDE.icons.stopwatch,
         boostedItemIcon: ITEM_DETAILS.Zucchini.image,
@@ -1493,23 +1493,8 @@ function getCollectibleBuffLabels(
 
     ...Object.fromEntries(
       getObjectEntries(CHAPTER_TICKET_BOOST_ITEMS)
-        .filter(
-          ([chapter]) =>
-            !(
-              [
-                "Solar Flare",
-                "Dawn Breaker",
-                "Witches' Eve",
-                "Catch the Kraken",
-                "Spring Blossom",
-                "Clash of Factions",
-                "Pharaoh's Treasure",
-              ] as SeasonName[]
-            ).includes(chapter),
-        )
+        .filter(([chapter]) => getCurrentSeason() === chapter)
         .flatMap(([chapter, items]) => {
-          if (hasSeasonEnded(chapter)) return [];
-
           const ticket = getSeasonalTicket(
             new Date(SEASONS[chapter].startDate),
           );
@@ -1552,6 +1537,98 @@ function getCollectibleBuffLabels(
         shortDescription: translate("description.pinkDolphin.boost"),
         labelType: "success",
         boostTypeIcon: powerup,
+      },
+    ],
+    Poseidon: [
+      {
+        shortDescription: translate("description.poseidon.boost"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: SUNNYSIDE.icons.fish,
+      },
+    ],
+    Toolshed: [
+      {
+        shortDescription: translate("description.toolshed.boost"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    ],
+    Warehouse: [
+      {
+        shortDescription: translate("description.warehouse.boost"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    ],
+    "Groovy Gramophone": [
+      {
+        shortDescription: translate("description.groovy.gramophone.boost"),
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS["Crop Machine"].image,
+      },
+    ],
+    "Giant Onion": [
+      {
+        shortDescription: translate("description.giantOnion.boost"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS["Onion"].image,
+      },
+    ],
+    "Giant Turnip": [
+      {
+        shortDescription: translate("description.giantTurnip.boost"),
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS["Turnip"].image,
+      },
+    ],
+    "Baby Cow": [
+      {
+        shortDescription: translate("description.babyCow.boost"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: SUNNYSIDE.animals.cowSleeping,
+      },
+    ],
+    "Janitor Chicken": [
+      {
+        shortDescription: translate("description.janitorChicken.boost"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: SUNNYSIDE.animals.chickenAsleep,
+      },
+    ],
+    "Reelmaster's Chair": [
+      {
+        shortDescription: translate("description.reelmastersChair.boost"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    ],
+    "Fruit Tune Box": [
+      {
+        shortDescription: translate("description.fruitTuneBox.boost"),
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS["Fruit Patch"].image,
+      },
+    ],
+    "Double Bed": [
+      {
+        shortDescription: translate("description.doubleBed.boost"),
+        labelType: "vibrant",
+        boostTypeIcon: lightning,
+      },
+    ],
+    "Giant Artichoke": [
+      {
+        shortDescription: translate("description.giantArtichoke.boost"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS["Artichoke"].image,
       },
     ],
   };

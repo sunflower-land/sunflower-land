@@ -44,9 +44,12 @@ export const LetterBox: React.FC = () => {
     setIsOpen(false);
   };
 
-  const hasAnnouncement = getKeys(announcements ?? {})
-    // Ensure they haven't read it already
-    .some((id) => !mailbox.read.find((message) => message.id === id));
+  const hasAnnouncement =
+    getKeys(announcements ?? {})
+      // Ensure they haven't read it already
+      .some((id) => !mailbox.read.find((message) => message.id === id)) &&
+    // And not visiting
+    !gameService.state.matches("visiting");
 
   const Content = useCallback(() => {
     if (selected) {

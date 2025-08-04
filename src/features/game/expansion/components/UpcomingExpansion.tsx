@@ -31,6 +31,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ExpansionRequirements } from "components/ui/layouts/ExpansionRequirements";
 import confetti from "canvas-confetti";
 import { ModalContext } from "features/game/components/modal/ModalProvider";
+import { useVisiting } from "lib/utils/visitUtils";
 
 interface ExpandIconProps {
   onOpen: () => void;
@@ -231,13 +232,14 @@ export const UpcomingExpansion: React.FC = () => {
   const [_, setRender] = useState(0);
   const { gameService, showAnimations } = useContext(Context);
   const [gameState] = useActor(gameService);
+  const { isVisiting } = useVisiting();
   const [showBumpkinModal, setShowBumpkinModal] = useState(false);
 
   const { openModal } = useContext(ModalContext);
 
   const state = gameState.context.state;
 
-  const requirements = expansionRequirements({ game: state });
+  const { requirements } = expansionRequirements({ game: state });
 
   const { t } = useAppTranslation();
 
@@ -283,7 +285,7 @@ export const UpcomingExpansion: React.FC = () => {
         : null;
 
   return (
-    <>
+    <div className={isVisiting ? "pointer-events-none" : ""}>
       {state.expansionConstruction && (
         <ExpansionBuilding
           state={state}
@@ -323,6 +325,6 @@ export const UpcomingExpansion: React.FC = () => {
           />
         </CloseButtonPanel>
       </Modal>
-    </>
+    </div>
   );
 };

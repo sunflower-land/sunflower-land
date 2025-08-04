@@ -9,6 +9,13 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import classNames from "classnames";
 import { useSound } from "lib/utils/hooks/useSound";
 
+/**
+ * @icon The icon of the tab.
+ * @name The name of the tab.
+ * @id The unique identifier of the tab. (Compulsory for string-based tabs)
+ * @unread Whether the tab has unread content.
+ * @alert Whether the tab has an alert.
+ */
 export interface PanelTabs {
   icon: string;
   name: string;
@@ -16,8 +23,12 @@ export interface PanelTabs {
   alert?: boolean;
 }
 
+interface StringPanelTabs extends PanelTabs {
+  id: string;
+}
+
 interface Props<T extends number | string = number> {
-  tabs?: PanelTabs[];
+  tabs?: (T extends string ? StringPanelTabs : PanelTabs)[];
   currentTab?: T;
   setCurrentTab?: React.Dispatch<React.SetStateAction<T>>;
   title?: string | JSX.Element;
@@ -32,7 +43,8 @@ interface Props<T extends number | string = number> {
 
 /**
  * A custom panel built for the game.
- * @tabs The tabs of the panel.
+ * @tabs The tabs of the panel. When using string-based tabs (T extends string),
+ *       each tab must have an 'id' field for reliable identification.
  * @currentTab The current selected tab index or name of the panel. Default is 0.
  * @setCurrentTab Dispatch method to set the current selected tab index or name.
  * @title The panel title.
@@ -92,12 +104,16 @@ export const CloseButtonPanel = <T extends number | string = number>({
                 className="flex items-center relative mr-1"
                 isActive={
                   currentTab ===
-                  (typeof currentTab === "number" ? index : tab.name)
+                  (typeof currentTab === "number"
+                    ? index
+                    : (tab as StringPanelTabs).id)
                 }
                 onClick={() => {
                   tabSound.play();
                   handleTabClick(
-                    (typeof currentTab === "number" ? index : tab.name) as T,
+                    (typeof currentTab === "number"
+                      ? index
+                      : (tab as StringPanelTabs).id) as T,
                   );
                 }}
               >
@@ -109,7 +125,8 @@ export const CloseButtonPanel = <T extends number | string = number>({
                       pulse:
                         (typeof currentTab === "number"
                           ? currentTab !== index
-                          : currentTab !== tab.name) && tab.unread,
+                          : currentTab !== (tab as StringPanelTabs).id) &&
+                        tab.unread,
                     },
                   )}
                 >

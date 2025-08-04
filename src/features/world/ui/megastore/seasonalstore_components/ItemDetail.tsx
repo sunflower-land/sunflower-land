@@ -18,7 +18,6 @@ import {
   getCurrentSeason,
   getSeasonalArtefact,
   getSeasonalTicket,
-  // getSeasonalTicket,
 } from "features/game/types/seasons";
 import confetti from "canvas-confetti";
 import { BumpkinItem } from "features/game/types/bumpkin";
@@ -40,6 +39,12 @@ import {
 } from "features/game/events/landExpansion/buySeasonalItem";
 import { REWARD_BOXES } from "features/game/types/rewardBoxes";
 import { secondsToString } from "lib/utils/time";
+import {
+  BUMPKIN_RELEASES,
+  INVENTORY_RELEASES,
+} from "features/game/types/withdrawables";
+
+import lockIcon from "assets/icons/lock.png";
 
 interface ItemOverlayProps {
   item: SeasonalStoreItem | null;
@@ -320,6 +325,11 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
 
     return currencyItem;
   };
+
+  const isTradeable = isWearable
+    ? !!BUMPKIN_RELEASES[(item as SeasonalStoreWearable)?.wearable]
+    : !!INVENTORY_RELEASES[(item as SeasonalStoreCollectible)?.collectible];
+
   return (
     <InnerPanel className="shadow">
       {isVisible && (
@@ -415,72 +425,46 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                         })}
                       </Label>
                     )}
-                    {itemReq &&
-                      (sfl !== 0 ? (
-                        <div className="flex flex-1 content-start flex-col flex-wrap">
-                          {getKeys(itemReq).map((itemName, index) => {
-                            return (
-                              <RequirementLabel
-                                key={index}
-                                type="item"
-                                item={itemName}
-                                showLabel
-                                balance={inventory[itemName] ?? new Decimal(0)}
-                                requirement={
-                                  new Decimal(itemReq[itemName] ?? 0)
-                                }
-                              />
-                            );
-                          })}
-                        </div>
-                      ) : (
-                        <div className="flex flex-1 content-start flex-col flex-wrap">
-                          {getKeys(itemReq)
-                            .slice(1)
-                            .map((itemName, index) => {
-                              return (
-                                <RequirementLabel
-                                  key={index}
-                                  type="item"
-                                  item={itemName}
-                                  showLabel
-                                  balance={
-                                    inventory[itemName] ?? new Decimal(0)
-                                  }
-                                  requirement={
-                                    new Decimal(itemReq[itemName] ?? 0)
-                                  }
-                                />
-                              );
-                            })}
-                        </div>
-                      ))}
-                    {item &&
-                      (sfl !== 0 ? (
-                        <div className="flex flex-1 items-end">
-                          {/* FLOWER */}
-                          <RequirementLabel
-                            type="sfl"
-                            balance={sflBalance}
-                            requirement={SFLDiscount(
-                              state,
-                              new Decimal(item.cost.sfl),
-                            )}
-                          />
-                        </div>
-                      ) : (
-                        <div className="flex flex-1 items-end">
-                          {/* Ticket/Artefact/Item */}
-                          <RequirementLabel
-                            type={"item"}
-                            item={getCurrencyName(item)}
-                            balance={getCurrencyBalance(item)}
-                            requirement={
-                              new Decimal(getCurrency(item) ?? new Decimal(0))
-                            }
-                          />
-                        </div>
-                      ))}
+
+                    {!isTradeable && (
+                      <Label
+                        type="formula"
+                        icon={lockIcon}
+                        className="text-xxs"
+                      >
+                        {t("season.megastore.nonTradeable")}
+                      </Label>
+                    )}
+
+                    {itemReq && (
+                      <div className="flex flex-1 content-start flex-col flex-wrap gap-1">
+                        {getKeys(itemReq).map((itemName, index) => {
+                          return (
+                            <RequirementLabel
+                              key={index}
+                              type="item"
+                              item={itemName}
+                              showLabel
+                              balance={inventory[itemName] ?? new Decimal(0)}
+                              requirement={new Decimal(itemReq[itemName] ?? 0)}
+                            />
+                          );
+                        })}
+                      </div>
+                    )}
+                    {item && sfl !== 0 && (
+                      <div className="flex flex-1 items-end">
+                        {/* FLOWER */}
+                        <RequirementLabel
+                          type="sfl"
+                          balance={sflBalance}
+                          requirement={SFLDiscount(
+                            state,
+                            new Decimal(item.cost.sfl),
+                          )}
+                        />
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

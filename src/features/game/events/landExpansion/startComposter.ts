@@ -7,13 +7,15 @@ import {
 } from "features/game/types/composters";
 import { getKeys } from "features/game/types/craftables";
 import {
+  BoostName,
   CompostBuilding,
   GameState,
   InventoryItemName,
-  Skills,
 } from "features/game/types/game";
 import { translate } from "lib/i18n/translate";
 import { produce } from "immer";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
+import { isWearableActive } from "features/game/lib/wearables";
 
 export type StartComposterAction = {
   type: "composter.started";
@@ -32,56 +34,71 @@ export function getReadyAt({
 }: {
   gameState: GameState;
   composter: ComposterName;
-}) {
+}): { timeToFinishMilliseconds: number; boostsUsed: BoostName[] } {
   let { timeToFinishMilliseconds } = composterDetails[composter];
+  const boostsUsed: BoostName[] = [];
 
   // gives +10% speed boost if the player has the Soil Krabby
   if (isCollectibleBuilt({ name: "Soil Krabby", game: gameState })) {
     timeToFinishMilliseconds = timeToFinishMilliseconds * 0.9;
+    boostsUsed.push("Soil Krabby");
   }
 
   // gives +10% speed boost if the player has Swift Decomposer skill
   if (gameState.bumpkin?.skills["Swift Decomposer"]) {
     timeToFinishMilliseconds = timeToFinishMilliseconds * 0.9;
+    boostsUsed.push("Swift Decomposer");
   }
 
-  return { timeToFinishMilliseconds };
+  return { timeToFinishMilliseconds, boostsUsed };
 }
 
 export function getCompostAmount({
-  skills,
+  game,
   building,
 }: {
-  skills: Skills;
+  game: GameState;
   building: ComposterName;
-}) {
+}): { produceAmount: number; boostsUsed: BoostName[] } {
   let { produceAmount } = composterDetails[building];
+  const boostsUsed: BoostName[] = [];
+  const { skills } = game.bumpkin;
 
   if (skills["Efficient Bin"] && building === "Compost Bin") {
     produceAmount += 5;
+    boostsUsed.push("Efficient Bin");
   }
 
   if (skills["Turbo Charged"] && building === "Turbo Composter") {
     produceAmount += 5;
+    boostsUsed.push("Turbo Charged");
   }
 
   if (skills["Premium Worms"] && building === "Premium Composter") {
     produceAmount += 10;
+    boostsUsed.push("Premium Worms");
   }
 
   if (skills["Composting Overhaul"]) {
     produceAmount -= 5;
+    boostsUsed.push("Composting Overhaul");
   }
 
   if (skills["Composting Revamp"]) {
     produceAmount += 5;
+    boostsUsed.push("Composting Revamp");
+  }
+
+  if (isWearableActive({ game, name: "Turd Topper" })) {
+    produceAmount += 1;
+    boostsUsed.push("Turd Topper");
   }
 
   if (produceAmount < 0) {
     produceAmount = 0;
   }
 
-  return { produceAmount };
+  return { produceAmount, boostsUsed };
 }
 
 export function startComposter({
@@ -128,11 +145,13 @@ export function startComposter({
 
     const { produce, worm } = composterDetails[building];
 
-    const { produceAmount } = getCompostAmount({
-      skills,
-      building,
-    });
-    const { timeToFinishMilliseconds } = getReadyAt({
+    const { produceAmount, boostsUsed: composterBoostsUsed } = getCompostAmount(
+      {
+        game: stateCopy,
+        building,
+      },
+    );
+    const { timeToFinishMilliseconds, boostsUsed } = getReadyAt({
       gameState: stateCopy,
       composter: building,
     });
@@ -147,6 +166,12 @@ export function startComposter({
       startedAt: createdAt,
       readyAt: createdAt + timeToFinishMilliseconds,
     };
+
+    stateCopy.boostsUsedAt = updateBoostUsed({
+      game: stateCopy,
+      boostNames: [...boostsUsed, ...composterBoostsUsed],
+      createdAt,
+    });
 
     return stateCopy;
   });

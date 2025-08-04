@@ -97,4 +97,74 @@ describe("placeFruitPatch", () => {
       },
     });
   });
+
+  it("reinstates current progress when fruit was planted", () => {
+    const state = placeFruitPatch({
+      action: {
+        coordinates: {
+          x: 2,
+          y: 2,
+        },
+        id: "1", // ID doesn't matter since it's an existing patch
+        name: "Fruit Patch",
+        type: "fruitPatch.placed",
+      },
+      state: {
+        ...INITIAL_FARM,
+        buildings: {},
+        inventory: {
+          "Fruit Patch": new Decimal(2),
+        },
+        fruitPatches: {
+          "123": {
+            fruit: {
+              name: "Apple",
+              plantedAt: dateNow - 180000,
+              harvestsLeft: 0,
+              harvestedAt: 0,
+            },
+            removedAt: dateNow - 120000,
+            createdAt: dateNow,
+          },
+        },
+      },
+      createdAt: dateNow,
+    });
+    expect(state.fruitPatches["123"].fruit?.plantedAt).toBe(dateNow - 60000);
+  });
+
+  it("reinstates current progress when fruit was harvested", () => {
+    const state = placeFruitPatch({
+      action: {
+        coordinates: {
+          x: 2,
+          y: 2,
+        },
+        id: "1", // ID doesn't matter since it's an existing patch
+        name: "Fruit Patch",
+        type: "fruitPatch.placed",
+      },
+      state: {
+        ...INITIAL_FARM,
+        buildings: {},
+        inventory: {
+          "Fruit Patch": new Decimal(2),
+        },
+        fruitPatches: {
+          "123": {
+            fruit: {
+              name: "Apple",
+              plantedAt: 0,
+              harvestsLeft: 0,
+              harvestedAt: dateNow - 180000,
+            },
+            removedAt: dateNow - 120000,
+            createdAt: dateNow,
+          },
+        },
+      },
+      createdAt: dateNow,
+    });
+    expect(state.fruitPatches["123"].fruit?.harvestedAt).toBe(dateNow - 60000);
+  });
 });

@@ -9,12 +9,7 @@ import bee from "assets/icons/bee.webp";
 import chefHat from "assets/icons/chef_hat.png";
 import { ITEM_DETAILS } from "./images";
 import { translate } from "lib/i18n/translate";
-import {
-  getSeasonalTicket,
-  hasSeasonEnded,
-  SeasonName,
-  SEASONS,
-} from "./seasons";
+import { getCurrentSeason, getSeasonalTicket, SEASONS } from "./seasons";
 import { SEASON_ICONS } from "features/island/buildings/components/building/market/SeasonalSeeds";
 import { isCollectible } from "../events/landExpansion/garbageSold";
 import { TranslationKeys } from "lib/i18n/dictionaries/types";
@@ -757,42 +752,6 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       boostedItemIcon: chefHat,
     },
   ],
-  "Cowboy Hat": [
-    ...(hasSeasonEnded("Bull Run")
-      ? []
-      : ([
-          {
-            shortDescription: translate("description.cowboyHat.boost"),
-            labelType: "success",
-            boostTypeIcon: powerup,
-            boostedItemIcon: ITEM_DETAILS.Horseshoe.image,
-          },
-        ] as BuffLabel[])),
-  ],
-  "Cowboy Shirt": [
-    ...(hasSeasonEnded("Bull Run")
-      ? []
-      : ([
-          {
-            shortDescription: translate("description.cowboyShirt.boost"),
-            labelType: "success",
-            boostTypeIcon: powerup,
-            boostedItemIcon: ITEM_DETAILS.Horseshoe.image,
-          },
-        ] as BuffLabel[])),
-  ],
-  "Cowboy Trouser": [
-    ...(hasSeasonEnded("Bull Run")
-      ? []
-      : ([
-          {
-            shortDescription: translate("description.cowboyTrouser.boost"),
-            labelType: "success",
-            boostTypeIcon: powerup,
-            boostedItemIcon: ITEM_DETAILS.Horseshoe.image,
-          },
-        ] as BuffLabel[])),
-  ],
   "Milk Apron": [
     {
       shortDescription: translate("description.milkApron.boost"),
@@ -856,18 +815,6 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       boostTypeIcon: powerup,
       boostedItemIcon: SUNNYSIDE.resource.wool,
     },
-  ],
-  "Acorn Hat": [
-    ...(hasSeasonEnded("Winds of Change")
-      ? []
-      : ([
-          {
-            shortDescription: translate("description.bonusTimeshard.boost"),
-            labelType: "success",
-            boostTypeIcon: powerup,
-            boostedItemIcon: ITEM_DETAILS.Timeshard.image,
-          },
-        ] as BuffLabel[])),
   ],
   "Ladybug Suit": [
     {
@@ -968,26 +915,57 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
     },
   ],
+  "Turd Topper": [
+    {
+      shortDescription: translate("description.turdTopper.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS["Rapid Root"].image,
+    },
+  ],
+  "Lava Swimwear": [
+    {
+      shortDescription: translate("bumpkinItemBuff.lava.swimwear.boost"),
+      labelType: "vibrant",
+      boostTypeIcon: lightning,
+      boostedItemIcon: ITEM_DETAILS["Lava Pit"].image,
+    },
+  ],
+  "Oil Gallon": [
+    {
+      shortDescription: translate("bumpkinItemBuff.oil.gallon.boost"),
+      labelType: "success",
+      boostTypeIcon: powerup,
+      boostedItemIcon: ITEM_DETAILS["Oil"].image,
+    },
+  ],
+  "Architect Ruler": [
+    {
+      shortDescription: translate("description.architectRuler.boost"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: ITEM_DETAILS["Crafting Box"].image,
+    },
+  ],
+  "Pickaxe Shark": [
+    {
+      shortDescription: translate("description.pickaxeShark.boost.1"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: ITEM_DETAILS["Gold"].image,
+    },
+    {
+      shortDescription: translate("description.pickaxeShark.boost.2"),
+      labelType: "info",
+      boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+      boostedItemIcon: ITEM_DETAILS["Gold"].image,
+    },
+  ],
   ...SPECIAL_ITEM_LABELS,
   ...Object.fromEntries(
     getObjectEntries(CHAPTER_TICKET_BOOST_ITEMS)
-      .filter(
-        ([chapter]) =>
-          !(
-            [
-              "Solar Flare",
-              "Dawn Breaker",
-              "Witches' Eve",
-              "Catch the Kraken",
-              "Spring Blossom",
-              "Clash of Factions",
-              "Pharaoh's Treasure",
-            ] as SeasonName[]
-          ).includes(chapter),
-      )
+      .filter(([chapter]) => getCurrentSeason() === chapter)
       .flatMap(([chapter, items]) => {
-        if (hasSeasonEnded(chapter)) return [];
-
         const ticket = getSeasonalTicket(new Date(SEASONS[chapter].startDate));
         const translationKey =
           `description.bonus${ticket.replace(/\s+/g, "")}.boost` as TranslationKeys;

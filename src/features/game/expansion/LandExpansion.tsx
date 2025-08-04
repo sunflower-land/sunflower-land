@@ -1,15 +1,15 @@
 import React, { useRef } from "react";
 import ScrollContainer from "react-indiana-drag-scroll";
 
-import { useParams } from "react-router";
 import { Game } from "./Game";
 import { ModalProvider } from "../components/modal/ModalProvider";
 import { GameBoard } from "components/GameBoard";
 
-export const LandExpansion: React.FC = () => {
+export const LandExpansion: React.FC<{ isVisiting: boolean }> = ({
+  isVisiting = false,
+}) => {
   // catching and passing scroll container to keyboard listeners
   const container = useRef(null);
-  const { id } = useParams();
 
   // Load data
   return (
@@ -20,7 +20,7 @@ export const LandExpansion: React.FC = () => {
         ignoreElements={"*[data-prevent-drag-scroll]"}
       >
         <GameBoard>
-          <Game />
+          <Game isVisiting={isVisiting} />
         </GameBoard>
       </ScrollContainer>
     </ModalProvider>

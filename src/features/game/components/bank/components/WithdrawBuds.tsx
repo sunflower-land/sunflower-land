@@ -18,6 +18,7 @@ import { WalletAddressLabel } from "components/ui/WalletAddressLabel";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
+import { hasBoostRestriction } from "features/game/types/withdrawRestrictions";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -77,6 +78,12 @@ export const WithdrawBuds: React.FC<Props> = ({ onWithdraw }) => {
               onClick={() => onAdd(budId)}
               image={`https://${imageDomain}.sunflower-land.com/images/${budId}.webp`}
               iconClassName="scale-[1.8] origin-bottom absolute"
+              disabled={
+                hasBoostRestriction({
+                  boostUsedAt: state.boostsUsedAt,
+                  item: `Bud #${budId}`,
+                }).isRestricted
+              }
             />
           ))}
           {/* Pad with empty boxes */}

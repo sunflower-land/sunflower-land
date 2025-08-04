@@ -66,7 +66,10 @@ import { Transaction } from "features/island/hud/Transaction";
 import { Gems } from "./components/Gems";
 import { HenHouseInside } from "features/henHouse/HenHouseInside";
 import { BarnInside } from "features/barn/BarnInside";
-import { STATE_MACHINE_EFFECTS } from "../actions/effect";
+import {
+  STATE_MACHINE_EFFECTS,
+  STATE_MACHINE_VISIT_EFFECTS,
+} from "../actions/effect";
 import { TranslationKeys } from "lib/i18n/dictionaries/types";
 import { GameState } from "../types/game";
 import { Ocean } from "features/world/ui/Ocean";
@@ -89,6 +92,10 @@ import { ClaimReferralRewards } from "./components/ClaimReferralRewards";
 import { SoftBan } from "features/retreat/components/personhood/SoftBan";
 import { RewardBox } from "features/rewardBoxes/RewardBox";
 import { ClaimBlessingReward } from "features/loveIsland/blessings/ClaimBlessing";
+import { Cheering } from "./components/Cheering";
+import { SystemMessageWidget } from "features/announcements/SystemMessageWidget";
+import { News } from "features/farming/mail/components/News";
+import { CloseButtonPanel } from "../components/CloseablePanel";
 
 function camelToDotCase(str: string): string {
   return str.replace(/([a-z])([A-Z])/g, "$1.$2").toLowerCase() as string;
@@ -97,7 +104,10 @@ function camelToDotCase(str: string): string {
 const land = SUNNYSIDE.land.island;
 
 const getModalStatesForEffects = () =>
-  Object.values(STATE_MACHINE_EFFECTS).reduce(
+  Object.values({
+    ...STATE_MACHINE_EFFECTS,
+    ...STATE_MACHINE_VISIT_EFFECTS,
+  }).reduce(
     (states, stateName) => ({
       ...states,
       [stateName]: true,
@@ -174,6 +184,8 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   jinAirdrop: true,
   investigating: true,
   blessing: true,
+  cheers: true,
+  news: true,
 };
 
 // State change selectors
@@ -199,7 +211,6 @@ const isRefreshing = (state: MachineState) => state.matches("refreshing");
 const isBuyingSFL = (state: MachineState) => state.matches("buyingSFL");
 const isError = (state: MachineState) => state.matches("error");
 const isHoarding = (state: MachineState) => state.matches("hoarding");
-const isVisiting = (state: MachineState) => state.matches("visiting");
 const isSwarming = (state: MachineState) => state.matches("swarming");
 const isPurchasing = (state: MachineState) =>
   state.matches("purchasing") || state.matches("buyingBlockBucks");
@@ -238,17 +249,20 @@ const isPlaying = (state: MachineState) => state.matches("playing");
 const somethingArrived = (state: MachineState) =>
   state.matches("somethingArrived");
 const isEffectPending = (state: MachineState) =>
-  Object.values(STATE_MACHINE_EFFECTS).some((stateName) =>
-    state.matches(stateName),
-  );
+  Object.values({
+    ...STATE_MACHINE_EFFECTS,
+    ...STATE_MACHINE_VISIT_EFFECTS,
+  }).some((stateName) => state.matches(stateName));
 const isEffectSuccess = (state: MachineState) =>
-  Object.values(STATE_MACHINE_EFFECTS).some((stateName) =>
-    state.matches(`${stateName}Success`),
-  );
+  Object.values({
+    ...STATE_MACHINE_EFFECTS,
+    ...STATE_MACHINE_VISIT_EFFECTS,
+  }).some((stateName) => state.matches(`${stateName}Success`));
 const isEffectFailed = (state: MachineState) =>
-  Object.values(STATE_MACHINE_EFFECTS).some((stateName) =>
-    state.matches(`${stateName}Failed`),
-  );
+  Object.values({
+    ...STATE_MACHINE_EFFECTS,
+    ...STATE_MACHINE_VISIT_EFFECTS,
+  }).some((stateName) => state.matches(`${stateName}Failed`));
 const hasMarketplaceSales = (state: MachineState) =>
   state.matches("marketplaceSale");
 const isCompetition = (state: MachineState) => state.matches("competition");
@@ -258,12 +272,13 @@ const isRoninWelcomePack = (state: MachineState) =>
   state.matches("roninWelcomePack");
 const isRoninAirdrop = (state: MachineState) => state.matches("roninAirdrop");
 const isJinAirdrop = (state: MachineState) => state.matches("jinAirdrop");
+const isCheers = (state: MachineState) => state.matches("cheers");
+const isNews = (state: MachineState) => state.matches("news");
 
-const GameContent: React.FC = () => {
+const GameContent: React.FC<{ isVisiting: boolean }> = ({ isVisiting }) => {
   const { gameService } = useContext(Context);
   useSound("desert", true);
 
-  const visiting = useSelector(gameService, isVisiting);
   const landToVisitNotFound = useSelector(gameService, isLandToVisitNotFound);
   const { t } = useAppTranslation();
   const [gameState] = useActor(gameService);
@@ -317,12 +332,13 @@ const GameContent: React.FC = () => {
     );
   }
 
-  if (visiting) {
+  if (isVisiting) {
     return (
       <>
         <div className="absolute z-10 w-full h-full">
           <Routes>
             <Route path="/:id" element={<Land />} />
+            <Route path="/:id/home" element={<Home />} />
           </Routes>
         </div>
       </>
@@ -360,10 +376,10 @@ const GameContent: React.FC = () => {
   );
 };
 
-export const Game: React.FC = () => {
+export const Game: React.FC<{ isVisiting: boolean }> = ({ isVisiting }) => {
   return (
     <GameWrapper>
-      <GameContent />
+      <GameContent isVisiting={isVisiting} />
     </GameWrapper>
   );
 };
@@ -433,7 +449,8 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
   const showPWAInstallPrompt = useSelector(authService, _showPWAInstallPrompt);
   const investigating = useSelector(gameService, isInvestigating);
   const blessing = useSelector(gameService, isBlessing);
-
+  const cheers = useSelector(gameService, isCheers);
+  const news = useSelector(gameService, isNews);
   const { t } = useAppTranslation();
   useInterval(() => {
     gameService.send("SAVE");
@@ -535,6 +552,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
             <Panel>
               <Loading />
             </Panel>
+            <SystemMessageWidget />
           </Modal>
         </Ocean>
       </>
@@ -635,6 +653,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
                 onClose={() => gameService.send("ACKNOWLEDGE")}
               />
             )}
+            {cheers && <Cheering />}
           </Panel>
         </Modal>
 
@@ -648,6 +667,16 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
               competitionName="PEGGYS_COOKOFF"
               onClose={() => gameService.send("ACKNOWLEDGE")}
             />
+          </Modal>
+        )}
+        {news && (
+          <Modal show onHide={() => gameService.send("ACKNOWLEDGE")}>
+            <CloseButtonPanel onClose={() => gameService.send("ACKNOWLEDGE")}>
+              <Label type="default" className="mb-2">
+                {t("news.title")}
+              </Label>
+              <News />
+            </CloseButtonPanel>
           </Modal>
         )}
 

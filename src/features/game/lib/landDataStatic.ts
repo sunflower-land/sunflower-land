@@ -24,6 +24,28 @@ export const STATIC_OFFLINE_FARM: GameState = {
     expiresAt: Date.now() + 31 * 24 * 60 * 60 * 1000,
   },
   inventory: {
+    "Farmer's Monument": new Decimal(1),
+    "Miner's Monument": new Decimal(1),
+    "Woodcutter's Monument": new Decimal(1),
+    "Big Orange": new Decimal(1),
+    "Big Apple": new Decimal(1),
+    "Big Banana": new Decimal(1),
+    "Basic Cooking Pot": new Decimal(1),
+    "Expert Cooking Pot": new Decimal(1),
+    "Advanced Cooking Pot": new Decimal(1),
+    "Teamwork Monument": new Decimal(1),
+    "Gold Cooking Trophy": new Decimal(1),
+    Doll: new Decimal(10),
+    "Petting Hand": new Decimal(1),
+    "Cluck Doll": new Decimal(1),
+    "Lumber Doll": new Decimal(1),
+    "Silver Cooking Trophy": new Decimal(1),
+    "Bronze Cooking Trophy": new Decimal(1),
+    "Better Together Banner": new Decimal(1),
+    Geniseed: new Decimal(400),
+    Wheat: new Decimal(400),
+    Pickaxe: new Decimal(1),
+    "Blue Tile": new Decimal(1000),
     "Beta Pass": new Decimal(1),
     "Colors Token 2025": new Decimal(10000),
     "Magic Bean": new Decimal(1),
@@ -110,6 +132,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Thermal Stone": new Decimal(1),
     Hay: new Decimal(100),
     "Dr Cow": new Decimal(1),
+    "Cow Scratcher": new Decimal(1),
   },
   previousInventory: {
     "Dirt Path": new Decimal(20),
@@ -131,7 +154,9 @@ export const STATIC_OFFLINE_FARM: GameState = {
     Iron: new Decimal(1000),
     Gold: new Decimal(1000),
   },
-  wardrobe: {},
+  wardrobe: {
+    "Cowboy Hat": 1,
+  },
   previousWardrobe: {},
   bank: { taxFreeSFL: 0, withdrawnAmount: 0 },
   beehives: {
@@ -143,7 +168,19 @@ export const STATIC_OFFLINE_FARM: GameState = {
       y: 0,
     },
   },
-  crimstones: {},
+  crimstones: {
+    0: {
+      stone: {
+        // minedAt: Date.now() - 1000 * 60 * 60 * 24,
+        minedAt: 0,
+        criticalHit: { Native: 1 },
+      },
+      createdAt: 0,
+      x: 8,
+      y: -4,
+      minesLeft: 1,
+    },
+  },
   flowers: {
     discovered: {
       "Red Balloon Flower": ["Beetroot"],
@@ -157,7 +194,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
         flower: {
           name: "Red Balloon Flower",
           plantedAt: 0,
-          amount: 1,
           reward: {
             items: [{ name: "Lunalist", amount: 1 }],
           },
@@ -166,7 +202,12 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   lavaPits: {
-    "1": { createdAt: 0, x: -4, y: -6 },
+    "1": {
+      createdAt: 0,
+      startedAt: Date.now() - 1000 * (60 * 60 * 48),
+      x: -4,
+      y: -6,
+    },
   },
 
   fruitPatches: {
@@ -176,22 +217,52 @@ export const STATIC_OFFLINE_FARM: GameState = {
       y: 6,
     },
   },
-  gold: {},
-  iron: {},
-  stones: {},
+  gold: {
+    0: {
+      stone: {
+        minedAt: 0,
+        criticalHit: { Native: 1 },
+      },
+      createdAt: 0,
+      x: 8,
+      y: -4,
+    },
+  },
+  iron: {
+    0: {
+      stone: {
+        minedAt: 0,
+        criticalHit: { Native: 1 },
+      },
+      createdAt: 0,
+      x: 8,
+      y: -3,
+    },
+  },
+  stones: {
+    0: {
+      stone: {
+        minedAt: 0,
+        criticalHit: { Native: 1 },
+      },
+      createdAt: 0,
+      x: 8,
+      y: -2,
+    },
+  },
   trees: {
     1: {
       wood: {
-        amount: 2,
         choppedAt: 0,
+        criticalHit: { Native: 1 },
       },
       x: 4,
       y: -2,
     },
     2: {
       wood: {
-        amount: 2,
         choppedAt: 0,
+        criticalHit: { Native: 1 },
       },
       x: 6,
       y: -2,
@@ -218,7 +289,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
 
   competitions: {
     progress: {
-      ANIMALS: {
+      PEGGYS_COOKOFF: {
         points: 0,
         currentProgress: {
           "Complete chore": 0,
@@ -562,7 +633,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
         createdAt: 0,
       },
     ],
-    Deli: [
+    "Crafting Box": [
       {
         id: "123",
         readyAt: 0,
@@ -638,7 +709,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
       crop: {
         plantedAt: 0,
         name: "Sunflower",
-        amount: 1,
       },
     },
     "2": {
@@ -648,7 +718,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
       crop: {
         plantedAt: 0,
         name: "Sunflower",
-        amount: 1,
       },
     },
   },
@@ -908,7 +977,24 @@ export const STATIC_OFFLINE_FARM: GameState = {
       total: 10,
     },
   },
-  npcs: {},
+  npcs: {
+    bert: {
+      deliveryCount: 0,
+      friendship: {
+        updatedAt: 0,
+        points: 480,
+        giftClaimedAtPoints: 330,
+      },
+    },
+    betty: {
+      deliveryCount: 0,
+      friendship: {
+        updatedAt: 0,
+        points: 100000,
+        giftClaimedAtPoints: 150,
+      },
+    },
+  },
   farmActivity: {},
   milestones: {},
   specialEvents: {
@@ -954,12 +1040,34 @@ export const STATIC_OFFLINE_FARM: GameState = {
       "1": {
         id: "1",
         type: "Sheep",
-        state: "sick",
+        state: "idle",
+        createdAt: 0,
+        experience: 120,
+        asleepAt: 0,
+        awakeAt: 0,
+        lovedAt: 0,
+        item: "Petting Hand",
+      },
+      "3": {
+        id: "4",
+        type: "Sheep",
+        state: "idle",
         createdAt: 0,
         experience: 120,
         asleepAt: Date.now() - 1000 * 60 * 60 * 12,
         awakeAt: Date.now() + 1000 * 60 * 60 * 12,
-        lovedAt: Date.now(),
+        lovedAt: 0,
+        item: "Petting Hand",
+      },
+      "4": {
+        id: "4",
+        type: "Sheep",
+        state: "idle",
+        createdAt: 0,
+        experience: 120,
+        asleepAt: Date.now(),
+        awakeAt: Date.now() + 1000 * 60 * 60 * 12,
+        lovedAt: 0,
         item: "Petting Hand",
       },
       "2": {
@@ -1019,6 +1127,30 @@ export const STATIC_OFFLINE_FARM: GameState = {
     offering: {
       item: "Potato",
       prize: "Potato",
+    },
+  },
+  aoe: {},
+  socialFarming: {
+    points: 0,
+    villageProjects: {},
+    cheersGiven: {
+      date: new Date().toISOString().split("T")[0],
+      projects: {},
+      farms: [],
+    },
+    cheers: {
+      cheersUsed: 0,
+      freeCheersClaimedAt: 0,
+    },
+    clutter: {
+      spawnedAt: 0,
+      locations: {
+        "1": {
+          x: 1,
+          y: 1,
+          type: "Trash",
+        },
+      },
     },
   },
 };

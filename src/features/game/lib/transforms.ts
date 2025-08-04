@@ -103,6 +103,7 @@ export function makeGame(farm: any): GameState {
     megastore: farm.megastore,
     goblinMarket: farm.goblinMarket,
     faction: farm.faction,
+    previousFaction: farm.previousFaction,
     dailyFactionDonationRequest: farm.dailyFactionDonationRequest
       ? {
           resource: farm.dailyFactionDonationRequest.resource,
@@ -128,5 +129,8 @@ export function makeGame(farm: any): GameState {
     rewardBoxes: farm.rewardBoxes,
     withdrawals: farm.withdrawals,
     blessing: farm.blessing,
+    aoe: farm.aoe,
+    boostsUsedAt: farm.boostsUsedAt,
+    socialFarming: farm.socialFarming,
   };
 }

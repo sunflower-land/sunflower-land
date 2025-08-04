@@ -105,7 +105,7 @@ export const Beehive: React.FC<Props> = ({ id }) => {
   const currentFlowerId = useSelector(beehiveService, _currentFlowerId);
   const showBeeAnimation = useSelector(beehiveService, _showBeeAnimation);
 
-  const honeyMultiplier = getHoneyMultiplier(gameState);
+  const { multiplier: honeyMultiplier } = getHoneyMultiplier(gameState);
 
   const handleBeeAnimationEnd = useCallback(() => {
     beehiveService.send("BEE_ANIMATION_DONE");
@@ -207,6 +207,8 @@ export const Beehive: React.FC<Props> = ({ id }) => {
           0,
           (DEFAULT_HONEY_PRODUCTION_TIME - honeyProduced) / currentSpeed / 1000,
         );
+
+  if (hive.x === undefined || hive.y === undefined) return null;
 
   return (
     <>

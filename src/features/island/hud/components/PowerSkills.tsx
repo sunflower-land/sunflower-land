@@ -34,8 +34,13 @@ import { getRelativeTime, millisecondsToString } from "lib/utils/time";
 interface PowerSkillsProps {
   onHide: () => void;
   onBack: () => void;
+  readonly: boolean;
 }
-export const PowerSkills: React.FC<PowerSkillsProps> = ({ onHide, onBack }) => {
+export const PowerSkills: React.FC<PowerSkillsProps> = ({
+  onHide,
+  onBack,
+  readonly,
+}) => {
   const { t } = useAppTranslation();
   return (
     <CloseButtonPanel
@@ -48,14 +53,17 @@ export const PowerSkills: React.FC<PowerSkillsProps> = ({ onHide, onBack }) => {
         },
       ]}
     >
-      <PowerSkillsContent onBack={onBack} />
+      <PowerSkillsContent onBack={onBack} readonly={readonly} />
     </CloseButtonPanel>
   );
 };
 
 const _state = (state: MachineState) => state.context.state;
 
-const PowerSkillsContent: React.FC<{ onBack: () => void }> = ({ onBack }) => {
+const PowerSkillsContent: React.FC<{
+  onBack: () => void;
+  readonly: boolean;
+}> = ({ onBack, readonly }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
@@ -307,7 +315,7 @@ const PowerSkillsContent: React.FC<{ onBack: () => void }> = ({ onBack }) => {
             </div>
           </div>
 
-          {power && (
+          {power && !readonly && (
             <div className="flex space-x-1 sm:space-x-0 sm:space-y-1 sm:flex-col w-full">
               {useSkillConfirmation ? (
                 <>

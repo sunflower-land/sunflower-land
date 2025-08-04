@@ -1,6 +1,7 @@
 import { NPCName } from "lib/npcs";
 import { BB_TO_GEM_RATIO, InventoryItemName, Wardrobe } from "./game";
 import { FlowerName } from "./flowers";
+import { RecipeItemName } from "../lib/crafting";
 
 type GiftPoints = Partial<Record<FlowerName, number>>;
 
@@ -144,6 +145,7 @@ export type BumpkinGift = {
   items: Partial<Record<InventoryItemName, number>>;
   coins: number;
   wearables: Wardrobe;
+  recipe?: RecipeItemName;
 };
 
 type BumpkinGifts = {
@@ -201,18 +203,21 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
         items: {},
         coins: 960,
         wearables: {},
+        recipe: "Basic Bed",
       },
       {
         friendshipPoints: 40,
         items: { "Treasure Key": 1 },
         coins: 0,
         wearables: {},
+        recipe: "Doll",
       },
       {
         friendshipPoints: 110,
         items: { "Radish Cake": 1 },
         coins: 0,
         wearables: {},
+        recipe: "Buzz Doll",
       },
     ],
     repeats: {
@@ -229,24 +234,28 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
         items: { "Treasure Key": 1 },
         coins: 0,
         wearables: {},
+        recipe: "Timber",
       },
       {
         friendshipPoints: 110,
         items: {},
         coins: 760,
         wearables: {},
+        recipe: "Cushion",
       },
       {
         friendshipPoints: 200,
         items: {},
         coins: 1600,
         wearables: {},
+        recipe: "Hardened Leather",
       },
       {
         friendshipPoints: 320,
         items: { Pickaxe: 10 },
         coins: 0,
         wearables: {},
+        recipe: "Crimsteel",
       },
     ],
     repeats: {
@@ -254,6 +263,7 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
       items: { "Treasure Key": 1 },
       coins: 960,
       wearables: {},
+      recipe: "Crude Doll",
     },
   },
   bert: {
@@ -265,18 +275,21 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
         wearables: {
           "Tattered Jacket": 1,
         },
+        recipe: "Wooly Doll",
       },
       {
         friendshipPoints: 100,
         items: { Gem: BB_TO_GEM_RATIO * 1 },
         coins: 0,
         wearables: {},
+        recipe: "Cluck Doll",
       },
       {
         friendshipPoints: 210,
         items: { "Pirate Cake": 3 },
         coins: 0,
         wearables: {},
+        recipe: "Cow Bed",
       },
       {
         friendshipPoints: 330,
@@ -285,6 +298,7 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
         wearables: {
           "Greyed Glory": 1,
         },
+        recipe: "Moo Doll",
       },
     ],
     repeats: {
@@ -301,6 +315,7 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
         items: { "Fishing Lure": 3 },
         coins: 0,
         wearables: {},
+        recipe: "Fisher Bed",
       },
       {
         friendshipPoints: 95,
@@ -335,6 +350,7 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
         items: {},
         coins: 2560,
         wearables: {},
+        recipe: "Lunar Doll",
       },
       {
         friendshipPoints: 220,
@@ -347,6 +363,7 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
         items: { "Eggplant Seed": 50 },
         coins: 1600,
         wearables: {},
+        recipe: "Shadow Doll",
       },
       {
         friendshipPoints: 700,
@@ -371,6 +388,7 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
         items: { "Time Warp Totem": 1 },
         coins: 0,
         wearables: {},
+        recipe: "Floral Bed",
       },
       {
         friendshipPoints: 90,
@@ -385,12 +403,14 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
         items: {},
         coins: 0,
         wearables: { "Fruit Picker Apron": 1 },
+        recipe: "Desert Bed",
       },
       {
         friendshipPoints: 500,
         items: {},
         coins: 6400,
         wearables: { "Fruit Bowl": 1 },
+        recipe: "Juicy Doll",
       },
     ],
     repeats: {
@@ -440,12 +460,14 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
         items: { Gem: BB_TO_GEM_RATIO * 2 },
         coins: 0,
         wearables: {},
+        recipe: "Synthetic Fabric",
       },
       {
         friendshipPoints: 320,
         items: {},
         coins: 0,
         wearables: { "Pink Ponytail": 1 },
+        recipe: "Kelp Fibre",
       },
     ],
     repeats: {
@@ -462,6 +484,7 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
         items: { "Rare Key": 1 },
         coins: 0,
         wearables: {},
+        recipe: "Sturdy Bed",
       },
       {
         friendshipPoints: 175,
@@ -474,12 +497,14 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
         items: {},
         coins: 0,
         wearables: { "Wise Robes": 1 },
+        recipe: "Harvest Doll",
       },
       {
         friendshipPoints: 600,
         items: {},
         coins: 0,
         wearables: { "Wise Beard": 1 },
+        recipe: "Ember Doll",
       },
     ],
     repeats: {
@@ -534,6 +559,7 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
         },
         coins: 0,
         wearables: {},
+        recipe: "Royal Bed",
       },
       {
         friendshipPoints: 340,
@@ -573,6 +599,7 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
         },
         coins: 0,
         wearables: {},
+        recipe: "Royal Bedding",
       },
       {
         friendshipPoints: 140,
@@ -581,6 +608,7 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
         },
         coins: 0,
         wearables: {},
+        recipe: "Royal Ornament",
       },
       {
         friendshipPoints: 340,
@@ -627,12 +655,14 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
         wearables: {
           "Peg Leg": 1,
         },
+        recipe: "Gilded Doll",
       },
       {
         friendshipPoints: 500,
         items: {},
         coins: 0,
         wearables: { "Pirate Potion": 1 },
+        recipe: "Pirate Bed",
       },
       {
         friendshipPoints: 850,
@@ -641,6 +671,7 @@ export const BUMPKIN_GIFTS: Partial<Record<NPCName, BumpkinGifts>> = {
         },
         coins: 0,
         wearables: { "Pirate Hat": 1 },
+        recipe: "Ocean's Treasure",
       },
     ],
     repeats: {

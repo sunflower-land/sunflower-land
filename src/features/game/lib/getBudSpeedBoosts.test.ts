@@ -14,7 +14,10 @@ const NON_BOOSTED_TRAITS: Omit<Bud, "type"> = {
 
 describe("getBudSpeedBoosts", () => {
   it("returns 1 if no buds", () => {
-    expect(getBudSpeedBoosts({}, "Sunflower")).toEqual(1);
+    expect(getBudSpeedBoosts({}, "Sunflower")).toEqual({
+      budUsed: undefined,
+      speedBoost: 1,
+    });
   });
 
   it("returns 0.9 if Saphiro type", () => {
@@ -28,7 +31,7 @@ describe("getBudSpeedBoosts", () => {
         },
         "Sunflower",
       ),
-    ).toEqual(0.9);
+    ).toEqual({ budUsed: "Bud #1", speedBoost: 0.9 });
   });
 
   it("returns 0.895 if Saphiro type and Basic Aura", () => {
@@ -43,7 +46,7 @@ describe("getBudSpeedBoosts", () => {
         },
         "Sunflower",
       ),
-    ).toEqual(0.895);
+    ).toEqual({ budUsed: "Bud #1", speedBoost: 0.895 });
   });
   8;
 
@@ -59,7 +62,7 @@ describe("getBudSpeedBoosts", () => {
         },
         "Sunflower",
       ),
-    ).toEqual(0.88);
+    ).toEqual({ budUsed: "Bud #1", speedBoost: 0.88 });
   });
   it("returns 0.8 if Saphiro type and Rare Aura", () => {
     expect(
@@ -73,7 +76,7 @@ describe("getBudSpeedBoosts", () => {
         },
         "Sunflower",
       ),
-    ).toEqual(0.8);
+    ).toEqual({ budUsed: "Bud #1", speedBoost: 0.8 });
   });
 
   it("returns 0.5 if Saphiro type and Mythical Aura", () => {
@@ -88,7 +91,7 @@ describe("getBudSpeedBoosts", () => {
         },
         "Sunflower",
       ),
-    ).toEqual(0.5);
+    ).toEqual({ budUsed: "Bud #1", speedBoost: 0.5 });
   });
 
   it("returns the best boost if multiple buds", () => {
@@ -113,7 +116,7 @@ describe("getBudSpeedBoosts", () => {
         },
         "Sunflower",
       ),
-    ).toEqual(0.5);
+    ).toEqual({ budUsed: "Bud #2", speedBoost: 0.5 });
   });
 
   it("filters out buds that are not placed", () => {
@@ -129,6 +132,6 @@ describe("getBudSpeedBoosts", () => {
         },
         "Sunflower",
       ),
-    ).toEqual(1);
+    ).toEqual({ budUsed: undefined, speedBoost: 1 });
   });
 });

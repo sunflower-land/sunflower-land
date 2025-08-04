@@ -59,14 +59,15 @@ function getQueueItemCookingSeconds({
     boostedCookingSeconds = itemCookingSeconds * (1 - effectiveBoostValue);
   }
 
-  const seconds = getCookingTime({
+  // We don't need to pass in boostUsed as cancelling recipes shouldn't mark boost as being used
+  const { reducedSecs: seconds } = getCookingTime({
     seconds: boostedCookingSeconds,
     item: name,
     game,
     cookStartAt: createdAt,
   });
 
-  return seconds;
+  return { seconds };
 }
 
 function getUpdatedReadyAt({
@@ -84,7 +85,7 @@ function getUpdatedReadyAt({
   buildingName: CookingBuildingName;
   createdAt: number;
 }) {
-  const seconds = getQueueItemCookingSeconds({
+  const { seconds } = getQueueItemCookingSeconds({
     name,
     appliedOilBoost,
     game,

@@ -47,7 +47,6 @@ describe("placeTree", () => {
             "123": {
               createdAt: dateNow,
               wood: {
-                amount: 1,
                 choppedAt: 0,
               },
               x: 1,
@@ -81,7 +80,6 @@ describe("placeTree", () => {
           "123": {
             createdAt: dateNow,
             wood: {
-              amount: 1,
               choppedAt: 0,
             },
             x: 0,
@@ -96,7 +94,6 @@ describe("placeTree", () => {
       "1": {
         createdAt,
         wood: {
-          amount: 1,
           choppedAt: 0,
         },
         x: 2,
@@ -105,11 +102,53 @@ describe("placeTree", () => {
       "123": {
         createdAt,
         wood: {
-          amount: 1,
           choppedAt: 0,
         },
         x: 0,
         y: 0,
+      },
+    });
+  });
+
+  it("reinstates current progress", () => {
+    const createdAt = dateNow;
+    const state = placeTree({
+      action: {
+        coordinates: {
+          x: 2,
+          y: 2,
+        },
+        id: "156", // ID doesn't matter since it's an existing tree
+        name: "Tree",
+        type: "tree.placed",
+      },
+      state: {
+        ...INITIAL_FARM,
+        buildings: {},
+        inventory: {
+          Tree: new Decimal(2),
+        },
+        trees: {
+          "123": {
+            createdAt: dateNow,
+            wood: {
+              choppedAt: dateNow - 180000,
+            },
+            removedAt: dateNow - 120000,
+          },
+        },
+      },
+      createdAt,
+    });
+
+    expect(state.trees).toEqual({
+      "123": {
+        createdAt,
+        wood: {
+          choppedAt: dateNow - 60000,
+        },
+        x: 2,
+        y: 2,
       },
     });
   });

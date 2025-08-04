@@ -29,6 +29,7 @@ import { translate } from "lib/i18n/translate";
 import { FactionShopCollectibleName } from "./factionShop";
 import { BEDS } from "./beds";
 import { SeasonalCollectibleName } from "./megastore";
+import { MonumentName } from "./monuments";
 
 export { FLAGS };
 
@@ -215,7 +216,8 @@ export type CollectibleName =
   | TreasureCollectibleItem
   | MutantFlowerName
   | BedName
-  | SeasonalCollectibleName;
+  | SeasonalCollectibleName
+  | MonumentName;
 
 export type ToolName =
   | "Axe"
@@ -1039,7 +1041,7 @@ const bedsDimension = getKeys(BEDS).reduce(
     ...previous,
     [bedName]: { width: 1, height: 1 },
   }),
-  {} as Record<BedName, Dimensions>,
+  {} as Record<Exclude<BedName, "Double Bed">, Dimensions>,
 );
 
 export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
@@ -1175,6 +1177,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Clash of Factions Banner": { width: 1, height: 2 },
   "Pharaoh's Treasure Banner": { width: 1, height: 2 },
   "Lifetime Farmer Banner": { width: 1, height: 2 },
+  "Better Together Banner": { width: 1, height: 2 },
 
   // Dawn Breaker SFTs
   "Mushroom House": { height: 3, width: 2 },
@@ -1223,7 +1226,7 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Battle Fish": { width: 2, height: 1 },
   "Lemon Shark": { width: 2, height: 1 },
   "Longhorn Cowfish": { width: 2, height: 1 },
-
+  Poseidon: { width: 2, height: 2 },
   "Kraken Tentacle": { width: 1, height: 1 },
 
   // Catch the Kraken SFTs
@@ -1428,6 +1431,38 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   Lunalist: { width: 1, height: 1 },
   "Pink Dolphin": { width: 2, height: 2 },
   "Giant Kale": { width: 2, height: 2 },
+
+  "Big Apple": { width: 2, height: 2 },
+  "Big Orange": { width: 2, height: 2 },
+  "Big Banana": { width: 2, height: 2 },
+  "Farmer's Monument": { width: 3, height: 3 },
+  "Miner's Monument": { width: 3, height: 3 },
+  "Woodcutter's Monument": { width: 3, height: 3 },
+  "Teamwork Monument": { width: 3, height: 3 },
+  "Basic Cooking Pot": { width: 2, height: 2 },
+  "Expert Cooking Pot": { width: 2, height: 2 },
+  "Advanced Cooking Pot": { width: 2, height: 2 },
+
+  "Floor Mirror": { width: 1, height: 1 },
+  "Long Rug": { width: 4, height: 2 },
+  "Garbage Bin": { width: 1, height: 1 },
+  Wheelbarrow: { width: 2, height: 1 },
+  "Snail King": { width: 1, height: 1 },
+  "Reelmaster's Chair": { width: 1, height: 1 },
+  "Rat King": { width: 1, height: 1 },
+  "Fruit Tune Box": { width: 1, height: 1 },
+  "Double Bed": { width: 2, height: 1 },
+  "Giant Artichoke": { width: 2, height: 2 },
+  "Rocket Statue": { width: 1, height: 1 },
+  "Ant Queen": { width: 1, height: 1 },
+  "Jurassic Droplet": { width: 2, height: 1 },
+  "Giant Onion": { width: 1, height: 2 },
+  "Giant Turnip": { width: 2, height: 2 },
+  "Groovy Gramophone": { width: 1, height: 1 },
+  "Baby Cow": { width: 1, height: 1 },
+  "Baby Sheep": { width: 1, height: 1 },
+  "Janitor Chicken": { width: 1, height: 1 },
+  "Venus Bumpkin Trap": { width: 1, height: 1 },
 };
 
 export const ANIMAL_DIMENSIONS: Record<"Chicken", Dimensions> = {

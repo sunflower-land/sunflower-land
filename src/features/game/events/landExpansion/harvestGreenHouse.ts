@@ -1,5 +1,9 @@
-import { GameState } from "features/game/types/game";
-import { MAX_POTS } from "./plantGreenhouse";
+import {
+  BoostName,
+  CriticalHitName,
+  GameState,
+} from "features/game/types/game";
+import { isGreenhouseCrop, MAX_POTS } from "./plantGreenhouse";
 import {
   GREENHOUSE_CROPS,
   GreenHouseCropName,
@@ -14,6 +18,9 @@ import {
   trackActivity,
 } from "features/game/types/bumpkinActivity";
 import { produce } from "immer";
+import { getFruitYield } from "./fruitHarvested";
+import { getCropYieldAmount } from "./harvest";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 
 export const GREENHOUSE_CROP_TIME_SECONDS: Record<
   GreenHouseCropName | GreenHouseFruitName,
@@ -25,17 +32,39 @@ export const GREENHOUSE_CROP_TIME_SECONDS: Record<
 };
 
 export function getReadyAt({
-  game,
   plant,
   createdAt = Date.now(),
 }: {
-  game: GameState;
   plant: GreenHouseCropName | GreenHouseFruitName;
   createdAt?: number;
 }) {
   const seconds = GREENHOUSE_CROP_TIME_SECONDS[plant];
 
   return createdAt + seconds * 1000;
+}
+
+export function getGreenhouseCropYieldAmount({
+  crop,
+  game,
+  createdAt,
+  criticalDrop = () => false,
+}: {
+  crop: GreenHouseCropName | GreenHouseFruitName;
+  game: GameState;
+  createdAt: number;
+  criticalDrop?: (name: CriticalHitName) => boolean;
+}): { amount: number; boostsUsed: BoostName[] } {
+  if (isGreenhouseCrop(crop)) {
+    const { amount, boostsUsed } = getCropYieldAmount({
+      crop,
+      game,
+      criticalDrop,
+      createdAt,
+    });
+    return { amount, boostsUsed };
+  }
+
+  return getFruitYield({ name: crop, game, criticalDrop });
 }
 
 export type HarvestGreenhouseAction = {
@@ -77,23 +106,34 @@ export function harvestGreenHouse({
 
     if (
       createdAt <
-      getReadyAt({
-        game,
-        plant: pot.plant.name,
-        createdAt: pot.plant.plantedAt,
-      })
+      getReadyAt({ plant: pot.plant.name, createdAt: pot.plant.plantedAt })
     ) {
       throw new Error("Plant is not ready");
     }
 
     // Harvests Crop
+    const { amount: greenhouseProduce, boostsUsed } = pot.plant.amount
+      ? { amount: pot.plant.amount, boostsUsed: [] }
+      : getGreenhouseCropYieldAmount({
+          crop: pot.plant.name,
+          game,
+          createdAt,
+          criticalDrop: (name) => !!(pot.plant?.criticalHit?.[name] ?? 0),
+        });
+
     const previousAmount = game.inventory[pot.plant.name] ?? new Decimal(0);
-    game.inventory[pot.plant.name] = previousAmount.add(pot.plant.amount);
+    game.inventory[pot.plant.name] = previousAmount.add(greenhouseProduce);
 
     // Tracks Analytics
     const activityName: BumpkinActivityName = `${pot.plant.name} Harvested`;
 
     game.bumpkin.activity = trackActivity(activityName, game.bumpkin.activity);
+
+    game.boostsUsedAt = updateBoostUsed({
+      game,
+      boostNames: boostsUsed,
+      createdAt,
+    });
 
     // Clears Pot
     delete pot.plant;

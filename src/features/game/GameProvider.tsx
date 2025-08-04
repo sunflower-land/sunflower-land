@@ -1,7 +1,7 @@
 /**
  * A wrapper that provides game state and dispatches events
  */
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect } from "react";
 import { useActor, useInterpret } from "@xstate/react";
 import React, { useContext } from "react";
 
@@ -10,7 +10,6 @@ import {
   cacheShortcuts,
   getShortcuts,
 } from "features/farming/hud/lib/shortcuts";
-
 import { startGame, MachineInterpreter } from "./lib/gameMachine";
 import { InventoryItemName } from "./types/game";
 import {
@@ -36,7 +35,7 @@ interface GameContext {
   toggleQuickSelect: () => void;
   showTimers: boolean;
   toggleTimers: () => void;
-  fromRoute: string;
+  fromRoute?: string;
   setFromRoute: (route: string) => void;
 }
 
@@ -52,6 +51,31 @@ export const GameProvider: React.FC<React.PropsWithChildren> = ({
 
   // TODO - Typescript error
   const gameService = useInterpret(gameMachine) as MachineInterpreter;
+
+  useEffect(() => {
+    const handleRouteChange = () => {
+      if (
+        !window.location.href.includes("visit") &&
+        gameService.state.matches("visiting")
+      ) {
+        gameService.send("END_VISIT");
+      }
+    };
+
+    window.addEventListener("popstate", handleRouteChange);
+    window.addEventListener("pushstate", handleRouteChange);
+    window.addEventListener("replacestate", handleRouteChange);
+
+    // Also check on mount
+    handleRouteChange();
+
+    return () => {
+      window.removeEventListener("popstate", handleRouteChange);
+      window.removeEventListener("pushstate", handleRouteChange);
+      window.removeEventListener("replacestate", handleRouteChange);
+    };
+  }, [gameService?.state?.value]);
+
   const [shortcuts, setShortcuts] =
     useState<InventoryItemName[]>(getShortcuts());
   const [showAnimations, setShowAnimations] = useState<boolean>(
@@ -61,7 +85,7 @@ export const GameProvider: React.FC<React.PropsWithChildren> = ({
     getEnableQuickSelectSetting(),
   );
   const [showTimers, setShowTimers] = useState<boolean>(getShowTimersSetting());
-  const [fromRoute, setFromRoute] = useState<string>("");
+  const [fromRoute, setFromRoute] = useState<string | undefined>();
 
   const shortcutItem = useCallback((item: InventoryItemName) => {
     const originalShortcuts = getShortcuts();

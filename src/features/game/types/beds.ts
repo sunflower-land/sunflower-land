@@ -9,6 +9,7 @@ export const BEDS: Record<BedName, string> = {
   "Cow Bed": "",
   "Pirate Bed": "",
   "Royal Bed": "",
+  "Double Bed": "",
 };
 
 export const BED_FARMHAND_COUNT: Record<BedName, number> = {
@@ -20,4 +21,5 @@ export const BED_FARMHAND_COUNT: Record<BedName, number> = {
   "Cow Bed": 6,
   "Pirate Bed": 7,
   "Royal Bed": 8,
+  "Double Bed": 9,
 };

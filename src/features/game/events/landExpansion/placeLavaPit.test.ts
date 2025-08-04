@@ -55,37 +55,6 @@ describe("placeLavaPit", () => {
     ).toThrow("No lava pit available");
   });
 
-  it("ensures lava pits do not collide", () => {
-    expect(() =>
-      placeLavaPit({
-        action: {
-          name: "Lava Pit",
-          coordinates: {
-            x: 2,
-            y: 2,
-          },
-          id: "1",
-
-          type: "lavaPit.placed",
-        },
-        state: {
-          ...INITIAL_FARM,
-          buildings: {},
-          inventory: {
-            "Lava Pit": new Decimal(2),
-          },
-          lavaPits: {
-            "123": {
-              createdAt: Date.now(),
-              x: 2,
-              y: 2,
-            },
-          },
-        },
-      }),
-    ).toThrow("Lava Pit collides");
-  });
-
   it("ensures id does not exist", () => {
     expect(() =>
       placeLavaPit({
@@ -154,6 +123,45 @@ describe("placeLavaPit", () => {
         createdAt: expect.any(Number),
         x: 0,
         y: 0,
+      },
+    });
+  });
+
+  it("reinstates current progress when lava pit was started", () => {
+    const dateNow = Date.now();
+    const state = placeLavaPit({
+      action: {
+        name: "Lava Pit",
+        coordinates: {
+          x: 2,
+          y: 2,
+        },
+        id: "1",
+        type: "lavaPit.placed",
+      },
+      state: {
+        ...INITIAL_FARM,
+        buildings: {},
+        inventory: {
+          "Lava Pit": new Decimal(2),
+        },
+        lavaPits: {
+          "123": {
+            createdAt: dateNow,
+            startedAt: dateNow - 180000,
+            removedAt: dateNow - 120000,
+          },
+        },
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.lavaPits).toEqual({
+      "123": {
+        createdAt: expect.any(Number),
+        startedAt: dateNow - 60000,
+        x: 2,
+        y: 2,
       },
     });
   });

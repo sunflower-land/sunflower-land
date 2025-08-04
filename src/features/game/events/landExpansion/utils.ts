@@ -27,7 +27,7 @@ export const getFruitHarvests = (
 export const getSupportedChickens = (state: Readonly<GameState>) => {
   const henHouses =
     state.buildings["Hen House"]?.filter(
-      (building) => building.readyAt < Date.now(),
+      (building) => building.readyAt < Date.now() && building.coordinates,
     ).length ?? 0;
 
   const chickenCoop = isCollectibleBuilt({ name: "Chicken Coop", game: state });

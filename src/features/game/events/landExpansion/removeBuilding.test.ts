@@ -8,8 +8,6 @@ import {
   removeBuilding,
   REMOVE_BUILDING_ERRORS,
 } from "./removeBuilding";
-import { hasRemoveRestriction } from "features/game/types/removeables";
-import { BuildingName } from "features/game/types/buildings";
 
 const GAME_STATE: GameState = {
   ...TEST_FARM,
@@ -115,53 +113,8 @@ describe("removeBuilding", () => {
     ).toThrow(REMOVE_BUILDING_ERRORS.BUILDING_UNDER_CONSTRUCTION);
   });
 
-  it("does not remove a building that has a removal restriction", () => {
-    const buildingName: BuildingName = "Crop Machine";
-    const id = "123";
-    const state: GameState = {
-      ...GAME_STATE,
-      inventory: {
-        "Rusty Shovel": new Decimal(0),
-      },
-      buildings: {
-        "Crop Machine": [
-          {
-            id: "123",
-            coordinates: { x: 1, y: 1 },
-            createdAt: 0,
-            readyAt: 0,
-            queue: [
-              {
-                crop: "Sunflower",
-                amount: 1,
-                seeds: 1,
-                totalGrowTime: 60,
-                growTimeRemaining: 60,
-              },
-            ],
-          },
-        ],
-      },
-    };
-
-    const [, error] = hasRemoveRestriction({
-      name: buildingName,
-      state,
-    });
-
-    expect(() =>
-      removeBuilding({
-        state,
-        action: {
-          type: "building.removed",
-          name: buildingName,
-          id,
-        },
-      }),
-    ).toThrow(error);
-  });
-
   it("removes a building and does not affect buildings of the same type", () => {
+    const dateNow = Date.now();
     const gameState = removeBuilding({
       state: {
         ...GAME_STATE,
@@ -196,9 +149,16 @@ describe("removeBuilding", () => {
         name: "Fire Pit",
         id: "123",
       },
+      createdAt: dateNow,
     });
 
     expect(gameState.buildings["Fire Pit"]).toEqual([
+      {
+        id: "123",
+        createdAt: 0,
+        readyAt: 0,
+        removedAt: dateNow,
+      },
       {
         id: "456",
         coordinates: { x: 4, y: 4 },
@@ -667,6 +627,139 @@ describe("removeBuilding", () => {
     });
 
     expect(getKeys(result.chickens).length).toBe(0);
+  });
+
+  it("stores the time remaining for cooking buildings", () => {
+    const dateNow = Date.now();
+    const state = removeBuilding({
+      state: {
+        ...GAME_STATE,
+        buildings: {
+          "Fire Pit": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              readyAt: dateNow,
+              coordinates: { x: 1, y: 1 },
+              crafting: [
+                {
+                  name: "Pizza Margherita",
+                  readyAt: dateNow + 60000,
+                  amount: 1,
+                },
+                {
+                  name: "Pizza Margherita",
+                  readyAt: dateNow + 120000,
+                  amount: 1,
+                },
+                {
+                  name: "Pizza Margherita",
+                  readyAt: dateNow + 180000,
+                  amount: 1,
+                },
+                {
+                  name: "Pizza Margherita",
+                  readyAt: dateNow + 240000,
+                  amount: 1,
+                },
+              ],
+            },
+          ],
+        },
+      },
+      action: {
+        type: "building.removed",
+        name: "Fire Pit",
+        id: "123",
+      },
+      createdAt: dateNow,
+    });
+
+    expect(
+      state.buildings["Fire Pit"]?.[0].crafting?.[0].timeRemaining,
+    ).toEqual(60000);
+    expect(
+      state.buildings["Fire Pit"]?.[0].crafting?.[1].timeRemaining,
+    ).toEqual(120000);
+    expect(
+      state.buildings["Fire Pit"]?.[0].crafting?.[2].timeRemaining,
+    ).toEqual(180000);
+    expect(
+      state.buildings["Fire Pit"]?.[0].crafting?.[3].timeRemaining,
+    ).toEqual(240000);
+  });
+
+  it("saves the remaining time for each pack in the crop machine", () => {
+    const dateNow = Date.now();
+    const state = removeBuilding({
+      state: {
+        ...GAME_STATE,
+        buildings: {
+          "Crop Machine": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              readyAt: dateNow,
+              coordinates: { x: 1, y: 1 },
+              queue: [
+                {
+                  crop: "Sunflower",
+                  seeds: 1000,
+                  growTimeRemaining: 0,
+                  totalGrowTime: 60000000,
+                  startTime: dateNow - 10000000,
+                  readyAt: dateNow - 10000000 + 60000000,
+                },
+                {
+                  crop: "Sunflower",
+                  seeds: 1000,
+                  growTimeRemaining: 0,
+                  totalGrowTime: 60000000,
+                  startTime: dateNow - 10000000 + 60000000,
+                  readyAt: dateNow - 10000000 + 120000000,
+                },
+                {
+                  crop: "Sunflower",
+                  seeds: 1000,
+                  growTimeRemaining: 0,
+                  totalGrowTime: 60000000,
+                  startTime: dateNow - 10000000 + 120000000,
+                  readyAt: dateNow - 10000000 + 180000000,
+                },
+                {
+                  crop: "Sunflower",
+                  seeds: 1000,
+                  growTimeRemaining: 30000000,
+                  totalGrowTime: 60000000,
+                  startTime: dateNow - 10000000 + 180000000,
+                  growsUntil: dateNow - 10000000 + 210000000,
+                },
+              ],
+            },
+          ],
+        },
+      },
+
+      action: {
+        type: "building.removed",
+        name: "Crop Machine",
+        id: "123",
+      },
+      createdAt: dateNow,
+    });
+
+    expect(
+      state.buildings["Crop Machine"]?.[0].queue?.[0].pausedTimeRemaining,
+    ).toEqual(50000000);
+    expect(
+      state.buildings["Crop Machine"]?.[0].queue?.[1].pausedTimeRemaining,
+    ).toEqual(110000000);
+    expect(
+      state.buildings["Crop Machine"]?.[0].queue?.[2].pausedTimeRemaining,
+    ).toEqual(170000000);
+    expect(
+      state.buildings["Crop Machine"]?.[0].queue?.[3].pausedTimeRemaining,
+    ).toEqual(200000000);
   });
 });
 

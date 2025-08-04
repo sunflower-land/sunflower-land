@@ -4,6 +4,8 @@ import { BUMPKIN_GIFTS, BumpkinGift } from "features/game/types/gifts";
 import { getKeys } from "features/game/types/craftables";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
+import { RecipeItemName, RECIPES } from "features/game/lib/crafting";
+import { hasFeatureAccess } from "lib/flags";
 
 export type ClaimGiftAction = {
   type: "gift.claimed";
@@ -48,6 +50,44 @@ export function getNextGift({
   return nextGift;
 }
 
+/*
+  Recipes a Bumpkin will reveal at certain friendship points
+*/
+export function getBumpkinRecipes({
+  game,
+  npc,
+}: {
+  game: GameState;
+  npc: NPCName;
+}): RecipeItemName[] {
+  if (!hasFeatureAccess(game, "CRAFTING")) {
+    return [];
+  }
+
+  const bumpkin = BUMPKIN_GIFTS[npc];
+
+  if (!bumpkin) {
+    return [];
+  }
+
+  const friendship = game.npcs?.[npc]?.friendship;
+
+  if (!friendship) {
+    return [];
+  }
+
+  const points = friendship?.points ?? 0;
+
+  // Grab recipes where player has more points than the gift (in case recipe introduced later)
+  const missingRecipes = bumpkin.planned
+    ?.filter((gift) => gift.recipe && points >= gift.friendshipPoints)
+    // Ensure they don't already have the recipe
+    .filter((gift) => !game.craftingBox.recipes[gift.recipe!])
+    .map((gift) => gift.recipe!);
+
+  return missingRecipes;
+}
+
 export function claimGift({ state, action, createdAt = Date.now() }: Options) {
   return produce(state, (game) => {
     if (!game.npcs?.[action.bumpkin]) {
@@ -90,6 +130,20 @@ export function claimGift({ state, action, createdAt = Date.now() }: Options) {
       const previous = game.wardrobe[name] ?? 0;
       game.wardrobe[name] = previous + (nextGift.wearables[name] ?? 0);
     });
+
+    // Provide missing recipes
+    if (hasFeatureAccess(game, "CRAFTING")) {
+      // Grab recipes where player has more points than the gift (in case recipe introduced later)
+      const missingRecipes = getBumpkinRecipes({ game, npc: action.bumpkin });
+
+      if (missingRecipes.length) {
+        missingRecipes.forEach((recipe) => {
+          if (recipe && RECIPES(game)[recipe]) {
+            game.craftingBox.recipes[recipe] = RECIPES(game)[recipe];
+          }
+        });
+      }
+    }
 
     game.coins = game.coins + nextGift.coins;
 

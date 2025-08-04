@@ -6,11 +6,10 @@ import { KNOWN_IDS } from "features/game/types";
 import { ITEM_DETAILS } from "features/game/types/images";
 
 const IMAGES: InventoryItemName[] = [
-  "Jellyfish",
-  "Frozen Cow",
-  "Frozen Sheep",
-  "Summer Chicken",
-  "Chamomile",
+  "Baby Cow",
+  "Baby Sheep",
+  "Janitor Chicken",
+  "Venus Bumpkin Trap",
 ];
 
 const WIDTH = 1920;
@@ -24,24 +23,29 @@ async function generateImage({
 }) {
   const ID = KNOWN_IDS[name];
 
-  const background = await sharp("public/erc1155/images/3x3_bg.png").toBuffer();
+  const background = await sharp("public/erc1155/images/6x6_bg.png")
+    .webp({ quality: 100, lossless: true })
+    .toBuffer();
   const imgFile = ITEM_DETAILS[name].image.slice(1);
-  const itemImage = await sharp(imgFile).toBuffer();
+  const itemImage = await sharp(imgFile)
+    .webp({ quality: 100, lossless: true })
+    .toBuffer();
 
   // Composite item image onto background
   const mergedImage = await sharp(background)
+    .webp({ quality: 100, lossless: true })
     .composite([{ input: itemImage }])
     .toBuffer();
 
   const resized = await sharp(mergedImage)
+    .webp({ quality: 100, lossless: true })
     .resize({
       width: WIDTH,
-
       kernel: sharp.kernel.nearest,
     })
     .toBuffer();
 
-  fs.writeFileSync(`public/erc1155/images/${ID}.png`, resized);
+  fs.writeFileSync(`public/erc1155/images/${ID}.png`, resized as any);
 }
 
 export const generateImages = () => {

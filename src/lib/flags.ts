@@ -1,5 +1,6 @@
 import { COMPETITION_POINTS } from "features/game/types/competitions";
 import type { GameState } from "features/game/types/game";
+import { SEASONS } from "features/game/types/seasons";
 import { CONFIG } from "lib/config";
 
 export const adminFeatureFlag = ({ wardrobe, inventory }: GameState) =>
@@ -113,18 +114,29 @@ const FEATURE_FLAGS = {
 
   POTION_HOUSE_UPDATES: timeBasedFeatureFlag(new Date("2025-08-01T00:00:00Z")),
   BLESSING: () => true,
-  WARDROBE: testnetFeatureFlag,
   MINE_WHACK_BETA: defaultFeatureFlag,
-  SOCIAL_FARMING: testnetFeatureFlag,
-  LANDSCAPING: testnetFeatureFlag,
-  CRAFTING: testnetFeatureFlag,
-  LEATHER_TOOLS: testnetFeatureFlag,
+
+  // Better Together Chapter
+  SOCIAL_FARMING: betaTimeBasedFeatureFlag(
+    SEASONS["Better Together"].startDate,
+  ),
+  MONUMENTS: betaTimeBasedFeatureFlag(new Date("2025-08-04T00:00:00.000Z")),
+  LANDSCAPING: betaTimeBasedFeatureFlag(new Date("2025-08-04T00:00:00.000Z")),
+  LANDSCAPING_SHOP: betaTimeBasedFeatureFlag(
+    SEASONS["Better Together"].startDate,
+  ),
+  WARDROBE: betaTimeBasedFeatureFlag(SEASONS["Better Together"].startDate),
+  CRAFTING: betaTimeBasedFeatureFlag(SEASONS["Better Together"].startDate),
+  LEATHER_TOOLS: betaTimeBasedFeatureFlag(SEASONS["Better Together"].startDate),
+  CLUTTER: betaTimeBasedFeatureFlag(new Date("2025-08-04T00:00:00.000Z")),
+  PESTS: betaTimeBasedFeatureFlag(new Date("2025-08-06T00:00:00.000Z")),
 
   PEGGYS_COOKOFF: () =>
     timePeriodFeatureFlag({
       start: new Date(COMPETITION_POINTS.PEGGYS_COOKOFF.startAt),
       end: new Date(COMPETITION_POINTS.PEGGYS_COOKOFF.endAt),
     })(),
+  CHEERS: betaTimeBasedFeatureFlag(new Date("2025-08-04T00:00:00Z")),
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;

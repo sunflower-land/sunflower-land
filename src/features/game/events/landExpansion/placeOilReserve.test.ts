@@ -45,7 +45,6 @@ describe("placeOil", () => {
             "123": {
               createdAt: Date.now(),
               oil: {
-                amount: 1,
                 drilledAt: 0,
               },
               x: 1,
@@ -78,7 +77,6 @@ describe("placeOil", () => {
           "123": {
             createdAt: Date.now(),
             oil: {
-              amount: 10,
               drilledAt: 0,
             },
             x: 0,
@@ -93,7 +91,6 @@ describe("placeOil", () => {
       "1": {
         createdAt: expect.any(Number),
         oil: {
-          amount: 10,
           drilledAt: 0,
         },
         x: 2,
@@ -103,12 +100,54 @@ describe("placeOil", () => {
       "123": {
         createdAt: expect.any(Number),
         oil: {
-          amount: 10,
           drilledAt: 0,
         },
         x: 0,
         y: 0,
         drilled: 0,
+      },
+    });
+  });
+  it("reinstates current progress when oil was drilled", () => {
+    const dateNow = Date.now();
+    const state = placeOilReserve({
+      action: {
+        coordinates: {
+          x: 2,
+          y: 2,
+        },
+        id: "1",
+        type: "oilReserve.placed",
+      },
+      state: {
+        ...INITIAL_FARM,
+        buildings: {},
+        inventory: {
+          "Oil Reserve": new Decimal(2),
+        },
+        oilReserves: {
+          "123": {
+            createdAt: dateNow,
+            oil: {
+              drilledAt: dateNow - 180000,
+            },
+            drilled: 5,
+            removedAt: dateNow - 120000,
+          },
+        },
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.oilReserves).toEqual({
+      "123": {
+        createdAt: expect.any(Number),
+        oil: {
+          drilledAt: dateNow - 60000,
+        },
+        x: 2,
+        y: 2,
+        drilled: 5,
       },
     });
   });

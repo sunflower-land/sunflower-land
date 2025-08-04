@@ -1,12 +1,24 @@
 import { useCallback, useSyncExternalStore } from "react";
 import { Room, Client } from "colyseus.js";
 import { CONFIG } from "lib/config";
+import { Interaction, Milestone, PlayerUpdate } from "../types/types";
 
 const HEARTBEAT_INTERVAL = 15 * 60 * 1000;
 const MAX_RETRY_INTERVAL = 15 * 60 * 1000;
 
 // Private data specific to the connection to the colyseus server
-const subscribers: Map<() => void, { following: number[] }> = new Map();
+const subscribers: Map<
+  () => void,
+  {
+    following: number[];
+    callbacks?: {
+      onFollow?: (update: PlayerUpdate) => void;
+      onUnfollow?: (update: PlayerUpdate) => void;
+      onInteraction?: (update: Interaction) => void;
+      onMilestone?: (update: Milestone) => void;
+    };
+  }
+> = new Map();
 let room: Room<unknown> | undefined = undefined;
 let heartBeatTimeout: NodeJS.Timeout | undefined = undefined;
 let reconnectTimeout: NodeJS.Timeout | undefined = undefined;
@@ -20,6 +32,17 @@ type Snapshot = {
 let snapshot: Snapshot = {
   status: "loading",
   online: {},
+};
+
+type UseSocialParams = {
+  farmId: number;
+  following?: number[];
+  callbacks?: {
+    onFollow?: (update: PlayerUpdate) => void;
+    onUnfollow?: (update: PlayerUpdate) => void;
+    onInteraction?: (update: Interaction) => void;
+    onMilestone?: (update: Milestone) => void;
+  };
 };
 
 const updateStatus = (status: "loading" | "connected" | "error") => {
@@ -72,6 +95,38 @@ const notifyAllSubscribers = () => {
   [...subscribers.keys()].forEach((notifySubscriber) => notifySubscriber());
 };
 
+const onFollow = (update: PlayerUpdate) => {
+  [...subscribers.values()].forEach((subscriber) => {
+    if (subscriber.callbacks?.onFollow) {
+      subscriber.callbacks.onFollow(update);
+    }
+  });
+};
+
+const onUnfollow = (update: PlayerUpdate) => {
+  [...subscribers.values()].forEach((subscriber) => {
+    if (subscriber.callbacks?.onUnfollow) {
+      subscriber.callbacks.onUnfollow(update);
+    }
+  });
+};
+
+const onInteraction = (update: Interaction) => {
+  [...subscribers.values()].forEach((subscriber) => {
+    if (subscriber.callbacks?.onInteraction) {
+      subscriber.callbacks.onInteraction(update);
+    }
+  });
+};
+
+const onMilestone = (update: Milestone) => {
+  [...subscribers.values()].forEach((subscriber) => {
+    if (subscriber.callbacks?.onMilestone) {
+      subscriber.callbacks.onMilestone(update);
+    }
+  });
+};
+
 const clearListeners = () => {
   room?.removeAllListeners();
   heartBeatTimeout && clearInterval(heartBeatTimeout);
@@ -89,6 +144,10 @@ const setupListeners = (
   room.onError(() => onError(cb, farmId));
   room.onLeave(() => onError(cb, farmId));
   room.onMessage("heartbeat", updateOnline);
+  room.onMessage("follow", onFollow);
+  room.onMessage("unfollow", onUnfollow);
+  room.onMessage("interaction", onInteraction);
+  room.onMessage("milestone", onMilestone);
 };
 
 const updateFollowing = () => {
@@ -134,12 +193,17 @@ const getSnapshot = () => snapshot;
  *
  * @param farmId Your farm id
  * @param following The IDs of the farms you want presence data about
+ * @param callbacks An object of callbacks registering for different events
  * @returns The presence data of the farms
  */
-export const useSocial = (farmId: number, following: number[]) => {
+export const useSocial = ({
+  farmId,
+  following = [],
+  callbacks,
+}: UseSocialParams) => {
   const subscribe = useCallback(
     (notifySubscriber: () => void) => {
-      subscribers.set(notifySubscriber, { following });
+      subscribers.set(notifySubscriber, { following, callbacks });
 
       // Only connect to server when the first component subscribes
       if (subscribers.size === 1) joinRoom(notifySubscriber, farmId);
@@ -156,7 +220,7 @@ export const useSocial = (farmId: number, following: number[]) => {
         else updateFollowing();
       };
     },
-    [...following],
+    [following.length],
   );
 
   return useSyncExternalStore(subscribe, getSnapshot);

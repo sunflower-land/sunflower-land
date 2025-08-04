@@ -10,6 +10,8 @@ import { Context } from "features/game/GameProvider";
 import { PlayerNPC } from "features/island/bumpkin/components/PlayerNPC";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import classNames from "classnames";
+import { useVisiting } from "lib/utils/visitUtils";
 
 interface Props {
   game: GameState;
@@ -26,6 +28,7 @@ export const HomeBumpkins: React.FC<Props> = ({ game }) => {
   const { gameService } = useContext(Context);
 
   const [selectedFarmHandId, setSelectedFarmHandId] = useState<string>();
+  const { isVisiting } = useVisiting();
 
   const bumpkin = game.bumpkin as Bumpkin;
 
@@ -45,7 +48,10 @@ export const HomeBumpkins: React.FC<Props> = ({ game }) => {
           .map((id) => (
             <div
               key={id}
-              className="mr-1 cursor-pointer relative hover:img-highlight"
+              className={classNames("mr-1 cursor-pointer relative", {
+                "pointer-events-none": isVisiting,
+                "hover:img-highlight": !isVisiting,
+              })}
               onClick={() => setSelectedFarmHandId(id)}
               style={{ width: `${GRID_WIDTH_PX}px` }}
             >

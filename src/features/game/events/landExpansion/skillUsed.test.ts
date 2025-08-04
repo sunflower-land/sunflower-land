@@ -69,7 +69,6 @@ describe("skillUse", () => {
               id: "123",
               name: "Wheat",
               plantedAt: dateNow,
-              amount: 20,
             },
             createdAt: dateNow,
             x: 1,
@@ -126,7 +125,6 @@ describe("skillUse", () => {
                   id: "123",
                   name: "Wheat",
                   plantedAt: dateNow - CROPS["Wheat"].harvestSeconds * 1000,
-                  amount: 20,
                 },
               },
             },
@@ -151,7 +149,6 @@ describe("skillUse", () => {
                 id: "456",
                 name: "Kale",
                 plantedAt: dateNow,
-                amount: 20,
               },
               createdAt: dateNow,
               x: 1,
@@ -162,7 +159,6 @@ describe("skillUse", () => {
                 id: "147",
                 name: "Kale",
                 plantedAt: dateNow,
-                amount: 20,
               },
               createdAt: dateNow,
               x: 1,
@@ -196,7 +192,6 @@ describe("skillUse", () => {
                   id: "456",
                   name: "Kale",
                   plantedAt: dateNow,
-                  amount: 20,
                 },
                 createdAt: dateNow,
                 x: 1,
@@ -207,7 +202,6 @@ describe("skillUse", () => {
                   id: "147",
                   name: "Kale",
                   plantedAt: dateNow,
-                  amount: 20,
                 },
                 createdAt: dateNow,
                 x: 1,
@@ -222,6 +216,114 @@ describe("skillUse", () => {
           createdAt: dateNow,
         }),
       ).toThrow("You do not have this skill");
+    });
+
+    it("sets the aoe readyAt to the currentTime for basic scarecrow", () => {
+      const state = skillUse({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...INITIAL_FARM.bumpkin,
+            skills: { "Instant Growth": 1 },
+          },
+          crops: {
+            "123": {
+              crop: {
+                id: "456",
+                name: "Kale",
+                plantedAt: dateNow,
+              },
+              createdAt: dateNow,
+              x: 1,
+              y: 1,
+            },
+            "789": {
+              crop: {
+                id: "147",
+                name: "Kale",
+                plantedAt: dateNow,
+              },
+              createdAt: dateNow,
+              x: 1,
+              y: 1,
+            },
+          },
+          aoe: {
+            "Basic Scarecrow": {
+              1: { 1: 0 },
+            },
+          },
+        },
+        action: {
+          type: "skill.used",
+          skill: "Instant Growth",
+        },
+        createdAt: dateNow,
+      });
+
+      expect(state.aoe["Basic Scarecrow"]?.[1]?.[1]).toEqual(dateNow);
+    });
+
+    it("sets the aoe readyAt to the currentTime for yield AOE", () => {
+      const state = skillUse({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...INITIAL_FARM.bumpkin,
+            skills: { "Instant Growth": 1 },
+          },
+          crops: {
+            "123": {
+              crop: {
+                id: "456",
+                name: "Kale",
+                plantedAt: dateNow,
+              },
+              createdAt: dateNow,
+              x: 1,
+              y: 1,
+            },
+            "789": {
+              crop: {
+                id: "147",
+                name: "Kale",
+                plantedAt: dateNow,
+              },
+              createdAt: dateNow,
+              x: 1,
+              y: 1,
+            },
+          },
+          aoe: {
+            "Scary Mike": {
+              1: { 1: dateNow },
+            },
+            "Laurie the Chuckle Crow": {
+              1: { 1: dateNow },
+            },
+            Gnome: {
+              1: { 1: dateNow },
+            },
+            "Queen Cornelia": {
+              1: { 1: dateNow },
+            },
+            "Sir Goldensnout": {
+              1: { 1: dateNow },
+            },
+          },
+        },
+        action: {
+          type: "skill.used",
+          skill: "Instant Growth",
+        },
+        createdAt: dateNow,
+      });
+
+      expect(state.aoe["Scary Mike"]?.[1]?.[1]).toEqual(1);
+      expect(state.aoe["Laurie the Chuckle Crow"]?.[1]?.[1]).toEqual(1);
+      expect(state.aoe["Gnome"]?.[1]?.[1]).toEqual(1);
+      expect(state.aoe["Queen Cornelia"]?.[1]?.[1]).toEqual(1);
+      expect(state.aoe["Sir Goldensnout"]?.[1]?.[1]).toEqual(1);
     });
   });
 
@@ -238,7 +340,6 @@ describe("skillUse", () => {
             trees: {
               "123": {
                 wood: {
-                  amount: 1,
                   choppedAt: 0,
                 },
                 x: 1,
@@ -264,7 +365,6 @@ describe("skillUse", () => {
           trees: {
             "123": {
               wood: {
-                amount: 1,
                 choppedAt: dateNow,
               },
               x: 1,
@@ -273,7 +373,6 @@ describe("skillUse", () => {
             },
             "456": {
               wood: {
-                amount: 1,
                 choppedAt: dateNow,
               },
               x: 3,
@@ -301,7 +400,6 @@ describe("skillUse", () => {
             trees: {
               "123": {
                 wood: {
-                  amount: 1,
                   choppedAt: dateNow,
                 },
                 x: 1,
@@ -310,7 +408,6 @@ describe("skillUse", () => {
               },
               "456": {
                 wood: {
-                  amount: 1,
                   choppedAt: dateNow,
                 },
                 x: 3,
@@ -356,28 +453,24 @@ describe("skillUse", () => {
             pots: {
               "1": {
                 plant: {
-                  amount: 1,
                   name: "Olive",
                   plantedAt: 1733803854974,
                 },
               },
               "2": {
                 plant: {
-                  amount: 1,
                   name: "Olive",
                   plantedAt: 1733803856819,
                 },
               },
               "3": {
                 plant: {
-                  amount: 1,
                   name: "Olive",
                   plantedAt: 1733803855784,
                 },
               },
               "4": {
                 plant: {
-                  amount: 1,
                   name: "Olive",
                   plantedAt: 1733803857337,
                 },
@@ -430,7 +523,6 @@ describe("skillUse", () => {
                 y: -10,
                 flower: {
                   plantedAt: 1733412398960,
-                  amount: 2,
                   name: "Yellow Carnation",
                 },
               },
@@ -440,7 +532,6 @@ describe("skillUse", () => {
                 y: -9,
                 flower: {
                   plantedAt: 1733412401734,
-                  amount: 4,
                   name: "Yellow Carnation",
                 },
               },
@@ -450,7 +541,6 @@ describe("skillUse", () => {
                 y: -11,
                 flower: {
                   plantedAt: 1733412395200,
-                  amount: 1,
                   name: "Yellow Carnation",
                 },
               },
@@ -481,7 +571,6 @@ describe("skillUse", () => {
               createdAt: 1718896710652,
               oil: {
                 drilledAt: dateNow - 1000 * 60,
-                amount: 22.1,
               },
               x: 10,
               y: -1,
@@ -491,7 +580,6 @@ describe("skillUse", () => {
               createdAt: 1715647670891,
               oil: {
                 drilledAt: 1733773070329,
-                amount: 22.1,
               },
               x: 8,
               y: -1,
@@ -501,7 +589,6 @@ describe("skillUse", () => {
               createdAt: 1716767207652,
               oil: {
                 drilledAt: dateNow - 1000 * 60,
-                amount: 22.1,
               },
               x: 6,
               y: -1,

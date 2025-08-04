@@ -173,7 +173,7 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
                   type="info"
                   className="whitespace-nowrap"
                 >
-                  {secondsToString(getFlowerTime(seed, state), {
+                  {secondsToString(getFlowerTime(seed, state).seconds, {
                     length: "medium",
                   })}
                 </Label>
@@ -279,7 +279,7 @@ export const FlowerBedContent: React.FC<Props> = ({ id, onClose }) => {
                         getFlowerTime(
                           seed,
                           gameService.getSnapshot().context.state,
-                        ),
+                        ).seconds,
                         { length: "medium" },
                       )}
                     </Label>

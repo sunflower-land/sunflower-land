@@ -1,4 +1,4 @@
-import { GameState } from "features/game/types/game";
+import { BoostName, GameState } from "features/game/types/game";
 
 import {
   GREENHOUSE_CROPS,
@@ -17,11 +17,11 @@ import {
 } from "features/game/types/bumpkinActivity";
 import { GREENHOUSE_CROP_TIME_SECONDS } from "./harvestGreenHouse";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
-import { getCropTime, getCropYieldAmount } from "./plant";
-import { getFruitYield } from "./fruitHarvested";
+import { getCropTime } from "./plant";
 import { getFruitTime } from "./fruitPlanted";
 import { Resource } from "features/game/lib/getBudYieldBoosts";
 import { produce } from "immer";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 
 export type PlantGreenhouseAction = {
   type: "greenhouse.planted";
@@ -72,38 +72,28 @@ export function isGreenhouseFruit(
   return (fruit as GreenHouseFruitName) in GREENHOUSE_FRUIT;
 }
 
-export function getGreenhouseYieldAmount({
-  crop,
-  game,
-  createdAt,
-}: {
-  crop: GreenHouseCropName | GreenHouseFruitName;
-  game: GameState;
-  createdAt: number;
-}): number {
-  if (isGreenhouseCrop(crop)) {
-    return getCropYieldAmount({ crop, game, createdAt });
-  }
-
-  return getFruitYield({ name: crop, game });
-}
-
 type GetPlantedAtArgs = {
   crop: GreenHouseCropName | GreenHouseFruitName;
   game: GameState;
   createdAt: number;
 };
 
-function getPlantedAt({ crop, game, createdAt }: GetPlantedAtArgs): number {
-  if (!crop) return 0;
+function getPlantedAt({ crop, game, createdAt }: GetPlantedAtArgs): {
+  plantedAt: number;
+  boostsUsed: BoostName[];
+} {
+  if (!crop) return { plantedAt: 0, boostsUsed: [] };
 
   const cropTime = GREENHOUSE_CROP_TIME_SECONDS[crop];
 
-  const boostedTime = getGreenhouseCropTime({ crop, game });
+  const { seconds: boostedTime, boostsUsed } = getGreenhouseCropTime({
+    crop,
+    game,
+  });
 
   const offset = cropTime - boostedTime;
 
-  return createdAt - offset * 1000;
+  return { plantedAt: createdAt - offset * 1000, boostsUsed };
 }
 
 export const getGreenhouseCropTime = ({
@@ -112,27 +102,50 @@ export const getGreenhouseCropTime = ({
 }: {
   crop: GreenHouseCropName | GreenHouseFruitName;
   game: GameState;
-}) => {
+}): { seconds: number; boostsUsed: BoostName[] } => {
   let seconds = GREENHOUSE_CROP_TIME_SECONDS[crop];
-
+  const boostsUsed: BoostName[] = [];
   if (isGreenhouseCrop(crop)) {
-    const baseMultiplier = getCropTime({ game, crop });
+    const { multiplier: baseMultiplier, boostsUsed: cropBoostsUsed } =
+      getCropTime({
+        game,
+        crop,
+      });
     seconds *= baseMultiplier;
+    boostsUsed.push(...cropBoostsUsed);
   } else {
-    const baseMultiplier = getFruitTime({
-      game,
-      name: PLANT_TO_SEED[crop] as GreenHouseFruitSeedName,
-    });
+    const { multiplier: baseMultiplier, boostsUsed: fruitBoostsUsed } =
+      getFruitTime({
+        game,
+        name: PLANT_TO_SEED[crop] as GreenHouseFruitSeedName,
+      });
     seconds *= baseMultiplier;
+    boostsUsed.push(...fruitBoostsUsed);
   }
-
-  if (game.bumpkin === undefined) return seconds;
 
   if (isCollectibleBuilt({ name: "Turbo Sprout", game })) {
     seconds *= 0.5;
+    boostsUsed.push("Turbo Sprout");
   }
 
-  return seconds;
+  if (game.bumpkin.skills["Rice and Shine"]) {
+    seconds *= 0.95;
+    boostsUsed.push("Rice and Shine");
+  }
+
+  // Olive Express: 10% reduction
+  if (crop === "Olive" && game.bumpkin.skills["Olive Express"]) {
+    seconds = seconds * 0.9;
+    boostsUsed.push("Olive Express");
+  }
+
+  // Rice Rocket: 10% reduction
+  if (crop === "Rice" && game.bumpkin.skills["Rice Rocket"]) {
+    seconds = seconds * 0.9;
+    boostsUsed.push("Rice Rocket");
+  }
+
+  return { seconds, boostsUsed };
 };
 
 export function getOilUsage({
@@ -141,28 +154,36 @@ export function getOilUsage({
 }: {
   seed: GreenhouseSeed;
   game: GameState;
-}) {
+}): { usage: number; boostsUsed: BoostName[] } {
   let usage = OIL_USAGE[seed];
+  const boostsUsed: BoostName[] = [];
 
   if (game.bumpkin.skills["Greasy Plants"]) {
     usage *= 2;
+    boostsUsed.push("Greasy Plants");
   }
 
   if (game.bumpkin.skills["Slick Saver"]) {
     usage -= 1;
+    boostsUsed.push("Slick Saver");
   }
 
-  return usage;
+  return { usage, boostsUsed };
 }
 
-function getGreenhouseSeedUsage({ game }: { game: GameState }) {
+function getGreenhouseSeedUsage({ game }: { game: GameState }): {
+  seedCost: number;
+  boostsUsed: BoostName[];
+} {
   let seed = 1;
+  const boostsUsed: BoostName[] = [];
 
   if (game.bumpkin.skills["Seeded Bounty"]) {
     seed += 1;
+    boostsUsed.push("Seeded Bounty");
   }
 
-  return seed;
+  return { seedCost: seed, boostsUsed };
 }
 
 export function plantGreenhouse({
@@ -185,12 +206,16 @@ export function plantGreenhouse({
     }
 
     const seeds = game.inventory[action.seed] ?? new Decimal(0);
-    const seedUsage = getGreenhouseSeedUsage({ game });
+    const { seedCost: seedUsage, boostsUsed: seedBoostsUsed } =
+      getGreenhouseSeedUsage({ game });
     if (seeds.lt(seedUsage)) {
       throw new Error(`Missing ${action.seed}`);
     }
 
-    const oilUsage = getOilUsage({ seed: action.seed, game });
+    const { usage: oilUsage, boostsUsed: oilBoostsUsed } = getOilUsage({
+      seed: action.seed,
+      game,
+    });
 
     if (game.greenhouse.oil < oilUsage) {
       throw new Error("Not enough Oil");
@@ -208,16 +233,16 @@ export function plantGreenhouse({
     }
 
     const plantName = SEED_TO_PLANT[action.seed];
+    const { plantedAt, boostsUsed } = getPlantedAt({
+      createdAt,
+      crop: plantName,
+      game,
+    });
     // Plants
     game.greenhouse.pots[potId] = {
       plant: {
-        amount: getGreenhouseYieldAmount({
-          crop: plantName,
-          game,
-          createdAt,
-        }),
         name: plantName,
-        plantedAt: getPlantedAt({ createdAt, crop: plantName, game }),
+        plantedAt,
       },
     };
 
@@ -231,6 +256,12 @@ export function plantGreenhouse({
     const activityName: BumpkinActivityName = `${plantName} Planted`;
 
     game.bumpkin.activity = trackActivity(activityName, game.bumpkin.activity);
+
+    game.boostsUsedAt = updateBoostUsed({
+      game,
+      boostNames: [...boostsUsed, ...oilBoostsUsed, ...seedBoostsUsed],
+      createdAt,
+    });
 
     return game;
   });

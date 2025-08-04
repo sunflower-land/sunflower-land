@@ -46,7 +46,6 @@ describe("placeRuby", () => {
             "123": {
               createdAt: Date.now(),
               stone: {
-                amount: 1,
                 minedAt: 0,
               },
               x: 1,
@@ -80,7 +79,6 @@ describe("placeRuby", () => {
           "123": {
             createdAt: Date.now(),
             stone: {
-              amount: 1,
               minedAt: 0,
             },
             x: 0,
@@ -95,7 +93,6 @@ describe("placeRuby", () => {
       "1": {
         createdAt: expect.any(Number),
         stone: {
-          amount: 1,
           minedAt: 0,
         },
         x: 2,
@@ -105,11 +102,53 @@ describe("placeRuby", () => {
       "123": {
         createdAt: expect.any(Number),
         stone: {
-          amount: 1,
           minedAt: 0,
         },
         x: 0,
         y: 0,
+        minesLeft: 5,
+      },
+    });
+  });
+
+  it("reinstates current progress when stone was mined", () => {
+    const dateNow = Date.now();
+    const state = placeCrimstone({
+      action: {
+        coordinates: {
+          x: 2,
+          y: 2,
+        },
+        id: "1", // ID doesn't matter since it's an existing stone
+        name: "Crimstone Rock",
+        type: "crimstone.placed",
+      },
+      state: {
+        ...INITIAL_FARM,
+        buildings: {},
+        inventory: {
+          "Crimstone Rock": new Decimal(2),
+        },
+        crimstones: {
+          "123": {
+            createdAt: dateNow,
+            stone: { minedAt: dateNow - 180000 },
+            removedAt: dateNow - 120000,
+            minesLeft: 5,
+          },
+        },
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.crimstones).toEqual({
+      "123": {
+        createdAt: expect.any(Number),
+        stone: {
+          minedAt: dateNow - 60000,
+        },
+        x: 2,
+        y: 2,
         minesLeft: 5,
       },
     });

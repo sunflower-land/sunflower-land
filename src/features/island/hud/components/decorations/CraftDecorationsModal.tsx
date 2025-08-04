@@ -7,6 +7,8 @@ import React, { useState } from "react";
 import { LandscapingDecorations } from "./LandscapingDecorations";
 import { BuyBiomes } from "./BuyBiomes";
 import { ITEM_DETAILS } from "features/game/types/images";
+import { hasFeatureAccess } from "lib/flags";
+import { useGame } from "features/game/GameProvider";
 
 interface Props {
   show: boolean;
@@ -15,6 +17,9 @@ interface Props {
 
 export const CraftDecorationsModal: React.FC<Props> = ({ show, onHide }) => {
   const [tab, setTab] = useState<number>(0);
+
+  const { gameState } = useGame();
+
   return (
     <Modal show={show} onHide={onHide}>
       <CloseButtonPanel
@@ -22,7 +27,10 @@ export const CraftDecorationsModal: React.FC<Props> = ({ show, onHide }) => {
         setCurrentTab={setTab}
         tabs={[
           { icon: SUNNYSIDE.decorations.bush, name: "Landscaping" },
-          { icon: ITEM_DETAILS["Basic Biome"].image, name: "Biomes" },
+          // Only show this option if flag enabled
+          ...(hasFeatureAccess(gameState.context.state, "LANDSCAPING")
+            ? [{ icon: ITEM_DETAILS["Basic Biome"].image, name: "Biomes" }]
+            : []),
         ]}
         onClose={onHide}
         bumpkinParts={NPC_WEARABLES.grimtooth}

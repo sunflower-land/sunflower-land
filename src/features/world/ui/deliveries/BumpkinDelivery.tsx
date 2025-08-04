@@ -23,7 +23,10 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { ResizableBar } from "components/ui/ProgressBar";
 import { FLOWERS, FlowerName } from "features/game/types/flowers";
 import { Box } from "components/ui/Box";
-import { getNextGift } from "features/game/events/landExpansion/claimBumpkinGift";
+import {
+  getBumpkinRecipes,
+  getNextGift,
+} from "features/game/events/landExpansion/claimBumpkinGift";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { defaultDialogue, npcDialogues } from "./dialogues";
 import { useRandomItem } from "lib/utils/hooks/useRandomItem";
@@ -65,14 +68,14 @@ export const OrderCard: React.FC<{
 
   const makeRewardAmountForLabel = (order: Order) => {
     if (order.reward.sfl !== undefined) {
-      const sfl = getOrderSellPrice<Decimal>(game, order);
+      const { reward: sfl } = getOrderSellPrice<Decimal>(game, order);
 
       return formatNumber(sfl, {
         decimalPlaces: 4,
       });
     }
 
-    const coins = getOrderSellPrice<number>(game, order);
+    const { reward: coins } = getOrderSellPrice<number>(game, order);
 
     return formatNumber(coins);
   };
@@ -670,6 +673,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
 
   const openReward = () => {
     const nextGift = getNextGift({ game, npc });
+    const recipes = getBumpkinRecipes({ game, npc });
 
     setGift({
       id: "delivery-gift",
@@ -679,6 +683,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
       coins: nextGift?.coins ?? 0,
       wearables: nextGift?.wearables ?? {},
       message: t(GIFT_RESPONSES[npc]?.reward ?? DEFAULT_DIALOGUE.reward),
+      recipes,
     });
   };
 
@@ -767,7 +772,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
                 </Label>
                 <div className="flex">
                   <BumpkinGiftBar onOpen={openReward} game={game} npc={npc} />
-                  {onClose && (
+                  {onClose && npc !== "finn" && (
                     <img
                       src={SUNNYSIDE.icons.close}
                       className="h-7 ml-2 cursor-pointer"

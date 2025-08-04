@@ -1,8 +1,4 @@
-import {
-  isAdvancedCrop,
-  isBasicCrop,
-  isMediumCrop,
-} from "../events/landExpansion/harvest";
+import { isAdvancedCrop, isBasicCrop, isMediumCrop } from "../types/crops";
 import { getUniqueAnimalResources } from "../types/animals";
 import { Bud, StemTrait, TypeTrait } from "../types/buds";
 import {
@@ -19,6 +15,8 @@ import {
 } from "../types/fruits";
 import { AnimalResource, GameState } from "../types/game";
 import { CommodityName, MushroomName } from "../types/resources";
+import { getObjectEntries } from "../expansion/lib/utils";
+import { BudNFTName } from "../types/marketplace";
 
 export type Resource =
   | CommodityName
@@ -171,12 +169,21 @@ const getBudBoost = (bud: Bud, resource: Resource): number => {
 export const getBudYieldBoosts = (
   buds: NonNullable<GameState["buds"]>,
   resource: Resource,
-): number => {
-  const boosts = Object.values(buds)
+): { yieldBoost: number; budUsed: BudNFTName | undefined } => {
+  const boosts = getObjectEntries(buds)
     // Bud must be placed to give a boost
-    .filter((bud) => !!bud.coordinates)
-    .map((bud) => getBudBoost(bud, resource));
+    .filter(([_, bud]) => !!bud.coordinates)
+    .map(([id, bud]) => [id, getBudBoost(bud, resource)] as const);
 
-  // Get the highest boost from all the buds on the farm
-  return Math.max(0, ...boosts);
+  const maxBoost = Math.max(...boosts.map(([_, boost]) => boost), 0);
+  const findBestBud = boosts.find(([_, boost]) => boost === maxBoost);
+
+  if (!findBestBud || maxBoost === 0) {
+    return { yieldBoost: 0, budUsed: undefined };
+  }
+
+  return {
+    yieldBoost: Number(maxBoost.toFixed(4)),
+    budUsed: `Bud #${findBestBud[0]}`,
+  };
 };

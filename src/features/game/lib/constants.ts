@@ -26,6 +26,7 @@ import {
   isBasicFruitSeed,
 } from "../events/landExpansion/fruitPlanted";
 import { PatchFruitSeedName } from "../types/fruits";
+import { WORKBENCH_TOOLS, WorkbenchToolName } from "../types/tools";
 
 // Our "zoom" factor
 export const PIXEL_SCALE = 2.625;
@@ -43,7 +44,7 @@ export const CHICKEN_COOP_MULTIPLIER = 1.5;
 export const POPOVER_TIME_MS = 1000;
 
 export function isBuildingReady(building: PlacedItem[]) {
-  return building.some((b) => b.readyAt <= Date.now());
+  return building.some((b) => b.readyAt <= Date.now() && b.coordinates);
 }
 
 export type StockableName = Extract<
@@ -63,15 +64,13 @@ export type StockableName = Extract<
 export const INITIAL_STOCK = (
   state?: GameState,
 ): Record<StockableName, Decimal> => {
-  const tools = {
-    Axe: new Decimal(200),
-    Pickaxe: new Decimal(60),
-    "Stone Pickaxe": new Decimal(20),
-    "Iron Pickaxe": new Decimal(5),
-    "Gold Pickaxe": new Decimal(5),
-    Rod: new Decimal(50),
-    "Oil Drill": new Decimal(5),
-  };
+  const tools = Object.entries(WORKBENCH_TOOLS).reduce(
+    (acc, [toolName, tool]) => ({
+      ...acc,
+      [toolName]: tool.stock,
+    }),
+    {} as Record<WorkbenchToolName, Decimal>,
+  );
 
   // increase in 50% tool stock if you have a toolshed
   if (state?.buildings.Toolshed && isBuildingReady(state.buildings.Toolshed)) {
@@ -215,7 +214,6 @@ export const INVENTORY_LIMIT = (
 export const INITIAL_GOLD_MINES: GameState["gold"] = {
   0: {
     stone: {
-      amount: 0.1,
       minedAt: 0,
     },
     x: -4,
@@ -226,7 +224,6 @@ export const INITIAL_GOLD_MINES: GameState["gold"] = {
 export const INITIAL_EXPANSION_IRON: GameState["iron"] = {
   0: {
     stone: {
-      amount: 0.1,
       minedAt: 0,
     },
     x: 2,
@@ -265,8 +262,8 @@ export const INITIAL_RESOURCES: Pick<
     1: {
       createdAt: Date.now(),
       wood: {
-        amount: 2,
         choppedAt: 0,
+        criticalHit: { Native: 1 },
       },
       x: -3,
       y: 3,
@@ -274,7 +271,6 @@ export const INITIAL_RESOURCES: Pick<
     2: {
       createdAt: Date.now(),
       wood: {
-        amount: 1,
         choppedAt: 0,
       },
       x: 5,
@@ -284,7 +280,7 @@ export const INITIAL_RESOURCES: Pick<
     3: {
       createdAt: Date.now(),
       wood: {
-        amount: 2,
+        criticalHit: { Native: 1 },
         choppedAt: 0,
       },
       x: 7,
@@ -295,7 +291,6 @@ export const INITIAL_RESOURCES: Pick<
     1: {
       createdAt: Date.now(),
       stone: {
-        amount: 1,
         minedAt: 0,
       },
       x: 7,
@@ -304,7 +299,6 @@ export const INITIAL_RESOURCES: Pick<
     2: {
       createdAt: Date.now(),
       stone: {
-        amount: 1,
         minedAt: 0,
       },
       x: 3,
@@ -681,6 +675,21 @@ export const INITIAL_FARM: GameState = {
       prize: "Potato",
     },
   },
+  aoe: {},
+  socialFarming: {
+    points: 0,
+    villageProjects: {},
+    cheersGiven: {
+      date: "",
+      farms: [],
+      projects: {},
+    },
+    cheers: {
+      cheersUsed: 0,
+      freeCheersClaimedAt: 0,
+    },
+    dailyCollections: {},
+  },
 };
 
 export const TEST_FARM: GameState = {
@@ -765,19 +774,19 @@ export const TEST_FARM: GameState = {
   crops: {
     1: {
       createdAt: Date.now(),
-      crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
+      crop: { name: "Sunflower", plantedAt: 0 },
       x: -2,
       y: 0,
     },
     2: {
       createdAt: Date.now(),
-      crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
+      crop: { name: "Sunflower", plantedAt: 0 },
       x: -1,
       y: 0,
     },
     3: {
       createdAt: Date.now(),
-      crop: { name: "Sunflower", plantedAt: 0, amount: 1 },
+      crop: { name: "Sunflower", plantedAt: 0 },
       x: 0,
       y: 0,
     },
@@ -898,7 +907,6 @@ export const TEST_FARM: GameState = {
   stones: {
     1: {
       stone: {
-        amount: 1,
         minedAt: 0,
       },
       x: 7,
@@ -906,7 +914,6 @@ export const TEST_FARM: GameState = {
     },
     2: {
       stone: {
-        amount: 1,
         minedAt: 0,
       },
       x: 3,
@@ -918,7 +925,7 @@ export const TEST_FARM: GameState = {
   trees: {
     1: {
       wood: {
-        amount: 2,
+        criticalHit: { Native: 1 },
         choppedAt: 0,
       },
       x: -3,
@@ -926,7 +933,6 @@ export const TEST_FARM: GameState = {
     },
     2: {
       wood: {
-        amount: 1,
         choppedAt: 0,
       },
       x: 7,
@@ -935,7 +941,7 @@ export const TEST_FARM: GameState = {
 
     3: {
       wood: {
-        amount: 2,
+        criticalHit: { Native: 1 },
         choppedAt: 0,
       },
       x: 7,
@@ -988,6 +994,21 @@ export const TEST_FARM: GameState = {
       item: "Potato",
       prize: "Potato",
     },
+  },
+  aoe: {},
+  socialFarming: {
+    points: 0,
+    villageProjects: {},
+    cheersGiven: {
+      date: "",
+      farms: [],
+      projects: {},
+    },
+    cheers: {
+      cheersUsed: 0,
+      freeCheersClaimedAt: 0,
+    },
+    dailyCollections: {},
   },
 };
 
@@ -1142,5 +1163,20 @@ export const EMPTY: GameState = {
       item: "Potato",
       prize: "Potato",
     },
+  },
+  aoe: {},
+  socialFarming: {
+    points: 0,
+    villageProjects: {},
+    cheersGiven: {
+      date: "",
+      farms: [],
+      projects: {},
+    },
+    cheers: {
+      cheersUsed: 0,
+      freeCheersClaimedAt: 0,
+    },
+    dailyCollections: {},
   },
 };

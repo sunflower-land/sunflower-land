@@ -17,7 +17,6 @@ const GAME_STATE: GameState = {
     0: {
       stone: {
         minedAt: 0,
-        amount: 2,
       },
       x: 1,
       y: 1,
@@ -26,7 +25,6 @@ const GAME_STATE: GameState = {
     1: {
       stone: {
         minedAt: 0,
-        amount: 3,
       },
       x: 4,
       y: 1,
@@ -117,7 +115,7 @@ describe("mineCrimstone", () => {
     const game = mineCrimstone(payload);
 
     expect(game.inventory["Gold Pickaxe"]).toEqual(new Decimal(0));
-    expect(game.inventory.Crimstone).toEqual(new Decimal(2));
+    expect(game.inventory.Crimstone).toEqual(new Decimal(1));
   });
 
   it("mines multiple crimstones", () => {
@@ -145,7 +143,7 @@ describe("mineCrimstone", () => {
     });
 
     expect(game.inventory["Gold Pickaxe"]).toEqual(new Decimal(1));
-    expect(game.inventory.Crimstone).toEqual(new Decimal(5));
+    expect(game.inventory.Crimstone).toEqual(new Decimal(2));
   });
 
   it("mines crimstone after waiting", () => {
@@ -173,7 +171,7 @@ describe("mineCrimstone", () => {
     });
 
     expect(game.inventory["Gold Pickaxe"]).toEqual(new Decimal(0));
-    expect(game.inventory.Crimstone?.toNumber()).toBeGreaterThan(2);
+    expect(game.inventory.Crimstone?.toNumber()).toEqual(2);
   });
 
   it("resets minesLeft after 24 hours", () => {
@@ -207,7 +205,7 @@ describe("mineCrimstone", () => {
     it("crimstone replenishes faster with Crimstone Amulet", () => {
       const now = Date.now();
 
-      const time = getMinedAt({
+      const { time } = getMinedAt({
         game: {
           ...TEST_FARM,
           bumpkin: {
@@ -226,7 +224,7 @@ describe("mineCrimstone", () => {
     it("crimstone replenishes faster with Fireside Alchemist", () => {
       const now = Date.now();
 
-      const time = getMinedAt({
+      const { time } = getMinedAt({
         game: {
           ...GAME_STATE,
           bumpkin: {

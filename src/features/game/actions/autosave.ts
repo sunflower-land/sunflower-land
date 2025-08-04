@@ -1,7 +1,7 @@
 import { CONFIG } from "lib/config";
 import { ERRORS } from "lib/errors";
 import { sanitizeHTTPResponse } from "lib/network";
-import { GameEventName, PlacementEvent, PlayingEvent } from "../events";
+import { GameEvent, GameEventName } from "../events";
 import { PastAction } from "../lib/gameMachine";
 import { makeGame } from "../lib/transforms";
 import { getSessionId } from "./loadSession";
@@ -20,9 +20,7 @@ type Request = {
 
 const API_URL = CONFIG.API_URL;
 
-const EXCLUDED_EVENTS: GameEventName<PlayingEvent | PlacementEvent>[] = [
-  "bot.detected",
-];
+const EXCLUDED_EVENTS: GameEventName<GameEvent>[] = ["bot.detected"];
 
 /**
  * Squashes similar events into a single event
@@ -143,6 +141,10 @@ export async function autosave(request: Request, retries = 0) {
 
   if (response.status === 400) {
     throw new Error(ERRORS.AUTOSAVE_CLOCK_ERROR);
+  }
+
+  if (response.status === 403) {
+    throw new Error(ERRORS.AUTOSAVE_CLIENT_ERROR);
   }
 
   if (response.status === 429) {

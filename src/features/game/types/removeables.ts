@@ -19,21 +19,22 @@ import {
   CropName,
   GREENHOUSE_CROPS,
   GreenHouseCropName,
-} from "features/game/types/crops";
-import { canMine } from "../expansion/lib/utils";
-import { Bud, StemTrait, TypeTrait } from "./buds";
-import {
   isAdvancedCrop,
   isBasicCrop,
   isMediumCrop,
-  isCropGrowing,
-} from "features/game/events/landExpansion/harvest";
+} from "features/game/types/crops";
+import { canMine } from "../expansion/lib/utils";
+import { Bud, StemTrait, TypeTrait } from "./buds";
+import { isCropGrowing } from "features/game/events/landExpansion/harvest";
 import { isFruitGrowing } from "features/game/events/landExpansion/fruitHarvested";
 import { CompostName, isComposting } from "./composters";
 import { getDailyFishingCount } from "./fishing";
 import { FLOWERS, FLOWER_SEEDS } from "./flowers";
 import { getCurrentHoneyProduced } from "../expansion/components/resources/beehive/beehiveMachine";
-import { DEFAULT_HONEY_PRODUCTION_TIME } from "../lib/updateBeehives";
+import {
+  DEFAULT_HONEY_PRODUCTION_TIME,
+  getActiveBeehives,
+} from "../lib/updateBeehives";
 import { translate } from "lib/i18n/translate";
 import { canDrillOilReserve } from "../events/landExpansion/drillOilReserve";
 import { getKeys } from "./decorations";
@@ -409,8 +410,10 @@ export function areFlowersGrowing(game: GameState): Restriction {
 }
 
 export function isBeehivesFull(game: GameState): Restriction {
+  const activeBeehives = getActiveBeehives(game.beehives);
+
   // 0.9 Small buffer in case of any rounding errors
-  const beehiveProducing = Object.values(game.beehives).every(
+  const beehiveProducing = Object.values(activeBeehives).every(
     (hive) =>
       getCurrentHoneyProduced(hive) >= DEFAULT_HONEY_PRODUCTION_TIME * 0.9,
   );

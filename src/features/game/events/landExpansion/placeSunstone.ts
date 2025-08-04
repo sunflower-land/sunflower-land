@@ -26,11 +26,37 @@ export function placeSunstone({
 }: Options): GameState {
   return produce(state, (game) => {
     const available = (game.inventory["Sunstone Rock"] || new Decimal(0)).minus(
-      Object.keys(game.sunstones).length,
+      Object.values(game.sunstones).filter(
+        (sunstone) => sunstone.x !== undefined && sunstone.y !== undefined,
+      ).length,
     );
 
     if (available.lt(1)) {
       throw new Error("No sunstone available");
+    }
+
+    const existingSunstone = Object.entries(game.sunstones).find(
+      ([_, sunstone]) => sunstone.x === undefined && sunstone.y === undefined,
+    );
+
+    if (existingSunstone) {
+      const [id, sunstone] = existingSunstone;
+      const updatedSunstone = {
+        ...sunstone,
+        x: action.coordinates.x,
+        y: action.coordinates.y,
+      };
+
+      if (updatedSunstone.stone && updatedSunstone.removedAt) {
+        const existingProgress =
+          updatedSunstone.removedAt - updatedSunstone.stone.minedAt;
+        updatedSunstone.stone.minedAt = createdAt - existingProgress;
+        delete updatedSunstone.removedAt;
+      }
+
+      game.sunstones[id] = updatedSunstone;
+
+      return game;
     }
 
     const newSunstone: FiniteResource = {
@@ -38,7 +64,6 @@ export function placeSunstone({
       x: action.coordinates.x,
       y: action.coordinates.y,
       stone: {
-        amount: 1,
         minedAt: 0,
       },
       minesLeft: 10,

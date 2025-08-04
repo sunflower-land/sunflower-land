@@ -45,7 +45,7 @@ export const TreasureShopSell: React.FC = () => {
 
   const inventory = state.inventory;
 
-  const price = getSellPrice(selected, state);
+  const { price } = getSellPrice(selected, state);
   const amount = inventory[selectedName] || new Decimal(0);
   const coinAmount = price * customAmount.toNumber();
 

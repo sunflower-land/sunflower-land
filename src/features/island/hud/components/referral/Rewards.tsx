@@ -86,13 +86,15 @@ export const Rewards: React.FC<Props> = ({ show, onHide, tab }) => {
         tabs={[
           {
             icon: loveCharmSmall,
-            name: "Earn",
+            name: t("earn"),
             alert: isAnyTaskCompleted,
+            id: "Earn",
           },
           {
             icon: SUNNYSIDE.decorations.treasure_chest,
-            name: "Rewards",
+            name: t("rewards"),
             alert: !isChestCollected,
+            id: "Rewards",
           },
         ]}
         currentTab={currentTab}
@@ -143,7 +145,9 @@ export const Rewards: React.FC<Props> = ({ show, onHide, tab }) => {
 
 export type RewardType = "DAILY_REWARD" | "VIP" | "BLOCKCHAIN_BOX";
 
-export const RewardOptions: React.FC = () => {
+export const RewardOptions: React.FC<{ selectedButton?: RewardType }> = ({
+  selectedButton,
+}) => {
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, (state) => state.context.state);
 
@@ -174,7 +178,9 @@ export const RewardOptions: React.FC = () => {
     chestService.send("LOAD");
   }, [chestService]);
 
-  const [selected, setSelected] = useState<RewardType>();
+  const [selected, setSelected] = useState<RewardType | undefined>(
+    selectedButton,
+  );
   const { t } = useAppTranslation();
 
   if (selected === "DAILY_REWARD") {

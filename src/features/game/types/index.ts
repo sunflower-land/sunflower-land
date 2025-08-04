@@ -488,6 +488,10 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Geniseed: 759,
   "Broken Pillar": 760,
   "Colors Token 2025": 761,
+  "Better Together Banner": 762,
+  Bracelet: 763,
+  Coprolite: 764,
+  Cheer: 765,
 
   "Australian Flag": 801,
   "Belgian Flag": 802,
@@ -1094,11 +1098,89 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Red Slime Balloon": 2279,
   "Blue Slime Balloon": 2280,
 
+  // Monument Items
+  "Big Orange": 2281,
+  "Big Apple": 2282,
+  "Big Banana": 2283,
+  "Farmer's Monument": 2284,
+  "Miner's Monument": 2285,
+  "Woodcutter's Monument": 2286,
+  "Teamwork Monument": 2287,
+  "Basic Cooking Pot": 2288,
+  "Expert Cooking Pot": 2289,
+  "Advanced Cooking Pot": 2290,
+
+  // Clutter
+  Trash: 2291,
+  Dung: 2292,
+  Weed: 2293,
+
+  // Better Together - Items
+  "Floor Mirror": 2294,
+  "Long Rug": 2295,
+  "Garbage Bin": 2296,
+  Wheelbarrow: 2297,
+  "Snail King": 2298,
+  "Reelmaster's Chair": 2299,
+  "Rat King": 2300,
+  "Fruit Tune Box": 2301,
+  "Double Bed": 2302,
+  "Giant Artichoke": 2303,
+  "Rocket Statue": 2304,
+  "Ant Queen": 2305,
+  "Jurassic Droplet": 2306,
+  "Giant Onion": 2307,
+  "Giant Turnip": 2308,
+  "Groovy Gramophone": 2309,
+  "Wheat Whiskers": 2310,
+
+  "Gold Cooking Trophy": 2311,
+  "Silver Cooking Trophy": 2312,
+  "Bronze Cooking Trophy": 2313,
+
+  // Pests
+  Anthill: 2314,
+  Rat: 2315,
+  Snail: 2316,
+  "Pest Net": 2317,
+
+  Poseidon: 2318,
+
   // Land Biomes
   "Basic Biome": 2400,
   "Spring Biome": 2401,
   "Desert Biome": 2402,
   "Volcano Biome": 2403,
+
+  // Dolls
+  Doll: 2501,
+  "Buzz Doll": 2502,
+  "Lunar Doll": 2503,
+  "Juicy Doll": 2504,
+  "Crude Doll": 2505,
+  "Cluck Doll": 2506,
+  "Wooly Doll": 2507,
+  "Moo Doll": 2508,
+  "Bloom Doll": 2509,
+  "Shadow Doll": 2510,
+  "Ember Doll": 2511,
+  "Gilded Doll": 2512,
+  "Lumber Doll": 2513,
+  "Harvest Doll": 2514,
+  "Sizzle Doll": 2515,
+  "Angler Doll": 2516,
+  "Dune Doll": 2517,
+  "Mouse Doll": 2518,
+  "Grubby Doll": 2519,
+  "Nefari Doll": 2520,
+  "Frosty Doll": 2521,
+  "Cosmo Doll": 2522,
+  "Bigfin Doll": 2523,
+  "Solar Doll": 2524,
+  "Baby Cow": 2525,
+  "Baby Sheep": 2526,
+  "Janitor Chicken": 2527,
+  "Venus Bumpkin Trap": 2528,
 };
 
 // The reverse of above

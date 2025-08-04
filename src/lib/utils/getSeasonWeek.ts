@@ -81,6 +81,15 @@ const HOLIDAYS: string[] = [
   "2025-05-02",
   "2025-05-03",
   "2025-05-04",
+
+  // Start of Better Together
+  "2025-08-04",
+  "2025-08-05",
+  "2025-08-06",
+  "2025-08-07",
+  "2025-08-08",
+  "2025-08-09",
+  "2025-08-10",
 ];
 
 export function getBumpkinHoliday({ now = Date.now() }: { now?: number }) {

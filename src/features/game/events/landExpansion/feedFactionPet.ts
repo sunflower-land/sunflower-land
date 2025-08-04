@@ -9,8 +9,13 @@ import {
 } from "features/game/lib/factions";
 import { isWearableActive } from "features/game/lib/wearables";
 import { BoostType, BoostValue } from "features/game/types/boosts";
-import { CONSUMABLES } from "features/game/types/consumables";
-import { FactionPetRequest, GameState } from "features/game/types/game";
+import { ConsumableName, CONSUMABLES } from "features/game/types/consumables";
+import {
+  BoostName,
+  FactionPetRequest,
+  GameState,
+} from "features/game/types/game";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { produce } from "immer";
 
 const isPawShieldActive = (game: GameState) =>
@@ -19,7 +24,7 @@ const isPawShieldActive = (game: GameState) =>
 export const getKingdomPetBoost = (
   game: GameState,
   marks: number,
-): [number, Partial<Record<BoostType, BoostValue>>] => {
+): [number, Partial<Record<BoostType, BoostValue>>, BoostName[]] => {
   const [wearablesBoost, wearablesLabels] = getFactionWearableBoostAmount(
     game,
     marks,
@@ -32,25 +37,31 @@ export const getKingdomPetBoost = (
   };
 
   let pawShieldBoost = 0;
+  const boostUsed: BoostName[] = [];
   if (isPawShieldActive(game)) {
     pawShieldBoost = marks * 0.25;
     boosts["Paw Shield"] = `+${0.25 * 100}%`;
+    boostUsed.push("Paw Shield");
   }
 
-  return [wearablesBoost + rankBoost + pawShieldBoost, boosts];
+  return [wearablesBoost + rankBoost + pawShieldBoost, boosts, boostUsed];
 };
 
 export enum DifficultyIndex {
   EASY = 0,
   MEDIUM = 1,
   HARD = 2,
+  DOLL = 3,
 }
 
 export const PET_FED_REWARDS_KEY: Record<DifficultyIndex, number> = {
   [DifficultyIndex.EASY]: 4,
   [DifficultyIndex.MEDIUM]: 8,
   [DifficultyIndex.HARD]: 12,
+  [DifficultyIndex.DOLL]: 20,
 };
+
+const DOLL_XP = 5000;
 
 export const getTotalXPForRequest = (
   game: GameState,
@@ -58,7 +69,15 @@ export const getTotalXPForRequest = (
 ) => {
   const { food, quantity } = request;
 
-  let foodXP = CONSUMABLES[food].experience;
+  const isEdible = food in CONSUMABLES;
+
+  let foodXP = 0;
+
+  if (isEdible) {
+    foodXP = CONSUMABLES[food as ConsumableName].experience;
+  } else {
+    foodXP = DOLL_XP;
+  }
 
   if (isPawShieldActive(game)) {
     foodXP += foodXP * 0.25;
@@ -126,7 +145,10 @@ export function feedFactionPet({
       fulfilled,
       PET_FED_REWARDS_KEY[action.requestIndex],
     );
-    const boostAmount = getKingdomPetBoost(stateCopy, baseReward)[0];
+    const [boostAmount, _, boostUsed] = getKingdomPetBoost(
+      stateCopy,
+      baseReward,
+    );
     const totalAmount = baseReward + boostAmount;
 
     stateCopy.inventory.Mark = marksBalance.add(totalAmount);
@@ -137,6 +159,12 @@ export function feedFactionPet({
       score: leaderboard.score + totalAmount,
       petXP: leaderboard.petXP + totalXP,
     };
+
+    stateCopy.boostsUsedAt = updateBoostUsed({
+      game: stateCopy,
+      boostNames: boostUsed,
+      createdAt,
+    });
 
     return stateCopy;
   });

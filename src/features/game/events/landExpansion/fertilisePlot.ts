@@ -1,16 +1,21 @@
 import Decimal from "decimal.js-light";
 import { GameState } from "../../types/game";
 import { CropCompostName } from "features/game/types/composters";
-import { CROPS, Crop } from "features/game/types/crops";
+import { CROPS, Crop, isBasicCrop } from "features/game/types/crops";
 import { isReadyToHarvest } from "./harvest";
-import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { produce } from "immer";
+import {
+  Position,
+  isWithinAOE,
+} from "features/game/expansion/placeable/lib/collisionDetection";
+import { isCollectibleOnFarm, setAOEAvailableAt } from "features/game/lib/aoe";
+import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
+import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 
 export type LandExpansionFertiliseCropAction = {
   type: "plot.fertilised";
   plotID: string;
-  expansionIndex: number;
   fertiliser: CropCompostName;
 };
 
@@ -28,6 +33,7 @@ export enum FERTILISE_CROP_ERRORS {
   NO_FERTILISER_SELECTED = "No fertiliser selected!",
   NOT_A_FERTILISER = "Not a fertiliser!",
   NOT_ENOUGH_FERTILISER = "Not enough fertiliser!",
+  PLOT_NOT_PLACED = "Plot not placed!",
 }
 
 const getPlantedAt = (
@@ -40,9 +46,10 @@ const getPlantedAt = (
   const harvestTime = plantedAt + timeToHarvest;
   const timeReduction = (harvestTime - fertilisedAt) / 2;
   if (fertiliser === "Rapid Root") {
-    return plantedAt - timeReduction;
+    return { newPlantedAt: plantedAt - timeReduction, timeReduction };
   }
-  return plantedAt;
+
+  return { newPlantedAt: plantedAt, timeReduction: 0 };
 };
 
 export function fertilisePlot({
@@ -51,8 +58,7 @@ export function fertilisePlot({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (stateCopy) => {
-    const { crops: plots, inventory, collectibles, bumpkin } = stateCopy;
-
+    const { crops: plots, inventory, bumpkin } = stateCopy;
     if (!bumpkin) {
       throw new Error("Bumpkin not found");
     }
@@ -85,6 +91,11 @@ export function fertilisePlot({
 
     // Apply buff if already planted
     const crop = plot.crop;
+
+    if (plot.x === undefined || plot.y === undefined) {
+      throw new Error(FERTILISE_CROP_ERRORS.PLOT_NOT_PLACED);
+    }
+
     if (crop) {
       const cropDetails = crop && CROPS[crop.name];
       if (cropDetails && isReadyToHarvest(createdAt, crop, cropDetails)) {
@@ -92,18 +103,56 @@ export function fertilisePlot({
       }
 
       if (cropDetails && action.fertiliser === "Rapid Root") {
-        crop.plantedAt = getPlantedAt(
+        const { newPlantedAt, timeReduction } = getPlantedAt(
           action.fertiliser,
           crop.plantedAt,
           createdAt,
           cropDetails,
         );
-      }
 
-      if (!!crop && action.fertiliser === "Sprout Mix") {
-        if (isCollectibleBuilt({ name: "Knowledge Crab", game: stateCopy })) {
-          crop.amount = (crop.amount ?? 1) + 0.4;
-        } else crop.amount = (crop.amount ?? 1) + 0.2;
+        crop.plantedAt = newPlantedAt;
+
+        crop.boostedTime = (crop.boostedTime ?? 0) + timeReduction;
+
+        if (
+          isCollectibleOnFarm({ name: "Basic Scarecrow", game: stateCopy }) &&
+          isBasicCrop(crop.name)
+        ) {
+          // Get Coordinates of the Scarecrow
+          // Get Dimensions of the Scarecrow
+          const dimensions = COLLECTIBLES_DIMENSIONS["Basic Scarecrow"];
+          const coordinates =
+            stateCopy.collectibles["Basic Scarecrow"]![0].coordinates!;
+          // Coordinates is always defined because isCollectibleBuilt is true
+          const plotPosition: Position = {
+            x: plot?.x,
+            y: plot?.y,
+            ...RESOURCE_DIMENSIONS["Crop Plot"],
+          };
+          const scarecrowPosition: Position = {
+            ...dimensions,
+            ...coordinates,
+          };
+
+          if (
+            isWithinAOE(
+              "Basic Scarecrow",
+              scarecrowPosition,
+              plotPosition,
+              stateCopy.bumpkin.skills,
+            )
+          ) {
+            const dx = plot.x - coordinates.x;
+            const dy = plot.y - coordinates.y;
+            setAOEAvailableAt(
+              stateCopy.aoe,
+              "Basic Scarecrow",
+              { dx, dy },
+              createdAt,
+              crop.plantedAt + cropDetails.harvestSeconds * 1000 - createdAt,
+            );
+          }
+        }
       }
     }
 

@@ -21,6 +21,16 @@ import { getSeasonalTicket } from "features/game/types/seasons";
 import Decimal from "decimal.js-light";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
+import {
+  LOVE_CHARM_MONUMENTS,
+  MonumentName,
+  WORKBENCH_MONUMENTS,
+} from "features/game/types/monuments";
+import { GameState } from "features/game/types/game";
+import { Label } from "components/ui/Label";
+import { hasFeatureAccess } from "lib/flags";
+import cheer from "assets/icons/cheer.webp";
+import { REQUIRED_CHEERS } from "features/game/events/landExpansion/completeProject";
 
 const VALID_EQUIPMENT: HeliosBlacksmithItem[] = [
   "Basic Scarecrow",
@@ -35,7 +45,62 @@ const VALID_EQUIPMENT: HeliosBlacksmithItem[] = [
   "Macaw",
   "Squirrel",
   "Butterfly",
+  "Basic Cooking Pot",
+  "Expert Cooking Pot",
+  "Advanced Cooking Pot",
+  "Big Orange",
+  "Big Apple",
+  "Big Banana",
+  "Farmer's Monument",
+  "Woodcutter's Monument",
+  "Miner's Monument",
 ];
+
+const DecorationLabel = ({
+  gameState,
+  selectedName,
+}: {
+  gameState: GameState;
+  selectedName: HeliosBlacksmithItem;
+}) => {
+  const { t } = useAppTranslation();
+
+  const isMonument = selectedName in WORKBENCH_MONUMENTS;
+  const isLoveCharmMonument = selectedName in LOVE_CHARM_MONUMENTS;
+
+  const hasBuiltMonument = () => {
+    return !!gameState.inventory[selectedName as MonumentName]?.gt(0);
+  };
+
+  if (hasBuiltMonument()) {
+    return (
+      <div className="flex justify-center">
+        <Label type="success" icon={SUNNYSIDE.icons.confirm}>
+          {t("already.built")}
+        </Label>
+      </div>
+    );
+  }
+
+  if (isMonument) {
+    return (
+      <div className="flex items-center flex-col space-y-1">
+        <Label type="default" icon={cheer}>
+          {t("monument.requiredCheers", {
+            cheers: REQUIRED_CHEERS[selectedName as MonumentName],
+          })}
+        </Label>
+        <Label type="default">
+          {t("season.megastore.crafting.limit", {
+            limit: 0,
+          })}
+        </Label>
+      </div>
+    );
+  }
+
+  return null;
+};
 
 export const IslandBlacksmithItems: React.FC = () => {
   const { t } = useAppTranslation();
@@ -47,6 +112,7 @@ export const IslandBlacksmithItems: React.FC = () => {
       context: { state },
     },
   ] = useActor(gameService);
+
   const { inventory, coins } = state;
 
   const selectedItem = HELIOS_BLACKSMITH_ITEMS(state)[selectedName];
@@ -62,15 +128,27 @@ export const IslandBlacksmithItems: React.FC = () => {
   const lessCoins = () => coins < (selectedItem?.coins ?? 0);
 
   const craft = () => {
-    gameService.send("LANDSCAPE", {
-      placeable: selectedName,
-      action: "collectible.crafted",
-      // Not used yet
-      requirements: {
-        sfl: new Decimal(0),
-        ingredients: {},
-      },
-    });
+    if (selectedName in WORKBENCH_MONUMENTS) {
+      gameService.send("LANDSCAPE", {
+        placeable: selectedName,
+        action: "monument.bought",
+        requirements: {
+          coins: selectedItem?.coins ?? 0,
+          ingredients: selectedItem?.ingredients ?? {},
+        },
+        multiple: false,
+      });
+    } else {
+      gameService.send("LANDSCAPE", {
+        placeable: selectedName,
+        action: "collectible.crafted",
+        // Not used yet
+        requirements: {
+          sfl: new Decimal(0),
+          ingredients: {},
+        },
+      });
+    }
 
     const count = state.inventory[selectedName]?.toNumber() ?? 1;
     gameAnalytics.trackMilestone({
@@ -89,6 +167,10 @@ export const IslandBlacksmithItems: React.FC = () => {
     }
 
     shortcutItem(selectedName);
+  };
+
+  const hasBuiltMonument = () => {
+    return !!state.inventory[selectedName as MonumentName]?.gt(0);
   };
 
   return (
@@ -112,12 +194,24 @@ export const IslandBlacksmithItems: React.FC = () => {
                 {t("alr.crafted")}
               </p>
             ) : (
-              <Button
-                disabled={lessIngredients() || lessCoins()}
-                onClick={craft}
-              >
-                {t("craft")}
-              </Button>
+              <div className="flex flex-col gap-2">
+                <div className="flex justify-left sm:justify-center ml-1">
+                  <DecorationLabel
+                    gameState={state}
+                    selectedName={selectedName}
+                  />
+                </div>
+                <div>
+                  <Button
+                    disabled={
+                      lessIngredients() || lessCoins() || hasBuiltMonument()
+                    }
+                    onClick={craft}
+                  >
+                    {t("craft")}
+                  </Button>
+                </div>
+              </div>
             )
           }
         />
@@ -125,7 +219,11 @@ export const IslandBlacksmithItems: React.FC = () => {
       content={
         <div className="flex flex-col">
           <div className="flex flex-wrap">
-            {VALID_EQUIPMENT.map((name: HeliosBlacksmithItem) => {
+            {VALID_EQUIPMENT.filter(
+              (equipment) =>
+                !(equipment in WORKBENCH_MONUMENTS) ||
+                hasFeatureAccess(state, "MONUMENTS"),
+            ).map((name: HeliosBlacksmithItem) => {
               return (
                 <Box
                   isSelected={selectedName === name}

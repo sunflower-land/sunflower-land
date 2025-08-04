@@ -2,10 +2,10 @@ import Decimal from "decimal.js-light";
 
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
-import { GameState } from "features/game/types/game";
+import { BoostName, GameState } from "features/game/types/game";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { Seed, SeedName, SEEDS } from "features/game/types/seeds";
+import { SeedName, SEEDS } from "features/game/types/seeds";
 import { isWearableActive } from "features/game/lib/wearables";
 import { FLOWER_SEEDS } from "features/game/types/flowers";
 import { produce } from "immer";
@@ -19,6 +19,7 @@ import {
   GreenHouseCropSeedName,
 } from "features/game/types/crops";
 import { isFullMoon } from "features/game/types/calendar";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 
 export type SeedBoughtAction = {
   type: "seed.bought";
@@ -26,24 +27,33 @@ export type SeedBoughtAction = {
   amount: number;
 };
 
-export function getBuyPrice(name: SeedName, seed: Seed, game: GameState) {
+export function getBuyPrice(
+  name: SeedName,
+  seed: { price: number },
+  game: GameState,
+): { price: number; boostsUsed: BoostName[] } {
+  const boostsUsed: BoostName[] = [];
+
   const { inventory, bumpkin } = game;
+
+  if (isCollectibleBuilt({ name: "Kuebiko", game })) {
+    boostsUsed.push("Kuebiko");
+    return { price: 0, boostsUsed };
+  }
   if (
     name in FLOWER_SEEDS &&
     isCollectibleBuilt({ name: "Hungry Caterpillar", game })
   ) {
-    return 0;
-  }
-
-  if (isCollectibleBuilt({ name: "Kuebiko", game })) {
-    return 0;
+    boostsUsed.push("Hungry Caterpillar");
+    return { price: 0, boostsUsed };
   }
 
   if (
     isWearableActive({ name: "Sunflower Shield", game }) &&
     name === "Sunflower Seed"
   ) {
-    return 0;
+    boostsUsed.push("Sunflower Shield");
+    return { price: 0, boostsUsed };
   }
 
   let price = seed.price;
@@ -53,19 +63,24 @@ export function getBuyPrice(name: SeedName, seed: Seed, game: GameState) {
     name === "Onion Seed" &&
     isWearableActive({ name: "Ladybug Suit", game })
   ) {
+    boostsUsed.push("Ladybug Suit");
     price = price * 0.75;
   }
 
   //LEGACY SKILL Contributor Artist Skill
+
   if (price && inventory.Artist?.gte(1)) {
+    boostsUsed.push("Artist");
     price = price * 0.9;
   }
 
   if (name in FLOWER_SEEDS && bumpkin.skills["Flower Sale"]) {
+    boostsUsed.push("Flower Sale");
     price = price * 0.8;
   }
 
   if (isPatchFruitSeed(name) && bumpkin.skills["Fruity Heaven"]) {
+    boostsUsed.push("Fruity Heaven");
     price = price * 0.9;
   }
 
@@ -73,10 +88,11 @@ export function getBuyPrice(name: SeedName, seed: Seed, game: GameState) {
     name in { ...GREENHOUSE_SEEDS, ...GREENHOUSE_FRUIT_SEEDS } &&
     bumpkin.skills["Seedy Business"]
   ) {
+    boostsUsed.push("Seedy Business");
     price = price * 0.85;
   }
 
-  return price;
+  return { price, boostsUsed };
 }
 
 export const isGreenhouseCropSeed = (
@@ -154,7 +170,7 @@ export function seedBought({ state, action, createdAt = Date.now() }: Options) {
       );
     }
 
-    const price = getBuyPrice(item, seed, stateCopy);
+    const { price, boostsUsed } = getBuyPrice(item, seed, stateCopy);
     const totalExpenses = price * amount;
 
     if (totalExpenses && stateCopy.coins < totalExpenses) {
@@ -178,6 +194,12 @@ export function seedBought({ state, action, createdAt = Date.now() }: Options) {
 
     stateCopy.inventory[action.item] = oldAmount.add(amount) as Decimal;
     stateCopy.stock[item] = stateCopy.stock[item]?.minus(amount) as Decimal;
+
+    stateCopy.boostsUsedAt = updateBoostUsed({
+      game: stateCopy,
+      boostNames: boostsUsed,
+      createdAt,
+    });
 
     return stateCopy;
   });

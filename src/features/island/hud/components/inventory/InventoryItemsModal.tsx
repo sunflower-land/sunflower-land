@@ -13,6 +13,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { Biomes } from "./Biomes";
 import { getKeys } from "features/game/types/decorations";
 import { LAND_BIOMES } from "features/island/biomes/biomes";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   show: boolean;
@@ -49,6 +50,7 @@ export const InventoryItemsModal: React.FC<Props> = ({
   isFarming,
   isFullUser,
 }) => {
+  const { t } = useAppTranslation();
   const [currentTab, setCurrentTab] = useState<"Basket" | "Chest" | "Biomes">(
     "Basket",
   );
@@ -59,10 +61,16 @@ export const InventoryItemsModal: React.FC<Props> = ({
     <Modal size="lg" show={show} onHide={onHide}>
       <CloseButtonPanel
         tabs={[
-          { icon: SUNNYSIDE.icons.basket, name: "Basket" },
-          { icon: chest, name: "Chest" },
+          { icon: SUNNYSIDE.icons.basket, name: t("basket"), id: "Basket" },
+          { icon: chest, name: t("chest"), id: "Chest" },
           ...(hasBiomes
-            ? [{ icon: ITEM_DETAILS["Basic Biome"].image, name: "Biomes" }]
+            ? [
+                {
+                  icon: ITEM_DETAILS["Basic Biome"].image,
+                  name: t("biomes"),
+                  id: "Biomes",
+                },
+              ]
             : []),
         ]}
         currentTab={currentTab}

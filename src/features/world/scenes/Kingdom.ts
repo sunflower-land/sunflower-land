@@ -13,7 +13,7 @@ import { translate } from "lib/i18n/translate";
 import { SOUNDS } from "assets/sound-effects/soundEffects";
 
 import { npcModalManager } from "../ui/NPCModals";
-import { FactionName } from "features/game/types/game";
+import { FactionName, TemperateSeasonName } from "features/game/types/game";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
 import { getKeys } from "features/game/types/decorations";
 import { JoinFactionAction } from "features/game/events/landExpansion/joinFaction";
@@ -25,6 +25,15 @@ import {
 import { hasReadKingdomNotice } from "../ui/kingdom/KingdomNoticeboard";
 import { EventObject } from "xstate";
 import { capitalize } from "lib/utils/capitalize";
+import { hasFeatureAccess } from "lib/flags";
+import { Label } from "../containers/Label";
+
+const GUARDIAN_MAP: Record<TemperateSeasonName, string> = {
+  autumn: "autumn_guardian",
+  spring: "spring_guardian",
+  summer: "summer_guardian",
+  winter: "winter_guardian",
+};
 
 export const KINGDOM_NPCS: NPCBumpkin[] = [
   { x: 305, y: 500, npc: "billy", direction: "left" },
@@ -94,6 +103,9 @@ export class KingdomScene extends BaseScene {
       frameWidth: 23,
       frameHeight: 32,
     });
+
+    const guardian = GUARDIAN_MAP[this.gameState.season.season];
+    this.load.image("guardian", `world/${guardian}.webp`);
 
     this.load.spritesheet("castle_bud_1", "world/castle_bud_1.webp", {
       frameWidth: 32,
@@ -334,6 +346,22 @@ export class KingdomScene extends BaseScene {
     if (!this.sound.get("royal_farms")) {
       const nature1 = this.sound.add("royal_farms");
       nature1.play({ loop: true, volume: 0.3 });
+    }
+
+    if (hasFeatureAccess(this.gameState, "BLESSING")) {
+      const guardian = this.add.sprite(192, 324, "guardian");
+      guardian.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+        if (this.checkDistanceToSprite(guardian, 40)) {
+          interactableModalManager.open("guardian");
+        } else {
+          this.currentPlayer?.speak(translate("base.iam.far.away"));
+        }
+      });
+
+      const guardianLabel = new Label(this, "TRIBUTE", "grey");
+      guardianLabel.setPosition(192, 294);
+      guardianLabel.setDepth(10000000);
+      this.add.existing(guardianLabel);
     }
 
     // Shut down the sound when the scene changes

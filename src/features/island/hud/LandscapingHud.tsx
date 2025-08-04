@@ -7,6 +7,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import chest from "assets/icons/chest.png";
+import shopIcon from "assets/icons/shop.png";
 
 import { isMobile } from "mobile-device-detect";
 
@@ -34,6 +35,7 @@ import { RoundButton } from "components/ui/RoundButton";
 import { CraftDecorationsModal } from "./components/decorations/CraftDecorationsModal";
 import { hasFeatureAccess } from "lib/flags";
 import { hasRemoveRestriction } from "features/game/types/removeables";
+import { RemoveAllConfirmation } from "../collectibles/RemoveAllConfirmation";
 
 const compareBalance = (prev: Decimal, next: Decimal) => {
   return prev.eq(next);
@@ -59,6 +61,8 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
   const { gameService } = useContext(Context);
 
   const [showRemoveConfirmation, setShowRemoveConfirmation] = useState(false);
+  const [showRemoveAllConfirmation, setShowRemoveAllConfirmation] =
+    useState(false);
   const [showDecorations, setShowDecorations] = useState(false);
   const button = useSound("button");
 
@@ -92,7 +96,9 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
   const idle = useSelector(child, isIdle);
 
   const showRemove =
-    isMobile && selectedItem && getRemoveAction(selectedItem.name);
+    isMobile &&
+    selectedItem &&
+    getRemoveAction(selectedItem.name, hasLandscapingAccess);
   const [isRestricted, restrictionReason] = showRemove
     ? hasRemoveRestriction({
         name: selectedItem.name,
@@ -106,7 +112,10 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
   }, [selectedItem]);
 
   const remove = () => {
-    const action = getRemoveAction(selectedItem?.name as InventoryItemName);
+    const action = getRemoveAction(
+      selectedItem?.name as InventoryItemName,
+      hasLandscapingAccess,
+    );
     if (!action) {
       return;
     }
@@ -123,6 +132,17 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
     }
   };
 
+  const removeAll = () => {
+    if (showRemoveAllConfirmation) {
+      child.send("REMOVE_ALL", {
+        event: "items.removed",
+        location,
+      });
+      setShowRemoveAllConfirmation(false);
+    } else {
+      setShowRemoveAllConfirmation(true);
+    }
+  };
   return (
     <HudContainer>
       <div className="absolute right-0 top-0 p-2.5">
@@ -159,29 +179,46 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
                   }}
                 />
               </RoundButton>
-
-              {location === "farm" && hasLandscapingAccess && (
-                <>
-                  <RoundButton
-                    className="mb-3.5"
-                    onClick={() => setShowDecorations(true)}
-                  >
-                    <img
-                      src={SUNNYSIDE.icons.decorationbush}
-                      className="absolute group-active:translate-y-[2px]"
-                      style={{
-                        top: `${PIXEL_SCALE * 5}px`,
-                        left: `${PIXEL_SCALE * 5}px`,
-                        width: `${PIXEL_SCALE * 12}px`,
-                      }}
-                    />
-                  </RoundButton>
-                  <CraftDecorationsModal
-                    show={showDecorations}
-                    onHide={() => setShowDecorations(false)}
+              {hasLandscapingAccess && (
+                <RoundButton className="mb-3.5" onClick={removeAll}>
+                  <img
+                    src={ITEM_DETAILS["Rusty Shovel"].image}
+                    className="absolute group-active:translate-y-[2px]"
+                    style={{
+                      top: `${PIXEL_SCALE * 5}px`,
+                      left: `${PIXEL_SCALE * 5}px`,
+                      width: `${PIXEL_SCALE * 13}px`,
+                    }}
                   />
-                </>
+                </RoundButton>
               )}
+
+              {location === "farm" &&
+                hasFeatureAccess(
+                  gameService.getSnapshot().context.state,
+                  "LANDSCAPING_SHOP",
+                ) && (
+                  <>
+                    <RoundButton
+                      className="mb-3.5"
+                      onClick={() => setShowDecorations(true)}
+                    >
+                      <img
+                        src={shopIcon}
+                        className="absolute group-active:translate-y-[2px]"
+                        style={{
+                          top: `${PIXEL_SCALE * 2}px`,
+                          left: `${PIXEL_SCALE * 3.7}px`,
+                          width: `${PIXEL_SCALE * 14}px`,
+                        }}
+                      />
+                    </RoundButton>
+                    <CraftDecorationsModal
+                      show={showDecorations}
+                      onHide={() => setShowDecorations(false)}
+                    />
+                  </>
+                )}
 
               <Chest
                 onPlaceChestItem={(selected) => {
@@ -216,6 +253,13 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
             onRemove={() => remove()}
           />
         )}
+      {showRemoveAllConfirmation && (
+        <RemoveAllConfirmation
+          onClose={() => setShowRemoveAllConfirmation(false)}
+          onRemove={() => removeAll()}
+          location={location}
+        />
+      )}
       {showRemove && (
         <div
           className="absolute flex z-50 flex-col"

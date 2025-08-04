@@ -34,6 +34,7 @@ import { hasFeatureAccess } from "lib/flags";
 import { GameProvider } from "features/game/GameProvider";
 import { FlowerDashboard } from "features/flowerDashboard/FlowerDashboard";
 import { ModalProvider } from "features/game/components/modal/ModalProvider";
+import { FeedProvider } from "features/social/FeedContext";
 
 // Lazy load routes
 const World = lazy(() =>
@@ -119,87 +120,101 @@ export const Navigation: React.FC = () => {
                     <PWAInstallProvider>
                       <GameProvider>
                         <ZoomProvider>
-                          <ModalProvider>
-                            <Modal show={showConnectionModal}>
-                              <Panel>
-                                <div className="text-sm p-1 mb-1">
-                                  {t("welcome.offline")}
-                                </div>
-                              </Panel>
-                            </Modal>
-                            <Routes>
-                              {/* Forbid entry to Goblin Village when in Visiting State show Forbidden screen */}
-                              {!state.isVisiting && (
-                                <Route
-                                  path="/goblins"
-                                  element={
-                                    <Splash>
-                                      <Forbidden
-                                        onClose={() => {
-                                          authService.send("RETURN");
-                                        }}
-                                      />
-                                    </Splash>
-                                  }
-                                />
-                              )}
-                              <Route
-                                path="/world"
-                                element={<World key="world" />}
-                              >
-                                <Route
-                                  path="marketplace/*"
-                                  element={
-                                    <div className="absolute inset-0 z-50">
-                                      <Marketplace />
-                                    </div>
-                                  }
-                                />
-                                <Route path=":name" element={null} />
-                              </Route>
-                              <Route
-                                path="/community/:name"
-                                element={<World key="community" isCommunity />}
-                              />
-                              <Route
-                                path="/visit/*"
-                                element={<LandExpansion key="visit" />}
-                              />
-                              {CONFIG.NETWORK === "amoy" && (
-                                <Route
-                                  path="/community-tools"
-                                  element={
-                                    <CommunityTools key="community-tools" />
-                                  }
-                                />
-                              )}
-                              {CONFIG.NETWORK === "amoy" && (
-                                <Route
-                                  path="/builder"
-                                  element={<Builder key="builder" />}
-                                />
-                              )}
-                              {hasFeatureAccess(INITIAL_FARM, "LEDGER") && (
-                                <>
+                          <FeedProvider>
+                            <ModalProvider>
+                              <Modal show={showConnectionModal}>
+                                <Panel>
+                                  <div className="text-sm p-1 mb-1">
+                                    {t("welcome.offline")}
+                                  </div>
+                                </Panel>
+                              </Modal>
+                              <Routes>
+                                {/* Forbid entry to Goblin Village when in Visiting State show Forbidden screen */}
+                                {!state.isVisiting && (
                                   <Route
-                                    path="/ledger-dashboard/:id"
+                                    path="/goblins"
                                     element={
-                                      <LedgerDashboardProfile key="ledger-dashboard" />
+                                      <Splash>
+                                        <Forbidden
+                                          onClose={() => {
+                                            authService.send("RETURN");
+                                          }}
+                                        />
+                                      </Splash>
                                     }
                                   />
-                                </>
-                              )}
-                              {/* Internal flower-dashboard route with game contexts */}
-                              <Route
-                                path="/game/flower-dashboard"
-                                element={<FlowerDashboard />}
-                              />
-                              <Route
-                                path="*"
-                                element={<LandExpansion key="land" />}
-                              />
-                            </Routes>
-                          </ModalProvider>
+                                )}
+                                <Route
+                                  path="/world"
+                                  element={<World key="world" />}
+                                >
+                                  <Route
+                                    path="marketplace/*"
+                                    element={
+                                      <div className="absolute inset-0 z-50">
+                                        <Marketplace />
+                                      </div>
+                                    }
+                                  />
+                                  <Route path=":name" element={null} />
+                                </Route>
+                                <Route
+                                  path="/community/:name"
+                                  element={
+                                    <World key="community" isCommunity />
+                                  }
+                                />
+                                <Route
+                                  path="/visit/*"
+                                  element={
+                                    <LandExpansion
+                                      key="visit"
+                                      isVisiting={true}
+                                    />
+                                  }
+                                />
+                                {CONFIG.NETWORK === "amoy" && (
+                                  <Route
+                                    path="/community-tools"
+                                    element={
+                                      <CommunityTools key="community-tools" />
+                                    }
+                                  />
+                                )}
+                                {CONFIG.NETWORK === "amoy" && (
+                                  <Route
+                                    path="/builder"
+                                    element={<Builder key="builder" />}
+                                  />
+                                )}
+                                {hasFeatureAccess(INITIAL_FARM, "LEDGER") && (
+                                  <>
+                                    <Route
+                                      path="/ledger-dashboard/:id"
+                                      element={
+                                        <LedgerDashboardProfile key="ledger-dashboard" />
+                                      }
+                                    />
+                                  </>
+                                )}
+                                {/* Internal flower-dashboard route with game contexts */}
+                                <Route
+                                  path="/game/flower-dashboard"
+                                  element={<FlowerDashboard />}
+                                />
+                                <Route
+                                  path="*"
+                                  element={
+                                    <LandExpansion
+                                      key="land"
+                                      isVisiting={false}
+                                    />
+                                  }
+                                />
+                              </Routes>
+                            </ModalProvider>
+                          </FeedProvider>
                         </ZoomProvider>
                       </GameProvider>
                     </PWAInstallProvider>

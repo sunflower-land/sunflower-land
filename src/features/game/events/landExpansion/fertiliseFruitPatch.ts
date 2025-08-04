@@ -3,7 +3,7 @@ import {
   FRUIT_COMPOST,
   FruitCompostName,
 } from "features/game/types/composters";
-import { GameState } from "features/game/types/game";
+import { BoostName, GameState } from "features/game/types/game";
 import { produce } from "immer";
 
 export enum FERTILISE_FRUIT_ERRORS {
@@ -27,13 +27,17 @@ type Options = {
   createdAt?: number;
 };
 
-export const getFruitfulBlendBuff = (state: GameState) => {
-  const fruitfulBlendBuff = 0.1;
+export const getFruitfulBlendBuff = (
+  state: GameState,
+): { amount: number; boostsUsed: BoostName[] } => {
+  let fruitfulBlendBuff = 0.1;
+  const boostsUsed: BoostName[] = [];
   if (state.bumpkin?.skills["Fruitful Bounty"]) {
-    return fruitfulBlendBuff * 2;
-  } else {
-    return fruitfulBlendBuff;
+    fruitfulBlendBuff *= 2;
+    boostsUsed.push("Fruitful Bounty");
   }
+
+  return { amount: fruitfulBlendBuff, boostsUsed };
 };
 
 export function fertiliseFruitPatch({
@@ -76,11 +80,6 @@ export function fertiliseFruitPatch({
         fertilisedAt: createdAt,
       },
     };
-
-    // Apply boost to already planted
-    if (fruitPatch.fruit) {
-      fruitPatch.fruit.amount += getFruitfulBlendBuff(stateCopy);
-    }
 
     inventory[action.fertiliser] = fertiliserAmount.minus(1);
 

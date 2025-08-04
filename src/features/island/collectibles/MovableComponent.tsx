@@ -35,12 +35,13 @@ import { ZoomContext } from "components/ZoomProvider";
 import { RemoveKuebikoModal } from "./RemoveKuebikoModal";
 import { PlaceableLocation } from "features/game/types/collectibles";
 import { RemoveHungryCaterpillarModal } from "./RemoveHungryCaterpillarModal";
-import { RemoveCropMachineModal } from "./RemoveCropMachineModal";
 import { HourglassType } from "./components/Hourglass";
 import { HOURGLASSES } from "features/game/events/landExpansion/burnCollectible";
 import { hasRemoveRestriction } from "features/game/types/removeables";
 import { hasFeatureAccess } from "lib/flags";
 import { InnerPanel } from "components/ui/Panel";
+import flipped from "assets/icons/flipped.webp";
+import flipIcon from "assets/icons/flip.webp";
 
 export const RESOURCE_MOVE_EVENTS: Record<
   ResourceName,
@@ -87,31 +88,41 @@ function getMoveAction(
   throw new Error("No matching move event");
 }
 
+export const RESOURCES_REMOVE_ACTIONS: Record<
+  Exclude<ResourceName, "Boulder">,
+  GameEventName<PlacementEvent>
+> = {
+  Tree: "tree.removed",
+  "Crop Plot": "plot.removed",
+  "Fruit Patch": "fruitPatch.removed",
+  "Gold Rock": "gold.removed",
+  "Iron Rock": "iron.removed",
+  "Stone Rock": "stone.removed",
+  "Crimstone Rock": "crimstone.removed",
+  Beehive: "beehive.removed",
+  "Flower Bed": "flowerBed.removed",
+  "Sunstone Rock": "sunstone.removed",
+  "Oil Reserve": "oilReserve.removed",
+  "Lava Pit": "lavaPit.removed",
+};
+
 export function getRemoveAction(
   name: InventoryItemName | "Bud",
+  hasLandscapingAccess?: boolean,
 ): GameEventName<PlacementEvent> | null {
   if (
     name in BUILDINGS_DIMENSIONS &&
     name !== "Manor" &&
     name !== "Town Center" &&
     name !== "House" &&
-    name !== "Market" &&
-    name !== "Fire Pit" &&
-    name !== "Workbench" &&
-    name !== "Mansion"
+    name !== "Mansion" &&
+    ((name !== "Market" && name !== "Fire Pit" && name !== "Workbench") ||
+      hasLandscapingAccess)
   ) {
     return "building.removed";
   }
 
   if (
-    name in RESOURCES ||
-    name === "Manor" ||
-    name === "House" ||
-    name === "Town Center" ||
-    name === "Market" ||
-    name === "Fire Pit" ||
-    name === "Workbench" ||
-    name === "Mansion" ||
     HOURGLASSES.includes(name as HourglassType) ||
     name === "Time Warp Totem" ||
     name === "Super Totem"
@@ -131,8 +142,16 @@ export function getRemoveAction(
     return "bud.removed";
   }
 
+  if (name in RESOURCES_REMOVE_ACTIONS && hasLandscapingAccess) {
+    return RESOURCES_REMOVE_ACTIONS[name as Exclude<ResourceName, "Boulder">];
+  }
+
   return null;
 }
+
+const isCollectible = (
+  name: CollectibleName | BuildingName | "Chicken" | "Bud",
+): name is CollectibleName => name in COLLECTIBLES_DIMENSIONS;
 
 export interface MovableProps {
   name: CollectibleName | BuildingName | "Chicken" | "Bud";
@@ -173,11 +192,12 @@ export const MoveableComponent: React.FC<
   const movingItem = useSelector(landscapingMachine, getMovingItem);
 
   const isSelected = movingItem?.id === id && movingItem?.name === name;
-  const removeAction = !isMobile && getRemoveAction(name);
-  const hasRemovalAction = !!removeAction;
   const hasLandscaping = useSelector(gameService, (state) =>
     hasFeatureAccess(state.context.state, "LANDSCAPING"),
   );
+  const removeAction = !isMobile && getRemoveAction(name, hasLandscaping);
+  const hasRemovalAction = !!removeAction;
+
   const [isRestricted, restrictionReason] = hasRemoveRestriction({
     name,
     state: gameService.getSnapshot().context.state,
@@ -204,6 +224,24 @@ export const MoveableComponent: React.FC<
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [nodeRef, isSelected]);
+
+  const flip = () => {
+    if (isCollectible(name)) {
+      landscapingMachine.send("FLIP", { id, name, location });
+    }
+  };
+
+  const isFlipped = useSelector(gameService, (state) => {
+    if (!isCollectible(name)) return false;
+    const collectibles =
+      location === "home"
+        ? state.context.state.home.collectibles
+        : state.context.state.collectibles;
+    return (
+      collectibles[name]?.find((collectible) => collectible.id === id)
+        ?.flipped ?? false
+    );
+  });
 
   const remove = () => {
     if (!removeAction) {
@@ -385,14 +423,38 @@ export const MoveableComponent: React.FC<
                 />
               )}
             </div>
+            {isCollectible(name) && (
+              <div
+                className="relative mr-2"
+                style={{ width: `${PIXEL_SCALE * 18}px` }}
+                onClick={flip}
+              >
+                <img className="w-full" src={SUNNYSIDE.icons.disc} />
+                {isFlipped ? (
+                  <img
+                    className="absolute"
+                    src={flipped}
+                    style={{
+                      width: `${PIXEL_SCALE * 12}px`,
+                      right: `${PIXEL_SCALE * 3}px`,
+                      top: `${PIXEL_SCALE * 4}px`,
+                    }}
+                  />
+                ) : (
+                  <img
+                    className="absolute"
+                    src={flipIcon}
+                    style={{
+                      width: `${PIXEL_SCALE * 13}px`,
+                      right: `${PIXEL_SCALE * 2.5}px`,
+                      top: `${PIXEL_SCALE * 4}px`,
+                    }}
+                  />
+                )}
+              </div>
+            )}
             {showRemoveConfirmation && name === "Kuebiko" && (
               <RemoveKuebikoModal
-                onClose={() => setShowRemoveConfirmation(false)}
-                onRemove={() => remove()}
-              />
-            )}
-            {showRemoveConfirmation && name === "Crop Machine" && (
-              <RemoveCropMachineModal
                 onClose={() => setShowRemoveConfirmation(false)}
                 onRemove={() => remove()}
               />

@@ -48,6 +48,7 @@ import {
 } from "features/game/events/landExpansion/upgradeBuilding";
 import { LandBiomeName } from "features/island/biomes/biomes";
 import { getCurrentBiome } from "features/island/biomes/biomes";
+import { WORKBENCH_MONUMENTS } from "features/game/types/monuments";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -103,7 +104,7 @@ const PanelContent: React.FC<PanelContentProps> = ({
 
   const handlePlace = () => {
     if (
-      selectedChestItem in RESOURCES ||
+      selectedChestItem === "Gnome" ||
       selectedChestItem in EXPIRY_COOLDOWNS
     ) {
       showConfirmationModal(true);
@@ -152,6 +153,25 @@ const PanelContent: React.FC<PanelContentProps> = ({
     );
   }
 
+  const redGnomeBoostInstruction = () => {
+    return (
+      <div className="flex flex-col gap-y-2 text-xs">
+        <p>{t("landscape.confirmation.gnomes.one")}</p>
+        <p>{t("landscape.confirmation.gnomes.two")}</p>
+
+        <div className="flex justify-center mt-2 space-x-2">
+          <img src={ITEM_DETAILS["Cobalt"].image} className="w-12" />
+          <img src={ITEM_DETAILS["Gnome"].image} className="w-12" />
+          <img src={ITEM_DETAILS["Clementine"].image} className="w-12" />
+        </div>
+
+        <div className="flex justify-center">
+          <img src={ITEM_DETAILS["Crop Plot"].image} className="w-12" />
+        </div>
+      </div>
+    );
+  };
+
   return (
     <>
       <InventoryItemDetails
@@ -174,11 +194,8 @@ const PanelContent: React.FC<PanelContentProps> = ({
         show={confirmationModal}
         onHide={() => showConfirmationModal(false)}
         messages={
-          selectedChestItem in RESOURCES
-            ? [
-                t("landscape.confirmation.resourceNodes.one"),
-                t("landscape.confirmation.resourceNodes.two"),
-              ]
+          selectedChestItem === "Gnome"
+            ? [redGnomeBoostInstruction()]
             : [
                 getResourceNodeCondition(
                   selectedChestItem as TimeBasedConsumables,
@@ -313,6 +330,10 @@ export const Chest: React.FC<Props> = ({
   const weatherItems = getKeys(collectibles).filter(
     (name) => name in WEATHER_SHOP_ITEM_COSTS,
   );
+  const monuments = getKeys(collectibles).filter(
+    (name) => name in WORKBENCH_MONUMENTS,
+  );
+
   const decorations = getKeys(collectibles).filter(
     (name) =>
       !resources.includes(name) &&
@@ -320,7 +341,8 @@ export const Chest: React.FC<Props> = ({
       !boosts.includes(name) &&
       !banners.includes(name) &&
       !beds.includes(name) &&
-      !weatherItems.includes(name),
+      !weatherItems.includes(name) &&
+      !monuments.includes(name),
   );
 
   const ITEM_GROUPS: {
@@ -357,6 +379,11 @@ export const Chest: React.FC<Props> = ({
       items: weatherItems,
       label: "weatherItems",
       icon: ITEM_DETAILS["Tornado Pinwheel"].image,
+    },
+    {
+      items: monuments,
+      label: "monuments",
+      icon: ITEM_DETAILS["Farmer's Monument"].image,
     },
     {
       items: decorations,

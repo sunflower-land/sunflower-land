@@ -21,6 +21,13 @@ export const EMBLEM_TO_FACTION: Record<FactionEmblem, FactionName> = {
   "Sunflorian Emblem": "sunflorians",
 };
 
+export const FACTION_TO_EMBLEM: Record<FactionName, FactionEmblem> = {
+  bumpkins: "Bumpkin Emblem",
+  goblins: "Goblin Emblem",
+  nightshades: "Nightshade Emblem",
+  sunflorians: "Sunflorian Emblem",
+};
+
 export const EmblemsTrading: React.FC<Props> = ({ onClose, emblem }) => {
   const [showIntro, setShowIntro] = useState(true);
   const [tab, setTab] = useState(0);

@@ -13,6 +13,8 @@ import { wallet } from "lib/blockchain/wallet";
 import { Context } from "features/game/GameProvider";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { GameWallet } from "features/wallet/Wallet";
+import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
+import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
 
 const transferring = SUNNYSIDE.npcs.minting;
 export const TransferAccount: React.FC = () => {
@@ -47,6 +49,10 @@ export const TransferAccount: React.FC = () => {
     // Kick them back to the main screen
     window.location.href = window.location.pathname;
   };
+
+  if (!isFaceVerified({ game: gameService.getSnapshot().context.state })) {
+    return <FaceRecognition />;
+  }
 
   if (state === "success") {
     return (

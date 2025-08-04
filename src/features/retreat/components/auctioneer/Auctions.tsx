@@ -14,12 +14,20 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import classNames from "classnames";
 import { isMobile } from "mobile-device-detect";
+import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
+import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
+import { GameState } from "features/game/types/game";
 
 interface Props {
   auctionService: MachineInterpreter;
   onSelect: (id: string) => void;
+  game: GameState;
 }
-export const Auctions: React.FC<Props> = ({ auctionService, onSelect }) => {
+export const Auctions: React.FC<Props> = ({
+  auctionService,
+  onSelect,
+  game,
+}) => {
   const [auctioneerState] = useActor(auctionService);
   const { t } = useAppTranslation();
 
@@ -42,6 +50,11 @@ export const Auctions: React.FC<Props> = ({ auctionService, onSelect }) => {
           auction.type === "collectible"
             ? ITEM_DETAILS[auction.collectible].image
             : getImageUrl(ITEM_IDS[auction.wearable]);
+
+        const hasBuff =
+          auction.type === "collectible"
+            ? !!COLLECTIBLE_BUFF_LABELS(game)[auction.collectible]
+            : !!BUMPKIN_ITEM_BUFF_LABELS[auction.wearable];
 
         return (
           <ButtonPanel
@@ -70,6 +83,12 @@ export const Auctions: React.FC<Props> = ({ auctionService, onSelect }) => {
                     auction.type !== "collectible",
                 })}
               />
+              {hasBuff && (
+                <img
+                  src={"./erc1155/images/small_boost.png"}
+                  className="absolute top-[1px] right-[1px] z-20"
+                />
+              )}
               <Label type="default" className="absolute bottom-1 right-1 z-20">
                 {auction.supply}
               </Label>

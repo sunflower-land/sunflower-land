@@ -13,7 +13,7 @@ import {
 import { GameState } from "features/game/types/game";
 import { produce } from "immer";
 
-export type buyDecorationAction = {
+export type BuyDecorationAction = {
   type: "decoration.bought";
   name: ShopDecorationName | LandscapingDecorationName;
   id?: string;
@@ -25,7 +25,7 @@ export type buyDecorationAction = {
 
 type Options = {
   state: Readonly<GameState>;
-  action: buyDecorationAction;
+  action: BuyDecorationAction;
   createdAt?: number;
 };
 

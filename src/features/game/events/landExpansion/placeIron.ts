@@ -26,11 +26,37 @@ export function placeIron({
 }: Options): GameState {
   return produce(state, (game) => {
     const available = (game.inventory["Iron Rock"] || new Decimal(0)).minus(
-      Object.keys(game.iron).length,
+      Object.values(game.iron).filter(
+        (iron) => iron.x !== undefined && iron.y !== undefined,
+      ).length,
     );
 
     if (available.lt(1)) {
       throw new Error("No iron available");
+    }
+
+    const existingIron = Object.entries(game.iron).find(
+      ([_, iron]) => iron.x === undefined && iron.y === undefined,
+    );
+
+    if (existingIron) {
+      const [id, iron] = existingIron;
+      const updatedIron = {
+        ...iron,
+        x: action.coordinates.x,
+        y: action.coordinates.y,
+      };
+
+      if (updatedIron.stone && updatedIron.removedAt) {
+        const existingProgress =
+          updatedIron.removedAt - updatedIron.stone.minedAt;
+        updatedIron.stone.minedAt = createdAt - existingProgress;
+        delete updatedIron.removedAt;
+      }
+
+      game.iron[id] = updatedIron;
+
+      return game;
     }
 
     const iron: Rock = {
@@ -38,7 +64,6 @@ export function placeIron({
       x: action.coordinates.x,
       y: action.coordinates.y,
       stone: {
-        amount: 1,
         minedAt: 0,
       },
     };

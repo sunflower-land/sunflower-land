@@ -10,7 +10,7 @@ import {
 import { LEGACY_BADGE_TREE } from "../types/skills";
 import { Announcements } from "../types/announcements";
 import { EXOTIC_CROPS } from "../types/beans";
-import { BASIC_DECORATIONS, getValues } from "../types/decorations";
+import { getValues } from "../types/decorations";
 import { FISH } from "../types/fishing";
 import { LANDSCAPING_DECORATIONS } from "../types/decorations";
 import { getActiveListedItems } from "features/island/hud/components/inventory/utils/inventory";
@@ -52,15 +52,6 @@ export const MAX_INVENTORY_ITEMS: Inventory = {
     (acc, name) => ({
       ...acc,
       [name]: new Decimal(50),
-    }),
-    {},
-  ),
-
-  // Max of 100 basic decoration
-  ...getKeys(BASIC_DECORATIONS()).reduce(
-    (acc, name) => ({
-      ...acc,
-      [name]: new Decimal(100),
     }),
     {},
   ),
@@ -618,7 +609,7 @@ export function checkProgress({ state, action, farmId }: ProcessEventArgs): {
   let newState: GameState;
 
   try {
-    newState = processEvent({ state, action, farmId });
+    newState = processEvent({ state, action, farmId }) as GameState;
   } catch {
     // Not our responsibility to catch events, pass on to the next handler
     return { valid: true };
@@ -740,6 +731,7 @@ type ProcessEventArgs = {
   action: GameEvent;
   announcements?: Announcements;
   farmId: number;
+  visitorState?: GameState;
 };
 
 export function processEvent({
@@ -747,7 +739,8 @@ export function processEvent({
   action,
   announcements,
   farmId,
-}: ProcessEventArgs): GameState {
+  visitorState,
+}: ProcessEventArgs): GameState | [GameState, GameState] {
   const handler = EVENTS[action.type];
 
   if (!handler) {
@@ -760,6 +753,7 @@ export function processEvent({
     action: action as never,
     announcements,
     farmId,
+    visitorState,
   });
 
   return newState;

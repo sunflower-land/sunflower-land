@@ -10,7 +10,7 @@ import { PlazaBanner } from "./PlazaBanner";
 import { OuterPanel, Panel } from "components/ui/Panel";
 import { NyeButton } from "./NyeButton";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { BasicTreasureChest } from "./chests/BasicTreasureChest";
+import { TreasureChest } from "./chests/TreasureChest";
 import { SceneId } from "../mmoMachine";
 import { BudBox } from "./chests/BudBox";
 import { Raffle } from "./chests/Raffle";
@@ -49,7 +49,6 @@ import { FlowerExchange } from "./npcs/Rocketman";
 import { Blessings } from "features/loveIsland/blessings/Blessings";
 import { EventMegaStore } from "./eventmegastore/EventMegaStore";
 import { EventNoticeboard } from "./EventNoticeboard";
-import { FestivalOfColors2025 } from "./portals/FestivalOfColors2025";
 
 type InteractableName =
   | "guardian"
@@ -150,8 +149,7 @@ type InteractableName =
   | "petal_puzzle_prize"
   | "flower_exchange"
   | "event_store"
-  | "event_noticeboard"
-  | "festival-of-colors-2025";
+  | "event_noticeboard";
 
 class InteractableModalManager {
   private listener?: (name: InteractableName, isOpen: boolean) => void;
@@ -345,7 +343,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
         />
       </Modal>
       <Modal show={interactable === "basic_chest"} onHide={closeModal}>
-        <BasicTreasureChest
+        <TreasureChest
           type="Treasure Key"
           onClose={closeModal}
           location={"plaza"}
@@ -353,7 +351,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
         />
       </Modal>
       <Modal show={interactable === "rare_chest"} onHide={closeModal}>
-        <BasicTreasureChest
+        <TreasureChest
           type="Rare Key"
           onClose={closeModal}
           location={"plaza"}
@@ -361,7 +359,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
         />
       </Modal>
       <Modal show={interactable === "luxury_chest"} onHide={closeModal}>
-        <BasicTreasureChest
+        <TreasureChest
           type="Luxury Key"
           onClose={closeModal}
           location={"plaza"}
@@ -909,14 +907,6 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           bumpkinParts={NPC_WEARABLES.hopper}
         >
           <EasterEggstravaganza onClose={closeModal} />
-        </CloseButtonPanel>
-      </Modal>
-      <Modal
-        show={interactable === "festival-of-colors-2025"}
-        onHide={closeModal}
-      >
-        <CloseButtonPanel onClose={closeModal}>
-          <FestivalOfColors2025 onClose={closeModal} />
         </CloseButtonPanel>
       </Modal>
       <Modal show={interactable === "christmas_reward"}>

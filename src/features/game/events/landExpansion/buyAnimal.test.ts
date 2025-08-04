@@ -228,7 +228,10 @@ describe("buyAnimal", () => {
 describe("getAnimalCapacity", () => {
   it("returns 10 for level 1 with no coop", () => {
     expect(
-      getBoostedAnimalCapacity("henHouse", { ...TEST_FARM, collectibles: {} }),
+      getBoostedAnimalCapacity("henHouse", {
+        ...TEST_FARM,
+        collectibles: {},
+      }).capacity,
     ).toBe(10);
   });
 
@@ -246,7 +249,7 @@ describe("getAnimalCapacity", () => {
             },
           ],
         },
-      }),
+      }).capacity,
     ).toBe(15);
   });
 
@@ -268,7 +271,7 @@ describe("getAnimalCapacity", () => {
             },
           ],
         },
-      }),
+      }).capacity,
     ).toBe(25);
   });
 
@@ -280,7 +283,7 @@ describe("getAnimalCapacity", () => {
           ...TEST_FARM.henHouse,
           level: 3,
         },
-      }),
+      }).capacity,
     ).toBe(20);
   });
 
@@ -302,7 +305,7 @@ describe("getAnimalCapacity", () => {
             },
           ],
         },
-      }),
+      }).capacity,
     ).toBe(35);
   });
 });

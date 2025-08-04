@@ -27,10 +27,39 @@ export function placeCrimstone({
   return produce(state, (game) => {
     const available = (
       game.inventory["Crimstone Rock"] || new Decimal(0)
-    ).minus(Object.keys(game.crimstones).length);
+    ).minus(
+      Object.values(game.crimstones).filter(
+        (crimstone) => crimstone.x !== undefined && crimstone.y !== undefined,
+      ).length,
+    );
 
     if (available.lt(1)) {
       throw new Error("No crimstones available");
+    }
+
+    const existingCrimstone = Object.entries(game.crimstones).find(
+      ([_, crimstone]) =>
+        crimstone.x === undefined && crimstone.y === undefined,
+    );
+
+    if (existingCrimstone) {
+      const [id, crimstone] = existingCrimstone;
+      const updatedCrimstone = {
+        ...crimstone,
+        x: action.coordinates.x,
+        y: action.coordinates.y,
+      };
+
+      if (updatedCrimstone.stone && updatedCrimstone.removedAt) {
+        const existingProgress =
+          updatedCrimstone.removedAt - updatedCrimstone.stone.minedAt;
+        updatedCrimstone.stone.minedAt = createdAt - existingProgress;
+        delete updatedCrimstone.removedAt;
+      }
+
+      game.crimstones[id] = updatedCrimstone;
+
+      return game;
     }
 
     const crimstone: FiniteResource = {
@@ -38,7 +67,6 @@ export function placeCrimstone({
       x: action.coordinates.x,
       y: action.coordinates.y,
       stone: {
-        amount: 1,
         minedAt: 0,
       },
       minesLeft: 5,

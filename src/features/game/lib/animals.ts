@@ -1,3 +1,4 @@
+import cloneDeep from "lodash.clonedeep";
 import { ANIMAL_SLEEP_DURATION } from "../events/landExpansion/feedAnimal";
 import {
   ANIMAL_FOOD_EXPERIENCE,
@@ -17,13 +18,12 @@ import {
   AnimalFoodName,
   AnimalMedicineName,
   AnimalResource,
+  BoostName,
   GameState,
   InventoryItemName,
 } from "../types/game";
-import { getCurrentSeason } from "../types/seasons";
 import { isCollectibleBuilt } from "./collectibleBuilt";
 import { getBudYieldBoosts } from "./getBudYieldBoosts";
-import { hasVipAccess } from "./vipAccess";
 import { isWearableActive } from "./wearables";
 
 export const makeAnimalBuildingKey = (
@@ -136,123 +136,168 @@ export type ResourceDropAmountArgs = {
   multiplier: number;
 };
 
-function getEggYieldBoosts(game: GameState) {
+function getEggYieldBoosts(game: GameState): {
+  amount: number;
+  boostsUsed: BoostName[];
+} {
   let boost = 0;
+  const boostsUsed: BoostName[] = [];
 
   if (isCollectibleBuilt({ name: "Chicken Coop", game })) {
     boost += 1;
+    boostsUsed.push("Chicken Coop");
   }
 
   if (isCollectibleBuilt({ name: "Rich Chicken", game })) {
     boost += 0.1;
+    boostsUsed.push("Rich Chicken");
   }
 
   if (isCollectibleBuilt({ name: "Undead Rooster", game })) {
     boost += 0.1;
+    boostsUsed.push("Undead Rooster");
   }
 
   if (isCollectibleBuilt({ name: "Ayam Cemani", game })) {
     boost += 0.2;
+    boostsUsed.push("Ayam Cemani");
   }
 
   if (game.bumpkin.skills["Abundant Harvest"]) {
     boost += 0.2;
+    boostsUsed.push("Abundant Harvest");
   }
 
-  return boost;
+  return { amount: boost, boostsUsed };
 }
 
-function getFeatherYieldBoosts(game: GameState) {
+function getFeatherYieldBoosts(game: GameState): {
+  amount: number;
+  boostsUsed: BoostName[];
+} {
   let boost = 0;
+  const boostsUsed: BoostName[] = [];
 
   if (isWearableActive({ name: "Chicken Suit", game })) {
     boost += 1;
+    boostsUsed.push("Chicken Suit");
   }
 
   if (isCollectibleBuilt({ name: "Alien Chicken", game })) {
     boost += 0.1;
+    boostsUsed.push("Alien Chicken");
   }
 
   if (game.bumpkin.skills["Fine Fibers"]) {
     boost += 0.1;
+    boostsUsed.push("Fine Fibers");
   }
 
-  return boost;
+  return { amount: boost, boostsUsed };
 }
 
-function getWoolYieldBoosts(game: GameState) {
+function getWoolYieldBoosts(game: GameState): {
+  amount: number;
+  boostsUsed: BoostName[];
+} {
   let boost = 0;
+  const boostsUsed: BoostName[] = [];
 
   if (isWearableActive({ name: "Black Sheep Onesie", game })) {
     boost += 2;
+    boostsUsed.push("Black Sheep Onesie");
   }
+  // White Sheep Onesie - +.25 wool
   if (isWearableActive({ name: "White Sheep Onesie", game })) {
     boost += 0.25;
+    boostsUsed.push("White Sheep Onesie");
   }
 
   if (game.bumpkin.skills["Abundant Harvest"]) {
     boost += 0.2;
+    boostsUsed.push("Abundant Harvest");
   }
 
-  return boost;
+  return { amount: boost, boostsUsed };
 }
 
-function getMerinoWoolYieldBoosts(game: GameState) {
+function getMerinoWoolYieldBoosts(game: GameState): {
+  amount: number;
+  boostsUsed: BoostName[];
+} {
   let boost = 0;
+  const boostsUsed: BoostName[] = [];
 
   if (isWearableActive({ name: "Merino Jumper", game })) {
     boost += 1;
+    boostsUsed.push("Merino Jumper");
   }
 
   if (isCollectibleBuilt({ name: "Toxic Tuft", game })) {
     boost += 0.1;
+    boostsUsed.push("Toxic Tuft");
   }
 
   if (game.bumpkin.skills["Fine Fibers"]) {
     boost += 0.1;
+    boostsUsed.push("Fine Fibers");
   }
 
-  return boost;
+  return { amount: boost, boostsUsed };
 }
-
-function getMilkYieldBoosts(game: GameState) {
+function getMilkYieldBoosts(game: GameState): {
+  amount: number;
+  boostsUsed: BoostName[];
+} {
   let boost = 0;
+  const boostsUsed: BoostName[] = [];
+
+  if (isCollectibleBuilt({ name: "Longhorn Cowfish", game })) {
+    boost += 0.2;
+    boostsUsed.push("Longhorn Cowfish");
+  }
 
   if (isWearableActive({ name: "Milk Apron", game })) {
     boost += 0.5;
+    boostsUsed.push("Milk Apron");
   }
 
   if (isWearableActive({ name: "Cowbell Necklace", game })) {
     boost += 2;
-  }
-
-  if (isCollectibleBuilt({ name: "Longhorn Cowfish", game })) {
-    boost += 0.2;
+    boostsUsed.push("Cowbell Necklace");
   }
 
   if (game.bumpkin.skills["Abundant Harvest"]) {
     boost += 0.2;
+    boostsUsed.push("Abundant Harvest");
   }
 
-  return boost;
+  return { amount: boost, boostsUsed };
 }
 
-function getLeatherYieldBoosts(game: GameState) {
+function getLeatherYieldBoosts(game: GameState): {
+  amount: number;
+  boostsUsed: BoostName[];
+} {
   let boost = 0;
+  const boostsUsed: BoostName[] = [];
 
   if (isCollectibleBuilt({ name: "Moo-ver", game })) {
     boost += 0.25;
+    boostsUsed.push("Moo-ver");
   }
 
   if (isCollectibleBuilt({ name: "Mootant", game })) {
     boost += 0.1;
+    boostsUsed.push("Mootant");
   }
 
   if (game.bumpkin.skills["Fine Fibers"]) {
     boost += 0.1;
+    boostsUsed.push("Fine Fibers");
   }
 
-  return boost;
+  return { amount: boost, boostsUsed };
 }
 
 export function getResourceDropAmount({
@@ -261,8 +306,12 @@ export function getResourceDropAmount({
   resource,
   baseAmount,
   multiplier,
-}: ResourceDropAmountArgs) {
+}: ResourceDropAmountArgs): {
+  amount: number;
+  boostsUsed: BoostName[];
+} {
   let amount = baseAmount;
+  const boostsUsed: BoostName[] = [];
 
   const { bumpkin, buds = {} } = game;
 
@@ -272,37 +321,50 @@ export function getResourceDropAmount({
 
   // Egg yield boosts
   if (isChicken && resource === "Egg") {
-    amount += getEggYieldBoosts(game);
+    const { amount: eggBoost, boostsUsed: eggBoostsUsed } =
+      getEggYieldBoosts(game);
+    amount += eggBoost;
+    boostsUsed.push(...eggBoostsUsed);
   }
 
   // Feather yield boosts
   if (isChicken && resource === "Feather") {
-    amount += getFeatherYieldBoosts(game);
+    const { amount: featherBoost, boostsUsed: featherBoostsUsed } =
+      getFeatherYieldBoosts(game);
+    amount += featherBoost;
+    boostsUsed.push(...featherBoostsUsed);
   }
 
   // Wool Yield Boost
   if (isSheep && resource === "Wool") {
-    amount += getWoolYieldBoosts(game);
+    const { amount: woolBoost, boostsUsed: woolBoostsUsed } =
+      getWoolYieldBoosts(game);
+    amount += woolBoost;
+    boostsUsed.push(...woolBoostsUsed);
   }
 
   // Merino Wool Yield Boost
   if (isSheep && resource === "Merino Wool") {
-    amount += getMerinoWoolYieldBoosts(game);
+    const { amount: merinoWoolBoost, boostsUsed: merinoWoolBoostsUsed } =
+      getMerinoWoolYieldBoosts(game);
+    amount += merinoWoolBoost;
+    boostsUsed.push(...merinoWoolBoostsUsed);
   }
 
   // Milk Yield Boost
   if (isCow && resource === "Milk") {
-    amount += getMilkYieldBoosts(game);
+    const { amount: milkBoost, boostsUsed: milkBoostsUsed } =
+      getMilkYieldBoosts(game);
+    amount += milkBoost;
+    boostsUsed.push(...milkBoostsUsed);
   }
 
   // Leather Yield Boost
   if (isCow && resource === "Leather") {
-    amount += getLeatherYieldBoosts(game);
-  }
-
-  // Cattlegrim boosts all produce
-  if (isWearableActive({ name: "Cattlegrim", game })) {
-    amount += 0.25;
+    const { amount: leatherBoost, boostsUsed: leatherBoostsUsed } =
+      getLeatherYieldBoosts(game);
+    amount += leatherBoost;
+    boostsUsed.push(...leatherBoostsUsed);
   }
 
   // Add centralized Bale boost logic here
@@ -312,6 +374,7 @@ export function getResourceDropAmount({
     if (isChicken && resource === "Egg") {
       if (bumpkin.skills["Double Bale"]) {
         amount += baleBoost * 2;
+        boostsUsed.push("Double Bale");
       } else {
         amount += baleBoost;
       }
@@ -324,10 +387,19 @@ export function getResourceDropAmount({
     ) {
       if (bumpkin.skills["Double Bale"]) {
         amount += baleBoost * 2;
+        boostsUsed.push("Double Bale");
       } else {
         amount += baleBoost;
       }
+      boostsUsed.push("Bale Economy");
     }
+    boostsUsed.push("Bale");
+  }
+
+  // Cattlegrim boosts all produce
+  if (isWearableActive({ name: "Cattlegrim", game })) {
+    amount += 0.25;
+    boostsUsed.push("Cattlegrim");
   }
 
   // Barn Manager boosts all produce
@@ -335,16 +407,13 @@ export function getResourceDropAmount({
     amount += 0.1;
   }
 
-  // Free Range boosts all produce
-  if (bumpkin.skills["Free Range"]) {
-    amount += 0.1;
-  }
-
-  amount += getBudYieldBoosts(buds, resource);
+  const { yieldBoost, budUsed } = getBudYieldBoosts(buds, resource);
+  amount += yieldBoost;
+  if (budUsed) boostsUsed.push(budUsed);
 
   if (multiplier) amount *= multiplier;
 
-  return Number(amount.toFixed(2));
+  return { amount: Number(amount.toFixed(2)), boostsUsed };
 }
 
 export function getBoostedFoodQuantity({
@@ -355,69 +424,79 @@ export function getBoostedFoodQuantity({
   animalType: AnimalType;
   foodQuantity: number;
   game: GameState;
-}) {
+}): {
+  foodQuantity: number;
+  boostsUsed: BoostName[];
+} {
+  let baseFoodQuantity = cloneDeep(foodQuantity);
+  const boostsUsed: BoostName[] = [];
   if (
     animalType === "Chicken" &&
     isCollectibleBuilt({ name: "Fat Chicken", game })
   ) {
-    foodQuantity *= 0.9;
+    baseFoodQuantity *= 0.9;
+    boostsUsed.push("Fat Chicken");
   }
 
   if (animalType === "Cow" && isCollectibleBuilt({ name: "Dr Cow", game })) {
-    foodQuantity *= 0.95;
+    baseFoodQuantity *= 0.95;
+    boostsUsed.push("Dr Cow");
   }
 
   if (
     animalType === "Chicken" &&
     isCollectibleBuilt({ name: "Cluckulator", game })
   ) {
-    foodQuantity *= 0.75;
+    baseFoodQuantity *= 0.75;
+    boostsUsed.push("Cluckulator");
   }
 
   if (
     (animalType === "Sheep" || animalType === "Cow") &&
     isWearableActive({ name: "Infernal Bullwhip", game })
   ) {
-    foodQuantity *= 0.5;
-  }
-
-  if (hasVipAccess({ game }) && getCurrentSeason() === "Bull Run") {
-    foodQuantity *= 0.9;
+    baseFoodQuantity *= 0.5;
+    boostsUsed.push("Infernal Bullwhip");
   }
 
   if (game.bumpkin.skills["Efficient Feeding"]) {
-    foodQuantity *= 0.95;
+    baseFoodQuantity *= 0.95;
+    boostsUsed.push("Efficient Feeding");
   }
 
   if (game.bumpkin.skills["Clucky Grazing"]) {
     if (animalType === "Chicken") {
-      foodQuantity *= 0.75;
+      baseFoodQuantity *= 0.75;
     } else {
-      foodQuantity *= 1.5;
+      baseFoodQuantity *= 1.5;
     }
+    boostsUsed.push("Clucky Grazing");
   }
 
   if (game.bumpkin.skills["Sheepwise Diet"]) {
     if (animalType === "Sheep") {
-      foodQuantity *= 0.75;
+      baseFoodQuantity *= 0.75;
     } else {
-      foodQuantity *= 1.5;
+      baseFoodQuantity *= 1.5;
     }
+    boostsUsed.push("Sheepwise Diet");
   }
 
   if (game.bumpkin.skills["Cow-Smart Nutrition"]) {
     if (animalType === "Cow") {
-      foodQuantity *= 0.75;
+      baseFoodQuantity *= 0.75;
     } else {
-      foodQuantity *= 1.5;
+      baseFoodQuantity *= 1.5;
     }
+    boostsUsed.push("Cow-Smart Nutrition");
   }
 
   if (game.bumpkin.skills["Chonky Feed"]) {
-    foodQuantity *= 1.5;
+    baseFoodQuantity *= 1.5;
+    boostsUsed.push("Chonky Feed");
   }
 
-  return foodQuantity;
+  return { foodQuantity: baseFoodQuantity, boostsUsed };
 }
 
 export function getBoostedAwakeAt({
@@ -428,13 +507,17 @@ export function getBoostedAwakeAt({
   animalType: AnimalType;
   createdAt: number;
   game: GameState;
-}) {
+}): {
+  awakeAt: number;
+  boostsUsed: BoostName[];
+} {
   const sleepDuration = ANIMAL_SLEEP_DURATION;
   const { bumpkin } = game;
   const twoHoursInMs = 2 * 60 * 60 * 1000;
 
   // Start with the base duration
   let totalDuration = sleepDuration;
+  const boostsUsed: BoostName[] = [];
 
   const isChicken = animalType === "Chicken";
   const isSheep = animalType === "Sheep";
@@ -444,41 +527,49 @@ export function getBoostedAwakeAt({
   if (isChicken) {
     if (isCollectibleBuilt({ name: "El Pollo Veloz", game })) {
       totalDuration -= twoHoursInMs;
+      boostsUsed.push("El Pollo Veloz");
     }
 
     if (isCollectibleBuilt({ name: "Speed Chicken", game })) {
       totalDuration *= 0.9;
+      boostsUsed.push("Speed Chicken");
+    }
+
+    if (isCollectibleBuilt({ name: "Janitor Chicken", game })) {
+      totalDuration *= 0.95;
+      boostsUsed.push("Janitor Chicken");
     }
   }
 
   if (isSheep) {
     if (isWearableActive({ name: "Dream Scarf", game })) {
       totalDuration *= 0.8;
+      boostsUsed.push("Dream Scarf");
     }
 
     if (isCollectibleBuilt({ name: "Farm Dog", game })) {
       totalDuration *= 0.75;
+      boostsUsed.push("Farm Dog");
     }
   }
 
   if (isCow) {
     if (isCollectibleBuilt({ name: "Mammoth", game })) {
       totalDuration *= 0.75;
+      boostsUsed.push("Mammoth");
     }
   }
 
   if (game.inventory["Wrangler"]?.gt(0)) {
     totalDuration *= 0.9;
-  }
-
-  if (bumpkin.skills["Stable Hand"]) {
-    totalDuration *= 0.9;
+    boostsUsed.push("Wrangler");
   }
 
   if (bumpkin.skills["Restless Animals"]) {
     totalDuration *= 0.9;
+    boostsUsed.push("Restless Animals");
   }
 
   // Add the boosted duration to the created time
-  return createdAt + totalDuration;
+  return { awakeAt: createdAt + totalDuration, boostsUsed };
 }
