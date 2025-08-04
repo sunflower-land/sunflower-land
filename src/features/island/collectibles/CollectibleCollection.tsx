@@ -1307,6 +1307,9 @@ export const COLLECTIBLE_COMPONENTS: Record<
     <Bed {...props} name="Pirate Bed" />
   ),
   "Royal Bed": (props: CollectibleProps) => <Bed {...props} name="Royal Bed" />,
+  "Double Bed": (props: CollectibleProps) => (
+    <Bed {...props} name="Double Bed" />
+  ),
   "Cow Scratcher": (props: CollectibleProps) => (
     <ImageStyle
       {...props}
@@ -2880,21 +2883,6 @@ export const COLLECTIBLE_COMPONENTS: Record<
       }}
       image={ITEM_DETAILS["Fruit Tune Box"].image}
       alt="Fruit Tune Box"
-    />
-  ),
-  "Double Bed": (props: CollectibleProps) => (
-    <ImageStyle
-      {...props}
-      divStyle={{
-        width: `${PIXEL_SCALE * 24}px`,
-        bottom: `${PIXEL_SCALE * 0}px`,
-        left: `${PIXEL_SCALE * 4}px`,
-      }}
-      imgStyle={{
-        width: `${PIXEL_SCALE * 24}px`,
-      }}
-      image={ITEM_DETAILS["Double Bed"].image}
-      alt="Double Bed"
     />
   ),
   "Giant Artichoke": (props: CollectibleProps) => (

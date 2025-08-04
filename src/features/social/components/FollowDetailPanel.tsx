@@ -9,6 +9,8 @@ import { Label } from "components/ui/Label";
 import socialPointsIcon from "assets/icons/social_score.webp";
 import { ITEM_DETAILS } from "features/game/types/images";
 import cleanBroom from "assets/icons/clean_broom.webp";
+import { ActiveProjects } from "../types/types";
+import { getKeys } from "features/game/lib/crafting";
 
 type Props = {
   loggedInFarmId: number;
@@ -18,6 +20,7 @@ type Props = {
   haveCleanedToday: boolean;
   socialPoints: number;
   lastOnlineAt: number;
+  projects: ActiveProjects;
   navigateToPlayer: (playerId: number) => void;
 };
 
@@ -29,6 +32,7 @@ export const FollowDetailPanel: React.FC<Props> = ({
   haveCleanedToday,
   socialPoints,
   lastOnlineAt,
+  projects = {},
   navigateToPlayer,
 }: Props) => {
   const { t } = useTranslation();
@@ -61,21 +65,31 @@ export const FollowDetailPanel: React.FC<Props> = ({
           </div>
         </div>
         <div className="flex flex-col gap-0.5">
-          <div className="flex items-center gap-1">
+          <div className="flex flex-col justify-center gap-1">
             <div>{isYou ? `${t("you")}` : username}</div>
-            <img
-              src={haveCleanedToday ? cleanBroom : ITEM_DETAILS.Trash.image}
-              className="w-4 h-4"
-            />
-          </div>
-
-          {!isOnline ? (
-            <div className="text-xxs">
-              {t("social.lastOnline", { time: lastOnline })}
+            {!isOnline ? (
+              <div className="text-xxs">
+                {t("social.lastOnline", { time: lastOnline })}
+              </div>
+            ) : (
+              <div className="text-xxs">{t("social.farming")}</div>
+            )}
+            <div className="flex items-center gap-1 flex-wrap">
+              <img
+                src={haveCleanedToday ? cleanBroom : ITEM_DETAILS.Trash.image}
+                className="w-4 h-4"
+              />
+              {getKeys(projects).map((project) => {
+                return (
+                  <img
+                    key={project}
+                    src={ITEM_DETAILS[project].image}
+                    className="w-4 h-4"
+                  />
+                );
+              })}
             </div>
-          ) : (
-            <div className="text-xxs">{t("social.farming")}</div>
-          )}
+          </div>
         </div>
       </div>
       <div className="flex items-center">

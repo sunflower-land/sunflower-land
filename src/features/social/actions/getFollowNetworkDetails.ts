@@ -1,5 +1,6 @@
 import { Equipped } from "features/game/types/bumpkin";
 import { CONFIG } from "lib/config";
+import { ActiveProjects } from "../types/types";
 
 type Request = {
   token: string;
@@ -13,6 +14,7 @@ type Detail = {
   lastUpdatedAt: number;
   socialPoints: number;
   cleanedToday: boolean;
+  projects: ActiveProjects;
 };
 
 type FollowNetworkDetails = {

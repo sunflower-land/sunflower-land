@@ -94,6 +94,8 @@ import { RewardBox } from "features/rewardBoxes/RewardBox";
 import { ClaimBlessingReward } from "features/loveIsland/blessings/ClaimBlessing";
 import { Cheering } from "./components/Cheering";
 import { SystemMessageWidget } from "features/announcements/SystemMessageWidget";
+import { News } from "features/farming/mail/components/News";
+import { CloseButtonPanel } from "../components/CloseablePanel";
 
 function camelToDotCase(str: string): string {
   return str.replace(/([a-z])([A-Z])/g, "$1.$2").toLowerCase() as string;
@@ -183,6 +185,7 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   investigating: true,
   blessing: true,
   cheers: true,
+  news: true,
 };
 
 // State change selectors
@@ -270,6 +273,7 @@ const isRoninWelcomePack = (state: MachineState) =>
 const isRoninAirdrop = (state: MachineState) => state.matches("roninAirdrop");
 const isJinAirdrop = (state: MachineState) => state.matches("jinAirdrop");
 const isCheers = (state: MachineState) => state.matches("cheers");
+const isNews = (state: MachineState) => state.matches("news");
 
 const GameContent: React.FC<{ isVisiting: boolean }> = ({ isVisiting }) => {
   const { gameService } = useContext(Context);
@@ -446,7 +450,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
   const investigating = useSelector(gameService, isInvestigating);
   const blessing = useSelector(gameService, isBlessing);
   const cheers = useSelector(gameService, isCheers);
-
+  const news = useSelector(gameService, isNews);
   const { t } = useAppTranslation();
   useInterval(() => {
     gameService.send("SAVE");
@@ -650,6 +654,7 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
               />
             )}
             {cheers && <Cheering />}
+            {news && <News />}
           </Panel>
         </Modal>
 
@@ -663,6 +668,16 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
               competitionName="PEGGYS_COOKOFF"
               onClose={() => gameService.send("ACKNOWLEDGE")}
             />
+          </Modal>
+        )}
+        {news && (
+          <Modal show onHide={() => gameService.send("ACKNOWLEDGE")}>
+            <CloseButtonPanel onClose={() => gameService.send("ACKNOWLEDGE")}>
+              <Label type="default" className="mb-2">
+                {t("news.title")}
+              </Label>
+              <News />
+            </CloseButtonPanel>
           </Modal>
         )}
 
