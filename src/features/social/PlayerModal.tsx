@@ -34,6 +34,7 @@ interface Props {
   game: GameState;
   loggedInFarmId: number;
   token: string;
+  hasAirdropAccess: boolean;
 }
 
 type Tab =
@@ -55,6 +56,7 @@ export const PlayerModal: React.FC<Props> = ({
   game,
   loggedInFarmId,
   token,
+  hasAirdropAccess,
 }) => {
   const { t } = useAppTranslation();
   const [tab, setTab] = useState<Tab>("Player");
@@ -336,7 +338,7 @@ export const PlayerModal: React.FC<Props> = ({
               >
                 {t("report")}
               </span>
-              {hasFeatureAccess(game, "AIRDROP_PLAYER") && (
+              {hasAirdropAccess && (
                 <span
                   className="text-xxs underline cursor-pointer"
                   onClick={() => setShowAirdrop(true)}
