@@ -26,9 +26,11 @@ import chest from "assets/icons/chest.png";
 import { Box } from "components/ui/Box";
 import { formatNumber } from "lib/utils/formatNumber";
 import {
+  getLoveCharmBoost,
   REQUIRED_CHEERS,
   REWARD_ITEMS,
 } from "features/game/events/landExpansion/completeProject";
+import { GameState } from "features/game/types/game";
 
 import farmerMonumentOne from "assets/monuments/shovel_monument_stage_1.webp";
 import farmerMonumentTwo from "assets/monuments/shovel_monument_stage_2.webp";
@@ -159,14 +161,20 @@ export const CheerModal: React.FC<{
 };
 
 const ProjectModal: React.FC<{
+  state: GameState;
   project: MonumentName;
   onClose: () => void;
   onComplete: () => void;
   cheers: number;
-}> = ({ project, onClose, onComplete, cheers }) => {
+}> = ({ project, onClose, onComplete, cheers, state }) => {
   const { t } = useAppTranslation();
 
   const rewardItem = REWARD_ITEMS[project];
+
+  let amount = rewardItem?.amount ?? 0;
+  if (rewardItem?.item === "Love Charm") {
+    amount += getLoveCharmBoost(state, amount);
+  }
 
   const isProjectComplete = cheers >= REQUIRED_CHEERS[project];
 
@@ -193,6 +201,7 @@ const ProjectModal: React.FC<{
               project,
               cheers,
               requiredCheers: REQUIRED_CHEERS[project],
+              remaining: REQUIRED_CHEERS[project] - cheers,
             })}
         </span>
       </div>
@@ -213,7 +222,7 @@ const ProjectModal: React.FC<{
           />
           <div className="flex flex-col">
             <Label type="default" className="mr-1 mb-1">
-              {`${formatNumber(rewardItem.amount)} x ${rewardItem.item}`}
+              {`${formatNumber(amount)} x ${rewardItem.item}`}
             </Label>
 
             <p className="text-xs ml-0.5">
@@ -362,41 +371,52 @@ export const Project: React.FC<ProjectProps> = (input) => {
         <PopoverButton as="div">
           {({ open }) => (
             <>
-              <MonumentImage
-                {...input}
-                image={image}
-                open={open}
-                setIsCompleting={setIsCompleting}
-                isProjectComplete={isProjectComplete}
-              />
+              {!isVisiting && (
+                <MonumentImage
+                  {...input}
+                  open={open}
+                  image={image}
+                  setIsCompleting={setIsCompleting}
+                  isProjectComplete={isProjectComplete}
+                />
+              )}
 
-              {isVisiting && !hasCheeredProjectToday && (
-                <div
-                  className={classNames(
-                    "absolute -top-4 -right-4 pointer-events-auto cursor-pointer hover:img-highlight",
-                    {
-                      "animate-pulsate": hasCheers,
-                    },
-                  )}
-                  onClick={() => setIsCheering(true)}
-                >
-                  <div
-                    className="relative mr-2"
-                    style={{ width: `${PIXEL_SCALE * 20}px` }}
-                  >
-                    <img className="w-full" src={SUNNYSIDE.icons.disc} />
-                    <img
-                      className={classNames("absolute")}
-                      src={cheer}
-                      style={{
-                        width: `${PIXEL_SCALE * 17}px`,
-                        right: `${PIXEL_SCALE * 2}px`,
-                        top: `${PIXEL_SCALE * 2}px`,
-                      }}
-                    />
-                  </div>
+              {isVisiting && (
+                <div className="absolute" style={input.divStyle}>
+                  <img src={image} style={input.imgStyle} alt={input.alt} />
                 </div>
               )}
+
+              {isVisiting &&
+                !hasCheeredProjectToday &&
+                !isProjectComplete &&
+                hasCheers && (
+                  <div
+                    className={classNames(
+                      "absolute -top-4 -right-4 pointer-events-auto cursor-pointer hover:img-highlight",
+                      {
+                        "animate-pulsate": hasCheers,
+                      },
+                    )}
+                    onClick={() => setIsCheering(true)}
+                  >
+                    <div
+                      className="relative mr-2"
+                      style={{ width: `${PIXEL_SCALE * 20}px` }}
+                    >
+                      <img className="w-full" src={SUNNYSIDE.icons.disc} />
+                      <img
+                        className={classNames("absolute")}
+                        src={cheer}
+                        style={{
+                          width: `${PIXEL_SCALE * 17}px`,
+                          right: `${PIXEL_SCALE * 2}px`,
+                          top: `${PIXEL_SCALE * 2}px`,
+                        }}
+                      />
+                    </div>
+                  </div>
+                )}
               <div
                 className="absolute bottom-2 left-1/2"
                 style={{
@@ -450,6 +470,7 @@ export const Project: React.FC<ProjectProps> = (input) => {
 
       <Modal show={isCompleting} onHide={() => setIsCompleting(false)}>
         <ProjectModal
+          state={gameService.getSnapshot().context.state}
           project={input.project}
           onClose={() => setIsCompleting(false)}
           onComplete={handleComplete}
