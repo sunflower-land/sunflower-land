@@ -25,7 +25,11 @@ import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 import { produce } from "immer";
 import cloneDeep from "lodash.clonedeep";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
-import { canUseYieldBoostAOE, setAOELastUsed } from "features/game/lib/aoe";
+import {
+  canUseYieldBoostAOE,
+  isCollectibleOnFarm,
+  setAOELastUsed,
+} from "features/game/lib/aoe";
 
 export type LandExpansionMineGoldAction = {
   type: "goldRock.mined";
@@ -164,7 +168,7 @@ export function getGoldDropAmount({
 
   // If within Emerald Turtle AOE: +0.5
   if (
-    isCollectibleBuilt({ name: "Emerald Turtle", game }) &&
+    isCollectibleOnFarm({ name: "Emerald Turtle", game }) &&
     rock &&
     rock.x !== undefined &&
     rock.y !== undefined

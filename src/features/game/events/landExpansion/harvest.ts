@@ -46,7 +46,11 @@ import { setPrecision } from "lib/utils/formatNumber";
 import { isGreenhouseCrop } from "./plantGreenhouse";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import cloneDeep from "lodash.clonedeep";
-import { canUseYieldBoostAOE, setAOELastUsed } from "features/game/lib/aoe";
+import {
+  canUseYieldBoostAOE,
+  isCollectibleOnFarm,
+  setAOELastUsed,
+} from "features/game/lib/aoe";
 import { getAffectedWeather } from "./plant";
 
 export type LandExpansionHarvestAction = {
@@ -409,7 +413,7 @@ export function getCropYieldAmount({
   }
 
   if (
-    isCollectibleBuilt({ name: "Scary Mike", game }) &&
+    isCollectibleOnFarm({ name: "Scary Mike", game }) &&
     isPlotCrop(crop) &&
     isMediumCrop(crop) &&
     plot &&
@@ -454,7 +458,7 @@ export function getCropYieldAmount({
   }
 
   if (
-    isCollectibleBuilt({ name: "Sir Goldensnout", game }) &&
+    isCollectibleOnFarm({ name: "Sir Goldensnout", game }) &&
     isPlotCrop(crop) &&
     plot &&
     plot.x !== undefined &&
@@ -497,7 +501,7 @@ export function getCropYieldAmount({
   }
 
   if (
-    isCollectibleBuilt({ name: "Laurie the Chuckle Crow", game }) &&
+    isCollectibleOnFarm({ name: "Laurie the Chuckle Crow", game }) &&
     isPlotCrop(crop) &&
     isAdvancedCrop(crop) &&
     plot &&
@@ -556,7 +560,7 @@ export function getCropYieldAmount({
   }
 
   if (
-    isCollectibleBuilt({ name: "Queen Cornelia", game }) &&
+    isCollectibleOnFarm({ name: "Queen Cornelia", game }) &&
     crop === "Corn" &&
     plot &&
     plot.x !== undefined &&
@@ -597,9 +601,9 @@ export function getCropYieldAmount({
   }
 
   if (
-    isCollectibleBuilt({ name: "Gnome", game }) &&
-    isCollectibleBuilt({ name: "Cobalt", game }) &&
-    isCollectibleBuilt({ name: "Clementine", game }) &&
+    isCollectibleOnFarm({ name: "Gnome", game }) &&
+    isCollectibleOnFarm({ name: "Cobalt", game }) &&
+    isCollectibleOnFarm({ name: "Clementine", game }) &&
     isPlotCrop(crop) &&
     (isMediumCrop(crop) || isAdvancedCrop(crop)) &&
     plot &&

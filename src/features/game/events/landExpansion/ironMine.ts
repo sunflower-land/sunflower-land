@@ -25,7 +25,11 @@ import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import cloneDeep from "lodash.clonedeep";
-import { canUseYieldBoostAOE, setAOELastUsed } from "features/game/lib/aoe";
+import {
+  canUseYieldBoostAOE,
+  isCollectibleOnFarm,
+  setAOELastUsed,
+} from "features/game/lib/aoe";
 
 export type LandExpansionIronMineAction = {
   type: "ironRock.mined";
@@ -162,7 +166,7 @@ export function getIronDropAmount({
 
   // If within Emerald Turtle AOE: +0.5
   if (
-    isCollectibleBuilt({ name: "Emerald Turtle", game }) &&
+    isCollectibleOnFarm({ name: "Emerald Turtle", game }) &&
     rock &&
     rock.x !== undefined &&
     rock.y !== undefined
