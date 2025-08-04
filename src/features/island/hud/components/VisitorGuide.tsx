@@ -11,6 +11,7 @@ import { _hasCheeredToday } from "features/island/collectibles/components/Monume
 import { hasCleanedToday } from "features/island/clutter/Clutter";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import Decimal from "decimal.js-light";
+import { getCollectedGarbage } from "features/game/events/landExpansion/collectClutter";
 
 interface VisitorGuideProps {
   onClose: () => void;
@@ -22,13 +23,11 @@ export const VisitorGuide: React.FC<VisitorGuideProps> = ({ onClose }) => {
 
   const collectibles = gameState.context.state.collectibles;
 
-  const dailyCollections =
-    gameState.context.visitorState?.socialFarming?.dailyCollections;
-
   // If all 5 collected, pop up modal
-  const collectedClutter = Object.keys(
-    dailyCollections?.[gameState.context.farmId]?.clutter ?? {},
-  );
+  const collectedClutter = getCollectedGarbage({
+    game: gameState.context.visitorState!,
+    farmId: gameState.context.farmId,
+  });
 
   const hasCleaned = hasCleanedToday(gameState);
 
@@ -48,7 +47,7 @@ export const VisitorGuide: React.FC<VisitorGuideProps> = ({ onClose }) => {
         <Box
           image={ITEM_DETAILS.Dung.image}
           secondaryImage={hasCleaned ? SUNNYSIDE.icons.confirm : undefined}
-          count={hasCleaned ? undefined : new Decimal(collectedClutter.length)}
+          count={hasCleaned ? undefined : new Decimal(collectedClutter)}
         />
         <div>
           <p className="text-xs sm:text-sm">

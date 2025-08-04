@@ -20,6 +20,7 @@ import cheer from "assets/icons/cheer.webp";
 import { Label } from "components/ui/Label";
 import { getTrashBinItems, hasCleanedToday } from "../clutter/Clutter";
 import {
+  getCollectedGarbage,
   TRASH_BIN_DAILY_LIMIT,
   TRASH_BIN_FARM_LIMIT,
 } from "features/game/events/landExpansion/collectClutter";
@@ -45,17 +46,17 @@ const _hasUnsavedProgress = (state: MachineState) =>
   state.context.actions.length > 0;
 
 const _showCleanedModal = (state: MachineState) => {
-  const currentClutter =
-    state.context.visitorState?.socialFarming?.dailyCollections;
-
   // If all 5 collected, pop up modal
-  const collectedClutter = Object.keys(
-    currentClutter?.[state.context.farmId]?.clutter ?? {},
-  );
+  const collectedClutter = getCollectedGarbage({
+    game: state.context.visitorState!,
+    farmId: state.context.farmId,
+  });
 
-  return (
-    collectedClutter.length === TRASH_BIN_FARM_LIMIT && !hasCleanedToday(state)
-  );
+  if (state.matches("cleaningFarm")) {
+    return false;
+  }
+
+  return collectedClutter === TRASH_BIN_FARM_LIMIT && !hasCleanedToday(state);
 };
 
 /**
@@ -80,13 +81,11 @@ export const VisitingHud: React.FC = () => {
 
   const trashBinItems = getTrashBinItems(gameState);
 
-  const dailyCollections =
-    gameState.context.visitorState?.socialFarming?.dailyCollections;
-
   // If all 5 collected, pop up modal
-  const collectedClutter = Object.keys(
-    dailyCollections?.[gameState.context.farmId]?.clutter ?? {},
-  );
+  const collectedClutter = getCollectedGarbage({
+    game: gameState.context.visitorState!,
+    farmId: gameState.context.farmId,
+  });
 
   const handleEndVisit = () => {
     navigate(fromRoute ?? "/");
@@ -136,7 +135,7 @@ export const VisitingHud: React.FC = () => {
           </div>
           <div className="w-px h-[36px] bg-gray-300 mx-3 self-center" />
           <div className="flex flex-col sm:flex-row items-center space-x-1">
-            <span className="text-md">{`${collectedClutter.length}/${TRASH_BIN_FARM_LIMIT}`}</span>
+            <span className="text-md">{`${collectedClutter}/${TRASH_BIN_FARM_LIMIT}`}</span>
             <img src={garbageBin} style={{ width: `20px`, margin: `2px` }} />
           </div>
         </InnerPanel>

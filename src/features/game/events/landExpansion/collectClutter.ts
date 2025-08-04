@@ -1,7 +1,8 @@
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
 import { GameState } from "features/game/types/game";
-import { ClutterName } from "features/game/types/clutter";
+import { ClutterName, FARM_GARBAGE } from "features/game/types/clutter";
+import { getKeys } from "features/game/lib/crafting";
 
 export type CollectClutterAction = {
   type: "clutter.collected";
@@ -16,6 +17,28 @@ type Options = {
   createdAt?: number;
   visitorState?: GameState;
 };
+
+export function getCollectedGarbage({
+  game,
+  farmId,
+}: {
+  game: GameState;
+  farmId: number;
+}) {
+  const dailyCollections = game.socialFarming?.dailyCollections;
+
+  if (!dailyCollections) {
+    return 0;
+  }
+
+  const totalCollectedForFarm = getKeys(
+    dailyCollections[farmId]?.clutter ?? {},
+  ).filter(
+    (id) => dailyCollections[farmId]?.clutter[id].type in FARM_GARBAGE,
+  ).length;
+
+  return totalCollectedForFarm;
+}
 
 export const TRASH_BIN_FARM_LIMIT = 5;
 export const TRASH_BIN_DAILY_LIMIT = 30;
