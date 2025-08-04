@@ -6208,8 +6208,6 @@
   "description.architectRuler.boost": "+25% de velocidad de fabricación de cajas",
   "description.reelmastersChair.boost": "+5 intentos de pesca",
   "description.giantArtichoke.boost": "+2 alcachofas",
-  "description.pickaxeShark.boost.1": "+15% de tiempo de recuperación de oro",
-  "description.pickaxeShark.boost.2": "10% de probabilidad de obtener oro instantáneo",
   "cheer.village.project.description": "¡Puedes animar al {{project}} para ayudar a {{username}} a completarlo!",
   "description.fruitTuneBox.boost": "+20% de velocidad de crecimiento de los huertos",
   "socialPoints": "{{points}} Puntos sociales",
@@ -6319,5 +6317,7 @@
   "visitorGuide.binGuide": "Basura",
   "visitorGuide.binGuide.description": "Todos los días, puedes recoger 30 piezas de basura que encuentres en las granjas de tus amigos.",
   "visitorGuide.binGuide.burn": "Quema basura",
-  "bedsMigration.farmHandCount": "{{count}}/{{max}}"
+  "bedsMigration.farmHandCount": "{{count}}/{{max}}",
+  "description.pickaxeShark.boost.1": "-15% de tiempo de recuperación de oro",
+  "description.pickaxeShark.boost.2": "10% de probabilidad de que el oro se recupere al instante"
 }

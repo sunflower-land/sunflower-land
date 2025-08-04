@@ -25,7 +25,7 @@ export function catchPest({
 }: Options): [GameState, GameState] {
   enableMapSet();
   return produce([state, visitorState!], ([game, visitorGame]) => {
-    if (!hasFeatureAccess(game, "PESTS")) {
+    if (!hasFeatureAccess(visitorGame!, "PESTS")) {
       throw new Error("This feature is not available");
     }
 

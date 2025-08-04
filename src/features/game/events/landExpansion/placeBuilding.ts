@@ -11,6 +11,8 @@ import { produce } from "immer";
 import { ComposterName } from "features/game/types/composters";
 import { getReadyAt } from "./startComposter";
 import { getBoostedAwakeAt } from "features/game/lib/animals";
+import { RECIPES } from "features/game/lib/crafting";
+import { getBoostedCraftingTime } from "./startCrafting";
 
 export enum PLACE_BUILDING_ERRORS {
   NO_BUMPKIN = "You do not have a Bumpkin!",
@@ -141,6 +143,25 @@ export function placeBuilding({
             animal.awakeAt = awakeAt;
           }
         });
+      }
+
+      if (action.name === "Crafting Box") {
+        const { craftingBox } = stateCopy;
+        if (existingBuilding.removedAt && craftingBox.item) {
+          const timeOffset = existingBuilding.removedAt - craftingBox.startedAt;
+          craftingBox.startedAt = createdAt - timeOffset;
+          const { seconds: recipeTime } = craftingBox.item.collectible
+            ? getBoostedCraftingTime({
+                game: stateCopy,
+                time:
+                  RECIPES(stateCopy)[craftingBox.item.collectible]?.time ?? 0,
+              })
+            : getBoostedCraftingTime({
+                game: stateCopy,
+                time: RECIPES(stateCopy)[craftingBox.item.wearable]?.time ?? 0,
+              });
+          craftingBox.readyAt = createdAt + recipeTime;
+        }
       }
 
       delete existingBuilding.removedAt;

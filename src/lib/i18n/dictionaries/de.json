@@ -6208,8 +6208,6 @@
   "description.architectRuler.boost": "+25% Geschwindigkeit beim Herstellen von Boxen",
   "description.reelmastersChair.boost": "+5 Fangversuche",
   "description.giantArtichoke.boost": "+2 Artischocken",
-  "description.pickaxeShark.boost.1": "+15% Gold-Wiederherstellungszeit",
-  "description.pickaxeShark.boost.2": "10% Chance auf Sofort-Gold",
   "cheer.village.project.description": "Du kannst die {{project}} anfeuern, damit sie {{username}} dabei helfen, es zu vervollständigen!",
   "description.fruitTuneBox.boost": "+20% Wachstumstempo für Fruchtfelder",
   "socialPoints": "{{points}} Soziale Punkte",
@@ -6319,5 +6317,7 @@
   "visitorGuide.binGuide": "Müll",
   "visitorGuide.binGuide.description": "Jeden Tag kannst du 30 Müllstücke einsammeln, die du auf den Farmen deines Freundes findest.",
   "visitorGuide.binGuide.burn": "Müll verbrennen",
-  "bedsMigration.farmHandCount": "{{count}}/{{max}}"
+  "bedsMigration.farmHandCount": "{{count}}/{{max}}",
+  "description.pickaxeShark.boost.1": "-15% Gold-Wiederherstellungszeit",
+  "description.pickaxeShark.boost.2": "10% Chance, dass sich Gold sofort erholt"
 }

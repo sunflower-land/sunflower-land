@@ -6208,8 +6208,6 @@
   "description.architectRuler.boost": "+25% Kelajuan Kotak Kerajinan",
   "description.reelmastersChair.boost": "+5 Percubaan Memancing",
   "description.giantArtichoke.boost": "+2 Artichoke",
-  "description.pickaxeShark.boost.1": "+15% Masa Pemulihan Emas",
-  "description.pickaxeShark.boost.2": "Peluang 10% untuk Emas Segera",
   "cheer.village.project.description": "Anda boleh menghiburkan {{project}} untuk membantu {{username}} menyelesaikannya!",
   "description.fruitTuneBox.boost": "+20% Kelajuan Pertumbuhan Patch Buah",
   "socialPoints": "{{points}} Mata Sosial",
@@ -6319,5 +6317,7 @@
   "visitorGuide.binGuide": "Sampah",
   "visitorGuide.binGuide.description": "Setiap hari, anda boleh mengambil 30 keping sampah yang anda dapati di ladang rakan anda.",
   "visitorGuide.binGuide.burn": "Membakar Sampah",
-  "bedsMigration.farmHandCount": "{{count}}/{{max}}"
+  "bedsMigration.farmHandCount": "{{count}}/{{max}}",
+  "description.pickaxeShark.boost.1": "-15% Masa pemulihan emas",
+  "description.pickaxeShark.boost.2": "10% peluang untuk emas pulih dengan serta-merta"
 }

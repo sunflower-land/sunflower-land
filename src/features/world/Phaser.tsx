@@ -520,6 +520,7 @@ export const PhaserComponent: React.FC<Props> = ({ mmoService, route }) => {
           game={state}
           loggedInFarmId={loggedInFarmId}
           token={rawToken}
+          hasAirdropAccess={hasFeatureAccess(state, "AIRDROP_PLAYER")}
         />
       ) : (
         <PlayerModals game={state} farmId={loggedInFarmId} />

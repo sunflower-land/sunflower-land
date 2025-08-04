@@ -6208,8 +6208,6 @@
   "description.architectRuler.boost": "クラフトボックススピード +25%",
   "description.reelmastersChair.boost": "+5回釣りの試行",
   "description.giantArtichoke.boost": "+2 アーティチョーク",
-  "description.pickaxeShark.boost.1": "+15% ゴールド回復時間",
-  "description.pickaxeShark.boost.2": "10% の確率でインスタントゴールドが手に入る",
   "cheer.village.project.description": "{{project}} を応援して {{username}} が完成するのを手伝ってください！",
   "description.fruitTuneBox.boost": "+20% フルーツパッチ成長速度",
   "socialPoints": "{{points}} ソーシャルポイント",
@@ -6319,5 +6317,7 @@
   "visitorGuide.binGuide": "ガベージ",
   "visitorGuide.binGuide.description": "毎日、友達の農場で見つけたゴミを30個拾うことができます。",
   "visitorGuide.binGuide.burn": "ゴミを燃やす",
-  "bedsMigration.farmHandCount": "{{count}}/{{max}}"
+  "bedsMigration.farmHandCount": "{{count}}/{{max}}",
+  "description.pickaxeShark.boost.1": "-15% ゴールド回復時間",
+  "description.pickaxeShark.boost.2": "10% の確率でゴールドが即座に回復する"
 }

@@ -6208,8 +6208,6 @@
   "description.architectRuler.boost": "+25% 制作箱速度",
   "description.reelmastersChair.boost": "+5 次钓鱼尝试",
   "description.giantArtichoke.boost": "+2 朝鲜蓟",
-  "description.pickaxeShark.boost.1": "+15% 金币回收时间",
-  "description.pickaxeShark.boost.2": "10% 几率获得即时金币",
   "cheer.village.project.description": "你可以为 {{project}} 加油以帮助 {{username}} 完成它！",
   "description.fruitTuneBox.boost": "+20% 水果补丁生长速度",
   "socialPoints": "{{points}} 社交积分",
@@ -6319,5 +6317,7 @@
   "visitorGuide.binGuide": "垃圾",
   "visitorGuide.binGuide.description": "每天，你可以在朋友的农场里捡起 30 块垃圾。",
   "visitorGuide.binGuide.burn": "烧掉垃圾",
-  "bedsMigration.farmHandCount": "{{count}}/{{max}}"
+  "bedsMigration.farmHandCount": "{{count}}/{{max}}",
+  "description.pickaxeShark.boost.1": "-15% 金币回收时间",
+  "description.pickaxeShark.boost.2": "金币有 10% 的几率立即恢复"
 }

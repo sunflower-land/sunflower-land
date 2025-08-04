@@ -40,6 +40,11 @@ export const PlayerNPC: React.FC<NPCProps> = ({ parts: bumpkinParts }) => {
   const context = gameService.getSnapshot().context;
   const loggedInFarmId = context.visitorId ?? context.farmId;
 
+  const hasAirdropAccess = hasFeatureAccess(
+    context.visitorState ?? context.state,
+    "AIRDROP_PLAYER",
+  );
+
   const handleClick = () => {
     if (isVisiting) {
       const playerData: PlayerModalPlayer = {
@@ -82,6 +87,7 @@ export const PlayerNPC: React.FC<NPCProps> = ({ parts: bumpkinParts }) => {
           game={context.state}
           loggedInFarmId={loggedInFarmId}
           token={token}
+          hasAirdropAccess={hasAirdropAccess}
         />
       ) : (
         <PlayerModals
