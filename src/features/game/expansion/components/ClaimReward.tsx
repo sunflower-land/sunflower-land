@@ -268,7 +268,7 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
                     <div className="flex flex-wrap items-center">
                       <Label type="default" className="mb-1 mr-2">
                         {t("crafting.recipe", {
-                          recipe: RECIPES(game)[recipe]!.name,
+                          recipe: RECIPES[recipe]!.name,
                         })}
                       </Label>
                       {!game.inventory["Crafting Box"] && (

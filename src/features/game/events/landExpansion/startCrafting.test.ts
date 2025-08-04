@@ -57,36 +57,39 @@ describe("startCrafting", () => {
 
   it("if recipes exists - sets the crafting status to crafting", () => {
     gameState.craftingBox.recipes = {
-      "Dirt Path": {
-        name: "Dirt Path",
+      Doll: {
+        name: "Doll",
         type: "collectible",
         ingredients: [
-          null,
-          null,
-          null,
-          null,
-          { collectible: "Stone" },
-          null,
-          null,
-          null,
-          null,
+          { collectible: "Leather" },
+          { collectible: "Wool" },
+          { collectible: "Leather" },
+          { collectible: "Wool" },
+          { collectible: "Wool" },
+          { collectible: "Wool" },
+          { collectible: "Leather" },
+          { collectible: "Wool" },
+          { collectible: "Leather" },
         ],
-        time: 0,
+        time: 8 * 60 * 60 * 1000,
       },
     };
+
+    gameState.inventory.Leather = new Decimal(4);
+    gameState.inventory.Wool = new Decimal(5);
 
     const action: StartCraftingAction = {
       type: "crafting.started",
       ingredients: [
-        null,
-        null,
-        null,
-        null,
-        { collectible: "Stone" },
-        null,
-        null,
-        null,
-        null,
+        { collectible: "Leather" },
+        { collectible: "Wool" },
+        { collectible: "Leather" },
+        { collectible: "Wool" },
+        { collectible: "Wool" },
+        { collectible: "Wool" },
+        { collectible: "Leather" },
+        { collectible: "Wool" },
+        { collectible: "Leather" },
       ],
     };
 
@@ -185,21 +188,21 @@ describe("startCrafting", () => {
 
   it("if recipes exists - throws if the player doesn't have the ingredients", () => {
     gameState.craftingBox.recipes = {
-      "Dirt Path": {
-        name: "Dirt Path",
+      Doll: {
+        name: "Doll",
         type: "collectible",
         ingredients: [
-          null,
-          null,
-          null,
-          null,
-          { collectible: "Stone" },
-          null,
-          null,
-          null,
-          null,
+          { collectible: "Leather" },
+          { collectible: "Wool" },
+          { collectible: "Leather" },
+          { collectible: "Wool" },
+          { collectible: "Wool" },
+          { collectible: "Wool" },
+          { collectible: "Leather" },
+          { collectible: "Wool" },
+          { collectible: "Leather" },
         ],
-        time: 0,
+        time: 8 * 60 * 60 * 1000,
       },
     };
     gameState.inventory.Stone = new Decimal(0);
@@ -207,15 +210,15 @@ describe("startCrafting", () => {
     const action: StartCraftingAction = {
       type: "crafting.started",
       ingredients: [
-        null,
-        null,
-        null,
-        null,
-        { collectible: "Stone" },
-        null,
-        null,
-        null,
-        null,
+        { collectible: "Leather" },
+        { collectible: "Wool" },
+        { collectible: "Leather" },
+        { collectible: "Wool" },
+        { collectible: "Wool" },
+        { collectible: "Wool" },
+        { collectible: "Leather" },
+        { collectible: "Wool" },
+        { collectible: "Leather" },
       ],
     };
 
@@ -225,45 +228,47 @@ describe("startCrafting", () => {
   });
 
   it("if recipes exists - subtracts the ingredients from the player's inventory", () => {
-    gameState.inventory.Stone = new Decimal(1);
+    gameState.inventory.Leather = new Decimal(4);
+    gameState.inventory.Wool = new Decimal(5);
 
     gameState.craftingBox.recipes = {
-      "Dirt Path": {
-        name: "Dirt Path",
+      Doll: {
+        name: "Doll",
         type: "collectible",
         ingredients: [
-          null,
-          null,
-          null,
-          null,
-          { collectible: "Stone" },
-          null,
-          null,
-          null,
-          null,
+          { collectible: "Leather" },
+          { collectible: "Wool" },
+          { collectible: "Leather" },
+          { collectible: "Wool" },
+          { collectible: "Wool" },
+          { collectible: "Wool" },
+          { collectible: "Leather" },
+          { collectible: "Wool" },
+          { collectible: "Leather" },
         ],
-        time: 0,
+        time: 8 * 60 * 60 * 1000,
       },
     };
 
     const action: StartCraftingAction = {
       type: "crafting.started",
       ingredients: [
-        null,
-        null,
-        null,
-        null,
-        { collectible: "Stone" },
-        null,
-        null,
-        null,
-        null,
+        { collectible: "Leather" },
+        { collectible: "Wool" },
+        { collectible: "Leather" },
+        { collectible: "Wool" },
+        { collectible: "Wool" },
+        { collectible: "Wool" },
+        { collectible: "Leather" },
+        { collectible: "Wool" },
+        { collectible: "Leather" },
       ],
     };
 
     const state = startCrafting({ state: gameState, action });
 
-    expect(state.inventory.Stone).toStrictEqual(new Decimal(0));
+    expect(state.inventory.Leather).toStrictEqual(new Decimal(0));
+    expect(state.inventory.Wool).toStrictEqual(new Decimal(0));
   });
 
   it("if recipes exists - does not allow crafting when the ingredient is placed", () => {
@@ -320,128 +325,29 @@ describe("startCrafting", () => {
     );
   });
 
-  it("if recipes exists - does not allow crafting when the wearable is worn", () => {
-    gameState.craftingBox.recipes = {
-      "Farmer Overalls": {
-        name: "Farmer Overalls",
-        type: "wearable",
-        ingredients: [
-          null,
-          null,
-          null,
-          null,
-          { wearable: "Farmer Pants" },
-          null,
-          { collectible: "Leather" },
-          null,
-          { collectible: "Leather" },
-        ],
-        time: 0,
-      },
-    };
-
-    gameState.inventory["Leather"] = new Decimal(2);
-    gameState.wardrobe = {};
-    gameState.wardrobe["Farmer Pants"] = 1;
-
-    gameState.farmHands = {
-      bumpkins: {},
-    };
-    gameState.farmHands.bumpkins = {
-      "0": {
-        equipped: {
-          background: "Farm Background",
-          hair: "Buzz Cut",
-          body: "Beige Farmer Potion",
-          pants: "Farmer Pants",
-          shoes: "Black Farmer Boots",
-          tool: "Axe",
-        },
-      },
-    };
-
-    const action: StartCraftingAction = {
-      type: "crafting.started",
-      ingredients: [
-        null,
-        null,
-        null,
-        null,
-        { wearable: "Farmer Pants" },
-        null,
-        { collectible: "Leather" },
-        null,
-        { collectible: "Leather" },
-      ],
-    };
-
-    expect(() => startCrafting({ state: { ...gameState }, action })).toThrow(
-      "You do not have the ingredients to craft this item",
-    );
-  });
-
-  it("if recipes exists - allows crafting when the wearable is worn and there is a spare", () => {
-    gameState.craftingBox.recipes = {
-      "Farmer Overalls": {
-        name: "Farmer Overalls",
-        type: "wearable",
-        ingredients: [
-          null,
-          null,
-          null,
-          null,
-          { wearable: "Farmer Pants" },
-          null,
-          { collectible: "Leather" },
-          null,
-          { collectible: "Leather" },
-        ],
-        time: 0,
-      },
-    };
-
-    gameState.inventory["Leather"] = new Decimal(2);
-    gameState.wardrobe = {};
-    gameState.wardrobe["Farmer Pants"] = 2;
-
-    gameState.farmHands = {
-      bumpkins: {},
-    };
-    gameState.farmHands.bumpkins = {
-      "0": {
-        equipped: {
-          background: "Farm Background",
-          hair: "Buzz Cut",
-          body: "Beige Farmer Potion",
-          pants: "Farmer Pants",
-          shoes: "Black Farmer Boots",
-          tool: "Axe",
-        },
-      },
-    };
-
-    const action: StartCraftingAction = {
-      type: "crafting.started",
-      ingredients: [
-        null,
-        null,
-        null,
-        null,
-        { wearable: "Farmer Pants" },
-        null,
-        { collectible: "Leather" },
-        null,
-        { collectible: "Leather" },
-      ],
-    };
-
-    const newState = startCrafting({ state: { ...gameState }, action });
-    expect(newState.inventory["Leather"]).toStrictEqual(new Decimal(0));
-    expect(newState.wardrobe["Farmer Pants"]).toBe(1);
-  });
-
   it("it applies 50% crafting reduction when Sol & Luna is worn", () => {
     gameState.wardrobe = {};
+    gameState.craftingBox.recipes = {
+      Doll: {
+        name: "Doll",
+        type: "collectible",
+        ingredients: [
+          { collectible: "Leather" },
+          { collectible: "Wool" },
+          { collectible: "Leather" },
+          { collectible: "Wool" },
+          { collectible: "Wool" },
+          { collectible: "Wool" },
+          { collectible: "Leather" },
+          { collectible: "Wool" },
+          { collectible: "Leather" },
+        ],
+        time: 8 * 60 * 60 * 1000,
+      },
+    };
+
+    gameState.inventory.Leather = new Decimal(4);
+    gameState.inventory.Wool = new Decimal(5);
 
     gameState.bumpkin = {
       ...TEST_BUMPKIN,
@@ -454,15 +360,15 @@ describe("startCrafting", () => {
     const action: StartCraftingAction = {
       type: "crafting.started",
       ingredients: [
-        null,
-        { collectible: "Stone" },
-        null,
-        { collectible: "Stone" },
-        { collectible: "Stone" },
-        { collectible: "Stone" },
-        null,
-        { collectible: "Stone" },
-        null,
+        { collectible: "Leather" },
+        { collectible: "Wool" },
+        { collectible: "Leather" },
+        { collectible: "Wool" },
+        { collectible: "Wool" },
+        { collectible: "Wool" },
+        { collectible: "Leather" },
+        { collectible: "Wool" },
+        { collectible: "Leather" },
       ],
     };
 
@@ -474,8 +380,7 @@ describe("startCrafting", () => {
       createdAt: date,
     });
 
-    const craftingTime =
-      date + (RECIPES(gameState)["Bonnie's Tombstone"]?.time ?? 0) * 0.5;
+    const craftingTime = date + (RECIPES["Doll"]?.time ?? 0) * 0.5;
     const craftedAt = newState.craftingBox.readyAt;
     expect(craftedAt).toBe(craftingTime);
   });

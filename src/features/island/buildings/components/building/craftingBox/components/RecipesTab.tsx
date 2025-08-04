@@ -16,7 +16,7 @@ import { SquareIcon } from "components/ui/SquareIcon";
 import {
   Recipe,
   RecipeIngredient,
-  RecipeItemName,
+  RecipeCollectibleName,
   RECIPES,
   Recipes,
 } from "features/game/lib/crafting";
@@ -59,16 +59,16 @@ export const RecipesTab: React.FC<Props> = ({
     if (!searchTerm.trim()) return recipes;
     return Object.entries(recipes || {}).reduce((acc, [name, recipe]) => {
       if (name.toLowerCase().includes(searchTerm.toLowerCase())) {
-        acc[name as RecipeItemName] = recipe;
+        acc[name as RecipeCollectibleName] = recipe;
       }
       return acc;
     }, {} as Recipes);
   }, [recipes, searchTerm]);
 
   const sillhouetteRecipes = useMemo(() => {
-    return Object.entries(RECIPES(state)).reduce((acc, [name, recipe]) => {
-      if (!recipes[name as RecipeItemName]) {
-        acc[name as RecipeItemName] = recipe;
+    return Object.entries(RECIPES).reduce((acc, [name, recipe]) => {
+      if (!recipes[name as RecipeCollectibleName]) {
+        acc[name as RecipeCollectibleName] = recipe;
       }
       return acc;
     }, {} as Recipes);
@@ -219,12 +219,6 @@ export const RecipesTab: React.FC<Props> = ({
                             className="w-6 h-6 object-contain"
                           />
                         )}
-                        {recipe.type === "wearable" && (
-                          <img
-                            src={getImageUrl(ITEM_IDS[recipe.name])}
-                            className="w-6 h-6 object-contain"
-                          />
-                        )}
                       </ButtonPanel>
                     </div>
                     <div className="flex mt-1">
@@ -302,12 +296,6 @@ export const RecipesTab: React.FC<Props> = ({
                             <img
                               src={ITEM_DETAILS[recipe.name]?.image}
                               alt={recipe.name}
-                              className="w-6 h-6 object-contain silhouette"
-                            />
-                          )}
-                          {recipe.type === "wearable" && (
-                            <img
-                              src={getImageUrl(ITEM_IDS[recipe.name])}
                               className="w-6 h-6 object-contain silhouette"
                             />
                           )}

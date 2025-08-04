@@ -116,8 +116,8 @@ export const COMPETITION_TASK_PROGRESS: Record<
   },
   "Level up": (game) => getBumpkinLevel(game.bumpkin.experience),
   "Cook Honey Cake": (game) => game.bumpkin.activity["Honey Cake Cooked"] ?? 0,
-  "Craft basic hair": (game) => game.farmActivity["Basic Hair Crafted"] ?? 0,
-  "Craft bear": (game) => game.farmActivity["Basic Bear Crafted"] ?? 0,
+  "Craft basic hair": () => 0,
+  "Craft bear": () => 0,
   "Eat pizza": (game) => game.bumpkin.activity["Pizza Margherita Fed"] ?? 0,
 
   "Sell cow": (game) => {

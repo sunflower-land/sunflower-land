@@ -37,12 +37,8 @@ export function collectCrafting({
       ).plus(1);
     }
 
-    if (item.wearable) {
-      copy.wardrobe[item.wearable] = (copy.wardrobe[item.wearable] || 0) + 1;
-    }
-
     copy.farmActivity = trackFarmActivity(
-      `${item.collectible || item.wearable} Crafted`,
+      `${item.collectible} Crafted`,
       copy.farmActivity,
     );
 

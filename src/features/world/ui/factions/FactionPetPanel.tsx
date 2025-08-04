@@ -51,8 +51,6 @@ import bumpkinEmblem from "assets/icons/bumpkin_emblem.webp";
 import sunflorianEmblem from "assets/icons/sunflorian_emblem.webp";
 import nightshadeEmblem from "assets/icons/nightshade_emblem.webp";
 import xpIcon from "assets/icons/xp.png";
-import { hasFeatureAccess } from "lib/flags";
-import { DOLLS } from "features/game/lib/crafting";
 
 const FACTION_EMBLEM_ICONS: Record<FactionName, string> = {
   goblins: goblinEmblem,
@@ -334,93 +332,82 @@ export const FactionPetPanel: React.FC<Props> = ({ onClose }) => {
                       {t("faction.pet.gatherResources")}
                     </p>
                     <div className="flex w-full flex-wrap justify-between gap-2 pl-0.5 pb-2">
-                      {pet.requests
-                        .filter(
-                          (request) =>
-                            hasFeatureAccess(
-                              gameService.getSnapshot().context.state,
-                              "CRAFTING",
-                            ) || !(request.food in DOLLS),
-                        )
-                        .map((request, idx) => {
-                          const fulfilled = request.dailyFulfilled[day] ?? 0;
-                          const points = calculatePoints(
-                            fulfilled,
-                            PET_FED_REWARDS_KEY[idx as DifficultyIndex],
-                          );
-                          const isDoll = request.food in DOLLS;
+                      {pet.requests.map((request, idx) => {
+                        const fulfilled = request.dailyFulfilled[day] ?? 0;
+                        const points = calculatePoints(
+                          fulfilled,
+                          PET_FED_REWARDS_KEY[idx as DifficultyIndex],
+                        );
 
-                          const boost = getKingdomPetBoost(
-                            gameService.getSnapshot().context.state,
-                            points,
-                          )[0];
+                        const boost = getKingdomPetBoost(
+                          gameService.getSnapshot().context.state,
+                          points,
+                        )[0];
 
-                          const boostedMarks = points + boost;
+                        const boostedMarks = points + boost;
 
-                          return (
-                            <OuterPanel
-                              key={JSON.stringify(request)}
-                              className={classNames(
-                                "flex relative flex-col flex-1 items-center p-2 cursor-pointer hover:bg-brown-300",
-                                { "img-highlight": selectedRequestIdx === idx },
-                              )}
-                              onClick={() => setSelectedRequestIdx(idx)}
-                            >
-                              <div className="flex flex-1 justify-center items-center mb-4 w-full relative">
-                                <SquareIcon
-                                  width={24}
-                                  icon={
-                                    ITEM_DETAILS[
-                                      request.food as InventoryItemName
-                                    ].image
-                                  }
-                                />
-                                <Label
-                                  icon={ITEM_DETAILS["Mark"].image}
-                                  secondaryIcon={
-                                    boost
-                                      ? SUNNYSIDE.icons.lightning
-                                      : undefined
-                                  }
-                                  type="warning"
-                                  className="absolute h-6"
-                                  iconWidth={10}
+                        return (
+                          <OuterPanel
+                            key={JSON.stringify(request)}
+                            className={classNames(
+                              "flex relative flex-col flex-1 items-center p-2 cursor-pointer hover:bg-brown-300",
+                              { "img-highlight": selectedRequestIdx === idx },
+                            )}
+                            onClick={() => setSelectedRequestIdx(idx)}
+                          >
+                            <div className="flex flex-1 justify-center items-center mb-4 w-full relative">
+                              <SquareIcon
+                                width={24}
+                                icon={
+                                  ITEM_DETAILS[
+                                    request.food as InventoryItemName
+                                  ].image
+                                }
+                              />
+                              <Label
+                                icon={ITEM_DETAILS["Mark"].image}
+                                secondaryIcon={
+                                  boost ? SUNNYSIDE.icons.lightning : undefined
+                                }
+                                type="warning"
+                                className="absolute h-6"
+                                iconWidth={10}
+                                style={{
+                                  width: "calc(100% + 10px)",
+                                  bottom: "-24px",
+                                  left: "-4px",
+                                }}
+                              >
+                                <span className={boost ? "pl-1.5" : ""}>
+                                  {formatNumber(boostedMarks)}
+                                </span>
+                              </Label>
+                            </div>
+                            {selectedRequestIdx === idx && (
+                              <div id="select-box">
+                                <img
+                                  className="absolute pointer-events-none"
+                                  src={SUNNYSIDE.ui.selectBoxTL}
                                   style={{
-                                    width: "calc(100% + 10px)",
-                                    bottom: "-24px",
-                                    left: "-4px",
+                                    top: `${PIXEL_SCALE * -3}px`,
+                                    left: `${PIXEL_SCALE * -3}px`,
+                                    width: `${PIXEL_SCALE * 8}px`,
                                   }}
-                                >
-                                  <span className={boost ? "pl-1.5" : ""}>
-                                    {formatNumber(boostedMarks)}
-                                  </span>
-                                </Label>
+                                />
+                                <img
+                                  className="absolute pointer-events-none"
+                                  src={SUNNYSIDE.ui.selectBoxTR}
+                                  style={{
+                                    top: `${PIXEL_SCALE * -3}px`,
+                                    right: `${PIXEL_SCALE * -3}px`,
+                                    width: `${PIXEL_SCALE * 8}px`,
+                                  }}
+                                />
                               </div>
-                              {selectedRequestIdx === idx && (
-                                <div id="select-box">
-                                  <img
-                                    className="absolute pointer-events-none"
-                                    src={SUNNYSIDE.ui.selectBoxTL}
-                                    style={{
-                                      top: `${PIXEL_SCALE * -3}px`,
-                                      left: `${PIXEL_SCALE * -3}px`,
-                                      width: `${PIXEL_SCALE * 8}px`,
-                                    }}
-                                  />
-                                  <img
-                                    className="absolute pointer-events-none"
-                                    src={SUNNYSIDE.ui.selectBoxTR}
-                                    style={{
-                                      top: `${PIXEL_SCALE * -3}px`,
-                                      right: `${PIXEL_SCALE * -3}px`,
-                                      width: `${PIXEL_SCALE * 8}px`,
-                                    }}
-                                  />
-                                </div>
-                              )}
-                            </OuterPanel>
-                          );
-                        })}
+                            )}
+                          </OuterPanel>
+                        );
+                      })}
                     </div>
                     {!!collectivePet?.streak && collectivePet.streak > 0 && (
                       <div className="flex items-center space-x-1">

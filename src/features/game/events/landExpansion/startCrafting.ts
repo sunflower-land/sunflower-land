@@ -117,10 +117,7 @@ export function startCrafting({
       status: "crafting",
       startedAt: createdAt,
       readyAt: createdAt + recipeTime,
-      item:
-        recipe.type === "collectible"
-          ? { collectible: recipe.name }
-          : { wearable: recipe.name },
+      item: { collectible: recipe.name },
       recipes: {
         ...copy.craftingBox.recipes,
         [recipe.name]: recipe,

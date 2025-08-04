@@ -80,13 +80,7 @@ import { GameTransaction } from "./transactions";
 import { CompetitionName, CompetitionProgress } from "./competitions";
 import { AnimalType } from "./animals";
 import { ChoreBoard } from "./choreBoard";
-import {
-  DollName,
-  RecipeCollectibleName,
-  RecipeItemName,
-  Recipes,
-  RecipeWearableName,
-} from "../lib/crafting";
+import { DollName, RecipeCollectibleName, Recipes } from "../lib/crafting";
 import { SeasonalCollectibleName, SeasonalTierItemName } from "./megastore";
 import { TradeFood } from "../events/landExpansion/redeemTradeReward";
 import {
@@ -816,7 +810,7 @@ export type Airdrop = {
   coordinates?: Coordinates;
   factionPoints?: number;
   vipDays?: number;
-  recipes?: RecipeItemName[];
+  recipes?: RecipeCollectibleName[];
 };
 
 // Mystery Prize reveals
@@ -1715,15 +1709,7 @@ export interface GameState {
 
   craftingBox: {
     status: "pending" | "idle" | "crafting";
-    item?:
-      | {
-          collectible: RecipeCollectibleName;
-          wearable?: never;
-        }
-      | {
-          collectible?: never;
-          wearable: RecipeWearableName;
-        };
+    item?: { collectible: RecipeCollectibleName };
     startedAt: number;
     readyAt: number;
     recipes: Partial<Recipes>;

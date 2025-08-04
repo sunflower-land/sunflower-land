@@ -18,7 +18,6 @@ import {
   getAnimalFavoriteFood,
   getAnimalLevel,
 } from "features/game/lib/animals";
-import { hasFeatureAccess } from "lib/flags";
 import { getAnimalXP } from "features/game/events/landExpansion/loveAnimal";
 
 interface Props {
@@ -146,32 +145,30 @@ export const SleepingAnimalModal = ({
         </div>
       </InnerPanel>
 
-      {hasFeatureAccess(gameState.context.state, "CRAFTING") && level < 15 && (
-        <InnerPanel>
-          <div className="flex items-center">
-            <img src={SUNNYSIDE.icons.heart} alt="Sleep" className="h-6 mr-2" />
-            <p className="text-xs">
-              {t("sleepingAnimal.sheepLoveToPlay", { name: animal.type })}
+      <InnerPanel>
+        <div className="flex items-center">
+          <img src={SUNNYSIDE.icons.heart} alt="Sleep" className="h-6 mr-2" />
+          <p className="text-xs">
+            {t("sleepingAnimal.sheepLoveToPlay", { name: animal.type })}
+          </p>
+        </div>
+
+        <div className="flex items-center mt-1">
+          <Box image={ITEM_DETAILS[toy].image} count={count} />
+          <div className="ml-1">
+            <p className="text-sm">
+              {t("sleepingAnimal.dollCount", { name: toy })}
+            </p>
+            <p className="text-xs italic">
+              {t("sleepingAnimal.availableAtCraftingBox")}
             </p>
           </div>
+        </div>
 
-          <div className="flex items-center mt-1">
-            <Box image={ITEM_DETAILS[toy].image} count={count} />
-            <div className="ml-1">
-              <p className="text-sm">
-                {t("sleepingAnimal.dollCount", { name: toy })}
-              </p>
-              <p className="text-xs italic">
-                {t("sleepingAnimal.availableAtCraftingBox")}
-              </p>
-            </div>
-          </div>
-
-          <Button disabled={count.lt(1)} onClick={() => setShowConfirm(true)}>
-            {t("sleepingAnimal.wakeUp")}
-          </Button>
-        </InnerPanel>
-      )}
+        <Button disabled={count.lt(1)} onClick={() => setShowConfirm(true)}>
+          {t("sleepingAnimal.wakeUp")}
+        </Button>
+      </InnerPanel>
     </>
   );
 };
