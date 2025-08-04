@@ -30,6 +30,83 @@ import {
   REWARD_ITEMS,
 } from "features/game/events/landExpansion/completeProject";
 
+import farmerMonumentOne from "assets/monuments/shovel_monument_stage_1.webp";
+import farmerMonumentTwo from "assets/monuments/shovel_monument_stage_2.webp";
+
+import minerMonumentOne from "assets/monuments/pickaxe_monument_stage_1.webp";
+import minerMonumentTwo from "assets/monuments/pickaxe_monument_stage_2.webp";
+
+import woodcutterMonumentOne from "assets/monuments/axe_monument_stage_1.webp";
+import woodcutterMonumentTwo from "assets/monuments/axe_monument_stage_2.webp";
+
+import basicCookingPotOne from "assets/monuments/basic_cooking_pot_stage_1.webp";
+
+import expertCookingPotOne from "assets/monuments/expert_cooking_pot_stage_1.webp";
+
+import advancedCookingPotOne from "assets/monuments/advanced_cooking_pot_stage_1.webp";
+
+export const PROJECT_IMAGES: Record<
+  MonumentName,
+  {
+    empty: string;
+    halfway: string;
+    ready: string;
+  }
+> = {
+  "Farmer's Monument": {
+    empty: farmerMonumentOne,
+    halfway: farmerMonumentTwo,
+    ready: ITEM_DETAILS["Farmer's Monument"].image,
+  },
+  "Miner's Monument": {
+    empty: minerMonumentOne,
+    halfway: minerMonumentTwo,
+    ready: ITEM_DETAILS["Miner's Monument"].image,
+  },
+  "Woodcutter's Monument": {
+    empty: woodcutterMonumentOne,
+    halfway: woodcutterMonumentTwo,
+    ready: ITEM_DETAILS["Woodcutter's Monument"].image,
+  },
+  "Teamwork Monument": {
+    // TODO - no progress for Teamwork Monuments
+    empty: ITEM_DETAILS["Teamwork Monument"].image,
+    halfway: ITEM_DETAILS["Teamwork Monument"].image,
+    ready: ITEM_DETAILS["Teamwork Monument"].image,
+  },
+  "Basic Cooking Pot": {
+    empty: basicCookingPotOne,
+    halfway: basicCookingPotOne,
+    ready: ITEM_DETAILS["Basic Cooking Pot"].image,
+  },
+  "Expert Cooking Pot": {
+    empty: expertCookingPotOne,
+    halfway: expertCookingPotOne,
+    ready: ITEM_DETAILS["Expert Cooking Pot"].image,
+  },
+  "Advanced Cooking Pot": {
+    empty: advancedCookingPotOne,
+    halfway: advancedCookingPotOne,
+    ready: ITEM_DETAILS["Advanced Cooking Pot"].image,
+  },
+  // TODO - no growth stages for giant fruit?
+  "Big Orange": {
+    empty: ITEM_DETAILS["Big Orange"].image,
+    halfway: ITEM_DETAILS["Big Orange"].image,
+    ready: ITEM_DETAILS["Big Orange"].image,
+  },
+  "Big Apple": {
+    empty: ITEM_DETAILS["Big Apple"].image,
+    halfway: ITEM_DETAILS["Big Apple"].image,
+    ready: ITEM_DETAILS["Big Apple"].image,
+  },
+  "Big Banana": {
+    empty: ITEM_DETAILS["Big Banana"].image,
+    halfway: ITEM_DETAILS["Big Banana"].image,
+    ready: ITEM_DETAILS["Big Banana"].image,
+  },
+};
+
 export const CheerModal: React.FC<{
   project: MonumentName;
   cheers: number;
@@ -271,6 +348,14 @@ export const Project: React.FC<ProjectProps> = (input) => {
     }
   };
 
+  let image = PROJECT_IMAGES[input.project].empty;
+
+  if (projectPercentage >= 20) {
+    image = PROJECT_IMAGES[input.project].halfway;
+  } else if (projectPercentage >= 100) {
+    image = PROJECT_IMAGES[input.project].ready;
+  }
+
   return (
     <>
       <Popover>
@@ -279,6 +364,7 @@ export const Project: React.FC<ProjectProps> = (input) => {
             <>
               <MonumentImage
                 {...input}
+                image={image}
                 open={open}
                 setIsCompleting={setIsCompleting}
                 isProjectComplete={isProjectComplete}

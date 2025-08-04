@@ -23,7 +23,7 @@ import {
   SFTDetailPopoverLabel,
 } from "components/ui/SFTDetailPopover";
 import { REQUIRED_CHEERS } from "features/game/events/landExpansion/completeProject";
-import { CheerModal } from "./Project";
+import { CheerModal, PROJECT_IMAGES } from "./Project";
 import powerup from "assets/icons/level_up.png";
 
 const BOOST_LABELS: Partial<
@@ -187,6 +187,14 @@ export const Monument: React.FC<MonumentProps> = (input) => {
     }
   };
 
+  let image = PROJECT_IMAGES[input.project].empty;
+
+  if (projectPercentage >= 20) {
+    image = PROJECT_IMAGES[input.project].halfway;
+  } else if (projectPercentage >= 100) {
+    image = PROJECT_IMAGES[input.project].ready;
+  }
+
   return (
     <>
       <Popover>
@@ -195,6 +203,7 @@ export const Monument: React.FC<MonumentProps> = (input) => {
             <>
               <MonumentImage
                 {...input}
+                image={image}
                 open={open}
                 setIsCompleting={setIsCompleting}
                 isProjectComplete={isProjectComplete}
