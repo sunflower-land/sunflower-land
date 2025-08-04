@@ -45,7 +45,7 @@ export function increaseBinLimit({
   state,
   visitorState,
   createdAt = Date.now(),
-}: Options) {
+}: Options): [GameState, GameState] {
   return produce([state, visitorState!], ([game, visitorGame]) => {
     // Subtract resources
     Object.entries(BIN_LIMIT_COST).forEach(([resource, cost]) => {

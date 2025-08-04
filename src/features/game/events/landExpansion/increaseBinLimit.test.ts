@@ -6,6 +6,7 @@ describe("increaseBinLimit", () => {
   it("requires player has resources", () => {
     expect(() =>
       increaseBinLimit({
+        visitorState: INITIAL_FARM,
         state: INITIAL_FARM,
         action: { type: "binLimit.increased" },
         createdAt: Date.now(),
@@ -14,8 +15,8 @@ describe("increaseBinLimit", () => {
   });
 
   it("subtract required resources", () => {
-    const state = increaseBinLimit({
-      state: {
+    const [_, state] = increaseBinLimit({
+      visitorState: {
         ...INITIAL_FARM,
         inventory: {
           ...INITIAL_FARM.inventory,
@@ -24,6 +25,7 @@ describe("increaseBinLimit", () => {
           Feather: new Decimal(13),
         },
       },
+      state: INITIAL_FARM,
       action: { type: "binLimit.increased" },
       createdAt: Date.now(),
     });
@@ -35,8 +37,8 @@ describe("increaseBinLimit", () => {
 
   it("should increase the bin limit", () => {
     const now = Date.now();
-    const state = increaseBinLimit({
-      state: {
+    const [_, state] = increaseBinLimit({
+      visitorState: {
         ...INITIAL_FARM,
         inventory: {
           ...INITIAL_FARM.inventory,
@@ -45,6 +47,7 @@ describe("increaseBinLimit", () => {
           Feather: new Decimal(13),
         },
       },
+      state: INITIAL_FARM,
       action: { type: "binLimit.increased" },
       createdAt: now,
     });
@@ -54,8 +57,8 @@ describe("increaseBinLimit", () => {
 
   it("should increase the bin limit multiple times", () => {
     const now = Date.now();
-    let state = increaseBinLimit({
-      state: {
+    const [_, state] = increaseBinLimit({
+      visitorState: {
         ...INITIAL_FARM,
         inventory: {
           ...INITIAL_FARM.inventory,
@@ -64,23 +67,25 @@ describe("increaseBinLimit", () => {
           Feather: new Decimal(130),
         },
       },
+      state: INITIAL_FARM,
       action: { type: "binLimit.increased" },
       createdAt: now,
     });
 
-    state = increaseBinLimit({
-      state,
+    const [__, state2] = increaseBinLimit({
+      visitorState: state,
+      state: INITIAL_FARM,
       action: { type: "binLimit.increased" },
       createdAt: now,
     });
 
-    expect(state.socialFarming.binIncrease?.boughtAt).toEqual([now, now]);
+    expect(state2.socialFarming.binIncrease?.boughtAt).toEqual([now, now]);
   });
 
   it("removes previous day bin limits", () => {
     const now = Date.now();
-    const state = increaseBinLimit({
-      state: {
+    const [_, state] = increaseBinLimit({
+      visitorState: {
         ...INITIAL_FARM,
         inventory: {
           ...INITIAL_FARM.inventory,
@@ -95,6 +100,7 @@ describe("increaseBinLimit", () => {
           },
         },
       },
+      state: INITIAL_FARM,
       action: { type: "binLimit.increased" },
       createdAt: now,
     });
