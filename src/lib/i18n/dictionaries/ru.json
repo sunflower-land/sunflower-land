@@ -76,7 +76,6 @@
   "bedsMigration.bedsNeededDescription": "Работникам фермы нужны кровати для работы на ферме.",
   "bedsMigration.bedsNeededDescription2": "На каждой уникальной кровати может разместиться один фермер.",
   "bedsMigration.bedsNeededDescription3": "Разместите кровати, чтобы нанять больше фермеров!",
-  "bedsMigration.farmHandCount": "{{count}} из 8",
   "bedsMigration.label": "Мои кровати",
   "bedsMigration.status.notPlaced": "Надо поставить",
   "bedsMigration.status.occupied": "Занято",
@@ -6319,5 +6318,6 @@
   "visitorGuide.clutter": "Найдите спрятанный навоз, сорняки и мусор.",
   "visitorGuide.binGuide": "Мусор",
   "visitorGuide.binGuide.description": "Каждый день вы можете собирать 30 кусков мусора, которые вы найдете на фермах вашего друга.",
-  "visitorGuide.binGuide.burn": "Сжигайте мусор"
+  "visitorGuide.binGuide.burn": "Сжигайте мусор",
+  "bedsMigration.farmHandCount": "{{count}}/{{max}}"
 }

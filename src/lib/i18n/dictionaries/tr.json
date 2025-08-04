@@ -3669,7 +3669,6 @@
   "bedsMigration.status.occupied": "işgal",
   "bedsMigration.status.unoccupied": "Boş",
   "bedsMigration.status.notPlaced": "Yerleştirilmemiş",
-  "bedsMigration.farmHandCount": "{{count}} /8",
   "bedsMigration.label": "Yataklarım",
   "restrictionReason.chickensSleeping": "Tavuklar uyuyor",
   "description.cheese": "Taze sütten yapılan lezzetli bir süt lezzeti",
@@ -6319,5 +6318,6 @@
   "visitorGuide.clutter": "Gizli gübreyi, yabani otları ve çöpleri bulun.",
   "visitorGuide.binGuide": "Çöp",
   "visitorGuide.binGuide.description": "Her gün arkadaşınızın çiftliklerinde bulduğunuz 30 çöp parçasını toplayabilirsiniz.",
-  "visitorGuide.binGuide.burn": "Çöp Yak"
+  "visitorGuide.binGuide.burn": "Çöp Yak",
+  "bedsMigration.farmHandCount": "{{count}}/{{max}}"
 }

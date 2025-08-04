@@ -3669,7 +3669,6 @@
   "bedsMigration.status.occupied": "Diduduki",
   "bedsMigration.status.unoccupied": "Kosong",
   "bedsMigration.status.notPlaced": "Tidak Ditempatkan",
-  "bedsMigration.farmHandCount": "{{count}} /8",
   "bedsMigration.label": "Katil saya",
   "restrictionReason.chickensSleeping": "Ayam sedang tidur",
   "description.cheese": "Kegembiraan tenusu yang lazat diperbuat daripada susu segar",
@@ -6319,5 +6318,6 @@
   "visitorGuide.clutter": "Cari kotoran tersembunyi, rumpai & sampah.",
   "visitorGuide.binGuide": "Sampah",
   "visitorGuide.binGuide.description": "Setiap hari, anda boleh mengambil 30 keping sampah yang anda dapati di ladang rakan anda.",
-  "visitorGuide.binGuide.burn": "Membakar Sampah"
+  "visitorGuide.binGuide.burn": "Membakar Sampah",
+  "bedsMigration.farmHandCount": "{{count}}/{{max}}"
 }

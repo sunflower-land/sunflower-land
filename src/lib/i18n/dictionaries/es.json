@@ -3669,7 +3669,6 @@
   "bedsMigration.status.occupied": "Ocupado",
   "bedsMigration.status.unoccupied": "Vacía",
   "bedsMigration.status.notPlaced": "No colocado",
-  "bedsMigration.farmHandCount": "{{count}} /8",
   "bedsMigration.label": "Mis camas",
   "restrictionReason.chickensSleeping": "Los pollos duermen",
   "description.cheese": "Una deliciosa delicia láctea hecha con leche fresca",
@@ -6319,5 +6318,6 @@
   "visitorGuide.clutter": "Encuentra el estiércol, la maleza y la basura escondidos.",
   "visitorGuide.binGuide": "Basura",
   "visitorGuide.binGuide.description": "Todos los días, puedes recoger 30 piezas de basura que encuentres en las granjas de tus amigos.",
-  "visitorGuide.binGuide.burn": "Quema basura"
+  "visitorGuide.binGuide.burn": "Quema basura",
+  "bedsMigration.farmHandCount": "{{count}}/{{max}}"
 }

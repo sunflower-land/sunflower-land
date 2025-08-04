@@ -3669,7 +3669,6 @@
   "bedsMigration.status.occupied": "Besetzt",
   "bedsMigration.status.unoccupied": "Leer",
   "bedsMigration.status.notPlaced": "Nicht platziert",
-  "bedsMigration.farmHandCount": "{{count}} /8",
   "bedsMigration.label": "Meine Betten",
   "restrictionReason.chickensSleeping": "Hühner schlafen",
   "description.cheese": "Ein köstlicher Milchgenuss aus frischer Milch",
@@ -6319,5 +6318,6 @@
   "visitorGuide.clutter": "Finde den versteckten Mist, Unkraut und Müll.",
   "visitorGuide.binGuide": "Müll",
   "visitorGuide.binGuide.description": "Jeden Tag kannst du 30 Müllstücke einsammeln, die du auf den Farmen deines Freundes findest.",
-  "visitorGuide.binGuide.burn": "Müll verbrennen"
+  "visitorGuide.binGuide.burn": "Müll verbrennen",
+  "bedsMigration.farmHandCount": "{{count}}/{{max}}"
 }

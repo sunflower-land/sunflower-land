@@ -3669,7 +3669,6 @@
   "bedsMigration.status.occupied": "Ocupado",
   "bedsMigration.status.unoccupied": "Vazio",
   "bedsMigration.status.notPlaced": "Não colocado",
-  "bedsMigration.farmHandCount": "{{count}} /8",
   "bedsMigration.label": "Minhas camas",
   "restrictionReason.chickensSleeping": "As galinhas estão dormindo",
   "description.cheese": "Uma deliciosa delícia láctea feita com leite fresco",
@@ -6319,5 +6318,6 @@
   "visitorGuide.clutter": "Encontre o esterco, as ervas daninhas e o lixo escondidos.",
   "visitorGuide.binGuide": "Lixo",
   "visitorGuide.binGuide.description": "Todos os dias, você pode coletar 30 pedaços de lixo que encontra nas fazendas de seus amigos.",
-  "visitorGuide.binGuide.burn": "Queimar lixo"
+  "visitorGuide.binGuide.burn": "Queimar lixo",
+  "bedsMigration.farmHandCount": "{{count}}/{{max}}"
 }

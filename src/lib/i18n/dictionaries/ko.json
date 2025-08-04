@@ -3669,7 +3669,6 @@
   "bedsMigration.status.occupied": "점령",
   "bedsMigration.status.unoccupied": "비어 있습니다",
   "bedsMigration.status.notPlaced": "배치되지 않음",
-  "bedsMigration.farmHandCount": "{{count}} /8",
   "bedsMigration.label": "마이 베드",
   "restrictionReason.chickensSleeping": "닭이 자고 있어요",
   "description.cheese": "신선한 우유로 만든 맛있는 유제품",
@@ -6319,5 +6318,6 @@
   "visitorGuide.clutter": "숨겨진 배설물, 잡초, 쓰레기를 찾으세요.",
   "visitorGuide.binGuide": "쓰레기",
   "visitorGuide.binGuide.description": "친구의 농장에서 찾은 쓰레기 30개를 매일 주울 수 있습니다.",
-  "visitorGuide.binGuide.burn": "쓰레기 태우기"
+  "visitorGuide.binGuide.burn": "쓰레기 태우기",
+  "bedsMigration.farmHandCount": "{{count}}/{{max}}"
 }

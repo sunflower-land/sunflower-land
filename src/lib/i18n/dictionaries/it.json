@@ -3669,7 +3669,6 @@
   "bedsMigration.status.occupied": "Occupato",
   "bedsMigration.status.unoccupied": "Vuoto",
   "bedsMigration.status.notPlaced": "Non posizionato",
-  "bedsMigration.farmHandCount": "{{count}} /8",
   "bedsMigration.label": "I miei letti",
   "restrictionReason.chickensSleeping": "I polli dormono",
   "description.cheese": "Una deliziosa delizia casearia a base di latte fresco",
@@ -6319,5 +6318,6 @@
   "visitorGuide.clutter": "Trova lo sterco, le erbacce e la spazzatura nascosti.",
   "visitorGuide.binGuide": "Immondizia",
   "visitorGuide.binGuide.description": "Ogni giorno puoi raccogliere 30 pezzi di immondizia che trovi nelle fattorie dei tuoi amici.",
-  "visitorGuide.binGuide.burn": "Brucia immondizia"
+  "visitorGuide.binGuide.burn": "Brucia immondizia",
+  "bedsMigration.farmHandCount": "{{count}}/{{max}}"
 }

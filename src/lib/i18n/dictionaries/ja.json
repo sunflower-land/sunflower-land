@@ -3669,7 +3669,6 @@
   "bedsMigration.status.occupied": "占領",
   "bedsMigration.status.unoccupied": "空です",
   "bedsMigration.status.notPlaced": "未配置",
-  "bedsMigration.farmHandCount": "{{count}} /8",
   "bedsMigration.label": "マイベッド",
   "restrictionReason.chickensSleeping": "ニワトリは寝ている",
   "description.cheese": "新鮮な牛乳を使ったおいしい乳製品",
@@ -6319,5 +6318,6 @@
   "visitorGuide.clutter": "隠された糞、雑草、ゴミを見つけてください。",
   "visitorGuide.binGuide": "ガベージ",
   "visitorGuide.binGuide.description": "毎日、友達の農場で見つけたゴミを30個拾うことができます。",
-  "visitorGuide.binGuide.burn": "ゴミを燃やす"
+  "visitorGuide.binGuide.burn": "ゴミを燃やす",
+  "bedsMigration.farmHandCount": "{{count}}/{{max}}"
 }

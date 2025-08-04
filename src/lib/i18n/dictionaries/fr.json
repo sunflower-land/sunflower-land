@@ -3669,7 +3669,6 @@
   "bedsMigration.status.occupied": "Occupé",
   "bedsMigration.status.unoccupied": "Vide",
   "bedsMigration.status.notPlaced": "Non placé",
-  "bedsMigration.farmHandCount": "{{count}} /8",
   "bedsMigration.label": "Mes lits",
   "restrictionReason.chickensSleeping": "Les poulets dorment",
   "description.cheese": "Un délicieux délice laitier à base de lait frais",
@@ -6319,5 +6318,6 @@
   "visitorGuide.clutter": "Trouvez les excréments, les mauvaises herbes et les déchets cachés.",
   "visitorGuide.binGuide": "Déchets",
   "visitorGuide.binGuide.description": "Chaque jour, tu peux ramasser 30 déchets que tu trouves dans les fermes de tes amis.",
-  "visitorGuide.binGuide.burn": "Brûlez les déchets"
+  "visitorGuide.binGuide.burn": "Brûlez les déchets",
+  "bedsMigration.farmHandCount": "{{count}}/{{max}}"
 }
