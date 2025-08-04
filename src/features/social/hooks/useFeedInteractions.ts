@@ -36,7 +36,8 @@ export function useFeedInteractions(
   );
 
   const feed = data ? data.flatMap((page) => page.feed).filter(Boolean) : [];
-  const following = data ? data.flatMap((page) => page.following) : [];
+  // Only take following from the first page since it should be consistent across all pages
+  const following = data && data.length > 0 ? data[0].following : [];
 
   return {
     feed,
