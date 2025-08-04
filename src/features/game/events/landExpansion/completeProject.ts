@@ -90,30 +90,7 @@ export function completeProject({
     let boost = 0;
 
     if (rewardItem.item === "Love Charm") {
-      if (
-        (stateCopy.socialFarming.villageProjects["Farmer's Monument"]?.cheers ??
-          0) >= REQUIRED_CHEERS["Farmer's Monument"]
-      ) {
-        boost += rewardAmount * 0.01;
-      }
-      if (
-        (stateCopy.socialFarming.villageProjects["Woodcutter's Monument"]
-          ?.cheers ?? 0) >= REQUIRED_CHEERS["Woodcutter's Monument"]
-      ) {
-        boost += rewardAmount * 0.03;
-      }
-      if (
-        (stateCopy.socialFarming.villageProjects["Miner's Monument"]?.cheers ??
-          0) >= REQUIRED_CHEERS["Miner's Monument"]
-      ) {
-        boost += rewardAmount * 0.06;
-      }
-      if (
-        (stateCopy.socialFarming.villageProjects["Teamwork Monument"]?.cheers ??
-          0) >= REQUIRED_CHEERS["Teamwork Monument"]
-      ) {
-        boost += rewardAmount * 0.1;
-      }
+      boost = getLoveCharmBoost(stateCopy, rewardAmount);
     }
 
     const newAmount = rewardAmount + boost;
@@ -135,3 +112,34 @@ export function completeProject({
     return stateCopy;
   });
 }
+
+export const getLoveCharmBoost = (state: GameState, rewardAmount: number) => {
+  let boost = 0;
+
+  if (
+    (state.socialFarming.villageProjects["Farmer's Monument"]?.cheers ?? 0) >=
+    REQUIRED_CHEERS["Farmer's Monument"]
+  ) {
+    boost += rewardAmount * 0.01;
+  }
+  if (
+    (state.socialFarming.villageProjects["Woodcutter's Monument"]?.cheers ??
+      0) >= REQUIRED_CHEERS["Woodcutter's Monument"]
+  ) {
+    boost += rewardAmount * 0.03;
+  }
+  if (
+    (state.socialFarming.villageProjects["Miner's Monument"]?.cheers ?? 0) >=
+    REQUIRED_CHEERS["Miner's Monument"]
+  ) {
+    boost += rewardAmount * 0.06;
+  }
+  if (
+    (state.socialFarming.villageProjects["Teamwork Monument"]?.cheers ?? 0) >=
+    REQUIRED_CHEERS["Teamwork Monument"]
+  ) {
+    boost += rewardAmount * 0.1;
+  }
+
+  return boost;
+};

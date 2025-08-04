@@ -26,6 +26,7 @@ import chest from "assets/icons/chest.png";
 import { Box } from "components/ui/Box";
 import { formatNumber } from "lib/utils/formatNumber";
 import {
+  getLoveCharmBoost,
   REQUIRED_CHEERS,
   REWARD_ITEMS,
 } from "features/game/events/landExpansion/completeProject";
@@ -159,6 +160,7 @@ export const CheerModal: React.FC<{
 };
 
 const ProjectModal: React.FC<{
+  state: GameState;
   project: MonumentName;
   onClose: () => void;
   onComplete: () => void;
@@ -167,6 +169,11 @@ const ProjectModal: React.FC<{
   const { t } = useAppTranslation();
 
   const rewardItem = REWARD_ITEMS[project];
+
+  let amount = rewardItem?.amount ?? 0;
+  if (rewardItem?.item === "Love Charm") {
+    amount += getLoveCharmBoost(state, amount);
+  }
 
   const isProjectComplete = cheers >= REQUIRED_CHEERS[project];
 
@@ -450,6 +457,7 @@ export const Project: React.FC<ProjectProps> = (input) => {
 
       <Modal show={isCompleting} onHide={() => setIsCompleting(false)}>
         <ProjectModal
+          state={gameService.getSnapshot().context.state}
           project={input.project}
           onClose={() => setIsCompleting(false)}
           onComplete={handleComplete}
