@@ -72,6 +72,7 @@ const ProjectModal: React.FC<{
               project,
               cheers,
               requiredCheers: REQUIRED_CHEERS[project],
+              remaining: REQUIRED_CHEERS[project] - cheers,
             })}
         </span>
       </div>

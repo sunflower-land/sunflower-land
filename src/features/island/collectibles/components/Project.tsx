@@ -30,6 +30,7 @@ import {
   REQUIRED_CHEERS,
   REWARD_ITEMS,
 } from "features/game/events/landExpansion/completeProject";
+import { GameState } from "features/game/types/game";
 
 import farmerMonumentOne from "assets/monuments/shovel_monument_stage_1.webp";
 import farmerMonumentTwo from "assets/monuments/shovel_monument_stage_2.webp";
@@ -165,7 +166,7 @@ const ProjectModal: React.FC<{
   onClose: () => void;
   onComplete: () => void;
   cheers: number;
-}> = ({ project, onClose, onComplete, cheers }) => {
+}> = ({ project, onClose, onComplete, cheers, state }) => {
   const { t } = useAppTranslation();
 
   const rewardItem = REWARD_ITEMS[project];
@@ -200,6 +201,7 @@ const ProjectModal: React.FC<{
               project,
               cheers,
               requiredCheers: REQUIRED_CHEERS[project],
+              remaining: REQUIRED_CHEERS[project] - cheers,
             })}
         </span>
       </div>
@@ -220,7 +222,7 @@ const ProjectModal: React.FC<{
           />
           <div className="flex flex-col">
             <Label type="default" className="mr-1 mb-1">
-              {`${formatNumber(rewardItem.amount)} x ${rewardItem.item}`}
+              {`${formatNumber(amount)} x ${rewardItem.item}`}
             </Label>
 
             <p className="text-xs ml-0.5">
