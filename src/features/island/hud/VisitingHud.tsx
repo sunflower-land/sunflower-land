@@ -52,6 +52,10 @@ const _showCleanedModal = (state: MachineState) => {
     farmId: state.context.farmId,
   });
 
+  if (state.matches("cleaningFarm")) {
+    return false;
+  }
+
   return collectedClutter === TRASH_BIN_FARM_LIMIT && !hasCleanedToday(state);
 };
 
