@@ -6323,5 +6323,11 @@
   "cheering.free.description": "每天您最多可获得 3 次免费欢呼。",
   "cheers.plus3": "+3 干杯",
   "cheering.free.claim": "申领 {{amount}} 干杯",
-  "vip.benefit.cheers": "+3 免费欢呼"
+  "vip.benefit.cheers": "+3 免费欢呼",
+  "bin.makeRoom": "腾出空间",
+  "bin.cantWait": "制作一把扫帚，腾出空间来收集更多垃圾。",
+  "bin.binBag": "垃圾袋",
+  "bin.increaseLimit": "增加上限 (+30)",
+  "bin.cantWait.description": "提高你今天可以捡起的垃圾的限量。",
+  "bin.increaseLimit.description": "你确定要提高限额吗？这将每天重置。"
 }

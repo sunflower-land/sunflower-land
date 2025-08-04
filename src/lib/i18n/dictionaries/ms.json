@@ -6323,5 +6323,11 @@
   "cheering.free.description": "Setiap hari anda menerima sehingga 3 sorakan percuma.",
   "cheers.plus3": "+3 Salam",
   "cheering.free.claim": "Tuntutan {{amount}} Terima",
-  "vip.benefit.cheers": "+3 Sorakan Percuma"
+  "vip.benefit.cheers": "+3 Sorakan Percuma",
+  "bin.makeRoom": "Buat ruang",
+  "bin.cantWait": "Buat penyapu dan buat ruang untuk mengambil lebih banyak sampah.",
+  "bin.binBag": "Beg Tin",
+  "bin.increaseLimit": "Meningkatkan Had (+30)",
+  "bin.cantWait.description": "Meningkatkan had sampah yang boleh anda ambil hari ini.",
+  "bin.increaseLimit.description": "Adakah anda pasti ingin meningkatkan had? Ini akan ditetapkan semula setiap hari."
 }

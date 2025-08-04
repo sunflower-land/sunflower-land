@@ -6323,5 +6323,11 @@
   "cheering.free.description": "Todos los días recibirás hasta 3 aplausos gratis.",
   "cheers.plus3": "+3 aplausos",
   "cheering.free.claim": "Reclamación {{amount}} Saludos",
-  "vip.benefit.cheers": "+3 aplausos gratis"
+  "vip.benefit.cheers": "+3 aplausos gratis",
+  "bin.makeRoom": "Haz espacio",
+  "bin.cantWait": "Fabrica una escoba y deja espacio para recoger más basura.",
+  "bin.binBag": "Bolsa de basura",
+  "bin.increaseLimit": "Aumentar el límite (+30)",
+  "bin.cantWait.description": "Aumente el límite de basura que puede recoger hoy.",
+  "bin.increaseLimit.description": "¿Está seguro de que desea aumentar el límite? Esto se restablecerá todos los días."
 }

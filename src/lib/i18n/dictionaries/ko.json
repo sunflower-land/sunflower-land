@@ -6323,5 +6323,11 @@
   "cheering.free.description": "매일 최대 3회의 무료 응원을 받을 수 있습니다.",
   "cheers.plus3": "+3 치어스",
   "cheering.free.claim": "클레임 {{amount}} 건배",
-  "vip.benefit.cheers": "+3 프리 치어스"
+  "vip.benefit.cheers": "+3 프리 치어스",
+  "bin.makeRoom": "방 만들기",
+  "bin.cantWait": "빗자루를 만들고 더 많은 쓰레기를 줍을 공간을 만드세요.",
+  "bin.binBag": "빈 백",
+  "bin.increaseLimit": "한도 증가 (+30)",
+  "bin.cantWait.description": "오늘 수거할 수 있는 쓰레기의 양을 늘리십시오.",
+  "bin.increaseLimit.description": "정말로 한도를 늘리시겠습니까?이 값은 매일 초기화됩니다."
 }

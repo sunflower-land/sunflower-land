@@ -6323,5 +6323,11 @@
   "cheering.free.description": "Her gün 3 adede kadar ücretsiz tezahürat alırsınız.",
   "cheers.plus3": "+3 Cheers",
   "cheering.free.claim": "Talep et {{amount}} Teşekkürler",
-  "vip.benefit.cheers": "+3 Free Cheers"
+  "vip.benefit.cheers": "+3 Free Cheers",
+  "bin.makeRoom": "Yer aç",
+  "bin.cantWait": "Bir süpürge yapın ve daha fazla çöp toplamak için yer açın.",
+  "bin.binBag": "Çöp Çantası",
+  "bin.increaseLimit": "Artış Limiti (+30)",
+  "bin.cantWait.description": "Bugün alabileceğiniz çöp sınırını artırın.",
+  "bin.increaseLimit.description": "Sınırı yükseltmek istediğinizden emin misiniz? Bu her gün sıfırlanacaktır."
 }
