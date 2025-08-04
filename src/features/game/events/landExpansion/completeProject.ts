@@ -86,9 +86,41 @@ export function completeProject({
       throw new Error("Project does not have a reward");
     }
 
+    const rewardAmount = rewardItem.amount;
+    let boost = 0;
+
+    if (rewardItem.item === "Love Charm") {
+      if (
+        (stateCopy.socialFarming.villageProjects["Farmer's Monument"]?.cheers ??
+          0) >= REQUIRED_CHEERS["Farmer's Monument"]
+      ) {
+        boost += rewardAmount * 0.01;
+      }
+      if (
+        (stateCopy.socialFarming.villageProjects["Woodcutter's Monument"]
+          ?.cheers ?? 0) >= REQUIRED_CHEERS["Woodcutter's Monument"]
+      ) {
+        boost += rewardAmount * 0.03;
+      }
+      if (
+        (stateCopy.socialFarming.villageProjects["Miner's Monument"]?.cheers ??
+          0) >= REQUIRED_CHEERS["Miner's Monument"]
+      ) {
+        boost += rewardAmount * 0.06;
+      }
+      if (
+        (stateCopy.socialFarming.villageProjects["Teamwork Monument"]?.cheers ??
+          0) >= REQUIRED_CHEERS["Teamwork Monument"]
+      ) {
+        boost += rewardAmount * 0.1;
+      }
+    }
+
+    const newAmount = rewardAmount + boost;
+
     stateCopy.inventory[rewardItem.item] =
-      stateCopy.inventory[rewardItem.item]?.add(rewardItem.amount) ??
-      new Decimal(rewardItem.amount);
+      stateCopy.inventory[rewardItem.item]?.add(newAmount) ??
+      new Decimal(newAmount);
 
     // Delete the village project
     stateCopy.socialFarming.villageProjects[action.project] = undefined;
