@@ -22,10 +22,14 @@ export function catchPest({
   state,
   action,
   visitorState,
-}: Options): [GameState, GameState] {
+}: Options): [GameState, GameState | undefined] {
   enableMapSet();
-  return produce([state, visitorState!], ([game, visitorGame]) => {
-    if (!hasFeatureAccess(game, "PESTS")) {
+  return produce([state, visitorState], ([game, visitorGame]) => {
+    if (!visitorGame) {
+      throw new Error("Visitor state not found");
+    }
+
+    if (!hasFeatureAccess(visitorGame, "PESTS")) {
       throw new Error("This feature is not available");
     }
 
