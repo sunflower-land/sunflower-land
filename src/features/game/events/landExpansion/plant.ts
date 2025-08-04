@@ -47,7 +47,11 @@ import {
   getActiveGuardian,
 } from "features/game/types/calendar";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
-import { canUseTimeBoostAOE, setAOEAvailableAt } from "features/game/lib/aoe";
+import {
+  canUseTimeBoostAOE,
+  isCollectibleOnFarm,
+  setAOEAvailableAt,
+} from "features/game/lib/aoe";
 import cloneDeep from "lodash.clonedeep";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
@@ -385,7 +389,7 @@ export const getCropPlotTime = ({
   // If within Basic Scarecrow AOE: 20% reduction
   // This must be at the end of the function as it relies on the seconds variable
   if (
-    isCollectibleBuilt({ name: "Basic Scarecrow", game }) &&
+    isCollectibleOnFarm({ name: "Basic Scarecrow", game }) &&
     isBasicCrop(crop) &&
     plot &&
     plot.x !== undefined &&
