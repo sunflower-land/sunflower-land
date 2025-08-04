@@ -460,6 +460,10 @@ export const BUMPKIN_RELEASES: Partial<Record<BumpkinItem, Releases>> = {
     tradeAt: SEASONS["Better Together"].endDate,
     withdrawAt: SEASONS["Better Together"].endDate,
   },
+  "Pickaxe Shark": {
+    tradeAt: SEASONS["Better Together"].endDate,
+    withdrawAt: SEASONS["Better Together"].endDate,
+  },
   "Garbage Bin Hat": {
     tradeAt: SEASONS["Better Together"].endDate,
     withdrawAt: SEASONS["Better Together"].endDate,
