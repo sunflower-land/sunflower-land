@@ -4,6 +4,8 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Modal } from "components/ui/Modal";
 import giftIcon from "assets/icons/gift.png";
 import cheer from "assets/icons/cheer.webp";
+import followersIcon from "assets/icons/followers.webp";
+import followingIcon from "assets/icons/following.webp";
 
 import { SUNNYSIDE } from "assets/sunnyside";
 import { GameState } from "features/game/types/game";
@@ -230,12 +232,12 @@ export const PlayerModal: React.FC<Props> = ({
                 ]
               : []),
             {
-              icon: SUNNYSIDE.icons.player,
+              icon: followersIcon,
               name: t("followers"),
               id: "Followers",
             },
             {
-              icon: SUNNYSIDE.icons.player,
+              icon: followingIcon,
               name: t("following"),
               id: "Following",
             },
