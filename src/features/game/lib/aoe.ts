@@ -1,5 +1,6 @@
 import { AOEItemName } from "../expansion/placeable/lib/collisionDetection";
-import { AOE } from "../types/game";
+import { CollectibleName } from "../types/craftables";
+import { AOE, GameState } from "../types/game";
 
 /**
  * Important: for yield boosts, the gameState.aoe object contains when the boost was last used.
@@ -50,3 +51,19 @@ export const setAOEAvailableAt = (
   aoe[item][dx] = aoe[item][dx] ?? {};
   aoe[item][dx][dy] = createdAt + waitTime;
 };
+
+export function isCollectibleOnFarm({
+  name,
+  game,
+}: {
+  name: CollectibleName;
+  game: GameState;
+}) {
+  const placedOnFarm =
+    game.collectibles[name] &&
+    game.collectibles[name]?.some(
+      (placed) => placed.readyAt <= Date.now() && placed.coordinates,
+    );
+
+  return placedOnFarm;
+}

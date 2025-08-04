@@ -9,8 +9,7 @@ import {
   Position,
   isWithinAOE,
 } from "features/game/expansion/placeable/lib/collisionDetection";
-import { setAOEAvailableAt } from "features/game/lib/aoe";
-import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import { isCollectibleOnFarm, setAOEAvailableAt } from "features/game/lib/aoe";
 import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
 import { RESOURCE_DIMENSIONS } from "features/game/types/resources";
 
@@ -116,7 +115,7 @@ export function fertilisePlot({
         crop.boostedTime = (crop.boostedTime ?? 0) + timeReduction;
 
         if (
-          isCollectibleBuilt({ name: "Basic Scarecrow", game: stateCopy }) &&
+          isCollectibleOnFarm({ name: "Basic Scarecrow", game: stateCopy }) &&
           isBasicCrop(crop.name)
         ) {
           // Get Coordinates of the Scarecrow
