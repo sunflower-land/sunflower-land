@@ -6483,7 +6483,7 @@
   "news.betterTogether.mutants": "Discover mutants and other chapter-exclusive NFTs.",
   "project.completed": "Congratulations! The {{project}} is complete! Completing the project will remove the project from your land and allow you to build a new one.",
   "monument.completed": "Congratulations! The {{project}} is complete! Each unique completed monument gives +1 Love Charm each time a Big Orange, Big Banana or Big Apple is completed.",
-  "project.incomplete": "The {{project}} has {{cheers}}/{{requiredCheers}} cheers. {{requiredCheers - cheers}} to go!",
+  "project.incomplete": "The {{project}} has {{cheers}}/{{requiredCheers}} cheers. {{remaining}} to go!",
   "farmersMonument.boost": "+1% Love Charms when selling Big Orange, Big Banana or Big Apple",
   "woodcuttersMonument.boost": "+3% Love Charms when selling Big Orange, Big Banana or Big Apple",
   "minersMonument.boost": "+6% Love Charms when selling Big Orange, Big Banana or Big Apple",
