@@ -16,20 +16,21 @@ export function hasReadNews() {
   const readAt = localStorage.getItem("newsReadAt");
   if (!readAt) return false;
 
-  const recentNewsItem = NEWS_ITEMS.sort(
-    (a, b) => b.date.getTime() - a.date.getTime(),
-  )[0];
+  const recentNewsItem = NEWS_ITEMS.filter(
+    (item) => item.date.getTime() < new Date().getTime(),
+  ).sort((a, b) => b.date.getTime() - a.date.getTime())[0];
 
   const date = new Date(readAt);
-  return date.getTime() > recentNewsItem.date.getTime();
+
+  return date.getTime() >= recentNewsItem.date.getTime();
 }
 
 export function storeNewsReadAt() {
-  const recentNewsItem = NEWS_ITEMS.sort(
-    (a, b) => b.date.getTime() - a.date.getTime(),
-  )[0];
+  const recentNewsItem = NEWS_ITEMS.filter(
+    (item) => item.date.getTime() < new Date().getTime(),
+  ).sort((a, b) => b.date.getTime() - a.date.getTime())[0];
 
-  localStorage.setItem("newsReadAt", recentNewsItem.date.toLocaleDateString());
+  localStorage.setItem("newsReadAt", recentNewsItem.date.toISOString());
 }
 
 interface NewsItem {

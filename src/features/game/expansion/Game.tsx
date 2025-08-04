@@ -654,7 +654,6 @@ export const GameWrapper: React.FC<React.PropsWithChildren> = ({
               />
             )}
             {cheers && <Cheering />}
-            {news && <News />}
           </Panel>
         </Modal>
 
