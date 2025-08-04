@@ -426,7 +426,7 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                       </Label>
                     )}
 
-                    {(!isTradeable || isTradeable === undefined) && (
+                    {!isTradeable && (
                       <Label
                         type="formula"
                         icon={lockIcon}
