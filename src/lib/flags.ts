@@ -137,6 +137,7 @@ const FEATURE_FLAGS = {
       end: new Date(COMPETITION_POINTS.PEGGYS_COOKOFF.endAt),
     })(),
   CHEERS: betaTimeBasedFeatureFlag(new Date("2025-08-04T00:00:00Z")),
+  BIN_LIMITS: defaultFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;

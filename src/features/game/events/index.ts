@@ -530,6 +530,10 @@ import {
   completeProject,
   CompleteProjectAction,
 } from "./landExpansion/completeProject";
+import {
+  increaseBinLimit,
+  IncreaseBinLimitAction,
+} from "./landExpansion/increaseBinLimit";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
@@ -678,7 +682,10 @@ export type PlayingEvent =
   | ClaimCheersAction
   | CompleteProjectAction;
 
-export type VisitingEvent = CollectClutterAction | CatchPestAction;
+export type VisitingEvent =
+  | CollectClutterAction
+  | CatchPestAction
+  | IncreaseBinLimitAction;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -913,6 +920,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
 export const VISITING_EVENTS: Handlers<VisitingEvent> = {
   "clutter.collected": collectClutter,
   "pest.caught": catchPest,
+  "binLimit.increased": increaseBinLimit,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {
