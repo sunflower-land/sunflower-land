@@ -2616,7 +2616,6 @@ export const COLLECTIBLE_COMPONENTS: Record<
       imgStyle={{
         width: `${PIXEL_SCALE * 26}px`,
       }}
-      image={ITEM_DETAILS["Big Apple"].image}
       alt="Big Apple"
       project="Big Apple"
     />
@@ -2632,7 +2631,6 @@ export const COLLECTIBLE_COMPONENTS: Record<
       imgStyle={{
         width: `${PIXEL_SCALE * 28}px`,
       }}
-      image={ITEM_DETAILS["Big Orange"].image}
       alt="Big Orange"
       project="Big Orange"
     />
@@ -2648,7 +2646,6 @@ export const COLLECTIBLE_COMPONENTS: Record<
       imgStyle={{
         width: `${PIXEL_SCALE * 32}px`,
       }}
-      image={ITEM_DETAILS["Big Banana"].image}
       alt="Big Banana"
       project="Big Banana"
     />
@@ -2664,7 +2661,6 @@ export const COLLECTIBLE_COMPONENTS: Record<
       imgStyle={{
         width: `${PIXEL_SCALE * 46}px`,
       }}
-      image={ITEM_DETAILS["Farmer's Monument"].image}
       alt="Farmer's Monument"
       project="Farmer's Monument"
     />
@@ -2680,7 +2676,6 @@ export const COLLECTIBLE_COMPONENTS: Record<
       imgStyle={{
         width: `${PIXEL_SCALE * 42}px`,
       }}
-      image={ITEM_DETAILS["Miner's Monument"].image}
       alt="Miner's Monument"
       project="Miner's Monument"
     />
@@ -2696,7 +2691,6 @@ export const COLLECTIBLE_COMPONENTS: Record<
       imgStyle={{
         width: `${PIXEL_SCALE * 43}px`,
       }}
-      image={ITEM_DETAILS["Woodcutter's Monument"].image}
       alt="Woodcutter's Monument"
       project="Woodcutter's Monument"
     />
@@ -2712,7 +2706,6 @@ export const COLLECTIBLE_COMPONENTS: Record<
       imgStyle={{
         width: `${PIXEL_SCALE * 47}px`,
       }}
-      image={ITEM_DETAILS["Teamwork Monument"].image}
       alt="Teamwork Monument"
       project="Teamwork Monument"
     />
@@ -2728,7 +2721,6 @@ export const COLLECTIBLE_COMPONENTS: Record<
       imgStyle={{
         width: `${PIXEL_SCALE * 27}px`,
       }}
-      image={ITEM_DETAILS["Basic Cooking Pot"].image}
       alt="Basic Cooking Pot"
       project="Basic Cooking Pot"
     />
@@ -2744,7 +2736,6 @@ export const COLLECTIBLE_COMPONENTS: Record<
       imgStyle={{
         width: `${PIXEL_SCALE * 32}px`,
       }}
-      image={ITEM_DETAILS["Expert Cooking Pot"].image}
       alt="Expert Cooking Pot"
       project="Expert Cooking Pot"
     />
@@ -2760,7 +2751,6 @@ export const COLLECTIBLE_COMPONENTS: Record<
       imgStyle={{
         width: `${PIXEL_SCALE * 34}px`,
       }}
-      image={ITEM_DETAILS["Advanced Cooking Pot"].image}
       alt="Advanced Cooking Pot"
       project="Advanced Cooking Pot"
     />
