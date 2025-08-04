@@ -35,6 +35,7 @@ interface Props {
   loggedInFarmId: number;
   token: string;
   hasAirdropAccess: boolean;
+  showSpecialTabs?: boolean;
 }
 
 type Tab =
@@ -57,6 +58,7 @@ export const PlayerModal: React.FC<Props> = ({
   loggedInFarmId,
   token,
   hasAirdropAccess,
+  showSpecialTabs,
 }) => {
   const { t } = useAppTranslation();
   const [tab, setTab] = useState<Tab>("Player");
@@ -107,15 +109,17 @@ export const PlayerModal: React.FC<Props> = ({
   const player = data?.data;
 
   const setInitialTab = useCallback((equipped?: Equipped) => {
-    if (
-      equipped?.hat === "Streamer Hat" &&
-      loggedInFarmId !== currentPlayerId
-    ) {
-      setTab("Stream");
-    } else if (equipped?.shirt === "Gift Giver") {
-      setTab("Reward");
-    } else {
-      setTab("Player");
+    if (showSpecialTabs) {
+      if (
+        equipped?.hat === "Streamer Hat" &&
+        loggedInFarmId !== currentPlayerId
+      ) {
+        setTab("Stream");
+      } else if (equipped?.shirt === "Gift Giver") {
+        setTab("Reward");
+      } else {
+        setTab("Player");
+      }
     }
   }, []);
 
@@ -240,7 +244,7 @@ export const PlayerModal: React.FC<Props> = ({
               id: "Following",
             },
 
-            ...(playerHasGift
+            ...(playerHasGift && showSpecialTabs
               ? [
                   {
                     icon: giftIcon,
@@ -249,7 +253,7 @@ export const PlayerModal: React.FC<Props> = ({
                   },
                 ]
               : []),
-            ...(playerHasStreamReward && notCurrentPlayer
+            ...(playerHasStreamReward && notCurrentPlayer && showSpecialTabs
               ? [
                   {
                     icon: ITEM_DETAILS["Love Charm"].image,
