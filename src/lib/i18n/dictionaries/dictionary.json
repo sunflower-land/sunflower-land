@@ -4910,7 +4910,7 @@
   "bedsMigration.status.occupied": "Occupied",
   "bedsMigration.status.unoccupied": "Empty",
   "bedsMigration.status.notPlaced": "Not Placed",
-  "bedsMigration.farmHandCount": "{{count}}/8",
+  "bedsMigration.farmHandCount": "{{count}}/{{max}}",
   "bedsMigration.label": "My Beds",
   "farmHand": "Farm Hand",
   "description.petting.hand": "Pets animals. Use this to show affection to your animals.",
