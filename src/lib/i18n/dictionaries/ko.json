@@ -6208,8 +6208,6 @@
   "description.architectRuler.boost": "제작 상자 속도 +25%",
   "description.reelmastersChair.boost": "+5 낚시 시도",
   "description.giantArtichoke.boost": "+2 아티초크",
-  "description.pickaxeShark.boost.1": "골드 회복 시간 15% 증가",
-  "description.pickaxeShark.boost.2": "10% 확률로 인스턴트 골드 획득",
   "cheer.village.project.description": "{{project}} 를 응원해 {{username}} 가 완료할 수 있도록 도와주세요!",
   "description.fruitTuneBox.boost": "+20% 과일 패치 성장 속도",
   "socialPoints": "{{points}} 소셜 포인트",
@@ -6319,5 +6317,7 @@
   "visitorGuide.binGuide": "쓰레기",
   "visitorGuide.binGuide.description": "친구의 농장에서 찾은 쓰레기 30개를 매일 주울 수 있습니다.",
   "visitorGuide.binGuide.burn": "쓰레기 태우기",
-  "bedsMigration.farmHandCount": "{{count}}/{{max}}"
+  "bedsMigration.farmHandCount": "{{count}}/{{max}}",
+  "description.pickaxeShark.boost.1": "골드 회복 시간 -15%",
+  "description.pickaxeShark.boost.2": "10% 의 확률로 골드가 즉시 회복"
 }

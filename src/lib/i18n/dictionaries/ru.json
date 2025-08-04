@@ -6208,8 +6208,6 @@
   "description.architectRuler.boost": "Скорость изготовления ящиков: +25%",
   "description.reelmastersChair.boost": "+5 попыток рыбалки",
   "description.giantArtichoke.boost": "+2 артишока",
-  "description.pickaxeShark.boost.1": "Время восстановления золота: +15%",
-  "description.pickaxeShark.boost.2": "Вероятность получения мгновенного золота: 10%",
   "cheer.village.project.description": "Вы можете поддержать {{project}}, чтобы они помогли {{username}} пройти его!",
   "description.fruitTuneBox.boost": "Скорость роста фруктовых грядок: +20%",
   "socialPoints": "{{points}} Социальные баллы",
@@ -6319,5 +6317,7 @@
   "visitorGuide.binGuide": "Мусор",
   "visitorGuide.binGuide.description": "Каждый день вы можете собирать 30 кусков мусора, которые вы найдете на фермах вашего друга.",
   "visitorGuide.binGuide.burn": "Сжигайте мусор",
-  "bedsMigration.farmHandCount": "{{count}}/{{max}}"
+  "bedsMigration.farmHandCount": "{{count}}/{{max}}",
+  "description.pickaxeShark.boost.1": "Время восстановления золота -15%",
+  "description.pickaxeShark.boost.2": "Вероятность мгновенного восстановления золота в размере 10%"
 }

@@ -6208,8 +6208,6 @@
   "description.architectRuler.boost": "Vitesse de la boîte de fabrication +25 %",
   "description.reelmastersChair.boost": "+5 tentatives de pêche",
   "description.giantArtichoke.boost": "+2 artichauts",
-  "description.pickaxeShark.boost.1": "Temps de récupération de l'or +15 %",
-  "description.pickaxeShark.boost.2": "10 % de chances d'obtenir de l'or instantané",
   "cheer.village.project.description": "Vous pouvez encourager {{project}} pour aider {{username}} à le terminer !",
   "description.fruitTuneBox.boost": "Vitesse de croissance des parcelles fruitières de +20 %",
   "socialPoints": "{{points}} Points sociaux",
@@ -6319,5 +6317,7 @@
   "visitorGuide.binGuide": "Déchets",
   "visitorGuide.binGuide.description": "Chaque jour, tu peux ramasser 30 déchets que tu trouves dans les fermes de tes amis.",
   "visitorGuide.binGuide.burn": "Brûlez les déchets",
-  "bedsMigration.farmHandCount": "{{count}}/{{max}}"
+  "bedsMigration.farmHandCount": "{{count}}/{{max}}",
+  "description.pickaxeShark.boost.1": "-15 % de temps de récupération de l'or",
+  "description.pickaxeShark.boost.2": "10 % de chances que l'or soit récupéré instantanément"
 }

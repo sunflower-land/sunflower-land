@@ -6208,8 +6208,6 @@
   "description.architectRuler.boost": "+25% Üretim Kutusu Hızı",
   "description.reelmastersChair.boost": "+5 Balıkçılık Denemesi",
   "description.giantArtichoke.boost": "+2 Enginar",
-  "description.pickaxeShark.boost.1": "+15% Altın Kurtarma Süresi",
-  "description.pickaxeShark.boost.2": "%10 Anında Altın şansı",
   "cheer.village.project.description": "{{username}} 'i tamamlamasına yardımcı olması için {{project}} 'yi neşelendirebilirsiniz!",
   "description.fruitTuneBox.boost": "+20% Meyve Yaması Büyüme Hızı",
   "socialPoints": "{{points}} Sosyal Puanlar",
@@ -6319,5 +6317,7 @@
   "visitorGuide.binGuide": "Çöp",
   "visitorGuide.binGuide.description": "Her gün arkadaşınızın çiftliklerinde bulduğunuz 30 çöp parçasını toplayabilirsiniz.",
   "visitorGuide.binGuide.burn": "Çöp Yak",
-  "bedsMigration.farmHandCount": "{{count}}/{{max}}"
+  "bedsMigration.farmHandCount": "{{count}}/{{max}}",
+  "description.pickaxeShark.boost.1": "-15% Altın kurtarma süresi",
+  "description.pickaxeShark.boost.2": "Altının anında iyileşme şansı %10"
 }
