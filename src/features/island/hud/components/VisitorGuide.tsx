@@ -12,6 +12,8 @@ import { hasCleanedToday } from "features/island/clutter/Clutter";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import Decimal from "decimal.js-light";
 import { getCollectedGarbage } from "features/game/events/landExpansion/collectClutter";
+import { ClutterName, FARM_PEST } from "features/game/types/clutter";
+import { hasFeatureAccess } from "lib/flags";
 
 interface VisitorGuideProps {
   onClose: () => void;
@@ -29,7 +31,19 @@ export const VisitorGuide: React.FC<VisitorGuideProps> = ({ onClose }) => {
     farmId: gameState.context.farmId,
   });
 
+  const locations = gameState.context.state.socialFarming.clutter?.locations;
+
   const hasCleaned = hasCleanedToday(gameState);
+
+  // Reduce clutter to get a count of each type
+  const clutter = getKeys(locations ?? {}).reduce(
+    (acc, id) => {
+      const type = locations?.[id]?.type as ClutterName;
+      acc[type] = (acc[type] ?? 0) + 1;
+      return acc;
+    },
+    {} as Record<ClutterName, number>,
+  );
 
   return (
     <div className="max-h-[300px] overflow-y-auto scrollable pr-0.5">
@@ -43,23 +57,41 @@ export const VisitorGuide: React.FC<VisitorGuideProps> = ({ onClose }) => {
         {t("visitorGuide.welcomeMessage")}
       </p>
       <Label type="default">{t("taskBoard.tasks")}</Label>
-      <div className="flex items-center gap-1 -mt-1">
-        <Box
-          image={ITEM_DETAILS.Dung.image}
-          secondaryImage={hasCleaned ? SUNNYSIDE.icons.confirm : undefined}
-          count={hasCleaned ? undefined : new Decimal(collectedClutter)}
-        />
-        <div>
-          <p className="text-xs sm:text-sm">
-            {t("visitorGuide.pickupClutter")}
-          </p>
-          <div className="flex items-center my-0.5">
-            <p className="text-xxs sm:text-xs mr-1">
-              {t("visitorGuide.clutter")}
-            </p>
+      {getKeys(clutter).map((type) => {
+        const isPest = type in FARM_PEST;
+        if (isPest && !hasFeatureAccess(gameState.context.state, "PESTS")) {
+          return null;
+        }
+
+        return (
+          <div key={type} className="flex items-center gap-1 -mt-1">
+            <Box
+              image={ITEM_DETAILS[type].image}
+              secondaryImage={hasCleaned ? SUNNYSIDE.icons.confirm : undefined}
+              count={hasCleaned ? undefined : new Decimal(clutter[type])}
+            />
+            <div className="flex-1">
+              <div className="flex items-center justify-between flex-wrap">
+                <p className="text-xs sm:text-sm">
+                  {t("visitorGuide.pickupClutter", {
+                    type,
+                    amount: clutter[type],
+                  })}
+                </p>
+                {isPest && (
+                  <Label type="danger">{t("visitorGuide.netRequired")}</Label>
+                )}
+              </div>
+
+              <div className="flex items-center my-0.5">
+                <p className="text-xxs sm:text-xs mr-1">
+                  {isPest ? t("visitorGuide.pest") : t("visitorGuide.clutter")}
+                </p>
+              </div>
+            </div>
           </div>
-        </div>
-      </div>
+        );
+      })}
 
       {getKeys(WORKBENCH_MONUMENTS)
         .filter((monument) => !!collectibles[monument])
@@ -88,21 +120,6 @@ export const VisitorGuide: React.FC<VisitorGuideProps> = ({ onClose }) => {
             </div>
           );
         })}
-
-      <div className="flex items-center">
-        <Box image={SUNNYSIDE.icons.expression_confused} />
-        <div className="flex-1">
-          <div className="flex items-center justify-between flex-wrap">
-            <p className="text-xs sm:text-sm">{t("visitorGuide.catchPests")}</p>
-            <Label type="danger">{t("visitorGuide.netRequired")}</Label>
-          </div>
-          <div className="flex items-center my-0.5">
-            <p className="text-xxs sm:text-xs mr-1 italic">
-              {t("coming.soon")}
-            </p>
-          </div>
-        </div>
-      </div>
 
       <Button onClick={onClose}>{t("gotIt")}</Button>
     </div>
