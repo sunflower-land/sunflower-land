@@ -371,41 +371,52 @@ export const Project: React.FC<ProjectProps> = (input) => {
         <PopoverButton as="div">
           {({ open }) => (
             <>
-              <MonumentImage
-                {...input}
-                image={image}
-                open={open}
-                setIsCompleting={setIsCompleting}
-                isProjectComplete={isProjectComplete}
-              />
+              {!isVisiting && (
+                <MonumentImage
+                  {...input}
+                  open={open}
+                  image={image}
+                  setIsCompleting={setIsCompleting}
+                  isProjectComplete={isProjectComplete}
+                />
+              )}
 
-              {isVisiting && !hasCheeredProjectToday && (
-                <div
-                  className={classNames(
-                    "absolute -top-4 -right-4 pointer-events-auto cursor-pointer hover:img-highlight",
-                    {
-                      "animate-pulsate": hasCheers,
-                    },
-                  )}
-                  onClick={() => setIsCheering(true)}
-                >
-                  <div
-                    className="relative mr-2"
-                    style={{ width: `${PIXEL_SCALE * 20}px` }}
-                  >
-                    <img className="w-full" src={SUNNYSIDE.icons.disc} />
-                    <img
-                      className={classNames("absolute")}
-                      src={cheer}
-                      style={{
-                        width: `${PIXEL_SCALE * 17}px`,
-                        right: `${PIXEL_SCALE * 2}px`,
-                        top: `${PIXEL_SCALE * 2}px`,
-                      }}
-                    />
-                  </div>
+              {isVisiting && (
+                <div className="absolute" style={input.divStyle}>
+                  <img src={image} style={input.imgStyle} alt={input.alt} />
                 </div>
               )}
+
+              {isVisiting &&
+                !hasCheeredProjectToday &&
+                !isProjectComplete &&
+                hasCheers && (
+                  <div
+                    className={classNames(
+                      "absolute -top-4 -right-4 pointer-events-auto cursor-pointer hover:img-highlight",
+                      {
+                        "animate-pulsate": hasCheers,
+                      },
+                    )}
+                    onClick={() => setIsCheering(true)}
+                  >
+                    <div
+                      className="relative mr-2"
+                      style={{ width: `${PIXEL_SCALE * 20}px` }}
+                    >
+                      <img className="w-full" src={SUNNYSIDE.icons.disc} />
+                      <img
+                        className={classNames("absolute")}
+                        src={cheer}
+                        style={{
+                          width: `${PIXEL_SCALE * 17}px`,
+                          right: `${PIXEL_SCALE * 2}px`,
+                          top: `${PIXEL_SCALE * 2}px`,
+                        }}
+                      />
+                    </div>
+                  </div>
+                )}
               <div
                 className="absolute bottom-2 left-1/2"
                 style={{
