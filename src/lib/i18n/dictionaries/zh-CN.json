@@ -6172,9 +6172,7 @@
   "removeAll.description.two": "你确定要继续吗？",
   "removeAll.title": "移除所有物品",
   "cheers": "欢呼",
-  "cheering.free.description": "每天您最多可以领取 3 次免费欢呼。",
   "cheering.free.description2": "可以向您的农民同胞欢呼，以支持他们的农场。",
-  "cheering.free.claim": "领取欢呼",
   "description.turdTopper.boost": "堆肥器肥料产量 +1",
   "myProfile": "我的个人资料",
   "bumpkinItemBuff.lava.swimwear.boost": "-50% 岩浆池所需材料",
@@ -6320,5 +6318,10 @@
   "description.pickaxeShark.boost.2": "金脉有 10% 的几率立即恢复",
   "visitorGuide.pickupClutter": "提货 {{amount}} x {{type}}",
   "visitorGuide.clutter": "在农场找到隐藏的物品。",
-  "visitorGuide.pest": "抓住害虫。"
+  "visitorGuide.pest": "抓住害虫。",
+  "cheers.vipBonus": "+3 VIP 奖励",
+  "cheering.free.description": "每天您最多可获得 3 次免费欢呼。",
+  "cheers.plus3": "+3 干杯",
+  "cheering.free.claim": "申领 {{amount}} 干杯",
+  "vip.benefit.cheers": "+3 免费欢呼"
 }

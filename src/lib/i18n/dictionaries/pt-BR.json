@@ -6172,9 +6172,7 @@
   "removeAll.description.two": "Tem certeza de que deseja continuar?",
   "removeAll.title": "Remover todos os itens",
   "cheers": "Saúde",
-  "cheering.free.description": "Todos os dias você pode receber até 3 brindes grátis.",
   "cheering.free.description2": "Aplausos podem ser dados aos seus colegas agricultores para apoiarem suas fazendas.",
-  "cheering.free.claim": "Reivindique aplausos",
   "description.turdTopper.boost": "+1 fertilizante de compostores",
   "myProfile": "Meu perfil",
   "bumpkinItemBuff.lava.swimwear.boost": "-50% de recursos do Poço de Lava",
@@ -6320,5 +6318,10 @@
   "description.pickaxeShark.boost.2": "10% de chance de o ouro se recuperar instantaneamente",
   "visitorGuide.pickupClutter": "Pegue {{amount}} x {{type}}",
   "visitorGuide.clutter": "Encontre o item escondido na fazenda.",
-  "visitorGuide.pest": "Pegue a praga."
+  "visitorGuide.pest": "Pegue a praga.",
+  "cheers.vipBonus": "Bônus VIP de +3",
+  "cheering.free.description": "Todos os dias você recebe até 3 aplausos grátis.",
+  "cheers.plus3": "+3 Felicidades",
+  "cheering.free.claim": "Reclamação {{amount}} Felicidades",
+  "vip.benefit.cheers": "+3 aplausos grátis"
 }

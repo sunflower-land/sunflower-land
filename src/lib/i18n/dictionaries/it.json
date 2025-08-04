@@ -6172,9 +6172,7 @@
   "removeAll.description.two": "Sei sicuro di voler continuare?",
   "removeAll.title": "Rimuovi tutti gli articoli",
   "cheers": "Cin cin",
-  "cheering.free.description": "Ogni giorno puoi richiedere fino a 3 applausi gratuiti.",
   "cheering.free.description2": "Puoi salutare i tuoi colleghi agricoltori per sostenere le loro fattorie.",
-  "cheering.free.claim": "Reclamo Cheers",
   "description.turdTopper.boost": "+1 fertilizzante da compostiere",
   "myProfile": "Il mio profilo",
   "bumpkinItemBuff.lava.swimwear.boost": "-50% di risorse Lava Pit",
@@ -6320,5 +6318,10 @@
   "description.pickaxeShark.boost.2": "10% di possibilità che l'oro si recuperi istantaneamente",
   "visitorGuide.pickupClutter": "Ritiro {{amount}} x {{type}}",
   "visitorGuide.clutter": "Trova l'oggetto nascosto nella fattoria.",
-  "visitorGuide.pest": "Cattura il parassita."
+  "visitorGuide.pest": "Cattura il parassita.",
+  "cheers.vipBonus": "Bonus VIP +3",
+  "cheering.free.description": "Ogni giorno ricevi fino a 3 applausi gratuiti.",
+  "cheers.plus3": "+3 Saluti",
+  "cheering.free.claim": "Richiedi {{amount}} Saluti",
+  "vip.benefit.cheers": "+3 Saluti gratuiti"
 }

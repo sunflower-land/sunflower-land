@@ -6172,9 +6172,7 @@
   "removeAll.description.two": "続けてもよろしいですか？",
   "removeAll.title": "すべての商品を削除",
   "cheers": "乾杯",
-  "cheering.free.description": "毎日最大3回まで無料応援を受けることができます。",
   "cheering.free.description2": "仲間の農家に声援を送って、彼らの農場を支援することができます。",
-  "cheering.free.claim": "クレーム・チアーズ",
   "description.turdTopper.boost": "+1コンポストからの肥料",
   "myProfile": "マイプロフィール",
   "bumpkinItemBuff.lava.swimwear.boost": "ラバピットの資源 -50%",
@@ -6320,5 +6318,10 @@
   "description.pickaxeShark.boost.2": "10% の確率でゴールドが即座に回復する",
   "visitorGuide.pickupClutter": "{{amount}} x {{type}} をピックアップ",
   "visitorGuide.clutter": "農場で隠されたアイテムを見つけてください。",
-  "visitorGuide.pest": "害虫を捕まえろ"
+  "visitorGuide.pest": "害虫を捕まえろ",
+  "cheers.vipBonus": "+3 VIP ボーナス",
+  "cheering.free.description": "毎日最大3回の無料応援が受けられます。",
+  "cheers.plus3": "+3 チアーズ",
+  "cheering.free.claim": "クレーム {{amount}} 乾杯",
+  "vip.benefit.cheers": "+3 フリーチアーズ"
 }

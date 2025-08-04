@@ -6172,9 +6172,7 @@
   "removeAll.description.two": "Adakah anda pasti mahu meneruskan?",
   "removeAll.title": "Keluarkan Semua Item",
   "cheers": "Sorakan",
-  "cheering.free.description": "Setiap hari anda boleh menuntut sehingga 3 sorakan percuma.",
   "cheering.free.description2": "Sorakan boleh diberikan kepada rakan petani anda untuk menyokong ladang mereka.",
-  "cheering.free.claim": "Tuntutan Sorakan",
   "description.turdTopper.boost": "+1 Baja dari Komposter",
   "myProfile": "Profil saya",
   "bumpkinItemBuff.lava.swimwear.boost": "-50% sumber Lava Pit",
@@ -6320,5 +6318,10 @@
   "description.pickaxeShark.boost.2": "10% peluang untuk emas pulih dengan serta-merta",
   "visitorGuide.pickupClutter": "Angkat {{amount}} x {{type}}",
   "visitorGuide.clutter": "Cari item tersembunyi di ladang.",
-  "visitorGuide.pest": "Tangkap perosak."
+  "visitorGuide.pest": "Tangkap perosak.",
+  "cheers.vipBonus": "+3 Bonus VIP",
+  "cheering.free.description": "Setiap hari anda menerima sehingga 3 sorakan percuma.",
+  "cheers.plus3": "+3 Salam",
+  "cheering.free.claim": "Tuntutan {{amount}} Terima",
+  "vip.benefit.cheers": "+3 Sorakan Percuma"
 }

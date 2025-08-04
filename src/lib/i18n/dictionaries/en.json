@@ -6221,11 +6221,13 @@
   "cheers": "Cheers",
   "cheers.available": "Cheers Available: {{count}}",
   "cheers.confirm": "Cheer {{username}}?",
+  "cheers.vipBonus": "+3 VIP Bonus",
   "cheers.moreFreeCheersIn": "More free cheers in {{time}}",
   "cheers.confirm.description": "You can cheer each farm every 24 hours.",
-  "cheering.free.description": "Every day you can claim up to 3 free cheers.",
+  "cheering.free.description": "Every day you receive up to 3 free cheers.",
   "cheering.free.description2": "Cheers can be given to your fellow farmers to support their farms.",
-  "cheering.free.claim": "Claim Cheers",
+  "cheers.plus3": "+3 Cheers",
+  "cheering.free.claim": "Claim {{amount}} Cheers",
   "description.turdTopper.boost": "+1 Fertiliser from Composters",
   "description.giantOnion.boost": "+3 Onions",
   "description.giantTurnip.boost": "2x Turnip Growth Speed",
@@ -6320,5 +6322,6 @@
   "completed.monument": "Completed Monument",
   "monument.requiredCheers": "{{cheers}} Cheers to Complete",
   "visitorGuide.binGuide.burn": "Burn Garbage",
-  "visitorGuide.binGuide.burn.description": "Too much Vegemite. Not enough code. Our Sydney devs are rebooting — feature on the way!"
+  "visitorGuide.binGuide.burn.description": "Too much Vegemite. Not enough code. Our Sydney devs are rebooting — feature on the way!",
+  "vip.benefit.cheers": "+3 Free Cheers"
 }

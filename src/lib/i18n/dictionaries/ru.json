@@ -6172,9 +6172,7 @@
   "removeAll.description.two": "Вы уверены, что хотите продолжить?",
   "removeAll.title": "Удалить все товары",
   "cheers": "ура",
-  "cheering.free.description": "Каждый день вы можете получить до 3 бесплатных приветствия.",
   "cheering.free.description2": "Можно поздравить коллег-фермеров за поддержку их ферм.",
-  "cheering.free.claim": "Заявите «Ура»",
   "description.turdTopper.boost": "+1 Удобрение из компостеров",
   "myProfile": "Мой профиль",
   "bumpkinItemBuff.lava.swimwear.boost": "Ресурсы лавовой ямы: -50%",
@@ -6320,5 +6318,10 @@
   "description.pickaxeShark.boost.2": "Вероятность мгновенного восстановления золота в размере 10%",
   "visitorGuide.pickupClutter": "Забрать {{amount}} x {{type}}",
   "visitorGuide.clutter": "Найдите спрятанный предмет на ферме.",
-  "visitorGuide.pest": "Поймайте вредителя."
+  "visitorGuide.pest": "Поймайте вредителя.",
+  "cheers.vipBonus": "+3 VIP-бонуса",
+  "cheering.free.description": "Каждый день вы получаете до 3 бесплатных приветствия.",
+  "cheers.plus3": "+3 приветствия",
+  "cheering.free.claim": "Заявка {{amount}} Ура",
+  "vip.benefit.cheers": "+3 бесплатных приветствия"
 }

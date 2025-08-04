@@ -6172,9 +6172,7 @@
   "removeAll.description.two": "Êtes-vous sûr de vouloir continuer ?",
   "removeAll.title": "Supprimer tous les articles",
   "cheers": "Bravo",
-  "cheering.free.description": "Chaque jour, vous pouvez réclamer jusqu'à 3 cheers gratuits.",
   "cheering.free.description2": "Des encouragements peuvent être donnés à vos collègues agriculteurs pour qu'ils soutiennent leurs fermes.",
-  "cheering.free.claim": "Réclamez Cheers",
   "description.turdTopper.boost": "+1 Engrais de la marque Composters",
   "myProfile": "Mon profil",
   "bumpkinItemBuff.lava.swimwear.boost": "-50 % de ressources de la fosse à lave",
@@ -6320,5 +6318,10 @@
   "description.pickaxeShark.boost.2": "10 % de chances que l'or soit récupéré instantanément",
   "visitorGuide.pickupClutter": "Récupérez {{amount}} x {{type}}",
   "visitorGuide.clutter": "Trouvez l'objet caché dans la ferme.",
-  "visitorGuide.pest": "Attrapez le ravageur."
+  "visitorGuide.pest": "Attrapez le ravageur.",
+  "cheers.vipBonus": "Bonus VIP +3",
+  "cheering.free.description": "Chaque jour, vous recevez jusqu'à 3 cheers gratuits.",
+  "cheers.plus3": "+3 Bravo",
+  "cheering.free.claim": "Réclamez {{amount}} Cheers",
+  "vip.benefit.cheers": "+3 acclamations gratuites"
 }

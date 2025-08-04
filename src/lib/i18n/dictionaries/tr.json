@@ -6172,9 +6172,7 @@
   "removeAll.description.two": "Devamı istediğine emin misin?",
   "removeAll.title": "Tüm Öğeleri Kaldır",
   "cheers": "Şerefe",
-  "cheering.free.description": "Her gün 3 adede kadar ücretsiz tezahürat talep edebilirsiniz.",
   "cheering.free.description2": "Çiftçilerinize çiftliklerini desteklemek için tezahürat verilebilir.",
-  "cheering.free.claim": "Cheers Talep Edin",
   "description.turdTopper.boost": "+1 Kompostörlerden Gübre",
   "myProfile": "Profilim",
   "bumpkinItemBuff.lava.swimwear.boost": "-50% Lav Çukuru kaynakları",
@@ -6320,5 +6318,10 @@
   "description.pickaxeShark.boost.2": "Altının anında iyileşme şansı %10",
   "visitorGuide.pickupClutter": "Al {{amount}} x {{type}}",
   "visitorGuide.clutter": "Çiftlikteki gizli eşyayı bulun.",
-  "visitorGuide.pest": "Zararlıyı yakala."
+  "visitorGuide.pest": "Zararlıyı yakala.",
+  "cheers.vipBonus": "+3 VIP Bonusu",
+  "cheering.free.description": "Her gün 3 adede kadar ücretsiz tezahürat alırsınız.",
+  "cheers.plus3": "+3 Cheers",
+  "cheering.free.claim": "Talep et {{amount}} Teşekkürler",
+  "vip.benefit.cheers": "+3 Free Cheers"
 }

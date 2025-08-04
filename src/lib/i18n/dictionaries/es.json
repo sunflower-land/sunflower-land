@@ -6172,9 +6172,7 @@
   "removeAll.description.two": "¿Estás seguro de que quieres continuar?",
   "removeAll.title": "Eliminar todos los artículos",
   "cheers": "Aclamaciones",
-  "cheering.free.description": "Todos los días puedes conseguir hasta 3 aplausos gratis.",
   "cheering.free.description2": "Puedes aplaudir a tus compañeros granjeros para que apoyen a sus granjas.",
-  "cheering.free.claim": "Reclama aplausos",
   "description.turdTopper.boost": "+1 Fertilizante de compostadores",
   "myProfile": "Mi perfil",
   "bumpkinItemBuff.lava.swimwear.boost": "-50% de recursos de Lava Pit",
@@ -6320,5 +6318,10 @@
   "description.pickaxeShark.boost.2": "10% de probabilidad de que el oro se recupere al instante",
   "visitorGuide.pickupClutter": "Recogida {{amount}} x {{type}}",
   "visitorGuide.clutter": "Encuentra el objeto oculto en la granja.",
-  "visitorGuide.pest": "Atrapa la plaga."
+  "visitorGuide.pest": "Atrapa la plaga.",
+  "cheers.vipBonus": "Bono VIP de +3",
+  "cheering.free.description": "Todos los días recibirás hasta 3 aplausos gratis.",
+  "cheers.plus3": "+3 aplausos",
+  "cheering.free.claim": "Reclamación {{amount}} Saludos",
+  "vip.benefit.cheers": "+3 aplausos gratis"
 }

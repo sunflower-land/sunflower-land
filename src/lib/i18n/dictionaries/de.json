@@ -6172,9 +6172,7 @@
   "removeAll.description.two": "Bist du sicher, dass du fortfahren möchtest?",
   "removeAll.title": "Alle Artikel entfernen",
   "cheers": "Prost",
-  "cheering.free.description": "Jeden Tag kannst du bis zu 3 Gratis-Cheers in Anspruch nehmen.",
   "cheering.free.description2": "Sie können Ihren Mitbauern zujubeln, um ihre Farmen zu unterstützen.",
-  "cheering.free.claim": "Hol dir Cheers",
   "description.turdTopper.boost": "+1 Dünger aus Kompostern",
   "myProfile": "Mein Profil",
   "bumpkinItemBuff.lava.swimwear.boost": "-50% Ressourcen aus der Lavagrube",
@@ -6320,5 +6318,10 @@
   "description.pickaxeShark.boost.2": "10% Chance, dass sich Gold sofort erholt",
   "visitorGuide.pickupClutter": "{{amount}} x {{type}} abholen",
   "visitorGuide.clutter": "Finde den versteckten Gegenstand auf der Farm.",
-  "visitorGuide.pest": "Fang den Schädling."
+  "visitorGuide.pest": "Fang den Schädling.",
+  "cheers.vipBonus": "+3 VIP-Bonus",
+  "cheering.free.description": "Jeden Tag erhältst du bis zu 3 Gratis-Cheers.",
+  "cheers.plus3": "+3 Prost",
+  "cheering.free.claim": "Anspruch auf {{amount}} Prost",
+  "vip.benefit.cheers": "+3 Gratis-Jubel"
 }
