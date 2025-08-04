@@ -26,7 +26,10 @@ export function catchPest({
   return produce([state, visitorState!], ([game, visitorGame]) => {
     const { id, pestName, visitedFarmId } = action;
 
-    if (game.inventory["Pest Net"]?.lt(1)) {
+    if (
+      !visitorGame.inventory["Pest Net"] ||
+      visitorGame.inventory["Pest Net"].lt(1)
+    ) {
       throw new Error("No Pest Net in inventory");
     }
 
