@@ -6237,7 +6237,6 @@
   "description.pestNet": "Utilisé pour attraper les parasites dans les fermes de vos amis",
   "clutter.trashBinFull": "Poubelle pleine",
   "visitorGuide.farmTitle": "Ferme de {{username}}",
-  "visitorGuide.pickupClutter": "Ramasse 5 x Clutter",
   "visitorGuide.socialPointsAlt": "Points sociaux",
   "visitorGuide.cheerMonument": "Bravo {{monument}}",
   "visitorGuide.catchPests": "Attrapez 2 insectes nuisibles",
@@ -6313,11 +6312,13 @@
   "news.betterTogether.megastore": "Échangez des jetons de bracelet au Megastore contre des NFT exclusifs à collectionner et à porter.",
   "news.betterTogether.auction": "Rivalisez avec d'autres Bumpkins à la salle des ventes pour les NFT les plus rares.",
   "news.betterTogether.mutants": "Découvrez des mutants et d'autres NFT exclusifs au chapitre.",
-  "visitorGuide.clutter": "Trouvez les excréments, les mauvaises herbes et les déchets cachés.",
   "visitorGuide.binGuide": "Déchets",
   "visitorGuide.binGuide.description": "Chaque jour, tu peux ramasser 30 déchets que tu trouves dans les fermes de tes amis.",
   "visitorGuide.binGuide.burn": "Brûlez les déchets",
   "bedsMigration.farmHandCount": "{{count}}/{{max}}",
   "description.pickaxeShark.boost.1": "-15 % de temps de récupération de l'or",
-  "description.pickaxeShark.boost.2": "10 % de chances que l'or soit récupéré instantanément"
+  "description.pickaxeShark.boost.2": "10 % de chances que l'or soit récupéré instantanément",
+  "visitorGuide.pickupClutter": "Récupérez {{amount}} x {{type}}",
+  "visitorGuide.clutter": "Trouvez l'objet caché dans la ferme.",
+  "visitorGuide.pest": "Attrapez le ravageur."
 }

@@ -6237,7 +6237,6 @@
   "description.pestNet": "Arkadaşlarınızın çiftliklerinde zararlıları yakalamak için kullanılır",
   "clutter.trashBinFull": "Çöp kutusu dolu",
   "visitorGuide.farmTitle": "{{username}} Çiftliği",
-  "visitorGuide.pickupClutter": "5 x Dağınıklık topla",
   "visitorGuide.socialPointsAlt": "Sosyal Puanlar",
   "visitorGuide.cheerMonument": "tezahürat {{monument}}",
   "visitorGuide.catchPests": "2 x Zararlıları yakalayın",
@@ -6313,11 +6312,13 @@
   "news.betterTogether.megastore": "Megastore'da özel koleksiyonluk ve giyilebilir NFT'ler için Bilezik jetonlarını değiştirin.",
   "news.betterTogether.auction": "En nadir NFT'ler için Müzayede Evi'ndeki diğer Bumpkin'lerle rekabet edin.",
   "news.betterTogether.mutants": "Mutantları ve diğer bölüme özel NFT'leri keşfedin.",
-  "visitorGuide.clutter": "Gizli gübreyi, yabani otları ve çöpleri bulun.",
   "visitorGuide.binGuide": "Çöp",
   "visitorGuide.binGuide.description": "Her gün arkadaşınızın çiftliklerinde bulduğunuz 30 çöp parçasını toplayabilirsiniz.",
   "visitorGuide.binGuide.burn": "Çöp Yak",
   "bedsMigration.farmHandCount": "{{count}}/{{max}}",
   "description.pickaxeShark.boost.1": "-15% Altın kurtarma süresi",
-  "description.pickaxeShark.boost.2": "Altının anında iyileşme şansı %10"
+  "description.pickaxeShark.boost.2": "Altının anında iyileşme şansı %10",
+  "visitorGuide.pickupClutter": "Al {{amount}} x {{type}}",
+  "visitorGuide.clutter": "Çiftlikteki gizli eşyayı bulun.",
+  "visitorGuide.pest": "Zararlıyı yakala."
 }

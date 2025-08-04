@@ -6237,7 +6237,6 @@
   "description.pestNet": "Usato per catturare parassiti nelle fattorie dei tuoi amici",
   "clutter.trashBinFull": "Cestino pieno",
   "visitorGuide.farmTitle": "La fattoria di {{username}}",
-  "visitorGuide.pickupClutter": "Raccogli 5 x Clutter",
   "visitorGuide.socialPointsAlt": "Punti sociali",
   "visitorGuide.cheerMonument": "Allegria {{monument}}",
   "visitorGuide.catchPests": "Cattura 2 x parassiti",
@@ -6313,11 +6312,13 @@
   "news.betterTogether.megastore": "Scambia i token Bracelet nel Megastore con esclusivi NFT da collezione e indossabili.",
   "news.betterTogether.auction": "Competi con altri Bumpkins alla Casa d'Aste per gli NFT più rari.",
   "news.betterTogether.mutants": "Scopri i mutanti e altri NFT esclusivi del capitolo.",
-  "visitorGuide.clutter": "Trova lo sterco, le erbacce e la spazzatura nascosti.",
   "visitorGuide.binGuide": "Immondizia",
   "visitorGuide.binGuide.description": "Ogni giorno puoi raccogliere 30 pezzi di immondizia che trovi nelle fattorie dei tuoi amici.",
   "visitorGuide.binGuide.burn": "Brucia immondizia",
   "bedsMigration.farmHandCount": "{{count}}/{{max}}",
   "description.pickaxeShark.boost.1": "-15% tempo di recupero dell'oro",
-  "description.pickaxeShark.boost.2": "10% di possibilità che l'oro si recuperi istantaneamente"
+  "description.pickaxeShark.boost.2": "10% di possibilità che l'oro si recuperi istantaneamente",
+  "visitorGuide.pickupClutter": "Ritiro {{amount}} x {{type}}",
+  "visitorGuide.clutter": "Trova l'oggetto nascosto nella fattoria.",
+  "visitorGuide.pest": "Cattura il parassita."
 }
