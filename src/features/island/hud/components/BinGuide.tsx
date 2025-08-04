@@ -121,9 +121,11 @@ export const Bin: React.FC<{ onClose: () => void }> = ({ onClose }) => {
             })}
           </p>
         </div>
+      </div>
 
-        {hasFeatureAccess(gameState.context.state, "BIN_LIMITS") && (
-          <>
+      {hasFeatureAccess(gameState.context.state, "BIN_LIMITS") && (
+        <>
+          <div className="p-1">
             <Label type="default" className="my-2" icon={broomIcon}>
               {t("bin.makeRoom")}
             </Label>
@@ -142,17 +144,16 @@ export const Bin: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                 />
               ))}
             </div>
-          </>
-        )}
-      </div>
-
-      <Button
-        disabled={!hasResources}
-        className="mr-1"
-        onClick={() => setShowConfirmation(true)}
-      >
-        {t("bin.increaseLimit")}
-      </Button>
+          </div>
+          <Button
+            disabled={!hasResources}
+            className="mr-1"
+            onClick={() => setShowConfirmation(true)}
+          >
+            {t("bin.increaseLimit")}
+          </Button>
+        </>
+      )}
     </>
   );
 };
