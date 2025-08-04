@@ -31,6 +31,8 @@ const _dailyCollections = (state: MachineState) =>
   state.context.visitorState?.socialFarming?.dailyCollections;
 const _caughtPests = (state: MachineState) =>
   state.context.visitorState?.socialFarming?.caughtPests;
+const _inventory = (state: MachineState) =>
+  state.context.visitorState?.inventory;
 
 export const Clutter: React.FC<Props> = ({ id, type }) => {
   const { t } = useAppTranslation();
@@ -38,6 +40,7 @@ export const Clutter: React.FC<Props> = ({ id, type }) => {
   const farmId = useSelector(gameService, _farmId);
   const dailyCollections = useSelector(gameService, _dailyCollections);
   const caughtPests = useSelector(gameService, _caughtPests);
+  const inventory = useSelector(gameService, _inventory);
   const isCollected = dailyCollections?.[farmId]?.clutter?.[id];
   const isCaught = caughtPests?.[farmId]?.includes(id);
   const [showEquipTool, setShowEquipTool] = useState(false);
@@ -89,7 +92,7 @@ export const Clutter: React.FC<Props> = ({ id, type }) => {
     (getTrashBinItems(gameService.state) >= TRASH_BIN_DAILY_LIMIT &&
       type in FARM_GARBAGE) ||
     (type in FARM_PEST &&
-      gameService.state.context.visitorState?.inventory["Pest Net"]?.lt(1));
+      (!inventory?.["Pest Net"] || inventory?.["Pest Net"]?.lt(1)));
 
   return (
     <>
