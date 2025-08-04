@@ -6149,10 +6149,8 @@
   "visiting.farmId": "Visitando {{farmId}}",
   "crafting.undiscovered": "Crea altri oggetti per scoprire nuovi ingredienti.",
   "description.cheer": "Fai un applauso ai tuoi colleghi agricoltori!",
-  "cheering.village.project": "Progetto Cheering Village",
   "cheering.village.project.success": "Successo esultante!",
   "cheering.village.project.failed": "Acclamazione fallita!",
-  "cheer.village.project": "Progetto Cheer Village",
   "cheer.village.project.confirm": "Sei sicuro di voler fare il tifo per {{project}}?",
   "cheer": "Rallegrare",
   "crafting.recipe": "{{recipe}} Ricetta",
@@ -6254,7 +6252,6 @@
   "description.doubleBed": "Un comodo letto fatto per gli amici.",
   "project.completed": "Congratulazioni! Il {{project}} è completo! Il completamento del progetto rimuoverà il progetto dal tuo terreno e ti consentirà di costruirne uno nuovo.",
   "monument.completed": "Congratulazioni! Il {{project}} è completo! Ogni monumento unico completato dà +1 Love Charm ogni volta che viene completata una Grande Arancia, una Grande Banana o una Grande Mela.",
-  "project.incomplete": "Il {{project}} ha {{cheers}}/{{requiredCheers}} applausi. {{requiredCheers - cheers}} al via!",
   "complete.project": "Progetto completo",
   "completed.monument": "Monumento completato",
   "playerModal.projectsInProgress": "Progetti in corso",
@@ -6329,5 +6326,8 @@
   "bin.binBag": "Sacchetto della spazzatura",
   "bin.increaseLimit": "Aumenta il limite (+30)",
   "bin.cantWait.description": "Aumenta il limite di immondizia che puoi raccogliere oggi.",
-  "bin.increaseLimit.description": "Sei sicuro di voler aumentare il limite? Questo verrà ripristinato ogni giorno."
+  "bin.increaseLimit.description": "Sei sicuro di voler aumentare il limite? Questo verrà ripristinato ogni giorno.",
+  "cheering.village.project": "Progetto Cheering",
+  "cheer.village.project": "Progetto Cheer",
+  "project.incomplete": "Il {{project}} ha {{cheers}}/{{requiredCheers}} applausi. {{remaining}} al via!"
 }

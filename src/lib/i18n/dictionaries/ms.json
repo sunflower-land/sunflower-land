@@ -6149,10 +6149,8 @@
   "visiting.farmId": "Melawat {{farmId}}",
   "crafting.undiscovered": "Buat lebih banyak item untuk menemui bahan-bahan baru.",
   "description.cheer": "Beri sorakan kepada rakan-rakan petani anda!",
-  "cheering.village.project": "Projek Kampung Bersorak",
   "cheering.village.project.success": "Bersorak Kejayaan!",
   "cheering.village.project.failed": "Bersorak Gagal!",
-  "cheer.village.project": "Projek Cheer Village",
   "cheer.village.project.confirm": "Adakah anda pasti ingin menghiburkan {{project}}?",
   "cheer": "Bersorak",
   "crafting.recipe": "{{recipe}} Resipi",
@@ -6254,7 +6252,6 @@
   "description.doubleBed": "Katil yang selesa dibuat untuk rakan-rakan.",
   "project.completed": "Tahniah! {{project}} selesai! Melengkapkan projek akan mengeluarkan projek dari tanah anda dan membolehkan anda membina yang baru.",
   "monument.completed": "Tahniah! {{project}} selesai! Setiap monumen unik yang lengkap memberikan +1 Cinta Cinta Cinta setiap kali Oren Besar, Pisang Besar atau Epal Besar selesai.",
-  "project.incomplete": "{{project}} mempunyai {{cheers}}/{{requiredCheers}} sorakan. {{requiredCheers - cheers}} untuk pergi!",
   "complete.project": "Projek Lengkap",
   "completed.monument": "Monumen Siap",
   "playerModal.projectsInProgress": "Projek yang sedang dijalankan",
@@ -6329,5 +6326,8 @@
   "bin.binBag": "Beg Tin",
   "bin.increaseLimit": "Meningkatkan Had (+30)",
   "bin.cantWait.description": "Meningkatkan had sampah yang boleh anda ambil hari ini.",
-  "bin.increaseLimit.description": "Adakah anda pasti ingin meningkatkan had? Ini akan ditetapkan semula setiap hari."
+  "bin.increaseLimit.description": "Adakah anda pasti ingin meningkatkan had? Ini akan ditetapkan semula setiap hari.",
+  "cheering.village.project": "Projek Bersorak",
+  "cheer.village.project": "Projek Cheer",
+  "project.incomplete": "{{project}} mempunyai {{cheers}}/{{requiredCheers}} sorakan. {{remaining}} untuk pergi!"
 }

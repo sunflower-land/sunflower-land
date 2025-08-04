@@ -6149,10 +6149,8 @@
   "visiting.farmId": "Visite {{farmId}}",
   "crafting.undiscovered": "Fabriquez plus d'objets pour découvrir de nouveaux ingrédients.",
   "description.cheer": "Encouragez vos collègues agriculteurs !",
-  "cheering.village.project": "Projet Cheering Village",
   "cheering.village.project.success": "Succès encourageant !",
   "cheering.village.project.failed": "Les acclamations ont échoué !",
-  "cheer.village.project": "Projet Cheer Village",
   "cheer.village.project.confirm": "Êtes-vous sûr de vouloir encourager le {{project}} ?",
   "cheer": "Acclamez",
   "crafting.recipe": "{{recipe}} Recette",
@@ -6254,7 +6252,6 @@
   "description.doubleBed": "Un lit douillet fait pour les amis.",
   "project.completed": "Félicitations ! Le {{project}} est terminé ! L'achèvement du projet supprimera le projet de votre terrain et vous permettra d'en construire un nouveau.",
   "monument.completed": "Félicitations ! Le {{project}} est terminé ! Chaque monument unique terminé donne +1 Love Charm à chaque fois qu'une grosse orange, une grosse banane ou une grosse pomme est terminée.",
-  "project.incomplete": "Le {{project}} est accompagné de {{cheers}}/{{requiredCheers}} acclamations. {{requiredCheers - cheers}} c'est parti !",
   "complete.project": "Projet complet",
   "completed.monument": "Monument terminé",
   "playerModal.projectsInProgress": "Projets en cours",
@@ -6329,5 +6326,8 @@
   "bin.binBag": "Sac poubelle",
   "bin.increaseLimit": "Limite d'augmentation (+30)",
   "bin.cantWait.description": "Augmentez la limite de déchets que vous pouvez ramasser aujourd'hui.",
-  "bin.increaseLimit.description": "Êtes-vous sûr de vouloir augmenter la limite ? Cela sera réinitialisé tous les jours."
+  "bin.increaseLimit.description": "Êtes-vous sûr de vouloir augmenter la limite ? Cela sera réinitialisé tous les jours.",
+  "cheering.village.project": "Projet Cheering",
+  "cheer.village.project": "Projet Cheer",
+  "project.incomplete": "Le {{project}} est accompagné de {{cheers}}/{{requiredCheers}} acclamations. {{remaining}} c'est parti !"
 }

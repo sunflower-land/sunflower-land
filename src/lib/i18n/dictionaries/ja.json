@@ -6149,10 +6149,8 @@
   "visiting.farmId": "訪問中 {{farmId}}",
   "crafting.undiscovered": "より多くのアイテムを作って新しい材料を発見してください。",
   "description.cheer": "農家の仲間を元気づけましょう！",
-  "cheering.village.project": "応援村プロジェクト",
   "cheering.village.project.success": "応援成功！",
   "cheering.village.project.failed": "応援失敗！",
-  "cheer.village.project": "チア・ビレッジ・プロジェクト",
   "cheer.village.project.confirm": "本当に {{project}} を応援しますか？",
   "cheer": "応援",
   "crafting.recipe": "{{recipe}} レシピ",
@@ -6254,7 +6252,6 @@
   "description.doubleBed": "友達のために作られた居心地の良いベッド。",
   "project.completed": "おめでとう!{{project}} が完成しました！プロジェクトを完了すると、あなたの土地からプロジェクトが削除され、新しい土地を建設できるようになります。",
   "monument.completed": "おめでとう!{{project}} が完成しました！ビッグオレンジ、ビッグバナナ、またはビッグアップルが完成するたびに、ユニークに完成したモニュメントごとにラブチャーム+1が付与されます。",
-  "project.incomplete": "{{project}} は {{cheers}}/{{requiredCheers}} で乾杯しています。{{requiredCheers - cheers}} 行きます！",
   "complete.project": "プロジェクト完了",
   "completed.monument": "完成した記念碑",
   "playerModal.projectsInProgress": "進行中のプロジェクト",
@@ -6329,5 +6326,8 @@
   "bin.binBag": "ビンバッグ",
   "bin.increaseLimit": "制限値を増やす (+30)",
   "bin.cantWait.description": "今日拾えるゴミの上限を増やしてください。",
-  "bin.increaseLimit.description": "制限を増やしてもよろしいですか?これは毎日リセットされます。"
+  "bin.increaseLimit.description": "制限を増やしてもよろしいですか?これは毎日リセットされます。",
+  "cheering.village.project": "応援プロジェクト",
+  "cheer.village.project": "チア・プロジェクト",
+  "project.incomplete": "{{project}} は {{cheers}}/{{requiredCheers}} で乾杯しています。{{remaining}} 行きます！"
 }

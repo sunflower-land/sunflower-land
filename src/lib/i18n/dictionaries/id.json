@@ -6149,10 +6149,8 @@
   "visiting.farmId": "Mengunjungi {{farmId}}",
   "crafting.undiscovered": "Buat lebih banyak item untuk menemukan bahan-bahan baru.",
   "description.cheer": "Berikan sorakan kepada sesama petani Anda!",
-  "cheering.village.project": "Proyek Desa Bersorak",
   "cheering.village.project.success": "Bersorak Sukses!",
   "cheering.village.project.failed": "Bersorak Gagal!",
-  "cheer.village.project": "Proyek Desa Cheer",
   "cheer.village.project.confirm": "Apakah Anda yakin ingin menghibur {{project}}?",
   "cheer": "Bersorak",
   "crafting.recipe": "{{recipe}} Resep",
@@ -6254,7 +6252,6 @@
   "description.doubleBed": "Tempat tidur yang nyaman dibuat untuk teman-teman.",
   "project.completed": "Selamat! {{project}} selesai! Menyelesaikan proyek akan menghapus proyek dari tanah Anda dan memungkinkan Anda untuk membangun yang baru.",
   "monument.completed": "Selamat! {{project}} selesai! Setiap monumen unik yang diselesaikan memberikan +1 Pesona Cinta setiap kali Big Orange, Big Banana atau Big Apple selesai.",
-  "project.incomplete": "{{project}} memiliki {{cheers}}/{{requiredCheers}} sorakan. {{requiredCheers - cheers}} untuk pergi!",
   "complete.project": "Proyek Lengkap",
   "completed.monument": "Monumen Selesai",
   "playerModal.projectsInProgress": "Proyek-proyek yang sedang berjalan",
@@ -6329,5 +6326,8 @@
   "bin.binBag": "Tas Tempat Sampah",
   "bin.increaseLimit": "Tingkatkan Batas (+30)",
   "bin.cantWait.description": "Tingkatkan batas sampah yang dapat Anda ambil hari ini.",
-  "bin.increaseLimit.description": "Apakah Anda yakin ingin meningkatkan batas? Ini akan diatur ulang setiap hari."
+  "bin.increaseLimit.description": "Apakah Anda yakin ingin meningkatkan batas? Ini akan diatur ulang setiap hari.",
+  "cheering.village.project": "Proyek Bersorak",
+  "cheer.village.project": "Proyek Cheer",
+  "project.incomplete": "{{project}} memiliki {{cheers}}/{{requiredCheers}} sorakan. {{remaining}} untuk pergi!"
 }

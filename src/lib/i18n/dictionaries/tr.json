@@ -6149,10 +6149,8 @@
   "visiting.farmId": "Ziyaret etmek {{farmId}}",
   "crafting.undiscovered": "Yeni malzemeler keşfetmek için daha fazla öğe üretin.",
   "description.cheer": "Çiftçi arkadaşlarınıza neşe verin!",
-  "cheering.village.project": "Tezahürat Köyü Projesi",
   "cheering.village.project.success": "Başarı tezahürat!",
   "cheering.village.project.failed": "Tezahürat Başarısız Oldu!",
-  "cheer.village.project": "Cheer Köyü Projesi",
   "cheer.village.project.confirm": "{{project}} 'yi neşelendirmek istediğinden emin misin?",
   "cheer": "tezahürat",
   "crafting.recipe": "{{recipe}} Tarif",
@@ -6254,7 +6252,6 @@
   "description.doubleBed": "Arkadaşlar için yapılmış rahat bir yatak.",
   "project.completed": "Tebrikler! {{project}} tamamlandı! Projeyi tamamlamak, projeyi arazinizden kaldıracak ve yeni bir tane inşa etmenize izin verecektir.",
   "monument.completed": "Tebrikler! {{project}} tamamlandı! Tamamlanan her benzersiz anıt, her Büyük Portakal, Büyük Muz veya Büyük Elma tamamlandığında +1 Aşk Tılsımı verir.",
-  "project.incomplete": "{{project}} {{cheers}}/{{requiredCheers}} tebrik ediyor. {{requiredCheers - cheers}} devam!",
   "complete.project": "Projeyi Tamamlayın",
   "completed.monument": "Tamamlanan Anıt",
   "playerModal.projectsInProgress": "Devamlı Projeler",
@@ -6329,5 +6326,8 @@
   "bin.binBag": "Çöp Çantası",
   "bin.increaseLimit": "Artış Limiti (+30)",
   "bin.cantWait.description": "Bugün alabileceğiniz çöp sınırını artırın.",
-  "bin.increaseLimit.description": "Sınırı yükseltmek istediğinizden emin misiniz? Bu her gün sıfırlanacaktır."
+  "bin.increaseLimit.description": "Sınırı yükseltmek istediğinizden emin misiniz? Bu her gün sıfırlanacaktır.",
+  "cheering.village.project": "Tezahürat Projesi",
+  "cheer.village.project": "Cheer Projesi",
+  "project.incomplete": "{{project}} {{cheers}}/{{requiredCheers}} tebrik ediyor. {{remaining}} devam!"
 }

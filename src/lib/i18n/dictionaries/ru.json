@@ -6149,10 +6149,8 @@
   "visiting.farmId": "Посещение {{farmId}}",
   "crafting.undiscovered": "Создавайте больше предметов и открывайте для себя новые ингредиенты.",
   "description.cheer": "Порадуйте коллег-фермеров!",
-  "cheering.village.project": "Проект «Веселая деревня»",
   "cheering.village.project.success": "Приветствуем успех!",
   "cheering.village.project.failed": "Аплодисменты не удались!",
-  "cheer.village.project": "Проект Cheer Village",
   "cheer.village.project.confirm": "Вы действительно хотите подбодрить {{project}}?",
   "cheer": "Поболеть",
   "crafting.recipe": "{{recipe}} Рецепт",
@@ -6254,7 +6252,6 @@
   "description.doubleBed": "Уютная кровать для друзей.",
   "project.completed": "Поздравляю! Задание {{project}} завершено! После завершения проекта проект будет удален с вашей земли и вы сможете построить новый.",
   "monument.completed": "Поздравляю! Задание {{project}} завершено! Каждый раз, когда вы дорабатываете «Большой апельсин», «Большой банан» или «Большое яблоко», каждый раз, когда вы дорабатываете уникальный памятник, вы получаете 1 талисман любви.",
-  "project.incomplete": "{{project}} ура {{cheers}}/{{requiredCheers}}. {{requiredCheers - cheers}} вперед!",
   "complete.project": "Завершить проект",
   "completed.monument": "Завершенный памятник",
   "playerModal.projectsInProgress": "Проекты в стадии реализации",
@@ -6329,5 +6326,8 @@
   "bin.binBag": "Мешок для мусора",
   "bin.increaseLimit": "Лимит увеличения (+30)",
   "bin.cantWait.description": "Увеличьте лимит мусора, который вы можете забрать сегодня.",
-  "bin.increaseLimit.description": "Вы действительно хотите увеличить лимит? Он будет обнуляться каждый день."
+  "bin.increaseLimit.description": "Вы действительно хотите увеличить лимит? Он будет обнуляться каждый день.",
+  "cheering.village.project": "Проект «Аплодисменты»",
+  "cheer.village.project": "Проект Cheer",
+  "project.incomplete": "{{project}} ура {{cheers}}/{{requiredCheers}}. {{remaining}} вперед!"
 }

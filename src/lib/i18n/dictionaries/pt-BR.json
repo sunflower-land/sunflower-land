@@ -6149,10 +6149,8 @@
   "visiting.farmId": "Visitando {{farmId}}",
   "crafting.undiscovered": "Crie mais itens para descobrir novos ingredientes.",
   "description.cheer": "Dê um aplauso aos seus colegas agricultores!",
-  "cheering.village.project": "Projeto Cheering Village",
   "cheering.village.project.success": "Torcendo pelo sucesso!",
   "cheering.village.project.failed": "A torcida falhou!",
-  "cheer.village.project": "Projeto Cheer Village",
   "cheer.village.project.confirm": "Tem certeza de que quer torcer pelo {{project}}?",
   "cheer": "Aplausos",
   "crafting.recipe": "{{recipe}} Receita",
@@ -6254,7 +6252,6 @@
   "description.doubleBed": "Uma cama aconchegante feita para amigos.",
   "project.completed": "Parabéns! O {{project}} está completo! A conclusão do projeto removerá o projeto do seu terreno e permitirá que você construa um novo.",
   "monument.completed": "Parabéns! O {{project}} está completo! Cada monumento exclusivo concluído dá +1 amuleto amoroso toda vez que uma Big Orange, Big Banana ou Big Apple é concluída.",
-  "project.incomplete": "O {{project}} tem {{cheers}}/{{requiredCheers}} aplausos. {{requiredCheers - cheers}} vá!",
   "complete.project": "Projeto completo",
   "completed.monument": "Monumento concluído",
   "playerModal.projectsInProgress": "Projetos em andamento",
@@ -6329,5 +6326,8 @@
   "bin.binBag": "Saco de lixo",
   "bin.increaseLimit": "Limite de aumento (+30)",
   "bin.cantWait.description": "Aumente o limite de lixo que você pode coletar hoje.",
-  "bin.increaseLimit.description": "Tem certeza de que deseja aumentar o limite? Isso será reiniciado todos os dias."
+  "bin.increaseLimit.description": "Tem certeza de que deseja aumentar o limite? Isso será reiniciado todos os dias.",
+  "cheering.village.project": "Projeto de torcida",
+  "cheer.village.project": "Projeto Cheer",
+  "project.incomplete": "O {{project}} tem {{cheers}}/{{requiredCheers}} aplausos. {{remaining}} vá!"
 }

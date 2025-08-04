@@ -6149,10 +6149,8 @@
   "visiting.farmId": "访问 {{farmId}}",
   "crafting.undiscovered": "制作更多物品以发现新材料。",
   "description.cheer": "为你的农民同胞加油！",
-  "cheering.village.project": "欢呼乡村项目",
   "cheering.village.project.success": "欢呼成功！",
   "cheering.village.project.failed": "欢呼失败！",
-  "cheer.village.project": "为乡村项目欢呼",
   "cheer.village.project.confirm": "你确定要为 {{project}} 欢呼吗？",
   "cheer": "欢呼",
   "crafting.recipe": "{{recipe}} 配方",
@@ -6254,7 +6252,6 @@
   "description.doubleBed": "为朋友准备的舒适床。",
   "project.completed": "恭喜！{{project}} 已完成！完成该项目将使该项目从您的土地上移除，并允许您建造一个新项目。",
   "monument.completed": "恭喜！{{project}} 已完成！每完成一座独一无二的纪念碑每完成一座大橙子、大香蕉或大苹果，都会获得 +1 个爱心护符。",
-  "project.incomplete": "{{project}} 已获得 {{cheers}}/{{requiredCheers}} 个欢呼。还差 {{requiredCheers - cheers}} 个！",
   "complete.project": "完成项目",
   "completed.monument": "完工的纪念碑",
   "playerModal.projectsInProgress": "正在进行的项目",
@@ -6329,5 +6326,8 @@
   "bin.binBag": "垃圾袋",
   "bin.increaseLimit": "增加上限 (+30)",
   "bin.cantWait.description": "提高你今天可以捡起的垃圾的限量。",
-  "bin.increaseLimit.description": "你确定要提高限额吗？这将每天重置。"
+  "bin.increaseLimit.description": "你确定要提高限额吗？这将每天重置。",
+  "cheering.village.project": "欢呼项目",
+  "cheer.village.project": "啦啦项目",
+  "project.incomplete": "{{project}} 有 {{cheers}}/{{requiredCheers}} 干杯。{{remaining}} 要走！"
 }

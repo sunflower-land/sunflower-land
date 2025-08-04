@@ -6149,10 +6149,8 @@
   "visiting.farmId": "Zu Besuch bei {{farmId}}",
   "crafting.undiscovered": "Stelle mehr Gegenstände her, um neue Zutaten zu entdecken.",
   "description.cheer": "Jubeln Sie Ihren Mitbauern zu!",
-  "cheering.village.project": "Projekt Cheering Village",
   "cheering.village.project.success": "Jubelnder Erfolg!",
   "cheering.village.project.failed": "Jubeln gescheitert!",
-  "cheer.village.project": "Cheer Village-Projekt",
   "cheer.village.project.confirm": "Bist du sicher, dass du {{project}} anfeuern willst?",
   "cheer": "Jubeln",
   "crafting.recipe": "{{recipe}} Rezept",
@@ -6254,7 +6252,6 @@
   "description.doubleBed": "Ein gemütliches Bett wie gemacht für Freunde.",
   "project.completed": "Herzlichen Glückwunsch! Das {{project}} ist abgeschlossen! Wenn Sie das Projekt abschließen, wird das Projekt von Ihrem Grundstück entfernt und Sie können ein neues bauen.",
   "monument.completed": "Herzlichen Glückwunsch! Das {{project}} ist abgeschlossen! Jedes einzigartige fertiggestellte Monument verleiht jedes Mal +1 Liebeszauber, wenn eine Big Orange, Big Banana oder Big Apple abgeschlossen wird.",
-  "project.incomplete": "Das {{project}} hat {{cheers}}/{{requiredCheers}} Prost. {{requiredCheers - cheers}} noch!",
   "complete.project": "Projekt abschließen",
   "completed.monument": "Monument abgeschlossen",
   "playerModal.projectsInProgress": "Laufende Projekte",
@@ -6329,5 +6326,8 @@
   "bin.binBag": "Müllsack",
   "bin.increaseLimit": "Limit erhöhen (+30)",
   "bin.cantWait.description": "Erhöhen Sie das Mülllimit, das Sie heute abholen können.",
-  "bin.increaseLimit.description": "Sind Sie sicher, dass Sie das Limit erhöhen möchten? Das wird jeden Tag zurückgesetzt."
+  "bin.increaseLimit.description": "Sind Sie sicher, dass Sie das Limit erhöhen möchten? Das wird jeden Tag zurückgesetzt.",
+  "cheering.village.project": "Jubelprojekt",
+  "cheer.village.project": "Projekt Cheer",
+  "project.incomplete": "Das {{project}} hat {{cheers}}/{{requiredCheers}} Prost. {{remaining}} noch!"
 }

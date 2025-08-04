@@ -6149,10 +6149,8 @@
   "visiting.farmId": "방문 {{farmId}}",
   "crafting.undiscovered": "더 많은 아이템을 만들어 새로운 재료를 발견하세요.",
   "description.cheer": "동료 농부들에게 응원을 보내세요!",
-  "cheering.village.project": "치어링 빌리지 프로젝트",
   "cheering.village.project.success": "응원 성공!",
   "cheering.village.project.failed": "응원 실패!",
-  "cheer.village.project": "치어 빌리지 프로젝트",
   "cheer.village.project.confirm": "정말 {{project}} 를 응원하고 싶으세요?",
   "cheer": "응원",
   "crafting.recipe": "{{recipe}} 레시피",
@@ -6254,7 +6252,6 @@
   "description.doubleBed": "친구를 위해 만든 아늑한 침대.",
   "project.completed": "축하합니다!{{project}} 가 완성되었습니다!프로젝트를 완료하면 해당 프로젝트가 토지에서 제거되고 새 프로젝트를 건설할 수 있습니다.",
   "monument.completed": "축하합니다!{{project}} 가 완성되었습니다!완성된 각 기념물은 빅 오렌지, 빅 바나나, 빅 애플을 완성할 때마다 사랑의 부적을 1개씩 획득합니다.",
-  "project.incomplete": "{{project}} 는 {{cheers}}/{{requiredCheers}} 의 환호성이 터집니다. {{requiredCheers - cheers}} 어서 가세요!",
   "complete.project": "프로젝트 완료",
   "completed.monument": "완성된 기념비",
   "playerModal.projectsInProgress": "진행 중인 프로젝트",
@@ -6329,5 +6326,8 @@
   "bin.binBag": "빈 백",
   "bin.increaseLimit": "한도 증가 (+30)",
   "bin.cantWait.description": "오늘 수거할 수 있는 쓰레기의 양을 늘리십시오.",
-  "bin.increaseLimit.description": "정말로 한도를 늘리시겠습니까?이 값은 매일 초기화됩니다."
+  "bin.increaseLimit.description": "정말로 한도를 늘리시겠습니까?이 값은 매일 초기화됩니다.",
+  "cheering.village.project": "응원 프로젝트",
+  "cheer.village.project": "치어 프로젝트",
+  "project.incomplete": "{{project}} 는 {{cheers}}/{{requiredCheers}} 의 환호성이 터집니다. {{remaining}} 어서 가세요!"
 }
