@@ -6323,5 +6323,11 @@
   "cheering.free.description": "Jeden Tag erhältst du bis zu 3 Gratis-Cheers.",
   "cheers.plus3": "+3 Prost",
   "cheering.free.claim": "Anspruch auf {{amount}} Prost",
-  "vip.benefit.cheers": "+3 Gratis-Jubel"
+  "vip.benefit.cheers": "+3 Gratis-Jubel",
+  "bin.makeRoom": "Machen Sie Platz",
+  "bin.cantWait": "Stelle einen Besen her und mach Platz, um mehr Müll aufzusammeln.",
+  "bin.binBag": "Müllsack",
+  "bin.increaseLimit": "Limit erhöhen (+30)",
+  "bin.cantWait.description": "Erhöhen Sie das Mülllimit, das Sie heute abholen können.",
+  "bin.increaseLimit.description": "Sind Sie sicher, dass Sie das Limit erhöhen möchten? Das wird jeden Tag zurückgesetzt."
 }

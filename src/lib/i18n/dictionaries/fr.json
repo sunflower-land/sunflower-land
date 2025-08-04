@@ -6323,5 +6323,11 @@
   "cheering.free.description": "Chaque jour, vous recevez jusqu'à 3 cheers gratuits.",
   "cheers.plus3": "+3 Bravo",
   "cheering.free.claim": "Réclamez {{amount}} Cheers",
-  "vip.benefit.cheers": "+3 acclamations gratuites"
+  "vip.benefit.cheers": "+3 acclamations gratuites",
+  "bin.makeRoom": "Faites de la place",
+  "bin.cantWait": "Fabriquez un balai et faites de la place pour ramasser plus de déchets.",
+  "bin.binBag": "Sac poubelle",
+  "bin.increaseLimit": "Limite d'augmentation (+30)",
+  "bin.cantWait.description": "Augmentez la limite de déchets que vous pouvez ramasser aujourd'hui.",
+  "bin.increaseLimit.description": "Êtes-vous sûr de vouloir augmenter la limite ? Cela sera réinitialisé tous les jours."
 }

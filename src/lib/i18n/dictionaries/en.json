@@ -6323,5 +6323,11 @@
   "monument.requiredCheers": "{{cheers}} Cheers to Complete",
   "visitorGuide.binGuide.burn": "Burn Garbage",
   "visitorGuide.binGuide.burn.description": "Too much Vegemite. Not enough code. Our Sydney devs are rebooting — feature on the way!",
-  "vip.benefit.cheers": "+3 Free Cheers"
+  "vip.benefit.cheers": "+3 Free Cheers",
+  "bin.makeRoom": "Make room",
+  "bin.cantWait": "Craft a broom and make space to pick up more garbage.",
+  "bin.binBag": "Bin Bag",
+  "bin.increaseLimit": "Increase Limit (+30)",
+  "bin.cantWait.description": "Increase the limit of garbage you can pick up today.",
+  "bin.increaseLimit.description": "Are you sure you want to increase the limit? This will reset every day."
 }

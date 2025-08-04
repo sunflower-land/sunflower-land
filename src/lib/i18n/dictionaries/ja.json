@@ -6323,5 +6323,11 @@
   "cheering.free.description": "毎日最大3回の無料応援が受けられます。",
   "cheers.plus3": "+3 チアーズ",
   "cheering.free.claim": "クレーム {{amount}} 乾杯",
-  "vip.benefit.cheers": "+3 フリーチアーズ"
+  "vip.benefit.cheers": "+3 フリーチアーズ",
+  "bin.makeRoom": "部屋を作る",
+  "bin.cantWait": "ほうきを作って、もっとゴミを拾えるスペースを作ってください。",
+  "bin.binBag": "ビンバッグ",
+  "bin.increaseLimit": "制限値を増やす (+30)",
+  "bin.cantWait.description": "今日拾えるゴミの上限を増やしてください。",
+  "bin.increaseLimit.description": "制限を増やしてもよろしいですか?これは毎日リセットされます。"
 }
