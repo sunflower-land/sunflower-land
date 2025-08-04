@@ -51,9 +51,8 @@ export function catchPest({
       caughtPests[action.visitedFarmId] = [];
     }
 
-    game.inventory[action.pestName] = (
-      game.inventory[action.pestName] ?? new Decimal(0)
-    ).add(1);
+    visitorGame.inventory["Pest Net"] =
+      visitorGame.inventory["Pest Net"].sub(1);
 
     delete game.socialFarming?.clutter?.locations[id];
 
