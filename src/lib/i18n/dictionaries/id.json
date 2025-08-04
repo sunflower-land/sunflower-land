@@ -6253,13 +6253,9 @@
   "visitorGuide.welcomeMessage": "Howdy Bumpkin, selamat datang di peternaku. Gulung lengan bajumu dan bantu aku keluar. Siapa tahu, saya mungkin membalas budi!",
   "visiting.cleaned": "Dibersihkan",
   "visiting.thanks": "Terima kasih telah membersihkan peternakan saya!",
-  "visitorGuide.clutter": "Temukan kotoran tersembunyi, gulma & sampah.",
   "visitorGuide.pets": "Tangkap hama nakal",
   "visitorGuide.monument": "Bantu saya menyelesaikan proyek",
-  "visitorGuide.binGuide": "Sampah",
-  "visitorGuide.binGuide.description": "Setiap hari, Anda dapat mengambil 30 potongan sampah yang Anda temukan di peternakan teman Anda.",
   "visitorGuide.binGuide.reset": "Mengatur ulang di {{time}}",
-  "visitorGuide.binGuide.burn": "Bakar Sampah",
   "visitorGuide.binGuide.burn.description": "Terlalu banyak Vegemite. Tidak cukup kode. Pengembang Sydney kami sedang me-reboot - fitur dalam perjalanan!",
   "description.doubleBed": "Tempat tidur yang nyaman dibuat untuk teman-teman.",
   "project.completed": "Selamat! {{project}} selesai! Menyelesaikan proyek akan menghapus proyek dari tanah Anda dan memungkinkan Anda untuk membangun yang baru.",
@@ -6319,5 +6315,9 @@
   "news.betterTogether.bracelets": "Selesaikan pengiriman, tugas & hadiah untuk mendapatkan token Gelang.",
   "news.betterTogether.megastore": "Tukarkan token Gelang di Megastore untuk NFT eksklusif yang dapat dikoleksi & dapat dikenakan.",
   "news.betterTogether.auction": "Bersaing dengan Bumpkins lain di Rumah Lelang untuk NFT paling langka.",
-  "news.betterTogether.mutants": "Temukan mutan dan NFT eksklusif babak lainnya."
+  "news.betterTogether.mutants": "Temukan mutan dan NFT eksklusif babak lainnya.",
+  "visitorGuide.clutter": "Temukan kotoran tersembunyi, gulma & sampah.",
+  "visitorGuide.binGuide": "Sampah",
+  "visitorGuide.binGuide.description": "Setiap hari, Anda dapat mengambil 30 potongan sampah yang Anda temukan di peternakan teman Anda.",
+  "visitorGuide.binGuide.burn": "Bakar Sampah"
 }

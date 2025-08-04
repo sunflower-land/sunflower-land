@@ -6253,13 +6253,9 @@
   "visitorGuide.welcomeMessage": "Howdy Bumpkin, bienvenue dans ma ferme. Retroussez vos manches et aidez-moi. Qui sait, je te rendrai peut-être la pareille !",
   "visiting.cleaned": "Nettoyé",
   "visiting.thanks": "Merci d'avoir nettoyé ma ferme !",
-  "visitorGuide.clutter": "Trouvez les excréments, les mauvaises herbes et les déchets cachés.",
   "visitorGuide.pets": "Attrapez les ravageurs effrontés",
   "visitorGuide.monument": "Aidez-moi à terminer le projet",
-  "visitorGuide.binGuide": "Poubelle",
-  "visitorGuide.binGuide.description": "Chaque jour, tu peux ramasser 30 déchets que tu trouves dans les fermes de tes amis.",
   "visitorGuide.binGuide.reset": "Se réinitialise dans {{time}}",
-  "visitorGuide.binGuide.burn": "Brûlez les déchets",
   "visitorGuide.binGuide.burn.description": "Trop de Vegemite. Pas assez de code. Nos développeurs de Sydney redémarrent, la fonctionnalité est en cours !",
   "description.doubleBed": "Un lit douillet fait pour les amis.",
   "project.completed": "Félicitations ! Le {{project}} est terminé ! L'achèvement du projet supprimera le projet de votre terrain et vous permettra d'en construire un nouveau.",
@@ -6319,5 +6315,9 @@
   "news.betterTogether.bracelets": "Terminez les livraisons, les corvées et les primes pour gagner des jetons Bracelet.",
   "news.betterTogether.megastore": "Échangez des jetons de bracelet au Megastore contre des NFT exclusifs à collectionner et à porter.",
   "news.betterTogether.auction": "Rivalisez avec d'autres Bumpkins à la salle des ventes pour les NFT les plus rares.",
-  "news.betterTogether.mutants": "Découvrez des mutants et d'autres NFT exclusifs au chapitre."
+  "news.betterTogether.mutants": "Découvrez des mutants et d'autres NFT exclusifs au chapitre.",
+  "visitorGuide.clutter": "Trouvez les excréments, les mauvaises herbes et les déchets cachés.",
+  "visitorGuide.binGuide": "Déchets",
+  "visitorGuide.binGuide.description": "Chaque jour, tu peux ramasser 30 déchets que tu trouves dans les fermes de tes amis.",
+  "visitorGuide.binGuide.burn": "Brûlez les déchets"
 }

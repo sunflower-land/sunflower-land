@@ -6253,13 +6253,9 @@
   "visitorGuide.welcomeMessage": "Hola Bumpkin, bienvenido a mi granja. Súbete las mangas y ayúdame. ¡Quién sabe, puede que te devuelva el favor!",
   "visiting.cleaned": "Limpiado",
   "visiting.thanks": "¡Gracias por limpiar mi granja!",
-  "visitorGuide.clutter": "Encuentra el estiércol, la maleza y la basura escondidos.",
   "visitorGuide.pets": "Atrapa las descaradas plagas",
   "visitorGuide.monument": "Ayúdame a terminar el proyecto",
-  "visitorGuide.binGuide": "Basura",
-  "visitorGuide.binGuide.description": "Todos los días, puedes recoger 30 piezas de basura que encuentres en las granjas de tus amigos.",
   "visitorGuide.binGuide.reset": "Se restablece en {{time}}",
-  "visitorGuide.binGuide.burn": "Quema basura",
   "visitorGuide.binGuide.burn.description": "Demasiado Vegemite. No hay suficiente código. Nuestros desarrolladores de Sídney se están reiniciando: ¡la función está en camino!",
   "description.doubleBed": "Una cama acogedora hecha para amigos.",
   "project.completed": "¡Felicidades! ¡El {{project}} está completo! Completar el proyecto eliminará el proyecto de tu terreno y te permitirá construir uno nuevo.",
@@ -6319,5 +6315,9 @@
   "news.betterTogether.bracelets": "Completa entregas, tareas y recompensas para ganar fichas de pulsera.",
   "news.betterTogether.megastore": "Canjea fichas de brazalete en la Megastore por NFT exclusivos para coleccionables y portátiles.",
   "news.betterTogether.auction": "Compite con otros torpes en la casa de subastas por los NFT más raros.",
-  "news.betterTogether.mutants": "Descubre mutantes y otros NFT exclusivos de capítulos."
+  "news.betterTogether.mutants": "Descubre mutantes y otros NFT exclusivos de capítulos.",
+  "visitorGuide.clutter": "Encuentra el estiércol, la maleza y la basura escondidos.",
+  "visitorGuide.binGuide": "Basura",
+  "visitorGuide.binGuide.description": "Todos los días, puedes recoger 30 piezas de basura que encuentres en las granjas de tus amigos.",
+  "visitorGuide.binGuide.burn": "Quema basura"
 }

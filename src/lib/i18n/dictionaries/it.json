@@ -6253,13 +6253,9 @@
   "visitorGuide.welcomeMessage": "Salve Bumpkin, benvenuto nella mia fattoria. Rimboccati le maniche e aiutami. Chissà, potrei ricambiare il favore!",
   "visiting.cleaned": "Pulito",
   "visiting.thanks": "Grazie per aver pulito la mia fattoria!",
-  "visitorGuide.clutter": "Trova lo sterco, le erbacce e la spazzatura nascosti.",
   "visitorGuide.pets": "Cattura i parassiti impertinenti",
   "visitorGuide.monument": "Aiutami a finire il progetto",
-  "visitorGuide.binGuide": "Cestino",
-  "visitorGuide.binGuide.description": "Ogni giorno puoi raccogliere 30 pezzi di spazzatura che trovi nelle fattorie dei tuoi amici.",
   "visitorGuide.binGuide.reset": "Reimposta in {{time}}",
-  "visitorGuide.binGuide.burn": "Brucia rifiuti",
   "visitorGuide.binGuide.burn.description": "Troppa Vegemite. Codice insufficiente. I nostri sviluppatori di Sydney si stanno riavviando: una funzionalità è in arrivo!",
   "description.doubleBed": "Un comodo letto fatto per gli amici.",
   "project.completed": "Congratulazioni! Il {{project}} è completo! Il completamento del progetto rimuoverà il progetto dal tuo terreno e ti consentirà di costruirne uno nuovo.",
@@ -6319,5 +6315,9 @@
   "news.betterTogether.bracelets": "Completa consegne, faccende e ricompense per guadagnare gettoni Braccialetto.",
   "news.betterTogether.megastore": "Scambia i token Bracelet nel Megastore con esclusivi NFT da collezione e indossabili.",
   "news.betterTogether.auction": "Competi con altri Bumpkins alla Casa d'Aste per gli NFT più rari.",
-  "news.betterTogether.mutants": "Scopri i mutanti e altri NFT esclusivi del capitolo."
+  "news.betterTogether.mutants": "Scopri i mutanti e altri NFT esclusivi del capitolo.",
+  "visitorGuide.clutter": "Trova lo sterco, le erbacce e la spazzatura nascosti.",
+  "visitorGuide.binGuide": "Immondizia",
+  "visitorGuide.binGuide.description": "Ogni giorno puoi raccogliere 30 pezzi di immondizia che trovi nelle fattorie dei tuoi amici.",
+  "visitorGuide.binGuide.burn": "Brucia immondizia"
 }

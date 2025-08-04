@@ -6253,13 +6253,9 @@
   "visitorGuide.welcomeMessage": "Hallo Bumpkin, willkommen auf meiner Farm. Krempeln Sie die Ärmel hoch und helfen Sie mir. Wer weiß, vielleicht erwidere ich den Gefallen!",
   "visiting.cleaned": "Gereinigt",
   "visiting.thanks": "Danke für die Reinigung meiner Farm!",
-  "visitorGuide.clutter": "Finde den versteckten Mist, Unkraut und Müll.",
   "visitorGuide.pets": "Fang die frechen Plagegeister",
   "visitorGuide.monument": "Hilf mir, das Projekt zu beenden",
-  "visitorGuide.binGuide": "Müll",
-  "visitorGuide.binGuide.description": "Jeden Tag kannst du 30 Müllstücke einsammeln, die du auf den Farmen deines Freundes findest.",
   "visitorGuide.binGuide.reset": "Setzt in {{time}} zurück",
-  "visitorGuide.binGuide.burn": "Müll verbrennen",
   "visitorGuide.binGuide.burn.description": "Zu viel Vegemite. Nicht genug Code. Unsere Entwickler in Sydney starten neu — das Feature ist auf dem Weg!",
   "description.doubleBed": "Ein gemütliches Bett wie gemacht für Freunde.",
   "project.completed": "Herzlichen Glückwunsch! Das {{project}} ist abgeschlossen! Wenn Sie das Projekt abschließen, wird das Projekt von Ihrem Grundstück entfernt und Sie können ein neues bauen.",
@@ -6319,5 +6315,9 @@
   "news.betterTogether.bracelets": "Schließe Lieferungen, Hausarbeiten und Kopfgelder ab, um Armbandmarken zu verdienen.",
   "news.betterTogether.megastore": "Tauschen Sie Armband-Token im Megastore gegen exklusive sammelbare und tragbare NFTs ein.",
   "news.betterTogether.auction": "Messen Sie sich im Auktionshaus mit anderen Bumpkins um die seltensten NFTs.",
-  "news.betterTogether.mutants": "Entdecke Mutanten und andere kapitelexklusive NFTs."
+  "news.betterTogether.mutants": "Entdecke Mutanten und andere kapitelexklusive NFTs.",
+  "visitorGuide.clutter": "Finde den versteckten Mist, Unkraut und Müll.",
+  "visitorGuide.binGuide": "Müll",
+  "visitorGuide.binGuide.description": "Jeden Tag kannst du 30 Müllstücke einsammeln, die du auf den Farmen deines Freundes findest.",
+  "visitorGuide.binGuide.burn": "Müll verbrennen"
 }

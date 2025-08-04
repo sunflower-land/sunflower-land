@@ -6253,13 +6253,9 @@
   "visitorGuide.welcomeMessage": "Merhaba Bumpkin, çiftliğime hoş geldin. Kollarını aç ve bana yardım et. Kim bilir, iyiliğe karşılık verebilirim!",
   "visiting.cleaned": "Temizlenmiş",
   "visiting.thanks": "Çiftliğimi temizlediğiniz için teşekkürler!",
-  "visitorGuide.clutter": "Gizli gübreyi, yabani otları ve çöpleri bulun.",
   "visitorGuide.pets": "Arsız zararlıları yakalayın",
   "visitorGuide.monument": "Projeyi bitirmemize yardım et",
-  "visitorGuide.binGuide": "Çöp",
-  "visitorGuide.binGuide.description": "Her gün arkadaşınızın çiftliklerinde bulduğunuz 30 çöp parçasını toplayabilirsiniz.",
   "visitorGuide.binGuide.reset": "{{time}} içinde sıfırlanır",
-  "visitorGuide.binGuide.burn": "Çöp Yak",
   "visitorGuide.binGuide.burn.description": "Çok fazla Vegemite. Yeterli kod yok. Sydney geliştiricilerimiz yeniden başlatılıyor - özellik yolda!",
   "description.doubleBed": "Arkadaşlar için yapılmış rahat bir yatak.",
   "project.completed": "Tebrikler! {{project}} tamamlandı! Projeyi tamamlamak, projeyi arazinizden kaldıracak ve yeni bir tane inşa etmenize izin verecektir.",
@@ -6319,5 +6315,9 @@
   "news.betterTogether.bracelets": "Bilezik jetonları kazanmak için teslimatları, işleri ve ödülleri tamamlayın.",
   "news.betterTogether.megastore": "Megastore'da özel koleksiyonluk ve giyilebilir NFT'ler için Bilezik jetonlarını değiştirin.",
   "news.betterTogether.auction": "En nadir NFT'ler için Müzayede Evi'ndeki diğer Bumpkin'lerle rekabet edin.",
-  "news.betterTogether.mutants": "Mutantları ve diğer bölüme özel NFT'leri keşfedin."
+  "news.betterTogether.mutants": "Mutantları ve diğer bölüme özel NFT'leri keşfedin.",
+  "visitorGuide.clutter": "Gizli gübreyi, yabani otları ve çöpleri bulun.",
+  "visitorGuide.binGuide": "Çöp",
+  "visitorGuide.binGuide.description": "Her gün arkadaşınızın çiftliklerinde bulduğunuz 30 çöp parçasını toplayabilirsiniz.",
+  "visitorGuide.binGuide.burn": "Çöp Yak"
 }

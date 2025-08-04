@@ -6253,13 +6253,9 @@
   "visitorGuide.welcomeMessage": "Привет, Бампкин, добро пожаловать на мою ферму. Засучи рукава и помоги мне. Кто знает, возможно, я отвечу вам взаимностью!",
   "visiting.cleaned": "Очищено",
   "visiting.thanks": "Спасибо за уборку моей фермы!",
-  "visitorGuide.clutter": "Найдите спрятанный навоз, сорняки и мусор.",
   "visitorGuide.pets": "Ловите дерзких вредителей",
   "visitorGuide.monument": "Помогите мне закончить проект",
-  "visitorGuide.binGuide": "Мусор",
-  "visitorGuide.binGuide.description": "Каждый день вы можете собирать 30 кусков мусора, которые вы найдете на фермах вашего друга.",
   "visitorGuide.binGuide.reset": "Перезагружается в {{time}}",
-  "visitorGuide.binGuide.burn": "Сжечь мусор",
   "visitorGuide.binGuide.burn.description": "Слишком много Vegemite. Недостаточно кода. Наши разработчики из Сиднея перезагружаются — новая функция уже в пути!",
   "description.doubleBed": "Уютная кровать для друзей.",
   "project.completed": "Поздравляю! Задание {{project}} завершено! После завершения проекта проект будет удален с вашей земли и вы сможете построить новый.",
@@ -6319,5 +6315,9 @@
   "news.betterTogether.bracelets": "Выполняйте доставку, выполняйте работу по дому и получайте награды, чтобы заработать токены Bracelet.",
   "news.betterTogether.megastore": "Обменяйте токены Bracelet в Megastore на эксклюзивные коллекционные и носимые NFT.",
   "news.betterTogether.auction": "Соревнуйтесь с другими Bumpkins на аукционе за самые редкие NFT.",
-  "news.betterTogether.mutants": "Откройте для себя мутантов и другие эксклюзивные NFT, эксклюзивные для глав."
+  "news.betterTogether.mutants": "Откройте для себя мутантов и другие эксклюзивные NFT, эксклюзивные для глав.",
+  "visitorGuide.clutter": "Найдите спрятанный навоз, сорняки и мусор.",
+  "visitorGuide.binGuide": "Мусор",
+  "visitorGuide.binGuide.description": "Каждый день вы можете собирать 30 кусков мусора, которые вы найдете на фермах вашего друга.",
+  "visitorGuide.binGuide.burn": "Сжигайте мусор"
 }

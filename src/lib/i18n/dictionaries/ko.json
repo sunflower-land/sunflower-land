@@ -6253,13 +6253,9 @@
   "visitorGuide.welcomeMessage": "안녕 범프킨, 우리 농장에 온 걸 환영해소매 걷어붙이고 나 좀 도와줘누가 알겠어요, 제가 그 은혜를 갚을 수 있을지도 몰라요!",
   "visiting.cleaned": "청소 완료",
   "visiting.thanks": "농장을 청소해 주셔서 감사합니다!",
-  "visitorGuide.clutter": "숨겨진 배설물, 잡초, 쓰레기를 찾으세요.",
   "visitorGuide.pets": "건방진 해충을 잡아라",
   "visitorGuide.monument": "프로젝트 완료를 도와주세요.",
-  "visitorGuide.binGuide": "휴지통",
-  "visitorGuide.binGuide.description": "친구의 농장에서 찾은 쓰레기 30개를 매일 주울 수 있습니다.",
   "visitorGuide.binGuide.reset": "{{time}} 에서 재설정",
-  "visitorGuide.binGuide.burn": "휴지통 태우기",
   "visitorGuide.binGuide.burn.description": "베지마이트가 너무 많아요코드가 충분하지 않아요.시드니 개발팀이 재부팅 중입니다. 곧 기능이 추가될 예정입니다!",
   "description.doubleBed": "친구를 위해 만든 아늑한 침대.",
   "project.completed": "축하합니다!{{project}} 가 완성되었습니다!프로젝트를 완료하면 해당 프로젝트가 토지에서 제거되고 새 프로젝트를 건설할 수 있습니다.",
@@ -6319,5 +6315,9 @@
   "news.betterTogether.bracelets": "배송, 집안일 및 현상금을 완료하여 팔찌 토큰을 받으세요.",
   "news.betterTogether.megastore": "메가스토어에서 팔찌 토큰을 수집용 및 웨어러블 전용 NFT로 교환하세요.",
   "news.betterTogether.auction": "경매장에서 다른 범프킨들과 경쟁해 가장 희귀한 NFT를 획득하세요.",
-  "news.betterTogether.mutants": "뮤턴트 및 기타 챕터 전용 NFT를 살펴보세요."
+  "news.betterTogether.mutants": "뮤턴트 및 기타 챕터 전용 NFT를 살펴보세요.",
+  "visitorGuide.clutter": "숨겨진 배설물, 잡초, 쓰레기를 찾으세요.",
+  "visitorGuide.binGuide": "쓰레기",
+  "visitorGuide.binGuide.description": "친구의 농장에서 찾은 쓰레기 30개를 매일 주울 수 있습니다.",
+  "visitorGuide.binGuide.burn": "쓰레기 태우기"
 }

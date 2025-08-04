@@ -6253,13 +6253,9 @@
   "visitorGuide.welcomeMessage": "Hello Bumpkin, selamat datang ke ladang saya. Gulung lengan anda dan tolong saya keluar. Siapa tahu, saya boleh mengembalikan nikmat itu!",
   "visiting.cleaned": "Dibersihkan",
   "visiting.thanks": "Terima kasih kerana membersihkan ladang saya!",
-  "visitorGuide.clutter": "Cari kotoran tersembunyi, rumpai & sampah.",
   "visitorGuide.pets": "Tangkap perosak yang nipis",
   "visitorGuide.monument": "Bantu saya menyelesaikan projek",
-  "visitorGuide.binGuide": "Sampah",
-  "visitorGuide.binGuide.description": "Setiap hari, anda boleh mengambil 30 keping sampah yang anda dapati di ladang rakan anda.",
   "visitorGuide.binGuide.reset": "Menetapkan semula dalam {{time}}",
-  "visitorGuide.binGuide.burn": "Bakar Sampah",
   "visitorGuide.binGuide.burn.description": "Terlalu banyak Vegemite. Kod tidak mencukupi. Pembangun Sydney kami sedang dimulakan semula - ciri dalam perjalanan!",
   "description.doubleBed": "Katil yang selesa dibuat untuk rakan-rakan.",
   "project.completed": "Tahniah! {{project}} selesai! Melengkapkan projek akan mengeluarkan projek dari tanah anda dan membolehkan anda membina yang baru.",
@@ -6319,5 +6315,9 @@
   "news.betterTogether.bracelets": "Lengkapkan penghantaran, kerja rumah & hadiah untuk mendapatkan token gelang.",
   "news.betterTogether.megastore": "Tukar token gelang di Megastore untuk NFT eksklusif yang boleh dikumpulkan & boleh dipakai.",
   "news.betterTogether.auction": "Bersaing dengan Bumpkins lain di Auction House untuk NFT paling jarang.",
-  "news.betterTogether.mutants": "Temui mutan dan NFT eksklusif bab lain."
+  "news.betterTogether.mutants": "Temui mutan dan NFT eksklusif bab lain.",
+  "visitorGuide.clutter": "Cari kotoran tersembunyi, rumpai & sampah.",
+  "visitorGuide.binGuide": "Sampah",
+  "visitorGuide.binGuide.description": "Setiap hari, anda boleh mengambil 30 keping sampah yang anda dapati di ladang rakan anda.",
+  "visitorGuide.binGuide.burn": "Membakar Sampah"
 }

@@ -6253,13 +6253,9 @@
   "visitorGuide.welcomeMessage": "Olá, Bumpkin, bem-vindo à minha fazenda. Arregace as mangas e me ajude. Quem sabe, talvez eu retribua o favor!",
   "visiting.cleaned": "Limpo",
   "visiting.thanks": "Obrigado por limpar minha fazenda!",
-  "visitorGuide.clutter": "Encontre o esterco, as ervas daninhas e o lixo escondidos.",
   "visitorGuide.pets": "Pegue as pragas atrevidas",
   "visitorGuide.monument": "Ajude-me a terminar o projeto",
-  "visitorGuide.binGuide": "Lixo",
-  "visitorGuide.binGuide.description": "Todos os dias, você pode pegar 30 peças de lixo que encontra nas fazendas de seus amigos.",
   "visitorGuide.binGuide.reset": "Reinicializa em {{time}}",
-  "visitorGuide.binGuide.burn": "Queimar lixo",
   "visitorGuide.binGuide.burn.description": "Muito Vegemite. Código insuficiente. Nossos desenvolvedores de Sydney estão reiniciando — recurso a caminho!",
   "description.doubleBed": "Uma cama aconchegante feita para amigos.",
   "project.completed": "Parabéns! O {{project}} está completo! A conclusão do projeto removerá o projeto do seu terreno e permitirá que você construa um novo.",
@@ -6319,5 +6315,9 @@
   "news.betterTogether.bracelets": "Complete entregas, tarefas e recompensas para ganhar tokens Bracelet.",
   "news.betterTogether.megastore": "Troque tokens Bracelet na Megastore por NFTs exclusivos colecionáveis e vestíveis.",
   "news.betterTogether.auction": "Compita com outros Bumpkins na Casa de Leilões pelos NFTs mais raros.",
-  "news.betterTogether.mutants": "Descubra mutantes e outros NFTs exclusivos do capítulo."
+  "news.betterTogether.mutants": "Descubra mutantes e outros NFTs exclusivos do capítulo.",
+  "visitorGuide.clutter": "Encontre o esterco, as ervas daninhas e o lixo escondidos.",
+  "visitorGuide.binGuide": "Lixo",
+  "visitorGuide.binGuide.description": "Todos os dias, você pode coletar 30 pedaços de lixo que encontra nas fazendas de seus amigos.",
+  "visitorGuide.binGuide.burn": "Queimar lixo"
 }

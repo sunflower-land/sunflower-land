@@ -6253,13 +6253,9 @@
   "visitorGuide.welcomeMessage": "やあ、バンプキン、私の農場へようこそ。袖をまくり上げて私を助けてください。お返しするかもしれないけど！",
   "visiting.cleaned": "クリーニング済み",
   "visiting.thanks": "農場を掃除してくれてありがとう！",
-  "visitorGuide.clutter": "隠された糞、雑草、ゴミを見つけてください。",
   "visitorGuide.pets": "生意気な害虫を捕まえろ",
   "visitorGuide.monument": "プロジェクトを完了するのを手伝ってください",
-  "visitorGuide.binGuide": "ゴミ箱",
-  "visitorGuide.binGuide.description": "毎日、友達の農場で見つけたゴミを30個拾うことができます。",
   "visitorGuide.binGuide.reset": "{{time}} でリセット",
-  "visitorGuide.binGuide.burn": "バーン・トラッシュ",
   "visitorGuide.binGuide.burn.description": "ベジマイトが多すぎる。コードが足りません。シドニーのデベロッパーが再起動中 — 機能追加準備中！",
   "description.doubleBed": "友達のために作られた居心地の良いベッド。",
   "project.completed": "おめでとう!{{project}} が完成しました！プロジェクトを完了すると、あなたの土地からプロジェクトが削除され、新しい土地を建設できるようになります。",
@@ -6319,5 +6315,9 @@
   "news.betterTogether.bracelets": "配達、雑用、バウンティを完了してブレスレットトークンを獲得しましょう。",
   "news.betterTogether.megastore": "メガストアでブレスレットトークンを限定コレクション＆ウェアラブルNFTと交換しましょう。",
   "news.betterTogether.auction": "オークションハウスで他のバンプキンと競い合って、最も希少なNFTを手に入れましょう。",
-  "news.betterTogether.mutants": "ミュータントやその他のチャプター限定のNFTを発見してください。"
+  "news.betterTogether.mutants": "ミュータントやその他のチャプター限定のNFTを発見してください。",
+  "visitorGuide.clutter": "隠された糞、雑草、ゴミを見つけてください。",
+  "visitorGuide.binGuide": "ガベージ",
+  "visitorGuide.binGuide.description": "毎日、友達の農場で見つけたゴミを30個拾うことができます。",
+  "visitorGuide.binGuide.burn": "ゴミを燃やす"
 }
