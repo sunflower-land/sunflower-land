@@ -185,7 +185,6 @@ const SHOW_MODAL: Record<StateValues, boolean> = {
   investigating: true,
   blessing: true,
   cheers: true,
-  news: true,
 };
 
 // State change selectors
