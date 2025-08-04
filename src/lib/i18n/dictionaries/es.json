@@ -6237,7 +6237,6 @@
   "description.pestNet": "Se usa para atrapar plagas en las granjas de tus amigos",
   "clutter.trashBinFull": "Cubo de basura lleno",
   "visitorGuide.farmTitle": "La granja de {{username}}",
-  "visitorGuide.pickupClutter": "Recoge 5 x Clutter",
   "visitorGuide.socialPointsAlt": "Puntos sociales",
   "visitorGuide.cheerMonument": "Saludos {{monument}}",
   "visitorGuide.catchPests": "Atrapa 2 plagas",
@@ -6313,11 +6312,13 @@
   "news.betterTogether.megastore": "Canjea fichas de brazalete en la Megastore por NFT exclusivos para coleccionables y portátiles.",
   "news.betterTogether.auction": "Compite con otros torpes en la casa de subastas por los NFT más raros.",
   "news.betterTogether.mutants": "Descubre mutantes y otros NFT exclusivos de capítulos.",
-  "visitorGuide.clutter": "Encuentra el estiércol, la maleza y la basura escondidos.",
   "visitorGuide.binGuide": "Basura",
   "visitorGuide.binGuide.description": "Todos los días, puedes recoger 30 piezas de basura que encuentres en las granjas de tus amigos.",
   "visitorGuide.binGuide.burn": "Quema basura",
   "bedsMigration.farmHandCount": "{{count}}/{{max}}",
   "description.pickaxeShark.boost.1": "-15% de tiempo de recuperación de oro",
-  "description.pickaxeShark.boost.2": "10% de probabilidad de que el oro se recupere al instante"
+  "description.pickaxeShark.boost.2": "10% de probabilidad de que el oro se recupere al instante",
+  "visitorGuide.pickupClutter": "Recogida {{amount}} x {{type}}",
+  "visitorGuide.clutter": "Encuentra el objeto oculto en la granja.",
+  "visitorGuide.pest": "Atrapa la plaga."
 }

@@ -6237,7 +6237,6 @@
   "description.pestNet": "友達の農場で害虫を捕まえるのに使う",
   "clutter.trashBinFull": "ゴミ箱がいっぱい",
   "visitorGuide.farmTitle": "{{username}} さんの農場",
-  "visitorGuide.pickupClutter": "クラッターを5個拾う",
   "visitorGuide.socialPointsAlt": "ソーシャル・ポイント",
   "visitorGuide.cheerMonument": "チア {{monument}}",
   "visitorGuide.catchPests": "害虫を2匹捕まえる",
@@ -6313,11 +6312,13 @@
   "news.betterTogether.megastore": "メガストアでブレスレットトークンを限定コレクション＆ウェアラブルNFTと交換しましょう。",
   "news.betterTogether.auction": "オークションハウスで他のバンプキンと競い合って、最も希少なNFTを手に入れましょう。",
   "news.betterTogether.mutants": "ミュータントやその他のチャプター限定のNFTを発見してください。",
-  "visitorGuide.clutter": "隠された糞、雑草、ゴミを見つけてください。",
   "visitorGuide.binGuide": "ガベージ",
   "visitorGuide.binGuide.description": "毎日、友達の農場で見つけたゴミを30個拾うことができます。",
   "visitorGuide.binGuide.burn": "ゴミを燃やす",
   "bedsMigration.farmHandCount": "{{count}}/{{max}}",
   "description.pickaxeShark.boost.1": "-15% ゴールド回復時間",
-  "description.pickaxeShark.boost.2": "10% の確率でゴールドが即座に回復する"
+  "description.pickaxeShark.boost.2": "10% の確率でゴールドが即座に回復する",
+  "visitorGuide.pickupClutter": "{{amount}} x {{type}} をピックアップ",
+  "visitorGuide.clutter": "農場で隠されたアイテムを見つけてください。",
+  "visitorGuide.pest": "害虫を捕まえろ"
 }

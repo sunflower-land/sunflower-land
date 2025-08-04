@@ -6237,7 +6237,6 @@
   "description.pestNet": "Wird verwendet, um Schädlinge auf den Farmen deiner Freunde zu fangen",
   "clutter.trashBinFull": "Mülleimer voll",
   "visitorGuide.farmTitle": "Die Farm von {{username}}",
-  "visitorGuide.pickupClutter": "Sammle 5 x Clutter",
   "visitorGuide.socialPointsAlt": "Soziale Punkte",
   "visitorGuide.cheerMonument": "Jubel {{monument}}",
   "visitorGuide.catchPests": "Fange 2 x Schädlinge",
@@ -6313,11 +6312,13 @@
   "news.betterTogether.megastore": "Tauschen Sie Armband-Token im Megastore gegen exklusive sammelbare und tragbare NFTs ein.",
   "news.betterTogether.auction": "Messen Sie sich im Auktionshaus mit anderen Bumpkins um die seltensten NFTs.",
   "news.betterTogether.mutants": "Entdecke Mutanten und andere kapitelexklusive NFTs.",
-  "visitorGuide.clutter": "Finde den versteckten Mist, Unkraut und Müll.",
   "visitorGuide.binGuide": "Müll",
   "visitorGuide.binGuide.description": "Jeden Tag kannst du 30 Müllstücke einsammeln, die du auf den Farmen deines Freundes findest.",
   "visitorGuide.binGuide.burn": "Müll verbrennen",
   "bedsMigration.farmHandCount": "{{count}}/{{max}}",
   "description.pickaxeShark.boost.1": "-15% Gold-Wiederherstellungszeit",
-  "description.pickaxeShark.boost.2": "10% Chance, dass sich Gold sofort erholt"
+  "description.pickaxeShark.boost.2": "10% Chance, dass sich Gold sofort erholt",
+  "visitorGuide.pickupClutter": "{{amount}} x {{type}} abholen",
+  "visitorGuide.clutter": "Finde den versteckten Gegenstand auf der Farm.",
+  "visitorGuide.pest": "Fang den Schädling."
 }

@@ -6237,7 +6237,6 @@
   "description.pestNet": "Используется для ловли вредителей на фермах ваших друзей",
   "clutter.trashBinFull": "Мусорное ведро заполнено",
   "visitorGuide.farmTitle": "Ферма {{username}}",
-  "visitorGuide.pickupClutter": "Соберите 5 x беспорядка",
   "visitorGuide.socialPointsAlt": "Социальные баллы",
   "visitorGuide.cheerMonument": "Подбадривайте {{monument}}",
   "visitorGuide.catchPests": "Поймайте 2 вредителей",
@@ -6313,11 +6312,13 @@
   "news.betterTogether.megastore": "Обменяйте токены Bracelet в Megastore на эксклюзивные коллекционные и носимые NFT.",
   "news.betterTogether.auction": "Соревнуйтесь с другими Bumpkins на аукционе за самые редкие NFT.",
   "news.betterTogether.mutants": "Откройте для себя мутантов и другие эксклюзивные NFT, эксклюзивные для глав.",
-  "visitorGuide.clutter": "Найдите спрятанный навоз, сорняки и мусор.",
   "visitorGuide.binGuide": "Мусор",
   "visitorGuide.binGuide.description": "Каждый день вы можете собирать 30 кусков мусора, которые вы найдете на фермах вашего друга.",
   "visitorGuide.binGuide.burn": "Сжигайте мусор",
   "bedsMigration.farmHandCount": "{{count}}/{{max}}",
   "description.pickaxeShark.boost.1": "Время восстановления золота -15%",
-  "description.pickaxeShark.boost.2": "Вероятность мгновенного восстановления золота в размере 10%"
+  "description.pickaxeShark.boost.2": "Вероятность мгновенного восстановления золота в размере 10%",
+  "visitorGuide.pickupClutter": "Забрать {{amount}} x {{type}}",
+  "visitorGuide.clutter": "Найдите спрятанный предмет на ферме.",
+  "visitorGuide.pest": "Поймайте вредителя."
 }

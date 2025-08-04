@@ -6237,7 +6237,6 @@
   "description.pestNet": "Digunakan untuk menangkap perosak di ladang rakan anda",
   "clutter.trashBinFull": "Tong sampah penuh",
   "visitorGuide.farmTitle": "Ladang {{username}}",
-  "visitorGuide.pickupClutter": "Angkat 5 x Kacauter",
   "visitorGuide.socialPointsAlt": "Titik Sosial",
   "visitorGuide.cheerMonument": "Bersorak {{monument}}",
   "visitorGuide.catchPests": "Tangkap 2 x Perosak",
@@ -6313,11 +6312,13 @@
   "news.betterTogether.megastore": "Tukar token gelang di Megastore untuk NFT eksklusif yang boleh dikumpulkan & boleh dipakai.",
   "news.betterTogether.auction": "Bersaing dengan Bumpkins lain di Auction House untuk NFT paling jarang.",
   "news.betterTogether.mutants": "Temui mutan dan NFT eksklusif bab lain.",
-  "visitorGuide.clutter": "Cari kotoran tersembunyi, rumpai & sampah.",
   "visitorGuide.binGuide": "Sampah",
   "visitorGuide.binGuide.description": "Setiap hari, anda boleh mengambil 30 keping sampah yang anda dapati di ladang rakan anda.",
   "visitorGuide.binGuide.burn": "Membakar Sampah",
   "bedsMigration.farmHandCount": "{{count}}/{{max}}",
   "description.pickaxeShark.boost.1": "-15% Masa pemulihan emas",
-  "description.pickaxeShark.boost.2": "10% peluang untuk emas pulih dengan serta-merta"
+  "description.pickaxeShark.boost.2": "10% peluang untuk emas pulih dengan serta-merta",
+  "visitorGuide.pickupClutter": "Angkat {{amount}} x {{type}}",
+  "visitorGuide.clutter": "Cari item tersembunyi di ladang.",
+  "visitorGuide.pest": "Tangkap perosak."
 }
