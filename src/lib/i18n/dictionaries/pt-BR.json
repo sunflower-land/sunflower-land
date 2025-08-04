@@ -6261,8 +6261,6 @@
   "description.poseidon": "O mítico Poseidon, o deus do mar.",
   "chumDetails.weed": "Um amigo especial que atrai o deus do mar",
   "description.poseidon.boost": "+1 Peixe durante o outono",
-  "playerModal.monumentsInProgress": "Monumentos em andamento",
-  "playerModal.noMonumentsInProgress": "Não há monumentos em andamento nesta fazenda",
   "cleaned": "Limpo",
   "cleaning.farm": "Notificando Bumpkin",
   "visitorGuide.welcomeMessage": "Olá, Bumpkin, bem-vindo à minha fazenda. Arregace as mangas e me ajude. Quem sabe, talvez eu retribua o favor!",
@@ -6276,5 +6274,13 @@
   "visitorGuide.binGuide.reset": "Reinicializa em {{time}}",
   "visitorGuide.binGuide.burn": "Queimar lixo",
   "visitorGuide.binGuide.burn.description": "Muito Vegemite. Código insuficiente. Nossos desenvolvedores de Sydney estão reiniciando — recurso a caminho!",
-  "description.doubleBed": "Uma cama aconchegante feita para amigos."
+  "description.doubleBed": "Uma cama aconchegante feita para amigos.",
+  "project.completed": "Parabéns! O {{project}} está completo! A conclusão do projeto removerá o projeto do seu terreno e permitirá que você construa um novo.",
+  "monument.completed": "Parabéns! O {{project}} está completo! Cada monumento exclusivo concluído dá +1 amuleto amoroso toda vez que uma Big Orange, Big Banana ou Big Apple é concluída.",
+  "project.incomplete": "O {{project}} tem {{cheers}}/{{requiredCheers}} aplausos. {{requiredCheers - cheers}} vá!",
+  "monument.boost": "+1 Love Charm ao vender Big Orange, Big Banana ou Big Apple",
+  "complete.project": "Projeto completo",
+  "completed.monument": "Monumento concluído",
+  "playerModal.projectsInProgress": "Projetos em andamento",
+  "playerModal.noProjectsInProgress": "Nenhum projeto em andamento nesta fazenda"
 }

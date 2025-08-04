@@ -2,6 +2,7 @@ import Decimal from "decimal.js-light";
 import { Pest } from "features/game/types/clutter";
 import { GameState } from "features/game/types/game";
 import { enableMapSet, produce } from "immer";
+import { hasFeatureAccess } from "lib/flags";
 
 export type CatchPestAction = {
   type: "pest.caught";
@@ -24,9 +25,13 @@ export function catchPest({
 }: Options): [GameState, GameState] {
   enableMapSet();
   return produce([state, visitorState!], ([game, visitorGame]) => {
+    if (!hasFeatureAccess(game, "PESTS")) {
+      throw new Error("This feature is not available");
+    }
+
     const { id, pestName, visitedFarmId } = action;
 
-    if (game.inventory["Pest Net"]?.lt(1)) {
+    if (visitorGame.inventory["Pest Net"]?.lt(1)) {
       throw new Error("No Pest Net in inventory");
     }
 

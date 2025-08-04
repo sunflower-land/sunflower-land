@@ -9,7 +9,6 @@ import { GameState } from "features/game/types/game";
 import {
   WORKBENCH_MONUMENTS,
   WorkbenchMonumentName,
-  LOVE_CHARM_MONUMENTS,
 } from "features/game/types/monuments";
 import { produce } from "immer";
 
@@ -44,17 +43,10 @@ export function buyMonument({
 
     // Convert createdAt to the start of the day (midnight UTC)
     const createdAtDay = Math.floor(createdAt / (1000 * 60 * 60 * 24));
-    const monumentCreatedAt = stateCopy.monuments?.[name]?.createdAt;
 
-    if (
-      monumentCreatedAt &&
-      Math.floor(monumentCreatedAt / (1000 * 60 * 60 * 24)) === createdAtDay
-    ) {
-      throw new Error("Monument already bought today");
-    }
+    const hasMonument = stateCopy.inventory[name]?.gt(0);
 
-    // You can only buy one love charm monument total
-    if (name in LOVE_CHARM_MONUMENTS && !!stateCopy.monuments?.[name]) {
+    if (hasMonument) {
       throw new Error("Max monument reached");
     }
 
@@ -144,14 +136,6 @@ export function buyMonument({
       [name]: {
         cheers: 0,
       },
-    };
-
-    if (!stateCopy.monuments) {
-      stateCopy.monuments = {};
-    }
-
-    stateCopy.monuments[name] = {
-      createdAt,
     };
 
     return stateCopy;

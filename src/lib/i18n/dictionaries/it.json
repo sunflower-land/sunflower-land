@@ -6261,8 +6261,6 @@
   "description.poseidon": "Il mitico Poseidone, il dio del mare.",
   "chumDetails.weed": "Un amico speciale che attira il dio del mare",
   "description.poseidon.boost": "+1 pesce in autunno",
-  "playerModal.monumentsInProgress": "Monumenti in corso",
-  "playerModal.noMonumentsInProgress": "Nessun monumento in corso in questa fattoria",
   "cleaned": "Pulito",
   "cleaning.farm": "Notifica a Bumpkin",
   "visitorGuide.welcomeMessage": "Salve Bumpkin, benvenuto nella mia fattoria. Rimboccati le maniche e aiutami. Chissà, potrei ricambiare il favore!",
@@ -6276,5 +6274,13 @@
   "visitorGuide.binGuide.reset": "Reimposta in {{time}}",
   "visitorGuide.binGuide.burn": "Brucia rifiuti",
   "visitorGuide.binGuide.burn.description": "Troppa Vegemite. Codice insufficiente. I nostri sviluppatori di Sydney si stanno riavviando: una funzionalità è in arrivo!",
-  "description.doubleBed": "Un comodo letto fatto per gli amici."
+  "description.doubleBed": "Un comodo letto fatto per gli amici.",
+  "project.completed": "Congratulazioni! Il {{project}} è completo! Il completamento del progetto rimuoverà il progetto dal tuo terreno e ti consentirà di costruirne uno nuovo.",
+  "monument.completed": "Congratulazioni! Il {{project}} è completo! Ogni monumento unico completato dà +1 Love Charm ogni volta che viene completata una Grande Arancia, una Grande Banana o una Grande Mela.",
+  "project.incomplete": "Il {{project}} ha {{cheers}}/{{requiredCheers}} applausi. {{requiredCheers - cheers}} al via!",
+  "monument.boost": "+1 Love Charm quando vendi Big Orange, Big Banana o Big Apple",
+  "complete.project": "Progetto completo",
+  "completed.monument": "Monumento completato",
+  "playerModal.projectsInProgress": "Progetti in corso",
+  "playerModal.noProjectsInProgress": "Nessun progetto in corso in questa azienda"
 }

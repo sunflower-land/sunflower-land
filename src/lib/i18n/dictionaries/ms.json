@@ -6261,8 +6261,6 @@
   "description.poseidon": "Mitos Poseidon, dewa laut.",
   "chumDetails.weed": "Chum khas yang menarik dewa laut",
   "description.poseidon.boost": "+1 Ikan semasa Musim Luruh",
-  "playerModal.monumentsInProgress": "Monumen sedang dijalankan",
-  "playerModal.noMonumentsInProgress": "Tiada monumen yang sedang dijalankan di ladang ini",
   "cleaned": "Dibersihkan",
   "cleaning.farm": "Memaklumkan Bumpkin",
   "visitorGuide.welcomeMessage": "Hello Bumpkin, selamat datang ke ladang saya. Gulung lengan anda dan tolong saya keluar. Siapa tahu, saya boleh mengembalikan nikmat itu!",
@@ -6276,5 +6274,13 @@
   "visitorGuide.binGuide.reset": "Menetapkan semula dalam {{time}}",
   "visitorGuide.binGuide.burn": "Bakar Sampah",
   "visitorGuide.binGuide.burn.description": "Terlalu banyak Vegemite. Kod tidak mencukupi. Pembangun Sydney kami sedang dimulakan semula - ciri dalam perjalanan!",
-  "description.doubleBed": "Katil yang selesa dibuat untuk rakan-rakan."
+  "description.doubleBed": "Katil yang selesa dibuat untuk rakan-rakan.",
+  "project.completed": "Tahniah! {{project}} selesai! Melengkapkan projek akan mengeluarkan projek dari tanah anda dan membolehkan anda membina yang baru.",
+  "monument.completed": "Tahniah! {{project}} selesai! Setiap monumen unik yang lengkap memberikan +1 Cinta Cinta Cinta setiap kali Oren Besar, Pisang Besar atau Epal Besar selesai.",
+  "project.incomplete": "{{project}} mempunyai {{cheers}}/{{requiredCheers}} sorakan. {{requiredCheers - cheers}} untuk pergi!",
+  "monument.boost": "+1 Cinta Cinta apabila menjual Big Orange, Big Banana atau Big Apple",
+  "complete.project": "Projek Lengkap",
+  "completed.monument": "Monumen Siap",
+  "playerModal.projectsInProgress": "Projek yang sedang dijalankan",
+  "playerModal.noProjectsInProgress": "Tiada projek yang sedang dijalankan di ladang ini"
 }

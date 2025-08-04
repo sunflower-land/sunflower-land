@@ -26,7 +26,7 @@ import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useLocation, useNavigate } from "react-router";
 import { useVisiting } from "lib/utils/visitUtils";
-import { Player } from "../types/types";
+import { ActiveProjects, Player } from "../types/types";
 import { useSocial } from "../hooks/useSocial";
 import { KeyedMutator } from "swr";
 import { PlayerDetailsSkeleton } from "./skeletons/PlayerDetailsSkeleton";
@@ -169,7 +169,21 @@ export const PlayerDetails: React.FC<Props> = ({
   const isSelf = player?.id === loggedInFarmId;
   const hasCheersAvailable = cheersAvailable.gt(0);
   const displayName = player?.username ?? `#${player?.id}`;
-  const inProgressProjects = getKeys(player?.projects ?? {});
+  const inProgressProjects = getKeys(
+    (player?.projects ?? {}) as ActiveProjects,
+  ).sort((a, b) => {
+    const projectA = player?.projects?.[a];
+    const projectB = player?.projects?.[b];
+
+    if (!projectA || !projectB) return 0;
+
+    const projectAProgress =
+      (projectA.receivedCheers / projectA.requiredCheers) * 100;
+    const projectBProgress =
+      (projectB.receivedCheers / projectB.requiredCheers) * 100;
+
+    return projectBProgress - projectAProgress;
+  });
 
   return (
     <div className="flex gap-1 w-full max-h-[400px]">
@@ -362,11 +376,18 @@ export const PlayerDetails: React.FC<Props> = ({
         </InnerPanel>
 
         <InnerPanel className="flex flex-1 flex-col gap-1 max-h-[121px] overflow-y-auto scrollable">
-          <Label type="default">{t("playerModal.monumentsInProgress")}</Label>
+          <Label type="default">{t("playerModal.projectsInProgress")}</Label>
           <div className="flex gap-2 flex-wrap py-1">
             {inProgressProjects.length > 0 ? (
-              Object.entries(player?.projects ?? {}).map(
-                ([monumentName, { receivedCheers, requiredCheers }], index) => (
+              inProgressProjects.map((monumentName, index) => {
+                const { receivedCheers, requiredCheers } = player?.projects?.[
+                  monumentName
+                ] ?? {
+                  receivedCheers: 0,
+                  requiredCheers: 0,
+                };
+
+                return (
                   <div
                     key={`${monumentName}-${index}`}
                     className="mb-4 relative"
@@ -408,11 +429,11 @@ export const PlayerDetails: React.FC<Props> = ({
                       className="absolute bottom-0 w-full left-[5px]"
                     />
                   </div>
-                ),
-              )
+                );
+              })
             ) : (
               <div className="text-xs ml-1">
-                {t("playerModal.noMonumentsInProgress")}
+                {t("playerModal.noProjectsInProgress")}
               </div>
             )}
           </div>

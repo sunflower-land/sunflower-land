@@ -6,7 +6,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import cheer from "assets/icons/cheer.webp";
 import { Context } from "features/game/GameProvider";
 import { LiveProgressBar, ProgressBar } from "components/ui/ProgressBar";
-import { Panel } from "components/ui/Panel";
+import { ButtonPanel, Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { Modal } from "components/ui/Modal";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -22,32 +22,25 @@ import {
   SFTDetailPopoverInnerPanel,
   SFTDetailPopoverLabel,
 } from "components/ui/SFTDetailPopover";
-import { REQUIRED_CHEERS } from "features/game/events/landExpansion/completeProject";
-import { CheerModal } from "./Project";
-import powerup from "assets/icons/level_up.png";
+import chest from "assets/icons/chest.png";
+import { Box } from "components/ui/Box";
+import { formatNumber } from "lib/utils/formatNumber";
+import {
+  REQUIRED_CHEERS,
+  REWARD_ITEMS,
+} from "features/game/events/landExpansion/completeProject";
 
-const BOOST_LABELS: Partial<
-  Record<
-    MonumentName,
-    | "farmersMonument.boost"
-    | "woodcuttersMonument.boost"
-    | "minersMonument.boost"
-  >
-> = {
-  "Farmer's Monument": "farmersMonument.boost",
-  "Woodcutter's Monument": "woodcuttersMonument.boost",
-  "Miner's Monument": "minersMonument.boost",
-};
-
-const ProjectModal: React.FC<{
+export const CheerModal: React.FC<{
   project: MonumentName;
-  onClose: () => void;
   cheers: number;
-}> = ({ project, onClose, cheers }) => {
+  username: string;
+  onClose: () => void;
+  onCheer: () => void;
+  cheersAvailable: Decimal;
+}> = ({ project, cheers, username, onClose, onCheer, cheersAvailable }) => {
   const { t } = useAppTranslation();
 
-  const isProjectComplete = cheers >= REQUIRED_CHEERS[project];
-  const boostLabel = BOOST_LABELS[project];
+  const hasCheersAvailable = cheersAvailable.gt(0);
 
   return (
     <Panel>
@@ -57,14 +50,65 @@ const ProjectModal: React.FC<{
           icon={ITEM_DETAILS[project].image}
           className="ml-1"
         >
-          {t("completed.monument")}
+          {t("cheer.village.project")}
+        </Label>
+        <Label type="info" icon={cheer} className="ml-2 sm:ml-0">
+          {t("kingdomChores.progress", {
+            progress: `${cheers}/${REQUIRED_CHEERS[project]}`,
+          })}
+        </Label>
+      </div>
+      <div className="p-2 text-xs flex flex-col gap-2">
+        <span>
+          {t("cheer.village.project.description", {
+            project,
+            username,
+          })}
+        </span>
+        <span>
+          {t("cheer.village.project.confirm", {
+            project,
+          })}
+        </span>
+      </div>
+      <div className="flex space-x-1">
+        <Button onClick={onClose}>{t("cancel")}</Button>
+        <Button onClick={onCheer} disabled={!hasCheersAvailable}>
+          {t("cheer")}
+        </Button>
+      </div>
+    </Panel>
+  );
+};
+
+const ProjectModal: React.FC<{
+  project: MonumentName;
+  onClose: () => void;
+  onComplete: () => void;
+  cheers: number;
+}> = ({ project, onClose, onComplete, cheers }) => {
+  const { t } = useAppTranslation();
+
+  const rewardItem = REWARD_ITEMS[project];
+
+  const isProjectComplete = cheers >= REQUIRED_CHEERS[project];
+
+  return (
+    <Panel>
+      <div className="flex justify-between sm:flex-row flex-col space-y-1">
+        <Label
+          type="default"
+          icon={ITEM_DETAILS[project].image}
+          className="ml-1"
+        >
+          {t("complete.project")}
         </Label>
       </div>
 
       <div className="flex flex-col gap-1 text-xs p-2">
         <span>
           {isProjectComplete &&
-            t("monument.completed", {
+            t("project.completed", {
               project,
             })}
           {!isProjectComplete &&
@@ -76,13 +120,40 @@ const ProjectModal: React.FC<{
         </span>
       </div>
 
-      {isProjectComplete && boostLabel && (
-        <Label type="success" icon={powerup} className="mb-1 ml-2">
-          {t(boostLabel)}
-        </Label>
+      <Label type="warning" icon={chest} className="mb-1 ml-2">
+        {t("reward")}
+      </Label>
+
+      {rewardItem && (
+        <ButtonPanel className="flex items-start cursor-context-menu hover:brightness-100 mb-1">
+          <Box
+            image={
+              REWARD_ITEMS[project]?.item
+                ? ITEM_DETAILS[rewardItem.item].image
+                : chest
+            }
+            className="-mt-2 -ml-1 -mb-1"
+          />
+          <div className="flex flex-col">
+            <Label type="default" className="mr-1 mb-1">
+              {`${formatNumber(rewardItem.amount)} x ${rewardItem.item}`}
+            </Label>
+
+            <p className="text-xs ml-0.5">
+              {ITEM_DETAILS[rewardItem.item]?.description
+                ? ITEM_DETAILS[rewardItem.item].description
+                : t("reward.collectible")}
+            </p>
+          </div>
+        </ButtonPanel>
       )}
 
-      <Button onClick={onClose}>{t("close")}</Button>
+      <div className="flex space-x-1">
+        <Button onClick={onClose}>{t("cancel")}</Button>
+        <Button onClick={onComplete} disabled={!isProjectComplete}>
+          {t("complete")}
+        </Button>
+      </div>
     </Panel>
   );
 };
@@ -100,23 +171,22 @@ const _cheersAvailable = (state: MachineState) => {
   return state.context.visitorState?.inventory["Cheer"] ?? new Decimal(0);
 };
 
-export const _hasCheeredToday =
-  (project: MonumentName) => (state: MachineState) => {
-    const today = new Date().toISOString().split("T")[0];
+const _hasCheeredToday = (project: MonumentName) => (state: MachineState) => {
+  const today = new Date().toISOString().split("T")[0];
 
-    if (state.context.visitorState?.socialFarming.cheersGiven.date !== today) {
-      return false;
-    }
+  if (state.context.visitorState?.socialFarming.cheersGiven.date !== today) {
+    return false;
+  }
 
-    return (
-      state.context.visitorState?.socialFarming.cheersGiven.projects[
-        project
-      ]?.includes(state.context.farmId) ?? false
-    );
-  };
+  return (
+    state.context.visitorState?.socialFarming.cheersGiven.projects[
+      project
+    ]?.includes(state.context.farmId) ?? false
+  );
+};
 
 const MonumentImage = (
-  input: MonumentProps & {
+  input: ProjectProps & {
     open: boolean;
     isProjectComplete: boolean;
     setIsCompleting: (isCompleting: boolean) => void;
@@ -126,7 +196,7 @@ const MonumentImage = (
     if (input.open && input.isProjectComplete) {
       input.setIsCompleting(true);
     }
-  }, [input.open]);
+  }, [input.open, input.isProjectComplete]);
 
   return (
     <div className="absolute" style={input.divStyle}>
@@ -135,11 +205,11 @@ const MonumentImage = (
   );
 };
 
-type MonumentProps = React.ComponentProps<typeof ImageStyle> & {
+type ProjectProps = React.ComponentProps<typeof ImageStyle> & {
   project: MonumentName;
 };
 
-export const Monument: React.FC<MonumentProps> = (input) => {
+export const Project: React.FC<ProjectProps> = (input) => {
   const { isVisiting } = useVisiting();
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
@@ -184,6 +254,20 @@ export const Monument: React.FC<MonumentProps> = (input) => {
       console.error(error);
     } finally {
       setIsCheering(false);
+    }
+  };
+
+  const handleComplete = async () => {
+    try {
+      gameService.send({
+        type: "project.completed",
+        project: input.project,
+      });
+    } catch (error) {
+      // eslint-disable-next-line no-console
+      console.error(error);
+    } finally {
+      setIsCompleting(false);
     }
   };
 
@@ -282,6 +366,7 @@ export const Monument: React.FC<MonumentProps> = (input) => {
         <ProjectModal
           project={input.project}
           onClose={() => setIsCompleting(false)}
+          onComplete={handleComplete}
           cheers={projectCheers}
         />
       </Modal>

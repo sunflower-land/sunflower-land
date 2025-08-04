@@ -31,6 +31,10 @@ export type Milestone = Interaction & {
   followers?: number[];
 };
 
+export type ActiveProjects = Partial<
+  Record<MonumentName, { receivedCheers: number; requiredCheers: number }>
+>;
+
 export type Player = {
   data?: {
     id: number;
@@ -51,10 +55,7 @@ export type Player = {
     lastUpdatedAt: number;
     socialPoints: number;
     hasCleanedToday: boolean;
-    projects: Record<
-      MonumentName,
-      { receivedCheers: number; requiredCheers: number }
-    >;
+    projects: ActiveProjects;
     cleaning: {
       youCleanedThemCount: number;
       theyCleanedYouCount: number;

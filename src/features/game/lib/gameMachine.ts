@@ -1286,14 +1286,22 @@ export function startGame(authContext: AuthContext) {
                   .toISOString()
                   .split("T")[0];
 
-                const cheersUsedYesterday =
-                  dayFreeCheersClaimed === yesterday
-                    ? context.state.socialFarming.cheers?.cheersUsed
-                    : 0;
+                const isBetterTogetherStartDate =
+                  new Date(today).getTime() ===
+                  new Date("2025-08-04").getTime();
 
-                const newCheerCount = 3 - cheersUsedYesterday;
+                // If today is the start date, give 3 regardless of previous day's value
+                const cheersUsedYesterday = isBetterTogetherStartDate
+                  ? 3
+                  : // Otherwise, give the amount of cheers used yesterday, or 3 if cheers wasn't claimed yesterday
+                    Math.min(
+                      dayFreeCheersClaimed === yesterday
+                        ? context.state.socialFarming.cheers?.cheersUsed
+                        : 3,
+                      3,
+                    );
 
-                return newCheerCount > 0;
+                return cheersUsedYesterday > 0;
               },
             },
 

@@ -6261,8 +6261,6 @@
   "description.poseidon": "Der mythische Poseidon, der Gott des Meeres.",
   "chumDetails.weed": "Ein besonderer Kumpel, der den Gott des Meeres anzieht",
   "description.poseidon.boost": "+1 Fische im Herbst",
-  "playerModal.monumentsInProgress": "Monumente in Bearbeitung",
-  "playerModal.noMonumentsInProgress": "Auf dieser Farm sind keine Baudenkmäler in Arbeit",
   "cleaned": "Gereinigt",
   "cleaning.farm": "Bumpkin benachrichtigen",
   "visitorGuide.welcomeMessage": "Hallo Bumpkin, willkommen auf meiner Farm. Krempeln Sie die Ärmel hoch und helfen Sie mir. Wer weiß, vielleicht erwidere ich den Gefallen!",
@@ -6276,5 +6274,13 @@
   "visitorGuide.binGuide.reset": "Setzt in {{time}} zurück",
   "visitorGuide.binGuide.burn": "Müll verbrennen",
   "visitorGuide.binGuide.burn.description": "Zu viel Vegemite. Nicht genug Code. Unsere Entwickler in Sydney starten neu — das Feature ist auf dem Weg!",
-  "description.doubleBed": "Ein gemütliches Bett wie gemacht für Freunde."
+  "description.doubleBed": "Ein gemütliches Bett wie gemacht für Freunde.",
+  "project.completed": "Herzlichen Glückwunsch! Das {{project}} ist abgeschlossen! Wenn Sie das Projekt abschließen, wird das Projekt von Ihrem Grundstück entfernt und Sie können ein neues bauen.",
+  "monument.completed": "Herzlichen Glückwunsch! Das {{project}} ist abgeschlossen! Jedes einzigartige fertiggestellte Monument verleiht jedes Mal +1 Liebeszauber, wenn eine Big Orange, Big Banana oder Big Apple abgeschlossen wird.",
+  "project.incomplete": "Das {{project}} hat {{cheers}}/{{requiredCheers}} Prost. {{requiredCheers - cheers}} noch!",
+  "monument.boost": "+1 Love Charm beim Verkauf von Big Orange, Big Banana oder Big Apple",
+  "complete.project": "Projekt abschließen",
+  "completed.monument": "Monument abgeschlossen",
+  "playerModal.projectsInProgress": "Laufende Projekte",
+  "playerModal.noProjectsInProgress": "Keine laufenden Projekte auf dieser Farm"
 }

@@ -75,6 +75,7 @@ export const Feed: React.FC<Props> = ({
   const { authService } = useContext(AuthProvider.Context);
 
   const [showFollowing, setShowFollowing] = useState(false);
+  const feedRef = useRef<HTMLDivElement>(null);
 
   const username = useSelector(gameService, _username);
   const token = useSelector(authService, _token);
@@ -92,6 +93,27 @@ export const Feed: React.FC<Props> = ({
     mutate,
   } = useFeedInteractions(token, farmId, type === "world");
   const { setUnreadCount, lastAcknowledged, clearUnread } = useFeed();
+
+  // Handle clicks outside the feed to close it
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        showFeed &&
+        feedRef.current &&
+        !feedRef.current.contains(event.target as Node)
+      ) {
+        handleCloseFeed();
+      }
+    };
+
+    if (showFeed) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [showFeed]);
 
   // Find number of unread and set unread count when the feed loads
   useEffect(() => {
@@ -181,6 +203,7 @@ export const Feed: React.FC<Props> = ({
           "-translate-x-[110%]": hideMobileFeed,
         },
       )}
+      divRef={feedRef}
     >
       <div className="flex flex-col gap-2 h-full w-full">
         <div className="sticky top-0 flex flex-col z-10 bg-[#e4a672]">

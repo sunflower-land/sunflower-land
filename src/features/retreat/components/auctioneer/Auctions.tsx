@@ -85,7 +85,7 @@ export const Auctions: React.FC<Props> = ({
               />
               {hasBuff && (
                 <img
-                  src={"/erc1155/images/small_boost.png"}
+                  src={"./erc1155/images/small_boost.png"}
                   className="absolute top-[1px] right-[1px] z-20"
                 />
               )}

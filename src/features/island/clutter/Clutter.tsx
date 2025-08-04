@@ -19,6 +19,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { FarmCleaned } from "../hud/components/FarmCleaned";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   id: string;
@@ -41,6 +42,13 @@ export const Clutter: React.FC<Props> = ({ id, type }) => {
   const isCaught = caughtPests?.[farmId]?.includes(id);
   const [showEquipTool, setShowEquipTool] = useState(false);
   const [showComplete, setShowComplete] = useState(false);
+
+  if (
+    !hasFeatureAccess(gameService.state.context.visitorState!, "PESTS") &&
+    type in FARM_PEST
+  ) {
+    return null;
+  }
 
   if (isCollected || isCaught) {
     return null;

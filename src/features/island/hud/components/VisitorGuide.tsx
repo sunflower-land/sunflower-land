@@ -40,18 +40,24 @@ export const VisitorGuide: React.FC<VisitorGuideProps> = ({ onClose }) => {
             gameState.context.state.username ?? `#${gameState.context.farmId}`,
         })}
       </Label>
-      <p className="text-sm mb-2 p-1">{t("visitorGuide.welcomeMessage")}</p>
+      <p className="text-xs sm:text-sm mb-2 p-1">
+        {t("visitorGuide.welcomeMessage")}
+      </p>
       <Label type="default">{t("taskBoard.tasks")}</Label>
-      <div className="flex items-center">
+      <div className="flex items-center gap-1 -mt-1">
         <Box
           image={ITEM_DETAILS.Dung.image}
           secondaryImage={hasCleaned ? SUNNYSIDE.icons.confirm : undefined}
           count={hasCleaned ? undefined : new Decimal(collectedClutter.length)}
         />
         <div>
-          <p className="text-sm">{t("visitorGuide.pickupClutter")}</p>
+          <p className="text-xs sm:text-sm">
+            {t("visitorGuide.pickupClutter")}
+          </p>
           <div className="flex items-center my-0.5">
-            <p className="text-xs mr-1">{t("visitorGuide.clutter")}</p>
+            <p className="text-xxs sm:text-xs mr-1">
+              {t("visitorGuide.clutter")}
+            </p>
           </div>
         </div>
       </div>
@@ -61,7 +67,7 @@ export const VisitorGuide: React.FC<VisitorGuideProps> = ({ onClose }) => {
         .map((monument) => {
           const hasCheered = _hasCheeredToday(monument)(gameState);
           return (
-            <div className="flex items-center" key={monument}>
+            <div className="flex items-center gap-1" key={monument}>
               <Box
                 image={ITEM_DETAILS[monument].image}
                 secondaryImage={
@@ -70,12 +76,14 @@ export const VisitorGuide: React.FC<VisitorGuideProps> = ({ onClose }) => {
               />
               <div className="flex-1">
                 <div className="flex items-center justify-between flex-wrap">
-                  <p className="text-sm">
+                  <p className="text-xs sm:text-sm">
                     {t("visitorGuide.cheerMonument", { monument })}
                   </p>
                 </div>
                 <div className="flex items-center my-0.5">
-                  <p className="text-xs mr-1">{t("visitorGuide.monument")}</p>
+                  <p className="text-xxs sm:text-xs mr-1">
+                    {t("visitorGuide.monument")}
+                  </p>
                 </div>
               </div>
             </div>
@@ -86,11 +94,13 @@ export const VisitorGuide: React.FC<VisitorGuideProps> = ({ onClose }) => {
         <Box image={SUNNYSIDE.icons.expression_confused} />
         <div className="flex-1">
           <div className="flex items-center justify-between flex-wrap">
-            <p className="text-sm">{t("visitorGuide.catchPests")}</p>
+            <p className="text-xs sm:text-sm">{t("visitorGuide.catchPests")}</p>
             <Label type="danger">{t("visitorGuide.netRequired")}</Label>
           </div>
           <div className="flex items-center my-0.5">
-            <p className="text-xs mr-1 italic">{t("coming.soon")}</p>
+            <p className="text-xxs sm:text-xs mr-1 italic">
+              {t("coming.soon")}
+            </p>
           </div>
         </div>
       </div>
