@@ -2885,7 +2885,6 @@ export const COLLECTIBLE_COMPONENTS: Record<
       alt="Fruit Tune Box"
     />
   ),
-
   "Giant Artichoke": (props: CollectibleProps) => (
     <ImageStyle
       {...props}

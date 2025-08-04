@@ -123,7 +123,10 @@ export const Bed: React.FC<BedProps> = ({ name }) => {
           alt={name}
           style={{
             width: `${PIXEL_SCALE * BED_WIDTH[name]}px`,
-            left: `-${((BED_WIDTH[name] - (name === "Double Bed" ? 32 : 16)) * PIXEL_SCALE) / 2}px`,
+            left:
+              name === "Double Bed"
+                ? `${PIXEL_SCALE * 4}px`
+                : `-${((BED_WIDTH[name] - 16) * PIXEL_SCALE) / 2}px`,
             top: `-${(BED_HEIGHT[name] * PIXEL_SCALE) / 2}px`,
           }}
         />
