@@ -18,7 +18,6 @@ import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 import Decimal from "decimal.js-light";
 import broomIcon from "assets/icons/broom.webp";
-import { hasFeatureAccess } from "lib/flags";
 
 interface BinGuideProps {
   onClose: () => void;
@@ -122,34 +121,32 @@ export const Bin: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         </div>
       </div>
 
-      {hasFeatureAccess(loggedInPlayer!, "BIN_LIMITS") && (
-        <>
-          <div className="p-1">
-            <Label type="default" className="my-2" icon={broomIcon}>
-              {t("bin.makeRoom")}
-            </Label>
-            <p className="text-sm mb-1">{t("bin.cantWait.description")}</p>
-            <div className="flex flex-wrap space-x-2">
-              {getObjectEntries(BIN_LIMIT_COST).map(([item, amount]) => (
-                <RequirementLabel
-                  key={item}
-                  type="item"
-                  item={item}
-                  requirement={amount ?? new Decimal(0)}
-                  balance={loggedInPlayer?.inventory[item] ?? new Decimal(0)}
-                />
-              ))}
-            </div>
+      <>
+        <div className="p-1">
+          <Label type="default" className="my-2" icon={broomIcon}>
+            {t("bin.makeRoom")}
+          </Label>
+          <p className="text-sm mb-1">{t("bin.cantWait.description")}</p>
+          <div className="flex flex-wrap space-x-2">
+            {getObjectEntries(BIN_LIMIT_COST).map(([item, amount]) => (
+              <RequirementLabel
+                key={item}
+                type="item"
+                item={item}
+                requirement={amount ?? new Decimal(0)}
+                balance={loggedInPlayer?.inventory[item] ?? new Decimal(0)}
+              />
+            ))}
           </div>
-          <Button
-            disabled={!hasResources}
-            className="mr-1"
-            onClick={() => setShowConfirmation(true)}
-          >
-            {t("bin.increaseLimit")}
-          </Button>
-        </>
-      )}
+        </div>
+        <Button
+          disabled={!hasResources}
+          className="mr-1"
+          onClick={() => setShowConfirmation(true)}
+        >
+          {t("bin.increaseLimit")}
+        </Button>
+      </>
     </>
   );
 };
