@@ -184,7 +184,7 @@ export class PlazaScene extends BaseScene {
 
     // Stella Megastore items
     this.load.image("fruit_tune_box", "world/fruit_tune_box.webp");
-    // this.load.image("flower_mask", "world/flower_mask.png");
+    this.load.image("garbage_bin_hat", "world/garbage_bin_hat.png");
 
     // Auction Items
     this.load.image("groovy_gramophone", "world/groovy_gramophone.webp");
@@ -632,7 +632,7 @@ export class PlazaScene extends BaseScene {
 
     this.add.image(250, 244, "fruit_tune_box");
 
-    // this.add.image(288.5, 250, "flower_mask");
+    this.add.image(288.5, 247, "garbage_bin_hat").setScale(0.03);
 
     if (this.textures.exists("sparkle")) {
       const sparkle = this.add.sprite(567, 191, "sparkle");
