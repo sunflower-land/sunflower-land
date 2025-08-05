@@ -18,6 +18,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { FarmCleaned } from "../hud/components/FarmCleaned";
 import { hasFeatureAccess } from "lib/flags";
 import { getBinLimit } from "features/game/events/landExpansion/increaseBinLimit";
+import sparkle from "public/world/sparkle2.gif";
 
 interface Props {
   id: string;
@@ -126,6 +127,16 @@ export const Clutter: React.FC<Props> = ({ id, type }) => {
             className="absolute"
             style={{
               width: `${PIXEL_SCALE * 10}px`,
+            }}
+          />
+
+          <img
+            src={sparkle}
+            className="absolute"
+            style={{
+              width: `${PIXEL_SCALE * 6}px`,
+              top: `${PIXEL_SCALE * 6}px`,
+              left: `${PIXEL_SCALE * 7}px`,
             }}
           />
         </div>
