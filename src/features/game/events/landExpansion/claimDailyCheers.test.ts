@@ -11,7 +11,6 @@ describe("claimDailyCheers", () => {
       createdAt: now,
     });
 
-    expect(game?.socialFarming.cheers.cheersUsed).toBe(0);
     expect(game?.socialFarming.cheers.freeCheersClaimedAt).toBe(now);
     expect(game?.inventory.Cheer?.toNumber()).toBe(3);
   });
@@ -36,7 +35,6 @@ describe("claimDailyCheers", () => {
           },
           cheers: {
             freeCheersClaimedAt: now - 24 * 60 * 60 * 1000,
-            cheersUsed: 0,
           },
         },
       },
@@ -44,7 +42,6 @@ describe("claimDailyCheers", () => {
       createdAt: now,
     });
 
-    expect(game?.socialFarming.cheers.cheersUsed).toBe(0);
     expect(game?.socialFarming.cheers.freeCheersClaimedAt).toBe(now);
     expect(game?.inventory.Cheer?.toNumber()).toBe(6);
   });

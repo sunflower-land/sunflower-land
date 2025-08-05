@@ -1139,7 +1139,6 @@ export const STATIC_OFFLINE_FARM: GameState = {
       farms: [],
     },
     cheers: {
-      cheersUsed: 0,
       freeCheersClaimedAt: 0,
     },
     clutter: {

@@ -50,7 +50,6 @@ export function claimDailyCheers({
 
     if (cheers.freeCheersClaimedAt < new Date(today).getTime()) {
       cheers.freeCheersClaimedAt = createdAt;
-      cheers.cheersUsed = 0;
     }
 
     return draft;
