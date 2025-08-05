@@ -259,7 +259,7 @@ export const RequirementLabel: React.FC<Props> = (props) => {
       case "sellForGems":
       case "sellForItem":
       case "sellForCheer":
-        return `${formatNumber(props.requirement)}x`;
+        return `${formatNumber(props.requirement)}`;
       case "sfl":
         return `${props.requirement.toNumber()}`;
       case "sellForSfl": {

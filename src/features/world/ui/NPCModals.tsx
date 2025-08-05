@@ -258,7 +258,7 @@ export const NPCModals: React.FC<Props> = ({ id }) => {
             <IncineratorModal />
           </CloseButtonPanel>
         ) : (
-          <DeliveryPanel npc="goblet" onClose={closeModal} />
+          npc && <DeliveryPanel npc={npc} onClose={closeModal} />
         )}
         {npc === "gordo" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {/* Kingdom NPCs */}
