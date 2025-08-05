@@ -67,19 +67,25 @@ type Props = {
 };
 
 const _cheersAvailable = (state: MachineState) => {
-  return state.context.state.inventory["Cheer"] ?? new Decimal(0);
+  return (
+    (state.context.visitorState ?? state.context.state).inventory["Cheer"] ??
+    new Decimal(0)
+  );
 };
 const _hasCheeredToday = (farmId: number) => (state: MachineState) => {
   const today = new Date().toISOString().split("T")[0];
 
   return (
-    state.context.state.socialFarming.cheersGiven.date === today &&
-    state.context.state.socialFarming.cheersGiven.farms.includes(farmId)
+    (state.context.visitorState ?? state.context.state).socialFarming
+      .cheersGiven.date === today &&
+    (
+      state.context.visitorState ?? state.context.state
+    ).socialFarming.cheersGiven.farms.includes(farmId)
   );
 };
 const _haveCleanedToday = (playerId: number) => (state: MachineState) => {
-  return !!state.context.state.socialFarming.dailyCollections?.[playerId]
-    ?.pointGivenAt;
+  return !!(state.context.visitorState ?? state.context.state).socialFarming
+    .dailyCollections?.[playerId]?.pointGivenAt;
 };
 
 export const PlayerDetails: React.FC<Props> = ({
