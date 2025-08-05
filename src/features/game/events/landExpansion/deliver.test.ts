@@ -12,7 +12,7 @@ import {
 } from "features/game/lib/constants";
 import { getSeasonalTicket } from "features/game/types/seasons";
 import { TEST_BUMPKIN } from "features/game/lib/bumpkinData";
-import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
+import { getBumpkinHoliday, HOLIDAYS } from "lib/utils/getSeasonWeek";
 
 const FIRST_DAY_OF_SEASON = new Date("2024-11-01T16:00:00Z").getTime();
 const MID_SEASON = new Date("2023-08-15T15:00:00Z").getTime();
@@ -20,6 +20,24 @@ const MID_SEASON = new Date("2023-08-15T15:00:00Z").getTime();
 describe("deliver", () => {
   beforeEach(() => {
     jest.useRealTimers();
+    const now = new Date().getTime();
+    const nowDate = new Date(now).toISOString().split("T")[0];
+
+    if (getBumpkinHoliday({ now }).holiday === nowDate) {
+      jest.useFakeTimers();
+      // Find the latest holiday
+      const latestHoliday = HOLIDAYS.reduce((latest, holiday) => {
+        const holidayDate = new Date(holiday);
+        return holidayDate > latest ? holidayDate : latest;
+      }, new Date(now));
+
+      // Set the system time to the day after the latest holiday
+      const calculatedSystemDate = latestHoliday.setDate(
+        latestHoliday.getDate() + 1,
+      );
+
+      jest.setSystemTime(new Date(calculatedSystemDate));
+    }
   });
 
   it("requires the order exists", () => {

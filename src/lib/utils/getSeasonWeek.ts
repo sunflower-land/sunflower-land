@@ -59,7 +59,7 @@ export function getSeasonChangeover({
 /**
  * The days that Bumpkins are on holiday (no deliveries)
  */
-const HOLIDAYS: string[] = [
+export const HOLIDAYS: string[] = [
   "2024-11-01",
   "2024-11-02",
   "2024-11-03",
