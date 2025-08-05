@@ -1,7 +1,8 @@
+import { useActor } from "@xstate/react";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { NPCName, NPC_WEARABLES, acknowledgeNPC } from "lib/npcs";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Modal } from "components/ui/Modal";
 import { DeliveryPanel } from "./deliveries/DeliveryPanel";
 
@@ -37,6 +38,8 @@ import { PortalChooser } from "./portals/PortalChooser";
 import { Rocketman } from "./npcs/Rocketman";
 import { MegaBountyBoard } from "./flowerShop/MegaBountyBoard";
 import { IncineratorModal } from "features/goblins/incinerator";
+import { hasFeatureAccess } from "lib/flags";
+import { Context } from "features/game/GameProvider";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -60,6 +63,12 @@ interface Props {
 
 export const NPCModals: React.FC<Props> = ({ id }) => {
   const { t } = useAppTranslation();
+  const { gameService } = useContext(Context);
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
 
   const [npc, setNpc] = useState<NPCName>();
 
@@ -240,7 +249,7 @@ export const NPCModals: React.FC<Props> = ({ id }) => {
         {npc === "finley" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "mayor" && <Mayor onClose={closeModal} />}
         {npc === "guria" && <DeliveryPanel npc={npc} onClose={closeModal} />}
-        {npc === "goblet" && (
+        {npc === "goblet" && hasFeatureAccess(state, "INCINERATOR") ? (
           <CloseButtonPanel
             onClose={closeModal}
             bumpkinParts={NPC_WEARABLES.goblet}
@@ -248,6 +257,8 @@ export const NPCModals: React.FC<Props> = ({ id }) => {
           >
             <IncineratorModal />
           </CloseButtonPanel>
+        ) : (
+          <DeliveryPanel npc="goblet" onClose={closeModal} />
         )}
         {npc === "gordo" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {/* Kingdom NPCs */}
