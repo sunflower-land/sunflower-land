@@ -432,12 +432,12 @@
   "description.crop.machine": "Automate your crop production",
   "description.crab.hat": "A cute, living crab perched atop your head, adding charm and a little extra personality. This friendly companion helps you catch more treasures with ease",
   "description.love.charm": "Exchange for exclusive rewards and $FLOWER",
-  "description.trash": "A piece of trash. Maybe someone will find a use for it.",
-  "description.dung": "A pile of dung. Smelly, but could be useful as fertilizer.",
-  "description.weed": "A wild weed. Not very pretty, but perhaps it has a purpose.",
-  "description.anthill": "A bustling home for hardworking ants. They're always busy building and organizing.",
-  "description.rat": "A clever little rat. Not very pretty, but perhaps it has a purpose in the farm ecosystem.",
-  "description.snail": "A slow-moving snail. Takes its time, but gets where it needs to go.",
+  "description.trash": "A piece of trash. Maybe someone will find a use for it",
+  "description.dung": "A pile of dung. Smelly, but could be useful as fertilizer",
+  "description.weed": "A wild weed. Not very pretty, but perhaps it has a purpose",
+  "description.anthill": "Busy ant colony. Always working, always organized",
+  "description.rat": "Clever little rat. Not pretty, but has its place in the farm",
+  "description.snail": "Slow but steady snail. Takes time, but it gets there",
   "clutter": "Clutter",
   "description.geniseed": "A ticket used during the Great Bloom chapter",
   "building.oil.remaining": "{{oil}} Oil in building",
@@ -6329,5 +6329,8 @@
   "bin.binBag": "Bin Bag",
   "bin.increaseLimit": "Increase Limit (+30)",
   "bin.cantWait.description": "Increase the limit of garbage you can pick up today.",
-  "bin.increaseLimit.description": "Are you sure you want to increase the limit? This will reset every day."
+  "bin.increaseLimit.description": "Are you sure you want to increase the limit? This will reset every day.",
+  "incinerator.welcome": "Welcome to the Incinerator!",
+  "incinerator.description": "The Incinerator is a place where you can burn clutter to get extra Cheers",
+  "incinerator.burn": "Burn {{number}}"
 }
