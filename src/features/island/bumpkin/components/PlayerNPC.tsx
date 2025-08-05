@@ -17,6 +17,7 @@ import {
 import { hasFeatureAccess } from "lib/flags";
 import { PlayerModal } from "features/social/PlayerModal";
 import { AuthMachineState } from "features/auth/lib/authMachine";
+import { Discovery } from "features/social/Discovery";
 
 const _showHelper = (state: MachineState) =>
   // First Mashed Potato

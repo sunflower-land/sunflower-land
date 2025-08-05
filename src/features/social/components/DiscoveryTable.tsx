@@ -1,16 +1,16 @@
 import React from "react";
 import classNames from "classnames";
-import { RankData } from "./actions/leaderboard";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { toOrdinalSuffix } from "features/retreat/components/auctioneer/AuctionLeaderboardTable";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
+import { RankData } from "features/game/expansion/components/leaderboard/actions/leaderboard";
 
 interface Props {
   rankings: RankData[];
   showHeader?: boolean;
 }
 
-export const TicketTable: React.FC<Props> = ({
+export const DiscoveryTable: React.FC<Props> = ({
   rankings,
   showHeader = true,
 }) => {

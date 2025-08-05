@@ -39,7 +39,12 @@ import { FollowsIndicator } from "./components/FollowsIndicator";
 import { FollowList } from "./components/FollowList";
 import { useFeed } from "./FeedContext";
 import { useOnMachineTransition } from "lib/utils/hooks/useOnMachineTransition";
+<<<<<<< HEAD
 import { Button } from "components/ui/Button";
+=======
+import socialPointsIcon from "assets/icons/social_score.webp";
+import { discoveryModalManager } from "./lib/discoveryModalManager";
+>>>>>>> 442695dd2 ([WIP] leaderboard)
 
 type Props = {
   type: "world" | "local";
@@ -254,7 +259,7 @@ export const Feed: React.FC<Props> = ({
               onClick={handleCloseFeed}
             />
           </div>
-          <div className="flex items-center justify-between gap-1 w-full">
+          <div className="flex items-center justify-between gap-1 w-full mb-2">
             <div
               className="flex ml-1.5 items-center gap-1 text-xs underline cursor-pointer"
               onClick={() => {
@@ -277,6 +282,22 @@ export const Feed: React.FC<Props> = ({
               type="following"
               className="ml-1"
             />
+          </div>
+          <div className="flex items-center justify-between gap-1 w-full">
+            <div
+              className="flex ml-1.5 items-center gap-1 text-xs underline cursor-pointer"
+              onClick={() => {
+                setShowFollowing(false);
+                setShowFeed(false);
+                discoveryModalManager.open();
+              }}
+            >
+              <img
+                src={socialPointsIcon}
+                className="w-4 mt-1 whitespace-nowrap"
+              />
+              {t("leaderboard")}
+            </div>
           </div>
         </div>
 

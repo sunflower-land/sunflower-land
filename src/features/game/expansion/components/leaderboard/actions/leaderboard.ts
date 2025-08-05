@@ -247,6 +247,25 @@ export async function fetchLeaderboardData(
   }
 }
 
+export async function fetchSocialLeaderboardData(
+  farmId: number,
+): Promise<Leaderboards | null> {
+  try {
+    const socialPointsLeaderboard = await getLeaderboard<TicketLeaderboard>({
+      farmId: Number(farmId),
+      leaderboardName: "socialPoints",
+    });
+
+    return {
+      socialPoints: socialPointsLeaderboard,
+    };
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error("error", error);
+    return null;
+  }
+}
+
 // export async function fetchKingdomLeaderboard(
 //   farmId: number,
 //   week: string
