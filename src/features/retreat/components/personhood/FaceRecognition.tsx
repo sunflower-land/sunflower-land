@@ -217,7 +217,7 @@ export const FaceRecognition: React.FC<{ skipIntro?: boolean }> = ({
             src={SUNNYSIDE.icons.close}
             className="absolute top-2 right-2 w-8"
             onClick={() => {
-              // Check the analysis incase of timeout or error
+              // Check the analysis in case of timeout or error
               handleAnalysisComplete();
               // Back to beginning
               setShowIntro(true);
