@@ -30,6 +30,7 @@ import { Forbidden } from "features/auth/components/Forbidden";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { getActiveFloatingIsland } from "features/game/types/floatingIsland";
 import { adminFeatureFlag } from "lib/flags";
+import { useVisiting } from "lib/utils/visitUtils";
 
 interface Props {
   isCommunity?: boolean;
@@ -119,6 +120,7 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
   const { name } = useParams();
   const navigate = useNavigate();
   const location = useLocation();
+  const { isVisiting } = useVisiting();
 
   const mmoService = useInterpret(mmoMachine, {
     context: {
@@ -145,6 +147,13 @@ export const MMO: React.FC<MMOProps> = ({ isCommunity }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mmoState.context.sceneId]);
+
+  // If we're in visiting state but not on a visit route, redirect
+  useEffect(() => {
+    if (isVisiting && !location.pathname.includes("/visit/")) {
+      navigate(`/visit/${gameState.context.farmId}`);
+    }
+  }, [isVisiting, location.pathname, navigate, gameState.context.farmId]);
 
   // We need to listen to events outside of MMO scope (Settings Panel)
   useEffect(() => {
