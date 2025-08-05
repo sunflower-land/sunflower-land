@@ -1125,6 +1125,7 @@ export const INVENTORY_RELEASES: Partial<Record<InventoryItemName, Releases>> =
     },
     // Double bed is not tradeable - explicitly set her to avoid accidental trade
     "Double Bed": undefined,
+    "Teamwork Monument": undefined,
     "Giant Artichoke": {
       tradeAt: SEASONS["Better Together"].endDate,
       withdrawAt: SEASONS["Better Together"].endDate,
