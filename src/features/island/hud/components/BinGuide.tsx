@@ -61,6 +61,7 @@ export const Bin: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
   const { gameState, gameService } = useGame();
   const trashBinItems = getTrashBinItems(gameState);
+  const { visitorState: loggedInPlayer } = gameState.context;
 
   const handleIncreaseLimit = () => {
     gameService.send("binLimit.increased");
@@ -69,9 +70,7 @@ export const Bin: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
   const hasResources = getObjectEntries(BIN_LIMIT_COST).every(
     ([item, amount]) =>
-      gameState.context.visitorState?.inventory[item]?.gte(
-        amount ?? new Decimal(0),
-      ),
+      loggedInPlayer?.inventory[item]?.gte(amount ?? new Decimal(0)),
   );
 
   if (showConfirmation) {
@@ -99,7 +98,7 @@ export const Bin: React.FC<{ onClose: () => void }> = ({ onClose }) => {
   }
 
   const binLimit = getBinLimit({
-    game: gameState.context.visitorState!,
+    game: loggedInPlayer!,
   });
 
   return (
@@ -123,7 +122,7 @@ export const Bin: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         </div>
       </div>
 
-      {hasFeatureAccess(gameState.context.state, "BIN_LIMITS") && (
+      {hasFeatureAccess(loggedInPlayer!, "BIN_LIMITS") && (
         <>
           <div className="p-1">
             <Label type="default" className="my-2" icon={broomIcon}>
@@ -137,10 +136,7 @@ export const Bin: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                   type="item"
                   item={item}
                   requirement={amount ?? new Decimal(0)}
-                  balance={
-                    gameState.context.visitorState?.inventory[item] ??
-                    new Decimal(0)
-                  }
+                  balance={loggedInPlayer?.inventory[item] ?? new Decimal(0)}
                 />
               ))}
             </div>
