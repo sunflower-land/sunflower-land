@@ -37,10 +37,10 @@ export const MEGASTORE_RESTRICTED_ITEMS: (InventoryItemName | BumpkinItem)[] = [
   ...getKeys(FLOWER_BOXES),
   ...getKeys(ARTEFACT_SHOP_KEYS),
   ...getObjectEntries(BUMPKIN_RELEASES)
-    .filter(([_, wearable]) => !wearable)
+    .filter(([_, tradeDetail]) => !tradeDetail)
     .map(([wearable]) => wearable),
   ...getObjectEntries(INVENTORY_RELEASES)
-    .filter(([_, collectible]) => !collectible)
+    .filter(([_, tradeDetail]) => !tradeDetail)
     .map(([item]) => item),
 ];
 
