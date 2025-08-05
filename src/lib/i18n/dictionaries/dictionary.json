@@ -24,7 +24,6 @@
   "noticeboard": "Noticeboard",
   "rewards": "Rewards",
   "biomes": "Biomes",
-
   "animals.buildingIsFull": "{{buildingName}} is full!",
   "breadWinner.description": "Earn 0.001 FLOWER",
   "breadWinner.one": "Well, well, well, partner... It looks like you need some FLOWER!",
@@ -433,12 +432,12 @@
   "description.crop.machine": "Automate your crop production",
   "description.crab.hat": "A cute, living crab perched atop your head, adding charm and a little extra personality. This friendly companion helps you catch more treasures with ease",
   "description.love.charm": "Exchange for exclusive rewards and $FLOWER",
-  "description.trash": "A piece of trash. Maybe someone will find a use for it.",
-  "description.dung": "A pile of dung. Smelly, but could be useful as fertilizer.",
-  "description.weed": "A wild weed. Not very pretty, but perhaps it has a purpose.",
-  "description.anthill": "A bustling home for hardworking ants. They're always busy building and organizing.",
-  "description.rat": "A clever little rat. Not very pretty, but perhaps it has a purpose in the farm ecosystem.",
-  "description.snail": "A slow-moving snail. Takes its time, but gets where it needs to go.",
+  "description.trash": "A piece of trash. Maybe someone will find a use for it",
+  "description.dung": "A pile of dung. Smelly, but could be useful as fertilizer",
+  "description.weed": "A wild weed. Not very pretty, but perhaps it has a purpose",
+  "description.anthill": "Busy ant colony. Always working, always organized",
+  "description.rat": "Clever little rat. Not pretty, but has its place in the farm",
+  "description.snail": "Slow but steady snail. Takes time, but it gets there",
   "clutter": "Clutter",
   "description.geniseed": "A ticket used during the Great Bloom chapter",
   "building.oil.remaining": "{{oil}} Oil in building",
@@ -1070,7 +1069,6 @@
   "description.rock.blackfish": "Autumn brings these powerful fish close to shore, where they test both fishing line and patience with their mighty pulls.",
   "description.cobia": "Summer's most ambitious predator, these streamlined fighters are known to chase hooked fish right up to the boat!",
   "description.tilapia": "When summer warms the waters, these hardy fish patrol the shallows. A favorite among sustainable farmers worldwide.",
-
   "description.Beehive": "A bustling beehive, producing honey from actively growing flowers; 10% chance upon Honey harvest to summon a bee swarm which will pollinate all growing crops with a +0.2 boost!",
   "description.red.pansy": "A red pansy.",
   "description.yellow.pansy": "A yellow pansy.",
@@ -2385,7 +2383,6 @@
   "interactableModals.castle.message": "Hold it there peasant! There is no way I'm letting you visit the castle",
   "interactableModals.woodlands.message": "Are you travelling to the woodlands? Make sure you pick up some delicious mushrooms!",
   "interactableModals.port.message": "Hold it there! The Goblin's are still building the port. It will be ready for travel and fishing soon.",
-
   "interactableModals.festiveTree.message1": "It's said that gifts left beneath its branches bring fortune, and on the longest night of the festive period, someone hides a special gift for the worthy to receive.",
   "interactableModals.festiveTree.message2": "To this day, the Festive Tree remains a beacon of hope, fortune, and the joy of giving in Sunflower Land.",
   "introPage.welcome": "Welcome to the Potion Room, my curious apprentice!",
@@ -3393,7 +3390,6 @@
   "season.no.gift.found": "No gift found",
   "season.mystery.gift": "Mystery Gift",
   "season.xp.boost": "10% XP boost",
-
   "season.lifetime.farmer": "Lifetime Farmer",
   "season.free.with.lifetime": "Free with Lifetime Farmer",
   "season.bullRun.bonus": "10% less feed to feed animals",
@@ -3521,7 +3517,6 @@
   "statements.water.well.needed.two": "In order to support more crops, build your well.",
   "statements.water.well.needed.three": "Place water well to support more crops",
   "statements.upgrade.water.well": "Upgrade Water Well to support more crops",
-
   "statements.soldOut": "Sold out",
   "statements.soldOutWearables": "View sold out wearables",
   "statements.craft.composter": "Craft at Composter",
@@ -4124,7 +4119,6 @@
   "npcDialogues.chase.intro2": "However I'm in a bit of a pickle. My herd has mysteriously gone missing - it's like they disappeared out of thin air!",
   "npcDialogues.sheep.intro1": "Thanks for finding me! One moment I was pretending to be a sheep with the Cowboy and the next moment I was here.",
   "npcDialogues.sheep.intro2": "All I remember is flashing lights and strange noises...",
-
   "skill.greenThumb": "-5% plot crop growth time",
   "skill.youngFarmer": "+0.1 Basic Crop yield",
   "skill.experiencedFarmer": "+0.1 Medium Crop yield",
@@ -4324,111 +4318,86 @@
   "bounties.flower.intro.two": "Bring me your finest flowers, and I'll make it worth your while.",
   "chore.chop.1.tree": "Chop 1 Tree",
   "chore.chop.2.trees": "Chop 2 Trees",
-
   "chore.harvest.sunflower.150": "Harvest Sunflowers 150 times",
   "chore.harvest.sunflower.200": "Harvest Sunflowers 200 times",
   "chore.harvest.sunflower.250": "Harvest Sunflowers 250 times",
-
   "chore.harvest.potato.100": "Harvest Potatoes 100 times",
   "chore.harvest.potato.125": "Harvest Potatoes 125 times",
   "chore.harvest.potato.130": "Harvest Potatoes 130 times",
   "chore.harvest.potato.150": "Harvest Potatoes 150 times",
   "chore.harvest.potato.200": "Harvest Potatoes 200 times",
   "chore.harvest.potato.250": "Harvest Potatoes 250 times",
-
   "chore.harvest.rhubarb.100": "Harvest Rhubarbs 100 times",
   "chore.harvest.rhubarb.125": "Harvest Rhubarbs 125 times",
   "chore.harvest.rhubarb.150": "Harvest Rhubarbs 150 times",
-
   "chore.harvest.pumpkin.100": "Harvest Pumpkins 100 times",
   "chore.harvest.pumpkin.130": "Harvest Pumpkins 130 times",
-
   "chore.prepare.powerSmoothie.2": "Prepare Power Smoothie 2 times",
   "chore.prepare.powerSmoothie.3": "Prepare Power Smoothie 3 times",
   "chore.prepare.powerSmoothie.4": "Prepare Power Smoothie 4 times",
   "chore.prepare.powerSmoothie.20": "Prepare Power Smoothie 20 times",
   "chore.prepare.powerSmoothie.35": "Prepare Power Smoothie 35 times",
   "chore.prepare.powerSmoothie.50": "Prepare Power Smoothie 50 times",
-
   "chore.prepare.slowJuice.5": "Prepare Slow Juice 5 times",
   "chore.prepare.slowJuice.6": "Prepare Slow Juice 6 times",
   "chore.prepare.slowJuice.7": "Prepare Slow Juice 7 times",
-
   "chore.prepare.bananaBlast.20": "Prepare Banana Blast 20 times",
   "chore.prepare.bananaBlast.35": "Prepare Banana Blast 35 times",
   "chore.prepare.bananaBlast.50": "Prepare Banana Blast 50 times",
-
   "chore.prepare.grapeJuice.10": "Prepare Grape Juice 10 times",
   "chore.prepare.grapeJuice.12": "Prepare Grape Juice 12 times",
   "chore.prepare.grapeJuice.15": "Prepare Grape Juice 15 times",
-
   "chore.prepare.appleJuice.5": "Prepare Apple Juice 5 times",
   "chore.prepare.appleJuice.6": "Prepare Apple Juice 6 times",
   "chore.prepare.appleJuice.7": "Prepare Apple Juice 7 times",
   "chore.prepare.appleJuice.15": "Prepare Apple Juice 15 times",
   "chore.prepare.appleJuice.20": "Prepare Apple Juice 20 times",
   "chore.prepare.appleJuice.25": "Prepare Apple Juice 25 times",
-
   "chore.prepare.carrotJuice.2": "Prepare Carrot Juice 2 times",
   "chore.prepare.carrotJuice.3": "Prepare Carrot Juice 3 times",
   "chore.prepare.carrotJuice.4": "Prepare Carrot Juice 4 times",
-
   "chore.prepare.purpleSmoothie.5": "Prepare Purple Smoothie 5 times",
   "chore.prepare.purpleSmoothie.6": "Prepare Purple Smoothie 6 times",
   "chore.prepare.purpleSmoothie.7": "Prepare Purple Smoothie 7 times",
-
   "chore.grow.redPansy.2": "Grow Red Pansy 2 times",
   "chore.grow.redPansy.3": "Grow Red Pansy 3 times",
-
   "chore.grow.yellowPansy.2": "Grow Yellow Pansy 2 times",
   "chore.grow.yellowPansy.3": "Grow Yellow Pansy 3 times",
-
   "chore.grow.purpleCosmos.2": "Grow Purple Cosmos 2 times",
   "chore.grow.purpleCosmos.3": "Grow Purple Cosmos 3 times",
-
   "chore.grow.blueCosmos.2": "Grow Blue Cosmos 2 times",
   "chore.grow.blueCosmos.3": "Grow Blue Cosmos 3 times",
-
   "chore.grow.redBalloonFlower.3": "Grow Red Balloon Flower 3 times",
   "chore.grow.redBalloonFlower.4": "Grow Red Balloon Flower 4 times",
   "chore.grow.redBalloonFlower.5": "Grow Red Balloon Flower 5 times",
   "chore.grow.redBalloonFlower.6": "Grow Red Balloon Flower 6 times",
-
   "chore.grow.blueBalloonFlower.3": "Grow Blue Balloon Flower 3 times",
   "chore.grow.blueBalloonFlower.4": "Grow Blue Balloon Flower 4 times",
   "chore.grow.blueBalloonFlower.5": "Grow Blue Balloon Flower 5 times",
-
   "chore.grow.purpleDaffodil.3": "Grow Purple Daffodil 3 times",
   "chore.grow.purpleDaffodil.4": "Grow Purple Daffodil 4 times",
   "chore.grow.purpleDaffodil.5": "Grow Purple Daffodil 5 times",
   "chore.grow.purpleDaffodil.6": "Grow Purple Daffodil 6 times",
-
   "chore.grow.redDaffodil.2": "Grow Red Daffodil 2 times",
   "chore.grow.redDaffodil.3": "Grow Red Daffodil 3 times",
-
   "chore.grow.yellowCarnation.3": "Grow Yellow Carnation 3 times",
   "chore.grow.blueCarnation.3": "Grow Blue Carnation 3 times",
   "chore.grow.whiteCarnation.3": "Grow White Carnation 3 times",
-
   "chore.grow.redLotus.3": "Grow Red Lotus 3 times",
   "chore.grow.yellowLotus.3": "Grow Yellow Lotus 3 times",
   "chore.grow.whiteLotus.3": "Grow White Lotus 3 times",
-
   "chore.grow.bluePansy.6": "Grow Blue Pansy 6 times",
   "chore.grow.whitePansy.6": "Grow White Pansy 6 times",
   "chore.grow.whiteCosmos.3": "Grow White Cosmos 3 times",
-
   "chore.fish.20": "Fish 20 times",
   "chore.fish.40": "Fish 40 times",
   "chore.fish.60": "Fish 60 times",
   "chore.fish.200": "Fish 200 times",
   "chore.fish.250": "Fish 250 times",
   "chore.fish.275": "Fish 275 times",
-
   "chore.craft.axe.10": "Craft 10 Axes",
   "chore.craft.axe.12": "Craft 12 Axes",
   "chore.craft.axe.15": "Craft 15 Axes",
-
   "chore.craft.pickaxe.6": "Craft 6 Pickaxes",
   "chore.craft.pickaxe.8": "Craft 8 Pickaxes",
   "chore.craft.pickaxe.10": "Craft 10 Pickaxes",
@@ -4436,20 +4405,16 @@
   "chore.craft.pickaxe.150": "Craft 150 Pickaxes",
   "chore.craft.pickaxe.200": "Craft 200 Pickaxes",
   "chore.craft.pickaxe.250": "Craft 250 Pickaxes",
-
   "chore.craft.rod.100": "Craft 100 Rods",
   "chore.craft.rod.150": "Craft 150 Rods",
   "chore.craft.rod.200": "Craft 200 Rods",
-
   "chore.craft.goldPickaxe.25": "Craft 25 Gold Pickaxes",
   "chore.craft.goldPickaxe.30": "Craft 30 Gold Pickaxes",
   "chore.craft.goldPickaxe.35": "Craft 35 Gold Pickaxes",
   "chore.craft.goldPickaxe.40": "Craft 40 Gold Pickaxes",
-
   "chore.craft.sandDrill.5": "Craft 5 Sand Drills",
   "chore.craft.sandDrill.10": "Craft 10 Sand Drills",
   "chore.craft.sandDrill.15": "Craft 15 Sand Drills",
-
   "chore.chop.tree.10": "Chop 10 Trees",
   "chore.chop.tree.15": "Chop 15 Trees",
   "chore.chop.tree.20": "Chop 20 Trees",
@@ -4459,7 +4424,6 @@
   "chore.chop.tree.450": "Chop 450 Trees",
   "chore.chop.tree.500": "Chop 500 Trees",
   "chore.chop.tree.600": "Chop 600 Trees",
-
   "chore.mine.stone.5": "Mine 5 Stones",
   "chore.mine.stone.7": "Mine 7 Stones",
   "chore.mine.stone.8": "Mine 8 Stones",
@@ -4471,76 +4435,60 @@
   "chore.mine.stone.200": "Mine 200 Stones",
   "chore.mine.stone.250": "Mine 250 Stones",
   "chore.mine.stone.300": "Mine 300 Stones",
-
   "chore.mine.gold.30": "Mine 30 Gold",
   "chore.mine.gold.38": "Mine 38 Gold",
   "chore.mine.gold.45": "Mine 45 Gold",
-
   "chore.mine.crimstone.20": "Mine 20 Crimstone",
   "chore.mine.crimstone.22": "Mine 22 Crimstone",
   "chore.mine.crimstone.24": "Mine 24 Crimstone",
-
   "chore.mine.iron.150": "Mine 150 Iron",
   "chore.mine.iron.175": "Mine 175 Iron",
   "chore.mine.iron.200": "Mine 200 Iron",
   "chore.mine.iron.225": "Mine 225 Iron",
-
   "chore.mine.oil.15": "Mine 15 Oil",
   "chore.mine.oil.18": "Mine 18 Oil",
   "chore.mine.oil.21": "Mine 21 Oil",
-
   "chore.pick.blueberries.120": "Pick 120 Blueberries",
   "chore.pick.blueberries.150": "Pick 150 Blueberries",
   "chore.pick.blueberries.200": "Pick 200 Blueberries",
-
   "chore.pick.grapes.36": "Pick 36 Grapes",
   "chore.pick.grapes.44": "Pick 44 Grapes",
   "chore.pick.grapes.52": "Pick 52 Grapes",
-
   "chore.pick.bananas.80": "Pick Bananas 80 times",
   "chore.pick.bananas.90": "Pick Bananas 90 times",
   "chore.pick.bananas.100": "Pick Bananas 100 times",
   "chore.pick.bananas.120": "Pick Bananas 120 times",
   "chore.pick.bananas.150": "Pick Bananas 150 times",
-
   "chore.pick.lemons.150": "Pick Lemons 150 times",
   "chore.pick.lemons.200": "Pick Lemons 200 times",
   "chore.pick.lemons.250": "Pick Lemons 250 times",
-
   "chore.pick.oranges.100": "Pick 100 Oranges",
   "chore.pick.oranges.125": "Pick 125 Oranges",
   "chore.pick.oranges.160": "Pick 160 Oranges",
-
   "chore.pick.apples.60": "Pick 60 Apples",
   "chore.pick.apples.75": "Pick 75 Apples",
   "chore.pick.apples.90": "Pick 90 Apples",
-
   "chore.pick.tomatoes.150": "Pick 150 Tomatoes",
   "chore.pick.tomatoes.200": "Pick 200 Tomatoes",
   "chore.pick.tomatoes.250": "Pick 250 Tomatoes",
-
   "chore.collect.honey.15": "Collect 15 Honey",
   "chore.collect.honey.18": "Collect 18 Honey",
   "chore.collect.honey.21": "Collect 21 Honey",
-
   "chore.collect.eggs.60": "Collect Eggs 60 times",
   "chore.collect.eggs.80": "Collect Eggs 80 times",
   "chore.collect.eggs.100": "Collect Eggs 100 times",
   "chore.collect.eggs.125": "Collect Eggs 125 times",
   "chore.collect.eggs.150": "Collect Eggs 150 times",
-
   "chore.collect.wool.30": "Collect Wool 30 times",
   "chore.collect.wool.40": "Collect Wool 40 times",
   "chore.collect.wool.50": "Collect Wool 50 times",
   "chore.collect.wool.60": "Collect Wool 60 times",
   "chore.collect.wool.75": "Collect Wool 75 times",
-
   "chore.collect.milk.30": "Collect Milk 30 times",
   "chore.collect.milk.40": "Collect Milk 40 times",
   "chore.collect.milk.50": "Collect Milk 50 times",
   "chore.collect.milk.60": "Collect Milk 60 times",
   "chore.collect.milk.75": "Collect Milk 75 times",
-
   "chore.dig.50": "Dig 50 times",
   "chore.dig.75": "Dig 75 times",
   "chore.dig.100": "Dig 100 times",
@@ -4549,32 +4497,26 @@
   "chore.dig.175": "Dig 175 times",
   "chore.dig.200": "Dig 200 times",
   "chore.dig.225": "Dig 225 times",
-
   "chore.spend.32000": "Spend 32,000 Coins",
   "chore.spend.48000": "Spend 48,000 Coins",
   "chore.spend.64000": "Spend 64,000 Coins",
-
   "chore.harvest.pumpkin.150": "Harvest Pumpkins 150 times",
   "chore.harvest.pumpkin.200": "Harvest Pumpkins 200 times",
   "chore.harvest.pumpkin.250": "Harvest Pumpkins 250 times",
-
   "chore.harvest.zucchini.50": "Harvest Zucchini 50 times",
   "chore.harvest.zucchini.75": "Harvest Zucchini 75 times",
   "chore.harvest.zucchini.100": "Harvest Zucchini 100 times",
-
   "chore.harvest.carrot.50": "Harvest Carrots 50 times",
   "chore.harvest.carrot.60": "Harvest Carrots 60 times",
   "chore.harvest.carrot.75": "Harvest Carrots 75 times",
   "chore.harvest.carrot.100": "Harvest Carrots 100 times",
   "chore.harvest.carrot.120": "Harvest Carrots 120 times",
-
   "chore.harvest.yam.30": "Harvest Yam 30 times",
   "chore.harvest.yam.60": "Harvest Yam 60 times",
   "chore.harvest.yam.90": "Harvest Yam 90 times",
   "chore.harvest.yam.125": "Harvest Yam 125 times",
   "chore.harvest.yam.150": "Harvest Yam 150 times",
   "chore.harvest.yam.175": "Harvest Yam 175 times",
-
   "chore.harvest.cabbage.25": "Harvest Cabbage 25 times",
   "chore.harvest.cabbage.30": "Harvest Cabbage 30 times",
   "chore.harvest.cabbage.40": "Harvest Cabbage 40 times",
@@ -4587,15 +4529,12 @@
   "chore.harvest.cabbage.125": "Harvest Cabbage 125 times",
   "chore.harvest.cabbage.150": "Harvest Cabbage 150 times",
   "chore.harvest.cabbage.175": "Harvest Cabbage 175 times",
-
   "chore.harvest.broccoli.40": "Harvest Broccoli 40 times",
   "chore.harvest.broccoli.80": "Harvest Broccoli 80 times",
   "chore.harvest.broccoli.100": "Harvest Broccoli 100 times",
-
   "chore.harvest.soybean.30": "Harvest Soybeans 30 times",
   "chore.harvest.soybean.60": "Harvest Soybeans 60 times",
   "chore.harvest.soybean.90": "Harvest Soybeans 90 times",
-
   "chore.harvest.beetroot.30": "Harvest Beetroot 30 times",
   "chore.harvest.beetroot.50": "Harvest Beetroot 50 times",
   "chore.harvest.beetroot.60": "Harvest Beetroot 60 times",
@@ -4603,109 +4542,85 @@
   "chore.harvest.beetroot.90": "Harvest Beetroot 90 times",
   "chore.harvest.beetroot.100": "Harvest Beetroot 100 times",
   "chore.harvest.beetroot.120": "Harvest Beetroot 120 times",
-
   "chore.harvest.pepper.25": "Harvest Pepper 25 times",
   "chore.harvest.pepper.40": "Harvest Pepper 40 times",
   "chore.harvest.pepper.50": "Harvest Pepper 50 times",
   "chore.harvest.pepper.75": "Harvest Pepper 75 times",
   "chore.harvest.pepper.80": "Harvest Pepper 80 times",
   "chore.harvest.pepper.100": "Harvest Pepper 100 times",
-
   "chore.harvest.cauliflower.30": "Harvest Cauliflower 30 times",
   "chore.harvest.cauliflower.60": "Harvest Cauliflower 60 times",
   "chore.harvest.cauliflower.90": "Harvest Cauliflower 90 times",
   "chore.harvest.cauliflower.400": "Harvest Cauliflower 400 times",
   "chore.harvest.cauliflower.450": "Harvest Cauliflower 450 times",
   "chore.harvest.cauliflower.500": "Harvest Cauliflower 500 times",
-
   "chore.harvest.eggplant.300": "Harvest Eggplant 300 times",
   "chore.harvest.eggplant.360": "Harvest Eggplant 360 times",
   "chore.harvest.eggplant.420": "Harvest Eggplant 420 times",
-
   "chore.harvest.corn.300": "Harvest Corn 300 times",
   "chore.harvest.corn.360": "Harvest Corn 360 times",
   "chore.harvest.corn.420": "Harvest Corn 420 times",
-
   "chore.harvest.onion.300": "Harvest Onions 300 times",
   "chore.harvest.onion.360": "Harvest Onions 360 times",
   "chore.harvest.onion.420": "Harvest Onions 420 times",
-
   "chore.harvest.wheat.240": "Harvest Wheat 240 times",
   "chore.harvest.wheat.250": "Harvest Wheat 250 times",
   "chore.harvest.wheat.300": "Harvest Wheat 300 times",
   "chore.harvest.wheat.360": "Harvest Wheat 360 times",
-
   "chore.harvest.radish.240": "Harvest Radish 240 times",
   "chore.harvest.radish.280": "Harvest Radish 280 times",
   "chore.harvest.radish.340": "Harvest Radish 340 times",
-
   "chore.harvest.turnip.250": "Harvest Turnip 250 times",
   "chore.harvest.turnip.300": "Harvest Turnip 300 times",
   "chore.harvest.turnip.360": "Harvest Turnip 360 times",
-
   "chore.harvest.kale.120": "Harvest Kale 120 times",
   "chore.harvest.kale.180": "Harvest Kale 180 times",
   "chore.harvest.kale.200": "Harvest Kale 200 times",
   "chore.harvest.kale.240": "Harvest Kale 240 times",
-
   "chore.harvest.artichoke.150": "Harvest Artichoke 150 times",
   "chore.harvest.artichoke.200": "Harvest Artichoke 200 times",
   "chore.harvest.artichoke.260": "Harvest Artichoke 260 times",
-
   "chore.harvest.barley.100": "Harvest Barley 100 times",
   "chore.harvest.barley.120": "Harvest Barley 120 times",
   "chore.harvest.barley.150": "Harvest Barley 150 times",
   "chore.harvest.barley.180": "Harvest Barley 180 times",
   "chore.harvest.barley.200": "Harvest Barley 200 times",
-
   "chore.harvest.rice.16": "Harvest Rice 16 times",
   "chore.harvest.rice.20": "Harvest Rice 20 times",
   "chore.harvest.rice.24": "Harvest Rice 24 times",
-
   "chore.harvest.olive.12": "Harvest Olives 12 times",
   "chore.harvest.olive.16": "Harvest Olives 16 times",
   "chore.harvest.olive.20": "Harvest Olives 20 times",
-
   "chore.eat.boiledEgg.3": "Eat 3 Boiled Eggs",
   "chore.eat.boiledEgg.5": "Eat 5 Boiled Eggs",
   "chore.eat.boiledEgg.7": "Eat 7 Boiled Eggs",
   "chore.eat.boiledEgg.10": "Eat 10 Boiled Eggs",
   "chore.eat.boiledEgg.15": "Eat 15 Boiled Eggs",
-
   "chore.eat.reindeerCarrot.10": "Eat 10 Reindeer Carrot",
   "chore.eat.reindeerCarrot.15": "Eat 15 Reindeer Carrot",
-
   "chore.eat.anchovy.20": "Eat 20 Anchovies",
   "chore.eat.anchovy.40": "Eat 40 Anchovies",
   "chore.eat.anchovy.60": "Eat 60 Anchovies",
-
   "chore.eat.tuna.10": "Eat 10 Tunas",
   "chore.eat.tuna.20": "Eat 20 Tunas",
   "chore.eat.tuna.30": "Eat 30 Tunas",
-
   "chore.eat.cauliflowerBurger.5": "Eat 5 Cauliflower Burgers",
   "chore.eat.clubSandwich.5": "Eat 5 Club Sandwiches",
   "chore.eat.pancake.5": "Eat 5 Pancakes",
-
   "chore.eat.chowder.20": "Eat 20 Chowder",
   "chore.eat.chowder.25": "Eat 25 Chowder",
   "chore.eat.chowder.30": "Eat 30 Chowder",
-
   "chore.eat.orangeCake.5": "Eat 5 Orange Cake",
   "chore.eat.orangeCake.7": "Eat 7 Orange Cake",
   "chore.eat.orangeCake.10": "Eat 10 Orange Cake",
   "chore.eat.orangeCake.15": "Eat 15 Orange Cake",
-
   "chore.eat.mashedPotato.10": "Eat 10 Mashed Potatoes",
   "chore.eat.mashedPotato.15": "Eat 15 Mashed Potatoes",
   "chore.eat.mashedPotato.20": "Eat 20 Mashed Potatoes",
   "chore.eat.mashedPotato.30": "Eat 30 Mashed Potatoes",
-
   "chore.eat.pumpkinSoup.20": "Eat 20 Pumpkin Soup",
   "chore.eat.pumpkinSoup.30": "Eat 30 Pumpkin Soup",
-
   "chore.eat.bumpkinSalad.5": "Eat 5 Bumpkin Salad",
-
   "chore.drink.orangeJuice.15": "Drink 15 Orange Juice",
   "chore.drink.purpleSmoothie.15": "Drink 15 Purple Smoothies",
   "chore.drink.appleJuice.10": "Drink 10 Apple Juice",
@@ -4719,154 +4634,116 @@
   "chore.drink.grapeJuice.5": "Drink 5 Grape Juice",
   "chore.drink.orangeJuice.10": "Drink 10 Orange Juice",
   "chore.drink.carrotJuice.15": "Drink 15 Carrot Juice",
-
   "chore.cook.boiledEgg.3": "Cook Boiled Eggs 3 times",
   "chore.cook.boiledEgg.5": "Cook Boiled Eggs 5 times",
-
   "chore.cook.reindeerCarrot.8": "Cook Reindeer Carrot 8 times",
   "chore.cook.reindeerCarrot.12": "Cook Reindeer Carrot 12 times",
-
   "chore.cook.mashedPotato.15": "Cook Mashed Potatoes 15 times",
   "chore.cook.mashedPotato.18": "Cook Mashed Potatoes 18 times",
   "chore.cook.mashedPotato.20": "Cook Mashed Potatoes 20 times",
-
   "chore.cook.roastVeggies.5": "Cook Roast Veggies 5 times",
   "chore.cook.roastVeggies.6": "Cook Roast Veggies 6 times",
   "chore.cook.roastVeggies.7": "Cook Roast Veggies 7 times",
-
   "chore.cook.clubSandwich.5": "Cook Club Sandwich 5 times",
   "chore.cook.clubSandwich.6": "Cook Club Sandwich 6 times",
   "chore.cook.clubSandwich.7": "Cook Club Sandwich 7 times",
-
   "chore.cook.pancake.3": "Cook Pancakes 3 times",
   "chore.cook.pancake.4": "Cook Pancakes 4 times",
   "chore.cook.pancake.5": "Cook Pancakes 5 times",
   "chore.cook.pancake.6": "Cook Pancakes 6 times",
-
   "chore.cook.friedCalamari.1": "Cook Fried Calamari 1 time",
   "chore.cook.friedCalamari.2": "Cook Fried Calamari 2 times",
   "chore.cook.friedCalamari.3": "Cook Fried Calamari 3 times",
   "chore.cook.friedCalamari.4": "Cook Fried Calamari 4 times",
-
   "chore.cook.cauliflowerBurger.5": "Cook Cauliflower Burger 5 times",
   "chore.cook.cauliflowerBurger.7": "Cook Cauliflower Burger 7 times",
   "chore.cook.cauliflowerBurger.10": "Cook Cauliflower Burger 10 times",
-
   "chore.cook.bumpkinSalad.5": "Cook Bumpkin Salad 5 times",
   "chore.cook.bumpkinSalad.7": "Cook Bumpkin Salad 7 times",
   "chore.cook.bumpkinSalad.10": "Cook Bumpkin Salad 10 times",
-
   "chore.cook.bumpkinGanoush.3": "Cook Bumpkin ganoush 3 times",
   "chore.cook.bumpkinGanoush.5": "Cook Bumpkin ganoush 5 times",
   "chore.cook.bumpkinGanoush.7": "Cook Bumpkin ganoush 7 times",
-
   "chore.cook.goblinTreat.3": "Cook Goblin's Treat 3 times",
   "chore.cook.goblinTreat.5": "Cook Goblin's Treat 5 times",
   "chore.cook.goblinTreat.7": "Cook Goblin's Treat 7 times",
-
   "chore.cook.gumbo.20": "Cook Gumbo 20 times",
   "chore.cook.gumbo.25": "Cook Gumbo 25 times",
   "chore.cook.gumbo.30": "Cook Gumbo 30 times",
-
   "chore.cook.sunflowerCake.7": "Cook Sunflower Cake 7 times",
   "chore.cook.carrotCake.5": "Cook Carrot Cake 5 times",
   "chore.cook.cabbageCake.5": "Cook Cabbage Cake 5 times",
   "chore.cook.wheatCake.5": "Cook Wheat Cake 5 times",
-
   "chore.cook.honeyCake.10": "Cook Honey Cake 10 times",
   "chore.cook.honeyCake.15": "Cook Honey Cake 15 times",
   "chore.cook.honeyCake.20": "Cook Honey Cake 20 times",
-
   "chore.cook.cornbread.10": "Cook Cornbread 10 times",
-
   "chore.cook.lemonCheesecake.3": "Cook Lemon Cheesecakes 3 times",
   "chore.cook.lemonCheesecake.5": "Cook Lemon Cheesecakes 5 times",
-
   "chore.cook.fermentedFish.10": "Cook Fermented Fish 10 times",
   "chore.cook.fermentedFish.12": "Cook Fermented Fish 12 times",
   "chore.cook.fermentedFish.15": "Cook Fermented Fish 15 times",
-
   "chore.cook.chowder.15": "Cook Chowder 15 times",
   "chore.cook.chowder.18": "Cook Chowder 18 times",
   "chore.cook.chowder.21": "Cook Chowder 21 times",
-
   "chore.cook.antipasto.25": "Cook Antipasto 25 times",
   "chore.cook.antipasto.30": "Cook Antipasto 30 times",
   "chore.cook.antipasto.35": "Cook Antipasto 35 times",
-
   "chore.cook.fruitSalad.50": "Cook Fruit Salad 50 times",
   "chore.cook.fruitSalad.75": "Cook Fruit Salad 75 times",
   "chore.cook.fruitSalad.100": "Cook Fruit Salad 100 times",
-
   "chore.cook.steamedRedRice.20": "Cook Steamed Red Rice 20 times",
   "chore.cook.steamedRedRice.25": "Cook Steamed Red Rice 25 times",
   "chore.cook.steamedRedRice.30": "Cook Steamed Red Rice 30 times",
-
   "chore.cook.riceBun.20": "Cook Rice Bun 20 times",
   "chore.cook.riceBun.25": "Cook Rice Bun 25 times",
   "chore.cook.riceBun.30": "Cook Rice Bun 30 times",
-
   "chore.cook.shroomSyrup.2": "Cook Shroom Syrup 2 times",
-
   "chore.cook.cheese.50": "Cook Cheese 50 times",
-
   "chore.cook.honeyCheddar.5": "Cook Honey Cheddar 5 times",
   "chore.cook.honeyCheddar.7": "Cook Honey Cheddar 7 times",
   "chore.cook.honeyCheddar.10": "Cook Honey Cheddar 10 times",
-
   "chore.cook.blueCheese.20": "Cook Blue Cheese 20 times",
   "chore.cook.blueCheese.25": "Cook Blue Cheese 25 times",
   "chore.cook.blueCheese.30": "Cook Blue Cheese 30 times",
-
   "chore.cook.goblinBrunch.1": "Cook Goblin Brunch 1 time",
   "chore.cook.goblinBrunch.2": "Cook Goblin Brunch 2 times",
   "chore.cook.goblinBrunch.3": "Cook Goblin Brunch 3 times",
-
   "chore.cook.sushiRoll.3": "Cook Sushi Roll 3 times",
   "chore.cook.sushiRoll.4": "Cook Sushi Roll 4 times",
   "chore.cook.sushiRoll.5": "Cook Sushi Roll 5 times",
-
   "chore.cook.capreseSalad.4": "Cook Caprese Salad 4 times",
   "chore.cook.capreseSalad.5": "Cook Caprese Salad 5 times",
   "chore.cook.capreseSalad.6": "Cook Caprese Salad 6 times",
   "chore.cook.capreseSalad.7": "Cook Caprese Salad 7 times",
   "chore.cook.capreseSalad.8": "Cook Caprese Salad 8 times",
   "chore.cook.capreseSalad.10": "Cook Caprese Salad 10 times",
-
   "chore.cook.oceanOlive.3": "Cook Ocean's Olive 3 times",
   "chore.cook.oceanOlive.5": "Cook Ocean's Olive 5 times",
   "chore.cook.oceanOlive.7": "Cook Ocean's Olive 7 times",
-
   "chore.cook.eggplantCake.5": "Cook Eggplant Cake 5 times",
   "chore.cook.radishCake.5": "Cook Radish Cake 5 times",
   "chore.cook.beetrootCake.5": "Cook Beetroot Cake 5 times",
-
   "chore.cook.pumpkinSoup.5": "Cook Pumpkin Soup 5 times",
   "chore.cook.pumpkinSoup.7": "Cook Pumpkin Soup 7 times",
   "chore.cook.pumpkinSoup.10": "Cook Pumpkin Soup 10 times",
-
   "chore.cook.bumpkinRoast.5": "Cook Bumpkin Roast 5 times",
   "chore.cook.bumpkinRoast.7": "Cook Bumpkin Roast 7 times",
   "chore.cook.bumpkinRoast.10": "Cook Bumpkin Roast 10 times",
-
   "chore.cook.pizzaMargherita.5": "Cook Pizza Margherita 5 times",
   "chore.cook.pizzaMargherita.7": "Cook Pizza Margherita 7 times",
   "chore.cook.pizzaMargherita.10": "Cook Pizza Margherita 10 times",
-
   "chore.cook.applePie.15": "Cook Apple Pie 15 times",
   "chore.cook.potatoCake.7": "Cook Potato Cake 7 times",
   "chore.cook.carrotCake.7": "Cook Carrot Cake 7 times",
   "chore.cook.wheatCake.7": "Cook Wheat Cake 7 times",
-
   "chore.cook.spaghettiAlLimone.4": "Cook Spaghetti al Limone 4 times",
   "chore.cook.spaghettiAlLimone.6": "Cook Spaghetti al Limone 6 times",
   "chore.cook.spaghettiAlLimone.8": "Cook Spaghetti al Limone 8 times",
-
   "chore.cook.beetrootCake.7": "Cook Beetroot Cake 7 times",
   "chore.cook.cabbageCake.7": "Cook Cabbage Cake 7 times",
   "chore.cook.parsnicCake.7": "Cook Parsnip Cake 7 times",
   "chore.cook.cauliflowerCake.7": "Cook Cauliflower Cake 7 times",
-
   "chore.eat.pumpkinSoup.15": "Eat 15 Pumpkin Soup",
   "chore.chop.tree.80": "Chop 80 Trees",
   "chore.pick.blueberries.60": "Pick 60 Blueberries",
@@ -4877,7 +4754,6 @@
   "chore.prepare.bumpkinDetox.15": "Prepare 15 Bumpkin Detox",
   "chore.grow.whitePansy.3": "Grow 3 White Pansy",
   "chore.cook.fermentedFish.5": "Cook 5 Fermented Fish",
-
   "megaStore.msg1": "Welcome to my seasonal store. Gather resources & exchange them for rare items before time runs out!",
   "megaBountyBoard.msg1": "Welcome to the Mega Bounty Board! Gather the resources & exchange them for rewards before time runs out!",
   "megaStore.tier.rare.requirements": "Buy 4 different basic items to unlock rare items.",
@@ -4995,7 +4871,6 @@
   "description.ladybugSuit.boost": "-25% Onion Seed Coin cost",
   "description.crabHat.boost": "+1 treasure when fishing",
   "description.mammoth.boost": "-25% Cow Production Time",
-
   "description.sickle.boost": "+2 Wheat",
   "chores.ended": "All that time tellin Bumpkins what to do......I'm tired. I think I need a vacation.",
   "digby.closed": "Desert closed",
@@ -5110,7 +4985,6 @@
   "description.solflareAegis.boost": "-50% Plot Crop Time in Summer",
   "description.autumnsEmbrace.boost": "-50% Plot Crop Time in Autumn",
   "description.frozenHeart.boost": "+1 Plot Crop Yield in Winter",
-
   "description.floralArch": "A grand entrance made of nature’s finest, welcoming all who pass through.",
   "description.flowerCoin": "A symbol of new beginnings, marking the bloom of a fresh era in Sunflower Land.",
   "description.flowerStatue": "A monument to growth and transformation, standing tall as the world of Bumpkins flourishes in a new symbol",
@@ -5119,7 +4993,6 @@
   "description.mysteriousEntrance": "Where does it lead? Only those who dare to step through will know.",
   "description.streamersStatue": "A tribute to those who amplify the community, earning rewards by sharing the stories and adventure in Sunflower Land.",
   "description.cetus": "An ancient creature of the sea, watching over the waters with silent wisdom.",
-
   "description.goldcrestMosaicRug": "A masterful blend of tiles, reflecting the sun’s warm embrace.",
   "description.sandyMosaicRug": "A pattern woven from desert winds and sun-kissed dreams.",
   "description.twilightRug": "A deep, dark weave, capturing the beauty of the twilight and flowers.",
@@ -5128,20 +5001,17 @@
   "description.beetrootRug": "A rich, earthy hue that brings warmth to any home.",
   "description.harlequinRug": "A timeless pattern that never goes out of style.",
   "description.largeRug": "Big, bold, and built for comfort.",
-
   "description.goldenFence": "Sturdy and shining, a fence built to last for ages.",
   "description.goldenStoneFence": "Blending the strength of stone with a glimmer of fortune.",
   "description.goldenPineTree": "Tall and proud, standing through every season.",
   "description.goldenTree": "A rare sight in nature, glowing under the sun’s rays.",
   "description.goldenBush": "A small but majestic addition to any landscape.",
-
   "description.blackTile": "A deep black tile that adds a touch of sophistication and contrast to any space.",
   "description.blueTile": "A cool blue tile, bringing the calm and openness of the sky to your surroundings.",
   "description.greenTile": "A fresh green tile, inspired by rolling fields and the heart of nature.",
   "description.purpleTile": "A bold purple tile, perfect for creating a rich and lively atmosphere.",
   "description.redTile": "A striking red tile, radiating warmth and energy in every step.",
   "description.yellowTile": "A bright yellow tile, capturing the warmth and cheerfulness of sunlight.",
-
   "description.quarry": "An age-old stone site that never runs dry—perfect for those seeking a steady supply of free stone.",
   "description.obsidianTurtle": "Steady and silent, this ancient creature gathers traces of volcanic stone wherever it roams.",
   "description.winterGuardian": "Summoned from a land where snow never melts, this frostbound protector now watches over the skies—an honored guest in unfamiliar winds.",
@@ -5155,7 +5025,6 @@
   "description.heartAirBalloon": "A floating symbol of love, ready to lift spirits and hearts alike. +1 Geniseeds from deliveries, chores & bounties.",
   "description.giantZucchini": "Impossibly large and suspiciously green, this veggie is a true garden marvel.",
   "description.miniFloatingIsland": "A small-sized patch of paradise that somehow stays afloat—perfect for peaceful moments.",
-
   "description.floorMirror": "A tall mirror perfect for full-body reflections.",
   "description.longRug": "A horizontally long patterned rug to warm up any floor.",
   "description.garbageBin": "A sturdy bin used for collecting trash.",
@@ -5173,115 +5042,88 @@
   "description.giantTurnip": "A massive turnip that stands tall in the field—too big to harvest, but perfect for display.",
   "description.groovyGramophone": "Spins vintage vibes and funky beats.",
   "description.wheatWhiskers": "A bundle of wheat playfully accompanied by curious mice.",
-
   "friendship.gift.points": "Points",
   "friendship.gift.nextReward": "Next Reward:",
   "friendship.gift.firstReward": "First Reward:",
   "friendship.gift.progress": "Progress:",
-
   "npcDialogues.pumpkinPete.chore1": "Have you seen the strange objects in the sky? Keep an eye on your crops!",
   "npcDialogues.pumpkinPete.chore2": "These new animal products are bringing so many new farming possibilities!",
   "npcDialogues.pumpkinPete.chore3": "The Farmers Market is busier than ever with all these new resources!",
-
   "npcDialogues.peggy.chore1": "I can barely keep up with all these new recipe requests! Everyone wants to try cooking with animal products.",
   "npcDialogues.peggy.chore2": "These new cheese and egg recipes are keeping me busy in the kitchen.",
   "npcDialogues.peggy.chore3": "I hope you're not using any gems in your cooking... that would be terrible!",
-
   "npcDialogues.betty.chore1": "The Farmers Market has never been this busy! We're running low on wheat, corn, and barley.",
   "npcDialogues.betty.chore2": "Everyone needs animal feed these days. The demand is through the roof!",
   "npcDialogues.betty.chore3": "I'm saving every FLOWER I earn from the market for my own farm someday.",
-
   "npcDialogues.miranda.chore1": "Have you tried growing tomatoes? I still can't decide if they're fruits or vegetables!",
   "npcDialogues.miranda.chore2": "The sun is perfect for dancing today! Though I could do without the strange sightings in the sky...",
   "npcDialogues.miranda.chore3": "Nothing beats a sunny day at the beach, especially with all this excitement about animals!",
-
   "npcDialogues.blacksmith.chore1": "This crafting box launch has me worried about my business...",
   "npcDialogues.blacksmith.chore2": "Quality tools for quality work - that's what I always say.",
   "npcDialogues.blacksmith.chore3": "These new animal products better not affect the metal trade.",
-
   "npcDialogues.raven.chore1": "I've been having visions... of a dark sheep that could change everything in Sunflower Land.",
   "npcDialogues.raven.chore2": "The shadows whisper of strange creatures in our midst...",
   "npcDialogues.raven.chore3": "These mysterious sightings... they have a dark energy about them.",
-
   "npcDialogues.cornwell.chore1": "I sense a dangerous storm approaching... these are uncertain times.",
   "npcDialogues.cornwell.chore2": "The crops tell me stories of change. We must prepare for what's coming.",
   "npcDialogues.cornwell.chore3": "Keep your grain stores full - we may need them in the days ahead.",
-
   "npcDialogues.finley.chore1": "You won't believe what I saw in the ocean - a strange cow-like creature!",
   "npcDialogues.finley.chore2": "My brother Finn might tell tall tales, but what I saw was real.",
   "npcDialogues.finley.chore3": "The waters have been different lately, something's changing out there.",
-
   "npcDialogues.gordo.chore1": "Have you tried the new cheese recipes? Simply magnificent!",
   "npcDialogues.gordo.chore2": "The new spaghetti and pizza dishes are to die for!",
   "npcDialogues.gordo.chore3": "These animal products are revolutionizing our cuisine!",
-
   "npcDialogues.tywin.chore1": "I'm implementing a new tax on all animal products. The crown must profit!",
   "npcDialogues.tywin.chore2": "These new resources must be properly regulated and taxed.",
   "npcDialogues.tywin.chore3": "The nobility requires only the finest animal products - see to it.",
-
   "npcDialogues.oldSalty.chore1": "Arr, I've been collecting cow skulls from my treasure hunts. Curious findings...",
   "npcDialogues.oldSalty.chore2": "The seas be changing, and strange creatures lurk in the depths.",
   "npcDialogues.oldSalty.chore3": "These cow skulls I've been finding might be worth something someday!",
-
   "npcDialogues.guria.chore1": "The spirits speak of a green creature, unlike any goblin I've known...",
   "npcDialogues.guria.chore2": "My crystal ball shows strange shapes in the skies above our farms.",
   "npcDialogues.guria.chore3": "The future is clouded with mysterious creatures and great change.",
-
   "npcDialogues.petro.chore1": "This oil shortage is getting worse by the day!",
   "npcDialogues.petro.chore2": "We need more resources to keep the machinery running smoothly.",
   "npcDialogues.petro.chore3": "These mechanical problems won't fix themselves, bring me more oil!",
-
   "npcDialogues.chase.chore1": "My animals have been acting strange lately. Some have gone missing!",
   "npcDialogues.chase.chore2": "There are mysterious tracks in the fields - unlike anything I've seen before.",
   "npcDialogues.chase.chore3": "Keep your animals close, strange things are happening in these parts.",
-
   "npcDialogues.birdie.chore1": "The new Megastore format is absolutely fabulous! Such epic sales!",
   "npcDialogues.birdie.chore2": "Have you seen the latest seasonal fashions? Simply stunning!",
   "npcDialogues.birdie.chore3": "These new animal products are inspiring some amazing new designs!",
   "npcDialogues.grimbly.chore1": "These new animal products will make excellent crafting materials!",
   "npcDialogues.grimbly.chore2": "Bring me more resources - the forge hungers for new materials!",
   "npcDialogues.grimbly.chore3": "The animals bring new opportunities for crafting. Don't keep me waiting!",
-
   "npcDialogues.garth.chore1": "These animal products could revolutionize my potion making!",
   "npcDialogues.garth.chore2": "I wonder what magical properties these new ingredients possess...",
   "npcDialogues.garth.chore3": "The Sunflorians won't like my experiments with these animal products!",
-
   "npcDialogues.grimtooth.chore1": "Arr, these new treasures from the animals be worth their weight in gold!",
   "npcDialogues.grimtooth.chore2": "The seas be changing, and so do the spoils we can plunder!",
   "npcDialogues.grimtooth.chore3": "These animal products will fetch a fine price in the black market!",
-
   "npcDialogues.finn.chore1": "You won't believe the size of the cow-like creature I saw in the ocean!",
   "npcDialogues.finn.chore2": "These strange sightings are affecting the fish. They're acting peculiar!",
   "npcDialogues.finn.chore3": "I've got the biggest fishing story yet - just wait till you hear it!",
-
   "npcDialogues.victoria.chore1": "The kingdom demands proper regulation of these new animal resources!",
   "npcDialogues.victoria.chore2": "These mysterious sightings must be investigated. The crown commands it!",
   "npcDialogues.victoria.chore3": "Ensure all animal products meet royal standards, or face consequences!",
-
   "npcDialogues.gambit.chore1": "Care to wager on what creature will appear in the sky next?",
   "npcDialogues.gambit.chore2": "The odds of these strange sightings are astronomical - I love it!",
   "npcDialogues.gambit.chore3": "Place your bets on which animal will go missing next!",
-
   "npcDialogues.grubnuk.chore1": "These animal products are worth their weight in FLOWER! Bring me more!",
   "npcDialogues.grubnuk.chore2": "Business is booming with all these new resources to trade!",
   "npcDialogues.grubnuk.chore3": "Strange times mean profitable trades for those who know where to look!",
-
   "npcDialogues.bert.chore1": "These magical mushrooms might explain the strange creatures in the sky...",
   "npcDialogues.bert.chore2": "The mushrooms tell me secrets about the missing animals!",
   "npcDialogues.bert.chore3": "Reality is getting stranger by the day - just how I like it!",
-
   "npcDialogues.tango.chore1": "Even the animals are dancing to these strange new rhythms!",
   "npcDialogues.tango.chore2": "The mysterious sightings make for excellent dance inspiration!",
   "npcDialogues.tango.chore3": "Let's celebrate these exciting changes with a dance!",
-
   "npcDialogues.timmy.chore1": "Have you seen any strange bears in the forest lately? They're acting different!",
   "npcDialogues.timmy.chore2": "The honey supplies are running low with all these new animal farms!",
   "npcDialogues.timmy.chore3": "Even the bears are curious about these mysterious sky sightings!",
-
   "npcDialogues.corale.chore1": "The coral reefs are buzzing with news about strange sea creatures!",
   "npcDialogues.corale.chore2": "Something big is disturbing the ocean's natural balance...",
   "npcDialogues.corale.chore3": "The fish say they've seen cow-like shadows in deeper waters!",
-
   "npcDialogues.santa.intro1": "Ho Ho Ho Bumpkin! For a limited time, I am giving daily rewards for those that find my scattered candy.",
   "npcDialogues.santa.intro2": "Each day you will find 10 pieces scattered throughout the Pumpkin Plaza.",
   "npcDialogues.santa.intro3": "Collect the 10 candy and claim the daily prizes!",
@@ -5290,17 +5132,13 @@
   "npcDialogues.santa.dialogue3": "Well done! You have completed the 12 Days of Christmas. Don't forget to place the Festive Tree for a special gift.",
   "npcDialogues.santa.dialogue4": "Complete the challenge 12 days in a row for a special prize.",
   "npcDialogues.santa.dialogue5": "Ho Ho Ho! Well done Bumpkin, you found my candy.",
-
   "npcDialogues.ginger.dialogue1": "This Festive Tree is full of gifts and decorations.",
   "npcDialogues.ginger.dialogue2": "I wonder what I can receive from Santa after shaking it...",
-
   "npcDialogues.elf.dialogue1": "Oops, I dropped some candies around the plaza. If you find any, bring them back to Santa for a sweet reward!",
-
   "candy.remaining": "{{candies}} remaining",
   "christmas.days": "Day {{day}}",
   "christmas.days.completed": "{{completed}}/12 Days Completed",
   "npcDialogues.santa.nextChallenge": "Next challenge:",
-
   "marketplace": "Marketplace",
   "marketplace.buy": "Buy, swap, sell!",
   "description.trade.points": "Earned from trading collectibles and wearables in the marketplace. Can be exchanged for in-game rewards.",
@@ -5609,17 +5447,14 @@
   "reputation.description": "Increase your reputation to unlock more Web3 features!",
   "reputation.sprout.description": "1 Marketplace Listing per day",
   "reputation.notAReputation": "You are not a {{name}}",
-
   "reputation.points": "{{amount}} Points",
   "reputation.points.title": "Reputation - {{name}}",
   "reputation.points.amount": "{{points}} Reputation Points",
   "reputation.points.description": "Earn reputation points by completing tasks.",
-
   "reputation.seedling.trades": "2 Marketplace Listings per day",
   "reputation.seedling.deliveries": "1 FLOWER Delivery Per Day",
   "reputation.seedling.nft": "Withdraw NFTs",
   "reputation.seedling.farmNFT": "On-Chain Farm",
-
   "reputation.unlock.spring": "Reach Petal Paradise - {{points}} points",
   "reputation.unlock.desert": "Reach Desert Island - {{points}} points",
   "reputation.unlock.volcano": "Reach Volcano Island - {{points}} points",
@@ -5629,16 +5464,13 @@
   "reputation.unlock.level15": "Reach lvl 15 - {{points}} points",
   "reputation.unlock.bud": "Own a bud - {{points}} points",
   "reputation.unlock.vip": "VIP Access - {{points}} points",
-
   "reputation.vip.purchase": "Purchase VIP Pass",
   "reputation.sprout": "Sprout",
   "reputation.seedling": "Seedling",
-
   "reputation.grower": "Grower",
   "reputation.grower.description": "Withdraw FLOWER",
   "reputation.grower.sfl": "2 FLOWER Deliveries Per Day",
   "reputation.grower.trades": "3 Marketplace Listings per day",
-
   "reputation.cropkeeper": "Cropkeeper",
   "reputation.cropkeeper.description": "Unlock all FLOWER Deliveries",
   "reputation.cropkeeper.resources": "Withdraw Resources",
@@ -5660,7 +5492,6 @@
   "reputation.guide.proofOfHumanity": "Complete the Proof of Humanity by traveling to Retreat Island and locating the bank.",
   "reputation.guide.ownBud": "Own a Bud by purchasing it through the in-game or third-party marketplaces.",
   "reputation.seedlingRequired": "Seedling required",
-
   "verify.verified": "You are verified!",
   "verify.verify": "Verify your account to increase your reputation.",
   "lavaPit.active": "Active",
@@ -6498,5 +6329,8 @@
   "bin.binBag": "Bin Bag",
   "bin.increaseLimit": "Increase Limit (+30)",
   "bin.cantWait.description": "Increase the limit of garbage you can pick up today.",
-  "bin.increaseLimit.description": "Are you sure you want to increase the limit? This will reset every day."
+  "bin.increaseLimit.description": "Are you sure you want to increase the limit? This will reset every day.",
+  "incinerator.welcome": "Welcome to the Incinerator!",
+  "incinerator.description": "The Incinerator is a place where you can burn clutter to get extra Cheers",
+  "incinerator.burn": "Burn {{number}}"
 }

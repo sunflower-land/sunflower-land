@@ -18,6 +18,7 @@ import { SEASON_ICONS } from "features/island/buildings/components/building/mark
 import { isFullMoonBerry } from "features/game/events/landExpansion/seedBought";
 import { SeedName } from "features/game/types/seeds";
 import fullMoon from "assets/icons/full_moon.png";
+import { ClutterName } from "features/game/types/clutter";
 
 /**
  * The props for the details for items.
@@ -39,6 +40,8 @@ interface PropertiesProps {
   sfl?: Decimal;
   gems?: number;
   items?: Inventory;
+  cheer?: number;
+  clutterItem?: ClutterName;
 }
 
 /**
@@ -148,6 +151,13 @@ const ItemProperties: React.FC<PropertiesProps> = (properties) => {
             />
           ))}
         </>
+      )}
+      {!!properties.cheer && properties.clutterItem && (
+        <RequirementLabel
+          type="sellForCheer"
+          requirement={properties.cheer}
+          clutterItem={properties.clutterItem}
+        />
       )}
     </div>
   );

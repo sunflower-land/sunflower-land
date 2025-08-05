@@ -3,6 +3,7 @@ import { SEASON_TICKET_NAME, SeasonalTicket, SEASONS } from "./seasons";
 import Decimal from "decimal.js-light";
 import { BumpkinItem } from "./bumpkin";
 import { getObjectEntries } from "../expansion/lib/utils";
+import { ClutterName } from "./clutter";
 
 export type GarbageName =
   | Extract<
@@ -34,6 +35,7 @@ export type GarbageName =
       | "Colors Event Token 2025"
       | "Colors Event Ticket 2025"
       | "Easter Ticket 2025"
+      | ClutterName
     >
   | Extract<BumpkinItem, "Basic Hair">;
 
@@ -175,6 +177,30 @@ export const GARBAGE: Record<GarbageName, Garbage> = {
   },
   "Easter Ticket 2025": {
     sellPrice: 1,
+    gems: 0,
+  },
+  Trash: {
+    sellPrice: 3,
+    gems: 0,
+  },
+  Dung: {
+    sellPrice: 1,
+    gems: 0,
+  },
+  Weed: {
+    sellPrice: 5,
+    gems: 0,
+  },
+  Anthill: {
+    sellPrice: 50,
+    gems: 0,
+  },
+  Rat: {
+    sellPrice: 50,
+    gems: 0,
+  },
+  Snail: {
+    sellPrice: 50,
     gems: 0,
   },
 };
