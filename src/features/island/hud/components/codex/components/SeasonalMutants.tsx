@@ -45,7 +45,7 @@ const SEASONAL_MUTANTS: Partial<Record<SeasonName, SeasonalMutants>> = {
   "Better Together": {
     chicken: "Janitor Chicken",
     flower: "Venus Bumpkin Trap",
-    fish: "Jellyfish",
+    fish: "Poseidon",
     cow: "Baby Cow",
     sheep: "Baby Sheep",
     banner: SUNNYSIDE.announcement.betterTogetherSeasonRares,
