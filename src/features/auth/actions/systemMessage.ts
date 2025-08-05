@@ -13,7 +13,7 @@ export async function getSystemMessage(): Promise<string | null> {
     return null;
   }
 
-  // Transport .txt based respone
+  // Transport .txt based response
   const text = await response.text();
 
   return text;
