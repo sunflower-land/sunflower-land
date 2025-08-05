@@ -1800,7 +1800,6 @@ export interface GameState {
       farms: number[];
     };
     cheers: {
-      cheersUsed: number;
       freeCheersClaimedAt: number;
     };
     dailyCollections?: Record<
