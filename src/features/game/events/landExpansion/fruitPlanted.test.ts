@@ -766,6 +766,25 @@ describe("getFruitTime", () => {
     expect(time).toEqual(orangePlantSeconds * 0.8);
   });
 
+  it("applies a 20% speed boost with Fruit Tune Box", () => {
+    const seed = "Banana Plant";
+    const orangePlantSeconds = PATCH_FRUIT_SEEDS[seed].plantSeconds;
+    const { seconds: time } = getFruitPatchTime(seed, {
+      ...TEST_FARM,
+      collectibles: {
+        "Fruit Tune Box": [
+          {
+            coordinates: { x: 0, y: 0 },
+            createdAt: 0,
+            id: "123",
+            readyAt: 0,
+          },
+        ],
+      },
+    });
+    expect(time).toEqual(orangePlantSeconds * 0.8);
+  });
+
   it("applies a Orchard Hourglass boost of -25% fruit growth time for 6 hours", () => {
     const now = Date.now();
     const seed = "Banana Plant";

@@ -34,6 +34,11 @@ export function getBoostedCraftingTime({
     boostsUsed.push("Sol & Luna");
   }
 
+  if (isWearableActive({ name: "Architect Ruler", game })) {
+    seconds *= 0.75;
+    boostsUsed.push("Architect Ruler");
+  }
+
   return { seconds, boostsUsed };
 }
 

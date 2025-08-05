@@ -266,6 +266,14 @@ export function getCropYieldAmount({
     boostsUsed.push("Eggplant Onesie");
   }
 
+  if (
+    crop === "Artichoke" &&
+    isCollectibleBuilt({ name: "Giant Artichoke", game })
+  ) {
+    amount += 2;
+    boostsUsed.push("Giant Artichoke");
+  }
+
   if (crop === "Yam" && isCollectibleBuilt({ name: "Giant Yam", game })) {
     amount += 0.5;
     boostsUsed.push("Giant Yam");

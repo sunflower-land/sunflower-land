@@ -86,6 +86,11 @@ const getBoostedTime = ({
     boostsUsed.push("Ore Hourglass");
   }
 
+  if (isWearableActive({ name: "Pickaxe Shark", game })) {
+    totalSeconds = totalSeconds * 0.85;
+    boostsUsed.push("Pickaxe Shark");
+  }
+
   if (game.bumpkin.skills["Midas Sprint"]) {
     totalSeconds = totalSeconds * 0.9;
     boostsUsed.push("Midas Sprint");

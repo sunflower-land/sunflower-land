@@ -1092,6 +1092,52 @@ describe("harvest", () => {
       expect(state.inventory.Eggplant).toEqual(new Decimal(2));
     });
 
+    it("gives +2 to the yield of Artichoke when Giant Artichoke is placed and ready", () => {
+      const state = harvest({
+        state: {
+          ...GAME_STATE,
+          bumpkin: TEST_BUMPKIN,
+          inventory: {
+            "Artichoke Seed": new Decimal(1),
+          },
+          season: {
+            season: "spring",
+            startedAt: 0,
+          },
+          collectibles: {
+            "Giant Artichoke": [
+              {
+                id: "123",
+                createdAt: dateNow,
+                coordinates: { x: 1, y: 1 },
+                readyAt: dateNow - 5 * 60 * 1000,
+              },
+            ],
+          },
+          crops: {
+            [firstId]: {
+              ...GAME_STATE.crops[firstId],
+              crop: {
+                name: "Artichoke",
+                plantedAt:
+                  dateNow - (CROPS["Artichoke"].harvestSeconds ?? 0) * 1000,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: {
+          type: "crop.harvested",
+          index: firstId,
+        },
+      });
+
+      const crops = state.crops;
+
+      expect(crops[firstId].crop).toBeUndefined();
+      expect(state.inventory.Artichoke).toEqual(new Decimal(3));
+    });
+
     it("gives +0.2 to the yield of Cabbage in AOE range when Scary Mike is placed and ready", () => {
       const state = harvest({
         state: {

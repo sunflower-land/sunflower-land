@@ -399,5 +399,25 @@ describe("castRod", () => {
       });
       expect(limit).toEqual(25);
     });
+
+    it("increases fishing limit by 5 with Reelmaster's Chair", () => {
+      const limit = getDailyFishingLimit({
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+        },
+        collectibles: {
+          "Reelmaster's Chair": [
+            {
+              readyAt: 1,
+              coordinates: { x: 0, y: 0 },
+              createdAt: 1,
+              id: "1",
+            },
+          ],
+        },
+      });
+      expect(limit).toEqual(25);
+    });
   });
 });

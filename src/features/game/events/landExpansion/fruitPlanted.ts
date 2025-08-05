@@ -169,6 +169,12 @@ export const getFruitPatchTime = (
     boostsUsed.push("Banana Onesie");
   }
 
+  // Fruit Tune Box: 20% reduction
+  if (isCollectibleBuilt({ name: "Fruit Tune Box", game })) {
+    seconds = seconds * 0.8;
+    boostsUsed.push("Fruit Tune Box");
+  }
+
   // Lemon Tea Bath: 50% reduction
   if (
     patchFruitSeedName === "Lemon Seed" &&

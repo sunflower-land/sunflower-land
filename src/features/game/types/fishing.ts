@@ -4,6 +4,7 @@ import { isWearableActive } from "../lib/wearables";
 import { translate } from "lib/i18n/translate";
 import { PurchaseOptions } from "./buyOptionPurchaseItem";
 import { Decimal } from "decimal.js-light";
+import { isCollectibleBuilt } from "../lib/collectibleBuilt";
 
 export type PurchaseableBait = "Fishing Lure";
 export type FishingBait = Worm | PurchaseableBait;
@@ -602,6 +603,11 @@ export function getDailyFishingLimit(game: GameState): number {
   // +10 daily limit if player has Angler Waders
   if (isWearableActive({ name: "Angler Waders", game })) {
     limit += 10;
+  }
+
+  // +5 daily limit if player has Reelmaster's Chair
+  if (isCollectibleBuilt({ name: "Reelmaster's Chair", game })) {
+    limit += 5;
   }
 
   if (game.bumpkin?.skills["Fisherman's 5 Fold"]) {
