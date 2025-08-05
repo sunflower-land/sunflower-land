@@ -359,10 +359,10 @@ export const Project: React.FC<ProjectProps> = (input) => {
 
   let image = PROJECT_IMAGES[input.project].empty;
 
-  if (projectPercentage >= 20) {
-    image = PROJECT_IMAGES[input.project].halfway;
-  } else if (projectPercentage >= 100) {
+  if (projectPercentage >= 100) {
     image = PROJECT_IMAGES[input.project].ready;
+  } else if (projectPercentage >= 20) {
+    image = PROJECT_IMAGES[input.project].halfway;
   }
 
   return (
