@@ -1,21 +1,17 @@
 import {
   FLOWER_BOXES,
-  FlowerBox,
   isCollectible,
   isWearable,
 } from "../events/landExpansion/buySeasonalItem";
 import { CHAPTER_TICKET_BOOST_ITEMS } from "../events/landExpansion/completeNPCChore";
 import { getObjectEntries } from "../expansion/lib/utils";
+import { BumpkinItem } from "./bumpkin";
 import { ARTEFACT_SHOP_KEYS } from "./collectibles";
 import { getKeys } from "./decorations";
-import { BB_TO_GEM_RATIO, InventoryItemName, Keys, Wardrobe } from "./game";
-import {
-  MEGASTORE,
-  SeasonalCollectibleName,
-  SeasonalStore,
-  SeasonalWearableName,
-} from "./megastore";
+import { BB_TO_GEM_RATIO, InventoryItemName, Wardrobe } from "./game";
+import { MEGASTORE, SeasonalStore } from "./megastore";
 import { getCurrentSeason } from "./seasons";
+import { BUMPKIN_RELEASES, INVENTORY_RELEASES } from "./withdrawables";
 
 export type ChestReward = {
   items?: Partial<Record<InventoryItemName, number>>;
@@ -35,22 +31,30 @@ export const MEGASTORE_TIER_WEIGHTS: Record<keyof SeasonalStore, number> = {
 };
 
 const currentSeason = getCurrentSeason(new Date());
-export const MEGASTORE_RESTRICTED_ITEMS: (
-  | Keys
-  | SeasonalCollectibleName
-  | SeasonalWearableName
-  | FlowerBox
-)[] = [
+
+export const MEGASTORE_RESTRICTED_ITEMS: (InventoryItemName | BumpkinItem)[] = [
   ...Object.values(CHAPTER_TICKET_BOOST_ITEMS[currentSeason]),
   ...getKeys(FLOWER_BOXES),
   ...getKeys(ARTEFACT_SHOP_KEYS),
+  ...getObjectEntries(BUMPKIN_RELEASES)
+    .filter(([_, wearable]) => !wearable)
+    .map(([wearable]) => wearable),
+  ...getObjectEntries(INVENTORY_RELEASES)
+    .filter(([_, collectible]) => !collectible)
+    .map(([item]) => item),
 ];
 
-export const SEASONAL_REWARDS: (weight: number) => ChestReward[] = (weight) => {
+export const SEASONAL_REWARDS: (
+  weight: number,
+  chestTier: "basic" | "rare" | "luxury",
+) => ChestReward[] = (weight, chestTier) => {
   const store = MEGASTORE[currentSeason];
   const rewards: ChestReward[] = [];
 
   getObjectEntries(MEGASTORE_TIER_WEIGHTS).forEach(([tier, tierWeight]) => {
+    if (chestTier === "basic" && (tier === "mega" || tier === "epic")) return;
+    if (chestTier === "rare" && tier === "mega") return;
+
     const items = store[tier].items;
 
     items.forEach((item) => {
@@ -106,7 +110,7 @@ export const BASIC_REWARDS: () => ChestReward[] = () => [
   { items: { "Blueberry Jam": 3 }, weighting: 100 * CHEST_MULTIPLIER },
   { items: { Rug: 1 }, weighting: 25 * CHEST_MULTIPLIER },
   { items: { "Prize Ticket": 1 }, weighting: 5 * CHEST_MULTIPLIER },
-  ...SEASONAL_REWARDS(5 * CHEST_MULTIPLIER),
+  ...SEASONAL_REWARDS(20 * CHEST_MULTIPLIER, "basic"),
 ];
 
 export const RARE_REWARDS: () => ChestReward[] = () => [
@@ -136,7 +140,7 @@ export const RARE_REWARDS: () => ChestReward[] = () => [
   { items: { "Goblin Brunch": 3 }, weighting: 50 * CHEST_MULTIPLIER },
   { items: { "Bumpkin Roast": 3 }, weighting: 40 * CHEST_MULTIPLIER },
   { items: { "Prize Ticket": 1 }, weighting: 20 * CHEST_MULTIPLIER },
-  ...SEASONAL_REWARDS(25 * CHEST_MULTIPLIER),
+  ...SEASONAL_REWARDS(50 * CHEST_MULTIPLIER, "rare"),
 ];
 
 export const LUXURY_REWARDS: () => ChestReward[] = () => [
@@ -158,7 +162,7 @@ export const LUXURY_REWARDS: () => ChestReward[] = () => [
   { items: { "Goblin Brunch": 10 }, weighting: 25 * CHEST_MULTIPLIER },
   { items: { "Bumpkin Roast": 10 }, weighting: 25 * CHEST_MULTIPLIER },
   { items: { "Prize Ticket": 1 }, weighting: 50 * CHEST_MULTIPLIER },
-  ...SEASONAL_REWARDS(50 * CHEST_MULTIPLIER),
+  ...SEASONAL_REWARDS(50 * CHEST_MULTIPLIER, "luxury"),
 ];
 
 export const BUD_BOX_REWARDS: ChestReward[] = [
