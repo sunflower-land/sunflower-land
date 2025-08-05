@@ -684,7 +684,6 @@ export const INITIAL_FARM: GameState = {
       projects: {},
     },
     cheers: {
-      cheersUsed: 0,
       freeCheersClaimedAt: 0,
     },
     dailyCollections: {},
@@ -1004,7 +1003,6 @@ export const TEST_FARM: GameState = {
       projects: {},
     },
     cheers: {
-      cheersUsed: 0,
       freeCheersClaimedAt: 0,
     },
     dailyCollections: {},
@@ -1173,7 +1171,6 @@ export const EMPTY: GameState = {
       projects: {},
     },
     cheers: {
-      cheersUsed: 0,
       freeCheersClaimedAt: 0,
     },
     dailyCollections: {},

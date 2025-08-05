@@ -1265,44 +1265,14 @@ export function startGame(authContext: AuthContext) {
             {
               target: "cheers",
               cond: (context) => {
-                if (!hasFeatureAccess(context.state, "CHEERS")) return false;
-
                 const now = Date.now();
 
                 const today = new Date(now).toISOString().split("T")[0];
-                const yesterday = new Date(now - 24 * 60 * 60 * 1000)
-                  .toISOString()
-                  .split("T")[0];
 
-                if (
-                  context.state.socialFarming.cheers?.freeCheersClaimedAt >=
+                return (
+                  context.state.socialFarming.cheers?.freeCheersClaimedAt <
                   new Date(today).getTime()
-                ) {
-                  return false;
-                }
-
-                const dayFreeCheersClaimed = new Date(
-                  context.state.socialFarming.cheers?.freeCheersClaimedAt,
-                )
-                  .toISOString()
-                  .split("T")[0];
-
-                const isBetterTogetherStartDate =
-                  new Date(today).getTime() ===
-                  new Date("2025-08-04").getTime();
-
-                // If today is the start date, give 3 regardless of previous day's value
-                const cheersUsedYesterday = isBetterTogetherStartDate
-                  ? 3
-                  : // Otherwise, give the amount of cheers used yesterday, or 3 if cheers wasn't claimed yesterday
-                    Math.min(
-                      dayFreeCheersClaimed === yesterday
-                        ? context.state.socialFarming.cheers?.cheersUsed
-                        : 3,
-                      3,
-                    );
-
-                return cheersUsedYesterday > 0;
+                );
               },
             },
 
