@@ -45,6 +45,7 @@ import { playerSelectionListManager } from "../ui/PlayerSelectionList";
 import { STREAM_REWARD_COOLDOWN } from "../ui/player/StreamReward";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { playerModalManager } from "features/social/lib/playerModalManager";
+import { rewardModalManager } from "features/social/lib/rewardModalManager";
 
 export type NPCBumpkin = {
   x: number;
@@ -391,7 +392,16 @@ export abstract class BaseScene extends Phaser.Scene {
             return;
           }
 
-          playerModalManager.open(players[0]);
+          const player = players[0];
+
+          if (
+            player.clothing?.hat === "Streamer Hat" ||
+            player.clothing?.shirt === "Gift Giver"
+          ) {
+            rewardModalManager.open(player);
+          } else {
+            playerModalManager.open(player);
+          }
           return;
         }
 
@@ -1261,9 +1271,10 @@ export abstract class BaseScene extends Phaser.Scene {
 
         if (
           now - this.lastModalOpenTime > STREAM_REWARD_COOLDOWN &&
+          !rewardModalManager.isOpen &&
           distance < 75
         ) {
-          playerModalManager.open({
+          rewardModalManager.open({
             farmId: player.farmId,
             clothing: player.clothing,
             experience: player.experience,

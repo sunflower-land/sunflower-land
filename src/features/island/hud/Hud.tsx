@@ -22,7 +22,6 @@ import { MarketplaceButton } from "./components/MarketplaceButton";
 import { LandscapeButton } from "./components/LandscapeButton";
 import { StreamCountdown } from "./components/streamCountdown/StreamCountdown";
 import { HudBumpkin } from "./components/bumpkinProfile/HudBumpkin";
-import { hasFeatureAccess } from "lib/flags";
 import { WorldFeedButton } from "features/social/components/WorldFeedButton";
 import classNames from "classnames";
 import { isMobile } from "mobile-device-detect";
@@ -73,9 +72,7 @@ const HudComponent: React.FC<{
 
   return (
     <HudContainer>
-      {hasFeatureAccess(gameState.context.state, "SOCIAL_FARMING") && (
-        <Feed type="local" showFeed={showFeed} setShowFeed={setShowFeed} />
-      )}
+      <Feed type="local" showFeed={showFeed} setShowFeed={setShowFeed} />
       <div
         className={classNames(
           "absolute left-0 top-0 bottom-0 p-2.5 transition-transform duration-200",
@@ -97,9 +94,7 @@ const HudComponent: React.FC<{
           },
         )}
       >
-        {hasFeatureAccess(gameState.context.state, "SOCIAL_FARMING") && (
-          <WorldFeedButton showFeed={showFeed} setShowFeed={setShowFeed} />
-        )}
+        <WorldFeedButton showFeed={showFeed} setShowFeed={setShowFeed} />
         <MarketplaceButton />
         <TravelButton />
       </div>

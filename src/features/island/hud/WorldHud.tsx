@@ -96,14 +96,12 @@ const HudComponent: React.FC<Props> = ({
 
   return (
     <>
-      {hasFeatureAccess(state, "SOCIAL_FARMING") && (
-        <Feed
-          type="world"
-          server={server}
-          showFeed={showFeed}
-          setShowFeed={setShowFeed}
-        />
-      )}
+      <Feed
+        type="world"
+        server={server}
+        showFeed={showFeed}
+        setShowFeed={setShowFeed}
+      />
       <HudContainer>
         <div
           className={classNames(
@@ -135,9 +133,7 @@ const HudComponent: React.FC<Props> = ({
               gameService={gameService}
             />
           )}
-          {hasFeatureAccess(state, "SOCIAL_FARMING") && (
-            <WorldFeedButton showFeed={showFeed} setShowFeed={setShowFeed} />
-          )}
+          <WorldFeedButton showFeed={showFeed} setShowFeed={setShowFeed} />
           <MarketplaceButton />
           <TravelButton />
         </div>

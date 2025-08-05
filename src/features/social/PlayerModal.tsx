@@ -2,7 +2,6 @@
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import React, { useCallback, useEffect, useState } from "react";
 import { Modal } from "components/ui/Modal";
-import giftIcon from "assets/icons/gift.png";
 import cheer from "assets/icons/cheer.webp";
 import followersIcon from "assets/icons/followers.webp";
 import followingIcon from "assets/icons/following.webp";
@@ -10,12 +9,8 @@ import followingIcon from "assets/icons/following.webp";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { GameState } from "features/game/types/game";
 import { AirdropPlayer } from "features/island/hud/components/settings-menu/general-settings/AirdropPlayer";
-import { hasFeatureAccess } from "lib/flags";
-import { ITEM_DETAILS } from "features/game/types/images";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { isMobile } from "mobile-device-detect";
-import { StreamReward } from "features/world/ui/player/StreamReward";
-import { PlayerGift } from "features/world/ui/player/PlayerGift";
 import { ReportPlayer } from "features/world/ui/player/ReportPlayer";
 import { playerModalManager } from "./lib/playerModalManager";
 import { PlayerDetails } from "./components/PlayerDetails";
@@ -29,7 +24,6 @@ import { FollowerFeed } from "./components/FollowerFeed";
 import { FollowList } from "./components/FollowList";
 import { Player } from "./types/types";
 import { usePlayerNavigation } from "./hooks/usePlayerNavigation";
-import { Equipped } from "features/game/types/bumpkin";
 import { CheersGuide } from "./components/CheersGuide";
 
 interface Props {
@@ -108,60 +102,18 @@ export const PlayerModal: React.FC<Props> = ({
 
   const player = data?.data;
 
-  const setInitialTab = useCallback((equipped?: Equipped) => {
-    if (
-      equipped?.hat === "Streamer Hat" &&
-      loggedInFarmId !== currentPlayerId
-    ) {
-      setTab("Stream");
-    } else if (equipped?.shirt === "Gift Giver") {
-      setTab("Reward");
-    } else {
-      setTab("Player");
-    }
-  }, []);
-
-  useEffect(() => {
-    setInitialTab(player?.clothing);
-  }, [currentPlayerId, setInitialTab]);
-
   useEffect(() => {
     playerModalManager.listen((npc) => {
       setInitialPlayer(npc.farmId);
       setShowPlayerModal(true);
-      // Automatically set to Stream tab if player has Streamer Hat and is not current player
-      setInitialTab(npc.clothing as Equipped);
     });
-  }, [loggedInFarmId, setInitialPlayer, setInitialTab]);
-
-  const playerHasGift = player?.clothing?.shirt === "Gift Giver";
-  const playerHasStreamReward = player?.clothing?.hat === "Streamer Hat";
-  const notCurrentPlayer = loggedInFarmId !== currentPlayerId;
+  }, [loggedInFarmId, setInitialPlayer]);
 
   const iAmFollowing = player?.followedBy.includes(loggedInFarmId);
   const theyAreFollowingMe = player?.following.includes(loggedInFarmId);
   const isMutual = iAmFollowing && theyAreFollowingMe;
 
   const isSelf = loggedInFarmId === currentPlayerId;
-
-  // Effect to handle tab switching when player data changes
-  useEffect(() => {
-    if (!player) return;
-
-    // When navigating to a new player (data changes), reset tab state appropriately
-    // This ensures we maintain special tabs based on the new player's attributes
-
-    // Check if current tab is valid for this player
-    const isSpecialTab = tab === "Reward" || tab === "Stream";
-    const hasSpecialTab =
-      (playerHasGift && tab === "Reward") ||
-      (playerHasStreamReward && notCurrentPlayer && tab === "Stream");
-
-    // If we're on a special tab that's not valid for this player, switch to Player tab
-    if (isSpecialTab && !hasSpecialTab) {
-      setTab("Player");
-    }
-  }, [player, playerHasGift, playerHasStreamReward, notCurrentPlayer, tab]);
 
   const handleFollow = async () => {
     setFollowLoading(true);
@@ -222,7 +174,7 @@ export const PlayerModal: React.FC<Props> = ({
               name: t("player"),
               id: "Player",
             },
-            ...(isMobile && !isSelf && hasFeatureAccess(game, "SOCIAL_FARMING")
+            ...(isMobile && !isSelf
               ? [
                   {
                     icon: SUNNYSIDE.icons.expression_chat,
@@ -241,25 +193,6 @@ export const PlayerModal: React.FC<Props> = ({
               name: t("following"),
               id: "Following",
             },
-
-            ...(playerHasGift
-              ? [
-                  {
-                    icon: giftIcon,
-                    name: t("reward"),
-                    id: "Reward",
-                  },
-                ]
-              : []),
-            ...(playerHasStreamReward && notCurrentPlayer
-              ? [
-                  {
-                    icon: ITEM_DETAILS["Love Charm"].image,
-                    name: t("stream"),
-                    id: "Stream",
-                  },
-                ]
-              : []),
             {
               icon: cheer,
               name: t("guide"),
@@ -327,10 +260,6 @@ export const PlayerModal: React.FC<Props> = ({
                   navigateToPlayer={navigateToPlayer}
                 />
               </InnerPanel>
-            )}
-            {tab === "Reward" && <PlayerGift />}
-            {tab === "Stream" && (
-              <StreamReward streamerId={currentPlayerId as number} />
             )}
             {tab === "Guide" && <CheersGuide />}
             <div className="flex items-center p-1 space-x-3 justify-end">
