@@ -249,17 +249,18 @@ export const NPCModals: React.FC<Props> = ({ id }) => {
         {npc === "finley" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "mayor" && <Mayor onClose={closeModal} />}
         {npc === "guria" && <DeliveryPanel npc={npc} onClose={closeModal} />}
-        {npc === "goblet" && hasFeatureAccess(state, "INCINERATOR") ? (
-          <CloseButtonPanel
-            onClose={closeModal}
-            bumpkinParts={NPC_WEARABLES.goblet}
-            container={OuterPanel}
-          >
-            <IncineratorModal />
-          </CloseButtonPanel>
-        ) : (
-          npc && <DeliveryPanel npc={npc} onClose={closeModal} />
-        )}
+        {npc === "goblet" &&
+          (hasFeatureAccess(state, "INCINERATOR") ? (
+            <CloseButtonPanel
+              onClose={closeModal}
+              bumpkinParts={NPC_WEARABLES.goblet}
+              container={OuterPanel}
+            >
+              <IncineratorModal />
+            </CloseButtonPanel>
+          ) : (
+            npc && <DeliveryPanel npc={npc} onClose={closeModal} />
+          ))}
         {npc === "gordo" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {/* Kingdom NPCs */}
         {npc === "barlow" && (
