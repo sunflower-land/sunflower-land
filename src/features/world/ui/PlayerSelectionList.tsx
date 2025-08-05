@@ -16,6 +16,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
+import { rewardModalManager } from "features/social/lib/rewardModalManager";
 
 class PlayerSelectionListManager {
   private listener?: (players: PlayerModalPlayer[]) => void;
@@ -53,7 +54,14 @@ export const PlayerSelectionList: React.FC = () => {
   };
 
   const openPlayerModal = (player: PlayerModalPlayer) => {
-    playerModalManager.open(player);
+    if (
+      player.clothing?.hat === "Streamer Hat" ||
+      player.clothing?.shirt === "Gift Giver"
+    ) {
+      rewardModalManager.open(player);
+    } else {
+      playerModalManager.open(player);
+    }
   };
 
   const playersSortedBySpecialWearables = players.sort((a, b) => {

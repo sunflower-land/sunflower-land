@@ -96,7 +96,11 @@ export const StreamReward: React.FC<{ streamerId: number }> = ({
   }
 
   if (gameState.isFailed) {
-    return <ErrorMessage errorCode={gameState.errorCode as ErrorCode} />;
+    return (
+      <InnerPanel>
+        <ErrorMessage errorCode={gameState.errorCode as ErrorCode} />
+      </InnerPanel>
+    );
   }
 
   return (
