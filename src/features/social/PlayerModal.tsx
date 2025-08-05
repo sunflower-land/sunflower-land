@@ -9,7 +9,6 @@ import followingIcon from "assets/icons/following.webp";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { GameState } from "features/game/types/game";
 import { AirdropPlayer } from "features/island/hud/components/settings-menu/general-settings/AirdropPlayer";
-import { hasFeatureAccess } from "lib/flags";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { isMobile } from "mobile-device-detect";
 import { ReportPlayer } from "features/world/ui/player/ReportPlayer";
@@ -175,7 +174,7 @@ export const PlayerModal: React.FC<Props> = ({
               name: t("player"),
               id: "Player",
             },
-            ...(isMobile && !isSelf && hasFeatureAccess(game, "SOCIAL_FARMING")
+            ...(isMobile && !isSelf
               ? [
                   {
                     icon: SUNNYSIDE.icons.expression_chat,

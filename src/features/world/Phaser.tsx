@@ -7,7 +7,7 @@ import VirtualJoystickPlugin from "phaser3-rex-plugins/plugins/virtualjoystick-p
 import { PhaserNavMeshPlugin } from "phaser-navmesh";
 
 import * as AuthProvider from "features/auth/lib/Provider";
-import { ChatUI, Message } from "features/pumpkinPlaza/components/ChatUI";
+import { Message } from "features/pumpkinPlaza/components/ChatUI";
 
 import { Kicked } from "./ui/moderationTools/components/Kicked";
 import {
@@ -36,12 +36,10 @@ import { Label } from "components/ui/Label";
 import { CommunityModals } from "./ui/CommunityModalManager";
 import { CommunityToasts } from "./ui/CommunityToastManager";
 import { useNavigate } from "react-router";
-import { PlayerModals } from "./ui/player/PlayerModals";
 import { prepareAPI } from "features/community/lib/CommunitySDK";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 
 import SoundOffIcon from "assets/icons/sound_off.png";
-import { handleCommand } from "./lib/chatCommands";
 import { Moderation, UpdateUsernameEvent } from "features/game/lib/gameMachine";
 import { BeachScene } from "./scenes/BeachScene";
 import { Inventory } from "features/game/types/game";
@@ -448,34 +446,6 @@ export const PhaserComponent: React.FC<Props> = ({ mmoService, route }) => {
           </InnerPanel>
         )}
 
-        {!hasFeatureAccess(state, "SOCIAL_FARMING") && (
-          <ChatUI
-            farmId={loggedInFarmId}
-            gameState={state}
-            scene={scene}
-            onMessage={(m) => {
-              mmoService
-                .getSnapshot()
-                .context.server?.send(0, { text: m.text ?? "?" });
-            }}
-            onCommand={(name, args) => {
-              handleCommand(name, args).then(updateMessages);
-            }}
-            messages={messages ?? []}
-            isMuted={isMuted ? true : false}
-            onReact={(reaction) => {
-              mmoService
-                .getSnapshot()
-                .context.server?.send(0, { reaction: { reaction } });
-            }}
-            onBudPlace={(tokenId) => {
-              mmoService
-                .getSnapshot()
-                .context.server?.send(0, { budId: tokenId });
-            }}
-          />
-        )}
-
         <CommunityToasts />
 
         {mmoState === "connecting" && (
@@ -516,16 +486,12 @@ export const PhaserComponent: React.FC<Props> = ({ mmoService, route }) => {
 
       <NPCModals id={loggedInFarmId} />
       <PlayerSelectionList />
-      {hasFeatureAccess(state, "SOCIAL_FARMING") ? (
-        <PlayerModal
-          game={state}
-          loggedInFarmId={loggedInFarmId}
-          token={rawToken}
-          hasAirdropAccess={hasFeatureAccess(state, "AIRDROP_PLAYER")}
-        />
-      ) : (
-        <PlayerModals game={state} farmId={loggedInFarmId} />
-      )}
+      <PlayerModal
+        game={state}
+        loggedInFarmId={loggedInFarmId}
+        token={rawToken}
+        hasAirdropAccess={hasFeatureAccess(state, "AIRDROP_PLAYER")}
+      />
       <RewardModal />
       <CommunityModals />
       <InteractableModals id={loggedInFarmId} scene={scene} key={scene} />

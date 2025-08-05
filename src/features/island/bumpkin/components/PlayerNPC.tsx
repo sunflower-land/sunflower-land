@@ -8,7 +8,6 @@ import { useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { PlayerModals } from "features/world/ui/player/PlayerModals";
 import { useVisiting } from "lib/utils/visitUtils";
 import { Context as AuthContext } from "features/auth/lib/Provider";
 import {
@@ -82,20 +81,12 @@ export const PlayerNPC: React.FC<NPCProps> = ({ parts: bumpkinParts }) => {
       )}
 
       <NPCModal isOpen={open} onClose={() => setOpen(false)} />
-      {hasFeatureAccess(context.state, "SOCIAL_FARMING") ? (
-        <PlayerModal
-          game={context.state}
-          loggedInFarmId={loggedInFarmId}
-          token={token}
-          hasAirdropAccess={hasAirdropAccess}
-        />
-      ) : (
-        <PlayerModals
-          game={context.state}
-          farmId={loggedInFarmId}
-          isOpen={open}
-        />
-      )}
+      <PlayerModal
+        game={context.state}
+        loggedInFarmId={loggedInFarmId}
+        token={token}
+        hasAirdropAccess={hasAirdropAccess}
+      />
     </>
   );
 };
