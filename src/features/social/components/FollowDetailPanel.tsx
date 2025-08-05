@@ -66,7 +66,7 @@ export const FollowDetailPanel: React.FC<Props> = ({
         </div>
         <div className="flex flex-col gap-0.5">
           <div className="flex flex-col justify-center gap-1">
-            <div>{isYou ? `${t("you")}` : username}</div>
+            <div className="text-xs">{isYou ? `${t("you")}` : username}</div>
             {!isOnline ? (
               <div className="text-xxs">
                 {t("social.lastOnline", { time: lastOnline })}

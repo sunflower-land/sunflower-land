@@ -119,7 +119,7 @@ export const VisitingHud: React.FC = () => {
         <BinGuide onClose={() => setShowBinGuide(false)} />
       </Modal>
       {!gameState.matches("landToVisitNotFound") && (
-        <InnerPanel className="fixed px-2 pt-1 pb-2 bottom-2 left-1/2 -translate-x-1/2 z-50 flex flex-row">
+        <InnerPanel className="absolute px-2 pt-1 pb-2 bottom-2 left-1/2 -translate-x-1/2 z-50 flex flex-row">
           <div className="flex flex-col p-0.5">
             <div className="flex items-center space-x-1">
               <NPCIcon
@@ -202,17 +202,6 @@ export const VisitingHud: React.FC = () => {
         </Label>
       </div>
       <div className="absolute bottom-0 p-2 right-0 flex flex-col space-y-2.5">
-        <Settings isFarming={false} />
-      </div>
-      <div
-        className="fixed z-50"
-        style={{
-          right: `${PIXEL_SCALE * 3}px`,
-          bottom: `${PIXEL_SCALE * 28}px`,
-          width: `${PIXEL_SCALE * 22}px`,
-          height: `${PIXEL_SCALE * 23}px`,
-        }}
-      >
         <RoundButton
           onClick={(e) => {
             e.stopPropagation();
@@ -242,16 +231,9 @@ export const VisitingHud: React.FC = () => {
             />
           )}
         </RoundButton>
+        <Settings isFarming={false} />
       </div>
-      <div
-        className="fixed z-50"
-        style={{
-          left: `${PIXEL_SCALE * 3}px`,
-          bottom: `${PIXEL_SCALE * 3}px`,
-          width: `${PIXEL_SCALE * 22}px`,
-          height: `${PIXEL_SCALE * 23}px`,
-        }}
-      >
+      <div className="absolute bottom-0 p-2.5 left-0 flex flex-col space-y-2.5">
         <RoundButton
           onClick={(e) => {
             e.stopPropagation();
