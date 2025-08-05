@@ -235,10 +235,10 @@ export const landscapingMachine = createMachine<
               })),
             },
             onError: {
-              actions: (_, event) => {
-                // eslint-disable-next-line no-console
-                console.error(event);
-              },
+              actions: sendParent((_, event) => ({
+                type: "SAVE_ERROR",
+                data: event.data,
+              })),
             },
           },
         },

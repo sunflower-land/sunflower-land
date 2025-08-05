@@ -305,6 +305,7 @@ export type BlockchainEvent =
   | PostEffectEvent
   | { type: "EXPAND" }
   | { type: "SAVE_SUCCESS" }
+  | { type: "SAVE_ERROR" }
   | { type: "UPGRADE" }
   | { type: "CLOSE" }
   | { type: "RANDOMISE" }
@@ -2401,6 +2402,10 @@ export function startGame(authContext: AuthContext) {
               actions: assign((context: Context, event: any) =>
                 handleSuccessfulSave(context, event),
               ),
+            },
+            SAVE_ERROR: {
+              target: "error",
+              actions: "assignErrorMessage",
             },
           },
         },
