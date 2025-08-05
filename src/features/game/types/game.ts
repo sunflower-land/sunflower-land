@@ -1504,6 +1504,42 @@ export type BoostName =
 
 export type BoostUsedAt = Partial<Record<BoostName, number>>;
 
+type ClutterCoordinates = {
+  type: ClutterName;
+} & Coordinates;
+
+type ClutterCollection = {
+  collectedAt: number;
+  type: ClutterName;
+};
+
+type DailyCollection = {
+  pointGivenAt?: number;
+  clutter: { [clutterId: string]: ClutterCollection };
+};
+
+export type SocialFarming = {
+  points: number;
+  villageProjects: Partial<Record<MonumentName, { cheers: number }>>;
+  cheersGiven: {
+    date: string;
+    projects: Partial<Record<MonumentName, number[]>>;
+    farms: number[];
+  };
+  cheers: {
+    freeCheersClaimedAt: number;
+  };
+  binIncrease?: {
+    boughtAt: number[];
+  };
+  dailyCollections?: { [farmId: number]: DailyCollection };
+  caughtPests?: { [farmId: number]: string[] };
+  clutter?: {
+    spawnedAt: number;
+    locations: { [clutterId: string]: ClutterCoordinates };
+  };
+};
+
 export interface GameState {
   home: Home;
   bank: Bank;
@@ -1791,46 +1827,7 @@ export interface GameState {
   blessing: Blessing;
 
   aoe: AOE;
-  socialFarming: {
-    points: number;
-    villageProjects: Partial<Record<MonumentName, { cheers: number }>>;
-    cheersGiven: {
-      date: string;
-      projects: Partial<Record<MonumentName, number[]>>;
-      farms: number[];
-    };
-    cheers: {
-      freeCheersClaimedAt: number;
-    };
-    dailyCollections?: Record<
-      number,
-      {
-        pointGivenAt?: number;
-        clutter: Record<
-          string,
-          {
-            collectedAt: number;
-            type: ClutterName;
-          }
-        >;
-      }
-    >;
-    caughtPests?: Record<number, string[]>;
-    clutter?: {
-      spawnedAt: number;
-      locations: Record<
-        string,
-        {
-          type: ClutterName;
-          x: number;
-          y: number;
-        }
-      >;
-    };
-    binIncrease?: {
-      boughtAt: number[];
-    };
-  };
+  socialFarming: SocialFarming;
 }
 
 export type AOE = Partial<
