@@ -974,6 +974,28 @@ describe("mineGold", () => {
     });
   });
 
+  it("applies a boost of -10% recovery time when Pickaxe Shark is equipped", () => {
+    const now = Date.now();
+    const time = getMinedAt({
+      game: {
+        ...INITIAL_FARM,
+        bumpkin: {
+          ...INITIAL_FARM.bumpkin,
+          equipped: {
+            ...INITIAL_FARM.bumpkin.equipped,
+            tool: "Pickaxe Shark",
+          },
+        },
+      },
+      createdAt: now,
+    });
+
+    expect(time).toEqual({
+      time: now - GOLD_RECOVERY_TIME * 1000 * 0.15,
+      boostsUsed: ["Pickaxe Shark"],
+    });
+  });
+
   it("does not apply an Ore Hourglass boost if expired", () => {
     const now = Date.now();
     const fourHoursAgo = now - 4 * 60 * 60 * 1000;
