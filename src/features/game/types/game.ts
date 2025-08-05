@@ -1828,6 +1828,9 @@ export interface GameState {
         }
       >;
     };
+    binIncrease?: {
+      boughtAt: number[];
+    };
   };
 }
 

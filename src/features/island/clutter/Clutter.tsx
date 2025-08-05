@@ -9,10 +9,7 @@ import {
 import { ITEM_DETAILS } from "features/game/types/images";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
-import {
-  TRASH_BIN_DAILY_LIMIT,
-  TRASH_BIN_FARM_LIMIT,
-} from "features/game/events/landExpansion/collectClutter";
+import { TRASH_BIN_FARM_LIMIT } from "features/game/events/landExpansion/collectClutter";
 import classNames from "classnames";
 import { InnerPanel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -20,6 +17,7 @@ import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { FarmCleaned } from "../hud/components/FarmCleaned";
 import { hasFeatureAccess } from "lib/flags";
+import { getBinLimit } from "features/game/events/landExpansion/increaseBinLimit";
 import sparkle from "public/world/sparkle2.gif";
 
 interface Props {
@@ -89,9 +87,12 @@ export const Clutter: React.FC<Props> = ({ id, type }) => {
     }
   };
 
+  const binLimit = getBinLimit({
+    game: gameService.state.context.visitorState!,
+  });
+
   const disableCollection =
-    (getTrashBinItems(gameService.state) >= TRASH_BIN_DAILY_LIMIT &&
-      type in FARM_GARBAGE) ||
+    (getTrashBinItems(gameService.state) >= binLimit && type in FARM_GARBAGE) ||
     (type in FARM_PEST &&
       (!inventory?.["Pest Net"] || inventory?.["Pest Net"]?.lt(1)));
 

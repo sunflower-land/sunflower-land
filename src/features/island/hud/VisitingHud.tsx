@@ -21,7 +21,6 @@ import { Label } from "components/ui/Label";
 import { getTrashBinItems, hasCleanedToday } from "../clutter/Clutter";
 import {
   getCollectedGarbage,
-  TRASH_BIN_DAILY_LIMIT,
   TRASH_BIN_FARM_LIMIT,
 } from "features/game/events/landExpansion/collectClutter";
 import garbageBin from "assets/sfts/garbage_bin.webp";
@@ -34,6 +33,7 @@ import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { FarmCleaned } from "./components/FarmCleaned";
 import { BinGuide } from "./components/BinGuide";
+import { getBinLimit } from "features/game/events/landExpansion/increaseBinLimit";
 
 const _cheers = (state: MachineState) => {
   return state.context.visitorState?.inventory["Cheer"] ?? new Decimal(0);
@@ -95,6 +95,10 @@ export const VisitingHud: React.FC = () => {
   const displayId =
     gameState.context.state.username ?? gameState.context.farmId;
 
+  const binLimit = getBinLimit({
+    game: gameState.context.visitorState!,
+  });
+
   return (
     <HudContainer>
       <Modal show={showVisitorGuide} onHide={() => setShowVisitorGuide(false)}>
@@ -112,9 +116,7 @@ export const VisitingHud: React.FC = () => {
         </CloseButtonPanel>
       </Modal>
       <Modal show={showBinGuide}>
-        <CloseButtonPanel>
-          <BinGuide onClose={() => setShowBinGuide(false)} />
-        </CloseButtonPanel>
+        <BinGuide onClose={() => setShowBinGuide(false)} />
       </Modal>
       {!gameState.matches("landToVisitNotFound") && (
         <InnerPanel className="fixed px-2 pt-1 pb-2 bottom-2 left-1/2 -translate-x-1/2 z-50 flex flex-row">
@@ -185,12 +187,8 @@ export const VisitingHud: React.FC = () => {
             }}
           />
           <div className="w-full absolute -bottom-3 left-0 flex items-center justify-center">
-            <Label
-              type={
-                trashBinItems >= TRASH_BIN_DAILY_LIMIT ? "danger" : "default"
-              }
-            >
-              {`${trashBinItems}/${TRASH_BIN_DAILY_LIMIT}`}
+            <Label type={trashBinItems >= binLimit ? "danger" : "default"}>
+              {`${trashBinItems}/${binLimit}`}
             </Label>
           </div>
         </RoundButton>

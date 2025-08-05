@@ -330,6 +330,7 @@ export const VIPItems: React.FC<{ onBack?: () => void }> = ({ onBack }) => {
               }),
               icon: increaseArrow,
             },
+            { text: t("vip.benefit.cheers"), icon: ITEM_DETAILS.Cheer.image },
             { text: t("vip.benefit.competition"), icon: trophyIcon },
             ...(getCurrentSeason() === "Winds of Change"
               ? [
