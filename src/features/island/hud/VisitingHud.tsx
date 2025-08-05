@@ -115,7 +115,7 @@ export const VisitingHud: React.FC = () => {
           <FarmCleaned />
         </CloseButtonPanel>
       </Modal>
-      <Modal show={showBinGuide}>
+      <Modal show={showBinGuide} onHide={() => setShowBinGuide(false)}>
         <BinGuide onClose={() => setShowBinGuide(false)} />
       </Modal>
       {!gameState.matches("landToVisitNotFound") && (
