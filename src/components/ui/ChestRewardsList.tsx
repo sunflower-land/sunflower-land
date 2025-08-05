@@ -54,7 +54,7 @@ const RewardRow: React.FC<{
 };
 
 const isStoreChapterItem = (rewardName: string) => {
-  return SEASONAL_REWARDS(BASIC_SEASONAL_REWARDS_WEIGHT).some(
+  return SEASONAL_REWARDS(BASIC_SEASONAL_REWARDS_WEIGHT, "luxury").some(
     (reward) =>
       (reward.items && Object.keys(reward.items).includes(rewardName)) ||
       (reward.wearables && Object.keys(reward.wearables).includes(rewardName)),
