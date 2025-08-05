@@ -534,6 +534,7 @@ import {
   increaseBinLimit,
   IncreaseBinLimitAction,
 } from "./landExpansion/increaseBinLimit";
+import { burnClutter, BurnClutterAction } from "./landExpansion/burnClutter";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
@@ -680,7 +681,8 @@ export type PlayingEvent =
   | ApplyBiomeAction
   | WakeUpAnimalAction
   | ClaimCheersAction
-  | CompleteProjectAction;
+  | CompleteProjectAction
+  | BurnClutterAction;
 
 export type VisitingEvent =
   | CollectClutterAction
@@ -915,6 +917,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "animal.wakeUp": wakeAnimal,
   "cheers.claimed": claimDailyCheers,
   "project.completed": completeProject,
+  "clutter.burned": burnClutter,
 };
 
 export const VISITING_EVENTS: Handlers<VisitingEvent> = {

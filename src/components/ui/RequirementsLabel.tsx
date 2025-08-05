@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
+import React, { useContext } from "react";
+import { useActor } from "@xstate/react";
 import { InventoryItemName } from "features/game/types/game";
-import React from "react";
 import { LABEL_STYLES, Label } from "./Label";
 import { SquareIcon } from "./SquareIcon";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -16,6 +17,9 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { KNOWN_IDS } from "features/game/types";
+import cheer from "assets/icons/cheer.webp";
+import { CLUTTER, ClutterName } from "features/game/types/clutter";
+import { Context } from "features/game/GameProvider";
 
 /**
  * The props for FLOWER requirement label. Use this when the item costs FLOWER.
@@ -165,6 +169,12 @@ interface OtherProps {
   requirement: number;
 }
 
+interface SellCheerProps {
+  type: "sellForCheer";
+  requirement: number;
+  clutterItem: ClutterName;
+}
+
 /**
  * The default props.
  * @param className The class name for the label.
@@ -191,6 +201,7 @@ type Props = (
   | HarvestsProps
   | SkillPointsProps
   | OtherProps
+  | SellCheerProps
 ) &
   defaultProps;
 
@@ -200,10 +211,18 @@ type Props = (
  * @props The component props.
  */
 export const RequirementLabel: React.FC<Props> = (props) => {
+  const { gameService } = useContext(Context);
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
   const { t } = useAppTranslation();
 
   const getIcon = () => {
     switch (props.type) {
+      case "sellForCheer":
+        return cheer;
       case "coins":
       case "sellForCoins":
         return coins;
@@ -239,7 +258,8 @@ export const RequirementLabel: React.FC<Props> = (props) => {
       case "sellForCoins":
       case "sellForGems":
       case "sellForItem":
-        return `${formatNumber(props.requirement)}`;
+      case "sellForCheer":
+        return `${formatNumber(props.requirement)}x`;
       case "sfl":
         return `${props.requirement.toNumber()}`;
       case "sellForSfl": {
@@ -297,6 +317,10 @@ export const RequirementLabel: React.FC<Props> = (props) => {
       case "item":
         return (
           !props.requirement.lte(0) && props.balance.gte(props.requirement)
+        );
+      case "sellForCheer":
+        return state.inventory[props.clutterItem]?.gte(
+          CLUTTER[props.clutterItem].sellUnit,
         );
       case "wearable":
         return props.balance > 0;

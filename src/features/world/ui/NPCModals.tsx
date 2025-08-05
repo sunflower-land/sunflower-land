@@ -36,6 +36,7 @@ import { ObsidianExchange } from "./infernos/ObsidianExchange";
 import { PortalChooser } from "./portals/PortalChooser";
 import { Rocketman } from "./npcs/Rocketman";
 import { MegaBountyBoard } from "./flowerShop/MegaBountyBoard";
+import { IncineratorModal } from "features/goblins/incinerator";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -239,7 +240,15 @@ export const NPCModals: React.FC<Props> = ({ id }) => {
         {npc === "finley" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "mayor" && <Mayor onClose={closeModal} />}
         {npc === "guria" && <DeliveryPanel npc={npc} onClose={closeModal} />}
-        {npc === "goblet" && <DeliveryPanel npc={npc} onClose={closeModal} />}
+        {npc === "goblet" && (
+          <CloseButtonPanel
+            onClose={closeModal}
+            bumpkinParts={NPC_WEARABLES.goblet}
+            container={OuterPanel}
+          >
+            <IncineratorModal />
+          </CloseButtonPanel>
+        )}
         {npc === "gordo" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {/* Kingdom NPCs */}
         {npc === "barlow" && (
