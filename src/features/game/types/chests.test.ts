@@ -19,18 +19,24 @@ describe("SEASONAL_REWARDS", () => {
   const rewardTypes: {
     rewards: ChestReward[];
     weight: number;
+    chestTier: "basic" | "rare" | "luxury";
   }[] = [
-    { rewards: BASIC_REWARDS(), weight: 5 },
-    { rewards: RARE_REWARDS(), weight: 25 },
-    { rewards: LUXURY_REWARDS(), weight: 50 },
+    { rewards: BASIC_REWARDS(), weight: 20, chestTier: "basic" },
+    { rewards: RARE_REWARDS(), weight: 50, chestTier: "rare" },
+    { rewards: LUXURY_REWARDS(), weight: 50, chestTier: "luxury" },
   ];
 
   it("includes seasonal megastore items in all reward types with correct tier-based weightings", () => {
     const store = MEGASTORE[currentSeason];
 
-    rewardTypes.forEach(({ rewards, weight }) => {
-      // Test all tiers
+    rewardTypes.forEach(({ rewards, weight, chestTier }) => {
+      // Test tiers based on chest tier filtering
       Object.entries(MEGASTORE_TIER_WEIGHTS).forEach(([tier, tierWeight]) => {
+        // Apply the same filtering logic as SEASONAL_REWARDS
+        if (chestTier === "basic" && (tier === "mega" || tier === "epic"))
+          return;
+        if (chestTier === "rare" && tier === "mega") return;
+
         const tierItems = store[tier as keyof SeasonalStore].items;
 
         // For each item in the tier, verify it exists in rewards with correct weighting
