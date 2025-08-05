@@ -9,7 +9,7 @@ import { PlaceableContainer } from "../containers/PlaceableContainer";
 import { budImageDomain } from "features/island/collectibles/components/Bud";
 import { SOUNDS } from "assets/sound-effects/soundEffects";
 import { NPCName } from "lib/npcs";
-import { FactionName, TemperateSeasonName } from "features/game/types/game";
+import { FactionName } from "features/game/types/game";
 import { translate } from "lib/i18n/translate";
 import { capitalize } from "lib/utils/capitalize";
 import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
@@ -183,22 +183,21 @@ export class PlazaScene extends BaseScene {
     this.load.image("luxury_key_disc", "world/luxury_key_disc.png");
 
     // Stella Megastore items
-    this.load.image("giant_zucchini", "world/giant_zucchini.webp");
+    this.load.image("fruit_tune_box", "world/fruit_tune_box.webp");
+    // this.load.image("flower_mask", "world/flower_mask.png");
 
     // Auction Items
-    this.load.image("golden_sheep", "world/golden_sheep.webp");
-    this.load.image("obsidian_turtle", "world/obsidian_turtle.webp");
-    this.load.image("quarry", "world/quarry.webp");
-    this.load.image("winter_guardian", "world/winter_guardian.webp");
-    this.load.image("autumn_guardian", "world/autumn_guardian.webp");
-    this.load.image("summer_guardian", "world/summer_guardian.webp");
-    this.load.image("spring_guardian", "world/spring_guardian.webp");
-    this.load.image("broccoli_hat", "world/broccoli_hat.webp");
-
-    this.load.image("flower_mask", "world/flower_mask.png");
+    this.load.image("groovy_gramophone", "world/groovy_gramophone.webp");
+    this.load.image("oil_gallon", "world/oil_gallon.webp");
+    this.load.image("giant_onion", "world/giant_onion.webp");
+    this.load.image("giant_turnip", "world/giant_turnip.webp");
+    this.load.image("lava_swimwear", "world/lava_swimwear.webp");
 
     this.load.image("ronin_banner", "world/ronin_banner.webp");
-    this.load.image("great_bloom_banner", "world/great_bloom_banner.webp");
+    this.load.image(
+      "better_together_banner",
+      "world/better_together_banner.webp",
+    );
 
     this.load.spritesheet("glint", "world/glint.png", {
       frameWidth: 7,
@@ -545,16 +544,16 @@ export class PlazaScene extends BaseScene {
       });
 
     // Banner
-    this.add.image(400, 225, "great_bloom_banner").setDepth(225);
+    this.add.image(400, 225, "better_together_banner").setDepth(225);
     // .setInteractive({ cursor: "pointer" })
     // .on("pointerdown", () => {
     //   interactableModalManager.open(banner);
     // });
-    this.add.image(464, 225, "great_bloom_banner").setDepth(225);
+    this.add.image(464, 225, "better_together_banner").setDepth(225);
 
-    this.add.image(480, 386, "great_bloom_banner").setDepth(386);
+    this.add.image(480, 386, "better_together_banner").setDepth(386);
 
-    this.add.sprite(385, 386, "great_bloom_banner").setDepth(386);
+    this.add.sprite(385, 386, "better_together_banner").setDepth(386);
 
     // Ronin Banner
     this.add.sprite(400, 150, "ronin_banner").setDepth(150);
@@ -631,12 +630,12 @@ export class PlazaScene extends BaseScene {
         }
       });
 
-    this.add.image(248, 244, "giant_zucchini");
+    this.add.image(250, 244, "fruit_tune_box");
 
-    this.add.image(288.5, 250, "flower_mask");
+    // this.add.image(288.5, 250, "flower_mask");
 
     if (this.textures.exists("sparkle")) {
-      const sparkle = this.add.sprite(564, 191, "sparkle");
+      const sparkle = this.add.sprite(567, 191, "sparkle");
       sparkle.setDepth(1000000);
 
       this.anims.create({
@@ -649,16 +648,16 @@ export class PlazaScene extends BaseScene {
         frameRate: 6,
       });
 
-      const sparkle2 = this.add.sprite(595, 205, "sparkle");
+      const sparkle2 = this.add.sprite(589, 205.5, "sparkle");
       sparkle2.setDepth(1000000);
 
-      const sparkle3 = this.add.sprite(601, 181, "sparkle");
+      const sparkle3 = this.add.sprite(599, 181, "sparkle");
       sparkle3.setDepth(1000000);
 
-      const sparkle4 = this.add.sprite(615, 205, "sparkle");
+      const sparkle4 = this.add.sprite(612, 204, "sparkle");
       sparkle4.setDepth(1000000);
 
-      const sparkle5 = this.add.sprite(635, 191, "sparkle");
+      const sparkle5 = this.add.sprite(634, 191, "sparkle");
       sparkle5.setDepth(1000000);
 
       sparkle.play(`sparkel_anim`, true);
@@ -668,30 +667,20 @@ export class PlazaScene extends BaseScene {
       sparkle5.play(`sparkel_anim`, true);
     }
 
-    // NFT Guardian Changes depending on Season
-    const Guardian: Record<TemperateSeasonName, string> = {
-      spring: "spring_guardian",
-      summer: "summer_guardian",
-      autumn: "autumn_guardian",
-      winter: "winter_guardian",
-    };
-
-    const guardian = Guardian[season];
-
     // Change image every chapter change
-    const nft1 = this.add.image(567, 191, "quarry");
+    const nft1 = this.add.image(567, 191, "giant_onion");
     nft1.setDepth(191);
 
-    const nft2 = this.add.image(595, 205, "obsidian_turtle");
-    nft2.setDepth(205);
+    const nft2 = this.add.image(589, 205.5, "oil_gallon");
+    nft2.setScale(0.35).setDepth(205);
 
-    const nft3 = this.add.image(601, 181, "golden_sheep");
+    const nft3 = this.add.image(601, 181, "groovy_gramophone");
     nft3.setDepth(181);
 
-    const nft4 = this.add.image(615, 205, "broccoli_hat");
-    nft4.setDepth(205);
+    const nft4 = this.add.image(612, 205, "lava_swimwear");
+    nft4.setScale(0.12).setDepth(205);
 
-    const nft5 = this.add.image(635, 191, guardian);
+    const nft5 = this.add.image(635, 191, "giant_turnip");
     nft5.setDepth(181);
 
     const door = this.colliders
