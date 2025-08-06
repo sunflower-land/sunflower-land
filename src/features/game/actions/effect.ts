@@ -42,7 +42,8 @@ type EffectName =
   | "farm.followed"
   | "farm.unfollowed"
   | "message.sent"
-  | "farm.cheered";
+  | "farm.cheered"
+  | "project.completed";
 
 type VisitEffectName = "villageProject.cheered" | "farm.cleaned";
 
@@ -91,7 +92,8 @@ export type StateMachineStateName =
   | "linkingWallet"
   | "assigningNFT"
   | "cheeringFarm"
-  | "followingFarm";
+  | "followingFarm"
+  | "completingProject";
 
 export type StateMachineVisitStateName =
   | "cheeringVillageProject"
@@ -136,6 +138,7 @@ export const STATE_MACHINE_EFFECTS: Record<
   "nft.assigned": "assigningNFT",
   "farm.cheered": "cheeringFarm",
   "farm.followed": "followingFarm",
+  "project.completed": "completingProject",
 };
 
 export const STATE_MACHINE_VISIT_EFFECTS: Record<

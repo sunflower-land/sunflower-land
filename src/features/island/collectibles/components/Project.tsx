@@ -4,7 +4,7 @@ import { useVisiting } from "lib/utils/visitUtils";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import cheer from "assets/icons/cheer.webp";
-import { Context } from "features/game/GameProvider";
+import { Context, useGame } from "features/game/GameProvider";
 import { LiveProgressBar, ProgressBar } from "components/ui/ProgressBar";
 import { ButtonPanel, Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
@@ -16,7 +16,12 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import Decimal from "decimal.js-light";
 import classNames from "classnames";
-import { MonumentName } from "features/game/types/monuments";
+import {
+  getMonumentBoostedAmount,
+  getMonumentRewards,
+  MonumentName,
+  REQUIRED_CHEERS,
+} from "features/game/types/monuments";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import {
   SFTDetailPopoverInnerPanel,
@@ -25,12 +30,9 @@ import {
 import chest from "assets/icons/chest.png";
 import { Box } from "components/ui/Box";
 import { formatNumber } from "lib/utils/formatNumber";
-import {
-  getLoveCharmBoost,
-  REQUIRED_CHEERS,
-  REWARD_ITEMS,
-} from "features/game/events/landExpansion/completeProject";
+
 import { GameState } from "features/game/types/game";
+import { hasFeatureAccess } from "lib/flags";
 
 import farmerMonumentOne from "assets/monuments/shovel_monument_stage_1.webp";
 import farmerMonumentTwo from "assets/monuments/shovel_monument_stage_2.webp";
@@ -46,6 +48,12 @@ import basicCookingPotOne from "assets/monuments/basic_cooking_pot_stage_1.webp"
 import expertCookingPotOne from "assets/monuments/expert_cooking_pot_stage_1.webp";
 
 import advancedCookingPotOne from "assets/monuments/advanced_cooking_pot_stage_1.webp";
+import { getPlayer } from "features/social/actions/getPlayer";
+import { useAuth } from "features/auth/lib/Provider";
+import { Player } from "features/social/types/types";
+import { NPCIcon } from "features/island/bumpkin/components/NPC";
+import { Loading } from "features/auth/components";
+import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 
 export const PROJECT_IMAGES: Record<
   MonumentName,
@@ -118,6 +126,7 @@ export const CheerModal: React.FC<{
   cheersAvailable: Decimal;
 }> = ({ project, cheers, username, onClose, onCheer, cheersAvailable }) => {
   const { t } = useAppTranslation();
+  const { gameService } = useGame();
 
   const hasCheersAvailable = cheersAvailable.gt(0);
 
@@ -138,12 +147,25 @@ export const CheerModal: React.FC<{
         </Label>
       </div>
       <div className="p-2 text-xs flex flex-col gap-2">
-        <span>
-          {t("cheer.village.project.description", {
-            project,
-            username,
-          })}
-        </span>
+        {hasFeatureAccess(
+          gameService.getSnapshot().context.visitorState!,
+          "CHEERS_V2",
+        ) ? (
+          <span>
+            {t("cheer.village.project.description.charm", {
+              project,
+              username,
+            })}
+          </span>
+        ) : (
+          <span>
+            {t("cheer.village.project.description", {
+              project,
+              username,
+            })}
+          </span>
+        )}
+
         <span>
           {t("cheer.village.project.confirm", {
             project,
@@ -169,14 +191,56 @@ const ProjectModal: React.FC<{
 }> = ({ project, onClose, onComplete, cheers, state }) => {
   const { t } = useAppTranslation();
 
-  const rewardItem = REWARD_ITEMS[project];
+  const { gameService } = useGame();
+  const { authService } = useAuth();
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [winner, setWinner] = useState<Player>();
+
+  const rewards = getMonumentRewards({ state, monument: project });
+
+  const rewardItem = rewards[project];
 
   let amount = rewardItem?.amount ?? 0;
   if (rewardItem?.item === "Love Charm") {
-    amount += getLoveCharmBoost(state, amount);
+    amount = getMonumentBoostedAmount({ gameState: state, amount });
   }
 
   const isProjectComplete = cheers >= REQUIRED_CHEERS[project];
+
+  useEffect(() => {
+    const winnerId = state.socialFarming.villageProjects[project]?.winnerId;
+
+    const load = async () => {
+      setIsLoading(true);
+
+      const winner = await getPlayer({
+        token: authService.getSnapshot().context.user.rawToken!,
+        farmId: gameService.getSnapshot().context.farmId,
+        followedPlayerId: winnerId!,
+      });
+
+      setIsLoading(false);
+
+      setWinner(winner);
+    };
+
+    if (
+      isProjectComplete &&
+      winnerId &&
+      hasFeatureAccess(gameService.getSnapshot().context.state, "CHEERS_V2")
+    ) {
+      load();
+    }
+  }, [isProjectComplete]);
+
+  if (isLoading) {
+    return (
+      <Panel>
+        <Loading />
+      </Panel>
+    );
+  }
 
   return (
     <Panel>
@@ -206,6 +270,35 @@ const ProjectModal: React.FC<{
         </span>
       </div>
 
+      {hasFeatureAccess(state, "CHEERS_V2") &&
+        isProjectComplete &&
+        !!winner && (
+          <>
+            <div className="flex justify-between flex-wrap">
+              <Label
+                type="chill"
+                icon={SUNNYSIDE.icons.heart}
+                className="mb-1 ml-2"
+              >
+                {t("project.friendBonus")}
+              </Label>
+              <div className="flex items-center mr-4">
+                <NPCIcon
+                  width={20}
+                  parts={winner?.data?.clothing as BumpkinParts}
+                />
+                <div className="ml-1">
+                  <p className="text-xs">{winner.data?.username}</p>
+                </div>
+              </div>
+            </div>
+
+            <p className="text-xs ml-2 mb-2">
+              {t("project.friendBonus.description")}
+            </p>
+          </>
+        )}
+
       <Label type="warning" icon={chest} className="mb-1 ml-2">
         {t("reward")}
       </Label>
@@ -214,9 +307,7 @@ const ProjectModal: React.FC<{
         <ButtonPanel className="flex items-start cursor-context-menu hover:brightness-100 mb-1">
           <Box
             image={
-              REWARD_ITEMS[project]?.item
-                ? ITEM_DETAILS[rewardItem.item].image
-                : chest
+              rewardItem?.item ? ITEM_DETAILS[rewardItem.item].image : chest
             }
             className="-mt-2 -ml-1 -mb-1"
           />
@@ -300,6 +391,8 @@ export const Project: React.FC<ProjectProps> = (input) => {
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
 
+  const { authService } = useAuth();
+
   const projectCheers = useSelector(gameService, _cheers(input.project));
   const cheersAvailable = useSelector(gameService, _cheersAvailable);
   const hasCheeredProjectToday = useSelector(
@@ -345,9 +438,11 @@ export const Project: React.FC<ProjectProps> = (input) => {
 
   const handleComplete = async () => {
     try {
-      gameService.send({
-        type: "project.completed",
-        project: input.project,
+      gameService.send("project.completed", {
+        effect: {
+          type: "project.completed",
+          project: input.project,
+        },
       });
     } catch (error) {
       // eslint-disable-next-line no-console

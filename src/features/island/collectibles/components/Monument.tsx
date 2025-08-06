@@ -16,13 +16,12 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import Decimal from "decimal.js-light";
 import classNames from "classnames";
-import { MonumentName } from "features/game/types/monuments";
+import { MonumentName, REQUIRED_CHEERS } from "features/game/types/monuments";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import {
   SFTDetailPopoverInnerPanel,
   SFTDetailPopoverLabel,
 } from "components/ui/SFTDetailPopover";
-import { REQUIRED_CHEERS } from "features/game/events/landExpansion/completeProject";
 import { CheerModal, PROJECT_IMAGES } from "./Project";
 import powerup from "assets/icons/level_up.png";
 
