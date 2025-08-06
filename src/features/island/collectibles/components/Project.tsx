@@ -452,6 +452,25 @@ export const Project: React.FC<ProjectProps> = (input) => {
     }
   };
 
+  const onClick = () => {
+    if (isProjectComplete || hasCheeredProjectToday) {
+      setIsCheering(true);
+      return;
+    }
+
+    if (
+      hasFeatureAccess(
+        gameService.getSnapshot().context.visitorState!,
+        "CHEERS_V2",
+      )
+    ) {
+      // New version doesn't need modal
+      handleCheer();
+    } else {
+      setIsCheering(true);
+    }
+  };
+
   let image = PROJECT_IMAGES[input.project].empty;
 
   if (projectPercentage >= 100) {
@@ -485,7 +504,11 @@ export const Project: React.FC<ProjectProps> = (input) => {
               {isVisiting &&
                 !hasCheeredProjectToday &&
                 !isProjectComplete &&
-                hasCheers && (
+                (hasCheers ||
+                  hasFeatureAccess(
+                    gameService.getSnapshot().context.visitorState!,
+                    "CHEERS_V2",
+                  )) && (
                   <div
                     className={classNames(
                       "absolute -top-4 -right-4 pointer-events-auto cursor-pointer hover:img-highlight",
@@ -493,19 +516,7 @@ export const Project: React.FC<ProjectProps> = (input) => {
                         "animate-pulsate": hasCheers,
                       },
                     )}
-                    onClick={() => {
-                      if (
-                        hasFeatureAccess(
-                          gameService.getSnapshot().context.visitorState!,
-                          "CHEERS_V2",
-                        )
-                      ) {
-                        // New version doesn't need modal
-                        handleCheer();
-                      } else {
-                        setIsCheering(true);
-                      }
-                    }}
+                    onClick={onClick}
                   >
                     <div
                       className="relative mr-2"
