@@ -184,7 +184,7 @@ export class PlazaScene extends BaseScene {
 
     // Stella Megastore items
     this.load.image("fruit_tune_box", "world/fruit_tune_box.webp");
-    this.load.image("garbage_bin_hat", "world/garbage_bin_hat.png");
+    this.load.image("garbage_bin_hat", "world/garbage_bin_hat.webp");
 
     // Auction Items
     this.load.image("groovy_gramophone", "world/groovy_gramophone.webp");
@@ -632,7 +632,7 @@ export class PlazaScene extends BaseScene {
 
     this.add.image(250, 244, "fruit_tune_box");
 
-    this.add.image(288.5, 247, "garbage_bin_hat").setScale(0.03);
+    this.add.image(288.5, 247, "garbage_bin_hat");
 
     if (this.textures.exists("sparkle")) {
       const sparkle = this.add.sprite(567, 191, "sparkle");
@@ -672,13 +672,13 @@ export class PlazaScene extends BaseScene {
     nft1.setDepth(191);
 
     const nft2 = this.add.image(589, 205.5, "oil_gallon");
-    nft2.setScale(0.35).setDepth(205);
+    nft2.setDepth(205);
 
     const nft3 = this.add.image(601, 181, "groovy_gramophone");
     nft3.setDepth(181);
 
     const nft4 = this.add.image(612, 205, "lava_swimwear");
-    nft4.setScale(0.12).setDepth(205);
+    nft4.setDepth(205);
 
     const nft5 = this.add.image(635, 191, "giant_turnip");
     nft5.setDepth(181);
