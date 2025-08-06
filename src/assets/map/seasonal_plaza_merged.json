@@ -14426,24 +14426,6 @@
           "y": 64
         },
         {
-          "height": 34.7728,
-          "id": 416,
-          "name": "",
-          "properties": [
-            {
-              "name": "warp",
-              "type": "string",
-              "value": "beach"
-            }
-          ],
-          "rotation": 0,
-          "type": "",
-          "visible": true,
-          "width": 1.76993,
-          "x": 878.23,
-          "y": 126.92
-        },
-        {
           "height": 12,
           "id": 422,
           "name": "",
