@@ -1533,6 +1533,7 @@ export type SocialFarming = {
   };
   binIncrease?: {
     boughtAt: number[];
+    unusedStorage?: number;
   };
   dailyCollections?: { [farmId: number]: DailyCollection };
   caughtPests?: { [farmId: number]: string[] };

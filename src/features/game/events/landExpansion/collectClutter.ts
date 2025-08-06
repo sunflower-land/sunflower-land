@@ -63,6 +63,48 @@ export function collectClutter({
       };
     }
 
+    if (dailyCollections[action.visitedFarmId].clutter[action.id]) {
+      throw new Error("Clutter already collected");
+    }
+
+    const totalCollectedForFarm = getKeys(
+      dailyCollections[action.visitedFarmId]?.clutter ?? {},
+    ).filter(
+      (id) =>
+        dailyCollections[action.visitedFarmId]?.clutter[id].type in
+        FARM_GARBAGE,
+    ).length;
+
+    if (totalCollectedForFarm >= TRASH_BIN_FARM_LIMIT) {
+      throw new Error("Already collected all clutter for this farm");
+    }
+
+    // Check daily limit
+    const totalCollectedToday = Object.keys(dailyCollections).reduce(
+      (acc, farmId) => {
+        return (
+          acc + Object.keys(dailyCollections[Number(farmId)].clutter).length
+        );
+      },
+      0,
+    );
+
+    const unusedStorage =
+      visitorGame?.socialFarming?.binIncrease?.unusedStorage ?? 0;
+
+    // Check if we've reached the daily limit
+    if (totalCollectedToday >= TRASH_BIN_DAILY_LIMIT) {
+      // If we have unused storage, consume it
+      if (unusedStorage > 0) {
+        visitorGame.socialFarming.binIncrease = {
+          boughtAt: visitorGame.socialFarming.binIncrease?.boughtAt ?? [],
+          unusedStorage: unusedStorage - 1,
+        };
+      } else {
+        throw new Error("Trash bin is full");
+      }
+    }
+
     dailyCollections[action.visitedFarmId].clutter[action.id] = {
       collectedAt: createdAt,
       type: action.clutterType,
