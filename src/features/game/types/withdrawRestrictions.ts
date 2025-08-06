@@ -42,6 +42,7 @@ const BOOST_COOLDOWN_DAYS: Partial<Record<BoostName, number>> = {
   // Obsidian - 3 days
   "Obsidian Necklace": 3,
   "Obsidian Turtle": 3,
+  "Lava Swimwear": 3,
 
   // Flower Boosts - 5 days
   "Flower Crown": 5,
