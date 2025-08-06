@@ -67,10 +67,7 @@ export const PotionHouse: React.FC<Props> = ({ onClose }) => {
               <IntroPage onClose={() => send("ACKNOWLEDGE")} />
             )}
             {state.matches("playing") && (
-              <Experiment
-                onClose={onClose}
-                potionHouseService={potionHouseService}
-              />
+              <Experiment potionHouseService={potionHouseService} />
             )}
             {state.matches("rules") && (
               <Rules onDone={() => send("ACKNOWLEDGE")} />
