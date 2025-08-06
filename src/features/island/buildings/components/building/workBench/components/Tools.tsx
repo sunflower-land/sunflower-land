@@ -26,7 +26,6 @@ import { capitalize } from "lib/utils/capitalize";
 import { IslandType, LoveAnimalItem } from "features/game/types/game";
 import { getToolPrice } from "features/game/events/landExpansion/craftTool";
 import { Restock } from "../../market/restock/Restock";
-import { hasFeatureAccess } from "lib/flags";
 
 const isLoveAnimalTool = (
   toolName: WorkbenchToolName | LoveAnimalItem,
@@ -44,15 +43,7 @@ export const Tools: React.FC = () => {
 
   const selected = isLoveAnimalTool(selectedName)
     ? LOVE_ANIMAL_TOOLS[selectedName]
-    : selectedName === "Oil Drill" && !hasFeatureAccess(state, "LEATHER_TOOLS")
-      ? {
-          ...WORKBENCH_TOOLS["Oil Drill"],
-          ingredients: {
-            Wood: new Decimal(25),
-            Iron: new Decimal(10),
-          },
-        }
-      : WORKBENCH_TOOLS[selectedName];
+    : WORKBENCH_TOOLS[selectedName];
 
   const inventory = state.inventory;
   const price = getToolPrice(selected, 1, state);

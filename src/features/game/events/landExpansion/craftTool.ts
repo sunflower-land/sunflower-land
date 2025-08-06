@@ -13,7 +13,6 @@ import cloneDeep from "lodash.clonedeep";
 import { GameState, IslandType } from "../../types/game";
 import { hasRequiredIslandExpansion } from "features/game/lib/hasRequiredIslandExpansion";
 import { getWeatherShop, WeatherShopItem } from "features/game/types/calendar";
-import { hasFeatureAccess } from "lib/flags";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 
 type CraftableToolName = WorkbenchToolName | TreasureToolName | WeatherShopItem;
@@ -111,25 +110,7 @@ export function craftTool({ state, action }: Options) {
     throw new Error("Insufficient Coins");
   }
 
-  let toolIngredients = tool.ingredients;
-
-  // To delete when LEATHER_TOOLS is released
-  if (!hasFeatureAccess(stateCopy, "LEATHER_TOOLS")) {
-    if (action.tool === "Oil Drill") {
-      toolIngredients = {
-        Wood: new Decimal(25),
-        Iron: new Decimal(10),
-      };
-    }
-
-    if (action.tool === "Sand Drill") {
-      toolIngredients = {
-        Oil: new Decimal(1),
-        Crimstone: new Decimal(1),
-        Wood: new Decimal(5),
-      };
-    }
-  }
+  const toolIngredients = tool.ingredients;
 
   const subtractedInventory = getObjectEntries(toolIngredients).reduce(
     (inventory, [ingredientName, ingredientAmount]) => {
