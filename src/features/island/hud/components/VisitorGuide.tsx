@@ -13,7 +13,6 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import Decimal from "decimal.js-light";
 import { getCollectedGarbage } from "features/game/events/landExpansion/collectClutter";
 import { ClutterName, FARM_PEST } from "features/game/types/clutter";
-import { hasFeatureAccess } from "lib/flags";
 
 interface VisitorGuideProps {
   onClose: () => void;
@@ -59,9 +58,6 @@ export const VisitorGuide: React.FC<VisitorGuideProps> = ({ onClose }) => {
       <Label type="default">{t("taskBoard.tasks")}</Label>
       {getKeys(clutter).map((type) => {
         const isPest = type in FARM_PEST;
-        if (isPest && !hasFeatureAccess(gameState.context.state, "PESTS")) {
-          return null;
-        }
 
         return (
           <div key={type} className="flex items-center gap-1 -mt-1">
