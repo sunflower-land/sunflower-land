@@ -1,12 +1,11 @@
 import React from "react";
-import useSWR from "swr";
 import { useTranslation } from "react-i18next";
 import { useSocial } from "../hooks/useSocial";
 import { Label } from "components/ui/Label";
 import { FollowDetailPanel } from "./FollowDetailPanel";
-import { getFollowNetworkDetails } from "../actions/getFollowNetworkDetails";
 import { Button } from "components/ui/Button";
 import { Equipped } from "features/game/types/bumpkin";
+import { useFollowNetwork } from "../hooks/useFollowNetwork";
 
 type Props = {
   loggedInFarmId: number;
@@ -37,33 +36,8 @@ export const FollowList: React.FC<Props> = ({
   });
   const { t } = useTranslation();
 
-  const { data, isLoading, error, mutate } = useSWR(
-    [
-      networkCount > 0 ? "followNetworkDetails" : null,
-      token,
-      loggedInFarmId,
-      networkFarmId,
-    ],
-    ([, token, farmId, networkFarmId]) => {
-      return getFollowNetworkDetails({
-        token: token as string,
-        farmId,
-        networkFarmId,
-      });
-    },
-    {
-      revalidateOnFocus: false,
-    },
-  );
-
-  const networkDetails = data?.data?.network;
-
-  const sortedNetworkList = networkList.sort((a, b) => {
-    const aSocialPoints = networkDetails?.[a]?.socialPoints ?? 0;
-    const bSocialPoints = networkDetails?.[b]?.socialPoints ?? 0;
-
-    return bSocialPoints - aSocialPoints;
-  });
+  const { network, isLoading, isValidating, error, setSize, size, mutate } =
+    useFollowNetwork(token, loggedInFarmId, networkFarmId);
 
   if (isLoading || playerLoading) {
     return (
@@ -124,19 +98,19 @@ export const FollowList: React.FC<Props> = ({
         )}
       </div>
       <div className="flex flex-col gap-1">
-        {sortedNetworkList.map((followerId) => {
+        {network.map((details) => {
           return (
             <FollowDetailPanel
-              key={`flw-${followerId}`}
+              key={`flw-${details.id}`}
               loggedInFarmId={loggedInFarmId}
-              playerId={followerId}
-              clothing={networkDetails?.[followerId]?.clothing as Equipped}
-              username={networkDetails?.[followerId]?.username ?? ""}
-              lastOnlineAt={networkDetails?.[followerId]?.lastUpdatedAt ?? 0}
+              playerId={details.id}
+              clothing={details.clothing as Equipped}
+              username={details.username ?? ""}
+              lastOnlineAt={details.lastUpdatedAt ?? 0}
               navigateToPlayer={navigateToPlayer}
-              projects={networkDetails?.[followerId]?.projects ?? {}}
-              socialPoints={networkDetails?.[followerId]?.socialPoints ?? 0}
-              haveCleanedToday={!!networkDetails?.[followerId]?.cleanedToday}
+              projects={details.projects ?? {}}
+              socialPoints={details.socialPoints ?? 0}
+              haveCleanedToday={!!details.cleanedToday}
             />
           );
         })}
