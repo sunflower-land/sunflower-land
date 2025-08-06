@@ -1520,7 +1520,9 @@ type DailyCollection = {
 
 export type SocialFarming = {
   points: number;
-  villageProjects: Partial<Record<MonumentName, { cheers: number }>>;
+  villageProjects: Partial<
+    Record<MonumentName, { cheers: number; winnerId?: number }>
+  >;
   cheersGiven: {
     date: string;
     projects: Partial<Record<MonumentName, number[]>>;

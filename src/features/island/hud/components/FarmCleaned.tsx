@@ -5,6 +5,8 @@ import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import React from "react";
 import socialScoreIcon from "assets/icons/social_score.webp";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { hasFeatureAccess } from "lib/flags";
 
 export const FarmCleaned: React.FC = () => {
   const { gameService, gameState } = useGame();
@@ -32,9 +34,17 @@ export const FarmCleaned: React.FC = () => {
               <p className="text-sm">{gameState.context.state.username}</p>
             </div>
           </div>
-          <Label type="warning" icon={socialScoreIcon}>
+          <Label type="warning" className="mr-2" icon={socialScoreIcon}>
             {t("socialPoints", { points: 1 })}
           </Label>
+          {hasFeatureAccess(
+            gameService.getSnapshot().context.visitorState!,
+            "CHEERS_V2",
+          ) && (
+            <Label type="warning" icon={ITEM_DETAILS["Love Charm"].image}>
+              {`+1 Love Charm`}
+            </Label>
+          )}
         </div>
 
         {/* <div className="flex items-center flex-wrap">

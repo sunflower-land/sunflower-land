@@ -526,10 +526,7 @@ import {
   FlipCollectibleAction,
 } from "./landExpansion/flipCollectible";
 import { CatchPestAction, catchPest } from "./landExpansion/catchPest";
-import {
-  completeProject,
-  CompleteProjectAction,
-} from "./landExpansion/completeProject";
+
 import {
   increaseBinLimit,
   IncreaseBinLimitAction,
@@ -681,7 +678,6 @@ export type PlayingEvent =
   | ApplyBiomeAction
   | WakeUpAnimalAction
   | ClaimCheersAction
-  | CompleteProjectAction
   | BurnClutterAction;
 
 export type VisitingEvent =
@@ -916,7 +912,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "biome.applied": applyBiome,
   "animal.wakeUp": wakeAnimal,
   "cheers.claimed": claimDailyCheers,
-  "project.completed": completeProject,
   "clutter.burned": burnClutter,
 };
 

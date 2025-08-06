@@ -1,7 +1,13 @@
+/**
+ * @deprecated Use the event handler instead
+ * Experimenting new raffle system
+ */
 import { GameState, InventoryItemName } from "../../types/game";
 import { produce } from "immer";
 import { MonumentName } from "features/game/types/monuments";
 import Decimal from "decimal.js-light";
+import { hasFeatureAccess } from "lib/flags";
+import cloneDeep from "lodash.clonedeep";
 
 export const REQUIRED_CHEERS: Record<MonumentName, number> = {
   "Big Orange": 50,
@@ -80,7 +86,20 @@ export function completeProject({
       throw new Error("Project is not complete");
     }
 
-    const rewardItem = REWARD_ITEMS[action.project];
+    let rewards = cloneDeep(REWARD_ITEMS);
+
+    if (hasFeatureAccess(stateCopy, "CHEERS_V2")) {
+      rewards["Big Orange"] = { amount: 1, item: "Bronze Love Box" };
+      rewards["Big Apple"] = { amount: 1, item: "Silver Love Box" };
+      rewards["Big Banana"] = { amount: 1, item: "Gold Love Box" };
+
+      // Double Food Box Rewards
+      rewards["Basic Cooking Pot"] = { amount: 2, item: "Bronze Love Box" };
+      rewards["Expert Cooking Pot"] = { amount: 2, item: "Silver Love Box" };
+      rewards["Advanced Cooking Pot"] = { amount: 2, item: "Gold Love Box" };
+    }
+
+    const rewardItem = rewards[action.project];
 
     if (!rewardItem) {
       throw new Error("Project does not have a reward");
