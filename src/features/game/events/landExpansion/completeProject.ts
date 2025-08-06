@@ -86,7 +86,7 @@ export function completeProject({
       throw new Error("Project is not complete");
     }
 
-    let rewards = cloneDeep(REWARD_ITEMS);
+    const rewards = cloneDeep(REWARD_ITEMS);
 
     if (hasFeatureAccess(stateCopy, "CHEERS_V2")) {
       rewards["Big Orange"] = { amount: 1, item: "Bronze Love Box" };

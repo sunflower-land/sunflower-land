@@ -53,6 +53,7 @@ import { useAuth } from "features/auth/lib/Provider";
 import { Player } from "features/social/types/types";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { Loading } from "features/auth/components";
+import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 
 export const PROJECT_IMAGES: Record<
   MonumentName,
@@ -196,7 +197,7 @@ const ProjectModal: React.FC<{
   const [isLoading, setIsLoading] = useState(false);
   const [winner, setWinner] = useState<Player>();
 
-  let rewards = cloneDeep(REWARD_ITEMS);
+  const rewards = cloneDeep(REWARD_ITEMS);
 
   if (hasFeatureAccess(state, "CHEERS_V2")) {
     rewards["Big Orange"] = { amount: 1, item: "Bronze Love Box" };
@@ -290,10 +291,13 @@ const ProjectModal: React.FC<{
                 icon={SUNNYSIDE.icons.heart}
                 className="mb-1 ml-2"
               >
-                Friend bonus
+                {t("project.friendBonus")}
               </Label>
               <div className="flex items-center mr-4">
-                <NPCIcon width={20} parts={winner!.data?.clothing!} />
+                <NPCIcon
+                  width={20}
+                  parts={winner?.data?.clothing as BumpkinParts}
+                />
                 <div className="ml-1">
                   <p className="text-xs">{winner.data?.username}</p>
                 </div>
@@ -301,7 +305,7 @@ const ProjectModal: React.FC<{
             </div>
 
             <p className="text-xs ml-2 mb-2">
-              A random helper has been selected to also receive the prize!
+              {t("project.friendBonus.description")}
             </p>
           </>
         )}

@@ -6359,5 +6359,7 @@
   "whatsOn.newChapterDate": "November 3rd",
   "whatsOn.newChapter.description": "The new chapter is coming soon!",
   "completing.project": "Completing project",
-  "completing.project.success": "Yeehaw, enjoy your reward!"
+  "completing.project.success": "Yeehaw, enjoy your reward!",
+  "project.friendBonus": "Friend bonus",
+  "project.friendBonus.description": "A random helper has been selected to also receive the prize!"
 }
