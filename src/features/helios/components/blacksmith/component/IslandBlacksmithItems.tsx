@@ -28,7 +28,6 @@ import {
 } from "features/game/types/monuments";
 import { GameState } from "features/game/types/game";
 import { Label } from "components/ui/Label";
-import { hasFeatureAccess } from "lib/flags";
 import cheer from "assets/icons/cheer.webp";
 import { REQUIRED_CHEERS } from "features/game/events/landExpansion/completeProject";
 
@@ -219,11 +218,7 @@ export const IslandBlacksmithItems: React.FC = () => {
       content={
         <div className="flex flex-col">
           <div className="flex flex-wrap">
-            {VALID_EQUIPMENT.filter(
-              (equipment) =>
-                !(equipment in WORKBENCH_MONUMENTS) ||
-                hasFeatureAccess(state, "MONUMENTS"),
-            ).map((name: HeliosBlacksmithItem) => {
+            {VALID_EQUIPMENT.map((name: HeliosBlacksmithItem) => {
               return (
                 <Box
                   isSelected={selectedName === name}

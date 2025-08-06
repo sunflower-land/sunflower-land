@@ -113,9 +113,7 @@ const FEATURE_FLAGS = {
     !!((game.wardrobe.Halo ?? 0) > 0) && !!game.inventory["Beta Pass"]?.gt(0),
 
   BLESSING: () => true,
-  MINE_WHACK_BETA: defaultFeatureFlag,
 
-  MONUMENTS: betaTimeBasedFeatureFlag(new Date("2025-08-04T00:00:00.000Z")),
   LANDSCAPING: betaTimeBasedFeatureFlag(new Date("2025-08-04T00:00:00.000Z")),
   LANDSCAPING_SHOP: betaTimeBasedFeatureFlag(
     SEASONS["Better Together"].startDate,
