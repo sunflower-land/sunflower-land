@@ -6147,8 +6147,6 @@
   "visiting.farmId": "访问 {{farmId}}",
   "crafting.undiscovered": "制作更多物品以发现新材料。",
   "description.cheer": "为你的农民同胞加油！",
-  "cheering.village.project.success": "欢呼成功！",
-  "cheering.village.project.failed": "欢呼失败！",
   "cheer.village.project.confirm": "你确定要为 {{project}} 欢呼吗？",
   "cheer": "欢呼",
   "crafting.recipe": "{{recipe}} 配方",
@@ -6316,8 +6314,6 @@
   "bin.increaseLimit": "增加上限 (+30)",
   "bin.cantWait.description": "提高你今天可以捡起的垃圾的限量。",
   "bin.increaseLimit.description": "你确定要提高限额吗？这将每天重置。",
-  "cheering.village.project": "欢呼乡村项目",
-  "cheer.village.project": "为乡村项目欢呼",
   "project.incomplete": "{{project}} 已获得 {{cheers}}/{{requiredCheers}} 个欢呼。还差 {{requiredCheers - cheers}} 个！",
   "description.desertgnome.boost": "+10% 烹饪速度",
   "description.solAndLuna.boost": "锻打箱速度提升 50%",
@@ -6332,5 +6328,14 @@
   "description.snail": "缓慢但稳定的蜗牛。需要时间，但可以实现",
   "incinerator.welcome": "欢迎来到焚化炉！",
   "incinerator.description": "焚化炉是你可以燃烧杂物以获得额外欢呼的地方",
-  "incinerator.burn": "烧毁 {{number}}"
+  "incinerator.burn": "烧毁 {{number}}",
+  "cheering.village.project": "欢呼项目",
+  "cheering.village.project.success": "欢呼成功！",
+  "cheering.village.project.failed": "欢呼失败了！",
+  "cheer.village.project": "啦啦项目",
+  "following.farm": "关注农场",
+  "following.farm.success": "你现在正在关注这个农场",
+  "following.farm.error": "未能关注这个农场",
+  "player.notFound": "找不到玩家",
+  "player.notFound.description": "我们找不到这个玩家。请稍后再试。"
 }

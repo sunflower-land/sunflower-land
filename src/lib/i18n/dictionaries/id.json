@@ -6147,8 +6147,6 @@
   "visiting.farmId": "Mengunjungi {{farmId}}",
   "crafting.undiscovered": "Buat lebih banyak item untuk menemukan bahan-bahan baru.",
   "description.cheer": "Berikan sorakan kepada sesama petani Anda!",
-  "cheering.village.project.success": "Bersorak Sukses!",
-  "cheering.village.project.failed": "Bersorak Gagal!",
   "cheer.village.project.confirm": "Apakah Anda yakin ingin menghibur {{project}}?",
   "cheer": "Bersorak",
   "crafting.recipe": "{{recipe}} Resep",
@@ -6316,8 +6314,6 @@
   "bin.increaseLimit": "Tingkatkan Batas (+30)",
   "bin.cantWait.description": "Tingkatkan batas sampah yang dapat Anda ambil hari ini.",
   "bin.increaseLimit.description": "Apakah Anda yakin ingin meningkatkan batas? Ini akan diatur ulang setiap hari.",
-  "cheering.village.project": "Proyek Bersorak",
-  "cheer.village.project": "Proyek Cheer",
   "project.incomplete": "{{project}} memiliki {{cheers}}/{{requiredCheers}} sorakan. {{remaining}} untuk pergi!",
   "description.desertgnome.boost": "-10% Waktu Memasak",
   "description.solAndLuna.boost": "-50% Waktu Kotak Kerajinan",
@@ -6332,5 +6328,14 @@
   "description.snail": "Siput lambat tapi mantap. Butuh waktu, tapi sampai di sana",
   "incinerator.welcome": "Selamat datang di Incinerator!",
   "incinerator.description": "Incinerator adalah tempat di mana Anda dapat membakar kekacauan untuk mendapatkan Cheers ekstra",
-  "incinerator.burn": "Bakar {{number}}"
+  "incinerator.burn": "Bakar {{number}}",
+  "cheering.village.project": "Proyek bersorak",
+  "cheering.village.project.success": "Sukses bersorak!",
+  "cheering.village.project.failed": "Bersorak gagal!",
+  "cheer.village.project": "Proyek Cheer",
+  "following.farm": "Mengikuti pertanian",
+  "following.farm.success": "Anda sekarang mengikuti peternakan ini",
+  "following.farm.error": "Gagal mengikuti peternakan ini",
+  "player.notFound": "Pemain tidak ditemukan",
+  "player.notFound.description": "Kami tidak dapat menemukan pemain ini. Silakan coba lagi nanti."
 }

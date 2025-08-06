@@ -6147,8 +6147,6 @@
   "visiting.farmId": "방문 {{farmId}}",
   "crafting.undiscovered": "더 많은 아이템을 만들어 새로운 재료를 발견하세요.",
   "description.cheer": "동료 농부들에게 응원을 보내세요!",
-  "cheering.village.project.success": "응원 성공!",
-  "cheering.village.project.failed": "응원 실패!",
   "cheer.village.project.confirm": "정말 {{project}} 를 응원하고 싶으세요?",
   "cheer": "응원",
   "crafting.recipe": "{{recipe}} 레시피",
@@ -6316,8 +6314,6 @@
   "bin.increaseLimit": "한도 증가 (+30)",
   "bin.cantWait.description": "오늘 수거할 수 있는 쓰레기의 양을 늘리십시오.",
   "bin.increaseLimit.description": "정말로 한도를 늘리시겠습니까?이 값은 매일 초기화됩니다.",
-  "cheering.village.project": "응원 프로젝트",
-  "cheer.village.project": "치어 프로젝트",
   "project.incomplete": "{{project}} 는 {{cheers}}/{{requiredCheers}} 의 환호성이 터집니다. {{remaining}} 어서 가세요!",
   "description.desertgnome.boost": "-10% 조리 시간",
   "description.solAndLuna.boost": "제작 상자 사용 시간 -50%",
@@ -6332,5 +6328,14 @@
   "description.snail": "느리지만 꾸준한 달팽이.시간이 걸리긴 하지만 해낼 수 있어요",
   "incinerator.welcome": "소각로에 오신 것을 환영합니다!",
   "incinerator.description": "소각로는 잡동사니를 태워 추가 응원을 얻을 수 있는 곳입니다.",
-  "incinerator.burn": "태우다 {{number}}"
+  "incinerator.burn": "태우다 {{number}}",
+  "cheering.village.project": "응원 프로젝트",
+  "cheering.village.project.success": "응원 성공!",
+  "cheering.village.project.failed": "응원 실패!",
+  "cheer.village.project": "치어 프로젝트",
+  "following.farm": "팔로우 팜",
+  "following.farm.success": "당신은 지금 이 농장을 팔로우하고 있습니다",
+  "following.farm.error": "이 팜을 팔로우하지 못했습니다",
+  "player.notFound": "플레이어를 찾을 수 없음",
+  "player.notFound.description": "이 선수를 찾을 수 없습니다.나중에 다시 시도해 주세요."
 }

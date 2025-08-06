@@ -6147,8 +6147,6 @@
   "visiting.farmId": "Ziyaret etmek {{farmId}}",
   "crafting.undiscovered": "Yeni malzemeler keşfetmek için daha fazla öğe üretin.",
   "description.cheer": "Çiftçi arkadaşlarınıza neşe verin!",
-  "cheering.village.project.success": "Başarı tezahürat!",
-  "cheering.village.project.failed": "Tezahürat Başarısız Oldu!",
   "cheer.village.project.confirm": "{{project}} 'yi neşelendirmek istediğinden emin misin?",
   "cheer": "tezahürat",
   "crafting.recipe": "{{recipe}} Tarif",
@@ -6316,8 +6314,6 @@
   "bin.increaseLimit": "Artış Limiti (+30)",
   "bin.cantWait.description": "Bugün alabileceğiniz çöp sınırını artırın.",
   "bin.increaseLimit.description": "Sınırı yükseltmek istediğinizden emin misiniz? Bu her gün sıfırlanacaktır.",
-  "cheering.village.project": "Tezahürat Projesi",
-  "cheer.village.project": "Cheer Projesi",
   "project.incomplete": "{{project}} {{cheers}}/{{requiredCheers}} tebrik ediyor. {{remaining}} devam!",
   "description.desertgnome.boost": "-10% Pişirme Süresi",
   "description.solAndLuna.boost": "-50% İşleme Kutusu Süresi",
@@ -6332,5 +6328,14 @@
   "description.snail": "Yavaş ama sabit salyangoz. Zaman alır, ama oraya ulaşır",
   "incinerator.welcome": "Yakma Fırına Hoş Geldiniz!",
   "incinerator.description": "Yakma fırını ekstra tezahürat almak için dağınıklığı yakabileceğiniz bir yerdir",
-  "incinerator.burn": "Yak {{number}}"
+  "incinerator.burn": "Yak {{number}}",
+  "cheering.village.project": "Tezahürat projesi",
+  "cheering.village.project.success": "Tezahürat başarısı!",
+  "cheering.village.project.failed": "Tezahürat başarısız oldu!",
+  "cheer.village.project": "Cheer projesi",
+  "following.farm": "Takip eden çiftlik",
+  "following.farm.success": "Şimdi bu çiftliği takip ediyorsunuz",
+  "following.farm.error": "Bu çiftliği takip edemedi",
+  "player.notFound": "Oyuncu bulunamadı",
+  "player.notFound.description": "Bu oyuncuyu bulamadık. Lütfen daha sonra tekrar deneyin."
 }

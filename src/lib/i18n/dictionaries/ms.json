@@ -6147,8 +6147,6 @@
   "visiting.farmId": "Melawat {{farmId}}",
   "crafting.undiscovered": "Buat lebih banyak item untuk menemui bahan-bahan baru.",
   "description.cheer": "Beri sorakan kepada rakan-rakan petani anda!",
-  "cheering.village.project.success": "Bersorak Kejayaan!",
-  "cheering.village.project.failed": "Bersorak Gagal!",
   "cheer.village.project.confirm": "Adakah anda pasti ingin menghiburkan {{project}}?",
   "cheer": "Bersorak",
   "crafting.recipe": "{{recipe}} Resipi",
@@ -6316,8 +6314,6 @@
   "bin.increaseLimit": "Meningkatkan Had (+30)",
   "bin.cantWait.description": "Meningkatkan had sampah yang boleh anda ambil hari ini.",
   "bin.increaseLimit.description": "Adakah anda pasti ingin meningkatkan had? Ini akan ditetapkan semula setiap hari.",
-  "cheering.village.project": "Projek Bersorak",
-  "cheer.village.project": "Projek Cheer",
   "project.incomplete": "{{project}} mempunyai {{cheers}}/{{requiredCheers}} sorakan. {{remaining}} untuk pergi!",
   "description.desertgnome.boost": "-10% Masa Memasak",
   "description.solAndLuna.boost": "-50% Masa Kotak Kerajinan",
@@ -6332,5 +6328,14 @@
   "description.snail": "Siput perlahan tetapi stabil. Memerlukan masa, tetapi ia sampai ke sana",
   "incinerator.welcome": "Selamat datang ke Incinerator!",
   "incinerator.description": "Incinerator adalah tempat di mana anda boleh membakar kekacauan untuk mendapatkan sorakan tambahan",
-  "incinerator.burn": "Bakar {{number}}"
+  "incinerator.burn": "Bakar {{number}}",
+  "cheering.village.project": "Projek bersorak",
+  "cheering.village.project.success": "Bersorak kejayaan!",
+  "cheering.village.project.failed": "Bersorak gagal!",
+  "cheer.village.project": "Projek sorak",
+  "following.farm": "Mengikuti ladang",
+  "following.farm.success": "Anda kini mengikuti ladang ini",
+  "following.farm.error": "Gagal mengikuti ladang ini",
+  "player.notFound": "Pemain tidak ditemui",
+  "player.notFound.description": "Kami tidak dapat mencari pemain ini. Sila cuba lagi nanti."
 }

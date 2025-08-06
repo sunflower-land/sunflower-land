@@ -6147,8 +6147,6 @@
   "visiting.farmId": "訪問中 {{farmId}}",
   "crafting.undiscovered": "より多くのアイテムを作って新しい材料を発見してください。",
   "description.cheer": "農家の仲間を元気づけましょう！",
-  "cheering.village.project.success": "応援成功！",
-  "cheering.village.project.failed": "応援失敗！",
   "cheer.village.project.confirm": "本当に {{project}} を応援しますか？",
   "cheer": "応援",
   "crafting.recipe": "{{recipe}} レシピ",
@@ -6316,8 +6314,6 @@
   "bin.increaseLimit": "制限値を増やす (+30)",
   "bin.cantWait.description": "今日拾えるゴミの上限を増やしてください。",
   "bin.increaseLimit.description": "制限を増やしてもよろしいですか?これは毎日リセットされます。",
-  "cheering.village.project": "応援プロジェクト",
-  "cheer.village.project": "チア・プロジェクト",
   "project.incomplete": "{{project}} は {{cheers}}/{{requiredCheers}} で乾杯しています。{{remaining}} 行きます！",
   "description.desertgnome.boost": "-10% 調理時間",
   "description.solAndLuna.boost": "-50% クラフトボックス時間",
@@ -6332,5 +6328,14 @@
   "description.snail": "ゆっくりだが安定したカタツムリ。時間はかかりますが、そこにたどり着きます",
   "incinerator.welcome": "焼却炉へようこそ！",
   "incinerator.description": "ごみ焼却場は、散らかったものを燃やして応援してもらえる場所です。",
-  "incinerator.burn": "バーン {{number}}"
+  "incinerator.burn": "バーン {{number}}",
+  "cheering.village.project": "応援プロジェクト",
+  "cheering.village.project.success": "応援成功！",
+  "cheering.village.project.failed": "応援失敗！",
+  "cheer.village.project": "応援プロジェクト",
+  "following.farm": "フォローファーム",
+  "following.farm.success": "現在このファームをフォローしています",
+  "following.farm.error": "このファームをフォローできませんでした",
+  "player.notFound": "プレイヤーが見つかりません",
+  "player.notFound.description": "このプレイヤーは見つかりませんでした。後でもう一度試してください。"
 }

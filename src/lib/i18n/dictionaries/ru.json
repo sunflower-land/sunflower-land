@@ -6147,8 +6147,6 @@
   "visiting.farmId": "Посещение {{farmId}}",
   "crafting.undiscovered": "Создавайте больше предметов и открывайте для себя новые ингредиенты.",
   "description.cheer": "Порадуйте коллег-фермеров!",
-  "cheering.village.project.success": "Приветствуем успех!",
-  "cheering.village.project.failed": "Аплодисменты не удались!",
   "cheer.village.project.confirm": "Вы действительно хотите подбодрить {{project}}?",
   "cheer": "Поболеть",
   "crafting.recipe": "{{recipe}} Рецепт",
@@ -6316,8 +6314,6 @@
   "bin.increaseLimit": "Лимит увеличения (+30)",
   "bin.cantWait.description": "Увеличьте лимит мусора, который вы можете забрать сегодня.",
   "bin.increaseLimit.description": "Вы действительно хотите увеличить лимит? Он будет обнуляться каждый день.",
-  "cheering.village.project": "Проект «Аплодисменты»",
-  "cheer.village.project": "Проект Cheer",
   "project.incomplete": "{{project}} ура {{cheers}}/{{requiredCheers}}. {{remaining}} вперед!",
   "description.desertgnome.boost": "-10% времени приготовления",
   "description.solAndLuna.boost": "-50% времени на изготовление коробки",
@@ -6332,5 +6328,14 @@
   "description.snail": "Медленная, но устойчивая улитка. Требуется время, но оно туда дойдет",
   "incinerator.welcome": "Добро пожаловать в мусоросжигательный завод!",
   "incinerator.description": "Мусоросжигательная печь — это место, где вы можете сжигать беспорядок, чтобы получить дополнительные приветствия",
-  "incinerator.burn": "Сжечь {{number}}"
+  "incinerator.burn": "Сжечь {{number}}",
+  "cheering.village.project": "Подбадривающий проект",
+  "cheering.village.project.success": "Приветствуем успех!",
+  "cheering.village.project.failed": "Аплодисменты не удались!",
+  "cheer.village.project": "Проект Cheer",
+  "following.farm": "Следующая ферма",
+  "following.farm.success": "Теперь вы следите за этой фермой",
+  "following.farm.error": "Не удалось проследить за этой фермой",
+  "player.notFound": "Игрок не найден",
+  "player.notFound.description": "Нам не удалось найти этого игрока. Пожалуйста, попробуйте позже."
 }

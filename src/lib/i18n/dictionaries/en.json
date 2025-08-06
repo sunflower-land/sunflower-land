@@ -6194,10 +6194,10 @@
   "description.solarDoll": "A once-thought impossible dream to craft.",
   "crafting.undiscovered": "Craft more items to discover new ingredients.",
   "description.cheer": "Give a cheer to your fellow farmers!",
-  "cheering.village.project": "Cheering Project",
-  "cheering.village.project.success": "Cheering Success!",
-  "cheering.village.project.failed": "Cheering Failed!",
-  "cheer.village.project": "Cheer Project",
+  "cheering.village.project": "Cheering project",
+  "cheering.village.project.success": "Cheering success!",
+  "cheering.village.project.failed": "Cheering failed!",
+  "cheer.village.project": "Cheer project",
   "cheer.village.project.description": "You can cheer the {{project}} to help {{username}} complete it!",
   "cheer.village.project.confirm": "Are you sure you want to cheer the {{project}}?",
   "cheer": "Cheer",
@@ -6332,5 +6332,10 @@
   "bin.increaseLimit.description": "Are you sure you want to increase the limit? This will reset every day.",
   "incinerator.welcome": "Welcome to the Incinerator!",
   "incinerator.description": "The Incinerator is a place where you can burn clutter to get extra Cheers",
-  "incinerator.burn": "Burn {{number}}"
+  "incinerator.burn": "Burn {{number}}",
+  "following.farm": "Following farm",
+  "following.farm.success": "You are now following this farm",
+  "following.farm.error": "Failed to follow this farm",
+  "player.notFound": "Player not found",
+  "player.notFound.description": "We were unable to find this player. Please try again later."
 }

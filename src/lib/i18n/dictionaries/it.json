@@ -6147,8 +6147,6 @@
   "visiting.farmId": "Visitando {{farmId}}",
   "crafting.undiscovered": "Crea altri oggetti per scoprire nuovi ingredienti.",
   "description.cheer": "Fai un applauso ai tuoi colleghi agricoltori!",
-  "cheering.village.project.success": "Successo esultante!",
-  "cheering.village.project.failed": "Acclamazione fallita!",
   "cheer.village.project.confirm": "Sei sicuro di voler fare il tifo per {{project}}?",
   "cheer": "Rallegrare",
   "crafting.recipe": "{{recipe}} Ricetta",
@@ -6316,8 +6314,6 @@
   "bin.increaseLimit": "Aumenta il limite (+30)",
   "bin.cantWait.description": "Aumenta il limite di immondizia che puoi raccogliere oggi.",
   "bin.increaseLimit.description": "Sei sicuro di voler aumentare il limite? Questo verrà ripristinato ogni giorno.",
-  "cheering.village.project": "Progetto Cheering",
-  "cheer.village.project": "Progetto Cheer",
   "project.incomplete": "Il {{project}} ha {{cheers}}/{{requiredCheers}} applausi. {{remaining}} al via!",
   "description.desertgnome.boost": "-10% Tempo di cottura",
   "description.solAndLuna.boost": "-50% Crafting Box Time",
@@ -6332,5 +6328,14 @@
   "description.snail": "Lumaca lenta ma costante. Ci vuole tempo, ma ci si arriva",
   "incinerator.welcome": "Benvenuto nell'inceneritore!",
   "incinerator.description": "L'inceneritore è un posto dove puoi bruciare il disordine per ottenere più allegria",
-  "incinerator.burn": "Masterizza {{number}}"
+  "incinerator.burn": "Masterizza {{number}}",
+  "cheering.village.project": "Progetto di tifo",
+  "cheering.village.project.success": "Successo esultante!",
+  "cheering.village.project.failed": "Il tifo è fallito!",
+  "cheer.village.project": "Progetto Cheer",
+  "following.farm": "Fattoria seguente",
+  "following.farm.success": "Stai seguendo questo agriturismo",
+  "following.farm.error": "Non sono riuscito a seguire questa fattoria",
+  "player.notFound": "Giocatore non trovato",
+  "player.notFound.description": "Non siamo riusciti a trovare questo giocatore. Riprova più tardi."
 }

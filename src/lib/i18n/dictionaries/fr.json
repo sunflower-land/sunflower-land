@@ -6147,8 +6147,6 @@
   "visiting.farmId": "Visite {{farmId}}",
   "crafting.undiscovered": "Fabriquez plus d'objets pour découvrir de nouveaux ingrédients.",
   "description.cheer": "Encouragez vos collègues agriculteurs !",
-  "cheering.village.project.success": "Succès encourageant !",
-  "cheering.village.project.failed": "Les acclamations ont échoué !",
   "cheer.village.project.confirm": "Êtes-vous sûr de vouloir encourager le {{project}} ?",
   "cheer": "Acclamez",
   "crafting.recipe": "{{recipe}} Recette",
@@ -6316,8 +6314,6 @@
   "bin.increaseLimit": "Limite d'augmentation (+30)",
   "bin.cantWait.description": "Augmentez la limite de déchets que vous pouvez ramasser aujourd'hui.",
   "bin.increaseLimit.description": "Êtes-vous sûr de vouloir augmenter la limite ? Cela sera réinitialisé tous les jours.",
-  "cheering.village.project": "Projet Cheering",
-  "cheer.village.project": "Projet Cheer",
   "project.incomplete": "Le {{project}} est accompagné de {{cheers}}/{{requiredCheers}} acclamations. {{remaining}} c'est parti !",
   "description.desertgnome.boost": "-10 % de temps de cuisson",
   "description.solAndLuna.boost": "-50 % de temps passé dans la boîte à fabriquer",
@@ -6332,5 +6328,14 @@
   "description.snail": "Escargot lent mais régulier. Ça prend du temps, mais ça y arrive",
   "incinerator.welcome": "Bienvenue à l'incinérateur !",
   "incinerator.description": "L'incinérateur est un endroit où vous pouvez brûler du désordre pour obtenir des encouragements supplémentaires",
-  "incinerator.burn": "Brûler {{number}}"
+  "incinerator.burn": "Brûler {{number}}",
+  "cheering.village.project": "Projet Cheering",
+  "cheering.village.project.success": "Succès encourageant !",
+  "cheering.village.project.failed": "Les acclamations ont échoué !",
+  "cheer.village.project": "Projet Cheer",
+  "following.farm": "Ferme suivante",
+  "following.farm.success": "Vous suivez maintenant cette ferme",
+  "following.farm.error": "Je n'ai pas réussi à suivre cette ferme",
+  "player.notFound": "Joueur introuvable",
+  "player.notFound.description": "Nous n'avons pas pu trouver ce joueur. Veuillez réessayer ultérieurement."
 }

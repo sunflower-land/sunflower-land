@@ -6147,8 +6147,6 @@
   "visiting.farmId": "Visitando {{farmId}}",
   "crafting.undiscovered": "Crie mais itens para descobrir novos ingredientes.",
   "description.cheer": "Dê um aplauso aos seus colegas agricultores!",
-  "cheering.village.project.success": "Torcendo pelo sucesso!",
-  "cheering.village.project.failed": "A torcida falhou!",
   "cheer.village.project.confirm": "Tem certeza de que quer torcer pelo {{project}}?",
   "cheer": "Aplausos",
   "crafting.recipe": "{{recipe}} Receita",
@@ -6316,8 +6314,6 @@
   "bin.increaseLimit": "Limite de aumento (+30)",
   "bin.cantWait.description": "Aumente o limite de lixo que você pode coletar hoje.",
   "bin.increaseLimit.description": "Tem certeza de que deseja aumentar o limite? Isso será reiniciado todos os dias.",
-  "cheering.village.project": "Projeto de torcida",
-  "cheer.village.project": "Projeto Cheer",
   "project.incomplete": "O {{project}} tem {{cheers}}/{{requiredCheers}} aplausos. {{remaining}} vá!",
   "description.desertgnome.boost": "-10% de tempo de cozimento",
   "description.solAndLuna.boost": "-50% de tempo de fabricação da caixa",
@@ -6332,5 +6328,14 @@
   "description.snail": "Caracol lento, mas estável. Leva tempo, mas chega lá",
   "incinerator.welcome": "Bem-vindo ao Incinerador!",
   "incinerator.description": "O Incinerador é um lugar onde você pode queimar lixo para obter mais aplausos",
-  "incinerator.burn": "Queimar {{number}}"
+  "incinerator.burn": "Queimar {{number}}",
+  "cheering.village.project": "Projeto de torcida",
+  "cheering.village.project.success": "Feliz sucesso!",
+  "cheering.village.project.failed": "A torcida falhou!",
+  "cheer.village.project": "Projeto Cheer",
+  "following.farm": "Seguindo a fazenda",
+  "following.farm.success": "Agora você está seguindo esta fazenda",
+  "following.farm.error": "Falha em seguir esta fazenda",
+  "player.notFound": "Jogador não encontrado",
+  "player.notFound.description": "Não conseguimos encontrar esse jogador. Por favor, tente novamente mais tarde."
 }

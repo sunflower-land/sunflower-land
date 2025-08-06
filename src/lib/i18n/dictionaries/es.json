@@ -6147,8 +6147,6 @@
   "visiting.farmId": "Visitas {{farmId}}",
   "crafting.undiscovered": "Crea más objetos para descubrir nuevos ingredientes.",
   "description.cheer": "¡Saluda a tus compañeros granjeros!",
-  "cheering.village.project.success": "¡Éxito alentador!",
-  "cheering.village.project.failed": "¡Fallaron los aplausos!",
   "cheer.village.project.confirm": "¿Estás seguro de que quieres aplaudir al {{project}}?",
   "cheer": "Anímate",
   "crafting.recipe": "{{recipe}} Receta",
@@ -6316,8 +6314,6 @@
   "bin.increaseLimit": "Aumentar el límite (+30)",
   "bin.cantWait.description": "Aumente el límite de basura que puede recoger hoy.",
   "bin.increaseLimit.description": "¿Está seguro de que desea aumentar el límite? Esto se restablecerá todos los días.",
-  "cheering.village.project": "Proyecto Cheering",
-  "cheer.village.project": "Proyecto Cheer",
   "project.incomplete": "El {{project}} tiene {{cheers}}/{{requiredCheers}} aplausos. ¡Ya queda {{remaining}}!",
   "description.desertgnome.boost": "-10% de tiempo de cocción",
   "description.solAndLuna.boost": "-50% de tiempo para fabricar cajas",
@@ -6332,5 +6328,14 @@
   "description.snail": "Caracol lento pero constante. Lleva tiempo, pero se consigue",
   "incinerator.welcome": "¡Bienvenido al Incinerador!",
   "incinerator.description": "El incinerador es un lugar donde puedes quemar el desorden para obtener más aplausos",
-  "incinerator.burn": "Quemar {{number}}"
+  "incinerator.burn": "Quemar {{number}}",
+  "cheering.village.project": "Proyecto alentador",
+  "cheering.village.project.success": "¡Éxito alentador!",
+  "cheering.village.project.failed": "¡Los aplausos fallaron!",
+  "cheer.village.project": "Proyecto Cheer",
+  "following.farm": "Siguiendo la granja",
+  "following.farm.success": "Ahora estás siguiendo esta granja",
+  "following.farm.error": "No se pudo seguir esta granja",
+  "player.notFound": "No se ha encontrado el jugador",
+  "player.notFound.description": "No hemos podido encontrar este jugador. Vuelve a intentarlo más tarde."
 }
