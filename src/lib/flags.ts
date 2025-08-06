@@ -115,7 +115,6 @@ const FEATURE_FLAGS = {
   BLESSING: () => true,
 
   CRAFTING: betaTimeBasedFeatureFlag(SEASONS["Better Together"].startDate),
-  INCINERATOR: betaTimeBasedFeatureFlag(new Date("2025-08-06T00:00:00.000Z")),
 
   PEGGYS_COOKOFF: () =>
     timePeriodFeatureFlag({
