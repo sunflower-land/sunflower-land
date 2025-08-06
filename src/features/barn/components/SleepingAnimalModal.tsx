@@ -39,6 +39,7 @@ export const SleepingAnimalModal = ({
   const { t } = useAppTranslation();
 
   const secondsLeft = (awakeAt - Date.now()) / 1000;
+  const isWakingWithinAnHour = awakeAt < Date.now() + 1000 * 60 * 60;
 
   const toy = getAnimalToy({ animal });
 
@@ -106,7 +107,7 @@ export const SleepingAnimalModal = ({
           <img src={sleepIcon} alt="Sleep" className="w-6 mr-2" />
           <span className="mr-2">
             {" "}
-            {`${t("wakesIn")} ${secondsToString(secondsLeft, { length: "medium" })}`}
+            {`${t("wakesIn")} ${secondsToString(secondsLeft, { length: isWakingWithinAnHour ? "short" : "medium" })}`}
           </span>
         </div>
         <div className="flex text-sm p-1 items-center">
