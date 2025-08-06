@@ -110,8 +110,8 @@ export const PlayerModal: React.FC<Props> = ({
     setTab("Player");
   }, [currentPlayerId]);
 
-  const iAmFollowing = player?.followedBy.includes(loggedInFarmId);
-  const theyAreFollowingMe = player?.following.includes(loggedInFarmId);
+  const iAmFollowing = (player?.followedBy ?? []).includes(loggedInFarmId);
+  const theyAreFollowingMe = (player?.following ?? []).includes(loggedInFarmId);
   const isMutual = iAmFollowing && theyAreFollowingMe;
 
   const isSelf = loggedInFarmId === currentPlayerId;
