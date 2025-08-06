@@ -6202,7 +6202,6 @@
   "cheers.moreFreeCheersIn": "Lebih banyak sorakan gratis di {{time}}",
   "cheers.guide.description": "Gunakan Cheers untuk mendukung komunitas Anda! Hibur pertanian untuk meningkatkan Poin Sosialnya, atau menghibur monumen atau proyek untuk membantu mempercepat kemajuannya.",
   "cheers.guide.description2": "Anda mendapatkan 3 Cheers gratis setiap hari pukul 12:00 AM UTC.",
-  "cheers.guide.description3": "Bersihkan sampah untuk ditukar dengan bonus Cheers! Kunjungi Garbo dan buang sampah, gulma, kotoran, atau hama ke dalam Incinerator untuk ditukar dengan Cheers ekstra.",
   "reputation.unlock.discord": "Verifikasi Akun Discord - {{points}} poin",
   "airdrop": "Airdrop",
   "noticeboard": "Papan pengumuman",
@@ -6337,5 +6336,6 @@
   "following.farm.success": "Anda sekarang mengikuti peternakan ini",
   "following.farm.error": "Gagal mengikuti peternakan ini",
   "player.notFound": "Pemain tidak ditemukan",
-  "player.notFound.description": "Kami tidak dapat menemukan pemain ini. Silakan coba lagi nanti."
+  "player.notFound.description": "Kami tidak dapat menemukan pemain ini. Silakan coba lagi nanti.",
+  "cheers.guide.description3": "Bersihkan sampah untuk ditukar dengan bonus Cheers! Kunjungi Garbo untuk Koin atau Goblet for Cheers, dengan imbalan sampah, gulma, kotoran, atau hama Anda."
 }

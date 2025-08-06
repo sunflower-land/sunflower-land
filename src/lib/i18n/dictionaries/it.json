@@ -6202,7 +6202,6 @@
   "cheers.moreFreeCheersIn": "Altri applausi gratuiti in {{time}}",
   "cheers.guide.description": "Usa Cheers per sostenere la tua community! Fai il tifo per una fattoria per aumentarne i punti sociali, oppure incoraggia un monumento o un progetto per accelerarne il progresso.",
   "cheers.guide.description2": "Ricevi 3 Cheers gratuiti ogni giorno alle 00:00 UTC.",
-  "cheers.guide.description3": "Pulisci la spazzatura per scambiarla con bonus Cheers! Visita Garbo e getta rifiuti, erbacce, letame o parassiti nell'Inceneritore per scambiarli con altri Cheers.",
   "reputation.unlock.discord": "Verifica l'account Discord - {{points}} punti",
   "airdrop": "Airdrop",
   "noticeboard": "Bacheca",
@@ -6337,5 +6336,6 @@
   "following.farm.success": "Stai seguendo questo agriturismo",
   "following.farm.error": "Non sono riuscito a seguire questa fattoria",
   "player.notFound": "Giocatore non trovato",
-  "player.notFound.description": "Non siamo riusciti a trovare questo giocatore. Riprova più tardi."
+  "player.notFound.description": "Non siamo riusciti a trovare questo giocatore. Riprova più tardi.",
+  "cheers.guide.description3": "Pulisci la spazzatura per scambiarla con bonus Cheers! Visita Garbo in cambio di monete o Goblet in cambio di spazzatura, erbacce, letame o parassiti."
 }

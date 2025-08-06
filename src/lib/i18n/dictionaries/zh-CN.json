@@ -6202,7 +6202,6 @@
   "cheers.moreFreeCheersIn": "{{time}} 中有更多免费欢呼",
   "cheers.guide.description": "使用 Cheers 来支持您的社区！为农场加油以提高其社交积分，或者为纪念碑或项目加油以帮助加快其进度。",
   "cheers.guide.description2": "每天凌晨 12:00 UTC，你将获得 3 次免费欢呼。",
-  "cheers.guide.description3": "清理垃圾以换取奖励干杯！拜访嘉宝，将垃圾、杂草、粪便或害虫扔进焚化炉，以换取额外的欢呼。",
   "reputation.unlock.discord": "验证 Discord 账户-{{points}} 积分",
   "airdrop": "空投",
   "noticeboard": "布告板",
@@ -6337,5 +6336,6 @@
   "following.farm.success": "你现在正在关注这个农场",
   "following.farm.error": "未能关注这个农场",
   "player.notFound": "找不到玩家",
-  "player.notFound.description": "我们找不到这个玩家。请稍后再试。"
+  "player.notFound.description": "我们找不到这个玩家。请稍后再试。",
+  "cheers.guide.description3": "清理垃圾以换取奖励干杯！前往嘉宝换取金币或高脚杯欢呼，以换取您的垃圾、杂草、粪便或害虫。"
 }

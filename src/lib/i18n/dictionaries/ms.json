@@ -6202,7 +6202,6 @@
   "cheers.moreFreeCheersIn": "Lebih banyak sorakan percuma di {{time}}",
   "cheers.guide.description": "Gunakan Cheers untuk menyokong komuniti anda! Hiburkan ladang untuk meningkatkan Mata Sosialnya, atau menghiburkan monumen atau projek untuk membantu mempercepat kemajuannya.",
   "cheers.guide.description2": "Anda mendapat 3 Cheers percuma setiap hari pada 12:00 AM UTC.",
-  "cheers.guide.description3": "Bersihkan sampah untuk ditukar dengan bonus Cheers! Lawati Garbo dan buang sampah, rumpai, kotoran atau perosak ke dalam Incinerator untuk berdagang untuk mendapatkan Cheers tambahan.",
   "reputation.unlock.discord": "Sahkan Akaun Discord - mata {{points}}",
   "airdrop": "Airdrop",
   "noticeboard": "Papan Pemberitahuan",
@@ -6337,5 +6336,6 @@
   "following.farm.success": "Anda kini mengikuti ladang ini",
   "following.farm.error": "Gagal mengikuti ladang ini",
   "player.notFound": "Pemain tidak ditemui",
-  "player.notFound.description": "Kami tidak dapat mencari pemain ini. Sila cuba lagi nanti."
+  "player.notFound.description": "Kami tidak dapat mencari pemain ini. Sila cuba lagi nanti.",
+  "cheers.guide.description3": "Bersihkan sampah untuk ditukar dengan bonus Cheers! Lawati Garbo untuk Syiling atau Goblet for Cheers, sebagai pertukaran untuk sampah, rumpai, kotoran atau perosak anda."
 }
