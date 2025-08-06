@@ -16,7 +16,12 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import Decimal from "decimal.js-light";
 import classNames from "classnames";
-import { MonumentName } from "features/game/types/monuments";
+import {
+  getMonumentBoostedAmount,
+  getMonumentRewards,
+  MonumentName,
+  REQUIRED_CHEERS,
+} from "features/game/types/monuments";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import {
   SFTDetailPopoverInnerPanel,
@@ -25,11 +30,7 @@ import {
 import chest from "assets/icons/chest.png";
 import { Box } from "components/ui/Box";
 import { formatNumber } from "lib/utils/formatNumber";
-import {
-  getLoveCharmBoost,
-  REQUIRED_CHEERS,
-  REWARD_ITEMS,
-} from "features/game/events/landExpansion/completeProject";
+
 import { GameState } from "features/game/types/game";
 import { hasFeatureAccess } from "lib/flags";
 
@@ -47,7 +48,6 @@ import basicCookingPotOne from "assets/monuments/basic_cooking_pot_stage_1.webp"
 import expertCookingPotOne from "assets/monuments/expert_cooking_pot_stage_1.webp";
 
 import advancedCookingPotOne from "assets/monuments/advanced_cooking_pot_stage_1.webp";
-import cloneDeep from "lodash.clonedeep";
 import { getPlayer } from "features/social/actions/getPlayer";
 import { useAuth } from "features/auth/lib/Provider";
 import { Player } from "features/social/types/types";
@@ -197,24 +197,13 @@ const ProjectModal: React.FC<{
   const [isLoading, setIsLoading] = useState(false);
   const [winner, setWinner] = useState<Player>();
 
-  const rewards = cloneDeep(REWARD_ITEMS);
-
-  if (hasFeatureAccess(state, "CHEERS_V2")) {
-    rewards["Big Orange"] = { amount: 1, item: "Bronze Love Box" };
-    rewards["Big Apple"] = { amount: 1, item: "Silver Love Box" };
-    rewards["Big Banana"] = { amount: 1, item: "Gold Love Box" };
-
-    // Double Food Box Rewards
-    rewards["Basic Cooking Pot"] = { amount: 2, item: "Bronze Love Box" };
-    rewards["Expert Cooking Pot"] = { amount: 2, item: "Silver Love Box" };
-    rewards["Advanced Cooking Pot"] = { amount: 2, item: "Gold Love Box" };
-  }
+  const rewards = getMonumentRewards({ state, monument: project });
 
   const rewardItem = rewards[project];
 
   let amount = rewardItem?.amount ?? 0;
   if (rewardItem?.item === "Love Charm") {
-    amount += getLoveCharmBoost(state, amount);
+    amount = getMonumentBoostedAmount({ gameState: state, amount });
   }
 
   const isProjectComplete = cheers >= REQUIRED_CHEERS[project];

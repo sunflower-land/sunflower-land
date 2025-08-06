@@ -24,12 +24,12 @@ import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuff
 import {
   LOVE_CHARM_MONUMENTS,
   MonumentName,
+  REQUIRED_CHEERS,
   WORKBENCH_MONUMENTS,
 } from "features/game/types/monuments";
 import { GameState } from "features/game/types/game";
 import { Label } from "components/ui/Label";
 import cheer from "assets/icons/cheer.webp";
-import { REQUIRED_CHEERS } from "features/game/events/landExpansion/completeProject";
 
 const VALID_EQUIPMENT: HeliosBlacksmithItem[] = [
   "Basic Scarecrow",
