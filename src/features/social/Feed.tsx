@@ -16,6 +16,8 @@ import { InteractionBubble } from "./components/InteractionBubble";
 import { getRelativeTime } from "lib/utils/time";
 
 import promote from "assets/icons/promote.webp";
+import followingIcon from "assets/icons/following.webp";
+
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
@@ -36,6 +38,7 @@ import { Loading } from "features/auth/components";
 import { FollowsIndicator } from "./components/FollowsIndicator";
 import { FollowList } from "./components/FollowList";
 import { useFeed } from "./FeedContext";
+import { useOnMachineTransition } from "lib/utils/hooks/useOnMachineTransition";
 
 type Props = {
   type: "world" | "local";
@@ -163,6 +166,13 @@ export const Feed: React.FC<Props> = ({
     },
   });
 
+  useOnMachineTransition(
+    gameService,
+    "followingFarm",
+    "followingFarmSuccess",
+    mutate,
+  );
+
   const handleInteractionClick = (interaction: Interaction) => {
     setShowFeed(false);
     playerModalManager.open({
@@ -177,6 +187,15 @@ export const Feed: React.FC<Props> = ({
     setShowFollowing(true);
     playerModalManager.open({
       farmId: playerId,
+    });
+  };
+
+  const handleFollowClick = (id: number) => {
+    gameService.send("farm.followed", {
+      effect: {
+        type: "farm.followed",
+        followedId: id,
+      },
     });
   };
 
@@ -277,9 +296,11 @@ export const Feed: React.FC<Props> = ({
         {!showFollowing && (
           <FeedContent
             feed={feed}
+            following={following ?? []}
             username={username ?? `#${farmId}`}
             isLoadingInitialData={isLoadingInitialData}
             isLoadingMore={isLoadingMore}
+            onFollowClick={handleFollowClick}
             hasMore={hasMore}
             loadMore={loadMore}
             onInteractionClick={handleInteractionClick}
@@ -292,19 +313,23 @@ export const Feed: React.FC<Props> = ({
 
 type FeedContentProps = {
   feed: Interaction[];
+  following: number[];
   username: string;
   isLoadingInitialData: boolean;
   isLoadingMore: boolean;
   hasMore: boolean | undefined;
   onInteractionClick: (interaction: Interaction) => void;
+  onFollowClick: (id: number) => void;
   loadMore: () => void;
 };
 
 const FeedContent: React.FC<FeedContentProps> = ({
   feed,
+  following,
   username,
   isLoadingInitialData,
   onInteractionClick,
+  onFollowClick,
   isLoadingMore,
   hasMore,
   loadMore,
@@ -332,9 +357,18 @@ const FeedContent: React.FC<FeedContentProps> = ({
       (loaderRef as any).current = node;
       // Callback refs, like the one from `useInView`, is a function that takes the node as an argument
       intersectionRef(node);
+      return undefined;
     },
     [intersectionRef],
   );
+
+  const handleFollowClick = (
+    e: React.MouseEvent<HTMLDivElement>,
+    id: number,
+  ) => {
+    e.stopPropagation();
+    onFollowClick(id);
+  };
 
   if (isLoadingInitialData) {
     return <FeedSkeleton />;
@@ -365,6 +399,7 @@ const FeedContent: React.FC<FeedContentProps> = ({
             interaction.type === "announcement"
               ? undefined
               : () => onInteractionClick(interaction);
+          const isFollowing = following.includes(interaction.sender.id);
 
           return (
             <div
@@ -412,6 +447,21 @@ const FeedContent: React.FC<FeedContentProps> = ({
                     >
                       {interaction.message}
                     </div>
+                  </div>
+                  <div className="flex items-center flex-grow cursor-pointer">
+                    {interaction.type === "follow" && !isFollowing && (
+                      <div
+                        className="text-xs w-full flex items-center justify-center"
+                        onClick={(e) =>
+                          handleFollowClick(e, interaction.sender.id)
+                        }
+                      >
+                        <img
+                          src={followingIcon}
+                          className="w-6 object-contain"
+                        />
+                      </div>
+                    )}
                   </div>
                 </div>
               </InteractionBubble>

@@ -57,7 +57,6 @@ export type StateMachineEffectName = Exclude<
   | "moderation.kicked"
   | "moderation.muted"
   | "moderation.unmuted"
-  | "farm.followed"
   | "farm.unfollowed"
   | "message.sent"
 >;
@@ -91,7 +90,8 @@ export type StateMachineStateName =
   | "marketplaceBulkOffersCancelling"
   | "linkingWallet"
   | "assigningNFT"
-  | "cheeringFarm";
+  | "cheeringFarm"
+  | "followingFarm";
 
 export type StateMachineVisitStateName =
   | "cheeringVillageProject"
@@ -135,6 +135,7 @@ export const STATE_MACHINE_EFFECTS: Record<
   "wallet.linked": "linkingWallet",
   "nft.assigned": "assigningNFT",
   "farm.cheered": "cheeringFarm",
+  "farm.followed": "followingFarm",
 };
 
 export const STATE_MACHINE_VISIT_EFFECTS: Record<

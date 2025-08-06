@@ -11,6 +11,7 @@ import volcanoIsland from "assets/icons/islands/volcano.webp";
 import flowerIcon from "assets/icons/flower_token.webp";
 import cheer from "assets/icons/cheer.webp";
 import socialPointsIcon from "assets/icons/social_score.webp";
+import followingIcon from "assets/icons/following.webp";
 
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -83,10 +84,6 @@ const _hasCheeredToday = (farmId: number) => (state: MachineState) => {
     ).socialFarming.cheersGiven.farms.includes(farmId)
   );
 };
-const _haveCleanedToday = (playerId: number) => (state: MachineState) => {
-  return !!(state.context.visitorState ?? state.context.state).socialFarming
-    .dailyCollections?.[playerId]?.pointGivenAt;
-};
 
 export const PlayerDetails: React.FC<Props> = ({
   data,
@@ -141,6 +138,21 @@ export const PlayerDetails: React.FC<Props> = ({
         <PlayerDetailsSkeleton />
         {!isMobile && <FollowerFeedSkeleton />}
       </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <InnerPanel className="flex gap-1 w-full max-h-[400px]">
+        <div className="flex flex-col justify-center mr-2 mb-1 gap-2">
+          <Label type="default" className="relative">
+            {t("player.notFound")}
+          </Label>
+          <span className="text-xs p-1">
+            {t("player.notFound.description")}
+          </span>
+        </div>
+      </InnerPanel>
     );
   }
 
@@ -353,6 +365,10 @@ export const PlayerDetails: React.FC<Props> = ({
                 disabled={playerLoading || followLoading || !!error || isSelf}
                 onClick={onFollow}
               >
+                <img
+                  src={iAmFollowing ? SUNNYSIDE.icons.drag : followingIcon}
+                  className="w-4 h-4 mr-1 pt-0.5 object-contain"
+                />
                 <span className="text-xs">
                   {followLoading ? `...` : iAmFollowing ? `Unfollow` : `Follow`}
                 </span>
