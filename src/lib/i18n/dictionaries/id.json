@@ -6061,7 +6061,6 @@
   "playerModal.followers": "Pengikut ({{count}})",
   "playerModal.following": "Mengikuti ({{count}})",
   "playerModal.no.followers": "Pemain ini saat ini tidak memiliki pengikut.",
-  "playerModal.no.following": "Pemain ini saat ini tidak memiliki siapa pun yang mengikuti mereka.",
   "playerModal.noFollowers": "Tidak ada pengikut",
   "playerModal.noMoreMessages": "Tidak ada lagi pesan",
   "social.report.description": "Jelaskan masalahnya...",
@@ -6337,5 +6336,6 @@
   "following.farm.error": "Gagal mengikuti peternakan ini",
   "player.notFound": "Pemain tidak ditemukan",
   "player.notFound.description": "Kami tidak dapat menemukan pemain ini. Silakan coba lagi nanti.",
-  "cheers.guide.description3": "Bersihkan sampah untuk ditukar dengan bonus Cheers! Kunjungi Garbo untuk Koin atau Goblet for Cheers, dengan imbalan sampah, gulma, kotoran, atau hama Anda."
+  "cheers.guide.description3": "Bersihkan sampah untuk ditukar dengan bonus Cheers! Kunjungi Garbo untuk Koin atau Goblet for Cheers, dengan imbalan sampah, gulma, kotoran, atau hama Anda.",
+  "playerModal.no.following": "Pemain ini saat ini tidak mengikuti siapa pun."
 }

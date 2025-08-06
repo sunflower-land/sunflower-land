@@ -6061,7 +6061,6 @@
   "playerModal.followers": "Abonnés ({{count}})",
   "playerModal.following": "Suivant ({{count}})",
   "playerModal.no.followers": "Ce joueur n'a actuellement aucun abonné.",
-  "playerModal.no.following": "Ce joueur n'a actuellement personne qui le suit.",
   "playerModal.noFollowers": "Aucun abonné",
   "playerModal.noMoreMessages": "Plus aucun message",
   "social.report.description": "Décrivez le problème...",
@@ -6337,5 +6336,6 @@
   "following.farm.error": "Je n'ai pas réussi à suivre cette ferme",
   "player.notFound": "Joueur introuvable",
   "player.notFound.description": "Nous n'avons pas pu trouver ce joueur. Veuillez réessayer ultérieurement.",
-  "cheers.guide.description3": "Nettoyez les poubelles pour les échanger contre des Cheers en prime ! Rendez visite à Garbo pour des pièces ou à Goblet for Cheers, en échange de vos déchets, de vos mauvaises herbes, de votre fumier ou de vos parasites."
+  "cheers.guide.description3": "Nettoyez les poubelles pour les échanger contre des Cheers en prime ! Rendez visite à Garbo pour des pièces ou à Goblet for Cheers, en échange de vos déchets, de vos mauvaises herbes, de votre fumier ou de vos parasites.",
+  "playerModal.no.following": "Ce joueur ne suit personne pour le moment."
 }

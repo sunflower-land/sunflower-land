@@ -6061,7 +6061,6 @@
   "playerModal.followers": "Abonnenten ({{count}})",
   "playerModal.following": "Es folgt ({{count}})",
   "playerModal.no.followers": "Dieser Spieler hat derzeit keine Follower.",
-  "playerModal.no.following": "Dieser Spieler hat derzeit niemanden, der ihm folgt.",
   "playerModal.noFollowers": "Keine Follower",
   "playerModal.noMoreMessages": "Keine Nachrichten mehr",
   "social.report.description": "Beschreiben Sie das Problem...",
@@ -6337,5 +6336,6 @@
   "following.farm.error": "Dieser Farm konnte nicht gefolgt werden",
   "player.notFound": "Spieler wurde nicht gefunden",
   "player.notFound.description": "Wir konnten diesen Spieler nicht finden. Bitte versuchen Sie es später erneut.",
-  "cheers.guide.description3": "Räumt Müll auf und tauscht ihn gegen Bonus ein. Prost! Besucht Garbo für Münzen oder Kelch gegen Cheers, im Tausch gegen Müll, Unkraut, Mist oder Schädlinge."
+  "cheers.guide.description3": "Räumt Müll auf und tauscht ihn gegen Bonus ein. Prost! Besucht Garbo für Münzen oder Kelch gegen Cheers, im Tausch gegen Müll, Unkraut, Mist oder Schädlinge.",
+  "playerModal.no.following": "Dieser Spieler folgt derzeit niemandem."
 }

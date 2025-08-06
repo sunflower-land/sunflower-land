@@ -6061,7 +6061,6 @@
   "playerModal.followers": "フォロワー ({{count}})",
   "playerModal.following": "フォロー中 ({{count}})",
   "playerModal.no.followers": "このプレイヤーには現在フォロワーがいません。",
-  "playerModal.no.following": "このプレイヤーには現在フォローしている人がいません。",
   "playerModal.noFollowers": "フォロワーなし",
   "playerModal.noMoreMessages": "これ以上メッセージはありません",
   "social.report.description": "問題を説明してください...",
@@ -6337,5 +6336,6 @@
   "following.farm.error": "このファームをフォローできませんでした",
   "player.notFound": "プレイヤーが見つかりません",
   "player.notFound.description": "このプレイヤーは見つかりませんでした。後でもう一度試してください。",
-  "cheers.guide.description3": "ゴミを片付けてボーナスチアーと交換しよう！ゴミ、雑草、糞、害虫と引き換えにガルボを訪れてコインを、またはゴブレットで乾杯しましょう。"
+  "cheers.guide.description3": "ゴミを片付けてボーナスチアーと交換しよう！ゴミ、雑草、糞、害虫と引き換えにガルボを訪れてコインを、またはゴブレットで乾杯しましょう。",
+  "playerModal.no.following": "このプレイヤーは現在誰もフォローしていません。"
 }

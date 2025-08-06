@@ -6061,7 +6061,6 @@
   "playerModal.followers": "Seguidores ({{count}})",
   "playerModal.following": "Siguiendo ({{count}})",
   "playerModal.no.followers": "Este jugador no tiene seguidores actualmente.",
-  "playerModal.no.following": "Este jugador no tiene a nadie que lo siga actualmente.",
   "playerModal.noFollowers": "No hay seguidores",
   "playerModal.noMoreMessages": "No hay más mensajes",
   "social.report.description": "Describe el problema...",
@@ -6337,5 +6336,6 @@
   "following.farm.error": "No se pudo seguir esta granja",
   "player.notFound": "No se ha encontrado el jugador",
   "player.notFound.description": "No hemos podido encontrar este jugador. Vuelve a intentarlo más tarde.",
-  "cheers.guide.description3": "Limpia la basura para cambiarla por una bonificación. ¡Salud! Visita Garbo para conseguir monedas o Goblet for Cheers, a cambio de basura, hierba, estiércol o plagas."
+  "cheers.guide.description3": "Limpia la basura para cambiarla por una bonificación. ¡Salud! Visita Garbo para conseguir monedas o Goblet for Cheers, a cambio de basura, hierba, estiércol o plagas.",
+  "playerModal.no.following": "Este jugador no sigue a nadie en este momento."
 }

@@ -6061,7 +6061,6 @@
   "playerModal.followers": "关注者 ({{count}})",
   "playerModal.following": "正在关注 ({{count}})",
   "playerModal.no.followers": "该玩家目前没有关注者。",
-  "playerModal.no.following": "该玩家目前没有人关注他们。",
   "playerModal.noFollowers": "没有关注者",
   "playerModal.noMoreMessages": "没有更多消息了",
   "social.report.description": "描述问题...",
@@ -6337,5 +6336,6 @@
   "following.farm.error": "未能关注这个农场",
   "player.notFound": "找不到玩家",
   "player.notFound.description": "我们找不到这个玩家。请稍后再试。",
-  "cheers.guide.description3": "清理垃圾以换取奖励干杯！前往嘉宝换取金币或高脚杯欢呼，以换取您的垃圾、杂草、粪便或害虫。"
+  "cheers.guide.description3": "清理垃圾以换取奖励干杯！前往嘉宝换取金币或高脚杯欢呼，以换取您的垃圾、杂草、粪便或害虫。",
+  "playerModal.no.following": "该玩家目前没有关注任何人。"
 }

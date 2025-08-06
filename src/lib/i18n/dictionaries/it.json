@@ -6061,7 +6061,6 @@
   "playerModal.followers": "Seguaci ({{count}})",
   "playerModal.following": "A seguire ({{count}})",
   "playerModal.no.followers": "Questo giocatore al momento non ha follower.",
-  "playerModal.no.following": "Questo giocatore al momento non ha nessuno che lo segue.",
   "playerModal.noFollowers": "Nessun follower",
   "playerModal.noMoreMessages": "Niente più messaggi",
   "social.report.description": "Descrivi il problema...",
@@ -6337,5 +6336,6 @@
   "following.farm.error": "Non sono riuscito a seguire questa fattoria",
   "player.notFound": "Giocatore non trovato",
   "player.notFound.description": "Non siamo riusciti a trovare questo giocatore. Riprova più tardi.",
-  "cheers.guide.description3": "Pulisci la spazzatura per scambiarla con bonus Cheers! Visita Garbo in cambio di monete o Goblet in cambio di spazzatura, erbacce, letame o parassiti."
+  "cheers.guide.description3": "Pulisci la spazzatura per scambiarla con bonus Cheers! Visita Garbo in cambio di monete o Goblet in cambio di spazzatura, erbacce, letame o parassiti.",
+  "playerModal.no.following": "Questo giocatore al momento non segue nessuno."
 }

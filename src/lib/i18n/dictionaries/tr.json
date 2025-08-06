@@ -6061,7 +6061,6 @@
   "playerModal.followers": "Takipçiler ({{count}})",
   "playerModal.following": "Aşağıdaki ({{count}})",
   "playerModal.no.followers": "Bu oyuncunun şu anda takipçisi yok.",
-  "playerModal.no.following": "Bu oyuncunun şu anda onları takip eden kimse yok.",
   "playerModal.noFollowers": "Takipçi yok",
   "playerModal.noMoreMessages": "Daha fazla mesaj yok",
   "social.report.description": "Sorunu açıklayın...",
@@ -6337,5 +6336,6 @@
   "following.farm.error": "Bu çiftliği takip edemedi",
   "player.notFound": "Oyuncu bulunamadı",
   "player.notFound.description": "Bu oyuncuyu bulamadık. Lütfen daha sonra tekrar deneyin.",
-  "cheers.guide.description3": "Bonus Teşekkürler almak için çöpleri temizleyin! Çöpleriniz, yabani otlarınız, gübreleriniz veya zararlılarınız karşılığında Garbo for Coins veya Goblet for Cheers'ı ziyaret edin."
+  "cheers.guide.description3": "Bonus Teşekkürler almak için çöpleri temizleyin! Çöpleriniz, yabani otlarınız, gübreleriniz veya zararlılarınız karşılığında Garbo for Coins veya Goblet for Cheers'ı ziyaret edin.",
+  "playerModal.no.following": "Bu oyuncu şu anda kimseyi takip etmiyor."
 }

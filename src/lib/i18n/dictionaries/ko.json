@@ -6061,7 +6061,6 @@
   "playerModal.followers": "팔로워 ({{count}})",
   "playerModal.following": "팔로잉 ({{count}})",
   "playerModal.no.followers": "이 플레이어는 현재 팔로워가 없습니다.",
-  "playerModal.no.following": "이 플레이어는 현재 팔로우하는 사람이 없습니다.",
   "playerModal.noFollowers": "팔로워 없음",
   "playerModal.noMoreMessages": "더 이상 메시지 없음",
   "social.report.description": "문제를 설명해 주세요...",
@@ -6337,5 +6336,6 @@
   "following.farm.error": "이 팜을 팔로우하지 못했습니다",
   "player.notFound": "플레이어를 찾을 수 없음",
   "player.notFound.description": "이 선수를 찾을 수 없습니다.나중에 다시 시도해 주세요.",
-  "cheers.guide.description3": "쓰레기를 치우고 보너스 치어스로 교환하세요!쓰레기, 잡초, 배설물, 해충을 교환할 수 있는 Garbo를 방문하여 동전을 얻거나 잔에서 건배를 받으세요."
+  "cheers.guide.description3": "쓰레기를 치우고 보너스 치어스로 교환하세요!쓰레기, 잡초, 배설물, 해충을 교환할 수 있는 Garbo를 방문하여 동전을 얻거나 잔에서 건배를 받으세요.",
+  "playerModal.no.following": "이 플레이어는 현재 아무도 팔로우하고 있지 않습니다."
 }

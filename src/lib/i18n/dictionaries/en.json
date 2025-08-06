@@ -6095,7 +6095,7 @@
   "playerModal.followers": "Followers ({{count}})",
   "playerModal.following": "Following ({{count}})",
   "playerModal.no.followers": "This player currently has no followers.",
-  "playerModal.no.following": "This player currently has no one following them.",
+  "playerModal.no.following": "This player is currently not following anyone.",
   "playerModal.dailyStreak": "Daily streak: {{streak}}",
   "playerModal.noFollowers": "No followers",
   "playerModal.noMoreMessages": "No more messages",
