@@ -1,4 +1,4 @@
-import seasonal_plaza from "assets/map/seasonal_plaza.json";
+import seasonal_plaza from "assets/map/seasonal_plaza_merged.json";
 import seasonal_tileset from "assets/map/seasonal_tileset.json";
 import { SceneId } from "../mmoMachine";
 import { BaseScene, NPCBumpkin } from "./BaseScene";
@@ -97,6 +97,23 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     x: 728,
     y: 274,
     npc: "bailey",
+    direction: "left",
+  },
+  {
+    x: 1142,
+    y: 95,
+    npc: "eins",
+  },
+  {
+    x: 1338,
+    y: 54,
+    npc: "garth",
+    direction: "left",
+  },
+  {
+    x: 1105,
+    y: 378,
+    npc: "orlin",
     direction: "left",
   },
 ];
