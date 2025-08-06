@@ -787,6 +787,16 @@ export function getCropYieldAmount({
     boostsUsed.push("Hectare Farm");
   }
 
+  if (isCollectibleBuilt({ game, name: "Giant Onion" }) && crop === "Onion") {
+    amount += 3;
+    boostsUsed.push("Giant Onion");
+  }
+
+  /**
+   * All boosts should be applied above this comment
+   * Calendar events should be applied below this comment
+   */
+
   // Insect plague
   const isInsectPlagueActive =
     getActiveCalendarEvent({ game }) === "insectPlague";
