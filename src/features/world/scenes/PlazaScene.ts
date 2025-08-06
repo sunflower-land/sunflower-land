@@ -14,6 +14,7 @@ import { translate } from "lib/i18n/translate";
 import { capitalize } from "lib/utils/capitalize";
 import { getBumpkinHoliday } from "lib/utils/getSeasonWeek";
 import { DogContainer } from "../containers/DogContainer";
+import { getBumpkinLevel } from "features/game/lib/level";
 
 export type FactionNPC = {
   npc: NPCName;
@@ -201,7 +202,7 @@ export class PlazaScene extends BaseScene {
 
     // Stella Megastore items
     this.load.image("fruit_tune_box", "world/fruit_tune_box.webp");
-    this.load.image("garbage_bin_hat", "world/garbage_bin_hat.png");
+    this.load.image("trash_bin_hat", "world/trash_bin_hat.webp");
 
     // Auction Items
     this.load.image("groovy_gramophone", "world/groovy_gramophone.webp");
@@ -649,7 +650,7 @@ export class PlazaScene extends BaseScene {
 
     this.add.image(250, 244, "fruit_tune_box");
 
-    this.add.image(288.5, 247, "garbage_bin_hat").setScale(0.03);
+    this.add.image(288.5, 247, "trash_bin_hat");
 
     if (this.textures.exists("sparkle")) {
       const sparkle = this.add.sprite(567, 191, "sparkle");
@@ -689,13 +690,13 @@ export class PlazaScene extends BaseScene {
     nft1.setDepth(191);
 
     const nft2 = this.add.image(589, 205.5, "oil_gallon");
-    nft2.setScale(0.35).setDepth(205);
+    nft2.setDepth(205);
 
     const nft3 = this.add.image(601, 181, "groovy_gramophone");
     nft3.setDepth(181);
 
     const nft4 = this.add.image(612, 205, "lava_swimwear");
-    nft4.setScale(0.12).setDepth(205);
+    nft4.setDepth(205);
 
     const nft5 = this.add.image(635, 191, "giant_turnip");
     nft5.setDepth(181);
@@ -739,6 +740,25 @@ export class PlazaScene extends BaseScene {
       }
 
       return;
+    };
+
+    const potion_house_door = this.colliders
+      ?.getChildren()
+      .find((object) => object.data?.list?.id === "potion_house_door");
+
+    const canEnterPotionHouse =
+      getBumpkinLevel(this.gameState.bumpkin.experience ?? 0) > 6;
+
+    if (potion_house_door && canEnterPotionHouse) {
+      this.physics.world.disable(potion_house_door);
+      this.layers["Potion House Door"].setVisible(false);
+    }
+
+    this.onCollision["potion_house_door"] = async () => {
+      if (!canEnterPotionHouse) {
+        interactableModalManager.open("potion_house");
+        return;
+      }
     };
 
     const server = this.mmoService?.state.context.server;

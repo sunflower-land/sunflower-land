@@ -665,6 +665,9 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
             {
               text: t("interactableModals.potionHouse.message2"),
             },
+            {
+              text: t("interactableModals.potionHouse.message3"),
+            },
           ]}
         />
       </Modal>
