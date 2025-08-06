@@ -373,6 +373,10 @@ export const getCropPlotTime = ({
     boostsUsed.push("Giant Zucchini");
   }
 
+  if (isCollectibleBuilt({ name: "Giant Turnip", game }) && crop === "Turnip") {
+    seconds = seconds * 0.5;
+  }
+
   const isSunshower = getActiveCalendarEvent({ game }) === "sunshower";
 
   if (isSunshower) {
