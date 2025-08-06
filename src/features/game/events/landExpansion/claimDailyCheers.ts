@@ -3,7 +3,6 @@ import { hasVipAccess } from "features/game/lib/vipAccess";
 import { GameState } from "features/game/types/game";
 import { getCurrentSeason } from "features/game/types/seasons";
 import { produce } from "immer";
-import { hasFeatureAccess } from "lib/flags";
 
 export type ClaimCheersAction = {
   type: "cheers.claimed";
@@ -21,10 +20,6 @@ export function claimDailyCheers({
   createdAt = Date.now(),
 }: Options) {
   return produce(state, (draft) => {
-    if (!hasFeatureAccess(draft, "CHEERS")) {
-      throw new Error("Cheers feature is not enabled");
-    }
-
     const {
       socialFarming: { cheers },
     } = draft;
