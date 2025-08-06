@@ -18,6 +18,7 @@ import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 import Decimal from "decimal.js-light";
 import broomIcon from "assets/icons/broom.webp";
+import { Incinerator } from "features/goblins/incinerator/Incinerator";
 
 interface BinGuideProps {
   onClose: () => void;
@@ -48,7 +49,7 @@ export const BinGuide: React.FC<BinGuideProps> = ({ onClose }) => {
       onClose={onClose}
     >
       {tab === 0 && <Bin onClose={onClose} />}
-      {tab === 1 && <Burn />}
+      {tab === 1 && <Incinerator />}
     </CloseButtonPanel>
   );
 };
@@ -147,21 +148,6 @@ export const Bin: React.FC<{ onClose: () => void }> = ({ onClose }) => {
           {t("bin.increaseLimit")}
         </Button>
       </>
-    </>
-  );
-};
-
-export const Burn: React.FC = () => {
-  const { t } = useAppTranslation();
-
-  return (
-    <>
-      <div className="p-1">
-        <Label type="info" className="mb-2">
-          {t("coming.soon")}
-        </Label>
-        <p className="text-sm">{t("visitorGuide.binGuide.burn.description")}</p>
-      </div>
     </>
   );
 };

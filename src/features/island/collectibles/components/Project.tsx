@@ -493,7 +493,19 @@ export const Project: React.FC<ProjectProps> = (input) => {
                         "animate-pulsate": hasCheers,
                       },
                     )}
-                    onClick={() => setIsCheering(true)}
+                    onClick={() => {
+                      if (
+                        hasFeatureAccess(
+                          gameService.getSnapshot().context.visitorState!,
+                          "CHEERS_V2",
+                        )
+                      ) {
+                        // New version doesn't need modal
+                        handleCheer();
+                      } else {
+                        setIsCheering(true);
+                      }
+                    }}
                   >
                     <div
                       className="relative mr-2"

@@ -24,6 +24,7 @@ import {
 } from "components/ui/SFTDetailPopover";
 import { CheerModal, PROJECT_IMAGES } from "./Project";
 import powerup from "assets/icons/level_up.png";
+import { hasFeatureAccess } from "lib/flags";
 
 const BOOST_LABELS: Partial<
   Record<
@@ -228,7 +229,19 @@ export const Monument: React.FC<MonumentProps> = (input) => {
                         "animate-pulsate": hasCheers,
                       },
                     )}
-                    onClick={() => setIsCheering(true)}
+                    onClick={() => {
+                      if (
+                        hasFeatureAccess(
+                          gameService.getSnapshot().context.visitorState!,
+                          "CHEERS_V2",
+                        )
+                      ) {
+                        // New version doesn't need modal
+                        handleCheer();
+                      } else {
+                        setIsCheering(true);
+                      }
+                    }}
                   >
                     <div
                       className="relative mr-2"
