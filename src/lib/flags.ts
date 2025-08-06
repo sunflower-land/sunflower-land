@@ -114,9 +114,6 @@ const FEATURE_FLAGS = {
 
   BLESSING: () => true,
 
-  LANDSCAPING_SHOP: betaTimeBasedFeatureFlag(
-    SEASONS["Better Together"].startDate,
-  ),
   WARDROBE: betaTimeBasedFeatureFlag(SEASONS["Better Together"].startDate),
   CRAFTING: betaTimeBasedFeatureFlag(SEASONS["Better Together"].startDate),
   LEATHER_TOOLS: betaTimeBasedFeatureFlag(SEASONS["Better Together"].startDate),

@@ -33,7 +33,6 @@ import { useSound } from "lib/utils/hooks/useSound";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { RoundButton } from "components/ui/RoundButton";
 import { CraftDecorationsModal } from "./components/decorations/CraftDecorationsModal";
-import { hasFeatureAccess } from "lib/flags";
 import { RemoveAllConfirmation } from "../collectibles/RemoveAllConfirmation";
 
 const compareBalance = (prev: Decimal, next: Decimal) => {
@@ -173,32 +172,28 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
                 />
               </RoundButton>
 
-              {location === "farm" &&
-                hasFeatureAccess(
-                  gameService.getSnapshot().context.state,
-                  "LANDSCAPING_SHOP",
-                ) && (
-                  <>
-                    <RoundButton
-                      className="mb-3.5"
-                      onClick={() => setShowDecorations(true)}
-                    >
-                      <img
-                        src={shopIcon}
-                        className="absolute group-active:translate-y-[2px]"
-                        style={{
-                          top: `${PIXEL_SCALE * 2}px`,
-                          left: `${PIXEL_SCALE * 3.7}px`,
-                          width: `${PIXEL_SCALE * 14}px`,
-                        }}
-                      />
-                    </RoundButton>
-                    <CraftDecorationsModal
-                      show={showDecorations}
-                      onHide={() => setShowDecorations(false)}
+              {location === "farm" && (
+                <>
+                  <RoundButton
+                    className="mb-3.5"
+                    onClick={() => setShowDecorations(true)}
+                  >
+                    <img
+                      src={shopIcon}
+                      className="absolute group-active:translate-y-[2px]"
+                      style={{
+                        top: `${PIXEL_SCALE * 2}px`,
+                        left: `${PIXEL_SCALE * 3.7}px`,
+                        width: `${PIXEL_SCALE * 14}px`,
+                      }}
                     />
-                  </>
-                )}
+                  </RoundButton>
+                  <CraftDecorationsModal
+                    show={showDecorations}
+                    onHide={() => setShowDecorations(false)}
+                  />
+                </>
+              )}
 
               <Chest
                 onPlaceChestItem={(selected) => {
