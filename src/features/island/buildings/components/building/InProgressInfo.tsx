@@ -9,15 +9,11 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
-import {
-  COOK_OFF_FOODS,
-  getInstantGems,
-} from "features/game/events/landExpansion/speedUpRecipe";
+import { getInstantGems } from "features/game/events/landExpansion/speedUpRecipe";
 import { BuildingProduct, GameState } from "features/game/types/game";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import fastForward from "assets/icons/fast_forward.png";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
-import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   cooking: BuildingProduct;
@@ -81,22 +77,17 @@ export const InProgressInfo: React.FC<Props> = ({
           />
         </div>
 
-        {!(
-          hasFeatureAccess(state, "PEGGYS_COOKOFF") &&
-          COOK_OFF_FOODS.includes(cooking.name)
-        ) && (
-          <Button
-            disabled={!inventory.Gem?.gte(gems)}
-            className="w-36 sm:w-44 px-3 h-12 mr-[6px]"
-            onClick={() => setShowConfirmation(true)}
-          >
-            <div className="flex items-center justify-center gap-1 mx-2">
-              <img src={fastForward} className="h-5" />
-              <span className="text-sm flex items-center">{gems}</span>
-              <img src={ITEM_DETAILS["Gem"].image} className="h-5" />
-            </div>
-          </Button>
-        )}
+        <Button
+          disabled={!inventory.Gem?.gte(gems)}
+          className="w-36 sm:w-44 px-3 h-12 mr-[6px]"
+          onClick={() => setShowConfirmation(true)}
+        >
+          <div className="flex items-center justify-center gap-1 mx-2">
+            <img src={fastForward} className="h-5" />
+            <span className="text-sm flex items-center">{gems}</span>
+            <img src={ITEM_DETAILS["Gem"].image} className="h-5" />
+          </div>
+        </Button>
 
         <ConfirmationModal
           show={showConfirmation}

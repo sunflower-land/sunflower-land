@@ -1,4 +1,3 @@
-import { COMPETITION_POINTS } from "features/game/types/competitions";
 import type { GameState } from "features/game/types/game";
 import { SEASONS } from "features/game/types/seasons";
 import { CONFIG } from "lib/config";
@@ -94,13 +93,7 @@ const FEATURE_FLAGS = {
   FACE_RECOGNITION_TEST: defaultFeatureFlag,
   LEDGER: testnetLocalStorageFeatureFlag("ledger"),
 
-  EASTER: (game) =>
-    betaTimeBasedFeatureFlag(new Date("2025-04-21T00:00:00Z"))(game) &&
-    Date.now() < new Date("2025-04-29T00:00:00Z").getTime(),
-
-  FESTIVALOFCOLORS: (game) =>
-    betaTimeBasedFeatureFlag(new Date("2025-06-30T00:00:00Z"))(game) &&
-    Date.now() < new Date("2025-07-08T00:00:00Z").getTime(),
+  EASTER: () => false,
 
   STREAM_STAGE_ACCESS: adminFeatureFlag,
 
@@ -115,12 +108,6 @@ const FEATURE_FLAGS = {
   BLESSING: () => true,
 
   CRAFTING: betaTimeBasedFeatureFlag(SEASONS["Better Together"].startDate),
-
-  PEGGYS_COOKOFF: () =>
-    timePeriodFeatureFlag({
-      start: new Date(COMPETITION_POINTS.PEGGYS_COOKOFF.startAt),
-      end: new Date(COMPETITION_POINTS.PEGGYS_COOKOFF.endAt),
-    })(),
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;
