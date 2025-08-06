@@ -202,9 +202,9 @@ export function getMonumentRewards({
     rewards["Big Banana"] = { amount: 1, item: "Gold Love Box" };
 
     // Double Food Box Rewards
-    rewards["Basic Cooking Pot"] = { amount: 2, item: "Bronze Love Box" };
-    rewards["Expert Cooking Pot"] = { amount: 2, item: "Silver Love Box" };
-    rewards["Advanced Cooking Pot"] = { amount: 2, item: "Gold Love Box" };
+    rewards["Basic Cooking Pot"] = { amount: 2, item: "Bronze Food Box" };
+    rewards["Expert Cooking Pot"] = { amount: 2, item: "Silver Food Box" };
+    rewards["Advanced Cooking Pot"] = { amount: 2, item: "Gold Food Box" };
   }
 
   return rewards;
