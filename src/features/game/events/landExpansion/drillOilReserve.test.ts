@@ -305,6 +305,43 @@ describe("drillOilReserve", () => {
     );
   });
 
+  it("gives a +5 boost with Oil Gallon equipped", () => {
+    const now = Date.now();
+
+    const game = drillOilReserve({
+      action: {
+        id: "1",
+        type: "oilReserve.drilled",
+      },
+      state: {
+        ...TEST_FARM,
+        inventory: {
+          "Oil Drill": new Decimal(2),
+        },
+        oilReserves: {
+          "1": {
+            x: 1,
+            y: 1,
+            createdAt: now,
+            drilled: 0,
+            oil: {
+              drilledAt: 0,
+            },
+          },
+        },
+        bumpkin: {
+          ...TEST_BUMPKIN,
+          equipped: {
+            ...TEST_BUMPKIN.equipped,
+            secondaryTool: "Oil Gallon",
+          },
+        },
+      },
+    });
+
+    expect(game.inventory.Oil).toEqual(new Decimal(BASE_OIL_DROP_AMOUNT + 5));
+  });
+
   it("gives a +0.1 Bonus with Knight Chicken", () => {
     const boost = 0.1;
     const now = Date.now();
