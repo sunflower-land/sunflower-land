@@ -3,7 +3,7 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Label } from "components/ui/Label";
 import { useTranslation } from "react-i18next";
 import { getKeys } from "features/game/types/craftables";
-import { LAVA_PIT_REQUIREMENTS } from "features/game/events/landExpansion/startLavaPit";
+import { getLavaPitRequirements } from "features/game/events/landExpansion/startLavaPit";
 import { useSelector } from "@xstate/react";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
@@ -59,7 +59,9 @@ export const LavaPitModalContent: React.FC<Props> = ({ onClose, id }) => {
     gameService.send("lavaPit.collected", { id });
   };
 
-  const requirements = LAVA_PIT_REQUIREMENTS[season.season];
+  const { requirements } = getLavaPitRequirements(
+    gameService.state.context.state,
+  );
 
   const hasIngredients = getKeys(requirements).every((itemName) =>
     (inventory[itemName] ?? new Decimal(0)).gte(

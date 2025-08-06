@@ -54,6 +54,11 @@ export function getOilDropAmount(game: GameState, reserve: OilReserve) {
     boostsUsed.push("Oil Extraction");
   }
 
+  if (isWearableActive({ game, name: "Oil Gallon" })) {
+    amount = amount.add(5);
+    boostsUsed.push("Oil Gallon");
+  }
+
   return { amount: amount.toDecimalPlaces(4).toNumber(), boostsUsed };
 }
 

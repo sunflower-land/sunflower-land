@@ -657,6 +657,48 @@ describe("plant", () => {
       dateNow - 0.1 * CROPS.Parsnip.harvestSeconds * 1000,
     );
   });
+  it("grows turnip twice as fast with Giant Turnip placed.", () => {
+    const state = plant({
+      state: {
+        ...GAME_STATE,
+        bumpkin: TEST_BUMPKIN,
+        inventory: {
+          "Turnip Seed": new Decimal(1),
+          "Giant Turnip": new Decimal(1),
+        },
+        season: {
+          season: "winter",
+          startedAt: 0,
+        },
+        collectibles: {
+          "Giant Turnip": [
+            {
+              id: "123",
+              createdAt: dateNow,
+              coordinates: { x: 1, y: 1 },
+              readyAt: dateNow - 100,
+            },
+          ],
+        },
+      },
+      createdAt: dateNow,
+      action: {
+        type: "seed.planted",
+        cropId: "123",
+        index: Object.keys(GAME_STATE.crops)[0],
+        item: "Turnip Seed",
+      },
+    });
+
+    const turnipTime = CROPS.Turnip.harvestSeconds * 1000;
+
+    const crops = state.crops;
+
+    expect(crops).toBeDefined();
+    const plantedAt = crops[firstId].crop?.plantedAt || 0;
+
+    expect(plantedAt).toBe(dateNow - turnipTime * 0.5);
+  });
 
   describe("getCropTime", () => {
     const plot = GAME_STATE.crops[firstId];

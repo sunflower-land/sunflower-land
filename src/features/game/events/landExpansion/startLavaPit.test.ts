@@ -68,6 +68,30 @@ describe("startLavaPit", () => {
     expect(result.inventory.Oil).toEqual(new Decimal(0));
   });
 
+  it("subtracts the required resources with lava swimwear", () => {
+    const result = startLavaPit({
+      state: {
+        ...TEST_FARM,
+        bumpkin: {
+          ...TEST_FARM.bumpkin,
+          equipped: {
+            ...TEST_FARM.bumpkin.equipped,
+            dress: "Lava Swimwear",
+          },
+        },
+        lavaPits: {
+          1: { x: 0, y: 0, createdAt: 0 },
+        },
+      },
+      action: { type: "lavaPit.started", id: "1" },
+      createdAt: now,
+    });
+
+    expect(result.inventory.Oil).toEqual(new Decimal(50));
+    expect(result.inventory.Pepper).toEqual(new Decimal(375));
+    expect(result.inventory.Zucchini).toEqual(new Decimal(500));
+  });
+
   it("starts the lava pit", () => {
     const result = startLavaPit({
       state: {

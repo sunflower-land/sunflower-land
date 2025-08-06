@@ -1,12 +1,15 @@
 import Decimal from "decimal.js-light";
 import { CROPS, CropName, CropSeedName } from "features/game/types/crops";
 import {
+  BoostName,
   CropMachineBuilding,
   CropMachineQueueItem,
   GameState,
 } from "features/game/types/game";
 import cloneDeep from "lodash.clonedeep";
 import { produce } from "immer";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
+import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 
 export type AddSeedsInput = {
   type: CropSeedName;
@@ -106,24 +109,31 @@ export function calculateCropTime(
     amount: number;
   },
   state: GameState,
-): number {
-  if (!state || !state.bumpkin) {
-    return 0; // Or some default value if state or bumpkin is undefined
-  }
-
+): { milliSeconds: number; boostUsed: BoostName[] } {
+  const boostUsed: BoostName[] = [];
   const cropName = seeds.type.split(" ")[0] as CropName;
 
   let milliSeconds = CROPS[cropName].harvestSeconds * 1000;
 
   if (state.bumpkin.skills?.["Crop Processor Unit"]) {
     milliSeconds = milliSeconds * 0.95;
+    boostUsed.push("Crop Processor Unit");
   }
 
   if (state.bumpkin.skills?.["Rapid Rig"]) {
     milliSeconds = milliSeconds * 0.8;
+    boostUsed.push("Rapid Rig");
   }
 
-  return (milliSeconds * seeds.amount) / CROP_MACHINE_PLOTS(state);
+  if (isCollectibleBuilt({ game: state, name: "Groovy Gramophone" })) {
+    milliSeconds = milliSeconds * 0.5;
+    boostUsed.push("Groovy Gramophone");
+  }
+
+  return {
+    milliSeconds: (milliSeconds * seeds.amount) / CROP_MACHINE_PLOTS(state),
+    boostUsed,
+  };
 }
 
 export function getOilTimeInMillis(oil: number, state: GameState) {
@@ -386,12 +396,14 @@ export function supplyCropMachine({
 
     const crop = seedName.split(" ")[0] as CropName;
 
+    const { milliSeconds, boostUsed } = calculateCropTime(seedsAdded, state);
+
     if (seedsAdded.amount > 0) {
       queue.push({
         seeds: seedsAdded.amount,
         crop,
-        growTimeRemaining: calculateCropTime(seedsAdded, state),
-        totalGrowTime: calculateCropTime(seedsAdded, state),
+        growTimeRemaining: milliSeconds,
+        totalGrowTime: milliSeconds,
       });
       stateCopy.buildings["Crop Machine"][0].queue = queue;
     }
@@ -399,6 +411,12 @@ export function supplyCropMachine({
     stateCopy.buildings["Crop Machine"][0] = updateCropMachine({
       now: createdAt,
       state: stateCopy,
+    });
+
+    stateCopy.boostsUsedAt = updateBoostUsed({
+      game: stateCopy,
+      boostNames: boostUsed,
+      createdAt,
     });
 
     return stateCopy;

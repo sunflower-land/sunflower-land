@@ -1,20 +1,22 @@
 import { produce } from "immer";
 import Decimal from "decimal.js-light";
-import { getKeys } from "features/game/types/craftables";
 import {
+  BoostName,
   GameState,
   Inventory,
   TemperateSeasonName,
 } from "features/game/types/game";
 import { isWearableActive } from "features/game/lib/wearables";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
+import { getObjectEntries } from "features/game/expansion/lib/utils";
 
 export const LAVA_PIT_REQUIREMENTS: Record<TemperateSeasonName, Inventory> = {
   autumn: {
-    "Royal Ornament": new Decimal(1),
     Artichoke: new Decimal(30),
     Broccoli: new Decimal(750),
     Yam: new Decimal(1000),
+    Gold: new Decimal(5),
+    Crimstone: new Decimal(4),
   },
   winter: {
     "Merino Wool": new Decimal(200),
@@ -33,6 +35,36 @@ export const LAVA_PIT_REQUIREMENTS: Record<TemperateSeasonName, Inventory> = {
     Pepper: new Decimal(750),
     Zucchini: new Decimal(1000),
   },
+};
+
+export const getLavaPitRequirements = (
+  game: GameState,
+): {
+  requirements: Inventory;
+  boostUsed: BoostName[];
+} => {
+  const season = game.season.season;
+  let requirements: Inventory = LAVA_PIT_REQUIREMENTS[season];
+  let requirementsMultiplier = 1;
+  const boostUsed: BoostName[] = [];
+
+  if (isWearableActive({ game, name: "Lava Swimwear" })) {
+    requirementsMultiplier *= 0.5;
+    boostUsed.push("Lava Swimwear");
+  }
+
+  requirements = getObjectEntries(requirements).reduce((acc, [item, req]) => {
+    if (!req) {
+      return acc;
+    }
+
+    return {
+      ...acc,
+      [item]: req.mul(requirementsMultiplier),
+    };
+  }, requirements);
+
+  return { requirements, boostUsed };
 };
 
 export type StartLavaPitAction = {
@@ -60,17 +92,18 @@ export function startLavaPit({
       throw new Error("Lava pit not found");
     }
 
-    const requirements = LAVA_PIT_REQUIREMENTS[state.season.season];
+    const { requirements, boostUsed } = getLavaPitRequirements(copy);
 
-    getKeys(requirements).forEach((item) => {
+    getObjectEntries(requirements).forEach(([item, requiredAmount]) => {
       const inventoryAmount = inventory[item] ?? new Decimal(0);
-      const requiredAmount = requirements[item] ?? new Decimal(0);
 
-      if (inventoryAmount.lt(requiredAmount)) {
+      if (inventoryAmount.lt(requiredAmount ?? new Decimal(0))) {
         throw new Error(`Required resource ${item} not found`);
       }
 
-      copy.inventory[item] = inventoryAmount.sub(requiredAmount);
+      copy.inventory[item] = inventoryAmount.sub(
+        requiredAmount ?? new Decimal(0),
+      );
     });
 
     if (lavaPit.startedAt !== undefined) {
@@ -87,6 +120,12 @@ export function startLavaPit({
         createdAt,
       });
     }
+
+    copy.boostsUsedAt = updateBoostUsed({
+      game: copy,
+      boostNames: boostUsed,
+      createdAt,
+    });
 
     return copy;
   });
