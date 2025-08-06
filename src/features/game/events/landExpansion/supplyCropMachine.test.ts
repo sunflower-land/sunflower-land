@@ -1822,7 +1822,7 @@ describe("supplyCropMachine", () => {
 
 describe("calculateCropTime", () => {
   it("calculates the time to harvest 10 Sunflower Seeds", () => {
-    const result = calculateCropTime(
+    const { milliSeconds: result } = calculateCropTime(
       { type: "Sunflower Seed", amount: 10 },
       GAME_STATE,
     );
@@ -1830,7 +1830,7 @@ describe("calculateCropTime", () => {
   });
 
   it("reduces crop machine growth time by 5% with Crop Processor Unit", () => {
-    const result = calculateCropTime(
+    const { milliSeconds: result } = calculateCropTime(
       { type: "Sunflower Seed", amount: 10 },
       {
         ...GAME_STATE,
@@ -1849,7 +1849,7 @@ describe("calculateCropTime", () => {
   });
 
   it("reduces crop machine growth time by 20% with Rapid Rig", () => {
-    const result = calculateCropTime(
+    const { milliSeconds: result } = calculateCropTime(
       { type: "Sunflower Seed", amount: 10 },
       {
         ...GAME_STATE,
@@ -1866,8 +1866,32 @@ describe("calculateCropTime", () => {
       (60 * 10 * 1000 * 0.8) / CROP_MACHINE_PLOTS(GAME_STATE),
     );
   });
+
+  it("reduces crop machine growth time by 50% with Groovy Gramophone", () => {
+    const { milliSeconds: result } = calculateCropTime(
+      { type: "Sunflower Seed", amount: 10 },
+      {
+        ...GAME_STATE,
+        collectibles: {
+          "Groovy Gramophone": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              readyAt: 0,
+              id: "0",
+            },
+          ],
+        },
+      },
+    );
+
+    expect(result).toBe(
+      (60 * 10 * 1000 * 0.5) / CROP_MACHINE_PLOTS(GAME_STATE),
+    );
+  });
+
   it("reduces crop machine growth time by 24% with Crop Processor Unit and Rapid Rig", () => {
-    const result = calculateCropTime(
+    const { milliSeconds: result } = calculateCropTime(
       { type: "Sunflower Seed", amount: 10 },
       {
         ...GAME_STATE,
