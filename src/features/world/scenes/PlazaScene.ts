@@ -60,7 +60,7 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     npc: "blacksmith",
   },
   {
-    x: 760,
+    x: 755,
     y: 390,
     npc: "grimbly",
   },
