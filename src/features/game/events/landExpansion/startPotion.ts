@@ -2,7 +2,6 @@ import Decimal from "decimal.js-light";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { PotionName, GameState } from "features/game/types/game";
 import { produce } from "immer";
-import { hasFeatureAccess } from "lib/flags";
 
 export type Potions = [PotionName, PotionName, PotionName, PotionName];
 
@@ -21,9 +20,7 @@ export const GAME_FEE = 320;
 export function startPotion({ state, action }: Options): GameState {
   return produce(state, (stateCopy) => {
     const { bumpkin, coins } = stateCopy;
-    const fee =
-      GAME_FEE *
-      (hasFeatureAccess(state, "POTION_HOUSE_UPDATES") ? action.multiplier : 1);
+    const fee = GAME_FEE * action.multiplier;
 
     if (!bumpkin) {
       throw new Error("Bumpkin not found");

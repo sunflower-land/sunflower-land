@@ -34,7 +34,6 @@ import { getToolPrice } from "features/game/events/landExpansion/craftTool";
 import { Keys } from "features/game/types/game";
 import { isMobile } from "mobile-device-detect";
 import { Restock } from "features/island/buildings/components/building/market/restock/Restock";
-import { hasFeatureAccess } from "lib/flags";
 
 interface ToolContentProps {
   selectedName: TreasureToolName;
@@ -48,17 +47,7 @@ const ToolContent: React.FC<ToolContentProps> = ({ selectedName }) => {
   const state = useSelector(gameService, (state) => state.context.state);
 
   const stock = state.stock[selectedName] || new Decimal(0);
-  const selected =
-    selectedName === "Sand Drill" && !hasFeatureAccess(state, "LEATHER_TOOLS")
-      ? {
-          ...TREASURE_TOOLS[selectedName],
-          ingredients: {
-            Oil: new Decimal(1),
-            Crimstone: new Decimal(1),
-            Wood: new Decimal(5),
-          },
-        }
-      : TREASURE_TOOLS[selectedName];
+  const selected = TREASURE_TOOLS[selectedName];
   const inventory = state.inventory;
   const bulkToolCraftAmount = makeBulkBuyTools(stock);
   const price = getToolPrice(selected, 1, state);

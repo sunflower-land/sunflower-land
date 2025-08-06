@@ -8,7 +8,6 @@ import { getKeys } from "features/game/types/decorations";
 import { GameState } from "features/game/types/game";
 import { produce } from "immer";
 import { getCurrentCookingItem, recalculateQueue } from "./cancelQueuedRecipe";
-import { hasFeatureAccess } from "lib/flags";
 import { CookableName } from "features/game/types/consumables";
 
 export type InstantCookRecipe = {
@@ -127,13 +126,6 @@ export function speedUpRecipe({
 
     if (!queue || !recipe) {
       throw new Error("Nothing is cooking");
-    }
-
-    if (
-      hasFeatureAccess(state, "PEGGYS_COOKOFF") &&
-      COOK_OFF_FOODS.includes(recipe.name)
-    ) {
-      throw new Error("This recipe is restricted during peggy's cookoff");
     }
 
     const gems = getInstantGems({

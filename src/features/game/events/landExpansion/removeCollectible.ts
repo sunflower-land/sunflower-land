@@ -1,15 +1,11 @@
 import { trackActivity } from "features/game/types/bumpkinActivity";
-import { CollectibleName, getKeys } from "features/game/types/craftables";
+import { CollectibleName } from "features/game/types/craftables";
 import { GameState, PlacedItem, PlacedLamp } from "features/game/types/game";
 
 import { PlaceableLocation } from "features/game/types/collectibles";
 import { produce } from "immer";
 import { HourglassType } from "features/island/collectibles/components/Hourglass";
 import { HOURGLASSES } from "./burnCollectible";
-import { hasFeatureAccess } from "lib/flags";
-import { FLOWER_SEEDS } from "features/game/types/flowers";
-import { REMOVAL_RESTRICTIONS } from "features/game/types/removeables";
-import { SEEDS } from "features/game/types/seeds";
 
 export enum REMOVE_COLLECTIBLE_ERRORS {
   INVALID_COLLECTIBLE = "This collectible does not exist",
@@ -87,31 +83,6 @@ export function removeCollectible({
       const rubbedCount = collectible.rubbedCount ?? 0;
       if (rubbedCount > 0) {
         throw new Error(REMOVE_COLLECTIBLE_ERRORS.GENIE_IN_USE);
-      }
-    }
-
-    if (!hasFeatureAccess(stateCopy, "LANDSCAPING")) {
-      const removalRestriction = REMOVAL_RESTRICTIONS[action.name];
-      if (removalRestriction) {
-        const [restricted] = removalRestriction(state);
-        if (restricted)
-          throw new Error(REMOVE_COLLECTIBLE_ERRORS.COLLECTIBLE_IN_USE);
-      }
-
-      if (action.name === "Kuebiko") {
-        getKeys(SEEDS).forEach((seed) => {
-          if (stateCopy.inventory[seed]) {
-            delete stateCopy.inventory[seed];
-          }
-        });
-      }
-
-      if (action.name === "Hungry Caterpillar") {
-        getKeys(FLOWER_SEEDS).forEach((seed) => {
-          if (stateCopy.inventory[seed]) {
-            delete stateCopy.inventory[seed];
-          }
-        });
       }
     }
 

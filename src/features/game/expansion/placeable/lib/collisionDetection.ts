@@ -32,7 +32,6 @@ import {
 import { PlaceableLocation } from "features/game/types/collectibles";
 import { AnimalType } from "features/game/types/animals";
 import { getObjectEntries } from "../../lib/utils";
-import { hasFeatureAccess } from "lib/flags";
 
 export type Position = {
   width: number;
@@ -461,10 +460,6 @@ function detectAirdropCollision(state: GameState, boundingBox: BoundingBox) {
 }
 
 function detectGarbageCollision(state: GameState, boundingBox: BoundingBox) {
-  if (!hasFeatureAccess(state, "CLUTTER")) {
-    return false;
-  }
-
   if (!state.socialFarming?.clutter?.locations) return false;
   const { locations } = state.socialFarming.clutter;
 

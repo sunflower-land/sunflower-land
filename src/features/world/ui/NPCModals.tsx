@@ -38,7 +38,6 @@ import { PortalChooser } from "./portals/PortalChooser";
 import { Rocketman } from "./npcs/Rocketman";
 import { MegaBountyBoard } from "./flowerShop/MegaBountyBoard";
 import { IncineratorModal } from "features/goblins/incinerator";
-import { hasFeatureAccess } from "lib/flags";
 import { Context } from "features/game/GameProvider";
 
 class NpcModalManager {
@@ -249,18 +248,15 @@ export const NPCModals: React.FC<Props> = ({ id }) => {
         {npc === "finley" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "mayor" && <Mayor onClose={closeModal} />}
         {npc === "guria" && <DeliveryPanel npc={npc} onClose={closeModal} />}
-        {npc === "goblet" &&
-          (hasFeatureAccess(state, "INCINERATOR") ? (
-            <CloseButtonPanel
-              onClose={closeModal}
-              bumpkinParts={NPC_WEARABLES.goblet}
-              container={OuterPanel}
-            >
-              <IncineratorModal />
-            </CloseButtonPanel>
-          ) : (
-            npc && <DeliveryPanel npc={npc} onClose={closeModal} />
-          ))}
+        {npc === "goblet" && (
+          <CloseButtonPanel
+            onClose={closeModal}
+            bumpkinParts={NPC_WEARABLES.goblet}
+            container={OuterPanel}
+          >
+            <IncineratorModal />
+          </CloseButtonPanel>
+        )}
         {npc === "gordo" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {/* Kingdom NPCs */}
         {npc === "barlow" && (

@@ -19,10 +19,8 @@ import shadow from "assets/npcs/shadow.png";
 import coins from "assets/icons/coins.webp";
 import potionPoint from "assets/icons/potion_point.png";
 import { GAME_FEE } from "features/game/events/landExpansion/startPotion";
-import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
-  onClose: () => void;
   potionHouseService: PotionHouseMachineInterpreter;
 }
 
@@ -34,16 +32,9 @@ const EMPTY_ATTEMPT = new Array<{ potion: null; status: undefined }>(4).fill({
 const MULTIPLIERS = [1, 10, 50];
 const SINGLE_MULTIPLIER_MAX_REWARD = 50;
 
-export const Experiment: React.FC<Props> = ({
-  onClose,
-  potionHouseService,
-}) => {
+export const Experiment: React.FC<Props> = ({ potionHouseService }) => {
   const { gameService } = useContext(Context);
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+
   const [potionState] = useActor(potionHouseService);
   const { t } = useAppTranslation();
 
@@ -65,9 +56,7 @@ export const Experiment: React.FC<Props> = ({
   const isFinished = !isNewGame && potionHouse?.game.status === "finished";
   const isGuessing = lastAttempt.some((potion) => potion.status === "pending");
   const reward = potionHouse?.game.reward;
-  const currentGameMultiplier = hasFeatureAccess(state, "POTION_HOUSE_UPDATES")
-    ? potionHouse?.game.multiplier ?? 1
-    : 1;
+  const currentGameMultiplier = potionHouse?.game.multiplier ?? 1;
 
   const [score, setScore] = useState(
     isNewGame ? 0 : calculateScore(lastAttempt),
@@ -134,17 +123,15 @@ export const Experiment: React.FC<Props> = ({
         </div>
       )}
 
-      {!isFinished &&
-        !showStartButton &&
-        hasFeatureAccess(state, "POTION_HOUSE_UPDATES") && (
-          <div className="flex justify-center mb-2">
-            <Label type="default" className="flex items-center">
-              <span>{t("potion.multiplier")}</span>
-              <img src={potionPoint} alt="potion point" className="w-4 mx-1" />
-              <span className="font-bold">{`${currentGameMultiplier}x`}</span>
-            </Label>
-          </div>
-        )}
+      {!isFinished && !showStartButton && (
+        <div className="flex justify-center mb-2">
+          <Label type="default" className="flex items-center">
+            <span>{t("potion.multiplier")}</span>
+            <img src={potionPoint} alt="potion point" className="w-4 mx-1" />
+            <span className="font-bold">{`${currentGameMultiplier}x`}</span>
+          </Label>
+        </div>
+      )}
 
       <div className="flex w-full gap-1 mb-3">
         {/* Left Side */}
@@ -257,30 +244,26 @@ export const Experiment: React.FC<Props> = ({
       </div>
       {showStartButton && (
         <div className="flex space-x-2 items-center">
-          {hasFeatureAccess(state, "POTION_HOUSE_UPDATES") ? (
-            <>
-              {/* Multiplier */}
-              <div className="flex flex-col items-center gap-1">
-                <Label type="default">{"Multiplier"}</Label>
-                <div className="flex gap-1">
-                  {MULTIPLIERS.map((val) => (
-                    <div key={val} className="flex flex-col items-center">
-                      <UiBox
-                        hideCount={true}
-                        image={
-                          multiplier === val ? SUNNYSIDE.icons.confirm : null
-                        }
-                        onClick={() => setMultiplier(val)}
-                      />
-                      <Label type="chill">{`${val}x`}</Label>
-                    </div>
-                  ))}
-                </div>
+          <>
+            {/* Multiplier */}
+            <div className="flex flex-col items-center gap-1">
+              <Label type="default">{"Multiplier"}</Label>
+              <div className="flex gap-1">
+                {MULTIPLIERS.map((val) => (
+                  <div key={val} className="flex flex-col items-center">
+                    <UiBox
+                      hideCount={true}
+                      image={
+                        multiplier === val ? SUNNYSIDE.icons.confirm : null
+                      }
+                      onClick={() => setMultiplier(val)}
+                    />
+                    <Label type="chill">{`${val}x`}</Label>
+                  </div>
+                ))}
               </div>
-            </>
-          ) : (
-            <Button onClick={onClose}>{t("close")}</Button>
-          )}
+            </div>
+          </>
 
           {/* Start Game + Potential Prize */}
           <div className="flex flex-col items-center gap-1 w-full">
@@ -297,19 +280,17 @@ export const Experiment: React.FC<Props> = ({
                 <span>{cost}</span>
               </div>
             </Button>
-            {hasFeatureAccess(state, "POTION_HOUSE_UPDATES") && (
-              <div className="flex items-center">
-                <Label type="default" className="h-fit">
-                  {t("reward.maxReward")}
-                  <img
-                    src={potionPoint}
-                    alt="potion point"
-                    className="w-4 mx-1"
-                  />
-                  {`${SINGLE_MULTIPLIER_MAX_REWARD * multiplier}`}
-                </Label>
-              </div>
-            )}
+            <div className="flex items-center">
+              <Label type="default" className="h-fit">
+                {t("reward.maxReward")}
+                <img
+                  src={potionPoint}
+                  alt="potion point"
+                  className="w-4 mx-1"
+                />
+                {`${SINGLE_MULTIPLIER_MAX_REWARD * multiplier}`}
+              </Label>
+            </div>
           </div>
         </div>
       )}

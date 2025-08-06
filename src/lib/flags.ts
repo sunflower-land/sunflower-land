@@ -1,4 +1,3 @@
-import { COMPETITION_POINTS } from "features/game/types/competitions";
 import type { GameState } from "features/game/types/game";
 import { SEASONS } from "features/game/types/seasons";
 import { CONFIG } from "lib/config";
@@ -94,13 +93,7 @@ const FEATURE_FLAGS = {
   FACE_RECOGNITION_TEST: defaultFeatureFlag,
   LEDGER: testnetLocalStorageFeatureFlag("ledger"),
 
-  EASTER: (game) =>
-    betaTimeBasedFeatureFlag(new Date("2025-04-21T00:00:00Z"))(game) &&
-    Date.now() < new Date("2025-04-29T00:00:00Z").getTime(),
-
-  FESTIVALOFCOLORS: (game) =>
-    betaTimeBasedFeatureFlag(new Date("2025-06-30T00:00:00Z"))(game) &&
-    Date.now() < new Date("2025-07-08T00:00:00Z").getTime(),
+  EASTER: () => false,
 
   STREAM_STAGE_ACCESS: adminFeatureFlag,
 
@@ -112,27 +105,9 @@ const FEATURE_FLAGS = {
   MODERATOR: (game) =>
     !!((game.wardrobe.Halo ?? 0) > 0) && !!game.inventory["Beta Pass"]?.gt(0),
 
-  POTION_HOUSE_UPDATES: timeBasedFeatureFlag(new Date("2025-08-01T00:00:00Z")),
   BLESSING: () => true,
-  MINE_WHACK_BETA: defaultFeatureFlag,
 
-  MONUMENTS: betaTimeBasedFeatureFlag(new Date("2025-08-04T00:00:00.000Z")),
-  LANDSCAPING: betaTimeBasedFeatureFlag(new Date("2025-08-04T00:00:00.000Z")),
-  LANDSCAPING_SHOP: betaTimeBasedFeatureFlag(
-    SEASONS["Better Together"].startDate,
-  ),
-  WARDROBE: betaTimeBasedFeatureFlag(SEASONS["Better Together"].startDate),
   CRAFTING: betaTimeBasedFeatureFlag(SEASONS["Better Together"].startDate),
-  LEATHER_TOOLS: betaTimeBasedFeatureFlag(SEASONS["Better Together"].startDate),
-  CLUTTER: betaTimeBasedFeatureFlag(new Date("2025-08-04T00:00:00.000Z")),
-  INCINERATOR: betaTimeBasedFeatureFlag(new Date("2025-08-06T00:00:00.000Z")),
-
-  PEGGYS_COOKOFF: () =>
-    timePeriodFeatureFlag({
-      start: new Date(COMPETITION_POINTS.PEGGYS_COOKOFF.startAt),
-      end: new Date(COMPETITION_POINTS.PEGGYS_COOKOFF.endAt),
-    })(),
-  CHEERS: betaTimeBasedFeatureFlag(new Date("2025-08-04T00:00:00Z")),
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;

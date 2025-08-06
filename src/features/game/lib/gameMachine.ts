@@ -108,9 +108,6 @@ import { config } from "features/wallet/WalletProvider";
 import { depositFlower } from "lib/blockchain/DepositFlower";
 import { NetworkOption } from "features/island/hud/components/deposit/DepositFlower";
 import { blessingIsReady } from "./blessings";
-import { getBumpkinLevel } from "./level";
-import { hasFeatureAccess } from "lib/flags";
-import { COMPETITION_POINTS } from "../types/competitions";
 import { hasReadNews } from "features/farming/mail/components/News";
 
 // Run at startup in case removed from query params
@@ -1234,33 +1231,11 @@ export function startGame(authContext: AuthContext) {
             },
             {
               target: "competition",
-              cond: (context: Context) => {
-                if (!hasFeatureAccess(context.state, "PEGGYS_COOKOFF"))
-                  return false;
-
-                const hasStarted =
-                  Date.now() > COMPETITION_POINTS.PEGGYS_COOKOFF.startAt;
-
-                if (!hasStarted) return false;
-
-                const level = getBumpkinLevel(
-                  context.state.bumpkin?.experience ?? 0,
-                );
-
-                if (level <= 5) return false;
-
-                const competition =
-                  context.state.competitions.progress.PEGGYS_COOKOFF;
-
-                // Show the competition introduction if they have not started it yet
-                return !competition;
-              },
+              cond: () => false,
             },
             {
               target: "news",
-              cond: (context) => {
-                return !hasReadNews();
-              },
+              cond: () => !hasReadNews(),
             },
             {
               target: "cheers",
