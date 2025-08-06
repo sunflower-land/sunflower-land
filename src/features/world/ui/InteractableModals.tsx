@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { PotionHouse } from "features/game/expansion/components/potions/PotionHouse";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
@@ -252,7 +251,6 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           <ExampleDonations onClose={closeModal} />
         </CloseButtonPanel>
       </Modal>
-      {interactable === "potion_table" && <PotionHouse onClose={closeModal} />}
       <Modal show={interactable === "boat_modal"} onHide={closeModal}>
         <BoatModal
           isOpen={interactable === "boat_modal"}

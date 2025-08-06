@@ -39,6 +39,7 @@ import { Rocketman } from "./npcs/Rocketman";
 import { MegaBountyBoard } from "./flowerShop/MegaBountyBoard";
 import { IncineratorModal } from "features/goblins/incinerator";
 import { Context } from "features/game/GameProvider";
+import { PotionHouse } from "features/game/expansion/components/potions/PotionHouse";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -145,6 +146,7 @@ export const NPCModals: React.FC<Props> = ({ id }) => {
         {npc === "stella" && <Stylist onClose={closeModal} />}
         {npc === "grubnuk" && <DeliveryPanel npc={npc} onClose={closeModal} />}
         {npc === "garth" && <PotionHouseShopItems onClose={closeModal} />}
+        {npc === "eins" && <PotionHouse onClose={closeModal} />}
         {npc === "gunter" && <SolarForge onClose={closeModal} />}
         {npc === "gorga" && <ObsidianExchange onClose={closeModal} />}
         {npc === "hopper" && <Hopper onClose={closeModal} />}

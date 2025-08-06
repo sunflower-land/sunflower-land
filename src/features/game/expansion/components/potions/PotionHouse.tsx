@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 
 import { IntroPage } from "./Intro";
 import { Experiment } from "./Experiment";
-import { Modal } from "components/ui/Modal";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { pixelRoomBorderStyle } from "features/game/lib/style";
@@ -32,49 +31,50 @@ export const PotionHouse: React.FC<Props> = ({ onClose }) => {
   const [state, send] = useActor(potionHouseService);
 
   return (
-    <Modal show onHide={onClose}>
-      <div
-        className="bg-brown-600  relative"
-        style={{ ...pixelRoomBorderStyle, padding: `${PIXEL_SCALE * 1}px` }}
-      >
-        <div id="cover" />
-        <div className="p-1 flex relative flex-col h-full overflow-y-auto scrollable">
-          {/* Header */}
-          <div className="flex mb-3 w-full justify-center">
-            <div
-              onClick={() => send("OPEN_RULES")}
-              style={{
-                height: `${PIXEL_SCALE * 11}px`,
-                width: `${PIXEL_SCALE * 11}px`,
-              }}
-            >
-              {!state.matches("rules") && (
-                <img src={book} className="cursor-pointer w-full p-0.5" />
-              )}
-            </div>
-            <h1 className="grow text-center text-lg">
-              {state.matches("rules") ? "How to play" : "Potion Room"}
-            </h1>
-            <img
-              src={SUNNYSIDE.icons.close}
-              className="cursor-pointer"
-              onClick={onClose}
-              style={{ width: `${PIXEL_SCALE * 11}px` }}
+    <div
+      className="bg-brown-600  relative"
+      style={{ ...pixelRoomBorderStyle, padding: `${PIXEL_SCALE * 1}px` }}
+    >
+      <div id="cover" />
+      <div className="p-1 flex relative flex-col h-full overflow-y-auto scrollable">
+        {/* Header */}
+        <div className="flex mb-3 w-full justify-center">
+          <div
+            onClick={() => send("OPEN_RULES")}
+            style={{
+              height: `${PIXEL_SCALE * 11}px`,
+              width: `${PIXEL_SCALE * 11}px`,
+            }}
+          >
+            {!state.matches("rules") && (
+              <img src={book} className="cursor-pointer w-full p-0.5" />
+            )}
+          </div>
+          <h1 className="grow text-center text-lg">
+            {state.matches("rules") ? "How to play" : "Potion Room"}
+          </h1>
+          <img
+            src={SUNNYSIDE.icons.close}
+            className="cursor-pointer"
+            onClick={onClose}
+            style={{ width: `${PIXEL_SCALE * 11}px` }}
+          />
+        </div>
+        <div className="flex flex-col grow mb-1">
+          {state.matches("introduction") && (
+            <IntroPage onClose={() => send("ACKNOWLEDGE")} />
+          )}
+          {state.matches("playing") && (
+            <Experiment
+              onClose={onClose}
+              potionHouseService={potionHouseService}
             />
-          </div>
-          <div className="flex flex-col grow mb-1">
-            {state.matches("introduction") && (
-              <IntroPage onClose={() => send("ACKNOWLEDGE")} />
-            )}
-            {state.matches("playing") && (
-              <Experiment potionHouseService={potionHouseService} />
-            )}
-            {state.matches("rules") && (
-              <Rules onDone={() => send("ACKNOWLEDGE")} />
-            )}
-          </div>
+          )}
+          {state.matches("rules") && (
+            <Rules onDone={() => send("ACKNOWLEDGE")} />
+          )}
         </div>
       </div>
-    </Modal>
+    </div>
   );
 };
