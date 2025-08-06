@@ -6,7 +6,6 @@ import {
   getCurrentBiome,
 } from "features/island/biomes/biomes";
 import { produce } from "immer";
-import { hasFeatureAccess } from "lib/flags";
 
 export interface ApplyBiomeAction {
   type: "biome.applied";
@@ -25,10 +24,6 @@ export function applyBiome({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (game) => {
-    if (!hasFeatureAccess(game, "LANDSCAPING")) {
-      throw new Error("This feature is not available");
-    }
-
     const { biome } = action;
     const hasBiome = game.inventory[biome]?.gt(0);
 

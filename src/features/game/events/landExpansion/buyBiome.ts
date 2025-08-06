@@ -5,7 +5,6 @@ import { trackFarmActivity } from "features/game/types/farmActivity";
 import { GameState } from "features/game/types/game";
 import { LandBiomeName, LAND_BIOMES } from "features/island/biomes/biomes";
 import { produce } from "immer";
-import { hasFeatureAccess } from "lib/flags";
 
 export interface BuyBiomeAction {
   type: "biome.bought";
@@ -24,10 +23,6 @@ export function buyBiome({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (game) => {
-    if (!hasFeatureAccess(game, "LANDSCAPING")) {
-      throw new Error("This feature is not available");
-    }
-
     const { biome } = action;
 
     const biomeData = LAND_BIOMES[biome];

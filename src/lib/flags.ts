@@ -114,7 +114,6 @@ const FEATURE_FLAGS = {
 
   BLESSING: () => true,
 
-  LANDSCAPING: betaTimeBasedFeatureFlag(new Date("2025-08-04T00:00:00.000Z")),
   LANDSCAPING_SHOP: betaTimeBasedFeatureFlag(
     SEASONS["Better Together"].startDate,
   ),

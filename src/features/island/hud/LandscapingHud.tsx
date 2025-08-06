@@ -34,7 +34,6 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { RoundButton } from "components/ui/RoundButton";
 import { CraftDecorationsModal } from "./components/decorations/CraftDecorationsModal";
 import { hasFeatureAccess } from "lib/flags";
-import { hasRemoveRestriction } from "features/game/types/removeables";
 import { RemoveAllConfirmation } from "../collectibles/RemoveAllConfirmation";
 
 const compareBalance = (prev: Decimal, next: Decimal) => {
@@ -87,35 +86,18 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
     compareBlockBucks,
   );
 
-  // TODO: Remove this once the feature flag is removed
-  const hasLandscapingAccess = useSelector(gameService, (state) =>
-    hasFeatureAccess(state.context.state, "LANDSCAPING"),
-  );
-
   const selectedItem = useSelector(child, selectMovingItem);
   const idle = useSelector(child, isIdle);
 
   const showRemove =
-    isMobile &&
-    selectedItem &&
-    getRemoveAction(selectedItem.name, hasLandscapingAccess);
-  const [isRestricted, restrictionReason] = showRemove
-    ? hasRemoveRestriction({
-        name: selectedItem.name,
-        state: gameService.getSnapshot().context.state,
-        id: selectedItem.id,
-      })
-    : [false, "No restriction"];
+    isMobile && selectedItem && getRemoveAction(selectedItem.name);
 
   useEffect(() => {
     setShowRemoveConfirmation(false);
   }, [selectedItem]);
 
   const remove = () => {
-    const action = getRemoveAction(
-      selectedItem?.name as InventoryItemName,
-      hasLandscapingAccess,
-    );
+    const action = getRemoveAction(selectedItem?.name as InventoryItemName);
     if (!action) {
       return;
     }
@@ -179,19 +161,17 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
                   }}
                 />
               </RoundButton>
-              {hasLandscapingAccess && (
-                <RoundButton className="mb-3.5" onClick={removeAll}>
-                  <img
-                    src={ITEM_DETAILS["Rusty Shovel"].image}
-                    className="absolute group-active:translate-y-[2px]"
-                    style={{
-                      top: `${PIXEL_SCALE * 5}px`,
-                      left: `${PIXEL_SCALE * 5}px`,
-                      width: `${PIXEL_SCALE * 13}px`,
-                    }}
-                  />
-                </RoundButton>
-              )}
+              <RoundButton className="mb-3.5" onClick={removeAll}>
+                <img
+                  src={ITEM_DETAILS["Rusty Shovel"].image}
+                  className="absolute group-active:translate-y-[2px]"
+                  style={{
+                    top: `${PIXEL_SCALE * 5}px`,
+                    left: `${PIXEL_SCALE * 5}px`,
+                    width: `${PIXEL_SCALE * 13}px`,
+                  }}
+                />
+              </RoundButton>
 
               {location === "farm" &&
                 hasFeatureAccess(
@@ -277,17 +257,10 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
               right: `${PIXEL_SCALE * -2}px`,
             }}
           >
-            <Label type="danger">
-              {isRestricted && !hasLandscapingAccess
-                ? restrictionReason
-                : t("remove")}
-            </Label>
+            <Label type="danger">{t("remove")}</Label>
           </div>
 
-          <RoundButton
-            onClick={() => (!isRestricted || hasLandscapingAccess) && remove()}
-            disabled={isRestricted && !hasLandscapingAccess}
-          >
+          <RoundButton onClick={remove}>
             {showRemoveConfirmation ? (
               <img
                 className="absolute group-active:translate-y-[2px]"
@@ -309,13 +282,6 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
                     top: `${PIXEL_SCALE * 4.5}px`,
                   }}
                 />
-                {isRestricted && !hasLandscapingAccess && (
-                  <img
-                    src={SUNNYSIDE.icons.cancel}
-                    className="absolute right-0 top-0 w-1/2 object-contain group-active:translate-y-[2px]"
-                    alt="restricted"
-                  />
-                )}
               </>
             )}
           </RoundButton>

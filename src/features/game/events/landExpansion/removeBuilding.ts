@@ -7,9 +7,7 @@ import {
   GameState,
 } from "features/game/types/game";
 import { getSupportedChickens } from "./utils";
-import { hasRemoveRestriction } from "features/game/types/removeables";
 import { produce } from "immer";
-import { hasFeatureAccess } from "lib/flags";
 export enum REMOVE_BUILDING_ERRORS {
   INVALID_BUILDING = "This building does not exist",
   NO_BUMPKIN = "You do not have a Bumpkin",
@@ -100,15 +98,6 @@ export function removeBuilding({
 
     if (!buildingToRemove.coordinates) {
       throw new Error(REMOVE_BUILDING_ERRORS.BUILDING_NOT_PLACED);
-    }
-
-    const [restricted, error] = hasRemoveRestriction({
-      name: action.name,
-      state: stateCopy,
-    });
-
-    if (restricted && !hasFeatureAccess(stateCopy, "LANDSCAPING")) {
-      throw new Error(error);
     }
 
     delete buildingToRemove.coordinates;
