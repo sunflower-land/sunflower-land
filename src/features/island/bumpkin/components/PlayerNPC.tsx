@@ -82,7 +82,6 @@ export const PlayerNPC: React.FC<NPCProps> = ({ parts: bumpkinParts }) => {
 
       <NPCModal isOpen={open} onClose={() => setOpen(false)} />
       <PlayerModal
-        game={context.state}
         loggedInFarmId={loggedInFarmId}
         token={token}
         hasAirdropAccess={hasAirdropAccess}

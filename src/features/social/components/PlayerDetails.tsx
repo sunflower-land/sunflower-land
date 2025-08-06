@@ -11,7 +11,8 @@ import volcanoIsland from "assets/icons/islands/volcano.webp";
 import flowerIcon from "assets/icons/flower_token.webp";
 import cheer from "assets/icons/cheer.webp";
 import socialPointsIcon from "assets/icons/social_score.webp";
-import followingIcon from "assets/icons/following.webp";
+import followIcon from "assets/icons/follow.webp";
+import unfollowIcon from "assets/icons/unfollow.webp";
 
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -365,13 +366,19 @@ export const PlayerDetails: React.FC<Props> = ({
                 disabled={playerLoading || followLoading || !!error || isSelf}
                 onClick={onFollow}
               >
-                <img
-                  src={iAmFollowing ? SUNNYSIDE.icons.drag : followingIcon}
-                  className="w-4 h-4 mr-1 pt-0.5 object-contain"
-                />
-                <span className="text-xs">
-                  {followLoading ? `...` : iAmFollowing ? `Unfollow` : `Follow`}
-                </span>
+                <div className="flex items-center px-1">
+                  <img
+                    src={iAmFollowing ? unfollowIcon : followIcon}
+                    className="w-5 mr-1 pt-0.5 object-contain"
+                  />
+                  <span className="text-xs">
+                    {followLoading
+                      ? `...`
+                      : iAmFollowing
+                        ? `Unfollow`
+                        : `Follow`}
+                  </span>
+                </div>
               </Button>
             </div>
           </div>
