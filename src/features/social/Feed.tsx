@@ -16,7 +16,7 @@ import { InteractionBubble } from "./components/InteractionBubble";
 import { getRelativeTime } from "lib/utils/time";
 
 import promote from "assets/icons/promote.webp";
-import followingIcon from "assets/icons/following.webp";
+import followIcon from "assets/icons/follow.webp";
 
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
@@ -456,10 +456,7 @@ const FeedContent: React.FC<FeedContentProps> = ({
                           handleFollowClick(e, interaction.sender.id)
                         }
                       >
-                        <img
-                          src={followingIcon}
-                          className="w-6 object-contain"
-                        />
+                        <img src={followIcon} className="w-6 object-contain" />
                       </div>
                     )}
                   </div>

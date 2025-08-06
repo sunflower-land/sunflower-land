@@ -7,7 +7,6 @@ import followersIcon from "assets/icons/followers.webp";
 import followingIcon from "assets/icons/following.webp";
 
 import { SUNNYSIDE } from "assets/sunnyside";
-import { GameState } from "features/game/types/game";
 import { AirdropPlayer } from "features/island/hud/components/settings-menu/general-settings/AirdropPlayer";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { isMobile } from "mobile-device-detect";
@@ -27,7 +26,6 @@ import { usePlayerNavigation } from "./hooks/usePlayerNavigation";
 import { CheersGuide } from "./components/CheersGuide";
 
 interface Props {
-  game: GameState;
   loggedInFarmId: number;
   token: string;
   hasAirdropAccess: boolean;
@@ -49,7 +47,6 @@ export const mergeResponse = (current: Player, update: Player) => {
 };
 
 export const PlayerModal: React.FC<Props> = ({
-  game,
   loggedInFarmId,
   token,
   hasAirdropAccess,
@@ -108,6 +105,10 @@ export const PlayerModal: React.FC<Props> = ({
       setShowPlayerModal(true);
     });
   }, [loggedInFarmId, setInitialPlayer]);
+
+  useEffect(() => {
+    setTab("Player");
+  }, [currentPlayerId]);
 
   const iAmFollowing = player?.followedBy.includes(loggedInFarmId);
   const theyAreFollowingMe = player?.following.includes(loggedInFarmId);
