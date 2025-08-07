@@ -188,10 +188,10 @@ export class PlazaScene extends BaseScene {
 
     // Auction Items
     this.load.image("groovy_gramophone", "world/groovy_gramophone.webp");
-    this.load.image("oil_gallon", "world/oil_gallon.webp");
+    this.load.image("oil_gallon_npc", "world/oil_gallon_npc.webp");
     this.load.image("giant_onion", "world/giant_onion.webp");
     this.load.image("giant_turnip", "world/giant_turnip.webp");
-    this.load.image("lava_swimwear", "world/lava_swimwear.webp");
+    this.load.image("lava_swimwear_npc", "world/lava_swimwear_npc.webp");
 
     this.load.image("ronin_banner", "world/ronin_banner.webp");
     this.load.image(
@@ -671,13 +671,13 @@ export class PlazaScene extends BaseScene {
     const nft1 = this.add.image(567, 191, "giant_onion");
     nft1.setDepth(191);
 
-    const nft2 = this.add.image(589, 205.5, "oil_gallon");
+    const nft2 = this.add.image(589, 205.5, "oil_gallon_npc");
     nft2.setDepth(205);
 
     const nft3 = this.add.image(601, 181, "groovy_gramophone");
     nft3.setDepth(181);
 
-    const nft4 = this.add.image(612, 205, "lava_swimwear");
+    const nft4 = this.add.image(612, 205, "lava_swimwear_npc");
     nft4.setDepth(205);
 
     const nft5 = this.add.image(635, 191, "giant_turnip");
