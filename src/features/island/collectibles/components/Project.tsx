@@ -19,6 +19,7 @@ import classNames from "classnames";
 import {
   getMonumentBoostedAmount,
   getMonumentRewards,
+  isHelpComplete,
   MonumentName,
   REQUIRED_CHEERS,
 } from "features/game/types/monuments";
@@ -452,6 +453,22 @@ export const Project: React.FC<ProjectProps> = (input) => {
     }
   };
 
+  // V2 - local only event
+  const handleHelpProject = async () => {
+    gameService.send("project.helped", {
+      project: input.project,
+    });
+
+    if (isHelpComplete({ game: gameService.getSnapshot().context.state })) {
+      gameService.send("farm.helped", {
+        effect: {
+          type: "farm.helped",
+          farmId: gameService.getSnapshot().context.farmId,
+        },
+      });
+    }
+  };
+
   const onClick = () => {
     if (isProjectComplete || hasCheeredProjectToday) {
       setIsCheering(true);
@@ -464,8 +481,7 @@ export const Project: React.FC<ProjectProps> = (input) => {
         "CHEERS_V2",
       )
     ) {
-      // New version doesn't need modal
-      handleCheer();
+      handleHelpProject();
     } else {
       setIsCheering(true);
     }

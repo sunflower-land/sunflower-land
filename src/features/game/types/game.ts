@@ -1518,11 +1518,15 @@ type DailyCollection = {
   clutter: { [clutterId: string]: ClutterCollection };
 };
 
+type VillageProject = {
+  cheers: number;
+  winnerId?: number;
+  helpedAt?: number; // Local only field
+};
+
 export type SocialFarming = {
   points: number;
-  villageProjects: Partial<
-    Record<MonumentName, { cheers: number; winnerId?: number }>
-  >;
+  villageProjects: Partial<Record<MonumentName, VillageProject>>;
   cheersGiven: {
     date: string;
     projects: Partial<Record<MonumentName, number[]>>;

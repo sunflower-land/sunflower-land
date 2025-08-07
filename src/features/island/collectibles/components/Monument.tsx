@@ -16,7 +16,12 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import Decimal from "decimal.js-light";
 import classNames from "classnames";
-import { MonumentName, REQUIRED_CHEERS } from "features/game/types/monuments";
+import {
+  isHelpComplete,
+  isHelpComplete,
+  MonumentName,
+  REQUIRED_CHEERS,
+} from "features/game/types/monuments";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import {
   SFTDetailPopoverInnerPanel,
@@ -188,6 +193,22 @@ export const Monument: React.FC<MonumentProps> = (input) => {
     }
   };
 
+  // V2 - local only event
+  const handleHelpProject = async () => {
+    gameService.send("project.helped", {
+      project: input.project,
+    });
+
+    if (isHelpComplete({ game: gameService.getSnapshot().context.state })) {
+      gameService.send("farm.helped", {
+        effect: {
+          type: "farm.helped",
+          farmId: gameService.getSnapshot().context.farmId,
+        },
+      });
+    }
+  };
+
   const onClick = () => {
     if (isProjectComplete || hasCheeredProjectToday) {
       setIsCheering(true);
@@ -201,7 +222,7 @@ export const Monument: React.FC<MonumentProps> = (input) => {
       )
     ) {
       // New version doesn't need modal
-      handleCheer();
+      handleHelpProject();
     } else {
       setIsCheering(true);
     }

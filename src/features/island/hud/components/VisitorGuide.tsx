@@ -11,7 +11,7 @@ import { _hasCheeredToday } from "features/island/collectibles/components/Monume
 import { hasCleanedToday } from "features/island/clutter/Clutter";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import Decimal from "decimal.js-light";
-import { getCollectedGarbage } from "features/game/events/landExpansion/collectClutter";
+import { getCollectedGarbage } from "features/game/events/visiting/collectClutter";
 import { ClutterName, FARM_PEST } from "features/game/types/clutter";
 
 interface VisitorGuideProps {

@@ -18,6 +18,8 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { FarmCleaned } from "../hud/components/FarmCleaned";
 import { getBinLimit } from "features/game/events/landExpansion/increaseBinLimit";
 import sparkle from "public/world/sparkle2.gif";
+import { isHelpComplete } from "features/game/types/monuments";
+import { hasFeatureAccess } from "lib/flags";
 
 interface Props {
   id: string;
@@ -57,6 +59,13 @@ export const Clutter: React.FC<Props> = ({ id, type }) => {
       });
     }
 
+    if (
+      hasFeatureAccess(gameService.state.context.visitorState!, "CHEERS_V2")
+    ) {
+      handleHelpFarm();
+      return;
+    }
+
     gameService.send("clutter.collected", {
       id,
       visitedFarmId: farmId,
@@ -76,6 +85,23 @@ export const Clutter: React.FC<Props> = ({ id, type }) => {
       !hasCleanedToday(gameService.state)
     ) {
       setShowComplete(true);
+    }
+  };
+
+  // V2 - local only event
+  const handleHelpFarm = async () => {
+    gameService.send("garbage.collected", {
+      id,
+      visitedFarmId: farmId,
+    });
+
+    if (isHelpComplete({ game: gameService.getSnapshot().context.state })) {
+      gameService.send("farm.helped", {
+        effect: {
+          type: "farm.helped",
+          farmId: gameService.getSnapshot().context.farmId,
+        },
+      });
     }
   };
 

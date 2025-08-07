@@ -1,8 +1,9 @@
 import Decimal from "decimal.js-light";
-import { Decoration } from "./decorations";
+import { Decoration, getKeys } from "./decorations";
 import { GameState, InventoryItemName } from "./game";
 import cloneDeep from "lodash.clonedeep";
 import { hasFeatureAccess } from "lib/flags";
+import { FARM_GARBAGE } from "./clutter";
 
 type LoveCharmMonumentName =
   | "Farmer's Monument"
@@ -245,4 +246,26 @@ export function getMonumentBoostedAmount({
   }
 
   return base;
+}
+
+export function isHelpComplete({ game }: { game: GameState }) {
+  const isClean = getKeys(game.socialFarming.clutter?.locations ?? {}).every(
+    (id) => {
+      const type = game.socialFarming.clutter?.locations[id].type;
+
+      // There are no garbage items left
+      return !type || !(type in FARM_GARBAGE);
+    },
+  );
+
+  const areProjectsHelped = getKeys(game.socialFarming.villageProjects).every(
+    (project) => {
+      const isComplete =
+        !!game.socialFarming.villageProjects[project]?.helpedAt;
+
+      return isComplete;
+    },
+  );
+
+  return isClean && areProjectsHelped;
 }

@@ -16,6 +16,7 @@ import {
   GameEventName,
   VISITING_EVENTS,
   VisitingEvent,
+  LOCAL_VISITING_EVENTS,
 } from "../events";
 
 import {
@@ -347,13 +348,19 @@ const playingEventHandler = (eventName: string) => {
               visitorState: context.visitorState,
             });
 
-            const actions = [
+            let actions = [
               ...context.actions,
               {
                 ...event,
                 createdAt: new Date(),
               },
             ];
+
+            // Filter out any local only actions so we don't persist them
+            actions = actions.filter(
+              (action) =>
+                !Object.keys(LOCAL_VISITING_EVENTS).includes(action.type),
+            );
 
             if (Array.isArray(result)) {
               const [state, visitorState] = result;

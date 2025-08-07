@@ -22,7 +22,7 @@ import { getTrashBinItems, hasCleanedToday } from "../clutter/Clutter";
 import {
   getCollectedGarbage,
   TRASH_BIN_FARM_LIMIT,
-} from "features/game/events/landExpansion/collectClutter";
+} from "features/game/events/visiting/collectClutter";
 import garbageBin from "assets/sfts/garbage_bin.webp";
 import socialPointsIcon from "assets/icons/social_score.webp";
 import loadingIcon from "assets/icons/timer.gif";
