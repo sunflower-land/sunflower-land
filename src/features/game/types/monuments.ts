@@ -1,6 +1,6 @@
 import Decimal from "decimal.js-light";
 import { Decoration, getKeys } from "./decorations";
-import { GameState, InventoryItemName } from "./game";
+import { GameState, HelpedFarm, InventoryItemName } from "./game";
 import cloneDeep from "lodash.clonedeep";
 import { hasFeatureAccess } from "lib/flags";
 import { FARM_GARBAGE } from "./clutter";
@@ -291,4 +291,29 @@ export function hasHelpedFarmToday({
     new Date(helpedAt).toISOString().slice(0, 10) ===
     new Date().toISOString().slice(0, 10)
   );
+}
+
+/**
+ * If the last help was older than the previous day, the streak expires and returns 0.
+ */
+export function getHelpStreak({
+  farm,
+  now = Date.now(),
+}: {
+  farm?: HelpedFarm;
+  now?: number;
+}) {
+  if (!farm?.streak?.updatedAt) return 0;
+
+  const streakDate = new Date(farm.streak.updatedAt);
+  const currentDate = new Date(now);
+
+  // Calculate the difference in days
+  const timeDiff = currentDate.getTime() - streakDate.getTime();
+  const daysDiff = Math.floor(timeDiff / (1000 * 3600 * 24));
+
+  // Streak expires if it's 2 or more days old (older than previous day)
+  if (daysDiff >= 2) return 0;
+
+  return farm.streak.count;
 }
