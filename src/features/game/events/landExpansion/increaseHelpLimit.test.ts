@@ -22,6 +22,7 @@ describe("increaseHelpLimit", () => {
           ...INITIAL_FARM.inventory,
           Iron: new Decimal(5),
           Leather: new Decimal(5),
+          Wool: new Decimal(5),
           Feather: new Decimal(13),
         },
       },
@@ -30,9 +31,10 @@ describe("increaseHelpLimit", () => {
       createdAt: Date.now(),
     });
 
-    expect(state.inventory.Iron).toEqual(new Decimal(2));
-    expect(state.inventory.Leather).toEqual(new Decimal(2));
-    expect(state.inventory.Feather).toEqual(new Decimal(3));
+    expect(state.inventory.Iron).toEqual(new Decimal(4));
+    expect(state.inventory.Leather).toEqual(new Decimal(4));
+    expect(state.inventory.Wool).toEqual(new Decimal(4));
+    expect(state.inventory.Feather).toEqual(new Decimal(10));
   });
 
   it("should increase the help limit", () => {
@@ -44,6 +46,7 @@ describe("increaseHelpLimit", () => {
           ...INITIAL_FARM.inventory,
           Iron: new Decimal(5),
           Leather: new Decimal(5),
+          Wool: new Decimal(5),
           Feather: new Decimal(13),
         },
       },
@@ -64,6 +67,7 @@ describe("increaseHelpLimit", () => {
           ...INITIAL_FARM.inventory,
           Iron: new Decimal(15),
           Leather: new Decimal(15),
+          Wool: new Decimal(15),
           Feather: new Decimal(130),
         },
       },
@@ -91,6 +95,7 @@ describe("increaseHelpLimit", () => {
           ...INITIAL_FARM.inventory,
           Iron: new Decimal(15),
           Leather: new Decimal(15),
+          Wool: new Decimal(15),
           Feather: new Decimal(130),
         },
         socialFarming: {

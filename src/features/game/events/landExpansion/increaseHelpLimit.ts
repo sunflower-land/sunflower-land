@@ -15,9 +15,10 @@ type Options = {
 };
 
 export const HELP_LIMIT_COST: Inventory = {
-  Iron: new Decimal(3),
-  Leather: new Decimal(3),
-  Feather: new Decimal(10),
+  Iron: new Decimal(1),
+  Leather: new Decimal(1),
+  Wool: new Decimal(1),
+  Feather: new Decimal(3),
 };
 
 export const HELP_LIMIT = 5;
