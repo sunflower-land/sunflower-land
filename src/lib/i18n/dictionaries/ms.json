@@ -6372,5 +6372,7 @@
   "help.increaseLimit": "Meningkatkan Had (+1)",
   "help.limitReached": "Had dicapai.",
   "help.limitReached.description": "Anda hanya boleh membantu rakan {{helpLimit}} setiap hari.",
-  "dolls": "Anak patung"
+  "dolls": "Anak patung",
+  "friendStreak": "Rangkaian Rakan: {{days}} hari",
+  "friendStreak.short": "Rangkaian: {{days}} hari"
 }

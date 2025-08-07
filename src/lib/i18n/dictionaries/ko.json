@@ -6372,5 +6372,7 @@
   "help.increaseLimit": "한도 증가 (+1)",
   "help.limitReached": "한도에 도달했습니다.",
   "help.limitReached.description": "하루에 {{helpLimit}} 친구만 도울 수 있습니다.",
-  "dolls": "인형"
+  "dolls": "인형",
+  "friendStreak": "프렌드 스트릭: {{days}} 일",
+  "friendStreak.short": "연속: {{days}} 일"
 }

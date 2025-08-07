@@ -6372,5 +6372,7 @@
   "help.increaseLimit": "上限増加 (+1)",
   "help.limitReached": "制限に達しました。",
   "help.limitReached.description": "1日あたり {{helpLimit}} 人の友達しか助けられません。",
-  "dolls": "人形"
+  "dolls": "人形",
+  "friendStreak": "フレンドストリーク:{{days}} 日",
+  "friendStreak.short": "ストリーク:{{days}} 日"
 }

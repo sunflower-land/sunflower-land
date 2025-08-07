@@ -6372,5 +6372,7 @@
   "help.increaseLimit": "增加上限 (+1)",
   "help.limitReached": "已达到限制。",
   "help.limitReached.description": "你每天只能帮助 {{helpLimit}} 个朋友。",
-  "dolls": "娃娃"
+  "dolls": "娃娃",
+  "friendStreak": "Friend Streak：{{days}} 天",
+  "friendStreak.short": "连胜：{{days}} 天"
 }

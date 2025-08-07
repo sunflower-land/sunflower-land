@@ -6372,5 +6372,7 @@
   "help.increaseLimit": "Tingkatkan Batas (+1)",
   "help.limitReached": "Batas tercapai.",
   "help.limitReached.description": "Anda hanya dapat membantu {{helpLimit}} teman per hari.",
-  "dolls": "Boneka"
+  "dolls": "Boneka",
+  "friendStreak": "Streak Teman: {{days}} hari",
+  "friendStreak.short": "Beruntun: {{days}} hari"
 }

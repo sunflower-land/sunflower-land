@@ -6372,5 +6372,7 @@
   "help.increaseLimit": "Limite d'augmentation (+1)",
   "help.limitReached": "Limite atteinte.",
   "help.limitReached.description": "Vous ne pouvez aider que {{helpLimit}} amis par jour.",
-  "dolls": "Poupées"
+  "dolls": "Poupées",
+  "friendStreak": "Série d'amis : {{days}} jours",
+  "friendStreak.short": "Série : {{days}} jours"
 }

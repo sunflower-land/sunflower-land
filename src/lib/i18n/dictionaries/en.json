@@ -6372,5 +6372,7 @@
   "help.cantWait.description": "Craft a broom to make space to help another friend.",
   "help.increaseLimit": "Increase Limit (+1)",
   "help.limitReached": "Limit reached.",
-  "help.limitReached.description": "You can only help {{helpLimit}} friends per day."
+  "help.limitReached.description": "You can only help {{helpLimit}} friends per day.",
+  "friendStreak": "Friend Streak: {{days}} days",
+  "friendStreak.short": "Streak: {{days}} days"
 }

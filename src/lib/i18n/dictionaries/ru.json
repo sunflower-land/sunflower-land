@@ -6372,5 +6372,7 @@
   "help.increaseLimit": "Лимит увеличения (+1)",
   "help.limitReached": "Достигнут лимит.",
   "help.limitReached.description": "Вы можете помогать только друзьям {{helpLimit}} в день.",
-  "dolls": "Куклы"
+  "dolls": "Куклы",
+  "friendStreak": "Серия друзей: {{days}} дней",
+  "friendStreak.short": "Серия: {{days}} дней"
 }

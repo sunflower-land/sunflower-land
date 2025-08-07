@@ -6372,5 +6372,7 @@
   "help.increaseLimit": "Artış Limiti (+1)",
   "help.limitReached": "Sınıra ulaşıldı.",
   "help.limitReached.description": "Günde sadece {{helpLimit}} arkadaşlarınıza yardım edebilirsiniz.",
-  "dolls": "Bebekler"
+  "dolls": "Bebekler",
+  "friendStreak": "Arkadaş Serisi: {{days}} gün",
+  "friendStreak.short": "Seri: {{days}} gün"
 }
