@@ -27,6 +27,7 @@
   "biomes": "Biomes",
   "leaderboard": "Leaderboard",
   "discovery": "Discovery",
+  "points": "Points",
 
   "animals.buildingIsFull": "{{buildingName}} is full!",
   "breadWinner.description": "Earn 0.001 FLOWER",
@@ -6378,5 +6379,7 @@
   "help.limitReached.description": "You can only help {{helpLimit}} friends per day.",
   "friendStreak": "Friend Streak: {{days}} days",
   "friendStreak.short": "Streak: {{days}} days",
-  "social.leaderboard": "Social Leaderboard"
+  "social.leaderboard": "Social Leaderboard",
+  "social.leaderboard.weekly": "Weekly Social Leaderboard",
+  "social.leaderboard.allTime": "All-time Social Leaderboard"
 }

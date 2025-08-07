@@ -51,7 +51,12 @@ export const Discovery: React.FC = () => {
         ]}
       >
         {tab === "Discovery" && <div>{`Discovery`}</div>}
-        {tab === "Leaderboard" && <SocialLeaderboard id={farmId} />}
+        {tab === "Leaderboard" && (
+          <SocialLeaderboard
+            id={farmId}
+            onClose={() => setShowDiscoveryModal(false)}
+          />
+        )}
       </CloseButtonPanel>
     </Modal>
   );

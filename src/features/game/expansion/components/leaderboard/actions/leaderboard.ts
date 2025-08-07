@@ -247,18 +247,30 @@ export async function fetchLeaderboardData(
   }
 }
 
+type SocialLeaderboardRank = RankData & { username: string };
+
+type SocialLeaderboards = {
+  lastUpdated: number;
+  allTime: {
+    topTen: SocialLeaderboardRank[];
+    farmRankingDetails: SocialLeaderboardRank[];
+  };
+  weekly: {
+    topTen: SocialLeaderboardRank[];
+    farmRankingDetails: SocialLeaderboardRank[];
+  };
+};
+
 export async function fetchSocialLeaderboardData(
   farmId: number,
-): Promise<Leaderboards | null> {
+): Promise<SocialLeaderboards | null> {
   try {
-    const socialPointsLeaderboard = await getLeaderboard<TicketLeaderboard>({
+    const data = await getLeaderboard<SocialLeaderboards>({
       farmId: Number(farmId),
       leaderboardName: "socialPoints",
     });
 
-    return {
-      socialPoints: socialPointsLeaderboard,
-    };
+    return data ?? null;
   } catch (error) {
     // eslint-disable-next-line no-console
     console.error("error", error);
