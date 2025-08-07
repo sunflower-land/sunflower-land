@@ -1011,7 +1011,39 @@ export const STATIC_OFFLINE_FARM: GameState = {
   },
   desert: {
     digging: {
-      grid: [],
+      streak: {
+        count: 0,
+        collectedAt: Date.now() - 1000 * 60 * 60 * 1,
+        totalClaimed: 0,
+      },
+      grid: [
+        [
+          {
+            x: 0,
+            y: 0,
+            dugAt: 0,
+            items: { Coprolite: 1 },
+            tool: "Sand Shovel",
+          },
+        ],
+        [
+          {
+            x: 1,
+            y: 0,
+            dugAt: 0,
+            items: { Coprolite: 1 },
+            tool: "Sand Shovel",
+          },
+
+          {
+            x: 2,
+            y: 0,
+            dugAt: 0,
+            items: { Coprolite: 1 },
+            tool: "Sand Shovel",
+          },
+        ],
+      ],
       patterns: [],
     },
   },

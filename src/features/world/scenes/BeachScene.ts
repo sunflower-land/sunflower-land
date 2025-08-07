@@ -1329,7 +1329,7 @@ export class BeachScene extends BaseScene {
   public handleDigbyWarnings = () => {
     if (!this.currentPlayer) return;
 
-    if (this.percentageTreasuresFound >= 100) {
+    if (this.percentageTreasuresFound >= 100 && !this.hasClaimedStreakReward) {
       if (this.alreadyNotifiedOfClaim) return;
 
       this.npcs.digby?.speak(translate("digby.claimPrize"));
