@@ -10,12 +10,14 @@ export const useFollowNetwork = (
   networkFarmId: number,
 ) => {
   const getKey = (
-    _: number,
-    previousPageData: FollowNetworkDetails["data"],
+    pageIndex: number,
+    previousPageData: FollowNetworkDetails | null,
   ) => {
-    if (previousPageData && !previousPageData.nextCursor) return null;
+    if (pageIndex === 0) return `followNetworkDetails-${networkFarmId}-0`;
 
-    return `followNetworkDetails-${networkFarmId}-${previousPageData?.nextCursor ?? "initial"}`;
+    if (!previousPageData?.data?.nextCursor) return null;
+
+    return `followNetworkDetails-${networkFarmId}-${previousPageData.data.nextCursor}`;
   };
 
   const { data, size, error, setSize, isValidating, mutate } = useSWRInfinite(
@@ -23,7 +25,7 @@ export const useFollowNetwork = (
     (key) => {
       const parts = key.split("-");
       const cursor = parts[2];
-      const nextCursor = cursor === "initial" ? undefined : cursor;
+      const nextCursor = cursor === "0" ? 0 : Number(cursor);
 
       return getFollowNetworkDetails({
         token,
@@ -33,8 +35,7 @@ export const useFollowNetwork = (
       });
     },
     {
-      revalidateOnFocus: false,
-      revalidateOnReconnect: false,
+      revalidateFirstPage: false,
     },
   );
 
@@ -42,11 +43,12 @@ export const useFollowNetwork = (
 
   return {
     network,
-    isLoading: isValidating,
-    size,
+    isLoadingInitialData: !data && isValidating,
+    isLoadingMore:
+      isValidating && size > 0 && typeof data?.[size - 1] === "undefined",
+    hasMore: data?.[data.length - 1]?.data.nextCursor !== null,
+    loadMore: () => setSize(size + 1),
     error,
-    setSize,
-    isValidating,
     mutate,
   };
 };

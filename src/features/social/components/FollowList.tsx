@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSocial } from "../hooks/useSocial";
 import { Label } from "components/ui/Label";
@@ -6,6 +6,8 @@ import { FollowDetailPanel } from "./FollowDetailPanel";
 import { Button } from "components/ui/Button";
 import { Equipped } from "features/game/types/bumpkin";
 import { useFollowNetwork } from "../hooks/useFollowNetwork";
+import { useInView } from "react-intersection-observer";
+import { Loading } from "features/auth/components";
 
 type Props = {
   loggedInFarmId: number;
@@ -16,6 +18,7 @@ type Props = {
   playerLoading?: boolean;
   showLabel?: boolean;
   type: "followers" | "following";
+  scrollContainerRef: React.RefObject<HTMLDivElement>;
   navigateToPlayer: (playerId: number) => void;
 };
 
@@ -28,6 +31,7 @@ export const FollowList: React.FC<Props> = ({
   playerLoading,
   showLabel = true,
   type,
+  scrollContainerRef,
   navigateToPlayer,
 }) => {
   useSocial({
@@ -35,11 +39,49 @@ export const FollowList: React.FC<Props> = ({
     following: networkList,
   });
   const { t } = useTranslation();
+  const [isScrollable, setIsScrollable] = useState(false);
 
-  const { network, isLoading, isValidating, error, setSize, size, mutate } =
-    useFollowNetwork(token, loggedInFarmId, networkFarmId);
+  // Intersection observer to load more details when the loader is in view
+  const { ref: intersectionRef, inView } = useInView({
+    root: scrollContainerRef.current,
+    rootMargin: "0px",
+    threshold: 0.1,
+  });
 
-  if (isLoading || playerLoading) {
+  const {
+    network,
+    isLoadingInitialData,
+    isLoadingMore,
+    hasMore,
+    error,
+    loadMore,
+    mutate,
+  } = useFollowNetwork(token, loggedInFarmId, networkFarmId);
+
+  useEffect(() => {
+    const el = scrollContainerRef.current;
+    if (!el) return;
+
+    const checkScrollable = () => {
+      setIsScrollable(el.scrollHeight > el.clientHeight);
+    };
+
+    checkScrollable();
+
+    const observer = new ResizeObserver(checkScrollable);
+    observer.observe(el);
+
+    return () => observer.disconnect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [network]);
+
+  useEffect(() => {
+    if (inView && hasMore && !isLoadingMore && isScrollable) {
+      loadMore();
+    }
+  }, [inView, hasMore, isLoadingMore, loadMore, isScrollable]);
+
+  if (isLoadingInitialData || playerLoading) {
     return (
       <div className="flex flex-col gap-1 pl-1">
         <div className="sticky top-0 bg-brown-200 z-10 pb-1">
@@ -114,6 +156,12 @@ export const FollowList: React.FC<Props> = ({
             />
           );
         })}
+      </div>
+      <div
+        ref={intersectionRef}
+        className="text-xs flex justify-center py-1 h-5"
+      >
+        {hasMore && <Loading dotsOnly />}
       </div>
     </div>
   );

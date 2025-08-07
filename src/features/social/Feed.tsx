@@ -74,6 +74,7 @@ export const Feed: React.FC<Props> = ({
   server,
   type,
 }) => {
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   const { gameService } = useContext(Context);
   const { authService } = useContext(AuthProvider.Context);
 
@@ -214,7 +215,7 @@ export const Feed: React.FC<Props> = ({
   return (
     <InnerPanel
       className={classNames(
-        `fixed ${isMobile ? "w-[75%]" : "w-[300px]"} inset-safe-area m-2 z-30 transition-transform duration-200`,
+        `fixed ${isMobile ? "w-[75%]" : "w-[320px]"} inset-safe-area m-2 z-30 transition-transform duration-200`,
         {
           "translate-x-0": showDesktopFeed || showMobileFeed,
           "-translate-x-[320px]": hideDesktopFeed,
@@ -279,7 +280,10 @@ export const Feed: React.FC<Props> = ({
         </div>
 
         {showFollowing && (
-          <div className="flex flex-col gap-2 -mt-2 overflow-hidden overflow-y-auto scrollable">
+          <div
+            ref={scrollContainerRef}
+            className="flex flex-col gap-2 -mt-2 overflow-hidden overflow-y-auto scrollable"
+          >
             <FollowList
               loggedInFarmId={farmId}
               token={token}
@@ -288,6 +292,7 @@ export const Feed: React.FC<Props> = ({
               networkCount={following.length}
               showLabel={false}
               type="following"
+              scrollContainerRef={scrollContainerRef}
               navigateToPlayer={handleFollowingClick}
             />
           </div>
