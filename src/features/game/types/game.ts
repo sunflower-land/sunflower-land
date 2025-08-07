@@ -1524,6 +1524,16 @@ type VillageProject = {
   helpedAt?: number; // Local only field
 };
 
+export type HelpedFarm = {
+  count: number;
+  helpedAt: number;
+
+  streak?: {
+    updatedAt: number;
+    count: number;
+  };
+};
+
 export type SocialFarming = {
   points: number;
   villageProjects: Partial<Record<MonumentName, VillageProject>>;
@@ -1548,13 +1558,7 @@ export type SocialFarming = {
     spawnedAt: number;
     locations: { [clutterId: string]: ClutterCoordinates };
   };
-  helped?: Record<
-    number,
-    {
-      count: number;
-      helpedAt: number;
-    }
-  >;
+  helped?: Record<number, HelpedFarm>;
 };
 
 export interface GameState {

@@ -8,6 +8,8 @@ import { Equipped } from "features/game/types/bumpkin";
 import { useFollowNetwork } from "../hooks/useFollowNetwork";
 import { useInView } from "react-intersection-observer";
 import { Loading } from "features/auth/components";
+import { useGame } from "features/game/GameProvider";
+import { getHelpStreak } from "features/game/types/monuments";
 
 type Props = {
   loggedInFarmId: number;
@@ -40,6 +42,7 @@ export const FollowList: React.FC<Props> = ({
   });
   const { t } = useTranslation();
   const [isScrollable, setIsScrollable] = useState(false);
+  const { gameService } = useGame();
 
   // Intersection observer to load more details when the loader is in view
   const { ref: intersectionRef, inView } = useInView({
@@ -145,6 +148,12 @@ export const FollowList: React.FC<Props> = ({
 
           if (!details) return null;
 
+          const friendStreak = getHelpStreak({
+            farm: gameService.state.context.state.socialFarming.helped?.[
+              followId
+            ],
+          });
+
           return (
             <FollowDetailPanel
               key={`flw-${details.id}`}
@@ -157,6 +166,7 @@ export const FollowList: React.FC<Props> = ({
               projects={details.projects ?? {}}
               socialPoints={details.socialPoints ?? 0}
               haveCleanedToday={!!details.cleanedToday}
+              friendStreak={friendStreak}
             />
           );
         })}

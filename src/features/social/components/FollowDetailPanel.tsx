@@ -11,6 +11,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import cleanBroom from "assets/icons/clean_broom.webp";
 import { ActiveProjects } from "../types/types";
 import { getKeys } from "features/game/lib/crafting";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 type Props = {
   loggedInFarmId: number;
@@ -22,6 +23,7 @@ type Props = {
   lastOnlineAt: number;
   projects: ActiveProjects;
   navigateToPlayer: (playerId: number) => void;
+  friendStreak: number;
 };
 
 export const FollowDetailPanel: React.FC<Props> = ({
@@ -34,6 +36,7 @@ export const FollowDetailPanel: React.FC<Props> = ({
   lastOnlineAt,
   projects = {},
   navigateToPlayer,
+  friendStreak,
 }: Props) => {
   const { t } = useTranslation();
   const lastOnline = getRelativeTime(lastOnlineAt);
@@ -92,10 +95,15 @@ export const FollowDetailPanel: React.FC<Props> = ({
           </div>
         </div>
       </div>
-      <div className="flex items-center">
-        <Label type="chill" icon={socialPointsIcon}>
+      <div className="flex flex-col items-end">
+        <Label type="chill" className="mb-0.5" icon={socialPointsIcon}>
           {socialPoints}
         </Label>
+        {friendStreak > 0 && (
+          <Label type="vibrant" icon={SUNNYSIDE.icons.heart}>
+            {t("friendStreak.short", { days: friendStreak })}
+          </Label>
+        )}
       </div>
     </ButtonPanel>
   );
