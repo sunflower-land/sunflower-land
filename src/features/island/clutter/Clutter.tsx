@@ -166,7 +166,9 @@ export const ClutterItem: React.FC<
   });
 
   const disableCollection =
-    (getTrashBinItems(gameService.state) >= binLimit && type in FARM_GARBAGE) ||
+    (!hasFeatureAccess(gameService.state.context.visitorState!, "CHEERS_V2") &&
+      getTrashBinItems(gameService.state) >= binLimit &&
+      type in FARM_GARBAGE) ||
     (type in FARM_PEST &&
       (!inventory?.["Pest Net"] || inventory?.["Pest Net"]?.lt(1)));
 
