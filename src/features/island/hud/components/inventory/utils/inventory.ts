@@ -126,12 +126,12 @@ export const getChestItems = (state: GameState): Inventory => {
     return acc;
   }, {} as Inventory);
 
-  const validItems = getKeys(availableItems)
-    .filter((itemName) => availableItems[itemName]?.greaterThan(0))
-    .reduce(
-      (acc, name) => ({ ...acc, [name]: availableItems[name] }),
-      {} as Inventory,
-    );
+  const validItems = getKeys(availableItems).reduce((acc, name) => {
+    if (availableItems[name]?.greaterThanOrEqualTo(0)) {
+      return { ...acc, [name]: availableItems[name] };
+    }
+    return { ...acc, [name]: new Decimal(0) };
+  }, {} as Inventory);
 
   return validItems;
 };
