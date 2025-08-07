@@ -120,7 +120,7 @@ describe("increaseBinLimit", () => {
           ...INITIAL_FARM,
           socialFarming: {
             ...INITIAL_FARM.socialFarming,
-            binIncrease: { boughtAt: [Date.now()] },
+            binIncrease: { boughtAt: [Date.now()], unusedStorage: 30 },
           },
         },
       });
@@ -133,7 +133,10 @@ describe("increaseBinLimit", () => {
           ...INITIAL_FARM,
           socialFarming: {
             ...INITIAL_FARM.socialFarming,
-            binIncrease: { boughtAt: [Date.now(), Date.now()] },
+            binIncrease: {
+              boughtAt: [Date.now(), Date.now()],
+              unusedStorage: 60,
+            },
           },
         },
       });
@@ -148,6 +151,7 @@ describe("increaseBinLimit", () => {
             ...INITIAL_FARM.socialFarming,
             binIncrease: {
               boughtAt: [Date.now(), Date.now() - 25 * 60 * 60 * 1000],
+              unusedStorage: 30,
             },
           },
         },
