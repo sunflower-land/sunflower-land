@@ -370,7 +370,7 @@ export const _hasCheeredToday =
       }
 
       if (
-        !!state.context.state?.socialFarming.villageProjects[project]?.helpedAt
+        state.context.state?.socialFarming.villageProjects[project]?.helpedAt
       ) {
         return true;
       }

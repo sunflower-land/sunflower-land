@@ -46,8 +46,6 @@ export const Clutter: React.FC<{
   const { gameService } = useContext(Context);
   const [showHelped, setShowHelped] = useState(false);
 
-  console.log({ clutter });
-
   const hasHelpedToday = hasHelpedFarmToday({
     game: gameService.state.context.visitorState!,
     farmId: gameService.state.context.farmId,
@@ -159,7 +157,6 @@ export const ClutterItem: React.FC<
     });
 
     if (isHelpComplete({ game: gameService.getSnapshot().context.state })) {
-      console.log("HELP COMPLETE");
       onComplete();
     }
   };

@@ -27,17 +27,13 @@ export function helpProject({
     if (!visitorGame) {
       throw new Error("No visitor game");
     }
-    console.log("locally helped project", action.project, visitorGame);
-    console.log({ helpProjectGame: visitorGame });
     const project = game.socialFarming.villageProjects[action.project];
-
-    console.log({ project });
 
     if (!project) {
       throw new Error("Project not found");
     }
 
-    if (!!project.helpedAt) {
+    if (project.helpedAt) {
       throw new Error("Already helped");
     }
 

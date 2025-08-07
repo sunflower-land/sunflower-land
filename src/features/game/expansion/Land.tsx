@@ -53,7 +53,6 @@ import { getCurrentBiome } from "features/island/biomes/biomes";
 import { useVisiting } from "lib/utils/visitUtils";
 import { getObjectEntries } from "./lib/utils";
 import { Clutter } from "features/island/clutter/Clutter";
-import { FARM_PEST } from "../types/clutter";
 
 export const LAND_WIDTH = 6;
 
