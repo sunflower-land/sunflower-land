@@ -6356,5 +6356,15 @@
   "whatsOn.auctionWeek.description": "Bersaing melawan pemain lain untuk NFT paling langka",
   "whatsOn.newChapter": "Bab Baru",
   "whatsOn.newChapterDate": "3 November",
-  "whatsOn.newChapter.description": "Bab baru akan segera hadir!"
+  "whatsOn.newChapter.description": "Bab baru akan segera hadir!",
+  "cheer.village.project.description.charm": "Anda akan mendapatkan 1 x Love Charm untuk menyemangati {{project}} untuk membantu {{username}} menyelesaikannya!",
+  "visiting.helped": "Membantu",
+  "visiting.helped.thanks": "Terima kasih telah membantu peternakan saya!",
+  "completing.project": "Menyelesaikan proyek",
+  "visitorGuide.alreadyHelped": "Terima kasih telah membantu saya hari ini. Kembalilah besok untuk membantu lagi!",
+  "completing.project.success": "Yeehaw, nikmati hadiahmu!",
+  "project.friendBonus": "Bonus teman",
+  "project.friendBonus.description": "Seorang pembantu acak telah dipilih untuk juga menerima hadiah!",
+  "helping.farm": "Notfying Bumpkin",
+  "helping.farm.success": "Terima kasih atas bantuan Anda!"
 }

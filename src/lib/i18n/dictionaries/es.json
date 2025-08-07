@@ -6356,5 +6356,15 @@
   "whatsOn.auctionWeek.description": "Compite contra otros jugadores por los NFT más raros",
   "whatsOn.newChapter": "Nuevo capítulo",
   "whatsOn.newChapterDate": "3 de noviembre",
-  "whatsOn.newChapter.description": "¡El nuevo capítulo llegará pronto!"
+  "whatsOn.newChapter.description": "¡El nuevo capítulo llegará pronto!",
+  "cheer.village.project.description.charm": "¡Ganarás 1 amuleto de amor por animar al {{project}} para ayudar a {{username}} a completarlo!",
+  "visiting.helped": "Ayudó",
+  "visiting.helped.thanks": "¡Gracias por ayudar a mi granja!",
+  "completing.project": "Finalización del proyecto",
+  "visitorGuide.alreadyHelped": "Gracias por ayudarme hoy. ¡Vuelve mañana para volver a ayudar!",
+  "completing.project.success": "¡Sí, disfruta de tu recompensa!",
+  "project.friendBonus": "Bono de amigo",
+  "project.friendBonus.description": "¡Se ha seleccionado un ayudante aleatorio para recibir también el premio!",
+  "helping.farm": "Notificar a Bumpkin",
+  "helping.farm.success": "¡Gracias por tu ayuda!"
 }

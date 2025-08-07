@@ -6356,5 +6356,15 @@
   "whatsOn.auctionWeek.description": "En nadir NFT'ler için diğer oyunculara karşı yarışın",
   "whatsOn.newChapter": "Yeni Bölüm",
   "whatsOn.newChapterDate": "3 Kasım",
-  "whatsOn.newChapter.description": "Yeni bölüm yakında geliyor!"
+  "whatsOn.newChapter.description": "Yeni bölüm yakında geliyor!",
+  "cheer.village.project.description.charm": "{{username}} 'i tamamlamasına yardımcı olmak için tezahürat yaptığınız için 1 x Aşk Tılsımı kazanacaksınız!",
+  "visiting.helped": "Yardım etti",
+  "visiting.helped.thanks": "Çiftliğime yardım ettiğin için teşekkürler!",
+  "completing.project": "Projenin tamamlanması",
+  "visitorGuide.alreadyHelped": "Bugün bana yardım ettiğin için teşekkürler. Yarın tekrar yardım etmek için gel!",
+  "completing.project.success": "Yeehaw, ödülünün tadını çıkar!",
+  "project.friendBonus": "Arkadaş bonusu",
+  "project.friendBonus.description": "Ödülü almak için rastgele bir yardımcı seçildi!",
+  "helping.farm": "Notlandırıcı Bumpkin",
+  "helping.farm.success": "Yardımın için teşekkürler!"
 }

@@ -6356,5 +6356,15 @@
   "whatsOn.auctionWeek.description": "与其他玩家竞争最稀有的 NFT",
   "whatsOn.newChapter": "新章节",
   "whatsOn.newChapterDate": "11 月 3 日",
-  "whatsOn.newChapter.description": "新篇章即将到来！"
+  "whatsOn.newChapter.description": "新篇章即将到来！",
+  "cheer.village.project.description.charm": "为 {{project}} 加油帮助 {{username}} 完成任务，你将获得 1 x Love Charm！",
+  "visiting.helped": "有帮助",
+  "visiting.helped.thanks": "感谢你帮助我的农场！",
+  "completing.project": "正在完成项目",
+  "visitorGuide.alreadyHelped": "谢谢你今天帮助我。明天再来帮忙！",
+  "completing.project.success": "Yeehaw，享受你的奖励！",
+  "project.friendBonus": "好友奖励",
+  "project.friendBonus.description": "已随机选择一名助手来获得奖品！",
+  "helping.farm": "Notfying Bumpkin",
+  "helping.farm.success": "谢谢你的帮助！"
 }

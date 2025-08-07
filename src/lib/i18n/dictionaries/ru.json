@@ -6356,5 +6356,15 @@
   "whatsOn.auctionWeek.description": "Соревнуйтесь с другими игроками за самые редкие NFT",
   "whatsOn.newChapter": "Новая глава",
   "whatsOn.newChapterDate": "3 ноября",
-  "whatsOn.newChapter.description": "Скоро новая глава!"
+  "whatsOn.newChapter.description": "Скоро новая глава!",
+  "cheer.village.project.description.charm": "Вы получите 1 x Love Charm, если подбадриваете {{project}} и помогаете {{username}} пройти его!",
+  "visiting.helped": "Помогло",
+  "visiting.helped.thanks": "Спасибо за помощь моей ферме!",
+  "completing.project": "Завершение проекта",
+  "visitorGuide.alreadyHelped": "Спасибо, что помогли мне сегодня. Приходи завтра, чтобы снова помочь!",
+  "completing.project.success": "Да-хау, наслаждайтесь наградой!",
+  "project.friendBonus": "Бонус другу",
+  "project.friendBonus.description": "Также был выбран случайный помощник, который также получит приз!",
+  "helping.farm": "Уведомление о неровности",
+  "helping.farm.success": "Спасибо за помощь!"
 }

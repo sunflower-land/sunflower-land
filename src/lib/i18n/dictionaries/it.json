@@ -6356,5 +6356,15 @@
   "whatsOn.auctionWeek.description": "Gareggia contro altri giocatori per gli NFT più rari",
   "whatsOn.newChapter": "Nuovo capitolo",
   "whatsOn.newChapterDate": "3 novembre",
-  "whatsOn.newChapter.description": "Il nuovo capitolo è in arrivo!"
+  "whatsOn.newChapter.description": "Il nuovo capitolo è in arrivo!",
+  "cheer.village.project.description.charm": "Riceverai 1 ciondolo d'amore incoraggiando {{project}} ad aiutare {{username}} a completarlo!",
+  "visiting.helped": "Aiutato",
+  "visiting.helped.thanks": "Grazie per aver aiutato la mia fattoria!",
+  "completing.project": "Completamento del progetto",
+  "visitorGuide.alreadyHelped": "Grazie per avermi aiutato oggi. Torna domani per aiutare ancora!",
+  "completing.project.success": "Yeehaw, goditi la tua ricompensa!",
+  "project.friendBonus": "Bonus amici",
+  "project.friendBonus.description": "È stato selezionato un aiutante casuale per ricevere anche il premio!",
+  "helping.farm": "Notifica Bumpkin",
+  "helping.farm.success": "Grazie per l'aiuto!"
 }

@@ -6356,5 +6356,15 @@
   "whatsOn.auctionWeek.description": "最も希少なNFTを求めて他のプレイヤーと競い合おう",
   "whatsOn.newChapter": "新章",
   "whatsOn.newChapterDate": "11 月 3 日",
-  "whatsOn.newChapter.description": "新しい章が間もなく登場します！"
+  "whatsOn.newChapter.description": "新しい章が間もなく登場します！",
+  "cheer.village.project.description.charm": "{{project}} を応援して {{username}} をコンプリートさせると、ラブチャームを1個獲得できます！",
+  "visiting.helped": "助けた",
+  "visiting.helped.thanks": "私の農場を助けてくれてありがとう！",
+  "completing.project": "プロジェクトの完了",
+  "visitorGuide.alreadyHelped": "今日は助けてくれてありがとう。明日また手伝いに来てください！",
+  "completing.project.success": "イーホー、ご褒美を楽しんでください！",
+  "project.friendBonus": "フレンドボーナス",
+  "project.friendBonus.description": "賞品も受け取れるヘルパーがランダムに選ばれました！",
+  "helping.farm": "通知バンプキン",
+  "helping.farm.success": "ご協力いただきありがとうございます！"
 }

@@ -6199,6 +6199,7 @@
   "cheering.village.project.failed": "Cheering failed!",
   "cheer.village.project": "Cheer project",
   "cheer.village.project.description": "You can cheer the {{project}} to help {{username}} complete it!",
+  "cheer.village.project.description.charm": "You will earn 1 x Love Charm for cheering the {{project}} to help {{username}} complete it!",
   "cheer.village.project.confirm": "Are you sure you want to cheer the {{project}}?",
   "cheer": "Cheer",
   "socialPoints": "{{points}} Social Points",
@@ -6272,6 +6273,8 @@
   "visitorGuide.netRequired": "Net required",
   "visiting.cleaned": "Cleaned",
   "visiting.thanks": "Thanks for cleaning my farm!",
+  "visiting.helped": "Helped",
+  "visiting.helped.thanks": "Thanks for helping my farm!",
   "visitorGuide.clutter": "Find the hidden item on the farm.",
   "visitorGuide.pest": "Catch the pest.",
   "visitorGuide.pets": "Catch the cheeky pests",
@@ -6356,5 +6359,12 @@
   "whatsOn.auctionWeek.description": "Compete against other players for the rarest NFTs",
   "whatsOn.newChapter": "New Chapter",
   "whatsOn.newChapterDate": "November 3rd",
-  "whatsOn.newChapter.description": "The new chapter is coming soon!"
+  "whatsOn.newChapter.description": "The new chapter is coming soon!",
+  "completing.project": "Completing project",
+  "visitorGuide.alreadyHelped": "Thanks for helping me today. Come back tomorrow to help again!",
+  "completing.project.success": "Yeehaw, enjoy your reward!",
+  "project.friendBonus": "Friend bonus",
+  "project.friendBonus.description": "A random helper has been selected to also receive the prize!",
+  "helping.farm": "Notfying Bumpkin",
+  "helping.farm.success": "Thanks for your help!"
 }

@@ -6356,5 +6356,15 @@
   "whatsOn.auctionWeek.description": "Compita contra outros jogadores pelos NFTs mais raros",
   "whatsOn.newChapter": "Novo capítulo",
   "whatsOn.newChapterDate": "3 de novembro",
-  "whatsOn.newChapter.description": "O novo capítulo está chegando em breve!"
+  "whatsOn.newChapter.description": "O novo capítulo está chegando em breve!",
+  "cheer.village.project.description.charm": "Você ganhará 1 x Love Charm ao aplaudir {{project}} e ajudar {{username}} a completá-lo!",
+  "visiting.helped": "Ajudou",
+  "visiting.helped.thanks": "Obrigado por ajudar minha fazenda!",
+  "completing.project": "Concluindo o projeto",
+  "visitorGuide.alreadyHelped": "Obrigado por me ajudar hoje. Volte amanhã para ajudar novamente!",
+  "completing.project.success": "Yeehaw, aproveite sua recompensa!",
+  "project.friendBonus": "Bônus de amizade",
+  "project.friendBonus.description": "Um ajudante aleatório foi selecionado para também receber o prêmio!",
+  "helping.farm": "Notificando Bumpkin",
+  "helping.farm.success": "Obrigado pela sua ajuda!"
 }

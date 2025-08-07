@@ -6356,5 +6356,15 @@
   "whatsOn.auctionWeek.description": "가장 희귀한 NFT를 위해 다른 플레이어와 경쟁하세요",
   "whatsOn.newChapter": "새 챕터",
   "whatsOn.newChapterDate": "11월 3일",
-  "whatsOn.newChapter.description": "새 챕터가 곧 출시됩니다!"
+  "whatsOn.newChapter.description": "새 챕터가 곧 출시됩니다!",
+  "cheer.village.project.description.charm": "{{project}} 를 응원하고 {{username}} 의 완성을 도와주면 러브 부적 1개를 획득할 수 있습니다!",
+  "visiting.helped": "도움이 되었습니다",
+  "visiting.helped.thanks": "농장을 도와줘서 고마워요!",
+  "completing.project": "프로젝트 완료",
+  "visitorGuide.alreadyHelped": "오늘 도와 주셔서 감사합니다.내일 다시 와서 도와주세요!",
+  "completing.project.success": "이호, 보상을 즐기세요!",
+  "project.friendBonus": "친구 보너스",
+  "project.friendBonus.description": "랜덤으로 도우미가 선정되어 경품도 받게 되었습니다!",
+  "helping.farm": "범프킨에 알림",
+  "helping.farm.success": "도와 줘서 고마워요!"
 }

@@ -6356,5 +6356,15 @@
   "whatsOn.auctionWeek.description": "Tritt gegen andere Spieler um die seltensten NFTs an",
   "whatsOn.newChapter": "Neues Kapitel",
   "whatsOn.newChapterDate": "3. November",
-  "whatsOn.newChapter.description": "Das neue Kapitel kommt bald!"
+  "whatsOn.newChapter.description": "Das neue Kapitel kommt bald!",
+  "cheer.village.project.description.charm": "Du erhältst 1 x Liebeszauber, wenn du {{project}} anfeuerst, um {{username}} dabei zu helfen, ihn zu vervollständigen!",
+  "visiting.helped": "Hat geholfen",
+  "visiting.helped.thanks": "Danke, dass du meiner Farm hilfst!",
+  "completing.project": "Projekt abschließen",
+  "visitorGuide.alreadyHelped": "Danke, dass du mir heute geholfen hast. Komm morgen wieder, um wieder zu helfen!",
+  "completing.project.success": "Yeehaw, genieß deine Belohnung!",
+  "project.friendBonus": "Bonus für Freunde",
+  "project.friendBonus.description": "Ein zufälliger Helfer wurde ausgewählt, der ebenfalls den Preis erhält!",
+  "helping.farm": "Bumpkin benachrichtigen",
+  "helping.farm.success": "Danke für deine Hilfe!"
 }
