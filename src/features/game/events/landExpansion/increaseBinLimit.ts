@@ -29,16 +29,8 @@ export function getBinLimit({
   game: GameState;
   now?: Date;
 }) {
-  const limit = TRASH_BIN_DAILY_LIMIT;
-
-  // Get all the increases for the current UTC date
-  const increases = game.socialFarming.binIncrease?.boughtAt.filter(
-    (date) =>
-      new Date(date).toISOString().split("T")[0] ===
-      now.toISOString().split("T")[0],
-  );
-
-  return limit + (increases?.length ?? 0) * BIN_LIMIT_INCREASE;
+  const unusedStorage = game.socialFarming?.binIncrease?.unusedStorage ?? 0;
+  return TRASH_BIN_DAILY_LIMIT + unusedStorage;
 }
 
 export function increaseBinLimit({
@@ -70,6 +62,9 @@ export function increaseBinLimit({
 
     visitorGame!.socialFarming.binIncrease = {
       boughtAt: binLimits,
+      unusedStorage:
+        (game.socialFarming.binIncrease?.unusedStorage ?? 0) +
+        BIN_LIMIT_INCREASE,
     };
   });
 }
