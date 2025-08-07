@@ -209,12 +209,16 @@ export const CraftTab: React.FC<Props> = ({
     // Removed placed items
     getKeys(updatedInventory).forEach((itemName) => {
       const placedCount =
-        (gameService.getSnapshot().context.state.collectibles[
-          itemName as CollectibleName
-        ]?.length ?? 0) +
-        (gameService.getSnapshot().context.state.home?.collectibles[
-          itemName as CollectibleName
-        ]?.length ?? 0);
+        (gameService
+          .getSnapshot()
+          .context.state.collectibles[
+            itemName as CollectibleName
+          ]?.filter((collectible) => collectible.coordinates).length ?? 0) +
+        (gameService
+          .getSnapshot()
+          .context.state.home?.collectibles[
+            itemName as CollectibleName
+          ]?.filter((collectible) => collectible.coordinates).length ?? 0);
 
       updatedInventory[itemName] = (
         updatedInventory[itemName] ?? new Decimal(0)

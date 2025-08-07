@@ -255,6 +255,7 @@ export const Chest: React.FC<Props> = ({
   const chestMap = getChestItems(state);
   const { t } = useAppTranslation();
   const collectibles = getKeys(chestMap)
+    .filter((item) => chestMap[item]?.gt(0))
     .sort((a, b) => a.localeCompare(b))
     .reduce(
       (acc, item) => {

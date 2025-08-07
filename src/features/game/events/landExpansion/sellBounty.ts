@@ -30,6 +30,7 @@ import {
 import { produce } from "immer";
 import { isCollectible } from "./garbageSold";
 import { CHAPTER_TICKET_BOOST_ITEMS } from "./completeNPCChore";
+import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
 
 export const BOUNTY_CATEGORIES = {
   "Flower Bounties": (bounty: BountyRequest): bounty is FlowerBounty =>
@@ -141,15 +142,17 @@ export function sellBounty({
     });
 
     // Remove the item from the inventory
-    const item = draft.inventory[request.name];
+    const item = draft.inventory[request.name] ?? new Decimal(0);
+    const { count: availableCount } = getCountAndType(draft, request.name);
+
     if (
-      !item ||
-      item.lt(
+      availableCount.lt(
         BOUNTY_CATEGORIES["Mark Bounties"](request) ? request.quantity : 1,
       )
     ) {
-      throw new Error("Item does not exist in inventory");
+      throw new Error("You do not have the ingredients to sell this bounty");
     }
+
     if (BOUNTY_CATEGORIES["Mark Bounties"](request)) {
       draft.inventory[request.name] = item.minus(request.quantity);
     } else {

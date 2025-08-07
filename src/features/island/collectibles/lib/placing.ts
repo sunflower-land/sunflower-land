@@ -1,8 +1,12 @@
-import { BUILDINGS } from "features/game/types/buildings";
-import { BuildingName } from "features/game/types/buildings";
-import { PlaceableName } from "features/game/types/buildings";
-import { CollectibleName } from "features/game/types/craftables";
-import { COLLECTIBLES_DIMENSIONS } from "features/game/types/craftables";
+import {
+  PlaceableName,
+  BUILDINGS,
+  BuildingName,
+} from "features/game/types/buildings";
+import {
+  COLLECTIBLES_DIMENSIONS,
+  CollectibleName,
+} from "features/game/types/craftables";
 import { GameState } from "features/game/types/game";
 import {
   RESOURCE_STATE_ACCESSORS,
