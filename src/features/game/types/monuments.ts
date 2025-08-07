@@ -1,8 +1,9 @@
 import Decimal from "decimal.js-light";
-import { Decoration } from "./decorations";
+import { Decoration, getKeys } from "./decorations";
 import { GameState, InventoryItemName } from "./game";
 import cloneDeep from "lodash.clonedeep";
 import { hasFeatureAccess } from "lib/flags";
+import { FARM_GARBAGE } from "./clutter";
 
 type LoveCharmMonumentName =
   | "Farmer's Monument"
@@ -245,4 +246,49 @@ export function getMonumentBoostedAmount({
   }
 
   return base;
+}
+
+export function isHelpComplete({ game }: { game: GameState }) {
+  return getHelpRequired({ game }) <= 0;
+}
+
+// Returns a count of help tasks needed on the farm
+export function getHelpRequired({ game }: { game: GameState }) {
+  const clutter = getKeys(game.socialFarming.clutter?.locations ?? {}).filter(
+    (id) => {
+      const type = game.socialFarming.clutter?.locations[id].type;
+
+      // There are no garbage items left
+      return type && type in FARM_GARBAGE;
+    },
+  );
+
+  const pendingProjects = getKeys(game.socialFarming.villageProjects).filter(
+    (project) => {
+      const hasHelped = !!game.socialFarming.villageProjects[project]?.helpedAt;
+
+      const isComplete =
+        REQUIRED_CHEERS[project] <=
+        (game.socialFarming.villageProjects[project]?.cheers ?? 0);
+
+      return !hasHelped && !isComplete;
+    },
+  );
+
+  return clutter.length + pendingProjects.length;
+}
+
+export function hasHelpedFarmToday({
+  game,
+  farmId,
+}: {
+  game: GameState;
+  farmId: number;
+}) {
+  const helpedAt = game.socialFarming?.helped?.[farmId]?.helpedAt ?? 0;
+
+  return (
+    new Date(helpedAt).toISOString().slice(0, 10) ===
+    new Date().toISOString().slice(0, 10)
+  );
 }

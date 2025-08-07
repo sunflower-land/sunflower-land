@@ -527,6 +527,13 @@ import {
 } from "./landExpansion/flipCollectible";
 import { CatchPestAction, catchPest } from "./landExpansion/catchPest";
 
+// Visiting local events
+import {
+  collectGarbage,
+  CollectGarbageAction,
+} from "./visiting/collectGarbage";
+import { helpProject, HelpProjectAction } from "./visiting/helpProject";
+
 import {
   increaseBinLimit,
   IncreaseBinLimitAction,
@@ -680,10 +687,13 @@ export type PlayingEvent =
   | ClaimCheersAction
   | BurnClutterAction;
 
+export type LocalVisitingEvent = CollectGarbageAction | HelpProjectAction;
+
 export type VisitingEvent =
   | CollectClutterAction
   | CatchPestAction
-  | IncreaseBinLimitAction;
+  | IncreaseBinLimitAction
+  | LocalVisitingEvent;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -743,6 +753,7 @@ export type PlacementEvent =
   | FlipCollectibleAction;
 
 export type GameEvent = PlayingEvent | PlacementEvent | VisitingEvent;
+
 export type GameEventName<T> = Extract<T, { type: string }>["type"];
 
 export function isEventType<T extends PlayingEvent>(
@@ -915,10 +926,16 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "clutter.burned": burnClutter,
 };
 
+export const LOCAL_VISITING_EVENTS: Handlers<LocalVisitingEvent> = {
+  "garbage.collected": collectGarbage,
+  "project.helped": helpProject,
+};
+
 export const VISITING_EVENTS: Handlers<VisitingEvent> = {
   "clutter.collected": collectClutter,
   "pest.caught": catchPest,
   "binLimit.increased": increaseBinLimit,
+  ...LOCAL_VISITING_EVENTS,
 };
 
 export const PLACEMENT_EVENTS: Handlers<PlacementEvent> = {

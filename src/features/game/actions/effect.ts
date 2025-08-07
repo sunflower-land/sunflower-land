@@ -43,9 +43,13 @@ type EffectName =
   | "farm.unfollowed"
   | "message.sent"
   | "farm.cheered"
-  | "project.completed";
+  | "project.completed"
+  | "farm.helped";
 
-type VisitEffectName = "villageProject.cheered" | "farm.cleaned";
+type VisitEffectName =
+  | "villageProject.cheered"
+  | "farm.cleaned"
+  | "farm.helped";
 
 // IMPORTANT: If your effect does not go via a state in the state machine then exclude it here!
 // Create a type that excludes the events that are not individual state machine states
@@ -93,11 +97,13 @@ export type StateMachineStateName =
   | "assigningNFT"
   | "cheeringFarm"
   | "followingFarm"
-  | "completingProject";
+  | "completingProject"
+  | "helpingFarm";
 
 export type StateMachineVisitStateName =
   | "cheeringVillageProject"
-  | "cleaningFarm";
+  | "cleaningFarm"
+  | "helpingFarm";
 
 export type StateNameWithStatus =
   | `${StateMachineStateName}Success`
@@ -139,6 +145,7 @@ export const STATE_MACHINE_EFFECTS: Record<
   "farm.cheered": "cheeringFarm",
   "farm.followed": "followingFarm",
   "project.completed": "completingProject",
+  "farm.helped": "helpingFarm",
 };
 
 export const STATE_MACHINE_VISIT_EFFECTS: Record<
@@ -147,6 +154,7 @@ export const STATE_MACHINE_VISIT_EFFECTS: Record<
 > = {
   "villageProject.cheered": "cheeringVillageProject",
   "farm.cleaned": "cleaningFarm",
+  "farm.helped": "helpingFarm",
 };
 
 export interface Effect {
