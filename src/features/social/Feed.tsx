@@ -218,7 +218,7 @@ export const Feed: React.FC<Props> = ({
         `fixed ${isMobile ? "w-[75%]" : "w-[320px]"} inset-safe-area m-2 z-30 transition-transform duration-200`,
         {
           "translate-x-0": showDesktopFeed || showMobileFeed,
-          "-translate-x-[320px]": hideDesktopFeed,
+          "-translate-x-[330px]": hideDesktopFeed,
           // Account for the margin
           "-translate-x-[110%]": hideMobileFeed,
         },

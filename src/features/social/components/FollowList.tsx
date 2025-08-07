@@ -131,8 +131,8 @@ export const FollowList: React.FC<Props> = ({
   }
 
   return (
-    <div className="flex flex-col gap-1 pr-0.5">
-      <div className="sticky top-0 bg-brown-200 z-10 pb-1 pt-1">
+    <div className="flex flex-col pr-0.5">
+      <div className="sticky -top-1 bg-brown-200 z-10 pb-1 pt-1">
         {showLabel && (
           <Label type="default">
             {t(`playerModal.${type}`, { count: networkCount })}
@@ -140,7 +140,11 @@ export const FollowList: React.FC<Props> = ({
         )}
       </div>
       <div className="flex flex-col gap-1">
-        {network.map((details) => {
+        {networkList.map((followId) => {
+          const details = network.find((detail) => detail.id === followId);
+
+          if (!details) return null;
+
           return (
             <FollowDetailPanel
               key={`flw-${details.id}`}
