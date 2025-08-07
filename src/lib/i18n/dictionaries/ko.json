@@ -6371,5 +6371,6 @@
   "help.cantWait.description": "빗자루를 만들어 다른 친구를 도울 공간을 만드세요.",
   "help.increaseLimit": "한도 증가 (+1)",
   "help.limitReached": "한도에 도달했습니다.",
-  "help.limitReached.description": "하루에 {{helpLimit}} 친구만 도울 수 있습니다."
+  "help.limitReached.description": "하루에 {{helpLimit}} 친구만 도울 수 있습니다.",
+  "dolls": "인형"
 }

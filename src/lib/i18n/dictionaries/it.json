@@ -6371,5 +6371,6 @@
   "help.cantWait.description": "Crea una scopa per fare spazio per aiutare un altro amico.",
   "help.increaseLimit": "Aumenta il limite (+1)",
   "help.limitReached": "Limite raggiunto.",
-  "help.limitReached.description": "Puoi aiutare solo {{helpLimit}} amici al giorno."
+  "help.limitReached.description": "Puoi aiutare solo {{helpLimit}} amici al giorno.",
+  "dolls": "bambole"
 }

@@ -6371,5 +6371,6 @@
   "help.cantWait.description": "Buat sapu untuk memberi ruang untuk membantu teman lain.",
   "help.increaseLimit": "Tingkatkan Batas (+1)",
   "help.limitReached": "Batas tercapai.",
-  "help.limitReached.description": "Anda hanya dapat membantu {{helpLimit}} teman per hari."
+  "help.limitReached.description": "Anda hanya dapat membantu {{helpLimit}} teman per hari.",
+  "dolls": "Boneka"
 }
