@@ -6232,7 +6232,6 @@
   "visiting.thanks": "感谢你打扫我的农场！",
   "visitorGuide.pets": "捕捉厚脸皮的害虫",
   "visitorGuide.monument": "帮我完成项目",
-  "visitorGuide.binGuide.reset": "在 {{time}} 中重置",
   "visitorGuide.binGuide.burn.description": "维吉麦吃多了，代码不够用。悉尼的开发者们正在重启大脑——新功能即将上线！",
   "description.doubleBed": "为朋友准备的舒适床。",
   "project.completed": "恭喜！{{project}} 已完成！完成该项目将使该项目从您的土地上移除，并允许您建造一个新项目。",
@@ -6366,5 +6365,11 @@
   "project.friendBonus": "好友奖励",
   "project.friendBonus.description": "已随机选择一名助手来获得奖品！",
   "helping.farm": "Notfying Bumpkin",
-  "helping.farm.success": "谢谢你的帮助！"
+  "helping.farm.success": "谢谢你的帮助！",
+  "visitorGuide.binGuide.reset": "重置：{{time}}",
+  "help.makeRoom": "神奇的扫帚",
+  "help.cantWait.description": "制作一把扫把，腾出空间来帮助另一个朋友。",
+  "help.increaseLimit": "增加上限 (+1)",
+  "help.limitReached": "已达到限制。",
+  "help.limitReached.description": "你每天只能帮助 {{helpLimit}} 个朋友。"
 }

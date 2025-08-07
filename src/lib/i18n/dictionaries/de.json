@@ -6232,7 +6232,6 @@
   "visiting.thanks": "Danke für die Reinigung meiner Farm!",
   "visitorGuide.pets": "Fang die frechen Plagegeister",
   "visitorGuide.monument": "Hilf mir, das Projekt zu beenden",
-  "visitorGuide.binGuide.reset": "Setzt in {{time}} zurück",
   "visitorGuide.binGuide.burn.description": "Zu viel Vegemite. Nicht genug Code. Unsere Entwickler in Sydney starten neu — das Feature ist auf dem Weg!",
   "description.doubleBed": "Ein gemütliches Bett wie gemacht für Freunde.",
   "project.completed": "Herzlichen Glückwunsch! Das {{project}} ist abgeschlossen! Wenn Sie das Projekt abschließen, wird das Projekt von Ihrem Grundstück entfernt und Sie können ein neues bauen.",
@@ -6366,5 +6365,11 @@
   "project.friendBonus": "Bonus für Freunde",
   "project.friendBonus.description": "Ein zufälliger Helfer wurde ausgewählt, der ebenfalls den Preis erhält!",
   "helping.farm": "Bumpkin benachrichtigen",
-  "helping.farm.success": "Danke für deine Hilfe!"
+  "helping.farm.success": "Danke für deine Hilfe!",
+  "visitorGuide.binGuide.reset": "Rücksetzungen: {{time}}",
+  "help.makeRoom": "Magischer Besen",
+  "help.cantWait.description": "Stelle einen Besen her, um Platz zu schaffen, um einem anderen Freund zu helfen.",
+  "help.increaseLimit": "Limit erhöhen (+1)",
+  "help.limitReached": "Limit erreicht.",
+  "help.limitReached.description": "Du kannst nur {{helpLimit}} Freunden pro Tag helfen."
 }

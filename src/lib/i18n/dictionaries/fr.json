@@ -6232,7 +6232,6 @@
   "visiting.thanks": "Merci d'avoir nettoyé ma ferme !",
   "visitorGuide.pets": "Attrapez les ravageurs effrontés",
   "visitorGuide.monument": "Aidez-moi à terminer le projet",
-  "visitorGuide.binGuide.reset": "Se réinitialise dans {{time}}",
   "visitorGuide.binGuide.burn.description": "Trop de Vegemite. Pas assez de code. Nos développeurs de Sydney redémarrent, la fonctionnalité est en cours !",
   "description.doubleBed": "Un lit douillet fait pour les amis.",
   "project.completed": "Félicitations ! Le {{project}} est terminé ! L'achèvement du projet supprimera le projet de votre terrain et vous permettra d'en construire un nouveau.",
@@ -6366,5 +6365,11 @@
   "project.friendBonus": "Bonus pour amis",
   "project.friendBonus.description": "Un assistant a été sélectionné au hasard pour recevoir également le prix !",
   "helping.farm": "Notifier Bumpkin",
-  "helping.farm.success": "Merci pour ton aide !"
+  "helping.farm.success": "Merci pour ton aide !",
+  "visitorGuide.binGuide.reset": "Réinitialisations : {{time}}",
+  "help.makeRoom": "Balai magique",
+  "help.cantWait.description": "Fabriquez un balai pour faire de la place pour aider un autre ami.",
+  "help.increaseLimit": "Limite d'augmentation (+1)",
+  "help.limitReached": "Limite atteinte.",
+  "help.limitReached.description": "Vous ne pouvez aider que {{helpLimit}} amis par jour."
 }

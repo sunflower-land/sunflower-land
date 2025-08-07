@@ -6232,7 +6232,6 @@
   "visiting.thanks": "농장을 청소해 주셔서 감사합니다!",
   "visitorGuide.pets": "건방진 해충을 잡아라",
   "visitorGuide.monument": "프로젝트 완료를 도와주세요.",
-  "visitorGuide.binGuide.reset": "{{time}} 에서 재설정",
   "visitorGuide.binGuide.burn.description": "베지마이트가 너무 많아요코드가 충분하지 않아요.시드니 개발팀이 재부팅 중입니다. 곧 기능이 추가될 예정입니다!",
   "description.doubleBed": "친구를 위해 만든 아늑한 침대.",
   "project.completed": "축하합니다!{{project}} 가 완성되었습니다!프로젝트를 완료하면 해당 프로젝트가 토지에서 제거되고 새 프로젝트를 건설할 수 있습니다.",
@@ -6366,5 +6365,11 @@
   "project.friendBonus": "친구 보너스",
   "project.friendBonus.description": "랜덤으로 도우미가 선정되어 경품도 받게 되었습니다!",
   "helping.farm": "범프킨에 알림",
-  "helping.farm.success": "도와 줘서 고마워요!"
+  "helping.farm.success": "도와 줘서 고마워요!",
+  "visitorGuide.binGuide.reset": "초기화: {{time}}",
+  "help.makeRoom": "매직 빗자루",
+  "help.cantWait.description": "빗자루를 만들어 다른 친구를 도울 공간을 만드세요.",
+  "help.increaseLimit": "한도 증가 (+1)",
+  "help.limitReached": "한도에 도달했습니다.",
+  "help.limitReached.description": "하루에 {{helpLimit}} 친구만 도울 수 있습니다."
 }

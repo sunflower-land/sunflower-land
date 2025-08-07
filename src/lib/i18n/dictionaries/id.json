@@ -6232,7 +6232,6 @@
   "visiting.thanks": "Terima kasih telah membersihkan peternakan saya!",
   "visitorGuide.pets": "Tangkap hama nakal",
   "visitorGuide.monument": "Bantu saya menyelesaikan proyek",
-  "visitorGuide.binGuide.reset": "Mengatur ulang di {{time}}",
   "visitorGuide.binGuide.burn.description": "Terlalu banyak Vegemite. Tidak cukup kode. Pengembang Sydney kami sedang me-reboot - fitur dalam perjalanan!",
   "description.doubleBed": "Tempat tidur yang nyaman dibuat untuk teman-teman.",
   "project.completed": "Selamat! {{project}} selesai! Menyelesaikan proyek akan menghapus proyek dari tanah Anda dan memungkinkan Anda untuk membangun yang baru.",
@@ -6366,5 +6365,11 @@
   "project.friendBonus": "Bonus teman",
   "project.friendBonus.description": "Seorang pembantu acak telah dipilih untuk juga menerima hadiah!",
   "helping.farm": "Notfying Bumpkin",
-  "helping.farm.success": "Terima kasih atas bantuan Anda!"
+  "helping.farm.success": "Terima kasih atas bantuan Anda!",
+  "visitorGuide.binGuide.reset": "Mengatur ulang: {{time}}",
+  "help.makeRoom": "Sapu ajaib",
+  "help.cantWait.description": "Buat sapu untuk memberi ruang untuk membantu teman lain.",
+  "help.increaseLimit": "Tingkatkan Batas (+1)",
+  "help.limitReached": "Batas tercapai.",
+  "help.limitReached.description": "Anda hanya dapat membantu {{helpLimit}} teman per hari."
 }

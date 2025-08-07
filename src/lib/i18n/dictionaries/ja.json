@@ -6232,7 +6232,6 @@
   "visiting.thanks": "農場を掃除してくれてありがとう！",
   "visitorGuide.pets": "生意気な害虫を捕まえろ",
   "visitorGuide.monument": "プロジェクトを完了するのを手伝ってください",
-  "visitorGuide.binGuide.reset": "{{time}} でリセット",
   "visitorGuide.binGuide.burn.description": "ベジマイトが多すぎる。コードが足りません。シドニーのデベロッパーが再起動中 — 機能追加準備中！",
   "description.doubleBed": "友達のために作られた居心地の良いベッド。",
   "project.completed": "おめでとう!{{project}} が完成しました！プロジェクトを完了すると、あなたの土地からプロジェクトが削除され、新しい土地を建設できるようになります。",
@@ -6366,5 +6365,11 @@
   "project.friendBonus": "フレンドボーナス",
   "project.friendBonus.description": "賞品も受け取れるヘルパーがランダムに選ばれました！",
   "helping.farm": "通知バンプキン",
-  "helping.farm.success": "ご協力いただきありがとうございます！"
+  "helping.farm.success": "ご協力いただきありがとうございます！",
+  "visitorGuide.binGuide.reset": "リセット:{{time}}",
+  "help.makeRoom": "マジックほうき",
+  "help.cantWait.description": "ほうきを作って、他の友達を助けるためのスペースを作ってください。",
+  "help.increaseLimit": "上限増加 (+1)",
+  "help.limitReached": "制限に達しました。",
+  "help.limitReached.description": "1日あたり {{helpLimit}} 人の友達しか助けられません。"
 }

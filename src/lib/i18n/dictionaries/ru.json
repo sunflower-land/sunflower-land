@@ -6232,7 +6232,6 @@
   "visiting.thanks": "Спасибо за уборку моей фермы!",
   "visitorGuide.pets": "Ловите дерзких вредителей",
   "visitorGuide.monument": "Помогите мне закончить проект",
-  "visitorGuide.binGuide.reset": "Перезагружается в {{time}}",
   "visitorGuide.binGuide.burn.description": "Слишком много Vegemite. Недостаточно кода. Наши разработчики из Сиднея перезагружаются — новая функция уже в пути!",
   "description.doubleBed": "Уютная кровать для друзей.",
   "project.completed": "Поздравляю! Задание {{project}} завершено! После завершения проекта проект будет удален с вашей земли и вы сможете построить новый.",
@@ -6366,5 +6365,11 @@
   "project.friendBonus": "Бонус другу",
   "project.friendBonus.description": "Также был выбран случайный помощник, который также получит приз!",
   "helping.farm": "Уведомление о неровности",
-  "helping.farm.success": "Спасибо за помощь!"
+  "helping.farm.success": "Спасибо за помощь!",
+  "visitorGuide.binGuide.reset": "Сбрасывания: {{time}}",
+  "help.makeRoom": "Волшебная метла",
+  "help.cantWait.description": "Изготовьте метлу, чтобы освободить место для помощи другому другу.",
+  "help.increaseLimit": "Лимит увеличения (+1)",
+  "help.limitReached": "Достигнут лимит.",
+  "help.limitReached.description": "Вы можете помогать только друзьям {{helpLimit}} в день."
 }

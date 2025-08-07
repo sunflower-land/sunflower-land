@@ -6232,7 +6232,6 @@
   "visiting.thanks": "Çiftliğimi temizlediğiniz için teşekkürler!",
   "visitorGuide.pets": "Arsız zararlıları yakalayın",
   "visitorGuide.monument": "Projeyi bitirmemize yardım et",
-  "visitorGuide.binGuide.reset": "{{time}} içinde sıfırlanır",
   "visitorGuide.binGuide.burn.description": "Çok fazla Vegemite. Yeterli kod yok. Sydney geliştiricilerimiz yeniden başlatılıyor - özellik yolda!",
   "description.doubleBed": "Arkadaşlar için yapılmış rahat bir yatak.",
   "project.completed": "Tebrikler! {{project}} tamamlandı! Projeyi tamamlamak, projeyi arazinizden kaldıracak ve yeni bir tane inşa etmenize izin verecektir.",
@@ -6366,5 +6365,11 @@
   "project.friendBonus": "Arkadaş bonusu",
   "project.friendBonus.description": "Ödülü almak için rastgele bir yardımcı seçildi!",
   "helping.farm": "Notlandırıcı Bumpkin",
-  "helping.farm.success": "Yardımın için teşekkürler!"
+  "helping.farm.success": "Yardımın için teşekkürler!",
+  "visitorGuide.binGuide.reset": "Sıfırlar: {{time}}",
+  "help.makeRoom": "Sihirli süpürge",
+  "help.cantWait.description": "Başka bir arkadaşa yardım etmek için yer açmak için bir süpürge yap.",
+  "help.increaseLimit": "Artış Limiti (+1)",
+  "help.limitReached": "Sınıra ulaşıldı.",
+  "help.limitReached.description": "Günde sadece {{helpLimit}} arkadaşlarınıza yardım edebilirsiniz."
 }

@@ -6232,7 +6232,6 @@
   "visiting.thanks": "¡Gracias por limpiar mi granja!",
   "visitorGuide.pets": "Atrapa las descaradas plagas",
   "visitorGuide.monument": "Ayúdame a terminar el proyecto",
-  "visitorGuide.binGuide.reset": "Se restablece en {{time}}",
   "visitorGuide.binGuide.burn.description": "Demasiado Vegemite. No hay suficiente código. Nuestros desarrolladores de Sídney se están reiniciando: ¡la función está en camino!",
   "description.doubleBed": "Una cama acogedora hecha para amigos.",
   "project.completed": "¡Felicidades! ¡El {{project}} está completo! Completar el proyecto eliminará el proyecto de tu terreno y te permitirá construir uno nuevo.",
@@ -6366,5 +6365,11 @@
   "project.friendBonus": "Bono de amigo",
   "project.friendBonus.description": "¡Se ha seleccionado un ayudante aleatorio para recibir también el premio!",
   "helping.farm": "Notificar a Bumpkin",
-  "helping.farm.success": "¡Gracias por tu ayuda!"
+  "helping.farm.success": "¡Gracias por tu ayuda!",
+  "visitorGuide.binGuide.reset": "Restablece: {{time}}",
+  "help.makeRoom": "Escoba mágica",
+  "help.cantWait.description": "Crea una escoba para dejar espacio para ayudar a otro amigo.",
+  "help.increaseLimit": "Aumentar el límite (+1)",
+  "help.limitReached": "Se ha alcanzado el límite.",
+  "help.limitReached.description": "Solo puedes ayudar a {{helpLimit}} amigos por día."
 }
