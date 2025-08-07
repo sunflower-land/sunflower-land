@@ -61,7 +61,7 @@ export const Clutter: React.FC<{
         <CloseButtonPanel
           bumpkinParts={gameService.state.context.state.bumpkin.equipped}
         >
-          <FarmHelped />
+          <FarmHelped onClose={() => setShowHelped(false)} />
         </CloseButtonPanel>
       </Modal>
 

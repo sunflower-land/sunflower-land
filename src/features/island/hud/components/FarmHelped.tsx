@@ -8,7 +8,11 @@ import socialScoreIcon from "assets/icons/social_score.webp";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { hasFeatureAccess } from "lib/flags";
 
-export const FarmHelped: React.FC = () => {
+interface Props {
+  onClose: () => void;
+}
+
+export const FarmHelped: React.FC<Props> = ({ onClose }) => {
   const { gameService, gameState } = useGame();
 
   const { t } = useAppTranslation();
@@ -20,6 +24,8 @@ export const FarmHelped: React.FC = () => {
         visitedFarmId: gameService.state.context.farmId,
       },
     });
+
+    onClose();
   };
 
   return (

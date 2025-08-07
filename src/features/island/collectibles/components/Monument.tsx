@@ -224,7 +224,7 @@ export const Monument: React.FC<MonumentProps> = (input) => {
         <CloseButtonPanel
           bumpkinParts={gameService.state.context.state.bumpkin.equipped}
         >
-          <FarmHelped />
+          <FarmHelped onClose={() => setShowHelped(false)} />
         </CloseButtonPanel>
       </Modal>
 

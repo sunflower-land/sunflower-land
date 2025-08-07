@@ -521,7 +521,7 @@ export const Project: React.FC<ProjectProps> = (input) => {
         <CloseButtonPanel
           bumpkinParts={gameService.state.context.state.bumpkin.equipped}
         >
-          <FarmHelped />
+          <FarmHelped onClose={() => setShowHelped(false)} />
         </CloseButtonPanel>
       </Modal>
 
