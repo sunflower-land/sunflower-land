@@ -6371,5 +6371,6 @@
   "help.cantWait.description": "制作一把扫把，腾出空间来帮助另一个朋友。",
   "help.increaseLimit": "增加上限 (+1)",
   "help.limitReached": "已达到限制。",
-  "help.limitReached.description": "你每天只能帮助 {{helpLimit}} 个朋友。"
+  "help.limitReached.description": "你每天只能帮助 {{helpLimit}} 个朋友。",
+  "dolls": "娃娃"
 }

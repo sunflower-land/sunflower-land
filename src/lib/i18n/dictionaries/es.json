@@ -6371,5 +6371,6 @@
   "help.cantWait.description": "Crea una escoba para dejar espacio para ayudar a otro amigo.",
   "help.increaseLimit": "Aumentar el límite (+1)",
   "help.limitReached": "Se ha alcanzado el límite.",
-  "help.limitReached.description": "Solo puedes ayudar a {{helpLimit}} amigos por día."
+  "help.limitReached.description": "Solo puedes ayudar a {{helpLimit}} amigos por día.",
+  "dolls": "Muñecas"
 }

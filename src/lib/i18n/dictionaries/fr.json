@@ -6371,5 +6371,6 @@
   "help.cantWait.description": "Fabriquez un balai pour faire de la place pour aider un autre ami.",
   "help.increaseLimit": "Limite d'augmentation (+1)",
   "help.limitReached": "Limite atteinte.",
-  "help.limitReached.description": "Vous ne pouvez aider que {{helpLimit}} amis par jour."
+  "help.limitReached.description": "Vous ne pouvez aider que {{helpLimit}} amis par jour.",
+  "dolls": "Poupées"
 }

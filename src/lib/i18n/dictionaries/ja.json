@@ -6371,5 +6371,6 @@
   "help.cantWait.description": "ほうきを作って、他の友達を助けるためのスペースを作ってください。",
   "help.increaseLimit": "上限増加 (+1)",
   "help.limitReached": "制限に達しました。",
-  "help.limitReached.description": "1日あたり {{helpLimit}} 人の友達しか助けられません。"
+  "help.limitReached.description": "1日あたり {{helpLimit}} 人の友達しか助けられません。",
+  "dolls": "人形"
 }

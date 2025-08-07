@@ -37,8 +37,9 @@ import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { useSound } from "lib/utils/hooks/useSound";
 import { ModalOverlay } from "components/ui/ModalOverlay";
 import { ButtonPanel, InnerPanel } from "components/ui/Panel";
-import { CollectibleName, getKeys } from "features/game/types/craftables";
+import { getKeys } from "features/game/types/craftables";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
+import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
 import { CROPS } from "features/game/types/crops";
 import { ANIMAL_RESOURCES, COMMODITIES } from "features/game/types/resources";
 import { BEDS } from "features/game/types/beds";
@@ -204,40 +205,22 @@ export const CraftTab: React.FC<Props> = ({
   };
 
   const remainingInventory = useMemo(() => {
-    const updatedInventory = { ...inventory };
+    // Get available items (excluding placed items) and spread with inventory for any missing items
+    const chestItems = getChestItems(state);
+    const updatedInventory = { ...inventory, ...chestItems };
 
-    // Removed placed items
-    getKeys(updatedInventory).forEach((itemName) => {
-      const placedCount =
-        (gameService
-          .getSnapshot()
-          .context.state.collectibles[
-            itemName as CollectibleName
-          ]?.filter((collectible) => collectible.coordinates).length ?? 0) +
-        (gameService
-          .getSnapshot()
-          .context.state.home?.collectibles[
-            itemName as CollectibleName
-          ]?.filter((collectible) => collectible.coordinates).length ?? 0);
-
-      updatedInventory[itemName] = (
-        updatedInventory[itemName] ?? new Decimal(0)
-      ).minus(placedCount);
-    });
-
-    selectedItems.forEach((item) => {
+    // Subtract selected items
+    return selectedItems.reduce((acc, item) => {
       const collectible = item?.collectible;
-      if (collectible && updatedInventory[collectible]) {
-        updatedInventory[collectible] = updatedInventory[collectible].minus(1);
+      if (collectible && acc[collectible]) {
+        acc[collectible] = acc[collectible].minus(1);
       }
-    });
-    return updatedInventory;
-  }, [inventory, selectedItems]);
+      return acc;
+    }, updatedInventory);
+  }, [inventory, selectedItems, state]);
 
   const remainingWardrobe = useMemo(() => {
-    const updatedWardrobe = availableWardrobe(
-      gameService.getSnapshot().context.state,
-    );
+    const updatedWardrobe = availableWardrobe(state);
 
     selectedItems.forEach((item) => {
       const wearable = item?.wearable;
@@ -246,7 +229,7 @@ export const CraftTab: React.FC<Props> = ({
       }
     });
     return updatedWardrobe;
-  }, [wardrobe, selectedItems]);
+  }, [wardrobe, selectedItems, state]);
 
   const isCraftingBoxEmpty = useMemo(() => {
     return selectedItems.every((item) => item === null);

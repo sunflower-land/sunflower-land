@@ -6371,5 +6371,6 @@
   "help.cantWait.description": "Buat penyapu untuk membuat ruang untuk membantu rakan lain.",
   "help.increaseLimit": "Meningkatkan Had (+1)",
   "help.limitReached": "Had dicapai.",
-  "help.limitReached.description": "Anda hanya boleh membantu rakan {{helpLimit}} setiap hari."
+  "help.limitReached.description": "Anda hanya boleh membantu rakan {{helpLimit}} setiap hari.",
+  "dolls": "Anak patung"
 }

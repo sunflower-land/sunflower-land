@@ -6371,5 +6371,6 @@
   "help.cantWait.description": "Başka bir arkadaşa yardım etmek için yer açmak için bir süpürge yap.",
   "help.increaseLimit": "Artış Limiti (+1)",
   "help.limitReached": "Sınıra ulaşıldı.",
-  "help.limitReached.description": "Günde sadece {{helpLimit}} arkadaşlarınıza yardım edebilirsiniz."
+  "help.limitReached.description": "Günde sadece {{helpLimit}} arkadaşlarınıza yardım edebilirsiniz.",
+  "dolls": "Bebekler"
 }

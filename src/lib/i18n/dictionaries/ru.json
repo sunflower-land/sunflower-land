@@ -6371,5 +6371,6 @@
   "help.cantWait.description": "Изготовьте метлу, чтобы освободить место для помощи другому другу.",
   "help.increaseLimit": "Лимит увеличения (+1)",
   "help.limitReached": "Достигнут лимит.",
-  "help.limitReached.description": "Вы можете помогать только друзьям {{helpLimit}} в день."
+  "help.limitReached.description": "Вы можете помогать только друзьям {{helpLimit}} в день.",
+  "dolls": "Куклы"
 }
