@@ -19,6 +19,7 @@ import classNames from "classnames";
 import {
   getMonumentBoostedAmount,
   getMonumentRewards,
+  hasHelpedFarmToday,
   isHelpComplete,
   MonumentName,
   REQUIRED_CHEERS,
@@ -55,6 +56,8 @@ import { Player } from "features/social/types/types";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { Loading } from "features/auth/components";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { FarmHelped } from "features/island/hud/components/FarmHelped";
 
 export const PROJECT_IMAGES: Record<
   MonumentName,
@@ -349,19 +352,40 @@ const _cheersAvailable = (state: MachineState) => {
   return state.context.visitorState?.inventory["Cheer"] ?? new Decimal(0);
 };
 
-const _hasCheeredToday = (project: MonumentName) => (state: MachineState) => {
-  const today = new Date().toISOString().split("T")[0];
+export const _hasCheeredToday =
+  (project: MonumentName) => (state: MachineState) => {
+    const today = new Date().toISOString().split("T")[0];
 
-  if (state.context.visitorState?.socialFarming.cheersGiven.date !== today) {
-    return false;
-  }
+    if (
+      state.context.visitorState &&
+      hasFeatureAccess(state.context.visitorState!, "CHEERS_V2")
+    ) {
+      const hasHelpedToday = hasHelpedFarmToday({
+        game: state.context.visitorState,
+        farmId: state.context.farmId,
+      });
 
-  return (
-    state.context.visitorState?.socialFarming.cheersGiven.projects[
-      project
-    ]?.includes(state.context.farmId) ?? false
-  );
-};
+      if (hasHelpedToday) {
+        return true;
+      }
+
+      if (
+        !!state.context.state?.socialFarming.villageProjects[project]?.helpedAt
+      ) {
+        return true;
+      }
+    }
+
+    if (state.context.visitorState?.socialFarming.cheersGiven.date !== today) {
+      return false;
+    }
+
+    return (
+      state.context.visitorState?.socialFarming.cheersGiven.projects[
+        project
+      ]?.includes(state.context.farmId) ?? false
+    );
+  };
 
 const MonumentImage = (
   input: ProjectProps & {
@@ -416,6 +440,7 @@ export const Project: React.FC<ProjectProps> = (input) => {
 
   const [isCheering, setIsCheering] = useState(false);
   const [isCompleting, setIsCompleting] = useState(false);
+  const [showHelped, setShowHelped] = useState(false);
 
   const [, setRender] = useState<number>(0);
 
@@ -460,12 +485,7 @@ export const Project: React.FC<ProjectProps> = (input) => {
     });
 
     if (isHelpComplete({ game: gameService.getSnapshot().context.state })) {
-      gameService.send("farm.helped", {
-        effect: {
-          type: "farm.helped",
-          farmId: gameService.getSnapshot().context.farmId,
-        },
-      });
+      setShowHelped(true);
     }
   };
 
@@ -497,6 +517,14 @@ export const Project: React.FC<ProjectProps> = (input) => {
 
   return (
     <>
+      <Modal show={showHelped}>
+        <CloseButtonPanel
+          bumpkinParts={gameService.state.context.state.bumpkin.equipped}
+        >
+          <FarmHelped />
+        </CloseButtonPanel>
+      </Modal>
+
       <Popover>
         <PopoverButton as="div">
           {({ open }) => (
@@ -541,7 +569,14 @@ export const Project: React.FC<ProjectProps> = (input) => {
                       <img className="w-full" src={SUNNYSIDE.icons.disc} />
                       <img
                         className={classNames("absolute")}
-                        src={cheer}
+                        src={
+                          hasFeatureAccess(
+                            gameService.getSnapshot().context.visitorState!,
+                            "CHEERS_V2",
+                          )
+                            ? SUNNYSIDE.icons.drag
+                            : cheer
+                        }
                         style={{
                           width: `${PIXEL_SCALE * 17}px`,
                           right: `${PIXEL_SCALE * 2}px`,

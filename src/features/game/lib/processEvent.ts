@@ -611,6 +611,7 @@ export function checkProgress({ state, action, farmId }: ProcessEventArgs): {
   try {
     newState = processEvent({ state, action, farmId }) as GameState;
   } catch {
+    console.log("Error processing event", action);
     // Not our responsibility to catch events, pass on to the next handler
     return { valid: true };
   }

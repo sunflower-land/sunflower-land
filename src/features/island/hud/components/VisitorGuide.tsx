@@ -4,15 +4,18 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import React from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { getKeys } from "features/game/lib/crafting";
-import { WORKBENCH_MONUMENTS } from "features/game/types/monuments";
+import {
+  hasHelpedFarmToday,
+  WORKBENCH_MONUMENTS,
+} from "features/game/types/monuments";
 import { useGame } from "features/game/GameProvider";
 import { Button } from "components/ui/Button";
-import { _hasCheeredToday } from "features/island/collectibles/components/Monument";
 import { hasCleanedToday } from "features/island/clutter/Clutter";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import Decimal from "decimal.js-light";
-import { getCollectedGarbage } from "features/game/events/visiting/collectClutter";
+import { getCollectedGarbage } from "features/game/events/landExpansion/collectClutter";
 import { ClutterName, FARM_PEST } from "features/game/types/clutter";
+import { _hasCheeredToday } from "features/island/collectibles/components/Project";
 
 interface VisitorGuideProps {
   onClose: () => void;
@@ -44,6 +47,28 @@ export const VisitorGuide: React.FC<VisitorGuideProps> = ({ onClose }) => {
     {} as Record<ClutterName, number>,
   );
 
+  const hasHelpedToday = hasHelpedFarmToday({
+    game: gameState.context.visitorState!,
+    farmId: gameState.context.farmId,
+  });
+
+  if (hasHelpedToday) {
+    return (
+      <div className="max-h-[300px] overflow-y-auto scrollable pr-0.5">
+        <Label type="default">
+          {t("visitorGuide.farmTitle", {
+            username:
+              gameState.context.state.username ??
+              `#${gameState.context.farmId}`,
+          })}
+        </Label>
+        <p className="text-xs sm:text-sm mb-2 p-1">
+          {t("visitorGuide.alreadyHelped")}
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="max-h-[300px] overflow-y-auto scrollable pr-0.5">
       <Label type="default">
@@ -55,7 +80,9 @@ export const VisitorGuide: React.FC<VisitorGuideProps> = ({ onClose }) => {
       <p className="text-xs sm:text-sm mb-2 p-1">
         {t("visitorGuide.welcomeMessage")}
       </p>
+
       <Label type="default">{t("taskBoard.tasks")}</Label>
+
       {getKeys(clutter).map((type) => {
         const isPest = type in FARM_PEST;
 

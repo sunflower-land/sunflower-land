@@ -1545,6 +1545,13 @@ export type SocialFarming = {
     spawnedAt: number;
     locations: { [clutterId: string]: ClutterCoordinates };
   };
+  helped?: Record<
+    number,
+    {
+      count: number;
+      helpedAt: number;
+    }
+  >;
 };
 
 export interface GameState {

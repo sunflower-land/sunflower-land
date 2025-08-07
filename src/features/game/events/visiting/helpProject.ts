@@ -12,7 +12,6 @@ type Options = {
   action: HelpProjectAction;
   createdAt?: number;
   visitorState?: GameState;
-  visitedFarmId: number;
 };
 
 /**
@@ -23,22 +22,26 @@ export function helpProject({
   action,
   visitorState,
   createdAt = Date.now(),
-  visitedFarmId,
 }: Options): [GameState, GameState] {
   return produce([state, visitorState!], ([game, visitorGame]) => {
-    const project = visitorGame.socialFarming.villageProjects[action.project];
+    if (!visitorGame) {
+      throw new Error("No visitor game");
+    }
+    console.log("locally helped project", action.project, visitorGame);
+    console.log({ helpProjectGame: visitorGame });
+    const project = game.socialFarming.villageProjects[action.project];
+
+    console.log({ project });
 
     if (!project) {
       throw new Error("Project not found");
     }
 
-    project.helpedAt = createdAt;
+    if (!!project.helpedAt) {
+      throw new Error("Already helped");
+    }
 
-    // TODO: remove these once using helpedAt
+    project.helpedAt = createdAt;
     project.cheers += 1;
-    visitorGame.socialFarming.cheersGiven.projects[action.project] = [
-      ...(visitorGame.socialFarming.cheersGiven.projects[action.project] ?? []),
-      visitedFarmId,
-    ];
   });
 }

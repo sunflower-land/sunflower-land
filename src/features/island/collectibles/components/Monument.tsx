@@ -18,7 +18,6 @@ import Decimal from "decimal.js-light";
 import classNames from "classnames";
 import {
   isHelpComplete,
-  isHelpComplete,
   MonumentName,
   REQUIRED_CHEERS,
 } from "features/game/types/monuments";
@@ -27,9 +26,11 @@ import {
   SFTDetailPopoverInnerPanel,
   SFTDetailPopoverLabel,
 } from "components/ui/SFTDetailPopover";
-import { CheerModal, PROJECT_IMAGES } from "./Project";
+import { _hasCheeredToday, CheerModal, PROJECT_IMAGES } from "./Project";
 import powerup from "assets/icons/level_up.png";
 import { hasFeatureAccess } from "lib/flags";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { FarmHelped } from "features/island/hud/components/FarmHelped";
 
 const BOOST_LABELS: Partial<
   Record<
@@ -106,21 +107,6 @@ const _cheersAvailable = (state: MachineState) => {
   return state.context.visitorState?.inventory["Cheer"] ?? new Decimal(0);
 };
 
-export const _hasCheeredToday =
-  (project: MonumentName) => (state: MachineState) => {
-    const today = new Date().toISOString().split("T")[0];
-
-    if (state.context.visitorState?.socialFarming.cheersGiven.date !== today) {
-      return false;
-    }
-
-    return (
-      state.context.visitorState?.socialFarming.cheersGiven.projects[
-        project
-      ]?.includes(state.context.farmId) ?? false
-    );
-  };
-
 const MonumentImage = (
   input: MonumentProps & {
     open: boolean;
@@ -172,6 +158,7 @@ export const Monument: React.FC<MonumentProps> = (input) => {
 
   const [isCheering, setIsCheering] = useState(false);
   const [isCompleting, setIsCompleting] = useState(false);
+  const [showHelped, setShowHelped] = useState(false);
 
   const [, setRender] = useState<number>(0);
 
@@ -200,12 +187,7 @@ export const Monument: React.FC<MonumentProps> = (input) => {
     });
 
     if (isHelpComplete({ game: gameService.getSnapshot().context.state })) {
-      gameService.send("farm.helped", {
-        effect: {
-          type: "farm.helped",
-          farmId: gameService.getSnapshot().context.farmId,
-        },
-      });
+      setShowHelped(true);
     }
   };
 
@@ -238,6 +220,14 @@ export const Monument: React.FC<MonumentProps> = (input) => {
 
   return (
     <>
+      <Modal show={showHelped}>
+        <CloseButtonPanel
+          bumpkinParts={gameService.state.context.state.bumpkin.equipped}
+        >
+          <FarmHelped />
+        </CloseButtonPanel>
+      </Modal>
+
       <Popover>
         <PopoverButton as="div">
           {({ open }) => (
@@ -282,7 +272,14 @@ export const Monument: React.FC<MonumentProps> = (input) => {
                       <img className="w-full" src={SUNNYSIDE.icons.disc} />
                       <img
                         className={classNames("absolute")}
-                        src={cheer}
+                        src={
+                          hasFeatureAccess(
+                            gameService.getSnapshot().context.visitorState!,
+                            "CHEERS_V2",
+                          )
+                            ? SUNNYSIDE.icons.drag
+                            : cheer
+                        }
                         style={{
                           width: `${PIXEL_SCALE * 17}px`,
                           right: `${PIXEL_SCALE * 2}px`,

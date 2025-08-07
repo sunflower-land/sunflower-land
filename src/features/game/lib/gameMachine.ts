@@ -317,16 +317,19 @@ const playingEventHandler = (eventName: string) => {
       {
         target: "hoarding",
         cond: (context: Context, event: PlayingEvent | VisitingEvent) => {
+          console.log("CHECKING?");
           const { valid } = checkProgress({
             state: context.state as GameState,
             action: event,
             farmId: context.farmId,
           });
+          console.log("Done chekcing?");
 
           return !valid;
         },
         actions: assign(
           (context: Context, event: PlayingEvent | VisitingEvent) => {
+            console.log("CHECKING again?");
             const { maxedItem } = checkProgress({
               state: context.state as GameState,
               action: event,
@@ -340,6 +343,7 @@ const playingEventHandler = (eventName: string) => {
       {
         actions: assign(
           (context: Context, event: PlayingEvent | VisitingEvent) => {
+            console.log("YEET?");
             const result = processEvent({
               state: context.state,
               action: event,
@@ -355,6 +359,8 @@ const playingEventHandler = (eventName: string) => {
                 createdAt: new Date(),
               },
             ];
+
+            console.log("actions", actions);
 
             // Filter out any local only actions so we don't persist them
             actions = actions.filter(

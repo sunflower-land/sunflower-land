@@ -24,6 +24,7 @@ export function collectGarbage({
   createdAt = Date.now(),
 }: Options): [GameState, GameState] {
   return produce([state, visitorState!], ([game, visitorGame]) => {
+    console.log({ CleanGame: visitorGame });
     const clutters = game.socialFarming?.clutter?.locations;
 
     if (!clutters || !clutters[action.id]) {
@@ -35,6 +36,8 @@ export function collectGarbage({
     visitorGame.inventory[type] = (
       visitorState?.inventory[type] ?? new Decimal(0)
     ).plus(1);
+
+    console.log("locally collected", type, visitorGame.inventory[type]);
 
     delete clutters[action.id];
   });
