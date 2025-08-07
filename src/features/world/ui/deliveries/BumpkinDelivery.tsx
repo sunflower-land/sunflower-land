@@ -42,7 +42,6 @@ import {
 } from "features/game/types/gifts";
 import {
   generateDeliveryTickets,
-  getCountAndTypeForDelivery,
   getOrderSellPrice,
   GOBLINS_REQUIRING_REPUTATION,
 } from "features/game/events/landExpansion/deliver";
@@ -57,6 +56,7 @@ import { getActiveCalendarEvent } from "features/game/types/calendar";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { MachineState } from "features/game/lib/gameMachine";
+import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
 
 export const OrderCard: React.FC<{
   order: Order;
@@ -125,7 +125,7 @@ export const OrderCard: React.FC<{
                   key={itemName}
                   type="item"
                   item={itemName}
-                  balance={getCountAndTypeForDelivery(game, itemName).count}
+                  balance={getCountAndType(game, itemName).count}
                   showLabel
                   requirement={new Decimal(order?.items[itemName] ?? 0)}
                 />
@@ -666,7 +666,7 @@ export const BumpkinDelivery: React.FC<Props> = ({ onClose, npc }) => {
       return game.balance?.gte(delivery?.items.sfl ?? 0);
     }
 
-    const { count } = getCountAndTypeForDelivery(game, name);
+    const { count } = getCountAndType(game, name);
 
     return count.gte(delivery?.items[name] ?? 0);
   });

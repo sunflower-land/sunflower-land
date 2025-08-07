@@ -21,10 +21,7 @@ import { isWearableActive } from "features/game/lib/wearables";
 import { FACTION_OUTFITS } from "features/game/lib/factions";
 import { PATCH_FRUIT, PatchFruitName } from "features/game/types/fruits";
 import { produce } from "immer";
-import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
-import { KNOWN_IDS } from "features/game/types";
 import { BumpkinItem } from "features/game/types/bumpkin";
-import { availableWardrobe } from "./equip";
 import { FISH } from "features/game/types/fishing";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 import { getActiveCalendarEvent } from "features/game/types/calendar";
@@ -33,6 +30,7 @@ import { hasReputation, Reputation } from "features/game/lib/reputation";
 
 import { CHAPTER_TICKET_BOOST_ITEMS } from "./completeNPCChore";
 import { isCollectible } from "./garbageSold";
+import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
 
 export const TICKET_REWARDS: Record<QuestNPCName, number> = {
   "pumpkin' pete": 1,
@@ -115,28 +113,6 @@ type Options = {
   createdAt?: number;
   farmId?: number;
 };
-
-export function getCountAndTypeForDelivery(
-  state: GameState,
-  name: InventoryItemName | BumpkinItem,
-) {
-  let count = new Decimal(0);
-  let itemType: "wearable" | "inventory" = "inventory";
-  if (name in KNOWN_IDS) {
-    count =
-      name in getChestItems(state)
-        ? getChestItems(state)[name as InventoryItemName] ?? new Decimal(0)
-        : state.inventory[name as InventoryItemName] ?? new Decimal(0);
-  } else {
-    count =
-      name in availableWardrobe(state)
-        ? new Decimal(availableWardrobe(state)[name as BumpkinItem] ?? 0)
-        : new Decimal(0);
-    itemType = "wearable";
-  }
-
-  return { count, itemType };
-}
 
 export function getTotalSlots(game: GameState) {
   // If feature access then return the total number of slots from both delivery and quest
@@ -443,7 +419,7 @@ export function deliverOrder({
 
         game.balance = sfl.sub(amount);
       } else {
-        const { count, itemType } = getCountAndTypeForDelivery(game, name);
+        const { count, itemType } = getCountAndType(game, name);
 
         const amount = order.items[name] || 0;
 

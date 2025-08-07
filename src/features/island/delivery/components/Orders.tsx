@@ -13,7 +13,6 @@ import {
   QuestNPCName,
   TICKET_REWARDS,
   generateDeliveryTickets,
-  getCountAndTypeForDelivery,
   getOrderSellPrice,
 } from "features/game/events/landExpansion/deliver";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -57,6 +56,7 @@ import { ITEM_IDS } from "features/game/types/bumpkin";
 import { isCollectible } from "features/game/events/landExpansion/garbageSold";
 import { Context } from "features/game/GameProvider";
 import { getActiveCalendarEvent } from "features/game/types/calendar";
+import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
 
 // Bumpkins
 export const BEACH_BUMPKINS: NPCName[] = [
@@ -102,7 +102,7 @@ export function hasOrderRequirements({
 
     const amount = order.items[name] || new Decimal(0);
 
-    const { count } = getCountAndTypeForDelivery(state, name);
+    const { count } = getCountAndType(state, name);
 
     return count.gte(amount);
   });
@@ -726,9 +726,7 @@ export const DeliveryOrders: React.FC<Props> = ({
                       key={`${itemName}-${index}-items`}
                       type="item"
                       item={itemName}
-                      balance={
-                        getCountAndTypeForDelivery(state, itemName).count
-                      }
+                      balance={getCountAndType(state, itemName).count}
                       showLabel
                       requirement={
                         new Decimal(previewOrder?.items[itemName] ?? 0)
