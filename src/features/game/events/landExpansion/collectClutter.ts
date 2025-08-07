@@ -3,6 +3,7 @@ import { produce } from "immer";
 import { GameState } from "features/game/types/game";
 import { ClutterName, FARM_GARBAGE } from "features/game/types/clutter";
 import { getKeys } from "features/game/lib/crafting";
+import { getBinLimit } from "./increaseBinLimit";
 
 export type CollectClutterAction = {
   type: "clutter.collected";
@@ -89,20 +90,10 @@ export function collectClutter({
       0,
     );
 
-    const unusedStorage =
-      visitorGame?.socialFarming?.binIncrease?.unusedStorage ?? 0;
+    const limit = getBinLimit({ game: visitorGame });
 
-    // Check if we've reached the daily limit
-    if (totalCollectedToday >= TRASH_BIN_DAILY_LIMIT) {
-      // If we have unused storage, consume it
-      if (unusedStorage > 0) {
-        visitorGame.socialFarming.binIncrease = {
-          boughtAt: visitorGame.socialFarming.binIncrease?.boughtAt ?? [],
-          unusedStorage: unusedStorage - 1,
-        };
-      } else {
-        throw new Error("Trash bin is full");
-      }
+    if (totalCollectedToday >= limit) {
+      throw new Error("Trash bin is full");
     }
 
     dailyCollections[action.visitedFarmId].clutter[action.id] = {
