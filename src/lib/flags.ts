@@ -109,8 +109,8 @@ const FEATURE_FLAGS = {
 
   CRAFTING: betaTimeBasedFeatureFlag(SEASONS["Better Together"].startDate),
 
-  TRASH_BIN_CARRY_OVER_LIMIT: timeBasedFeatureFlag(
-    new Date("2025-08-08T00:00:00Z"),
+  TRASH_BIN_CARRY_OVER_LIMIT: betaTimeBasedFeatureFlag(
+    new Date("2025-08-09T00:00:00Z"),
   ),
 
   CHEERS_V2: defaultFeatureFlag,
