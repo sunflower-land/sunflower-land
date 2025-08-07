@@ -1,6 +1,7 @@
 import { produce } from "immer";
 import { GameState } from "features/game/types/game";
 import { MonumentName } from "features/game/types/monuments";
+import { hasHitHelpLimit } from "../landExpansion/increaseHelpLimit";
 
 export type HelpProjectAction = {
   type: "project.helped";
@@ -35,6 +36,11 @@ export function helpProject({
 
     if (project.helpedAt) {
       throw new Error("Already helped");
+    }
+
+    // If over help limit, throw error
+    if (hasHitHelpLimit({ game: visitorGame })) {
+      throw new Error("Help limit reached");
     }
 
     project.helpedAt = createdAt;

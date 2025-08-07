@@ -1,0 +1,89 @@
+import { produce } from "immer";
+import Decimal from "decimal.js-light";
+import { GameState, Inventory } from "features/game/types/game";
+import { getKeys } from "features/game/lib/crafting";
+
+export type IncreaseHelpLimitAction = {
+  type: "helpLimit.increased";
+};
+
+type Options = {
+  state: Readonly<GameState>;
+  action: IncreaseHelpLimitAction;
+  createdAt?: number;
+  visitorState?: GameState;
+};
+
+export const HELP_LIMIT_COST: Inventory = {
+  Iron: new Decimal(3),
+  Leather: new Decimal(3),
+  Feather: new Decimal(10),
+};
+
+export const HELP_LIMIT = 5;
+
+export function getHelpedToday({ game }: { game: GameState }) {
+  const today = new Date().toISOString().split("T")[0];
+
+  return getKeys(game.socialFarming.helped ?? {}).filter((farmId) => {
+    const helpedAt = game.socialFarming.helped![farmId]?.helpedAt ?? 0;
+    return new Date(helpedAt).toISOString().split("T")[0] === today;
+  }).length;
+}
+
+export function getHelpLimit({
+  game,
+  now = new Date(),
+}: {
+  game: GameState;
+  now?: Date;
+}) {
+  const limit = HELP_LIMIT;
+
+  // Get all the increases for the current UTC date
+  const increases =
+    game.socialFarming?.helpIncrease?.boughtAt.filter(
+      (date) =>
+        new Date(date).toISOString().split("T")[0] ===
+        now.toISOString().split("T")[0],
+    )?.length ?? 0;
+
+  return limit + increases;
+}
+
+export function increaseHelpLimit({
+  state,
+  visitorState,
+  createdAt = Date.now(),
+}: Options): [GameState, GameState] {
+  return produce([state, visitorState!], ([game, visitorGame]) => {
+    // Subtract resources
+    Object.entries(HELP_LIMIT_COST).forEach(([resource, cost]) => {
+      const amount =
+        visitorGame!.inventory[resource as keyof Inventory] ?? new Decimal(0);
+      if (cost.gt(amount)) {
+        throw new Error(`Not enough ${resource} to increase help limit`);
+      }
+
+      visitorGame!.inventory[resource as keyof Inventory] = amount.minus(cost);
+    });
+
+    let helpLimits = visitorGame.socialFarming.helpIncrease?.boughtAt ?? [];
+    helpLimits.push(createdAt);
+
+    // Filter out any help limits from previous days
+    const today = new Date().toISOString().split("T")[0];
+
+    helpLimits = helpLimits.filter(
+      (date) => new Date(date).toISOString().split("T")[0] === today,
+    );
+
+    visitorGame.socialFarming.helpIncrease = {
+      boughtAt: helpLimits,
+    };
+  });
+}
+
+export function hasHitHelpLimit({ game }: { game: GameState }) {
+  return getHelpedToday({ game }) >= getHelpLimit({ game });
+}

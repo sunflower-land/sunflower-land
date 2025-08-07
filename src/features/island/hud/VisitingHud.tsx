@@ -4,7 +4,7 @@ import { Balances } from "components/Balances";
 import { useActor, useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 
-import { InnerPanel } from "components/ui/Panel";
+import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { BumpkinProfile } from "./components/BumpkinProfile";
 import { Settings } from "./components/Settings";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -79,7 +79,7 @@ export const VisitingHud: React.FC = () => {
     farmId: gameState.context.farmId,
   });
 
-  const [showVisitorGuide, setShowVisitorGuide] = useState(!hasHelpedToday);
+  const [showVisitorGuide, setShowVisitorGuide] = useState(true);
 
   const [showBinGuide, setShowBinGuide] = useState(false);
   const cheers = useSelector(gameService, _cheers);
@@ -125,6 +125,7 @@ export const VisitingHud: React.FC = () => {
       <Modal show={showVisitorGuide} onHide={() => setShowVisitorGuide(false)}>
         <CloseButtonPanel
           bumpkinParts={gameState.context.state.bumpkin?.equipped}
+          container={OuterPanel}
         >
           <VisitorGuide onClose={() => setShowVisitorGuide(false)} />
         </CloseButtonPanel>
@@ -220,30 +221,33 @@ export const VisitingHud: React.FC = () => {
           />
         </RoundButton>
       </div>
-      <div className="absolute right-0 top-32 p-2.5">
-        <RoundButton
-          onClick={(e) => {
-            e.stopPropagation();
-            e.preventDefault();
-            setShowBinGuide(true);
-          }}
-        >
-          <img
-            src={garbageBin}
-            className="absolute group-active:translate-y-[2px]"
-            style={{
-              top: `${PIXEL_SCALE * 4.5}px`,
-              left: `${PIXEL_SCALE * 6}px`,
-              width: `${PIXEL_SCALE * 10}px`,
+      {!hasFeatureAccess(gameState.context.visitorState!, "CHEERS_V2") && (
+        <div className="absolute right-0 top-32 p-2.5">
+          <RoundButton
+            onClick={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+              setShowBinGuide(true);
             }}
-          />
-          <div className="w-full absolute -bottom-3 left-0 flex items-center justify-center">
-            <Label type={trashBinItems >= binLimit ? "danger" : "default"}>
-              {`${trashBinItems}/${binLimit}`}
-            </Label>
-          </div>
-        </RoundButton>
-      </div>
+          >
+            <img
+              src={garbageBin}
+              className="absolute group-active:translate-y-[2px]"
+              style={{
+                top: `${PIXEL_SCALE * 4.5}px`,
+                left: `${PIXEL_SCALE * 6}px`,
+                width: `${PIXEL_SCALE * 10}px`,
+              }}
+            />
+            <div className="w-full absolute -bottom-3 left-0 flex items-center justify-center">
+              <Label type={trashBinItems >= binLimit ? "danger" : "default"}>
+                {`${trashBinItems}/${binLimit}`}
+              </Label>
+            </div>
+          </RoundButton>
+        </div>
+      )}
+
       <BumpkinProfile />
       <div className="absolute p-2 left-0 top-24 flex flex-col space-y-2.5">
         <Label type="chill" icon={socialPointsIcon}>
