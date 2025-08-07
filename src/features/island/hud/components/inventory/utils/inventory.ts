@@ -127,7 +127,7 @@ export const getChestItems = (state: GameState): Inventory => {
   }, {} as Inventory);
 
   const validItems = getKeys(availableItems)
-    .filter((itemName) => availableItems[itemName]?.greaterThan(0))
+    .filter((itemName) => availableItems[itemName]?.greaterThanOrEqualTo(0))
     .reduce(
       (acc, name) => ({ ...acc, [name]: availableItems[name] }),
       {} as Inventory,
