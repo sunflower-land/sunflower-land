@@ -2,6 +2,7 @@ import { produce } from "immer";
 import { GameState, Inventory } from "features/game/types/game";
 import Decimal from "decimal.js-light";
 import { TRASH_BIN_DAILY_LIMIT } from "./collectClutter";
+import { hasFeatureAccess } from "lib/flags";
 
 export type IncreaseBinLimitAction = {
   type: "binLimit.increased";
@@ -29,8 +30,24 @@ export function getBinLimit({
   game: GameState;
   now?: Date;
 }) {
-  const unusedStorage = game.socialFarming?.binIncrease?.unusedStorage ?? 0;
-  return TRASH_BIN_DAILY_LIMIT + unusedStorage;
+  if (hasFeatureAccess(game, "TRASH_BIN_CARRY_OVER_LIMIT")) {
+    return (
+      TRASH_BIN_DAILY_LIMIT +
+      (game.socialFarming?.binIncrease?.unusedStorage ?? 0)
+    );
+  }
+
+  const limit = TRASH_BIN_DAILY_LIMIT;
+
+  // Get all the increases for the current UTC date
+  const increases =
+    game.socialFarming?.binIncrease?.boughtAt.filter(
+      (date) =>
+        new Date(date).toISOString().split("T")[0] ===
+        now.toISOString().split("T")[0],
+    )?.length ?? 0;
+
+  return limit + increases * BIN_LIMIT_INCREASE;
 }
 
 export function increaseBinLimit({
@@ -62,9 +79,10 @@ export function increaseBinLimit({
 
     visitorGame!.socialFarming.binIncrease = {
       boughtAt: binLimits,
-      unusedStorage:
-        (game.socialFarming.binIncrease?.unusedStorage ?? 0) +
-        BIN_LIMIT_INCREASE,
+      unusedStorage: hasFeatureAccess(game, "TRASH_BIN_CARRY_OVER_LIMIT")
+        ? (game.socialFarming.binIncrease?.unusedStorage ?? 0) +
+          BIN_LIMIT_INCREASE
+        : undefined,
     };
   });
 }

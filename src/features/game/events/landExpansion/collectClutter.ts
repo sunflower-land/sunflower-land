@@ -3,6 +3,8 @@ import { produce } from "immer";
 import { GameState } from "features/game/types/game";
 import { ClutterName, FARM_GARBAGE } from "features/game/types/clutter";
 import { getKeys } from "features/game/lib/crafting";
+import { hasFeatureAccess } from "lib/flags";
+import { getBinLimit } from "./increaseBinLimit";
 
 export type CollectClutterAction = {
   type: "clutter.collected";
@@ -89,18 +91,24 @@ export function collectClutter({
       0,
     );
 
-    const unusedStorage =
-      visitorGame?.socialFarming?.binIncrease?.unusedStorage ?? 0;
+    const limit = getBinLimit({ game });
+    const unusedStorage = game?.socialFarming?.binIncrease?.unusedStorage ?? 0;
 
-    // Check if we've reached the daily limit
-    if (totalCollectedToday >= TRASH_BIN_DAILY_LIMIT) {
-      // If we have unused storage, consume it
-      if (unusedStorage > 0) {
-        visitorGame.socialFarming.binIncrease = {
-          boughtAt: visitorGame.socialFarming.binIncrease?.boughtAt ?? [],
-          unusedStorage: unusedStorage - 1,
-        };
-      } else {
+    if (hasFeatureAccess(game, "TRASH_BIN_CARRY_OVER_LIMIT")) {
+      // Check if we've reached the daily limit
+      if (totalCollectedToday >= limit) {
+        // If we have unused storage, consume it
+        if (unusedStorage > 0) {
+          game.socialFarming.binIncrease = {
+            boughtAt: game.socialFarming.binIncrease?.boughtAt ?? [],
+            unusedStorage: unusedStorage - 1,
+          };
+        } else {
+          throw new Error("Trash bin is full");
+        }
+      }
+    } else {
+      if (totalCollectedToday >= limit) {
         throw new Error("Trash bin is full");
       }
     }
