@@ -6,6 +6,7 @@ describe("increaseHelpLimit", () => {
   it("requires player has resources", () => {
     expect(() =>
       increaseHelpLimit({
+        visitorState: INITIAL_FARM,
         state: INITIAL_FARM,
         action: { type: "helpLimit.increased" },
         createdAt: Date.now(),
@@ -14,8 +15,8 @@ describe("increaseHelpLimit", () => {
   });
 
   it("subtract required resources", () => {
-    const state = increaseHelpLimit({
-      state: {
+    const [_, state] = increaseHelpLimit({
+      visitorState: {
         ...INITIAL_FARM,
         inventory: {
           ...INITIAL_FARM.inventory,
@@ -24,6 +25,7 @@ describe("increaseHelpLimit", () => {
           Feather: new Decimal(13),
         },
       },
+      state: INITIAL_FARM,
       action: { type: "helpLimit.increased" },
       createdAt: Date.now(),
     });
@@ -35,8 +37,8 @@ describe("increaseHelpLimit", () => {
 
   it("should increase the help limit", () => {
     const now = Date.now();
-    const state = increaseHelpLimit({
-      state: {
+    const [_, state] = increaseHelpLimit({
+      visitorState: {
         ...INITIAL_FARM,
         inventory: {
           ...INITIAL_FARM.inventory,
@@ -45,6 +47,7 @@ describe("increaseHelpLimit", () => {
           Feather: new Decimal(13),
         },
       },
+      state: INITIAL_FARM,
       action: { type: "helpLimit.increased" },
       createdAt: now,
     });
@@ -54,8 +57,8 @@ describe("increaseHelpLimit", () => {
 
   it("should increase the help limit multiple times", () => {
     const now = Date.now();
-    let state = increaseHelpLimit({
-      state: {
+    let [_, state] = increaseHelpLimit({
+      visitorState: {
         ...INITIAL_FARM,
         inventory: {
           ...INITIAL_FARM.inventory,
@@ -64,12 +67,14 @@ describe("increaseHelpLimit", () => {
           Feather: new Decimal(130),
         },
       },
+      state: INITIAL_FARM,
       action: { type: "helpLimit.increased" },
       createdAt: now,
     });
 
-    state = increaseHelpLimit({
-      state,
+    [_, state] = increaseHelpLimit({
+      visitorState: state,
+      state: INITIAL_FARM,
       action: { type: "helpLimit.increased" },
       createdAt: now,
     });
@@ -79,8 +84,8 @@ describe("increaseHelpLimit", () => {
 
   it("removes previous day help limits", () => {
     const now = Date.now();
-    const state = increaseHelpLimit({
-      state: {
+    const [_, state] = increaseHelpLimit({
+      visitorState: {
         ...INITIAL_FARM,
         inventory: {
           ...INITIAL_FARM.inventory,
@@ -95,6 +100,7 @@ describe("increaseHelpLimit", () => {
           },
         },
       },
+      state: INITIAL_FARM,
       action: { type: "helpLimit.increased" },
       createdAt: now,
     });
