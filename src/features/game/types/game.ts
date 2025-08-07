@@ -1539,6 +1539,9 @@ export type SocialFarming = {
     boughtAt: number[];
     unusedStorage?: number;
   };
+  helpIncrease?: {
+    boughtAt: number[];
+  };
   dailyCollections?: { [farmId: number]: DailyCollection };
   caughtPests?: { [farmId: number]: string[] };
   clutter?: {

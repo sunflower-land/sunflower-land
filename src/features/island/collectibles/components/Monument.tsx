@@ -263,7 +263,10 @@ export const Monument: React.FC<MonumentProps> = (input) => {
                         "animate-pulsate": hasCheers,
                       },
                     )}
-                    onClick={onClick}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onClick();
+                    }}
                   >
                     <div
                       className="relative mr-2"

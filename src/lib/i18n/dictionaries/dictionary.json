@@ -6281,7 +6281,7 @@
   "visitorGuide.monument": "Help me finish the project",
   "visitorGuide.binGuide": "Garbage",
   "visitorGuide.binGuide.description": "Every day, you can pick up 30 garbage pieces that you find on your friend's farms.",
-  "visitorGuide.binGuide.reset": "Resets in {{time}}",
+  "visitorGuide.binGuide.reset": "Resets: {{time}}",
   "news.betterTogether.title": "Better Together - August 11th",
   "news.betterTogether.description": "Complete tasks, earn tokens and win NFTs!",
   "news.socialSystem.title": "Social System - August 4th",
@@ -6366,5 +6366,10 @@
   "project.friendBonus": "Friend bonus",
   "project.friendBonus.description": "A random helper has been selected to also receive the prize!",
   "helping.farm": "Notfying Bumpkin",
-  "helping.farm.success": "Thanks for your help!"
+  "helping.farm.success": "Thanks for your help!",
+  "help.makeRoom": "Magic broom",
+  "help.cantWait.description": "Craft a broom to make space to help another friend.",
+  "help.increaseLimit": "Increase Limit (+1)",
+  "help.limitReached": "Limit reached.",
+  "help.limitReached.description": "You can only help {{helpLimit}} friends per day."
 }

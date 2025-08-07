@@ -1,6 +1,7 @@
 import { produce } from "immer";
 import { GameState } from "features/game/types/game";
 import Decimal from "decimal.js-light";
+import { hasHitHelpLimit } from "../landExpansion/increaseHelpLimit";
 
 export type CollectGarbageAction = {
   type: "garbage.collected";
@@ -28,6 +29,11 @@ export function collectGarbage({
 
     if (!clutters || !clutters[action.id]) {
       throw new Error("No clutter found");
+    }
+
+    // If over help limit, throw error
+    if (hasHitHelpLimit({ game: visitorGame })) {
+      throw new Error("Help limit reached");
     }
 
     const type = clutters[action.id].type;

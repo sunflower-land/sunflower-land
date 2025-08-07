@@ -560,7 +560,10 @@ export const Project: React.FC<ProjectProps> = (input) => {
                         "animate-pulsate": hasCheers,
                       },
                     )}
-                    onClick={onClick}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      onClick();
+                    }}
                   >
                     <div
                       className="relative mr-2"

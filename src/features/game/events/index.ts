@@ -539,6 +539,10 @@ import {
   IncreaseBinLimitAction,
 } from "./landExpansion/increaseBinLimit";
 import { burnClutter, BurnClutterAction } from "./landExpansion/burnClutter";
+import {
+  increaseHelpLimit,
+  IncreaseHelpLimitAction,
+} from "./landExpansion/increaseHelpLimit";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
@@ -693,6 +697,7 @@ export type VisitingEvent =
   | CollectClutterAction
   | CatchPestAction
   | IncreaseBinLimitAction
+  | IncreaseHelpLimitAction
   | LocalVisitingEvent;
 
 export type PlacementEvent =
@@ -935,6 +940,7 @@ export const VISITING_EVENTS: Handlers<VisitingEvent> = {
   "clutter.collected": collectClutter,
   "pest.caught": catchPest,
   "binLimit.increased": increaseBinLimit,
+  "helpLimit.increased": increaseHelpLimit,
   ...LOCAL_VISITING_EVENTS,
 };
 
