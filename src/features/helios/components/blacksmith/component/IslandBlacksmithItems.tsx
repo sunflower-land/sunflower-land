@@ -67,7 +67,7 @@ const DecorationLabel = ({
 }) => {
   const { t } = useAppTranslation();
 
-  const isMonument = selectedName in WORKBENCH_MONUMENTS;
+  const isMonument = selectedName in WORKBENCH_MONUMENTS(gameState);
   const isLoveCharmMonument = selectedName in LOVE_CHARM_MONUMENTS;
 
   const hasBuiltMonument = () => {
@@ -89,7 +89,7 @@ const DecorationLabel = ({
       <div className="flex items-center flex-col space-y-1">
         <Label type="default" icon={cheer}>
           {t("monument.requiredCheers", {
-            cheers: REQUIRED_CHEERS[selectedName as MonumentName],
+            cheers: REQUIRED_CHEERS(gameState)[selectedName as MonumentName],
           })}
         </Label>
         <Label type="default">
@@ -130,7 +130,7 @@ export const IslandBlacksmithItems: React.FC = () => {
   const lessCoins = () => coins < (selectedItem?.coins ?? 0);
 
   const craft = () => {
-    if (selectedName in WORKBENCH_MONUMENTS) {
+    if (selectedName in WORKBENCH_MONUMENTS(state)) {
       gameService.send("LANDSCAPE", {
         placeable: selectedName,
         action: "monument.bought",

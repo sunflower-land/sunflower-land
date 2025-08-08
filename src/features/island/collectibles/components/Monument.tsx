@@ -4,7 +4,7 @@ import { useVisiting } from "lib/utils/visitUtils";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import cheer from "assets/icons/cheer.webp";
-import { Context } from "features/game/GameProvider";
+import { Context, useGame } from "features/game/GameProvider";
 import { LiveProgressBar, ProgressBar } from "components/ui/ProgressBar";
 import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
@@ -51,8 +51,10 @@ const ProjectModal: React.FC<{
   cheers: number;
 }> = ({ project, onClose, cheers }) => {
   const { t } = useAppTranslation();
+  const { gameService } = useGame();
 
-  const isProjectComplete = cheers >= REQUIRED_CHEERS[project];
+  const isProjectComplete =
+    cheers >= REQUIRED_CHEERS(gameService.getSnapshot().context.state)[project];
   const boostLabel = BOOST_LABELS[project];
 
   return (
@@ -77,8 +79,13 @@ const ProjectModal: React.FC<{
             t("project.incomplete", {
               project,
               cheers,
-              requiredCheers: REQUIRED_CHEERS[project],
-              remaining: REQUIRED_CHEERS[project] - cheers,
+              requiredCheers: REQUIRED_CHEERS(
+                gameService.getSnapshot().context.state,
+              )[project],
+              remaining:
+                REQUIRED_CHEERS(gameService.getSnapshot().context.state)[
+                  project
+                ] - cheers,
             })}
         </span>
       </div>
@@ -145,7 +152,9 @@ export const Monument: React.FC<MonumentProps> = (input) => {
   const username = useSelector(gameService, _username);
 
   const projectPercentage = Math.round(
-    (projectCheers / REQUIRED_CHEERS[input.project]) * 100,
+    (projectCheers /
+      REQUIRED_CHEERS(gameService.getSnapshot().context.state)[input.project]) *
+      100,
   );
   const isProjectComplete = projectPercentage >= 100;
 
@@ -325,7 +334,7 @@ export const Monument: React.FC<MonumentProps> = (input) => {
             <SFTDetailPopoverLabel name={input.name} />
             <Label type="info" icon={cheer} className="ml-2 sm:ml-0">
               {t("cheers.progress", {
-                progress: `${projectCheers}/${REQUIRED_CHEERS[input.project]}`,
+                progress: `${projectCheers}/${REQUIRED_CHEERS(gameService.getSnapshot().context.state)[input.project]}`,
               })}
             </Label>
           </SFTDetailPopoverInnerPanel>
