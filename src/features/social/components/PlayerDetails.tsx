@@ -47,6 +47,7 @@ import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { hasFeatureAccess } from "lib/flags";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { getHelpStreak } from "features/game/types/monuments";
+import { hasVipAccess } from "features/game/lib/vipAccess";
 
 const ISLAND_ICONS: Record<IslandType, string> = {
   basic: basicIsland,
@@ -243,12 +244,25 @@ export const PlayerDetails: React.FC<Props> = ({
                         <p className="text-sm">{player?.username}</p>
                       </div>
                     </div>
-                    <Label
-                      type="warning"
-                      icon={ITEM_DETAILS["Love Charm"].image}
-                    >
-                      {`+1 Love Charm`}
-                    </Label>
+                    <div>
+                      <Label
+                        type="warning"
+                        icon={ITEM_DETAILS["Love Charm"].image}
+                      >
+                        {`+1 Social Point`}
+                      </Label>
+                      {hasVipAccess({
+                        game: gameService.getSnapshot().context.state,
+                      }) && (
+                        <Label
+                          type="warning"
+                          className="mt-0.5"
+                          icon={ITEM_DETAILS["Love Charm"].image}
+                        >
+                          {`+3 Love Charm`}
+                        </Label>
+                      )}
+                    </div>
                   </div>
                 )}
                 <span>{t("cheers.confirm", { username: displayName })}</span>
