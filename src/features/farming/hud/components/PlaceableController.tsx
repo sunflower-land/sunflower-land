@@ -39,6 +39,7 @@ import {
   UpgradableBuildingType,
 } from "features/game/events/landExpansion/upgradeBuilding";
 import { getCurrentBiome } from "features/island/biomes/biomes";
+import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 
 interface Props {
   location: PlaceableLocation;
@@ -110,6 +111,11 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
       placeMore = available.gt(1);
     } else {
       placeMore = hasRequirements;
+    }
+
+    // Prevents accidental multiple placements
+    if (placeable in EXPIRY_COOLDOWNS) {
+      placeMore = false;
     }
 
     if (isBudName(placeable)) {
