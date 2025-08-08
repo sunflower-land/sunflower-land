@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   fetchSocialLeaderboardData,
   RankData,
@@ -28,6 +28,10 @@ export const SocialLeaderboard: React.FC<LeaderboardProps> = ({
   onClose,
 }) => {
   const { t } = useAppTranslation();
+  const [showLeaderboard, setShowLeaderboard] = useState<"weekly" | "allTime">(
+    "weekly",
+  );
+  const [hovering, setHovering] = useState(false);
 
   const { data, isLoading } = useSWR(
     id ? ["socialLeaderboard", id] : null,
@@ -57,16 +61,45 @@ export const SocialLeaderboard: React.FC<LeaderboardProps> = ({
     <div className="flex flex-col gap-4">
       <div>
         <div className="flex flex-col mb-1 gap-1 md:flex-row md:items-center justify-between p-1">
-          <Label type="default" icon={socialPointsIcon}>
-            {t("social.leaderboard.weekly")}
-          </Label>
-          <p className="font-secondary text-xs">
-            {t("last.updated")} {getRelativeTime(data.lastUpdated)}
-          </p>
+          <div
+            className="relative"
+            onMouseEnter={() => setHovering(true)}
+            onMouseLeave={() => setHovering(false)}
+          >
+            <Label
+              type="default"
+              icon={socialPointsIcon}
+              onClick={() =>
+                setShowLeaderboard(
+                  showLeaderboard === "weekly" ? "allTime" : "weekly",
+                )
+              }
+            >
+              {t(`social.leaderboard.${showLeaderboard}`)}
+            </Label>
+            {hovering && (
+              <Label type="info" className="absolute -bottom-7 -right-3">
+                <p className="text-xxs px-1">
+                  {t("social.leaderboard.clickToView", {
+                    type:
+                      showLeaderboard === "weekly"
+                        ? t("allTime").toLowerCase()
+                        : t("weekly").toLowerCase(),
+                  })}
+                </p>
+              </Label>
+            )}
+          </div>
+
+          <div className="flex items-center gap-2">
+            <p className="font-secondary text-xs">
+              {t("last.updated")} {getRelativeTime(data.lastUpdated)}
+            </p>
+          </div>
         </div>
         {data.weekly.topTen && (
           <SocialLeaderboardTable
-            rankings={data.weekly.topTen}
+            rankings={data[showLeaderboard].topTen}
             handlePlayerClick={handlePlayerClick}
           />
         )}
@@ -77,32 +110,7 @@ export const SocialLeaderboard: React.FC<LeaderboardProps> = ({
             </div>
             <SocialLeaderboardTable
               showHeader={false}
-              rankings={data.weekly.farmRankingDetails}
-              handlePlayerClick={handlePlayerClick}
-            />
-          </>
-        )}
-      </div>
-      <div>
-        <div className="flex flex-col md:flex-row md:items-center justify-between p-1 mb-1">
-          <Label type="default" icon={socialPointsIcon}>
-            {t("social.leaderboard.allTime")}
-          </Label>
-        </div>
-        {data.allTime.topTen && (
-          <SocialLeaderboardTable
-            rankings={data.allTime.topTen}
-            handlePlayerClick={handlePlayerClick}
-          />
-        )}
-        {data.allTime.farmRankingDetails && (
-          <>
-            <div className="flex justify-center items-center">
-              <p className="mb-[13px]">{"..."}</p>
-            </div>
-            <SocialLeaderboardTable
-              showHeader={false}
-              rankings={data.allTime.farmRankingDetails}
+              rankings={data[showLeaderboard].farmRankingDetails}
               handlePlayerClick={handlePlayerClick}
             />
           </>
@@ -151,13 +159,13 @@ export const SocialLeaderboardTable: React.FC<Props> = ({
               })}
             >
               <td
-                style={{ border: "1px solid #b96f50", height: "40px" }}
+                style={{ border: "1px solid #b96f50" }}
                 className="p-1.5 w-1/5"
               >
                 {toOrdinalSuffix(rank ?? index + 1)}
               </td>
               <td
-                style={{ border: "1px solid #b96f50", height: "40px" }}
+                style={{ border: "1px solid #b96f50" }}
                 className="p-1.5 text-left pl-8 relative truncate cursor-pointer"
                 onClick={() => {
                   handlePlayerClick({
@@ -167,26 +175,12 @@ export const SocialLeaderboardTable: React.FC<Props> = ({
                   });
                 }}
               >
-                <div
-                  className="absolute"
-                  style={{
-                    left: "4px",
-                    top: "50%",
-                    transform: "translateY(-50%)",
-                  }}
-                >
+                <div className="absolute top-1/2 -translate-y-1/2 left-1">
                   <NPCIcon width={24} parts={clothing} />
                 </div>
                 {username}
 
-                <div
-                  className="absolute h-10 w-6 flex items-center justify-center"
-                  style={{
-                    right: "4px",
-                    top: "50%",
-                    transform: "translateY(-50%)",
-                  }}
-                >
+                <div className="absolute h-full w-6 flex items-center justify-center top-1/2 -translate-y-1/2 right-1">
                   <img
                     src={SUNNYSIDE.icons.chevron_right}
                     alt="search"
@@ -196,7 +190,7 @@ export const SocialLeaderboardTable: React.FC<Props> = ({
               </td>
 
               <td
-                style={{ border: "1px solid #b96f50", height: "40px" }}
+                style={{ border: "1px solid #b96f50" }}
                 className="p-1.5 w-1/5"
               >
                 {count}

@@ -28,6 +28,8 @@
   "leaderboard": "Leaderboard",
   "discovery": "Discovery",
   "points": "Points",
+  "allTime": "All Time",
+  "weekly": "Weekly",
 
   "animals.buildingIsFull": "{{buildingName}} is full!",
   "breadWinner.description": "Earn 0.001 FLOWER",
@@ -6381,5 +6383,6 @@
   "friendStreak.short": "Streak: {{days}} days",
   "social.leaderboard": "Social Leaderboard",
   "social.leaderboard.weekly": "Weekly Social Scores",
+  "social.leaderboard.clickToView": "Click to view {{type}}",
   "social.leaderboard.allTime": "All-time Social Scores"
 }
