@@ -245,7 +245,7 @@ export const PlayerModal: React.FC<Props> = ({
                   networkList={player?.followedBy ?? []}
                   networkCount={player?.followedBy?.length ?? 0}
                   playerLoading={playerLoading}
-                  type="followers"
+                  networkType="followers"
                   navigateToPlayer={navigateToPlayer}
                   scrollContainerRef={scrollContainerRef}
                 />
@@ -263,7 +263,7 @@ export const PlayerModal: React.FC<Props> = ({
                   networkCount={player?.following?.length ?? 0}
                   networkList={player?.following ?? []}
                   playerLoading={playerLoading}
-                  type="following"
+                  networkType="following"
                   navigateToPlayer={navigateToPlayer}
                   scrollContainerRef={scrollContainerRef}
                 />
