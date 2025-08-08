@@ -6380,6 +6380,6 @@
   "friendStreak": "Friend Streak: {{days}} days",
   "friendStreak.short": "Streak: {{days}} days",
   "social.leaderboard": "Social Leaderboard",
-  "social.leaderboard.weekly": "Weekly Social Leaderboard",
-  "social.leaderboard.allTime": "All-time Social Leaderboard"
+  "social.leaderboard.weekly": "Weekly Social Scores",
+  "social.leaderboard.allTime": "All-time Social Scores"
 }

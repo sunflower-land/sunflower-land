@@ -13,8 +13,10 @@ import classNames from "classnames";
 import { toOrdinalSuffix } from "features/retreat/components/auctioneer/AuctionLeaderboardTable";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { playerModalManager } from "../lib/playerModalManager";
-import { BumpkinParts } from "lib/utils/tokenUriBuilder";
+import {
+  playerModalManager,
+  PlayerModalPlayer,
+} from "../lib/playerModalManager";
 
 interface LeaderboardProps {
   id: number;
@@ -43,16 +45,12 @@ export const SocialLeaderboard: React.FC<LeaderboardProps> = ({
   }
 
   const handlePlayerClick = ({
-    id,
+    farmId,
     username,
     clothing,
-  }: {
-    id: string;
-    username: string;
-    clothing: BumpkinParts;
-  }) => {
+  }: PlayerModalPlayer) => {
     onClose();
-    playerModalManager.open({ farmId: Number(id), username, clothing });
+    playerModalManager.open({ farmId, username, clothing });
   };
 
   return (
@@ -86,13 +84,16 @@ export const SocialLeaderboard: React.FC<LeaderboardProps> = ({
         )}
       </div>
       <div>
-        <div className="flex flex-col md:flex-row md:items-center justify-between p-1">
+        <div className="flex flex-col md:flex-row md:items-center justify-between p-1 mb-1">
           <Label type="default" icon={socialPointsIcon}>
             {t("social.leaderboard.allTime")}
           </Label>
         </div>
         {data.allTime.topTen && (
-          <SocialLeaderboardTable rankings={data.allTime.topTen} />
+          <SocialLeaderboardTable
+            rankings={data.allTime.topTen}
+            handlePlayerClick={handlePlayerClick}
+          />
         )}
         {data.allTime.farmRankingDetails && (
           <>
@@ -114,7 +115,7 @@ export const SocialLeaderboard: React.FC<LeaderboardProps> = ({
 interface Props {
   rankings: (RankData & { username: string })[];
   showHeader?: boolean;
-  handlePlayerClick: (id: string) => void;
+  handlePlayerClick: (player: PlayerModalPlayer) => void;
 }
 
 export const SocialLeaderboardTable: React.FC<Props> = ({
@@ -141,60 +142,68 @@ export const SocialLeaderboardTable: React.FC<Props> = ({
         </thead>
       )}
       <tbody>
-        {rankings.map(({ id, count, rank, bumpkin, username }, index) => (
-          <tr
-            key={index}
-            className={classNames("relative", {
-              "bg-[#ead4aa]": index % 2 === 0,
-            })}
-          >
-            <td
-              style={{ border: "1px solid #b96f50", height: "40px" }}
-              className="p-1.5 w-1/5"
+        {rankings.map(
+          ({ id, count, rank, bumpkin: clothing, username }, index) => (
+            <tr
+              key={index}
+              className={classNames("relative", {
+                "bg-[#ead4aa]": index % 2 === 0,
+              })}
             >
-              {toOrdinalSuffix(rank ?? index + 1)}
-            </td>
-            <td
-              style={{ border: "1px solid #b96f50", height: "40px" }}
-              className="p-1.5 text-left pl-8 relative truncate cursor-pointer"
-              onClick={() => {
-                handlePlayerClick(id);
-              }}
-            >
-              <div
-                className="absolute"
-                style={{
-                  left: "4px",
-                  top: "50%",
-                  transform: "translateY(-50%)",
+              <td
+                style={{ border: "1px solid #b96f50", height: "40px" }}
+                className="p-1.5 w-1/5"
+              >
+                {toOrdinalSuffix(rank ?? index + 1)}
+              </td>
+              <td
+                style={{ border: "1px solid #b96f50", height: "40px" }}
+                className="p-1.5 text-left pl-8 relative truncate cursor-pointer"
+                onClick={() => {
+                  handlePlayerClick({
+                    farmId: Number(id),
+                    username,
+                    clothing,
+                  });
                 }}
               >
-                <NPCIcon width={24} parts={bumpkin} />
-              </div>
-              {username}
-              <div
-                className="absolute h-10 w-10 flex items-center justify-center"
-                style={{
-                  right: "4px",
-                  top: "50%",
-                  transform: "translateY(-50%)",
-                }}
+                <div
+                  className="absolute"
+                  style={{
+                    left: "4px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                  }}
+                >
+                  <NPCIcon width={24} parts={clothing} />
+                </div>
+                {username}
+
+                <div
+                  className="absolute h-10 w-6 flex items-center justify-center"
+                  style={{
+                    right: "4px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                  }}
+                >
+                  <img
+                    src={SUNNYSIDE.icons.chevron_right}
+                    alt="search"
+                    className="w-4 h-4"
+                  />
+                </div>
+              </td>
+
+              <td
+                style={{ border: "1px solid #b96f50", height: "40px" }}
+                className="p-1.5 w-1/5"
               >
-                <img
-                  src={SUNNYSIDE.icons.search}
-                  alt="search"
-                  className="w-4 h-4"
-                />
-              </div>
-            </td>
-            <td
-              style={{ border: "1px solid #b96f50", height: "40px" }}
-              className="p-1.5 w-1/5"
-            >
-              {count}
-            </td>
-          </tr>
-        ))}
+                {count}
+              </td>
+            </tr>
+          ),
+        )}
       </tbody>
     </table>
   );

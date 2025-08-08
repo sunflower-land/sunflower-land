@@ -8,7 +8,6 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
 import { discoveryModalManager } from "./lib/discoveryModalManager";
-import { SUNNYSIDE } from "assets/sunnyside";
 
 type Tab = "Leaderboard" | "Discovery";
 
@@ -38,11 +37,11 @@ export const Discovery: React.FC = () => {
         currentTab={tab}
         setCurrentTab={setTab}
         tabs={[
-          {
-            icon: SUNNYSIDE.icons.search,
-            name: t("discovery"),
-            id: "Discovery",
-          },
+          // {
+          //   icon: SUNNYSIDE.icons.search,
+          //   name: t("discovery"),
+          //   id: "Discovery",
+          // },
           {
             icon: socialPointsIcon,
             name: t("leaderboard"),
@@ -50,7 +49,7 @@ export const Discovery: React.FC = () => {
           },
         ]}
       >
-        {tab === "Discovery" && <div>{`Discovery`}</div>}
+        {/* {tab === "Discovery" && <div>{`Discovery`}</div>} */}
         {tab === "Leaderboard" && (
           <SocialLeaderboard
             id={farmId}
