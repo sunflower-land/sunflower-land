@@ -79,8 +79,12 @@ export const VisitingHud: React.FC = () => {
     farmId: gameState.context.farmId,
   });
 
-  const [showVisitorGuide, setShowVisitorGuide] = useState(true);
-
+  const [showVisitorGuide, setShowVisitorGuide] = useState(() => {
+    // Check if user has already acknowledged the visitor guide
+    const hasAcknowledged =
+      localStorage.getItem("visitorGuideAcknowledged") === "true";
+    return !hasAcknowledged;
+  });
   const [showBinGuide, setShowBinGuide] = useState(false);
   const cheers = useSelector(gameService, _cheers);
   const socialPoints = useSelector(gameService, _socialPoints);
@@ -120,14 +124,21 @@ export const VisitingHud: React.FC = () => {
     game: gameState.context.state,
   });
 
+  const handleCloseVisitorGuide = () => {
+    // Store acknowledgment in local storage
+    localStorage.setItem("visitorGuideAcknowledged", "true");
+    setShowVisitorGuide(false);
+    gameService.send("SAVE");
+  };
+
   return (
     <HudContainer>
-      <Modal show={showVisitorGuide} onHide={() => setShowVisitorGuide(false)}>
+      <Modal show={showVisitorGuide} onHide={handleCloseVisitorGuide}>
         <CloseButtonPanel
           bumpkinParts={gameState.context.state.bumpkin?.equipped}
           container={OuterPanel}
         >
-          <VisitorGuide onClose={() => setShowVisitorGuide(false)} />
+          <VisitorGuide onClose={handleCloseVisitorGuide} />
         </CloseButtonPanel>
       </Modal>
       <Modal show={showCleanedModal}>
