@@ -92,7 +92,7 @@ export const WORKBENCH_MONUMENTS: (
       description: "",
       coins: 0,
       ingredients: {
-        Gem: new Decimal(hasCheersV2 ? 500 : 100),
+        Gem: new Decimal(hasCheersV2 ? 50 : 100),
       },
     },
     "Big Apple": {
