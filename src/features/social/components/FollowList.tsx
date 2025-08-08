@@ -143,33 +143,42 @@ export const FollowList: React.FC<Props> = ({
         )}
       </div>
       <div className="flex flex-col gap-1">
-        {networkList.map((followId) => {
-          const details = network.find((detail) => detail.id === followId);
+        {networkList
+          .sort((a, b) => {
+            const aDetails = network.find((detail) => detail.id === a);
+            const bDetails = network.find((detail) => detail.id === b);
 
-          if (!details) return null;
+            if (!aDetails || !bDetails) return 0;
 
-          const friendStreak = getHelpStreak({
-            farm: gameService.state.context.state.socialFarming.helped?.[
-              followId
-            ],
-          });
+            return bDetails.socialPoints - aDetails.socialPoints;
+          })
+          .map((followId) => {
+            const details = network.find((detail) => detail.id === followId);
 
-          return (
-            <FollowDetailPanel
-              key={`flw-${details.id}`}
-              loggedInFarmId={loggedInFarmId}
-              playerId={details.id}
-              clothing={details.clothing as Equipped}
-              username={details.username ?? ""}
-              lastOnlineAt={details.lastUpdatedAt ?? 0}
-              navigateToPlayer={navigateToPlayer}
-              projects={details.projects ?? {}}
-              socialPoints={details.socialPoints ?? 0}
-              haveCleanedToday={!!details.cleanedToday}
-              friendStreak={friendStreak}
-            />
-          );
-        })}
+            if (!details) return null;
+
+            const friendStreak = getHelpStreak({
+              farm: gameService.state.context.state.socialFarming.helped?.[
+                followId
+              ],
+            });
+
+            return (
+              <FollowDetailPanel
+                key={`flw-${details.id}`}
+                loggedInFarmId={loggedInFarmId}
+                playerId={details.id}
+                clothing={details.clothing as Equipped}
+                username={details.username ?? ""}
+                lastOnlineAt={details.lastUpdatedAt ?? 0}
+                navigateToPlayer={navigateToPlayer}
+                projects={details.projects ?? {}}
+                socialPoints={details.socialPoints ?? 0}
+                haveCleanedToday={!!details.cleanedToday}
+                friendStreak={friendStreak}
+              />
+            );
+          })}
       </div>
       <div
         ref={intersectionRef}
