@@ -6,7 +6,7 @@ import { useActor, useSelector } from "@xstate/react";
 import { useLocation, useNavigate, useSearchParams } from "react-router";
 import { ListViewCard } from "./ListViewCard";
 import Decimal from "decimal.js-light";
-import { getTradeableDisplay } from "../lib/tradeables";
+import { getTradeableDisplay, TradeableDisplay } from "../lib/tradeables";
 import { InnerPanel } from "components/ui/Panel";
 import useSWR, { preload } from "swr";
 import { CONFIG } from "lib/config";
@@ -32,7 +32,8 @@ const _state = (state: MachineState) => state.context.state;
 export const Collection: React.FC<{
   search?: string;
   onNavigated?: () => void;
-}> = ({ search, onNavigated }) => {
+  activeFilters?: string;
+}> = ({ search, onNavigated, activeFilters }) => {
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
   const { authService } = useContext(Auth.Context);
@@ -46,8 +47,25 @@ export const Collection: React.FC<{
 
   let filters = queryParams.get("filters") ?? "";
 
+  // Determines which filters to apply to the marketplace collection.
+  const getAppliedFilters = (): string => {
+    if (activeFilters && activeFilters !== "") {
+      // Show boosts
+      if (activeFilters === "utility") {
+        return "collectibles,wearables,buds,utility";
+      } // Show Cosmetics
+      else if (activeFilters === "cosmetic") {
+        return "collectibles,wearables,cosmetic";
+      }
+      // Otherwise, use the provided filters
+      return activeFilters;
+    }
+    // Default filters if none are active
+    return "collectibles,wearables,buds,resources";
+  };
+
   if (search) {
-    filters = "collectibles,wearables,resources";
+    filters = getAppliedFilters();
   }
 
   const navigate = useNavigate();
@@ -98,8 +116,8 @@ export const Collection: React.FC<{
 
   const data = {
     items: [
-      ...(collectibles?.items || []),
       ...(resources?.items || []),
+      ...(collectibles?.items || []),
       ...(wearables?.items || []),
       ...(buds?.items || []),
       ...(limited?.items || []),
@@ -160,11 +178,29 @@ export const Collection: React.FC<{
     );
   }
 
+  // Determines if an item matches the search criteria
+  const matchesSearchCriteria = (
+    display: TradeableDisplay,
+    searchTerm: string,
+  ): boolean => {
+    const searchLower = searchTerm.toLowerCase();
+
+    // Check if name matches
+    const nameMatches = display.name.toLowerCase().includes(searchLower);
+
+    // Check if any buff description matches
+    const buffMatches = display.buffs.some((buff) =>
+      buff.shortDescription.toLowerCase().includes(searchLower),
+    );
+
+    return nameMatches || buffMatches;
+  };
+
   const items =
     data?.items.filter((item) => {
       const display = getTradeableDisplay({
-        type: item.collection,
         id: item.id,
+        type: item.collection,
         state,
       });
 
@@ -176,7 +212,7 @@ export const Collection: React.FC<{
         return false;
       }
 
-      return display.name.toLowerCase().includes(search?.toLowerCase() ?? "");
+      return matchesSearchCriteria(display, search ?? "");
     }) ?? [];
 
   const getRowHeight = () => {
