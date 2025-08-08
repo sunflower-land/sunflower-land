@@ -6,6 +6,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { getKeys } from "features/game/lib/crafting";
 import {
   hasHelpedFarmToday,
+  REQUIRED_CHEERS,
   WORKBENCH_MONUMENTS,
 } from "features/game/types/monuments";
 import { useGame } from "features/game/GameProvider";
@@ -25,6 +26,7 @@ import {
 } from "features/game/events/landExpansion/increaseHelpLimit";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { secondsTillReset, secondsToString } from "lib/utils/time";
+import { useSelector } from "@xstate/react";
 
 interface VisitorGuideProps {
   onClose: () => void;
@@ -44,7 +46,14 @@ export const VisitorGuide: React.FC<VisitorGuideProps> = ({ onClose }) => {
     farmId: gameState.context.farmId,
   });
 
-  const locations = gameState.context.state.socialFarming.clutter?.locations;
+  const locations = useSelector(
+    gameService,
+    (state) => state.context.state.socialFarming.clutter?.locations,
+  );
+  const villageProjects = useSelector(
+    gameService,
+    (state) => state.context.state.socialFarming.villageProjects,
+  );
 
   const hasCleaned = hasCleanedToday(gameState);
 
@@ -239,7 +248,14 @@ export const VisitorGuide: React.FC<VisitorGuideProps> = ({ onClose }) => {
         })}
 
         {getKeys(WORKBENCH_MONUMENTS)
-          .filter((monument) => !!collectibles[monument])
+          .filter(
+            (monument) =>
+              // Ensures the monument is placed with Coordinates
+              !!collectibles[monument]?.some((item) => !!item.coordinates) &&
+              // Ensures that the monument hasn't been completed
+              (villageProjects[monument]?.cheers ?? 0) <
+                REQUIRED_CHEERS[monument],
+          )
           .map((monument) => {
             const hasCheered = _hasCheeredToday(monument)(gameState);
             return (
