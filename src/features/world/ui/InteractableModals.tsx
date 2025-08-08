@@ -758,7 +758,10 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           bumpkinParts={NPC_WEARABLES["bert"]}
           message={[
             {
-              text: t("interactableModals.woodlands.message"),
+              text: t("interactableModals.woodlands.message1"),
+            },
+            {
+              text: t("interactableModals.woodlands.message2"),
             },
           ]}
         />
