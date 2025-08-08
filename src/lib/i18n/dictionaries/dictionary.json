@@ -6377,5 +6377,6 @@
   "friendStreak.short": "Streak: {{days}} days",
   "description.giantOrange": "Wow, a giant orange!",
   "description.giantApple": "That will keep the doctor away!",
-  "description.giantBanana": "That will stop the traffic!"
+  "description.giantBanana": "That will stop the traffic!",
+  "craft.with.friends": "Build with friends"
 }

@@ -968,9 +968,13 @@ import teamworkMonument from "assets/monuments/chapters_monument_teamwork.webp";
 import basicCookingPot from "assets/monuments/basic_cooking_pot.webp";
 import expertCookingPot from "assets/monuments/expert_cooking_pot.webp";
 import advancedCookingPot from "assets/monuments/advanced_cooking_pot.webp";
-import bigOrange from "assets/monuments/big_orange.webp";
-import bigApple from "assets/monuments/big_apple.webp";
-import bigBanana from "assets/monuments/big_banana.webp";
+import giantOrange from "assets/monuments/big_orange.webp";
+import giantApple from "assets/monuments/big_apple.webp";
+import giantBanana from "assets/monuments/big_banana.webp";
+
+import bigOrange from "assets/monuments/big_orange_stage_1.webp";
+import bigApple from "assets/monuments/big_apple_stage_1.webp";
+import bigBanana from "assets/monuments/big_banana_stage_1.webp";
 
 import trash from "assets/clutter/trash.webp";
 import dung from "assets/clutter/dung.webp";
@@ -5724,15 +5728,15 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.poseidon"),
   },
   "Giant Orange": {
-    image: bigOrange,
+    image: giantOrange,
     description: translate("description.giantOrange"),
   },
   "Giant Apple": {
-    image: bigApple,
+    image: giantApple,
     description: translate("description.giantApple"),
   },
   "Giant Banana": {
-    image: bigBanana,
+    image: giantBanana,
     description: translate("description.giantBanana"),
   },
 };

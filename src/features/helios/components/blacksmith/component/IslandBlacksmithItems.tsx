@@ -44,6 +44,9 @@ const VALID_EQUIPMENT: HeliosBlacksmithItem[] = [
   "Macaw",
   "Squirrel",
   "Butterfly",
+];
+
+const PROJECTS: HeliosBlacksmithItem[] = [
   "Basic Cooking Pot",
   "Expert Cooking Pot",
   "Advanced Cooking Pot",
@@ -219,6 +222,37 @@ export const IslandBlacksmithItems: React.FC = () => {
         <div className="flex flex-col">
           <div className="flex flex-wrap">
             {VALID_EQUIPMENT.map((name: HeliosBlacksmithItem) => {
+              return (
+                <Box
+                  isSelected={selectedName === name}
+                  key={name}
+                  onClick={() => setSelectedName(name)}
+                  image={ITEM_DETAILS[name].image}
+                  count={inventory[name]}
+                  overlayIcon={
+                    <img
+                      src={SUNNYSIDE.icons.stopwatch}
+                      id="confirm"
+                      alt="confirm"
+                      className="object-contain absolute"
+                      style={{
+                        width: `${PIXEL_SCALE * 8}px`,
+                        top: `${PIXEL_SCALE * -4}px`,
+                        right: `${PIXEL_SCALE * -4}px`,
+                      }}
+                    />
+                  }
+                />
+              );
+            })}
+          </div>
+
+          <Label type="default" className="my-2">
+            {t("craft.with.friends")}
+          </Label>
+
+          <div className="flex flex-wrap">
+            {PROJECTS.map((name: HeliosBlacksmithItem) => {
               return (
                 <Box
                   isSelected={selectedName === name}
