@@ -348,54 +348,6 @@ export const WorldMap: React.FC<{ onClose: () => void }> = ({ onClose }) => {
 
       <div
         style={{
-          width: "15%",
-          height: "15%",
-          border: showDebugBorders ? "2px solid red" : "",
-          position: "absolute",
-          right: "34%",
-          bottom: "33%",
-        }}
-        className={`flex justify-center items-center ${
-          level >= 6 ? "cursor-pointer" : "cursor-not-allowed"
-        }`}
-        onClick={() => {
-          if (level < 6) return;
-          travel.play();
-          navigate("/world/woodlands");
-          onClose();
-        }}
-      >
-        {level < 6 ? (
-          isMobile ? (
-            <img
-              src={SUNNYSIDE.icons.lock}
-              className="h-4 sm:h-6 ml-1 img-highlight"
-              onClick={() => {
-                setShowPopup(true);
-                setReqLvl(6);
-                setTimeout(() => {
-                  setShowPopup(false);
-                }, 1300);
-              }}
-            />
-          ) : (
-            <Label
-              type="default"
-              icon={SUNNYSIDE.icons.lock}
-              className="text-sm"
-            >
-              {t("world.lvl.requirement", { lvl: 6 })}
-            </Label>
-          )
-        ) : (
-          <span className="map-text text-xxs sm:text-sm">
-            {t("world.woodlands")}
-          </span>
-        )}
-      </div>
-
-      <div
-        style={{
           width: "35%",
           height: "34%",
           border: showDebugBorders ? "2px solid red" : "",
