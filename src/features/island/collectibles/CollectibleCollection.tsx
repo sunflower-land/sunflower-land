@@ -2610,11 +2610,11 @@ export const COLLECTIBLE_COMPONENTS: Record<
       {...props}
       divStyle={{
         width: `${PIXEL_SCALE * 32}px`,
-        bottom: `${PIXEL_SCALE * 3}px`,
-        left: `${PIXEL_SCALE * 3}px`,
+        bottom: `${PIXEL_SCALE * 2}px`,
+        left: `${PIXEL_SCALE * 0}px`,
       }}
       imgStyle={{
-        width: `${PIXEL_SCALE * 26}px`,
+        width: `${PIXEL_SCALE * 28}px`,
       }}
       alt="Big Apple"
       project="Big Apple"
@@ -2626,7 +2626,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
       divStyle={{
         width: `${PIXEL_SCALE * 32}px`,
         bottom: `${PIXEL_SCALE * 2}px`,
-        left: `${PIXEL_SCALE * 2}px`,
+        left: `${PIXEL_SCALE * 0}px`,
       }}
       imgStyle={{
         width: `${PIXEL_SCALE * 28}px`,
@@ -2644,7 +2644,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
         left: `${PIXEL_SCALE * 0}px`,
       }}
       imgStyle={{
-        width: `${PIXEL_SCALE * 32}px`,
+        width: `${PIXEL_SCALE * 28}px`,
       }}
       alt="Big Banana"
       project="Big Banana"

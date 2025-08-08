@@ -24,12 +24,11 @@ export const STATIC_OFFLINE_FARM: GameState = {
     expiresAt: Date.now() + 31 * 24 * 60 * 60 * 1000,
   },
   inventory: {
+    "Black Magic": new Decimal(1),
     "Farmer's Monument": new Decimal(1),
     "Miner's Monument": new Decimal(1),
     "Woodcutter's Monument": new Decimal(1),
-    "Big Orange": new Decimal(1),
-    "Big Apple": new Decimal(1),
-    "Big Banana": new Decimal(1),
+
     "Basic Cooking Pot": new Decimal(1),
     "Expert Cooking Pot": new Decimal(1),
     "Advanced Cooking Pot": new Decimal(1),
@@ -354,7 +353,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
 
   home: {
     collectibles: {
-      "Magic Bean": [
+      "Big Apple": [
         {
           id: "1",
           createdAt: Date.now(),

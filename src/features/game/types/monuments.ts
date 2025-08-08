@@ -198,9 +198,9 @@ export function getMonumentRewards({
   const rewards = cloneDeep(REWARD_ITEMS);
 
   if (hasFeatureAccess(state, "CHEERS_V2")) {
-    rewards["Big Orange"] = { amount: 1, item: "Bronze Love Box" };
-    rewards["Big Apple"] = { amount: 1, item: "Silver Love Box" };
-    rewards["Big Banana"] = { amount: 1, item: "Gold Love Box" };
+    rewards["Big Orange"] = { amount: 1, item: "Giant Orange" };
+    rewards["Big Apple"] = { amount: 1, item: "Giant Apple" };
+    rewards["Big Banana"] = { amount: 1, item: "Giant Banana" };
 
     // Double Food Box Rewards
     rewards["Basic Cooking Pot"] = { amount: 2, item: "Bronze Food Box" };

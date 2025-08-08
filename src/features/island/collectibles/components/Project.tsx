@@ -46,10 +46,21 @@ import woodcutterMonumentOne from "assets/monuments/axe_monument_stage_1.webp";
 import woodcutterMonumentTwo from "assets/monuments/axe_monument_stage_2.webp";
 
 import basicCookingPotOne from "assets/monuments/basic_cooking_pot_stage_1.webp";
-
 import expertCookingPotOne from "assets/monuments/expert_cooking_pot_stage_1.webp";
-
 import advancedCookingPotOne from "assets/monuments/advanced_cooking_pot_stage_1.webp";
+
+import bigOrangeOne from "assets/monuments/big_orange_stage_1.webp";
+import bigOrangeTwo from "assets/monuments/big_orange_stage_2.webp";
+import bigOrangeThree from "assets/monuments/big_orange_stage_3.webp";
+
+import bigAppleOne from "assets/monuments/big_apple_stage_1.webp";
+import bigAppleTwo from "assets/monuments/big_apple_stage_2.webp";
+import bigAppleThree from "assets/monuments/big_apple_stage_3.webp";
+
+import bigBananaOne from "assets/monuments/big_banana_stage_1.webp";
+import bigBananaTwo from "assets/monuments/big_banana_stage_2.webp";
+import bigBananaThree from "assets/monuments/big_banana_stage_3.webp";
+
 import { getPlayer } from "features/social/actions/getPlayer";
 import { useAuth } from "features/auth/lib/Provider";
 import { Player } from "features/social/types/types";
@@ -105,19 +116,19 @@ export const PROJECT_IMAGES: Record<
   },
   // TODO - no growth stages for giant fruit?
   "Big Orange": {
-    empty: ITEM_DETAILS["Big Orange"].image,
-    halfway: ITEM_DETAILS["Big Orange"].image,
-    ready: ITEM_DETAILS["Big Orange"].image,
+    empty: bigOrangeOne,
+    halfway: bigOrangeTwo,
+    ready: bigOrangeThree,
   },
   "Big Apple": {
-    empty: ITEM_DETAILS["Big Apple"].image,
-    halfway: ITEM_DETAILS["Big Apple"].image,
-    ready: ITEM_DETAILS["Big Apple"].image,
+    empty: bigAppleOne,
+    halfway: bigAppleTwo,
+    ready: bigAppleThree,
   },
   "Big Banana": {
-    empty: ITEM_DETAILS["Big Banana"].image,
-    halfway: ITEM_DETAILS["Big Banana"].image,
-    ready: ITEM_DETAILS["Big Banana"].image,
+    empty: bigBananaOne,
+    halfway: bigBananaTwo,
+    ready: bigBananaThree,
   },
 };
 

@@ -15,6 +15,9 @@ export const ITEM_TRADE_TYPES: {
   wearables: Record<BumpkinItem, TradeType>;
 } = {
   collectibles: {
+    "Giant Orange": "instant",
+    "Giant Apple": "instant",
+    "Giant Banana": "instant",
     "Baby Cow": "instant",
     "Baby Sheep": "instant",
     "Janitor Chicken": "instant",
