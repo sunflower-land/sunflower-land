@@ -1538,11 +1538,9 @@ export type SocialFarming = {
   points: number;
   weeklyPoints: {
     points: number;
-    week: number;
+    week: string;
   };
-  villageProjects: Partial<
-    Record<MonumentName, { cheers: number; winnerId?: number }>
-  >;
+  villageProjects: Partial<Record<MonumentName, VillageProject>>;
   cheersGiven: {
     date: string;
     projects: Partial<Record<MonumentName, number[]>>;

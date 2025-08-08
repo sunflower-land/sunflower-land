@@ -676,6 +676,10 @@ export const INITIAL_FARM: GameState = {
   },
   aoe: {},
   socialFarming: {
+    weeklyPoints: {
+      points: 0,
+      week: "2025-08-04",
+    },
     points: 0,
     villageProjects: {},
     cheersGiven: {
@@ -995,6 +999,10 @@ export const TEST_FARM: GameState = {
   },
   aoe: {},
   socialFarming: {
+    weeklyPoints: {
+      points: 0,
+      week: "2025-08-04",
+    },
     points: 0,
     villageProjects: {},
     cheersGiven: {
@@ -1164,6 +1172,10 @@ export const EMPTY: GameState = {
   aoe: {},
   socialFarming: {
     points: 0,
+    weeklyPoints: {
+      points: 0,
+      week: "2025-08-04",
+    },
     villageProjects: {},
     cheersGiven: {
       date: "",
