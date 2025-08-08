@@ -6240,9 +6240,6 @@
   "completed.monument": "完成した記念碑",
   "playerModal.projectsInProgress": "進行中のプロジェクト",
   "playerModal.noProjectsInProgress": "このファームでは進行中のプロジェクトはありません",
-  "description.bigApple": "それは大きなリンゴではありません、それは大きなリンゴです！完成すると400個のラブチャームがもらえます。",
-  "description.bigOrange": "大きなオレンジ。完成すると200個のラブチャームがもらえます。",
-  "description.bigBanana": "大きなバナナ。完成すると600個のラブチャームがもらえます。",
   "description.farmerMonument": "サンフラワーランドの農家の記念碑。完成後、ビッグオレンジ、ビッグバナナ、ビッグアップルを売るとラブチャームが 1% 上昇する。",
   "description.woodcutterMonument": "サンフラワーランドのウッドカッターたちの記念碑。完成後、ビッグオレンジ、ビッグバナナ、ビッグアップルを売るとラブチャームが 3% 上昇する。",
   "description.minerMonument": "サンフラワーランドのウッドカッターたちの記念碑。完成後、ビッグオレンジ、ビッグバナナ、ビッグアップルを売るとラブチャームが 6% 上昇する。",
@@ -6374,5 +6371,12 @@
   "help.limitReached.description": "1日あたり {{helpLimit}} 人の友達しか助けられません。",
   "dolls": "人形",
   "friendStreak": "フレンドストリーク:{{days}} 日",
-  "friendStreak.short": "ストリーク:{{days}} 日"
+  "friendStreak.short": "ストリーク:{{days}} 日",
+  "description.bigApple": "大きなリンゴの植物-友達の助けを借りてさらに大きく成長することができます！",
+  "description.bigOrange": "大きなオレンジ色の植物-友達の助けを借りてさらに大きく成長することができます！",
+  "description.bigBanana": "大きなバナナの植物-友達の助けを借りてさらに大きく成長することができます！",
+  "description.giantOrange": "うわー、巨大なオレンジ！",
+  "description.giantApple": "それは医者を遠ざけることになる！",
+  "description.giantBanana": "これで交通が止まります！",
+  "craft.with.friends": "友達と一緒にビルド"
 }

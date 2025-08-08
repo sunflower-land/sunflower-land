@@ -6240,9 +6240,6 @@
   "completed.monument": "Monumen Siap",
   "playerModal.projectsInProgress": "Projek yang sedang dijalankan",
   "playerModal.noProjectsInProgress": "Tiada projek yang sedang dijalankan di ladang ini",
-  "description.bigApple": "Ia bukan epal besar, ia epal besar! Memberi 400 Pesona Cinta apabila selesai.",
-  "description.bigOrange": "Jeruk besar. Memberi 200 Pesona Cinta apabila selesai.",
-  "description.bigBanana": "Pisang besar. Memberi 600 Pesona Cinta apabila selesai.",
   "description.farmerMonument": "Tugu kepada petani Tanah Bunga Matahari. +1% Cinta Pesona ketika menjual Big Orange, Big Banana atau Big Apple apabila selesai.",
   "description.woodcutterMonument": "Tugu untuk pemotong kayu Sunflower Land. +3% Love Charms apabila menjual Big Orange, Big Banana atau Big Apple apabila selesai.",
   "description.minerMonument": "Tugu untuk pemotong kayu Sunflower Land. +6% Love Charms ketika menjual Big Orange, Big Banana atau Big Apple apabila selesai.",
@@ -6374,5 +6371,12 @@
   "help.limitReached.description": "Anda hanya boleh membantu rakan {{helpLimit}} setiap hari.",
   "dolls": "Anak patung",
   "friendStreak": "Rangkaian Rakan: {{days}} hari",
-  "friendStreak.short": "Rangkaian: {{days}} hari"
+  "friendStreak.short": "Rangkaian: {{days}} hari",
+  "description.bigApple": "Tumbuhan epal besar - dengan bantuan rakan-rakan, ia boleh tumbuh lebih besar!",
+  "description.bigOrange": "Tumbuhan oren besar - dengan bantuan rakan-rakan ia boleh tumbuh lebih besar!",
+  "description.bigBanana": "Tumbuhan pisang besar - dengan bantuan rakan-rakan ia boleh tumbuh lebih besar!",
+  "description.giantOrange": "Wow, oren gergasi!",
+  "description.giantApple": "Itu akan menjauhkan doktor!",
+  "description.giantBanana": "Itu akan menghentikan lalu lintas!",
+  "craft.with.friends": "Bina dengan rakan-rakan"
 }

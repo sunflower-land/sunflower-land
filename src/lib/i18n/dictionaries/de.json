@@ -6240,9 +6240,6 @@
   "completed.monument": "Monument abgeschlossen",
   "playerModal.projectsInProgress": "Laufende Projekte",
   "playerModal.noProjectsInProgress": "Keine laufenden Projekte auf dieser Farm",
-  "description.bigApple": "Es ist nicht der große Apfel, es ist ein großer Apfel! Wenn du fertig bist, erhältst du 400 Liebeszauber.",
-  "description.bigOrange": "Eine große Orange. Wenn du fertig bist, erhältst du 200 Liebeszauber.",
-  "description.bigBanana": "Eine große Banane. Gibt 600 Liebeszauber, wenn du fertig bist.",
   "description.farmerMonument": "Ein Denkmal für die Farmer von Sunflower Land. +1% Love Charms beim Verkauf von Big Orange, Big Banana oder Big Apple, wenn sie fertig sind.",
   "description.woodcutterMonument": "Ein Denkmal für die Holzfäller von Sunflower Land. +3% Love Charms, wenn Big Orange, Big Banana oder Big Apple verkauft werden, wenn sie fertig sind.",
   "description.minerMonument": "Ein Denkmal für die Holzfäller von Sunflower Land. +6% Love Charms beim Verkauf von Big Orange, Big Banana oder Big Apple, wenn sie fertig sind.",
@@ -6374,5 +6371,12 @@
   "help.limitReached.description": "Du kannst nur {{helpLimit}} Freunden pro Tag helfen.",
   "dolls": "Puppen",
   "friendStreak": "Freundesserie: {{days}} Tage",
-  "friendStreak.short": "Serie: {{days}} Tage"
+  "friendStreak.short": "Serie: {{days}} Tage",
+  "description.bigApple": "Eine große Apfelpflanze — mit Hilfe von Freunden kann sie noch größer werden!",
+  "description.bigOrange": "Eine große Orangenpflanze — mit Hilfe von Freunden kann sie noch größer werden!",
+  "description.bigBanana": "Eine große Bananenpflanze — mit Hilfe von Freunden kann sie noch größer werden!",
+  "description.giantOrange": "Wow, eine riesige Orange!",
+  "description.giantApple": "Das wird den Arzt fernhalten!",
+  "description.giantBanana": "Das wird den Verkehr stoppen!",
+  "craft.with.friends": "Baue mit Freunden"
 }

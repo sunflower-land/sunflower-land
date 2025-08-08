@@ -6240,9 +6240,6 @@
   "completed.monument": "Tamamlanan Anıt",
   "playerModal.projectsInProgress": "Devamlı Projeler",
   "playerModal.noProjectsInProgress": "Bu çiftlikte devam eden proje yok",
-  "description.bigApple": "Büyük elma değil, büyük bir elma! Tamamlandığında 400 Aşk Tılsımı verir.",
-  "description.bigOrange": "Büyük bir portakal. Tamamlandığında 200 Aşk Tılsımı verir.",
-  "description.bigBanana": "Büyük bir Muz. Tamamlandığında 600 Aşk Tılsımı verir.",
   "description.farmerMonument": "Ayçiçeği Ülkesi çiftçilerine bir anıt. Tamamlandığında Büyük Portakal, Büyük Muz veya Büyük Elma satarken %+1 Aşk Tılsımı.",
   "description.woodcutterMonument": "Ayçiçeği Ülkesinin oduncularına anıt. Tamamlandığında Big Orange, Big Muz veya Big Apple satarken %+3 Aşk Tılsımı.",
   "description.minerMonument": "Ayçiçeği Ülkesinin oduncularına anıt. Tamamlandığında Big Orange, Big Muz veya Big Apple satarken +6% Aşk Tılsımı.",
@@ -6374,5 +6371,12 @@
   "help.limitReached.description": "Günde sadece {{helpLimit}} arkadaşlarınıza yardım edebilirsiniz.",
   "dolls": "Bebekler",
   "friendStreak": "Arkadaş Serisi: {{days}} gün",
-  "friendStreak.short": "Seri: {{days}} gün"
+  "friendStreak.short": "Seri: {{days}} gün",
+  "description.bigApple": "Büyük bir elma bitkisi - arkadaşların yardımıyla daha da büyüyebilir!",
+  "description.bigOrange": "Büyük bir portakal bitkisi - arkadaşların yardımıyla daha da büyüyebilir!",
+  "description.bigBanana": "Büyük bir muz bitkisi - arkadaşların yardımıyla daha da büyüyebilir!",
+  "description.giantOrange": "Vay canına, dev bir portakal!",
+  "description.giantApple": "Bu doktoru uzak tutacak!",
+  "description.giantBanana": "Bu trafiği durduracak!",
+  "craft.with.friends": "Arkadaşlarınızla inşa edin"
 }

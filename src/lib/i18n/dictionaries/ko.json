@@ -6240,9 +6240,6 @@
   "completed.monument": "완성된 기념비",
   "playerModal.projectsInProgress": "진행 중인 프로젝트",
   "playerModal.noProjectsInProgress": "이 팜에서 진행 중인 프로젝트가 없습니다.",
-  "description.bigApple": "큰 사과가 아니라 큰 사과예요!완료하면 사랑의 부적 400개를 얻을 수 있습니다.",
-  "description.bigOrange": "커다란 오렌지.완료 시 사랑의 부적 200개를 제공합니다.",
-  "description.bigBanana": "커다란 바나나.완료 시 사랑의 부적 600개를 제공합니다.",
   "description.farmerMonument": "선플라워 랜드의 농부들을 기리는 기념비. 완공 시 빅 오렌지, 빅 바나나 또는 빅 애플 판매 시 +1% 사랑의 부적 획득",
   "description.woodcutterMonument": "선플라워 랜드의 나무꾼을 기리는 기념비. 완공 시 빅 오렌지, 빅 바나나, 빅 애플 판매 시 사랑의 부적 3% 증가.",
   "description.minerMonument": "선플라워 랜드의 나무꾼을 기리는 기념비. 완공 시 빅 오렌지, 빅 바나나, 빅 애플 판매 시 사랑의 부적 6% 증가.",
@@ -6374,5 +6371,12 @@
   "help.limitReached.description": "하루에 {{helpLimit}} 친구만 도울 수 있습니다.",
   "dolls": "인형",
   "friendStreak": "프렌드 스트릭: {{days}} 일",
-  "friendStreak.short": "연속: {{days}} 일"
+  "friendStreak.short": "연속: {{days}} 일",
+  "description.bigApple": "큰 사과 식물 - 친구의 도움으로 더 커질 수 있습니다!",
+  "description.bigOrange": "큰 오렌지 식물 - 친구의 도움으로 더 커질 수 있습니다!",
+  "description.bigBanana": "큰 바나나 식물 - 친구의 도움으로 더 커질 수 있습니다!",
+  "description.giantOrange": "와우, 거대한 오렌지!",
+  "description.giantApple": "그러면 의사가 멀어질 거예요!",
+  "description.giantBanana": "그러면 교통이 멈출 것입니다!",
+  "craft.with.friends": "친구들과 함께 건설하세요"
 }

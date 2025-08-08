@@ -6240,9 +6240,6 @@
   "completed.monument": "Monumento completado",
   "playerModal.projectsInProgress": "Proyectos en curso",
   "playerModal.noProjectsInProgress": "No hay proyectos en curso en esta granja",
-  "description.bigApple": "¡No es la gran manzana, es una gran manzana! Da 400 amuletos de amor cuando se completa.",
-  "description.bigOrange": "Una naranja grande. Da 200 amuletos de amor cuando se completa.",
-  "description.bigBanana": "Un plátano grande. Da 600 amuletos de amor cuando se completa.",
   "description.farmerMonument": "Un monumento a los granjeros de Sunflower Land. Un 1% más de amuletos de amor al vender Big Orange, Big Banana o Big Apple cuando los hayas completado.",
   "description.woodcutterMonument": "Un monumento a los leñadores de Sunflower Land. Más de un 3% de amuletos de amor al vender Big Orange, Big Banana o Big Apple al completarlos.",
   "description.minerMonument": "Un monumento a los leñadores de Sunflower Land. Más de un 6% de amuletos de amor al vender Big Orange, Big Banana o Big Apple al completarlos.",
@@ -6374,5 +6371,12 @@
   "help.limitReached.description": "Solo puedes ayudar a {{helpLimit}} amigos por día.",
   "dolls": "Muñecas",
   "friendStreak": "Racha de amigos: {{days}} días",
-  "friendStreak.short": "Racha: {{days}} días"
+  "friendStreak.short": "Racha: {{days}} días",
+  "description.bigApple": "Una gran planta de manzana: ¡con la ayuda de amigos puede crecer aún más!",
+  "description.bigOrange": "Una gran planta de naranja: ¡con la ayuda de amigos puede crecer aún más!",
+  "description.bigBanana": "Una gran planta de banano: ¡con la ayuda de amigos puede crecer aún más!",
+  "description.giantOrange": "¡Vaya, una naranja gigante!",
+  "description.giantApple": "¡Eso mantendrá alejado al médico!",
+  "description.giantBanana": "¡Eso detendrá el tráfico!",
+  "craft.with.friends": "Construye con amigos"
 }

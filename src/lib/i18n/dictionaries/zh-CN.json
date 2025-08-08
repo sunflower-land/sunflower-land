@@ -6240,9 +6240,6 @@
   "completed.monument": "完工的纪念碑",
   "playerModal.projectsInProgress": "正在进行的项目",
   "playerModal.noProjectsInProgress": "该农场没有任何项目正在进行中",
-  "description.bigApple": "这不是大苹果，而是大苹果！完成后提供 400 个爱心护符。",
-  "description.bigOrange": "一个大橙子。完成后获得 200 个爱心护符。",
-  "description.bigBanana": "一根大香蕉。完成后提供 600 个爱心护符。",
   "description.farmerMonument": "Sunflower Land 农民的纪念碑。完成后，出售“大橙子”、“大香蕉” 或 “大苹果” 时，可获得 +1% 的爱心护符。",
   "description.woodcutterMonument": "Sunflower Land 的伐木工纪念碑。完成后，出售“大橙子”、“大香蕉” 或 “大苹果” 时，可获得 +3% 的爱心护符。",
   "description.minerMonument": "Sunflower Land 的矿工纪念碑。完成后，出售“大橙子”、“大香蕉” 或 “大苹果” 时，可获得 +6% 的爱心护符。",
@@ -6374,5 +6371,12 @@
   "help.limitReached.description": "你每天只能帮助 {{helpLimit}} 个朋友。",
   "dolls": "娃娃",
   "friendStreak": "Friend Streak：{{days}} 天",
-  "friendStreak.short": "连胜：{{days}} 天"
+  "friendStreak.short": "连胜：{{days}} 天",
+  "description.bigApple": "一株大苹果植物-在朋友的帮助下，它可以长得更大！",
+  "description.bigOrange": "一种大橙子植物-在朋友的帮助下，它可以长得更大！",
+  "description.bigBanana": "一种大香蕉植物-在朋友的帮助下，它可以长得更大！",
+  "description.giantOrange": "哇，一个巨大的橙子！",
+  "description.giantApple": "那会让医生望而却步！",
+  "description.giantBanana": "那会阻止交通！",
+  "craft.with.friends": "和朋友一起建造"
 }

@@ -6240,9 +6240,6 @@
   "completed.monument": "Monument terminé",
   "playerModal.projectsInProgress": "Projets en cours",
   "playerModal.noProjectsInProgress": "Aucun projet en cours sur cette ferme",
-  "description.bigApple": "Ce n'est pas une grosse pomme, c'est une grosse pomme ! Donne 400 charmes d'amour une fois terminé.",
-  "description.bigOrange": "Une grosse orange. Donne 200 breloques d'amour une fois terminé.",
-  "description.bigBanana": "Une grosse banane. Donne 600 breloques d'amour une fois terminé.",
   "description.farmerMonument": "Un monument dédié aux agriculteurs de Sunflower Land. +1 % de breloques d'amour lorsque vous vendez Big Orange, Big Banana ou Big Apple une fois terminé.",
   "description.woodcutterMonument": "Un monument dédié aux bûcherons de Sunflower Land. +3 % de Love Charms lorsque vous vendez Big Orange, Big Banana ou Big Apple une fois terminé.",
   "description.minerMonument": "Un monument dédié aux bûcherons de Sunflower Land. Plus de 6 % de Love Charms lorsque vous vendez Big Orange, Big Banana ou Big Apple une fois terminé.",
@@ -6374,5 +6371,12 @@
   "help.limitReached.description": "Vous ne pouvez aider que {{helpLimit}} amis par jour.",
   "dolls": "Poupées",
   "friendStreak": "Série d'amis : {{days}} jours",
-  "friendStreak.short": "Série : {{days}} jours"
+  "friendStreak.short": "Série : {{days}} jours",
+  "description.bigApple": "Un gros pommier : avec l'aide d'amis, il peut encore grossir !",
+  "description.bigOrange": "Un gros oranger : avec l'aide d'amis, il peut devenir encore plus gros !",
+  "description.bigBanana": "Un gros bananier - avec l'aide d'amis, il peut devenir encore plus gros !",
+  "description.giantOrange": "Waouh, une orange géante !",
+  "description.giantApple": "Cela éloignera le médecin !",
+  "description.giantBanana": "Cela arrêtera la circulation !",
+  "craft.with.friends": "Construisez avec des amis"
 }

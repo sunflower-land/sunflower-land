@@ -1158,9 +1158,9 @@
   "description.splendorFlag": "For players who have generously supported the Sunflorians, symbolizing their splendor in generosity.",
   "description.jellyLamp": "A lamp that brings a touch of luxury to any room.",
   "description.paintCan": "A paint can discovered in the festival of colors",
-  "description.bigApple": "It's not the big apple, it's a big apple! Gives 400 Love Charms when completed.",
-  "description.bigOrange": "A big Orange. Gives 200 Love Charms when completed.",
-  "description.bigBanana": "A big Banana. Gives 600 Love Charms when completed.",
+  "description.bigApple": "A big apple plant - with the help of friends it can grow even bigger!",
+  "description.bigOrange": "A big orange plant - with the help of friends it can grow even bigger!",
+  "description.bigBanana": "A big banana plant - with the help of friends it can grow even bigger!",
   "description.farmerMonument": "A monument to the farmers of Sunflower Land. +1% Love Charms when selling Big Orange, Big Banana or Big Apple when completed.",
   "description.woodcutterMonument": "A monument to the woodcutters of Sunflower Land. +3% Love Charms when selling Big Orange, Big Banana or Big Apple when completed.",
   "description.minerMonument": "A monument to the woodcutters of Sunflower Land. +6% Love Charms when selling Big Orange, Big Banana or Big Apple when completed.",
@@ -6374,5 +6374,9 @@
   "help.limitReached": "Limit reached.",
   "help.limitReached.description": "You can only help {{helpLimit}} friends per day.",
   "friendStreak": "Friend Streak: {{days}} days",
-  "friendStreak.short": "Streak: {{days}} days"
+  "friendStreak.short": "Streak: {{days}} days",
+  "description.giantOrange": "Wow, a giant orange!",
+  "description.giantApple": "That will keep the doctor away!",
+  "description.giantBanana": "That will stop the traffic!",
+  "craft.with.friends": "Build with friends"
 }

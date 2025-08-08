@@ -6240,9 +6240,6 @@
   "completed.monument": "Monumen Selesai",
   "playerModal.projectsInProgress": "Proyek-proyek yang sedang berjalan",
   "playerModal.noProjectsInProgress": "Tidak ada proyek yang sedang berjalan di peternakan ini",
-  "description.bigApple": "Ini bukan apel besar, itu apel besar! Memberikan 400 Pesona Cinta setelah selesai.",
-  "description.bigOrange": "Jeruk besar. Memberikan 200 Pesona Cinta setelah selesai.",
-  "description.bigBanana": "Pisang besar. Memberikan 600 Pesona Cinta setelah selesai.",
   "description.farmerMonument": "Sebuah monumen bagi para petani Tanah Bunga Matahari. +1% Cinta Pesona saat menjual Big Orange, Big Banana atau Big Apple saat selesai.",
   "description.woodcutterMonument": "Sebuah monumen untuk para penebang kayu Sunflower Land. +3% Cinta Pesona saat menjual Big Orange, Big Banana atau Big Apple saat selesai.",
   "description.minerMonument": "Sebuah monumen untuk para penebang kayu Sunflower Land. +6% Cinta Pesona saat menjual Big Orange, Big Banana atau Big Apple saat selesai.",
@@ -6374,5 +6371,12 @@
   "help.limitReached.description": "Anda hanya dapat membantu {{helpLimit}} teman per hari.",
   "dolls": "Boneka",
   "friendStreak": "Streak Teman: {{days}} hari",
-  "friendStreak.short": "Beruntun: {{days}} hari"
+  "friendStreak.short": "Beruntun: {{days}} hari",
+  "description.bigApple": "Tanaman apel besar - dengan bantuan teman, tanaman itu bisa tumbuh lebih besar!",
+  "description.bigOrange": "Tanaman jeruk besar - dengan bantuan teman, tanaman itu bisa tumbuh lebih besar!",
+  "description.bigBanana": "Tanaman pisang besar - dengan bantuan teman-teman itu bisa tumbuh lebih besar!",
+  "description.giantOrange": "Wow, jeruk raksasa!",
+  "description.giantApple": "Itu akan menjauhkan dokter!",
+  "description.giantBanana": "Itu akan menghentikan lalu lintas!",
+  "craft.with.friends": "Bangun dengan teman"
 }
