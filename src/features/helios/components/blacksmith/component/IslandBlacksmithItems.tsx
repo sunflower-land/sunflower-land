@@ -86,7 +86,7 @@ const DecorationLabel = ({
       <div className="flex items-center flex-col space-y-1">
         <Label type="default" icon={cheer}>
           {t("monument.requiredCheers", {
-            cheers: REQUIRED_CHEERS[selectedName as MonumentName],
+            cheers: REQUIRED_CHEERS(gameState)[selectedName as MonumentName],
           })}
         </Label>
         <Label type="default">

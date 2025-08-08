@@ -143,17 +143,23 @@ export type MonumentName =
   | LoveCharmMonumentName
   | MegastoreMonumentName;
 
-export const REQUIRED_CHEERS: Record<MonumentName, number> = {
-  "Big Orange": 50,
-  "Big Apple": 200,
-  "Big Banana": 1000,
-  "Basic Cooking Pot": 10,
-  "Expert Cooking Pot": 50,
-  "Advanced Cooking Pot": 100,
-  "Farmer's Monument": 100,
-  "Woodcutter's Monument": 1000,
-  "Miner's Monument": 10000,
-  "Teamwork Monument": 100,
+export const REQUIRED_CHEERS: (
+  game: GameState,
+) => Record<MonumentName, number> = (game) => {
+  const hasCheersV2 = hasFeatureAccess(game, "CHEERS_V2");
+
+  return {
+    "Big Orange": hasCheersV2 ? 25 : 50,
+    "Big Apple": hasCheersV2 ? 50 : 200,
+    "Big Banana": hasCheersV2 ? 200 : 1000,
+    "Basic Cooking Pot": 10,
+    "Expert Cooking Pot": 50,
+    "Advanced Cooking Pot": 100,
+    "Farmer's Monument": 100,
+    "Woodcutter's Monument": 1000,
+    "Miner's Monument": 10000,
+    "Teamwork Monument": 100,
+  };
 };
 
 const REWARD_ITEMS: Partial<
@@ -225,25 +231,25 @@ export function getMonumentBoostedAmount({
 
   if (
     (gameState.socialFarming.villageProjects["Farmer's Monument"]?.cheers ??
-      0) >= REQUIRED_CHEERS["Farmer's Monument"]
+      0) >= REQUIRED_CHEERS(gameState)["Farmer's Monument"]
   ) {
     base += amount * 0.01;
   }
   if (
     (gameState.socialFarming.villageProjects["Woodcutter's Monument"]?.cheers ??
-      0) >= REQUIRED_CHEERS["Woodcutter's Monument"]
+      0) >= REQUIRED_CHEERS(gameState)["Woodcutter's Monument"]
   ) {
     base += amount * 0.03;
   }
   if (
     (gameState.socialFarming.villageProjects["Miner's Monument"]?.cheers ??
-      0) >= REQUIRED_CHEERS["Miner's Monument"]
+      0) >= REQUIRED_CHEERS(gameState)["Miner's Monument"]
   ) {
     base += amount * 0.06;
   }
   if (
     (gameState.socialFarming.villageProjects["Teamwork Monument"]?.cheers ??
-      0) >= REQUIRED_CHEERS["Teamwork Monument"]
+      0) >= REQUIRED_CHEERS(gameState)["Teamwork Monument"]
   ) {
     base += amount * 0.1;
   }
@@ -271,7 +277,7 @@ export function getHelpRequired({ game }: { game: GameState }) {
       const hasHelped = !!game.socialFarming.villageProjects[project]?.helpedAt;
 
       const isComplete =
-        REQUIRED_CHEERS[project] <=
+        REQUIRED_CHEERS(game)[project] <=
         (game.socialFarming.villageProjects[project]?.cheers ?? 0);
 
       const isProjectPlaced =

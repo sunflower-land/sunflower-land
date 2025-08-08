@@ -146,7 +146,7 @@ export const CheerModal: React.FC<{
         </Label>
         <Label type="info" icon={cheer} className="ml-2 sm:ml-0">
           {t("kingdomChores.progress", {
-            progress: `${cheers}/${REQUIRED_CHEERS[project]}`,
+            progress: `${cheers}/${REQUIRED_CHEERS(gameService.getSnapshot().context.state)[project]}`,
           })}
         </Label>
       </div>
@@ -210,7 +210,8 @@ const ProjectModal: React.FC<{
     amount = getMonumentBoostedAmount({ gameState: state, amount });
   }
 
-  const isProjectComplete = cheers >= REQUIRED_CHEERS[project];
+  const isProjectComplete =
+    cheers >= REQUIRED_CHEERS(gameService.getSnapshot().context.state)[project];
 
   useEffect(() => {
     const winnerId = state.socialFarming.villageProjects[project]?.winnerId;
@@ -268,8 +269,13 @@ const ProjectModal: React.FC<{
             t("project.incomplete", {
               project,
               cheers,
-              requiredCheers: REQUIRED_CHEERS[project],
-              remaining: REQUIRED_CHEERS[project] - cheers,
+              requiredCheers: REQUIRED_CHEERS(
+                gameService.getSnapshot().context.state,
+              )[project],
+              remaining:
+                REQUIRED_CHEERS(gameService.getSnapshot().context.state)[
+                  project
+                ] - cheers,
             })}
         </span>
       </div>
@@ -427,7 +433,9 @@ export const Project: React.FC<ProjectProps> = (input) => {
   const username = useSelector(gameService, _username);
 
   const projectPercentage = Math.round(
-    (projectCheers / REQUIRED_CHEERS[input.project]) * 100,
+    (projectCheers /
+      REQUIRED_CHEERS(gameService.getSnapshot().context.state)[input.project]) *
+      100,
   );
   const isProjectComplete = projectPercentage >= 100;
 
@@ -622,7 +630,7 @@ export const Project: React.FC<ProjectProps> = (input) => {
             <SFTDetailPopoverLabel name={input.name} />
             <Label type="info" icon={cheer} className="ml-2 sm:ml-0">
               {t("cheers.progress", {
-                progress: `${projectCheers}/${REQUIRED_CHEERS[input.project]}`,
+                progress: `${projectCheers}/${REQUIRED_CHEERS(gameService.getSnapshot().context.state)[input.project]}`,
               })}
             </Label>
           </SFTDetailPopoverInnerPanel>

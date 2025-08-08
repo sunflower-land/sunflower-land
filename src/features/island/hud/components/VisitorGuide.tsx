@@ -254,7 +254,7 @@ export const VisitorGuide: React.FC<VisitorGuideProps> = ({ onClose }) => {
               !!collectibles[monument]?.some((item) => !!item.coordinates) &&
               // Ensures that the monument hasn't been completed
               (villageProjects[monument]?.cheers ?? 0) <
-                REQUIRED_CHEERS[monument],
+                REQUIRED_CHEERS(gameState.context.visitorState!)[monument],
           )
           .map((monument) => {
             const hasCheered = _hasCheeredToday(monument)(gameState);
