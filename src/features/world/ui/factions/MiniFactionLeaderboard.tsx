@@ -61,18 +61,14 @@ export const MiniFactionLeaderboard: React.FC<LeaderboardProps> = ({
         {data.farmRankingDetails && (
           <div className="space-y-1.5">
             <Label type="info">{t("leaderboard.yourPosition")}</Label>
-            <TicketTable
-              showHeader={true}
-              rankings={data.farmRankingDetails}
-              id={id}
-            />
+            <TicketTable showHeader={true} rankings={data.farmRankingDetails} />
           </div>
         )}
 
         {topTen && (
           <div className="space-y-1.5">
             <Label type="info">{t("leaderboard.topTen")}</Label>
-            <TicketTable rankings={topTen} id={id} />
+            <TicketTable rankings={topTen} />
           </div>
         )}
         <div className="flex justify-end">

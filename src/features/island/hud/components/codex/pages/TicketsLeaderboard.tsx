@@ -40,17 +40,13 @@ export const TicketsLeaderboard: React.FC<LeaderboardProps> = ({
           {t("last.updated")} {getRelativeTime(data.lastUpdated)}
         </p>
       </div>
-      {data.topTen && <TicketTable rankings={data.topTen} id={id} />}
+      {data.topTen && <TicketTable rankings={data.topTen} />}
       {data.farmRankingDetails && (
         <>
           <div className="flex justify-center items-center">
             <p className="mb-[13px]">{"..."}</p>
           </div>
-          <TicketTable
-            showHeader={false}
-            rankings={data.farmRankingDetails}
-            id={id}
-          />
+          <TicketTable showHeader={false} rankings={data.farmRankingDetails} />
         </>
       )}
     </div>

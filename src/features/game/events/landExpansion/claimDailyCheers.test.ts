@@ -26,6 +26,10 @@ describe("claimDailyCheers", () => {
           expiresAt: now + 24 * 60 * 60 * 1000,
         },
         socialFarming: {
+          weeklyPoints: {
+            points: 0,
+            week: "2025-08-04",
+          },
           points: 0,
           villageProjects: {},
           cheersGiven: {
