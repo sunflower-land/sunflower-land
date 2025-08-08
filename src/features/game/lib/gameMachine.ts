@@ -1714,7 +1714,9 @@ export function startGame(authContext: AuthContext) {
               },
               {
                 target: "calendarEvent",
-                cond: (_, event) => {
+                cond: (context, event) => {
+                  if (context.visitorState) return false;
+
                   const game = event.data.farm;
 
                   const activeEvent = getActiveCalendarEvent({
