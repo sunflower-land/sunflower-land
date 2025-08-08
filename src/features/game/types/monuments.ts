@@ -108,7 +108,7 @@ export const WORKBENCH_MONUMENTS: (
       description: "",
       coins: 0,
       ingredients: {
-        Gem: new Decimal(hasCheersV2 ? 500 : 300),
+        Gem: new Decimal(hasCheersV2 ? 200 : 300),
       },
     },
     "Basic Cooking Pot": {
