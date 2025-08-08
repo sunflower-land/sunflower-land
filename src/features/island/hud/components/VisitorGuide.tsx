@@ -247,7 +247,7 @@ export const VisitorGuide: React.FC<VisitorGuideProps> = ({ onClose }) => {
           );
         })}
 
-        {getKeys(WORKBENCH_MONUMENTS)
+        {getKeys(WORKBENCH_MONUMENTS(gameState.context.visitorState!))
           .filter(
             (monument) =>
               // Ensures the monument is placed with Coordinates

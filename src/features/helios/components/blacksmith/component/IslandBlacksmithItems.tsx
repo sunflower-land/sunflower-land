@@ -64,7 +64,7 @@ const DecorationLabel = ({
 }) => {
   const { t } = useAppTranslation();
 
-  const isMonument = selectedName in WORKBENCH_MONUMENTS;
+  const isMonument = selectedName in WORKBENCH_MONUMENTS(gameState);
   const isLoveCharmMonument = selectedName in LOVE_CHARM_MONUMENTS;
 
   const hasBuiltMonument = () => {
@@ -127,7 +127,7 @@ export const IslandBlacksmithItems: React.FC = () => {
   const lessCoins = () => coins < (selectedItem?.coins ?? 0);
 
   const craft = () => {
-    if (selectedName in WORKBENCH_MONUMENTS) {
+    if (selectedName in WORKBENCH_MONUMENTS(state)) {
       gameService.send("LANDSCAPE", {
         placeable: selectedName,
         action: "monument.bought",

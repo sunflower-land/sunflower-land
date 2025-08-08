@@ -333,7 +333,7 @@ export const Chest: React.FC<Props> = ({
     (name) => name in WEATHER_SHOP_ITEM_COSTS,
   );
   const monuments = getKeys(collectibles).filter(
-    (name) => name in WORKBENCH_MONUMENTS,
+    (name) => name in WORKBENCH_MONUMENTS(state),
   );
 
   const dolls = getKeys(collectibles).filter((name) => name in DOLLS);

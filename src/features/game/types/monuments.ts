@@ -80,59 +80,62 @@ export const LOVE_CHARM_MONUMENTS: Record<
   },
 };
 
-export const WORKBENCH_MONUMENTS: Record<
-  WorkbenchMonumentName,
-  LandscapingMonument
-> = {
-  ...LOVE_CHARM_MONUMENTS,
-  "Big Orange": {
-    name: "Big Orange",
-    description: "",
-    coins: 0,
-    ingredients: {
-      Gem: new Decimal(100),
+export const WORKBENCH_MONUMENTS: (
+  game: GameState,
+) => Record<WorkbenchMonumentName, LandscapingMonument> = (game) => {
+  const hasCheersV2 = hasFeatureAccess(game, "CHEERS_V2");
+
+  return {
+    ...LOVE_CHARM_MONUMENTS,
+    "Big Orange": {
+      name: "Big Orange",
+      description: "",
+      coins: 0,
+      ingredients: {
+        Gem: new Decimal(hasCheersV2 ? 500 : 100),
+      },
     },
-  },
-  "Big Apple": {
-    name: "Big Apple",
-    description: "",
-    coins: 0,
-    ingredients: {
-      Gem: new Decimal(200),
+    "Big Apple": {
+      name: "Big Apple",
+      description: "",
+      coins: 0,
+      ingredients: {
+        Gem: new Decimal(hasCheersV2 ? 100 : 200),
+      },
     },
-  },
-  "Big Banana": {
-    name: "Big Banana",
-    description: "",
-    coins: 0,
-    ingredients: {
-      Gem: new Decimal(300),
+    "Big Banana": {
+      name: "Big Banana",
+      description: "",
+      coins: 0,
+      ingredients: {
+        Gem: new Decimal(hasCheersV2 ? 500 : 300),
+      },
     },
-  },
-  "Basic Cooking Pot": {
-    name: "Basic Cooking Pot",
-    description: "",
-    coins: 0,
-    ingredients: {
-      Gem: new Decimal(10),
+    "Basic Cooking Pot": {
+      name: "Basic Cooking Pot",
+      description: "",
+      coins: 0,
+      ingredients: {
+        Gem: new Decimal(10),
+      },
     },
-  },
-  "Expert Cooking Pot": {
-    name: "Expert Cooking Pot",
-    description: "",
-    coins: 0,
-    ingredients: {
-      Gem: new Decimal(50),
+    "Expert Cooking Pot": {
+      name: "Expert Cooking Pot",
+      description: "",
+      coins: 0,
+      ingredients: {
+        Gem: new Decimal(50),
+      },
     },
-  },
-  "Advanced Cooking Pot": {
-    name: "Advanced Cooking Pot",
-    description: "",
-    coins: 0,
-    ingredients: {
-      Gem: new Decimal(100),
+    "Advanced Cooking Pot": {
+      name: "Advanced Cooking Pot",
+      description: "",
+      coins: 0,
+      ingredients: {
+        Gem: new Decimal(hasCheersV2 ? 500 : 100),
+      },
     },
-  },
+  } as Record<WorkbenchMonumentName, LandscapingMonument>;
 };
 
 export type MonumentName =

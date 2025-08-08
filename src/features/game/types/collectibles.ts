@@ -4,6 +4,7 @@ import { translate } from "lib/i18n/translate";
 import { SEASONS } from "./seasons";
 import { ExoticCropName } from "./beans";
 import { WORKBENCH_MONUMENTS, WorkbenchMonumentName } from "./monuments";
+import { INITIAL_FARM } from "../lib/constants";
 
 export type PlaceableLocation = "farm" | "home";
 
@@ -314,7 +315,7 @@ export const HELIOS_BLACKSMITH_ITEMS: (
     coins: 15000,
     ingredients: {},
   },
-  ...WORKBENCH_MONUMENTS,
+  ...WORKBENCH_MONUMENTS(state ?? INITIAL_FARM),
 });
 
 export const ARTEFACT_SHOP_KEYS: Record<Keys, CraftableCollectible> = {
