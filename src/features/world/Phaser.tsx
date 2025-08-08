@@ -28,7 +28,6 @@ import {
 import { Context } from "features/game/GameProvider";
 import { Modal } from "components/ui/Modal";
 import { InnerPanel, Panel } from "components/ui/Panel";
-import { WoodlandsScene } from "./scenes/WoodlandsScene";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Preloader } from "./scenes/Preloader";
 import { EquipBumpkinAction } from "features/game/events/landExpansion/equip";
@@ -130,7 +129,6 @@ export const PhaserComponent: React.FC<Props> = ({ mmoService, route }) => {
 
   const scenes = [
     Preloader,
-    new WoodlandsScene({ gameState: state }),
     BeachScene,
     PlazaScene,
     RetreatScene,
