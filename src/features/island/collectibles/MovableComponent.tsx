@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import classNames from "classnames";
 
 import {
@@ -23,6 +29,7 @@ import {
 import {
   BUILDINGS_DIMENSIONS,
   BuildingName,
+  Dimensions,
 } from "features/game/types/buildings";
 import { GameEventName, PlacementEvent } from "features/game/events";
 import { RESOURCES, ResourceName } from "features/game/types/resources";
@@ -39,6 +46,7 @@ import { HourglassType } from "./components/Hourglass";
 import { HOURGLASSES } from "features/game/events/landExpansion/burnCollectible";
 import flipped from "assets/icons/flipped.webp";
 import flipIcon from "assets/icons/flip.webp";
+import debounce from "lodash.debounce";
 
 export const RESOURCE_MOVE_EVENTS: Record<
   ResourceName,
@@ -158,12 +166,33 @@ export interface MovableProps {
 
 const getMovingItem = (state: MachineState) => state.context.moving;
 
+const onDrag = (
+  data: Coordinates,
+  coordinatesX: number,
+  coordinatesY: number,
+  detect: (coordinates: Coordinates) => void,
+  setIsDragging: (isDragging: boolean) => void,
+  setPosition: (position: Coordinates) => void,
+) => {
+  const xDiff = Math.round(data.x / GRID_WIDTH_PX);
+  const yDiff = Math.round(-data.y / GRID_WIDTH_PX);
+
+  const x = coordinatesX + xDiff;
+  const y = coordinatesY + yDiff;
+  detect({ x, y });
+  setIsDragging(true);
+
+  setPosition({
+    x: xDiff * GRID_WIDTH_PX,
+    y: -yDiff * GRID_WIDTH_PX,
+  });
+};
+
 export const MoveableComponent: React.FC<
   React.PropsWithChildren<MovableProps>
 > = ({
   name,
   id,
-  index,
   x: coordinatesX,
   y: coordinatesY,
   children,
@@ -177,6 +206,11 @@ export const MoveableComponent: React.FC<
   const [isColliding, setIsColliding] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [counts, setCounts] = useState(0);
+  const [position, setPosition] = useState<Coordinates>({
+    x: 0,
+    y: 0,
+  });
+
   const isActive = useRef(false);
   const [showRemoveConfirmation, setShowRemoveConfirmation] = useState(false);
 
@@ -191,27 +225,6 @@ export const MoveableComponent: React.FC<
   const hasRemovalAction = !!removeAction;
 
   const hasFlipAction = !isMobile && isCollectible(name);
-
-  /**
-   * Deselect if clicked outside of element
-   */
-  // https://stackoverflow.com/questions/32553158/detect-click-outside-react-component
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (
-        isSelected &&
-        (event as any).target.id === "genesisBlock" &&
-        nodeRef.current &&
-        !(nodeRef.current as any).contains(event.target)
-      ) {
-        landscapingMachine.send("BLUR");
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [nodeRef, isSelected]);
 
   const flip = () => {
     if (isCollectible(name)) {
@@ -254,9 +267,10 @@ export const MoveableComponent: React.FC<
       setCounts((prev) => prev + 1);
       setIsColliding(false);
       setShowRemoveConfirmation(false);
+      setPosition({ x: 0, y: 0 });
       isActive.current = false;
     }
-  }, [movingItem]);
+  }, [isSelected, movingItem]);
 
   const dimensions = {
     ...BUILDINGS_DIMENSIONS,
@@ -283,52 +297,30 @@ export const MoveableComponent: React.FC<
     // send({ type: "UPDATE", coordinates: { x, y }, collisionDetected });
   };
 
-  const origin = useRef<Coordinates>({ x: 0, y: 0 });
-
-  return (
-    <Draggable
-      key={`${coordinatesX}-${coordinatesY}-${counts}`}
-      nodeRef={nodeRef}
-      grid={[GRID_WIDTH_PX * scale.get(), GRID_WIDTH_PX * scale.get()]}
-      scale={scale.get()}
-      allowAnyClick
-      // Mobile must click first, before dragging
-      disabled={isMobile && !isSelected}
-      onMouseDown={() => {
-        // Mobile must click first, before dragging
-
-        if (isMobile && !isActive.current) {
-          isActive.current = true;
-
-          return;
-        }
-
-        landscapingMachine.send("MOVE", { name, id });
-
-        isActive.current = true;
-      }}
-      onStart={(_, data) => {
-        const x = Math.round(data.x);
-        const y = Math.round(-data.y);
-
-        if (!origin.current) {
-          origin.current = { x, y };
-        }
-      }}
-      onDrag={(_, data) => {
-        const xDiff = Math.round((origin.current.x + data.x) / GRID_WIDTH_PX);
-        const yDiff = Math.round((origin.current.y - data.y) / GRID_WIDTH_PX);
-
-        const x = coordinatesX + xDiff;
-        const y = coordinatesY + yDiff;
-        detect({ x, y });
-        setIsDragging(true);
-      }}
-      onStop={(_, data) => {
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const onStop = useCallback(
+    debounce(
+      ({
+        data,
+        coordinatesX,
+        coordinatesY,
+        id,
+        name,
+        location,
+        dimensions,
+      }: {
+        data: Coordinates;
+        coordinatesX: number;
+        coordinatesY: number;
+        id: string;
+        name: CollectibleName | BuildingName | "Chicken" | "Bud";
+        location: PlaceableLocation;
+        dimensions: Dimensions;
+      }) => {
         setIsDragging(false);
 
-        const xDiff = Math.round((origin.current.x + data.x) / GRID_WIDTH_PX);
-        const yDiff = Math.round((origin.current.y - data.y) / GRID_WIDTH_PX);
+        const xDiff = Math.round(data.x / GRID_WIDTH_PX);
+        const yDiff = Math.round(-data.y / GRID_WIDTH_PX);
 
         const x = coordinatesX + xDiff;
         const y = coordinatesY + yDiff;
@@ -356,6 +348,7 @@ export const MoveableComponent: React.FC<
         });
 
         if (!collisionDetected) {
+          setPosition({ x: 0, y: 0 });
           gameService.send(getMoveAction(name), {
             // Don't send name for resource events and Bud events
             ...(name in RESOURCE_MOVE_EVENTS || name === "Bud" ? {} : { name }),
@@ -365,7 +358,196 @@ export const MoveableComponent: React.FC<
             location: name in RESOURCE_MOVE_EVENTS ? undefined : location,
           });
         }
+      },
+      500,
+      {
+        leading: false,
+        trailing: true,
+      },
+    ),
+    [],
+  );
+
+  /**
+   * Deselect if clicked outside of element
+   */
+  // https://stackoverflow.com/questions/32553158/detect-click-outside-react-component
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        isSelected &&
+        (event as any).target.id === "genesisBlock" &&
+        nodeRef.current &&
+        !(nodeRef.current as any).contains(event.target)
+      ) {
+        landscapingMachine.send("BLUR");
+        setPosition({ x: 0, y: 0 });
+        onStop.flush();
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+  }, [nodeRef, isSelected, landscapingMachine, onStop]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "ArrowUp") {
+        const newPosition = {
+          x: position.x,
+          y: position.y - GRID_WIDTH_PX,
+        };
+        onDrag(
+          newPosition,
+          coordinatesX,
+          coordinatesY,
+          detect,
+          setIsDragging,
+          setPosition,
+        );
+        onStop({
+          data: newPosition,
+          coordinatesX,
+          coordinatesY,
+          id,
+          name,
+          location,
+          dimensions,
+        });
+        e.preventDefault();
+      } else if (e.key === "ArrowDown") {
+        const newPosition = {
+          x: position.x,
+          y: position.y + GRID_WIDTH_PX,
+        };
+        onDrag(
+          newPosition,
+          coordinatesX,
+          coordinatesY,
+          detect,
+          setIsDragging,
+          setPosition,
+        );
+        onStop({
+          data: newPosition,
+          coordinatesX,
+          coordinatesY,
+          id,
+          name,
+          location,
+          dimensions,
+        });
+        e.preventDefault();
+      } else if (e.key === "ArrowLeft") {
+        const newPosition = {
+          x: position.x - GRID_WIDTH_PX,
+          y: position.y,
+        };
+        onDrag(
+          newPosition,
+          coordinatesX,
+          coordinatesY,
+          detect,
+          setIsDragging,
+          setPosition,
+        );
+        onStop({
+          data: newPosition,
+          coordinatesX,
+          coordinatesY,
+          id,
+          name,
+          location,
+          dimensions,
+        });
+        e.preventDefault();
+      } else if (e.key === "ArrowRight") {
+        const newPosition = {
+          x: position.x + GRID_WIDTH_PX,
+          y: position.y,
+        };
+        onDrag(
+          newPosition,
+          coordinatesX,
+          coordinatesY,
+          detect,
+          setIsDragging,
+          setPosition,
+        );
+        onStop({
+          data: newPosition,
+          coordinatesX,
+          coordinatesY,
+          id,
+          name,
+          location,
+          dimensions,
+        });
+        e.preventDefault();
+      }
+    };
+    if (isSelected) {
+      window.addEventListener("keydown", handleKeyDown);
+    }
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [
+    coordinatesX,
+    coordinatesY,
+    detect,
+    dimensions,
+    id,
+    isSelected,
+    location,
+    name,
+    onStop,
+    position,
+  ]);
+
+  return (
+    <Draggable
+      key={`${coordinatesX}-${coordinatesY}-${counts}`}
+      nodeRef={nodeRef}
+      grid={[GRID_WIDTH_PX * scale.get(), GRID_WIDTH_PX * scale.get()]}
+      scale={scale.get()}
+      allowAnyClick
+      // Mobile must click first, before dragging
+      disabled={isMobile && !isSelected}
+      onMouseDown={() => {
+        // Mobile must click first, before dragging
+
+        if (isMobile && !isActive.current) {
+          isActive.current = true;
+
+          return;
+        }
+
+        landscapingMachine.send("MOVE", { name, id });
+
+        isActive.current = true;
       }}
+      onDrag={(_, data) =>
+        onDrag(
+          data,
+          coordinatesX,
+          coordinatesY,
+          detect,
+          setIsDragging,
+          setPosition,
+        )
+      }
+      onStop={(_, data) =>
+        onStop({
+          data,
+          coordinatesX,
+          coordinatesY,
+          id,
+          name,
+          location,
+          dimensions,
+        })
+      }
+      position={position}
     >
       <div
         ref={nodeRef}
