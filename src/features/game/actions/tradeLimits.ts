@@ -80,7 +80,7 @@ export const TRADE_LIMITS: Partial<Record<TradeResource, number>> = {
   Honey: 100,
   Milk: 100,
   Leather: 100,
-  Wool: 100,
+  Wool: 1000,
   "Merino Wool": 100,
   ...EMBLEM_TRADE_LIMITS,
 };
