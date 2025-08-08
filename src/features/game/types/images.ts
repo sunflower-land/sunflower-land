@@ -5723,4 +5723,16 @@ export const ITEM_DETAILS: Items = {
     image: poseidon,
     description: translate("description.poseidon"),
   },
+  "Giant Orange": {
+    image: bigOrange,
+    description: translate("description.giantOrange"),
+  },
+  "Giant Apple": {
+    image: bigApple,
+    description: translate("description.giantApple"),
+  },
+  "Giant Banana": {
+    image: bigBanana,
+    description: translate("description.giantBanana"),
+  },
 };

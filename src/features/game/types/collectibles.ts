@@ -426,7 +426,7 @@ export const POTION_HOUSE_ITEMS: Record<PotionHouseItemName, PotionHouseItem> =
   };
 
 export const POTION_HOUSE_EXOTIC_CROPS: Record<
-  ExoticCropName,
+  Exclude<ExoticCropName, "Giant Orange" | "Giant Apple" | "Giant Banana">,
   PotionHouseItem
 > = {
   "Black Magic": {
