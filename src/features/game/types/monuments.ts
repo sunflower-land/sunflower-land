@@ -271,6 +271,12 @@ export function getHelpRequired({ game }: { game: GameState }) {
         REQUIRED_CHEERS[project] <=
         (game.socialFarming.villageProjects[project]?.cheers ?? 0);
 
+      const isProjectPlaced =
+        game.collectibles?.[project]?.some((item) => !!item.coordinates) ??
+        false;
+
+      if (!isProjectPlaced) return;
+
       return !hasHelped && !isComplete;
     },
   );
