@@ -39,12 +39,9 @@ import { FollowsIndicator } from "./components/FollowsIndicator";
 import { FollowList } from "./components/FollowList";
 import { useFeed } from "./FeedContext";
 import { useOnMachineTransition } from "lib/utils/hooks/useOnMachineTransition";
-<<<<<<< HEAD
 import { Button } from "components/ui/Button";
-=======
 import socialPointsIcon from "assets/icons/social_score.webp";
 import { discoveryModalManager } from "./lib/discoveryModalManager";
->>>>>>> 442695dd2 ([WIP] leaderboard)
 
 type Props = {
   type: "world" | "local";
