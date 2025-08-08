@@ -252,7 +252,11 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           <ExampleDonations onClose={closeModal} />
         </CloseButtonPanel>
       </Modal>
-      {interactable === "potion_table" && <PotionHouse onClose={closeModal} />}
+      <Modal show={interactable === "potion_table"} onHide={closeModal}>
+        {interactable === "potion_table" && (
+          <PotionHouse onClose={closeModal} />
+        )}
+      </Modal>
       <Modal show={interactable === "boat_modal"} onHide={closeModal}>
         <BoatModal
           isOpen={interactable === "boat_modal"}
