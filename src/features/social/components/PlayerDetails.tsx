@@ -249,7 +249,7 @@ export const PlayerDetails: React.FC<Props> = ({
                         type="warning"
                         icon={ITEM_DETAILS["Love Charm"].image}
                       >
-                        {`+1 Social Point`}
+                        {`+3 Social Point`}
                       </Label>
                       {hasVipAccess({
                         game: gameService.getSnapshot().context.state,
