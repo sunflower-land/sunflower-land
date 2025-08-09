@@ -39,6 +39,7 @@ import {
   getHelpRequired,
   hasHelpedFarmToday,
 } from "features/game/types/monuments";
+import { hasHitHelpLimit } from "features/game/events/landExpansion/increaseHelpLimit";
 
 const _cheers = (state: MachineState) => {
   return state.context.visitorState?.inventory["Cheer"] ?? new Decimal(0);
@@ -80,6 +81,14 @@ export const VisitingHud: React.FC = () => {
   });
 
   const [showVisitorGuide, setShowVisitorGuide] = useState(() => {
+    const hasHitLimit = hasHitHelpLimit({
+      game: gameState.context.visitorState!,
+    });
+
+    if (hasHitLimit) {
+      return true;
+    }
+
     // Check if user has already acknowledged the visitor guide
     const hasAcknowledged =
       localStorage.getItem("visitorGuideAcknowledged") === "true";
