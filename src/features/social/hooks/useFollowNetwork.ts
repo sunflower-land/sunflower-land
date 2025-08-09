@@ -8,23 +8,25 @@ export const useFollowNetwork = (
   token: string,
   loggedInFarmId: number,
   networkFarmId: number,
+  networkType: "followers" | "following",
 ) => {
   const getKey = (
     pageIndex: number,
     previousPageData: FollowNetworkDetails | null,
   ) => {
-    if (pageIndex === 0) return `followNetworkDetails-${networkFarmId}-0`;
+    if (pageIndex === 0)
+      return `followNetworkDetails-${networkType}-${networkFarmId}-0`;
 
     if (!previousPageData?.data?.nextCursor) return null;
 
-    return `followNetworkDetails-${networkFarmId}-${previousPageData.data.nextCursor}`;
+    return `followNetworkDetails-${networkType}-${networkFarmId}-${previousPageData.data.nextCursor}`;
   };
 
   const { data, size, error, setSize, isValidating, mutate } = useSWRInfinite(
     getKey,
     (key) => {
       const parts = key.split("-");
-      const cursor = parts[2];
+      const cursor = parts[3];
       const nextCursor = cursor === "0" ? 0 : Number(cursor);
 
       return getFollowNetworkDetails({
@@ -32,6 +34,7 @@ export const useFollowNetwork = (
         farmId: loggedInFarmId,
         networkFarmId,
         nextCursor,
+        networkType,
       });
     },
     {

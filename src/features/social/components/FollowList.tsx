@@ -17,9 +17,9 @@ type Props = {
   networkFarmId: number;
   networkList: number[];
   networkCount: number;
+  networkType: "followers" | "following";
   playerLoading?: boolean;
   showLabel?: boolean;
-  type: "followers" | "following";
   scrollContainerRef: React.RefObject<HTMLDivElement>;
   navigateToPlayer: (playerId: number) => void;
 };
@@ -32,7 +32,7 @@ export const FollowList: React.FC<Props> = ({
   networkCount,
   playerLoading,
   showLabel = true,
-  type,
+  networkType,
   scrollContainerRef,
   navigateToPlayer,
 }) => {
@@ -59,7 +59,7 @@ export const FollowList: React.FC<Props> = ({
     error,
     loadMore,
     mutate,
-  } = useFollowNetwork(token, loggedInFarmId, networkFarmId);
+  } = useFollowNetwork(token, loggedInFarmId, networkFarmId, networkType);
 
   useEffect(() => {
     const el = scrollContainerRef.current;
@@ -90,7 +90,7 @@ export const FollowList: React.FC<Props> = ({
         <div className="sticky top-0 bg-brown-200 z-10 pb-1">
           {showLabel && (
             <Label type="default">
-              {t(`playerModal.${type}`, { count: networkCount })}
+              {t(`playerModal.${networkType}`, { count: networkCount })}
             </Label>
           )}
         </div>
@@ -107,7 +107,7 @@ export const FollowList: React.FC<Props> = ({
           <div className="sticky top-0 bg-brown-200 z-10 pb-1">
             {showLabel && (
               <Label type="default">
-                {t(`playerModal.${type}`, { count: networkCount })}
+                {t(`playerModal.${networkType}`, { count: networkCount })}
               </Label>
             )}
           </div>
@@ -124,11 +124,11 @@ export const FollowList: React.FC<Props> = ({
         <div className="sticky top-0 bg-brown-200 z-10 pb-1">
           {showLabel && (
             <Label type="default">
-              {t(`playerModal.${type}`, { count: networkCount })}
+              {t(`playerModal.${networkType}`, { count: networkCount })}
             </Label>
           )}
         </div>
-        <div className="text-xs">{t(`playerModal.no.${type}`)}</div>
+        <div className="text-xs">{t(`playerModal.no.${networkType}`)}</div>
       </div>
     );
   }
@@ -138,34 +138,30 @@ export const FollowList: React.FC<Props> = ({
       <div className="sticky -top-1 bg-brown-200 z-10 pb-1 pt-1">
         {showLabel && (
           <Label type="default">
-            {t(`playerModal.${type}`, { count: networkCount })}
+            {t(`playerModal.${networkType}`, { count: networkCount })}
           </Label>
         )}
       </div>
       <div className="flex flex-col gap-1">
-        {networkList.map((followId) => {
-          const details = network.find((detail) => detail.id === followId);
-
-          if (!details) return null;
-
+        {network.map((detail) => {
           const friendStreak = getHelpStreak({
             farm: gameService.state.context.state.socialFarming.helped?.[
-              followId
+              detail.id
             ],
           });
 
           return (
             <FollowDetailPanel
-              key={`flw-${details.id}`}
+              key={`flw-${detail.id}`}
               loggedInFarmId={loggedInFarmId}
-              playerId={details.id}
-              clothing={details.clothing as Equipped}
-              username={details.username ?? ""}
-              lastOnlineAt={details.lastUpdatedAt ?? 0}
+              playerId={detail.id}
+              clothing={detail.clothing as Equipped}
+              username={detail.username ?? ""}
+              lastOnlineAt={detail.lastUpdatedAt ?? 0}
               navigateToPlayer={navigateToPlayer}
-              projects={details.projects ?? {}}
-              socialPoints={details.socialPoints ?? 0}
-              haveCleanedToday={!!details.cleanedToday}
+              projects={detail.projects ?? {}}
+              socialPoints={detail.socialPoints ?? 0}
+              haveCleanedToday={!!detail.cleanedToday}
               friendStreak={friendStreak}
             />
           );

@@ -399,7 +399,7 @@ export const PlayerDetails: React.FC<Props> = ({
           <div className="flex flex-col gap-1 px-1 w-full ml-1 pt-0">
             <div className="flex items-center justify-between">
               <FollowsIndicator
-                count={data?.data?.followedByCount ?? 0}
+                count={data?.data?.followedBy?.length ?? 0}
                 onClick={onFollowersClick}
                 type="followers"
               />

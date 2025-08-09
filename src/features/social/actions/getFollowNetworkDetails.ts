@@ -7,6 +7,7 @@ type Request = {
   farmId: number;
   networkFarmId: number;
   nextCursor: number | null;
+  networkType: "followers" | "following";
 };
 
 export type Detail = {
@@ -32,8 +33,9 @@ export const getFollowNetworkDetails = async ({
   farmId,
   networkFarmId,
   nextCursor,
+  networkType,
 }: Request): Promise<FollowNetworkDetails> => {
-  const url = `${CONFIG.API_URL}/data?type=followNetworkDetails&networkFarmId=${networkFarmId}&farmId=${farmId}&nextCursor=${nextCursor}`;
+  const url = `${CONFIG.API_URL}/data?type=followNetworkDetails&networkFarmId=${networkFarmId}&networkType=${networkType}&farmId=${farmId}&nextCursor=${nextCursor}`;
 
   const res = await fetch(url, {
     headers: {

@@ -292,7 +292,7 @@ export const Feed: React.FC<Props> = ({
               networkList={following}
               networkCount={following.length}
               showLabel={false}
-              type="following"
+              networkType="following"
               scrollContainerRef={scrollContainerRef}
               navigateToPlayer={handleFollowingClick}
             />
