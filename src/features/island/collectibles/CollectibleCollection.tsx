@@ -2714,7 +2714,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
     <Project
       {...props}
       divStyle={{
-        width: `${PIXEL_SCALE * 48}px`,
+        width: `${PIXEL_SCALE * 32}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
         left: `${PIXEL_SCALE * 0}px`,
       }}
@@ -2729,7 +2729,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
     <Project
       {...props}
       divStyle={{
-        width: `${PIXEL_SCALE * 48}px`,
+        width: `${PIXEL_SCALE * 32}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
         left: `${PIXEL_SCALE * 0}px`,
       }}
@@ -2744,7 +2744,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
     <Project
       {...props}
       divStyle={{
-        width: `${PIXEL_SCALE * 48}px`,
+        width: `${PIXEL_SCALE * 32}px`,
         bottom: `${PIXEL_SCALE * 0}px`,
         left: `${PIXEL_SCALE * 0}px`,
       }}
