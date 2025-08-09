@@ -443,12 +443,11 @@ export const Project: React.FC<ProjectProps> = (input) => {
   );
   const username = useSelector(gameService, _username);
 
-  const projectPercentage = Math.round(
-    (projectCheers /
-      REQUIRED_CHEERS(gameService.getSnapshot().context.state)[input.project]) *
-      100,
-  );
-  const isProjectComplete = projectPercentage >= 100;
+  const requiredCheers = REQUIRED_CHEERS(
+    gameService.getSnapshot().context.state,
+  )[input.project];
+  const projectPercentage = Math.round((projectCheers / requiredCheers) * 100);
+  const isProjectComplete = projectCheers >= requiredCheers;
 
   const today = new Date().toISOString().split("T")[0];
   const tomorrow = new Date(new Date().setDate(new Date().getDate() + 1))
