@@ -6318,7 +6318,7 @@
   "news.betterTogether.mutants": "Discover mutants and other chapter-exclusive NFTs.",
   "project.completed": "Congratulations! The {{project}} is complete! Completing the project will remove the project from your land and allow you to build a new one.",
   "monument.completed": "Congratulations! The {{project}} is complete! Each unique completed monument gives +1 Love Charm each time a Big Orange, Big Banana or Big Apple is completed.",
-  "project.incomplete": "The {{project}} has {{cheers}}/{{requiredCheers}} cheers. {{remaining}} to go!",
+  "project.incomplete": "The {{project}} needs {{cheers}}/{{requiredCheers}} help from friends. Invite your friends to visit your farm and help you.",
   "farmersMonument.boost": "+1% Love Charms when selling Big Orange, Big Banana or Big Apple",
   "woodcuttersMonument.boost": "+3% Love Charms when selling Big Orange, Big Banana or Big Apple",
   "minersMonument.boost": "+6% Love Charms when selling Big Orange, Big Banana or Big Apple",
@@ -6378,5 +6378,8 @@
   "description.giantOrange": "Wow, a giant orange!",
   "description.giantApple": "That will keep the doctor away!",
   "description.giantBanana": "That will stop the traffic!",
-  "craft.with.friends": "Build with friends"
+  "craft.with.friends": "Build with friends",
+  "instaGrow": "Insta Grow",
+  "instaGrow.description": "Tired of waiting? Use the power of Obsidian to insta-grow the {{project}}",
+  "instaGrow.confirmation": "Are you sure you want to insta-grow the {{project}} for {{amount}} Obsidian"
 }

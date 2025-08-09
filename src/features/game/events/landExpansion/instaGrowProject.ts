@@ -14,7 +14,7 @@ type Options = {
   createdAt?: number;
 };
 
-const INSTA_GROW_PRICES: Partial<Record<MonumentName, number>> = {
+export const INSTA_GROW_PRICES: Partial<Record<MonumentName, number>> = {
   "Big Orange": 1,
   "Big Apple": 1,
   "Big Banana": 1,
