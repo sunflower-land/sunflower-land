@@ -6308,7 +6308,6 @@
   "bin.increaseLimit": "Tingkatkan Batas (+30)",
   "bin.cantWait.description": "Tingkatkan batas sampah yang dapat Anda ambil hari ini.",
   "bin.increaseLimit.description": "Apakah Anda yakin ingin meningkatkan batas? Ini akan diatur ulang setiap hari.",
-  "project.incomplete": "{{project}} memiliki {{cheers}}/{{requiredCheers}} sorakan. {{remaining}} untuk pergi!",
   "description.desertgnome.boost": "-10% Waktu Memasak",
   "description.solAndLuna.boost": "-50% Waktu Kotak Kerajinan",
   "description.groovy.gramophone.boost": "-50% Waktu Pertumbuhan di Mesin Tanaman",
@@ -6378,5 +6377,9 @@
   "description.giantOrange": "Wow, jeruk raksasa!",
   "description.giantApple": "Itu akan menjauhkan dokter!",
   "description.giantBanana": "Itu akan menghentikan lalu lintas!",
-  "craft.with.friends": "Bangun dengan teman"
+  "craft.with.friends": "Bangun dengan teman",
+  "project.incomplete": "{{project}} membutuhkan bantuan {{cheers}}/{{requiredCheers}} dari teman. Undang teman Anda untuk mengunjungi pertanian Anda dan membantu Anda.",
+  "instaGrow": "Insta Tumbuh",
+  "instaGrow.description": "Bosan menunggu? Gunakan kekuatan Obsidian untuk menumbuhkan {{project}}",
+  "instaGrow.confirmation": "Apakah Anda yakin ingin menumbuhkan {{project}} untuk {{amount}} Obsidian"
 }

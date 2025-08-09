@@ -6308,7 +6308,6 @@
   "bin.increaseLimit": "Limite de aumento (+30)",
   "bin.cantWait.description": "Aumente o limite de lixo que você pode coletar hoje.",
   "bin.increaseLimit.description": "Tem certeza de que deseja aumentar o limite? Isso será reiniciado todos os dias.",
-  "project.incomplete": "O {{project}} tem {{cheers}}/{{requiredCheers}} aplausos. {{remaining}} vá!",
   "description.desertgnome.boost": "-10% de tempo de cozimento",
   "description.solAndLuna.boost": "-50% de tempo de fabricação da caixa",
   "description.groovy.gramophone.boost": "-50% de tempo de crescimento em Crop Machine",
@@ -6378,5 +6377,9 @@
   "description.giantOrange": "Nossa, uma laranja gigante!",
   "description.giantApple": "Isso manterá o médico afastado!",
   "description.giantBanana": "Isso vai parar o trânsito!",
-  "craft.with.friends": "Construa com amigos"
+  "craft.with.friends": "Construa com amigos",
+  "project.incomplete": "O {{project}} precisa da ajuda de {{cheers}}/{{requiredCheers}} de amigos. Convide seus amigos para visitar sua fazenda e ajudá-lo.",
+  "instaGrow": "Insta Grow",
+  "instaGrow.description": "Cansado de esperar? Use o poder da Obsidiana para aumentar instantaneamente o {{project}}",
+  "instaGrow.confirmation": "Tem certeza de que deseja aumentar instantaneamente o {{project}} para {{amount}} Obsidian"
 }

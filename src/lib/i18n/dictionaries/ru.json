@@ -6308,7 +6308,6 @@
   "bin.increaseLimit": "Лимит увеличения (+30)",
   "bin.cantWait.description": "Увеличьте лимит мусора, который вы можете забрать сегодня.",
   "bin.increaseLimit.description": "Вы действительно хотите увеличить лимит? Он будет обнуляться каждый день.",
-  "project.incomplete": "{{project}} ура {{cheers}}/{{requiredCheers}}. {{remaining}} вперед!",
   "description.desertgnome.boost": "-10% времени приготовления",
   "description.solAndLuna.boost": "-50% времени на изготовление коробки",
   "description.groovy.gramophone.boost": "Время роста в растениеводческой машине: -50%",
@@ -6378,5 +6377,9 @@
   "description.giantOrange": "Ух ты, гигантский апельсин!",
   "description.giantApple": "Это отпугнет врача!",
   "description.giantBanana": "Это остановит трафик!",
-  "craft.with.friends": "Создавайте вместе с друзьями"
+  "craft.with.friends": "Создавайте вместе с друзьями",
+  "project.incomplete": "{{project}} нужна помощь друзей {{cheers}}/{{requiredCheers}}. Пригласите друзей посетить вашу ферму и помочь вам.",
+  "instaGrow": "Insta Grow",
+  "instaGrow.description": "Надоело ждать? Используйте силу обсидиана, чтобы мгновенно вырастить {{project}}",
+  "instaGrow.confirmation": "Вы действительно хотите мгновенно вырастить {{project}} за {{amount}} обсидиан"
 }

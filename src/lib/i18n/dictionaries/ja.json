@@ -6308,7 +6308,6 @@
   "bin.increaseLimit": "制限値を増やす (+30)",
   "bin.cantWait.description": "今日拾えるゴミの上限を増やしてください。",
   "bin.increaseLimit.description": "制限を増やしてもよろしいですか?これは毎日リセットされます。",
-  "project.incomplete": "{{project}} は {{cheers}}/{{requiredCheers}} で乾杯しています。{{remaining}} 行きます！",
   "description.desertgnome.boost": "-10% 調理時間",
   "description.solAndLuna.boost": "-50% クラフトボックス時間",
   "description.groovy.gramophone.boost": "クロップマシンの成長時間-50％",
@@ -6378,5 +6377,9 @@
   "description.giantOrange": "うわー、巨大なオレンジ！",
   "description.giantApple": "それは医者を遠ざけることになる！",
   "description.giantBanana": "これで交通が止まります！",
-  "craft.with.friends": "友達と一緒にビルド"
+  "craft.with.friends": "友達と一緒にビルド",
+  "project.incomplete": "{{project}} には {{cheers}}/{{requiredCheers}} 友達の助けが必要です。友達を農場に招待して手伝ってもらいましょう。",
+  "instaGrow": "インスタグロー",
+  "instaGrow.description": "待つのはうんざり？オブシディアンの力を使って {{project}} をインスタで育てよう",
+  "instaGrow.confirmation": "{{amount}} オブシディアンの {{project}} をインスタで育ててもよろしいですか"
 }
