@@ -91,25 +91,23 @@ export const WORKBENCH_MONUMENTS: (
       name: "Big Orange",
       description: "",
       coins: 500,
-      ingredients: {
-        Gem: new Decimal(hasCheersV2 ? 0 : 100),
-      },
+      ingredients: hasCheersV2 ? {} : { Gem: new Decimal(100) },
     },
     "Big Apple": {
       name: "Big Apple",
       description: "",
       coins: 1500,
-      ingredients: {
-        Gem: new Decimal(hasCheersV2 ? 0 : 200),
-      },
+      ingredients: hasCheersV2 ? {} : { Gem: new Decimal(200) },
     },
     "Big Banana": {
       name: "Big Banana",
       description: "",
       coins: 4000,
-      ingredients: {
-        Gem: new Decimal(hasCheersV2 ? 0 : 300),
-      },
+      ingredients: hasCheersV2
+        ? {}
+        : {
+            Gem: new Decimal(300),
+          },
     },
     "Basic Cooking Pot": {
       name: "Basic Cooking Pot",
