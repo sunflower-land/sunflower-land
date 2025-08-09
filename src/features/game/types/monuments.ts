@@ -90,25 +90,25 @@ export const WORKBENCH_MONUMENTS: (
     "Big Orange": {
       name: "Big Orange",
       description: "",
-      coins: 0,
+      coins: 500,
       ingredients: {
-        Gem: new Decimal(hasCheersV2 ? 50 : 100),
+        Gem: new Decimal(hasCheersV2 ? 0 : 100),
       },
     },
     "Big Apple": {
       name: "Big Apple",
       description: "",
-      coins: 0,
+      coins: 1500,
       ingredients: {
-        Gem: new Decimal(hasCheersV2 ? 100 : 200),
+        Gem: new Decimal(hasCheersV2 ? 0 : 200),
       },
     },
     "Big Banana": {
       name: "Big Banana",
       description: "",
-      coins: 0,
+      coins: 4000,
       ingredients: {
-        Gem: new Decimal(hasCheersV2 ? 200 : 300),
+        Gem: new Decimal(hasCheersV2 ? 0 : 300),
       },
     },
     "Basic Cooking Pot": {
