@@ -90,19 +90,19 @@ export const WORKBENCH_MONUMENTS: (
     "Big Orange": {
       name: "Big Orange",
       description: "",
-      coins: 500,
+      coins: hasCheersV2 ? 500 : 0,
       ingredients: hasCheersV2 ? {} : { Gem: new Decimal(100) },
     },
     "Big Apple": {
       name: "Big Apple",
       description: "",
-      coins: 1500,
+      coins: hasCheersV2 ? 1500 : 0,
       ingredients: hasCheersV2 ? {} : { Gem: new Decimal(200) },
     },
     "Big Banana": {
       name: "Big Banana",
       description: "",
-      coins: 4000,
+      coins: hasCheersV2 ? 4000 : 0,
       ingredients: hasCheersV2
         ? {}
         : {
