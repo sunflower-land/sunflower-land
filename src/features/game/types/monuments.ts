@@ -330,3 +330,26 @@ export function getHelpStreak({
 
   return farm.streak.count;
 }
+
+export const RAFFLE_REWARDS: Partial<
+  Record<
+    MonumentName,
+    {
+      item: InventoryItemName;
+      amount: number;
+    }
+  >
+> = {
+  "Basic Cooking Pot": {
+    item: "Bronze Food Box",
+    amount: 1,
+  },
+  "Expert Cooking Pot": {
+    item: "Silver Food Box",
+    amount: 1,
+  },
+  "Advanced Cooking Pot": {
+    item: "Gold Food Box",
+    amount: 1,
+  },
+};
