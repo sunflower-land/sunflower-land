@@ -543,6 +543,10 @@ import {
   increaseHelpLimit,
   IncreaseHelpLimitAction,
 } from "./landExpansion/increaseHelpLimit";
+import {
+  instantGrowProject,
+  InstantGrowProjectAction,
+} from "./landExpansion/instaGrowProject";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
@@ -689,7 +693,8 @@ export type PlayingEvent =
   | ApplyBiomeAction
   | WakeUpAnimalAction
   | ClaimCheersAction
-  | BurnClutterAction;
+  | BurnClutterAction
+  | InstantGrowProjectAction;
 
 export type LocalVisitingEvent = CollectGarbageAction | HelpProjectAction;
 
@@ -929,6 +934,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "animal.wakeUp": wakeAnimal,
   "cheers.claimed": claimDailyCheers,
   "clutter.burned": burnClutter,
+  "project.instantGrow": instantGrowProject,
 };
 
 export const LOCAL_VISITING_EVENTS: Handlers<LocalVisitingEvent> = {
