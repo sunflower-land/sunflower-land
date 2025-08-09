@@ -610,17 +610,17 @@ export const Project: React.FC<ProjectProps> = (input) => {
       return;
     }
 
-    if (isProjectComplete || hasCheeredProjectToday) {
+    const hasAccess = hasFeatureAccess(
+      gameService.getSnapshot().context.visitorState!,
+      "CHEERS_V2",
+    );
+
+    if (!hasAccess && (isProjectComplete || hasCheeredProjectToday)) {
       setIsCheering(true);
       return;
     }
 
-    if (
-      hasFeatureAccess(
-        gameService.getSnapshot().context.visitorState!,
-        "CHEERS_V2",
-      )
-    ) {
+    if (hasAccess) {
       handleHelpProject();
     } else {
       setIsCheering(true);
