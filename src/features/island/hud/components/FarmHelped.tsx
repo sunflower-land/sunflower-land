@@ -52,7 +52,7 @@ export const FarmHelped: React.FC<Props> = ({ onClose }) => {
               game: gameService.getSnapshot().context.visitorState!,
             }) && (
               <Label type="warning" icon={ITEM_DETAILS["Love Charm"].image}>
-                {`+3 Love Charm`}
+                {`+1 Love Charm`}
               </Label>
             )}
         </div>

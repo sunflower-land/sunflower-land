@@ -4,6 +4,7 @@ import { useVisiting } from "lib/utils/visitUtils";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import cheer from "assets/icons/cheer.webp";
+import helpIcon from "assets/icons/help.webp";
 import { Context, useGame } from "features/game/GameProvider";
 import { LiveProgressBar, ProgressBar } from "components/ui/ProgressBar";
 import {
@@ -683,11 +684,11 @@ export const Project: React.FC<ProjectProps> = (input) => {
                       gameService.getSnapshot().context.visitorState!,
                       "CHEERS_V2",
                     )
-                      ? SUNNYSIDE.icons.drag
+                      ? helpIcon
                       : cheer
                   }
                   style={{
-                    width: `${PIXEL_SCALE * 17}px`,
+                    width: `${PIXEL_SCALE * 15}px`,
                     right: `${PIXEL_SCALE * 2}px`,
                     top: `${PIXEL_SCALE * 2}px`,
                   }}

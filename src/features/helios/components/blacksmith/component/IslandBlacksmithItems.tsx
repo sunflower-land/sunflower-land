@@ -22,6 +22,7 @@ import Decimal from "decimal.js-light";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import {
+  getMonumentRewards,
   LOVE_CHARM_MONUMENTS,
   MonumentName,
   REQUIRED_CHEERS,
@@ -30,6 +31,8 @@ import {
 import { GameState } from "features/game/types/game";
 import { Label } from "components/ui/Label";
 import cheer from "assets/icons/cheer.webp";
+import helpIcon from "assets/icons/help.webp";
+import { hasFeatureAccess } from "lib/flags";
 
 const VALID_EQUIPMENT: HeliosBlacksmithItem[] = [
   "Basic Scarecrow",
@@ -77,6 +80,14 @@ const DecorationLabel = ({
   if (hasBuiltMonument()) {
     return (
       <div className="flex justify-center">
+        {hasFeatureAccess(gameState, "CHEERS_V2") && (
+          <Label type="transparent" icon={helpIcon} className="mb-0.5">
+            {t("monument.requiredHelp", {
+              amount: REQUIRED_CHEERS(gameState)[selectedName as MonumentName],
+            })}
+          </Label>
+        )}
+
         <Label type="success" icon={SUNNYSIDE.icons.confirm}>
           {t("already.built")}
         </Label>
@@ -85,18 +96,34 @@ const DecorationLabel = ({
   }
 
   if (isMonument) {
+    const rewards = getMonumentRewards({
+      state: gameState,
+      monument: selectedName as MonumentName,
+    });
+
+    const reward = rewards[selectedName as MonumentName];
+
     return (
       <div className="flex items-center flex-col space-y-1">
-        <Label type="default" icon={cheer}>
-          {t("monument.requiredCheers", {
-            cheers: REQUIRED_CHEERS(gameState)[selectedName as MonumentName],
-          })}
-        </Label>
-        <Label type="default">
-          {t("season.megastore.crafting.limit", {
-            limit: 0,
-          })}
-        </Label>
+        {hasFeatureAccess(gameState, "CHEERS_V2") ? (
+          <Label type="transparent" icon={helpIcon} className="mb-1">
+            {t("monument.requiredHelp", {
+              amount: REQUIRED_CHEERS(gameState)[selectedName as MonumentName],
+            })}
+          </Label>
+        ) : (
+          <Label type="default" icon={cheer}>
+            {t("monument.requiredCheers", {
+              cheers: REQUIRED_CHEERS(gameState)[selectedName as MonumentName],
+            })}
+          </Label>
+        )}
+        {reward && (
+          <Label type="warning" icon={ITEM_DETAILS[reward.item].image}>
+            {reward.amount > 1 && `${reward.amount} `}
+            {reward.item}
+          </Label>
+        )}
       </div>
     );
   }
@@ -247,9 +274,14 @@ export const IslandBlacksmithItems: React.FC = () => {
             })}
           </div>
 
-          <Label type="default" className="my-2">
-            {t("craft.with.friends")}
-          </Label>
+          <div className="flex justify-between items-center my-2">
+            <Label type="default">{t("craft.with.friends")}</Label>
+            <img src={helpIcon} alt="help" className=" h-6 mr-2" />
+          </div>
+
+          <p className="text-xs mb-1 font-secondary mx-1">
+            {t("workbench.helpRequired")}
+          </p>
 
           <div className="flex flex-wrap">
             {PROJECTS.map((name: HeliosBlacksmithItem) => {
