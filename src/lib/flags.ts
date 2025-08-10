@@ -113,7 +113,7 @@ const FEATURE_FLAGS = {
     new Date("2025-08-09T00:00:00Z"),
   ),
 
-  CHEERS_V2: defaultFeatureFlag,
+  CHEERS_V2: betaTimeBasedFeatureFlag(new Date("2025-08-11T00:00:00Z")),
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;
