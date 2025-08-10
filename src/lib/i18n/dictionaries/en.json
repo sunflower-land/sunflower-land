@@ -6232,7 +6232,7 @@
   "cheering.free.claim": "Claim {{amount}} Cheers",
   "description.turdTopper.boost": "+1 Fertiliser from Composters",
   "description.giantOnion.boost": "+3 Onions",
-  "description.giantTurnip.boost": "2x Turnip Growth Speed",
+  "description.giantTurnip.boost": "-50% Turnip Growth Time",
   "description.groovy.gramophone.boost": "-50% Growth Time in Crop Machine",
   "cheering.farm": "Cheering Farm",
   "cheering.farm.success": "Cheer sent",

@@ -6171,7 +6171,6 @@
   "bumpkinItemBuff.lava.swimwear.boost": "-50% di risorse Lava Pit",
   "bumpkinItemBuff.oil.gallon.boost": "+5 Olio",
   "description.giantOnion.boost": "+3 cipolle",
-  "description.giantTurnip.boost": "2x Velocità di crescita della rapa",
   "cheers.available": "Applausi disponibili: {{count}}",
   "cheers.confirm": "Allegri {{username}}?",
   "cheers.confirm.description": "Puoi rallegrare ogni fattoria ogni 24 ore.",
@@ -6390,5 +6389,6 @@
   "visitorGuide.pickUp": "Raccogli",
   "visitorGuide.clutter": "Trova gli oggetti nascosti nella fattoria.",
   "visitorGuide.tasks": "Attività rimanenti",
-  "visitorGuide.rewards": "Aiuta il proprietario a mettere le pentole per avere la possibilità di ricevere una ricompensa!"
+  "visitorGuide.rewards": "Aiuta il proprietario a mettere le pentole per avere la possibilità di ricevere una ricompensa!",
+  "description.giantTurnip.boost": "-50% Tempo di crescita della rapa"
 }

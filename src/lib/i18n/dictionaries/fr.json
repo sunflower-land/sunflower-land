@@ -6171,7 +6171,6 @@
   "bumpkinItemBuff.lava.swimwear.boost": "-50 % de ressources de la fosse à lave",
   "bumpkinItemBuff.oil.gallon.boost": "+5 Pétrole",
   "description.giantOnion.boost": "+3 oignons",
-  "description.giantTurnip.boost": "Vitesse de croissance des navets multipliée par 2",
   "cheers.available": "Chefs disponibles : {{count}}",
   "cheers.confirm": "Encouragez {{username}} ?",
   "cheers.confirm.description": "Vous pouvez encourager chaque ferme toutes les 24 heures.",
@@ -6390,5 +6389,6 @@
   "visitorGuide.pickUp": "Cueillette",
   "visitorGuide.clutter": "Trouvez les objets cachés dans la ferme.",
   "visitorGuide.tasks": "Tâches restantes",
-  "visitorGuide.rewards": "Aidez le propriétaire à préparer ses marmites pour avoir une chance de recevoir une récompense !"
+  "visitorGuide.rewards": "Aidez le propriétaire à préparer ses marmites pour avoir une chance de recevoir une récompense !",
+  "description.giantTurnip.boost": "-50 % de temps de croissance des navets"
 }

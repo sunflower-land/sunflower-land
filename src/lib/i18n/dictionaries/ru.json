@@ -6171,7 +6171,6 @@
   "bumpkinItemBuff.lava.swimwear.boost": "Ресурсы лавовой ямы: -50%",
   "bumpkinItemBuff.oil.gallon.boost": "+5 Масло",
   "description.giantOnion.boost": "+3 лука",
-  "description.giantTurnip.boost": "Скорость роста репы в 2 раза",
   "cheers.available": "Доступные приветствия: {{count}}",
   "cheers.confirm": "Подбадривать {{username}}?",
   "cheers.confirm.description": "Каждую ферму можно подбадривать каждые 24 часа.",
@@ -6390,5 +6389,6 @@
   "visitorGuide.pickUp": "Забрать",
   "visitorGuide.clutter": "Найдите спрятанные предметы на ферме.",
   "visitorGuide.tasks": "Оставшиеся задачи",
-  "visitorGuide.rewards": "Помоги хозяину в приготовлении пищи и получи шанс получить награду!"
+  "visitorGuide.rewards": "Помоги хозяину в приготовлении пищи и получи шанс получить награду!",
+  "description.giantTurnip.boost": "Время роста репы: -50%"
 }

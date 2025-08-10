@@ -6171,7 +6171,6 @@
   "bumpkinItemBuff.lava.swimwear.boost": "-50% Lav Çukuru kaynakları",
   "bumpkinItemBuff.oil.gallon.boost": "+5 Yağ",
   "description.giantOnion.boost": "+3 Soğan",
-  "description.giantTurnip.boost": "2x Şalglam Büyüme Hızı",
   "cheers.available": "Teşekkürler Mevcut: {{count}}",
   "cheers.confirm": "Neşelenmek {{username}}?",
   "cheers.confirm.description": "Her çiftliği her 24 saatte bir neşelendirebilirsiniz.",
@@ -6390,5 +6389,6 @@
   "visitorGuide.pickUp": "Alın",
   "visitorGuide.clutter": "Çiftlikteki gizli eşyaları bulun.",
   "visitorGuide.tasks": "Kalan görevler",
-  "visitorGuide.rewards": "Ödül alma şansı için sahibine pişirme kaplarında yardım edin!"
+  "visitorGuide.rewards": "Ödül alma şansı için sahibine pişirme kaplarında yardım edin!",
+  "description.giantTurnip.boost": "-50% Şalglam Büyüme Süresi"
 }

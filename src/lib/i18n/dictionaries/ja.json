@@ -6171,7 +6171,6 @@
   "bumpkinItemBuff.lava.swimwear.boost": "ラバピットの資源 -50%",
   "bumpkinItemBuff.oil.gallon.boost": "+5 オイル",
   "description.giantOnion.boost": "+3 オニオン",
-  "description.giantTurnip.boost": "カブの成長速度の2倍",
   "cheers.available": "歓声あり:{{count}}",
   "cheers.confirm": "応援 {{username}}？",
   "cheers.confirm.description": "24時間ごとに各農園を応援できます。",
@@ -6390,5 +6389,6 @@
   "visitorGuide.pickUp": "ピックアップ",
   "visitorGuide.clutter": "農場に隠されたアイテムを見つけてください。",
   "visitorGuide.tasks": "残りのタスク",
-  "visitorGuide.rewards": "鍋の中でオーナーを助けて、報酬をもらえるチャンスを手に入れよう！"
+  "visitorGuide.rewards": "鍋の中でオーナーを助けて、報酬をもらえるチャンスを手に入れよう！",
+  "description.giantTurnip.boost": "-50% カブの生育時間"
 }

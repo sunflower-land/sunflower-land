@@ -6171,7 +6171,6 @@
   "bumpkinItemBuff.lava.swimwear.boost": "-50% de recursos de Lava Pit",
   "bumpkinItemBuff.oil.gallon.boost": "+5 Petróleo",
   "description.giantOnion.boost": "+3 cebollas",
-  "description.giantTurnip.boost": "2 veces la velocidad de crecimiento del nabo",
   "cheers.available": "Saludos disponibles: {{count}}",
   "cheers.confirm": "¿Salud {{username}}?",
   "cheers.confirm.description": "Puedes animar cada granja cada 24 horas.",
@@ -6390,5 +6389,6 @@
   "visitorGuide.pickUp": "Recoger",
   "visitorGuide.clutter": "Encuentra los objetos escondidos en la granja.",
   "visitorGuide.tasks": "Tareas restantes",
-  "visitorGuide.rewards": "¡Ayuda al propietario en sus ollas para tener la oportunidad de recibir una recompensa!"
+  "visitorGuide.rewards": "¡Ayuda al propietario en sus ollas para tener la oportunidad de recibir una recompensa!",
+  "description.giantTurnip.boost": "-50% de tiempo de crecimiento del nabo"
 }

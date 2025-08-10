@@ -6171,7 +6171,6 @@
   "bumpkinItemBuff.lava.swimwear.boost": "-50% de recursos do Poço de Lava",
   "bumpkinItemBuff.oil.gallon.boost": "+5 Óleo",
   "description.giantOnion.boost": "+3 Cebolas",
-  "description.giantTurnip.boost": "2x a velocidade de crescimento do nabo",
   "cheers.available": "Felicidades disponíveis: {{count}}",
   "cheers.confirm": "Felicidades {{username}}?",
   "cheers.confirm.description": "Você pode animar cada fazenda a cada 24 horas.",
@@ -6390,5 +6389,6 @@
   "visitorGuide.pickUp": "Pegar",
   "visitorGuide.clutter": "Encontre os itens escondidos na fazenda.",
   "visitorGuide.tasks": "Tarefas restantes",
-  "visitorGuide.rewards": "Ajude o dono em suas panelas para ter a chance de receber uma recompensa!"
+  "visitorGuide.rewards": "Ajude o dono em suas panelas para ter a chance de receber uma recompensa!",
+  "description.giantTurnip.boost": "-50% de tempo de crescimento do nabo"
 }

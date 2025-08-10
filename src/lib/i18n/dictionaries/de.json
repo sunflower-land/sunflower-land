@@ -6171,7 +6171,6 @@
   "bumpkinItemBuff.lava.swimwear.boost": "-50% Ressourcen aus der Lavagrube",
   "bumpkinItemBuff.oil.gallon.boost": "+5 Öl",
   "description.giantOnion.boost": "+3 Zwiebeln",
-  "description.giantTurnip.boost": "2-fache Wachstumsgeschwindigkeit der Rübe",
   "cheers.available": "Prost verfügbar: {{count}}",
   "cheers.confirm": "Jubeln {{username}}?",
   "cheers.confirm.description": "Du kannst jede Farm alle 24 Stunden anfeuern.",
@@ -6390,5 +6389,6 @@
   "visitorGuide.pickUp": "Abholen",
   "visitorGuide.clutter": "Finde die versteckten Gegenstände auf der Farm.",
   "visitorGuide.tasks": "Verbleibende Aufgaben",
-  "visitorGuide.rewards": "Hilf dem Besitzer in seinen Kochtöpfen, um eine Belohnung zu erhalten!"
+  "visitorGuide.rewards": "Hilf dem Besitzer in seinen Kochtöpfen, um eine Belohnung zu erhalten!",
+  "description.giantTurnip.boost": "-50% Wachstumszeit der Rübe"
 }

@@ -6171,7 +6171,6 @@
   "bumpkinItemBuff.lava.swimwear.boost": "-50% 岩浆池所需材料",
   "bumpkinItemBuff.oil.gallon.boost": "+5 石油",
   "description.giantOnion.boost": "+3 洋葱",
-  "description.giantTurnip.boost": "芜菁生长速度加速 50%",
   "cheers.available": "欢呼可用：{{count}}",
   "cheers.confirm": "欢呼 {{username}}？",
   "cheers.confirm.description": "你可以每 24 小时为每个农场欢呼。",
@@ -6390,5 +6389,6 @@
   "visitorGuide.pickUp": "捡起来",
   "visitorGuide.clutter": "在农场找到隐藏的物品。",
   "visitorGuide.tasks": "剩余任务",
-  "visitorGuide.rewards": "帮助主人装在锅里，有机会获得奖励！"
+  "visitorGuide.rewards": "帮助主人装在锅里，有机会获得奖励！",
+  "description.giantTurnip.boost": "-50% 萝卜生长时间"
 }
