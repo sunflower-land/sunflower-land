@@ -143,7 +143,7 @@ export function getRemoveAction(
   return null;
 }
 
-const isCollectible = (
+export const isCollectible = (
   name: CollectibleName | BuildingName | "Chicken" | "Bud",
 ): name is CollectibleName => name in COLLECTIBLES_DIMENSIONS;
 
@@ -189,6 +189,8 @@ export const MoveableComponent: React.FC<
 
   const removeAction = !isMobile && getRemoveAction(name);
   const hasRemovalAction = !!removeAction;
+
+  const hasFlipAction = !isMobile && isCollectible(name);
 
   /**
    * Deselect if clicked outside of element
@@ -409,7 +411,7 @@ export const MoveableComponent: React.FC<
                 />
               )}
             </div>
-            {isCollectible(name) && (
+            {hasFlipAction && (
               <div
                 className="relative mr-2"
                 style={{ width: `${PIXEL_SCALE * 18}px` }}
