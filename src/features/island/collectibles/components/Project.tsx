@@ -27,6 +27,7 @@ import {
   hasHelpedFarmToday,
   isHelpComplete,
   MonumentName,
+  RAFFLE_REWARDS,
   REQUIRED_CHEERS,
 } from "features/game/types/monuments";
 import chest from "assets/icons/chest.png";
@@ -295,6 +296,7 @@ const ProjectComplete: React.FC<{
 
       {hasFeatureAccess(state, "CHEERS_V2") &&
         isProjectComplete &&
+        RAFFLE_REWARDS[project] &&
         !!winner && (
           <>
             <div className="flex justify-between flex-wrap">
