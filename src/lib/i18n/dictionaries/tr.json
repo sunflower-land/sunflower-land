@@ -6285,7 +6285,6 @@
   "description.pickaxeShark.boost.1": "-15% Altın kurtarma süresi",
   "description.pickaxeShark.boost.2": "Altının anında iyileşme şansı %10",
   "visitorGuide.pickupClutter": "Al {{amount}} x {{type}}",
-  "visitorGuide.clutter": "Çiftlikteki gizli eşyayı bulun.",
   "visitorGuide.pest": "Zararlıyı yakala.",
   "cheers.vipBonus": "+3 VIP Bonusu",
   "cheering.free.description": "Her gün 3 adede kadar ücretsiz tezahürat alırsınız.",
@@ -6385,5 +6384,11 @@
   "workbench.helpRequired": "Arkadaşlarınızı bu projeleri bitirmenize yardımcı olmaya davet edin.",
   "description.monument.buff": "+1 Yardım Sınırı",
   "project.incomplete": "Arkadaşlarınızı çiftliğinizi ziyaret etmeye ve size yardım etmeye davet edin.",
-  "disabled.giantFruit": "11 Ağustos'a kadar devre dışı"
+  "disabled.giantFruit": "11 Ağustos'a kadar devre dışı",
+  "visitorGuide.helpProject": "Sahibinin projelerini bitirmesine yardımcı olun.",
+  "visitorGuide.project": "Projeler",
+  "visitorGuide.pickUp": "Alın",
+  "visitorGuide.clutter": "Çiftlikteki gizli eşyaları bulun.",
+  "visitorGuide.tasks": "Kalan görevler",
+  "visitorGuide.rewards": "Ödül alma şansı için sahibine pişirme kaplarında yardım edin!"
 }

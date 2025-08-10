@@ -6285,7 +6285,6 @@
   "description.pickaxeShark.boost.1": "Время восстановления золота -15%",
   "description.pickaxeShark.boost.2": "Вероятность мгновенного восстановления золота в размере 10%",
   "visitorGuide.pickupClutter": "Забрать {{amount}} x {{type}}",
-  "visitorGuide.clutter": "Найдите спрятанный предмет на ферме.",
   "visitorGuide.pest": "Поймайте вредителя.",
   "cheers.vipBonus": "+3 VIP-бонуса",
   "cheering.free.description": "Каждый день вы получаете до 3 бесплатных приветствия.",
@@ -6385,5 +6384,11 @@
   "workbench.helpRequired": "Пригласите друзей помочь вам завершить эти проекты.",
   "description.monument.buff": "Ограничение помощи +1",
   "project.incomplete": "Пригласите друзей посетить вашу ферму и помочь вам.",
-  "disabled.giantFruit": "Отключено до 11 августа"
+  "disabled.giantFruit": "Отключено до 11 августа",
+  "visitorGuide.helpProject": "Помогите владельцу завершить проекты.",
+  "visitorGuide.project": "Проекты",
+  "visitorGuide.pickUp": "Забрать",
+  "visitorGuide.clutter": "Найдите спрятанные предметы на ферме.",
+  "visitorGuide.tasks": "Оставшиеся задачи",
+  "visitorGuide.rewards": "Помоги хозяину в приготовлении пищи и получи шанс получить награду!"
 }

@@ -6285,7 +6285,6 @@
   "description.pickaxeShark.boost.1": "-15% de tiempo de recuperación de oro",
   "description.pickaxeShark.boost.2": "10% de probabilidad de que el oro se recupere al instante",
   "visitorGuide.pickupClutter": "Recogida {{amount}} x {{type}}",
-  "visitorGuide.clutter": "Encuentra el objeto oculto en la granja.",
   "visitorGuide.pest": "Atrapa la plaga.",
   "cheers.vipBonus": "Bono VIP de +3",
   "cheering.free.description": "Todos los días recibirás hasta 3 aplausos gratis.",
@@ -6385,5 +6384,11 @@
   "workbench.helpRequired": "Invita a tus amigos a que te ayuden a terminar estos proyectos.",
   "description.monument.buff": "Límite de ayuda de +1",
   "project.incomplete": "Invita a tus amigos a visitar tu granja y ayudarte.",
-  "disabled.giantFruit": "Inhabilitado hasta el 11 de agosto"
+  "disabled.giantFruit": "Inhabilitado hasta el 11 de agosto",
+  "visitorGuide.helpProject": "Ayude al propietario a terminar sus proyectos.",
+  "visitorGuide.project": "Proyectos",
+  "visitorGuide.pickUp": "Recoger",
+  "visitorGuide.clutter": "Encuentra los objetos escondidos en la granja.",
+  "visitorGuide.tasks": "Tareas restantes",
+  "visitorGuide.rewards": "¡Ayuda al propietario en sus ollas para tener la oportunidad de recibir una recompensa!"
 }

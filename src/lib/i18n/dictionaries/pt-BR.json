@@ -6285,7 +6285,6 @@
   "description.pickaxeShark.boost.1": "-15% de tempo de recuperação de ouro",
   "description.pickaxeShark.boost.2": "10% de chance de o ouro se recuperar instantaneamente",
   "visitorGuide.pickupClutter": "Pegue {{amount}} x {{type}}",
-  "visitorGuide.clutter": "Encontre o item escondido na fazenda.",
   "visitorGuide.pest": "Pegue a praga.",
   "cheers.vipBonus": "Bônus VIP de +3",
   "cheering.free.description": "Todos os dias você recebe até 3 aplausos grátis.",
@@ -6385,5 +6384,11 @@
   "workbench.helpRequired": "Convide seus amigos para ajudá-lo a concluir esses projetos.",
   "description.monument.buff": "+1 Limite de ajuda",
   "project.incomplete": "Convide seus amigos para visitar sua fazenda e ajudá-lo.",
-  "disabled.giantFruit": "Desativado até 11 de agosto"
+  "disabled.giantFruit": "Desativado até 11 de agosto",
+  "visitorGuide.helpProject": "Ajude o proprietário a concluir seus projetos.",
+  "visitorGuide.project": "Projetos",
+  "visitorGuide.pickUp": "Pegar",
+  "visitorGuide.clutter": "Encontre os itens escondidos na fazenda.",
+  "visitorGuide.tasks": "Tarefas restantes",
+  "visitorGuide.rewards": "Ajude o dono em suas panelas para ter a chance de receber uma recompensa!"
 }

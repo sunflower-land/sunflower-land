@@ -6285,7 +6285,6 @@
   "description.pickaxeShark.boost.1": "-15% Masa pemulihan emas",
   "description.pickaxeShark.boost.2": "10% peluang untuk emas pulih dengan serta-merta",
   "visitorGuide.pickupClutter": "Angkat {{amount}} x {{type}}",
-  "visitorGuide.clutter": "Cari item tersembunyi di ladang.",
   "visitorGuide.pest": "Tangkap perosak.",
   "cheers.vipBonus": "+3 Bonus VIP",
   "cheering.free.description": "Setiap hari anda menerima sehingga 3 sorakan percuma.",
@@ -6385,5 +6384,11 @@
   "workbench.helpRequired": "Jemput rakan anda untuk membantu anda menyelesaikan projek-projek ini.",
   "description.monument.buff": "+1 Had Bantuan",
   "project.incomplete": "Jemput rakan anda untuk melawat ladang anda dan membantu anda.",
-  "disabled.giantFruit": "Dilumpuhkan sehingga 11 Ogos"
+  "disabled.giantFruit": "Dilumpuhkan sehingga 11 Ogos",
+  "visitorGuide.helpProject": "Bantu pemilik menyelesaikan projek mereka.",
+  "visitorGuide.project": "Projek",
+  "visitorGuide.pickUp": "Angkat",
+  "visitorGuide.clutter": "Cari barangan tersembunyi di ladang.",
+  "visitorGuide.tasks": "Tugas yang tinggal",
+  "visitorGuide.rewards": "Bantu pemilik dalam periuk memasak mereka untuk peluang menerima ganjaran!"
 }
