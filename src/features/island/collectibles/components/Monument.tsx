@@ -5,7 +5,7 @@ import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import cheer from "assets/icons/cheer.webp";
 import { Context, useGame } from "features/game/GameProvider";
-import { LiveProgressBar, ProgressBar } from "components/ui/ProgressBar";
+import { ProgressBar } from "components/ui/ProgressBar";
 import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { Modal } from "components/ui/Modal";
@@ -298,23 +298,12 @@ export const Monument: React.FC<MonumentProps> = (input) => {
                   width: `${PIXEL_SCALE * 20}px`,
                 }}
               >
-                {!hasCheeredProjectToday && (
-                  <ProgressBar
-                    type="quantity"
-                    percentage={projectPercentage}
-                    formatLength="full"
-                    className="ml-1 -translate-x-1/2"
-                  />
-                )}
-                {hasCheeredProjectToday && (
-                  <LiveProgressBar
-                    startAt={new Date(today).getTime()}
-                    endAt={new Date(tomorrow).getTime()}
-                    formatLength="short"
-                    onComplete={() => setRender((r) => r + 1)}
-                    className="ml-1 -translate-x-1/2"
-                  />
-                )}
+                <ProgressBar
+                  type="quantity"
+                  percentage={projectPercentage}
+                  formatLength="full"
+                  className="ml-1 -translate-x-1/2"
+                />
               </div>
             </>
           )}

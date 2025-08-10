@@ -6,7 +6,7 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import cheer from "assets/icons/cheer.webp";
 import helpIcon from "assets/icons/help.webp";
 import { Context, useGame } from "features/game/GameProvider";
-import { LiveProgressBar, ProgressBar } from "components/ui/ProgressBar";
+import { ProgressBar } from "components/ui/ProgressBar";
 import {
   ButtonPanel,
   InnerPanel,
@@ -698,23 +698,12 @@ export const Project: React.FC<ProjectProps> = (input) => {
             width: `${PIXEL_SCALE * 20}px`,
           }}
         >
-          {!hasCheeredProjectToday && (
-            <ProgressBar
-              type="quantity"
-              percentage={projectPercentage}
-              formatLength="full"
-              className="ml-1 -translate-x-1/2"
-            />
-          )}
-          {hasCheeredProjectToday && (
-            <LiveProgressBar
-              startAt={new Date(today).getTime()}
-              endAt={new Date(tomorrow).getTime()}
-              formatLength="short"
-              onComplete={() => setRender((r) => r + 1)}
-              className="ml-1 -translate-x-1/2"
-            />
-          )}
+          <ProgressBar
+            type="quantity"
+            percentage={projectPercentage}
+            formatLength="full"
+            className="ml-1 -translate-x-1/2"
+          />
         </div>
       </>
 
