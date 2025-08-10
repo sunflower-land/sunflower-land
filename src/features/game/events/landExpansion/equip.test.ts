@@ -175,6 +175,11 @@ describe("availableWardrobe", () => {
       "Blue Farmer Shirt": 1,
       "Farm Background": 1,
       "Ancient Goblin Sword": 1,
+      "Basic Hair": 0,
+      "Beige Farmer Potion": 0,
+      "Cupid Sandals": 0,
+      "Farmer Pants": 0,
+      "Red Farmer Shirt": 0,
     });
   });
 });

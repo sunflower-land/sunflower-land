@@ -49,6 +49,7 @@ import {
 import { LandBiomeName } from "features/island/biomes/biomes";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { WORKBENCH_MONUMENTS } from "features/game/types/monuments";
+import { DOLLS } from "features/game/lib/crafting";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -255,6 +256,7 @@ export const Chest: React.FC<Props> = ({
   const chestMap = getChestItems(state);
   const { t } = useAppTranslation();
   const collectibles = getKeys(chestMap)
+    .filter((item) => chestMap[item]?.gt(0))
     .sort((a, b) => a.localeCompare(b))
     .reduce(
       (acc, item) => {
@@ -331,8 +333,10 @@ export const Chest: React.FC<Props> = ({
     (name) => name in WEATHER_SHOP_ITEM_COSTS,
   );
   const monuments = getKeys(collectibles).filter(
-    (name) => name in WORKBENCH_MONUMENTS,
+    (name) => name in WORKBENCH_MONUMENTS(state),
   );
+
+  const dolls = getKeys(collectibles).filter((name) => name in DOLLS);
 
   const decorations = getKeys(collectibles).filter(
     (name) =>
@@ -342,7 +346,8 @@ export const Chest: React.FC<Props> = ({
       !banners.includes(name) &&
       !beds.includes(name) &&
       !weatherItems.includes(name) &&
-      !monuments.includes(name),
+      !monuments.includes(name) &&
+      !dolls.includes(name),
   );
 
   const ITEM_GROUPS: {
@@ -384,6 +389,11 @@ export const Chest: React.FC<Props> = ({
       items: monuments,
       label: "monuments",
       icon: ITEM_DETAILS["Farmer's Monument"].image,
+    },
+    {
+      items: dolls,
+      label: "dolls",
+      icon: ITEM_DETAILS["Doll"].image,
     },
     {
       items: decorations,

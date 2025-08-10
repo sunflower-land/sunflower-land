@@ -44,6 +44,9 @@ const VALID_EQUIPMENT: HeliosBlacksmithItem[] = [
   "Macaw",
   "Squirrel",
   "Butterfly",
+];
+
+const PROJECTS: HeliosBlacksmithItem[] = [
   "Basic Cooking Pot",
   "Expert Cooking Pot",
   "Advanced Cooking Pot",
@@ -64,7 +67,7 @@ const DecorationLabel = ({
 }) => {
   const { t } = useAppTranslation();
 
-  const isMonument = selectedName in WORKBENCH_MONUMENTS;
+  const isMonument = selectedName in WORKBENCH_MONUMENTS(gameState);
   const isLoveCharmMonument = selectedName in LOVE_CHARM_MONUMENTS;
 
   const hasBuiltMonument = () => {
@@ -86,7 +89,7 @@ const DecorationLabel = ({
       <div className="flex items-center flex-col space-y-1">
         <Label type="default" icon={cheer}>
           {t("monument.requiredCheers", {
-            cheers: REQUIRED_CHEERS[selectedName as MonumentName],
+            cheers: REQUIRED_CHEERS(gameState)[selectedName as MonumentName],
           })}
         </Label>
         <Label type="default">
@@ -127,7 +130,7 @@ export const IslandBlacksmithItems: React.FC = () => {
   const lessCoins = () => coins < (selectedItem?.coins ?? 0);
 
   const craft = () => {
-    if (selectedName in WORKBENCH_MONUMENTS) {
+    if (selectedName in WORKBENCH_MONUMENTS(state)) {
       gameService.send("LANDSCAPE", {
         placeable: selectedName,
         action: "monument.bought",
@@ -219,6 +222,37 @@ export const IslandBlacksmithItems: React.FC = () => {
         <div className="flex flex-col">
           <div className="flex flex-wrap">
             {VALID_EQUIPMENT.map((name: HeliosBlacksmithItem) => {
+              return (
+                <Box
+                  isSelected={selectedName === name}
+                  key={name}
+                  onClick={() => setSelectedName(name)}
+                  image={ITEM_DETAILS[name].image}
+                  count={inventory[name]}
+                  overlayIcon={
+                    <img
+                      src={SUNNYSIDE.icons.stopwatch}
+                      id="confirm"
+                      alt="confirm"
+                      className="object-contain absolute"
+                      style={{
+                        width: `${PIXEL_SCALE * 8}px`,
+                        top: `${PIXEL_SCALE * -4}px`,
+                        right: `${PIXEL_SCALE * -4}px`,
+                      }}
+                    />
+                  }
+                />
+              );
+            })}
+          </div>
+
+          <Label type="default" className="my-2">
+            {t("craft.with.friends")}
+          </Label>
+
+          <div className="flex flex-wrap">
+            {PROJECTS.map((name: HeliosBlacksmithItem) => {
               return (
                 <Box
                   isSelected={selectedName === name}

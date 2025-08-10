@@ -4,7 +4,7 @@ import { Balances } from "components/Balances";
 import { useActor, useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 
-import { InnerPanel } from "components/ui/Panel";
+import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { BumpkinProfile } from "./components/BumpkinProfile";
 import { Settings } from "./components/Settings";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -34,6 +34,12 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { FarmCleaned } from "./components/FarmCleaned";
 import { BinGuide } from "./components/BinGuide";
 import { getBinLimit } from "features/game/events/landExpansion/increaseBinLimit";
+import { hasFeatureAccess } from "lib/flags";
+import {
+  getHelpRequired,
+  hasHelpedFarmToday,
+} from "features/game/types/monuments";
+import { hasHitHelpLimit } from "features/game/events/landExpansion/increaseHelpLimit";
 
 const _cheers = (state: MachineState) => {
   return state.context.visitorState?.inventory["Cheer"] ?? new Decimal(0);
@@ -67,9 +73,28 @@ export const VisitingHud: React.FC = () => {
   const { gameService, shortcutItem, selectedItem, fromRoute } =
     useContext(Context);
 
-  const [showVisitorGuide, setShowVisitorGuide] = useState(true);
-  const [showBinGuide, setShowBinGuide] = useState(false);
   const [gameState] = useActor(gameService);
+
+  const hasHelpedToday = hasHelpedFarmToday({
+    game: gameState.context.visitorState!,
+    farmId: gameState.context.farmId,
+  });
+
+  const [showVisitorGuide, setShowVisitorGuide] = useState(() => {
+    const hasHitLimit = hasHitHelpLimit({
+      game: gameState.context.visitorState!,
+    });
+
+    if (hasHitLimit) {
+      return true;
+    }
+
+    // Check if user has already acknowledged the visitor guide
+    const hasAcknowledged =
+      localStorage.getItem("visitorGuideAcknowledged") === "true";
+    return !hasAcknowledged;
+  });
+  const [showBinGuide, setShowBinGuide] = useState(false);
   const cheers = useSelector(gameService, _cheers);
   const socialPoints = useSelector(gameService, _socialPoints);
   const saving = useSelector(gameService, _autosaving);
@@ -99,13 +124,30 @@ export const VisitingHud: React.FC = () => {
     game: gameState.context.visitorState!,
   });
 
+  const hasCheersV2 = hasFeatureAccess(
+    gameState.context.visitorState!,
+    "CHEERS_V2",
+  );
+
+  const helpRequired = getHelpRequired({
+    game: gameState.context.state,
+  });
+
+  const handleCloseVisitorGuide = () => {
+    // Store acknowledgment in local storage
+    localStorage.setItem("visitorGuideAcknowledged", "true");
+    setShowVisitorGuide(false);
+    gameService.send("SAVE");
+  };
+
   return (
     <HudContainer>
-      <Modal show={showVisitorGuide} onHide={() => setShowVisitorGuide(false)}>
+      <Modal show={showVisitorGuide} onHide={handleCloseVisitorGuide}>
         <CloseButtonPanel
           bumpkinParts={gameState.context.state.bumpkin?.equipped}
+          container={OuterPanel}
         >
-          <VisitorGuide onClose={() => setShowVisitorGuide(false)} />
+          <VisitorGuide onClose={handleCloseVisitorGuide} />
         </CloseButtonPanel>
       </Modal>
       <Modal show={showCleanedModal}>
@@ -118,7 +160,7 @@ export const VisitingHud: React.FC = () => {
       <Modal show={showBinGuide} onHide={() => setShowBinGuide(false)}>
         <BinGuide onClose={() => setShowBinGuide(false)} />
       </Modal>
-      {!gameState.matches("landToVisitNotFound") && (
+      {!gameState.matches("landToVisitNotFound") && !hasCheersV2 && (
         <InnerPanel className="absolute px-2 pt-1 pb-2 bottom-2 left-1/2 -translate-x-1/2 z-50 flex flex-row">
           <div className="flex flex-col p-0.5">
             <div className="flex items-center space-x-1">
@@ -140,6 +182,36 @@ export const VisitingHud: React.FC = () => {
             <span className="text-md">{`${collectedClutter}/${TRASH_BIN_FARM_LIMIT}`}</span>
             <img src={garbageBin} style={{ width: `20px`, margin: `2px` }} />
           </div>
+        </InnerPanel>
+      )}
+
+      {!gameState.matches("landToVisitNotFound") && hasCheersV2 && (
+        <InnerPanel className="absolute px-2 pt-1 pb-2 bottom-2 left-1/2 -translate-x-1/2 z-50 flex flex-row">
+          <div className="flex flex-col p-0.5 items-center justify-center">
+            <div className="flex items-center space-x-1">
+              <NPCIcon
+                parts={gameState.context.state.bumpkin?.equipped}
+                width={20}
+              />
+              <span className="text-xs whitespace-nowrap">
+                {t("visiting.farmId", { farmId: displayId })}
+              </span>
+            </div>
+          </div>
+          <div className="w-px h-[36px] bg-gray-300 mx-3 self-center" />
+          {hasHelpedToday ? (
+            <div className="flex flex-col sm:flex-row items-center space-x-1">
+              <img
+                src={SUNNYSIDE.icons.confirm}
+                style={{ width: `20px`, margin: `2px` }}
+              />
+            </div>
+          ) : (
+            <div className="flex flex-col sm:flex-row items-center space-x-1">
+              <span className="text-md">{`${helpRequired}`}</span>
+              <img src={choreIcon} style={{ width: `20px`, margin: `2px` }} />
+            </div>
+          )}
         </InnerPanel>
       )}
       <div className="absolute right-0 top-0 p-2.5">
@@ -169,30 +241,33 @@ export const VisitingHud: React.FC = () => {
           />
         </RoundButton>
       </div>
-      <div className="absolute right-0 top-32 p-2.5">
-        <RoundButton
-          onClick={(e) => {
-            e.stopPropagation();
-            e.preventDefault();
-            setShowBinGuide(true);
-          }}
-        >
-          <img
-            src={garbageBin}
-            className="absolute group-active:translate-y-[2px]"
-            style={{
-              top: `${PIXEL_SCALE * 4.5}px`,
-              left: `${PIXEL_SCALE * 6}px`,
-              width: `${PIXEL_SCALE * 10}px`,
+      {!hasFeatureAccess(gameState.context.visitorState!, "CHEERS_V2") && (
+        <div className="absolute right-0 top-32 p-2.5">
+          <RoundButton
+            onClick={(e) => {
+              e.stopPropagation();
+              e.preventDefault();
+              setShowBinGuide(true);
             }}
-          />
-          <div className="w-full absolute -bottom-3 left-0 flex items-center justify-center">
-            <Label type={trashBinItems >= binLimit ? "danger" : "default"}>
-              {`${trashBinItems}/${binLimit}`}
-            </Label>
-          </div>
-        </RoundButton>
-      </div>
+          >
+            <img
+              src={garbageBin}
+              className="absolute group-active:translate-y-[2px]"
+              style={{
+                top: `${PIXEL_SCALE * 4.5}px`,
+                left: `${PIXEL_SCALE * 6}px`,
+                width: `${PIXEL_SCALE * 10}px`,
+              }}
+            />
+            <div className="w-full absolute -bottom-3 left-0 flex items-center justify-center">
+              <Label type={trashBinItems >= binLimit ? "danger" : "default"}>
+                {`${trashBinItems}/${binLimit}`}
+              </Label>
+            </div>
+          </RoundButton>
+        </div>
+      )}
+
       <BumpkinProfile />
       <div className="absolute p-2 left-0 top-24 flex flex-col space-y-2.5">
         <Label type="chill" icon={socialPointsIcon}>

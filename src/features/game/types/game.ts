@@ -1518,11 +1518,25 @@ type DailyCollection = {
   clutter: { [clutterId: string]: ClutterCollection };
 };
 
+type VillageProject = {
+  cheers: number;
+  winnerId?: number;
+  helpedAt?: number; // Local only field
+};
+
+export type HelpedFarm = {
+  count: number;
+  helpedAt: number;
+
+  streak?: {
+    updatedAt: number;
+    count: number;
+  };
+};
+
 export type SocialFarming = {
   points: number;
-  villageProjects: Partial<
-    Record<MonumentName, { cheers: number; winnerId?: number }>
-  >;
+  villageProjects: Partial<Record<MonumentName, VillageProject>>;
   cheersGiven: {
     date: string;
     projects: Partial<Record<MonumentName, number[]>>;
@@ -1533,6 +1547,10 @@ export type SocialFarming = {
   };
   binIncrease?: {
     boughtAt: number[];
+    unusedStorage?: number;
+  };
+  helpIncrease?: {
+    boughtAt: number[];
   };
   dailyCollections?: { [farmId: number]: DailyCollection };
   caughtPests?: { [farmId: number]: string[] };
@@ -1540,6 +1558,7 @@ export type SocialFarming = {
     spawnedAt: number;
     locations: { [clutterId: string]: ClutterCoordinates };
   };
+  helped?: Record<number, HelpedFarm>;
 };
 
 export interface GameState {

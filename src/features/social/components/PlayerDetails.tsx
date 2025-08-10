@@ -46,6 +46,8 @@ import { ProgressBar } from "components/ui/ProgressBar";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { hasFeatureAccess } from "lib/flags";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
+import { getHelpStreak } from "features/game/types/monuments";
+import { hasVipAccess } from "features/game/lib/vipAccess";
 
 const ISLAND_ICONS: Record<IslandType, string> = {
   basic: basicIsland,
@@ -206,6 +208,12 @@ export const PlayerDetails: React.FC<Props> = ({
     return projectBProgress - projectAProgress;
   });
 
+  const friendStreak = getHelpStreak({
+    farm: gameService.state.context.state.socialFarming.helped?.[
+      player?.id ?? 0
+    ],
+  });
+
   return (
     <div className="flex gap-1 w-full max-h-[400px]">
       <div className="flex flex-col flex-1 gap-1">
@@ -236,12 +244,25 @@ export const PlayerDetails: React.FC<Props> = ({
                         <p className="text-sm">{player?.username}</p>
                       </div>
                     </div>
-                    <Label
-                      type="warning"
-                      icon={ITEM_DETAILS["Love Charm"].image}
-                    >
-                      {`+1 Love Charm`}
-                    </Label>
+                    <div>
+                      <Label
+                        type="warning"
+                        icon={ITEM_DETAILS["Love Charm"].image}
+                      >
+                        {`+3 Social Point`}
+                      </Label>
+                      {hasVipAccess({
+                        game: gameService.getSnapshot().context.state,
+                      }) && (
+                        <Label
+                          type="warning"
+                          className="mt-0.5"
+                          icon={ITEM_DETAILS["Love Charm"].image}
+                        >
+                          {`+3 Love Charm`}
+                        </Label>
+                      )}
+                    </div>
                   </div>
                 )}
                 <span>{t("cheers.confirm", { username: displayName })}</span>
@@ -382,6 +403,7 @@ export const PlayerDetails: React.FC<Props> = ({
                 onClick={onFollowersClick}
                 type="followers"
               />
+
               <Button
                 className="flex w-fit h-9 justify-between items-center gap-1 mt-1 mr-0.5"
                 disabled={playerLoading || followLoading || !!error || isSelf}
@@ -423,6 +445,17 @@ export const PlayerDetails: React.FC<Props> = ({
                   })}
             </div>
           </div>
+          {friendStreak > 0 && (
+            <div className="flex justify-start w-full">
+              <Label
+                type="vibrant"
+                className="ml-2"
+                icon={SUNNYSIDE.icons.heart}
+              >
+                {t("friendStreak", { days: friendStreak })}
+              </Label>
+            </div>
+          )}
         </InnerPanel>
 
         <InnerPanel className="flex flex-1 flex-col gap-1 max-h-[121px] overflow-y-auto scrollable">

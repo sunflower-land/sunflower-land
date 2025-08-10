@@ -56,6 +56,14 @@ describe("sellBounty", () => {
             Timeshard: 9,
           },
         },
+        {
+          id: "7",
+          name: "Doll",
+          quantity: 1,
+          items: {
+            Timeshard: 9,
+          },
+        },
       ],
       completed: [],
     },
@@ -77,7 +85,34 @@ describe("sellBounty", () => {
         },
         action,
       }),
-    ).toThrow("Item does not exist in inventory");
+    ).toThrow("You do not have the ingredients to sell this bounty");
+  });
+
+  it("ensures player has item not placed", () => {
+    const action: SellBountyAction = {
+      type: "bounty.sold",
+      requestId: "7",
+    };
+
+    expect(() =>
+      sellBounty({
+        state: {
+          ...GAME_STATE,
+          inventory: { Doll: new Decimal(1) },
+          collectibles: {
+            Doll: [
+              {
+                id: "1",
+                coordinates: { x: 0, y: 0 },
+                createdAt: 0,
+                readyAt: 0,
+              },
+            ],
+          },
+        },
+        action,
+      }),
+    ).toThrow("You do not have the ingredients to sell this bounty");
   });
 
   it("ensures bounty exists", () => {

@@ -25,6 +25,15 @@ export type FactionNPC = {
 
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
+    x: 694,
+    y: 423,
+    npc: "eins",
+    onClick: () => {
+      interactableModalManager.open("potion_table");
+    },
+    direction: "left",
+  },
+  {
     x: 496,
     y: 403,
     npc: "rocket man",
@@ -60,7 +69,7 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     npc: "blacksmith",
   },
   {
-    x: 760,
+    x: 755,
     y: 390,
     npc: "grimbly",
   },
@@ -184,14 +193,14 @@ export class PlazaScene extends BaseScene {
 
     // Stella Megastore items
     this.load.image("fruit_tune_box", "world/fruit_tune_box.webp");
-    this.load.image("garbage_bin_hat", "world/garbage_bin_hat.png");
+    this.load.image("garbage_bin_hat", "world/garbage_bin_hat.webp");
 
     // Auction Items
     this.load.image("groovy_gramophone", "world/groovy_gramophone.webp");
-    this.load.image("oil_gallon", "world/oil_gallon.webp");
+    this.load.image("oil_gallon_npc", "world/oil_gallon_npc.webp");
     this.load.image("giant_onion", "world/giant_onion.webp");
     this.load.image("giant_turnip", "world/giant_turnip.webp");
-    this.load.image("lava_swimwear", "world/lava_swimwear.webp");
+    this.load.image("lava_swimwear_npc", "world/lava_swimwear_npc.webp");
 
     this.load.image("ronin_banner", "world/ronin_banner.webp");
     this.load.image(
@@ -632,7 +641,7 @@ export class PlazaScene extends BaseScene {
 
     this.add.image(250, 244, "fruit_tune_box");
 
-    this.add.image(288.5, 247, "garbage_bin_hat").setScale(0.03);
+    this.add.image(288.5, 247, "garbage_bin_hat");
 
     if (this.textures.exists("sparkle")) {
       const sparkle = this.add.sprite(567, 191, "sparkle");
@@ -671,14 +680,14 @@ export class PlazaScene extends BaseScene {
     const nft1 = this.add.image(567, 191, "giant_onion");
     nft1.setDepth(191);
 
-    const nft2 = this.add.image(589, 205.5, "oil_gallon");
-    nft2.setScale(0.35).setDepth(205);
+    const nft2 = this.add.image(589, 205.5, "oil_gallon_npc");
+    nft2.setDepth(205);
 
     const nft3 = this.add.image(601, 181, "groovy_gramophone");
     nft3.setDepth(181);
 
-    const nft4 = this.add.image(612, 205, "lava_swimwear");
-    nft4.setScale(0.12).setDepth(205);
+    const nft4 = this.add.image(612, 205, "lava_swimwear_npc");
+    nft4.setDepth(205);
 
     const nft5 = this.add.image(635, 191, "giant_turnip");
     nft5.setDepth(181);

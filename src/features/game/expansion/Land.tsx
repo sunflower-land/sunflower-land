@@ -53,7 +53,6 @@ import { getCurrentBiome } from "features/island/biomes/biomes";
 import { useVisiting } from "lib/utils/visitUtils";
 import { getObjectEntries } from "./lib/utils";
 import { Clutter } from "features/island/clutter/Clutter";
-import { FARM_PEST } from "../types/clutter";
 
 export const LAND_WIDTH = 6;
 
@@ -601,35 +600,8 @@ const getIslandElements = ({
       );
   }
 
-  {
-    clutter &&
-      isVisiting &&
-      mapPlacements.push(
-        ...Object.keys(clutter.locations).flatMap((id) => {
-          const { x, y } = clutter.locations[id];
-          const isPest = clutter.locations[id].type in FARM_PEST;
-
-          return (
-            <MapPlacement
-              key={`clutter-${id}`}
-              x={x}
-              y={y}
-              height={1}
-              width={1}
-              z={isPest ? 999999 : 99999999}
-              className={classNames({
-                "pointer-events-none": !isVisiting,
-              })}
-            >
-              <Clutter
-                key={`clutter-${id}`}
-                id={id}
-                type={clutter.locations[id].type}
-              />
-            </MapPlacement>
-          );
-        }),
-      );
+  if (clutter && isVisiting) {
+    mapPlacements.push(<Clutter clutter={clutter} />);
   }
 
   {

@@ -78,7 +78,7 @@ const HudComponent: React.FC<{
           "absolute left-0 top-0 bottom-0 p-2.5 transition-transform duration-200",
           {
             "translate-x-0": hideDesktopFeed,
-            "translate-x-[300px]": showDesktopFeed,
+            "translate-x-[320px]": showDesktopFeed,
           },
         )}
       >
@@ -90,7 +90,7 @@ const HudComponent: React.FC<{
           "absolute bottom-0 p-2.5 left-0 flex flex-col space-y-2.5 transition-transform",
           {
             "translate-x-0": hideDesktopFeed,
-            "translate-x-[300px]": showDesktopFeed,
+            "translate-x-[320px]": showDesktopFeed,
           },
         )}
       >

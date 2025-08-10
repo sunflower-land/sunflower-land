@@ -1,14 +1,21 @@
 import Decimal from "decimal.js-light";
+import { availableWardrobe } from "features/game/events/landExpansion/equip";
+import { isCollectible } from "features/game/events/landExpansion/garbageSold";
 import {
   BuildingName,
   BUILDINGS_DIMENSIONS,
 } from "features/game/types/buildings";
+import { BumpkinItem } from "features/game/types/bumpkin";
 import {
   CollectibleName,
   COLLECTIBLES_DIMENSIONS,
 } from "features/game/types/craftables";
 import { getKeys } from "features/game/types/craftables";
-import { GameState, Inventory } from "features/game/types/game";
+import {
+  GameState,
+  Inventory,
+  InventoryItemName,
+} from "features/game/types/game";
 import { MarketplaceTradeableName } from "features/game/types/marketplace";
 import {
   RESOURCE_STATE_ACCESSORS,
@@ -126,12 +133,35 @@ export const getChestItems = (state: GameState): Inventory => {
     return acc;
   }, {} as Inventory);
 
-  const validItems = getKeys(availableItems)
-    .filter((itemName) => availableItems[itemName]?.greaterThan(0))
-    .reduce(
-      (acc, name) => ({ ...acc, [name]: availableItems[name] }),
-      {} as Inventory,
-    );
+  const validItems = getKeys(availableItems).reduce((acc, name) => {
+    if (availableItems[name]?.greaterThanOrEqualTo(0)) {
+      return { ...acc, [name]: availableItems[name] };
+    }
+    return { ...acc, [name]: new Decimal(0) };
+  }, {} as Inventory);
 
   return validItems;
 };
+
+export function getCountAndType(
+  state: GameState,
+  name: InventoryItemName | BumpkinItem,
+) {
+  let count = new Decimal(0);
+  let itemType: "wearable" | "inventory" = "inventory";
+  if (isCollectible(name)) {
+    count =
+      getChestItems(state)[name as InventoryItemName] ??
+      state.inventory[name as InventoryItemName] ??
+      new Decimal(0);
+  } else {
+    count = new Decimal(
+      availableWardrobe(state)[name as BumpkinItem] ??
+        state.wardrobe[name as BumpkinItem] ??
+        0,
+    );
+    itemType = "wearable";
+  }
+
+  return { count, itemType };
+}

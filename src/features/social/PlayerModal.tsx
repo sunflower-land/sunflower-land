@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Modal } from "components/ui/Modal";
 import cheer from "assets/icons/cheer.webp";
 import followersIcon from "assets/icons/followers.webp";
@@ -52,6 +52,7 @@ export const PlayerModal: React.FC<Props> = ({
   hasAirdropAccess,
 }) => {
   const { t } = useAppTranslation();
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [tab, setTab] = useState<Tab>("Player");
 
   const {
@@ -233,6 +234,7 @@ export const PlayerModal: React.FC<Props> = ({
             )}
             {tab === "Followers" && (
               <InnerPanel
+                divRef={scrollContainerRef}
                 className="overflow-y-auto scrollable max-h-[350px]"
                 style={{ padding: 0 }}
               >
@@ -241,24 +243,29 @@ export const PlayerModal: React.FC<Props> = ({
                   networkFarmId={currentPlayerId as number}
                   token={token}
                   networkList={player?.followedBy ?? []}
-                  networkCount={player?.followedByCount ?? 0}
+                  networkCount={player?.followedBy?.length ?? 0}
                   playerLoading={playerLoading}
                   type="followers"
                   navigateToPlayer={navigateToPlayer}
+                  scrollContainerRef={scrollContainerRef}
                 />
               </InnerPanel>
             )}
             {tab === "Following" && (
-              <InnerPanel className="overflow-y-auto scrollable max-h-[350px]">
+              <InnerPanel
+                divRef={scrollContainerRef}
+                className="overflow-y-auto scrollable max-h-[350px]"
+              >
                 <FollowList
                   loggedInFarmId={loggedInFarmId}
                   networkFarmId={currentPlayerId as number}
                   token={token}
-                  networkCount={player?.followingCount ?? 0}
+                  networkCount={player?.following?.length ?? 0}
                   networkList={player?.following ?? []}
                   playerLoading={playerLoading}
                   type="following"
                   navigateToPlayer={navigateToPlayer}
+                  scrollContainerRef={scrollContainerRef}
                 />
               </InnerPanel>
             )}

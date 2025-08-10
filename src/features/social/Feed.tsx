@@ -39,6 +39,7 @@ import { FollowsIndicator } from "./components/FollowsIndicator";
 import { FollowList } from "./components/FollowList";
 import { useFeed } from "./FeedContext";
 import { useOnMachineTransition } from "lib/utils/hooks/useOnMachineTransition";
+import { Button } from "components/ui/Button";
 
 type Props = {
   type: "world" | "local";
@@ -74,6 +75,7 @@ export const Feed: React.FC<Props> = ({
   server,
   type,
 }) => {
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
   const { gameService } = useContext(Context);
   const { authService } = useContext(AuthProvider.Context);
 
@@ -214,10 +216,10 @@ export const Feed: React.FC<Props> = ({
   return (
     <InnerPanel
       className={classNames(
-        `fixed ${isMobile ? "w-[75%]" : "w-[300px]"} inset-safe-area m-2 z-30 transition-transform duration-200`,
+        `fixed ${isMobile ? "w-[75%]" : "w-[320px]"} inset-safe-area m-2 z-30 transition-transform duration-200`,
         {
           "translate-x-0": showDesktopFeed || showMobileFeed,
-          "-translate-x-[320px]": hideDesktopFeed,
+          "-translate-x-[330px]": hideDesktopFeed,
           // Account for the margin
           "-translate-x-[110%]": hideMobileFeed,
         },
@@ -279,7 +281,10 @@ export const Feed: React.FC<Props> = ({
         </div>
 
         {showFollowing && (
-          <div className="flex flex-col gap-2 -mt-2 overflow-hidden overflow-y-auto scrollable">
+          <div
+            ref={scrollContainerRef}
+            className="flex flex-col gap-2 -mt-2 overflow-hidden overflow-y-auto scrollable"
+          >
             <FollowList
               loggedInFarmId={farmId}
               token={token}
@@ -288,6 +293,7 @@ export const Feed: React.FC<Props> = ({
               networkCount={following.length}
               showLabel={false}
               type="following"
+              scrollContainerRef={scrollContainerRef}
               navigateToPlayer={handleFollowingClick}
             />
           </div>
@@ -363,7 +369,7 @@ const FeedContent: React.FC<FeedContentProps> = ({
   );
 
   const handleFollowClick = (
-    e: React.MouseEvent<HTMLDivElement>,
+    e: React.MouseEvent<HTMLButtonElement>,
     id: number,
   ) => {
     e.stopPropagation();
@@ -448,16 +454,16 @@ const FeedContent: React.FC<FeedContentProps> = ({
                       {interaction.message}
                     </div>
                   </div>
-                  <div className="flex items-center flex-grow cursor-pointer">
+                  <div className="flex items-center justify-end flex-grow cursor-pointer">
                     {interaction.type === "follow" && !isFollowing && (
-                      <div
-                        className="text-xs w-full flex items-center justify-center"
+                      <Button
+                        className="text-xs flex h-10 w-10 justify-center items-center"
                         onClick={(e) =>
                           handleFollowClick(e, interaction.sender.id)
                         }
                       >
                         <img src={followIcon} className="w-6 object-contain" />
-                      </div>
+                      </Button>
                     )}
                   </div>
                 </div>

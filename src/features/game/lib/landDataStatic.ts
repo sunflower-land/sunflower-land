@@ -24,12 +24,11 @@ export const STATIC_OFFLINE_FARM: GameState = {
     expiresAt: Date.now() + 31 * 24 * 60 * 60 * 1000,
   },
   inventory: {
+    "Black Magic": new Decimal(1),
     "Farmer's Monument": new Decimal(1),
     "Miner's Monument": new Decimal(1),
     "Woodcutter's Monument": new Decimal(1),
-    "Big Orange": new Decimal(1),
-    "Big Apple": new Decimal(1),
-    "Big Banana": new Decimal(1),
+
     "Basic Cooking Pot": new Decimal(1),
     "Expert Cooking Pot": new Decimal(1),
     "Advanced Cooking Pot": new Decimal(1),
@@ -55,8 +54,10 @@ export const STATIC_OFFLINE_FARM: GameState = {
     "Maneki Neko": new Decimal(1),
     "Nyon Statue": new Decimal(1),
     Observatory: new Decimal(1),
-    "Super Totem": new Decimal(1),
-    "Time Warp Totem": new Decimal(1),
+    "Super Totem": new Decimal(5),
+    "Time Warp Totem": new Decimal(5),
+    "Harvest Hourglass": new Decimal(5),
+    "Gourmet Hourglass": new Decimal(5),
     Wardrobe: new Decimal(1),
     "Wicker Man": new Decimal(1),
     Manor: new Decimal(1),
@@ -352,7 +353,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
 
   home: {
     collectibles: {
-      "Magic Bean": [
+      "Big Apple": [
         {
           id: "1",
           createdAt: Date.now(),
@@ -1011,7 +1012,39 @@ export const STATIC_OFFLINE_FARM: GameState = {
   },
   desert: {
     digging: {
-      grid: [],
+      streak: {
+        count: 0,
+        collectedAt: Date.now() - 1000 * 60 * 60 * 1,
+        totalClaimed: 0,
+      },
+      grid: [
+        [
+          {
+            x: 0,
+            y: 0,
+            dugAt: 0,
+            items: { Coprolite: 1 },
+            tool: "Sand Shovel",
+          },
+        ],
+        [
+          {
+            x: 1,
+            y: 0,
+            dugAt: 0,
+            items: { Coprolite: 1 },
+            tool: "Sand Shovel",
+          },
+
+          {
+            x: 2,
+            y: 0,
+            dugAt: 0,
+            items: { Coprolite: 1 },
+            tool: "Sand Shovel",
+          },
+        ],
+      ],
       patterns: [],
     },
   },

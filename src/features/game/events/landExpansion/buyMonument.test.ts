@@ -167,6 +167,7 @@ describe("buyMonument", () => {
     const state = buyMonument({
       state: {
         ...GAME_STATE,
+        coins: 4000,
         inventory: {
           Gem: new Decimal(1000),
           "Basic Land": new Decimal(10),

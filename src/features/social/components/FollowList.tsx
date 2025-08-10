@@ -1,12 +1,15 @@
-import React from "react";
-import useSWR from "swr";
+import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSocial } from "../hooks/useSocial";
 import { Label } from "components/ui/Label";
 import { FollowDetailPanel } from "./FollowDetailPanel";
-import { getFollowNetworkDetails } from "../actions/getFollowNetworkDetails";
 import { Button } from "components/ui/Button";
 import { Equipped } from "features/game/types/bumpkin";
+import { useFollowNetwork } from "../hooks/useFollowNetwork";
+import { useInView } from "react-intersection-observer";
+import { Loading } from "features/auth/components";
+import { useGame } from "features/game/GameProvider";
+import { getHelpStreak } from "features/game/types/monuments";
 
 type Props = {
   loggedInFarmId: number;
@@ -17,6 +20,7 @@ type Props = {
   playerLoading?: boolean;
   showLabel?: boolean;
   type: "followers" | "following";
+  scrollContainerRef: React.RefObject<HTMLDivElement>;
   navigateToPlayer: (playerId: number) => void;
 };
 
@@ -29,6 +33,7 @@ export const FollowList: React.FC<Props> = ({
   playerLoading,
   showLabel = true,
   type,
+  scrollContainerRef,
   navigateToPlayer,
 }) => {
   useSocial({
@@ -36,36 +41,50 @@ export const FollowList: React.FC<Props> = ({
     following: networkList,
   });
   const { t } = useTranslation();
+  const [isScrollable, setIsScrollable] = useState(false);
+  const { gameService } = useGame();
 
-  const { data, isLoading, error, mutate } = useSWR(
-    [
-      networkCount > 0 ? "followNetworkDetails" : null,
-      token,
-      loggedInFarmId,
-      networkFarmId,
-    ],
-    ([, token, farmId, networkFarmId]) => {
-      return getFollowNetworkDetails({
-        token: token as string,
-        farmId,
-        networkFarmId,
-      });
-    },
-    {
-      revalidateOnFocus: false,
-    },
-  );
-
-  const networkDetails = data?.data?.network;
-
-  const sortedNetworkList = networkList.sort((a, b) => {
-    const aSocialPoints = networkDetails?.[a]?.socialPoints ?? 0;
-    const bSocialPoints = networkDetails?.[b]?.socialPoints ?? 0;
-
-    return bSocialPoints - aSocialPoints;
+  // Intersection observer to load more details when the loader is in view
+  const { ref: intersectionRef, inView } = useInView({
+    root: scrollContainerRef.current,
+    rootMargin: "0px",
+    threshold: 0.1,
   });
 
-  if (isLoading || playerLoading) {
+  const {
+    network,
+    isLoadingInitialData,
+    isLoadingMore,
+    hasMore,
+    error,
+    loadMore,
+    mutate,
+  } = useFollowNetwork(token, loggedInFarmId, networkFarmId);
+
+  useEffect(() => {
+    const el = scrollContainerRef.current;
+    if (!el) return;
+
+    const checkScrollable = () => {
+      setIsScrollable(el.scrollHeight > el.clientHeight);
+    };
+
+    checkScrollable();
+
+    const observer = new ResizeObserver(checkScrollable);
+    observer.observe(el);
+
+    return () => observer.disconnect();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [network]);
+
+  useEffect(() => {
+    if (inView && hasMore && !isLoadingMore && isScrollable) {
+      loadMore();
+    }
+  }, [inView, hasMore, isLoadingMore, loadMore, isScrollable]);
+
+  if (isLoadingInitialData || playerLoading) {
     return (
       <div className="flex flex-col gap-1 pl-1">
         <div className="sticky top-0 bg-brown-200 z-10 pb-1">
@@ -115,8 +134,8 @@ export const FollowList: React.FC<Props> = ({
   }
 
   return (
-    <div className="flex flex-col gap-1 pr-0.5">
-      <div className="sticky top-0 bg-brown-200 z-10 pb-1 pt-1">
+    <div className="flex flex-col pr-0.5">
+      <div className="sticky -top-1 bg-brown-200 z-10 pb-1 pt-1">
         {showLabel && (
           <Label type="default">
             {t(`playerModal.${type}`, { count: networkCount })}
@@ -124,22 +143,39 @@ export const FollowList: React.FC<Props> = ({
         )}
       </div>
       <div className="flex flex-col gap-1">
-        {sortedNetworkList.map((followerId) => {
+        {networkList.map((followId) => {
+          const details = network.find((detail) => detail.id === followId);
+
+          if (!details) return null;
+
+          const friendStreak = getHelpStreak({
+            farm: gameService.state.context.state.socialFarming.helped?.[
+              followId
+            ],
+          });
+
           return (
             <FollowDetailPanel
-              key={`flw-${followerId}`}
+              key={`flw-${details.id}`}
               loggedInFarmId={loggedInFarmId}
-              playerId={followerId}
-              clothing={networkDetails?.[followerId]?.clothing as Equipped}
-              username={networkDetails?.[followerId]?.username ?? ""}
-              lastOnlineAt={networkDetails?.[followerId]?.lastUpdatedAt ?? 0}
+              playerId={details.id}
+              clothing={details.clothing as Equipped}
+              username={details.username ?? ""}
+              lastOnlineAt={details.lastUpdatedAt ?? 0}
               navigateToPlayer={navigateToPlayer}
-              projects={networkDetails?.[followerId]?.projects ?? {}}
-              socialPoints={networkDetails?.[followerId]?.socialPoints ?? 0}
-              haveCleanedToday={!!networkDetails?.[followerId]?.cleanedToday}
+              projects={details.projects ?? {}}
+              socialPoints={details.socialPoints ?? 0}
+              haveCleanedToday={!!details.cleanedToday}
+              friendStreak={friendStreak}
             />
           );
         })}
+      </div>
+      <div
+        ref={intersectionRef}
+        className="text-xs flex justify-center py-1 h-5"
+      >
+        {hasMore && <Loading dotsOnly />}
       </div>
     </div>
   );

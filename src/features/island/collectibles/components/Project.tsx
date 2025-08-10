@@ -6,7 +6,12 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import cheer from "assets/icons/cheer.webp";
 import { Context, useGame } from "features/game/GameProvider";
 import { LiveProgressBar, ProgressBar } from "components/ui/ProgressBar";
-import { ButtonPanel, Panel } from "components/ui/Panel";
+import {
+  ButtonPanel,
+  InnerPanel,
+  OuterPanel,
+  Panel,
+} from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { Modal } from "components/ui/Modal";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -19,14 +24,12 @@ import classNames from "classnames";
 import {
   getMonumentBoostedAmount,
   getMonumentRewards,
+  hasHelpedFarmToday,
+  isHelpComplete,
   MonumentName,
+  RAFFLE_REWARDS,
   REQUIRED_CHEERS,
 } from "features/game/types/monuments";
-import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
-import {
-  SFTDetailPopoverInnerPanel,
-  SFTDetailPopoverLabel,
-} from "components/ui/SFTDetailPopover";
 import chest from "assets/icons/chest.png";
 import { Box } from "components/ui/Box";
 import { formatNumber } from "lib/utils/formatNumber";
@@ -44,16 +47,31 @@ import woodcutterMonumentOne from "assets/monuments/axe_monument_stage_1.webp";
 import woodcutterMonumentTwo from "assets/monuments/axe_monument_stage_2.webp";
 
 import basicCookingPotOne from "assets/monuments/basic_cooking_pot_stage_1.webp";
-
 import expertCookingPotOne from "assets/monuments/expert_cooking_pot_stage_1.webp";
-
 import advancedCookingPotOne from "assets/monuments/advanced_cooking_pot_stage_1.webp";
+
+import bigOrangeOne from "assets/monuments/big_orange_stage_1.webp";
+import bigOrangeTwo from "assets/monuments/big_orange_stage_2.webp";
+import bigOrangeThree from "assets/monuments/big_orange_stage_3.webp";
+
+import bigAppleOne from "assets/monuments/big_apple_stage_1.webp";
+import bigAppleTwo from "assets/monuments/big_apple_stage_2.webp";
+import bigAppleThree from "assets/monuments/big_apple_stage_3.webp";
+
+import bigBananaOne from "assets/monuments/big_banana_stage_1.webp";
+import bigBananaTwo from "assets/monuments/big_banana_stage_2.webp";
+import bigBananaThree from "assets/monuments/big_banana_stage_3.webp";
+
 import { getPlayer } from "features/social/actions/getPlayer";
 import { useAuth } from "features/auth/lib/Provider";
 import { Player } from "features/social/types/types";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { Loading } from "features/auth/components";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import { FarmHelped } from "features/island/hud/components/FarmHelped";
+import { INSTA_GROW_PRICES } from "features/game/events/landExpansion/instaGrowProject";
+import { RequirementLabel } from "components/ui/RequirementsLabel";
 
 export const PROJECT_IMAGES: Record<
   MonumentName,
@@ -101,19 +119,19 @@ export const PROJECT_IMAGES: Record<
   },
   // TODO - no growth stages for giant fruit?
   "Big Orange": {
-    empty: ITEM_DETAILS["Big Orange"].image,
-    halfway: ITEM_DETAILS["Big Orange"].image,
-    ready: ITEM_DETAILS["Big Orange"].image,
+    empty: bigOrangeOne,
+    halfway: bigOrangeTwo,
+    ready: bigOrangeThree,
   },
   "Big Apple": {
-    empty: ITEM_DETAILS["Big Apple"].image,
-    halfway: ITEM_DETAILS["Big Apple"].image,
-    ready: ITEM_DETAILS["Big Apple"].image,
+    empty: bigAppleOne,
+    halfway: bigAppleTwo,
+    ready: bigAppleThree,
   },
   "Big Banana": {
-    empty: ITEM_DETAILS["Big Banana"].image,
-    halfway: ITEM_DETAILS["Big Banana"].image,
-    ready: ITEM_DETAILS["Big Banana"].image,
+    empty: bigBananaOne,
+    halfway: bigBananaTwo,
+    ready: bigBananaThree,
   },
 };
 
@@ -142,7 +160,7 @@ export const CheerModal: React.FC<{
         </Label>
         <Label type="info" icon={cheer} className="ml-2 sm:ml-0">
           {t("kingdomChores.progress", {
-            progress: `${cheers}/${REQUIRED_CHEERS[project]}`,
+            progress: `${cheers}/${REQUIRED_CHEERS(gameService.getSnapshot().context.state)[project]}`,
           })}
         </Label>
       </div>
@@ -182,7 +200,7 @@ export const CheerModal: React.FC<{
   );
 };
 
-const ProjectModal: React.FC<{
+const ProjectComplete: React.FC<{
   state: GameState;
   project: MonumentName;
   onClose: () => void;
@@ -206,7 +224,8 @@ const ProjectModal: React.FC<{
     amount = getMonumentBoostedAmount({ gameState: state, amount });
   }
 
-  const isProjectComplete = cheers >= REQUIRED_CHEERS[project];
+  const isProjectComplete =
+    cheers >= REQUIRED_CHEERS(gameService.getSnapshot().context.state)[project];
 
   useEffect(() => {
     const winnerId = state.socialFarming.villageProjects[project]?.winnerId;
@@ -236,14 +255,14 @@ const ProjectModal: React.FC<{
 
   if (isLoading) {
     return (
-      <Panel>
+      <InnerPanel>
         <Loading />
-      </Panel>
+      </InnerPanel>
     );
   }
 
   return (
-    <Panel>
+    <InnerPanel>
       <div className="flex justify-between sm:flex-row flex-col space-y-1">
         <Label
           type="default"
@@ -264,14 +283,20 @@ const ProjectModal: React.FC<{
             t("project.incomplete", {
               project,
               cheers,
-              requiredCheers: REQUIRED_CHEERS[project],
-              remaining: REQUIRED_CHEERS[project] - cheers,
+              requiredCheers: REQUIRED_CHEERS(
+                gameService.getSnapshot().context.state,
+              )[project],
+              remaining:
+                REQUIRED_CHEERS(gameService.getSnapshot().context.state)[
+                  project
+                ] - cheers,
             })}
         </span>
       </div>
 
       {hasFeatureAccess(state, "CHEERS_V2") &&
         isProjectComplete &&
+        RAFFLE_REWARDS[project] &&
         !!winner && (
           <>
             <div className="flex justify-between flex-wrap">
@@ -331,7 +356,121 @@ const ProjectModal: React.FC<{
           {t("complete")}
         </Button>
       </div>
-    </Panel>
+    </InnerPanel>
+  );
+};
+
+const ProjectModal: React.FC<{
+  state: GameState;
+  project: MonumentName;
+  onClose: () => void;
+  onComplete: () => void;
+  cheers: number;
+}> = ({ project, onClose, onComplete, cheers, state }) => {
+  const { t } = useAppTranslation();
+
+  const { gameService, gameState } = useGame();
+
+  const [showConfirmInsta, setShowConfirmInsta] = useState(false);
+
+  const required = REQUIRED_CHEERS(gameService.getSnapshot().context.state)[
+    project
+  ];
+
+  const isProjectComplete = cheers >= required;
+
+  const instaGrow = () => {
+    gameService.send("project.instantGrow", {
+      project,
+    });
+  };
+
+  if (isProjectComplete) {
+    return (
+      <ProjectComplete
+        onComplete={onComplete}
+        state={state}
+        project={project}
+        onClose={onClose}
+        cheers={cheers}
+      />
+    );
+  }
+
+  const instaGrowPrice = INSTA_GROW_PRICES[project] ?? 0;
+  const obsidian = gameState.context.state.inventory.Obsidian ?? new Decimal(0);
+  const hasObsidian = obsidian.gte(instaGrowPrice);
+
+  if (showConfirmInsta) {
+    return (
+      <>
+        <InnerPanel>
+          <Label type="danger">{t("instaGrow")}</Label>
+          <div className="flex flex-col gap-1 text-sm p-2">
+            <span>
+              {t("instaGrow.confirmation", {
+                project,
+                amount: instaGrowPrice,
+              })}
+            </span>
+          </div>
+          <div className="flex">
+            <Button className="mr-1" onClick={() => setShowConfirmInsta(false)}>
+              {t("close")}
+            </Button>
+            <Button onClick={instaGrow}>{t("confirm")}</Button>
+          </div>
+        </InnerPanel>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <InnerPanel className="mb-1">
+        <Label type="default">{project}</Label>
+        <div className="flex flex-col gap-1 text-sm p-2">
+          <span>
+            {t("project.incomplete", {
+              project,
+              cheers,
+              requiredCheers: REQUIRED_CHEERS(
+                gameService.getSnapshot().context.state,
+              )[project],
+              remaining:
+                REQUIRED_CHEERS(gameService.getSnapshot().context.state)[
+                  project
+                ] - cheers,
+            })}
+          </span>
+        </div>
+      </InnerPanel>
+      {hasFeatureAccess(gameState.context.state, "CHEERS_V2") &&
+        !!instaGrowPrice && (
+          <InnerPanel className="mb-1">
+            <div className="p-1">
+              <Label type="vibrant">{t("instaGrow")}</Label>
+              <p className="text-sm my-1">
+                {t("instaGrow.description", { project })}
+              </p>
+              <div className="flex justify-start">
+                <RequirementLabel
+                  item="Obsidian"
+                  requirement={new Decimal(instaGrowPrice)}
+                  type="item"
+                  balance={obsidian}
+                />
+              </div>
+            </div>
+            <Button
+              disabled={!hasObsidian}
+              onClick={() => setShowConfirmInsta(true)}
+            >
+              {t("instaGrow")}
+            </Button>
+          </InnerPanel>
+        )}
+    </>
   );
 };
 
@@ -348,39 +487,40 @@ const _cheersAvailable = (state: MachineState) => {
   return state.context.visitorState?.inventory["Cheer"] ?? new Decimal(0);
 };
 
-const _hasCheeredToday = (project: MonumentName) => (state: MachineState) => {
-  const today = new Date().toISOString().split("T")[0];
+export const _hasCheeredToday =
+  (project: MonumentName) => (state: MachineState) => {
+    const today = new Date().toISOString().split("T")[0];
 
-  if (state.context.visitorState?.socialFarming.cheersGiven.date !== today) {
-    return false;
-  }
+    if (
+      state.context.visitorState &&
+      hasFeatureAccess(state.context.visitorState!, "CHEERS_V2")
+    ) {
+      const hasHelpedToday = hasHelpedFarmToday({
+        game: state.context.visitorState,
+        farmId: state.context.farmId,
+      });
 
-  return (
-    state.context.visitorState?.socialFarming.cheersGiven.projects[
-      project
-    ]?.includes(state.context.farmId) ?? false
-  );
-};
+      if (hasHelpedToday) {
+        return true;
+      }
 
-const MonumentImage = (
-  input: ProjectProps & {
-    open: boolean;
-    isProjectComplete: boolean;
-    setIsCompleting: (isCompleting: boolean) => void;
-  },
-) => {
-  useEffect(() => {
-    if (input.open && input.isProjectComplete) {
-      input.setIsCompleting(true);
+      if (
+        state.context.state?.socialFarming.villageProjects[project]?.helpedAt
+      ) {
+        return true;
+      }
     }
-  }, [input.open, input.isProjectComplete]);
 
-  return (
-    <div className="absolute" style={input.divStyle}>
-      <img src={input.image} style={input.imgStyle} alt={input.alt} />
-    </div>
-  );
-};
+    if (state.context.visitorState?.socialFarming.cheersGiven.date !== today) {
+      return false;
+    }
+
+    return (
+      state.context.visitorState?.socialFarming.cheersGiven.projects[
+        project
+      ]?.includes(state.context.farmId) ?? false
+    );
+  };
 
 type ProjectProps = React.ComponentProps<typeof ImageStyle> & {
   project: MonumentName;
@@ -401,10 +541,11 @@ export const Project: React.FC<ProjectProps> = (input) => {
   );
   const username = useSelector(gameService, _username);
 
-  const projectPercentage = Math.round(
-    (projectCheers / REQUIRED_CHEERS[input.project]) * 100,
-  );
-  const isProjectComplete = projectPercentage >= 100;
+  const requiredCheers = REQUIRED_CHEERS(
+    gameService.getSnapshot().context.state,
+  )[input.project];
+  const projectPercentage = Math.round((projectCheers / requiredCheers) * 100);
+  const isProjectComplete = projectCheers >= requiredCheers;
 
   const today = new Date().toISOString().split("T")[0];
   const tomorrow = new Date(new Date().setDate(new Date().getDate() + 1))
@@ -414,7 +555,8 @@ export const Project: React.FC<ProjectProps> = (input) => {
   const hasCheers = cheersAvailable.gt(0);
 
   const [isCheering, setIsCheering] = useState(false);
-  const [isCompleting, setIsCompleting] = useState(false);
+  const [showHelped, setShowHelped] = useState(false);
+  const [showDetails, setShowDetails] = useState(false);
 
   const [, setRender] = useState<number>(0);
 
@@ -448,24 +590,39 @@ export const Project: React.FC<ProjectProps> = (input) => {
       // eslint-disable-next-line no-console
       console.error(error);
     } finally {
-      setIsCompleting(false);
+      setShowDetails(false);
+    }
+  };
+
+  // V2 - local only event
+  const handleHelpProject = async () => {
+    gameService.send("project.helped", {
+      project: input.project,
+    });
+
+    if (isHelpComplete({ game: gameService.getSnapshot().context.state })) {
+      setShowHelped(true);
     }
   };
 
   const onClick = () => {
-    if (isProjectComplete || hasCheeredProjectToday) {
+    if (!isVisiting) {
+      setShowDetails(true);
+      return;
+    }
+
+    const hasAccess = hasFeatureAccess(
+      gameService.getSnapshot().context.visitorState!,
+      "CHEERS_V2",
+    );
+
+    if (!hasAccess && (isProjectComplete || hasCheeredProjectToday)) {
       setIsCheering(true);
       return;
     }
 
-    if (
-      hasFeatureAccess(
-        gameService.getSnapshot().context.visitorState!,
-        "CHEERS_V2",
-      )
-    ) {
-      // New version doesn't need modal
-      handleCheer();
+    if (hasAccess) {
+      handleHelpProject();
     } else {
       setIsCheering(true);
     }
@@ -481,99 +638,88 @@ export const Project: React.FC<ProjectProps> = (input) => {
 
   return (
     <>
-      <Popover>
-        <PopoverButton as="div">
-          {({ open }) => (
-            <>
-              {!isVisiting && (
-                <MonumentImage
-                  {...input}
-                  open={open}
-                  image={image}
-                  setIsCompleting={setIsCompleting}
-                  isProjectComplete={isProjectComplete}
-                />
-              )}
+      <Modal show={showHelped}>
+        <CloseButtonPanel
+          bumpkinParts={gameService.state.context.state.bumpkin.equipped}
+        >
+          <FarmHelped onClose={() => setShowHelped(false)} />
+        </CloseButtonPanel>
+      </Modal>
 
-              {isVisiting && (
-                <div className="absolute" style={input.divStyle}>
-                  <img src={image} style={input.imgStyle} alt={input.alt} />
-                </div>
-              )}
+      <>
+        <div className="absolute" style={input.divStyle} onClick={onClick}>
+          <img src={image} style={input.imgStyle} alt={input.alt} />
+        </div>
 
-              {isVisiting &&
-                !hasCheeredProjectToday &&
-                !isProjectComplete &&
-                (hasCheers ||
-                  hasFeatureAccess(
-                    gameService.getSnapshot().context.visitorState!,
-                    "CHEERS_V2",
-                  )) && (
-                  <div
-                    className={classNames(
-                      "absolute -top-4 -right-4 pointer-events-auto cursor-pointer hover:img-highlight",
-                      {
-                        "animate-pulsate": hasCheers,
-                      },
-                    )}
-                    onClick={onClick}
-                  >
-                    <div
-                      className="relative mr-2"
-                      style={{ width: `${PIXEL_SCALE * 20}px` }}
-                    >
-                      <img className="w-full" src={SUNNYSIDE.icons.disc} />
-                      <img
-                        className={classNames("absolute")}
-                        src={cheer}
-                        style={{
-                          width: `${PIXEL_SCALE * 17}px`,
-                          right: `${PIXEL_SCALE * 2}px`,
-                          top: `${PIXEL_SCALE * 2}px`,
-                        }}
-                      />
-                    </div>
-                  </div>
-                )}
+        {isVisiting &&
+          !hasCheeredProjectToday &&
+          !isProjectComplete &&
+          (hasCheers ||
+            hasFeatureAccess(
+              gameService.getSnapshot().context.visitorState!,
+              "CHEERS_V2",
+            )) && (
+            <div
+              className={classNames(
+                "absolute -top-4 -right-4 pointer-events-auto cursor-pointer hover:img-highlight",
+                {
+                  "animate-pulsate": hasCheers,
+                },
+              )}
+              onClick={(e) => {
+                e.stopPropagation();
+                onClick();
+              }}
+            >
               <div
-                className="absolute bottom-2 left-1/2"
-                style={{
-                  width: `${PIXEL_SCALE * 20}px`,
-                }}
+                className="relative mr-2"
+                style={{ width: `${PIXEL_SCALE * 20}px` }}
               >
-                {!hasCheeredProjectToday && (
-                  <ProgressBar
-                    type="quantity"
-                    percentage={projectPercentage}
-                    formatLength="full"
-                    className="ml-1 -translate-x-1/2"
-                  />
-                )}
-                {hasCheeredProjectToday && (
-                  <LiveProgressBar
-                    startAt={new Date(today).getTime()}
-                    endAt={new Date(tomorrow).getTime()}
-                    formatLength="short"
-                    onComplete={() => setRender((r) => r + 1)}
-                    className="ml-1 -translate-x-1/2"
-                  />
-                )}
+                <img className="w-full" src={SUNNYSIDE.icons.disc} />
+                <img
+                  className={classNames("absolute")}
+                  src={
+                    hasFeatureAccess(
+                      gameService.getSnapshot().context.visitorState!,
+                      "CHEERS_V2",
+                    )
+                      ? SUNNYSIDE.icons.drag
+                      : cheer
+                  }
+                  style={{
+                    width: `${PIXEL_SCALE * 17}px`,
+                    right: `${PIXEL_SCALE * 2}px`,
+                    top: `${PIXEL_SCALE * 2}px`,
+                  }}
+                />
               </div>
-            </>
+            </div>
           )}
-        </PopoverButton>
-
-        <PopoverPanel anchor={{ to: "left start" }} className="flex">
-          <SFTDetailPopoverInnerPanel>
-            <SFTDetailPopoverLabel name={input.name} />
-            <Label type="info" icon={cheer} className="ml-2 sm:ml-0">
-              {t("cheers.progress", {
-                progress: `${projectCheers}/${REQUIRED_CHEERS[input.project]}`,
-              })}
-            </Label>
-          </SFTDetailPopoverInnerPanel>
-        </PopoverPanel>
-      </Popover>
+        <div
+          className="absolute bottom-2 left-1/2"
+          style={{
+            width: `${PIXEL_SCALE * 20}px`,
+          }}
+        >
+          {!hasCheeredProjectToday && (
+            <ProgressBar
+              type="quantity"
+              percentage={projectPercentage}
+              formatLength="full"
+              className="ml-1 -translate-x-1/2"
+            />
+          )}
+          {hasCheeredProjectToday && (
+            <LiveProgressBar
+              startAt={new Date(today).getTime()}
+              endAt={new Date(tomorrow).getTime()}
+              formatLength="short"
+              onComplete={() => setRender((r) => r + 1)}
+              className="ml-1 -translate-x-1/2"
+            />
+          )}
+        </div>
+      </>
 
       <Modal show={isCheering} onHide={() => setIsCheering(false)}>
         <CheerModal
@@ -586,14 +732,16 @@ export const Project: React.FC<ProjectProps> = (input) => {
         />
       </Modal>
 
-      <Modal show={isCompleting} onHide={() => setIsCompleting(false)}>
-        <ProjectModal
-          state={gameService.getSnapshot().context.state}
-          project={input.project}
-          onClose={() => setIsCompleting(false)}
-          onComplete={handleComplete}
-          cheers={projectCheers}
-        />
+      <Modal show={showDetails} onHide={() => setShowDetails(false)}>
+        <CloseButtonPanel container={OuterPanel}>
+          <ProjectModal
+            state={gameService.getSnapshot().context.state}
+            project={input.project}
+            onClose={() => setShowDetails(false)}
+            onComplete={handleComplete}
+            cheers={projectCheers}
+          />
+        </CloseButtonPanel>
       </Modal>
     </>
   );

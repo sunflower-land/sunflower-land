@@ -33,7 +33,10 @@ export type ExoticCropName =
   | "Purple Cauliflower"
   | "Adirondack Potato"
   | "Warty Goblin Pumpkin"
-  | "White Carrot";
+  | "White Carrot"
+  | "Giant Orange"
+  | "Giant Apple"
+  | "Giant Banana";
 
 export type ExoticCrop = {
   description: string;
@@ -83,6 +86,24 @@ export const EXOTIC_CROPS: Record<ExoticCropName, ExoticCrop> = {
     name: "White Carrot",
     description: translate("description.white.carrot"),
     sellPrice: 800,
+    disabled: false,
+  },
+  "Giant Orange": {
+    name: "Giant Orange",
+    description: translate("description.giantOrange"),
+    sellPrice: 800,
+    disabled: false,
+  },
+  "Giant Apple": {
+    name: "Giant Apple",
+    description: translate("description.giantApple"),
+    sellPrice: 2000,
+    disabled: false,
+  },
+  "Giant Banana": {
+    name: "Giant Banana",
+    description: translate("description.giantBanana"),
+    sellPrice: 5000,
     disabled: false,
   },
 };

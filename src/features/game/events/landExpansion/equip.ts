@@ -141,10 +141,6 @@ export function availableWardrobe(game: GameState): Wardrobe {
       amount -= listed[name] ?? 0;
     }
 
-    if (amount === 0) {
-      return acc;
-    }
-
     return {
       ...acc,
       [name]: amount,
