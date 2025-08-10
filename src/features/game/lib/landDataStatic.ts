@@ -26,12 +26,8 @@ export const STATIC_OFFLINE_FARM: GameState = {
   inventory: {
     "Black Magic": new Decimal(1),
     "Farmer's Monument": new Decimal(1),
-    "Miner's Monument": new Decimal(1),
-    "Woodcutter's Monument": new Decimal(1),
 
     "Basic Cooking Pot": new Decimal(1),
-    "Expert Cooking Pot": new Decimal(1),
-    "Advanced Cooking Pot": new Decimal(1),
     "Teamwork Monument": new Decimal(1),
     "Gold Cooking Trophy": new Decimal(1),
     Doll: new Decimal(10),

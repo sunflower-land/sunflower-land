@@ -31,6 +31,7 @@ import powerup from "assets/icons/level_up.png";
 import { hasFeatureAccess } from "lib/flags";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { FarmHelped } from "features/island/hud/components/FarmHelped";
+import helpIcon from "assets/icons/help.webp";
 
 const BOOST_LABELS: Partial<
   Record<
@@ -289,11 +290,11 @@ export const Monument: React.FC<MonumentProps> = (input) => {
                             gameService.getSnapshot().context.visitorState!,
                             "CHEERS_V2",
                           )
-                            ? SUNNYSIDE.icons.drag
+                            ? helpIcon
                             : cheer
                         }
                         style={{
-                          width: `${PIXEL_SCALE * 17}px`,
+                          width: `${PIXEL_SCALE * 15}px`,
                           right: `${PIXEL_SCALE * 2}px`,
                           top: `${PIXEL_SCALE * 2}px`,
                         }}
@@ -332,7 +333,7 @@ export const Monument: React.FC<MonumentProps> = (input) => {
         <PopoverPanel anchor={{ to: "left start" }} className="flex">
           <SFTDetailPopoverInnerPanel>
             <SFTDetailPopoverLabel name={input.name} />
-            <Label type="info" icon={cheer} className="ml-2 sm:ml-0">
+            <Label type="info" icon={helpIcon} className="ml-2 sm:ml-0">
               {t("cheers.progress", {
                 progress: `${projectCheers}/${REQUIRED_CHEERS(gameService.getSnapshot().context.state)[input.project]}`,
               })}

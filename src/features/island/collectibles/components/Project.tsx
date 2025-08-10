@@ -4,6 +4,7 @@ import { useVisiting } from "lib/utils/visitUtils";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import cheer from "assets/icons/cheer.webp";
+import helpIcon from "assets/icons/help.webp";
 import { Context, useGame } from "features/game/GameProvider";
 import { LiveProgressBar, ProgressBar } from "components/ui/ProgressBar";
 import {
@@ -27,6 +28,7 @@ import {
   hasHelpedFarmToday,
   isHelpComplete,
   MonumentName,
+  RAFFLE_REWARDS,
   REQUIRED_CHEERS,
 } from "features/game/types/monuments";
 import chest from "assets/icons/chest.png";
@@ -295,6 +297,7 @@ const ProjectComplete: React.FC<{
 
       {hasFeatureAccess(state, "CHEERS_V2") &&
         isProjectComplete &&
+        RAFFLE_REWARDS[project] &&
         !!winner && (
           <>
             <div className="flex justify-between flex-wrap">
@@ -426,21 +429,20 @@ const ProjectModal: React.FC<{
   return (
     <>
       <InnerPanel className="mb-1">
-        <Label type="default">{project}</Label>
-        <div className="flex flex-col gap-1 text-sm p-2">
-          <span>
-            {t("project.incomplete", {
-              project,
-              cheers,
-              requiredCheers: REQUIRED_CHEERS(
-                gameService.getSnapshot().context.state,
-              )[project],
-              remaining:
+        <div className="flex justify-between">
+          <Label type="default">{project}</Label>
+          <Label type="info" icon={cheer} className="ml-2 sm:ml-0">
+            {t("cheers.progress", {
+              progress: `${cheers}/${
                 REQUIRED_CHEERS(gameService.getSnapshot().context.state)[
                   project
-                ] - cheers,
+                ]
+              }`,
             })}
-          </span>
+          </Label>
+        </div>
+        <div className="flex flex-col gap-1 text-sm p-2">
+          <span>{t("project.incomplete")}</span>
         </div>
       </InnerPanel>
       {hasFeatureAccess(gameState.context.state, "CHEERS_V2") &&
@@ -527,9 +529,6 @@ type ProjectProps = React.ComponentProps<typeof ImageStyle> & {
 export const Project: React.FC<ProjectProps> = (input) => {
   const { isVisiting } = useVisiting();
   const { gameService } = useContext(Context);
-  const { t } = useAppTranslation();
-
-  const { authService } = useAuth();
 
   const projectCheers = useSelector(gameService, _cheers(input.project));
   const cheersAvailable = useSelector(gameService, _cheersAvailable);
@@ -681,11 +680,11 @@ export const Project: React.FC<ProjectProps> = (input) => {
                       gameService.getSnapshot().context.visitorState!,
                       "CHEERS_V2",
                     )
-                      ? SUNNYSIDE.icons.drag
+                      ? helpIcon
                       : cheer
                   }
                   style={{
-                    width: `${PIXEL_SCALE * 17}px`,
+                    width: `${PIXEL_SCALE * 15}px`,
                     right: `${PIXEL_SCALE * 2}px`,
                     top: `${PIXEL_SCALE * 2}px`,
                   }}

@@ -2,6 +2,11 @@ import { produce } from "immer";
 import Decimal from "decimal.js-light";
 import { GameState, Inventory } from "features/game/types/game";
 import { getKeys } from "features/game/lib/crafting";
+import {
+  LOVE_CHARM_MONUMENTS,
+  REQUIRED_CHEERS,
+  MEGASTORE_MONUMENTS,
+} from "features/game/types/monuments";
 
 export type IncreaseHelpLimitAction = {
   type: "helpLimit.increased";
@@ -39,7 +44,21 @@ export function getHelpLimit({
   game: GameState;
   now?: Date;
 }) {
-  const limit = HELP_LIMIT;
+  let limit = HELP_LIMIT;
+
+  const monuments = {
+    ...LOVE_CHARM_MONUMENTS,
+    ...MEGASTORE_MONUMENTS,
+  };
+
+  getKeys(monuments).forEach((monument) => {
+    if (
+      (game.socialFarming.villageProjects?.[monument]?.cheers ?? 0) >=
+      REQUIRED_CHEERS(game)[monument]
+    ) {
+      limit += 1;
+    }
+  });
 
   // Get all the increases for the current UTC date
   const increases =
