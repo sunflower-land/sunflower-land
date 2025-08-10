@@ -1,11 +1,11 @@
 import { Box } from "components/ui/Box";
 import { Label } from "components/ui/Label";
-import { ITEM_DETAILS } from "features/game/types/images";
 import React, { useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { getKeys } from "features/game/lib/crafting";
 import {
   hasHelpedFarmToday,
+  RAFFLE_REWARDS,
   REQUIRED_CHEERS,
   WORKBENCH_MONUMENTS,
 } from "features/game/types/monuments";
@@ -15,8 +15,7 @@ import { hasCleanedToday } from "features/island/clutter/Clutter";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import Decimal from "decimal.js-light";
 import { getCollectedGarbage } from "features/game/events/landExpansion/collectClutter";
-import { ClutterName, FARM_PEST } from "features/game/types/clutter";
-import { _hasCheeredToday } from "features/island/collectibles/components/Project";
+import { ClutterName } from "features/game/types/clutter";
 import { InnerPanel } from "components/ui/Panel";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 import {
@@ -27,6 +26,8 @@ import {
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { secondsTillReset, secondsToString } from "lib/utils/time";
 import { useSelector } from "@xstate/react";
+import helpIcon from "assets/icons/help.webp";
+import clutterIcon from "assets/clutter/clutter.webp";
 
 interface VisitorGuideProps {
   onClose: () => void;
@@ -192,6 +193,18 @@ export const VisitorGuide: React.FC<VisitorGuideProps> = ({ onClose }) => {
     );
   }
 
+  const pendingProjects = getKeys(
+    WORKBENCH_MONUMENTS(gameState.context.visitorState!),
+  ).filter(
+    (monument) =>
+      // Ensures the monument is placed with Coordinates
+      !!collectibles[monument]?.some((item) => !!item.coordinates) &&
+      // Ensures that the monument hasn't been completed
+      !villageProjects[monument]?.helpedAt &&
+      (villageProjects[monument]?.cheers ?? 0) <
+        REQUIRED_CHEERS(gameState.context.visitorState!)[monument],
+  );
+
   return (
     <div className="max-h-[300px] overflow-y-auto scrollable pr-0.5">
       <InnerPanel className="mb-1">
@@ -207,83 +220,59 @@ export const VisitorGuide: React.FC<VisitorGuideProps> = ({ onClose }) => {
         </p>
       </InnerPanel>
 
-      <InnerPanel>
-        <Label type="default">{t("taskBoard.tasks")}</Label>
+      <InnerPanel className="mb-1">
+        <Label type="default" className="mb-1">
+          {t("visitorGuide.tasks")}
+        </Label>
 
-        {getKeys(clutter).map((type) => {
-          const isPest = type in FARM_PEST;
+        {getKeys(clutter).length > 0 && (
+          <div className="flex items-center gap-1 -mt-1">
+            <Box image={clutterIcon} />
+            <div className="flex-1">
+              <div className="flex items-center justify-between flex-wrap">
+                <p className="text-xs sm:text-sm">
+                  {`${t("visitorGuide.pickUp")} ${getKeys(clutter)
+                    .map((type) => `${clutter[type]} ${type}`)
+                    .join(", ")}`}
+                </p>
+              </div>
 
-          return (
-            <div key={type} className="flex items-center gap-1 -mt-1">
-              <Box
-                image={ITEM_DETAILS[type].image}
-                secondaryImage={
-                  hasCleaned ? SUNNYSIDE.icons.confirm : undefined
-                }
-                count={hasCleaned ? undefined : new Decimal(clutter[type])}
-              />
-              <div className="flex-1">
-                <div className="flex items-center justify-between flex-wrap">
-                  <p className="text-xs sm:text-sm">
-                    {t("visitorGuide.pickupClutter", {
-                      type,
-                      amount: clutter[type],
-                    })}
-                  </p>
-                  {isPest && (
-                    <Label type="danger">{t("visitorGuide.netRequired")}</Label>
-                  )}
-                </div>
-
-                <div className="flex items-center my-0.5">
-                  <p className="text-xxs sm:text-xs mr-1">
-                    {isPest
-                      ? t("visitorGuide.pest")
-                      : t("visitorGuide.clutter")}
-                  </p>
-                </div>
+              <div className="flex items-center my-0.5">
+                <p className="text-xxs sm:text-xs mr-1">
+                  {t("visitorGuide.clutter")}
+                </p>
               </div>
             </div>
-          );
-        })}
+          </div>
+        )}
 
-        {getKeys(WORKBENCH_MONUMENTS(gameState.context.visitorState!))
-          .filter(
-            (monument) =>
-              // Ensures the monument is placed with Coordinates
-              !!collectibles[monument]?.some((item) => !!item.coordinates) &&
-              // Ensures that the monument hasn't been completed
-              (villageProjects[monument]?.cheers ?? 0) <
-                REQUIRED_CHEERS(gameState.context.visitorState!)[monument],
-          )
-          .map((monument) => {
-            const hasCheered = _hasCheeredToday(monument)(gameState);
-            return (
-              <div className="flex items-center gap-1" key={monument}>
-                <Box
-                  image={ITEM_DETAILS[monument].image}
-                  secondaryImage={
-                    hasCheered ? SUNNYSIDE.icons.confirm : undefined
-                  }
-                />
-                <div className="flex-1">
-                  <div className="flex items-center justify-between flex-wrap">
-                    <p className="text-xs sm:text-sm">
-                      {t("visitorGuide.cheerMonument", { monument })}
-                    </p>
-                  </div>
-                  <div className="flex items-center my-0.5">
-                    <p className="text-xxs sm:text-xs mr-1">
-                      {t("visitorGuide.monument")}
-                    </p>
-                  </div>
-                </div>
+        {pendingProjects.length > 0 && (
+          <div className="flex items-center gap-1">
+            <Box image={helpIcon} count={new Decimal(pendingProjects.length)} />
+            <div className="flex-1">
+              <div className="flex items-center justify-between flex-wrap">
+                <p className="text-xs sm:text-sm">
+                  {t("visitorGuide.project")}
+                </p>
               </div>
-            );
-          })}
-
-        <Button onClick={onClose}>{t("gotIt")}</Button>
+              <div className="flex items-center my-0.5">
+                <p className="text-xxs sm:text-xs mr-1">
+                  {t("visitorGuide.helpProject")}
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
       </InnerPanel>
+
+      {pendingProjects.filter((name) => name in RAFFLE_REWARDS).length > 0 && (
+        <InnerPanel className="mb-1 p-1">
+          <Label type="warning">{t("rewards")}</Label>
+          <p className="text-xs p-2">{t("visitorGuide.rewards")}</p>
+        </InnerPanel>
+      )}
+
+      <Button onClick={onClose}>{t("gotIt")}</Button>
     </div>
   );
 };
