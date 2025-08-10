@@ -6285,7 +6285,6 @@
   "description.pickaxeShark.boost.1": "-15% ゴールド回復時間",
   "description.pickaxeShark.boost.2": "10% の確率でゴールドが即座に回復する",
   "visitorGuide.pickupClutter": "{{amount}} x {{type}} をピックアップ",
-  "visitorGuide.clutter": "農場で隠されたアイテムを見つけてください。",
   "visitorGuide.pest": "害虫を捕まえろ",
   "cheers.vipBonus": "+3 VIP ボーナス",
   "cheering.free.description": "毎日最大3回の無料応援が受けられます。",
@@ -6385,5 +6384,11 @@
   "workbench.helpRequired": "友達を招待して、これらのプロジェクトを完了するのを手伝ってください。",
   "description.monument.buff": "+1 ヘルプリミット",
   "project.incomplete": "友達を農場に招待して助けてください。",
-  "disabled.giantFruit": "8 月 11 日まで無効"
+  "disabled.giantFruit": "8 月 11 日まで無効",
+  "visitorGuide.helpProject": "オーナーがプロジェクトを完了するのを手伝ってください。",
+  "visitorGuide.project": "プロジェクト",
+  "visitorGuide.pickUp": "ピックアップ",
+  "visitorGuide.clutter": "農場に隠されたアイテムを見つけてください。",
+  "visitorGuide.tasks": "残りのタスク",
+  "visitorGuide.rewards": "鍋の中でオーナーを助けて、報酬をもらえるチャンスを手に入れよう！"
 }

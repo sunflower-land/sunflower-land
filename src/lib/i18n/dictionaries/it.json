@@ -6285,7 +6285,6 @@
   "description.pickaxeShark.boost.1": "-15% tempo di recupero dell'oro",
   "description.pickaxeShark.boost.2": "10% di possibilità che l'oro si recuperi istantaneamente",
   "visitorGuide.pickupClutter": "Ritiro {{amount}} x {{type}}",
-  "visitorGuide.clutter": "Trova l'oggetto nascosto nella fattoria.",
   "visitorGuide.pest": "Cattura il parassita.",
   "cheers.vipBonus": "Bonus VIP +3",
   "cheering.free.description": "Ogni giorno ricevi fino a 3 applausi gratuiti.",
@@ -6385,5 +6384,11 @@
   "workbench.helpRequired": "Invita i tuoi amici ad aiutarti a completare questi progetti.",
   "description.monument.buff": "+1 Limite di aiuto",
   "project.incomplete": "Invita i tuoi amici a visitare la tua fattoria e ad aiutarti.",
-  "disabled.giantFruit": "Disabili fino all'11 agosto"
+  "disabled.giantFruit": "Disabili fino all'11 agosto",
+  "visitorGuide.helpProject": "Aiuta il proprietario a completare i suoi progetti.",
+  "visitorGuide.project": "Progetti",
+  "visitorGuide.pickUp": "Raccogli",
+  "visitorGuide.clutter": "Trova gli oggetti nascosti nella fattoria.",
+  "visitorGuide.tasks": "Attività rimanenti",
+  "visitorGuide.rewards": "Aiuta il proprietario a mettere le pentole per avere la possibilità di ricevere una ricompensa!"
 }

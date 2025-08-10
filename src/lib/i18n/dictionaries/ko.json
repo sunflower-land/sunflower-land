@@ -6285,7 +6285,6 @@
   "description.pickaxeShark.boost.1": "골드 회복 시간 -15%",
   "description.pickaxeShark.boost.2": "10% 의 확률로 골드가 즉시 회복",
   "visitorGuide.pickupClutter": "픽업 {{amount}} x {{type}}",
-  "visitorGuide.clutter": "농장에서 숨겨진 아이템을 찾으세요.",
   "visitorGuide.pest": "해충을 잡아라.",
   "cheers.vipBonus": "+3 VIP 보너스",
   "cheering.free.description": "매일 최대 3회의 무료 응원을 받을 수 있습니다.",
@@ -6385,5 +6384,11 @@
   "workbench.helpRequired": "친구들을 초대하여 이 프로젝트를 완료하는 데 도움을 주세요.",
   "description.monument.buff": "+1 도움 제한",
   "project.incomplete": "친구들을 초대하여 농장을 방문하고 도와주세요.",
-  "disabled.giantFruit": "8월 11일까지 사용 불가"
+  "disabled.giantFruit": "8월 11일까지 사용 불가",
+  "visitorGuide.helpProject": "소유자가 프로젝트를 완료하도록 도와주세요.",
+  "visitorGuide.project": "프로젝트",
+  "visitorGuide.pickUp": "픽업",
+  "visitorGuide.clutter": "농장에서 숨겨진 아이템을 찾으세요.",
+  "visitorGuide.tasks": "남은 과제",
+  "visitorGuide.rewards": "요리 냄비 주인을 도와 보상을 받을 기회를 잡으세요!"
 }
