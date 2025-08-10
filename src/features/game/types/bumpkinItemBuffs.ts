@@ -224,7 +224,7 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       shortDescription: translate("bumpkinItemBuff.angler.waders.boost"),
       labelType: "success",
       boostTypeIcon: powerup,
-      boostedItemIcon: SUNNYSIDE.icons.fish,
+      boostedItemIcon: ITEM_DETAILS["Rod"].image,
     },
   ],
   "Ancient Rod": [

@@ -1606,6 +1606,7 @@ function getCollectibleBuffLabels(
         shortDescription: translate("description.reelmastersChair.boost"),
         labelType: "success",
         boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS["Rod"].image,
       },
     ],
     "Fruit Tune Box": [
