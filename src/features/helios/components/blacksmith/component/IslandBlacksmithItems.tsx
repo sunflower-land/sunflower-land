@@ -33,6 +33,7 @@ import { Label } from "components/ui/Label";
 import cheer from "assets/icons/cheer.webp";
 import helpIcon from "assets/icons/help.webp";
 import { hasFeatureAccess } from "lib/flags";
+import { getBumpkinLevel } from "features/game/lib/level";
 
 const VALID_EQUIPMENT: HeliosBlacksmithItem[] = [
   "Basic Scarecrow",
@@ -165,6 +166,10 @@ export const IslandBlacksmithItems: React.FC = () => {
 
   const lessCoins = () => coins < (selectedItem?.coins ?? 0);
 
+  const hasLevel =
+    !selectedItem?.level ||
+    getBumpkinLevel(state.bumpkin?.experience ?? 0) >= selectedItem?.level;
+
   const craft = () => {
     if (selectedName in WORKBENCH_MONUMENTS(state)) {
       gameService.send("LANDSCAPE", {
@@ -230,6 +235,7 @@ export const IslandBlacksmithItems: React.FC = () => {
           requirements={{
             resources: selectedItem?.ingredients ?? {},
             coins: selectedItem?.coins ?? 0,
+            level: selectedItem?.level ?? 0,
           }}
           actionView={
             isAlreadyCrafted ? (
@@ -250,7 +256,8 @@ export const IslandBlacksmithItems: React.FC = () => {
                       isDisabled ||
                       lessIngredients() ||
                       lessCoins() ||
-                      hasBuiltMonument()
+                      hasBuiltMonument() ||
+                      !hasLevel
                     }
                     onClick={craft}
                   >

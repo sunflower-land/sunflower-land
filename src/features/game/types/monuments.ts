@@ -23,6 +23,7 @@ export type WorkbenchMonumentName =
 
 type LoveCharmMonument = Omit<Decoration, "name"> & {
   name: LoveCharmMonumentName;
+  level?: number;
 };
 
 type MegastoreMonument = Omit<Decoration, "name"> & {
@@ -31,6 +32,7 @@ type MegastoreMonument = Omit<Decoration, "name"> & {
 
 export type LandscapingMonument = Omit<Decoration, "name"> & {
   name: WorkbenchMonumentName;
+  level?: number;
 };
 
 export type Monument =
@@ -61,6 +63,7 @@ export const LOVE_CHARM_MONUMENTS: Record<
     ingredients: {
       Gem: new Decimal(100),
     },
+    level: 10,
   },
   "Woodcutter's Monument": {
     name: "Woodcutter's Monument",
@@ -69,6 +72,7 @@ export const LOVE_CHARM_MONUMENTS: Record<
     ingredients: {
       Gem: new Decimal(200),
     },
+    level: 20,
   },
   "Miner's Monument": {
     name: "Miner's Monument",
@@ -77,6 +81,7 @@ export const LOVE_CHARM_MONUMENTS: Record<
     ingredients: {
       Gem: new Decimal(300),
     },
+    level: 50,
   },
 };
 
@@ -92,17 +97,21 @@ export const WORKBENCH_MONUMENTS: (
       description: "",
       coins: hasCheersV2 ? 500 : 0,
       ingredients: hasCheersV2 ? {} : { Gem: new Decimal(100) },
+      level: 16,
     },
     "Big Apple": {
       name: "Big Apple",
       description: "",
       coins: hasCheersV2 ? 1500 : 0,
       ingredients: hasCheersV2 ? {} : { Gem: new Decimal(200) },
+      level: 30,
     },
     "Big Banana": {
       name: "Big Banana",
       description: "",
       coins: hasCheersV2 ? 4000 : 0,
+      level: 50,
+
       ingredients: hasCheersV2
         ? {}
         : {
@@ -116,6 +125,7 @@ export const WORKBENCH_MONUMENTS: (
       ingredients: {
         Gem: new Decimal(10),
       },
+      level: 20,
     },
     "Expert Cooking Pot": {
       name: "Expert Cooking Pot",
@@ -124,6 +134,7 @@ export const WORKBENCH_MONUMENTS: (
       ingredients: {
         Gem: new Decimal(50),
       },
+      level: 40,
     },
     "Advanced Cooking Pot": {
       name: "Advanced Cooking Pot",
@@ -132,6 +143,7 @@ export const WORKBENCH_MONUMENTS: (
       ingredients: {
         Gem: new Decimal(hasCheersV2 ? 500 : 100),
       },
+      level: 60,
     },
   } as Record<WorkbenchMonumentName, LandscapingMonument>;
 };

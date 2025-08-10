@@ -192,6 +192,7 @@ export type CraftableCollectible = {
   coins?: number;
   from?: Date;
   to?: Date;
+  level?: number;
 };
 
 export const HELIOS_BLACKSMITH_ITEMS: (
