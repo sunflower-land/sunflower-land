@@ -1115,10 +1115,6 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Dung: 2292,
   Weed: 2293,
 
-  "Giant Orange": 2294,
-  "Giant Apple": 2295,
-  "Giant Banana": 2296,
-
   // Better Together - Items
   "Floor Mirror": 2294,
   "Long Rug": 2295,
@@ -1149,6 +1145,10 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Pest Net": 2317,
 
   Poseidon: 2318,
+
+  "Giant Orange": 2319,
+  "Giant Apple": 2320,
+  "Giant Banana": 2321,
 
   // Land Biomes
   "Basic Biome": 2400,
