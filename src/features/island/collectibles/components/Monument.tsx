@@ -32,19 +32,7 @@ import { hasFeatureAccess } from "lib/flags";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { FarmHelped } from "features/island/hud/components/FarmHelped";
 import helpIcon from "assets/icons/help.webp";
-
-const BOOST_LABELS: Partial<
-  Record<
-    MonumentName,
-    | "farmersMonument.boost"
-    | "woodcuttersMonument.boost"
-    | "minersMonument.boost"
-  >
-> = {
-  "Farmer's Monument": "farmersMonument.boost",
-  "Woodcutter's Monument": "woodcuttersMonument.boost",
-  "Miner's Monument": "minersMonument.boost",
-};
+import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 
 const ProjectModal: React.FC<{
   project: MonumentName;
@@ -56,7 +44,9 @@ const ProjectModal: React.FC<{
 
   const isProjectComplete =
     cheers >= REQUIRED_CHEERS(gameService.getSnapshot().context.state)[project];
-  const boostLabel = BOOST_LABELS[project];
+  const boostLabel = COLLECTIBLE_BUFF_LABELS(
+    gameService.getSnapshot().context.state,
+  )[project];
 
   return (
     <Panel>
@@ -93,7 +83,7 @@ const ProjectModal: React.FC<{
 
       {isProjectComplete && boostLabel && (
         <Label type="success" icon={powerup} className="mb-1 ml-2">
-          {t(boostLabel)}
+          {boostLabel[0].shortDescription}
         </Label>
       )}
 
