@@ -6384,5 +6384,6 @@
   "monument.requiredHelp": "{{amount}} 帮助",
   "workbench.helpRequired": "邀请你的朋友来帮助你完成这些项目。",
   "description.monument.buff": "+1 帮助上限",
-  "project.incomplete": "邀请你的朋友参观你的农场并帮助你。"
+  "project.incomplete": "邀请你的朋友参观你的农场并帮助你。",
+  "disabled.giantFruit": "在 8 月 11 日之前禁用"
 }

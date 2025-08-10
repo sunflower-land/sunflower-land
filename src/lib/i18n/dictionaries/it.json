@@ -6384,5 +6384,6 @@
   "monument.requiredHelp": "{{amount}} aiuto",
   "workbench.helpRequired": "Invita i tuoi amici ad aiutarti a completare questi progetti.",
   "description.monument.buff": "+1 Limite di aiuto",
-  "project.incomplete": "Invita i tuoi amici a visitare la tua fattoria e ad aiutarti."
+  "project.incomplete": "Invita i tuoi amici a visitare la tua fattoria e ad aiutarti.",
+  "disabled.giantFruit": "Disabili fino all'11 agosto"
 }

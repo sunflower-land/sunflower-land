@@ -6384,5 +6384,6 @@
   "monument.requiredHelp": "{{amount}} ajuda",
   "workbench.helpRequired": "Convide seus amigos para ajudá-lo a concluir esses projetos.",
   "description.monument.buff": "+1 Limite de ajuda",
-  "project.incomplete": "Convide seus amigos para visitar sua fazenda e ajudá-lo."
+  "project.incomplete": "Convide seus amigos para visitar sua fazenda e ajudá-lo.",
+  "disabled.giantFruit": "Desativado até 11 de agosto"
 }
