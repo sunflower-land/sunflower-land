@@ -2,6 +2,7 @@ import { GameState, InventoryItemName } from "./game";
 import { BuffLabel } from ".";
 import powerup from "assets/icons/level_up.png";
 import lightning from "assets/icons/lightning.png";
+import helpIcon from "assets/icons/help.webp";
 import chefHat from "assets/icons/chef_hat.png";
 import { CROP_LIFECYCLE } from "features/island/plots/lib/plant";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -1629,6 +1630,34 @@ function getCollectibleBuffLabels(
         labelType: "success",
         boostTypeIcon: powerup,
         boostedItemIcon: ITEM_DETAILS["Artichoke"].image,
+      },
+    ],
+    "Farmer's Monument": [
+      {
+        shortDescription: translate("description.monument.buff"),
+        labelType: "success",
+        boostTypeIcon: helpIcon,
+      },
+    ],
+    "Woodcutter's Monument": [
+      {
+        shortDescription: translate("description.monument.buff"),
+        labelType: "success",
+        boostTypeIcon: helpIcon,
+      },
+    ],
+    "Miner's Monument": [
+      {
+        shortDescription: translate("description.monument.buff"),
+        labelType: "success",
+        boostTypeIcon: helpIcon,
+      },
+    ],
+    "Teamwork Monument": [
+      {
+        shortDescription: translate("description.monument.buff"),
+        labelType: "success",
+        boostTypeIcon: helpIcon,
       },
     ],
   };
