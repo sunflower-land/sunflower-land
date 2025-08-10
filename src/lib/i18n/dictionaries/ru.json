@@ -6384,5 +6384,6 @@
   "monument.requiredHelp": "{{amount}} помощь",
   "workbench.helpRequired": "Пригласите друзей помочь вам завершить эти проекты.",
   "description.monument.buff": "Ограничение помощи +1",
-  "project.incomplete": "Пригласите друзей посетить вашу ферму и помочь вам."
+  "project.incomplete": "Пригласите друзей посетить вашу ферму и помочь вам.",
+  "disabled.giantFruit": "Отключено до 11 августа"
 }

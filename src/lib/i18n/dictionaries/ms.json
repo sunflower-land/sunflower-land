@@ -6384,5 +6384,6 @@
   "monument.requiredHelp": "{{amount}} bantuan",
   "workbench.helpRequired": "Jemput rakan anda untuk membantu anda menyelesaikan projek-projek ini.",
   "description.monument.buff": "+1 Had Bantuan",
-  "project.incomplete": "Jemput rakan anda untuk melawat ladang anda dan membantu anda."
+  "project.incomplete": "Jemput rakan anda untuk melawat ladang anda dan membantu anda.",
+  "disabled.giantFruit": "Dilumpuhkan sehingga 11 Ogos"
 }

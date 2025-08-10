@@ -6384,5 +6384,6 @@
   "monument.requiredHelp": "{{amount}} yardım",
   "workbench.helpRequired": "Arkadaşlarınızı bu projeleri bitirmenize yardımcı olmaya davet edin.",
   "description.monument.buff": "+1 Yardım Sınırı",
-  "project.incomplete": "Arkadaşlarınızı çiftliğinizi ziyaret etmeye ve size yardım etmeye davet edin."
+  "project.incomplete": "Arkadaşlarınızı çiftliğinizi ziyaret etmeye ve size yardım etmeye davet edin.",
+  "disabled.giantFruit": "11 Ağustos'a kadar devre dışı"
 }

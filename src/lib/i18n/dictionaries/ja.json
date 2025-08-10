@@ -6384,5 +6384,6 @@
   "monument.requiredHelp": "{{amount}} ヘルプ",
   "workbench.helpRequired": "友達を招待して、これらのプロジェクトを完了するのを手伝ってください。",
   "description.monument.buff": "+1 ヘルプリミット",
-  "project.incomplete": "友達を農場に招待して助けてください。"
+  "project.incomplete": "友達を農場に招待して助けてください。",
+  "disabled.giantFruit": "8 月 11 日まで無効"
 }
