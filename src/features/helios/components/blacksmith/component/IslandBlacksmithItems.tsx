@@ -73,6 +73,10 @@ const DecorationLabel = ({
   const isMonument = selectedName in WORKBENCH_MONUMENTS(gameState);
   const isLoveCharmMonument = selectedName in LOVE_CHARM_MONUMENTS;
 
+  const isDisabled =
+    !hasFeatureAccess(gameState, "CHEERS_V2") &&
+    selectedName in ["Big Orange", "Big Apple", "Big Banana"];
+
   const hasBuiltMonument = () => {
     return !!gameState.inventory[selectedName as MonumentName]?.gt(0);
   };
@@ -122,6 +126,11 @@ const DecorationLabel = ({
           <Label type="warning" icon={ITEM_DETAILS[reward.item].image}>
             {reward.amount > 1 && `${reward.amount} `}
             {reward.item}
+          </Label>
+        )}
+        {isDisabled && (
+          <Label type="warning" icon={SUNNYSIDE.icons.stopwatch}>
+            {t("disabled.giantFruit")}
           </Label>
         )}
       </div>
@@ -198,6 +207,11 @@ export const IslandBlacksmithItems: React.FC = () => {
     shortcutItem(selectedName);
   };
 
+  // Is disabled if flag off and is giant fruit
+  const isDisabled =
+    !hasFeatureAccess(state, "CHEERS_V2") &&
+    selectedName in ["Big Orange", "Big Apple", "Big Banana"];
+
   const hasBuiltMonument = () => {
     return !!state.inventory[selectedName as MonumentName]?.gt(0);
   };
@@ -233,7 +247,10 @@ export const IslandBlacksmithItems: React.FC = () => {
                 <div>
                   <Button
                     disabled={
-                      lessIngredients() || lessCoins() || hasBuiltMonument()
+                      isDisabled ||
+                      lessIngredients() ||
+                      lessCoins() ||
+                      hasBuiltMonument()
                     }
                     onClick={craft}
                   >
