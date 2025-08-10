@@ -6308,7 +6308,6 @@
   "bin.increaseLimit": "Meningkatkan Had (+30)",
   "bin.cantWait.description": "Meningkatkan had sampah yang boleh anda ambil hari ini.",
   "bin.increaseLimit.description": "Adakah anda pasti ingin meningkatkan had? Ini akan ditetapkan semula setiap hari.",
-  "project.incomplete": "{{project}} mempunyai {{cheers}}/{{requiredCheers}} sorakan. {{remaining}} untuk pergi!",
   "description.desertgnome.boost": "-10% Masa Memasak",
   "description.solAndLuna.boost": "-50% Masa Kotak Kerajinan",
   "description.groovy.gramophone.boost": "-50% Masa Pertumbuhan dalam Mesin Tanaman",
@@ -6378,5 +6377,9 @@
   "description.giantOrange": "Wow, oren gergasi!",
   "description.giantApple": "Itu akan menjauhkan doktor!",
   "description.giantBanana": "Itu akan menghentikan lalu lintas!",
-  "craft.with.friends": "Bina dengan rakan-rakan"
+  "craft.with.friends": "Bina dengan rakan-rakan",
+  "project.incomplete": "{{project}} memerlukan bantuan {{cheers}}/{{requiredCheers}} daripada rakan-rakan. Jemput rakan anda untuk melawat ladang anda dan membantu anda.",
+  "instaGrow": "Insta Berkembang",
+  "instaGrow.description": "Bosan menunggu? Gunakan kuasa Obsidian untuk mengembangkan {{project}}",
+  "instaGrow.confirmation": "Adakah anda pasti ingin mengembangkan {{project}} untuk {{amount}} Obsidian"
 }

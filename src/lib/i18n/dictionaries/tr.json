@@ -6308,7 +6308,6 @@
   "bin.increaseLimit": "Artış Limiti (+30)",
   "bin.cantWait.description": "Bugün alabileceğiniz çöp sınırını artırın.",
   "bin.increaseLimit.description": "Sınırı yükseltmek istediğinizden emin misiniz? Bu her gün sıfırlanacaktır.",
-  "project.incomplete": "{{project}} {{cheers}}/{{requiredCheers}} tebrik ediyor. {{remaining}} devam!",
   "description.desertgnome.boost": "-10% Pişirme Süresi",
   "description.solAndLuna.boost": "-50% İşleme Kutusu Süresi",
   "description.groovy.gramophone.boost": "Mahsul Makinesinde -50% Büyüme Süresi",
@@ -6378,5 +6377,9 @@
   "description.giantOrange": "Vay canına, dev bir portakal!",
   "description.giantApple": "Bu doktoru uzak tutacak!",
   "description.giantBanana": "Bu trafiği durduracak!",
-  "craft.with.friends": "Arkadaşlarınızla inşa edin"
+  "craft.with.friends": "Arkadaşlarınızla inşa edin",
+  "project.incomplete": "{{project}}, arkadaşlarından {{cheers}}/{{requiredCheers}} yardımına ihtiyaç duyar. Arkadaşlarınızı çiftliğinizi ziyaret etmeye ve size yardım etmeye davet edin.",
+  "instaGrow": "Insta Büyümek",
+  "instaGrow.description": "Beklemekten bıktınız mı? {{project}} 'yi büyütmek için Obsidiyen'in gücünü kullanın",
+  "instaGrow.confirmation": "{{amount}} Obsidiyen'i {{project}} için büyütmek istediğinizden emin misiniz?"
 }
