@@ -6368,7 +6368,6 @@
   "description.giantApple": "Das wird den Arzt fernhalten!",
   "description.giantBanana": "Das wird den Verkehr stoppen!",
   "craft.with.friends": "Baue mit Freunden",
-  "project.incomplete": "Das {{project}} benötigt {{cheers}}/{{requiredCheers}} Hilfe von Freunden. Laden Sie Ihre Freunde ein, Ihre Farm zu besuchen und Ihnen zu helfen.",
   "instaGrow": "Insta Grow",
   "instaGrow.description": "Sind Sie es leid zu warten? Nutze die Kraft von Obsidian, um das {{project}} auf Instagram wachsen zu lassen",
   "instaGrow.confirmation": "Bist du sicher, dass du {{project}} für {{amount}} Obsidian insta-grow machen willst",
@@ -6384,5 +6383,6 @@
   "monument.completed": "Herzlichen Glückwunsch! Das {{project}} ist abgeschlossen!",
   "monument.requiredHelp": "{{amount}} Hilfe",
   "workbench.helpRequired": "Laden Sie Ihre Freunde ein, Ihnen bei der Fertigstellung dieser Projekte zu helfen.",
-  "description.monument.buff": "+1 Hilfelimit"
+  "description.monument.buff": "+1 Hilfelimit",
+  "project.incomplete": "Lade deine Freunde ein, deine Farm zu besuchen und dir zu helfen."
 }

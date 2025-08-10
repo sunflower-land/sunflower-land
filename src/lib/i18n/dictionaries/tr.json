@@ -6368,7 +6368,6 @@
   "description.giantApple": "Bu doktoru uzak tutacak!",
   "description.giantBanana": "Bu trafiği durduracak!",
   "craft.with.friends": "Arkadaşlarınızla inşa edin",
-  "project.incomplete": "{{project}}, arkadaşlarından {{cheers}}/{{requiredCheers}} yardımına ihtiyaç duyar. Arkadaşlarınızı çiftliğinizi ziyaret etmeye ve size yardım etmeye davet edin.",
   "instaGrow": "Insta Büyümek",
   "instaGrow.description": "Beklemekten bıktınız mı? {{project}} 'yi büyütmek için Obsidiyen'in gücünü kullanın",
   "instaGrow.confirmation": "{{amount}} Obsidiyen'i {{project}} için büyütmek istediğinizden emin misiniz?",
@@ -6384,5 +6383,6 @@
   "monument.completed": "Tebrikler! {{project}} tamamlandı!",
   "monument.requiredHelp": "{{amount}} yardım",
   "workbench.helpRequired": "Arkadaşlarınızı bu projeleri bitirmenize yardımcı olmaya davet edin.",
-  "description.monument.buff": "+1 Yardım Sınırı"
+  "description.monument.buff": "+1 Yardım Sınırı",
+  "project.incomplete": "Arkadaşlarınızı çiftliğinizi ziyaret etmeye ve size yardım etmeye davet edin."
 }

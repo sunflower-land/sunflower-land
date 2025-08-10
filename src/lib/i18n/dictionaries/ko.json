@@ -6368,7 +6368,6 @@
   "description.giantApple": "그러면 의사가 멀어질 거예요!",
   "description.giantBanana": "그러면 교통이 멈출 것입니다!",
   "craft.with.friends": "친구들과 함께 건설하세요",
-  "project.incomplete": "{{project}} 는 친구의 {{cheers}}/{{requiredCheers}} 도움이 필요합니다.친구들을 초대하여 농장을 방문하여 도와주세요.",
   "instaGrow": "인스타 그로우",
   "instaGrow.description": "기다리느라 지치셨나요?옵시디언의 힘을 이용해 {{project}} 를 직접 키워보세요.",
   "instaGrow.confirmation": "{{amount}} 옵시디언의 {{project}} 를 인스타그램에서 키우고 싶으신가요?",
@@ -6384,5 +6383,6 @@
   "monument.completed": "축하합니다!{{project}} 가 완성되었습니다!",
   "monument.requiredHelp": "{{amount}} 도움말",
   "workbench.helpRequired": "친구들을 초대하여 이 프로젝트를 완료하는 데 도움을 주세요.",
-  "description.monument.buff": "+1 도움 제한"
+  "description.monument.buff": "+1 도움 제한",
+  "project.incomplete": "친구들을 초대하여 농장을 방문하고 도와주세요."
 }

@@ -6368,7 +6368,6 @@
   "description.giantApple": "Questo terrà lontano il dottore!",
   "description.giantBanana": "Questo fermerà il traffico!",
   "craft.with.friends": "Costruisci con gli amici",
-  "project.incomplete": "Il {{project}} ha bisogno dell'aiuto di {{cheers}}/{{requiredCheers}} da parte degli amici. Invita i tuoi amici a visitare la tua fattoria e ad aiutarti.",
   "instaGrow": "Insta Grow",
   "instaGrow.description": "Stanco di aspettare? Usa il potere di Obsidian per far crescere istantaneamente il {{project}}",
   "instaGrow.confirmation": "Sei sicuro di voler far crescere istantaneamente {{project}} per {{amount}} Obsidian",
@@ -6384,5 +6383,6 @@
   "monument.completed": "Congratulazioni! Il {{project}} è completo!",
   "monument.requiredHelp": "{{amount}} aiuto",
   "workbench.helpRequired": "Invita i tuoi amici ad aiutarti a completare questi progetti.",
-  "description.monument.buff": "+1 Limite di aiuto"
+  "description.monument.buff": "+1 Limite di aiuto",
+  "project.incomplete": "Invita i tuoi amici a visitare la tua fattoria e ad aiutarti."
 }

@@ -6368,7 +6368,6 @@
   "description.giantApple": "那会让医生望而却步！",
   "description.giantBanana": "那会阻止交通！",
   "craft.with.friends": "和朋友一起建造",
-  "project.incomplete": "{{project}} 需要朋友的 {{cheers}}/{{requiredCheers}} 帮助。邀请你的朋友参观你的农场并帮助你。",
   "instaGrow": "Insta Grow",
   "instaGrow.description": "厌倦了等待？使用黑曜石的力量即时增长 {{project}}",
   "instaGrow.confirmation": "你确定要为 {{amount}} 黑曜石即时增长 {{project}}",
@@ -6384,5 +6383,6 @@
   "monument.completed": "恭喜！{{project}} 已完成！",
   "monument.requiredHelp": "{{amount}} 帮助",
   "workbench.helpRequired": "邀请你的朋友来帮助你完成这些项目。",
-  "description.monument.buff": "+1 帮助上限"
+  "description.monument.buff": "+1 帮助上限",
+  "project.incomplete": "邀请你的朋友参观你的农场并帮助你。"
 }

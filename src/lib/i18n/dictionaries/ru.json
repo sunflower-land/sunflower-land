@@ -6368,7 +6368,6 @@
   "description.giantApple": "Это отпугнет врача!",
   "description.giantBanana": "Это остановит трафик!",
   "craft.with.friends": "Создавайте вместе с друзьями",
-  "project.incomplete": "{{project}} нужна помощь друзей {{cheers}}/{{requiredCheers}}. Пригласите друзей посетить вашу ферму и помочь вам.",
   "instaGrow": "Insta Grow",
   "instaGrow.description": "Надоело ждать? Используйте силу обсидиана, чтобы мгновенно вырастить {{project}}",
   "instaGrow.confirmation": "Вы действительно хотите мгновенно вырастить {{project}} за {{amount}} обсидиан",
@@ -6384,5 +6383,6 @@
   "monument.completed": "Поздравляю! Задание {{project}} завершено!",
   "monument.requiredHelp": "{{amount}} помощь",
   "workbench.helpRequired": "Пригласите друзей помочь вам завершить эти проекты.",
-  "description.monument.buff": "Ограничение помощи +1"
+  "description.monument.buff": "Ограничение помощи +1",
+  "project.incomplete": "Пригласите друзей посетить вашу ферму и помочь вам."
 }

@@ -6368,7 +6368,6 @@
   "description.giantApple": "Itu akan menjauhkan doktor!",
   "description.giantBanana": "Itu akan menghentikan lalu lintas!",
   "craft.with.friends": "Bina dengan rakan-rakan",
-  "project.incomplete": "{{project}} memerlukan bantuan {{cheers}}/{{requiredCheers}} daripada rakan-rakan. Jemput rakan anda untuk melawat ladang anda dan membantu anda.",
   "instaGrow": "Insta Berkembang",
   "instaGrow.description": "Bosan menunggu? Gunakan kuasa Obsidian untuk mengembangkan {{project}}",
   "instaGrow.confirmation": "Adakah anda pasti ingin mengembangkan {{project}} untuk {{amount}} Obsidian",
@@ -6384,5 +6383,6 @@
   "monument.completed": "Tahniah! {{project}} selesai!",
   "monument.requiredHelp": "{{amount}} bantuan",
   "workbench.helpRequired": "Jemput rakan anda untuk membantu anda menyelesaikan projek-projek ini.",
-  "description.monument.buff": "+1 Had Bantuan"
+  "description.monument.buff": "+1 Had Bantuan",
+  "project.incomplete": "Jemput rakan anda untuk melawat ladang anda dan membantu anda."
 }

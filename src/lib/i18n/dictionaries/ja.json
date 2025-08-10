@@ -6368,7 +6368,6 @@
   "description.giantApple": "それは医者を遠ざけることになる！",
   "description.giantBanana": "これで交通が止まります！",
   "craft.with.friends": "友達と一緒にビルド",
-  "project.incomplete": "{{project}} には {{cheers}}/{{requiredCheers}} 友達の助けが必要です。友達を農場に招待して手伝ってもらいましょう。",
   "instaGrow": "インスタグロー",
   "instaGrow.description": "待つのはうんざり？オブシディアンの力を使って {{project}} をインスタで育てよう",
   "instaGrow.confirmation": "{{amount}} オブシディアンの {{project}} をインスタで育ててもよろしいですか",
@@ -6384,5 +6383,6 @@
   "monument.completed": "おめでとう!{{project}} が完成しました！",
   "monument.requiredHelp": "{{amount}} ヘルプ",
   "workbench.helpRequired": "友達を招待して、これらのプロジェクトを完了するのを手伝ってください。",
-  "description.monument.buff": "+1 ヘルプリミット"
+  "description.monument.buff": "+1 ヘルプリミット",
+  "project.incomplete": "友達を農場に招待して助けてください。"
 }

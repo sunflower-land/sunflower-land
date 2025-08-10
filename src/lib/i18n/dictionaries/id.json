@@ -6368,7 +6368,6 @@
   "description.giantApple": "Itu akan menjauhkan dokter!",
   "description.giantBanana": "Itu akan menghentikan lalu lintas!",
   "craft.with.friends": "Bangun dengan teman",
-  "project.incomplete": "{{project}} membutuhkan bantuan {{cheers}}/{{requiredCheers}} dari teman. Undang teman Anda untuk mengunjungi pertanian Anda dan membantu Anda.",
   "instaGrow": "Insta Tumbuh",
   "instaGrow.description": "Bosan menunggu? Gunakan kekuatan Obsidian untuk menumbuhkan {{project}}",
   "instaGrow.confirmation": "Apakah Anda yakin ingin menumbuhkan {{project}} untuk {{amount}} Obsidian",
@@ -6384,5 +6383,6 @@
   "monument.completed": "Selamat! {{project}} selesai!",
   "monument.requiredHelp": "{{amount}} bantuan",
   "workbench.helpRequired": "Undang teman Anda untuk membantu Anda menyelesaikan proyek ini.",
-  "description.monument.buff": "+1 Batas Bantuan"
+  "description.monument.buff": "+1 Batas Bantuan",
+  "project.incomplete": "Undang teman Anda untuk mengunjungi peternakan Anda dan membantu Anda."
 }
