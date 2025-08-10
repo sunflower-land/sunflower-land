@@ -429,21 +429,20 @@ const ProjectModal: React.FC<{
   return (
     <>
       <InnerPanel className="mb-1">
-        <Label type="default">{project}</Label>
-        <div className="flex flex-col gap-1 text-sm p-2">
-          <span>
-            {t("project.incomplete", {
-              project,
-              cheers,
-              requiredCheers: REQUIRED_CHEERS(
-                gameService.getSnapshot().context.state,
-              )[project],
-              remaining:
+        <div className="flex justify-between">
+          <Label type="default">{project}</Label>
+          <Label type="info" icon={cheer} className="ml-2 sm:ml-0">
+            {t("cheers.progress", {
+              progress: `${cheers}/${
                 REQUIRED_CHEERS(gameService.getSnapshot().context.state)[
                   project
-                ] - cheers,
+                ]
+              }`,
             })}
-          </span>
+          </Label>
+        </div>
+        <div className="flex flex-col gap-1 text-sm p-2">
+          <span>{t("project.incomplete")}</span>
         </div>
       </InnerPanel>
       {hasFeatureAccess(gameState.context.state, "CHEERS_V2") &&
@@ -530,9 +529,6 @@ type ProjectProps = React.ComponentProps<typeof ImageStyle> & {
 export const Project: React.FC<ProjectProps> = (input) => {
   const { isVisiting } = useVisiting();
   const { gameService } = useContext(Context);
-  const { t } = useAppTranslation();
-
-  const { authService } = useAuth();
 
   const projectCheers = useSelector(gameService, _cheers(input.project));
   const cheersAvailable = useSelector(gameService, _cheersAvailable);
