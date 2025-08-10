@@ -76,7 +76,7 @@ const DecorationLabel = ({
 
   const isDisabled =
     !hasFeatureAccess(gameState, "CHEERS_V2") &&
-    selectedName in ["Big Orange", "Big Apple", "Big Banana"];
+    ["Big Orange", "Big Apple", "Big Banana"].includes(selectedName);
 
   const hasBuiltMonument = () => {
     return !!gameState.inventory[selectedName as MonumentName]?.gt(0);
@@ -130,7 +130,11 @@ const DecorationLabel = ({
           </Label>
         )}
         {isDisabled && (
-          <Label type="warning" icon={SUNNYSIDE.icons.stopwatch}>
+          <Label
+            type="danger"
+            className="text-center"
+            icon={SUNNYSIDE.icons.stopwatch}
+          >
             {t("disabled.giantFruit")}
           </Label>
         )}
@@ -215,7 +219,7 @@ export const IslandBlacksmithItems: React.FC = () => {
   // Is disabled if flag off and is giant fruit
   const isDisabled =
     !hasFeatureAccess(state, "CHEERS_V2") &&
-    selectedName in ["Big Orange", "Big Apple", "Big Banana"];
+    ["Big Orange", "Big Apple", "Big Banana"].includes(selectedName);
 
   const hasBuiltMonument = () => {
     return !!state.inventory[selectedName as MonumentName]?.gt(0);
