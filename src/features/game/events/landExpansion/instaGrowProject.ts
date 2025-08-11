@@ -38,7 +38,7 @@ export function instantGrowProject({
       throw new Error("Project does not exist");
     }
 
-    const requiredCheers = REQUIRED_CHEERS(state)[action.project];
+    const requiredCheers = REQUIRED_CHEERS[action.project];
 
     if (project.cheers >= requiredCheers) {
       throw new Error("Project is already finished");

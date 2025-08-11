@@ -40,8 +40,7 @@ const ProjectModal: React.FC<{
   const { t } = useAppTranslation();
   const { gameService } = useGame();
 
-  const isProjectComplete =
-    cheers >= REQUIRED_CHEERS(gameService.getSnapshot().context.state)[project];
+  const isProjectComplete = cheers >= REQUIRED_CHEERS[project];
   const boostLabel = COLLECTIBLE_BUFF_LABELS(
     gameService.getSnapshot().context.state,
   )[project];
@@ -68,13 +67,8 @@ const ProjectModal: React.FC<{
             t("project.incomplete", {
               project,
               cheers,
-              requiredCheers: REQUIRED_CHEERS(
-                gameService.getSnapshot().context.state,
-              )[project],
-              remaining:
-                REQUIRED_CHEERS(gameService.getSnapshot().context.state)[
-                  project
-                ] - cheers,
+              requiredCheers: REQUIRED_CHEERS[project],
+              remaining: REQUIRED_CHEERS[project] - cheers,
             })}
         </span>
       </div>
@@ -136,9 +130,7 @@ export const Monument: React.FC<MonumentProps> = (input) => {
     _hasCheeredToday(input.project),
   );
 
-  const requiredCheers = REQUIRED_CHEERS(
-    gameService.getSnapshot().context.state,
-  )[input.project];
+  const requiredCheers = REQUIRED_CHEERS[input.project];
 
   const projectPercentage = Math.round((projectCheers / requiredCheers) * 100);
   const isProjectComplete = projectCheers >= requiredCheers;
@@ -253,7 +245,7 @@ export const Monument: React.FC<MonumentProps> = (input) => {
             <SFTDetailPopoverLabel name={input.name} />
             <Label type="info" icon={helpIcon} className="ml-2 sm:ml-0">
               {t("cheers.progress", {
-                progress: `${projectCheers}/${REQUIRED_CHEERS(gameService.getSnapshot().context.state)[input.project]}`,
+                progress: `${projectCheers}/${requiredCheers}`,
               })}
             </Label>
           </SFTDetailPopoverInnerPanel>

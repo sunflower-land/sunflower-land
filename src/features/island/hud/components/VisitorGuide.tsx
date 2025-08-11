@@ -183,16 +183,13 @@ export const VisitorGuide: React.FC<VisitorGuideProps> = ({ onClose }) => {
     );
   }
 
-  const pendingProjects = getKeys(
-    WORKBENCH_MONUMENTS(gameState.context.visitorState!),
-  ).filter(
+  const pendingProjects = getKeys(WORKBENCH_MONUMENTS).filter(
     (monument) =>
       // Ensures the monument is placed with Coordinates
       !!collectibles[monument]?.some((item) => !!item.coordinates) &&
       // Ensures that the monument hasn't been completed
       !villageProjects[monument]?.helpedAt &&
-      (villageProjects[monument]?.cheers ?? 0) <
-        REQUIRED_CHEERS(gameState.context.visitorState!)[monument],
+      (villageProjects[monument]?.cheers ?? 0) < REQUIRED_CHEERS[monument],
   );
 
   return (

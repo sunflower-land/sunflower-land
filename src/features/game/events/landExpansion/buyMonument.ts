@@ -35,7 +35,7 @@ export function buyMonument({
 }: Options) {
   return produce(state, (stateCopy) => {
     const { name } = action;
-    const desiredItem = WORKBENCH_MONUMENTS(state)[name];
+    const desiredItem = WORKBENCH_MONUMENTS[name];
 
     if (!desiredItem) {
       throw new Error("This item is not a monument");

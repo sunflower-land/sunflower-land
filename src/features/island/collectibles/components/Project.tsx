@@ -23,7 +23,6 @@ import { useSelector } from "@xstate/react";
 import Decimal from "decimal.js-light";
 import classNames from "classnames";
 import {
-  getMonumentBoostedAmount,
   hasHelpedFarmToday,
   isHelpComplete,
   MonumentName,
@@ -160,7 +159,7 @@ export const CheerModal: React.FC<{
         </Label>
         <Label type="info" icon={cheer} className="ml-2 sm:ml-0">
           {t("kingdomChores.progress", {
-            progress: `${cheers}/${REQUIRED_CHEERS(gameService.getSnapshot().context.state)[project]}`,
+            progress: `${cheers}/${REQUIRED_CHEERS[project]}`,
           })}
         </Label>
       </div>
@@ -204,13 +203,9 @@ const ProjectComplete: React.FC<{
 
   const rewardItem = REWARD_ITEMS[project];
 
-  let amount = rewardItem?.amount ?? 0;
-  if (rewardItem?.item === "Love Charm") {
-    amount = getMonumentBoostedAmount({ gameState: state, amount });
-  }
+  const amount = rewardItem?.amount ?? 0;
 
-  const isProjectComplete =
-    cheers >= REQUIRED_CHEERS(gameService.getSnapshot().context.state)[project];
+  const isProjectComplete = cheers >= REQUIRED_CHEERS[project];
 
   useEffect(() => {
     const winnerId = state.socialFarming.villageProjects[project]?.winnerId;
@@ -264,13 +259,8 @@ const ProjectComplete: React.FC<{
             t("project.incomplete", {
               project,
               cheers,
-              requiredCheers: REQUIRED_CHEERS(
-                gameService.getSnapshot().context.state,
-              )[project],
-              remaining:
-                REQUIRED_CHEERS(gameService.getSnapshot().context.state)[
-                  project
-                ] - cheers,
+              requiredCheers: REQUIRED_CHEERS[project],
+              remaining: REQUIRED_CHEERS[project] - cheers,
             })}
         </span>
       </div>
@@ -351,9 +341,7 @@ const ProjectModal: React.FC<{
 
   const [showConfirmInsta, setShowConfirmInsta] = useState(false);
 
-  const required = REQUIRED_CHEERS(gameService.getSnapshot().context.state)[
-    project
-  ];
+  const required = REQUIRED_CHEERS[project];
 
   const isProjectComplete = cheers >= required;
 
@@ -410,11 +398,7 @@ const ProjectModal: React.FC<{
           <Label type="default">{project}</Label>
           <Label type="info" icon={cheer} className="ml-2 sm:ml-0">
             {t("cheers.progress", {
-              progress: `${cheers}/${
-                REQUIRED_CHEERS(gameService.getSnapshot().context.state)[
-                  project
-                ]
-              }`,
+              progress: `${cheers}/${REQUIRED_CHEERS[project]}`,
             })}
           </Label>
         </div>
@@ -507,9 +491,7 @@ export const Project: React.FC<ProjectProps> = (input) => {
     _hasCheeredToday(input.project),
   );
 
-  const requiredCheers = REQUIRED_CHEERS(
-    gameService.getSnapshot().context.state,
-  )[input.project];
+  const requiredCheers = REQUIRED_CHEERS[input.project];
   const projectPercentage = Math.round((projectCheers / requiredCheers) * 100);
   const isProjectComplete = projectCheers >= requiredCheers;
 

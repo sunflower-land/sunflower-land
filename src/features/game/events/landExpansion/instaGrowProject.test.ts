@@ -123,6 +123,6 @@ describe("instaGrowProject", () => {
 
     expect(
       state.socialFarming?.villageProjects?.["Big Orange"]?.cheers,
-    ).toEqual(REQUIRED_CHEERS(state)["Big Orange"]);
+    ).toEqual(REQUIRED_CHEERS["Big Orange"]);
   });
 });

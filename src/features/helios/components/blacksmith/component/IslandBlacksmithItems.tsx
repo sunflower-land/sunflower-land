@@ -68,7 +68,7 @@ const DecorationLabel = ({
 }) => {
   const { t } = useAppTranslation();
 
-  const isMonument = selectedName in WORKBENCH_MONUMENTS(gameState);
+  const isMonument = selectedName in WORKBENCH_MONUMENTS;
 
   const hasBuiltMonument = () => {
     return !!gameState.inventory[selectedName as MonumentName]?.gt(0);
@@ -79,7 +79,7 @@ const DecorationLabel = ({
       <div className="flex justify-center">
         <Label type="transparent" icon={helpIcon} className="mb-0.5">
           {t("monument.requiredHelp", {
-            amount: REQUIRED_CHEERS(gameState)[selectedName as MonumentName],
+            amount: REQUIRED_CHEERS[selectedName as MonumentName],
           })}
         </Label>
 
@@ -97,7 +97,7 @@ const DecorationLabel = ({
       <div className="flex items-center flex-col space-y-1">
         <Label type="transparent" icon={helpIcon} className="mb-1">
           {t("monument.requiredHelp", {
-            amount: REQUIRED_CHEERS(gameState)[selectedName as MonumentName],
+            amount: REQUIRED_CHEERS[selectedName as MonumentName],
           })}
         </Label>
         {reward && (
@@ -143,7 +143,7 @@ export const IslandBlacksmithItems: React.FC = () => {
     getBumpkinLevel(state.bumpkin?.experience ?? 0) >= selectedItem?.level;
 
   const craft = () => {
-    if (selectedName in WORKBENCH_MONUMENTS(state)) {
+    if (selectedName in WORKBENCH_MONUMENTS) {
       gameService.send("LANDSCAPE", {
         placeable: selectedName,
         action: "monument.bought",
