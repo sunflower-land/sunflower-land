@@ -56,6 +56,9 @@ import { isFishFrenzy, isFullMoon } from "features/game/types/calendar";
 import { MachineState } from "features/game/lib/gameMachine";
 import { gameAnalytics } from "lib/gameAnalytics";
 import { SEASON_ICONS } from "../buildings/components/building/market/SeasonalSeeds";
+import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
+import { hasSeasonEnded } from "features/game/types/seasons";
+import { isCollectible } from "features/game/events/landExpansion/garbageSold";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `fisherman-read.${host}-${window.location.pathname}`;
@@ -519,13 +522,11 @@ export const FishermanModal: React.FC<Props> = ({
         </InnerPanel>
       )}
       {tab === 2 && (
-        <InnerPanel>
-          <FishermanExtras
-            state={state}
-            confirmBuyMoreReels={confirmBuyMoreReels}
-            gemPrice={gemPrice}
-          />
-        </InnerPanel>
+        <FishermanExtras
+          state={state}
+          confirmBuyMoreReels={confirmBuyMoreReels}
+          gemPrice={gemPrice}
+        />
       )}
     </CloseButtonPanel>
   );
@@ -536,9 +537,17 @@ interface BoostReelItem {
   buff: BuffLabel[];
 }
 
-const BoostReelItems: Partial<
+const BoostReelItems: (
+  state: GameState,
+) => Partial<
   Record<BumpkinItem | CollectibleName | BumpkinRevampSkillName, BoostReelItem>
-> = {
+> = (state) => ({
+  "Reelmaster's Chair": {
+    buff: COLLECTIBLE_BUFF_LABELS(state)["Reelmaster's Chair"] as BuffLabel[],
+    location: hasSeasonEnded("Better Together")
+      ? "Marketplace"
+      : "Stella's Megastore",
+  },
   "Angler Waders": {
     buff: BUMPKIN_ITEM_BUFF_LABELS["Angler Waders"] as BuffLabel[],
     location: "Expert Angler Achievement",
@@ -555,7 +564,7 @@ const BoostReelItems: Partial<
     buff: Object.values(BUMPKIN_REVAMP_SKILL_TREE["More With Less"].boosts),
     location: "Fishing Skill Tree",
   },
-};
+});
 
 const isWearable = (
   item: BumpkinItem | CollectibleName | BumpkinRevampSkillName,
@@ -625,6 +634,12 @@ const getItemIcon = (
           ...pixelDarkBorderStyle,
         }}
       >
+        {isCollectible(item) && (
+          <img
+            src={SUNNYSIDE.ui.grey_background}
+            className="w-full h-full absolute inset-0 rounded-md"
+          />
+        )}
         <SquareIcon icon={getItemImage(item)} width={INNER_CANVAS_WIDTH} />
       </div>
     );
@@ -646,7 +661,7 @@ const FishermanExtras: React.FC<{
     <>
       {!showConfirm && (
         <>
-          <div className="p-1">
+          <InnerPanel className="mb-1">
             <div className="flex items-center justify-between space-x-1 mb-1">
               <Label type="default">{t("fishing.extraReels")}</Label>
               <Label
@@ -658,40 +673,40 @@ const FishermanExtras: React.FC<{
                   : t("fishing.reelsLeft", { reelsLeft })}
               </Label>
             </div>
-            <span className="text-xs my-2">
+            <span className="flex text-xs ml-1 my-2">
               {t("fishing.lookingMoreReels")}
             </span>
-            <div className="flex flex-col">
-              {Object.entries(BoostReelItems).map(([name, item]) => (
-                <div key={name} className="flex space-x-2">
-                  {getItemIcon(
-                    name as
-                      | BumpkinItem
-                      | CollectibleName
-                      | BumpkinRevampSkillName,
-                  )}
-                  <div className="flex flex-col justify-center space-y-1">
-                    <div className="flex flex-col space-y-0.5">
-                      <span className="text-xs">{name}</span>
-                      <span className="text-xxs italic">{item.location}</span>
-                    </div>
-                    <div className="flex flex-col gap-1">
-                      {item.buff.map((buff, index) => (
-                        <Label
-                          key={index}
-                          type={buff.labelType}
-                          icon={buff.boostTypeIcon}
-                          secondaryIcon={buff.boostedItemIcon}
-                        >
-                          {buff.shortDescription}
-                        </Label>
-                      ))}
-                    </div>
+          </InnerPanel>
+          <InnerPanel className="flex flex-col mb-1 overflow-y-scroll overflow-x-hidden scrollable max-h-[330px] sm:max-h-max sm:overflow-y-hidden">
+            {Object.entries(BoostReelItems(state)).map(([name, item]) => (
+              <div key={name} className="flex -ml-1">
+                {getItemIcon(
+                  name as
+                    | BumpkinItem
+                    | CollectibleName
+                    | BumpkinRevampSkillName,
+                )}
+                <div className="flex flex-col justify-center space-y-1">
+                  <div className="flex flex-col space-y-0.5">
+                    <span className="text-xs">{name}</span>
+                    <span className="text-xxs italic">{item.location}</span>
+                  </div>
+                  <div className="flex flex-col gap-1 mr-2">
+                    {item.buff.map((buff, index) => (
+                      <Label
+                        key={index}
+                        type={buff.labelType}
+                        icon={buff.boostTypeIcon}
+                        secondaryIcon={buff.boostedItemIcon}
+                      >
+                        {buff.shortDescription}
+                      </Label>
+                    ))}
                   </div>
                 </div>
-              ))}
-            </div>
-          </div>
+              </div>
+            ))}
+          </InnerPanel>
           {reelsLeft > 0 && (
             <Label type="danger" className="m-1">
               {t("fishing.finishReels")}
@@ -713,7 +728,7 @@ const FishermanExtras: React.FC<{
         </>
       )}
       {showConfirm && (
-        <>
+        <InnerPanel>
           <div className="flex flex-col p-2 pb-0 items-center">
             <span className="text-sm text-start w-full mb-1">
               {t("fishing.buyReels.confirmation", { gemPrice })}
@@ -723,7 +738,7 @@ const FishermanExtras: React.FC<{
             <Button onClick={() => setShowConfirm(false)}>{t("cancel")}</Button>
             <Button onClick={confirmBuyMoreReels}>{t("confirm")}</Button>
           </div>
-        </>
+        </InnerPanel>
       )}
     </>
   );
