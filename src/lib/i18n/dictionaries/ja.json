@@ -6191,7 +6191,6 @@
   "sleepingAnimal.every": "ごと",
   "sleepingAnimal.missing": "行方不明です",
   "description.bonusBracelet.boost": "+1 ブレスレット",
-  "description.reelmastersChair.boost": "+5回釣りの試行",
   "description.giantArtichoke.boost": "+2 アーティチョーク",
   "cheer.village.project.description": "{{project}} を応援して {{username}} が完成するのを手伝ってください！",
   "socialPoints": "{{points}} ソーシャルポイント",
@@ -6400,5 +6399,6 @@
   "social.leaderboard.weekly": "ウィークリーソーシャルスコア",
   "social.leaderboard.clickToView": "クリックして {{type}} を表示",
   "social.leaderboard.allTime": "オールタイム・ソーシャル・スコア",
-  "flip.mobile.label": "フリップ"
+  "flip.mobile.label": "フリップ",
+  "description.reelmastersChair.boost": "+5 デイリーフィッシングリミット"
 }

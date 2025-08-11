@@ -6191,7 +6191,6 @@
   "sleepingAnimal.every": "Каждый",
   "sleepingAnimal.missing": "Пропавший",
   "description.bonusBracelet.boost": "Браслет +1",
-  "description.reelmastersChair.boost": "+5 попыток рыбалки",
   "description.giantArtichoke.boost": "+2 артишока",
   "cheer.village.project.description": "Вы можете поддержать {{project}}, чтобы они помогли {{username}} пройти его!",
   "socialPoints": "{{points}} Социальные баллы",
@@ -6400,5 +6399,6 @@
   "social.leaderboard.weekly": "Еженедельные социальные оценки",
   "social.leaderboard.clickToView": "Нажмите для просмотра {{type}}",
   "social.leaderboard.allTime": "Социальные баллы за все время",
-  "flip.mobile.label": "кувырок"
+  "flip.mobile.label": "кувырок",
+  "description.reelmastersChair.boost": "Дневной лимит на рыбалку +5"
 }

@@ -6191,7 +6191,6 @@
   "sleepingAnimal.every": "Her biri",
   "sleepingAnimal.missing": "Eksik",
   "description.bonusBracelet.boost": "+1 Bileklik",
-  "description.reelmastersChair.boost": "+5 Balıkçılık Denemesi",
   "description.giantArtichoke.boost": "+2 Enginar",
   "cheer.village.project.description": "{{username}} 'i tamamlamasına yardımcı olması için {{project}} 'yi neşelendirebilirsiniz!",
   "socialPoints": "{{points}} Sosyal Puanlar",
@@ -6400,5 +6399,6 @@
   "social.leaderboard.weekly": "Haftalık Sosyal Skorlar",
   "social.leaderboard.clickToView": "Görüntülemek için tıklayın {{type}}",
   "social.leaderboard.allTime": "Tüm Zamanların Sosyal Skorları",
-  "flip.mobile.label": "Ters çevirin"
+  "flip.mobile.label": "Ters çevirin",
+  "description.reelmastersChair.boost": "+5 günlük balık tutma limiti"
 }

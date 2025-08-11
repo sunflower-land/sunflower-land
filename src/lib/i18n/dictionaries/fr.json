@@ -6191,7 +6191,6 @@
   "sleepingAnimal.every": "Chaque",
   "sleepingAnimal.missing": "Disparus",
   "description.bonusBracelet.boost": "+1 bracelet",
-  "description.reelmastersChair.boost": "+5 tentatives de pêche",
   "description.giantArtichoke.boost": "+2 artichauts",
   "cheer.village.project.description": "Vous pouvez encourager {{project}} pour aider {{username}} à le terminer !",
   "socialPoints": "{{points}} Points sociaux",
@@ -6400,5 +6399,6 @@
   "social.leaderboard.weekly": "Scores sociaux hebdomadaires",
   "social.leaderboard.clickToView": "Cliquez pour afficher {{type}}",
   "social.leaderboard.allTime": "Scores sociaux de tous les temps",
-  "flip.mobile.label": "Retourner"
+  "flip.mobile.label": "Retourner",
+  "description.reelmastersChair.boost": "Limite de pêche quotidienne de +5"
 }

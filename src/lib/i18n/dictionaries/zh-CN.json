@@ -6191,7 +6191,6 @@
   "sleepingAnimal.every": "每个",
   "sleepingAnimal.missing": "失踪",
   "description.bonusBracelet.boost": "+1 手镯",
-  "description.reelmastersChair.boost": "+5 每日钓鱼上限",
   "description.giantArtichoke.boost": "+2 洋蓟",
   "cheer.village.project.description": "你可以为 {{project}} 欢呼以帮助 {{username}} 完成它！",
   "socialPoints": "{{points}} 社交积分",
@@ -6400,5 +6399,6 @@
   "social.leaderboard.weekly": "每周社交分数",
   "social.leaderboard.clickToView": "点击查看 {{type}}",
   "social.leaderboard.allTime": "历史社交分数",
-  "flip.mobile.label": "翻动"
+  "flip.mobile.label": "翻动",
+  "description.reelmastersChair.boost": "+5 每日钓鱼上限"
 }

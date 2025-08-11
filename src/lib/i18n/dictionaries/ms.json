@@ -6191,7 +6191,6 @@
   "sleepingAnimal.every": "Setiap",
   "sleepingAnimal.missing": "hilang",
   "description.bonusBracelet.boost": "+1 gelang",
-  "description.reelmastersChair.boost": "+5 Percubaan Memancing",
   "description.giantArtichoke.boost": "+2 Artichoke",
   "cheer.village.project.description": "Anda boleh menghiburkan {{project}} untuk membantu {{username}} menyelesaikannya!",
   "socialPoints": "{{points}} Mata Sosial",
@@ -6400,5 +6399,6 @@
   "social.leaderboard.weekly": "Skor Sosial Mingguan",
   "social.leaderboard.clickToView": "Klik untuk melihat {{type}}",
   "social.leaderboard.allTime": "Skor Sosial Sepanjang Masa",
-  "flip.mobile.label": "terbalikkan"
+  "flip.mobile.label": "terbalikkan",
+  "description.reelmastersChair.boost": "+5 had memancing harian"
 }

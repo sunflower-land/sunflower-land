@@ -6191,7 +6191,6 @@
   "sleepingAnimal.every": "Ogni",
   "sleepingAnimal.missing": "Mancante",
   "description.bonusBracelet.boost": "+1 braccialetto",
-  "description.reelmastersChair.boost": "+5 tentativi di pesca",
   "description.giantArtichoke.boost": "+2 carciofi",
   "cheer.village.project.description": "Puoi fare il tifo per {{project}} per aiutare {{username}} a completarlo!",
   "socialPoints": "{{points}} Punti sociali",
@@ -6400,5 +6399,6 @@
   "social.leaderboard.weekly": "Punteggi sociali settimanali",
   "social.leaderboard.clickToView": "Clicca per visualizzare {{type}}",
   "social.leaderboard.allTime": "Punteggi sociali di tutti i tempi",
-  "flip.mobile.label": "Rovesciare"
+  "flip.mobile.label": "Rovesciare",
+  "description.reelmastersChair.boost": "+5 limite di pesca giornaliero"
 }

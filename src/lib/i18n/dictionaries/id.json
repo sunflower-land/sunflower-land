@@ -6191,7 +6191,6 @@
   "sleepingAnimal.every": "Setiap",
   "sleepingAnimal.missing": "Hilang",
   "description.bonusBracelet.boost": "+1 Gelang",
-  "description.reelmastersChair.boost": "+5 Upaya Memancing",
   "description.giantArtichoke.boost": "+2 Artischock",
   "cheer.village.project.description": "Anda dapat menghibur {{project}} untuk membantu {{username}} menyelesaikannya!",
   "socialPoints": "{{points}} Poin Social",
@@ -6400,5 +6399,6 @@
   "social.leaderboard.weekly": "Skor Soal Mingguan",
   "social.leaderboard.clickToView": "Klik untuk melihat {{type}}",
   "social.leaderboard.allTime": "Skor Soal Sepanjang Masa",
-  "flip.mobile.label": "Balik"
+  "flip.mobile.label": "Balik",
+  "description.reelmastersChair.boost": "+5 batas memancing harian"
 }
