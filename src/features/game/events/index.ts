@@ -522,7 +522,6 @@ import {
   flipCollectible,
   FlipCollectibleAction,
 } from "./landExpansion/flipCollectible";
-import { CatchPestAction, catchPest } from "./landExpansion/catchPest";
 
 // Visiting local events
 import {
@@ -690,10 +689,7 @@ export type PlayingEvent =
 
 export type LocalVisitingEvent = CollectGarbageAction | HelpProjectAction;
 
-export type VisitingEvent =
-  | CatchPestAction
-  | IncreaseHelpLimitAction
-  | LocalVisitingEvent;
+export type VisitingEvent = IncreaseHelpLimitAction | LocalVisitingEvent;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -933,7 +929,6 @@ export const LOCAL_VISITING_EVENTS: Handlers<LocalVisitingEvent> = {
 };
 
 export const VISITING_EVENTS: Handlers<VisitingEvent> = {
-  "pest.caught": catchPest,
   "helpLimit.increased": increaseHelpLimit,
   ...LOCAL_VISITING_EVENTS,
 };

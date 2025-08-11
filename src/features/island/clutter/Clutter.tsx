@@ -95,16 +95,7 @@ export const ClutterItem: React.FC<
   }
 
   const collectClutter = () => {
-    if (type in FARM_PEST) {
-      return gameService.send("pest.caught", {
-        id,
-        visitedFarmId: farmId,
-        pestName: type,
-      });
-    }
-
     handleHelpFarm();
-    return;
   };
 
   // V2 - local only event
