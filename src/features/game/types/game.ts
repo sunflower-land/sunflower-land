@@ -1546,23 +1546,13 @@ export type SocialFarming = {
     projects: Partial<Record<MonumentName, number[]>>;
     farms: number[];
   };
-  cheers: {
-    freeCheersClaimedAt: number;
-  };
-  binIncrease?: {
-    boughtAt: number[];
-    unusedStorage?: number;
-  };
-  helpIncrease?: {
-    boughtAt: number[];
-  };
-  dailyCollections?: { [farmId: number]: DailyCollection };
-  caughtPests?: { [farmId: number]: string[] };
+  cheers: { freeCheersClaimedAt: number };
+  helpIncrease?: { boughtAt: number[] };
+  helped?: { [farmId: number]: HelpedFarm };
   clutter?: {
     spawnedAt: number;
     locations: { [clutterId: string]: ClutterCoordinates };
   };
-  helped?: Record<number, HelpedFarm>;
 };
 
 export interface GameState {
