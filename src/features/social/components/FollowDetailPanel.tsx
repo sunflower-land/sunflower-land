@@ -7,18 +7,21 @@ import { useTranslation } from "react-i18next";
 import { Equipped } from "features/game/types/bumpkin";
 import { Label } from "components/ui/Label";
 import socialPointsIcon from "assets/icons/social_score.webp";
-import { ITEM_DETAILS } from "features/game/types/images";
-import cleanBroom from "assets/icons/clean_broom.webp";
+import giftIcon from "assets/icons/gift.png";
+import helpIcon from "assets/icons/help.webp";
+import helpedIcon from "assets/icons/helped.webp";
 import { ActiveProjects } from "../types/types";
 import { getKeys } from "features/game/lib/crafting";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { RAFFLE_REWARDS } from "features/game/types/monuments";
 
 type Props = {
   loggedInFarmId: number;
   playerId: number;
   clothing: Equipped;
   username: string;
-  haveCleanedToday: boolean;
+  haveHelpedToday: boolean;
+  haveTheyHelpedYouToday: boolean;
   socialPoints: number;
   lastOnlineAt: number;
   projects: ActiveProjects;
@@ -31,7 +34,8 @@ export const FollowDetailPanel: React.FC<Props> = ({
   playerId,
   clothing,
   username,
-  haveCleanedToday,
+  haveHelpedToday,
+  haveTheyHelpedYouToday,
   socialPoints,
   lastOnlineAt,
   projects = {},
@@ -48,6 +52,10 @@ export const FollowDetailPanel: React.FC<Props> = ({
   const handleClick = useCallback(() => {
     navigateToPlayer(playerId);
   }, [navigateToPlayer, playerId]);
+
+  const hasCookingPot = getKeys(projects).some(
+    (project) => project in RAFFLE_REWARDS,
+  );
 
   return (
     <ButtonPanel
@@ -78,19 +86,11 @@ export const FollowDetailPanel: React.FC<Props> = ({
               <div className="text-xxs">{t("social.farming")}</div>
             )}
             <div className="flex items-center gap-1 flex-wrap">
-              <img
-                src={haveCleanedToday ? cleanBroom : ITEM_DETAILS.Trash.image}
-                className="w-4 h-4"
-              />
-              {getKeys(projects).map((project) => {
-                return (
-                  <img
-                    key={project}
-                    src={ITEM_DETAILS[project].image}
-                    className="w-4 h-4"
-                  />
-                );
-              })}
+              {haveHelpedToday && <img src={helpIcon} className="w-4 h-4" />}
+              {haveTheyHelpedYouToday && (
+                <img src={helpedIcon} className="w-4 h-4" />
+              )}
+              {hasCookingPot && <img src={giftIcon} className="w-4 h-4" />}
             </div>
           </div>
         </div>

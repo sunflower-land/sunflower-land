@@ -16,7 +16,7 @@ export type Detail = {
   username: string;
   lastUpdatedAt: number;
   socialPoints: number;
-  cleanedToday: boolean;
+  helpedYouToday?: boolean;
   projects: ActiveProjects;
 };
 
