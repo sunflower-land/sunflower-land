@@ -6347,7 +6347,6 @@
   "completing.project.success": "イーホー、ご褒美を楽しんでください！",
   "project.friendBonus": "フレンドボーナス",
   "project.friendBonus.description": "賞品も受け取れるヘルパーがランダムに選ばれました！",
-  "helping.farm": "通知バンプキン",
   "helping.farm.success": "ご協力いただきありがとうございます！",
   "visitorGuide.binGuide.reset": "リセット:{{time}}",
   "help.makeRoom": "マジックほうき",
@@ -6400,5 +6399,6 @@
   "social.leaderboard.clickToView": "クリックして {{type}} を表示",
   "social.leaderboard.allTime": "オールタイム・ソーシャル・スコア",
   "flip.mobile.label": "フリップ",
-  "description.reelmastersChair.boost": "+5 デイリーフィッシングリミット"
+  "description.reelmastersChair.boost": "+5 デイリーフィッシングリミット",
+  "helping.farm": "バンプキンへの通知"
 }

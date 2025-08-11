@@ -6347,7 +6347,6 @@
   "completing.project.success": "Yeehaw, nikmati ganjaran anda!",
   "project.friendBonus": "Bonus kawan",
   "project.friendBonus.description": "Seorang pembantu rawak telah dipilih untuk menerima hadiah juga!",
-  "helping.farm": "Notfying Bumpkin",
   "helping.farm.success": "Terima kasih atas bantuan anda!",
   "visitorGuide.binGuide.reset": "Tetapkan semula: {{time}}",
   "help.makeRoom": "Penyapu ajaib",
@@ -6400,5 +6399,6 @@
   "social.leaderboard.clickToView": "Klik untuk melihat {{type}}",
   "social.leaderboard.allTime": "Skor Sosial Sepanjang Masa",
   "flip.mobile.label": "terbalikkan",
-  "description.reelmastersChair.boost": "+5 had memancing harian"
+  "description.reelmastersChair.boost": "+5 had memancing harian",
+  "helping.farm": "Notfiying Bumpkin"
 }

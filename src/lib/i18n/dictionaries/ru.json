@@ -6347,7 +6347,6 @@
   "completing.project.success": "Да-хау, наслаждайтесь наградой!",
   "project.friendBonus": "Бонус другу",
   "project.friendBonus.description": "Также был выбран случайный помощник, который также получит приз!",
-  "helping.farm": "Уведомление о неровности",
   "helping.farm.success": "Спасибо за помощь!",
   "visitorGuide.binGuide.reset": "Сбрасывания: {{time}}",
   "help.makeRoom": "Волшебная метла",
@@ -6400,5 +6399,6 @@
   "social.leaderboard.clickToView": "Нажмите для просмотра {{type}}",
   "social.leaderboard.allTime": "Социальные баллы за все время",
   "flip.mobile.label": "кувырок",
-  "description.reelmastersChair.boost": "Дневной лимит на рыбалку +5"
+  "description.reelmastersChair.boost": "Дневной лимит на рыбалку +5",
+  "helping.farm": "Уведомление Бампкина"
 }

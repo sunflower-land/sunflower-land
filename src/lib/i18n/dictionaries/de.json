@@ -6347,7 +6347,6 @@
   "completing.project.success": "Yeehaw, genieß deine Belohnung!",
   "project.friendBonus": "Bonus für Freunde",
   "project.friendBonus.description": "Ein zufälliger Helfer wurde ausgewählt, der ebenfalls den Preis erhält!",
-  "helping.farm": "Bumpkin benachrichtigen",
   "helping.farm.success": "Danke für deine Hilfe!",
   "visitorGuide.binGuide.reset": "Rücksetzungen: {{time}}",
   "help.makeRoom": "Magischer Besen",
@@ -6400,5 +6399,6 @@
   "social.leaderboard.clickToView": "Klicken Sie hier, um {{type}} anzusehen",
   "social.leaderboard.allTime": "Soziale Punktzahlen aller Zeiten",
   "flip.mobile.label": "Umdrehen",
-  "description.reelmastersChair.boost": "+5 tägliche Fangbegrenzung"
+  "description.reelmastersChair.boost": "+5 tägliche Fangbegrenzung",
+  "helping.farm": "Bumpkin benachrichtigen"
 }

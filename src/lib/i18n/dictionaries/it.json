@@ -6347,7 +6347,6 @@
   "completing.project.success": "Yeehaw, goditi la tua ricompensa!",
   "project.friendBonus": "Bonus amici",
   "project.friendBonus.description": "È stato selezionato un aiutante casuale per ricevere anche il premio!",
-  "helping.farm": "Notifica Bumpkin",
   "helping.farm.success": "Grazie per l'aiuto!",
   "visitorGuide.binGuide.reset": "Reimposta: {{time}}",
   "help.makeRoom": "Scopa magica",
@@ -6400,5 +6399,6 @@
   "social.leaderboard.clickToView": "Clicca per visualizzare {{type}}",
   "social.leaderboard.allTime": "Punteggi sociali di tutti i tempi",
   "flip.mobile.label": "Rovesciare",
-  "description.reelmastersChair.boost": "+5 limite di pesca giornaliero"
+  "description.reelmastersChair.boost": "+5 limite di pesca giornaliero",
+  "helping.farm": "Notifica a Bumpkin"
 }

@@ -6347,7 +6347,6 @@
   "completing.project.success": "Yeehaw，享受你的奖励！",
   "project.friendBonus": "好友奖励",
   "project.friendBonus.description": "已随机选择一名助手来获得奖品！",
-  "helping.farm": "Notfying Bumpkin",
   "helping.farm.success": "谢谢你的帮助！",
   "visitorGuide.binGuide.reset": "重置：{{time}}",
   "help.makeRoom": "神奇的扫帚",
@@ -6400,5 +6399,6 @@
   "social.leaderboard.clickToView": "点击查看 {{type}}",
   "social.leaderboard.allTime": "历史社交分数",
   "flip.mobile.label": "翻动",
-  "description.reelmastersChair.boost": "+5 每日钓鱼上限"
+  "description.reelmastersChair.boost": "+5 每日钓鱼上限",
+  "helping.farm": "通知 Bumpkin"
 }

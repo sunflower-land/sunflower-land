@@ -6347,7 +6347,6 @@
   "completing.project.success": "Yeehaw, ödülünün tadını çıkar!",
   "project.friendBonus": "Arkadaş bonusu",
   "project.friendBonus.description": "Ödülü almak için rastgele bir yardımcı seçildi!",
-  "helping.farm": "Notlandırıcı Bumpkin",
   "helping.farm.success": "Yardımın için teşekkürler!",
   "visitorGuide.binGuide.reset": "Sıfırlar: {{time}}",
   "help.makeRoom": "Sihirli süpürge",
@@ -6400,5 +6399,6 @@
   "social.leaderboard.clickToView": "Görüntülemek için tıklayın {{type}}",
   "social.leaderboard.allTime": "Tüm Zamanların Sosyal Skorları",
   "flip.mobile.label": "Ters çevirin",
-  "description.reelmastersChair.boost": "+5 günlük balık tutma limiti"
+  "description.reelmastersChair.boost": "+5 günlük balık tutma limiti",
+  "helping.farm": "Notfiying Bumpkin"
 }

@@ -6347,7 +6347,6 @@
   "completing.project.success": "Yehaw, profite bien de ta récompense !",
   "project.friendBonus": "Bonus pour amis",
   "project.friendBonus.description": "Un assistant a été sélectionné au hasard pour recevoir également le prix !",
-  "helping.farm": "Notifier Bumpkin",
   "helping.farm.success": "Merci pour ton aide !",
   "visitorGuide.binGuide.reset": "Réinitialisations : {{time}}",
   "help.makeRoom": "Balai magique",
@@ -6400,5 +6399,6 @@
   "social.leaderboard.clickToView": "Cliquez pour afficher {{type}}",
   "social.leaderboard.allTime": "Scores sociaux de tous les temps",
   "flip.mobile.label": "Retourner",
-  "description.reelmastersChair.boost": "Limite de pêche quotidienne de +5"
+  "description.reelmastersChair.boost": "Limite de pêche quotidienne de +5",
+  "helping.farm": "Notifier Bumpkin"
 }

@@ -6347,7 +6347,6 @@
   "completing.project.success": "이호, 보상을 즐기세요!",
   "project.friendBonus": "친구 보너스",
   "project.friendBonus.description": "랜덤으로 도우미가 선정되어 경품도 받게 되었습니다!",
-  "helping.farm": "범프킨에 알림",
   "helping.farm.success": "도와 줘서 고마워요!",
   "visitorGuide.binGuide.reset": "초기화: {{time}}",
   "help.makeRoom": "매직 빗자루",
@@ -6400,5 +6399,6 @@
   "social.leaderboard.clickToView": "보려면 클릭 {{type}}",
   "social.leaderboard.allTime": "역대 소셜 스코어",
   "flip.mobile.label": "필리핀 사람",
-  "description.reelmastersChair.boost": "일일 낚시 한도 +5"
+  "description.reelmastersChair.boost": "일일 낚시 한도 +5",
+  "helping.farm": "범프킨에 알림"
 }
