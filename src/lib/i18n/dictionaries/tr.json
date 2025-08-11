@@ -6399,5 +6399,6 @@
   "social.leaderboard": "Sosyal Liderlik Tablosu",
   "social.leaderboard.weekly": "Haftalık Sosyal Skorlar",
   "social.leaderboard.clickToView": "Görüntülemek için tıklayın {{type}}",
-  "social.leaderboard.allTime": "Tüm Zamanların Sosyal Skorları"
+  "social.leaderboard.allTime": "Tüm Zamanların Sosyal Skorları",
+  "flip.mobile.label": "Ters çevirin"
 }

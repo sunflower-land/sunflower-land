@@ -6399,5 +6399,6 @@
   "social.leaderboard": "Papan Pendahulu Sosial",
   "social.leaderboard.weekly": "Skor Sosial Mingguan",
   "social.leaderboard.clickToView": "Klik untuk melihat {{type}}",
-  "social.leaderboard.allTime": "Skor Sosial Sepanjang Masa"
+  "social.leaderboard.allTime": "Skor Sosial Sepanjang Masa",
+  "flip.mobile.label": "terbalikkan"
 }

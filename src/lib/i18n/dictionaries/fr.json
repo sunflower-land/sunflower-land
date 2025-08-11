@@ -6399,5 +6399,6 @@
   "social.leaderboard": "Classement social",
   "social.leaderboard.weekly": "Scores sociaux hebdomadaires",
   "social.leaderboard.clickToView": "Cliquez pour afficher {{type}}",
-  "social.leaderboard.allTime": "Scores sociaux de tous les temps"
+  "social.leaderboard.allTime": "Scores sociaux de tous les temps",
+  "flip.mobile.label": "Retourner"
 }

@@ -6399,5 +6399,6 @@
   "social.leaderboard": "Soziale Bestenliste",
   "social.leaderboard.weekly": "Wöchentliche soziale Punktzahlen",
   "social.leaderboard.clickToView": "Klicken Sie hier, um {{type}} anzusehen",
-  "social.leaderboard.allTime": "Soziale Punktzahlen aller Zeiten"
+  "social.leaderboard.allTime": "Soziale Punktzahlen aller Zeiten",
+  "flip.mobile.label": "Umdrehen"
 }

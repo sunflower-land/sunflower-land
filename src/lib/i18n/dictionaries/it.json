@@ -6399,5 +6399,6 @@
   "social.leaderboard": "Classifica social",
   "social.leaderboard.weekly": "Punteggi sociali settimanali",
   "social.leaderboard.clickToView": "Clicca per visualizzare {{type}}",
-  "social.leaderboard.allTime": "Punteggi sociali di tutti i tempi"
+  "social.leaderboard.allTime": "Punteggi sociali di tutti i tempi",
+  "flip.mobile.label": "Rovesciare"
 }

@@ -6399,5 +6399,6 @@
   "social.leaderboard": "소셜 리더보드",
   "social.leaderboard.weekly": "주간 소셜 스코어",
   "social.leaderboard.clickToView": "보려면 클릭 {{type}}",
-  "social.leaderboard.allTime": "역대 소셜 스코어"
+  "social.leaderboard.allTime": "역대 소셜 스코어",
+  "flip.mobile.label": "필리핀 사람"
 }

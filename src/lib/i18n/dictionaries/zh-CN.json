@@ -6399,5 +6399,6 @@
   "social.leaderboard": "社交排行榜",
   "social.leaderboard.weekly": "每周社交分数",
   "social.leaderboard.clickToView": "点击查看 {{type}}",
-  "social.leaderboard.allTime": "历史社交分数"
+  "social.leaderboard.allTime": "历史社交分数",
+  "flip.mobile.label": "翻动"
 }

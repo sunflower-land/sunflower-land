@@ -6399,5 +6399,6 @@
   "social.leaderboard": "Papan peringkat sosial",
   "social.leaderboard.weekly": "Skor Soal Mingguan",
   "social.leaderboard.clickToView": "Klik untuk melihat {{type}}",
-  "social.leaderboard.allTime": "Skor Soal Sepanjang Masa"
+  "social.leaderboard.allTime": "Skor Soal Sepanjang Masa",
+  "flip.mobile.label": "Balik"
 }
