@@ -32,6 +32,7 @@ import { Button } from "components/ui/Button";
 import confetti from "canvas-confetti";
 import flowerIcon from "assets/icons/flower_token.webp";
 import { NO_BONUS_BOUNTIES_WEEK } from "features/game/events/landExpansion/claimBountyBonus";
+import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
 
 export const MegaBountyBoard: React.FC<{ onClose: () => void }> = ({
   onClose,
@@ -319,7 +320,6 @@ const Deal: React.FC<{
   const { t } = useAppTranslation();
   const { gameService, showAnimations } = useContext(Context);
   const state = useSelector(gameService, (state) => state.context.state);
-  const inventory = state.inventory;
   const buttonHandler = () => {
     if (!confirmExchange) {
       setConfirmExchange(true);
@@ -329,16 +329,18 @@ const Deal: React.FC<{
     sell();
   };
 
+  const { count: itemBalance } = getCountAndType(state, bounty.name);
+
   const canSell = () => {
     if (BOUNTY_CATEGORIES["Mark Bounties"](bounty)) {
-      return inventory[bounty.name]?.gte(bounty.quantity);
+      return itemBalance.gte(bounty.quantity);
     }
 
     if (isSold) {
       return false;
     }
 
-    return inventory[bounty.name]?.gte(1);
+    return itemBalance.gte(1);
   };
 
   const sell = () => {
@@ -408,7 +410,7 @@ const Deal: React.FC<{
                   <RequirementLabel
                     type="item"
                     item={bounty.name}
-                    balance={inventory[bounty.name] ?? new Decimal(0)}
+                    balance={itemBalance}
                     requirement={
                       BOUNTY_CATEGORIES["Mark Bounties"](bounty)
                         ? new Decimal(bounty.quantity)
