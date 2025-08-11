@@ -46,10 +46,7 @@ type EffectName =
   | "project.completed"
   | "farm.helped";
 
-type VisitEffectName =
-  | "villageProject.cheered"
-  | "farm.cleaned"
-  | "farm.helped";
+type VisitEffectName = "farm.helped";
 
 // IMPORTANT: If your effect does not go via a state in the state machine then exclude it here!
 // Create a type that excludes the events that are not individual state machine states
@@ -152,8 +149,6 @@ export const STATE_MACHINE_VISIT_EFFECTS: Record<
   StateMachineVisitEffectName,
   StateMachineVisitStateName
 > = {
-  "villageProject.cheered": "cheeringVillageProject",
-  "farm.cleaned": "cleaningFarm",
   "farm.helped": "helpingFarm",
 };
 

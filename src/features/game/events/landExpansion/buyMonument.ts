@@ -28,21 +28,14 @@ type Options = {
   createdAt?: number;
 };
 
-export function buyMonument({
-  state,
-  action,
-  createdAt = Date.now(),
-}: Options) {
+export function buyMonument({ state, action }: Options) {
   return produce(state, (stateCopy) => {
     const { name } = action;
-    const desiredItem = WORKBENCH_MONUMENTS(state)[name];
+    const desiredItem = WORKBENCH_MONUMENTS[name];
 
     if (!desiredItem) {
       throw new Error("This item is not a monument");
     }
-
-    // Convert createdAt to the start of the day (midnight UTC)
-    const createdAtDay = Math.floor(createdAt / (1000 * 60 * 60 * 24));
 
     const hasMonument = stateCopy.inventory[name]?.gt(0);
 

@@ -11,10 +11,8 @@ import {
 } from "features/game/types/monuments";
 import { useGame } from "features/game/GameProvider";
 import { Button } from "components/ui/Button";
-import { hasCleanedToday } from "features/island/clutter/Clutter";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import Decimal from "decimal.js-light";
-import { getCollectedGarbage } from "features/game/events/landExpansion/collectClutter";
 import { ClutterName } from "features/game/types/clutter";
 import { InnerPanel } from "components/ui/Panel";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
@@ -41,12 +39,6 @@ export const VisitorGuide: React.FC<VisitorGuideProps> = ({ onClose }) => {
 
   const collectibles = gameState.context.state.collectibles;
 
-  // If all 5 collected, pop up modal
-  const collectedClutter = getCollectedGarbage({
-    game: gameState.context.visitorState!,
-    farmId: gameState.context.farmId,
-  });
-
   const locations = useSelector(
     gameService,
     (state) => state.context.state.socialFarming.clutter?.locations,
@@ -55,8 +47,6 @@ export const VisitorGuide: React.FC<VisitorGuideProps> = ({ onClose }) => {
     gameService,
     (state) => state.context.state.socialFarming.villageProjects,
   );
-
-  const hasCleaned = hasCleanedToday(gameState);
 
   // Reduce clutter to get a count of each type
   const clutter = getKeys(locations ?? {}).reduce(
@@ -193,16 +183,13 @@ export const VisitorGuide: React.FC<VisitorGuideProps> = ({ onClose }) => {
     );
   }
 
-  const pendingProjects = getKeys(
-    WORKBENCH_MONUMENTS(gameState.context.visitorState!),
-  ).filter(
+  const pendingProjects = getKeys(WORKBENCH_MONUMENTS).filter(
     (monument) =>
       // Ensures the monument is placed with Coordinates
       !!collectibles[monument]?.some((item) => !!item.coordinates) &&
       // Ensures that the monument hasn't been completed
       !villageProjects[monument]?.helpedAt &&
-      (villageProjects[monument]?.cheers ?? 0) <
-        REQUIRED_CHEERS(gameState.context.visitorState!)[monument],
+      (villageProjects[monument]?.cheers ?? 0) < REQUIRED_CHEERS[monument],
   );
 
   return (

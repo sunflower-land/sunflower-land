@@ -3,7 +3,6 @@ import { ImageStyle } from "./template/ImageStyle";
 import { useVisiting } from "lib/utils/visitUtils";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import cheer from "assets/icons/cheer.webp";
 import helpIcon from "assets/icons/help.webp";
 import { Context, useGame } from "features/game/GameProvider";
 import { ProgressBar } from "components/ui/ProgressBar";
@@ -23,20 +22,18 @@ import { useSelector } from "@xstate/react";
 import Decimal from "decimal.js-light";
 import classNames from "classnames";
 import {
-  getMonumentBoostedAmount,
-  getMonumentRewards,
   hasHelpedFarmToday,
   isHelpComplete,
   MonumentName,
   RAFFLE_REWARDS,
   REQUIRED_CHEERS,
+  REWARD_ITEMS,
 } from "features/game/types/monuments";
 import chest from "assets/icons/chest.png";
 import { Box } from "components/ui/Box";
 import { formatNumber } from "lib/utils/formatNumber";
 
 import { GameState } from "features/game/types/game";
-import { hasFeatureAccess } from "lib/flags";
 
 import farmerMonumentOne from "assets/monuments/shovel_monument_stage_1.webp";
 import farmerMonumentTwo from "assets/monuments/shovel_monument_stage_2.webp";
@@ -145,7 +142,6 @@ export const CheerModal: React.FC<{
   cheersAvailable: Decimal;
 }> = ({ project, cheers, username, onClose, onCheer, cheersAvailable }) => {
   const { t } = useAppTranslation();
-  const { gameService } = useGame();
 
   const hasCheersAvailable = cheersAvailable.gt(0);
 
@@ -159,32 +155,19 @@ export const CheerModal: React.FC<{
         >
           {t("cheer.village.project")}
         </Label>
-        <Label type="info" icon={cheer} className="ml-2 sm:ml-0">
+        <Label type="info" icon={helpIcon} className="ml-2 sm:ml-0">
           {t("kingdomChores.progress", {
-            progress: `${cheers}/${REQUIRED_CHEERS(gameService.getSnapshot().context.state)[project]}`,
+            progress: `${cheers}/${REQUIRED_CHEERS[project]}`,
           })}
         </Label>
       </div>
       <div className="p-2 text-xs flex flex-col gap-2">
-        {hasFeatureAccess(
-          gameService.getSnapshot().context.visitorState!,
-          "CHEERS_V2",
-        ) ? (
-          <span>
-            {t("cheer.village.project.description.charm", {
-              project,
-              username,
-            })}
-          </span>
-        ) : (
-          <span>
-            {t("cheer.village.project.description", {
-              project,
-              username,
-            })}
-          </span>
-        )}
-
+        <span>
+          {t("cheer.village.project.description.charm", {
+            project,
+            username,
+          })}
+        </span>
         <span>
           {t("cheer.village.project.confirm", {
             project,
@@ -216,17 +199,11 @@ const ProjectComplete: React.FC<{
   const [isLoading, setIsLoading] = useState(false);
   const [winner, setWinner] = useState<Player>();
 
-  const rewards = getMonumentRewards({ state, monument: project });
+  const rewardItem = REWARD_ITEMS[project];
 
-  const rewardItem = rewards[project];
+  const amount = rewardItem?.amount ?? 0;
 
-  let amount = rewardItem?.amount ?? 0;
-  if (rewardItem?.item === "Love Charm") {
-    amount = getMonumentBoostedAmount({ gameState: state, amount });
-  }
-
-  const isProjectComplete =
-    cheers >= REQUIRED_CHEERS(gameService.getSnapshot().context.state)[project];
+  const isProjectComplete = cheers >= REQUIRED_CHEERS[project];
 
   useEffect(() => {
     const winnerId = state.socialFarming.villageProjects[project]?.winnerId;
@@ -245,11 +222,7 @@ const ProjectComplete: React.FC<{
       setWinner(winner);
     };
 
-    if (
-      isProjectComplete &&
-      winnerId &&
-      hasFeatureAccess(gameService.getSnapshot().context.state, "CHEERS_V2")
-    ) {
+    if (isProjectComplete && winnerId) {
       load();
     }
   }, [isProjectComplete]);
@@ -284,46 +257,38 @@ const ProjectComplete: React.FC<{
             t("project.incomplete", {
               project,
               cheers,
-              requiredCheers: REQUIRED_CHEERS(
-                gameService.getSnapshot().context.state,
-              )[project],
-              remaining:
-                REQUIRED_CHEERS(gameService.getSnapshot().context.state)[
-                  project
-                ] - cheers,
+              requiredCheers: REQUIRED_CHEERS[project],
+              remaining: REQUIRED_CHEERS[project] - cheers,
             })}
         </span>
       </div>
 
-      {hasFeatureAccess(state, "CHEERS_V2") &&
-        isProjectComplete &&
-        RAFFLE_REWARDS[project] &&
-        !!winner && (
-          <>
-            <div className="flex justify-between flex-wrap">
-              <Label
-                type="chill"
-                icon={SUNNYSIDE.icons.heart}
-                className="mb-1 ml-2"
-              >
-                {t("project.friendBonus")}
-              </Label>
-              <div className="flex items-center mr-4">
-                <NPCIcon
-                  width={20}
-                  parts={winner?.data?.clothing as BumpkinParts}
-                />
-                <div className="ml-1">
-                  <p className="text-xs">{winner.data?.username}</p>
-                </div>
+      {isProjectComplete && RAFFLE_REWARDS[project] && !!winner && (
+        <>
+          <div className="flex justify-between flex-wrap">
+            <Label
+              type="chill"
+              icon={SUNNYSIDE.icons.heart}
+              className="mb-1 ml-2"
+            >
+              {t("project.friendBonus")}
+            </Label>
+            <div className="flex items-center mr-4">
+              <NPCIcon
+                width={20}
+                parts={winner?.data?.clothing as BumpkinParts}
+              />
+              <div className="ml-1">
+                <p className="text-xs">{winner.data?.username}</p>
               </div>
             </div>
+          </div>
 
-            <p className="text-xs ml-2 mb-2">
-              {t("project.friendBonus.description")}
-            </p>
-          </>
-        )}
+          <p className="text-xs ml-2 mb-2">
+            {t("project.friendBonus.description")}
+          </p>
+        </>
+      )}
 
       <Label type="warning" icon={chest} className="mb-1 ml-2">
         {t("reward")}
@@ -374,9 +339,7 @@ const ProjectModal: React.FC<{
 
   const [showConfirmInsta, setShowConfirmInsta] = useState(false);
 
-  const required = REQUIRED_CHEERS(gameService.getSnapshot().context.state)[
-    project
-  ];
+  const required = REQUIRED_CHEERS[project];
 
   const isProjectComplete = cheers >= required;
 
@@ -431,13 +394,9 @@ const ProjectModal: React.FC<{
       <InnerPanel className="mb-1">
         <div className="flex justify-between">
           <Label type="default">{project}</Label>
-          <Label type="info" icon={cheer} className="ml-2 sm:ml-0">
+          <Label type="info" icon={helpIcon} className="ml-2 sm:ml-0">
             {t("cheers.progress", {
-              progress: `${cheers}/${
-                REQUIRED_CHEERS(gameService.getSnapshot().context.state)[
-                  project
-                ]
-              }`,
+              progress: `${cheers}/${REQUIRED_CHEERS[project]}`,
             })}
           </Label>
         </div>
@@ -445,31 +404,30 @@ const ProjectModal: React.FC<{
           <span>{t("project.incomplete")}</span>
         </div>
       </InnerPanel>
-      {hasFeatureAccess(gameState.context.state, "CHEERS_V2") &&
-        !!instaGrowPrice && (
-          <InnerPanel className="mb-1">
-            <div className="p-1">
-              <Label type="vibrant">{t("instaGrow")}</Label>
-              <p className="text-sm my-1">
-                {t("instaGrow.description", { project })}
-              </p>
-              <div className="flex justify-start">
-                <RequirementLabel
-                  item="Obsidian"
-                  requirement={new Decimal(instaGrowPrice)}
-                  type="item"
-                  balance={obsidian}
-                />
-              </div>
+      {!!instaGrowPrice && (
+        <InnerPanel className="mb-1">
+          <div className="p-1">
+            <Label type="vibrant">{t("instaGrow")}</Label>
+            <p className="text-sm my-1">
+              {t("instaGrow.description", { project })}
+            </p>
+            <div className="flex justify-start">
+              <RequirementLabel
+                item="Obsidian"
+                requirement={new Decimal(instaGrowPrice)}
+                type="item"
+                balance={obsidian}
+              />
             </div>
-            <Button
-              disabled={!hasObsidian}
-              onClick={() => setShowConfirmInsta(true)}
-            >
-              {t("instaGrow")}
-            </Button>
-          </InnerPanel>
-        )}
+          </div>
+          <Button
+            disabled={!hasObsidian}
+            onClick={() => setShowConfirmInsta(true)}
+          >
+            {t("instaGrow")}
+          </Button>
+        </InnerPanel>
+      )}
     </>
   );
 };
@@ -478,9 +436,6 @@ const _cheers = (project: MonumentName) => (state: MachineState) => {
   return (
     state.context.state.socialFarming.villageProjects[project]?.cheers ?? 0
   );
-};
-const _username = (state: MachineState) => {
-  return state.context.state.username ?? state.context.farmId.toString();
 };
 
 const _cheersAvailable = (state: MachineState) => {
@@ -491,10 +446,7 @@ export const _hasCheeredToday =
   (project: MonumentName) => (state: MachineState) => {
     const today = new Date().toISOString().split("T")[0];
 
-    if (
-      state.context.visitorState &&
-      hasFeatureAccess(state.context.visitorState!, "CHEERS_V2")
-    ) {
+    if (state.context.visitorState) {
       const hasHelpedToday = hasHelpedFarmToday({
         game: state.context.visitorState,
         farmId: state.context.farmId,
@@ -536,44 +488,15 @@ export const Project: React.FC<ProjectProps> = (input) => {
     gameService,
     _hasCheeredToday(input.project),
   );
-  const username = useSelector(gameService, _username);
 
-  const requiredCheers = REQUIRED_CHEERS(
-    gameService.getSnapshot().context.state,
-  )[input.project];
+  const requiredCheers = REQUIRED_CHEERS[input.project];
   const projectPercentage = Math.round((projectCheers / requiredCheers) * 100);
   const isProjectComplete = projectCheers >= requiredCheers;
 
-  const today = new Date().toISOString().split("T")[0];
-  const tomorrow = new Date(new Date().setDate(new Date().getDate() + 1))
-    .toISOString()
-    .split("T")[0];
-
   const hasCheers = cheersAvailable.gt(0);
 
-  const [isCheering, setIsCheering] = useState(false);
   const [showHelped, setShowHelped] = useState(false);
   const [showDetails, setShowDetails] = useState(false);
-
-  const [, setRender] = useState<number>(0);
-
-  const handleCheer = async () => {
-    try {
-      gameService.send("villageProject.cheered", {
-        effect: {
-          type: "villageProject.cheered",
-          project: input.project,
-          // In the context of visiting, this is the farmId of the land being visited
-          farmId: gameService.getSnapshot().context.farmId,
-        },
-      });
-    } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(error);
-    } finally {
-      setIsCheering(false);
-    }
-  };
 
   const handleComplete = async () => {
     try {
@@ -608,21 +531,7 @@ export const Project: React.FC<ProjectProps> = (input) => {
       return;
     }
 
-    const hasAccess = hasFeatureAccess(
-      gameService.getSnapshot().context.visitorState!,
-      "CHEERS_V2",
-    );
-
-    if (!hasAccess && (isProjectComplete || hasCheeredProjectToday)) {
-      setIsCheering(true);
-      return;
-    }
-
-    if (hasAccess) {
-      handleHelpProject();
-    } else {
-      setIsCheering(true);
-    }
+    handleHelpProject();
   };
 
   let image = PROJECT_IMAGES[input.project].empty;
@@ -648,50 +557,36 @@ export const Project: React.FC<ProjectProps> = (input) => {
           <img src={image} style={input.imgStyle} alt={input.alt} />
         </div>
 
-        {isVisiting &&
-          !hasCheeredProjectToday &&
-          !isProjectComplete &&
-          (hasCheers ||
-            hasFeatureAccess(
-              gameService.getSnapshot().context.visitorState!,
-              "CHEERS_V2",
-            )) && (
+        {isVisiting && !hasCheeredProjectToday && !isProjectComplete && (
+          <div
+            className={classNames(
+              "absolute -top-4 -right-4 pointer-events-auto cursor-pointer hover:img-highlight",
+              {
+                "animate-pulsate": hasCheers,
+              },
+            )}
+            onClick={(e) => {
+              e.stopPropagation();
+              onClick();
+            }}
+          >
             <div
-              className={classNames(
-                "absolute -top-4 -right-4 pointer-events-auto cursor-pointer hover:img-highlight",
-                {
-                  "animate-pulsate": hasCheers,
-                },
-              )}
-              onClick={(e) => {
-                e.stopPropagation();
-                onClick();
-              }}
+              className="relative mr-2"
+              style={{ width: `${PIXEL_SCALE * 20}px` }}
             >
-              <div
-                className="relative mr-2"
-                style={{ width: `${PIXEL_SCALE * 20}px` }}
-              >
-                <img className="w-full" src={SUNNYSIDE.icons.disc} />
-                <img
-                  className={classNames("absolute")}
-                  src={
-                    hasFeatureAccess(
-                      gameService.getSnapshot().context.visitorState!,
-                      "CHEERS_V2",
-                    )
-                      ? helpIcon
-                      : cheer
-                  }
-                  style={{
-                    width: `${PIXEL_SCALE * 15}px`,
-                    right: `${PIXEL_SCALE * 2}px`,
-                    top: `${PIXEL_SCALE * 2}px`,
-                  }}
-                />
-              </div>
+              <img className="w-full" src={SUNNYSIDE.icons.disc} />
+              <img
+                className={classNames("absolute")}
+                src={helpIcon}
+                style={{
+                  width: `${PIXEL_SCALE * 15}px`,
+                  right: `${PIXEL_SCALE * 2}px`,
+                  top: `${PIXEL_SCALE * 2}px`,
+                }}
+              />
             </div>
-          )}
+          </div>
+        )}
         <div
           className="absolute bottom-2 left-1/2"
           style={{
@@ -706,17 +601,6 @@ export const Project: React.FC<ProjectProps> = (input) => {
           />
         </div>
       </>
-
-      <Modal show={isCheering} onHide={() => setIsCheering(false)}>
-        <CheerModal
-          project={input.project}
-          cheers={projectCheers}
-          cheersAvailable={cheersAvailable}
-          onClose={() => setIsCheering(false)}
-          onCheer={handleCheer}
-          username={username}
-        />
-      </Modal>
 
       <Modal show={showDetails} onHide={() => setShowDetails(false)}>
         <CloseButtonPanel container={OuterPanel}>

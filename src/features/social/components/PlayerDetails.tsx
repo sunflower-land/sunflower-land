@@ -44,7 +44,6 @@ import { useOnMachineTransition } from "lib/utils/hooks/useOnMachineTransition";
 import { getKeys } from "features/game/lib/crafting";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
-import { hasFeatureAccess } from "lib/flags";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { getHelpStreak } from "features/game/types/monuments";
 import { hasVipAccess } from "features/game/lib/vipAccess";
@@ -233,38 +232,33 @@ export const PlayerDetails: React.FC<Props> = ({
 
               <div className="p-2 text-xs flex flex-col gap-2">
                 <span>{t("cheers.confirm.description")}</span>
-                {hasFeatureAccess(
-                  gameService.getSnapshot().context.state,
-                  "CHEERS_V2",
-                ) && (
-                  <div className="flex items-center flex-wrap">
-                    <div className="flex items-center mr-4">
-                      <NPCIcon parts={player?.clothing as BumpkinParts} />
-                      <div className="ml-1">
-                        <p className="text-sm">{player?.username}</p>
-                      </div>
-                    </div>
-                    <div>
-                      <Label
-                        type="warning"
-                        icon={ITEM_DETAILS["Love Charm"].image}
-                      >
-                        {`+3 Social Point`}
-                      </Label>
-                      {hasVipAccess({
-                        game: gameService.getSnapshot().context.state,
-                      }) && (
-                        <Label
-                          type="warning"
-                          className="mt-0.5"
-                          icon={ITEM_DETAILS["Love Charm"].image}
-                        >
-                          {`+3 Love Charm`}
-                        </Label>
-                      )}
+                <div className="flex items-center flex-wrap">
+                  <div className="flex items-center mr-4">
+                    <NPCIcon parts={player?.clothing as BumpkinParts} />
+                    <div className="ml-1">
+                      <p className="text-sm">{player?.username}</p>
                     </div>
                   </div>
-                )}
+                  <div>
+                    <Label
+                      type="warning"
+                      icon={ITEM_DETAILS["Love Charm"].image}
+                    >
+                      {`+3 Social Point`}
+                    </Label>
+                    {hasVipAccess({
+                      game: gameService.getSnapshot().context.state,
+                    }) && (
+                      <Label
+                        type="warning"
+                        className="mt-0.5"
+                        icon={ITEM_DETAILS["Love Charm"].image}
+                      >
+                        {`+3 Love Charm`}
+                      </Label>
+                    )}
+                  </div>
+                </div>
                 <span>{t("cheers.confirm", { username: displayName })}</span>
               </div>
               <div className="flex space-x-1">

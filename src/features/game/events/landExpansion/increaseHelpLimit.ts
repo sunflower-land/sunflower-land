@@ -54,7 +54,7 @@ export function getHelpLimit({
   getKeys(monuments).forEach((monument) => {
     if (
       (game.socialFarming.villageProjects?.[monument]?.cheers ?? 0) >=
-      REQUIRED_CHEERS(game)[monument]
+      REQUIRED_CHEERS[monument]
     ) {
       limit += 1;
     }

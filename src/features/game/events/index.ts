@@ -517,15 +517,11 @@ import {
   ClaimCheersAction,
   claimDailyCheers,
 } from "./landExpansion/claimDailyCheers";
-import {
-  collectClutter,
-  CollectClutterAction,
-} from "./landExpansion/collectClutter";
+
 import {
   flipCollectible,
   FlipCollectibleAction,
 } from "./landExpansion/flipCollectible";
-import { CatchPestAction, catchPest } from "./landExpansion/catchPest";
 
 // Visiting local events
 import {
@@ -533,11 +529,6 @@ import {
   CollectGarbageAction,
 } from "./visiting/collectGarbage";
 import { helpProject, HelpProjectAction } from "./visiting/helpProject";
-
-import {
-  increaseBinLimit,
-  IncreaseBinLimitAction,
-} from "./landExpansion/increaseBinLimit";
 import { burnClutter, BurnClutterAction } from "./landExpansion/burnClutter";
 import {
   increaseHelpLimit,
@@ -698,12 +689,7 @@ export type PlayingEvent =
 
 export type LocalVisitingEvent = CollectGarbageAction | HelpProjectAction;
 
-export type VisitingEvent =
-  | CollectClutterAction
-  | CatchPestAction
-  | IncreaseBinLimitAction
-  | IncreaseHelpLimitAction
-  | LocalVisitingEvent;
+export type VisitingEvent = IncreaseHelpLimitAction | LocalVisitingEvent;
 
 export type PlacementEvent =
   | ConstructBuildingAction
@@ -943,9 +929,6 @@ export const LOCAL_VISITING_EVENTS: Handlers<LocalVisitingEvent> = {
 };
 
 export const VISITING_EVENTS: Handlers<VisitingEvent> = {
-  "clutter.collected": collectClutter,
-  "pest.caught": catchPest,
-  "binLimit.increased": increaseBinLimit,
   "helpLimit.increased": increaseHelpLimit,
   ...LOCAL_VISITING_EVENTS,
 };
