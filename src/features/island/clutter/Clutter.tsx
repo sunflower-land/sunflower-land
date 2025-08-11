@@ -22,10 +22,6 @@ interface Props {
 }
 
 const _farmId = (state: MachineState) => state.context.farmId;
-const _dailyCollections = (state: MachineState) =>
-  state.context.visitorState?.socialFarming?.dailyCollections;
-const _caughtPests = (state: MachineState) =>
-  state.context.visitorState?.socialFarming?.caughtPests;
 
 export const Clutter: React.FC<{
   clutter: GameState["socialFarming"]["clutter"];
@@ -85,14 +81,6 @@ export const ClutterItem: React.FC<
 > = ({ id, type, onComplete }) => {
   const { gameService } = useContext(Context);
   const farmId = useSelector(gameService, _farmId);
-  const dailyCollections = useSelector(gameService, _dailyCollections);
-  const caughtPests = useSelector(gameService, _caughtPests);
-  const isCollected = dailyCollections?.[farmId]?.clutter?.[id];
-  const isCaught = caughtPests?.[farmId]?.includes(id);
-
-  if (isCollected || isCaught) {
-    return null;
-  }
 
   // V2 - local only event
   const handleHelpFarm = async () => {
@@ -135,29 +123,4 @@ export const ClutterItem: React.FC<
       </div>
     </>
   );
-};
-
-export function hasCleanedToday(state: MachineState) {
-  const dailyCollections = _dailyCollections(state);
-  const farmId = _farmId(state);
-  const pointGivenAt = dailyCollections?.[farmId]?.pointGivenAt;
-  const isPointGivenToday =
-    pointGivenAt &&
-    new Date(pointGivenAt).toISOString().split("T")[0] ===
-      new Date().toISOString().split("T")[0];
-
-  return isPointGivenToday;
-}
-
-export const getTrashBinItems = (state: MachineState) => {
-  const allClutter = Object.keys(_dailyCollections(state) ?? {});
-  const trashBinItems = allClutter.reduce((acc: number, farm: string) => {
-    return (
-      acc +
-      Object.keys(_dailyCollections(state)?.[Number(farm)]?.clutter ?? {})
-        .length
-    );
-  }, 0);
-
-  return trashBinItems;
 };

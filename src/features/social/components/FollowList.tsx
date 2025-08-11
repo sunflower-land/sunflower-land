@@ -150,6 +150,14 @@ export const FollowList: React.FC<Props> = ({
             ],
           });
 
+          const helpedToday =
+            gameService.getSnapshot().context.state.socialFarming.helped?.[
+              detail.id
+            ]?.helpedAt ?? 0;
+          const hasHelpedToday =
+            new Date(helpedToday).toISOString().split("T")[0] ===
+            new Date().toISOString().split("T")[0];
+
           return (
             <FollowDetailPanel
               key={`flw-${detail.id}`}
@@ -161,7 +169,8 @@ export const FollowList: React.FC<Props> = ({
               navigateToPlayer={navigateToPlayer}
               projects={detail.projects ?? {}}
               socialPoints={detail.socialPoints ?? 0}
-              haveCleanedToday={!!detail.cleanedToday}
+              haveHelpedToday={hasHelpedToday}
+              haveTheyHelpedYouToday={detail.helpedYouToday ?? false}
               friendStreak={friendStreak}
             />
           );
