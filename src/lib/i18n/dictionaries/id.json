@@ -6390,5 +6390,14 @@
   "visitorGuide.clutter": "Temukan item tersembunyi di pertanian.",
   "visitorGuide.tasks": "Tugas yang tersisa",
   "visitorGuide.rewards": "Bantu pemilik dalam panci masak mereka untuk kesempatan menerima hadiah!",
-  "description.giantTurnip.boost": "-50% Waktu Pertumbuhan Lobak"
+  "description.giantTurnip.boost": "-50% Waktu Pertumbuhan Lobak",
+  "leaderboard": "Papan peringkat",
+  "discovery": "Penemuan",
+  "points": "Poin",
+  "allTime": "Sepanjang Waktu",
+  "weekly": "Mingguan",
+  "social.leaderboard": "Papan peringkat sosial",
+  "social.leaderboard.weekly": "Skor Soal Mingguan",
+  "social.leaderboard.clickToView": "Klik untuk melihat {{type}}",
+  "social.leaderboard.allTime": "Skor Soal Sepanjang Masa"
 }

@@ -6390,5 +6390,14 @@
   "visitorGuide.clutter": "Encontre os itens escondidos na fazenda.",
   "visitorGuide.tasks": "Tarefas restantes",
   "visitorGuide.rewards": "Ajude o dono em suas panelas para ter a chance de receber uma recompensa!",
-  "description.giantTurnip.boost": "-50% de tempo de crescimento do nabo"
+  "description.giantTurnip.boost": "-50% de tempo de crescimento do nabo",
+  "leaderboard": "Tabela de classificação",
+  "discovery": "Descoberta",
+  "points": "Pontos",
+  "allTime": "Todo o tempo",
+  "weekly": "Semanalmente",
+  "social.leaderboard": "Tabela de classificação social",
+  "social.leaderboard.weekly": "Pontuações sociais semanais",
+  "social.leaderboard.clickToView": "Clique para ver {{type}}",
+  "social.leaderboard.allTime": "Pontuações sociais de todos os tempos"
 }

@@ -6390,5 +6390,14 @@
   "visitorGuide.clutter": "농장에서 숨겨진 아이템을 찾으세요.",
   "visitorGuide.tasks": "남은 과제",
   "visitorGuide.rewards": "요리 냄비 주인을 도와 보상을 받을 기회를 잡으세요!",
-  "description.giantTurnip.boost": "-50% 순무 성장 시간"
+  "description.giantTurnip.boost": "-50% 순무 성장 시간",
+  "leaderboard": "리더보드",
+  "discovery": "디스커버리",
+  "points": "포인트",
+  "allTime": "전체 시간",
+  "weekly": "주간",
+  "social.leaderboard": "소셜 리더보드",
+  "social.leaderboard.weekly": "주간 소셜 스코어",
+  "social.leaderboard.clickToView": "보려면 클릭 {{type}}",
+  "social.leaderboard.allTime": "역대 소셜 스코어"
 }

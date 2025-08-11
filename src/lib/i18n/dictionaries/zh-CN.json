@@ -6390,5 +6390,14 @@
   "visitorGuide.clutter": "在农场找到隐藏的物品。",
   "visitorGuide.tasks": "剩余任务",
   "visitorGuide.rewards": "帮助主人装在锅里，有机会获得奖励！",
-  "description.giantTurnip.boost": "-50% 萝卜生长时间"
+  "description.giantTurnip.boost": "-50% 萝卜生长时间",
+  "leaderboard": "排行榜",
+  "discovery": "探索",
+  "points": "积分",
+  "allTime": "所有时间",
+  "weekly": "每周一次",
+  "social.leaderboard": "社交排行榜",
+  "social.leaderboard.weekly": "每周社交分数",
+  "social.leaderboard.clickToView": "点击查看 {{type}}",
+  "social.leaderboard.allTime": "历史社交分数"
 }

@@ -6390,5 +6390,14 @@
   "visitorGuide.clutter": "Cari barangan tersembunyi di ladang.",
   "visitorGuide.tasks": "Tugas yang tinggal",
   "visitorGuide.rewards": "Bantu pemilik dalam periuk memasak mereka untuk peluang menerima ganjaran!",
-  "description.giantTurnip.boost": "-50% Masa Pertumbuhan Lobak"
+  "description.giantTurnip.boost": "-50% Masa Pertumbuhan Lobak",
+  "leaderboard": "Papan pendahulu",
+  "discovery": "Penemuan",
+  "points": "Titik",
+  "allTime": "Sepanjang Masa",
+  "weekly": "Mingguan",
+  "social.leaderboard": "Papan Pendahulu Sosial",
+  "social.leaderboard.weekly": "Skor Sosial Mingguan",
+  "social.leaderboard.clickToView": "Klik untuk melihat {{type}}",
+  "social.leaderboard.allTime": "Skor Sosial Sepanjang Masa"
 }

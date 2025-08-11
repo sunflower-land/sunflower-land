@@ -6390,5 +6390,14 @@
   "visitorGuide.clutter": "Çiftlikteki gizli eşyaları bulun.",
   "visitorGuide.tasks": "Kalan görevler",
   "visitorGuide.rewards": "Ödül alma şansı için sahibine pişirme kaplarında yardım edin!",
-  "description.giantTurnip.boost": "-50% Şalglam Büyüme Süresi"
+  "description.giantTurnip.boost": "-50% Şalglam Büyüme Süresi",
+  "leaderboard": "Liderlik Tablosu",
+  "discovery": "Keşif",
+  "points": "Puanlar",
+  "allTime": "Tüm Zamanlar",
+  "weekly": "Haftalık",
+  "social.leaderboard": "Sosyal Liderlik Tablosu",
+  "social.leaderboard.weekly": "Haftalık Sosyal Skorlar",
+  "social.leaderboard.clickToView": "Görüntülemek için tıklayın {{type}}",
+  "social.leaderboard.allTime": "Tüm Zamanların Sosyal Skorları"
 }

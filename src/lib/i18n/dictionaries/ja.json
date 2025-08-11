@@ -6390,5 +6390,14 @@
   "visitorGuide.clutter": "農場に隠されたアイテムを見つけてください。",
   "visitorGuide.tasks": "残りのタスク",
   "visitorGuide.rewards": "鍋の中でオーナーを助けて、報酬をもらえるチャンスを手に入れよう！",
-  "description.giantTurnip.boost": "-50% カブの生育時間"
+  "description.giantTurnip.boost": "-50% カブの生育時間",
+  "leaderboard": "リーダーボード",
+  "discovery": "ディスカバリー",
+  "points": "ポイント",
+  "allTime": "全時間",
+  "weekly": "毎週",
+  "social.leaderboard": "ソーシャル・リーダーボード",
+  "social.leaderboard.weekly": "ウィークリーソーシャルスコア",
+  "social.leaderboard.clickToView": "クリックして {{type}} を表示",
+  "social.leaderboard.allTime": "オールタイム・ソーシャル・スコア"
 }

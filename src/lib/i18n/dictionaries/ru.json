@@ -6390,5 +6390,14 @@
   "visitorGuide.clutter": "Найдите спрятанные предметы на ферме.",
   "visitorGuide.tasks": "Оставшиеся задачи",
   "visitorGuide.rewards": "Помоги хозяину в приготовлении пищи и получи шанс получить награду!",
-  "description.giantTurnip.boost": "Время роста репы: -50%"
+  "description.giantTurnip.boost": "Время роста репы: -50%",
+  "leaderboard": "Таблица лидеров",
+  "discovery": "Обнаружение",
+  "points": "Очки",
+  "allTime": "Все время",
+  "weekly": "Еженедельно",
+  "social.leaderboard": "Таблица лидеров в социальных сетях",
+  "social.leaderboard.weekly": "Еженедельные социальные оценки",
+  "social.leaderboard.clickToView": "Нажмите для просмотра {{type}}",
+  "social.leaderboard.allTime": "Социальные баллы за все время"
 }

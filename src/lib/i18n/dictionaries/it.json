@@ -6390,5 +6390,14 @@
   "visitorGuide.clutter": "Trova gli oggetti nascosti nella fattoria.",
   "visitorGuide.tasks": "Attività rimanenti",
   "visitorGuide.rewards": "Aiuta il proprietario a mettere le pentole per avere la possibilità di ricevere una ricompensa!",
-  "description.giantTurnip.boost": "-50% Tempo di crescita della rapa"
+  "description.giantTurnip.boost": "-50% Tempo di crescita della rapa",
+  "leaderboard": "Classifica",
+  "discovery": "Scoperta",
+  "points": "Punti",
+  "allTime": "Tutto il tempo",
+  "weekly": "Settimanale",
+  "social.leaderboard": "Classifica social",
+  "social.leaderboard.weekly": "Punteggi sociali settimanali",
+  "social.leaderboard.clickToView": "Clicca per visualizzare {{type}}",
+  "social.leaderboard.allTime": "Punteggi sociali di tutti i tempi"
 }

@@ -6390,5 +6390,14 @@
   "visitorGuide.clutter": "Trouvez les objets cachés dans la ferme.",
   "visitorGuide.tasks": "Tâches restantes",
   "visitorGuide.rewards": "Aidez le propriétaire à préparer ses marmites pour avoir une chance de recevoir une récompense !",
-  "description.giantTurnip.boost": "-50 % de temps de croissance des navets"
+  "description.giantTurnip.boost": "-50 % de temps de croissance des navets",
+  "leaderboard": "Classement",
+  "discovery": "Découverte",
+  "points": "Points",
+  "allTime": "Tout le temps",
+  "weekly": "Hebdo",
+  "social.leaderboard": "Classement social",
+  "social.leaderboard.weekly": "Scores sociaux hebdomadaires",
+  "social.leaderboard.clickToView": "Cliquez pour afficher {{type}}",
+  "social.leaderboard.allTime": "Scores sociaux de tous les temps"
 }

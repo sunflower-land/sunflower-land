@@ -6390,5 +6390,14 @@
   "visitorGuide.clutter": "Encuentra los objetos escondidos en la granja.",
   "visitorGuide.tasks": "Tareas restantes",
   "visitorGuide.rewards": "¡Ayuda al propietario en sus ollas para tener la oportunidad de recibir una recompensa!",
-  "description.giantTurnip.boost": "-50% de tiempo de crecimiento del nabo"
+  "description.giantTurnip.boost": "-50% de tiempo de crecimiento del nabo",
+  "leaderboard": "Tabla clasificatoria",
+  "discovery": "Descubrimiento",
+  "points": "Puntos",
+  "allTime": "Todos los tiempos",
+  "weekly": "Semanalmente",
+  "social.leaderboard": "Tabla de clasificación social",
+  "social.leaderboard.weekly": "Puntuaciones sociales semanales",
+  "social.leaderboard.clickToView": "Haga clic para ver {{type}}",
+  "social.leaderboard.allTime": "Puntuaciones sociales de todos los tiempos"
 }

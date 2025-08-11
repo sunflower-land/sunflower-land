@@ -6390,5 +6390,14 @@
   "visitorGuide.clutter": "Finde die versteckten Gegenstände auf der Farm.",
   "visitorGuide.tasks": "Verbleibende Aufgaben",
   "visitorGuide.rewards": "Hilf dem Besitzer in seinen Kochtöpfen, um eine Belohnung zu erhalten!",
-  "description.giantTurnip.boost": "-50% Wachstumszeit der Rübe"
+  "description.giantTurnip.boost": "-50% Wachstumszeit der Rübe",
+  "leaderboard": "Bestenliste",
+  "discovery": "Entdeckung",
+  "points": "Punkte",
+  "allTime": "Alle Zeiten",
+  "weekly": "Wöchentlich",
+  "social.leaderboard": "Soziale Bestenliste",
+  "social.leaderboard.weekly": "Wöchentliche soziale Punktzahlen",
+  "social.leaderboard.clickToView": "Klicken Sie hier, um {{type}} anzusehen",
+  "social.leaderboard.allTime": "Soziale Punktzahlen aller Zeiten"
 }
