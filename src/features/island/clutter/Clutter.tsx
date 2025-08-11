@@ -94,10 +94,6 @@ export const ClutterItem: React.FC<
     return null;
   }
 
-  const collectClutter = () => {
-    handleHelpFarm();
-  };
-
   // V2 - local only event
   const handleHelpFarm = async () => {
     gameService.send("garbage.collected", {
@@ -115,7 +111,7 @@ export const ClutterItem: React.FC<
       <div className="relative w-full h-full">
         <div
           className="relative w-full h-full cursor-pointer hover:img-highlight flex items-center justify-center"
-          onClick={collectClutter}
+          onClick={handleHelpFarm}
         >
           <img
             src={ITEM_DETAILS[type].image}

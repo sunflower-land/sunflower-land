@@ -17,7 +17,6 @@ import { useNavigate } from "react-router";
 import { MachineState } from "features/game/lib/gameMachine";
 import { NPCIcon } from "../bumpkin/components/NPC";
 import { Label } from "components/ui/Label";
-import { getTrashBinItems } from "../clutter/Clutter";
 
 import socialPointsIcon from "assets/icons/social_score.webp";
 import loadingIcon from "assets/icons/timer.gif";
@@ -32,9 +31,6 @@ import {
 } from "features/game/types/monuments";
 import { hasHitHelpLimit } from "features/game/events/landExpansion/increaseHelpLimit";
 
-const _cheers = (state: MachineState) => {
-  return state.context.visitorState?.inventory["Cheer"] ?? new Decimal(0);
-};
 const _socialPoints = (state: MachineState) => {
   return state.context.state.socialFarming?.points ?? 0;
 };
@@ -68,15 +64,11 @@ export const VisitingHud: React.FC = () => {
       localStorage.getItem("visitorGuideAcknowledged") === "true";
     return !hasAcknowledged;
   });
-  const [showBinGuide, setShowBinGuide] = useState(false);
-  const cheers = useSelector(gameService, _cheers);
   const socialPoints = useSelector(gameService, _socialPoints);
   const saving = useSelector(gameService, _autosaving);
 
   const { t } = useAppTranslation();
   const navigate = useNavigate();
-
-  const trashBinItems = getTrashBinItems(gameState);
 
   const handleEndVisit = () => {
     navigate(fromRoute ?? "/");

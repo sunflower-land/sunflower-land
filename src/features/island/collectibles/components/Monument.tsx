@@ -151,10 +151,6 @@ export const Monument: React.FC<MonumentProps> = (input) => {
     }
   };
 
-  const onClick = () => {
-    handleHelpProject();
-  };
-
   let image = PROJECT_IMAGES[input.project].empty;
 
   if (projectPercentage >= 100) {
@@ -203,7 +199,7 @@ export const Monument: React.FC<MonumentProps> = (input) => {
                   )}
                   onClick={(e) => {
                     e.stopPropagation();
-                    onClick();
+                    handleHelpProject();
                   }}
                 >
                   <div

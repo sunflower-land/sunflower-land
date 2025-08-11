@@ -232,7 +232,6 @@ export const PlayerDetails: React.FC<Props> = ({
 
               <div className="p-2 text-xs flex flex-col gap-2">
                 <span>{t("cheers.confirm.description")}</span>
-
                 <div className="flex items-center flex-wrap">
                   <div className="flex items-center mr-4">
                     <NPCIcon parts={player?.clothing as BumpkinParts} />

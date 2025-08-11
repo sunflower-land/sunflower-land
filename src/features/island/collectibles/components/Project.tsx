@@ -3,7 +3,6 @@ import { ImageStyle } from "./template/ImageStyle";
 import { useVisiting } from "lib/utils/visitUtils";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import cheer from "assets/icons/cheer.webp";
 import helpIcon from "assets/icons/help.webp";
 import { Context, useGame } from "features/game/GameProvider";
 import { ProgressBar } from "components/ui/ProgressBar";
@@ -143,7 +142,6 @@ export const CheerModal: React.FC<{
   cheersAvailable: Decimal;
 }> = ({ project, cheers, username, onClose, onCheer, cheersAvailable }) => {
   const { t } = useAppTranslation();
-  const { gameService } = useGame();
 
   const hasCheersAvailable = cheersAvailable.gt(0);
 
@@ -157,7 +155,7 @@ export const CheerModal: React.FC<{
         >
           {t("cheer.village.project")}
         </Label>
-        <Label type="info" icon={cheer} className="ml-2 sm:ml-0">
+        <Label type="info" icon={helpIcon} className="ml-2 sm:ml-0">
           {t("kingdomChores.progress", {
             progress: `${cheers}/${REQUIRED_CHEERS[project]}`,
           })}
@@ -396,7 +394,7 @@ const ProjectModal: React.FC<{
       <InnerPanel className="mb-1">
         <div className="flex justify-between">
           <Label type="default">{project}</Label>
-          <Label type="info" icon={cheer} className="ml-2 sm:ml-0">
+          <Label type="info" icon={helpIcon} className="ml-2 sm:ml-0">
             {t("cheers.progress", {
               progress: `${cheers}/${REQUIRED_CHEERS[project]}`,
             })}
