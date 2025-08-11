@@ -517,6 +517,7 @@ import {
   ClaimCheersAction,
   claimDailyCheers,
 } from "./landExpansion/claimDailyCheers";
+import { feedPet, FeedPetAction } from "./landExpansion/feedPet";
 
 import {
   flipCollectible,
@@ -685,7 +686,8 @@ export type PlayingEvent =
   | WakeUpAnimalAction
   | ClaimCheersAction
   | BurnClutterAction
-  | InstantGrowProjectAction;
+  | InstantGrowProjectAction
+  | FeedPetAction;
 
 export type LocalVisitingEvent = CollectGarbageAction | HelpProjectAction;
 
@@ -792,6 +794,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "greenhouse.oiled": oilGreenhouse,
   "greenhouse.harvested": harvestGreenHouse,
   "greenhouse.planted": plantGreenhouse,
+  "pet.fed": feedPet,
   "minigame.itemPurchased": purchaseMinigameItem,
   "minigame.prizeClaimed": claimMinigamePrize,
   "minigame.attemptStarted": startMinigameAttempt,

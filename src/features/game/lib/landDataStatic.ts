@@ -24,6 +24,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     expiresAt: Date.now() + 31 * 24 * 60 * 60 * 1000,
   },
   inventory: {
+    Barkley: new Decimal(1),
     "Black Magic": new Decimal(1),
     "Farmer's Monument": new Decimal(1),
     "Giant Orange": new Decimal(1),
@@ -722,6 +723,14 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   collectibles: {
+    Barkley: [
+      {
+        id: "1",
+        createdAt: Date.now(),
+        coordinates: { x: 8, y: 3 },
+        readyAt: Date.now(),
+      },
+    ],
     "Magic Bean": [
       {
         id: "1",

@@ -367,6 +367,7 @@ import { JanitorChicken } from "./components/JanitorChicken";
 import { VenusBumpkinTrap } from "./components/VenusBumpkinTrap";
 import { Poseidon } from "./components/Poseidon";
 import { Project } from "./components/Project";
+import { Pet } from "./components/Pet";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
@@ -379,6 +380,11 @@ export const COLLECTIBLE_COMPONENTS: Record<
     }),
     {} as Record<TemplateDecorationName, React.FC<CollectibleProps>>,
   ),
+
+  Barkley: (props: CollectibleProps) => <Pet {...props} />,
+  Meowchi: (props: CollectibleProps) => <Pet {...props} />,
+  Twizzle: (props: CollectibleProps) => <Pet {...props} />,
+
   "Baby Cow": BabyCow,
   "Baby Sheep": BabySheep,
   "Janitor Chicken": JanitorChicken,

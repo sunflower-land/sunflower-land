@@ -990,6 +990,11 @@ import janitorChicken from "assets/animals/chickens/janitor_chicken.webp";
 import venusBumpkinTrap from "assets/flowers/venus_bumpkin_trap.webp";
 import poseidon from "assets/sfts/poseidon_fish.webp";
 
+import barkley from "assets/sfts/pets/barkley.webp";
+import meowchi from "assets/sfts/pets/meowchi.webp";
+import twizzle from "assets/sfts/pets/twizzle.webp";
+import burro from "assets/sfts/pets/burro.webp";
+
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
 import { CROPS, CROP_SEEDS, GREENHOUSE_CROPS, GREENHOUSE_SEEDS } from "./crops";
@@ -5738,5 +5743,41 @@ export const ITEM_DETAILS: Items = {
   "Giant Banana": {
     image: giantBanana,
     description: translate("description.giantBanana"),
+  },
+  "Pet Egg": {
+    image: SUNNYSIDE.resource.egg,
+    description: translate("description.petEgg"),
+  },
+  Barkley: {
+    image: barkley,
+    description: translate("description.barkley"),
+  },
+  Meowchi: {
+    image: meowchi,
+    description: translate("description.meowchi"),
+  },
+  Twizzle: {
+    image: twizzle,
+    description: translate("description.twizzle"),
+  },
+  Burro: {
+    image: burro,
+    description: translate("description.burro"),
+  },
+  "Chewed Bone": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.chewedBone"),
+  },
+  "Heart leaf": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.heartLeaf"),
+  },
+  Ruffroot: {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.ruffroot"),
+  },
+  Acorn: {
+    image: SUNNYSIDE.resource.acorn,
+    description: translate("description.acorn"),
   },
 };

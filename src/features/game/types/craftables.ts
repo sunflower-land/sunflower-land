@@ -30,6 +30,7 @@ import { FactionShopCollectibleName } from "./factionShop";
 import { BEDS } from "./beds";
 import { SeasonalCollectibleName } from "./megastore";
 import { MonumentName } from "./monuments";
+import { PetName } from "./pets";
 
 export { FLAGS };
 
@@ -217,7 +218,8 @@ export type CollectibleName =
   | MutantFlowerName
   | BedName
   | SeasonalCollectibleName
-  | MonumentName;
+  | MonumentName
+  | PetName;
 
 export type ToolName =
   | "Axe"
@@ -1048,6 +1050,11 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   // Salesman Items
   "Wicker Man": { width: 1, height: 1 },
   "Golden Bonsai": { width: 1, height: 1 },
+
+  // Pets
+  Barkley: { width: 1, height: 1 },
+  Meowchi: { width: 1, height: 1 },
+  Twizzle: { width: 1, height: 1 },
 
   // Flags
   ...flagsDimension,
