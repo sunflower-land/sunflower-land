@@ -58,6 +58,7 @@ import { gameAnalytics } from "lib/gameAnalytics";
 import { SEASON_ICONS } from "../buildings/components/building/market/SeasonalSeeds";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { hasSeasonEnded } from "features/game/types/seasons";
+import { isCollectible } from "features/game/events/landExpansion/garbageSold";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `fisherman-read.${host}-${window.location.pathname}`;
@@ -633,6 +634,12 @@ const getItemIcon = (
           ...pixelDarkBorderStyle,
         }}
       >
+        {isCollectible(item) && (
+          <img
+            src={SUNNYSIDE.ui.grey_background}
+            className="w-full h-full absolute inset-0 rounded-md"
+          />
+        )}
         <SquareIcon icon={getItemImage(item)} width={INNER_CANVAS_WIDTH} />
       </div>
     );
