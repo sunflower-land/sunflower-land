@@ -12314,6 +12314,33 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
     image: "../public/erc1155/images/2283.webp",
     name: "Big Banana",
   },
+  "Giant Orange": {
+    description: "A giant orange",
+    decimals: 0,
+    attributes: [
+      { trait_type: "Purpose", value: "Decoration" },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2281.webp",
+    name: "Giant Orange",
+  },
+  "Giant Apple": {
+    description: "A giant apple",
+    decimals: 0,
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2282.webp",
+    name: "Giant Apple",
+  },
+  "Giant Banana": {
+    description: "A giant banana",
+    decimals: 0,
+    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+    external_url: "https://docs.sunflower-land.com/getting-started/about",
+    image: "../public/erc1155/images/2283.webp",
+    name: "Giant Banana",
+  },
   "Farmer's Monument": {
     description: "A monument to the farmers of Sunflower Land",
     decimals: 0,

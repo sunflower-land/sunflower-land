@@ -76,7 +76,13 @@ export function craftCollectible({
     if (isPotionHouseItem(action.name)) {
       item = POTION_HOUSE_ITEMS[action.name];
     } else if (isExoticCrop(action.name as ExoticCropName)) {
-      item = POTION_HOUSE_EXOTIC_CROPS[action.name as ExoticCropName];
+      item =
+        POTION_HOUSE_EXOTIC_CROPS[
+          action.name as Exclude<
+            ExoticCropName,
+            "Giant Orange" | "Giant Apple" | "Giant Banana"
+          >
+        ];
     } else if (isTreasureCollectible(action.name)) {
       item = TREASURE_COLLECTIBLE_ITEM[action.name];
     } else if (isKey(action.name)) {

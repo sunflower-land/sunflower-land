@@ -4,8 +4,8 @@ import { useVisiting } from "lib/utils/visitUtils";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import cheer from "assets/icons/cheer.webp";
-import { Context } from "features/game/GameProvider";
-import { LiveProgressBar, ProgressBar } from "components/ui/ProgressBar";
+import { Context, useGame } from "features/game/GameProvider";
+import { ProgressBar } from "components/ui/ProgressBar";
 import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { Modal } from "components/ui/Modal";
@@ -31,19 +31,8 @@ import powerup from "assets/icons/level_up.png";
 import { hasFeatureAccess } from "lib/flags";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { FarmHelped } from "features/island/hud/components/FarmHelped";
-
-const BOOST_LABELS: Partial<
-  Record<
-    MonumentName,
-    | "farmersMonument.boost"
-    | "woodcuttersMonument.boost"
-    | "minersMonument.boost"
-  >
-> = {
-  "Farmer's Monument": "farmersMonument.boost",
-  "Woodcutter's Monument": "woodcuttersMonument.boost",
-  "Miner's Monument": "minersMonument.boost",
-};
+import helpIcon from "assets/icons/help.webp";
+import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 
 const ProjectModal: React.FC<{
   project: MonumentName;
@@ -51,9 +40,13 @@ const ProjectModal: React.FC<{
   cheers: number;
 }> = ({ project, onClose, cheers }) => {
   const { t } = useAppTranslation();
+  const { gameService } = useGame();
 
-  const isProjectComplete = cheers >= REQUIRED_CHEERS[project];
-  const boostLabel = BOOST_LABELS[project];
+  const isProjectComplete =
+    cheers >= REQUIRED_CHEERS(gameService.getSnapshot().context.state)[project];
+  const boostLabel = COLLECTIBLE_BUFF_LABELS(
+    gameService.getSnapshot().context.state,
+  )[project];
 
   return (
     <Panel>
@@ -77,15 +70,20 @@ const ProjectModal: React.FC<{
             t("project.incomplete", {
               project,
               cheers,
-              requiredCheers: REQUIRED_CHEERS[project],
-              remaining: REQUIRED_CHEERS[project] - cheers,
+              requiredCheers: REQUIRED_CHEERS(
+                gameService.getSnapshot().context.state,
+              )[project],
+              remaining:
+                REQUIRED_CHEERS(gameService.getSnapshot().context.state)[
+                  project
+                ] - cheers,
             })}
         </span>
       </div>
 
       {isProjectComplete && boostLabel && (
         <Label type="success" icon={powerup} className="mb-1 ml-2">
-          {t(boostLabel)}
+          {boostLabel[0].shortDescription}
         </Label>
       )}
 
@@ -144,10 +142,12 @@ export const Monument: React.FC<MonumentProps> = (input) => {
   );
   const username = useSelector(gameService, _username);
 
-  const projectPercentage = Math.round(
-    (projectCheers / REQUIRED_CHEERS[input.project]) * 100,
-  );
-  const isProjectComplete = projectPercentage >= 100;
+  const requiredCheers = REQUIRED_CHEERS(
+    gameService.getSnapshot().context.state,
+  )[input.project];
+
+  const projectPercentage = Math.round((projectCheers / requiredCheers) * 100);
+  const isProjectComplete = projectCheers >= requiredCheers;
 
   const today = new Date().toISOString().split("T")[0];
   const tomorrow = new Date(new Date().setDate(new Date().getDate() + 1))
@@ -280,11 +280,11 @@ export const Monument: React.FC<MonumentProps> = (input) => {
                             gameService.getSnapshot().context.visitorState!,
                             "CHEERS_V2",
                           )
-                            ? SUNNYSIDE.icons.drag
+                            ? helpIcon
                             : cheer
                         }
                         style={{
-                          width: `${PIXEL_SCALE * 17}px`,
+                          width: `${PIXEL_SCALE * 15}px`,
                           right: `${PIXEL_SCALE * 2}px`,
                           top: `${PIXEL_SCALE * 2}px`,
                         }}
@@ -298,23 +298,12 @@ export const Monument: React.FC<MonumentProps> = (input) => {
                   width: `${PIXEL_SCALE * 20}px`,
                 }}
               >
-                {!hasCheeredProjectToday && (
-                  <ProgressBar
-                    type="quantity"
-                    percentage={projectPercentage}
-                    formatLength="full"
-                    className="ml-1 -translate-x-1/2"
-                  />
-                )}
-                {hasCheeredProjectToday && (
-                  <LiveProgressBar
-                    startAt={new Date(today).getTime()}
-                    endAt={new Date(tomorrow).getTime()}
-                    formatLength="short"
-                    onComplete={() => setRender((r) => r + 1)}
-                    className="ml-1 -translate-x-1/2"
-                  />
-                )}
+                <ProgressBar
+                  type="quantity"
+                  percentage={projectPercentage}
+                  formatLength="full"
+                  className="ml-1 -translate-x-1/2"
+                />
               </div>
             </>
           )}
@@ -323,9 +312,9 @@ export const Monument: React.FC<MonumentProps> = (input) => {
         <PopoverPanel anchor={{ to: "left start" }} className="flex">
           <SFTDetailPopoverInnerPanel>
             <SFTDetailPopoverLabel name={input.name} />
-            <Label type="info" icon={cheer} className="ml-2 sm:ml-0">
+            <Label type="info" icon={helpIcon} className="ml-2 sm:ml-0">
               {t("cheers.progress", {
-                progress: `${projectCheers}/${REQUIRED_CHEERS[input.project]}`,
+                progress: `${projectCheers}/${REQUIRED_CHEERS(gameService.getSnapshot().context.state)[input.project]}`,
               })}
             </Label>
           </SFTDetailPopoverInnerPanel>

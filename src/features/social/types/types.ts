@@ -39,22 +39,17 @@ export type Player = {
   data?: {
     id: number;
     following: number[];
-    followingCount: number;
     followedBy: number[];
-    followedByCount: number;
     username: string;
     level: number;
     farmCreatedAt: number;
     marketValue: number;
     island: IslandType;
-    dailyStreak: number;
-    totalDeliveries: number;
     isVip: boolean;
     clothing: Equipped;
     faction?: FactionName;
     lastUpdatedAt: number;
     socialPoints: number;
-    hasCleanedToday: boolean;
     projects: ActiveProjects;
     cleaning: {
       youCleanedThemCount: number;

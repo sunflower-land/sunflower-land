@@ -23,6 +23,7 @@ export type WorkbenchMonumentName =
 
 type LoveCharmMonument = Omit<Decoration, "name"> & {
   name: LoveCharmMonumentName;
+  level?: number;
 };
 
 type MegastoreMonument = Omit<Decoration, "name"> & {
@@ -31,6 +32,7 @@ type MegastoreMonument = Omit<Decoration, "name"> & {
 
 export type LandscapingMonument = Omit<Decoration, "name"> & {
   name: WorkbenchMonumentName;
+  level?: number;
 };
 
 export type Monument =
@@ -61,6 +63,7 @@ export const LOVE_CHARM_MONUMENTS: Record<
     ingredients: {
       Gem: new Decimal(100),
     },
+    level: 10,
   },
   "Woodcutter's Monument": {
     name: "Woodcutter's Monument",
@@ -69,6 +72,7 @@ export const LOVE_CHARM_MONUMENTS: Record<
     ingredients: {
       Gem: new Decimal(200),
     },
+    level: 20,
   },
   "Miner's Monument": {
     name: "Miner's Monument",
@@ -77,62 +81,71 @@ export const LOVE_CHARM_MONUMENTS: Record<
     ingredients: {
       Gem: new Decimal(300),
     },
+    level: 50,
   },
 };
 
-export const WORKBENCH_MONUMENTS: Record<
-  WorkbenchMonumentName,
-  LandscapingMonument
-> = {
-  ...LOVE_CHARM_MONUMENTS,
-  "Big Orange": {
-    name: "Big Orange",
-    description: "",
-    coins: 0,
-    ingredients: {
-      Gem: new Decimal(100),
+export const WORKBENCH_MONUMENTS: (
+  game: GameState,
+) => Record<WorkbenchMonumentName, LandscapingMonument> = (game) => {
+  const hasCheersV2 = hasFeatureAccess(game, "CHEERS_V2");
+
+  return {
+    ...LOVE_CHARM_MONUMENTS,
+    "Big Orange": {
+      name: "Big Orange",
+      description: "",
+      coins: hasCheersV2 ? 500 : 0,
+      ingredients: hasCheersV2 ? {} : { Gem: new Decimal(100) },
+      level: 16,
     },
-  },
-  "Big Apple": {
-    name: "Big Apple",
-    description: "",
-    coins: 0,
-    ingredients: {
-      Gem: new Decimal(200),
+    "Big Apple": {
+      name: "Big Apple",
+      description: "",
+      coins: hasCheersV2 ? 1500 : 0,
+      ingredients: hasCheersV2 ? {} : { Gem: new Decimal(200) },
+      level: 30,
     },
-  },
-  "Big Banana": {
-    name: "Big Banana",
-    description: "",
-    coins: 0,
-    ingredients: {
-      Gem: new Decimal(300),
+    "Big Banana": {
+      name: "Big Banana",
+      description: "",
+      coins: hasCheersV2 ? 4000 : 0,
+      level: 50,
+
+      ingredients: hasCheersV2
+        ? {}
+        : {
+            Gem: new Decimal(300),
+          },
     },
-  },
-  "Basic Cooking Pot": {
-    name: "Basic Cooking Pot",
-    description: "",
-    coins: 0,
-    ingredients: {
-      Gem: new Decimal(10),
+    "Basic Cooking Pot": {
+      name: "Basic Cooking Pot",
+      description: "",
+      coins: 0,
+      ingredients: {
+        Gem: new Decimal(10),
+      },
+      level: 20,
     },
-  },
-  "Expert Cooking Pot": {
-    name: "Expert Cooking Pot",
-    description: "",
-    coins: 0,
-    ingredients: {
-      Gem: new Decimal(50),
+    "Expert Cooking Pot": {
+      name: "Expert Cooking Pot",
+      description: "",
+      coins: 0,
+      ingredients: {
+        Gem: new Decimal(50),
+      },
+      level: 40,
     },
-  },
-  "Advanced Cooking Pot": {
-    name: "Advanced Cooking Pot",
-    description: "",
-    coins: 0,
-    ingredients: {
-      Gem: new Decimal(100),
+    "Advanced Cooking Pot": {
+      name: "Advanced Cooking Pot",
+      description: "",
+      coins: 0,
+      ingredients: {
+        Gem: new Decimal(hasCheersV2 ? 500 : 100),
+      },
+      level: 60,
     },
-  },
+  } as Record<WorkbenchMonumentName, LandscapingMonument>;
 };
 
 export type MonumentName =
@@ -140,17 +153,23 @@ export type MonumentName =
   | LoveCharmMonumentName
   | MegastoreMonumentName;
 
-export const REQUIRED_CHEERS: Record<MonumentName, number> = {
-  "Big Orange": 50,
-  "Big Apple": 200,
-  "Big Banana": 1000,
-  "Basic Cooking Pot": 10,
-  "Expert Cooking Pot": 50,
-  "Advanced Cooking Pot": 100,
-  "Farmer's Monument": 100,
-  "Woodcutter's Monument": 1000,
-  "Miner's Monument": 10000,
-  "Teamwork Monument": 100,
+export const REQUIRED_CHEERS: (
+  game: GameState,
+) => Record<MonumentName, number> = (game) => {
+  const hasCheersV2 = hasFeatureAccess(game, "CHEERS_V2");
+
+  return {
+    "Big Orange": hasCheersV2 ? 25 : 50,
+    "Big Apple": hasCheersV2 ? 50 : 200,
+    "Big Banana": hasCheersV2 ? 200 : 1000,
+    "Basic Cooking Pot": 10,
+    "Expert Cooking Pot": 50,
+    "Advanced Cooking Pot": 100,
+    "Farmer's Monument": 100,
+    "Woodcutter's Monument": 1000,
+    "Miner's Monument": 10000,
+    "Teamwork Monument": 100,
+  };
 };
 
 const REWARD_ITEMS: Partial<
@@ -198,9 +217,9 @@ export function getMonumentRewards({
   const rewards = cloneDeep(REWARD_ITEMS);
 
   if (hasFeatureAccess(state, "CHEERS_V2")) {
-    rewards["Big Orange"] = { amount: 1, item: "Bronze Love Box" };
-    rewards["Big Apple"] = { amount: 1, item: "Silver Love Box" };
-    rewards["Big Banana"] = { amount: 1, item: "Gold Love Box" };
+    rewards["Big Orange"] = { amount: 1, item: "Giant Orange" };
+    rewards["Big Apple"] = { amount: 1, item: "Giant Apple" };
+    rewards["Big Banana"] = { amount: 1, item: "Giant Banana" };
 
     // Double Food Box Rewards
     rewards["Basic Cooking Pot"] = { amount: 2, item: "Bronze Food Box" };
@@ -222,25 +241,25 @@ export function getMonumentBoostedAmount({
 
   if (
     (gameState.socialFarming.villageProjects["Farmer's Monument"]?.cheers ??
-      0) >= REQUIRED_CHEERS["Farmer's Monument"]
+      0) >= REQUIRED_CHEERS(gameState)["Farmer's Monument"]
   ) {
     base += amount * 0.01;
   }
   if (
     (gameState.socialFarming.villageProjects["Woodcutter's Monument"]?.cheers ??
-      0) >= REQUIRED_CHEERS["Woodcutter's Monument"]
+      0) >= REQUIRED_CHEERS(gameState)["Woodcutter's Monument"]
   ) {
     base += amount * 0.03;
   }
   if (
     (gameState.socialFarming.villageProjects["Miner's Monument"]?.cheers ??
-      0) >= REQUIRED_CHEERS["Miner's Monument"]
+      0) >= REQUIRED_CHEERS(gameState)["Miner's Monument"]
   ) {
     base += amount * 0.06;
   }
   if (
     (gameState.socialFarming.villageProjects["Teamwork Monument"]?.cheers ??
-      0) >= REQUIRED_CHEERS["Teamwork Monument"]
+      0) >= REQUIRED_CHEERS(gameState)["Teamwork Monument"]
   ) {
     base += amount * 0.1;
   }
@@ -268,7 +287,7 @@ export function getHelpRequired({ game }: { game: GameState }) {
       const hasHelped = !!game.socialFarming.villageProjects[project]?.helpedAt;
 
       const isComplete =
-        REQUIRED_CHEERS[project] <=
+        REQUIRED_CHEERS(game)[project] <=
         (game.socialFarming.villageProjects[project]?.cheers ?? 0);
 
       const isProjectPlaced =
@@ -323,3 +342,26 @@ export function getHelpStreak({
 
   return farm.streak.count;
 }
+
+export const RAFFLE_REWARDS: Partial<
+  Record<
+    MonumentName,
+    {
+      item: InventoryItemName;
+      amount: number;
+    }
+  >
+> = {
+  "Basic Cooking Pot": {
+    item: "Bronze Food Box",
+    amount: 1,
+  },
+  "Expert Cooking Pot": {
+    item: "Silver Food Box",
+    amount: 1,
+  },
+  "Advanced Cooking Pot": {
+    item: "Gold Food Box",
+    amount: 1,
+  },
+};

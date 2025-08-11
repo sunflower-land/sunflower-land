@@ -7,6 +7,7 @@ import React from "react";
 import socialScoreIcon from "assets/icons/social_score.webp";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { hasFeatureAccess } from "lib/flags";
+import { hasVipAccess } from "features/game/lib/vipAccess";
 
 interface Props {
   onClose: () => void;
@@ -46,11 +47,14 @@ export const FarmHelped: React.FC<Props> = ({ onClose }) => {
           {hasFeatureAccess(
             gameService.getSnapshot().context.visitorState!,
             "CHEERS_V2",
-          ) && (
-            <Label type="warning" icon={ITEM_DETAILS["Love Charm"].image}>
-              {`+1 Love Charm`}
-            </Label>
-          )}
+          ) &&
+            hasVipAccess({
+              game: gameService.getSnapshot().context.visitorState!,
+            }) && (
+              <Label type="warning" icon={ITEM_DETAILS["Love Charm"].image}>
+                {`+1 Love Charm`}
+              </Label>
+            )}
         </div>
 
         {/* <div className="flex items-center flex-wrap">

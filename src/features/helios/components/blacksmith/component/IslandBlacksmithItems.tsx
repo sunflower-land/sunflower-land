@@ -22,6 +22,7 @@ import Decimal from "decimal.js-light";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import {
+  getMonumentRewards,
   LOVE_CHARM_MONUMENTS,
   MonumentName,
   REQUIRED_CHEERS,
@@ -30,6 +31,9 @@ import {
 import { GameState } from "features/game/types/game";
 import { Label } from "components/ui/Label";
 import cheer from "assets/icons/cheer.webp";
+import helpIcon from "assets/icons/help.webp";
+import { hasFeatureAccess } from "lib/flags";
+import { getBumpkinLevel } from "features/game/lib/level";
 
 const VALID_EQUIPMENT: HeliosBlacksmithItem[] = [
   "Basic Scarecrow",
@@ -44,6 +48,9 @@ const VALID_EQUIPMENT: HeliosBlacksmithItem[] = [
   "Macaw",
   "Squirrel",
   "Butterfly",
+];
+
+const PROJECTS: HeliosBlacksmithItem[] = [
   "Basic Cooking Pot",
   "Expert Cooking Pot",
   "Advanced Cooking Pot",
@@ -64,8 +71,12 @@ const DecorationLabel = ({
 }) => {
   const { t } = useAppTranslation();
 
-  const isMonument = selectedName in WORKBENCH_MONUMENTS;
+  const isMonument = selectedName in WORKBENCH_MONUMENTS(gameState);
   const isLoveCharmMonument = selectedName in LOVE_CHARM_MONUMENTS;
+
+  const isDisabled =
+    !hasFeatureAccess(gameState, "CHEERS_V2") &&
+    ["Big Orange", "Big Apple", "Big Banana"].includes(selectedName);
 
   const hasBuiltMonument = () => {
     return !!gameState.inventory[selectedName as MonumentName]?.gt(0);
@@ -74,6 +85,14 @@ const DecorationLabel = ({
   if (hasBuiltMonument()) {
     return (
       <div className="flex justify-center">
+        {hasFeatureAccess(gameState, "CHEERS_V2") && (
+          <Label type="transparent" icon={helpIcon} className="mb-0.5">
+            {t("monument.requiredHelp", {
+              amount: REQUIRED_CHEERS(gameState)[selectedName as MonumentName],
+            })}
+          </Label>
+        )}
+
         <Label type="success" icon={SUNNYSIDE.icons.confirm}>
           {t("already.built")}
         </Label>
@@ -82,18 +101,43 @@ const DecorationLabel = ({
   }
 
   if (isMonument) {
+    const rewards = getMonumentRewards({
+      state: gameState,
+      monument: selectedName as MonumentName,
+    });
+
+    const reward = rewards[selectedName as MonumentName];
+
     return (
       <div className="flex items-center flex-col space-y-1">
-        <Label type="default" icon={cheer}>
-          {t("monument.requiredCheers", {
-            cheers: REQUIRED_CHEERS[selectedName as MonumentName],
-          })}
-        </Label>
-        <Label type="default">
-          {t("season.megastore.crafting.limit", {
-            limit: 0,
-          })}
-        </Label>
+        {hasFeatureAccess(gameState, "CHEERS_V2") ? (
+          <Label type="transparent" icon={helpIcon} className="mb-1">
+            {t("monument.requiredHelp", {
+              amount: REQUIRED_CHEERS(gameState)[selectedName as MonumentName],
+            })}
+          </Label>
+        ) : (
+          <Label type="default" icon={cheer}>
+            {t("monument.requiredCheers", {
+              cheers: REQUIRED_CHEERS(gameState)[selectedName as MonumentName],
+            })}
+          </Label>
+        )}
+        {reward && (
+          <Label type="warning" icon={ITEM_DETAILS[reward.item].image}>
+            {reward.amount > 1 && `${reward.amount} `}
+            {reward.item}
+          </Label>
+        )}
+        {isDisabled && (
+          <Label
+            type="danger"
+            className="text-center"
+            icon={SUNNYSIDE.icons.stopwatch}
+          >
+            {t("disabled.giantFruit")}
+          </Label>
+        )}
       </div>
     );
   }
@@ -126,8 +170,12 @@ export const IslandBlacksmithItems: React.FC = () => {
 
   const lessCoins = () => coins < (selectedItem?.coins ?? 0);
 
+  const hasLevel =
+    !selectedItem?.level ||
+    getBumpkinLevel(state.bumpkin?.experience ?? 0) >= selectedItem?.level;
+
   const craft = () => {
-    if (selectedName in WORKBENCH_MONUMENTS) {
+    if (selectedName in WORKBENCH_MONUMENTS(state)) {
       gameService.send("LANDSCAPE", {
         placeable: selectedName,
         action: "monument.bought",
@@ -168,6 +216,11 @@ export const IslandBlacksmithItems: React.FC = () => {
     shortcutItem(selectedName);
   };
 
+  // Is disabled if flag off and is giant fruit
+  const isDisabled =
+    !hasFeatureAccess(state, "CHEERS_V2") &&
+    ["Big Orange", "Big Apple", "Big Banana"].includes(selectedName);
+
   const hasBuiltMonument = () => {
     return !!state.inventory[selectedName as MonumentName]?.gt(0);
   };
@@ -186,6 +239,7 @@ export const IslandBlacksmithItems: React.FC = () => {
           requirements={{
             resources: selectedItem?.ingredients ?? {},
             coins: selectedItem?.coins ?? 0,
+            level: selectedItem?.level ?? 0,
           }}
           actionView={
             isAlreadyCrafted ? (
@@ -203,7 +257,11 @@ export const IslandBlacksmithItems: React.FC = () => {
                 <div>
                   <Button
                     disabled={
-                      lessIngredients() || lessCoins() || hasBuiltMonument()
+                      isDisabled ||
+                      lessIngredients() ||
+                      lessCoins() ||
+                      hasBuiltMonument() ||
+                      !hasLevel
                     }
                     onClick={craft}
                   >
@@ -219,6 +277,42 @@ export const IslandBlacksmithItems: React.FC = () => {
         <div className="flex flex-col">
           <div className="flex flex-wrap">
             {VALID_EQUIPMENT.map((name: HeliosBlacksmithItem) => {
+              return (
+                <Box
+                  isSelected={selectedName === name}
+                  key={name}
+                  onClick={() => setSelectedName(name)}
+                  image={ITEM_DETAILS[name].image}
+                  count={inventory[name]}
+                  overlayIcon={
+                    <img
+                      src={SUNNYSIDE.icons.stopwatch}
+                      id="confirm"
+                      alt="confirm"
+                      className="object-contain absolute"
+                      style={{
+                        width: `${PIXEL_SCALE * 8}px`,
+                        top: `${PIXEL_SCALE * -4}px`,
+                        right: `${PIXEL_SCALE * -4}px`,
+                      }}
+                    />
+                  }
+                />
+              );
+            })}
+          </div>
+
+          <div className="flex justify-between items-center my-2">
+            <Label type="default">{t("craft.with.friends")}</Label>
+            <img src={helpIcon} alt="help" className=" h-6 mr-2" />
+          </div>
+
+          <p className="text-xs mb-1 font-secondary mx-1">
+            {t("workbench.helpRequired")}
+          </p>
+
+          <div className="flex flex-wrap">
+            {PROJECTS.map((name: HeliosBlacksmithItem) => {
               return (
                 <Box
                   isSelected={selectedName === name}

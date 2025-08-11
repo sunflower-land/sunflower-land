@@ -1146,6 +1146,10 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
 
   Poseidon: 2318,
 
+  "Giant Orange": 2319,
+  "Giant Apple": 2320,
+  "Giant Banana": 2321,
+
   // Land Biomes
   "Basic Biome": 2400,
   "Spring Biome": 2401,
