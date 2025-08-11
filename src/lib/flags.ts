@@ -108,12 +108,6 @@ const FEATURE_FLAGS = {
   BLESSING: () => true,
 
   CRAFTING: betaTimeBasedFeatureFlag(SEASONS["Better Together"].startDate),
-
-  TRASH_BIN_CARRY_OVER_LIMIT: betaTimeBasedFeatureFlag(
-    new Date("2025-08-09T00:00:00Z"),
-  ),
-
-  CHEERS_V2: betaTimeBasedFeatureFlag(new Date("2025-08-11T00:00:00Z")),
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;

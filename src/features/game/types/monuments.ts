@@ -1,8 +1,6 @@
 import Decimal from "decimal.js-light";
 import { Decoration, getKeys } from "./decorations";
 import { GameState, HelpedFarm, InventoryItemName } from "./game";
-import cloneDeep from "lodash.clonedeep";
-import { hasFeatureAccess } from "lib/flags";
 import { FARM_GARBAGE } from "./clutter";
 
 type LoveCharmMonumentName =
@@ -88,61 +86,48 @@ export const LOVE_CHARM_MONUMENTS: Record<
 export const WORKBENCH_MONUMENTS: (
   game: GameState,
 ) => Record<WorkbenchMonumentName, LandscapingMonument> = (game) => {
-  const hasCheersV2 = hasFeatureAccess(game, "CHEERS_V2");
-
   return {
     ...LOVE_CHARM_MONUMENTS,
     "Big Orange": {
       name: "Big Orange",
       description: "",
-      coins: hasCheersV2 ? 500 : 0,
-      ingredients: hasCheersV2 ? {} : { Gem: new Decimal(100) },
+      coins: 500,
+      ingredients: {},
       level: 16,
     },
     "Big Apple": {
       name: "Big Apple",
       description: "",
-      coins: hasCheersV2 ? 1500 : 0,
-      ingredients: hasCheersV2 ? {} : { Gem: new Decimal(200) },
+      coins: 1500,
+      ingredients: {},
       level: 30,
     },
     "Big Banana": {
       name: "Big Banana",
       description: "",
-      coins: hasCheersV2 ? 4000 : 0,
+      coins: 4000,
       level: 50,
-
-      ingredients: hasCheersV2
-        ? {}
-        : {
-            Gem: new Decimal(300),
-          },
+      ingredients: {},
     },
     "Basic Cooking Pot": {
       name: "Basic Cooking Pot",
       description: "",
       coins: 0,
-      ingredients: {
-        Gem: new Decimal(10),
-      },
+      ingredients: { Gem: new Decimal(10) },
       level: 20,
     },
     "Expert Cooking Pot": {
       name: "Expert Cooking Pot",
       description: "",
       coins: 0,
-      ingredients: {
-        Gem: new Decimal(50),
-      },
+      ingredients: { Gem: new Decimal(50) },
       level: 40,
     },
     "Advanced Cooking Pot": {
       name: "Advanced Cooking Pot",
       description: "",
       coins: 0,
-      ingredients: {
-        Gem: new Decimal(hasCheersV2 ? 500 : 100),
-      },
+      ingredients: { Gem: new Decimal(500) },
       level: 60,
     },
   } as Record<WorkbenchMonumentName, LandscapingMonument>;
@@ -156,12 +141,10 @@ export type MonumentName =
 export const REQUIRED_CHEERS: (
   game: GameState,
 ) => Record<MonumentName, number> = (game) => {
-  const hasCheersV2 = hasFeatureAccess(game, "CHEERS_V2");
-
   return {
-    "Big Orange": hasCheersV2 ? 25 : 50,
-    "Big Apple": hasCheersV2 ? 50 : 200,
-    "Big Banana": hasCheersV2 ? 200 : 1000,
+    "Big Orange": 25,
+    "Big Apple": 50,
+    "Big Banana": 200,
     "Basic Cooking Pot": 10,
     "Expert Cooking Pot": 50,
     "Advanced Cooking Pot": 100,
@@ -172,7 +155,7 @@ export const REQUIRED_CHEERS: (
   };
 };
 
-const REWARD_ITEMS: Partial<
+export const REWARD_ITEMS: Partial<
   Record<
     MonumentName,
     {
@@ -182,53 +165,30 @@ const REWARD_ITEMS: Partial<
   >
 > = {
   "Big Orange": {
-    item: "Love Charm",
-    amount: 200,
+    item: "Giant Orange",
+    amount: 1,
   },
   "Big Apple": {
-    item: "Love Charm",
-    amount: 400,
+    item: "Giant Apple",
+    amount: 1,
   },
   "Big Banana": {
-    item: "Love Charm",
-    amount: 600,
+    item: "Giant Banana",
+    amount: 1,
   },
   "Basic Cooking Pot": {
     item: "Bronze Food Box",
-    amount: 1,
+    amount: 2,
   },
   "Expert Cooking Pot": {
     item: "Silver Food Box",
-    amount: 1,
+    amount: 2,
   },
   "Advanced Cooking Pot": {
     item: "Gold Food Box",
-    amount: 1,
+    amount: 2,
   },
 };
-
-export function getMonumentRewards({
-  state,
-  monument,
-}: {
-  state: GameState;
-  monument: MonumentName;
-}) {
-  const rewards = cloneDeep(REWARD_ITEMS);
-
-  if (hasFeatureAccess(state, "CHEERS_V2")) {
-    rewards["Big Orange"] = { amount: 1, item: "Giant Orange" };
-    rewards["Big Apple"] = { amount: 1, item: "Giant Apple" };
-    rewards["Big Banana"] = { amount: 1, item: "Giant Banana" };
-
-    // Double Food Box Rewards
-    rewards["Basic Cooking Pot"] = { amount: 2, item: "Bronze Food Box" };
-    rewards["Expert Cooking Pot"] = { amount: 2, item: "Silver Food Box" };
-    rewards["Advanced Cooking Pot"] = { amount: 2, item: "Gold Food Box" };
-  }
-
-  return rewards;
-}
 
 export function getMonumentBoostedAmount({
   gameState,
