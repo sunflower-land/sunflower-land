@@ -1160,6 +1160,10 @@ export const STATIC_OFFLINE_FARM: GameState = {
   },
   aoe: {},
   socialFarming: {
+    weeklyPoints: {
+      points: 0,
+      week: "2025-08-04",
+    },
     points: 0,
     villageProjects: {},
     cheersGiven: {

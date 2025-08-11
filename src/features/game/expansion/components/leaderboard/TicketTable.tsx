@@ -8,12 +8,10 @@ import { NPCIcon } from "features/island/bumpkin/components/NPC";
 interface Props {
   rankings: RankData[];
   showHeader?: boolean;
-  id: string;
 }
 
 export const TicketTable: React.FC<Props> = ({
   rankings,
-  id: playerId,
   showHeader = true,
 }) => {
   const { t } = useAppTranslation();

@@ -1536,6 +1536,10 @@ export type HelpedFarm = {
 
 export type SocialFarming = {
   points: number;
+  weeklyPoints: {
+    points: number;
+    week: string;
+  };
   villageProjects: Partial<Record<MonumentName, VillageProject>>;
   cheersGiven: {
     date: string;
