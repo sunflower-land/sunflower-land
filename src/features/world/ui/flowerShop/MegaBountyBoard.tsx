@@ -320,7 +320,6 @@ const Deal: React.FC<{
   const { t } = useAppTranslation();
   const { gameService, showAnimations } = useContext(Context);
   const state = useSelector(gameService, (state) => state.context.state);
-  const inventory = state.inventory;
   const buttonHandler = () => {
     if (!confirmExchange) {
       setConfirmExchange(true);
@@ -330,7 +329,7 @@ const Deal: React.FC<{
     sell();
   };
 
-  const itemBalance = getCountAndType(state, bounty.name).count;
+  const { count: itemBalance } = getCountAndType(state, bounty.name);
 
   const canSell = () => {
     if (BOUNTY_CATEGORIES["Mark Bounties"](bounty)) {
