@@ -7,7 +7,7 @@ import { Modal } from "components/ui/Modal";
 import { DeliveryPanel } from "./deliveries/DeliveryPanel";
 
 import { Birdie } from "./npcs/Birdie";
-import { PotionHouseShopItems } from "features/helios/components/potions/component/PotionHouseShopItems";
+import { PotionMaster } from "features/helios/components/potions/component/PotionHouseShopItems";
 import { Finn } from "./npcs/Finn";
 import { Mayor } from "./npcs/Mayor";
 import { Stylist } from "./stylist/Stylist";
@@ -39,7 +39,6 @@ import { Rocketman } from "./npcs/Rocketman";
 import { MegaBountyBoard } from "./flowerShop/MegaBountyBoard";
 import { IncineratorModal } from "features/goblins/incinerator";
 import { Context } from "features/game/GameProvider";
-import { PotionHouse } from "features/game/expansion/components/potions/PotionHouse";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -145,8 +144,7 @@ export const NPCModals: React.FC<Props> = ({ id }) => {
         {npc === "poppy" && <MegaBountyBoard onClose={closeModal} />}
         {npc === "stella" && <Stylist onClose={closeModal} />}
         {npc === "grubnuk" && <DeliveryPanel npc={npc} onClose={closeModal} />}
-        {npc === "garth" && <PotionHouseShopItems onClose={closeModal} />}
-        {npc === "eins" && <PotionHouse onClose={closeModal} />}
+        {npc === "eins" && <PotionMaster onClose={closeModal} />}
         {npc === "gunter" && <SolarForge onClose={closeModal} />}
         {npc === "gorga" && <ObsidianExchange onClose={closeModal} />}
         {npc === "hopper" && <Hopper onClose={closeModal} />}

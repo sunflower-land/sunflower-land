@@ -25,15 +25,6 @@ export type FactionNPC = {
 
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
-    x: 694,
-    y: 423,
-    npc: "eins",
-    onClick: () => {
-      interactableModalManager.open("potion_table");
-    },
-    direction: "left",
-  },
-  {
     x: 496,
     y: 403,
     npc: "rocket man",
@@ -109,14 +100,9 @@ export const PLAZA_BUMPKINS: NPCBumpkin[] = [
     direction: "left",
   },
   {
-    x: 548,
-    y: 364,
+    x: 664,
+    y: 388,
     npc: "eins",
-  },
-  {
-    x: 695,
-    y: 377,
-    npc: "garth",
     direction: "left",
   },
 ];

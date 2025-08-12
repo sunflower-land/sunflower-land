@@ -2,7 +2,6 @@ import React, { useContext } from "react";
 
 import { IntroPage } from "./Intro";
 import { Experiment } from "./Experiment";
-import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { pixelRoomBorderStyle } from "features/game/lib/style";
 import { Rules } from "./Rules";
@@ -53,12 +52,6 @@ export const PotionHouse: React.FC<Props> = ({ onClose }) => {
           <h1 className="grow text-center text-lg">
             {state.matches("rules") ? "How to play" : "Potion Room"}
           </h1>
-          <img
-            src={SUNNYSIDE.icons.close}
-            className="cursor-pointer"
-            onClick={onClose}
-            style={{ width: `${PIXEL_SCALE * 11}px` }}
-          />
         </div>
         <div className="flex flex-col grow mb-1">
           {state.matches("introduction") && (
