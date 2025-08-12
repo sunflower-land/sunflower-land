@@ -145,7 +145,7 @@ export const PlayerDetails: React.FC<Props> = ({
     );
   }
 
-  if (error) {
+  if (error || !player || !player.id) {
     return (
       <InnerPanel className="flex gap-1 w-full max-h-[400px]">
         <div className="flex flex-col justify-center mr-2 mb-1 gap-2">
@@ -421,21 +421,21 @@ export const PlayerDetails: React.FC<Props> = ({
           </div>
           <div className="flex flex-col gap-1 p-1 mb-1 w-full">
             <div className="text-xs">
-              {player?.cleaning.youCleanedThemCount === 1
-                ? t("playerModal.youCleanedThemCount.singular", {
-                    count: player?.cleaning.youCleanedThemCount,
+              {player?.youHelpedThemCount === 1
+                ? t("playerModal.youHelpedThemCount.singular", {
+                    count: player?.youHelpedThemCount,
                   })
-                : t("playerModal.youCleanedThemCount.plural", {
-                    count: player?.cleaning.youCleanedThemCount,
+                : t("playerModal.youHelpedThemCount.plural", {
+                    count: player?.youHelpedThemCount,
                   })}
             </div>
             <div className="text-xs">
-              {player?.cleaning.theyCleanedYouCount === 1
-                ? t("playerModal.theyCleanedYouCount.singular", {
-                    count: player?.cleaning.theyCleanedYouCount,
+              {player?.theyHelpedYouCount === 1
+                ? t("playerModal.theyHelpedYouCount.singular", {
+                    count: player?.theyHelpedYouCount,
                   })
-                : t("playerModal.theyCleanedYouCount.plural", {
-                    count: player?.cleaning.theyCleanedYouCount,
+                : t("playerModal.theyHelpedYouCount.plural", {
+                    count: player?.theyHelpedYouCount,
                   })}
             </div>
           </div>

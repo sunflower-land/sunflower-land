@@ -14,7 +14,7 @@ export type InteractionType =
   | "milestone"
   | "announcement"
   | "cheer"
-  | "clean";
+  | "help";
 
 export type Interaction = {
   type: InteractionType;
@@ -51,10 +51,8 @@ export type Player = {
     lastUpdatedAt: number;
     socialPoints: number;
     projects: ActiveProjects;
-    cleaning: {
-      youCleanedThemCount: number;
-      theyCleanedYouCount: number;
-    };
+    youHelpedThemCount: number;
+    theyHelpedYouCount: number;
   };
 };
 

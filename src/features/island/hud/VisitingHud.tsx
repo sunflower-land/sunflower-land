@@ -108,18 +108,15 @@ export const VisitingHud: React.FC = () => {
                 parts={gameState.context.state.bumpkin?.equipped}
                 width={20}
               />
-              <span className="text-xs whitespace-nowrap">
+              <span className="text-xs">
                 {t("visiting.farmId", { farmId: displayId })}
               </span>
             </div>
           </div>
           <div className="w-px h-[36px] bg-gray-300 mx-3 self-center" />
           {hasHelpedToday ? (
-            <div className="flex flex-col sm:flex-row items-center space-x-1">
-              <img
-                src={SUNNYSIDE.icons.confirm}
-                style={{ width: `20px`, margin: `2px` }}
-              />
+            <div className="flex justify-center items-center flex-grow">
+              <img src={SUNNYSIDE.icons.confirm} className="w-5" />
             </div>
           ) : (
             <div className="flex flex-col sm:flex-row items-center space-x-1">

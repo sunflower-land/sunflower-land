@@ -22,7 +22,7 @@ export const InteractionBubble: React.FC<Props> = ({
   type,
   onClick,
 }) => {
-  if (type === "follow" || type === "clean") {
+  if (type === "follow") {
     return (
       <div
         className={classNames("relative min-h-[57px]", {
@@ -44,7 +44,10 @@ export const InteractionBubble: React.FC<Props> = ({
     );
   }
 
-  if (type === "milestone" || type === "announcement" || type === "cheer") {
+  if (type === "cheer" || type === "help") {
+    const labelStyle =
+      type === "cheer" ? LABEL_STYLES.vibrant : LABEL_STYLES.info;
+
     return (
       <div
         className={classNames("relative min-h-[57px]", {
@@ -55,9 +58,31 @@ export const InteractionBubble: React.FC<Props> = ({
         <div
           className="flex flex-col gap-1 p-1"
           style={{
-            ...LABEL_STYLES.vibrant.borderStyle,
-            background: LABEL_STYLES.vibrant.background,
-            color: LABEL_STYLES.vibrant.textColour,
+            ...labelStyle.borderStyle,
+            background: labelStyle.background,
+            color: labelStyle.textColour,
+          }}
+        >
+          {children}
+        </div>
+      </div>
+    );
+  }
+
+  if (type === "milestone" || type === "announcement") {
+    return (
+      <div
+        className={classNames("relative min-h-[57px]", {
+          "cursor-pointer": onClick,
+        })}
+        onClick={onClick}
+      >
+        <div
+          className="flex flex-col gap-1 p-1"
+          style={{
+            ...LABEL_STYLES.success.borderStyle,
+            background: LABEL_STYLES.success.background,
+            color: LABEL_STYLES.success.textColour,
           }}
         >
           {children}
