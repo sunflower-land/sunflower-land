@@ -5,7 +5,7 @@ import { InventoryItemName } from "./game";
 export type PetName = "Barkley" | "Meowchi" | "Twizzle" | "Burro";
 
 export type Pet = {
-  craves: InventoryItemName;
+  cravings?: InventoryItemName[];
   readyAt?: number;
 };
 

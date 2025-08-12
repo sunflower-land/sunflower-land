@@ -3,7 +3,6 @@ import { CollectibleProps } from "../Collectible";
 import { PetName, PetResource, PETS } from "features/game/types/pets";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { InventoryItemName } from "features/game/types/game";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
@@ -14,7 +13,8 @@ import Decimal from "decimal.js-light";
 import { Button } from "components/ui/Button";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import {
-  DEFAULT_PET_FOOD,
+  DEFAULT_PET_CRAVINGS,
+  getPetRequest,
   getPetRestLeft,
   isPetResting,
 } from "features/game/events/landExpansion/feedPet";
@@ -32,8 +32,9 @@ export const PetModal: React.FC<{ onClose: () => void; name: PetName }> = ({
   const petConfig = PETS[name];
 
   const [resource, setResource] = useState<PetResource>(petConfig.fetches[0]);
-  const request: InventoryItemName =
-    gameState.context.state.pets?.[name]?.craves ?? DEFAULT_PET_FOOD;
+
+  const pet = gameState.context.state.pets?.[name];
+  const request = getPetRequest({ pet, game: gameState.context.state });
 
   const itemAmount =
     gameState.context.state.inventory[request] ?? new Decimal(0);
@@ -55,6 +56,8 @@ export const PetModal: React.FC<{ onClose: () => void; name: PetName }> = ({
     game: gameState.context.state,
   });
 
+  const nextRequests = pet?.cravings ?? DEFAULT_PET_CRAVINGS.slice(1);
+
   if (isResting) {
     return (
       <>
@@ -66,6 +69,19 @@ export const PetModal: React.FC<{ onClose: () => void; name: PetName }> = ({
             {secondsToString(restLeft / 1000, { length: "medium" })}
           </p>
         </InnerPanel>
+        <InnerPanel className="mb-1">
+          <Label type="default" className="mb-2">
+            {t("pets.nextRequests")}
+          </Label>
+          {nextRequests.map((request) => (
+            <div key={request} className="flex items-center">
+              <Box image={ITEM_DETAILS[request].image} className="mr-2" />
+              <div>
+                <p className="text-sm">{`1 x ${request}`}</p>
+              </div>
+            </div>
+          ))}
+        </InnerPanel>
         <Button onClick={onClose}>{t("close")}</Button>
       </>
     );
@@ -74,7 +90,7 @@ export const PetModal: React.FC<{ onClose: () => void; name: PetName }> = ({
   return (
     <>
       <InnerPanel className="mb-1">
-        <Label type="default"></Label>
+        <Label type="default">{name}</Label>
         <p className="text-sm p-1">{t("pets.description")}</p>
         <div className="flex items-center">
           <Box
@@ -109,7 +125,7 @@ export const PetModal: React.FC<{ onClose: () => void; name: PetName }> = ({
           ))}
         </div>
       </InnerPanel>
-      <Button onClick={fetch} disabled={!itemAmount.gte(1)}>
+      <Button onClick={fetch} disabled={!itemAmount.gte(1) || !request}>
         {t("fetch")}
       </Button>
     </>
@@ -119,7 +135,9 @@ export const PetModal: React.FC<{ onClose: () => void; name: PetName }> = ({
 export const Pet: React.FC<CollectibleProps> = ({ name }) => {
   const { gameState } = useGame();
   const [showModal, setShowModal] = useState(false);
-  const request: InventoryItemName = "Pumpkin";
+
+  const pet = gameState.context.state.pets?.[name as PetName];
+  const request = getPetRequest({ pet, game: gameState.context.state });
 
   const isSleeping = isPetResting({
     pet: gameState.context.state.pets?.[name as PetName],
@@ -180,7 +198,7 @@ export const Pet: React.FC<CollectibleProps> = ({ name }) => {
               style={{
                 width: `${PIXEL_SCALE * 6}px`,
               }}
-              src={ITEM_DETAILS[request].image}
+              src={ITEM_DETAILS[request]?.image}
             />
           </div>
         )}
