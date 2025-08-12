@@ -26,6 +26,9 @@ export const STATIC_OFFLINE_FARM: GameState = {
   pets: {
     Barkley: {
       cravings: ["Pumpkin Soup", "Fish Burger", "Fish Omelette"],
+      readyAt: Date.now() - 1000 * 60 * 60 * 73,
+      multiplier: 2,
+      level: 13,
     },
   },
   inventory: {

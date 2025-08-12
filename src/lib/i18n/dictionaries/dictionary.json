@@ -6428,5 +6428,7 @@
   "pets.description": "Pets are loyal animals (when fed) that will fetch items for you.",
   "fetch": "Fetch",
   "missing": "Missing",
-  "pets.nextRequests": "Next Requests"
+  "pets.nextRequests": "Next Requests",
+  "perks": "Perks",
+  "pets.neglected": "Neglected"
 }

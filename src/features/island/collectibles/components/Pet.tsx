@@ -1,6 +1,12 @@
 import React, { useState } from "react";
 import { CollectibleProps } from "../Collectible";
-import { PetName, PetResource, PETS } from "features/game/types/pets";
+import {
+  isPetNeglected,
+  msTillNeglect,
+  PetName,
+  PetResource,
+  PETS,
+} from "features/game/types/pets";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -21,11 +27,15 @@ import {
 import { secondsToString } from "lib/utils/time";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { DEFAULT_PET_TOY } from "features/game/events/landExpansion/wakeUpPet";
+import lightningIcon from "assets/icons/lightning.png";
+import lockIcon from "assets/icons/lock.png";
+import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 
-export const PetModal: React.FC<{ onClose: () => void; name: PetName }> = ({
-  onClose,
-  name,
-}) => {
+export const PetModal: React.FC<{
+  onClose: () => void;
+  name: PetName;
+  showGuide: boolean;
+}> = ({ onClose, name, showGuide }) => {
   const { gameState, gameService } = useGame();
   const [showConfirm, setShowConfirm] = useState(false);
 
@@ -66,6 +76,69 @@ export const PetModal: React.FC<{ onClose: () => void; name: PetName }> = ({
     onClose();
   };
 
+  const isNeglected = isPetNeglected({
+    pet: gameState.context.state.pets?.[name],
+    game: gameState.context.state,
+  });
+
+  if (isNeglected) {
+    return (
+      <>
+        <InnerPanel className="mb-1">
+          <Label type="danger" className="mb-2">
+            {t("pets.neglected")}
+          </Label>
+          <p className="text-sm">
+            {`Oh no, you neglected your pet. You have lost 1 lvl.`}
+          </p>
+        </InnerPanel>
+        <Button onClick={() => gameService.send("pet.neglected", { name })}>
+          {t("continue")}
+        </Button>
+      </>
+    );
+  }
+
+  if (showGuide) {
+    return (
+      <>
+        <InnerPanel className="mb-1">
+          <NoticeboardItems
+            items={[
+              {
+                text: "Pets when fed can gather different resources",
+                icon: SUNNYSIDE.icons.heart,
+              },
+              {
+                text: "The stronger the pet, the more perks you unlock",
+                icon: lightningIcon,
+              },
+              {
+                text: "Pets can be neglected if they are not fed for a while",
+                icon: SUNNYSIDE.icons.sad,
+              },
+            ]}
+          />
+        </InnerPanel>
+        <InnerPanel>
+          <div className="flex items-center justify-between">
+            <Label type="default" className="mb-1">
+              {t("perks")}
+            </Label>
+            <Label icon={lightningIcon} type="default" className="mb-1">
+              {`Lvl ${pet?.level ?? 1}`}
+            </Label>
+          </div>
+          <p className="text-sm">{`Lvl 3 - Unlock bonus resource`}</p>
+          <p className="text-sm">{`Lvl 10 - 10% faster`}</p>
+          <p className="text-sm">{`Lvl 20 - 10% chance of double resource`}</p>
+          <p className="text-sm">{`Lvl 50 - 20% faster`}</p>
+          <p className="text-sm">{`Lvl 100 - 20% chance of double resource`}</p>
+        </InnerPanel>
+      </>
+    );
+  }
+
   if (showConfirm) {
     return (
       <InnerPanel>
@@ -87,15 +160,22 @@ export const PetModal: React.FC<{ onClose: () => void; name: PetName }> = ({
     );
   }
 
+  const level = pet?.level ?? 1;
+
   if (isResting) {
     const dollCount =
       gameState.context.state.inventory[DEFAULT_PET_TOY] ?? new Decimal(0);
     return (
       <>
         <InnerPanel className="mb-1">
-          <Label type="default" className="mb-2">
-            {t("pets.sleeping")}
-          </Label>
+          <div className="flex items-center justify-between mb-2">
+            <Label type="default">{t("pets.sleeping")}</Label>
+            <Label
+              type="chill"
+              icon={lightningIcon}
+            >{`Lvl ${pet?.level ?? 1}`}</Label>
+          </div>
+
           <p className="text-sm p-1">
             {secondsToString(restLeft / 1000, { length: "medium" })}
           </p>
@@ -144,10 +224,17 @@ export const PetModal: React.FC<{ onClose: () => void; name: PetName }> = ({
     );
   }
 
+  const multiplier = pet?.multiplier ?? 1;
   return (
     <>
       <InnerPanel className="mb-1">
-        <Label type="default">{name}</Label>
+        <div className="flex items-center justify-between">
+          <Label type="default">{name}</Label>
+          <Label
+            type="chill"
+            icon={lightningIcon}
+          >{`Lvl ${pet?.level ?? 1}`}</Label>
+        </div>
         <p className="text-sm p-1">{t("pets.description")}</p>
         <div className="flex items-center">
           <Box
@@ -157,34 +244,73 @@ export const PetModal: React.FC<{ onClose: () => void; name: PetName }> = ({
           />
           <div>
             <p className="text-sm">{`1 x ${request}`}</p>
-            {!itemAmount.gte(1) && <Label type="danger">{t("missing")}</Label>}
+            {pet?.readyAt && (
+              <div className="flex items-center">
+                <img
+                  src={SUNNYSIDE.icons.stopwatch}
+                  alt="Sleep"
+                  className="h-6 mr-2"
+                />
+                <p>
+                  {secondsToString(
+                    msTillNeglect({ pet, now: Date.now() }) / 1000,
+                    { length: "medium" },
+                  )}
+                </p>
+              </div>
+            )}
           </div>
         </div>
       </InnerPanel>
       <InnerPanel className="mb-1">
-        <Label type="default">{t("fetch")}</Label>
+        <div className="flex items-center justify-between">
+          <Label type="default">{t("fetch")}</Label>
+          {multiplier > 1 && (
+            <Label type="vibrant" icon={lightningIcon}>
+              {`x${multiplier}`}
+            </Label>
+          )}
+        </div>
 
         <div className="flex flex-col">
-          {petConfig.fetches.map((fetch) => (
-            <div key={fetch} className="flex items-center">
-              <Box
-                key={fetch}
-                isSelected={resource === fetch}
-                onClick={() => setResource(fetch)}
-                image={ITEM_DETAILS[fetch].image}
-                className="mr-2"
-              />
-              <div>
-                <p className="text-sm">{fetch}</p>
-                <p className="text-xs">{ITEM_DETAILS[fetch].description}</p>
+          {petConfig.fetches.map((fetch) => {
+            const level = pet?.level ?? 1;
+            const isLocked = level < 3 && fetch !== "Acorn";
+            return (
+              <div key={fetch} className="flex items-center">
+                <Box
+                  key={fetch}
+                  isSelected={resource === fetch}
+                  onClick={() => setResource(fetch)}
+                  image={ITEM_DETAILS[fetch].image}
+                  className="mr-2"
+                  disabled={isLocked}
+                  secondaryImage={isLocked ? lockIcon : undefined}
+                />
+                <div>
+                  <p className="text-sm">{fetch}</p>
+                  {isLocked ? (
+                    <Label type="transparent">{`Lvl 3 required`}</Label>
+                  ) : (
+                    <p className="text-xs">{ITEM_DETAILS[fetch].description}</p>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </InnerPanel>
-      <Button onClick={fetch} disabled={!itemAmount.gte(1) || !request}>
-        {t("fetch")}
-      </Button>
+      <div className="relative">
+        {!itemAmount.gte(1) && (
+          <Label type="danger" className="absolute -top-3 right-0 z-10">
+            {`Missing ${request}`}
+          </Label>
+        )}
+
+        <Button onClick={fetch} disabled={!itemAmount.gte(1) || !request}>
+          {t("fetch")}
+        </Button>
+      </div>
     </>
   );
 };
@@ -192,6 +318,7 @@ export const PetModal: React.FC<{ onClose: () => void; name: PetName }> = ({
 export const Pet: React.FC<CollectibleProps> = ({ name }) => {
   const { gameState } = useGame();
   const [showModal, setShowModal] = useState(false);
+  const [tab, setTab] = useState(0);
 
   const pet = gameState.context.state.pets?.[name as PetName];
   const request = getPetRequest({ pet, game: gameState.context.state });
@@ -201,13 +328,33 @@ export const Pet: React.FC<CollectibleProps> = ({ name }) => {
     game: gameState.context.state,
   });
 
+  const isNeglected = isPetNeglected({
+    pet: gameState.context.state.pets?.[name as PetName],
+    game: gameState.context.state,
+  });
+
   return (
     <>
       <Modal show={showModal} onHide={() => setShowModal(false)}>
-        <CloseButtonPanel container={OuterPanel}>
+        <CloseButtonPanel
+          currentTab={tab}
+          setCurrentTab={setTab}
+          tabs={[
+            {
+              name: "Fetch",
+              icon: SUNNYSIDE.icons.expression_confused,
+            },
+            {
+              name: "Guide",
+              icon: SUNNYSIDE.icons.expression_confused,
+            },
+          ]}
+          container={OuterPanel}
+        >
           <PetModal
             onClose={() => setShowModal(false)}
             name={name as PetName}
+            showGuide={tab === 1}
           />
         </CloseButtonPanel>
       </Modal>
@@ -225,6 +372,16 @@ export const Pet: React.FC<CollectibleProps> = ({ name }) => {
         {isSleeping ? (
           <img
             src={SUNNYSIDE.icons.sleeping}
+            className="absolute"
+            style={{
+              width: `${PIXEL_SCALE * 10}px`,
+              left: `${PIXEL_SCALE * -2}px`,
+              top: `${PIXEL_SCALE * -2}px`,
+            }}
+          />
+        ) : isNeglected ? (
+          <img
+            src={SUNNYSIDE.icons.sad}
             className="absolute"
             style={{
               width: `${PIXEL_SCALE * 10}px`,
