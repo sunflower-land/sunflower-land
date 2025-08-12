@@ -16,7 +16,6 @@ import { gameAnalytics } from "lib/gameAnalytics";
 import { MachineState } from "features/game/lib/gameMachine";
 import {
   getCurrentSeason,
-  getSeasonalArtefact,
   getSeasonalTicket,
 } from "features/game/types/seasons";
 import confetti from "canvas-confetti";
@@ -193,6 +192,13 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
       }
     }
 
+    if (
+      isKey(itemName as InventoryItemName) &&
+      isKeyBoughtWithinSeason(state, tiers, true)
+    ) {
+      return false;
+    }
+
     if (itemReq) {
       const hasRequirements = getKeys(itemReq).every((name) => {
         const amount = itemReq[name] || new Decimal(0);
@@ -290,42 +296,6 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
     return `${t("buy")} ${isWearable ? "wearable" : "collectible"}`;
   };
 
-  const getCurrencyName = (item: SeasonalStoreItem) => {
-    const currencyName =
-      item.cost.sfl === 0 && (item.cost?.items[getSeasonalTicket()] ?? 0 > 0)
-        ? getSeasonalTicket()
-        : item.cost.sfl === 0 &&
-            (item.cost?.items[getSeasonalArtefact()] ?? 0 > 0)
-          ? getSeasonalArtefact()
-          : Object.keys(item.cost.items)[0];
-    return currencyName as InventoryItemName;
-  };
-  const getCurrencyBalance = (item: SeasonalStoreItem) => {
-    const currencyItem =
-      item.cost.sfl === 0 && (item.cost?.items[getSeasonalTicket()] ?? 0 > 0)
-        ? getSeasonalTicket()
-        : item.cost.sfl === 0 &&
-            (item.cost?.items[getSeasonalArtefact()] ?? 0 > 0)
-          ? getSeasonalArtefact()
-          : Object.keys(item.cost.items)[0];
-
-    return inventory[currencyItem as InventoryItemName] ?? new Decimal(0);
-  };
-  const getCurrency = (item: SeasonalStoreItem) => {
-    const currency =
-      item.cost.sfl === 0 && (item.cost?.items[getSeasonalTicket()] ?? 0 > 0)
-        ? getSeasonalTicket()
-        : getSeasonalArtefact();
-    const currencyItem =
-      item.cost.sfl === 0 && (item.cost?.items[currency] ?? 0 > 0)
-        ? item.cost?.items[currency]
-        : item.cost?.items[
-            Object.keys(item.cost.items)[0] as InventoryItemName
-          ];
-
-    return currencyItem;
-  };
-
   const isTradeable = isWearable
     ? !!BUMPKIN_RELEASES[(item as SeasonalStoreWearable)?.wearable]
     : !!INVENTORY_RELEASES[(item as SeasonalStoreCollectible)?.collectible];
@@ -417,11 +387,11 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                       </Label>
                     ) : (
                       <Label
-                        type={itemCrafted ? "danger" : "default"}
+                        type={canBuy() ? "default" : "danger"}
                         className="text-xxs"
                       >
                         {t("season.megastore.crafting.limit", {
-                          limit: itemCrafted ? 1 : 0,
+                          limit: canBuy() ? 0 : 1,
                         })}
                       </Label>
                     )}
