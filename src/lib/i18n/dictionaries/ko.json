@@ -1900,7 +1900,6 @@
   "interactableModals.beach.message1": "해변에 가보셨나요?",
   "interactableModals.beach.message2": "호화로운 보물로 가득 차 있다는 소문이 있습니다!안타깝게도 현재 공사 중입니다.",
   "interactableModals.castle.message": "잠깐만요, 농부!당신이 성에 가도록 내버려 둘 순 없어요",
-  "interactableModals.woodlands.message": "삼림 지대로 여행하고 계신가요?꼭 맛있는 버섯을 골라보세요!",
   "interactableModals.port.message": "저기 좀 잡아!아직 고블린들이 항구를 짓고 있잖아.곧 여행과 낚시를 위한 준비가 완료될 것입니다.",
   "introPage.welcome": "포션 룸에 오신 걸 환영합니다, 호기심 많은 제 견습생!",
   "introPage.description": "저는 매드 사이언티스트 범프킨입니다. 식물 마법의 세계로 향하는 이 마법 같은 탐구를 도와드리겠습니다.선플라워 랜드의 비밀을 밝혀낼 준비를 하세요!한 번 시도할 때마다 320개의 코인이 필요합니다.",
@@ -6404,5 +6403,7 @@
   "playerModal.theyHelpedYouCount.singular": "그들은 당신을 {{count}} 시간 동안 도왔습니다",
   "playerModal.youHelpedThemCount.plural": "당신은 그들을 {{count}} 번 도왔습니다",
   "playerModal.theyHelpedYouCount.plural": "그들은 당신을 {{count}} 번 도왔습니다.",
-  "friendStreak.short": "스트릭: {{days}}"
+  "friendStreak.short": "스트릭: {{days}}",
+  "interactableModals.woodlands.message1": "이 삼림 지대에서 이상한 일들이 벌어지고 있어요. 안전하지 않아요. 지금 돌아오세요.",
+  "interactableModals.woodlands.message2": "포션 마스터 아인스가 농작지 옆으로 자리를 옮겼습니다."
 }

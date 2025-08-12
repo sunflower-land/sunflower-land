@@ -1900,7 +1900,6 @@
   "interactableModals.beach.message1": "Apakah Anda pernah ke pantai?",
   "interactableModals.beach.message2": "Rumor mengatakan bahwa itu dipenuhi dengan harta mewah! Sayangnya itu sedang dibangun.",
   "interactableModals.castle.message": "Tahan di sana petani! Tidak mungkin aku membiarkanmu mengunjungi kastil",
-  "interactableModals.woodlands.message": "Apakah Anda bepergian ke hutan? Pastikan Anda mengambil beberapa jamur lezat!",
   "interactableModals.port.message": "Tahan di sana! Para Goblin masih membangun pelabuhan. Ini akan siap untuk perjalanan dan memancing segera.",
   "introPage.welcome": "Selamat datang di Ruang Ramuan, muridku yang penasaran!",
   "introPage.description": "Saya Ilmuwan Gila Bumpkin, di sini untuk membantu Anda dalam pencarian magis ini ke dunia sihir botani. Bersiaplah untuk mengungkap rahasia Sunflower Land! Setiap upaya akan menelan biaya 320 koin.",
@@ -6404,5 +6403,7 @@
   "playerModal.theyHelpedYouCount.singular": "Mereka membantu Anda {{count}} waktu",
   "playerModal.youHelpedThemCount.plural": "Anda membantu mereka {{count}} kali",
   "playerModal.theyHelpedYouCount.plural": "Mereka membantu Anda {{count}} kali",
-  "friendStreak.short": "Streak: {{days}}"
+  "friendStreak.short": "Streak: {{days}}",
+  "interactableModals.woodlands.message1": "Hal-hal aneh terjadi di hutan ini, tidak aman, kembali sekarang.",
+  "interactableModals.woodlands.message2": "Master ramuan Eins telah pindah ke sebelah area tanaman."
 }

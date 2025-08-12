@@ -1313,7 +1313,6 @@
   "interactableModals.beach.message1": "Êtes-vous allé à la plage?",
   "interactableModals.beach.message2": "On dit qu'elle est remplie de trésors luxueux ! Malheureusement, elle est en construction.",
   "interactableModals.castle.message": "Attends là, paysan ! Il est hors de question que je te laisse visiter le château.",
-  "interactableModals.woodlands.message": "Vous voyagez vers les bois ? Assurez-vous de ramasser des champignons délicieux!",
   "interactableModals.port.message": "Attends là ! Les gobelins sont toujours en train de construire le port. Il sera prêt pour les voyages et la pêche bientôt.",
   "introPage.welcome": "Bienvenue dans la Salle des Potions, mon apprenti curieux!",
   "introPage.description": "Je suis Mad Scientist Bumpkin, ici pour vous aider dans cette quête magique dans le monde de la sorcellerie botanique. Préparez-vous à découvrir les secrets de Sunflower Land ! Chaque tentative coûtera 1 SFL.",
@@ -6404,5 +6403,7 @@
   "playerModal.theyHelpedYouCount.singular": "Ils vous ont aidé {{count}} fois",
   "playerModal.youHelpedThemCount.plural": "Vous les avez aidés {{count}} fois",
   "playerModal.theyHelpedYouCount.plural": "Ils t'ont aidé {{count}} fois",
-  "friendStreak.short": "Série : {{days}}"
+  "friendStreak.short": "Série : {{days}}",
+  "interactableModals.woodlands.message1": "Des choses étranges se passent dans ces forêts, ce n'est pas sûr, faites demi-tour maintenant.",
+  "interactableModals.woodlands.message2": "Le maître des potions Eins a déménagé à côté de la zone de culture."
 }

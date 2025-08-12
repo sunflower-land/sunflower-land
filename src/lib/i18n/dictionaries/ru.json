@@ -2431,7 +2431,6 @@
   "interactableModals.timmyHome.message": "О, Боже, я очень хочу, чтобы ты исследовал мой дом, но мама сказала мне не разговаривать с незнакомцами, может, это и к лучшему.",
   "interactableModals.walrus.message": "Аррррр! Рыбный магазин не откроется, пока я не получу свою рыбу.",
   "interactableModals.windmill.message": "А, моя ветряная мельница в ремонте, не могу допустить, чтобы кто-то подглядывал, пока я ее починю, приходите позже.",
-  "interactableModals.woodlands.message": "Отправляешься в путешествие в лес? Не забудь собрать вкусные грибы!",
   "introPage.chaosPotion": "Остерегайтесь зелья хаоса, оно все разрушает!",
   "introPage.description": "Я - Безумный Ученый Бампкин, помогу тебе в этом волшебном путешествии в мир зельеварения. Приготовься раскрыть секреты страны подсолнухов! Каждая попытка будет стоить 320 монет.",
   "introPage.mission": "Твоя задача: расшифровать правильную комбинацию зелий в заколдованной таблице.",
@@ -6404,5 +6403,7 @@
   "playerModal.theyHelpedYouCount.singular": "Они помогли вам {{count}} время",
   "playerModal.youHelpedThemCount.plural": "Вы помогали им {{count}} раз",
   "playerModal.theyHelpedYouCount.plural": "Они помогли вам {{count}} раз",
-  "friendStreak.short": "Серия: {{days}}"
+  "friendStreak.short": "Серия: {{days}}",
+  "interactableModals.woodlands.message1": "В этих лесах происходят странные вещи, небезопасно, сейчас вернись назад.",
+  "interactableModals.woodlands.message2": "Мастер зелий Эйнс переехал рядом с посевом."
 }

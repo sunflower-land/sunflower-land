@@ -1872,7 +1872,6 @@
   "interactableModals.beach.message1": "¿Has ido a la playa?",
   "interactableModals.beach.message2": "Se rumorea que está llena de lujosos tesoros! Lamentablemente, está en construcción.",
   "interactableModals.castle.message": "Quédate ahí, campesino! De ninguna manera voy a dejar que visites el castillo",
-  "interactableModals.woodlands.message": "¿Vas a viajar a los bosques? Asegúrate de recoger unos deliciosos hongos!",
   "interactableModals.port.message": "Aguanta! Los duendes siguen construyendo el puerto. Pronto estará listo para viajar y pescar.",
   "introPage.welcome": "Bienvenido a la Sala de Pociones, mi curioso aprendiz!",
   "introPage.description": "Soy el científico loco Bumpkin y estoy aquí para ayudarte en esta mágica aventura en el mundo de la hechicería botánica. Prepárate para descubrir los secretos de Sunflower Land! Cada intento costará 320 monedas.",
@@ -6404,5 +6403,7 @@
   "playerModal.theyHelpedYouCount.singular": "Te ayudaron {{count}} vez",
   "playerModal.youHelpedThemCount.plural": "Los ayudaste {{count}} veces",
   "playerModal.theyHelpedYouCount.plural": "Te ayudaron {{count}} veces",
-  "friendStreak.short": "Racha: {{days}}"
+  "friendStreak.short": "Racha: {{days}}",
+  "interactableModals.woodlands.message1": "Están sucediendo cosas raras en estos bosques, no es seguro, retroceda ahora.",
+  "interactableModals.woodlands.message2": "El maestro de pociones Eins se ha mudado al lado de la zona de cultivo."
 }

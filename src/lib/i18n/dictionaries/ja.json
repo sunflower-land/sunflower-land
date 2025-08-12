@@ -1900,7 +1900,6 @@
   "interactableModals.beach.message1": "ビーチに行ったことはありますか？",
   "interactableModals.beach.message2": "噂によると、そこには豪華な宝物がたくさんあるそうです！残念ながら工事中です。",
   "interactableModals.castle.message": "農民の皆さん、待ってください！お城を訪問させるわけにはいきません。",
-  "interactableModals.woodlands.message": "森に旅行するの？おいしいキノコをぜひ手に入れてください。",
   "interactableModals.port.message": "ちょっと待って！ゴブリンはまだ港を建設中だ。もうすぐ旅行や釣りの準備が整います。",
   "introPage.welcome": "ポーションルームへようこそ、好奇心旺盛な弟子！",
   "introPage.description": "私はマッドサイエンティストのバンプキンです。植物学の魔術の世界へのこの魔法の探求のお手伝いをします。サンフラワーランドの秘密を解き明かす準備をしましょう！1回の試行には320コインが必要です。",
@@ -6404,5 +6403,7 @@
   "playerModal.theyHelpedYouCount.singular": "彼らはあなたを {{count}} 時間助けてくれました",
   "playerModal.youHelpedThemCount.plural": "あなたは彼らを {{count}} 回助けました",
   "playerModal.theyHelpedYouCount.plural": "彼らはあなたを {{count}} 回助けました",
-  "friendStreak.short": "ストリーク:{{days}}"
+  "friendStreak.short": "ストリーク:{{days}}",
+  "interactableModals.woodlands.message1": "この森では奇妙なことが起こっている。安全ではない。すぐに引き返せ。",
+  "interactableModals.woodlands.message2": "ポーションマスターのアインが農作物エリアの隣に移動しました。"
 }

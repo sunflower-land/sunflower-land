@@ -2156,7 +2156,6 @@
   "interactableModals.beach.message1": "你去过沙滩吗？",
   "interactableModals.beach.message2": "有传言说那里到处都是奢华的宝藏！不幸的是，那里正在施工中。",
   "interactableModals.castle.message": "停下来农民！我可不会让你进入城堡",
-  "interactableModals.woodlands.message": "你要去林地旅行吗？记得一定要采点美味蘑菇！",
   "interactableModals.port.message": "止步！哥布林仍在建造港口。很快那里就能光顾和钓鱼了。",
   "introPage.welcome": "欢迎来到药水屋，我好奇的徒弟！",
   "introPage.description": "我是疯狂科学家乡包佬，我会在这里协助你踏上一探植物巫术世界的神奇旅程。准备好揭开 Sunflower Land 的秘密吧！每次尝试将花费 320 个金币。",
@@ -6404,5 +6403,7 @@
   "playerModal.theyHelpedYouCount.singular": "他们帮了你 {{count}} 时间",
   "playerModal.youHelpedThemCount.plural": "你帮助过他们 {{count}} 次",
   "playerModal.theyHelpedYouCount.plural": "他们帮了你 {{count}} 次",
-  "friendStreak.short": "连胜：{{days}}"
+  "friendStreak.short": "连胜：{{days}}",
+  "interactableModals.woodlands.message1": "这些林地里正在发生奇怪的事情，不安全，现在回去吧。",
+  "interactableModals.woodlands.message2": "药水大师艾因斯已搬迁到作物区旁边。"
 }
