@@ -33,7 +33,7 @@ import {
 } from "features/game/types/buildings";
 import { GameEventName, PlacementEvent } from "features/game/events";
 import { RESOURCES, ResourceName } from "features/game/types/resources";
-import { InventoryItemName } from "features/game/types/game";
+import { GameState, InventoryItemName } from "features/game/types/game";
 import { removePlaceable } from "./lib/placing";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -166,26 +166,78 @@ export interface MovableProps {
 
 const getMovingItem = (state: MachineState) => state.context.moving;
 
-const onDrag = (
-  data: Coordinates,
-  coordinatesX: number,
-  coordinatesY: number,
-  detect: (coordinates: Coordinates) => void,
-  setIsDragging: (isDragging: boolean) => void,
-  setPosition: (position: Coordinates) => void,
-) => {
+const onDrag = ({
+  data,
+  coordinatesX,
+  coordinatesY,
+  detect,
+  setIsDragging,
+  setPosition,
+  name,
+  id,
+  location,
+  dimensions,
+  setIsColliding,
+  state,
+}: {
+  data: Coordinates;
+  coordinatesX: number;
+  coordinatesY: number;
+  detect: (
+    coordinates: Coordinates,
+    state: GameState,
+    name: CollectibleName,
+    id: string,
+    location: PlaceableLocation,
+    dimensions: Dimensions,
+    setIsColliding: (isColliding: boolean) => void,
+  ) => void;
+  setIsDragging: (isDragging: boolean) => void;
+  setPosition: (position: Coordinates) => void;
+  name: CollectibleName;
+  id: string;
+  location: PlaceableLocation;
+  dimensions: Dimensions;
+  setIsColliding: (isColliding: boolean) => void;
+  state: GameState;
+}) => {
   const xDiff = Math.round(data.x / GRID_WIDTH_PX);
   const yDiff = Math.round(-data.y / GRID_WIDTH_PX);
 
   const x = coordinatesX + xDiff;
   const y = coordinatesY + yDiff;
-  detect({ x, y });
+  detect({ x, y }, state, name, id, location, dimensions, setIsColliding);
   setIsDragging(true);
 
   setPosition({
     x: xDiff * GRID_WIDTH_PX,
     y: -yDiff * GRID_WIDTH_PX,
   });
+};
+
+const detect = (
+  { x, y }: Coordinates,
+  state: GameState,
+  name: CollectibleName,
+  id: string,
+  location: PlaceableLocation,
+  dimensions: Dimensions,
+  setIsColliding: (isColliding: boolean) => void,
+) => {
+  const game = removePlaceable({
+    state,
+    id,
+    name,
+  });
+  const collisionDetected = detectCollision({
+    name: name as CollectibleName,
+    state: game,
+    location,
+    position: { x, y, ...dimensions },
+  });
+
+  setIsColliding(collisionDetected);
+  // send({ type: "UPDATE", coordinates: { x, y }, collisionDetected });
 };
 
 export const MoveableComponent: React.FC<
@@ -210,6 +262,7 @@ export const MoveableComponent: React.FC<
     x: 0,
     y: 0,
   });
+  const state = useSelector(gameService, (state) => state.context.state);
 
   const isActive = useRef(false);
   const [showRemoveConfirmation, setShowRemoveConfirmation] = useState(false);
@@ -279,23 +332,6 @@ export const MoveableComponent: React.FC<
     ...RESOURCE_DIMENSIONS,
     ...{ Bud: { width: 1, height: 1 } },
   }[name];
-
-  const detect = ({ x, y }: Coordinates) => {
-    const game = removePlaceable({
-      state: gameService.getSnapshot().context.state,
-      id,
-      name,
-    });
-    const collisionDetected = detectCollision({
-      name: name as CollectibleName,
-      state: game,
-      location,
-      position: { x, y, width: dimensions.width, height: dimensions.height },
-    });
-
-    setIsColliding(collisionDetected);
-    // send({ type: "UPDATE", coordinates: { x, y }, collisionDetected });
-  };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const onStop = useCallback(
@@ -390,19 +426,25 @@ export const MoveableComponent: React.FC<
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "ArrowUp") {
+      if (e.key === "ArrowUp" || e.key === "w") {
         const newPosition = {
           x: position.x,
           y: position.y - GRID_WIDTH_PX,
         };
-        onDrag(
-          newPosition,
+        onDrag({
+          data: newPosition,
           coordinatesX,
           coordinatesY,
           detect,
           setIsDragging,
           setPosition,
-        );
+          name: name as CollectibleName,
+          id,
+          location,
+          dimensions,
+          state,
+          setIsColliding,
+        });
         onStop({
           data: newPosition,
           coordinatesX,
@@ -413,19 +455,25 @@ export const MoveableComponent: React.FC<
           dimensions,
         });
         e.preventDefault();
-      } else if (e.key === "ArrowDown") {
+      } else if (e.key === "ArrowDown" || e.key === "s") {
         const newPosition = {
           x: position.x,
           y: position.y + GRID_WIDTH_PX,
         };
-        onDrag(
-          newPosition,
+        onDrag({
+          data: newPosition,
           coordinatesX,
           coordinatesY,
           detect,
           setIsDragging,
           setPosition,
-        );
+          name: name as CollectibleName,
+          id,
+          location,
+          dimensions,
+          state,
+          setIsColliding,
+        });
         onStop({
           data: newPosition,
           coordinatesX,
@@ -436,19 +484,25 @@ export const MoveableComponent: React.FC<
           dimensions,
         });
         e.preventDefault();
-      } else if (e.key === "ArrowLeft") {
+      } else if (e.key === "ArrowLeft" || e.key === "a") {
         const newPosition = {
           x: position.x - GRID_WIDTH_PX,
           y: position.y,
         };
-        onDrag(
-          newPosition,
+        onDrag({
+          data: newPosition,
           coordinatesX,
           coordinatesY,
           detect,
           setIsDragging,
           setPosition,
-        );
+          name: name as CollectibleName,
+          id,
+          location,
+          dimensions,
+          state,
+          setIsColliding,
+        });
         onStop({
           data: newPosition,
           coordinatesX,
@@ -459,19 +513,25 @@ export const MoveableComponent: React.FC<
           dimensions,
         });
         e.preventDefault();
-      } else if (e.key === "ArrowRight") {
+      } else if (e.key === "ArrowRight" || e.key === "d") {
         const newPosition = {
           x: position.x + GRID_WIDTH_PX,
           y: position.y,
         };
-        onDrag(
-          newPosition,
+        onDrag({
+          data: newPosition,
           coordinatesX,
           coordinatesY,
           detect,
           setIsDragging,
           setPosition,
-        );
+          name: name as CollectibleName,
+          id,
+          location,
+          dimensions,
+          state,
+          setIsColliding,
+        });
         onStop({
           data: newPosition,
           coordinatesX,
@@ -494,7 +554,6 @@ export const MoveableComponent: React.FC<
   }, [
     coordinatesX,
     coordinatesY,
-    detect,
     dimensions,
     id,
     isSelected,
@@ -502,6 +561,7 @@ export const MoveableComponent: React.FC<
     name,
     onStop,
     position,
+    state,
   ]);
 
   return (
@@ -526,16 +586,22 @@ export const MoveableComponent: React.FC<
 
         isActive.current = true;
       }}
-      onDrag={(_, data) =>
-        onDrag(
+      onDrag={(_, data) => {
+        onDrag({
           data,
           coordinatesX,
           coordinatesY,
           detect,
           setIsDragging,
           setPosition,
-        )
-      }
+          name: name as CollectibleName,
+          id,
+          location,
+          dimensions,
+          state,
+          setIsColliding,
+        });
+      }}
       onStop={(_, data) =>
         onStop({
           data,
