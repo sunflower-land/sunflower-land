@@ -5,13 +5,7 @@ import {
   InventoryItemName,
 } from "features/game/types/game";
 
-import {
-  Pet,
-  PET_RESOURCES,
-  PetName,
-  PetResource,
-  PETS,
-} from "features/game/types/pets";
+import { Pet, PetName, PetResource, PETS } from "features/game/types/pets";
 import Decimal from "decimal.js-light";
 import { isCollectibleActive } from "features/game/lib/collectibleBuilt";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";

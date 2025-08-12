@@ -354,8 +354,6 @@ export const Chest: React.FC<Props> = ({
       !pets.includes(name),
   );
 
-  console.log({ pets });
-
   const ITEM_GROUPS: {
     items: CollectibleName[];
     label: TranslationKeys;

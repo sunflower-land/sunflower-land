@@ -6417,5 +6417,15 @@
   "description.foxShrine": "A shrine to the crafty fox",
   "description.boarShrine": "A shrine to the hearty boar",
   "description.houndShrine": "A shrine to the loyal hound",
-  "description.stagShrine": "A shrine to the majestic stag"
+  "description.stagShrine": "A shrine to the majestic stag",
+  "pets": "Pets",
+  "description.petEgg": "A pet egg",
+  "description.meowchi": "A cute cat",
+  "description.twizzle": "A cute dog",
+  "description.burro": "A cute donkey",
+  "description.barkley": "A cute dog",
+  "pets.sleeping": "Sleeping",
+  "pets.description": "Pets are loyal animals (when fed) that will fetch items for you.",
+  "fetch": "Fetch",
+  "missing": "Missing"
 }

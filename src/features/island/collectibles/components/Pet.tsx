@@ -19,12 +19,15 @@ import {
   isPetResting,
 } from "features/game/events/landExpansion/feedPet";
 import { secondsToString } from "lib/utils/time";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 export const PetModal: React.FC<{ onClose: () => void; name: PetName }> = ({
   onClose,
   name,
 }) => {
   const { gameState, gameService } = useGame();
+
+  const { t } = useAppTranslation();
 
   const petConfig = PETS[name];
 
@@ -57,13 +60,13 @@ export const PetModal: React.FC<{ onClose: () => void; name: PetName }> = ({
       <>
         <InnerPanel className="mb-1">
           <Label type="default" className="mb-2">
-            Sleeping
+            {t("pets.sleeping")}
           </Label>
           <p className="text-sm p-1">
             {secondsToString(restLeft / 1000, { length: "medium" })}
           </p>
         </InnerPanel>
-        <Button onClick={onClose}>Close</Button>
+        <Button onClick={onClose}>{t("close")}</Button>
       </>
     );
   }
@@ -71,10 +74,8 @@ export const PetModal: React.FC<{ onClose: () => void; name: PetName }> = ({
   return (
     <>
       <InnerPanel className="mb-1">
-        <Label type="default">Woof!</Label>
-        <p className="text-sm p-1">
-          Pets are loyal animals (when fed) that will fetch items for you.
-        </p>
+        <Label type="default"></Label>
+        <p className="text-sm p-1">{t("pets.description")}</p>
         <div className="flex items-center">
           <Box
             image={ITEM_DETAILS[request].image}
@@ -83,16 +84,16 @@ export const PetModal: React.FC<{ onClose: () => void; name: PetName }> = ({
           />
           <div>
             <p className="text-sm">{`1 x ${request}`}</p>
-            {!itemAmount.gte(1) && <Label type="danger">Missing</Label>}
+            {!itemAmount.gte(1) && <Label type="danger">{t("missing")}</Label>}
           </div>
         </div>
       </InnerPanel>
       <InnerPanel className="mb-1">
-        <Label type="default">Fetch</Label>
+        <Label type="default">{t("fetch")}</Label>
 
         <div className="flex flex-col">
           {petConfig.fetches.map((fetch) => (
-            <div className="flex items-center">
+            <div key={fetch} className="flex items-center">
               <Box
                 key={fetch}
                 isSelected={resource === fetch}
@@ -109,7 +110,7 @@ export const PetModal: React.FC<{ onClose: () => void; name: PetName }> = ({
         </div>
       </InnerPanel>
       <Button onClick={fetch} disabled={!itemAmount.gte(1)}>
-        Fetch
+        {t("fetch")}
       </Button>
     </>
   );
