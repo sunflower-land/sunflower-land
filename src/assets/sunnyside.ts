@@ -736,6 +736,8 @@ export const SUNNYSIDE = {
   resource: {
     // Animals
     acorn: `${CONFIG.PROTECTED_IMAGE_URL}/resources/acorn.webp`,
+    ruffroot: `${CONFIG.PROTECTED_IMAGE_URL}/resources/ruffroot.webp`,
+    heartleaf: `${CONFIG.PROTECTED_IMAGE_URL}/resources/heartleaf.webp`,
     chicken: `${CONFIG.PROTECTED_IMAGE_URL}/resources/animals/chicken.png`,
     egg: `${CONFIG.PROTECTED_IMAGE_URL}/resources/animals/egg.png`,
     feather: `${CONFIG.PROTECTED_IMAGE_URL}/resources/animals/feather.webp`,

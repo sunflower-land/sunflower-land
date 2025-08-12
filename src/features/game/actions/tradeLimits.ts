@@ -5,6 +5,7 @@ import {
   FactionEmblem,
   InventoryItemName,
 } from "../types/game";
+import { PetResource } from "../types/pets";
 import { CommodityName } from "../types/resources";
 
 export const EMBLEM_TRADE_LIMITS: Record<FactionEmblem, number> = {
@@ -23,6 +24,7 @@ export type TradeResource = Extract<
   | CommodityName
   | AnimalResource
   | FactionEmblem
+  | PetResource
 >;
 
 export const TRADE_LIMITS: Partial<Record<TradeResource, number>> = {
@@ -83,6 +85,10 @@ export const TRADE_LIMITS: Partial<Record<TradeResource, number>> = {
   Wool: 1000,
   "Merino Wool": 100,
   ...EMBLEM_TRADE_LIMITS,
+
+  Ruffroot: 100,
+  "Chewed Bone": 100,
+  "Heart leaf": 100,
 };
 
 export const TRADE_MINIMUMS: Partial<Record<TradeResource, number>> = {
@@ -137,6 +143,10 @@ export const TRADE_MINIMUMS: Partial<Record<TradeResource, number>> = {
   Feather: 1,
   Wool: 1,
   "Merino Wool": 1,
+
+  Ruffroot: 5,
+  "Chewed Bone": 5,
+  "Heart leaf": 5,
 };
 
 export const EMBLEM_TRADE_MINIMUMS: Record<FactionEmblem, number> = {

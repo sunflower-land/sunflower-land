@@ -24,6 +24,11 @@ export const STATIC_OFFLINE_FARM: GameState = {
     expiresAt: Date.now() + 31 * 24 * 60 * 60 * 1000,
   },
   inventory: {
+    Ruffroot: new Decimal(100),
+    "Chewed Bone": new Decimal(100),
+    "Heart leaf": new Decimal(100),
+    Acorn: new Decimal(100),
+    "Pumpkin Soup": new Decimal(100),
     Barkley: new Decimal(1),
     "Black Magic": new Decimal(1),
     "Farmer's Monument": new Decimal(1),

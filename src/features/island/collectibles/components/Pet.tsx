@@ -13,7 +13,12 @@ import { useGame } from "features/game/GameProvider";
 import Decimal from "decimal.js-light";
 import { Button } from "components/ui/Button";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
-import { DEFAULT_PET_FOOD } from "features/game/events/landExpansion/feedPet";
+import {
+  DEFAULT_PET_FOOD,
+  getPetRestLeft,
+  isPetResting,
+} from "features/game/events/landExpansion/feedPet";
+import { secondsToString } from "lib/utils/time";
 
 export const PetModal: React.FC<{ onClose: () => void; name: PetName }> = ({
   onClose,
@@ -38,6 +43,31 @@ export const PetModal: React.FC<{ onClose: () => void; name: PetName }> = ({
     });
   };
 
+  const restLeft = getPetRestLeft({
+    pet: gameState.context.state.pets?.[name],
+    game: gameState.context.state,
+  });
+  const isResting = isPetResting({
+    pet: gameState.context.state.pets?.[name],
+    game: gameState.context.state,
+  });
+
+  if (isResting) {
+    return (
+      <>
+        <InnerPanel className="mb-1">
+          <Label type="default" className="mb-2">
+            Sleeping
+          </Label>
+          <p className="text-sm p-1">
+            {secondsToString(restLeft / 1000, { length: "medium" })}
+          </p>
+        </InnerPanel>
+        <Button onClick={onClose}>Close</Button>
+      </>
+    );
+  }
+
   return (
     <>
       <InnerPanel className="mb-1">
@@ -46,10 +76,14 @@ export const PetModal: React.FC<{ onClose: () => void; name: PetName }> = ({
           Pets are loyal animals (when fed) that will fetch items for you.
         </p>
         <div className="flex items-center">
-          <Box image={ITEM_DETAILS[request].image} count={itemAmount} />
+          <Box
+            image={ITEM_DETAILS[request].image}
+            count={itemAmount}
+            className="mr-2"
+          />
           <div>
             <p className="text-sm">{`1 x ${request}`}</p>
-            <p className="text-xs">{`? XP`}</p>
+            {!itemAmount.gte(1) && <Label type="danger">Missing</Label>}
           </div>
         </div>
       </InnerPanel>
@@ -74,14 +108,22 @@ export const PetModal: React.FC<{ onClose: () => void; name: PetName }> = ({
           ))}
         </div>
       </InnerPanel>
-      <Button onClick={fetch}>Fetch</Button>
+      <Button onClick={fetch} disabled={!itemAmount.gte(1)}>
+        Fetch
+      </Button>
     </>
   );
 };
 
 export const Pet: React.FC<CollectibleProps> = ({ name }) => {
+  const { gameState } = useGame();
   const [showModal, setShowModal] = useState(false);
   const request: InventoryItemName = "Pumpkin";
+
+  const isSleeping = isPetResting({
+    pet: gameState.context.state.pets?.[name as PetName],
+    game: gameState.context.state,
+  });
 
   return (
     <>
@@ -104,31 +146,43 @@ export const Pet: React.FC<CollectibleProps> = ({ name }) => {
           onClick={() => setShowModal(true)}
         />
 
-        <div
-          className={`absolute inline-flex justify-center items-center z-10 pointer-events-none`}
-          style={{
-            left: `${PIXEL_SCALE * -10}px`,
-            top: `${PIXEL_SCALE * -2}px`,
-            borderImage: `url(${SUNNYSIDE.ui.speechBorder})`,
-            borderStyle: "solid",
-            borderTopWidth: `${PIXEL_SCALE * 2}px`,
-            borderRightWidth: `${PIXEL_SCALE * 2}px`,
-            borderBottomWidth: `${PIXEL_SCALE * 4}px`,
-            borderLeftWidth: `${PIXEL_SCALE * 5}px`,
-            borderImageSlice: "2 2 4 5 fill",
-            imageRendering: "pixelated",
-            borderImageRepeat: "stretch",
-            // Flip it
-            transform: "scaleX(-1)",
-          }}
-        >
+        {isSleeping ? (
           <img
+            src={SUNNYSIDE.icons.sleeping}
+            className="absolute"
             style={{
-              width: `${PIXEL_SCALE * 6}px`,
+              width: `${PIXEL_SCALE * 10}px`,
+              left: `${PIXEL_SCALE * -2}px`,
+              top: `${PIXEL_SCALE * -2}px`,
             }}
-            src={ITEM_DETAILS[request].image}
           />
-        </div>
+        ) : (
+          <div
+            className={`absolute inline-flex justify-center items-center z-10 pointer-events-none`}
+            style={{
+              left: `${PIXEL_SCALE * -10}px`,
+              top: `${PIXEL_SCALE * -2}px`,
+              borderImage: `url(${SUNNYSIDE.ui.speechBorder})`,
+              borderStyle: "solid",
+              borderTopWidth: `${PIXEL_SCALE * 2}px`,
+              borderRightWidth: `${PIXEL_SCALE * 2}px`,
+              borderBottomWidth: `${PIXEL_SCALE * 4}px`,
+              borderLeftWidth: `${PIXEL_SCALE * 5}px`,
+              borderImageSlice: "2 2 4 5 fill",
+              imageRendering: "pixelated",
+              borderImageRepeat: "stretch",
+              // Flip it
+              transform: "scaleX(-1)",
+            }}
+          >
+            <img
+              style={{
+                width: `${PIXEL_SCALE * 6}px`,
+              }}
+              src={ITEM_DETAILS[request].image}
+            />
+          </div>
+        )}
       </div>
     </>
   );

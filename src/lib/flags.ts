@@ -108,6 +108,8 @@ const FEATURE_FLAGS = {
   BLESSING: () => true,
 
   CRAFTING: betaTimeBasedFeatureFlag(SEASONS["Better Together"].startDate),
+
+  PETS: defaultFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;

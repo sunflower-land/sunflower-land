@@ -5765,19 +5765,35 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.burro"),
   },
   "Chewed Bone": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: camelBone,
     description: translate("description.chewedBone"),
   },
   "Heart leaf": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: SUNNYSIDE.resource.heartleaf,
     description: translate("description.heartLeaf"),
   },
   Ruffroot: {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: SUNNYSIDE.resource.ruffroot,
     description: translate("description.ruffroot"),
   },
   Acorn: {
     image: SUNNYSIDE.resource.acorn,
     description: translate("description.acorn"),
+  },
+  "Fox Shrine": {
+    image: thermalStone,
+    description: translate("description.foxShrine"),
+  },
+  "Boar Shrine": {
+    image: thermalStone,
+    description: translate("description.boarShrine"),
+  },
+  "Hound Shrine": {
+    image: thermalStone,
+    description: translate("description.houndShrine"),
+  },
+  "Stag Shrine": {
+    image: thermalStone,
+    description: translate("description.stagShrine"),
   },
 };

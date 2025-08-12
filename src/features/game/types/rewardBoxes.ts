@@ -55,7 +55,7 @@ export const REWARD_BOXES: Record<RewardBoxName, RewardBoxDetails> = {
   "Pet Egg": {
     rewards: [
       { items: { Barkley: 1 }, weight: 100 },
-      { items: { Meowchi: 1 }, weight: 100 },
+      { items: { Burro: 1 }, weight: 100 },
       { items: { Twizzle: 1 }, weight: 100 },
     ],
   },

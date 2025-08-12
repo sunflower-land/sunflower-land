@@ -17,6 +17,9 @@ describe("feedPet", () => {
       feedPet({
         state: {
           ...INITIAL_FARM,
+          inventory: {
+            "Pumpkin Soup": new Decimal(10),
+          },
           collectibles: {
             Barkley: [
               {
@@ -29,8 +32,8 @@ describe("feedPet", () => {
           },
           pets: {
             Barkley: {
-              craves: "Pumpkin",
-              fetchedAt: Date.now(),
+              craves: "Pumpkin Soup",
+              readyAt: Date.now() + 1000,
             },
           },
         },
@@ -57,7 +60,7 @@ describe("feedPet", () => {
           pets: {
             Barkley: {
               craves: "Pumpkin Soup",
-              fetchedAt: Date.now() - 24 * 60 * 60 * 1000,
+              readyAt: Date.now() - 24 * 60 * 60 * 1000,
             },
           },
         },
@@ -87,7 +90,7 @@ describe("feedPet", () => {
           pets: {
             Barkley: {
               craves: "Pumpkin Soup",
-              fetchedAt: Date.now() - 24 * 60 * 60 * 1000,
+              readyAt: Date.now() - 24 * 60 * 60 * 1000,
             },
           },
         },
@@ -117,7 +120,7 @@ describe("feedPet", () => {
         pets: {
           Barkley: {
             craves: "Pumpkin Soup",
-            fetchedAt: now - 24 * 60 * 60 * 1000,
+            readyAt: now - 24 * 60 * 60 * 1000,
           },
         },
       },
@@ -127,6 +130,6 @@ describe("feedPet", () => {
 
     expect(state.inventory["Pumpkin Soup"]).toStrictEqual(new Decimal(9));
     expect(state.inventory["Chewed Bone"]).toStrictEqual(new Decimal(1));
-    expect(state.pets.Barkley?.fetchedAt).toEqual(now);
+    expect(state.pets?.Barkley?.readyAt).toEqual(now + 12 * 60 * 60 * 1000);
   });
 });
