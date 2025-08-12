@@ -1,5 +1,5 @@
-import React, { useContext } from "react";
-import { useActor } from "@xstate/react";
+import React, { useCallback, useContext, useEffect } from "react";
+import { useActor, useSelector } from "@xstate/react";
 import { Button } from "components/ui/Button";
 import { OuterPanel } from "components/ui/Panel";
 import {
@@ -64,8 +64,7 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
   ] = useActor(child);
 
   const [gameState] = useActor(gameService);
-
-  if (!placeable) return null;
+  const state = useSelector(gameService, (state) => state.context.state);
 
   let dimensions = { width: 0, height: 0 };
   if (isBudName(placeable)) {
@@ -78,27 +77,26 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
       ...RESOURCE_DIMENSIONS,
     }[placeable];
   }
-  const { width, height } = dimensions;
 
-  const items = getChestItems(gameState.context.state);
-
-  const available = isBudName(placeable)
-    ? new Decimal(1)
-    : items[placeable] ?? new Decimal(0);
-
-  const handleConfirmPlacement = () => {
+  const handleConfirmPlacement = useCallback(() => {
     // prevents multiple toasts while spam clicking place button
     if (!child.state.matches({ editing: "placing" })) {
       return;
     }
 
+    if (!placeable) return;
+
+    const items = getChestItems(state);
+
+    const available = isBudName(placeable)
+      ? new Decimal(1)
+      : items[placeable] ?? new Decimal(0);
+
     let hasRequirements = false;
     if (requirements) {
-      const hasCoins = gameState.context.state.coins > requirements.coins * 2;
+      const hasCoins = state.coins > requirements.coins * 2;
       const hasIngredients = getKeys(requirements.ingredients).every((name) =>
-        gameState.context.state.inventory[name]?.gte(
-          requirements.ingredients[name]?.mul(2) ?? 0,
-        ),
+        state.inventory[name]?.gte(requirements.ingredients[name]?.mul(2) ?? 0),
       );
 
       hasRequirements = hasCoins && hasIngredients;
@@ -114,15 +112,14 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
     }
 
     // Prevents accidental multiple placements
-    if (placeable in EXPIRY_COOLDOWNS) {
+    if (placeable && placeable in EXPIRY_COOLDOWNS) {
       placeMore = false;
     }
 
     if (isBudName(placeable)) {
       placeMore = false;
     } else {
-      const previous =
-        gameState.context.state.inventory[placeable] ?? new Decimal(0);
+      const previous = state.inventory[placeable] ?? new Decimal(0);
 
       if (maximum && previous.gte(maximum - 1)) {
         placeMore = false;
@@ -130,11 +127,18 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
     }
 
     if (placeMore) {
-      const nextPosition = { x: coordinates.x, y: coordinates.y - height };
+      const nextPosition = {
+        x: coordinates.x,
+        y: coordinates.y - dimensions.height,
+      };
       const collisionDetected = detectCollision({
         name: placeable as CollectibleName,
-        state: gameService.getSnapshot().context.state,
-        position: { ...nextPosition, width, height },
+        state,
+        position: {
+          ...nextPosition,
+          width: dimensions.width,
+          height: dimensions.height,
+        },
         location,
       });
 
@@ -147,18 +151,54 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
     } else {
       send({ type: "PLACE", location });
     }
-  };
+  }, [
+    child,
+    coordinates.x,
+    coordinates.y,
+    state,
+    location,
+    placeable,
+    requirements,
+    maximum,
+    send,
+    dimensions.height,
+    dimensions.width,
+  ]);
 
-  const handleCancelPlacement = () => {
+  const handleCancelPlacement = useCallback(() => {
     send("BACK");
-  };
+  }, [send]);
 
-  const island = gameState.context.state.island;
-  const season = gameState.context.state.season.season;
+  // Confirm placement on Enter/NumpadEnter; cancel on Escape
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!child.state.matches({ editing: "placing" })) return;
+
+      if (e.key === "Escape") {
+        e.preventDefault();
+        handleCancelPlacement();
+        return;
+      }
+
+      if (
+        (e.key === "Enter" || e.key === "NumpadEnter") &&
+        !collisionDetected
+      ) {
+        // Prevent default submit behavior
+        e.preventDefault();
+        handleConfirmPlacement();
+      }
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [child, handleCancelPlacement, handleConfirmPlacement]);
+
+  const island = state.island;
+  const season = state.season.season;
   const buildingLevel = isBuildingUpgradable(placeable as BuildingName)
-    ? gameState.context.state[
-        makeUpgradableBuildingKey(placeable as UpgradableBuildingType)
-      ].level
+    ? state[makeUpgradableBuildingKey(placeable as UpgradableBuildingType)]
+        .level
     : undefined;
 
   const getPlaceableImage = (
@@ -167,14 +207,22 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
     season: TemperateSeasonName,
     level?: number,
   ) => {
-    if (isBudName(placeable)) {
+    if (placeable && isBudName(placeable)) {
       return "";
     }
+    if (!placeable) return "";
     return (
       ITEM_ICONS(season, getCurrentBiome(island), level)[placeable] ??
       ITEM_DETAILS[placeable].image
     );
   };
+
+  if (!placeable) return null;
+
+  const items = getChestItems(gameState.context.state);
+  const available = isBudName(placeable)
+    ? new Decimal(1)
+    : items[placeable] ?? new Decimal(0);
 
   const image = getPlaceableImage(placeable, island, season, buildingLevel);
 
