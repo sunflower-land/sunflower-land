@@ -542,6 +542,8 @@ export const Project: React.FC<ProjectProps> = (input) => {
     image = PROJECT_IMAGES[input.project].halfway;
   }
 
+  const isCookingPot = input.name.endsWith("Pot");
+
   return (
     <>
       <Modal show={showHelped}>
@@ -600,6 +602,18 @@ export const Project: React.FC<ProjectProps> = (input) => {
             className="ml-1 -translate-x-1/2"
           />
         </div>
+
+        {isProjectComplete && (
+          <img
+            src={SUNNYSIDE.icons.expression_alerted}
+            className={`absolute -top-4 left-1/2 -translate-x-1/2 ready pointer-events-none`}
+            style={{
+              width: `${PIXEL_SCALE * 4}px`,
+              marginLeft: `${PIXEL_SCALE * (isCookingPot ? -2 : -4)}px`,
+              marginTop: `${PIXEL_SCALE * (isCookingPot ? 2 : -2)}px`,
+            }}
+          />
+        )}
       </>
 
       <Modal show={showDetails} onHide={() => setShowDetails(false)}>

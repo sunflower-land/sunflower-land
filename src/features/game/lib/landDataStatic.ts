@@ -722,6 +722,72 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   collectibles: {
+    "Big Orange": [
+      {
+        id: "123",
+        readyAt: 0,
+        coordinates: {
+          x: 7,
+          y: -11,
+        },
+        createdAt: 0,
+      },
+    ],
+    "Big Apple": [
+      {
+        id: "123",
+        readyAt: 0,
+        coordinates: {
+          x: 7,
+          y: -9,
+        },
+        createdAt: 0,
+      },
+    ],
+    "Big Banana": [
+      {
+        id: "123",
+        readyAt: 0,
+        coordinates: {
+          x: 7,
+          y: -7,
+        },
+        createdAt: 0,
+      },
+    ],
+    "Advanced Cooking Pot": [
+      {
+        id: "123",
+        readyAt: 0,
+        coordinates: {
+          x: 4,
+          y: -11,
+        },
+        createdAt: 0,
+      },
+    ],
+    "Expert Cooking Pot": [
+      {
+        id: "123",
+        readyAt: 0,
+        coordinates: {
+          x: 4,
+          y: -9,
+        },
+        createdAt: 0,
+      },
+    ],
+    "Basic Cooking Pot": [
+      {
+        id: "123",
+        readyAt: 0,
+        coordinates: {
+          x: 4,
+          y: -7,
+        },
+        createdAt: 0,
+      },
+    ],
     "Magic Bean": [
       {
         id: "1",
@@ -1168,7 +1234,14 @@ export const STATIC_OFFLINE_FARM: GameState = {
       week: "2025-08-04",
     },
     points: 0,
-    villageProjects: {},
+    villageProjects: {
+      "Basic Cooking Pot": { cheers: 10 },
+      "Expert Cooking Pot": { cheers: 50 },
+      "Advanced Cooking Pot": { cheers: 100 },
+      "Big Orange": { cheers: 25 },
+      "Big Apple": { cheers: 50 },
+      "Big Banana": { cheers: 200 },
+    },
     cheersGiven: {
       date: new Date().toISOString().split("T")[0],
       projects: {},
