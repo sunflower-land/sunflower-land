@@ -14,6 +14,9 @@ import { FixedSizeGrid as Grid } from "react-window";
 import AutoSizer from "react-virtualized-auto-sizer";
 import { Context } from "features/game/GameProvider";
 import { MachineState } from "features/game/lib/gameMachine";
+import { hasFeatureAccess } from "lib/flags";
+import { KNOWN_ITEMS } from "features/game/types";
+import { PET_RESOURCES } from "features/game/types/pets";
 
 export const collectionFetcher = ([filters, token]: [string, string]) => {
   if (CONFIG.API_URL) return loadMarketplace({ filters, token });
@@ -173,6 +176,13 @@ export const Collection: React.FC<{
       }
 
       if (filters.includes("cosmetic") && display.buffs.length > 0) {
+        return false;
+      }
+
+      if (
+        KNOWN_ITEMS[item.id] in PET_RESOURCES &&
+        !hasFeatureAccess(state, "PETS")
+      ) {
         return false;
       }
 

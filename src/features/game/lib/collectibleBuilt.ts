@@ -1,5 +1,6 @@
-import { CollectibleName } from "../types/craftables";
+import { CollectibleName, getKeys } from "../types/craftables";
 import { GameState } from "../types/game";
+import { PET_SHRINES, PetShrineName } from "../types/pets";
 
 export function isCollectibleBuilt({
   name,
@@ -33,6 +34,15 @@ export const EXPIRY_COOLDOWNS: Partial<Record<CollectibleName, number>> = {
   "Blossom Hourglass": 4 * 60 * 60 * 1000,
   "Fisher's Hourglass": 4 * 60 * 60 * 1000,
   "Super Totem": 7 * 24 * 60 * 60 * 1000,
+
+  // All pet shrines have 7 day cooldown
+  ...getKeys(PET_SHRINES).reduce(
+    (acc, key) => {
+      acc[key] = 7 * 24 * 60 * 60 * 1000;
+      return acc;
+    },
+    {} as Record<PetShrineName, number>,
+  ),
 };
 
 /**
