@@ -5,7 +5,13 @@ import {
   InventoryItemName,
 } from "features/game/types/game";
 
-import { Pet, PetName, PetResource, PETS } from "features/game/types/pets";
+import {
+  isPetNeglected,
+  Pet,
+  PetName,
+  PetResource,
+  PETS,
+} from "features/game/types/pets";
 import Decimal from "decimal.js-light";
 import { isCollectibleActive } from "features/game/lib/collectibleBuilt";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
@@ -91,9 +97,11 @@ export function getPetRestLeft({
 export function getPetReadyAt({
   game,
   now = Date.now(),
+  pet,
 }: {
   game: GameState;
   now?: number;
+  pet: Pet;
 }): { readyAt: number; boostsUsed: BoostName[] } {
   let duration = PET_SLEEP_DURATION_MS;
   const boostsUsed: BoostName[] = [];
@@ -101,6 +109,14 @@ export function getPetReadyAt({
   if (isCollectibleActive({ name: "Hound Shrine", game })) {
     duration = duration * 0.75;
     boostsUsed.push("Hound Shrine");
+  }
+
+  const level = pet.level ?? 1;
+
+  if (level >= 50) {
+    duration = duration * 0.8;
+  } else if (level >= 10) {
+    duration = duration * 0.9;
   }
 
   return { readyAt: now + duration, boostsUsed };
@@ -118,10 +134,14 @@ export function feedPet({
       throw new Error(`Pet ${action.name} not found`);
     }
 
-    const pet = stateCopy.pets?.[action.name];
+    let pet = stateCopy.pets?.[action.name];
 
     if (isPetResting({ pet, game: stateCopy })) {
       throw new Error("Pet is sleeping");
+    }
+
+    if (isPetNeglected({ pet, game: stateCopy })) {
+      throw new Error("Pet is neglected");
     }
 
     const craves = getPetRequest({ pet, game: stateCopy });
@@ -138,25 +158,34 @@ export function feedPet({
 
     const petResource = stateCopy.inventory[action.resource] ?? new Decimal(0);
 
+    if (!pet) {
+      pet = {
+        level: 1,
+        multiplier: 1,
+      };
+    }
+
+    pet.level = (pet.level ?? 1) + 1;
+
     const { readyAt, boostsUsed } = getPetReadyAt({
       game: stateCopy,
       now: createdAt,
+      pet,
     });
+
+    pet.readyAt = readyAt;
 
     // Remove the first craving
     pet?.cravings?.shift();
 
-    stateCopy.inventory[action.resource] = petResource.add(1);
+    const multiplier = pet.multiplier ?? 1;
+
+    stateCopy.inventory[action.resource] = petResource.add(multiplier);
     stateCopy.inventory[craves] = foodAmount.sub(1);
     stateCopy.pets = {
       ...(stateCopy.pets ?? {}),
-      [action.name]: {
-        ...pet,
-        readyAt,
-      },
+      [action.name]: pet,
     };
-
-    // Add a random craving
 
     stateCopy.boostsUsedAt = updateBoostUsed({
       game: stateCopy,

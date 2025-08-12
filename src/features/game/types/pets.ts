@@ -1,12 +1,14 @@
 import Decimal from "decimal.js-light";
 import { Decoration } from "./decorations";
-import { InventoryItemName } from "./game";
+import { GameState, InventoryItemName } from "./game";
 
 export type PetName = "Barkley" | "Meowchi" | "Twizzle" | "Burro";
 
 export type Pet = {
   cravings?: InventoryItemName[];
   readyAt?: number;
+  level?: number;
+  multiplier?: number;
 };
 
 export type PetConfig = {
@@ -97,3 +99,31 @@ export const PET_SHRINES: Record<PetShrineName, PetShrine> = {
     },
   },
 };
+
+export const PET_NEGLECT_THRESHOLD = 3 * 24 * 60 * 60 * 1000;
+
+export function msTillNeglect({
+  pet,
+  now = Date.now(),
+}: {
+  pet?: Pet;
+  now?: number;
+}) {
+  if (!pet?.readyAt) return 0;
+
+  const neglectedAt = pet.readyAt + PET_NEGLECT_THRESHOLD;
+  return neglectedAt - now;
+}
+
+export function isPetNeglected({
+  pet,
+  game,
+  now = Date.now(),
+}: {
+  pet?: Pet;
+  game: GameState;
+  now?: number;
+}) {
+  if (!pet?.readyAt) return false;
+  return msTillNeglect({ pet, now }) <= 0;
+}
