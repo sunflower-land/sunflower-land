@@ -6428,5 +6428,7 @@
   "pets.description": "Animais de estimação são animais leais (quando alimentados) que buscam itens para você.",
   "fetch": "Buscar",
   "missing": "Desaparecido",
-  "pets.nextRequests": "Próximas solicitações"
+  "pets.nextRequests": "Próximas solicitações",
+  "perks": "Regalias",
+  "pets.neglected": "Negligenciado"
 }

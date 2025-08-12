@@ -6428,5 +6428,7 @@
   "pets.description": "Las mascotas son animales leales (cuando se les da de comer) que te traerán objetos.",
   "fetch": "Buscar",
   "missing": "Falta",
-  "pets.nextRequests": "Próximas solicitudes"
+  "pets.nextRequests": "Próximas solicitudes",
+  "perks": "Ventajas",
+  "pets.neglected": "Desatendido"
 }

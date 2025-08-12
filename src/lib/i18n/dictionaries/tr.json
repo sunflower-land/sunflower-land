@@ -6428,5 +6428,7 @@
   "pets.description": "Evcil hayvanlar (beslendiklerinde) sizin için eşya getirecek sadık hayvanlardır.",
   "fetch": "Getir",
   "missing": "Eksik",
-  "pets.nextRequests": "Sonraki İstekler"
+  "pets.nextRequests": "Sonraki İstekler",
+  "perks": "Avantajlar",
+  "pets.neglected": "İhmal edilmiş"
 }

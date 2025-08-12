@@ -6428,5 +6428,7 @@
   "pets.description": "Haustiere sind treue Tiere (wenn sie gefüttert werden), die Gegenstände für Sie holen.",
   "fetch": "Abrufen",
   "missing": "Fehlt",
-  "pets.nextRequests": "Nächste Anfragen"
+  "pets.nextRequests": "Nächste Anfragen",
+  "perks": "Vergünstigungen",
+  "pets.neglected": "Vernachlässigt"
 }

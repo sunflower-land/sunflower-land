@@ -6428,5 +6428,7 @@
   "pets.description": "宠物是忠诚的动物（喂食时），会为你获取物品。",
   "fetch": "取",
   "missing": "失踪",
-  "pets.nextRequests": "下一步请求"
+  "pets.nextRequests": "下一步请求",
+  "perks": "津贴",
+  "pets.neglected": "被忽视的"
 }

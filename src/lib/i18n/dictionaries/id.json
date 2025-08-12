@@ -6428,5 +6428,7 @@
   "pets.description": "Hewan peliharaan adalah hewan setia (saat diberi makan) yang akan mengambil barang untuk Anda.",
   "fetch": "Ambil",
   "missing": "Hilang",
-  "pets.nextRequests": "Permintaan Berikutnya"
+  "pets.nextRequests": "Permintaan Berikutnya",
+  "perks": "Fasilitas",
+  "pets.neglected": "Terabaikan"
 }

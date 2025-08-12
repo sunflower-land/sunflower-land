@@ -6428,5 +6428,7 @@
   "pets.description": "ペットは忠実な動物で（餌を与えれば）、あなたにかわってアイテムを取りに来てくれます。",
   "fetch": "フェッチ",
   "missing": "行方不明です",
-  "pets.nextRequests": "次のリクエスト"
+  "pets.nextRequests": "次のリクエスト",
+  "perks": "特典",
+  "pets.neglected": "無視された"
 }

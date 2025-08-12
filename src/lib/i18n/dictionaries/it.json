@@ -6428,5 +6428,7 @@
   "pets.description": "Gli animali domestici sono animali leali (se nutriti) che vanno a prendere oggetti per te.",
   "fetch": "Recupera",
   "missing": "Mancante",
-  "pets.nextRequests": "Richieste successive"
+  "pets.nextRequests": "Richieste successive",
+  "perks": "Vantaggi",
+  "pets.neglected": "Trascurata"
 }
