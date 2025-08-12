@@ -626,7 +626,6 @@ export type AOEItemName =
   | "Emerald Turtle"
   | "Tin Turtle"
   | "Sir Goldensnout"
-  | "Bale"
   | "Scary Mike"
   | "Laurie the Chuckle Crow"
   | "Queen Cornelia"
@@ -714,10 +713,6 @@ export function isWithinAOE(
       return (
         dxRect >= -1 && dxRect <= width && dyRect <= 1 && dyRect >= -height
       );
-    }
-
-    case "Bale": {
-      return false;
     }
 
     case "Queen Cornelia": {

@@ -3271,26 +3271,6 @@ export const READONLY_COLLECTIBLES: Record<
       </div>
     </div>
   ),
-  Bale: () => (
-    <div
-      className="absolute bottom-0"
-      style={{
-        width: `${PIXEL_SCALE * 28}px`,
-        top: `${PIXEL_SCALE * -5}px`,
-        left: `${PIXEL_SCALE * -3}px`,
-      }}
-    >
-      <img
-        src={ITEM_DETAILS["Bale"].image}
-        className=" absolute w-full"
-        style={{
-          width: `${PIXEL_SCALE * 28}px`,
-          left: `${PIXEL_SCALE * 3}px`,
-          top: `${PIXEL_SCALE * 5}px`,
-        }}
-      />
-    </div>
-  ),
   "Nyon Statue": () => (
     <img
       src={ITEM_DETAILS["Nyon Statue"].image}

@@ -11,7 +11,6 @@ import { Revealed } from "features/game/components/Revealed";
 import { Panel } from "components/ui/Panel";
 import { Modal } from "components/ui/Modal";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
-import { canShake } from "features/game/types/removeables";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { ChestRevealing } from "features/world/ui/chests/ChestRevealing";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
@@ -23,6 +22,14 @@ import {
 } from "components/ui/SFTDetailPopover";
 import { Label } from "components/ui/Label";
 import { secondsToString } from "lib/utils/time";
+
+export const canShake = (shakenAt?: number) => {
+  if (!shakenAt) return true;
+
+  const today = new Date().toISOString().substring(0, 10);
+
+  return new Date(shakenAt).toISOString().substring(0, 10) !== today;
+};
 
 interface Props {
   id: string;

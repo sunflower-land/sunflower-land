@@ -10,7 +10,6 @@ import { MoveableComponent } from "./MovableComponent";
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { hasMoveRestriction } from "features/game/types/removeables";
 import {
   COLLECTIBLE_COMPONENTS,
   READONLY_COLLECTIBLES,
@@ -199,20 +198,8 @@ const CollectibleComponent: React.FC<Props> = ({
   );
 };
 
-const getGameState = (state: MachineState) => state.context.state;
-
 const LandscapingCollectible: React.FC<Props> = (props) => {
-  const { gameService } = useContext(Context);
-  const [showPopover, setShowPopover] = useState(false);
-  const gameState = useSelector(gameService, getGameState);
-
   const CollectiblePlaced = READONLY_COLLECTIBLES[props.name];
-
-  const [isRestricted, restrictionReason] = hasMoveRestriction(
-    props.name,
-    props.id,
-    gameState,
-  );
 
   return (
     <MoveableComponent {...(props as any)}>
