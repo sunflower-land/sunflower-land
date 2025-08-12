@@ -6427,5 +6427,6 @@
   "pets.sleeping": "Dormir",
   "pets.description": "Les animaux de compagnie sont des animaux fidèles (lorsqu'ils sont nourris) qui vont vous chercher des objets.",
   "fetch": "Va chercher",
-  "missing": "Disparus"
+  "missing": "Disparus",
+  "pets.nextRequests": "Demandes suivantes"
 }

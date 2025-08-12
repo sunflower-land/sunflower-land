@@ -6427,5 +6427,6 @@
   "pets.sleeping": "Dormire",
   "pets.description": "Gli animali domestici sono animali leali (se nutriti) che vanno a prendere oggetti per te.",
   "fetch": "Recupera",
-  "missing": "Mancante"
+  "missing": "Mancante",
+  "pets.nextRequests": "Richieste successive"
 }

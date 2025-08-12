@@ -6427,5 +6427,6 @@
   "pets.sleeping": "正在睡觉",
   "pets.description": "宠物是忠诚的动物（喂食时），会为你获取物品。",
   "fetch": "取",
-  "missing": "失踪"
+  "missing": "失踪",
+  "pets.nextRequests": "下一步请求"
 }

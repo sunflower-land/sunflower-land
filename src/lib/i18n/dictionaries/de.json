@@ -6427,5 +6427,6 @@
   "pets.sleeping": "Schlafend",
   "pets.description": "Haustiere sind treue Tiere (wenn sie gefüttert werden), die Gegenstände für Sie holen.",
   "fetch": "Abrufen",
-  "missing": "Fehlt"
+  "missing": "Fehlt",
+  "pets.nextRequests": "Nächste Anfragen"
 }
