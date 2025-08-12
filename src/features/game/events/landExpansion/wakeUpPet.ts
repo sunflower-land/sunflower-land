@@ -25,8 +25,8 @@ export function wakePet({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (copy) => {
-    const placed = state.collectibles[action.name];
-    const pet = state.pets?.[action.name];
+    const placed = copy.collectibles[action.name];
+    const pet = copy.pets?.[action.name];
 
     if (!placed || !pet) {
       throw new Error(`Pet ${action.name} not found`);

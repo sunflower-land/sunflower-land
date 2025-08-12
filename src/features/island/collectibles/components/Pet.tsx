@@ -88,6 +88,8 @@ export const PetModal: React.FC<{ onClose: () => void; name: PetName }> = ({
   }
 
   if (isResting) {
+    const dollCount =
+      gameState.context.state.inventory[DEFAULT_PET_TOY] ?? new Decimal(0);
     return (
       <>
         <InnerPanel className="mb-1">
@@ -111,7 +113,33 @@ export const PetModal: React.FC<{ onClose: () => void; name: PetName }> = ({
             </div>
           ))}
         </InnerPanel>
-        <Button onClick={onClose}>{t("close")}</Button>
+        <InnerPanel className="mb-1">
+          <div className="flex items-center">
+            <img src={SUNNYSIDE.icons.heart} alt="Sleep" className="h-6 mr-2" />
+            <p className="text-xs">
+              {t("sleepingAnimal.sheepLoveToPlay", { name })}
+            </p>
+          </div>
+
+          <div className="flex items-center mt-1">
+            <Box
+              image={ITEM_DETAILS[DEFAULT_PET_TOY].image}
+              count={dollCount}
+            />
+            <div className="ml-1">
+              <p className="text-sm">
+                {t("sleepingAnimal.dollCount", { name: DEFAULT_PET_TOY })}
+              </p>
+              <p className="text-xs italic">
+                {t("sleepingAnimal.availableAtCraftingBox")}
+              </p>
+            </div>
+          </div>
+        </InnerPanel>
+
+        <Button disabled={dollCount.lt(1)} onClick={() => setShowConfirm(true)}>
+          {t("sleepingAnimal.wakeUp")}
+        </Button>
       </>
     );
   }
