@@ -12678,9 +12678,17 @@ export const OPEN_SEA_COLLECTIBLES: Record<InventoryItemName, Metadata> = {
   Poseidon: {
     description: "The mythical Poseidon, the god of the sea.",
     decimals: 0,
-    attributes: [{ trait_type: "Purpose", value: "Decoration" }],
+    attributes: [
+      { trait_type: "Boost", value: "Fish" },
+      {
+        display_type: "boost_number",
+        trait_type: "+1 Fish during Autumn",
+        value: 1,
+      },
+      { trait_type: "Tradable", value: "Yes" },
+    ],
     external_url: "https://docs.sunflower-land.com/getting-started/about",
-    image: "../public/erc1155/images/2314.webp",
+    image: "../public/erc1155/images/2318.webp",
     name: "Poseidon",
   },
 };
