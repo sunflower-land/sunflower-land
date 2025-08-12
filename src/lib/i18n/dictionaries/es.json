@@ -6203,10 +6203,6 @@
   "noticeboard": "Tablón de anuncios",
   "rewards": "Recompensas",
   "biomes": "Biomas",
-  "playerModal.youCleanedThemCount.singular": "Limpiaste su granja {{count}} hora",
-  "playerModal.theyCleanedYouCount.singular": "Limpiaron tu granja {{count}} a la hora",
-  "playerModal.youCleanedThemCount.plural": "Has limpiado su granja {{count}} veces",
-  "playerModal.theyCleanedYouCount.plural": "Limpiaron tu granja {{count}} veces",
   "playerModal.topFriend": "Mejor amigo - {{username}}",
   "islandupgrade.warning1": "Todos los objetos que tengas en tu terreno serán desenterrados y devueltos a tu inventario. Puedes acceder a ellos desde tu cofre.",
   "description.doubleBed.boost": "+1 peones",
@@ -6356,7 +6352,6 @@
   "help.limitReached.description": "Solo puedes ayudar a {{helpLimit}} amigos por día.",
   "dolls": "Muñecas",
   "friendStreak": "Racha de amigos: {{days}} días",
-  "friendStreak.short": "Racha: {{days}} días",
   "description.bigApple": "Una gran planta de manzana: ¡con la ayuda de amigos puede crecer aún más!",
   "description.bigOrange": "Una gran planta de naranja: ¡con la ayuda de amigos puede crecer aún más!",
   "description.bigBanana": "Una gran planta de banano: ¡con la ayuda de amigos puede crecer aún más!",
@@ -6403,5 +6398,11 @@
   "cheers.guide.description4": "¡Ayuda a tus amigos a completar sus proyectos!",
   "cheers.guide.description5": "¡Tus amigos también pueden ayudarte a aumentar tus puntos sociales!",
   "cheers.guide.description6": "¡Puedes tener la oportunidad de ganar una rifa cuando tu amigo complete una olla!",
-  "helping.farm": "Notificando al Bumpkin"
+  "helping.farm": "Notificando al Bumpkin",
+  "visiting": "Visitando",
+  "playerModal.youHelpedThemCount.singular": "Los ayudaste {{count}} vez",
+  "playerModal.theyHelpedYouCount.singular": "Te ayudaron {{count}} vez",
+  "playerModal.youHelpedThemCount.plural": "Los ayudaste {{count}} veces",
+  "playerModal.theyHelpedYouCount.plural": "Te ayudaron {{count}} veces",
+  "friendStreak.short": "Racha: {{days}}"
 }

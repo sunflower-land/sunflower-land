@@ -6203,10 +6203,6 @@
   "noticeboard": "Papan Pemberitahuan",
   "rewards": "Ganjaran",
   "biomes": "Biom",
-  "playerModal.youCleanedThemCount.singular": "Anda membersihkan ladang mereka {{count}} masa",
-  "playerModal.theyCleanedYouCount.singular": "Mereka membersihkan ladang anda {{count}} masa",
-  "playerModal.youCleanedThemCount.plural": "Anda membersihkan ladang mereka {{count}} kali",
-  "playerModal.theyCleanedYouCount.plural": "Mereka membersihkan ladang anda {{count}} kali",
   "playerModal.topFriend": "Kawan teratas - {{username}}",
   "islandupgrade.warning1": "Semua barang anda di tanah anda akan digali dan dikembalikan ke inventori anda. Anda boleh mengaksesnya di dada anda.",
   "description.doubleBed.boost": "+1 Farmhands",
@@ -6356,7 +6352,6 @@
   "help.limitReached.description": "Anda hanya boleh membantu rakan {{helpLimit}} setiap hari.",
   "dolls": "Anak patung",
   "friendStreak": "Rangkaian Rakan: {{days}} hari",
-  "friendStreak.short": "Rangkaian: {{days}} hari",
   "description.bigApple": "Tumbuhan epal besar - dengan bantuan rakan-rakan, ia boleh tumbuh lebih besar!",
   "description.bigOrange": "Tumbuhan oren besar - dengan bantuan rakan-rakan ia boleh tumbuh lebih besar!",
   "description.bigBanana": "Tumbuhan pisang besar - dengan bantuan rakan-rakan ia boleh tumbuh lebih besar!",
@@ -6403,5 +6398,11 @@
   "cheers.guide.description4": "Bantu rakan anda untuk menyelesaikan projek mereka!",
   "cheers.guide.description5": "Rakan anda juga boleh membantu anda meningkatkan Mata Sosial anda!",
   "cheers.guide.description6": "Anda boleh berpeluang memenangi undian apabila rakan anda menyelesaikan periuk memasak!",
-  "helping.farm": "Memaklumkan Bumpkin"
+  "helping.farm": "Memaklumkan Bumpkin",
+  "visiting": "Mengunjungi",
+  "playerModal.youHelpedThemCount.singular": "Anda membantu mereka {{count}} masa",
+  "playerModal.theyHelpedYouCount.singular": "Mereka membantu anda {{count}} masa",
+  "playerModal.youHelpedThemCount.plural": "Anda membantu mereka {{count}} kali",
+  "playerModal.theyHelpedYouCount.plural": "Mereka membantu anda {{count}} kali",
+  "friendStreak.short": "Rangkaian: {{days}}"
 }

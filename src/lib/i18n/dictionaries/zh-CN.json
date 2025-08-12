@@ -6203,10 +6203,6 @@
   "noticeboard": "布告板",
   "rewards": "奖励",
   "biomes": "地块",
-  "playerModal.youCleanedThemCount.singular": "你清理了他们的农场 {{count}} 次",
-  "playerModal.theyCleanedYouCount.singular": "他们清理了你的农场 {{count}} 次",
-  "playerModal.youCleanedThemCount.plural": "你清理了他们的农场 {{count}} 次",
-  "playerModal.theyCleanedYouCount.plural": "他们清理了你的农场 {{count}} 次",
   "playerModal.topFriend": "好友 - {{username}}",
   "islandupgrade.warning1": "您土地上的所有物品将自动收回至库存。您可在宝箱中查看。",
   "description.doubleBed.boost": "+1 雇农",
@@ -6356,7 +6352,6 @@
   "help.limitReached.description": "你每天只能帮助 {{helpLimit}} 个朋友。",
   "dolls": "娃娃",
   "friendStreak": "Friend Streak：{{days}} 天",
-  "friendStreak.short": "连胜：{{days}} 天",
   "description.bigApple": "一株大苹果植物-在朋友的帮助下，它可以长得更大！",
   "description.bigOrange": "一种大橙子植物-在朋友的帮助下，它可以长得更大！",
   "description.bigBanana": "一种大香蕉植物-在朋友的帮助下，它可以长得更大！",
@@ -6403,5 +6398,11 @@
   "cheers.guide.description4": "帮助你的朋友完成他们的项目！",
   "cheers.guide.description5": "你的朋友也可以帮助你增加社交积分！",
   "cheers.guide.description6": "当你的朋友完成烹饪锅时，你有机会赢得抽奖活动！",
-  "helping.farm": "通知 Bumpkin"
+  "helping.farm": "通知 Bumpkin",
+  "visiting": "参观",
+  "playerModal.youHelpedThemCount.singular": "你帮助了他们 {{count}} 次",
+  "playerModal.theyHelpedYouCount.singular": "他们帮了你 {{count}} 时间",
+  "playerModal.youHelpedThemCount.plural": "你帮助过他们 {{count}} 次",
+  "playerModal.theyHelpedYouCount.plural": "他们帮了你 {{count}} 次",
+  "friendStreak.short": "连胜：{{days}}"
 }

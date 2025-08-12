@@ -6203,10 +6203,6 @@
   "noticeboard": "Доска объявлений",
   "rewards": "Награды",
   "biomes": "Биомы",
-  "playerModal.youCleanedThemCount.singular": "Вы убирали их ферму {{count}} время",
-  "playerModal.theyCleanedYouCount.singular": "Они убрали твою ферму {{count}} время",
-  "playerModal.youCleanedThemCount.plural": "Вы убирали их ферму {{count}} раз",
-  "playerModal.theyCleanedYouCount.plural": "Они убрали твою ферму {{count}} раз",
   "playerModal.topFriend": "Лучший друг - {{username}}",
   "islandupgrade.warning1": "Все ваши предметы на вашей земле будут выкопаны и возвращены в ваш инвентарь. Вы можете получить к ним доступ в сундуке.",
   "description.doubleBed.boost": "+1 Фермеры",
@@ -6356,7 +6352,6 @@
   "help.limitReached.description": "Вы можете помогать только друзьям {{helpLimit}} в день.",
   "dolls": "Куклы",
   "friendStreak": "Серия друзей: {{days}} дней",
-  "friendStreak.short": "Серия: {{days}} дней",
   "description.bigApple": "Большое яблоко — с помощью друзей оно может вырасти еще больше!",
   "description.bigOrange": "Большое апельсиновое растение — с помощью друзей оно может вырасти еще больше!",
   "description.bigBanana": "Большое банановое растение — с помощью друзей оно может вырасти еще больше!",
@@ -6403,5 +6398,11 @@
   "cheers.guide.description4": "Помогите своим друзьям завершить их проекты!",
   "cheers.guide.description5": "Ваши друзья также могут помочь вам увеличить ваши социальные баллы!",
   "cheers.guide.description6": "У вас есть шанс выиграть лотерею, когда ваш друг соберет кастрюлю!",
-  "helping.farm": "Уведомление Бампкина"
+  "helping.farm": "Уведомление Бампкина",
+  "visiting": "Посещение",
+  "playerModal.youHelpedThemCount.singular": "Вы помогли им {{count}} время",
+  "playerModal.theyHelpedYouCount.singular": "Они помогли вам {{count}} время",
+  "playerModal.youHelpedThemCount.plural": "Вы помогали им {{count}} раз",
+  "playerModal.theyHelpedYouCount.plural": "Они помогли вам {{count}} раз",
+  "friendStreak.short": "Серия: {{days}}"
 }

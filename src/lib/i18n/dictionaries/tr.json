@@ -6203,10 +6203,6 @@
   "noticeboard": "İlan tahtası",
   "rewards": "Ödüller",
   "biomes": "Biyomlar",
-  "playerModal.youCleanedThemCount.singular": "Çiftliğini temizledin {{count}} zamanı",
-  "playerModal.theyCleanedYouCount.singular": "Çiftliğinizi temizlediler {{count}} zamanı",
-  "playerModal.youCleanedThemCount.plural": "Çiftliğini {{count}} kez temizledin",
-  "playerModal.theyCleanedYouCount.plural": "Çiftliğinizi {{count}} kez temizlediler",
   "playerModal.topFriend": "En iyi arkadaş - {{username}}",
   "islandupgrade.warning1": "Arazinizdeki tüm eşyalarınız kazılacak ve envanterinize iade edilecektir. Onlara göğsünüzden erişebilirsiniz.",
   "description.doubleBed.boost": "+1 Farmhands",
@@ -6356,7 +6352,6 @@
   "help.limitReached.description": "Günde sadece {{helpLimit}} arkadaşlarınıza yardım edebilirsiniz.",
   "dolls": "Bebekler",
   "friendStreak": "Arkadaş Serisi: {{days}} gün",
-  "friendStreak.short": "Seri: {{days}} gün",
   "description.bigApple": "Büyük bir elma bitkisi - arkadaşların yardımıyla daha da büyüyebilir!",
   "description.bigOrange": "Büyük bir portakal bitkisi - arkadaşların yardımıyla daha da büyüyebilir!",
   "description.bigBanana": "Büyük bir muz bitkisi - arkadaşların yardımıyla daha da büyüyebilir!",
@@ -6403,5 +6398,11 @@
   "cheers.guide.description4": "Arkadaşlarınızın projelerini tamamlamalarına yardımcı olun!",
   "cheers.guide.description5": "Arkadaşlarınız ayrıca Sosyal Puanlarınızı artırmanıza yardımcı olabilir!",
   "cheers.guide.description6": "Arkadaşınız bir tencereyi tamamladığında çekiliş kazanma şansınız olabilir!",
-  "helping.farm": "Bumpkin'i bilgilendirmek"
+  "helping.farm": "Bumpkin'i bilgilendirmek",
+  "visiting": "Ziyaret",
+  "playerModal.youHelpedThemCount.singular": "Onlara yardım ettin {{count}} zaman",
+  "playerModal.theyHelpedYouCount.singular": "Sana yardım ettiler {{count}} zaman",
+  "playerModal.youHelpedThemCount.plural": "Onlara {{count}} kez yardım ettin",
+  "playerModal.theyHelpedYouCount.plural": "Sana yardım ettiler {{count}}",
+  "friendStreak.short": "Seri: {{days}}"
 }

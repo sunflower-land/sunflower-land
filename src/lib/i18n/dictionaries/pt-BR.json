@@ -6203,10 +6203,6 @@
   "noticeboard": "Quadro de avisos",
   "rewards": "Recompensas",
   "biomes": "Biomas",
-  "playerModal.youCleanedThemCount.singular": "Você limpou a fazenda deles {{count}} vez",
-  "playerModal.theyCleanedYouCount.singular": "Eles limparam sua fazenda {{count}} vez",
-  "playerModal.youCleanedThemCount.plural": "Você limpou a fazenda deles {{count}} vezes",
-  "playerModal.theyCleanedYouCount.plural": "Eles limparam sua fazenda {{count}} vezes",
   "playerModal.topFriend": "Melhor amigo - {{username}}",
   "islandupgrade.warning1": "Todos os seus itens em sua terra serão desenterrados e devolvidos ao seu inventário. Você pode acessá-los em seu peito.",
   "description.doubleBed.boost": "+1 Fazendeiros",
@@ -6356,7 +6352,6 @@
   "help.limitReached.description": "Você só pode ajudar {{helpLimit}} amigos por dia.",
   "dolls": "Bonecas",
   "friendStreak": "Sequência de amigos: {{days}} dias",
-  "friendStreak.short": "Sequência: {{days}} dias",
   "description.bigApple": "Uma grande planta de maçã - com a ajuda de amigos, ela pode crescer ainda mais!",
   "description.bigOrange": "Uma grande laranjeira - com a ajuda de amigos, ela pode crescer ainda mais!",
   "description.bigBanana": "Uma grande bananeira - com a ajuda de amigos, ela pode crescer ainda mais!",
@@ -6403,5 +6398,11 @@
   "cheers.guide.description4": "Ajude seus amigos a concluírem seus projetos!",
   "cheers.guide.description5": "Seus amigos também podem ajudá-lo a aumentar seus pontos sociais!",
   "cheers.guide.description6": "Você pode ter a chance de ganhar um sorteio quando seu amigo completar uma panela!",
-  "helping.farm": "Notificando Bumpkin"
+  "helping.farm": "Notificando Bumpkin",
+  "visiting": "Visitando",
+  "playerModal.youHelpedThemCount.singular": "Você os ajudou {{count}} vez",
+  "playerModal.theyHelpedYouCount.singular": "Eles te ajudaram {{count}} vez",
+  "playerModal.youHelpedThemCount.plural": "Você os ajudou {{count}} vezes",
+  "playerModal.theyHelpedYouCount.plural": "Eles te ajudaram {{count}} vezes",
+  "friendStreak.short": "Sequência: {{days}}"
 }

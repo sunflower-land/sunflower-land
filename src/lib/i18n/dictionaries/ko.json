@@ -6203,10 +6203,6 @@
   "noticeboard": "공지 게시판",
   "rewards": "리워드",
   "biomes": "생물군계",
-  "playerModal.youCleanedThemCount.singular": "{{count}} 시간에 농장을 청소했습니다",
-  "playerModal.theyCleanedYouCount.singular": "그들은 {{count}} 시간에 농장을 청소했습니다",
-  "playerModal.youCleanedThemCount.plural": "그들의 농장을 {{count}} 번 청소했습니다.",
-  "playerModal.theyCleanedYouCount.plural": "그들은 당신의 농장을 {{count}} 번 청소했습니다.",
   "playerModal.topFriend": "최고의 친구 - {{username}}",
   "islandupgrade.warning1": "토지에 있는 모든 아이템이 파헤쳐져 인벤토리로 반환됩니다.상자에서 획득할 수 있습니다.",
   "description.doubleBed.boost": "+1 팜핸즈",
@@ -6356,7 +6352,6 @@
   "help.limitReached.description": "하루에 {{helpLimit}} 친구만 도울 수 있습니다.",
   "dolls": "인형",
   "friendStreak": "프렌드 스트릭: {{days}} 일",
-  "friendStreak.short": "연속: {{days}} 일",
   "description.bigApple": "큰 사과 식물 - 친구의 도움으로 더 커질 수 있습니다!",
   "description.bigOrange": "큰 오렌지 식물 - 친구의 도움으로 더 커질 수 있습니다!",
   "description.bigBanana": "큰 바나나 식물 - 친구의 도움으로 더 커질 수 있습니다!",
@@ -6403,5 +6398,11 @@
   "cheers.guide.description4": "친구들이 프로젝트를 완료하도록 도와주세요!",
   "cheers.guide.description5": "친구들도 소셜 포인트를 높이는 데 도움을 줄 수 있습니다!",
   "cheers.guide.description6": "친구가 요리 냄비를 완성하면 추첨을 받을 수 있습니다!",
-  "helping.farm": "범프킨에 알림"
+  "helping.farm": "범프킨에 알림",
+  "visiting": "방문",
+  "playerModal.youHelpedThemCount.singular": "당신은 그들을 {{count}} 시간 동안 도왔습니다",
+  "playerModal.theyHelpedYouCount.singular": "그들은 당신을 {{count}} 시간 동안 도왔습니다",
+  "playerModal.youHelpedThemCount.plural": "당신은 그들을 {{count}} 번 도왔습니다",
+  "playerModal.theyHelpedYouCount.plural": "그들은 당신을 {{count}} 번 도왔습니다.",
+  "friendStreak.short": "스트릭: {{days}}"
 }

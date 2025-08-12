@@ -6203,10 +6203,6 @@
   "noticeboard": "掲示板",
   "rewards": "報酬",
   "biomes": "バイオーム",
-  "playerModal.youCleanedThemCount.singular": "あなたは彼らの農場を掃除した {{count}} 時間",
-  "playerModal.theyCleanedYouCount.singular": "彼らはあなたの農場を掃除しました {{count}} 時間",
-  "playerModal.youCleanedThemCount.plural": "あなたは彼らの農場を {{count}} 回掃除しました",
-  "playerModal.theyCleanedYouCount.plural": "彼らはあなたの農場を {{count}} 回掃除しました",
   "playerModal.topFriend": "トップフレンド-{{username}}",
   "islandupgrade.warning1": "土地にあるすべてのアイテムが掘り起こされ、インベントリに戻されます。これらのアイテムはチェストからアクセスできます。",
   "description.doubleBed.boost": "+1 ファームハンズ",
@@ -6356,7 +6352,6 @@
   "help.limitReached.description": "1日あたり {{helpLimit}} 人の友達しか助けられません。",
   "dolls": "人形",
   "friendStreak": "フレンドストリーク:{{days}} 日",
-  "friendStreak.short": "ストリーク:{{days}} 日",
   "description.bigApple": "大きなリンゴの植物-友達の助けを借りてさらに大きく成長することができます！",
   "description.bigOrange": "大きなオレンジ色の植物-友達の助けを借りてさらに大きく成長することができます！",
   "description.bigBanana": "大きなバナナの植物-友達の助けを借りてさらに大きく成長することができます！",
@@ -6403,5 +6398,11 @@
   "cheers.guide.description4": "友達がプロジェクトを完了するのを手伝ってください！",
   "cheers.guide.description5": "友達もソーシャルポイントを増やすのを手伝ってくれます！",
   "cheers.guide.description6": "友達がクッキングポットを完成させると、抽選に当たるチャンスがあります！",
-  "helping.farm": "バンプキンへの通知"
+  "helping.farm": "バンプキンへの通知",
+  "visiting": "訪問中",
+  "playerModal.youHelpedThemCount.singular": "あなたは彼らを {{count}} 時間助けました",
+  "playerModal.theyHelpedYouCount.singular": "彼らはあなたを {{count}} 時間助けてくれました",
+  "playerModal.youHelpedThemCount.plural": "あなたは彼らを {{count}} 回助けました",
+  "playerModal.theyHelpedYouCount.plural": "彼らはあなたを {{count}} 回助けました",
+  "friendStreak.short": "ストリーク:{{days}}"
 }

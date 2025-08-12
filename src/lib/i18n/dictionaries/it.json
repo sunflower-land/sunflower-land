@@ -6203,10 +6203,6 @@
   "noticeboard": "Bacheca",
   "rewards": "Premi",
   "biomes": "Biomi",
-  "playerModal.youCleanedThemCount.singular": "Hai pulito la loro fattoria {{count}} tempo",
-  "playerModal.theyCleanedYouCount.singular": "Hanno pulito la tua fattoria {{count}} tempo",
-  "playerModal.youCleanedThemCount.plural": "Hai pulito la loro fattoria {{count}} volte",
-  "playerModal.theyCleanedYouCount.plural": "Hanno pulito la tua fattoria {{count}} volte",
   "playerModal.topFriend": "Miglior amico - {{username}}",
   "islandupgrade.warning1": "Tutti i tuoi oggetti sulla tua terra verranno dissotterrati e restituiti al tuo inventario. Puoi accedervi dal tuo baule.",
   "description.doubleBed.boost": "+1 Farmhands",
@@ -6356,7 +6352,6 @@
   "help.limitReached.description": "Puoi aiutare solo {{helpLimit}} amici al giorno.",
   "dolls": "bambole",
   "friendStreak": "Serie di amici: {{days}} giorni",
-  "friendStreak.short": "Serie: {{days}} giorni",
   "description.bigApple": "Una grande pianta di mele: con l'aiuto degli amici può diventare ancora più grande!",
   "description.bigOrange": "Una grande pianta d'arancia: con l'aiuto degli amici può diventare ancora più grande!",
   "description.bigBanana": "Una grande pianta di banana: con l'aiuto degli amici può diventare ancora più grande!",
@@ -6403,5 +6398,11 @@
   "cheers.guide.description4": "Aiuta i tuoi amici a completare i loro progetti!",
   "cheers.guide.description5": "I tuoi amici possono anche aiutarti ad aumentare i tuoi Social Points!",
   "cheers.guide.description6": "Puoi avere la possibilità di vincere una lotteria quando il tuo amico completa una pentola!",
-  "helping.farm": "Notifica a Bumpkin"
+  "helping.farm": "Notifica a Bumpkin",
+  "visiting": "Visitando",
+  "playerModal.youHelpedThemCount.singular": "Li hai aiutati {{count}} volta",
+  "playerModal.theyHelpedYouCount.singular": "Ti hanno aiutato {{count}} volta",
+  "playerModal.youHelpedThemCount.plural": "Li hai aiutati {{count}} volte",
+  "playerModal.theyHelpedYouCount.plural": "Ti hanno aiutato {{count}} volte",
+  "friendStreak.short": "Serie: {{days}}"
 }
