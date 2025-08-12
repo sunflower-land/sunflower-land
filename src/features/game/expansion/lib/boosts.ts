@@ -194,6 +194,11 @@ export const getCookingTime = ({
     boostsUsed.push("Luna's Hat");
   }
 
+  if (isCollectibleActive({ name: "Boar Shrine", game })) {
+    reducedSecs = reducedSecs.mul(0.8);
+    boostsUsed.push("Boar Shrine");
+  }
+
   //Faction Medallion -25% reduction
   const factionName = game.faction?.name;
   if (

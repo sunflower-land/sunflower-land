@@ -31,21 +31,7 @@ import { GameState } from "features/game/types/game";
 import { Label } from "components/ui/Label";
 import helpIcon from "assets/icons/help.webp";
 import { getBumpkinLevel } from "features/game/lib/level";
-
-const VALID_EQUIPMENT: HeliosBlacksmithItem[] = [
-  "Basic Scarecrow",
-  "Scary Mike",
-  "Laurie the Chuckle Crow",
-  "Immortal Pear",
-  "Bale",
-  "Stone Beetle",
-  "Iron Beetle",
-  "Gold Beetle",
-  "Fairy Circle",
-  "Macaw",
-  "Squirrel",
-  "Butterfly",
-];
+import { hasFeatureAccess } from "lib/flags";
 
 const PROJECTS: HeliosBlacksmithItem[] = [
   "Basic Cooking Pot",
@@ -187,6 +173,30 @@ export const IslandBlacksmithItems: React.FC = () => {
   const hasBuiltMonument = () => {
     return !!state.inventory[selectedName as MonumentName]?.gt(0);
   };
+
+  const VALID_EQUIPMENT: HeliosBlacksmithItem[] = [
+    "Basic Scarecrow",
+    "Scary Mike",
+    "Laurie the Chuckle Crow",
+    "Immortal Pear",
+    "Bale",
+    "Stone Beetle",
+    "Iron Beetle",
+    "Gold Beetle",
+    "Fairy Circle",
+    "Macaw",
+    "Squirrel",
+    "Butterfly",
+  ];
+
+  if (hasFeatureAccess(state, "PETS")) {
+    VALID_EQUIPMENT.push(
+      "Fox Shrine",
+      "Boar Shrine",
+      "Hound Shrine",
+      "Stag Shrine",
+    );
+  }
 
   return (
     <SplitScreenView

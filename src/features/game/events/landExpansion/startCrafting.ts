@@ -5,6 +5,7 @@ import { produce } from "immer";
 import { isWearableActive } from "features/game/lib/wearables";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
+import { isCollectibleActive } from "features/game/lib/collectibleBuilt";
 
 export type StartCraftingAction = {
   type: "crafting.started";
@@ -36,6 +37,11 @@ export function getBoostedCraftingTime({
   if (isWearableActive({ name: "Architect Ruler", game })) {
     seconds *= 0.75;
     boostsUsed.push("Architect Ruler");
+  }
+
+  if (isCollectibleActive({ name: "Fox Shrine", game })) {
+    seconds *= 0.75;
+    boostsUsed.push("Fox Shrine");
   }
 
   return { seconds, boostsUsed };

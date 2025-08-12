@@ -30,6 +30,7 @@ import { FactionShopCollectibleName } from "./factionShop";
 import { BEDS } from "./beds";
 import { SeasonalCollectibleName } from "./megastore";
 import { MonumentName } from "./monuments";
+import { PetName } from "./pets";
 
 export { FLAGS };
 
@@ -217,7 +218,8 @@ export type CollectibleName =
   | MutantFlowerName
   | BedName
   | SeasonalCollectibleName
-  | MonumentName;
+  | MonumentName
+  | PetName;
 
 export type ToolName =
   | "Axe"
@@ -1049,6 +1051,12 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Wicker Man": { width: 1, height: 1 },
   "Golden Bonsai": { width: 1, height: 1 },
 
+  // Pets
+  Barkley: { width: 2, height: 2 },
+  Meowchi: { width: 2, height: 2 },
+  Twizzle: { width: 2, height: 2 },
+  Burro: { width: 2, height: 2 },
+
   // Flags
   ...flagsDimension,
   ...bedsDimension,
@@ -1360,6 +1368,11 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   Squirrel: { width: 2, height: 1 },
   Macaw: { width: 1, height: 1 },
   Butterfly: { width: 1, height: 1 },
+
+  "Fox Shrine": { width: 1, height: 1 },
+  "Boar Shrine": { width: 1, height: 1 },
+  "Hound Shrine": { width: 1, height: 1 },
+  "Stag Shrine": { width: 1, height: 1 },
 
   // Animal Season
   "Cow Scratcher": { width: 1, height: 2 },

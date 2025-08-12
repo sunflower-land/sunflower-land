@@ -367,6 +367,8 @@ import { JanitorChicken } from "./components/JanitorChicken";
 import { VenusBumpkinTrap } from "./components/VenusBumpkinTrap";
 import { Poseidon } from "./components/Poseidon";
 import { Project } from "./components/Project";
+import { Pet } from "./components/Pet";
+import { PetShrine } from "./components/PetShrine";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
@@ -379,6 +381,12 @@ export const COLLECTIBLE_COMPONENTS: Record<
     }),
     {} as Record<TemplateDecorationName, React.FC<CollectibleProps>>,
   ),
+
+  Barkley: (props: CollectibleProps) => <Pet {...props} />,
+  Meowchi: (props: CollectibleProps) => <Pet {...props} />,
+  Twizzle: (props: CollectibleProps) => <Pet {...props} />,
+  Burro: (props: CollectibleProps) => <Pet {...props} />,
+
   "Baby Cow": BabyCow,
   "Baby Sheep": BabySheep,
   "Janitor Chicken": JanitorChicken,
@@ -550,6 +558,10 @@ export const COLLECTIBLE_COMPONENTS: Record<
   // Treasure
   "Abandoned Bear": AbandonedBear,
   "Tiki Totem": TikiTotem,
+  "Fox Shrine": PetShrine,
+  "Boar Shrine": PetShrine,
+  "Hound Shrine": PetShrine,
+  "Stag Shrine": PetShrine,
   "Lunar Calendar": LunarCalendar,
   "Goblin Bear": GoblinBear,
   "Turtle Bear": TurtleBear,
