@@ -5770,7 +5770,7 @@ export const ITEM_DETAILS: Items = {
   },
   "Heart leaf": {
     image: SUNNYSIDE.resource.heartleaf,
-    description: translate("description.heartLeaf"),
+    description: translate("description.heartleaf"),
   },
   Ruffroot: {
     image: SUNNYSIDE.resource.ruffroot,
