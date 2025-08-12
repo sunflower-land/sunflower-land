@@ -328,6 +328,11 @@ export const Pet: React.FC<CollectibleProps> = ({ name }) => {
     game: gameState.context.state,
   });
 
+  const isNeglected = isPetNeglected({
+    pet: gameState.context.state.pets?.[name as PetName],
+    game: gameState.context.state,
+  });
+
   return (
     <>
       <Modal show={showModal} onHide={() => setShowModal(false)}>
@@ -367,6 +372,16 @@ export const Pet: React.FC<CollectibleProps> = ({ name }) => {
         {isSleeping ? (
           <img
             src={SUNNYSIDE.icons.sleeping}
+            className="absolute"
+            style={{
+              width: `${PIXEL_SCALE * 10}px`,
+              left: `${PIXEL_SCALE * -2}px`,
+              top: `${PIXEL_SCALE * -2}px`,
+            }}
+          />
+        ) : isNeglected ? (
+          <img
+            src={SUNNYSIDE.icons.sad}
             className="absolute"
             style={{
               width: `${PIXEL_SCALE * 10}px`,
