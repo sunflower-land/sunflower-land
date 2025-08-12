@@ -20,12 +20,14 @@ import {
 } from "features/game/events/landExpansion/feedPet";
 import { secondsToString } from "lib/utils/time";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { DEFAULT_PET_TOY } from "features/game/events/landExpansion/wakeUpPet";
 
 export const PetModal: React.FC<{ onClose: () => void; name: PetName }> = ({
   onClose,
   name,
 }) => {
   const { gameState, gameService } = useGame();
+  const [showConfirm, setShowConfirm] = useState(false);
 
   const { t } = useAppTranslation();
 
@@ -57,8 +59,37 @@ export const PetModal: React.FC<{ onClose: () => void; name: PetName }> = ({
   });
 
   const nextRequests = pet?.cravings ?? DEFAULT_PET_CRAVINGS.slice(1);
+  const onWakeUp = () => {
+    gameService.send("pet.wakeUp", {
+      name,
+    });
+    onClose();
+  };
+
+  if (showConfirm) {
+    return (
+      <InnerPanel>
+        <Label type="danger">{t("confirmTitle")}</Label>
+        <p className="text-xs m-1">
+          {t("sleepingAnimal.confirmMessage", {
+            name: DEFAULT_PET_TOY,
+            animal: name,
+          })}
+        </p>
+
+        <div className="flex">
+          <Button onClick={() => setShowConfirm(false)} className="mr-1">
+            {t("sleepingAnimal.cancel")}
+          </Button>
+          <Button onClick={onWakeUp}>{t("sleepingAnimal.confirm")}</Button>
+        </div>
+      </InnerPanel>
+    );
+  }
 
   if (isResting) {
+    const dollCount =
+      gameState.context.state.inventory[DEFAULT_PET_TOY] ?? new Decimal(0);
     return (
       <>
         <InnerPanel className="mb-1">
@@ -82,7 +113,33 @@ export const PetModal: React.FC<{ onClose: () => void; name: PetName }> = ({
             </div>
           ))}
         </InnerPanel>
-        <Button onClick={onClose}>{t("close")}</Button>
+        <InnerPanel className="mb-1">
+          <div className="flex items-center">
+            <img src={SUNNYSIDE.icons.heart} alt="Sleep" className="h-6 mr-2" />
+            <p className="text-xs">
+              {t("sleepingAnimal.sheepLoveToPlay", { name })}
+            </p>
+          </div>
+
+          <div className="flex items-center mt-1">
+            <Box
+              image={ITEM_DETAILS[DEFAULT_PET_TOY].image}
+              count={dollCount}
+            />
+            <div className="ml-1">
+              <p className="text-sm">
+                {t("sleepingAnimal.dollCount", { name: DEFAULT_PET_TOY })}
+              </p>
+              <p className="text-xs italic">
+                {t("sleepingAnimal.availableAtCraftingBox")}
+              </p>
+            </div>
+          </div>
+        </InnerPanel>
+
+        <Button disabled={dollCount.lt(1)} onClick={() => setShowConfirm(true)}>
+          {t("sleepingAnimal.wakeUp")}
+        </Button>
       </>
     );
   }
