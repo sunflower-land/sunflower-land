@@ -22,15 +22,14 @@ import {
 } from "features/game/lib/crafting";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
-import Decimal from "decimal.js-light";
 import { RecipeInfoPanel } from "./RecipeInfoPanel";
-import { getKeys } from "features/game/types/decorations";
 import { CollectibleName } from "features/game/types/craftables";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { getBoostedCraftingTime } from "features/game/events/landExpansion/startCrafting";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import lightningIcon from "assets/icons/lightning.png";
 import { InventoryItemName } from "features/game/types/game";
+import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
 
 const _state = (state: MachineState) => state.context.state;
 
@@ -75,22 +74,8 @@ export const RecipesTab: React.FC<Props> = ({
   }, [recipes, searchTerm]);
 
   const remainingInventory = useMemo(() => {
-    const updatedInventory = { ...inventory };
-
-    // Removed placed items
-    getKeys(updatedInventory).forEach((itemName) => {
-      const placedCount =
-        (gameService.getSnapshot().context.state.collectibles[
-          itemName as CollectibleName
-        ]?.length ?? 0) +
-        (gameService.getSnapshot().context.state.home?.collectibles[
-          itemName as CollectibleName
-        ]?.length ?? 0);
-
-      updatedInventory[itemName] = (
-        updatedInventory[itemName] ?? new Decimal(0)
-      ).minus(placedCount);
-    });
+    const chestItems = getChestItems(state);
+    const updatedInventory = { ...inventory, ...chestItems };
 
     return updatedInventory;
   }, [inventory]);
