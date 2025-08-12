@@ -15,6 +15,7 @@ import {
 } from "features/game/types/megastore";
 import { SFLDiscount } from "features/game/lib/SFLDiscount";
 import { trackActivity } from "features/game/types/bumpkinActivity";
+import { ARTEFACT_SHOP_KEYS } from "features/game/types/collectibles";
 
 export function isCollectible(
   item: SeasonalStoreItem,
@@ -129,7 +130,8 @@ export function buySeasonalItem({
     }
 
     // Ensure items without a cooldown, can only be bought once
-    if (!item.cooldownMs) {
+    const isKey = name in ARTEFACT_SHOP_KEYS;
+    if (!item.cooldownMs && !isKey) {
       const itemCrafted =
         copy.bumpkin.activity[`${name as SeasonalTierItemName} Bought`];
 
