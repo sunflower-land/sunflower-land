@@ -34,9 +34,9 @@ export type ExoticCropName =
   | "Adirondack Potato"
   | "Warty Goblin Pumpkin"
   | "White Carrot"
-  | "Giant Orange"
-  | "Giant Apple"
-  | "Giant Banana";
+  | GiantFruit;
+
+export type GiantFruit = "Giant Orange" | "Giant Apple" | "Giant Banana";
 
 export type ExoticCrop = {
   description: string;
