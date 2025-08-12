@@ -219,7 +219,7 @@ export const Monument: React.FC<MonumentProps> = (input) => {
                   </div>
                 </div>
               )}
-              {projectPercentage < 100 && (
+              {!isProjectComplete && (
                 <div
                   className="absolute bottom-2 left-1/2"
                   style={{
