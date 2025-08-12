@@ -2425,6 +2425,51 @@ export const COLLECTIBLE_COMPONENTS: Record<
       alt="Giant Yam"
     />
   ),
+  "Giant Orange": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 28}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 2}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 28}px`,
+      }}
+      image={ITEM_DETAILS["Giant Orange"].image}
+      alt="Giant Orange"
+    />
+  ),
+  "Giant Apple": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 26}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 26}px`,
+      }}
+      image={ITEM_DETAILS["Giant Apple"].image}
+      alt="Giant Apple"
+    />
+  ),
+  "Giant Banana": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Giant Banana"].image}
+      alt="Giant Banana"
+    />
+  ),
   "Heart Air Balloon": (props: CollectibleProps) => (
     <ImageStyle
       {...props}

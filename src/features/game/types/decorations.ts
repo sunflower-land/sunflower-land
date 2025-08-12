@@ -4,7 +4,7 @@ import { BB_TO_GEM_RATIO, Inventory } from "./game";
 import { BoostTreasure, DecorationTreasure } from "./treasure";
 import { translate } from "lib/i18n/translate";
 import { Template } from "./templates";
-import { BeanName } from "./beans";
+import { BeanName, GiantFruit } from "./beans";
 import { DollName } from "../lib/crafting";
 
 /**
@@ -571,7 +571,8 @@ export type DecorationName =
   | InteriorDecorationName
   | TemplateDecorationName
   | AnimalDecorationName
-  | TileName;
+  | TileName
+  | GiantFruit;
 
 export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
   "Jelly Lamp": {
@@ -1267,6 +1268,9 @@ export const DECORATION_DIMENSIONS: Record<DecorationName, Dimensions> = {
     width: 1,
     height: 1,
   },
+  "Giant Orange": { width: 2, height: 1 },
+  "Giant Apple": { width: 2, height: 1 },
+  "Giant Banana": { width: 2, height: 1 },
 };
 
 export type Decoration = {
