@@ -20,6 +20,7 @@ import { BumpkinItem, ITEM_IDS } from "../types/bumpkin";
 import { MaxedItem } from "./gameMachine";
 import { SEASON_TICKET_NAME } from "../types/seasons";
 import { OFFCHAIN_ITEMS } from "./offChainItems";
+import { PET_RESOURCES, PET_SHRINES, PETS } from "../types/pets";
 
 export const MAX_INVENTORY_ITEMS: Inventory = {
   ...getKeys(EXOTIC_CROPS).reduce(
@@ -339,6 +340,32 @@ export const MAX_INVENTORY_ITEMS: Inventory = {
   Squirrel: new Decimal(5),
   Butterfly: new Decimal(5),
   Macaw: new Decimal(5),
+
+  "Pet Egg": new Decimal(10),
+
+  ...getKeys(PETS).reduce(
+    (acc, name) => ({
+      ...acc,
+      [name]: new Decimal(5),
+    }),
+    {},
+  ),
+
+  ...getKeys(PET_RESOURCES).reduce(
+    (acc, name) => ({
+      ...acc,
+      [name]: new Decimal(300),
+    }),
+    {},
+  ),
+
+  ...getKeys(PET_SHRINES).reduce(
+    (acc, name) => ({
+      ...acc,
+      [name]: new Decimal(10),
+    }),
+    {},
+  ),
 };
 /**
  * Add wearable into array if it requires a hoard limit
