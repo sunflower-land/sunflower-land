@@ -5,9 +5,7 @@ import { Game } from "./Game";
 import { ModalProvider } from "../components/modal/ModalProvider";
 import { GameBoard } from "components/GameBoard";
 
-export const LandExpansion: React.FC<{ isVisiting: boolean }> = ({
-  isVisiting = false,
-}) => {
+export const LandExpansion: React.FC = () => {
   // catching and passing scroll container to keyboard listeners
   const container = useRef(null);
 
@@ -20,7 +18,7 @@ export const LandExpansion: React.FC<{ isVisiting: boolean }> = ({
         ignoreElements={"*[data-prevent-drag-scroll]"}
       >
         <GameBoard>
-          <Game isVisiting={isVisiting} />
+          <Game />
         </GameBoard>
       </ScrollContainer>
     </ModalProvider>

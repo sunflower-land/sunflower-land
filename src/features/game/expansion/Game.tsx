@@ -273,10 +273,14 @@ const isRoninAirdrop = (state: MachineState) => state.matches("roninAirdrop");
 const isJinAirdrop = (state: MachineState) => state.matches("jinAirdrop");
 const isCheers = (state: MachineState) => state.matches("cheers");
 const isNews = (state: MachineState) => state.matches("news");
+const _isVisiting = (state: MachineState) =>
+  state.context.visitorId !== undefined;
 
-const GameContent: React.FC<{ isVisiting: boolean }> = ({ isVisiting }) => {
+const GameContent: React.FC = () => {
   const { gameService } = useContext(Context);
   useSound("desert", true);
+
+  const isVisiting = useSelector(gameService, _isVisiting);
 
   const landToVisitNotFound = useSelector(gameService, isLandToVisitNotFound);
   const { t } = useAppTranslation();
@@ -375,10 +379,10 @@ const GameContent: React.FC<{ isVisiting: boolean }> = ({ isVisiting }) => {
   );
 };
 
-export const Game: React.FC<{ isVisiting: boolean }> = ({ isVisiting }) => {
+export const Game: React.FC = () => {
   return (
     <GameWrapper>
-      <GameContent isVisiting={isVisiting} />
+      <GameContent />
     </GameWrapper>
   );
 };
