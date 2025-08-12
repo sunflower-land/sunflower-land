@@ -163,5 +163,5 @@ export function getCountAndType(
     itemType = "wearable";
   }
 
-  return { count, itemType };
+  return { count: setPrecision(count, 2), itemType };
 }

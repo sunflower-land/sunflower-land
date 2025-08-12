@@ -43,6 +43,7 @@ import { BulkSellModal } from "components/ui/BulkSellModal";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { isExoticCrop } from "features/game/types/crops";
 import { getCurrentBiome } from "features/island/biomes/biomes";
+import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
 
 export const Crops: React.FC = () => {
   const [selected, setSelected] = useState<
@@ -94,7 +95,8 @@ export const Crops: React.FC = () => {
       ? crop.sellPrice
       : getSellPrice({ item: crop, game: state });
 
-  const cropAmount = setPrecision(inventory[selected.name] ?? 0, 2);
+  const { count: cropAmount } = getCountAndType(state, selected.name);
+
   const coinAmount = setPrecision(
     new Decimal(displaySellPrice(selected)).mul(
       state.island.type !== "basic" ? new Decimal(customAmount) : cropAmount,
@@ -234,7 +236,7 @@ export const Crops: React.FC = () => {
                     key={item.name}
                     onClick={() => setSelected(item)}
                     image={ITEM_DETAILS[item.name].image}
-                    count={inventory[item.name]}
+                    count={getCountAndType(state, item.name).count}
                     parentDivRef={divRef}
                   />
                 ))}
@@ -258,7 +260,7 @@ export const Crops: React.FC = () => {
                     key={item.name}
                     onClick={() => setSelected(item)}
                     image={ITEM_DETAILS[item.name].image}
-                    count={inventory[item.name]}
+                    count={getCountAndType(state, item.name).count}
                     parentDivRef={divRef}
                   />
                 ))}
@@ -282,7 +284,7 @@ export const Crops: React.FC = () => {
                     key={item.name}
                     onClick={() => setSelected(item)}
                     image={ITEM_DETAILS[item.name].image}
-                    count={inventory[item.name]}
+                    count={getCountAndType(state, item.name).count}
                     parentDivRef={divRef}
                   />
                 ))}
@@ -303,7 +305,7 @@ export const Crops: React.FC = () => {
                     key={item.name}
                     onClick={() => setSelected(item)}
                     image={ITEM_DETAILS[item.name].image}
-                    count={inventory[item.name]}
+                    count={getCountAndType(state, item.name).count}
                     parentDivRef={divRef}
                   />
                 ))}
@@ -322,7 +324,7 @@ export const Crops: React.FC = () => {
                     key={item.name}
                     onClick={() => setSelected(item)}
                     image={ITEM_DETAILS[item.name].image}
-                    count={inventory[item.name]}
+                    count={getCountAndType(state, item.name).count}
                     parentDivRef={divRef}
                   />
                 ))}
@@ -352,7 +354,7 @@ export const Crops: React.FC = () => {
                       key={item.name}
                       onClick={() => setSelected(item)}
                       image={ITEM_DETAILS[item.name].image}
-                      count={inventory[item.name]}
+                      count={getCountAndType(state, item.name).count}
                       parentDivRef={divRef}
                     />
                   ))}
