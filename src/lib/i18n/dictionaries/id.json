@@ -6427,5 +6427,6 @@
   "pets.sleeping": "Tidur",
   "pets.description": "Hewan peliharaan adalah hewan setia (saat diberi makan) yang akan mengambil barang untuk Anda.",
   "fetch": "Ambil",
-  "missing": "Hilang"
+  "missing": "Hilang",
+  "pets.nextRequests": "Permintaan Berikutnya"
 }

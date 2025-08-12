@@ -6427,5 +6427,6 @@
   "pets.sleeping": "Uyuyor",
   "pets.description": "Evcil hayvanlar (beslendiklerinde) sizin için eşya getirecek sadık hayvanlardır.",
   "fetch": "Getir",
-  "missing": "Eksik"
+  "missing": "Eksik",
+  "pets.nextRequests": "Sonraki İstekler"
 }

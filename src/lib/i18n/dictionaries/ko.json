@@ -6427,5 +6427,6 @@
   "pets.sleeping": "슬리핑",
   "pets.description": "애완동물은 (먹이를 주면) 당신을 위해 물건을 가져다 주는 충실한 동물입니다.",
   "fetch": "가져오다",
-  "missing": "실종"
+  "missing": "실종",
+  "pets.nextRequests": "다음 요청"
 }
