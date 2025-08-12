@@ -14,6 +14,7 @@ import { ActiveProjects } from "../types/types";
 import { getKeys } from "features/game/lib/crafting";
 import { RAFFLE_REWARDS } from "features/game/types/monuments";
 import { SUNNYSIDE } from "assets/sunnyside";
+import { shortenCount } from "lib/utils/formatNumber";
 
 type Props = {
   loggedInFarmId: number;
@@ -81,7 +82,7 @@ export const FollowDetailPanel: React.FC<Props> = ({
               <div className="text-xs">{isYou ? `${t("you")}` : username}</div>
               <div className="flex flex-col items-end">
                 <Label type="chill" icon={socialPointsIcon}>
-                  {socialPoints}
+                  {shortenCount(socialPoints)}
                 </Label>
               </div>
             </div>
