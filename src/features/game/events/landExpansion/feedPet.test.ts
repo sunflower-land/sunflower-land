@@ -32,7 +32,7 @@ describe("feedPet", () => {
           },
           pets: {
             Barkley: {
-              craves: "Pumpkin Soup",
+              cravings: ["Pumpkin Soup"],
               readyAt: Date.now() + 1000,
             },
           },
@@ -59,7 +59,7 @@ describe("feedPet", () => {
           },
           pets: {
             Barkley: {
-              craves: "Pumpkin Soup",
+              cravings: ["Pumpkin Soup"],
               readyAt: Date.now() - 24 * 60 * 60 * 1000,
             },
           },
@@ -89,7 +89,7 @@ describe("feedPet", () => {
           },
           pets: {
             Barkley: {
-              craves: "Pumpkin Soup",
+              cravings: ["Pumpkin Soup"],
               readyAt: Date.now() - 24 * 60 * 60 * 1000,
             },
           },
@@ -119,7 +119,7 @@ describe("feedPet", () => {
         },
         pets: {
           Barkley: {
-            craves: "Pumpkin Soup",
+            cravings: ["Pumpkin Soup"],
             readyAt: now - 24 * 60 * 60 * 1000,
           },
         },

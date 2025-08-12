@@ -23,6 +23,11 @@ export const STATIC_OFFLINE_FARM: GameState = {
     bundles: [{ name: "1_MONTH", boughtAt: Date.now() }],
     expiresAt: Date.now() + 31 * 24 * 60 * 60 * 1000,
   },
+  pets: {
+    Barkley: {
+      cravings: ["Pumpkin Soup", "Fish Burger", "Fish Omelette"],
+    },
+  },
   inventory: {
     Ruffroot: new Decimal(100),
     "Chewed Bone": new Decimal(100),

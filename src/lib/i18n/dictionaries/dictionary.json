@@ -6427,5 +6427,6 @@
   "pets.sleeping": "Sleeping",
   "pets.description": "Pets are loyal animals (when fed) that will fetch items for you.",
   "fetch": "Fetch",
-  "missing": "Missing"
+  "missing": "Missing",
+  "pets.nextRequests": "Next Requests"
 }

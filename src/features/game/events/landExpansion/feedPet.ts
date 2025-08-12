@@ -9,8 +9,38 @@ import { Pet, PetName, PetResource, PETS } from "features/game/types/pets";
 import Decimal from "decimal.js-light";
 import { isCollectibleActive } from "features/game/lib/collectibleBuilt";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
+import { ConsumableName } from "features/game/types/consumables";
 
-export const DEFAULT_PET_FOOD: InventoryItemName = "Pumpkin Soup";
+const CRAVINGS: ConsumableName[] = [
+  "Pumpkin Cake",
+  "Beetroot Cake",
+  "Parsnip Cake",
+  "Boiled Eggs",
+  "Kale Stew",
+  "Bumpkin Salad",
+  "Pumpkin Soup",
+  "Olive Flounder",
+  "Power Smoothie",
+  "Sushi Roll",
+];
+
+export const DEFAULT_PET_CRAVINGS: InventoryItemName[] = [
+  "Pumpkin Soup",
+  "Bumpkin Broth",
+  "Goblin's Treat",
+];
+
+export function getPetRequest({
+  pet,
+  game,
+}: {
+  pet?: Pet;
+  game: GameState;
+}): InventoryItemName {
+  const cravings = pet?.cravings ?? DEFAULT_PET_CRAVINGS;
+
+  return cravings[0];
+}
 
 export type FeedPetAction = {
   type: "pet.fed";
@@ -94,7 +124,7 @@ export function feedPet({
       throw new Error("Pet is sleeping");
     }
 
-    const craves = pet?.craves ?? DEFAULT_PET_FOOD;
+    const craves = getPetRequest({ pet, game: stateCopy });
 
     const foodAmount = stateCopy.inventory[craves] ?? new Decimal(0);
     if (foodAmount.lt(1)) {
@@ -113,15 +143,20 @@ export function feedPet({
       now: createdAt,
     });
 
+    // Remove the first craving
+    pet?.cravings?.shift();
+
     stateCopy.inventory[action.resource] = petResource.add(1);
     stateCopy.inventory[craves] = foodAmount.sub(1);
     stateCopy.pets = {
       ...(stateCopy.pets ?? {}),
       [action.name]: {
-        craves: action.resource,
+        ...pet,
         readyAt,
       },
     };
+
+    // Add a random craving
 
     stateCopy.boostsUsedAt = updateBoostUsed({
       game: stateCopy,
