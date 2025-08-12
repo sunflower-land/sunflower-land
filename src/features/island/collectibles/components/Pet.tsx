@@ -20,12 +20,14 @@ import {
 } from "features/game/events/landExpansion/feedPet";
 import { secondsToString } from "lib/utils/time";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
+import { DEFAULT_PET_TOY } from "features/game/events/landExpansion/wakeUpPet";
 
 export const PetModal: React.FC<{ onClose: () => void; name: PetName }> = ({
   onClose,
   name,
 }) => {
   const { gameState, gameService } = useGame();
+  const [showConfirm, setShowConfirm] = useState(false);
 
   const { t } = useAppTranslation();
 
@@ -57,6 +59,33 @@ export const PetModal: React.FC<{ onClose: () => void; name: PetName }> = ({
   });
 
   const nextRequests = pet?.cravings ?? DEFAULT_PET_CRAVINGS.slice(1);
+  const onWakeUp = () => {
+    gameService.send("pet.wakeUp", {
+      name,
+    });
+    onClose();
+  };
+
+  if (showConfirm) {
+    return (
+      <InnerPanel>
+        <Label type="danger">{t("confirmTitle")}</Label>
+        <p className="text-xs m-1">
+          {t("sleepingAnimal.confirmMessage", {
+            name: DEFAULT_PET_TOY,
+            animal: name,
+          })}
+        </p>
+
+        <div className="flex">
+          <Button onClick={() => setShowConfirm(false)} className="mr-1">
+            {t("sleepingAnimal.cancel")}
+          </Button>
+          <Button onClick={onWakeUp}>{t("sleepingAnimal.confirm")}</Button>
+        </div>
+      </InnerPanel>
+    );
+  }
 
   if (isResting) {
     return (
