@@ -60,7 +60,9 @@ export function startCrafting({
     }
 
     // Check if player has the Crafting Box
-    const isBuildingBuilt = (copy.buildings["Crafting Box"]?.length ?? 0) > 0;
+    const isBuildingBuilt = copy.buildings["Crafting Box"]?.some(
+      (building) => !!building.coordinates,
+    );
     if (!isBuildingBuilt) {
       throw new Error("You do not have a Crafting Box");
     }

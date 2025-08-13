@@ -264,6 +264,10 @@ export function mineGold({
       throw new Error("No gold rock found.");
     }
 
+    if (goldRock.x === undefined && goldRock.y === undefined) {
+      throw new Error("Gold rock is not placed");
+    }
+
     if (!canMine(goldRock, GOLD_RECOVERY_TIME, createdAt)) {
       throw new Error(EVENT_ERRORS.STILL_RECOVERING);
     }

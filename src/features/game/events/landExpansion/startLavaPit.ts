@@ -92,6 +92,10 @@ export function startLavaPit({
       throw new Error("Lava pit not found");
     }
 
+    if (lavaPit.x === undefined && lavaPit.y === undefined) {
+      throw new Error("Lava pit is not placed");
+    }
+
     const { requirements, boostUsed } = getLavaPitRequirements(copy);
 
     getObjectEntries(requirements).forEach(([item, requiredAmount]) => {

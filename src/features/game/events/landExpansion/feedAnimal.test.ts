@@ -2,9 +2,44 @@ import Decimal from "decimal.js-light";
 import { ANIMAL_SLEEP_DURATION, feedAnimal, handleFoodXP } from "./feedAnimal";
 import { INITIAL_FARM } from "features/game/lib/constants";
 import { ANIMAL_LEVELS } from "features/game/types/animals";
+import { GameState } from "features/game/types/game";
 
 describe("feedAnimal", () => {
   const now = Date.now();
+
+  const GAME_STATE: GameState = {
+    ...INITIAL_FARM,
+    buildings: {
+      "Hen House": [
+        { coordinates: { x: 0, y: 0 }, createdAt: 0, id: "0", readyAt: 0 },
+      ],
+      Barn: [
+        { coordinates: { x: 0, y: 0 }, createdAt: 0, id: "0", readyAt: 0 },
+      ],
+    },
+  };
+
+  it("throws an error if the animal building is not placed", () => {
+    expect(() =>
+      feedAnimal({
+        createdAt: now,
+        state: {
+          ...GAME_STATE,
+          buildings: {
+            ...GAME_STATE.buildings,
+            Barn: undefined,
+            "Hen House": undefined,
+          },
+        },
+        action: {
+          type: "animal.fed",
+          animal: "Chicken",
+          id: "0",
+          item: "Hay",
+        },
+      }),
+    ).toThrow("Building does not exist");
+  });
 
   it("gives 10 experience feeding hay to a level 1 chicken", () => {
     const chickenId = "xyz";
@@ -12,13 +47,13 @@ describe("feedAnimal", () => {
     const state = feedAnimal({
       createdAt: now,
       state: {
-        ...INITIAL_FARM,
+        ...GAME_STATE,
         inventory: {
-          ...INITIAL_FARM.inventory,
+          ...GAME_STATE.inventory,
           Hay: new Decimal(1),
         },
         henHouse: {
-          ...INITIAL_FARM.henHouse,
+          ...GAME_STATE.henHouse,
           animals: {
             [chickenId]: {
               id: chickenId,
@@ -51,13 +86,13 @@ describe("feedAnimal", () => {
     const state = feedAnimal({
       createdAt: now,
       state: {
-        ...INITIAL_FARM,
+        ...GAME_STATE,
         inventory: {
-          ...INITIAL_FARM.inventory,
+          ...GAME_STATE.inventory,
           "Kernel Blend": new Decimal(1),
         },
         henHouse: {
-          ...INITIAL_FARM.henHouse,
+          ...GAME_STATE.henHouse,
           animals: {
             [chickenId]: {
               id: chickenId,
@@ -90,13 +125,13 @@ describe("feedAnimal", () => {
     const state = feedAnimal({
       createdAt: now,
       state: {
-        ...INITIAL_FARM,
+        ...GAME_STATE,
         inventory: {
-          ...INITIAL_FARM.inventory,
+          ...GAME_STATE.inventory,
           "Kernel Blend": new Decimal(1),
         },
         henHouse: {
-          ...INITIAL_FARM.henHouse,
+          ...GAME_STATE.henHouse,
           animals: {
             [chickenId]: {
               id: chickenId,
@@ -129,13 +164,13 @@ describe("feedAnimal", () => {
     const state = feedAnimal({
       createdAt: now,
       state: {
-        ...INITIAL_FARM,
+        ...GAME_STATE,
         inventory: {
-          ...INITIAL_FARM.inventory,
+          ...GAME_STATE.inventory,
           "Kernel Blend": new Decimal(5),
         },
         barn: {
-          ...INITIAL_FARM.barn,
+          ...GAME_STATE.barn,
           animals: {
             [cowId]: {
               id: cowId,
@@ -167,13 +202,13 @@ describe("feedAnimal", () => {
       feedAnimal({
         createdAt: now,
         state: {
-          ...INITIAL_FARM,
+          ...GAME_STATE,
           inventory: {
-            ...INITIAL_FARM.inventory,
+            ...GAME_STATE.inventory,
             "Kernel Blend": new Decimal(1),
           },
           barn: {
-            ...INITIAL_FARM.barn,
+            ...GAME_STATE.barn,
             animals: {},
           },
         },
@@ -194,9 +229,9 @@ describe("feedAnimal", () => {
       feedAnimal({
         createdAt: now,
         state: {
-          ...INITIAL_FARM,
+          ...GAME_STATE,
           barn: {
-            ...INITIAL_FARM.barn,
+            ...GAME_STATE.barn,
             animals: {
               [cowId]: {
                 id: cowId,
@@ -228,12 +263,12 @@ describe("feedAnimal", () => {
     const state = feedAnimal({
       createdAt: now,
       state: {
-        ...INITIAL_FARM,
+        ...GAME_STATE,
         inventory: {
           "Kernel Blend": new Decimal(6),
         },
         barn: {
-          ...INITIAL_FARM.barn,
+          ...GAME_STATE.barn,
           animals: {
             [cowId]: {
               id: cowId,
@@ -267,13 +302,13 @@ describe("feedAnimal", () => {
       feedAnimal({
         createdAt: now,
         state: {
-          ...INITIAL_FARM,
+          ...GAME_STATE,
           inventory: {
-            ...INITIAL_FARM.inventory,
+            ...GAME_STATE.inventory,
             "Kernel Blend": new Decimal(1),
           },
           henHouse: {
-            ...INITIAL_FARM.henHouse,
+            ...GAME_STATE.henHouse,
             animals: {
               [chickenId]: {
                 id: chickenId,
@@ -306,11 +341,11 @@ describe("feedAnimal", () => {
       feedAnimal({
         createdAt: now,
         state: {
-          ...INITIAL_FARM,
+          ...GAME_STATE,
           inventory: {},
           collectibles: {},
           henHouse: {
-            ...INITIAL_FARM.henHouse,
+            ...GAME_STATE.henHouse,
             animals: {
               [chickenId]: {
                 id: chickenId,
@@ -341,9 +376,9 @@ describe("feedAnimal", () => {
     const state = feedAnimal({
       createdAt: now,
       state: {
-        ...INITIAL_FARM,
+        ...GAME_STATE,
         inventory: {
-          ...INITIAL_FARM.inventory,
+          ...GAME_STATE.inventory,
           "Gold Egg": new Decimal(1),
         },
         collectibles: {
@@ -357,7 +392,7 @@ describe("feedAnimal", () => {
           ],
         },
         henHouse: {
-          ...INITIAL_FARM.henHouse,
+          ...GAME_STATE.henHouse,
           animals: {
             [chickenId]: {
               id: chickenId,
@@ -389,9 +424,9 @@ describe("feedAnimal", () => {
     const state = feedAnimal({
       createdAt: now,
       state: {
-        ...INITIAL_FARM,
+        ...GAME_STATE,
         inventory: {
-          ...INITIAL_FARM.inventory,
+          ...GAME_STATE.inventory,
           "Gold Egg": new Decimal(1),
         },
         collectibles: {
@@ -405,7 +440,7 @@ describe("feedAnimal", () => {
           ],
         },
         henHouse: {
-          ...INITIAL_FARM.henHouse,
+          ...GAME_STATE.henHouse,
           animals: {
             [chickenId]: {
               id: chickenId,
@@ -438,9 +473,9 @@ describe("feedAnimal", () => {
       feedAnimal({
         createdAt: now,
         state: {
-          ...INITIAL_FARM,
+          ...GAME_STATE,
           inventory: {
-            ...INITIAL_FARM.inventory,
+            ...GAME_STATE.inventory,
             "Gold Egg": new Decimal(1),
           },
           collectibles: {
@@ -454,7 +489,7 @@ describe("feedAnimal", () => {
             ],
           },
           barn: {
-            ...INITIAL_FARM.barn,
+            ...GAME_STATE.barn,
             animals: {
               [cowId]: {
                 id: cowId,
@@ -486,13 +521,13 @@ describe("feedAnimal", () => {
     const state = feedAnimal({
       createdAt: now,
       state: {
-        ...INITIAL_FARM,
+        ...GAME_STATE,
         inventory: {
-          ...INITIAL_FARM.inventory,
+          ...GAME_STATE.inventory,
           "Kernel Blend": new Decimal(1),
         },
         henHouse: {
-          ...INITIAL_FARM.henHouse,
+          ...GAME_STATE.henHouse,
           animals: {
             [chickenId]: {
               id: chickenId,
@@ -525,13 +560,13 @@ describe("feedAnimal", () => {
     const state = feedAnimal({
       createdAt: now,
       state: {
-        ...INITIAL_FARM,
+        ...GAME_STATE,
         inventory: {
-          ...INITIAL_FARM.inventory,
+          ...GAME_STATE.inventory,
           Hay: new Decimal(1),
         },
         henHouse: {
-          ...INITIAL_FARM.henHouse,
+          ...GAME_STATE.henHouse,
           animals: {
             [chickenId]: {
               id: chickenId,
@@ -564,13 +599,13 @@ describe("feedAnimal", () => {
     const state = feedAnimal({
       createdAt: now,
       state: {
-        ...INITIAL_FARM,
+        ...GAME_STATE,
         inventory: {
-          ...INITIAL_FARM.inventory,
+          ...GAME_STATE.inventory,
           "Kernel Blend": new Decimal(1),
         },
         henHouse: {
-          ...INITIAL_FARM.henHouse,
+          ...GAME_STATE.henHouse,
           animals: {
             [chickenId]: {
               id: chickenId,
@@ -603,20 +638,20 @@ describe("feedAnimal", () => {
     const state = feedAnimal({
       createdAt: now,
       state: {
-        ...INITIAL_FARM,
+        ...GAME_STATE,
         bumpkin: {
-          ...INITIAL_FARM.bumpkin,
+          ...GAME_STATE.bumpkin,
           equipped: {
-            ...INITIAL_FARM.bumpkin?.equipped,
+            ...GAME_STATE.bumpkin?.equipped,
             wings: "Oracle Syringe",
           },
         },
         inventory: {
-          ...INITIAL_FARM.inventory,
+          ...GAME_STATE.inventory,
           "Barn Delight": new Decimal(1),
         },
         henHouse: {
-          ...INITIAL_FARM.henHouse,
+          ...GAME_STATE.henHouse,
           animals: {
             [chickenId]: {
               id: chickenId,
@@ -651,13 +686,13 @@ describe("feedAnimal", () => {
     const state = feedAnimal({
       createdAt: now,
       state: {
-        ...INITIAL_FARM,
+        ...GAME_STATE,
         inventory: {
-          ...INITIAL_FARM.inventory,
+          ...GAME_STATE.inventory,
           "Barn Delight": new Decimal(1),
         },
         henHouse: {
-          ...INITIAL_FARM.henHouse,
+          ...GAME_STATE.henHouse,
           animals: {
             [chickenId]: {
               id: chickenId,
@@ -692,20 +727,20 @@ describe("feedAnimal", () => {
     const state = feedAnimal({
       createdAt: now,
       state: {
-        ...INITIAL_FARM,
+        ...GAME_STATE,
         bumpkin: {
-          ...INITIAL_FARM.bumpkin,
+          ...GAME_STATE.bumpkin,
           equipped: {
-            ...INITIAL_FARM.bumpkin.equipped,
+            ...GAME_STATE.bumpkin.equipped,
             coat: "Medic Apron",
           },
         },
         inventory: {
-          ...INITIAL_FARM.inventory,
+          ...GAME_STATE.inventory,
           "Barn Delight": new Decimal(0.5),
         },
         henHouse: {
-          ...INITIAL_FARM.henHouse,
+          ...GAME_STATE.henHouse,
           animals: {
             [chickenId]: {
               id: chickenId,
@@ -740,13 +775,13 @@ describe("feedAnimal", () => {
     const state = feedAnimal({
       createdAt: now,
       state: {
-        ...INITIAL_FARM,
+        ...GAME_STATE,
         inventory: {
-          ...INITIAL_FARM.inventory,
+          ...GAME_STATE.inventory,
           "Barn Delight": new Decimal(1),
         },
         henHouse: {
-          ...INITIAL_FARM.henHouse,
+          ...GAME_STATE.henHouse,
           animals: {
             [chickenId]: {
               id: chickenId,
@@ -782,13 +817,13 @@ describe("feedAnimal", () => {
       feedAnimal({
         createdAt: now,
         state: {
-          ...INITIAL_FARM,
+          ...GAME_STATE,
           inventory: {
-            ...INITIAL_FARM.inventory,
+            ...GAME_STATE.inventory,
             "Barn Delight": new Decimal(1),
           },
           henHouse: {
-            ...INITIAL_FARM.henHouse,
+            ...GAME_STATE.henHouse,
             animals: {
               [chickenId]: {
                 id: chickenId,
@@ -821,9 +856,9 @@ describe("feedAnimal", () => {
       feedAnimal({
         createdAt: now,
         state: {
-          ...INITIAL_FARM,
+          ...GAME_STATE,
           henHouse: {
-            ...INITIAL_FARM.henHouse,
+            ...GAME_STATE.henHouse,
             animals: {
               [chickenId]: {
                 id: chickenId,
@@ -856,13 +891,13 @@ describe("feedAnimal", () => {
       feedAnimal({
         createdAt: now,
         state: {
-          ...INITIAL_FARM,
+          ...GAME_STATE,
           inventory: {
-            ...INITIAL_FARM.inventory,
+            ...GAME_STATE.inventory,
             "Kernel Blend": new Decimal(1),
           },
           henHouse: {
-            ...INITIAL_FARM.henHouse,
+            ...GAME_STATE.henHouse,
             animals: {
               [chickenId]: {
                 id: chickenId,
@@ -892,9 +927,9 @@ describe("feedAnimal", () => {
     const state = feedAnimal({
       createdAt: now,
       state: {
-        ...INITIAL_FARM,
+        ...GAME_STATE,
         inventory: {
-          ...INITIAL_FARM.inventory,
+          ...GAME_STATE.inventory,
           "Kernel Blend": new Decimal(1),
         },
       },
@@ -913,16 +948,16 @@ describe("feedAnimal", () => {
     const state = feedAnimal({
       createdAt: now,
       state: {
-        ...INITIAL_FARM,
+        ...GAME_STATE,
         inventory: {
-          ...INITIAL_FARM.inventory,
+          ...GAME_STATE.inventory,
           "Barn Delight": new Decimal(1),
         },
         henHouse: {
-          ...INITIAL_FARM.henHouse,
+          ...GAME_STATE.henHouse,
           animals: {
             "0": {
-              ...INITIAL_FARM.henHouse.animals["0"],
+              ...GAME_STATE.henHouse.animals["0"],
               state: "sick",
             },
           },
@@ -943,7 +978,7 @@ describe("feedAnimal", () => {
     const state = feedAnimal({
       createdAt: now,
       state: {
-        ...INITIAL_FARM,
+        ...GAME_STATE,
         inventory: {
           "Fat Chicken": new Decimal(1),
           Hay: new Decimal(1),
@@ -974,7 +1009,7 @@ describe("feedAnimal", () => {
     const state = feedAnimal({
       createdAt: now,
       state: {
-        ...INITIAL_FARM,
+        ...GAME_STATE,
         inventory: {
           Cluckulator: new Decimal(1),
           "Kernel Blend": new Decimal(1),
@@ -1005,7 +1040,7 @@ describe("feedAnimal", () => {
     const state = feedAnimal({
       createdAt: now,
       state: {
-        ...INITIAL_FARM,
+        ...GAME_STATE,
         inventory: {
           "Fat Chicken": new Decimal(1),
           Cluckulator: new Decimal(1),
@@ -1045,11 +1080,11 @@ describe("feedAnimal", () => {
     const state = feedAnimal({
       createdAt: now,
       state: {
-        ...INITIAL_FARM,
+        ...GAME_STATE,
         bumpkin: {
-          ...INITIAL_FARM.bumpkin,
+          ...GAME_STATE.bumpkin,
           equipped: {
-            ...INITIAL_FARM.bumpkin?.equipped,
+            ...GAME_STATE.bumpkin?.equipped,
             tool: "Infernal Bullwhip",
           },
         },
@@ -1072,11 +1107,11 @@ describe("feedAnimal", () => {
     const state = feedAnimal({
       createdAt: now,
       state: {
-        ...INITIAL_FARM,
+        ...GAME_STATE,
         bumpkin: {
-          ...INITIAL_FARM.bumpkin,
+          ...GAME_STATE.bumpkin,
           equipped: {
-            ...INITIAL_FARM.bumpkin?.equipped,
+            ...GAME_STATE.bumpkin?.equipped,
             tool: "Infernal Bullwhip",
           },
         },
@@ -1104,13 +1139,13 @@ describe("feedAnimal", () => {
     const state = feedAnimal({
       createdAt: now,
       state: {
-        ...INITIAL_FARM,
+        ...GAME_STATE,
         inventory: {
-          ...INITIAL_FARM.inventory,
+          ...GAME_STATE.inventory,
           "Mixed Grain": new Decimal(1),
         },
         henHouse: {
-          ...INITIAL_FARM.henHouse,
+          ...GAME_STATE.henHouse,
           animals: {
             "0": {
               id: "0",
@@ -1146,9 +1181,9 @@ describe("feedAnimal", () => {
     const state = feedAnimal({
       createdAt: now,
       state: {
-        ...INITIAL_FARM,
+        ...GAME_STATE,
         inventory: {
-          ...INITIAL_FARM.inventory,
+          ...GAME_STATE.inventory,
           "Mixed Grain": new Decimal(1),
         },
         collectibles: {
@@ -1162,7 +1197,7 @@ describe("feedAnimal", () => {
           ],
         },
         henHouse: {
-          ...INITIAL_FARM.henHouse,
+          ...GAME_STATE.henHouse,
           animals: {
             "0": {
               id: "0",
@@ -1198,13 +1233,13 @@ describe("feedAnimal", () => {
     const state = feedAnimal({
       createdAt: now,
       state: {
-        ...INITIAL_FARM,
+        ...GAME_STATE,
         inventory: {
-          ...INITIAL_FARM.inventory,
+          ...GAME_STATE.inventory,
           "Mixed Grain": new Decimal(1),
         },
         henHouse: {
-          ...INITIAL_FARM.henHouse,
+          ...GAME_STATE.henHouse,
           animals: {
             "0": {
               id: "0",
@@ -1243,16 +1278,16 @@ describe("feedAnimal", () => {
     const state = feedAnimal({
       createdAt: now,
       state: {
-        ...INITIAL_FARM,
+        ...GAME_STATE,
         inventory: {
-          ...INITIAL_FARM.inventory,
+          ...GAME_STATE.inventory,
           "Mixed Grain": new Decimal(1),
         },
         henHouse: {
-          ...INITIAL_FARM.henHouse,
+          ...GAME_STATE.henHouse,
           animals: {
             "0": {
-              ...INITIAL_FARM.henHouse.animals["0"],
+              ...GAME_STATE.henHouse.animals["0"],
               experience: maxLevelXP + cycleXP + cycleXP - 70,
             },
           },
@@ -1276,12 +1311,12 @@ describe("feedAnimal", () => {
     const state = feedAnimal({
       createdAt: now,
       state: {
-        ...INITIAL_FARM,
+        ...GAME_STATE,
         inventory: {
           "Mixed Grain": new Decimal(1),
         },
         henHouse: {
-          ...INITIAL_FARM.henHouse,
+          ...GAME_STATE.henHouse,
           animals: {
             "0": {
               id: "0",
@@ -1320,13 +1355,13 @@ describe("feedAnimal", () => {
     const state = feedAnimal({
       createdAt: now,
       state: {
-        ...INITIAL_FARM,
+        ...GAME_STATE,
         inventory: {
-          ...INITIAL_FARM.inventory,
+          ...GAME_STATE.inventory,
           "Mixed Grain": new Decimal(5),
         },
         barn: {
-          ...INITIAL_FARM.barn,
+          ...GAME_STATE.barn,
           animals: {
             "0": {
               id: "0",
@@ -1357,21 +1392,21 @@ describe("feedAnimal", () => {
     const state = feedAnimal({
       createdAt: now,
       state: {
-        ...INITIAL_FARM,
+        ...GAME_STATE,
         inventory: {
           "Mixed Grain": new Decimal(2),
         },
         bumpkin: {
-          ...INITIAL_FARM.bumpkin,
+          ...GAME_STATE.bumpkin,
           skills: {
             "Chonky Feed": 1,
           },
         },
         henHouse: {
-          ...INITIAL_FARM.henHouse,
+          ...GAME_STATE.henHouse,
           animals: {
             "0": {
-              ...INITIAL_FARM.henHouse.animals["0"],
+              ...GAME_STATE.henHouse.animals["0"],
               experience: 0,
             },
           },
@@ -1399,9 +1434,9 @@ describe("feedAnimal", () => {
     const state = feedAnimal({
       createdAt: now,
       state: {
-        ...INITIAL_FARM,
+        ...GAME_STATE,
         bumpkin: {
-          ...INITIAL_FARM.bumpkin,
+          ...GAME_STATE.bumpkin,
           skills: {
             "Chonky Feed": 1,
           },
@@ -1420,10 +1455,10 @@ describe("feedAnimal", () => {
           ],
         },
         henHouse: {
-          ...INITIAL_FARM.henHouse,
+          ...GAME_STATE.henHouse,
           animals: {
             "0": {
-              ...INITIAL_FARM.henHouse.animals["0"],
+              ...GAME_STATE.henHouse.animals["0"],
               experience: 0,
             },
           },
@@ -1442,9 +1477,9 @@ describe("feedAnimal", () => {
     const state = feedAnimal({
       createdAt: now,
       state: {
-        ...INITIAL_FARM,
+        ...GAME_STATE,
         bumpkin: {
-          ...INITIAL_FARM.bumpkin,
+          ...GAME_STATE.bumpkin,
           skills: {
             "Chonky Feed": 1,
           },
@@ -1460,10 +1495,10 @@ describe("feedAnimal", () => {
           ],
         },
         barn: {
-          ...INITIAL_FARM.barn,
+          ...GAME_STATE.barn,
           animals: {
             "0": {
-              ...INITIAL_FARM.barn.animals["0"],
+              ...GAME_STATE.barn.animals["0"],
               type: "Cow",
               experience: 0,
             },
@@ -1483,9 +1518,9 @@ describe("feedAnimal", () => {
     const state = feedAnimal({
       createdAt: now,
       state: {
-        ...INITIAL_FARM,
+        ...GAME_STATE,
         bumpkin: {
-          ...INITIAL_FARM.bumpkin,
+          ...GAME_STATE.bumpkin,
           skills: {
             "Chonky Feed": 1,
           },
@@ -1501,10 +1536,10 @@ describe("feedAnimal", () => {
           ],
         },
         barn: {
-          ...INITIAL_FARM.barn,
+          ...GAME_STATE.barn,
           animals: {
             "0": {
-              ...INITIAL_FARM.barn.animals["0"],
+              ...GAME_STATE.barn.animals["0"],
               type: "Sheep",
               experience: 0,
             },
@@ -1524,7 +1559,7 @@ describe("feedAnimal", () => {
     const state = feedAnimal({
       createdAt: now,
       state: {
-        ...INITIAL_FARM,
+        ...GAME_STATE,
         inventory: {
           "Mixed Grain": new Decimal(2),
         },
@@ -1539,10 +1574,10 @@ describe("feedAnimal", () => {
           ],
         },
         henHouse: {
-          ...INITIAL_FARM.henHouse,
+          ...GAME_STATE.henHouse,
           animals: {
             "0": {
-              ...INITIAL_FARM.henHouse.animals["0"],
+              ...GAME_STATE.henHouse.animals["0"],
               experience: 0,
             },
           },
@@ -1562,7 +1597,7 @@ describe("feedAnimal", () => {
     const state = feedAnimal({
       createdAt: now,
       state: {
-        ...INITIAL_FARM,
+        ...GAME_STATE,
         collectibles: {
           "Golden Cow": [
             {
@@ -1574,10 +1609,10 @@ describe("feedAnimal", () => {
           ],
         },
         henHouse: {
-          ...INITIAL_FARM.henHouse,
+          ...GAME_STATE.henHouse,
           animals: {
             "0": {
-              ...INITIAL_FARM.henHouse.animals["0"],
+              ...GAME_STATE.henHouse.animals["0"],
               experience: 0,
             },
           },
@@ -1599,7 +1634,7 @@ describe("feedAnimal", () => {
     const state = feedAnimal({
       createdAt: now,
       state: {
-        ...INITIAL_FARM,
+        ...GAME_STATE,
         collectibles: {
           "Gold Egg": [
             {
@@ -1611,10 +1646,10 @@ describe("feedAnimal", () => {
           ],
         },
         henHouse: {
-          ...INITIAL_FARM.henHouse,
+          ...GAME_STATE.henHouse,
           animals: {
             "0": {
-              ...INITIAL_FARM.henHouse.animals["0"],
+              ...GAME_STATE.henHouse.animals["0"],
               experience: maxLevelXP,
             },
           },
@@ -1638,7 +1673,7 @@ describe("feedAnimal", () => {
     const state = feedAnimal({
       createdAt: now,
       state: {
-        ...INITIAL_FARM,
+        ...GAME_STATE,
         collectibles: {
           "Gold Egg": [
             {
@@ -1650,10 +1685,10 @@ describe("feedAnimal", () => {
           ],
         },
         henHouse: {
-          ...INITIAL_FARM.henHouse,
+          ...GAME_STATE.henHouse,
           animals: {
             "0": {
-              ...INITIAL_FARM.henHouse.animals["0"],
+              ...GAME_STATE.henHouse.animals["0"],
               experience: maxLevelXP + 100,
             },
           },
@@ -1677,7 +1712,7 @@ describe("feedAnimal", () => {
     const state = feedAnimal({
       createdAt: now,
       state: {
-        ...INITIAL_FARM,
+        ...GAME_STATE,
         collectibles: {
           "Golden Cow": [
             {
@@ -1689,10 +1724,10 @@ describe("feedAnimal", () => {
           ],
         },
         barn: {
-          ...INITIAL_FARM.barn,
+          ...GAME_STATE.barn,
           animals: {
             "0": {
-              ...INITIAL_FARM.barn.animals["0"],
+              ...GAME_STATE.barn.animals["0"],
               experience: maxLevelXP,
             },
           },
@@ -1714,7 +1749,7 @@ describe("feedAnimal", () => {
     const state = feedAnimal({
       createdAt: now,
       state: {
-        ...INITIAL_FARM,
+        ...GAME_STATE,
         collectibles: {
           "Golden Cow": [
             {
@@ -1726,10 +1761,10 @@ describe("feedAnimal", () => {
           ],
         },
         barn: {
-          ...INITIAL_FARM.barn,
+          ...GAME_STATE.barn,
           animals: {
             "0": {
-              ...INITIAL_FARM.barn.animals["0"],
+              ...GAME_STATE.barn.animals["0"],
               experience: maxLevelXP + 100,
             },
           },
@@ -1749,7 +1784,7 @@ describe("feedAnimal", () => {
     const state = feedAnimal({
       createdAt: now,
       state: {
-        ...INITIAL_FARM,
+        ...GAME_STATE,
         inventory: {
           "Mixed Grain": new Decimal(2),
         },
@@ -1764,10 +1799,10 @@ describe("feedAnimal", () => {
           ],
         },
         henHouse: {
-          ...INITIAL_FARM.henHouse,
+          ...GAME_STATE.henHouse,
           animals: {
             "0": {
-              ...INITIAL_FARM.henHouse.animals["0"],
+              ...GAME_STATE.henHouse.animals["0"],
               experience: 0,
             },
           },
@@ -1787,7 +1822,7 @@ describe("feedAnimal", () => {
     const state = feedAnimal({
       createdAt: now,
       state: {
-        ...INITIAL_FARM,
+        ...GAME_STATE,
         inventory: {
           "Kernel Blend": new Decimal(5),
         },
@@ -1802,10 +1837,10 @@ describe("feedAnimal", () => {
           ],
         },
         barn: {
-          ...INITIAL_FARM.barn,
+          ...GAME_STATE.barn,
           animals: {
             "0": {
-              ...INITIAL_FARM.barn.animals["0"],
+              ...GAME_STATE.barn.animals["0"],
               type: "Cow",
               experience: 0,
             },

@@ -327,6 +327,10 @@ export function harvestFruit({
       throw new Error("Fruit patch does not exist");
     }
 
+    if (patch.x === undefined && patch.y === undefined) {
+      throw new Error("Fruit patch is not placed");
+    }
+
     if (!patch.fruit) {
       throw new Error("Nothing was planted");
     }

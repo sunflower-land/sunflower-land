@@ -45,7 +45,7 @@ export function supplyCookingOil({
 }: Options): GameState {
   return produce(state, (stateCopy) => {
     const buildings = stateCopy.buildings[action.building];
-    if (!buildings) {
+    if (!buildings?.some((building) => !!building.coordinates)) {
       throw new Error(translate("error.buildingNotExist"));
     }
     if (!getKeys(BUILDING_DAILY_OIL_CAPACITY).includes(action.building)) {

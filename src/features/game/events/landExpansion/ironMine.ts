@@ -256,6 +256,10 @@ export function mineIron({
       throw new Error(MINE_ERRORS.NO_IRON);
     }
 
+    if (ironRock.x === undefined && ironRock.y === undefined) {
+      throw new Error("Iron rock is not placed");
+    }
+
     if (!canMine(ironRock, IRON_RECOVERY_TIME, createdAt)) {
       throw new Error(MINE_ERRORS.STILL_RECOVERING);
     }

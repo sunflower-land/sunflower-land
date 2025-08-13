@@ -518,7 +518,7 @@ export function plant({
       throw new Error("Plot does not exist");
     }
 
-    if (!plot.x && !plot.y) {
+    if (plot.x === undefined && plot.y === undefined) {
       throw new Error("Plot is not placed");
     }
 

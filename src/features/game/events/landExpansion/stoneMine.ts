@@ -314,6 +314,10 @@ export function mineStone({
       throw new Error("You do not have a Bumpkin!");
     }
 
+    if (rock.x === undefined && rock.y === undefined) {
+      throw new Error("Rock is not placed");
+    }
+
     if (!canMine(rock, createdAt)) {
       throw new Error("Rock is still recovering");
     }
