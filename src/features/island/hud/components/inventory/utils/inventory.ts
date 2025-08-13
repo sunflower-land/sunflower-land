@@ -40,13 +40,14 @@ type ListedItems = Record<
 >;
 
 export const getActiveListedItems = (state: GameState): ListedItems => {
-  if (!state.trades.listings)
+  if (!state.trades.listings) {
     return {
       wearables: {},
       collectibles: {},
       buds: {},
       resources: {},
     };
+  }
 
   return Object.values(state.trades.listings).reduce<ListedItems>(
     (acc, listing) => {
@@ -54,9 +55,9 @@ export const getActiveListedItems = (state: GameState): ListedItems => {
 
       getObjectEntries(listing.items).forEach(([itemName, quantity]) => {
         const amount = quantity ?? 0;
+        const collection = listing.collection ?? "collectibles";
 
-        acc[listing.collection][itemName] =
-          (acc[listing.collection][itemName] ?? 0) + amount;
+        acc[collection][itemName] = (acc[collection][itemName] ?? 0) + amount;
       });
 
       return acc;
