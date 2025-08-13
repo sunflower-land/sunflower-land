@@ -39,7 +39,7 @@ describe("drillOilReserve", () => {
     expect(() =>
       drillOilReserve({
         action: {
-          id: "2",
+          id: "1",
           type: "oilReserve.drilled",
         },
         state: {
