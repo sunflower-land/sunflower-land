@@ -6430,5 +6430,7 @@
   "missing": "Hilang",
   "pets.nextRequests": "Permintaan Berikutnya",
   "perks": "Fasilitas",
-  "pets.neglected": "Terabaikan"
+  "pets.neglected": "Terabaikan",
+  "cheer.confirm.socialpoints": "+3 Poin Social",
+  "cheer.confirm.loveCharms": "+3 Pesona Cinta"
 }

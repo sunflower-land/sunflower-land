@@ -6430,5 +6430,7 @@
   "missing": "行方不明です",
   "pets.nextRequests": "次のリクエスト",
   "perks": "特典",
-  "pets.neglected": "無視された"
+  "pets.neglected": "無視された",
+  "cheer.confirm.socialpoints": "+3 ソーシャルポイント",
+  "cheer.confirm.loveCharms": "+3 ラブチャーム"
 }

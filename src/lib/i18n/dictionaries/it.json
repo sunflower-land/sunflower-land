@@ -6430,5 +6430,7 @@
   "missing": "Mancante",
   "pets.nextRequests": "Richieste successive",
   "perks": "Vantaggi",
-  "pets.neglected": "Trascurata"
+  "pets.neglected": "Trascurata",
+  "cheer.confirm.socialpoints": "+3 punti sociali",
+  "cheer.confirm.loveCharms": "+3 Love Charms"
 }

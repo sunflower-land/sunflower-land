@@ -6430,5 +6430,7 @@
   "missing": "失踪",
   "pets.nextRequests": "下一步请求",
   "perks": "津贴",
-  "pets.neglected": "被忽视的"
+  "pets.neglected": "被忽视的",
+  "cheer.confirm.socialpoints": "+3 社交积分",
+  "cheer.confirm.loveCharms": "+3 爱情护身符"
 }

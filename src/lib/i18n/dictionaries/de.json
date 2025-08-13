@@ -6430,5 +6430,7 @@
   "missing": "Fehlt",
   "pets.nextRequests": "Nächste Anfragen",
   "perks": "Vergünstigungen",
-  "pets.neglected": "Vernachlässigt"
+  "pets.neglected": "Vernachlässigt",
+  "cheer.confirm.socialpoints": "+3 Soziale Punkte",
+  "cheer.confirm.loveCharms": "+3 Liebeszauber"
 }

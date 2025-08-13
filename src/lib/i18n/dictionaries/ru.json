@@ -6430,5 +6430,7 @@
   "missing": "Пропавший",
   "pets.nextRequests": "Следующие запросы",
   "perks": "Привилегии",
-  "pets.neglected": "Забытый"
+  "pets.neglected": "Забытый",
+  "cheer.confirm.socialpoints": "+3 социальных очка",
+  "cheer.confirm.loveCharms": "+3 любовных талисмана"
 }

@@ -6430,5 +6430,7 @@
   "missing": "Eksik",
   "pets.nextRequests": "Sonraki İstekler",
   "perks": "Avantajlar",
-  "pets.neglected": "İhmal edilmiş"
+  "pets.neglected": "İhmal edilmiş",
+  "cheer.confirm.socialpoints": "+3 Sosyal Puan",
+  "cheer.confirm.loveCharms": "+3 Aşk Tılsımları"
 }

@@ -6430,5 +6430,7 @@
   "missing": "Desaparecido",
   "pets.nextRequests": "Próximas solicitações",
   "perks": "Regalias",
-  "pets.neglected": "Negligenciado"
+  "pets.neglected": "Negligenciado",
+  "cheer.confirm.socialpoints": "+3 pontos sociais",
+  "cheer.confirm.loveCharms": "+3 Amuletos do Amor"
 }

@@ -6430,5 +6430,7 @@
   "missing": "Disparus",
   "pets.nextRequests": "Demandes suivantes",
   "perks": "Avantages",
-  "pets.neglected": "NÉGLIGÉ"
+  "pets.neglected": "NÉGLIGÉ",
+  "cheer.confirm.socialpoints": "+3 points sociaux",
+  "cheer.confirm.loveCharms": "+3 Breloques d'amour"
 }

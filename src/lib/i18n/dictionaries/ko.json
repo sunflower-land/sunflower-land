@@ -6430,5 +6430,7 @@
   "missing": "실종",
   "pets.nextRequests": "다음 요청",
   "perks": "특전",
-  "pets.neglected": "무시되었습니다"
+  "pets.neglected": "무시되었습니다",
+  "cheer.confirm.socialpoints": "+3 소셜 포인트",
+  "cheer.confirm.loveCharms": "+3 러브 참스"
 }
