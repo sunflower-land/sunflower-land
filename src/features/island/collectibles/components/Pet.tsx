@@ -307,7 +307,7 @@ export const PetModal: React.FC<{
                 <div>
                   <p className="text-sm">{fetch}</p>
                   {isLocked ? (
-                    <Label type="transparent">{`Lvl 3 required`}</Label>
+                    <Label type="transparent">{`Lvl ${fetch === "Fossil Shell" ? 5 : 3} required`}</Label>
                   ) : (
                     <p className="text-xs">{ITEM_DETAILS[fetch].description}</p>
                   )}
