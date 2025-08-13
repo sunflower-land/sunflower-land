@@ -3518,14 +3518,12 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: [translate("howToGetThisItem.crimsonCarp")],
     itemType: "collectible",
     description: translate("description.crimson.carp"),
-    availability: translate("chapter"),
   },
   "Battle Fish": {
     image: battleFish,
     howToGetItem: [translate("howToGetThisItem.battleFish")],
     itemType: "collectible",
     description: translate("description.battle.fish"),
-    availability: translate("chapter"),
   },
   "Lemon Shark": {
     image: lemonShark,
@@ -3534,7 +3532,6 @@ export const ITEM_DETAILS: Items = {
       : [translate("ocean.fishing")],
     itemType: "collectible",
     description: translate("description.lemon.shark"),
-    availability: translate("chapter"),
   },
   "Longhorn Cowfish": {
     image: longhornCowfish,
@@ -3543,7 +3540,6 @@ export const ITEM_DETAILS: Items = {
       : [translate("ocean.fishing")],
     itemType: "collectible",
     description: translate("description.longhorn.cowfish"),
-    availability: translate("chapter"),
   },
   "Kraken Tentacle": {
     image: krakenTentacle,
