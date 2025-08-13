@@ -12,6 +12,7 @@ import { isExoticCrop } from "features/game/types/crops";
 import { produce } from "immer";
 import { setPrecision } from "lib/utils/formatNumber";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
+import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
 
 export type SellTreasureAction = {
   type: "treasure.sold";
@@ -64,7 +65,7 @@ export function sellTreasure({ state, action }: Options) {
       throw new Error("Invalid amount");
     }
 
-    const count = game.inventory[item] || new Decimal(0);
+    const { count } = getCountAndType(game, item);
 
     if (count.lessThan(amount)) {
       throw new Error("Insufficient quantity to sell");
