@@ -70,6 +70,22 @@ export const getActiveListedItems = (state: GameState): ListedItems => {
   );
 };
 
+export const getBasketItems = (inventory: Inventory) => {
+  return getKeys(inventory)
+    .filter((itemName) =>
+      setPrecision(inventory[itemName] ?? 0, 2).greaterThan(0),
+    )
+    .reduce((acc, itemName) => {
+      if (itemName in PLACEABLE_DIMENSIONS) return acc;
+      if (itemName === "Basic Land") return acc;
+
+      return {
+        ...acc,
+        [itemName]: inventory[itemName],
+      };
+    }, {} as Inventory);
+};
+
 export const getChestBuds = (
   state: GameState,
 ): NonNullable<GameState["buds"]> => {
