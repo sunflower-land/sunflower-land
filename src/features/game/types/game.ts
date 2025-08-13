@@ -106,6 +106,7 @@ import { MonumentName } from "./monuments";
 import { AOEItemName } from "../expansion/placeable/lib/collisionDetection";
 import { Coordinates } from "../expansion/components/MapPlacement";
 import { ClutterName } from "./clutter";
+import { Pet, PetName, PetResource } from "./pets";
 
 export type Reward = {
   coins?: number;
@@ -568,7 +569,9 @@ export type InventoryItemName =
   | LandBiomeName
   | MonumentName
   | DollName
-  | ClutterName;
+  | ClutterName
+  | PetName
+  | PetResource;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
@@ -1843,6 +1846,8 @@ export interface GameState {
 
   aoe: AOE;
   socialFarming: SocialFarming;
+
+  pets?: Partial<Record<PetName, Pet>>;
 }
 
 export type AOE = Partial<

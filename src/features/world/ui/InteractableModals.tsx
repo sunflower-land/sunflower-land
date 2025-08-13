@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { PotionHouse } from "features/game/expansion/components/potions/PotionHouse";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { SpeakingModal } from "features/game/components/SpeakingModal";
@@ -49,6 +48,7 @@ import { FlowerExchange } from "./npcs/Rocketman";
 import { Blessings } from "features/loveIsland/blessings/Blessings";
 import { EventMegaStore } from "./eventmegastore/EventMegaStore";
 import { EventNoticeboard } from "./EventNoticeboard";
+import { PotionMaster } from "features/helios/components/potions/component/PotionHouseShopItems";
 
 type InteractableName =
   | "guardian"
@@ -252,7 +252,11 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           <ExampleDonations onClose={closeModal} />
         </CloseButtonPanel>
       </Modal>
-      {interactable === "potion_table" && <PotionHouse onClose={closeModal} />}
+      <Modal show={interactable === "potion_table"} onHide={closeModal}>
+        {interactable === "potion_table" && (
+          <PotionMaster onClose={closeModal} />
+        )}
+      </Modal>
       <Modal show={interactable === "boat_modal"} onHide={closeModal}>
         <BoatModal
           isOpen={interactable === "boat_modal"}
@@ -754,7 +758,10 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           bumpkinParts={NPC_WEARABLES["bert"]}
           message={[
             {
-              text: t("interactableModals.woodlands.message"),
+              text: t("interactableModals.woodlands.message1"),
+            },
+            {
+              text: t("interactableModals.woodlands.message2"),
             },
           ]}
         />

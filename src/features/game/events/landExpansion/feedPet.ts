@@ -1,0 +1,198 @@
+import { produce } from "immer";
+import {
+  BoostName,
+  GameState,
+  InventoryItemName,
+} from "features/game/types/game";
+
+import {
+  isPetNeglected,
+  Pet,
+  PetName,
+  PetResource,
+  PETS,
+} from "features/game/types/pets";
+import Decimal from "decimal.js-light";
+import { isCollectibleActive } from "features/game/lib/collectibleBuilt";
+import { updateBoostUsed } from "features/game/types/updateBoostUsed";
+import { ConsumableName } from "features/game/types/consumables";
+
+const CRAVINGS: ConsumableName[] = [
+  "Pumpkin Cake",
+  "Beetroot Cake",
+  "Parsnip Cake",
+  "Boiled Eggs",
+  "Kale Stew",
+  "Bumpkin Salad",
+  "Pumpkin Soup",
+  "Olive Flounder",
+  "Power Smoothie",
+  "Sushi Roll",
+];
+
+export const DEFAULT_PET_CRAVINGS: InventoryItemName[] = [
+  "Pumpkin Soup",
+  "Bumpkin Broth",
+  "Goblin's Treat",
+];
+
+export function getPetRequest({
+  pet,
+  game,
+}: {
+  pet?: Pet;
+  game: GameState;
+}): InventoryItemName {
+  const cravings = pet?.cravings ?? DEFAULT_PET_CRAVINGS;
+
+  return cravings[0];
+}
+
+export type FeedPetAction = {
+  type: "pet.fed";
+  name: PetName;
+  resource: PetResource;
+};
+
+type Options = {
+  state: Readonly<GameState>;
+  action: FeedPetAction;
+  createdAt?: number;
+};
+
+const PET_SLEEP_DURATION_MS = 12 * 60 * 60 * 1000;
+
+export function isPetResting({
+  pet,
+  game,
+  now = Date.now(),
+}: {
+  pet?: Pet;
+  game: GameState;
+  now?: number;
+}): boolean {
+  if (!pet?.readyAt) {
+    return false;
+  }
+
+  return pet.readyAt > now;
+}
+
+export function getPetRestLeft({
+  pet,
+  now = Date.now(),
+  game,
+}: {
+  pet?: Pet;
+  now?: number;
+  game: GameState;
+}): number {
+  if (!pet?.readyAt) {
+    return 0;
+  }
+
+  return pet.readyAt - now;
+}
+
+export function getPetReadyAt({
+  game,
+  now = Date.now(),
+  pet,
+}: {
+  game: GameState;
+  now?: number;
+  pet: Pet;
+}): { readyAt: number; boostsUsed: BoostName[] } {
+  let duration = PET_SLEEP_DURATION_MS;
+  const boostsUsed: BoostName[] = [];
+
+  if (isCollectibleActive({ name: "Hound Shrine", game })) {
+    duration = duration * 0.75;
+    boostsUsed.push("Hound Shrine");
+  }
+
+  const level = pet.level ?? 1;
+
+  if (level >= 50) {
+    duration = duration * 0.8;
+  } else if (level >= 10) {
+    duration = duration * 0.9;
+  }
+
+  return { readyAt: now + duration, boostsUsed };
+}
+
+export function feedPet({
+  state,
+  action,
+  createdAt = Date.now(),
+}: Options): GameState {
+  return produce(state, (stateCopy) => {
+    const placed = stateCopy.collectibles[action.name];
+
+    if (!placed) {
+      throw new Error(`Pet ${action.name} not found`);
+    }
+
+    let pet = stateCopy.pets?.[action.name];
+
+    if (isPetResting({ pet, game: stateCopy })) {
+      throw new Error("Pet is sleeping");
+    }
+
+    if (isPetNeglected({ pet, game: stateCopy })) {
+      throw new Error("Pet is neglected");
+    }
+
+    const craves = getPetRequest({ pet, game: stateCopy });
+
+    const foodAmount = stateCopy.inventory[craves] ?? new Decimal(0);
+    if (foodAmount.lt(1)) {
+      throw new Error(`Missing ${craves}`);
+    }
+
+    const petConfig = PETS[action.name];
+    if (!petConfig.fetches.includes(action.resource)) {
+      throw new Error(`Pet cannot fetch ${action.resource}`);
+    }
+
+    const petResource = stateCopy.inventory[action.resource] ?? new Decimal(0);
+
+    if (!pet) {
+      pet = {
+        level: 1,
+        multiplier: 1,
+      };
+    }
+
+    pet.level = (pet.level ?? 1) + 1;
+
+    const { readyAt, boostsUsed } = getPetReadyAt({
+      game: stateCopy,
+      now: createdAt,
+      pet,
+    });
+
+    pet.readyAt = readyAt;
+
+    // Remove the first craving
+    pet?.cravings?.shift();
+
+    const multiplier = pet.multiplier ?? 1;
+
+    stateCopy.inventory[action.resource] = petResource.add(multiplier);
+    stateCopy.inventory[craves] = foodAmount.sub(1);
+    stateCopy.pets = {
+      ...(stateCopy.pets ?? {}),
+      [action.name]: pet,
+    };
+
+    stateCopy.boostsUsedAt = updateBoostUsed({
+      game: stateCopy,
+      boostNames: boostsUsed,
+      createdAt,
+    });
+
+    return stateCopy;
+  });
+}

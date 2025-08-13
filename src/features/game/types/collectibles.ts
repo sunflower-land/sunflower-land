@@ -4,6 +4,7 @@ import { translate } from "lib/i18n/translate";
 import { SEASONS } from "./seasons";
 import { ExoticCropName } from "./beans";
 import { WORKBENCH_MONUMENTS, WorkbenchMonumentName } from "./monuments";
+import { PET_SHRINES, PetShrineName } from "./pets";
 
 export type PlaceableLocation = "farm" | "home";
 
@@ -43,7 +44,8 @@ export type HeliosBlacksmithItem =
   | "Squirrel"
   | "Macaw"
   | "Butterfly"
-  | WorkbenchMonumentName;
+  | WorkbenchMonumentName
+  | PetShrineName;
 
 export type TreasureCollectibleItem =
   | "Treasure Map"
@@ -316,6 +318,7 @@ export const HELIOS_BLACKSMITH_ITEMS: (
     ingredients: {},
   },
   ...WORKBENCH_MONUMENTS,
+  ...PET_SHRINES,
 });
 
 export const ARTEFACT_SHOP_KEYS: Record<Keys, CraftableCollectible> = {

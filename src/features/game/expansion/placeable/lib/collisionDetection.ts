@@ -423,7 +423,13 @@ function detectChickenCollision(state: GameState, boundingBox: BoundingBox) {
   );
 }
 
-function detectMushroomCollision(state: GameState, boundingBox: BoundingBox) {
+function detectMushroomCollision(
+  state: GameState,
+  boundingBox: BoundingBox,
+  name: InventoryItemName,
+) {
+  if (name.includes("Tile")) return false;
+
   const { mushrooms } = state;
   if (!mushrooms) return false;
 
@@ -616,7 +622,7 @@ export function detectCollision({
     detectPlaceableCollision(state, position, item) ||
     detectLandCornerCollision(expansions, position) ||
     detectChickenCollision(state, position) ||
-    detectMushroomCollision(state, position) ||
+    detectMushroomCollision(state, position, item) ||
     detectAirdropCollision(state, position)
   );
 }

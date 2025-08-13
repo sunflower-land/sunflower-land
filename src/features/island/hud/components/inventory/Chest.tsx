@@ -50,6 +50,7 @@ import { LandBiomeName } from "features/island/biomes/biomes";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { WORKBENCH_MONUMENTS } from "features/game/types/monuments";
 import { DOLLS } from "features/game/lib/crafting";
+import { PETS } from "features/game/types/pets";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -338,6 +339,8 @@ export const Chest: React.FC<Props> = ({
 
   const dolls = getKeys(collectibles).filter((name) => name in DOLLS);
 
+  const pets = getKeys(collectibles).filter((name) => name in PETS);
+
   const decorations = getKeys(collectibles).filter(
     (name) =>
       !resources.includes(name) &&
@@ -347,7 +350,8 @@ export const Chest: React.FC<Props> = ({
       !beds.includes(name) &&
       !weatherItems.includes(name) &&
       !monuments.includes(name) &&
-      !dolls.includes(name),
+      !dolls.includes(name) &&
+      !pets.includes(name),
   );
 
   const ITEM_GROUPS: {
@@ -399,6 +403,11 @@ export const Chest: React.FC<Props> = ({
       items: decorations,
       label: "decorations",
       icon: ITEM_DETAILS["Basic Bear"].image,
+    },
+    {
+      items: pets,
+      label: "pets",
+      icon: SUNNYSIDE.icons.expression_confused,
     },
   ];
 
