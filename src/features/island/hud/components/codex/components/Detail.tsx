@@ -41,7 +41,7 @@ export const Detail: React.FC<Props> = ({
     description,
     howToGetItem = [],
     itemType,
-    availability,
+    isPermanent,
   } = ITEM_DETAILS[name];
   const [imageWidth, setImageWidth] = React.useState<number>(0);
 
@@ -136,8 +136,8 @@ export const Detail: React.FC<Props> = ({
                 </Label>
               )}
 
-              {(availability || name in CHAPTER_FISH) &&
-                (availability === "Permanent" ? (
+              {(isPermanent || name in CHAPTER_FISH) &&
+                (isPermanent ? (
                   <Label type="vibrant" className="capitalize">
                     {t("permanent")}
                   </Label>

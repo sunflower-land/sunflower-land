@@ -1044,7 +1044,7 @@ export interface ItemDetails {
   howToGetItem?: string[];
   // TODO: Extend this as the codex grows eg. Resource etc
   itemType?: "collectible";
-  availability?: string;
+  isPermanent?: boolean;
 }
 
 type Items = Record<InventoryItemName | AchievementName, ItemDetails>;
@@ -3483,35 +3483,35 @@ export const ITEM_DETAILS: Items = {
     howToGetItem: [translate("ocean.fishing")],
     itemType: "collectible",
     description: translate("description.twilight.anglerfish"),
-    availability: translate("permanent"),
+    isPermanent: true,
   },
   "Starlight Tuna": {
     image: startlightTuna,
     howToGetItem: [translate("ocean.fishing")],
     itemType: "collectible",
     description: translate("description.starlight.tuna"),
-    availability: translate("permanent"),
+    isPermanent: true,
   },
   "Radiant Ray": {
     image: radiantRay,
     howToGetItem: [translate("ocean.fishing")],
     itemType: "collectible",
     description: translate("description.radiant.ray"),
-    availability: translate("permanent"),
+    isPermanent: true,
   },
   "Phantom Barracuda": {
     image: phantomBarracuda,
     howToGetItem: [translate("ocean.fishing")],
     itemType: "collectible",
     description: translate("description.phantom.barracuda"),
-    availability: translate("permanent"),
+    isPermanent: true,
   },
   "Gilded Swordfish": {
     image: gildedSwordfish,
     howToGetItem: [translate("ocean.fishing")],
     itemType: "collectible",
     description: translate("description.gilded.swordfish"),
-    availability: translate("permanent"),
+    isPermanent: true,
   },
   "Crimson Carp": {
     image: crimsonCarp,
