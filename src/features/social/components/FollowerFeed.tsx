@@ -314,12 +314,12 @@ export const FollowerFeed: React.FC<Props> = ({
           />
         </div>
 
-        <div className="flex flex-col gap-1 -mt-2">
+        <div className="flex flex-col gap-1">
           {interactions.length > 3 && (
             <div
               ref={setRefs}
               id="loading-more"
-              className="text-xs flex justify-center py-1 h-5"
+              className="text-xs flex justify-center py-1 h-6"
             >
               {hasMore ? <Loading dotsOnly /> : t("playerModal.noMoreMessages")}
             </div>

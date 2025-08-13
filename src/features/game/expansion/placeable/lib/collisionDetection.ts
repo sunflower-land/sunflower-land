@@ -423,7 +423,13 @@ function detectChickenCollision(state: GameState, boundingBox: BoundingBox) {
   );
 }
 
-function detectMushroomCollision(state: GameState, boundingBox: BoundingBox) {
+function detectMushroomCollision(
+  state: GameState,
+  boundingBox: BoundingBox,
+  name: InventoryItemName,
+) {
+  if (name.includes("Tile")) return false;
+
   const { mushrooms } = state;
   if (!mushrooms) return false;
 
@@ -616,7 +622,7 @@ export function detectCollision({
     detectPlaceableCollision(state, position, item) ||
     detectLandCornerCollision(expansions, position) ||
     detectChickenCollision(state, position) ||
-    detectMushroomCollision(state, position) ||
+    detectMushroomCollision(state, position, item) ||
     detectAirdropCollision(state, position)
   );
 }
@@ -626,7 +632,6 @@ export type AOEItemName =
   | "Emerald Turtle"
   | "Tin Turtle"
   | "Sir Goldensnout"
-  | "Bale"
   | "Scary Mike"
   | "Laurie the Chuckle Crow"
   | "Queen Cornelia"
@@ -714,10 +719,6 @@ export function isWithinAOE(
       return (
         dxRect >= -1 && dxRect <= width && dyRect <= 1 && dyRect >= -height
       );
-    }
-
-    case "Bale": {
-      return false;
     }
 
     case "Queen Cornelia": {

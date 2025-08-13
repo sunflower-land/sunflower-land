@@ -33,7 +33,7 @@ export const FarmHelped: React.FC<Props> = ({ onClose }) => {
       <div className="p-1">
         <Label type="default">{t("visiting.helped")}</Label>
         <p className="text-sm my-1">{t("visiting.helped.thanks")} </p>
-        <div className="flex items-center flex-wrap">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:flex-wrap gap-1">
           <div className="flex items-center mr-4">
             <NPCIcon parts={gameState.context.state.bumpkin.equipped} />
             <div className="ml-1">

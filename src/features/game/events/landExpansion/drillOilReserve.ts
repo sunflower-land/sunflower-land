@@ -1,5 +1,8 @@
 import Decimal from "decimal.js-light";
-import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import {
+  isCollectibleActive,
+  isCollectibleBuilt,
+} from "features/game/lib/collectibleBuilt";
 import { isWearableActive } from "features/game/lib/wearables";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { BoostName, GameState, OilReserve } from "features/game/types/game";
@@ -27,6 +30,11 @@ export function getOilDropAmount(game: GameState, reserve: OilReserve) {
 
   if ((reserve.drilled + 1) % 3 === 0) {
     amount = amount.add(OIL_BONUS_DROP_AMOUNT);
+  }
+
+  if (isCollectibleActive({ name: "Stag Shrine", game })) {
+    amount = amount.add(0.2);
+    boostsUsed.push("Stag Shrine");
   }
 
   if (isCollectibleBuilt({ name: "Battle Fish", game })) {

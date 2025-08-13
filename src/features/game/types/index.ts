@@ -1185,6 +1185,25 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Baby Sheep": 2526,
   "Janitor Chicken": 2527,
   "Venus Bumpkin Trap": 2528,
+
+  // Pets
+  "Pet Egg": 2600,
+  Barkley: 2601,
+  Meowchi: 2602,
+  Twizzle: 2603,
+  Burro: 2604,
+
+  // Pet Resources
+  Acorn: 2630,
+  Ruffroot: 2631,
+  "Chewed Bone": 2632,
+  "Heart leaf": 2633,
+
+  // Pet Shrines
+  "Fox Shrine": 2650,
+  "Boar Shrine": 2651,
+  "Hound Shrine": 2652,
+  "Stag Shrine": 2653,
 };
 
 // The reverse of above

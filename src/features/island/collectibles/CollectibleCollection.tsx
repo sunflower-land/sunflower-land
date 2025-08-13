@@ -367,6 +367,8 @@ import { JanitorChicken } from "./components/JanitorChicken";
 import { VenusBumpkinTrap } from "./components/VenusBumpkinTrap";
 import { Poseidon } from "./components/Poseidon";
 import { Project } from "./components/Project";
+import { Pet } from "./components/Pet";
+import { PetShrine } from "./components/PetShrine";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
@@ -379,6 +381,12 @@ export const COLLECTIBLE_COMPONENTS: Record<
     }),
     {} as Record<TemplateDecorationName, React.FC<CollectibleProps>>,
   ),
+
+  Barkley: (props: CollectibleProps) => <Pet {...props} />,
+  Meowchi: (props: CollectibleProps) => <Pet {...props} />,
+  Twizzle: (props: CollectibleProps) => <Pet {...props} />,
+  Burro: (props: CollectibleProps) => <Pet {...props} />,
+
   "Baby Cow": BabyCow,
   "Baby Sheep": BabySheep,
   "Janitor Chicken": JanitorChicken,
@@ -550,6 +558,10 @@ export const COLLECTIBLE_COMPONENTS: Record<
   // Treasure
   "Abandoned Bear": AbandonedBear,
   "Tiki Totem": TikiTotem,
+  "Fox Shrine": PetShrine,
+  "Boar Shrine": PetShrine,
+  "Hound Shrine": PetShrine,
+  "Stag Shrine": PetShrine,
   "Lunar Calendar": LunarCalendar,
   "Goblin Bear": GoblinBear,
   "Turtle Bear": TurtleBear,
@@ -2425,6 +2437,51 @@ export const COLLECTIBLE_COMPONENTS: Record<
       alt="Giant Yam"
     />
   ),
+  "Giant Orange": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 28}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 2}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 28}px`,
+      }}
+      image={ITEM_DETAILS["Giant Orange"].image}
+      alt="Giant Orange"
+    />
+  ),
+  "Giant Apple": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 26}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 3}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 26}px`,
+      }}
+      image={ITEM_DETAILS["Giant Apple"].image}
+      alt="Giant Apple"
+    />
+  ),
+  "Giant Banana": (props: CollectibleProps) => (
+    <ImageStyle
+      {...props}
+      divStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+        bottom: `${PIXEL_SCALE * 0}px`,
+        left: `${PIXEL_SCALE * 0}px`,
+      }}
+      imgStyle={{
+        width: `${PIXEL_SCALE * 32}px`,
+      }}
+      image={ITEM_DETAILS["Giant Banana"].image}
+      alt="Giant Banana"
+    />
+  ),
   "Heart Air Balloon": (props: CollectibleProps) => (
     <ImageStyle
       {...props}
@@ -3269,26 +3326,6 @@ export const READONLY_COLLECTIBLES: Record<
           }}
         />
       </div>
-    </div>
-  ),
-  Bale: () => (
-    <div
-      className="absolute bottom-0"
-      style={{
-        width: `${PIXEL_SCALE * 28}px`,
-        top: `${PIXEL_SCALE * -5}px`,
-        left: `${PIXEL_SCALE * -3}px`,
-      }}
-    >
-      <img
-        src={ITEM_DETAILS["Bale"].image}
-        className=" absolute w-full"
-        style={{
-          width: `${PIXEL_SCALE * 28}px`,
-          left: `${PIXEL_SCALE * 3}px`,
-          top: `${PIXEL_SCALE * 5}px`,
-        }}
-      />
     </div>
   ),
   "Nyon Statue": () => (

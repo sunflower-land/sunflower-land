@@ -1661,5 +1661,33 @@ function getCollectibleBuffLabels(
         boostTypeIcon: helpIcon,
       },
     ],
+    "Fox Shrine": [
+      {
+        shortDescription: translate("description.foxShrine.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    ],
+    "Boar Shrine": [
+      {
+        shortDescription: translate("description.boarShrine.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    ],
+    "Hound Shrine": [
+      {
+        shortDescription: translate("description.houndShrine.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    ],
+    "Stag Shrine": [
+      {
+        shortDescription: translate("description.stagShrine.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    ],
   };
 }
