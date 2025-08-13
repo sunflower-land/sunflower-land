@@ -30,6 +30,7 @@ import { DEFAULT_PET_TOY } from "features/game/events/landExpansion/wakeUpPet";
 import lightningIcon from "assets/icons/lightning.png";
 import lockIcon from "assets/icons/lock.png";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
+import { useVisiting } from "lib/utils/visitUtils";
 
 export const PetModal: React.FC<{
   onClose: () => void;
@@ -40,6 +41,7 @@ export const PetModal: React.FC<{
   const [showConfirm, setShowConfirm] = useState(false);
 
   const { t } = useAppTranslation();
+  const { isVisiting } = useVisiting();
 
   const petConfig = PETS[name];
 
@@ -80,6 +82,15 @@ export const PetModal: React.FC<{
     pet: gameState.context.state.pets?.[name],
     game: gameState.context.state,
   });
+
+  // If is visiting
+  if (isVisiting) {
+    return (
+      <InnerPanel>
+        <Label type="default">{t("coming.soon")}</Label>
+      </InnerPanel>
+    );
+  }
 
   if (isNeglected) {
     return (
