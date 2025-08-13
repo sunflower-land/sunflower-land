@@ -32,6 +32,7 @@ export const STATIC_OFFLINE_FARM: GameState = {
     },
   },
   inventory: {
+    "Fish Burger": new Decimal(5),
     Ruffroot: new Decimal(100),
     "Chewed Bone": new Decimal(100),
     "Heart leaf": new Decimal(100),
@@ -807,6 +808,14 @@ export const STATIC_OFFLINE_FARM: GameState = {
         id: "1",
         createdAt: Date.now(),
         coordinates: { x: 8, y: 3 },
+        readyAt: Date.now(),
+      },
+    ],
+    Meowchi: [
+      {
+        id: "1",
+        createdAt: Date.now(),
+        coordinates: { x: 9, y: 3 },
         readyAt: Date.now(),
       },
     ],

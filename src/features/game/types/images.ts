@@ -5796,4 +5796,16 @@ export const ITEM_DETAILS: Items = {
     image: thermalStone,
     description: translate("description.stagShrine"),
   },
+  "Legendary Shrine": {
+    image: thermalStone,
+    description: translate("description.legendaryShrine"),
+  },
+  Moonfur: {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.moonfur"),
+  },
+  "Fossil Shell": {
+    image: SUNNYSIDE.resource.clam_shell,
+    description: translate("description.fossilShell"),
+  },
 };

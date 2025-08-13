@@ -19,7 +19,7 @@ export const ITEM_TRADE_TYPES: {
     "Boar Shrine": "instant",
     "Hound Shrine": "instant",
     "Stag Shrine": "instant",
-
+    "Legendary Shrine": "instant",
     "Pet Egg": "instant",
     Barkley: "instant",
     Meowchi: "instant",
@@ -30,6 +30,8 @@ export const ITEM_TRADE_TYPES: {
     Ruffroot: "instant",
     "Chewed Bone": "instant",
     "Heart leaf": "instant",
+    Moonfur: "instant",
+    "Fossil Shell": "instant",
 
     "Giant Orange": "instant",
     "Giant Apple": "instant",

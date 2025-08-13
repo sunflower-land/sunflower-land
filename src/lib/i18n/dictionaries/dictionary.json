@@ -6432,5 +6432,9 @@
   "missing": "Missing",
   "pets.nextRequests": "Next Requests",
   "perks": "Perks",
-  "pets.neglected": "Neglected"
+  "pets.neglected": "Neglected",
+  "description.moonfur": "A fluffy moonfur",
+  "description.legendaryShrine": "A legendary shrine that buffs everything!",
+  "description.legendaryShrine.buff": "Bonus Yields",
+  "description.fossilShell": "Looks like there is something inside..."
 }

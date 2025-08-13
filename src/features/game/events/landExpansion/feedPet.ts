@@ -178,7 +178,7 @@ export function feedPet({
     // Remove the first craving
     pet?.cravings?.shift();
 
-    const multiplier = pet.multiplier ?? 1;
+    const multiplier = 1;
 
     stateCopy.inventory[action.resource] = petResource.add(multiplier);
     stateCopy.inventory[craves] = foodAmount.sub(1);

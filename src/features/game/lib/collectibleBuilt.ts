@@ -43,6 +43,7 @@ export const EXPIRY_COOLDOWNS: Partial<Record<CollectibleName, number>> = {
     },
     {} as Record<PetShrineName, number>,
   ),
+  "Legendary Shrine": 24 * 60 * 60 * 1000,
 };
 
 /**
