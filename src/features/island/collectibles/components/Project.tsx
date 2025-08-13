@@ -335,7 +335,7 @@ const ProjectModal: React.FC<{
 }> = ({ project, onClose, onComplete, cheers, state }) => {
   const { t } = useAppTranslation();
 
-  const { gameService, gameState } = useGame();
+  const { gameService } = useGame();
 
   const [showConfirmInsta, setShowConfirmInsta] = useState(false);
 
@@ -362,7 +362,7 @@ const ProjectModal: React.FC<{
   }
 
   const instaGrowPrice = INSTA_GROW_PRICES[project] ?? 0;
-  const obsidian = gameState.context.state.inventory.Obsidian ?? new Decimal(0);
+  const obsidian = state.inventory.Obsidian ?? new Decimal(0);
   const hasObsidian = obsidian.gte(instaGrowPrice);
 
   if (showConfirmInsta) {
@@ -488,6 +488,7 @@ export const Project: React.FC<ProjectProps> = (input) => {
     gameService,
     _hasCheeredToday(input.project),
   );
+  const state = useSelector(gameService, (state) => state.context.state);
 
   const requiredCheers = REQUIRED_CHEERS[input.project];
   const projectPercentage = Math.round((projectCheers / requiredCheers) * 100);
@@ -520,7 +521,7 @@ export const Project: React.FC<ProjectProps> = (input) => {
       project: input.project,
     });
 
-    if (isHelpComplete({ game: gameService.getSnapshot().context.state })) {
+    if (isHelpComplete({ game: state })) {
       setShowHelped(true);
     }
   };
@@ -547,9 +548,7 @@ export const Project: React.FC<ProjectProps> = (input) => {
   return (
     <>
       <Modal show={showHelped}>
-        <CloseButtonPanel
-          bumpkinParts={gameService.state.context.state.bumpkin.equipped}
-        >
+        <CloseButtonPanel bumpkinParts={state.bumpkin.equipped}>
           <FarmHelped onClose={() => setShowHelped(false)} />
         </CloseButtonPanel>
       </Modal>
@@ -619,7 +618,7 @@ export const Project: React.FC<ProjectProps> = (input) => {
       <Modal show={showDetails} onHide={() => setShowDetails(false)}>
         <CloseButtonPanel container={OuterPanel}>
           <ProjectModal
-            state={gameService.getSnapshot().context.state}
+            state={state}
             project={input.project}
             onClose={() => setShowDetails(false)}
             onComplete={handleComplete}
