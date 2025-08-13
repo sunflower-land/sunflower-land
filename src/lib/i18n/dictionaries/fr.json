@@ -6432,5 +6432,9 @@
   "perks": "Avantages",
   "pets.neglected": "NÉGLIGÉ",
   "cheer.confirm.socialpoints": "+3 points sociaux",
-  "cheer.confirm.loveCharms": "+3 Breloques d'amour"
+  "cheer.confirm.loveCharms": "+3 Breloques d'amour",
+  "description.moonfur": "Une fourrure de lune moelleuse",
+  "description.legendaryShrine": "Un sanctuaire légendaire qui met tout en valeur !",
+  "description.legendaryShrine.buff": "Rendements bonus",
+  "description.fossilShell": "On dirait qu'il y a quelque chose à l'intérieur..."
 }

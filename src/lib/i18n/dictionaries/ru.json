@@ -6432,5 +6432,9 @@
   "perks": "Привилегии",
   "pets.neglected": "Забытый",
   "cheer.confirm.socialpoints": "+3 социальных очка",
-  "cheer.confirm.loveCharms": "+3 любовных талисмана"
+  "cheer.confirm.loveCharms": "+3 любовных талисмана",
+  "description.moonfur": "Пушистый лунный мех",
+  "description.legendaryShrine": "Легендарный храм, который усиливает все!",
+  "description.legendaryShrine.buff": "Доходность бонусов",
+  "description.fossilShell": "Похоже, внутри что-то есть..."
 }

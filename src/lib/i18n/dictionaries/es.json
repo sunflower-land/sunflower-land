@@ -6432,5 +6432,9 @@
   "perks": "Ventajas",
   "pets.neglected": "Desatendido",
   "cheer.confirm.socialpoints": "+3 puntos sociales",
-  "cheer.confirm.loveCharms": "+3 amuletos de amor"
+  "cheer.confirm.loveCharms": "+3 amuletos de amor",
+  "description.moonfur": "Una piel de luna esponjosa",
+  "description.legendaryShrine": "¡Un santuario legendario que lo mejora todo!",
+  "description.legendaryShrine.buff": "Rendimientos de bonificación",
+  "description.fossilShell": "Parece que hay algo dentro..."
 }

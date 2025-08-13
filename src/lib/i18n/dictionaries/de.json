@@ -6432,5 +6432,9 @@
   "perks": "Vergünstigungen",
   "pets.neglected": "Vernachlässigt",
   "cheer.confirm.socialpoints": "+3 Soziale Punkte",
-  "cheer.confirm.loveCharms": "+3 Liebeszauber"
+  "cheer.confirm.loveCharms": "+3 Liebeszauber",
+  "description.moonfur": "Ein flauschiges Mondfell",
+  "description.legendaryShrine": "Ein legendärer Schrein, der alles verbessert!",
+  "description.legendaryShrine.buff": "Bonusrenditen",
+  "description.fossilShell": "Sieht aus, als wäre da etwas drin..."
 }

@@ -6432,5 +6432,9 @@
   "perks": "津贴",
   "pets.neglected": "被忽视的",
   "cheer.confirm.socialpoints": "+3 社交积分",
-  "cheer.confirm.loveCharms": "+3 爱情护身符"
+  "cheer.confirm.loveCharms": "+3 爱情护身符",
+  "description.moonfur": "毛茸茸的月毛",
+  "description.legendaryShrine": "一座能增强一切的传奇神社！",
+  "description.legendaryShrine.buff": "奖金收益率",
+  "description.fossilShell": "看来里面有东西..."
 }
