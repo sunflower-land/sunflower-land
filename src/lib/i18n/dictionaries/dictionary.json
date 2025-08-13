@@ -6406,6 +6406,7 @@
   "instaGrow": "Insta Grow",
   "instaGrow.description": "Tired of waiting? Use the power of Obsidian to insta-grow the {{project}}",
   "instaGrow.confirmation": "Are you sure you want to insta-grow the {{project}} for {{amount}} Obsidian",
+  "instaGrow.timeRemaining": "Time remaining: {{time}}",
   "flip.mobile.label": "Flip",
   "description.monument.buff": "+1 Help Limit",
   "description.foxShrine.buff": "+25% Crafting Speed",

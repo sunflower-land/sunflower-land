@@ -541,6 +541,10 @@ import {
   instantGrowProject,
   InstantGrowProjectAction,
 } from "./landExpansion/instaGrowProject";
+import {
+  instaGrowFlower,
+  InstaGrowFlowerAction,
+} from "./landExpansion/instaGrowFlower";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
@@ -691,7 +695,8 @@ export type PlayingEvent =
   | InstantGrowProjectAction
   | FeedPetAction
   | NeglectPetAction
-  | WakeUpPetAction;
+  | WakeUpPetAction
+  | InstaGrowFlowerAction;
 
 export type LocalVisitingEvent = CollectGarbageAction | HelpProjectAction;
 
@@ -869,6 +874,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "beehive.harvested": harvestBeehive,
   "flower.planted": plantFlower,
   "flower.harvested": harvestFlower,
+  "flower.instaGrown": instaGrowFlower,
   "farm.upgraded": upgrade,
   "banner.purchased": purchaseBanner,
   "flowerShop.traded": tradeFlowerShop,

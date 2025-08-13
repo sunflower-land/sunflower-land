@@ -14,13 +14,11 @@ import {
 } from "features/game/types/flowers";
 import { TimerPopover } from "../common/TimerPopover";
 import { ITEM_DETAILS } from "features/game/types/images";
-import classNames from "classnames";
 import useUiRefresher from "lib/utils/hooks/useUiRefresher";
 import { NPC_WEARABLES } from "lib/npcs";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { SpeakingText } from "features/game/components/SpeakingModal";
-import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { translate } from "lib/i18n/translate";
@@ -29,6 +27,14 @@ import { getCurrentBiome } from "../biomes/biomes";
 
 import chest from "assets/icons/chest.png";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
+import { CloseButtonPanel } from "features/game/components/CloseablePanel";
+import Decimal from "decimal.js-light";
+import { RequirementLabel } from "components/ui/RequirementsLabel";
+import { calculateInstaGrowCost } from "features/game/events/landExpansion/instaGrowFlower";
+import { Panel } from "components/ui/Panel";
+import { secondsToString } from "lib/utils/time";
+import { hasFeatureAccess } from "lib/flags";
+import classNames from "classnames";
 
 interface Props {
   id: string;
@@ -81,7 +87,7 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
       context: { state },
     },
   ] = useActor(gameService);
-  const { flowers, farmActivity } = state;
+  const { flowers, farmActivity, inventory } = state;
 
   const flowerBed = flowers.flowerBeds[id];
 
@@ -90,6 +96,7 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
     useState(false);
   const [congratulationsPage, setCongratulationsPage] = useState(0);
   const [showPopover, setShowPopover] = useState(false);
+  const [showInstaGrowModal, setShowInstaGrowModal] = useState(false);
 
   useUiRefresher();
   const biome = getCurrentBiome(state.island);
@@ -137,7 +144,15 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
   const hasHarvestedBefore = !!farmActivity[`${flower.name} Harvested`];
   const reward = flower.reward;
 
+  const instaGrowCost = calculateInstaGrowCost(timeLeftSeconds);
+  const playerObsidian = inventory.Obsidian ?? new Decimal(0);
+
   const handlePlotClick = () => {
+    if (isGrowing && hasFeatureAccess(state, "FLOWER_INSTA_GROW")) {
+      setShowInstaGrowModal(true);
+      return;
+    }
+
     if (!hasHarvestedBefore || !!reward) {
       setShowCongratulationsModal(true);
       return;
@@ -158,13 +173,28 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
     });
   };
 
+  const handleInstaGrow = () => {
+    gameService.send({
+      type: "flower.instaGrown",
+      id,
+    });
+
+    setShowInstaGrowModal(false);
+  };
+
   return (
     <>
       <div
         className={classNames("relative w-full h-full", {
-          "cursor-pointer hover:img-highlight": !isGrowing,
+          "cursor-not-allowed hover:img-highlight": !isGrowing,
+          "cursor-pointer hover:img-highlight":
+            isGrowing && hasFeatureAccess(state, "FLOWER_INSTA_GROW"),
         })}
-        onClick={!isGrowing ? handlePlotClick : undefined}
+        onClick={
+          hasFeatureAccess(state, "FLOWER_INSTA_GROW")
+            ? handlePlotClick
+            : undefined
+        }
         onMouseEnter={() => setShowPopover(true)}
         onMouseLeave={() => setShowPopover(false)}
       >
@@ -306,6 +336,43 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
           <FlowerCongratulations flowerName={flower.name} />
         </Panel>
       </Modal>
+
+      {hasFeatureAccess(state, "FLOWER_INSTA_GROW") && (
+        <Modal show={showInstaGrowModal}>
+          <CloseButtonPanel
+            onClose={() => setShowInstaGrowModal(false)}
+            bumpkinParts={NPC_WEARABLES["poppy"]}
+          >
+            <div className="p-1 flex flex-col gap-2">
+              <Label type="vibrant">{t("instaGrow")}</Label>
+              <Label type="warning">
+                {t("instaGrow.timeRemaining", {
+                  time: secondsToString(timeLeftSeconds, { length: "medium" }),
+                })}
+              </Label>
+              <p className="text-sm my-1">
+                {t("instaGrow.description", {
+                  project: hasHarvestedBefore ? flower.name : "flower",
+                })}
+              </p>
+              <div className="flex justify-start">
+                <RequirementLabel
+                  item="Obsidian"
+                  requirement={instaGrowCost}
+                  type="item"
+                  balance={playerObsidian}
+                />
+              </div>
+              <Button
+                onClick={handleInstaGrow}
+                disabled={!playerObsidian.gte(instaGrowCost)}
+              >
+                {t("instaGrow")}
+              </Button>
+            </div>
+          </CloseButtonPanel>
+        </Modal>
+      )}
     </>
   );
 };
