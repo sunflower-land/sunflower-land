@@ -103,12 +103,12 @@ export const Detail: React.FC<Props> = ({
                 }}
               />
             </OuterPanel>
-            <div className="flex flex-1 content-start flex-col sm:flex-row sm:flex-wrap gap-2 p-1">
+            <div className="flex flex-1 content-start flex-col gap-1 gap-x-2 sm:flex-row sm:flex-wrap p-1">
               {additionalLabels}
-              {/* Boost labels to go below */}
-              {!!buff && (
-                <div className="flex flex-col gap-1">
-                  {buff.map(
+              <div className="flex flex-row flex-wrap gap-y-1 gap-x-2.5 mr-9">
+                {/* Boost labels to go below */}
+                {!!buff &&
+                  buff.map(
                     (
                       {
                         labelType,
@@ -128,28 +128,27 @@ export const Detail: React.FC<Props> = ({
                       </Label>
                     ),
                   )}
-                </div>
-              )}
-              {!!itemType && (
-                <Label type="default" className="capitalize">
-                  {itemType}
-                </Label>
-              )}
+                {!!itemType && (
+                  <Label type="default" className="capitalize">
+                    {itemType}
+                  </Label>
+                )}
 
-              {(isPermanent || name in CHAPTER_FISH) &&
-                (isPermanent ? (
-                  <Label type="vibrant" className="capitalize">
-                    {t("permanent")}
-                  </Label>
-                ) : (
-                  <Label
-                    type="info"
-                    icon={SUNNYSIDE.icons.stopwatch}
-                    className="capitalize"
-                  >
-                    {t("chapter")}
-                  </Label>
-                ))}
+                {(isPermanent || name in CHAPTER_FISH) &&
+                  (isPermanent ? (
+                    <Label type="vibrant" className="capitalize">
+                      {t("permanent")}
+                    </Label>
+                  ) : (
+                    <Label
+                      type="info"
+                      icon={SUNNYSIDE.icons.stopwatch}
+                      className="capitalize"
+                    >
+                      {t("chapter")}
+                    </Label>
+                  ))}
+              </div>
             </div>
           </div>
         </div>
