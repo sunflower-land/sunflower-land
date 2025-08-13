@@ -37,9 +37,6 @@ export const useFollowNetwork = (
         networkType,
       });
     },
-    {
-      revalidateFirstPage: false,
-    },
   );
 
   const network = data?.flatMap((page) => page.data.network) ?? [];

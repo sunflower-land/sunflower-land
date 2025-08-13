@@ -10,9 +10,6 @@ import socialPointsIcon from "assets/icons/social_score.webp";
 import giftIcon from "assets/icons/gift.png";
 import helpIcon from "assets/icons/help.webp";
 import helpedIcon from "assets/icons/helped.webp";
-import { ActiveProjects } from "../types/types";
-import { getKeys } from "features/game/lib/crafting";
-import { RAFFLE_REWARDS } from "features/game/types/monuments";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { shortenCount } from "lib/utils/formatNumber";
 
@@ -25,7 +22,7 @@ type Props = {
   haveTheyHelpedYouToday: boolean;
   socialPoints: number;
   lastOnlineAt: number;
-  projects: ActiveProjects;
+  hasCookingPot: boolean;
   navigateToPlayer: (playerId: number) => void;
   friendStreak: number;
 };
@@ -39,7 +36,7 @@ export const FollowDetailPanel: React.FC<Props> = ({
   haveTheyHelpedYouToday,
   socialPoints,
   lastOnlineAt,
-  projects = {},
+  hasCookingPot,
   navigateToPlayer,
   friendStreak,
 }: Props) => {
@@ -53,10 +50,6 @@ export const FollowDetailPanel: React.FC<Props> = ({
   const handleClick = useCallback(() => {
     navigateToPlayer(playerId);
   }, [navigateToPlayer, playerId]);
-
-  const hasCookingPot = getKeys(projects).some(
-    (project) => project in RAFFLE_REWARDS,
-  );
 
   return (
     <ButtonPanel
