@@ -67,7 +67,7 @@ export const HalloweenNPC: React.FC<Props> = ({ onClose }) => {
   const [selectedItems, setSelectedItems] = useState<InventoryItemName[]>([]);
 
   const getChestBears = (state: GameState) => {
-    const listedItems = getActiveListedItems(state);
+    const { collectibles: listedItems } = getActiveListedItems(state);
 
     const availableItems = getKeys(state.inventory).reduce((acc, itemName) => {
       if (typeof itemName === "string" && bears.includes(itemName)) {
