@@ -67,7 +67,7 @@ export const HalloweenNPC: React.FC<Props> = ({ onClose }) => {
   const [selectedItems, setSelectedItems] = useState<InventoryItemName[]>([]);
 
   const getChestBears = (state: GameState) => {
-    const listedItems = getActiveListedItems(state);
+    const { collectibles: listedCollectibles } = getActiveListedItems(state);
 
     const availableItems = getKeys(state.inventory).reduce((acc, itemName) => {
       if (typeof itemName === "string" && bears.includes(itemName)) {
@@ -78,7 +78,7 @@ export const HalloweenNPC: React.FC<Props> = ({ onClose }) => {
               ?.minus(
                 state.collectibles[itemName as CollectibleName]?.length ?? 0,
               )
-              ?.minus(listedItems[itemName] ?? 0)
+              ?.minus(listedCollectibles[itemName] ?? 0)
               ?.minus(
                 state.home.collectibles[itemName as CollectibleName]?.length ??
                   0,
