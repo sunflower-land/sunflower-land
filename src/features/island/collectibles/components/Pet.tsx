@@ -141,6 +141,7 @@ export const PetModal: React.FC<{
             </Label>
           </div>
           <p className="text-sm">{`Lvl 3 - Unlock bonus resource`}</p>
+          <p className="text-sm">{`Lvl 5 - Unlock Fossil Shell`}</p>
           <p className="text-sm">{`Lvl 10 - 10% faster`}</p>
           <p className="text-sm">{`Lvl 20 - 10% chance of double resource`}</p>
           <p className="text-sm">{`Lvl 50 - 20% faster`}</p>
@@ -286,7 +287,12 @@ export const PetModal: React.FC<{
         <div className="flex flex-col">
           {petConfig.fetches.map((fetch) => {
             const level = pet?.level ?? 1;
-            const isLocked = level < 3 && fetch !== "Acorn";
+            let isLocked = level < 3 && fetch !== "Acorn";
+
+            if (level < 5 && fetch === "Fossil Shell") {
+              isLocked = true;
+            }
+
             return (
               <div key={fetch} className="flex items-center">
                 <Box
@@ -301,7 +307,7 @@ export const PetModal: React.FC<{
                 <div>
                   <p className="text-sm">{fetch}</p>
                   {isLocked ? (
-                    <Label type="transparent">{`Lvl 3 required`}</Label>
+                    <Label type="transparent">{`Lvl ${fetch === "Fossil Shell" ? 5 : 3} required`}</Label>
                   ) : (
                     <p className="text-xs">{ITEM_DETAILS[fetch].description}</p>
                   )}
