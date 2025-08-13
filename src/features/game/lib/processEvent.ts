@@ -630,11 +630,14 @@ export function checkProgress({ state, action, farmId }: ProcessEventArgs): {
   const { inventory, wardrobe } = newState;
   const auctionBid = newState.auctioneer.bid?.ingredients ?? {};
 
-  const listedItems = getActiveListedItems(newState);
-  const listedInventoryItemNames = getKeys(listedItems).filter(
+  const { collectibles: listedCollectibles, wearables: listedWearables } =
+    getActiveListedItems(newState);
+
+  const listedInventoryItemNames = getKeys(listedCollectibles).filter(
     (name) => name in KNOWN_IDS,
   ) as InventoryItemName[];
-  const listedWardrobeItemNames = getKeys(listedItems).filter(
+
+  const listedWardrobeItemNames = getKeys(listedWearables).filter(
     (name) => name in ITEM_IDS,
   ) as BumpkinItem[];
 
@@ -646,7 +649,7 @@ export function checkProgress({ state, action, farmId }: ProcessEventArgs): {
     .every((name) => {
       const inventoryAmount = inventory[name] ?? new Decimal(0);
       const auctionAmount = auctionBid[name] ?? new Decimal(0);
-      const listingAmount = listedItems[name] ?? new Decimal(0);
+      const listingAmount = listedCollectibles[name] ?? new Decimal(0);
 
       const previousInventoryAmount =
         newState.previousInventory[name] || new Decimal(0);
@@ -674,7 +677,7 @@ export function checkProgress({ state, action, farmId }: ProcessEventArgs): {
     .concat(listedWardrobeItemNames)
     .every((name) => {
       const wardrobeAmount = wardrobe[name] ?? 0;
-      const listedAmount = listedItems[name] ?? 0;
+      const listedAmount = listedWearables[name] ?? 0;
 
       const previousWardrobeAmount = newState.previousWardrobe[name] || 0;
 
