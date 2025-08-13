@@ -60,6 +60,8 @@ export const Detail: React.FC<Props> = ({
 
   const buff = COLLECTIBLE_BUFF_LABELS(state)[name];
 
+  const isChapterFish = name in CHAPTER_FISH;
+
   return (
     <>
       <InnerPanel className="p-2 relative mb-1">
@@ -134,7 +136,7 @@ export const Detail: React.FC<Props> = ({
                   </Label>
                 )}
 
-                {(isPermanent || name in CHAPTER_FISH) &&
+                {(isPermanent || isChapterFish) &&
                   (isPermanent ? (
                     <Label type="vibrant" className="capitalize">
                       {t("permanent")}
