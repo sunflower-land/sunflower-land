@@ -240,11 +240,8 @@ export const PlayerDetails: React.FC<Props> = ({
                     </div>
                   </div>
                   <div>
-                    <Label
-                      type="warning"
-                      icon={ITEM_DETAILS["Love Charm"].image}
-                    >
-                      {`+3 Social Point`}
+                    <Label type="warning" icon={socialPointsIcon}>
+                      {t("cheer.confirm.socialpoints")}
                     </Label>
                     {hasVipAccess({
                       game: gameService.getSnapshot().context.state,
@@ -254,7 +251,7 @@ export const PlayerDetails: React.FC<Props> = ({
                         className="mt-0.5"
                         icon={ITEM_DETAILS["Love Charm"].image}
                       >
-                        {`+3 Love Charm`}
+                        {t("cheer.confirm.loveCharms")}
                       </Label>
                     )}
                   </div>
