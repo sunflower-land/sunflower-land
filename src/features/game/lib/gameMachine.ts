@@ -489,6 +489,7 @@ const EFFECT_STATES = Object.values(STATE_MACHINE_EFFECTS).reduce(
               fingerprint: context.fingerprint as string,
               deviceTrackerId: context.deviceTrackerId as string,
               transactionId: context.transactionId as string,
+              state: context.state,
             });
           }
 
@@ -590,6 +591,7 @@ const VISIT_EFFECT_STATES = Object.values(STATE_MACHINE_VISIT_EFFECTS).reduce(
               fingerprint: context.fingerprint as string,
               deviceTrackerId: context.deviceTrackerId as string,
               transactionId: context.transactionId as string,
+              state: context.state,
             });
           }
 
@@ -746,6 +748,7 @@ export const saveGame = async (
     fingerprint: context.fingerprint as string,
     deviceTrackerId: context.deviceTrackerId as string,
     transactionId: context.transactionId as string,
+    state: context.state,
   });
 
   // This gives the UI time to indicate that a save is taking place both when clicking save
@@ -976,6 +979,7 @@ export function startGame(authContext: AuthContext) {
                   fingerprint: context.fingerprint as string,
                   deviceTrackerId: context.deviceTrackerId as string,
                   transactionId: context.transactionId as string,
+                  state: context.state,
                 });
               }
 
@@ -1768,6 +1772,7 @@ export function startGame(authContext: AuthContext) {
                   fingerprint: context.fingerprint as string,
                   deviceTrackerId: context.deviceTrackerId as string,
                   transactionId: context.transactionId as string,
+                  state: context.state,
                 });
               }
 
@@ -1886,6 +1891,7 @@ export function startGame(authContext: AuthContext) {
                   fingerprint: context.fingerprint as string,
                   deviceTrackerId: context.deviceTrackerId as string,
                   transactionId: context.transactionId as string,
+                  state: context.state,
                 });
               }
 
@@ -1897,6 +1903,7 @@ export function startGame(authContext: AuthContext) {
                 fingerprint: context.fingerprint as string,
                 deviceTrackerId: context.deviceTrackerId as string,
                 transactionId: context.transactionId as string,
+                state: context.state,
               });
 
               return {
@@ -2054,6 +2061,7 @@ export function startGame(authContext: AuthContext) {
                   fingerprint: context.fingerprint as string,
                   deviceTrackerId: context.deviceTrackerId as string,
                   transactionId: context.transactionId as string,
+                  state: context.state,
                 });
               }
 
@@ -2178,6 +2186,7 @@ export function startGame(authContext: AuthContext) {
                   fingerprint: context.fingerprint as string,
                   deviceTrackerId: context.deviceTrackerId as string,
                   transactionId: context.transactionId as string,
+                  state: context.state,
                 });
               }
 
