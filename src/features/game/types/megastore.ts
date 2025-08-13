@@ -713,10 +713,12 @@ const BETTER_TOGETHER_ITEMS: SeasonalStore = {
       {
         collectible: "Bronze Flower Box",
         cost: { sfl: 0, items: { Bracelet: 450 } },
+        cooldownMs: 7 * 24 * 60 * 60 * 1000,
       },
       {
         collectible: "Treasure Key",
         cost: { sfl: 0, items: { Bracelet: 250 } },
+        cooldownMs: 24 * 60 * 60 * 1000,
       },
       {
         wearable: "Garbage Bin Hat",
@@ -737,10 +739,12 @@ const BETTER_TOGETHER_ITEMS: SeasonalStore = {
       {
         collectible: "Silver Flower Box",
         cost: { sfl: 0, items: { Bracelet: 1000 } },
+        cooldownMs: 7 * 24 * 60 * 60 * 1000,
       },
       {
         collectible: "Rare Key",
         cost: { sfl: 0, items: { Bracelet: 500 } },
+        cooldownMs: 24 * 60 * 60 * 1000,
       },
       {
         wearable: "Architect Ruler",
@@ -770,10 +774,12 @@ const BETTER_TOGETHER_ITEMS: SeasonalStore = {
       {
         collectible: "Gold Flower Box",
         cost: { sfl: 0, items: { Bracelet: 2000 } },
+        cooldownMs: 30 * 24 * 60 * 60 * 1000,
       },
       {
         collectible: "Luxury Key",
         cost: { sfl: 0, items: { Bracelet: 1000 } },
+        cooldownMs: 24 * 60 * 60 * 1000,
       },
       {
         collectible: "Double Bed",
