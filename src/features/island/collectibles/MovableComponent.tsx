@@ -366,11 +366,7 @@ export const MoveableComponent: React.FC<
           return;
         }
 
-        const game = removePlaceable({
-          state: gameService.getSnapshot().context.state,
-          id,
-          name,
-        });
+        const game = removePlaceable({ state, id, name });
         const collisionDetected = detectCollision({
           name: name as CollectibleName,
           state: game,
@@ -388,7 +384,7 @@ export const MoveableComponent: React.FC<
           gameService.send(getMoveAction(name), {
             // Don't send name for resource events and Bud events
             ...(name in RESOURCE_MOVE_EVENTS || name === "Bud" ? {} : { name }),
-            coordinates: { x: coordinatesX + xDiff, y: coordinatesY + yDiff },
+            coordinates: { x, y },
             id,
             // Resources do not require location to be passed
             location: name in RESOURCE_MOVE_EVENTS ? undefined : location,
@@ -403,6 +399,11 @@ export const MoveableComponent: React.FC<
     ),
     [],
   );
+  useEffect(() => {
+    return () => {
+      onStop.flush();
+    };
+  }, [onStop]);
 
   /**
    * Deselect if clicked outside of element
