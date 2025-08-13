@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { isCollectible } from "features/game/events/landExpansion/garbageSold";
+import { getObjectEntries } from "features/game/expansion/lib/utils";
 import {
   BuildingName,
   BUILDINGS_DIMENSIONS,
@@ -33,27 +34,29 @@ const PLACEABLE_DIMENSIONS = {
   ...RESOURCE_DIMENSIONS,
 };
 
-export const getActiveListedItems = (
-  state: GameState,
-): Record<CollectionName, Record<MarketplaceTradeableName, number>> => {
-  if (!state.trades.listings)
-    return {} as Record<
-      CollectionName,
-      Record<MarketplaceTradeableName, number>
-    >;
+type ListedItems = Record<
+  CollectionName,
+  Partial<Record<MarketplaceTradeableName, number>>
+>;
 
-  return Object.values(state.trades.listings).reduce(
+export const getActiveListedItems = (state: GameState): ListedItems => {
+  if (!state.trades.listings)
+    return {
+      wearables: {},
+      collectibles: {},
+      buds: {},
+      resources: {},
+    };
+
+  return Object.values(state.trades.listings).reduce<ListedItems>(
     (acc, listing) => {
       if (listing.boughtAt && listing.buyerId) return acc;
 
-      Object.entries(listing.items).forEach(([itemName, quantity]) => {
-        const name = itemName as MarketplaceTradeableName;
+      getObjectEntries(listing.items).forEach(([itemName, quantity]) => {
+        const amount = quantity ?? 0;
 
-        if (acc[listing.collection][name]) {
-          acc[listing.collection][name] += quantity as number;
-        } else {
-          acc[listing.collection][name] = quantity as number;
-        }
+        acc[listing.collection][itemName] =
+          (acc[listing.collection][itemName] ?? 0) + amount;
       });
 
       return acc;
@@ -61,24 +64,10 @@ export const getActiveListedItems = (
     {
       wearables: {},
       collectibles: {},
-    } as Record<CollectionName, Record<MarketplaceTradeableName, number>>,
+      buds: {},
+      resources: {},
+    },
   );
-};
-
-export const getBasketItems = (inventory: Inventory) => {
-  return getKeys(inventory)
-    .filter((itemName) =>
-      setPrecision(inventory[itemName] ?? 0, 2).greaterThan(0),
-    )
-    .reduce((acc, itemName) => {
-      if (itemName in PLACEABLE_DIMENSIONS) return acc;
-      if (itemName === "Basic Land") return acc;
-
-      return {
-        ...acc,
-        [itemName]: inventory[itemName],
-      };
-    }, {} as Inventory);
 };
 
 export const getChestBuds = (
