@@ -10,6 +10,7 @@ import chest from "assets/icons/chest.png";
 import shopIcon from "assets/icons/shop.png";
 import flipped from "assets/icons/flipped.webp";
 import flipIcon from "assets/icons/flip.webp";
+import cleanBroom from "assets/icons/clean_broom.webp";
 
 import { isMobile } from "mobile-device-detect";
 
@@ -210,7 +211,7 @@ const LandscapingHudComponent: React.FC<{ location: PlaceableLocation }> = ({
               </RoundButton>
               <RoundButton className="mb-3.5" onClick={removeAll}>
                 <img
-                  src={ITEM_DETAILS["Rusty Shovel"].image}
+                  src={cleanBroom}
                   className="absolute group-active:translate-y-[2px]"
                   style={{
                     top: `${PIXEL_SCALE * 5}px`,
