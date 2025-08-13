@@ -192,10 +192,6 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
       }
     }
 
-    if (isKey(itemName as InventoryItemName)) {
-      return !isKeyBoughtWithinSeason(state, tiers, true);
-    }
-
     if (itemReq) {
       const hasRequirements = getKeys(itemReq).every((name) => {
         const amount = itemReq[name] || new Decimal(0);
