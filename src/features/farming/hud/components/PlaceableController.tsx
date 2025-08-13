@@ -63,7 +63,6 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
     send,
   ] = useActor(child);
 
-  const [gameState] = useActor(gameService);
   const state = useSelector(gameService, (state) => state.context.state);
 
   let dimensions = { width: 0, height: 0 };
@@ -192,14 +191,24 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [child, handleCancelPlacement, handleConfirmPlacement]);
+  }, [child, collisionDetected, handleCancelPlacement, handleConfirmPlacement]);
 
-  const island = state.island;
-  const season = state.season.season;
-  const buildingLevel = isBuildingUpgradable(placeable as BuildingName)
-    ? state[makeUpgradableBuildingKey(placeable as UpgradableBuildingType)]
-        .level
-    : undefined;
+  const island = useSelector(
+    gameService,
+    (state) => state.context.state.island,
+  );
+  const season = useSelector(
+    gameService,
+    (state) => state.context.state.season.season,
+  );
+
+  const buildingLevel = useSelector(gameService, (state) =>
+    isBuildingUpgradable(placeable as BuildingName)
+      ? state.context.state[
+          makeUpgradableBuildingKey(placeable as UpgradableBuildingType)
+        ].level
+      : undefined,
+  );
 
   const getPlaceableImage = (
     placeable: LandscapingPlaceable,
@@ -219,7 +228,7 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
 
   if (!placeable) return null;
 
-  const items = getChestItems(gameState.context.state);
+  const items = getChestItems(state);
   const available = isBudName(placeable)
     ? new Decimal(1)
     : items[placeable] ?? new Decimal(0);

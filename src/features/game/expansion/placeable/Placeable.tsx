@@ -103,6 +103,7 @@ export const getInitialCoordinates = (origin?: Coordinates) => {
 interface Props {
   location: PlaceableLocation;
 }
+
 export const Placeable: React.FC<Props> = ({ location }) => {
   const { scale } = useContext(ZoomContext);
 
