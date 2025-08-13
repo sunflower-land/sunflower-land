@@ -16,10 +16,7 @@ import {
   Inventory,
   InventoryItemName,
 } from "features/game/types/game";
-import {
-  CollectionName,
-  MarketplaceTradeableName,
-} from "features/game/types/marketplace";
+import { MarketplaceTradeableName } from "features/game/types/marketplace";
 import {
   RESOURCE_STATE_ACCESSORS,
   RESOURCE_DIMENSIONS,
@@ -35,12 +32,9 @@ const PLACEABLE_DIMENSIONS = {
 
 export const getActiveListedItems = (
   state: GameState,
-): Record<CollectionName, Record<MarketplaceTradeableName, number>> => {
+): Record<MarketplaceTradeableName, number> => {
   if (!state.trades.listings)
-    return {} as Record<
-      CollectionName,
-      Record<MarketplaceTradeableName, number>
-    >;
+    return {} as Record<MarketplaceTradeableName, number>;
 
   return Object.values(state.trades.listings).reduce(
     (acc, listing) => {
@@ -49,16 +43,16 @@ export const getActiveListedItems = (
       Object.entries(listing.items).forEach(([itemName, quantity]) => {
         const name = itemName as MarketplaceTradeableName;
 
-        if (acc[listing.collection][name]) {
-          acc[listing.collection][name] += quantity as number;
+        if (acc[name]) {
+          acc[name] += quantity as number;
         } else {
-          acc[listing.collection][name] = quantity as number;
+          acc[name] = quantity as number;
         }
       });
 
       return acc;
     },
-    {} as Record<CollectionName, Record<MarketplaceTradeableName, number>>,
+    {} as Record<MarketplaceTradeableName, number>,
   );
 };
 
