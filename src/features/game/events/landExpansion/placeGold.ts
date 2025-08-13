@@ -51,8 +51,8 @@ export function placeGold({
         const existingProgress =
           updatedGold.removedAt - updatedGold.stone.minedAt;
         updatedGold.stone.minedAt = createdAt - existingProgress;
-        delete updatedGold.removedAt;
       }
+      delete updatedGold.removedAt;
 
       game.gold[id] = updatedGold;
 

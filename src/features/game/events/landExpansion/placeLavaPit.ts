@@ -55,8 +55,8 @@ export function placeLavaPit({
       const existingProgress =
         updatedLavaPit.removedAt - updatedLavaPit.startedAt;
       updatedLavaPit.startedAt = createdAt - existingProgress;
-      delete updatedLavaPit.removedAt;
     }
+    delete updatedLavaPit.removedAt;
 
     game.lavaPits[id] = updatedLavaPit;
 

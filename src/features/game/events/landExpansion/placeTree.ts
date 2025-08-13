@@ -51,8 +51,8 @@ export function placeTree({
         const existingProgress =
           updatedTree.removedAt - updatedTree.wood.choppedAt;
         updatedTree.wood.choppedAt = createdAt - existingProgress;
-        delete updatedTree.removedAt;
       }
+      delete updatedTree.removedAt;
 
       game.trees[id] = updatedTree;
 

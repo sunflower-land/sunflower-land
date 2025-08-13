@@ -51,8 +51,8 @@ export function placeSunstone({
         const existingProgress =
           updatedSunstone.removedAt - updatedSunstone.stone.minedAt;
         updatedSunstone.stone.minedAt = createdAt - existingProgress;
-        delete updatedSunstone.removedAt;
       }
+      delete updatedSunstone.removedAt;
 
       game.sunstones[id] = updatedSunstone;
 
