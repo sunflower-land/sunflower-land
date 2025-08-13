@@ -31,6 +31,7 @@ import { SEASON_ICONS } from "./SeasonalSeeds";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { isExoticCrop } from "features/game/types/crops";
+import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
 
 const _state = (state: MachineState) => state.context.state;
 
@@ -80,7 +81,10 @@ export const SeasonalCrops: React.FC = () => {
       ? crop.sellPrice
       : getSellPrice({ item: crop, game: state });
 
-  const cropAmount = setPrecision(inventory[selected.name] ?? 0, 2);
+  const cropAmount = setPrecision(
+    getCountAndType(state, selected.name).count,
+    2,
+  );
   const coinAmount = setPrecision(
     new Decimal(displaySellPrice(selected)).mul(
       islandType !== "basic" ? new Decimal(customAmount) : cropAmount,
@@ -212,7 +216,7 @@ export const SeasonalCrops: React.FC = () => {
                     key={name}
                     onClick={() => setSelected(crops[name])}
                     image={ITEM_DETAILS[name].image}
-                    count={inventory[name]}
+                    count={getCountAndType(state, name).count}
                     parentDivRef={divRef}
                   />
                 ))}
@@ -236,7 +240,7 @@ export const SeasonalCrops: React.FC = () => {
                     key={name}
                     onClick={() => setSelected(crops[name])}
                     image={ITEM_DETAILS[name].image}
-                    count={inventory[name]}
+                    count={getCountAndType(state, name).count}
                     parentDivRef={divRef}
                   />
                 ))}

@@ -19,6 +19,7 @@ import {
 } from "features/game/types/fruits";
 import { produce } from "immer";
 import { ExoticCrop } from "features/game/types/beans";
+import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
 
 export type SellableName = CropName | PatchFruitName;
 export type SellableItem =
@@ -70,7 +71,7 @@ export function sellCrop({
 
     const sellables = SELLABLE[action.crop];
 
-    const count = game.inventory[action.crop] || new Decimal(0);
+    const { count } = getCountAndType(game, action.crop);
 
     if (count.lessThan(action.amount)) {
       throw new Error("Insufficient quantity to sell");

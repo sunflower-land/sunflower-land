@@ -43,3 +43,5 @@ cache
 #ide Settings
 /.idea
 /.vscode
+
+/*.json
