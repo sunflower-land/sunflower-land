@@ -11,8 +11,7 @@ import classNames from "classnames";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
-import Crown from "assets/icons/vip.webp";
-
+import { CHAPTER_FISH } from "features/game/types/fishing";
 /**
  * Base Layout for Collectible Item Details Page in Codex
  * It can be extended by passing in addition children components
@@ -136,19 +135,21 @@ export const Detail: React.FC<Props> = ({
                   {itemType}
                 </Label>
               )}
-              {!!availability && (
-                <Label
-                  type={availability === "Seasonal" ? "info" : "vibrant"}
-                  icon={
-                    availability === "Seasonal"
-                      ? SUNNYSIDE.icons.stopwatch
-                      : Crown
-                  }
-                  className="capitalize"
-                >
-                  {availability}
-                </Label>
-              )}
+
+              {(availability || name in CHAPTER_FISH) &&
+                (availability === "Permanent" ? (
+                  <Label type="vibrant" className="capitalize">
+                    {t("permanent")}
+                  </Label>
+                ) : (
+                  <Label
+                    type="info"
+                    icon={SUNNYSIDE.icons.stopwatch}
+                    className="capitalize"
+                  >
+                    {t("chapter")}
+                  </Label>
+                ))}
             </div>
           </div>
         </div>
