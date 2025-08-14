@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { ITEM_IDS } from "features/game/types/bumpkin";
 import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
@@ -13,12 +13,16 @@ import {
   GameState,
 } from "features/game/types/game";
 
-import shopIcon from "assets/icons/shop.png";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { MachineState } from "features/game/lib/gameMachine";
 import { SeasonalStore } from "./SeasonalStore";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
+import {
+  getCurrentSeason,
+  getSeasonalTicket,
+} from "features/game/types/seasons";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 interface Props {
   onClose: () => void;
@@ -60,19 +64,19 @@ const _state = (state: MachineState) => state.context.state;
 
 export const MegaStore: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
-  const [tab, setTab] = useState(0);
   const state = useSelector(gameService, _state);
+  const chapter = getCurrentSeason();
+  const icon = ITEM_DETAILS[getSeasonalTicket()].image;
+  const { t } = useAppTranslation();
 
   // Update logic after release
   return (
     <CloseButtonPanel
       bumpkinParts={NPC_WEARABLES.stella}
-      tabs={[{ icon: shopIcon, name: "Seasonal Store" }]}
+      tabs={[{ icon, name: t("chapterStore.title", { chapter }) }]}
       onClose={onClose}
-      currentTab={tab}
-      setCurrentTab={setTab}
     >
-      {tab === 0 && <SeasonalStore state={state} />}
+      <SeasonalStore state={state} />
     </CloseButtonPanel>
   );
 };
