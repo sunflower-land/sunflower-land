@@ -61,20 +61,35 @@ const calculateNextPlacement = ({
   currentPosition: Coordinates;
   dimensions: Dimensions;
 }): Coordinates => {
+  const defaultNewPosition = {
+    x: currentPosition.x,
+    y: currentPosition.y - dimensions.height,
+  };
+
+  // If no previous position, return defaultNewPosition
   if (!previousPosition) {
-    return {
-      x: currentPosition.x,
-      y: currentPosition.y - dimensions.height,
-    };
+    return defaultNewPosition;
   }
 
+  // Calculate the difference between the current and previous positions
   const xDiff = currentPosition.x - previousPosition.x;
   const yDiff = currentPosition.y - previousPosition.y;
 
-  return {
+  // If new position would be diagonal or not adjacent to previous position, return defaultNewPosition
+  if (
+    xDiff > dimensions.width ||
+    yDiff > dimensions.height ||
+    (xDiff !== 0 && yDiff !== 0)
+  ) {
+    return defaultNewPosition;
+  }
+
+  const newPosition = {
     x: currentPosition.x + xDiff,
     y: currentPosition.y + yDiff,
   };
+
+  return newPosition;
 };
 
 export const PlaceableController: React.FC<Props> = ({ location }) => {
@@ -205,6 +220,7 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
 
   const handleCancelPlacement = useCallback(() => {
     send("BACK");
+    setPreviousPosition(undefined);
   }, [send]);
 
   // Confirm placement on Enter/NumpadEnter; cancel on Escape
