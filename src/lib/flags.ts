@@ -110,6 +110,7 @@ const FEATURE_FLAGS = {
   CRAFTING: betaTimeBasedFeatureFlag(SEASONS["Better Together"].startDate),
 
   PETS: defaultFeatureFlag,
+  FLOWER_INSTA_GROW: defaultFeatureFlag,
 
   API_PERFORMANCE: adminFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
