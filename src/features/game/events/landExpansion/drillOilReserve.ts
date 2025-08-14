@@ -134,6 +134,10 @@ export function drillOilReserve({
       throw new Error(`Oil reserve #${action.id} not found`);
     }
 
+    if (oilReserve.x === undefined && oilReserve.y === undefined) {
+      throw new Error("Oil reserve is not placed");
+    }
+
     if (drillAmount.lessThan(requiredDrills)) {
       throw new Error("No oil drills available");
     }

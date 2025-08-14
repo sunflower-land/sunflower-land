@@ -265,6 +265,10 @@ export function plantFruit({
       throw new Error("Fruit patch does not exist");
     }
 
+    if (patch.x === undefined && patch.y === undefined) {
+      throw new Error("Fruit patch is not placed");
+    }
+
     if (patch.fruit?.plantedAt) {
       throw new Error("Fruit is already planted");
     }

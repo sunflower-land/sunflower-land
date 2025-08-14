@@ -159,6 +159,32 @@ describe("fruitHarvested", () => {
     ).toThrow("Not ready");
   });
 
+  it("does not harvest if the fruit patch is not placed", () => {
+    expect(() =>
+      harvestFruit({
+        state: {
+          ...GAME_STATE,
+          fruitPatches: {
+            0: {
+              createdAt: 0,
+              fruit: {
+                name: "Blueberry",
+                plantedAt: Date.now() - 3 * 24 * 60 * 60 * 1000,
+                harvestsLeft: 5,
+                harvestedAt: 2,
+              },
+            },
+          },
+        },
+        action: {
+          type: "fruit.harvested",
+          index: "0",
+        },
+        createdAt: dateNow,
+      }),
+    ).toThrow("Fruit patch is not placed");
+  });
+
   it("does not harvest if the fruit is still replenishing", () => {
     const { fruitPatches } = GAME_STATE;
     const fruitPatch = (fruitPatches as Record<number, FruitPatch>)[0];
@@ -298,7 +324,6 @@ describe("fruitHarvested", () => {
       createdAt: dateNow,
     });
 
-    const { fruitPatches: fruitPatchesAfterHarvest } = state;
     expect(state.inventory.Apple).toEqual(new Decimal(1.25));
   });
 
@@ -342,8 +367,6 @@ describe("fruitHarvested", () => {
       createdAt: dateNow,
     });
 
-    const { fruitPatches: fruitPatchesAfterHarvest } = state;
-    const fruit = fruitPatchesAfterHarvest?.[0].fruit;
     expect(state.inventory.Blueberry).toEqual(new Decimal(2));
   });
 

@@ -518,6 +518,10 @@ export function plant({
       throw new Error("Plot does not exist");
     }
 
+    if (plot.x === undefined && plot.y === undefined) {
+      throw new Error("Plot is not placed");
+    }
+
     if (
       !isPlotFertile({
         plotIndex: action.index,

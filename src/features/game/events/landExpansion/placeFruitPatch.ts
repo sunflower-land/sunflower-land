@@ -59,8 +59,9 @@ export function placeFruitPatch({
             existingPatch.removedAt - existingPatch.fruit.plantedAt;
           existingPatch.fruit.plantedAt = createdAt - existingProgress;
         }
-        delete existingPatch.removedAt;
       }
+      delete existingPatch.removedAt;
+
       game.fruitPatches[id] = existingPatch;
 
       // Early return to avoid adding the new fruit patch

@@ -55,8 +55,8 @@ export function placeFlowerBed({
         const existingProgress =
           updatedFlowerBed.removedAt - updatedFlowerBed.flower.plantedAt;
         updatedFlowerBed.flower.plantedAt = createdAt - existingProgress;
-        delete updatedFlowerBed.removedAt;
       }
+      delete updatedFlowerBed.removedAt;
 
       game.flowers.flowerBeds[id] = updatedFlowerBed;
 

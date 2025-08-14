@@ -51,8 +51,8 @@ export function placeStone({
         const existingProgress =
           updatedStone.removedAt - updatedStone.stone.minedAt;
         updatedStone.stone.minedAt = createdAt - existingProgress;
-        delete updatedStone.removedAt;
       }
+      delete updatedStone.removedAt;
 
       game.stones[id] = updatedStone;
 

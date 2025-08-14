@@ -63,6 +63,30 @@ describe("mineIron", () => {
     ).toThrow("No iron");
   });
 
+  it("throws an error if iron is not placed", () => {
+    expect(() =>
+      mineIron({
+        state: {
+          ...GAME_STATE,
+          bumpkin: TEST_BUMPKIN,
+          iron: {
+            0: {
+              ...GAME_STATE.iron[0],
+              createdAt: 0,
+              x: undefined,
+              y: undefined,
+            },
+          },
+        },
+        createdAt: Date.now(),
+        action: {
+          type: "ironRock.mined",
+          index: "0",
+        },
+      }),
+    ).toThrow("Iron rock is not placed");
+  });
+
   it("throws an error if iron is not ready", () => {
     const payload = {
       state: {

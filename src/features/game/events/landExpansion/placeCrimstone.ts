@@ -54,8 +54,8 @@ export function placeCrimstone({
         const existingProgress =
           updatedCrimstone.removedAt - updatedCrimstone.stone.minedAt;
         updatedCrimstone.stone.minedAt = createdAt - existingProgress;
-        delete updatedCrimstone.removedAt;
       }
+      delete updatedCrimstone.removedAt;
 
       game.crimstones[id] = updatedCrimstone;
 

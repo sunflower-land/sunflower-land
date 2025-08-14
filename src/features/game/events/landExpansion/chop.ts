@@ -253,6 +253,10 @@ export function chop({
       throw new Error(CHOP_ERRORS.NO_TREE);
     }
 
+    if (tree.x === undefined && tree.y === undefined) {
+      throw new Error("Tree is not placed");
+    }
+
     if (!canChop(tree, createdAt)) {
       throw new Error(CHOP_ERRORS.STILL_GROWING);
     }

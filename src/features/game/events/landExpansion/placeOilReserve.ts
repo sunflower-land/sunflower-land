@@ -51,8 +51,8 @@ export function placeOilReserve({
         const existingProgress =
           updatedOilReserve.removedAt - updatedOilReserve.oil.drilledAt;
         updatedOilReserve.oil.drilledAt = createdAt - existingProgress;
-        delete updatedOilReserve.removedAt;
       }
+      delete updatedOilReserve.removedAt;
 
       game.oilReserves[id] = updatedOilReserve;
 

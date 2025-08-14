@@ -41,6 +41,22 @@ describe("mineGold", () => {
     ).toThrow("No iron pickaxes left");
   });
 
+  it("throws an error if gold is not placed", () => {
+    expect(() =>
+      mineGold({
+        state: {
+          ...GAME_STATE,
+          bumpkin: GAME_STATE.bumpkin,
+          gold: {
+            0: { ...GAME_STATE.gold[0], x: undefined, y: undefined },
+          },
+        },
+        action: { type: "goldRock.mined", index: "0" },
+        createdAt: Date.now(),
+      }),
+    ).toThrow("Gold rock is not placed");
+  });
+
   it("throws an error if gold does not exist", () => {
     expect(() =>
       mineGold({

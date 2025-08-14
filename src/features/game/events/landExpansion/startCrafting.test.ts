@@ -116,6 +116,36 @@ describe("startCrafting", () => {
     );
   });
 
+  it("throws an error if the Crafting Box is not placed", () => {
+    gameState.buildings["Crafting Box"] = [
+      {
+        id: "123",
+        coordinates: undefined,
+        createdAt: 0,
+        readyAt: 0,
+      },
+    ];
+
+    const action: StartCraftingAction = {
+      type: "crafting.started",
+      ingredients: [
+        { collectible: "Wood" },
+        { collectible: "Wood" },
+        { collectible: "Stone" },
+        null,
+        null,
+        null,
+        null,
+        null,
+        null,
+      ],
+    };
+
+    expect(() => startCrafting({ state: gameState, action })).toThrow(
+      "You do not have a Crafting Box",
+    );
+  });
+
   it("throws an error if there's already an ongoing crafting", () => {
     gameState.craftingBox = {
       status: "pending",

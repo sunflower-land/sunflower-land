@@ -160,7 +160,7 @@ export function placeBuilding({
                 game: stateCopy,
                 time: RECIPES(stateCopy)[craftingBox.item.wearable]?.time ?? 0,
               });
-          craftingBox.readyAt = createdAt + recipeTime;
+          craftingBox.readyAt = craftingBox.startedAt + recipeTime;
         }
       }
 

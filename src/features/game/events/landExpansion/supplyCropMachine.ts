@@ -323,7 +323,11 @@ export function supplyCropMachine({
       throw new Error("You do not have a Bumpkin");
     }
 
-    if (!stateCopy.buildings["Crop Machine"]?.[0]) {
+    if (
+      !stateCopy.buildings["Crop Machine"]?.some(
+        (building) => !!building.coordinates,
+      )
+    ) {
       throw new Error("Crop Machine does not exist");
     }
 

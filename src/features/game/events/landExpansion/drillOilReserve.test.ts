@@ -35,6 +35,29 @@ describe("drillOilReserve", () => {
     ).toThrow("Oil reserve #2 not found");
   });
 
+  it("throws an error if the oil reserve is not placed", () => {
+    expect(() =>
+      drillOilReserve({
+        action: {
+          id: "1",
+          type: "oilReserve.drilled",
+        },
+        state: {
+          ...TEST_FARM,
+          oilReserves: {
+            "1": {
+              createdAt: 0,
+              drilled: 0,
+              oil: {
+                drilledAt: 0,
+              },
+            },
+          },
+        },
+      }),
+    ).toThrow("Oil reserve is not placed");
+  });
+
   it("throws an error if the player does not have any drills", () => {
     expect(() =>
       drillOilReserve({
