@@ -15,10 +15,22 @@ const GAME_STATE: GameState = {
 describe("start Compost Bin", () => {
   const dateNow = Date.now();
 
-  it("throws an error if Composter does not exist", () => {
+  it("throws an error if Composter is not placed", () => {
     expect(() =>
       startComposter({
-        state: GAME_STATE,
+        state: {
+          ...GAME_STATE,
+          buildings: {
+            "Compost Bin": [
+              {
+                coordinates: undefined,
+                createdAt: 0,
+                readyAt: 0,
+                id: "0",
+              },
+            ],
+          },
+        },
         action: { type: "composter.started", building: "Compost Bin" },
       }),
     ).toThrow("Composter does not exist");

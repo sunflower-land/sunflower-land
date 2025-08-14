@@ -68,6 +68,32 @@ describe("mineStone", () => {
     ).toThrow("Stone does not exist");
   });
 
+  it("throws an error if stone is not placed", () => {
+    expect(() =>
+      mineStone({
+        state: {
+          ...GAME_STATE,
+          bumpkin: TEST_BUMPKIN,
+          inventory: {
+            Pickaxe: new Decimal(2),
+          },
+          stones: {
+            0: {
+              ...GAME_STATE.stones[0],
+              x: undefined,
+              y: undefined,
+            },
+          },
+        },
+        createdAt: Date.now(),
+        action: {
+          type: "stoneRock.mined",
+          index: 0,
+        },
+      }),
+    ).toThrow("Rock is not placed");
+  });
+
   it("throws an error if stone is not ready", () => {
     const payload = {
       state: {

@@ -66,6 +66,27 @@ describe("plant", () => {
     ).toThrow("Plot does not exist");
   });
 
+  it("does not plant if plot is not placed", () => {
+    expect(() =>
+      plant({
+        state: {
+          ...GAME_STATE,
+          bumpkin: TEST_BUMPKIN,
+          crops: {
+            0: { ...GAME_STATE.crops[0], x: undefined, y: undefined },
+          },
+        },
+        createdAt: dateNow,
+        action: {
+          type: "seed.planted",
+          cropId: "123",
+          index: "0",
+          item: "Sunflower Seed",
+        },
+      }),
+    ).toThrow("Plot is not placed");
+  });
+
   it("does not plant if crop already exists", () => {
     const plot = GAME_STATE.crops[firstId];
 
