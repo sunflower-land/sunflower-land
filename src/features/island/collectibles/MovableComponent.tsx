@@ -272,6 +272,10 @@ export const MoveableComponent: React.FC<
 
   const movingItem = useSelector(landscapingMachine, getMovingItem);
 
+  const isPlacing = useSelector(landscapingMachine, (state) =>
+    state.matches({ editing: "placing" }),
+  );
+
   const isSelected = movingItem?.id === id && movingItem?.name === name;
 
   const removeAction = !isMobile && getRemoveAction(name);
@@ -428,7 +432,7 @@ export const MoveableComponent: React.FC<
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       // Immediately return if in placing mode
-      if (landscapingMachine.state.matches({ editing: "placing" })) {
+      if (isPlacing) {
         return;
       }
 
@@ -562,6 +566,7 @@ export const MoveableComponent: React.FC<
     coordinatesY,
     dimensions,
     id,
+    isPlacing,
     isSelected,
     location,
     name,
