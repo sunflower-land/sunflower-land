@@ -77,8 +77,8 @@ const calculateNextPlacement = ({
 
   // If new position would be diagonal or not adjacent to previous position, return defaultNewPosition
   if (
-    xDiff > dimensions.width ||
-    yDiff > dimensions.height ||
+    Math.abs(xDiff) > dimensions.width ||
+    Math.abs(yDiff) > dimensions.height ||
     (xDiff !== 0 && yDiff !== 0)
   ) {
     return defaultNewPosition;
