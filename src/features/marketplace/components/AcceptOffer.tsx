@@ -93,11 +93,6 @@ const AcceptOfferContent: React.FC<{
       !!getBasketItems(state.inventory)[name]?.gte(offer.quantity);
   }
 
-  if (display.type === "resources") {
-    const name = KNOWN_ITEMS[itemId];
-    hasItem = !!getBasketItems(state.inventory)[name]?.gte(offer.quantity);
-  }
-
   if (display.type === "wearables") {
     const name = ITEM_NAMES[itemId];
     hasItem = !!availableWardrobe(state)[name];

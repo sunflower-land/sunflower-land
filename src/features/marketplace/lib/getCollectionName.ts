@@ -7,7 +7,7 @@ import {
 
 export function getCollectionName(
   itemName: MarketplaceTradeableName,
-): Exclude<CollectionName, "resources"> {
+): CollectionName {
   if (itemName in KNOWN_IDS) {
     return "collectibles";
   }

@@ -10,11 +10,7 @@ export const MARKETPLACE_TAX = 0.1;
 // Give it 15 minutes to resolve (cannot cancel while it is being purchased)
 export const TRADE_INITIATION_MS = 15 * 60 * 1000;
 
-export type CollectionName =
-  | "collectibles"
-  | "wearables"
-  | "buds"
-  | "resources";
+export type CollectionName = "collectibles" | "wearables" | "buds";
 
 export type Tradeable = {
   id: number;

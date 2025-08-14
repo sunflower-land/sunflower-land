@@ -59,7 +59,7 @@ export const PurchaseModalContent: React.FC<PurchaseModalContentProps> = ({
   });
 
   let updatedInventory = inventory;
-  if (collection === "resources" || collection === "collectibles") {
+  if (collection === "collectibles") {
     updatedInventory = {
       ...inventory,
       [KNOWN_ITEMS[tradeable.id]]: (
