@@ -144,11 +144,13 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
   const hasHarvestedBefore = !!farmActivity[`${flower.name} Harvested`];
   const reward = flower.reward;
 
+  const hasInstaGrow = hasFeatureAccess(state, "FLOWER_INSTA_GROW");
+
   const instaGrowCost = calculateInstaGrowCost(timeLeftSeconds);
   const playerObsidian = inventory.Obsidian ?? new Decimal(0);
 
   const handlePlotClick = () => {
-    if (isGrowing && hasFeatureAccess(state, "FLOWER_INSTA_GROW")) {
+    if (isGrowing && hasInstaGrow) {
       setShowInstaGrowModal(true);
       return;
     }
@@ -186,15 +188,9 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
     <>
       <div
         className={classNames("relative w-full h-full", {
-          "cursor-not-allowed hover:img-highlight": !isGrowing,
-          "cursor-pointer hover:img-highlight":
-            isGrowing && hasFeatureAccess(state, "FLOWER_INSTA_GROW"),
+          "cursor-pointer hover:img-highlight": !isGrowing || hasInstaGrow,
         })}
-        onClick={
-          hasFeatureAccess(state, "FLOWER_INSTA_GROW")
-            ? handlePlotClick
-            : undefined
-        }
+        onClick={!isGrowing || hasInstaGrow ? handlePlotClick : undefined}
         onMouseEnter={() => setShowPopover(true)}
         onMouseLeave={() => setShowPopover(false)}
       >
@@ -337,8 +333,11 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
         </Panel>
       </Modal>
 
-      {hasFeatureAccess(state, "FLOWER_INSTA_GROW") && (
-        <Modal show={showInstaGrowModal}>
+      {hasInstaGrow && (
+        <Modal
+          show={showInstaGrowModal}
+          onHide={() => setShowInstaGrowModal(false)}
+        >
           <CloseButtonPanel
             onClose={() => setShowInstaGrowModal(false)}
             bumpkinParts={NPC_WEARABLES["poppy"]}
