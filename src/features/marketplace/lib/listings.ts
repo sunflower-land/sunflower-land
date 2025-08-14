@@ -2,7 +2,7 @@ import { KNOWN_IDS } from "features/game/types";
 import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
 import { getKeys } from "features/game/types/decorations";
 import { InventoryItemName, TradeListing } from "features/game/types/game";
-import { getCollectionName } from "./tradeables";
+import { getCollectionName } from "./getCollectionName";
 
 export function getListingItem({ listing }: { listing: TradeListing }): number {
   const name = getKeys(listing.items ?? {})[0]; // Currently only one item supported
@@ -12,6 +12,7 @@ export function getListingItem({ listing }: { listing: TradeListing }): number {
   if (collection === "buds") {
     // TODO: FIX THIS SPLIT NOW THAT WE DON"T USE #
     const [_, id] = name.split("#");
+
     return Number(id);
   }
 
@@ -24,5 +25,6 @@ export function getListingItem({ listing }: { listing: TradeListing }): number {
 
 export function getListingCollection({ listing }: { listing: TradeListing }) {
   const name = getKeys(listing.items ?? {})[0]; // Currently only one item supported
+
   return getCollectionName(name);
 }

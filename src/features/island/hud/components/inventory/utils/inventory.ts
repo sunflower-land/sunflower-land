@@ -26,6 +26,7 @@ import {
   RESOURCE_DIMENSIONS,
   ResourceName,
 } from "features/game/types/resources";
+import { getCollectionName } from "features/marketplace/lib/getCollectionName";
 import { setPrecision } from "lib/utils/formatNumber";
 
 const PLACEABLE_DIMENSIONS = {
@@ -35,7 +36,7 @@ const PLACEABLE_DIMENSIONS = {
 };
 
 type ListedItems = Record<
-  CollectionName,
+  Exclude<CollectionName, "resources">,
   Partial<Record<MarketplaceTradeableName, number>>
 >;
 
@@ -45,7 +46,6 @@ export const getActiveListedItems = (state: GameState): ListedItems => {
       wearables: {},
       collectibles: {},
       buds: {},
-      resources: {},
     };
   }
 
@@ -55,7 +55,7 @@ export const getActiveListedItems = (state: GameState): ListedItems => {
 
       getObjectEntries(listing.items).forEach(([itemName, quantity]) => {
         const amount = quantity ?? 0;
-        const collection = listing.collection ?? "collectibles";
+        const collection = getCollectionName(itemName);
 
         acc[collection][itemName] = (acc[collection][itemName] ?? 0) + amount;
       });
@@ -66,7 +66,6 @@ export const getActiveListedItems = (state: GameState): ListedItems => {
       wearables: {},
       collectibles: {},
       buds: {},
-      resources: {},
     },
   );
 };
