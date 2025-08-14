@@ -42,6 +42,7 @@ import { useOnMachineTransition } from "lib/utils/hooks/useOnMachineTransition";
 import { Button } from "components/ui/Button";
 import socialPointsIcon from "assets/icons/social_score.webp";
 import { discoveryModalManager } from "./lib/discoveryModalManager";
+import { FeedFilters } from "./components/FeedFilters";
 
 type Props = {
   type: "world" | "local";
@@ -83,6 +84,7 @@ export const Feed: React.FC<Props> = ({
 
   const [showFollowing, setShowFollowing] = useState(false);
   const feedRef = useRef<HTMLDivElement>(null);
+  const [selectedFilter, setSelectedFilter] = useState<string>("all");
 
   const username = useSelector(gameService, _username);
   const token = useSelector(authService, _token);
@@ -297,6 +299,22 @@ export const Feed: React.FC<Props> = ({
             </div>
           </div>
         </div>
+        <FeedFilters
+          options={[
+            { value: "all", label: "All" },
+            {
+              value: "helped",
+              label: "Helped",
+            },
+            { value: "chat", label: "Chat" },
+            {
+              value: "cheers",
+              label: "Cheers",
+            },
+          ]}
+          value={selectedFilter}
+          onChange={(value) => setSelectedFilter(value)}
+        />
 
         {showFollowing && (
           <div
