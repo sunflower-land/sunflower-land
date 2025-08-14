@@ -13,6 +13,7 @@ import {
   GameState,
 } from "features/game/types/game";
 
+import shopIcon from "assets/icons/shop.png";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { MachineState } from "features/game/lib/gameMachine";
 import { SeasonalStore } from "./SeasonalStore";
@@ -65,9 +66,17 @@ const _state = (state: MachineState) => state.context.state;
 export const MegaStore: React.FC<Props> = ({ onClose }) => {
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
-  const chapter = getCurrentSeason();
-  const icon = ITEM_DETAILS[getSeasonalTicket()].image;
+
+  const icon = ITEM_DETAILS[getSeasonalTicket()].image ?? shopIcon;
   const { t } = useAppTranslation();
+
+  // If no season is found, use "Chapter"
+  let chapter: string;
+  try {
+    chapter = getCurrentSeason();
+  } catch {
+    chapter = "Chapter";
+  }
 
   // Update logic after release
   return (
