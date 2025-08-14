@@ -4547,7 +4547,6 @@
   "description.frozen.cow": "Une vache complètement gelée par les vents de l'hiver.",
   "description.summer.chicken.boost": "Pas de maladie des poulets en été",
   "description.summer.chicken": "Un poulet qui aime le soleil et qui s'épanouit dans la chaleur estivale, se prélasse sous les chauds rayons du soleil et glousse de joie !",
-  "description.jellyfish.boost": "Augmenter les prises de poissons de 1 % en été",
   "description.jellyfish": "Une merveille marine lumineuse qui rayonne d'une énergie mystique, permettant d'améliorer les capacités de pêche pendant les mois chauds de l'été.",
   "description.chamomile": "Une fleur mutante décorative découverte dans le chapitre Winds of Change.",
   "islandupgrade.exoticResourcesDescription": "Cette région de Sunflower Land est connue pour ses ressources exotiques. Agrandissez vos terres pour découvrir des fruits, des fleurs, des ruches d'abeilles et des minéraux rares ! Surveillez les saisons car elles influent sur ce que vous pouvez cultiver.",
@@ -5814,7 +5813,6 @@
   "description.nurseSheep": "Un mouton mutant prêt à aider en tant que gentille nourrice",
   "description.nurseSheep.boost": "Les moutons ne peuvent pas tomber malades pendant l'été",
   "description.pinkDolphin": "Un dauphin rare avec une belle teinte rose",
-  "description.pinkDolphin.boost": "Augmenter les prises de poissons de 1 % au printemps",
   "description.lunalist": "Un artefact fleuri consacré à la lune. Une fleur mutante décorative découverte lors du chapitre Great Bloom",
   "description.heartAirBalloon": "Un symbole flottant d'amour, prêt à remonter le moral comme au cœur. +1 graines de génisse pour les livraisons, les corvées et les primes.",
   "whatsOn.july28th": "le 28 juillet",
@@ -6438,5 +6436,8 @@
   "description.legendaryShrine.buff": "Rendements bonus",
   "description.fossilShell": "On dirait qu'il y a quelque chose à l'intérieur...",
   "pet.resources": "Ressources pour animaux de compagnie",
-  "chapterStore.title": "{{chapter}} Boutique"
+  "chapterStore.title": "{{chapter}} Boutique",
+  "description.jellyfish.boost": "+1 poisson en été",
+  "description.pinkDolphin.boost": "+1 poisson au printemps",
+  "instaGrow.timeRemaining": "Temps restant : {{time}}"
 }

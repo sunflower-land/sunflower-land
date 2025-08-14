@@ -4547,7 +4547,6 @@
   "description.frozen.cow": "Una vaca que ha quedado completamente congelada por los vientos del invierno.",
   "description.summer.chicken.boost": "No hay enfermedad de los pollos durante el verano",
   "description.summer.chicken": "¡Un pollo amante del sol que prospera con el calor del verano, disfrutando de los cálidos rayos y cacareando de alegría!",
-  "description.jellyfish.boost": "+1 pez en la estacion de Verano",
   "description.jellyfish": "Una luminosa maravilla marina que brilla con energía mística y que permite mejorar las habilidades de pesca durante los cálidos meses de verano.",
   "description.chamomile": "Una flor mutante decorativa encontrada durante el capítulo Vientos de cambio.",
   "islandupgrade.exoticResourcesDescription": "Esta área de Sunflower Land es conocida por sus recursos exóticos. ¡Amplía tu tierra para descubrir frutas, flores, colmenas de abejas y minerales raros! Esté atento a las estaciones, ya que afectan a lo que puede cultivar.",
@@ -5814,7 +5813,6 @@
   "description.nurseSheep": "Una oveja mutante lista para ayudar como amable nodriza",
   "description.nurseSheep.boost": "Las ovejas no pueden enfermarse durante el verano",
   "description.pinkDolphin": "Un delfín raro con un hermoso tono rosado",
-  "description.pinkDolphin.boost": "Aumente la captura de peces en +1 durante la primavera",
   "description.lunalist": "Un artefacto floreciente dedicado a la luna. Una flor mutante decorativa encontrada durante el capítulo de La Gran Floración",
   "description.heartAirBalloon": "Un símbolo flotante del amor, listo para levantar el ánimo y los corazones por igual. +1 geniseed por entregas, tareas y recompensas.",
   "whatsOn.july28th": "28 de julio",
@@ -6438,5 +6436,8 @@
   "description.legendaryShrine.buff": "Rendimientos de bonificación",
   "description.fossilShell": "Parece que hay algo dentro...",
   "pet.resources": "Recursos para mascotas",
-  "chapterStore.title": "{{chapter}} Tienda"
+  "chapterStore.title": "{{chapter}} Tienda",
+  "description.jellyfish.boost": "+1 pez durante el verano",
+  "description.pinkDolphin.boost": "+1 pez durante la primavera",
+  "instaGrow.timeRemaining": "Tiempo restante: {{time}}"
 }

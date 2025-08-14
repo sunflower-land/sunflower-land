@@ -4547,7 +4547,6 @@
   "description.frozen.cow": "一头被冬季的风冻得结实的牛。",
   "description.summer.chicken.boost": "夏季不会出现鸡病",
   "description.summer.chicken": "一只喜欢阳光的鸡，在炎热的夏日里茁壮成长，沐浴在温暖的阳光下，欢乐地发出咯咯声！",
-  "description.jellyfish.boost": "夏季，鱼类捕捞量 +1",
   "description.jellyfish": "一个发光的海洋奇迹，散发着神秘的能量，在温暖的夏季增强了钓鱼能力。",
   "description.chamomile": "在<风云变幻>章节中发现的一朵装饰性突变花。",
   "islandupgrade.exoticResourcesDescription": "向日葵地的这一地区以其异国情调的资源而闻名。扩大您的土地，探索水果、鲜花、蜂箱和稀有矿物质！留意季节，因为它们会影响你的种植能力。",
@@ -5820,7 +5819,6 @@
   "description.nurseSheep": "准备好作为一名温柔护士伸出援手的变种绵羊",
   "description.nurseSheep.boost": "夏季绵羊免疫疾病",
   "description.pinkDolphin": "具有美丽粉色色调的稀有海豚",
-  "description.pinkDolphin.boost": "春季的鱼类捕捞量 +1",
   "description.lunalist": "专注于月亮的开花神器。在<心花怒放>章节中发现的一朵装饰性突变花",
   "description.heartAirBalloon": "爱意的漂浮象征，随时准备振奋精神、滋养心灵。+1 来自送货、农活和赏金的“创世灵种”。",
   "whatsOn.july28th": "7 月 28 日",
@@ -6438,5 +6436,8 @@
   "description.legendaryShrine.buff": "奖金收益率",
   "description.fossilShell": "看来里面有东西...",
   "pet.resources": "宠物资源",
-  "chapterStore.title": "{{chapter}} 商店"
+  "chapterStore.title": "{{chapter}} 商店",
+  "description.jellyfish.boost": "+1 夏季的鱼",
+  "description.pinkDolphin.boost": "+1 春季的鱼",
+  "instaGrow.timeRemaining": "剩余时间：{{time}}"
 }

@@ -4547,7 +4547,6 @@
   "description.frozen.cow": "Lembu yang telah dibekukan pepejal oleh angin musim sejuk.",
   "description.summer.chicken.boost": "Tiada penyakit ayam semasa musim panas",
   "description.summer.chicken": "Ayam yang menyukai matahari yang tumbuh subur pada musim panas, berjemur dalam sinar hangat dan berkelip dengan kegembiraan!",
-  "description.jellyfish.boost": "Meningkatkan tangkapan ikan sebanyak 1 pada musim panas",
   "description.jellyfish": "Keajaiban laut bercahaya yang bersinar dengan tenaga mistik, memberikan kebolehan memancing yang dipertingkatkan semasa bulan-bulan musim panas yang hangat.",
   "description.chamomile": "Bunga mutan hiasan yang ditemui semasa bab Winds of Change.",
   "islandupgrade.exoticResourcesDescription": "Kawasan Tanah Bunga Matahari ini terkenal dengan sumber eksotiknya. Kembangkan tanah anda untuk menemui buah-buahan, bunga, sarang lebah & mineral langka! Perhatikan musim kerana ia mempengaruhi apa yang boleh anda tanam.",
@@ -5814,7 +5813,6 @@
   "description.nurseSheep": "Seekor domba mutan bersedia membantu sebagai jururawat lembut",
   "description.nurseSheep.boost": "Domba tidak boleh jatuh sakit semasa musim panas",
   "description.pinkDolphin": "Lumba-lumba yang jarang berlaku dengan warna merah jambu yang indah",
-  "description.pinkDolphin.boost": "Meningkatkan tangkapan ikan sebanyak 1 semasa musim bunga",
   "description.lunalist": "Artifak mekar yang dikhaskan untuk bulan. Bunga mutan hiasan yang ditemui semasa bab Great Bloom",
   "description.heartAirBalloon": "Simbol cinta terapung, bersedia untuk mengangkat semangat dan hati. +1 Geniseeds dari penghantaran, kerja rumah & karunia.",
   "whatsOn.july28th": "28 Julai",
@@ -6438,5 +6436,8 @@
   "description.legendaryShrine.buff": "Hasil Bonus",
   "description.fossilShell": "Nampaknya ada sesuatu di dalamnya...",
   "pet.resources": "Sumber Haiwan Kesayangan",
-  "chapterStore.title": "{{chapter}} Kedai"
+  "chapterStore.title": "{{chapter}} Kedai",
+  "description.jellyfish.boost": "+1 ikan semasa musim panas",
+  "description.pinkDolphin.boost": "+1 Ikan semasa Musim Bunga",
+  "instaGrow.timeRemaining": "Masa yang tinggal: {{time}}"
 }

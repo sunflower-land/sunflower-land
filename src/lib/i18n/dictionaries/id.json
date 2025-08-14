@@ -4547,7 +4547,6 @@
   "description.frozen.cow": "Seekor sapi yang telah membeku oleh angin musim dingin.",
   "description.summer.chicken.boost": "Tidak ada penyakit ayam selama musim panas",
   "description.summer.chicken": "Ayam yang menyukai sinar matahari yang tumbuh subur di musim panas, berjemur di bawah sinar hangat dan berdebar-debar kegembiraan!",
-  "description.jellyfish.boost": "Tingkatkan tangkapan ikan sebesar 1 di musim panas",
   "description.jellyfish": "Keajaiban laut bercahaya yang bersinar dengan energi mistis, memberikan kemampuan memancing yang ditingkatkan selama bulan-bulan musim panas yang hangat.",
   "description.chamomile": "Bunga mutan dekoratif yang ditemukan selama chapter Winds of Change.",
   "islandupgrade.exoticResourcesDescription": "Daerah Tanah Bunga Matahari ini dikenal dengan sumber daya eksotisnya. Perluas tanah Anda untuk menemukan buah, bunga, sarang lebah & mineral langka! Awasi musim karena mereka memengaruhi apa yang dapat Anda tanam.",
@@ -5814,7 +5813,6 @@
   "description.nurseSheep": "Seekor domba mutan siap membantu sebagai perawat yang lembut",
   "description.nurseSheep.boost": "Domba tidak bisa sakit selama musim panas",
   "description.pinkDolphin": "Lumba-lumba langka dengan rona merah muda yang indah",
-  "description.pinkDolphin.boost": "Tingkatkan tangkapan ikan sebesar 1 selama musim semi",
   "description.lunalist": "Artefak mekar yang dikhususkan untuk bulan. Bunga mutan dekoratif yang ditemukan selama babak Great Bloom",
   "description.heartAirBalloon": "Simbol cinta yang mengambang, siap mengangkat semangat dan hati. +1 Geniseeds dari pengiriman, tugas & hadiah.",
   "whatsOn.july28th": "28 Juli",
@@ -6438,5 +6436,8 @@
   "description.legendaryShrine.buff": "Imbal Hasil Bonus",
   "description.fossilShell": "Sepertinya ada sesuatu di dalam...",
   "pet.resources": "Sumber Daya Hewan Peliharaan",
-  "chapterStore.title": "{{chapter}} Toko"
+  "chapterStore.title": "{{chapter}} Toko",
+  "description.jellyfish.boost": "+1 ikan selama musim panas",
+  "description.pinkDolphin.boost": "+1 ikan selama musim semi",
+  "instaGrow.timeRemaining": "Waktu yang tersisa: {{time}}"
 }

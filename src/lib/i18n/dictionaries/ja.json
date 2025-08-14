@@ -4547,7 +4547,6 @@
   "description.frozen.cow": "冬の風で凍りついた牛。",
   "description.summer.chicken.boost": "夏の間は鶏の病気はありません",
   "description.summer.chicken": "太陽を愛するニワトリは、夏の暑さの中で育ち、暖かい日差しを浴びて喜びながら鳴きます！",
-  "description.jellyfish.boost": "夏には漁獲量を1匹増やす",
   "description.jellyfish": "神秘的なエネルギーで光る海の驚異的な光は、暖かい夏の間は釣りの能力を高めます。",
   "description.chamomile": "ウィンズ・オブ・チェンジの章で見つかった装飾用のミュータントフラワー。",
   "islandupgrade.exoticResourcesDescription": "サンフラワーランドのこの地域は、そのエキゾチックな資源で知られています。土地を広げて、果物や花、ミツバチの巣箱、希少な鉱物を発見しよう！季節は栽培できるものに影響しますので、目を離さないでください。",
@@ -5814,7 +5813,6 @@
   "description.nurseSheep": "優しい看護婦として助けてくれる突然変異羊",
   "description.nurseSheep.boost": "羊は夏の間は病気になりません",
   "description.pinkDolphin": "ピンク色が美しい珍しいイルカ",
-  "description.pinkDolphin.boost": "春に漁獲量を1増やす",
   "description.lunalist": "月に捧げられた咲き誇るアーティファクト。「グレート・ブルーム」の章で見つかった装飾用のミュータントフラワー",
   "description.heartAirBalloon": "浮遊する愛のシンボル。魂も心も元気づけてくれる。出産、雑用、賞金でジェニシード1個を獲得する。",
   "whatsOn.july28th": "7 月 28 日",
@@ -6438,5 +6436,8 @@
   "description.legendaryShrine.buff": "ボーナス利回り",
   "description.fossilShell": "中に何か入ってるみたい...",
   "pet.resources": "ペットリソース",
-  "chapterStore.title": "{{chapter}} ストア"
+  "chapterStore.title": "{{chapter}} ストア",
+  "description.jellyfish.boost": "+1匹の魚 (夏季)",
+  "description.pinkDolphin.boost": "春の間魚+1匹釣り",
+  "instaGrow.timeRemaining": "残り時間:{{time}}"
 }

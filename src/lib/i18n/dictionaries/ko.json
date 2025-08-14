@@ -4547,7 +4547,6 @@
   "description.frozen.cow": "겨울 바람에 꽁꽁 얼어붙은 소.",
   "description.summer.chicken.boost": "여름철에는 닭병 없음",
   "description.summer.chicken": "따스한 햇살을 맞으며 기쁨에 넘실대는 따스한 여름 더위 속에서 잘 자라는 태양을 좋아하는 닭!",
-  "description.jellyfish.boost": "여름철 어획량 1마리 늘리기",
   "description.jellyfish": "신비로운 에너지로 빛나는 빛나는 바다의 경이로움으로, 따뜻한 여름철에 낚시 능력을 높여줍니다.",
   "description.chamomile": "윈즈 오브 체인지 챕터에서 발견된 장식용 돌연변이 꽃입니다.",
   "islandupgrade.exoticResourcesDescription": "선플라워 랜드의 이 지역은 이국적인 자원으로 유명합니다.땅을 넓혀 과일, 꽃, 벌집, 희귀 광물을 발견하세요!계절에 따라 재배할 수 있는 식물이 달라지므로 잘 살펴보세요.",
@@ -5814,7 +5813,6 @@
   "description.nurseSheep": "순한 간호사가 되어 도움을 줄 준비가 된 돌연변이 양",
   "description.nurseSheep.boost": "양은 여름에 아플 수 없습니다",
   "description.pinkDolphin": "핑크빛이 아름다운 희귀 돌고래",
-  "description.pinkDolphin.boost": "봄철에는 어획량을 1마리 늘립니다.",
   "description.lunalist": "꽃을 피운 달에게 바쳐진 유물.그레이트 블룸 챕터에서 발견된 장식용 돌연변이 꽃입니다.",
   "description.heartAirBalloon": "떠다니는 사랑의 상징으로 영혼과 마음을 모두 고양시킬 준비가 되어 있습니다. 배달, 집안일, 현상금으로 만든 천재 씨앗 1개.",
   "whatsOn.july28th": "7월 28일",
@@ -6438,5 +6436,8 @@
   "description.legendaryShrine.buff": "보너스 수익률",
   "description.fossilShell": "안에 뭔가가 있는 것 같은데...",
   "pet.resources": "반려동물 자원",
-  "chapterStore.title": "{{chapter}} 스토어"
+  "chapterStore.title": "{{chapter}} 스토어",
+  "description.jellyfish.boost": "여름철 물고기 1마리",
+  "description.pinkDolphin.boost": "봄철에는 물고기 1마리",
+  "instaGrow.timeRemaining": "남은 시간: {{time}}"
 }

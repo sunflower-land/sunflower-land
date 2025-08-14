@@ -4547,7 +4547,6 @@
   "description.frozen.cow": "Uma vaca que ficou totalmente congelada pelos ventos do inverno.",
   "description.summer.chicken.boost": "Sem doença de frango durante o verão",
   "description.summer.chicken": "Uma galinha que adora o sol e que prospera no calor do verão, se aquecendo nos raios quentes e cacarejando de alegria!",
-  "description.jellyfish.boost": "+1 peixe no Verão",
   "description.jellyfish": "Uma maravilha marinha luminosa que brilha com energia mística, garantindo habilidades aprimoradas de pesca durante os meses quentes de verão.",
   "description.chamomile": "Uma flor mutante decorativa encontrada durante o capítulo Winds of Change.",
   "islandupgrade.exoticResourcesDescription": "Esta área de Sunflower Land é conhecida por seus recursos exóticos. Expanda sua terra para descobrir frutas, flores, colmeias e minerais raros! Fique de olho nas estações do ano, pois elas afetam o que você pode cultivar.",
@@ -5814,7 +5813,6 @@
   "description.nurseSheep": "Uma ovelha mutante pronta para ajudar como uma enfermeira gentil",
   "description.nurseSheep.boost": "Ovelhas não podem ficar doentes durante o verão",
   "description.pinkDolphin": "Um golfinho raro com um lindo tom rosa",
-  "description.pinkDolphin.boost": "Aumente a captura de peixe em 1% durante a primavera",
   "description.lunalist": "Um artefato florescente dedicado à lua. Uma flor mutante decorativa encontrada durante o capítulo Great Bloom",
   "description.heartAirBalloon": "Um símbolo flutuante de amor, pronto para elevar espíritos e corações. +1 Geniseeds de entregas, tarefas e recompensas.",
   "whatsOn.july28th": "28 de julho",
@@ -6438,5 +6436,8 @@
   "description.legendaryShrine.buff": "Rendimentos de bônus",
   "description.fossilShell": "Parece que há algo lá dentro...",
   "pet.resources": "Recursos para animais de estimação",
-  "chapterStore.title": "{{chapter}} Loja"
+  "chapterStore.title": "{{chapter}} Loja",
+  "description.jellyfish.boost": "+1 Peixe durante o verão",
+  "description.pinkDolphin.boost": "+1 Peixe durante a primavera",
+  "instaGrow.timeRemaining": "Tempo restante: {{time}}"
 }

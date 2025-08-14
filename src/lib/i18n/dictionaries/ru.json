@@ -1192,7 +1192,6 @@
   "description.jack.o.lantern": "(LEGACY) Хэллоуинский предмет с особого события",
   "description.jellyLamp": "Лампа, которая привнесет нотку роскоши в любую комнату.",
   "description.jellyfish": "Магический морской объект, излучающий свет и помогающий рыбачить летом.",
-  "description.jellyfish.boost": "+1 к улову рыбы в летний сезон",
   "description.kale": "Мощная еда для бампкина!",
   "description.kale.mushroom.pie": "Традиционный рецепт Sapphiron",
   "description.kale.omelette": "Полезный завтрак",
@@ -5814,7 +5813,6 @@
   "description.nurseSheep": "Овеца-мутант, готовая помочь в качестве нежной медсестры",
   "description.nurseSheep.boost": "Летом овцы не болеют",
   "description.pinkDolphin": "Редкий дельфин красивого розового оттенка",
-  "description.pinkDolphin.boost": "Увеличить улов рыбы весной на 1%",
   "description.lunalist": "Цветущий артефакт, посвященный Луне. Декоративный цветк-мутант, найденный во время главы «Великого цветения»",
   "description.heartAirBalloon": "Парящий символ любви, способный поднимать настроение и сердца. +1 Geneseded от доставок, хлопот и наград.",
   "whatsOn.july28th": "28 июля",
@@ -6438,5 +6436,8 @@
   "description.legendaryShrine.buff": "Доходность бонусов",
   "description.fossilShell": "Похоже, внутри что-то есть...",
   "pet.resources": "Ресурсы для животных",
-  "chapterStore.title": "{{chapter}} Магазин"
+  "chapterStore.title": "{{chapter}} Магазин",
+  "description.jellyfish.boost": "+1 Рыба летом",
+  "description.pinkDolphin.boost": "+1 Рыбалка весной",
+  "instaGrow.timeRemaining": "Оставшееся время: {{time}}"
 }

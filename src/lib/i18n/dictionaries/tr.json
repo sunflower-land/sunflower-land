@@ -4547,7 +4547,6 @@
   "description.frozen.cow": "Kış rüzgarları tarafından donmuş bir inek.",
   "description.summer.chicken.boost": "Yaz aylarında tavuk hastalığı yok",
   "description.summer.chicken": "Yaz sıcağında büyüyen, sıcak ışınların tadını çıkaran ve neşeyle gıcırdayan güneşi seven bir tavuk!",
-  "description.jellyfish.boost": "Yaz aylarında balık avını 1 artırın",
   "description.jellyfish": "Sıcak yaz aylarında gelişmiş balıkçılık yetenekleri sağlayan mistik enerjiyle parlayan parlak bir deniz harikası.",
   "description.chamomile": "Değişim Rüzgarları bölümünde bulunan dekoratif bir mutant çiçek.",
   "islandupgrade.exoticResourcesDescription": "Ayçiçeği Ülkesinin bu bölgesi egzotik kaynakları ile bilinir. Meyveleri, çiçekleri, arı kovanlarını ve nadir mineralleri keşfetmek için arazinizi genişletin! Ne yetiştirebileceğinizi etkiledikleri için mevsimlere dikkat edin.",
@@ -5814,7 +5813,6 @@
   "description.nurseSheep": "Nazik bir hemşire olarak yardım etmeye hazır mutant bir koyun",
   "description.nurseSheep.boost": "Koyunlar yaz aylarında hastalanamaz",
   "description.pinkDolphin": "Güzel pembe renk tonuna sahip nadir bir yunus",
-  "description.pinkDolphin.boost": "İlkbaharda balık avını 1 artırın",
   "description.lunalist": "Ay'a adanmış çiçek açan bir eser. Great Bloom bölümünde bulunan dekoratif bir mutant çiçek",
   "description.heartAirBalloon": "Hem ruh hem de kalpleri yükseltmeye hazır, yüzen bir aşk sembolü. Teslimatlardan, ev işlerinden ve ödüllerden +1 Cenerasyon.",
   "whatsOn.july28th": "28 Temmuz",
@@ -6438,5 +6436,8 @@
   "description.legendaryShrine.buff": "Bonus Getiriler",
   "description.fossilShell": "Görünüşe göre içeride bir şey var...",
   "pet.resources": "Evcil Hayvan Kaynakları",
-  "chapterStore.title": "{{chapter}} Mağaza"
+  "chapterStore.title": "{{chapter}} Mağaza",
+  "description.jellyfish.boost": "Yaz aylarında +1 balık",
+  "description.pinkDolphin.boost": "İlkbaharda +1 Balık",
+  "instaGrow.timeRemaining": "Kalan süre: {{time}}"
 }
