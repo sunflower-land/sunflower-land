@@ -23,6 +23,31 @@ describe("plantGreenhouse", () => {
     ).toThrow("Greenhouse does not exist");
   });
 
+  it("requires greenhouse to be placed", () => {
+    expect(() =>
+      plantGreenhouse({
+        action: {
+          type: "greenhouse.planted",
+          id: 1,
+          seed: "Rice Seed",
+        },
+        state: {
+          ...farm,
+          buildings: {
+            Greenhouse: [
+              {
+                id: "1",
+                coordinates: undefined,
+                createdAt: 0,
+                readyAt: 0,
+              },
+            ],
+          },
+        },
+      }),
+    ).toThrow("Greenhouse does not exist");
+  });
+
   it("requires player has seed", () => {
     expect(() =>
       plantGreenhouse({
