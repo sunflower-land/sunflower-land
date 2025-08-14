@@ -6436,5 +6436,6 @@
   "description.moonfur": "Une fourrure de lune moelleuse",
   "description.legendaryShrine": "Un sanctuaire légendaire qui met tout en valeur !",
   "description.legendaryShrine.buff": "Rendements bonus",
-  "description.fossilShell": "On dirait qu'il y a quelque chose à l'intérieur..."
+  "description.fossilShell": "On dirait qu'il y a quelque chose à l'intérieur...",
+  "pet.resources": "Ressources pour animaux de compagnie"
 }

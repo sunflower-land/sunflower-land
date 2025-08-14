@@ -6436,5 +6436,6 @@
   "description.moonfur": "Una piel de luna esponjosa",
   "description.legendaryShrine": "¡Un santuario legendario que lo mejora todo!",
   "description.legendaryShrine.buff": "Rendimientos de bonificación",
-  "description.fossilShell": "Parece que hay algo dentro..."
+  "description.fossilShell": "Parece que hay algo dentro...",
+  "pet.resources": "Recursos para mascotas"
 }
