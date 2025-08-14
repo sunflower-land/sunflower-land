@@ -1169,7 +1169,7 @@ export type TradeListing = {
   sfl: number;
   tax?: number; // Defaults to 10% of the sfl
   createdAt: number;
-  collection: CollectionName;
+  collection: Exclude<CollectionName, "resources">;
   boughtAt?: number;
   buyerId?: number;
   signature?: string;
