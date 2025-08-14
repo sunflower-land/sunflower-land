@@ -9,11 +9,11 @@ import {
 export function getCollectionName(
   itemName: MarketplaceTradeableName,
 ): Exclude<CollectionName, "resources"> {
-  if ((itemName as InventoryItemName) in KNOWN_IDS) {
+  if (itemName in KNOWN_IDS) {
     return "collectibles";
   }
 
-  if ((itemName as BumpkinItem) in ITEM_IDS) {
+  if (itemName in ITEM_IDS) {
     return "wearables";
   }
 
