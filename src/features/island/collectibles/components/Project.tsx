@@ -481,7 +481,6 @@ type ProjectProps = React.ComponentProps<typeof ImageStyle> & {
 export const Project: React.FC<ProjectProps> = (input) => {
   const { isVisiting } = useVisiting();
   const { gameService } = useContext(Context);
-  const state = useSelector(gameService, (state) => state.context.state);
 
   const projectCheers = useSelector(gameService, _cheers(input.project));
   const cheersAvailable = useSelector(gameService, _cheersAvailable);
