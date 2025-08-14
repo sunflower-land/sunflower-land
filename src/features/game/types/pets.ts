@@ -2,7 +2,15 @@ import Decimal from "decimal.js-light";
 import { Decoration } from "./decorations";
 import { GameState, InventoryItemName } from "./game";
 
-export type PetName = "Barkley" | "Meowchi" | "Twizzle" | "Burro";
+export type PetName =
+  | "Barkley"
+  | "Meowchi"
+  | "Twizzle"
+  | "Burro"
+  | "Mudhorn"
+  | "Nibbles"
+  | "Waddles"
+  | "Ramsey";
 
 export type Pet = {
   cravings?: InventoryItemName[];
@@ -17,17 +25,30 @@ export type PetConfig = {
 
 export const PETS: Record<PetName, PetConfig> = {
   Barkley: {
-    fetches: ["Acorn", "Chewed Bone", "Fossil Shell"],
+    fetches: ["Acorn", "Chewed Bone", "Fossil Shell", "Frost Pebble"],
   },
 
   Burro: {
-    fetches: ["Acorn", "Ruffroot", "Fossil Shell"],
+    fetches: ["Acorn", "Ruffroot", "Fossil Shell", "Wild Grass"],
   },
   Twizzle: {
-    fetches: ["Acorn", "Heart leaf", "Fossil Shell"],
+    fetches: ["Acorn", "Heart leaf", "Fossil Shell", "Ribbon"],
   },
   Meowchi: {
-    fetches: ["Acorn", "Moonfur", "Fossil Shell"],
+    fetches: ["Acorn", "Ribbon", "Fossil Shell", "Chewed Bone"],
+  },
+  Mudhorn: {
+    fetches: ["Acorn", "Wild Grass", "Fossil Shell", "Dewberry"],
+  },
+  Nibbles: {
+    fetches: ["Acorn", "Dewberry", "Fossil Shell", "Ruffroot"],
+  },
+  Waddles: {
+    fetches: ["Acorn", "Frost Pebble", "Fossil Shell", "Heart leaf"],
+  },
+  // NFT placeholder for testing
+  Ramsey: {
+    fetches: ["Acorn", "Moonfur", "Fossil Shell", "Ribbon", "Heart leaf"],
   },
 };
 
@@ -36,6 +57,10 @@ export type PetResource =
   | "Ruffroot"
   | "Chewed Bone"
   | "Heart leaf"
+  | "Frost Pebble"
+  | "Wild Grass"
+  | "Ribbon"
+  | "Dewberry"
   | "Moonfur"
   | "Fossil Shell";
 
@@ -55,6 +80,19 @@ export const PET_RESOURCES: Record<PetResource, { cooldownMs: number }> = {
   Moonfur: {
     cooldownMs: 12 * 60 * 60 * 1000,
   },
+
+  "Frost Pebble": {
+    cooldownMs: 12 * 60 * 60 * 1000,
+  },
+  "Wild Grass": {
+    cooldownMs: 12 * 60 * 60 * 1000,
+  },
+  Ribbon: {
+    cooldownMs: 12 * 60 * 60 * 1000,
+  },
+  Dewberry: {
+    cooldownMs: 12 * 60 * 60 * 1000,
+  },
   "Fossil Shell": {
     cooldownMs: 24 * 60 * 60 * 1000,
   },
@@ -65,6 +103,10 @@ export type PetShrineName =
   | "Boar Shrine" // Food
   | "Hound Shrine" // Pets
   | "Stag Shrine" // Oil
+  | "Mole Shrine" // Crimstone
+  | "Bear Shrine" // Honey
+  | "Tortoise Shrine" // Greenhouse
+  | "Moth Shrine" // Flower
   | "Legendary Shrine"; // Bonus yields
 
 export type PetShrine = Omit<Decoration, "name"> & {
@@ -111,6 +153,50 @@ export const PET_SHRINES: Record<PetShrineName, PetShrine> = {
       Ruffroot: new Decimal(5),
     },
   },
+  "Mole Shrine": {
+    name: "Mole Shrine",
+    description: "",
+    coins: 0,
+    ingredients: {
+      Acorn: new Decimal(5),
+      "Frost Pebble": new Decimal(5),
+      "Wild Grass": new Decimal(5),
+    },
+  },
+
+  "Bear Shrine": {
+    name: "Bear Shrine",
+    description: "",
+    coins: 0,
+    ingredients: {
+      Acorn: new Decimal(5),
+      Dewberry: new Decimal(5),
+      "Wild Grass": new Decimal(5),
+    },
+  },
+
+  "Tortoise Shrine": {
+    name: "Tortoise Shrine",
+    description: "",
+    coins: 0,
+    ingredients: {
+      Acorn: new Decimal(5),
+      Ribbon: new Decimal(5),
+      "Frost Pebble": new Decimal(5),
+    },
+  },
+
+  "Moth Shrine": {
+    name: "Moth Shrine",
+    description: "",
+    coins: 0,
+    ingredients: {
+      Acorn: new Decimal(5),
+      Dewberry: new Decimal(5),
+      Ribbon: new Decimal(5),
+    },
+  },
+
   "Legendary Shrine": {
     name: "Legendary Shrine",
     description: "",

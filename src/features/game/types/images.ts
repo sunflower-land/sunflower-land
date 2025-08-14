@@ -994,6 +994,10 @@ import barkley from "assets/sfts/pets/barkley.webp";
 import meowchi from "assets/sfts/pets/meowchi.webp";
 import twizzle from "assets/sfts/pets/twizzle.webp";
 import burro from "assets/sfts/pets/burro.webp";
+import mudhorn from "assets/sfts/pets/mudhorn.webp";
+import nibbles from "assets/sfts/pets/nibbles.webp";
+import waddles from "assets/sfts/pets/waddles.webp";
+import ramsey from "assets/sfts/pets/ramsey.webp";
 
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
@@ -5803,5 +5807,56 @@ export const ITEM_DETAILS: Items = {
   "Fossil Shell": {
     image: SUNNYSIDE.resource.clam_shell,
     description: translate("description.fossilShell"),
+  },
+  Mudhorn: {
+    image: mudhorn,
+    description: translate("description.mudhorn"),
+  },
+  Nibbles: {
+    image: nibbles,
+    description: translate("description.nibbles"),
+  },
+  Waddles: {
+    image: waddles,
+    description: translate("description.waddles"),
+  },
+  Ramsey: {
+    image: ramsey,
+    description: translate("description.ramsey"),
+  },
+  "Tortoise Shrine": {
+    image: thermalStone,
+    description: translate("description.tortoiseShrine"),
+  },
+  "Moth Shrine": {
+    image: thermalStone,
+    description: translate("description.mothShrine"),
+  },
+  "Mole Shrine": {
+    image: thermalStone,
+    description: translate("description.moleShrine"),
+  },
+  "Bear Shrine": {
+    image: thermalStone,
+    description: translate("description.bearShrine"),
+  },
+  "Wild Grass": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: translate("description.wildGrass"),
+  },
+  "Frost Pebble": {
+    image: SUNNYSIDE.icons.expression_confused,
+
+    description: translate("description.frostPebble"),
+  },
+  Ribbon: {
+    image: SUNNYSIDE.icons.expression_confused,
+
+    description: translate("description.ribbon"),
+  },
+  Dewberry: {
+    image: SUNNYSIDE.icons.expression_confused,
+
+    description: translate("description.dewberry"),
   },
 };

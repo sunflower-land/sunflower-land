@@ -1192,6 +1192,10 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Meowchi: 2602,
   Twizzle: 2603,
   Burro: 2604,
+  Mudhorn: 2605,
+  Nibbles: 2606,
+  Waddles: 2607,
+  Ramsey: 2608, // Test NFT only
 
   // Pet Resources
   Acorn: 2630,
@@ -1200,6 +1204,10 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Heart leaf": 2633,
   Moonfur: 2634,
   "Fossil Shell": 2635,
+  Ribbon: 2636,
+  Dewberry: 2637,
+  "Wild Grass": 2638,
+  "Frost Pebble": 2639,
 
   // Pet Shrines
   "Fox Shrine": 2650,
@@ -1207,6 +1215,10 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Hound Shrine": 2652,
   "Stag Shrine": 2653,
   "Legendary Shrine": 2654,
+  "Mole Shrine": 2655,
+  "Bear Shrine": 2656,
+  "Tortoise Shrine": 2657,
+  "Moth Shrine": 2658,
 };
 
 // The reverse of above
