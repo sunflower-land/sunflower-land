@@ -112,7 +112,7 @@ const FEATURE_FLAGS = {
   PETS: defaultFeatureFlag,
   FLOWER_INSTA_GROW: defaultFeatureFlag,
 
-  API_PERFORMANCE: adminFeatureFlag,
+  API_PERFORMANCE: defaultFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;
