@@ -1367,6 +1367,7 @@ function getCollectibleBuffLabels(
         shortDescription: translate("description.jellyfish.boost"),
         labelType: "success",
         boostTypeIcon: powerup,
+        boostedItemIcon: SUNNYSIDE.icons.fish,
       },
     ],
     "Frozen Cow": [
@@ -1538,6 +1539,7 @@ function getCollectibleBuffLabels(
         shortDescription: translate("description.pinkDolphin.boost"),
         labelType: "success",
         boostTypeIcon: powerup,
+        boostedItemIcon: SUNNYSIDE.icons.fish,
       },
     ],
     Poseidon: [

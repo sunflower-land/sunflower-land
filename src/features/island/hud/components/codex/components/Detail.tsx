@@ -11,8 +11,7 @@ import classNames from "classnames";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
-import Crown from "assets/icons/vip.webp";
-
+import { CHAPTER_FISH } from "features/game/types/fishing";
 /**
  * Base Layout for Collectible Item Details Page in Codex
  * It can be extended by passing in addition children components
@@ -42,7 +41,7 @@ export const Detail: React.FC<Props> = ({
     description,
     howToGetItem = [],
     itemType,
-    availability,
+    isPermanent,
   } = ITEM_DETAILS[name];
   const [imageWidth, setImageWidth] = React.useState<number>(0);
 
@@ -60,6 +59,8 @@ export const Detail: React.FC<Props> = ({
   }, []);
 
   const buff = COLLECTIBLE_BUFF_LABELS(state)[name];
+
+  const isChapterFish = name in CHAPTER_FISH;
 
   return (
     <>
@@ -104,12 +105,12 @@ export const Detail: React.FC<Props> = ({
                 }}
               />
             </OuterPanel>
-            <div className="flex flex-1 content-start flex-col sm:flex-row sm:flex-wrap gap-2 p-1">
+            <div className="flex flex-1 content-start flex-col gap-1 gap-x-2 sm:flex-row sm:flex-wrap p-1">
               {additionalLabels}
-              {/* Boost labels to go below */}
-              {!!buff && (
-                <div className="flex flex-col gap-1">
-                  {buff.map(
+              <div className="flex flex-row flex-wrap gap-y-1 gap-x-2.5 mr-9">
+                {/* Boost labels to go below */}
+                {!!buff &&
+                  buff.map(
                     (
                       {
                         labelType,
@@ -129,26 +130,27 @@ export const Detail: React.FC<Props> = ({
                       </Label>
                     ),
                   )}
-                </div>
-              )}
-              {!!itemType && (
-                <Label type="default" className="capitalize">
-                  {itemType}
-                </Label>
-              )}
-              {!!availability && (
-                <Label
-                  type={availability === "Seasonal" ? "info" : "vibrant"}
-                  icon={
-                    availability === "Seasonal"
-                      ? SUNNYSIDE.icons.stopwatch
-                      : Crown
-                  }
-                  className="capitalize"
-                >
-                  {availability}
-                </Label>
-              )}
+                {!!itemType && (
+                  <Label type="default" className="capitalize">
+                    {itemType}
+                  </Label>
+                )}
+
+                {(isPermanent || isChapterFish) &&
+                  (isPermanent ? (
+                    <Label type="vibrant" className="capitalize">
+                      {t("permanent")}
+                    </Label>
+                  ) : (
+                    <Label
+                      type="info"
+                      icon={SUNNYSIDE.icons.stopwatch}
+                      className="capitalize"
+                    >
+                      {t("chapter")}
+                    </Label>
+                  ))}
+              </div>
             </div>
           </div>
         </div>
