@@ -89,6 +89,7 @@ export const TRADE_LIMITS: Partial<Record<TradeResource, number>> = {
   Ruffroot: 100,
   "Chewed Bone": 100,
   "Heart leaf": 100,
+  Moonfur: 100,
 };
 
 export const TRADE_MINIMUMS: Partial<Record<TradeResource, number>> = {
@@ -144,9 +145,10 @@ export const TRADE_MINIMUMS: Partial<Record<TradeResource, number>> = {
   Wool: 1,
   "Merino Wool": 1,
 
-  Ruffroot: 5,
-  "Chewed Bone": 5,
-  "Heart leaf": 5,
+  Ruffroot: 1,
+  "Chewed Bone": 1,
+  "Heart leaf": 1,
+  Moonfur: 1,
 };
 
 export const EMBLEM_TRADE_MINIMUMS: Record<FactionEmblem, number> = {
