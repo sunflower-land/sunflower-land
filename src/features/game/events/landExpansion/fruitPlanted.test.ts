@@ -93,6 +93,30 @@ describe("fruitPlanted", () => {
     ).toThrow("Fruit is already planted");
   });
 
+  it("does not plant if patch is not placed", () => {
+    expect(() =>
+      plantFruit({
+        state: {
+          ...GAME_STATE,
+          fruitPatches: {
+            ...GAME_STATE.fruitPatches,
+            1: {
+              ...GAME_STATE.fruitPatches[1],
+              x: undefined,
+              y: undefined,
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: {
+          type: "fruit.planted",
+          index: "1",
+          seed: "Apple Seed",
+        },
+      }),
+    ).toThrow("Fruit patch is not placed");
+  });
+
   it("does not plant an invalid seed", () => {
     expect(() =>
       plantFruit({
