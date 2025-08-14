@@ -6437,5 +6437,6 @@
   "description.legendaryShrine": "一座能增强一切的传奇神社！",
   "description.legendaryShrine.buff": "奖金收益率",
   "description.fossilShell": "看来里面有东西...",
-  "pet.resources": "宠物资源"
+  "pet.resources": "宠物资源",
+  "chapterStore.title": "{{chapter}} 商店"
 }

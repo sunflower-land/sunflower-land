@@ -6437,5 +6437,6 @@
   "description.legendaryShrine": "Kuil legendaris yang menguasai segalanya!",
   "description.legendaryShrine.buff": "Imbal Hasil Bonus",
   "description.fossilShell": "Sepertinya ada sesuatu di dalam...",
-  "pet.resources": "Sumber Daya Hewan Peliharaan"
+  "pet.resources": "Sumber Daya Hewan Peliharaan",
+  "chapterStore.title": "{{chapter}} Toko"
 }

@@ -6437,5 +6437,6 @@
   "description.legendaryShrine": "Her şeyi güçlendiren efsanevi bir tapınak!",
   "description.legendaryShrine.buff": "Bonus Getiriler",
   "description.fossilShell": "Görünüşe göre içeride bir şey var...",
-  "pet.resources": "Evcil Hayvan Kaynakları"
+  "pet.resources": "Evcil Hayvan Kaynakları",
+  "chapterStore.title": "{{chapter}} Mağaza"
 }

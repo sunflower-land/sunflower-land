@@ -6437,5 +6437,6 @@
   "description.legendaryShrine": "Un santuario leggendario che potenzia tutto!",
   "description.legendaryShrine.buff": "Rendimenti bonus",
   "description.fossilShell": "Sembra che ci sia qualcosa dentro...",
-  "pet.resources": "Risorse per animali domestici"
+  "pet.resources": "Risorse per animali domestici",
+  "chapterStore.title": "{{chapter}} Negozio"
 }

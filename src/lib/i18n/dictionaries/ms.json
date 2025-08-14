@@ -6437,5 +6437,6 @@
   "description.legendaryShrine": "Kuil legenda yang menggembirakan segala-galanya!",
   "description.legendaryShrine.buff": "Hasil Bonus",
   "description.fossilShell": "Nampaknya ada sesuatu di dalamnya...",
-  "pet.resources": "Sumber Haiwan Kesayangan"
+  "pet.resources": "Sumber Haiwan Kesayangan",
+  "chapterStore.title": "{{chapter}} Kedai"
 }

@@ -6437,5 +6437,6 @@
   "description.legendaryShrine": "Un sanctuaire légendaire qui met tout en valeur !",
   "description.legendaryShrine.buff": "Rendements bonus",
   "description.fossilShell": "On dirait qu'il y a quelque chose à l'intérieur...",
-  "pet.resources": "Ressources pour animaux de compagnie"
+  "pet.resources": "Ressources pour animaux de compagnie",
+  "chapterStore.title": "{{chapter}} Boutique"
 }

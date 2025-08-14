@@ -6437,5 +6437,6 @@
   "description.legendaryShrine": "¡Un santuario legendario que lo mejora todo!",
   "description.legendaryShrine.buff": "Rendimientos de bonificación",
   "description.fossilShell": "Parece que hay algo dentro...",
-  "pet.resources": "Recursos para mascotas"
+  "pet.resources": "Recursos para mascotas",
+  "chapterStore.title": "{{chapter}} Tienda"
 }
