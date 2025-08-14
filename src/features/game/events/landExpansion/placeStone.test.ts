@@ -133,6 +133,7 @@ describe("placeStone", () => {
           },
         },
       },
+      createdAt: dateNow,
     });
 
     expect(state.stones).toEqual({
