@@ -427,6 +427,11 @@ export const MoveableComponent: React.FC<
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      // Immediately return if in placing mode
+      if (landscapingMachine.state.matches({ editing: "placing" })) {
+        return;
+      }
+
       if (e.key === "ArrowUp" || e.key === "w") {
         const newPosition = {
           x: position.x,
