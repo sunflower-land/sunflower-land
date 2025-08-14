@@ -6432,5 +6432,9 @@
   "perks": "特典",
   "pets.neglected": "無視された",
   "cheer.confirm.socialpoints": "+3 ソーシャルポイント",
-  "cheer.confirm.loveCharms": "+3 ラブチャーム"
+  "cheer.confirm.loveCharms": "+3 ラブチャーム",
+  "description.moonfur": "ふわふわのムーンファー",
+  "description.legendaryShrine": "すべてを強化する伝説の神社！",
+  "description.legendaryShrine.buff": "ボーナス利回り",
+  "description.fossilShell": "中に何か入ってるみたい..."
 }

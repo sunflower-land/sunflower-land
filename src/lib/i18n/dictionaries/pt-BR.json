@@ -6432,5 +6432,9 @@
   "perks": "Regalias",
   "pets.neglected": "Negligenciado",
   "cheer.confirm.socialpoints": "+3 pontos sociais",
-  "cheer.confirm.loveCharms": "+3 Amuletos do Amor"
+  "cheer.confirm.loveCharms": "+3 Amuletos do Amor",
+  "description.moonfur": "Um pêlo de lua fofo",
+  "description.legendaryShrine": "Um santuário lendário que aprimora tudo!",
+  "description.legendaryShrine.buff": "Rendimentos de bônus",
+  "description.fossilShell": "Parece que há algo lá dentro..."
 }

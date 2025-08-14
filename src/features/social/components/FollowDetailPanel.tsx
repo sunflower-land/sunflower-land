@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import { Equipped } from "features/game/types/bumpkin";
 import { Label } from "components/ui/Label";
 import socialPointsIcon from "assets/icons/social_score.webp";
-import giftIcon from "assets/icons/gift.png";
+import potIcon from "assets/icons/pot.png";
 import helpIcon from "assets/icons/help.webp";
 import helpedIcon from "assets/icons/helped.webp";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -92,7 +92,7 @@ export const FollowDetailPanel: React.FC<Props> = ({
                 {haveTheyHelpedYouToday && (
                   <img src={helpedIcon} className="w-4 h-4" />
                 )}
-                {hasCookingPot && <img src={giftIcon} className="w-4 h-4" />}
+                {hasCookingPot && <img src={potIcon} className="w-4 h-4" />}
               </div>
               {friendStreak > 0 && (
                 <Label type="vibrant" icon={SUNNYSIDE.icons.heart}>

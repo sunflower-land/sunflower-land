@@ -34,7 +34,8 @@ export type RewardBoxName =
   | "Bronze Food Box"
   | "Silver Food Box"
   | "Gold Food Box"
-  | "Pet Egg";
+  | "Pet Egg"
+  | "Fossil Shell";
 
 export type RewardBoxes = Partial<Record<RewardBoxName, RewardBox>>;
 
@@ -52,6 +53,17 @@ type RewardBoxDetails = {
 };
 
 export const REWARD_BOXES: Record<RewardBoxName, RewardBoxDetails> = {
+  "Fossil Shell": {
+    rewards: [
+      { items: { Acorn: 3 }, weight: 50 },
+      { items: { Acorn: 1 }, weight: 50 },
+      { items: { Acorn: 2 }, weight: 100 },
+      { items: { Ruffroot: 2 }, weight: 50 },
+      { items: { "Heart leaf": 2 }, weight: 50 },
+      { items: { "Chewed Bone": 2 }, weight: 50 },
+      { items: { Moonfur: 1 }, weight: 20 },
+    ],
+  },
   "Pet Egg": {
     rewards: [
       { items: { Barkley: 1 }, weight: 100 },

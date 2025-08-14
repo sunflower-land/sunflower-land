@@ -8,6 +8,7 @@ import {
 import {
   isPetNeglected,
   Pet,
+  PET_RESOURCES,
   PetName,
   PetResource,
   PETS,
@@ -60,8 +61,6 @@ type Options = {
   createdAt?: number;
 };
 
-const PET_SLEEP_DURATION_MS = 12 * 60 * 60 * 1000;
-
 export function isPetResting({
   pet,
   game,
@@ -98,12 +97,14 @@ export function getPetReadyAt({
   game,
   now = Date.now(),
   pet,
+  fetched,
 }: {
   game: GameState;
   now?: number;
   pet: Pet;
+  fetched: PetResource;
 }): { readyAt: number; boostsUsed: BoostName[] } {
-  let duration = PET_SLEEP_DURATION_MS;
+  let duration = PET_RESOURCES[fetched].cooldownMs;
   const boostsUsed: BoostName[] = [];
 
   if (isCollectibleActive({ name: "Hound Shrine", game })) {
@@ -171,6 +172,7 @@ export function feedPet({
       game: stateCopy,
       now: createdAt,
       pet,
+      fetched: action.resource,
     });
 
     pet.readyAt = readyAt;
@@ -178,7 +180,7 @@ export function feedPet({
     // Remove the first craving
     pet?.cravings?.shift();
 
-    const multiplier = pet.multiplier ?? 1;
+    const multiplier = 1;
 
     stateCopy.inventory[action.resource] = petResource.add(multiplier);
     stateCopy.inventory[craves] = foodAmount.sub(1);

@@ -6432,5 +6432,9 @@
   "perks": "Fasilitas",
   "pets.neglected": "Terabaikan",
   "cheer.confirm.socialpoints": "+3 Poin Social",
-  "cheer.confirm.loveCharms": "+3 Pesona Cinta"
+  "cheer.confirm.loveCharms": "+3 Pesona Cinta",
+  "description.moonfur": "Bulu bulan yang halus",
+  "description.legendaryShrine": "Kuil legendaris yang menguasai segalanya!",
+  "description.legendaryShrine.buff": "Imbal Hasil Bonus",
+  "description.fossilShell": "Sepertinya ada sesuatu di dalam..."
 }

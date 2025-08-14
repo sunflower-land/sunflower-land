@@ -17,21 +17,27 @@ export type PetConfig = {
 
 export const PETS: Record<PetName, PetConfig> = {
   Barkley: {
-    fetches: ["Acorn", "Chewed Bone"],
+    fetches: ["Acorn", "Chewed Bone", "Fossil Shell"],
   },
 
   Burro: {
-    fetches: ["Acorn", "Ruffroot"],
+    fetches: ["Acorn", "Ruffroot", "Fossil Shell"],
   },
   Twizzle: {
-    fetches: ["Acorn", "Heart leaf"],
+    fetches: ["Acorn", "Heart leaf", "Fossil Shell"],
   },
   Meowchi: {
-    fetches: [],
+    fetches: ["Acorn", "Moonfur", "Fossil Shell"],
   },
 };
 
-export type PetResource = "Acorn" | "Ruffroot" | "Chewed Bone" | "Heart leaf";
+export type PetResource =
+  | "Acorn"
+  | "Ruffroot"
+  | "Chewed Bone"
+  | "Heart leaf"
+  | "Moonfur"
+  | "Fossil Shell";
 
 export const PET_RESOURCES: Record<PetResource, { cooldownMs: number }> = {
   Acorn: {
@@ -46,13 +52,20 @@ export const PET_RESOURCES: Record<PetResource, { cooldownMs: number }> = {
   "Heart leaf": {
     cooldownMs: 12 * 60 * 60 * 1000,
   },
+  Moonfur: {
+    cooldownMs: 12 * 60 * 60 * 1000,
+  },
+  "Fossil Shell": {
+    cooldownMs: 24 * 60 * 60 * 1000,
+  },
 };
 
 export type PetShrineName =
   | "Fox Shrine" // Crafting
   | "Boar Shrine" // Food
   | "Hound Shrine" // Pets
-  | "Stag Shrine"; // Oil
+  | "Stag Shrine" // Oil
+  | "Legendary Shrine"; // Bonus yields
 
 export type PetShrine = Omit<Decoration, "name"> & {
   name: PetShrineName;
@@ -96,6 +109,16 @@ export const PET_SHRINES: Record<PetShrineName, PetShrine> = {
       Acorn: new Decimal(5),
       "Heart leaf": new Decimal(5),
       Ruffroot: new Decimal(5),
+    },
+  },
+  "Legendary Shrine": {
+    name: "Legendary Shrine",
+    description: "",
+    coins: 0,
+    ingredients: {
+      Obsidian: new Decimal(1),
+      Moonfur: new Decimal(10),
+      Acorn: new Decimal(10),
     },
   },
 };

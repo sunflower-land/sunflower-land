@@ -6432,5 +6432,9 @@
   "perks": "Manfaat",
   "pets.neglected": "diabaikan",
   "cheer.confirm.socialpoints": "+3 Mata Sosial",
-  "cheer.confirm.loveCharms": "+3 Love Charms"
+  "cheer.confirm.loveCharms": "+3 Love Charms",
+  "description.moonfur": "Moonfur berbulu",
+  "description.legendaryShrine": "Kuil legenda yang menggembirakan segala-galanya!",
+  "description.legendaryShrine.buff": "Hasil Bonus",
+  "description.fossilShell": "Nampaknya ada sesuatu di dalamnya..."
 }

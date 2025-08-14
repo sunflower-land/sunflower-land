@@ -1689,5 +1689,12 @@ function getCollectibleBuffLabels(
         boostTypeIcon: powerup,
       },
     ],
+    "Legendary Shrine": [
+      {
+        shortDescription: translate("description.legendaryShrine.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    ],
   };
 }

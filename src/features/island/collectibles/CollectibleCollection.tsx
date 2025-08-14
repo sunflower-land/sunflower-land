@@ -562,6 +562,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Boar Shrine": PetShrine,
   "Hound Shrine": PetShrine,
   "Stag Shrine": PetShrine,
+  "Legendary Shrine": PetShrine,
   "Lunar Calendar": LunarCalendar,
   "Goblin Bear": GoblinBear,
   "Turtle Bear": TurtleBear,

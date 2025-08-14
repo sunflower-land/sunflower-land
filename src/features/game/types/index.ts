@@ -1198,12 +1198,15 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Ruffroot: 2631,
   "Chewed Bone": 2632,
   "Heart leaf": 2633,
+  Moonfur: 2634,
+  "Fossil Shell": 2635,
 
   // Pet Shrines
   "Fox Shrine": 2650,
   "Boar Shrine": 2651,
   "Hound Shrine": 2652,
   "Stag Shrine": 2653,
+  "Legendary Shrine": 2654,
 };
 
 // The reverse of above

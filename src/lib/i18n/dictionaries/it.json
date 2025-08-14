@@ -6432,5 +6432,9 @@
   "perks": "Vantaggi",
   "pets.neglected": "Trascurata",
   "cheer.confirm.socialpoints": "+3 punti sociali",
-  "cheer.confirm.loveCharms": "+3 Love Charms"
+  "cheer.confirm.loveCharms": "+3 Love Charms",
+  "description.moonfur": "Una soffice pelliccia di luna",
+  "description.legendaryShrine": "Un santuario leggendario che potenzia tutto!",
+  "description.legendaryShrine.buff": "Rendimenti bonus",
+  "description.fossilShell": "Sembra che ci sia qualcosa dentro..."
 }
