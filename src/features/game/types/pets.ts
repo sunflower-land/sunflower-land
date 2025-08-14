@@ -20,35 +20,76 @@ export type Pet = {
 };
 
 export type PetConfig = {
-  fetches: PetResource[];
+  fetches: { name: PetResource; level: number }[];
 };
 
 export const PETS: Record<PetName, PetConfig> = {
   Barkley: {
-    fetches: ["Acorn", "Chewed Bone", "Fossil Shell", "Frost Pebble"],
+    fetches: [
+      { level: 1, name: "Acorn" },
+      { level: 3, name: "Chewed Bone" },
+      { level: 5, name: "Fossil Shell" },
+      { level: 25, name: "Frost Pebble" },
+    ],
   },
 
   Burro: {
-    fetches: ["Acorn", "Ruffroot", "Fossil Shell", "Wild Grass"],
+    fetches: [
+      { level: 1, name: "Acorn" },
+      { level: 3, name: "Ruffroot" },
+      { level: 5, name: "Fossil Shell" },
+      { level: 25, name: "Wild Grass" },
+    ],
   },
   Twizzle: {
-    fetches: ["Acorn", "Heart leaf", "Fossil Shell", "Ribbon"],
+    fetches: [
+      { level: 1, name: "Acorn" },
+      { level: 3, name: "Heart leaf" },
+      { level: 5, name: "Fossil Shell" },
+      { level: 25, name: "Ribbon" },
+    ],
   },
   Meowchi: {
-    fetches: ["Acorn", "Ribbon", "Fossil Shell", "Chewed Bone"],
+    fetches: [
+      { level: 1, name: "Acorn" },
+      { level: 3, name: "Ribbon" },
+      { level: 5, name: "Fossil Shell" },
+      { level: 25, name: "Chewed Bone" },
+    ],
   },
   Mudhorn: {
-    fetches: ["Acorn", "Wild Grass", "Fossil Shell", "Dewberry"],
+    fetches: [
+      { level: 1, name: "Acorn" },
+      { level: 3, name: "Wild Grass" },
+      { level: 5, name: "Fossil Shell" },
+      { level: 25, name: "Dewberry" },
+    ],
   },
   Nibbles: {
-    fetches: ["Acorn", "Dewberry", "Fossil Shell", "Ruffroot"],
+    fetches: [
+      { level: 1, name: "Acorn" },
+      { level: 3, name: "Dewberry" },
+      { level: 5, name: "Fossil Shell" },
+      { level: 25, name: "Ruffroot" },
+    ],
   },
   Waddles: {
-    fetches: ["Acorn", "Frost Pebble", "Fossil Shell", "Heart leaf"],
+    fetches: [
+      { level: 1, name: "Acorn" },
+      { level: 3, name: "Frost Pebble" },
+      { level: 5, name: "Fossil Shell" },
+      { level: 25, name: "Heart leaf" },
+    ],
   },
   // NFT placeholder for testing
   Ramsey: {
-    fetches: ["Acorn", "Moonfur", "Fossil Shell", "Ribbon", "Heart leaf"],
+    fetches: [
+      { level: 1, name: "Acorn" },
+      { level: 3, name: "Moonfur" },
+      { level: 5, name: "Fossil Shell" },
+      { level: 25, name: "Ribbon" },
+      { level: 25, name: "Heart leaf" },
+    ],
   },
 };
 

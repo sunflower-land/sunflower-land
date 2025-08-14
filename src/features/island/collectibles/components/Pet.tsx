@@ -45,7 +45,9 @@ export const PetModal: React.FC<{
 
   const petConfig = PETS[name];
 
-  const [resource, setResource] = useState<PetResource>(petConfig.fetches[0]);
+  const [resource, setResource] = useState<PetResource>(
+    petConfig.fetches[0].name,
+  );
 
   const pet = gameState.context.state.pets?.[name];
   const request = getPetRequest({ pet, game: gameState.context.state });
@@ -287,29 +289,27 @@ export const PetModal: React.FC<{
         <div className="flex flex-col">
           {petConfig.fetches.map((fetch) => {
             const level = pet?.level ?? 1;
-            let isLocked = level < 3 && fetch !== "Acorn";
-
-            if (level < 5 && fetch === "Fossil Shell") {
-              isLocked = true;
-            }
+            const isLocked = level < fetch.level;
 
             return (
-              <div key={fetch} className="flex items-center">
+              <div key={fetch.name} className="flex items-center">
                 <Box
-                  key={fetch}
-                  isSelected={resource === fetch}
-                  onClick={() => setResource(fetch)}
-                  image={ITEM_DETAILS[fetch].image}
+                  key={fetch.name}
+                  isSelected={resource === fetch.name}
+                  onClick={() => setResource(fetch.name)}
+                  image={ITEM_DETAILS[fetch.name].image}
                   className="mr-2"
                   disabled={isLocked}
                   secondaryImage={isLocked ? lockIcon : undefined}
                 />
                 <div>
-                  <p className="text-sm">{fetch}</p>
+                  <p className="text-sm">{fetch.name}</p>
                   {isLocked ? (
-                    <Label type="transparent">{`Lvl ${fetch === "Fossil Shell" ? 5 : 3} required`}</Label>
+                    <Label type="transparent">{`Lvl ${fetch.level} required`}</Label>
                   ) : (
-                    <p className="text-xs">{ITEM_DETAILS[fetch].description}</p>
+                    <p className="text-xs">
+                      {ITEM_DETAILS[fetch.name].description}
+                    </p>
                   )}
                 </div>
               </div>

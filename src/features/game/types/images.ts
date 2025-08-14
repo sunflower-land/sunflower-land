@@ -999,6 +999,12 @@ import nibbles from "assets/sfts/pets/nibbles.webp";
 import waddles from "assets/sfts/pets/waddles.webp";
 import ramsey from "assets/sfts/pets/ramsey.webp";
 
+import moonfur from "assets/icons/moonfur.webp";
+import dewberry from "assets/icons/dewberry.webp";
+import ribbon from "assets/icons/medal.webp";
+import frostPebble from "assets/icons/diamond.webp";
+import wildGrass from "assets/icons/wild_grass.webp";
+
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
 import { CROPS, CROP_SEEDS, GREENHOUSE_CROPS, GREENHOUSE_SEEDS } from "./crops";
@@ -5801,7 +5807,7 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.legendaryShrine"),
   },
   Moonfur: {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: moonfur,
     description: translate("description.moonfur"),
   },
   "Fossil Shell": {
@@ -5841,21 +5847,21 @@ export const ITEM_DETAILS: Items = {
     description: translate("description.bearShrine"),
   },
   "Wild Grass": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: wildGrass,
     description: translate("description.wildGrass"),
   },
   "Frost Pebble": {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: frostPebble,
 
     description: translate("description.frostPebble"),
   },
   Ribbon: {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: ribbon,
 
     description: translate("description.ribbon"),
   },
   Dewberry: {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: dewberry,
 
     description: translate("description.dewberry"),
   },

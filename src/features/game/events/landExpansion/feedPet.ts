@@ -153,7 +153,7 @@ export function feedPet({
     }
 
     const petConfig = PETS[action.name];
-    if (!petConfig.fetches.includes(action.resource)) {
+    if (!petConfig.fetches.find((fetch) => fetch.name === action.resource)) {
       throw new Error(`Pet cannot fetch ${action.resource}`);
     }
 
