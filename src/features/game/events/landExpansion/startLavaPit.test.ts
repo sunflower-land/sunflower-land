@@ -37,6 +37,21 @@ describe("startLavaPit", () => {
     ).toThrow("Lava pit not found");
   });
 
+  it("requires the lava pit to be placed", () => {
+    expect(() =>
+      startLavaPit({
+        state: {
+          ...TEST_FARM,
+          lavaPits: {
+            1: { x: undefined, y: undefined, createdAt: 0 },
+          },
+        },
+        action: { type: "lavaPit.started", id: "1" },
+        createdAt: now,
+      }),
+    ).toThrow("Lava pit is not placed");
+  });
+
   it("requires resources to start", () => {
     expect(() =>
       startLavaPit({

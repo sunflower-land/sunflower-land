@@ -36,6 +36,32 @@ describe("cook", () => {
     ).toThrow(`Required building does not exist`);
   });
 
+  it("does not cook if building is not placed", () => {
+    expect(() =>
+      cook({
+        state: {
+          ...GAME_STATE,
+          buildings: {
+            "Fire Pit": [
+              {
+                coordinates: { x: 2, y: 3 },
+                readyAt: 1660563190206,
+                createdAt: 1660563160206,
+                id: "64eca77c-10fb-4088-a71f-3743b2ef6b16",
+              },
+            ],
+          },
+        },
+        action: {
+          type: "recipe.cooked",
+          item: "Boiled Eggs",
+          buildingId: "123",
+        },
+        createdAt,
+      }),
+    ).toThrow(`Required building does not exist`);
+  });
+
   it("does not cook if there are no available slots", () => {
     expect(() =>
       cook({

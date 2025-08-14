@@ -190,6 +190,12 @@ export function feedAnimal({
 }: Options): GameState {
   return produce(state, (copy) => {
     const { buildingRequired } = ANIMALS[action.animal];
+
+    const buildings = copy.buildings[buildingRequired];
+    if (!buildings?.some((building) => !!building.coordinates)) {
+      throw new Error("Building does not exist");
+    }
+
     const buildingKey = makeAnimalBuildingKey(buildingRequired);
     const animal = copy[buildingKey].animals[action.id];
     const boostsUsed: BoostName[] = [];

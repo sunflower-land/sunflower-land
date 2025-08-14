@@ -209,6 +209,10 @@ export function cook({
       throw new Error(translate("error.requiredBuildingNotExist"));
     }
 
+    if (!building.coordinates) {
+      throw new Error("Building is not placed");
+    }
+
     const crafting = (building.crafting ?? []) as BuildingProduct[];
 
     if (crafting.length >= availableSlots) {

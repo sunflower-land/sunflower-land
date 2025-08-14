@@ -72,6 +72,7 @@ export function placeCollectible({
 
     if (existingCollectible) {
       existingCollectible.coordinates = action.coordinates;
+      delete existingCollectible.removedAt;
 
       return stateCopy;
     }

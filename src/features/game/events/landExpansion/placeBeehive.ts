@@ -54,6 +54,7 @@ export function placeBeehive({
         game: copy,
         createdAt,
       });
+      delete updatedHive.removedAt;
 
       copy.beehives = updatedBeehives;
 

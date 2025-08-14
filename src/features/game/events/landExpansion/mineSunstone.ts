@@ -42,6 +42,10 @@ export function mineSunstone({
       throw new Error(EVENT_ERRORS.NO_SUNSTONE);
     }
 
+    if (sunstoneRock.x === undefined && sunstoneRock.y === undefined) {
+      throw new Error("Sunstone rock is not placed");
+    }
+
     if (!canMine(sunstoneRock, SUNSTONE_RECOVERY_TIME, createdAt)) {
       throw new Error(EVENT_ERRORS.STILL_RECOVERING);
     }

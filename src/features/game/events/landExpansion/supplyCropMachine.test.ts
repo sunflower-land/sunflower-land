@@ -31,6 +31,31 @@ describe("supplyCropMachine", () => {
     ).toThrow("Crop Machine does not exist");
   });
 
+  it("throws an error if Crop Machine is not placed", () => {
+    expect(() =>
+      supplyCropMachine({
+        state: {
+          ...GAME_STATE,
+          buildings: {
+            "Crop Machine": [
+              {
+                coordinates: undefined,
+                createdAt: 0,
+                id: "1",
+                readyAt: 123,
+                unallocatedOilTime: 0,
+              },
+            ],
+          },
+        },
+        action: {
+          type: "cropMachine.supplied",
+          seeds: { type: "Sunflower Seed", amount: 10 },
+        },
+      }),
+    ).toThrow("Crop Machine does not exist");
+  });
+
   it("throws an error if the user does not have the requirements", () => {
     expect(() =>
       supplyCropMachine({

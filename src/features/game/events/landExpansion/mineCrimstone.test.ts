@@ -72,6 +72,21 @@ describe("mineCrimstone", () => {
     ).toThrow("Crimstone does not exist");
   });
 
+  it("throws an error if crimstone is not placed", () => {
+    expect(() =>
+      mineCrimstone({
+        state: {
+          ...GAME_STATE,
+          bumpkin: GAME_STATE.bumpkin,
+          crimstones: {
+            0: { ...GAME_STATE.crimstones[0], x: undefined, y: undefined },
+          },
+        },
+        action: { type: "crimstoneRock.mined", index: 0 },
+      }),
+    ).toThrow("Crimstone rock is not placed");
+  });
+
   it("throws an error if crimstone is not ready", () => {
     const payload = {
       state: {

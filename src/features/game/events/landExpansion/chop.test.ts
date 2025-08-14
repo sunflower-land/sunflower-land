@@ -48,6 +48,22 @@ describe("chop", () => {
     ).toThrow(CHOP_ERRORS.NO_AXES);
   });
 
+  it("throws an error if tree is not placed", () => {
+    expect(() =>
+      chop({
+        state: {
+          ...GAME_STATE,
+          trees: { 0: { x: undefined, y: undefined, wood: { choppedAt: 0 } } },
+        },
+        action: {
+          type: "timber.chopped",
+          item: "Axe",
+          index: "0",
+        },
+      }),
+    ).toThrow("Tree is not placed");
+  });
+
   it("throws an error if tree is not ready", () => {
     const payload = {
       state: {

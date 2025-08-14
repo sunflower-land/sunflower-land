@@ -116,6 +116,10 @@ export function plantFlower({
       throw new Error(translate("harvestflower.noFlowerBed"));
     }
 
+    if (flowerBed.x === undefined && flowerBed.y === undefined) {
+      throw new Error("Flower bed is not placed");
+    }
+
     if (flowerBed.flower?.plantedAt) {
       throw new Error(translate("harvestflower.alr.plant"));
     }

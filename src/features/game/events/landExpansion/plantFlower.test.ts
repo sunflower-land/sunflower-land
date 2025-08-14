@@ -50,6 +50,33 @@ describe("plantFlower", () => {
     ).toThrow("Flower bed does not exist");
   });
 
+  it("does not plant if flower bed is not placed", () => {
+    expect(() =>
+      plantFlower({
+        state: {
+          ...GAME_STATE,
+          flowers: {
+            ...GAME_STATE.flowers,
+            flowerBeds: {
+              1: {
+                ...GAME_STATE.flowers.flowerBeds[1],
+                x: undefined,
+                y: undefined,
+              },
+            },
+          },
+        },
+        createdAt: dateNow,
+        action: {
+          type: "flower.planted",
+          id: "1",
+          seed: "Sunpetal Seed",
+          crossbreed: "Sunflower",
+        },
+      }),
+    ).toThrow("Flower bed is not placed");
+  });
+
   it("does not plant if flower is already planted", () => {
     expect(() =>
       plantFlower({

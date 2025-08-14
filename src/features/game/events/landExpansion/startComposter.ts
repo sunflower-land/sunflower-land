@@ -109,12 +109,11 @@ export function startComposter({
   return produce(state, (stateCopy) => {
     const { building } = action;
     const buildings = stateCopy.buildings[building] as CompostBuilding[];
-    if (!buildings) {
+    if (!buildings?.some((building) => !!building.coordinates)) {
       throw new Error(translate("error.composterNotExist"));
     }
 
-    const { bumpkin, inventory } = stateCopy;
-    const { skills } = bumpkin;
+    const { inventory } = stateCopy;
     const composter = buildings[0];
     const { producing } = composter;
 

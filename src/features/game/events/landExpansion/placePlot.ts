@@ -51,8 +51,8 @@ export function placePlot({
         const existingProgress =
           updatedPlot.removedAt - updatedPlot.crop.plantedAt;
         updatedPlot.crop.plantedAt = createdAt - existingProgress;
-        delete updatedPlot.removedAt;
       }
+      delete updatedPlot.removedAt;
 
       game.crops[id] = updatedPlot;
 

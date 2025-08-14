@@ -49,6 +49,22 @@ describe("mineSunstone", () => {
     ).toThrow(EVENT_ERRORS.NO_SUNSTONE);
   });
 
+  it("throws an error if sunstone is not placed", () => {
+    expect(() =>
+      mineSunstone({
+        state: {
+          ...GAME_STATE,
+          bumpkin: GAME_STATE.bumpkin,
+          sunstones: {
+            0: { ...GAME_STATE.sunstones[0], x: undefined, y: undefined },
+          },
+        },
+        action: { type: "sunstoneRock.mined", index: "0" },
+        createdAt: Date.now(),
+      }),
+    ).toThrow("Sunstone rock is not placed");
+  });
+
   it("throws an error if no gold pickaxes are left", () => {
     expect(() =>
       mineSunstone({

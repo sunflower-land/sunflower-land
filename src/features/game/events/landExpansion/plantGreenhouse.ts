@@ -193,7 +193,9 @@ export function plantGreenhouse({
 }: Options): GameState {
   return produce(state, (game) => {
     // Requires Greenhouse exists
-    if (!game.buildings.Greenhouse) {
+    if (
+      !game.buildings.Greenhouse?.some((building) => !!building.coordinates)
+    ) {
       throw new Error("Greenhouse does not exist");
     }
 
