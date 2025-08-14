@@ -142,8 +142,7 @@ export const PetModal: React.FC<{
               {`Lvl ${pet?.level ?? 1}`}
             </Label>
           </div>
-          <p className="text-sm">{`Lvl 3 - Unlock bonus resource`}</p>
-          <p className="text-sm">{`Lvl 5 - Unlock Fossil Shell`}</p>
+          <p className="text-sm">{`Lvl up to unlock more resources`}</p>
           <p className="text-sm">{`Lvl 10 - 10% faster`}</p>
           <p className="text-sm">{`Lvl 20 - 10% chance of double resource`}</p>
           <p className="text-sm">{`Lvl 50 - 20% faster`}</p>
@@ -377,7 +376,11 @@ export const Pet: React.FC<CollectibleProps> = ({ name }) => {
       </Modal>
       <div
         className="absolute"
-        style={{ left: `${PIXEL_SCALE * 4}px`, width: `${PIXEL_SCALE * 22}px` }}
+        style={{
+          left: `${PIXEL_SCALE * -1}px`,
+          top: `${PIXEL_SCALE * -5}px`,
+          width: `${PIXEL_SCALE * 20}px`,
+        }}
       >
         <img
           src={ITEM_DETAILS[name].image}
