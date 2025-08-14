@@ -1,6 +1,5 @@
 import { KNOWN_IDS } from "features/game/types";
-import { BumpkinItem, ITEM_IDS } from "features/game/types/bumpkin";
-import { InventoryItemName } from "features/game/types/game";
+import { ITEM_IDS } from "features/game/types/bumpkin";
 import {
   MarketplaceTradeableName,
   CollectionName,
