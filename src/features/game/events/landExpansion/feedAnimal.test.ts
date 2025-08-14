@@ -26,9 +26,22 @@ describe("feedAnimal", () => {
         state: {
           ...GAME_STATE,
           buildings: {
-            ...GAME_STATE.buildings,
-            Barn: undefined,
-            "Hen House": undefined,
+            Barn: [
+              {
+                id: "123",
+                coordinates: undefined,
+                createdAt: 0,
+                readyAt: 0,
+              },
+            ],
+            "Hen House": [
+              {
+                id: "456",
+                coordinates: undefined,
+                createdAt: 0,
+                readyAt: 0,
+              },
+            ],
           },
         },
         action: {
