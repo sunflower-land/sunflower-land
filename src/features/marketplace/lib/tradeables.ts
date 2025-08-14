@@ -1,7 +1,6 @@
-import { TRADE_LIMITS } from "features/game/actions/tradeLimits";
-import { BuffLabel, KNOWN_IDS, KNOWN_ITEMS } from "features/game/types";
-import { BumpkinItem, ITEM_IDS, ITEM_NAMES } from "features/game/types/bumpkin";
-import { GameState, InventoryItemName } from "features/game/types/game";
+import { BuffLabel, KNOWN_ITEMS } from "features/game/types";
+import { ITEM_NAMES } from "features/game/types/bumpkin";
+import { GameState } from "features/game/types/game";
 import { getItemBuffs } from "features/game/types/getItemBuffs";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
@@ -66,24 +65,4 @@ export function getTradeableDisplay({
     buffs: getItemBuffs({ state, item: name, collection: "collectibles" }),
     type,
   };
-}
-
-export function getCollectionName(
-  itemName: MarketplaceTradeableName,
-): CollectionName {
-  if (itemName in TRADE_LIMITS) return "resources";
-
-  if ((itemName as InventoryItemName) in KNOWN_IDS) {
-    return "collectibles";
-  }
-
-  if ((itemName as BumpkinItem) in ITEM_IDS) {
-    return "wearables";
-  }
-
-  if (itemName.startsWith("Bud")) {
-    return "buds";
-  }
-
-  throw new Error("Unknown collection");
 }
