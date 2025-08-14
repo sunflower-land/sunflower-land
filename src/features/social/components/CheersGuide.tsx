@@ -3,6 +3,7 @@ import { InnerPanel } from "components/ui/Panel";
 import cheer from "assets/icons/cheer.webp";
 import helpIcon from "assets/icons/help.webp";
 import helpedIcon from "assets/icons/helped.webp";
+import potIcon from "assets/icons/pot.png";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getRelativeTime } from "lib/utils/time";
@@ -55,7 +56,7 @@ export const CheersGuide = () => {
             },
             {
               text: t("cheers.guide.description6"),
-              icon: ITEM_DETAILS["Advanced Cooking Pot"].image,
+              icon: potIcon,
             },
           ]}
         />
