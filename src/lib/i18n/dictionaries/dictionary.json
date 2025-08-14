@@ -5930,6 +5930,7 @@
   "description.silverFlowerBox": "A silver flower box",
   "description.goldFlowerBox": "A gold flower box",
   "megastore.limit": "Cooldown: {{time}}",
+  "chapterStore.title": "{{chapter}} Store",
   "petalPuzzle.alreadyClaimed": "Already claimed",
   "petalPuzzle.comeBackTomorrow": "You have already claimed the prize today. Come back tomorrow.",
   "petalPuzzle.congratulations": "Congratulations, you all solved today's puzzle!",

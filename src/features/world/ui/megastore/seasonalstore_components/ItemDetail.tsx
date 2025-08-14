@@ -380,11 +380,11 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                       </Label>
                     ) : (
                       <Label
-                        type={canBuy() ? "default" : "danger"}
+                        type={!itemCrafted ? "default" : "danger"}
                         className="text-xxs"
                       >
                         {t("season.megastore.crafting.limit", {
-                          limit: canBuy() ? 0 : 1,
+                          limit: !itemCrafted ? 0 : 1,
                         })}
                       </Label>
                     )}
