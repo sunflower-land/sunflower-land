@@ -71,6 +71,7 @@ import { RECIPE_CRAFTABLES } from "features/game/lib/crafting";
 import { SEASON_ICONS } from "features/island/buildings/components/building/market/SeasonalSeeds";
 import { getFlowerTime } from "features/game/events/landExpansion/plantFlower";
 import { CLUTTER } from "features/game/types/clutter";
+import { PET_RESOURCES } from "features/game/types/pets";
 
 interface Prop {
   gameState: GameState;
@@ -195,6 +196,7 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
   const worm = getItems(WORM);
   const purchaseableBait = getItems(PURCHASEABLE_BAIT);
   const fish = getItems(FISH).sort((a, b) => a.localeCompare(b));
+  const petResources = getItems(PET_RESOURCES);
 
   const allSeeds = [
     ...seeds,
@@ -316,6 +318,11 @@ export const Basket: React.FC<Prop> = ({ gameState, selected, onSelect }) => {
             ITEM_DETAILS["Wood"].image,
           )}
           {itemsSection(t("clutter"), clutter, ITEM_DETAILS.Dung.image)}
+          {itemsSection(
+            t("pet.resources"),
+            petResources,
+            ITEM_DETAILS["Acorn"].image,
+          )}
           {itemsSection(t("animal"), animalResources, ITEM_DETAILS.Egg.image)}
           {itemsSection("Feeds", animalFeeds, ITEM_DETAILS.Hay.image)}
           {itemsSection(
