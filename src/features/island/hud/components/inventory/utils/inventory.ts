@@ -36,7 +36,7 @@ const PLACEABLE_DIMENSIONS = {
 };
 
 type ListedItems = Record<
-  Exclude<CollectionName, "resources">,
+  CollectionName,
   Partial<Record<MarketplaceTradeableName, number>>
 >;
 
