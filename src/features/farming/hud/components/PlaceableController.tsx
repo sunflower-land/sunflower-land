@@ -1,4 +1,10 @@
-import React, { useCallback, useContext, useEffect } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { useActor, useSelector } from "@xstate/react";
 import { Button } from "components/ui/Button";
 import { OuterPanel } from "components/ui/Panel";
@@ -23,6 +29,7 @@ import {
 import {
   BuildingName,
   BUILDINGS_DIMENSIONS,
+  Dimensions,
 } from "features/game/types/buildings";
 import { ANIMAL_DIMENSIONS } from "features/game/types/craftables";
 import { isBudName } from "features/game/types/buds";
@@ -40,10 +47,35 @@ import {
 } from "features/game/events/landExpansion/upgradeBuilding";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
+import { Coordinates } from "features/game/expansion/components/MapPlacement";
 
 interface Props {
   location: PlaceableLocation;
 }
+const calculateNextPlacement = ({
+  previousPosition,
+  currentPosition,
+  dimensions,
+}: {
+  previousPosition?: Coordinates;
+  currentPosition: Coordinates;
+  dimensions: Dimensions;
+}): Coordinates => {
+  if (!previousPosition) {
+    return {
+      x: currentPosition.x,
+      y: currentPosition.y - dimensions.height,
+    };
+  }
+
+  const xDiff = currentPosition.x - previousPosition.x;
+  const yDiff = currentPosition.y - previousPosition.y;
+
+  return {
+    x: currentPosition.x + xDiff,
+    y: currentPosition.y + yDiff,
+  };
+};
 
 export const PlaceableController: React.FC<Props> = ({ location }) => {
   const { gameService } = useContext(Context);
@@ -64,18 +96,23 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
   ] = useActor(child);
 
   const state = useSelector(gameService, (state) => state.context.state);
+  const [previousPosition, setPreviousPosition] = useState<
+    Coordinates | undefined
+  >();
 
-  let dimensions = { width: 0, height: 0 };
-  if (isBudName(placeable)) {
-    dimensions = { width: 1, height: 1 };
-  } else if (placeable) {
-    dimensions = {
-      ...BUILDINGS_DIMENSIONS,
-      ...COLLECTIBLES_DIMENSIONS,
-      ...ANIMAL_DIMENSIONS,
-      ...RESOURCE_DIMENSIONS,
-    }[placeable];
-  }
+  const dimensions = useMemo(() => {
+    if (isBudName(placeable)) {
+      return { width: 1, height: 1 };
+    } else if (placeable) {
+      return {
+        ...BUILDINGS_DIMENSIONS,
+        ...COLLECTIBLES_DIMENSIONS,
+        ...ANIMAL_DIMENSIONS,
+        ...RESOURCE_DIMENSIONS,
+      }[placeable];
+    }
+    return { width: 0, height: 0 };
+  }, [placeable]);
 
   const handleConfirmPlacement = useCallback(() => {
     // prevents multiple toasts while spam clicking place button
@@ -126,10 +163,11 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
     }
 
     if (placeMore) {
-      const nextPosition = {
-        x: coordinates.x,
-        y: coordinates.y - dimensions.height,
-      };
+      const nextPosition = calculateNextPlacement({
+        previousPosition,
+        currentPosition: coordinates,
+        dimensions,
+      });
       const collisionDetected = detectCollision({
         name: placeable as CollectibleName,
         state,
@@ -147,21 +185,22 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
         nextWillCollide: collisionDetected,
         location,
       });
+      setPreviousPosition(coordinates);
     } else {
       send({ type: "PLACE", location });
+      setPreviousPosition(coordinates);
     }
   }, [
-    child,
-    coordinates.x,
-    coordinates.y,
-    state,
-    location,
+    child.state,
     placeable,
+    state,
     requirements,
     maximum,
+    previousPosition,
+    coordinates,
+    dimensions,
+    location,
     send,
-    dimensions.height,
-    dimensions.width,
   ]);
 
   const handleCancelPlacement = useCallback(() => {
