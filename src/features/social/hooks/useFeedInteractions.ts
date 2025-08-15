@@ -2,7 +2,7 @@ import useSWRInfinite from "swr/infinite";
 import { getFeedInteractions } from "../actions/getFeedInteractions";
 import { Interaction } from "../types/types";
 import { FeedFilter } from "../Feed";
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 
 const PAGE_SIZE = 50;
 
@@ -13,8 +13,6 @@ export function useFeedInteractions(
   sessionId: number,
   isGlobal: boolean,
 ) {
-  const [followingList, setFollowingList] = useState<number[]>([]);
-
   const getKey = (
     _: number,
     previousPageData: { feed: Interaction[]; following: number[] },
@@ -48,21 +46,32 @@ export function useFeedInteractions(
     },
   );
 
-  const isLoadingInitialData = !data && isValidating;
+  const followingRef = useRef<number[] | null>([]);
+  const lastSessionIdRef = useRef<number>(sessionId);
 
+  // Reset the following list when the sessionId changes
+  if (lastSessionIdRef.current !== sessionId) {
+    followingRef.current = null;
+    lastSessionIdRef.current = sessionId;
+  }
+
+  // Whatever SWR returned for page 0 this render
+  const firstFollowing = data?.[0]?.following;
+
+  // Capture once per session (even if it's an empty array)
   useEffect(() => {
-    if (!isLoadingInitialData && !followingList.length) {
-      // Only take following from the first page since it should be consistent across all pages
-      setFollowingList(data?.[0]?.following ?? []);
+    if (!followingRef.current && firstFollowing !== undefined) {
+      followingRef.current = firstFollowing;
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [data?.length, isLoadingInitialData, followingList]);
+  }, [firstFollowing, sessionId]);
+
+  const following = followingRef.current ?? firstFollowing ?? [];
 
   const feed = data ? data.flatMap((page) => page.feed).filter(Boolean) : [];
 
   return {
     feed,
-    following: followingList,
+    following,
     isLoadingInitialData: !data && isValidating,
     isLoadingMore:
       isValidating && size > 0 && typeof data?.[size - 1] === "undefined",

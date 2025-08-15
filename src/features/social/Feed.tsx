@@ -319,7 +319,7 @@ export const Feed: React.FC<Props> = ({
               { value: "chat", label: "Chat" },
               {
                 value: "cheer",
-                label: "Cheers",
+                label: "Cheered",
               },
               { value: "follow", label: "Follows" },
             ]}
