@@ -12,13 +12,11 @@ import {
   PET_RESOURCES,
   PetName,
   PetResource,
-  PETS,
   PET_FOOD_EXPERIENCE,
   getPetExperience,
 } from "features/game/types/pets";
 import Decimal from "decimal.js-light";
 import { isCollectibleActive } from "features/game/lib/collectibleBuilt";
-import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 import { ConsumableName } from "features/game/types/consumables";
 
 const CRAVINGS: ConsumableName[] = [
@@ -40,22 +38,27 @@ export const DEFAULT_PET_CRAVINGS: InventoryItemName[] = [
   "Goblin's Treat",
 ];
 
-export function getPetRequest({
+export function getPetCravings({
   pet,
   game,
 }: {
   pet?: Pet;
   game: GameState;
-}): InventoryItemName {
-  const cravings = pet?.cravings ?? DEFAULT_PET_CRAVINGS;
+}): { name: InventoryItemName; completedAt?: number }[] {
+  const cravings = pet?.cravings;
 
-  return cravings[0];
+  // If on old version return the cravings
+  if (!!cravings && !!cravings[0]?.completedAt) {
+    return cravings;
+  }
+
+  return DEFAULT_PET_CRAVINGS.map((c) => ({ name: c }));
 }
 
 export type FeedPetAction = {
   type: "pet.fed";
   name: PetName;
-  resource: PetResource;
+  food: InventoryItemName;
 };
 
 type Options = {
@@ -140,27 +143,24 @@ export function feedPet({
 
     let pet = stateCopy.pets?.[action.name];
 
-    if (isPetResting({ pet, game: stateCopy })) {
-      throw new Error("Pet is sleeping");
-    }
-
     if (isPetNeglected({ pet, game: stateCopy })) {
       throw new Error("Pet is neglected");
     }
 
-    const craves = getPetRequest({ pet, game: stateCopy });
+    const requests = getPetCravings({ pet, game: stateCopy });
 
-    const foodAmount = stateCopy.inventory[craves] ?? new Decimal(0);
+    const requestIndex = requests.findIndex(
+      (request) => request.name === action.food && !request.completedAt,
+    );
+
+    if (requestIndex === -1) {
+      throw new Error(`Pet does not crave ${action.food}`);
+    }
+
+    const foodAmount = stateCopy.inventory[action.food] ?? new Decimal(0);
     if (foodAmount.lt(1)) {
-      throw new Error(`Missing ${craves}`);
+      throw new Error(`Missing ${action.food}`);
     }
-
-    const petConfig = PETS[action.name];
-    if (!petConfig.fetches.find((fetch) => fetch.name === action.resource)) {
-      throw new Error(`Pet cannot fetch ${action.resource}`);
-    }
-
-    const petResource = stateCopy.inventory[action.resource] ?? new Decimal(0);
 
     if (!pet) {
       pet = {
@@ -170,33 +170,20 @@ export function feedPet({
     }
 
     pet.experience = getPetExperience(pet) + PET_FOOD_EXPERIENCE;
+    pet.energy = (pet.energy ?? 0) + PET_FOOD_EXPERIENCE;
 
-    const { readyAt, boostsUsed } = getPetReadyAt({
-      game: stateCopy,
-      now: createdAt,
-      pet,
-      fetched: action.resource,
-    });
-
-    pet.readyAt = readyAt;
-
-    // Remove the first craving
-    pet?.cravings?.shift();
+    // Mark the request as completed
+    pet.cravings = requests.map((request, index) =>
+      index === requestIndex ? { ...request, completedAt: createdAt } : request,
+    );
 
     const multiplier = 1;
 
-    stateCopy.inventory[action.resource] = petResource.add(multiplier);
-    stateCopy.inventory[craves] = foodAmount.sub(1);
+    stateCopy.inventory[action.food] = foodAmount.sub(1);
     stateCopy.pets = {
       ...(stateCopy.pets ?? {}),
       [action.name]: pet,
     };
-
-    stateCopy.boostsUsedAt = updateBoostUsed({
-      game: stateCopy,
-      boostNames: boostsUsed,
-      createdAt,
-    });
 
     return stateCopy;
   });
