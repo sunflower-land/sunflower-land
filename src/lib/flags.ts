@@ -113,6 +113,8 @@ const FEATURE_FLAGS = {
   FLOWER_INSTA_GROW: defaultFeatureFlag,
 
   API_PERFORMANCE: defaultFeatureFlag,
+
+  OBSIDIAN_EXCHANGE: testnetFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;

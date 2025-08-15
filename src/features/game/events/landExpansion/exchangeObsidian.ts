@@ -3,6 +3,7 @@ import { GameState } from "../../types/game";
 import { produce } from "immer";
 import Decimal from "decimal.js-light";
 import { trackFarmActivity } from "features/game/types/farmActivity";
+import { hasFeatureAccess } from "lib/flags";
 
 export type ObsidianExchangedAction = {
   type: "obsidian.exchanged";
@@ -25,6 +26,8 @@ export function getObsidianSunstonePrice({
 }: {
   gameState: GameState;
 }): number {
+  if (hasFeatureAccess(gameState, "OBSIDIAN_EXCHANGE")) return 3;
+
   const exchanged = gameState.farmActivity["Obsidian Exchanged"] ?? 0;
 
   return 3 + Math.floor(exchanged / 3);
