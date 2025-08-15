@@ -13,12 +13,13 @@ export type PetName =
   | "Ramsey";
 
 export type Pet = {
-  cravings?: InventoryItemName[];
+  cravings?: { name: InventoryItemName; completedAt?: number }[];
   readyAt?: number;
   level?: number;
   multiplier?: number;
   pettedAt?: number;
   experience?: number;
+  energy?: number;
 };
 
 export const PET_FOOD_EXPERIENCE = 100;
@@ -207,37 +208,50 @@ export type PetResource =
   | "Moonfur"
   | "Fossil Shell";
 
-export const PET_RESOURCES: Record<PetResource, { cooldownMs: number }> = {
+export const PET_RESOURCES: Record<
+  PetResource,
+  { cooldownMs: number; energy: number }
+> = {
   Acorn: {
     cooldownMs: 12 * 60 * 60 * 1000,
+    energy: 100,
   },
   Ruffroot: {
     cooldownMs: 12 * 60 * 60 * 1000,
+    energy: 150,
   },
   "Chewed Bone": {
     cooldownMs: 12 * 60 * 60 * 1000,
+    energy: 150,
   },
   "Heart leaf": {
     cooldownMs: 12 * 60 * 60 * 1000,
+    energy: 150,
   },
   Moonfur: {
     cooldownMs: 12 * 60 * 60 * 1000,
+    energy: 150,
   },
 
   "Frost Pebble": {
     cooldownMs: 12 * 60 * 60 * 1000,
+    energy: 150,
   },
   "Wild Grass": {
     cooldownMs: 12 * 60 * 60 * 1000,
+    energy: 150,
   },
   Ribbon: {
     cooldownMs: 12 * 60 * 60 * 1000,
+    energy: 150,
   },
   Dewberry: {
     cooldownMs: 12 * 60 * 60 * 1000,
+    energy: 150,
   },
   "Fossil Shell": {
     cooldownMs: 24 * 60 * 60 * 1000,
+    energy: 250,
   },
 };
 
