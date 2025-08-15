@@ -21,8 +21,7 @@ type Options = {
 
 export const HELP_LIMIT_COST: Inventory = {
   Iron: new Decimal(1),
-  Leather: new Decimal(1),
-  Wool: new Decimal(1),
+  Wool: new Decimal(3),
   Feather: new Decimal(3),
 };
 
