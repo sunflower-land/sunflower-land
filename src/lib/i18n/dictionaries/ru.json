@@ -5137,7 +5137,6 @@
   "description.rocky.the.mole": "Повышает урожайность железорудных рудников на 0,25%",
   "description.nugget": "Повышает доходность золотых рудников на 0,25%",
   "description.rock.golem": "Дает 10% шанс получить +2 камня",
-  "wallet.RequiresPol": "Для майнинга фермы (NFT) требуются токены POL в сети Polygon и в привязанном кошельке вашей фермы.",
   "description.thermalStone": "Термальный камень, защищающий вас от сильных морозов! Только для одноразового использования.",
   "description.protectivePesticide": "Пестицид, защищающий ваши посевы от чумы насекомых! Только для одноразового применения.",
   "season.PlaceProtectiveEquipment": "Чтобы пережить погодные явления, разместите защитные средства на ферме или в доме непосредственно перед тем, как они произойдут.",
@@ -6455,5 +6454,7 @@
   "description.mudhorn": "Грязевой рог",
   "description.nibbles": "Закусывает",
   "description.waddles": "Ковыляет",
-  "description.ramsey": "Рамси"
+  "description.ramsey": "Рамси",
+  "claiming.auction": "Изделие для чеканки",
+  "claiming.auction.success": "Поздравляю! Ваш товар отчеканен!"
 }

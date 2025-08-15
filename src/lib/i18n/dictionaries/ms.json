@@ -5137,7 +5137,6 @@
   "description.rocky.the.mole": "Memberi kenaikan 0.25 kepada hasil lombong besi",
   "description.nugget": "Memberi kenaikan 0.25 kepada hasil lombong emas",
   "description.rock.golem": "Memberi peluang 10% untuk mendapatkan +2 Stone",
-  "wallet.RequiresPol": "Membuat NFT ladang memerlukan token POL pada rangkaian Polygon dan di dompet berpaut ladang anda",
   "description.thermalStone": "Batu haba yang melindungi anda dari pembekuan yang hebat! Satu penggunaan sahaja.",
   "description.protectivePesticide": "Racun perosak yang melindungi tanaman anda daripada wabak serangga! Satu penggunaan sahaja.",
   "season.PlaceProtectiveEquipment": "Untuk bertahan dalam peristiwa cuaca, letakkan peralatan pelindung di ladang atau di dalam rumah sebelum kejadian itu berlaku.",
@@ -6455,5 +6454,7 @@
   "description.mudhorn": "Mudhorn",
   "description.nibbles": "Seorang menggigit",
   "description.waddles": "Seorang waddles",
-  "description.ramsey": "Ramsey"
+  "description.ramsey": "Ramsey",
+  "claiming.auction": "Item Pencetakan",
+  "claiming.auction.success": "Tahniah! Item anda telah dicetak!"
 }

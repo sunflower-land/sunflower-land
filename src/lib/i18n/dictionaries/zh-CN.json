@@ -5137,7 +5137,6 @@
   "description.rocky.the.mole": "使铁脉的产量提高 0.25",
   "description.nugget": "使金脉的产量提高 0.25",
   "description.rock.golem": "有 10% 的几率获得 +2 石头",
-  "wallet.RequiresPol": "铸造农场 NFT 需要 Polygon 网络和农场关联钱包中的 POL 代币",
   "description.thermalStone": "一块能保护你免受极度冻结的热石！仅限一次性使用。",
   "description.protectivePesticide": "一种可以保护您的庄稼免受虫害侵害的杀虫剂！仅限一次性使用。",
   "season.PlaceProtectiveEquipment": "为了抵御天气事件，请在事件发生前在农场或房屋内放置防护设备。",
@@ -6455,5 +6454,7 @@
   "description.mudhorn": "一只泥喇叭",
   "description.nibbles": "一点零食",
   "description.waddles": "一个蹒跚",
-  "description.ramsey": "A ramsey"
+  "description.ramsey": "A ramsey",
+  "claiming.auction": "铸币物品",
+  "claiming.auction.success": "恭喜！你的物品已经铸造了！"
 }

@@ -5137,7 +5137,6 @@
   "description.rocky.the.mole": "Memberikan peningkatan 0,25 pada hasil tambang besi",
   "description.nugget": "Memberikan kenaikan 0,25 pada hasil tambang emas",
   "description.rock.golem": "Memberikan kesempatan 10% untuk mendapatkan +2 Batu",
-  "wallet.RequiresPol": "Mencetak NFT pertanian membutuhkan token POL di jaringan Polygon dan di dompet tertaut pertanian Anda",
   "description.thermalStone": "Batu termal yang melindungi Anda dari pembekuan hebat! Sekali pakai saja.",
   "description.protectivePesticide": "Pestisida yang melindungi tanaman Anda dari wabah serangga! Hanya sekali pakai.",
   "season.PlaceProtectiveEquipment": "Untuk bertahan dari peristiwa cuaca, letakkan peralatan pelindung di pertanian atau di dalam rumah tepat sebelum peristiwa terjadi.",
@@ -6455,5 +6454,7 @@
   "description.mudhorn": "Sebuah tanduk lumpur",
   "description.nibbles": "Sebuah gigitan",
   "description.waddles": "Sebuah goyang",
-  "description.ramsey": "Seorang ramsey"
+  "description.ramsey": "Seorang ramsey",
+  "claiming.auction": "Barang Pencetakan",
+  "claiming.auction.success": "Selamat! Barang Anda telah dicetak!"
 }

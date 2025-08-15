@@ -5137,7 +5137,6 @@
   "description.rocky.the.mole": "Da un aumento del 0,25 al rendimiento de las minas de hierro",
   "description.nugget": "Da un aumento del 0,25 al rendimiento de las minas de oro",
   "description.rock.golem": "Otorga un 10% de probabilidad de conseguir +2 piedras",
-  "wallet.RequiresPol": "Acuñar el NFT de la granja requiere tokens POL en la red Polygon y en la billetera vinculada de tu granja.",
   "description.thermalStone": "¡Una piedra térmica que te protege de las grandes heladas! De un solo uso.",
   "description.protectivePesticide": "¡Un pesticida que protege sus cultivos de la plaga de insectos! De un solo uso.",
   "season.PlaceProtectiveEquipment": "Para sobrevivir a los eventos climáticos, coloque equipo de protección en la granja o dentro de la casa justo antes de que ocurra el evento.",
@@ -6455,5 +6454,7 @@
   "description.mudhorn": "Un cuerno de barro",
   "description.nibbles": "Un botiquín",
   "description.waddles": "Un waddles",
-  "description.ramsey": "Un ramsey"
+  "description.ramsey": "Un ramsey",
+  "claiming.auction": "Artículo de acuñación",
+  "claiming.auction.success": "¡Felicidades! ¡Tu artículo ha sido acuñado!"
 }

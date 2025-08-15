@@ -5137,7 +5137,6 @@
   "description.rocky.the.mole": "Augmente de 0,25 % le rendement des mines de fer",
   "description.nugget": "Augmente de 0,25 % le rendement des mines d'or",
   "description.rock.golem": "Donne 10 % de chances d'obtenir +2 pierres",
-  "wallet.RequiresPol": "La création de la ferme (NFT) nécessite des jetons POL sur le réseau Polygon et dans le portefeuille associé de votre ferme.",
   "description.thermalStone": "Une pierre thermale qui vous protège du grand froid ! À usage unique.",
   "description.protectivePesticide": "Un pesticide qui protège vos cultures de la peste des insectes ! À usage unique.",
   "season.PlaceProtectiveEquipment": "Pour survivre aux intempéries, placez un équipement de protection à la ferme ou à l'intérieur de la maison juste avant que l'événement ne se produise.",
@@ -6455,5 +6454,7 @@
   "description.mudhorn": "Un mudhorn",
   "description.nibbles": "Un grignotage",
   "description.waddles": "Un dandine",
-  "description.ramsey": "Un ramsey"
+  "description.ramsey": "Un ramsey",
+  "claiming.auction": "Article de frappe",
+  "claiming.auction.success": "Félicitations ! Votre article a été frappé !"
 }

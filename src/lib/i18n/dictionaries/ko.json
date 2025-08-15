@@ -5137,7 +5137,6 @@
   "description.rocky.the.mole": "철광산 생산량을 0.25% 증가시킵니다.",
   "description.nugget": "금광 생산량을 0.25% 증가시킵니다.",
   "description.rock.golem": "10% 의 확률로 +2 스톤 획득",
-  "wallet.RequiresPol": "팜 NFT를 발행하려면 Polygon 네트워크와 팜의 연결된 지갑에 POL 토큰이 필요합니다.",
   "description.thermalStone": "극한의 추위로부터 몸을 보호해 주는 보온석!한 번만 사용할 수 있습니다.",
   "description.protectivePesticide": "해충으로부터 작물을 보호하는 살충제!한 번만 사용할 수 있습니다.",
   "season.PlaceProtectiveEquipment": "기상 이변에서 살아남으려면 이벤트가 발생하기 직전에 농장이나 집 안에 보호 장비를 설치하십시오.",
@@ -6455,5 +6454,7 @@
   "description.mudhorn": "머드혼",
   "description.nibbles": "한 입에",
   "description.waddles": "휘두르는 소리",
-  "description.ramsey": "에이 램지"
+  "description.ramsey": "에이 램지",
+  "claiming.auction": "민트 아이템",
+  "claiming.auction.success": "축하합니다!제품이 발행되었습니다!"
 }

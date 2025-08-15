@@ -5137,7 +5137,6 @@
   "description.rocky.the.mole": "Dá um aumento de 0,25 no rendimento das minas de ferro",
   "description.nugget": "Dá um aumento de 0,25 no rendimento das minas de ouro",
   "description.rock.golem": "Dá 10% de chance de obter +2 Pedras",
-  "wallet.RequiresPol": "A cunhagem do NFT da fazenda requer tokens POL na rede Polygon e na carteira vinculada da sua fazenda.",
   "description.thermalStone": "Uma pedra térmica que protege você do grande congelamento! Somente para uso único.",
   "description.protectivePesticide": "Um pesticida que protege suas plantações da praga de insetos! Somente para uso único.",
   "season.PlaceProtectiveEquipment": "Para sobreviver a eventos climáticos, coloque equipamento de proteção na fazenda ou dentro de casa pouco antes do evento ocorrer.",
@@ -6455,5 +6454,7 @@
   "description.mudhorn": "Um chifre de lama",
   "description.nibbles": "Um petisco",
   "description.waddles": "Um gingado",
-  "description.ramsey": "Um ramsey"
+  "description.ramsey": "Um ramsey",
+  "claiming.auction": "Item de cunhagem",
+  "claiming.auction.success": "Parabéns! Seu item foi cunhado!"
 }

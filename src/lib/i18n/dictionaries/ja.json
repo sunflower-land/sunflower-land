@@ -5137,7 +5137,6 @@
   "description.rocky.the.mole": "鉄鉱山の生産量が0.25増加する",
   "description.nugget": "金鉱山の利回りが 0.25 増加する",
   "description.rock.golem": "10% の確率で+2ストーンを獲得する",
-  "wallet.RequiresPol": "ファームNFTをマイニングするには、PolygonネットワークとファームのリンクされたウォレットにPOLトークンが必要です",
   "description.thermalStone": "極寒から身を守るサーマルストーン！1回限りの使用です。",
   "description.protectivePesticide": "作物を害虫から守る農薬！1回限りの使用です。",
   "season.PlaceProtectiveEquipment": "気象災害に耐えるために、イベントが発生する直前に農場または家の中に保護具を設置してください。",
@@ -6455,5 +6454,7 @@
   "description.mudhorn": "マッドホーン",
   "description.nibbles": "A ニブルズ",
   "description.waddles": "よちよちよち歩く",
-  "description.ramsey": "ア・ラムジー"
+  "description.ramsey": "ア・ラムジー",
+  "claiming.auction": "鋳造アイテム",
+  "claiming.auction.success": "おめでとう!アイテムが鋳造されました！"
 }

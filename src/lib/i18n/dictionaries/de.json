@@ -5137,7 +5137,6 @@
   "description.rocky.the.mole": "Erhöht den Ertrag von Eisenminen um 0,25",
   "description.nugget": "Erhöht die Rendite von Goldminen um 0,25",
   "description.rock.golem": "Gewährt eine Chance von 10%, +2 Steine zu erhalten",
-  "wallet.RequiresPol": "Für das Mining der Farm NFT sind POL-Token im Polygon-Netzwerk und in der verknüpften Wallet Ihrer Farm erforderlich",
   "description.thermalStone": "Ein Thermostein, der Sie vor dem großen Frost schützt! Nur zum einmaligen Gebrauch.",
   "description.protectivePesticide": "Ein Pestizid, das Ihre Pflanzen vor der Insektenplage schützt! Nur zum einmaligen Gebrauch.",
   "season.PlaceProtectiveEquipment": "Um Wetterereignisse zu überstehen, platzieren Sie kurz vor dem Ereignis Schutzausrüstung auf der Farm oder im Haus.",
@@ -6455,5 +6454,7 @@
   "description.mudhorn": "Ein Schlammhorn",
   "description.nibbles": "Ein Knabbereien",
   "description.waddles": "Ein watschelt",
-  "description.ramsey": "Ein Ramsey"
+  "description.ramsey": "Ein Ramsey",
+  "claiming.auction": "Prägeartikel",
+  "claiming.auction.success": "Herzlichen Glückwunsch! Ihr Artikel wurde geprägt!"
 }

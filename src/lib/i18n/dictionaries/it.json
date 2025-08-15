@@ -5137,7 +5137,6 @@
   "description.rocky.the.mole": "Aumenta di 0,25 la resa delle miniere di ferro",
   "description.nugget": "Aumenta di 0,25 la resa delle miniere d'oro",
   "description.rock.golem": "Dà una probabilità del 10% di ottenere +2 Pietre",
-  "wallet.RequiresPol": "Minting the farm NFT richiede token POL sulla rete Polygon e nel portafoglio collegato della tua fattoria",
   "description.thermalStone": "Una pietra termale che ti protegge dal grande gelo! Solo usa e getta.",
   "description.protectivePesticide": "Un pesticida che protegge le tue colture dalla piaga degli insetti! Solo usa e getta.",
   "season.PlaceProtectiveEquipment": "Per sopravvivere agli eventi meteorologici, posiziona i dispositivi di protezione nella fattoria o all'interno della casa poco prima che si verifichi l'evento.",
@@ -6455,5 +6454,7 @@
   "description.mudhorn": "Un corno di fango",
   "description.nibbles": "Un bocconcino",
   "description.waddles": "Un dondolo",
-  "description.ramsey": "Un ramsey"
+  "description.ramsey": "Un ramsey",
+  "claiming.auction": "Oggetto di conio",
+  "claiming.auction.success": "Congratulazioni! Il tuo articolo è stato coniato!"
 }
