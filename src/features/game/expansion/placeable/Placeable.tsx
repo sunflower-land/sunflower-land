@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { GRID_WIDTH_PX, PIXEL_SCALE } from "features/game/lib/constants";
@@ -97,6 +103,7 @@ export const getInitialCoordinates = (origin?: Coordinates) => {
 interface Props {
   location: PlaceableLocation;
 }
+
 export const Placeable: React.FC<Props> = ({ location }) => {
   const { scale } = useContext(ZoomContext);
 
@@ -112,7 +119,7 @@ export const Placeable: React.FC<Props> = ({ location }) => {
     .landscaping as MachineInterpreter;
 
   const [machine, send] = useActor(child);
-  const { placeable, collisionDetected, origin } = machine.context;
+  const { placeable, collisionDetected, origin, coordinates } = machine.context;
 
   const grid = getGameGrid(gameState.context.state);
 
@@ -130,19 +137,34 @@ export const Placeable: React.FC<Props> = ({ location }) => {
     }[placeable];
   }
 
-  const detect = ({ x, y }: Coordinates) => {
-    const collisionDetected = detectCollision({
-      state: gameService.getSnapshot().context.state,
-      position: { x, y, width: dimensions.width, height: dimensions.height },
-      location,
-      name: placeable as CollectibleName,
-    });
+  const detect = useCallback(
+    ({ x, y }: Coordinates) => {
+      const collisionDetected = detectCollision({
+        state: gameService.getSnapshot().context.state,
+        position: { x, y, width: dimensions.width, height: dimensions.height },
+        location,
+        name: placeable as CollectibleName,
+      });
 
-    send({ type: "UPDATE", coordinates: { x, y }, collisionDetected });
-  };
+      send({ type: "UPDATE", coordinates: { x, y }, collisionDetected });
+    },
+    [
+      dimensions.height,
+      dimensions.width,
+      gameService,
+      location,
+      placeable,
+      send,
+    ],
+  );
 
   const [DEFAULT_POSITION_X, DEFAULT_POSITION_Y] =
     getInitialCoordinates(origin);
+
+  const [position, setPosition] = useState<Coordinates>({
+    x: DEFAULT_POSITION_X,
+    y: DEFAULT_POSITION_Y,
+  });
 
   useEffect(() => {
     if (!placeable) return;
@@ -153,7 +175,45 @@ export const Placeable: React.FC<Props> = ({ location }) => {
       x: Math.round(startingX / GRID_WIDTH_PX),
       y: Math.round(-startingY / GRID_WIDTH_PX),
     });
-  }, [placeable]);
+    setPosition({ x: startingX, y: startingY });
+  }, [placeable, origin, detect]);
+
+  // Arrow/WASD keyboard movement to move the ghost placeable on the grid
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!placeable) return;
+
+      // Only while placing; ignore if typing in inputs
+      if (document.activeElement?.tagName === "INPUT") return;
+
+      let deltaX = 0;
+      let deltaY = 0;
+
+      if (e.key === "ArrowUp" || e.key === "w") {
+        deltaY = 1;
+      } else if (e.key === "ArrowDown" || e.key === "s") {
+        deltaY = -1;
+      } else if (e.key === "ArrowLeft" || e.key === "a") {
+        deltaX = -1;
+      } else if (e.key === "ArrowRight" || e.key === "d") {
+        deltaX = 1;
+      } else {
+        return;
+      }
+
+      const nextGrid = { x: coordinates.x + deltaX, y: coordinates.y + deltaY };
+      detect(nextGrid);
+      setPosition({
+        x: nextGrid.x * GRID_WIDTH_PX,
+        y: -nextGrid.y * GRID_WIDTH_PX,
+      });
+      setShowHint(false);
+      e.preventDefault();
+    };
+
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [placeable, coordinates.x, coordinates.y, detect]);
 
   useEffect(() => {
     setShowHint(true);
@@ -185,7 +245,6 @@ export const Placeable: React.FC<Props> = ({ location }) => {
       <div className="fixed left-1/2 top-1/2" style={{ zIndex: 2000 }}>
         <Draggable
           key={`${origin?.x}-${origin?.y}`}
-          defaultPosition={{ x: DEFAULT_POSITION_X, y: DEFAULT_POSITION_Y }}
           nodeRef={nodeRef}
           grid={[GRID_WIDTH_PX * scale.get(), GRID_WIDTH_PX * scale.get()]}
           scale={scale.get()}
@@ -198,6 +257,7 @@ export const Placeable: React.FC<Props> = ({ location }) => {
             const y = Math.round(-data.y / GRID_WIDTH_PX);
 
             detect({ x, y });
+            setPosition({ x: data.x, y: data.y });
             setShowHint(false);
           }}
           onStop={(_, data) => {
@@ -208,6 +268,7 @@ export const Placeable: React.FC<Props> = ({ location }) => {
 
             send("DROP");
           }}
+          position={position}
         >
           <div
             ref={nodeRef}

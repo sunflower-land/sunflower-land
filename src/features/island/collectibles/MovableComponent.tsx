@@ -1,4 +1,10 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import classNames from "classnames";
 
 import {
@@ -23,10 +29,11 @@ import {
 import {
   BUILDINGS_DIMENSIONS,
   BuildingName,
+  Dimensions,
 } from "features/game/types/buildings";
 import { GameEventName, PlacementEvent } from "features/game/events";
 import { RESOURCES, ResourceName } from "features/game/types/resources";
-import { InventoryItemName } from "features/game/types/game";
+import { GameState, InventoryItemName } from "features/game/types/game";
 import { removePlaceable } from "./lib/placing";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { ITEM_DETAILS } from "features/game/types/images";
@@ -39,6 +46,7 @@ import { HourglassType } from "./components/Hourglass";
 import { HOURGLASSES } from "features/game/events/landExpansion/burnCollectible";
 import flipped from "assets/icons/flipped.webp";
 import flipIcon from "assets/icons/flip.webp";
+import debounce from "lodash.debounce";
 
 export const RESOURCE_MOVE_EVENTS: Record<
   ResourceName,
@@ -158,12 +166,85 @@ export interface MovableProps {
 
 const getMovingItem = (state: MachineState) => state.context.moving;
 
+const onDrag = ({
+  data,
+  coordinatesX,
+  coordinatesY,
+  detect,
+  setIsDragging,
+  setPosition,
+  name,
+  id,
+  location,
+  dimensions,
+  setIsColliding,
+  state,
+}: {
+  data: Coordinates;
+  coordinatesX: number;
+  coordinatesY: number;
+  detect: (
+    coordinates: Coordinates,
+    state: GameState,
+    name: CollectibleName,
+    id: string,
+    location: PlaceableLocation,
+    dimensions: Dimensions,
+    setIsColliding: (isColliding: boolean) => void,
+  ) => void;
+  setIsDragging: (isDragging: boolean) => void;
+  setPosition: (position: Coordinates) => void;
+  name: CollectibleName;
+  id: string;
+  location: PlaceableLocation;
+  dimensions: Dimensions;
+  setIsColliding: (isColliding: boolean) => void;
+  state: GameState;
+}) => {
+  const xDiff = Math.round(data.x / GRID_WIDTH_PX);
+  const yDiff = Math.round(-data.y / GRID_WIDTH_PX);
+
+  const x = coordinatesX + xDiff;
+  const y = coordinatesY + yDiff;
+  detect({ x, y }, state, name, id, location, dimensions, setIsColliding);
+  setIsDragging(true);
+
+  setPosition({
+    x: xDiff * GRID_WIDTH_PX,
+    y: -yDiff * GRID_WIDTH_PX,
+  });
+};
+
+const detect = (
+  { x, y }: Coordinates,
+  state: GameState,
+  name: CollectibleName,
+  id: string,
+  location: PlaceableLocation,
+  dimensions: Dimensions,
+  setIsColliding: (isColliding: boolean) => void,
+) => {
+  const game = removePlaceable({
+    state,
+    id,
+    name,
+  });
+  const collisionDetected = detectCollision({
+    name: name as CollectibleName,
+    state: game,
+    location,
+    position: { x, y, ...dimensions },
+  });
+
+  setIsColliding(collisionDetected);
+  // send({ type: "UPDATE", coordinates: { x, y }, collisionDetected });
+};
+
 export const MoveableComponent: React.FC<
   React.PropsWithChildren<MovableProps>
 > = ({
   name,
   id,
-  index,
   x: coordinatesX,
   y: coordinatesY,
   children,
@@ -177,6 +258,12 @@ export const MoveableComponent: React.FC<
   const [isColliding, setIsColliding] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
   const [counts, setCounts] = useState(0);
+  const [position, setPosition] = useState<Coordinates>({
+    x: 0,
+    y: 0,
+  });
+  const state = useSelector(gameService, (state) => state.context.state);
+
   const isActive = useRef(false);
   const [showRemoveConfirmation, setShowRemoveConfirmation] = useState(false);
 
@@ -185,33 +272,16 @@ export const MoveableComponent: React.FC<
 
   const movingItem = useSelector(landscapingMachine, getMovingItem);
 
+  const isPlacing = useSelector(landscapingMachine, (state) =>
+    state.matches({ editing: "placing" }),
+  );
+
   const isSelected = movingItem?.id === id && movingItem?.name === name;
 
   const removeAction = !isMobile && getRemoveAction(name);
   const hasRemovalAction = !!removeAction;
 
   const hasFlipAction = !isMobile && isCollectible(name);
-
-  /**
-   * Deselect if clicked outside of element
-   */
-  // https://stackoverflow.com/questions/32553158/detect-click-outside-react-component
-  useEffect(() => {
-    function handleClickOutside(event: MouseEvent) {
-      if (
-        isSelected &&
-        (event as any).target.id === "genesisBlock" &&
-        nodeRef.current &&
-        !(nodeRef.current as any).contains(event.target)
-      ) {
-        landscapingMachine.send("BLUR");
-      }
-    }
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
-  }, [nodeRef, isSelected]);
 
   const flip = () => {
     if (isCollectible(name)) {
@@ -254,9 +324,10 @@ export const MoveableComponent: React.FC<
       setCounts((prev) => prev + 1);
       setIsColliding(false);
       setShowRemoveConfirmation(false);
+      setPosition({ x: 0, y: 0 });
       isActive.current = false;
     }
-  }, [movingItem]);
+  }, [isSelected, movingItem]);
 
   const dimensions = {
     ...BUILDINGS_DIMENSIONS,
@@ -266,24 +337,243 @@ export const MoveableComponent: React.FC<
     ...{ Bud: { width: 1, height: 1 } },
   }[name];
 
-  const detect = ({ x, y }: Coordinates) => {
-    const game = removePlaceable({
-      state: gameService.getSnapshot().context.state,
-      id,
-      name,
-    });
-    const collisionDetected = detectCollision({
-      name: name as CollectibleName,
-      state: game,
-      location,
-      position: { x, y, width: dimensions.width, height: dimensions.height },
-    });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const onStop = useCallback(
+    debounce(
+      ({
+        data,
+        coordinatesX,
+        coordinatesY,
+        id,
+        name,
+        location,
+        dimensions,
+      }: {
+        data: Coordinates;
+        coordinatesX: number;
+        coordinatesY: number;
+        id: string;
+        name: CollectibleName | BuildingName | "Chicken" | "Bud";
+        location: PlaceableLocation;
+        dimensions: Dimensions;
+      }) => {
+        setIsDragging(false);
 
-    setIsColliding(collisionDetected);
-    // send({ type: "UPDATE", coordinates: { x, y }, collisionDetected });
-  };
+        const xDiff = Math.round(data.x / GRID_WIDTH_PX);
+        const yDiff = Math.round(-data.y / GRID_WIDTH_PX);
 
-  const origin = useRef<Coordinates>({ x: 0, y: 0 });
+        const x = coordinatesX + xDiff;
+        const y = coordinatesY + yDiff;
+
+        const hasMoved = x !== coordinatesX || y !== coordinatesY;
+        if (!hasMoved) {
+          return;
+        }
+
+        const game = removePlaceable({ state, id, name });
+        const collisionDetected = detectCollision({
+          name: name as CollectibleName,
+          state: game,
+          location,
+          position: {
+            x,
+            y,
+            width: dimensions.width,
+            height: dimensions.height,
+          },
+        });
+
+        if (!collisionDetected) {
+          setPosition({ x: 0, y: 0 });
+          gameService.send(getMoveAction(name), {
+            // Don't send name for resource events and Bud events
+            ...(name in RESOURCE_MOVE_EVENTS || name === "Bud" ? {} : { name }),
+            coordinates: { x, y },
+            id,
+            // Resources do not require location to be passed
+            location: name in RESOURCE_MOVE_EVENTS ? undefined : location,
+          });
+        }
+      },
+      500,
+      {
+        leading: false,
+        trailing: true,
+      },
+    ),
+    [],
+  );
+  useEffect(() => {
+    return () => {
+      onStop.flush();
+    };
+  }, [onStop]);
+
+  /**
+   * Deselect if clicked outside of element
+   */
+  // https://stackoverflow.com/questions/32553158/detect-click-outside-react-component
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (
+        isSelected &&
+        (event as any).target.id === "genesisBlock" &&
+        nodeRef.current &&
+        !(nodeRef.current as any).contains(event.target)
+      ) {
+        landscapingMachine.send("BLUR");
+        setPosition({ x: 0, y: 0 });
+        onStop.flush();
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+  }, [nodeRef, isSelected, landscapingMachine, onStop]);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // Immediately return if in placing mode
+      if (isPlacing) {
+        return;
+      }
+
+      if (e.key === "ArrowUp" || e.key === "w") {
+        const newPosition = {
+          x: position.x,
+          y: position.y - GRID_WIDTH_PX,
+        };
+        onDrag({
+          data: newPosition,
+          coordinatesX,
+          coordinatesY,
+          detect,
+          setIsDragging,
+          setPosition,
+          name: name as CollectibleName,
+          id,
+          location,
+          dimensions,
+          state,
+          setIsColliding,
+        });
+        onStop({
+          data: newPosition,
+          coordinatesX,
+          coordinatesY,
+          id,
+          name,
+          location,
+          dimensions,
+        });
+        e.preventDefault();
+      } else if (e.key === "ArrowDown" || e.key === "s") {
+        const newPosition = {
+          x: position.x,
+          y: position.y + GRID_WIDTH_PX,
+        };
+        onDrag({
+          data: newPosition,
+          coordinatesX,
+          coordinatesY,
+          detect,
+          setIsDragging,
+          setPosition,
+          name: name as CollectibleName,
+          id,
+          location,
+          dimensions,
+          state,
+          setIsColliding,
+        });
+        onStop({
+          data: newPosition,
+          coordinatesX,
+          coordinatesY,
+          id,
+          name,
+          location,
+          dimensions,
+        });
+        e.preventDefault();
+      } else if (e.key === "ArrowLeft" || e.key === "a") {
+        const newPosition = {
+          x: position.x - GRID_WIDTH_PX,
+          y: position.y,
+        };
+        onDrag({
+          data: newPosition,
+          coordinatesX,
+          coordinatesY,
+          detect,
+          setIsDragging,
+          setPosition,
+          name: name as CollectibleName,
+          id,
+          location,
+          dimensions,
+          state,
+          setIsColliding,
+        });
+        onStop({
+          data: newPosition,
+          coordinatesX,
+          coordinatesY,
+          id,
+          name,
+          location,
+          dimensions,
+        });
+        e.preventDefault();
+      } else if (e.key === "ArrowRight" || e.key === "d") {
+        const newPosition = {
+          x: position.x + GRID_WIDTH_PX,
+          y: position.y,
+        };
+        onDrag({
+          data: newPosition,
+          coordinatesX,
+          coordinatesY,
+          detect,
+          setIsDragging,
+          setPosition,
+          name: name as CollectibleName,
+          id,
+          location,
+          dimensions,
+          state,
+          setIsColliding,
+        });
+        onStop({
+          data: newPosition,
+          coordinatesX,
+          coordinatesY,
+          id,
+          name,
+          location,
+          dimensions,
+        });
+        e.preventDefault();
+      }
+    };
+    if (isSelected) {
+      window.addEventListener("keydown", handleKeyDown);
+    }
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [
+    coordinatesX,
+    coordinatesY,
+    dimensions,
+    id,
+    isPlacing,
+    isSelected,
+    location,
+    name,
+    onStop,
+    position,
+    state,
+  ]);
 
   return (
     <Draggable
@@ -307,65 +597,34 @@ export const MoveableComponent: React.FC<
 
         isActive.current = true;
       }}
-      onStart={(_, data) => {
-        const x = Math.round(data.x);
-        const y = Math.round(-data.y);
-
-        if (!origin.current) {
-          origin.current = { x, y };
-        }
-      }}
       onDrag={(_, data) => {
-        const xDiff = Math.round((origin.current.x + data.x) / GRID_WIDTH_PX);
-        const yDiff = Math.round((origin.current.y - data.y) / GRID_WIDTH_PX);
-
-        const x = coordinatesX + xDiff;
-        const y = coordinatesY + yDiff;
-        detect({ x, y });
-        setIsDragging(true);
+        onDrag({
+          data,
+          coordinatesX,
+          coordinatesY,
+          detect,
+          setIsDragging,
+          setPosition,
+          name: name as CollectibleName,
+          id,
+          location,
+          dimensions,
+          state,
+          setIsColliding,
+        });
       }}
-      onStop={(_, data) => {
-        setIsDragging(false);
-
-        const xDiff = Math.round((origin.current.x + data.x) / GRID_WIDTH_PX);
-        const yDiff = Math.round((origin.current.y - data.y) / GRID_WIDTH_PX);
-
-        const x = coordinatesX + xDiff;
-        const y = coordinatesY + yDiff;
-
-        const hasMoved = x !== coordinatesX || y !== coordinatesY;
-        if (!hasMoved) {
-          return;
-        }
-
-        const game = removePlaceable({
-          state: gameService.getSnapshot().context.state,
+      onStop={(_, data) =>
+        onStop({
+          data,
+          coordinatesX,
+          coordinatesY,
           id,
           name,
-        });
-        const collisionDetected = detectCollision({
-          name: name as CollectibleName,
-          state: game,
           location,
-          position: {
-            x,
-            y,
-            width: dimensions.width,
-            height: dimensions.height,
-          },
-        });
-
-        if (!collisionDetected) {
-          gameService.send(getMoveAction(name), {
-            // Don't send name for resource events and Bud events
-            ...(name in RESOURCE_MOVE_EVENTS || name === "Bud" ? {} : { name }),
-            coordinates: { x: coordinatesX + xDiff, y: coordinatesY + yDiff },
-            id,
-            // Resources do not require location to be passed
-            location: name in RESOURCE_MOVE_EVENTS ? undefined : location,
-          });
-        }
-      }}
+          dimensions,
+        })
+      }
+      position={position}
     >
       <div
         ref={nodeRef}

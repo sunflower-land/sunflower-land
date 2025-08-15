@@ -1568,6 +1568,7 @@ export function startGame(authContext: AuthContext) {
           on: {
             ...EFFECT_EVENT_HANDLERS,
             ...GAME_EVENT_HANDLERS,
+            ...PLACEMENT_EVENT_HANDLERS,
             UPDATE_USERNAME: {
               actions: assign((context, event) => ({
                 state: {

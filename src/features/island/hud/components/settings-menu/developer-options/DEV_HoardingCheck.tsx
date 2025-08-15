@@ -12,6 +12,7 @@ import { polygon, polygonAmoy } from "viem/chains";
 import { CONFIG } from "lib/config";
 import { Loading } from "features/auth/components";
 import { OFFCHAIN_ITEMS } from "features/game/lib/offChainItems";
+import { InventoryItemName } from "features/game/types/game";
 
 export const DEV_HoarderCheck: React.FC<ContentComponentProps> = () => {
   const { t } = useAppTranslation();
@@ -80,7 +81,7 @@ export const DEV_HoarderCheck: React.FC<ContentComponentProps> = () => {
             limit = limit / 10 ** 18;
           }
 
-          if (OFFCHAIN_ITEMS.includes(key)) return;
+          if (OFFCHAIN_ITEMS.includes(key as InventoryItemName)) return;
 
           if (diff > limit) {
             inventoryLimits.push(`${key} (Diff ${diff} > Limit ${limit})`);
