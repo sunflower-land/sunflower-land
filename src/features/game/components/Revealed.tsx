@@ -26,12 +26,13 @@ export const Revealed: React.FC<{
   };
 
   const items = getKeys(gameState.context.revealed?.inventory ?? {});
-  const wearables = getKeys(gameState.context.revealed?.wardrobe ?? {});
   const sfl = Number(gameState.context.revealed?.balance ?? 0);
   const coins = gameState.context.revealed?.coins ?? 0;
 
   const currentStreaks = gameState.context.state.dailyRewards?.streaks ?? 1;
   const streakBonus = currentStreaks % 5 == 0;
+
+  const isOneYearStreakCycle = currentStreaks % 365 === 0;
 
   return (
     <>
@@ -55,10 +56,10 @@ export const Revealed: React.FC<{
         <div className="flex flex-col items-center p-2">
           <Label
             type="vibrant"
-            icon={currentStreaks === 365 ? Gift : Lightning}
+            icon={isOneYearStreakCycle ? Gift : Lightning}
             className="px-0.5 text-sm"
           >
-            {currentStreaks === 365
+            {isOneYearStreakCycle
               ? t("reward.streak.oneYear")
               : t("reward.streakBonus")}
           </Label>
