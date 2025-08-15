@@ -6456,5 +6456,15 @@
   "description.waddles": "一个蹒跚",
   "description.ramsey": "A ramsey",
   "claiming.auction": "铸币物品",
-  "claiming.auction.success": "恭喜！你的物品已经铸造了！"
+  "claiming.auction.success": "恭喜！你的物品已经铸造了！",
+  "description.obsidianShrine": "黑曜石的神社",
+  "description.obsidianShrine.buff": "即时收获和种植",
+  "obsidianShrine.harvest": "收获所有作物",
+  "obsidianShrine.plant": "植物 {{seed}}",
+  "obsidianShrine.readyCrops": "作物准备收割",
+  "obsidianShrine.noCrops": "没有农作物准备收割",
+  "obsidianShrine.noSeeds": "没有可供种植的种子",
+  "obsidianShrine.plantAll": "种植到所有空置的农田",
+  "obsidianShrine.selectSeed": "选择一颗种子",
+  "obsidianShrine.noPlots": "没有空置的农作物地"
 }

@@ -6456,5 +6456,15 @@
   "description.waddles": "Sebuah goyang",
   "description.ramsey": "Seorang ramsey",
   "claiming.auction": "Barang Pencetakan",
-  "claiming.auction.success": "Selamat! Barang Anda telah dicetak!"
+  "claiming.auction.success": "Selamat! Barang Anda telah dicetak!",
+  "description.obsidianShrine": "Kuil untuk obsidian",
+  "description.obsidianShrine.buff": "Panen & Tanaman Instan",
+  "obsidianShrine.harvest": "Panen Semua Tanaman",
+  "obsidianShrine.plant": "Tanaman {{seed}}",
+  "obsidianShrine.readyCrops": "Tanaman siap panen",
+  "obsidianShrine.noCrops": "Tidak ada tanaman yang siap dipanen",
+  "obsidianShrine.noSeeds": "Tidak ada benih yang tersedia untuk ditanam",
+  "obsidianShrine.plantAll": "Tanam ke semua petak tanaman kosong",
+  "obsidianShrine.selectSeed": "Pilih benih",
+  "obsidianShrine.noPlots": "Tidak ada plot tanaman kosong"
 }

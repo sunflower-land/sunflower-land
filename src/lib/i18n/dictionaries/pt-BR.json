@@ -6456,5 +6456,15 @@
   "description.waddles": "Um gingado",
   "description.ramsey": "Um ramsey",
   "claiming.auction": "Item de cunhagem",
-  "claiming.auction.success": "Parabéns! Seu item foi cunhado!"
+  "claiming.auction.success": "Parabéns! Seu item foi cunhado!",
+  "description.obsidianShrine": "Um santuário para a obsidiana",
+  "description.obsidianShrine.buff": "Colheita e planta instantâneas",
+  "obsidianShrine.harvest": "Colha todas as safras",
+  "obsidianShrine.plant": "Planta {{seed}}",
+  "obsidianShrine.readyCrops": "Culturas prontas para a colheita",
+  "obsidianShrine.noCrops": "Nenhuma safra pronta para a colheita",
+  "obsidianShrine.noSeeds": "Não há sementes disponíveis para o plantio",
+  "obsidianShrine.plantAll": "Plante em todas as parcelas vazias",
+  "obsidianShrine.selectSeed": "Selecione uma semente",
+  "obsidianShrine.noPlots": "Sem parcelas vazias"
 }

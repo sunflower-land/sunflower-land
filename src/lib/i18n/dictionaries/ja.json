@@ -6456,5 +6456,15 @@
   "description.waddles": "よちよちよち歩く",
   "description.ramsey": "ア・ラムジー",
   "claiming.auction": "鋳造アイテム",
-  "claiming.auction.success": "おめでとう!アイテムが鋳造されました！"
+  "claiming.auction.success": "おめでとう!アイテムが鋳造されました！",
+  "description.obsidianShrine": "黒曜石の神社",
+  "description.obsidianShrine.buff": "インスタントハーベスト＆プラント",
+  "obsidianShrine.harvest": "すべての作物を収穫",
+  "obsidianShrine.plant": "プラント {{seed}}",
+  "obsidianShrine.readyCrops": "収穫準備が整った作物",
+  "obsidianShrine.noCrops": "収穫の準備ができている作物はありません",
+  "obsidianShrine.noSeeds": "植えるための種はありません",
+  "obsidianShrine.plantAll": "空いているすべての作付区画に植える",
+  "obsidianShrine.selectSeed": "シードを選択",
+  "obsidianShrine.noPlots": "空のクロッププロットはありません"
 }

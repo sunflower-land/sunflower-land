@@ -6456,5 +6456,15 @@
   "description.waddles": "A waddles",
   "description.ramsey": "Bir ramsey",
   "claiming.auction": "Basma Öğesi",
-  "claiming.auction.success": "Tebrikler! Eşyanız basıldı!"
+  "claiming.auction.success": "Tebrikler! Eşyanız basıldı!",
+  "description.obsidianShrine": "Obsidiyen için bir tapınak",
+  "description.obsidianShrine.buff": "Anında Hasat ve Bitki",
+  "obsidianShrine.harvest": "Tüm Mahsulleri Hasat Et",
+  "obsidianShrine.plant": "Bitki {{seed}}",
+  "obsidianShrine.readyCrops": "Hasat için hazır mahsuller",
+  "obsidianShrine.noCrops": "Hasat için hazır ürün yok",
+  "obsidianShrine.noSeeds": "Dikim için tohum yok",
+  "obsidianShrine.plantAll": "Tüm boş mahsul arazilerine ekin",
+  "obsidianShrine.selectSeed": "Bir tohum seçin",
+  "obsidianShrine.noPlots": "Boş mahsul arazileri yok"
 }

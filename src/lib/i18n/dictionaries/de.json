@@ -6456,5 +6456,15 @@
   "description.waddles": "Ein watschelt",
   "description.ramsey": "Ein Ramsey",
   "claiming.auction": "Prägeartikel",
-  "claiming.auction.success": "Herzlichen Glückwunsch! Ihr Artikel wurde geprägt!"
+  "claiming.auction.success": "Herzlichen Glückwunsch! Ihr Artikel wurde geprägt!",
+  "description.obsidianShrine": "Ein Schrein für den Obsidian",
+  "description.obsidianShrine.buff": "Sofortiges Ernten und Pflanzen",
+  "obsidianShrine.harvest": "Ernten Sie alle Pflanzen",
+  "obsidianShrine.plant": "Pflanze {{seed}}",
+  "obsidianShrine.readyCrops": "Erntereife Pflanzen",
+  "obsidianShrine.noCrops": "Keine erntereifen Pflanzen",
+  "obsidianShrine.noSeeds": "Keine Samen zum Anpflanzen verfügbar",
+  "obsidianShrine.plantAll": "Auf alle leeren Ackerflächen pflanzen",
+  "obsidianShrine.selectSeed": "Wähle einen Samen",
+  "obsidianShrine.noPlots": "Keine leeren Ackerflächen"
 }

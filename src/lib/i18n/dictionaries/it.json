@@ -6456,5 +6456,15 @@
   "description.waddles": "Un dondolo",
   "description.ramsey": "Un ramsey",
   "claiming.auction": "Oggetto di conio",
-  "claiming.auction.success": "Congratulazioni! Il tuo articolo è stato coniato!"
+  "claiming.auction.success": "Congratulazioni! Il tuo articolo è stato coniato!",
+  "description.obsidianShrine": "Un santuario dedicato all'ossidiana",
+  "description.obsidianShrine.buff": "Raccolta e impianto istantanei",
+  "obsidianShrine.harvest": "Raccogli tutte le colture",
+  "obsidianShrine.plant": "Pianta {{seed}}",
+  "obsidianShrine.readyCrops": "Colture pronte per la raccolta",
+  "obsidianShrine.noCrops": "Nessuna coltura pronta per la raccolta",
+  "obsidianShrine.noSeeds": "Nessun seme disponibile per la semina",
+  "obsidianShrine.plantAll": "Pianta su tutti i terreni coltivati vuoti",
+  "obsidianShrine.selectSeed": "Seleziona un seme",
+  "obsidianShrine.noPlots": "Nessun appezzamento di terreno coltivato vuoto"
 }
