@@ -1,6 +1,8 @@
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
+import { EMPTY } from "features/game/lib/constants";
 import { AuctioneerModal } from "features/retreat/components/auctioneer/AuctioneerModal";
+import { hasFeatureAccess } from "lib/flags";
 import React, { useContext } from "react";
 
 interface Props {
@@ -19,8 +21,6 @@ export const AuctionHouseModal: React.FC<Props> = ({
     context: { state, linkedWallet },
   } = gameState;
 
-  const transaction = state.transaction;
-
   return (
     <AuctioneerModal
       farmId={id}
@@ -32,6 +32,15 @@ export const AuctionHouseModal: React.FC<Props> = ({
       }}
       onMint={(id) => {
         closeModal();
+        if (hasFeatureAccess(EMPTY, "GASLESS_AUCTIONS")) {
+          gameService.send("auction.claimed", {
+            effect: {
+              type: "auction.claimed",
+            },
+          });
+          return;
+        }
+
         gameService.send("TRANSACT", {
           transaction: "transaction.bidMinted",
           request: {
