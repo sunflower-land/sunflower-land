@@ -681,7 +681,7 @@ describe("revealLand", () => {
     });
 
     expect(state.trees[1].wood.choppedAt).toBeLessThan(
-      state.trees[1].removedAt ?? 0,
+      state.trees[1].removedAt!,
     );
   });
 });
