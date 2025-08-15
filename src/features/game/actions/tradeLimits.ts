@@ -1,4 +1,3 @@
-import { getKeys } from "../lib/crafting";
 import { CropName, GreenHouseCropName } from "../types/crops";
 import { GreenHouseFruitName, PatchFruitName } from "../types/fruits";
 import {
@@ -6,7 +5,7 @@ import {
   FactionEmblem,
   InventoryItemName,
 } from "../types/game";
-import { PET_RESOURCES, PetResource } from "../types/pets";
+import { PetResource } from "../types/pets";
 import { CommodityName } from "../types/resources";
 
 export const EMBLEM_TRADE_LIMITS: Record<FactionEmblem, number> = {
@@ -87,13 +86,14 @@ export const TRADE_LIMITS: Partial<Record<TradeResource, number>> = {
   "Merino Wool": 100,
   ...EMBLEM_TRADE_LIMITS,
 
-  ...getKeys(PET_RESOURCES).reduce(
-    (acc, resource) => {
-      acc[resource] = 100;
-      return acc;
-    },
-    {} as Record<PetResource, number>,
-  ),
+  Ruffroot: 100,
+  "Chewed Bone": 100,
+  "Heart leaf": 100,
+  "Frost Pebble": 100,
+  "Wild Grass": 100,
+  Ribbon: 100,
+  Dewberry: 100,
+  Moonfur: 100,
 };
 
 export const TRADE_MINIMUMS: Partial<Record<TradeResource, number>> = {
@@ -149,13 +149,14 @@ export const TRADE_MINIMUMS: Partial<Record<TradeResource, number>> = {
   Wool: 1,
   "Merino Wool": 1,
 
-  ...getKeys(PET_RESOURCES).reduce(
-    (acc, resource) => {
-      acc[resource] = 1;
-      return acc;
-    },
-    {} as Record<PetResource, number>,
-  ),
+  Ruffroot: 1,
+  "Chewed Bone": 1,
+  "Heart leaf": 1,
+  "Frost Pebble": 1,
+  "Wild Grass": 1,
+  Ribbon: 1,
+  Dewberry: 1,
+  Moonfur: 1,
 };
 
 export const EMBLEM_TRADE_MINIMUMS: Record<FactionEmblem, number> = {
