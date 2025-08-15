@@ -1219,6 +1219,8 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Bear Shrine": 2656,
   "Tortoise Shrine": 2657,
   "Moth Shrine": 2658,
+
+  "Obsidian Shrine": 2659,
 };
 
 // The reverse of above

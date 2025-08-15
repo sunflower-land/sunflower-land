@@ -44,6 +44,7 @@ export type HeliosBlacksmithItem =
   | "Squirrel"
   | "Macaw"
   | "Butterfly"
+  | "Obsidian Shrine"
   | WorkbenchMonumentName
   | PetShrineName;
 
@@ -316,6 +317,15 @@ export const HELIOS_BLACKSMITH_ITEMS: (
     boost: translate("description.butterfly.boost"),
     coins: 15000,
     ingredients: {},
+  },
+  "Obsidian Shrine": {
+    description:
+      "A mysterious shrine crafted from obsidian. Allows you to harvest and plant all crops instantly.",
+    boost: "Temporary protection for 3 days",
+    coins: 0,
+    ingredients: {
+      Obsidian: new Decimal(1),
+    },
   },
   ...WORKBENCH_MONUMENTS,
   ...PET_SHRINES,

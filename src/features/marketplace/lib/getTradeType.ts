@@ -20,6 +20,7 @@ export const ITEM_TRADE_TYPES: {
     "Hound Shrine": "instant",
     "Stag Shrine": "instant",
     "Legendary Shrine": "instant",
+    "Obsidian Shrine": "instant",
     "Pet Egg": "instant",
     Barkley: "instant",
     Meowchi: "instant",

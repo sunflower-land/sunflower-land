@@ -111,6 +111,7 @@ const FEATURE_FLAGS = {
 
   PETS: defaultFeatureFlag,
   FLOWER_INSTA_GROW: defaultFeatureFlag,
+  OBSIDIAN_SHRINE: defaultFeatureFlag,
 
   API_PERFORMANCE: defaultFeatureFlag,
 

@@ -369,6 +369,7 @@ import { Poseidon } from "./components/Poseidon";
 import { Project } from "./components/Project";
 import { Pet } from "./components/Pet";
 import { PetShrine } from "./components/PetShrine";
+import { ObsidianShrine } from "./components/ObsidianShrine";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
@@ -567,6 +568,7 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Hound Shrine": PetShrine,
   "Stag Shrine": PetShrine,
   "Legendary Shrine": PetShrine,
+  "Obsidian Shrine": ObsidianShrine,
   "Mole Shrine": PetShrine,
   "Bear Shrine": PetShrine,
   "Tortoise Shrine": PetShrine,
