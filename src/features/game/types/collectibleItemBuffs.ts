@@ -1698,5 +1698,12 @@ function getCollectibleBuffLabels(
         boostTypeIcon: powerup,
       },
     ],
+    "Obsidian Shrine": [
+      {
+        shortDescription: translate("description.obsidianShrine.buff"),
+        labelType: "success",
+        boostTypeIcon: SUNNYSIDE.icons.lightning,
+      },
+    ],
   };
 }
