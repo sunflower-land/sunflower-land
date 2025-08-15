@@ -32,8 +32,8 @@ describe("increaseHelpLimit", () => {
     });
 
     expect(state.inventory.Iron).toEqual(new Decimal(4));
-    expect(state.inventory.Leather).toEqual(new Decimal(4));
-    expect(state.inventory.Wool).toEqual(new Decimal(4));
+    expect(state.inventory.Leather).toEqual(new Decimal(5));
+    expect(state.inventory.Wool).toEqual(new Decimal(2));
     expect(state.inventory.Feather).toEqual(new Decimal(10));
   });
 
