@@ -1,7 +1,12 @@
 import { produce } from "immer";
 import { GameState } from "features/game/types/game";
 
-import { isPetNeglected, PetName } from "features/game/types/pets";
+import {
+  getPetExperience,
+  isPetNeglected,
+  PET_FOOD_EXPERIENCE,
+  PetName,
+} from "features/game/types/pets";
 
 export type NeglectPetAction = {
   type: "pet.neglected";
@@ -34,10 +39,10 @@ export function neglectPet({
     // Remove the craving
     pet.cravings = pet.cravings?.slice(1);
 
-    const level = pet.level ?? 1;
+    const experience = getPetExperience(pet);
 
-    // Drop the lvl
-    pet.level = Math.max(level - 1, 1);
+    // Drop the 5 Food worth of XP
+    pet.experience = Math.max(experience - 5 * PET_FOOD_EXPERIENCE, 0);
 
     pet.readyAt = createdAt;
 
