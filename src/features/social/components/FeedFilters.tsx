@@ -1,15 +1,16 @@
 import { Label } from "components/ui/Label";
 import React from "react";
+import { FeedFilter, FeedFilterOption } from "../Feed";
 
 type Props = {
-  options: { value: string; label: string }[];
-  value: string;
-  onChange: (filter: string) => void;
+  options: FeedFilterOption[];
+  value: FeedFilter;
+  onChange: (filter: FeedFilter) => void;
 };
 
 export const FeedFilters: React.FC<Props> = ({ options, value, onChange }) => {
   return (
-    <div className="flex items-center gap-2 min-h-7 mt-1">
+    <div className="flex items-center gap-2 mt-1 flex-wrap">
       {options.map((option) => {
         return (
           <div className="cursor-pointer" key={option.value}>
