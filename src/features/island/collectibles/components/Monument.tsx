@@ -3,7 +3,7 @@ import { ImageStyle } from "./template/ImageStyle";
 import { useVisiting } from "lib/utils/visitUtils";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { PIXEL_SCALE } from "features/game/lib/constants";
-import { Context, useGame } from "features/game/GameProvider";
+import { Context } from "features/game/GameProvider";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { Panel } from "components/ui/Panel";
 import { Button } from "components/ui/Button";
@@ -31,19 +31,18 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { FarmHelped } from "features/island/hud/components/FarmHelped";
 import helpIcon from "assets/icons/help.webp";
 import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
+import { GameState } from "features/game/types/game";
 
 const ProjectModal: React.FC<{
   project: MonumentName;
   onClose: () => void;
   cheers: number;
-}> = ({ project, onClose, cheers }) => {
+  state: GameState;
+}> = ({ project, onClose, cheers, state }) => {
   const { t } = useAppTranslation();
-  const { gameService } = useGame();
 
   const isProjectComplete = cheers >= REQUIRED_CHEERS[project];
-  const boostLabel = COLLECTIBLE_BUFF_LABELS(
-    gameService.getSnapshot().context.state,
-  )[project];
+  const boostLabel = COLLECTIBLE_BUFF_LABELS(state)[project];
 
   return (
     <Panel>
@@ -123,6 +122,8 @@ export const Monument: React.FC<MonumentProps> = (input) => {
   const { gameService } = useContext(Context);
   const { t } = useAppTranslation();
 
+  const state = useSelector(gameService, (state) => state.context.state);
+
   const projectCheers = useSelector(gameService, _cheers(input.project));
   const cheersAvailable = useSelector(gameService, _cheersAvailable);
   const hasCheeredProjectToday = useSelector(
@@ -162,9 +163,7 @@ export const Monument: React.FC<MonumentProps> = (input) => {
   return (
     <>
       <Modal show={showHelped}>
-        <CloseButtonPanel
-          bumpkinParts={gameService.state.context.state.bumpkin.equipped}
-        >
+        <CloseButtonPanel bumpkinParts={state.bumpkin.equipped}>
           <FarmHelped onClose={() => setShowHelped(false)} />
         </CloseButtonPanel>
       </Modal>
@@ -254,6 +253,7 @@ export const Monument: React.FC<MonumentProps> = (input) => {
         <ProjectModal
           project={input.project}
           onClose={() => setIsCompleting(false)}
+          state={state}
           cheers={projectCheers}
         />
       </Modal>
