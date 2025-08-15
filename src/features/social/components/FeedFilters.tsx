@@ -10,7 +10,7 @@ type Props = {
 
 export const FeedFilters: React.FC<Props> = ({ options, value, onChange }) => {
   return (
-    <div className="flex items-center gap-2 mt-1 flex-wrap">
+    <div className="flex items-center gap-1 mt-1 flex-wrap">
       {options.map((option) => {
         return (
           <div className="cursor-pointer" key={option.value}>
