@@ -387,6 +387,10 @@ export const COLLECTIBLE_COMPONENTS: Record<
   Meowchi: (props: CollectibleProps) => <Pet {...props} />,
   Twizzle: (props: CollectibleProps) => <Pet {...props} />,
   Burro: (props: CollectibleProps) => <Pet {...props} />,
+  Mudhorn: (props: CollectibleProps) => <Pet {...props} />,
+  Nibbles: (props: CollectibleProps) => <Pet {...props} />,
+  Waddles: (props: CollectibleProps) => <Pet {...props} />,
+  Ramsey: (props: CollectibleProps) => <Pet {...props} />,
 
   "Baby Cow": BabyCow,
   "Baby Sheep": BabySheep,
@@ -565,6 +569,11 @@ export const COLLECTIBLE_COMPONENTS: Record<
   "Stag Shrine": PetShrine,
   "Legendary Shrine": PetShrine,
   "Obsidian Shrine": ObsidianShrine,
+  "Mole Shrine": PetShrine,
+  "Bear Shrine": PetShrine,
+  "Tortoise Shrine": PetShrine,
+  "Moth Shrine": PetShrine,
+
   "Lunar Calendar": LunarCalendar,
   "Goblin Bear": GoblinBear,
   "Turtle Bear": TurtleBear,

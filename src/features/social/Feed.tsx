@@ -42,6 +42,7 @@ import { useOnMachineTransition } from "lib/utils/hooks/useOnMachineTransition";
 import { Button } from "components/ui/Button";
 import socialPointsIcon from "assets/icons/social_score.webp";
 import { discoveryModalManager } from "./lib/discoveryModalManager";
+import { FeedFilters } from "./components/FeedFilters";
 
 type Props = {
   type: "world" | "local";
@@ -71,6 +72,12 @@ const mergeUpdates = (
   ];
 };
 
+export type FeedFilter = "all" | "help" | "chat" | "cheer" | "follow";
+export type FeedFilterOption = {
+  value: FeedFilter;
+  label: string;
+};
+
 export const Feed: React.FC<Props> = ({
   showFeed,
   setShowFeed,
@@ -83,6 +90,9 @@ export const Feed: React.FC<Props> = ({
 
   const [showFollowing, setShowFollowing] = useState(false);
   const feedRef = useRef<HTMLDivElement>(null);
+  const [selectedFilter, setSelectedFilter] = useState<FeedFilter>("all");
+  // Used to manage refetch logic when the feed opens
+  const [sessionId, setSessionId] = useState(0);
 
   const username = useSelector(gameService, _username);
   const token = useSelector(authService, _token);
@@ -98,7 +108,13 @@ export const Feed: React.FC<Props> = ({
     hasMore,
     loadMore,
     mutate,
-  } = useFeedInteractions(token, farmId, type === "world");
+  } = useFeedInteractions(
+    token,
+    farmId,
+    selectedFilter,
+    sessionId,
+    type === "world",
+  );
   const { setUnreadCount, lastAcknowledged, clearUnread } = useFeed();
 
   // Handle clicks outside the feed to close it
@@ -136,14 +152,9 @@ export const Feed: React.FC<Props> = ({
   useEffect(() => {
     if (showFeed) {
       clearUnread(0);
+      setSessionId((prev) => prev + 1);
     }
   }, [showFeed, setUnreadCount]);
-
-  useLayoutEffect(() => {
-    if (showFeed && !isLoadingInitialData) {
-      mutate();
-    }
-  }, [showFeed, isLoadingInitialData, mutate]);
 
   useSocial({
     farmId,
@@ -297,6 +308,25 @@ export const Feed: React.FC<Props> = ({
             </div>
           </div>
         </div>
+        {!showFollowing && (
+          <FeedFilters
+            options={[
+              { value: "all", label: "All" },
+              {
+                value: "help",
+                label: "Helped",
+              },
+              { value: "chat", label: "Chat" },
+              {
+                value: "cheer",
+                label: "Cheered",
+              },
+              { value: "follow", label: "Follows" },
+            ]}
+            value={selectedFilter}
+            onChange={(value) => setSelectedFilter(value)}
+          />
+        )}
 
         {showFollowing && (
           <div
@@ -328,6 +358,7 @@ export const Feed: React.FC<Props> = ({
             hasMore={hasMore}
             loadMore={loadMore}
             onInteractionClick={handleInteractionClick}
+            filter={selectedFilter}
           />
         )}
       </div>
@@ -342,6 +373,7 @@ type FeedContentProps = {
   isLoadingInitialData: boolean;
   isLoadingMore: boolean;
   hasMore: boolean | undefined;
+  filter: FeedFilter;
   onInteractionClick: (interaction: Interaction) => void;
   onFollowClick: (id: number) => void;
   loadMore: () => void;
@@ -357,10 +389,13 @@ const FeedContent: React.FC<FeedContentProps> = ({
   isLoadingMore,
   hasMore,
   loadMore,
+  filter,
 }) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const loaderRef = useRef<HTMLDivElement>(null);
   const { t } = useAppTranslation();
+
+  const [canPaginate, setCanPaginate] = useState(false);
 
   // Intersection observer to load more interactions when the loader is in view
   const { ref: intersectionRef, inView } = useInView({
@@ -369,8 +404,23 @@ const FeedContent: React.FC<FeedContentProps> = ({
     threshold: 0.1,
   });
 
+  useLayoutEffect(() => {
+    const el = scrollContainerRef.current;
+    if (!el) return;
+    // tiny buffer so off-by-1 doesn’t trigger
+    setCanPaginate(el.scrollHeight > el.clientHeight + 2);
+  }, [feed.length, filter]);
+
   useEffect(() => {
-    if (inView && hasMore && !isLoadingMore) {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTo({
+        top: 0,
+      });
+    }
+  }, [filter]);
+
+  useEffect(() => {
+    if (inView && hasMore && !isLoadingMore && canPaginate) {
       loadMore();
     }
   }, [inView, hasMore, isLoadingMore, loadMore, scrollContainerRef]);
@@ -490,13 +540,15 @@ const FeedContent: React.FC<FeedContentProps> = ({
           );
         })}
       </div>
-      <div
-        ref={setRefs}
-        id="loading-more"
-        className="text-xs flex justify-center py-1 h-5"
-      >
-        {hasMore ? <Loading dotsOnly /> : t("playerModal.noMoreMessages")}
-      </div>
+      {canPaginate && (
+        <div
+          ref={setRefs}
+          id="loading-more"
+          className="bg-green-500 text-xs flex justify-center py-1 h-6"
+        >
+          {hasMore ? <Loading dotsOnly /> : t("playerModal.noMoreMessages")}
+        </div>
+      )}
     </div>
   );
 };

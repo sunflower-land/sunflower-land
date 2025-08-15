@@ -45,7 +45,9 @@ export const PetModal: React.FC<{
 
   const petConfig = PETS[name];
 
-  const [resource, setResource] = useState<PetResource>(petConfig.fetches[0]);
+  const [resource, setResource] = useState<PetResource>(
+    petConfig.fetches[0].name,
+  );
 
   const pet = gameState.context.state.pets?.[name];
   const request = getPetRequest({ pet, game: gameState.context.state });
@@ -140,8 +142,7 @@ export const PetModal: React.FC<{
               {`Lvl ${pet?.level ?? 1}`}
             </Label>
           </div>
-          <p className="text-sm">{`Lvl 3 - Unlock bonus resource`}</p>
-          <p className="text-sm">{`Lvl 5 - Unlock Fossil Shell`}</p>
+          <p className="text-sm">{`Lvl up to unlock more resources`}</p>
           <p className="text-sm">{`Lvl 10 - 10% faster`}</p>
           <p className="text-sm">{`Lvl 20 - 10% chance of double resource`}</p>
           <p className="text-sm">{`Lvl 50 - 20% faster`}</p>
@@ -287,29 +288,27 @@ export const PetModal: React.FC<{
         <div className="flex flex-col">
           {petConfig.fetches.map((fetch) => {
             const level = pet?.level ?? 1;
-            let isLocked = level < 3 && fetch !== "Acorn";
-
-            if (level < 5 && fetch === "Fossil Shell") {
-              isLocked = true;
-            }
+            const isLocked = level < fetch.level;
 
             return (
-              <div key={fetch} className="flex items-center">
+              <div key={fetch.name} className="flex items-center">
                 <Box
-                  key={fetch}
-                  isSelected={resource === fetch}
-                  onClick={() => setResource(fetch)}
-                  image={ITEM_DETAILS[fetch].image}
+                  key={fetch.name}
+                  isSelected={resource === fetch.name}
+                  onClick={() => setResource(fetch.name)}
+                  image={ITEM_DETAILS[fetch.name].image}
                   className="mr-2"
                   disabled={isLocked}
                   secondaryImage={isLocked ? lockIcon : undefined}
                 />
                 <div>
-                  <p className="text-sm">{fetch}</p>
+                  <p className="text-sm">{fetch.name}</p>
                   {isLocked ? (
-                    <Label type="transparent">{`Lvl ${fetch === "Fossil Shell" ? 5 : 3} required`}</Label>
+                    <Label type="transparent">{`Lvl ${fetch.level} required`}</Label>
                   ) : (
-                    <p className="text-xs">{ITEM_DETAILS[fetch].description}</p>
+                    <p className="text-xs">
+                      {ITEM_DETAILS[fetch.name].description}
+                    </p>
                   )}
                 </div>
               </div>
@@ -377,7 +376,11 @@ export const Pet: React.FC<CollectibleProps> = ({ name }) => {
       </Modal>
       <div
         className="absolute"
-        style={{ left: `${PIXEL_SCALE * 4}px`, width: `${PIXEL_SCALE * 22}px` }}
+        style={{
+          left: `${PIXEL_SCALE * -1}px`,
+          top: `${PIXEL_SCALE * -5}px`,
+          width: `${PIXEL_SCALE * 20}px`,
+        }}
       >
         <img
           src={ITEM_DETAILS[name].image}

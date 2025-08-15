@@ -1703,6 +1703,34 @@ function getCollectibleBuffLabels(
         shortDescription: translate("description.obsidianShrine.buff"),
         labelType: "success",
         boostTypeIcon: SUNNYSIDE.icons.lightning,
+       },
+    ],
+    "Mole Shrine": [
+      {
+        shortDescription: translate("description.moleShrine.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    ],
+    "Bear Shrine": [
+      {
+        shortDescription: translate("description.bearShrine.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    ],
+    "Tortoise Shrine": [
+      {
+        shortDescription: translate("description.tortoiseShrine.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    ],
+    "Moth Shrine": [
+      {
+        shortDescription: translate("description.mothShrine.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
       },
     ],
   };

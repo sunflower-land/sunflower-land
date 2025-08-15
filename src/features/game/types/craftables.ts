@@ -1052,10 +1052,14 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Golden Bonsai": { width: 1, height: 1 },
 
   // Pets
-  Barkley: { width: 2, height: 2 },
-  Meowchi: { width: 2, height: 2 },
-  Twizzle: { width: 2, height: 2 },
-  Burro: { width: 2, height: 2 },
+  Barkley: { width: 1, height: 1 },
+  Meowchi: { width: 1, height: 1 },
+  Twizzle: { width: 1, height: 1 },
+  Burro: { width: 1, height: 1 },
+  Mudhorn: { width: 1, height: 1 },
+  Nibbles: { width: 1, height: 1 },
+  Waddles: { width: 1, height: 1 },
+  Ramsey: { width: 2, height: 2 },
 
   // Flags
   ...flagsDimension,
@@ -1375,6 +1379,11 @@ export const COLLECTIBLES_DIMENSIONS: Record<CollectibleName, Dimensions> = {
   "Stag Shrine": { width: 1, height: 1 },
   "Legendary Shrine": { width: 1, height: 1 },
   "Obsidian Shrine": { width: 1, height: 1 },
+  "Mole Shrine": { width: 1, height: 1 },
+  "Bear Shrine": { width: 1, height: 1 },
+  "Tortoise Shrine": { width: 1, height: 1 },
+  "Moth Shrine": { width: 1, height: 1 },
+
 
   // Animal Season
   "Cow Scratcher": { width: 1, height: 2 },
