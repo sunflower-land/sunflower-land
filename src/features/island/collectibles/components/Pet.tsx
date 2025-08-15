@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { CollectibleProps } from "../Collectible";
 import {
+  getPetLevel,
   isPetNeglected,
   msTillNeglect,
+  petLevelProgress,
   PetName,
   PetResource,
   PETS,
@@ -31,6 +33,8 @@ import lightningIcon from "assets/icons/lightning.png";
 import lockIcon from "assets/icons/lock.png";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import { useVisiting } from "lib/utils/visitUtils";
+import { AnimatedBar } from "components/ui/ProgressBar";
+import { canPetPet } from "features/game/events/landExpansion/petPet";
 
 export const PetModal: React.FC<{
   onClose: () => void;
@@ -85,6 +89,10 @@ export const PetModal: React.FC<{
     game: gameState.context.state,
   });
 
+  const level = getPetLevel(pet);
+
+  const { xpLeft, xpPercentage } = petLevelProgress(pet);
+
   // If is visiting
   if (isVisiting) {
     return (
@@ -102,7 +110,7 @@ export const PetModal: React.FC<{
             {t("pets.neglected")}
           </Label>
           <p className="text-sm">
-            {`Oh no, you neglected your pet. You have lost 1 lvl.`}
+            {`Oh no, you neglected your pet. You have 500 XP`}
           </p>
         </InnerPanel>
         <Button onClick={() => gameService.send("pet.neglected", { name })}>
@@ -138,9 +146,17 @@ export const PetModal: React.FC<{
             <Label type="default" className="mb-1">
               {t("perks")}
             </Label>
-            <Label icon={lightningIcon} type="default" className="mb-1">
-              {`Lvl ${pet?.level ?? 1}`}
-            </Label>
+
+            <div className="flex">
+              <AnimatedBar
+                key={level}
+                percentage={xpPercentage}
+                type="progress"
+              />
+              <Label type="transparent" className="mb-1">
+                {`Lvl ${level}`}
+              </Label>
+            </div>
           </div>
           <p className="text-sm">{`Lvl up to unlock more resources`}</p>
           <p className="text-sm">{`Lvl 10 - 10% faster`}</p>
@@ -173,8 +189,6 @@ export const PetModal: React.FC<{
     );
   }
 
-  const level = pet?.level ?? 1;
-
   if (isResting) {
     const dollCount =
       gameState.context.state.inventory[DEFAULT_PET_TOY] ?? new Decimal(0);
@@ -183,10 +197,16 @@ export const PetModal: React.FC<{
         <InnerPanel className="mb-1">
           <div className="flex items-center justify-between mb-2">
             <Label type="default">{t("pets.sleeping")}</Label>
-            <Label
-              type="chill"
-              icon={lightningIcon}
-            >{`Lvl ${pet?.level ?? 1}`}</Label>
+            <div className="flex items-center">
+              <AnimatedBar
+                key={level}
+                percentage={xpPercentage}
+                type="progress"
+              />
+              <Label type="transparent" className="ml-1">
+                {`Lvl ${level}`}
+              </Label>
+            </div>
           </div>
 
           <p className="text-sm p-1">
@@ -243,10 +263,16 @@ export const PetModal: React.FC<{
       <InnerPanel className="mb-1">
         <div className="flex items-center justify-between">
           <Label type="default">{name}</Label>
-          <Label
-            type="chill"
-            icon={lightningIcon}
-          >{`Lvl ${pet?.level ?? 1}`}</Label>
+          <div className="flex items-center">
+            <AnimatedBar
+              key={level}
+              percentage={xpPercentage}
+              type="progress"
+            />
+            <Label type="transparent" className="ml-1">
+              {`Lvl ${level}`}
+            </Label>
+          </div>
         </div>
         <p className="text-sm p-1">{t("pets.description")}</p>
         <div className="flex items-center">
@@ -287,7 +313,6 @@ export const PetModal: React.FC<{
 
         <div className="flex flex-col">
           {petConfig.fetches.map((fetch) => {
-            const level = pet?.level ?? 1;
             const isLocked = level < fetch.level;
 
             return (
@@ -331,7 +356,7 @@ export const PetModal: React.FC<{
   );
 };
 
-export const Pet: React.FC<CollectibleProps> = ({ name }) => {
+const PetAction: React.FC<{ name: PetName }> = ({ name }) => {
   const { gameState } = useGame();
   const [showModal, setShowModal] = useState(false);
   const [tab, setTab] = useState(0);
@@ -348,6 +373,103 @@ export const Pet: React.FC<CollectibleProps> = ({ name }) => {
     pet: gameState.context.state.pets?.[name as PetName],
     game: gameState.context.state,
   });
+
+  const isLonely = canPetPet({
+    pet: gameState.context.state.pets?.[name as PetName],
+    game: gameState.context.state,
+  });
+
+  if (isNeglected) {
+    return (
+      <img
+        src={SUNNYSIDE.icons.sad}
+        className="absolute"
+        style={{
+          width: `${PIXEL_SCALE * 10}px`,
+          left: `${PIXEL_SCALE * -2}px`,
+          top: `${PIXEL_SCALE * -2}px`,
+        }}
+      />
+    );
+  }
+
+  if (isLonely) {
+    return (
+      <img
+        src={SUNNYSIDE.icons.heart}
+        className="absolute"
+        style={{
+          width: `${PIXEL_SCALE * 8}px`,
+          left: `${PIXEL_SCALE * -2}px`,
+          top: `${PIXEL_SCALE * -2}px`,
+        }}
+      />
+    );
+  }
+
+  if (isSleeping) {
+    return (
+      <img
+        src={SUNNYSIDE.icons.sleeping}
+        className="absolute"
+        style={{
+          width: `${PIXEL_SCALE * 10}px`,
+          left: `${PIXEL_SCALE * -2}px`,
+          top: `${PIXEL_SCALE * -2}px`,
+        }}
+      />
+    );
+  }
+
+  return null;
+};
+
+export const Pet: React.FC<CollectibleProps> = ({ name }) => {
+  const { gameState, gameService } = useGame();
+  const [showModal, setShowModal] = useState(false);
+  const [tab, setTab] = useState(0);
+  const [showPetted, setShowPetted] = useState(false);
+
+  const onClick = () => {
+    if (
+      isPetNeglected({
+        pet: gameState.context.state.pets?.[name as PetName],
+        game: gameState.context.state,
+      })
+    ) {
+      setShowModal(true);
+      return;
+    }
+
+    if (
+      canPetPet({
+        pet: gameState.context.state.pets?.[name as PetName],
+        game: gameState.context.state,
+      })
+    ) {
+      gameService.send("pet.petted", { name });
+
+      setShowPetted(true);
+
+      setTimeout(() => {
+        setShowPetted(false);
+      }, 1000);
+
+      return;
+    }
+
+    if (
+      isPetResting({
+        pet: gameState.context.state.pets?.[name as PetName],
+        game: gameState.context.state,
+      })
+    ) {
+      setShowModal(true);
+      return;
+    }
+
+    setShowModal(true);
+  };
 
   return (
     <>
@@ -386,54 +508,22 @@ export const Pet: React.FC<CollectibleProps> = ({ name }) => {
           src={ITEM_DETAILS[name].image}
           className="absolute w-full cursor-pointer hover:img-highlight"
           alt={name}
-          onClick={() => setShowModal(true)}
+          onClick={onClick}
         />
 
-        {isSleeping ? (
-          <img
-            src={SUNNYSIDE.icons.sleeping}
-            className="absolute"
-            style={{
-              width: `${PIXEL_SCALE * 10}px`,
-              left: `${PIXEL_SCALE * -2}px`,
-              top: `${PIXEL_SCALE * -2}px`,
-            }}
-          />
-        ) : isNeglected ? (
-          <img
-            src={SUNNYSIDE.icons.sad}
-            className="absolute"
-            style={{
-              width: `${PIXEL_SCALE * 10}px`,
-              left: `${PIXEL_SCALE * -2}px`,
-              top: `${PIXEL_SCALE * -2}px`,
-            }}
-          />
-        ) : (
+        <PetAction name={name as PetName} />
+
+        {!!showPetted && (
           <div
-            className={`absolute inline-flex justify-center items-center z-10 pointer-events-none`}
+            className="flex justify-center absolute w-full z-40"
             style={{
-              left: `${PIXEL_SCALE * -10}px`,
-              top: `${PIXEL_SCALE * -2}px`,
-              borderImage: `url(${SUNNYSIDE.ui.speechBorder})`,
-              borderStyle: "solid",
-              borderTopWidth: `${PIXEL_SCALE * 2}px`,
-              borderRightWidth: `${PIXEL_SCALE * 2}px`,
-              borderBottomWidth: `${PIXEL_SCALE * 4}px`,
-              borderLeftWidth: `${PIXEL_SCALE * 5}px`,
-              borderImageSlice: "2 2 4 5 fill",
-              imageRendering: "pixelated",
-              borderImageRepeat: "stretch",
-              // Flip it
-              transform: "scaleX(-1)",
+              width: `${PIXEL_SCALE * 48}px`,
+              left: `${PIXEL_SCALE * -16}px`,
+              top: `${PIXEL_SCALE * -12}px`,
+              transition: "opacity 0.2s ease-in",
             }}
           >
-            <img
-              style={{
-                width: `${PIXEL_SCALE * 6}px`,
-              }}
-              src={ITEM_DETAILS[request]?.image}
-            />
+            <span className="yield-text text-white font-pixel">{`+10XP`}</span>
           </div>
         )}
       </div>

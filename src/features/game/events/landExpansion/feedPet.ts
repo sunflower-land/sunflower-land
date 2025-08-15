@@ -8,10 +8,13 @@ import {
 import {
   isPetNeglected,
   Pet,
+  getPetLevel,
   PET_RESOURCES,
   PetName,
   PetResource,
   PETS,
+  PET_FOOD_EXPERIENCE,
+  getPetExperience,
 } from "features/game/types/pets";
 import Decimal from "decimal.js-light";
 import { isCollectibleActive } from "features/game/lib/collectibleBuilt";
@@ -112,7 +115,7 @@ export function getPetReadyAt({
     boostsUsed.push("Hound Shrine");
   }
 
-  const level = pet.level ?? 1;
+  const level = getPetLevel(pet);
 
   if (level >= 50) {
     duration = duration * 0.8;
@@ -166,7 +169,7 @@ export function feedPet({
       };
     }
 
-    pet.level = (pet.level ?? 1) + 1;
+    pet.experience = getPetExperience(pet) + PET_FOOD_EXPERIENCE;
 
     const { readyAt, boostsUsed } = getPetReadyAt({
       game: stateCopy,
