@@ -48,7 +48,7 @@ export function getPetCravings({
   const cravings = pet?.cravings;
 
   // If on old version return the cravings
-  if (!!cravings && !!cravings[0]?.completedAt) {
+  if (!!cravings && !!cravings[0]?.name) {
     return cravings;
   }
 

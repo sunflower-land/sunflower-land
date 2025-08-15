@@ -20,10 +20,7 @@ import { useGame } from "features/game/GameProvider";
 import Decimal from "decimal.js-light";
 import { Button } from "components/ui/Button";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
-import {
-  getPetCravings,
-  isPetResting,
-} from "features/game/events/landExpansion/feedPet";
+import { getPetCravings } from "features/game/events/landExpansion/feedPet";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import lightningIcon from "assets/icons/lightning.png";
 import lockIcon from "assets/icons/lock.png";
@@ -31,6 +28,9 @@ import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import { useVisiting } from "lib/utils/visitUtils";
 import { AnimatedBar } from "components/ui/ProgressBar";
 import { canPetPet } from "features/game/events/landExpansion/petPet";
+import { InventoryItemName } from "features/game/types/game";
+
+const DEFAULT_PET_TOY: InventoryItemName = "Doll";
 
 const Fetch: React.FC<{
   onClose: () => void;
@@ -38,7 +38,6 @@ const Fetch: React.FC<{
   tab: number;
 }> = ({ onClose, name, tab }) => {
   const { gameState, gameService } = useGame();
-  const [showConfirm, setShowConfirm] = useState(false);
 
   const { t } = useAppTranslation();
 
@@ -232,7 +231,7 @@ const Feed: React.FC<{
           onClick={fetch}
           disabled={!itemAmount.gte(1) || !!food.completedAt}
         >
-          {t("pet.feed")}
+          {`Feed`}
         </Button>
       </div>
     </>
@@ -255,6 +254,35 @@ const Guide: React.FC<{
   const level = getPetLevel(pet);
 
   const { xpLeft, xpPercentage } = petLevelProgress(pet);
+
+  const onWakeUp = () => {
+    gameService.send("pet.wakeUp", {
+      effect: {
+        type: "pet.wakeUp",
+        name,
+      },
+    });
+
+    onClose();
+  };
+
+  if (showConfirm) {
+    return (
+      <InnerPanel>
+        <Label type="danger">{t("confirmTitle")}</Label>
+        <p className="text-xs m-1">
+          {`Are you sure you want to give a Doll to give more requests?`}
+        </p>
+
+        <div className="flex">
+          <Button onClick={() => setShowConfirm(false)} className="mr-1">
+            {t("sleepingAnimal.cancel")}
+          </Button>
+          <Button onClick={onWakeUp}>{t("sleepingAnimal.confirm")}</Button>
+        </div>
+      </InnerPanel>
+    );
+  }
 
   return (
     <>
@@ -303,7 +331,13 @@ const Guide: React.FC<{
         <Label type="default" className="mb-1">
           {`New Requests`}
         </Label>
-        <Button>{`Request more`}</Button>
+        <p className="text-sm mb-1">{`Each day, new requests will appear.`}</p>
+        <Button
+          disabled={
+            !(gameState.context.state.inventory.Doll ?? new Decimal(0)).gte(1)
+          }
+          onClick={() => setShowConfirm(true)}
+        >{`Reset requests`}</Button>
       </InnerPanel>
     </>
   );
@@ -315,11 +349,6 @@ const PetAction: React.FC<{ name: PetName }> = ({ name }) => {
   const [tab, setTab] = useState(0);
 
   const pet = gameState.context.state.pets?.[name as PetName];
-
-  const isSleeping = isPetResting({
-    pet: gameState.context.state.pets?.[name as PetName],
-    game: gameState.context.state,
-  });
 
   const isNeglected = isPetNeglected({
     pet: gameState.context.state.pets?.[name as PetName],
@@ -346,20 +375,6 @@ const PetAction: React.FC<{ name: PetName }> = ({ name }) => {
   }
 
   if (isLonely) {
-    return (
-      <img
-        src={SUNNYSIDE.icons.heart}
-        className="absolute"
-        style={{
-          width: `${PIXEL_SCALE * 8}px`,
-          left: `${PIXEL_SCALE * -2}px`,
-          top: `${PIXEL_SCALE * -2}px`,
-        }}
-      />
-    );
-  }
-
-  if (isSleeping) {
     return (
       <img
         src={SUNNYSIDE.icons.sleeping}
@@ -464,16 +479,6 @@ export const Pet: React.FC<CollectibleProps> = ({ name }) => {
         setShowPetted(false);
       }, 1000);
 
-      return;
-    }
-
-    if (
-      isPetResting({
-        pet: gameState.context.state.pets?.[name as PetName],
-        game: gameState.context.state,
-      })
-    ) {
-      setShowModal(true);
       return;
     }
 
