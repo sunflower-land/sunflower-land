@@ -2,7 +2,6 @@ import { produce } from "immer";
 import { GameState } from "features/game/types/game";
 
 import {
-  isPetNeglected,
   getPetLevel,
   PET_RESOURCES,
   PetName,
@@ -10,7 +9,6 @@ import {
   PETS,
 } from "features/game/types/pets";
 import Decimal from "decimal.js-light";
-import { isPetResting } from "./feedPet";
 
 export type FetchPetAction = {
   type: "pet.fetched";
@@ -37,14 +35,6 @@ export function fetchPet({
     }
 
     let pet = stateCopy.pets?.[action.name];
-
-    if (isPetResting({ pet, game: stateCopy })) {
-      throw new Error("Pet is sleeping");
-    }
-
-    if (isPetNeglected({ pet, game: stateCopy })) {
-      throw new Error("Pet is neglected");
-    }
 
     if (!pet) {
       pet = {
