@@ -189,6 +189,10 @@ export const IslandBlacksmithItems: React.FC = () => {
     "Butterfly",
   ];
 
+  if (hasFeatureAccess(state, "OBSIDIAN_SHRINE")) {
+    VALID_EQUIPMENT.push("Obsidian Shrine");
+  }
+
   if (hasFeatureAccess(state, "PETS")) {
     VALID_EQUIPMENT.push(
       "Fox Shrine",

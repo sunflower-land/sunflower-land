@@ -6439,5 +6439,14 @@
   "description.moonfur": "A fluffy moonfur",
   "description.legendaryShrine": "A legendary shrine that buffs everything!",
   "description.legendaryShrine.buff": "Bonus Yields",
-  "description.fossilShell": "Looks like there is something inside..."
+  "description.fossilShell": "Looks like there is something inside...",
+  "description.obsidianShrine": "A shrine to the obsidian. Instantly harvest and plant all your crops!",
+  "obsidianShrine.harvest": "Harvest All Crops",
+  "obsidianShrine.plant": "Plant {{seed}}",
+  "obsidianShrine.readyCrops": "Crops ready for harvest",
+  "obsidianShrine.noCrops": "No crops ready for harvest",
+  "obsidianShrine.noSeeds": "No seeds available for planting",
+  "obsidianShrine.plantAll": "Plant to all empty crop plots",
+  "obsidianShrine.selectSeed": "Select a seed",
+  "obsidianShrine.noPlots": "No empty crop plots"
 }

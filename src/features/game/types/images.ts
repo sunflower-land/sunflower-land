@@ -5796,6 +5796,10 @@ export const ITEM_DETAILS: Items = {
     image: thermalStone,
     description: translate("description.legendaryShrine"),
   },
+  "Obsidian Shrine": {
+    image: thermalStone,
+    description: translate("description.obsidianShrine"),
+  },
   Moonfur: {
     image: SUNNYSIDE.icons.expression_confused,
     description: translate("description.moonfur"),
