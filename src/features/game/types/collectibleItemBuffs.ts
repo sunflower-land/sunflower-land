@@ -1703,7 +1703,7 @@ function getCollectibleBuffLabels(
         shortDescription: translate("description.obsidianShrine.buff"),
         labelType: "success",
         boostTypeIcon: SUNNYSIDE.icons.lightning,
-       },
+      },
     ],
     "Mole Shrine": [
       {
