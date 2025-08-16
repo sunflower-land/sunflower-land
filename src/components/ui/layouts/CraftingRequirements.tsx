@@ -256,8 +256,10 @@ export const CraftingRequirements: React.FC<Props> = ({
           ),
         )}
         {expiry && (
-          <Label type="formula" icon={SUNNYSIDE.icons.stopwatch}>
-            {secondsToString(expiry / 1000, { length: "short" })}
+          <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
+            {t("shrine.expiryLabel", {
+              time: secondsToString(expiry / 1000, { length: "short" }),
+            })}
           </Label>
         )}
       </div>

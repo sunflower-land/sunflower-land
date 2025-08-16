@@ -6459,6 +6459,7 @@
   "obsidianShrine.plantAll": "Plant to all empty crop plots",
   "obsidianShrine.selectSeed": "Select a seed",
   "obsidianShrine.noPlots": "No empty crop plots",
+  "shrine.expiryLabel": "Lasts for {{time}}",
   "description.wildGrass": "A wild grass",
   "description.frostPebble": "A frost pebble",
   "description.ribbon": "A ribbon",
