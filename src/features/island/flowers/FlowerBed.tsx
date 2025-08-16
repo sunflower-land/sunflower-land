@@ -31,10 +31,11 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import Decimal from "decimal.js-light";
 import { RequirementLabel } from "components/ui/RequirementsLabel";
 import { calculateInstaGrowCost } from "features/game/events/landExpansion/instaGrowFlower";
-import { Panel } from "components/ui/Panel";
+import { InnerPanel, OuterPanel, Panel } from "components/ui/Panel";
 import { secondsToString } from "lib/utils/time";
 import { hasFeatureAccess } from "lib/flags";
 import classNames from "classnames";
+import { PlantedFlower } from "features/game/types/game";
 
 interface Props {
   id: string;
@@ -87,7 +88,7 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
       context: { state },
     },
   ] = useActor(gameService);
-  const { flowers, farmActivity, inventory } = state;
+  const { flowers, farmActivity } = state;
 
   const flowerBed = flowers.flowerBeds[id];
 
@@ -97,6 +98,7 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
   const [congratulationsPage, setCongratulationsPage] = useState(0);
   const [showPopover, setShowPopover] = useState(false);
   const [showInstaGrowModal, setShowInstaGrowModal] = useState(false);
+  const [showConfirmInstaGrow, setShowConfirmInstaGrow] = useState(false);
 
   useUiRefresher();
   const biome = getCurrentBiome(state.island);
@@ -146,9 +148,6 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
 
   const hasInstaGrow = hasFeatureAccess(state, "FLOWER_INSTA_GROW");
 
-  const instaGrowCost = calculateInstaGrowCost(timeLeftSeconds);
-  const playerObsidian = inventory.Obsidian ?? new Decimal(0);
-
   const handlePlotClick = () => {
     if (isGrowing && hasInstaGrow) {
       setShowInstaGrowModal(true);
@@ -175,13 +174,9 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
     });
   };
 
-  const handleInstaGrow = () => {
-    gameService.send({
-      type: "flower.instaGrown",
-      id,
-    });
-
+  const closeInstaGrowModal = () => {
     setShowInstaGrowModal(false);
+    setShowConfirmInstaGrow(false);
   };
 
   return (
@@ -334,46 +329,134 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
       </Modal>
 
       {hasInstaGrow && (
-        <Modal
-          show={showInstaGrowModal}
-          onHide={() => setShowInstaGrowModal(false)}
-        >
+        <Modal show={showInstaGrowModal} onHide={closeInstaGrowModal}>
           <CloseButtonPanel
-            onClose={() => setShowInstaGrowModal(false)}
+            onClose={
+              showConfirmInstaGrow
+                ? undefined
+                : () => setShowInstaGrowModal(false)
+            }
             bumpkinParts={NPC_WEARABLES["poppy"]}
+            container={OuterPanel}
           >
-            <div className="p-1 flex flex-col gap-2">
-              <Label type="vibrant">{t("instaGrow")}</Label>
-              <Label type="warning">
-                {t("instaGrow.timeRemaining", {
-                  time: secondsToString(timeLeftSeconds, { length: "medium" }),
-                })}
-              </Label>
-              <p className="text-sm my-1">
-                {t("instaGrow.description", {
-                  project: hasHarvestedBefore ? flower.name : "flower",
-                })}
-              </p>
-              <div className="flex justify-start">
-                <RequirementLabel
-                  item="Obsidian"
-                  requirement={instaGrowCost}
-                  type="item"
-                  balance={playerObsidian}
-                />
-              </div>
-              <Button
-                onClick={handleInstaGrow}
-                disabled={!playerObsidian.gte(instaGrowCost)}
-              >
-                {t("instaGrow")}
-              </Button>
-            </div>
+            <InstaGrowModal
+              showConfirmInstaGrow={showConfirmInstaGrow}
+              setShowConfirmInstaGrow={setShowConfirmInstaGrow}
+              setShowInstaGrowModal={setShowInstaGrowModal}
+              flower={flower}
+              timeLeftSeconds={timeLeftSeconds}
+              id={id}
+            />
           </CloseButtonPanel>
         </Modal>
       )}
     </>
   );
+};
+
+interface InstaGrowModalProps {
+  timeLeftSeconds: number;
+  showConfirmInstaGrow: boolean;
+  setShowConfirmInstaGrow: (show: boolean) => void;
+  setShowInstaGrowModal: (show: boolean) => void;
+  flower: PlantedFlower;
+  id: string;
+}
+
+const InstaGrowModal: React.FC<InstaGrowModalProps> = ({
+  timeLeftSeconds,
+  showConfirmInstaGrow,
+  setShowConfirmInstaGrow,
+  setShowInstaGrowModal,
+  flower,
+  id,
+}) => {
+  const { gameService } = useContext(Context);
+  const [
+    {
+      context: { state },
+    },
+  ] = useActor(gameService);
+  const { inventory, farmActivity } = state;
+  const { t } = useAppTranslation();
+
+  const hasHarvestedBefore = !!farmActivity[`${flower.name} Harvested`];
+  const instaGrowCost = calculateInstaGrowCost(timeLeftSeconds);
+  const playerObsidian = inventory.Obsidian ?? new Decimal(0);
+
+  const closeInstaGrowModal = () => {
+    setShowInstaGrowModal(false);
+    setShowConfirmInstaGrow(false);
+  };
+
+  const handleInstaGrow = () => {
+    gameService.send({
+      type: "flower.instaGrown",
+      id,
+    });
+    closeInstaGrowModal();
+  };
+
+  // Confirmation Panel
+  const renderConfirmation = () => (
+    <InnerPanel>
+      <Label type="danger">{t("instaGrow")}</Label>
+      <div className="flex flex-col gap-1 text-sm p-2">
+        <span>
+          {t("instaGrow.confirmation", {
+            project: hasHarvestedBefore ? flower.name : "flower",
+            amount: instaGrowCost,
+          })}
+        </span>
+      </div>
+      <div className="flex">
+        <Button className="mr-1" onClick={() => setShowConfirmInstaGrow(false)}>
+          {t("close")}
+        </Button>
+        <Button
+          onClick={handleInstaGrow}
+          disabled={!playerObsidian.gte(instaGrowCost)}
+        >
+          {t("confirm")}
+        </Button>
+      </div>
+    </InnerPanel>
+  );
+
+  // Main Panel
+  const renderMain = () => (
+    <InnerPanel>
+      <div className="p-1 flex flex-col gap-2">
+        <Label type="vibrant">{t("instaGrow")}</Label>
+        <Label type="warning">
+          {t("instaGrow.timeRemaining", {
+            time: secondsToString(timeLeftSeconds, { length: "medium" }),
+          })}
+        </Label>
+        <p className="text-sm my-1">
+          {t("instaGrow.description", {
+            project: hasHarvestedBefore ? flower.name : "flower",
+          })}
+        </p>
+        <div className="flex justify-start">
+          <RequirementLabel
+            item="Obsidian"
+            requirement={instaGrowCost}
+            type="item"
+            balance={playerObsidian}
+          />
+        </div>
+        <Button
+          onClick={() => setShowConfirmInstaGrow(true)}
+          disabled={!playerObsidian.gte(instaGrowCost)}
+        >
+          {t("instaGrow")}
+        </Button>
+      </div>
+    </InnerPanel>
+  );
+
+  return showConfirmInstaGrow ? renderConfirmation() : renderMain();
 };
 
 const getCongratulationsMessage = ({
