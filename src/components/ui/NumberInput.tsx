@@ -8,8 +8,6 @@ import activeBg from "assets/ui/active_input_box_border.png";
 import { SquareIcon } from "./SquareIcon";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 
-const VALID_INTEGER = new RegExp(/^\d+$/);
-
 type Props = {
   value: Decimal | number;
   maxDecimalPlaces: number;
@@ -19,6 +17,7 @@ type Props = {
   onValueChange?: (value: Decimal) => void;
   icon?: string;
   readOnly?: boolean;
+  allowNegative?: boolean;
 };
 
 export const NumberInput: React.FC<Props> = ({
@@ -30,9 +29,13 @@ export const NumberInput: React.FC<Props> = ({
   onValueChange,
   icon,
   readOnly,
+  allowNegative = false,
 }) => {
+  const VALID_INTEGER = new RegExp(allowNegative ? /^-?\d+$/ : /^\d+$/);
   const VALID_DECIMAL_NUMBER_WITH_PRECISION = new RegExp(
-    `^\\d*(\\.\\d{0,${maxDecimalPlaces}})?$`,
+    allowNegative
+      ? `^-?\\d*(\\.\\d{0,${maxDecimalPlaces}})?$`
+      : `^\\d*(\\.\\d{0,${maxDecimalPlaces}})?$`,
   );
   const INPUT_MAX_CHAR = Math.max(maxDecimalPlaces + 4, 20);
 

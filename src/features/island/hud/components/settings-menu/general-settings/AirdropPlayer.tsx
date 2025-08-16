@@ -37,6 +37,7 @@ interface AirdropItem {
   icon: string;
   maxDecimalPlaces: number;
   maxValue?: number;
+  allowNegative?: boolean;
 }
 
 interface SelectedItem {
@@ -79,7 +80,7 @@ const AdvancedItems: React.FC<AdvancedItemsProps> = ({
   const [currentWearable, setCurrentWearable] = useState<string>();
 
   const addItem = () => {
-    if (!currentItem || currentQuantity <= 0) return;
+    if (!currentItem) return;
 
     setSelectedItems([
       ...selectedItems.filter((item) => item.name !== currentItem),
@@ -139,6 +140,7 @@ const AdvancedItems: React.FC<AdvancedItemsProps> = ({
                 setCurrentQuantity(decimal.toNumber())
               }
               maxDecimalPlaces={0}
+              allowNegative
             />
           </div>
           <img
@@ -247,7 +249,17 @@ const AirdropContent: React.FC<AirdropContentProps> = ({
             onValueChange={setFarmIds}
           />
           {getObjectEntries(basicItems).map(
-            ([key, { icon, value, setValue, maxDecimalPlaces, maxValue }]) => (
+            ([
+              key,
+              {
+                icon,
+                value,
+                setValue,
+                maxDecimalPlaces,
+                maxValue,
+                allowNegative,
+              },
+            ]) => (
               <div key={key} className="flex flex-col items-start gap-2">
                 <div className="flex flex-row items-center gap-2 w-full justify-between">
                   <Label type="default" icon={icon} className="m-1">
@@ -263,6 +275,7 @@ const AirdropContent: React.FC<AirdropContentProps> = ({
                   value={value}
                   onValueChange={(decimal) => setValue(decimal.toNumber())}
                   maxDecimalPlaces={maxDecimalPlaces}
+                  allowNegative={allowNegative}
                 />
               </div>
             ),
@@ -418,6 +431,7 @@ export const AirdropPlayer: React.FC<
       maxDecimalPlaces: 0,
       icon: coinsIcon,
       maxValue: 10000,
+      allowNegative: true,
     },
     Gems: {
       value: gems ?? 0,
@@ -425,6 +439,7 @@ export const AirdropPlayer: React.FC<
       maxDecimalPlaces: 0,
       icon: ITEM_DETAILS.Gem.image,
       maxValue: 10000,
+      allowNegative: true,
     },
     "Love Charm": {
       value: loveCharm ?? 0,
@@ -432,6 +447,7 @@ export const AirdropPlayer: React.FC<
       maxDecimalPlaces: 0,
       icon: ITEM_DETAILS["Love Charm"].image,
       maxValue: 10000,
+      allowNegative: true,
     },
     VIP: {
       value: vipDays ?? 0,
