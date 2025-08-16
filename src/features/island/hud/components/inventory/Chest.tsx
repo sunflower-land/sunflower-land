@@ -321,20 +321,26 @@ export const Chest: React.FC<Props> = ({
   // Sort collectibles by type
   const resources = getKeys(collectibles).filter((name) => name in RESOURCES);
   const buildings = getKeys(collectibles).filter((name) => name in BUILDINGS);
+  const monuments = getKeys(collectibles).filter(
+    (name) => name in WORKBENCH_MONUMENTS,
+  );
   const boosts = getKeys(collectibles)
     .filter(
       (name) =>
         name in COLLECTIBLE_BUFF_LABELS(state) &&
         (COLLECTIBLE_BUFF_LABELS(state)[name] ?? []).length > 0,
     )
-    .filter((name) => !resources.includes(name) && !buildings.includes(name));
+    .filter(
+      (name) =>
+        !resources.includes(name) &&
+        !buildings.includes(name) &&
+        !monuments.includes(name),
+    );
+
   const banners = getKeys(collectibles).filter((name) => name in BANNERS);
   const beds = getKeys(collectibles).filter((name) => name in BEDS);
   const weatherItems = getKeys(collectibles).filter(
     (name) => name in WEATHER_SHOP_ITEM_COSTS,
-  );
-  const monuments = getKeys(collectibles).filter(
-    (name) => name in WORKBENCH_MONUMENTS,
   );
 
   const dolls = getKeys(collectibles).filter((name) => name in DOLLS);
