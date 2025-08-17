@@ -32,6 +32,8 @@ import { Label } from "components/ui/Label";
 import helpIcon from "assets/icons/help.webp";
 import { getBumpkinLevel } from "features/game/lib/level";
 import { hasFeatureAccess } from "lib/flags";
+import { ConfirmationModal } from "components/ui/ConfirmationModal";
+import { PET_SHRINES } from "features/game/types/pets";
 
 const PROJECTS: HeliosBlacksmithItem[] = [
   "Basic Cooking Pot",
@@ -114,6 +116,10 @@ export const IslandBlacksmithItems: React.FC = () => {
 
   const selectedItem = HELIOS_BLACKSMITH_ITEMS(state)[selectedName];
   const isAlreadyCrafted = inventory[selectedName]?.greaterThanOrEqualTo(1);
+
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const isShrine =
+    selectedName in PET_SHRINES || selectedName === "Obsidian Shrine";
 
   const lessIngredients = () =>
     getKeys(selectedItem?.ingredients ?? {}).some((name) =>
@@ -208,118 +214,135 @@ export const IslandBlacksmithItems: React.FC = () => {
   }
 
   return (
-    <SplitScreenView
-      panel={
-        <CraftingRequirements
-          gameState={state}
-          details={{
-            item: selectedName,
-            from: selectedItem?.from,
-            to: selectedItem?.to,
-          }}
-          boost={COLLECTIBLE_BUFF_LABELS(state)[selectedName]}
-          requirements={{
-            resources: selectedItem?.ingredients ?? {},
-            coins: selectedItem?.coins ?? 0,
-            level: selectedItem?.level ?? 0,
-          }}
-          actionView={
-            isAlreadyCrafted ? (
-              <p className="text-xxs text-center mb-1 font-secondary">
-                {t("alr.crafted")}
-              </p>
-            ) : (
-              <div className="flex flex-col gap-2">
-                <div className="flex justify-left sm:justify-center ml-1">
-                  <DecorationLabel
-                    gameState={state}
-                    selectedName={selectedName}
-                  />
+    <>
+      <SplitScreenView
+        panel={
+          <CraftingRequirements
+            gameState={state}
+            details={{
+              item: selectedName,
+              from: selectedItem?.from,
+              to: selectedItem?.to,
+            }}
+            boost={COLLECTIBLE_BUFF_LABELS(state)[selectedName]}
+            requirements={{
+              resources: selectedItem?.ingredients ?? {},
+              coins: selectedItem?.coins ?? 0,
+              level: selectedItem?.level ?? 0,
+            }}
+            actionView={
+              isAlreadyCrafted ? (
+                <p className="text-xxs text-center mb-1 font-secondary">
+                  {t("alr.crafted")}
+                </p>
+              ) : (
+                <div className="flex flex-col gap-2">
+                  <div className="flex justify-left sm:justify-center ml-1">
+                    <DecorationLabel
+                      gameState={state}
+                      selectedName={selectedName}
+                    />
+                  </div>
+                  <div>
+                    <Button
+                      disabled={
+                        lessIngredients() ||
+                        lessCoins() ||
+                        hasBuiltMonument() ||
+                        !hasLevel
+                      }
+                      onClick={
+                        isShrine ? () => setShowConfirmationModal(true) : craft
+                      }
+                    >
+                      {t("craft")}
+                    </Button>
+                  </div>
                 </div>
-                <div>
-                  <Button
-                    disabled={
-                      lessIngredients() ||
-                      lessCoins() ||
-                      hasBuiltMonument() ||
-                      !hasLevel
+              )
+            }
+          />
+        }
+        content={
+          <div className="flex flex-col">
+            <div className="flex flex-wrap">
+              {VALID_EQUIPMENT.map((name: HeliosBlacksmithItem) => {
+                return (
+                  <Box
+                    isSelected={selectedName === name}
+                    key={name}
+                    onClick={() => setSelectedName(name)}
+                    image={ITEM_DETAILS[name].image}
+                    count={inventory[name]}
+                    overlayIcon={
+                      <img
+                        src={SUNNYSIDE.icons.stopwatch}
+                        id="confirm"
+                        alt="confirm"
+                        className="object-contain absolute"
+                        style={{
+                          width: `${PIXEL_SCALE * 8}px`,
+                          top: `${PIXEL_SCALE * -4}px`,
+                          right: `${PIXEL_SCALE * -4}px`,
+                        }}
+                      />
                     }
-                    onClick={craft}
-                  >
-                    {t("craft")}
-                  </Button>
-                </div>
-              </div>
-            )
-          }
-        />
-      }
-      content={
-        <div className="flex flex-col">
-          <div className="flex flex-wrap">
-            {VALID_EQUIPMENT.map((name: HeliosBlacksmithItem) => {
-              return (
-                <Box
-                  isSelected={selectedName === name}
-                  key={name}
-                  onClick={() => setSelectedName(name)}
-                  image={ITEM_DETAILS[name].image}
-                  count={inventory[name]}
-                  overlayIcon={
-                    <img
-                      src={SUNNYSIDE.icons.stopwatch}
-                      id="confirm"
-                      alt="confirm"
-                      className="object-contain absolute"
-                      style={{
-                        width: `${PIXEL_SCALE * 8}px`,
-                        top: `${PIXEL_SCALE * -4}px`,
-                        right: `${PIXEL_SCALE * -4}px`,
-                      }}
-                    />
-                  }
-                />
-              );
-            })}
-          </div>
+                  />
+                );
+              })}
+            </div>
 
-          <div className="flex justify-between items-center my-2">
-            <Label type="default">{t("craft.with.friends")}</Label>
-            <img src={helpIcon} alt="help" className=" h-6 mr-2" />
-          </div>
+            <div className="flex justify-between items-center my-2">
+              <Label type="default">{t("craft.with.friends")}</Label>
+              <img src={helpIcon} alt="help" className=" h-6 mr-2" />
+            </div>
 
-          <p className="text-xs mb-1 font-secondary mx-1">
-            {t("workbench.helpRequired")}
-          </p>
+            <p className="text-xs mb-1 font-secondary mx-1">
+              {t("workbench.helpRequired")}
+            </p>
 
-          <div className="flex flex-wrap">
-            {PROJECTS.map((name: HeliosBlacksmithItem) => {
-              return (
-                <Box
-                  isSelected={selectedName === name}
-                  key={name}
-                  onClick={() => setSelectedName(name)}
-                  image={ITEM_DETAILS[name].image}
-                  count={inventory[name]}
-                  overlayIcon={
-                    <img
-                      src={SUNNYSIDE.icons.stopwatch}
-                      id="confirm"
-                      alt="confirm"
-                      className="object-contain absolute"
-                      style={{
-                        width: `${PIXEL_SCALE * 8}px`,
-                        top: `${PIXEL_SCALE * -4}px`,
-                        right: `${PIXEL_SCALE * -4}px`,
-                      }}
-                    />
-                  }
-                />
-              );
-            })}
+            <div className="flex flex-wrap">
+              {PROJECTS.map((name: HeliosBlacksmithItem) => {
+                return (
+                  <Box
+                    isSelected={selectedName === name}
+                    key={name}
+                    onClick={() => setSelectedName(name)}
+                    image={ITEM_DETAILS[name].image}
+                    count={inventory[name]}
+                    overlayIcon={
+                      <img
+                        src={SUNNYSIDE.icons.stopwatch}
+                        id="confirm"
+                        alt="confirm"
+                        className="object-contain absolute"
+                        style={{
+                          width: `${PIXEL_SCALE * 8}px`,
+                          top: `${PIXEL_SCALE * -4}px`,
+                          right: `${PIXEL_SCALE * -4}px`,
+                        }}
+                      />
+                    }
+                  />
+                );
+              })}
+            </div>
           </div>
-        </div>
-      }
-    />
+        }
+      />
+
+      <ConfirmationModal
+        show={showConfirmationModal}
+        onHide={() => setShowConfirmationModal(false)}
+        onCancel={() => setShowConfirmationModal(false)}
+        onConfirm={craft}
+        confirmButtonLabel={t("confirm")}
+        disabled={lessIngredients() || lessCoins() || !hasLevel}
+        messages={[
+          t("shrine.craft.confirm1"),
+          t("shrine.craft.confirm2", { selectedName }),
+        ]}
+      />
+    </>
   );
 };

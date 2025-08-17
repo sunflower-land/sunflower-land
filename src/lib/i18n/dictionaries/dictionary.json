@@ -6460,6 +6460,8 @@
   "obsidianShrine.selectSeed": "Select a seed",
   "obsidianShrine.noPlots": "No empty crop plots",
   "shrine.expiryLabel": "Lasts for {{time}}",
+  "shrine.craft.confirm1": "Are you sure you want to craft & place this down?",
+  "shrine.craft.confirm2": "Once placed, the effects of the {{selectedName}} will begin instantly and cannot be paused or cancelled.",
   "description.wildGrass": "A wild grass",
   "description.frostPebble": "A frost pebble",
   "description.ribbon": "A ribbon",
