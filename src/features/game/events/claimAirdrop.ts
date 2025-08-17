@@ -91,61 +91,86 @@ export function claimAirdrop({
 
   getObjectEntries(airdrop.items).forEach(([itemName, amount]) => {
     if (amount && amount < 0) {
-      let amountToRemove = cloneDeep(-amount);
+      const amountToRemove = -amount; // Remove unnecessary cloneDeep
+      let remainingToRemove = amountToRemove; // Track remaining across all locations
+
       // Remove placed collectibles from farm and home
       if (isPlaceableCollectible(itemName)) {
         PLACEABLE_LOCATIONS.forEach((location) => {
+          if (remainingToRemove <= 0) return; // Skip if we've removed enough
+
           const placedCollectibles = (
             (location === "home"
               ? game.home.collectibles[itemName]
               : game.collectibles[itemName]) ?? []
           ).filter((collectible) => !!collectible.coordinates);
 
-          // Remove only the amount of the item in the array
-          const collectibleIdsToRemove = placedCollectibles
-            .slice(0, amountToRemove)
-            .map((c) => c.id);
+          // Calculate how many to remove from this location
+          const toRemoveFromLocation = Math.min(
+            remainingToRemove,
+            placedCollectibles.length,
+          );
 
-          collectibleIdsToRemove.forEach((collectibleId) => {
-            game = removeCollectible({
-              state: game,
-              action: {
-                type: "collectible.removed",
-                name: itemName,
-                id: collectibleId,
-                location,
-              },
-              createdAt,
+          if (toRemoveFromLocation > 0) {
+            // Get IDs to remove in one operation
+            const collectibleIdsToRemove = placedCollectibles
+              .slice(0, toRemoveFromLocation)
+              .map((c) => c.id);
+
+            // Remove all collectibles in one batch
+            collectibleIdsToRemove.forEach((collectibleId) => {
+              game = removeCollectible({
+                state: game,
+                action: {
+                  type: "collectible.removed",
+                  name: itemName,
+                  id: collectibleId,
+                  location,
+                },
+                createdAt,
+              });
             });
-            // Clone the game state to avoid mutating the original state
-            game = cloneDeep(game);
-            amountToRemove--;
-          });
+
+            // Update remaining count
+            remainingToRemove -= toRemoveFromLocation;
+          }
         });
       }
+
       if (isPlaceableBuilding(itemName)) {
         const placedBuildings = (game.buildings[itemName] ?? []).filter(
           (building) => !!building.coordinates,
         );
-        // Remove only the amount of the item in the array
-        const buildingIdsToRemove = placedBuildings
-          .slice(0, amountToRemove)
-          .map((c) => c.id);
 
-        buildingIdsToRemove.forEach((buildingId) => {
-          game = removeBuilding({
-            state: game,
-            action: {
-              type: "building.removed",
-              name: itemName,
-              id: buildingId,
-            },
-            createdAt,
+        // Calculate how many buildings to remove (considering what was already removed from collectibles)
+        const toRemoveFromBuildings = Math.min(
+          remainingToRemove,
+          placedBuildings.length,
+        );
+
+        if (toRemoveFromBuildings > 0) {
+          // Get IDs to remove in one operation
+          const buildingIdsToRemove = placedBuildings
+            .slice(0, toRemoveFromBuildings)
+            .map((c) => c.id);
+
+          // Remove all buildings in one batch
+          buildingIdsToRemove.forEach((buildingId) => {
+            game = removeBuilding({
+              state: game,
+              action: {
+                type: "building.removed",
+                name: itemName,
+                id: buildingId,
+              },
+              createdAt,
+            });
           });
-          game = cloneDeep(game);
-          amountToRemove--;
-        });
+        }
       }
+
+      // Clone game state only once after all removals are complete
+      game = cloneDeep(game);
     }
   });
 

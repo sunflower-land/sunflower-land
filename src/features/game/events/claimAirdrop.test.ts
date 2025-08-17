@@ -387,6 +387,24 @@ describe("claimAirdrop", () => {
                 id: "456",
                 readyAt: 0,
                 createdAt: 0,
+                coordinates: {
+                  x: 0,
+                  y: 0,
+                },
+              },
+              {
+                id: "789",
+                readyAt: 0,
+                createdAt: 0,
+                coordinates: {
+                  x: 0,
+                  y: 0,
+                },
+              },
+              {
+                id: "135",
+                readyAt: 0,
+                createdAt: 0,
               },
             ],
           },
@@ -436,6 +454,24 @@ describe("claimAirdrop", () => {
         },
         {
           id: "456",
+          readyAt: 0,
+          createdAt: 0,
+          coordinates: {
+            x: 0,
+            y: 0,
+          },
+        },
+        {
+          id: "789",
+          readyAt: 0,
+          createdAt: 0,
+          coordinates: {
+            x: 0,
+            y: 0,
+          },
+        },
+        {
+          id: "135",
           readyAt: 0,
           createdAt: 0,
         },
