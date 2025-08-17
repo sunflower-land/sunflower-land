@@ -1666,15 +1666,17 @@ function getCollectibleBuffLabels(
     "Fox Shrine": [
       {
         shortDescription: translate("description.foxShrine.buff"),
-        labelType: "success",
-        boostTypeIcon: powerup,
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS["Crafting Box"].image,
       },
     ],
     "Boar Shrine": [
       {
         shortDescription: translate("description.boarShrine.buff"),
-        labelType: "success",
-        boostTypeIcon: powerup,
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS["Chef Hat"].image,
       },
     ],
     "Hound Shrine": [
@@ -1689,6 +1691,7 @@ function getCollectibleBuffLabels(
         shortDescription: translate("description.stagShrine.buff"),
         labelType: "success",
         boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Oil.image,
       },
     ],
     "Legendary Shrine": [
@@ -1701,15 +1704,16 @@ function getCollectibleBuffLabels(
     "Obsidian Shrine": [
       {
         shortDescription: translate("description.obsidianShrine.buff"),
-        labelType: "success",
+        labelType: "vibrant",
         boostTypeIcon: SUNNYSIDE.icons.lightning,
       },
     ],
     "Mole Shrine": [
       {
         shortDescription: translate("description.moleShrine.buff"),
-        labelType: "success",
-        boostTypeIcon: powerup,
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS.Crimstone.image,
       },
     ],
     "Bear Shrine": [
@@ -1717,20 +1721,22 @@ function getCollectibleBuffLabels(
         shortDescription: translate("description.bearShrine.buff"),
         labelType: "success",
         boostTypeIcon: powerup,
+        boostedItemIcon: ITEM_DETAILS.Honey.image,
       },
     ],
     "Tortoise Shrine": [
       {
         shortDescription: translate("description.tortoiseShrine.buff"),
-        labelType: "success",
-        boostTypeIcon: powerup,
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       },
     ],
     "Moth Shrine": [
       {
         shortDescription: translate("description.mothShrine.buff"),
-        labelType: "success",
-        boostTypeIcon: powerup,
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS["Red Pansy"].image,
       },
     ],
   };
