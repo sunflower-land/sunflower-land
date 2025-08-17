@@ -47,6 +47,7 @@ import { HOURGLASSES } from "features/game/events/landExpansion/burnCollectible"
 import flipped from "assets/icons/flipped.webp";
 import flipIcon from "assets/icons/flip.webp";
 import debounce from "lodash.debounce";
+import { PET_SHRINES } from "features/game/types/pets";
 
 export const RESOURCE_MOVE_EVENTS: Record<
   ResourceName,
@@ -127,7 +128,9 @@ export function getRemoveAction(
   if (
     HOURGLASSES.includes(name as HourglassType) ||
     name === "Time Warp Totem" ||
-    name === "Super Totem"
+    name === "Super Totem" ||
+    name === "Obsidian Shrine" ||
+    name in PET_SHRINES
   ) {
     return null;
   }

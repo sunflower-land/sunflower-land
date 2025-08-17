@@ -158,4 +158,31 @@ describe("removeCollectible", () => {
       }),
     ).toThrow("Genie Lamp is in use");
   });
+
+  it("it prevents a shrine from being removed if it is in use", () => {
+    expect(() =>
+      removeCollectible({
+        state: {
+          ...GAME_STATE,
+          inventory: {},
+          collectibles: {
+            "Boar Shrine": [
+              {
+                id: "123",
+                createdAt: 0,
+                coordinates: { x: 1, y: 1 },
+                readyAt: 0,
+              },
+            ],
+          },
+        },
+        action: {
+          location: "farm",
+          type: "collectible.removed",
+          name: "Boar Shrine",
+          id: "123",
+        },
+      }),
+    ).toThrow("This limited time item is in use");
+  });
 });

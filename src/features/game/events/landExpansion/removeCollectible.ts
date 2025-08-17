@@ -6,6 +6,7 @@ import { PlaceableLocation } from "features/game/types/collectibles";
 import { produce } from "immer";
 import { HourglassType } from "features/island/collectibles/components/Hourglass";
 import { HOURGLASSES } from "./burnCollectible";
+import { PET_SHRINES } from "features/game/types/pets";
 
 export enum REMOVE_COLLECTIBLE_ERRORS {
   INVALID_COLLECTIBLE = "This collectible does not exist",
@@ -89,7 +90,9 @@ export function removeCollectible({
     if (
       HOURGLASSES.includes(action.name as HourglassType) ||
       action.name === "Time Warp Totem" ||
-      action.name === "Super Totem"
+      action.name === "Super Totem" ||
+      action.name === "Obsidian Shrine" ||
+      action.name in PET_SHRINES
     ) {
       const collectible: PlacedItem = collectibleToRemove;
       if (collectible) {
