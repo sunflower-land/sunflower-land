@@ -22,6 +22,7 @@ import { isReadyToHarvest } from "features/game/events/landExpansion/harvest";
 import { Box } from "components/ui/Box";
 import { Decimal } from "decimal.js-light";
 import { CropPlot, GameState } from "features/game/types/game";
+import { secondsToString } from "lib/utils/time";
 
 export const ObsidianShrine: React.FC<CollectibleProps> = ({
   createdAt,
@@ -165,6 +166,24 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
             <PlantAll availablePlots={availablePlots} state={state} />
           )}
         </CloseButtonPanel>
+
+        <div className="absolute -top-8 -mt-[2px] right-0">
+          <Label
+            type="info"
+            icon={SUNNYSIDE.icons.stopwatch}
+            className="mt-2 mb-2"
+          >
+            <span className="text-xs">
+              {t("time.remaining", {
+                time: secondsToString((expiresAt - Date.now()) / 1000, {
+                  length: "medium",
+                  isShortFormat: true,
+                  removeTrailingZeros: true,
+                }),
+              })}
+            </span>
+          </Label>
+        </div>
       </Modal>
     </>
   );
