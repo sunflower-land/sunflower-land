@@ -225,6 +225,11 @@ export function getCropTime({
     boostsUsed.push("Lunar Calendar");
   }
 
+  if (isCollectibleActive({ name: "Sparrow Shrine", game })) {
+    multiplier = multiplier * 0.75;
+    boostsUsed.push("Sparrow Shrine");
+  }
+
   const hasSuperTotem = isCollectibleActive({ name: "Super Totem", game });
   const hasTimeWarpTotem = isCollectibleActive({
     name: "Time Warp Totem",

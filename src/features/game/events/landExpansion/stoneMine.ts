@@ -85,6 +85,11 @@ function getBoostedTime({ skills, game }: GetMinedAtArgs): {
     boostsUsed.push("Ore Hourglass");
   }
 
+  if (isCollectibleActive({ name: "Badger Shrine", game })) {
+    totalSeconds = totalSeconds * 0.75;
+    boostsUsed.push("Badger Shrine");
+  }
+
   const buff = STONE_RECOVERY_TIME - totalSeconds;
 
   return { boostedTime: buff * 1000, boostsUsed };

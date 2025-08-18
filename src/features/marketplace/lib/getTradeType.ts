@@ -15,6 +15,10 @@ export const ITEM_TRADE_TYPES: {
   wearables: Record<BumpkinItem, TradeType>;
 } = {
   collectibles: {
+    "Sparrow Shrine": "instant",
+    "Toucan Shrine": "instant",
+    "Collie Shrine": "instant",
+    "Badger Shrine": "instant",
     "Fox Shrine": "instant",
     "Boar Shrine": "instant",
     "Hound Shrine": "instant",

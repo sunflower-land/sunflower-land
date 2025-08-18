@@ -22,7 +22,7 @@ import {
   GameState,
   InventoryItemName,
 } from "../types/game";
-import { isCollectibleBuilt } from "./collectibleBuilt";
+import { isCollectibleActive, isCollectibleBuilt } from "./collectibleBuilt";
 import { getBudYieldBoosts } from "./getBudYieldBoosts";
 import { isWearableActive } from "./wearables";
 
@@ -568,6 +568,11 @@ export function getBoostedAwakeAt({
   if (bumpkin.skills["Restless Animals"]) {
     totalDuration *= 0.9;
     boostsUsed.push("Restless Animals");
+  }
+
+  if (isCollectibleActive({ name: "Collie Shrine", game })) {
+    totalDuration *= 0.75;
+    boostsUsed.push("Collie Shrine");
   }
 
   // Add the boosted duration to the created time

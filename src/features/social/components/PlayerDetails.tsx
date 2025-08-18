@@ -164,7 +164,9 @@ export const PlayerDetails: React.FC<Props> = ({
     if (!player) return;
 
     // Setting from route to navigate back to the correct page after visit
-    setFromRoute(location.pathname);
+    if (!isVisiting) {
+      setFromRoute(location.pathname);
+    }
 
     gameService.send("VISIT", { landId: player.id });
     navigate(`/visit/${player.id}`);
@@ -369,20 +371,18 @@ export const PlayerDetails: React.FC<Props> = ({
                 <img src={flowerIcon} className="w-4 h-4 ml-1 mt-0.5" />
               </div>
             </div>
-            {!isVisiting && (
-              <Button
-                className="flex w-fit h-9 justify-between items-center gap-1 -mt-2.5 align-top"
-                disabled={isSelf}
-                onClick={visitFarm}
-              >
-                <div className="flex items-center px-1">
-                  <img
-                    src={SUNNYSIDE.icons.search}
-                    className="flex justify-center items-center w-4 h-4"
-                  />
-                </div>
-              </Button>
-            )}
+            <Button
+              className="flex w-fit h-9 justify-between items-center gap-1 -mt-2.5 align-top"
+              disabled={isSelf}
+              onClick={visitFarm}
+            >
+              <div className="flex items-center px-1">
+                <img
+                  src={SUNNYSIDE.icons.search}
+                  className="flex justify-center items-center w-4 h-4"
+                />
+              </div>
+            </Button>
           </div>
         </InnerPanel>
 
@@ -416,26 +416,28 @@ export const PlayerDetails: React.FC<Props> = ({
               </Button>
             </div>
           </div>
-          <div className="flex flex-col gap-1 p-1 mb-1 w-full">
-            <div className="text-xs">
-              {player?.youHelpedThemCount === 1
-                ? t("playerModal.youHelpedThemCount.singular", {
-                    count: player?.youHelpedThemCount,
-                  })
-                : t("playerModal.youHelpedThemCount.plural", {
-                    count: player?.youHelpedThemCount,
-                  })}
+          {!isSelf && (
+            <div className="flex flex-col gap-1 p-1 mb-1 w-full">
+              <div className="text-xs">
+                {player?.youHelpedThemCount === 1
+                  ? t("playerModal.youHelpedThemCount.singular", {
+                      count: player?.youHelpedThemCount,
+                    })
+                  : t("playerModal.youHelpedThemCount.plural", {
+                      count: player?.youHelpedThemCount,
+                    })}
+              </div>
+              <div className="text-xs">
+                {player?.theyHelpedYouCount === 1
+                  ? t("playerModal.theyHelpedYouCount.singular", {
+                      count: player?.theyHelpedYouCount,
+                    })
+                  : t("playerModal.theyHelpedYouCount.plural", {
+                      count: player?.theyHelpedYouCount,
+                    })}
+              </div>
             </div>
-            <div className="text-xs">
-              {player?.theyHelpedYouCount === 1
-                ? t("playerModal.theyHelpedYouCount.singular", {
-                    count: player?.theyHelpedYouCount,
-                  })
-                : t("playerModal.theyHelpedYouCount.plural", {
-                    count: player?.theyHelpedYouCount,
-                  })}
-            </div>
-          </div>
+          )}
           {friendStreak > 0 && (
             <div className="flex justify-start w-full">
               <Label

@@ -7,6 +7,7 @@ import { WORKBENCH_MONUMENTS, WorkbenchMonumentName } from "./monuments";
 import { PET_SHRINES, PetShrineName } from "./pets";
 
 export type PlaceableLocation = "farm" | "home";
+export const PLACEABLE_LOCATIONS: PlaceableLocation[] = ["farm", "home"];
 
 export type SeasonPassName =
   | "Dawn Breaker Banner"

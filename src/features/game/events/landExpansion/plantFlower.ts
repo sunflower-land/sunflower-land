@@ -49,6 +49,11 @@ export const getFlowerTime = (
     boostsUsed.push("Flower Crown");
   }
 
+  if (isCollectibleActive({ name: "Moth Shrine", game })) {
+    seconds *= 0.75;
+    boostsUsed.push("Moth Shrine");
+  }
+
   // If Flower Fox is built gives 10% speed boost
   if (isCollectibleBuilt({ name: "Flower Fox", game })) {
     seconds *= 0.9;

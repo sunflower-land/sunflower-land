@@ -13,7 +13,11 @@ export type PetName =
   | "Ramsey";
 
 export type Pet = {
-  cravings?: { name: InventoryItemName; completedAt?: number }[];
+  cravings?: {
+    name: InventoryItemName;
+    completedAt?: number;
+    energy?: number;
+  }[];
   readyAt?: number;
   level?: number;
   multiplier?: number;
@@ -257,12 +261,16 @@ export const PET_RESOURCES: Record<
 
 export type PetShrineName =
   | "Fox Shrine" // Crafting
-  | "Boar Shrine" // Food
   | "Hound Shrine" // Pets
+  | "Boar Shrine" // Cooking
+  | "Sparrow Shrine" // Crops
+  | "Toucan Shrine" // Fruit
+  | "Collie Shrine" // Animals
+  | "Badger Shrine" // Trees & Stones
   | "Stag Shrine" // Oil
-  | "Mole Shrine" // Crimstone
+  | "Mole Shrine" // Crimstone, Gold & Iron
   | "Bear Shrine" // Honey
-  | "Tortoise Shrine" // Greenhouse
+  | "Tortoise Shrine" // Greenhouse + Crop Machine
   | "Moth Shrine" // Flower
   | "Legendary Shrine"; // Bonus yields
 
@@ -272,24 +280,12 @@ export type PetShrine = Omit<Decoration, "name"> & {
 };
 
 export const PET_SHRINES: Record<PetShrineName, PetShrine> = {
-  "Fox Shrine": {
-    name: "Fox Shrine",
-    description: "",
-    coins: 0,
-    ingredients: {
-      Acorn: new Decimal(5),
-      Ruffroot: new Decimal(5),
-      "Chewed Bone": new Decimal(5),
-    },
-  },
   "Boar Shrine": {
     name: "Boar Shrine",
     description: "",
     coins: 0,
     ingredients: {
-      Acorn: new Decimal(5),
-      "Chewed Bone": new Decimal(5),
-      "Heart leaf": new Decimal(5),
+      Acorn: new Decimal(15),
     },
   },
   "Hound Shrine": {
@@ -297,17 +293,67 @@ export const PET_SHRINES: Record<PetShrineName, PetShrine> = {
     description: "",
     coins: 0,
     ingredients: {
-      Acorn: new Decimal(15),
+      Acorn: new Decimal(25),
     },
   },
-  "Stag Shrine": {
-    name: "Stag Shrine",
+  "Sparrow Shrine": {
+    name: "Sparrow Shrine",
     description: "",
     coins: 0,
     ingredients: {
-      Acorn: new Decimal(5),
-      "Heart leaf": new Decimal(5),
-      Ruffroot: new Decimal(5),
+      Acorn: new Decimal(15),
+      Dewberry: new Decimal(10),
+      "Heart leaf": new Decimal(10),
+    },
+  },
+  "Fox Shrine": {
+    name: "Fox Shrine",
+    description: "",
+    coins: 0,
+    ingredients: {
+      Acorn: new Decimal(15),
+      "Chewed Bone": new Decimal(10),
+      Ruffroot: new Decimal(10),
+    },
+  },
+  "Toucan Shrine": {
+    name: "Toucan Shrine",
+    description: "",
+    coins: 0,
+    ingredients: {
+      Acorn: new Decimal(15),
+      Ribbon: new Decimal(10),
+      "Frost Pebble": new Decimal(10),
+    },
+  },
+  "Collie Shrine": {
+    name: "Collie Shrine",
+    description: "",
+    coins: 0,
+    ingredients: {
+      Acorn: new Decimal(15),
+      Dewberry: new Decimal(10),
+      "Wild Grass": new Decimal(10),
+    },
+  },
+  "Moth Shrine": {
+    name: "Moth Shrine",
+    description: "",
+    coins: 0,
+    ingredients: {
+      Acorn: new Decimal(15),
+      "Heart leaf": new Decimal(10),
+      Ribbon: new Decimal(10),
+    },
+  },
+  "Badger Shrine": {
+    name: "Badger Shrine",
+    description: "",
+    coins: 0,
+    ingredients: {
+      Acorn: new Decimal(15),
+      Ruffroot: new Decimal(10),
+      "Chewed Bone": new Decimal(10),
     },
   },
   "Mole Shrine": {
@@ -315,45 +361,41 @@ export const PET_SHRINES: Record<PetShrineName, PetShrine> = {
     description: "",
     coins: 0,
     ingredients: {
-      Acorn: new Decimal(5),
-      "Frost Pebble": new Decimal(5),
-      "Wild Grass": new Decimal(5),
+      Acorn: new Decimal(15),
+      "Frost Pebble": new Decimal(10),
+      Ribbon: new Decimal(10),
     },
   },
-
-  "Bear Shrine": {
-    name: "Bear Shrine",
-    description: "",
-    coins: 0,
-    ingredients: {
-      Acorn: new Decimal(5),
-      Dewberry: new Decimal(5),
-      "Wild Grass": new Decimal(5),
-    },
-  },
-
   "Tortoise Shrine": {
     name: "Tortoise Shrine",
     description: "",
     coins: 0,
     ingredients: {
-      Acorn: new Decimal(5),
-      Ribbon: new Decimal(5),
-      "Frost Pebble": new Decimal(5),
+      Acorn: new Decimal(15),
+      "Wild Grass": new Decimal(10),
+      Ruffroot: new Decimal(10),
     },
   },
-
-  "Moth Shrine": {
-    name: "Moth Shrine",
+  "Stag Shrine": {
+    name: "Stag Shrine",
     description: "",
     coins: 0,
     ingredients: {
-      Acorn: new Decimal(5),
-      Dewberry: new Decimal(5),
-      Ribbon: new Decimal(5),
+      Acorn: new Decimal(15),
+      "Heart leaf": new Decimal(10),
+      "Frost Pebble": new Decimal(10),
     },
   },
-
+  "Bear Shrine": {
+    name: "Bear Shrine",
+    description: "",
+    coins: 0,
+    ingredients: {
+      Acorn: new Decimal(15),
+      "Chewed Bone": new Decimal(10),
+      "Wild Grass": new Decimal(10),
+    },
+  },
   "Legendary Shrine": {
     name: "Legendary Shrine",
     description: "",

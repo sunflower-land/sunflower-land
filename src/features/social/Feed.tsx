@@ -43,6 +43,7 @@ import { Button } from "components/ui/Button";
 import socialPointsIcon from "assets/icons/social_score.webp";
 import { discoveryModalManager } from "./lib/discoveryModalManager";
 import { FeedFilters } from "./components/FeedFilters";
+import { getFilter, storeFilter } from "./lib/persistFilter";
 
 type Props = {
   type: "world" | "local";
@@ -51,8 +52,10 @@ type Props = {
   setShowFeed: (showFeed: boolean) => void;
 };
 
-const _username = (state: MachineState) => state.context.state.username;
-const _farmId = (state: MachineState) => state.context.farmId;
+const _username = (state: MachineState) =>
+  (state.context.visitorState ?? state.context.state).username;
+const _farmId = (state: MachineState) =>
+  state.context.visitorId ?? state.context.farmId;
 const _token = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
 
@@ -90,9 +93,7 @@ export const Feed: React.FC<Props> = ({
 
   const [showFollowing, setShowFollowing] = useState(false);
   const feedRef = useRef<HTMLDivElement>(null);
-  const [selectedFilter, setSelectedFilter] = useState<FeedFilter>("all");
-  // Used to manage refetch logic when the feed opens
-  const [sessionId, setSessionId] = useState(0);
+  const [selectedFilter, setSelectedFilter] = useState<FeedFilter>(getFilter());
 
   const username = useSelector(gameService, _username);
   const token = useSelector(authService, _token);
@@ -108,13 +109,7 @@ export const Feed: React.FC<Props> = ({
     hasMore,
     loadMore,
     mutate,
-  } = useFeedInteractions(
-    token,
-    farmId,
-    selectedFilter,
-    sessionId,
-    type === "world",
-  );
+  } = useFeedInteractions(token, farmId, selectedFilter, type === "world");
   const { setUnreadCount, lastAcknowledged, clearUnread } = useFeed();
 
   // Handle clicks outside the feed to close it
@@ -152,9 +147,12 @@ export const Feed: React.FC<Props> = ({
   useEffect(() => {
     if (showFeed) {
       clearUnread(0);
-      setSessionId((prev) => prev + 1);
     }
-  }, [showFeed, setUnreadCount]);
+  }, [showFeed]);
+
+  useEffect(() => {
+    storeFilter(selectedFilter);
+  }, [selectedFilter]);
 
   useSocial({
     farmId,
