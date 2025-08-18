@@ -44,7 +44,7 @@ export function getPetCravings({
 }: {
   pet?: Pet;
   game: GameState;
-}): { name: InventoryItemName; completedAt?: number }[] {
+}): { name: InventoryItemName; completedAt?: number; energy?: number }[] {
   const cravings = pet?.cravings;
 
   // If on old version return the cravings
@@ -127,11 +127,13 @@ export function getPetReadyAt({
 export function getPetFoodExperience({
   pet,
   game,
+  energy,
 }: {
   pet: Pet;
   game: GameState;
+  energy: number;
 }): number {
-  let xp = PET_FOOD_EXPERIENCE;
+  let xp = energy;
 
   if (isCollectibleActive({ name: "Hound Shrine", game })) {
     xp += 50;
@@ -180,7 +182,11 @@ export function feedPet({
       };
     }
 
-    const xp = getPetFoodExperience({ pet, game: stateCopy });
+    const request = requests[requestIndex];
+
+    const energy = request.energy ?? PET_FOOD_EXPERIENCE;
+
+    const xp = getPetFoodExperience({ pet, game: stateCopy, energy });
 
     pet.experience = getPetExperience(pet) + xp;
     pet.energy = (pet.energy ?? 0) + PET_FOOD_EXPERIENCE;

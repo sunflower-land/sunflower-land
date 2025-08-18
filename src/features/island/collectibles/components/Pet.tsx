@@ -3,6 +3,7 @@ import { CollectibleProps } from "../Collectible";
 import {
   getPetLevel,
   isPetNeglected,
+  PET_FOOD_EXPERIENCE,
   PET_RESOURCES,
   petLevelProgress,
   PetName,
@@ -212,7 +213,7 @@ const Feed: React.FC<{
               <p className="text-sm">{`${request.name}`}</p>
 
               <div className="flex items-center">
-                <p className="text-xs">{`+100`}</p>
+                <p className="text-xs">{`+${request.energy ?? PET_FOOD_EXPERIENCE}`}</p>
                 <img src={lightningIcon} className="h-4 ml-1" />
               </div>
             </div>
