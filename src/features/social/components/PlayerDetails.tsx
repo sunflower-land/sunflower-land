@@ -369,20 +369,18 @@ export const PlayerDetails: React.FC<Props> = ({
                 <img src={flowerIcon} className="w-4 h-4 ml-1 mt-0.5" />
               </div>
             </div>
-            {!isVisiting && (
-              <Button
-                className="flex w-fit h-9 justify-between items-center gap-1 -mt-2.5 align-top"
-                disabled={isSelf}
-                onClick={visitFarm}
-              >
-                <div className="flex items-center px-1">
-                  <img
-                    src={SUNNYSIDE.icons.search}
-                    className="flex justify-center items-center w-4 h-4"
-                  />
-                </div>
-              </Button>
-            )}
+            <Button
+              className="flex w-fit h-9 justify-between items-center gap-1 -mt-2.5 align-top"
+              disabled={isSelf}
+              onClick={visitFarm}
+            >
+              <div className="flex items-center px-1">
+                <img
+                  src={SUNNYSIDE.icons.search}
+                  className="flex justify-center items-center w-4 h-4"
+                />
+              </div>
+            </Button>
           </div>
         </InnerPanel>
 
