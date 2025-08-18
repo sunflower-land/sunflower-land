@@ -189,7 +189,7 @@ export function feedPet({
     const xp = getPetFoodExperience({ pet, game: stateCopy, energy });
 
     pet.experience = getPetExperience(pet) + xp;
-    pet.energy = (pet.energy ?? 0) + PET_FOOD_EXPERIENCE;
+    pet.energy = (pet.energy ?? 0) + energy;
 
     // Mark the request as completed
     pet.cravings = requests.map((request, index) =>
