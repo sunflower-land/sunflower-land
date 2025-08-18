@@ -16,7 +16,10 @@ import {
   trackActivity,
 } from "features/game/types/bumpkinActivity";
 import { GREENHOUSE_CROP_TIME_SECONDS } from "./harvestGreenHouse";
-import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import {
+  isCollectibleActive,
+  isCollectibleBuilt,
+} from "features/game/lib/collectibleBuilt";
 import { getCropTime } from "./plant";
 import { getFruitTime } from "./fruitPlanted";
 import { Resource } from "features/game/lib/getBudYieldBoosts";
@@ -126,6 +129,11 @@ export const getGreenhouseCropTime = ({
   if (isCollectibleBuilt({ name: "Turbo Sprout", game })) {
     seconds *= 0.5;
     boostsUsed.push("Turbo Sprout");
+  }
+
+  if (isCollectibleActive({ name: "Tortoise Shrine", game })) {
+    seconds *= 0.75;
+    boostsUsed.push("Tortoise Shrine");
   }
 
   if (game.bumpkin.skills["Rice and Shine"]) {
