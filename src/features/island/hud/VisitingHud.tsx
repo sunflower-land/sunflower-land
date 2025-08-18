@@ -30,6 +30,11 @@ import {
   hasHelpedFarmToday,
 } from "features/game/types/monuments";
 import { hasHitHelpLimit } from "features/game/events/landExpansion/increaseHelpLimit";
+import { Feed } from "features/social/Feed";
+import { WorldFeedButton } from "features/social/components/WorldFeedButton";
+import classNames from "classnames";
+import { isMobile } from "mobile-device-detect";
+import { hasFeatureAccess } from "lib/flags";
 
 const _socialPoints = (state: MachineState) => {
   return state.context.state.socialFarming?.points ?? 0;
@@ -64,6 +69,7 @@ export const VisitingHud: React.FC = () => {
       localStorage.getItem("visitorGuideAcknowledged") === "true";
     return !hasAcknowledged;
   });
+  const [showFeed, setShowFeed] = useState(false);
   const socialPoints = useSelector(gameService, _socialPoints);
   const saving = useSelector(gameService, _autosaving);
 
@@ -89,8 +95,12 @@ export const VisitingHud: React.FC = () => {
     gameService.send("SAVE");
   };
 
+  const showDesktopFeed = showFeed && !isMobile;
+  const hideDesktopFeed = !showFeed && !isMobile;
+
   return (
     <HudContainer>
+      <Feed type="local" showFeed={showFeed} setShowFeed={setShowFeed} />
       <Modal show={showVisitorGuide} onHide={handleCloseVisitorGuide}>
         <CloseButtonPanel
           bumpkinParts={gameState.context.state.bumpkin?.equipped}
@@ -194,7 +204,18 @@ export const VisitingHud: React.FC = () => {
         </RoundButton>
         <Settings isFarming={false} />
       </div>
-      <div className="absolute bottom-0 p-2.5 left-0 flex flex-col space-y-2.5">
+      <div
+        className={classNames(
+          "absolute bottom-0 p-2.5 left-0 flex flex-col space-y-2.5 transition-transform",
+          {
+            "translate-x-0": hideDesktopFeed,
+            "translate-x-[320px]": showDesktopFeed,
+          },
+        )}
+      >
+        {hasFeatureAccess(gameState.context.visitorState!, "VISITING_FEED") && (
+          <WorldFeedButton showFeed={showFeed} setShowFeed={setShowFeed} />
+        )}
         <RoundButton
           onClick={(e) => {
             e.stopPropagation();

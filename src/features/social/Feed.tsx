@@ -52,8 +52,10 @@ type Props = {
   setShowFeed: (showFeed: boolean) => void;
 };
 
-const _username = (state: MachineState) => state.context.state.username;
-const _farmId = (state: MachineState) => state.context.farmId;
+const _username = (state: MachineState) =>
+  (state.context.visitorState ?? state.context.state).username;
+const _farmId = (state: MachineState) =>
+  state.context.visitorId ?? state.context.farmId;
 const _token = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
 
