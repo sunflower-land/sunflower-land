@@ -9,7 +9,10 @@ import {
 import cloneDeep from "lodash.clonedeep";
 import { produce } from "immer";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
-import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import {
+  isCollectibleActive,
+  isCollectibleBuilt,
+} from "features/game/lib/collectibleBuilt";
 
 export type AddSeedsInput = {
   type: CropSeedName;
@@ -128,6 +131,11 @@ export function calculateCropTime(
   if (isCollectibleBuilt({ game: state, name: "Groovy Gramophone" })) {
     milliSeconds = milliSeconds * 0.5;
     boostUsed.push("Groovy Gramophone");
+  }
+
+  if (isCollectibleActive({ name: "Tortoise Shrine", game: state })) {
+    milliSeconds = milliSeconds * 0.75;
+    boostUsed.push("Tortoise Shrine");
   }
 
   return {

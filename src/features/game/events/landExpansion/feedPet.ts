@@ -113,11 +113,6 @@ export function getPetReadyAt({
   let duration = PET_RESOURCES[fetched].cooldownMs;
   const boostsUsed: BoostName[] = [];
 
-  if (isCollectibleActive({ name: "Hound Shrine", game })) {
-    duration = duration * 0.75;
-    boostsUsed.push("Hound Shrine");
-  }
-
   const level = getPetLevel(pet);
 
   if (level >= 50) {
@@ -127,6 +122,22 @@ export function getPetReadyAt({
   }
 
   return { readyAt: now + duration, boostsUsed };
+}
+
+export function getPetFoodExperience({
+  pet,
+  game,
+}: {
+  pet: Pet;
+  game: GameState;
+}): number {
+  let xp = PET_FOOD_EXPERIENCE;
+
+  if (isCollectibleActive({ name: "Hound Shrine", game })) {
+    xp += 50;
+  }
+
+  return xp;
 }
 
 export function feedPet({
@@ -169,7 +180,9 @@ export function feedPet({
       };
     }
 
-    pet.experience = getPetExperience(pet) + PET_FOOD_EXPERIENCE;
+    const xp = getPetFoodExperience({ pet, game: stateCopy });
+
+    pet.experience = getPetExperience(pet) + xp;
     pet.energy = (pet.energy ?? 0) + PET_FOOD_EXPERIENCE;
 
     // Mark the request as completed

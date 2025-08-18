@@ -4,7 +4,10 @@ import { trackActivity } from "features/game/types/bumpkinActivity";
 import { BoostName, FiniteResource, GameState, Rock } from "../../types/game";
 import { isWearableActive } from "features/game/lib/wearables";
 import { produce } from "immer";
-import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
+import {
+  isCollectibleActive,
+  isCollectibleBuilt,
+} from "features/game/lib/collectibleBuilt";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
 
 export type MineCrimstoneAction = {
@@ -43,6 +46,11 @@ export function getMinedAt({ createdAt, game }: GetMinedAtArgs): {
   if (game.bumpkin.skills["Fireside Alchemist"]) {
     time -= CRIMSTONE_RECOVERY_TIME * 0.15 * 1000;
     boostsUsed.push("Fireside Alchemist");
+  }
+
+  if (isCollectibleActive({ name: "Mole Shrine", game })) {
+    time -= CRIMSTONE_RECOVERY_TIME * 0.25 * 1000;
+    boostsUsed.push("Mole Shrine");
   }
 
   return { time, boostsUsed };

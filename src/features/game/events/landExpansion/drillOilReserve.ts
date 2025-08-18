@@ -32,11 +32,6 @@ export function getOilDropAmount(game: GameState, reserve: OilReserve) {
     amount = amount.add(OIL_BONUS_DROP_AMOUNT);
   }
 
-  if (isCollectibleActive({ name: "Stag Shrine", game })) {
-    amount = amount.add(0.2);
-    boostsUsed.push("Stag Shrine");
-  }
-
   if (isCollectibleBuilt({ name: "Battle Fish", game })) {
     amount = amount.add(0.05);
     boostsUsed.push("Battle Fish");
@@ -112,6 +107,11 @@ export function getDrilledAt({ createdAt, game }: getDrilledAtArgs): {
   if (game.bumpkin.skills["Oil Be Back"]) {
     totalSeconds = totalSeconds * 0.8;
     boostsUsed.push("Oil Be Back");
+  }
+
+  if (isCollectibleActive({ name: "Stag Shrine", game })) {
+    totalSeconds = totalSeconds * 0.75;
+    boostsUsed.push("Stag Shrine");
   }
 
   const buff = OIL_RESERVE_RECOVERY_TIME - totalSeconds;
