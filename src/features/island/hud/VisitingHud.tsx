@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { Balances } from "components/Balances";
 import { useActor, useSelector } from "@xstate/react";
@@ -51,12 +51,14 @@ export const VisitingHud: React.FC = () => {
   const [gameState] = useActor(gameService);
 
   const hasHelpedToday = hasHelpedFarmToday({
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     game: gameState.context.visitorState!,
     farmId: gameState.context.farmId,
   });
 
   const [showVisitorGuide, setShowVisitorGuide] = useState(() => {
     const hasHitLimit = hasHitHelpLimit({
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       game: gameState.context.visitorState!,
     });
 
@@ -98,6 +100,14 @@ export const VisitingHud: React.FC = () => {
     setShowVisitorGuide(false);
     gameService.send("SAVE");
   };
+
+  useEffect(() => {
+    window.addEventListener("popstate", handleEndVisit);
+
+    return () => {
+      window.removeEventListener("popstate", handleEndVisit);
+    };
+  }, []);
 
   const showDesktopFeed = showFeed && !isMobile;
   const hideDesktopFeed = !showFeed && !isMobile;
