@@ -204,6 +204,10 @@ export const IslandBlacksmithItems: React.FC = () => {
       "Bear Shrine",
       "Tortoise Shrine",
       "Moth Shrine",
+      "Sparrow Shrine",
+      "Toucan Shrine",
+      "Collie Shrine",
+      "Badger Shrine",
     );
   }
 
