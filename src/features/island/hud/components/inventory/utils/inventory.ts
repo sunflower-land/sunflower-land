@@ -179,3 +179,11 @@ export function getCountAndType(
 
   return { count: setPrecision(count, 2), itemType };
 }
+
+export const isPlaceableCollectible = (
+  item: InventoryItemName,
+): item is CollectibleName => item in COLLECTIBLES_DIMENSIONS;
+
+export const isPlaceableBuilding = (
+  item: InventoryItemName,
+): item is BuildingName => item in BUILDINGS_DIMENSIONS;
