@@ -416,26 +416,28 @@ export const PlayerDetails: React.FC<Props> = ({
               </Button>
             </div>
           </div>
-          <div className="flex flex-col gap-1 p-1 mb-1 w-full">
-            <div className="text-xs">
-              {player?.youHelpedThemCount === 1
-                ? t("playerModal.youHelpedThemCount.singular", {
-                    count: player?.youHelpedThemCount,
-                  })
-                : t("playerModal.youHelpedThemCount.plural", {
-                    count: player?.youHelpedThemCount,
-                  })}
+          {!isSelf && (
+            <div className="flex flex-col gap-1 p-1 mb-1 w-full">
+              <div className="text-xs">
+                {player?.youHelpedThemCount === 1
+                  ? t("playerModal.youHelpedThemCount.singular", {
+                      count: player?.youHelpedThemCount,
+                    })
+                  : t("playerModal.youHelpedThemCount.plural", {
+                      count: player?.youHelpedThemCount,
+                    })}
+              </div>
+              <div className="text-xs">
+                {player?.theyHelpedYouCount === 1
+                  ? t("playerModal.theyHelpedYouCount.singular", {
+                      count: player?.theyHelpedYouCount,
+                    })
+                  : t("playerModal.theyHelpedYouCount.plural", {
+                      count: player?.theyHelpedYouCount,
+                    })}
+              </div>
             </div>
-            <div className="text-xs">
-              {player?.theyHelpedYouCount === 1
-                ? t("playerModal.theyHelpedYouCount.singular", {
-                    count: player?.theyHelpedYouCount,
-                  })
-                : t("playerModal.theyHelpedYouCount.plural", {
-                    count: player?.theyHelpedYouCount,
-                  })}
-            </div>
-          </div>
+          )}
           {friendStreak > 0 && (
             <div className="flex justify-start w-full">
               <Label

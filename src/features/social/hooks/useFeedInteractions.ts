@@ -10,7 +10,6 @@ export function useFeedInteractions(
   token: string,
   farmId: number,
   filter: FeedFilter,
-  sessionId: number,
   isGlobal: boolean,
 ) {
   const getKey = (
@@ -21,13 +20,13 @@ export function useFeedInteractions(
 
     const cursor =
       previousPageData?.feed[previousPageData.feed.length - 1]?.createdAt ?? 0;
-    return `feed-interactions-${farmId}-${isGlobal}-${filter}-${sessionId}-${cursor}`;
+    return `feed-interactions-${farmId}-${isGlobal}-${filter}-${cursor}`;
   };
 
   const { data, size, setSize, isValidating, mutate } = useSWRInfinite(
     getKey,
     (key) => {
-      const cursor = key.split("-")[6];
+      const cursor = key.split("-")[5];
 
       return getFeedInteractions({
         token,
@@ -37,33 +36,22 @@ export function useFeedInteractions(
         cursor: Number(cursor),
       });
     },
-    {
-      revalidateFirstPage: false,
-      revalidateOnFocus: false,
-      revalidateOnReconnect: false,
-      revalidateOnMount: false,
-      persistSize: false,
-    },
   );
 
   const followingRef = useRef<number[] | null>([]);
-  const lastSessionIdRef = useRef<number>(sessionId);
-
-  // Reset the following list when the sessionId changes
-  if (lastSessionIdRef.current !== sessionId) {
-    followingRef.current = null;
-    lastSessionIdRef.current = sessionId;
-  }
 
   // Whatever SWR returned for page 0 this render
   const firstFollowing = data?.[0]?.following;
 
-  // Capture once per session (even if it's an empty array)
   useEffect(() => {
-    if (!followingRef.current && firstFollowing !== undefined) {
-      followingRef.current = firstFollowing;
+    const hasNotInitialized = followingRef.current?.length === 0;
+    const hasDifferentLength =
+      followingRef.current?.length !== firstFollowing?.length;
+
+    if (hasNotInitialized || hasDifferentLength) {
+      followingRef.current = firstFollowing ?? [];
     }
-  }, [firstFollowing, sessionId]);
+  }, [firstFollowing]);
 
   const following = followingRef.current ?? firstFollowing ?? [];
 
