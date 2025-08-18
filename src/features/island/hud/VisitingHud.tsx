@@ -79,12 +79,11 @@ export const VisitingHud: React.FC = () => {
   const navigate = useNavigate();
 
   const handleEndVisit = () => {
-    if (fromRoute && !fromRoute.includes("visit")) {
-      navigate(fromRoute);
-    } else {
-      navigate("/");
-    }
     gameService.send("END_VISIT");
+
+    const target = fromRoute && !fromRoute.includes("visit") ? fromRoute : "/";
+
+    navigate(target, { replace: true });
   };
 
   const displayId =
