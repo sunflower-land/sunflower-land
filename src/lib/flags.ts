@@ -116,7 +116,7 @@ const FEATURE_FLAGS = {
   API_PERFORMANCE: defaultFeatureFlag,
 
   OBSIDIAN_EXCHANGE: testnetFeatureFlag,
-  GASLESS_AUCTIONS: testnetFeatureFlag,
+  GASLESS_AUCTIONS: () => true,
   VISITING_FEED: defaultFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
