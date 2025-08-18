@@ -164,7 +164,9 @@ export const PlayerDetails: React.FC<Props> = ({
     if (!player) return;
 
     // Setting from route to navigate back to the correct page after visit
-    setFromRoute(location.pathname);
+    if (!isVisiting) {
+      setFromRoute(location.pathname);
+    }
 
     gameService.send("VISIT", { landId: player.id });
     navigate(`/visit/${player.id}`);

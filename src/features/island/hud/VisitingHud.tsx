@@ -77,7 +77,11 @@ export const VisitingHud: React.FC = () => {
   const navigate = useNavigate();
 
   const handleEndVisit = () => {
-    navigate(fromRoute ?? "/");
+    if (fromRoute && !fromRoute.includes("visit")) {
+      navigate(fromRoute);
+    } else {
+      navigate("/");
+    }
     gameService.send("END_VISIT");
   };
 
