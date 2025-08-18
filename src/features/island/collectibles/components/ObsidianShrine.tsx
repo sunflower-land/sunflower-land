@@ -16,12 +16,14 @@ import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
 import { useSelector } from "@xstate/react";
 import { SeedName } from "features/game/types/seeds";
+import { CropSeedName } from "features/game/types/crops";
 import { SEASONAL_SEEDS, SEEDS } from "features/game/types/seeds";
 import { CropName, CROPS } from "features/game/types/crops";
 import { isReadyToHarvest } from "features/game/events/landExpansion/harvest";
 import { Box } from "components/ui/Box";
 import { Decimal } from "decimal.js-light";
 import { CropPlot, GameState } from "features/game/types/game";
+import { ALLOWED_SEEDS as CROP_MACHINE_SEEDS } from "features/island/buildings/components/building/cropMachine/CropMachineModal";
 
 export const ObsidianShrine: React.FC<CollectibleProps> = ({
   createdAt,
@@ -73,6 +75,7 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
       if (isReadyToHarvest(Date.now(), plot.crop, CROPS[plot.crop.name])) {
         gameService.send("crop.harvested", { index: plotId });
       }
+      setActiveTab(1);
     });
   };
 
@@ -115,6 +118,10 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
     );
   }
 
+  const close = () => {
+    setShow(false);
+  };
+
   return (
     <>
       <div onClick={() => setShow(true)}>
@@ -141,7 +148,7 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
         )}
       </div>
 
-      <Modal show={show} onHide={() => setShow(false)}>
+      <Modal show={show} onHide={close}>
         <CloseButtonPanel
           tabs={[
             {
@@ -155,14 +162,18 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
           ]}
           currentTab={activeTab}
           setCurrentTab={setActiveTab}
-          onClose={() => setShow(false)}
+          onClose={close}
           container={OuterPanel}
         >
           {activeTab === 0 && (
             <HarvestAll readyCrops={readyCrops} harvestAll={harvestAll} />
           )}
           {activeTab === 1 && (
-            <PlantAll availablePlots={availablePlots} state={state} />
+            <PlantAll
+              availablePlots={availablePlots}
+              state={state}
+              close={close}
+            />
           )}
         </CloseButtonPanel>
       </Modal>
@@ -209,25 +220,36 @@ const HarvestAll: React.FC<{
 const PlantAll: React.FC<{
   availablePlots: [string, CropPlot][];
   state: GameState;
-}> = ({ availablePlots, state }) => {
+  close: () => void;
+}> = ({ availablePlots, state, close }) => {
   const { t } = useAppTranslation();
   const { gameService } = useContext(Context);
-  const [selectedSeed, setSelectedSeed] = useState<SeedName | null>(null);
+  const [selectedSeed, setSelectedSeed] = useState<CropSeedName | null>(
+    localStorage.getItem("obsidianShrineSeed") as CropSeedName | null,
+  );
 
   const currentSeason = state.season.season;
   const seasonalSeeds = SEASONAL_SEEDS[currentSeason].filter(
     (seed) => SEEDS[seed].plantingSpot === "Crop Plot",
-  );
+  ) as CropSeedName[];
 
   const availableSeeds = seasonalSeeds.reduce(
-    (acc, seed: SeedName) => {
+    (acc, seed: CropSeedName) => {
+      if (CROP_MACHINE_SEEDS(state.bumpkin, state.inventory).includes(seed))
+        return acc;
+
       if (state.inventory[seed]) {
         acc[seed] = state.inventory[seed].toNumber();
       }
       return acc;
     },
-    {} as Record<SeedName, number>,
+    {} as Record<CropSeedName, number>,
   );
+
+  // If the saved seed is out of season - default to the first available seed
+  if (selectedSeed && !(selectedSeed in availableSeeds)) {
+    setSelectedSeed(Object.keys(availableSeeds)[0] as CropSeedName);
+  }
 
   const plantAll = () => {
     if (!selectedSeed) return;
@@ -243,6 +265,17 @@ const PlantAll: React.FC<{
         cropId: crypto.randomUUID().slice(0, 8),
       });
     }
+
+    // Close if all plots were planted,
+    // otherwise keep open for more planting
+    if (plotsToPlant === availablePlots.length) {
+      close();
+    }
+  };
+
+  const selectSeed = (seed: CropSeedName) => {
+    localStorage.setItem("obsidianShrineSeed", seed);
+    setSelectedSeed(seed);
   };
 
   return (
@@ -253,12 +286,15 @@ const PlantAll: React.FC<{
             {t("obsidianShrine.plantAll")}
           </Label>
           <div className="flex flex-wrap gap-2">
-            {Object.entries(availableSeeds).map(([seed, count]) => {
+            {Object.entries(availableSeeds).map(([seed, count], idx) => {
               return (
                 <Box
                   key={seed}
-                  image={ITEM_DETAILS[seed as SeedName].image}
-                  onClick={() => setSelectedSeed(seed as SeedName)}
+                  image={
+                    ITEM_DETAILS[SEEDS[seed as SeedName]?.yield as CropName]
+                      ?.image
+                  }
+                  onClick={() => selectSeed(seed as CropSeedName)}
                   isSelected={selectedSeed === seed}
                   count={new Decimal(count)}
                 />
