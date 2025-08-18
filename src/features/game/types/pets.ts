@@ -13,7 +13,11 @@ export type PetName =
   | "Ramsey";
 
 export type Pet = {
-  cravings?: { name: InventoryItemName; completedAt?: number }[];
+  cravings?: {
+    name: InventoryItemName;
+    completedAt?: number;
+    energy?: number;
+  }[];
   readyAt?: number;
   level?: number;
   multiplier?: number;
