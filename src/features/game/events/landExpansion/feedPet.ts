@@ -52,7 +52,7 @@ export function getPetCravings({
     return cravings;
   }
 
-  return DEFAULT_PET_CRAVINGS.map((c) => ({ name: c }));
+  return [];
 }
 
 export type FeedPetAction = {
