@@ -113,7 +113,7 @@ const FEATURE_FLAGS = {
   FLOWER_INSTA_GROW: defaultFeatureFlag,
   OBSIDIAN_SHRINE: defaultFeatureFlag,
 
-  API_PERFORMANCE: defaultFeatureFlag,
+  API_PERFORMANCE: () => true,
 
   OBSIDIAN_EXCHANGE: testnetFeatureFlag,
   GASLESS_AUCTIONS: () => true,
