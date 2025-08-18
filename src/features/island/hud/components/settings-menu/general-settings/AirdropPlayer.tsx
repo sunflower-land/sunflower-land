@@ -29,6 +29,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
 import { useAccount } from "wagmi";
+import { ErrorCode } from "lib/errors";
 
 // Types
 interface AirdropItem {
@@ -66,6 +67,8 @@ interface AirdropContentProps {
   advancedItemsProps?: AdvancedItemsProps;
   airdroppingRewardFailed?: boolean;
   closeErrorModal: () => void;
+  errorCode: ErrorCode;
+  transactionId?: string;
 }
 
 // Components
@@ -233,6 +236,8 @@ const AirdropContent: React.FC<AirdropContentProps> = ({
   setFarmIds,
   airdroppingRewardFailed,
   closeErrorModal,
+  errorCode,
+  transactionId,
 }) => {
   const { t } = useAppTranslation();
 
@@ -318,6 +323,10 @@ const AirdropContent: React.FC<AirdropContentProps> = ({
               {t("airdropping.reward.failed.title")}
             </Label>
             <p className="text-sm mb-2">{t("airdropping.reward.failed")}</p>
+            <Label type="transparent">{`Error Code: ${errorCode}`}</Label>
+            {transactionId && (
+              <Label type="transparent">{`Transaction ID: ${transactionId}`}</Label>
+            )}
           </div>
           <Button onClick={closeErrorModal}>{t("continue")}</Button>
         </Panel>
@@ -340,6 +349,15 @@ export const AirdropPlayer: React.FC<
 
   const airdroppingRewardFailed = useSelector(gameService, (state) =>
     state.matches("airdroppingRewardFailed"),
+  );
+
+  const errorCode = useSelector(
+    gameService,
+    (state) => state.context.errorCode,
+  ) as ErrorCode;
+  const transactionId = useSelector(
+    gameService,
+    (state) => state.context.transactionId,
   );
 
   const { chainId } = useAccount();
@@ -497,6 +515,8 @@ export const AirdropPlayer: React.FC<
           setFarmIds={setFarmIds}
           airdroppingRewardFailed={airdroppingRewardFailed}
           closeErrorModal={() => gameService.send("CONTINUE")}
+          errorCode={errorCode}
+          transactionId={transactionId}
         />
       </GameWallet>
     );
@@ -517,6 +537,8 @@ export const AirdropPlayer: React.FC<
       advancedItemsProps={advancedItemsProps}
       airdroppingRewardFailed={airdroppingRewardFailed}
       closeErrorModal={() => gameService.send("CONTINUE")}
+      errorCode={errorCode}
+      transactionId={transactionId}
     />
   );
 };
