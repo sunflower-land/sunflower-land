@@ -262,7 +262,6 @@ export const MoveableComponent: React.FC<
     x: 0,
     y: 0,
   });
-  const state = useSelector(gameService, (state) => state.context.state);
 
   const isActive = useRef(false);
   const [showRemoveConfirmation, setShowRemoveConfirmation] = useState(false);
@@ -370,7 +369,11 @@ export const MoveableComponent: React.FC<
           return;
         }
 
-        const game = removePlaceable({ state, id, name });
+        const game = removePlaceable({
+          state: gameService.getSnapshot().context.state,
+          id,
+          name,
+        });
         const collisionDetected = detectCollision({
           name: name as CollectibleName,
           state: game,
@@ -452,7 +455,7 @@ export const MoveableComponent: React.FC<
           id,
           location,
           dimensions,
-          state,
+          state: gameService.getSnapshot().context.state,
           setIsColliding,
         });
         onStop({
@@ -481,7 +484,7 @@ export const MoveableComponent: React.FC<
           id,
           location,
           dimensions,
-          state,
+          state: gameService.getSnapshot().context.state,
           setIsColliding,
         });
         onStop({
@@ -510,7 +513,7 @@ export const MoveableComponent: React.FC<
           id,
           location,
           dimensions,
-          state,
+          state: gameService.getSnapshot().context.state,
           setIsColliding,
         });
         onStop({
@@ -539,7 +542,7 @@ export const MoveableComponent: React.FC<
           id,
           location,
           dimensions,
-          state,
+          state: gameService.getSnapshot().context.state,
           setIsColliding,
         });
         onStop({
@@ -565,6 +568,7 @@ export const MoveableComponent: React.FC<
     coordinatesX,
     coordinatesY,
     dimensions,
+    gameService,
     id,
     isPlacing,
     isSelected,
@@ -572,7 +576,6 @@ export const MoveableComponent: React.FC<
     name,
     onStop,
     position,
-    state,
   ]);
 
   return (
@@ -609,7 +612,7 @@ export const MoveableComponent: React.FC<
           id,
           location,
           dimensions,
-          state,
+          state: gameService.getSnapshot().context.state,
           setIsColliding,
         });
       }}
