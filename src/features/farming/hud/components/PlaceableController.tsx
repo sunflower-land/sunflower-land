@@ -135,6 +135,8 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
       return;
     }
 
+    const state = gameService.getSnapshot().context.state;
+
     if (!placeable) return;
 
     const items = getChestItems(state);
@@ -207,8 +209,8 @@ export const PlaceableController: React.FC<Props> = ({ location }) => {
     }
   }, [
     child.state,
+    gameService,
     placeable,
-    state,
     requirements,
     maximum,
     previousPosition,
