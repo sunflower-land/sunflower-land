@@ -1,7 +1,7 @@
 import Decimal from "decimal.js-light";
 import { TEST_FARM } from "../../lib/constants";
 import { CollectibleName } from "../../types/craftables";
-import { GameState } from "../../types/game";
+import { GameState, ShakeItem } from "../../types/game";
 import { placeCollectible } from "./placeCollectible";
 
 const date = Date.now();
@@ -40,7 +40,7 @@ describe("Place Collectible", () => {
           location: "farm",
         },
       }),
-    ).toThrow("This collectible is already placed");
+    ).toThrow("You can't place an item that is not on the inventory");
   });
 
   it("Requires a collectible is on the inventory to be placed", () => {
@@ -159,5 +159,55 @@ describe("Place Collectible", () => {
         },
       }),
     ).toThrow("You cannot place this item");
+  });
+  it("should use existing data from land if placing in home", () => {
+    const dateNow = Date.now();
+    const state = placeCollectible({
+      state: {
+        ...GAME_STATE,
+        island: {
+          type: "volcano",
+        },
+        inventory: {
+          "Maneki Neko": new Decimal(1),
+        },
+        collectibles: {
+          "Maneki Neko": [
+            {
+              id: "123",
+              removedAt: dateNow,
+              readyAt: dateNow,
+              createdAt: dateNow,
+              shakenAt: dateNow,
+            },
+          ],
+        },
+      },
+      action: {
+        id: "123",
+        type: "collectible.placed",
+        name: "Maneki Neko",
+        coordinates: {
+          x: 5,
+          y: 5,
+        },
+        location: "home",
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.home.collectibles["Maneki Neko"]).toEqual<ShakeItem[]>([
+      {
+        id: "123",
+        readyAt: dateNow,
+        createdAt: dateNow,
+        shakenAt: dateNow,
+        coordinates: {
+          x: 5,
+          y: 5,
+        },
+      },
+    ]);
+    expect(state.collectibles["Maneki Neko"]).toEqual<ShakeItem[]>([]);
   });
 });
