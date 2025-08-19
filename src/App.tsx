@@ -39,7 +39,7 @@ const NoServiceWorker = () => {
 };
 
 const ServiceWorker = () => {
-  useServiceWorkerUpdate();
+  // useServiceWorkerUpdate();
   return null;
 };
 
