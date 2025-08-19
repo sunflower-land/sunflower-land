@@ -432,6 +432,8 @@ export function isPetNeglected({
   game: GameState;
   now?: number;
 }) {
+  return false;
+
   if (!pet?.readyAt) return false;
   return msTillNeglect({ pet, now }) <= 0;
 }
