@@ -2,7 +2,7 @@ import { useSelector } from "@xstate/react";
 import React, { useContext, useEffect, useState } from "react";
 import Decimal from "decimal.js-light";
 
-import { Wardrobe } from "features/game/types/game";
+import { BoostName, Wardrobe } from "features/game/types/game";
 
 import { Button } from "components/ui/Button";
 import { Box } from "components/ui/Box";
@@ -26,6 +26,9 @@ import { RequiredReputation } from "features/island/hud/components/reputation/Re
 import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
 import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
 import { hasBoostRestriction } from "features/game/types/withdrawRestrictions";
+import { InfoPopover } from "features/island/common/InfoPopover";
+import { secondsToString } from "lib/utils/time";
+import { BUMPKIN_ITEM_BUFF_LABELS } from "features/game/types/bumpkinItemBuffs";
 
 interface Props {
   onWithdraw: (ids: number[], amounts: number[]) => void;
@@ -41,6 +44,8 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
 
   const [wardrobe, setWardrobe] = useState<Wardrobe>({});
   const [selected, setSelected] = useState<Wardrobe>({});
+
+  const [showInfo, setShowInfo] = useState("");
 
   useEffect(() => {
     let available = availableWardrobe(state);
@@ -94,6 +99,42 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
     });
   };
 
+  const getRestrictionStatus = (itemName: BoostName) => {
+    const { isRestricted, cooldownTimeLeft } = hasBoostRestriction({
+      boostUsedAt: state.boostsUsedAt,
+      item: itemName,
+    });
+    return { isRestricted, cooldownTimeLeft };
+  };
+
+  const sortWithdrawableItems = (itemA: BumpkinItem, itemB: BumpkinItem) => {
+    const aCooldownMs = getRestrictionStatus(itemA).cooldownTimeLeft;
+    const bCooldownMs = getRestrictionStatus(itemB).cooldownTimeLeft;
+
+    const aIsOnCooldown = aCooldownMs > 0;
+    const bIsOnCooldown = bCooldownMs > 0;
+
+    const aHasBuff = !!BUMPKIN_ITEM_BUFF_LABELS[itemA]?.length;
+    const bHasBuff = !!BUMPKIN_ITEM_BUFF_LABELS[itemB]?.length;
+
+    // 1. Items with boosts come first
+    if (aHasBuff !== bHasBuff) {
+      return aHasBuff ? -1 : 1;
+    }
+
+    // 2. Among boosted items, those on cooldown come first
+    if (aIsOnCooldown && bIsOnCooldown) {
+      // 3. Among items on cooldown, sort by most cooldown time left
+      return bCooldownMs - aCooldownMs;
+    }
+    if (aIsOnCooldown !== bIsOnCooldown) {
+      return aIsOnCooldown ? -1 : 1;
+    }
+
+    // 4. Otherwise, sort by item IDs
+    return ITEM_IDS[itemA] - ITEM_IDS[itemB];
+  };
+
   const withdrawableItems = [...new Set([...getKeys(wardrobe)])]
     .filter((item) => wardrobe[item])
     .filter((itemName) => {
@@ -101,7 +142,7 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
       const canWithdraw = !!withdrawAt && withdrawAt <= new Date();
       return canWithdraw;
     })
-    .sort((a, b) => ITEM_IDS[a] - ITEM_IDS[b]);
+    .sort((a, b) => sortWithdrawableItems(a, b));
 
   const selectedItems = getKeys(selected)
     .filter((item) => !!selected[item])
@@ -133,19 +174,45 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
           {withdrawableItems.map((itemName) => {
             const wardrobeCount = wardrobe[itemName];
 
-            const { isRestricted } = hasBoostRestriction({
-              boostUsedAt: state.boostsUsedAt,
-              item: itemName,
-            });
+            const { isRestricted, cooldownTimeLeft } =
+              getRestrictionStatus(itemName);
+            const RestrictionCooldown = cooldownTimeLeft / 1000;
+            const handleBoxClick = () => {
+              if (isRestricted) {
+                setShowInfo((prev) => (prev === itemName ? "" : itemName));
+              }
+            };
 
             return (
-              <Box
-                count={new Decimal(wardrobeCount ?? 0)}
+              <div
                 key={itemName}
-                onClick={() => onAdd(itemName)}
-                disabled={isRestricted || selected[itemName] !== undefined}
-                image={getImageUrl(ITEM_IDS[itemName])}
-              />
+                onClick={handleBoxClick}
+                className="flex relative"
+              >
+                <InfoPopover
+                  className="absolute top-14 text-xxs sm:text-xs"
+                  showPopover={showInfo === itemName}
+                >
+                  {t("withdraw.boostedItem.timeLeft", {
+                    time: secondsToString(RestrictionCooldown, {
+                      length: "medium",
+                      isShortFormat: true,
+                      removeTrailingZeros: true,
+                    }),
+                  })}
+                </InfoPopover>
+
+                <Box
+                  count={new Decimal(wardrobeCount ?? 0)}
+                  key={itemName}
+                  onClick={() => onAdd(itemName)}
+                  disabled={isRestricted || selected[itemName] !== undefined}
+                  image={getImageUrl(ITEM_IDS[itemName])}
+                  secondaryImage={
+                    isRestricted ? SUNNYSIDE.icons.lock : undefined
+                  }
+                />
+              </div>
             );
           })}
           {/* Pad with empty boxes */}

@@ -2,7 +2,11 @@ import { useSelector } from "@xstate/react";
 import React, { useContext, useEffect, useState } from "react";
 import Decimal from "decimal.js-light";
 
-import { Inventory, InventoryItemName } from "features/game/types/game";
+import {
+  BoostName,
+  Inventory,
+  InventoryItemName,
+} from "features/game/types/game";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { KNOWN_IDS } from "features/game/types";
 import { getItemUnit } from "features/game/lib/conversion";
@@ -28,6 +32,9 @@ import { RequiredReputation } from "features/island/hud/components/reputation/Re
 import { isFaceVerified } from "features/retreat/components/personhood/lib/faceRecognition";
 import { FaceRecognition } from "features/retreat/components/personhood/FaceRecognition";
 import { hasBoostRestriction } from "features/game/types/withdrawRestrictions";
+import { InfoPopover } from "features/island/common/InfoPopover";
+import { secondsToString } from "lib/utils/time";
+import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuffs";
 
 interface Props {
   onWithdraw: (ids: number[], amounts: string[]) => void;
@@ -77,6 +84,8 @@ export const WithdrawItems: React.FC<Props> = ({
 
   const [inventory, setInventory] = useState<Inventory>({});
   const [selected, setSelected] = useState<Inventory>({});
+
+  const [showInfo, setShowInfo] = useState("");
 
   useEffect(() => {
     const bankItems = getBankItems(state);
@@ -136,6 +145,45 @@ export const WithdrawItems: React.FC<Props> = ({
     return <FaceRecognition />;
   }
 
+  const getRestrictionStatus = (itemName: BoostName) => {
+    const { isRestricted, cooldownTimeLeft } = hasBoostRestriction({
+      boostUsedAt: state.boostsUsedAt,
+      item: itemName,
+    });
+    return { isRestricted, cooldownTimeLeft };
+  };
+
+  const sortWithdrawableItems = (
+    itemA: InventoryItemName,
+    itemB: InventoryItemName,
+  ) => {
+    const aCooldownMs = getRestrictionStatus(itemA).cooldownTimeLeft;
+    const bCooldownMs = getRestrictionStatus(itemB).cooldownTimeLeft;
+
+    const aIsOnCooldown = aCooldownMs > 0;
+    const bIsOnCooldown = bCooldownMs > 0;
+
+    const aHasBuff = !!COLLECTIBLE_BUFF_LABELS(state)[itemA]?.length;
+    const bHasBuff = !!COLLECTIBLE_BUFF_LABELS(state)[itemB]?.length;
+
+    // 1. Items with boosts come first
+    if (aHasBuff !== bHasBuff) {
+      return aHasBuff ? -1 : 1;
+    }
+
+    // 2. Among boosted items, those on cooldown come first
+    if (aIsOnCooldown && bIsOnCooldown) {
+      // 3. Among items on cooldown, sort by most cooldown time left
+      return bCooldownMs - aCooldownMs;
+    }
+    if (aIsOnCooldown !== bIsOnCooldown) {
+      return aIsOnCooldown ? -1 : 1;
+    }
+
+    // 4. Otherwise, sort by item IDs
+    return KNOWN_IDS[itemA] - KNOWN_IDS[itemB];
+  };
+
   return (
     <>
       <div className="p-2 mb-2">
@@ -146,29 +194,58 @@ export const WithdrawItems: React.FC<Props> = ({
           {t("withdraw.select.item")}
         </Label>
         <div className="flex flex-wrap h-fit -ml-1.5">
-          {withdrawableItems.map((itemName) => {
-            const details = makeItemDetails(itemName);
+          {withdrawableItems
+            .slice()
+            .sort((a, b) => sortWithdrawableItems(a, b))
+            .map((itemName) => {
+              const details = makeItemDetails(itemName);
 
-            // The inventory amount that is not placed
-            const inventoryCount = inventory[itemName] ?? new Decimal(0);
+              // The inventory amount that is not placed
+              const inventoryCount = inventory[itemName] ?? new Decimal(0);
 
-            return (
-              <Box
-                count={inventoryCount}
-                key={itemName}
-                disabled={
-                  inventoryCount.lessThanOrEqualTo(0) ||
-                  hasBoostRestriction({
-                    boostUsedAt: state.boostsUsedAt,
-                    item: itemName,
-                  }).isRestricted
+              const { isRestricted, cooldownTimeLeft } =
+                getRestrictionStatus(itemName);
+              const RestrictionCooldown = cooldownTimeLeft / 1000;
+              const handleBoxClick = () => {
+                if (isRestricted) {
+                  setShowInfo((prev) => (prev === itemName ? "" : itemName));
                 }
-                onClick={() => onAdd(itemName)}
-                image={details.image}
-                canBeLongPressed={allowLongpressWithdrawal}
-              />
-            );
-          })}
+              };
+
+              return (
+                <div
+                  key={itemName}
+                  onClick={handleBoxClick}
+                  className="flex relative"
+                >
+                  <InfoPopover
+                    className="absolute top-14 text-xxs sm:text-xs"
+                    showPopover={showInfo === itemName}
+                  >
+                    {t("withdraw.boostedItem.timeLeft", {
+                      time: secondsToString(RestrictionCooldown, {
+                        length: "medium",
+                        isShortFormat: true,
+                        removeTrailingZeros: true,
+                      }),
+                    })}
+                  </InfoPopover>
+
+                  <Box
+                    count={inventoryCount}
+                    key={itemName}
+                    disabled={
+                      isRestricted || inventoryCount.lessThanOrEqualTo(0)
+                    }
+                    onClick={() => onAdd(itemName)}
+                    image={details.image}
+                    secondaryImage={
+                      isRestricted ? SUNNYSIDE.icons.lock : undefined
+                    }
+                  />
+                </div>
+              );
+            })}
           {/* Pad with empty boxes */}
           {withdrawableItems.length < 4 &&
             new Array(4 - withdrawableItems.length)

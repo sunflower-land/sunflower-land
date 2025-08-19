@@ -3754,6 +3754,7 @@
   "withdraw.buds": "Select Buds to withdraw",
   "withdraw.budRestricted": "Used in today's bud box",
   "withdraw.flower.limited": "During the initial launch of $FLOWER, the amount of $FLOWER you can withdraw is limited.",
+  "withdraw.boostedItem.timeLeft": "Withdrawable in {{time}}",
   "world.lvl.requirement": "Lvl {{lvl}}",
   "world.factionMembersOnly": "Faction members only",
   "world.newArea": "New",
