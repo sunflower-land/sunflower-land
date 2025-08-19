@@ -34,7 +34,6 @@ import { Feed } from "features/social/Feed";
 import { WorldFeedButton } from "features/social/components/WorldFeedButton";
 import classNames from "classnames";
 import { isMobile } from "mobile-device-detect";
-import { hasFeatureAccess } from "lib/flags";
 
 const _socialPoints = (state: MachineState) => {
   return state.context.state.socialFarming?.points ?? 0;
@@ -226,9 +225,7 @@ export const VisitingHud: React.FC = () => {
           },
         )}
       >
-        {hasFeatureAccess(gameState.context.visitorState!, "VISITING_FEED") && (
-          <WorldFeedButton showFeed={showFeed} setShowFeed={setShowFeed} />
-        )}
+        <WorldFeedButton showFeed={showFeed} setShowFeed={setShowFeed} />
         <RoundButton
           onClick={(e) => {
             e.stopPropagation();
