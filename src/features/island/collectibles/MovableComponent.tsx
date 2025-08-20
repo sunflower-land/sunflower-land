@@ -67,6 +67,12 @@ export const RESOURCE_MOVE_EVENTS: Record<
   "Sunstone Rock": "sunstone.moved",
   "Oil Reserve": "oilReserve.moved",
   "Lava Pit": "lavaPit.moved",
+  "Ancient Tree": "tree.moved",
+  "Sacred Tree": "tree.moved",
+  "Refined Iron Rock": "iron.moved",
+  "Tempered Iron Rock": "iron.moved",
+  "Pure Gold Rock": "gold.moved",
+  "Enchanted Gold Rock": "gold.moved",
 };
 
 function getMoveAction(
@@ -113,6 +119,12 @@ export const RESOURCES_REMOVE_ACTIONS: Record<
   "Sunstone Rock": "sunstone.removed",
   "Oil Reserve": "oilReserve.removed",
   "Lava Pit": "lavaPit.removed",
+  "Ancient Tree": "tree.removed",
+  "Sacred Tree": "tree.removed",
+  "Refined Iron Rock": "iron.removed",
+  "Tempered Iron Rock": "iron.removed",
+  "Pure Gold Rock": "gold.removed",
+  "Enchanted Gold Rock": "gold.removed",
 };
 
 export function getRemoveAction(

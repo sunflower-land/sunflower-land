@@ -232,6 +232,12 @@ export const RESOURCE_COMPONENTS: Record<
   "Lava Pit": LavaPit,
   "Fused Stone Rock": Stone,
   "Reinforced Stone Rock": Stone,
+  "Ancient Tree": Tree,
+  "Sacred Tree": Tree,
+  "Refined Iron Rock": Iron,
+  "Tempered Iron Rock": Iron,
+  "Pure Gold Rock": Gold,
+  "Enchanted Gold Rock": Gold,
 };
 
 const isLandscaping = (state: MachineState) => state.matches("landscaping");

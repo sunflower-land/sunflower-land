@@ -1228,6 +1228,12 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
 
   "Fused Stone Rock": 2700,
   "Reinforced Stone Rock": 2701,
+  "Ancient Tree": 2702,
+  "Sacred Tree": 2703,
+  "Refined Iron Rock": 2704,
+  "Tempered Iron Rock": 2705,
+  "Pure Gold Rock": 2706,
+  "Enchanted Gold Rock": 2707,
 };
 
 // The reverse of above

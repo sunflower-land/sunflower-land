@@ -171,11 +171,17 @@ function detectPlaceableCollision(
     Record<string, ResourceItem>
   > = {
     Tree: trees,
+    "Ancient Tree": trees,
+    "Sacred Tree": trees,
     "Stone Rock": stones,
     "Fused Stone Rock": stones,
     "Reinforced Stone Rock": stones,
     "Iron Rock": iron,
+    "Refined Iron Rock": iron,
+    "Tempered Iron Rock": iron,
     "Gold Rock": gold,
+    "Pure Gold Rock": gold,
+    "Enchanted Gold Rock": gold,
     "Crimstone Rock": crimstones,
     "Sunstone Rock": sunstones,
     "Oil Reserve": oilReserves,
