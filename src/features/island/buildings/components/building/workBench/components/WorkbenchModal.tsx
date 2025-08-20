@@ -13,6 +13,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
 import { Forge } from "./Forge";
+import { hasFeatureAccess } from "lib/flags";
 
 const needsHelp = (state: MachineState) => {
   const missingScarecrow =
@@ -36,16 +37,24 @@ export const WorkbenchModal: React.FC<Props> = ({ onClose }) => {
   const [tab, setTab] = useState(showCrafting ? 1 : 0);
   const { t } = useAppTranslation();
 
+  const tabs = [
+    { icon: ITEM_DETAILS.Pickaxe.image, name: t("tools") },
+    { icon: SUNNYSIDE.icons.hammer, name: t("craft") },
+    { icon: SUNNYSIDE.icons.hammer, name: t("build") },
+  ];
+
+  if (hasFeatureAccess(gameService.state.context.state, "NODE_FORGING")) {
+    tabs.push({
+      icon: SUNNYSIDE.icons.sword,
+      name: t("upgrade"),
+    });
+  }
+
   return (
     <CloseButtonPanel
       onClose={onClose}
       bumpkinParts={NPC_WEARABLES.blacksmith}
-      tabs={[
-        { icon: ITEM_DETAILS.Pickaxe.image, name: t("tools") },
-        { icon: SUNNYSIDE.icons.hammer, name: t("craft") },
-        { icon: SUNNYSIDE.icons.hammer, name: t("build") },
-        { icon: SUNNYSIDE.icons.sword, name: "Upgrade" },
-      ]}
+      tabs={tabs}
       currentTab={tab}
       setCurrentTab={setTab}
       container={OuterPanel}
@@ -53,7 +62,10 @@ export const WorkbenchModal: React.FC<Props> = ({ onClose }) => {
       {tab === 0 && <Tools />}
       {tab === 1 && <IslandBlacksmithItems />}
       {tab === 2 && <Buildings onClose={onClose} />}
-      {tab === 3 && <Forge />}
+      {tab === 3 &&
+        hasFeatureAccess(gameService.state.context.state, "NODE_FORGING") && (
+          <Forge />
+        )}
     </CloseButtonPanel>
   );
 };

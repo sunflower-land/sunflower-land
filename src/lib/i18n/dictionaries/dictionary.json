@@ -32,6 +32,7 @@
   "allTime": "All Time",
   "weekly": "Weekly",
   "visiting": "Visiting",
+  "forge": "Forge",
   "animals.buildingIsFull": "{{buildingName}} is full!",
   "breadWinner.description": "Earn 0.001 FLOWER",
   "breadWinner.one": "Well, well, well, partner... It looks like you need some FLOWER!",
@@ -6474,5 +6475,7 @@
   "description.mudhorn": "A mudhorn",
   "description.nibbles": "A nibbles",
   "description.waddles": "A waddles",
-  "description.ramsey": "A ramsey"
+  "description.ramsey": "A ramsey",
+  "upgrade.success": "{{resource}} upgrade complete!",
+  "upgrade.success.description": "You can now mine {{resource}}!"
 }

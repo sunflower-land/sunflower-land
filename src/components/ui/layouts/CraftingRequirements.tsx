@@ -401,7 +401,7 @@ export const CraftingRequirements: React.FC<Props> = ({
         {getBoost()}
         {getRequirements()}
       </div>
-      {actionView}
+      {requirements && actionView}
     </div>
   );
 };

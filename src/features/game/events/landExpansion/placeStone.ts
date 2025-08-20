@@ -79,7 +79,7 @@ export function placeStone({
       stone: {
         minedAt: 0,
       },
-      tier: ADVANCED_RESOURCES[action.name as UpgradedResourceName]?.tier,
+      tier: ADVANCED_RESOURCES[action.name as UpgradedResourceName]?.tier ?? 1,
       name: action.name,
       multiplier: STONE_MULTIPLIERS[action.name],
     };

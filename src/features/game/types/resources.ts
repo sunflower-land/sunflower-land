@@ -113,7 +113,15 @@ export type ResourceName =
   | "Lava Pit"
   | UpgradedResourceName;
 
-export type UpgradedResourceName = "Fused Stone Rock" | "Reinforced Stone Rock";
+export type UpgradedResourceName =
+  | "Fused Stone Rock"
+  | "Reinforced Stone Rock"
+  | "Ancient Tree"
+  | "Sacred Tree"
+  | "Refined Iron Rock"
+  | "Tempered Iron Rock"
+  | "Pure Gold Rock"
+  | "Enchanted Gold Rock";
 
 export type ResourceTier = 1 | 2 | 3;
 
@@ -122,33 +130,53 @@ export type RockName = Extract<
   "Stone Rock" | "Fused Stone Rock" | "Reinforced Stone Rock"
 >;
 
+type ResourceUpgradeRequirements = Tool & {
+  tier: ResourceTier;
+  preRequires: {
+    tier: ResourceTier;
+    count: number;
+  };
+};
+
 export const RESOURCES: Record<ResourceName, string> = {
   "Crop Plot": "Plant crops",
   "Fruit Patch": "Plant fruit",
   "Gold Rock": "Mine gold",
+  "Pure Gold Rock": "Mine gold",
+  "Enchanted Gold Rock": "Mine gold",
   "Iron Rock": "Mine iron",
+  "Refined Iron Rock": "Mine iron",
+  "Tempered Iron Rock": "Mine iron",
   "Stone Rock": "Mine stone",
+  "Fused Stone Rock": "Mine fused stone",
+  "Reinforced Stone Rock": "Mine reinforced stone",
   "Crimstone Rock": "Mine crimstone",
   Boulder: "Mine rare minerals",
   Tree: "Chop Wood",
+  "Ancient Tree": "Chop Wood",
+  "Sacred Tree": "Chop Wood",
   Beehive: "Collect honey",
   "Flower Bed": "Plant flowers",
   "Sunstone Rock": "Mine sunstone",
   "Oil Reserve": "Drill oil",
   "Lava Pit": "Craft obsidian",
-  "Fused Stone Rock": "Mine fused stone",
-  "Reinforced Stone Rock": "Mine reinforced stone",
+};
+
+const PLACEHOLDER_REQUIREMENTS: ResourceUpgradeRequirements = {
+  name: "Advanced Resource",
+  description: "Coming soon...",
+  tier: 2,
+  ingredients: {},
+  price: 0,
+  preRequires: {
+    tier: 1,
+    count: 1,
+  },
 };
 
 export const ADVANCED_RESOURCES: Record<
   UpgradedResourceName,
-  Tool & {
-    tier: ResourceTier;
-    preRequires: {
-      tier: ResourceTier;
-      count: number;
-    };
-  }
+  ResourceUpgradeRequirements
 > = {
   "Fused Stone Rock": {
     name: "Fused Stone",
@@ -180,6 +208,12 @@ export const ADVANCED_RESOURCES: Record<
       count: 4,
     },
   },
+  "Ancient Tree": PLACEHOLDER_REQUIREMENTS,
+  "Sacred Tree": PLACEHOLDER_REQUIREMENTS,
+  "Refined Iron Rock": PLACEHOLDER_REQUIREMENTS,
+  "Tempered Iron Rock": PLACEHOLDER_REQUIREMENTS,
+  "Pure Gold Rock": PLACEHOLDER_REQUIREMENTS,
+  "Enchanted Gold Rock": PLACEHOLDER_REQUIREMENTS,
 };
 
 export const RESOURCE_STATE_ACCESSORS: Record<
@@ -200,6 +234,12 @@ export const RESOURCE_STATE_ACCESSORS: Record<
   "Lava Pit": (game) => game.lavaPits,
   "Fused Stone Rock": (game) => game.stones,
   "Reinforced Stone Rock": (game) => game.stones,
+  "Ancient Tree": (game) => game.trees,
+  "Sacred Tree": (game) => game.trees,
+  "Refined Iron Rock": (game) => game.iron,
+  "Tempered Iron Rock": (game) => game.iron,
+  "Pure Gold Rock": (game) => game.gold,
+  "Enchanted Gold Rock": (game) => game.gold,
 };
 
 export const RESOURCE_DIMENSIONS: Record<ResourceName, Dimensions> = {
@@ -260,6 +300,30 @@ export const RESOURCE_DIMENSIONS: Record<ResourceName, Dimensions> = {
     height: 1,
   },
   "Reinforced Stone Rock": {
+    width: 1,
+    height: 1,
+  },
+  "Ancient Tree": {
+    width: 2,
+    height: 2,
+  },
+  "Sacred Tree": {
+    width: 2,
+    height: 2,
+  },
+  "Refined Iron Rock": {
+    width: 1,
+    height: 1,
+  },
+  "Tempered Iron Rock": {
+    width: 1,
+    height: 1,
+  },
+  "Pure Gold Rock": {
+    width: 1,
+    height: 1,
+  },
+  "Enchanted Gold Rock": {
     width: 1,
     height: 1,
   },

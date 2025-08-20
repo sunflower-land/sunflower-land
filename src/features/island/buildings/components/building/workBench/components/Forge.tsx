@@ -11,11 +11,12 @@ import { getKeys } from "features/game/lib/crafting";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
   ADVANCED_RESOURCES,
+  RockName,
   UpgradedResourceName,
 } from "features/game/types/resources";
 import React, { useContext, useState } from "react";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { hasPlacedStones } from "features/game/events/landExpansion/upgradeNode";
+import { canUpgrade } from "features/game/events/landExpansion/upgradeNode";
 import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
 
@@ -32,13 +33,15 @@ export const Forge: React.FC = () => {
   const forge = () => {
     gameService.send({
       type: "stone.upgraded",
-      upgradeTo: selectedResource,
+      upgradeTo: selectedResource as Exclude<RockName, "Stone Rock">,
       id: uuidv4().slice(0, 8),
     });
 
     if (showAnimations) confetti();
     setShowSuccess(true);
   };
+
+  const forgingSoon = selected.price === 0;
 
   return (
     <>
@@ -49,16 +52,26 @@ export const Forge: React.FC = () => {
             details={{
               item: selectedResource,
             }}
-            requirements={{
-              coins: selected.price,
-              resources: selected.ingredients,
-            }}
+            requirements={
+              forgingSoon
+                ? undefined
+                : {
+                    coins: selected.price,
+                    resources: selected.ingredients,
+                  }
+            }
             actionView={
               <Button
                 onClick={forge}
-                disabled={!hasPlacedStones(state, selectedResource)}
+                disabled={
+                  forgingSoon ||
+                  !canUpgrade(
+                    state,
+                    selectedResource as Exclude<RockName, "Stone Rock">,
+                  )
+                }
               >
-                {"Forge"}
+                {t("forge")}
               </Button>
             }
           />
@@ -71,10 +84,12 @@ export const Forge: React.FC = () => {
                   isSelected={selectedResource === resourceName}
                   key={resourceName}
                   onClick={() => setSelectedResource(resourceName)}
-                  image={ITEM_DETAILS[resourceName].image}
-                  // count={inventory[resourceName]}
-                  // secondaryImage={isLocked ? SUNNYSIDE.icons.lock : undefined}
-                  // showOverlay={isLocked}
+                  image={ITEM_DETAILS[resourceName]?.image}
+                  className={
+                    ADVANCED_RESOURCES[resourceName].price === 0
+                      ? "opacity-75"
+                      : "opacity-100"
+                  }
                 />
               );
             })}
@@ -85,10 +100,18 @@ export const Forge: React.FC = () => {
       {showSuccess && (
         <Modal show={showSuccess} onHide={() => setShowSuccess(false)}>
           <Panel className="m-auto flex flex-col gap-2">
-            <Label type="success">{"Stone Upgrade Complete!"}</Label>
+            <Label type="success">
+              {t("upgrade.success", {
+                resource: selectedResource,
+              })}
+            </Label>
             <div className="flex flex-col gap-2 my-2 items-center">
               <img src={ITEM_DETAILS[selectedResource].image} width={50} />
-              <span>{"You discovered a new resource!"}</span>
+              <span>
+                {t("upgrade.success.description", {
+                  resource: selectedResource,
+                })}
+              </span>
               <Button onClick={() => setShowSuccess(false)}>
                 {t("continue")}
               </Button>

@@ -5892,4 +5892,28 @@ export const ITEM_DETAILS: Items = {
     image: SUNNYSIDE.resource.iron_rock,
     description: "Reinforced Stone",
   },
+  "Ancient Tree": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "Forging soon...",
+  },
+  "Sacred Tree": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "Forging soon...",
+  },
+  "Refined Iron Rock": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "Forging soon...",
+  },
+  "Tempered Iron Rock": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "Forging soon...",
+  },
+  "Pure Gold Rock": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "Forging soon...",
+  },
+  "Enchanted Gold Rock": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "Forging soon...",
+  },
 };

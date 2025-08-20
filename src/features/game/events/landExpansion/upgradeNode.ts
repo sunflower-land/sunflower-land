@@ -4,6 +4,7 @@ import { ADVANCED_RESOURCES, RockName } from "features/game/types/resources";
 import { GameState, InventoryItemName, Rock } from "features/game/types/game";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 import { STONE_MULTIPLIERS } from "./placeStone";
+import { canMine } from "./stoneMine";
 
 export type UpgradeStoneAction = {
   type: "stone.upgraded";
@@ -17,7 +18,7 @@ type Options = {
   createdAt?: number;
 };
 
-export const hasPlacedStones = (
+export const canUpgrade = (
   game: GameState,
   upgradeTo: Exclude<RockName, "Stone Rock">,
 ) => {
@@ -25,7 +26,12 @@ export const hasPlacedStones = (
   const preRequires = advancedResource.preRequires;
 
   const upgradeableStones = Object.entries(game.stones).filter(([_, stone]) => {
-    return (stone?.tier ?? 1) === preRequires.tier;
+    const tier = stone?.tier ?? 1;
+    if (canMine(stone)) {
+      return tier === preRequires.tier;
+    }
+
+    return false;
   });
 
   return upgradeableStones.length >= preRequires.count;
@@ -47,7 +53,7 @@ export function upgradeStone({
       throw new Error("Insufficient coins");
     }
 
-    if (!hasPlacedStones(game, action.upgradeTo)) {
+    if (!canUpgrade(game, action.upgradeTo)) {
       throw new Error("Not enough placed stones to upgrade");
     }
 
