@@ -738,7 +738,7 @@ export type PlacedItem = {
   flipped?: boolean;
 };
 
-type ShakeItem = PlacedItem & { shakenAt?: number };
+export type ShakeItem = PlacedItem & { shakenAt?: number };
 export type PlacedLamp = PlacedItem & { rubbedCount?: number };
 
 // Support custom types for collectibles
