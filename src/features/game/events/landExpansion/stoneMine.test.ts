@@ -43,7 +43,7 @@ describe("mineStone", () => {
         createdAt: Date.now(),
         action: {
           type: "stoneRock.mined",
-          index: 0,
+          id: "0",
         },
       }),
     ).toThrow("Not enough pickaxes");
@@ -62,7 +62,7 @@ describe("mineStone", () => {
         createdAt: Date.now(),
         action: {
           type: "stoneRock.mined",
-          index: 3,
+          id: "3",
         },
       }),
     ).toThrow("Stone does not exist");
@@ -88,7 +88,7 @@ describe("mineStone", () => {
         createdAt: Date.now(),
         action: {
           type: "stoneRock.mined",
-          index: 0,
+          id: "0",
         },
       }),
     ).toThrow("Rock is not placed");
@@ -106,7 +106,7 @@ describe("mineStone", () => {
       createdAt: Date.now(),
       action: {
         type: "stoneRock.mined",
-        index: 0,
+        id: "0",
       } as LandExpansionStoneMineAction,
     };
     const game = mineStone(payload);
@@ -133,8 +133,7 @@ describe("mineStone", () => {
       createdAt: Date.now(),
       action: {
         type: "stoneRock.mined",
-
-        index: 0,
+        id: "0",
       } as LandExpansionStoneMineAction,
     };
 
@@ -156,8 +155,7 @@ describe("mineStone", () => {
       createdAt: Date.now(),
       action: {
         type: "stoneRock.mined",
-
-        index: 0,
+        id: "0",
       } as LandExpansionStoneMineAction,
     });
 
@@ -166,7 +164,7 @@ describe("mineStone", () => {
       createdAt: Date.now(),
       action: {
         type: "stoneRock.mined",
-        index: 1,
+        id: "1",
       } as LandExpansionStoneMineAction,
     });
 
@@ -186,8 +184,7 @@ describe("mineStone", () => {
       createdAt: Date.now(),
       action: {
         type: "stoneRock.mined",
-
-        index: 0,
+        id: "0",
       } as LandExpansionStoneMineAction,
     };
     let game = mineStone(payload);
@@ -227,7 +224,7 @@ describe("mineStone", () => {
       createdAt: Date.now(),
       action: {
         type: "stoneRock.mined",
-        index: 0,
+        id: "0",
       } as LandExpansionStoneMineAction,
     });
 
@@ -256,7 +253,7 @@ describe("mineStone", () => {
       createdAt: Date.now(),
       action: {
         type: "stoneRock.mined",
-        index: 0,
+        id: "0",
       } as LandExpansionStoneMineAction,
       bonusDropAmount: () => 0,
     };
@@ -291,7 +288,7 @@ describe("mineStone", () => {
       createdAt: now,
       action: {
         type: "stoneRock.mined",
-        index: 0,
+        id: "0",
       } as LandExpansionStoneMineAction,
       bonusDropAmount: () => 0,
     };
@@ -336,7 +333,7 @@ describe("mineStone", () => {
       createdAt: now,
       action: {
         type: "stoneRock.mined",
-        index: 0,
+        id: "0",
       } as LandExpansionStoneMineAction,
       bonusDropAmount: () => 0,
     };
@@ -377,7 +374,7 @@ describe("mineStone", () => {
       createdAt: now,
       action: {
         type: "stoneRock.mined",
-        index: 0,
+        id: "0",
       } as LandExpansionStoneMineAction,
       bonusDropAmount: () => 0,
     };
@@ -431,7 +428,7 @@ describe("mineStone", () => {
       createdAt: now,
       action: {
         type: "stoneRock.mined",
-        index: 0,
+        id: "0",
       } as LandExpansionStoneMineAction,
       bonusDropAmount: () => 0,
     };
@@ -463,8 +460,7 @@ describe("mineStone", () => {
       createdAt: Date.now(),
       action: {
         type: "stoneRock.mined",
-
-        index: 0,
+        id: "0",
       } as LandExpansionStoneMineAction,
     });
 
@@ -494,8 +490,7 @@ describe("mineStone", () => {
       createdAt: Date.now(),
       action: {
         type: "stoneRock.mined",
-
-        index: 0,
+        id: "0",
       } as LandExpansionStoneMineAction,
     });
 
@@ -525,8 +520,7 @@ describe("mineStone", () => {
       createdAt: Date.now(),
       action: {
         type: "stoneRock.mined",
-
-        index: 0,
+        id: "0",
       } as LandExpansionStoneMineAction,
     });
 
@@ -560,8 +554,7 @@ describe("mineStone", () => {
       createdAt: Date.now(),
       action: {
         type: "stoneRock.mined",
-
-        index: 0,
+        id: "0",
       } as LandExpansionStoneMineAction,
     });
 
@@ -594,8 +587,7 @@ describe("mineStone", () => {
       createdAt: Date.now(),
       action: {
         type: "stoneRock.mined",
-
-        index: 0,
+        id: "0",
       } as LandExpansionStoneMineAction,
     });
 
@@ -629,8 +621,7 @@ describe("mineStone", () => {
       createdAt: Date.now(),
       action: {
         type: "stoneRock.mined",
-
-        index: 0,
+        id: "0",
       } as LandExpansionStoneMineAction,
     });
 
@@ -658,8 +649,7 @@ describe("mineStone", () => {
       createdAt: Date.now(),
       action: {
         type: "stoneRock.mined",
-
-        index: 0,
+        id: "0",
       } as LandExpansionStoneMineAction,
     });
 
@@ -689,7 +679,7 @@ describe("mineStone", () => {
       },
       action: {
         type: "stoneRock.mined",
-        index: 0,
+        id: "0",
       } as LandExpansionStoneMineAction,
       createdAt: Date.now(),
     });
@@ -715,6 +705,7 @@ describe("mineStone", () => {
           y: 0,
         },
         createdAt: Date.now(),
+        id: "0",
         criticalDropGenerator: () => false,
       });
 
@@ -736,6 +727,7 @@ describe("mineStone", () => {
           y: 0,
         },
         createdAt: Date.now(),
+        id: "0",
         criticalDropGenerator: () => false,
       });
 
@@ -755,6 +747,7 @@ describe("mineStone", () => {
           y: 0,
         },
         createdAt: Date.now(),
+        id: "0",
         criticalDropGenerator: (name) => name === "Native",
       });
 
@@ -779,8 +772,7 @@ describe("mineStone", () => {
         createdAt,
         action: {
           type: "stoneRock.mined",
-
-          index: 0,
+          id: "0",
         } as LandExpansionStoneMineAction,
       });
 
@@ -803,8 +795,7 @@ describe("mineStone", () => {
         createdAt,
         action: {
           type: "stoneRock.mined",
-
-          index: 0,
+          id: "0",
         } as LandExpansionStoneMineAction,
       });
 
@@ -813,7 +804,7 @@ describe("mineStone", () => {
         createdAt,
         action: {
           type: "stoneRock.mined",
-          index: 1,
+          id: "1",
         } as LandExpansionStoneMineAction,
       });
 
@@ -1001,7 +992,7 @@ describe("mineStone", () => {
       },
       action: {
         type: "stoneRock.mined",
-        index: 0,
+        id: "0",
       } as LandExpansionStoneMineAction,
       createdAt: Date.now(),
     });
@@ -1029,7 +1020,7 @@ describe("mineStone", () => {
       },
       action: {
         type: "stoneRock.mined",
-        index: 0,
+        id: "0",
       },
       createdAt: Date.now(),
     });

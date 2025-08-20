@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import classNames from "classnames";
+import Decimal from "decimal.js-light";
 
 import Spritesheet, {
   SpriteSheetInstance,
@@ -15,6 +16,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useSound } from "lib/utils/hooks/useSound";
 import { READONLY_RESOURCE_COMPONENTS } from "features/island/resources/Resource";
 import { RockName } from "features/game/types/resources";
+import { InventoryItemName } from "features/game/types/game";
 
 const tool = "Pickaxe";
 
@@ -26,6 +28,8 @@ interface Props {
   touchCount: number;
   showHelper: boolean;
   stoneRockName: RockName;
+  requiredToolAmount: Decimal;
+  inventory: Partial<Record<InventoryItemName, Decimal>>;
 }
 
 const RecoveredStoneComponent: React.FC<Props> = ({
@@ -33,6 +37,8 @@ const RecoveredStoneComponent: React.FC<Props> = ({
   touchCount,
   showHelper,
   stoneRockName,
+  requiredToolAmount,
+  inventory,
 }) => {
   const { scale } = useContext(ZoomContext);
   const [showSpritesheet, setShowSpritesheet] = useState(false);
@@ -147,7 +153,9 @@ const RecoveredStoneComponent: React.FC<Props> = ({
           <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
             <div className="text-xs mx-1 p-1">
               <span>
-                {t("craft")} {tool.toLowerCase()}
+                {t("craft")}{" "}
+                {requiredToolAmount.sub(inventory[tool] ?? 0).toString()}{" "}
+                {tool.toLowerCase()}
               </span>
             </div>
           </InnerPanel>

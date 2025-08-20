@@ -96,8 +96,8 @@ export const READONLY_RESOURCE_COMPONENTS = () => {
         className="relative"
         style={{
           width: `${PIXEL_SCALE * 12.8}px`,
-          top: `${PIXEL_SCALE * 3}px`,
-          left: `${PIXEL_SCALE * 1}px`,
+          top: `${PIXEL_SCALE * 4.52}px`,
+          left: `${PIXEL_SCALE * 1.38}px`,
         }}
       />
     ),
@@ -107,8 +107,8 @@ export const READONLY_RESOURCE_COMPONENTS = () => {
         className="relative"
         style={{
           width: `${PIXEL_SCALE * 13.2}px`,
-          top: `${PIXEL_SCALE * 3}px`,
-          left: `${PIXEL_SCALE * 1}px`,
+          top: `${PIXEL_SCALE * 2.3}px`,
+          left: `${PIXEL_SCALE * 1.6}px`,
         }}
       />
     ),
@@ -118,8 +118,8 @@ export const READONLY_RESOURCE_COMPONENTS = () => {
         className="relative"
         style={{
           width: `${PIXEL_SCALE * 15.1}px`,
-          top: `${PIXEL_SCALE * 3}px`,
-          left: `${PIXEL_SCALE * 1}px`,
+          top: `${PIXEL_SCALE * 1.09}px`,
+          left: `${PIXEL_SCALE * 0.62}px`,
         }}
       />
     ),

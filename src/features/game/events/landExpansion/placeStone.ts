@@ -37,7 +37,10 @@ export function placeStone({
   return produce(state, (game) => {
     const available = (game.inventory[action.name] || new Decimal(0)).minus(
       Object.values(game.stones).filter(
-        (stone) => stone.x !== undefined && stone.y !== undefined,
+        (stone) =>
+          stone.x !== undefined &&
+          stone.y !== undefined &&
+          (stone?.name ?? "Stone Rock") === action.name,
       ).length,
     );
 

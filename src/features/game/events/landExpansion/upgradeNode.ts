@@ -25,7 +25,7 @@ export const hasPlacedStones = (
   const preRequires = advancedResource.preRequires;
 
   const upgradeableStones = Object.entries(game.stones).filter(([_, stone]) => {
-    return stone.tier ?? 1 === preRequires.tier;
+    return (stone?.tier ?? 1) === preRequires.tier;
   });
 
   return upgradeableStones.length >= preRequires.count;
@@ -78,14 +78,14 @@ export function upgradeStone({
     const current = game.inventory[action.upgradeTo] ?? new Decimal(0);
     game.inventory[action.upgradeTo] = current.add(1);
 
-    // Remove the required number of stone rocks and
-    // place the upgraded one at the first removed position
     let stonesToRemove = advancedResource.preRequires.count;
     let placement: { x: number; y: number } | undefined;
 
-    Object.keys(game.stones).forEach((stoneId) => {
-      if (stonesToRemove === 0) return;
+    // Sort stone IDs to ensure consistent deletion order with the backend
+    const sortedStones = Object.keys(game.stones).sort();
 
+    for (let i = 0; i < sortedStones.length && stonesToRemove > 0; i++) {
+      const stoneId = sortedStones[i];
       const rock = game.stones[stoneId];
       const tier = rock?.tier ?? 1;
 
@@ -97,7 +97,7 @@ export function upgradeStone({
         stonesToRemove--;
         delete game.stones[stoneId];
       }
-    });
+    }
 
     if (placement) {
       const newStone: Rock = {

@@ -468,6 +468,8 @@ export const ITEM_TRADE_TYPES: {
     Diamond: "onchain",
     Tree: "instant",
     "Stone Rock": "instant",
+    "Fused Stone Rock": "instant",
+    "Reinforced Stone Rock": "instant",
     "Iron Rock": "instant",
     "Gold Rock": "instant",
     "Crop Plot": "instant",

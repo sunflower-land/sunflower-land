@@ -31,8 +31,12 @@ const tool = "Pickaxe";
 const HasTool = (
   inventory: Partial<Record<InventoryItemName, Decimal>>,
   gameState: GameState,
+  id: string,
 ) => {
-  const { amount: requiredToolAmount } = getRequiredPickaxeAmount(gameState);
+  const { amount: requiredToolAmount } = getRequiredPickaxeAmount(
+    gameState,
+    id,
+  );
   if (requiredToolAmount.lte(0)) return true;
   return (inventory[tool] ?? new Decimal(0)).gte(requiredToolAmount);
 };
@@ -94,12 +98,12 @@ export const Stone: React.FC<Props> = ({ id }) => {
     gameService,
     selectInventory,
     (prev, next) =>
-      HasTool(prev, game) === HasTool(next, game) &&
+      HasTool(prev, game, id) === HasTool(next, game, id) &&
       (prev.Logger ?? new Decimal(0)).equals(next.Logger ?? new Decimal(0)),
   );
   const skills = useSelector(gameService, selectSkills, compareSkills);
 
-  const hasTool = HasTool(inventory, game);
+  const hasTool = HasTool(inventory, game, id);
   const timeLeft = getTimeLeft(resource.stone.minedAt, STONE_RECOVERY_TIME);
   const mined = !canMine(resource, STONE_RECOVERY_TIME);
 
@@ -135,6 +139,7 @@ export const Stone: React.FC<Props> = ({ id }) => {
           createdAt: Date.now(),
           criticalDropGenerator: (name) =>
             !!(resource.stone.criticalHit?.[name] ?? 0),
+          id,
         }).amount,
     );
 
@@ -168,6 +173,8 @@ export const Stone: React.FC<Props> = ({ id }) => {
             touchCount={touchCount}
             showHelper={false} // FUTURE ENHANCEMENT
             stoneRockName={name}
+            requiredToolAmount={getRequiredPickaxeAmount(game, id).amount}
+            inventory={inventory}
           />
         </div>
       )}

@@ -22,7 +22,9 @@ const DepletedStoneComponent: React.FC<Props> = ({ timeLeft, name }) => {
       onMouseLeave={() => setShowTimeLeft(false)}
     >
       <div className="absolute w-full h-full pointer-events-none">
-        <Image />
+        <div className="opacity-50">
+          <Image />
+        </div>
         <div
           className="flex justify-center absolute w-full"
           style={{

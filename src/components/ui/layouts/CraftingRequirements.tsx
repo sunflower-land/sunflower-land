@@ -24,6 +24,11 @@ import { BuffLabel } from "features/game/types";
 import { isSeed } from "features/game/types/seeds";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
+import {
+  RESOURCE_STATE_ACCESSORS,
+  ResourceName,
+  RESOURCES,
+} from "features/game/types/resources";
 
 /**
  * The props for the details for items.
@@ -281,19 +286,40 @@ export const CraftingRequirements: React.FC<Props> = ({
               ingredients={getKeys(requirements.resources ?? {})}
               onClick={() => setShowIngredients(false)}
             />
-            {getKeys(requirements.resources).map((ingredientName, index) => (
-              <RequirementLabel
-                key={index}
-                type="item"
-                item={ingredientName}
-                balance={gameState.inventory[ingredientName] ?? new Decimal(0)}
-                requirement={
-                  new Decimal(
-                    (requirements.resources ?? {})[ingredientName] ?? 0,
-                  )
-                }
-              />
-            ))}
+            {getKeys(requirements.resources).map((ingredientName, index) => {
+              // If ingredient is a node, require it to be placed
+              let balance =
+                gameState.inventory[ingredientName] ?? new Decimal(0);
+
+              if (ingredientName in RESOURCES) {
+                const stateAccessor =
+                  RESOURCE_STATE_ACCESSORS[
+                    ingredientName as Exclude<ResourceName, "Boulder">
+                  ];
+                balance = new Decimal(
+                  Object.values(stateAccessor(gameState)).filter((node) => {
+                    if ("name" in node) {
+                      return node.name === ingredientName;
+                    }
+                    return true;
+                  }).length ?? 0,
+                );
+              }
+
+              return (
+                <RequirementLabel
+                  key={index}
+                  type="item"
+                  item={ingredientName}
+                  balance={balance}
+                  requirement={
+                    new Decimal(
+                      (requirements.resources ?? {})[ingredientName] ?? 0,
+                    )
+                  }
+                />
+              );
+            })}
           </div>
         )}
 

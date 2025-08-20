@@ -172,6 +172,8 @@ function detectPlaceableCollision(
   > = {
     Tree: trees,
     "Stone Rock": stones,
+    "Fused Stone Rock": stones,
+    "Reinforced Stone Rock": stones,
     "Iron Rock": iron,
     "Gold Rock": gold,
     "Crimstone Rock": crimstones,

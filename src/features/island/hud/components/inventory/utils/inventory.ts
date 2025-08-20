@@ -103,10 +103,23 @@ export const getChestItems = (state: GameState): Inventory => {
         ...acc,
         [itemName]: new Decimal(
           state.inventory[itemName]?.minus(
-            Object.values(stateAccessor(state) ?? {}).filter(
-              (resource) =>
-                resource.x !== undefined && resource.y !== undefined,
-            ).length,
+            Object.values(stateAccessor(state) ?? {}).filter((resource) => {
+              const isPlaced =
+                resource.x !== undefined && resource.y !== undefined;
+
+              // For upgraded resource nodes, check the actual name
+              // since they will have the same state accessor as the base resource
+              // ie Stone Rock and Fused Stone Rock (Upgraded) will both be
+              // in gameState.stones
+              if ("name" in resource) {
+                if (resource.name === itemName) {
+                  return isPlaced;
+                }
+                return false;
+              }
+
+              return isPlaced;
+            }).length,
           ) ?? 0,
         ),
       };
