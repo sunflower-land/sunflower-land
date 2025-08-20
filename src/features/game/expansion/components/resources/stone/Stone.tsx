@@ -89,6 +89,7 @@ export const Stone: React.FC<Props> = ({ id }) => {
     (state) => state.context.state.stones[id],
     compareResource,
   );
+  const name = resource.name ?? "Stone Rock";
   const inventory = useSelector(
     gameService,
     selectInventory,
@@ -138,7 +139,7 @@ export const Stone: React.FC<Props> = ({ id }) => {
     );
 
     const newState = gameService.send("stoneRock.mined", {
-      index: id,
+      id,
     });
 
     if (!newState.matches("hoarding")) {
@@ -166,6 +167,7 @@ export const Stone: React.FC<Props> = ({ id }) => {
             hasTool={hasTool}
             touchCount={touchCount}
             showHelper={false} // FUTURE ENHANCEMENT
+            stoneRockName={name}
           />
         </div>
       )}
@@ -174,7 +176,7 @@ export const Stone: React.FC<Props> = ({ id }) => {
       {collecting && <DepletingStone resourceAmount={harvested.current} />}
 
       {/* Depleted resource */}
-      {mined && <DepletedStone timeLeft={timeLeft} />}
+      {mined && <DepletedStone timeLeft={timeLeft} name={name} />}
     </div>
   );
 };

@@ -1,11 +1,15 @@
 import { GameState, Rock } from "features/game/types/game";
-import { ResourceName } from "features/game/types/resources";
+import {
+  ADVANCED_RESOURCES,
+  UpgradedResourceName,
+  RockName,
+} from "features/game/types/resources";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
 
 export type PlaceStoneAction = {
   type: "stone.placed";
-  name: ResourceName;
+  name: RockName;
   id: string;
   coordinates: {
     x: number;
@@ -19,13 +23,19 @@ type Options = {
   createdAt?: number;
 };
 
+export const STONE_MULTIPLIERS: Record<RockName, number> = {
+  "Stone Rock": 1,
+  "Fused Stone Rock": 4,
+  "Reinforced Stone Rock": 16,
+};
+
 export function placeStone({
   state,
   action,
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (game) => {
-    const available = (game.inventory["Stone Rock"] || new Decimal(0)).minus(
+    const available = (game.inventory[action.name] || new Decimal(0)).minus(
       Object.values(game.stones).filter(
         (stone) => stone.x !== undefined && stone.y !== undefined,
       ).length,
@@ -66,6 +76,9 @@ export function placeStone({
       stone: {
         minedAt: 0,
       },
+      tier: ADVANCED_RESOURCES[action.name as UpgradedResourceName]?.tier,
+      name: action.name,
+      multiplier: STONE_MULTIPLIERS[action.name],
     };
 
     game.stones = {

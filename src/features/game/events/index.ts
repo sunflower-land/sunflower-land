@@ -546,6 +546,7 @@ import {
   instaGrowFlower,
   InstaGrowFlowerAction,
 } from "./landExpansion/instaGrowFlower";
+import { upgradeStone, UpgradeStoneAction } from "./landExpansion/upgradeNode";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
@@ -698,7 +699,8 @@ export type PlayingEvent =
   | NeglectPetAction
   | PetPetAction
   | FetchPetAction
-  | InstaGrowFlowerAction;
+  | InstaGrowFlowerAction
+  | UpgradeStoneAction;
 
 export type LocalVisitingEvent = CollectGarbageAction | HelpProjectAction;
 
@@ -939,6 +941,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "cheers.claimed": claimDailyCheers,
   "clutter.burned": burnClutter,
   "project.instantGrow": instantGrowProject,
+  "stone.upgraded": upgradeStone,
 };
 
 export const LOCAL_VISITING_EVENTS: Handlers<LocalVisitingEvent> = {

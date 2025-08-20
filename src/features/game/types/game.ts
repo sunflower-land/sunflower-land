@@ -9,7 +9,13 @@ import {
 } from "./crops";
 
 import { CollectibleName, CraftableName, Food } from "./craftables";
-import { CommodityName, MushroomName, ResourceName } from "./resources";
+import {
+  UpgradedResourceName,
+  CommodityName,
+  MushroomName,
+  ResourceName,
+  ResourceTier,
+} from "./resources";
 import { LegacyBadgeName } from "./skills";
 import { BuildingName } from "./buildings";
 import { GameEvent } from "../events";
@@ -107,6 +113,7 @@ import { AOEItemName } from "../expansion/placeable/lib/collisionDetection";
 import { Coordinates } from "../expansion/components/MapPlacement";
 import { ClutterName } from "./clutter";
 import { Pet, PetName, PetResource } from "./pets";
+import { RockName } from "./resources";
 
 export type Reward = {
   coins?: number;
@@ -517,6 +524,7 @@ export type InventoryItemName =
   | CraftableName
   | CommodityName
   | ResourceName
+  | UpgradedResourceName
   | LegacyBadgeName
   | EasterEgg
   | EasterEventItemName
@@ -662,6 +670,9 @@ export type Rock = {
   stone: Stone;
   createdAt?: number;
   removedAt?: number;
+  tier?: ResourceTier;
+  name?: RockName;
+  multiplier?: number;
 } & OptionalCoordinates;
 
 export type Oil = {

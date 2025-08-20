@@ -12,6 +12,7 @@ import { OuterPanel } from "components/ui/Panel";
 import { MachineState } from "features/game/lib/gameMachine";
 import { useSelector } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
+import { Forge } from "./Forge";
 
 const needsHelp = (state: MachineState) => {
   const missingScarecrow =
@@ -43,6 +44,7 @@ export const WorkbenchModal: React.FC<Props> = ({ onClose }) => {
         { icon: ITEM_DETAILS.Pickaxe.image, name: t("tools") },
         { icon: SUNNYSIDE.icons.hammer, name: t("craft") },
         { icon: SUNNYSIDE.icons.hammer, name: t("build") },
+        { icon: SUNNYSIDE.icons.sword, name: "Upgrade" },
       ]}
       currentTab={tab}
       setCurrentTab={setTab}
@@ -51,6 +53,7 @@ export const WorkbenchModal: React.FC<Props> = ({ onClose }) => {
       {tab === 0 && <Tools />}
       {tab === 1 && <IslandBlacksmithItems />}
       {tab === 2 && <Buildings onClose={onClose} />}
+      {tab === 3 && <Forge />}
     </CloseButtonPanel>
   );
 };

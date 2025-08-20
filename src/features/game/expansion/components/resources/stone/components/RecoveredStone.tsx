@@ -1,4 +1,5 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
+import classNames from "classnames";
 
 import Spritesheet, {
   SpriteSheetInstance,
@@ -8,11 +9,12 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
-import classNames from "classnames";
 import { ZoomContext } from "components/ZoomProvider";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useSound } from "lib/utils/hooks/useSound";
+import { READONLY_RESOURCE_COMPONENTS } from "features/island/resources/Resource";
+import { RockName } from "features/game/types/resources";
 
 const tool = "Pickaxe";
 
@@ -23,12 +25,14 @@ interface Props {
   hasTool: boolean;
   touchCount: number;
   showHelper: boolean;
+  stoneRockName: RockName;
 }
 
 const RecoveredStoneComponent: React.FC<Props> = ({
   hasTool,
   touchCount,
   showHelper,
+  stoneRockName,
 }) => {
   const { scale } = useContext(ZoomContext);
   const [showSpritesheet, setShowSpritesheet] = useState(false);
@@ -38,6 +42,8 @@ const RecoveredStoneComponent: React.FC<Props> = ({
   const { t } = useAppTranslation();
 
   const { play: miningAudio } = useSound("mining");
+
+  const Image = READONLY_RESOURCE_COMPONENTS()[stoneRockName];
 
   useEffect(() => {
     // prevent performing react state update on an unmounted component
@@ -90,17 +96,7 @@ const RecoveredStoneComponent: React.FC<Props> = ({
         )}
 
         {/* static resource node image */}
-        {!showSpritesheet && (
-          <img
-            src={SUNNYSIDE.resource.stone_small}
-            className={"absolute pointer-events-none opacity-100"}
-            style={{
-              width: `${PIXEL_SCALE * 14}px`,
-              bottom: `${PIXEL_SCALE * 3}px`,
-              right: `${PIXEL_SCALE * 1}px`,
-            }}
-          />
-        )}
+        {!showSpritesheet && <Image />}
 
         {/* spritesheet */}
         {showSpritesheet && (

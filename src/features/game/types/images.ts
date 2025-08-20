@@ -5882,7 +5882,14 @@ export const ITEM_DETAILS: Items = {
   },
   Dewberry: {
     image: dewberry,
-
     description: translate("description.dewberry"),
+  },
+  "Fused Stone Rock": {
+    image: SUNNYSIDE.resource.stone_rock,
+    description: "Fused Stone",
+  },
+  "Reinforced Stone Rock": {
+    image: SUNNYSIDE.resource.iron_rock,
+    description: "Reinforced Stone",
   },
 };

@@ -3,6 +3,8 @@ import { translate } from "lib/i18n/translate";
 import { AnimalResource } from "./game";
 import { GameState } from "features/game/types/game";
 import { ResourceItem } from "../expansion/placeable/lib/collisionDetection";
+import { Tool } from "./tools";
+import { Decimal } from "decimal.js-light";
 
 export type CommodityName =
   | "Wood"
@@ -108,7 +110,17 @@ export type ResourceName =
   | "Sunstone Rock"
   | "Flower Bed"
   | "Oil Reserve"
-  | "Lava Pit";
+  | "Lava Pit"
+  | UpgradedResourceName;
+
+export type UpgradedResourceName = "Fused Stone Rock" | "Reinforced Stone Rock";
+
+export type ResourceTier = 1 | 2 | 3;
+
+export type RockName = Extract<
+  ResourceName,
+  "Stone Rock" | "Fused Stone Rock" | "Reinforced Stone Rock"
+>;
 
 export const RESOURCES: Record<ResourceName, string> = {
   "Crop Plot": "Plant crops",
@@ -124,6 +136,50 @@ export const RESOURCES: Record<ResourceName, string> = {
   "Sunstone Rock": "Mine sunstone",
   "Oil Reserve": "Drill oil",
   "Lava Pit": "Craft obsidian",
+  "Fused Stone Rock": "Mine fused stone",
+  "Reinforced Stone Rock": "Mine reinforced stone",
+};
+
+export const ADVANCED_RESOURCES: Record<
+  UpgradedResourceName,
+  Tool & {
+    tier: ResourceTier;
+    preRequires: {
+      tier: ResourceTier;
+      count: number;
+    };
+  }
+> = {
+  "Fused Stone Rock": {
+    name: "Fused Stone",
+    description: "Mine fused stone",
+    tier: 2,
+    ingredients: {
+      "Stone Rock": new Decimal(4),
+      Obsidian: new Decimal(1),
+    },
+    price: 5000,
+    // 4 stone rocks
+    preRequires: {
+      tier: 1,
+      count: 4,
+    },
+  },
+  "Reinforced Stone Rock": {
+    name: "Reinforced Stone",
+    description: "Mine reinforced stone",
+    tier: 3,
+    ingredients: {
+      "Fused Stone Rock": new Decimal(4),
+      Obsidian: new Decimal(5),
+    },
+    price: 10000,
+    // 4 fused stone rocks
+    preRequires: {
+      tier: 2,
+      count: 4,
+    },
+  },
 };
 
 export const RESOURCE_STATE_ACCESSORS: Record<
@@ -142,6 +198,8 @@ export const RESOURCE_STATE_ACCESSORS: Record<
   "Sunstone Rock": (game) => game.sunstones,
   "Oil Reserve": (game) => game.oilReserves,
   "Lava Pit": (game) => game.lavaPits,
+  "Fused Stone Rock": (game) => game.stones,
+  "Reinforced Stone Rock": (game) => game.stones,
 };
 
 export const RESOURCE_DIMENSIONS: Record<ResourceName, Dimensions> = {
@@ -196,6 +254,14 @@ export const RESOURCE_DIMENSIONS: Record<ResourceName, Dimensions> = {
   "Lava Pit": {
     width: 2,
     height: 2,
+  },
+  "Fused Stone Rock": {
+    width: 1,
+    height: 1,
+  },
+  "Reinforced Stone Rock": {
+    width: 1,
+    height: 1,
   },
 };
 

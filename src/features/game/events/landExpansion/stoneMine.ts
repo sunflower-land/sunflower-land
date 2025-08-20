@@ -33,7 +33,7 @@ import {
 
 export type LandExpansionStoneMineAction = {
   type: "stoneRock.mined";
-  index: number;
+  id: string;
 };
 
 type Options = {
@@ -309,7 +309,7 @@ export function mineStone({
 }: Options): GameState {
   return produce(state, (stateCopy) => {
     const { stones, bumpkin } = stateCopy;
-    const rock = stones?.[action.index];
+    const rock = stones?.[action.id];
 
     if (!rock) {
       throw new Error("Stone does not exist");
