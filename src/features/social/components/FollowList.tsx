@@ -9,7 +9,6 @@ import { useFollowNetwork } from "../hooks/useFollowNetwork";
 import { useInView } from "react-intersection-observer";
 import { Loading } from "features/auth/components";
 import { useGame } from "features/game/GameProvider";
-import { getHelpStreak } from "features/game/types/monuments";
 
 type Props = {
   loggedInFarmId: number;
@@ -144,20 +143,6 @@ export const FollowList: React.FC<Props> = ({
       </div>
       <div className="flex flex-col gap-1">
         {network.map((detail) => {
-          const friendStreak = getHelpStreak({
-            farm: gameService.state.context.state.socialFarming.helped?.[
-              detail.id
-            ],
-          });
-
-          const helpedToday =
-            gameService.getSnapshot().context.state.socialFarming.helped?.[
-              detail.id
-            ]?.helpedAt ?? 0;
-          const hasHelpedToday =
-            new Date(helpedToday).toISOString().split("T")[0] ===
-            new Date().toISOString().split("T")[0];
-
           return (
             <FollowDetailPanel
               key={`flw-${detail.id}`}
@@ -169,13 +154,14 @@ export const FollowList: React.FC<Props> = ({
               navigateToPlayer={navigateToPlayer}
               hasCookingPot={detail.hasCookingPot}
               socialPoints={detail.socialPoints ?? 0}
-              haveHelpedToday={hasHelpedToday}
-              haveTheyHelpedYouToday={detail.helpedYouToday ?? false}
-              friendStreak={friendStreak}
+              helpedThemToday={detail.helpedThemToday}
+              helpedYouToday={detail.helpedYouToday}
+              helpStreak={detail.helpStreak}
             />
           );
         })}
       </div>
+
       <div
         ref={intersectionRef}
         className="text-xs flex justify-center py-1 h-5"

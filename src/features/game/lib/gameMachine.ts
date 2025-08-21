@@ -173,6 +173,8 @@ export interface Context {
   rawToken?: string;
   visitorId?: number;
   visitorState?: GameState;
+  hasHelpedPlayerToday?: boolean;
+  totalHelpedToday?: number;
 }
 
 export type Moderation = {
@@ -602,9 +604,11 @@ const VISIT_EFFECT_STATES = Object.values(STATE_MACHINE_VISIT_EFFECTS).reduce(
             transactionId: context.transactionId as string,
           });
 
+          const { visitedFarmState, ...rest } = data;
+
           return {
-            state: makeGame(data.visitedFarmState),
-            data,
+            state: makeGame(visitedFarmState),
+            data: rest,
             visitorState: gameState,
           };
         },
@@ -615,6 +619,9 @@ const VISIT_EFFECT_STATES = Object.values(STATE_MACHINE_VISIT_EFFECTS).reduce(
               !event.data.state.transaction,
             actions: [
               assign((context: Context, event: DoneInvokeEvent<any>) => {
+                const { hasHelpedPlayerToday, totalHelpedToday, ...rest } =
+                  event.data.data;
+
                 return {
                   actions: [],
                   state: event.data.state,
@@ -623,8 +630,10 @@ const VISIT_EFFECT_STATES = Object.values(STATE_MACHINE_VISIT_EFFECTS).reduce(
                   nftId: event.data.data?.nftId ?? context.nftId,
                   farmAddress:
                     event.data.data?.farmAddress ?? context.farmAddress,
-                  data: { ...context.data, [stateName]: event.data.data },
+                  data: { ...context.data, [stateName]: rest },
                   visitorState: event.data.visitorState,
+                  hasHelpedPlayerToday,
+                  totalHelpedToday,
                 };
               }),
             ],
@@ -636,6 +645,11 @@ const VISIT_EFFECT_STATES = Object.values(STATE_MACHINE_VISIT_EFFECTS).reduce(
                 actions: [],
                 state: event.data.state,
                 visitorState: event.data.visitorState,
+                hasHelpedPlayerToday:
+                  event.data.data?.hasHelpedPlayerToday ??
+                  context.hasHelpedPlayerToday,
+                totalHelpedToday:
+                  event.data.data?.totalHelpedToday ?? context.totalHelpedToday,
               })),
             ],
           },
@@ -995,15 +1009,22 @@ export function startGame(authContext: AuthContext) {
                 farmId = (event as VisitEvent).landId;
               }
 
-              const { visitedFarmState, visitorFarmState, visitorId } =
-                await loadGameStateForVisit(
-                  Number(farmId),
-                  authContext.user.rawToken as string,
-                );
+              const {
+                visitedFarmState,
+                visitorFarmState,
+                hasHelpedPlayerToday,
+                totalHelpedToday,
+                visitorId,
+              } = await loadGameStateForVisit(
+                Number(farmId),
+                authContext.user.rawToken as string,
+              );
 
               return {
                 state: makeGame(visitedFarmState),
                 farmId,
+                hasHelpedPlayerToday,
+                totalHelpedToday,
                 visitorId,
                 visitorState: makeGame(visitorFarmState),
               };
@@ -1015,6 +1036,9 @@ export function startGame(authContext: AuthContext) {
                 farmId: (_, event) => event.data.farmId,
                 visitorId: (_, event) => event.data.visitorId,
                 visitorState: (_, event) => event.data.visitorState,
+                hasHelpedPlayerToday: (_, event) =>
+                  event.data.hasHelpedPlayerToday,
+                totalHelpedToday: (_, event) => event.data.totalHelpedToday,
                 actions: (_, event) => [],
               }),
             },
@@ -1048,6 +1072,8 @@ export function startGame(authContext: AuthContext) {
               actions: assign((context) => ({
                 visitorId: undefined,
                 visitorState: undefined,
+                hasHelpedPlayerToday: undefined,
+                totalHelpedToday: undefined,
                 state: context.visitorState,
                 farmId: context.visitorId,
                 actions: [],

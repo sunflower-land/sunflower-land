@@ -6,6 +6,7 @@ import { hasHitHelpLimit } from "../landExpansion/increaseHelpLimit";
 export type HelpProjectAction = {
   type: "project.helped";
   project: MonumentName;
+  totalHelpedToday: number;
 };
 
 type Options = {
@@ -39,7 +40,12 @@ export function helpProject({
     }
 
     // If over help limit, throw error
-    if (hasHitHelpLimit({ game: visitorGame })) {
+    if (
+      hasHitHelpLimit({
+        game: visitorGame,
+        totalHelpedToday: action.totalHelpedToday,
+      })
+    ) {
       throw new Error("Help limit reached");
     }
 

@@ -542,7 +542,7 @@ const FeedContent: React.FC<FeedContentProps> = ({
         <div
           ref={setRefs}
           id="loading-more"
-          className="bg-green-500 text-xs flex justify-center py-1 h-6"
+          className="text-xs flex justify-center py-1 h-6"
         >
           {hasMore ? <Loading dotsOnly /> : t("playerModal.noMoreMessages")}
         </div>

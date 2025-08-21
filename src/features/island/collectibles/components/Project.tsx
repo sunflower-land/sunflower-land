@@ -22,7 +22,6 @@ import { useSelector } from "@xstate/react";
 import Decimal from "decimal.js-light";
 import classNames from "classnames";
 import {
-  hasHelpedFarmToday,
   isHelpComplete,
   MonumentName,
   RAFFLE_REWARDS,
@@ -447,14 +446,9 @@ export const _hasCheeredToday =
     const today = new Date().toISOString().split("T")[0];
 
     if (state.context.visitorState) {
-      const hasHelpedToday = hasHelpedFarmToday({
-        game: state.context.visitorState,
-        farmId: state.context.farmId,
-      });
+      const hasHelpedToday = state.context.hasHelpedPlayerToday ?? false;
 
-      if (hasHelpedToday) {
-        return true;
-      }
+      if (hasHelpedToday) return true;
 
       if (
         state.context.state?.socialFarming.villageProjects[project]?.helpedAt
@@ -488,6 +482,10 @@ export const Project: React.FC<ProjectProps> = (input) => {
     gameService,
     _hasCheeredToday(input.project),
   );
+  const totalHelpedToday = useSelector(
+    gameService,
+    (state) => state.context.totalHelpedToday ?? 0,
+  );
   const state = useSelector(gameService, (state) => state.context.state);
 
   const requiredCheers = REQUIRED_CHEERS[input.project];
@@ -519,6 +517,7 @@ export const Project: React.FC<ProjectProps> = (input) => {
   const handleHelpProject = async () => {
     gameService.send("project.helped", {
       project: input.project,
+      totalHelpedToday: totalHelpedToday ?? 0,
     });
 
     if (isHelpComplete({ game: gameService.getSnapshot().context.state })) {

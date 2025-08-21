@@ -1,6 +1,7 @@
 import useSWRInfinite from "swr/infinite";
 import {
   FollowNetworkDetails,
+  FollowNetworkMember,
   getFollowNetworkDetails,
 } from "../actions/getFollowNetworkDetails";
 
@@ -10,43 +11,59 @@ export const useFollowNetwork = (
   networkFarmId: number,
   networkType: "followers" | "following",
 ) => {
-  const getKey = (
-    pageIndex: number,
-    previousPageData: FollowNetworkDetails | null,
-  ) => {
-    if (pageIndex === 0)
-      return `followNetworkDetails-${networkType}-${networkFarmId}-0`;
+  const getKey = (pageIndex: number, prev: FollowNetworkDetails | null) => {
+    if (pageIndex === 0) {
+      return [
+        "followNetworkDetails",
+        networkType,
+        networkFarmId,
+        loggedInFarmId,
+        null,
+      ];
+    }
 
-    if (!previousPageData?.data?.nextCursor) return null;
+    const cursor = prev?.data?.nextCursor;
+    if (!cursor) return null;
 
-    return `followNetworkDetails-${networkType}-${networkFarmId}-${previousPageData.data.nextCursor}`;
+    return [
+      "followNetworkDetails",
+      networkType,
+      networkFarmId,
+      loggedInFarmId,
+      cursor,
+    ];
   };
 
   const { data, size, error, setSize, isValidating, mutate } = useSWRInfinite(
     getKey,
-    (key) => {
-      const parts = key.split("-");
-      const cursor = parts[3];
-      const nextCursor = cursor === "0" ? 0 : Number(cursor);
-
-      return getFollowNetworkDetails({
+    ([, networkType, networkFarmId, loggedInFarmId, cursor]: [
+      string,
+      "followers" | "following",
+      number,
+      number,
+      FollowNetworkMember | null,
+    ]) =>
+      getFollowNetworkDetails({
         token,
         farmId: loggedInFarmId,
         networkFarmId,
-        nextCursor,
         networkType,
-      });
-    },
+        nextCursor: cursor ?? undefined, // already an object
+      }),
   );
 
   const network = data?.flatMap((page) => page.data.network) ?? [];
+
+  // Check if the last page has a nextCursor
+  const lastPage = data?.[data.length - 1];
+  const hasMore = lastPage?.data?.nextCursor !== undefined;
 
   return {
     network,
     isLoadingInitialData: !data && isValidating,
     isLoadingMore:
       isValidating && size > 0 && typeof data?.[size - 1] === "undefined",
-    hasMore: data?.[data.length - 1]?.data.nextCursor !== null,
+    hasMore,
     loadMore: () => setSize(size + 1),
     error,
     mutate,

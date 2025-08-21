@@ -5,17 +5,22 @@ type Request = {
   token: string;
   farmId: number;
   networkFarmId: number;
-  nextCursor: number | null;
+  nextCursor?: FollowNetworkMember;
   networkType: "followers" | "following";
 };
 
-export type Detail = {
+export type FollowNetworkMember = {
   id: number;
+  socialPoints: number;
+  helpStreak: number;
+};
+
+export type Detail = FollowNetworkMember & {
   clothing: Equipped;
   username: string;
   lastUpdatedAt: number;
-  socialPoints: number;
-  helpedYouToday?: boolean;
+  helpedYouToday: boolean;
+  helpedThemToday: boolean;
   hasCookingPot: boolean;
 };
 
@@ -23,7 +28,7 @@ export type FollowNetworkDetails = {
   data: {
     id: number;
     network: Detail[];
-    nextCursor: number | null;
+    nextCursor?: FollowNetworkMember;
   };
 };
 
@@ -34,7 +39,16 @@ export const getFollowNetworkDetails = async ({
   nextCursor,
   networkType,
 }: Request): Promise<FollowNetworkDetails> => {
-  const url = `${CONFIG.API_URL}/data?type=followNetworkDetails&networkFarmId=${networkFarmId}&networkType=${networkType}&farmId=${farmId}&nextCursor=${nextCursor}`;
+  const url = new URL(`${CONFIG.API_URL}/data`);
+
+  url.searchParams.set("type", "followNetworkDetails");
+  url.searchParams.set("networkFarmId", networkFarmId.toString());
+  url.searchParams.set("networkType", networkType);
+  url.searchParams.set("farmId", farmId.toString());
+
+  if (nextCursor !== undefined) {
+    url.searchParams.set("nextCursor", JSON.stringify(nextCursor));
+  }
 
   const res = await fetch(url, {
     headers: {
