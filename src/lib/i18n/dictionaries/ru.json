@@ -6194,7 +6194,6 @@
   "stream": "Стрим",
   "cheers.moreFreeCheersIn": "Больше бесплатных приветствия в {{time}}",
   "cheers.guide.description2": "Каждый день в 12:00 UTC вы получаете 3 бесплатных приветствия.",
-  "reputation.unlock.discord": "Подтвердите аккаунт Discord — {{points}} баллов",
   "airdrop": "Airdrop",
   "noticeboard": "Доска объявлений",
   "rewards": "Награды",
@@ -6474,5 +6473,8 @@
   "description.moleShrine.buff": "Скорость: малиновый камень, железо и золото: +25%",
   "description.bearShrine.buff": "Скорость мёда: +50%",
   "description.tortoiseShrine.buff": "Скорость работы машины для теплиц и сельскохозяйственных культур: +25%",
-  "description.mothShrine.buff": "Скорость цветения: +25%"
+  "description.mothShrine.buff": "Скорость цветения: +25%",
+  "reputation.unlock.discord": "Подключите и подтвердите учетную запись Discord — [0 @/$] баллов",
+  "reputation.unlock.discord.info1": "Посетите канал #verify в Discord",
+  "reputation.unlock.discord.info2": "и введите команду /verify"
 }

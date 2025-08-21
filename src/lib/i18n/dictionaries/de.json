@@ -6194,7 +6194,6 @@
   "stream": "Streamen",
   "cheers.moreFreeCheersIn": "Noch mehr Gratis-Cheers in {{time}}",
   "cheers.guide.description2": "Du erhältst jeden Tag um 12:00 Uhr UTC 3 kostenlose Cheers.",
-  "reputation.unlock.discord": "Discord-Konto verifizieren - {{points}} Punkte",
   "airdrop": "Airdrop",
   "noticeboard": "Pinnwand",
   "rewards": "Prämien",
@@ -6474,5 +6473,8 @@
   "description.moleShrine.buff": "+25% Geschwindigkeit für Purpur, Eisen und Gold",
   "description.bearShrine.buff": "+50% Honiggeschwindigkeit",
   "description.tortoiseShrine.buff": "+25% Gewächshausgeschwindigkeit + Erntemaschinentempo",
-  "description.mothShrine.buff": "+25% Blütentempo"
+  "description.mothShrine.buff": "+25% Blütentempo",
+  "reputation.unlock.discord": "Discord-Konto verbinden und verifizieren — {{points}} Punkte",
+  "reputation.unlock.discord.info1": "Besuche den #verify -Kanal auf Discord",
+  "reputation.unlock.discord.info2": "und geben Sie den Befehl /verify ein"
 }

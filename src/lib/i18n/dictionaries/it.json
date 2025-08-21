@@ -6194,7 +6194,6 @@
   "stream": "Stream",
   "cheers.moreFreeCheersIn": "Altri applausi gratuiti in {{time}}",
   "cheers.guide.description2": "Ricevi 3 Cheers gratuiti ogni giorno alle 00:00 UTC.",
-  "reputation.unlock.discord": "Verifica l'account Discord - {{points}} punti",
   "airdrop": "Airdrop",
   "noticeboard": "Bacheca",
   "rewards": "Premi",
@@ -6474,5 +6473,8 @@
   "description.moleShrine.buff": "+25% Crimstone, Ferro + Velocità Oro",
   "description.bearShrine.buff": "+50% Honey Speed",
   "description.tortoiseShrine.buff": "+25% della velocità della serra + della macchina per il raccolto",
-  "description.mothShrine.buff": "+25% Velocità dei fiori"
+  "description.mothShrine.buff": "+25% Velocità dei fiori",
+  "reputation.unlock.discord": "Connetti e verifica l'account Discord - {{points}} punti",
+  "reputation.unlock.discord.info1": "Visita il canale #verify su Discord",
+  "reputation.unlock.discord.info2": "e digita il comando /verify"
 }

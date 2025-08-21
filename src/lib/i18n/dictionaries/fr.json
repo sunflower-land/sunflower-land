@@ -6194,7 +6194,6 @@
   "stream": "Diffusez",
   "cheers.moreFreeCheersIn": "Plus d'encouragements gratuits en {{time}}",
   "cheers.guide.description2": "Vous recevez 3 Cheers gratuits chaque jour à 12h00 UTC.",
-  "reputation.unlock.discord": "Vérifier le compte Discord - {{points}} points",
   "airdrop": "parachutage",
   "noticeboard": "Tableau d'affichage",
   "rewards": "Récompenses",
@@ -6474,5 +6473,8 @@
   "description.moleShrine.buff": "Vitesse Crimstone, fer et or : +25 %",
   "description.bearShrine.buff": "Vitesse du miel +50 %",
   "description.tortoiseShrine.buff": "+25 % de vitesse de la serre + de la machine à cultiver",
-  "description.mothShrine.buff": "Vitesse des fleurs +25 %"
+  "description.mothShrine.buff": "Vitesse des fleurs +25 %",
+  "reputation.unlock.discord": "Connecter et vérifier le compte Discord - {{points}} points",
+  "reputation.unlock.discord.info1": "Visitez la chaîne #verify sur Discord",
+  "reputation.unlock.discord.info2": "et tapez la commande /verify"
 }

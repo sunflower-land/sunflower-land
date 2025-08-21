@@ -6194,7 +6194,6 @@
   "stream": "스트림",
   "cheers.moreFreeCheersIn": "{{time}} 에서 더 많은 무료 응원",
   "cheers.guide.description2": "매일 오전 12:00 UTC에 응원 3회를 무료로 받을 수 있습니다.",
-  "reputation.unlock.discord": "디스코드 계정 확인 - {{points}} 포인트",
   "airdrop": "에어드랍",
   "noticeboard": "공지 게시판",
   "rewards": "리워드",
@@ -6474,5 +6473,8 @@
   "description.moleShrine.buff": "+25% 크림스톤, 아이언 +골드 스피드",
   "description.bearShrine.buff": "+50% 허니 스피드",
   "description.tortoiseShrine.buff": "+25% 그린하우스+크롭 머신 스피드",
-  "description.mothShrine.buff": "플라워 스피드 25% 증가"
+  "description.mothShrine.buff": "플라워 스피드 25% 증가",
+  "reputation.unlock.discord": "디스코드 계정 연결 및 인증 - {{points}} 포인트",
+  "reputation.unlock.discord.info1": "디스코드의 #verify 채널 방문하기",
+  "reputation.unlock.discord.info2": "그리고 /verify 명령을 입력합니다."
 }

@@ -6194,7 +6194,6 @@
   "stream": "ストリーム",
   "cheers.moreFreeCheersIn": "{{time}} でもっと無料応援を",
   "cheers.guide.description2": "毎日午前 12:00（UTC）に 3 回無料の Cheers が贈られます。",
-  "reputation.unlock.discord": "ディスコードアカウントを確認-{{points}} ポイント",
   "airdrop": "エアドロップ",
   "noticeboard": "掲示板",
   "rewards": "報酬",
@@ -6474,5 +6473,8 @@
   "description.moleShrine.buff": "+25% クリムストーン、アイアン+ゴールドスピード",
   "description.bearShrine.buff": "+50% ハニースピード",
   "description.tortoiseShrine.buff": "+25% グリーンハウス + クロップマシンスピード",
-  "description.mothShrine.buff": "+25% フラワースピード"
+  "description.mothShrine.buff": "+25% フラワースピード",
+  "reputation.unlock.discord": "Discordアカウントの接続と確認-{{points}} ポイント",
+  "reputation.unlock.discord.info1": "Discord の #verify チャンネルをご覧ください",
+  "reputation.unlock.discord.info2": "そして、/verify コマンドを入力します"
 }

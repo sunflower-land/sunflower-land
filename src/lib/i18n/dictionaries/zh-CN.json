@@ -6194,7 +6194,6 @@
   "stream": "直播",
   "cheers.moreFreeCheersIn": "{{time}} 中有更多免费欢呼",
   "cheers.guide.description2": "每天凌晨 12:00 UTC，你将获得 3 次免费欢呼。",
-  "reputation.unlock.discord": "验证 Discord 账户-{{points}} 积分",
   "airdrop": "空投",
   "noticeboard": "布告板",
   "rewards": "奖励",
@@ -6474,5 +6473,8 @@
   "description.moleShrine.buff": "+25% 猩红石、铁 + 金币速度",
   "description.bearShrine.buff": "+50% 蜂蜜速度",
   "description.tortoiseShrine.buff": "+25% 温室 + 作物机速度",
-  "description.mothShrine.buff": "+25% 花速"
+  "description.mothShrine.buff": "+25% 花速",
+  "reputation.unlock.discord": "连接并验证 Discord 账户-{{points}} 积分",
+  "reputation.unlock.discord.info1": "访问 Discord 上的 #verify 频道",
+  "reputation.unlock.discord.info2": "然后键入 /verify 命令"
 }

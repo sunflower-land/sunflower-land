@@ -6194,7 +6194,6 @@
   "stream": "Akış",
   "cheers.moreFreeCheersIn": "Daha fazla ücretsiz tezahürat {{time}}",
   "cheers.guide.description2": "Her gün saat 12:00 UTC'de 3 ücretsiz tezahürat alırsınız.",
-  "reputation.unlock.discord": "Discord Hesabını Doğrula - {{points}} puan",
   "airdrop": "Airdrop",
   "noticeboard": "İlan tahtası",
   "rewards": "Ödüller",
@@ -6474,5 +6473,8 @@
   "description.moleShrine.buff": "+25% Kızıl Taş, Demir + Altın Hızı",
   "description.bearShrine.buff": "+50% Bal Hızı",
   "description.tortoiseShrine.buff": "+25% Sera + Mahsul Makinesi Hızı",
-  "description.mothShrine.buff": "+25% Çiçek Hızı"
+  "description.mothShrine.buff": "+25% Çiçek Hızı",
+  "reputation.unlock.discord": "Discord Hesabını Bağlan ve Doğrula - {{points}} puan",
+  "reputation.unlock.discord.info1": "Discord'daki #verify kanalını ziyaret edin",
+  "reputation.unlock.discord.info2": "ve /verify komutunu yazın"
 }

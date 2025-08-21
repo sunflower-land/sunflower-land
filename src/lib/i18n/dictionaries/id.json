@@ -6194,7 +6194,6 @@
   "stream": "Streaming",
   "cheers.moreFreeCheersIn": "Lebih banyak sorakan gratis di {{time}}",
   "cheers.guide.description2": "Anda mendapatkan 3 Cheers gratis setiap hari pukul 12:00 AM UTC.",
-  "reputation.unlock.discord": "Verifikasi Akun Discord - {{points}} poin",
   "airdrop": "Airdrop",
   "noticeboard": "Papan pengumuman",
   "rewards": "Imbalan",
@@ -6474,5 +6473,8 @@
   "description.moleShrine.buff": "+25% Crimstone, Besi + Kecepatan Emas",
   "description.bearShrine.buff": "+50% Kecepatan Madu",
   "description.tortoiseShrine.buff": "+25% Rumah Kaca + Kecepatan Mesin Tanaman",
-  "description.mothShrine.buff": "+25% Kecepatan Bunga"
+  "description.mothShrine.buff": "+25% Kecepatan Bunga",
+  "reputation.unlock.discord": "Hubungkan & Verifikasi Akun Discord - {{points}} poin",
+  "reputation.unlock.discord.info1": "Kunjungi saluran #verify di Discord",
+  "reputation.unlock.discord.info2": "dan ketik perintah /verifikasi"
 }

@@ -6194,7 +6194,6 @@
   "stream": "Transmita",
   "cheers.moreFreeCheersIn": "Mais aplausos grátis em {{time}}",
   "cheers.guide.description2": "Você ganha 3 Cheers grátis todos os dias às 12:00 UTC.",
-  "reputation.unlock.discord": "Verifique a conta Discord - {{points}} pontos",
   "airdrop": "Airdrop",
   "noticeboard": "Quadro de avisos",
   "rewards": "Recompensas",
@@ -6474,5 +6473,8 @@
   "description.moleShrine.buff": "+25% de Pedra Vermelha, Ferro + Velocidade de Ouro",
   "description.bearShrine.buff": "+50% de Velocidade do Mel",
   "description.tortoiseShrine.buff": "+25% Estufa + Velocidade da Máquina de Colheita",
-  "description.mothShrine.buff": "+25% de Velocidade da Flor"
+  "description.mothShrine.buff": "+25% de Velocidade da Flor",
+  "reputation.unlock.discord": "Conecte e verifique a conta do Discord - {{points}} pontos",
+  "reputation.unlock.discord.info1": "Visite o canal #verify no Discord",
+  "reputation.unlock.discord.info2": "e digite o comando /verify"
 }
