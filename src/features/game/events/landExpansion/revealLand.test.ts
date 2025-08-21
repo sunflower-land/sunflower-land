@@ -2,8 +2,12 @@ import Decimal from "decimal.js-light";
 import { expansionRequirements, getRewards, revealLand } from "./revealLand";
 import {
   CRIMSTONE_RECOVERY_TIME,
+  GOLD_RECOVERY_TIME,
   INITIAL_FARM,
+  IRON_RECOVERY_TIME,
+  STONE_RECOVERY_TIME,
   TEST_FARM,
+  TREE_RECOVERY_TIME,
 } from "features/game/lib/constants";
 import {
   EXPANSION_REQUIREMENTS,
@@ -500,7 +504,7 @@ describe("revealLand", () => {
       createdAt: now,
     });
 
-    expect(state.trees[1].wood.choppedAt).toEqual(1);
+    expect(state.trees[1].wood.choppedAt).toEqual(now - TREE_RECOVERY_TIME);
   });
 
   it("replenishes stones", () => {
@@ -529,7 +533,7 @@ describe("revealLand", () => {
       createdAt: now,
     });
 
-    expect(state.stones[1].stone.minedAt).toEqual(1);
+    expect(state.stones[1].stone.minedAt).toEqual(now - STONE_RECOVERY_TIME);
   });
 
   it("replenishes iron", () => {
@@ -558,7 +562,7 @@ describe("revealLand", () => {
       createdAt: now,
     });
 
-    expect(state.iron[1].stone.minedAt).toEqual(1);
+    expect(state.iron[1].stone.minedAt).toEqual(now - IRON_RECOVERY_TIME);
   });
 
   it("replenishes gold", () => {
@@ -587,7 +591,7 @@ describe("revealLand", () => {
       createdAt: now,
     });
 
-    expect(state.gold[1].stone.minedAt).toEqual(1);
+    expect(state.gold[1].stone.minedAt).toEqual(now - GOLD_RECOVERY_TIME);
   });
 
   it("replenishes crimstones", () => {
