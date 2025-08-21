@@ -19,6 +19,7 @@ import {
   TOTAL_EXPANSION_NODES,
 } from "features/game/expansion/lib/expansionNodes";
 import { BB_TO_GEM_RATIO, FiniteResource } from "features/game/types/game";
+import { OIL_RESERVE_RECOVERY_TIME } from "./drillOilReserve";
 
 describe("expansionRequirements", () => {
   it("returns normal expansion requirements", () => {
@@ -504,7 +505,9 @@ describe("revealLand", () => {
       createdAt: now,
     });
 
-    expect(state.trees[1].wood.choppedAt).toEqual(now - TREE_RECOVERY_TIME);
+    expect(state.trees[1].wood.choppedAt).toEqual(
+      now - TREE_RECOVERY_TIME * 1000,
+    );
   });
 
   it("replenishes stones", () => {
@@ -533,7 +536,9 @@ describe("revealLand", () => {
       createdAt: now,
     });
 
-    expect(state.stones[1].stone.minedAt).toEqual(now - STONE_RECOVERY_TIME);
+    expect(state.stones[1].stone.minedAt).toEqual(
+      now - STONE_RECOVERY_TIME * 1000,
+    );
   });
 
   it("replenishes iron", () => {
@@ -562,7 +567,9 @@ describe("revealLand", () => {
       createdAt: now,
     });
 
-    expect(state.iron[1].stone.minedAt).toEqual(now - IRON_RECOVERY_TIME);
+    expect(state.iron[1].stone.minedAt).toEqual(
+      now - IRON_RECOVERY_TIME * 1000,
+    );
   });
 
   it("replenishes gold", () => {
@@ -591,7 +598,9 @@ describe("revealLand", () => {
       createdAt: now,
     });
 
-    expect(state.gold[1].stone.minedAt).toEqual(now - GOLD_RECOVERY_TIME);
+    expect(state.gold[1].stone.minedAt).toEqual(
+      now - GOLD_RECOVERY_TIME * 1000,
+    );
   });
 
   it("replenishes crimstones", () => {
@@ -626,7 +635,7 @@ describe("revealLand", () => {
     expect(state.crimstones[1]).toEqual<FiniteResource>({
       minesLeft: 1,
       stone: {
-        minedAt: now - CRIMSTONE_RECOVERY_TIME,
+        minedAt: now - CRIMSTONE_RECOVERY_TIME * 1000,
         criticalHit: { Native: 1 },
       },
       createdAt: 0,
@@ -666,7 +675,7 @@ describe("revealLand", () => {
     expect(state.crimstones[1]).toEqual<FiniteResource>({
       minesLeft: 1,
       stone: {
-        minedAt: now - 2 * 60 * 1000 - CRIMSTONE_RECOVERY_TIME,
+        minedAt: now - 2 * 60 * 1000 - CRIMSTONE_RECOVERY_TIME * 1000,
         criticalHit: { Native: 1 },
       },
       removedAt: now - 2 * 60 * 1000,
@@ -702,7 +711,9 @@ describe("revealLand", () => {
       createdAt: now,
     });
 
-    expect(state.oilReserves[1].oil.drilledAt).toEqual(1);
+    expect(state.oilReserves[1].oil.drilledAt).toEqual(
+      now - OIL_RESERVE_RECOVERY_TIME * 1000,
+    );
   });
 
   it("ensures that the trees are not more than removedAt if replenished in inventory", () => {

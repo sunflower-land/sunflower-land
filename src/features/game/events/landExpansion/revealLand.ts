@@ -23,6 +23,7 @@ import {
   STONE_RECOVERY_TIME,
   TREE_RECOVERY_TIME,
 } from "features/game/lib/constants";
+import { OIL_RESERVE_RECOVERY_TIME } from "./drillOilReserve";
 
 // Preloaded crops that will appear on plots when they reveal
 const EXPANSION_CROPS: Record<number, CropName> = {
@@ -252,7 +253,8 @@ export function revealLand({
           wood: {
             ...game.trees[id].wood,
             choppedAt:
-              (game.trees[id].removedAt ?? createdAt) - TREE_RECOVERY_TIME,
+              (game.trees[id].removedAt ?? createdAt) -
+              TREE_RECOVERY_TIME * 1000,
           },
         },
       };
@@ -267,7 +269,8 @@ export function revealLand({
             stone: {
               ...game.stones[id].stone,
               minedAt:
-                (game.stones[id].removedAt ?? createdAt) - STONE_RECOVERY_TIME,
+                (game.stones[id].removedAt ?? createdAt) -
+                STONE_RECOVERY_TIME * 1000,
             },
           },
         };
@@ -283,7 +286,8 @@ export function revealLand({
           stone: {
             ...game.iron[id].stone,
             minedAt:
-              (game.iron[id].removedAt ?? createdAt) - IRON_RECOVERY_TIME,
+              (game.iron[id].removedAt ?? createdAt) -
+              IRON_RECOVERY_TIME * 1000,
           },
         },
       };
@@ -297,7 +301,8 @@ export function revealLand({
           stone: {
             ...game.gold[id].stone,
             minedAt:
-              (game.gold[id].removedAt ?? createdAt) - GOLD_RECOVERY_TIME,
+              (game.gold[id].removedAt ?? createdAt) -
+              GOLD_RECOVERY_TIME * 1000,
           },
         },
       };
@@ -313,7 +318,7 @@ export function revealLand({
               ...game.crimstones[id].stone,
               minedAt:
                 (game.crimstones[id].removedAt ?? createdAt) -
-                CRIMSTONE_RECOVERY_TIME,
+                CRIMSTONE_RECOVERY_TIME * 1000,
             },
           },
         };
@@ -330,7 +335,9 @@ export function revealLand({
           ...game.oilReserves[id],
           oil: {
             ...game.oilReserves[id].oil,
-            drilledAt: 1,
+            drilledAt:
+              (game.oilReserves[id].removedAt ?? createdAt) -
+              OIL_RESERVE_RECOVERY_TIME * 1000,
           },
         },
       };
