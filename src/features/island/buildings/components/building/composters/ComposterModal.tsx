@@ -17,7 +17,7 @@ import {
 } from "features/game/types/composters";
 import Decimal from "decimal.js-light";
 import { Context } from "features/game/GameProvider";
-import { useActor } from "@xstate/react";
+import { useSelector } from "@xstate/react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { Label } from "components/ui/Label";
 import { secondsToString } from "lib/utils/time";
@@ -29,7 +29,6 @@ import { OuterPanel } from "components/ui/Panel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { setImageWidth } from "lib/images";
 import { Loading } from "features/auth/components";
-import { ConfirmationModal } from "components/ui/ConfirmationModal";
 import {
   getCompostAmount,
   getReadyAt,
@@ -146,13 +145,16 @@ const Timer: React.FC<{ readyAt: number }> = ({ readyAt }) => {
   const active = readyAt >= Date.now();
 
   useEffect(() => {
+    // Reset secondsLeft when readyAt changes (e.g., due to boost)
+    setSecondsLeft((readyAt - Date.now()) / 1000);
+
     if (active) {
       const interval = setInterval(() => {
         setSecondsLeft((readyAt - Date.now()) / 1000);
       }, 1000);
       return () => clearInterval(interval);
     }
-  }, [active]);
+  }, [active, readyAt]);
 
   return (
     <div className="flex items-center mb-2">
@@ -230,11 +232,7 @@ const ComposterModalContent: React.FC<{
 
   const { t } = useAppTranslation();
 
-  const [
-    {
-      context: { state },
-    },
-  ] = useActor(gameService);
+  const state = useSelector(gameService, (state) => state.context.state);
 
   const { inventory, bumpkin, buildings } = state;
 
@@ -287,10 +285,10 @@ const ComposterModalContent: React.FC<{
     onBoost();
   };
 
-  const [isConfirmBoostModalOpen, showConfirmBoostModal] = useState(false);
+  const [showConfirmation, setShowConfirmation] = useState(false);
   const applyBoost = () => {
     accelerate();
-    showConfirmBoostModal(false);
+    setShowConfirmation(false);
   }; // We could do without this const but I added it for better security
 
   if (isReady) {
@@ -400,58 +398,46 @@ const ComposterModalContent: React.FC<{
                     : "guide.compost.addEggs.speed",
                 )}
               </p>
-              <Button
-                disabled={
-                  !boost &&
-                  !(inventory[boostResource] ?? new Decimal(0)).gte(
-                    resourceBoostRequirements,
-                  )
-                }
-                onClick={() => showConfirmBoostModal(true)}
-              >
-                {t(
-                  bumpkin.skills["Feathery Business"]
-                    ? "guide.compost.addFeathers"
-                    : "guide.compost.addEggs",
+              <div className="flex justify-between gap-1">
+                {showConfirmation ? (
+                  <>
+                    <Button onClick={() => setShowConfirmation(false)}>
+                      {t("cancel")}
+                    </Button>
+                    <Button
+                      disabled={
+                        !boost &&
+                        !(inventory[boostResource] ?? new Decimal(0)).gte(
+                          resourceBoostRequirements,
+                        )
+                      }
+                      onClick={applyBoost}
+                    >
+                      {t(
+                        bumpkin.skills["Feathery Business"]
+                          ? "guide.compost.addFeathers"
+                          : "guide.compost.addEggs",
+                      )}
+                    </Button>
+                  </>
+                ) : (
+                  <Button
+                    disabled={
+                      !boost &&
+                      !(inventory[boostResource] ?? new Decimal(0)).gte(
+                        resourceBoostRequirements,
+                      )
+                    }
+                    onClick={() => setShowConfirmation(true)}
+                  >
+                    {t(
+                      bumpkin.skills["Feathery Business"]
+                        ? "guide.compost.addFeathers"
+                        : "guide.compost.addEggs",
+                    )}
+                  </Button>
                 )}
-              </Button>
-              <ConfirmationModal
-                show={isConfirmBoostModalOpen}
-                onHide={() => showConfirmBoostModal(false)}
-                messages={[
-                  bumpkin.skills["Feathery Business"]
-                    ? t("guide.compost.addFeathers.confirmation", {
-                        noFeathers: resourceBoostRequirements,
-                        time: secondsToString(
-                          resourceBoostMilliseconds / 1000,
-                          {
-                            length: "short",
-                          },
-                        ),
-                      })
-                    : t("guide.compost.addEggs.confirmation", {
-                        noEggs: resourceBoostRequirements,
-                        time: secondsToString(
-                          resourceBoostMilliseconds / 1000,
-                          {
-                            length: "short",
-                          },
-                        ),
-                      }),
-                ]}
-                onCancel={() => showConfirmBoostModal(false)}
-                onConfirm={applyBoost}
-                confirmButtonLabel={t(
-                  bumpkin.skills["Feathery Business"]
-                    ? "guide.compost.addFeathers"
-                    : "guide.compost.addEggs",
-                )}
-                disabled={
-                  !(inventory[boostResource] ?? new Decimal(0)).gte(
-                    resourceBoostRequirements,
-                  )
-                }
-              />
+              </div>
             </OuterPanel>
           </>
         )}

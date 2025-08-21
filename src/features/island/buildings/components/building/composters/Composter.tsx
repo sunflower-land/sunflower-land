@@ -16,7 +16,15 @@ import { BuildingImageWrapper } from "../BuildingImageWrapper";
 const getComposter = (type: BuildingName) => (state: MachineState) =>
   state.context.state.buildings[type]?.[0] as CompostBuilding;
 
-const compare = (prev?: any, next?: any) => {
+const compare = (prev?: CompostBuilding, next?: CompostBuilding) => {
+  // Force update if readyAt time changed (for boost updates)
+  if (prev?.producing?.readyAt !== next?.producing?.readyAt) {
+    return false;
+  }
+  // Force update if boost state changed
+  if (!!prev?.boost !== !!next?.boost) {
+    return false;
+  }
   return JSON.stringify(prev) === JSON.stringify(next);
 };
 
@@ -37,8 +45,6 @@ export const Composter: React.FC<Props> = ({ name }) => {
     !!composter?.producing && composter.producing.readyAt > Date.now();
 
   const startComposter = () => {
-    setShowModal(false);
-
     // Simulate delayed closing of lid
     setTimeout(() => {
       gameService.send("composter.started", {
@@ -48,9 +54,7 @@ export const Composter: React.FC<Props> = ({ name }) => {
     }, 200);
   };
 
-  const handleClick = () => {
-    setShowModal(true);
-  };
+  const handleClick = () => setShowModal(true);
 
   const handleCollect = () => {
     const state = gameService.send("compost.collected", {
@@ -108,7 +112,7 @@ export const Composter: React.FC<Props> = ({ name }) => {
               }}
             >
               <LiveProgressBar
-                key={renderKey}
+                key={`${renderKey}-${composter?.producing?.readyAt}`}
                 startAt={composter?.producing?.startedAt}
                 endAt={composter?.producing?.readyAt}
                 formatLength="short"
