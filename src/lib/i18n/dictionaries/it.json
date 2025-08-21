@@ -5398,8 +5398,6 @@
   "compost.fruitfulBlendBoosted": "Fruitful Blend aumenta la resa di ogni frutto che cresce sugli appezzamenti di frutta di +0,2",
   "socialTask.joinStream.description": "Partecipa a una chat di sviluppo su discord o twitch stream per guadagnare 5 Love Charm ogni 5 minuti dall'host che indossa un cappello da streamer.",
   "twitter.weekly.instructions.1": "1. Pubblica l'immagine qui sopra su Twitter con l'hashtag {{hashtag}}",
-  "marketplaceTransferInProgress": "I trasferimenti sul Marketplace sono in fase di completamento, riprova tra qualche minuto.",
-  "marketplaceTransferInProgress.label": "Trasferimento sul Marketplace in corso",
   "reward.vipDescription": "Bonus di trading, XP, cucina e guadagno!",
   "reward.blockchainBoxSuccess": "Congratulazioni, hai ottenuto dei premi!",
   "claiming.blockchain.box": "Richiedere Blockchain Box",
@@ -6479,5 +6477,7 @@
   "reputation.unlock.discord.info2": "e digita il comando /verify",
   "forge": "Fucina",
   "upgrade.success": "{{resource}} aggiornamento completato!",
-  "upgrade.success.description": "Ora puoi fare il mio {{resource}}!"
+  "upgrade.success.description": "Ora puoi fare il mio {{resource}}!",
+  "marketplaceTransferInProgress": "I trasferimenti tramite Marketplace e/o Auction sono in fase di completamento, riprova tra qualche minuto.",
+  "marketplaceTransferInProgress.label": "Trasferimento in corso in sospeso"
 }

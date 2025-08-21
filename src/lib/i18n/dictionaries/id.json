@@ -5398,8 +5398,6 @@
   "compost.fruitfulBlendBoosted": "Fruitful Blend meningkatkan hasil setiap buah yang tumbuh di petak buah sebesar +0,2",
   "socialTask.joinStream.description": "Bergabunglah dengan obrolan pengembang di Discord atau Twitch Streaming untuk mendapatkan 5 Love Charm setiap 5 menit dari tuan rumah yang mengenakan topi streamer.",
   "twitter.weekly.instructions.1": "1. Posting gambar di atas ke Twitter dengan tagar {{hashtag}}",
-  "marketplaceTransferInProgress": "Transfer pasar sedang diselesaikan, silakan coba lagi dalam beberapa menit.",
-  "marketplaceTransferInProgress.label": "Transfer pasar sedang berlangsung",
   "reward.vipDescription": "Bonus trading, XP, memasak & mendapatkan keuntungan!",
   "reward.blockchainBoxSuccess": "Selamat, Anda mendapatkan beberapa hadiah!",
   "claiming.blockchain.box": "Mengklaim Kotak Blockchain",
@@ -6479,5 +6477,7 @@
   "reputation.unlock.discord.info2": "dan ketik perintah /verifikasi",
   "forge": "Memalsukan",
   "upgrade.success": "{{resource}} upgrade selesai!",
-  "upgrade.success.description": "Anda sekarang dapat menambang {{resource}}!"
+  "upgrade.success.description": "Anda sekarang dapat menambang {{resource}}!",
+  "marketplaceTransferInProgress": "Transfer Marketplace dan/atau Lelang sedang diselesaikan, silakan coba lagi dalam beberapa menit.",
+  "marketplaceTransferInProgress.label": "Transfer yang tertunda sedang berlangsung"
 }

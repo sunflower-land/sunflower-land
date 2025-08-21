@@ -5398,8 +5398,6 @@
   "compost.fruitfulBlendBoosted": "フルーツフルブレンドは、フルーツパッチに生えている各フルーツの収穫量を+0.2増やします",
   "socialTask.joinStream.description": "DiscordまたはTwitchストリームの開発者チャットに参加すると、ストリーマーハットをかぶったホストから5分ごとに5つのラブチャームを獲得できます。",
   "twitter.weekly.instructions.1": "1。上の画像をハッシュタグ {{hashtag}} を付けてツイッターに投稿してください",
-  "marketplaceTransferInProgress": "マーケットプレイスへの移管が完了しています。数分後にもう一度試してください。",
-  "marketplaceTransferInProgress.label": "マーケットプレイスへの移管が進行中",
   "reward.vipDescription": "ボーナストレーディング、XP、クッキング、獲得特典！",
   "reward.blockchainBoxSuccess": "おめでとうございます。報酬を獲得しました！",
   "claiming.blockchain.box": "ブロックチェーンボックスの申請",
@@ -6479,5 +6477,7 @@
   "reputation.unlock.discord.info2": "そして、/verify コマンドを入力します",
   "forge": "フォージ",
   "upgrade.success": "{{resource}} アップグレードが完了しました！",
-  "upgrade.success.description": "これで {{resource}} をマイニングできます！"
+  "upgrade.success.description": "これで {{resource}} をマイニングできます！",
+  "marketplaceTransferInProgress": "マーケットプレイスまたはオークションの移管が完了しています。数分後にもう一度試してください。",
+  "marketplaceTransferInProgress.label": "転送保留中"
 }

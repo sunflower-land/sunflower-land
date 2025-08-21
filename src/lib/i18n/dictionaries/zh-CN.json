@@ -5398,8 +5398,6 @@
   "compost.fruitfulBlendBoosted": "Fruitful Blend 可将生长在果坑上的每种水果的产量提高 +0.2",
   "socialTask.joinStream.description": "在 Discord 或 Twitch 直播中加入开发者聊天，戴着主播帽的主持人每 5 分钟即可获得 5 个爱心护符。",
   "twitter.weekly.instructions.1": "1。使用主题标签 {{hashtag}} 将上面的图片发布到 Twitter",
-  "marketplaceTransferInProgress": "商城转移已完成，请在几分钟后重试。",
-  "marketplaceTransferInProgress.label": "市场转移正在进行中",
   "reward.vipDescription": "奖励交易、XP、烹饪和赚钱津贴！",
   "reward.blockchainBoxSuccess": "恭喜，你获得了一些奖励！",
   "claiming.blockchain.box": "申领区块链盒子",
@@ -6479,5 +6477,7 @@
   "reputation.unlock.discord.info2": "然后键入 /verify 命令",
   "forge": "伪造",
   "upgrade.success": "{{resource}} 升级完成！",
-  "upgrade.success.description": "你现在可以挖矿了 {{resource}}！"
+  "upgrade.success.description": "你现在可以挖矿了 {{resource}}！",
+  "marketplaceTransferInProgress": "市场和/或拍卖转让正在完成中，请在几分钟后重试。",
+  "marketplaceTransferInProgress.label": "等待转移进行中"
 }
