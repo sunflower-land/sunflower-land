@@ -27,6 +27,8 @@ export const RESOURCE_PLACE_EVENTS: Partial<
 > = {
   Tree: "tree.placed",
   "Stone Rock": "stone.placed",
+  "Fused Stone Rock": "stone.placed",
+  "Reinforced Stone Rock": "stone.placed",
   "Iron Rock": "iron.placed",
   "Gold Rock": "gold.placed",
   "Crimstone Rock": "crimstone.placed",

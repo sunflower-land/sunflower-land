@@ -5882,7 +5882,38 @@ export const ITEM_DETAILS: Items = {
   },
   Dewberry: {
     image: dewberry,
-
     description: translate("description.dewberry"),
+  },
+  "Fused Stone Rock": {
+    image: SUNNYSIDE.resource.stone_rock,
+    description: "Fused Stone",
+  },
+  "Reinforced Stone Rock": {
+    image: SUNNYSIDE.resource.iron_rock,
+    description: "Reinforced Stone",
+  },
+  "Ancient Tree": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "Forging soon...",
+  },
+  "Sacred Tree": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "Forging soon...",
+  },
+  "Refined Iron Rock": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "Forging soon...",
+  },
+  "Tempered Iron Rock": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "Forging soon...",
+  },
+  "Pure Gold Rock": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "Forging soon...",
+  },
+  "Enchanted Gold Rock": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "Forging soon...",
   },
 };

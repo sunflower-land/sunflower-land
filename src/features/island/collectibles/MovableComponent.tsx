@@ -58,6 +58,8 @@ export const RESOURCE_MOVE_EVENTS: Record<
   "Gold Rock": "gold.moved",
   "Iron Rock": "iron.moved",
   "Stone Rock": "stone.moved",
+  "Fused Stone Rock": "stone.moved",
+  "Reinforced Stone Rock": "stone.moved",
   "Crimstone Rock": "crimstone.moved",
   Boulder: "tree.moved",
   Beehive: "beehive.moved",
@@ -65,6 +67,12 @@ export const RESOURCE_MOVE_EVENTS: Record<
   "Sunstone Rock": "sunstone.moved",
   "Oil Reserve": "oilReserve.moved",
   "Lava Pit": "lavaPit.moved",
+  "Ancient Tree": "tree.moved",
+  "Sacred Tree": "tree.moved",
+  "Refined Iron Rock": "iron.moved",
+  "Tempered Iron Rock": "iron.moved",
+  "Pure Gold Rock": "gold.moved",
+  "Enchanted Gold Rock": "gold.moved",
 };
 
 function getMoveAction(
@@ -103,12 +111,20 @@ export const RESOURCES_REMOVE_ACTIONS: Record<
   "Gold Rock": "gold.removed",
   "Iron Rock": "iron.removed",
   "Stone Rock": "stone.removed",
+  "Fused Stone Rock": "stone.removed",
+  "Reinforced Stone Rock": "stone.removed",
   "Crimstone Rock": "crimstone.removed",
   Beehive: "beehive.removed",
   "Flower Bed": "flowerBed.removed",
   "Sunstone Rock": "sunstone.removed",
   "Oil Reserve": "oilReserve.removed",
   "Lava Pit": "lavaPit.removed",
+  "Ancient Tree": "tree.removed",
+  "Sacred Tree": "tree.removed",
+  "Refined Iron Rock": "iron.removed",
+  "Tempered Iron Rock": "iron.removed",
+  "Pure Gold Rock": "gold.removed",
+  "Enchanted Gold Rock": "gold.removed",
 };
 
 export function getRemoveAction(

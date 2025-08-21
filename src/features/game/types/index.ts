@@ -1221,11 +1221,19 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   "Moth Shrine": 2658,
 
   "Obsidian Shrine": 2659,
-
   "Sparrow Shrine": 2660,
   "Toucan Shrine": 2661,
   "Collie Shrine": 2662,
   "Badger Shrine": 2663,
+
+  "Fused Stone Rock": 2700,
+  "Reinforced Stone Rock": 2701,
+  "Ancient Tree": 2702,
+  "Sacred Tree": 2703,
+  "Refined Iron Rock": 2704,
+  "Tempered Iron Rock": 2705,
+  "Pure Gold Rock": 2706,
+  "Enchanted Gold Rock": 2707,
 };
 
 // The reverse of above

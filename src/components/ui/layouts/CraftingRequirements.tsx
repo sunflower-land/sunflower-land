@@ -24,6 +24,13 @@ import { BuffLabel } from "features/game/types";
 import { isSeed } from "features/game/types/seeds";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
+import {
+  BASIC_RESOURCES_UPGRADES_TO,
+  ADVANCED_RESOURCES,
+  RESOURCE_STATE_ACCESSORS,
+  ResourceName,
+  RESOURCES,
+} from "features/game/types/resources";
 
 /**
  * The props for the details for items.
@@ -281,19 +288,53 @@ export const CraftingRequirements: React.FC<Props> = ({
               ingredients={getKeys(requirements.resources ?? {})}
               onClick={() => setShowIngredients(false)}
             />
-            {getKeys(requirements.resources).map((ingredientName, index) => (
-              <RequirementLabel
-                key={index}
-                type="item"
-                item={ingredientName}
-                balance={gameState.inventory[ingredientName] ?? new Decimal(0)}
-                requirement={
-                  new Decimal(
-                    (requirements.resources ?? {})[ingredientName] ?? 0,
-                  )
-                }
-              />
-            ))}
+            {getKeys(requirements.resources).map((ingredientName, index) => {
+              // If ingredient is a node, require it to be placed
+              let balance =
+                gameState.inventory[ingredientName] ?? new Decimal(0);
+
+              if (ingredientName in RESOURCES) {
+                const stateAccessor =
+                  RESOURCE_STATE_ACCESSORS[
+                    ingredientName as Exclude<ResourceName, "Boulder">
+                  ];
+                const nodes = Object.values(
+                  stateAccessor(gameState) ?? {},
+                ).filter((resource) => {
+                  if (
+                    ingredientName in BASIC_RESOURCES_UPGRADES_TO ||
+                    ingredientName in ADVANCED_RESOURCES
+                  ) {
+                    // If node is upgradeable, check if it has the same name as the current item
+                    if ("name" in resource) {
+                      return resource.name === ingredientName;
+                    }
+
+                    // If it has no name, it probably means it's a base resource
+                    return ingredientName in BASIC_RESOURCES_UPGRADES_TO;
+                  }
+
+                  return true;
+                });
+                balance = new Decimal(
+                  nodes.filter((node) => node.removedAt === undefined).length,
+                );
+              }
+
+              return (
+                <RequirementLabel
+                  key={index}
+                  type="item"
+                  item={ingredientName}
+                  balance={balance}
+                  requirement={
+                    new Decimal(
+                      (requirements.resources ?? {})[ingredientName] ?? 0,
+                    )
+                  }
+                />
+              );
+            })}
           </div>
         )}
 
@@ -375,7 +416,7 @@ export const CraftingRequirements: React.FC<Props> = ({
         {getBoost()}
         {getRequirements()}
       </div>
-      {actionView}
+      {requirements && actionView}
     </div>
   );
 };

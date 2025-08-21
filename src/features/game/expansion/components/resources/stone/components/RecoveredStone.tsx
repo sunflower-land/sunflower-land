@@ -1,4 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
+import classNames from "classnames";
+import Decimal from "decimal.js-light";
 
 import Spritesheet, {
   SpriteSheetInstance,
@@ -8,11 +10,13 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 
 import { Bar } from "components/ui/ProgressBar";
 import { InnerPanel } from "components/ui/Panel";
-import classNames from "classnames";
 import { ZoomContext } from "components/ZoomProvider";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { useSound } from "lib/utils/hooks/useSound";
+import { READONLY_RESOURCE_COMPONENTS } from "features/island/resources/Resource";
+import { RockName } from "features/game/types/resources";
+import { InventoryItemName } from "features/game/types/game";
 
 const tool = "Pickaxe";
 
@@ -23,12 +27,18 @@ interface Props {
   hasTool: boolean;
   touchCount: number;
   showHelper: boolean;
+  stoneRockName: RockName;
+  requiredToolAmount: Decimal;
+  inventory: Partial<Record<InventoryItemName, Decimal>>;
 }
 
 const RecoveredStoneComponent: React.FC<Props> = ({
   hasTool,
   touchCount,
   showHelper,
+  stoneRockName,
+  requiredToolAmount,
+  inventory,
 }) => {
   const { scale } = useContext(ZoomContext);
   const [showSpritesheet, setShowSpritesheet] = useState(false);
@@ -38,6 +48,8 @@ const RecoveredStoneComponent: React.FC<Props> = ({
   const { t } = useAppTranslation();
 
   const { play: miningAudio } = useSound("mining");
+
+  const Image = READONLY_RESOURCE_COMPONENTS()[stoneRockName];
 
   useEffect(() => {
     // prevent performing react state update on an unmounted component
@@ -90,17 +102,7 @@ const RecoveredStoneComponent: React.FC<Props> = ({
         )}
 
         {/* static resource node image */}
-        {!showSpritesheet && (
-          <img
-            src={SUNNYSIDE.resource.stone_small}
-            className={"absolute pointer-events-none opacity-100"}
-            style={{
-              width: `${PIXEL_SCALE * 14}px`,
-              bottom: `${PIXEL_SCALE * 3}px`,
-              right: `${PIXEL_SCALE * 1}px`,
-            }}
-          />
-        )}
+        {!showSpritesheet && <Image />}
 
         {/* spritesheet */}
         {showSpritesheet && (
@@ -151,7 +153,9 @@ const RecoveredStoneComponent: React.FC<Props> = ({
           <InnerPanel className="absolute whitespace-nowrap w-fit z-50">
             <div className="text-xs mx-1 p-1">
               <span>
-                {t("craft")} {tool.toLowerCase()}
+                {t("craft")}{" "}
+                {requiredToolAmount.sub(inventory[tool] ?? 0).toString()}{" "}
+                {tool.toLowerCase()}
               </span>
             </div>
           </InnerPanel>

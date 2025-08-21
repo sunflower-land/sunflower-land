@@ -15,6 +15,12 @@ export const ITEM_TRADE_TYPES: {
   wearables: Record<BumpkinItem, TradeType>;
 } = {
   collectibles: {
+    "Ancient Tree": "instant",
+    "Sacred Tree": "instant",
+    "Refined Iron Rock": "instant",
+    "Tempered Iron Rock": "instant",
+    "Pure Gold Rock": "instant",
+    "Enchanted Gold Rock": "instant",
     "Sparrow Shrine": "instant",
     "Toucan Shrine": "instant",
     "Collie Shrine": "instant",
@@ -468,6 +474,8 @@ export const ITEM_TRADE_TYPES: {
     Diamond: "onchain",
     Tree: "instant",
     "Stone Rock": "instant",
+    "Fused Stone Rock": "instant",
+    "Reinforced Stone Rock": "instant",
     "Iron Rock": "instant",
     "Gold Rock": "instant",
     "Crop Plot": "instant",

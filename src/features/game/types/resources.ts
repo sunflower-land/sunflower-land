@@ -3,6 +3,8 @@ import { translate } from "lib/i18n/translate";
 import { AnimalResource } from "./game";
 import { GameState } from "features/game/types/game";
 import { ResourceItem } from "../expansion/placeable/lib/collisionDetection";
+import { Tool } from "./tools";
+import { Decimal } from "decimal.js-light";
 
 export type CommodityName =
   | "Wood"
@@ -96,10 +98,8 @@ export const ANIMAL_RESOURCES: Record<AnimalResource, Commodity> = {
 };
 
 export type ResourceName =
-  | "Tree"
-  | "Stone Rock"
-  | "Iron Rock"
-  | "Gold Rock"
+  | BasicResourceName
+  | UpgradedResourceName
   | "Crimstone Rock"
   | "Crop Plot"
   | "Fruit Patch"
@@ -110,20 +110,113 @@ export type ResourceName =
   | "Oil Reserve"
   | "Lava Pit";
 
+export type BasicResourceName =
+  | "Stone Rock"
+  | "Iron Rock"
+  | "Gold Rock"
+  | "Tree";
+
+export type UpgradedResourceName =
+  | "Fused Stone Rock"
+  | "Reinforced Stone Rock"
+  | "Ancient Tree"
+  | "Sacred Tree"
+  | "Refined Iron Rock"
+  | "Tempered Iron Rock"
+  | "Pure Gold Rock"
+  | "Enchanted Gold Rock";
+
+export type ResourceTier = 1 | 2 | 3;
+
+export type RockName = Extract<
+  ResourceName,
+  "Stone Rock" | "Fused Stone Rock" | "Reinforced Stone Rock"
+>;
+
+type ResourceUpgradeRequirements = Tool & {
+  tier: ResourceTier;
+  preRequires: {
+    tier: ResourceTier;
+    count: number;
+  };
+};
+
 export const RESOURCES: Record<ResourceName, string> = {
   "Crop Plot": "Plant crops",
   "Fruit Patch": "Plant fruit",
   "Gold Rock": "Mine gold",
+  "Pure Gold Rock": "Mine gold",
+  "Enchanted Gold Rock": "Mine gold",
   "Iron Rock": "Mine iron",
+  "Refined Iron Rock": "Mine iron",
+  "Tempered Iron Rock": "Mine iron",
   "Stone Rock": "Mine stone",
+  "Fused Stone Rock": "Mine fused stone",
+  "Reinforced Stone Rock": "Mine reinforced stone",
   "Crimstone Rock": "Mine crimstone",
   Boulder: "Mine rare minerals",
   Tree: "Chop Wood",
+  "Ancient Tree": "Chop Wood",
+  "Sacred Tree": "Chop Wood",
   Beehive: "Collect honey",
   "Flower Bed": "Plant flowers",
   "Sunstone Rock": "Mine sunstone",
   "Oil Reserve": "Drill oil",
   "Lava Pit": "Craft obsidian",
+};
+
+const PLACEHOLDER_REQUIREMENTS: ResourceUpgradeRequirements = {
+  name: "Advanced Resource",
+  description: "Coming soon...",
+  tier: 2,
+  ingredients: {},
+  price: 0,
+  preRequires: {
+    tier: 1,
+    count: 1,
+  },
+};
+
+export const ADVANCED_RESOURCES: Record<
+  UpgradedResourceName,
+  ResourceUpgradeRequirements
+> = {
+  "Fused Stone Rock": {
+    name: "Fused Stone",
+    description: "Mine fused stone",
+    tier: 2,
+    ingredients: {
+      "Stone Rock": new Decimal(4),
+      Obsidian: new Decimal(5),
+    },
+    price: 50_000,
+    // 4 stone rocks
+    preRequires: {
+      tier: 1,
+      count: 4,
+    },
+  },
+  "Reinforced Stone Rock": {
+    name: "Reinforced Stone",
+    description: "Mine reinforced stone",
+    tier: 3,
+    ingredients: {
+      "Fused Stone Rock": new Decimal(4),
+      Obsidian: new Decimal(10),
+    },
+    price: 100_000,
+    // 4 fused stone rocks
+    preRequires: {
+      tier: 2,
+      count: 4,
+    },
+  },
+  "Ancient Tree": PLACEHOLDER_REQUIREMENTS,
+  "Sacred Tree": PLACEHOLDER_REQUIREMENTS,
+  "Refined Iron Rock": PLACEHOLDER_REQUIREMENTS,
+  "Tempered Iron Rock": PLACEHOLDER_REQUIREMENTS,
+  "Pure Gold Rock": PLACEHOLDER_REQUIREMENTS,
+  "Enchanted Gold Rock": PLACEHOLDER_REQUIREMENTS,
 };
 
 export const RESOURCE_STATE_ACCESSORS: Record<
@@ -142,6 +235,24 @@ export const RESOURCE_STATE_ACCESSORS: Record<
   "Sunstone Rock": (game) => game.sunstones,
   "Oil Reserve": (game) => game.oilReserves,
   "Lava Pit": (game) => game.lavaPits,
+  "Fused Stone Rock": (game) => game.stones,
+  "Reinforced Stone Rock": (game) => game.stones,
+  "Ancient Tree": (game) => game.trees,
+  "Sacred Tree": (game) => game.trees,
+  "Refined Iron Rock": (game) => game.iron,
+  "Tempered Iron Rock": (game) => game.iron,
+  "Pure Gold Rock": (game) => game.gold,
+  "Enchanted Gold Rock": (game) => game.gold,
+};
+
+// IMPORTANT: Order matters in the UpgradesTo array.
+export const BASIC_RESOURCES_UPGRADES_TO: Partial<
+  Record<BasicResourceName, UpgradedResourceName[]>
+> = {
+  "Stone Rock": ["Fused Stone Rock", "Reinforced Stone Rock"],
+  // "Iron Rock": ["Tempered Iron Rock", "Pure Iron Rock"],
+  // "Gold Rock": ["Pure Gold Rock", "Enchanted Gold Rock"],
+  // "Tree": ["Ancient Tree", "Sacred Tree"],
 };
 
 export const RESOURCE_DIMENSIONS: Record<ResourceName, Dimensions> = {
@@ -196,6 +307,38 @@ export const RESOURCE_DIMENSIONS: Record<ResourceName, Dimensions> = {
   "Lava Pit": {
     width: 2,
     height: 2,
+  },
+  "Fused Stone Rock": {
+    width: 1,
+    height: 1,
+  },
+  "Reinforced Stone Rock": {
+    width: 1,
+    height: 1,
+  },
+  "Ancient Tree": {
+    width: 2,
+    height: 2,
+  },
+  "Sacred Tree": {
+    width: 2,
+    height: 2,
+  },
+  "Refined Iron Rock": {
+    width: 1,
+    height: 1,
+  },
+  "Tempered Iron Rock": {
+    width: 1,
+    height: 1,
+  },
+  "Pure Gold Rock": {
+    width: 1,
+    height: 1,
+  },
+  "Enchanted Gold Rock": {
+    width: 1,
+    height: 1,
   },
 };
 
