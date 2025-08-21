@@ -42,11 +42,10 @@ import { ZoomContext } from "components/ZoomProvider";
 import { RemoveKuebikoModal } from "./RemoveKuebikoModal";
 import { PlaceableLocation } from "features/game/types/collectibles";
 import { RemoveHungryCaterpillarModal } from "./RemoveHungryCaterpillarModal";
-import { HourglassType } from "./components/Hourglass";
-import { HOURGLASSES } from "features/game/events/landExpansion/burnCollectible";
 import flipped from "assets/icons/flipped.webp";
 import flipIcon from "assets/icons/flip.webp";
 import debounce from "lodash.debounce";
+import { LIMITED_ITEMS } from "features/game/events/landExpansion/removeCollectible";
 
 export const RESOURCE_MOVE_EVENTS: Record<
   ResourceName,
@@ -140,11 +139,7 @@ export function getRemoveAction(
     return "building.removed";
   }
 
-  if (
-    HOURGLASSES.includes(name as HourglassType) ||
-    name === "Time Warp Totem" ||
-    name === "Super Totem"
-  ) {
+  if (LIMITED_ITEMS.includes(name as CollectibleName)) {
     return null;
   }
 
