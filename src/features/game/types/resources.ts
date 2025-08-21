@@ -98,10 +98,8 @@ export const ANIMAL_RESOURCES: Record<AnimalResource, Commodity> = {
 };
 
 export type ResourceName =
-  | "Tree"
-  | "Stone Rock"
-  | "Iron Rock"
-  | "Gold Rock"
+  | BasicResourceName
+  | UpgradedResourceName
   | "Crimstone Rock"
   | "Crop Plot"
   | "Fruit Patch"
@@ -110,8 +108,13 @@ export type ResourceName =
   | "Sunstone Rock"
   | "Flower Bed"
   | "Oil Reserve"
-  | "Lava Pit"
-  | UpgradedResourceName;
+  | "Lava Pit";
+
+export type BasicResourceName =
+  | "Stone Rock"
+  | "Iron Rock"
+  | "Gold Rock"
+  | "Tree";
 
 export type UpgradedResourceName =
   | "Fused Stone Rock"
@@ -240,6 +243,16 @@ export const RESOURCE_STATE_ACCESSORS: Record<
   "Tempered Iron Rock": (game) => game.iron,
   "Pure Gold Rock": (game) => game.gold,
   "Enchanted Gold Rock": (game) => game.gold,
+};
+
+// IMPORTANT: Order matters in the UpgradesTo array.
+export const BASIC_RESOURCES_UPGRADES_TO: Partial<
+  Record<BasicResourceName, UpgradedResourceName[]>
+> = {
+  "Stone Rock": ["Fused Stone Rock", "Reinforced Stone Rock"],
+  // "Iron Rock": ["Tempered Iron Rock", "Pure Iron Rock"],
+  // "Gold Rock": ["Pure Gold Rock", "Enchanted Gold Rock"],
+  // "Tree": ["Ancient Tree", "Sacred Tree"],
 };
 
 export const RESOURCE_DIMENSIONS: Record<ResourceName, Dimensions> = {

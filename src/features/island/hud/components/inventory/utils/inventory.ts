@@ -25,6 +25,8 @@ import {
   RESOURCE_STATE_ACCESSORS,
   RESOURCE_DIMENSIONS,
   ResourceName,
+  BASIC_RESOURCES_UPGRADES_TO,
+  ADVANCED_RESOURCES,
 } from "features/game/types/resources";
 import { getCollectionName } from "features/marketplace/lib/getCollectionName";
 import { setPrecision } from "lib/utils/formatNumber";
@@ -99,27 +101,30 @@ export const getChestItems = (state: GameState): Inventory => {
     if (itemName in RESOURCE_STATE_ACCESSORS) {
       const stateAccessor =
         RESOURCE_STATE_ACCESSORS[itemName as Exclude<ResourceName, "Boulder">];
+      const nodes = Object.values(stateAccessor(state) ?? {}).filter(
+        (resource) => {
+          if (
+            itemName in BASIC_RESOURCES_UPGRADES_TO ||
+            itemName in ADVANCED_RESOURCES
+          ) {
+            // If node is upgradeable, check if it has the same name as the current item
+            if ("name" in resource) {
+              return resource.name === itemName;
+            }
+
+            // If it has no name, it probably means it's a base resource
+            return itemName in BASIC_RESOURCES_UPGRADES_TO;
+          }
+
+          return true;
+        },
+      );
+
       return {
         ...acc,
         [itemName]: new Decimal(
           state.inventory[itemName]?.minus(
-            Object.values(stateAccessor(state) ?? {}).filter((resource) => {
-              const isPlaced =
-                resource.x !== undefined && resource.y !== undefined;
-
-              // For upgraded resource nodes, check the actual name
-              // since they will have the same state accessor as the base resource
-              // ie Stone Rock and Fused Stone Rock (Upgraded) will both be
-              // in gameState.stones
-              if ("name" in resource) {
-                if (resource.name === itemName) {
-                  return isPlaced;
-                }
-                return false;
-              }
-
-              return isPlaced;
-            }).length,
+            nodes.filter((resource) => resource.removedAt === undefined).length,
           ) ?? 0,
         ),
       };
