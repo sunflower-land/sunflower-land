@@ -6476,5 +6476,8 @@
   "description.mothShrine.buff": "Скорость цветения: +25%",
   "reputation.unlock.discord": "Подключите и подтвердите учетную запись Discord — [0 @/$] баллов",
   "reputation.unlock.discord.info1": "Посетите канал #verify в Discord",
-  "reputation.unlock.discord.info2": "и введите команду /verify"
+  "reputation.unlock.discord.info2": "и введите команду /verify",
+  "forge": "Кузница",
+  "upgrade.success": "{{resource}} обновление завершено!",
+  "upgrade.success.description": "Теперь вы можете майнить {{resource}}!"
 }

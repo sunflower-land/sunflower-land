@@ -6476,5 +6476,8 @@
   "description.mothShrine.buff": "+25% Çiçek Hızı",
   "reputation.unlock.discord": "Discord Hesabını Bağlan ve Doğrula - {{points}} puan",
   "reputation.unlock.discord.info1": "Discord'daki #verify kanalını ziyaret edin",
-  "reputation.unlock.discord.info2": "ve /verify komutunu yazın"
+  "reputation.unlock.discord.info2": "ve /verify komutunu yazın",
+  "forge": "demirci",
+  "upgrade.success": "{{resource}} yükseltme tamamlandı!",
+  "upgrade.success.description": "Artık benimseyebilirsiniz {{resource}}!"
 }

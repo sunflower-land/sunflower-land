@@ -6476,5 +6476,8 @@
   "description.mothShrine.buff": "+25% Blütentempo",
   "reputation.unlock.discord": "Discord-Konto verbinden und verifizieren — {{points}} Punkte",
   "reputation.unlock.discord.info1": "Besuche den #verify -Kanal auf Discord",
-  "reputation.unlock.discord.info2": "und geben Sie den Befehl /verify ein"
+  "reputation.unlock.discord.info2": "und geben Sie den Befehl /verify ein",
+  "forge": "Schmiede",
+  "upgrade.success": "{{resource}} Upgrade abgeschlossen!",
+  "upgrade.success.description": "Du kannst jetzt meins {{resource}}!"
 }

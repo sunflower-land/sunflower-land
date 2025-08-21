@@ -6476,5 +6476,8 @@
   "description.mothShrine.buff": "+25% de Velocidade da Flor",
   "reputation.unlock.discord": "Conecte e verifique a conta do Discord - {{points}} pontos",
   "reputation.unlock.discord.info1": "Visite o canal #verify no Discord",
-  "reputation.unlock.discord.info2": "e digite o comando /verify"
+  "reputation.unlock.discord.info2": "e digite o comando /verify",
+  "forge": "Forjar",
+  "upgrade.success": "{{resource}} atualização concluída!",
+  "upgrade.success.description": "Agora você pode minerar {{resource}}!"
 }

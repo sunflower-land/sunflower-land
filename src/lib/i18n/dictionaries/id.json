@@ -6476,5 +6476,8 @@
   "description.mothShrine.buff": "+25% Kecepatan Bunga",
   "reputation.unlock.discord": "Hubungkan & Verifikasi Akun Discord - {{points}} poin",
   "reputation.unlock.discord.info1": "Kunjungi saluran #verify di Discord",
-  "reputation.unlock.discord.info2": "dan ketik perintah /verifikasi"
+  "reputation.unlock.discord.info2": "dan ketik perintah /verifikasi",
+  "forge": "Memalsukan",
+  "upgrade.success": "{{resource}} upgrade selesai!",
+  "upgrade.success.description": "Anda sekarang dapat menambang {{resource}}!"
 }

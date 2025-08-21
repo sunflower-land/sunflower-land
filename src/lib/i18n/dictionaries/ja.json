@@ -6476,5 +6476,8 @@
   "description.mothShrine.buff": "+25% フラワースピード",
   "reputation.unlock.discord": "Discordアカウントの接続と確認-{{points}} ポイント",
   "reputation.unlock.discord.info1": "Discord の #verify チャンネルをご覧ください",
-  "reputation.unlock.discord.info2": "そして、/verify コマンドを入力します"
+  "reputation.unlock.discord.info2": "そして、/verify コマンドを入力します",
+  "forge": "フォージ",
+  "upgrade.success": "{{resource}} アップグレードが完了しました！",
+  "upgrade.success.description": "これで {{resource}} をマイニングできます！"
 }

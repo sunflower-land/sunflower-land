@@ -6476,5 +6476,8 @@
   "description.mothShrine.buff": "+25% 花速",
   "reputation.unlock.discord": "连接并验证 Discord 账户-{{points}} 积分",
   "reputation.unlock.discord.info1": "访问 Discord 上的 #verify 频道",
-  "reputation.unlock.discord.info2": "然后键入 /verify 命令"
+  "reputation.unlock.discord.info2": "然后键入 /verify 命令",
+  "forge": "伪造",
+  "upgrade.success": "{{resource}} 升级完成！",
+  "upgrade.success.description": "你现在可以挖矿了 {{resource}}！"
 }

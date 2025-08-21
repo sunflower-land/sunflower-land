@@ -6476,5 +6476,8 @@
   "description.mothShrine.buff": "플라워 스피드 25% 증가",
   "reputation.unlock.discord": "디스코드 계정 연결 및 인증 - {{points}} 포인트",
   "reputation.unlock.discord.info1": "디스코드의 #verify 채널 방문하기",
-  "reputation.unlock.discord.info2": "그리고 /verify 명령을 입력합니다."
+  "reputation.unlock.discord.info2": "그리고 /verify 명령을 입력합니다.",
+  "forge": "포지",
+  "upgrade.success": "{{resource}} 업그레이드 완료!",
+  "upgrade.success.description": "이제 {{resource}} 을 (를) 채굴할 수 있습니다!"
 }
