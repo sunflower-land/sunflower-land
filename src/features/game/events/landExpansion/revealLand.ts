@@ -16,6 +16,7 @@ import { pickEmptyPosition } from "features/game/expansion/placeable/lib/collisi
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { CropName } from "features/game/types/crops";
 import { produce } from "immer";
+import { CRIMSTONE_RECOVERY_TIME } from "features/game/lib/constants";
 
 // Preloaded crops that will appear on plots when they reveal
 const EXPANSION_CROPS: Record<number, CropName> = {
@@ -300,7 +301,9 @@ export function revealLand({
             ...game.crimstones[id],
             stone: {
               ...game.crimstones[id].stone,
-              minedAt: 1,
+              minedAt:
+                (game.crimstones[id].removedAt ?? createdAt) -
+                CRIMSTONE_RECOVERY_TIME,
             },
           },
         };
