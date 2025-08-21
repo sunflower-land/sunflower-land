@@ -25,6 +25,8 @@ import { isSeed } from "features/game/types/seeds";
 import { getCurrentBiome } from "features/island/biomes/biomes";
 import { EXPIRY_COOLDOWNS } from "features/game/lib/collectibleBuilt";
 import {
+  BASIC_RESOURCES_UPGRADES_TO,
+  ADVANCED_RESOURCES,
   RESOURCE_STATE_ACCESSORS,
   ResourceName,
   RESOURCES,
@@ -296,17 +298,26 @@ export const CraftingRequirements: React.FC<Props> = ({
                   RESOURCE_STATE_ACCESSORS[
                     ingredientName as Exclude<ResourceName, "Boulder">
                   ];
-                balance = new Decimal(
-                  Object.values(stateAccessor(gameState)).filter((node) => {
-                    if ("name" in node) {
-                      return (
-                        node.name === ingredientName &&
-                        node.removedAt === undefined
-                      );
+                const nodes = Object.values(
+                  stateAccessor(gameState) ?? {},
+                ).filter((resource) => {
+                  if (
+                    ingredientName in BASIC_RESOURCES_UPGRADES_TO ||
+                    ingredientName in ADVANCED_RESOURCES
+                  ) {
+                    // If node is upgradeable, check if it has the same name as the current item
+                    if ("name" in resource) {
+                      return resource.name === ingredientName;
                     }
 
-                    return node.removedAt === undefined && !("name" in node);
-                  }).length ?? 0,
+                    // If it has no name, it probably means it's a base resource
+                    return ingredientName in BASIC_RESOURCES_UPGRADES_TO;
+                  }
+
+                  return true;
+                });
+                balance = new Decimal(
+                  nodes.filter((node) => node.removedAt === undefined).length,
                 );
               }
 
