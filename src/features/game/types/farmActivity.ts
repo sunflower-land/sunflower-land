@@ -6,7 +6,7 @@ import {
   RecipeCollectibleName,
   RecipeWearableName,
 } from "../lib/crafting";
-import { ResourceName } from "./resources";
+import { ResourceName, UpgradedResourceName } from "./resources";
 import { FishName } from "./fishing";
 import { ExoticCropName } from "./beans";
 import { BeachBountyTreasure } from "./treasure";
@@ -31,6 +31,7 @@ export type CraftedEvent =
 
 export type ResourceBought = `${ResourceName} Bought`;
 export type BiomeBought = `${LandBiomeName} Bought`;
+export type ResourceNodeUpgradeEvent = `${UpgradedResourceName} Upgrade`;
 
 export type FarmActivityName =
   | CaughtEvent
@@ -40,7 +41,8 @@ export type FarmActivityName =
   | ResourceBought
   | BiomeBought
   | "Obsidian Exchanged"
-  | "FLOWER Exchanged";
+  | "FLOWER Exchanged"
+  | ResourceNodeUpgradeEvent;
 
 export function trackFarmActivity(
   activityName: FarmActivityName,

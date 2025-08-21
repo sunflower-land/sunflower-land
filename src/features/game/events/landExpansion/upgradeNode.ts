@@ -5,6 +5,7 @@ import { GameState, InventoryItemName, Rock } from "features/game/types/game";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 import { STONE_MULTIPLIERS } from "./placeStone";
 import { canMine } from "./stoneMine";
+import { trackFarmActivity } from "features/game/types/farmActivity";
 
 export type UpgradeStoneAction = {
   type: "stone.upgraded";
@@ -43,6 +44,12 @@ export function upgradeStone({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (game) => {
+    const { bumpkin } = game;
+
+    if (!bumpkin) {
+      throw new Error("Bumpkin not found");
+    }
+
     const advancedResource = ADVANCED_RESOURCES[action.upgradeTo];
 
     if (!advancedResource) {
@@ -121,5 +128,10 @@ export function upgradeStone({
         [action.id]: newStone,
       };
     }
+
+    game.farmActivity = trackFarmActivity(
+      `${action.upgradeTo} Upgrade`,
+      game.farmActivity,
+    );
   });
 }

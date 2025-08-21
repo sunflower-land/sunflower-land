@@ -144,7 +144,7 @@ export const Stone: React.FC<Props> = ({ id }) => {
     );
 
     const newState = gameService.send("stoneRock.mined", {
-      id,
+      index: id,
     });
 
     if (!newState.matches("hoarding")) {

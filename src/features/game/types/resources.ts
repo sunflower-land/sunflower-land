@@ -184,9 +184,9 @@ export const ADVANCED_RESOURCES: Record<
     tier: 2,
     ingredients: {
       "Stone Rock": new Decimal(4),
-      Obsidian: new Decimal(1),
+      Obsidian: new Decimal(5),
     },
-    price: 5000,
+    price: 50_000,
     // 4 stone rocks
     preRequires: {
       tier: 1,
@@ -199,9 +199,9 @@ export const ADVANCED_RESOURCES: Record<
     tier: 3,
     ingredients: {
       "Fused Stone Rock": new Decimal(4),
-      Obsidian: new Decimal(5),
+      Obsidian: new Decimal(10),
     },
-    price: 10000,
+    price: 100_000,
     // 4 fused stone rocks
     preRequires: {
       tier: 2,

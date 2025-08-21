@@ -33,7 +33,7 @@ import {
 
 export type LandExpansionStoneMineAction = {
   type: "stoneRock.mined";
-  id: string;
+  index: string;
 };
 
 type Options = {
@@ -111,22 +111,16 @@ export function getMinedAt({ skills, createdAt, game }: GetMinedAtArgs): {
   return { time: createdAt - boostedTime, boostsUsed };
 }
 
-const TOOL_DISCOUNT = 0.8;
-
 export function getRequiredPickaxeAmount(gameState: GameState, id: string) {
   const boostsUsed: BoostName[] = [];
-  const multiplier = gameState.stones[id]?.multiplier ?? 1;
 
   if (isCollectibleBuilt({ name: "Quarry", game: gameState })) {
     boostsUsed.push("Quarry");
     return { amount: new Decimal(0), boostsUsed };
   }
 
-  const amount = Math.round(
-    new Decimal(1).mul(TOOL_DISCOUNT).mul(multiplier).toNumber(),
-  );
-
-  return { amount: new Decimal(amount), boostsUsed };
+  const multiplier = gameState.stones[id]?.multiplier ?? 1;
+  return { amount: new Decimal(1).mul(multiplier), boostsUsed };
 }
 type GetStoneDropAmountArgs = {
   game: GameState;
@@ -306,8 +300,19 @@ export function getStoneDropAmount({
     amount += 0.1;
   }
 
+  amount *= multiplier;
+
+  // Add yield boost for upgraded stones
+  if (rock.tier === 2) {
+    amount += 0.5;
+  }
+
+  if (rock.tier === 3) {
+    amount += 2.5;
+  }
+
   return {
-    amount: new Decimal(amount * multiplier).toDecimalPlaces(4),
+    amount: new Decimal(amount).toDecimalPlaces(4),
     aoe: updatedAoe,
     boostsUsed,
   };
@@ -320,7 +325,7 @@ export function mineStone({
 }: Options): GameState {
   return produce(state, (stateCopy) => {
     const { stones, bumpkin } = stateCopy;
-    const rock = stones?.[action.id];
+    const rock = stones?.[action.index];
 
     if (!rock) {
       throw new Error("Stone does not exist");
@@ -340,7 +345,7 @@ export function mineStone({
 
     const toolAmount = stateCopy.inventory["Pickaxe"] || new Decimal(0);
     const { amount: requiredToolAmount, boostsUsed: pickaxeBoostsUsed } =
-      getRequiredPickaxeAmount(stateCopy, action.id);
+      getRequiredPickaxeAmount(stateCopy, action.index);
 
     if (toolAmount.lessThan(requiredToolAmount)) {
       throw new Error("Not enough pickaxes");
@@ -362,7 +367,7 @@ export function mineStone({
           createdAt,
           criticalDropGenerator: (name) =>
             !!(rock.stone.criticalHit?.[name] ?? 0),
-          id: action.id,
+          id: action.index,
         });
     stateCopy.aoe = aoe;
 
@@ -386,9 +391,11 @@ export function mineStone({
     stateCopy.inventory.Stone = amountInInventory.add(stoneMined);
     delete rock.stone.amount;
 
-    for (let i = 0; i < (rock?.multiplier ?? 1); i++) {
-      bumpkin.activity = trackActivity("Stone Mined", bumpkin.activity);
-    }
+    bumpkin.activity = trackActivity(
+      "Stone Mined",
+      bumpkin.activity,
+      new Decimal(rock?.multiplier ?? 1),
+    );
 
     stateCopy.boostsUsedAt = updateBoostUsed({
       game: stateCopy,

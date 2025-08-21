@@ -299,9 +299,13 @@ export const CraftingRequirements: React.FC<Props> = ({
                 balance = new Decimal(
                   Object.values(stateAccessor(gameState)).filter((node) => {
                     if ("name" in node) {
-                      return node.name === ingredientName;
+                      return (
+                        node.name === ingredientName &&
+                        node.removedAt === undefined
+                      );
                     }
-                    return true;
+
+                    return node.removedAt === undefined && !("name" in node);
                   }).length ?? 0,
                 );
               }
