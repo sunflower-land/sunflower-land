@@ -237,7 +237,10 @@ export const Monument: React.FC<MonumentProps> = (input) => {
           )}
         </PopoverButton>
 
-        <PopoverPanel anchor={{ to: "left start" }} className="flex">
+        <PopoverPanel
+          anchor={{ to: "left start" }}
+          className={classNames("flex", { hidden: isProjectComplete })}
+        >
           <SFTDetailPopoverInnerPanel>
             <SFTDetailPopoverLabel name={input.name} />
             <Label type="info" icon={helpIcon} className="ml-2 sm:ml-0">
