@@ -17,6 +17,7 @@ import { getRelativeTime } from "lib/utils/time";
 
 import promote from "assets/icons/promote.webp";
 import followIcon from "assets/icons/follow.webp";
+import helpIcon from "assets/icons/help.webp";
 
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
@@ -502,7 +503,7 @@ const FeedContent: React.FC<FeedContentProps> = ({
                       />
                     )}
                   </div>
-                  <div className="flex flex-col gap-1">
+                  <div className="flex flex-col w-full gap-1">
                     <span className="flex items-center gap-1">
                       {interaction.type === "announcement" ? (
                         <img src={promote} />
@@ -511,13 +512,18 @@ const FeedContent: React.FC<FeedContentProps> = ({
                       )}
                       {`${getRelativeTime(interaction.createdAt)}`}
                     </span>
-                    <div
-                      className="text-xs break-words"
-                      style={{
-                        lineHeight: 1,
-                      }}
-                    >
-                      {interaction.message}
+                    <div className="flex justify-between items-center w-full">
+                      <div
+                        className="text-xs break-words"
+                        style={{
+                          lineHeight: 1,
+                        }}
+                      >
+                        {interaction.message}
+                      </div>
+                      {interaction.helpedThemToday && (
+                        <img src={helpIcon} className="w-4 h-4" />
+                      )}
                     </div>
                   </div>
                   <div className="flex items-center justify-end flex-grow cursor-pointer">
