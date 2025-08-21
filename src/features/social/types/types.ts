@@ -53,6 +53,8 @@ export type Player = {
     projects: ActiveProjects;
     youHelpedThemCount: number;
     theyHelpedYouCount: number;
+    helpedYouToday: boolean;
+    helpedThemToday: boolean;
     helpStreak: number;
   };
 };
