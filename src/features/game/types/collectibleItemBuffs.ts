@@ -1694,6 +1694,34 @@ function getCollectibleBuffLabels(
         boostedItemIcon: ITEM_DETAILS.Oil.image,
       },
     ],
+    "Sparrow Shrine": [
+      {
+        shortDescription: translate("description.sparrowShrine.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    ],
+    "Toucan Shrine": [
+      {
+        shortDescription: translate("description.toucanShrine.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    ],
+    "Collie Shrine": [
+      {
+        shortDescription: translate("description.collieShrine.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    ],
+    "Badger Shrine": [
+      {
+        shortDescription: translate("description.badgerShrine.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    ],
     "Legendary Shrine": [
       {
         shortDescription: translate("description.legendaryShrine.buff"),

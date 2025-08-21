@@ -44,7 +44,7 @@ export function getPetCravings({
 }: {
   pet?: Pet;
   game: GameState;
-}): { name: InventoryItemName; completedAt?: number }[] {
+}): { name: InventoryItemName; completedAt?: number; energy?: number }[] {
   const cravings = pet?.cravings;
 
   // If on old version return the cravings
@@ -52,7 +52,7 @@ export function getPetCravings({
     return cravings;
   }
 
-  return DEFAULT_PET_CRAVINGS.map((c) => ({ name: c }));
+  return [];
 }
 
 export type FeedPetAction = {
@@ -113,11 +113,6 @@ export function getPetReadyAt({
   let duration = PET_RESOURCES[fetched].cooldownMs;
   const boostsUsed: BoostName[] = [];
 
-  if (isCollectibleActive({ name: "Hound Shrine", game })) {
-    duration = duration * 0.75;
-    boostsUsed.push("Hound Shrine");
-  }
-
   const level = getPetLevel(pet);
 
   if (level >= 50) {
@@ -127,6 +122,24 @@ export function getPetReadyAt({
   }
 
   return { readyAt: now + duration, boostsUsed };
+}
+
+export function getPetFoodExperience({
+  pet,
+  game,
+  energy,
+}: {
+  pet: Pet;
+  game: GameState;
+  energy: number;
+}): number {
+  let xp = energy;
+
+  if (isCollectibleActive({ name: "Hound Shrine", game })) {
+    xp += 50;
+  }
+
+  return xp;
 }
 
 export function feedPet({
@@ -169,8 +182,14 @@ export function feedPet({
       };
     }
 
-    pet.experience = getPetExperience(pet) + PET_FOOD_EXPERIENCE;
-    pet.energy = (pet.energy ?? 0) + PET_FOOD_EXPERIENCE;
+    const request = requests[requestIndex];
+
+    const energy = request.energy ?? PET_FOOD_EXPERIENCE;
+
+    const xp = getPetFoodExperience({ pet, game: stateCopy, energy });
+
+    pet.experience = getPetExperience(pet) + xp;
+    pet.energy = (pet.energy ?? 0) + energy;
 
     // Mark the request as completed
     pet.cravings = requests.map((request, index) =>

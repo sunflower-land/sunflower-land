@@ -6,6 +6,7 @@ import { GameState, PlacedItem } from "features/game/types/game";
 import { trackActivity } from "features/game/types/bumpkinActivity";
 import { PlaceableLocation } from "features/game/types/collectibles";
 import { produce } from "immer";
+import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
 
 export type PlaceCollectibleAction = {
   type: "collectible.placed";
@@ -30,46 +31,32 @@ export function placeCollectible({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (stateCopy) => {
-    const { bumpkin } = stateCopy;
     const collectible = action.name;
 
-    let collectibleItems =
-      action.location === "home"
-        ? stateCopy.home.collectibles[action.name]
-        : stateCopy.collectibles[action.name];
+    const { count: inventoryItemBalance } = getCountAndType(
+      stateCopy,
+      collectible,
+    );
 
-    if (!collectibleItems) {
-      collectibleItems = [];
-    }
-
-    const inventoryItemBalance = stateCopy.inventory[collectible];
-
-    if (bumpkin === undefined) {
-      throw new Error("You do not have a Bumpkin!");
-    }
-
-    if (!inventoryItemBalance) {
+    if (!inventoryItemBalance || inventoryItemBalance.lte(0)) {
       throw new Error("You can't place an item that is not on the inventory");
-    }
-
-    if (
-      collectibleItems &&
-      inventoryItemBalance?.lessThanOrEqualTo(
-        collectibleItems.filter((collectible) => collectible.coordinates)
-          .length,
-      )
-    ) {
-      throw new Error("This collectible is already placed");
     }
 
     if (!(collectible in COLLECTIBLES_DIMENSIONS)) {
       throw new Error("You cannot place this item");
     }
 
-    const existingCollectible = collectibleItems.find(
+    // Search for existing collectible in current location
+    const collectibleItems =
+      action.location === "home"
+        ? stateCopy.home.collectibles[action.name] ?? []
+        : stateCopy.collectibles[action.name] ?? [];
+
+    let existingCollectible = collectibleItems.find(
       (collectible) => !collectible.coordinates,
     );
 
+    // Updates that collectible in current location if it exists
     if (existingCollectible) {
       existingCollectible.coordinates = action.coordinates;
       delete existingCollectible.removedAt;
@@ -77,14 +64,50 @@ export function placeCollectible({
       return stateCopy;
     }
 
+    // If no existing collectible is found, search for it in the other location, and move it to the new location
+
+    const otherCollectibleItems =
+      action.location === "home"
+        ? stateCopy.collectibles[action.name] ?? []
+        : stateCopy.home.collectibles[action.name] ?? [];
+
+    const existingCollectibleIndex = otherCollectibleItems.findIndex(
+      (collectible) => !collectible.coordinates,
+    );
+    existingCollectible = otherCollectibleItems[existingCollectibleIndex];
+
+    // Move it to new location
+    if (existingCollectible) {
+      existingCollectible.coordinates = action.coordinates;
+      delete existingCollectible.removedAt;
+      if (action.location === "home") {
+        // Add to home
+        collectibleItems.push(existingCollectible);
+        stateCopy.home.collectibles[action.name] = collectibleItems;
+
+        // Remove from farm
+        otherCollectibleItems.splice(existingCollectibleIndex, 1);
+        stateCopy.collectibles[action.name] = otherCollectibleItems;
+      } else {
+        // Add to farm
+        collectibleItems.push(existingCollectible);
+        stateCopy.collectibles[action.name] = collectibleItems;
+
+        // Remove from home
+        otherCollectibleItems.splice(existingCollectibleIndex, 1);
+        stateCopy.home.collectibles[action.name] = otherCollectibleItems;
+      }
+
+      return stateCopy;
+    }
+
+    // If no existing collectible is found, create a new one
     const newCollectiblePlacement: PlacedItem = {
       id: action.id,
       createdAt: createdAt,
       coordinates: action.coordinates,
       readyAt: createdAt,
     };
-
-    bumpkin.activity = trackActivity("Collectible Placed", bumpkin.activity);
 
     collectibleItems.push(newCollectiblePlacement);
 
@@ -94,6 +117,11 @@ export function placeCollectible({
     } else {
       stateCopy.collectibles[action.name] = collectibleItems;
     }
+
+    stateCopy.bumpkin.activity = trackActivity(
+      "Collectible Placed",
+      stateCopy.bumpkin.activity,
+    );
 
     return stateCopy;
   });

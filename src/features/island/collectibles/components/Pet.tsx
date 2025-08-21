@@ -3,6 +3,7 @@ import { CollectibleProps } from "../Collectible";
 import {
   getPetLevel,
   isPetNeglected,
+  PET_FOOD_EXPERIENCE,
   PET_RESOURCES,
   petLevelProgress,
   PetName,
@@ -29,6 +30,7 @@ import { useVisiting } from "lib/utils/visitUtils";
 import { AnimatedBar } from "components/ui/ProgressBar";
 import { canPetPet } from "features/game/events/landExpansion/petPet";
 import { InventoryItemName } from "features/game/types/game";
+import { getInstantGems } from "features/game/events/landExpansion/speedUpRecipe";
 
 const DEFAULT_PET_TOY: InventoryItemName = "Doll";
 
@@ -212,7 +214,7 @@ const Feed: React.FC<{
               <p className="text-sm">{`${request.name}`}</p>
 
               <div className="flex items-center">
-                <p className="text-xs">{`+100`}</p>
+                <p className="text-xs">{`+${request.energy ?? PET_FOOD_EXPERIENCE}`}</p>
                 <img src={lightningIcon} className="h-4 ml-1" />
               </div>
             </div>
@@ -266,13 +268,18 @@ const Guide: React.FC<{
     onClose();
   };
 
+  // Costs 24 hrs worth of gems
+  const gems = getInstantGems({
+    readyAt: Date.now() + 24 * 60 * 60 * 1000,
+    now: Date.now(),
+    game: gameState.context.state,
+  });
+
   if (showConfirm) {
     return (
       <InnerPanel>
         <Label type="danger">{t("confirmTitle")}</Label>
-        <p className="text-xs m-1">
-          {`Are you sure you want to give a Doll to give more requests?`}
-        </p>
+        <p className="text-xs m-1">{`${gems} x Gems.`}</p>
 
         <div className="flex">
           <Button onClick={() => setShowConfirm(false)} className="mr-1">
@@ -332,12 +339,29 @@ const Guide: React.FC<{
           {`New Requests`}
         </Label>
         <p className="text-sm mb-1">{`Each day, new requests will appear.`}</p>
-        <Button
-          disabled={
-            !(gameState.context.state.inventory.Doll ?? new Decimal(0)).gte(1)
-          }
-          onClick={() => setShowConfirm(true)}
-        >{`Reset requests`}</Button>
+        <div className="relative">
+          <Label
+            className="absolute -top-2 right-0 z-10"
+            type={
+              !(gameState.context.state.inventory.Gem ?? new Decimal(0)).gte(
+                gems,
+              )
+                ? "danger"
+                : "default"
+            }
+            icon={ITEM_DETAILS.Gem.image}
+          >
+            {gems}
+          </Label>
+          <Button
+            disabled={
+              !(gameState.context.state.inventory.Gem ?? new Decimal(0)).gte(
+                gems,
+              )
+            }
+            onClick={() => setShowConfirm(true)}
+          >{`Reset requests`}</Button>
+        </div>
       </InnerPanel>
     </>
   );

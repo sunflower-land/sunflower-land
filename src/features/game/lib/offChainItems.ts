@@ -5,6 +5,8 @@ import { SEASON_TICKET_NAME } from "../types/seasons";
 import { SEEDS } from "../types/seeds";
 import { TREASURE_TOOLS } from "../types/tools";
 import { SELLABLE_TREASURE } from "../types/treasure";
+import { PET_SHRINES } from "../types/pets";
+import { HOURGLASSES } from "../events/landExpansion/burnCollectible";
 
 export const OFFCHAIN_ITEMS: InventoryItemName[] = [
   "Mark",
@@ -17,4 +19,9 @@ export const OFFCHAIN_ITEMS: InventoryItemName[] = [
   ...getKeys(TREASURE_TOOLS),
   ...Object.values(SEASON_TICKET_NAME),
   "Cheer",
+  ...getKeys(PET_SHRINES),
+  "Obsidian Shrine",
+  ...HOURGLASSES,
+  "Time Warp Totem",
+  "Super Totem",
 ];

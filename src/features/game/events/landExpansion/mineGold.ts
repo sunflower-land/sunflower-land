@@ -86,6 +86,11 @@ const getBoostedTime = ({
     boostsUsed.push("Ore Hourglass");
   }
 
+  if (isCollectibleActive({ name: "Mole Shrine", game })) {
+    totalSeconds = totalSeconds * 0.25;
+    boostsUsed.push("Mole Shrine");
+  }
+
   if (isWearableActive({ name: "Pickaxe Shark", game })) {
     totalSeconds = totalSeconds * 0.85;
     boostsUsed.push("Pickaxe Shark");

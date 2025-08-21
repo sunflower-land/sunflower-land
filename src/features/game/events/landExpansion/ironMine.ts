@@ -83,6 +83,11 @@ const getBoostedTime = ({
     boostsUsed.push("Ore Hourglass");
   }
 
+  if (isCollectibleActive({ name: "Mole Shrine", game })) {
+    totalSeconds = totalSeconds * 0.25;
+    boostsUsed.push("Mole Shrine");
+  }
+
   if (game.bumpkin.skills["Iron Hustle"]) {
     totalSeconds = totalSeconds * 0.7;
     boostsUsed.push("Iron Hustle");

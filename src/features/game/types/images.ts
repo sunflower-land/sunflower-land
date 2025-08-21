@@ -5790,6 +5790,22 @@ export const ITEM_DETAILS: Items = {
     image: thermalStone,
     description: translate("description.foxShrine"),
   },
+  "Sparrow Shrine": {
+    image: thermalStone,
+    description: translate("description.sparrowShrine"),
+  },
+  "Toucan Shrine": {
+    image: thermalStone,
+    description: translate("description.toucanShrine"),
+  },
+  "Collie Shrine": {
+    image: thermalStone,
+    description: translate("description.collieShrine"),
+  },
+  "Badger Shrine": {
+    image: thermalStone,
+    description: translate("description.badgerShrine"),
+  },
   "Boar Shrine": {
     image: thermalStone,
     description: translate("description.boarShrine"),

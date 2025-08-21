@@ -938,6 +938,18 @@ export const INVENTORY_RELEASES: Partial<Record<InventoryItemName, Releases>> =
       tradeAt: SEASONS["Winds of Change"].endDate,
       withdrawAt: SEASONS["Winds of Change"].endDate,
     },
+    "Summer Duckling": {
+      tradeAt: SEASONS["Winds of Change"].endDate,
+      withdrawAt: SEASONS["Winds of Change"].endDate,
+    },
+    "Winter Duckling": {
+      tradeAt: SEASONS["Winds of Change"].endDate,
+      withdrawAt: SEASONS["Winds of Change"].endDate,
+    },
+    "Autumn Duckling": {
+      tradeAt: SEASONS["Winds of Change"].endDate,
+      withdrawAt: SEASONS["Winds of Change"].endDate,
+    },
     Igloo: {
       tradeAt: SEASONS["Winds of Change"].endDate,
       withdrawAt: SEASONS["Winds of Change"].endDate,
