@@ -23,7 +23,6 @@ import { isReadyToHarvest } from "features/game/events/landExpansion/harvest";
 import { Box } from "components/ui/Box";
 import { Decimal } from "decimal.js-light";
 import { CropPlot, GameState } from "features/game/types/game";
-import { ALLOWED_SEEDS as CROP_MACHINE_SEEDS } from "features/island/buildings/components/building/cropMachine/CropMachineModal";
 
 export const ObsidianShrine: React.FC<CollectibleProps> = ({
   createdAt,
@@ -235,9 +234,6 @@ const PlantAll: React.FC<{
 
   const availableSeeds = seasonalSeeds.reduce(
     (acc, seed: CropSeedName) => {
-      if (CROP_MACHINE_SEEDS(state.bumpkin, state.inventory).includes(seed))
-        return acc;
-
       if (state.inventory[seed]) {
         acc[seed] = state.inventory[seed].toNumber();
       }
