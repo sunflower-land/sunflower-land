@@ -16,6 +16,13 @@ import { pickEmptyPosition } from "features/game/expansion/placeable/lib/collisi
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
 import { CropName } from "features/game/types/crops";
 import { produce } from "immer";
+import {
+  CRIMSTONE_RECOVERY_TIME,
+  GOLD_RECOVERY_TIME,
+  IRON_RECOVERY_TIME,
+  STONE_RECOVERY_TIME,
+  TREE_RECOVERY_TIME,
+} from "features/game/lib/constants";
 
 // Preloaded crops that will appear on plots when they reveal
 const EXPANSION_CROPS: Record<number, CropName> = {
@@ -244,7 +251,8 @@ export function revealLand({
           ...game.trees[id],
           wood: {
             ...game.trees[id].wood,
-            choppedAt: 1,
+            choppedAt:
+              (game.trees[id].removedAt ?? createdAt) - TREE_RECOVERY_TIME,
           },
         },
       };
@@ -258,7 +266,8 @@ export function revealLand({
             ...game.stones[id],
             stone: {
               ...game.stones[id].stone,
-              minedAt: 1,
+              minedAt:
+                (game.stones[id].removedAt ?? createdAt) - STONE_RECOVERY_TIME,
             },
           },
         };
@@ -273,7 +282,8 @@ export function revealLand({
           ...game.iron[id],
           stone: {
             ...game.iron[id].stone,
-            minedAt: 1,
+            minedAt:
+              (game.iron[id].removedAt ?? createdAt) - IRON_RECOVERY_TIME,
           },
         },
       };
@@ -286,7 +296,8 @@ export function revealLand({
           ...game.gold[id],
           stone: {
             ...game.gold[id].stone,
-            minedAt: 1,
+            minedAt:
+              (game.gold[id].removedAt ?? createdAt) - GOLD_RECOVERY_TIME,
           },
         },
       };
@@ -300,7 +311,9 @@ export function revealLand({
             ...game.crimstones[id],
             stone: {
               ...game.crimstones[id].stone,
-              minedAt: 1,
+              minedAt:
+                (game.crimstones[id].removedAt ?? createdAt) -
+                CRIMSTONE_RECOVERY_TIME,
             },
           },
         };
