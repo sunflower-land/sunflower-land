@@ -33,6 +33,7 @@ import settings from "assets/icons/settings_disc.png";
 import bank from "assets/icons/withdraw.png";
 import bud from "assets/icons/bud.png";
 import { AnimatedPanel } from "features/world/ui/AnimatedPanel";
+import classNames from "classnames";
 
 export const MyReputation: React.FC = () => {
   const { openModal } = useContext(ModalContext);
@@ -282,6 +283,12 @@ export const ReputationPoints: React.FC = () => {
   const { openModal } = useContext(ModalContext);
   const { t } = useAppTranslation();
   const { gameState } = useGame();
+  const [showInfo, setShowInfo] = useState(false);
+
+  const isDiscordConnected = gameState.context.state.discord?.connected;
+  const isDiscordVerified = gameState.context.state.discord?.verified;
+
+  const ShowDiscordInfoButton = isDiscordConnected && !isDiscordVerified;
 
   const points = getReputationPoints({ game: gameState.context.state });
   return (
@@ -344,9 +351,33 @@ export const ReputationPoints: React.FC = () => {
                 : SUNNYSIDE.icons.cancel,
             },
             {
-              text: t("reputation.unlock.discord", {
-                points: REPUTATION_POINTS.Discord,
-              }),
+              text: (
+                <span
+                  onClick={() => setShowInfo(!showInfo)}
+                  className={classNames("flex items-center", {
+                    "cursor-pointer": ShowDiscordInfoButton,
+                  })}
+                >
+                  {t("reputation.unlock.discord", {
+                    points: REPUTATION_POINTS.Discord,
+                  })}
+                  {ShowDiscordInfoButton && (
+                    <div className="relative">
+                      <img src={infoIcon} className="w-5 mr-2 sm:ml-1" />
+                      <AnimatedPanel
+                        show={showInfo}
+                        onClick={() => setShowInfo(!showInfo)}
+                        className="top-5 right-2 whitespace-nowrap"
+                      >
+                        <div className="flex flex-col text-xxs p-0.5">
+                          <p>{t("reputation.unlock.discord.info1")}</p>
+                          <p>{t("reputation.unlock.discord.info2")}</p>
+                        </div>
+                      </AnimatedPanel>
+                    </div>
+                  )}
+                </span>
+              ),
               icon: REPUTATION_TASKS.Discord({
                 game: gameState.context.state,
               })
