@@ -7,19 +7,21 @@ import { InfoPopover } from "features/island/common/InfoPopover";
 import { useTranslation } from "react-i18next";
 
 type Props = {
-  helpedYouToday: boolean;
-  helpedThemToday: boolean;
-  hasCookingPot: boolean;
+  helpedYouToday?: boolean;
+  helpedThemToday?: boolean;
+  hasCookingPot?: boolean;
   showPopover: boolean;
+  className?: string;
   onHide: () => void;
 };
 
 export const HelpInfoPopover: React.FC<Props> = ({
   showPopover,
-  onHide,
   helpedYouToday,
   helpedThemToday,
   hasCookingPot,
+  className,
+  onHide,
 }) => {
   const { t } = useTranslation();
 
@@ -27,9 +29,9 @@ export const HelpInfoPopover: React.FC<Props> = ({
     <InfoPopover
       showPopover={showPopover}
       onHide={onHide}
-      className="-bottom-3 sm:bottom-0 left-1/2 transform -translate-x-1/2 z-20 absolute"
+      className={className}
     >
-      <div className="flex flex-col gap-1">
+      <div className="flex flex-col gap-1 h-fit">
         {helpedThemToday && (
           <div className="flex items-center gap-1">
             <img src={helpIcon} className="w-4 h-4" />
