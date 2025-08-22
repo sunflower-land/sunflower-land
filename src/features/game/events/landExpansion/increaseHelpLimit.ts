@@ -27,15 +27,6 @@ export const HELP_LIMIT_COST: Inventory = {
 
 export const HELP_LIMIT = 5;
 
-export function getHelpedToday({ game }: { game: GameState }) {
-  const today = new Date().toISOString().split("T")[0];
-
-  return getKeys(game.socialFarming.helped ?? {}).filter((farmId) => {
-    const helpedAt = game.socialFarming.helped![farmId]?.helpedAt ?? 0;
-    return new Date(helpedAt).toISOString().split("T")[0] === today;
-  }).length;
-}
-
 export function getHelpLimit({
   game,
   now = new Date(),
@@ -103,6 +94,12 @@ export function increaseHelpLimit({
   });
 }
 
-export function hasHitHelpLimit({ game }: { game: GameState }) {
-  return getHelpedToday({ game }) >= getHelpLimit({ game });
+export function hasHitHelpLimit({
+  game,
+  totalHelpedToday,
+}: {
+  game: GameState;
+  totalHelpedToday: number;
+}) {
+  return totalHelpedToday >= getHelpLimit({ game });
 }

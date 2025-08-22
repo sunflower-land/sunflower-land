@@ -123,6 +123,10 @@ export const Monument: React.FC<MonumentProps> = (input) => {
   const { t } = useAppTranslation();
 
   const state = useSelector(gameService, (state) => state.context.state);
+  const totalHelpedToday = useSelector(
+    gameService,
+    (state) => state.context.totalHelpedToday,
+  );
 
   const projectCheers = useSelector(gameService, _cheers(input.project));
   const cheersAvailable = useSelector(gameService, _cheersAvailable);
@@ -145,6 +149,7 @@ export const Monument: React.FC<MonumentProps> = (input) => {
   const handleHelpProject = async () => {
     gameService.send("project.helped", {
       project: input.project,
+      totalHelpedToday: totalHelpedToday ?? 0,
     });
 
     if (isHelpComplete({ game: gameService.getSnapshot().context.state })) {

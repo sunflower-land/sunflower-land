@@ -13,6 +13,8 @@ import cheer from "assets/icons/cheer.webp";
 import socialPointsIcon from "assets/icons/social_score.webp";
 import followIcon from "assets/icons/follow.webp";
 import unfollowIcon from "assets/icons/unfollow.webp";
+import helpIcon from "assets/icons/help.webp";
+import helpedIcon from "assets/icons/helped.webp";
 
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -45,7 +47,6 @@ import { getKeys } from "features/game/lib/crafting";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
-import { getHelpStreak } from "features/game/types/monuments";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 
 const ISLAND_ICONS: Record<IslandType, string> = {
@@ -207,12 +208,6 @@ export const PlayerDetails: React.FC<Props> = ({
       (projectB.receivedCheers / projectB.requiredCheers) * 100;
 
     return projectBProgress - projectAProgress;
-  });
-
-  const friendStreak = getHelpStreak({
-    farm: gameService.state.context.state.socialFarming.helped?.[
-      player?.id ?? 0
-    ],
   });
 
   return (
@@ -438,17 +433,25 @@ export const PlayerDetails: React.FC<Props> = ({
               </div>
             </div>
           )}
-          {friendStreak > 0 && (
-            <div className="flex justify-start w-full">
-              <Label
-                type="vibrant"
-                className="ml-2"
-                icon={SUNNYSIDE.icons.heart}
-              >
-                {t("friendStreak", { days: friendStreak })}
-              </Label>
-            </div>
-          )}
+          <div className="flex w-full px-1 gap-1">
+            {player.helpedThemToday && (
+              <img src={helpIcon} className="w-4 h-4" />
+            )}
+            {player.helpedYouToday && (
+              <img src={helpedIcon} className="w-4 h-4" />
+            )}
+            {player.helpStreak > 0 && (
+              <div className="flex justify-start w-full">
+                <Label
+                  type="vibrant"
+                  className="ml-2"
+                  icon={SUNNYSIDE.icons.heart}
+                >
+                  {t("friendStreak", { days: player.helpStreak })}
+                </Label>
+              </div>
+            )}
+          </div>
         </InnerPanel>
 
         <InnerPanel className="flex flex-1 flex-col gap-1 max-h-[121px] overflow-y-auto scrollable">

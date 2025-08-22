@@ -18,13 +18,13 @@ type Props = {
   playerId: number;
   clothing: Equipped;
   username: string;
-  haveHelpedToday: boolean;
-  haveTheyHelpedYouToday: boolean;
+  helpedThemToday: boolean;
+  helpedYouToday: boolean;
   socialPoints: number;
   lastOnlineAt: number;
   hasCookingPot: boolean;
   navigateToPlayer: (playerId: number) => void;
-  friendStreak: number;
+  helpStreak: number;
 };
 
 export const FollowDetailPanel: React.FC<Props> = ({
@@ -32,13 +32,13 @@ export const FollowDetailPanel: React.FC<Props> = ({
   playerId,
   clothing,
   username,
-  haveHelpedToday,
-  haveTheyHelpedYouToday,
+  helpedThemToday,
+  helpedYouToday,
   socialPoints,
   lastOnlineAt,
   hasCookingPot,
   navigateToPlayer,
-  friendStreak,
+  helpStreak,
 }: Props) => {
   const { t } = useTranslation();
   const lastOnline = getRelativeTime(lastOnlineAt, "short");
@@ -88,16 +88,14 @@ export const FollowDetailPanel: React.FC<Props> = ({
             )}
             <div className="flex items-center justify-between w-full">
               <div className="flex items-center gap-1 flex-wrap">
-                {haveHelpedToday && <img src={helpIcon} className="w-4 h-4" />}
-                {haveTheyHelpedYouToday && (
-                  <img src={helpedIcon} className="w-4 h-4" />
-                )}
+                {helpedThemToday && <img src={helpIcon} className="w-4 h-4" />}
+                {helpedYouToday && <img src={helpedIcon} className="w-4 h-4" />}
                 {hasCookingPot && <img src={potIcon} className="w-4 h-4" />}
               </div>
-              {friendStreak > 0 && (
+              {helpStreak > 0 && (
                 <Label type="vibrant" icon={SUNNYSIDE.icons.heart}>
                   {t("friendStreak.short", {
-                    days: friendStreak,
+                    days: helpStreak,
                   })}
                 </Label>
               )}

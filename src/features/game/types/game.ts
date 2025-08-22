@@ -1522,30 +1522,10 @@ type ClutterCoordinates = {
   type: ClutterName;
 } & Coordinates;
 
-type ClutterCollection = {
-  collectedAt: number;
-  type: ClutterName;
-};
-
-type DailyCollection = {
-  pointGivenAt?: number;
-  clutter: { [clutterId: string]: ClutterCollection };
-};
-
 type VillageProject = {
   cheers: number;
   winnerId?: number;
   helpedAt?: number; // Local only field
-};
-
-export type HelpedFarm = {
-  count: number;
-  helpedAt: number;
-
-  streak?: {
-    updatedAt: number;
-    count: number;
-  };
 };
 
 export type SocialFarming = {
@@ -1562,7 +1542,6 @@ export type SocialFarming = {
   };
   cheers: { freeCheersClaimedAt: number };
   helpIncrease?: { boughtAt: number[] };
-  helped?: { [farmId: number]: HelpedFarm };
   clutter?: {
     spawnedAt: number;
     locations: { [clutterId: string]: ClutterCoordinates };

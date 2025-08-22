@@ -25,10 +25,7 @@ import choreIcon from "assets/icons/chores.webp";
 import { VisitorGuide } from "./components/VisitorGuide";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import {
-  getHelpRequired,
-  hasHelpedFarmToday,
-} from "features/game/types/monuments";
+import { getHelpRequired } from "features/game/types/monuments";
 import { hasHitHelpLimit } from "features/game/events/landExpansion/increaseHelpLimit";
 import { Feed } from "features/social/Feed";
 import { WorldFeedButton } from "features/social/components/WorldFeedButton";
@@ -49,21 +46,14 @@ export const VisitingHud: React.FC = () => {
 
   const [gameState] = useActor(gameService);
 
-  const hasHelpedToday = hasHelpedFarmToday({
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    game: gameState.context.visitorState!,
-    farmId: gameState.context.farmId,
-  });
-
   const [showVisitorGuide, setShowVisitorGuide] = useState(() => {
     const hasHitLimit = hasHitHelpLimit({
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       game: gameState.context.visitorState!,
+      totalHelpedToday: gameState.context.totalHelpedToday ?? 0,
     });
 
-    if (hasHitLimit) {
-      return true;
-    }
+    if (hasHitLimit) return true;
 
     // Check if user has already acknowledged the visitor guide
     const hasAcknowledged =
@@ -136,7 +126,7 @@ export const VisitingHud: React.FC = () => {
             </div>
           </div>
           <div className="w-px h-[36px] bg-gray-300 mx-3 self-center" />
-          {hasHelpedToday ? (
+          {gameState.context.hasHelpedPlayerToday ?? false ? (
             <div className="flex justify-center items-center flex-grow">
               <img src={SUNNYSIDE.icons.confirm} className="w-5" />
             </div>
