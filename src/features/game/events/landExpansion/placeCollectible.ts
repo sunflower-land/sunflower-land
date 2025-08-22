@@ -7,6 +7,7 @@ import { trackActivity } from "features/game/types/bumpkinActivity";
 import { PlaceableLocation } from "features/game/types/collectibles";
 import { produce } from "immer";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
+import { MonumentName, REQUIRED_CHEERS } from "features/game/types/monuments";
 
 export type PlaceCollectibleAction = {
   type: "collectible.placed";
@@ -44,6 +45,17 @@ export function placeCollectible({
 
     if (!(collectible in COLLECTIBLES_DIMENSIONS)) {
       throw new Error("You cannot place this item");
+    }
+
+    const isMonument = action.name in REQUIRED_CHEERS;
+
+    if (
+      isMonument &&
+      !stateCopy.socialFarming.villageProjects[action.name as MonumentName]
+    ) {
+      stateCopy.socialFarming.villageProjects[action.name as MonumentName] = {
+        cheers: 0,
+      };
     }
 
     // Search for existing collectible in current location
