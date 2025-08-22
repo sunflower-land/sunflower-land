@@ -3,11 +3,7 @@ import { Label } from "components/ui/Label";
 import React, { useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { getKeys } from "features/game/lib/crafting";
-import {
-  RAFFLE_REWARDS,
-  REQUIRED_CHEERS,
-  WORKBENCH_MONUMENTS,
-} from "features/game/types/monuments";
+import { RAFFLE_REWARDS, REQUIRED_CHEERS } from "features/game/types/monuments";
 import { useGame } from "features/game/GameProvider";
 import { Button } from "components/ui/Button";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -180,7 +176,7 @@ export const VisitorGuide: React.FC<VisitorGuideProps> = ({ onClose }) => {
     );
   }
 
-  const pendingProjects = getKeys(WORKBENCH_MONUMENTS).filter(
+  const pendingProjects = getKeys(villageProjects).filter(
     (monument) =>
       // Ensures the monument is placed with Coordinates
       !!collectibles[monument]?.some((item) => !!item.coordinates) &&
