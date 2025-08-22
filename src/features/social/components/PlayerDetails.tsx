@@ -485,7 +485,7 @@ export const PlayerDetails: React.FC<Props> = ({
                   <img src={helpedIcon} className="w-4 h-4" />
                 )}
                 <HelpInfoPopover
-                  className="absolute left-5 -top-12 z-20 w-max"
+                  className="absolute left-5 -top-10 z-20 w-max"
                   showPopover={showPopover}
                   onHide={() => setShowPopover(false)}
                   helpedThemToday={player.helpedThemToday}
