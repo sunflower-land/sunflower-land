@@ -114,6 +114,7 @@ export const PlayerDetails: React.FC<Props> = ({
 
   const cheersAvailable = useSelector(gameService, _cheersAvailable);
   const [showCheerModal, setShowCheerModal] = useState(false);
+  const [showPopover, setShowPopover] = useState(false);
 
   useOnMachineTransition(
     gameService,
@@ -412,7 +413,28 @@ export const PlayerDetails: React.FC<Props> = ({
             </div>
           </div>
           {!isSelf && (
-            <div className="flex flex-col gap-1 p-1 mb-1 w-full">
+            <div
+              onPointerOver={(e) => {
+                if (e.pointerType === "mouse") {
+                  setShowPopover(true);
+                }
+              }}
+              onPointerOut={(e) => {
+                if (e.pointerType === "mouse") {
+                  setShowPopover(false);
+                }
+              }}
+              onPointerDown={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+
+                setShowPopover(!showPopover);
+                setTimeout(() => {
+                  setShowPopover(false);
+                }, 1500);
+              }}
+              className="flex flex-col gap-1 p-1 mb-1 w-full"
+            >
               <div className="text-xs">
                 {player?.youHelpedThemCount === 1
                   ? t("playerModal.youHelpedThemCount.singular", {

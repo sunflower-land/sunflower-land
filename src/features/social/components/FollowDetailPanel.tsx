@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { ButtonPanel } from "components/ui/Panel";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { OnlineStatus } from "./OnlineStatus";
@@ -12,6 +12,8 @@ import helpIcon from "assets/icons/help.webp";
 import helpedIcon from "assets/icons/helped.webp";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { shortenCount } from "lib/utils/formatNumber";
+import classNames from "classnames";
+import { HelpInfoPopover } from "./HelpInfoPopover";
 
 type Props = {
   loggedInFarmId: number;
@@ -23,8 +25,8 @@ type Props = {
   socialPoints: number;
   lastOnlineAt: number;
   hasCookingPot: boolean;
-  navigateToPlayer: (playerId: number) => void;
   helpStreak: number;
+  navigateToPlayer: (playerId: number) => void;
 };
 
 export const FollowDetailPanel: React.FC<Props> = ({
@@ -41,6 +43,8 @@ export const FollowDetailPanel: React.FC<Props> = ({
   helpStreak,
 }: Props) => {
   const { t } = useTranslation();
+  const [showPopover, setShowPopover] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const lastOnline = getRelativeTime(lastOnlineAt, "short");
 
   const isOnline = lastOnlineAt > Date.now() - 30 * 60 * 1000;
@@ -51,58 +55,118 @@ export const FollowDetailPanel: React.FC<Props> = ({
     navigateToPlayer(playerId);
   }, [navigateToPlayer, playerId]);
 
+  useEffect(() => {
+    // Set mounted after a brief delay to prevent accidental triggers during mount
+    const timer = setTimeout(() => {
+      setMounted(true);
+    }, 50);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [playerId]);
+
   return (
-    <ButtonPanel
-      className="flex gap-3 justify-between hover:bg-brown-300 transition-colors active:bg-brown-400"
-      onClick={handleClick}
-    >
-      <div className="flex items-center gap-2 w-full">
-        <div className="relative">
-          <div className="z-10">
-            <NPCIcon parts={clothing} />
-          </div>
-          <div className="absolute -top-1 -right-1">
-            <OnlineStatus
-              loggedInFarmId={loggedInFarmId}
-              playerId={playerId}
-              lastUpdatedAt={lastOnlineAt}
-            />
-          </div>
-        </div>
-        <div className="flex flex-col gap-0.5 w-full">
-          <div className="flex flex-col justify-center w-full">
-            <div className="flex items-center justify-between w-full mb-0.5">
-              <div className="text-xs">{isYou ? `${t("you")}` : username}</div>
-              <div className="flex flex-col items-end">
-                <Label type="chill" icon={socialPointsIcon}>
-                  {shortenCount(socialPoints)}
-                </Label>
-              </div>
+    <div className="relative">
+      <ButtonPanel
+        className={classNames(
+          "flex gap-3 justify-between hover:bg-brown-300 transition-colors active:bg-brown-400",
+        )}
+        onClick={handleClick}
+      >
+        <div className="flex items-center gap-2 w-full">
+          <div className="relative">
+            <div className="z-10">
+              <NPCIcon parts={clothing} />
             </div>
-            {!isOnline ? (
-              <div className="text-xxs mb-1.5">
-                {t("social.lastOnline", { time: lastOnline })}
+            <div className="absolute -top-1 -right-1">
+              <OnlineStatus
+                loggedInFarmId={loggedInFarmId}
+                playerId={playerId}
+                lastUpdatedAt={lastOnlineAt}
+              />
+            </div>
+          </div>
+          <div className="flex flex-col gap-0.5 w-full">
+            <div className="flex flex-col justify-center w-full">
+              <div className="flex items-center justify-between w-full mb-0.5">
+                <div className="text-xs">
+                  {isYou ? `${t("you")}` : username}
+                </div>
+                <div className="flex flex-col items-end">
+                  <Label type="chill" icon={socialPointsIcon}>
+                    {shortenCount(socialPoints)}
+                  </Label>
+                </div>
               </div>
-            ) : (
-              <div className="text-xxs mb-1.5">{t("social.farming")}</div>
-            )}
-            <div className="flex items-center justify-between w-full">
-              <div className="flex items-center gap-1 flex-wrap">
-                {helpedThemToday && <img src={helpIcon} className="w-5 h-5" />}
-                {helpedYouToday && <img src={helpedIcon} className="w-5 h-5" />}
-                {hasCookingPot && <img src={potIcon} className="w-5 h-5" />}
-              </div>
-              {helpStreak > 0 && (
-                <Label type="vibrant" icon={SUNNYSIDE.icons.heart}>
-                  {t("friendStreak.short", {
-                    days: helpStreak,
-                  })}
-                </Label>
+              {!isOnline ? (
+                <div className="text-xxs mb-1.5">
+                  {t("social.lastOnline", { time: lastOnline })}
+                </div>
+              ) : (
+                <div className="text-xxs mb-1.5">{t("social.farming")}</div>
               )}
+              <div className="flex items-center justify-between w-full">
+                {(helpedThemToday || helpedYouToday || hasCookingPot) && (
+                  <div className="relative flex items-center gap-1 flex-wrap">
+                    <div
+                      onPointerOver={(e) => {
+                        if (e.pointerType === "mouse" && mounted) {
+                          setShowPopover(true);
+                        }
+                      }}
+                      onPointerOut={(e) => {
+                        if (e.pointerType === "mouse" && mounted) {
+                          setShowPopover(false);
+                        }
+                      }}
+                      onPointerDown={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        if (mounted) {
+                          setShowPopover(!showPopover);
+                          setTimeout(() => {
+                            setShowPopover(false);
+                          }, 1500);
+                        }
+                      }}
+                      onClickCapture={(e) => {
+                        // Stop the additional synthetic event from from firing
+                        e.preventDefault();
+                        e.stopPropagation();
+                      }}
+                      className="absolute inset-0 min-w-8 h-8 bg-transparent z-20"
+                    />
+                    {helpedThemToday && (
+                      <img src={helpIcon} className="w-5 h-5" />
+                    )}
+                    {helpedYouToday && (
+                      <img src={helpedIcon} className="w-5 h-5" />
+                    )}
+                    {hasCookingPot && <img src={potIcon} className="w-5 h-5" />}
+                  </div>
+                )}
+
+                {helpStreak > 0 && (
+                  <Label type="vibrant" icon={SUNNYSIDE.icons.heart}>
+                    {t("friendStreak.short", {
+                      days: helpStreak,
+                    })}
+                  </Label>
+                )}
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </ButtonPanel>
+      </ButtonPanel>
+      <HelpInfoPopover
+        showPopover={showPopover}
+        onHide={() => setShowPopover(false)}
+        helpedThemToday={helpedThemToday}
+        helpedYouToday={helpedYouToday}
+        hasCookingPot={hasCookingPot}
+      />
+    </div>
   );
 };
