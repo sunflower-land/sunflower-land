@@ -124,7 +124,10 @@ export const getChestItems = (state: GameState): Inventory => {
         ...acc,
         [itemName]: new Decimal(
           state.inventory[itemName]?.minus(
-            nodes.filter((resource) => resource.removedAt === undefined).length,
+            nodes.filter(
+              (resource) =>
+                resource.x !== undefined && resource.y !== undefined,
+            ).length,
           ) ?? 0,
         ),
       };
