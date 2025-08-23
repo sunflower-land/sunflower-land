@@ -3,6 +3,7 @@ import { expansionRequirements, getRewards, revealLand } from "./revealLand";
 import {
   CRIMSTONE_RECOVERY_TIME,
   GOLD_RECOVERY_TIME,
+  INITIAL_FARM,
   IRON_RECOVERY_TIME,
   STONE_RECOVERY_TIME,
   TEST_FARM,
@@ -17,7 +18,8 @@ import {
   Nodes,
   TOTAL_EXPANSION_NODES,
 } from "features/game/expansion/lib/expansionNodes";
-import { BB_TO_GEM_RATIO } from "features/game/types/game";
+import { BB_TO_GEM_RATIO, FiniteResource } from "features/game/types/game";
+import { OIL_RESERVE_RECOVERY_TIME } from "./drillOilReserve";
 
 describe("expansionRequirements", () => {
   it("returns normal expansion requirements", () => {
@@ -503,7 +505,7 @@ describe("revealLand", () => {
       createdAt: now,
     });
 
-    expect(state.trees[1].wood.choppedAt).toBeLessThan(
+    expect(state.trees[1].wood.choppedAt).toEqual(
       now - TREE_RECOVERY_TIME * 1000,
     );
   });
@@ -534,7 +536,7 @@ describe("revealLand", () => {
       createdAt: now,
     });
 
-    expect(state.stones[1].stone.minedAt).toBeLessThan(
+    expect(state.stones[1].stone.minedAt).toEqual(
       now - STONE_RECOVERY_TIME * 1000,
     );
   });
@@ -565,7 +567,7 @@ describe("revealLand", () => {
       createdAt: now,
     });
 
-    expect(state.iron[1].stone.minedAt).toBeLessThan(
+    expect(state.iron[1].stone.minedAt).toEqual(
       now - IRON_RECOVERY_TIME * 1000,
     );
   });
@@ -596,7 +598,7 @@ describe("revealLand", () => {
       createdAt: now,
     });
 
-    expect(state.gold[1].stone.minedAt).toBeLessThan(
+    expect(state.gold[1].stone.minedAt).toEqual(
       now - GOLD_RECOVERY_TIME * 1000,
     );
   });
@@ -609,12 +611,14 @@ describe("revealLand", () => {
       },
       farmId: 3,
       state: {
-        ...TEST_FARM,
+        ...INITIAL_FARM,
         crimstones: {
           "1": {
-            minesLeft: 10,
+            createdAt: 0,
+            minesLeft: 1,
             stone: {
               minedAt: now - 2 * 60 * 1000,
+              criticalHit: { Native: 1 },
             },
             x: -3,
             y: 3,
@@ -628,8 +632,121 @@ describe("revealLand", () => {
       createdAt: now,
     });
 
-    expect(state.crimstones[1].stone.minedAt).toBeLessThanOrEqual(
-      now - CRIMSTONE_RECOVERY_TIME * 1000,
+    expect(state.crimstones[1]).toEqual<FiniteResource>({
+      minesLeft: 1,
+      stone: {
+        minedAt: now - CRIMSTONE_RECOVERY_TIME * 1000,
+        criticalHit: { Native: 1 },
+      },
+      createdAt: 0,
+      x: -3,
+      y: 3,
+    });
+  });
+
+  it("sets the mineAt for removed crimstones", () => {
+    const now = Date.now();
+    const state = revealLand({
+      action: {
+        type: "land.revealed",
+      },
+      farmId: 3,
+      state: {
+        ...INITIAL_FARM,
+        crimstones: {
+          "1": {
+            createdAt: 0,
+            minesLeft: 1,
+            stone: {
+              minedAt: now - 2 * 60 * 1000,
+              criticalHit: { Native: 1 },
+            },
+            removedAt: now - 2 * 60 * 1000,
+          },
+        },
+        inventory: {
+          "Basic Land": new Decimal(4),
+        },
+        expansionConstruction: { createdAt: 0, readyAt: 0 },
+      },
+      createdAt: now,
+    });
+
+    expect(state.crimstones[1]).toEqual<FiniteResource>({
+      minesLeft: 1,
+      stone: {
+        minedAt: now - 2 * 60 * 1000 - CRIMSTONE_RECOVERY_TIME * 1000,
+        criticalHit: { Native: 1 },
+      },
+      removedAt: now - 2 * 60 * 1000,
+      createdAt: 0,
+    });
+  });
+
+  it("replenishes oilReserves", () => {
+    const now = Date.now();
+    const state = revealLand({
+      action: {
+        type: "land.revealed",
+      },
+      farmId: 3,
+      state: {
+        ...TEST_FARM,
+        oilReserves: {
+          "1": {
+            createdAt: 0,
+            oil: {
+              drilledAt: now - 2 * 60 * 1000,
+            },
+            drilled: 1,
+            x: -3,
+            y: 3,
+          },
+        },
+        inventory: {
+          "Basic Land": new Decimal(4),
+        },
+        expansionConstruction: { createdAt: 0, readyAt: 0 },
+      },
+      createdAt: now,
+    });
+
+    expect(state.oilReserves[1].oil.drilledAt).toEqual(
+      now - OIL_RESERVE_RECOVERY_TIME * 1000,
+    );
+  });
+
+  it("ensures that the trees are not more than removedAt if replenished in inventory", () => {
+    const now = Date.now();
+
+    const INITIAL_STATE = {
+      ...TEST_FARM,
+      trees: {
+        "1": {
+          createdAt: 100000000,
+          wood: {
+            choppedAt: now - 8 * 60 * 60 * 1000,
+          },
+          removedAt: now - 6 * 60 * 60 * 1000,
+        },
+      },
+      inventory: {
+        "Basic Land": new Decimal(4),
+      },
+      expansionConstruction: { createdAt: 0, readyAt: 0 },
+    };
+
+    const state = revealLand({
+      action: {
+        type: "land.revealed",
+      },
+      farmId: 3,
+      state: INITIAL_STATE,
+      createdAt: now,
+    });
+
+    expect(state.trees[1].wood.choppedAt).toBeLessThan(
+      state.trees[1].removedAt!,
     );
   });
 });

@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { CollectibleProps } from "../Collectible";
 import {
+  getPetLevel,
   isPetNeglected,
-  msTillNeglect,
+  PET_FOOD_EXPERIENCE,
+  PET_RESOURCES,
+  petLevelProgress,
   PetName,
   PetResource,
   PETS,
@@ -18,68 +21,412 @@ import { useGame } from "features/game/GameProvider";
 import Decimal from "decimal.js-light";
 import { Button } from "components/ui/Button";
 import { InnerPanel, OuterPanel } from "components/ui/Panel";
-import {
-  DEFAULT_PET_CRAVINGS,
-  getPetRequest,
-  getPetRestLeft,
-  isPetResting,
-} from "features/game/events/landExpansion/feedPet";
-import { secondsToString } from "lib/utils/time";
+import { getPetCravings } from "features/game/events/landExpansion/feedPet";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
-import { DEFAULT_PET_TOY } from "features/game/events/landExpansion/wakeUpPet";
 import lightningIcon from "assets/icons/lightning.png";
 import lockIcon from "assets/icons/lock.png";
 import { NoticeboardItems } from "features/world/ui/kingdom/KingdomNoticeboard";
 import { useVisiting } from "lib/utils/visitUtils";
+import { AnimatedBar } from "components/ui/ProgressBar";
+import { canPetPet } from "features/game/events/landExpansion/petPet";
+import { InventoryItemName } from "features/game/types/game";
+import { getInstantGems } from "features/game/events/landExpansion/speedUpRecipe";
 
-export const PetModal: React.FC<{
+const DEFAULT_PET_TOY: InventoryItemName = "Doll";
+
+const Fetch: React.FC<{
   onClose: () => void;
   name: PetName;
-  showGuide: boolean;
-}> = ({ onClose, name, showGuide }) => {
+  tab: number;
+}> = ({ onClose, name, tab }) => {
   const { gameState, gameService } = useGame();
-  const [showConfirm, setShowConfirm] = useState(false);
 
   const { t } = useAppTranslation();
-  const { isVisiting } = useVisiting();
 
   const petConfig = PETS[name];
 
-  const [resource, setResource] = useState<PetResource>(petConfig.fetches[0]);
+  const [resource, setResource] = useState<PetResource>(
+    petConfig.fetches[0].name,
+  );
 
   const pet = gameState.context.state.pets?.[name];
-  const request = getPetRequest({ pet, game: gameState.context.state });
-
-  const itemAmount =
-    gameState.context.state.inventory[request] ?? new Decimal(0);
 
   const fetch = () => {
     gameService.send({
-      type: "pet.fed",
+      type: "pet.fetched",
       name,
       resource,
     });
   };
 
-  const restLeft = getPetRestLeft({
-    pet: gameState.context.state.pets?.[name],
-    game: gameState.context.state,
-  });
-  const isResting = isPetResting({
-    pet: gameState.context.state.pets?.[name],
-    game: gameState.context.state,
-  });
+  const level = getPetLevel(pet);
 
-  const nextRequests = pet?.cravings ?? DEFAULT_PET_CRAVINGS.slice(1);
+  const { xpLeft, xpPercentage } = petLevelProgress(pet);
+
+  const multiplier = pet?.multiplier ?? 1;
+
+  const hasEnergy = (pet?.energy ?? 0) >= PET_RESOURCES[resource].energy;
+
+  return (
+    <>
+      <InnerPanel className="mb-1">
+        <div className="flex items-center justify-between">
+          <Label type="default">{t("fetch")}</Label>
+
+          {multiplier > 1 && (
+            <Label type="vibrant" icon={lightningIcon}>
+              {`x${multiplier}`}
+            </Label>
+          )}
+          <div className="flex items-center">
+            <Label type="transparent" className="ml-1">
+              {`Lvl ${level}`}
+            </Label>
+            <AnimatedBar
+              key={level}
+              percentage={xpPercentage}
+              type="progress"
+            />
+            <div className="flex items-center ml-1">
+              <img src={lightningIcon} className="h-4 mr-1" />
+              <p className="text-xs">{`${pet?.energy ?? 0}`}</p>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex flex-col">
+          {petConfig.fetches.map((fetch) => {
+            const isLocked = level < fetch.level;
+
+            return (
+              <div key={fetch.name} className="flex items-center">
+                <Box
+                  key={fetch.name}
+                  isSelected={resource === fetch.name}
+                  onClick={() => setResource(fetch.name)}
+                  image={ITEM_DETAILS[fetch.name].image}
+                  className="mr-2"
+                  disabled={isLocked}
+                  secondaryImage={isLocked ? lockIcon : undefined}
+                />
+                <div className="w-full">
+                  <div className="flex items-center">
+                    <p className="text-sm mr-2">{fetch.name}</p>
+
+                    <div className="flex items-center ">
+                      <img src={lightningIcon} className="h-4 mr-1" />
+                      <p className="text-xs">{`${PET_RESOURCES[fetch.name].energy}`}</p>
+                    </div>
+                  </div>
+
+                  {isLocked ? (
+                    <Label type="transparent">{`Lvl ${fetch.level} required`}</Label>
+                  ) : (
+                    <p className="text-xs">
+                      {ITEM_DETAILS[fetch.name].description}
+                    </p>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </InnerPanel>
+      <div className="relative">
+        <Button onClick={fetch} disabled={!hasEnergy}>
+          {t("fetch")}
+        </Button>
+      </div>
+    </>
+  );
+};
+
+const Feed: React.FC<{
+  onClose: () => void;
+  name: PetName;
+  tab: number;
+}> = ({ onClose, name, tab }) => {
+  const { gameState, gameService } = useGame();
+
+  const { t } = useAppTranslation();
+
+  const petConfig = PETS[name];
+
+  const pet = gameState.context.state.pets?.[name];
+
+  const requests = getPetCravings({ pet, game: gameState.context.state });
+  const [foodIndex, setFoodIndex] = useState<number>(0);
+
+  const food = requests[foodIndex];
+
+  const fetch = () => {
+    gameService.send({
+      type: "pet.fed",
+      name,
+      food: food.name,
+    });
+  };
+
+  const level = getPetLevel(pet);
+
+  const { xpLeft, xpPercentage } = petLevelProgress(pet);
+
+  const multiplier = pet?.multiplier ?? 1;
+
+  const itemAmount =
+    gameState.context.state.inventory[food.name] ?? new Decimal(0);
+
+  return (
+    <>
+      <InnerPanel className="mb-1">
+        <div className="flex items-center justify-between">
+          <Label type="default">{name}</Label>
+          <div className="flex items-center">
+            <Label type="transparent" className="ml-1">
+              {`Lvl ${level}`}
+            </Label>
+            <AnimatedBar
+              key={level}
+              percentage={xpPercentage}
+              type="progress"
+            />
+            <div className="flex items-center ml-1">
+              <img src={lightningIcon} className="h-4 mr-1" />
+              <p className="text-xs">{`${pet?.energy ?? 0}`}</p>
+            </div>
+          </div>
+        </div>
+        <p className="text-sm p-1">{t("pets.description")}</p>
+        {requests.map((request, index) => (
+          <div className="flex items-center" key={request.name}>
+            <Box
+              image={ITEM_DETAILS[request.name].image}
+              count={gameState.context.state.inventory[request.name]}
+              className="mr-2"
+              isSelected={foodIndex === index}
+              onClick={() => setFoodIndex(index)}
+              secondaryImage={
+                request.completedAt ? SUNNYSIDE.icons.confirm : undefined
+              }
+              disabled={!!request.completedAt}
+            />
+            <div>
+              <p className="text-sm">{`${request.name}`}</p>
+
+              <div className="flex items-center">
+                <p className="text-xs">{`+${request.energy ?? PET_FOOD_EXPERIENCE}`}</p>
+                <img src={lightningIcon} className="h-4 ml-1" />
+              </div>
+            </div>
+          </div>
+        ))}
+      </InnerPanel>
+
+      <div className="relative">
+        {!itemAmount.gte(1) && (
+          <Label type="danger" className="absolute -top-3 right-0 z-10">
+            {`Missing ${food.name}`}
+          </Label>
+        )}
+
+        <Button
+          onClick={fetch}
+          disabled={!itemAmount.gte(1) || !!food.completedAt}
+        >
+          {`Feed`}
+        </Button>
+      </div>
+    </>
+  );
+};
+
+const Guide: React.FC<{
+  onClose: () => void;
+  name: PetName;
+  tab: number;
+}> = ({ onClose, name, tab }) => {
+  const { gameState, gameService } = useGame();
+  const [showConfirm, setShowConfirm] = useState(false);
+
+  const { t } = useAppTranslation();
+
+  const petConfig = PETS[name];
+
+  const pet = gameState.context.state.pets?.[name];
+  const level = getPetLevel(pet);
+
+  const { xpLeft, xpPercentage } = petLevelProgress(pet);
+
   const onWakeUp = () => {
     gameService.send("pet.wakeUp", {
-      name,
+      effect: {
+        type: "pet.wakeUp",
+        name,
+      },
     });
+
     onClose();
   };
 
+  // Costs 24 hrs worth of gems
+  const gems = getInstantGems({
+    readyAt: Date.now() + 24 * 60 * 60 * 1000,
+    now: Date.now(),
+    game: gameState.context.state,
+  });
+
+  if (showConfirm) {
+    return (
+      <InnerPanel>
+        <Label type="danger">{t("confirmTitle")}</Label>
+        <p className="text-xs m-1">{`${gems} x Gems.`}</p>
+
+        <div className="flex">
+          <Button onClick={() => setShowConfirm(false)} className="mr-1">
+            {t("sleepingAnimal.cancel")}
+          </Button>
+          <Button onClick={onWakeUp}>{t("sleepingAnimal.confirm")}</Button>
+        </div>
+      </InnerPanel>
+    );
+  }
+
+  return (
+    <>
+      <InnerPanel className="mb-1">
+        <NoticeboardItems
+          items={[
+            {
+              text: "Pets when fed can gather different resources",
+              icon: SUNNYSIDE.icons.heart,
+            },
+            {
+              text: "The stronger the pet, the more perks you unlock",
+              icon: lightningIcon,
+            },
+            {
+              text: "Pets can be neglected if they are not fed for a while",
+              icon: SUNNYSIDE.icons.sad,
+            },
+          ]}
+        />
+      </InnerPanel>
+      <InnerPanel className="mb-1">
+        <div className="flex items-center justify-between">
+          <Label type="default" className="mb-1">
+            {t("perks")}
+          </Label>
+
+          <div className="flex">
+            <AnimatedBar
+              key={level}
+              percentage={xpPercentage}
+              type="progress"
+            />
+            <Label type="transparent" className="mb-1">
+              {`Lvl ${level}`}
+            </Label>
+          </div>
+        </div>
+        <p className="text-sm">{`Lvl up to unlock more resources`}</p>
+        <p className="text-sm">{`Lvl 10 - 10% faster`}</p>
+        <p className="text-sm">{`Lvl 20 - 10% chance of double resource`}</p>
+        <p className="text-sm">{`Lvl 50 - 20% faster`}</p>
+        <p className="text-sm">{`Lvl 100 - 20% chance of double resource`}</p>
+      </InnerPanel>
+      <InnerPanel>
+        <Label type="default" className="mb-1">
+          {`New Requests`}
+        </Label>
+        <p className="text-sm mb-1">{`Each day, new requests will appear.`}</p>
+        <div className="relative">
+          <Label
+            className="absolute -top-2 right-0 z-10"
+            type={
+              !(gameState.context.state.inventory.Gem ?? new Decimal(0)).gte(
+                gems,
+              )
+                ? "danger"
+                : "default"
+            }
+            icon={ITEM_DETAILS.Gem.image}
+          >
+            {gems}
+          </Label>
+          <Button
+            disabled={
+              !(gameState.context.state.inventory.Gem ?? new Decimal(0)).gte(
+                gems,
+              )
+            }
+            onClick={() => setShowConfirm(true)}
+          >{`Reset requests`}</Button>
+        </div>
+      </InnerPanel>
+    </>
+  );
+};
+
+const PetAction: React.FC<{ name: PetName }> = ({ name }) => {
+  const { gameState } = useGame();
+  const [showModal, setShowModal] = useState(false);
+  const [tab, setTab] = useState(0);
+
+  const pet = gameState.context.state.pets?.[name as PetName];
+
   const isNeglected = isPetNeglected({
-    pet: gameState.context.state.pets?.[name],
+    pet: gameState.context.state.pets?.[name as PetName],
+    game: gameState.context.state,
+  });
+
+  const isLonely = canPetPet({
+    pet: gameState.context.state.pets?.[name as PetName],
+    game: gameState.context.state,
+  });
+
+  if (isNeglected) {
+    return (
+      <img
+        src={SUNNYSIDE.icons.sad}
+        className="absolute"
+        style={{
+          width: `${PIXEL_SCALE * 10}px`,
+          left: `${PIXEL_SCALE * -2}px`,
+          top: `${PIXEL_SCALE * -2}px`,
+        }}
+      />
+    );
+  }
+
+  if (isLonely) {
+    return (
+      <img
+        src={SUNNYSIDE.icons.sleeping}
+        className="absolute"
+        style={{
+          width: `${PIXEL_SCALE * 10}px`,
+          left: `${PIXEL_SCALE * -2}px`,
+          top: `${PIXEL_SCALE * -2}px`,
+        }}
+      />
+    );
+  }
+
+  return null;
+};
+
+export const PetModal: React.FC<{
+  name: PetName;
+  tab: number;
+  onClose: () => void;
+}> = ({ name, tab, onClose }) => {
+  const { isVisiting } = useVisiting();
+  const { t } = useAppTranslation();
+  const { gameService, gameState } = useGame();
+
+  const pet = gameState.context.state.pets?.[name as PetName];
+  const isNeglected = isPetNeglected({
+    pet,
     game: gameState.context.state,
   });
 
@@ -100,7 +447,7 @@ export const PetModal: React.FC<{
             {t("pets.neglected")}
           </Label>
           <p className="text-sm">
-            {`Oh no, you neglected your pet. You have lost 1 lvl.`}
+            {`Oh no, you neglected your pet. You have 500 XP`}
           </p>
         </InnerPanel>
         <Button onClick={() => gameService.send("pet.neglected", { name })}>
@@ -110,245 +457,57 @@ export const PetModal: React.FC<{
     );
   }
 
-  if (showGuide) {
-    return (
-      <>
-        <InnerPanel className="mb-1">
-          <NoticeboardItems
-            items={[
-              {
-                text: "Pets when fed can gather different resources",
-                icon: SUNNYSIDE.icons.heart,
-              },
-              {
-                text: "The stronger the pet, the more perks you unlock",
-                icon: lightningIcon,
-              },
-              {
-                text: "Pets can be neglected if they are not fed for a while",
-                icon: SUNNYSIDE.icons.sad,
-              },
-            ]}
-          />
-        </InnerPanel>
-        <InnerPanel>
-          <div className="flex items-center justify-between">
-            <Label type="default" className="mb-1">
-              {t("perks")}
-            </Label>
-            <Label icon={lightningIcon} type="default" className="mb-1">
-              {`Lvl ${pet?.level ?? 1}`}
-            </Label>
-          </div>
-          <p className="text-sm">{`Lvl 3 - Unlock bonus resource`}</p>
-          <p className="text-sm">{`Lvl 5 - Unlock Fossil Shell`}</p>
-          <p className="text-sm">{`Lvl 10 - 10% faster`}</p>
-          <p className="text-sm">{`Lvl 20 - 10% chance of double resource`}</p>
-          <p className="text-sm">{`Lvl 50 - 20% faster`}</p>
-          <p className="text-sm">{`Lvl 100 - 20% chance of double resource`}</p>
-        </InnerPanel>
-      </>
-    );
+  if (tab === 0) {
+    return <Feed onClose={onClose} name={name as PetName} tab={tab} />;
   }
 
-  if (showConfirm) {
-    return (
-      <InnerPanel>
-        <Label type="danger">{t("confirmTitle")}</Label>
-        <p className="text-xs m-1">
-          {t("sleepingAnimal.confirmMessage", {
-            name: DEFAULT_PET_TOY,
-            animal: name,
-          })}
-        </p>
-
-        <div className="flex">
-          <Button onClick={() => setShowConfirm(false)} className="mr-1">
-            {t("sleepingAnimal.cancel")}
-          </Button>
-          <Button onClick={onWakeUp}>{t("sleepingAnimal.confirm")}</Button>
-        </div>
-      </InnerPanel>
-    );
+  if (tab === 1) {
+    return <Fetch onClose={onClose} name={name as PetName} tab={tab} />;
   }
 
-  const level = pet?.level ?? 1;
-
-  if (isResting) {
-    const dollCount =
-      gameState.context.state.inventory[DEFAULT_PET_TOY] ?? new Decimal(0);
-    return (
-      <>
-        <InnerPanel className="mb-1">
-          <div className="flex items-center justify-between mb-2">
-            <Label type="default">{t("pets.sleeping")}</Label>
-            <Label
-              type="chill"
-              icon={lightningIcon}
-            >{`Lvl ${pet?.level ?? 1}`}</Label>
-          </div>
-
-          <p className="text-sm p-1">
-            {secondsToString(restLeft / 1000, { length: "medium" })}
-          </p>
-        </InnerPanel>
-        <InnerPanel className="mb-1">
-          <Label type="default" className="mb-2">
-            {t("pets.nextRequests")}
-          </Label>
-          {nextRequests.map((request) => (
-            <div key={request} className="flex items-center">
-              <Box image={ITEM_DETAILS[request].image} className="mr-2" />
-              <div>
-                <p className="text-sm">{`1 x ${request}`}</p>
-              </div>
-            </div>
-          ))}
-        </InnerPanel>
-        <InnerPanel className="mb-1">
-          <div className="flex items-center">
-            <img src={SUNNYSIDE.icons.heart} alt="Sleep" className="h-6 mr-2" />
-            <p className="text-xs">
-              {t("sleepingAnimal.sheepLoveToPlay", { name })}
-            </p>
-          </div>
-
-          <div className="flex items-center mt-1">
-            <Box
-              image={ITEM_DETAILS[DEFAULT_PET_TOY].image}
-              count={dollCount}
-            />
-            <div className="ml-1">
-              <p className="text-sm">
-                {t("sleepingAnimal.dollCount", { name: DEFAULT_PET_TOY })}
-              </p>
-              <p className="text-xs italic">
-                {t("sleepingAnimal.availableAtCraftingBox")}
-              </p>
-            </div>
-          </div>
-        </InnerPanel>
-
-        <Button disabled={dollCount.lt(1)} onClick={() => setShowConfirm(true)}>
-          {t("sleepingAnimal.wakeUp")}
-        </Button>
-      </>
-    );
+  if (tab === 2) {
+    return <Guide onClose={onClose} name={name as PetName} tab={tab} />;
   }
 
-  const multiplier = pet?.multiplier ?? 1;
-  return (
-    <>
-      <InnerPanel className="mb-1">
-        <div className="flex items-center justify-between">
-          <Label type="default">{name}</Label>
-          <Label
-            type="chill"
-            icon={lightningIcon}
-          >{`Lvl ${pet?.level ?? 1}`}</Label>
-        </div>
-        <p className="text-sm p-1">{t("pets.description")}</p>
-        <div className="flex items-center">
-          <Box
-            image={ITEM_DETAILS[request].image}
-            count={itemAmount}
-            className="mr-2"
-          />
-          <div>
-            <p className="text-sm">{`1 x ${request}`}</p>
-            {pet?.readyAt && (
-              <div className="flex items-center">
-                <img
-                  src={SUNNYSIDE.icons.stopwatch}
-                  alt="Sleep"
-                  className="h-6 mr-2"
-                />
-                <p>
-                  {secondsToString(
-                    msTillNeglect({ pet, now: Date.now() }) / 1000,
-                    { length: "medium" },
-                  )}
-                </p>
-              </div>
-            )}
-          </div>
-        </div>
-      </InnerPanel>
-      <InnerPanel className="mb-1">
-        <div className="flex items-center justify-between">
-          <Label type="default">{t("fetch")}</Label>
-          {multiplier > 1 && (
-            <Label type="vibrant" icon={lightningIcon}>
-              {`x${multiplier}`}
-            </Label>
-          )}
-        </div>
-
-        <div className="flex flex-col">
-          {petConfig.fetches.map((fetch) => {
-            const level = pet?.level ?? 1;
-            let isLocked = level < 3 && fetch !== "Acorn";
-
-            if (level < 5 && fetch === "Fossil Shell") {
-              isLocked = true;
-            }
-
-            return (
-              <div key={fetch} className="flex items-center">
-                <Box
-                  key={fetch}
-                  isSelected={resource === fetch}
-                  onClick={() => setResource(fetch)}
-                  image={ITEM_DETAILS[fetch].image}
-                  className="mr-2"
-                  disabled={isLocked}
-                  secondaryImage={isLocked ? lockIcon : undefined}
-                />
-                <div>
-                  <p className="text-sm">{fetch}</p>
-                  {isLocked ? (
-                    <Label type="transparent">{`Lvl ${fetch === "Fossil Shell" ? 5 : 3} required`}</Label>
-                  ) : (
-                    <p className="text-xs">{ITEM_DETAILS[fetch].description}</p>
-                  )}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </InnerPanel>
-      <div className="relative">
-        {!itemAmount.gte(1) && (
-          <Label type="danger" className="absolute -top-3 right-0 z-10">
-            {`Missing ${request}`}
-          </Label>
-        )}
-
-        <Button onClick={fetch} disabled={!itemAmount.gte(1) || !request}>
-          {t("fetch")}
-        </Button>
-      </div>
-    </>
-  );
+  return null;
 };
 
 export const Pet: React.FC<CollectibleProps> = ({ name }) => {
-  const { gameState } = useGame();
+  const { gameState, gameService } = useGame();
   const [showModal, setShowModal] = useState(false);
   const [tab, setTab] = useState(0);
+  const [showPetted, setShowPetted] = useState(false);
 
-  const pet = gameState.context.state.pets?.[name as PetName];
-  const request = getPetRequest({ pet, game: gameState.context.state });
+  const onClick = () => {
+    if (
+      isPetNeglected({
+        pet: gameState.context.state.pets?.[name as PetName],
+        game: gameState.context.state,
+      })
+    ) {
+      setShowModal(true);
+      return;
+    }
 
-  const isSleeping = isPetResting({
-    pet: gameState.context.state.pets?.[name as PetName],
-    game: gameState.context.state,
-  });
+    if (
+      canPetPet({
+        pet: gameState.context.state.pets?.[name as PetName],
+        game: gameState.context.state,
+      })
+    ) {
+      gameService.send("pet.petted", { name });
 
-  const isNeglected = isPetNeglected({
-    pet: gameState.context.state.pets?.[name as PetName],
-    game: gameState.context.state,
-  });
+      setShowPetted(true);
+
+      setTimeout(() => {
+        setShowPetted(false);
+      }, 1000);
+
+      return;
+    }
+
+    setShowModal(true);
+  };
 
   return (
     <>
@@ -357,6 +516,10 @@ export const Pet: React.FC<CollectibleProps> = ({ name }) => {
           currentTab={tab}
           setCurrentTab={setTab}
           tabs={[
+            {
+              name: "Feed",
+              icon: SUNNYSIDE.icons.expression_confused,
+            },
             {
               name: "Fetch",
               icon: SUNNYSIDE.icons.expression_confused,
@@ -369,68 +532,40 @@ export const Pet: React.FC<CollectibleProps> = ({ name }) => {
           container={OuterPanel}
         >
           <PetModal
-            onClose={() => setShowModal(false)}
             name={name as PetName}
-            showGuide={tab === 1}
+            tab={tab}
+            onClose={() => setShowModal(false)}
           />
         </CloseButtonPanel>
       </Modal>
       <div
         className="absolute"
-        style={{ left: `${PIXEL_SCALE * 4}px`, width: `${PIXEL_SCALE * 22}px` }}
+        style={{
+          left: `${PIXEL_SCALE * -1}px`,
+          top: `${PIXEL_SCALE * -5}px`,
+          width: `${PIXEL_SCALE * 20}px`,
+        }}
       >
         <img
           src={ITEM_DETAILS[name].image}
           className="absolute w-full cursor-pointer hover:img-highlight"
           alt={name}
-          onClick={() => setShowModal(true)}
+          onClick={onClick}
         />
 
-        {isSleeping ? (
-          <img
-            src={SUNNYSIDE.icons.sleeping}
-            className="absolute"
-            style={{
-              width: `${PIXEL_SCALE * 10}px`,
-              left: `${PIXEL_SCALE * -2}px`,
-              top: `${PIXEL_SCALE * -2}px`,
-            }}
-          />
-        ) : isNeglected ? (
-          <img
-            src={SUNNYSIDE.icons.sad}
-            className="absolute"
-            style={{
-              width: `${PIXEL_SCALE * 10}px`,
-              left: `${PIXEL_SCALE * -2}px`,
-              top: `${PIXEL_SCALE * -2}px`,
-            }}
-          />
-        ) : (
+        <PetAction name={name as PetName} />
+
+        {!!showPetted && (
           <div
-            className={`absolute inline-flex justify-center items-center z-10 pointer-events-none`}
+            className="flex justify-center absolute w-full z-40"
             style={{
-              left: `${PIXEL_SCALE * -10}px`,
-              top: `${PIXEL_SCALE * -2}px`,
-              borderImage: `url(${SUNNYSIDE.ui.speechBorder})`,
-              borderStyle: "solid",
-              borderTopWidth: `${PIXEL_SCALE * 2}px`,
-              borderRightWidth: `${PIXEL_SCALE * 2}px`,
-              borderBottomWidth: `${PIXEL_SCALE * 4}px`,
-              borderLeftWidth: `${PIXEL_SCALE * 5}px`,
-              borderImageSlice: "2 2 4 5 fill",
-              imageRendering: "pixelated",
-              borderImageRepeat: "stretch",
-              // Flip it
-              transform: "scaleX(-1)",
+              width: `${PIXEL_SCALE * 48}px`,
+              left: `${PIXEL_SCALE * -16}px`,
+              top: `${PIXEL_SCALE * -12}px`,
+              transition: "opacity 0.2s ease-in",
             }}
           >
-            <img
-              style={{
-                width: `${PIXEL_SCALE * 6}px`,
-              }}
-              src={ITEM_DETAILS[request]?.image}
-            />
+            <span className="yield-text text-white font-pixel">{`+10XP`}</span>
           </div>
         )}
       </div>

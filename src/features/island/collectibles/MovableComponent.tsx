@@ -42,11 +42,10 @@ import { ZoomContext } from "components/ZoomProvider";
 import { RemoveKuebikoModal } from "./RemoveKuebikoModal";
 import { PlaceableLocation } from "features/game/types/collectibles";
 import { RemoveHungryCaterpillarModal } from "./RemoveHungryCaterpillarModal";
-import { HourglassType } from "./components/Hourglass";
-import { HOURGLASSES } from "features/game/events/landExpansion/burnCollectible";
 import flipped from "assets/icons/flipped.webp";
 import flipIcon from "assets/icons/flip.webp";
 import debounce from "lodash.debounce";
+import { LIMITED_ITEMS } from "features/game/events/landExpansion/removeCollectible";
 
 export const RESOURCE_MOVE_EVENTS: Record<
   ResourceName,
@@ -58,6 +57,8 @@ export const RESOURCE_MOVE_EVENTS: Record<
   "Gold Rock": "gold.moved",
   "Iron Rock": "iron.moved",
   "Stone Rock": "stone.moved",
+  "Fused Stone Rock": "stone.moved",
+  "Reinforced Stone Rock": "stone.moved",
   "Crimstone Rock": "crimstone.moved",
   Boulder: "tree.moved",
   Beehive: "beehive.moved",
@@ -65,6 +66,12 @@ export const RESOURCE_MOVE_EVENTS: Record<
   "Sunstone Rock": "sunstone.moved",
   "Oil Reserve": "oilReserve.moved",
   "Lava Pit": "lavaPit.moved",
+  "Ancient Tree": "tree.moved",
+  "Sacred Tree": "tree.moved",
+  "Refined Iron Rock": "iron.moved",
+  "Tempered Iron Rock": "iron.moved",
+  "Pure Gold Rock": "gold.moved",
+  "Enchanted Gold Rock": "gold.moved",
 };
 
 function getMoveAction(
@@ -103,12 +110,20 @@ export const RESOURCES_REMOVE_ACTIONS: Record<
   "Gold Rock": "gold.removed",
   "Iron Rock": "iron.removed",
   "Stone Rock": "stone.removed",
+  "Fused Stone Rock": "stone.removed",
+  "Reinforced Stone Rock": "stone.removed",
   "Crimstone Rock": "crimstone.removed",
   Beehive: "beehive.removed",
   "Flower Bed": "flowerBed.removed",
   "Sunstone Rock": "sunstone.removed",
   "Oil Reserve": "oilReserve.removed",
   "Lava Pit": "lavaPit.removed",
+  "Ancient Tree": "tree.removed",
+  "Sacred Tree": "tree.removed",
+  "Refined Iron Rock": "iron.removed",
+  "Tempered Iron Rock": "iron.removed",
+  "Pure Gold Rock": "gold.removed",
+  "Enchanted Gold Rock": "gold.removed",
 };
 
 export function getRemoveAction(
@@ -124,11 +139,7 @@ export function getRemoveAction(
     return "building.removed";
   }
 
-  if (
-    HOURGLASSES.includes(name as HourglassType) ||
-    name === "Time Warp Totem" ||
-    name === "Super Totem"
-  ) {
+  if (LIMITED_ITEMS.includes(name as CollectibleName)) {
     return null;
   }
 
@@ -262,7 +273,6 @@ export const MoveableComponent: React.FC<
     x: 0,
     y: 0,
   });
-  const state = useSelector(gameService, (state) => state.context.state);
 
   const isActive = useRef(false);
   const [showRemoveConfirmation, setShowRemoveConfirmation] = useState(false);
@@ -370,7 +380,11 @@ export const MoveableComponent: React.FC<
           return;
         }
 
-        const game = removePlaceable({ state, id, name });
+        const game = removePlaceable({
+          state: gameService.getSnapshot().context.state,
+          id,
+          name,
+        });
         const collisionDetected = detectCollision({
           name: name as CollectibleName,
           state: game,
@@ -452,7 +466,7 @@ export const MoveableComponent: React.FC<
           id,
           location,
           dimensions,
-          state,
+          state: gameService.getSnapshot().context.state,
           setIsColliding,
         });
         onStop({
@@ -481,7 +495,7 @@ export const MoveableComponent: React.FC<
           id,
           location,
           dimensions,
-          state,
+          state: gameService.getSnapshot().context.state,
           setIsColliding,
         });
         onStop({
@@ -510,7 +524,7 @@ export const MoveableComponent: React.FC<
           id,
           location,
           dimensions,
-          state,
+          state: gameService.getSnapshot().context.state,
           setIsColliding,
         });
         onStop({
@@ -539,7 +553,7 @@ export const MoveableComponent: React.FC<
           id,
           location,
           dimensions,
-          state,
+          state: gameService.getSnapshot().context.state,
           setIsColliding,
         });
         onStop({
@@ -565,6 +579,7 @@ export const MoveableComponent: React.FC<
     coordinatesX,
     coordinatesY,
     dimensions,
+    gameService,
     id,
     isPlacing,
     isSelected,
@@ -572,7 +587,6 @@ export const MoveableComponent: React.FC<
     name,
     onStop,
     position,
-    state,
   ]);
 
   return (
@@ -609,7 +623,7 @@ export const MoveableComponent: React.FC<
           id,
           location,
           dimensions,
-          state,
+          state: gameService.getSnapshot().context.state,
           setIsColliding,
         });
       }}

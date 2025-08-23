@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { getKeys } from "features/game/lib/crafting";
 import {
-  hasHelpedFarmToday,
   RAFFLE_REWARDS,
   REQUIRED_CHEERS,
   WORKBENCH_MONUMENTS,
@@ -58,10 +57,7 @@ export const VisitorGuide: React.FC<VisitorGuideProps> = ({ onClose }) => {
     {} as Record<ClutterName, number>,
   );
 
-  const hasHelpedToday = hasHelpedFarmToday({
-    game: gameState.context.visitorState!,
-    farmId: gameState.context.farmId,
-  });
+  const hasHelpedToday = gameState.context.hasHelpedPlayerToday ?? false;
 
   const handleIncreaseLimit = () => {
     gameService.send("helpLimit.increased");
@@ -122,6 +118,7 @@ export const VisitorGuide: React.FC<VisitorGuideProps> = ({ onClose }) => {
 
   const hasHitLimit = hasHitHelpLimit({
     game: gameState.context.visitorState!,
+    totalHelpedToday: gameState.context.totalHelpedToday ?? 0,
   });
 
   if (hasHitLimit) {

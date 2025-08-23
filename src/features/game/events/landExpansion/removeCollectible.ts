@@ -1,11 +1,11 @@
 import { trackActivity } from "features/game/types/bumpkinActivity";
-import { CollectibleName } from "features/game/types/craftables";
+import { CollectibleName, getKeys } from "features/game/types/craftables";
 import { GameState, PlacedItem, PlacedLamp } from "features/game/types/game";
 
 import { PlaceableLocation } from "features/game/types/collectibles";
 import { produce } from "immer";
-import { HourglassType } from "features/island/collectibles/components/Hourglass";
 import { HOURGLASSES } from "./burnCollectible";
+import { PET_SHRINES } from "features/game/types/pets";
 
 export enum REMOVE_COLLECTIBLE_ERRORS {
   INVALID_COLLECTIBLE = "This collectible does not exist",
@@ -27,6 +27,14 @@ type Options = {
   action: RemoveCollectibleAction;
   createdAt?: number;
 };
+
+export const LIMITED_ITEMS: CollectibleName[] = [
+  ...HOURGLASSES,
+  "Time Warp Totem",
+  "Super Totem",
+  ...getKeys(PET_SHRINES),
+  "Obsidian Shrine",
+];
 
 export function removeCollectible({
   state,
@@ -86,11 +94,7 @@ export function removeCollectible({
       }
     }
 
-    if (
-      HOURGLASSES.includes(action.name as HourglassType) ||
-      action.name === "Time Warp Totem" ||
-      action.name === "Super Totem"
-    ) {
+    if (LIMITED_ITEMS.includes(action.name)) {
       const collectible: PlacedItem = collectibleToRemove;
       if (collectible) {
         throw new Error(REMOVE_COLLECTIBLE_ERRORS.LIMITED_ITEM_IN_USE);

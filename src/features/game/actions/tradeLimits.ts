@@ -89,6 +89,10 @@ export const TRADE_LIMITS: Partial<Record<TradeResource, number>> = {
   Ruffroot: 100,
   "Chewed Bone": 100,
   "Heart leaf": 100,
+  "Frost Pebble": 100,
+  "Wild Grass": 100,
+  Ribbon: 100,
+  Dewberry: 100,
   Moonfur: 100,
 };
 
@@ -148,6 +152,10 @@ export const TRADE_MINIMUMS: Partial<Record<TradeResource, number>> = {
   Ruffroot: 1,
   "Chewed Bone": 1,
   "Heart leaf": 1,
+  "Frost Pebble": 1,
+  "Wild Grass": 1,
+  Ribbon: 1,
+  Dewberry: 1,
   Moonfur: 1,
 };
 

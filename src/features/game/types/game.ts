@@ -9,7 +9,13 @@ import {
 } from "./crops";
 
 import { CollectibleName, CraftableName, Food } from "./craftables";
-import { CommodityName, MushroomName, ResourceName } from "./resources";
+import {
+  UpgradedResourceName,
+  CommodityName,
+  MushroomName,
+  ResourceName,
+  ResourceTier,
+} from "./resources";
 import { LegacyBadgeName } from "./skills";
 import { BuildingName } from "./buildings";
 import { GameEvent } from "../events";
@@ -107,6 +113,7 @@ import { AOEItemName } from "../expansion/placeable/lib/collisionDetection";
 import { Coordinates } from "../expansion/components/MapPlacement";
 import { ClutterName } from "./clutter";
 import { Pet, PetName, PetResource } from "./pets";
+import { RockName } from "./resources";
 
 export type Reward = {
   coins?: number;
@@ -517,6 +524,7 @@ export type InventoryItemName =
   | CraftableName
   | CommodityName
   | ResourceName
+  | UpgradedResourceName
   | LegacyBadgeName
   | EasterEgg
   | EasterEventItemName
@@ -662,6 +670,9 @@ export type Rock = {
   stone: Stone;
   createdAt?: number;
   removedAt?: number;
+  tier?: ResourceTier;
+  name?: RockName;
+  multiplier?: number;
 } & OptionalCoordinates;
 
 export type Oil = {
@@ -738,7 +749,7 @@ export type PlacedItem = {
   flipped?: boolean;
 };
 
-type ShakeItem = PlacedItem & { shakenAt?: number };
+export type ShakeItem = PlacedItem & { shakenAt?: number };
 export type PlacedLamp = PlacedItem & { rubbedCount?: number };
 
 // Support custom types for collectibles
@@ -1511,30 +1522,10 @@ type ClutterCoordinates = {
   type: ClutterName;
 } & Coordinates;
 
-type ClutterCollection = {
-  collectedAt: number;
-  type: ClutterName;
-};
-
-type DailyCollection = {
-  pointGivenAt?: number;
-  clutter: { [clutterId: string]: ClutterCollection };
-};
-
 type VillageProject = {
   cheers: number;
   winnerId?: number;
   helpedAt?: number; // Local only field
-};
-
-export type HelpedFarm = {
-  count: number;
-  helpedAt: number;
-
-  streak?: {
-    updatedAt: number;
-    count: number;
-  };
 };
 
 export type SocialFarming = {
@@ -1551,7 +1542,6 @@ export type SocialFarming = {
   };
   cheers: { freeCheersClaimedAt: number };
   helpIncrease?: { boughtAt: number[] };
-  helped?: { [farmId: number]: HelpedFarm };
   clutter?: {
     spawnedAt: number;
     locations: { [clutterId: string]: ClutterCoordinates };

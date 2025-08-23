@@ -8,10 +8,7 @@ import { MachineState } from "features/game/lib/gameMachine";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import sparkle from "public/world/sparkle2.gif";
-import {
-  hasHelpedFarmToday,
-  isHelpComplete,
-} from "features/game/types/monuments";
+import { isHelpComplete } from "features/game/types/monuments";
 import { FarmHelped } from "../hud/components/FarmHelped";
 import { GameState } from "features/game/types/game";
 import { MapPlacement } from "features/game/expansion/components/MapPlacement";
@@ -22,6 +19,8 @@ interface Props {
 }
 
 const _farmId = (state: MachineState) => state.context.farmId;
+const _hasHelpedPlayerToday = (state: MachineState) =>
+  state.context.hasHelpedPlayerToday;
 
 export const Clutter: React.FC<{
   clutter: GameState["socialFarming"]["clutter"];
@@ -29,12 +28,9 @@ export const Clutter: React.FC<{
   const { gameService } = useContext(Context);
   const [showHelped, setShowHelped] = useState(false);
 
-  const hasHelpedToday = hasHelpedFarmToday({
-    game: gameService.state.context.visitorState!,
-    farmId: gameService.state.context.farmId,
-  });
+  const hasHelpedPlayerToday = useSelector(gameService, _hasHelpedPlayerToday);
 
-  if (hasHelpedToday) {
+  if (hasHelpedPlayerToday) {
     return null;
   }
 
@@ -74,6 +70,9 @@ export const Clutter: React.FC<{
   );
 };
 
+const _totalHelpedToday = (state: MachineState) =>
+  state.context.totalHelpedToday;
+
 export const ClutterItem: React.FC<
   Props & {
     onComplete: () => void;
@@ -81,12 +80,14 @@ export const ClutterItem: React.FC<
 > = ({ id, type, onComplete }) => {
   const { gameService } = useContext(Context);
   const farmId = useSelector(gameService, _farmId);
+  const totalHelpedToday = useSelector(gameService, _totalHelpedToday);
 
   // V2 - local only event
   const handleHelpFarm = async () => {
     gameService.send("garbage.collected", {
       id,
       visitedFarmId: farmId,
+      totalHelpedToday,
     });
 
     if (isHelpComplete({ game: gameService.getSnapshot().context.state })) {

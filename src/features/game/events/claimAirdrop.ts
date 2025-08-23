@@ -2,7 +2,15 @@ import Decimal from "decimal.js-light";
 import { getKeys } from "../types/craftables";
 import { GameState } from "../types/game";
 
-import { produce } from "immer";
+import cloneDeep from "lodash.clonedeep";
+import { getObjectEntries } from "../expansion/lib/utils";
+import { removeBuilding } from "./landExpansion/removeBuilding";
+import { removeCollectible } from "./landExpansion/removeCollectible";
+import {
+  isPlaceableCollectible,
+  isPlaceableBuilding,
+} from "features/island/hud/components/inventory/utils/inventory";
+import { PLACEABLE_LOCATIONS } from "../types/collectibles";
 
 export function addVipDays({
   game,
@@ -30,51 +38,141 @@ export type ClaimAirdropAction = {
 type Options = {
   state: Readonly<GameState>;
   action: ClaimAirdropAction;
+  createdAt?: number;
 };
 
-export function claimAirdrop({ state, action }: Options): GameState {
-  return produce(state, (game) => {
-    if (!game.airdrops || game.airdrops.length === 0) {
-      throw new Error("No airdrops exist");
+export function claimAirdrop({
+  state,
+  action,
+  createdAt = Date.now(),
+}: Options): GameState {
+  let game: GameState = cloneDeep(state);
+
+  if (!game.airdrops || game.airdrops.length === 0) {
+    throw new Error("No airdrops exist");
+  }
+
+  const airdrop = game.airdrops.find((item) => item.id === action.id);
+
+  if (!airdrop) {
+    throw new Error(`Airdrop #${action.id} does not exist`);
+  }
+
+  game.inventory = getKeys(airdrop.items).reduce((acc, itemName) => {
+    const previous = acc[itemName] || new Decimal(0);
+
+    return {
+      ...acc,
+      [itemName]: previous.add(airdrop.items[itemName] || 0),
+    };
+  }, game.inventory);
+
+  game.wardrobe = getKeys(airdrop.wearables ?? {}).reduce((acc, itemName) => {
+    const previous = acc[itemName] || 0;
+
+    return {
+      ...acc,
+      [itemName]: previous + (airdrop.wearables[itemName] || 0),
+    };
+  }, game.wardrobe);
+
+  // Add VIP (don't set purchased bundle though)
+  if (airdrop.vipDays) {
+    game.vip = addVipDays({
+      game,
+      vipDays: airdrop.vipDays,
+      createdAt: Date.now(),
+    });
+  }
+
+  game.balance = game.balance.add(airdrop.sfl);
+  game.airdrops = game.airdrops.filter((item) => item.id !== action.id);
+  game.coins = game.coins + (airdrop.coins ?? 0);
+
+  getObjectEntries(airdrop.items).forEach(([itemName, amount]) => {
+    if (amount && amount < 0) {
+      const amountToRemove = -amount; // Remove unnecessary cloneDeep
+      let remainingToRemove = amountToRemove; // Track remaining across all locations
+
+      // Remove placed collectibles from farm and home
+      if (isPlaceableCollectible(itemName)) {
+        PLACEABLE_LOCATIONS.forEach((location) => {
+          if (remainingToRemove <= 0) return; // Skip if we've removed enough
+
+          const placedCollectibles = (
+            (location === "home"
+              ? game.home.collectibles[itemName]
+              : game.collectibles[itemName]) ?? []
+          ).filter((collectible) => !!collectible.coordinates);
+
+          // Calculate how many to remove from this location
+          const toRemoveFromLocation = Math.min(
+            remainingToRemove,
+            placedCollectibles.length,
+          );
+
+          if (toRemoveFromLocation > 0) {
+            // Get IDs to remove in one operation
+            const collectibleIdsToRemove = placedCollectibles
+              .slice(0, toRemoveFromLocation)
+              .map((c) => c.id);
+
+            // Remove all collectibles in one batch
+            collectibleIdsToRemove.forEach((collectibleId) => {
+              game = removeCollectible({
+                state: game,
+                action: {
+                  type: "collectible.removed",
+                  name: itemName,
+                  id: collectibleId,
+                  location,
+                },
+                createdAt,
+              });
+            });
+
+            // Update remaining count
+            remainingToRemove -= toRemoveFromLocation;
+          }
+        });
+      }
+
+      if (isPlaceableBuilding(itemName)) {
+        const placedBuildings = (game.buildings[itemName] ?? []).filter(
+          (building) => !!building.coordinates,
+        );
+
+        // Calculate how many buildings to remove (considering what was already removed from collectibles)
+        const toRemoveFromBuildings = Math.min(
+          remainingToRemove,
+          placedBuildings.length,
+        );
+
+        if (toRemoveFromBuildings > 0) {
+          // Get IDs to remove in one operation
+          const buildingIdsToRemove = placedBuildings
+            .slice(0, toRemoveFromBuildings)
+            .map((c) => c.id);
+
+          // Remove all buildings in one batch
+          buildingIdsToRemove.forEach((buildingId) => {
+            game = removeBuilding({
+              state: game,
+              action: {
+                type: "building.removed",
+                name: itemName,
+                id: buildingId,
+              },
+              createdAt,
+            });
+          });
+        }
+      }
+
+      // Clone game state only once after all removals are complete
+      game = cloneDeep(game);
     }
-
-    const airdrop = game.airdrops.find((item) => item.id === action.id);
-
-    if (!airdrop) {
-      throw new Error(`Airdrop #${action.id} does not exist`);
-    }
-
-    game.inventory = getKeys(airdrop.items).reduce((acc, itemName) => {
-      const previous = acc[itemName] || new Decimal(0);
-
-      return {
-        ...acc,
-        [itemName]: previous.add(airdrop.items[itemName] || 0),
-      };
-    }, game.inventory);
-
-    game.wardrobe = getKeys(airdrop.wearables ?? {}).reduce((acc, itemName) => {
-      const previous = acc[itemName] || 0;
-
-      return {
-        ...acc,
-        [itemName]: previous + (airdrop.wearables[itemName] || 0),
-      };
-    }, game.wardrobe);
-
-    // Add VIP (don't set purchased bundle though)
-    if (airdrop.vipDays) {
-      game.vip = addVipDays({
-        game,
-        vipDays: airdrop.vipDays,
-        createdAt: Date.now(),
-      });
-    }
-
-    game.balance = game.balance.add(airdrop.sfl);
-    game.airdrops = game.airdrops.filter((item) => item.id !== action.id);
-    game.coins = game.coins + (airdrop.coins ?? 0);
-
-    return game;
   });
+
+  return game;
 }

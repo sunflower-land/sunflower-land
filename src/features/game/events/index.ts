@@ -518,8 +518,9 @@ import {
   claimDailyCheers,
 } from "./landExpansion/claimDailyCheers";
 import { feedPet, FeedPetAction } from "./landExpansion/feedPet";
-import { wakePet, WakeUpPetAction } from "./landExpansion/wakeUpPet";
 import { neglectPet, NeglectPetAction } from "./landExpansion/neglectPet";
+import { petPet, PetPetAction } from "./landExpansion/petPet";
+import { fetchPet, FetchPetAction } from "./landExpansion/fetchPet";
 
 import {
   flipCollectible,
@@ -545,6 +546,7 @@ import {
   instaGrowFlower,
   InstaGrowFlowerAction,
 } from "./landExpansion/instaGrowFlower";
+import { upgradeStone, UpgradeStoneAction } from "./landExpansion/upgradeNode";
 
 export type PlayingEvent =
   | ObsidianExchangedAction
@@ -695,8 +697,10 @@ export type PlayingEvent =
   | InstantGrowProjectAction
   | FeedPetAction
   | NeglectPetAction
-  | WakeUpPetAction
-  | InstaGrowFlowerAction;
+  | PetPetAction
+  | FetchPetAction
+  | InstaGrowFlowerAction
+  | UpgradeStoneAction;
 
 export type LocalVisitingEvent = CollectGarbageAction | HelpProjectAction;
 
@@ -804,8 +808,9 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "greenhouse.harvested": harvestGreenHouse,
   "greenhouse.planted": plantGreenhouse,
   "pet.fed": feedPet,
-  "pet.wakeUp": wakePet,
   "pet.neglected": neglectPet,
+  "pet.petted": petPet,
+  "pet.fetched": fetchPet,
   "minigame.itemPurchased": purchaseMinigameItem,
   "minigame.prizeClaimed": claimMinigamePrize,
   "minigame.attemptStarted": startMinigameAttempt,
@@ -936,6 +941,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "cheers.claimed": claimDailyCheers,
   "clutter.burned": burnClutter,
   "project.instantGrow": instantGrowProject,
+  "stone.upgraded": upgradeStone,
 };
 
 export const LOCAL_VISITING_EVENTS: Handlers<LocalVisitingEvent> = {

@@ -25,7 +25,7 @@ export const Winner: React.FC<Props> = ({ onMint, bid, farmId, results }) => {
   const { t } = useAppTranslation();
   if (showConfirmation) {
     return (
-      <GameWallet action="purchase">
+      <GameWallet action="auction">
         <>
           <div className="flex flex-col justify-center items-center pt-2">
             <div className="my-2">

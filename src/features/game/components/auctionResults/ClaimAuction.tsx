@@ -10,6 +10,7 @@ import { ITEM_IDS } from "features/game/types/bumpkin";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { getImageUrl } from "lib/utils/getImageURLS";
 import { Transaction } from "features/island/hud/Transaction";
+import { hasFeatureAccess } from "lib/flags";
 
 export const ClaimAuction: React.FC = () => {
   const { gameService } = useContext(GameContext);
@@ -37,12 +38,29 @@ export const ClaimAuction: React.FC = () => {
           <img src={image} className="w-20 h-20" />
         </div>
         <Winner
-          onMint={() =>
+          onMint={() => {
+            if (
+              hasFeatureAccess(
+                gameService.state.context.state,
+                "GASLESS_AUCTIONS",
+              )
+            ) {
+              gameService.send("auction.claimed", {
+                effect: {
+                  type: "auction.claimed",
+                },
+              });
+
+              return;
+            }
+
             gameService.send("TRANSACT", {
               transaction: "transaction.bidMinted",
-              request: { auctionId: bid.auctionId },
-            })
-          }
+              request: {
+                auctionId: bid.auctionId,
+              },
+            });
+          }}
           bid={gameService.getSnapshot().context.state.auctioneer.bid!}
           farmId={gameService.getSnapshot().context.farmId}
           results={gameService.getSnapshot().context.auctionResults!}

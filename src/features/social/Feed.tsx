@@ -17,6 +17,7 @@ import { getRelativeTime } from "lib/utils/time";
 
 import promote from "assets/icons/promote.webp";
 import followIcon from "assets/icons/follow.webp";
+import helpIcon from "assets/icons/help.webp";
 
 import { MachineState } from "features/game/lib/gameMachine";
 import { Context } from "features/game/GameProvider";
@@ -42,6 +43,8 @@ import { useOnMachineTransition } from "lib/utils/hooks/useOnMachineTransition";
 import { Button } from "components/ui/Button";
 import socialPointsIcon from "assets/icons/social_score.webp";
 import { discoveryModalManager } from "./lib/discoveryModalManager";
+import { FeedFilters } from "./components/FeedFilters";
+import { getFilter, storeFilter } from "./lib/persistFilter";
 
 type Props = {
   type: "world" | "local";
@@ -50,8 +53,10 @@ type Props = {
   setShowFeed: (showFeed: boolean) => void;
 };
 
-const _username = (state: MachineState) => state.context.state.username;
-const _farmId = (state: MachineState) => state.context.farmId;
+const _username = (state: MachineState) =>
+  (state.context.visitorState ?? state.context.state).username;
+const _farmId = (state: MachineState) =>
+  state.context.visitorId ?? state.context.farmId;
 const _token = (state: AuthMachineState) =>
   state.context.user.rawToken as string;
 
@@ -71,6 +76,12 @@ const mergeUpdates = (
   ];
 };
 
+export type FeedFilter = "all" | "help" | "chat" | "cheer" | "follow";
+export type FeedFilterOption = {
+  value: FeedFilter;
+  label: string;
+};
+
 export const Feed: React.FC<Props> = ({
   showFeed,
   setShowFeed,
@@ -83,6 +94,7 @@ export const Feed: React.FC<Props> = ({
 
   const [showFollowing, setShowFollowing] = useState(false);
   const feedRef = useRef<HTMLDivElement>(null);
+  const [selectedFilter, setSelectedFilter] = useState<FeedFilter>(getFilter());
 
   const username = useSelector(gameService, _username);
   const token = useSelector(authService, _token);
@@ -98,7 +110,7 @@ export const Feed: React.FC<Props> = ({
     hasMore,
     loadMore,
     mutate,
-  } = useFeedInteractions(token, farmId, type === "world");
+  } = useFeedInteractions(token, farmId, selectedFilter, type === "world");
   const { setUnreadCount, lastAcknowledged, clearUnread } = useFeed();
 
   // Handle clicks outside the feed to close it
@@ -137,13 +149,11 @@ export const Feed: React.FC<Props> = ({
     if (showFeed) {
       clearUnread(0);
     }
-  }, [showFeed, setUnreadCount]);
+  }, [showFeed]);
 
-  useLayoutEffect(() => {
-    if (showFeed && !isLoadingInitialData) {
-      mutate();
-    }
-  }, [showFeed, isLoadingInitialData, mutate]);
+  useEffect(() => {
+    storeFilter(selectedFilter);
+  }, [selectedFilter]);
 
   useSocial({
     farmId,
@@ -297,6 +307,25 @@ export const Feed: React.FC<Props> = ({
             </div>
           </div>
         </div>
+        {!showFollowing && (
+          <FeedFilters
+            options={[
+              { value: "all", label: "All" },
+              {
+                value: "help",
+                label: "Helped",
+              },
+              { value: "chat", label: "Chat" },
+              {
+                value: "cheer",
+                label: "Cheered",
+              },
+              { value: "follow", label: "Follows" },
+            ]}
+            value={selectedFilter}
+            onChange={(value) => setSelectedFilter(value)}
+          />
+        )}
 
         {showFollowing && (
           <div
@@ -328,6 +357,7 @@ export const Feed: React.FC<Props> = ({
             hasMore={hasMore}
             loadMore={loadMore}
             onInteractionClick={handleInteractionClick}
+            filter={selectedFilter}
           />
         )}
       </div>
@@ -342,6 +372,7 @@ type FeedContentProps = {
   isLoadingInitialData: boolean;
   isLoadingMore: boolean;
   hasMore: boolean | undefined;
+  filter: FeedFilter;
   onInteractionClick: (interaction: Interaction) => void;
   onFollowClick: (id: number) => void;
   loadMore: () => void;
@@ -357,10 +388,13 @@ const FeedContent: React.FC<FeedContentProps> = ({
   isLoadingMore,
   hasMore,
   loadMore,
+  filter,
 }) => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const loaderRef = useRef<HTMLDivElement>(null);
   const { t } = useAppTranslation();
+
+  const [canPaginate, setCanPaginate] = useState(false);
 
   // Intersection observer to load more interactions when the loader is in view
   const { ref: intersectionRef, inView } = useInView({
@@ -369,8 +403,23 @@ const FeedContent: React.FC<FeedContentProps> = ({
     threshold: 0.1,
   });
 
+  useLayoutEffect(() => {
+    const el = scrollContainerRef.current;
+    if (!el) return;
+    // tiny buffer so off-by-1 doesn’t trigger
+    setCanPaginate(el.scrollHeight > el.clientHeight + 2);
+  }, [feed.length, filter]);
+
   useEffect(() => {
-    if (inView && hasMore && !isLoadingMore) {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTo({
+        top: 0,
+      });
+    }
+  }, [filter]);
+
+  useEffect(() => {
+    if (inView && hasMore && !isLoadingMore && canPaginate) {
       loadMore();
     }
   }, [inView, hasMore, isLoadingMore, loadMore, scrollContainerRef]);
@@ -454,7 +503,7 @@ const FeedContent: React.FC<FeedContentProps> = ({
                       />
                     )}
                   </div>
-                  <div className="flex flex-col gap-1">
+                  <div className="flex flex-col w-full gap-1">
                     <span className="flex items-center gap-1">
                       {interaction.type === "announcement" ? (
                         <img src={promote} />
@@ -463,13 +512,18 @@ const FeedContent: React.FC<FeedContentProps> = ({
                       )}
                       {`${getRelativeTime(interaction.createdAt)}`}
                     </span>
-                    <div
-                      className="text-xs break-words"
-                      style={{
-                        lineHeight: 1,
-                      }}
-                    >
-                      {interaction.message}
+                    <div className="flex justify-between items-center w-full">
+                      <div
+                        className="text-xs break-words"
+                        style={{
+                          lineHeight: 1,
+                        }}
+                      >
+                        {interaction.message}
+                      </div>
+                      {interaction.helpedThemToday && (
+                        <img src={helpIcon} className="w-4 h-4" />
+                      )}
                     </div>
                   </div>
                   <div className="flex items-center justify-end flex-grow cursor-pointer">
@@ -490,13 +544,15 @@ const FeedContent: React.FC<FeedContentProps> = ({
           );
         })}
       </div>
-      <div
-        ref={setRefs}
-        id="loading-more"
-        className="text-xs flex justify-center py-1 h-5"
-      >
-        {hasMore ? <Loading dotsOnly /> : t("playerModal.noMoreMessages")}
-      </div>
+      {canPaginate && (
+        <div
+          ref={setRefs}
+          id="loading-more"
+          className="text-xs flex justify-center py-1 h-6"
+        >
+          {hasMore ? <Loading dotsOnly /> : t("playerModal.noMoreMessages")}
+        </div>
+      )}
     </div>
   );
 };

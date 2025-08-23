@@ -14,9 +14,16 @@ import { Airdrop, BoostName, GameState } from "features/game/types/game";
 import { getKeys } from "features/game/types/craftables";
 import { pickEmptyPosition } from "features/game/expansion/placeable/lib/collisionDetection";
 import { isCollectibleBuilt } from "features/game/lib/collectibleBuilt";
-import { CRIMSTONE_RECOVERY_TIME } from "features/game/lib/constants";
 import { CropName } from "features/game/types/crops";
 import { produce } from "immer";
+import {
+  CRIMSTONE_RECOVERY_TIME,
+  GOLD_RECOVERY_TIME,
+  IRON_RECOVERY_TIME,
+  STONE_RECOVERY_TIME,
+  TREE_RECOVERY_TIME,
+} from "features/game/lib/constants";
+import { OIL_RESERVE_RECOVERY_TIME } from "./drillOilReserve";
 
 // Preloaded crops that will appear on plots when they reveal
 const EXPANSION_CROPS: Record<number, CropName> = {
@@ -237,24 +244,23 @@ export function revealLand({
       land.lavaPits?.length ?? 0,
     );
 
-    // Refresh all basic resources
-    game.trees = getKeys(game.trees).reduce(
-      (acc, id) => {
-        return {
-          ...acc,
-          [id]: {
-            ...game.trees[id],
-            wood: {
-              ...game.trees[id].wood,
-              choppedAt: createdAt - 4 * 60 * 60 * 1000,
-            },
+    // Replenish all trees
+    game.trees = getKeys(game.trees).reduce<GameState["trees"]>((acc, id) => {
+      return {
+        ...acc,
+        [id]: {
+          ...game.trees[id],
+          wood: {
+            ...game.trees[id].wood,
+            choppedAt:
+              (game.trees[id].removedAt ?? createdAt) -
+              TREE_RECOVERY_TIME * 1000,
           },
-        };
-      },
-      {} as GameState["trees"],
-    );
+        },
+      };
+    }, {});
 
-    game.stones = getKeys(game.stones).reduce(
+    game.stones = getKeys(game.stones).reduce<GameState["stones"]>(
       (acc, id) => {
         return {
           ...acc,
@@ -262,47 +268,47 @@ export function revealLand({
             ...game.stones[id],
             stone: {
               ...game.stones[id].stone,
-              minedAt: createdAt - 12 * 60 * 60 * 1000,
+              minedAt:
+                (game.stones[id].removedAt ?? createdAt) -
+                STONE_RECOVERY_TIME * 1000,
             },
           },
         };
       },
-      {} as GameState["stones"],
+      {},
     );
 
-    game.iron = getKeys(game.iron).reduce(
-      (acc, id) => {
-        return {
-          ...acc,
-          [id]: {
-            ...game.iron[id],
-            stone: {
-              ...game.iron[id].stone,
-              minedAt: createdAt - 24 * 60 * 60 * 1000,
-            },
+    game.iron = getKeys(game.iron).reduce<GameState["iron"]>((acc, id) => {
+      return {
+        ...acc,
+        [id]: {
+          ...game.iron[id],
+          stone: {
+            ...game.iron[id].stone,
+            minedAt:
+              (game.iron[id].removedAt ?? createdAt) -
+              IRON_RECOVERY_TIME * 1000,
           },
-        };
-      },
-      {} as GameState["iron"],
-    );
+        },
+      };
+    }, {});
 
-    game.gold = getKeys(game.gold).reduce(
-      (acc, id) => {
-        return {
-          ...acc,
-          [id]: {
-            ...game.gold[id],
-            stone: {
-              ...game.gold[id].stone,
-              minedAt: createdAt - 48 * 60 * 60 * 1000,
-            },
+    game.gold = getKeys(game.gold).reduce<GameState["gold"]>((acc, id) => {
+      return {
+        ...acc,
+        [id]: {
+          ...game.gold[id],
+          stone: {
+            ...game.gold[id].stone,
+            minedAt:
+              (game.gold[id].removedAt ?? createdAt) -
+              GOLD_RECOVERY_TIME * 1000,
           },
-        };
-      },
-      {} as GameState["gold"],
-    );
+        },
+      };
+    }, {});
 
-    game.crimstones = getKeys(game.crimstones).reduce(
+    game.crimstones = getKeys(game.crimstones).reduce<GameState["crimstones"]>(
       (acc, id) => {
         return {
           ...acc,
@@ -310,13 +316,32 @@ export function revealLand({
             ...game.crimstones[id],
             stone: {
               ...game.crimstones[id].stone,
-              minedAt: createdAt - CRIMSTONE_RECOVERY_TIME * 1000,
+              minedAt:
+                (game.crimstones[id].removedAt ?? createdAt) -
+                CRIMSTONE_RECOVERY_TIME * 1000,
             },
           },
         };
       },
-      {} as GameState["crimstones"],
+      {},
     );
+
+    game.oilReserves = getKeys(game.oilReserves).reduce<
+      GameState["oilReserves"]
+    >((acc, id) => {
+      return {
+        ...acc,
+        [id]: {
+          ...game.oilReserves[id],
+          oil: {
+            ...game.oilReserves[id].oil,
+            drilledAt:
+              (game.oilReserves[id].removedAt ?? createdAt) -
+              OIL_RESERVE_RECOVERY_TIME * 1000,
+          },
+        },
+      };
+    }, {});
 
     // Add fire pit on expansion 5
     if (landCount >= 5 && !game.inventory["Fire Pit"]) {

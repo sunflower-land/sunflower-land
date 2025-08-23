@@ -111,8 +111,13 @@ const FEATURE_FLAGS = {
 
   PETS: defaultFeatureFlag,
   FLOWER_INSTA_GROW: defaultFeatureFlag,
+  OBSIDIAN_SHRINE: defaultFeatureFlag,
 
-  API_PERFORMANCE: defaultFeatureFlag,
+  API_PERFORMANCE: () => true,
+
+  OBSIDIAN_EXCHANGE: testnetFeatureFlag,
+  GASLESS_AUCTIONS: () => true,
+  NODE_FORGING: defaultFeatureFlag,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;

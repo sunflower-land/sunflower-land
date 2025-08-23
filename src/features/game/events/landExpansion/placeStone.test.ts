@@ -95,6 +95,9 @@ describe("placeStone", () => {
         },
         x: 2,
         y: 2,
+        name: "Stone Rock",
+        multiplier: 1,
+        tier: 1,
       },
       "123": {
         createdAt: expect.any(Number),
@@ -130,6 +133,9 @@ describe("placeStone", () => {
             createdAt: dateNow,
             stone: { minedAt: dateNow - 180000 },
             removedAt: dateNow - 120000,
+            name: "Stone Rock",
+            multiplier: 1,
+            tier: 1,
           },
         },
       },
@@ -144,6 +150,9 @@ describe("placeStone", () => {
         },
         x: 2,
         y: 2,
+        name: "Stone Rock",
+        multiplier: 1,
+        tier: 1,
       },
     });
   });

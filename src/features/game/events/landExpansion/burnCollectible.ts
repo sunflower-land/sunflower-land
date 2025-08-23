@@ -38,6 +38,7 @@ export function burnCollectible({
     if (
       action.name !== "Time Warp Totem" &&
       action.name !== "Super Totem" &&
+      action.name !== "Obsidian Shrine" &&
       action.name in PET_SHRINES &&
       !HOURGLASSES.includes(action.name as HourglassType)
     ) {

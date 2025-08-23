@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 import { Balances } from "components/Balances";
 import { useActor, useSelector } from "@xstate/react";
@@ -25,11 +25,12 @@ import choreIcon from "assets/icons/chores.webp";
 import { VisitorGuide } from "./components/VisitorGuide";
 import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import {
-  getHelpRequired,
-  hasHelpedFarmToday,
-} from "features/game/types/monuments";
+import { getHelpRequired } from "features/game/types/monuments";
 import { hasHitHelpLimit } from "features/game/events/landExpansion/increaseHelpLimit";
+import { Feed } from "features/social/Feed";
+import { WorldFeedButton } from "features/social/components/WorldFeedButton";
+import classNames from "classnames";
+import { isMobile } from "mobile-device-detect";
 
 const _socialPoints = (state: MachineState) => {
   return state.context.state.socialFarming?.points ?? 0;
@@ -45,25 +46,21 @@ export const VisitingHud: React.FC = () => {
 
   const [gameState] = useActor(gameService);
 
-  const hasHelpedToday = hasHelpedFarmToday({
-    game: gameState.context.visitorState!,
-    farmId: gameState.context.farmId,
-  });
-
   const [showVisitorGuide, setShowVisitorGuide] = useState(() => {
     const hasHitLimit = hasHitHelpLimit({
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       game: gameState.context.visitorState!,
+      totalHelpedToday: gameState.context.totalHelpedToday ?? 0,
     });
 
-    if (hasHitLimit) {
-      return true;
-    }
+    if (hasHitLimit) return true;
 
     // Check if user has already acknowledged the visitor guide
     const hasAcknowledged =
       localStorage.getItem("visitorGuideAcknowledged") === "true";
     return !hasAcknowledged;
   });
+  const [showFeed, setShowFeed] = useState(false);
   const socialPoints = useSelector(gameService, _socialPoints);
   const saving = useSelector(gameService, _autosaving);
 
@@ -71,8 +68,11 @@ export const VisitingHud: React.FC = () => {
   const navigate = useNavigate();
 
   const handleEndVisit = () => {
-    navigate(fromRoute ?? "/");
     gameService.send("END_VISIT");
+
+    const target = fromRoute && !fromRoute.includes("visit") ? fromRoute : "/";
+
+    navigate(target, { replace: true });
   };
 
   const displayId =
@@ -89,8 +89,20 @@ export const VisitingHud: React.FC = () => {
     gameService.send("SAVE");
   };
 
+  useEffect(() => {
+    window.addEventListener("popstate", handleEndVisit);
+
+    return () => {
+      window.removeEventListener("popstate", handleEndVisit);
+    };
+  }, []);
+
+  const showDesktopFeed = showFeed && !isMobile;
+  const hideDesktopFeed = !showFeed && !isMobile;
+
   return (
     <HudContainer>
+      <Feed type="local" showFeed={showFeed} setShowFeed={setShowFeed} />
       <Modal show={showVisitorGuide} onHide={handleCloseVisitorGuide}>
         <CloseButtonPanel
           bumpkinParts={gameState.context.state.bumpkin?.equipped}
@@ -114,7 +126,7 @@ export const VisitingHud: React.FC = () => {
             </div>
           </div>
           <div className="w-px h-[36px] bg-gray-300 mx-3 self-center" />
-          {hasHelpedToday ? (
+          {gameState.context.hasHelpedPlayerToday ?? false ? (
             <div className="flex justify-center items-center flex-grow">
               <img src={SUNNYSIDE.icons.confirm} className="w-5" />
             </div>
@@ -194,7 +206,16 @@ export const VisitingHud: React.FC = () => {
         </RoundButton>
         <Settings isFarming={false} />
       </div>
-      <div className="absolute bottom-0 p-2.5 left-0 flex flex-col space-y-2.5">
+      <div
+        className={classNames(
+          "absolute bottom-0 p-2.5 left-0 flex flex-col space-y-2.5 transition-transform",
+          {
+            "translate-x-0": hideDesktopFeed,
+            "translate-x-[320px]": showDesktopFeed,
+          },
+        )}
+      >
+        <WorldFeedButton showFeed={showFeed} setShowFeed={setShowFeed} />
         <RoundButton
           onClick={(e) => {
             e.stopPropagation();

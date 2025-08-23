@@ -1,8 +1,10 @@
 import Decimal from "decimal.js-light";
-import { TEST_FARM } from "../lib/constants";
+import { INITIAL_FARM, TEST_FARM } from "../lib/constants";
 import { claimAirdrop } from "./claimAirdrop";
 
 describe("claimAirdrop", () => {
+  const dateNow = Date.now();
+
   it("throws if no airdrops are available", () => {
     expect(() =>
       claimAirdrop({
@@ -253,5 +255,295 @@ describe("claimAirdrop", () => {
     expect(state.coins).toEqual(100);
 
     expect(state.airdrops).toEqual([]);
+  });
+
+  it("removed placedItems land when claiming negative airdrops", () => {
+    const state = claimAirdrop({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          "Abandoned Bear": new Decimal(2),
+        },
+        airdrops: [
+          {
+            id: "123",
+            createdAt: Date.now(),
+            items: {
+              "Abandoned Bear": -1,
+            },
+            wearables: {},
+            sfl: 0,
+            coins: 0,
+          },
+        ],
+        collectibles: {
+          "Abandoned Bear": [
+            {
+              id: "123",
+              readyAt: 0,
+              createdAt: 0,
+              coordinates: {
+                x: 0,
+                y: 0,
+              },
+            },
+            {
+              id: "456",
+              readyAt: 0,
+              createdAt: 0,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "airdrop.claimed",
+        id: "123",
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.inventory).toEqual({
+      "Abandoned Bear": new Decimal(1),
+    });
+
+    expect(state.airdrops).toEqual([]);
+
+    expect(state.collectibles).toEqual({
+      "Abandoned Bear": [
+        {
+          id: "123",
+          readyAt: 0,
+          createdAt: 0,
+          removedAt: dateNow,
+        },
+        {
+          id: "456",
+          readyAt: 0,
+          createdAt: 0,
+        },
+      ],
+    });
+  });
+
+  it("removes placedItems land from combination of farm and home if more than 1 item is claimed", () => {
+    const state = claimAirdrop({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          "Abandoned Bear": new Decimal(4),
+        },
+        airdrops: [
+          {
+            id: "123",
+            createdAt: Date.now(),
+            items: {
+              "Abandoned Bear": -3,
+            },
+            wearables: {},
+            sfl: 0,
+            coins: 0,
+          },
+        ],
+        collectibles: {
+          "Abandoned Bear": [
+            {
+              id: "123",
+              readyAt: 0,
+              createdAt: 0,
+              coordinates: {
+                x: 0,
+                y: 0,
+              },
+            },
+            {
+              id: "456",
+              readyAt: 0,
+              createdAt: 0,
+              coordinates: {
+                x: 0,
+                y: 0,
+              },
+            },
+            {
+              id: "789",
+              readyAt: 0,
+              createdAt: 0,
+            },
+          ],
+        },
+        home: {
+          collectibles: {
+            "Abandoned Bear": [
+              {
+                id: "123",
+                readyAt: 0,
+                createdAt: 0,
+                coordinates: {
+                  x: 0,
+                  y: 0,
+                },
+              },
+              {
+                id: "456",
+                readyAt: 0,
+                createdAt: 0,
+                coordinates: {
+                  x: 0,
+                  y: 0,
+                },
+              },
+              {
+                id: "789",
+                readyAt: 0,
+                createdAt: 0,
+                coordinates: {
+                  x: 0,
+                  y: 0,
+                },
+              },
+              {
+                id: "135",
+                readyAt: 0,
+                createdAt: 0,
+              },
+            ],
+          },
+        },
+      },
+      action: {
+        type: "airdrop.claimed",
+        id: "123",
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.inventory).toEqual({
+      "Abandoned Bear": new Decimal(1),
+    });
+
+    expect(state.airdrops).toEqual([]);
+
+    expect(state.collectibles).toEqual({
+      "Abandoned Bear": [
+        {
+          id: "123",
+          readyAt: 0,
+          createdAt: 0,
+          removedAt: dateNow,
+        },
+        {
+          id: "456",
+          readyAt: 0,
+          createdAt: 0,
+          removedAt: dateNow,
+        },
+        {
+          id: "789",
+          readyAt: 0,
+          createdAt: 0,
+        },
+      ],
+    });
+    expect(state.home.collectibles).toEqual({
+      "Abandoned Bear": [
+        {
+          id: "123",
+          readyAt: 0,
+          createdAt: 0,
+          removedAt: dateNow,
+        },
+        {
+          id: "456",
+          readyAt: 0,
+          createdAt: 0,
+          coordinates: {
+            x: 0,
+            y: 0,
+          },
+        },
+        {
+          id: "789",
+          readyAt: 0,
+          createdAt: 0,
+          coordinates: {
+            x: 0,
+            y: 0,
+          },
+        },
+        {
+          id: "135",
+          readyAt: 0,
+          createdAt: 0,
+        },
+      ],
+    });
+  });
+
+  it("removes placed buildings from farm when claiming negative airdrops", () => {
+    const state = claimAirdrop({
+      state: {
+        ...INITIAL_FARM,
+        inventory: {
+          "Hen House": new Decimal(2),
+        },
+        airdrops: [
+          {
+            id: "123",
+            createdAt: Date.now(),
+            items: {
+              "Hen House": -1,
+            },
+            wearables: {},
+            sfl: 0,
+            coins: 0,
+          },
+        ],
+        buildings: {
+          "Hen House": [
+            {
+              id: "123",
+              readyAt: 0,
+              createdAt: 0,
+              coordinates: {
+                x: 0,
+                y: 0,
+              },
+            },
+            {
+              id: "456",
+              readyAt: 0,
+              createdAt: 0,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "airdrop.claimed",
+        id: "123",
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.inventory).toEqual({
+      "Hen House": new Decimal(1),
+    });
+
+    expect(state.airdrops).toEqual([]);
+
+    expect(state.buildings).toEqual({
+      "Hen House": [
+        {
+          id: "123",
+          readyAt: 0,
+          createdAt: 0,
+          removedAt: dateNow,
+        },
+        {
+          id: "456",
+          readyAt: 0,
+          createdAt: 0,
+        },
+      ],
+    });
   });
 });

@@ -63,7 +63,7 @@ interface Props {
   onAddOil: (oil: number) => void;
 }
 
-const ALLOWED_SEEDS = (
+export const ALLOWED_SEEDS = (
   bumpkin: Bumpkin,
   inventory: Inventory,
 ): CropSeedName[] => {

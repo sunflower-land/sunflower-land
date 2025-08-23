@@ -13,6 +13,8 @@ import cheer from "assets/icons/cheer.webp";
 import socialPointsIcon from "assets/icons/social_score.webp";
 import followIcon from "assets/icons/follow.webp";
 import unfollowIcon from "assets/icons/unfollow.webp";
+import helpIcon from "assets/icons/help.webp";
+import helpedIcon from "assets/icons/helped.webp";
 
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { PIXEL_SCALE } from "features/game/lib/constants";
@@ -45,7 +47,6 @@ import { getKeys } from "features/game/lib/crafting";
 import { ProgressBar } from "components/ui/ProgressBar";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
-import { getHelpStreak } from "features/game/types/monuments";
 import { hasVipAccess } from "features/game/lib/vipAccess";
 
 const ISLAND_ICONS: Record<IslandType, string> = {
@@ -164,7 +165,9 @@ export const PlayerDetails: React.FC<Props> = ({
     if (!player) return;
 
     // Setting from route to navigate back to the correct page after visit
-    setFromRoute(location.pathname);
+    if (!isVisiting) {
+      setFromRoute(location.pathname);
+    }
 
     gameService.send("VISIT", { landId: player.id });
     navigate(`/visit/${player.id}`);
@@ -205,12 +208,6 @@ export const PlayerDetails: React.FC<Props> = ({
       (projectB.receivedCheers / projectB.requiredCheers) * 100;
 
     return projectBProgress - projectAProgress;
-  });
-
-  const friendStreak = getHelpStreak({
-    farm: gameService.state.context.state.socialFarming.helped?.[
-      player?.id ?? 0
-    ],
   });
 
   return (
@@ -369,20 +366,18 @@ export const PlayerDetails: React.FC<Props> = ({
                 <img src={flowerIcon} className="w-4 h-4 ml-1 mt-0.5" />
               </div>
             </div>
-            {!isVisiting && (
-              <Button
-                className="flex w-fit h-9 justify-between items-center gap-1 -mt-2.5 align-top"
-                disabled={isSelf}
-                onClick={visitFarm}
-              >
-                <div className="flex items-center px-1">
-                  <img
-                    src={SUNNYSIDE.icons.search}
-                    className="flex justify-center items-center w-4 h-4"
-                  />
-                </div>
-              </Button>
-            )}
+            <Button
+              className="flex w-fit h-9 justify-between items-center gap-1 -mt-2.5 align-top"
+              disabled={isSelf}
+              onClick={visitFarm}
+            >
+              <div className="flex items-center px-1">
+                <img
+                  src={SUNNYSIDE.icons.search}
+                  className="flex justify-center items-center w-4 h-4"
+                />
+              </div>
+            </Button>
           </div>
         </InnerPanel>
 
@@ -416,37 +411,47 @@ export const PlayerDetails: React.FC<Props> = ({
               </Button>
             </div>
           </div>
-          <div className="flex flex-col gap-1 p-1 mb-1 w-full">
-            <div className="text-xs">
-              {player?.youHelpedThemCount === 1
-                ? t("playerModal.youHelpedThemCount.singular", {
-                    count: player?.youHelpedThemCount,
-                  })
-                : t("playerModal.youHelpedThemCount.plural", {
-                    count: player?.youHelpedThemCount,
-                  })}
-            </div>
-            <div className="text-xs">
-              {player?.theyHelpedYouCount === 1
-                ? t("playerModal.theyHelpedYouCount.singular", {
-                    count: player?.theyHelpedYouCount,
-                  })
-                : t("playerModal.theyHelpedYouCount.plural", {
-                    count: player?.theyHelpedYouCount,
-                  })}
-            </div>
-          </div>
-          {friendStreak > 0 && (
-            <div className="flex justify-start w-full">
-              <Label
-                type="vibrant"
-                className="ml-2"
-                icon={SUNNYSIDE.icons.heart}
-              >
-                {t("friendStreak", { days: friendStreak })}
-              </Label>
+          {!isSelf && (
+            <div className="flex flex-col gap-1 p-1 mb-1 w-full">
+              <div className="text-xs">
+                {player?.youHelpedThemCount === 1
+                  ? t("playerModal.youHelpedThemCount.singular", {
+                      count: player?.youHelpedThemCount,
+                    })
+                  : t("playerModal.youHelpedThemCount.plural", {
+                      count: player?.youHelpedThemCount,
+                    })}
+              </div>
+              <div className="text-xs">
+                {player?.theyHelpedYouCount === 1
+                  ? t("playerModal.theyHelpedYouCount.singular", {
+                      count: player?.theyHelpedYouCount,
+                    })
+                  : t("playerModal.theyHelpedYouCount.plural", {
+                      count: player?.theyHelpedYouCount,
+                    })}
+              </div>
             </div>
           )}
+          <div className="flex w-full px-1 gap-1">
+            {player.helpedThemToday && (
+              <img src={helpIcon} className="w-4 h-4" />
+            )}
+            {player.helpedYouToday && (
+              <img src={helpedIcon} className="w-4 h-4" />
+            )}
+            {player.helpStreak > 0 && (
+              <div className="flex justify-start w-full">
+                <Label
+                  type="vibrant"
+                  className="ml-2"
+                  icon={SUNNYSIDE.icons.heart}
+                >
+                  {t("friendStreak", { days: player.helpStreak })}
+                </Label>
+              </div>
+            )}
+          </div>
         </InnerPanel>
 
         <InnerPanel className="flex flex-1 flex-col gap-1 max-h-[121px] overflow-y-auto scrollable">

@@ -44,7 +44,9 @@ type EffectName =
   | "message.sent"
   | "farm.cheered"
   | "project.completed"
-  | "farm.helped";
+  | "farm.helped"
+  | "pet.wakeUp"
+  | "auction.claimed";
 
 type VisitEffectName = "farm.helped";
 
@@ -95,7 +97,9 @@ export type StateMachineStateName =
   | "cheeringFarm"
   | "followingFarm"
   | "completingProject"
-  | "helpingFarm";
+  | "helpingFarm"
+  | "claimingAuction"
+  | "wakingPet";
 
 export type StateMachineVisitStateName =
   | "cheeringVillageProject"
@@ -143,6 +147,8 @@ export const STATE_MACHINE_EFFECTS: Record<
   "farm.followed": "followingFarm",
   "project.completed": "completingProject",
   "farm.helped": "helpingFarm",
+  "auction.claimed": "claimingAuction",
+  "pet.wakeUp": "wakingPet",
 };
 
 export const STATE_MACHINE_VISIT_EFFECTS: Record<

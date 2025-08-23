@@ -24,6 +24,7 @@ export type Interaction = {
   createdAt: number;
   readAt?: number; // Timestamp when the message was read by the recipient
   id?: string; // Unique identifier for the message
+  helpedThemToday?: boolean;
 };
 
 export type Milestone = Interaction & {
@@ -53,6 +54,9 @@ export type Player = {
     projects: ActiveProjects;
     youHelpedThemCount: number;
     theyHelpedYouCount: number;
+    helpedYouToday: boolean;
+    helpedThemToday: boolean;
+    helpStreak: number;
   };
 };
 

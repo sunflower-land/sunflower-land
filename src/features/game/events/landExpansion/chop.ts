@@ -201,6 +201,11 @@ export function getChoppedAt({ game, createdAt }: GetChoppedAtArgs): {
     boostsUsed.push("Timber Hourglass");
   }
 
+  if (isCollectibleActive({ name: "Badger Shrine", game })) {
+    totalSeconds = totalSeconds * 0.75;
+    boostsUsed.push("Badger Shrine");
+  }
+
   const buff = TREE_RECOVERY_TIME - totalSeconds;
 
   return { time: createdAt - buff * 1000, boostsUsed };

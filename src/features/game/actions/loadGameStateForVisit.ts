@@ -30,6 +30,8 @@ export async function loadGameStateForVisit(
   isBanned: boolean;
   visitorId: number;
   visitedFarmState: VisitGameState;
+  hasHelpedPlayerToday: boolean;
+  totalHelpedToday: number;
 }> {
   // Go and fetch the state for the farm you are trying to visit
   const url = `${API_URL}/visit/${id}`;

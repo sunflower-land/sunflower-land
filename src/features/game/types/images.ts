@@ -994,6 +994,16 @@ import barkley from "assets/sfts/pets/barkley.webp";
 import meowchi from "assets/sfts/pets/meowchi.webp";
 import twizzle from "assets/sfts/pets/twizzle.webp";
 import burro from "assets/sfts/pets/burro.webp";
+import mudhorn from "assets/sfts/pets/mudhorn.webp";
+import nibbles from "assets/sfts/pets/nibbles.webp";
+import waddles from "assets/sfts/pets/waddles.webp";
+import ramsey from "assets/sfts/pets/ramsey.webp";
+
+import moonfur from "assets/icons/moonfur.webp";
+import dewberry from "assets/icons/dewberry.webp";
+import ribbon from "assets/icons/medal.webp";
+import frostPebble from "assets/icons/diamond.webp";
+import wildGrass from "assets/icons/wild_grass.webp";
 
 import { COUPONS, EASTER_EGG, FERTILISERS, InventoryItemName } from "./game";
 
@@ -5780,6 +5790,22 @@ export const ITEM_DETAILS: Items = {
     image: thermalStone,
     description: translate("description.foxShrine"),
   },
+  "Sparrow Shrine": {
+    image: thermalStone,
+    description: translate("description.sparrowShrine"),
+  },
+  "Toucan Shrine": {
+    image: thermalStone,
+    description: translate("description.toucanShrine"),
+  },
+  "Collie Shrine": {
+    image: thermalStone,
+    description: translate("description.collieShrine"),
+  },
+  "Badger Shrine": {
+    image: thermalStone,
+    description: translate("description.badgerShrine"),
+  },
   "Boar Shrine": {
     image: thermalStone,
     description: translate("description.boarShrine"),
@@ -5796,12 +5822,98 @@ export const ITEM_DETAILS: Items = {
     image: thermalStone,
     description: translate("description.legendaryShrine"),
   },
+  "Obsidian Shrine": {
+    image: thermalStone,
+    description: translate("description.obsidianShrine"),
+  },
   Moonfur: {
-    image: SUNNYSIDE.icons.expression_confused,
+    image: moonfur,
     description: translate("description.moonfur"),
   },
   "Fossil Shell": {
     image: SUNNYSIDE.resource.clam_shell,
     description: translate("description.fossilShell"),
+  },
+  Mudhorn: {
+    image: mudhorn,
+    description: translate("description.mudhorn"),
+  },
+  Nibbles: {
+    image: nibbles,
+    description: translate("description.nibbles"),
+  },
+  Waddles: {
+    image: waddles,
+    description: translate("description.waddles"),
+  },
+  Ramsey: {
+    image: ramsey,
+    description: translate("description.ramsey"),
+  },
+  "Tortoise Shrine": {
+    image: thermalStone,
+    description: translate("description.tortoiseShrine"),
+  },
+  "Moth Shrine": {
+    image: thermalStone,
+    description: translate("description.mothShrine"),
+  },
+  "Mole Shrine": {
+    image: thermalStone,
+    description: translate("description.moleShrine"),
+  },
+  "Bear Shrine": {
+    image: thermalStone,
+    description: translate("description.bearShrine"),
+  },
+  "Wild Grass": {
+    image: wildGrass,
+    description: translate("description.wildGrass"),
+  },
+  "Frost Pebble": {
+    image: frostPebble,
+
+    description: translate("description.frostPebble"),
+  },
+  Ribbon: {
+    image: ribbon,
+
+    description: translate("description.ribbon"),
+  },
+  Dewberry: {
+    image: dewberry,
+    description: translate("description.dewberry"),
+  },
+  "Fused Stone Rock": {
+    image: SUNNYSIDE.resource.stone_rock,
+    description: "Fused Stone",
+  },
+  "Reinforced Stone Rock": {
+    image: SUNNYSIDE.resource.iron_rock,
+    description: "Reinforced Stone",
+  },
+  "Ancient Tree": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "Forging soon...",
+  },
+  "Sacred Tree": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "Forging soon...",
+  },
+  "Refined Iron Rock": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "Forging soon...",
+  },
+  "Tempered Iron Rock": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "Forging soon...",
+  },
+  "Pure Gold Rock": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "Forging soon...",
+  },
+  "Enchanted Gold Rock": {
+    image: SUNNYSIDE.icons.expression_confused,
+    description: "Forging soon...",
   },
 };

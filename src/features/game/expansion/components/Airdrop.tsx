@@ -92,15 +92,17 @@ export const AirdropPopup: React.FC = () => {
     return null;
   }
 
+  const isAirdropNegative = Object.values(airdrop.items).some(
+    (amount) => amount < 0,
+  );
+
+  const onClose = () => gameService.send("CLOSE");
+
   return (
     <AirdropModal
       airdrop={airdrop}
-      onClaimed={() => {
-        gameService.send("CLOSE");
-      }}
-      onClose={() => {
-        gameService.send("CLOSE");
-      }}
+      onClaimed={onClose}
+      onClose={isAirdropNegative ? undefined : onClose}
     />
   );
 };

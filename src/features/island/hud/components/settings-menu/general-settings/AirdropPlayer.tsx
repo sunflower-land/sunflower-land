@@ -29,6 +29,7 @@ import { useAppTranslation } from "lib/i18n/useAppTranslations";
 import { Modal } from "components/ui/Modal";
 import { Panel } from "components/ui/Panel";
 import { useAccount } from "wagmi";
+import { ErrorCode } from "lib/errors";
 
 // Types
 interface AirdropItem {
@@ -37,6 +38,7 @@ interface AirdropItem {
   icon: string;
   maxDecimalPlaces: number;
   maxValue?: number;
+  allowNegative?: boolean;
 }
 
 interface SelectedItem {
@@ -65,6 +67,8 @@ interface AirdropContentProps {
   advancedItemsProps?: AdvancedItemsProps;
   airdroppingRewardFailed?: boolean;
   closeErrorModal: () => void;
+  errorCode: ErrorCode;
+  transactionId?: string;
 }
 
 // Components
@@ -79,7 +83,7 @@ const AdvancedItems: React.FC<AdvancedItemsProps> = ({
   const [currentWearable, setCurrentWearable] = useState<string>();
 
   const addItem = () => {
-    if (!currentItem || currentQuantity <= 0) return;
+    if (!currentItem) return;
 
     setSelectedItems([
       ...selectedItems.filter((item) => item.name !== currentItem),
@@ -139,6 +143,7 @@ const AdvancedItems: React.FC<AdvancedItemsProps> = ({
                 setCurrentQuantity(decimal.toNumber())
               }
               maxDecimalPlaces={0}
+              allowNegative
             />
           </div>
           <img
@@ -231,6 +236,8 @@ const AirdropContent: React.FC<AirdropContentProps> = ({
   setFarmIds,
   airdroppingRewardFailed,
   closeErrorModal,
+  errorCode,
+  transactionId,
 }) => {
   const { t } = useAppTranslation();
 
@@ -247,7 +254,17 @@ const AirdropContent: React.FC<AirdropContentProps> = ({
             onValueChange={setFarmIds}
           />
           {getObjectEntries(basicItems).map(
-            ([key, { icon, value, setValue, maxDecimalPlaces, maxValue }]) => (
+            ([
+              key,
+              {
+                icon,
+                value,
+                setValue,
+                maxDecimalPlaces,
+                maxValue,
+                allowNegative,
+              },
+            ]) => (
               <div key={key} className="flex flex-col items-start gap-2">
                 <div className="flex flex-row items-center gap-2 w-full justify-between">
                   <Label type="default" icon={icon} className="m-1">
@@ -263,6 +280,7 @@ const AirdropContent: React.FC<AirdropContentProps> = ({
                   value={value}
                   onValueChange={(decimal) => setValue(decimal.toNumber())}
                   maxDecimalPlaces={maxDecimalPlaces}
+                  allowNegative={allowNegative}
                 />
               </div>
             ),
@@ -305,6 +323,10 @@ const AirdropContent: React.FC<AirdropContentProps> = ({
               {t("airdropping.reward.failed.title")}
             </Label>
             <p className="text-sm mb-2">{t("airdropping.reward.failed")}</p>
+            <Label type="transparent">{`Error Code: ${errorCode}`}</Label>
+            {transactionId && (
+              <Label type="transparent">{`Transaction ID: ${transactionId}`}</Label>
+            )}
           </div>
           <Button onClick={closeErrorModal}>{t("continue")}</Button>
         </Panel>
@@ -327,6 +349,15 @@ export const AirdropPlayer: React.FC<
 
   const airdroppingRewardFailed = useSelector(gameService, (state) =>
     state.matches("airdroppingRewardFailed"),
+  );
+
+  const errorCode = useSelector(
+    gameService,
+    (state) => state.context.errorCode,
+  ) as ErrorCode;
+  const transactionId = useSelector(
+    gameService,
+    (state) => state.context.transactionId,
   );
 
   const { chainId } = useAccount();
@@ -418,6 +449,7 @@ export const AirdropPlayer: React.FC<
       maxDecimalPlaces: 0,
       icon: coinsIcon,
       maxValue: 10000,
+      allowNegative: true,
     },
     Gems: {
       value: gems ?? 0,
@@ -425,6 +457,7 @@ export const AirdropPlayer: React.FC<
       maxDecimalPlaces: 0,
       icon: ITEM_DETAILS.Gem.image,
       maxValue: 10000,
+      allowNegative: true,
     },
     "Love Charm": {
       value: loveCharm ?? 0,
@@ -432,6 +465,7 @@ export const AirdropPlayer: React.FC<
       maxDecimalPlaces: 0,
       icon: ITEM_DETAILS["Love Charm"].image,
       maxValue: 10000,
+      allowNegative: true,
     },
     VIP: {
       value: vipDays ?? 0,
@@ -481,6 +515,8 @@ export const AirdropPlayer: React.FC<
           setFarmIds={setFarmIds}
           airdroppingRewardFailed={airdroppingRewardFailed}
           closeErrorModal={() => gameService.send("CONTINUE")}
+          errorCode={errorCode}
+          transactionId={transactionId}
         />
       </GameWallet>
     );
@@ -501,6 +537,8 @@ export const AirdropPlayer: React.FC<
       advancedItemsProps={advancedItemsProps}
       airdroppingRewardFailed={airdroppingRewardFailed}
       closeErrorModal={() => gameService.send("CONTINUE")}
+      errorCode={errorCode}
+      transactionId={transactionId}
     />
   );
 };

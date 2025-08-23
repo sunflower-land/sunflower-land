@@ -33,9 +33,7 @@ import { ButtonPanel } from "components/ui/Panel";
 import { OPEN_SEA_WEARABLES } from "metadata/metadata";
 import { RECIPES } from "features/game/lib/crafting";
 
-const _bumpkin = (state: MachineState) => state.context.state.bumpkin;
 const _game = (state: MachineState) => state.context.state;
-const _buds = (state: MachineState) => state.context.state.buds;
 
 interface ClaimRewardProps {
   reward: IAirdrop;
@@ -53,9 +51,7 @@ export const ClaimReward: React.FC<ClaimRewardProps> = ({
   const { t } = useAppTranslation();
   const itemNames = getKeys(airdrop.items);
   const { showAnimations, gameService } = useContext(Context);
-  const bumpkin = useSelector(gameService, _bumpkin);
   const game = useSelector(gameService, _game);
-  const buds = useSelector(gameService, _buds);
 
   useEffect(() => {
     if (showAnimations) confetti();

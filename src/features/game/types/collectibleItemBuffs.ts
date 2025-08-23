@@ -1691,9 +1691,72 @@ function getCollectibleBuffLabels(
         boostTypeIcon: powerup,
       },
     ],
+    "Sparrow Shrine": [
+      {
+        shortDescription: translate("description.sparrowShrine.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    ],
+    "Toucan Shrine": [
+      {
+        shortDescription: translate("description.toucanShrine.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    ],
+    "Collie Shrine": [
+      {
+        shortDescription: translate("description.collieShrine.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    ],
+    "Badger Shrine": [
+      {
+        shortDescription: translate("description.badgerShrine.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    ],
     "Legendary Shrine": [
       {
         shortDescription: translate("description.legendaryShrine.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    ],
+    "Obsidian Shrine": [
+      {
+        shortDescription: translate("description.obsidianShrine.buff"),
+        labelType: "success",
+        boostTypeIcon: SUNNYSIDE.icons.lightning,
+      },
+    ],
+    "Mole Shrine": [
+      {
+        shortDescription: translate("description.moleShrine.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    ],
+    "Bear Shrine": [
+      {
+        shortDescription: translate("description.bearShrine.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    ],
+    "Tortoise Shrine": [
+      {
+        shortDescription: translate("description.tortoiseShrine.buff"),
+        labelType: "success",
+        boostTypeIcon: powerup,
+      },
+    ],
+    "Moth Shrine": [
+      {
+        shortDescription: translate("description.mothShrine.buff"),
         labelType: "success",
         boostTypeIcon: powerup,
       },

@@ -117,6 +117,11 @@ export function getFruitTime({
     boostsUsed.push("Orchard Hourglass");
   }
 
+  if (isCollectibleActive({ name: "Toucan Shrine", game })) {
+    seconds = seconds * 0.75;
+    boostsUsed.push("Toucan Shrine");
+  }
+
   // Vine Velocity: 10% reduction
   if (name === "Grape Seed" && game.bumpkin.skills["Vine Velocity"]) {
     seconds = seconds * 0.9;
