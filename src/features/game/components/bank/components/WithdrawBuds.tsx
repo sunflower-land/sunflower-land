@@ -19,6 +19,9 @@ import { PIXEL_SCALE } from "features/game/lib/constants";
 import { hasReputation, Reputation } from "features/game/lib/reputation";
 import { RequiredReputation } from "features/island/hud/components/reputation/Reputation";
 import { hasBoostRestriction } from "features/game/types/withdrawRestrictions";
+import { InfoPopover } from "features/island/common/InfoPopover";
+import { secondsToString } from "lib/utils/time";
+import { BoostName } from "features/game/types/game";
 
 const imageDomain = CONFIG.NETWORK === "mainnet" ? "buds" : "testnet-buds";
 
@@ -43,6 +46,8 @@ export const WithdrawBuds: React.FC<Props> = ({ onWithdraw }) => {
   );
   const [selected, setSelected] = useState<number[]>([]);
 
+  const [showInfo, setShowInfo] = useState("");
+
   const onAdd = (budId: number) => {
     setUnselected((prev) => prev.filter((bud) => bud !== budId));
     setSelected((prev) => [...prev, budId]);
@@ -62,6 +67,39 @@ export const WithdrawBuds: React.FC<Props> = ({ onWithdraw }) => {
     return <RequiredReputation reputation={Reputation.Seedling} />;
   }
 
+  const getRestrictionStatus = (itemName: BoostName) => {
+    const { isRestricted, cooldownTimeLeft } = hasBoostRestriction({
+      boostUsedAt: state.boostsUsedAt,
+      item: itemName,
+    });
+    return { isRestricted, cooldownTimeLeft };
+  };
+
+  const getBudName = (budId: number) => {
+    return `Bud #${budId}`;
+  };
+
+  const sortWithdrawableItems = (a: number, b: number) => {
+    const itemA = getBudName(a) as BoostName;
+    const itemB = getBudName(b) as BoostName;
+    const aCooldownMs = getRestrictionStatus(itemA).cooldownTimeLeft;
+    const bCooldownMs = getRestrictionStatus(itemB).cooldownTimeLeft;
+
+    const aIsOnCooldown = aCooldownMs > 0;
+    const bIsOnCooldown = bCooldownMs > 0;
+
+    // 1. Buds on cooldown come first
+    if (aIsOnCooldown && bIsOnCooldown) {
+      // 2. Among those, sort by most cooldown time left
+      return bCooldownMs - aCooldownMs;
+    }
+    if (aIsOnCooldown !== bIsOnCooldown) {
+      return aIsOnCooldown ? -1 : 1;
+    }
+    // 3. Otherwise, sort by bud IDs
+    return a - b;
+  };
+
   return (
     <>
       <div className="p-2 mb-2">
@@ -72,20 +110,54 @@ export const WithdrawBuds: React.FC<Props> = ({ onWithdraw }) => {
           {t("withdraw.buds")}
         </Label>
         <div className="flex flex-wrap h-fit -ml-1.5">
-          {unselected.map((budId) => (
-            <Box
-              key={`bud-${budId}`}
-              onClick={() => onAdd(budId)}
-              image={`https://${imageDomain}.sunflower-land.com/images/${budId}.webp`}
-              iconClassName="scale-[1.8] origin-bottom absolute"
-              disabled={
-                hasBoostRestriction({
-                  boostUsedAt: state.boostsUsedAt,
-                  item: `Bud #${budId}`,
-                }).isRestricted
-              }
-            />
-          ))}
+          {unselected
+            .slice()
+            .sort((a, b) => sortWithdrawableItems(a, b))
+            .map((budId) => {
+              const budName = getBudName(budId);
+              const { isRestricted, cooldownTimeLeft } = getRestrictionStatus(
+                budName as BoostName,
+              );
+              const RestrictionCooldown = cooldownTimeLeft / 1000;
+
+              const handleBoxClick = () => {
+                if (isRestricted) {
+                  setShowInfo((prev) => (prev === budName ? "" : budName));
+                }
+              };
+
+              return (
+                <div
+                  key={budName}
+                  onClick={handleBoxClick}
+                  className="flex relative"
+                >
+                  <InfoPopover
+                    className="absolute top-14 text-xxs sm:text-xs"
+                    showPopover={showInfo === `Bud #${budId}`}
+                  >
+                    {t("withdraw.boostedItem.timeLeft", {
+                      time: secondsToString(RestrictionCooldown, {
+                        length: "medium",
+                        isShortFormat: true,
+                        removeTrailingZeros: true,
+                      }),
+                    })}
+                  </InfoPopover>
+
+                  <Box
+                    key={`bud-${budId}`}
+                    onClick={() => onAdd(budId)}
+                    image={`https://${imageDomain}.sunflower-land.com/images/${budId}.webp`}
+                    iconClassName="scale-[1.8] origin-bottom absolute"
+                    disabled={isRestricted}
+                    secondaryImage={
+                      isRestricted ? SUNNYSIDE.icons.lock : undefined
+                    }
+                  />
+                </div>
+              );
+            })}
           {/* Pad with empty boxes */}
           {unselected.length < 4 &&
             new Array(4 - unselected.length)

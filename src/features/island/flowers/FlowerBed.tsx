@@ -97,6 +97,7 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
   const [congratulationsPage, setCongratulationsPage] = useState(0);
   const [showPopover, setShowPopover] = useState(false);
   const [showInstaGrowModal, setShowInstaGrowModal] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
 
   useUiRefresher();
   const biome = getCurrentBiome(state.island);
@@ -175,13 +176,18 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
     });
   };
 
+  const closeInstaGrowModal = () => {
+    setShowInstaGrowModal(false);
+    setShowConfirm(false);
+  };
+
   const handleInstaGrow = () => {
     gameService.send({
       type: "flower.instaGrown",
       id,
     });
 
-    setShowInstaGrowModal(false);
+    closeInstaGrowModal();
   };
 
   return (
@@ -334,12 +340,9 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
       </Modal>
 
       {hasInstaGrow && (
-        <Modal
-          show={showInstaGrowModal}
-          onHide={() => setShowInstaGrowModal(false)}
-        >
+        <Modal show={showInstaGrowModal} onHide={closeInstaGrowModal}>
           <CloseButtonPanel
-            onClose={() => setShowInstaGrowModal(false)}
+            onClose={closeInstaGrowModal}
             bumpkinParts={NPC_WEARABLES["poppy"]}
           >
             <div className="p-1 flex flex-col gap-2">
@@ -362,12 +365,26 @@ export const FlowerBed: React.FC<Props> = ({ id }) => {
                   balance={playerObsidian}
                 />
               </div>
-              <Button
-                onClick={handleInstaGrow}
-                disabled={!playerObsidian.gte(instaGrowCost)}
-              >
-                {t("instaGrow")}
-              </Button>
+              {showConfirm ? (
+                <div className="flex justify-between gap-1">
+                  <Button onClick={() => setShowConfirm(false)}>
+                    {t("cancel")}
+                  </Button>
+                  <Button
+                    onClick={handleInstaGrow}
+                    disabled={!playerObsidian.gte(instaGrowCost)}
+                  >
+                    {t("confirm")}
+                  </Button>
+                </div>
+              ) : (
+                <Button
+                  onClick={() => setShowConfirm(true)}
+                  disabled={!playerObsidian.gte(instaGrowCost)}
+                >
+                  {t("instaGrow")}
+                </Button>
+              )}
             </div>
           </CloseButtonPanel>
         </Modal>
