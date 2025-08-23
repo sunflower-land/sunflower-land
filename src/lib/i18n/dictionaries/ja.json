@@ -6479,5 +6479,7 @@
   "description.moleShrine.buff": "クリムストーン、アイアン、ゴールド回復時間 -25%",
   "description.bearShrine.buff": "+0.5 ハニー生産速度",
   "description.tortoiseShrine.buff": "-25% 温室および農作機械の成長時間",
-  "description.mothShrine.buff": "-25% の花の成長時間"
+  "description.mothShrine.buff": "-25% の花の成長時間",
+  "withdraw.boostedItem.timeLeft": "{{time}} で出金可能",
+  "withdraw.requires.storeOnChain": "チェーンでの保管が必要です"
 }

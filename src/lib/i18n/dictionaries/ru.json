@@ -6479,5 +6479,7 @@
   "description.moleShrine.buff": "Время восстановления малинового камня, железа и золота: -25%",
   "description.bearShrine.buff": "Скорость производства меда +0.5",
   "description.tortoiseShrine.buff": "Время роста теплиц и сельскохозяйственных машин: -25%",
-  "description.mothShrine.buff": "Время роста цветов: -25%"
+  "description.mothShrine.buff": "Время роста цветов: -25%",
+  "withdraw.boostedItem.timeLeft": "Вывод средств возможен через {{time}}",
+  "withdraw.requires.storeOnChain": "Требуется магазин в сети"
 }

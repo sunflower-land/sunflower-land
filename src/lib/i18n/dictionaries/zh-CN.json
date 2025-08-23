@@ -6479,5 +6479,7 @@
   "description.moleShrine.buff": "-25% 猩红石、铁和金回收时间",
   "description.bearShrine.buff": "+0.5 蜂蜜生产速度",
   "description.tortoiseShrine.buff": "-25% 温室和作物机械生长时间",
-  "description.mothShrine.buff": "-25% 花朵生长时间"
+  "description.mothShrine.buff": "-25% 花朵生长时间",
+  "withdraw.boostedItem.timeLeft": "可在 [0@/美元] 中提款",
+  "withdraw.requires.storeOnChain": "需要连锁存储"
 }

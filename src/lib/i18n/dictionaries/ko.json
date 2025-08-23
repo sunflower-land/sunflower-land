@@ -6479,5 +6479,7 @@
   "description.moleShrine.buff": "크림스톤, 아이언, 골드 회복 시간 -25%",
   "description.bearShrine.buff": "+0.5 벌꿀 생산 속도",
   "description.tortoiseShrine.buff": "-25% 온실 및 농작물 기계 성장 시간",
-  "description.mothShrine.buff": "꽃 성장 시간 -25%"
+  "description.mothShrine.buff": "꽃 성장 시간 -25%",
+  "withdraw.boostedItem.timeLeft": "{{time}} 로 인출 가능",
+  "withdraw.requires.storeOnChain": "체인 내 저장 필요"
 }

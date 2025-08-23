@@ -6479,5 +6479,7 @@
   "description.moleShrine.buff": "-25% Masa Pemulihan Batu Crimstone, Besi & Emas",
   "description.bearShrine.buff": "+0.5 Kelajuan Pengeluaran Madu",
   "description.tortoiseShrine.buff": "-25% Masa Pertumbuhan Mesin Rumah Hijau & Tanaman",
-  "description.mothShrine.buff": "-25% Masa Pertumbuhan Bunga"
+  "description.mothShrine.buff": "-25% Masa Pertumbuhan Bunga",
+  "withdraw.boostedItem.timeLeft": "Boleh dikeluarkan dalam {{time}}",
+  "withdraw.requires.storeOnChain": "Simpan di Rantai Diperlukan"
 }

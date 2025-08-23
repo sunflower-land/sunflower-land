@@ -6479,5 +6479,7 @@
   "description.moleShrine.buff": "-25% de tempo de recuperação de crimstone, ferro e ouro",
   "description.bearShrine.buff": "+0,5 Velocidade de produção de mel",
   "description.tortoiseShrine.buff": "-25% de tempo de crescimento de estufas e máquinas de cultivo",
-  "description.mothShrine.buff": "-25% de tempo de crescimento da flor"
+  "description.mothShrine.buff": "-25% de tempo de crescimento da flor",
+  "withdraw.boostedItem.timeLeft": "Pode ser retirado em {{time}}",
+  "withdraw.requires.storeOnChain": "É necessário armazenar na cadeia"
 }

@@ -6479,5 +6479,7 @@
   "description.moleShrine.buff": "-25% Tempo di recupero di Crimstone, Iron & Gold",
   "description.bearShrine.buff": "+0,5 Velocità di produzione del miele",
   "description.tortoiseShrine.buff": "-25% Tempo di crescita in serra e macchine per colture",
-  "description.mothShrine.buff": "-25% Tempo di crescita dei fiori"
+  "description.mothShrine.buff": "-25% Tempo di crescita dei fiori",
+  "withdraw.boostedItem.timeLeft": "Prelievabile in {{time}}",
+  "withdraw.requires.storeOnChain": "È richiesto il deposito su catena"
 }

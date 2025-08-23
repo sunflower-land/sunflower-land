@@ -6479,5 +6479,7 @@
   "description.moleShrine.buff": "-25% Wiederherstellungszeit für Purpur, Eisen und Gold",
   "description.bearShrine.buff": "+0.5 Geschwindigkeit der Honigproduktion",
   "description.tortoiseShrine.buff": "-25% Wachstumszeit für Gewächshäuser und Erntemaschinen",
-  "description.mothShrine.buff": "-25% Wachstumszeit der Blüten"
+  "description.mothShrine.buff": "-25% Wachstumszeit der Blüten",
+  "withdraw.boostedItem.timeLeft": "Auszahlbar in {{time}}",
+  "withdraw.requires.storeOnChain": "Shop on Chain erforderlich"
 }
