@@ -845,7 +845,7 @@ export const BUMPKIN_ITEM_BUFF_LABELS: Partial<
       shortDescription: translate("description.solAndLuna.boost"),
       labelType: "info",
       boostTypeIcon: SUNNYSIDE.icons.stopwatch,
-      boostedItemIcon: SUNNYSIDE.icons.hammer,
+      boostedItemIcon: ITEM_DETAILS["Crafting Box"].image,
     },
   ],
   "Blossom Ward": [
