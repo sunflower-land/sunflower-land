@@ -4,6 +4,7 @@ import { FLOWERS, FLOWER_SEEDS } from "../../types/flowers";
 import Decimal from "decimal.js-light";
 import { translate } from "lib/i18n/translate";
 import { hasFeatureAccess } from "lib/flags";
+import { updateBeehives } from "features/game/lib/updateBeehives";
 
 export type InstaGrowFlowerAction = {
   type: "flower.instaGrown";
@@ -64,5 +65,7 @@ export function instaGrowFlower({
     stateCopy.inventory.Obsidian = playerObsidian.sub(obsidianCost);
 
     flower.plantedAt = createdAt - growTime;
+
+    stateCopy.beehives = updateBeehives({ game: stateCopy, createdAt });
   });
 }
