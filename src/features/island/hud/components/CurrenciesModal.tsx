@@ -29,8 +29,16 @@ import vipIcon from "assets/icons/vip.webp";
 import gemIcon from "assets/icons/gem.webp";
 import walletIcon from "assets/icons/wallet.png";
 import exchangeIcon from "assets/icons/exchange.png";
+import sflIcon from "assets/icons/sfl.webp";
+import { DepositSFL } from "./deposit/DepositSFL";
 
-type TransactionPage = "menu" | "deposit" | "vip" | "gems" | "swap";
+type TransactionPage =
+  | "menu"
+  | "deposit"
+  | "depositSFL"
+  | "vip"
+  | "gems"
+  | "swap";
 
 type PageButtonOptions = {
   page: TransactionPage;
@@ -101,6 +109,11 @@ export const CurrenciesModal: React.FC<Props> = ({
       page: "deposit",
       icon: flowerIcon,
       label: t("transaction.deposit.flower"),
+    },
+    depositSFL: {
+      page: "depositSFL",
+      icon: sflIcon,
+      label: t("transaction.deposit.sfl"),
     },
     swap: {
       page: "swap",
@@ -235,6 +248,9 @@ export const CurrenciesModal: React.FC<Props> = ({
             )}
             {page === "swap" && (
               <SwapSFLForCoins onClose={() => setPage("menu")} />
+            )}
+            {page === "depositSFL" && (
+              <DepositSFL onClose={() => setPage("menu")} />
             )}
           </Panel>
           <BuyGemsWidget />

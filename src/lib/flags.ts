@@ -117,6 +117,7 @@ const FEATURE_FLAGS = {
 
   OBSIDIAN_EXCHANGE: testnetFeatureFlag,
   GASLESS_AUCTIONS: () => true,
+  DEPOSIT_SFL: () => true,
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;
