@@ -31,6 +31,7 @@ import {
   pixelGrayBorderStyle,
   pixelVibrantBorderStyle,
 } from "features/game/lib/style";
+import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 
 const REQUIRED: BumpkinPart[] = [
   "background",
@@ -246,67 +247,99 @@ export const BumpkinEquip: React.FC<Props> = ({ equipment, onEquip, game }) => {
                     const buffLabel = boostLabel || specialItem;
                     const amountEquipped = wardrobe[name] ?? 0;
 
+                    const unavailable =
+                      !wardrobe[name] && !equippedItems.includes(name);
+
                     return (
-                      <OuterPanel
-                        key={name}
-                        className={classNames(
-                          "w-full relative hover:img-highlight !p-0 flex items-center justify-center",
-                          {
-                            "img-highlight": selectedBumpkinItem === name,
-                            "cursor-pointer":
-                              !equippedItems.includes(name) ||
-                              !REQUIRED.includes(BUMPKIN_ITEM_PART[name]),
-                          },
-                        )}
-                        onClick={() => {
-                          setSelectedBumpkinItem(name);
-                          // Already equipped
-                          if (equippedItems.includes(name)) {
-                            unequipPart(name);
-                          } else {
-                            equipPart(name);
-                          }
-                        }}
-                      >
-                        {equippedItems.includes(name) && (
-                          <img
-                            className="absolute h-4 -left-2 -top-2"
-                            src={SUNNYSIDE.icons.confirm}
-                          />
-                        )}
-                        {amountEquipped > 0 && (
-                          <div
-                            className="absolute -right-2 -bottom-2 bg-[#c0cbdc] text-[#181425] text-xs"
-                            style={pixelGrayBorderStyle}
+                      <Popover key={name}>
+                        <PopoverButton
+                          as="div"
+                          className="cursor-pointer"
+                          disabled={!unavailable}
+                        >
+                          <OuterPanel
+                            className={classNames(
+                              "w-full relative  !p-0 flex items-center justify-center",
+                              {
+                                "hover:img-highlight": !unavailable,
+                                "img-highlight":
+                                  selectedBumpkinItem === name && !unavailable,
+                                "cursor-pointer":
+                                  (!equippedItems.includes(name) ||
+                                    !REQUIRED.includes(
+                                      BUMPKIN_ITEM_PART[name],
+                                    )) &&
+                                  !unavailable,
+                                "opacity-50": unavailable,
+                              },
+                            )}
+                            onClick={() => {
+                              if (unavailable) {
+                                return;
+                              }
+                              setSelectedBumpkinItem(name);
+                              // Already equipped
+                              if (equippedItems.includes(name)) {
+                                unequipPart(name);
+                              } else {
+                                equipPart(name);
+                              }
+                            }}
                           >
-                            {amountEquipped}
-                          </div>
-                        )}
-                        {!!buffLabel && (
-                          <div
-                            className={classNames("absolute -right-2 -top-2", {
-                              "bg-[#b65389]": specialItem,
-                              "bg-[#1e6dd5]": boostLabel,
-                            })}
-                            style={
-                              specialItem
-                                ? pixelVibrantBorderStyle
-                                : pixelBlueBorderStyle
-                            }
-                          >
-                            <SquareIcon icon={lightning} width={4} />
-                          </div>
-                        )}
-                        <img
-                          src={
-                            new URL(
-                              `/src/assets/wearables/${ITEM_IDS[name]}.webp`,
-                              import.meta.url,
-                            ).href
-                          }
-                          className="h-10"
-                        />
-                      </OuterPanel>
+                            {equippedItems.includes(name) && (
+                              <img
+                                className="absolute h-4 -left-2 -top-2"
+                                src={SUNNYSIDE.icons.confirm}
+                              />
+                            )}
+                            {amountEquipped > 0 && (
+                              <div
+                                className="absolute -right-2 -bottom-2 bg-[#c0cbdc] text-[#181425] text-xs"
+                                style={pixelGrayBorderStyle}
+                              >
+                                {amountEquipped}
+                              </div>
+                            )}
+                            {!!buffLabel && (
+                              <div
+                                className={classNames(
+                                  "absolute -right-2 -top-2",
+                                  {
+                                    "bg-[#b65389]": specialItem,
+                                    "bg-[#1e6dd5]": boostLabel,
+                                  },
+                                )}
+                                style={
+                                  specialItem
+                                    ? pixelVibrantBorderStyle
+                                    : pixelBlueBorderStyle
+                                }
+                              >
+                                <SquareIcon icon={lightning} width={4} />
+                              </div>
+                            )}
+                            <img
+                              src={
+                                new URL(
+                                  `/src/assets/wearables/${ITEM_IDS[name]}.webp`,
+                                  import.meta.url,
+                                ).href
+                              }
+                              className="h-10"
+                            />
+                          </OuterPanel>
+                        </PopoverButton>
+                        <PopoverPanel
+                          anchor={{ to: "right end" }}
+                          className="flex pointer-events-none"
+                        >
+                          <InnerPanel>
+                            <p className="text-xxs">
+                              {t("marketplace.itemInUse")}
+                            </p>
+                          </InnerPanel>
+                        </PopoverPanel>
+                      </Popover>
                     );
                   })}
                 </div>
