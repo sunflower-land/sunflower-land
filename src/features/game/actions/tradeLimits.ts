@@ -54,7 +54,7 @@ export const TRADE_LIMITS: Partial<Record<TradeResource, number>> = {
   Barley: 500,
 
   // Fruits
-  Tomato: 500,
+  Tomato: 400,
   Lemon: 400,
   Blueberry: 300,
   Orange: 300,
