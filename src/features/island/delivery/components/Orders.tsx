@@ -352,6 +352,7 @@ export const DeliveryOrders: React.FC<Props> = ({
 
   const skip = () => {
     setShowSkipDialog(false);
+    onSelect(undefined);
     gameService.send("order.skipped", { id: previewOrder?.id });
     gameService.send("SAVE");
   };
