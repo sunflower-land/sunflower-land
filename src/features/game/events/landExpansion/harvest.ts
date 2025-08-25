@@ -52,6 +52,7 @@ import {
   setAOELastUsed,
 } from "features/game/lib/aoe";
 import { getAffectedWeather } from "./plant";
+import { isActiveNode } from "features/game/expansion/lib/utils";
 
 export type LandExpansionHarvestAction = {
   type: "crop.harvested";
@@ -425,8 +426,7 @@ export function getCropYieldAmount({
     isPlotCrop(crop) &&
     isMediumCrop(crop) &&
     plot &&
-    plot.x !== undefined &&
-    plot.y !== undefined
+    isActiveNode(plot)
   ) {
     const dimensions = COLLECTIBLES_DIMENSIONS["Scary Mike"];
     const coordinates = game.collectibles["Scary Mike"]![0].coordinates!;
@@ -469,8 +469,7 @@ export function getCropYieldAmount({
     isCollectibleOnFarm({ name: "Sir Goldensnout", game }) &&
     isPlotCrop(crop) &&
     plot &&
-    plot.x !== undefined &&
-    plot.y !== undefined
+    isActiveNode(plot)
   ) {
     const dimensions = COLLECTIBLES_DIMENSIONS["Sir Goldensnout"];
     const coordinates = game.collectibles["Sir Goldensnout"]![0].coordinates!;
@@ -513,8 +512,7 @@ export function getCropYieldAmount({
     isPlotCrop(crop) &&
     isAdvancedCrop(crop) &&
     plot &&
-    plot.x !== undefined &&
-    plot.y !== undefined
+    isActiveNode(plot)
   ) {
     const coordinates =
       game.collectibles["Laurie the Chuckle Crow"]![0].coordinates!;
@@ -571,8 +569,7 @@ export function getCropYieldAmount({
     isCollectibleOnFarm({ name: "Queen Cornelia", game }) &&
     crop === "Corn" &&
     plot &&
-    plot.x !== undefined &&
-    plot.y !== undefined
+    isActiveNode(plot)
   ) {
     const coordinates = game.collectibles["Queen Cornelia"]![0].coordinates!;
 
@@ -615,8 +612,7 @@ export function getCropYieldAmount({
     isPlotCrop(crop) &&
     (isMediumCrop(crop) || isAdvancedCrop(crop)) &&
     plot &&
-    plot.x !== undefined &&
-    plot.y !== undefined
+    isActiveNode(plot)
   ) {
     const gnomeCoordinates = game.collectibles["Gnome"]![0].coordinates!;
     const cobaltCoordinates = game.collectibles["Cobalt"]![0].coordinates!;

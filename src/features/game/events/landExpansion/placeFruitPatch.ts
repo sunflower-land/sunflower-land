@@ -2,6 +2,10 @@ import { FruitPatch, GameState } from "features/game/types/game";
 import { ResourceName } from "features/game/types/resources";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
+import {
+  getActiveNodes,
+  isActiveNode,
+} from "features/game/expansion/lib/utils";
 
 export type PlaceFruitPatchAction = {
   type: "fruitPatch.placed";
@@ -26,9 +30,7 @@ export function placeFruitPatch({
 }: Options): GameState {
   return produce(state, (game) => {
     const available = (game.inventory["Fruit Patch"] || new Decimal(0)).minus(
-      Object.values(game.fruitPatches).filter(
-        (patch) => patch.x !== undefined && patch.y !== undefined,
-      ).length,
+      getActiveNodes(game.fruitPatches).length,
     );
 
     if (available.lt(1)) {
@@ -37,7 +39,7 @@ export function placeFruitPatch({
 
     // Search for existing fruit patches that doesn't have x or y
     const existingFruitPatch = Object.entries(game.fruitPatches).find(
-      ([_, patch]) => patch.x === undefined && patch.y === undefined,
+      ([_, patch]) => isActiveNode(patch),
     );
 
     // If there is an existing fruit patch that doesn't have x or y, update it

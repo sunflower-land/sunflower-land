@@ -30,6 +30,7 @@ import {
   isCollectibleOnFarm,
   setAOELastUsed,
 } from "features/game/lib/aoe";
+import { isActiveNode } from "features/game/expansion/lib/utils";
 
 export type LandExpansionStoneMineAction = {
   type: "stoneRock.mined";
@@ -200,8 +201,7 @@ export function getStoneDropAmount({
   if (
     isCollectibleOnFarm({ name: "Emerald Turtle", game }) &&
     rock &&
-    rock.x !== undefined &&
-    rock.y !== undefined
+    isActiveNode(rock)
   ) {
     const coordinates = game.collectibles["Emerald Turtle"]![0].coordinates!;
     const emeraldTurtlePosition: Position = {
@@ -245,8 +245,7 @@ export function getStoneDropAmount({
   if (
     isCollectibleOnFarm({ name: "Tin Turtle", game }) &&
     rock &&
-    rock.x !== undefined &&
-    rock.y !== undefined
+    isActiveNode(rock)
   ) {
     const coordinates = game.collectibles["Tin Turtle"]![0].coordinates!;
     const tinTurtlePosition: Position = {

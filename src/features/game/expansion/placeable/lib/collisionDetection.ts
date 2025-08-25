@@ -31,7 +31,7 @@ import {
 } from "features/game/types/resources";
 import { PlaceableLocation } from "features/game/types/collectibles";
 import { AnimalType } from "features/game/types/animals";
-import { getObjectEntries } from "../../lib/utils";
+import { getActiveNodes, getObjectEntries } from "../../lib/utils";
 
 export type Position = {
   width: number;
@@ -194,14 +194,11 @@ function detectPlaceableCollision(
 
   const resourceBoundingBoxes = getObjectEntries(RESOURCE_TYPES).flatMap(
     ([name, items]) =>
-      Object.values(items)
-        .filter((item) => item.x !== undefined && item.y !== undefined)
-        .map((item) => ({
-          // Casting to non-null is safe because we filtered out items without x and y
-          x: item.x!,
-          y: item.y!,
-          ...RESOURCE_DIMENSIONS[name],
-        })),
+      getActiveNodes(items).map(([, item]) => ({
+        x: item.x,
+        y: item.y,
+        ...RESOURCE_DIMENSIONS[name],
+      })),
   );
 
   const budsBoundingBox = Object.values(buds ?? {})

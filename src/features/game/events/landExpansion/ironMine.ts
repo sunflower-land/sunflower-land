@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { canMine } from "features/game/expansion/lib/utils";
+import { canMine, isActiveNode } from "features/game/expansion/lib/utils";
 import { IRON_RECOVERY_TIME } from "../../lib/constants";
 import { trackActivity } from "../../types/bumpkinActivity";
 import {
@@ -173,8 +173,7 @@ export function getIronDropAmount({
   if (
     isCollectibleOnFarm({ name: "Emerald Turtle", game }) &&
     rock &&
-    rock.x !== undefined &&
-    rock.y !== undefined
+    isActiveNode(rock)
   ) {
     const coordinates = game.collectibles["Emerald Turtle"]![0].coordinates!;
     const emeraldTurtlePosition: Position = {

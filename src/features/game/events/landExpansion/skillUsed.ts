@@ -25,6 +25,7 @@ import { canDrillOilReserve } from "./drillOilReserve";
 import { isReadyToHarvest } from "./harvest";
 import { getCurrentCookingItem, recalculateQueue } from "./cancelQueuedRecipe";
 import { AOEItemName } from "features/game/expansion/placeable/lib/collisionDetection";
+import { getActiveNodes } from "features/game/expansion/lib/utils";
 
 export type SkillUseAction = {
   type: "skill.used";
@@ -47,8 +48,8 @@ function useInstantGrowth({
   createdAt?: number;
 }): Record<string, CropPlot> {
   // Set each plot's plantedAt to 1 (making it grow instantly)
-  getKeys(crops).forEach((plot) => {
-    const plantedCrop = crops[plot].crop;
+  getActiveNodes(crops).forEach(([_, plot]) => {
+    const plantedCrop = plot.crop;
     if (plantedCrop) {
       plantedCrop.plantedAt = 1;
     }
@@ -88,8 +89,8 @@ function useTreeBlitz({
 }: {
   trees: Record<string, Tree>;
 }): Record<string, Tree> {
-  getKeys(trees).forEach((tree) => {
-    const { wood } = trees[tree];
+  getActiveNodes(trees).forEach(([_, tree]) => {
+    const { wood } = tree;
     if (wood) {
       wood.choppedAt = 1;
     }
@@ -102,8 +103,8 @@ function useGreenhouseGuru({
 }: {
   greenhousePot: Record<string, GreenhousePot>;
 }): Record<string, GreenhousePot> {
-  getKeys(greenhousePot).forEach((pot) => {
-    const { plant } = greenhousePot[pot];
+  Object.values(greenhousePot).forEach((pot) => {
+    const { plant } = pot;
     if (plant) {
       plant.plantedAt = 1;
     }
@@ -131,8 +132,8 @@ function useGreaseLightning({
 }: {
   oilReserves: Record<string, OilReserve>;
 }): Record<string, OilReserve> {
-  getKeys(oilReserves).forEach((reserve) => {
-    const { oil } = oilReserves[reserve];
+  getActiveNodes(oilReserves).forEach(([_, reserve]) => {
+    const { oil } = reserve;
     if (oil) {
       oil.drilledAt = 1;
     }

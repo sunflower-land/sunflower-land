@@ -2,6 +2,10 @@ import { FiniteResource, GameState } from "features/game/types/game";
 import { ResourceName } from "features/game/types/resources";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
+import {
+  getActiveNodes,
+  isActiveNode,
+} from "features/game/expansion/lib/utils";
 
 export type PlaceSunstoneAction = {
   type: "sunstone.placed";
@@ -26,9 +30,7 @@ export function placeSunstone({
 }: Options): GameState {
   return produce(state, (game) => {
     const available = (game.inventory["Sunstone Rock"] || new Decimal(0)).minus(
-      Object.values(game.sunstones).filter(
-        (sunstone) => sunstone.x !== undefined && sunstone.y !== undefined,
-      ).length,
+      getActiveNodes(game.sunstones).length,
     );
 
     if (available.lt(1)) {
@@ -36,7 +38,7 @@ export function placeSunstone({
     }
 
     const existingSunstone = Object.entries(game.sunstones).find(
-      ([_, sunstone]) => sunstone.x === undefined && sunstone.y === undefined,
+      ([_, sunstone]) => isActiveNode(sunstone),
     );
 
     if (existingSunstone) {

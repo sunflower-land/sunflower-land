@@ -1,4 +1,8 @@
 import Decimal from "decimal.js-light";
+import {
+  getActiveNodes,
+  isActiveNode,
+} from "features/game/expansion/lib/utils";
 import { updateBeehives } from "features/game/lib/updateBeehives";
 import { FlowerBed, GameState } from "features/game/types/game";
 import { produce } from "immer";
@@ -25,9 +29,7 @@ export function placeFlowerBed({
 }: Options): GameState {
   return produce(state, (game) => {
     const available = (game.inventory["Flower Bed"] || new Decimal(0)).minus(
-      Object.values(game.flowers.flowerBeds).filter(
-        (flowerBed) => flowerBed.x !== undefined && flowerBed.y !== undefined,
-      ).length,
+      getActiveNodes(game.flowers.flowerBeds).length,
     );
 
     if (available.lt(1)) {
@@ -39,8 +41,7 @@ export function placeFlowerBed({
     }
 
     const existingFlowerBed = Object.entries(game.flowers.flowerBeds).find(
-      ([_, flowerBed]) =>
-        flowerBed.x === undefined && flowerBed.y === undefined,
+      ([_, flowerBed]) => isActiveNode(flowerBed),
     );
 
     if (existingFlowerBed) {

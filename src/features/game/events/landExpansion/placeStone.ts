@@ -6,6 +6,10 @@ import {
 } from "features/game/types/resources";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
+import {
+  getActiveNodes,
+  isActiveNode,
+} from "features/game/expansion/lib/utils";
 
 export type PlaceStoneAction = {
   type: "stone.placed";
@@ -36,20 +40,15 @@ export function placeStone({
 }: Options): GameState {
   return produce(state, (game) => {
     const available = (game.inventory[action.name] || new Decimal(0)).minus(
-      Object.values(game.stones).filter(
-        (stone) =>
-          stone.x !== undefined &&
-          stone.y !== undefined &&
-          (stone?.name ?? "Stone Rock") === action.name,
-      ).length,
+      getActiveNodes(game.stones).length,
     );
 
     if (available.lt(1)) {
       throw new Error("No stone available");
     }
 
-    const existingStone = Object.entries(game.stones).find(
-      ([_, stone]) => stone.x === undefined && stone.y === undefined,
+    const existingStone = Object.entries(game.stones).find(([_, stone]) =>
+      isActiveNode(stone),
     );
 
     if (existingStone) {
