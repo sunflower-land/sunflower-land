@@ -424,4 +424,80 @@ describe("Place building", () => {
       dateNow - 60000 + (RECIPES(GAME_STATE)["Doll"]?.time ?? 0),
     );
   });
+
+  it("does not adjust the new readyAt for second instance of building", () => {
+    const state = placeBuilding({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Hen House": new Decimal(2),
+        },
+        buildings: {
+          "Hen House": [
+            {
+              id: "123",
+              readyAt: 0,
+              createdAt: 0,
+              coordinates: { x: 0, y: 0 },
+            },
+            {
+              id: "456",
+              readyAt: 0,
+              createdAt: 0,
+              removedAt: dateNow - 2 * 24 * 60 * 60 * 1000,
+            },
+          ],
+        },
+        henHouse: {
+          level: 1,
+          animals: {
+            123: {
+              id: "123",
+              type: "Chicken",
+              state: "idle",
+              createdAt: dateNow - 180000,
+              experience: 1000,
+              asleepAt: dateNow - 180000,
+              awakeAt: dateNow - 180000 + 24 * 60 * 60 * 1000,
+              lovedAt: 0,
+              item: "Brush",
+            },
+            456: {
+              id: "456",
+              type: "Chicken",
+              state: "idle",
+              createdAt: dateNow - 180000,
+              experience: 1000,
+              asleepAt: dateNow - 180000,
+              awakeAt: dateNow - 180000 + 24 * 60 * 60 * 1000,
+              lovedAt: 0,
+              item: "Brush",
+            },
+            789: {
+              id: "789",
+              type: "Chicken",
+              state: "idle",
+              createdAt: dateNow - 180000,
+              experience: 1000,
+              asleepAt: dateNow - 180000,
+              awakeAt: dateNow - 180000 + 24 * 60 * 60 * 1000,
+              lovedAt: 0,
+              item: "Brush",
+            },
+          },
+        },
+      },
+      action: {
+        type: "building.placed",
+        name: "Hen House",
+        id: "456",
+        coordinates: { x: 0, y: 3 },
+      },
+      createdAt: dateNow,
+    });
+
+    expect(state.henHouse.animals["123"].asleepAt).toEqual(dateNow - 180000);
+    expect(state.henHouse.animals["456"].asleepAt).toEqual(dateNow - 180000);
+    expect(state.henHouse.animals["789"].asleepAt).toEqual(dateNow - 180000);
+  });
 });
