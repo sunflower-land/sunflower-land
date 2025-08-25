@@ -2,6 +2,10 @@ import { GameState, Tree } from "features/game/types/game";
 import { ResourceName } from "features/game/types/resources";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
+import {
+  getActiveNodes,
+  isActiveNode,
+} from "features/game/expansion/lib/utils";
 
 export type PlaceTreeAction = {
   type: "tree.placed";
@@ -26,17 +30,15 @@ export function placeTree({
 }: Options): GameState {
   return produce(state, (game) => {
     const available = (game.inventory.Tree || new Decimal(0)).minus(
-      Object.values(game.trees).filter(
-        (tree) => tree.x !== undefined && tree.y !== undefined,
-      ).length,
+      getActiveNodes(game.trees).length,
     );
 
     if (available.lt(1)) {
       throw new Error("No trees available");
     }
 
-    const existingTree = Object.entries(game.trees).find(
-      ([_, tree]) => tree.x === undefined && tree.y === undefined,
+    const existingTree = Object.entries(game.trees).find(([_, tree]) =>
+      isActiveNode(tree),
     );
 
     if (existingTree) {

@@ -23,6 +23,7 @@ import { isReadyToHarvest } from "features/game/events/landExpansion/harvest";
 import { Box } from "components/ui/Box";
 import { Decimal } from "decimal.js-light";
 import { CropPlot, GameState } from "features/game/types/game";
+import { getActiveNodes } from "features/game/expansion/lib/utils";
 
 export const ObsidianShrine: React.FC<CollectibleProps> = ({
   createdAt,
@@ -53,9 +54,9 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
   };
 
   const plots = state.crops;
-  const availablePlots = Object.entries(plots).filter(([_, plot]) => {
-    return plot.x !== undefined && plot.y !== undefined && !plot.crop;
-  });
+  const availablePlots = getActiveNodes(plots).filter(
+    ([_, plot]) => !plot.crop,
+  );
 
   const readyCrops = Object.entries(plots).reduce(
     (acc, [_, plot]) => {

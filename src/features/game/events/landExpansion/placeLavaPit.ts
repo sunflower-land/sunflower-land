@@ -3,6 +3,10 @@ import cloneDeep from "lodash.clonedeep";
 import Decimal from "decimal.js-light";
 import { GameState, LavaPit } from "features/game/types/game";
 import { Coordinates } from "features/game/expansion/components/MapPlacement";
+import {
+  getActiveNodes,
+  isActiveNode,
+} from "features/game/expansion/lib/utils";
 
 export type PlaceLavaPitAction = {
   type: "lavaPit.placed";
@@ -26,9 +30,7 @@ export function placeLavaPit({
   const game = cloneDeep(state) as GameState;
 
   const available = (game.inventory["Lava Pit"] || new Decimal(0)).minus(
-    Object.values(game.lavaPits).filter(
-      (lavaPit) => lavaPit.x !== undefined && lavaPit.y !== undefined,
-    ).length,
+    getActiveNodes(game.lavaPits).length,
   );
 
   if (available.lt(1)) {
@@ -39,8 +41,8 @@ export function placeLavaPit({
     throw new Error("ID exists");
   }
 
-  const existingLavaPit = Object.entries(game.lavaPits).find(
-    ([_, lavaPit]) => lavaPit.x === undefined && lavaPit.y === undefined,
+  const existingLavaPit = Object.entries(game.lavaPits).find(([_, lavaPit]) =>
+    isActiveNode(lavaPit),
   );
 
   if (existingLavaPit) {

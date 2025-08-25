@@ -1,6 +1,10 @@
 import { GameState, OilReserve } from "features/game/types/game";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
+import {
+  getActiveNodes,
+  isActiveNode,
+} from "features/game/expansion/lib/utils";
 
 export type PlaceOilReserveAction = {
   type: "oilReserve.placed";
@@ -24,10 +28,7 @@ export function placeOilReserve({
 }: Options): GameState {
   return produce(state, (game) => {
     const available = (game.inventory["Oil Reserve"] || new Decimal(0)).minus(
-      Object.values(game.oilReserves).filter(
-        (oilReserve) =>
-          oilReserve.x !== undefined && oilReserve.y !== undefined,
-      ).length,
+      getActiveNodes(game.oilReserves).length,
     );
 
     if (available.lt(1)) {
@@ -35,8 +36,7 @@ export function placeOilReserve({
     }
 
     const existingOilReserve = Object.entries(game.oilReserves).find(
-      ([_, oilReserve]) =>
-        oilReserve.x === undefined && oilReserve.y === undefined,
+      ([_, oilReserve]) => isActiveNode(oilReserve),
     );
 
     if (existingOilReserve) {

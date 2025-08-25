@@ -2,6 +2,10 @@ import { GameState, Rock } from "features/game/types/game";
 import { ResourceName } from "features/game/types/resources";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
+import {
+  getActiveNodes,
+  isActiveNode,
+} from "features/game/expansion/lib/utils";
 
 export type PlaceIronAction = {
   type: "iron.placed";
@@ -26,17 +30,15 @@ export function placeIron({
 }: Options): GameState {
   return produce(state, (game) => {
     const available = (game.inventory["Iron Rock"] || new Decimal(0)).minus(
-      Object.values(game.iron).filter(
-        (iron) => iron.x !== undefined && iron.y !== undefined,
-      ).length,
+      getActiveNodes(game.iron).length,
     );
 
     if (available.lt(1)) {
       throw new Error("No iron available");
     }
 
-    const existingIron = Object.entries(game.iron).find(
-      ([_, iron]) => iron.x === undefined && iron.y === undefined,
+    const existingIron = Object.entries(game.iron).find(([_, iron]) =>
+      isActiveNode(iron),
     );
 
     if (existingIron) {

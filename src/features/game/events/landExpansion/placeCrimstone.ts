@@ -2,6 +2,10 @@ import { FiniteResource, GameState } from "features/game/types/game";
 import { ResourceName } from "features/game/types/resources";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
+import {
+  getActiveNodes,
+  isActiveNode,
+} from "features/game/expansion/lib/utils";
 
 export type PlaceCrimstoneAction = {
   type: "crimstone.placed";
@@ -27,19 +31,14 @@ export function placeCrimstone({
   return produce(state, (game) => {
     const available = (
       game.inventory["Crimstone Rock"] || new Decimal(0)
-    ).minus(
-      Object.values(game.crimstones).filter(
-        (crimstone) => crimstone.x !== undefined && crimstone.y !== undefined,
-      ).length,
-    );
+    ).minus(getActiveNodes(game.crimstones).length);
 
     if (available.lt(1)) {
       throw new Error("No crimstones available");
     }
 
     const existingCrimstone = Object.entries(game.crimstones).find(
-      ([_, crimstone]) =>
-        crimstone.x === undefined && crimstone.y === undefined,
+      ([_, crimstone]) => isActiveNode(crimstone),
     );
 
     if (existingCrimstone) {

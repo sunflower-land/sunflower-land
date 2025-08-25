@@ -1,7 +1,10 @@
 import Decimal from "decimal.js-light";
 import { availableWardrobe } from "features/game/events/landExpansion/equip";
 import { isCollectible } from "features/game/events/landExpansion/garbageSold";
-import { getObjectEntries } from "features/game/expansion/lib/utils";
+import {
+  getActiveNodes,
+  getObjectEntries,
+} from "features/game/expansion/lib/utils";
 import {
   BuildingName,
   BUILDINGS_DIMENSIONS,
@@ -101,7 +104,7 @@ export const getChestItems = (state: GameState): Inventory => {
     if (itemName in RESOURCE_STATE_ACCESSORS) {
       const stateAccessor =
         RESOURCE_STATE_ACCESSORS[itemName as Exclude<ResourceName, "Boulder">];
-      const nodes = Object.values(stateAccessor(state) ?? {}).filter(
+      const nodes = getActiveNodes(stateAccessor(state) ?? {}).filter(
         (resource) => {
           if (
             itemName in BASIC_RESOURCES_UPGRADES_TO ||
@@ -123,12 +126,7 @@ export const getChestItems = (state: GameState): Inventory => {
       return {
         ...acc,
         [itemName]: new Decimal(
-          state.inventory[itemName]?.minus(
-            nodes.filter(
-              (resource) =>
-                resource.x !== undefined && resource.y !== undefined,
-            ).length,
-          ) ?? 0,
+          state.inventory[itemName]?.minus(nodes.length) ?? 0,
         ),
       };
     }

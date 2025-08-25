@@ -1,5 +1,5 @@
 import Decimal from "decimal.js-light";
-import { canMine } from "features/game/expansion/lib/utils";
+import { canMine, isActiveNode } from "features/game/expansion/lib/utils";
 import {
   Position,
   isWithinAOE,
@@ -180,8 +180,7 @@ export function getGoldDropAmount({
   if (
     isCollectibleOnFarm({ name: "Emerald Turtle", game }) &&
     rock &&
-    rock.x !== undefined &&
-    rock.y !== undefined
+    isActiveNode(rock)
   ) {
     const coordinates = game.collectibles["Emerald Turtle"]![0].coordinates!;
     const emeraldTurtlePosition: Position = {

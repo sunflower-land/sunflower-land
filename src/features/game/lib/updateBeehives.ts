@@ -12,6 +12,7 @@ import { FLOWERS, FLOWER_SEEDS } from "../types/flowers";
 import { isWearableActive } from "./wearables";
 import cloneDeep from "lodash.clonedeep";
 import { updateBoostUsed } from "../types/updateBoostUsed";
+import { isActiveNode } from "../expansion/lib/utils";
 
 /**
  * updateBeehives runs on any event that changes the state for bees or flowers
@@ -110,16 +111,14 @@ type FlowerDetail = {
 
 export const getActiveBeehives = (beehives: Beehives): Beehives => {
   return Object.fromEntries(
-    Object.entries(beehives).filter(
-      ([_, hive]) => hive.x !== undefined || hive.y !== undefined,
-    ),
+    Object.entries(beehives).filter(([_, hive]) => isActiveNode(hive)),
   );
 };
 
 const getActiveFlowerBeds = (flowerBeds: FlowerBeds): FlowerBeds => {
   return Object.fromEntries(
-    Object.entries(flowerBeds).filter(
-      ([, flowerBed]) => flowerBed.x !== undefined && flowerBed.y !== undefined,
+    Object.entries(flowerBeds).filter(([, flowerBed]) =>
+      isActiveNode(flowerBed),
     ),
   );
 };

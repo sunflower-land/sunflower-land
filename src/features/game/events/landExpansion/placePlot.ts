@@ -2,6 +2,10 @@ import { CropPlot, GameState } from "features/game/types/game";
 import { ResourceName } from "features/game/types/resources";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
+import {
+  getActiveNodes,
+  isActiveNode,
+} from "features/game/expansion/lib/utils";
 
 export type PlacePlotAction = {
   type: "plot.placed";
@@ -26,17 +30,15 @@ export function placePlot({
 }: Options): GameState {
   return produce(state, (game) => {
     const available = (game.inventory["Crop Plot"] || new Decimal(0)).minus(
-      Object.values(game.crops).filter(
-        (plot) => plot.x !== undefined && plot.y !== undefined,
-      ).length,
+      getActiveNodes(game.crops).length,
     );
 
     if (available.lt(1)) {
       throw new Error("No plots available");
     }
 
-    const existingPlot = Object.entries(game.crops).find(
-      ([_, plot]) => plot.x === undefined && plot.y === undefined,
+    const existingPlot = Object.entries(game.crops).find(([_, plot]) =>
+      isActiveNode(plot),
     );
 
     if (existingPlot) {

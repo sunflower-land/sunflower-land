@@ -54,7 +54,10 @@ import {
 } from "features/game/lib/aoe";
 import cloneDeep from "lodash.clonedeep";
 import { updateBoostUsed } from "features/game/types/updateBoostUsed";
-import { getObjectEntries } from "features/game/expansion/lib/utils";
+import {
+  getObjectEntries,
+  isActiveNode,
+} from "features/game/expansion/lib/utils";
 
 export type LandExpansionPlantAction = {
   type: "seed.planted";
@@ -145,7 +148,7 @@ export function isPlotFertile({
 
   const cropPosition =
     getObjectEntries(crops)
-      .filter(([, plot]) => plot.x !== undefined && plot.y !== undefined)
+      .filter(([, plot]) => isActiveNode(plot))
       .sort(([a], [b]) => (crops[a].createdAt > crops[b].createdAt ? 1 : -1))
       .findIndex(([plotId]) => plotId === plotIndex) + 1;
   return cropPosition <= cropsWellCanWater;
@@ -401,8 +404,7 @@ export const getCropPlotTime = ({
     isCollectibleOnFarm({ name: "Basic Scarecrow", game }) &&
     isBasicCrop(crop) &&
     plot &&
-    plot.x !== undefined &&
-    plot.y !== undefined
+    isActiveNode(plot)
   ) {
     const coordinates = game.collectibles["Basic Scarecrow"]![0].coordinates!;
     const scarecrowPosition: Position = {
