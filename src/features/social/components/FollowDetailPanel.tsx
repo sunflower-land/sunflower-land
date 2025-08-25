@@ -112,46 +112,49 @@ export const FollowDetailPanel: React.FC<Props> = ({
               <div className="text-xxs mb-1.5">{t("social.farming")}</div>
             )}
             <div className="flex items-center justify-between w-full">
-              {(helpedThemToday || helpedYouToday || hasCookingPot) && (
-                <div className="relative flex items-center gap-1 flex-wrap">
-                  <div
-                    onPointerOver={(e) => {
-                      if (e.pointerType === "mouse" && mounted) {
-                        setShowPopover(true);
-                      }
-                    }}
-                    onPointerOut={(e) => {
-                      if (e.pointerType === "mouse" && mounted) {
-                        setShowPopover(false);
-                      }
-                    }}
-                    onPointerDown={(e) => {
-                      e.preventDefault();
-                      e.stopPropagation();
-
-                      if (mounted) {
-                        setShowPopover(!showPopover);
-                        setTimeout(() => {
+              <div className="relative flex items-center gap-1 flex-wrap">
+                {(helpedThemToday || helpedYouToday || hasCookingPot) && (
+                  <>
+                    <div
+                      onPointerOver={(e) => {
+                        if (e.pointerType === "mouse" && mounted) {
+                          setShowPopover(true);
+                        }
+                      }}
+                      onPointerOut={(e) => {
+                        if (e.pointerType === "mouse" && mounted) {
                           setShowPopover(false);
-                        }, 1500);
-                      }
-                    }}
-                    onClickCapture={(e) => {
-                      // Stop the additional synthetic event from from firing
-                      e.preventDefault();
-                      e.stopPropagation();
-                    }}
-                    className="absolute inset-0 min-w-8 h-8 bg-transparent z-20"
-                  />
-                  {helpedThemToday && (
-                    <img src={helpIcon} className="w-5 h-5" />
-                  )}
-                  {helpedYouToday && (
-                    <img src={helpedIcon} className="w-5 h-5" />
-                  )}
-                  {hasCookingPot && <img src={potIcon} className="w-5 h-5" />}
-                </div>
-              )}
+                        }
+                      }}
+                      onPointerDown={(e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+
+                        if (mounted) {
+                          setShowPopover(!showPopover);
+                          setTimeout(() => {
+                            setShowPopover(false);
+                          }, 1500);
+                        }
+                      }}
+                      onClickCapture={(e) => {
+                        // Stop the additional synthetic event from from firing
+                        e.preventDefault();
+                        e.stopPropagation();
+                      }}
+                      className="absolute inset-0 min-w-8 h-8 bg-transparent z-20"
+                    />
+                    {helpedThemToday && (
+                      <img src={helpIcon} className="w-5 h-5" />
+                    )}
+                    {helpedYouToday && (
+                      <img src={helpedIcon} className="w-5 h-5" />
+                    )}
+                    {hasCookingPot && <img src={potIcon} className="w-5 h-5" />}
+                  </>
+                )}
+              </div>
+
               {helpStreak > 0 && (
                 <Label type="vibrant" icon={SUNNYSIDE.icons.heart}>
                   {t("friendStreak.short", {
