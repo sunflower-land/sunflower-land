@@ -6484,5 +6484,6 @@
   "withdraw.requires.storeOnChain": "Shop on Chain erforderlich",
   "playerModal.youHelpedThem": "Du hast ihnen heute geholfen.",
   "playerModal.theyHelpedYou": "Sie haben dir heute geholfen",
-  "playerModal.theyHaveACookingPot": "Sie haben einen Kochtopf"
+  "playerModal.theyHaveACookingPot": "Sie haben einen Kochtopf",
+  "pets.coming.soon": "Haustiere kommen bald - am 3. November."
 }

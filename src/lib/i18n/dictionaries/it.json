@@ -6484,5 +6484,6 @@
   "withdraw.requires.storeOnChain": "È richiesto il deposito su catena",
   "playerModal.youHelpedThem": "Li hai aiutati oggi",
   "playerModal.theyHelpedYou": "Ti hanno aiutato oggi",
-  "playerModal.theyHaveACookingPot": "Hanno una pentola"
+  "playerModal.theyHaveACookingPot": "Hanno una pentola",
+  "pets.coming.soon": "Gli animali domestici arriveranno presto, il 3 novembre."
 }

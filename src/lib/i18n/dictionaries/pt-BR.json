@@ -6484,5 +6484,6 @@
   "withdraw.requires.storeOnChain": "É necessário armazenar na cadeia",
   "playerModal.youHelpedThem": "Você os ajudou hoje",
   "playerModal.theyHelpedYou": "Eles te ajudaram hoje",
-  "playerModal.theyHaveACookingPot": "Eles têm uma panela"
+  "playerModal.theyHaveACookingPot": "Eles têm uma panela",
+  "pets.coming.soon": "Animais de estimação chegarão em breve - 3 de novembro."
 }
