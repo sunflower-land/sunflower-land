@@ -39,6 +39,7 @@ import { Rocketman } from "./npcs/Rocketman";
 import { MegaBountyBoard } from "./flowerShop/MegaBountyBoard";
 import { IncineratorModal } from "features/goblins/incinerator";
 import { Context } from "features/game/GameProvider";
+import { PetShop } from "features/pets/PetShop";
 
 class NpcModalManager {
   private listener?: (npc: NPCName, isOpen: boolean) => void;
@@ -89,20 +90,7 @@ export const NPCModals: React.FC<Props> = ({ id }) => {
   return (
     <>
       <Modal show={!!npc && !isSeparateModal} onHide={closeModal}>
-        {npc === "chase" && (
-          <SpeakingModal
-            onClose={closeModal}
-            bumpkinParts={NPC_WEARABLES["chase"]}
-            message={[
-              {
-                text: t("npcDialogues.chase.intro1"),
-              },
-              {
-                text: t("npcDialogues.chase.intro2"),
-              },
-            ]}
-          />
-        )}
+        {npc === "chase" && <PetShop onClose={closeModal} />}
         {npc === "flopsy" && (
           <CloseButtonPanel
             title="Enjoying Easter?"

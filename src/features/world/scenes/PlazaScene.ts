@@ -25,6 +25,13 @@ export type FactionNPC = {
 
 export const PLAZA_BUMPKINS: NPCBumpkin[] = [
   {
+    x: 165,
+    y: 143,
+    npc: "chase",
+    direction: "right",
+    hideLabel: true,
+  },
+  {
     x: 496,
     y: 403,
     npc: "rocket man",
@@ -181,6 +188,7 @@ export class PlazaScene extends BaseScene {
 
     this.load.image("chest", "world/rare_chest.png");
     this.load.image("weather_shop", "world/weather_shop.webp");
+    this.load.image("pet_shop", "world/pet_shop.webp");
 
     this.load.image("basic_chest", "world/basic_chest.png");
     this.load.image("luxury_chest", "world/luxury_chest.png");
@@ -261,6 +269,15 @@ export class PlazaScene extends BaseScene {
     weatherShop.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
       if (this.checkDistanceToSprite(weatherShop, 75)) {
         interactableModalManager.open("weather_shop");
+      } else {
+        this.currentPlayer?.speak(translate("base.iam.far.away"));
+      }
+    });
+
+    const petShop = this.add.sprite(164, 136, "pet_shop");
+    petShop.setInteractive({ cursor: "pointer" }).on("pointerdown", () => {
+      if (this.checkDistanceToSprite(petShop, 75)) {
+        interactableModalManager.open("pet_shop");
       } else {
         this.currentPlayer?.speak(translate("base.iam.far.away"));
       }
