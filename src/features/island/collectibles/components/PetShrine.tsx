@@ -110,7 +110,11 @@ export const PetShrine: React.FC<CollectibleProps> = ({
       <PopoverPanel anchor={{ to: "left start" }} className="flex">
         <SFTDetailPopoverInnerPanel>
           <SFTDetailPopoverLabel name={name} />
-          <Label type="info" className="mt-2 mb-2">
+          <Label
+            type="info"
+            icon={SUNNYSIDE.icons.stopwatch}
+            className="mt-2 mb-2"
+          >
             <span className="text-xs">
               {t("time.remaining", {
                 time: secondsToString((expiresAt - Date.now()) / 1000, {

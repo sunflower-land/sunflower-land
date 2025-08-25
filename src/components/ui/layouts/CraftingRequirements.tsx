@@ -263,9 +263,16 @@ export const CraftingRequirements: React.FC<Props> = ({
           ),
         )}
         {expiry && (
-          <Label type="formula" icon={SUNNYSIDE.icons.stopwatch}>
-            {secondsToString(expiry / 1000, { length: "short" })}
-          </Label>
+          <>
+            <Label type="info" icon={SUNNYSIDE.icons.stopwatch}>
+              {t("shrine.expiryLabel", {
+                time: secondsToString(expiry / 1000, { length: "short" }),
+              })}
+            </Label>
+            <Label type="danger" className="text-center">
+              {t("shrine.activated.uponPurchase")}
+            </Label>
+          </>
         )}
       </div>
     );
