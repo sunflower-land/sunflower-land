@@ -2,6 +2,7 @@ import { INITIAL_FARM } from "features/game/lib/constants";
 import { skillUse } from "./skillUsed";
 import { CROPS } from "features/game/types/crops";
 import { COOKABLES } from "features/game/types/consumables";
+import { FLOWER_SEEDS, FLOWERS } from "features/game/types/flowers";
 
 describe("skillUse", () => {
   const dateNow = Date.now();
@@ -552,11 +553,137 @@ describe("skillUse", () => {
         createdAt: dateNow,
       });
 
-      expect(state.flowers.flowerBeds["123"].flower?.plantedAt).toEqual(1);
-      expect(state.flowers.flowerBeds["456"].flower?.plantedAt).toEqual(1);
-      expect(state.flowers.flowerBeds["789"].flower?.plantedAt).toEqual(1);
+      const expectedTime =
+        dateNow -
+        FLOWER_SEEDS[FLOWERS["Yellow Carnation"].seed].plantSeconds * 1000;
+
+      expect(state.flowers.flowerBeds["123"].flower?.plantedAt).toEqual(
+        expectedTime,
+      );
+      expect(state.flowers.flowerBeds["456"].flower?.plantedAt).toEqual(
+        expectedTime,
+      );
+      expect(state.flowers.flowerBeds["789"].flower?.plantedAt).toEqual(
+        expectedTime,
+      );
+    });
+
+    it("updates the beehives after a flower is instagrown", () => {
+      const now = Date.now();
+      const state = skillUse({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...INITIAL_FARM.bumpkin,
+            skills: { "Petal Blessed": 1 },
+          },
+          flowers: {
+            flowerBeds: {
+              "123": {
+                x: 1,
+                createdAt: 1715650356584,
+                y: -10,
+                flower: {
+                  plantedAt: 1733412398960,
+                  name: "Yellow Carnation",
+                },
+              },
+              "456": {
+                x: 1,
+                createdAt: 1715650403667,
+                y: -9,
+                flower: {
+                  plantedAt: 1733412401734,
+                  name: "Yellow Carnation",
+                },
+              },
+              "789": {
+                x: 1,
+                createdAt: 1715649513672,
+                y: -11,
+                flower: {
+                  plantedAt: 1733412395200,
+                  name: "Yellow Carnation",
+                },
+              },
+            },
+            discovered: {},
+          },
+          beehives: {
+            "123": {
+              swarm: false,
+              honey: {
+                updatedAt: 0,
+                produced: 0,
+              },
+              flowers: [
+                {
+                  id: "123",
+                  attachedAt: now,
+                  attachedUntil: now + 1000 * 60 * 60 * 24,
+                },
+              ],
+              x: 0,
+              y: 0,
+            },
+            456: {
+              swarm: false,
+              honey: {
+                updatedAt: 0,
+                produced: 0,
+              },
+              flowers: [
+                {
+                  id: "456",
+                  attachedAt: now,
+                  attachedUntil: now + 1000 * 60 * 60 * 24,
+                },
+              ],
+              x: 0,
+              y: 0,
+            },
+            789: {
+              swarm: false,
+              honey: {
+                updatedAt: 0,
+                produced: 0,
+              },
+              flowers: [
+                {
+                  id: "789",
+                  attachedAt: now,
+                  attachedUntil: now + 1000 * 60 * 60 * 24,
+                },
+              ],
+              x: 0,
+              y: 0,
+            },
+          },
+        },
+        action: { type: "skill.used", skill: "Petal Blessed" },
+        createdAt: dateNow,
+      });
+
+      const expectedTime =
+        dateNow -
+        FLOWER_SEEDS[FLOWERS["Yellow Carnation"].seed].plantSeconds * 1000;
+
+      expect(state.flowers.flowerBeds["123"].flower?.plantedAt).toEqual(
+        expectedTime,
+      );
+      expect(state.flowers.flowerBeds["456"].flower?.plantedAt).toEqual(
+        expectedTime,
+      );
+      expect(state.flowers.flowerBeds["789"].flower?.plantedAt).toEqual(
+        expectedTime,
+      );
+
+      expect(state.beehives["123"].flowers).toEqual([]);
+      expect(state.beehives["456"].flowers).toEqual([]);
+      expect(state.beehives["789"].flowers).toEqual([]);
     });
   });
+
   describe("useGreaseLightning", () => {
     it("activates Grease Lightning", () => {
       const state = skillUse({

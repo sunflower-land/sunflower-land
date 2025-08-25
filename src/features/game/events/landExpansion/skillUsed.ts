@@ -25,6 +25,8 @@ import { canDrillOilReserve } from "./drillOilReserve";
 import { isReadyToHarvest } from "./harvest";
 import { getCurrentCookingItem, recalculateQueue } from "./cancelQueuedRecipe";
 import { AOEItemName } from "features/game/expansion/placeable/lib/collisionDetection";
+import { FLOWER_SEEDS, FLOWERS } from "features/game/types/flowers";
+import { updateBeehives } from "features/game/lib/updateBeehives";
 
 export type SkillUseAction = {
   type: "skill.used";
@@ -114,13 +116,17 @@ function useGreenhouseGuru({
 
 function usePetalBlessed({
   flowerBeds,
+  createdAt = Date.now(),
 }: {
   flowerBeds: FlowerBeds;
+  createdAt?: number;
 }): FlowerBeds {
   getKeys(flowerBeds).forEach((bed) => {
     const { flower } = flowerBeds[bed];
     if (flower) {
-      flower.plantedAt = 1;
+      const growTime =
+        FLOWER_SEEDS[FLOWERS[flower.name].seed].plantSeconds * 1000;
+      flower.plantedAt = createdAt - growTime;
     }
   });
   return flowerBeds;
@@ -467,7 +473,11 @@ export function skillUse({ state, action, createdAt = Date.now() }: Options) {
     if (skill === "Petal Blessed") {
       stateCopy.flowers.flowerBeds = usePetalBlessed({
         flowerBeds: flowers.flowerBeds,
+        createdAt,
       });
+
+      // Update the beehives
+      stateCopy.beehives = updateBeehives({ game: stateCopy, createdAt });
     }
 
     if (skill === "Grease Lightning") {
