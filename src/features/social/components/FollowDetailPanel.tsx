@@ -88,9 +88,9 @@ export const FollowDetailPanel: React.FC<Props> = ({
             )}
             <div className="flex items-center justify-between w-full">
               <div className="flex items-center gap-1 flex-wrap">
-                {helpedThemToday && <img src={helpIcon} className="w-4 h-4" />}
-                {helpedYouToday && <img src={helpedIcon} className="w-4 h-4" />}
-                {hasCookingPot && <img src={potIcon} className="w-4 h-4" />}
+                {helpedThemToday && <img src={helpIcon} className="w-5 h-5" />}
+                {helpedYouToday && <img src={helpedIcon} className="w-5 h-5" />}
+                {hasCookingPot && <img src={potIcon} className="w-5 h-5" />}
               </div>
               {helpStreak > 0 && (
                 <Label type="vibrant" icon={SUNNYSIDE.icons.heart}>

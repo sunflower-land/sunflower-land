@@ -433,12 +433,12 @@ export const PlayerDetails: React.FC<Props> = ({
               </div>
             </div>
           )}
-          <div className="flex w-full px-1 gap-1">
+          <div className="flex w-full items-center px-1 gap-1">
             {player.helpedThemToday && (
-              <img src={helpIcon} className="w-4 h-4" />
+              <img src={helpIcon} className="w-5 h-5" />
             )}
             {player.helpedYouToday && (
-              <img src={helpedIcon} className="w-4 h-4" />
+              <img src={helpedIcon} className="w-5 h-5" />
             )}
             {player.helpStreak > 0 && (
               <div className="flex justify-start w-full">

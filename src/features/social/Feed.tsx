@@ -522,7 +522,7 @@ const FeedContent: React.FC<FeedContentProps> = ({
                         {interaction.message}
                       </div>
                       {interaction.helpedThemToday && (
-                        <img src={helpIcon} className="w-4 h-4" />
+                        <img src={helpIcon} className="w-5 h-5" />
                       )}
                     </div>
                   </div>
