@@ -446,14 +446,6 @@ export const PlayerDetails: React.FC<Props> = ({
               </div>
             </div>
           )}
-<<<<<<< HEAD
-          <div className="flex w-full items-center px-1 gap-1">
-            {player.helpedThemToday && (
-              <img src={helpIcon} className="w-5 h-5" />
-            )}
-            {player.helpedYouToday && (
-              <img src={helpedIcon} className="w-5 h-5" />
-=======
           <div className="flex w-full justify-between px-1 gap-1 mb-1">
             {(player.helpedThemToday || player.helpedYouToday) && (
               <div
@@ -479,10 +471,10 @@ export const PlayerDetails: React.FC<Props> = ({
                 }}
               >
                 {player.helpedThemToday && (
-                  <img src={helpIcon} className="w-4 h-4" />
+                  <img src={helpIcon} className="w-5 h-5" />
                 )}
                 {player.helpedYouToday && (
-                  <img src={helpedIcon} className="w-4 h-4" />
+                  <img src={helpedIcon} className="w-5 h-5" />
                 )}
                 <HelpInfoPopover
                   className="absolute left-5 -top-10 z-20 w-max"
@@ -492,7 +484,6 @@ export const PlayerDetails: React.FC<Props> = ({
                   helpedYouToday={player.helpedYouToday}
                 />
               </div>
->>>>>>> 59492f5be ([FEAT] Add info panel for helped icons)
             )}
             {player.helpStreak > 0 && (
               <div className="flex">

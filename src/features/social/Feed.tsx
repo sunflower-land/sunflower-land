@@ -524,9 +524,6 @@ const FeedContent: React.FC<FeedContentProps> = ({
                         {interaction.message}
                       </div>
                       {interaction.helpedThemToday && (
-<<<<<<< HEAD
-                        <img src={helpIcon} className="w-5 h-5" />
-=======
                         <div
                           className="relative flex h-8 w-10 cursor-pointer items-center justify-center"
                           onPointerOver={(e) => {
@@ -553,7 +550,7 @@ const FeedContent: React.FC<FeedContentProps> = ({
                             e.stopPropagation();
                           }}
                         >
-                          <img src={helpIcon} className="w-4 h-4" />
+                          <img src={helpIcon} className="w-5 h-5" />
                           <HelpInfoPopover
                             className="absolute right-0 -top-6 z-20 w-max text-black"
                             showPopover={showPopover}
@@ -561,7 +558,6 @@ const FeedContent: React.FC<FeedContentProps> = ({
                             helpedThemToday={interaction.helpedThemToday}
                           />
                         </div>
->>>>>>> 59492f5be ([FEAT] Add info panel for helped icons)
                       )}
                     </div>
                   </div>
