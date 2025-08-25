@@ -6481,5 +6481,8 @@
   "description.tortoiseShrine.buff": "-25% 温室和作物机械生长时间",
   "description.mothShrine.buff": "-25% 花朵生长时间",
   "withdraw.boostedItem.timeLeft": "可在 [0@/美元] 中提款",
-  "withdraw.requires.storeOnChain": "需要连锁存储"
+  "withdraw.requires.storeOnChain": "需要连锁存储",
+  "playerModal.youHelpedThem": "你今天帮助了他们",
+  "playerModal.theyHelpedYou": "他们今天帮了你",
+  "playerModal.theyHaveACookingPot": "他们有煮锅"
 }

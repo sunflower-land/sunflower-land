@@ -6481,5 +6481,8 @@
   "description.tortoiseShrine.buff": "-25% Masa Pertumbuhan Mesin Rumah Hijau & Tanaman",
   "description.mothShrine.buff": "-25% Masa Pertumbuhan Bunga",
   "withdraw.boostedItem.timeLeft": "Boleh dikeluarkan dalam {{time}}",
-  "withdraw.requires.storeOnChain": "Simpan di Rantai Diperlukan"
+  "withdraw.requires.storeOnChain": "Simpan di Rantai Diperlukan",
+  "playerModal.youHelpedThem": "Anda membantu mereka hari ini",
+  "playerModal.theyHelpedYou": "Mereka membantu anda hari ini",
+  "playerModal.theyHaveACookingPot": "Mereka mempunyai periuk memasak"
 }

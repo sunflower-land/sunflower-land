@@ -6481,5 +6481,8 @@
   "description.tortoiseShrine.buff": "-25% Wachstumszeit für Gewächshäuser und Erntemaschinen",
   "description.mothShrine.buff": "-25% Wachstumszeit der Blüten",
   "withdraw.boostedItem.timeLeft": "Auszahlbar in {{time}}",
-  "withdraw.requires.storeOnChain": "Shop on Chain erforderlich"
+  "withdraw.requires.storeOnChain": "Shop on Chain erforderlich",
+  "playerModal.youHelpedThem": "Du hast ihnen heute geholfen.",
+  "playerModal.theyHelpedYou": "Sie haben dir heute geholfen",
+  "playerModal.theyHaveACookingPot": "Sie haben einen Kochtopf"
 }

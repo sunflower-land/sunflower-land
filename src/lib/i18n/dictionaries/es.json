@@ -6481,5 +6481,8 @@
   "description.tortoiseShrine.buff": "-25% de tiempo de crecimiento de máquinas de cultivo e invernaderos",
   "description.mothShrine.buff": "-25% de tiempo de crecimiento de las flores",
   "withdraw.boostedItem.timeLeft": "Se puede retirar en {{time}}",
-  "withdraw.requires.storeOnChain": "Se requiere almacenar en cadena"
+  "withdraw.requires.storeOnChain": "Se requiere almacenar en cadena",
+  "playerModal.youHelpedThem": "Los ayudaste hoy",
+  "playerModal.theyHelpedYou": "Te han ayudado hoy",
+  "playerModal.theyHaveACookingPot": "Tienen una olla"
 }

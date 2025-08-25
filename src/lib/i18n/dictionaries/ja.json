@@ -6481,5 +6481,8 @@
   "description.tortoiseShrine.buff": "-25% 温室および農作機械の成長時間",
   "description.mothShrine.buff": "-25% の花の成長時間",
   "withdraw.boostedItem.timeLeft": "{{time}} で出金可能",
-  "withdraw.requires.storeOnChain": "チェーンでの保管が必要です"
+  "withdraw.requires.storeOnChain": "チェーンでの保管が必要です",
+  "playerModal.youHelpedThem": "今日はあなたが彼らを助けました",
+  "playerModal.theyHelpedYou": "彼らは今日あなたを助けました",
+  "playerModal.theyHaveACookingPot": "調理用の鍋があります"
 }

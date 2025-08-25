@@ -6481,5 +6481,8 @@
   "description.tortoiseShrine.buff": "-25% 온실 및 농작물 기계 성장 시간",
   "description.mothShrine.buff": "꽃 성장 시간 -25%",
   "withdraw.boostedItem.timeLeft": "{{time}} 로 인출 가능",
-  "withdraw.requires.storeOnChain": "체인 내 저장 필요"
+  "withdraw.requires.storeOnChain": "체인 내 저장 필요",
+  "playerModal.youHelpedThem": "오늘 당신이 그들을 도왔어요",
+  "playerModal.theyHelpedYou": "그들은 오늘 당신을 도왔습니다",
+  "playerModal.theyHaveACookingPot": "요리 냄비가 있습니다."
 }

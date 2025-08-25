@@ -6481,5 +6481,8 @@
   "description.tortoiseShrine.buff": "-25% de tempo de crescimento de estufas e máquinas de cultivo",
   "description.mothShrine.buff": "-25% de tempo de crescimento da flor",
   "withdraw.boostedItem.timeLeft": "Pode ser retirado em {{time}}",
-  "withdraw.requires.storeOnChain": "É necessário armazenar na cadeia"
+  "withdraw.requires.storeOnChain": "É necessário armazenar na cadeia",
+  "playerModal.youHelpedThem": "Você os ajudou hoje",
+  "playerModal.theyHelpedYou": "Eles te ajudaram hoje",
+  "playerModal.theyHaveACookingPot": "Eles têm uma panela"
 }

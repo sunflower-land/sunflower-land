@@ -6481,5 +6481,8 @@
   "description.tortoiseShrine.buff": "Время роста теплиц и сельскохозяйственных машин: -25%",
   "description.mothShrine.buff": "Время роста цветов: -25%",
   "withdraw.boostedItem.timeLeft": "Вывод средств возможен через {{time}}",
-  "withdraw.requires.storeOnChain": "Требуется магазин в сети"
+  "withdraw.requires.storeOnChain": "Требуется магазин в сети",
+  "playerModal.youHelpedThem": "Вы помогли им сегодня",
+  "playerModal.theyHelpedYou": "Они помогли вам сегодня",
+  "playerModal.theyHaveACookingPot": "У них есть кастрюля."
 }

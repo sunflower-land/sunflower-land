@@ -6481,5 +6481,8 @@
   "description.tortoiseShrine.buff": "-25 % de temps de croissance des serres et des machines de culture",
   "description.mothShrine.buff": "-25 % de temps de croissance des fleurs",
   "withdraw.boostedItem.timeLeft": "Retrait possible en {{time}}",
-  "withdraw.requires.storeOnChain": "Store on Chain requis"
+  "withdraw.requires.storeOnChain": "Store on Chain requis",
+  "playerModal.youHelpedThem": "Tu les as aidés aujourd'hui",
+  "playerModal.theyHelpedYou": "Ils t'ont aidé aujourd'hui",
+  "playerModal.theyHaveACookingPot": "Ils ont une marmite"
 }
