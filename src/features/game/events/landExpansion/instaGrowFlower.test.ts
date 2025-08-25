@@ -136,6 +136,22 @@ describe("instaGrowFlower", () => {
           },
         },
       },
+      beehives: {
+        123: {
+          swarm: false,
+          honey: {
+            updatedAt: 0,
+            produced: 0,
+          },
+          flowers: [
+            {
+              id: flowerBedId,
+              attachedAt: 0,
+              attachedUntil: 0,
+            },
+          ],
+        },
+      },
     };
 
     const result = instaGrowFlower({
