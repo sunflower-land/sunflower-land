@@ -1004,7 +1004,6 @@ export type Delivery = {
     total: number;
     claimedAt?: number;
   };
-  doubleDelivery?: string;
 };
 
 export type DailyRewards = {
