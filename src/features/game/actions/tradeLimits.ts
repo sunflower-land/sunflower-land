@@ -144,8 +144,8 @@ export const TRADE_MINIMUMS: Partial<Record<TradeResource, number>> = {
   Egg: 10,
   Honey: 5,
   Milk: 1,
-  Leather: 20,
-  Feather: 1,
+  Leather: 1,
+  Feather: 20,
   Wool: 10,
   "Merino Wool": 5,
 
