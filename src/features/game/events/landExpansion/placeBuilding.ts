@@ -50,18 +50,23 @@ export function placeBuilding({
 
     const buildingInventory =
       stateCopy.inventory[action.name] || new Decimal(0);
-    const placed = stateCopy.buildings[action.name] || [];
+    const placedBuildings = stateCopy.buildings[action.name] || [];
     const hasUnplacedBuildings = buildingInventory
       .minus(1)
       .greaterThanOrEqualTo(
-        placed.filter((building) => building.coordinates).length,
+        placedBuildings.filter((building) => building.coordinates).length,
       );
 
     if (!hasUnplacedBuildings) {
       throw new Error(PLACE_BUILDING_ERRORS.NO_UNPLACED_BUILDINGS);
     }
 
-    const existingBuilding = placed.find((building) => !building.coordinates);
+    const existingBuilding = placedBuildings.find(
+      (building) => !building.coordinates,
+    );
+
+    const isSecondBuilding =
+      placedBuildings.filter((building) => building.coordinates).length >= 1;
 
     if (existingBuilding) {
       // Assign the coordinates to the building
@@ -115,7 +120,7 @@ export function placeBuilding({
       }
 
       // Greenhouse
-      if (action.name === "Greenhouse") {
+      if (action.name === "Greenhouse" && !isSecondBuilding) {
         const { greenhouse } = stateCopy;
         Object.values(greenhouse.pots).forEach((pot) => {
           if (pot.plant && existingBuilding.removedAt) {
@@ -127,7 +132,10 @@ export function placeBuilding({
       }
 
       // Henhouse & Barn
-      if (action.name === "Hen House" || action.name === "Barn") {
+      if (
+        (action.name === "Hen House" || action.name === "Barn") &&
+        !isSecondBuilding
+      ) {
         const buildingKey = action.name === "Hen House" ? "henHouse" : "barn";
         const { animals } = stateCopy[buildingKey];
 
@@ -145,7 +153,7 @@ export function placeBuilding({
         });
       }
 
-      if (action.name === "Crafting Box") {
+      if (action.name === "Crafting Box" && !isSecondBuilding) {
         const { craftingBox } = stateCopy;
         if (existingBuilding.removedAt && craftingBox.item) {
           const timeOffset = existingBuilding.removedAt - craftingBox.startedAt;
@@ -180,7 +188,7 @@ export function placeBuilding({
       ...stateCopy,
       buildings: {
         ...stateCopy.buildings,
-        [action.name]: [...placed, newBuilding],
+        [action.name]: [...placedBuildings, newBuilding],
       },
     };
   });
