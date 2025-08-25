@@ -29,8 +29,8 @@ export type TradeResource = Extract<
 
 export const TRADE_LIMITS: Partial<Record<TradeResource, number>> = {
   // Crops
-  Sunflower: 2000,
-  Potato: 2000,
+  Sunflower: 4000,
+  Potato: 3000,
   Rhubarb: 2000,
   Pumpkin: 2000,
   Zucchini: 2000,
@@ -54,10 +54,10 @@ export const TRADE_LIMITS: Partial<Record<TradeResource, number>> = {
   Barley: 500,
 
   // Fruits
-  Tomato: 300,
-  Lemon: 250,
-  Blueberry: 200,
-  Orange: 200,
+  Tomato: 500,
+  Lemon: 400,
+  Blueberry: 300,
+  Orange: 300,
   Apple: 200,
   Banana: 200,
   Celestine: 10,
@@ -83,7 +83,7 @@ export const TRADE_LIMITS: Partial<Record<TradeResource, number>> = {
   Milk: 100,
   Leather: 100,
   Wool: 1000,
-  "Merino Wool": 100,
+  "Merino Wool": 400,
   ...EMBLEM_TRADE_LIMITS,
 
   Ruffroot: 100,
@@ -121,12 +121,12 @@ export const TRADE_MINIMUMS: Partial<Record<TradeResource, number>> = {
   Artichoke: 10,
   Barley: 10,
 
-  Tomato: 5,
-  Blueberry: 5,
-  Orange: 5,
+  Tomato: 20,
+  Blueberry: 10,
+  Orange: 10,
   Apple: 5,
   Banana: 5,
-  Lemon: 5,
+  Lemon: 15,
   Celestine: 1,
   Lunara: 1,
   Duskberry: 1,
@@ -144,10 +144,10 @@ export const TRADE_MINIMUMS: Partial<Record<TradeResource, number>> = {
   Egg: 10,
   Honey: 5,
   Milk: 1,
-  Leather: 1,
+  Leather: 20,
   Feather: 1,
-  Wool: 1,
-  "Merino Wool": 1,
+  Wool: 10,
+  "Merino Wool": 5,
 
   Ruffroot: 1,
   "Chewed Bone": 1,
