@@ -121,14 +121,16 @@ function usePetalBlessed({
   flowerBeds: FlowerBeds;
   createdAt?: number;
 }): FlowerBeds {
-  getKeys(flowerBeds).forEach((bed) => {
-    const { flower } = flowerBeds[bed];
-    if (flower) {
-      const growTime =
-        FLOWER_SEEDS[FLOWERS[flower.name].seed].plantSeconds * 1000;
-      flower.plantedAt = createdAt - growTime;
-    }
-  });
+  Object.values(flowerBeds)
+    .filter((bed) => bed.x !== undefined && bed.y !== undefined)
+    .forEach((bed) => {
+      const { flower } = bed;
+      if (flower) {
+        const growTime =
+          FLOWER_SEEDS[FLOWERS[flower.name].seed].plantSeconds * 1000;
+        flower.plantedAt = createdAt - growTime;
+      }
+    });
   return flowerBeds;
 }
 

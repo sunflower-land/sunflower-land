@@ -188,9 +188,10 @@ const removeInactiveFlowers = ({
 
   Object.values(activeBeehives).forEach((hive) => {
     hive.flowers = hive.flowers.filter((flower) => {
+      console.log({ flowerId: flower.id });
       const flowerDetails = activeFlowerBeds[flower.id];
 
-      if (!flowerDetails.flower) return false;
+      if (!flowerDetails || !flowerDetails.flower) return false;
       const flowerName = flowerDetails.flower.name;
 
       const growTime =

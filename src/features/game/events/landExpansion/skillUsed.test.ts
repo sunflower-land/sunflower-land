@@ -682,6 +682,113 @@ describe("skillUse", () => {
       expect(state.beehives["456"].flowers).toEqual([]);
       expect(state.beehives["789"].flowers).toEqual([]);
     });
+
+    it("does not update the beehives if the flower beds are not active", () => {
+      const now = Date.now();
+      const state = skillUse({
+        state: {
+          ...INITIAL_FARM,
+          bumpkin: {
+            ...INITIAL_FARM.bumpkin,
+            skills: { "Petal Blessed": 1 },
+          },
+          flowers: {
+            flowerBeds: {
+              "123": {
+                x: 1,
+                createdAt: now,
+                y: -10,
+                flower: {
+                  plantedAt: now,
+                  name: "Yellow Carnation",
+                },
+              },
+              "456": {
+                x: 1,
+                createdAt: now,
+                y: -9,
+                flower: {
+                  plantedAt: now,
+                  name: "Yellow Carnation",
+                },
+              },
+              "789": {
+                createdAt: now,
+                flower: {
+                  plantedAt: now,
+                  name: "Yellow Carnation",
+                },
+              },
+            },
+            discovered: {},
+          },
+          beehives: {
+            "123": {
+              swarm: false,
+              honey: {
+                updatedAt: 0,
+                produced: 0,
+              },
+              flowers: [
+                {
+                  id: "123",
+                  attachedAt: now,
+                  attachedUntil: now + 1000 * 60 * 60 * 24,
+                },
+              ],
+              x: 0,
+              y: 0,
+            },
+            456: {
+              swarm: false,
+              honey: {
+                updatedAt: 0,
+                produced: 0,
+              },
+              flowers: [
+                {
+                  id: "456",
+                  attachedAt: now,
+                  attachedUntil: now + 1000 * 60 * 60 * 24,
+                },
+              ],
+              x: 0,
+              y: 0,
+            },
+            789: {
+              swarm: false,
+              honey: {
+                updatedAt: 0,
+                produced: 0,
+              },
+              flowers: [
+                {
+                  id: "789",
+                  attachedAt: now,
+                  attachedUntil: now + 1000 * 60 * 60 * 24,
+                },
+              ],
+              x: 0,
+              y: 0,
+            },
+          },
+        },
+        action: { type: "skill.used", skill: "Petal Blessed" },
+        createdAt: dateNow,
+      });
+
+      const expectedTime =
+        dateNow -
+        FLOWER_SEEDS[FLOWERS["Yellow Carnation"].seed].plantSeconds * 1000;
+
+      expect(state.flowers.flowerBeds["123"].flower?.plantedAt).toEqual(
+        expectedTime,
+      );
+      expect(state.flowers.flowerBeds["456"].flower?.plantedAt).toEqual(
+        expectedTime,
+      );
+      expect(state.flowers.flowerBeds["789"].flower?.plantedAt).toEqual(now);
+    });
   });
 
   describe("useGreaseLightning", () => {
