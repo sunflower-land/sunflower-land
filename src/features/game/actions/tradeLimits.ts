@@ -60,8 +60,8 @@ export const TRADE_LIMITS: Partial<Record<TradeResource, number>> = {
   Orange: 300,
   Apple: 200,
   Banana: 200,
-  Celestine: 10,
-  Lunara: 10,
+  Celestine: 20,
+  Lunara: 15,
   Duskberry: 10,
 
   // Greenhouse
@@ -127,8 +127,8 @@ export const TRADE_MINIMUMS: Partial<Record<TradeResource, number>> = {
   Apple: 5,
   Banana: 5,
   Lemon: 10,
-  Celestine: 1,
-  Lunara: 1,
+  Celestine: 3,
+  Lunara: 2,
   Duskberry: 1,
 
   Grape: 5,
