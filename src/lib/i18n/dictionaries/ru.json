@@ -6484,5 +6484,6 @@
   "withdraw.requires.storeOnChain": "Требуется магазин в сети",
   "playerModal.youHelpedThem": "Вы помогли им сегодня",
   "playerModal.theyHelpedYou": "Они помогли вам сегодня",
-  "playerModal.theyHaveACookingPot": "У них есть кастрюля."
+  "playerModal.theyHaveACookingPot": "У них есть кастрюля.",
+  "pets.coming.soon": "Скоро появятся домашние животные — 3 ноября."
 }

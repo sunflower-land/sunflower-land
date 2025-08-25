@@ -49,6 +49,7 @@ import { Blessings } from "features/loveIsland/blessings/Blessings";
 import { EventMegaStore } from "./eventmegastore/EventMegaStore";
 import { EventNoticeboard } from "./EventNoticeboard";
 import { PotionMaster } from "features/helios/components/potions/component/PotionHouseShopItems";
+import { PetShop } from "features/pets/PetShop";
 
 type InteractableName =
   | "guardian"
@@ -108,6 +109,7 @@ type InteractableName =
   | "christmas_reward"
   | "goblin_hammer"
   | "weather_shop"
+  | "pet_shop"
   | "wishingWell"
   | "goblin_market"
   | "pledge_bumpkin"
@@ -234,6 +236,9 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
       </Modal>
       <Modal show={interactable === "weather_shop"} onHide={closeModal}>
         <WeatherShop onClose={closeModal} />
+      </Modal>
+      <Modal show={interactable === "pet_shop"} onHide={closeModal}>
+        <PetShop onClose={closeModal} />
       </Modal>
       <Modal show={interactable === "desert_noticeboard"} onHide={closeModal}>
         <DesertNoticeboard onClose={closeModal} />

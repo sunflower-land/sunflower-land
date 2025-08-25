@@ -135,6 +135,35 @@ describe("Place Collectible", () => {
     });
   });
 
+  it("adds monument to village projects", () => {
+    const state = placeCollectible({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Teamwork Monument": new Decimal(1),
+        },
+        collectibles: {},
+        buildings: {},
+        trees: {},
+        stones: {},
+      },
+      action: {
+        id: "123",
+        type: "collectible.placed",
+        name: "Teamwork Monument",
+        coordinates: {
+          x: 0,
+          y: 0,
+        },
+        location: "farm",
+      },
+    });
+
+    expect(state.socialFarming.villageProjects["Teamwork Monument"]).toEqual({
+      cheers: 0,
+    });
+  });
+
   it("Cannot place a building", () => {
     expect(() =>
       placeCollectible({

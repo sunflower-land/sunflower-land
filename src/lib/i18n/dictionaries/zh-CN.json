@@ -6484,5 +6484,6 @@
   "withdraw.requires.storeOnChain": "需要先存储到区块链",
   "playerModal.youHelpedThem": "你今天帮助了他们",
   "playerModal.theyHelpedYou": "他们今天帮了你",
-  "playerModal.theyHaveACookingPot": "他们有烹饪锅"
+  "playerModal.theyHaveACookingPot": "他们有烹饪锅",
+  "pets.coming.soon": "宠物即将到来 - 11 月 3 日。"
 }
