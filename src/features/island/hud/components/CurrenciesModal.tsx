@@ -31,6 +31,7 @@ import walletIcon from "assets/icons/wallet.png";
 import exchangeIcon from "assets/icons/exchange.png";
 import sflIcon from "assets/icons/sfl.webp";
 import { DepositSFL } from "./deposit/DepositSFL";
+import { hasFeatureAccess } from "lib/flags";
 
 type TransactionPage =
   | "menu"
@@ -110,11 +111,15 @@ export const CurrenciesModal: React.FC<Props> = ({
       icon: flowerIcon,
       label: t("transaction.deposit.flower"),
     },
-    depositSFL: {
-      page: "depositSFL",
-      icon: sflIcon,
-      label: t("transaction.deposit.sfl"),
-    },
+    ...(hasFeatureAccess(gameService.getSnapshot().context.state, "DEPOSIT_SFL")
+      ? {
+          depositSFL: {
+            page: "depositSFL",
+            icon: sflIcon,
+            label: t("transaction.migrate.sfl"),
+          },
+        }
+      : {}),
     swap: {
       page: "swap",
       icon: exchangeIcon,

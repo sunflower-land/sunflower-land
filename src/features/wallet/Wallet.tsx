@@ -41,7 +41,7 @@ export type WalletAction =
   | "login"
   | "depositItems"
   | "depositFlower"
-  | "migrateSFL"
+  | "depositSFL"
   | "donate"
   | "dailyReward"
   | "withdrawItems"
@@ -105,7 +105,7 @@ const WALLET_ACTIONS: Record<WalletAction, WalletActionSettings> = {
       [CONFIG.NETWORK === "mainnet" ? base.id : baseSepolia.id]: true,
     },
   },
-  migrateSFL: {
+  depositSFL: {
     requiresLinkedWallet: true,
     requiresNFT: false,
     chains: {

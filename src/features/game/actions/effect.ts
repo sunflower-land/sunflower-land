@@ -16,6 +16,7 @@ type EffectName =
   | "faceRecognition.started"
   | "faceRecognition.completed"
   | "flower.depositStarted"
+  | "sfl.depositStarted"
   | "telegram.linked"
   | "telegram.joined"
   | "twitter.followed"
@@ -78,6 +79,7 @@ export type StateMachineStateName =
   | "startingFaceRecognition"
   | "completingFaceRecognition"
   | "depositingFlower"
+  | "depositingSFL"
   | "linkingTelegram"
   | "joiningTelegram"
   | "followingTwitter"
@@ -127,6 +129,7 @@ export const STATE_MACHINE_EFFECTS: Record<
   "faceRecognition.started": "startingFaceRecognition",
   "faceRecognition.completed": "completingFaceRecognition",
   "flower.depositStarted": "depositingFlower",
+  "sfl.depositStarted": "depositingSFL",
   "telegram.linked": "linkingTelegram",
   "telegram.joined": "joiningTelegram",
   "twitter.followed": "followingTwitter",
