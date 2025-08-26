@@ -786,8 +786,8 @@ function getCollectibleBuffLabels(
     "Queen Bee": [
       {
         shortDescription: translate("description.queen.bee.boost"),
-        labelType: "vibrant",
-        boostTypeIcon: lightning,
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
         boostedItemIcon: ITEM_DETAILS.Honey.image,
       },
     ],
@@ -1666,15 +1666,17 @@ function getCollectibleBuffLabels(
     "Fox Shrine": [
       {
         shortDescription: translate("description.foxShrine.buff"),
-        labelType: "success",
-        boostTypeIcon: powerup,
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS["Crafting Box"].image,
       },
     ],
     "Boar Shrine": [
       {
         shortDescription: translate("description.boarShrine.buff"),
-        labelType: "success",
-        boostTypeIcon: powerup,
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: chefHat,
       },
     ],
     "Hound Shrine": [
@@ -1687,36 +1689,37 @@ function getCollectibleBuffLabels(
     "Stag Shrine": [
       {
         shortDescription: translate("description.stagShrine.buff"),
-        labelType: "success",
-        boostTypeIcon: powerup,
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS.Oil.image,
       },
     ],
     "Sparrow Shrine": [
       {
         shortDescription: translate("description.sparrowShrine.buff"),
-        labelType: "success",
-        boostTypeIcon: powerup,
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       },
     ],
     "Toucan Shrine": [
       {
         shortDescription: translate("description.toucanShrine.buff"),
-        labelType: "success",
-        boostTypeIcon: powerup,
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       },
     ],
     "Collie Shrine": [
       {
         shortDescription: translate("description.collieShrine.buff"),
-        labelType: "success",
-        boostTypeIcon: powerup,
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       },
     ],
     "Badger Shrine": [
       {
         shortDescription: translate("description.badgerShrine.buff"),
-        labelType: "success",
-        boostTypeIcon: powerup,
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       },
     ],
     "Legendary Shrine": [
@@ -1729,36 +1732,38 @@ function getCollectibleBuffLabels(
     "Obsidian Shrine": [
       {
         shortDescription: translate("description.obsidianShrine.buff"),
-        labelType: "success",
+        labelType: "vibrant",
         boostTypeIcon: SUNNYSIDE.icons.lightning,
       },
     ],
     "Mole Shrine": [
       {
         shortDescription: translate("description.moleShrine.buff"),
-        labelType: "success",
-        boostTypeIcon: powerup,
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       },
     ],
     "Bear Shrine": [
       {
         shortDescription: translate("description.bearShrine.buff"),
-        labelType: "success",
-        boostTypeIcon: powerup,
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS.Honey.image,
       },
     ],
     "Tortoise Shrine": [
       {
         shortDescription: translate("description.tortoiseShrine.buff"),
-        labelType: "success",
-        boostTypeIcon: powerup,
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
       },
     ],
     "Moth Shrine": [
       {
         shortDescription: translate("description.mothShrine.buff"),
-        labelType: "success",
-        boostTypeIcon: powerup,
+        labelType: "info",
+        boostTypeIcon: SUNNYSIDE.icons.stopwatch,
+        boostedItemIcon: ITEM_DETAILS["Red Pansy"].image,
       },
     ],
   };
