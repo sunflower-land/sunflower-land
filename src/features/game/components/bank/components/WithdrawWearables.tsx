@@ -116,54 +116,62 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
     return wardrobeCount <= 0 && currentAmount > onChainAmount;
   };
 
+  // Precompute/cached values for sorting to avoid repeated expensive calls
+  const withdrawableItemCache = React.useMemo(() => {
+    const cache: {
+      [key in BumpkinItem]?: {
+        cooldownMs: number;
+        isOnCooldown: boolean;
+        hasMoreOffChain: boolean;
+        hasBuff: boolean;
+      };
+    } = {};
+
+    getKeys(wardrobe).forEach((itemName) => {
+      const { cooldownTimeLeft } = getRestrictionStatus(itemName);
+      const isOnCooldown = cooldownTimeLeft > 0;
+      const hasMoreOffChain = hasMoreOffChainItems(itemName);
+      const hasBuff = !!BUMPKIN_ITEM_BUFF_LABELS[itemName]?.length;
+
+      cache[itemName] = {
+        cooldownMs: cooldownTimeLeft,
+        isOnCooldown,
+        hasMoreOffChain,
+        hasBuff,
+      };
+    });
+
+    return cache;
+  }, [wardrobe, state]);
+
   const sortWithdrawableItems = (itemA: BumpkinItem, itemB: BumpkinItem) => {
-    const aCount = wardrobe[itemA] ?? 0;
-    const bCount = wardrobe[itemB] ?? 0;
+    const a = withdrawableItemCache[itemA];
+    const b = withdrawableItemCache[itemB];
 
-    const aCooldownMs = getRestrictionStatus(itemA).cooldownTimeLeft;
-    const bCooldownMs = getRestrictionStatus(itemB).cooldownTimeLeft;
-
-    const aIsOnCooldown = aCooldownMs > 0;
-    const bIsOnCooldown = bCooldownMs > 0;
-
-    const aHasMoreOffChain = hasMoreOffChainItems(itemA);
-    const bHasMoreOffChain = hasMoreOffChainItems(itemB);
-
-    const aHasBuff = !!BUMPKIN_ITEM_BUFF_LABELS[itemA]?.length;
-    const bHasBuff = !!BUMPKIN_ITEM_BUFF_LABELS[itemB]?.length;
+    // Handle undefined cases first
+    if (!a && !b) return 0;
+    if (!a) return 1;
+    if (!b) return -1;
 
     // 1. Items on cooldown come first, sorted by most cooldown time left
-    if (aIsOnCooldown && bIsOnCooldown) {
-      return bCooldownMs - aCooldownMs;
+    if (a.isOnCooldown && b.isOnCooldown) {
+      return b.cooldownMs - a.cooldownMs;
     }
-    if (aIsOnCooldown !== bIsOnCooldown) {
-      return aIsOnCooldown ? -1 : 1;
+    if (a.isOnCooldown !== b.isOnCooldown) {
+      return a.isOnCooldown ? -1 : 1;
     }
 
     // 2. Items that have more off-chain than on-chain copies
-    if (aHasMoreOffChain !== bHasMoreOffChain) {
-      return aHasMoreOffChain ? -1 : 1;
+    if (a.hasMoreOffChain !== b.hasMoreOffChain) {
+      return a.hasMoreOffChain ? -1 : 1;
     }
 
-    // 3. Among boosted items, sort by most count
-    if (aHasBuff && bHasBuff) {
-      if (aCount !== bCount) {
-        return bCount - aCount;
-      }
-    }
-    // 4. Among non-boosted items, sort by most count
-    if (!aHasBuff && !bHasBuff) {
-      if (aCount !== bCount) {
-        return bCount - aCount;
-      }
+    // 3. Boosted items come before non-boosted items
+    if (a.hasBuff !== b.hasBuff) {
+      return a.hasBuff ? -1 : 1;
     }
 
-    // 5. Boosted items come before non-boosted items
-    if (aHasBuff !== bHasBuff) {
-      return aHasBuff ? -1 : 1;
-    }
-
-    // 6. Otherwise, sort by item IDs
+    // 4. Otherwise, sort by item IDs
     return ITEM_IDS[itemA] - ITEM_IDS[itemB];
   };
 
@@ -173,6 +181,10 @@ export const WithdrawWearables: React.FC<Props> = ({ onWithdraw }) => {
       const canWithdraw = !!withdrawAt && withdrawAt <= new Date();
       return canWithdraw;
     })
+    .filter(
+      (itemName) =>
+        hasMoreOffChainItems(itemName) || (wardrobe[itemName] ?? 0) > 0,
+    )
     .sort((a, b) => sortWithdrawableItems(a, b));
 
   const selectedItems = getKeys(selected)
