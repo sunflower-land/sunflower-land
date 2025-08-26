@@ -4,8 +4,7 @@ import { BUMPKIN_GIFTS, BumpkinGift } from "features/game/types/gifts";
 import { getKeys } from "features/game/types/craftables";
 import Decimal from "decimal.js-light";
 import { produce } from "immer";
-import { RecipeItemName, RECIPES } from "features/game/lib/crafting";
-import { hasFeatureAccess } from "lib/flags";
+import { RecipeCollectibleName, RECIPES } from "features/game/lib/crafting";
 
 export type ClaimGiftAction = {
   type: "gift.claimed";
@@ -59,11 +58,7 @@ export function getBumpkinRecipes({
 }: {
   game: GameState;
   npc: NPCName;
-}): RecipeItemName[] {
-  if (!hasFeatureAccess(game, "CRAFTING")) {
-    return [];
-  }
-
+}): RecipeCollectibleName[] {
   const bumpkin = BUMPKIN_GIFTS[npc];
 
   if (!bumpkin) {
@@ -132,17 +127,15 @@ export function claimGift({ state, action, createdAt = Date.now() }: Options) {
     });
 
     // Provide missing recipes
-    if (hasFeatureAccess(game, "CRAFTING")) {
-      // Grab recipes where player has more points than the gift (in case recipe introduced later)
-      const missingRecipes = getBumpkinRecipes({ game, npc: action.bumpkin });
+    // Grab recipes where player has more points than the gift (in case recipe introduced later)
+    const missingRecipes = getBumpkinRecipes({ game, npc: action.bumpkin });
 
-      if (missingRecipes.length) {
-        missingRecipes.forEach((recipe) => {
-          if (recipe && RECIPES(game)[recipe]) {
-            game.craftingBox.recipes[recipe] = RECIPES(game)[recipe];
-          }
-        });
-      }
+    if (missingRecipes.length) {
+      missingRecipes.forEach((recipe) => {
+        if (recipe && RECIPES[recipe]) {
+          game.craftingBox.recipes[recipe] = RECIPES[recipe];
+        }
+      });
     }
 
     game.coins = game.coins + nextGift.coins;

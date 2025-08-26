@@ -48,6 +48,8 @@ import { ProgressBar } from "components/ui/ProgressBar";
 import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
 import { BumpkinParts } from "lib/utils/tokenUriBuilder";
 import { hasVipAccess } from "features/game/lib/vipAccess";
+import { HelpInfoPopover } from "./HelpInfoPopover";
+import { CopySvg } from "components/ui/CopyField";
 
 const ISLAND_ICONS: Record<IslandType, string> = {
   basic: basicIsland,
@@ -114,6 +116,7 @@ export const PlayerDetails: React.FC<Props> = ({
 
   const cheersAvailable = useSelector(gameService, _cheersAvailable);
   const [showCheerModal, setShowCheerModal] = useState(false);
+  const [showPopover, setShowPopover] = useState(false);
 
   useOnMachineTransition(
     gameService,
@@ -335,7 +338,17 @@ export const PlayerDetails: React.FC<Props> = ({
                 )}
               </div>
               <div className="flex items-center justify-between">
-                <span>{`#${player?.id}`}</span>
+                <div className="flex items-center gap-1.5">
+                  <span>{`#${player?.id}`}</span>
+                  <span
+                    className="cursor-pointer scale-[1.5]"
+                    onPointerDown={() => {
+                      navigator.clipboard.writeText(`${player?.id}`);
+                    }}
+                  >
+                    <CopySvg height={10} />
+                  </span>
+                </div>
                 <span>{t("playerModal.since", { date: startDate })}</span>
               </div>
             </div>
@@ -381,7 +394,7 @@ export const PlayerDetails: React.FC<Props> = ({
           </div>
         </InnerPanel>
 
-        <InnerPanel className="flex flex-col items-center w-full">
+        <InnerPanel className="relative flex flex-col items-center w-full">
           <div className="flex flex-col gap-1 px-1 w-full ml-1 pt-0">
             <div className="flex items-center justify-between">
               <FollowsIndicator
@@ -413,7 +426,7 @@ export const PlayerDetails: React.FC<Props> = ({
           </div>
           {!isSelf && (
             <div className="flex flex-col gap-1 p-1 mb-1 w-full">
-              <div className="text-xs">
+              <div className="text-xs cursor-pointer">
                 {player?.youHelpedThemCount === 1
                   ? t("playerModal.youHelpedThemCount.singular", {
                       count: player?.youHelpedThemCount,
@@ -422,7 +435,7 @@ export const PlayerDetails: React.FC<Props> = ({
                       count: player?.youHelpedThemCount,
                     })}
               </div>
-              <div className="text-xs">
+              <div className="text-xs cursor-pointer">
                 {player?.theyHelpedYouCount === 1
                   ? t("playerModal.theyHelpedYouCount.singular", {
                       count: player?.theyHelpedYouCount,
@@ -433,15 +446,47 @@ export const PlayerDetails: React.FC<Props> = ({
               </div>
             </div>
           )}
-          <div className="flex w-full px-1 gap-1">
-            {player.helpedThemToday && (
-              <img src={helpIcon} className="w-4 h-4" />
-            )}
-            {player.helpedYouToday && (
-              <img src={helpedIcon} className="w-4 h-4" />
+          <div className="flex w-full justify-between px-1 gap-1 mb-1">
+            {(player.helpedThemToday || player.helpedYouToday) && (
+              <div
+                className="flex items-center gap-1 relative cursor-pointer overflow-visible"
+                onPointerOver={(e) => {
+                  if (e.pointerType === "mouse") {
+                    setShowPopover(true);
+                  }
+                }}
+                onPointerOut={(e) => {
+                  if (e.pointerType === "mouse") {
+                    setShowPopover(false);
+                  }
+                }}
+                onPointerDown={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+
+                  setShowPopover(!showPopover);
+                  setTimeout(() => {
+                    setShowPopover(false);
+                  }, 1500);
+                }}
+              >
+                {player.helpedThemToday && (
+                  <img src={helpIcon} className="w-5 h-5" />
+                )}
+                {player.helpedYouToday && (
+                  <img src={helpedIcon} className="w-5 h-5" />
+                )}
+                <HelpInfoPopover
+                  className="absolute left-5 -top-10 z-20 w-max"
+                  showPopover={showPopover}
+                  onHide={() => setShowPopover(false)}
+                  helpedThemToday={player.helpedThemToday}
+                  helpedYouToday={player.helpedYouToday}
+                />
+              </div>
             )}
             {player.helpStreak > 0 && (
-              <div className="flex justify-start w-full">
+              <div className="flex">
                 <Label
                   type="vibrant"
                   className="ml-2"

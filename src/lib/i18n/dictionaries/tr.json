@@ -6481,5 +6481,9 @@
   "description.tortoiseShrine.buff": "-25% Sera ve Mahsul Makinesi Büyüme Süresi",
   "description.mothShrine.buff": "-25% Çiçek Büyüme Süresi",
   "withdraw.boostedItem.timeLeft": "{{time}} cinsinden çekilebilir",
-  "withdraw.requires.storeOnChain": "Zincirde Mağaza Gerekli"
+  "withdraw.requires.storeOnChain": "Zincirde Mağaza Gerekli",
+  "playerModal.youHelpedThem": "Bugün onlara yardım ettin",
+  "playerModal.theyHelpedYou": "Bugün sana yardım ettiler",
+  "playerModal.theyHaveACookingPot": "Pişirme tencereleri var",
+  "pets.coming.soon": "Evcil hayvanlar yakında geliyor - 3 Kasım."
 }

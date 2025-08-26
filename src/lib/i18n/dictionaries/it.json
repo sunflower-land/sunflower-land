@@ -6481,5 +6481,9 @@
   "description.tortoiseShrine.buff": "-25% Tempo di crescita in serra e macchine per colture",
   "description.mothShrine.buff": "-25% Tempo di crescita dei fiori",
   "withdraw.boostedItem.timeLeft": "Prelievabile in {{time}}",
-  "withdraw.requires.storeOnChain": "È richiesto il deposito su catena"
+  "withdraw.requires.storeOnChain": "È richiesto il deposito su catena",
+  "playerModal.youHelpedThem": "Li hai aiutati oggi",
+  "playerModal.theyHelpedYou": "Ti hanno aiutato oggi",
+  "playerModal.theyHaveACookingPot": "Hanno una pentola",
+  "pets.coming.soon": "Gli animali domestici arriveranno presto, il 3 novembre."
 }

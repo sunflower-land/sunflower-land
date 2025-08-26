@@ -6120,6 +6120,9 @@
   "playerModal.theyHelpedYouCount.singular": "They helped you {{count}} time",
   "playerModal.youHelpedThemCount.plural": "You helped them {{count}} times",
   "playerModal.theyHelpedYouCount.plural": "They helped you {{count}} times",
+  "playerModal.youHelpedThem": "You helped them today",
+  "playerModal.theyHelpedYou": "They helped you today",
+  "playerModal.theyHaveACookingPot": "They have a cooking pot",
   "playerModal.topFriend": "Top friend - {{username}}",
   "playerModal.projectsInProgress": "Projects in progress",
   "playerModal.noProjectsInProgress": "No projects in progress on this farm",
@@ -6481,5 +6484,6 @@
   "description.waddles": "A waddles",
   "description.ramsey": "A ramsey",
   "upgrade.success": "{{resource}} upgrade complete!",
-  "upgrade.success.description": "You can now mine {{resource}}!"
+  "upgrade.success.description": "You can now mine {{resource}}!",
+  "pets.coming.soon": "Pets are coming soon - November 3rd."
 }
