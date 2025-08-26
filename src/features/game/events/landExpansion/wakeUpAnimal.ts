@@ -6,7 +6,7 @@ import {
   makeAnimalBuildingKey,
 } from "features/game/lib/animals";
 import { DollName } from "features/game/lib/crafting";
-import Decimal from "decimal.js-light";
+import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
 
 // Fallback doll
 const DEFAULT_TOY: DollName = "Gilded Doll";
@@ -89,7 +89,7 @@ export function wakeAnimal({
 
     const toy = getAnimalToy({ animal });
 
-    const amount = copy.inventory[toy] ?? new Decimal(0);
+    const { count: amount } = getCountAndType(copy, toy);
 
     if (amount.lessThan(1)) {
       throw new Error("Player does not have a doll");

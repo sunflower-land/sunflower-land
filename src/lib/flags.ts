@@ -1,5 +1,4 @@
 import type { GameState } from "features/game/types/game";
-import { SEASONS } from "features/game/types/seasons";
 import { CONFIG } from "lib/config";
 
 export const adminFeatureFlag = ({ wardrobe, inventory }: GameState) =>
@@ -106,8 +105,6 @@ const FEATURE_FLAGS = {
     !!((game.wardrobe.Halo ?? 0) > 0) && !!game.inventory["Beta Pass"]?.gt(0),
 
   BLESSING: () => true,
-
-  CRAFTING: betaTimeBasedFeatureFlag(SEASONS["Better Together"].startDate),
 
   PETS: defaultFeatureFlag,
   FLOWER_INSTA_GROW: defaultFeatureFlag,
