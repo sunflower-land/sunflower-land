@@ -40,11 +40,6 @@ import { FeedProvider } from "features/social/FeedContext";
 const World = lazy(() =>
   import("features/world/World").then((m) => ({ default: m.World })),
 );
-const CommunityTools = lazy(() =>
-  import("features/world/ui/CommunityTools").then((m) => ({
-    default: m.CommunityTools,
-  })),
-);
 
 const selectState = (state: AuthMachineState) => ({
   isAuthorised: state.matches("connected"),
@@ -169,14 +164,7 @@ export const Navigation: React.FC = () => {
                                   path="/visit/*"
                                   element={<LandExpansion key="visit" />}
                                 />
-                                {CONFIG.NETWORK === "amoy" && (
-                                  <Route
-                                    path="/community-tools"
-                                    element={
-                                      <CommunityTools key="community-tools" />
-                                    }
-                                  />
-                                )}
+
                                 {CONFIG.NETWORK === "amoy" && (
                                   <Route
                                     path="/builder"
