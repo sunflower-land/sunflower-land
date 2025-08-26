@@ -26,7 +26,7 @@ import {
   RECIPE_CRAFTABLES,
   RecipeIngredient,
   DOLLS,
-  RECIPES_REVISED,
+  RECIPES,
 } from "features/game/lib/crafting";
 import {
   findMatchingRecipe,
@@ -45,7 +45,6 @@ import { ANIMAL_RESOURCES, COMMODITIES } from "features/game/types/resources";
 import { BEDS } from "features/game/types/beds";
 import { FLOWERS } from "features/game/types/flowers";
 import { SELLABLE_TREASURE } from "features/game/types/treasure";
-import { hasFeatureAccess } from "lib/flags";
 import { getInstantGems } from "features/game/events/landExpansion/speedUpRecipe";
 import fastForward from "assets/icons/fast_forward.png";
 import { ConfirmationModal } from "components/ui/ConfirmationModal";
@@ -148,8 +147,6 @@ const validCraftingResourcesSorted = (): InventoryItemName[] => {
   ];
 };
 
-const VALID_CRAFTING_WEARABLES: BumpkinItem[] = ["Basic Hair", "Farmer Pants"];
-
 const _state = (state: MachineState) => state.context.state;
 
 interface Props {
@@ -166,7 +163,6 @@ export const CraftTab: React.FC<Props> = ({
   const { t } = useTranslation();
 
   const state = useSelector(gameService, _state);
-  const hasNewCraftingAccess = hasFeatureAccess(state, "CRAFTING");
   const { inventory, wardrobe, craftingBox } = state;
   const {
     status: craftingStatus,
@@ -511,7 +507,6 @@ export const CraftTab: React.FC<Props> = ({
               wardrobe={wardrobe}
               gems={gems}
               onInstantCraft={handleInstantCraft}
-              hasNewCraftingAccess={hasNewCraftingAccess}
             />
           </div>
         </div>
@@ -535,17 +530,11 @@ export const CraftTab: React.FC<Props> = ({
       <div className="flex flex-col max-h-72 overflow-y-auto scrollable pr-1">
         <div className="flex flex-wrap">
           {validCraftingResourcesSorted()
-            .filter(
-              (itemName) =>
-                (itemName !== "Toadstool Seat" && itemName !== "Crimson Cap") ||
-                hasNewCraftingAccess,
-            )
             // If it is a doll, but they haven't discovered it yet, don't show it.
             .filter(
               (itemName) =>
-                !(itemName in RECIPES_REVISED) ||
-                (itemName in RECIPES_REVISED &&
-                  itemName in state.craftingBox.recipes),
+                !(itemName in RECIPES) ||
+                (itemName in RECIPES && itemName in state.craftingBox.recipes),
             )
             .map((itemName) => {
               const amount = remainingInventory[itemName] || new Decimal(0);
@@ -572,38 +561,6 @@ export const CraftTab: React.FC<Props> = ({
             })}
           <Box image={SUNNYSIDE.icons.expression_confused} />
         </div>
-        {!hasNewCraftingAccess && (
-          <>
-            <Label type="default" className="mb-1 ml-1 mt-1">
-              {t("wearables")}
-            </Label>
-            <div className="flex flex-wrap">
-              {VALID_CRAFTING_WEARABLES.map((itemName) => {
-                const amount = remainingWardrobe[itemName] || 0;
-                return (
-                  <div
-                    key={itemName}
-                    draggable={!isPending && amount > 0}
-                    onDragStart={(e) =>
-                      handleDragStart(e, { wearable: itemName })
-                    }
-                    className="flex"
-                  >
-                    <Box
-                      count={new Decimal(amount)}
-                      image={getImageUrl(ITEM_IDS[itemName])}
-                      isSelected={selectedIngredient?.wearable === itemName}
-                      onClick={() =>
-                        handleIngredientSelect({ wearable: itemName })
-                      }
-                      disabled={isPending || isCrafting}
-                    />
-                  </div>
-                );
-              })}
-            </div>
-          </>
-        )}
         <div className="flex items-center  mt-1 mx-1">
           <img src={SUNNYSIDE.icons.expression_confused} className="h-4 mr-1" />
           <p className="text-xs">{t("crafting.undiscovered")}</p>
@@ -843,7 +800,6 @@ const CraftButton: React.FC<{
   wardrobe: Wardrobe;
   gems: number;
   onInstantCraft: (gems: number) => void;
-  hasNewCraftingAccess: boolean;
 }> = ({
   isCrafting,
   isPending,
@@ -856,7 +812,6 @@ const CraftButton: React.FC<{
   wardrobe,
   gems,
   onInstantCraft,
-  hasNewCraftingAccess,
 }) => {
   const { t } = useTranslation();
   const [showConfirmation, setShowConfirmation] = useState(false);
@@ -887,18 +842,16 @@ const CraftButton: React.FC<{
     return (
       <div className="flex flex-col sm:flex-row items-center justify-center gap-1 mt-2">
         <Button disabled={true}>{t("crafting")}</Button>
-        {hasNewCraftingAccess && (
-          <Button
-            disabled={!inventory.Gem?.gte(gems) || isPending}
-            onClick={() => setShowConfirmation(true)}
-          >
-            <div className="flex items-center justify-center gap-1">
-              <img src={fastForward} className="h-5" />
-              <span className="text-sm flex items-center">{gems}</span>
-              <img src={ITEM_DETAILS["Gem"].image} className="h-5" />
-            </div>
-          </Button>
-        )}
+        <Button
+          disabled={!inventory.Gem?.gte(gems) || isPending}
+          onClick={() => setShowConfirmation(true)}
+        >
+          <div className="flex items-center justify-center gap-1">
+            <img src={fastForward} className="h-5" />
+            <span className="text-sm flex items-center">{gems}</span>
+            <img src={ITEM_DETAILS["Gem"].image} className="h-5" />
+          </div>
+        </Button>
         <ConfirmationModal
           show={showConfirmation}
           onHide={() => setShowConfirmation(false)}

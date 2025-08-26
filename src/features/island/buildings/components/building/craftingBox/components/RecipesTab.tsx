@@ -16,7 +16,6 @@ import { SquareIcon } from "components/ui/SquareIcon";
 import {
   Recipe,
   RecipeIngredient,
-  RecipeItemName,
   RECIPES,
   Recipes,
 } from "features/game/lib/crafting";
@@ -30,6 +29,7 @@ import { COLLECTIBLE_BUFF_LABELS } from "features/game/types/collectibleItemBuff
 import lightningIcon from "assets/icons/lightning.png";
 import { InventoryItemName } from "features/game/types/game";
 import { getChestItems } from "features/island/hud/components/inventory/utils/inventory";
+import { getObjectEntries } from "features/game/expansion/lib/utils";
 
 const _state = (state: MachineState) => state.context.state;
 
@@ -56,21 +56,27 @@ export const RecipesTab: React.FC<Props> = ({
 
   const filteredRecipes = useMemo(() => {
     if (!searchTerm.trim()) return recipes;
-    return Object.entries(recipes || {}).reduce((acc, [name, recipe]) => {
-      if (name.toLowerCase().includes(searchTerm.toLowerCase())) {
-        acc[name as RecipeItemName] = recipe;
-      }
-      return acc;
-    }, {} as Recipes);
+    return getObjectEntries(recipes || {}).reduce<Partial<Recipes>>(
+      (acc, [name, recipe]) => {
+        if (name.toLowerCase().includes(searchTerm.toLowerCase())) {
+          acc[name] = recipe;
+        }
+        return acc;
+      },
+      {},
+    );
   }, [recipes, searchTerm]);
 
   const sillhouetteRecipes = useMemo(() => {
-    return Object.entries(RECIPES(state)).reduce((acc, [name, recipe]) => {
-      if (!recipes[name as RecipeItemName]) {
-        acc[name as RecipeItemName] = recipe;
-      }
-      return acc;
-    }, {} as Recipes);
+    return getObjectEntries(RECIPES).reduce<Partial<Recipes>>(
+      (acc, [name, recipe]) => {
+        if (!recipes[name]) {
+          acc[name] = recipe;
+        }
+        return acc;
+      },
+      {},
+    );
   }, [recipes, searchTerm]);
 
   const remainingInventory = useMemo(() => {

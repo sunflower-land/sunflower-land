@@ -405,7 +405,7 @@ describe("Place building", () => {
             collectible: "Doll",
           },
           startedAt: dateNow - 180000,
-          readyAt: dateNow - 180000 + (RECIPES(GAME_STATE)["Doll"]?.time ?? 0),
+          readyAt: dateNow - 180000 + (RECIPES["Doll"]?.time ?? 0),
           status: "crafting",
           recipes: {},
         },
@@ -421,7 +421,7 @@ describe("Place building", () => {
 
     expect(state.craftingBox.startedAt).toEqual(dateNow - 60000);
     expect(state.craftingBox.readyAt).toEqual(
-      dateNow - 60000 + (RECIPES(GAME_STATE)["Doll"]?.time ?? 0),
+      dateNow - 60000 + (RECIPES["Doll"]?.time ?? 0),
     );
   });
 

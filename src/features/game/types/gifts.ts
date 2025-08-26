@@ -1,7 +1,7 @@
 import { NPCName } from "lib/npcs";
 import { BB_TO_GEM_RATIO, InventoryItemName, Wardrobe } from "./game";
 import { FlowerName } from "./flowers";
-import { RecipeItemName } from "../lib/crafting";
+import { RecipeCollectibleName } from "../lib/crafting";
 
 type GiftPoints = Partial<Record<FlowerName, number>>;
 
@@ -145,7 +145,7 @@ export type BumpkinGift = {
   items: Partial<Record<InventoryItemName, number>>;
   coins: number;
   wearables: Wardrobe;
-  recipe?: RecipeItemName;
+  recipe?: RecipeCollectibleName;
 };
 
 type BumpkinGifts = {
