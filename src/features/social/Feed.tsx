@@ -45,7 +45,12 @@ import socialPointsIcon from "assets/icons/social_score.webp";
 import { discoveryModalManager } from "./lib/discoveryModalManager";
 import { FeedFilters } from "./components/FeedFilters";
 import { getFilter, storeFilter } from "./lib/persistFilter";
+<<<<<<< HEAD
 import { HelpInfoPopover } from "./components/HelpInfoPopover";
+=======
+import { PlayerSearch } from "./components/PlayerSearch";
+import { Detail } from "./actions/getFollowNetworkDetails";
+>>>>>>> a7e656832 ([FEAT] Add search to follow list)
 
 type Props = {
   type: "world" | "local";
@@ -96,6 +101,7 @@ export const Feed: React.FC<Props> = ({
   const [showFollowing, setShowFollowing] = useState(false);
   const feedRef = useRef<HTMLDivElement>(null);
   const [selectedFilter, setSelectedFilter] = useState<FeedFilter>(getFilter());
+  const [searchResults, setSearchResults] = useState<Detail[]>([]);
 
   const username = useSelector(gameService, _username);
   const token = useSelector(authService, _token);
@@ -329,22 +335,29 @@ export const Feed: React.FC<Props> = ({
         )}
 
         {showFollowing && (
-          <div
-            ref={scrollContainerRef}
-            className="flex flex-col gap-2 -mt-2 h-full overflow-hidden overflow-y-auto scrollable"
-          >
-            <FollowList
-              loggedInFarmId={farmId}
-              token={token}
-              networkFarmId={farmId}
-              networkList={following}
-              networkCount={following.length}
-              showLabel={false}
-              networkType="following"
-              scrollContainerRef={scrollContainerRef}
-              navigateToPlayer={handleFollowingClick}
+          <>
+            <PlayerSearch
+              context="following"
+              onSearchResults={setSearchResults}
             />
-          </div>
+            <div
+              ref={scrollContainerRef}
+              className="flex flex-col gap-2 overflow-hidden overflow-y-auto scrollable"
+            >
+              <FollowList
+                loggedInFarmId={farmId}
+                token={token}
+                searchResults={searchResults}
+                networkFarmId={farmId}
+                networkList={following}
+                networkCount={following.length}
+                showLabel={false}
+                networkType="following"
+                scrollContainerRef={scrollContainerRef}
+                navigateToPlayer={handleFollowingClick}
+              />
+            </div>
+          </>
         )}
 
         {!showFollowing && (
