@@ -6487,5 +6487,12 @@
   "pets.coming.soon": "宠物即将到来 - 11 月 3 日。",
   "description.foxShrine.buff": "-25% 制作箱子时间",
   "shrine.expiryLabel": "持续 {{time}}",
-  "shrine.activated.uponPurchase": "购买时激活"
+  "shrine.activated.uponPurchase": "购买时激活",
+  "deposit.loadingBalance": "正在加载余额...",
+  "transaction.migrate.sfl": "迁移 SFL",
+  "transaction.migrate.sfl.description": "此迁移用于将 SFL 转换为 FLOWER。SFL 只能从关联的钱包中迁移。",
+  "transaction.migrate.sfl.limit": "可迁移的 SFL 限制每天更新。添加到限额中的金额每天增加 1000 SFL。",
+  "transaction.migrate.sfl.taxFree": "从 SFL 迁移的 FLOWER 提款时免税。",
+  "transaction.migrate.sfl.maxAmount": "最大金额：{{maxAmount}}（每日更新）",
+  "sfl.migrated": "SFL 已迁移"
 }

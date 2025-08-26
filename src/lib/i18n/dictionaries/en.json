@@ -6487,5 +6487,12 @@
   "description.ramsey": "A ramsey",
   "upgrade.success": "{{resource}} upgrade complete!",
   "upgrade.success.description": "You can now mine {{resource}}!",
-  "pets.coming.soon": "Pets are coming soon - November 3rd."
+  "pets.coming.soon": "Pets are coming soon - November 3rd.",
+  "deposit.loadingBalance": "Loading balance...",
+  "transaction.migrate.sfl": "Migrate SFL",
+  "transaction.migrate.sfl.description": "This migration is for converting SFL to FLOWER. SFL can only be migrated from the linked wallet.",
+  "transaction.migrate.sfl.limit": "The limit of SFL that can be migrated is update daily. The amount added to the limit increases by 1000 SFL each day.",
+  "transaction.migrate.sfl.taxFree": "FLOWER migrated from SFL is tax-free for withdrawal.",
+  "transaction.migrate.sfl.maxAmount": "Max Amount: {{maxAmount}} (Updates Daily)",
+  "sfl.migrated": "SFL Migrated"
 }

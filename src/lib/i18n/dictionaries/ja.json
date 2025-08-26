@@ -6487,5 +6487,12 @@
   "pets.coming.soon": "ペットはもうすぐ来ます-11月3日。",
   "description.foxShrine.buff": "-25% クラフトボックス時間",
   "shrine.expiryLabel": "{{time}} の間持続します",
-  "shrine.activated.uponPurchase": "購入時に有効化"
+  "shrine.activated.uponPurchase": "購入時に有効化",
+  "deposit.loadingBalance": "残高を読み込んでいます...",
+  "transaction.migrate.sfl": "SFL をマイグレーション",
+  "transaction.migrate.sfl.description": "このマイグレーションは SFL を FLOWER に変換するためのものです。SFLはリンクされたウォレットからのみ移行できます。",
+  "transaction.migrate.sfl.limit": "移行できるSFLの上限は毎日更新されます。制限に加算される金額は、毎日 1000 SFL ずつ増加します。",
+  "transaction.migrate.sfl.taxFree": "SFLから移行したFLOWERは出金時も非課税です。",
+  "transaction.migrate.sfl.maxAmount": "最大金額:{{maxAmount}} (毎日更新)",
+  "sfl.migrated": "SFL が移行されました"
 }

@@ -6487,5 +6487,12 @@
   "pets.coming.soon": "Animais de estimação chegarão em breve - 3 de novembro.",
   "description.foxShrine.buff": "-25% de tempo de fabricação da caixa",
   "shrine.expiryLabel": "Dura por {{time}}",
-  "shrine.activated.uponPurchase": "Ativado na compra"
+  "shrine.activated.uponPurchase": "Ativado na compra",
+  "deposit.loadingBalance": "Carregando saldo...",
+  "transaction.migrate.sfl": "Migrar SFL",
+  "transaction.migrate.sfl.description": "Essa migração é para converter SFL em FLOWER. O SFL só pode ser migrado da carteira vinculada.",
+  "transaction.migrate.sfl.limit": "O limite de SFL que pode ser migrado é atualizado diariamente. O valor adicionado ao limite aumenta em 1000 SFL por dia.",
+  "transaction.migrate.sfl.taxFree": "FLOWER migrado da SFL é isento de impostos para saque.",
+  "transaction.migrate.sfl.maxAmount": "Valor máximo: {{maxAmount}} (atualizações diárias)",
+  "sfl.migrated": "SFL migrado"
 }

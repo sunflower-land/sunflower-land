@@ -6487,5 +6487,12 @@
   "pets.coming.soon": "Скоро появятся домашние животные — 3 ноября.",
   "description.foxShrine.buff": "-25% времени на изготовление коробки",
   "shrine.expiryLabel": "Длится {{time}}",
-  "shrine.activated.uponPurchase": "Активируется при покупке"
+  "shrine.activated.uponPurchase": "Активируется при покупке",
+  "deposit.loadingBalance": "Баланс нагрузки...",
+  "transaction.migrate.sfl": "Перенос SFL",
+  "transaction.migrate.sfl.description": "Эта миграция предназначена для преобразования SFL в FLOWER. SFL можно перенести только из привязанного кошелька.",
+  "transaction.migrate.sfl.limit": "Лимит SFL, который можно перенести, обновляется ежедневно. Сумма, добавляемая к лимиту, увеличивается на 1000 SFL каждый день.",
+  "transaction.migrate.sfl.taxFree": "Вывод средств FLOWER, переведенный из SFL, не облагается налогом.",
+  "transaction.migrate.sfl.maxAmount": "Максимальная сумма: {{maxAmount}} (обновляется ежедневно)",
+  "sfl.migrated": "SFL мигрировал"
 }

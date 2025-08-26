@@ -6487,5 +6487,12 @@
   "pets.coming.soon": "11월 3일에 반려동물이 곧 출시됩니다.",
   "description.foxShrine.buff": "제작 상자 사용 시간 -25%",
   "shrine.expiryLabel": "{{time}} 동안 지속됩니다.",
-  "shrine.activated.uponPurchase": "구매 시 활성화됨"
+  "shrine.activated.uponPurchase": "구매 시 활성화됨",
+  "deposit.loadingBalance": "밸런스 로드 중...",
+  "transaction.migrate.sfl": "SFL 마이그레이션",
+  "transaction.migrate.sfl.description": "이 마이그레이션은 SFL을 FLOWER로 변환하기 위한 것입니다.SFL은 연결된 지갑에서만 마이그레이션할 수 있습니다.",
+  "transaction.migrate.sfl.limit": "마이그레이션할 수 있는 SFL 제한은 매일 업데이트됩니다.한도에 추가되는 금액은 매일 1000 SFL씩 증가합니다.",
+  "transaction.migrate.sfl.taxFree": "SFL에서 마이그레이션한 FLOWER는 인출 시 세금이 면제됩니다.",
+  "transaction.migrate.sfl.maxAmount": "최대 금액: {{maxAmount}} (매일 업데이트)",
+  "sfl.migrated": "SFL 마이그레이션"
 }

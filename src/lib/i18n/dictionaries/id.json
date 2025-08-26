@@ -6487,5 +6487,12 @@
   "pets.coming.soon": "Hewan peliharaan akan segera hadir - 3 November.",
   "description.foxShrine.buff": "-25% Waktu Kotak Kerajinan",
   "shrine.expiryLabel": "Berlangsung selama {{time}}",
-  "shrine.activated.uponPurchase": "Diaktifkan saat pembelian"
+  "shrine.activated.uponPurchase": "Diaktifkan saat pembelian",
+  "deposit.loadingBalance": "Memuat saldo...",
+  "transaction.migrate.sfl": "Migrasikan SFL",
+  "transaction.migrate.sfl.description": "Migrasi ini untuk mengonversi SFL ke FLOWER. SFL hanya dapat dimigrasikan dari dompet yang ditautkan.",
+  "transaction.migrate.sfl.limit": "Batas SFL yang dapat dimigrasikan diperbarui setiap hari. Jumlah yang ditambahkan ke batas meningkat sebesar 1000 SFL setiap hari.",
+  "transaction.migrate.sfl.taxFree": "FLOWER yang dimigrasi dari SFL bebas pajak untuk penarikan.",
+  "transaction.migrate.sfl.maxAmount": "Jumlah Maks: {{maxAmount}} (Pembaruan Setiap Hari)",
+  "sfl.migrated": "SFL Bermigrasi"
 }

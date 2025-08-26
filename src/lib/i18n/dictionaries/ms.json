@@ -6487,5 +6487,12 @@
   "pets.coming.soon": "Haiwan peliharaan akan datang tidak lama lagi - 3 November.",
   "description.foxShrine.buff": "-25% Masa Kotak Kerajinan",
   "shrine.expiryLabel": "Bertahan untuk {{time}}",
-  "shrine.activated.uponPurchase": "Diaktifkan semasa pembelian"
+  "shrine.activated.uponPurchase": "Diaktifkan semasa pembelian",
+  "deposit.loadingBalance": "Memuatkan baki...",
+  "transaction.migrate.sfl": "Migrasi SFL",
+  "transaction.migrate.sfl.description": "Penghijrahan ini adalah untuk menukar SFL kepada FLOWER. SFL hanya boleh dipindahkan dari dompet yang dipautkan.",
+  "transaction.migrate.sfl.limit": "Had SFL yang boleh dipindahkan adalah dikemas kini setiap hari. Jumlah yang ditambah kepada had meningkat sebanyak 1000 SFL setiap hari.",
+  "transaction.migrate.sfl.taxFree": "FLOWER yang berhijrah dari SFL adalah bebas cukai untuk pengeluaran.",
+  "transaction.migrate.sfl.maxAmount": "Jumlah Maksimum: {{maxAmount}} (Kemas kini Harian)",
+  "sfl.migrated": "SFL Berhijrah"
 }
