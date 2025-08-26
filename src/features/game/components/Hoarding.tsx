@@ -81,7 +81,7 @@ export const Hoarding: React.FC = () => {
         <p className="text-xs sm:text-sm mb-1">{t("warning.hoarding.two")}</p>
         <div className="text-xs underline my-2 w-full">
           <a
-            href="https://docs.sunflower-land.com/fundamentals/syncing-on-chain"
+            href="https://docs.sunflower-land.com/getting-started/crypto-and-digital-collectibles"
             target="_blank"
             rel="noopener noreferrer"
           >

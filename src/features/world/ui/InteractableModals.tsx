@@ -5,7 +5,6 @@ import { SpeakingModal } from "features/game/components/SpeakingModal";
 import { NPC_WEARABLES } from "lib/npcs";
 import { AuctionHouseModal } from "./AuctionHouseModal";
 import { BoatModal } from "./BoatModal";
-import { PlazaBanner } from "./PlazaBanner";
 import { OuterPanel, Panel } from "components/ui/Panel";
 import { NyeButton } from "./NyeButton";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -104,7 +103,6 @@ type InteractableName =
   | "beach_orange_book"
   | "beach_blue_book"
   | "walrus"
-  | "banner"
   | "crop_boom_finish"
   | "christmas_reward"
   | "goblin_hammer"
@@ -289,12 +287,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
           ]}
         />
       </Modal>
-      {interactable === "banner" && (
-        <PlazaBanner
-          isOpen={interactable === "banner"}
-          closeModal={closeModal}
-        />
-      )}
+
       <Modal show={interactable === "bud"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
@@ -691,7 +684,7 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
                   text: t("read.more"),
                   cb: () => {
                     window.open(
-                      "https://docs.sunflower-land.com/player-guides/bud-nfts",
+                      "https://docs.sunflower-land.com/getting-started/crypto-and-digital-collectibles",
                       "_blank",
                     );
                   },

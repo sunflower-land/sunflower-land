@@ -123,7 +123,7 @@ export const Rewards: React.FC<Props> = ({ show, onHide, tab }) => {
             </p>
             <a
               href={
-                "https://docs.sunflower-land.com/getting-started/usdflower-erc20/love-rush-earn-flower"
+                "https://docs.sunflower-land.com/getting-started/usdflower-erc20"
               }
               target="_blank"
               rel="noopener noreferrer"

@@ -49,7 +49,7 @@ export const AuctioneerContent: React.FC<Props> = ({
           <p className="text-sm mb-2">{t("statements.auctioneer.one")}</p>
           <p className="text-sm mb-2">{t("statements.auctioneer.two")}</p>
           <a
-            href="https://docs.sunflower-land.com/player-guides/auctions"
+            href="https://docs.sunflower-land.com/getting-started/crypto-and-digital-collectibles"
             className="mx-auto text-xxs underline  pb-2 pt-2"
             target="_blank"
             rel="noreferrer"

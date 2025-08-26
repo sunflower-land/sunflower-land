@@ -15,7 +15,7 @@ export const AuctionsComingSoon: React.FC = () => {
         {secondsToString(secondsLeftInSeason(), { length: "full" })}
       </Label>
       <a
-        href="https://docs.sunflower-land.com/player-guides/auctions"
+        href="https://docs.sunflower-land.com/getting-started/crypto-and-digital-collectibles"
         target="_blank"
         rel="noopener noreferrer"
         className="text-xs underline"
