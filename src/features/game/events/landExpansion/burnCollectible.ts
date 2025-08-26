@@ -1,5 +1,5 @@
 import { GameState } from "../../types/game";
-import { CollectibleName } from "features/game/types/craftables";
+import { CollectibleName, getKeys } from "features/game/types/craftables";
 import { PlaceableLocation } from "features/game/types/collectibles";
 import { HourglassType } from "features/island/collectibles/components/Hourglass";
 import Decimal from "decimal.js-light";
@@ -28,6 +28,13 @@ export const HOURGLASSES: HourglassType[] = [
   "Fisher's Hourglass",
   "Ore Hourglass",
 ];
+export const LIMITED_ITEMS: CollectibleName[] = [
+  ...HOURGLASSES,
+  "Time Warp Totem",
+  "Super Totem",
+  ...getKeys(PET_SHRINES),
+  "Obsidian Shrine",
+];
 
 export function burnCollectible({
   state,
@@ -35,13 +42,7 @@ export function burnCollectible({
   createdAt = Date.now(),
 }: Options): GameState {
   return produce(state, (stateCopy) => {
-    if (
-      action.name !== "Time Warp Totem" &&
-      action.name !== "Super Totem" &&
-      action.name !== "Obsidian Shrine" &&
-      action.name in PET_SHRINES &&
-      !HOURGLASSES.includes(action.name as HourglassType)
-    ) {
+    if (!LIMITED_ITEMS.includes(action.name)) {
       throw new Error(`Cannot burn ${action.name}`);
     }
 
