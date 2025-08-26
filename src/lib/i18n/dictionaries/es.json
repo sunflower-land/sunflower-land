@@ -6469,7 +6469,6 @@
   "upgrade.success.description": "¡Ahora puedes minar {{resource}}!",
   "marketplaceTransferInProgress": "Se están finalizando las transferencias al mercado o a las subastas. Vuelve a intentarlo en unos minutos.",
   "marketplaceTransferInProgress.label": "Transferencia pendiente en curso",
-  "description.foxShrine.buff": "-25% de tiempo de elaboración",
   "description.boarShrine.buff": "-20% de tiempo de cocción",
   "description.sparrowShrine.buff": "-25% de tiempo de crecimiento del cultivo",
   "description.toucanShrine.buff": "-25% de tiempo de crecimiento de la fruta",
@@ -6485,5 +6484,8 @@
   "playerModal.youHelpedThem": "Los ayudaste hoy",
   "playerModal.theyHelpedYou": "Te han ayudado hoy",
   "playerModal.theyHaveACookingPot": "Tienen una olla",
-  "pets.coming.soon": "Las mascotas llegarán pronto, el 3 de noviembre."
+  "pets.coming.soon": "Las mascotas llegarán pronto, el 3 de noviembre.",
+  "description.foxShrine.buff": "-25% de tiempo para fabricar cajas",
+  "shrine.expiryLabel": "Tiene una duración de {{time}}",
+  "shrine.activated.uponPurchase": "Se activa al realizar la compra"
 }

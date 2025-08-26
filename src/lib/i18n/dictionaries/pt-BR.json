@@ -6469,7 +6469,6 @@
   "upgrade.success.description": "Agora você pode minerar {{resource}}!",
   "marketplaceTransferInProgress": "As transferências do Marketplace e/ou do leilão estão sendo finalizadas. Tente novamente em alguns minutos.",
   "marketplaceTransferInProgress.label": "Transferência pendente em andamento",
-  "description.foxShrine.buff": "-25% de tempo de fabricação",
   "description.boarShrine.buff": "-20% de tempo de cozimento",
   "description.sparrowShrine.buff": "-25% de tempo de crescimento da safra",
   "description.toucanShrine.buff": "-25% de tempo de crescimento de frutas",
@@ -6485,5 +6484,8 @@
   "playerModal.youHelpedThem": "Você os ajudou hoje",
   "playerModal.theyHelpedYou": "Eles te ajudaram hoje",
   "playerModal.theyHaveACookingPot": "Eles têm uma panela",
-  "pets.coming.soon": "Animais de estimação chegarão em breve - 3 de novembro."
+  "pets.coming.soon": "Animais de estimação chegarão em breve - 3 de novembro.",
+  "description.foxShrine.buff": "-25% de tempo de fabricação da caixa",
+  "shrine.expiryLabel": "Dura por {{time}}",
+  "shrine.activated.uponPurchase": "Ativado na compra"
 }

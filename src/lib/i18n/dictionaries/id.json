@@ -6469,7 +6469,6 @@
   "upgrade.success.description": "Anda sekarang dapat menambang {{resource}}!",
   "marketplaceTransferInProgress": "Transfer Marketplace dan/atau Lelang sedang diselesaikan, silakan coba lagi dalam beberapa menit.",
   "marketplaceTransferInProgress.label": "Transfer yang tertunda sedang berlangsung",
-  "description.foxShrine.buff": "-25% Waktu Kerajinan",
   "description.boarShrine.buff": "-20% Waktu Memasak",
   "description.sparrowShrine.buff": "-25% Waktu Pertumbuhan Tanaman",
   "description.toucanShrine.buff": "-25% Waktu Pertumbuhan Buah",
@@ -6485,5 +6484,8 @@
   "playerModal.youHelpedThem": "Anda membantu mereka hari ini",
   "playerModal.theyHelpedYou": "Mereka membantu Anda hari ini",
   "playerModal.theyHaveACookingPot": "Mereka memiliki panci masak",
-  "pets.coming.soon": "Hewan peliharaan akan segera hadir - 3 November."
+  "pets.coming.soon": "Hewan peliharaan akan segera hadir - 3 November.",
+  "description.foxShrine.buff": "-25% Waktu Kotak Kerajinan",
+  "shrine.expiryLabel": "Berlangsung selama {{time}}",
+  "shrine.activated.uponPurchase": "Diaktifkan saat pembelian"
 }

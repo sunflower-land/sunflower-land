@@ -6469,7 +6469,6 @@
   "upgrade.success.description": "이제 {{resource}} 을 (를) 채굴할 수 있습니다!",
   "marketplaceTransferInProgress": "마켓플레이스 및/또는 경매 전송이 완료되고 있습니다. 몇 분 후에 다시 시도하세요.",
   "marketplaceTransferInProgress.label": "전송 보류 중",
-  "description.foxShrine.buff": "제작 시간 -25%",
   "description.boarShrine.buff": "조리 시간 -20%",
   "description.sparrowShrine.buff": "-25% 작물 성장 시간",
   "description.toucanShrine.buff": "-25% 과일 성장 시간",
@@ -6485,5 +6484,8 @@
   "playerModal.youHelpedThem": "오늘 당신이 그들을 도왔어요",
   "playerModal.theyHelpedYou": "그들은 오늘 당신을 도왔습니다",
   "playerModal.theyHaveACookingPot": "요리 냄비가 있습니다.",
-  "pets.coming.soon": "11월 3일에 반려동물이 곧 출시됩니다."
+  "pets.coming.soon": "11월 3일에 반려동물이 곧 출시됩니다.",
+  "description.foxShrine.buff": "제작 상자 사용 시간 -25%",
+  "shrine.expiryLabel": "{{time}} 동안 지속됩니다.",
+  "shrine.activated.uponPurchase": "구매 시 활성화됨"
 }

@@ -6469,7 +6469,6 @@
   "upgrade.success.description": "你现在可以开采 {{resource}} 了！",
   "marketplaceTransferInProgress": "市场和/或拍卖的转移正在完成中，请几分钟后再试。",
   "marketplaceTransferInProgress.label": "转移处理中",
-  "description.foxShrine.buff": "-25% 锻打箱制作时间",
   "description.boarShrine.buff": "-20% 烹饪时间",
   "description.sparrowShrine.buff": "-25% 庄稼生长时间",
   "description.toucanShrine.buff": "-25% 水果生长时间",
@@ -6485,5 +6484,8 @@
   "playerModal.youHelpedThem": "你今天帮助了他们",
   "playerModal.theyHelpedYou": "他们今天帮了你",
   "playerModal.theyHaveACookingPot": "他们有烹饪锅",
-  "pets.coming.soon": "宠物即将到来 - 11 月 3 日。"
+  "pets.coming.soon": "宠物即将到来 - 11 月 3 日。",
+  "description.foxShrine.buff": "-25% 制作箱子时间",
+  "shrine.expiryLabel": "持续 {{time}}",
+  "shrine.activated.uponPurchase": "购买时激活"
 }

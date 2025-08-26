@@ -6469,7 +6469,6 @@
   "upgrade.success.description": "Anda kini boleh lombong {{resource}}!",
   "marketplaceTransferInProgress": "Pemindahan Pasaran dan/atau Lelongan sedang dimuktamadkan, sila cuba lagi dalam beberapa minit.",
   "marketplaceTransferInProgress.label": "Belum pemindahan sedang dijalankan",
-  "description.foxShrine.buff": "-25% Masa Kerajinan",
   "description.boarShrine.buff": "-20% Masa Memasak",
   "description.sparrowShrine.buff": "-25% Masa Pertumbuhan Tanaman",
   "description.toucanShrine.buff": "-25% Masa Pertumbuhan Buah",
@@ -6485,5 +6484,8 @@
   "playerModal.youHelpedThem": "Anda membantu mereka hari ini",
   "playerModal.theyHelpedYou": "Mereka membantu anda hari ini",
   "playerModal.theyHaveACookingPot": "Mereka mempunyai periuk memasak",
-  "pets.coming.soon": "Haiwan peliharaan akan datang tidak lama lagi - 3 November."
+  "pets.coming.soon": "Haiwan peliharaan akan datang tidak lama lagi - 3 November.",
+  "description.foxShrine.buff": "-25% Masa Kotak Kerajinan",
+  "shrine.expiryLabel": "Bertahan untuk {{time}}",
+  "shrine.activated.uponPurchase": "Diaktifkan semasa pembelian"
 }

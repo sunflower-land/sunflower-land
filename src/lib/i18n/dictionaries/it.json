@@ -6469,7 +6469,6 @@
   "upgrade.success.description": "Ora puoi fare il mio {{resource}}!",
   "marketplaceTransferInProgress": "I trasferimenti tramite Marketplace e/o Auction sono in fase di completamento, riprova tra qualche minuto.",
   "marketplaceTransferInProgress.label": "Trasferimento in corso in sospeso",
-  "description.foxShrine.buff": "-25% Tempo di creazione",
   "description.boarShrine.buff": "-20% Tempo di cottura",
   "description.sparrowShrine.buff": "-25% Tempo di crescita delle colture",
   "description.toucanShrine.buff": "-25% Tempo di crescita della frutta",
@@ -6485,5 +6484,8 @@
   "playerModal.youHelpedThem": "Li hai aiutati oggi",
   "playerModal.theyHelpedYou": "Ti hanno aiutato oggi",
   "playerModal.theyHaveACookingPot": "Hanno una pentola",
-  "pets.coming.soon": "Gli animali domestici arriveranno presto, il 3 novembre."
+  "pets.coming.soon": "Gli animali domestici arriveranno presto, il 3 novembre.",
+  "description.foxShrine.buff": "-25% Crafting Box Time",
+  "shrine.expiryLabel": "Dura per {{time}}",
+  "shrine.activated.uponPurchase": "Attivato al momento dell'acquisto"
 }

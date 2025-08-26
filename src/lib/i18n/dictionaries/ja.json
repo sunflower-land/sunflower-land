@@ -6469,7 +6469,6 @@
   "upgrade.success.description": "これで {{resource}} をマイニングできます！",
   "marketplaceTransferInProgress": "マーケットプレイスまたはオークションの移管が完了しています。数分後にもう一度試してください。",
   "marketplaceTransferInProgress.label": "転送保留中",
-  "description.foxShrine.buff": "製作時間 -25%",
   "description.boarShrine.buff": "-20% 調理時間",
   "description.sparrowShrine.buff": "-25% の作物成長時間",
   "description.toucanShrine.buff": "-25% の果実成長時間",
@@ -6485,5 +6484,8 @@
   "playerModal.youHelpedThem": "今日はあなたが彼らを助けました",
   "playerModal.theyHelpedYou": "彼らは今日あなたを助けました",
   "playerModal.theyHaveACookingPot": "調理用の鍋があります",
-  "pets.coming.soon": "ペットはもうすぐ来ます-11月3日。"
+  "pets.coming.soon": "ペットはもうすぐ来ます-11月3日。",
+  "description.foxShrine.buff": "-25% クラフトボックス時間",
+  "shrine.expiryLabel": "{{time}} の間持続します",
+  "shrine.activated.uponPurchase": "購入時に有効化"
 }

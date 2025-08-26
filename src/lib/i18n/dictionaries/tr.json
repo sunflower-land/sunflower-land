@@ -6469,7 +6469,6 @@
   "upgrade.success.description": "Artık benimseyebilirsiniz {{resource}}!",
   "marketplaceTransferInProgress": "Pazar yeri ve/veya Açık artırma transferleri tamamlanıyor, lütfen birkaç dakika içinde tekrar deneyin.",
   "marketplaceTransferInProgress.label": "Bekleyen transfer devam ediyor",
-  "description.foxShrine.buff": "-25% İşleme Süresi",
   "description.boarShrine.buff": "-20% Pişirme Süresi",
   "description.sparrowShrine.buff": "-25% Mahsul Büyüme Süresi",
   "description.toucanShrine.buff": "-25% Meyve Büyüme Süresi",
@@ -6485,5 +6484,8 @@
   "playerModal.youHelpedThem": "Bugün onlara yardım ettin",
   "playerModal.theyHelpedYou": "Bugün sana yardım ettiler",
   "playerModal.theyHaveACookingPot": "Pişirme tencereleri var",
-  "pets.coming.soon": "Evcil hayvanlar yakında geliyor - 3 Kasım."
+  "pets.coming.soon": "Evcil hayvanlar yakında geliyor - 3 Kasım.",
+  "description.foxShrine.buff": "-25% İşleme Kutusu Süresi",
+  "shrine.expiryLabel": "{{time}} için geçerlidir",
+  "shrine.activated.uponPurchase": "Satın aldıktan sonra etkinleştirilir"
 }
