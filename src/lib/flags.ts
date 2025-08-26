@@ -44,6 +44,10 @@ const betaTimeBasedFeatureFlag = (date: Date) => (game: GameState) => {
   return defaultFeatureFlag(game) || Date.now() > date.getTime();
 };
 
+const adminTimeBasedFeatureFlag = (date: Date) => (game: GameState) => {
+  return adminFeatureFlag(game) || Date.now() > date.getTime();
+};
+
 const timePeriodFeatureFlag =
   ({ start, end }: { start: Date; end: Date }) =>
   () => {
@@ -115,6 +119,7 @@ const FEATURE_FLAGS = {
   OBSIDIAN_EXCHANGE: testnetFeatureFlag,
   GASLESS_AUCTIONS: () => true,
   NODE_FORGING: defaultFeatureFlag,
+  DEPOSIT_SFL: adminTimeBasedFeatureFlag(new Date("2025-08-28T00:00:00.000Z")),
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;

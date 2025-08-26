@@ -41,6 +41,7 @@ export type WalletAction =
   | "login"
   | "depositItems"
   | "depositFlower"
+  | "depositSFL"
   | "donate"
   | "dailyReward"
   | "withdrawItems"
@@ -102,6 +103,13 @@ const WALLET_ACTIONS: Record<WalletAction, WalletActionSettings> = {
     requiresNFT: false,
     chains: {
       [CONFIG.NETWORK === "mainnet" ? base.id : baseSepolia.id]: true,
+    },
+  },
+  depositSFL: {
+    requiresLinkedWallet: true,
+    requiresNFT: false,
+    chains: {
+      [CONFIG.NETWORK === "mainnet" ? polygon.id : polygonAmoy.id]: true,
     },
   },
   donate: {
@@ -314,6 +322,7 @@ const ACTION_HUMAN_NAMES: Record<WalletAction, string> = {
   login: "login",
   depositItems: "deposit items",
   depositFlower: "deposit FLOWER",
+  depositSFL: "deposit SFL",
   donate: "donate",
   dailyReward: "claim the daily reward",
   withdrawItems: "withdraw items",
