@@ -85,6 +85,30 @@ export type Recipe = {
 
 export type Recipes = Record<RecipeCollectibleName, Recipe>;
 
+const DOLL_RECIPES = getKeys(DOLLS).reduce<Record<DollName, Recipe>>(
+  (acc, doll) => {
+    if (doll === "Doll") {
+      acc[doll] = {
+        name: doll,
+        ingredients: [],
+        time: 2 * 60 * 60 * 1000,
+        type: "collectible",
+      };
+      return acc;
+    }
+
+    acc[doll] = {
+      name: doll,
+      ingredients: [],
+      time: 8 * 60 * 60 * 1000,
+      type: "collectible",
+    };
+
+    return acc;
+  },
+  {} as Record<DollName, Recipe>,
+);
+
 export const RECIPES: Recipes = {
   Cushion: {
     name: "Cushion",
@@ -201,18 +225,7 @@ export const RECIPES: Recipes = {
     type: "collectible",
   },
 
-  ...getKeys(DOLLS).reduce(
-    (acc, doll) => ({
-      ...acc,
-      [doll]: {
-        name: doll,
-        ingredients: [],
-        time: 8 * 60 * 60 * 1000,
-        type: "collectible",
-      },
-    }),
-    {} as Record<DollName, Recipe>,
-  ),
+  ...DOLL_RECIPES,
 };
 
 export const RECIPE_CRAFTABLES: Record<RecipeCraftableName, null> = {
