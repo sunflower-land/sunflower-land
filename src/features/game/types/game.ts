@@ -106,7 +106,7 @@ import { MonumentName } from "./monuments";
 import { AOEItemName } from "../expansion/placeable/lib/collisionDetection";
 import { Coordinates } from "../expansion/components/MapPlacement";
 import { ClutterName } from "./clutter";
-import { Pet, PetName, PetResource } from "./pets";
+import { PetName, PetResource } from "./pets";
 import { RockName } from "./resources";
 
 export type Reward = {
@@ -1829,8 +1829,6 @@ export interface GameState {
 
   aoe: AOE;
   socialFarming: SocialFarming;
-
-  pets?: Partial<Record<PetName, Pet>>;
 }
 
 export type AOE = Partial<

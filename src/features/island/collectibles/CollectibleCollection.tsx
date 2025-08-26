@@ -367,9 +367,9 @@ import { JanitorChicken } from "./components/JanitorChicken";
 import { VenusBumpkinTrap } from "./components/VenusBumpkinTrap";
 import { Poseidon } from "./components/Poseidon";
 import { Project } from "./components/Project";
-import { Pet } from "./components/Pet";
 import { PetShrine } from "./components/PetShrine";
 import { ObsidianShrine } from "./components/ObsidianShrine";
+import { Pet } from "./components/Pet";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
