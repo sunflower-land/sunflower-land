@@ -2,6 +2,7 @@ import { instaGrowFlower } from "./instaGrowFlower";
 import { GameState } from "../../types/game";
 import { FLOWER_SEEDS, FLOWERS, FlowerName } from "../../types/flowers";
 import Decimal from "decimal.js-light";
+import { INITIAL_FARM } from "features/game/lib/constants";
 
 const GAME_STATE: GameState = {
   flowers: {
@@ -166,5 +167,58 @@ describe("instaGrowFlower", () => {
       growTime -
       Date.now();
     expect(newTimeLeft).toBeLessThanOrEqual(0);
+  });
+
+  it("updates the beehives after a flower is instagrown", () => {
+    const flowerBedId = "123";
+    const now = Date.now();
+    const growTime =
+      FLOWER_SEEDS[FLOWERS["Red Pansy"].seed].plantSeconds * 1000;
+
+    const state: GameState = {
+      ...INITIAL_FARM,
+      inventory: {
+        Obsidian: new Decimal(1),
+      },
+      beehives: {
+        "123": {
+          swarm: false,
+          honey: {
+            updatedAt: 0,
+            produced: 0,
+          },
+          x: 0,
+          y: 0,
+          flowers: [
+            {
+              id: flowerBedId,
+              attachedAt: now,
+              attachedUntil: now + growTime,
+            },
+          ],
+        },
+      },
+      flowers: {
+        discovered: {},
+        flowerBeds: {
+          [flowerBedId]: {
+            createdAt: 0,
+            x: 0,
+            y: 0,
+            flower: {
+              name: "Red Pansy",
+              plantedAt: now,
+            },
+          },
+        },
+      },
+    };
+
+    const result = instaGrowFlower({
+      state,
+      action: { type: "flower.instaGrown", id: flowerBedId },
+    });
+
+    expect(result.beehives["123"].flowers).toEqual([]);
   });
 });
