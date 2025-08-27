@@ -9,6 +9,7 @@ export const PET_SHOP_ITEMS: Record<PetShopItemName, CraftableCollectible> = {
     description: "A pet egg",
     coins: 30000,
     ingredients: {},
+    limit: 1,
   },
   "Obsidian Shrine": {
     description: "A shrine to the Obsidian God",

@@ -24,6 +24,7 @@ import { produce } from "immer";
 import { ExoticCropName } from "features/game/types/beans";
 import { isExoticCrop } from "features/game/types/crops";
 import { PET_SHOP_ITEMS, PetShopItemName } from "features/game/types/petShop";
+import { hasFeatureAccess } from "lib/flags";
 
 export const COLLECTIBLE_CRAFT_SECONDS: Partial<
   Record<CollectibleName, number>
@@ -102,6 +103,9 @@ export function craftCollectible({
 
     if (!item) {
       throw new Error("Item does not exist");
+    }
+    if (isPetShopItem(action.name) && !hasFeatureAccess(stateCopy, "PETS")) {
+      throw new Error("Pet Shop is not available");
     }
 
     if (stateCopy.stock[action.name]?.lt(1)) {
