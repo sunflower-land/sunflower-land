@@ -88,7 +88,7 @@ export function craftCollectible({
     } else if (isKey(action.name)) {
       item = ARTEFACT_SHOP_KEYS[action.name];
     } else {
-      item = HELIOS_BLACKSMITH_ITEMS(state, new Date(createdAt))[action.name];
+      item = HELIOS_BLACKSMITH_ITEMS[action.name];
     }
 
     if (!item) {

@@ -30,7 +30,7 @@ import { FactionShopCollectibleName } from "./factionShop";
 import { BEDS } from "./beds";
 import { SeasonalCollectibleName } from "./megastore";
 import { MonumentName } from "./monuments";
-import { PetName } from "./pets";
+import { PetName, PetShrineName } from "./pets";
 
 export { FLAGS };
 
@@ -219,7 +219,9 @@ export type CollectibleName =
   | BedName
   | SeasonalCollectibleName
   | MonumentName
-  | PetName;
+  | PetName
+  | PetShrineName
+  | "Obsidian Shrine";
 
 export type ToolName =
   | "Axe"

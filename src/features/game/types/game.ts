@@ -108,6 +108,7 @@ import { Coordinates } from "../expansion/components/MapPlacement";
 import { ClutterName } from "./clutter";
 import { PetName, PetResource } from "./pets";
 import { RockName } from "./resources";
+import { PetShopItemName } from "./petShop";
 
 export type Reward = {
   coins?: number;
@@ -573,7 +574,8 @@ export type InventoryItemName =
   | DollName
   | ClutterName
   | PetName
-  | PetResource;
+  | PetResource
+  | PetShopItemName;
 
 export type Inventory = Partial<Record<InventoryItemName, Decimal>>;
 
