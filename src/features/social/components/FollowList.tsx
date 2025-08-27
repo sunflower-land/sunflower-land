@@ -13,7 +13,7 @@ import { Detail } from "../actions/getFollowNetworkDetails";
 type Props = {
   loggedInFarmId: number;
   token: string;
-  searchResults: Detail[];
+  searchResults?: Detail[];
   networkFarmId: number;
   networkList: number[];
   networkCount: number;
@@ -28,13 +28,13 @@ export const FollowList: React.FC<Props> = ({
   loggedInFarmId,
   token,
   networkFarmId,
-  searchResults,
   networkList,
   networkCount,
   playerLoading,
   showLabel = true,
   networkType,
   scrollContainerRef,
+  searchResults = [],
   navigateToPlayer,
 }) => {
   useSocial({

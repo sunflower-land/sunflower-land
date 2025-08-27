@@ -13,7 +13,7 @@ import loadingIcon from "assets/icons/timer.gif";
 import { SUNNYSIDE } from "assets/sunnyside";
 import classNames from "classnames";
 import { Label } from "components/ui/Label";
-import { useTranslation } from "react-i18next";
+import { useAppTranslation } from "lib/i18n/useAppTranslations";
 
 const _farmId = (state: MachineState) =>
   state.context.visitorId ?? state.context.farmId;
@@ -41,11 +41,11 @@ const useDebouncedValue = (value: string, delay: number) => {
   return debouncedValue;
 };
 
-export const PlayerSearch: React.FC<Props> = ({ onSearchResults, context }) => {
+export const SearchBar: React.FC<Props> = ({ onSearchResults, context }) => {
   const { gameService } = useContext(Context);
   const { authService } = useContext(AuthProvider.Context);
 
-  const { t } = useTranslation();
+  const { t } = useAppTranslation();
 
   const [searchTerm, setSearchTerm] = useState("");
   const [results, setResults] = useState<Detail[]>([]);
@@ -112,7 +112,8 @@ export const PlayerSearch: React.FC<Props> = ({ onSearchResults, context }) => {
 
   useEffect(() => {
     onSearchResults(results);
-  }, [results, onSearchResults]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [results]);
 
   const getIcon = () => {
     if (!searchTerm || searchTerm.length < 3) return SUNNYSIDE.icons.search;
@@ -122,12 +123,13 @@ export const PlayerSearch: React.FC<Props> = ({ onSearchResults, context }) => {
   };
 
   return (
-    <div className="relative mt-1">
-      <div className="flex relative">
+    <div className="relative mt-1 w-full">
+      <div className="flex relative w-full">
         <TextInput
           value={searchTerm}
           onValueChange={(value) => setSearchTerm(value)}
-          placeholder="Search by username.."
+          placeholder={t("playerSearch.placeholderContext", { context })}
+          className="w-full"
         />
         <img
           onClick={searchTerm ? () => setSearchTerm("") : undefined}

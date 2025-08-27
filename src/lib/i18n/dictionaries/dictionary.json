@@ -6495,5 +6495,9 @@
   "transaction.migrate.sfl.taxFree": "FLOWER migrated from SFL is tax-free for withdrawal.",
   "transaction.migrate.sfl.maxAmount": "Max Amount: {{maxAmount}} (Updates Daily)",
   "sfl.migrated": "SFL Migrated",
-  "playerSearch.noResults": "No results found"
+  "playerSearch.noResults": "No results found",
+  "playerSearch.placeholderContext": "Search {{context}}...",
+  "playerSearch.placeholderAll": "Search by username...",
+  "playerSearch.searchPlayer": "Search players",
+  "playerSearch.startTyping": "Start typing a username..."
 }

@@ -45,12 +45,10 @@ import socialPointsIcon from "assets/icons/social_score.webp";
 import { discoveryModalManager } from "./lib/discoveryModalManager";
 import { FeedFilters } from "./components/FeedFilters";
 import { getFilter, storeFilter } from "./lib/persistFilter";
-<<<<<<< HEAD
 import { HelpInfoPopover } from "./components/HelpInfoPopover";
-=======
-import { PlayerSearch } from "./components/PlayerSearch";
+import { SearchBar } from "./components/SearchBar";
 import { Detail } from "./actions/getFollowNetworkDetails";
->>>>>>> a7e656832 ([FEAT] Add search to follow list)
+import { hasFeatureAccess } from "lib/flags";
 
 type Props = {
   type: "world" | "local";
@@ -303,7 +301,7 @@ export const Feed: React.FC<Props> = ({
               onClick={() => {
                 setShowFollowing(false);
                 setShowFeed(false);
-                discoveryModalManager.open();
+                discoveryModalManager.open("leaderboard");
               }}
             >
               <img
@@ -312,6 +310,22 @@ export const Feed: React.FC<Props> = ({
               />
               {t("leaderboard")}
             </div>
+            {hasFeatureAccess(
+              gameService.getSnapshot().context.state,
+              "PLAYER_SEARCH",
+            ) && (
+              <div
+                className="flex ml-1.5 mr-1 items-center gap-1 text-xs underline cursor-pointer whitespace-nowrap"
+                onClick={() => {
+                  setShowFollowing(false);
+                  setShowFeed(false);
+                  discoveryModalManager.open("search");
+                }}
+              >
+                {t("playerSearch.searchPlayer")}
+                <img src={SUNNYSIDE.icons.search} className="w-4" />
+              </div>
+            )}
           </div>
         </div>
         {!showFollowing && (
@@ -336,10 +350,7 @@ export const Feed: React.FC<Props> = ({
 
         {showFollowing && (
           <>
-            <PlayerSearch
-              context="following"
-              onSearchResults={setSearchResults}
-            />
+            <SearchBar context="following" onSearchResults={setSearchResults} />
             <div
               ref={scrollContainerRef}
               className="flex flex-col gap-2 overflow-hidden overflow-y-auto scrollable"
