@@ -16,6 +16,7 @@ export const PET_SHOP_ITEMS: Record<PetShopItemName, CraftableCollectible> = {
     ingredients: {
       Obsidian: new Decimal(1),
     },
+    inventoryLimit: 1,
   },
   ...PET_SHRINES,
 };

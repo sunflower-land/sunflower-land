@@ -275,6 +275,7 @@ export const PET_SHRINES: Record<PetShrineName, CraftableCollectible> = {
     ingredients: {
       Acorn: new Decimal(15),
     },
+    inventoryLimit: 1,
   },
   "Hound Shrine": {
     description: "",
@@ -282,6 +283,7 @@ export const PET_SHRINES: Record<PetShrineName, CraftableCollectible> = {
     ingredients: {
       Acorn: new Decimal(25),
     },
+    inventoryLimit: 1,
   },
   "Sparrow Shrine": {
     description: "",
@@ -291,6 +293,7 @@ export const PET_SHRINES: Record<PetShrineName, CraftableCollectible> = {
       Dewberry: new Decimal(10),
       "Heart leaf": new Decimal(10),
     },
+    inventoryLimit: 1,
   },
   "Fox Shrine": {
     description: "",
@@ -300,6 +303,7 @@ export const PET_SHRINES: Record<PetShrineName, CraftableCollectible> = {
       "Chewed Bone": new Decimal(10),
       Ruffroot: new Decimal(10),
     },
+    inventoryLimit: 1,
   },
   "Toucan Shrine": {
     description: "",
@@ -309,6 +313,7 @@ export const PET_SHRINES: Record<PetShrineName, CraftableCollectible> = {
       Ribbon: new Decimal(10),
       "Frost Pebble": new Decimal(10),
     },
+    inventoryLimit: 1,
   },
   "Collie Shrine": {
     description: "",
@@ -318,6 +323,7 @@ export const PET_SHRINES: Record<PetShrineName, CraftableCollectible> = {
       Dewberry: new Decimal(10),
       "Wild Grass": new Decimal(10),
     },
+    inventoryLimit: 1,
   },
   "Moth Shrine": {
     description: "",
@@ -327,6 +333,7 @@ export const PET_SHRINES: Record<PetShrineName, CraftableCollectible> = {
       "Heart leaf": new Decimal(10),
       Ribbon: new Decimal(10),
     },
+    inventoryLimit: 1,
   },
   "Badger Shrine": {
     description: "",
@@ -336,6 +343,7 @@ export const PET_SHRINES: Record<PetShrineName, CraftableCollectible> = {
       Ruffroot: new Decimal(10),
       "Chewed Bone": new Decimal(10),
     },
+    inventoryLimit: 1,
   },
   "Mole Shrine": {
     description: "",
@@ -345,6 +353,7 @@ export const PET_SHRINES: Record<PetShrineName, CraftableCollectible> = {
       "Frost Pebble": new Decimal(10),
       Ribbon: new Decimal(10),
     },
+    inventoryLimit: 1,
   },
   "Tortoise Shrine": {
     description: "",
@@ -354,6 +363,7 @@ export const PET_SHRINES: Record<PetShrineName, CraftableCollectible> = {
       "Wild Grass": new Decimal(10),
       Ruffroot: new Decimal(10),
     },
+    inventoryLimit: 1,
   },
   "Stag Shrine": {
     description: "",
@@ -363,6 +373,7 @@ export const PET_SHRINES: Record<PetShrineName, CraftableCollectible> = {
       "Heart leaf": new Decimal(10),
       "Frost Pebble": new Decimal(10),
     },
+    inventoryLimit: 1,
   },
   "Bear Shrine": {
     description: "",
@@ -372,6 +383,7 @@ export const PET_SHRINES: Record<PetShrineName, CraftableCollectible> = {
       "Chewed Bone": new Decimal(10),
       "Wild Grass": new Decimal(10),
     },
+    inventoryLimit: 1,
   },
   "Legendary Shrine": {
     description: "",
@@ -381,5 +393,6 @@ export const PET_SHRINES: Record<PetShrineName, CraftableCollectible> = {
       Moonfur: new Decimal(10),
       Acorn: new Decimal(10),
     },
+    inventoryLimit: 1,
   },
 };

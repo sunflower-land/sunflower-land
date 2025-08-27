@@ -136,6 +136,13 @@ export function craftCollectible({
       throw new Error("Limit reached");
     }
 
+    if (
+      item.inventoryLimit &&
+      stateCopy.inventory[action.name]?.gte(item.inventoryLimit)
+    ) {
+      throw new Error("Inventory limit reached");
+    }
+
     const subtractedInventory = getKeys(item.ingredients).reduce(
       (inventory, ingredientName) => {
         const count = inventory[ingredientName] || new Decimal(0);

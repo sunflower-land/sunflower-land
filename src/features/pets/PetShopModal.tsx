@@ -33,12 +33,17 @@ export const PetShopModal: React.FC = () => {
     (state) =>
       state.context.state.bumpkin.activity[`${selectedItem} Crafted`] ?? 0,
   );
-  const { ingredients, coins, limit } = selectedItemDetails;
+  const { ingredients, coins, limit, inventoryLimit } = selectedItemDetails;
+
+  const hasReachedInventoryLimit =
+    !!inventoryLimit && (inventory[selectedItem]?.gte(inventoryLimit) ?? false);
 
   const canBuy = () => {
     if (coinBalance < (coins ?? 0)) return false;
 
     if (limit && craftedCount >= limit) return false;
+
+    if (hasReachedInventoryLimit) return false;
 
     const hasIngredients = getObjectEntries(ingredients).every(
       ([name, amount]) => {
@@ -49,6 +54,7 @@ export const PetShopModal: React.FC = () => {
 
     return hasIngredients;
   };
+
   const buy = () => {
     gameService.send("collectible.crafted", {
       name: selectedItem,
@@ -67,6 +73,7 @@ export const PetShopModal: React.FC = () => {
           onClick={buy}
           craftedCount={craftedCount}
           limit={limit}
+          hasReachedInventoryLimit={hasReachedInventoryLimit}
         />
       }
       content={
@@ -107,6 +114,7 @@ const PetShopPanel: React.FC<{
   onClick: () => void;
   limit?: number;
   craftedCount: number;
+  hasReachedInventoryLimit: boolean;
 }> = ({
   gameState,
   selectedItem,
@@ -116,26 +124,48 @@ const PetShopPanel: React.FC<{
   onClick,
   limit,
   craftedCount,
-}) => {
+  hasReachedInventoryLimit,
+}) => (
+  <CraftingRequirements
+    gameState={gameState}
+    details={{ item: selectedItem }}
+    requirements={{
+      resources: ingredients,
+      coins,
+    }}
+    actionView={
+      <PetShopActionView
+        limit={limit}
+        craftedCount={craftedCount}
+        canBuy={canBuy}
+        onClick={onClick}
+        hasReachedInventoryLimit={hasReachedInventoryLimit}
+      />
+    }
+  />
+);
+
+const PetShopActionView: React.FC<{
+  limit?: number;
+  craftedCount: number;
+  canBuy: () => boolean;
+  onClick: () => void;
+  hasReachedInventoryLimit: boolean;
+}> = ({ limit, craftedCount, canBuy, onClick, hasReachedInventoryLimit }) => {
   const { t } = useAppTranslation();
+
+  if (hasReachedInventoryLimit) {
+    return <p className="text-xxs text-center">{`Inventory Limit Reached!`}</p>;
+  }
+
   return (
-    <CraftingRequirements
-      gameState={gameState}
-      details={{ item: selectedItem }}
-      requirements={{
-        resources: ingredients,
-        coins,
-      }}
-      actionView={
-        <div className="flex flex-col sm:items-center gap-2">
-          {limit && (
-            <Label type="danger">{`Limit: ${craftedCount}/${limit}`}</Label>
-          )}
-          <Button disabled={!canBuy()} onClick={onClick}>
-            {t("buy")}
-          </Button>
-        </div>
-      }
-    />
+    <div className="flex flex-col sm:items-center gap-2">
+      {limit && (
+        <Label type="danger">{`Limit: ${craftedCount}/${limit}`}</Label>
+      )}
+      <Button disabled={!canBuy()} onClick={onClick}>
+        {t("buy")}
+      </Button>
+    </div>
   );
 };
