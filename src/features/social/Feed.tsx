@@ -289,10 +289,11 @@ export const Feed: React.FC<Props> = ({
               {t("myProfile")}
             </div>
             <FollowsIndicator
+              showSingleBumpkin
               count={following.length}
               onClick={() => setShowFollowing(!showFollowing)}
               type="following"
-              className="ml-1"
+              className="ml-1 -mr-3.5"
             />
           </div>
           <div className="flex items-center justify-between gap-1 w-full">
