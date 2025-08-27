@@ -119,12 +119,9 @@ const FEATURE_FLAGS = {
   OBSIDIAN_EXCHANGE: testnetFeatureFlag,
   GASLESS_AUCTIONS: () => true,
   NODE_FORGING: defaultFeatureFlag,
-<<<<<<< HEAD
   DEPOSIT_SFL: adminTimeBasedFeatureFlag(new Date("2025-08-28T00:00:00.000Z")),
-=======
 
   PLAYER_SEARCH: usernameFeatureFlag,
->>>>>>> 2db8582dd ([FEAT] Add search player and feature flag)
 } satisfies Record<string, FeatureFlag>;
 
 export type FeatureName = keyof typeof FEATURE_FLAGS;
