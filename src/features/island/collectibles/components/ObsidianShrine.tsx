@@ -178,10 +178,10 @@ export const ObsidianShrine: React.FC<CollectibleProps> = ({
           )}
         </CloseButtonPanel>
 
-        <div className="absolute -top-8 -mt-[2px] right-0">
+        <div className="absolute -top-8 -mt-[2px] right-0 mr-[5.5px]">
           <Label
             type="info"
-            icon={SUNNYSIDE.icons.stopwatch}
+            secondaryIcon={SUNNYSIDE.icons.stopwatch}
             className="mt-2 mb-2"
           >
             <span className="text-xs">
