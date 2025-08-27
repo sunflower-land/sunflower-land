@@ -3669,6 +3669,7 @@
   "username.invalidChar": "Username contains invalid characters",
   "username.startWithLetter": "Username must start with a letter",
   "username.sameAsCurrent": "Username is the same as your current username",
+  "username.containsProfanity": "Username contains profanity",
   "assigning.username": "Assigning username...",
   "assigning.username.success": "Username assigned successfully!!",
   "changing.username": "Changing username...",
