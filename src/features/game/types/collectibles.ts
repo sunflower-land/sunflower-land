@@ -193,6 +193,7 @@ export type CraftableCollectible = {
   from?: Date;
   to?: Date;
   level?: number;
+  limit?: number;
 };
 
 export const HELIOS_BLACKSMITH_ITEMS: Record<

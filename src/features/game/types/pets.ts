@@ -1,5 +1,6 @@
 import Decimal from "decimal.js-light";
 import { Decoration } from "./decorations";
+import { CraftableCollectible } from "./collectibles";
 
 export type PetName =
   // Dogs
@@ -267,9 +268,8 @@ export type PetShrine = Omit<Decoration, "name"> & {
   level?: number;
 };
 
-export const PET_SHRINES: Record<PetShrineName, PetShrine> = {
+export const PET_SHRINES: Record<PetShrineName, CraftableCollectible> = {
   "Boar Shrine": {
-    name: "Boar Shrine",
     description: "",
     coins: 0,
     ingredients: {
@@ -277,7 +277,6 @@ export const PET_SHRINES: Record<PetShrineName, PetShrine> = {
     },
   },
   "Hound Shrine": {
-    name: "Hound Shrine",
     description: "",
     coins: 0,
     ingredients: {
@@ -285,7 +284,6 @@ export const PET_SHRINES: Record<PetShrineName, PetShrine> = {
     },
   },
   "Sparrow Shrine": {
-    name: "Sparrow Shrine",
     description: "",
     coins: 0,
     ingredients: {
@@ -295,7 +293,6 @@ export const PET_SHRINES: Record<PetShrineName, PetShrine> = {
     },
   },
   "Fox Shrine": {
-    name: "Fox Shrine",
     description: "",
     coins: 0,
     ingredients: {
@@ -305,7 +302,6 @@ export const PET_SHRINES: Record<PetShrineName, PetShrine> = {
     },
   },
   "Toucan Shrine": {
-    name: "Toucan Shrine",
     description: "",
     coins: 0,
     ingredients: {
@@ -315,7 +311,6 @@ export const PET_SHRINES: Record<PetShrineName, PetShrine> = {
     },
   },
   "Collie Shrine": {
-    name: "Collie Shrine",
     description: "",
     coins: 0,
     ingredients: {
@@ -325,7 +320,6 @@ export const PET_SHRINES: Record<PetShrineName, PetShrine> = {
     },
   },
   "Moth Shrine": {
-    name: "Moth Shrine",
     description: "",
     coins: 0,
     ingredients: {
@@ -335,7 +329,6 @@ export const PET_SHRINES: Record<PetShrineName, PetShrine> = {
     },
   },
   "Badger Shrine": {
-    name: "Badger Shrine",
     description: "",
     coins: 0,
     ingredients: {
@@ -345,7 +338,6 @@ export const PET_SHRINES: Record<PetShrineName, PetShrine> = {
     },
   },
   "Mole Shrine": {
-    name: "Mole Shrine",
     description: "",
     coins: 0,
     ingredients: {
@@ -355,7 +347,6 @@ export const PET_SHRINES: Record<PetShrineName, PetShrine> = {
     },
   },
   "Tortoise Shrine": {
-    name: "Tortoise Shrine",
     description: "",
     coins: 0,
     ingredients: {
@@ -365,7 +356,6 @@ export const PET_SHRINES: Record<PetShrineName, PetShrine> = {
     },
   },
   "Stag Shrine": {
-    name: "Stag Shrine",
     description: "",
     coins: 0,
     ingredients: {
@@ -375,7 +365,6 @@ export const PET_SHRINES: Record<PetShrineName, PetShrine> = {
     },
   },
   "Bear Shrine": {
-    name: "Bear Shrine",
     description: "",
     coins: 0,
     ingredients: {
@@ -385,7 +374,6 @@ export const PET_SHRINES: Record<PetShrineName, PetShrine> = {
     },
   },
   "Legendary Shrine": {
-    name: "Legendary Shrine",
     description: "",
     coins: 0,
     ingredients: {
