@@ -370,6 +370,7 @@ import { Project } from "./components/Project";
 import { PetShrine } from "./components/PetShrine";
 import { ObsidianShrine } from "./components/ObsidianShrine";
 import { Pet } from "./components/Pet";
+import { PetName, PETS } from "features/game/types/pets";
 
 export const COLLECTIBLE_COMPONENTS: Record<
   CollectibleName | "Bud",
@@ -383,14 +384,13 @@ export const COLLECTIBLE_COMPONENTS: Record<
     {} as Record<TemplateDecorationName, React.FC<CollectibleProps>>,
   ),
 
-  Barkley: (props: CollectibleProps) => <Pet {...props} />,
-  Meowchi: (props: CollectibleProps) => <Pet {...props} />,
-  Twizzle: (props: CollectibleProps) => <Pet {...props} />,
-  Burro: (props: CollectibleProps) => <Pet {...props} />,
-  Mudhorn: (props: CollectibleProps) => <Pet {...props} />,
-  Nibbles: (props: CollectibleProps) => <Pet {...props} />,
-  Waddles: (props: CollectibleProps) => <Pet {...props} />,
-  Ramsey: (props: CollectibleProps) => <Pet {...props} />,
+  ...getKeys(PETS).reduce<Record<PetName, React.FC<CollectibleProps>>>(
+    (previous, name) => ({
+      ...previous,
+      [name]: () => <Pet name={name} />,
+    }),
+    {} as Record<PetName, React.FC<CollectibleProps>>,
+  ),
 
   "Baby Cow": BabyCow,
   "Baby Sheep": BabySheep,

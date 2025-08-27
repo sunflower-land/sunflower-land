@@ -990,13 +990,27 @@ import janitorChicken from "assets/animals/chickens/janitor_chicken.webp";
 import venusBumpkinTrap from "assets/flowers/venus_bumpkin_trap.webp";
 import poseidon from "assets/sfts/poseidon_fish.webp";
 
-import barkley from "assets/sfts/pets/barkley.webp";
-import meowchi from "assets/sfts/pets/meowchi.webp";
-import twizzle from "assets/sfts/pets/twizzle.webp";
-import burro from "assets/sfts/pets/burro.webp";
-import mudhorn from "assets/sfts/pets/mudhorn.webp";
-import nibbles from "assets/sfts/pets/nibbles.webp";
-import waddles from "assets/sfts/pets/waddles.webp";
+import barkley from "assets/sfts/pets/dogs/barkley.webp";
+import biscuit from "assets/sfts/pets/dogs/biscuit.webp";
+import cloudy from "assets/sfts/pets/dogs/cloudy.webp";
+import meowchi from "assets/sfts/pets/cats/meowchi.webp";
+import butters from "assets/sfts/pets/cats/butters.webp";
+import smokey from "assets/sfts/pets/cats/smokey.webp";
+import twizzle from "assets/sfts/pets/owls/twizzle.webp";
+import flicker from "assets/sfts/pets/owls/flicker.webp";
+import pippin from "assets/sfts/pets/owls/pippin.webp";
+import burro from "assets/sfts/pets/horses/burro.webp";
+import pinto from "assets/sfts/pets/horses/pinto.webp";
+import roan from "assets/sfts/pets/horses/roan.webp";
+import stallion from "assets/sfts/pets/horses/stallion.webp";
+import mudhorn from "assets/sfts/pets/bulls/mudhorn.webp";
+import bison from "assets/sfts/pets/bulls/Bison.webp";
+import oxen from "assets/sfts/pets/bulls/Oxen.webp";
+import nibbles from "assets/sfts/pets/hamsters/nibbles.webp";
+import peanuts from "assets/sfts/pets/hamsters/peanut.webp";
+import pip from "assets/sfts/pets/penguins/pip.webp";
+import skipper from "assets/sfts/pets/penguins/skipper.webp";
+import waddles from "assets/sfts/pets/penguins/waddles.webp";
 import ramsey from "assets/sfts/pets/ramsey.webp";
 
 import moonfur from "assets/icons/moonfur.webp";
@@ -5769,6 +5783,63 @@ export const ITEM_DETAILS: Items = {
   Burro: {
     image: burro,
     description: translate("description.burro"),
+  },
+
+  Biscuit: {
+    image: biscuit,
+    description: "",
+  },
+  Cloudy: {
+    image: cloudy,
+    description: "",
+  },
+  Butters: {
+    image: butters,
+    description: "",
+  },
+  Smokey: {
+    image: smokey,
+    description: "",
+  },
+  Flicker: {
+    image: flicker,
+    description: "",
+  },
+  Pippin: {
+    image: pippin,
+    description: "",
+  },
+  Pinto: {
+    image: pinto,
+    description: "",
+  },
+  Roan: {
+    image: roan,
+    description: "",
+  },
+  Stallion: {
+    image: stallion,
+    description: "",
+  },
+  Peanuts: {
+    image: peanuts,
+    description: "",
+  },
+  Pip: {
+    image: pip,
+    description: "",
+  },
+  Skipper: {
+    image: skipper,
+    description: "",
+  },
+  Bison: {
+    image: bison,
+    description: "",
+  },
+  Oxen: {
+    image: oxen,
+    description: "",
   },
   "Chewed Bone": {
     image: camelBone,
