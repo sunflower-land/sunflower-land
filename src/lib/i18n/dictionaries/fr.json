@@ -6499,5 +6499,11 @@
   "playerSearch.placeholderContext": "Rechercher {{context}}...",
   "playerSearch.placeholderAll": "Recherche par nom d'utilisateur...",
   "playerSearch.searchPlayer": "Rechercher des joueurs",
-  "playerSearch.startTyping": "Commencez à saisir un nom d'utilisateur..."
+  "playerSearch.startTyping": "Commencez à saisir un nom d'utilisateur...",
+  "cheering.farm.visiting": "Cheering Farm",
+  "cheering.farm.visiting.success": "Envoi d'acclamations",
+  "cheering.farm.visiting.error": "Incapable d'encourager",
+  "following.farm.visiting": "Ferme suivante",
+  "following.farm.visiting.success": "Vous suivez maintenant cette ferme",
+  "following.farm.visiting.error": "Je n'ai pas réussi à suivre cette ferme"
 }

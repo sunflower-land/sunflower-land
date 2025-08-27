@@ -6499,5 +6499,11 @@
   "playerSearch.placeholderContext": "검색 {{context}}...",
   "playerSearch.placeholderAll": "사용자 이름으로 검색...",
   "playerSearch.searchPlayer": "플레이어 검색",
-  "playerSearch.startTyping": "사용자 이름 입력 시작..."
+  "playerSearch.startTyping": "사용자 이름 입력 시작...",
+  "cheering.farm.visiting": "치어링 팜",
+  "cheering.farm.visiting.success": "응원 전송",
+  "cheering.farm.visiting.error": "응원 불가",
+  "following.farm.visiting": "팔로우 팜",
+  "following.farm.visiting.success": "당신은 지금 이 농장을 팔로우하고 있습니다",
+  "following.farm.visiting.error": "이 팜을 팔로우하지 못했습니다"
 }

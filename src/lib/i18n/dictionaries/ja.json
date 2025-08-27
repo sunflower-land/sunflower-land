@@ -6499,5 +6499,11 @@
   "playerSearch.placeholderContext": "{{context}} を検索してください...",
   "playerSearch.placeholderAll": "ユーザー名で検索...",
   "playerSearch.searchPlayer": "プレイヤーを検索する",
-  "playerSearch.startTyping": "ユーザー名の入力を開始..."
+  "playerSearch.startTyping": "ユーザー名の入力を開始...",
+  "cheering.farm.visiting": "チアリングファーム",
+  "cheering.farm.visiting.success": "応援を送りました",
+  "cheering.farm.visiting.error": "応援できない",
+  "following.farm.visiting": "フォローファーム",
+  "following.farm.visiting.success": "現在このファームをフォローしています",
+  "following.farm.visiting.error": "このファームをフォローできませんでした"
 }

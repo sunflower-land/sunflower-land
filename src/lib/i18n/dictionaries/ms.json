@@ -6499,5 +6499,11 @@
   "playerSearch.placeholderContext": "Cari {{context}}...",
   "playerSearch.placeholderAll": "Cari mengikut nama pengguna...",
   "playerSearch.searchPlayer": "Cari pemain",
-  "playerSearch.startTyping": "Mula menaip nama pengguna..."
+  "playerSearch.startTyping": "Mula menaip nama pengguna...",
+  "cheering.farm.visiting": "Ladang Bersorak",
+  "cheering.farm.visiting.success": "Sorak dihantar",
+  "cheering.farm.visiting.error": "Tidak dapat bersorak",
+  "following.farm.visiting": "Mengikuti ladang",
+  "following.farm.visiting.success": "Anda kini mengikuti ladang ini",
+  "following.farm.visiting.error": "Gagal mengikuti ladang ini"
 }

@@ -6499,5 +6499,11 @@
   "playerSearch.placeholderContext": "Cari {{context}}...",
   "playerSearch.placeholderAll": "Cari berdasarkan nama pengguna...",
   "playerSearch.searchPlayer": "Cari pemain",
-  "playerSearch.startTyping": "Mulai mengetik nama pengguna..."
+  "playerSearch.startTyping": "Mulai mengetik nama pengguna...",
+  "cheering.farm.visiting": "Pertanian Bersorak",
+  "cheering.farm.visiting.success": "Cheer dikirim",
+  "cheering.farm.visiting.error": "Tidak bisa bersorak",
+  "following.farm.visiting": "Mengikuti pertanian",
+  "following.farm.visiting.success": "Anda sekarang mengikuti peternakan ini",
+  "following.farm.visiting.error": "Gagal mengikuti peternakan ini"
 }

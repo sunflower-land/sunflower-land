@@ -6499,5 +6499,11 @@
   "playerSearch.placeholderContext": "Ara {{context}}...",
   "playerSearch.placeholderAll": "Kullanıcı adına göre ara...",
   "playerSearch.searchPlayer": "Oyuncuları ara",
-  "playerSearch.startTyping": "Bir kullanıcı adı yazmaya başlayın..."
+  "playerSearch.startTyping": "Bir kullanıcı adı yazmaya başlayın...",
+  "cheering.farm.visiting": "Tezahürat Çiftliği",
+  "cheering.farm.visiting.success": "Cheer gönderildi",
+  "cheering.farm.visiting.error": "Neşelenemiyor",
+  "following.farm.visiting": "Takip eden çiftlik",
+  "following.farm.visiting.success": "Şimdi bu çiftliği takip ediyorsunuz",
+  "following.farm.visiting.error": "Bu çiftliği takip edemedi"
 }

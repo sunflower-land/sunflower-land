@@ -6499,5 +6499,11 @@
   "playerSearch.placeholderContext": "Cerca {{context}}...",
   "playerSearch.placeholderAll": "Cerca per nome utente...",
   "playerSearch.searchPlayer": "Cerca giocatori",
-  "playerSearch.startTyping": "Inizia a digitare un nome utente..."
+  "playerSearch.startTyping": "Inizia a digitare un nome utente...",
+  "cheering.farm.visiting": "Fattoria del tifo",
+  "cheering.farm.visiting.success": "Allegria inviata",
+  "cheering.farm.visiting.error": "Incapace di rallegrare",
+  "following.farm.visiting": "Fattoria seguente",
+  "following.farm.visiting.success": "Stai seguendo questo agriturismo",
+  "following.farm.visiting.error": "Non sono riuscito a seguire questa fattoria"
 }

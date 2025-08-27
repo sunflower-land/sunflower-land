@@ -6499,5 +6499,11 @@
   "playerSearch.placeholderContext": "Pesquisar {{context}}...",
   "playerSearch.placeholderAll": "Pesquisar por nome de usuário...",
   "playerSearch.searchPlayer": "Pesquisar jogadores",
-  "playerSearch.startTyping": "Comece a digitar um nome de usuário..."
+  "playerSearch.startTyping": "Comece a digitar um nome de usuário...",
+  "cheering.farm.visiting": "Fazenda Torcendo",
+  "cheering.farm.visiting.success": "Aplausos enviados",
+  "cheering.farm.visiting.error": "Incapaz de torcer",
+  "following.farm.visiting": "Seguindo a fazenda",
+  "following.farm.visiting.success": "Agora você está seguindo esta fazenda",
+  "following.farm.visiting.error": "Falha em seguir esta fazenda"
 }

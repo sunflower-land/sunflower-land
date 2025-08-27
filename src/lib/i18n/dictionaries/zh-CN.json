@@ -6499,5 +6499,11 @@
   "playerSearch.placeholderContext": "搜索 {{context}}...",
   "playerSearch.placeholderAll": "按用户名搜索...",
   "playerSearch.searchPlayer": "搜索玩家",
-  "playerSearch.startTyping": "开始键入用户名..."
+  "playerSearch.startTyping": "开始键入用户名...",
+  "cheering.farm.visiting": "欢呼农场",
+  "cheering.farm.visiting.success": "欢呼已发送",
+  "cheering.farm.visiting.error": "无法欢呼",
+  "following.farm.visiting": "关注农场",
+  "following.farm.visiting.success": "你现在正在关注这个农场",
+  "following.farm.visiting.error": "未能关注这个农场"
 }

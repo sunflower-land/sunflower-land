@@ -6499,5 +6499,11 @@
   "playerSearch.placeholderContext": "Suche {{context}}...",
   "playerSearch.placeholderAll": "Suche nach Nutzername...",
   "playerSearch.searchPlayer": "Suche nach Spielern",
-  "playerSearch.startTyping": "Beginnen Sie mit der Eingabe eines Benutzernamens..."
+  "playerSearch.startTyping": "Beginnen Sie mit der Eingabe eines Benutzernamens...",
+  "cheering.farm.visiting": "Jubelnder Bauernhof",
+  "cheering.farm.visiting.success": "Jubel gesendet",
+  "cheering.farm.visiting.error": "Ich kann nicht jubeln",
+  "following.farm.visiting": "Folgender Bauernhof",
+  "following.farm.visiting.success": "Du folgst jetzt dieser Farm",
+  "following.farm.visiting.error": "Dieser Farm konnte nicht gefolgt werden"
 }

@@ -6499,5 +6499,11 @@
   "playerSearch.placeholderContext": "Buscar {{context}}...",
   "playerSearch.placeholderAll": "Buscar por nombre de usuario...",
   "playerSearch.searchPlayer": "Buscar jugadores",
-  "playerSearch.startTyping": "Empieza a escribir un nombre de usuario..."
+  "playerSearch.startTyping": "Empieza a escribir un nombre de usuario...",
+  "cheering.farm.visiting": "Granja que aplaude",
+  "cheering.farm.visiting.success": "¡Saludos enviados!",
+  "cheering.farm.visiting.error": "Incapaz de aplaudir",
+  "following.farm.visiting": "Siguiendo la granja",
+  "following.farm.visiting.success": "Ahora estás siguiendo esta granja",
+  "following.farm.visiting.error": "No se pudo seguir esta granja"
 }

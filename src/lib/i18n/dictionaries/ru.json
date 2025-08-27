@@ -6499,5 +6499,11 @@
   "playerSearch.placeholderContext": "Поиск {{context}}...",
   "playerSearch.placeholderAll": "Поиск по имени пользователя...",
   "playerSearch.searchPlayer": "Поиск игроков",
-  "playerSearch.startTyping": "Начните вводить имя пользователя..."
+  "playerSearch.startTyping": "Начните вводить имя пользователя...",
+  "cheering.farm.visiting": "Веселая ферма",
+  "cheering.farm.visiting.success": "Приветствие отправлено",
+  "cheering.farm.visiting.error": "Не могу подбодрить",
+  "following.farm.visiting": "Следующая ферма",
+  "following.farm.visiting.success": "Теперь вы следите за этой фермой",
+  "following.farm.visiting.error": "Не удалось проследить за этой фермой"
 }
