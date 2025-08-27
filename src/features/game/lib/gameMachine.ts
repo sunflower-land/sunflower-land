@@ -613,6 +613,14 @@ const VISIT_EFFECT_STATES = Object.values(STATE_MACHINE_VISIT_EFFECTS).reduce(
             transactionId: context.transactionId as string,
           });
 
+          if (event.effect.type === "farm.followed") {
+            return {
+              state: context.state,
+              data,
+              visitorState: gameState,
+            };
+          }
+
           const { visitedFarmState, ...rest } = data;
 
           return {
@@ -988,7 +996,6 @@ export function startGame(authContext: AuthContext) {
             },
           },
         },
-
         loadLandToVisit: {
           invoke: {
             src: async (context, event) => {
