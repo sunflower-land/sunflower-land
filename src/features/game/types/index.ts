@@ -1196,6 +1196,20 @@ export const KNOWN_IDS: Record<InventoryItemName, number> = {
   Nibbles: 2606,
   Waddles: 2607,
   Ramsey: 2608, // Test NFT only
+  Biscuit: 2609,
+  Cloudy: 2610,
+  Butters: 2611,
+  Smokey: 2612,
+  Flicker: 2613,
+  Pippin: 2614,
+  Pinto: 2615,
+  Roan: 2616,
+  Stallion: 2617,
+  Bison: 2618,
+  Oxen: 2619,
+  Peanuts: 2620,
+  Pip: 2621,
+  Skipper: 2622,
 
   // Pet Resources
   Acorn: 2630,

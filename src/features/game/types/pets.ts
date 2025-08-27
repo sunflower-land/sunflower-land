@@ -2,20 +2,59 @@ import Decimal from "decimal.js-light";
 import { Decoration } from "./decorations";
 
 export type PetName =
+  // Dogs
   | "Barkley"
+  | "Biscuit"
+  | "Cloudy"
+
+  // Cats
   | "Meowchi"
+  | "Butters"
+  | "Smokey"
+
+  // Owls
   | "Twizzle"
+  | "Flicker"
+  | "Pippin"
+
+  // Horses
   | "Burro"
+  | "Pinto"
+  | "Roan"
+  | "Stallion"
+
+  // Bulls
   | "Mudhorn"
+  | "Bison"
+  | "Oxen"
+
+  // Hamsters
   | "Nibbles"
+  | "Peanuts"
+
+  // Penguins
   | "Waddles"
+  | "Pip"
+  | "Skipper"
+
+  // Goat - Not used
   | "Ramsey";
+
+export type PetCategory =
+  | "Dog"
+  | "Cat"
+  | "Owl"
+  | "Horse"
+  | "Bull"
+  | "Hamster"
+  | "Penguin";
 
 export type PetConfig = {
   fetches: { name: PetResource; level: number }[];
 };
 
 export const PETS: Record<PetName, PetConfig> = {
+  // Dogs
   Barkley: {
     fetches: [
       { level: 1, name: "Acorn" },
@@ -24,23 +63,14 @@ export const PETS: Record<PetName, PetConfig> = {
       { level: 25, name: "Frost Pebble" },
     ],
   },
+  Biscuit: {
+    fetches: [],
+  },
+  Cloudy: {
+    fetches: [],
+  },
 
-  Burro: {
-    fetches: [
-      { level: 1, name: "Acorn" },
-      { level: 3, name: "Ruffroot" },
-      { level: 5, name: "Fossil Shell" },
-      { level: 25, name: "Wild Grass" },
-    ],
-  },
-  Twizzle: {
-    fetches: [
-      { level: 1, name: "Acorn" },
-      { level: 3, name: "Heart leaf" },
-      { level: 5, name: "Fossil Shell" },
-      { level: 25, name: "Ribbon" },
-    ],
-  },
+  // Cats
   Meowchi: {
     fetches: [
       { level: 1, name: "Acorn" },
@@ -49,6 +79,49 @@ export const PETS: Record<PetName, PetConfig> = {
       { level: 25, name: "Chewed Bone" },
     ],
   },
+  Butters: {
+    fetches: [],
+  },
+  Smokey: {
+    fetches: [],
+  },
+
+  // Owls
+  Twizzle: {
+    fetches: [
+      { level: 1, name: "Acorn" },
+      { level: 3, name: "Heart leaf" },
+      { level: 5, name: "Fossil Shell" },
+      { level: 25, name: "Ribbon" },
+    ],
+  },
+  Flicker: {
+    fetches: [],
+  },
+  Pippin: {
+    fetches: [],
+  },
+
+  // Horses
+  Burro: {
+    fetches: [
+      { level: 1, name: "Acorn" },
+      { level: 3, name: "Ruffroot" },
+      { level: 5, name: "Fossil Shell" },
+      { level: 25, name: "Wild Grass" },
+    ],
+  },
+  Pinto: {
+    fetches: [],
+  },
+  Roan: {
+    fetches: [],
+  },
+  Stallion: {
+    fetches: [],
+  },
+
+  // Bulls
   Mudhorn: {
     fetches: [
       { level: 1, name: "Acorn" },
@@ -57,6 +130,14 @@ export const PETS: Record<PetName, PetConfig> = {
       { level: 25, name: "Dewberry" },
     ],
   },
+  Bison: {
+    fetches: [],
+  },
+  Oxen: {
+    fetches: [],
+  },
+
+  // Hamsters
   Nibbles: {
     fetches: [
       { level: 1, name: "Acorn" },
@@ -65,6 +146,11 @@ export const PETS: Record<PetName, PetConfig> = {
       { level: 25, name: "Ruffroot" },
     ],
   },
+  Peanuts: {
+    fetches: [],
+  },
+
+  // Penguins
   Waddles: {
     fetches: [
       { level: 1, name: "Acorn" },
@@ -73,6 +159,13 @@ export const PETS: Record<PetName, PetConfig> = {
       { level: 25, name: "Heart leaf" },
     ],
   },
+  Pip: {
+    fetches: [],
+  },
+  Skipper: {
+    fetches: [],
+  },
+
   // NFT placeholder for testing
   Ramsey: {
     fetches: [
@@ -83,6 +176,16 @@ export const PETS: Record<PetName, PetConfig> = {
       { level: 25, name: "Heart leaf" },
     ],
   },
+};
+
+export const PET_CATEGORIES: Record<PetCategory, PetName[]> = {
+  Dog: ["Barkley", "Biscuit", "Cloudy"],
+  Cat: ["Meowchi", "Butters", "Smokey"],
+  Owl: ["Twizzle", "Flicker", "Pippin"],
+  Horse: ["Burro", "Pinto", "Roan", "Stallion"],
+  Bull: ["Mudhorn", "Bison", "Oxen"],
+  Hamster: ["Nibbles", "Peanuts"],
+  Penguin: ["Waddles", "Pip", "Skipper"],
 };
 
 export type PetResource =
