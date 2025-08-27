@@ -1,4 +1,7 @@
-import { InventoryItemName, Wardrobe } from "./game";
+import { getObjectEntries } from "../expansion/lib/utils";
+import { getKeys } from "./decorations";
+import { Inventory, InventoryItemName, Wardrobe } from "./game";
+import { PETS, PET_CATEGORIES, PetCategory, PetName } from "./pets";
 
 export type RewardBox = {
   spunAt?: number;
@@ -67,8 +70,26 @@ export const REWARD_BOXES: Record<RewardBoxName, RewardBoxDetails> = {
   "Pet Egg": {
     rewards: [
       { items: { Barkley: 1 }, weight: 100 },
-      { items: { Burro: 1 }, weight: 100 },
+      { items: { Biscuit: 1 }, weight: 100 },
+      { items: { Cloudy: 1 }, weight: 100 },
+      { items: { Meowchi: 1 }, weight: 100 },
+      { items: { Butters: 1 }, weight: 100 },
+      { items: { Smokey: 1 }, weight: 100 },
       { items: { Twizzle: 1 }, weight: 100 },
+      { items: { Flicker: 1 }, weight: 100 },
+      { items: { Pippin: 1 }, weight: 100 },
+      { items: { Burro: 1 }, weight: 100 },
+      { items: { Pinto: 1 }, weight: 100 },
+      { items: { Roan: 1 }, weight: 100 },
+      { items: { Stallion: 1 }, weight: 100 },
+      { items: { Mudhorn: 1 }, weight: 100 },
+      { items: { Bison: 1 }, weight: 100 },
+      { items: { Oxen: 1 }, weight: 100 },
+      { items: { Nibbles: 1 }, weight: 100 },
+      { items: { Peanuts: 1 }, weight: 100 },
+      { items: { Waddles: 1 }, weight: 100 },
+      { items: { Pip: 1 }, weight: 100 },
+      { items: { Skipper: 1 }, weight: 100 },
     ],
   },
   "Test Box": {
@@ -242,4 +263,53 @@ export const REWARD_BOXES: Record<RewardBoxName, RewardBoxDetails> = {
       { items: { "Pizza Margherita": 5 }, weight: 100 },
     ],
   },
+};
+
+/**
+ * Returns a list of pet rewards that the player does not already have.
+ *
+ * @param inventory - The player's inventory
+ * @returns A list of pet rewards that the player does not already have
+ */
+export const getPetRewardPool = ({
+  inventory,
+}: {
+  inventory: Inventory;
+}): RewardBoxReward[] => {
+  let petRewardPool = [...REWARD_BOXES["Pet Egg"].rewards];
+
+  // Get all pet categories that the player already has pets from
+  const ownedPetCategories = new Set<PetCategory>();
+
+  getKeys(PETS).forEach((pet) => {
+    if (inventory[pet]) {
+      const petCategoryEntry = getObjectEntries(PET_CATEGORIES).find(
+        ([, pets]) => pets.includes(pet),
+      );
+
+      if (petCategoryEntry) {
+        const [petCategory] = petCategoryEntry;
+        ownedPetCategories.add(petCategory);
+      }
+    }
+  });
+
+  // Filter out all pets from categories the player already owns
+  petRewardPool = petRewardPool.filter((reward) => {
+    const rewardPet = getKeys(reward.items ?? {})[0];
+
+    if (!rewardPet) return true;
+
+    const petCategory = getObjectEntries(PET_CATEGORIES).find(([, pets]) =>
+      pets.includes(rewardPet as PetName),
+    );
+
+    if (petCategory) {
+      return !ownedPetCategories.has(petCategory[0]);
+    }
+
+    return true;
+  });
+
+  return petRewardPool;
 };

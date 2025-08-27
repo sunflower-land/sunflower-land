@@ -40,6 +40,15 @@ export type PetName =
   // Goat - Not used
   | "Ramsey";
 
+export type PetCategory =
+  | "Dog"
+  | "Cat"
+  | "Owl"
+  | "Horse"
+  | "Bull"
+  | "Hamster"
+  | "Penguin";
+
 export type PetConfig = {
   fetches: { name: PetResource; level: number }[];
 };
@@ -167,6 +176,16 @@ export const PETS: Record<PetName, PetConfig> = {
       { level: 25, name: "Heart leaf" },
     ],
   },
+};
+
+export const PET_CATEGORIES: Record<PetCategory, PetName[]> = {
+  Dog: ["Barkley", "Biscuit", "Cloudy"],
+  Cat: ["Meowchi", "Butters", "Smokey"],
+  Owl: ["Twizzle", "Flicker", "Pippin"],
+  Horse: ["Burro", "Pinto", "Roan", "Stallion"],
+  Bull: ["Mudhorn", "Bison", "Oxen"],
+  Hamster: ["Nibbles", "Peanuts"],
+  Penguin: ["Waddles", "Pip", "Skipper"],
 };
 
 export type PetResource =
