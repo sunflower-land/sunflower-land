@@ -49,7 +49,7 @@ type EffectName =
   | "pet.wakeUp"
   | "auction.claimed";
 
-type VisitEffectName = "farm.helped" | "farm.cheered";
+type VisitEffectName = "farm.helped";
 
 // IMPORTANT: If your effect does not go via a state in the state machine then exclude it here!
 // Create a type that excludes the events that are not individual state machine states
@@ -103,7 +103,10 @@ export type StateMachineStateName =
   | "claimingAuction"
   | "wakingPet";
 
-export type StateMachineVisitStateName = "cheeringFarm" | "helpingFarm";
+export type StateMachineVisitStateName =
+  | "cheeringVillageProject"
+  | "cleaningFarm"
+  | "helpingFarm";
 
 export type StateNameWithStatus =
   | `${StateMachineStateName}Success`
@@ -156,7 +159,6 @@ export const STATE_MACHINE_VISIT_EFFECTS: Record<
   StateMachineVisitStateName
 > = {
   "farm.helped": "helpingFarm",
-  "farm.cheered": "cheeringFarm",
 };
 
 export interface Effect {
