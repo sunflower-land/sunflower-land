@@ -112,7 +112,7 @@ const RocketmanNoticeboard: React.FC = () => {
         className="mr-1"
         onClick={() => {
           window.open(
-            "https://docs.sunflower-land.com/getting-started/usdflower-erc20/schedule",
+            "https://docs.sunflower-land.com/getting-started/usdflower-erc20",
             "_blank",
           );
         }}

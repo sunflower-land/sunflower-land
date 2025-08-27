@@ -270,21 +270,18 @@ const NEWS_ITEMS: NewsItem[] = [
     title: "news.flower.launch",
     description: "news.flower.launch.description",
     image: SUNNYSIDE.announcement.flowerBanner,
-    link: "https://docs.sunflower-land.com/getting-started/usdflower-erc20",
     date: new Date("2025-05-14"),
   },
   {
     title: "news.greatBloom",
     description: "news.greatBloom.description",
     image: SUNNYSIDE.announcement.loveRush,
-    link: "https://docs.sunflower-land.com/getting-started/usdflower-erc20",
     date: new Date("2025-05-01"),
   },
   {
     title: "news.ronin.network",
     description: "news.ronin.network.description",
     image: SUNNYSIDE.announcement.roninBanner,
-    link: "https://docs.sunflower-land.com/getting-started/usdflower-erc20",
     date: new Date("2025-04-01"),
   },
 ];

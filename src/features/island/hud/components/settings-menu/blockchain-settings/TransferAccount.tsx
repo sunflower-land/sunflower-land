@@ -115,7 +115,7 @@ export const TransferAccount: React.FC = () => {
         {t("transfer")}
       </Button>
       <a
-        href="https://docs.sunflower-land.com/support/faq#how-can-i-send-my-account-to-a-new-wallet"
+        href="https://docs.sunflower-land.com/getting-started/how-to-start"
         className="underline text-xxs"
         target="_blank"
         rel="noopener noreferrer"

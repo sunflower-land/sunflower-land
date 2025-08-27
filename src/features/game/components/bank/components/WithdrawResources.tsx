@@ -221,7 +221,7 @@ export const WithdrawResources: React.FC<Props> = ({ onWithdraw }) => {
           {t("deliveryitem.viewOnOpenSea")}{" "}
           <a
             className="underline hover:text-blue-500"
-            href="https://docs.sunflower-land.com/fundamentals/withdrawing"
+            href="https://docs.sunflower-land.com/getting-started/crypto-and-digital-collectibles"
             target="_blank"
             rel="noopener noreferrer"
           >

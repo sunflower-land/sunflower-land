@@ -14,7 +14,7 @@ export const Transacting: React.FC = () => {
       </span>
       <a
         className="underline text-xxs text-center hover:text-white"
-        href="https://docs.sunflower-land.com/fundamentals/blockchain-fundamentals"
+        href="https://docs.sunflower-land.com/getting-started/crypto-and-digital-collectibles"
         target="_blank"
         rel="noreferrer"
       >
