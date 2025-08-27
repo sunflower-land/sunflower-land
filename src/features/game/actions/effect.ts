@@ -106,7 +106,7 @@ export type StateMachineStateName =
 export type StateMachineVisitStateName =
   | "helpingFarm"
   | "cheeringFarmVisiting"
-  | "followingFarmVisting";
+  | "followingFarmVisiting";
 
 export type StateNameWithStatus =
   | `${StateMachineStateName}Success`
@@ -160,7 +160,7 @@ export const STATE_MACHINE_VISIT_EFFECTS: Record<
 > = {
   "farm.helped": "helpingFarm",
   "farm.cheered": "cheeringFarmVisiting",
-  "farm.followed": "followingFarmVisting",
+  "farm.followed": "followingFarmVisiting",
 };
 
 export interface Effect {
