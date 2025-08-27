@@ -190,8 +190,8 @@ export const Feed: React.FC<Props> = ({
 
   useOnMachineTransition(
     gameService,
-    "followingFarmVisting",
-    "followingFarmVistingSuccess",
+    "followingFarmVisiting",
+    "followingFarmVisitingSuccess",
     mutate,
   );
 
