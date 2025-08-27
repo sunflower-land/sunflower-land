@@ -31,12 +31,6 @@ export type HeliosBlacksmithItem =
   | "Bale"
   | "Scary Mike"
   | "Laurie the Chuckle Crow"
-  | "Poppy"
-  | "Kernaldo"
-  | "Grain Grinder"
-  | "Skill Shrimpy"
-  | "Soil Krabby"
-  | "Nana"
   | "Stone Beetle"
   | "Iron Beetle"
   | "Gold Beetle"
@@ -120,7 +114,13 @@ export type SoldOutCollectibleName =
   | "Jurassic Droplet"
   | "Giant Onion"
   | "Giant Turnip"
-  | "Groovy Gramophone";
+  | "Groovy Gramophone"
+  | "Poppy"
+  | "Kernaldo"
+  | "Grain Grinder"
+  | "Skill Shrimpy"
+  | "Soil Krabby"
+  | "Nana";
 
 export type MegaStoreCollectibleName =
   | "Flower Cart"
@@ -195,8 +195,9 @@ export type CraftableCollectible = {
   level?: number;
 };
 
-export const HELIOS_BLACKSMITH_ITEMS: Partial<
-  Record<HeliosBlacksmithItem, CraftableCollectible>
+export const HELIOS_BLACKSMITH_ITEMS: Record<
+  HeliosBlacksmithItem,
+  CraftableCollectible
 > = {
   "Basic Scarecrow": {
     description: translate("description.basic.scarecrow"),
