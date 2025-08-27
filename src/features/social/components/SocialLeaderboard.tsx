@@ -31,7 +31,7 @@ export const SocialLeaderboard: React.FC<LeaderboardProps> = ({
   const [showLeaderboard, setShowLeaderboard] = useState<"weekly" | "allTime">(
     "weekly",
   );
-  const [hovering, setHovering] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(false);
 
   const { data, isLoading } = useSWR(
     id ? ["socialLeaderboard", id] : null,
@@ -63,8 +63,25 @@ export const SocialLeaderboard: React.FC<LeaderboardProps> = ({
         <div className="flex flex-col mb-1 gap-1 md:flex-row md:items-center justify-between p-1">
           <div
             className="relative"
-            onMouseEnter={() => setHovering(true)}
-            onMouseLeave={() => setHovering(false)}
+            onPointerEnter={(e) => {
+              if (e.pointerType === "touch") {
+                setShowTooltip(true);
+                setTimeout(() => {
+                  setShowTooltip(false);
+                }, 1000);
+              } else {
+                setShowTooltip(true);
+              }
+            }}
+            onPointerLeave={(e) => {
+              if (e.pointerType === "touch") {
+                return;
+              }
+
+              if (showTooltip) {
+                setShowTooltip(false);
+              }
+            }}
           >
             <Label
               type="default"
@@ -77,7 +94,7 @@ export const SocialLeaderboard: React.FC<LeaderboardProps> = ({
             >
               {t(`social.leaderboard.${showLeaderboard}`)}
             </Label>
-            {hovering && (
+            {showTooltip && (
               <Label type="info" className="absolute -bottom-7 -right-3">
                 <p className="text-xxs px-1">
                   {t("social.leaderboard.clickToView", {
@@ -191,7 +208,7 @@ export const SocialLeaderboardTable: React.FC<Props> = ({
 
               <td
                 style={{ border: "1px solid #b96f50" }}
-                className="p-1.5 w-1/5"
+                className="p-1.5 w-1/4"
               >
                 {count}
               </td>

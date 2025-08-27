@@ -46,6 +46,9 @@ import { discoveryModalManager } from "./lib/discoveryModalManager";
 import { FeedFilters } from "./components/FeedFilters";
 import { getFilter, storeFilter } from "./lib/persistFilter";
 import { HelpInfoPopover } from "./components/HelpInfoPopover";
+import { SearchBar } from "./components/SearchBar";
+import { Detail } from "./actions/getFollowNetworkDetails";
+import { hasFeatureAccess } from "lib/flags";
 
 type Props = {
   type: "world" | "local";
@@ -96,6 +99,7 @@ export const Feed: React.FC<Props> = ({
   const [showFollowing, setShowFollowing] = useState(false);
   const feedRef = useRef<HTMLDivElement>(null);
   const [selectedFilter, setSelectedFilter] = useState<FeedFilter>(getFilter());
+  const [searchResults, setSearchResults] = useState<Detail[]>([]);
 
   const username = useSelector(gameService, _username);
   const token = useSelector(authService, _token);
@@ -285,10 +289,11 @@ export const Feed: React.FC<Props> = ({
               {t("myProfile")}
             </div>
             <FollowsIndicator
+              showSingleBumpkin
               count={following.length}
               onClick={() => setShowFollowing(!showFollowing)}
               type="following"
-              className="ml-1"
+              className="ml-1 -mr-3.5"
             />
           </div>
           <div className="flex items-center justify-between gap-1 w-full">
@@ -297,7 +302,7 @@ export const Feed: React.FC<Props> = ({
               onClick={() => {
                 setShowFollowing(false);
                 setShowFeed(false);
-                discoveryModalManager.open();
+                discoveryModalManager.open("leaderboard");
               }}
             >
               <img
@@ -306,6 +311,22 @@ export const Feed: React.FC<Props> = ({
               />
               {t("leaderboard")}
             </div>
+            {hasFeatureAccess(
+              gameService.getSnapshot().context.state,
+              "PLAYER_SEARCH",
+            ) && (
+              <div
+                className="flex ml-1.5 mr-1 items-center gap-1 text-xs underline cursor-pointer whitespace-nowrap"
+                onClick={() => {
+                  setShowFollowing(false);
+                  setShowFeed(false);
+                  discoveryModalManager.open("search");
+                }}
+              >
+                {t("playerSearch.searchPlayer")}
+                <img src={SUNNYSIDE.icons.search} className="w-4" />
+              </div>
+            )}
           </div>
         </div>
         {!showFollowing && (
@@ -329,22 +350,26 @@ export const Feed: React.FC<Props> = ({
         )}
 
         {showFollowing && (
-          <div
-            ref={scrollContainerRef}
-            className="flex flex-col gap-2 -mt-2 h-full overflow-hidden overflow-y-auto scrollable"
-          >
-            <FollowList
-              loggedInFarmId={farmId}
-              token={token}
-              networkFarmId={farmId}
-              networkList={following}
-              networkCount={following.length}
-              showLabel={false}
-              networkType="following"
-              scrollContainerRef={scrollContainerRef}
-              navigateToPlayer={handleFollowingClick}
-            />
-          </div>
+          <>
+            <SearchBar context="following" onSearchResults={setSearchResults} />
+            <div
+              ref={scrollContainerRef}
+              className="flex flex-col gap-2 overflow-hidden overflow-y-auto scrollable"
+            >
+              <FollowList
+                loggedInFarmId={farmId}
+                token={token}
+                searchResults={searchResults}
+                networkFarmId={farmId}
+                networkList={following}
+                networkCount={following.length}
+                showLabel={false}
+                networkType="following"
+                scrollContainerRef={scrollContainerRef}
+                navigateToPlayer={handleFollowingClick}
+              />
+            </div>
+          </>
         )}
 
         {!showFollowing && (

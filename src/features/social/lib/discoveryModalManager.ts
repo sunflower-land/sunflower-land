@@ -1,13 +1,15 @@
-class DiscoveryModalManager {
-  private listener?: () => void;
+import { DiscoveryTab } from "../Discovery";
 
-  public open() {
+class DiscoveryModalManager {
+  private listener?: (tab: DiscoveryTab) => void;
+
+  public open(tab: DiscoveryTab) {
     if (this.listener) {
-      this.listener();
+      this.listener(tab);
     }
   }
 
-  public listen(cb: () => void) {
+  public listen(cb: (tab: DiscoveryTab) => void) {
     this.listener = cb;
   }
 }
