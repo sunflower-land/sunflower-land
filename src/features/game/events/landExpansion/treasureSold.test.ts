@@ -236,4 +236,32 @@ describe("treasureSold", () => {
     });
     expect(state.bumpkin?.activity?.["Clam Shell Sold"]).toEqual(amount);
   });
+
+  it("only sells one treasure even when they are placed", () => {
+    const state = sellTreasure({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          "Giant Apple": new Decimal(3),
+        },
+        collectibles: {
+          "Giant Apple": [
+            {
+              coordinates: { x: 0, y: 0 },
+              createdAt: 0,
+              id: "12",
+              readyAt: 0,
+            },
+          ],
+        },
+      },
+      action: {
+        type: "treasure.sold",
+        item: "Giant Apple",
+        amount: 1,
+      },
+    });
+
+    expect(state.inventory["Giant Apple"]).toEqual(new Decimal(2));
+  });
 });
