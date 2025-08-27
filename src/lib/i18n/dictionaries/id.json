@@ -6494,5 +6494,10 @@
   "transaction.migrate.sfl.limit": "Batas SFL yang dapat dimigrasikan diperbarui setiap hari. Jumlah yang ditambahkan ke batas meningkat sebesar 1000 SFL setiap hari.",
   "transaction.migrate.sfl.taxFree": "FLOWER yang dimigrasi dari SFL bebas pajak untuk penarikan.",
   "transaction.migrate.sfl.maxAmount": "Jumlah Maks: {{maxAmount}} (Pembaruan Setiap Hari)",
-  "sfl.migrated": "SFL Bermigrasi"
+  "sfl.migrated": "SFL Bermigrasi",
+  "playerSearch.noResults": "Tidak ada hasil yang ditemukan",
+  "playerSearch.placeholderContext": "Cari {{context}}...",
+  "playerSearch.placeholderAll": "Cari berdasarkan nama pengguna...",
+  "playerSearch.searchPlayer": "Cari pemain",
+  "playerSearch.startTyping": "Mulai mengetik nama pengguna..."
 }

@@ -6494,5 +6494,10 @@
   "transaction.migrate.sfl.limit": "El límite de SFL que se puede migrar se actualiza a diario. La cantidad añadida al límite aumenta en 1000 SFL por día.",
   "transaction.migrate.sfl.taxFree": "El retiro de FLOWER migrado desde SFL está libre de impuestos.",
   "transaction.migrate.sfl.maxAmount": "Cantidad máxima: {{maxAmount}} (se actualiza a diario)",
-  "sfl.migrated": "SFL migrado"
+  "sfl.migrated": "SFL migrado",
+  "playerSearch.noResults": "No se han encontrado resultados",
+  "playerSearch.placeholderContext": "Buscar {{context}}...",
+  "playerSearch.placeholderAll": "Buscar por nombre de usuario...",
+  "playerSearch.searchPlayer": "Buscar jugadores",
+  "playerSearch.startTyping": "Empieza a escribir un nombre de usuario..."
 }

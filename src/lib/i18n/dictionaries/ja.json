@@ -6494,5 +6494,10 @@
   "transaction.migrate.sfl.limit": "移行できるSFLの上限は毎日更新されます。制限に加算される金額は、毎日 1000 SFL ずつ増加します。",
   "transaction.migrate.sfl.taxFree": "SFLから移行したFLOWERは出金時も非課税です。",
   "transaction.migrate.sfl.maxAmount": "最大金額:{{maxAmount}} (毎日更新)",
-  "sfl.migrated": "SFL が移行されました"
+  "sfl.migrated": "SFL が移行されました",
+  "playerSearch.noResults": "結果が見つかりません",
+  "playerSearch.placeholderContext": "{{context}} を検索してください...",
+  "playerSearch.placeholderAll": "ユーザー名で検索...",
+  "playerSearch.searchPlayer": "プレイヤーを検索する",
+  "playerSearch.startTyping": "ユーザー名の入力を開始..."
 }

@@ -6494,5 +6494,10 @@
   "transaction.migrate.sfl.limit": "마이그레이션할 수 있는 SFL 제한은 매일 업데이트됩니다.한도에 추가되는 금액은 매일 1000 SFL씩 증가합니다.",
   "transaction.migrate.sfl.taxFree": "SFL에서 마이그레이션한 FLOWER는 인출 시 세금이 면제됩니다.",
   "transaction.migrate.sfl.maxAmount": "최대 금액: {{maxAmount}} (매일 업데이트)",
-  "sfl.migrated": "SFL 마이그레이션"
+  "sfl.migrated": "SFL 마이그레이션",
+  "playerSearch.noResults": "검색된 결과 없음",
+  "playerSearch.placeholderContext": "검색 {{context}}...",
+  "playerSearch.placeholderAll": "사용자 이름으로 검색...",
+  "playerSearch.searchPlayer": "플레이어 검색",
+  "playerSearch.startTyping": "사용자 이름 입력 시작..."
 }

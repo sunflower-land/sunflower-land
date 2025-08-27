@@ -6494,5 +6494,10 @@
   "transaction.migrate.sfl.limit": "Лимит SFL, который можно перенести, обновляется ежедневно. Сумма, добавляемая к лимиту, увеличивается на 1000 SFL каждый день.",
   "transaction.migrate.sfl.taxFree": "Вывод средств FLOWER, переведенный из SFL, не облагается налогом.",
   "transaction.migrate.sfl.maxAmount": "Максимальная сумма: {{maxAmount}} (обновляется ежедневно)",
-  "sfl.migrated": "SFL мигрировал"
+  "sfl.migrated": "SFL мигрировал",
+  "playerSearch.noResults": "Результаты не найдены",
+  "playerSearch.placeholderContext": "Поиск {{context}}...",
+  "playerSearch.placeholderAll": "Поиск по имени пользователя...",
+  "playerSearch.searchPlayer": "Поиск игроков",
+  "playerSearch.startTyping": "Начните вводить имя пользователя..."
 }

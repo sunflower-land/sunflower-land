@@ -6494,5 +6494,10 @@
   "transaction.migrate.sfl.limit": "Taşınabilecek SFL sınırı günlük olarak güncellenir. Limite eklenen miktar her gün 1000 SFL artar.",
   "transaction.migrate.sfl.taxFree": "SFL'den göç edilen FLOWER, para çekme için vergiden muaftır.",
   "transaction.migrate.sfl.maxAmount": "Maksimum Tutar: {{maxAmount}} (Günlük Güncelleme)",
-  "sfl.migrated": "SFL Taşındı"
+  "sfl.migrated": "SFL Taşındı",
+  "playerSearch.noResults": "Hiçbir sonuç bulunamadı",
+  "playerSearch.placeholderContext": "Ara {{context}}...",
+  "playerSearch.placeholderAll": "Kullanıcı adına göre ara...",
+  "playerSearch.searchPlayer": "Oyuncuları ara",
+  "playerSearch.startTyping": "Bir kullanıcı adı yazmaya başlayın..."
 }
