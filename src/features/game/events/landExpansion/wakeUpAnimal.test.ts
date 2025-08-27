@@ -265,4 +265,57 @@ describe("wakeAnimal", () => {
     expect(state.barn.animals["1"].awakeAt).toEqual(now);
     expect(state.inventory["Moo Doll"]).toEqual(new Decimal(1));
   });
+
+  it("removes only 1 item if it's placed", () => {
+    const now = Date.now();
+
+    const state = wakeAnimal({
+      state: {
+        ...INITIAL_FARM,
+
+        inventory: {
+          ...INITIAL_FARM.inventory,
+          "Moo Doll": new Decimal(2),
+        },
+        collectibles: {
+          "Moo Doll": [
+            {
+              id: "1253",
+              readyAt: 0,
+              createdAt: 0,
+              coordinates: {
+                x: 0,
+                y: 0,
+              },
+            },
+          ],
+        },
+        barn: {
+          ...INITIAL_FARM.barn,
+          animals: {
+            ["1"]: {
+              id: "1",
+              type: "Sheep",
+              createdAt: 0,
+              state: "idle",
+              experience: 5000,
+              asleepAt: now - 1000,
+              awakeAt: now + 1000,
+              lovedAt: 0,
+              item: "Petting Hand",
+            },
+          },
+        },
+      },
+      action: {
+        type: "animal.wakeUp",
+        animal: "Sheep",
+        id: "1",
+      },
+      createdAt: now,
+    });
+
+    expect(state.barn.animals["1"].awakeAt).toEqual(now);
+    expect(state.inventory["Moo Doll"]).toEqual(new Decimal(1));
+  });
 });
