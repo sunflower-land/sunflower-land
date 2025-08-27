@@ -17,11 +17,14 @@ import {
   TREASURE_COLLECTIBLE_ITEM,
   ARTEFACT_SHOP_KEYS,
   POTION_HOUSE_EXOTIC_CROPS,
+  CraftableCollectible,
 } from "features/game/types/collectibles";
 import { detectCollision } from "features/game/expansion/placeable/lib/collisionDetection";
 import { produce } from "immer";
 import { ExoticCropName } from "features/game/types/beans";
 import { isExoticCrop } from "features/game/types/crops";
+import { PET_SHOP_ITEMS, PetShopItemName } from "features/game/types/petShop";
+import { hasFeatureAccess } from "lib/flags";
 
 export const COLLECTIBLE_CRAFT_SECONDS: Partial<
   Record<CollectibleName, number>
@@ -34,7 +37,8 @@ type CraftableCollectibleItem =
   | HeliosBlacksmithItem
   | TreasureCollectibleItem
   | PotionHouseItemName
-  | Keys;
+  | Keys
+  | PetShopItemName;
 
 export type CraftCollectibleAction = {
   type: "collectible.crafted";
@@ -63,6 +67,10 @@ const isTreasureCollectible = (
 const isKey = (name: CraftableCollectibleItem): name is Keys =>
   name in ARTEFACT_SHOP_KEYS;
 
+const isPetShopItem = (
+  name: CraftableCollectibleItem,
+): name is PetShopItemName => name in PET_SHOP_ITEMS;
+
 export function craftCollectible({
   state,
   action,
@@ -71,7 +79,7 @@ export function craftCollectible({
   return produce(state, (stateCopy) => {
     const bumpkin = stateCopy.bumpkin;
 
-    let item;
+    let item: CraftableCollectible | undefined;
 
     if (isPotionHouseItem(action.name)) {
       item = POTION_HOUSE_ITEMS[action.name];
@@ -87,12 +95,17 @@ export function craftCollectible({
       item = TREASURE_COLLECTIBLE_ITEM[action.name];
     } else if (isKey(action.name)) {
       item = ARTEFACT_SHOP_KEYS[action.name];
+    } else if (isPetShopItem(action.name)) {
+      item = PET_SHOP_ITEMS[action.name];
     } else {
-      item = HELIOS_BLACKSMITH_ITEMS(state, new Date(createdAt))[action.name];
+      item = HELIOS_BLACKSMITH_ITEMS[action.name];
     }
 
     if (!item) {
       throw new Error("Item does not exist");
+    }
+    if (isPetShopItem(action.name) && !hasFeatureAccess(stateCopy, "PETS")) {
+      throw new Error("Pet Shop is not available");
     }
 
     if (stateCopy.stock[action.name]?.lt(1)) {
@@ -115,6 +128,19 @@ export function craftCollectible({
 
     if (stateCopy.coins < price) {
       throw new Error("Insufficient Coins");
+    }
+    const { limit } = item;
+    const isItemCrafted = stateCopy.bumpkin.activity[`${action.name} Crafted`];
+
+    if (limit && isItemCrafted && isItemCrafted >= limit) {
+      throw new Error("Limit reached");
+    }
+
+    if (
+      item.inventoryLimit &&
+      stateCopy.inventory[action.name]?.gte(item.inventoryLimit)
+    ) {
+      throw new Error("Inventory limit reached");
     }
 
     const subtractedInventory = getKeys(item.ingredients).reduce(
@@ -143,7 +169,12 @@ export function craftCollectible({
       bumpkin.activity,
     );
 
-    if (action.coordinates && action.id && !isKey(action.name)) {
+    if (
+      action.coordinates &&
+      action.id &&
+      !isKey(action.name) &&
+      action.name !== "Pet Egg"
+    ) {
       const dimensions = COLLECTIBLES_DIMENSIONS[action.name];
       const collides = detectCollision({
         state: stateCopy,

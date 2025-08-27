@@ -1,10 +1,9 @@
 import Decimal from "decimal.js-light";
-import { GameState, Inventory, Keys } from "./game";
+import { Inventory, Keys } from "./game";
 import { translate } from "lib/i18n/translate";
 import { SEASONS } from "./seasons";
 import { ExoticCropName } from "./beans";
 import { WORKBENCH_MONUMENTS, WorkbenchMonumentName } from "./monuments";
-import { PET_SHRINES, PetShrineName } from "./pets";
 
 export type PlaceableLocation = "farm" | "home";
 export const PLACEABLE_LOCATIONS: PlaceableLocation[] = ["farm", "home"];
@@ -32,12 +31,6 @@ export type HeliosBlacksmithItem =
   | "Bale"
   | "Scary Mike"
   | "Laurie the Chuckle Crow"
-  | "Poppy"
-  | "Kernaldo"
-  | "Grain Grinder"
-  | "Skill Shrimpy"
-  | "Soil Krabby"
-  | "Nana"
   | "Stone Beetle"
   | "Iron Beetle"
   | "Gold Beetle"
@@ -45,9 +38,7 @@ export type HeliosBlacksmithItem =
   | "Squirrel"
   | "Macaw"
   | "Butterfly"
-  | "Obsidian Shrine"
-  | WorkbenchMonumentName
-  | PetShrineName;
+  | WorkbenchMonumentName;
 
 export type TreasureCollectibleItem =
   | "Treasure Map"
@@ -123,7 +114,13 @@ export type SoldOutCollectibleName =
   | "Jurassic Droplet"
   | "Giant Onion"
   | "Giant Turnip"
-  | "Groovy Gramophone";
+  | "Groovy Gramophone"
+  | "Poppy"
+  | "Kernaldo"
+  | "Grain Grinder"
+  | "Skill Shrimpy"
+  | "Soil Krabby"
+  | "Nana";
 
 export type MegaStoreCollectibleName =
   | "Flower Cart"
@@ -196,15 +193,14 @@ export type CraftableCollectible = {
   from?: Date;
   to?: Date;
   level?: number;
+  limit?: number;
+  inventoryLimit?: number;
 };
 
-export const HELIOS_BLACKSMITH_ITEMS: (
-  game?: GameState,
-  date?: Date,
-) => Partial<Record<HeliosBlacksmithItem, CraftableCollectible>> = (
-  state,
-  date = new Date(),
-) => ({
+export const HELIOS_BLACKSMITH_ITEMS: Record<
+  HeliosBlacksmithItem,
+  CraftableCollectible
+> = {
   "Basic Scarecrow": {
     description: translate("description.basic.scarecrow"),
     boost: translate("description.basic.scarecrow.boost"),
@@ -248,9 +244,7 @@ export const HELIOS_BLACKSMITH_ITEMS: (
   },
   "Immortal Pear": {
     description: translate("description.immortal.pear"),
-    boost: state?.bumpkin.skills["Pear Turbocharge"]
-      ? translate("description.immortal.pear.boosted.boost")
-      : translate("description.immortal.pear.boost"),
+    boost: translate("description.immortal.pear.boost"),
     ingredients: {
       Gold: new Decimal(5),
       Apple: new Decimal(10),
@@ -300,9 +294,7 @@ export const HELIOS_BLACKSMITH_ITEMS: (
   },
   Macaw: {
     description: translate("description.macaw"),
-    boost: state?.bumpkin.skills["Loyal Macaw"]
-      ? translate("description.macaw.boosted.boost")
-      : translate("description.macaw.boost"),
+    boost: translate("description.macaw.boost"),
     coins: 10000,
     ingredients: {
       Apple: new Decimal(10),
@@ -319,18 +311,8 @@ export const HELIOS_BLACKSMITH_ITEMS: (
     coins: 15000,
     ingredients: {},
   },
-  "Obsidian Shrine": {
-    description:
-      "A mysterious shrine crafted from obsidian. Allows you to harvest and plant all crops instantly.",
-    boost: "Temporary protection for 3 days",
-    coins: 0,
-    ingredients: {
-      Obsidian: new Decimal(1),
-    },
-  },
   ...WORKBENCH_MONUMENTS,
-  ...PET_SHRINES,
-});
+};
 
 export const ARTEFACT_SHOP_KEYS: Record<Keys, CraftableCollectible> = {
   "Treasure Key": {

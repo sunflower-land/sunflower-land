@@ -31,7 +31,6 @@ import { GameState } from "features/game/types/game";
 import { Label } from "components/ui/Label";
 import helpIcon from "assets/icons/help.webp";
 import { getBumpkinLevel } from "features/game/lib/level";
-import { hasFeatureAccess } from "lib/flags";
 
 const PROJECTS: HeliosBlacksmithItem[] = [
   "Basic Cooking Pot",
@@ -112,7 +111,21 @@ export const IslandBlacksmithItems: React.FC = () => {
 
   const { inventory, coins } = state;
 
-  const selectedItem = HELIOS_BLACKSMITH_ITEMS(state)[selectedName];
+  const selectedItem = HELIOS_BLACKSMITH_ITEMS[selectedName];
+
+  // Change boost if skill is active
+  if (selectedItem) {
+    if (
+      selectedName === "Immortal Pear" &&
+      state.bumpkin.skills["Pear Turbocharge"]
+    ) {
+      selectedItem.boost = t("description.immortal.pear.boosted.boost");
+    }
+    if (selectedName === "Macaw" && state.bumpkin.skills["Loyal Macaw"]) {
+      selectedItem.boost = t("description.macaw.boosted.boost");
+    }
+  }
+
   const isAlreadyCrafted = inventory[selectedName]?.greaterThanOrEqualTo(1);
 
   const lessIngredients = () =>
@@ -188,28 +201,6 @@ export const IslandBlacksmithItems: React.FC = () => {
     "Squirrel",
     "Butterfly",
   ];
-
-  if (hasFeatureAccess(state, "OBSIDIAN_SHRINE")) {
-    VALID_EQUIPMENT.push("Obsidian Shrine");
-  }
-
-  if (hasFeatureAccess(state, "PETS")) {
-    VALID_EQUIPMENT.push(
-      "Fox Shrine",
-      "Boar Shrine",
-      "Hound Shrine",
-      "Stag Shrine",
-      "Legendary Shrine",
-      "Mole Shrine",
-      "Bear Shrine",
-      "Tortoise Shrine",
-      "Moth Shrine",
-      "Sparrow Shrine",
-      "Toucan Shrine",
-      "Collie Shrine",
-      "Badger Shrine",
-    );
-  }
 
   return (
     <SplitScreenView

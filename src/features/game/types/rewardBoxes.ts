@@ -311,5 +311,14 @@ export const getPetRewardPool = ({
     return true;
   });
 
+  // If they have gotten 1 pet from each category, release the remaining pets they haven't gotten in the pool
+  if (petRewardPool.length === 0) {
+    petRewardPool = [...REWARD_BOXES["Pet Egg"].rewards].filter((reward) => {
+      const pet = getKeys(reward.items ?? {})[0];
+
+      return !inventory[pet];
+    });
+  }
+
   return petRewardPool;
 };
