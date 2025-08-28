@@ -48,7 +48,6 @@ import { getFilter, storeFilter } from "./lib/persistFilter";
 import { HelpInfoPopover } from "./components/HelpInfoPopover";
 import { SearchBar } from "./components/SearchBar";
 import { Detail } from "./actions/getFollowNetworkDetails";
-import { hasFeatureAccess } from "lib/flags";
 
 type Props = {
   type: "world" | "local";
@@ -318,22 +317,17 @@ export const Feed: React.FC<Props> = ({
               />
               {t("leaderboard")}
             </div>
-            {hasFeatureAccess(
-              gameService.getSnapshot().context.state,
-              "PLAYER_SEARCH",
-            ) && (
-              <div
-                className="flex ml-1.5 mr-1 items-center gap-1 text-xs underline cursor-pointer whitespace-nowrap"
-                onClick={() => {
-                  setShowFollowing(false);
-                  setShowFeed(false);
-                  discoveryModalManager.open("search");
-                }}
-              >
-                {t("playerSearch.searchPlayer")}
-                <img src={SUNNYSIDE.icons.search} className="w-4" />
-              </div>
-            )}
+            <div
+              className="flex ml-1.5 mr-1 items-center gap-1 text-xs underline cursor-pointer whitespace-nowrap"
+              onClick={() => {
+                setShowFollowing(false);
+                setShowFeed(false);
+                discoveryModalManager.open("search");
+              }}
+            >
+              {t("playerSearch.searchPlayer")}
+              <img src={SUNNYSIDE.icons.search} className="w-4" />
+            </div>
           </div>
         </div>
         {!showFollowing && (
