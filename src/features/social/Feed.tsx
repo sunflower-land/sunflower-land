@@ -392,6 +392,49 @@ export const Feed: React.FC<Props> = ({
   );
 };
 
+const HelpIconWithPopover: React.FC<{
+  helpedThemToday: boolean;
+}> = ({ helpedThemToday }) => {
+  const [showPopover, setShowPopover] = useState(false);
+
+  return (
+    <div
+      className="relative flex h-8 w-10 cursor-pointer items-center justify-center"
+      onPointerOver={(e) => {
+        if (e.pointerType === "mouse") {
+          setShowPopover(true);
+        }
+      }}
+      onPointerOut={(e) => {
+        if (e.pointerType === "mouse") {
+          setShowPopover(false);
+        }
+      }}
+      onPointerDown={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+
+        setShowPopover(!showPopover);
+        setTimeout(() => {
+          setShowPopover(false);
+        }, 1500);
+      }}
+      onClickCapture={(e) => {
+        e.preventDefault();
+        e.stopPropagation();
+      }}
+    >
+      <img src={helpIcon} className="w-5 h-5" />
+      <HelpInfoPopover
+        className="absolute right-0 -top-6 z-20 w-max text-black"
+        showPopover={showPopover}
+        onHide={() => setShowPopover(false)}
+        helpedThemToday={helpedThemToday}
+      />
+    </div>
+  );
+};
+
 type FeedContentProps = {
   feed: Interaction[];
   following: number[];
@@ -422,7 +465,6 @@ const FeedContent: React.FC<FeedContentProps> = ({
   const { t } = useAppTranslation();
 
   const [canPaginate, setCanPaginate] = useState(false);
-  const [showPopover, setShowPopover] = useState(false);
 
   // Intersection observer to load more interactions when the loader is in view
   const { ref: intersectionRef, inView } = useInView({
@@ -549,41 +591,10 @@ const FeedContent: React.FC<FeedContentProps> = ({
                       >
                         {interaction.message}
                       </div>
-                      {interaction.helpedThemToday && (
-                        <div
-                          className="relative flex h-8 w-10 cursor-pointer items-center justify-center"
-                          onPointerOver={(e) => {
-                            if (e.pointerType === "mouse") {
-                              setShowPopover(true);
-                            }
-                          }}
-                          onPointerOut={(e) => {
-                            if (e.pointerType === "mouse") {
-                              setShowPopover(false);
-                            }
-                          }}
-                          onPointerDown={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-
-                            setShowPopover(!showPopover);
-                            setTimeout(() => {
-                              setShowPopover(false);
-                            }, 1500);
-                          }}
-                          onClickCapture={(e) => {
-                            e.preventDefault();
-                            e.stopPropagation();
-                          }}
-                        >
-                          <img src={helpIcon} className="w-5 h-5" />
-                          <HelpInfoPopover
-                            className="absolute right-0 -top-6 z-20 w-max text-black"
-                            showPopover={showPopover}
-                            onHide={() => setShowPopover(false)}
-                            helpedThemToday={interaction.helpedThemToday}
-                          />
-                        </div>
+                      {!!interaction.helpedThemToday && (
+                        <HelpIconWithPopover
+                          helpedThemToday={interaction.helpedThemToday}
+                        />
                       )}
                     </div>
                   </div>
