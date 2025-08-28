@@ -6505,5 +6505,6 @@
   "cheering.farm.visiting.error": "Incapace di rallegrare",
   "following.farm.visiting": "Fattoria seguente",
   "following.farm.visiting.success": "Stai seguendo questo agriturismo",
-  "following.farm.visiting.error": "Non sono riuscito a seguire questa fattoria"
+  "following.farm.visiting.error": "Non sono riuscito a seguire questa fattoria",
+  "username.containsProfanity": "Il nome utente contiene parolacce"
 }

@@ -6505,5 +6505,6 @@
   "cheering.farm.visiting.error": "Tidak bisa bersorak",
   "following.farm.visiting": "Mengikuti pertanian",
   "following.farm.visiting.success": "Anda sekarang mengikuti peternakan ini",
-  "following.farm.visiting.error": "Gagal mengikuti peternakan ini"
+  "following.farm.visiting.error": "Gagal mengikuti peternakan ini",
+  "username.containsProfanity": "Nama pengguna berisi kata-kata kotor"
 }

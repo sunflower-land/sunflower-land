@@ -6505,5 +6505,6 @@
   "cheering.farm.visiting.error": "无法欢呼",
   "following.farm.visiting": "关注农场",
   "following.farm.visiting.success": "你现在正在关注这个农场",
-  "following.farm.visiting.error": "未能关注这个农场"
+  "following.farm.visiting.error": "未能关注这个农场",
+  "username.containsProfanity": "用户名包含亵渎内容"
 }

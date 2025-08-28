@@ -6505,5 +6505,6 @@
   "cheering.farm.visiting.error": "Incapaz de torcer",
   "following.farm.visiting": "Seguindo a fazenda",
   "following.farm.visiting.success": "Agora você está seguindo esta fazenda",
-  "following.farm.visiting.error": "Falha em seguir esta fazenda"
+  "following.farm.visiting.error": "Falha em seguir esta fazenda",
+  "username.containsProfanity": "O nome de usuário contém palavrões"
 }

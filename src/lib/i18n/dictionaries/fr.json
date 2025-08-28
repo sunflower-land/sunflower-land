@@ -6505,5 +6505,6 @@
   "cheering.farm.visiting.error": "Incapable d'encourager",
   "following.farm.visiting": "Ferme suivante",
   "following.farm.visiting.success": "Vous suivez maintenant cette ferme",
-  "following.farm.visiting.error": "Je n'ai pas réussi à suivre cette ferme"
+  "following.farm.visiting.error": "Je n'ai pas réussi à suivre cette ferme",
+  "username.containsProfanity": "Le nom d'utilisateur contient des blasphèmes"
 }

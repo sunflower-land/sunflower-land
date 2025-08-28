@@ -6505,5 +6505,6 @@
   "cheering.farm.visiting.error": "Incapaz de aplaudir",
   "following.farm.visiting": "Siguiendo la granja",
   "following.farm.visiting.success": "Ahora estás siguiendo esta granja",
-  "following.farm.visiting.error": "No se pudo seguir esta granja"
+  "following.farm.visiting.error": "No se pudo seguir esta granja",
+  "username.containsProfanity": "El nombre de usuario contiene blasfemias"
 }

@@ -6505,5 +6505,6 @@
   "cheering.farm.visiting.error": "응원 불가",
   "following.farm.visiting": "팔로우 팜",
   "following.farm.visiting.success": "당신은 지금 이 농장을 팔로우하고 있습니다",
-  "following.farm.visiting.error": "이 팜을 팔로우하지 못했습니다"
+  "following.farm.visiting.error": "이 팜을 팔로우하지 못했습니다",
+  "username.containsProfanity": "사용자 이름에 욕설이 포함되어 있음"
 }

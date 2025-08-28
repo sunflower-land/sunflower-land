@@ -6505,5 +6505,6 @@
   "cheering.farm.visiting.error": "Не могу подбодрить",
   "following.farm.visiting": "Следующая ферма",
   "following.farm.visiting.success": "Теперь вы следите за этой фермой",
-  "following.farm.visiting.error": "Не удалось проследить за этой фермой"
+  "following.farm.visiting.error": "Не удалось проследить за этой фермой",
+  "username.containsProfanity": "Имя пользователя содержит ненормативную лексику"
 }
