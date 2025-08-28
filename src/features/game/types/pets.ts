@@ -41,7 +41,7 @@ export type PetName =
   // Goat - Not used
   | "Ramsey";
 
-export type PetCategory =
+export type PetType =
   | "Dog"
   | "Cat"
   | "Owl"
@@ -49,6 +49,15 @@ export type PetCategory =
   | "Bull"
   | "Hamster"
   | "Penguin";
+
+export type PetCategoryName =
+  | "Guardian"
+  | "Hunter"
+  | "Voyager"
+  | "Beast"
+  | "Moonkin"
+  | "Snowkin"
+  | "Forager";
 
 export type PetConfig = {
   fetches: { name: PetResource; level: number }[];
@@ -179,14 +188,48 @@ export const PETS: Record<PetName, PetConfig> = {
   },
 };
 
-export const PET_CATEGORIES: Record<PetCategory, PetName[]> = {
-  Dog: ["Barkley", "Biscuit", "Cloudy"],
-  Cat: ["Meowchi", "Butters", "Smokey"],
-  Owl: ["Twizzle", "Flicker", "Pippin"],
-  Horse: ["Burro", "Pinto", "Roan", "Stallion"],
-  Bull: ["Mudhorn", "Bison", "Oxen"],
-  Hamster: ["Nibbles", "Peanuts"],
-  Penguin: ["Waddles", "Pip", "Skipper"],
+export type PetCatogory = {
+  pets: PetName[];
+  primaryCategory: PetCategoryName;
+  secondaryCategory?: PetCategoryName;
+};
+
+export const PET_CATEGORIES: Record<PetType, PetCatogory> = {
+  Dog: {
+    pets: ["Barkley", "Biscuit", "Cloudy"],
+    primaryCategory: "Guardian",
+    secondaryCategory: "Hunter",
+  },
+  Cat: {
+    pets: ["Meowchi", "Butters", "Smokey"],
+    primaryCategory: "Hunter",
+    secondaryCategory: "Moonkin",
+  },
+  Owl: {
+    pets: ["Twizzle", "Flicker", "Pippin"],
+    primaryCategory: "Moonkin",
+    secondaryCategory: "Forager",
+  },
+  Horse: {
+    pets: ["Burro", "Pinto", "Roan", "Stallion"],
+    primaryCategory: "Voyager",
+    secondaryCategory: "Beast",
+  },
+  Bull: {
+    pets: ["Mudhorn", "Bison", "Oxen"],
+    primaryCategory: "Beast",
+    secondaryCategory: "Snowkin",
+  },
+  Hamster: {
+    pets: ["Nibbles", "Peanuts"],
+    primaryCategory: "Forager",
+    secondaryCategory: "Guardian",
+  },
+  Penguin: {
+    pets: ["Waddles", "Pip", "Skipper"],
+    primaryCategory: "Snowkin",
+    secondaryCategory: "Voyager",
+  },
 };
 
 export type PetResource =
