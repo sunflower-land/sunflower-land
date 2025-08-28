@@ -1,6 +1,7 @@
 import Decimal from "decimal.js-light";
 import { Decoration } from "./decorations";
 import { CraftableCollectible } from "./collectibles";
+import { CookableName } from "./consumables";
 
 export type PetName =
   // Dogs
@@ -58,6 +59,17 @@ export type PetCategoryName =
   | "Moonkin"
   | "Snowkin"
   | "Forager";
+
+export type Pet = {
+  requests: CookableName[];
+  energy: number;
+  experience: number;
+};
+
+export type Pets = {
+  commonPets: Partial<Record<PetName, Pet>>;
+  nftPets?: Partial<Record<number, Pet>>; // nftId as number
+};
 
 export type PetConfig = {
   fetches: { name: PetResource; level: number }[];
