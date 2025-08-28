@@ -234,6 +234,6 @@ export const FLOATING_ISLAND_SHOP_ITEMS: Record<
   "Pet Egg": {
     name: "Pet Egg",
     type: "collectible",
-    cost: { items: { "Love Charm": 1500 } },
+    cost: { items: { "Love Charm": 10000 } },
   },
 };
