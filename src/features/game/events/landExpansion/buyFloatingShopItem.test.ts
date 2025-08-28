@@ -96,7 +96,7 @@ describe("buyFloatingShopItem", () => {
           state: {
             ...mockState,
             inventory: {
-              "Love Charm": new Decimal(1500),
+              "Love Charm": new Decimal(10000),
             },
           },
           action: {
@@ -136,7 +136,7 @@ describe("buyFloatingShopItem", () => {
         state: {
           ...mockState,
           inventory: {
-            "Love Charm": new Decimal(1500),
+            "Love Charm": new Decimal(10000),
           },
         },
         action: {
