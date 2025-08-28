@@ -2,6 +2,7 @@ import Decimal from "decimal.js-light";
 import { Decoration } from "./decorations";
 import { CraftableCollectible } from "./collectibles";
 import { CookableName } from "./consumables";
+import { getObjectEntries } from "../expansion/lib/utils";
 
 export type PetName =
   // Dogs
@@ -61,7 +62,11 @@ export type PetCategoryName =
   | "Forager";
 
 export type Pet = {
-  requests: CookableName[];
+  requests: {
+    food: CookableName[];
+    foodFed?: CookableName[];
+    fedAt?: number;
+  };
   energy: number;
   experience: number;
 };
@@ -451,11 +456,10 @@ export const PET_SHRINES: Record<PetShrineName, CraftableCollectible> = {
     inventoryLimit: 1,
   },
 };
-export const PET_REQUESTS: {
-  easy: CookableName[];
-  medium: CookableName[];
-  hard: CookableName[];
-} = {
+
+export type PetRequestDifficulty = "easy" | "medium" | "hard";
+
+export const PET_REQUESTS: Record<PetRequestDifficulty, CookableName[]> = {
   easy: [
     "Mashed Potato",
     "Rhubarb Tart",
@@ -527,3 +531,22 @@ export const PET_REQUESTS: {
     "Slow Juice",
   ],
 };
+
+export const PET_REQUEST_XP: Record<PetRequestDifficulty, number> = {
+  easy: 75,
+  medium: 100,
+  hard: 125,
+};
+
+export function getPetRequestXP(food: CookableName) {
+  const foodDifficultyEntry = getObjectEntries(PET_REQUESTS).find(
+    ([, requests]) => requests.includes(food),
+  );
+
+  if (!foodDifficultyEntry) {
+    return 0;
+  }
+  const [difficulty] = foodDifficultyEntry;
+
+  return PET_REQUEST_XP[difficulty];
+}
