@@ -1284,4 +1284,8 @@ export const STATIC_OFFLINE_FARM: GameState = {
       },
     },
   },
+  pets: {
+    commonPets: {},
+    nftPets: {},
+  },
 };

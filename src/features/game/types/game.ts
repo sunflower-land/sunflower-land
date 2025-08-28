@@ -106,7 +106,7 @@ import { MonumentName } from "./monuments";
 import { AOEItemName } from "../expansion/placeable/lib/collisionDetection";
 import { Coordinates } from "../expansion/components/MapPlacement";
 import { ClutterName } from "./clutter";
-import { PetName, PetResource } from "./pets";
+import { PetName, PetResource, Pets } from "./pets";
 import { RockName } from "./resources";
 import { PetShopItemName } from "./petShop";
 
@@ -1831,6 +1831,7 @@ export interface GameState {
 
   aoe: AOE;
   socialFarming: SocialFarming;
+  pets: Pets;
 }
 
 export type AOE = Partial<
