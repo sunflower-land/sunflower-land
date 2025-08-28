@@ -9,6 +9,7 @@ import ErrorBoundary from "features/auth/components/ErrorBoundary";
 import { Navigation } from "./Navigation";
 import "./lib/i18n";
 import { WalletProvider } from "features/wallet/WalletProvider";
+import { useServiceWorkerUpdate } from "lib/utils/hooks/useServiceWorkerUpdate";
 
 // Initialise Global Settings
 initialise();
