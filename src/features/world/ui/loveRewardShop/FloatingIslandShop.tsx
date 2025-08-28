@@ -28,6 +28,7 @@ import shopIcon from "assets/icons/shop.png";
 import guideIcon from "assets/icons/tier1_book.webp";
 import { getKeys } from "features/game/types/craftables";
 import { Box } from "components/ui/Box";
+import { hasFeatureAccess } from "lib/flags";
 
 export const getItemImage = (item: FloatingShopItem | null): string => {
   if (!item) return "";
@@ -84,6 +85,10 @@ export const Shop: React.FC<{
   const { t } = useAppTranslation();
 
   const shopItems = Object.values(state.floatingIsland.shop);
+
+  if (hasFeatureAccess(state, "PETS")) {
+    shopItems.push(FLOATING_ISLAND_SHOP_ITEMS["Pet Egg"]);
+  }
 
   return (
     <>
