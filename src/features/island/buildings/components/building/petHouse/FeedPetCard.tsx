@@ -50,6 +50,7 @@ export const FeedPetCard: React.FC<Props> = ({ petName, pet }) => {
       <div className="flex flex-col gap-4">
         <Label type={"default"}>{`Food Requests`}</Label>
         <div className="flex space-x-2">
+          {pet.requests.food.length === 0 && <p>{`No food requests`}</p>}
           {pet.requests.food.map((food) => {
             const foodImage = ITEM_DETAILS[food].image;
             const canFeed = hasFoodInInventory(food);
