@@ -307,6 +307,7 @@ import {
   FeedFactionPetAction,
   feedFactionPet,
 } from "./landExpansion/feedFactionPet";
+import { FeedPetAction, feedPet } from "./pets/feedPet";
 import {
   refreshKingdomChores,
   RefreshKingdomChoresAction,
@@ -651,6 +652,7 @@ export type PlayingEvent =
   | BuyFactionShopItemAction
   | ClaimFactionPrizeAction
   | FeedFactionPetAction
+  | FeedPetAction
   | LeaveFactionAction
   | BuyMoreDigsAction
   | BuyMoreReelsAction
@@ -887,6 +889,7 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "factionKitchen.delivered": deliverFactionKitchen,
   "factionShopItem.bought": buyFactionShopItem,
   "factionPet.fed": feedFactionPet,
+  "pet.fed": feedPet,
   "desert.digsBought": buyMoreDigs,
   "shipment.restocked": shipmentRestock,
   "animal.bought": buyAnimal,

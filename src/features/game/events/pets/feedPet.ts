@@ -3,7 +3,7 @@ import { GameState } from "features/game/types/game";
 import { getPetRequestXP, Pet, PetName } from "features/game/types/pets";
 import { produce } from "immer";
 
-type FeedPetAction = {
+export type FeedPetAction = {
   type: "pet.fed";
   pet: PetName;
   food: CookableName;
