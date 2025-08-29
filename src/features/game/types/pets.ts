@@ -554,7 +554,7 @@ export function getPetRequestXP(food: CookableName) {
   return PET_REQUEST_XP[difficulty];
 }
 
-const MAX_PET_LEVEL = 200;
+export const MAX_PET_LEVEL = 200;
 
 /**
  * Calculates the experience needed to reach the next level based on current total experience.
