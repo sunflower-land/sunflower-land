@@ -1,10 +1,17 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { ITEM_DETAILS } from "features/game/types/images";
-import { PetName } from "features/game/types/pets";
+import { getExperienceToNextLevel, PetName } from "features/game/types/pets";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
-import { SFTDetailPopover } from "components/ui/SFTDetailPopover";
+import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
+import {
+  SFTDetailPopoverInnerPanel,
+  SFTDetailPopoverLabel,
+} from "components/ui/SFTDetailPopover";
+import { Label } from "components/ui/Label";
+import { Context } from "features/game/GameProvider";
+import { useSelector } from "@xstate/react";
 
 const PETS_STYLES: Record<
   PetName,
@@ -74,15 +81,38 @@ const PET_PIXEL_STYLES = getObjectEntries(PETS_STYLES).reduce<
 );
 
 export const Pet: React.FC<{ name: PetName }> = ({ name }) => {
+  const { gameService } = useContext(Context);
+  const petData = useSelector(
+    gameService,
+    (state) => state.context.state.pets.commonPets[name],
+  );
+
   return (
-    <SFTDetailPopover name={name}>
-      <div className="absolute" style={{ ...PET_PIXEL_STYLES[name] }}>
-        <img
-          src={ITEM_DETAILS[name].image}
-          className="absolute w-full cursor-pointer hover:img-highlight"
-          alt={name}
-        />
-      </div>
-    </SFTDetailPopover>
+    <>
+      <Popover>
+        <PopoverButton as="div" className="cursor-pointer">
+          <div className="absolute" style={{ ...PET_PIXEL_STYLES[name] }}>
+            <img
+              src={ITEM_DETAILS[name].image}
+              className="absolute w-full cursor-pointer hover:img-highlight"
+              alt={name}
+            />
+          </div>
+        </PopoverButton>
+        <PopoverPanel
+          anchor={{ to: "left start" }}
+          className="flex pointer-events-none"
+        >
+          <SFTDetailPopoverInnerPanel>
+            <SFTDetailPopoverLabel name={name} />
+            {petData && (
+              <Label type="info" className="ml-2 sm:ml-0">
+                {`Pet Level ${getExperienceToNextLevel(petData.experience).level}`}
+              </Label>
+            )}
+          </SFTDetailPopoverInnerPanel>
+        </PopoverPanel>
+      </Popover>
+    </>
   );
 };
