@@ -1,30 +1,27 @@
-import React, { useContext } from "react";
-import { Context } from "features/game/GameProvider";
-import { ITEM_DETAILS } from "features/game/types/images";
-import { OuterPanel } from "components/ui/Panel";
+import { useSelector } from "@xstate/react";
+import { SUNNYSIDE } from "assets/sunnyside";
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
-import {
-  PetName,
-  Pet,
-  getExperienceToNextLevel,
-  getPetRequestXP,
-} from "features/game/types/pets";
+import { Context } from "features/game/GameProvider";
 import { CookableName } from "features/game/types/consumables";
-import { SUNNYSIDE } from "assets/sunnyside";
-import { useSelector } from "@xstate/react";
+import { ITEM_DETAILS } from "features/game/types/images";
+import { Pet, PetName, getPetRequestXP } from "features/game/types/pets";
+import { shortenCount } from "lib/utils/formatNumber";
+import React, { useContext, useState } from "react";
+import { PetInfo } from "./PetInfo";
 
 interface Props {
   petName: PetName;
   pet: Pet;
 }
 
-export const PetCard: React.FC<Props> = ({ petName, pet }) => {
+export const FeedPetCard: React.FC<Props> = ({ petName, pet }) => {
   const { gameService } = useContext(Context);
   const inventory = useSelector(
     gameService,
     (state) => state.context.state.inventory,
   );
+  const [hoveredFood, setHoveredFood] = useState<CookableName | null>(null);
 
   const handleFeedPet = (food: CookableName) => {
     gameService.send("pet.fed", {
@@ -32,8 +29,6 @@ export const PetCard: React.FC<Props> = ({ petName, pet }) => {
       food,
     });
   };
-
-  const level = getExperienceToNextLevel(pet.experience).level;
 
   const hasFoodInInventory = (foodName: CookableName) => {
     return inventory[foodName] && inventory[foodName].greaterThan(0);
@@ -50,30 +45,10 @@ export const PetCard: React.FC<Props> = ({ petName, pet }) => {
     return pet.requests.foodFed?.includes(food) || false;
   };
 
-  const petImage = ITEM_DETAILS[petName].image;
-
   return (
-    <OuterPanel className="p-3">
-      <div className="flex items-center space-x-3">
-        <img
-          src={petImage}
-          alt={petName}
-          className="w-16 h-16 object-contain"
-        />
-        <div className="flex-1">
-          <Label type={"default"}>{petName}</Label>
-          <div className="text-xs text-gray-600">
-            <div>{`Level: ${level}`}</div>
-            <div>{`Experience: ${pet.experience}`}</div>
-            <div>{`Energy: ${pet.energy}`}</div>
-          </div>
-        </div>
-      </div>
-
-      <div className="mt-3">
-        <Label className="mb-4 block" type={"info"}>
-          {`Food Requests:`}
-        </Label>
+    <PetInfo petName={petName} pet={pet}>
+      <div className="flex flex-col gap-4">
+        <Label type={"default"}>{`Food Requests`}</Label>
         <div className="flex space-x-2">
           {pet.requests.food.map((food) => {
             const foodImage = ITEM_DETAILS[food].image;
@@ -86,17 +61,22 @@ export const PetCard: React.FC<Props> = ({ petName, pet }) => {
             return (
               <div key={food} className="flex flex-col items-center space-x-2">
                 <div className="relative">
-                  <Button
-                    disabled={isDisabled}
-                    onClick={() => handleFeedPet(food)}
-                    className={`w-12 h-12 p-1`}
+                  <div
+                    onMouseEnter={() => setHoveredFood(food)}
+                    onMouseLeave={() => setHoveredFood(null)}
                   >
-                    <img
-                      src={foodImage}
-                      alt={food}
-                      className="w-full h-full object-contain"
-                    />
-                  </Button>
+                    <Button
+                      disabled={isDisabled}
+                      onClick={() => handleFeedPet(food)}
+                      className={`w-12 h-12 p-1`}
+                    >
+                      <img
+                        src={foodImage}
+                        alt={food}
+                        className="w-full h-full object-contain"
+                      />
+                    </Button>
+                  </div>
                   {alreadyFed && (
                     <img
                       src={SUNNYSIDE.icons.confirm}
@@ -108,7 +88,9 @@ export const PetCard: React.FC<Props> = ({ petName, pet }) => {
                       type="default"
                       className="absolute top-[-0.75rem] left-[-0.75rem]"
                     >
-                      {foodCount.toString()}
+                      {hoveredFood === food
+                        ? foodCount.toString()
+                        : shortenCount(foodCount)}
                     </Label>
                   )}
                 </div>
@@ -120,6 +102,6 @@ export const PetCard: React.FC<Props> = ({ petName, pet }) => {
           })}
         </div>
       </div>
-    </OuterPanel>
+    </PetInfo>
   );
 };

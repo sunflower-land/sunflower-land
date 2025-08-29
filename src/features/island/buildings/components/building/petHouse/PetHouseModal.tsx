@@ -4,10 +4,9 @@ import { Modal } from "components/ui/Modal";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { Context } from "features/game/GameProvider";
 import { ITEM_DETAILS } from "features/game/types/images";
-import { Label } from "components/ui/Label";
-import { PetCard } from "./PetCard";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
 import { PetName } from "features/game/types/pets";
+import { FeedPet } from "./FeedPet";
 
 interface Props {
   show: boolean;
@@ -57,28 +56,7 @@ export const PetHouseModal: React.FC<Props> = ({ show, onClose }) => {
         currentTab={tab}
         setCurrentTab={setTab}
       >
-        {tab === "Feed" && (
-          <div className="m-1">
-            <Label className="mb-2 block" type={"formula"}>
-              {`Your Pets (${activePets.length})`}
-            </Label>
-            {activePets.length === 0 ? (
-              <p className="p-4 text-center text-gray-500">
-                {`You don't have any pets yet. Visit the Pet Shop to get your
-                first pet!`}
-              </p>
-            ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-[500px] overflow-y-auto scrollable">
-                {activePets.map(
-                  ([petName, pet]) =>
-                    pet && (
-                      <PetCard key={petName} petName={petName} pet={pet} />
-                    ),
-                )}
-              </div>
-            )}
-          </div>
-        )}
+        {tab === "Feed" && <FeedPet activePets={activePets} />}
       </CloseButtonPanel>
     </Modal>
   );
