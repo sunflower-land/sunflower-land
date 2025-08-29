@@ -38,7 +38,7 @@ export const PetHouseModal: React.FC<Props> = ({ show, onClose }) => {
   );
 
   return (
-    <Modal show={show} onHide={onClose}>
+    <Modal show={show} onHide={onClose} size="lg">
       <CloseButtonPanel
         onClose={onClose}
         tabs={[
