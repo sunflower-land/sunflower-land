@@ -550,3 +550,36 @@ export function getPetRequestXP(food: CookableName) {
 
   return PET_REQUEST_XP[difficulty];
 }
+
+const MAX_PET_LEVEL = 200;
+
+/**
+ * Calculates the experience needed to reach the next level based on current total experience.
+ * Uses the mathematical formula: XP = 100 * (n-1) * n / 2
+ *
+ * @param currentTotalExperience - The current total experience points
+ * @returns Object containing current level and XP needed to reach next level
+ */
+export function getExperienceToNextLevel(currentTotalExperience: number): {
+  level: number;
+  xpToNext?: number;
+} {
+  // Handle edge cases
+  if (currentTotalExperience < 0) return { level: 1, xpToNext: 0 };
+
+  const currentLevel = Math.floor(
+    (1 + Math.sqrt(1 + (8 * currentTotalExperience) / 100)) / 2,
+  );
+
+  if (currentLevel >= MAX_PET_LEVEL)
+    return { level: MAX_PET_LEVEL, xpToNext: undefined };
+
+  // Calculate XP needed for next level
+  const nextLevel = currentLevel + 1;
+  const nextLevelXP = (100 * (nextLevel - 1) * nextLevel) / 2;
+
+  return {
+    level: currentLevel,
+    xpToNext: nextLevelXP - currentTotalExperience,
+  };
+}
