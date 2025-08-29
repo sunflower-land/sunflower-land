@@ -693,6 +693,7 @@ export const ITEM_TRADE_TYPES: {
     "Crop Machine": "instant",
     Barn: "instant",
     "Crafting Box": "instant",
+    "Pet House": "instant",
     "Chef Apron": "onchain",
     "Chef Hat": "instant",
     "Sunflower Amulet": "onchain",
