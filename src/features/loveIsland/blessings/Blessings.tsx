@@ -43,6 +43,7 @@ export type BlessingInput = Extract<
   | "Kale"
   // Real
   | "Basic Bear"
+  | "Doll"
   | "Sand"
   | "Crab"
   | "Tuna"
@@ -52,6 +53,7 @@ export type BlessingInput = Extract<
 const BLESSING_AMOUNTS: Record<BlessingInput, number> = {
   Kale: 100,
   "Basic Bear": 10,
+  Doll: 5,
   Sand: 50,
   Crab: 50,
   Tuna: 10,
