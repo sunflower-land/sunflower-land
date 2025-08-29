@@ -16,7 +16,7 @@ export const FeedPet: React.FC<Props> = ({ activePets }) => {
           {`You don't have any pets yet. Visit the Pet Shop to get your first pet!`}
         </p>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 mr-2">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mr-2 auto-rows-fr">
           {activePets.map(
             ([petName, pet]) =>
               pet && <FeedPetCard key={petName} petName={petName} pet={pet} />,
