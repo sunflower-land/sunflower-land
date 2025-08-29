@@ -50,7 +50,7 @@ export const PetHouseModal: React.FC<Props> = ({ show, onClose }) => {
         ]}
       >
         <div className="m-1">
-          <Label className="mb-2 block" type={"danger"}>
+          <Label className="mb-2 block" type={"formula"}>
             {`Your Pets (${activePets.length})`}
           </Label>
           {activePets.length === 0 ? (
@@ -59,7 +59,7 @@ export const PetHouseModal: React.FC<Props> = ({ show, onClose }) => {
                 first pet!`}
             </p>
           ) : (
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-[500px] overflow-y-auto scrollable">
               {activePets.map(
                 ([petName, pet]) =>
                   pet && <PetCard key={petName} petName={petName} pet={pet} />,
