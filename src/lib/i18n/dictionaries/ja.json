@@ -6506,5 +6506,6 @@
   "following.farm.visiting": "フォローファーム",
   "following.farm.visiting.success": "現在このファームをフォローしています",
   "following.farm.visiting.error": "このファームをフォローできませんでした",
-  "username.containsProfanity": "ユーザー名に冒涜的な内容が含まれている"
+  "username.containsProfanity": "ユーザー名に冒涜的な内容が含まれている",
+  "description.pet.house": "ペットを休める場所"
 }

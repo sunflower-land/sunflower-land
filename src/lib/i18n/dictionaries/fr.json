@@ -6506,5 +6506,6 @@
   "following.farm.visiting": "Ferme suivante",
   "following.farm.visiting.success": "Vous suivez maintenant cette ferme",
   "following.farm.visiting.error": "Je n'ai pas réussi à suivre cette ferme",
-  "username.containsProfanity": "Le nom d'utilisateur contient des blasphèmes"
+  "username.containsProfanity": "Le nom d'utilisateur contient des blasphèmes",
+  "description.pet.house": "Un endroit pour reposer votre animal"
 }

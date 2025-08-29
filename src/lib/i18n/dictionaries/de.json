@@ -6506,5 +6506,6 @@
   "following.farm.visiting": "Folgender Bauernhof",
   "following.farm.visiting.success": "Du folgst jetzt dieser Farm",
   "following.farm.visiting.error": "Dieser Farm konnte nicht gefolgt werden",
-  "username.containsProfanity": "Nutzername enthält Obszönitäten"
+  "username.containsProfanity": "Nutzername enthält Obszönitäten",
+  "description.pet.house": "Ein Ort, an dem Sie Ihr Haustier ausruhen können"
 }

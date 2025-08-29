@@ -6506,5 +6506,6 @@
   "following.farm.visiting": "Mengikuti ladang",
   "following.farm.visiting.success": "Anda kini mengikuti ladang ini",
   "following.farm.visiting.error": "Gagal mengikuti ladang ini",
-  "username.containsProfanity": "Nama pengguna mengandungi kesulitan"
+  "username.containsProfanity": "Nama pengguna mengandungi kesulitan",
+  "description.pet.house": "Tempat untuk berehat haiwan kesayangan anda"
 }

@@ -6506,5 +6506,6 @@
   "following.farm.visiting": "Takip eden çiftlik",
   "following.farm.visiting.success": "Şimdi bu çiftliği takip ediyorsunuz",
   "following.farm.visiting.error": "Bu çiftliği takip edemedi",
-  "username.containsProfanity": "Kullanıcı adı küfür içeriyor"
+  "username.containsProfanity": "Kullanıcı adı küfür içeriyor",
+  "description.pet.house": "Evcil hayvanınızı dinlendirecek bir yer"
 }

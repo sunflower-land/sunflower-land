@@ -6506,5 +6506,6 @@
   "following.farm.visiting": "Mengikuti pertanian",
   "following.farm.visiting.success": "Anda sekarang mengikuti peternakan ini",
   "following.farm.visiting.error": "Gagal mengikuti peternakan ini",
-  "username.containsProfanity": "Nama pengguna berisi kata-kata kotor"
+  "username.containsProfanity": "Nama pengguna berisi kata-kata kotor",
+  "description.pet.house": "Tempat untuk mengistirahatkan hewan peliharaan Anda"
 }

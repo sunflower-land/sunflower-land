@@ -6506,5 +6506,6 @@
   "following.farm.visiting": "Fattoria seguente",
   "following.farm.visiting.success": "Stai seguendo questo agriturismo",
   "following.farm.visiting.error": "Non sono riuscito a seguire questa fattoria",
-  "username.containsProfanity": "Il nome utente contiene parolacce"
+  "username.containsProfanity": "Il nome utente contiene parolacce",
+  "description.pet.house": "Un posto dove far riposare il tuo animale domestico"
 }
