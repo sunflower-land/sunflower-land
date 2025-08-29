@@ -110,7 +110,7 @@ const FEATURE_FLAGS = {
 
   BLESSING: () => true,
 
-  PETS: adminFeatureFlag,
+  PETS: testnetFeatureFlag,
   FLOWER_INSTA_GROW: defaultFeatureFlag,
   OBSIDIAN_SHRINE: defaultFeatureFlag,
 
