@@ -563,26 +563,46 @@ const MAX_PET_LEVEL = 200;
  * @param currentTotalExperience - The current total experience points
  * @returns Object containing current level and XP needed to reach next level
  */
-export function getExperienceToNextLevel(currentTotalExperience: number): {
-  level: number;
-  xpToNext?: number;
-} {
+export function getExperienceToNextLevel(currentTotalExperience: number) {
   // Handle edge cases
-  if (currentTotalExperience < 0) return { level: 1, xpToNext: 0 };
+  if (currentTotalExperience < 0)
+    return {
+      level: 1,
+      percentage: 0,
+      currentProgress: 0,
+      nextLevelXP: 100,
+      xpToNext: 100,
+    };
 
   const currentLevel = Math.floor(
     (1 + Math.sqrt(1 + (8 * currentTotalExperience) / 100)) / 2,
   );
 
+  const currentLevelXP = (100 * (currentLevel - 1) * currentLevel) / 2;
+
   if (currentLevel >= MAX_PET_LEVEL)
-    return { level: MAX_PET_LEVEL, xpToNext: undefined };
+    return {
+      level: MAX_PET_LEVEL,
+      currentProgress: 0,
+      percentage: 100,
+      xpToNext: undefined,
+    };
 
   // Calculate XP needed for next level
   const nextLevel = currentLevel + 1;
   const nextLevelXP = (100 * (nextLevel - 1) * nextLevel) / 2;
 
+  // Calculate percentage of current level
+  const percentage =
+    ((currentTotalExperience - currentLevelXP) /
+      (nextLevelXP - currentLevelXP)) *
+    100;
+
   return {
     level: currentLevel,
+    currentProgress: currentTotalExperience - currentLevelXP,
+    nextLevelXP,
+    percentage,
     xpToNext: nextLevelXP - currentTotalExperience,
   };
 }
