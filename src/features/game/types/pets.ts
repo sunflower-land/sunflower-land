@@ -3,6 +3,7 @@ import { Decoration } from "./decorations";
 import { CraftableCollectible } from "./collectibles";
 import { CookableName } from "./consumables";
 import { getObjectEntries } from "../expansion/lib/utils";
+import { InventoryItemName } from "./game";
 
 export type PetName =
   // Dogs
@@ -204,6 +205,8 @@ export const PETS: Record<PetName, PetConfig> = {
     ],
   },
 };
+
+export const isPet = (name: InventoryItemName): name is PetName => name in PETS;
 
 export type PetCatogory = {
   pets: PetName[];

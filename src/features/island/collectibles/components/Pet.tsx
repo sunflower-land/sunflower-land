@@ -12,6 +12,7 @@ import {
 import { Label } from "components/ui/Label";
 import { Context } from "features/game/GameProvider";
 import { useSelector } from "@xstate/react";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 const PETS_STYLES: Record<
   PetName,
@@ -106,8 +107,12 @@ export const Pet: React.FC<{ name: PetName }> = ({ name }) => {
           <SFTDetailPopoverInnerPanel>
             <SFTDetailPopoverLabel name={name} />
             {petData && (
-              <Label type="info" className="ml-2 sm:ml-0">
-                {`Pet Level ${getExperienceToNextLevel(petData.experience).level}`}
+              <Label
+                type="info"
+                icon={SUNNYSIDE.icons.lightning}
+                className="ml-2 sm:ml-0"
+              >
+                {`Pet Level: ${getExperienceToNextLevel(petData.experience).level}`}
               </Label>
             )}
           </SFTDetailPopoverInnerPanel>

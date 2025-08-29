@@ -3,6 +3,7 @@ import { TEST_FARM } from "../../lib/constants";
 import { CollectibleName } from "../../types/craftables";
 import { GameState, ShakeItem } from "../../types/game";
 import { placeCollectible } from "./placeCollectible";
+import { Pet } from "features/game/types/pets";
 
 const date = Date.now();
 const GAME_STATE: GameState = TEST_FARM;
@@ -238,5 +239,35 @@ describe("Place Collectible", () => {
       },
     ]);
     expect(state.collectibles["Maneki Neko"]).toEqual<ShakeItem[]>([]);
+  });
+
+  it("Places a pet", () => {
+    const state = placeCollectible({
+      state: {
+        ...GAME_STATE,
+        inventory: {
+          Barkley: new Decimal(1),
+        },
+        collectibles: {},
+      },
+      action: {
+        id: "123",
+        type: "collectible.placed",
+        name: "Barkley",
+        coordinates: {
+          x: 0,
+          y: 0,
+        },
+        location: "farm",
+      },
+    });
+
+    expect(state.pets.commonPets["Barkley"]).toEqual<Pet>({
+      experience: 0,
+      energy: 0,
+      requests: {
+        food: [],
+      },
+    });
   });
 });
