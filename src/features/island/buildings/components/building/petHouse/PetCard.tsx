@@ -8,6 +8,7 @@ import {
   PetName,
   Pet,
   getExperienceToNextLevel,
+  getPetRequestXP,
 } from "features/game/types/pets";
 import { CookableName } from "features/game/types/consumables";
 import { SUNNYSIDE } from "assets/sunnyside";
@@ -70,35 +71,50 @@ export const PetCard: React.FC<Props> = ({ petName, pet }) => {
       </div>
 
       <div className="mt-3">
-        <Label className="mb-2 block" type={"info"}>
+        <Label className="mb-4 block" type={"info"}>
           {`Food Requests:`}
         </Label>
         <div className="flex space-x-2">
           {pet.requests.food.map((food) => {
             const foodImage = ITEM_DETAILS[food].image;
             const canFeed = hasFoodInInventory(food);
+            const foodCount = inventory[food];
             const alreadyFed = isFoodAlreadyFed(pet, food);
             const isDisabled = !canFeed || alreadyFed;
+            const foodXP = getPetRequestXP(food);
 
             return (
-              <div key={food} className="relative">
-                <Button
-                  disabled={isDisabled}
-                  onClick={() => handleFeedPet(food)}
-                  className={`w-12 h-12 p-1`}
-                >
-                  <img
-                    src={foodImage}
-                    alt={food}
-                    className="w-full h-full object-contain"
-                  />
-                </Button>
-                {alreadyFed && (
-                  <img
-                    src={SUNNYSIDE.icons.confirm}
-                    className="absolute top-[-0.25rem] right-[-0.25rem] w-5 h-5"
-                  />
-                )}
+              <div key={food} className="flex flex-col items-center space-x-2">
+                <div className="relative">
+                  <Button
+                    disabled={isDisabled}
+                    onClick={() => handleFeedPet(food)}
+                    className={`w-12 h-12 p-1`}
+                  >
+                    <img
+                      src={foodImage}
+                      alt={food}
+                      className="w-full h-full object-contain"
+                    />
+                  </Button>
+                  {alreadyFed && (
+                    <img
+                      src={SUNNYSIDE.icons.confirm}
+                      className="absolute top-[-0.25rem] right-[-0.25rem] w-5 h-5"
+                    />
+                  )}
+                  {foodCount && (
+                    <Label
+                      type="default"
+                      className="absolute top-[-0.75rem] left-[-0.75rem]"
+                    >
+                      {foodCount.toString()}
+                    </Label>
+                  )}
+                </div>
+                <Label type="info" icon={SUNNYSIDE.icons.lightning}>
+                  {foodXP}
+                </Label>
               </div>
             );
           })}
