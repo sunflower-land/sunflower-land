@@ -107,13 +107,18 @@ export const Pet: React.FC<{ name: PetName }> = ({ name }) => {
           <SFTDetailPopoverInnerPanel>
             <SFTDetailPopoverLabel name={name} />
             {petData && (
-              <Label
-                type="info"
-                icon={SUNNYSIDE.icons.lightning}
-                className="ml-2 sm:ml-0"
-              >
-                {`Pet Level: ${getExperienceToNextLevel(petData.experience).level}`}
-              </Label>
+              <div className="flex flex-col items-start gap-1">
+                <Label
+                  type="info"
+                  icon={SUNNYSIDE.icons.lightning}
+                  className="ml-2 sm:ml-0"
+                >
+                  {`Pet Level: ${getExperienceToNextLevel(petData.experience).level}`}
+                </Label>
+                <Label type="warning" icon={SUNNYSIDE.icons.heart}>
+                  {`XP to next level: ${getExperienceToNextLevel(petData.experience).xpToNext}`}
+                </Label>
+              </div>
             )}
           </SFTDetailPopoverInnerPanel>
         </PopoverPanel>
