@@ -7,7 +7,7 @@ export type PetShopItemName = "Pet Egg" | "Obsidian Shrine" | PetShrineName;
 export const PET_SHOP_ITEMS: Record<PetShopItemName, CraftableCollectible> = {
   "Pet Egg": {
     description: "A pet egg",
-    coins: 30000,
+    coins: 150000,
     ingredients: {},
     limit: 1,
   },

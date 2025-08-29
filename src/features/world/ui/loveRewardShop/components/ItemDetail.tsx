@@ -34,8 +34,6 @@ interface ItemOverlayProps {
 }
 
 const _inventory = (state: MachineState) => state.context.state.inventory;
-const _floatingIsland = (state: MachineState) =>
-  state.context.state.floatingIsland;
 
 export const ItemDetail: React.FC<ItemOverlayProps> = ({
   item,
@@ -48,14 +46,12 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
 }) => {
   const { shortcutItem, gameService, showAnimations } = useContext(Context);
   const inventory = useSelector(gameService, _inventory);
-  const floatingIsland = useSelector(gameService, _floatingIsland);
 
   const [imageWidth, setImageWidth] = useState<number>(0);
   const [showSuccess, setShowSuccess] = useState<boolean>(false);
   const [confirmBuy, setConfirmBuy] = useState<boolean>(false);
 
   const description = getItemDescription(item);
-  const loveCharmBalance = inventory["Love Charm"] ?? new Decimal(0);
 
   useLayoutEffect(() => {
     if (isWearable) {
@@ -240,6 +236,11 @@ export const ItemDetail: React.FC<ItemOverlayProps> = ({
                           );
                         })}
                       </div>
+                    )}
+                    {item?.name === "Pet Egg" && (
+                      <Label type={isBought ? "danger" : "warning"}>
+                        {`Limit: ${isBought ? "1" : "0"}/1`}
+                      </Label>
                     )}
                   </div>
                 </div>

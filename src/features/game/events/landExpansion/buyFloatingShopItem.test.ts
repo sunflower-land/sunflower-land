@@ -88,4 +88,67 @@ describe("buyFloatingShopItem", () => {
 
     expect(result.inventory["Love Charm"]).toEqual(new Decimal(100));
   });
+
+  describe("pet egg", () => {
+    it("does not throw an error for pet egg", () => {
+      expect(() =>
+        buyFloatingShopItem({
+          state: {
+            ...mockState,
+            inventory: {
+              "Love Charm": new Decimal(10000),
+            },
+          },
+          action: {
+            type: "floatingShopItem.bought",
+            name: "Pet Egg",
+          },
+          createdAt: mockDate,
+        }),
+      ).not.toThrow();
+    });
+
+    it("throws an error if the player has already bought the pet egg", () => {
+      expect(() =>
+        buyFloatingShopItem({
+          state: {
+            ...mockState,
+            floatingIsland: {
+              ...mockState.floatingIsland,
+              boughtAt: {
+                "Pet Egg": 1,
+              },
+            },
+            inventory: {
+              "Love Charm": new Decimal(1500),
+            },
+          },
+          action: {
+            type: "floatingShopItem.bought",
+            name: "Pet Egg",
+          },
+        }),
+      ).toThrow("Pet Egg can only be bought once");
+    });
+
+    it("buys the pet egg", () => {
+      const result = buyFloatingShopItem({
+        state: {
+          ...mockState,
+          inventory: {
+            "Love Charm": new Decimal(10000),
+          },
+        },
+        action: {
+          type: "floatingShopItem.bought",
+          name: "Pet Egg",
+        },
+        createdAt: mockDate,
+      });
+      expect(result.inventory["Love Charm"]).toEqual(new Decimal(0));
+      expect(result.floatingIsland.boughtAt).toEqual({
+        "Pet Egg": mockDate,
+      });
+    });
+  });
 });

@@ -7,9 +7,11 @@ import { trackActivity } from "features/game/types/bumpkinActivity";
 
 import { BumpkinItem } from "features/game/types/bumpkin";
 import {
+  FLOATING_ISLAND_SHOP_ITEMS,
   FloatingShopCollectible,
   FloatingShopItem,
 } from "features/game/types/floatingIsland";
+import { hasFeatureAccess } from "lib/flags";
 
 export const isFloatingShopCollectible = (
   item: FloatingShopItem,
@@ -40,7 +42,14 @@ export function buyFloatingShopItem({
       throw new Error("Bumpkin not found");
     }
 
-    const item = floatingIsland.shop[action.name];
+    if (action.name === "Pet Egg" && !hasFeatureAccess(copy, "PETS")) {
+      throw new Error("Pet Egg is not available yet");
+    }
+
+    const item =
+      action.name === "Pet Egg"
+        ? FLOATING_ISLAND_SHOP_ITEMS[action.name]
+        : floatingIsland.shop[action.name];
 
     if (!item) {
       throw new Error("Item not found in the Love Reward Shop");
@@ -49,6 +58,9 @@ export function buyFloatingShopItem({
     const boughtAt = floatingIsland.boughtAt?.[action.name];
 
     if (boughtAt) {
+      if (action.name === "Pet Egg" && boughtAt < createdAt) {
+        throw new Error("Pet Egg can only be bought once");
+      }
       const todayKey = new Date().toISOString().split("T")[0];
       const boughtAtKey = new Date(boughtAt).toISOString().split("T")[0];
 

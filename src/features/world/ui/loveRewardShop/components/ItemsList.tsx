@@ -17,21 +17,17 @@ import {
   FloatingShopItem,
   FloatingShopItemName,
 } from "features/game/types/floatingIsland";
-import { isFloatingShopCollectible } from "features/game/events/landExpansion/buyFloatingShopItem";
 import { getKeys } from "features/game/types/decorations";
 import { GameState } from "features/game/types/game";
 import { SUNNYSIDE } from "assets/sunnyside";
 
 interface Props {
   itemsLabel?: string;
-  type?: "wearables" | "collectibles" | "keys";
   items: FloatingShopItem[];
   onItemClick: (item: FloatingShopItem) => void;
 }
 
 const _state = (state: MachineState) => state.context.state;
-const _inventory = (state: MachineState) => state.context.state.inventory;
-const _wardrobe = (state: MachineState) => state.context.state.wardrobe;
 
 export function isAlreadyBought({
   name,
@@ -46,20 +42,21 @@ export function isAlreadyBought({
 
   if (!boughtAt) return false;
 
+  if (name === "Pet Egg" && boughtAt < new Date(todayKey).getTime()) {
+    return true;
+  }
+
   const boughtAtKey = new Date(boughtAt).toISOString().split("T")[0];
   return boughtAtKey === todayKey;
 }
 
 export const ItemsList: React.FC<Props> = ({
   items,
-  type,
   itemsLabel,
   onItemClick,
 }) => {
   const { gameService } = useContext(Context);
   const state = useSelector(gameService, _state);
-  const inventory = useSelector(gameService, _inventory);
-  const wardrobe = useSelector(gameService, _wardrobe);
 
   const sortedItems = items
     .slice()
@@ -88,10 +85,6 @@ export const ItemsList: React.FC<Props> = ({
         ) : (
           sortedItems.map((item) => {
             const buff = getItemBuffLabel(item, state);
-
-            const balanceOfItem = isFloatingShopCollectible(item)
-              ? Number(inventory[item.name] ?? 0)
-              : Number(wardrobe[item.name] ?? 0);
 
             return (
               <div
