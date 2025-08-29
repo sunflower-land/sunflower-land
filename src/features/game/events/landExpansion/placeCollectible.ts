@@ -8,6 +8,8 @@ import { PlaceableLocation } from "features/game/types/collectibles";
 import { produce } from "immer";
 import { getCountAndType } from "features/island/hud/components/inventory/utils/inventory";
 import { MonumentName, REQUIRED_CHEERS } from "features/game/types/monuments";
+import { isPet } from "features/game/types/pets";
+import { hasFeatureAccess } from "lib/flags";
 
 export type PlaceCollectibleAction = {
   type: "collectible.placed";
@@ -55,6 +57,20 @@ export function placeCollectible({
     ) {
       stateCopy.socialFarming.villageProjects[action.name as MonumentName] = {
         cheers: 0,
+      };
+    }
+
+    if (
+      isPet(action.name) &&
+      !stateCopy.pets.commonPets[action.name] &&
+      hasFeatureAccess(stateCopy, "PETS")
+    ) {
+      stateCopy.pets.commonPets[action.name] = {
+        experience: 0,
+        energy: 0,
+        requests: {
+          food: [], // Pet Requests are populated on the server
+        },
       };
     }
 
