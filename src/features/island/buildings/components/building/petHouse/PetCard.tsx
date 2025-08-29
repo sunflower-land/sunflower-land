@@ -112,7 +112,7 @@ export const PetCard: React.FC<Props> = ({ petName, pet }) => {
                     </Label>
                   )}
                 </div>
-                <Label type="info" icon={SUNNYSIDE.icons.lightning}>
+                <Label type="vibrant" icon={SUNNYSIDE.icons.lightning}>
                   {foodXP}
                 </Label>
               </div>

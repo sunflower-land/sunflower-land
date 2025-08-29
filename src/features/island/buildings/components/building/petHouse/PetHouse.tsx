@@ -7,9 +7,7 @@ import { PetHouseModal } from "./PetHouseModal";
 export const PetHouse: React.FC = () => {
   const [showPetHouseModal, setShowPetHouseModal] = useState(false);
 
-  const handlePetHouseClick = () => {
-    setShowPetHouseModal(true);
-  };
+  const handlePetHouseClick = () => setShowPetHouseModal(true);
 
   return (
     <>
