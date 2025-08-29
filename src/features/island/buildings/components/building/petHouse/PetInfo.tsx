@@ -27,7 +27,7 @@ export const PetInfo: React.FC<Props> = ({ children, petName, pet }) => {
   const petImage = ITEM_DETAILS[petName].image;
 
   return (
-    <OuterPanel className="flex flex-row sm:flex-col justify-between p-3 gap-2">
+    <OuterPanel className="flex flex-row sm:flex-col justify-around p-3 gap-2">
       {/* Dog Info */}
       <div className="flex flex-col sm:flex-row items-center space-x-3">
         <img
