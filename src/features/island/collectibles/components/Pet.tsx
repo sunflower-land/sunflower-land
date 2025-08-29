@@ -4,6 +4,7 @@ import { ITEM_DETAILS } from "features/game/types/images";
 import { PetName } from "features/game/types/pets";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { SFTDetailPopover } from "components/ui/SFTDetailPopover";
 
 const PETS_STYLES: Record<
   PetName,
@@ -74,12 +75,14 @@ const PET_PIXEL_STYLES = getObjectEntries(PETS_STYLES).reduce<
 
 export const Pet: React.FC<{ name: PetName }> = ({ name }) => {
   return (
-    <div className="absolute" style={{ ...PET_PIXEL_STYLES[name] }}>
-      <img
-        src={ITEM_DETAILS[name].image}
-        className="absolute w-full cursor-pointer hover:img-highlight"
-        alt={name}
-      />
-    </div>
+    <SFTDetailPopover name={name}>
+      <div className="absolute" style={{ ...PET_PIXEL_STYLES[name] }}>
+        <img
+          src={ITEM_DETAILS[name].image}
+          className="absolute w-full cursor-pointer hover:img-highlight"
+          alt={name}
+        />
+      </div>
+    </SFTDetailPopover>
   );
 };
