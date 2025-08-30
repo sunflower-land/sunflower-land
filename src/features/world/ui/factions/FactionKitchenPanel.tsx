@@ -248,7 +248,7 @@ export const FactionKitchenPanel: React.FC<Props> = ({ bumpkinParts }) => {
                     </div>
                     <Button
                       disabled={!canFulfillRequest}
-                      onClick={() => setShowConfirm(true)}
+                      onClick={handleDeliver}
                     >{`${t("deliver")} ${selectedRequest.amount}`}</Button>
                   </div>
                 }
