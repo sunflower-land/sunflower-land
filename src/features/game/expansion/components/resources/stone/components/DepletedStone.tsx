@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { TimeLeftPanel } from "components/ui/TimeLeftPanel";
 import { useAppTranslation } from "lib/i18n/useAppTranslations";
@@ -15,16 +15,25 @@ const DepletedStoneComponent: React.FC<Props> = ({ timeLeft, name }) => {
   const [showTimeLeft, setShowTimeLeft] = useState(false);
   const Image = READONLY_RESOURCE_COMPONENTS()[name];
 
+  const handleShowTimeLeft = useCallback(() => {
+    setShowTimeLeft(true);
+  }, []);
+
+  const handleHideTimeLeft = useCallback(() => {
+    setShowTimeLeft(false);
+  }, []);
+
   return (
     <div
       className="absolute w-full h-full"
-      onMouseEnter={() => setShowTimeLeft(true)}
-      onMouseLeave={() => setShowTimeLeft(false)}
+      onMouseEnter={handleShowTimeLeft}
+      onMouseLeave={handleHideTimeLeft}
+      onTouchStart={handleShowTimeLeft}
+      onTouchEnd={handleHideTimeLeft}
+      onTouchCancel={handleHideTimeLeft}
     >
       <div className="absolute w-full h-full pointer-events-none">
-        <div className="opacity-50">
-          <Image />
-        </div>
+        <Image className="opacity-50" />
         <div
           className="flex justify-center absolute w-full"
           style={{

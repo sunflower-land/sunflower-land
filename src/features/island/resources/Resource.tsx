@@ -1,4 +1,5 @@
 import React, { useContext } from "react";
+import classNames from "classnames";
 
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { ResourceName } from "features/game/types/resources";
@@ -34,6 +35,10 @@ export interface ResourceProps {
   y: number;
 }
 
+interface ReadonlyResourceProps {
+  className?: string;
+}
+
 // Used for placing
 export const READONLY_RESOURCE_COMPONENTS = () => {
   const { gameService } = useContext(Context);
@@ -60,7 +65,7 @@ export const READONLY_RESOURCE_COMPONENTS = () => {
         />
       </div>
     ),
-    "Gold Rock": () => (
+    "Gold Rock": ({ className }: ReadonlyResourceProps) => (
       <div
         style={{
           width: `${PIXEL_SCALE * 14}px`,
@@ -70,7 +75,7 @@ export const READONLY_RESOURCE_COMPONENTS = () => {
       >
         <img
           src={ITEM_DETAILS["Gold Rock"].image}
-          className="relative pointer-events-none"
+          className={classNames("relative pointer-events-none", className)}
           style={{
             width: `${PIXEL_SCALE * 14}px`,
             top: `${PIXEL_SCALE * 3}px`,
@@ -79,10 +84,10 @@ export const READONLY_RESOURCE_COMPONENTS = () => {
         />
       </div>
     ),
-    "Iron Rock": () => (
+    "Iron Rock": ({ className }: ReadonlyResourceProps) => (
       <img
         src={ITEM_DETAILS["Iron Rock"].image}
-        className="relative"
+        className={classNames("relative", className)}
         style={{
           width: `${PIXEL_SCALE * 14}px`,
           top: `${PIXEL_SCALE * 3}px`,
@@ -90,10 +95,10 @@ export const READONLY_RESOURCE_COMPONENTS = () => {
         }}
       />
     ),
-    "Stone Rock": () => (
+    "Stone Rock": ({ className }: ReadonlyResourceProps) => (
       <img
         src={ITEM_DETAILS["Stone Rock"].image}
-        className="relative"
+        className={classNames("relative", className)}
         style={{
           width: `${PIXEL_SCALE * 12.8}px`,
           top: `${PIXEL_SCALE * 4.52}px`,
@@ -101,10 +106,10 @@ export const READONLY_RESOURCE_COMPONENTS = () => {
         }}
       />
     ),
-    "Fused Stone Rock": () => (
+    "Fused Stone Rock": ({ className }: ReadonlyResourceProps) => (
       <img
         src={ITEM_DETAILS["Fused Stone Rock"].image}
-        className="relative"
+        className={classNames("relative", className)}
         style={{
           width: `${PIXEL_SCALE * 13.2}px`,
           top: `${PIXEL_SCALE * 2.3}px`,
@@ -112,10 +117,10 @@ export const READONLY_RESOURCE_COMPONENTS = () => {
         }}
       />
     ),
-    "Reinforced Stone Rock": () => (
+    "Reinforced Stone Rock": ({ className }: ReadonlyResourceProps) => (
       <img
         src={ITEM_DETAILS["Reinforced Stone Rock"].image}
-        className="relative"
+        className={classNames("relative", className)}
         style={{
           width: `${PIXEL_SCALE * 15.1}px`,
           top: `${PIXEL_SCALE * 1.09}px`,
@@ -123,10 +128,10 @@ export const READONLY_RESOURCE_COMPONENTS = () => {
         }}
       />
     ),
-    "Crimstone Rock": () => (
+    "Crimstone Rock": ({ className }: ReadonlyResourceProps) => (
       <img
         src={ITEM_DETAILS["Crimstone Rock"].image}
-        className="relative"
+        className={classNames("relative", className)}
         style={{
           width: `${PIXEL_SCALE * 24}px`,
           top: `${PIXEL_SCALE * 3}px`,
