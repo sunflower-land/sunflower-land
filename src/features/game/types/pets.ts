@@ -1,6 +1,9 @@
 import Decimal from "decimal.js-light";
 import { Decoration } from "./decorations";
 import { CraftableCollectible } from "./collectibles";
+import { CookableName } from "./consumables";
+import { getObjectEntries } from "../expansion/lib/utils";
+import { InventoryItemName } from "./game";
 
 export type PetName =
   // Dogs
@@ -41,7 +44,7 @@ export type PetName =
   // Goat - Not used
   | "Ramsey";
 
-export type PetCategory =
+export type PetType =
   | "Dog"
   | "Cat"
   | "Owl"
@@ -49,6 +52,30 @@ export type PetCategory =
   | "Bull"
   | "Hamster"
   | "Penguin";
+
+export type PetCategoryName =
+  | "Guardian"
+  | "Hunter"
+  | "Voyager"
+  | "Beast"
+  | "Moonkin"
+  | "Snowkin"
+  | "Forager";
+
+export type Pet = {
+  requests: {
+    food: CookableName[];
+    foodFed?: CookableName[];
+    fedAt?: number;
+  };
+  energy: number;
+  experience: number;
+};
+
+export type Pets = {
+  commonPets: Partial<Record<PetName, Pet>>;
+  nftPets?: Partial<Record<number, Pet>>; // nftId as number
+};
 
 export type PetConfig = {
   fetches: { name: PetResource; level: number }[];
@@ -179,14 +206,50 @@ export const PETS: Record<PetName, PetConfig> = {
   },
 };
 
-export const PET_CATEGORIES: Record<PetCategory, PetName[]> = {
-  Dog: ["Barkley", "Biscuit", "Cloudy"],
-  Cat: ["Meowchi", "Butters", "Smokey"],
-  Owl: ["Twizzle", "Flicker", "Pippin"],
-  Horse: ["Burro", "Pinto", "Roan", "Stallion"],
-  Bull: ["Mudhorn", "Bison", "Oxen"],
-  Hamster: ["Nibbles", "Peanuts"],
-  Penguin: ["Waddles", "Pip", "Skipper"],
+export const isPet = (name: InventoryItemName): name is PetName => name in PETS;
+
+export type PetCatogory = {
+  pets: PetName[];
+  primaryCategory: PetCategoryName;
+  secondaryCategory?: PetCategoryName;
+};
+
+export const PET_CATEGORIES: Record<PetType, PetCatogory> = {
+  Dog: {
+    pets: ["Barkley", "Biscuit", "Cloudy"],
+    primaryCategory: "Guardian",
+    secondaryCategory: "Hunter",
+  },
+  Cat: {
+    pets: ["Meowchi", "Butters", "Smokey"],
+    primaryCategory: "Hunter",
+    secondaryCategory: "Moonkin",
+  },
+  Owl: {
+    pets: ["Twizzle", "Flicker", "Pippin"],
+    primaryCategory: "Moonkin",
+    secondaryCategory: "Forager",
+  },
+  Horse: {
+    pets: ["Burro", "Pinto", "Roan", "Stallion"],
+    primaryCategory: "Voyager",
+    secondaryCategory: "Beast",
+  },
+  Bull: {
+    pets: ["Mudhorn", "Bison", "Oxen"],
+    primaryCategory: "Beast",
+    secondaryCategory: "Snowkin",
+  },
+  Hamster: {
+    pets: ["Nibbles", "Peanuts"],
+    primaryCategory: "Forager",
+    secondaryCategory: "Guardian",
+  },
+  Penguin: {
+    pets: ["Waddles", "Pip", "Skipper"],
+    primaryCategory: "Snowkin",
+    secondaryCategory: "Voyager",
+  },
 };
 
 export type PetResource =
@@ -396,3 +459,150 @@ export const PET_SHRINES: Record<PetShrineName, CraftableCollectible> = {
     inventoryLimit: 1,
   },
 };
+
+export type PetRequestDifficulty = "easy" | "medium" | "hard";
+
+export const PET_REQUESTS: Record<PetRequestDifficulty, CookableName[]> = {
+  easy: [
+    "Mashed Potato",
+    "Rhubarb Tart",
+    "Pumpkin Soup",
+    "Reindeer Carrot",
+    "Sunflower Crunch",
+    "Cheese",
+    "Quick Juice",
+    "Carrot Juice",
+    "Purple Smoothie",
+    "Fruit Salad",
+    "Sunflower Cake",
+    "Orange Juice",
+  ],
+  medium: [
+    "Boiled Eggs",
+    "Bumpkin Broth",
+    "Popcorn",
+    "Cabbers n Mash",
+    "Kale Stew",
+    "Fried Tofu",
+    "Roast Veggies",
+    "Club Sandwich",
+    "Cauliflower Burger",
+    "Bumpkin Salad",
+    "Goblin's Treat",
+    "Pancakes",
+    "Bumpkin ganoush",
+    "Tofu Scramble",
+    "Cabbage Cake",
+    "Carrot Cake",
+    "Orange Cake",
+    "Cornbread",
+    "Apple Pie",
+    "Potato Cake",
+    "Pumpkin Cake",
+    "Fermented Carrots",
+    "Blueberry Jam",
+    "Sauerkraut",
+    "Apple Juice",
+    "Power Smoothie",
+    "Bumpkin Detox",
+    "Sour Shake",
+    "Banana Blast",
+  ],
+  hard: [
+    "Kale Omelette",
+    "Rice Bun",
+    "Antipasto",
+    "Pizza Margherita",
+    "Goblin Brunch",
+    "Bumpkin Roast",
+    "Steamed Red Rice",
+    "Caprese Salad",
+    "Spaghetti al Limone",
+    "Lemon Cheesecake",
+    "Honey Cake",
+    "Eggplant Cake",
+    "Parsnip Cake",
+    "Beetroot Cake",
+    "Radish Cake",
+    "Cauliflower Cake",
+    "Wheat Cake",
+    "Fancy Fries",
+    "Blue Cheese",
+    "Honey Cheddar",
+    "The Lot",
+    "Grape Juice",
+    "Slow Juice",
+  ],
+};
+
+export const PET_REQUEST_XP: Record<PetRequestDifficulty, number> = {
+  easy: 75,
+  medium: 100,
+  hard: 125,
+};
+
+export function getPetRequestXP(food: CookableName) {
+  const foodDifficultyEntry = getObjectEntries(PET_REQUESTS).find(
+    ([, requests]) => requests.includes(food),
+  );
+
+  if (!foodDifficultyEntry) {
+    return 0;
+  }
+  const [difficulty] = foodDifficultyEntry;
+
+  return PET_REQUEST_XP[difficulty];
+}
+
+export const MAX_PET_LEVEL = 200;
+
+/**
+ * Calculates the experience needed to reach the next level based on current total experience.
+ * Uses the mathematical formula: XP = 100 * (n-1) * n / 2
+ *
+ * @param currentTotalExperience - The current total experience points
+ * @returns Object containing current level and XP needed to reach next level
+ */
+export function getExperienceToNextLevel(currentTotalExperience: number) {
+  // Handle edge cases
+  if (currentTotalExperience < 0)
+    return {
+      level: 1,
+      percentage: 0,
+      currentProgress: 0,
+      nextLevelXP: 100,
+      xpToNext: 100,
+    };
+
+  const currentLevel = Math.floor(
+    (1 + Math.sqrt(1 + (8 * currentTotalExperience) / 100)) / 2,
+  );
+
+  const currentLevelXP = (100 * (currentLevel - 1) * currentLevel) / 2;
+
+  if (currentLevel >= MAX_PET_LEVEL)
+    return {
+      level: MAX_PET_LEVEL,
+      currentProgress: 0,
+      percentage: 100,
+      xpToNext: undefined,
+    };
+
+  // Calculate XP needed for next level
+  const nextLevel = currentLevel + 1;
+  const nextLevelXP = (100 * (nextLevel - 1) * nextLevel) / 2;
+
+  // Calculate percentage of current level
+  const percentage =
+    ((currentTotalExperience - currentLevelXP) /
+      (nextLevelXP - currentLevelXP)) *
+    100;
+
+  return {
+    level: currentLevel,
+    currentProgress: currentTotalExperience - currentLevelXP,
+    nextLevelXP,
+    percentage,
+    xpToNext: nextLevelXP - currentTotalExperience,
+  };
+}

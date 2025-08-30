@@ -1,9 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
 
 import { ITEM_DETAILS } from "features/game/types/images";
-import { PetName } from "features/game/types/pets";
+import { getExperienceToNextLevel, PetName } from "features/game/types/pets";
 import { PIXEL_SCALE } from "features/game/lib/constants";
 import { getObjectEntries } from "features/game/expansion/lib/utils";
+import { Popover, PopoverButton, PopoverPanel } from "@headlessui/react";
+import {
+  SFTDetailPopoverInnerPanel,
+  SFTDetailPopoverLabel,
+} from "components/ui/SFTDetailPopover";
+import { Label } from "components/ui/Label";
+import { Context } from "features/game/GameProvider";
+import { useSelector } from "@xstate/react";
+import { SUNNYSIDE } from "assets/sunnyside";
 
 const PETS_STYLES: Record<
   PetName,
@@ -73,13 +82,47 @@ const PET_PIXEL_STYLES = getObjectEntries(PETS_STYLES).reduce<
 );
 
 export const Pet: React.FC<{ name: PetName }> = ({ name }) => {
+  const { gameService } = useContext(Context);
+  const petData = useSelector(
+    gameService,
+    (state) => state.context.state.pets.commonPets[name],
+  );
+
   return (
-    <div className="absolute" style={{ ...PET_PIXEL_STYLES[name] }}>
-      <img
-        src={ITEM_DETAILS[name].image}
-        className="absolute w-full cursor-pointer hover:img-highlight"
-        alt={name}
-      />
-    </div>
+    <>
+      <Popover>
+        <PopoverButton as="div" className="cursor-pointer">
+          <div className="absolute" style={{ ...PET_PIXEL_STYLES[name] }}>
+            <img
+              src={ITEM_DETAILS[name].image}
+              className="absolute w-full cursor-pointer hover:img-highlight"
+              alt={name}
+            />
+          </div>
+        </PopoverButton>
+        <PopoverPanel
+          anchor={{ to: "left start" }}
+          className="flex pointer-events-none"
+        >
+          <SFTDetailPopoverInnerPanel>
+            <SFTDetailPopoverLabel name={name} />
+            {petData && (
+              <div className="flex flex-col items-start gap-1">
+                <Label
+                  type="info"
+                  icon={SUNNYSIDE.icons.lightning}
+                  className="ml-2 sm:ml-0"
+                >
+                  {`Pet Level: ${getExperienceToNextLevel(petData.experience).level}`}
+                </Label>
+                <Label type="warning" icon={SUNNYSIDE.icons.heart}>
+                  {`XP to next level: ${getExperienceToNextLevel(petData.experience).xpToNext}`}
+                </Label>
+              </div>
+            )}
+          </SFTDetailPopoverInnerPanel>
+        </PopoverPanel>
+      </Popover>
+    </>
   );
 };
