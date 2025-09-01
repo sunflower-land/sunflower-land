@@ -18,34 +18,26 @@ import { GarbageCollectorModal } from "features/helios/components/garbageCollect
 import { WishingWellModal } from "features/game/components/bank/components/WishingWellModal";
 import { GoblinMarket } from "./market/GoblinMarket";
 import { VIPGift } from "./VIPGift";
-import { ChickenRescue } from "./portals/ChickenRescue";
 import { InlineDialogue } from "./TypingMessage";
 import { Label } from "components/ui/Label";
-import { FestivalOfColors } from "./portals/FestivalOfColors";
 import { FactionWeeklyPrize } from "./factions/weeklyPrize/FactionWeeklyPrize";
 import { FactionWelcome, hasReadFactionIntro } from "./factions/FactionWelcome";
 import { Champions } from "./factions/Champions";
 import { KingdomNoticeboard } from "./kingdom/KingdomNoticeboard";
 import { FactionNoticeboard } from "./factions/FactionNoticeboard";
-import { CropsAndChickens } from "./portals/CropsAndChickens";
-import { FruitDash } from "./portals/FruitDash";
 import { DesertNoticeboard } from "./beach/DesertNoticeboard";
 import { PirateChestModal } from "./chests/PirateChest";
 import { ExampleDonations } from "./donations/ExampleDonations";
 import { WorldMap } from "features/island/hud/components/deliveries/WorldMap";
-import { Halloween } from "./portals/Halloween";
-import { ChristmasPortal } from "./portals/ChristmasPortal";
 import { ChristmasReward } from "./npcs/Santa";
 import { WeatherShop } from "features/game/expansion/components/temperateSeason/WeatherShop";
 import { PortalChooser } from "./portals/PortalChooser";
-import { EasterEggstravaganza } from "./portals/EasterEggstravaganza";
 import { HotAirBalloon } from "features/loveIsland/HotAirBalloon";
 import { FloatingIslandShop } from "./loveRewardShop/FloatingIslandShop";
 import { MegaBountyBoard } from "./flowerShop/MegaBountyBoard";
 import { PetalPuzzlePrize } from "./loveRewardShop/PetalPuzzlePrize";
 import { FlowerExchange } from "./npcs/Rocketman";
 import { Blessings } from "features/loveIsland/blessings/Blessings";
-import { EventMegaStore } from "./eventmegastore/EventMegaStore";
 import { EventNoticeboard } from "./EventNoticeboard";
 import { PotionMaster } from "features/helios/components/potions/component/PotionHouseShopItems";
 import { PetShop } from "features/pets/PetShop";
@@ -118,9 +110,6 @@ type InteractableName =
   | "goblins_faction"
   | "nightshades_faction"
   | "sunflorians_faction"
-  | "chicken_rescue"
-  | "crops_and_chickens"
-  | "fruit_dash"
   | "festival_of_colors"
   // to replace pledge factions
   | "join_goblins"
@@ -168,6 +157,7 @@ class InteractableModalManager {
 export const interactableModalManager = new InteractableModalManager();
 
 function getInitialModal(scene: SceneId): InteractableName | undefined {
+  return "portal_chooser";
   if (
     !hasReadFactionIntro() &&
     (scene === "goblin_house" ||
@@ -528,57 +518,6 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
         </Panel>
       </Modal>
 
-      <Modal show={interactable === "chicken_rescue"} onHide={closeModal}>
-        <CloseButtonPanel
-          onClose={closeModal}
-          bumpkinParts={NPC_WEARABLES.billy}
-        >
-          <ChickenRescue onClose={closeModal} />
-        </CloseButtonPanel>
-      </Modal>
-
-      <Modal show={interactable === "crops_and_chickens"} onHide={closeModal}>
-        <CloseButtonPanel
-          onClose={closeModal}
-          bumpkinParts={NPC_WEARABLES["cluck e cheese"]}
-        >
-          <CropsAndChickens onClose={closeModal} />
-        </CloseButtonPanel>
-      </Modal>
-
-      <Modal show={interactable === "fruit_dash"} onHide={closeModal}>
-        <CloseButtonPanel
-          onClose={closeModal}
-          bumpkinParts={NPC_WEARABLES["felga"]}
-        >
-          <FruitDash onClose={closeModal} />
-        </CloseButtonPanel>
-      </Modal>
-
-      <Modal show={interactable === "festival_of_colors"} onHide={closeModal}>
-        <CloseButtonPanel
-          onClose={closeModal}
-          bumpkinParts={NPC_WEARABLES.billy}
-        >
-          <FestivalOfColors onClose={closeModal} />
-        </CloseButtonPanel>
-      </Modal>
-
-      <Modal show={interactable === "halloween"} onHide={closeModal}>
-        <CloseButtonPanel
-          onClose={closeModal}
-          bumpkinParts={NPC_WEARABLES.luna}
-        >
-          <Halloween onClose={closeModal} />
-        </CloseButtonPanel>
-      </Modal>
-
-      <Modal show={interactable === "christmas_portal"} onHide={closeModal}>
-        <CloseButtonPanel onClose={closeModal} bumpkinParts={NPC_WEARABLES.elf}>
-          <ChristmasPortal onClose={closeModal} />
-        </CloseButtonPanel>
-      </Modal>
-
       <Modal show={interactable === "dawn_book_2"} onHide={closeModal}>
         <SpeakingModal
           onClose={closeModal}
@@ -903,23 +842,11 @@ export const InteractableModals: React.FC<Props> = ({ id, scene }) => {
       <Modal show={interactable === "goblin_market"} onHide={closeModal}>
         <GoblinMarket onClose={closeModal} />
       </Modal>
-      <Modal
-        show={interactable === "easter-eggstravaganza"}
-        onHide={closeModal}
-      >
-        <CloseButtonPanel
-          onClose={closeModal}
-          bumpkinParts={NPC_WEARABLES.hopper}
-        >
-          <EasterEggstravaganza onClose={closeModal} />
-        </CloseButtonPanel>
-      </Modal>
+
       <Modal show={interactable === "christmas_reward"}>
         <ChristmasReward onClose={closeModal} />
       </Modal>
-      <Modal show={interactable === "event_store"} onHide={closeModal}>
-        <EventMegaStore onClose={closeModal} />
-      </Modal>
+
       <Modal show={interactable === "event_noticeboard"} onHide={closeModal}>
         <EventNoticeboard onClose={closeModal} />
       </Modal>

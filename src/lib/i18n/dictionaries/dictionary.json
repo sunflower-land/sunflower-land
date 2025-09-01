@@ -888,7 +888,7 @@
   "fruit-dash.portal.rewardMessage": "Congratulations, you completed the mission! Here is your reward.",
   "mine-whack.portal.title": "Minigame - Mine Whack",
   "mine-whack.portal.description": "Tap the moles, dodge the rabbits, and race against time in this reflex challenge!",
-  "mine-whack.portal.missionObjectives": "Mission: Reach {{targetScore}} points.",
+  "mine-whack.portal.missionObjectives": "Mission: Reach {{score}} points.",
   "mine-whack.portal.rewardMessage": "Congratulations, you completed the mission! Here is your reward.",
   "description.wicker.man": "Join hands and make a chain, the shadow of the Wicker Man will rise up again",
   "description.golden bonsai": "Goblins love bonsai too",
@@ -6507,5 +6507,7 @@
   "playerSearch.placeholderContext": "Search {{context}}...",
   "playerSearch.placeholderAll": "Search by username...",
   "playerSearch.searchPlayer": "Search players",
-  "playerSearch.startTyping": "Start typing a username..."
+  "playerSearch.startTyping": "Start typing a username...",
+  "minigame.chickenRescue.success": "Congratulations, you rescued the chickens! Here is your reward.",
+  "minigame.chickenRescue.mission": "Mission: Rescue {{score}} chickens"
 }

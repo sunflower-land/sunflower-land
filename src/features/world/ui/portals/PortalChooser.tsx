@@ -2,9 +2,6 @@ import React, { useState } from "react";
 import { ButtonPanel } from "components/ui/Panel";
 import { Label } from "components/ui/Label";
 import { SUNNYSIDE } from "assets/sunnyside";
-import { ChickenRescue } from "./ChickenRescue";
-import { CropsAndChickens } from "./CropsAndChickens";
-import { FruitDash } from "./FruitDash";
 import { NPCIcon } from "features/island/bumpkin/components/NPC";
 import { NPC_WEARABLES, NPCName } from "lib/npcs";
 import { SpeakingText } from "features/game/components/SpeakingModal";
@@ -13,6 +10,7 @@ import { MinigameName } from "features/game/types/minigames";
 import { translate } from "lib/i18n/translate";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
 import { MineWhack } from "./MineWhack";
+import { MinigameDetails } from "./MinigameDetails";
 
 const host = window.location.host.replace(/^www\./, "");
 const LOCAL_STORAGE_KEY = `portal-chooser-${host}-${window.location.pathname}`;
@@ -40,7 +38,6 @@ interface PortalOption {
   npc: NPCName;
   title: string;
   description: string;
-  component: React.FC<{ onClose: () => void }>;
 }
 
 const PORTAL_OPTIONS: PortalOption[] = [
@@ -49,28 +46,24 @@ const PORTAL_OPTIONS: PortalOption[] = [
     npc: "billy",
     title: translate("portal.chickenRescue.title"),
     description: translate("portal.chickenRescue.description"),
-    component: ChickenRescue,
   },
   {
     id: "crops-and-chickens",
     npc: "cluck e cheese",
     title: translate("portal.cropsAndChickens.title"),
     description: translate("portal.cropsAndChickens.description"),
-    component: CropsAndChickens,
   },
   {
     id: "fruit-dash",
     npc: "felga",
     title: translate("portal.fruitDash.title"),
     description: translate("portal.fruitDash.description"),
-    component: FruitDash,
   },
   {
     id: "mine-whack",
     npc: "minewhack",
     title: translate("portal.mineWhack.title"),
     description: translate("portal.mineWhack.description"),
-    component: MineWhack,
   },
 ];
 
@@ -101,13 +94,12 @@ export const PortalChooser: React.FC<{ onClose: () => void }> = ({
     (game) => game.id === selectedGame,
   );
   if (selectedOption) {
-    const GameComponent = selectedOption.component;
     return (
       <CloseButtonPanel
         onClose={onClose}
         bumpkinParts={NPC_WEARABLES[selectedOption.npc]}
       >
-        <GameComponent onClose={onClose} />
+        <MinigameDetails name={selectedOption.id} onClose={onClose} />
       </CloseButtonPanel>
     );
   }

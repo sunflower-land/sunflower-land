@@ -1,3 +1,5 @@
+import { GameState, Minigame, MinigamePrize } from "./game";
+
 export type MinigameName =
   | "crop-boom"
   | "bumpkin-fight-club"
@@ -34,3 +36,28 @@ export const SUPPORTED_MINIGAMES: MinigameName[] = [
   "mine-whack",
   "festival-of-colors-2025",
 ];
+
+export function isMinigameComplete({
+  minigame,
+  prize,
+  now = new Date(),
+}: {
+  minigame: Minigame;
+  prize: MinigamePrize;
+  now?: Date;
+}) {
+  const todayKey = new Date(now).toISOString().slice(0, 10);
+
+  if (!prize) {
+    return false;
+  }
+
+  const history = minigame?.history[todayKey];
+
+  if (!history) {
+    return false;
+  }
+
+  // Has reached score
+  return history.highscore >= prize.score;
+}

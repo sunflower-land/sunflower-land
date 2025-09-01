@@ -73,7 +73,6 @@ import {
 import { translate } from "lib/i18n/translate";
 import { SpecialEvents } from "./specialEvents";
 import { TradeableName } from "../actions/sellMarketResource";
-import { MinigameCurrency } from "../events/minigames/purchaseMinigameItem";
 import { FactionShopCollectibleName, FactionShopFoodName } from "./factionShop";
 import { DiggingFormationName } from "./desert";
 import { ExperimentName } from "lib/flags";
@@ -1154,20 +1153,21 @@ export type MinigameHistory = {
 
 export type Minigame = {
   highscore: number;
-  // SFL attempts purchased
-  purchases?: {
-    sfl: number;
-    items?: Partial<Record<MinigameCurrency, number>>;
-    purchasedAt: number;
-  }[];
+  history: Record<string, MinigameHistory>;
 
-  // Minigame shop
-  shop?: {
-    wearables?: Wardrobe;
-    items?: Partial<Record<InventoryItemName, number>>;
+  spent?: {
+    sfl: number;
   };
 
-  history: Record<string, MinigameHistory>;
+  // Custom fields they can implement
+  custom?: object;
+
+  // Legacy
+  purchases?: {
+    sfl: number;
+    items?: Partial<Record<InventoryItemName, number>>;
+    purchasedAt: number;
+  }[];
 };
 
 export type TradeListing = {
@@ -1599,6 +1599,7 @@ export interface GameState {
 
   minigames: {
     prizes: Partial<Record<MinigameName, MinigamePrize>>;
+    // Legacy way to access games data
     games: Partial<Record<MinigameName, Minigame>>;
   };
 

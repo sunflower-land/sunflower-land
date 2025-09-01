@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Button } from "components/ui/Button";
 import { useActor } from "@xstate/react";
 import { Context } from "features/game/GameProvider";
@@ -17,11 +17,19 @@ import { InlineDialogue } from "../TypingMessage";
 import { SUNNYSIDE } from "assets/sunnyside";
 import { MinigameHistory, MinigamePrize } from "features/game/types/game";
 import { secondsToString } from "lib/utils/time";
-import { isMinigameComplete } from "features/game/events/minigames/claimMinigamePrize";
+import {
+  isMinigameComplete,
+  MinigameName,
+} from "features/game/types/minigames";
 import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 import { getKeys } from "features/game/types/craftables";
 import { ITEM_DETAILS } from "features/game/types/images";
 import { PortalLeaderboard } from "./PortalLeaderboard";
+import { TranslationKeys } from "lib/i18n/dictionaries/types";
+import useSWR from "swr";
+import { getMinigame, MinigameResult } from "./actions/loadMinigames";
+import { Loading } from "features/auth/components";
+import { SomethingWentWrong } from "features/auth/components/SomethingWentWrong";
 
 export const MinigamePrizeUI: React.FC<{
   prize?: MinigamePrize;
@@ -85,15 +93,77 @@ export const MinigamePrizeUI: React.FC<{
 
 interface Props {
   onClose: () => void;
+  name: MinigameName;
 }
 
-export const MineWhack: React.FC<Props> = ({ onClose }) => {
-  const { authService } = useContext(AuthProvider.Context);
+type MinigameDetails = {
+  title: TranslationKeys;
+  success: TranslationKeys;
+  introduction: TranslationKeys;
+  mission: TranslationKeys;
+};
+
+const MINIGAME_DETAILS: Partial<Record<MinigameName, MinigameDetails>> = {
+  "chicken-rescue": {
+    success: "minigame.chickenRescue.success",
+    title: "minigame.chickenRescue",
+    introduction: "minigame.chickenRescueHelp",
+    mission: "minigame.chickenRescue.mission",
+  },
+  "mine-whack": {
+    success: "mine-whack.portal.rewardMessage",
+    title: "mine-whack.portal.title",
+    introduction: "mine-whack.portal.description",
+    mission: "mine-whack.portal.missionObjectives",
+  },
+  "crops-and-chickens": {
+    success: "crops-and-chickens.portal.rewardMessage",
+    title: "crops-and-chickens.portal.title",
+    introduction: "crops-and-chickens.portal.description",
+    mission: "crops-and-chickens.portal.missionObjectives",
+  },
+  "fruit-dash": {
+    success: "fruit-dash.portal.rewardMessage",
+    title: "fruit-dash.portal.title",
+    introduction: "fruit-dash.portal.description",
+    mission: "fruit-dash.portal.missionObjectives",
+  },
+};
+
+const fetcher = async ([token, farmId, name]: [
+  string,
+  number,
+  MinigameName,
+]) => {
+  return getMinigame({ token, farmId, name });
+};
+
+export const MinigameDetails: React.FC<Props> = ({ onClose, name }) => {
+  const { authService, authState } = AuthProvider.useAuth();
   const { gameService } = useContext(Context);
   const [gameState] = useActor(gameService);
 
-  const minigame = gameState.context.state.minigames.games["mine-whack"];
+  const [isLoading, setIsLoading] = useState(true);
+  const [data, setData] = useState<MinigameResult | undefined>(undefined);
 
+  const load = async () => {
+    setIsLoading(true);
+    const data = await fetcher([
+      authState.context.user.rawToken!,
+      gameState.context.farmId,
+      name,
+    ]);
+    setData(data);
+    setIsLoading(false);
+  };
+
+  useEffect(() => {
+    load();
+  }, []);
+
+  const minigame = data?.data?.progress!;
+
+  console.log({ isLoading });
   const [isPlaying, setIsPlaying] = useState<boolean>(false);
 
   const [page, setPage] = useState<"play" | "leaderboard">("play");
@@ -105,29 +175,64 @@ export const MineWhack: React.FC<Props> = ({ onClose }) => {
 
   const dailyAttempt = history[dateKey] ?? { attempts: 0, highscore: 0 };
 
-  const prize = gameState.context.state.minigames.prizes["mine-whack"];
+  const prize = gameState.context.state.minigames.prizes[name];
 
   const playNow = () => {
     setIsPlaying(true);
   };
 
+  const details = MINIGAME_DETAILS[name];
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (!details) {
+    return (
+      <div>
+        <Label type="danger" icon={SUNNYSIDE.icons.sad}>
+          {t("missing")}
+        </Label>
+      </div>
+    );
+  }
+
+  if (!data?.data?.progress) {
+    return (
+      <div>
+        <Label type="danger" icon={SUNNYSIDE.icons.expression_confused}>
+          {t("missing")}
+        </Label>
+      </div>
+    );
+  }
+
   if (isPlaying) {
     return (
       <div>
-        <Portal portalName="mine-whack" onClose={onClose} />
+        <Portal
+          portalName={name}
+          onClose={onClose}
+          onComplete={() => {
+            // Reload
+            load();
+          }}
+        />
       </div>
     );
   }
 
   const onClaim = () => {
-    gameService.send("minigame.prizeClaimed", { id: "mine-whack" });
+    gameService.send("minigame.prizeClaimed", {
+      effect: { type: "minigame.prizeClaimed", id: name },
+    });
 
     onClose();
   };
 
   const isComplete = isMinigameComplete({
-    game: gameState.context.state,
-    name: "mine-whack",
+    minigame: data?.data?.progress!,
+    prize: data?.data?.prize!,
   });
 
   if (isComplete && !dailyAttempt.prizeClaimedAt && prize) {
@@ -135,10 +240,10 @@ export const MineWhack: React.FC<Props> = ({ onClose }) => {
       <ClaimReward
         onClaim={onClaim}
         reward={{
-          message: t("mine-whack.portal.rewardMessage"),
+          message: t(details.success),
           createdAt: Date.now(),
           factionPoints: 0,
-          id: "mine-whack-rewards",
+          id: name,
           items: prize.items,
           wearables: prize.wearables,
           sfl: 0,
@@ -154,8 +259,7 @@ export const MineWhack: React.FC<Props> = ({ onClose }) => {
         farmId={gameService.getSnapshot().context.farmId}
         jwt={authService.getSnapshot().context.user.rawToken as string}
         onBack={() => setPage("play")}
-        name={"mine-whack"}
-        startDate={new Date(2024, 6, 2)}
+        name={name}
       />
     );
   }
@@ -165,17 +269,15 @@ export const MineWhack: React.FC<Props> = ({ onClose }) => {
       <div className="mb-1">
         <div className="p-2">
           <Label type="default" className="mb-1" icon={factions}>
-            {t("mine-whack.portal.title")}
+            {t(details.title)}
           </Label>
-          <InlineDialogue message={t("mine-whack.portal.description")} />
+          <InlineDialogue message={t(details.introduction)} />
         </div>
 
         <MinigamePrizeUI
           prize={prize}
           history={dailyAttempt}
-          mission={t("mine-whack.portal.missionObjectives", {
-            targetScore: prize?.score ?? 0,
-          })}
+          mission={t(details.mission, { score: prize?.score ?? 0 })}
         />
       </div>
       <div className="flex">

@@ -26,7 +26,6 @@ import { FactionShop } from "./factionShop/FactionShop";
 import { FactionPetPanel } from "./factions/FactionPetPanel";
 import { TreasureShop } from "./beach/treasure_shop/TreasureShop";
 import { Digby } from "./beach/Digby";
-import { CropsAndChickens } from "./portals/CropsAndChickens";
 import { ExampleDonations } from "./donations/ExampleDonations";
 import { NPCS_WITH_ALERTS } from "../containers/BumpkinContainer";
 import { HalloweenNPC } from "./npcs/HalloweenNPC";
@@ -184,14 +183,7 @@ export const NPCModals: React.FC<Props> = ({ id }) => {
           </CloseButtonPanel>
         )}
         {npc === "billy" && <PortalChooser onClose={closeModal} />}
-        {npc === "cluck e cheese" && (
-          <CloseButtonPanel
-            onClose={closeModal}
-            bumpkinParts={NPC_WEARABLES["cluck e cheese"]}
-          >
-            <CropsAndChickens onClose={closeModal} />
-          </CloseButtonPanel>
-        )}
+
         {npc === "jafar" && <TreasureShop onClose={closeModal} />}
         {npc === "gabi" && (
           <CloseButtonPanel

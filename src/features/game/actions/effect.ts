@@ -47,7 +47,12 @@ type EffectName =
   | "project.completed"
   | "farm.helped"
   | "pet.wakeUp"
-  | "auction.claimed";
+  | "auction.claimed"
+  | "minigame.attemptStarted"
+  | "minigame.spent"
+  | "minigame.prizeClaimed"
+  | "minigame.scoreSubmitted"
+  | "minigame.updated";
 
 type VisitEffectName = "farm.helped" | "farm.cheered" | "farm.followed";
 
@@ -101,7 +106,12 @@ export type StateMachineStateName =
   | "completingProject"
   | "helpingFarm"
   | "claimingAuction"
-  | "wakingPet";
+  | "wakingPet"
+  | "minigameAttempting"
+  | "minigameSpending"
+  | "minigameClaimingPrize"
+  | "minigameSubmittingScore"
+  | "minigameUpdating";
 
 export type StateMachineVisitStateName =
   | "helpingFarm"
@@ -119,6 +129,12 @@ export const STATE_MACHINE_EFFECTS: Record<
   StateMachineEffectName,
   StateMachineStateName
 > = {
+  "minigame.attemptStarted": "minigameAttempting",
+  "minigame.spent": "minigameSpending",
+  "minigame.prizeClaimed": "minigameClaimingPrize",
+  "minigame.scoreSubmitted": "minigameSubmittingScore",
+  "minigame.updated": "minigameUpdating",
+
   "marketplace.listingPurchased": "marketplacePurchasing",
   "marketplace.listed": "marketplaceListing",
   "marketplace.offerMade": "marketplaceOffering",

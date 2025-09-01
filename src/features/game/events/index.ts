@@ -271,14 +271,6 @@ import {
 } from "./landExpansion/supplyCookingOil";
 
 import {
-  PurchaseMinigameAction,
-  purchaseMinigameItem,
-} from "./minigames/purchaseMinigameItem";
-import {
-  claimMinigamePrize,
-  ClaimMinigamePrizeAction,
-} from "./minigames/claimMinigamePrize";
-import {
   supplyCropMachine,
   SupplyCropMachineAction,
 } from "./landExpansion/supplyCropMachine";
@@ -318,14 +310,6 @@ import {
 import { leaveFaction, LeaveFactionAction } from "./landExpansion/leaveFaction";
 import { BuyMoreDigsAction, buyMoreDigs } from "./landExpansion/buyMoreDigs";
 
-import {
-  startMinigameAttempt,
-  StartMinigameAttemptAction,
-} from "./minigames/startMinigameAttempt";
-import {
-  submitMinigameScore,
-  SubmitMinigameScoreAction,
-} from "./minigames/submitMinigameScore";
 import { claimOffer, ClaimOfferAction } from "./landExpansion/offerClaimed";
 import {
   startCompetition,
@@ -442,10 +426,7 @@ import {
   buyFloatingShopItem,
   BuyFloatingShopItemAction,
 } from "./landExpansion/buyFloatingShopItem";
-import {
-  buyEventShopItem,
-  BuyMinigameItemAction,
-} from "./landExpansion/buyPortalItem";
+
 import {
   updateNetwork,
   UpdateNetworkAction,
@@ -635,10 +616,6 @@ export type PlayingEvent =
   | EnterRaffleAction
   | ExchangeSFLtoCoinsAction
   | DrillOilReserveAction
-  | ClaimMinigamePrizeAction
-  | PurchaseMinigameAction
-  | StartMinigameAttemptAction
-  | SubmitMinigameScoreAction
   | SkillUseAction
   | SupplyCropMachineAction
   | HarvestCropMachineAction
@@ -678,7 +655,6 @@ export type PlayingEvent =
   | CollectCandyAction
   | BuyFloatingShopItemAction
   | UpdateNetworkAction
-  | BuyMinigameItemAction
   | AcknowledgeRewardBoxAction
   | OpenRewardBoxAction
   | ClaimPetalPrizeAction
@@ -799,10 +775,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "greenhouse.oiled": oilGreenhouse,
   "greenhouse.harvested": harvestGreenHouse,
   "greenhouse.planted": plantGreenhouse,
-  "minigame.itemPurchased": purchaseMinigameItem,
-  "minigame.prizeClaimed": claimMinigamePrize,
-  "minigame.attemptStarted": startMinigameAttempt,
-  "minigame.scoreSubmitted": submitMinigameScore,
   "airdrop.claimed": claimAirdrop,
   "bot.detected": detectBot,
   "seed.planted": landExpansionPlant,
@@ -915,7 +887,6 @@ export const PLAYING_EVENTS: Handlers<PlayingEvent> = {
   "exchange.flower": exchangeFlower,
   "floatingShopItem.bought": buyFloatingShopItem,
   "network.updated": updateNetwork,
-  "minigameItem.bought": buyEventShopItem,
   "rewardBox.acknowledged": acknowledgeRewardBox,
   "rewardBox.opened": openRewardBox,
   "claim.bountyBoardBonus": claimBountyBonus,

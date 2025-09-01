@@ -251,6 +251,7 @@ export type BumpkinNecklace =
   | "Obsidian Necklace";
 
 export type BumpkinHat =
+  | "Chicken Rescuer"
   | "Painter's Cap"
   | "Queen's Crown"
   | "Knight Gambit"
@@ -1030,6 +1031,7 @@ export const ITEM_IDS: Record<BumpkinItem, number> = {
   "Lava Swimwear": 481,
   "Wooly Dress": 482,
   "Raccoon Onesie": 483,
+  "Chicken Rescuer": 484,
 };
 
 // The reverse of above
@@ -1399,6 +1401,7 @@ export const BUMPKIN_ITEM_PART: Record<BumpkinItem, keyof Wallet> = {
   "Rose Dress": "dress",
   "Blue Rose Dress": "dress",
   "Chicken Hat": "hat",
+  "Chicken Rescuer": "hat",
   "Lucky Red Hat": "hat",
   "Lucky Red Suit": "suit",
   "Love's Topper": "hat",

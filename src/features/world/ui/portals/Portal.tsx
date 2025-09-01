@@ -6,7 +6,6 @@ import * as AuthProvider from "features/auth/lib/Provider";
 import { Context } from "features/game/GameProvider";
 import { MinigameName } from "features/game/types/minigames";
 import { CloseButtonPanel } from "features/game/components/CloseablePanel";
-import { ClaimReward } from "features/game/expansion/components/ClaimReward";
 
 import { Button } from "components/ui/Button";
 import { Label } from "components/ui/Label";
@@ -16,10 +15,7 @@ import { CONFIG } from "lib/config";
 
 import { portal } from "../community/actions/portal";
 import { Loading } from "features/auth/components";
-import { InventoryItemName } from "features/game/types/game";
 import { Box } from "components/ui/Box";
-import { getKeys } from "features/game/types/craftables";
-import { ITEM_DETAILS } from "features/game/types/images";
 
 import sflIcon from "assets/icons/flower_token.webp";
 import { IPortalDonation, PortalDonation } from "./PortalDonation";
@@ -28,11 +24,12 @@ import { getCachedFont } from "lib/utils/fonts";
 interface Props {
   portalName: MinigameName;
   onClose: () => void;
+  onComplete: () => void;
 }
 
 type PortalPurchase = {
   sfl: number;
-  items?: Partial<Record<InventoryItemName, number>>;
+  custom?: object;
 };
 
 /**
@@ -42,7 +39,11 @@ const DOMAIN_MAP: Partial<Record<MinigameName, string>> = {
   "festival-of-colors-2025": "festival-of-colors",
 };
 
-export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
+export const Portal: React.FC<Props> = ({
+  portalName,
+  onClose,
+  onComplete,
+}) => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   const { gameService } = useContext(Context);
@@ -53,7 +54,6 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
   const [url, setUrl] = useState<string>();
 
   const [loading, setLoading] = useState(true);
-  const [isComplete, setIsComplete] = useState(false);
   const [purchase, setPurchase] = useState<PortalPurchase | undefined>(
     undefined,
   );
@@ -75,10 +75,10 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
         token = portalToken;
       }
 
-      const baseUrl = `https://${DOMAIN_MAP[portalName] ?? portalName}.sunflower-land.com`;
+      let baseUrl = `https://${DOMAIN_MAP[portalName] ?? portalName}.sunflower-land.com`;
 
       // If testing a local portal, uncomment this line
-      // baseUrl = `http://localhost:3001`;
+      baseUrl = `http://localhost:3001`;
 
       const language = localStorage.getItem("language") || "en";
       const font = getCachedFont();
@@ -95,6 +95,8 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
 
   // Function to handle messages from the iframe
   const handleMessage = (event: any) => {
+    console.log({ state: gameState.value });
+
     if (event.data?.event === "closePortal") {
       // Close the modal when the message is received
       setLoading(false);
@@ -105,7 +107,7 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
     if (event.data?.event === "claimPrize") {
       // Close the modal when the message is received
       setLoading(false);
-      setIsComplete(true);
+      onComplete();
       return;
     }
 
@@ -123,19 +125,22 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
     if (event.data.event === "attemptStarted") {
       // Start the minigame attempt
       gameService.send("minigame.attemptStarted", {
-        id: portalName,
+        effect: { type: "minigame.attemptStarted", id: portalName },
       });
-      gameService.send("SAVE");
       return;
     }
 
     if (event.data.event === "scoreSubmitted") {
+      console.log("scoreSubmitted", event.data);
       // Submit the minigame score
       gameService.send("minigame.scoreSubmitted", {
-        score: event.data.score,
-        id: portalName,
+        effect: {
+          type: "minigame.scoreSubmitted",
+          score: event.data.score,
+          id: portalName,
+          custom: event.data.custom,
+        },
       });
-      gameService.send("SAVE");
       return;
     }
   };
@@ -151,19 +156,21 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
   }, []);
 
   const confirmPurchase = () => {
-    gameService.send("minigame.itemPurchased", {
-      id: portalName,
-      sfl: purchase?.sfl,
-      items: purchase?.items,
+    gameService.send("minigame.spent", {
+      effect: {
+        type: "minigame.spent",
+        id: portalName,
+        sfl: purchase?.sfl,
+        custom: purchase?.custom,
+      },
     });
-    gameService.send("SAVE");
 
     if (iframeRef.current) {
       iframeRef.current.contentWindow?.postMessage(
         {
           event: "purchased",
           sfl: purchase?.sfl,
-          items: purchase?.items,
+          custom: purchase?.custom,
         },
         "*",
       );
@@ -172,35 +179,13 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
     setPurchase(undefined);
   };
 
-  const onClaim = () => {
-    gameService.send("minigame.prizeClaimed", {
-      id: portalName,
-    });
-
-    onClose();
-  };
-
   if (loading) {
     return <Loading />;
   }
 
-  if (isComplete) {
-    const prize = gameState.context.state.minigames.prizes[portalName];
-    return (
-      <ClaimReward
-        onClaim={onClaim}
-        reward={{
-          message: "Congratulations, you completed the mission!",
-          createdAt: Date.now(),
-          factionPoints: 0,
-          id: "discord-bonus",
-          items: prize?.items ?? {},
-          wearables: prize?.wearables ?? {},
-          sfl: 0,
-          coins: prize?.coins ?? 0,
-        }}
-      />
-    );
+  // If we are in error state, return nothing
+  if (gameState.matches("error")) {
+    return null;
   }
 
   return (
@@ -244,15 +229,6 @@ export const Portal: React.FC<Props> = ({ portalName, onClose }) => {
                     <span className="ml-1">{`${purchase.sfl} x FLOWER`}</span>
                   </div>
                 )}
-                {getKeys(purchase.items ?? {}).map((key) => {
-                  const item = purchase.items?.[key] ?? 0;
-                  return (
-                    <div className="flex mb-1 items-center" key={key}>
-                      <Box image={ITEM_DETAILS[key].image} />
-                      <span className="ml-1">{`${item} x ${key}`}</span>
-                    </div>
-                  );
-                })}
               </div>
               <Button onClick={confirmPurchase}> {t("confirm")}</Button>
             </CloseButtonPanel>
