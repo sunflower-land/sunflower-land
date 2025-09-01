@@ -6056,6 +6056,7 @@
   "blessing.confirm": "Confirm",
   "blessing.offerTitle": "Offer a Tribute",
   "blessing.guardiansSeek": "Every day, the Guardians seek a tribute. Make a tribute for the chance to receive Love Charms.",
+
   "blessing.chooseAmount": "Choose your {{name}} amount",
   "blessing.minimumRequired": "Minimum {{amount}} required",
   "blessings.results": "Blessing results",
@@ -6066,6 +6067,7 @@
   "blessing.donated": "{{amount}} {{item}} donated",
   "blessing.winners": "{{count}} winners",
   "blessing.maxAmount": "Insufficient {{name}}.",
+  "blessing.maxAmountHoarding": "Max {{name}} is {{amount}}.",
   "marketplace.unlocks.perks": "Grow your land to unlock discounts.",
   "marketplace.vip.resourceDiscount": "Unlock VIP for half the resource taxes.",
   "marketplace.economy.title": "Market Economy",
