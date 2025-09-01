@@ -9,13 +9,23 @@ import { Pet, PetName, getPetRequestXP } from "features/game/types/pets";
 import { shortenCount } from "lib/utils/formatNumber";
 import React, { useContext, useState } from "react";
 import { PetInfo } from "./PetInfo";
+import { IngredientsPopover } from "components/ui/IngredientsPopover";
 
 interface Props {
   petName: PetName;
   pet: Pet;
+  isBulkFeed: boolean;
+  selectedFeed: { petName: PetName; food: CookableName }[];
+  setSelectedFeed: (feed: { petName: PetName; food: CookableName }[]) => void;
 }
 
-export const FeedPetCard: React.FC<Props> = ({ petName, pet }) => {
+export const FeedPetCard: React.FC<Props> = ({
+  petName,
+  pet,
+  isBulkFeed,
+  selectedFeed,
+  setSelectedFeed,
+}) => {
   const { gameService } = useContext(Context);
   const inventory = useSelector(
     gameService,
@@ -24,10 +34,14 @@ export const FeedPetCard: React.FC<Props> = ({ petName, pet }) => {
   const [hoveredFood, setHoveredFood] = useState<CookableName | null>(null);
 
   const handleFeedPet = (food: CookableName) => {
-    gameService.send("pet.fed", {
-      pet: petName,
-      food,
-    });
+    if (isBulkFeed) {
+      setSelectedFeed([...selectedFeed, { petName, food }]);
+    } else {
+      gameService.send("pet.fed", {
+        pet: petName,
+        food,
+      });
+    }
   };
 
   const hasFoodInInventory = (foodName: CookableName) => {
@@ -56,7 +70,11 @@ export const FeedPetCard: React.FC<Props> = ({ petName, pet }) => {
             const canFeed = hasFoodInInventory(food);
             const foodCount = inventory[food];
             const alreadyFed = isFoodAlreadyFed(pet, food);
+            const isSelected = selectedFeed.some(
+              (item) => item.petName === petName && item.food === food,
+            );
             const isDisabled = !canFeed || alreadyFed;
+
             const foodXP = getPetRequestXP(food);
 
             return (
@@ -68,23 +86,38 @@ export const FeedPetCard: React.FC<Props> = ({ petName, pet }) => {
                   >
                     <Button
                       disabled={isDisabled}
-                      onClick={() => handleFeedPet(food)}
+                      onClick={
+                        isDisabled
+                          ? undefined
+                          : isSelected
+                            ? () =>
+                                setSelectedFeed([
+                                  ...selectedFeed.filter((item) => {
+                                    // Remove the item from the selectedFeed
+                                    return (
+                                      item.petName !== petName ||
+                                      item.food !== food
+                                    );
+                                  }),
+                                ])
+                            : () => handleFeedPet(food)
+                      }
                       className={`w-12 h-12 p-1`}
                     >
                       <img
                         src={foodImage}
                         alt={food}
-                        className="w-full h-full object-contain"
+                        className="w-[85%] h-[85%] object-contain"
                       />
                     </Button>
                   </div>
-                  {alreadyFed && (
+                  {(alreadyFed || isSelected) && (
                     <img
                       src={SUNNYSIDE.icons.confirm}
                       className="absolute top-[-0.25rem] right-[-0.25rem] w-5 h-5"
                     />
                   )}
-                  {foodCount && (
+                  {foodCount && foodCount.greaterThan(0) && (
                     <Label
                       type="default"
                       className="absolute top-[-0.75rem] left-[-0.75rem]"
@@ -94,6 +127,11 @@ export const FeedPetCard: React.FC<Props> = ({ petName, pet }) => {
                         : shortenCount(foodCount)}
                     </Label>
                   )}
+                  <IngredientsPopover
+                    show={hoveredFood === food}
+                    ingredients={[food]}
+                    onClick={() => setHoveredFood(null)}
+                  />
                 </div>
                 <Label type="vibrant" icon={SUNNYSIDE.icons.lightning}>
                   {foodXP}

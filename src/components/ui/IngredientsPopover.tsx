@@ -22,7 +22,7 @@ export const IngredientsPopover: React.FC<Props> = ({
 }) => {
   const { t } = useAppTranslation();
 
-  if (!ingredients) return null;
+  if (ingredients.length === 0) return null;
 
   return (
     <Transition
