@@ -166,7 +166,6 @@ export const BlessingOffer: React.FC<Props> = ({ onClose }) => {
         <Label type="formula">{`${new Date().toISOString().slice(0, 10)}`}</Label>
       </div>
       <p className="text-xs m-1">{t("blessing.guardiansSeek")}</p>
-      <p className="text-xs m-1">{t("blessing.guardiansSeek.random")}</p>
 
       <div className="flex items-center">
         <Box image={ITEM_DETAILS[offering.item].image} count={inventory} />
