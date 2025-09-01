@@ -6,7 +6,6 @@ import { Bar } from "components/ui/ProgressBar";
 import { ITEM_DETAILS } from "features/game/types/images";
 import {
   getExperienceToNextLevel,
-  MAX_PET_LEVEL,
   Pet,
   PetName,
 } from "features/game/types/pets";
@@ -22,8 +21,6 @@ export const PetInfo: React.FC<Props> = ({ children, petName, pet }) => {
   const { level, percentage, currentProgress, nextLevelXP } =
     getExperienceToNextLevel(pet.experience);
 
-  const isMaxLevel = level === MAX_PET_LEVEL;
-
   const petImage = ITEM_DETAILS[petName].image;
 
   return (
@@ -38,14 +35,12 @@ export const PetInfo: React.FC<Props> = ({ children, petName, pet }) => {
         <div className="flex-1">
           <Label type={"default"}>{petName}</Label>
           <div className="flex flex-col text-xs gap-1 mt-1">
-            <p>{`Level: ${level} ${isMaxLevel ? "(Max)" : ""}`}</p>
-            <Bar percentage={isMaxLevel ? 100 : percentage} type={"progress"} />
+            <p>{`Level: ${level}`}</p>
+            <Bar percentage={percentage} type={"progress"} />
             <div className="flex flex-row items-center gap-1">
               <img src={levelUp} className="w-3 h-4" />
               <p className="text-xxs">
-                {isMaxLevel
-                  ? `Max Level`
-                  : `${currentProgress} / ${nextLevelXP} XP`}
+                {`${currentProgress} / ${nextLevelXP} XP`}
               </p>
             </div>
             <div className="flex flex-row items-center gap-1">

@@ -140,11 +140,4 @@ describe("getExperienceToNextLevel", () => {
       xpToNext: 2100,
     });
   });
-
-  it("should return the correct experience to next level for level 200", () => {
-    expect(getExperienceToNextLevel(1990000)).toMatchObject({
-      level: 200,
-      xpToNext: undefined,
-    });
-  });
 });
